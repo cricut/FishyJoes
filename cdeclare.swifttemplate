@@ -1,4 +1,4 @@
-<%
+<% // -*- mode: swift -*-
 import Foundation
 
 struct ProcessError: Error {

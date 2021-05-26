@@ -14,13 +14,13 @@ struct TranslatedReference: TranslatedType {
         "Swift.UnsafeMutablePointer<\(globalName)>(\(expression)).pointee"
     }
 
-    init(module: String, type: Type) {
+    init(context: CDeclareContext, type: Type) {
         guard let cTypeName = type.annotations["cdecl.referenceType"] as? String else { fatalErr("cdecl symbol not specified") }
 
         self.sourceType = .unknown(type.name)
         self.concreteStructName = cTypeName
         self.cName = "\(cTypeName)Ref"
-        self.globalName = "\(module).\(type.globalName)"
+        self.globalName = "\(context.module).\(type.globalName)"
         self.globalCName = "CTypes.\(cName)"
         self.asCAccessor = ".as\(cTypeName)"
         self.cForwardDeclaration = "#include \"\(cTypeName).h\""

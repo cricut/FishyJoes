@@ -41,20 +41,10 @@ public class CDeclareContext {
         var collectedFragments: [SourceFragment] = []
 
         // Collect type information before starting translation
-        for type in templateContext.types.all {
-            var translatedType: TranslatedType?
-            if type.annotations["cdecl"] != nil {
-                if type.kind == "struct" {
-                    translatedType = TranslatedStruct(module: module, type: type)
-                } else if let type = type as? Enum {
-                    translatedType = TranslatedEnum(module: module, type: type)
-                } else {
-                    fatalErr("TODO: cdecl on unknown kind \"\(type.kind)\" on type `\(type.globalName)`")
-                }
-            } else if type.annotations["cdecl.referenceType"] != nil {
-                translatedType = TranslatedReference(module: module, type: type)
-            }
-            translatedType.map { typeCache[$0.sourceType] = $0 }
+        for translatedType in templateContext.types.all.compactMap(translate(typeDefinition:)) {
+            let name = translatedType.sourceType
+            precondition(typeCache[name] == nil, "duplicate definitions found for \(name)")
+            typeCache[name] = translatedType
         }
 
         // Translate
@@ -98,6 +88,23 @@ public class CDeclareContext {
             return fragment
         }
         return (headerFragments + collectedFragments + footerFragments).map(\.contents).joined()
+    }
+
+    func translate(typeDefinition type: Type) -> TranslatedType? {
+        if type.annotations["cdecl"] != nil {
+            if type.kind == "struct" {
+                return TranslatedStruct(context: self, type: type)
+            } else if let type = type as? Enum {
+                return TranslatedEnum(context: self, type: type)
+            } else {
+                fatalErr("TODO: cdecl on unknown kind \"\(type.kind)\" on type `\(type.globalName)`")
+            }
+        } else if type.annotations["cdecl.referenceType"] != nil {
+            return TranslatedReference(context: self, type: type)
+        } else {
+            // Not annotated for export
+            return nil
+        }
     }
 
     func resolve(type: BetterType) -> TranslatedType {

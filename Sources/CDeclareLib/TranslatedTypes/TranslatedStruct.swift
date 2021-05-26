@@ -9,13 +9,13 @@ struct TranslatedStruct: TranslatedType {
     let asSwift: String
     let storedVariables: [Variable]
 
-    init(module: String, type: Type) {
+    init(context: CDeclareContext, type: Type) {
         guard let cTypeName = type.annotations["cdecl"] as? String else { fatalErr("cdecl symbol not specified") }
         guard type.kind == "struct" else { fatalErr("not a struct") }
 
         self.sourceType = .unknown(type.name)
         self.cName = cTypeName
-        self.globalName = "\(module).\(type.globalName)"
+        self.globalName = "\(context.module).\(type.globalName)"
         self.globalCName = "CTypes.\(cName)"
         self.asC = "as\(cTypeName)"
         self.asSwift = "as\(type.localName)"

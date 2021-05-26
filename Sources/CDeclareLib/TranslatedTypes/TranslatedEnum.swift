@@ -9,12 +9,12 @@ struct TranslatedEnum: TranslatedType {
     let asSwift: String
     let enumType: Enum
 
-    init(module: String, type: Enum) {
+    init(context: CDeclareContext, type: Enum) {
         guard let cTypeName = type.annotations["cdecl"] as? String else { fatalErr("cdecl symbol not specified") }
 
         self.sourceType = .unknown(type.name)
         self.cName = cTypeName
-        self.globalName = "\(module).\(type.globalName)"
+        self.globalName = "\(context.module).\(type.globalName)"
         self.globalCName = "CTypes.\(cName)"
         self.asC = "as\(cTypeName)"
         self.asSwift = "as\(type.localName)"
