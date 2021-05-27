@@ -21,8 +21,8 @@ struct TranslatedTuple: TranslatedType {
 
     func definitionFragments(in context: CDeclareContext) -> [SourceFragment] { [] }
 
-    func asFormals(label: String, name: String) -> (formals: [String], expression: String) {
-        let translated = elements.map { element -> (formals: [String], expression: String) in
+    func asFormals(label: String, name: String) -> (formals: [CFacingFormal], expression: String) {
+        let translated = elements.map { element -> (formals: [CFacingFormal], expression: String) in
             let elementLabel = label == "_" ? "_" : "\(label)_\(element.label)"
             let elementName = "\(name)_\(element.label)"
             return element.type.asFormals(label: elementLabel, name: elementName)

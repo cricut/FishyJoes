@@ -7,6 +7,7 @@ struct TranslatedPrimitive: TranslatedType {
     let globalCName: String
     let asSwiftAccessor: String
     let asCAccessor: String
+    let asNodeAccessor: String
 
     init(swift swiftName: String, c cName: String) {
         self.sourceType = .unknown(swiftName)
@@ -15,6 +16,7 @@ struct TranslatedPrimitive: TranslatedType {
         self.globalCName = globalName
         self.asSwiftAccessor = ""
         self.asCAccessor = ""
+        self.asNodeAccessor = "fatalError()"
     }
 
     func definitionFragments(in context: CDeclareContext) -> [SourceFragment] { [] }

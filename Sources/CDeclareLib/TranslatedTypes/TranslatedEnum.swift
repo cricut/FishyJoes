@@ -103,7 +103,18 @@ struct TranslatedEnum: TranslatedType {
                 conversionFragment.output("set { self = newValue.\(asC) }")
             }
         }
-        return [headerFragment, conversionFragment]
+
+        let nodeFragment = context.swiftFragment(
+            "NodeInterface/\(globalName)+\(cName)+node.swift",
+            additionalImports: ["NodeUtils"]
+        )
+        nodeFragment.outputBlock("extension \(globalCName): NodeUtils.NodeConvertible {") {
+            nodeFragment.outputBlock("public init(_ value: napi_value?, env: napi_env) throws {") {
+                nodeFragment.output("fatalError()")
+            }
+        }
+
+        return [headerFragment, conversionFragment, nodeFragment]
     }
 
     var asSwiftAccessor: String { ".\(asSwift)" }

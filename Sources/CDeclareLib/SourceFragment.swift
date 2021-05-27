@@ -39,25 +39,29 @@ class SourceFragment {
         isFreshLine = newLineTerminated
     }
 
-    func outputBlock<R>(_ openingLine: String, newLineTerminated: Bool = true, body: () throws -> R) rethrows -> R {
+    func outputBlock<R>(_ openingLine: String, closeWith close: String? = nil, newLineTerminated: Bool = true, _ body: () throws -> R) rethrows -> R {
         output(openingLine)
         let matchingClose: String
-        switch openingLine.last {
-        case "{":
-            matchingClose = "}"
-        case "(":
-            matchingClose = ")"
-        case "[":
-            matchingClose = "]"
-        default:
-            fatalErr("don't know how to close \"\(openingLine)\"")
+        if let close = close {
+            matchingClose = close
+        } else {
+            switch openingLine.last {
+            case "{":
+                matchingClose = "}"
+            case "(":
+                matchingClose = ")"
+            case "[":
+                matchingClose = "]"
+            default:
+                fatalErr("don't know how to close \"\(openingLine)\". Specify explicitly.")
+            }
         }
         let result = try indent(body)
         output(matchingClose, newLineTerminated: newLineTerminated)
         return result
     }
 
-    func outputMap<S: Sequence>(_ source: S, separator: String, body: (S.Element) throws -> String) rethrows {
+    func outputMap<S: Sequence>(_ source: S, separator: String, _ body: (S.Element) throws -> String) rethrows {
         var first = true
         for element in source {
             if !first {

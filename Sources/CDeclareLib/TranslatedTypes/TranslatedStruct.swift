@@ -20,7 +20,7 @@ struct TranslatedStruct: TranslatedType {
         self.asC = "as\(cTypeName)"
         self.asSwift = "as\(type.localName)"
 
-        let omitVariables = ((type.annotations["cdecl.omitVariables"] as? String).map { Set($0.components(separatedBy: " ")) }) ?? []
+        let omitVariables = Set((type.annotations["cdecl.omitVariables"] as? String).asArray.flatMap { $0.components(separatedBy: " ") })
         self.storedVariables = type.storedVariables.filter { !omitVariables.contains($0.name) }
     }
 
@@ -74,7 +74,17 @@ struct TranslatedStruct: TranslatedType {
             }
         }
 
-        return [headerFragment, conversionFragment]
+        let nodeFragment = context.swiftFragment(
+            "NodeInterface/\(globalName)+\(cName)+node.swift",
+            additionalImports: ["NodeUtils"]
+        )
+        nodeFragment.outputBlock("extension \(globalCName): NodeUtils.NodeConvertible {") {
+            nodeFragment.outputBlock("public init(_ value: napi_value?, env: napi_env) throws {") {
+                nodeFragment.output("fatalError()")
+            }
+        }
+
+        return [headerFragment, conversionFragment, nodeFragment]
     }
 
     var asSwiftAccessor: String { ".\(asSwift)" }

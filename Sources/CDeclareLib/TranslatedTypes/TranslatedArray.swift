@@ -7,6 +7,7 @@ struct TranslatedArray: TranslatedType {
     let globalCName: String
     let asSwiftAccessor: String
     var asCAccessor: String { "" }
+    var asNodeAccessor: String { ".fatalError()" }
     let cForwardDeclaration: String?
 
     init(element: TranslatedType) {

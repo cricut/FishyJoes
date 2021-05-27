@@ -1,5 +1,9 @@
 import Foundation
 
+extension Optional {
+    var asArray: [Wrapped] { map { [$0] } ?? [] }
+}
+
 func debug(_ any: Any) {
     #if false
     fputs("\(any)\n", stderr)

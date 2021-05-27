@@ -7,10 +7,11 @@ protocol TranslatedType {
     var globalCName: String { get }
     var asSwiftAccessor: String { get }
     var asCAccessor: String { get }
+    // var asNodeAccessor: String { get }
     var cForwardDeclaration: String? { get }
 
     func definitionFragments(in context: CDeclareContext) -> [SourceFragment]
-    func asFormals(label: String, name: String) -> (formals: [String], expression: String)
+    func asFormals(label: String, name: String) -> (formals: [CFacingFormal], expression: String)
     func wrapAsSwift(expression: String) -> String
 }
 
@@ -18,10 +19,9 @@ extension TranslatedType {
     var cForwardDeclaration: String? { nil }
     var asSwiftAccessor: String { fatalErr("asSwiftAccessor not implemented for \(Self.self)") }
 
-    func asFormals(label: String, name: String) -> (formals: [String], expression: String) {
-        let formalLabel = label == name ? "" : "\(label) "
+    func asFormals(label: String, name: String) -> (formals: [CFacingFormal], expression: String) {
         return (
-            formals: ["\(formalLabel)\(name): \(globalCName)"],
+            formals: [CFacingFormal(label: label, name: name, cType: globalCName)],
             expression: wrapAsSwift(expression: name)
         )
     }
