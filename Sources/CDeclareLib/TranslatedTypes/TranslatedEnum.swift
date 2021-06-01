@@ -108,8 +108,11 @@ struct TranslatedEnum: TranslatedType {
             "NodeInterface/\(globalName)+\(cName)+node.swift",
             additionalImports: ["NodeUtils"]
         )
-        nodeFragment.outputBlock("extension \(globalCName): NodeUtils.NodeConvertible {") {
-            nodeFragment.outputBlock("public init(_ value: napi_value?, env: napi_env) throws {") {
+        nodeFragment.outputBlock("extension \(globalName): NodeUtils.NodeConvertible {") {
+            nodeFragment.outputBlock("public init(fromNode value: napi_value?, env: napi_env) throws {") {
+                nodeFragment.output("fatalError()")
+            }
+            nodeFragment.outputBlock("public func toNode(env: napi_env) throws -> napi_value? {") {
                 nodeFragment.output("fatalError()")
             }
         }

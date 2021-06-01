@@ -9,7 +9,15 @@ struct TranslatedTuple: TranslatedType {
 
     let sourceType: BetterType
     var cName: String { fatalErr("unimplemented") }
-    var globalName: String { fatalErr("unimplemented") }
+    var globalName: String {
+        "(" + elements.map {
+            if $0.label.allSatisfy(\.isNumber) {
+                return $0.type.globalName
+            } else {
+                return "\($0.label): \($0.type.globalName)"
+            }
+        }.joined(separator: ", ") + ")"
+    }
     var globalCName: String { fatalErr("unimplemented") }
     var asSwiftAccessor: String { fatalErr("unimplemented") }
     var asCAccessor: String { fatalErr("unimplemented") }

@@ -50,6 +50,19 @@ struct TranslatedReference: TranslatedType {
             }
         }
 
-        return [headerFragment, conversionFragment]
+        let nodeFragment = context.swiftFragment(
+            "NodeInterface/\(globalName)+node.swift",
+            additionalImports: ["NodeUtils"]
+        )
+        nodeFragment.outputBlock("extension \(globalName): NodeUtils.NodeConvertible {") {
+            nodeFragment.outputBlock("public init(fromNode value: napi_value?, env: napi_env) throws {") {
+                nodeFragment.output("fatalError()")
+            }
+            nodeFragment.outputBlock("public func toNode(env: napi_env) throws -> napi_value? {") {
+                nodeFragment.output("fatalError()")
+            }
+        }
+
+        return [headerFragment, conversionFragment, nodeFragment]
     }
 }

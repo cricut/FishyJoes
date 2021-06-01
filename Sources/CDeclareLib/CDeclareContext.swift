@@ -4,7 +4,8 @@ import SourceryRuntime
 public class CDeclareContext {
     let module: String
     let templateContext: TemplateContext
-    var typeCache: [BetterType: TranslatedType] = [:]
+    var cTypeCache: [BetterType: TranslatedType] = [:]
+    var nodeTypeCache: [BetterType: TranslatedType] = [:]
     var fileHeaders: [String: Set<String>] = [:]
     var fileFooters: [String: Set<String>] = [:]
 
@@ -44,14 +45,16 @@ public class CDeclareContext {
         // Collect type information before starting translation
         for translatedType in templateContext.types.all.compactMap(translate(typeDefinition:)) {
             let name = translatedType.sourceType
-            precondition(typeCache[name] == nil, "duplicate definitions found for \(name)")
-            typeCache[name] = translatedType
+            precondition(cTypeCache[name] == nil, "duplicate definitions found for \(name)")
+            cTypeCache[name] = translatedType
+            nodeTypeCache[name] = translatedType
         }
 
         // Translate
         for type in templateContext.types.all + templateContext.types.extensions {
             for method in type.allMethods {
-                collectedFragments.append(contentsOf: translate(method: method))
+                collectedFragments.append(contentsOf: cTranslate(method: method))
+                collectedFragments.append(contentsOf: nodeTranslate(method: method))
             }
             for variable in type.allVariables {
                 if "\(variable.name)".contains("svgPathData") {
@@ -62,17 +65,38 @@ public class CDeclareContext {
         }
         // Translate any top level functions
         for topLevelFunction in templateContext.functions {
-            collectedFragments.append(contentsOf: translate(method: topLevelFunction))
+            collectedFragments.append(contentsOf: cTranslate(method: topLevelFunction))
+            collectedFragments.append(contentsOf: nodeTranslate(method: topLevelFunction))
         }
 
         var generatedTypes = Set<BetterType>()
-        while generatedTypes != Set(typeCache.keys) {
-            for type in typeCache.sorted(by: { "\($0.key)" < "\($1.key)" }) {
+        while generatedTypes != Set(cTypeCache.keys).union(nodeTypeCache.keys) {
+            for type in cTypeCache.sorted(by: { "\($0.key)" < "\($1.key)" }) {
+                guard !generatedTypes.contains(type.key) else { continue }
+                collectedFragments.append(contentsOf: type.value.definitionFragments(in: self))
+                generatedTypes.insert(type.key)
+            }
+            for type in nodeTypeCache.sorted(by: { "\($0.key)" < "\($1.key)" }) {
                 guard !generatedTypes.contains(type.key) else { continue }
                 collectedFragments.append(contentsOf: type.value.definitionFragments(in: self))
                 generatedTypes.insert(type.key)
             }
         }
+
+        let nodeTypeListFragment = swiftFragment(
+            "NodeInterface/TypeSetup.swift",
+            additionalImports: ["NodeUtils"]
+        )
+        nodeTypeListFragment.outputBlock("public func initialize(env: napi_env, module: napi_value) throws {") {
+            for type in generatedTypes.sorted(by: { "\($0)" < "\($1)" }) {
+                // TODO: better
+                guard case let .unknown(name) = type else {
+                    continue
+                }
+                nodeTypeListFragment.output("try \(name).nodeSetup(env: env, module: module)")
+            }
+        }
+        collectedFragments.append(nodeTypeListFragment)
 
         let headerFragments = fileHeaders.keys.map { fileName -> SourceFragment in
             let fragment = SourceFragment(sourceryDestination: "file:\(fileName)")
@@ -108,8 +132,48 @@ public class CDeclareContext {
         }
     }
 
+    func resolveNode(type: BetterType) -> TranslatedType {
+        if let resolved = nodeTypeCache[type] {
+            return resolved
+        }
+        debug("resolve: \(type)")
+
+        let primitiveTypeMap = [
+            "Double": "double",
+            "Bool": "bool",
+        ]
+
+        let resolved = { () -> TranslatedType in
+            switch type {
+            case let .unknown(name):
+                if let cName = primitiveTypeMap[name] {
+                    return TranslatedPrimitive(swift: name, c: cName)
+                } else if name == "String" {
+                    return TranslatedString()
+                } else {
+                    fatalErr("Don't know how to translate type `\(name)`. Maybe annotate it with a cdecl?")
+                }
+            case let .optional(wrapped):
+                return TranslatedOptional(wrapped: resolve(type: wrapped))
+            case let .unsafeMutablePointer(pointee):
+                return TranslatedPointer(pointee: resolve(type: pointee))
+            case .void:
+                return TranslatedPrimitive(swift: "Void", c: "void")
+            case .tuple(let elements):
+                return TranslatedTuple(elements: elements.map { .init(label: $0.label, type: resolve(type: $0.type)) })
+            case .array(let element):
+                return TranslatedArray(element: resolve(type: element))
+            default:
+                fatalErr("TODO: resolve(type: \(type))")
+            }
+        }()
+        nodeTypeCache[type] = resolved
+        return resolved
+    }
+
+
     func resolve(type: BetterType) -> TranslatedType {
-        if let resolved = typeCache[type] {
+        if let resolved = cTypeCache[type] {
             return resolved
         }
         debug("resolve: \(type)")
@@ -143,11 +207,89 @@ public class CDeclareContext {
                 fatalErr("TODO: resolve(type: \(type))")
             }
         }()
-        typeCache[type] = resolved
+        cTypeCache[type] = resolved
         return resolved
     }
 
-    func translate(method: SourceryMethod) -> [SourceFragment] {
+    func nodeTranslate(method: SourceryMethod) -> [SourceFragment] {
+        guard method.annotations["cdecl.get"] == nil,
+              method.annotations["cdecl.set"] == nil else {
+            let context = method.definedInTypeName?.description ?? module
+            fatalErr("""
+                found annotation `sourcery: cdecl.{get,set} = ...` on method \(method.name) in \(context)
+                use `sourcery: cdecl = ...` for methods instead.
+                """)
+        }
+        guard let cName = method.annotations["cdecl"] as? String else { return [] }
+
+        let selfExpression: String
+        let containingNamespace: String
+
+        if let selfType = method.definedInTypeName?.better {
+            containingNamespace = resolveNode(type: selfType).globalName
+            // Method.isMutating seems to be a bit buggy...
+            let isMutating = method.isMutating || method.modifiers.contains(where: { $0.name == "mutating" })
+
+            if isMutating {
+                // TODO: do
+                return []
+            }
+
+            if method.isStatic {
+                selfExpression = containingNamespace
+            } else {
+                selfExpression = "env.this(as: \(containingNamespace).self)"
+            }
+        } else {
+            containingNamespace = module
+            selfExpression = module
+        }
+
+        debug("generating \(containingNamespace).\(method.name)`")
+        var omitParameters = Set((method.annotations["cdecl.omitParameters"] as? String).asArray.flatMap { $0.components(separatedBy: " ") })
+        var parameters: [SwiftFormal] = []
+        for parameter in method.parameters {
+            if omitParameters.contains(parameter.name) {
+                precondition(parameter.defaultValue != nil, "Can't omit non-default parameter")
+                omitParameters.remove(parameter.name)
+                continue
+            }
+            parameters.append(
+                SwiftFormal(
+                    label: parameter.argumentLabel,
+                    name: parameter.name,
+                    type: resolveNode(type: parameter.typeName.better)
+                )
+            )
+        }
+        precondition(omitParameters.isEmpty, "Can't find parameters \(omitParameters) to omit")
+
+        // let translatedReturn = resolveNode(type: method.returnTypeName.better)
+        // formals.append(contentsOf: translatedReturn.outFormals)
+
+        let formals = parameters.flatMap(\.asSwiftFormals)
+        let nodeBridgeFragment = swiftFragment(
+            "NodeInterface/\(containingNamespace)+nodedecl.swift",
+            additionalImports: ["NodeUtils"]
+        )
+        nodeBridgeFragment.output("// Generated by sourcery:cdecl for `\(containingNamespace).\(method.name)`")
+        nodeBridgeFragment.outputBlock("let node_\(cName): napi_callback = { env, info in", closeWith: "}") {
+            nodeBridgeFragment.outputBlock("NodeUtils.callbackBody(env, info, name: \"\(cName)\", expectedArgumentCount: \(formals.count)) { env in", closeWith: "}") {
+                let callName = method.isInitializer ? "" : ".\(method.callName)"
+                nodeBridgeFragment.outputBlock("try \(selfExpression)\(callName)(", newLineTerminated: false) {
+                    nodeBridgeFragment.outputMap(parameters.enumerated(), separator: ",") {
+                        let (index, formal) = $0
+                        return (formal.label.map { "\($0): " } ?? "") + "try env.argument(at: \(index), as: \(formal.type.globalName).self)"
+                    }
+                }
+                nodeBridgeFragment.output(".toNode(env: env.env)")
+            }
+        }
+
+        return [nodeBridgeFragment]
+    }
+
+    func cTranslate(method: SourceryMethod) -> [SourceFragment] {
         guard method.annotations["cdecl.get"] == nil,
               method.annotations["cdecl.set"] == nil else {
             let context = method.definedInTypeName?.description ?? module
@@ -221,27 +363,7 @@ public class CDeclareContext {
             cBridgeFragment.output(translatedReturn.asCAccessor)
         }
 
-        let jsBridgeFragment = swiftFragment(
-            "NodeInterface/\(containingNamespace)+jsdecl.swift",
-            additionalImports: ["CInterface", "NodeUtils"]
-        )
-        jsBridgeFragment.output("// Generated by sourcery:cdecl for `\(containingNamespace).\(method.name)`")
-        jsBridgeFragment.outputBlock("let node_\(cName): napi_callback = { env, info in", closeWith: "}") {
-            jsBridgeFragment.outputBlock("NodeUtils.callbackBody(env, info, name: \"\(cName)\", expectedArgumentCount: \(formals.count)) { env in", closeWith: "}") {
-                let formals = allParameters.flatMap(\.cFacingFormals)
-                // for (index, formal) in formals.enumerate() {
-                // }
-                jsBridgeFragment.outputBlock("CInterface.\(cName)(") {
-                    jsBridgeFragment.outputMap(formals.enumerated(), separator: ",") {
-                        let (index, formal) = $0
-                        return (formal.label.map { "\($0): " } ?? "") + "try env.argument(at: \(index), type: \(formal.cType).self)"
-                    }
-                }
-                jsBridgeFragment.output("return nil")
-            }
-        }
-
-        return [cBridgeFragment, jsBridgeFragment]
+        return [cBridgeFragment]
     }
 
     func translate(variable: Variable) -> [SourceFragment] {
@@ -263,6 +385,7 @@ public class CDeclareContext {
 
         if let selfType = variable.definedInTypeName?.better {
             containingNamespace = resolve(type: selfType).globalName
+
             if variable.isStatic {
                 selfExpression = containingNamespace
             } else {
