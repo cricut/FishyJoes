@@ -110,10 +110,16 @@ struct TranslatedEnum: TranslatedType {
         )
         nodeFragment.outputBlock("extension \(globalName): NodeUtils.NodeConvertible {") {
             nodeFragment.outputBlock("public init(fromNode value: napi_value?, env: napi_env) throws {") {
-                nodeFragment.output("fatalError()")
+                nodeFragment.outputBlock("switch try String(fromNode: value, env: env) {") {
+                    for enumCase in enumType.cases {
+                        nodeFragment.output("case \"\(enumCase.name)\": self = .\(enumCase.name)")
+                    }
+                    nodeFragment.output("case let unknown: print(\"invalid enum string '\\(unknown)' for \(globalName)\"); fatalError()")
+                }
             }
             nodeFragment.outputBlock("public func toNode(env: napi_env) throws -> napi_value? {") {
                 nodeFragment.output("fatalError()")
+
             }
         }
 

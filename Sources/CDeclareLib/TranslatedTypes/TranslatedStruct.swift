@@ -113,10 +113,10 @@ struct TranslatedStruct: TranslatedType {
                 nodeFragment.output("var constructor: napi_value?")
                 nodeFragment.output("var undefined: napi_value?")
                 nodeFragment.output("try check(napi_get_undefined(env, &undefined))")
-                nodeFragment.outputBlock("let properties: [napi_property_descriptor] = try [") {
+                nodeFragment.outputBlock("let properties: [napi_property_descriptor] = [") {
                     for storedVar in storedVariables {
                         nodeFragment.outputBlock("napi_property_descriptor(", closeWith: "),") {
-                            nodeFragment.output("utf8name: nil, name: \"\(storedVar.name)\".toNode(env: env),")
+                            nodeFragment.output("utf8name: nil, name: try \"\(storedVar.name)\".toNode(env: env),")
                             nodeFragment.output("method: nil, getter: nil, setter: nil, value: undefined,")
                             if storedVar.isMutable {
                                 nodeFragment.output("attributes: .init(rawValue: napi_writable.rawValue | napi_enumerable.rawValue),")
@@ -135,12 +135,12 @@ struct TranslatedStruct: TranslatedType {
                         }
 
                         nodeFragment.outputBlock("napi_property_descriptor(", closeWith: "),") {
-                            nodeFragment.output("utf8name: nil, name: \"\(cName)\".toNode(env: env),")
+                            nodeFragment.output("utf8name: nil, name: try \"\(cName)\".toNode(env: env),")
                             nodeFragment.output("method: node_\(cName), getter: nil, setter: nil, value: nil,")
                             if method.isStatic {
-                                nodeFragment.output("attributes: .init(rawValue: napi_static.rawValue | napi_enumerable.rawValue),")
+                                nodeFragment.output("attributes: napi_static,")
                             } else {
-                                nodeFragment.output("attributes: napi_enumerable,")
+                                nodeFragment.output("attributes: napi_default,")
                             }
                             nodeFragment.output("data: nil")
                         }
@@ -153,7 +153,6 @@ struct TranslatedStruct: TranslatedType {
                         nodeFragment.outputBlock("NodeUtils.callbackBody(env, info, name: \"\(cName)_constructor\", expectedArgumentCount: \(storedVariables.count)) { env in", closeWith: "}") {
                             nodeFragment.output("// TODO: typecheck?")
                             nodeFragment.output("let this = try env.this()")
-                            nodeFragment.output("try check(env: env.env, napi_wrap(env.env, this, .init(bitPattern: 0xDEADCAF0), nil, nil, nil))")
                             for (index, storedVar) in storedVariables.enumerated() {
                                 nodeFragment.output("try check(napi_set_named_property(env.env, this, \"\(storedVar.name)\", env.argument(at: \(index))))")
                             }

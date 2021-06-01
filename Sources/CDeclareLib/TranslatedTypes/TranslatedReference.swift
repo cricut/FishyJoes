@@ -8,6 +8,8 @@ struct TranslatedReference: TranslatedType {
     let globalCName: String
     let asCAccessor: String
     let cForwardDeclaration: String?
+    let methods: [Method]
+    let getters: [Variable]
 
     func wrapAsSwift(expression: String) -> String {
         // TODO
@@ -24,6 +26,8 @@ struct TranslatedReference: TranslatedType {
         self.globalCName = "CTypes.\(cName)"
         self.asCAccessor = ".as\(cTypeName)"
         self.cForwardDeclaration = "#include \"\(cTypeName).h\""
+        self.methods = type.methods.filter { $0.annotations["cdecl"] != nil }
+        self.getters = type.variables.filter { $0.annotations["cdecl.get"] != nil }
     }
 
     func definitionFragments(in context: CDeclareContext) -> [SourceFragment] {
@@ -55,11 +59,85 @@ struct TranslatedReference: TranslatedType {
             additionalImports: ["NodeUtils"]
         )
         nodeFragment.outputBlock("extension \(globalName): NodeUtils.NodeConvertible {") {
+            nodeFragment.outputBlock("public static func nodeSetup(env: napi_env, module: napi_value) throws {") {
+                nodeFragment.output("print(\"setting up \(globalName)\")")
+                nodeFragment.output("var constructor: napi_value?")
+                nodeFragment.output("var undefined: napi_value?")
+                nodeFragment.output("try check(napi_get_undefined(env, &undefined))")
+                nodeFragment.outputBlock("let properties: [napi_property_descriptor] = [") {
+                    for method in methods {
+                        guard let cName = method.annotations["cdecl"] as? String else { continue }
+                        let isMutating = method.isMutating || method.modifiers.contains(where: { $0.name == "mutating" })
+                        if isMutating {
+                            // TODO: do
+                            continue
+                        }
+
+                        nodeFragment.outputBlock("napi_property_descriptor(", closeWith: "),") {
+                            nodeFragment.output("utf8name: nil, name: try \"\(cName)\".toNode(env: env),")
+                            nodeFragment.output("method: node_\(cName), getter: nil, setter: nil, value: nil,")
+                            if method.isStatic {
+                                nodeFragment.output("attributes: napi_static,")
+                            } else {
+                                nodeFragment.output("attributes: napi_default,")
+                            }
+                            nodeFragment.output("data: nil")
+                        }
+                    }
+
+                    for getter in getters {
+                        guard let cName = getter.annotations["cdecl.get"] as? String else { continue }
+                        nodeFragment.outputBlock("napi_property_descriptor(", closeWith: "),") {
+                            nodeFragment.output("utf8name: nil, name: try \"\(cName)\".toNode(env: env),")
+                            nodeFragment.output("method: nil, getter: node_\(cName), setter: nil, value: nil,")
+                            if getter.isStatic {
+                                nodeFragment.output("attributes: napi_static,")
+                            } else {
+                                nodeFragment.output("attributes: napi_default,")
+                            }
+                            nodeFragment.output("data: nil")
+                        }
+                    }
+                }
+                nodeFragment.outputBlock("try check(napi_define_class(", closeWith: "))") {
+                    nodeFragment.output("env,")
+                    nodeFragment.output("\"\(cName)\", -1,")
+                    nodeFragment.outputBlock("{ env, info in", closeWith: "},") {
+                        nodeFragment.outputBlock("NodeUtils.callbackBody(env, info, name: \"\(cName)_constructor\", expectedArgumentCount: 1) { env in", closeWith: "}") {
+                            nodeFragment.output("// TODO: typecheck?")
+                            nodeFragment.output("let this = try env.this()")
+                            nodeFragment.output("let selfValue = try env.argument(at: 0)")
+                            nodeFragment.output("let boxed = try NodeUtils.Box<\(globalName)>.takeRetained(selfValue, env: env.env)")
+                            nodeFragment.outputBlock("let finalizer: napi_finalize = { env, data, _ in", closeWith: "}") {
+                                nodeFragment.output("NodeUtils.Box<\(globalName)>.releaseOpaque(data)")
+                            }
+                            nodeFragment.output("try check(env: env.env, napi_wrap(env.env, this, boxed.retainedOpaque(), finalizer, nil, nil))")
+                            nodeFragment.output("return this")
+                        }
+                    }
+                    nodeFragment.output("nil,")
+                    nodeFragment.output("properties.count, properties,")
+                    nodeFragment.output("&constructor")
+                }
+                nodeFragment.output("try NodeUtils.InstanceData.data(for: env).constructors[\"\(cName)\"] = NodeUtils.Reference(env: env, value: constructor)")
+                nodeFragment.output("try check(napi_set_named_property(env, module, \"\(cName)\", constructor))")
+            }
+
             nodeFragment.outputBlock("public init(fromNode value: napi_value?, env: napi_env) throws {") {
-                nodeFragment.output("fatalError()")
+                // nodeFragment.output("self = try NodeUtils.Box<\(globalName)>.takeUnretained(value, env: env).value")
+                nodeFragment.output("var pointer: UnsafeMutableRawPointer?")
+                nodeFragment.output("try check(napi_unwrap(env, value, &pointer))")
+                nodeFragment.outputBlock("guard let pointer = pointer else {") {
+                    nodeFragment.output("throw JSException(message: \"expected \(globalName), got nil\")")
+                }
+                nodeFragment.output("self = Box<\(globalName)>.takeUnretainedOpaque(pointer).value")
             }
             nodeFragment.outputBlock("public func toNode(env: napi_env) throws -> napi_value? {") {
-                nodeFragment.output("fatalError()")
+                nodeFragment.output("let constructor = try NodeUtils.InstanceData.data(for: env).constructor(for: \"\(cName)\", env: env)")
+                nodeFragment.output("var args: napi_value? = try NodeUtils.Box(self).retainedExternal(env: env)")
+                nodeFragment.output("var result: napi_value?")
+                nodeFragment.output("try check(napi_new_instance(env, constructor, 1, &args, &result))")
+                nodeFragment.output("return result")
             }
         }
 
