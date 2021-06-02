@@ -3,6 +3,7 @@ import SourceryRuntime
 struct TranslatedEnum: TranslatedType {
     let sourceType: BetterType
     let cName: String
+    let nodeName: String
     let globalName: String
     let globalCName: String
     let asC: String
@@ -14,6 +15,7 @@ struct TranslatedEnum: TranslatedType {
 
         self.sourceType = .unknown(type.name)
         self.cName = cTypeName
+        self.nodeName = cTypeName
         self.globalName = "\(context.module).\(type.globalName)"
         self.globalCName = "CTypes.\(cName)"
         self.asC = "as\(cTypeName)"
@@ -120,6 +122,13 @@ struct TranslatedEnum: TranslatedType {
             nodeFragment.outputBlock("public func toNode(env: napi_env) throws -> napi_value? {") {
                 nodeFragment.output("fatalError()")
 
+            }
+        }
+
+        let tsf = context.tsFragment
+        tsf.outputBlock("type \(nodeName) =", closeWith: "") {
+            for (index, enumCase) in enumType.cases.enumerated() {
+                tsf.output("\(index == 0 ? " " : "|") \"\(enumCase.name)\"")
             }
         }
 

@@ -9,6 +9,8 @@ public class CDeclareContext {
     var fileHeaders: [String: Set<String>] = [:]
     var fileFooters: [String: Set<String>] = [:]
 
+    var tsFragment: SourceFragment
+
     public init(context: TemplateContext) {
         let argument = context.argument
         guard let module = argument["module"] as? String else {
@@ -16,6 +18,9 @@ public class CDeclareContext {
         }
         self.templateContext = context
         self.module = module
+        // TODO: unhack this
+        self.tsFragment = SourceFragment(sourceryDestination: "file:../../node/\(module).d.ts")
+        tsFragment.output("export namespace \(module) {")
     }
 
     func swiftFragment(_ name: String, additionalImports: [String] = []) -> SourceFragment {
@@ -112,7 +117,11 @@ public class CDeclareContext {
             }
             return fragment
         }
-        return (headerFragments + collectedFragments + footerFragments).map(\.contents).joined()
+
+        tsFragment.output("}")
+        tsFragment.output("export default CriGeo")
+
+        return (headerFragments + collectedFragments + footerFragments + [tsFragment]).map(\.contents).joined()
     }
 
     func translate(typeDefinition type: Type) -> TranslatedType? {
@@ -132,45 +141,44 @@ public class CDeclareContext {
         }
     }
 
-    func resolveNode(type: BetterType) -> TranslatedType {
-        if let resolved = nodeTypeCache[type] {
-            return resolved
-        }
-        debug("resolve: \(type)")
+    // func resolveNode(type: BetterType) -> TranslatedType {
+    //     if let resolved = nodeTypeCache[type] {
+    //         return resolved
+    //     }
+    //     debug("resolve: \(type)")
 
-        let primitiveTypeMap = [
-            "Double": "double",
-            "Bool": "bool",
-        ]
+    //     let primitiveTypeMap = [
+    //         "Double": "number",
+    //         "Bool": "bool",
+    //     ]
 
-        let resolved = { () -> TranslatedType in
-            switch type {
-            case let .unknown(name):
-                if let cName = primitiveTypeMap[name] {
-                    return TranslatedPrimitive(swift: name, c: cName)
-                } else if name == "String" {
-                    return TranslatedString()
-                } else {
-                    fatalErr("Don't know how to translate type `\(name)`. Maybe annotate it with a cdecl?")
-                }
-            case let .optional(wrapped):
-                return TranslatedOptional(wrapped: resolve(type: wrapped))
-            case let .unsafeMutablePointer(pointee):
-                return TranslatedPointer(pointee: resolve(type: pointee))
-            case .void:
-                return TranslatedPrimitive(swift: "Void", c: "void")
-            case .tuple(let elements):
-                return TranslatedTuple(elements: elements.map { .init(label: $0.label, type: resolve(type: $0.type)) })
-            case .array(let element):
-                return TranslatedArray(element: resolve(type: element))
-            default:
-                fatalErr("TODO: resolve(type: \(type))")
-            }
-        }()
-        nodeTypeCache[type] = resolved
-        return resolved
-    }
-
+    //     let resolved = { () -> TranslatedType in
+    //         switch type {
+    //         case let .unknown(name):
+    //             if let cName = primitiveTypeMap[name] {
+    //                 return TranslatedPrimitive(swift: name, c: cName)
+    //             } else if name == "String" {
+    //                 return TranslatedString()
+    //             } else {
+    //                 fatalErr("Don't know how to translate type `\(name)`. Maybe annotate it with a cdecl?")
+    //             }
+    //         case let .optional(wrapped):
+    //             return TranslatedOptional(wrapped: resolve(type: wrapped))
+    //         case let .unsafeMutablePointer(pointee):
+    //             return TranslatedPointer(pointee: resolve(type: pointee))
+    //         case .void:
+    //             return TranslatedPrimitive(swift: "Void", c: "void")
+    //         case .tuple(let elements):
+    //             return TranslatedTuple(elements: elements.map { .init(label: $0.label, type: resolve(type: $0.type)) })
+    //         case .array(let element):
+    //             return TranslatedArray(element: resolve(type: element))
+    //         default:
+    //             fatalErr("TODO: resolve(type: \(type))")
+    //         }
+    //     }()
+    //     nodeTypeCache[type] = resolved
+    //     return resolved
+    // }
 
     func resolve(type: BetterType) -> TranslatedType {
         if let resolved = cTypeCache[type] {
@@ -179,15 +187,15 @@ public class CDeclareContext {
         debug("resolve: \(type)")
 
         let primitiveTypeMap = [
-            "Double": "double",
-            "Bool": "_Bool",
+            "Double": ("double", "number"),
+            "Bool": ("_Bool", "bool"),
         ]
 
         let resolved = { () -> TranslatedType in
             switch type {
             case let .unknown(name):
-                if let cName = primitiveTypeMap[name] {
-                    return TranslatedPrimitive(swift: name, c: cName)
+                if let (cName, nodeName) = primitiveTypeMap[name] {
+                    return TranslatedPrimitive(swift: name, c: cName, node: nodeName)
                 } else if name == "String" {
                     return TranslatedString()
                 } else {
@@ -198,7 +206,7 @@ public class CDeclareContext {
             case let .unsafeMutablePointer(pointee):
                 return TranslatedPointer(pointee: resolve(type: pointee))
             case .void:
-                return TranslatedPrimitive(swift: "Void", c: "void")
+                return TranslatedPrimitive(swift: "Void", c: "void", node: "void")
             case .tuple(let elements):
                 return TranslatedTuple(elements: elements.map { .init(label: $0.label, type: resolve(type: $0.type)) })
             case .array(let element):
@@ -221,12 +229,13 @@ public class CDeclareContext {
                 """)
         }
         guard let cName = method.annotations["cdecl"] as? String else { return [] }
+        let nodeName = method.annotations["nodedecl"] as? String ?? cName
 
         let selfExpression: String
         let containingNamespace: String
 
         if let selfType = method.definedInTypeName?.better {
-            containingNamespace = resolveNode(type: selfType).globalName
+            containingNamespace = resolve(type: selfType).globalName
             // Method.isMutating seems to be a bit buggy...
             let isMutating = method.isMutating || method.modifiers.contains(where: { $0.name == "mutating" })
 
@@ -258,7 +267,7 @@ public class CDeclareContext {
                 SwiftFormal(
                     label: parameter.argumentLabel,
                     name: parameter.name,
-                    type: resolveNode(type: parameter.typeName.better)
+                    type: resolve(type: parameter.typeName.better)
                 )
             )
         }
@@ -274,7 +283,7 @@ public class CDeclareContext {
         )
         nodeBridgeFragment.output("// Generated by sourcery:cdecl for `\(containingNamespace).\(method.name)`")
         nodeBridgeFragment.outputBlock("let node_\(cName): napi_callback = { env, info in", closeWith: "}") {
-            nodeBridgeFragment.outputBlock("NodeUtils.callbackBody(env, info, name: \"\(cName)\", expectedArgumentCount: \(formals.count)) { env in", closeWith: "}") {
+            nodeBridgeFragment.outputBlock("NodeUtils.callbackBody(env, info, name: \"\(nodeName)\", expectedArgumentCount: \(formals.count)) { env in", closeWith: "}") {
                 let callName = method.isInitializer ? "" : ".\(method.callName)"
                 nodeBridgeFragment.outputBlock("try \(selfExpression)\(callName)(", newLineTerminated: false) {
                     nodeBridgeFragment.outputMap(parameters.enumerated(), separator: ",") {
@@ -417,12 +426,13 @@ public class CDeclareContext {
 
     func nodeTranslateGetter(for variable: Variable) -> [SourceFragment] {
         guard let cName = variable.annotations["cdecl.get"] as? String else { return [] }
+        let nodeName = variable.annotations["nodedecl.get"] as? String ?? variable.annotations["nodedecl"] as? String ?? cName
 
         let selfExpression: String
         let containingNamespace: String
 
         if let selfType = variable.definedInTypeName?.better {
-            containingNamespace = resolveNode(type: selfType).globalName
+            containingNamespace = resolve(type: selfType).globalName
 
             if variable.isStatic {
                 selfExpression = containingNamespace
@@ -441,12 +451,38 @@ public class CDeclareContext {
         )
         fragment.output("// Generated by sourcery:cdecl.get for `\(containingNamespace).\(variable.name)`")
         fragment.outputBlock("let node_\(cName): napi_callback = { env, info in", closeWith: "}") {
-            fragment.outputBlock("NodeUtils.callbackBody(env, info, name: \"\(cName)\", expectedArgumentCount: 0) { env in", closeWith: "}") {
+            fragment.outputBlock("NodeUtils.callbackBody(env, info, name: \"\(nodeName)\", expectedArgumentCount: 0) { env in", closeWith: "}") {
                 fragment.output("try \(selfExpression).\(variable.name).toNode(env: env.env)")
             }
         }
 
         return [fragment]
+    }
+
+    func ts(method: SourceryMethod) {
+        guard let nodeName = method.annotations["nodedecl"] as? String ?? method.annotations["cdecl"] as? String else { return }
+        let isMutating = method.isMutating || method.modifiers.contains(where: { $0.name == "mutating" })
+        if isMutating {
+            // TODO: do
+            return
+        }
+
+        var omitParameters = Set((method.annotations["cdecl.omitParameters"] as? String).asArray.flatMap { $0.components(separatedBy: " ") })
+        var parameters: [String] = []
+        for parameter in method.parameters {
+            if omitParameters.contains(parameter.name) {
+                precondition(parameter.defaultValue != nil, "Can't omit non-default parameter")
+                omitParameters.remove(parameter.name)
+                continue
+            }
+            let resolved = resolve(type: parameter.typeName.better)
+            parameters.append("\(parameter.argumentLabel ?? parameter.name)\(resolved.topLevelNodeName)")
+        }
+
+        tsFragment.outputBlock("\(method.isStatic ? "static " : "")\(nodeName)(", newLineTerminated: false) {
+            tsFragment.outputMap(parameters, separator: ",") { $0 }
+        }
+        tsFragment.output("\(resolve(type: method.returnTypeName.better).topLevelNodeName)")
     }
 
     func cTranslateSetter(for variable: Variable) -> [SourceFragment] {

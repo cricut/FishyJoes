@@ -3,6 +3,7 @@ import SourceryRuntime
 protocol TranslatedType {
     var sourceType: BetterType { get }
     var cName: String { get }
+    var nodeName: String { get }
     var globalName: String { get }
     var globalCName: String { get }
     var asSwiftAccessor: String { get }
@@ -28,5 +29,13 @@ extension TranslatedType {
 
     func wrapAsSwift(expression: String) -> String {
         "\(expression)\(asSwiftAccessor)"
+    }
+
+    var topLevelNodeName: String {
+        if let opt = self as? TranslatedOptional {
+            return "?: \(opt.wrappedType.nodeName)"
+        } else {
+            return ": \(nodeName)"
+        }
     }
 }

@@ -5,6 +5,7 @@ struct TranslatedPointer: TranslatedType {
 
     let sourceType: BetterType
     let cName: String
+    let nodeName: String
     let globalName: String
     let globalCName: String
     var asCAccessor: String { fatalErr("unimplemented") }
@@ -15,6 +16,7 @@ struct TranslatedPointer: TranslatedType {
 
         self.sourceType = .unsafeMutablePointer(pointee.sourceType)
         self.cName = "\(pointee.cName) *"
+        self.nodeName = "undefined"
         self.globalName = "Swift.UnsafeMutablePointer<\(pointee.globalName)>"
         self.globalCName = "Swift.UnsafeMutablePointer<\(pointee.globalCName)>"
         self.cForwardDeclaration = pointee.cForwardDeclaration

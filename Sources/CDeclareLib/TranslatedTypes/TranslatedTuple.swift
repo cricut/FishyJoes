@@ -9,6 +9,7 @@ struct TranslatedTuple: TranslatedType {
 
     let sourceType: BetterType
     var cName: String { fatalErr("unimplemented") }
+    var nodeName: String { "[\(elements.map(\.type.nodeName).joined(separator: ", "))]" }
     var globalName: String {
         "(" + elements.map {
             if $0.label.allSatisfy(\.isNumber) {

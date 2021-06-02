@@ -4,6 +4,7 @@ struct TranslatedReference: TranslatedType {
     let sourceType: BetterType
     let concreteStructName: String
     let cName: String
+    let nodeName: String
     let globalName: String
     let globalCName: String
     let asCAccessor: String
@@ -18,10 +19,12 @@ struct TranslatedReference: TranslatedType {
 
     init(context: CDeclareContext, type: Type) {
         guard let cTypeName = type.annotations["cdecl.referenceType"] as? String else { fatalErr("cdecl symbol not specified") }
+        let nodeName = type.annotations["nodedecl"] as? String ?? cTypeName
 
         self.sourceType = .unknown(type.name)
         self.concreteStructName = cTypeName
         self.cName = "\(cTypeName)Ref"
+        self.nodeName = nodeName
         self.globalName = "\(context.module).\(type.globalName)"
         self.globalCName = "CTypes.\(cName)"
         self.asCAccessor = ".as\(cTypeName)"
@@ -67,6 +70,7 @@ struct TranslatedReference: TranslatedType {
                 nodeFragment.outputBlock("let properties: [napi_property_descriptor] = [") {
                     for method in methods {
                         guard let cName = method.annotations["cdecl"] as? String else { continue }
+                        let nodeName = method.annotations["nodedecl"] as? String ?? cName
                         let isMutating = method.isMutating || method.modifiers.contains(where: { $0.name == "mutating" })
                         if isMutating {
                             // TODO: do
@@ -74,7 +78,7 @@ struct TranslatedReference: TranslatedType {
                         }
 
                         nodeFragment.outputBlock("napi_property_descriptor(", closeWith: "),") {
-                            nodeFragment.output("utf8name: nil, name: try \"\(cName)\".toNode(env: env),")
+                            nodeFragment.output("utf8name: nil, name: try \"\(nodeName)\".toNode(env: env),")
                             nodeFragment.output("method: node_\(cName), getter: nil, setter: nil, value: nil,")
                             if method.isStatic {
                                 nodeFragment.output("attributes: napi_static,")
@@ -87,8 +91,10 @@ struct TranslatedReference: TranslatedType {
 
                     for getter in getters {
                         guard let cName = getter.annotations["cdecl.get"] as? String else { continue }
+                        let nodeName = getter.annotations["nodedecl"] as? String ?? cName
+
                         nodeFragment.outputBlock("napi_property_descriptor(", closeWith: "),") {
-                            nodeFragment.output("utf8name: nil, name: try \"\(cName)\".toNode(env: env),")
+                            nodeFragment.output("utf8name: nil, name: try \"\(nodeName)\".toNode(env: env),")
                             nodeFragment.output("method: nil, getter: node_\(cName), setter: nil, value: nil,")
                             if getter.isStatic {
                                 nodeFragment.output("attributes: napi_static,")
@@ -101,9 +107,9 @@ struct TranslatedReference: TranslatedType {
                 }
                 nodeFragment.outputBlock("try check(napi_define_class(", closeWith: "))") {
                     nodeFragment.output("env,")
-                    nodeFragment.output("\"\(cName)\", -1,")
+                    nodeFragment.output("\"\(nodeName)\", -1,")
                     nodeFragment.outputBlock("{ env, info in", closeWith: "},") {
-                        nodeFragment.outputBlock("NodeUtils.callbackBody(env, info, name: \"\(cName)_constructor\", expectedArgumentCount: 1) { env in", closeWith: "}") {
+                        nodeFragment.outputBlock("NodeUtils.callbackBody(env, info, name: \"\(nodeName)_constructor\", expectedArgumentCount: 1) { env in", closeWith: "}") {
                             nodeFragment.output("// TODO: typecheck?")
                             nodeFragment.output("let this = try env.this()")
                             nodeFragment.output("let selfValue = try env.argument(at: 0)")
@@ -119,8 +125,8 @@ struct TranslatedReference: TranslatedType {
                     nodeFragment.output("properties.count, properties,")
                     nodeFragment.output("&constructor")
                 }
-                nodeFragment.output("try NodeUtils.InstanceData.data(for: env).constructors[\"\(cName)\"] = NodeUtils.Reference(env: env, value: constructor)")
-                nodeFragment.output("try check(napi_set_named_property(env, module, \"\(cName)\", constructor))")
+                nodeFragment.output("try NodeUtils.InstanceData.data(for: env).constructors[\"\(nodeName)\"] = NodeUtils.Reference(env: env, value: constructor)")
+                nodeFragment.output("try check(napi_set_named_property(env, module, \"\(nodeName)\", constructor))")
             }
 
             nodeFragment.outputBlock("public init(fromNode value: napi_value?, env: napi_env) throws {") {
@@ -133,11 +139,23 @@ struct TranslatedReference: TranslatedType {
                 nodeFragment.output("self = Box<\(globalName)>.takeUnretainedOpaque(pointer).value")
             }
             nodeFragment.outputBlock("public func toNode(env: napi_env) throws -> napi_value? {") {
-                nodeFragment.output("let constructor = try NodeUtils.InstanceData.data(for: env).constructor(for: \"\(cName)\", env: env)")
+                nodeFragment.output("let constructor = try NodeUtils.InstanceData.data(for: env).constructor(for: \"\(nodeName)\", env: env)")
                 nodeFragment.output("var args: napi_value? = try NodeUtils.Box(self).retainedExternal(env: env)")
                 nodeFragment.output("var result: napi_value?")
                 nodeFragment.output("try check(napi_new_instance(env, constructor, 1, &args, &result))")
                 nodeFragment.output("return result")
+            }
+        }
+
+        let tsf = context.tsFragment
+        tsf.outputBlock("class \(nodeName) {") {
+            for getter in getters {
+                guard let nodeName = getter.annotations["nodedecl"] as? String ?? getter.annotations["cdecl.get"] as? String else { continue }
+                let resolved = context.resolve(type: getter.typeName.better)
+                tsf.output("readonly \(nodeName)\(resolved.topLevelNodeName);")
+            }
+            for method in methods {
+                context.ts(method: method)
             }
         }
 

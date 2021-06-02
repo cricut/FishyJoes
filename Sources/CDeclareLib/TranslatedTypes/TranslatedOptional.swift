@@ -2,6 +2,7 @@ struct TranslatedOptional: TranslatedType {
     let sourceType: BetterType
     let wrappedType: TranslatedType
     let cName: String
+    let nodeName: String
     let globalName: String
     let globalCName: String
     let asSwiftAccessor: String
@@ -11,6 +12,7 @@ struct TranslatedOptional: TranslatedType {
         self.sourceType = .optional(wrapped.sourceType)
         self.wrappedType = wrapped
         self.cName = "Optional_\(wrapped.cName)"
+        self.nodeName = "\(wrapped.cName)"
         self.globalName = "Swift.Optional<\(wrapped.globalName)>"
         self.globalCName = "CTypes.\(cName)"
         self.asSwiftAccessor = ".asSwift"
