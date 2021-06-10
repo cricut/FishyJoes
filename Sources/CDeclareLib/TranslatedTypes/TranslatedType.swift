@@ -31,11 +31,11 @@ extension TranslatedType {
         "\(expression)\(asSwiftAccessor)"
     }
 
-    var topLevelNodeName: String {
+    var nodeType: TypeScriptAnnotations.TSType {
         if let opt = self as? TranslatedOptional {
-            return "?: \(opt.wrappedType.nodeName)"
+            return .optional(opt.wrappedType.nodeType)
         } else {
-            return ": \(nodeName)"
+            return .unknown(nodeName)
         }
     }
 }

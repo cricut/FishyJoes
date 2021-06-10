@@ -125,13 +125,12 @@ struct TranslatedEnum: TranslatedType {
             }
         }
 
-        let tsf = context.tsFragment
-        tsf.outputBlock("type \(nodeName) =", closeWith: "") {
-            for (index, enumCase) in enumType.cases.enumerated() {
-                tsf.output("\(index == 0 ? " " : "|") \"\(enumCase.name)\"")
-            }
-        }
-
+        context.tsFragment.typealiases.append(
+            .init(
+                name: nodeName,
+                value: .union(enumType.cases.map { .exactString($0.name) })
+            )
+        )
         return [headerFragment, conversionFragment, nodeFragment]
     }
 

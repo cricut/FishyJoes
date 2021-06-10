@@ -5,11 +5,10 @@ public class CDeclareContext {
     let module: String
     let templateContext: TemplateContext
     var cTypeCache: [BetterType: TranslatedType] = [:]
-    var nodeTypeCache: [BetterType: TranslatedType] = [:]
     var fileHeaders: [String: Set<String>] = [:]
     var fileFooters: [String: Set<String>] = [:]
 
-    var tsFragment: SourceFragment
+    var tsFragment: TypeScriptAnnotations
 
     public init(context: TemplateContext) {
         let argument = context.argument
@@ -18,9 +17,7 @@ public class CDeclareContext {
         }
         self.templateContext = context
         self.module = module
-        // TODO: unhack this
-        self.tsFragment = SourceFragment(sourceryDestination: "file:../../node/\(module).d.ts")
-        tsFragment.output("export namespace \(module) {")
+        self.tsFragment = TypeScriptAnnotations(moduleName: module)
     }
 
     func swiftFragment(_ name: String, additionalImports: [String] = []) -> SourceFragment {
@@ -52,7 +49,6 @@ public class CDeclareContext {
             let name = translatedType.sourceType
             precondition(cTypeCache[name] == nil, "duplicate definitions found for \(name)")
             cTypeCache[name] = translatedType
-            nodeTypeCache[name] = translatedType
         }
 
         // Translate
@@ -75,13 +71,8 @@ public class CDeclareContext {
         }
 
         var generatedTypes = Set<BetterType>()
-        while generatedTypes != Set(cTypeCache.keys).union(nodeTypeCache.keys) {
+        while generatedTypes != Set(cTypeCache.keys) {
             for type in cTypeCache.sorted(by: { "\($0.key)" < "\($1.key)" }) {
-                guard !generatedTypes.contains(type.key) else { continue }
-                collectedFragments.append(contentsOf: type.value.definitionFragments(in: self))
-                generatedTypes.insert(type.key)
-            }
-            for type in nodeTypeCache.sorted(by: { "\($0.key)" < "\($1.key)" }) {
                 guard !generatedTypes.contains(type.key) else { continue }
                 collectedFragments.append(contentsOf: type.value.definitionFragments(in: self))
                 generatedTypes.insert(type.key)
@@ -118,10 +109,7 @@ public class CDeclareContext {
             return fragment
         }
 
-        tsFragment.output("}")
-        tsFragment.output("export default CriGeo")
-
-        return (headerFragments + collectedFragments + footerFragments + [tsFragment]).map(\.contents).joined()
+        return (headerFragments + collectedFragments + footerFragments + [tsFragment.fragment]).map(\.contents).joined()
     }
 
     func translate(typeDefinition type: Type) -> TranslatedType? {
@@ -140,45 +128,6 @@ public class CDeclareContext {
             return nil
         }
     }
-
-    // func resolveNode(type: BetterType) -> TranslatedType {
-    //     if let resolved = nodeTypeCache[type] {
-    //         return resolved
-    //     }
-    //     debug("resolve: \(type)")
-
-    //     let primitiveTypeMap = [
-    //         "Double": "number",
-    //         "Bool": "bool",
-    //     ]
-
-    //     let resolved = { () -> TranslatedType in
-    //         switch type {
-    //         case let .unknown(name):
-    //             if let cName = primitiveTypeMap[name] {
-    //                 return TranslatedPrimitive(swift: name, c: cName)
-    //             } else if name == "String" {
-    //                 return TranslatedString()
-    //             } else {
-    //                 fatalErr("Don't know how to translate type `\(name)`. Maybe annotate it with a cdecl?")
-    //             }
-    //         case let .optional(wrapped):
-    //             return TranslatedOptional(wrapped: resolve(type: wrapped))
-    //         case let .unsafeMutablePointer(pointee):
-    //             return TranslatedPointer(pointee: resolve(type: pointee))
-    //         case .void:
-    //             return TranslatedPrimitive(swift: "Void", c: "void")
-    //         case .tuple(let elements):
-    //             return TranslatedTuple(elements: elements.map { .init(label: $0.label, type: resolve(type: $0.type)) })
-    //         case .array(let element):
-    //             return TranslatedArray(element: resolve(type: element))
-    //         default:
-    //             fatalErr("TODO: resolve(type: \(type))")
-    //         }
-    //     }()
-    //     nodeTypeCache[type] = resolved
-    //     return resolved
-    // }
 
     func resolve(type: BetterType) -> TranslatedType {
         if let resolved = cTypeCache[type] {
@@ -459,16 +408,16 @@ public class CDeclareContext {
         return [fragment]
     }
 
-    func ts(method: SourceryMethod) {
-        guard let nodeName = method.annotations["nodedecl"] as? String ?? method.annotations["cdecl"] as? String else { return }
+    func ts(method: SourceryMethod) -> TypeScriptAnnotations.Method? {
+        guard let nodeName = method.annotations["nodedecl"] as? String ?? method.annotations["cdecl"] as? String else { return nil }
         let isMutating = method.isMutating || method.modifiers.contains(where: { $0.name == "mutating" })
         if isMutating {
             // TODO: do
-            return
+            return nil
         }
 
         var omitParameters = Set((method.annotations["cdecl.omitParameters"] as? String).asArray.flatMap { $0.components(separatedBy: " ") })
-        var parameters: [String] = []
+        var parameters: [(String, TypeScriptAnnotations.TSType)] = []
         for parameter in method.parameters {
             if omitParameters.contains(parameter.name) {
                 precondition(parameter.defaultValue != nil, "Can't omit non-default parameter")
@@ -476,13 +425,19 @@ public class CDeclareContext {
                 continue
             }
             let resolved = resolve(type: parameter.typeName.better)
-            parameters.append("\(parameter.argumentLabel ?? parameter.name)\(resolved.topLevelNodeName)")
+            parameters.append((parameter.argumentLabel ?? parameter.name, resolved.nodeType))
         }
 
-        tsFragment.outputBlock("\(method.isStatic ? "static " : "")\(nodeName)(", newLineTerminated: false) {
-            tsFragment.outputMap(parameters, separator: ",") { $0 }
-        }
-        tsFragment.output("\(resolve(type: method.returnTypeName.better).topLevelNodeName)")
+        return TypeScriptAnnotations.Method(
+            isStatic: method.isStatic,
+            name: nodeName,
+            parameters: parameters,
+            returnType: resolve(type: method.returnTypeName.better).nodeType
+        )
+        // tsFragment.outputBlock("\( ? "static " : "")\(nodeName)(", newLineTerminated: false) {
+        //     tsFragment.outputMap(parameters, separator: ",") { $0 }
+        // }
+        // tsFragment.output("\(resolve(type: method.returnTypeName.better).topLevelNodeName)")
     }
 
     func cTranslateSetter(for variable: Variable) -> [SourceFragment] {

@@ -147,17 +147,17 @@ struct TranslatedReference: TranslatedType {
             }
         }
 
-        let tsf = context.tsFragment
-        tsf.outputBlock("class \(nodeName) {") {
-            for getter in getters {
-                guard let nodeName = getter.annotations["nodedecl"] as? String ?? getter.annotations["cdecl.get"] as? String else { continue }
-                let resolved = context.resolve(type: getter.typeName.better)
-                tsf.output("readonly \(nodeName)\(resolved.topLevelNodeName);")
-            }
-            for method in methods {
-                context.ts(method: method)
-            }
-        }
+        context.tsFragment.classes.append(
+            .init(
+                name: nodeName,
+                fields: getters.compactMap { getter in
+                    guard let nodeName = getter.annotations["nodedecl"] as? String ?? getter.annotations["cdecl.get"] as? String else { return nil }
+                    let resolved = context.resolve(type: getter.typeName.better)
+                    return TypeScriptAnnotations.Variable(readOnly: true, name: nodeName, type: resolved.nodeType)
+                },
+                methods: methods.compactMap(context.ts(method:))
+            )
+        )
 
         return [headerFragment, conversionFragment, nodeFragment]
     }

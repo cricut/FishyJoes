@@ -172,16 +172,16 @@ struct TranslatedStruct: TranslatedType {
             }
         }
 
-        let tsf = context.tsFragment
-        tsf.outputBlock("class \(nodeName) {") {
-            for storedVar in storedVariables {
-                let resolved = context.resolve(type: storedVar.typeName.better)
-                tsf.output("\(storedVar.isMutable ? "" : "readonly ")\(storedVar.name)\(resolved.topLevelNodeName);")
-            }
-            for method in methods {
-                context.ts(method: method)
-            }
-        }
+        context.tsFragment.classes.append(
+            .init(
+                name: nodeName,
+                fields: storedVariables.compactMap { storedVar in
+                    let resolved = context.resolve(type: storedVar.typeName.better)
+                    return TypeScriptAnnotations.Variable(readOnly: !storedVar.isMutable, name: storedVar.name, type: resolved.nodeType)
+                },
+                methods: methods.compactMap(context.ts(method:))
+            )
+        )
 
         return [headerFragment, conversionFragment, nodeFragment]
     }
