@@ -1,0 +1,4 @@
+module NodeAPI [system] {
+    header "node_api_wrapper.h"
+    export *
+}

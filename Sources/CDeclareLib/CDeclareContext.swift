@@ -10,6 +10,9 @@ public class CDeclareContext {
 
     var tsFragment: TypeScriptAnnotations
 
+    let nodeTranslator = NodeTranslate()
+    let cTranslator = CTranslate()
+
     public init(context: TemplateContext) {
         let argument = context.argument
         guard let module = argument["module"] as? String else {
@@ -54,8 +57,8 @@ public class CDeclareContext {
         // Translate
         for type in templateContext.types.all + templateContext.types.extensions {
             for method in type.allMethods {
-                collectedFragments.append(contentsOf: cTranslate(method: method))
-                collectedFragments.append(contentsOf: nodeTranslate(method: method))
+                collectedFragments.append(contentsOf: cTranslator.translate(method: method, context: self))
+                collectedFragments.append(contentsOf: nodeTranslator.translate(method: method, context: self))
             }
             for variable in type.allVariables {
                 if "\(variable.name)".contains("svgPathData") {
@@ -66,8 +69,8 @@ public class CDeclareContext {
         }
         // Translate any top level functions
         for topLevelFunction in templateContext.functions {
-            collectedFragments.append(contentsOf: cTranslate(method: topLevelFunction))
-            collectedFragments.append(contentsOf: nodeTranslate(method: topLevelFunction))
+            collectedFragments.append(contentsOf: cTranslator.translate(method: topLevelFunction, context: self))
+            collectedFragments.append(contentsOf: nodeTranslator.translate(method: topLevelFunction, context: self))
         }
 
         var generatedTypes = Set<BetterType>()
@@ -81,15 +84,26 @@ public class CDeclareContext {
 
         let nodeTypeListFragment = swiftFragment(
             "NodeInterface/TypeSetup.swift",
-            additionalImports: ["NodeUtils"]
+            additionalImports: ["CDeclareRuntime"]
         )
-        nodeTypeListFragment.outputBlock("public func initialize(env: napi_env, module: napi_value) throws {") {
-            for type in generatedTypes.sorted(by: { "\($0)" < "\($1)" }) {
-                // TODO: better
-                guard case let .unknown(name) = type else {
-                    continue
+
+        nodeTypeListFragment.output("@_cdecl(\"napi_register_module_v1\")")
+        nodeTypeListFragment.outputBlock("public func napi_register_module_v1(env: napi_env, exports: napi_value) -> napi_value? {") {
+
+            nodeTypeListFragment.outputBlock("CDeclareRuntime.rethrowToNode(env: env) {") {
+                nodeTypeListFragment.output("var module: napi_value!")
+                nodeTypeListFragment.output("try check(napi_create_object(env, &module))")
+                nodeTypeListFragment.output("napi_set_named_property(env, exports, \"\(module)\", module)")
+                nodeTypeListFragment.output("napi_set_named_property(env, exports, \"default\", module)")
+                nodeTypeListFragment.output()
+                for type in generatedTypes.sorted(by: { "\($0)" < "\($1)" }) {
+                    // TODO: better
+                    guard case let .unknown(name) = type else {
+                        continue
+                    }
+                    nodeTypeListFragment.output("try \(name).nodeSetup(env: env, module: module)")
                 }
-                nodeTypeListFragment.output("try \(name).nodeSetup(env: env, module: module)")
+                nodeTypeListFragment.output("return exports")
             }
         }
         collectedFragments.append(nodeTypeListFragment)
@@ -168,161 +182,6 @@ public class CDeclareContext {
         return resolved
     }
 
-    func nodeTranslate(method: SourceryMethod) -> [SourceFragment] {
-        guard method.annotations["cdecl.get"] == nil,
-              method.annotations["cdecl.set"] == nil else {
-            let context = method.definedInTypeName?.description ?? module
-            fatalErr("""
-                found annotation `sourcery: cdecl.{get,set} = ...` on method \(method.name) in \(context)
-                use `sourcery: cdecl = ...` for methods instead.
-                """)
-        }
-        guard let cName = method.annotations["cdecl"] as? String else { return [] }
-        let nodeName = method.annotations["nodedecl"] as? String ?? cName
-
-        let selfExpression: String
-        let containingNamespace: String
-
-        if let selfType = method.definedInTypeName?.better {
-            containingNamespace = resolve(type: selfType).globalName
-            // Method.isMutating seems to be a bit buggy...
-            let isMutating = method.isMutating || method.modifiers.contains(where: { $0.name == "mutating" })
-
-            if isMutating {
-                // TODO: do
-                return []
-            }
-
-            if method.isStatic {
-                selfExpression = containingNamespace
-            } else {
-                selfExpression = "env.this(as: \(containingNamespace).self)"
-            }
-        } else {
-            containingNamespace = module
-            selfExpression = module
-        }
-
-        debug("generating \(containingNamespace).\(method.name)`")
-        var omitParameters = Set((method.annotations["cdecl.omitParameters"] as? String).asArray.flatMap { $0.components(separatedBy: " ") })
-        var parameters: [SwiftFormal] = []
-        for parameter in method.parameters {
-            if omitParameters.contains(parameter.name) {
-                precondition(parameter.defaultValue != nil, "Can't omit non-default parameter")
-                omitParameters.remove(parameter.name)
-                continue
-            }
-            parameters.append(
-                SwiftFormal(
-                    label: parameter.argumentLabel,
-                    name: parameter.name,
-                    type: resolve(type: parameter.typeName.better)
-                )
-            )
-        }
-        precondition(omitParameters.isEmpty, "Can't find parameters \(omitParameters) to omit")
-
-        // let translatedReturn = resolveNode(type: method.returnTypeName.better)
-        // formals.append(contentsOf: translatedReturn.outFormals)
-
-        let formals = parameters.flatMap(\.asSwiftFormals)
-        let nodeBridgeFragment = swiftFragment(
-            "NodeInterface/\(containingNamespace)+nodedecl.swift",
-            additionalImports: ["NodeUtils"]
-        )
-        nodeBridgeFragment.output("// Generated by sourcery:cdecl for `\(containingNamespace).\(method.name)`")
-        nodeBridgeFragment.outputBlock("let node_\(cName): napi_callback = { env, info in", closeWith: "}") {
-            nodeBridgeFragment.outputBlock("NodeUtils.callbackBody(env, info, name: \"\(nodeName)\", expectedArgumentCount: \(formals.count)) { env in", closeWith: "}") {
-                let callName = method.isInitializer ? "" : ".\(method.callName)"
-                nodeBridgeFragment.outputBlock("try \(selfExpression)\(callName)(", newLineTerminated: false) {
-                    nodeBridgeFragment.outputMap(parameters.enumerated(), separator: ",") {
-                        let (index, formal) = $0
-                        return (formal.label.map { "\($0): " } ?? "") + "try env.argument(at: \(index), as: \(formal.type.globalName).self)"
-                    }
-                }
-                nodeBridgeFragment.output(".toNode(env: env.env)")
-            }
-        }
-
-        return [nodeBridgeFragment]
-    }
-
-    func cTranslate(method: SourceryMethod) -> [SourceFragment] {
-        guard method.annotations["cdecl.get"] == nil,
-              method.annotations["cdecl.set"] == nil else {
-            let context = method.definedInTypeName?.description ?? module
-            fatalErr("""
-                found annotation `sourcery: cdecl.{get,set} = ...` on method \(method.name) in \(context)
-                use `sourcery: cdecl = ...` for methods instead.
-                """)
-        }
-        guard let cName = method.annotations["cdecl"] as? String else { return [] }
-
-        var selfParameter: SwiftFormal?
-        let selfExpression: String
-        let containingNamespace: String
-
-        if let selfType = method.definedInTypeName?.better {
-            containingNamespace = resolve(type: selfType).globalName
-            // Method.isMutating seems to be a bit buggy...
-            let isMutating = method.isMutating || method.modifiers.contains(where: { $0.name == "mutating" })
-
-            if method.isStatic {
-                selfExpression = containingNamespace
-            } else {
-                selfParameter = SwiftFormal(
-                    label: "self",
-                    name: "self",
-                    type: resolve(type: isMutating ? .unsafeMutablePointer(selfType) : selfType)
-                )
-                selfExpression = selfParameter!.asSwiftExpression
-            }
-        } else {
-            containingNamespace = module
-            selfExpression = module
-        }
-
-        debug("generating \(containingNamespace).\(method.name)`")
-        var omitParameters = Set((method.annotations["cdecl.omitParameters"] as? String).asArray.flatMap { $0.components(separatedBy: " ") })
-        var nonSelfParameters: [SwiftFormal] = []
-        for parameter in method.parameters {
-            if omitParameters.contains(parameter.name) {
-                precondition(parameter.defaultValue != nil, "Can't omit non-default parameter")
-                omitParameters.remove(parameter.name)
-                continue
-            }
-            nonSelfParameters.append(
-                SwiftFormal(
-                    label: parameter.argumentLabel,
-                    name: parameter.name,
-                    type: resolve(type: parameter.typeName.better)
-                )
-            )
-        }
-        precondition(omitParameters.isEmpty, "Can't find parameters \(omitParameters) to omit")
-
-        let translatedReturn = resolve(type: method.returnTypeName.better)
-        // formals.append(contentsOf: translatedReturn.outFormals)
-
-        let cBridgeFragment = swiftFragment("CInterface/\(containingNamespace)+cdecl.swift")
-        cBridgeFragment.output("// Generated by sourcery:cdecl for `\(containingNamespace).\(method.name)`")
-        cBridgeFragment.output("@_cdecl(\"\(cName)\")")
-        let allParameters = selfParameter.asArray + nonSelfParameters
-        let formals = allParameters.flatMap(\.asSwiftFormals)
-        cBridgeFragment.outputBlock("public func \(cName)(", newLineTerminated: false) {
-            cBridgeFragment.outputMap(formals, separator: ",") { $0 }
-        }
-        cBridgeFragment.outputBlock("\(translatedReturn.globalCName == "Swift.Void" ? "" : " -> \(translatedReturn.globalCName)") {") {
-            // supress the name "init" and, more importantly, "init?"; one is bad style to call, the other is a type error
-            let callName = method.isInitializer ? "" : ".\(method.callName)"
-            cBridgeFragment.outputBlock("\(selfExpression)\(callName)(", newLineTerminated: false) {
-                cBridgeFragment.outputMap(nonSelfParameters, separator: ",", \.asSwiftLabeledArgument)
-            }
-            cBridgeFragment.output(translatedReturn.asCAccessor)
-        }
-
-        return [cBridgeFragment]
-    }
 
     func translate(variable: Variable) -> [SourceFragment] {
         if variable.annotations["cdecl"] != nil {
@@ -331,81 +190,9 @@ public class CDeclareContext {
                 use `sourcery: cdecl.get = ...` and/or `sourcery: cdecl.set = ...` for variables instead.
                 """)
         }
-        return cTranslateGetter(for: variable) + cTranslateSetter(for: variable) + nodeTranslateGetter(for: variable)
-    }
-
-    func cTranslateGetter(for variable: Variable) -> [SourceFragment] {
-        guard let cName = variable.annotations["cdecl.get"] as? String else { return [] }
-
-        var formals: [String] = []
-        let selfExpression: String
-        let containingNamespace: String
-
-        if let selfType = variable.definedInTypeName?.better {
-            containingNamespace = resolve(type: selfType).globalName
-
-            if variable.isStatic {
-                selfExpression = containingNamespace
-            } else {
-                let translated = resolve(type: selfType).asFormals(label: "self", name: "self")
-                formals.append(contentsOf: translated.formals.map(\.asSwiftFormal))
-                selfExpression = translated.expression
-            }
-        } else {
-            containingNamespace = module
-            selfExpression = module
-        }
-
-        let translatedReturn = resolve(type: variable.typeName.better)
-        // formals.append(contentsOf: translatedReturn.outFormals)
-
-        debug("generating getter: CInterface/\(containingNamespace)+cdecl.swift for `\(containingNamespace).\(variable.name)`")
-        let fragment = swiftFragment("CInterface/\(containingNamespace)+cdecl.swift")
-        fragment.output("// Generated by sourcery:cdecl.get for `\(containingNamespace).\(variable.name)`")
-        fragment.output("@_cdecl(\"\(cName)\")")
-        fragment.outputBlock("public func \(cName)(", newLineTerminated: false) {
-            fragment.outputMap(formals, separator: ",") { $0 }
-        }
-        fragment.outputBlock("\(translatedReturn.globalCName == "Swift.Void" ? "" : " -> \(translatedReturn.globalCName)") {") {
-            fragment.output("\(selfExpression).\(variable.name)\(translatedReturn.asCAccessor)")
-        }
-        debug(fragment)
-        return [fragment]
-    }
-
-    func nodeTranslateGetter(for variable: Variable) -> [SourceFragment] {
-        guard let cName = variable.annotations["cdecl.get"] as? String else { return [] }
-        let nodeName = variable.annotations["nodedecl.get"] as? String ?? variable.annotations["nodedecl"] as? String ?? cName
-
-        let selfExpression: String
-        let containingNamespace: String
-
-        if let selfType = variable.definedInTypeName?.better {
-            containingNamespace = resolve(type: selfType).globalName
-
-            if variable.isStatic {
-                selfExpression = containingNamespace
-            } else {
-                selfExpression = "env.this(as: \(containingNamespace).self)"
-            }
-        } else {
-            containingNamespace = module
-            selfExpression = module
-        }
-
-        debug("generating getter for \(containingNamespace).\(variable.name)`")
-        let fragment = swiftFragment(
-            "NodeInterface/\(containingNamespace)+nodedecl.swift",
-            additionalImports: ["NodeUtils"]
-        )
-        fragment.output("// Generated by sourcery:cdecl.get for `\(containingNamespace).\(variable.name)`")
-        fragment.outputBlock("let node_\(cName): napi_callback = { env, info in", closeWith: "}") {
-            fragment.outputBlock("NodeUtils.callbackBody(env, info, name: \"\(nodeName)\", expectedArgumentCount: 0) { env in", closeWith: "}") {
-                fragment.output("try \(selfExpression).\(variable.name).toNode(env: env.env)")
-            }
-        }
-
-        return [fragment]
+        return cTranslator.translateGetter(for: variable, context: self)
+            + cTranslator.translateSetter(for: variable, context: self)
+            + nodeTranslator.translateGetter(for: variable, context: self)
     }
 
     func ts(method: SourceryMethod) -> TypeScriptAnnotations.Method? {
@@ -440,8 +227,4 @@ public class CDeclareContext {
         // tsFragment.output("\(resolve(type: method.returnTypeName.better).topLevelNodeName)")
     }
 
-    func cTranslateSetter(for variable: Variable) -> [SourceFragment] {
-        guard let cName = variable.annotations["cdecl.set"] as? String else { return [] }
-        fatalErr("TODO: translateSetter for \(cName)")
-    }
 }

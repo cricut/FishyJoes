@@ -8,6 +8,7 @@ let package = Package(
     name: "CDeclare",
     platforms: [.macOS(.v10_15)],
     products: [
+        .library(name: "CDeclareRuntime", targets: ["CDeclareRuntime"]),
         .executable(name: "execute-template", targets: ["CDeclareExecute"]),
     ],
     dependencies: [
@@ -41,11 +42,20 @@ let package = Package(
                 // .product(name: "SwiftSyntax", package: "SwiftSyntax"),
             ]
         ),
+        .target(
+            name: "CDeclareRuntime",
+            dependencies: [
+                .target(name: "NodeAPI"),
+            ]
+        ),
         .executableTarget(
             name: "CDeclareExecute",
             dependencies: [
                 .target(name: "CDeclareLib"),
             ]
+        ),
+        .systemLibrary(
+            name: "NodeAPI"
         ),
     ]
 )

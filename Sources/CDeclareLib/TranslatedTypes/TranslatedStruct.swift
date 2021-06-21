@@ -82,9 +82,30 @@ struct TranslatedStruct: TranslatedType {
 
         let nodeFragment = context.swiftFragment(
             "NodeInterface/\(globalName)+node.swift",
-            additionalImports: ["NodeUtils"]
+            additionalImports: ["CDeclareRuntime"]
         )
-        nodeFragment.outputBlock("extension \(globalName): NodeUtils.NodeConvertible {") {
+
+        // var nodeConvertibleExtension = SwiftSource.Extension(
+        //     extending: .unknown(globalName),
+        //     conformingTo: ["NodeConvertible"]
+        // )
+
+        // nodeConvertibleExtension.methods.append(
+        //     SwiftSource.Method(
+        //         annotations: ["public"],
+        //         name: "init",
+        //         parameters: [
+        //             CFacingFormal(label: "fromNode", name: "value", cType: "napi_value?"),
+        //             CFacingFormal(label: "env", name: "env", cType: "napi_env"),
+        //         ],
+        //         throws: true,
+        //         returnType: nil,
+        //         body: .multiLiner([])
+        //     )
+        // )
+
+
+        nodeFragment.outputBlock("extension \(globalName): CDeclareRuntime.NodeConvertible {") {
             nodeFragment.outputBlock("public init(fromNode value: napi_value?, env: napi_env) throws {") {
                 // TODO: type check
                 nodeFragment.outputBlock("self.init(") {
@@ -101,7 +122,7 @@ struct TranslatedStruct: TranslatedType {
                 }
             }
             nodeFragment.outputBlock("public func toNode(env: napi_env) throws -> napi_value? {") {
-                nodeFragment.output("let constructor = try NodeUtils.InstanceData.data(for: env).constructor(for: \"\(nodeName)\", env: env)")
+                nodeFragment.output("let constructor = try CDeclareRuntime.InstanceData.data(for: env).constructor(for: \"\(nodeName)\", env: env)")
                 nodeFragment.outputBlock("let args: [napi_value?] = [") {
                     for storedVar in storedVariables {
                         nodeFragment.output("try \(storedVar.name).toNode(env: env),")
@@ -113,48 +134,27 @@ struct TranslatedStruct: TranslatedType {
             }
             nodeFragment.outputBlock("public static func nodeSetup(env: napi_env, module: napi_value) throws {") {
                 nodeFragment.output("print(\"setting up \(globalName)\")")
-                nodeFragment.output("var constructor: napi_value?")
-                nodeFragment.output("var undefined: napi_value?")
-                nodeFragment.output("try check(napi_get_undefined(env, &undefined))")
-                nodeFragment.outputBlock("let properties: [napi_property_descriptor] = [") {
-                    for storedVar in storedVariables {
-                        nodeFragment.outputBlock("napi_property_descriptor(", closeWith: "),") {
-                            nodeFragment.output("utf8name: nil, name: try \"\(storedVar.name)\".toNode(env: env),")
-                            nodeFragment.output("method: nil, getter: nil, setter: nil, value: undefined,")
-                            if storedVar.isMutable {
-                                nodeFragment.output("attributes: .init(rawValue: napi_writable.rawValue | napi_enumerable.rawValue),")
-                            } else {
-                                nodeFragment.output("attributes: napi_enumerable,")
-                            }
-                            nodeFragment.output("data: nil")
-                        }
-                    }
-                    for method in methods {
-                        guard let cName = method.annotations["cdecl"] as? String else { continue }
-                        let nodeName = method.annotations["nodedecl"] as? String ?? cName
-                        let isMutating = method.isMutating || method.modifiers.contains(where: { $0.name == "mutating" })
-                        if isMutating {
-                            // TODO: do
-                            continue
-                        }
 
-                        nodeFragment.outputBlock("napi_property_descriptor(", closeWith: "),") {
-                            nodeFragment.output("utf8name: nil, name: try \"\(nodeName)\".toNode(env: env),")
-                            nodeFragment.output("method: node_\(cName), getter: nil, setter: nil, value: nil,")
-                            if method.isStatic {
-                                nodeFragment.output("attributes: napi_static,")
-                            } else {
-                                nodeFragment.output("attributes: napi_default,")
+                nodeFragment.outputBlock("let nodeClass = try NodeClass(") {
+                    nodeFragment.output("env: env,")
+                    nodeFragment.output("name: \"\(nodeName)\",")
+                    nodeFragment.outputBlock("properties: [", closeWith: "],") {
+                        for storedVar in storedVariables {
+                            nodeFragment.output("\"\(storedVar.name)\": (.stored(mutable: \(storedVar.isMutable)), isStatic: \(storedVar.isStatic)),")
+                        }
+                        for method in methods {
+                            guard let cName = method.annotations["cdecl"] as? String else { continue }
+                            let nodeName = method.annotations["nodedecl"] as? String ?? cName
+                            let isMutating = method.isMutating || method.modifiers.contains(where: { $0.name == "mutating" })
+                            guard !isMutating else {
+                                // TODO
+                                continue
                             }
-                            nodeFragment.output("data: nil")
+                            nodeFragment.output("\"\(nodeName)\": (.method(node_\(cName)), isStatic: \(method.isStatic)),")
                         }
                     }
-                }
-                nodeFragment.outputBlock("try check(napi_define_class(", closeWith: "))") {
-                    nodeFragment.output("env,")
-                    nodeFragment.output("\"\(nodeName)\", -1,")
-                    nodeFragment.outputBlock("{ env, info in", closeWith: "},") {
-                        nodeFragment.outputBlock("NodeUtils.callbackBody(env, info, name: \"\(nodeName)_constructor\", expectedArgumentCount: \(storedVariables.count)) { env in", closeWith: "}") {
+                    nodeFragment.outputBlock("constructor: { env, info in", closeWith: "}") {
+                        nodeFragment.outputBlock("CDeclareRuntime.callbackBody(env, info, name: \"\(nodeName)_constructor\", expectedArgumentCount: \(storedVariables.count)) { env in", closeWith: "}") {
                             nodeFragment.output("// TODO: typecheck?")
                             nodeFragment.output("let this = try env.this()")
                             for (index, storedVar) in storedVariables.enumerated() {
@@ -163,12 +163,9 @@ struct TranslatedStruct: TranslatedType {
                             nodeFragment.output("return this")
                         }
                     }
-                    nodeFragment.output("nil,")
-                    nodeFragment.output("properties.count, properties,")
-                    nodeFragment.output("&constructor")
                 }
-                nodeFragment.output("try NodeUtils.InstanceData.data(for: env).constructors[\"\(nodeName)\"] = NodeUtils.Reference(env: env, value: constructor)")
-                nodeFragment.output("try check(napi_set_named_property(env, module, \"\(nodeName)\", constructor))")
+                nodeFragment.output("try CDeclareRuntime.InstanceData.data(for: env).constructors[\"\(nodeName)\"] = nodeClass.constructor")
+                nodeFragment.output("try check(napi_set_named_property(env, module, \"\(nodeName)\", nodeClass.constructor.value(env: env)))")
             }
         }
 

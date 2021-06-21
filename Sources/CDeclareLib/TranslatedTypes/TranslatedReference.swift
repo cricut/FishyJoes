@@ -59,9 +59,9 @@ struct TranslatedReference: TranslatedType {
 
         let nodeFragment = context.swiftFragment(
             "NodeInterface/\(globalName)+node.swift",
-            additionalImports: ["NodeUtils"]
+            additionalImports: ["CDeclareRuntime"]
         )
-        nodeFragment.outputBlock("extension \(globalName): NodeUtils.NodeConvertible {") {
+        nodeFragment.outputBlock("extension \(globalName): CDeclareRuntime.NodeConvertible {") {
             nodeFragment.outputBlock("public static func nodeSetup(env: napi_env, module: napi_value) throws {") {
                 nodeFragment.output("print(\"setting up \(globalName)\")")
                 nodeFragment.output("var constructor: napi_value?")
@@ -109,13 +109,13 @@ struct TranslatedReference: TranslatedType {
                     nodeFragment.output("env,")
                     nodeFragment.output("\"\(nodeName)\", -1,")
                     nodeFragment.outputBlock("{ env, info in", closeWith: "},") {
-                        nodeFragment.outputBlock("NodeUtils.callbackBody(env, info, name: \"\(nodeName)_constructor\", expectedArgumentCount: 1) { env in", closeWith: "}") {
+                        nodeFragment.outputBlock("CDeclareRuntime.callbackBody(env, info, name: \"\(nodeName)_constructor\", expectedArgumentCount: 1) { env in", closeWith: "}") {
                             nodeFragment.output("// TODO: typecheck?")
                             nodeFragment.output("let this = try env.this()")
                             nodeFragment.output("let selfValue = try env.argument(at: 0)")
-                            nodeFragment.output("let boxed = try NodeUtils.Box<\(globalName)>.takeRetained(selfValue, env: env.env)")
+                            nodeFragment.output("let boxed = try CDeclareRuntime.Box<\(globalName)>.takeRetained(selfValue, env: env.env)")
                             nodeFragment.outputBlock("let finalizer: napi_finalize = { env, data, _ in", closeWith: "}") {
-                                nodeFragment.output("NodeUtils.Box<\(globalName)>.releaseOpaque(data)")
+                                nodeFragment.output("CDeclareRuntime.Box<\(globalName)>.releaseOpaque(data)")
                             }
                             nodeFragment.output("try check(env: env.env, napi_wrap(env.env, this, boxed.retainedOpaque(), finalizer, nil, nil))")
                             nodeFragment.output("return this")
@@ -125,12 +125,12 @@ struct TranslatedReference: TranslatedType {
                     nodeFragment.output("properties.count, properties,")
                     nodeFragment.output("&constructor")
                 }
-                nodeFragment.output("try NodeUtils.InstanceData.data(for: env).constructors[\"\(nodeName)\"] = NodeUtils.Reference(env: env, value: constructor)")
+                nodeFragment.output("try CDeclareRuntime.InstanceData.data(for: env).constructors[\"\(nodeName)\"] = .init(env: env, value: constructor)")
                 nodeFragment.output("try check(napi_set_named_property(env, module, \"\(nodeName)\", constructor))")
             }
 
             nodeFragment.outputBlock("public init(fromNode value: napi_value?, env: napi_env) throws {") {
-                // nodeFragment.output("self = try NodeUtils.Box<\(globalName)>.takeUnretained(value, env: env).value")
+                // nodeFragment.output("self = try CDeclareRuntime.Box<\(globalName)>.takeUnretained(value, env: env).value")
                 nodeFragment.output("var pointer: UnsafeMutableRawPointer?")
                 nodeFragment.output("try check(napi_unwrap(env, value, &pointer))")
                 nodeFragment.outputBlock("guard let pointer = pointer else {") {
@@ -139,8 +139,8 @@ struct TranslatedReference: TranslatedType {
                 nodeFragment.output("self = Box<\(globalName)>.takeUnretainedOpaque(pointer).value")
             }
             nodeFragment.outputBlock("public func toNode(env: napi_env) throws -> napi_value? {") {
-                nodeFragment.output("let constructor = try NodeUtils.InstanceData.data(for: env).constructor(for: \"\(nodeName)\", env: env)")
-                nodeFragment.output("var args: napi_value? = try NodeUtils.Box(self).retainedExternal(env: env)")
+                nodeFragment.output("let constructor = try CDeclareRuntime.InstanceData.data(for: env).constructor(for: \"\(nodeName)\", env: env)")
+                nodeFragment.output("var args: napi_value? = try CDeclareRuntime.Box(self).retainedExternal(env: env)")
                 nodeFragment.output("var result: napi_value?")
                 nodeFragment.output("try check(napi_new_instance(env, constructor, 1, &args, &result))")
                 nodeFragment.output("return result")

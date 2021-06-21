@@ -108,9 +108,9 @@ struct TranslatedEnum: TranslatedType {
 
         let nodeFragment = context.swiftFragment(
             "NodeInterface/\(globalName)+\(cName)+node.swift",
-            additionalImports: ["NodeUtils"]
+            additionalImports: ["CDeclareRuntime"]
         )
-        nodeFragment.outputBlock("extension \(globalName): NodeUtils.NodeConvertible {") {
+        nodeFragment.outputBlock("extension \(globalName): CDeclareRuntime.NodeConvertible {") {
             nodeFragment.outputBlock("public init(fromNode value: napi_value?, env: napi_env) throws {") {
                 nodeFragment.outputBlock("switch try String(fromNode: value, env: env) {") {
                     for enumCase in enumType.cases {
