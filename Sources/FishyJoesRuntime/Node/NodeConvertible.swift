@@ -7,6 +7,10 @@ public protocol NodeConvertible {
     func toNode(env: napi_env) throws -> napi_value?
 }
 
+public protocol NodeMutable: NodeConvertible {
+    func mutateNode(this: napi_value?, env: napi_env) throws
+}
+
 extension NodeConvertible {
     public static func nodeSetup(env: napi_env, module: napi_value) throws {
         print("default (noop) setup for \(Self.self)")

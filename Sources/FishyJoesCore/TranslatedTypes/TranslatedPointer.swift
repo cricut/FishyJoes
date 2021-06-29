@@ -26,5 +26,5 @@ struct TranslatedPointer: TranslatedType {
         pointee.wrapAsSwift(expression: "\(expression).pointee")
     }
 
-    func definitionFragments(in context: CDeclareContext) -> [SourceFragment] { [] }
+    func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] { [] }
 }

@@ -20,15 +20,15 @@ func run(_ command: String, _ args: String..., silent: Bool = false) throws {
     }
 }
 
-let cDeclarePath = "/Users/acobb/src/CDeclare"
+let fishyJoesPath = "/Users/acobb/src/FishyJoes"
 try run(
     "/usr/bin/xcrun", "swift", "build",
-    "--package-path", cDeclarePath,
-    "--product", "execute-template",
+    "--package-path", fishyJoesPath,
+    "--product", "fishy-joes",
     silent: true
 )
 try run(
-    "\(cDeclarePath)/.build/debug/execute-template",
+    "\(fishyJoesPath)/.build/debug/fishy-joes",
     ProcessInfo.processInfo.arguments[1]
 )
 %>

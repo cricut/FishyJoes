@@ -10,8 +10,8 @@ struct TranslatedEnum: TranslatedType {
     let asSwift: String
     let enumType: Enum
 
-    init(context: CDeclareContext, type: Enum) {
-        guard let cTypeName = type.annotations["cdecl"] as? String else { fatalErr("cdecl symbol not specified") }
+    init(context: FishyJoesContext, type: Enum) {
+        guard let cTypeName = type.exportAnnotation?.c else { fatalErr("c symbol not specified") }
 
         self.sourceType = .unknown(type.name)
         self.cName = cTypeName
@@ -23,7 +23,7 @@ struct TranslatedEnum: TranslatedType {
         self.enumType = type
     }
 
-    func definitionFragments(in context: CDeclareContext) -> [SourceFragment] {
+    func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
         // Generate C version of the swift type
         let headerName = "CTypes/include/\(cName).h"
         let headerFragment = context.cHeaderFragment(headerName)
@@ -50,7 +50,7 @@ struct TranslatedEnum: TranslatedType {
                             for value in enumCase.associatedValues {
                                 let resolved = context.resolve(type: value.typeName.better)
                                 guard let localName = value.localName else {
-                                    fatalError("expected enum case \(resolved.cName) to have a local name. Probably a bug in CDeclare")
+                                    fatalError("expected enum case \(resolved.cName) to have a local name. Probably a bug in FishyJoes")
                                 }
                                 headerFragment.output("\(resolved.cName) \(localName);")
                             }
@@ -108,9 +108,9 @@ struct TranslatedEnum: TranslatedType {
 
         let nodeFragment = context.swiftFragment(
             "NodeInterface/\(globalName)+\(cName)+node.swift",
-            additionalImports: ["CDeclareRuntime"]
+            additionalImports: ["FishyJoesRuntime"]
         )
-        nodeFragment.outputBlock("extension \(globalName): CDeclareRuntime.NodeConvertible {") {
+        nodeFragment.outputBlock("extension \(globalName): FishyJoesRuntime.NodeConvertible {") {
             nodeFragment.outputBlock("public init(fromNode value: napi_value?, env: napi_env) throws {") {
                 nodeFragment.outputBlock("switch try String(fromNode: value, env: env) {") {
                     for enumCase in enumType.cases {

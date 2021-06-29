@@ -23,7 +23,7 @@ struct TranslatedOptional: TranslatedType {
         "#include \"\(cName).h\""
     }
 
-    func definitionFragments(in context: CDeclareContext) -> [SourceFragment] {
+    func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
         let headerName = "CTypes/include/\(cName).h"
         let headerFragment = context.cHeaderFragment(headerName)
 

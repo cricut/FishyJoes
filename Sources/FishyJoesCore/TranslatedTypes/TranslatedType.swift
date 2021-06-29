@@ -11,7 +11,7 @@ protocol TranslatedType {
     // var asNodeAccessor: String { get }
     var cForwardDeclaration: String? { get }
 
-    func definitionFragments(in context: CDeclareContext) -> [SourceFragment]
+    func definitionFragments(in context: FishyJoesContext) -> [SourceFragment]
     func asFormals(label: String, name: String) -> (formals: [CFacingFormal], expression: String)
     func wrapAsSwift(expression: String) -> String
 }

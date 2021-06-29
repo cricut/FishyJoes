@@ -21,5 +21,5 @@ struct TranslatedPrimitive: TranslatedType {
         self.asNodeAccessor = "fatalError()"
     }
 
-    func definitionFragments(in context: CDeclareContext) -> [SourceFragment] { [] }
+    func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] { [] }
 }

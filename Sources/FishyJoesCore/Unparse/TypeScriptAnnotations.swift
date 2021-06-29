@@ -7,12 +7,14 @@ struct TypeScriptAnnotations {
     }
 
     struct Variable {
+        let documentation: [String]
         let readOnly: Bool
         let name: String
         let type: TSType
     }
 
     struct Method {
+        let documentation: [String]
         let isStatic: Bool
         let name: String
         let parameters: [(name: String, type: TSType)]
@@ -25,6 +27,7 @@ struct TypeScriptAnnotations {
     }
 
     struct Class {
+        let documentation: [String]
         let name: String
         let fields: [Variable]
         let methods: [Method]
@@ -62,16 +65,29 @@ extension TypeScriptAnnotations.TSType: CustomStringConvertible {
 extension TypeScriptAnnotations {
     var fragment: SourceFragment {
         let fragment = SourceFragment(sourceryDestination: "file:../../node/\(moduleName).d.ts")
+
+        func document(_ documentation: [String]) {
+            guard !documentation.isEmpty else { return }
+            fragment.output("/**")
+            for line in documentation {
+                fragment.output(" * \(line)")
+            }
+            fragment.output(" */")
+        }
+
         fragment.outputBlock("export namespace \(moduleName) {") {
             for alias in typealiases {
                 fragment.output("type \(alias.name) = \(alias.value)")
             }
             for tsClass in classes {
+                document(tsClass.documentation)
                 fragment.outputBlock("class \(tsClass.name) {") {
                     for field in tsClass.fields {
+                        document(field.documentation)
                         fragment.output("\(field.readOnly ? "readOnly " : "")\(field.name)\(field.type.annotation)")
                     }
                     for method in tsClass.methods {
+                        document(method.documentation)
                         fragment.outputBlock("\(method.isStatic ? "static " : "")\(method.name)(", newLineTerminated: false) {
                             fragment.outputMap(method.parameters, separator: ",") { parameter in
                                 "\(parameter.name)\(parameter.type.annotation)"

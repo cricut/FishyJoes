@@ -1,7 +1,7 @@
 import Foundation
 import SourceryRuntime
 
-public class CDeclareContext {
+public class FishyJoesContext {
     let module: String
     let templateContext: TemplateContext
     var cTypeCache: [BetterType: TranslatedType] = [:]
@@ -60,7 +60,7 @@ public class CDeclareContext {
                 collectedFragments.append(contentsOf: cTranslator.translate(method: method, context: self))
                 collectedFragments.append(contentsOf: nodeTranslator.translate(method: method, context: self))
             }
-            for variable in type.allVariables {
+            for variable in type.rawVariables {
                 if "\(variable.name)".contains("svgPathData") {
                     debug("\(type.name).\(variable.name): \(variable.annotations)")
                 }
@@ -84,13 +84,13 @@ public class CDeclareContext {
 
         let nodeTypeListFragment = swiftFragment(
             "NodeInterface/TypeSetup.swift",
-            additionalImports: ["CDeclareRuntime"]
+            additionalImports: ["FishyJoesRuntime"]
         )
 
         nodeTypeListFragment.output("@_cdecl(\"napi_register_module_v1\")")
         nodeTypeListFragment.outputBlock("public func napi_register_module_v1(env: napi_env, exports: napi_value) -> napi_value? {") {
 
-            nodeTypeListFragment.outputBlock("CDeclareRuntime.rethrowToNode(env: env) {") {
+            nodeTypeListFragment.outputBlock("FishyJoesRuntime.rethrowToNode(env: env) {") {
                 nodeTypeListFragment.output("var module: napi_value!")
                 nodeTypeListFragment.output("try check(napi_create_object(env, &module))")
                 nodeTypeListFragment.output("napi_set_named_property(env, exports, \"\(module)\", module)")
@@ -127,19 +127,19 @@ public class CDeclareContext {
     }
 
     func translate(typeDefinition type: Type) -> TranslatedType? {
-        if type.annotations["cdecl"] != nil {
-            if type.kind == "struct" {
-                return TranslatedStruct(context: self, type: type)
-            } else if let type = type as? Enum {
-                return TranslatedEnum(context: self, type: type)
-            } else {
-                fatalErr("TODO: cdecl on unknown kind \"\(type.kind)\" on type `\(type.globalName)`")
-            }
-        } else if type.annotations["cdecl.referenceType"] != nil {
-            return TranslatedReference(context: self, type: type)
-        } else {
+        guard let annotation = type.exportAnnotation else {
             // Not annotated for export
             return nil
+        }
+
+        if annotation.exportAsReference {
+            return TranslatedReference(context: self, type: type)
+        } else if type.kind == "struct" {
+            return TranslatedStruct(context: self, type: type)
+        } else if let type = type as? Enum {
+            return TranslatedEnum(context: self, type: type)
+        } else {
+            fatalErr("TODO: cdecl on unknown kind \"\(type.kind)\" on type `\(type.globalName)`")
         }
     }
 
@@ -182,28 +182,18 @@ public class CDeclareContext {
         return resolved
     }
 
-
     func translate(variable: Variable) -> [SourceFragment] {
-        if variable.annotations["cdecl"] != nil {
-            fatalErr("""
-                found annotation `sourcery: cdecl = ...` on variable \(variable.name) in \(variable.definedInTypeName?.description ?? module)
-                use `sourcery: cdecl.get = ...` and/or `sourcery: cdecl.set = ...` for variables instead.
-                """)
-        }
         return cTranslator.translateGetter(for: variable, context: self)
             + cTranslator.translateSetter(for: variable, context: self)
             + nodeTranslator.translateGetter(for: variable, context: self)
     }
 
     func ts(method: SourceryMethod) -> TypeScriptAnnotations.Method? {
-        guard let nodeName = method.annotations["nodedecl"] as? String ?? method.annotations["cdecl"] as? String else { return nil }
-        let isMutating = method.isMutating || method.modifiers.contains(where: { $0.name == "mutating" })
-        if isMutating {
-            // TODO: do
+        guard let exportAnnotation = method.exportAnnotation,
+              let nodeName = exportAnnotation.js ?? exportAnnotation.c else {
             return nil
         }
-
-        var omitParameters = Set((method.annotations["cdecl.omitParameters"] as? String).asArray.flatMap { $0.components(separatedBy: " ") })
+        var omitParameters = Set(exportAnnotation.omitParameters)
         var parameters: [(String, TypeScriptAnnotations.TSType)] = []
         for parameter in method.parameters {
             if omitParameters.contains(parameter.name) {
@@ -216,15 +206,25 @@ public class CDeclareContext {
         }
 
         return TypeScriptAnnotations.Method(
+            documentation: method.documentation,
             isStatic: method.isStatic,
             name: nodeName,
             parameters: parameters,
             returnType: resolve(type: method.returnTypeName.better).nodeType
         )
-        // tsFragment.outputBlock("\( ? "static " : "")\(nodeName)(", newLineTerminated: false) {
-        //     tsFragment.outputMap(parameters, separator: ",") { $0 }
-        // }
-        // tsFragment.output("\(resolve(type: method.returnTypeName.better).topLevelNodeName)")
     }
 
+    func ts(field: Variable) -> TypeScriptAnnotations.Variable? {
+        guard let exportAnnotation = field.exportAnnotation,
+              let nodeName = exportAnnotation.js ?? exportAnnotation.c else {
+            return nil
+        }
+        let resolved = resolve(type: field.typeName.better)
+        return TypeScriptAnnotations.Variable(
+            documentation: field.documentation,
+            readOnly: !field.isMutable,
+            name: nodeName,
+            type: resolved.nodeType
+        )
+    }
 }

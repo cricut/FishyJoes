@@ -28,7 +28,7 @@ struct TranslatedTuple: TranslatedType {
         sourceType = .tuple(elements.map { .init(label: $0.label, type: $0.type.sourceType) })
     }
 
-    func definitionFragments(in context: CDeclareContext) -> [SourceFragment] { [] }
+    func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] { [] }
 
     func asFormals(label: String, name: String) -> (formals: [CFacingFormal], expression: String) {
         let translated = elements.map { element -> (formals: [CFacingFormal], expression: String) in

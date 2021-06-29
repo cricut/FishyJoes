@@ -79,5 +79,6 @@ public struct NodeClass {
             )
         )
         self.constructor = try NodeReference(env: env, value: nodeConstructor)
+        try InstanceData.data(for: env).constructors[name] = self.constructor
     }
 }

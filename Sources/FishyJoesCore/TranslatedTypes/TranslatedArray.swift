@@ -21,5 +21,5 @@ struct TranslatedArray: TranslatedType {
         self.cForwardDeclaration = element.cForwardDeclaration
     }
 
-    func definitionFragments(in context: CDeclareContext) -> [SourceFragment] { [] }
+    func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] { [] }
 }

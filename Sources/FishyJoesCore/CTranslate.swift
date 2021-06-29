@@ -2,16 +2,8 @@ import Foundation
 import SourceryRuntime
 
 struct CTranslate {
-    func translate(method: SourceryMethod, context: CDeclareContext) -> [SourceFragment] {
-        guard method.annotations["cdecl.get"] == nil,
-              method.annotations["cdecl.set"] == nil else {
-            let context = method.definedInTypeName?.description ?? context.module
-            fatalErr("""
-                found annotation `sourcery: cdecl.{get,set} = ...` on method \(method.name) in \(context)
-                use `sourcery: cdecl = ...` for methods instead.
-                """)
-        }
-        guard let cName = method.annotations["cdecl"] as? String else { return [] }
+    func translate(method: SourceryMethod, context: FishyJoesContext) -> [SourceFragment] {
+        guard let cName = method.exportAnnotation?.c else { return [] }
 
         var selfParameter: SwiftFormal?
         let selfExpression: String
@@ -38,7 +30,7 @@ struct CTranslate {
         }
 
         debug("generating \(containingNamespace).\(method.name)`")
-        var omitParameters = Set((method.annotations["cdecl.omitParameters"] as? String).asArray.flatMap { $0.components(separatedBy: " ") })
+        var omitParameters = Set(method.exportAnnotation?.omitParameters ?? [])
         var nonSelfParameters: [SwiftFormal] = []
         for parameter in method.parameters {
             if omitParameters.contains(parameter.name) {
@@ -79,8 +71,8 @@ struct CTranslate {
         return [cBridgeFragment]
     }
 
-    func translateGetter(for variable: Variable, context: CDeclareContext) -> [SourceFragment] {
-        guard let cName = variable.annotations["cdecl.get"] as? String else { return [] }
+    func translateGetter(for variable: Variable, context: FishyJoesContext) -> [SourceFragment] {
+        guard let cName = variable.exportAnnotation?.c else { return [] }
 
         var formals: [String] = []
         let selfExpression: String
@@ -118,8 +110,8 @@ struct CTranslate {
         return [fragment]
     }
 
-    func translateSetter(for variable: Variable, context: CDeclareContext) -> [SourceFragment] {
-        guard let cName = variable.annotations["cdecl.set"] as? String else { return [] }
+    func translateSetter(for variable: Variable, context: FishyJoesContext) -> [SourceFragment] {
+        guard let cName = variable.exportAnnotation?.cSet else { return [] }
         fatalErr("TODO: translateSetter for \(cName)")
     }
 }

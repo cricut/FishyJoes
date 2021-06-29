@@ -9,11 +9,16 @@ struct TranslatedStruct: TranslatedType {
     let asC: String
     let asSwift: String
     let storedVariables: [Variable]
+    let computedVariables: [Variable]
     let methods: [Method]
+    let documentation: [String]
 
-    init(context: CDeclareContext, type: Type) {
-        guard let cTypeName = type.annotations["cdecl"] as? String else { fatalErr("cdecl symbol not specified for \(type.name)") }
-        let nodeTypeName = type.annotations["nodedecl"] as? String ?? cTypeName
+    init(context: FishyJoesContext, type: Type) {
+        guard let exportAnnotation = type.exportAnnotation,
+              let cTypeName = exportAnnotation.c else {
+            fatalErr("c symbol not specified")
+        }
+        let nodeTypeName = exportAnnotation.js ?? cTypeName
         guard type.kind == "struct" else { fatalErr("not a struct") }
 
         self.sourceType = .unknown(type.name)
@@ -24,13 +29,14 @@ struct TranslatedStruct: TranslatedType {
         self.asC = "as\(cTypeName)"
         self.asSwift = "as\(type.localName)"
 
-        let omitVariables = Set((type.annotations["cdecl.omitVariables"] as? String).asArray.flatMap { $0.components(separatedBy: " ") })
-        self.storedVariables = type.storedVariables.filter { !omitVariables.contains($0.name) }
+        self.storedVariables = type.storedVariables
+        self.computedVariables = type.computedVariables.filter { $0.exportAnnotation != nil }
 
         self.methods = type.methods.filter { $0.annotations["cdecl"] != nil }
+        self.documentation = type.documentation
     }
 
-    func definitionFragments(in context: CDeclareContext) -> [SourceFragment] {
+    func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
         // Generate C version of the swift type
         let headerName = "CTypes/include/\(cName).h"
         let headerFragment = context.cHeaderFragment(headerName)
@@ -82,30 +88,11 @@ struct TranslatedStruct: TranslatedType {
 
         let nodeFragment = context.swiftFragment(
             "NodeInterface/\(globalName)+node.swift",
-            additionalImports: ["CDeclareRuntime"]
+            additionalImports: ["FishyJoesRuntime"]
         )
 
-        // var nodeConvertibleExtension = SwiftSource.Extension(
-        //     extending: .unknown(globalName),
-        //     conformingTo: ["NodeConvertible"]
-        // )
+        nodeFragment.outputBlock("extension \(globalName): FishyJoesRuntime.NodeMutable {") {
 
-        // nodeConvertibleExtension.methods.append(
-        //     SwiftSource.Method(
-        //         annotations: ["public"],
-        //         name: "init",
-        //         parameters: [
-        //             CFacingFormal(label: "fromNode", name: "value", cType: "napi_value?"),
-        //             CFacingFormal(label: "env", name: "env", cType: "napi_env"),
-        //         ],
-        //         throws: true,
-        //         returnType: nil,
-        //         body: .multiLiner([])
-        //     )
-        // )
-
-
-        nodeFragment.outputBlock("extension \(globalName): CDeclareRuntime.NodeConvertible {") {
             nodeFragment.outputBlock("public init(fromNode value: napi_value?, env: napi_env) throws {") {
                 // TODO: type check
                 nodeFragment.outputBlock("self.init(") {
@@ -121,8 +108,9 @@ struct TranslatedStruct: TranslatedType {
                     }
                 }
             }
+
             nodeFragment.outputBlock("public func toNode(env: napi_env) throws -> napi_value? {") {
-                nodeFragment.output("let constructor = try CDeclareRuntime.InstanceData.data(for: env).constructor(for: \"\(nodeName)\", env: env)")
+                nodeFragment.output("let constructor = try FishyJoesRuntime.InstanceData.data(for: env).constructor(for: \"\(nodeName)\", env: env)")
                 nodeFragment.outputBlock("let args: [napi_value?] = [") {
                     for storedVar in storedVariables {
                         nodeFragment.output("try \(storedVar.name).toNode(env: env),")
@@ -132,29 +120,37 @@ struct TranslatedStruct: TranslatedType {
                 nodeFragment.output("try check(napi_new_instance(env, constructor, args.count, args, &result))")
                 nodeFragment.output("return result")
             }
+
+            nodeFragment.outputBlock("public func mutateNode(this: napi_value?, env: napi_env) throws {") {
+                for storedVar in storedVariables {
+                    guard storedVar.isMutable else { continue }
+                    nodeFragment.output("try check(napi_set_named_property(env, this, \"\(storedVar.name)\", \(storedVar.name).toNode(env: env)))")
+                }
+            }
+
             nodeFragment.outputBlock("public static func nodeSetup(env: napi_env, module: napi_value) throws {") {
                 nodeFragment.output("print(\"setting up \(globalName)\")")
 
                 nodeFragment.outputBlock("let nodeClass = try NodeClass(") {
                     nodeFragment.output("env: env,")
                     nodeFragment.output("name: \"\(nodeName)\",")
-                    nodeFragment.outputBlock("properties: [", closeWith: "],") {
-                        for storedVar in storedVariables {
-                            nodeFragment.output("\"\(storedVar.name)\": (.stored(mutable: \(storedVar.isMutable)), isStatic: \(storedVar.isStatic)),")
-                        }
-                        for method in methods {
-                            guard let cName = method.annotations["cdecl"] as? String else { continue }
-                            let nodeName = method.annotations["nodedecl"] as? String ?? cName
-                            let isMutating = method.isMutating || method.modifiers.contains(where: { $0.name == "mutating" })
-                            guard !isMutating else {
-                                // TODO
-                                continue
+                    var properties: [String] =
+                        context.nodeTranslator.properties(for: methods) +
+                        context.nodeTranslator.properties(for: computedVariables)
+                    for storedVar in storedVariables {
+                        properties.append("\"\(storedVar.name)\": (.stored(mutable: \(storedVar.isMutable)), isStatic: \(storedVar.isStatic)),")
+                    }
+                    if properties.isEmpty {
+                        nodeFragment.output("properties: [:],")
+                    } else {
+                        nodeFragment.outputBlock("properties: [", closeWith: "],") {
+                            for prop in properties {
+                                nodeFragment.output(prop)
                             }
-                            nodeFragment.output("\"\(nodeName)\": (.method(node_\(cName)), isStatic: \(method.isStatic)),")
                         }
                     }
                     nodeFragment.outputBlock("constructor: { env, info in", closeWith: "}") {
-                        nodeFragment.outputBlock("CDeclareRuntime.callbackBody(env, info, name: \"\(nodeName)_constructor\", expectedArgumentCount: \(storedVariables.count)) { env in", closeWith: "}") {
+                        nodeFragment.outputBlock("FishyJoesRuntime.callbackBody(env, info, name: \"\(nodeName)_constructor\", expectedArgumentCount: \(storedVariables.count)) { env in", closeWith: "}") {
                             nodeFragment.output("// TODO: typecheck?")
                             nodeFragment.output("let this = try env.this()")
                             for (index, storedVar) in storedVariables.enumerated() {
@@ -164,18 +160,15 @@ struct TranslatedStruct: TranslatedType {
                         }
                     }
                 }
-                nodeFragment.output("try CDeclareRuntime.InstanceData.data(for: env).constructors[\"\(nodeName)\"] = nodeClass.constructor")
                 nodeFragment.output("try check(napi_set_named_property(env, module, \"\(nodeName)\", nodeClass.constructor.value(env: env)))")
             }
         }
 
         context.tsFragment.classes.append(
             .init(
+                documentation: documentation,
                 name: nodeName,
-                fields: storedVariables.compactMap { storedVar in
-                    let resolved = context.resolve(type: storedVar.typeName.better)
-                    return TypeScriptAnnotations.Variable(readOnly: !storedVar.isMutable, name: storedVar.name, type: resolved.nodeType)
-                },
+                fields: storedVariables.compactMap(context.ts(field:)),
                 methods: methods.compactMap(context.ts(method:))
             )
         )

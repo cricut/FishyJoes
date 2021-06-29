@@ -9,7 +9,7 @@ struct TranslatedString: TranslatedType {
     // TODO: memory leak
     let asCAccessor = ".withCString({ $0 })"
 
-    func definitionFragments(in context: CDeclareContext) -> [SourceFragment] { [] }
+    func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] { [] }
 
     func wrapAsSwift(expression: String) -> String {
         "String(cString: \(expression))"
