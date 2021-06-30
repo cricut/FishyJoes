@@ -61,9 +61,6 @@ public class FishyJoesContext {
                 collectedFragments.append(contentsOf: nodeTranslator.translate(method: method, context: self))
             }
             for variable in type.rawVariables {
-                if "\(variable.name)".contains("svgPathData") {
-                    debug("\(type.name).\(variable.name): \(variable.annotations)")
-                }
                 collectedFragments.append(contentsOf: translate(variable: variable))
             }
         }
@@ -147,7 +144,6 @@ public class FishyJoesContext {
         if let resolved = cTypeCache[type] {
             return resolved
         }
-        debug("resolve: \(type)")
 
         let primitiveTypeMap = [
             "Double": ("double", "number"),

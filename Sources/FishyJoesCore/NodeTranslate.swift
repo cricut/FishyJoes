@@ -25,7 +25,6 @@ struct NodeTranslate {
             selfExpression = context.module
         }
 
-        debug("generating getter for \(containingNamespace).\(variable.name)`")
         let fragment = context.swiftFragment(
             "NodeInterface/\(containingNamespace)+nodedecl.swift",
             additionalImports: ["FishyJoesRuntime"]
@@ -63,7 +62,6 @@ struct NodeTranslate {
             selfExpression = context.module
         }
 
-        debug("generating \(containingNamespace).\(method.name)`")
         var omitParameters = Set(exportAnnotation.omitParameters)
         var parameters: [SwiftFormal] = []
         for parameter in method.parameters {

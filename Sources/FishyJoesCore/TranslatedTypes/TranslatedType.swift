@@ -1,14 +1,20 @@
 import SourceryRuntime
 
 protocol TranslatedType {
+    /// The original type from the exporting library
     var sourceType: BetterType { get }
+
+    /// The name of the translated type as referred to by C
     var cName: String { get }
+
+    /// The name of the translated type as referred to by node
     var nodeName: String { get }
-    var globalName: String { get }
+
+    /// The name of the type swift sees when importing cName. e.g. CTypes.SomeStruct
     var globalCName: String { get }
+
     var asSwiftAccessor: String { get }
     var asCAccessor: String { get }
-    // var asNodeAccessor: String { get }
     var cForwardDeclaration: String? { get }
 
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment]
