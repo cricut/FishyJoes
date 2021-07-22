@@ -3,19 +3,45 @@ import SourceryRuntime
 // SourceryRuntime.TypeName is bad; Types are trees, not structs full of booleans.
 // An Optional<Int> isn't a Int that happens to be optional, it's an Optional that may contain an Int!
 indirect enum BetterType: Hashable {
-    case unknown(String)
-    case optional(BetterType)
+    struct Name: Hashable {
+        let name: String
+        let namespace: [String]
+    }
+
+    case named(Name)
     case tuple([TupleElement])
     case void
-    case array(BetterType)
-    case dictionary(BetterType, BetterType)
     case function([BetterType], BetterType)
+    case generic(base: Name, args: [BetterType])
     case selfType
-    case unsafeMutablePointer(BetterType)
 
     struct TupleElement: Hashable {
         let label: String
         let type: BetterType
+    }
+}
+
+extension BetterType {
+    static func `optional`(_ wrapped: BetterType) -> BetterType {
+        .generic(base: "Optional", args: [wrapped])
+    }
+
+    static func array(_ element: BetterType) -> BetterType {
+        .generic(base: "Array", args: [element])
+    }
+
+    static func dictionary(_ key: BetterType, _ value: BetterType) -> BetterType {
+        .generic(base: "Dictionary", args: [key, value])
+    }
+
+    static func `set`(_ element: BetterType) -> BetterType {
+        .generic(base: "Set", args: [element])
+    }
+}
+
+extension SourceryRuntime.`Type` {
+    var namespace: [String] {
+        globalName.split(separator: ".").dropLast().map(String.init)
     }
 }
 
@@ -40,8 +66,10 @@ extension TypeName {
             better = .function(closure.parameters.map(\.typeName.better), closure.returnTypeName.better)
         } else if name.unwrappedTypeName == "Self" {
             better = .selfType
+        } else if let generic = name.generic {
+            better = .generic(base: .init(name: generic.name), args: generic.typeParameters.map(\.typeName.better))
         } else {
-            better = .unknown(name.unwrappedTypeName)
+            better = .named(.init(name: name.unwrappedTypeName))
         }
 
         if name.isOptional || name.isImplicitlyUnwrappedOptional {
@@ -49,5 +77,61 @@ extension TypeName {
         }
 
         return better
+    }
+}
+
+extension BetterType.Name: ExpressibleByStringLiteral {
+    init(stringLiteral value: String) {
+        self.init(name: value)
+    }
+
+    init(name: String) {
+        let parts = name.split(separator: ".").map(String.init)
+        self.name = parts.last!
+        self.namespace = Array(parts.dropLast())
+    }
+
+    var globalName: String {
+        (namespace + [name]).joined(separator: ".")
+    }
+}
+
+extension BetterType {
+    init(named type: SourceryRuntime.`Type`) {
+        self = .named(.init(name: type.globalName))
+    }
+
+    var name: String {
+        switch self {
+        case let .named(name):
+            return (name.namespace + [name.name]).joined(separator: ".")
+        case .tuple(let elements):
+            return "(" + elements.map {
+                if Int($0.label) == nil {
+                    return "\($0.label): \($0.type.name)"
+                } else {
+                    return $0.type.name
+                }
+            }.joined(separator: ", ") + ")"
+        case .void:
+            return "Void"
+        case .function(let args, let ret):
+            return "(\(args.map(\.name).joined(separator: ", "))) -> \(ret.name)"
+        case .generic(let base, let args):
+            return "\(base.name)<\(args.map(\.name).joined(separator: ", "))>"
+        case .selfType:
+            return "Self"
+        }
+    }
+
+    var namespace: [String] {
+        switch self {
+        case let .named(name):
+            return name.namespace
+        case let .generic(name, _):
+            return name.namespace
+        default:
+            return []
+        }
     }
 }

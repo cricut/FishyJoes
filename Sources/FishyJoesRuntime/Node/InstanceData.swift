@@ -15,7 +15,7 @@ public class InstanceData {
         var dataPointer: UnsafeMutableRawPointer?
         try check(napi_get_instance_data(env, &dataPointer))
         if let pointer = dataPointer {
-            return Unmanaged<InstanceData>.fromOpaque(pointer).retain().takeRetainedValue()
+            return Unmanaged<InstanceData>.fromOpaque(pointer).takeUnretainedValue()
         }
         let data = InstanceData()
         let finalizer: napi_finalize = { env, data, _ in
@@ -25,4 +25,8 @@ public class InstanceData {
         try check(napi_set_instance_data(env, Unmanaged.passRetained(data).toOpaque(), finalizer, nil))
         return data
     }
+
+    // deinit {
+    //     print("InstanceData.deinit")
+    // }
 }

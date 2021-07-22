@@ -10,11 +10,11 @@ struct TranslatedPrimitive: TranslatedType {
     let asCAccessor: String
     let asNodeAccessor: String
 
-    init(swift swiftName: String, c cName: String, node nodeName: String? = nil) {
-        self.sourceType = .unknown(swiftName)
+    init(swift swiftName: BetterType.Name, c cName: String, node nodeName: String? = nil) {
+        self.sourceType = .named(swiftName)
         self.cName = cName
         self.nodeName = nodeName ?? cName
-        self.globalName = "Swift.\(swiftName)"
+        self.globalName = swiftName.globalName
         self.globalCName = globalName
         self.asSwiftAccessor = ""
         self.asCAccessor = ""

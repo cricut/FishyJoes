@@ -4,14 +4,13 @@ import SourceryRuntime
 public class FishyJoesContext {
     let module: String
     let templateContext: TemplateContext
-    var cTypeCache: [BetterType: TranslatedType] = [:]
+    var typeCache: [BetterType: TranslatedType] = [:]
     var fileHeaders: [String: Set<String>] = [:]
     var fileFooters: [String: Set<String>] = [:]
 
     var tsFragment: TypeScriptAnnotations
 
     let nodeTranslator = NodeTranslate()
-    let cTranslator = CTranslate()
 
     public init(context: TemplateContext) {
         let argument = context.argument
@@ -24,23 +23,8 @@ public class FishyJoesContext {
     }
 
     func swiftFragment(_ name: String, additionalImports: [String] = []) -> SourceFragment {
-        let imports = ["import CTypes", "import \(module)"] + additionalImports.map { "import \($0)" }
+        let imports = ["import \(module)"] + additionalImports.map { "import \($0)" }
         fileHeaders[name, default: []].formUnion(imports)
-        return SourceFragment(sourceryDestination: "file:\(name)")
-    }
-
-    func cHeaderFragment(_ name: String) -> SourceFragment {
-        let includeGuard = "__" + name.components(separatedBy: CharacterSet.alphanumerics.inverted).joined(separator: "_")
-        let header = """
-            #ifndef \(includeGuard)
-            #define \(includeGuard)
-            #include <stdint.h>
-            """
-        let footer = """
-            #endif // \(includeGuard)
-            """
-        fileHeaders[name, default: []].insert(header)
-        fileFooters[name, default: []].insert(footer)
         return SourceFragment(sourceryDestination: "file:\(name)")
     }
 
@@ -50,14 +34,13 @@ public class FishyJoesContext {
         // Collect type information before starting translation
         for translatedType in templateContext.types.all.compactMap(translate(typeDefinition:)) {
             let name = translatedType.sourceType
-            precondition(cTypeCache[name] == nil, "duplicate definitions found for \(name)")
-            cTypeCache[name] = translatedType
+            precondition(typeCache[name] == nil, "duplicate definitions found for \(name)")
+            typeCache[name] = translatedType
         }
 
         // Translate
         for type in templateContext.types.all + templateContext.types.extensions {
             for method in type.allMethods {
-                collectedFragments.append(contentsOf: cTranslator.translate(method: method, context: self))
                 collectedFragments.append(contentsOf: nodeTranslator.translate(method: method, context: self))
             }
             for variable in type.rawVariables {
@@ -66,13 +49,12 @@ public class FishyJoesContext {
         }
         // Translate any top level functions
         for topLevelFunction in templateContext.functions {
-            collectedFragments.append(contentsOf: cTranslator.translate(method: topLevelFunction, context: self))
             collectedFragments.append(contentsOf: nodeTranslator.translate(method: topLevelFunction, context: self))
         }
 
         var generatedTypes = Set<BetterType>()
-        while generatedTypes != Set(cTypeCache.keys) {
-            for type in cTypeCache.sorted(by: { "\($0.key)" < "\($1.key)" }) {
+        while generatedTypes != Set(typeCache.keys) {
+            for type in typeCache.sorted(by: { "\($0.key)" < "\($1.key)" }) {
                 guard !generatedTypes.contains(type.key) else { continue }
                 collectedFragments.append(contentsOf: type.value.definitionFragments(in: self))
                 generatedTypes.insert(type.key)
@@ -86,7 +68,6 @@ public class FishyJoesContext {
 
         nodeTypeListFragment.output("@_cdecl(\"napi_register_module_v1\")")
         nodeTypeListFragment.outputBlock("public func napi_register_module_v1(env: napi_env, exports: napi_value) -> napi_value? {") {
-
             nodeTypeListFragment.outputBlock("FishyJoesRuntime.rethrowToNode(env: env) {") {
                 nodeTypeListFragment.output("var module: napi_value!")
                 nodeTypeListFragment.output("try check(napi_create_object(env, &module))")
@@ -95,10 +76,10 @@ public class FishyJoesContext {
                 nodeTypeListFragment.output()
                 for type in generatedTypes.sorted(by: { "\($0)" < "\($1)" }) {
                     // TODO: better
-                    guard case let .unknown(name) = type else {
+                    guard case .named = type else {
                         continue
                     }
-                    nodeTypeListFragment.output("try \(name).nodeSetup(env: env, module: module)")
+                    nodeTypeListFragment.output("try \(type.name).nodeSetup(env: env, module: module)")
                 }
                 nodeTypeListFragment.output("return exports")
             }
@@ -136,52 +117,63 @@ public class FishyJoesContext {
         } else if let type = type as? Enum {
             return TranslatedEnum(context: self, type: type)
         } else {
-            fatalErr("TODO: cdecl on unknown kind \"\(type.kind)\" on type `\(type.globalName)`")
+            fatalErr("TODO: annotation on unknown kind \"\(type.kind)\" on type `\(type.globalName)`")
         }
     }
 
     func resolve(type: BetterType) -> TranslatedType {
-        if let resolved = cTypeCache[type] {
+        if let resolved = typeCache[type] {
             return resolved
         }
 
         let primitiveTypeMap = [
             "Double": ("double", "number"),
+            "Int": ("int", "number"),
             "Bool": ("_Bool", "bool"),
         ]
 
         let resolved = { () -> TranslatedType in
             switch type {
-            case let .unknown(name):
-                if let (cName, nodeName) = primitiveTypeMap[name] {
+            case let .named(name):
+                if let (cName, nodeName) = primitiveTypeMap[name.globalName] {
                     return TranslatedPrimitive(swift: name, c: cName, node: nodeName)
-                } else if name == "String" {
+                } else if name.name == "String" {
                     return TranslatedString()
+                } else if name.name == "Index", name.namespace.last?.hasPrefix("Array<") == true {
+                    // It's a hack.
+                    return TranslatedPrimitive(swift: "Int", c: "int", node: "number")
                 } else {
-                    fatalErr("Don't know how to translate type `\(name)`. Maybe annotate it with a cdecl?")
+                    fatalErr("Don't know how to translate type `\(name)`. Maybe annotate it with `sourcery:export(...)`?")
                 }
-            case let .optional(wrapped):
-                return TranslatedOptional(wrapped: resolve(type: wrapped))
-            case let .unsafeMutablePointer(pointee):
-                return TranslatedPointer(pointee: resolve(type: pointee))
             case .void:
-                return TranslatedPrimitive(swift: "Void", c: "void", node: "void")
+                return TranslatedPrimitive(swift: .init(name: "Void"), c: "void", node: "void")
             case .tuple(let elements):
                 return TranslatedTuple(elements: elements.map { .init(label: $0.label, type: resolve(type: $0.type)) })
-            case .array(let element):
-                return TranslatedArray(element: resolve(type: element))
+            case .generic(let base, let args):
+                switch (base.globalName, args.count) {
+                case ("Optional", 1):
+                    return TranslatedOptional(wrapped: resolve(type: args[0]))
+                case ("Array", 1):
+                    return TranslatedArray(element: resolve(type: args[0]))
+                // case ("Swift.Dictionary", 2):
+                //     return TranslatedDictionary(key: resolve(type: args[0]), value: resolve(type: args[1]))
+                case ("Set", 1):
+                    return TranslatedSet(element: resolve(type: args[0]))
+                case ("Dictionary", 2):
+                    return TranslatedDictionary(key: resolve(type: args[0]), value: resolve(type: args[1]))
+                default:
+                    fatalErr("TODO: resolve(type: \(type))")
+                }
             default:
                 fatalErr("TODO: resolve(type: \(type))")
             }
         }()
-        cTypeCache[type] = resolved
+        typeCache[type] = resolved
         return resolved
     }
 
     func translate(variable: Variable) -> [SourceFragment] {
-        return cTranslator.translateGetter(for: variable, context: self)
-            + cTranslator.translateSetter(for: variable, context: self)
-            + nodeTranslator.translateGetter(for: variable, context: self)
+        nodeTranslator.translateGetter(for: variable, context: self)
     }
 
     func ts(method: SourceryMethod) -> TypeScriptAnnotations.Method? {
@@ -210,10 +202,20 @@ public class FishyJoesContext {
         )
     }
 
-    func ts(field: Variable) -> TypeScriptAnnotations.Variable? {
-        guard let exportAnnotation = field.exportAnnotation,
-              let nodeName = exportAnnotation.js ?? exportAnnotation.c else {
-            return nil
+    func ts(field: Variable, useNativeName: Bool = false) -> TypeScriptAnnotations.Variable? {
+        let nodeName: String
+
+        if useNativeName {
+            guard field.exportAnnotation == nil else {
+                fatalErr("field \(field.name) should not be annotated, as it's in a type being exported memberwise")
+            }
+            nodeName = field.name
+        } else {
+            guard let exportAnnotation = field.exportAnnotation,
+                  let annotatedName = exportAnnotation.js ?? exportAnnotation.c else {
+                return nil
+            }
+            nodeName = annotatedName
         }
         let resolved = resolve(type: field.typeName.better)
         return TypeScriptAnnotations.Variable(
