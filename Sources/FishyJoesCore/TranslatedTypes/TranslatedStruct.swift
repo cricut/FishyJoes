@@ -80,7 +80,7 @@ struct TranslatedStruct: TranslatedType {
             }
 
             nodeFragment.outputBlock("public static func nodeSetup(env: napi_env, module: napi_value) throws {") {
-                nodeFragment.output("print(\"setting up \(globalName)\")")
+                // nodeFragment.output("print(\"setting up \(globalName)\")")
 
                 nodeFragment.outputBlock("let nodeClass = try NodeClass(") {
                     nodeFragment.output("env: env,")

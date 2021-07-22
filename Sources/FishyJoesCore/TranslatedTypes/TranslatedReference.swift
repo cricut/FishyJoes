@@ -43,7 +43,7 @@ struct TranslatedReference: TranslatedType {
                 nodeFragment.output("return result")
             }
             nodeFragment.outputBlock("public static func nodeSetup(env: napi_env, module: napi_value) throws {") {
-                nodeFragment.output("print(\"setting up \(sourceType.name)\")")
+                // nodeFragment.output("print(\"setting up \(sourceType.name)\")")
 
                 nodeFragment.outputBlock("let nodeClass = try NodeClass(") {
                     nodeFragment.output("env: env,")
