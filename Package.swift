@@ -13,9 +13,8 @@ let package = Package(
     ],
     dependencies: [
         .package(
-            path: "../Sourcery"
-            // url: "https://github.com/krzysztofzablocki/Sourcery",
-            // .exact("1.4.2")
+            // path: "../Sourcery"
+            url: "https://github.com/cricut/Sourcery", .branch("docstrings")
         ),
     ],
     targets: [

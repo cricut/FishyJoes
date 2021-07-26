@@ -70,13 +70,13 @@ extension TypeScriptAnnotations.TSType: CustomStringConvertible {
 
 extension TypeScriptAnnotations {
     var fragment: SourceFragment {
-        let fragment = SourceFragment(sourceryDestination: "file:../../node/\(moduleName).d.ts")
+        let fragment = SourceFragment(sourceryDestination: "file:NodeInterface/\(moduleName).d.ts")
 
         func document(_ documentation: [String]) {
             guard !documentation.isEmpty else { return }
             fragment.output("/**")
             for line in documentation {
-                fragment.output(" * \(line)")
+                fragment.output(" " + "* \(line)".trimmingCharacters(in: .whitespaces))
             }
             fragment.output(" */")
         }

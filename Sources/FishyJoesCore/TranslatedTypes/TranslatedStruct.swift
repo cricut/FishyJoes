@@ -5,9 +5,6 @@ struct TranslatedStruct: TranslatedType {
     let cName: String
     let nodeName: String
     let globalName: String
-    let globalCName: String
-    let asC: String
-    let asSwift: String
     let storedVariables: [Variable]
     let computedVariables: [Variable]
     let methods: [Method]
@@ -25,9 +22,6 @@ struct TranslatedStruct: TranslatedType {
         self.cName = cTypeName
         self.nodeName = nodeTypeName
         self.globalName = "\(context.module).\(type.globalName)"
-        self.globalCName = "CTypes.\(cName)"
-        self.asC = "as\(cTypeName)"
-        self.asSwift = "as\(type.localName)"
 
         self.storedVariables = type.storedVariables
         self.computedVariables = type.computedVariables.filter { $0.exportAnnotation != nil }
@@ -47,15 +41,14 @@ struct TranslatedStruct: TranslatedType {
             nodeFragment.outputBlock("public init(fromNode value: napi_value?, env: napi_env) throws {") {
                 // TODO: type check
                 nodeFragment.outputBlock("self.init(") {
-                    nodeFragment.outputMap(storedVariables, separator: ",") { storedVar in
+                    for (index, storedVar) in storedVariables.enumerated() {
                         let resolved = context.resolve(type: storedVar.typeName.better)
-                        return """
-                            \(storedVar.name): try { () -> \(resolved.sourceType.name) in
-                                var fieldValue: napi_value?
-                                try check(napi_get_named_property(env, value, \"\(storedVar.name)\", &fieldValue))
-                                return try \(resolved.sourceType.name)(fromNode: fieldValue, env: env)
-                            }()
-                            """
+                        let last = index == storedVariables.count - 1
+                        nodeFragment.outputBlock("\(storedVar.name): try { () -> \(resolved.sourceType.name) in", closeWith: last ? "}()" : "}(),") {
+                            nodeFragment.output("var fieldValue: napi_value?")
+                            nodeFragment.output("try check(napi_get_named_property(env, value, \"\(storedVar.name)\", &fieldValue))")
+                            nodeFragment.output("return try \(resolved.sourceType.name)(fromNode: fieldValue, env: env)")
+                        }
                     }
                 }
             }
@@ -136,9 +129,4 @@ struct TranslatedStruct: TranslatedType {
 
         return [nodeFragment]
     }
-
-    var asSwiftAccessor: String { ".\(asSwift)" }
-    var asCAccessor: String { ".\(asC)" }
-
-    var cForwardDeclaration: String? { "#include \"\(cName).h\"" }
 }
