@@ -20,7 +20,10 @@ func run(_ command: String, _ args: String..., silent: Bool = false) throws {
     }
 }
 
-let fishyJoesPath = "/Users/acobb/src/FishyJoes"
+guard let fishyJoesPath = argument["fishyJoesPath"] as? String else {
+    fatalError("The path to the fishyJoes checkout must be set as sourcery argument `fishyJoesPath` :(")
+}
+
 try run(
     "/usr/bin/xcrun", "swift", "build",
     "--package-path", fishyJoesPath,

@@ -13,7 +13,7 @@ public protocol NodeMutable: NodeConvertible {
 
 extension NodeConvertible {
     public static func nodeSetup(env: napi_env, module: napi_value) throws {
-        print("default (noop) setup for \(Self.self)")
+        // print("default (noop) setup for \(Self.self)")
     }
 }
 
