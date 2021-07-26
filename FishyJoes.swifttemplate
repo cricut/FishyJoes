@@ -20,19 +20,12 @@ func run(_ command: String, _ args: String..., silent: Bool = false) throws {
     }
 }
 
-guard let fishyJoesPath = argument["fishyJoesPath"] as? String else {
-    fatalError("The path to the fishyJoes checkout must be set as sourcery argument `fishyJoesPath` :(")
+guard let fishyJoesPath = argument["fishyJoesExecutable"] as? String else {
+    fatalError("The path to the fishyJoes binary must be set as sourcery argument `fishyJoesExecutable` due to limitations in sourcery :(")
 }
 
-// if xcrun is used, this can fail for a remote FishyJoes install
 try run(
-    "/usr/bin/swift", "build",
-    "--package-path", fishyJoesPath,
-    "--product", "fishy-joes",
-    silent: true
-)
-try run(
-    "\(fishyJoesPath)/.build/debug/fishy-joes",
+    "\(fishyJoesPath)",
     ProcessInfo.processInfo.arguments[1]
 )
 %>
