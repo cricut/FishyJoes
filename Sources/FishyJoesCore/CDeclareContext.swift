@@ -88,14 +88,14 @@ public class FishyJoesContext {
 
         let headerFragments = fileHeaders.keys.map { fileName -> SourceFragment in
             let fragment = SourceFragment(sourceryDestination: "file:\(fileName)")
-            for headerLine in fileHeaders[fileName, default: []] {
+            for headerLine in fileHeaders[fileName, default: []].sorted() {
                 fragment.output(headerLine)
             }
             return fragment
         }
         let footerFragments = fileFooters.keys.map { fileName -> SourceFragment in
             let fragment = SourceFragment(sourceryDestination: "file:\(fileName)")
-            for footerLine in fileFooters[fileName, default: []] {
+            for footerLine in fileFooters[fileName, default: []].sorted() {
                 fragment.output(footerLine)
             }
             return fragment
