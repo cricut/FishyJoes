@@ -24,8 +24,9 @@ guard let fishyJoesPath = argument["fishyJoesPath"] as? String else {
     fatalError("The path to the fishyJoes checkout must be set as sourcery argument `fishyJoesPath` :(")
 }
 
+// if xcrun is used, this can fail for a remote FishyJoes install
 try run(
-    "/usr/bin/xcrun", "swift", "build",
+    "/usr/bin/swift", "build",
     "--package-path", fishyJoesPath,
     "--product", "fishy-joes",
     silent: true
