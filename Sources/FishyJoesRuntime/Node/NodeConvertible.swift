@@ -47,15 +47,25 @@ extension Double: NodeConvertible {
 
 extension Int: NodeConvertible {
     public init(fromNode value: napi_value?, env: napi_env) throws {
+        #if arch(wasm32)
+        var temp = Int32(0)
+        // TODO: should this do JS coercions?
+        try check(napi_get_value_int32(env, value, &temp))
+        #else
         var temp = Int64(0)
         // TODO: should this do JS coercions?
         try check(napi_get_value_int64(env, value, &temp))
+        #endif
         self = Int(temp)
     }
 
     public func toNode(env: napi_env) throws -> napi_value? {
         var result: napi_value?
+        #if arch(wasm32)
+        try check(napi_create_int32(env, Int32(self), &result))
+        #else
         try check(napi_create_int64(env, Int64(self), &result))
+        #endif
         return result
     }
 }
@@ -159,7 +169,7 @@ extension Optional: NodeConvertible where Wrapped: NodeConvertible {
     public init(fromNode value: napi_value?, env: napi_env) throws {
         var type = napi_undefined
         try check(napi_typeof(env, value, &type))
-        if type == napi_null {
+        if type == napi_undefined {
             self = nil
         } else {
             self = try Wrapped(fromNode: value, env: env)
@@ -171,7 +181,7 @@ extension Optional: NodeConvertible where Wrapped: NodeConvertible {
             return try wrapped.toNode(env: env)
         } else {
             var result: napi_value?
-            try check(napi_get_null(env, &result))
+            try check(napi_get_undefined(env, &result))
             return result
         }
     }

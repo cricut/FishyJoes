@@ -17,7 +17,7 @@ struct TypeScriptAnnotations {
         let documentation: [String]
         let isStatic: Bool
         let name: String
-        let parameters: [(name: String, type: TSType)]
+        let parameters: [(labelComment: String?, name: String, type: TSType)]
         let returnType: TSType
     }
 
@@ -40,7 +40,9 @@ struct TypeScriptAnnotations {
     }
 
     let moduleName: String
-    var typealiases: [Typealias] = []
+    var typealiases: [Typealias] = [
+        Typealias(name: "Optional<T>", value: .union([.named("T"), .named("undefined")])),
+    ]
     var classes: [Class] = []
 }
 
@@ -50,7 +52,7 @@ extension TypeScriptAnnotations.TSType: CustomStringConvertible {
         case let .named(name):
             return name
         case let .optional(wrapped):
-            return "undefined | \(wrapped)"
+            return "Optional<\(wrapped)>"
         case let .union(types):
             return types.map(\.description).joined(separator: " | ")
         case let .exactString(string):
@@ -92,7 +94,7 @@ extension TypeScriptAnnotations {
                 body()
                 return
             }
-            fragment.outputBlock("declare namespace \(name) {") {
+            fragment.outputBlock("namespace \(name) {") {
                 outputNamespace(Array(namespace.dropFirst()), body)
             }
         }
@@ -109,23 +111,24 @@ extension TypeScriptAnnotations {
                         case .visible(let parameters):
                             fragment.outputBlock("constructor(") {
                                 fragment.outputMap(parameters, separator: ",") { parameter in
-                                    "\(parameter.name)\(parameter.type.annotation)"
+                                    "\(parameter.name): \(parameter.type)"
                                 }
                             }
                         }
 
                         for field in tsClass.fields {
                             document(field.documentation)
-                            fragment.output("\(field.readOnly ? "readOnly " : "")\(field.name)\(field.type.annotation)")
+                            fragment.output("\(field.readOnly ? "readonly " : "")\(field.name)\(field.type.annotation);")
                         }
                         for method in tsClass.methods {
                             document(method.documentation)
                             fragment.outputBlock("\(method.isStatic ? "static " : "")\(method.name)(", newLineTerminated: false) {
                                 fragment.outputMap(method.parameters, separator: ",") { parameter in
-                                    "\(parameter.name)\(parameter.type.annotation)"
+                                    let labelComment = parameter.labelComment.map { "/* \($0) */ " } ?? ""
+                                    return "\(labelComment)\(parameter.name): \(parameter.type)"
                                 }
                             }
-                            fragment.output("\(method.returnType.annotation);")
+                            fragment.output(": \(method.returnType);")
                         }
                     }
                 }
@@ -133,7 +136,7 @@ extension TypeScriptAnnotations {
             for alias in typealiases {
                 let (namespace, name) = split(name: alias.name)
                 outputNamespace(namespace) {
-                    fragment.output("type \(name) = \(alias.value)")
+                    fragment.output("type \(name) = \(alias.value);")
                 }
             }
         }

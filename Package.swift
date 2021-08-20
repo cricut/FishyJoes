@@ -1,33 +1,35 @@
-// swift-tools-version:5.4
+// swift-tools-version:5.3
 
 import PackageDescription
+import Foundation
 
-let swiftVersion = Package.Dependency.Requirement.exact("0.50400.0")
+let wasmCompatibleOnly = ProcessInfo.processInfo.environment["WASM_ONLY"] == "1"
 
 let package = Package(
     name: "FishyJoes",
     platforms: [.macOS(.v11)],
     products: [
         .library(name: "FishyJoesRuntime", targets: ["FishyJoesRuntime"]),
-        .executable(name: "fishy-joes", targets: ["FishyJoesExecute"]),
-    ],
-    dependencies: [
-        .package(
-            // path: "../Sourcery"
-            url: "https://github.com/cricut/Sourcery", .branch("docstrings")
-        ),
+    ] + (wasmCompatibleOnly ? [] : [
+             .executable(name: "fishy-joes", targets: ["FishyJoesExecute"]),
+         ]),
+    dependencies: wasmCompatibleOnly ? [] : [
+            .package(
+                // path: "../Sourcery"
+                url: "https://github.com/cricut/Sourcery", .branch("docstrings")
+            ),
     ],
     targets: [
-        .target(
-            name: "FishyJoesCore",
-            dependencies: [
-                .product(name: "SourceryRuntime", package: "Sourcery"),
-            ]
+        .systemLibrary(
+            name: "NodeAPI"
         ),
         .target(
             name: "FishyJoesRuntime",
             dependencies: [
                 .target(name: "NodeAPI"),
+            ],
+            resources: [
+                .copy("wasm-napi.js"),
             ],
             linkerSettings: [
                 .unsafeFlags(
@@ -72,24 +74,42 @@ let package = Package(
                         "napi_wrap",
                     ].flatMap {
                         ["-Xlinker", "-U", "-Xlinker", "_\($0)"]
-                    }
-                )
+                    },
+                    .when(
+                        platforms: [
+                            // all but .wasi
+                            .iOS, .macOS, .tvOS, .watchOS,
+                            .android, .linux, .windows,
+                        ]
+                    )
+                ),
+                .unsafeFlags(
+                    [
+                        "-Xlinker", "--allow-undefined",
+                        "-Xlinker", "--export-table"
+                    ],
+                    .when(platforms: [.wasi])
+                ),
             ]
         ),
-        .executableTarget(
-            name: "FishyJoesExecute",
-            dependencies: [
-                .target(name: "FishyJoesCore"),
-            ]
-        ),
-        .systemLibrary(
-            name: "NodeAPI"
-        ),
-        .testTarget(
-            name: "FishyJoesCoreTests",
-            dependencies: [
-                .target(name: "FishyJoesCore"),
-            ]
-        ),
-    ]
+    ] + (wasmCompatibleOnly ? [] : [
+             .target(
+                 name: "FishyJoesCore",
+                 dependencies: [
+                     .product(name: "SourceryRuntime", package: "Sourcery"),
+                 ]
+             ),
+             .target(
+                 name: "FishyJoesExecute",
+                 dependencies: [
+                     .target(name: "FishyJoesCore"),
+                 ]
+             ),
+             .testTarget(
+                 name: "FishyJoesCoreTests",
+                 dependencies: [
+                     .target(name: "FishyJoesCore"),
+                 ]
+             ),
+         ])
 )

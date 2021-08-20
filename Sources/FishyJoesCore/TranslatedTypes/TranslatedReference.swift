@@ -30,10 +30,10 @@ struct TranslatedReference: TranslatedType {
             nodeFragment.outputBlock("public init(fromNode value: napi_value?, env: napi_env) throws {") {
                 nodeFragment.output("var pointer: UnsafeMutableRawPointer?")
                 nodeFragment.output("try check(napi_unwrap(env, value, &pointer))")
-                nodeFragment.outputBlock("guard let pointer = pointer else {") {
+                nodeFragment.outputBlock("guard let nonNilPointer = pointer else {") {
                     nodeFragment.output("throw JSException(message: \"expected \(sourceType.name), got nil\")")
                 }
-                nodeFragment.output("self = try Box<\(sourceType.name)>.takeUnretainedOpaque(pointer).value")
+                nodeFragment.output("self = try Box<\(sourceType.name)>.takeUnretainedOpaque(nonNilPointer).value")
             }
             nodeFragment.outputBlock("public func toNode(env: napi_env) throws -> napi_value? {") {
                 nodeFragment.output("let constructor = try FishyJoesRuntime.InstanceData.data(for: env).constructor(for: \"\(nodeName)\", env: env)")

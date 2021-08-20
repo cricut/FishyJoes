@@ -129,7 +129,7 @@ public class FishyJoesContext {
         let primitiveTypeMap = [
             "Double": ("double", "number"),
             "Int": ("int", "number"),
-            "Bool": ("_Bool", "bool"),
+            "Bool": ("_Bool", "boolean"),
         ]
 
         let resolved = { () -> TranslatedType in
@@ -182,7 +182,7 @@ public class FishyJoesContext {
             return nil
         }
         var omitParameters = Set(exportAnnotation.omitParameters)
-        var parameters: [(String, TypeScriptAnnotations.TSType)] = []
+        var parameters: [(labelComment: String?, name: String, TypeScriptAnnotations.TSType)] = []
         for parameter in method.parameters {
             if omitParameters.contains(parameter.name) {
                 precondition(parameter.defaultValue != nil, "Can't omit non-default parameter")
@@ -190,7 +190,11 @@ public class FishyJoesContext {
                 continue
             }
             let resolved = resolve(type: parameter.typeName.better)
-            parameters.append((parameter.argumentLabel ?? parameter.name, resolved.nodeType))
+            var label: String?
+            if let swiftLabel = parameter.argumentLabel, swiftLabel != parameter.name {
+                label = swiftLabel
+            }
+            parameters.append((label, parameter.name, resolved.nodeType))
         }
 
         return TypeScriptAnnotations.Method(

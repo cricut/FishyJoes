@@ -86,9 +86,9 @@ private class AnyBox {
     static func takeUnretained(_ value: napi_value?, env: napi_env) throws -> AnyBox {
         var pointer: UnsafeMutableRawPointer?
         try check(napi_get_value_external(env, value, &pointer))
-        guard let pointer = pointer else {
+        guard let nonNilPointer = pointer else {
             throw JSException(message: "received nil from napi_get_value_external")
         }
-        return takeUnretainedOpaque(pointer)
+        return takeUnretainedOpaque(nonNilPointer)
     }
 }
