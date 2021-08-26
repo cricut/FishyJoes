@@ -104,6 +104,14 @@ extension CallbackEnv {
         // [this, arg0, arg1, ...]
         argumentBuffer = .allocate(capacity: argc + 1)
         try check(napi_get_cb_info(env, info, &argc, argumentBuffer! + 1, argumentBuffer, nil))
+
+        // for i in 0...argc {
+        //     let arg = argumentBuffer![i]
+        //     var result: napi_value?
+        //     try check(napi_coerce_to_string(env, arg, &result))
+        //     print("ARGUMENT \(i): \(try String(fromNode: result, env: env))")
+        // }
+        // print("--")
         return argumentBuffer!
     }
 

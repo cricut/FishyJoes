@@ -42,6 +42,14 @@ struct TranslatedReference: TranslatedType {
                 nodeFragment.output("try check(napi_new_instance(env, constructor, 1, &args, &result))")
                 nodeFragment.output("return result")
             }
+            nodeFragment.outputBlock("public func mutateNode(this: napi_value?, env: napi_env) throws {") {
+                nodeFragment.output("var pointer: UnsafeMutableRawPointer?")
+                nodeFragment.output("try check(napi_unwrap(env, this, &pointer))")
+                nodeFragment.outputBlock("guard let nonNilPointer = pointer else {") {
+                    nodeFragment.output("throw JSException(message: \"expected \(sourceType.name), got nil\")")
+                }
+                nodeFragment.output("try Box<\(sourceType.name)>.takeUnretainedOpaque(nonNilPointer).value = self")
+            }
             nodeFragment.outputBlock("public static func nodeSetup(env: napi_env, module: napi_value) throws {") {
                 // nodeFragment.output("print(\"setting up \(sourceType.name)\")")
 

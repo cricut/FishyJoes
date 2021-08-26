@@ -9,7 +9,7 @@ public struct Box<T> {
             // This could fail, since we're providing a pointer interface
             box.value as! T
         }
-        set {
+        nonmutating set {
             box.value = newValue
         }
     }

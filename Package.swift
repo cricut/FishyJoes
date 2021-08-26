@@ -29,7 +29,7 @@ let package = Package(
                 .target(name: "NodeAPI"),
             ],
             resources: [
-                .copy("wasm-napi.js"),
+                .copy("js/wasm-napi.js"),
             ],
             linkerSettings: [
                 .unsafeFlags(
