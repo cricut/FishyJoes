@@ -98,6 +98,7 @@ class KotlinProductClass: KotlinClass {
     let constructor: Constructor
     let fields: [Variable]
     let methods: [Method]
+    let finalizer: Bool
 
     init(
         module: String,
@@ -105,12 +106,14 @@ class KotlinProductClass: KotlinClass {
         documentation: [String],
         constructor: Constructor,
         fields: [Variable],
-        methods: [Method]
+        methods: [Method],
+        finalizer: Bool = false
     ) {
         self.documentation = documentation
         self.constructor = constructor
         self.fields = fields
         self.methods = methods
+        self.finalizer = finalizer
         super.init(module: module, name: name)
     }
 
@@ -125,19 +128,20 @@ class KotlinProductClass: KotlinClass {
         func output(field: Variable) {
             document(field.documentation, fragment: fragment)
             if field.isStatic {
-                fragment.output("@JvmStatic")
-                let jvmGetName: String
-                let jvmSetName: String
-                if field.name.hasPrefix("is") {
-                    jvmGetName = field.name
-                    jvmSetName = field.name.prefix(3).dropFirst(2).capitalized + field.name.dropFirst(3)
-                } else {
-                    jvmGetName = "get" + field.name.prefix(1).capitalized + field.name.dropFirst()
-                    jvmSetName = "set" + field.name.prefix(1).capitalized + field.name.dropFirst()
-                }
-                fragment.output("@get:JvmName(\"\(jvmGetName)\")")
+                // let jvmGetName: String
+                // let jvmSetName: String
+                // if field.name.hasPrefix("is") {
+                //     jvmGetName = field.name
+                //     jvmSetName = field.name.prefix(3).dropFirst(2).capitalized + field.name.dropFirst(3)
+                // } else {
+                //     jvmGetName = "get" + field.name.prefix(1).capitalized + field.name.dropFirst()
+                //     jvmSetName = "set" + field.name.prefix(1).capitalized + field.name.dropFirst()
+                // }
+                fragment.output("@get:JvmStatic")
+                // fragment.output("@get:JvmName(\"\(jvmGetName)\")")
                 if !field.readOnly {
-                    fragment.output("@set:JvmName(\"\(jvmSetName)\")")
+                    fragment.output("@set:JvmStatic")
+                    // fragment.output("@set:JvmName(\"\(jvmSetName)\")")
                 }
             }
             fragment.output("\(field.readOnly ? "val" : "var") \(field.name): \(field.type)")
@@ -168,9 +172,13 @@ class KotlinProductClass: KotlinClass {
         fragment.outputBlock(" {") {
             fields.filter { !$0.isStatic }.forEach { output(field: $0) }
             methods.filter { !$0.isStatic }.forEach { output(method: $0) }
-            if methods.contains(where: { $0.isStatic }) {
-                fragment.output()
+
+            if finalizer {
+                fragment.output("protected external fun finalize()")
             }
+
+            fragment.output()
+
             fragment.outputBlock("companion object {") {
                 fields.filter { $0.isStatic }.forEach { output(field: $0) }
                 methods.filter { $0.isStatic }.forEach { output(method: $0) }

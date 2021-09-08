@@ -125,8 +125,18 @@ struct TranslatedReference: TranslatedType {
                 jniFragment.output("self = try Box<\(sourceType.name)>.takeUnretainedOpaque(UnsafeMutablePointer(bitPattern: longRef)!).value")
             }
 
-            jniFragment.outputBlock("public func toJava(env: Env) throws -> jobject? {") {
+            jniFragment.outputBlock("static let _javaFinalizer: @convention(c)(", newLineTerminated: false) {
+                jniFragment.output("UnsafeMutablePointer<JNIEnv?>,")
+                jniFragment.output("jobject")
+            }
+            jniFragment.outputBlock(" -> Void = { env, this in ", closeWith: "}") {
+                jniFragment.outputBlock("FishyJoesJavaRuntime.callbackBody(env) { env in", closeWith: "}") {
+                    jniFragment.output("let longRef = env.fns.GetLongField(env.env, this, Self._refFieldID)")
+                    jniFragment.output("Box<\(sourceType.name)>.releaseOpaque(UnsafeMutablePointer(bitPattern: longRef)!)")
+                }
+            }
 
+            jniFragment.outputBlock("public func toJava(env: Env) throws -> jobject? {") {
                 jniFragment.output("var ptr = jvalue(j: jlong(bitPattern: Box(self).retainedOpaque()))")
                 jniFragment.output("return try javaNonNull(env.fns.NewObjectA(env.env, Self.javaClass, Self._constructorMethodID, &ptr))")
             }
@@ -143,6 +153,10 @@ struct TranslatedReference: TranslatedType {
             }
         }
 
+        context.kotlinTranslator.allMethods[sourceType.name, default: []].append(
+            (javaName: "finalize", signature: "()V" , cname: "\(sourceType.name)._javaFinalizer")
+        )
+
         context.kotlinFragments.append(
             KotlinProductClass(
                 module: context.module,
@@ -153,7 +167,8 @@ struct TranslatedReference: TranslatedType {
                     fields: [.init(documentation: [], isStatic: false, readOnly: true, name: "_swiftReference", type: .named("Long"))]
                 ),
                 fields: computedVariables.compactMap { context.kotlin(field: $0, useNativeName: false) },
-                methods: methods.compactMap { context.kotlin(method: $0) }
+                methods: methods.compactMap { context.kotlin(method: $0) },
+                finalizer: true
             )
         )
 
