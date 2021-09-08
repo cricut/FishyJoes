@@ -1105,7 +1105,6 @@ export class NAPI {
         }) => {
           const target = descriptor.static ? func : func.prototype;
           if (getter || setter) {
-            const mode = descriptor.static ? kFuncStatic : undefined
             const get = getter ? this.createFunction(envPtr, getter, dataPtr) : undefined;
             const set = setter ? this.createFunction(envPtr, setter, dataPtr) : undefined;
             delete descriptor.writable;
