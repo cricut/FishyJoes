@@ -9,8 +9,9 @@ let package = Package(
     name: "FishyJoes",
     platforms: [.macOS(.v11)],
     products: [
-        .library(name: "FishyJoesRuntime", targets: ["FishyJoesRuntime"]),
+        .library(name: "FishyJoesNodeRuntime", targets: ["FishyJoesNodeRuntime"]),
     ] + (wasmCompatibleOnly ? [] : [
+             .library(name: "FishyJoesJavaRuntime", targets: ["FishyJoesJavaRuntime"]),
              .executable(name: "fishy-joes", targets: ["FishyJoesExecute"]),
          ]),
     dependencies: wasmCompatibleOnly ? [] : [
@@ -20,13 +21,21 @@ let package = Package(
             ),
     ],
     targets: [
-        .systemLibrary(
-            name: "NodeAPI"
+        .systemLibrary(name: "NodeAPI"),
+        .systemLibrary(name: "JNI"),
+        .target(name: "FishyJoesCommonRuntime"),
+        .target(
+            name: "FishyJoesJavaRuntime",
+            dependencies: [
+                .target(name: "JNI"),
+                .target(name: "FishyJoesCommonRuntime"),
+            ]
         ),
         .target(
-            name: "FishyJoesRuntime",
+            name: "FishyJoesNodeRuntime",
             dependencies: [
                 .target(name: "NodeAPI"),
+                .target(name: "FishyJoesCommonRuntime"),
             ],
             resources: [
                 .copy("js/wasm-napi.js"),

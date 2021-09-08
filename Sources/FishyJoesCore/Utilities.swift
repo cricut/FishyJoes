@@ -7,3 +7,10 @@ extension Optional {
 func fatalErr(_ message: String = "", file: StaticString = #file, line: UInt = #line) -> Never {
     fatalError("\n\(file):\(line): \(message)\n\(Thread.callStackSymbols.joined(separator: "\n"))\n")
 }
+
+
+func snakify(camel: String) -> String {
+    camel
+        .replacingOccurrences(of: #"(.)([A-Z][a-z]+)"#, with: #"$1_$2"#, options: .regularExpression)
+        .replacingOccurrences(of: #"([a-z0-9])([A-Z])"#, with: #"$1_$2"#, options: .regularExpression)
+}
