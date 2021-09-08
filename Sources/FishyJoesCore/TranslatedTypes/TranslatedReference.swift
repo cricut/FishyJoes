@@ -129,7 +129,7 @@ struct TranslatedReference: TranslatedType {
                 jniFragment.output("UnsafeMutablePointer<JNIEnv?>,")
                 jniFragment.output("jobject")
             }
-            jniFragment.outputBlock(" -> Void = { env, this in ", closeWith: "}") {
+            jniFragment.outputBlock(" -> Void = { env, this in", closeWith: "}") {
                 jniFragment.outputBlock("FishyJoesJavaRuntime.callbackBody(env) { env in", closeWith: "}") {
                     jniFragment.output("let longRef = env.fns.GetLongField(env.env, this, Self._refFieldID)")
                     jniFragment.output("Box<\(sourceType.name)>.releaseOpaque(UnsafeMutablePointer(bitPattern: longRef)!)")
