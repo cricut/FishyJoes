@@ -128,20 +128,20 @@ class KotlinProductClass: KotlinClass {
         func output(field: Variable) {
             document(field.documentation, fragment: fragment)
             if field.isStatic {
-                // let jvmGetName: String
-                // let jvmSetName: String
-                // if field.name.hasPrefix("is") {
-                //     jvmGetName = field.name
-                //     jvmSetName = field.name.prefix(3).dropFirst(2).capitalized + field.name.dropFirst(3)
-                // } else {
-                //     jvmGetName = "get" + field.name.prefix(1).capitalized + field.name.dropFirst()
-                //     jvmSetName = "set" + field.name.prefix(1).capitalized + field.name.dropFirst()
-                // }
+                let jvmGetName: String
+                let jvmSetName: String
+                if field.name.hasPrefix("is") {
+                    jvmGetName = field.name
+                    jvmSetName = field.name.prefix(3).dropFirst(2).capitalized + field.name.dropFirst(3)
+                } else {
+                    jvmGetName = "get" + field.name.prefix(1).capitalized + field.name.dropFirst()
+                    jvmSetName = "set" + field.name.prefix(1).capitalized + field.name.dropFirst()
+                }
                 fragment.output("@get:JvmStatic")
-                // fragment.output("@get:JvmName(\"\(jvmGetName)\")")
+                fragment.output("@get:JvmName(\"\(jvmGetName)\")")
                 if !field.readOnly {
                     fragment.output("@set:JvmStatic")
-                    // fragment.output("@set:JvmName(\"\(jvmSetName)\")")
+                    fragment.output("@set:JvmName(\"\(jvmSetName)\")")
                 }
             }
             fragment.output("\(field.readOnly ? "val" : "var") \(field.name): \(field.type)")

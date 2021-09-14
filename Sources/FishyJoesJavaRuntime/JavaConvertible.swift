@@ -38,7 +38,7 @@ extension jvalue {
         self.init(d: double)
     }
     public init(_ int: Int) {
-        self.init(j: int)
+        self.init(j: jlong(int))
     }
 }
 
@@ -109,11 +109,43 @@ extension Double: JavaConvertible {
     }
 }
 
-extension Int: JavaConvertible {
+extension Int64: JavaConvertible {
     public typealias CType = jlong
 
     public static var javaClass: jclass?
     public static var javaDescriptor: String { "J" }
+    private static var _valueMethodID: jmethodID!
+    private static var _constructorMethodID: jmethodID!
+
+    public init(fromJava value: CType, env: Env) throws {
+        self = Int64(value)
+    }
+
+    public func toJava(env: Env) throws -> CType {
+        jlong(self)
+    }
+
+    public init(fromJavaObject value: jobject?, env: Env) throws {
+        self = Int64(env.fns.CallLongMethodA(env.env, value, Self._valueMethodID, nil))
+    }
+
+    public func toJavaObject(env: Env) throws -> jobject? {
+        var arg = jvalue(j: jlong(self))
+        return try javaNonNull(env.fns.NewObjectA(env.env, Self.javaClass, Self._constructorMethodID, &arg))
+    }
+
+    public static func javaSetup(env: Env) throws {
+        javaClass = try env.globalRef(env.fns.FindClass(env.env, "java/lang/Long"))
+        _valueMethodID = try javaNonNull(env.fns.GetMethodID(env.env, javaClass, "longValue", "()J"))
+        _constructorMethodID = try javaNonNull(env.fns.GetMethodID(env.env, javaClass, "<init>", "(J)V"))
+    }
+}
+
+extension Int32: JavaConvertible {
+    public typealias CType = jint
+
+    public static var javaClass: jclass?
+    public static var javaDescriptor: String { "I" }
     private static var _valueMethodID: jmethodID!
     private static var _constructorMethodID: jmethodID!
 
@@ -126,18 +158,43 @@ extension Int: JavaConvertible {
     }
 
     public init(fromJavaObject value: jobject?, env: Env) throws {
-        self = env.fns.CallLongMethodA(env.env, value, Self._valueMethodID, nil)
+        self = env.fns.CallIntMethodA(env.env, value, Self._valueMethodID, nil)
     }
 
     public func toJavaObject(env: Env) throws -> jobject? {
-        var arg = jvalue(j: self)
+        var arg = jvalue(i: self)
         return try javaNonNull(env.fns.NewObjectA(env.env, Self.javaClass, Self._constructorMethodID, &arg))
     }
 
     public static func javaSetup(env: Env) throws {
-        javaClass = try env.globalRef(env.fns.FindClass(env.env, "java/lang/Long"))
-        _valueMethodID = try javaNonNull(env.fns.GetMethodID(env.env, javaClass, "longValue", "()J"))
-        _constructorMethodID = try javaNonNull(env.fns.GetMethodID(env.env, javaClass, "<init>", "(J)V"))
+        javaClass = try env.globalRef(env.fns.FindClass(env.env, "java/lang/Int"))
+        _valueMethodID = try javaNonNull(env.fns.GetMethodID(env.env, javaClass, "intValue", "()I"))
+        _constructorMethodID = try javaNonNull(env.fns.GetMethodID(env.env, javaClass, "<init>", "(I)V"))
+    }
+}
+
+extension Int: JavaConvertible {
+    public typealias CType = Int64.CType
+    public static var javaClass: jclass? { Int64.javaClass }
+    public static var javaDescriptor: String { Int64.javaDescriptor }
+
+    public init(fromJava value: CType, env: Env) throws {
+        self = try Int(Int64(fromJava: value, env: env))
+    }
+
+    public func toJava(env: Env) throws -> CType {
+        jlong(self)
+    }
+
+    public init(fromJavaObject value: jobject?, env: Env) throws {
+        self = Int(try Int64(fromJavaObject: value, env: env))
+    }
+
+    public func toJavaObject(env: Env) throws -> jobject? {
+        try Int64(self).toJavaObject(env: env)
+    }
+
+    public static func javaSetup(env: Env) throws {
     }
 }
 

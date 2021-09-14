@@ -121,7 +121,7 @@ struct TranslatedReference: TranslatedType {
             jniFragment.output("private static var _constructorMethodID: jmethodID!")
 
             jniFragment.outputBlock("public init(fromJava value: jobject?, env: Env) throws {") {
-                jniFragment.output("let longRef = env.fns.GetLongField(env.env, value, Self._refFieldID)")
+                jniFragment.output("let longRef = uintptr_t(env.fns.GetLongField(env.env, value, Self._refFieldID))")
                 jniFragment.output("self = try Box<\(sourceType.name)>.takeUnretainedOpaque(UnsafeMutablePointer(bitPattern: longRef)!).value")
             }
 
@@ -131,13 +131,13 @@ struct TranslatedReference: TranslatedType {
             }
             jniFragment.outputBlock(" -> Void = { env, this in", closeWith: "}") {
                 jniFragment.outputBlock("FishyJoesJavaRuntime.callbackBody(env) { env in", closeWith: "}") {
-                    jniFragment.output("let longRef = env.fns.GetLongField(env.env, this, Self._refFieldID)")
+                    jniFragment.output("let longRef = uintptr_t(env.fns.GetLongField(env.env, this, Self._refFieldID))")
                     jniFragment.output("Box<\(sourceType.name)>.releaseOpaque(UnsafeMutablePointer(bitPattern: longRef)!)")
                 }
             }
 
             jniFragment.outputBlock("public func toJava(env: Env) throws -> jobject? {") {
-                jniFragment.output("var ptr = jvalue(j: jlong(bitPattern: Box(self).retainedOpaque()))")
+                jniFragment.output("var ptr = jvalue(j: jlong(uintptr_t(bitPattern: Box(self).retainedOpaque())))")
                 jniFragment.output("return try javaNonNull(env.fns.NewObjectA(env.env, Self.javaClass, Self._constructorMethodID, &ptr))")
             }
 
@@ -148,7 +148,7 @@ struct TranslatedReference: TranslatedType {
             }
 
             jniFragment.outputBlock("public func mutateJava(this: jobject?, env: Env) throws {") {
-                jniFragment.output("let longRef = env.fns.GetLongField(env.env, this, Self._refFieldID)")
+                jniFragment.output("let longRef = uintptr_t(env.fns.GetLongField(env.env, this, Self._refFieldID))")
                 jniFragment.output("try Box<\(sourceType.name)>.takeUnretainedOpaque(UnsafeMutablePointer(bitPattern: longRef)!).value = self")
             }
         }
