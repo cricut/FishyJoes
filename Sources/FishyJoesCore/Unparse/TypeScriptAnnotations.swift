@@ -140,6 +140,7 @@ extension TypeScriptAnnotations {
                 }
             }
         }
+        fragment.output("export declare function init(): Promise<typeof \(moduleName)>;")
         fragment.output("export default \(moduleName);")
         return fragment
     }
