@@ -434,24 +434,23 @@ export class NAPI {
         this.writeValue(resultPtr, this.store(Symbol(this.load(descriptionIdx))));
         return NAPI_OK;
       }),
-      napi_create_typedarray: this.wrap((envPtr, type, length, arraybufferIdx,
-                                         byteOffset, resultPtr) => {
-                                           const ab = new [
-                                             Int8Array,
-                                             Uint8Array,
-                                             Uint8ClampedArray,
-                                             Int16Array,
-                                             Uint16Array,
-                                             Int32Array,
-                                             Uint32Array,
-                                             Float32Array,
-                                             Float64Array,
-                                             BigInt64Array,
-                                             BigUint64Array,
-                                           ][type](this.load(arraybufferIdx), byteOffset, length);
-                                           this.writeValue(resultPtr, this.store(ab));
-                                           return NAPI_OK;
-                                         }),
+      napi_create_typedarray: this.wrap((envPtr, type, length, arraybufferIdx, byteOffset, resultPtr) => {
+        const ab = new [
+          Int8Array,
+          Uint8Array,
+          Uint8ClampedArray,
+          Int16Array,
+          Uint16Array,
+          Int32Array,
+          Uint32Array,
+          Float32Array,
+          Float64Array,
+          BigInt64Array,
+          BigUint64Array,
+        ][type](this.load(arraybufferIdx), byteOffset, length);
+        this.writeValue(resultPtr, this.store(ab));
+        return NAPI_OK;
+      }),
       napi_create_dataview: this.wrap((envPtr, byteLength, arraybufferIdx, byteOffset, resultPtr) => {
         const dv = new DataView(this.load(arraybufferIdx), byteOffset, byteLength);
         this.writeValue(resultPtr, this.store(dv));
@@ -522,43 +521,41 @@ export class NAPI {
         this.writeValue(resultPtr, this.store(proto));
         return NAPI_OK;
       }),
-      napi_get_typedarray_info: this.wrap((envPtr, typedarrayIdx, typePtr, lengthPtr,
-                                           dataPtr, arraybufferPtr, byteOffsetPtr) => {
-                                             const typedArray = this.load(typedarrayIdx);
-                                             if (!util.types.isTypedArray(typedArray)) {
-                                               return NAPI_ARRAYBUFFER_EXPECTED;
-                                             }
-                                             this.view.setUint32(typePtr, {
-                                               Int8Array: 0,
-                                               Uint8Array: 1,
-                                               Uint8ClampedArray: 2,
-                                               Int16Array: 3,
-                                               Uint16Array: 4,
-                                               Int32Array: 5,
-                                               Uint32Array: 6,
-                                               Float32Array: 7,
-                                               Float64Array: 8,
-                                               BigInt64Array: 9,
-                                               BigUint64Array: 10,
-                                             }[typedArray[Symbol.toStringTag]]);
-                                             this.view.setUint32(lengthPtr, typedArray.length);
-                                             this.view.setUint32(dataPtr, 0);
-                                             this.writeValue(arraybufferPtr, this.store(typedArray.buffer));
-                                             this.view.setUint32(byteOffsetPtr, typedArray.byteOffset);
-                                             return NAPI_OK;
-                                           }),
-      napi_get_dataview_info: this.wrap((envPtr, dataviewIdx, byteLengthPtr,
-                                         dataPtr, arraybufferPtr, byteOffsetPtr) => {
-                                           const dataView = this.load(dataviewIdx);
-                                           if (!util.types.isDataView(dataView)) {
-                                             return NAPI_INVALID_ARG;
-                                           }
-                                           this.view.setUint32(byteLengthPtr, dataView.byteLength);
-                                           this.view.setUint32(dataPtr, 0);
-                                           this.writeValue(arraybufferPtr, dataView.buffer);
-                                           this.view.setUint32(byteOffsetPtr, dataView.byteOffset);
-                                           return NAPI_OK;
-                                         }),
+      napi_get_typedarray_info: this.wrap((envPtr, typedarrayIdx, typePtr, lengthPtr, dataPtr, arraybufferPtr, byteOffsetPtr) => {
+        const typedArray = this.load(typedarrayIdx);
+        if (!util.types.isTypedArray(typedArray)) {
+          return NAPI_ARRAYBUFFER_EXPECTED;
+        }
+        this.view.setUint32(typePtr, {
+          Int8Array: 0,
+          Uint8Array: 1,
+          Uint8ClampedArray: 2,
+          Int16Array: 3,
+          Uint16Array: 4,
+          Int32Array: 5,
+          Uint32Array: 6,
+          Float32Array: 7,
+          Float64Array: 8,
+          BigInt64Array: 9,
+          BigUint64Array: 10,
+        }[typedArray[Symbol.toStringTag]]);
+        this.view.setUint32(lengthPtr, typedArray.length);
+        this.view.setUint32(dataPtr, 0);
+        this.writeValue(arraybufferPtr, this.store(typedArray.buffer));
+        this.view.setUint32(byteOffsetPtr, typedArray.byteOffset);
+        return NAPI_OK;
+      }),
+      napi_get_dataview_info: this.wrap((envPtr, dataviewIdx, byteLengthPtr, dataPtr, arraybufferPtr, byteOffsetPtr) => {
+        const dataView = this.load(dataviewIdx);
+        if (!util.types.isDataView(dataView)) {
+          return NAPI_INVALID_ARG;
+        }
+        this.view.setUint32(byteLengthPtr, dataView.byteLength);
+        this.view.setUint32(dataPtr, 0);
+        this.writeValue(arraybufferPtr, dataView.buffer);
+        this.view.setUint32(byteOffsetPtr, dataView.byteOffset);
+        return NAPI_OK;
+      }),
       napi_get_date_value: this.wrap((envPtr, valueIdx, resultPtr) => {
         const d = this.load(valueIdx);
         if (!util.types.isDate(d)) {
@@ -605,30 +602,29 @@ export class NAPI {
         this.view.setBigUint64(resultPtr, b, true);
         return NAPI_OK;
       }),
-      napi_get_value_bigint_words: this.wrap((envPtr, valueIdx, signBitPtr,
-                                              wordCountPtr, wordsPtr) => {
-                                                const b = this.load(valueIdx);
-                                                if (typeof b !== 'bigint') {
-                                                  return NAPI_BIGINT_EXPECTED;
-                                                }
-                                                if (signBitPtr !== 0) {
-                                                  this.view.setUint8(signBitPtr, b < 0n);
-                                                }
-                                                const wordCount = this.view.getUint32(wordCountPtr, true);
-                                                let i = 0;
-                                                let ull = b < 0n ? -b : b;
-                                                for (; i < wordCount; i += 1) {
-                                                  const bv = ull & ((1n << 64n) - 1);
-                                                  this.view.setBigUint64(wordsPtr + (i * 64), bv, true);
-                                                  ull >>= 64n;
-                                                }
-                                                while (ull > 0) {
-                                                  i += 1;
-                                                  ull >>= 64n;
-                                                }
-                                                this.view.setUint32(wordCountPtr, i, true);
-                                                return NAPI_OK;
-                                              }),
+      napi_get_value_bigint_words: this.wrap((envPtr, valueIdx, signBitPtr, wordCountPtr, wordsPtr) => {
+        const b = this.load(valueIdx);
+        if (typeof b !== 'bigint') {
+          return NAPI_BIGINT_EXPECTED;
+        }
+        if (signBitPtr !== 0) {
+          this.view.setUint8(signBitPtr, b < 0n);
+        }
+        const wordCount = this.view.getUint32(wordCountPtr, true);
+        let i = 0;
+        let ull = b < 0n ? -b : b;
+        for (; i < wordCount; i += 1) {
+          const bv = ull & ((1n << 64n) - 1);
+          this.view.setBigUint64(wordsPtr + (i * 64), bv, true);
+          ull >>= 64n;
+        }
+        while (ull > 0) {
+          i += 1;
+          ull >>= 64n;
+        }
+        this.view.setUint32(wordCountPtr, i, true);
+        return NAPI_OK;
+      }),
       napi_get_value_external: this.wrap((envPtr, valueIdx, resultPtr) => {
         const e = this.load(valueIdx);
         if (!this.externalData.has(e)) {
@@ -830,87 +826,86 @@ export class NAPI {
         this.writeValue(resultPtr, this.store(Object.keys(object)));
         return NAPI_OK;
       }),
-      napi_get_all_property_names: this.wrap((envPtr, valueIdx, keyMode, keyFilter,
-                                              keyConversion, resultPtr) => {
-                                                const object = this.load(valueIdx);
+      napi_get_all_property_names: this.wrap((envPtr, valueIdx, keyMode, keyFilter, keyConversion, resultPtr) => {
+        const object = this.load(valueIdx);
 
-                                                const onlyWritable = !!(keyFilter & NAPI_KEY_WRITABLE);
-                                                const onlyEnumerable = !!(keyFilter & NAPI_KEY_ENUMERABLE);
-                                                const onlyConfigurable = !!(keyFilter & NAPI_KEY_CONFIGURABLE);
-                                                const skipStrings = !!(keyFilter & NAPI_KEY_SKIP_STRINGS);
-                                                const skipSymbols = !!(keyFilter & NAPI_KEY_SKIP_SYMBOLS);
+        const onlyWritable = !!(keyFilter & NAPI_KEY_WRITABLE);
+        const onlyEnumerable = !!(keyFilter & NAPI_KEY_ENUMERABLE);
+        const onlyConfigurable = !!(keyFilter & NAPI_KEY_CONFIGURABLE);
+        const skipStrings = !!(keyFilter & NAPI_KEY_SKIP_STRINGS);
+        const skipSymbols = !!(keyFilter & NAPI_KEY_SKIP_SYMBOLS);
 
-                                                let includePrototypes = false;
-                                                switch (keyMode) {
-                                                case NAPI_KEY_INCLUDE_PROTOTYPES:
-                                                  includePrototypes = true;
-                                                  break;
-                                                case NAPI_KEY_OWN_ONLY:
-                                                  includePrototypes = false;
-                                                  break;
-                                                default:
-                                                  return NAPI_INVALID_ARG;
-                                                }
+        let includePrototypes = false;
+        switch (keyMode) {
+        case NAPI_KEY_INCLUDE_PROTOTYPES:
+          includePrototypes = true;
+          break;
+        case NAPI_KEY_OWN_ONLY:
+          includePrototypes = false;
+          break;
+        default:
+          return NAPI_INVALID_ARG;
+        }
 
-                                                let numbersAsStrings = false;
-                                                switch (keyConversion) {
-                                                case NAPI_KEY_KEEP_NUMBERS:
-                                                  numbersAsStrings = false;
-                                                  break;
-                                                case NAPI_KEY_NUMBERS_TO_STRINGS:
-                                                  numbersAsStrings = true;
-                                                  break;
-                                                default:
-                                                  return NAPI_INVALID_ARG;
-                                                }
+        let numbersAsStrings = false;
+        switch (keyConversion) {
+        case NAPI_KEY_KEEP_NUMBERS:
+          numbersAsStrings = false;
+          break;
+        case NAPI_KEY_NUMBERS_TO_STRINGS:
+          numbersAsStrings = true;
+          break;
+        default:
+          return NAPI_INVALID_ARG;
+        }
 
 
-                                                let targets;
-                                                if (includePrototypes) {
-                                                  targets = [];
-                                                  let p = object;
-                                                  while (p !== null) {
-                                                    targets.push(p);
-                                                    p = Object.getPrototypeOf(p);
-                                                  }
-                                                } else {
-                                                  targets = [object];
-                                                }
+        let targets;
+        if (includePrototypes) {
+          targets = [];
+          let p = object;
+          while (p !== null) {
+            targets.push(p);
+            p = Object.getPrototypeOf(p);
+          }
+        } else {
+          targets = [object];
+        }
 
-                                                const keys = targets.flatMap((target) =>
-                                                  Object.entries(Object.getOwnPropertyDescriptors(target))
-                                                    .filter(([name, d]) => {
-                                                      if (onlyWritable && !d.writable) {
-                                                        return false;
-                                                      }
-                                                      if (onlyEnumerable && !d.enumerable) {
-                                                        return false;
-                                                      }
-                                                      if (onlyConfigurable && !d.configurable) {
-                                                        return false;
-                                                      }
-                                                      if (skipStrings && typeof name === 'string') {
-                                                        return false;
-                                                      }
-                                                      if (skipSymbols && typeof name === 'symbol') {
-                                                        return false;
-                                                      }
-                                                      return true;
-                                                    })
-                                                    .map(([name]) => {
-                                                      if (numbersAsStrings) {
-                                                        return name;
-                                                      }
-                                                      const nameNum = +name;
-                                                      if (nameNum.toString() === name && nameNum >= 0 && nameNum < 2 ** 53 - 1) {
-                                                        return nameNum;
-                                                      }
-                                                      return name;
-                                                    }));
+        const keys = targets.flatMap((target) =>
+          Object.entries(Object.getOwnPropertyDescriptors(target))
+            .filter(([name, d]) => {
+              if (onlyWritable && !d.writable) {
+                return false;
+              }
+              if (onlyEnumerable && !d.enumerable) {
+                return false;
+              }
+              if (onlyConfigurable && !d.configurable) {
+                return false;
+              }
+              if (skipStrings && typeof name === 'string') {
+                return false;
+              }
+              if (skipSymbols && typeof name === 'symbol') {
+                return false;
+              }
+              return true;
+            })
+            .map(([name]) => {
+              if (numbersAsStrings) {
+                return name;
+              }
+              const nameNum = +name;
+              if (nameNum.toString() === name && nameNum >= 0 && nameNum < 2 ** 53 - 1) {
+                return nameNum;
+              }
+              return name;
+            }));
 
-                                                this.writeValue(resultPtr, this.store(keys.flat()));
-                                                return NAPI_OK;
-                                              }),
+        this.writeValue(resultPtr, this.store(keys.flat()));
+        return NAPI_OK;
+      }),
       napi_set_property: this.wrap((envPtr, objectIdx, keyIdx, valueIdx) => {
         const object = this.load(objectIdx);
         const key = this.load(keyIdx);
@@ -1194,18 +1189,17 @@ export class NAPI {
         }
         return NAPI_OK;
       }),
-      napi_add_finalizer: this.wrap((envPtr, jsObjectIdx, nativeObjectPtr,
-                                     finalizeCb, finalizeHint, resultPtr) => {
-                                       const jsObject = this.load(jsObjectIdx);
-                                       this.finalizationRegistry
-                                         .register(jsObject, [finalizeCb, envPtr, nativeObjectPtr, finalizeHint]);
-                                       if (resultPtr !== 0) {
-                                         const ref = { value: jsObject, ref: 1 };
-                                         this.references.push(ref);
-                                         this.writeValue(resultPtr, this.references.length - 1);
-                                       }
-                                       return NAPI_OK;
-                                     }),
+      napi_add_finalizer: this.wrap((envPtr, jsObjectIdx, nativeObjectPtr, finalizeCb, finalizeHint, resultPtr) => {
+        const jsObject = this.load(jsObjectIdx);
+        this.finalizationRegistry
+          .register(jsObject, [finalizeCb, envPtr, nativeObjectPtr, finalizeHint]);
+        if (resultPtr !== 0) {
+          const ref = { value: jsObject, ref: 1 };
+          this.references.push(ref);
+          this.writeValue(resultPtr, this.references.length - 1);
+        }
+        return NAPI_OK;
+      }),
 
       napi_create_promise: this.wrap((envPtr, deferredPtr, promisePtr) => {
         let resolve;
