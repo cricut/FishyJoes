@@ -127,7 +127,7 @@ public class FishyJoesContext {
         }
     }
 
-    func resolve(type: BetterType) -> TranslatedType {
+    func resolve(type: BetterType, generics: [String: BetterType] = [:]) -> TranslatedType {
         if let resolved = typeCache[type] {
             return resolved
         }
@@ -138,6 +138,7 @@ public class FishyJoesContext {
             "Bool": (c: "_Bool", ts:"boolean", jni: JNIType.boolean),
         ]
 
+        var dontCache = false
         let resolved = { () -> TranslatedType in
             switch type {
             case let .named(name):
@@ -148,6 +149,9 @@ public class FishyJoesContext {
                         node: names.ts,
                         jni: names.jni
                     )
+                } else if let typeOverride = generics[name.name] {
+                    dontCache = true
+                    return resolve(type: typeOverride, generics: generics)
                 } else if name.name == "String" {
                     return TranslatedString()
                 } else if name.name == "Index", name.namespace.last?.hasPrefix("Array<") == true {
@@ -166,8 +170,6 @@ public class FishyJoesContext {
                     return TranslatedOptional(wrapped: resolve(type: args[0]))
                 case ("Array", 1):
                     return TranslatedArray(element: resolve(type: args[0]))
-                // case ("Swift.Dictionary", 2):
-                //     return TranslatedDictionary(key: resolve(type: args[0]), value: resolve(type: args[1]))
                 case ("Set", 1):
                     return TranslatedSet(element: resolve(type: args[0]))
                 case ("Dictionary", 2):
@@ -179,7 +181,9 @@ public class FishyJoesContext {
                 fatalErr("TODO: resolve(type: \(type))")
             }
         }()
-        typeCache[type] = resolved
+        if !dontCache {
+            typeCache[type] = resolved
+        }
         return resolved
     }
 
@@ -196,7 +200,7 @@ public class FishyJoesContext {
                 omitParameters.remove(parameter.name)
                 continue
             }
-            let resolved = resolve(type: parameter.typeName.better)
+            let resolved = resolve(type: parameter.typeName.better, generics: exportAnnotation.genericOverrides)
             var label: String?
             if let swiftLabel = parameter.argumentLabel, swiftLabel != parameter.name {
                 label = swiftLabel
@@ -209,7 +213,7 @@ public class FishyJoesContext {
             isStatic: method.isStatic,
             name: nodeName,
             parameters: parameters,
-            returnType: resolve(type: method.returnTypeName.better).nodeType
+            returnType: resolve(type: method.returnTypeName.better, generics: exportAnnotation.genericOverrides).nodeType
         )
     }
 
@@ -250,7 +254,7 @@ public class FishyJoesContext {
                 omitParameters.remove(parameter.name)
                 continue
             }
-            let resolved = resolve(type: parameter.typeName.better)
+            let resolved = resolve(type: parameter.typeName.better, generics: exportAnnotation.genericOverrides)
             var label: String?
             if let swiftLabel = parameter.argumentLabel, swiftLabel != parameter.name {
                 label = swiftLabel
@@ -263,7 +267,7 @@ public class FishyJoesContext {
             isStatic: method.isStatic,
             name: nodeName,
             parameters: parameters,
-            returnType: resolve(type: method.returnTypeName.better).kotlinType
+            returnType: resolve(type: method.returnTypeName.better, generics: exportAnnotation.genericOverrides).kotlinType
         )
     }
 
@@ -291,5 +295,4 @@ public class FishyJoesContext {
             type: resolved.kotlinType
         )
     }
-
 }

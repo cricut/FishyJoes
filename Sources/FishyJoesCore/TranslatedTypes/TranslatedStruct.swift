@@ -160,7 +160,7 @@ struct TranslatedStruct: TranslatedType {
                         let last = index == storedVariables.count - 1
                         let fieldCType = resolved.jniType.valueType
                         jniFragment.outputBlock("\(storedVar.name): try \(resolved.sourceType.name)(", closeWith: last ? ")" : "),") {
-                            jniFragment.output("fromJava: env.fns.Get\(fieldCType)Field(env.env, value, Self._java_\(storedVar.name)_id),")
+                            jniFragment.output("fromJava: env.Get\(fieldCType)Field(value, Self._java_\(storedVar.name)_id),")
                             jniFragment.output("env: env")
                         }
                     }
@@ -168,30 +168,36 @@ struct TranslatedStruct: TranslatedType {
             }
 
             jniFragment.outputBlock("public func toJava(env: Env) throws -> jobject? {") {
-                jniFragment.output("var args: [jvalue] = []")
-                for storedVar in storedVariables {
-                    jniFragment.output("try args.append(jvalue(self.\(storedVar.name).toJava(env: env)))")
+                jniFragment.outputBlock("try javaNonNull(") {
+                    jniFragment.outputBlock("env.NewObject(") {
+                        let args = [
+                            "Self.javaClass",
+                            "Self._constructorMethodID",
+                        ] + storedVariables.map { storedVar in
+                            "jvalue(self.\(storedVar.name).toJava(env: env))"
+                        }
+                        jniFragment.outputMap(args, separator: ",") { $0 }
+                    }
                 }
-                jniFragment.output("return try javaNonNull(env.fns.NewObjectA(env.env, Self.javaClass, Self._constructorMethodID, args))")
             }
 
             jniFragment.outputBlock("public static func javaSetup(env: Env) throws {") {
-                jniFragment.output("javaClass = try env.globalRef(env.fns.FindClass(env.env, \"\(className)\"))")
+                jniFragment.output("javaClass = try env.globalRef(env.FindClass(\"\(className)\"))")
                 jniFragment.output("var constructorDescriptor = \"\"")
                 for storedVar in storedVariables {
                     let resolved = context.resolve(type: storedVar.typeName.better)
                     let proxyType = resolved.sourceProxyType ?? resolved.sourceType
-                    jniFragment.output("_java_\(storedVar.name)_id = try javaNonNull(env.fns.GetFieldID(env.env, javaClass, \"\(storedVar.name)\", \(proxyType.name).javaDescriptor))")
+                    jniFragment.output("_java_\(storedVar.name)_id = try javaNonNull(env.GetFieldID(javaClass, \"\(storedVar.name)\", \(proxyType.name).javaDescriptor))")
                     jniFragment.output("constructorDescriptor += \(proxyType.name).javaDescriptor")
                 }
-                jniFragment.output("_constructorMethodID = try javaNonNull(env.fns.GetMethodID(env.env, javaClass, \"<init>\", \"(\\(constructorDescriptor))V\"))")
+                jniFragment.output("_constructorMethodID = try javaNonNull(env.GetMethodID(javaClass, \"<init>\", \"(\\(constructorDescriptor))V\"))")
             }
 
             jniFragment.outputBlock("public func mutateJava(this: jobject?, env: Env) throws {") {
                 for storedVar in storedVariables {
                     let resolved = context.resolve(type: storedVar.typeName.better)
                     let fieldCType = resolved.jniType.valueType
-                    jniFragment.output("try env.fns.Set\(fieldCType)Field(env.env, this, Self._java_\(storedVar.name)_id, self.\(storedVar.name).toJava(env: env))")
+                    jniFragment.output("try env.Set\(fieldCType)Field(this, Self._java_\(storedVar.name)_id, self.\(storedVar.name).toJava(env: env))")
                 }
             }
         }

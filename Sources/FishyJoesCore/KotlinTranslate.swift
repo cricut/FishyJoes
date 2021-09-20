@@ -6,7 +6,7 @@ class KotlinTranslate {
         "com/cricut/\(context.module.lowercased())/\(name.replacingOccurrences(of: ".", with: "$"))"
     }
 
-    var allMethods: [String: [(javaName: String, signature: String, cname: String)]] = [:]
+    var allMethods: [String: [(javaName: String, signature: String, cName: String)]] = [:]
 
     func translate(method: SourceryMethod, context: FishyJoesContext) -> [SourceFragment] {
         guard let exportAnnotation = method.exportAnnotation,
@@ -43,7 +43,7 @@ class KotlinTranslate {
                 SwiftFormal(
                     label: parameter.argumentLabel,
                     name: parameter.name,
-                    type: context.resolve(type: parameter.typeName.better)
+                    type: context.resolve(type: parameter.typeName.better, generics: exportAnnotation.genericOverrides)
                 )
             )
         }
@@ -73,7 +73,7 @@ class KotlinTranslate {
             jniSignature += "V"
         case let type:
             returnSignature = "\(type.name).CType"
-            let resolved = context.resolve(type: type)
+            let resolved = context.resolve(type: type, generics: exportAnnotation.genericOverrides)
             jniSignature += resolved.jniType.asSignature
         }
         allMethods[containingNamespace, default: []].append((javaName, jniSignature, "java_\(cName)"))
@@ -222,21 +222,21 @@ class KotlinTranslate {
             javaTypeListFragment.outputBlock("return FishyJoesJavaRuntime.callbackBody(env!) { env in", closeWith: "}") {
                 javaTypeListFragment.output("let bag = CStringBag()")
                 for type in generatedTypes.sorted(by: { "\($0)" < "\($1)" }) {
-                    // TODO: better
-                    guard case .named = type else {
-                        continue
-                    }
-                    javaTypeListFragment.output("try \(type.name).javaSetup(env: env)")
-                    if let nativeMethods = allMethods[type.name] {
-                        javaTypeListFragment.outputBlock(
-                            "try javaOk(env.fns.RegisterNatives(env.env, \(type.name).javaClass, [",
-                            closeWith: "], \(nativeMethods.count)))"
-                        ) {
-                            for (method, signature, cName) in nativeMethods {
-                                javaTypeListFragment.outputBlock("JNINativeMethod(", closeWith: "),") {
-                                    javaTypeListFragment.output("name: bag.add(\"\(method)\"),")
-                                    javaTypeListFragment.output("signature: bag.add(\"\(signature)\"),")
-                                    javaTypeListFragment.output("fnPtr: unsafeBitCast(\(cName), to: UnsafeMutableRawPointer.self)")
+                    guard type != .void else { continue }
+                    let resolved = context.resolve(type: type)
+                    let proxy = resolved.sourceProxyType ?? resolved.sourceType
+                    javaTypeListFragment.output("// print(\"setting up \(proxy.name)...\")")
+                    javaTypeListFragment.output("try \(proxy.name).javaSetup(env: env)")
+                    if case .named = type {
+                        if let nativeMethods = allMethods[type.name] {
+                            javaTypeListFragment.outputBlock("try javaOk(env.RegisterNatives(\(type.name).javaClass, ", closeWith: "))") {
+                                for (method, signature, cName) in nativeMethods {
+                                    let isLast = cName == nativeMethods.last?.cName
+                                    javaTypeListFragment.outputBlock("JNINativeMethod(", closeWith: isLast ? ")" : "),") {
+                                        javaTypeListFragment.output("name: bag.add(\"\(method)\"),")
+                                        javaTypeListFragment.output("signature: bag.add(\"\(signature)\"),")
+                                        javaTypeListFragment.output("fnPtr: unsafeBitCast(\(cName), to: UnsafeMutableRawPointer.self)")
+                                    }
                                 }
                             }
                         }

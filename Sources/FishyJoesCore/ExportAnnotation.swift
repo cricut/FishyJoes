@@ -6,6 +6,7 @@ struct ExportAnnotation {
     let c: String?
     let cSet: String?
     let js: String?
+    let genericOverrides: [String: BetterType]
     let omitParameters: [String]
 
     indirect enum SimpleParse: Hashable {
@@ -35,6 +36,26 @@ extension ExportAnnotation.SimpleParse {
         return result
     }
 
+    var asString: String {
+        switch self {
+        case .token(let str): return str
+        case .comma: return ","
+        case .colon: return ":"
+        case .parenthesized(let parts): return "(\(parts.map(\.asString).joined(separator: " ")))"
+        case .squareBracketed(let parts): return "[\(parts.map(\.asString).joined(separator: " "))]"
+        case .curlyBracketed(let parts): return "{\(parts.map(\.asString).joined(separator: " "))}"
+        }
+    }
+
+    var asType: BetterType {
+        switch self {
+        case .token(let str): return .named(.init(name: str))
+        case .squareBracketed(let parts) where parts.count == 1:
+            return .array(parts[0].asType)
+        default:
+                fatalErr("don't know how to parse \(self.asString) as a type")
+        }
+    }
 }
 
 extension ExportAnnotation.SimpleParse.Reader {
@@ -126,7 +147,7 @@ extension Annotated {
                 attrs[attrKey] = commaSeparatedBit[2]
             }
 
-            if let unknown = Set(attrs.keys).subtracting(["c", "cSet", "js", "omitParameters"]).first {
+            if let unknown = Set(attrs.keys).subtracting(["c", "cSet", "js", "omitParameters", "generic"]).first {
                 fatalErr("unknown attribute \(unknown) in \(key)")
             }
 
@@ -145,6 +166,22 @@ extension Annotated {
                 }
             }
 
+            var genericOverrides: [String: BetterType] = [:]
+            if let genericParse = attrs["generic"] {
+                guard case .squareBracketed(let list) = genericParse else {
+                    fatalErr("invalid generic in \(key). Expected [type: substitute, ...]")
+                }
+                for parts in list.split(separator: .comma) {
+                    guard parts.count == 3,
+                          case .token(let generic) = parts[0],
+                          case .colon = parts[1]
+                    else {
+                        fatalErr("invalid omitParameters in \(key). Expected [type: substitute, ...]")
+                    }
+                    genericOverrides[generic] = parts[2].asType
+                }
+            }
+
             func idAttr(_ key: String) -> String? {
                 guard let tree = attrs[key] else { return nil }
                 guard case .token(let id) = tree else {
@@ -158,6 +195,7 @@ extension Annotated {
                 c: idAttr("c"),
                 cSet: idAttr("cSet"),
                 js: idAttr("js"),
+                genericOverrides: genericOverrides,
                 omitParameters: omitParameters
             )
         }

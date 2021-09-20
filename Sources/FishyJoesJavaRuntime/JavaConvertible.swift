@@ -56,7 +56,7 @@ extension Bool: JavaConvertible {
     }
 
     public init(fromJavaObject value: jobject?, env: Env) throws {
-        self = env.fns.CallBooleanMethodA(env.env, value, Self._valueMethodID, nil) == JNI_TRUE
+        self = env.CallBooleanMethod(value, Self._valueMethodID)
     }
 
     public func toJava(env: Env) throws -> CType {
@@ -68,12 +68,13 @@ extension Bool: JavaConvertible {
     }
 
     public static func javaSetup(env: Env) throws {
-        javaClass = try env.globalRef(env.fns.FindClass(env.env, "java/lang/Boolean"))
-        _valueMethodID = try javaNonNull(env.fns.GetMethodID(env.env, javaClass, "booleanValue", "()Z"))
-        let trueFieldID = try javaNonNull(env.fns.GetStaticFieldID(env.env, javaClass, "TRUE", "Ljava/lang/Boolean;"))
-        let falseFieldID = try javaNonNull(env.fns.GetStaticFieldID(env.env, javaClass, "FALSE", "Ljava/lang/Boolean;"))
-        _javaTrue = try env.globalRef(env.fns.GetStaticObjectField(env.env, javaClass, trueFieldID))
-        _javaFalse = try env.globalRef(env.fns.GetStaticObjectField(env.env, javaClass, falseFieldID))
+        guard javaClass == nil else { return }
+        javaClass = try env.globalRef(env.FindClass("java/lang/Boolean"))
+        _valueMethodID = try javaNonNull(env.GetMethodID(javaClass, "booleanValue", "()Z"))
+        let trueFieldID = try javaNonNull(env.GetStaticFieldID(javaClass, "TRUE", "Ljava/lang/Boolean;"))
+        let falseFieldID = try javaNonNull(env.GetStaticFieldID(javaClass, "FALSE", "Ljava/lang/Boolean;"))
+        _javaTrue = try env.globalRef(env.GetStaticObjectField(javaClass, trueFieldID))
+        _javaFalse = try env.globalRef(env.GetStaticObjectField(javaClass, falseFieldID))
     }
 }
 
@@ -94,18 +95,18 @@ extension Double: JavaConvertible {
     }
 
     public init(fromJavaObject value: jobject?, env: Env) throws {
-        self = env.fns.CallDoubleMethodA(env.env, value, Self._valueMethodID, nil)
+        self = env.CallDoubleMethod(value, Self._valueMethodID)
     }
 
     public func toJavaObject(env: Env) throws -> jobject? {
-        var arg = jvalue(d: self)
-        return try javaNonNull(env.fns.NewObjectA(env.env, Self.javaClass, Self._constructorMethodID, &arg))
+        try javaNonNull(env.NewObject(Self.javaClass, Self._constructorMethodID, jvalue(d: self)))
     }
 
     public static func javaSetup(env: Env) throws {
-        javaClass = try env.globalRef(env.fns.FindClass(env.env, "java/lang/Double"))
-        _valueMethodID = try javaNonNull(env.fns.GetMethodID(env.env, javaClass, "doubleValue", "()D"))
-        _constructorMethodID = try javaNonNull(env.fns.GetMethodID(env.env, javaClass, "<init>", "(D)V"))
+        guard javaClass == nil else { return }
+        javaClass = try env.globalRef(env.FindClass("java/lang/Double"))
+        _valueMethodID = try javaNonNull(env.GetMethodID(javaClass, "doubleValue", "()D"))
+        _constructorMethodID = try javaNonNull(env.GetMethodID(javaClass, "<init>", "(D)V"))
     }
 }
 
@@ -126,18 +127,18 @@ extension Int64: JavaConvertible {
     }
 
     public init(fromJavaObject value: jobject?, env: Env) throws {
-        self = Int64(env.fns.CallLongMethodA(env.env, value, Self._valueMethodID, nil))
+        self = Int64(env.CallLongMethod(value, Self._valueMethodID))
     }
 
     public func toJavaObject(env: Env) throws -> jobject? {
-        var arg = jvalue(j: jlong(self))
-        return try javaNonNull(env.fns.NewObjectA(env.env, Self.javaClass, Self._constructorMethodID, &arg))
+        try javaNonNull(env.NewObject(Self.javaClass, Self._constructorMethodID, jvalue(j: jlong(self))))
     }
 
     public static func javaSetup(env: Env) throws {
-        javaClass = try env.globalRef(env.fns.FindClass(env.env, "java/lang/Long"))
-        _valueMethodID = try javaNonNull(env.fns.GetMethodID(env.env, javaClass, "longValue", "()J"))
-        _constructorMethodID = try javaNonNull(env.fns.GetMethodID(env.env, javaClass, "<init>", "(J)V"))
+        guard javaClass == nil else { return }
+        javaClass = try env.globalRef(env.FindClass("java/lang/Long"))
+        _valueMethodID = try javaNonNull(env.GetMethodID(javaClass, "longValue", "()J"))
+        _constructorMethodID = try javaNonNull(env.GetMethodID(javaClass, "<init>", "(J)V"))
     }
 }
 
@@ -158,18 +159,18 @@ extension Int32: JavaConvertible {
     }
 
     public init(fromJavaObject value: jobject?, env: Env) throws {
-        self = env.fns.CallIntMethodA(env.env, value, Self._valueMethodID, nil)
+        self = env.CallIntMethod(value, Self._valueMethodID)
     }
 
     public func toJavaObject(env: Env) throws -> jobject? {
-        var arg = jvalue(i: self)
-        return try javaNonNull(env.fns.NewObjectA(env.env, Self.javaClass, Self._constructorMethodID, &arg))
+        try javaNonNull(env.NewObject(Self.javaClass, Self._constructorMethodID, jvalue(i: self)))
     }
 
     public static func javaSetup(env: Env) throws {
-        javaClass = try env.globalRef(env.fns.FindClass(env.env, "java/lang/Int"))
-        _valueMethodID = try javaNonNull(env.fns.GetMethodID(env.env, javaClass, "intValue", "()I"))
-        _constructorMethodID = try javaNonNull(env.fns.GetMethodID(env.env, javaClass, "<init>", "(I)V"))
+        guard javaClass == nil else { return }
+        javaClass = try env.globalRef(env.FindClass("java/lang/Int"))
+        _valueMethodID = try javaNonNull(env.GetMethodID(javaClass, "intValue", "()I"))
+        _constructorMethodID = try javaNonNull(env.GetMethodID(javaClass, "<init>", "(I)V"))
     }
 }
 
@@ -195,6 +196,7 @@ extension Int: JavaConvertible {
     }
 
     public static func javaSetup(env: Env) throws {
+        try Int64.javaSetup(env: env)
     }
 }
 
@@ -205,170 +207,196 @@ extension String: JavaConvertible {
     public static var javaDescriptor: String { "Ljava/lang/String;" }
 
     public init(fromJava value: CType, env: Env) throws {
-        let length = env.fns.GetStringLength(env.env, value)
-        guard let chars = env.fns.GetStringChars(env.env, value, nil) else {
+        let length = env.GetStringLength(value)
+        guard let chars = env.GetStringChars(value).0 else {
             throw JNIError(message: "string conversion failed")
         }
         self = String(utf16CodeUnits: chars, count: Int(length))
-        env.fns.ReleaseStringChars(env.env, value, chars)
+        env.ReleaseStringChars(value, chars)
     }
 
     public func toJava(env: Env) throws -> CType {
         let chars = Array(utf16)
-        guard let jstr = env.fns.NewString(env.env, chars, jsize(chars.count)) else {
+        guard let jstr = env.NewString(chars, jsize(chars.count)) else {
             throw JNIError(message: "string allocation failed")
         }
         return jstr
     }
 
     public static func javaSetup(env: Env) throws {
-        javaClass = try env.globalRef(env.fns.FindClass(env.env, "java/lang/String"))
+        guard javaClass == nil else { return }
+        javaClass = try env.globalRef(env.FindClass("java/lang/String"))
     }
 }
 
-// extension Set: JavaConvertible where Element: JavaConvertible {
-//     public init(fromJava value: jvalue, env: Env) throws {
-//         throw JSException(message: "TODO: implement Swift.Set.init(fromJava:env:)")
-//     }
-
-//     public func toJava(env: Env) throws -> jvalue {
-//         var global: jvalue
-//         try check(napi_get_global(env, &global))
-//         var setConstructor: jvalue
-//         try check(napi_get_named_property(env, global, "Set", &setConstructor))
-
-//         var array: jvalue
-//         try check(napi_create_array_with_length(env, self.count, &array))
-
-//         for (index, value) in self.enumerated() {
-//             try check(napi_set_element(env, array, UInt32(index), value.toJava(env: env)))
-//         }
-
-//         var result: jvalue
-//         try check(napi_new_instance(env, setConstructor, 1, &array, &result))
-//         return result
-//     }
-// }
-
-// extension Dictionary: JavaConvertible where Key: JavaConvertible, Value: JavaConvertible {
-//     public init(fromJava value: jvalue, env: Env) throws {
-//         throw JSException(message: "TODO: implement Swift.Dictionary.init(fromJava:env:)")
-//     }
-
-//     public func toJava(env: Env) throws -> jvalue {
-//         var global: jvalue
-//         try check(napi_get_global(env, &global))
-//         var mapConstructor: jvalue
-//         try check(napi_get_named_property(env, global, "Map", &mapConstructor))
-
-//         var map: jvalue
-//         try check(napi_new_instance(env, mapConstructor, 0, nil, &map))
-
-//         var mapSet: jvalue
-//         try check(napi_get_named_property(env, map, "set", &mapSet))
-
-//         var unusedOut: jvalue
-//         for (key, value) in self {
-//             try check(napi_call_function(env, map, mapSet, 2, [key.toJava(env: env), value.toJava(env: env)], &unusedOut))
-//         }
-
-//         return map
-//     }
-// }
-
-fileprivate var arrayJavaClasses: [ObjectIdentifier: jclass] = [:]
+fileprivate var arrayClasses: [ObjectIdentifier: jclass] = [:]
 // TODO: unboxed arrays
 extension Array: JavaConvertible where Element: JavaConvertible {
     public typealias CType = jarray?
     public static var javaClass: jclass? {
-        fatalError("\(#file):\(#line): TODO")
-        // "[Ljava/lang/object;"
+        arrayClasses[ObjectIdentifier(Self.self)]
     }
     public static var javaDescriptor: String {
         "[" + Element.javaDescriptor
     }
 
     public init(fromJava value: CType, env: Env) throws {
-        let length = env.fns.GetArrayLength(env.env, value)
+        let length = env.GetArrayLength(value)
         self = try (0..<length).map { index in
-            let element = try javaNonNull(env.fns.GetObjectArrayElement(env.env, value, index))
-            return try Element(fromJavaObject: element, env: env)
+            let javaElement = try javaNonNull(env.GetObjectArrayElement(value, index))
+            let element = try Element(fromJavaObject: javaElement, env: env)
+            env.DeleteLocalRef(javaElement)
+            return element
         }
     }
 
     public func toJava(env: Env) throws -> CType {
-        let array = try javaNonNull(env.fns.NewObjectArray(env.env, jsize(self.count), Element.javaClass, nil))
+        let array = try javaNonNull(env.NewObjectArray(jsize(self.count), Element.javaClass, nil))
         for (index, value) in self.enumerated() {
-            try env.fns.SetObjectArrayElement(env.env, array, jsize(index), value.toJavaObject(env: env))
+            let javaValue = try value.toJavaObject(env: env)
+            env.SetObjectArrayElement(array, jsize(index), javaValue)
+            env.DeleteLocalRef(javaValue)
         }
         return array
     }
 
     public static func javaSetup(env: Env) throws {
+        guard javaClass == nil else { return }
+        arrayClasses[ObjectIdentifier(Self.self)] = try env.globalRef(env.FindClass("[\(Element.javaDescriptor)"))
+    }
+}
+
+fileprivate enum JavaSet {
+    static var setClass: jclass?
+    static var hashSetClass: jclass?
+    static var iteratorMethodID: jmethodID?
+    static var nextMethodID: jmethodID?
+    static var hasNextMethodID: jmethodID?
+    static var initMethodID: jmethodID?
+    static var addMethodID: jmethodID?
+
+    public static func javaSetup(env: Env) throws {
+        guard setClass == nil else { return }
+
+        setClass = try env.globalRef(env.FindClass("java/util/Set"))
+        iteratorMethodID = try javaNonNull(env.GetMethodID(setClass, "iterator", "()Ljava/util/Iterator;"))
+
+        let iteratorClass = try javaNonNull(env.FindClass("java/util/Iterator"))
+        hasNextMethodID = try javaNonNull(env.GetMethodID(iteratorClass, "hasNext", "()Z"))
+        nextMethodID = try javaNonNull(env.GetMethodID(iteratorClass, "next", "()Ljava/lang/Object;"))
+
+        hashSetClass = try env.globalRef(env.FindClass("java/util/HashSet"))
+        initMethodID = try javaNonNull(env.GetMethodID(hashSetClass, "<init>", "(I)V"))
+        addMethodID = try javaNonNull(env.GetMethodID(hashSetClass, "add", "(Ljava/lang/Object;)Z"))
+
+        env.DeleteLocalRef(iteratorClass)
+    }
+
+    public static func forEach(_ setObject: jobject?, env: Env, body: (jobject) throws -> Void) throws {
+        let iter = try javaNonNull(env.CallObjectMethod(setObject, iteratorMethodID))
+        while (env.CallBooleanMethod(iter, hasNextMethodID)) {
+            let item = try javaNonNull(env.CallObjectMethod(iter, nextMethodID))
+            try body(item)
+            env.DeleteLocalRef(item)
+        }
+    }
+}
+
+fileprivate enum JavaMap {
+    static var mapClass: jclass?
+    static var hashMapClass: jclass?
+    static var entrySetMethodID: jmethodID?
+    static var getKeyMethodID: jmethodID?
+    static var getValueMethodID: jmethodID?
+    static var initMethodID: jmethodID?
+    static var putMethodID: jmethodID?
+
+    public static func javaSetup(env: Env) throws {
+        guard mapClass == nil else { return }
+
+        mapClass = try env.globalRef(env.FindClass("java/util/Map"))
+        entrySetMethodID = try javaNonNull(env.GetMethodID(mapClass, "entrySet", "()Ljava/util/Set;"))
+
+        let entryClass = try javaNonNull(env.FindClass("java/util/Map$Entry"))
+        getKeyMethodID = try javaNonNull(env.GetMethodID(entryClass, "getKey", "()Ljava/lang/Object;"))
+        getValueMethodID = try javaNonNull(env.GetMethodID(entryClass, "getValue", "()Ljava/lang/Object;"))
+
+        hashMapClass = try env.globalRef(env.FindClass("java/util/HashMap"))
+        initMethodID = try javaNonNull(env.GetMethodID(hashMapClass, "<init>", "(I)V"))
+        putMethodID = try javaNonNull(env.GetMethodID(hashMapClass, "put", "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;"))
+
+        env.DeleteLocalRef(entryClass)
     }
 }
 
 extension Dictionary: JavaConvertible where Key: JavaConvertible, Value: JavaConvertible {
     public typealias CType = jobject?
     public static var javaClass: jclass? {
-        fatalError("\(#file):\(#line): TODO")
-        // "[Ljava/lang/object;"
+        JavaMap.mapClass
     }
     public static var javaDescriptor: String {
         "Ljava/util/Map;"
     }
 
     public init(fromJava value: CType, env: Env) throws {
-        fatalError("\(#file):\(#line): TODO")
-        // let length = env.fns.GetArrayLength(env.env, value)
-        // self = try (0..<length).map { index in
-        //     let element = try javaNonNull(env.fns.GetObjectArrayElement(env.env, value, index))
-        //     return try Element(fromJavaObject: element, env: env)
-        // }
+        let entries = try javaNonNull(env.CallObjectMethod(value, JavaMap.entrySetMethodID))
+        self = [:]
+        try JavaSet.forEach(entries, env: env) { entry in
+            let key = env.CallObjectMethod(entry, JavaMap.getKeyMethodID)
+            let value = env.CallObjectMethod(entry, JavaMap.getValueMethodID)
+            self[try Key(fromJavaObject: key, env: env)] = try Value(fromJavaObject: value, env: env)
+            env.DeleteLocalRef(key)
+            env.DeleteLocalRef(value)
+        }
     }
 
     public func toJava(env: Env) throws -> CType {
-        fatalError("\(#file):\(#line): TODO")
-        // let array = try javaNonNull(env.fns.NewObjectArray(env.env, jsize(self.count), Element.javaClass, nil))
-        // for (index, value) in self.enumerated() {
-        //     try env.fns.SetObjectArrayElement(env.env, array, jsize(index), value.toJavaObject(env: env))
-        // }
-        // return array
+        let hashMap = try javaNonNull(env.NewObject(JavaMap.hashMapClass, JavaMap.initMethodID, jvalue(i: jint(count))))
+        for (key, value) in self {
+            let javaKey = try key.toJavaObject(env: env)
+            let javaValue = try value.toJavaObject(env: env)
+            let prevValue = env.CallObjectMethod(hashMap, JavaMap.putMethodID, jvalue(l: javaKey), jvalue(l: javaValue))
+            env.DeleteLocalRef(javaKey)
+            env.DeleteLocalRef(javaValue)
+            env.DeleteLocalRef(prevValue)
+        }
+        return hashMap
     }
 
     public static func javaSetup(env: Env) throws {
+        try JavaSet.javaSetup(env: env)
+        try JavaMap.javaSetup(env: env)
     }
 }
 
 extension Set: JavaConvertible where Element: JavaConvertible {
     public typealias CType = jobject?
     public static var javaClass: jclass? {
-        fatalError("\(#file):\(#line): TODO")
-        // "[Ljava/lang/object;"
+        JavaSet.setClass
     }
     public static var javaDescriptor: String {
-        "Ljava/util/Map;"
+        "Ljava/util/Set;"
     }
 
     public init(fromJava value: CType, env: Env) throws {
-        fatalError("\(#file):\(#line): TODO")
-        // let length = env.fns.GetArrayLength(env.env, value)
-        // self = try (0..<length).map { index in
-        //     let element = try javaNonNull(env.fns.GetObjectArrayElement(env.env, value, index))
-        //     return try Element(fromJavaObject: element, env: env)
-        // }
+        self = []
+        try JavaSet.forEach(value, env: env) { entry in
+            self.insert(try Element(fromJavaObject: value, env: env))
+        }
     }
 
     public func toJava(env: Env) throws -> CType {
-        fatalError("\(#file):\(#line): TODO")
-        // let array = try javaNonNull(env.fns.NewObjectArray(env.env, jsize(self.count), Element.javaClass, nil))
-        // for (index, value) in self.enumerated() {
-        //     try env.fns.SetObjectArrayElement(env.env, array, jsize(index), value.toJavaObject(env: env))
-        // }
-        // return array
+        let hashSet = try javaNonNull(env.NewObject(JavaSet.hashSetClass, JavaSet.initMethodID, jvalue(i: jint(count))))
+        for value in self {
+            let javaValue = try value.toJavaObject(env: env)
+            _ = env.CallBooleanMethod(hashSet, JavaSet.addMethodID, jvalue(l: javaValue))
+            env.DeleteLocalRef(javaValue)
+        }
+        return hashSet
     }
 
     public static func javaSetup(env: Env) throws {
+        try JavaSet.javaSetup(env: env)
     }
 }
 
@@ -398,6 +426,7 @@ extension Optional: JavaConvertible where Wrapped: JavaConvertible {
     }
 
     public static func javaSetup(env: Env) throws {
+        guard javaClass == nil else { return }
     }
 }
 
@@ -428,24 +457,26 @@ extension Tuple2: JavaConvertible {
     }
 
     public init(fromJava value: CType, env: Env) throws {
-        let v0 = env.fns.CallObjectMethodA(env.env, value, pairFirstMethod, nil)
-        let v1 = env.fns.CallObjectMethodA(env.env, value, pairSecondMethod, nil)
+        let v0 = env.CallObjectMethod(value, pairFirstMethod)
+        let v1 = env.CallObjectMethod(value, pairSecondMethod)
         e0 = try T0.init(fromJavaObject: v0, env: env)
         e1 = try T1.init(fromJavaObject: v1, env: env)
     }
 
     public func toJava(env: Env) throws -> CType {
-        let args = try [
-            jvalue(l: e0.toJavaObject(env: env)),
-            jvalue(l: e1.toJavaObject(env: env)),
-        ]
-        return try javaNonNull(env.fns.NewObjectA(env.env, pairClass, pairConstructor, args))
+        let v0 = try jvalue(l: e0.toJavaObject(env: env))
+        let v1 = try jvalue(l: e1.toJavaObject(env: env))
+        let result = try javaNonNull(env.NewObject(pairClass, pairConstructor, v0, v1))
+        env.DeleteLocalRef(v0.l)
+        env.DeleteLocalRef(v1.l)
+        return result
     }
 
     public static func javaSetup(env: Env) throws {
-        pairClass = try env.globalRef(env.fns.FindClass(env.env, "kotlin/Pair"))
-        pairConstructor = try javaNonNull(env.fns.GetMethodID(env.env, javaClass, "<init>", "(Ljava/lang/Object;Ljave/lang/Object;)V"))
-        pairFirstMethod = try javaNonNull(env.fns.GetMethodID(env.env, javaClass, "first", "()Ljava/lang/Object;"))
-        pairSecondMethod = try javaNonNull(env.fns.GetMethodID(env.env, javaClass, "second", "()Ljava/lang/Object;"))
+        guard javaClass == nil else { return }
+        pairClass = try env.globalRef(env.FindClass("kotlin/Pair"))
+        pairConstructor = try javaNonNull(env.GetMethodID(javaClass, "<init>", "(Ljava/lang/Object;Ljava/lang/Object;)V"))
+        pairFirstMethod = try javaNonNull(env.GetMethodID(javaClass, "getFirst", "()Ljava/lang/Object;"))
+        pairSecondMethod = try javaNonNull(env.GetMethodID(javaClass, "getSecond", "()Ljava/lang/Object;"))
     }
 }

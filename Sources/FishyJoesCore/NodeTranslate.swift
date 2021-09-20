@@ -1,6 +1,11 @@
 import Foundation
 import SourceryRuntime
 
+func debug(_ msgs: Any? ...) {
+    let message = msgs.map { "\($0 ?? "<null>")" }.joined(separator: " ") + "\n"
+    FileHandle.standardError.write(message.data(using: .utf8)!)
+}
+
 struct NodeTranslate {
     func translateGetter(for variable: Variable, context: FishyJoesContext) -> [SourceFragment] {
         guard let exportAnnotation = variable.exportAnnotation,
@@ -74,7 +79,7 @@ struct NodeTranslate {
                 SwiftFormal(
                     label: parameter.argumentLabel,
                     name: parameter.name,
-                    type: context.resolve(type: parameter.typeName.better)
+                    type: context.resolve(type: parameter.typeName.better, generics: exportAnnotation.genericOverrides)
                 )
             )
         }

@@ -4,6 +4,8 @@ import Foundation
 
 public func javaNonNull<Result>(_ result: Result?) throws -> Result {
     guard let result = result else {
+        print("unexpected null")
+        Thread.callStackSymbols.forEach { print($0) }
         throw JavaExceptionPending()
     }
     return result
@@ -15,21 +17,6 @@ public func javaOk(_ result: jint) throws {
     }
 }
 
-public struct Env {
-    public var env: UnsafeMutablePointer<JNIEnv?>
-    // public var vm: UnsafeMutablePointer<JavaVM?>
-
-    @inlinable
-    @inline(__always)
-    public var fns: JNIEnv.Pointee {
-        env.pointee!.pointee
-    }
-
-    public func globalRef(_ object: jobject?) throws -> jobject {
-        try javaNonNull(fns.NewGlobalRef(env, javaNonNull(object)))
-    }
-}
-
 public func callbackBody<Result: Default>(
     _ env: UnsafeMutablePointer<JNIEnv?>,
     _ body: (_ env: Env) throws -> Result
@@ -38,13 +25,14 @@ public func callbackBody<Result: Default>(
     do {
         return try body(env)
     } catch let e {
-        if(env.fns.ExceptionOccurred(env.env) != nil) {
+        if (env.ExceptionOccurred() != nil) {
             // no need to generate an exception, one is already pending and is probably the root cause
+            env.ExceptionDescribe()
             return .default
         }
         print("Caught swift error \(e). Re-throwing to java.")
-        guard let errorClass = env.fns.FindClass(env.env, "java/lang/Error"),
-              env.fns.ThrowNew(env.env, errorClass, "\(e)") == JNI_OK else {
+        guard let errorClass = env.FindClass("java/lang/Error"),
+              env.ThrowNew(errorClass, "\(e)") else {
             fatalError("error while throwing an error")
         }
         return .default
@@ -59,13 +47,13 @@ public func callbackBody(
     do {
         try body(env)
     } catch let e {
-        if(env.fns.ExceptionOccurred(env.env) != nil) {
+        if(env.ExceptionOccurred() != nil) {
             // no need to generate an exception, one is already pending and is probably the root cause
             return
         }
         print("Caught swift error \(e). Re-throwing to java.")
-        guard let errorClass = env.fns.FindClass(env.env, "java/lang/Error"),
-              env.fns.ThrowNew(env.env, errorClass, "\(e)") == JNI_OK else {
+        guard let errorClass = env.FindClass("java/lang/Error"),
+              env.ThrowNew(errorClass, "\(e)") else {
             fatalError("error while throwing an error")
         }
     }

@@ -66,7 +66,7 @@ struct TranslatedEnum: TranslatedType {
             }
             jniFragment.outputBlock("public init(fromJava value: jobject?, env: Env) throws {") {
                 for enumCase in enumType.cases {
-                    jniFragment.outputBlock("if env.fns.IsSameObject(env.env, value, Self._java_\(enumCase.name)) == JNI_TRUE {") {
+                    jniFragment.outputBlock("if env.IsSameObject(value, Self._java_\(enumCase.name)) {") {
                         jniFragment.output("self = .\(enumCase.name)")
                         jniFragment.output("return")
                     }
@@ -83,13 +83,12 @@ struct TranslatedEnum: TranslatedType {
             }
 
             jniFragment.outputBlock("public static func javaSetup(env: Env) throws {") {
-                jniFragment.output("javaClass = try env.globalRef(env.fns.FindClass(env.env, \"\(className)\"))")
+                jniFragment.output("javaClass = try env.globalRef(env.FindClass(\"\(className)\"))")
                 for enumCase in enumType.cases {
                     jniFragment.outputBlock("_java_\(enumCase.name) = try env.globalRef(") {
-                        jniFragment.outputBlock("env.fns.GetStaticObjectField(") {
-                            jniFragment.output("env.env,")
+                        jniFragment.outputBlock("env.GetStaticObjectField(") {
                             jniFragment.output("javaClass,")
-                            jniFragment.output("javaNonNull(env.fns.GetStaticFieldID(env.env, javaClass, \"\(snakify(camel: enumCase.name).uppercased())\", \"L\(className);\"))")
+                            jniFragment.output("javaNonNull(env.GetStaticFieldID(javaClass, \"\(snakify(camel: enumCase.name).uppercased())\", \"L\(className);\"))")
                         }
                     }
                 }
