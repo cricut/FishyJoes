@@ -1085,56 +1085,54 @@ export class NAPI {
         this.writeValue(resultPtr, this.store(result));
         return NAPI_OK;
       }),
-      napi_define_class: this.wrap((envPtr, utf8NamePtr, utf8NameLength, constructorIdx,
-                                    data, propertyCount, propertiesPtr, resultPtr) => {
-                                      const func = this.createFunction(envPtr, constructorIdx, data, utf8NameLength > 0
-                                                                       ? this.readString(utf8NamePtr, utf8NameLength)
-                                                                       : undefined, kFuncConstructor);
-                                      this.readPropertyDescriptors(propertyCount, propertiesPtr)
-                                        .forEach(({
-                                          method,
-                                          getter,
-                                          setter,
-                                          valueIdx,
-                                          dataPtr,
-                                          descriptor,
-                                          name,
-                                        }) => {
-                                          const target = descriptor.static ? func : func.prototype;
-                                          if (getter || setter) {
-                                            const mode = descriptor.static ? kFuncStatic : undefined
-                                            const get = getter ? this.createFunction(envPtr, getter, dataPtr) : undefined;
-                                            const set = setter ? this.createFunction(envPtr, setter, dataPtr) : undefined;
-                                            delete descriptor.writable;
-                                            Object.defineProperty(target, name, { ...descriptor, get, set });
-                                          } else if (method) {
-                                            const value = this.createFunction(envPtr, method, dataPtr, name, kFuncMethod, descriptor.static ? undefined : func);
-                                            Object.defineProperty(target, name, { ...descriptor, value });
-                                          } else {
-                                            const value = this.load(valueIdx);
-                                            Object.defineProperty(target, name, { ...descriptor, value });
-                                          }
-                                        });
-                                      this.writeValue(resultPtr, this.store(func));
-                                      return NAPI_OK;
-                                    }),
+      napi_define_class: this.wrap((envPtr, utf8NamePtr, utf8NameLength, constructorIdx, data, propertyCount, propertiesPtr, resultPtr) => {
+        const func = this.createFunction(
+          envPtr, constructorIdx, data, utf8NameLength > 0
+            ? this.readString(utf8NamePtr, utf8NameLength)
+            : undefined, kFuncConstructor);
+        this.readPropertyDescriptors(propertyCount, propertiesPtr)
+          .forEach(({
+            method,
+            getter,
+            setter,
+            valueIdx,
+            dataPtr,
+            descriptor,
+            name,
+          }) => {
+            const target = descriptor.static ? func : func.prototype;
+            if (getter || setter) {
+              const get = getter ? this.createFunction(envPtr, getter, dataPtr) : undefined;
+              const set = setter ? this.createFunction(envPtr, setter, dataPtr) : undefined;
+              delete descriptor.writable;
+              Object.defineProperty(target, name, { ...descriptor, get, set });
+            } else if (method) {
+              const value = this.createFunction(envPtr, method, dataPtr, name, kFuncMethod, descriptor.static ? undefined : func);
+              Object.defineProperty(target, name, { ...descriptor, value });
+            } else {
+              const value = this.load(valueIdx);
+              Object.defineProperty(target, name, { ...descriptor, value });
+            }
+          });
+        this.writeValue(resultPtr, this.store(func));
+        return NAPI_OK;
+      }),
 
-      napi_wrap: this.wrap((envPtr, jsObjectIdx, nativeObjectPtr,
-                            finalizeCb, finalizeHint, resultPtr) => {
-                              const jsObject = this.load(jsObjectIdx);
-                              if (this.wrapData.has(jsObject)) {
-                                return NAPI_INVALID_ARG;
-                              }
-                              this.finalizationRegistry
-                                .register(jsObject, [finalizeCb, envPtr, nativeObjectPtr, finalizeHint]);
-                              this.wrapData.set(jsObject, nativeObjectPtr);
-                              if (resultPtr !== 0) {
-                                const ref = { value: jsObject, ref: 1 };
-                                this.references.push(ref);
-                                this.writeValue(resultPtr, this.references.length - 1);
-                              }
-                              return NAPI_OK;
-                            }),
+      napi_wrap: this.wrap((envPtr, jsObjectIdx, nativeObjectPtr, finalizeCb, finalizeHint, resultPtr) => {
+        const jsObject = this.load(jsObjectIdx);
+        if (this.wrapData.has(jsObject)) {
+          return NAPI_INVALID_ARG;
+        }
+        this.finalizationRegistry
+          .register(jsObject, [finalizeCb, envPtr, nativeObjectPtr, finalizeHint]);
+        this.wrapData.set(jsObject, nativeObjectPtr);
+        if (resultPtr !== 0) {
+          const ref = { value: jsObject, ref: 1 };
+          this.references.push(ref);
+          this.writeValue(resultPtr, this.references.length - 1);
+        }
+        return NAPI_OK;
+      }),
       napi_unwrap: this.wrap((envPtr, jsObjectIdx, resultPtr) => {
         const jsObject = this.load(jsObjectIdx);
         if (!this.wrapData.has(jsObject)) {

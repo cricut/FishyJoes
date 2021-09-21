@@ -2,13 +2,17 @@ import SourceryRuntime
 
 protocol TranslatedType {
     var sourceType: BetterType { get }
+    var sourceProxyType: BetterType? { get }
     var nodeName: String { get }
+    var kotlinName: String { get }
+    var jniType: JNIType { get }
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment]
 }
 
 extension TranslatedType {
     var cForwardDeclaration: String? { nil }
     var asSwiftAccessor: String { fatalErr("asSwiftAccessor not implemented for \(Self.self)") }
+    var sourceProxyType: BetterType? { nil }
 
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] { [] }
 
@@ -17,6 +21,80 @@ extension TranslatedType {
             return .optional(opt.wrapped.nodeType)
         } else {
             return .named(nodeName)
+        }
+    }
+
+    var kotlinType: KotlinClass.KType {
+        if let opt = self as? TranslatedOptional {
+            return .optional(opt.wrapped.kotlinType)
+        } else if kotlinName == "Void" {
+            return .void
+        } else {
+            return .named(kotlinName)
+        }
+    }
+}
+
+indirect enum JNIType {
+    case object(String)
+    case array(JNIType)
+    case boolean
+    case byte
+    case char
+    case short
+    case int
+    case long
+    case float
+    case double
+    case void
+}
+
+extension JNIType {
+    var valueType: String {
+        switch self {
+        case .object: return "Object"
+        case .array: return "Object"
+        case .boolean: return "Boolean"
+        case .byte: return "Byte"
+        case .char: return "Char"
+        case .short: return "Short"
+        case .int: return "Int"
+        case .long: return "Long"
+        case .float: return "Float"
+        case .double: return "Double"
+        case .void: return "Void"
+        }
+    }
+
+    var asSignature: String {
+        switch self {
+        case .object(let className): return "L\(className);"
+        case .array(let element): return "[" + element.asSignature
+        case .boolean: return "Z"
+        case .byte: return "B"
+        case .char: return "C"
+        case .short: return "S"
+        case .int: return "I"
+        case .long: return "J"
+        case .float: return "F"
+        case .double: return "D"
+        case .void: return "V"
+        }
+    }
+
+    var asObjectType: JNIType {
+        switch self {
+        case .object: return self
+        case .array: return self
+        default: return .object("java/lang/\(valueType)")
+        }
+    }
+
+    var isObject: Bool {
+        switch self {
+        case .object: return true
+        case .array: return true
+        default: return false
         }
     }
 }
