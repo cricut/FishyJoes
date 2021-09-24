@@ -43,6 +43,12 @@ extension SourceryRuntime.`Type` {
     var namespace: [String] {
         globalName.split(separator: ".").dropLast().map(String.init)
     }
+    var hashable: Bool {
+        based["Hashable"] != nil
+    }
+    var equatable: Bool {
+        hashable || based["Equatable"] != nil
+    }
 }
 
 extension TypeName {

@@ -5,17 +5,25 @@ class KotlinClass {
         case optional(KType)
     }
 
+    enum MethodOrVariable {
+        case method(Method)
+        case variable(Variable)
+    }
+
     struct Method {
         let documentation: [String]
         let isStatic: Bool
+        let isOverride: Bool
         let name: String
         let parameters: [(labelComment: String?, name: String, type: KType)]
         let returnType: KType
+        let body: String?
     }
 
     struct Variable {
         let documentation: [String]
         let isStatic: Bool
+        let isOverride: Bool
         let readOnly: Bool
         let name: String
         let type: KType
@@ -105,21 +113,36 @@ class KotlinProductClass: KotlinClass {
         name: String,
         documentation: [String],
         constructor: Constructor,
-        fields: [Variable],
-        methods: [Method],
+        fieldsAndMethods: [MethodOrVariable],
         finalizer: Bool = false
     ) {
         self.documentation = documentation
         self.constructor = constructor
-        self.fields = fields
-        self.methods = methods
+        self.fields = fieldsAndMethods.compactMap {
+            guard case let .variable(field) = $0 else{
+                return nil
+            }
+            return field
+        }
+        self.methods = fieldsAndMethods.compactMap {
+            guard case let .method(method) = $0 else{
+                return nil
+            }
+            return method
+        }
         self.finalizer = finalizer
         super.init(module: module, name: name)
     }
 
     override func output(to fragment: SourceFragment) {
         document(documentation, fragment: fragment)
-        fragment.outputBlock("class \(unqualifiedName)\(constructor.private ? " private constructor" : "")(", newLineTerminated: false) {
+        let classDeclaration: String
+        if constructor.private {
+            classDeclaration = "class \(unqualifiedName) private constructor"
+        } else {
+            classDeclaration = "data class \(unqualifiedName)"
+        }
+        fragment.outputBlock("\(classDeclaration)(") {
             fragment.outputMap(constructor.fields, separator: ",") { field in
                 "\(constructor.private ? "private " : "")\(field.readOnly ? "val" : "var") \(field.name): \(field.type)"
             }
@@ -144,7 +167,7 @@ class KotlinProductClass: KotlinClass {
                     fragment.output("@set:JvmName(\"\(jvmSetName)\")")
                 }
             }
-            fragment.output("\(field.readOnly ? "val" : "var") \(field.name): \(field.type)")
+            fragment.output("\(field.isOverride ? "override " : "")\(field.readOnly ? "val" : "var") \(field.name): \(field.type)")
             fragment.output("  external get")
             if !field.readOnly {
                 fragment.output("  external set")
@@ -156,14 +179,26 @@ class KotlinProductClass: KotlinClass {
             if method.isStatic {
                 fragment.output("@JvmStatic")
             }
-            fragment.outputBlock("external fun \(method.name)(", newLineTerminated: false) {
+            if method.name.hasPrefix("_") {
+                fragment.output("private ", newLineTerminated: false)
+            }
+            if method.body == nil {
+                fragment.output("external ", newLineTerminated: false)
+            }
+            if method.isOverride {
+                fragment.output("override ", newLineTerminated: false)
+            }
+            fragment.outputBlock("fun \(method.name)(", newLineTerminated: false) {
                 fragment.outputMap(method.parameters, separator: ",") { parameter in
                     let labelComment = parameter.labelComment.map { "/* \($0) */ " } ?? ""
                     return "\(labelComment)\(parameter.name): \(parameter.type)"
                 }
             }
             if method.returnType != KType.void {
-                fragment.output(": \(method.returnType)")
+                fragment.output(": \(method.returnType)", newLineTerminated: false)
+            }
+            if let body = method.body {
+                fragment.output(" = \(body)")
             } else {
                 fragment.output()
             }
@@ -208,8 +243,10 @@ class KotlinEnumClass: KotlinClass {
 
     override func output(to fragment: SourceFragment) {
         document(documentation, fragment: fragment)
-        fragment.outputBlock("enum class \(unqualifiedName) {") {
-            fragment.outputMap(cases, separator: ",") { $0 }
+        fragment.outputBlock("sealed class \(unqualifiedName) {") {
+            for enumCase in cases {
+                fragment.output("object \(enumCase) : \(unqualifiedName)()")
+            }
             outputInner(to: fragment)
         }
     }

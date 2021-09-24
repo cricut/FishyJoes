@@ -13,10 +13,10 @@ struct TranslatedStruct: TranslatedType {
     let jniType: JNIType
 
     init(context: FishyJoesContext, type: Type) {
-        guard let exportAnnotation = type.exportAnnotation,
-              let cTypeName = exportAnnotation.c else {
+        guard let exportAnnotation = type.exportAnnotation else {
             fatalErr("c symbol not specified")
         }
+        let cTypeName = exportAnnotation.c
         let nodeTypeName = exportAnnotation.js ?? cTypeName
         guard type.kind == "struct" else { fatalErr("not a struct") }
 
@@ -31,7 +31,7 @@ struct TranslatedStruct: TranslatedType {
         self.computedVariables =
             (type.computedVariables + type.staticVariables).filter { $0.exportAnnotation != nil }
 
-        self.methods = type.methods.filter { $0.exportAnnotation != nil }
+        self.methods = type.methods.compactMap { Method($0) }
         self.documentation = type.documentation
     }
 
@@ -208,10 +208,17 @@ struct TranslatedStruct: TranslatedType {
                 name: nodeName,
                 documentation: documentation,
                 constructor: .init(
-                    fields: storedVariables.compactMap { context.kotlin(field: $0, useNativeName: true) }
+                    fields: storedVariables.compactMap {
+                        switch context.kotlin(field: $0, useNativeName: true) {
+                        case .method: fatalErr("Can't export a stored variable as a method")
+                        case .variable(let field): return field
+                        case nil: return nil
+                        }
+                    }
                 ),
-                fields: computedVariables.compactMap { context.kotlin(field: $0, useNativeName: false) },
-                methods: methods.compactMap { context.kotlin(method: $0) }
+                fieldsAndMethods:
+                    computedVariables.compactMap { context.kotlin(field: $0, useNativeName: false) } +
+                    methods.compactMap { context.kotlin(method: $0) }
             )
         )
 

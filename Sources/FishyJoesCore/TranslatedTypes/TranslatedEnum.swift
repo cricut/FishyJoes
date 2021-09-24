@@ -85,10 +85,13 @@ struct TranslatedEnum: TranslatedType {
             jniFragment.outputBlock("public static func javaSetup(env: Env) throws {") {
                 jniFragment.output("javaClass = try env.globalRef(env.FindClass(\"\(className)\"))")
                 for enumCase in enumType.cases {
-                    jniFragment.outputBlock("_java_\(enumCase.name) = try env.globalRef(") {
+                    let name = enumCase.name
+                    let subclassName = "\(className)$\(upperCaseFirst(camel: name))"
+                    jniFragment.output("let _class_\(name) = try javaNonNull(env.FindClass(\"\(subclassName)\"))")
+                    jniFragment.outputBlock("_java_\(name) = try env.globalRef(") {
                         jniFragment.outputBlock("env.GetStaticObjectField(") {
-                            jniFragment.output("javaClass,")
-                            jniFragment.output("javaNonNull(env.GetStaticFieldID(javaClass, \"\(snakify(camel: enumCase.name).uppercased())\", \"L\(className);\"))")
+                            jniFragment.output("_class_\(name),")
+                            jniFragment.output("javaNonNull(env.GetStaticFieldID(_class_\(name), \"INSTANCE\", \"L\(subclassName);\"))")
                         }
                     }
                 }
@@ -100,7 +103,7 @@ struct TranslatedEnum: TranslatedType {
                 module: context.module,
                 name: nodeName,
                 documentation: enumType.documentation,
-                cases: enumType.cases.map { snakify(camel: $0.name).uppercased() }
+                cases: enumType.cases.map { upperCaseFirst(camel: $0.name) }
             )
         )
 

@@ -42,7 +42,7 @@ public class FishyJoesContext {
 
         // Translate
         for type in templateContext.types.all + templateContext.types.extensions {
-            for method in type.allMethods {
+            for method in type.allMethods.compactMap(Method.init) {
                 collectedFragments.append(contentsOf: nodeTranslator.translate(method: method, context: self))
                 collectedFragments.append(contentsOf: kotlinTranslator.translate(method: method, context: self))
             }
@@ -52,7 +52,7 @@ public class FishyJoesContext {
             }
         }
         // Translate any top level functions
-        for topLevelFunction in templateContext.functions {
+        for topLevelFunction in templateContext.functions.compactMap(Method.init) {
             collectedFragments.append(contentsOf: nodeTranslator.translate(method: topLevelFunction, context: self))
             collectedFragments.append(contentsOf: kotlinTranslator.translate(method: topLevelFunction, context: self))
         }
@@ -116,7 +116,7 @@ public class FishyJoesContext {
             return nil
         }
 
-        if annotation.exportAsReference {
+        if annotation.kind == .asReference {
             return TranslatedReference(context: self, type: type)
         } else if type.kind == "struct" {
             return TranslatedStruct(context: self, type: type)
@@ -187,11 +187,9 @@ public class FishyJoesContext {
         return resolved
     }
 
-    func ts(method: SourceryMethod) -> TypeScriptAnnotations.Method? {
-        guard let exportAnnotation = method.exportAnnotation,
-              let nodeName = exportAnnotation.js ?? exportAnnotation.c else {
-            return nil
-        }
+    func ts(method: Method) -> TypeScriptAnnotations.Method? {
+        let exportAnnotation = method.exportAnnotation
+        let nodeName = exportAnnotation.js ?? exportAnnotation.c
         var omitParameters = Set(exportAnnotation.omitParameters)
         var parameters: [(labelComment: String?, name: String, TypeScriptAnnotations.TSType)] = []
         for parameter in method.parameters {
@@ -200,9 +198,9 @@ public class FishyJoesContext {
                 omitParameters.remove(parameter.name)
                 continue
             }
-            let resolved = resolve(type: parameter.typeName.better, generics: exportAnnotation.genericOverrides)
+            let resolved = resolve(type: parameter.type, generics: exportAnnotation.genericOverrides)
             var label: String?
-            if let swiftLabel = parameter.argumentLabel, swiftLabel != parameter.name {
+            if let swiftLabel = parameter.label, swiftLabel != parameter.name {
                 label = swiftLabel
             }
             parameters.append((label, parameter.name, resolved.nodeType))
@@ -213,7 +211,7 @@ public class FishyJoesContext {
             isStatic: method.isStatic,
             name: nodeName,
             parameters: parameters,
-            returnType: resolve(type: method.returnTypeName.better, generics: exportAnnotation.genericOverrides).nodeType
+            returnType: resolve(type: method.returnType, generics: exportAnnotation.genericOverrides).nodeType
         )
     }
 
@@ -226,11 +224,10 @@ public class FishyJoesContext {
             }
             nodeName = field.name
         } else {
-            guard let exportAnnotation = field.exportAnnotation,
-                  let annotatedName = exportAnnotation.js ?? exportAnnotation.c else {
+            guard let exportAnnotation = field.exportAnnotation else {
                 return nil
             }
-            nodeName = annotatedName
+            nodeName = exportAnnotation.js ?? exportAnnotation.c
         }
         let resolved = resolve(type: field.typeName.better)
         return TypeScriptAnnotations.Variable(
@@ -241,58 +238,11 @@ public class FishyJoesContext {
         )
     }
 
-    func kotlin(method: SourceryMethod) -> KotlinClass.Method? {
-        guard let exportAnnotation = method.exportAnnotation,
-              let nodeName = exportAnnotation.js ?? exportAnnotation.c else {
-            return nil
-        }
-        var omitParameters = Set(exportAnnotation.omitParameters)
-        var parameters: [(labelComment: String?, name: String, KotlinClass.KType)] = []
-        for parameter in method.parameters {
-            if omitParameters.contains(parameter.name) {
-                precondition(parameter.defaultValue != nil, "Can't omit non-default parameter")
-                omitParameters.remove(parameter.name)
-                continue
-            }
-            let resolved = resolve(type: parameter.typeName.better, generics: exportAnnotation.genericOverrides)
-            var label: String?
-            if let swiftLabel = parameter.argumentLabel, swiftLabel != parameter.name {
-                label = swiftLabel
-            }
-            parameters.append((label, parameter.name, resolved.kotlinType))
-        }
-
-        return KotlinClass.Method(
-            documentation: method.documentation,
-            isStatic: method.isStatic,
-            name: nodeName,
-            parameters: parameters,
-            returnType: resolve(type: method.returnTypeName.better, generics: exportAnnotation.genericOverrides).kotlinType
-        )
+    func kotlin(method: Method) -> KotlinClass.MethodOrVariable? {
+        kotlinTranslator.kotlin(method: method, context: self)
     }
 
-    func kotlin(field: Variable, useNativeName: Bool = false) -> KotlinClass.Variable? {
-        let ktName: String
-
-        if useNativeName {
-            guard field.exportAnnotation == nil else {
-                fatalErr("field \(field.name) should not be annotated, as it's in a type being exported memberwise")
-            }
-            ktName = field.name
-        } else {
-            guard let exportAnnotation = field.exportAnnotation,
-                  let annotatedName = exportAnnotation.js ?? exportAnnotation.c else {
-                return nil
-            }
-            ktName = annotatedName
-        }
-        let resolved = resolve(type: field.typeName.better)
-        return KotlinClass.Variable(
-            documentation: field.documentation,
-            isStatic: field.isStatic,
-            readOnly: !field.isMutable,
-            name: ktName,
-            type: resolved.kotlinType
-        )
+    func kotlin(field: Variable, useNativeName: Bool = false) -> KotlinClass.MethodOrVariable? {
+        kotlinTranslator.kotlin(field: field, context: self, useNativeName: useNativeName)
     }
 }
