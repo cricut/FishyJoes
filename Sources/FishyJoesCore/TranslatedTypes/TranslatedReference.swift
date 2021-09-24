@@ -175,10 +175,9 @@ struct TranslatedReference: TranslatedType {
                     jniFragment.output("UnsafeMutablePointer<JNIEnv?>,")
                     jniFragment.output("jobject?")
                 }
-                jniFragment.outputBlock(" -> Int.CType = { _javaEnv, _javaThis in", closeWith: "}") {
+                jniFragment.outputBlock(" -> Int32.CType = { _javaEnv, _javaThis in", closeWith: "}") {
                     jniFragment.outputBlock("FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in", closeWith: "}") {
-                        jniFragment.output("return try \(sourceType.name)(fromJava: _javaThis, env: _javaEnv)")
-                        jniFragment.output("    .hashValue")
+                        jniFragment.output("return try Int32(\(sourceType.name)(fromJava: _javaThis, env: _javaEnv).hashValue)")
                         jniFragment.output("    .toJava(env: _javaEnv)")
                     }
                 }

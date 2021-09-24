@@ -186,3 +186,47 @@ extension Optional: NodeConvertible where Wrapped: NodeConvertible {
         }
     }
 }
+
+public protocol SwiftTypeProxy: NodeConvertible {
+    associatedtype ProxyFor
+    static func proxyInit(fromNode value: napi_value?, env: napi_env) throws -> ProxyFor
+    static func proxyToNode(for object: ProxyFor, env: napi_env) throws -> napi_value?
+}
+
+public struct Tuple2<T0: NodeConvertible, T1: NodeConvertible> {
+    let e0: T0
+    let e1: T1
+}
+
+extension Tuple2: SwiftTypeProxy {
+    public typealias ProxyFor = (T0, T1)
+
+    public init(fromNode value: napi_value?, env: napi_env) throws {
+        var v0: napi_value?
+        var v1: napi_value?
+        try check(napi_get_element(env, value, 0, &v0))
+        try check(napi_get_element(env, value, 1, &v1))
+        e0 = try T0(fromNode: v0, env: env)
+        e1 = try T1(fromNode: v1, env: env)
+    }
+
+    public func toNode(env: napi_env) throws -> napi_value? {
+        var array: napi_value?
+        try check(napi_create_array_with_length(env, 2, &array))
+        try check(napi_set_element(env, array, 0, e0.toNode(env: env)))
+        try check(napi_set_element(env, array, 1, e1.toNode(env: env)))
+        return array
+    }
+
+    public static func nodeSetup(env: napi_env, module: napi_value) throws {
+    }
+
+    public static func proxyInit(fromNode value: napi_value?, env: napi_env) throws -> ProxyFor {
+        let proxy = try Tuple2(fromNode: value, env: env)
+        return (proxy.e0, proxy.e1)
+    }
+
+    public static func proxyToNode(for object: ProxyFor, env: napi_env) throws -> napi_value? {
+        try Tuple2(e0: object.0, e1: object.1).toNode(env: env)
+    }
+}

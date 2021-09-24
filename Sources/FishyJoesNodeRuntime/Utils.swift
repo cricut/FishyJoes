@@ -127,16 +127,8 @@ extension CallbackEnv {
         try T(fromNode: argument(at: index), env: env)
     }
 
-    public func argument<T0: NodeConvertible, T1: NodeConvertible>(at index: Int, as type: (T0, T1).Type) throws -> (T0, T1) {
-        var value0: napi_value?
-        var value1: napi_value?
-        let argument = try arguments()[index + 1]
-        try check(napi_get_property(env, argument, "0".toNode(env: env), &value0))
-        try check(napi_get_property(env, argument, "1".toNode(env: env), &value1))
-        return try (
-            T0(fromNode: value0, env: env),
-            T1(fromNode: value1, env: env)
-        )
+    public func argument<T: SwiftTypeProxy>(at index: Int, asProxyType type: T.Type) throws -> T.ProxyFor {
+        try T.proxyInit(fromNode: arguments()[index + 1], env: env)
     }
 
     public func this<T: NodeConvertible>(as type: T.Type) throws -> T {
