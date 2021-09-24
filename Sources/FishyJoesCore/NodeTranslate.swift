@@ -1,17 +1,16 @@
 import Foundation
 import SourceryRuntime
+import Darwin
 
-func debug(_ msgs: Any? ...) {
-    let message = msgs.map { "\($0 ?? "<null>")" }.joined(separator: " ") + "\n"
-    FileHandle.standardError.write(message.data(using: .utf8)!)
+func debug(file: StaticString = #file, line: UInt = #line, _ msgs: Any? ...) {
+    let message = "\(file):\(line): " + msgs.map { "\($0 ?? "<null>")" }.joined(separator: " ") + "\n"
+    _ = message.withCString { fputs($0, stderr) }
 }
 
 struct NodeTranslate {
     func translateGetter(for variable: Variable, context: FishyJoesContext) -> [SourceFragment] {
-        guard let exportAnnotation = variable.exportAnnotation,
-              let cName = exportAnnotation.c else {
-            return []
-        }
+        guard let exportAnnotation = variable.exportAnnotation else {return []}
+        let cName = exportAnnotation.c
         let nodeName = exportAnnotation.js ?? cName
 
         let selfExpression: String
@@ -44,17 +43,15 @@ struct NodeTranslate {
         return [fragment]
     }
 
-    func translate(method: SourceryMethod, context: FishyJoesContext) -> [SourceFragment] {
-        guard let exportAnnotation = method.exportAnnotation,
-              let cName = exportAnnotation.c else {
-            return []
-        }
+    func translate(method: Method, context: FishyJoesContext) -> [SourceFragment] {
+        let exportAnnotation = method.exportAnnotation
+        let cName = exportAnnotation.c
         let nodeName = exportAnnotation.js ?? cName
 
         var selfExpression: String
         let containingNamespace: String
 
-        if let selfType = method.definedInTypeName?.better {
+        if let selfType = method.definedIn {
             containingNamespace = context.resolve(type: selfType).sourceType.name
 
             if method.isStatic {
@@ -67,25 +64,7 @@ struct NodeTranslate {
             selfExpression = context.module
         }
 
-        var omitParameters = Set(exportAnnotation.omitParameters)
-        var parameters: [SwiftFormal] = []
-        for parameter in method.parameters {
-            if omitParameters.contains(parameter.name) {
-                precondition(parameter.defaultValue != nil, "Can't omit non-default parameter")
-                omitParameters.remove(parameter.name)
-                continue
-            }
-            parameters.append(
-                SwiftFormal(
-                    label: parameter.argumentLabel,
-                    name: parameter.name,
-                    type: context.resolve(type: parameter.typeName.better, generics: exportAnnotation.genericOverrides)
-                )
-            )
-        }
-        precondition(omitParameters.isEmpty, "Can't find parameters \(omitParameters) to omit")
-
-        let formals = parameters.map(\.asSwiftFormal)
+        let formals = method.parameters.map(\.asSwiftFormal)
         let nodeBridgeFragment = context.swiftFragment(
             "NodeInterface/\(containingNamespace)+nodedecl.swift",
             additionalImports: ["FishyJoesNodeRuntime"]
@@ -95,22 +74,20 @@ struct NodeTranslate {
             nodeBridgeFragment.outputBlock("FishyJoesNodeRuntime.callbackBody(env, info, name: \"\(nodeName)\", expectedArgumentCount: \(formals.count)) { env in", closeWith: "}") {
                 let callName = method.isInitializer ? "" : ".\(method.callName)"
 
-                // Method.isMutating seems to be a bit buggy...
-                let isMutating = method.isMutating || method.modifiers.contains(where: { $0.name == "mutating" })
-                if isMutating {
+                if method.isMutating {
                     nodeBridgeFragment.output("var mutatingSelf = try \(selfExpression)")
                     selfExpression = "mutatingSelf"
                 }
 
-                let isVoid = method.returnTypeName.better == .void
+                let isVoid = method.returnType == .void
                 nodeBridgeFragment.outputBlock("\(isVoid ? "" : "let result = try ")\(selfExpression)\(callName)(", newLineTerminated: false) {
-                    nodeBridgeFragment.outputMap(parameters.enumerated(), separator: ",") {
+                    nodeBridgeFragment.outputMap(method.parameters.enumerated(), separator: ",") {
                         let (index, formal) = $0
-                        return (formal.label.map { "\($0): " } ?? "") + "try env.argument(at: \(index), as: \(formal.type.sourceType.name).self)"
+                        return (formal.label.map { "\($0): " } ?? "") + "try env.argument(at: \(index), as: \(formal.type.name).self)"
                     }
                 }
                 nodeBridgeFragment.output(isVoid ? "" : ".toNode(env: env.env)")
-                if isMutating {
+                if method.isMutating {
                     nodeBridgeFragment.output("try mutatingSelf.mutateNode(this: env.this(), env: env.env)")
                 }
                 nodeBridgeFragment.output("return \(isVoid ? "nil" : "result")")
@@ -120,13 +97,11 @@ struct NodeTranslate {
         return [nodeBridgeFragment]
     }
 
-    func properties(for methods: [SourceryMethod]) -> [String] {
+    func properties(for methods: [Method]) -> [String] {
         var result: [String] = []
         for method in methods {
-            guard let exportAnnotation = method.exportAnnotation,
-                  let cName = exportAnnotation.c else {
-                continue
-            }
+            let exportAnnotation = method.exportAnnotation
+            let cName = exportAnnotation.c
             let nodeName = exportAnnotation.js ?? cName
             result.append("\"\(nodeName)\": (.method(node_\(cName)), isStatic: \(method.isStatic)),")
         }
@@ -136,10 +111,10 @@ struct NodeTranslate {
     func properties(for computedVariables: [Variable]) -> [String] {
         var result: [String] = []
         for variable in computedVariables {
-            guard let exportAnnotation = variable.exportAnnotation,
-                  let cName = exportAnnotation.c else {
+            guard let exportAnnotation = variable.exportAnnotation else {
                 continue
             }
+            let cName = exportAnnotation.c
             let nodeName = exportAnnotation.js ?? cName
             result.append("\"\(nodeName)\": (.accessor(getter: node_\(cName), setter: nil), isStatic: \(variable.isStatic)),")
         }

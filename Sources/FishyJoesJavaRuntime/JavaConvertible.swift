@@ -229,40 +229,48 @@ extension String: JavaConvertible {
     }
 }
 
-fileprivate var arrayClasses: [ObjectIdentifier: jclass] = [:]
-// TODO: unboxed arrays
-extension Array: JavaConvertible where Element: JavaConvertible {
-    public typealias CType = jarray?
-    public static var javaClass: jclass? {
-        arrayClasses[ObjectIdentifier(Self.self)]
-    }
-    public static var javaDescriptor: String {
-        "[" + Element.javaDescriptor
-    }
-
-    public init(fromJava value: CType, env: Env) throws {
-        let length = env.GetArrayLength(value)
-        self = try (0..<length).map { index in
-            let javaElement = try javaNonNull(env.GetObjectArrayElement(value, index))
-            let element = try Element(fromJavaObject: javaElement, env: env)
-            env.DeleteLocalRef(javaElement)
-            return element
-        }
-    }
-
-    public func toJava(env: Env) throws -> CType {
-        let array = try javaNonNull(env.NewObjectArray(jsize(self.count), Element.javaClass, nil))
-        for (index, value) in self.enumerated() {
-            let javaValue = try value.toJavaObject(env: env)
-            env.SetObjectArrayElement(array, jsize(index), javaValue)
-            env.DeleteLocalRef(javaValue)
-        }
-        return array
-    }
+fileprivate enum JavaIterator {
+    static var iteratorClass: jclass?
+    static var nextMethodID: jmethodID?
+    static var hasNextMethodID: jmethodID?
 
     public static func javaSetup(env: Env) throws {
-        guard javaClass == nil else { return }
-        arrayClasses[ObjectIdentifier(Self.self)] = try env.globalRef(env.FindClass("[\(Element.javaDescriptor)"))
+        iteratorClass = try env.globalRef(env.FindClass("java/util/Iterator"))
+        hasNextMethodID = try javaNonNull(env.GetMethodID(iteratorClass, "hasNext", "()Z"))
+        nextMethodID = try javaNonNull(env.GetMethodID(iteratorClass, "next", "()Ljava/lang/Object;"))
+    }
+}
+
+fileprivate enum JavaList {
+    static var listClass: jclass?
+    static var arrayListClass: jclass?
+    static var iteratorMethodID: jmethodID?
+    static var sizeMethodID: jmethodID?
+    static var initMethodID: jmethodID?
+    static var addMethodID: jmethodID?
+
+    public static func javaSetup(env: Env) throws {
+        guard listClass == nil else { return }
+
+        try JavaIterator.javaSetup(env: env)
+
+        listClass = try env.globalRef(env.FindClass("java/util/List"))
+        iteratorMethodID = try javaNonNull(env.GetMethodID(listClass, "iterator", "()Ljava/util/Iterator;"))
+        sizeMethodID = try javaNonNull(env.GetMethodID(listClass, "size", "()I"))
+
+        arrayListClass = try env.globalRef(env.FindClass("java/util/ArrayList"))
+        initMethodID = try javaNonNull(env.GetMethodID(arrayListClass, "<init>", "(I)V"))
+        addMethodID = try javaNonNull(env.GetMethodID(arrayListClass, "add", "(Ljava/lang/Object;)Z"))
+    }
+
+    public static func forEach(_ listObject: jobject?, env: Env, body: (jobject) throws -> Void) throws {
+        let iter = try javaNonNull(env.CallObjectMethod(listObject, iteratorMethodID))
+        while (env.CallBooleanMethod(iter, JavaIterator.hasNextMethodID)) {
+            let item = try javaNonNull(env.CallObjectMethod(iter, JavaIterator.nextMethodID))
+            try body(item)
+            env.DeleteLocalRef(item)
+        }
+        env.DeleteLocalRef(iter)
     }
 }
 
@@ -278,18 +286,14 @@ fileprivate enum JavaSet {
     public static func javaSetup(env: Env) throws {
         guard setClass == nil else { return }
 
+        try JavaIterator.javaSetup(env: env)
+
         setClass = try env.globalRef(env.FindClass("java/util/Set"))
         iteratorMethodID = try javaNonNull(env.GetMethodID(setClass, "iterator", "()Ljava/util/Iterator;"))
-
-        let iteratorClass = try javaNonNull(env.FindClass("java/util/Iterator"))
-        hasNextMethodID = try javaNonNull(env.GetMethodID(iteratorClass, "hasNext", "()Z"))
-        nextMethodID = try javaNonNull(env.GetMethodID(iteratorClass, "next", "()Ljava/lang/Object;"))
 
         hashSetClass = try env.globalRef(env.FindClass("java/util/HashSet"))
         initMethodID = try javaNonNull(env.GetMethodID(hashSetClass, "<init>", "(I)V"))
         addMethodID = try javaNonNull(env.GetMethodID(hashSetClass, "add", "(Ljava/lang/Object;)Z"))
-
-        env.DeleteLocalRef(iteratorClass)
     }
 
     public static func forEach(_ setObject: jobject?, env: Env, body: (jobject) throws -> Void) throws {
@@ -299,6 +303,7 @@ fileprivate enum JavaSet {
             try body(item)
             env.DeleteLocalRef(item)
         }
+        env.DeleteLocalRef(iter)
     }
 }
 
@@ -326,6 +331,38 @@ fileprivate enum JavaMap {
         putMethodID = try javaNonNull(env.GetMethodID(hashMapClass, "put", "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;"))
 
         env.DeleteLocalRef(entryClass)
+    }
+}
+
+extension Array: JavaConvertible where Element: JavaConvertible {
+    public typealias CType = jobject?
+    public static var javaClass: jclass? {
+        JavaList.listClass
+    }
+    public static var javaDescriptor: String {
+        "Ljava/util/List;"
+    }
+
+    public init(fromJava value: CType, env: Env) throws {
+        //let length = env.CallIntMethod(value, JavaList.sizeMethodID)
+        self.init()
+        try JavaList.forEach(value, env: env) { item in
+            append(try Element(fromJavaObject: item, env: env))
+        }
+    }
+
+    public func toJava(env: Env) throws -> CType {
+        let array = try javaNonNull(env.NewObject(JavaList.arrayListClass, JavaList.initMethodID, jvalue(i: jint(count))))
+        for value in self {
+            let javaValue = try value.toJavaObject(env: env)
+            _ = env.CallBooleanMethod(array, JavaList.addMethodID, jvalue(l: javaValue))
+            env.DeleteLocalRef(javaValue)
+        }
+        return array
+    }
+
+    public static func javaSetup(env: Env) throws {
+        try JavaList.javaSetup(env: env)
     }
 }
 
@@ -430,16 +467,15 @@ extension Optional: JavaConvertible where Wrapped: JavaConvertible {
     }
 }
 
+public protocol SwiftTypeProxy: JavaConvertible {
+    associatedtype ProxyFor
+    static func proxyInit(fromJava value: CType, env: Env) throws -> ProxyFor
+    static func proxyToJava(for object: ProxyFor, env: Env) throws -> CType
+}
+
 public struct Tuple2<T0: JavaConvertible, T1: JavaConvertible> {
     let e0: T0
     let e1: T1
-}
-
-extension Tuple2 {
-    public static func proxyInit(fromJava value: CType, env: Env) throws -> (T0, T1) {
-        let proxy = try Self(fromJava: value, env: env)
-        return (proxy.e0, proxy.e1)
-    }
 }
 
 fileprivate var pairClass: jclass!
@@ -447,8 +483,19 @@ fileprivate var pairConstructor: jmethodID!
 fileprivate var pairFirstMethod: jmethodID!
 fileprivate var pairSecondMethod: jmethodID!
 
-extension Tuple2: JavaConvertible {
+extension Tuple2: SwiftTypeProxy {
+    public typealias ProxyFor = (T0, T1)
     public typealias CType = jobject?
+
+    public static func proxyInit(fromJava value: CType, env: Env) throws -> ProxyFor {
+        let proxy = try Self(fromJava: value, env: env)
+        return (proxy.e0, proxy.e1)
+    }
+
+    public static func proxyToJava(for object: ProxyFor, env: Env) throws -> CType {
+        try Tuple2(e0: object.0, e1: object.1).toJava(env: env)
+    }
+
     public static var javaClass: jclass? {
         pairClass
     }

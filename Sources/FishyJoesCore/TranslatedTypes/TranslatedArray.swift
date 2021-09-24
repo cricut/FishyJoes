@@ -9,11 +9,7 @@ struct TranslatedArray: TranslatedType {
     init(element: TranslatedType) {
         self.sourceType = .array(element.sourceType)
         self.nodeName = "\(element.nodeName)[]"
-        if element.jniType.isObject {
-            self.kotlinName = "Array<\(element.kotlinName)>"
-        } else {
-            self.kotlinName = element.jniType.valueType + "Array"
-        }
-        self.jniType = .array(element.jniType)
+        self.kotlinName = "List<\(element.kotlinName)>"
+        self.jniType = .object("java/util/List")
     }
 }

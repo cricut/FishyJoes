@@ -2,12 +2,31 @@ import SourceryRuntime
 import Foundation
 
 struct ExportAnnotation {
-    let exportAsReference: Bool
-    let c: String?
+    let kind: Kind
+    let c: String
     let cSet: String?
     let js: String?
+    let isOverride: Bool
     let genericOverrides: [String: BetterType]
     let omitParameters: [String]
+
+    init(
+        kind: Kind = .unmodified,
+        c: String?,
+        cSet: String? = nil,
+        js: String?,
+        isOverride: Bool = false,
+        genericOverrides: [String: BetterType] = [:],
+        omitParameters: [String] = []
+    ) {
+        self.kind = kind
+        self.c = c ?? "_\(UUID())".replacingOccurrences(of: "-", with: "_")
+        self.cSet = cSet
+        self.js = js
+        self.isOverride = isOverride
+        self.genericOverrides = genericOverrides
+        self.omitParameters = omitParameters
+    }
 
     indirect enum SimpleParse: Hashable {
         case token(String)
@@ -16,6 +35,12 @@ struct ExportAnnotation {
         case parenthesized([SimpleParse])
         case squareBracketed([SimpleParse])
         case curlyBracketed([SimpleParse])
+    }
+
+    enum Kind: String, Equatable, CaseIterable {
+        case unmodified = "export"
+        case asReference = "exportReference"
+        case asMethod = "exportAsMethod"
     }
 }
 
@@ -120,13 +145,13 @@ extension ExportAnnotation.SimpleParse.Reader {
 extension Annotated {
     var exportAnnotation: ExportAnnotation? {
         for (key, value) in annotations {
-            guard key.hasPrefix("\"export(") || key.hasPrefix("\"exportReference(") else {
+            let parts = key.split(separator: "(", maxSplits: 1)
+            let annotationName = String(parts[0].dropFirst())
+            guard parts.count > 1, let kind = ExportAnnotation.Kind(rawValue: annotationName) else {
                 // TODO: remove after things stabilize to allow compatibility with other templates
                 fatalErr("unknown attribute \(key) = \(value)")
                 // continue
             }
-            let parts = key.split(separator: "(", maxSplits: 1)
-            let annotationName = String(parts[0].dropFirst())
             guard parts[1].hasSuffix(")\"") else {
                 fatalErr("missing close ')\"' in \(key)")
             }
@@ -147,7 +172,7 @@ extension Annotated {
                 attrs[attrKey] = commaSeparatedBit[2]
             }
 
-            if let unknown = Set(attrs.keys).subtracting(["c", "cSet", "js", "omitParameters", "generic"]).first {
+            if let unknown = Set(attrs.keys).subtracting(["c", "cSet", "js", "omitParameters", "generic", "override"]).first {
                 fatalErr("unknown attribute \(unknown) in \(key)")
             }
 
@@ -182,6 +207,11 @@ extension Annotated {
                 }
             }
 
+            var isOverride = false
+            if case .token("true") = attrs["override"] {
+                isOverride = true
+            }
+
             func idAttr(_ key: String) -> String? {
                 guard let tree = attrs[key] else { return nil }
                 guard case .token(let id) = tree else {
@@ -191,10 +221,11 @@ extension Annotated {
             }
 
             return ExportAnnotation(
-                exportAsReference: annotationName == "exportReference",
+                kind: kind,
                 c: idAttr("c"),
                 cSet: idAttr("cSet"),
                 js: idAttr("js"),
+                isOverride: isOverride,
                 genericOverrides: genericOverrides,
                 omitParameters: omitParameters
             )

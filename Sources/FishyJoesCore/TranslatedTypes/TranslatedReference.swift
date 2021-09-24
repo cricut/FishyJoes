@@ -9,22 +9,26 @@ struct TranslatedReference: TranslatedType {
     let documentation: [String]
     let className: String
     let jniType: JNIType
+    let equatable: Bool
+    let hashable: Bool
 
     init(context: FishyJoesContext, type: Type) {
-        guard let exportAnnotation = type.exportAnnotation,
-              let cTypeName = exportAnnotation.c else {
+        guard let exportAnnotation = type.exportAnnotation else {
             fatalErr("c symbol not specified")
         }
+        let cTypeName = exportAnnotation.c
         let nodeName = exportAnnotation.js ?? cTypeName
 
         self.sourceType = BetterType(named: type)
         self.nodeName = nodeName
         self.kotlinName = nodeName
-        self.methods = type.methods.filter { $0.exportAnnotation != nil }
+        self.methods = type.methods.compactMap { Method($0) }
         self.computedVariables = type.variables.filter { $0.exportAnnotation != nil }
         self.documentation = type.documentation
         self.className = context.kotlinTranslator.javaClassName(kotlinName, in: context)
         self.jniType = .object(className)
+        self.equatable = type.equatable
+        self.hashable = type.hashable
     }
 
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
@@ -151,10 +155,135 @@ struct TranslatedReference: TranslatedType {
                 jniFragment.output("let longRef = uintptr_t(env.GetLongField(this, Self._refFieldID))")
                 jniFragment.output("try Box<\(sourceType.name)>.takeUnretainedOpaque(UnsafeMutablePointer(bitPattern: longRef)!).value = self")
             }
+
+            if equatable {
+                jniFragment.outputBlock("static let _javaEquals: @convention(c)(", newLineTerminated: false) {
+                    jniFragment.output("UnsafeMutablePointer<JNIEnv?>,")
+                    jniFragment.output("jobject?,")
+                    jniFragment.output("jobject?,")
+                    jniFragment.output("jobject?")
+                }
+                jniFragment.outputBlock(" -> Bool.CType = { _javaEnv, _, lhs, rhs in", closeWith: "}") {
+                    jniFragment.outputBlock("FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in", closeWith: "}") {
+                        jniFragment.output("return try (\(sourceType.name)(fromJava: lhs, env: _javaEnv)")
+                        jniFragment.output("    == \(sourceType.name)(fromJava: rhs, env: _javaEnv)).toJava(env: _javaEnv)")
+                    }
+                }
+            }
+            if hashable {
+                jniFragment.outputBlock("static let _javaHash: @convention(c)(", newLineTerminated: false) {
+                    jniFragment.output("UnsafeMutablePointer<JNIEnv?>,")
+                    jniFragment.output("jobject?")
+                }
+                jniFragment.outputBlock(" -> Int.CType = { _javaEnv, _javaThis in", closeWith: "}") {
+                    jniFragment.outputBlock("FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in", closeWith: "}") {
+                        jniFragment.output("return try \(sourceType.name)(fromJava: _javaThis, env: _javaEnv)")
+                        jniFragment.output("    .hashValue")
+                        jniFragment.output("    .toJava(env: _javaEnv)")
+                    }
+                }
+            }
+            jniFragment.outputBlock("static let _javaToString: @convention(c)(", newLineTerminated: false) {
+                jniFragment.output("UnsafeMutablePointer<JNIEnv?>,")
+                jniFragment.output("jobject?")
+            }
+            jniFragment.outputBlock(" -> String.CType = { _javaEnv, _javaThis in", closeWith: "}") {
+                jniFragment.outputBlock("FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in", closeWith: "}") {
+                    jniFragment.output("return try \"\\(\(sourceType.name)(fromJava: _javaThis, env: _javaEnv))\"")
+                    jniFragment.output("    .toJava(env: _javaEnv)")
+                }
+            }
         }
 
         context.kotlinTranslator.allMethods[sourceType.name, default: []].append(
             (javaName: "finalize", signature: "()V" , cName: "\(sourceType.name)._javaFinalizer")
+        )
+        context.kotlinTranslator.allMethods[sourceType.name, default: []].append(
+            (javaName: "toString", signature: "()Ljava/lang/String;" , cName: "\(sourceType.name)._javaToString")
+        )
+        if equatable {
+            context.kotlinTranslator.allMethods[sourceType.name, default: []].append(
+                (
+                    javaName: "_swiftEquals",
+                    signature: "(\(jniType.asSignature)\(jniType.asSignature))Z",
+                    cName: "\(sourceType.name)._javaEquals"
+                )
+            )
+        }
+        if hashable {
+            context.kotlinTranslator.allMethods[sourceType.name, default: []].append(
+                (
+                    javaName: "hashCode",
+                    signature: "()I",
+                    cName: "\(sourceType.name)._javaHash"
+                )
+            )
+        }
+
+        var fieldsAndMethods =
+            computedVariables.compactMap { context.kotlin(field: $0, useNativeName: false) } +
+            methods.compactMap { context.kotlin(method: $0) }
+
+        if equatable {
+            fieldsAndMethods.append(
+                .method(
+                    KotlinClass.Method(
+                        documentation: [],
+                        isStatic: true,
+                        isOverride: false,
+                        name: "_swiftEquals",
+                        parameters: [
+                            (labelComment: nil, name: "lhs", type: kotlinType),
+                            (labelComment: nil, name: "rhs", type: kotlinType),
+                        ],
+                        returnType: .named("Boolean"),
+                        body: nil
+                    )
+                )
+            )
+            fieldsAndMethods.append(
+                .method(
+                    KotlinClass.Method(
+                        documentation: [],
+                        isStatic: false,
+                        isOverride: true,
+                        name: "equals",
+                        parameters: [
+                            (labelComment: nil, name: "other", type: .optional(.named("Any"))),
+                        ],
+                        returnType: .named("Boolean"),
+                        body: "(other is \(kotlinType)) && _swiftEquals(this, other)"
+                    )
+                )
+            )
+        }
+        if hashable {
+            fieldsAndMethods.append(
+                .method(
+                    KotlinClass.Method(
+                        documentation: [],
+                        isStatic: false,
+                        isOverride: true,
+                        name: "hashCode",
+                        parameters: [],
+                        returnType: .named("Int"),
+                        body: nil
+                    )
+                )
+            )
+        }
+        fieldsAndMethods.append(
+            .method(
+                KotlinClass.Method(
+                    documentation: [],
+                    isStatic: false,
+                    isOverride: true,
+                    name: "toString",
+                    parameters: [],
+                    returnType: .named("String"),
+                    body: nil
+                )
+            )
         )
 
         context.kotlinFragments.append(
@@ -164,10 +293,18 @@ struct TranslatedReference: TranslatedType {
                 documentation: documentation,
                 constructor: .init(
                     private: true,
-                    fields: [.init(documentation: [], isStatic: false, readOnly: true, name: "_swiftReference", type: .named("Long"))]
+                    fields: [
+                        .init(
+                            documentation: [],
+                            isStatic: false,
+                            isOverride: false,
+                            readOnly: true,
+                            name: "_swiftReference",
+                            type: .named("Long")
+                        ),
+                    ]
                 ),
-                fields: computedVariables.compactMap { context.kotlin(field: $0, useNativeName: false) },
-                methods: methods.compactMap { context.kotlin(method: $0) },
+                fieldsAndMethods: fieldsAndMethods,
                 finalizer: true
             )
         )
