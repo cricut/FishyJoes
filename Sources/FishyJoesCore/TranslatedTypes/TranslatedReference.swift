@@ -177,7 +177,7 @@ struct TranslatedReference: TranslatedType {
                 }
                 jniFragment.outputBlock(" -> Int32.CType = { _javaEnv, _javaThis in", closeWith: "}") {
                     jniFragment.outputBlock("FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in", closeWith: "}") {
-                        jniFragment.output("return try Int32(\(sourceType.name)(fromJava: _javaThis, env: _javaEnv).hashValue)")
+                        jniFragment.output("return try Int32(truncatingIfNeeded: \(sourceType.name)(fromJava: _javaThis, env: _javaEnv).hashValue)")
                         jniFragment.output("    .toJava(env: _javaEnv)")
                     }
                 }
