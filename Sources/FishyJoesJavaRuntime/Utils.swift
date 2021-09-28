@@ -2,11 +2,12 @@ import Foundation
 @_exported import JNI
 @_exported import FishyJoesCommonRuntime
 
-public func javaNonNull<Result>(_ result: Result?) throws -> Result {
+public func javaNonNull<Result>(file: StaticString = #file, line: UInt = #line, _ result: Result?) throws -> Result {
     guard let result = result else {
-        print("unexpected null")
+        let message = "\(file):\(line): unexpected null"
+        print(message)
         Thread.callStackSymbols.forEach { print($0) }
-        throw JavaExceptionPending()
+        throw JNIError(message: message)
     }
     return result
 }

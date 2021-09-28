@@ -478,6 +478,13 @@ public struct Tuple2<T0: JavaConvertible, T1: JavaConvertible> {
     let e1: T1
 }
 
+public struct Tuple4<T0: JavaConvertible, T1: JavaConvertible, T2: JavaConvertible, T3: JavaConvertible> {
+    let e0: T0
+    let e1: T1
+    let e2: T2
+    let e3: T3
+}
+
 fileprivate var pairClass: jclass!
 fileprivate var pairConstructor: jmethodID!
 fileprivate var pairFirstMethod: jmethodID!
@@ -525,5 +532,67 @@ extension Tuple2: SwiftTypeProxy {
         pairConstructor = try javaNonNull(env.GetMethodID(javaClass, "<init>", "(Ljava/lang/Object;Ljava/lang/Object;)V"))
         pairFirstMethod = try javaNonNull(env.GetMethodID(javaClass, "getFirst", "()Ljava/lang/Object;"))
         pairSecondMethod = try javaNonNull(env.GetMethodID(javaClass, "getSecond", "()Ljava/lang/Object;"))
+    }
+}
+
+
+fileprivate var tuple4Class: jclass!
+fileprivate var tuple4Constructor: jmethodID!
+fileprivate var tuple4FirstMethod: jmethodID!
+fileprivate var tuple4SecondMethod: jmethodID!
+fileprivate var tuple4ThirdMethod: jmethodID!
+fileprivate var tuple4FourthMethod: jmethodID!
+extension Tuple4: SwiftTypeProxy {
+    public typealias ProxyFor = (T0, T1, T2, T3)
+    public typealias CType = jobject?
+
+    public static func proxyInit(fromJava value: CType, env: Env) throws -> ProxyFor {
+        let proxy = try Self(fromJava: value, env: env)
+        return (proxy.e0, proxy.e1, proxy.e2, proxy.e3)
+    }
+
+    public static func proxyToJava(for object: ProxyFor, env: Env) throws -> CType {
+        try Tuple4(e0: object.0, e1: object.1, e2: object.2, e3: object.3).toJava(env: env)
+    }
+
+    public static var javaClass: jclass? {
+        tuple4Class
+    }
+    public static var javaDescriptor: String {
+        "Lcom/cricut/fishyjoes/runtime/Tuple4;"
+    }
+
+    public init(fromJava value: CType, env: Env) throws {
+        let v0 = env.CallObjectMethod(value, tuple4FirstMethod)
+        let v1 = env.CallObjectMethod(value, tuple4SecondMethod)
+        let v2 = env.CallObjectMethod(value, tuple4ThirdMethod)
+        let v3 = env.CallObjectMethod(value, tuple4FourthMethod)
+        e0 = try T0.init(fromJavaObject: v0, env: env)
+        e1 = try T1.init(fromJavaObject: v1, env: env)
+        e2 = try T2.init(fromJavaObject: v2, env: env)
+        e3 = try T3.init(fromJavaObject: v3, env: env)
+    }
+
+    public func toJava(env: Env) throws -> CType {
+        let v0 = try jvalue(l: e0.toJavaObject(env: env))
+        let v1 = try jvalue(l: e1.toJavaObject(env: env))
+        let v2 = try jvalue(l: e2.toJavaObject(env: env))
+        let v3 = try jvalue(l: e3.toJavaObject(env: env))
+        let result = try javaNonNull(env.NewObject(tuple4Class, tuple4Constructor, v0, v1, v2, v3))
+        env.DeleteLocalRef(v0.l)
+        env.DeleteLocalRef(v1.l)
+        env.DeleteLocalRef(v2.l)
+        env.DeleteLocalRef(v3.l)
+        return result
+    }
+
+    public static func javaSetup(env: Env) throws {
+        guard javaClass == nil else { return }
+        tuple4Class = try env.globalRef(env.FindClass("com/cricut/fishyjoes/runtime/Tuple4"))
+        tuple4Constructor = try javaNonNull(env.GetMethodID(javaClass, "<init>", "(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)V"))
+        tuple4FirstMethod = try javaNonNull(env.GetMethodID(javaClass, "getFirst", "()Ljava/lang/Object;"))
+        tuple4SecondMethod = try javaNonNull(env.GetMethodID(javaClass, "getSecond", "()Ljava/lang/Object;"))
+        tuple4ThirdMethod = try javaNonNull(env.GetMethodID(javaClass, "getThird", "()Ljava/lang/Object;"))
+        tuple4FourthMethod = try javaNonNull(env.GetMethodID(javaClass, "getFourth", "()Ljava/lang/Object;"))
     }
 }

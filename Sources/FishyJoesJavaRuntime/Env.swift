@@ -12,9 +12,17 @@ public struct Env {
 
     public func globalRef(_ object: jobject?) throws -> jobject {
         let local = try javaNonNull(object)
-        let global = try javaNonNull(fns.NewGlobalRef(env, local))
+        let global = try javaNonNull(NewGlobalRef(local))
         DeleteLocalRef(local)
         return global
+    }
+
+    public func javaDescription(_ obj: jobject?) throws -> String {
+        guard let obj = obj else { return "<null>" }
+        let objectClass = try javaNonNull(FindClass("java/lang/Object"))
+        let toStringID = try javaNonNull(GetMethodID(objectClass, "toString", "()Ljava/lang/String;"))
+        guard let string = CallObjectMethod(obj, toStringID) else { return "<<null>>" }
+        return try String(fromJava: string, env: self)
     }
 }
 

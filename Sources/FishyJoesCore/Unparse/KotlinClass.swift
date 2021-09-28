@@ -74,6 +74,62 @@ class KotlinClass {
     var unqualifiedName: String {
         String(name.split(separator: ".").last!)
     }
+
+    func output(field: Variable, to fragment: SourceFragment) {
+        document(field.documentation, fragment: fragment)
+        if field.isStatic {
+            let jvmGetName: String
+            let jvmSetName: String
+            if field.name.hasPrefix("is") {
+                jvmGetName = field.name
+                jvmSetName = field.name.prefix(3).dropFirst(2).capitalized + field.name.dropFirst(3)
+            } else {
+                jvmGetName = "get" + field.name.prefix(1).capitalized + field.name.dropFirst()
+                jvmSetName = "set" + field.name.prefix(1).capitalized + field.name.dropFirst()
+            }
+            fragment.output("@get:JvmStatic")
+            fragment.output("@get:JvmName(\"\(jvmGetName)\")")
+            if !field.readOnly {
+                fragment.output("@set:JvmStatic")
+                fragment.output("@set:JvmName(\"\(jvmSetName)\")")
+            }
+        }
+        fragment.output("\(field.isOverride ? "override " : "")\(field.readOnly ? "val" : "var") \(field.name): \(field.type)")
+        fragment.output("  external get")
+        if !field.readOnly {
+            fragment.output("  external set")
+        }
+    }
+
+    func output(method: Method, to fragment: SourceFragment) {
+        document(method.documentation, fragment: fragment)
+        if method.isStatic {
+            fragment.output("@JvmStatic")
+        }
+        if method.name.hasPrefix("_") {
+            fragment.output("private ", newLineTerminated: false)
+        }
+        if method.body == nil {
+            fragment.output("external ", newLineTerminated: false)
+        }
+        if method.isOverride {
+            fragment.output("override ", newLineTerminated: false)
+        }
+        fragment.outputBlock("fun \(method.name)(", newLineTerminated: false) {
+            fragment.outputMap(method.parameters, separator: ",") { parameter in
+                let labelComment = parameter.labelComment.map { "/* \($0) */ " } ?? ""
+                return "\(labelComment)\(parameter.name): \(parameter.type)"
+            }
+        }
+        if method.returnType != KType.void {
+            fragment.output(": \(method.returnType)", newLineTerminated: false)
+        }
+        if let body = method.body {
+            fragment.output(" = \(body)")
+        } else {
+            fragment.output()
+        }
+    }
 }
 
 extension KotlinClass.KType: CustomStringConvertible {
@@ -147,66 +203,9 @@ class KotlinProductClass: KotlinClass {
                 "\(constructor.private ? "private " : "")\(field.readOnly ? "val" : "var") \(field.name): \(field.type)"
             }
         }
-
-        func output(field: Variable) {
-            document(field.documentation, fragment: fragment)
-            if field.isStatic {
-                let jvmGetName: String
-                let jvmSetName: String
-                if field.name.hasPrefix("is") {
-                    jvmGetName = field.name
-                    jvmSetName = field.name.prefix(3).dropFirst(2).capitalized + field.name.dropFirst(3)
-                } else {
-                    jvmGetName = "get" + field.name.prefix(1).capitalized + field.name.dropFirst()
-                    jvmSetName = "set" + field.name.prefix(1).capitalized + field.name.dropFirst()
-                }
-                fragment.output("@get:JvmStatic")
-                fragment.output("@get:JvmName(\"\(jvmGetName)\")")
-                if !field.readOnly {
-                    fragment.output("@set:JvmStatic")
-                    fragment.output("@set:JvmName(\"\(jvmSetName)\")")
-                }
-            }
-            fragment.output("\(field.isOverride ? "override " : "")\(field.readOnly ? "val" : "var") \(field.name): \(field.type)")
-            fragment.output("  external get")
-            if !field.readOnly {
-                fragment.output("  external set")
-            }
-        }
-
-        func output(method: Method) {
-            document(method.documentation, fragment: fragment)
-            if method.isStatic {
-                fragment.output("@JvmStatic")
-            }
-            if method.name.hasPrefix("_") {
-                fragment.output("private ", newLineTerminated: false)
-            }
-            if method.body == nil {
-                fragment.output("external ", newLineTerminated: false)
-            }
-            if method.isOverride {
-                fragment.output("override ", newLineTerminated: false)
-            }
-            fragment.outputBlock("fun \(method.name)(", newLineTerminated: false) {
-                fragment.outputMap(method.parameters, separator: ",") { parameter in
-                    let labelComment = parameter.labelComment.map { "/* \($0) */ " } ?? ""
-                    return "\(labelComment)\(parameter.name): \(parameter.type)"
-                }
-            }
-            if method.returnType != KType.void {
-                fragment.output(": \(method.returnType)", newLineTerminated: false)
-            }
-            if let body = method.body {
-                fragment.output(" = \(body)")
-            } else {
-                fragment.output()
-            }
-        }
-
         fragment.outputBlock(" {") {
-            fields.filter { !$0.isStatic }.forEach { output(field: $0) }
-            methods.filter { !$0.isStatic }.forEach { output(method: $0) }
+            fields.filter { !$0.isStatic }.forEach { output(field: $0, to: fragment) }
+            methods.filter { !$0.isStatic }.forEach { output(method: $0, to: fragment) }
 
             if finalizer {
                 fragment.output("protected external fun finalize()")
@@ -215,8 +214,8 @@ class KotlinProductClass: KotlinClass {
             fragment.output()
 
             fragment.outputBlock("companion object {") {
-                fields.filter { $0.isStatic }.forEach { output(field: $0) }
-                methods.filter { $0.isStatic }.forEach { output(method: $0) }
+                fields.filter { $0.isStatic }.forEach { output(field: $0, to: fragment) }
+                methods.filter { $0.isStatic }.forEach { output(method: $0, to: fragment) }
                 fragment.outputBlock("init {") {
                     fragment.output("LibraryLoader.ensureLoaded()")
                 }
@@ -228,16 +227,36 @@ class KotlinProductClass: KotlinClass {
 
 class KotlinEnumClass: KotlinClass {
     let documentation: [String]
-    let cases: [String]
+    let cases: [Case]
+    let fields: [Variable]
+    let methods: [Method]
+
+    enum Case {
+        case object(name: String)
+        case dataClass(name: String, values: [(name: String, type: KType)])
+    }
 
     init(
         module: String,
         name: String,
         documentation: [String],
-        cases: [String]
+        cases: [Case],
+        fieldsAndMethods: [MethodOrVariable]
     ) {
         self.documentation = documentation
         self.cases = cases
+        self.fields = fieldsAndMethods.compactMap {
+            guard case let .variable(field) = $0 else{
+                return nil
+            }
+            return field
+        }
+        self.methods = fieldsAndMethods.compactMap {
+            guard case let .method(method) = $0 else{
+                return nil
+            }
+            return method
+        }
         super.init(module: module, name: name)
     }
 
@@ -245,7 +264,29 @@ class KotlinEnumClass: KotlinClass {
         document(documentation, fragment: fragment)
         fragment.outputBlock("sealed class \(unqualifiedName) {") {
             for enumCase in cases {
-                fragment.output("object \(enumCase) : \(unqualifiedName)()")
+                switch enumCase {
+                case let .object(name):
+                    fragment.output("object \(name) : \(unqualifiedName)()")
+                case let .dataClass(name, values):
+                    fragment.outputBlock("data class \(name)(", newLineTerminated: false) {
+                        fragment.outputMap(values, separator: ",") { value in
+                            "var \(value.name): \(value.type)"
+                        }
+                    }
+                    fragment.output(" : \(unqualifiedName)()")
+                }
+            }
+            fields.filter { !$0.isStatic }.forEach { output(field: $0, to: fragment) }
+            methods.filter { !$0.isStatic }.forEach { output(method: $0, to: fragment) }
+
+            fragment.output()
+
+            fragment.outputBlock("companion object {") {
+                fields.filter { $0.isStatic }.forEach { output(field: $0, to: fragment) }
+                methods.filter { $0.isStatic }.forEach { output(method: $0, to: fragment) }
+                fragment.outputBlock("init {") {
+                    fragment.output("LibraryLoader.ensureLoaded()")
+                }
             }
             outputInner(to: fragment)
         }

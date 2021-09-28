@@ -19,14 +19,22 @@ struct TranslatedTuple: TranslatedType {
     let sourceType: BetterType
     var nodeName: String { "[\(elements.map(\.type.nodeName).joined(separator: ", "))]" }
     var kotlinName: String {
-        precondition(elements.count == 2)
-        return "Pair<\(elements.map(\.type.kotlinName).joined(separator: ", "))>"
+        if elements.count == 2 {
+            return "Pair<\(elements.map(\.type.kotlinName).joined(separator: ", "))>"
+        } else {
+            return "Tuple\(elements.count)<\(elements.map(\.type.kotlinName).joined(separator: ", "))>"
+        }
     }
 
     init(elements: [Element]) {
         self.elements = elements
+        if elements.count == 2 {
+            self.jniType = .object("kotlin/Pair")
+        } else {
+            self.jniType = .object("com/cricut/fishyjoes/runtime/Tuple\(elements.count)")
+        }
         sourceType = .tuple(elements.map { .init(label: $0.label, type: $0.type.sourceType) })
     }
 
-    let jniType = JNIType.object("kotlin/Pair")
+    let jniType: JNIType
 }
