@@ -26,13 +26,13 @@ public func callbackBody<Result: Default>(
     do {
         return try body(env)
     } catch let e {
-        if (env.ExceptionOccurred() != nil) {
+        if env.ExceptionCheck() {
             // no need to generate an exception, one is already pending and is probably the root cause
             env.ExceptionDescribe()
             return .default
         }
         print("Caught swift error \(e). Re-throwing to java.")
-        guard let errorClass = env.FindClass("java/lang/Error"),
+        guard let errorClass = try? env.FindClass("java/lang/Error"),
               env.ThrowNew(errorClass, "\(e)") else {
             fatalError("error while throwing an error")
         }
@@ -48,20 +48,20 @@ public func callbackBody(
     do {
         try body(env)
     } catch let e {
-        if(env.ExceptionOccurred() != nil) {
+        if env.ExceptionCheck() {
             // no need to generate an exception, one is already pending and is probably the root cause
+            env.ExceptionDescribe()
             return
         }
         print("Caught swift error \(e). Re-throwing to java.")
-        guard let errorClass = env.FindClass("java/lang/Error"),
+        guard let errorClass = try? env.FindClass("java/lang/Error"),
               env.ThrowNew(errorClass, "\(e)") else {
             fatalError("error while throwing an error")
         }
     }
 }
 
-public struct JavaExceptionPending: Error {
-}
+public struct JavaExceptionPending: Error {}
 
 public struct JNIError: Error {
     public let message: String

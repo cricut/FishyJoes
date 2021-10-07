@@ -142,13 +142,13 @@ struct TranslatedReference: TranslatedType {
 
             jniFragment.outputBlock("public func toJava(env: Env) throws -> jobject? {") {
                 jniFragment.output("let ptr = jvalue(j: jlong(uintptr_t(bitPattern: Box(self).retainedOpaque())))")
-                jniFragment.output("return try javaNonNull(env.NewObject(Self.javaClass, Self._constructorMethodID, ptr))")
+                jniFragment.output("return try env.NewObject(Self.javaClass, Self._constructorMethodID, ptr)")
             }
 
             jniFragment.outputBlock("public static func javaSetup(env: Env) throws {") {
                 jniFragment.output("javaClass = try env.globalRef(env.FindClass(\"\(className)\"))")
-                jniFragment.output("_refFieldID = try javaNonNull(env.GetFieldID(javaClass, \"_swiftReference\", \"J\"))")
-                jniFragment.output("_constructorMethodID = try javaNonNull(env.GetMethodID(javaClass, \"<init>\", \"(J)V\"))")
+                jniFragment.output("_refFieldID = try env.GetFieldID(javaClass, \"_swiftReference\", \"J\")")
+                jniFragment.output("_constructorMethodID = try env.GetMethodID(javaClass, \"<init>\", \"(J)V\")")
             }
 
             jniFragment.outputBlock("public func mutateJava(this: jobject?, env: Env) throws {") {

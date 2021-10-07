@@ -53,21 +53,6 @@ public func rethrowToNode(env: napi_env, _ body: () throws -> napi_value?) -> na
     }
 }
 
-public class ArgumentBuffer {
-    public let count: Int
-    let buffer: UnsafeMutablePointer<napi_value?>
-
-    init(capacity: Int) {
-        count = capacity
-        buffer = .allocate(capacity: capacity)
-    }
-
-    public subscript(_ index: Int) -> napi_value? {
-        precondition(0 <= index && index < count, "index \(index) out of bounds)")
-        return buffer[index]
-    }
-}
-
 public class CallbackEnv {
     public let env: napi_env
     public let info: napi_callback_info

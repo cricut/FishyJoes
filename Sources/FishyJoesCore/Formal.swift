@@ -10,12 +10,4 @@ struct SwiftFormal {
         self.type = type
         self.defaultValue = defaultValue
     }
-
-    // func someMethod(label name: CType = default, ...)
-    //                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-    var asSwiftFormal: String {
-        let labelText = label == name ? "" : ((label ?? "_") + " ")
-        let defaultText = defaultValue.map { " = \($0)" } ?? ""
-        return "\(labelText)\(type.name)\(defaultText)"
-    }
 }

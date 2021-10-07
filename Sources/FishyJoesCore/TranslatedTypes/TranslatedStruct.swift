@@ -168,16 +168,14 @@ struct TranslatedStruct: TranslatedType {
             }
 
             jniFragment.outputBlock("public func toJava(env: Env) throws -> jobject? {") {
-                jniFragment.outputBlock("try javaNonNull(") {
-                    jniFragment.outputBlock("env.NewObject(") {
-                        let args = [
-                            "Self.javaClass",
-                            "Self._constructorMethodID",
-                        ] + storedVariables.map { storedVar in
-                            "jvalue(self.\(storedVar.name).toJava(env: env))"
-                        }
-                        jniFragment.outputMap(args, separator: ",") { $0 }
+                jniFragment.outputBlock("try env.NewObject(") {
+                    let args = [
+                        "Self.javaClass",
+                        "Self._constructorMethodID",
+                    ] + storedVariables.map { storedVar in
+                        "jvalue(self.\(storedVar.name).toJava(env: env))"
                     }
+                    jniFragment.outputMap(args, separator: ",") { $0 }
                 }
             }
 
@@ -187,10 +185,10 @@ struct TranslatedStruct: TranslatedType {
                 for storedVar in storedVariables {
                     let resolved = context.resolve(type: storedVar.typeName.better)
                     let proxyType = resolved.sourceProxyType ?? resolved.sourceType
-                    jniFragment.output("_java_\(storedVar.name)_id = try javaNonNull(env.GetFieldID(javaClass, \"\(storedVar.name)\", \(proxyType.name).javaDescriptor))")
+                    jniFragment.output("_java_\(storedVar.name)_id = try env.GetFieldID(javaClass, \"\(storedVar.name)\", \(proxyType.name).javaDescriptor)")
                     jniFragment.output("constructorDescriptor += \(proxyType.name).javaDescriptor")
                 }
-                jniFragment.output("_constructorMethodID = try javaNonNull(env.GetMethodID(javaClass, \"<init>\", \"(\\(constructorDescriptor))V\"))")
+                jniFragment.output("_constructorMethodID = try env.GetMethodID(javaClass, \"<init>\", \"(\\(constructorDescriptor))V\")")
             }
 
             jniFragment.outputBlock("public func mutateJava(this: jobject?, env: Env) throws {") {

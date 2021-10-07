@@ -150,7 +150,7 @@ struct TranslatedEnum: TranslatedType {
                     } else {
                         let joinedNames = enumCase.associatedValues.map(\.bindingName).joined(separator: ", ")
                         fragment.outputBlock("case let .\(name)(\(joinedNames)):", closeWith: "", newLineTerminated: false) {
-                            fragment.outputBlock("return try javaNonNull(env.NewObject(", closeWith: "))") {
+                            fragment.outputBlock("return try env.NewObject(", closeWith: ")") {
                                 fragment.output("Self.\(enumCase.classVar),")
                                 fragment.output("Self.\(enumCase.classInitVar)", newLineTerminated: false)
                                 for value in enumCase.associatedValues {
@@ -172,11 +172,11 @@ struct TranslatedEnum: TranslatedType {
                     let name = enumCase.name
                     let subclassName = "\(className)$\(upperCaseFirst(camel: name))"
                     if enumCase.associatedValues.isEmpty {
-                        fragment.output("let _class_\(name) = try javaNonNull(env.FindClass(\"\(subclassName)\"))")
+                        fragment.output("let _class_\(name) = try env.FindClass(\"\(subclassName)\")")
                         fragment.outputBlock("\(enumCase.classVar) = try env.globalRef(") {
                             fragment.outputBlock("env.GetStaticObjectField(") {
                                 fragment.output("_class_\(name),")
-                                fragment.output("javaNonNull(env.GetStaticFieldID(_class_\(name), \"INSTANCE\", \"L\(subclassName);\"))")
+                                fragment.output("env.GetStaticFieldID(_class_\(name), \"INSTANCE\", \"L\(subclassName);\")")
                             }
                         }
                     } else {
@@ -187,10 +187,10 @@ struct TranslatedEnum: TranslatedType {
                         }
                         sig += ")V\""
                         fragment.output("\(enumCase.classVar) = try env.globalRef(env.FindClass(\"\(subclassName)\"))")
-                        fragment.output("\(enumCase.classInitVar) = try javaNonNull(env.GetMethodID(\(enumCase.classVar), \"<init>\", \(sig)))")
+                        fragment.output("\(enumCase.classInitVar) = try env.GetMethodID(\(enumCase.classVar), \"<init>\", \(sig))")
                         for value in enumCase.associatedValues {
                             let resolved = context.resolve(type: value.type)
-                            fragment.output("\(enumCase.classVar)\(value.fieldVar) = try javaNonNull(env.GetFieldID(\(enumCase.classVar), \"\(value.bindingName)\", \"\(resolved.jniType.asSignature)\"))")
+                            fragment.output("\(enumCase.classVar)\(value.fieldVar) = try env.GetFieldID(\(enumCase.classVar), \"\(value.bindingName)\", \"\(resolved.jniType.asSignature)\")")
                         }
                     }
                 }

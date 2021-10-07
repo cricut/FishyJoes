@@ -89,12 +89,4 @@ extension JNIType {
         default: return .object("java/lang/\(valueType)")
         }
     }
-
-    var isObject: Bool {
-        switch self {
-        case .object: return true
-        case .array: return true
-        default: return false
-        }
-    }
 }

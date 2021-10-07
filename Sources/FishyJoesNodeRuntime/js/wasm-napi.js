@@ -1245,7 +1245,7 @@ export class NAPI {
   }
 
   refreshMemory() {
-    if (this.view.byteLength === 0) {
+    if (this.view.buffer.byteLength === 0) {
       this.view = new DataView(this.memory.buffer);
     }
   }
