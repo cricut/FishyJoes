@@ -222,8 +222,9 @@ struct TranslatedEnum: TranslatedType {
             context.tsAnnotations.add(class:
                 .init(
                     documentation: [],
-                    name: "\(nodeName)._Common",
-                    constructor: .hidden,
+                    name: "\(nodeName)._FictionalCommonSuperclass",
+                    exported: false,
+                    constructor: .visible([]),
                     fields: computedVariables.compactMap {context.ts(field: $0, useNativeName: false) },
                     methods: methods.compactMap { context.ts(method: $0) }
                 )
@@ -234,7 +235,7 @@ struct TranslatedEnum: TranslatedType {
                     .init(
                         documentation: enumCase.documentation,
                         name: "\(nodeName).\(upperCaseFirst(enumCase.name))",
-                        superclass: "_Common",
+                        superclass: "_FictionalCommonSuperclass",
                         constructor: .visible(
                             enumCase.associatedValues.map { value in
                                 (value.bindingName, context.resolve(type: value.type).nodeType)
