@@ -75,6 +75,7 @@ let package = Package(
                         "napi_get_value_int64",
                         "napi_get_value_string_utf8",
                         "napi_has_named_property",
+                        "napi_instanceof",
                         "napi_new_instance",
                         "napi_set_element",
                         "napi_set_instance_data",
