@@ -64,35 +64,147 @@ struct TranslatedEnum: TranslatedType {
         return [nodeDefinitionFragment(in: context), jniDefinitionFragment(in: context)]
     }
     func nodeDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
-        let nodeFragment = context.swiftFragment(
+        let fragment = context.swiftFragment(
             "NodeInterface/\(sourceType.name)+node.swift",
             additionalImports: ["FishyJoesNodeRuntime"]
         )
-        nodeFragment.outputBlock("extension \(sourceType.name): FishyJoesNodeRuntime.NodeConvertible {") {
-            nodeFragment.outputBlock("public init(fromNode value: napi_value?, env: napi_env) throws {") {
-                nodeFragment.outputBlock("switch try String(fromNode: value, env: env) {") {
-                    for enumCase in cases {
-                        nodeFragment.output("case \"\(enumCase.name)\": self = .\(enumCase.name)")
+        if cases.allSatisfy({ $0.associatedValues.isEmpty }) {
+            // Simple enum, export as strings
+            fragment.outputBlock("extension \(sourceType.name): FishyJoesNodeRuntime.NodeConvertible {") {
+                fragment.outputBlock("public init(fromNode value: napi_value?, env: napi_env) throws {") {
+                    fragment.outputBlock("switch try String(fromNode: value, env: env) {") {
+                        for enumCase in cases {
+                            fragment.output("case \"\(enumCase.name)\": self = .\(enumCase.name)")
+                        }
+                        fragment.output("case let unknown: print(\"invalid enum string '\\(unknown)' for \(sourceType.name)\"); fatalError()")
                     }
-                    nodeFragment.output("case let unknown: print(\"invalid enum string '\\(unknown)' for \(sourceType.name)\"); fatalError()")
+                }
+
+                fragment.outputBlock("public func toNode(env: napi_env) throws -> napi_value? {") {
+                    fragment.outputBlock("switch self {") {
+                        for enumCase in cases {
+                            fragment.output("case .\(enumCase.name): return try \"\(enumCase.name)\".toNode(env: env)")
+                        }
+                    }
                 }
             }
-
-            nodeFragment.outputBlock("public func toNode(env: napi_env) throws -> napi_value? {") {
-                nodeFragment.outputBlock("switch self {") {
+            context.tsFragment.typealiases.append(
+                .init(
+                    name: nodeName,
+                    value: .union(cases.map { .exactString($0.name) })
+                )
+            )
+        } else {
+            fragment.outputBlock("extension \(sourceType.name): FishyJoesNodeRuntime.NodeConvertible {") {
+                fragment.outputBlock("public init(fromNode value: napi_value?, env: napi_env) throws {") {
+                    fragment.output("let instanceData = try FishyJoesNodeRuntime.InstanceData.data(for: env)")
+                    fragment.output("var isInstanceResult = false")
                     for enumCase in cases {
-                        nodeFragment.output("case .\(enumCase.name): return try \"\(enumCase.name)\".toNode(env: env)")
+                        fragment.outputBlock("try check(napi_instanceof(", closeWith: "))") {
+                            fragment.output("env,")
+                            fragment.output("value,")
+                            fragment.output("instanceData.constructor(for: \"\(nodeName).\(enumCase.name)\", env: env),")
+                            fragment.output("&isInstanceResult")
+                        }
+                        fragment.outputBlock("if isInstanceResult {") {
+                            for value in enumCase.associatedValues {
+                                let name = value.bindingName
+                                fragment.output("var \(name): napi_value?")
+                                fragment.output("try check(napi_get_named_property(env, value, \"\(name)\", &\(name)))")
+                            }
+                            if enumCase.associatedValues.isEmpty {
+                                fragment.output("self = .\(enumCase.name)")
+                            } else {
+                                fragment.outputBlock("self = .\(enumCase.name)(") {
+                                    fragment.outputMap(enumCase.associatedValues, separator: ",") { value in
+                                        let resolved = context.resolve(type: value.type)
+                                        return "\(value.name.map { "\($0): " } ?? "")try \(resolved.sourceType.name)(fromNode: \(value.bindingName), env: env)"
+                                    }
+                                }
+                            }
+                            fragment.output("return")
+                        }
+                        fragment.output()
+                    }
+                    fragment.output("fatalError(\"invalid enum for \(sourceType.name)\")")
+                }
+                fragment.output()
+
+                fragment.outputBlock("public func toNode(env: napi_env) throws -> napi_value? {") {
+                    fragment.output("let instanceData = try FishyJoesNodeRuntime.InstanceData.data(for: env)")
+                    fragment.output("var _result: napi_value?")
+                    fragment.output("switch self {")
+                    for enumCase in cases {
+                        let caseStatement: String
+                        if enumCase.associatedValues.isEmpty {
+                            caseStatement = "case .\(enumCase.name):"
+                        } else {
+                            let values = enumCase.associatedValues.map(\.bindingName).joined(separator: ", ")
+                            caseStatement = "case let .\(enumCase.name)(\(values)):"
+                        }
+                        fragment.outputBlock(caseStatement, closeWith: "") {
+                            fragment.outputBlock("try check(napi_new_instance(", closeWith: "))") {
+                                fragment.output("env,")
+                                fragment.output("instanceData.constructor(for: \"\(nodeName).\(enumCase.name)\", env: env),")
+                                fragment.output("\(enumCase.associatedValues.count),")
+                                fragment.outputBlock("[", closeWith: "],") {
+                                    for value in enumCase.associatedValues {
+                                        fragment.output("\(value.bindingName).toNode(env: env),")
+                                    }
+                                }
+                                fragment.output("&_result")
+                            }
+                        }
+                    }
+                    fragment.output("}")
+                    fragment.output("return _result")
+                }
+                fragment.output()
+
+                fragment.outputBlock("public static func nodeSetup(env: napi_env, module: napi_value) throws {") {
+                    for enumCase in cases {
+                        let className = "\(nodeName).\(enumCase.name)"
+                        let classVarName = "\(enumCase.name)Class"
+                        fragment.outputBlock("let \(classVarName) = try NodeClass(") {
+                            fragment.output("env: env,")
+                            fragment.output("name: \"\(className)\",")
+                            var properties: [String] =
+                                context.nodeTranslator.properties(for: methods) +
+                                context.nodeTranslator.properties(for: computedVariables)
+                            for value in enumCase.associatedValues {
+                                properties.append("\"\(value.bindingName)\": (.stored(mutable: false), isStatic: false),")
+                            }
+                            if properties.isEmpty {
+                                fragment.output("properties: [:],")
+                            } else {
+                                fragment.outputBlock("properties: [", closeWith: "],") {
+                                    for prop in properties {
+                                        fragment.output(prop)
+                                    }
+                                }
+                            }
+                            fragment.outputBlock("constructor: { env, info in", closeWith: "}") {
+                                fragment.outputBlock("FishyJoesNodeRuntime.callbackBody(", newLineTerminated: false) {
+                                    fragment.output("env, info,")
+                                    fragment.output("name: \"\(className)_constructor\",")
+                                    fragment.output("expectedArgumentCount: \(enumCase.associatedValues.count)")
+                                }
+                                fragment.outputBlock(" { env in", closeWith: "}") {
+                                    fragment.output("// TODO: typecheck?")
+                                    fragment.output("let this = try env.this()")
+                                    for value in enumCase.associatedValues {
+                                        fragment.output("try check(napi_set_named_property(env.env, this, \"\(value.bindingName)\", env.argument(at: \(value.index))))")
+                                    }
+                                    fragment.output("return this")
+                                }
+                            }
+                        }
+                        fragment.output("try check(napi_set_named_property(env, module, \"\(className)\", \(classVarName).constructor.value(env: env)))")
                     }
                 }
             }
         }
-        context.tsFragment.typealiases.append(
-            .init(
-                name: nodeName,
-                value: .union(cases.map { .exactString($0.name) })
-            )
-        )
-        return nodeFragment
+        return fragment
     }
 
     func jniDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {

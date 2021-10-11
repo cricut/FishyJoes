@@ -155,7 +155,6 @@ struct NodeTranslate {
         return result
     }
 
-
     func setupFragment(context: FishyJoesContext, generatedTypes: Set<BetterType>) -> SourceFragment {
         let nodeTypeListFragment = context.swiftFragment(
             "NodeInterface/TypeSetup.swift",
