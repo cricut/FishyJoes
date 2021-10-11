@@ -30,11 +30,13 @@ class KotlinClass {
     }
 
     let module: String
+    let documentation: [String]
     let name: String
     var innerClasses: [KotlinClass] = []
 
-    init(module: String, name: String) {
+    init(module: String, documentation: [String], name: String) {
         self.name = name
+        self.documentation = documentation
         self.module = module.lowercased()
     }
 
@@ -44,7 +46,7 @@ class KotlinClass {
 
     func outputInner(to fragment: SourceFragment) {
         innerClasses.forEach { inner in
-            fragment.output()
+            fragment.blankLine()
             inner.output(to: fragment)
         }
     }
@@ -53,7 +55,7 @@ class KotlinClass {
         let fragment = SourceFragment(sourceryDestination: "file:../../kotlin/src/generated/kotlin/com/cricut/\(module)/\(name).kt")
 
         fragment.output("package com.cricut.\(module)")
-        fragment.output("")
+        fragment.blankLine()
         output(to: fragment)
         return fragment
     }
@@ -127,7 +129,7 @@ class KotlinClass {
         if let body = method.body {
             fragment.output(" = \(body)")
         } else {
-            fragment.output()
+            fragment.blankLine()
         }
     }
 }
@@ -158,7 +160,6 @@ class KotlinProductClass: KotlinClass {
         }
     }
 
-    let documentation: [String]
     let constructor: Constructor
     let fields: [Variable]
     let methods: [Method]
@@ -166,13 +167,12 @@ class KotlinProductClass: KotlinClass {
 
     init(
         module: String,
-        name: String,
         documentation: [String],
+        name: String,
         constructor: Constructor,
         fieldsAndMethods: [MethodOrVariable],
         finalizer: Bool = false
     ) {
-        self.documentation = documentation
         self.constructor = constructor
         self.fields = fieldsAndMethods.compactMap {
             guard case let .variable(field) = $0 else{
@@ -187,7 +187,7 @@ class KotlinProductClass: KotlinClass {
             return method
         }
         self.finalizer = finalizer
-        super.init(module: module, name: name)
+        super.init(module: module, documentation: documentation, name: name)
     }
 
     override func output(to fragment: SourceFragment) {
@@ -211,7 +211,7 @@ class KotlinProductClass: KotlinClass {
                 fragment.output("protected external fun finalize()")
             }
 
-            fragment.output()
+            fragment.blankLine()
 
             fragment.outputBlock("companion object {") {
                 fields.filter { $0.isStatic }.forEach { output(field: $0, to: fragment) }
@@ -226,24 +226,22 @@ class KotlinProductClass: KotlinClass {
 }
 
 class KotlinEnumClass: KotlinClass {
-    let documentation: [String]
     let cases: [Case]
     let fields: [Variable]
     let methods: [Method]
 
     enum Case {
         case object(name: String)
-        case dataClass(name: String, values: [(name: String, type: KType)])
+        case dataClass(documentation: [String], name: String, values: [(name: String, type: KType)])
     }
 
     init(
         module: String,
-        name: String,
         documentation: [String],
+        name: String,
         cases: [Case],
         fieldsAndMethods: [MethodOrVariable]
     ) {
-        self.documentation = documentation
         self.cases = cases
         self.fields = fieldsAndMethods.compactMap {
             guard case let .variable(field) = $0 else{
@@ -257,7 +255,7 @@ class KotlinEnumClass: KotlinClass {
             }
             return method
         }
-        super.init(module: module, name: name)
+        super.init(module: module, documentation: documentation, name: name)
     }
 
     override func output(to fragment: SourceFragment) {
@@ -267,7 +265,8 @@ class KotlinEnumClass: KotlinClass {
                 switch enumCase {
                 case let .object(name):
                     fragment.output("object \(name) : \(unqualifiedName)()")
-                case let .dataClass(name, values):
+                case let .dataClass(documentation, name, values):
+                    document(documentation, fragment: fragment)
                     fragment.outputBlock("data class \(name)(", newLineTerminated: false) {
                         fragment.outputMap(values, separator: ",") { value in
                             "var \(value.name): \(value.type)"
@@ -279,7 +278,7 @@ class KotlinEnumClass: KotlinClass {
             fields.filter { !$0.isStatic }.forEach { output(field: $0, to: fragment) }
             methods.filter { !$0.isStatic }.forEach { output(method: $0, to: fragment) }
 
-            fragment.output()
+            fragment.blankLine()
 
             fragment.outputBlock("companion object {") {
                 fields.filter { $0.isStatic }.forEach { output(field: $0, to: fragment) }

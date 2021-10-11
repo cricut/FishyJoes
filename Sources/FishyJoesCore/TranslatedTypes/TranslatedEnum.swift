@@ -11,6 +11,7 @@ struct TranslatedEnum: TranslatedType {
     let computedVariables: [Variable]
 
     struct Case {
+        let documentation: [String]
         let name: String
         let associatedValues: [Value]
 
@@ -43,6 +44,7 @@ struct TranslatedEnum: TranslatedType {
         self.kotlinName = nodeName
         self.cases = type.cases.map { enumCase in
             Case(
+                documentation: enumCase.documentation,
                 name: enumCase.name,
                 associatedValues: enumCase.associatedValues.enumerated().map {
                     let (index, value) = $0
@@ -63,6 +65,7 @@ struct TranslatedEnum: TranslatedType {
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
         return [nodeDefinitionFragment(in: context), jniDefinitionFragment(in: context)]
     }
+
     func nodeDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
             "NodeInterface/\(sourceType.name)+node.swift",
@@ -88,8 +91,9 @@ struct TranslatedEnum: TranslatedType {
                     }
                 }
             }
-            context.tsFragment.typealiases.append(
-                .init(
+            context.tsAnnotations.add(
+                typealias: .init(
+                    documentation: documentation,
                     name: nodeName,
                     value: .union(cases.map { .exactString($0.name) })
                 )
@@ -100,10 +104,12 @@ struct TranslatedEnum: TranslatedType {
                     fragment.output("let instanceData = try FishyJoesNodeRuntime.InstanceData.data(for: env)")
                     fragment.output("var isInstanceResult = false")
                     for enumCase in cases {
+                        let className = "\(nodeName).\(upperCaseFirst(enumCase.name))"
+
                         fragment.outputBlock("try check(napi_instanceof(", closeWith: "))") {
                             fragment.output("env,")
                             fragment.output("value,")
-                            fragment.output("instanceData.constructor(for: \"\(nodeName).\(enumCase.name)\", env: env),")
+                            fragment.output("instanceData.constructor(for: \"\(className)\", env: env),")
                             fragment.output("&isInstanceResult")
                         }
                         fragment.outputBlock("if isInstanceResult {") {
@@ -124,17 +130,19 @@ struct TranslatedEnum: TranslatedType {
                             }
                             fragment.output("return")
                         }
-                        fragment.output()
+                        fragment.blankLine()
                     }
                     fragment.output("fatalError(\"invalid enum for \(sourceType.name)\")")
                 }
-                fragment.output()
+                fragment.blankLine()
 
                 fragment.outputBlock("public func toNode(env: napi_env) throws -> napi_value? {") {
                     fragment.output("let instanceData = try FishyJoesNodeRuntime.InstanceData.data(for: env)")
                     fragment.output("var _result: napi_value?")
                     fragment.output("switch self {")
                     for enumCase in cases {
+                        let className = "\(nodeName).\(upperCaseFirst(enumCase.name))"
+
                         let caseStatement: String
                         if enumCase.associatedValues.isEmpty {
                             caseStatement = "case .\(enumCase.name):"
@@ -145,7 +153,7 @@ struct TranslatedEnum: TranslatedType {
                         fragment.outputBlock(caseStatement, closeWith: "") {
                             fragment.outputBlock("try check(napi_new_instance(", closeWith: "))") {
                                 fragment.output("env,")
-                                fragment.output("instanceData.constructor(for: \"\(nodeName).\(enumCase.name)\", env: env),")
+                                fragment.output("instanceData.constructor(for: \"\(className)\", env: env),")
                                 fragment.output("\(enumCase.associatedValues.count),")
                                 fragment.outputBlock("[", closeWith: "],") {
                                     for value in enumCase.associatedValues {
@@ -159,11 +167,12 @@ struct TranslatedEnum: TranslatedType {
                     fragment.output("}")
                     fragment.output("return _result")
                 }
-                fragment.output()
+                fragment.blankLine()
 
                 fragment.outputBlock("public static func nodeSetup(env: napi_env, module: napi_value) throws {") {
                     for enumCase in cases {
-                        let className = "\(nodeName).\(enumCase.name)"
+                        let name = upperCaseFirst(enumCase.name)
+                        let className = "\(nodeName).\(name)"
                         let classVarName = "\(enumCase.name)Class"
                         fragment.outputBlock("let \(classVarName) = try NodeClass(") {
                             fragment.output("env: env,")
@@ -172,7 +181,8 @@ struct TranslatedEnum: TranslatedType {
                                 context.nodeTranslator.properties(for: methods) +
                                 context.nodeTranslator.properties(for: computedVariables)
                             for value in enumCase.associatedValues {
-                                properties.append("\"\(value.bindingName)\": (.stored(mutable: false), isStatic: false),")
+                                // Limitation is wasm implementation of napi_create_class doesn't allow constructors to assign to non-mutable property.
+                                properties.append("\"\(value.bindingName)\": (.stored(mutable: true), isStatic: false),")
                             }
                             if properties.isEmpty {
                                 fragment.output("properties: [:],")
@@ -199,10 +209,58 @@ struct TranslatedEnum: TranslatedType {
                                 }
                             }
                         }
-                        fragment.output("try check(napi_set_named_property(env, module, \"\(className)\", \(classVarName).constructor.value(env: env)))")
+                        fragment.outputBlock("try FishyJoesNodeRuntime.mergeDefinitionInto(") {
+                            fragment.output("env: env,")
+                            fragment.output("module: module,")
+                            fragment.output("path: \"\(className)\",")
+                            fragment.output("nodeClass: \(classVarName).constructor.value(env: env)")
+                        }
                     }
                 }
             }
+
+            context.tsAnnotations.add(class:
+                .init(
+                    documentation: [],
+                    name: "\(nodeName)._Common",
+                    constructor: .hidden,
+                    fields: computedVariables.compactMap {context.ts(field: $0, useNativeName: false) },
+                    methods: methods.compactMap { context.ts(method: $0) }
+                )
+            )
+
+            for enumCase in cases {
+                context.tsAnnotations.add(class:
+                    .init(
+                        documentation: enumCase.documentation,
+                        name: "\(nodeName).\(upperCaseFirst(enumCase.name))",
+                        superclass: "_Common",
+                        constructor: .visible(
+                            enumCase.associatedValues.map { value in
+                                (value.bindingName, context.resolve(type: value.type).nodeType)
+                            }
+                        ),
+                        fields: enumCase.associatedValues.map { value in
+                            .init(
+                                documentation: [],
+                                readOnly: true,
+                                isStatic: false,
+                                name: value.bindingName,
+                                type: context.resolve(type: value.type).nodeType
+                            )
+                        },
+                        methods: []
+                    )
+                )
+            }
+
+            context.tsAnnotations.add(typealias:
+                .init(
+                    documentation: documentation,
+                    name: nodeName,
+                    value: .union(cases.map { .named("\(nodeName).\(upperCaseFirst($0.name))") })
+                )
+            )
         }
         return fragment
     }
@@ -227,7 +285,7 @@ struct TranslatedEnum: TranslatedType {
                     }
                 }
             }
-            fragment.output()
+            fragment.blankLine()
 
             fragment.outputBlock("public init(fromJava value: jobject?, env: Env) throws {") {
                 for enumCase in cases {
@@ -251,7 +309,7 @@ struct TranslatedEnum: TranslatedType {
                 }
                 fragment.output("throw JNIError(message: \"invalid enum \\(try env.javaDescription(value)) for \(sourceType.name)\")")
             }
-            fragment.output()
+            fragment.blankLine()
 
             fragment.outputBlock("public func toJava(env: Env) throws -> jobject? {") {
                 fragment.output("switch self {")
@@ -269,20 +327,20 @@ struct TranslatedEnum: TranslatedType {
                                     fragment.output(",")
                                     fragment.output("jvalue(\(value.bindingName).toJava(env: env))", newLineTerminated: false)
                                 }
-                                fragment.output()
+                                fragment.blankLine()
                             }
                         }
                     }
                 }
                 fragment.output("}")
             }
-            fragment.output()
+            fragment.blankLine()
 
             fragment.outputBlock("public static func javaSetup(env: Env) throws {") {
                 fragment.output("javaClass = try env.globalRef(env.FindClass(\"\(className)\"))")
                 for enumCase in cases {
                     let name = enumCase.name
-                    let subclassName = "\(className)$\(upperCaseFirst(camel: name))"
+                    let subclassName = "\(className)$\(upperCaseFirst(name))"
                     if enumCase.associatedValues.isEmpty {
                         fragment.output("let _class_\(name) = try env.FindClass(\"\(subclassName)\")")
                         fragment.outputBlock("\(enumCase.classVar) = try env.globalRef(") {
@@ -309,17 +367,18 @@ struct TranslatedEnum: TranslatedType {
             }
         }
 
-        context.kotlinFragments.append(
+        context.kotlinClasses.append(
             KotlinEnumClass(
                 module: context.module,
-                name: nodeName,
                 documentation: documentation,
+                name: nodeName,
                 cases: cases.map { enumCase in
-                    let name = upperCaseFirst(camel: enumCase.name)
+                    let name = upperCaseFirst(enumCase.name)
                     if enumCase.associatedValues.isEmpty {
                         return .object(name: name)
                     } else {
                         return .dataClass(
+                            documentation: enumCase.documentation,
                             name: name,
                             values: enumCase.associatedValues.map { value in
                                 (value.bindingName, context.resolve(type: value.type).kotlinType)

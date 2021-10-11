@@ -167,9 +167,7 @@ extension Array: NodeConvertible where Element: NodeConvertible {
 
 extension Optional: NodeConvertible where Wrapped: NodeConvertible {
     public init(fromNode value: napi_value?, env: napi_env) throws {
-        var type = napi_undefined
-        try check(napi_typeof(env, value, &type))
-        if type == napi_undefined {
+        if try nodeIsUndefiend(value, env: env) {
             self = nil
         } else {
             self = try Wrapped(fromNode: value, env: env)

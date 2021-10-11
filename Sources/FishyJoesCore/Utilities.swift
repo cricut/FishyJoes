@@ -15,6 +15,6 @@ func snakify(camel: String) -> String {
         .replacingOccurrences(of: #"([a-z0-9])([A-Z])"#, with: #"$1_$2"#, options: .regularExpression)
 }
 
-func upperCaseFirst(camel: String) -> String {
+func upperCaseFirst(_ camel: String) -> String {
     (camel.first?.uppercased() ?? "") + camel.dropFirst()
 }

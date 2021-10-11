@@ -23,6 +23,12 @@ class SourceFragment {
             """
     }
 
+    func blankLine() {
+        if !stringBuilder.suffix(2).joined().hasSuffix("\n\n") {
+            output()
+        }
+    }
+
     func output() {
         isFreshLine = true
         stringBuilder.append("\n")
@@ -57,6 +63,12 @@ class SourceFragment {
             }
         }
         let result = try indent(body)
+
+        // eat newline before close brace
+        let previousLines = stringBuilder.suffix(2)
+        if previousLines.count == 2, previousLines.last == "\n", previousLines.first?.hasSuffix("\n") == true {
+            _ = stringBuilder.popLast()
+        }
         output(matchingClose, newLineTerminated: newLineTerminated)
         return result
     }

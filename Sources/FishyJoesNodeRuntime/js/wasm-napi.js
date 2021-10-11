@@ -1014,7 +1014,7 @@ export class NAPI {
         Object.seal(this.load(objectIdx));
         return NAPI_OK;
       }),
-      napi_call_function: (envPtr, recvIdx, funcIdx, argc, argvPtr, resultPtr) => {
+      napi_call_function: this.wrap((envPtr, recvIdx, funcIdx, argc, argvPtr, resultPtr) => {
         if (this.exception !== kNoException) {
           return NAPI_PENDING_EXCEPTION;
         }
@@ -1028,8 +1028,7 @@ export class NAPI {
 
         const args = [];
         for (let i = 0; i < argc; i += 1) {
-          // TODO: use this.view instead???
-          args.push(this.load(argvPtr + (i * 4)));
+          args.push(this.load(this.view.getUint32(argvPtr + (i * 4), true)));
         }
 
         try {
@@ -1041,7 +1040,7 @@ export class NAPI {
         }
 
         return NAPI_OK;
-      },
+      }),
       napi_create_function: this.wrap((envPtr, utf8NamePtr, length, cb, data, resultPtr) => {
         let name;
         if (length > 0) {

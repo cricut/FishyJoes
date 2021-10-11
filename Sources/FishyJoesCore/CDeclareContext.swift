@@ -8,8 +8,8 @@ public class FishyJoesContext {
     var fileHeaders: [String: Set<String>] = [:]
     var fileFooters: [String: Set<String>] = [:]
 
-    var tsFragment: TypeScriptAnnotations
-    var kotlinFragments: [KotlinClass] = []
+    var tsAnnotations: TypeScriptAnnotations
+    var kotlinClasses: [KotlinClass] = []
 
     let nodeTranslator = NodeTranslate()
     let kotlinTranslator = KotlinTranslate()
@@ -21,7 +21,14 @@ public class FishyJoesContext {
         }
         self.templateContext = context
         self.module = module
-        self.tsFragment = TypeScriptAnnotations(moduleName: module)
+        self.tsAnnotations = TypeScriptAnnotations(
+            rootNamespace: .init(
+                name: module,
+                typealiases: [
+                    .init(documentation: [], name: "Optional<T>", value: .union([.named("T"), .named("undefined")])),
+                ]
+            )
+        )
     }
 
     func swiftFragment(_ name: String, additionalImports: [String] = []) -> SourceFragment {
@@ -84,12 +91,13 @@ public class FishyJoesContext {
         }
 
         var allFragments = headerFragments + collectedFragments + footerFragments
-        allFragments.append(tsFragment.fragment)
+
+        allFragments.append(tsAnnotations.fragment)
 
         // process all the fragments so that inner classes are inside outer classes
-        let rootClass = KotlinClass(module: "", name: "__root__")
+        let rootClass = KotlinClass(module: "", documentation: [], name: "__root__")
         // sort by length of qualified name so that outer classes are processed before inner ones
-        for ktClass in kotlinFragments.sorted(by: { $0.name.utf8.count < $1.name.utf8.count }) {
+        for ktClass in kotlinClasses.sorted(by: { $0.name.utf8.count < $1.name.utf8.count }) {
             var namespace = Array(ktClass.name.split(separator: ".").map(String.init).dropLast().reversed())
 
             var containingClass = rootClass
@@ -233,6 +241,7 @@ public class FishyJoesContext {
         return TypeScriptAnnotations.Variable(
             documentation: field.documentation,
             readOnly: !field.isMutable,
+            isStatic: field.isStatic,
             name: nodeName,
             type: resolved.nodeType
         )

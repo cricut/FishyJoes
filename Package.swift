@@ -46,6 +46,7 @@ let package = Package(
                     // See ld(1) for full details.
                     [
                         "napi_call_function",
+                        "napi_coerce_to_string",
                         "napi_create_array_with_length",
                         "napi_create_double",
                         "napi_create_external",
@@ -73,6 +74,7 @@ let package = Package(
                         "napi_get_value_external",
                         "napi_get_value_int64",
                         "napi_get_value_string_utf8",
+                        "napi_has_named_property",
                         "napi_new_instance",
                         "napi_set_element",
                         "napi_set_instance_data",

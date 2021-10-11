@@ -91,7 +91,8 @@ struct TranslatedStruct: TranslatedType {
                         context.nodeTranslator.properties(for: methods) +
                         context.nodeTranslator.properties(for: computedVariables)
                     for storedVar in storedVariables {
-                        properties.append("\"\(storedVar.name)\": (.stored(mutable: \(storedVar.isMutable)), isStatic: \(storedVar.isStatic)),")
+                        // Limitation is wasm implementation of napi_create_class doesn't allow constructors to assign to non-mutable property.
+                        properties.append("\"\(storedVar.name)\": (.stored(mutable: true), isStatic: \(storedVar.isStatic)),")
                     }
                     if properties.isEmpty {
                         fragment.output("properties: [:],")
@@ -113,11 +114,16 @@ struct TranslatedStruct: TranslatedType {
                         }
                     }
                 }
-                fragment.output("try check(napi_set_named_property(env, module, \"\(nodeName)\", nodeClass.constructor.value(env: env)))")
+                fragment.outputBlock("try FishyJoesNodeRuntime.mergeDefinitionInto(") {
+                    fragment.output("env: env,")
+                    fragment.output("module: module,")
+                    fragment.output("path: \"\(nodeName)\",")
+                    fragment.output("nodeClass: nodeClass.constructor.value(env: env)")
+                }
             }
         }
 
-        context.tsFragment.classes.append(
+        context.tsAnnotations.add(class:
             .init(
                 documentation: documentation,
                 name: nodeName,
@@ -200,11 +206,11 @@ struct TranslatedStruct: TranslatedType {
             }
         }
 
-        context.kotlinFragments.append(
+        context.kotlinClasses.append(
             KotlinProductClass(
                 module: context.module,
-                name: nodeName,
                 documentation: documentation,
+                name: nodeName,
                 constructor: .init(
                     fields: storedVariables.compactMap {
                         switch context.kotlin(field: $0, useNativeName: true) {

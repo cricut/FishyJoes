@@ -55,7 +55,7 @@ class KotlinTranslate {
             jniSignature += "V"
             resultBlock = { body in
                 body()
-                fragment.output()
+                fragment.blankLine()
             }
         case let type:
             let resolved = context.resolve(type: type, generics: exportAnnotation.genericOverrides)
@@ -64,7 +64,7 @@ class KotlinTranslate {
                     fragment.outputBlock("let result = try \(returnProxy).proxyToJava(") {
                         fragment.output("for: ", newLineTerminated: false)
                         body()
-                        fragment.output()
+                        fragment.blankLine()
                         fragment.output(", env: _javaEnv")
                     }
                 }

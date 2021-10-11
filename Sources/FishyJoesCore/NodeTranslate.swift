@@ -74,7 +74,7 @@ struct NodeTranslate {
         case .void:
             resultBlock = { body in
                 body()
-                fragment.output()
+                fragment.blankLine()
                 fragment.output("let result: napi_value? = nil")
             }
         case let type:
@@ -84,7 +84,7 @@ struct NodeTranslate {
                     fragment.outputBlock("let result = try \(returnProxy).proxyToNode(") {
                         fragment.output("for: ", newLineTerminated: false)
                         body()
-                        fragment.output()
+                        fragment.blankLine()
                         fragment.output(", env: env.env")
                     }
                 }
@@ -168,7 +168,7 @@ struct NodeTranslate {
                 nodeTypeListFragment.output("try check(napi_create_object(env, &module))")
                 nodeTypeListFragment.output("napi_set_named_property(env, exports, \"\(context.module)\", module)")
                 nodeTypeListFragment.output("napi_set_named_property(env, exports, \"default\", module)")
-                nodeTypeListFragment.output()
+                nodeTypeListFragment.blankLine()
                 for type in generatedTypes.sorted(by: { "\($0)" < "\($1)" }) {
                     // TODO: better
                     guard case .named = type else {

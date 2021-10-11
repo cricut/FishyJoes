@@ -36,71 +36,76 @@ struct TranslatedReference: TranslatedType {
     }
 
     func nodeDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
-        let nodeFragment = context.swiftFragment(
+        let fragment = context.swiftFragment(
             "NodeInterface/\(sourceType.name)+node.swift",
             additionalImports: ["FishyJoesNodeRuntime"]
         )
-        nodeFragment.outputBlock("extension \(sourceType.name): FishyJoesNodeRuntime.NodeConvertible {") {
-            nodeFragment.outputBlock("public init(fromNode value: napi_value?, env: napi_env) throws {") {
-                nodeFragment.output("var pointer: UnsafeMutableRawPointer?")
-                nodeFragment.output("try check(napi_unwrap(env, value, &pointer))")
-                nodeFragment.outputBlock("guard let nonNilPointer = pointer else {") {
-                    nodeFragment.output("throw JSException(message: \"expected \(sourceType.name), got nil\")")
+        fragment.outputBlock("extension \(sourceType.name): FishyJoesNodeRuntime.NodeConvertible {") {
+            fragment.outputBlock("public init(fromNode value: napi_value?, env: napi_env) throws {") {
+                fragment.output("var pointer: UnsafeMutableRawPointer?")
+                fragment.output("try check(napi_unwrap(env, value, &pointer))")
+                fragment.outputBlock("guard let nonNilPointer = pointer else {") {
+                    fragment.output("throw JSException(message: \"expected \(sourceType.name), got nil\")")
                 }
-                nodeFragment.output("self = try Box<\(sourceType.name)>.takeUnretainedOpaque(nonNilPointer).value")
+                fragment.output("self = try Box<\(sourceType.name)>.takeUnretainedOpaque(nonNilPointer).value")
             }
-            nodeFragment.outputBlock("public func toNode(env: napi_env) throws -> napi_value? {") {
-                nodeFragment.output("let constructor = try FishyJoesNodeRuntime.InstanceData.data(for: env).constructor(for: \"\(nodeName)\", env: env)")
-                nodeFragment.output("var args: napi_value? = try FishyJoesNodeRuntime.Box(self).retainedExternal(env: env)")
-                nodeFragment.output("var result: napi_value?")
-                nodeFragment.output("try check(napi_new_instance(env, constructor, 1, &args, &result))")
-                nodeFragment.output("return result")
+            fragment.outputBlock("public func toNode(env: napi_env) throws -> napi_value? {") {
+                fragment.output("let constructor = try FishyJoesNodeRuntime.InstanceData.data(for: env).constructor(for: \"\(nodeName)\", env: env)")
+                fragment.output("var args: napi_value? = try FishyJoesNodeRuntime.Box(self).retainedExternal(env: env)")
+                fragment.output("var result: napi_value?")
+                fragment.output("try check(napi_new_instance(env, constructor, 1, &args, &result))")
+                fragment.output("return result")
             }
-            nodeFragment.outputBlock("public func mutateNode(this: napi_value?, env: napi_env) throws {") {
-                nodeFragment.output("var pointer: UnsafeMutableRawPointer?")
-                nodeFragment.output("try check(napi_unwrap(env, this, &pointer))")
-                nodeFragment.outputBlock("guard let nonNilPointer = pointer else {") {
-                    nodeFragment.output("throw JSException(message: \"expected \(sourceType.name), got nil\")")
+            fragment.outputBlock("public func mutateNode(this: napi_value?, env: napi_env) throws {") {
+                fragment.output("var pointer: UnsafeMutableRawPointer?")
+                fragment.output("try check(napi_unwrap(env, this, &pointer))")
+                fragment.outputBlock("guard let nonNilPointer = pointer else {") {
+                    fragment.output("throw JSException(message: \"expected \(sourceType.name), got nil\")")
                 }
-                nodeFragment.output("try Box<\(sourceType.name)>.takeUnretainedOpaque(nonNilPointer).value = self")
+                fragment.output("try Box<\(sourceType.name)>.takeUnretainedOpaque(nonNilPointer).value = self")
             }
-            nodeFragment.outputBlock("public static func nodeSetup(env: napi_env, module: napi_value) throws {") {
-                // nodeFragment.output("print(\"setting up \(sourceType.name)\")")
+            fragment.outputBlock("public static func nodeSetup(env: napi_env, module: napi_value) throws {") {
+                // fragment.output("print(\"setting up \(sourceType.name)\")")
 
-                nodeFragment.outputBlock("let nodeClass = try NodeClass(") {
-                    nodeFragment.output("env: env,")
-                    nodeFragment.output("name: \"\(nodeName)\",")
+                fragment.outputBlock("let nodeClass = try NodeClass(") {
+                    fragment.output("env: env,")
+                    fragment.output("name: \"\(nodeName)\",")
                     let properties: [String] =
                         context.nodeTranslator.properties(for: methods) +
                         context.nodeTranslator.properties(for: computedVariables)
                     if properties.isEmpty {
-                        nodeFragment.output("properties: [:],")
+                        fragment.output("properties: [:],")
                     } else {
-                        nodeFragment.outputBlock("properties: [", closeWith: "],") {
+                        fragment.outputBlock("properties: [", closeWith: "],") {
                             for prop in properties {
-                                nodeFragment.output(prop)
+                                fragment.output(prop)
                             }
                         }
                     }
-                    nodeFragment.outputBlock("constructor: { env, info in", closeWith: "}") {
-                        nodeFragment.outputBlock("FishyJoesNodeRuntime.callbackBody(env, info, name: \"\(nodeName)_constructor\", expectedArgumentCount: 1) { env in", closeWith: "}") {
-                            nodeFragment.output("// TODO: typecheck?")
-                            nodeFragment.output("let this = try env.this()")
-                            nodeFragment.output("let selfValue = try env.argument(at: 0)")
-                            nodeFragment.output("let boxed = try FishyJoesNodeRuntime.Box<\(sourceType.name)>.takeUnretained(selfValue, env: env.env)")
-                            nodeFragment.outputBlock("let finalizer: napi_finalize = { env, data, _ in", closeWith: "}") {
-                                nodeFragment.output("FishyJoesNodeRuntime.Box<\(sourceType.name)>.releaseOpaque(data)")
+                    fragment.outputBlock("constructor: { env, info in", closeWith: "}") {
+                        fragment.outputBlock("FishyJoesNodeRuntime.callbackBody(env, info, name: \"\(nodeName)_constructor\", expectedArgumentCount: 1) { env in", closeWith: "}") {
+                            fragment.output("// TODO: typecheck?")
+                            fragment.output("let this = try env.this()")
+                            fragment.output("let selfValue = try env.argument(at: 0)")
+                            fragment.output("let boxed = try FishyJoesNodeRuntime.Box<\(sourceType.name)>.takeUnretained(selfValue, env: env.env)")
+                            fragment.outputBlock("let finalizer: napi_finalize = { env, data, _ in", closeWith: "}") {
+                                fragment.output("FishyJoesNodeRuntime.Box<\(sourceType.name)>.releaseOpaque(data)")
                             }
-                            nodeFragment.output("try check(env: env.env, napi_wrap(env.env, this, boxed.retainedOpaque(), finalizer, nil, nil))")
-                            nodeFragment.output("return this")
+                            fragment.output("try check(env: env.env, napi_wrap(env.env, this, boxed.retainedOpaque(), finalizer, nil, nil))")
+                            fragment.output("return this")
                         }
                     }
                 }
-                nodeFragment.output("try check(napi_set_named_property(env, module, \"\(nodeName)\", nodeClass.constructor.value(env: env)))")
+                fragment.outputBlock("try FishyJoesNodeRuntime.mergeDefinitionInto(") {
+                    fragment.output("env: env,")
+                    fragment.output("module: module,")
+                    fragment.output("path: \"\(nodeName)\",")
+                    fragment.output("nodeClass: nodeClass.constructor.value(env: env)")
+                }
             }
         }
 
-        context.tsFragment.classes.append(
+        context.tsAnnotations.add(class:
             .init(
                 documentation: documentation,
                 name: nodeName,
@@ -110,86 +115,86 @@ struct TranslatedReference: TranslatedType {
             )
         )
 
-        return nodeFragment
+        return fragment
     }
 
     func jniDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
-        let jniFragment = context.swiftFragment(
+        let fragment = context.swiftFragment(
             "JavaInterface/\(sourceType.name)+java.swift",
             additionalImports: ["FishyJoesJavaRuntime"]
         )
-        jniFragment.outputBlock("extension \(sourceType.name): JavaMutable {") {
-            jniFragment.output("public static var javaClass: jclass?")
-            jniFragment.output("public static var javaDescriptor: String { \"L\(className);\" }")
-            jniFragment.output("private static var _refFieldID: jfieldID!")
-            jniFragment.output("private static var _constructorMethodID: jmethodID!")
+        fragment.outputBlock("extension \(sourceType.name): JavaMutable {") {
+            fragment.output("public static var javaClass: jclass?")
+            fragment.output("public static var javaDescriptor: String { \"L\(className);\" }")
+            fragment.output("private static var _refFieldID: jfieldID!")
+            fragment.output("private static var _constructorMethodID: jmethodID!")
 
-            jniFragment.outputBlock("public init(fromJava value: jobject?, env: Env) throws {") {
-                jniFragment.output("let longRef = uintptr_t(env.GetLongField(value, Self._refFieldID))")
-                jniFragment.output("self = try Box<\(sourceType.name)>.takeUnretainedOpaque(UnsafeMutablePointer(bitPattern: longRef)!).value")
+            fragment.outputBlock("public init(fromJava value: jobject?, env: Env) throws {") {
+                fragment.output("let longRef = uintptr_t(env.GetLongField(value, Self._refFieldID))")
+                fragment.output("self = try Box<\(sourceType.name)>.takeUnretainedOpaque(UnsafeMutablePointer(bitPattern: longRef)!).value")
             }
 
-            jniFragment.outputBlock("static let _javaFinalizer: @convention(c)(", newLineTerminated: false) {
-                jniFragment.output("UnsafeMutablePointer<JNIEnv?>,")
-                jniFragment.output("jobject")
+            fragment.outputBlock("static let _javaFinalizer: @convention(c)(", newLineTerminated: false) {
+                fragment.output("UnsafeMutablePointer<JNIEnv?>,")
+                fragment.output("jobject")
             }
-            jniFragment.outputBlock(" -> Void = { env, this in", closeWith: "}") {
-                jniFragment.outputBlock("FishyJoesJavaRuntime.callbackBody(env) { env in", closeWith: "}") {
-                    jniFragment.output("let longRef = uintptr_t(env.GetLongField(this, Self._refFieldID))")
-                    jniFragment.output("Box<\(sourceType.name)>.releaseOpaque(UnsafeMutablePointer(bitPattern: longRef)!)")
+            fragment.outputBlock(" -> Void = { env, this in", closeWith: "}") {
+                fragment.outputBlock("FishyJoesJavaRuntime.callbackBody(env) { env in", closeWith: "}") {
+                    fragment.output("let longRef = uintptr_t(env.GetLongField(this, Self._refFieldID))")
+                    fragment.output("Box<\(sourceType.name)>.releaseOpaque(UnsafeMutablePointer(bitPattern: longRef)!)")
                 }
             }
 
-            jniFragment.outputBlock("public func toJava(env: Env) throws -> jobject? {") {
-                jniFragment.output("let ptr = jvalue(j: jlong(uintptr_t(bitPattern: Box(self).retainedOpaque())))")
-                jniFragment.output("return try env.NewObject(Self.javaClass, Self._constructorMethodID, ptr)")
+            fragment.outputBlock("public func toJava(env: Env) throws -> jobject? {") {
+                fragment.output("let ptr = jvalue(j: jlong(uintptr_t(bitPattern: Box(self).retainedOpaque())))")
+                fragment.output("return try env.NewObject(Self.javaClass, Self._constructorMethodID, ptr)")
             }
 
-            jniFragment.outputBlock("public static func javaSetup(env: Env) throws {") {
-                jniFragment.output("javaClass = try env.globalRef(env.FindClass(\"\(className)\"))")
-                jniFragment.output("_refFieldID = try env.GetFieldID(javaClass, \"_swiftReference\", \"J\")")
-                jniFragment.output("_constructorMethodID = try env.GetMethodID(javaClass, \"<init>\", \"(J)V\")")
+            fragment.outputBlock("public static func javaSetup(env: Env) throws {") {
+                fragment.output("javaClass = try env.globalRef(env.FindClass(\"\(className)\"))")
+                fragment.output("_refFieldID = try env.GetFieldID(javaClass, \"_swiftReference\", \"J\")")
+                fragment.output("_constructorMethodID = try env.GetMethodID(javaClass, \"<init>\", \"(J)V\")")
             }
 
-            jniFragment.outputBlock("public func mutateJava(this: jobject?, env: Env) throws {") {
-                jniFragment.output("let longRef = uintptr_t(env.GetLongField(this, Self._refFieldID))")
-                jniFragment.output("try Box<\(sourceType.name)>.takeUnretainedOpaque(UnsafeMutablePointer(bitPattern: longRef)!).value = self")
+            fragment.outputBlock("public func mutateJava(this: jobject?, env: Env) throws {") {
+                fragment.output("let longRef = uintptr_t(env.GetLongField(this, Self._refFieldID))")
+                fragment.output("try Box<\(sourceType.name)>.takeUnretainedOpaque(UnsafeMutablePointer(bitPattern: longRef)!).value = self")
             }
 
             if equatable {
-                jniFragment.outputBlock("static let _javaEquals: @convention(c)(", newLineTerminated: false) {
-                    jniFragment.output("UnsafeMutablePointer<JNIEnv?>,")
-                    jniFragment.output("jobject?,")
-                    jniFragment.output("jobject?,")
-                    jniFragment.output("jobject?")
+                fragment.outputBlock("static let _javaEquals: @convention(c)(", newLineTerminated: false) {
+                    fragment.output("UnsafeMutablePointer<JNIEnv?>,")
+                    fragment.output("jobject?,")
+                    fragment.output("jobject?,")
+                    fragment.output("jobject?")
                 }
-                jniFragment.outputBlock(" -> Bool.CType = { _javaEnv, _, lhs, rhs in", closeWith: "}") {
-                    jniFragment.outputBlock("FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in", closeWith: "}") {
-                        jniFragment.output("return try (\(sourceType.name)(fromJava: lhs, env: _javaEnv)")
-                        jniFragment.output("    == \(sourceType.name)(fromJava: rhs, env: _javaEnv)).toJava(env: _javaEnv)")
+                fragment.outputBlock(" -> Bool.CType = { _javaEnv, _, lhs, rhs in", closeWith: "}") {
+                    fragment.outputBlock("FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in", closeWith: "}") {
+                        fragment.output("return try (\(sourceType.name)(fromJava: lhs, env: _javaEnv)")
+                        fragment.output("    == \(sourceType.name)(fromJava: rhs, env: _javaEnv)).toJava(env: _javaEnv)")
                     }
                 }
             }
             if hashable {
-                jniFragment.outputBlock("static let _javaHash: @convention(c)(", newLineTerminated: false) {
-                    jniFragment.output("UnsafeMutablePointer<JNIEnv?>,")
-                    jniFragment.output("jobject?")
+                fragment.outputBlock("static let _javaHash: @convention(c)(", newLineTerminated: false) {
+                    fragment.output("UnsafeMutablePointer<JNIEnv?>,")
+                    fragment.output("jobject?")
                 }
-                jniFragment.outputBlock(" -> Int32.CType = { _javaEnv, _javaThis in", closeWith: "}") {
-                    jniFragment.outputBlock("FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in", closeWith: "}") {
-                        jniFragment.output("return try Int32(truncatingIfNeeded: \(sourceType.name)(fromJava: _javaThis, env: _javaEnv).hashValue)")
-                        jniFragment.output("    .toJava(env: _javaEnv)")
+                fragment.outputBlock(" -> Int32.CType = { _javaEnv, _javaThis in", closeWith: "}") {
+                    fragment.outputBlock("FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in", closeWith: "}") {
+                        fragment.output("return try Int32(truncatingIfNeeded: \(sourceType.name)(fromJava: _javaThis, env: _javaEnv).hashValue)")
+                        fragment.output("    .toJava(env: _javaEnv)")
                     }
                 }
             }
-            jniFragment.outputBlock("static let _javaToString: @convention(c)(", newLineTerminated: false) {
-                jniFragment.output("UnsafeMutablePointer<JNIEnv?>,")
-                jniFragment.output("jobject?")
+            fragment.outputBlock("static let _javaToString: @convention(c)(", newLineTerminated: false) {
+                fragment.output("UnsafeMutablePointer<JNIEnv?>,")
+                fragment.output("jobject?")
             }
-            jniFragment.outputBlock(" -> String.CType = { _javaEnv, _javaThis in", closeWith: "}") {
-                jniFragment.outputBlock("FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in", closeWith: "}") {
-                    jniFragment.output("return try \"\\(\(sourceType.name)(fromJava: _javaThis, env: _javaEnv))\"")
-                    jniFragment.output("    .toJava(env: _javaEnv)")
+            fragment.outputBlock(" -> String.CType = { _javaEnv, _javaThis in", closeWith: "}") {
+                fragment.outputBlock("FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in", closeWith: "}") {
+                    fragment.output("return try \"\\(\(sourceType.name)(fromJava: _javaThis, env: _javaEnv))\"")
+                    fragment.output("    .toJava(env: _javaEnv)")
                 }
             }
         }
@@ -285,11 +290,11 @@ struct TranslatedReference: TranslatedType {
             )
         )
 
-        context.kotlinFragments.append(
+        context.kotlinClasses.append(
             KotlinProductClass(
                 module: context.module,
-                name: nodeName,
                 documentation: documentation,
+                name: nodeName,
                 constructor: .init(
                     private: true,
                     fields: [
@@ -308,6 +313,6 @@ struct TranslatedReference: TranslatedType {
             )
         )
 
-        return jniFragment
+        return fragment
     }
 }
