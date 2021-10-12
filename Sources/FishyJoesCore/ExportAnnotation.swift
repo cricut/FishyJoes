@@ -3,26 +3,20 @@ import Foundation
 
 struct ExportAnnotation {
     let kind: Kind
-    let c: String
-    let cSet: String?
-    let js: String?
+    let name: String
     let isOverride: Bool
     let genericOverrides: [String: BetterType]
     let omitParameters: [String]
 
     init(
         kind: Kind = .unmodified,
-        c: String?,
-        cSet: String? = nil,
-        js: String?,
+        name: String,
         isOverride: Bool = false,
         genericOverrides: [String: BetterType] = [:],
         omitParameters: [String] = []
     ) {
         self.kind = kind
-        self.c = c ?? "_\(UUID())".replacingOccurrences(of: "-", with: "_")
-        self.cSet = cSet
-        self.js = js
+        self.name = name // ?? "_\(UUID())".replacingOccurrences(of: "-", with: "_")
         self.isOverride = isOverride
         self.genericOverrides = genericOverrides
         self.omitParameters = omitParameters
@@ -77,6 +71,8 @@ extension ExportAnnotation.SimpleParse {
         case .token(let str): return .named(.init(name: str))
         case .squareBracketed(let parts) where parts.count == 1:
             return .array(parts[0].asType)
+        case .squareBracketed(let parts) where parts.count == 3 && parts[1] == .colon:
+            return .dictionary(parts[0].asType, parts[2].asType)
         default:
                 fatalErr("don't know how to parse \(self.asString) as a type")
         }
@@ -156,23 +152,31 @@ extension Annotated {
                 fatalErr("missing close ')\"' in \(key)")
             }
 
-            let foo = String(parts[1].dropLast(2))
-            guard let tree = ExportAnnotation.SimpleParse.parse(foo) else {
+            let parseString = String(parts[1].dropLast(2))
+            guard var tree = ExportAnnotation.SimpleParse.parse(parseString) else {
                 fatalErr("couldn't parse annotation \(key)")
+            }
+
+            let exportName: String
+            switch tree.first3 {
+            case (.token(let name), nil, nil), (.token(let name), .comma, .some):
+                exportName = name
+                tree.removeFirst(min(2, tree.count))
+            default:
+                fatalErr("Expected export name first in export annotation: \(tree.map(\.asString))")
             }
 
             var attrs: [String: ExportAnnotation.SimpleParse] = [:]
             for commaSeparatedBit in tree.split(separator: .comma).map({ Array($0) }) {
-                guard commaSeparatedBit.count == 3,
-                      case .token(let attrKey) = commaSeparatedBit[0],
-                      .colon == commaSeparatedBit[1]
-                else {
+                switch commaSeparatedBit.first4 {
+                case (.token(let key), .colon, .some(let value), nil):
+                    attrs[key] = value
+                default:
                     fatalErr("invalid attribute in \(key): \(commaSeparatedBit)")
                 }
-                attrs[attrKey] = commaSeparatedBit[2]
             }
 
-            if let unknown = Set(attrs.keys).subtracting(["c", "cSet", "js", "omitParameters", "generic", "override"]).first {
+            if let unknown = Set(attrs.keys).subtracting(["omitParameters", "generic", "override"]).first {
                 fatalErr("unknown attribute \(unknown) in \(key)")
             }
 
@@ -212,19 +216,17 @@ extension Annotated {
                 isOverride = true
             }
 
-            func idAttr(_ key: String) -> String? {
-                guard let tree = attrs[key] else { return nil }
-                guard case .token(let id) = tree else {
-                    fatalErr("invalid identifier \(tree) in attribute \(key)")
-                }
-                return id
-            }
+            // func idAttr(_ key: String) -> String? {
+            //     guard let tree = attrs[key] else { return nil }
+            //     guard case .token(let id) = tree else {
+            //         fatalErr("invalid identifier \(tree) in attribute \(key)")
+            //     }
+            //     return id
+            // }
 
             return ExportAnnotation(
                 kind: kind,
-                c: idAttr("c"),
-                cSet: idAttr("cSet"),
-                js: idAttr("js"),
+                name: exportName,
                 isOverride: isOverride,
                 genericOverrides: genericOverrides,
                 omitParameters: omitParameters

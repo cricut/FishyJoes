@@ -2,7 +2,6 @@ import SourceryRuntime
 
 struct TranslatedStruct: TranslatedType {
     let sourceType: BetterType
-    let cName: String
     let nodeName: String
     let kotlinName: String
     let globalName: String
@@ -16,14 +15,11 @@ struct TranslatedStruct: TranslatedType {
         guard let exportAnnotation = type.exportAnnotation else {
             fatalErr("c symbol not specified")
         }
-        let cTypeName = exportAnnotation.c
-        let nodeTypeName = exportAnnotation.js ?? cTypeName
         guard type.kind == "struct" else { fatalErr("not a struct") }
 
         self.sourceType = BetterType(named: type)
-        self.cName = cTypeName
-        self.nodeName = nodeTypeName
-        self.kotlinName = nodeTypeName
+        self.nodeName = exportAnnotation.name
+        self.kotlinName = exportAnnotation.name
         self.globalName = "\(context.module).\(type.globalName)"
         self.jniType = .object(context.kotlinTranslator.javaClassName(nodeName, in: context))
 
@@ -87,20 +83,15 @@ struct TranslatedStruct: TranslatedType {
                 fragment.outputBlock("let nodeClass = try NodeClass(") {
                     fragment.output("env: env,")
                     fragment.output("name: \"\(nodeName)\",")
-                    var properties: [String] =
-                        context.nodeTranslator.properties(for: methods) +
-                        context.nodeTranslator.properties(for: computedVariables)
-                    for storedVar in storedVariables {
-                        // Limitation is wasm implementation of napi_create_class doesn't allow constructors to assign to non-mutable property.
-                        properties.append("\"\(storedVar.name)\": (.stored(mutable: true), isStatic: \(storedVar.isStatic)),")
-                    }
-                    if properties.isEmpty {
-                        fragment.output("properties: [:],")
-                    } else {
-                        fragment.outputBlock("properties: [", closeWith: "],") {
-                            for prop in properties {
-                                fragment.output(prop)
-                            }
+                    // TODO: handle empty properties
+                    fragment.outputBlock("properties: [", closeWith: "],") {
+                        context.nodeTranslator.outputProperties(methods: methods, context: context, fragment: fragment)
+                        context.nodeTranslator.outputProperties(computedVariables: computedVariables, context: context, fragment: fragment)
+                        for storedVar in storedVariables {
+                            // Limitation is wasm implementation of napi_create_class doesn't allow constructors to assign to non-mutable property.
+                            // let mutable = storedVar.isMutable
+                            let mutable = true
+                            fragment.output("\"\(storedVar.name)\": (.stored(mutable: \(mutable)), isStatic: \(storedVar.isStatic)),")
                         }
                     }
                     fragment.outputBlock("constructor: { env, info in", closeWith: "}") {

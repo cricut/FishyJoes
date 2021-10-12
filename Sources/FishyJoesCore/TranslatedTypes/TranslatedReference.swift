@@ -16,12 +16,11 @@ struct TranslatedReference: TranslatedType {
         guard let exportAnnotation = type.exportAnnotation else {
             fatalErr("c symbol not specified")
         }
-        let cTypeName = exportAnnotation.c
-        let nodeName = exportAnnotation.js ?? cTypeName
+        let typeName = exportAnnotation.name
 
         self.sourceType = BetterType(named: type)
-        self.nodeName = nodeName
-        self.kotlinName = nodeName
+        self.nodeName = typeName
+        self.kotlinName = typeName
         self.methods = type.methods.compactMap { Method($0) }
         self.computedVariables = type.variables.filter { $0.exportAnnotation != nil }
         self.documentation = type.documentation
@@ -70,17 +69,10 @@ struct TranslatedReference: TranslatedType {
                 fragment.outputBlock("let nodeClass = try NodeClass(") {
                     fragment.output("env: env,")
                     fragment.output("name: \"\(nodeName)\",")
-                    let properties: [String] =
-                        context.nodeTranslator.properties(for: methods) +
-                        context.nodeTranslator.properties(for: computedVariables)
-                    if properties.isEmpty {
-                        fragment.output("properties: [:],")
-                    } else {
-                        fragment.outputBlock("properties: [", closeWith: "],") {
-                            for prop in properties {
-                                fragment.output(prop)
-                            }
-                        }
+                    // TODO: handle empty properties
+                    fragment.outputBlock("properties: [", closeWith: "],") {
+                        context.nodeTranslator.outputProperties(methods: methods, context: context, fragment: fragment)
+                        context.nodeTranslator.outputProperties(computedVariables: computedVariables, context: context, fragment: fragment)
                     }
                     fragment.outputBlock("constructor: { env, info in", closeWith: "}") {
                         fragment.outputBlock("FishyJoesNodeRuntime.callbackBody(env, info, name: \"\(nodeName)_constructor\", expectedArgumentCount: 1) { env in", closeWith: "}") {

@@ -50,18 +50,17 @@ public class FishyJoesContext {
         // Translate
         for type in templateContext.types.all + templateContext.types.extensions {
             for method in type.allMethods.compactMap(Method.init) {
-                collectedFragments.append(contentsOf: nodeTranslator.translate(method: method, context: self))
                 collectedFragments.append(contentsOf: kotlinTranslator.translate(method: method, context: self))
             }
             for variable in type.rawVariables {
-                collectedFragments.append(contentsOf: nodeTranslator.translateGetter(for: variable, context: self))
-                collectedFragments.append(contentsOf: kotlinTranslator.translateGetter(for: variable, context: self))
+                collectedFragments.append(contentsOf: kotlinTranslator.translate(variable: variable, context: self))
             }
         }
         // Translate any top level functions
-        for topLevelFunction in templateContext.functions.compactMap(Method.init) {
-            collectedFragments.append(contentsOf: nodeTranslator.translate(method: topLevelFunction, context: self))
-            collectedFragments.append(contentsOf: kotlinTranslator.translate(method: topLevelFunction, context: self))
+        for _ in templateContext.functions.compactMap(Method.init) {
+            fatalErr("Support for exporting top level functions has been removed for now")
+            // collectedFragments.append(contentsOf: nodeTranslator.translate(method: topLevelFunction, context: self))
+            // collectedFragments.append(contentsOf: kotlinTranslator.translate(method: topLevelFunction, context: self))
         }
 
         var generatedTypes = Set<BetterType>()
@@ -197,7 +196,6 @@ public class FishyJoesContext {
 
     func ts(method: Method) -> TypeScriptAnnotations.Method? {
         let exportAnnotation = method.exportAnnotation
-        let nodeName = exportAnnotation.js ?? exportAnnotation.c
         var omitParameters = Set(exportAnnotation.omitParameters)
         var parameters: [(labelComment: String?, name: String, TypeScriptAnnotations.TSType)] = []
         for parameter in method.parameters {
@@ -217,33 +215,32 @@ public class FishyJoesContext {
         return TypeScriptAnnotations.Method(
             documentation: method.documentation,
             isStatic: method.isStatic,
-            name: nodeName,
+            name: exportAnnotation.name,
             parameters: parameters,
             returnType: resolve(type: method.returnType, generics: exportAnnotation.genericOverrides).nodeType
         )
     }
 
     func ts(field: Variable, useNativeName: Bool = false) -> TypeScriptAnnotations.Variable? {
-        let nodeName: String
-
+        let name: String
         if useNativeName {
             guard field.exportAnnotation == nil else {
                 fatalErr("field \(field.name) should not be annotated, as it's in a type being exported memberwise")
             }
-            nodeName = field.name
+            name = field.name
         } else {
             guard let exportAnnotation = field.exportAnnotation else {
                 return nil
             }
-            nodeName = exportAnnotation.js ?? exportAnnotation.c
+            name = exportAnnotation.name
         }
-        let resolved = resolve(type: field.typeName.better)
+
         return TypeScriptAnnotations.Variable(
             documentation: field.documentation,
             readOnly: !field.isMutable,
             isStatic: field.isStatic,
-            name: nodeName,
-            type: resolved.nodeType
+            name: name,
+            type: resolve(type: field.typeName.better).nodeType
         )
     }
 
