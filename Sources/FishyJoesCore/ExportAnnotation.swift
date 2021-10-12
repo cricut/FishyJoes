@@ -138,23 +138,24 @@ extension ExportAnnotation.SimpleParse.Reader {
     }
 }
 
-extension Annotated {
+fileprivate let annotationPattern = try! NSRegularExpression(pattern: #"^\s*<!--\s*FishyJoes\.(.*)\((.*)\)\s*-->\s*$"#)
+extension Documented {
     var exportAnnotation: ExportAnnotation? {
-        for (key, value) in annotations {
-            let parts = key.split(separator: "(", maxSplits: 1)
-            let annotationName = String(parts[0].dropFirst())
-            guard parts.count > 1, let kind = ExportAnnotation.Kind(rawValue: annotationName) else {
+        for docLine in documentation {
+            let nsString = docLine as NSString
+            guard let match = annotationPattern.firstMatch(in: docLine, range: NSMakeRange(0, nsString.length)) else {
+                continue
+            }
+            let annotationName = nsString.substring(with: match.range(at: 1))
+            guard let kind = ExportAnnotation.Kind(rawValue: annotationName) else {
                 // TODO: remove after things stabilize to allow compatibility with other templates
-                fatalErr("unknown attribute \(key) = \(value)")
+                fatalErr("unknown FishyJoes annotation: \(docLine)")
                 // continue
             }
-            guard parts[1].hasSuffix(")\"") else {
-                fatalErr("missing close ')\"' in \(key)")
-            }
 
-            let parseString = String(parts[1].dropLast(2))
+            let parseString = nsString.substring(with: match.range(at: 2))
             guard var tree = ExportAnnotation.SimpleParse.parse(parseString) else {
-                fatalErr("couldn't parse annotation \(key)")
+                fatalErr("couldn't parse annotation: \(docLine)")
             }
 
             let exportName: String
@@ -172,24 +173,24 @@ extension Annotated {
                 case (.token(let key), .colon, .some(let value), nil):
                     attrs[key] = value
                 default:
-                    fatalErr("invalid attribute in \(key): \(commaSeparatedBit)")
+                    fatalErr("invalid attribute in \(docLine): \(commaSeparatedBit)")
                 }
             }
 
             if let unknown = Set(attrs.keys).subtracting(["omitParameters", "generic", "override"]).first {
-                fatalErr("unknown attribute \(unknown) in \(key)")
+                fatalErr("unknown attribute \(unknown) in \(docLine)")
             }
 
             var omitParameters: [String] = []
             if let omitParse = attrs["omitParameters"] {
                 guard case .squareBracketed(let omitList) = omitParse else {
-                    fatalErr("invalid omitParameters in \(key). Expected [name, ...]")
+                    fatalErr("invalid omitParameters in \(docLine). Expected [name, ...]")
                 }
                 omitParameters = omitList.split(separator: .comma).map { tokens in
                     guard tokens.count == 1,
                           case .token(let name) = tokens.first
                     else {
-                        fatalErr("invalid omitParameters in \(key). Expected [name, ...]")
+                        fatalErr("invalid omitParameters in \(docLine). Expected [name, ...]")
                     }
                     return name
                 }
@@ -198,14 +199,14 @@ extension Annotated {
             var genericOverrides: [String: BetterType] = [:]
             if let genericParse = attrs["generic"] {
                 guard case .squareBracketed(let list) = genericParse else {
-                    fatalErr("invalid generic in \(key). Expected [type: substitute, ...]")
+                    fatalErr("invalid generic in \(docLine). Expected [type: substitute, ...]")
                 }
                 for parts in list.split(separator: .comma) {
                     guard parts.count == 3,
                           case .token(let generic) = parts[0],
                           case .colon = parts[1]
                     else {
-                        fatalErr("invalid omitParameters in \(key). Expected [type: substitute, ...]")
+                        fatalErr("invalid omitParameters in \(docLine). Expected [type: substitute, ...]")
                     }
                     genericOverrides[generic] = parts[2].asType
                 }
