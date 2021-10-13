@@ -510,7 +510,7 @@ export class NAPI {
 
       napi_get_array_length: this.wrap((envPtr, valueIdx, resultPtr) => {
         const a = this.load(valueIdx);
-        if (!util.types.isArray(a)) {
+        if (!util.isArray(a)) {
           return NAPI_ARRAY_EXPECTED;
         }
         this.view.setUint32(resultPtr, a.length, true);
@@ -775,7 +775,7 @@ export class NAPI {
         return NAPI_OK;
       }),
       napi_is_array: this.wrap((envPtr, valueIdx, resultPtr) => {
-        this.view.setUint8(resultPtr, util.types.isArray(this.load(valueIdx)));
+        this.view.setUint8(resultPtr, util.isArray(this.load(valueIdx)));
         return NAPI_OK;
       }),
       napi_is_arraybuffer: this.wrap((envPtr, valueIdx, resultPtr) => {
