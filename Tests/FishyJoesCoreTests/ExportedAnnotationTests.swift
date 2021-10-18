@@ -25,10 +25,4 @@ class ExportAnnotationTests: XCTestCase {
             ]
         )
     }
-
-    func test2() {
-        let str = "c: CriContour, js: Contour"
-        let result = ExportAnnotation.SimpleParse.parse(str)
-        XCTAssertEqual(result, nil)
-    }
 }
