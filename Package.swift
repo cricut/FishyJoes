@@ -19,6 +19,7 @@ let package = Package(
                 // path: "../Sourcery"
                 url: "https://github.com/cricut/Sourcery", .branch("docstrings")
             ),
+            .package(url: "https://github.com/cobbal/swsh", .exact("3.0.0")),
     ],
     targets: [
         .systemLibrary(name: "NodeAPI"),
@@ -121,6 +122,12 @@ let package = Package(
                  name: "FishyJoesCoreTests",
                  dependencies: [
                      .target(name: "FishyJoesCore"),
+                 ]
+             ),
+             .testTarget(
+                 name: "NAPITestDriver",
+                 dependencies: [
+                     .product(name: "swsh", package: "swsh"),
                  ]
              ),
          ])

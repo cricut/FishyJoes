@@ -1,0 +1,53 @@
+name: Mac
+
+on:
+  workflow_dispatch:
+  pull_request:
+
+jobs:
+  test:
+    name: Build & test
+    env:
+      SWIFT_WASM_URL: |-
+        https://github.com/swiftwasm/swift/releases/download/swift-wasm-5.3.1-RELEASE/swift-wasm-5.3.1-RELEASE-macos_x86_64.pkg
+    runs-on: macOS-11.0
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Git Credentials
+        uses: fusion-engineering/setup-git-credentials@v2.0.1
+        with:
+          credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
+
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '16.x'
+          registry-url: 'https://npm.pkg.github.com/'
+          scope: '@cricut'
+
+      - name: Configure build environment
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+
+          curl -Lo swift-wasm.pkg $SWIFT_WASM_URL
+          sudo installer -pkg swift-wasm.pkg -target /
+
+          (cd node-tests; npm install)
+
+      - name: Build
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+
+          swift build
+
+      - name: Test
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+          npm install
+
+          swift test

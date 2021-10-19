@@ -101,6 +101,15 @@
         }
       },
       {
+        "package": "swsh",
+        "repositoryURL": "https://github.com/cobbal/swsh",
+        "state": {
+          "branch": null,
+          "revision": "fd993e04ac66f0e3d6d8bc88ceb845118de1a7d1",
+          "version": "3.0.0"
+        }
+      },
+      {
         "package": "XcodeProj",
         "repositoryURL": "https://github.com/tuist/xcodeproj",
         "state": {
