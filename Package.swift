@@ -99,7 +99,10 @@ let package = Package(
                 .unsafeFlags(
                     [
                         "-Xlinker", "--allow-undefined",
-                        "-Xlinker", "--export-table"
+                        "-Xlinker", "--export-table",
+                        "-Xlinker", "--export=napi_register_module_v1",
+                        "-Xlinker", "--export=malloc",
+                        "-Xlinker", "--export=free",
                     ],
                     .when(platforms: [.wasi])
                 ),
