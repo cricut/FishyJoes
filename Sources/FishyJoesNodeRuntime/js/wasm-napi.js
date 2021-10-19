@@ -1635,8 +1635,7 @@ export class NAPI {
     const tablePtr = this.malloc(4 * error_messages.length);
     for (let i = 0; i < error_messages.length; i++) {
       let stringPtr = 0
-      if (error_messages[i] === undefined) {
-      } else {
+      if (error_messages[i] !== undefined) {
         const utf8 = (new TextEncoder()).encode(error_messages[i]);
         stringPtr = this.malloc(utf8.length + 1);
         const buffer = Buffer.from(this.memory.buffer)
