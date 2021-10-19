@@ -67,7 +67,7 @@ class NAPITests: XCTestCase {
                     "\(path)/\(testSource)",
                 ]
             ).output(overwritingFile: "\(path)/fishyjoes_\(testSource)").run()
-            try cmd("node", "--expose-gc", "\(path)/fishyjoes_\(testSource)").run()
+            try cmd("node", "--expose-gc", "--unhandled-rejections=strict", "\(path)/fishyjoes_\(testSource)").run()
         }
     }
 
