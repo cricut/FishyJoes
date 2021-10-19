@@ -69,10 +69,13 @@ struct TranslatedReference: TranslatedType {
                 fragment.outputBlock("let nodeClass = try NodeClass(") {
                     fragment.output("env: env,")
                     fragment.output("name: \"\(nodeName)\",")
-                    // TODO: handle empty properties
                     fragment.outputBlock("properties: [", closeWith: "],") {
-                        context.nodeTranslator.outputProperties(methods: methods, context: context, fragment: fragment)
-                        context.nodeTranslator.outputProperties(computedVariables: computedVariables, context: context, fragment: fragment)
+                        var hasProperties = false
+                        hasProperties ||= context.nodeTranslator.outputProperties(methods: methods, context: context, fragment: fragment)
+                        hasProperties ||= context.nodeTranslator.outputProperties(computedVariables: computedVariables, context: context, fragment: fragment)
+                        if !hasProperties {
+                            fragment.output(":")
+                        }
                     }
                     fragment.outputBlock("constructor: { env, info in", closeWith: "}") {
                         fragment.outputBlock("FishyJoesNodeRuntime.callbackBody(env, info, name: \"\(nodeName)_constructor\", expectedArgumentCount: 1) { env in", closeWith: "}") {

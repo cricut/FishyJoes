@@ -4,6 +4,9 @@ extension Optional {
     var asArray: [Wrapped] { map { [$0] } ?? [] }
 }
 
+infix operator ||=
+func ||=(left: inout Bool, right: Bool) { left = left || right }
+
 public func fatalErr(_ message: String = "", file: StaticString = #file, line: UInt = #line) -> Never {
     fatalError("\n\(file):\(line): \(message)\n\(Thread.callStackSymbols.joined(separator: "\n"))\n")
 }

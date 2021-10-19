@@ -156,7 +156,7 @@ struct NodeTranslate {
         }
     }
 
-    func outputProperties(methods: [Method], context: FishyJoesContext, fragment: SourceFragment) {
+    func outputProperties(methods: [Method], context: FishyJoesContext, fragment: SourceFragment) -> Bool {
         for method in methods {
             fragment.outputBlock("\"\(method.exportAnnotation.name)\": (", closeWith: "),") {
                 fragment.outputBlock(".method(", closeWith: "),") {
@@ -165,9 +165,11 @@ struct NodeTranslate {
                 fragment.output("isStatic: \(method.isStatic)")
             }
         }
+        return !methods.isEmpty
     }
 
-    func outputProperties(computedVariables: [Variable], context: FishyJoesContext, fragment: SourceFragment) {
+    func outputProperties(computedVariables: [Variable], context: FishyJoesContext, fragment: SourceFragment) -> Bool {
+        var didOutput = false
         for variable in computedVariables {
             guard let exportAnnotation = variable.exportAnnotation else {
                 continue
@@ -183,7 +185,9 @@ struct NodeTranslate {
                 }
                 fragment.output("isStatic: \(variable.isStatic)")
             }
+            didOutput = true
         }
+        return didOutput
     }
 
     func setupFragment(context: FishyJoesContext, generatedTypes: Set<BetterType>) -> SourceFragment {

@@ -177,13 +177,17 @@ struct TranslatedEnum: TranslatedType {
                         fragment.outputBlock("let \(classVarName) = try NodeClass(") {
                             fragment.output("env: env,")
                             fragment.output("name: \"\(className)\",")
-                            // TODO: handle empty properties
                             fragment.outputBlock("properties: [", closeWith: "],") {
-                                context.nodeTranslator.outputProperties(methods: methods, context: context, fragment: fragment)
-                                context.nodeTranslator.outputProperties(computedVariables: computedVariables, context: context, fragment: fragment)
+                                var hasProperties = false
+                                hasProperties ||= context.nodeTranslator.outputProperties(methods: methods, context: context, fragment: fragment)
+                                hasProperties ||= context.nodeTranslator.outputProperties(computedVariables: computedVariables, context: context, fragment: fragment)
                                 for value in enumCase.associatedValues {
                                     // Limitation is wasm implementation of napi_create_class doesn't allow constructors to assign to non-mutable property.
                                     fragment.output("\"\(value.bindingName)\": (.stored(mutable: true), isStatic: false),")
+                                    hasProperties = true
+                                }
+                                if !hasProperties {
+                                    fragment.output(":")
                                 }
                             }
                             fragment.outputBlock("constructor: { env, info in", closeWith: "}") {

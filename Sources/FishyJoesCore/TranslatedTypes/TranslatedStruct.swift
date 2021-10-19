@@ -83,15 +83,19 @@ struct TranslatedStruct: TranslatedType {
                 fragment.outputBlock("let nodeClass = try NodeClass(") {
                     fragment.output("env: env,")
                     fragment.output("name: \"\(nodeName)\",")
-                    // TODO: handle empty properties
                     fragment.outputBlock("properties: [", closeWith: "],") {
-                        context.nodeTranslator.outputProperties(methods: methods, context: context, fragment: fragment)
-                        context.nodeTranslator.outputProperties(computedVariables: computedVariables, context: context, fragment: fragment)
+                        var hasProperties = false
+                        hasProperties ||= context.nodeTranslator.outputProperties(methods: methods, context: context, fragment: fragment)
+                        hasProperties ||= context.nodeTranslator.outputProperties(computedVariables: computedVariables, context: context, fragment: fragment)
                         for storedVar in storedVariables {
                             // Limitation is wasm implementation of napi_create_class doesn't allow constructors to assign to non-mutable property.
                             // let mutable = storedVar.isMutable
                             let mutable = true
                             fragment.output("\"\(storedVar.name)\": (.stored(mutable: \(mutable)), isStatic: \(storedVar.isStatic)),")
+                            hasProperties = true
+                        }
+                        if !hasProperties {
+                            fragment.output(":")
                         }
                     }
                     fragment.outputBlock("constructor: { env, info in", closeWith: "}") {
