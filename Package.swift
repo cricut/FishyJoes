@@ -15,11 +15,13 @@ let package = Package(
              .executable(name: "fishy-joes", targets: ["FishyJoesExecute"]),
          ]),
     dependencies: wasmCompatibleOnly ? [] : [
-            .package(
-                // path: "../Sourcery"
-                url: "https://github.com/cricut/Sourcery", .branch("docstrings")
-            ),
-            .package(url: "https://github.com/cobbal/swsh", .exact("3.0.0")),
+        .package(
+            // path: "../Sourcery"
+            url: "https://github.com/cricut/Sourcery", .branch("docstrings")
+        ),
+        .package(url: "https://github.com/cobbal/swsh", .exact("3.0.0")),
+        .package(url: "https://github.com/apple/swift-argument-parser", from: "0.4.0"),
+        .package(url: "https://github.com/jpsim/Yams", .upToNextMinor(from: "4.0.0")),
     ],
     targets: [
         .systemLibrary(name: "NodeAPI"),
@@ -39,7 +41,7 @@ let package = Package(
                 .target(name: "FishyJoesCommonRuntime"),
             ],
             resources: [
-                .copy("js/wasm-napi.js"),
+                .copy("js"),
             ],
             linkerSettings: [
                 .unsafeFlags(
@@ -119,6 +121,12 @@ let package = Package(
                  name: "FishyJoesExecute",
                  dependencies: [
                      .target(name: "FishyJoesCore"),
+                     .product(name: "swsh", package: "swsh"),
+                     .product(name: "ArgumentParser", package: "swift-argument-parser"),
+                     .product(name: "Yams", package: "Yams"),
+                 ],
+                 resources: [
+                     .copy("FishyJoes.swifttemplate"),
                  ]
              ),
              .testTarget(

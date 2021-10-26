@@ -26,6 +26,7 @@ guard let fishyJoesPath = argument["fishyJoesExecutable"] as? String else {
 
 try run(
     "\(fishyJoesPath)",
+    "--executing-from-within-sourcery",
     ProcessInfo.processInfo.arguments[1]
 )
 %>
