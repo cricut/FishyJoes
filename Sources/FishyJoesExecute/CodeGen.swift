@@ -173,7 +173,8 @@ extension CodeGen {
             platforms.append(.kotlinMac)
         }
         if kotlin && !kotlinMacOnly {
-            platforms.append(contentsOf: AndroidArchitecture.allCases.map(Platform.kotlinAndroid))
+            // platforms.append(contentsOf: AndroidArchitecture.allCases.map(Platform.kotlinAndroid))
+            platforms.append(Platform.kotlinAndroid(.aarch64))
         }
 
         let generateOnly = Set(buildStep) == [.generate]
@@ -414,10 +415,20 @@ enum Platform: Hashable {
             path = Platform.nativeSwiftBuild
         case .kotlinAndroid(.arm):
             path = "\(androidToolchain)/usr/bin/swift-build-arm-linux-androideabi"
-            args.append(contentsOf: ["--build-path", "./.build/android-build"])
+            args.append(
+                contentsOf: [
+                    "--build-path", "./.build/android-build",
+                    "-Xswiftc", "-static-stdlib",
+                ]
+            )
         case .kotlinAndroid(let arch):
             path = "\(androidToolchain)/usr/bin/swift-build-\(arch.rawValue)-linux-android"
-            args.append(contentsOf: ["--build-path", "./.build/android-build"])
+            args.append(
+                contentsOf: [
+                    "--build-path", "./.build/android-build",
+                    // "-Xswiftc", "-static-stdlib", "-v"
+                ]
+            )
         }
         try cmd(path, arguments: args, addEnv: env).run()
     }

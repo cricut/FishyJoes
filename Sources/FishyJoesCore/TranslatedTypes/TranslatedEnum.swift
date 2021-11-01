@@ -269,7 +269,11 @@ struct TranslatedEnum: TranslatedType {
             additionalImports: ["FishyJoesJavaRuntime"]
         )
         let className = context.kotlinTranslator.javaClassName(nodeName, in: context)
-        fragment.outputBlock("extension \(sourceType.name): FishyJoesJavaRuntime.JavaConvertible {") {
+        fragment.outputBlock("extension \(sourceType.name): JavaConverter {") {
+            fragment.output("public typealias SwiftType = Self")
+            fragment.output("public typealias CType = jobject?")
+            fragment.blankLine()
+
             fragment.output("public static var javaClass: jclass?")
             fragment.output("public static var javaDescriptor: String { \"\(jniType.asSignature)\" }")
             for enumCase in cases {
@@ -285,23 +289,21 @@ struct TranslatedEnum: TranslatedType {
             }
             fragment.blankLine()
 
-            fragment.outputBlock("public init(fromJava value: jobject?, env: Env) throws {") {
+            fragment.outputBlock("public static func fromJava(_ value: jobject?, env: Env) throws -> Self {") {
                 for enumCase in cases {
                     if enumCase.associatedValues.isEmpty {
                         fragment.outputBlock("if env.IsSameObject(value, Self.\(enumCase.classVar)) {") {
-                            fragment.output("self = .\(enumCase.name)")
-                            fragment.output("return")
+                            fragment.output("return .\(enumCase.name)")
                         }
                     } else {
                         fragment.outputBlock("if env.IsInstanceOf(value, Self.\(enumCase.classVar)) {") {
-                            fragment.outputBlock("self = .\(enumCase.name)(") {
+                            fragment.outputBlock("return .\(enumCase.name)(") {
                                 fragment.outputMap(enumCase.associatedValues, separator: ",") { value in
                                     let resolved = context.resolve(type: value.type)
                                     let field = "Self.\(enumCase.classVar)\(value.fieldVar)"
-                                    return "\(value.name.map { "\($0): " } ?? "")try \(resolved.sourceType.name)(fromJava: env.Get\(resolved.jniType.valueType)Field(value, \(field)), env: env)"
+                                    return "\(value.name.map { "\($0): " } ?? "")try \(resolved.sourceType.name).fromJava(env.Get\(resolved.jniType.valueType)Field(value, \(field)), env: env)"
                                 }
                             }
-                            fragment.output("return")
                         }
                     }
                 }
@@ -309,8 +311,8 @@ struct TranslatedEnum: TranslatedType {
             }
             fragment.blankLine()
 
-            fragment.outputBlock("public func toJava(env: Env) throws -> jobject? {") {
-                fragment.output("switch self {")
+            fragment.outputBlock("public static func toJava(_ value: Self, env: Env) throws -> jobject? {") {
+                fragment.output("switch value {")
                 for enumCase in cases {
                     let name = enumCase.name
                     if enumCase.associatedValues.isEmpty {
@@ -322,8 +324,9 @@ struct TranslatedEnum: TranslatedType {
                                 fragment.output("Self.\(enumCase.classVar),")
                                 fragment.output("Self.\(enumCase.classInitVar)", newLineTerminated: false)
                                 for value in enumCase.associatedValues {
+                                    let resolved = context.resolve(type: value.type)
                                     fragment.output(",")
-                                    fragment.output("jvalue(\(value.bindingName).toJava(env: env))", newLineTerminated: false)
+                                    fragment.output("jvalue(\(resolved.converterType.name).toJava(\(value.bindingName), env: env))", newLineTerminated: false)
                                 }
                                 fragment.blankLine()
                             }

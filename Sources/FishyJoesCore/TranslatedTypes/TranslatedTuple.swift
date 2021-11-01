@@ -7,12 +7,10 @@ struct TranslatedTuple: TranslatedType {
     }
     let elements: [Element]
 
-    var sourceProxyType: BetterType? {
+    var converterType: BetterType {
         .generic(
-            base: .init(stringLiteral: "Tuple\(elements.count)"),
-            args: elements.map {
-                $0.type.sourceProxyType ?? $0.type.sourceType
-            }
+            base: .init(stringLiteral: "Tuple\(elements.count)Converter"),
+            args: elements.map { $0.type.converterType }
         )
     }
 

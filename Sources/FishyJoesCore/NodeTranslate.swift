@@ -107,20 +107,12 @@ struct NodeTranslate {
             }
         case let type:
             let resolved = context.resolve(type: type, generics: exportAnnotation.genericOverrides)
-            if let returnProxy = resolved.sourceProxyType?.name {
-                resultBlock = { body in
-                    fragment.outputBlock("let result = try \(returnProxy).proxyToNode(") {
-                        fragment.output("for: ", newLineTerminated: false)
-                        body()
-                        fragment.blankLine()
-                        fragment.output(", env: env.env")
-                    }
-                }
-            } else {
-                resultBlock = { body in
-                    fragment.output("let result = try ", newLineTerminated: false)
+            resultBlock = { body in
+                fragment.outputBlock("let result = try \(resolved.converterType.name).proxyToNode(") {
+                    fragment.output("for: ", newLineTerminated: false)
                     body()
-                    fragment.output(".toNode(env: env.env)")
+                    fragment.blankLine()
+                    fragment.output(", env: env.env")
                 }
             }
         }
@@ -140,11 +132,7 @@ struct NodeTranslate {
                             let (index, formal) = $0
                             let resolved = context.resolve(type: formal.type, generics: exportAnnotation.genericOverrides)
                             let result = (formal.label.map { "\($0): " } ?? "") + "try env.argument(at: \(index), "
-                            if let proxy = resolved.sourceProxyType {
-                                return result + "asProxyType: \(proxy.name).self)"
-                            } else {
-                                return result + "as: \(resolved.sourceType.name).self)"
-                            }
+                            return result + "as: \(resolved.sourceType.name).self)"
                         }
                     }
                 }

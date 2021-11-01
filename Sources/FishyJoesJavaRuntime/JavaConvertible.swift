@@ -2,7 +2,8 @@ import Foundation
 @_exported import JNI
 @_exported import FishyJoesCommonRuntime
 
-public protocol JavaConvertible {
+public protocol JavaConverter {
+    associatedtype SwiftType
     associatedtype CType
 
     static var javaClass: jclass? { get }
@@ -10,24 +11,27 @@ public protocol JavaConvertible {
 
     static func javaSetup(env: Env) throws
 
-    init(fromJava value: CType, env: Env) throws
-    init(fromJavaObject value: jobject?, env: Env) throws
+    static func fromJava(_ value: CType, env: Env) throws -> SwiftType
+    static func fromJava(object: jobject?, env: Env) throws -> SwiftType
 
-    func toJava(env: Env) throws -> CType
-    func toJavaObject(env: Env) throws -> jobject?
+    static func toJava(_ value: SwiftType, env: Env) throws -> CType
+    static func toJavaObject(_ value: SwiftType, env: Env) throws -> jobject?
 }
 
-extension JavaConvertible where CType == jobject? {
-    public func toJavaObject(env: Env) throws -> jobject? {
-        try toJava(env: env)
+extension JavaConverter where CType == jobject? {
+    public static func toJavaObject(_ value: SwiftType, env: Env) throws -> jobject? {
+        try toJava(value, env: env)
     }
-    public init(fromJavaObject value: jobject?, env: Env) throws {
-        try self.init(fromJava: value, env: env)
+    public static func fromJava(object: jobject?, env: Env) throws -> SwiftType {
+        try fromJava(object, env: env)
     }
 }
 
-public protocol JavaMutable: JavaConvertible {
-    func mutateJava(this: CType, env: Env) throws
+// extension JavaConverter where CType == SwiftType {
+// }
+
+public protocol JavaMutator: JavaConverter {
+    static func mutateJava(_ value: SwiftType, javaThis: CType, env: Env) throws
 }
 
 extension jvalue {
@@ -42,7 +46,8 @@ extension jvalue {
     }
 }
 
-extension Bool: JavaConvertible {
+extension Bool: JavaConverter {
+    public typealias SwiftType = Self
     public typealias CType = jboolean
 
     public static var javaClass: jclass?
@@ -51,20 +56,20 @@ extension Bool: JavaConvertible {
     private static var _javaTrue: jobject!
     private static var _javaFalse: jobject!
 
-    public init(fromJava value: CType, env: Env) throws {
-        self = value == JNI_TRUE
+    public static func fromJava(_ value: jboolean, env: Env) throws -> Bool {
+        value == JNI_TRUE
     }
 
-    public init(fromJavaObject value: jobject?, env: Env) throws {
-        self = try env.CallBooleanMethod(value, Self._valueMethodID)
+    public static func fromJava(object: jobject?, env: Env) throws -> Bool {
+        try env.CallBooleanMethod(object, Self._valueMethodID)
     }
 
-    public func toJava(env: Env) throws -> CType {
-        self ? jboolean(JNI_TRUE) : jboolean(JNI_FALSE)
+    public static func toJava(_ value: Bool, env: Env) throws -> jboolean {
+        value ? jboolean(JNI_TRUE) : jboolean(JNI_FALSE)
     }
 
-    public func toJavaObject(env: Env) throws -> jobject? {
-        env.NewLocalRef(self ? Self._javaTrue : Self._javaFalse)
+    public static func toJavaObject(_ value: Bool, env: Env) throws -> jobject? {
+        env.NewLocalRef(value ? Self._javaTrue : Self._javaFalse)
     }
 
     public static func javaSetup(env: Env) throws {
@@ -78,7 +83,8 @@ extension Bool: JavaConvertible {
     }
 }
 
-extension Double: JavaConvertible {
+extension Double: JavaConverter {
+    public typealias SwiftType = Self
     public typealias CType = jdouble
 
     public static var javaClass: jclass?
@@ -86,20 +92,15 @@ extension Double: JavaConvertible {
     private static var _valueMethodID: jmethodID!
     private static var _constructorMethodID: jmethodID!
 
-    public init(fromJava value: CType, env: Env) throws {
-        self = value
+    public static func fromJava(_ value: CType, env: Env) throws -> SwiftType { value }
+    public static func toJava(_ value: SwiftType, env: Env) throws -> CType { value }
+
+    public static func fromJava(object: jobject?, env: Env) throws -> Double{
+        try env.CallDoubleMethod(object, Self._valueMethodID)
     }
 
-    public func toJava(env: Env) throws -> CType {
-        self
-    }
-
-    public init(fromJavaObject value: jobject?, env: Env) throws {
-        self = try env.CallDoubleMethod(value, Self._valueMethodID)
-    }
-
-    public func toJavaObject(env: Env) throws -> jobject? {
-        try env.NewObject(Self.javaClass, Self._constructorMethodID, jvalue(d: self))
+    public static func toJavaObject(_ value: Double, env: Env) throws -> jobject? {
+        try env.NewObject(Self.javaClass, Self._constructorMethodID, jvalue(d: value))
     }
 
     public static func javaSetup(env: Env) throws {
@@ -110,7 +111,8 @@ extension Double: JavaConvertible {
     }
 }
 
-extension Int64: JavaConvertible {
+extension Int64: JavaConverter {
+    public typealias SwiftType = Self
     public typealias CType = jlong
 
     public static var javaClass: jclass?
@@ -118,20 +120,20 @@ extension Int64: JavaConvertible {
     private static var _valueMethodID: jmethodID!
     private static var _constructorMethodID: jmethodID!
 
-    public init(fromJava value: CType, env: Env) throws {
-        self = Int64(value)
+    public static func fromJava(_ value: jlong, env: Env) throws -> Int64 {
+        Int64(value)
     }
 
-    public func toJava(env: Env) throws -> CType {
-        jlong(self)
+    public static func toJava(_ value: Int64, env: Env) throws -> jlong {
+        jlong(value)
     }
 
-    public init(fromJavaObject value: jobject?, env: Env) throws {
-        self = Int64(try env.CallLongMethod(value, Self._valueMethodID))
+    public static func fromJava(object: jobject?, env: Env) throws -> Int64 {
+        Int64(try env.CallLongMethod(object, Self._valueMethodID))
     }
 
-    public func toJavaObject(env: Env) throws -> jobject? {
-        try env.NewObject(Self.javaClass, Self._constructorMethodID, jvalue(j: jlong(self)))
+    public static func toJavaObject(_ value: Int64, env: Env) throws -> jobject? {
+        try env.NewObject(Self.javaClass, Self._constructorMethodID, jvalue(j: jlong(value)))
     }
 
     public static func javaSetup(env: Env) throws {
@@ -142,7 +144,8 @@ extension Int64: JavaConvertible {
     }
 }
 
-extension Int32: JavaConvertible {
+extension Int32: JavaConverter {
+    public typealias SwiftType = Self
     public typealias CType = jint
 
     public static var javaClass: jclass?
@@ -150,20 +153,15 @@ extension Int32: JavaConvertible {
     private static var _valueMethodID: jmethodID!
     private static var _constructorMethodID: jmethodID!
 
-    public init(fromJava value: CType, env: Env) throws {
-        self = value
+    public static func fromJava(_ value: CType, env: Env) throws -> SwiftType { value }
+    public static func toJava(_ value: SwiftType, env: Env) throws -> CType { value }
+
+    public static func fromJava(object: jobject?, env: Env) throws -> Int32 {
+        try env.CallIntMethod(object, Self._valueMethodID)
     }
 
-    public func toJava(env: Env) throws -> CType {
-        self
-    }
-
-    public init(fromJavaObject value: jobject?, env: Env) throws {
-        self = try env.CallIntMethod(value, Self._valueMethodID)
-    }
-
-    public func toJavaObject(env: Env) throws -> jobject? {
-        try env.NewObject(Self.javaClass, Self._constructorMethodID, jvalue(i: self))
+    public static func toJavaObject(_ value: Int32, env: Env) throws -> jobject? {
+        try env.NewObject(Self.javaClass, Self._constructorMethodID, jvalue(i: value))
     }
 
     public static func javaSetup(env: Env) throws {
@@ -174,25 +172,27 @@ extension Int32: JavaConvertible {
     }
 }
 
-extension Int: JavaConvertible {
+extension Int: JavaConverter {
+    public typealias SwiftType = Self
     public typealias CType = Int64.CType
+
     public static var javaClass: jclass? { Int64.javaClass }
     public static var javaDescriptor: String { Int64.javaDescriptor }
 
-    public init(fromJava value: CType, env: Env) throws {
-        self = try Int(Int64(fromJava: value, env: env))
+    public static func fromJava(_ value: CType, env: Env) throws -> Int {
+        try Int(Int64.fromJava(value, env: env))
     }
 
-    public func toJava(env: Env) throws -> CType {
-        jlong(self)
+    public static func toJava(_ value: Self, env: Env) throws -> CType {
+        jlong(value)
     }
 
-    public init(fromJavaObject value: jobject?, env: Env) throws {
-        self = Int(try Int64(fromJavaObject: value, env: env))
+    public static func fromJava(object value: jobject?, env: Env) throws -> Int {
+        Int(try Int64.fromJava(object: value, env: env))
     }
 
-    public func toJavaObject(env: Env) throws -> jobject? {
-        try Int64(self).toJavaObject(env: env)
+    public static func toJavaObject(_ value: Self, env: Env) throws -> jobject? {
+        try Int64.toJavaObject(Int64(value), env: env)
     }
 
     public static func javaSetup(env: Env) throws {
@@ -200,23 +200,24 @@ extension Int: JavaConvertible {
     }
 }
 
-extension String: JavaConvertible {
+extension String: JavaConverter {
+    public typealias SwiftType = Self
     public typealias CType = jstring?
 
     public static var javaClass: jclass?
     public static var javaDescriptor: String { "Ljava/lang/String;" }
 
-    public init(fromJava value: CType, env: Env) throws {
+    public static func fromJava(_ value: CType, env: Env) throws -> String {
         let length = env.GetStringLength(value)
         guard let chars = env.GetStringChars(value).0 else {
             throw JNIError(message: "string conversion failed")
         }
-        self = String(utf16CodeUnits: chars, count: Int(length))
-        env.ReleaseStringChars(value, chars)
+        defer { env.ReleaseStringChars(value, chars) }
+        return String(utf16CodeUnits: chars, count: Int(length))
     }
 
-    public func toJava(env: Env) throws -> CType {
-        let chars = Array(utf16)
+    public static func toJava(_ value: Self, env: Env) throws -> CType {
+        let chars = Array(value.utf16)
         guard let jstr = try env.NewString(chars, jsize(chars.count)) else {
             throw JNIError(message: "string allocation failed")
         }
@@ -332,8 +333,11 @@ fileprivate enum JavaMap {
     }
 }
 
-extension Array: JavaConvertible where Element: JavaConvertible {
+public enum ArrayConverter<ElementConverter> {}
+extension ArrayConverter: JavaConverter where ElementConverter: JavaConverter {
+    public typealias SwiftType = [ElementConverter.SwiftType]
     public typealias CType = jobject?
+
     public static var javaClass: jclass? {
         JavaList.listClass
     }
@@ -341,19 +345,20 @@ extension Array: JavaConvertible where Element: JavaConvertible {
         "Ljava/util/List;"
     }
 
-    public init(fromJava value: CType, env: Env) throws {
-        self.init()
+    public static func fromJava(_ value: CType, env: Env) throws -> SwiftType {
+        var result = SwiftType()
         try JavaList.forEach(value, env: env) { item in
-            append(try Element(fromJavaObject: item, env: env))
+            result.append(try ElementConverter.fromJava(object: item, env: env))
         }
+        return result
     }
 
-    public func toJava(env: Env) throws -> CType {
-        let array = try env.NewObject(JavaList.arrayListClass, JavaList.initMethodID, jvalue(i: jint(count)))
-        for value in self {
-            let javaValue = try value.toJavaObject(env: env)
-            _ = try env.CallBooleanMethod(array, JavaList.addMethodID, jvalue(l: javaValue))
-            env.DeleteLocalRef(javaValue)
+    public static func toJava(_ value: SwiftType, env: Env) throws -> CType {
+        let array = try env.NewObject(JavaList.arrayListClass, JavaList.initMethodID, jvalue(i: jint(value.count)))
+        for element in value {
+            let javaElement = try ElementConverter.toJavaObject(element, env: env)
+            _ = try env.CallBooleanMethod(array, JavaList.addMethodID, jvalue(l: javaElement))
+            env.DeleteLocalRef(javaElement)
         }
         return array
     }
@@ -363,8 +368,15 @@ extension Array: JavaConvertible where Element: JavaConvertible {
     }
 }
 
-extension Dictionary: JavaConvertible where Key: JavaConvertible, Value: JavaConvertible {
+public enum DictionaryConverter<KeyConverter, ValueConverter> {}
+extension DictionaryConverter: JavaConverter where
+    KeyConverter: JavaConverter,
+    KeyConverter.SwiftType: Hashable,
+    ValueConverter: JavaConverter
+{
+    public typealias SwiftType = [KeyConverter.SwiftType: ValueConverter.SwiftType]
     public typealias CType = jobject?
+
     public static var javaClass: jclass? {
         JavaMap.mapClass
     }
@@ -372,23 +384,24 @@ extension Dictionary: JavaConvertible where Key: JavaConvertible, Value: JavaCon
         "Ljava/util/Map;"
     }
 
-    public init(fromJava value: CType, env: Env) throws {
+    public static func fromJava(_ value: CType, env: Env) throws -> SwiftType {
         let entries = try env.CallObjectMethod(value, JavaMap.entrySetMethodID)
-        self = [:]
+        var result = SwiftType()
         try JavaSet.forEach(entries, env: env) { entry in
             let key = try env.CallObjectMethod(entry, JavaMap.getKeyMethodID)
             let value = try env.CallObjectMethod(entry, JavaMap.getValueMethodID)
-            self[try Key(fromJavaObject: key, env: env)] = try Value(fromJavaObject: value, env: env)
+            result[try KeyConverter.fromJava(object: key, env: env)] = try ValueConverter.fromJava(object: value, env: env)
             env.DeleteLocalRef(key)
             env.DeleteLocalRef(value)
         }
+        return result
     }
 
-    public func toJava(env: Env) throws -> CType {
-        let hashMap = try env.NewObject(JavaMap.hashMapClass, JavaMap.initMethodID, jvalue(i: jint(count)))
-        for (key, value) in self {
-            let javaKey = try key.toJavaObject(env: env)
-            let javaValue = try value.toJavaObject(env: env)
+    public static func toJava(_ value: SwiftType, env: Env) throws -> CType {
+        let hashMap = try env.NewObject(JavaMap.hashMapClass, JavaMap.initMethodID, jvalue(i: jint(value.count)))
+        for (key, value) in value {
+            let javaKey = try KeyConverter.toJavaObject(key, env: env)
+            let javaValue = try ValueConverter.toJavaObject(value, env: env)
             let prevValue = try env.CallObjectMethod(hashMap, JavaMap.putMethodID, jvalue(l: javaKey), jvalue(l: javaValue))
             env.DeleteLocalRef(javaKey)
             env.DeleteLocalRef(javaValue)
@@ -403,8 +416,11 @@ extension Dictionary: JavaConvertible where Key: JavaConvertible, Value: JavaCon
     }
 }
 
-extension Set: JavaConvertible where Element: JavaConvertible {
+public enum SetConverter<ElementConverter> {}
+extension SetConverter: JavaConverter where ElementConverter: JavaConverter, ElementConverter.SwiftType: Hashable {
+    public typealias SwiftType = Set<ElementConverter.SwiftType>
     public typealias CType = jobject?
+
     public static var javaClass: jclass? {
         JavaSet.setClass
     }
@@ -412,19 +428,20 @@ extension Set: JavaConvertible where Element: JavaConvertible {
         "Ljava/util/Set;"
     }
 
-    public init(fromJava value: CType, env: Env) throws {
-        self = []
+    public static func fromJava(_ value: CType, env: Env) throws -> SwiftType {
+        var result = SwiftType()
         try JavaSet.forEach(value, env: env) { entry in
-            self.insert(try Element(fromJavaObject: value, env: env))
+            result.insert(try ElementConverter.fromJava(object: value, env: env))
         }
+        return result
     }
 
-    public func toJava(env: Env) throws -> CType {
-        let hashSet = try env.NewObject(JavaSet.hashSetClass, JavaSet.initMethodID, jvalue(i: jint(count)))
-        for value in self {
-            let javaValue = try value.toJavaObject(env: env)
-            _ = try env.CallBooleanMethod(hashSet, JavaSet.addMethodID, jvalue(l: javaValue))
-            env.DeleteLocalRef(javaValue)
+    public static func toJava(_ value: SwiftType, env: Env) throws -> CType {
+        let hashSet = try env.NewObject(JavaSet.hashSetClass, JavaSet.initMethodID, jvalue(i: jint(value.count)))
+        for element in value {
+            let javaElement = try ElementConverter.toJavaObject(element, env: env)
+            _ = try env.CallBooleanMethod(hashSet, JavaSet.addMethodID, jvalue(l: javaElement))
+            env.DeleteLocalRef(javaElement)
         }
         return hashSet
     }
@@ -434,26 +451,29 @@ extension Set: JavaConvertible where Element: JavaConvertible {
     }
 }
 
-extension Optional: JavaConvertible where Wrapped: JavaConvertible {
+public enum OptionalConverter<WrappedConverter> {}
+extension OptionalConverter: JavaConverter where WrappedConverter: JavaConverter {
+    public typealias SwiftType = WrappedConverter.SwiftType?
     public typealias CType = jobject?
+
     public static var javaClass: jclass? {
-        Wrapped.javaClass
+        WrappedConverter.javaClass
     }
     public static var javaDescriptor: String {
-        Wrapped.javaDescriptor
+        WrappedConverter.javaDescriptor
     }
 
-    public init(fromJava value: CType, env: Env) throws {
+    public static func fromJava(_ value: CType, env: Env) throws -> SwiftType {
         if value == nil {
-            self = nil
+            return nil
         } else {
-            self = try Wrapped(fromJavaObject: value, env: env)
+            return try WrappedConverter.fromJava(object: value, env: env)
         }
     }
 
-    public func toJava(env: Env) throws -> CType {
-        if let wrapped = self {
-            return try wrapped.toJavaObject(env: env)
+    public static func toJava(_ value: SwiftType, env: Env) throws -> CType {
+        if let wrapped = value {
+            return try WrappedConverter.toJavaObject(wrapped, env: env)
         } else {
             return nil
         }
@@ -464,41 +484,18 @@ extension Optional: JavaConvertible where Wrapped: JavaConvertible {
     }
 }
 
-public protocol SwiftTypeProxy: JavaConvertible {
-    associatedtype ProxyFor
-    static func proxyInit(fromJava value: CType, env: Env) throws -> ProxyFor
-    static func proxyToJava(for object: ProxyFor, env: Env) throws -> CType
-}
+public enum Tuple2Converter<T0: JavaConverter, T1: JavaConverter> {}
 
-public struct Tuple2<T0: JavaConvertible, T1: JavaConvertible> {
-    let e0: T0
-    let e1: T1
-}
-
-public struct Tuple4<T0: JavaConvertible, T1: JavaConvertible, T2: JavaConvertible, T3: JavaConvertible> {
-    let e0: T0
-    let e1: T1
-    let e2: T2
-    let e3: T3
-}
+public enum Tuple4Converter<T0: JavaConverter, T1: JavaConverter, T2: JavaConverter, T3: JavaConverter> {}
 
 fileprivate var pairClass: jclass!
 fileprivate var pairConstructor: jmethodID!
 fileprivate var pairFirstMethod: jmethodID!
 fileprivate var pairSecondMethod: jmethodID!
 
-extension Tuple2: SwiftTypeProxy {
-    public typealias ProxyFor = (T0, T1)
+extension Tuple2Converter: JavaConverter {
+    public typealias SwiftType = (T0.SwiftType, T1.SwiftType)
     public typealias CType = jobject?
-
-    public static func proxyInit(fromJava value: CType, env: Env) throws -> ProxyFor {
-        let proxy = try Self(fromJava: value, env: env)
-        return (proxy.e0, proxy.e1)
-    }
-
-    public static func proxyToJava(for object: ProxyFor, env: Env) throws -> CType {
-        try Tuple2(e0: object.0, e1: object.1).toJava(env: env)
-    }
 
     public static var javaClass: jclass? {
         pairClass
@@ -507,16 +504,18 @@ extension Tuple2: SwiftTypeProxy {
         "Lkotlin/Pair;"
     }
 
-    public init(fromJava value: CType, env: Env) throws {
+    public static func fromJava(_ value: CType, env: Env) throws -> SwiftType {
         let v0 = try env.CallObjectMethod(value, pairFirstMethod)
         let v1 = try env.CallObjectMethod(value, pairSecondMethod)
-        e0 = try T0.init(fromJavaObject: v0, env: env)
-        e1 = try T1.init(fromJavaObject: v1, env: env)
+        return (
+            try T0.fromJava(object: v0, env: env),
+            try T1.fromJava(object: v1, env: env)
+        )
     }
 
-    public func toJava(env: Env) throws -> CType {
-        let v0 = try jvalue(l: e0.toJavaObject(env: env))
-        let v1 = try jvalue(l: e1.toJavaObject(env: env))
+    public static func toJava(_ value: SwiftType, env: Env) throws -> CType {
+        let v0 = try jvalue(l: T0.toJavaObject(value.0, env: env))
+        let v1 = try jvalue(l: T1.toJavaObject(value.1, env: env))
         let result = try env.NewObject(pairClass, pairConstructor, v0, v1)
         env.DeleteLocalRef(v0.l)
         env.DeleteLocalRef(v1.l)
@@ -539,18 +538,9 @@ fileprivate var tuple4FirstMethod: jmethodID!
 fileprivate var tuple4SecondMethod: jmethodID!
 fileprivate var tuple4ThirdMethod: jmethodID!
 fileprivate var tuple4FourthMethod: jmethodID!
-extension Tuple4: SwiftTypeProxy {
-    public typealias ProxyFor = (T0, T1, T2, T3)
+extension Tuple4Converter: JavaConverter {
+    public typealias SwiftType = (T0.SwiftType, T1.SwiftType, T2.SwiftType, T3.SwiftType)
     public typealias CType = jobject?
-
-    public static func proxyInit(fromJava value: CType, env: Env) throws -> ProxyFor {
-        let proxy = try Self(fromJava: value, env: env)
-        return (proxy.e0, proxy.e1, proxy.e2, proxy.e3)
-    }
-
-    public static func proxyToJava(for object: ProxyFor, env: Env) throws -> CType {
-        try Tuple4(e0: object.0, e1: object.1, e2: object.2, e3: object.3).toJava(env: env)
-    }
 
     public static var javaClass: jclass? {
         tuple4Class
@@ -559,22 +549,24 @@ extension Tuple4: SwiftTypeProxy {
         "Lcom/cricut/fishyjoes/runtime/Tuple4;"
     }
 
-    public init(fromJava value: CType, env: Env) throws {
+    public static func fromJava(_ value: CType, env: Env) throws -> SwiftType {
         let v0 = try env.CallObjectMethod(value, tuple4FirstMethod)
         let v1 = try env.CallObjectMethod(value, tuple4SecondMethod)
         let v2 = try env.CallObjectMethod(value, tuple4ThirdMethod)
         let v3 = try env.CallObjectMethod(value, tuple4FourthMethod)
-        e0 = try T0.init(fromJavaObject: v0, env: env)
-        e1 = try T1.init(fromJavaObject: v1, env: env)
-        e2 = try T2.init(fromJavaObject: v2, env: env)
-        e3 = try T3.init(fromJavaObject: v3, env: env)
+        return (
+            try T0.fromJava(object: v0, env: env),
+            try T1.fromJava(object: v1, env: env),
+            try T2.fromJava(object: v2, env: env),
+            try T3.fromJava(object: v3, env: env)
+        )
     }
 
-    public func toJava(env: Env) throws -> CType {
-        let v0 = try jvalue(l: e0.toJavaObject(env: env))
-        let v1 = try jvalue(l: e1.toJavaObject(env: env))
-        let v2 = try jvalue(l: e2.toJavaObject(env: env))
-        let v3 = try jvalue(l: e3.toJavaObject(env: env))
+    public static func toJava(_ value: SwiftType, env: Env) throws -> CType {
+        let v0 = try jvalue(l: T0.toJavaObject(value.0, env: env))
+        let v1 = try jvalue(l: T1.toJavaObject(value.1, env: env))
+        let v2 = try jvalue(l: T2.toJavaObject(value.2, env: env))
+        let v3 = try jvalue(l: T3.toJavaObject(value.3, env: env))
         let result = try env.NewObject(tuple4Class, tuple4Constructor, v0, v1, v2, v3)
         env.DeleteLocalRef(v0.l)
         env.DeleteLocalRef(v1.l)

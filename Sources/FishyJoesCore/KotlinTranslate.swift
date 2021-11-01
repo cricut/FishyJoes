@@ -20,7 +20,7 @@ class KotlinTranslate {
             if method.isStatic {
                 selfExpression = containingNamespace
             } else {
-                selfExpression = "\(containingNamespace)(fromJava: _javaThis, env: _javaEnv)"
+                selfExpression = "\(containingNamespace).fromJava(_javaThis, env: _javaEnv)"
             }
         } else {
             containingNamespace = context.module
@@ -32,8 +32,7 @@ class KotlinTranslate {
             (name: "_javaThis", type: "jobject"),
         ] + method.parameters.map { parameter in
             let resolved = context.resolve(type: parameter.type, generics: exportAnnotation.genericOverrides)
-            let sourceType = resolved.sourceProxyType ?? resolved.sourceType
-            return (name: parameter.name, type: sourceType.name + ".CType")
+            return (name: parameter.name, type: resolved.converterType.name + ".CType")
         }
         let fragment = context.swiftFragment(
             "JavaInterface/\(containingNamespace)+javadecl.swift",
@@ -53,29 +52,22 @@ class KotlinTranslate {
             returnSignature = "Void"
             jniSignature += "V"
             resultBlock = { body in
+                if method.isThrowing {
+                    fragment.output("try ", newLineTerminated: false)
+                }
                 body()
                 fragment.blankLine()
             }
         case let type:
             let resolved = context.resolve(type: type, generics: exportAnnotation.genericOverrides)
-            if let returnProxy = resolved.sourceProxyType?.name {
-                resultBlock = { body in
-                    fragment.outputBlock("let result = try \(returnProxy).proxyToJava(") {
-                        fragment.output("for: ", newLineTerminated: false)
-                        body()
-                        fragment.blankLine()
-                        fragment.output(", env: _javaEnv")
-                    }
-                }
-                returnSignature = "\(returnProxy).CType"
-            } else {
-                resultBlock = { body in
-                    fragment.output("let result = try ", newLineTerminated: false)
+            resultBlock = { body in
+                fragment.outputBlock("let result = try \(resolved.converterType.name).toJava(") {
                     body()
-                    fragment.output(".toJava(env: _javaEnv)")
+                    fragment.blankLine()
+                    fragment.output(", env: _javaEnv")
                 }
-                returnSignature = "\(resolved.sourceType.name).CType"
             }
+            returnSignature = "\(resolved.converterType.name).CType"
             jniSignature += resolved.jniType.asSignature
         }
         let cMethod = "java_\(containingNamespace)_\(exportAnnotation.name)".replacingOccurrences(of: ".", with: "_")
@@ -96,20 +88,14 @@ class KotlinTranslate {
                 resultBlock {
                     fragment.outputBlock("\(selfExpression)\(callName)(", newLineTerminated: false) {
                         fragment.outputMap(method.parameters, separator: ",") { formal in
-                            let constructor: String
                             let resolved = context.resolve(type: formal.type, generics: exportAnnotation.genericOverrides)
-                            if let proxy = resolved.sourceProxyType {
-                                constructor = "\(proxy.name).proxyInit"
-                            } else {
-                                constructor = resolved.sourceType.name
-                            }
                             return (formal.label.map { "\($0): " } ?? "") +
-                                "try \(constructor)(fromJava: \(formal.name), env: _javaEnv)"
+                                "try \(resolved.converterType.name).fromJava(\(formal.name), env: _javaEnv)"
                         }
                     }
                 }
                 if method.isMutating {
-                    fragment.output("try mutatingSelf.mutateJava(this: _javaThis, env: _javaEnv)")
+                    fragment.output("try \(containingNamespace).mutateJava(mutatingSelf, javaThis: _javaThis, env: _javaEnv)")
                 }
                 if method.returnType != .void {
                     fragment.output("return result")
@@ -145,7 +131,7 @@ class KotlinTranslate {
             if variable.isStatic {
                 selfExpression = containingNamespace
             } else {
-                selfExpression = "\(containingNamespace)(fromJava: _javaThis, env: _javaEnv)"
+                selfExpression = "\(containingNamespace).fromJava(_javaThis, env: _javaEnv)"
             }
         } else {
             containingNamespace = context.module
@@ -160,8 +146,10 @@ class KotlinTranslate {
             additionalImports: ["FishyJoesJavaRuntime"]
         )
 
-        let cType = "\(variable.typeName.better.name).CType"
-        let jniSignature = context.resolve(type: variable.typeName.better).jniType.asSignature
+        let resolved = context.resolve(type: variable.typeName.better)
+        let jniSignature = resolved.jniType.asSignature
+        let converterName = resolved.converterType.name
+        let cType = "\(converterName).CType"
 
         // Getter
         let formals = [
@@ -176,7 +164,7 @@ class KotlinTranslate {
         }
         fragment.outputBlock(" -> \(cType) = { \(formals.map(\.name).joined(separator: ", ")) in", closeWith: "}") {
             fragment.outputBlock("FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in", closeWith: "}") {
-                fragment.output("try \(selfExpression).\(variable.name).toJava(env: _javaEnv)")
+                fragment.output("try \(converterName).toJava(\(selfExpression).\(variable.name), env: _javaEnv)")
             }
         }
 
@@ -194,11 +182,11 @@ class KotlinTranslate {
             fragment.outputBlock(" -> Void = { \(formals.map(\.name).joined(separator: ", ")) in", closeWith: "}") {
                 fragment.outputBlock("FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in", closeWith: "}") {
                     if variable.isStatic {
-                        fragment.output("\(selfExpression).\(variable.name) = try .init(fromJava: newValue, env: _javaEnv)")
+                        fragment.output("\(selfExpression).\(variable.name) = try \(converterName).fromJava(newValue, env: _javaEnv)")
                     } else {
                         fragment.output("var mutatingSelf = try \(selfExpression)")
-                        fragment.output("mutatingSelf.\(variable.name) = try .init(fromJava: newValue, env: _javaEnv)")
-                        fragment.output("try mutatingSelf.mutateJava(this: _javaThis, env: _javaEnv)")
+                        fragment.output("mutatingSelf.\(variable.name) = try \(converterName).fromJava(newValue, env: _javaEnv)")
+                        fragment.output("try \(containingNamespace).mutateJava(mutatingSelf, javaThis: _javaThis, env: _javaEnv)")
                     }
                 }
             }
@@ -225,9 +213,8 @@ class KotlinTranslate {
                 for type in generatedTypes.sorted(by: { "\($0)" < "\($1)" }) {
                     guard type != .void else { continue }
                     let resolved = context.resolve(type: type)
-                    let proxy = resolved.sourceProxyType ?? resolved.sourceType
-                    javaTypeListFragment.output("// print(\"setting up \(proxy.name)...\")")
-                    javaTypeListFragment.output("try \(proxy.name).javaSetup(env: env)")
+                    javaTypeListFragment.output("// print(\"setting up \(resolved.converterType.name)...\")")
+                    javaTypeListFragment.output("try \(resolved.converterType.name).javaSetup(env: env)")
                     if case .named = type {
                         if let nativeMethods = allMethods[type.name] {
                             javaTypeListFragment.outputBlock("try javaOk(env.RegisterNatives(\(type.name).javaClass, ", closeWith: "))") {

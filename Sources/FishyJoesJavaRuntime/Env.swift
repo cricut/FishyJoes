@@ -22,7 +22,7 @@ public struct Env {
         let toStringID = try GetMethodID(objectClass, "toString", "()Ljava/lang/String;")
         guard let string = try CallObjectMethod(obj, toStringID) else { return "<<null>>" }
         defer { DeleteLocalRef(string) }
-        return try String(fromJava: string, env: self)
+        return try String.fromJava(string, env: self)
     }
 
     public func check<Result>(_ result: Result) throws -> Result {
@@ -30,6 +30,10 @@ public struct Env {
             throw JavaExceptionPending()
         }
         return result
+    }
+
+    public func RegisterNatives(_ clazz: jclass?, _ methods: JNINativeMethod ...) throws -> jint {
+        try RegisterNatives(clazz, methods: methods)
     }
 }
 
@@ -534,7 +538,7 @@ extension Env {
         try check(fns.SetDoubleArrayRegion(env, array, start, len, buf))
     }
 
-    public func RegisterNatives(_ clazz: jclass?, _ methods: JNINativeMethod ...) throws -> jint {
+    public func RegisterNatives(_ clazz: jclass?, methods: [JNINativeMethod]) throws -> jint {
         try check(fns.RegisterNatives(env, clazz, methods, jint(methods.count)))
     }
     public func UnregisterNatives(_ clazz: jclass?) -> jint {

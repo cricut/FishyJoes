@@ -146,7 +146,11 @@ struct TranslatedStruct: TranslatedType {
             additionalImports: ["FishyJoesJavaRuntime"]
         )
         let className = context.kotlinTranslator.javaClassName(nodeName, in: context)
-        fragment.outputBlock("extension \(sourceType.name): JavaConvertible {") {
+        fragment.outputBlock("extension \(sourceType.name): JavaConverter {") {
+            fragment.output("public typealias SwiftType = Self")
+            fragment.output("public typealias CType = jobject?")
+            fragment.blankLine()
+
             fragment.output("public static var javaClass: jclass?")
             fragment.output("public static var javaDescriptor: String { \"L\(className);\" }")
             for storedVar in storedVariables {
@@ -154,27 +158,28 @@ struct TranslatedStruct: TranslatedType {
             }
             fragment.output("private static var _constructorMethodID: jmethodID!")
 
-            fragment.outputBlock("public init(fromJava value: jobject?, env: Env) throws {") {
-                fragment.outputBlock("self.init(") {
+            fragment.outputBlock("public static func fromJava(_ value: jobject?, env: Env) throws -> Self {") {
+                fragment.outputBlock("Self(") {
                     for (index, storedVar) in storedVariables.enumerated() {
                         let resolved = context.resolve(type: storedVar.typeName.better)
                         let last = index == storedVariables.count - 1
                         let fieldCType = resolved.jniType.valueType
-                        fragment.outputBlock("\(storedVar.name): try \(resolved.sourceType.name)(", closeWith: last ? ")" : "),") {
-                            fragment.output("fromJava: env.Get\(fieldCType)Field(value, Self._java_\(storedVar.name)_id),")
+                        fragment.outputBlock("\(storedVar.name): try \(resolved.converterType.name).fromJava(", closeWith: last ? ")" : "),") {
+                            fragment.output("env.Get\(fieldCType)Field(value, Self._java_\(storedVar.name)_id),")
                             fragment.output("env: env")
                         }
                     }
                 }
             }
 
-            fragment.outputBlock("public func toJava(env: Env) throws -> jobject? {") {
+            fragment.outputBlock("public static func toJava(_ value: Self, env: Env) throws -> jobject? {") {
                 fragment.outputBlock("try env.NewObject(") {
                     let args = [
                         "Self.javaClass",
                         "Self._constructorMethodID",
                     ] + storedVariables.map { storedVar in
-                        "jvalue(self.\(storedVar.name).toJava(env: env))"
+                        let resolved = context.resolve(type: storedVar.typeName.better)
+                        return "jvalue(\(resolved.converterType.name).toJava(value.\(storedVar.name), env: env))"
                     }
                     fragment.outputMap(args, separator: ",") { $0 }
                 }
@@ -185,18 +190,21 @@ struct TranslatedStruct: TranslatedType {
                 fragment.output("var constructorDescriptor = \"\"")
                 for storedVar in storedVariables {
                     let resolved = context.resolve(type: storedVar.typeName.better)
-                    let proxyType = resolved.sourceProxyType ?? resolved.sourceType
-                    fragment.output("_java_\(storedVar.name)_id = try env.GetFieldID(javaClass, \"\(storedVar.name)\", \(proxyType.name).javaDescriptor)")
-                    fragment.output("constructorDescriptor += \(proxyType.name).javaDescriptor")
+                    let converterType = resolved.converterType
+                    fragment.output("_java_\(storedVar.name)_id = try env.GetFieldID(javaClass, \"\(storedVar.name)\", \(converterType.name).javaDescriptor)")
+                    fragment.output("constructorDescriptor += \(converterType.name).javaDescriptor")
                 }
                 fragment.output("_constructorMethodID = try env.GetMethodID(javaClass, \"<init>\", \"(\\(constructorDescriptor))V\")")
             }
 
-            fragment.outputBlock("public func mutateJava(this: jobject?, env: Env) throws {") {
+            fragment.outputBlock("public static func mutateJava(_ value: Self, javaThis: jobject?, env: Env) throws {") {
                 for storedVar in storedVariables {
                     let resolved = context.resolve(type: storedVar.typeName.better)
                     let fieldCType = resolved.jniType.valueType
-                    fragment.output("try env.Set\(fieldCType)Field(this, Self._java_\(storedVar.name)_id, self.\(storedVar.name).toJava(env: env))")
+                    fragment.outputBlock("try env.Set\(fieldCType)Field(") {
+                        fragment.output("javaThis, Self._java_\(storedVar.name)_id,")
+                        fragment.output("\(resolved.converterType.name).toJava(value.\(storedVar.name), env: env)")
+                    }
                 }
             }
         }

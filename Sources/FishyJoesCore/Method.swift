@@ -15,6 +15,7 @@ struct Method {
     let isStatic: Bool
     let isMutating: Bool
     let isInitializer: Bool
+    let isThrowing: Bool
 
     init(
         name: String,
@@ -26,7 +27,8 @@ struct Method {
         definedIn: BetterType?,
         isStatic: Bool = false,
         isMutating: Bool = false,
-        isInitializer: Bool = false
+        isInitializer: Bool = false,
+        isThrowing: Bool = false
     ) {
         self.name = name
         self.callName = callName ?? name
@@ -38,6 +40,7 @@ struct Method {
         self.isStatic = isStatic
         self.isMutating = isMutating
         self.isInitializer = isInitializer
+        self.isThrowing = isThrowing
     }
 
     init?(_ method: SourceryMethod) {
@@ -52,6 +55,7 @@ struct Method {
         // SourceryMethod.isMutating seems to be a bit buggy...
         self.isMutating = method.isMutating || method.modifiers.contains(where: { $0.name == "mutating" })
         self.isInitializer = method.isInitializer
+        self.isThrowing = method.throws || method.rethrows
 
         var parameters: [SwiftFormal] = []
         var omitParameters = Set(exportAnnotation.omitParameters)
