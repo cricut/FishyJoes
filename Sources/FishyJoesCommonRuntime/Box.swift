@@ -23,7 +23,7 @@ public struct Box<T> {
 
     public init(inner box: AnyBox) throws {
         guard box.value is T else {
-            throw BoxTypeError(message: "expected \(T.self), got \(type(of: box.value)): \(box.value)")
+            throw BoxTypeError(message: "expected type \(T.self), got \(box.value) of type \(type(of: box.value))")
         }
         self.box = box
     }

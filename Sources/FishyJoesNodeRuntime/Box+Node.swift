@@ -13,18 +13,18 @@ extension Box {
 }
 
 extension AnyBox {
+    static let boxFinalize: napi_finalize = { env, data, hint in
+        if let hint = hint {
+            let s = String(cString: hint.assumingMemoryBound(to: CChar.self))
+            print("boxFinalize: \(s)")
+        }
+        AnyBox.releaseOpaque(data)
+    }
+
     func retainedExternal(env: napi_env) throws -> napi_value? {
         var result: napi_value?
 
-        let boxFinalize: napi_finalize = { env, data, hint in
-            if let hint = hint {
-                let s = String(cString: hint.assumingMemoryBound(to: CChar.self))
-                print("boxFinalize: \(s)")
-            }
-            AnyBox.releaseOpaque(data)
-        }
-
-        try check(napi_create_external(env, retainedOpaque(), boxFinalize, nil, &result))
+        try check(napi_create_external(env, retainedOpaque(), Self.boxFinalize, nil, &result))
         return result
     }
 

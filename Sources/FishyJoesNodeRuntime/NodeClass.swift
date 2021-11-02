@@ -33,7 +33,7 @@ public struct NodeClass {
 
         var nodeProperties: [napi_property_descriptor] = []
         for (name, (prop, isStatic)) in properties {
-            let nodeName = try name.toNode(env: env)
+            let nodeName = try String.toNode(name, env: env)
             var attributes = isStatic ? napi_static : napi_default
             switch prop {
             case let .stored(mutable):

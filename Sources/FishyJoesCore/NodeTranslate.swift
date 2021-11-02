@@ -23,7 +23,7 @@ struct NodeTranslate {
             if variable.isStatic {
                 selfExpression = containingNamespace
             } else {
-                selfExpression = "env.this(as: \(containingNamespace).self)"
+                selfExpression = "env.this(converter: \(containingNamespace).self)"
             }
         } else {
             containingNamespace = context.module
@@ -32,7 +32,8 @@ struct NodeTranslate {
 
         fragment.outputBlock("{ env, info in", closeWith: "}", newLineTerminated: false) {
             fragment.outputBlock("FishyJoesNodeRuntime.callbackBody(env, info, name: \"\(nodeName)\", expectedArgumentCount: 0) { env in", closeWith: "}") {
-                fragment.output("try \(selfExpression).\(variable.name).toNode(env: env.env)")
+                let resolved = context.resolve(type: variable.typeName.better)
+                fragment.output("try \(resolved.converterType.name).toNode(\(selfExpression).\(variable.name), env: env.env)")
             }
         }
     }
@@ -56,7 +57,7 @@ struct NodeTranslate {
             if variable.isStatic {
                 selfExpression = containingNamespace
             } else {
-                selfExpression = "env.this(as: \(containingNamespace).self)"
+                selfExpression = "env.this(converter: \(containingNamespace).self)"
             }
         } else {
             containingNamespace = context.module
@@ -65,12 +66,13 @@ struct NodeTranslate {
 
         fragment.outputBlock("{ env, info in", closeWith: "}", newLineTerminated: false) {
             fragment.outputBlock("FishyJoesNodeRuntime.callbackBody(env, info, name: \"\(nodeName)\", expectedArgumentCount: 1) { env in", closeWith: "}") {
+                let resolved = context.resolve(type: variable.typeName.better)
                 if variable.isStatic {
-                    fragment.output("\(selfExpression).\(variable.name) = try env.argument(at: 0, as: \(variable.typeName.better.name).self)")
+                    fragment.output("\(selfExpression).\(variable.name) = try env.argument(at: 0, converter: \(resolved.converterType.name).self)")
                 } else {
                     fragment.output("var mutatingSelf = try \(selfExpression)")
-                    fragment.output("mutatingSelf.\(variable.name) = try env.argument(at: 0, as: \(variable.typeName.better.name).self)")
-                    fragment.output("try mutatingSelf.mutateNode(this: env.this(), env: env.env)")
+                    fragment.output("mutatingSelf.\(variable.name) = try env.argument(at: 0, converter: \(resolved.converterType.name).self)")
+                    fragment.output("try \(containingNamespace).mutateNode(mutatingSelf, this: env.this(), env: env.env)")
                 }
                 fragment.output("return nil")
             }
@@ -90,40 +92,14 @@ struct NodeTranslate {
             if method.isStatic {
                 selfExpression = containingNamespace
             } else {
-                selfExpression = "env.this(as: \(containingNamespace).self)"
+                selfExpression = "env.this(converter: \(containingNamespace).self)"
             }
         } else {
             containingNamespace = context.module
             selfExpression = context.module
         }
 
-        let resultBlock: (() -> Void) -> Void
-        switch method.returnType {
-        case .void:
-            resultBlock = { body in
-                body()
-                fragment.blankLine()
-                fragment.output("let result: napi_value? = nil")
-            }
-        case let type:
-            let resolved = context.resolve(type: type, generics: exportAnnotation.genericOverrides)
-            if let returnProxy = resolved.sourceProxyType?.name {
-                resultBlock = { body in
-                    fragment.outputBlock("let result = try \(returnProxy).proxyToNode(") {
-                        fragment.output("for: ", newLineTerminated: false)
-                        body()
-                        fragment.blankLine()
-                        fragment.output(", env: env.env")
-                    }
-                }
-            } else {
-                resultBlock = { body in
-                    fragment.output("let result = try ", newLineTerminated: false)
-                    body()
-                    fragment.output(".toNode(env: env.env)")
-                }
-            }
-        }
+        let returnType = context.resolve(type: method.returnType, generics: exportAnnotation.genericOverrides)
 
         fragment.outputBlock("{ env, info in", closeWith: "}") {
             fragment.outputBlock("FishyJoesNodeRuntime.callbackBody(env, info, name: \"\(nodeName)\", expectedArgumentCount: \(method.parameters.count)) { env in", closeWith: "}") {
@@ -134,22 +110,20 @@ struct NodeTranslate {
                     selfExpression = "mutatingSelf"
                 }
 
-                resultBlock {
-                    fragment.outputBlock("\(selfExpression)\(callName)(", newLineTerminated: false) {
+
+                fragment.outputBlock("let result = try \(returnType.converterType.name).toNode(") {
+                    fragment.outputBlock("\(selfExpression)\(callName)(", closeWith: "),") {
                         fragment.outputMap(method.parameters.enumerated(), separator: ",") {
                             let (index, formal) = $0
                             let resolved = context.resolve(type: formal.type, generics: exportAnnotation.genericOverrides)
                             let result = (formal.label.map { "\($0): " } ?? "") + "try env.argument(at: \(index), "
-                            if let proxy = resolved.sourceProxyType {
-                                return result + "asProxyType: \(proxy.name).self)"
-                            } else {
-                                return result + "as: \(resolved.sourceType.name).self)"
-                            }
+                            return result + "converter: \(resolved.converterType.name).self)"
                         }
                     }
+                    fragment.output("env: env.env")
                 }
                 if method.isMutating {
-                    fragment.output("try mutatingSelf.mutateNode(this: env.this(), env: env.env)")
+                    fragment.output("try Self.mutateNode(mutatingSelf, this: env.this(), env: env.env)")
                 }
                 fragment.output("return result")
             }

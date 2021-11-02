@@ -41,28 +41,29 @@ struct TranslatedStruct: TranslatedType {
             additionalImports: ["FishyJoesNodeRuntime"]
         )
 
-        fragment.outputBlock("extension \(globalName): FishyJoesNodeRuntime.NodeMutable {") {
+        fragment.outputBlock("extension \(globalName): NodeMutator {") {
 
-            fragment.outputBlock("public init(fromNode value: napi_value?, env: napi_env) throws {") {
+            fragment.outputBlock("public static func fromNode(_ value: napi_value?, env: napi_env) throws -> Self {") {
                 // TODO: type check
-                fragment.outputBlock("self.init(") {
+                fragment.outputBlock("Self(") {
                     for (index, storedVar) in storedVariables.enumerated() {
                         let resolved = context.resolve(type: storedVar.typeName.better)
                         let last = index == storedVariables.count - 1
                         fragment.outputBlock("\(storedVar.name): try { () -> \(resolved.sourceType.name) in", closeWith: last ? "}()" : "}(),") {
                             fragment.output("var fieldValue: napi_value?")
                             fragment.output("try check(napi_get_named_property(env, value, \"\(storedVar.name)\", &fieldValue))")
-                            fragment.output("return try \(resolved.sourceType.name)(fromNode: fieldValue, env: env)")
+                            fragment.output("return try \(resolved.converterType.name).fromNode(fieldValue, env: env)")
                         }
                     }
                 }
             }
 
-            fragment.outputBlock("public func toNode(env: napi_env) throws -> napi_value? {") {
-                fragment.output("let constructor = try FishyJoesNodeRuntime.InstanceData.data(for: env).constructor(for: \"\(nodeName)\", env: env)")
+            fragment.outputBlock("public static func toNode(_ value: Self, env: napi_env) throws -> napi_value? {") {
+                fragment.output("let constructor = try InstanceData.data(for: env).constructor(for: \"\(nodeName)\", env: env)")
                 fragment.outputBlock("let args: [napi_value?] = [") {
                     for storedVar in storedVariables {
-                        fragment.output("try \(storedVar.name).toNode(env: env),")
+                        let resolved = context.resolve(type: storedVar.typeName.better)
+                        fragment.output("try \(resolved.converterType.name).toNode(value.\(storedVar.name), env: env),")
                     }
                 }
                 fragment.output("var result: napi_value?")
@@ -70,10 +71,11 @@ struct TranslatedStruct: TranslatedType {
                 fragment.output("return result")
             }
 
-            fragment.outputBlock("public func mutateNode(this: napi_value?, env: napi_env) throws {") {
+            fragment.outputBlock("public static func mutateNode(_ value: Self, this: napi_value?, env: napi_env) throws {") {
                 for storedVar in storedVariables {
                     guard storedVar.isMutable else { continue }
-                    fragment.output("try check(napi_set_named_property(env, this, \"\(storedVar.name)\", \(storedVar.name).toNode(env: env)))")
+                    let resolved = context.resolve(type: storedVar.typeName.better)
+                    fragment.output("try check(napi_set_named_property(env, this, \"\(storedVar.name)\", \(resolved.converterType.name).toNode(value.\(storedVar.name), env: env)))")
                 }
             }
 
@@ -99,7 +101,7 @@ struct TranslatedStruct: TranslatedType {
                         }
                     }
                     fragment.outputBlock("constructor: { env, info in", closeWith: "}") {
-                        fragment.outputBlock("FishyJoesNodeRuntime.callbackBody(env, info, name: \"\(nodeName)_constructor\", expectedArgumentCount: \(storedVariables.count)) { env in", closeWith: "}") {
+                        fragment.outputBlock("callbackBody(env, info, name: \"\(nodeName)_constructor\", expectedArgumentCount: \(storedVariables.count)) { env in", closeWith: "}") {
                             fragment.output("// TODO: typecheck?")
                             fragment.output("let this = try env.this()")
                             for (index, storedVar) in storedVariables.enumerated() {
@@ -109,7 +111,7 @@ struct TranslatedStruct: TranslatedType {
                         }
                     }
                 }
-                fragment.outputBlock("try FishyJoesNodeRuntime.mergeDefinitionInto(") {
+                fragment.outputBlock("try mergeDefinitionInto(") {
                     fragment.output("env: env,")
                     fragment.output("module: module,")
                     fragment.output("path: \"\(nodeName)\",")
@@ -146,7 +148,11 @@ struct TranslatedStruct: TranslatedType {
             additionalImports: ["FishyJoesJavaRuntime"]
         )
         let className = context.kotlinTranslator.javaClassName(nodeName, in: context)
-        fragment.outputBlock("extension \(sourceType.name): JavaConvertible {") {
+        fragment.outputBlock("extension \(sourceType.name): JavaConverter {") {
+            fragment.output("public typealias SwiftType = Self")
+            fragment.output("public typealias CType = jobject?")
+            fragment.blankLine()
+
             fragment.output("public static var javaClass: jclass?")
             fragment.output("public static var javaDescriptor: String { \"L\(className);\" }")
             for storedVar in storedVariables {
@@ -154,27 +160,28 @@ struct TranslatedStruct: TranslatedType {
             }
             fragment.output("private static var _constructorMethodID: jmethodID!")
 
-            fragment.outputBlock("public init(fromJava value: jobject?, env: Env) throws {") {
-                fragment.outputBlock("self.init(") {
+            fragment.outputBlock("public static func fromJava(_ value: jobject?, env: Env) throws -> Self {") {
+                fragment.outputBlock("Self(") {
                     for (index, storedVar) in storedVariables.enumerated() {
                         let resolved = context.resolve(type: storedVar.typeName.better)
                         let last = index == storedVariables.count - 1
                         let fieldCType = resolved.jniType.valueType
-                        fragment.outputBlock("\(storedVar.name): try \(resolved.sourceType.name)(", closeWith: last ? ")" : "),") {
-                            fragment.output("fromJava: env.Get\(fieldCType)Field(value, Self._java_\(storedVar.name)_id),")
+                        fragment.outputBlock("\(storedVar.name): try \(resolved.converterType.name).fromJava(", closeWith: last ? ")" : "),") {
+                            fragment.output("env.Get\(fieldCType)Field(value, Self._java_\(storedVar.name)_id),")
                             fragment.output("env: env")
                         }
                     }
                 }
             }
 
-            fragment.outputBlock("public func toJava(env: Env) throws -> jobject? {") {
+            fragment.outputBlock("public static func toJava(_ value: Self, env: Env) throws -> jobject? {") {
                 fragment.outputBlock("try env.NewObject(") {
                     let args = [
                         "Self.javaClass",
                         "Self._constructorMethodID",
                     ] + storedVariables.map { storedVar in
-                        "jvalue(self.\(storedVar.name).toJava(env: env))"
+                        let resolved = context.resolve(type: storedVar.typeName.better)
+                        return "jvalue(\(resolved.converterType.name).toJava(value.\(storedVar.name), env: env))"
                     }
                     fragment.outputMap(args, separator: ",") { $0 }
                 }
@@ -185,18 +192,21 @@ struct TranslatedStruct: TranslatedType {
                 fragment.output("var constructorDescriptor = \"\"")
                 for storedVar in storedVariables {
                     let resolved = context.resolve(type: storedVar.typeName.better)
-                    let proxyType = resolved.sourceProxyType ?? resolved.sourceType
-                    fragment.output("_java_\(storedVar.name)_id = try env.GetFieldID(javaClass, \"\(storedVar.name)\", \(proxyType.name).javaDescriptor)")
-                    fragment.output("constructorDescriptor += \(proxyType.name).javaDescriptor")
+                    let converterType = resolved.converterType
+                    fragment.output("_java_\(storedVar.name)_id = try env.GetFieldID(javaClass, \"\(storedVar.name)\", \(converterType.name).javaDescriptor)")
+                    fragment.output("constructorDescriptor += \(converterType.name).javaDescriptor")
                 }
                 fragment.output("_constructorMethodID = try env.GetMethodID(javaClass, \"<init>\", \"(\\(constructorDescriptor))V\")")
             }
 
-            fragment.outputBlock("public func mutateJava(this: jobject?, env: Env) throws {") {
+            fragment.outputBlock("public static func mutateJava(_ value: Self, javaThis: jobject?, env: Env) throws {") {
                 for storedVar in storedVariables {
                     let resolved = context.resolve(type: storedVar.typeName.better)
                     let fieldCType = resolved.jniType.valueType
-                    fragment.output("try env.Set\(fieldCType)Field(this, Self._java_\(storedVar.name)_id, self.\(storedVar.name).toJava(env: env))")
+                    fragment.outputBlock("try env.Set\(fieldCType)Field(") {
+                        fragment.output("javaThis, Self._java_\(storedVar.name)_id,")
+                        fragment.output("\(resolved.converterType.name).toJava(value.\(storedVar.name), env: env)")
+                    }
                 }
             }
         }

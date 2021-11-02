@@ -147,6 +147,9 @@ public class FishyJoesContext {
 
         var dontCache = false
         let resolved = { () -> TranslatedType in
+            func recur(_ type: BetterType) -> TranslatedType {
+                resolve(type: type, generics: generics)
+            }
             switch type {
             case let .named(name):
                 if let names = primitiveTypeMap[name.globalName] {
@@ -158,7 +161,7 @@ public class FishyJoesContext {
                     )
                 } else if let typeOverride = generics[name.name] {
                     dontCache = true
-                    return resolve(type: typeOverride, generics: generics)
+                    return recur(typeOverride)
                 } else if name.name == "String" {
                     return TranslatedString()
                 } else if name.name == "Index", name.namespace.last?.hasPrefix("Array<") == true {
@@ -168,22 +171,24 @@ public class FishyJoesContext {
                     fatalErr("Don't know how to translate type `\(name)`. Maybe annotate it with `sourcery:export(...)`?")
                 }
             case .void:
-                return TranslatedPrimitive(swift: .init(name: "Void"), c: "void", node: "void", jni: .void)
+                return TranslatedVoid()
             case .tuple(let elements):
-                return TranslatedTuple(elements: elements.map { .init(label: $0.label, type: resolve(type: $0.type)) })
+                return TranslatedTuple(elements: elements.map { .init(label: $0.label, type: recur($0.type)) })
             case .generic(let base, let args):
                 switch (base.globalName, args.count) {
                 case ("Optional", 1):
-                    return TranslatedOptional(wrapped: resolve(type: args[0]))
+                    return TranslatedOptional(wrapped: recur(args[0]))
                 case ("Array", 1):
-                    return TranslatedArray(element: resolve(type: args[0]))
+                    return TranslatedArray(element: recur(args[0]))
                 case ("Set", 1):
-                    return TranslatedSet(element: resolve(type: args[0]))
+                    return TranslatedSet(element: recur(args[0]))
                 case ("Dictionary", 2):
-                    return TranslatedDictionary(key: resolve(type: args[0]), value: resolve(type: args[1]))
+                    return TranslatedDictionary(key: recur(args[0]), value: recur(args[1]))
                 default:
                     fatalErr("TODO: resolve(type: \(type))")
                 }
+            case .function(let parameters, let returnType):
+                return TranslatedFunction(parameters: parameters.map(recur), returnType: recur(returnType))
             default:
                 fatalErr("TODO: resolve(type: \(type))")
             }

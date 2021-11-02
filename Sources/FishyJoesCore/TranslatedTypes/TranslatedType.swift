@@ -2,7 +2,7 @@ import SourceryRuntime
 
 protocol TranslatedType {
     var sourceType: BetterType { get }
-    var sourceProxyType: BetterType? { get }
+    var converterType: BetterType { get }
     var nodeName: String { get }
     var kotlinName: String { get }
     var jniType: JNIType { get }
@@ -12,7 +12,10 @@ protocol TranslatedType {
 extension TranslatedType {
     var cForwardDeclaration: String? { nil }
     var asSwiftAccessor: String { fatalErr("asSwiftAccessor not implemented for \(Self.self)") }
-    var sourceProxyType: BetterType? { nil }
+
+    var converterType: BetterType {
+        sourceType
+    }
 
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] { [] }
 

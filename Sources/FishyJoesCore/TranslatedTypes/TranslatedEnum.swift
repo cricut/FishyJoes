@@ -73,20 +73,20 @@ struct TranslatedEnum: TranslatedType {
         )
         if cases.allSatisfy({ $0.associatedValues.isEmpty }) {
             // Simple enum, export as strings
-            fragment.outputBlock("extension \(sourceType.name): FishyJoesNodeRuntime.NodeConvertible {") {
-                fragment.outputBlock("public init(fromNode value: napi_value?, env: napi_env) throws {") {
-                    fragment.outputBlock("switch try String(fromNode: value, env: env) {") {
+            fragment.outputBlock("extension \(sourceType.name): FishyJoesNodeRuntime.NodeConverter {") {
+                fragment.outputBlock("public static func fromNode(_ value: napi_value?, env: napi_env) throws -> Self {") {
+                    fragment.outputBlock("switch try String.fromNode(value, env: env) {") {
                         for enumCase in cases {
-                            fragment.output("case \"\(enumCase.name)\": self = .\(enumCase.name)")
+                            fragment.output("case \"\(enumCase.name)\": return .\(enumCase.name)")
                         }
                         fragment.output("case let unknown: print(\"invalid enum string '\\(unknown)' for \(sourceType.name)\"); fatalError()")
                     }
                 }
 
-                fragment.outputBlock("public func toNode(env: napi_env) throws -> napi_value? {") {
-                    fragment.outputBlock("switch self {") {
+                fragment.outputBlock("public static func toNode(_ value: Self, env: napi_env) throws -> napi_value? {") {
+                    fragment.outputBlock("switch value {") {
                         for enumCase in cases {
-                            fragment.output("case .\(enumCase.name): return try \"\(enumCase.name)\".toNode(env: env)")
+                            fragment.output("case .\(enumCase.name): return try String.toNode(\"\(enumCase.name)\", env: env)")
                         }
                     }
                 }
@@ -99,8 +99,8 @@ struct TranslatedEnum: TranslatedType {
                 )
             )
         } else {
-            fragment.outputBlock("extension \(sourceType.name): FishyJoesNodeRuntime.NodeConvertible {") {
-                fragment.outputBlock("public init(fromNode value: napi_value?, env: napi_env) throws {") {
+            fragment.outputBlock("extension \(sourceType.name): FishyJoesNodeRuntime.NodeConverter {") {
+                fragment.outputBlock("public static func fromNode(_ value: napi_value?, env: napi_env) throws -> Self {") {
                     fragment.output("let instanceData = try FishyJoesNodeRuntime.InstanceData.data(for: env)")
                     fragment.output("var isInstanceResult = false")
                     for enumCase in cases {
@@ -119,16 +119,15 @@ struct TranslatedEnum: TranslatedType {
                                 fragment.output("try check(napi_get_named_property(env, value, \"\(name)\", &\(name)))")
                             }
                             if enumCase.associatedValues.isEmpty {
-                                fragment.output("self = .\(enumCase.name)")
+                                fragment.output("return \(enumCase.name)")
                             } else {
-                                fragment.outputBlock("self = .\(enumCase.name)(") {
+                                fragment.outputBlock("return .\(enumCase.name)(") {
                                     fragment.outputMap(enumCase.associatedValues, separator: ",") { value in
                                         let resolved = context.resolve(type: value.type)
-                                        return "\(value.name.map { "\($0): " } ?? "")try \(resolved.sourceType.name)(fromNode: \(value.bindingName), env: env)"
+                                        return "\(value.name.map { "\($0): " } ?? "")try \(resolved.converterType.name).fromNode(\(value.bindingName), env: env)"
                                     }
                                 }
                             }
-                            fragment.output("return")
                         }
                         fragment.blankLine()
                     }
@@ -136,10 +135,10 @@ struct TranslatedEnum: TranslatedType {
                 }
                 fragment.blankLine()
 
-                fragment.outputBlock("public func toNode(env: napi_env) throws -> napi_value? {") {
+                fragment.outputBlock("public static func toNode(_ value: Self, env: napi_env) throws -> napi_value? {") {
                     fragment.output("let instanceData = try FishyJoesNodeRuntime.InstanceData.data(for: env)")
                     fragment.output("var _result: napi_value?")
-                    fragment.output("switch self {")
+                    fragment.output("switch value {")
                     for enumCase in cases {
                         let className = "\(nodeName).\(upperCaseFirst(enumCase.name))"
 
@@ -157,7 +156,8 @@ struct TranslatedEnum: TranslatedType {
                                 fragment.output("\(enumCase.associatedValues.count),")
                                 fragment.outputBlock("[", closeWith: "],") {
                                     for value in enumCase.associatedValues {
-                                        fragment.output("\(value.bindingName).toNode(env: env),")
+                                        let resolved = context.resolve(type: value.type)
+                                        fragment.output("\(resolved.converterType.name).toNode(\(value.bindingName), env: env),")
                                     }
                                 }
                                 fragment.output("&_result")
@@ -269,7 +269,11 @@ struct TranslatedEnum: TranslatedType {
             additionalImports: ["FishyJoesJavaRuntime"]
         )
         let className = context.kotlinTranslator.javaClassName(nodeName, in: context)
-        fragment.outputBlock("extension \(sourceType.name): FishyJoesJavaRuntime.JavaConvertible {") {
+        fragment.outputBlock("extension \(sourceType.name): JavaConverter {") {
+            fragment.output("public typealias SwiftType = Self")
+            fragment.output("public typealias CType = jobject?")
+            fragment.blankLine()
+
             fragment.output("public static var javaClass: jclass?")
             fragment.output("public static var javaDescriptor: String { \"\(jniType.asSignature)\" }")
             for enumCase in cases {
@@ -285,23 +289,21 @@ struct TranslatedEnum: TranslatedType {
             }
             fragment.blankLine()
 
-            fragment.outputBlock("public init(fromJava value: jobject?, env: Env) throws {") {
+            fragment.outputBlock("public static func fromJava(_ value: jobject?, env: Env) throws -> Self {") {
                 for enumCase in cases {
                     if enumCase.associatedValues.isEmpty {
                         fragment.outputBlock("if env.IsSameObject(value, Self.\(enumCase.classVar)) {") {
-                            fragment.output("self = .\(enumCase.name)")
-                            fragment.output("return")
+                            fragment.output("return .\(enumCase.name)")
                         }
                     } else {
                         fragment.outputBlock("if env.IsInstanceOf(value, Self.\(enumCase.classVar)) {") {
-                            fragment.outputBlock("self = .\(enumCase.name)(") {
+                            fragment.outputBlock("return .\(enumCase.name)(") {
                                 fragment.outputMap(enumCase.associatedValues, separator: ",") { value in
                                     let resolved = context.resolve(type: value.type)
                                     let field = "Self.\(enumCase.classVar)\(value.fieldVar)"
-                                    return "\(value.name.map { "\($0): " } ?? "")try \(resolved.sourceType.name)(fromJava: env.Get\(resolved.jniType.valueType)Field(value, \(field)), env: env)"
+                                    return "\(value.name.map { "\($0): " } ?? "")try \(resolved.converterType.name).fromJava(env.Get\(resolved.jniType.valueType)Field(value, \(field)), env: env)"
                                 }
                             }
-                            fragment.output("return")
                         }
                     }
                 }
@@ -309,8 +311,8 @@ struct TranslatedEnum: TranslatedType {
             }
             fragment.blankLine()
 
-            fragment.outputBlock("public func toJava(env: Env) throws -> jobject? {") {
-                fragment.output("switch self {")
+            fragment.outputBlock("public static func toJava(_ value: Self, env: Env) throws -> jobject? {") {
+                fragment.output("switch value {")
                 for enumCase in cases {
                     let name = enumCase.name
                     if enumCase.associatedValues.isEmpty {
@@ -322,8 +324,9 @@ struct TranslatedEnum: TranslatedType {
                                 fragment.output("Self.\(enumCase.classVar),")
                                 fragment.output("Self.\(enumCase.classInitVar)", newLineTerminated: false)
                                 for value in enumCase.associatedValues {
+                                    let resolved = context.resolve(type: value.type)
                                     fragment.output(",")
-                                    fragment.output("jvalue(\(value.bindingName).toJava(env: env))", newLineTerminated: false)
+                                    fragment.output("jvalue(\(resolved.converterType.name).toJava(\(value.bindingName), env: env))", newLineTerminated: false)
                                 }
                                 fragment.blankLine()
                             }
