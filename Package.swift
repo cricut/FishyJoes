@@ -48,6 +48,7 @@ let package = Package(
                     // These symbols must be defined by the node process that loads the N-API addon.
                     // See ld(1) for full details.
                     [
+                        "napi_add_finalizer",
                         "napi_call_function",
                         "napi_coerce_to_string",
                         "napi_create_array_with_length",

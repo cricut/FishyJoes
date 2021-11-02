@@ -171,7 +171,7 @@ public class FishyJoesContext {
                     fatalErr("Don't know how to translate type `\(name)`. Maybe annotate it with `sourcery:export(...)`?")
                 }
             case .void:
-                return TranslatedPrimitive(swift: .init(name: "Void"), c: "void", node: "void", jni: .void)
+                return TranslatedVoid()
             case .tuple(let elements):
                 return TranslatedTuple(elements: elements.map { .init(label: $0.label, type: recur($0.type)) })
             case .generic(let base, let args):

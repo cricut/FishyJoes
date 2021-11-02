@@ -41,28 +41,29 @@ struct TranslatedStruct: TranslatedType {
             additionalImports: ["FishyJoesNodeRuntime"]
         )
 
-        fragment.outputBlock("extension \(globalName): FishyJoesNodeRuntime.NodeMutable {") {
+        fragment.outputBlock("extension \(globalName): NodeMutator {") {
 
-            fragment.outputBlock("public init(fromNode value: napi_value?, env: napi_env) throws {") {
+            fragment.outputBlock("public static func fromNode(_ value: napi_value?, env: napi_env) throws -> Self {") {
                 // TODO: type check
-                fragment.outputBlock("self.init(") {
+                fragment.outputBlock("Self(") {
                     for (index, storedVar) in storedVariables.enumerated() {
                         let resolved = context.resolve(type: storedVar.typeName.better)
                         let last = index == storedVariables.count - 1
                         fragment.outputBlock("\(storedVar.name): try { () -> \(resolved.sourceType.name) in", closeWith: last ? "}()" : "}(),") {
                             fragment.output("var fieldValue: napi_value?")
                             fragment.output("try check(napi_get_named_property(env, value, \"\(storedVar.name)\", &fieldValue))")
-                            fragment.output("return try \(resolved.sourceType.name)(fromNode: fieldValue, env: env)")
+                            fragment.output("return try \(resolved.converterType.name).fromNode(fieldValue, env: env)")
                         }
                     }
                 }
             }
 
-            fragment.outputBlock("public func toNode(env: napi_env) throws -> napi_value? {") {
-                fragment.output("let constructor = try FishyJoesNodeRuntime.InstanceData.data(for: env).constructor(for: \"\(nodeName)\", env: env)")
+            fragment.outputBlock("public static func toNode(_ value: Self, env: napi_env) throws -> napi_value? {") {
+                fragment.output("let constructor = try InstanceData.data(for: env).constructor(for: \"\(nodeName)\", env: env)")
                 fragment.outputBlock("let args: [napi_value?] = [") {
                     for storedVar in storedVariables {
-                        fragment.output("try \(storedVar.name).toNode(env: env),")
+                        let resolved = context.resolve(type: storedVar.typeName.better)
+                        fragment.output("try \(resolved.converterType.name).toNode(value.\(storedVar.name), env: env),")
                     }
                 }
                 fragment.output("var result: napi_value?")
@@ -70,10 +71,11 @@ struct TranslatedStruct: TranslatedType {
                 fragment.output("return result")
             }
 
-            fragment.outputBlock("public func mutateNode(this: napi_value?, env: napi_env) throws {") {
+            fragment.outputBlock("public static func mutateNode(_ value: Self, this: napi_value?, env: napi_env) throws {") {
                 for storedVar in storedVariables {
                     guard storedVar.isMutable else { continue }
-                    fragment.output("try check(napi_set_named_property(env, this, \"\(storedVar.name)\", \(storedVar.name).toNode(env: env)))")
+                    let resolved = context.resolve(type: storedVar.typeName.better)
+                    fragment.output("try check(napi_set_named_property(env, this, \"\(storedVar.name)\", \(resolved.converterType.name).toNode(value.\(storedVar.name), env: env)))")
                 }
             }
 
@@ -99,7 +101,7 @@ struct TranslatedStruct: TranslatedType {
                         }
                     }
                     fragment.outputBlock("constructor: { env, info in", closeWith: "}") {
-                        fragment.outputBlock("FishyJoesNodeRuntime.callbackBody(env, info, name: \"\(nodeName)_constructor\", expectedArgumentCount: \(storedVariables.count)) { env in", closeWith: "}") {
+                        fragment.outputBlock("callbackBody(env, info, name: \"\(nodeName)_constructor\", expectedArgumentCount: \(storedVariables.count)) { env in", closeWith: "}") {
                             fragment.output("// TODO: typecheck?")
                             fragment.output("let this = try env.this()")
                             for (index, storedVar) in storedVariables.enumerated() {
@@ -109,7 +111,7 @@ struct TranslatedStruct: TranslatedType {
                         }
                     }
                 }
-                fragment.outputBlock("try FishyJoesNodeRuntime.mergeDefinitionInto(") {
+                fragment.outputBlock("try mergeDefinitionInto(") {
                     fragment.output("env: env,")
                     fragment.output("module: module,")
                     fragment.output("path: \"\(nodeName)\",")

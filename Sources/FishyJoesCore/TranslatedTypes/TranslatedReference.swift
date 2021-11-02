@@ -39,29 +39,29 @@ struct TranslatedReference: TranslatedType {
             "NodeInterface/\(sourceType.name)+node.swift",
             additionalImports: ["FishyJoesNodeRuntime"]
         )
-        fragment.outputBlock("extension \(sourceType.name): FishyJoesNodeRuntime.NodeConvertible {") {
-            fragment.outputBlock("public init(fromNode value: napi_value?, env: napi_env) throws {") {
+        fragment.outputBlock("extension \(sourceType.name): FishyJoesNodeRuntime.NodeConverter {") {
+            fragment.outputBlock("public static func fromNode(_ value: napi_value?, env: napi_env) throws -> Self {") {
                 fragment.output("var pointer: UnsafeMutableRawPointer?")
                 fragment.output("try check(napi_unwrap(env, value, &pointer))")
                 fragment.outputBlock("guard let nonNilPointer = pointer else {") {
                     fragment.output("throw JSException(message: \"expected \(sourceType.name), got nil\")")
                 }
-                fragment.output("self = try Box<\(sourceType.name)>.takeUnretainedOpaque(nonNilPointer).value")
+                fragment.output("return try Box<\(sourceType.name)>.takeUnretainedOpaque(nonNilPointer).value")
             }
-            fragment.outputBlock("public func toNode(env: napi_env) throws -> napi_value? {") {
+            fragment.outputBlock("public static func toNode(_ value: Self, env: napi_env) throws -> napi_value? {") {
                 fragment.output("let constructor = try FishyJoesNodeRuntime.InstanceData.data(for: env).constructor(for: \"\(nodeName)\", env: env)")
-                fragment.output("var args: napi_value? = try FishyJoesNodeRuntime.Box(self).retainedExternal(env: env)")
+                fragment.output("var args: napi_value? = try FishyJoesNodeRuntime.Box(value).retainedExternal(env: env)")
                 fragment.output("var result: napi_value?")
                 fragment.output("try check(napi_new_instance(env, constructor, 1, &args, &result))")
                 fragment.output("return result")
             }
-            fragment.outputBlock("public func mutateNode(this: napi_value?, env: napi_env) throws {") {
+            fragment.outputBlock("public static func mutateNode(_ value: Self, this: napi_value?, env: napi_env) throws {") {
                 fragment.output("var pointer: UnsafeMutableRawPointer?")
                 fragment.output("try check(napi_unwrap(env, this, &pointer))")
                 fragment.outputBlock("guard let nonNilPointer = pointer else {") {
                     fragment.output("throw JSException(message: \"expected \(sourceType.name), got nil\")")
                 }
-                fragment.output("try Box<\(sourceType.name)>.takeUnretainedOpaque(nonNilPointer).value = self")
+                fragment.output("try Box<\(sourceType.name)>.takeUnretainedOpaque(nonNilPointer).value = value")
             }
             fragment.outputBlock("public static func nodeSetup(env: napi_env, module: napi_value) throws {") {
                 // fragment.output("print(\"setting up \(sourceType.name)\")")
@@ -119,10 +119,6 @@ struct TranslatedReference: TranslatedType {
             additionalImports: ["FishyJoesJavaRuntime"]
         )
         fragment.outputBlock("extension \(sourceType.name): JavaMutator {") {
-            fragment.output("public typealias SwiftType = Self")
-            fragment.output("public typealias CType = jobject?")
-            fragment.blankLine()
-
             fragment.output("public static var javaClass: jclass?")
             fragment.output("public static var javaDescriptor: String { \"L\(className);\" }")
             fragment.output("private static var _refFieldID: jfieldID!")

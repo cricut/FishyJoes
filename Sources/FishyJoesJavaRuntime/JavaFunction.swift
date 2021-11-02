@@ -69,9 +69,7 @@ private enum SwiftFunctionImpl {
     }
 }
 
-public enum Function0Converter<R: JavaConverter> {}
-public enum Function1Converter<P0: JavaConverter, R: JavaConverter> {}
-public enum Function2Converter<P0: JavaConverter, P1: JavaConverter, R: JavaConverter> {}
+// This code is really repetitive, but I'm not sure how it could be made better...
 
 private struct AnyFunction0 {
     let invoke: (Env) throws -> jobject?
@@ -109,10 +107,7 @@ private struct AnyFunction2 {
     }
 }
 
-extension Function0Converter: JavaConverter {
-    public typealias SwiftType = () throws -> R.SwiftType
-    public typealias CType = jobject?
-
+extension Function0Converter: JavaConverter where R: JavaConverter {
     public static var javaClass: jclass? {
         SwiftFunctionImpl.implClass
     }
@@ -120,7 +115,7 @@ extension Function0Converter: JavaConverter {
         "Lkotlin.jvm.functions.Function0;"
     }
 
-    public static func fromJava(_ value: CType, env: Env) throws -> SwiftType {
+    public static func fromJava(_ value: jobject?, env: Env) throws -> SwiftType {
         let escapingRef = try JavaReference(local: value, env: env)
         let initThread = Thread.current
         return {
@@ -137,7 +132,7 @@ extension Function0Converter: JavaConverter {
         }
     }
 
-    public static func toJava(_ value: @escaping SwiftType, env: Env) throws -> CType {
+    public static func toJava(_ value: @escaping SwiftType, env: Env) throws -> jobject? {
         let erased = AnyFunction0 { env in
             try R.toJavaObject(value(), env: env)
         }
@@ -154,10 +149,7 @@ extension Function0Converter: JavaConverter {
     }
 }
 
-extension Function1Converter: JavaConverter {
-    public typealias SwiftType = (P0.SwiftType) throws -> R.SwiftType
-    public typealias CType = jobject?
-
+extension Function1Converter: JavaConverter where P0: JavaConverter, R: JavaConverter {
     public static var javaClass: jclass? {
         SwiftFunctionImpl.implClass
     }
@@ -165,7 +157,7 @@ extension Function1Converter: JavaConverter {
         "Lkotlin.jvm.functions.Function1;"
     }
 
-    public static func fromJava(_ value: CType, env: Env) throws -> SwiftType {
+    public static func fromJava(_ value: jobject?, env: Env) throws -> SwiftType {
         let escapingRef = try JavaReference(local: value, env: env)
         let initThread = Thread.current
         return { p0 in
@@ -183,7 +175,7 @@ extension Function1Converter: JavaConverter {
         }
     }
 
-    public static func toJava(_ value: @escaping SwiftType, env: Env) throws -> CType {
+    public static func toJava(_ value: @escaping SwiftType, env: Env) throws -> jobject? {
         let erased = AnyFunction1 { env, p0 in
             let v0 = try P0.fromJava(object: p0, env: env)
             return try R.toJavaObject(value(v0), env: env)
@@ -201,10 +193,7 @@ extension Function1Converter: JavaConverter {
     }
 }
 
-extension Function2Converter: JavaConverter {
-    public typealias SwiftType = (P0.SwiftType, P1.SwiftType) throws -> R.SwiftType
-    public typealias CType = jobject?
-
+extension Function2Converter: JavaConverter where P0: JavaConverter, P1: JavaConverter, R: JavaConverter {
     public static var javaClass: jclass? {
         SwiftFunctionImpl.implClass
     }
@@ -212,7 +201,7 @@ extension Function2Converter: JavaConverter {
         "Lkotlin.jvm.functions.Function2;"
     }
 
-    public static func fromJava(_ value: CType, env: Env) throws -> SwiftType {
+    public static func fromJava(_ value: jobject?, env: Env) throws -> SwiftType {
         let escapingRef = try JavaReference(local: value, env: env)
         let initThread = Thread.current
         return { p0, p1 in
@@ -231,7 +220,7 @@ extension Function2Converter: JavaConverter {
         }
     }
 
-    public static func toJava(_ value: @escaping SwiftType, env: Env) throws -> CType {
+    public static func toJava(_ value: @escaping SwiftType, env: Env) throws -> jobject? {
         let erased = AnyFunction2 { env, p0, p1 in
             let v0 = try P0.fromJava(object: p0, env: env)
             let v1 = try P1.fromJava(object: p1, env: env)
