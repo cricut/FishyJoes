@@ -35,7 +35,7 @@ publishing {
     repositories {
         maven {
             name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/cricut/CriGeo-bindings")
+            url = uri("https://maven.pkg.github.com/cricut/FishyJoes")
             credentials {
                 username = System.getenv("GITHUB_ACTOR")
                 password = System.getenv("GITHUB_PUBLISH_TOKEN")
