@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.konan.properties.loadProperties
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 
 plugins {
     `maven-publish`
@@ -53,14 +54,23 @@ publishing {
     }
 }
 
-sourceSets.main {
-    java.srcDir("src/generated/kotlin")
-    resources.srcDir("src/generated/resources")
+task<Exec>("buildSwiftTestHarness") {
+    commandLine("swift", "build", "--product", "JavaRuntimeTestHarness")
 }
 
 tasks.test {
+    dependsOn(":buildSwiftTestHarness")
+    systemProperty("java.library.path", "../.build/debug")
     useJUnitPlatform()
     jvmArgs("-Xcheck:jni", "-XX:+SuppressFatalErrorMessage")
+
+    outputs.upToDateWhen { false }
+
+    testLogging {
+        exceptionFormat = TestExceptionFormat.FULL
+        events("started", "skipped", "passed", "failed")
+        showStandardStreams = true
+    }
 }
 
 tasks {

@@ -12,6 +12,7 @@ let package = Package(
         .library(name: "FishyJoesNodeRuntime", targets: ["FishyJoesNodeRuntime"]),
     ] + (wasmCompatibleOnly ? [] : [
              .library(name: "FishyJoesJavaRuntime", targets: ["FishyJoesJavaRuntime"]),
+             .library(name: "JavaRuntimeTestHarness", type: .dynamic, targets: ["JavaRuntimeTestHarness"]),
              .executable(name: "fishy-joes", targets: ["FishyJoesExecute"]),
          ]),
     dependencies: wasmCompatibleOnly ? [] : [
@@ -32,6 +33,12 @@ let package = Package(
             dependencies: [
                 .target(name: "JNI"),
                 .target(name: "FishyJoesCommonRuntime"),
+            ]
+        ),
+        .target(
+            name: "JavaRuntimeTestHarness",
+            dependencies: [
+                .target(name: "FishyJoesJavaRuntime"),
             ]
         ),
         .target(
