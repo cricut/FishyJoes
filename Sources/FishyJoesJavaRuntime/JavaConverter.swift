@@ -351,6 +351,7 @@ extension ArrayConverter: JavaConverter where ElementConverter: JavaConverter {
 
     public static func javaSetup(env: Env) throws {
         try JavaList.javaSetup(env: env)
+        try ElementConverter.javaSetup(env: env)
     }
 }
 
@@ -395,6 +396,8 @@ extension DictionaryConverter: JavaConverter where
     public static func javaSetup(env: Env) throws {
         try JavaSet.javaSetup(env: env)
         try JavaMap.javaSetup(env: env)
+        try KeyConverter.javaSetup(env: env)
+        try ValueConverter.javaSetup(env: env)
     }
 }
 
@@ -426,6 +429,7 @@ extension SetConverter: JavaConverter where ElementConverter: JavaConverter, Ele
 
     public static func javaSetup(env: Env) throws {
         try JavaSet.javaSetup(env: env)
+        try ElementConverter.javaSetup(env: env)
     }
 }
 
@@ -454,7 +458,7 @@ extension OptionalConverter: JavaConverter where WrappedConverter: JavaConverter
     }
 
     public static func javaSetup(env: Env) throws {
-        guard javaClass == nil else { return }
+        try WrappedConverter.javaSetup(env: env)
     }
 }
 
@@ -490,6 +494,9 @@ extension Tuple2Converter: JavaConverter where T0: JavaConverter, T1: JavaConver
     }
 
     public static func javaSetup(env: Env) throws {
+        try T0.javaSetup(env: env)
+        try T1.javaSetup(env: env)
+
         guard javaClass == nil else { return }
         pairClass = try env.globalRef(env.FindClass("kotlin/Pair"))
         pairConstructor = try env.GetMethodID(javaClass, "<init>", "(Ljava/lang/Object;Ljava/lang/Object;)V")
@@ -540,6 +547,11 @@ extension Tuple4Converter: JavaConverter where T0: JavaConverter, T1: JavaConver
     }
 
     public static func javaSetup(env: Env) throws {
+        try T0.javaSetup(env: env)
+        try T1.javaSetup(env: env)
+        try T2.javaSetup(env: env)
+        try T3.javaSetup(env: env)
+
         guard javaClass == nil else { return }
         tuple4Class = try env.globalRef(env.FindClass("com/cricut/fishyjoes/runtime/Tuple4"))
         tuple4Constructor = try env.GetMethodID(javaClass, "<init>", "(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)V")

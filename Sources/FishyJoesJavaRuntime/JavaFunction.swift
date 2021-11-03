@@ -141,6 +141,7 @@ extension Function0Converter: JavaConverter where R: JavaConverter {
     }
 
     public static func javaSetup(env: Env) throws {
+        try R.javaSetup(env: env)
         try SwiftFunctionImpl.javaSetup(
             arity: 0,
             invokePointer: unsafeBitCast(AnyFunction0.cInvoke, to: UnsafeMutableRawPointer.self),
@@ -185,6 +186,8 @@ extension Function1Converter: JavaConverter where P0: JavaConverter, R: JavaConv
     }
 
     public static func javaSetup(env: Env) throws {
+        try P0.javaSetup(env: env)
+        try R.javaSetup(env: env)
         try SwiftFunctionImpl.javaSetup(
             arity: 1,
             invokePointer: unsafeBitCast(AnyFunction1.cInvoke, to: UnsafeMutableRawPointer.self),
@@ -231,6 +234,9 @@ extension Function2Converter: JavaConverter where P0: JavaConverter, P1: JavaCon
     }
 
     public static func javaSetup(env: Env) throws {
+        try P0.javaSetup(env: env)
+        try P1.javaSetup(env: env)
+        try R.javaSetup(env: env)
         try SwiftFunctionImpl.javaSetup(
             arity: 2,
             invokePointer: unsafeBitCast(AnyFunction2.cInvoke, to: UnsafeMutableRawPointer.self),
