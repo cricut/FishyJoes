@@ -3,6 +3,8 @@ name: Mac
 on:
   workflow_dispatch:
   pull_request:
+  release:
+    types: [published]
 
 jobs:
   test:
