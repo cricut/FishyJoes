@@ -213,16 +213,16 @@ extension CodeGen {
                 "Sources/Generated/JavaInterface/EmptyPlaceholder.swift"
             ).run()
             try cmd("swift", "build", "--product", "sourcery").run()
-            try cmd("swift", "build", "--product", "fishy-joes").run()
+            try cmd("swift", "build", "--product", "fishy-joes-execution-helper").run()
             try cmd(
                 ".build/debug/sourcery",
                 arguments: [
                     quiet ? "-q" : nil,
                     "--disableCache",
                     "--sources", translateeSources,
-                    "--templates", ".build/debug/FishyJoes_FishyJoesExecute.bundle/FishyJoes.swifttemplate",
+                    "--templates", ".build/debug/FishyJoes_FishyJoesExecutionHelper.bundle/FishyJoes.swifttemplate",
                     "--args", "module=\(config.module)",
-                    "--args", "fishyJoesExecutable=.build/debug/fishy-joes",
+                    "--args", "fishyJoesExecutable=.build/debug/fishy-joes-execution-helper",
                     "--output", "Sources/Generated"
                 ].compactMap { $0 }
             ).run()

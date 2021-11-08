@@ -14,6 +14,7 @@ let package = Package(
              .library(name: "FishyJoesJavaRuntime", targets: ["FishyJoesJavaRuntime"]),
              .library(name: "JavaRuntimeTestHarness", type: .dynamic, targets: ["JavaRuntimeTestHarness"]),
              .executable(name: "fishy-joes", targets: ["FishyJoesExecute"]),
+             .executable(name: "fishy-joes-execution-helper", targets: ["FishyJoesExecutionHelper"]),
          ]),
     dependencies: wasmCompatibleOnly ? [] : [
         .package(
@@ -126,15 +127,20 @@ let package = Package(
                  ]
              ),
              .target(
-                 name: "FishyJoesExecute",
+                 name: "FishyJoesExecutionHelper",
                  dependencies: [
                      .target(name: "FishyJoesCore"),
-                     .product(name: "swsh", package: "swsh"),
-                     .product(name: "ArgumentParser", package: "swift-argument-parser"),
-                     .product(name: "Yams", package: "Yams"),
                  ],
                  resources: [
                      .copy("FishyJoes.swifttemplate"),
+                 ]
+             ),
+             .target(
+                 name: "FishyJoesExecute",
+                 dependencies: [
+                     .product(name: "swsh", package: "swsh"),
+                     .product(name: "ArgumentParser", package: "swift-argument-parser"),
+                     .product(name: "Yams", package: "Yams"),
                  ]
              ),
              .testTarget(
