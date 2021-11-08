@@ -395,9 +395,9 @@ enum AndroidArchitecture: String, Equatable, CaseIterable {
 }
 
 enum Platform: Hashable {
-    case wasm, node, kotlinMac, kotlinAndroid(AndroidArchitecture)
+    case wasm, node, kotlinSystem, kotlinAndroid(AndroidArchitecture)
 
-    static let nativeSwiftBuild = try! cmd("xcrun", "-f", "swift-build").runString()
+    static let nativeMacSwiftBuild = try! cmd("xcrun", "-f", "swift-build").runString()
 
     func swiftBuild(arguments: [String]) throws {
         var args = arguments
@@ -412,13 +412,19 @@ enum Platform: Hashable {
             args.append(contentsOf: ["--build-path", "./.build/wasm-build"])
             env = ["WASM_ONLY": "1"]
         case .node, .kotlinMac:
-            path = Platform.nativeSwiftBuild
+            #if os(OSX)
+            path = Platform.nativeMacSwiftBuild
+            #elseif os(Linux)
+            path = "swift"
+            arguments = ["build"] + arguments
+            #else
+            fatalError("unknown host OS")
+            #endif
         case .kotlinAndroid(.arm):
             path = "\(androidToolchain)/usr/bin/swift-build-arm-linux-androideabi"
             args.append(
                 contentsOf: [
                     "--build-path", "./.build/android-build",
-                    "-Xswiftc", "-static-stdlib",
                 ]
             )
         case .kotlinAndroid(let arch):
@@ -426,7 +432,6 @@ enum Platform: Hashable {
             args.append(
                 contentsOf: [
                     "--build-path", "./.build/android-build",
-                    // "-Xswiftc", "-static-stdlib", "-v"
                 ]
             )
         }
@@ -440,15 +445,36 @@ enum Platform: Hashable {
     var platform: String {
         switch self {
         case .wasm: return "wasm"
-        case .node: return "node-native-macos"
-        case .kotlinMac: return "jni-macos"
+        case .node:
+            #if os(OSX)
+            return "node-native-macos"
+            #elseif os(Linux)
+            return "node-native-ubuntu"
+            #else
+            fatalError("unknown host OS")
+            #endif
+        case .kotlinMac:
+            #if os(OSX)
+            return "jni-macos"
+            #elseif os(Linux)
+            return "jni-ubuntu"
+            #else
+            fatalError("unknown host OS")
+            #endif
         case .kotlinAndroid: return "jni-android"
         }
     }
     var outputDir: String {
         switch self {
         case .wasm, .node: return "output/\(platform)"
-        case .kotlinMac: return "kotlin/src/generated/resources/mac"
+        case .kotlinMac:
+            #if os(OSX)
+            return "kotlin/src/generated/resources/mac"
+            #elseif os(Linux)
+            return "kotlin/src/generated/resources/linux"
+            #else
+            fatalError("unknown host OS")
+            #endif
         case .kotlinAndroid(let arch): return "kotlin/src/generated/resources/lib/\(arch.ndkName)"
         }
     }
@@ -462,7 +488,14 @@ enum Platform: Hashable {
     var buildDir: String {
         switch self {
         case .wasm: return ".build/wasm-build/wasm32-unknown-wasi/release"
-        case .node: return ".build/x86_64-apple-macosx/release"
+        case .node:
+            #if os(OSX)
+            return ".build/x86_64-apple-macosx/release"
+            #elseif os(Linux)
+            return ".build/x86_64-linux-linuxystuff/release"
+            #else
+            fatalError("unknown host OS")
+            #endif
         case .kotlinMac: return ".build/x86_64-apple-macosx/release"
         case .kotlinAndroid(.arm):
             return ".build/android-build/armv7-none-linux-androideabi/release"
