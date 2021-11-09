@@ -27,7 +27,12 @@ let package = Package(
     ],
     targets: [
         .systemLibrary(name: "NodeAPI"),
-        .systemLibrary(name: "JNI"),
+        .target(
+            name: "JNI",
+            cSettings: [
+                .headerSearchPath("Sources/JNI/include"),
+            ]
+        ),
         .target(name: "FishyJoesCommonRuntime"),
         .target(
             name: "FishyJoesJavaRuntime",
