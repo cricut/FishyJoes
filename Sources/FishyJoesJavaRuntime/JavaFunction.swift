@@ -26,7 +26,7 @@ private enum SwiftFunctionImpl {
 
     private static let finalizeFunctionObject: @convention(c) (UnsafeMutablePointer<JNIEnv?>, jobject) -> Void = { env, this in
         callbackBody(env) { env in
-            let longRef = uintptr_t(env.GetLongField(this, refFieldID))
+            let longRef = UInt(env.GetLongField(this, refFieldID))
             AnyBox.releaseOpaque(UnsafeMutablePointer(bitPattern: longRef)!)
         }
     }
@@ -76,7 +76,7 @@ private struct AnyFunction0 {
 
     static let cInvoke: @convention(c) (UnsafeMutablePointer<JNIEnv?>, jobject) -> jobject? = { env, this in
         callbackBody(env) { env in
-            let longRef = uintptr_t(env.GetLongField(this, SwiftFunctionImpl.refFieldID))
+            let longRef = UInt(env.GetLongField(this, SwiftFunctionImpl.refFieldID))
             let fun = try Box<Self>.takeUnretainedOpaque(UnsafeMutablePointer(bitPattern: longRef)!).value
             return try fun.invoke(env)
         }
@@ -88,7 +88,7 @@ private struct AnyFunction1 {
 
     static let cInvoke: @convention(c) (UnsafeMutablePointer<JNIEnv?>, jobject, jobject?) -> jobject? = { env, this, p0 in
         callbackBody(env) { env in
-            let longRef = uintptr_t(env.GetLongField(this, SwiftFunctionImpl.refFieldID))
+            let longRef = UInt(env.GetLongField(this, SwiftFunctionImpl.refFieldID))
             let fun = try Box<Self>.takeUnretainedOpaque(UnsafeMutablePointer(bitPattern: longRef)!).value
             return try fun.invoke(env, p0)
         }
@@ -100,7 +100,7 @@ private struct AnyFunction2 {
 
     static let cInvoke: @convention(c) (UnsafeMutablePointer<JNIEnv?>, jobject, jobject?, jobject?) -> jobject? = { env, this, p0, p1 in
         callbackBody(env) { env in
-            let longRef = uintptr_t(env.GetLongField(this, SwiftFunctionImpl.refFieldID))
+            let longRef = UInt(env.GetLongField(this, SwiftFunctionImpl.refFieldID))
             let fun = try Box<Self>.takeUnretainedOpaque(UnsafeMutablePointer(bitPattern: longRef)!).value
             return try fun.invoke(env, p0, p1)
         }
@@ -136,7 +136,7 @@ extension Function0Converter: JavaConverter where R: JavaConverter {
         let erased = AnyFunction0 { env in
             try R.toJavaObject(value(), env: env)
         }
-        let ptr = jvalue(j: jlong(uintptr_t(bitPattern: Box(erased).retainedOpaque())))
+        let ptr = jvalue(j: jlong(UInt(bitPattern: Box(erased).retainedOpaque())))
         return try env.NewObject(SwiftFunctionImpl.implClass, SwiftFunctionImpl.constructor, jvalue(i: 0), ptr)
     }
 
@@ -181,7 +181,7 @@ extension Function1Converter: JavaConverter where P0: JavaConverter, R: JavaConv
             let v0 = try P0.fromJava(object: p0, env: env)
             return try R.toJavaObject(value(v0), env: env)
         }
-        let ptr = jvalue(j: jlong(uintptr_t(bitPattern: Box(erased).retainedOpaque())))
+        let ptr = jvalue(j: jlong(UInt(bitPattern: Box(erased).retainedOpaque())))
         return try env.NewObject(SwiftFunctionImpl.implClass, SwiftFunctionImpl.constructor, jvalue(i: 1), ptr)
     }
 
@@ -229,7 +229,7 @@ extension Function2Converter: JavaConverter where P0: JavaConverter, P1: JavaCon
             let v1 = try P1.fromJava(object: p1, env: env)
             return try R.toJavaObject(value(v0, v1), env: env)
         }
-        let ptr = jvalue(j: jlong(uintptr_t(bitPattern: Box(erased).retainedOpaque())))
+        let ptr = jvalue(j: jlong(UInt(bitPattern: Box(erased).retainedOpaque())))
         return try env.NewObject(SwiftFunctionImpl.implClass, SwiftFunctionImpl.constructor, jvalue(i: 2), ptr)
     }
 
