@@ -6,6 +6,16 @@ import Yams
 let wasmToolchain = "/Library/Developer/Toolchains/swift-wasm-5.3.1-RELEASE.xctoolchain"
 let androidToolchain = "/Library/Developer/Toolchains/swift-android-toolchain"
 
+let dylibExt: String = {
+	#if os(OSX)
+	"dylib"
+	#elseif os(Linux)
+	"so"
+	#else
+	fatalError("unknown host OS")
+	#endif
+}()
+
 struct CodeGen: ParsableCommand {
     @Flag(name: .shortAndLong, help: "suppress verbose output")
     var quiet: Bool = false
@@ -270,7 +280,7 @@ extension CodeGen {
                         "\(platform.buildDir)/FishyJoes_FishyJoesNodeRuntime.resources/js/__MODULE_NAME__.browser.js"
                     ).output(overwritingFile: "\(platform.outputDir)/\(config.module).browser.js").run()
                 case .node:
-                    try cmd("cp", "\(platform.buildDir)/lib\(config.module)-node.dylib", "\(platform.outputDir)/\(config.module).cjs.node").run()
+                    try cmd("cp", "\(platform.buildDir)/lib\(config.module)-node.\(dylibExt)", "\(platform.outputDir)/\(config.module).cjs.node").run()
                     try cmd(
                         "cp",
                         "Sources/Generated/NodeInterface/\(config.module).d.ts",
@@ -287,7 +297,7 @@ extension CodeGen {
                     ).output(overwritingFile: "\(platform.outputDir)/\(config.module).js").run()
                 case .kotlinSystem:
                     try cmd("mkdir", "-p", platform.outputDir).run()
-                    try cmd("cp", "\(platform.buildDir)/lib\(config.module)-java.dylib", platform.outputDir).run()
+                    try cmd("cp", "\(platform.buildDir)/lib\(config.module)-java.\(dylibExt)", platform.outputDir).run()
                 case .kotlinAndroid(let arch):
                     try cmd("mkdir", "-p", platform.outputDir).run()
                     try cmd("cp", "\(platform.buildDir)/lib\(config.module)-java.so", platform.outputDir).run()
@@ -488,15 +498,14 @@ enum Platform: Hashable {
     var buildDir: String {
         switch self {
         case .wasm: return ".build/wasm-build/wasm32-unknown-wasi/release"
-        case .node:
+        case .node, .kotlinSystem:
             #if os(OSX)
             return ".build/x86_64-apple-macosx/release"
             #elseif os(Linux)
-            return ".build/x86_64-linux-linuxystuff/release"
+            return ".build/x86_64-unknown-linux-gnu/release"
             #else
             fatalError("unknown host OS")
             #endif
-        case .kotlinSystem: return ".build/x86_64-apple-macosx/release"
         case .kotlinAndroid(.arm):
             return ".build/android-build/armv7-none-linux-androideabi/release"
         case .kotlinAndroid(let arch):
