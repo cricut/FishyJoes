@@ -79,14 +79,14 @@ let java_fun1: @convention(c) (UnsafeMutablePointer<JNIEnv?>, jobject) -> jobjec
 
 let java_ref_make: @convention(c) (UnsafeMutablePointer<JNIEnv?>, jobject) -> jobject? = { env, _ in
     FishyJoesJavaRuntime.callbackBody(env) { env in
-        let ptr = jvalue(j: jlong(uintptr_t(bitPattern: Box<[Int64]>([]).retainedOpaque())))
+        let ptr = jvalue(j: jlong(UInt(bitPattern: Box<[Int64]>([]).retainedOpaque())))
         return try env.NewObject(refClass, refConstructorID, ptr)
     }
 }
 
 let java_ref_append: @convention(c) (UnsafeMutablePointer<JNIEnv?>, jobject, jlong) -> Void = { env, this, appendee in
     FishyJoesJavaRuntime.callbackBody(env) { env in
-        let longRef = uintptr_t(env.GetLongField(this, refFieldID))
+        let longRef = UInt(env.GetLongField(this, refFieldID))
         let box = try Box<[Int64]>.takeUnretainedOpaque(UnsafeMutablePointer(bitPattern: longRef)!)
         box.value.append(Int64(appendee))
     }
@@ -94,16 +94,16 @@ let java_ref_append: @convention(c) (UnsafeMutablePointer<JNIEnv?>, jobject, jlo
 
 let java_ref_addr: @convention(c) (UnsafeMutablePointer<JNIEnv?>, jobject) -> jlong = { env, this in
     FishyJoesJavaRuntime.callbackBody(env) { env in
-        let longRef = uintptr_t(env.GetLongField(this, refFieldID))
+        let longRef = UInt(env.GetLongField(this, refFieldID))
         let box = try Box<[Int64]>.takeUnretainedOpaque(UnsafeMutablePointer(bitPattern: longRef)!)
         let storage = { (x: UnsafeRawPointer) in x }(box.value)
-        return jlong(uintptr_t(bitPattern: storage))
+        return jlong(UInt(bitPattern: storage))
     }
 }
 
 let java_ref_log: @convention(c) (UnsafeMutablePointer<JNIEnv?>, jobject) -> Void = { env, this in
     FishyJoesJavaRuntime.callbackBody(env) { env in
-        let longRef = uintptr_t(env.GetLongField(this, refFieldID))
+        let longRef = UInt(env.GetLongField(this, refFieldID))
         let box = try Box<[Int64]>.takeUnretainedOpaque(UnsafeMutablePointer(bitPattern: longRef)!)
         print(box.value)
     }

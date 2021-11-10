@@ -152,7 +152,7 @@ struct TranslatedReference: TranslatedType {
             }
 
             fragment.outputBlock("public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout Self) throws -> R) throws -> R {") {
-                fragment.output("let longRef = uintptr_t(env.GetLongField(this, _refFieldID))")
+                fragment.output("let longRef = UInt(env.GetLongField(this, _refFieldID))")
                 fragment.output("return try body(&Box<\(sourceType.name)>.takeUnretainedOpaque(javaNonNull(UnsafeMutablePointer(bitPattern: longRef))).value)")
             }
 
