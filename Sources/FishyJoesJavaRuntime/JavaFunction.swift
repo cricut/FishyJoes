@@ -27,7 +27,7 @@ private enum SwiftFunctionImpl {
     private static let finalizeFunctionObject: @convention(c) (UnsafeMutablePointer<JNIEnv?>, jobject) -> Void = { env, this in
         callbackBody(env) { env in
             let longRef = UInt(env.GetLongField(this, refFieldID))
-            AnyBox.releaseOpaque(UnsafeMutablePointer(bitPattern: longRef)!)
+            AnyBox.releaseOpaque(try javaNonNull(UnsafeMutablePointer(bitPattern: longRef)))
         }
     }
 
@@ -77,7 +77,7 @@ private struct AnyFunction0 {
     static let cInvoke: @convention(c) (UnsafeMutablePointer<JNIEnv?>, jobject) -> jobject? = { env, this in
         callbackBody(env) { env in
             let longRef = UInt(env.GetLongField(this, SwiftFunctionImpl.refFieldID))
-            let fun = try Box<Self>.takeUnretainedOpaque(UnsafeMutablePointer(bitPattern: longRef)!).value
+            let fun = try Box<Self>.takeUnretainedOpaque(javaNonNull(UnsafeMutablePointer(bitPattern: longRef))).value
             return try fun.invoke(env)
         }
     }
@@ -89,7 +89,7 @@ private struct AnyFunction1 {
     static let cInvoke: @convention(c) (UnsafeMutablePointer<JNIEnv?>, jobject, jobject?) -> jobject? = { env, this, p0 in
         callbackBody(env) { env in
             let longRef = UInt(env.GetLongField(this, SwiftFunctionImpl.refFieldID))
-            let fun = try Box<Self>.takeUnretainedOpaque(UnsafeMutablePointer(bitPattern: longRef)!).value
+            let fun = try Box<Self>.takeUnretainedOpaque(javaNonNull(UnsafeMutablePointer(bitPattern: longRef))).value
             return try fun.invoke(env, p0)
         }
     }
@@ -101,7 +101,7 @@ private struct AnyFunction2 {
     static let cInvoke: @convention(c) (UnsafeMutablePointer<JNIEnv?>, jobject, jobject?, jobject?) -> jobject? = { env, this, p0, p1 in
         callbackBody(env) { env in
             let longRef = UInt(env.GetLongField(this, SwiftFunctionImpl.refFieldID))
-            let fun = try Box<Self>.takeUnretainedOpaque(UnsafeMutablePointer(bitPattern: longRef)!).value
+            let fun = try Box<Self>.takeUnretainedOpaque(javaNonNull(UnsafeMutablePointer(bitPattern: longRef))).value
             return try fun.invoke(env, p0, p1)
         }
     }

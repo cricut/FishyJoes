@@ -126,7 +126,7 @@ struct TranslatedReference: TranslatedType {
 
             fragment.outputBlock("public static func fromJava(_ value: jobject?, env: Env) throws -> Self {") {
                 fragment.output("let longRef = UInt(env.GetLongField(value, _refFieldID))")
-                fragment.output("return try Box<\(sourceType.name)>.takeUnretainedOpaque(UnsafeMutablePointer(bitPattern: longRef)!).value")
+                fragment.output("return try Box<\(sourceType.name)>.takeUnretainedOpaque(javaNonNull(UnsafeMutablePointer(bitPattern: longRef))).value")
             }
 
             fragment.outputBlock("static let _javaFinalizer: @convention(c)(", newLineTerminated: false) {
@@ -136,7 +136,7 @@ struct TranslatedReference: TranslatedType {
             fragment.outputBlock(" -> Void = { env, this in", closeWith: "}") {
                 fragment.outputBlock("FishyJoesJavaRuntime.callbackBody(env) { env in", closeWith: "}") {
                     fragment.output("let longRef = UInt(env.GetLongField(this, _refFieldID))")
-                    fragment.output("Box<\(sourceType.name)>.releaseOpaque(UnsafeMutablePointer(bitPattern: longRef)!)")
+                    fragment.output("Box<\(sourceType.name)>.releaseOpaque(javaNonNull(UnsafeMutablePointer(bitPattern: longRef)))")
                 }
             }
 
@@ -153,7 +153,7 @@ struct TranslatedReference: TranslatedType {
 
             fragment.outputBlock("public static func mutateJava(_ value: Self, javaThis: jobject?, env: Env) throws {") {
                 fragment.output("let longRef = UInt(env.GetLongField(javaThis, _refFieldID))")
-                fragment.output("try Box<\(sourceType.name)>.takeUnretainedOpaque(UnsafeMutablePointer(bitPattern: longRef)!).value = value")
+                fragment.output("try Box<\(sourceType.name)>.takeUnretainedOpaque(javaNonNull(UnsafeMutablePointer(bitPattern: longRef))).value = value")
             }
 
             if equatable {
