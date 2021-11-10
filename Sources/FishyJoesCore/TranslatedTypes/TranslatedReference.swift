@@ -136,7 +136,7 @@ struct TranslatedReference: TranslatedType {
             fragment.outputBlock(" -> Void = { env, this in", closeWith: "}") {
                 fragment.outputBlock("FishyJoesJavaRuntime.callbackBody(env) { env in", closeWith: "}") {
                     fragment.output("let longRef = UInt(env.GetLongField(this, _refFieldID))")
-                    fragment.output("Box<\(sourceType.name)>.releaseOpaque(javaNonNull(UnsafeMutablePointer(bitPattern: longRef)))")
+                    fragment.output("Box<\(sourceType.name)>.releaseOpaque(try javaNonNull(UnsafeMutablePointer(bitPattern: longRef)))")
                 }
             }
 
