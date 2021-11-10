@@ -8,26 +8,39 @@ let env = ProcessInfo.processInfo.environment
 let wasmCompatibleOnly = env["WASM_ONLY"] == "1"
 let javaHome = env["JAVA_HOME_11_X64"] ?? env["JAVA_HOME"] ?? "/usr/local/opt/openjdk"
 
+func macOnly<T>(_ things: T ...) -> [T] {
+    #if os(macOS)
+    return wasmCompatibleOnly ? [] : things
+    #else
+    return []
+    #endif
+}
+
+func wasmIncompatible<T>(_ things: T ...) -> [T] {
+    wasmCompatibleOnly ? [] : things
+}
+
 let package = Package(
     name: "FishyJoes",
     platforms: [.macOS(.v11)],
     products: [
         .library(name: "FishyJoesNodeRuntime", targets: ["FishyJoesNodeRuntime"]),
-    ] + (wasmCompatibleOnly ? [] : [
-             .library(name: "FishyJoesJavaRuntime", targets: ["FishyJoesJavaRuntime"]),
-             .library(name: "JavaRuntimeTestHarness", type: .dynamic, targets: ["JavaRuntimeTestHarness"]),
-             .executable(name: "fishy-joes", targets: ["FishyJoesExecute"]),
-             .executable(name: "fishy-joes-execution-helper", targets: ["FishyJoesExecutionHelper"]),
-         ]),
-    dependencies: wasmCompatibleOnly ? [] : [
+    ] + wasmIncompatible(
+        .library(name: "FishyJoesJavaRuntime", targets: ["FishyJoesJavaRuntime"]),
+        .library(name: "JavaRuntimeTestHarness", type: .dynamic, targets: ["JavaRuntimeTestHarness"]),
+        .executable(name: "fishy-joes", targets: ["FishyJoesExecute"])
+    ) + macOnly(
+        .executable(name: "fishy-joes-execution-helper", targets: ["FishyJoesExecutionHelper"])
+    ),
+    dependencies: wasmIncompatible(
         .package(
             // path: "../Sourcery"
             url: "https://github.com/cricut/Sourcery", .branch("docstrings")
         ),
         .package(url: "https://github.com/cobbal/swsh", .exact("3.0.0")),
         .package(url: "https://github.com/apple/swift-argument-parser", from: "0.4.0"),
-        .package(url: "https://github.com/jpsim/Yams", .upToNextMinor(from: "4.0.0")),
-    ],
+        .package(url: "https://github.com/jpsim/Yams", .upToNextMinor(from: "4.0.0"))
+    ),
     targets: [
         .systemLibrary(name: "NodeAPI"),
         .systemLibrary(name: "JNI"),
@@ -127,41 +140,42 @@ let package = Package(
                 ),
             ]
         ),
-    ] + (wasmCompatibleOnly ? [] : [
-             .target(
-                 name: "FishyJoesCore",
-                 dependencies: [
-                     .product(name: "SourceryRuntime", package: "Sourcery"),
-                 ]
-             ),
-             .target(
-                 name: "FishyJoesExecutionHelper",
-                 dependencies: [
-                     .target(name: "FishyJoesCore"),
-                 ],
-                 resources: [
-                     .copy("FishyJoes.swifttemplate"),
-                 ]
-             ),
-             .target(
-                 name: "FishyJoesExecute",
-                 dependencies: [
-                     .product(name: "swsh", package: "swsh"),
-                     .product(name: "ArgumentParser", package: "swift-argument-parser"),
-                     .product(name: "Yams", package: "Yams"),
-                 ]
-             ),
-             .testTarget(
-                 name: "FishyJoesCoreTests",
-                 dependencies: [
-                     .target(name: "FishyJoesCore"),
-                 ]
-             ),
-             .testTarget(
-                 name: "NAPITestDriver",
-                 dependencies: [
-                     .product(name: "swsh", package: "swsh"),
-                 ]
-             ),
-         ])
+    ] + macOnly(
+        .target(
+            name: "FishyJoesCore",
+            dependencies: [
+                .product(name: "SourceryRuntime", package: "Sourcery"),
+            ]
+        ),
+        .target(
+            name: "FishyJoesExecutionHelper",
+            dependencies: [
+                .target(name: "FishyJoesCore"),
+            ],
+            resources: [
+                .copy("FishyJoes.swifttemplate"),
+            ]
+        )
+    ) + wasmIncompatible(
+        .target(
+            name: "FishyJoesExecute",
+            dependencies: [
+                .product(name: "swsh", package: "swsh"),
+                .product(name: "ArgumentParser", package: "swift-argument-parser"),
+                .product(name: "Yams", package: "Yams"),
+            ]
+        ),
+        .testTarget(
+            name: "FishyJoesCoreTests",
+            dependencies: [
+                .target(name: "FishyJoesCore"),
+            ]
+        ),
+        .testTarget(
+            name: "NAPITestDriver",
+            dependencies: [
+                .product(name: "swsh", package: "swsh"),
+            ]
+        )
+    )
 )

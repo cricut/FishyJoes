@@ -7,7 +7,7 @@ let wasmToolchain = "/Library/Developer/Toolchains/swift-wasm-5.3.1-RELEASE.xcto
 let androidToolchain = "/Library/Developer/Toolchains/swift-android-toolchain"
 
 let dylibExt: String = {
-	#if os(OSX)
+	#if os(macOS)
 	"dylib"
 	#elseif os(Linux)
 	"so"
@@ -422,7 +422,7 @@ enum Platform: Hashable {
             args.append(contentsOf: ["--build-path", "./.build/wasm-build"])
             env = ["WASM_ONLY": "1"]
         case .node, .kotlinSystem:
-            #if os(OSX)
+            #if os(macOS)
             path = Platform.nativeMacSwiftBuild
             #elseif os(Linux)
             path = "swift"
@@ -456,7 +456,7 @@ enum Platform: Hashable {
         switch self {
         case .wasm: return "wasm"
         case .node:
-            #if os(OSX)
+            #if os(macOS)
             return "node-native-macos"
             #elseif os(Linux)
             return "node-native-ubuntu"
@@ -464,7 +464,7 @@ enum Platform: Hashable {
             fatalError("unknown host OS")
             #endif
         case .kotlinSystem:
-            #if os(OSX)
+            #if os(macOS)
             return "jni-macos"
             #elseif os(Linux)
             return "jni-ubuntu"
@@ -478,7 +478,7 @@ enum Platform: Hashable {
         switch self {
         case .wasm, .node: return "output/\(platform)"
         case .kotlinSystem:
-            #if os(OSX)
+            #if os(macOS)
             return "kotlin/src/generated/resources/mac"
             #elseif os(Linux)
             return "kotlin/src/generated/resources/linux"
@@ -499,7 +499,7 @@ enum Platform: Hashable {
         switch self {
         case .wasm: return ".build/wasm-build/wasm32-unknown-wasi/release"
         case .node, .kotlinSystem:
-            #if os(OSX)
+            #if os(macOS)
             return ".build/x86_64-apple-macosx/release"
             #elseif os(Linux)
             return ".build/x86_64-unknown-linux-gnu/release"
