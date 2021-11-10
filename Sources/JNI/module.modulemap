@@ -1,4 +1,4 @@
 module JNI [system] {
-    header "jni_wrapper.h"
+    header "jni_shim.h"
     export *
 }

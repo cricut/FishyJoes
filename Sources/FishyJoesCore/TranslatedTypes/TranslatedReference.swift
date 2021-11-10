@@ -125,7 +125,7 @@ struct TranslatedReference: TranslatedType {
             fragment.output("private static var _constructorMethodID: jmethodID!")
 
             fragment.outputBlock("public static func fromJava(_ value: jobject?, env: Env) throws -> Self {") {
-                fragment.output("let longRef = uintptr_t(env.GetLongField(value, _refFieldID))")
+                fragment.output("let longRef = UInt(env.GetLongField(value, _refFieldID))")
                 fragment.output("return try Box<\(sourceType.name)>.takeUnretainedOpaque(UnsafeMutablePointer(bitPattern: longRef)!).value")
             }
 
@@ -135,13 +135,13 @@ struct TranslatedReference: TranslatedType {
             }
             fragment.outputBlock(" -> Void = { env, this in", closeWith: "}") {
                 fragment.outputBlock("FishyJoesJavaRuntime.callbackBody(env) { env in", closeWith: "}") {
-                    fragment.output("let longRef = uintptr_t(env.GetLongField(this, _refFieldID))")
+                    fragment.output("let longRef = UInt(env.GetLongField(this, _refFieldID))")
                     fragment.output("Box<\(sourceType.name)>.releaseOpaque(UnsafeMutablePointer(bitPattern: longRef)!)")
                 }
             }
 
             fragment.outputBlock("public static func toJava(_ value: Self, env: Env) throws -> jobject? {") {
-                fragment.output("let ptr = jvalue(j: jlong(uintptr_t(bitPattern: Box(value).retainedOpaque())))")
+                fragment.output("let ptr = jvalue(j: jlong(UInt(bitPattern: Box(value).retainedOpaque())))")
                 fragment.output("return try env.NewObject(javaClass, _constructorMethodID, ptr)")
             }
 
@@ -152,7 +152,7 @@ struct TranslatedReference: TranslatedType {
             }
 
             fragment.outputBlock("public static func mutateJava(_ value: Self, javaThis: jobject?, env: Env) throws {") {
-                fragment.output("let longRef = uintptr_t(env.GetLongField(javaThis, _refFieldID))")
+                fragment.output("let longRef = UInt(env.GetLongField(javaThis, _refFieldID))")
                 fragment.output("try Box<\(sourceType.name)>.takeUnretainedOpaque(UnsafeMutablePointer(bitPattern: longRef)!).value = value")
             }
 

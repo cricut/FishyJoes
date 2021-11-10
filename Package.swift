@@ -3,7 +3,10 @@
 import PackageDescription
 import Foundation
 
-let wasmCompatibleOnly = ProcessInfo.processInfo.environment["WASM_ONLY"] == "1"
+let env = ProcessInfo.processInfo.environment
+
+let wasmCompatibleOnly = env["WASM_ONLY"] == "1"
+let javaHome = env["JAVA_HOME_11_X64"] ?? env["JAVA_HOME"] ?? "/usr/local/opt/openjdk"
 
 let package = Package(
     name: "FishyJoes",
@@ -14,6 +17,7 @@ let package = Package(
              .library(name: "FishyJoesJavaRuntime", targets: ["FishyJoesJavaRuntime"]),
              .library(name: "JavaRuntimeTestHarness", type: .dynamic, targets: ["JavaRuntimeTestHarness"]),
              .executable(name: "fishy-joes", targets: ["FishyJoesExecute"]),
+             .executable(name: "fishy-joes-execution-helper", targets: ["FishyJoesExecutionHelper"]),
          ]),
     dependencies: wasmCompatibleOnly ? [] : [
         .package(
@@ -33,6 +37,10 @@ let package = Package(
             dependencies: [
                 .target(name: "JNI"),
                 .target(name: "FishyJoesCommonRuntime"),
+            ],
+            swiftSettings: [
+                .unsafeFlags(["-I", "\(javaHome)/include"]),
+                .unsafeFlags(["-I", "\(javaHome)/include/linux"], .when(platforms: [.linux])),
             ]
         ),
         .target(
@@ -126,15 +134,20 @@ let package = Package(
                  ]
              ),
              .target(
-                 name: "FishyJoesExecute",
+                 name: "FishyJoesExecutionHelper",
                  dependencies: [
                      .target(name: "FishyJoesCore"),
-                     .product(name: "swsh", package: "swsh"),
-                     .product(name: "ArgumentParser", package: "swift-argument-parser"),
-                     .product(name: "Yams", package: "Yams"),
                  ],
                  resources: [
                      .copy("FishyJoes.swifttemplate"),
+                 ]
+             ),
+             .target(
+                 name: "FishyJoesExecute",
+                 dependencies: [
+                     .product(name: "swsh", package: "swsh"),
+                     .product(name: "ArgumentParser", package: "swift-argument-parser"),
+                     .product(name: "Yams", package: "Yams"),
                  ]
              ),
              .testTarget(
