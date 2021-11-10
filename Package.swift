@@ -8,45 +8,56 @@ let env = ProcessInfo.processInfo.environment
 let wasmCompatibleOnly = env["WASM_ONLY"] == "1"
 let javaHome = env["JAVA_HOME_11_X64"] ?? env["JAVA_HOME"] ?? "/usr/local/opt/openjdk"
 
-func macOnly<T>(_ things: T ...) -> [T] {
+func macOnly<T>(_ things: @autoclosure () -> [T]) -> [T] {
     #if os(macOS)
-    return wasmCompatibleOnly ? [] : things
+    return wasmCompatibleOnly ? [] : things()
     #else
     return []
     #endif
 }
+typealias P = Product
+typealias D = Package.Dependency
+typealias T = Target
 
-func wasmIncompatible<T>(_ things: T ...) -> [T] {
-    wasmCompatibleOnly ? [] : things
+func wasmIncompatible<T>(_ things: @autoclosure () -> [T]) -> [T] {
+    wasmCompatibleOnly ? [] : things()
 }
 
 let package = Package(
     name: "FishyJoes",
     platforms: [.macOS(.v11)],
     products: [
-        .library(name: "FishyJoesNodeRuntime", targets: ["FishyJoesNodeRuntime"]),
+        P.library(name: "FishyJoesNodeRuntime", targets: ["FishyJoesNodeRuntime"]),
     ] + wasmIncompatible(
-        .library(name: "FishyJoesJavaRuntime", targets: ["FishyJoesJavaRuntime"]),
-        .library(name: "JavaRuntimeTestHarness", type: .dynamic, targets: ["JavaRuntimeTestHarness"]),
-        .executable(name: "fishy-joes", targets: ["FishyJoesExecute"])
+        [
+            P.library(name: "FishyJoesJavaRuntime", targets: ["FishyJoesJavaRuntime"]),
+            P.library(name: "JavaRuntimeTestHarness", type: .dynamic, targets: ["JavaRuntimeTestHarness"]),
+            P.executable(name: "fishy-joes", targets: ["FishyJoesExecute"]),
+        ]
     ) + macOnly(
-        .executable(name: "fishy-joes-execution-helper", targets: ["FishyJoesExecutionHelper"])
+        [
+            P.executable(name: "fishy-joes-execution-helper", targets: ["FishyJoesExecutionHelper"]),
+        ]
     ),
     dependencies: macOnly(
-        .package(
-            // path: "../Sourcery"
-            url: "https://github.com/cricut/Sourcery", .branch("docstrings")
-        )
+        [
+            D.package(
+                // path: "../Sourcery"
+                url: "https://github.com/cricut/Sourcery", .branch("docstrings")
+            ),
+        ]
     ) + wasmIncompatible(
-        .package(url: "https://github.com/cobbal/swsh", .exact("3.0.0")),
-        .package(url: "https://github.com/apple/swift-argument-parser", from: "0.4.0"),
-        .package(url: "https://github.com/jpsim/Yams", .upToNextMinor(from: "4.0.0"))
+        [
+            D.package(url: "https://github.com/cobbal/swsh", .exact("3.0.0")),
+            D.package(url: "https://github.com/apple/swift-argument-parser", from: "0.4.0"),
+            D.package(url: "https://github.com/jpsim/Yams", .upToNextMinor(from: "4.0.0")),
+        ]
     ),
     targets: [
-        .systemLibrary(name: "NodeAPI"),
-        .systemLibrary(name: "JNI"),
-        .target(name: "FishyJoesCommonRuntime"),
-        .target(
+        T.systemLibrary(name: "NodeAPI"),
+        T.systemLibrary(name: "JNI"),
+        T.target(name: "FishyJoesCommonRuntime"),
+        T.target(
             name: "FishyJoesJavaRuntime",
             dependencies: [
                 .target(name: "JNI"),
@@ -58,13 +69,13 @@ let package = Package(
                 .unsafeFlags(["-I", "\(javaHome)/include/darwin"], .when(platforms: [.macOS])),
             ]
         ),
-        .target(
+        T.target(
             name: "JavaRuntimeTestHarness",
             dependencies: [
                 .target(name: "FishyJoesJavaRuntime"),
             ]
         ),
-        .target(
+        T.target(
             name: "FishyJoesNodeRuntime",
             dependencies: [
                 .target(name: "NodeAPI"),
@@ -142,41 +153,45 @@ let package = Package(
             ]
         ),
     ] + macOnly(
-        .target(
-            name: "FishyJoesCore",
-            dependencies: [
-                .product(name: "SourceryRuntime", package: "Sourcery"),
-            ]
-        ),
-        .target(
-            name: "FishyJoesExecutionHelper",
-            dependencies: [
-                .target(name: "FishyJoesCore"),
-            ],
-            resources: [
-                .copy("FishyJoes.swifttemplate"),
-            ]
-        )
+        [
+            T.target(
+                name: "FishyJoesCore",
+                dependencies: [
+                    .product(name: "SourceryRuntime", package: "Sourcery"),
+                ]
+            ),
+            T.target(
+                name: "FishyJoesExecutionHelper",
+                dependencies: [
+                    .target(name: "FishyJoesCore"),
+                ],
+                resources: [
+                    .copy("FishyJoes.swifttemplate"),
+                ]
+            ),
+        ]
     ) + wasmIncompatible(
-        .target(
-            name: "FishyJoesExecute",
-            dependencies: [
-                .product(name: "swsh", package: "swsh"),
-                .product(name: "ArgumentParser", package: "swift-argument-parser"),
-                .product(name: "Yams", package: "Yams"),
-            ]
-        ),
-        .testTarget(
-            name: "FishyJoesCoreTests",
-            dependencies: [
-                .target(name: "FishyJoesCore"),
-            ]
-        ),
-        .testTarget(
-            name: "NAPITestDriver",
-            dependencies: [
-                .product(name: "swsh", package: "swsh"),
-            ]
-        )
+        [
+            T.target(
+                name: "FishyJoesExecute",
+                dependencies: [
+                    .product(name: "swsh", package: "swsh"),
+                    .product(name: "ArgumentParser", package: "swift-argument-parser"),
+                    .product(name: "Yams", package: "Yams"),
+                ]
+            ),
+            T.testTarget(
+                name: "FishyJoesCoreTests",
+                dependencies: [
+                    .target(name: "FishyJoesCore"),
+                ]
+            ),
+            T.testTarget(
+                name: "NAPITestDriver",
+                dependencies: [
+                    .product(name: "swsh", package: "swsh"),
+                ]
+            ),
+        ]
     )
 )
