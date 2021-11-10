@@ -7,6 +7,7 @@ public struct BoxTypeError: Error {
 public struct Box<T> {
     public let box: AnyBox
 
+    @inline(__always)
     public var value: T {
         get {
             // This could fail, since we're providing a pointer interface
@@ -14,6 +15,18 @@ public struct Box<T> {
         }
         nonmutating set {
             box.value = newValue
+        }
+        nonmutating _modify {
+            defer { _fixLifetime(self) }
+            var value = withUnsafeMutablePointer(to: &box.value) { valuePointer in
+                valuePointer.move() as! T
+            }
+            defer {
+                withUnsafeMutablePointer(to: &box.value) { valuePointer in
+                    valuePointer.initialize(to: value)
+                }
+            }
+            yield &value
         }
     }
 
@@ -61,5 +74,9 @@ public class AnyBox {
 
     public static func takeUnretainedOpaque(_ pointer: UnsafeMutableRawPointer) -> AnyBox {
         Unmanaged<AnyBox>.fromOpaque(pointer).takeUnretainedValue()
+    }
+
+    public static func takeRetainedOpaque(_ pointer: UnsafeMutableRawPointer) -> AnyBox {
+        Unmanaged<AnyBox>.fromOpaque(pointer).takeRetainedValue()
     }
 }

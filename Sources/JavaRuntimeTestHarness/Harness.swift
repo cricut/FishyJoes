@@ -1,5 +1,9 @@
 import FishyJoesJavaRuntime
 
+var refClass: jclass?
+var refFieldID: jfieldID?
+var refConstructorID: jmethodID?
+
 @_cdecl("JNI_OnLoad")
 public func JNIOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutableRawPointer) -> jint {
     var envRaw: UnsafeMutableRawPointer?
@@ -23,6 +27,35 @@ public func JNIOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                     name: bag.add("fun1"),
                     signature: bag.add("()Lkotlin/jvm/functions/Function2;"),
                     fnPtr: unsafeBitCast(java_fun1, to: UnsafeMutableRawPointer.self)
+                ),
+                JNINativeMethod(
+                    name: bag.add("makeReference"),
+                    signature: bag.add("()Lcom/cricut/fishyjoes/runtime/SwiftReference;"),
+                    fnPtr: unsafeBitCast(java_ref_make, to: UnsafeMutableRawPointer.self)
+                )
+            )
+        )
+
+        refClass = try env.globalRef(env.FindClass("com/cricut/fishyjoes/runtime/SwiftReference"))
+        refFieldID = try env.GetFieldID(refClass, "ref", "J")
+        refConstructorID = try env.GetMethodID(refClass, "<init>", "(J)V")
+        try javaOk(
+            env.RegisterNatives(
+                refClass,
+                JNINativeMethod(
+                    name: bag.add("append"),
+                    signature: bag.add("(J)V"),
+                    fnPtr: unsafeBitCast(java_ref_append, to: UnsafeMutableRawPointer.self)
+                ),
+                JNINativeMethod(
+                    name: bag.add("addr"),
+                    signature: bag.add("()J"),
+                    fnPtr: unsafeBitCast(java_ref_addr, to: UnsafeMutableRawPointer.self)
+                ),
+                JNINativeMethod(
+                    name: bag.add("log"),
+                    signature: bag.add("()V"),
+                    fnPtr: unsafeBitCast(java_ref_log, to: UnsafeMutableRawPointer.self)
                 )
             )
         )
@@ -41,5 +74,37 @@ let java_fun0: @convention(c) (UnsafeMutablePointer<JNIEnv?>, jobject, jobject?)
 let java_fun1: @convention(c) (UnsafeMutablePointer<JNIEnv?>, jobject) -> jobject? = { env, _ in
     FishyJoesJavaRuntime.callbackBody(env) { env in
         try Function2Converter<Int, Int, Int>.toJava({ x, y in x + y }, env: env)
+    }
+}
+
+let java_ref_make: @convention(c) (UnsafeMutablePointer<JNIEnv?>, jobject) -> jobject? = { env, _ in
+    FishyJoesJavaRuntime.callbackBody(env) { env in
+        let ptr = jvalue(j: jlong(uintptr_t(bitPattern: Box<[Int64]>([]).retainedOpaque())))
+        return try env.NewObject(refClass, refConstructorID, ptr)
+    }
+}
+
+let java_ref_append: @convention(c) (UnsafeMutablePointer<JNIEnv?>, jobject, jlong) -> Void = { env, this, appendee in
+    FishyJoesJavaRuntime.callbackBody(env) { env in
+        let longRef = uintptr_t(env.GetLongField(this, refFieldID))
+        let box = try Box<[Int64]>.takeUnretainedOpaque(UnsafeMutablePointer(bitPattern: longRef)!)
+        box.value.append(Int64(appendee))
+    }
+}
+
+let java_ref_addr: @convention(c) (UnsafeMutablePointer<JNIEnv?>, jobject) -> jlong = { env, this in
+    FishyJoesJavaRuntime.callbackBody(env) { env in
+        let longRef = uintptr_t(env.GetLongField(this, refFieldID))
+        let box = try Box<[Int64]>.takeUnretainedOpaque(UnsafeMutablePointer(bitPattern: longRef)!)
+        let storage = { (x: UnsafeRawPointer) in x }(box.value)
+        return jlong(uintptr_t(bitPattern: storage))
+    }
+}
+
+let java_ref_log: @convention(c) (UnsafeMutablePointer<JNIEnv?>, jobject) -> Void = { env, this in
+    FishyJoesJavaRuntime.callbackBody(env) { env in
+        let longRef = uintptr_t(env.GetLongField(this, refFieldID))
+        let box = try Box<[Int64]>.takeUnretainedOpaque(UnsafeMutablePointer(bitPattern: longRef)!)
+        print(box.value)
     }
 }

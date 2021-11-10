@@ -151,9 +151,9 @@ struct TranslatedReference: TranslatedType {
                 fragment.output("_constructorMethodID = try env.GetMethodID(javaClass, \"<init>\", \"(J)V\")")
             }
 
-            fragment.outputBlock("public static func mutateJava(_ value: Self, javaThis: jobject?, env: Env) throws {") {
-                fragment.output("let longRef = UInt(env.GetLongField(javaThis, _refFieldID))")
-                fragment.output("try Box<\(sourceType.name)>.takeUnretainedOpaque(javaNonNull(UnsafeMutablePointer(bitPattern: longRef))).value = value")
+            fragment.outputBlock("public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout Self) throws -> R) throws -> R {") {
+                fragment.output("let longRef = uintptr_t(env.GetLongField(this, _refFieldID))")
+                fragment.output("return try body(&Box<\(sourceType.name)>.takeUnretainedOpaque(javaNonNull(UnsafeMutablePointer(bitPattern: longRef))).value)")
             }
 
             if equatable {

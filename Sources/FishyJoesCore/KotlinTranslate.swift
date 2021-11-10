@@ -58,26 +58,29 @@ class KotlinTranslate {
                 let callName = method.isInitializer ? "" : ".\(method.callName)"
 
                 // let isMutating = method.isMutating || method.modifiers.contains(where: { $0.name == "mutating" })
+                var mutateBlock: (() -> Void) -> Void = { $0() }
                 if method.isMutating {
                     fragment.output("var mutatingSelf = try \(selfExpression)")
+                    mutateBlock = { body in
+                        fragment.outputBlock("return try \(containingNamespace).mutateJava(_javaThis, env: _javaEnv) { mutatingSelf in", closeWith: "}") {
+                            body()
+                        }
+                    }
                     selfExpression = "mutatingSelf"
                 }
 
-                fragment.outputBlock("let result: \(returnType.converterType.name).CType = try \(returnType.converterType.name).toJava(") {
-                    fragment.outputBlock("\(selfExpression)\(callName)(", closeWith: "),") {
-                        fragment.outputMap(method.parameters, separator: ",") { formal in
-                            let resolved = context.resolve(type: formal.type, generics: exportAnnotation.genericOverrides)
-                            return (formal.label.map { "\($0): " } ?? "") +
-                                "try \(resolved.converterType.name).fromJava(\(formal.name), env: _javaEnv)"
+                mutateBlock {
+                    fragment.outputBlock("return try \(returnType.converterType.name).toJava(") {
+                        fragment.outputBlock("\(selfExpression)\(callName)(", closeWith: "),") {
+                            fragment.outputMap(method.parameters, separator: ",") { formal in
+                                let resolved = context.resolve(type: formal.type, generics: exportAnnotation.genericOverrides)
+                                return (formal.label.map { "\($0): " } ?? "") +
+                                    "try \(resolved.converterType.name).fromJava(\(formal.name), env: _javaEnv)"
+                            }
                         }
+                        fragment.output("env: _javaEnv")
                     }
-                    fragment.output("env: _javaEnv")
                 }
-
-                if method.isMutating {
-                    fragment.output("try \(containingNamespace).mutateJava(mutatingSelf, javaThis: _javaThis, env: _javaEnv)")
-                }
-                fragment.output("return result")
             }
         }
 
@@ -162,9 +165,9 @@ class KotlinTranslate {
                     if variable.isStatic {
                         fragment.output("\(selfExpression).\(variable.name) = try \(converterName).fromJava(newValue, env: _javaEnv)")
                     } else {
-                        fragment.output("var mutatingSelf = try \(selfExpression)")
-                        fragment.output("mutatingSelf.\(variable.name) = try \(converterName).fromJava(newValue, env: _javaEnv)")
-                        fragment.output("try \(containingNamespace).mutateJava(mutatingSelf, javaThis: _javaThis, env: _javaEnv)")
+                        fragment.outputBlock("try \(containingNamespace).mutateJava(_javaThis, env: _javaEnv) { value in", closeWith: "}") {
+                            fragment.output("value.\(variable.name) = try \(converterName).fromJava(newValue, env: _javaEnv)")
+                        }
                     }
                 }
             }
