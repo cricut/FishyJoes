@@ -32,11 +32,12 @@ let package = Package(
     ) + macOnly(
         .executable(name: "fishy-joes-execution-helper", targets: ["FishyJoesExecutionHelper"])
     ),
-    dependencies: wasmIncompatible(
+    dependencies: macOnly(
         .package(
             // path: "../Sourcery"
             url: "https://github.com/cricut/Sourcery", .branch("docstrings")
-        ),
+        )
+    ) + wasmIncompatible(
         .package(url: "https://github.com/cobbal/swsh", .exact("3.0.0")),
         .package(url: "https://github.com/apple/swift-argument-parser", from: "0.4.0"),
         .package(url: "https://github.com/jpsim/Yams", .upToNextMinor(from: "4.0.0"))
