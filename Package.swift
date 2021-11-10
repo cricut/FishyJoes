@@ -169,6 +169,12 @@ let package = Package(
                     .copy("FishyJoes.swifttemplate"),
                 ]
             ),
+            T.testTarget(
+                name: "FishyJoesCoreTests",
+                dependencies: [
+                    .target(name: "FishyJoesCore"),
+                ]
+            ),
         ]
     ) + wasmIncompatible(
         [
@@ -178,12 +184,6 @@ let package = Package(
                     .product(name: "swsh", package: "swsh"),
                     .product(name: "ArgumentParser", package: "swift-argument-parser"),
                     .product(name: "Yams", package: "Yams"),
-                ]
-            ),
-            T.testTarget(
-                name: "FishyJoesCoreTests",
-                dependencies: [
-                    .target(name: "FishyJoesCore"),
                 ]
             ),
             T.testTarget(
