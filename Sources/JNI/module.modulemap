@@ -1,0 +1,4 @@
+module JNI [system] {
+    header "jni_shim.h"
+    export *
+}

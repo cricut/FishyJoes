@@ -3,7 +3,10 @@
 import PackageDescription
 import Foundation
 
-let wasmCompatibleOnly = ProcessInfo.processInfo.environment["WASM_ONLY"] == "1"
+let env = ProcessInfo.processInfo.environment
+
+let wasmCompatibleOnly = env["WASM_ONLY"] == "1"
+let javaHome = env["JAVA_HOME_11_X64"] ?? env["JAVA_HOME"] ?? "/usr/local/opt/openjdk"
 
 let package = Package(
     name: "FishyJoes",
@@ -27,18 +30,17 @@ let package = Package(
     ],
     targets: [
         .systemLibrary(name: "NodeAPI"),
-        .target(
-            name: "JNI",
-            cSettings: [
-                .headerSearchPath("Sources/JNI/include"),
-            ]
-        ),
+        .systemLibrary(name: "JNI"),
         .target(name: "FishyJoesCommonRuntime"),
         .target(
             name: "FishyJoesJavaRuntime",
             dependencies: [
                 .target(name: "JNI"),
                 .target(name: "FishyJoesCommonRuntime"),
+            ],
+            swiftSettings: [
+                .unsafeFlags(["-I", "\(javaHome)/include"]),
+                .unsafeFlags(["-I", "\(javaHome)/include/linux"], .when(platforms: [.linux])),
             ]
         ),
         .target(
