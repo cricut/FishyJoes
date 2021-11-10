@@ -598,7 +598,7 @@ extension Env {
 
     /* Module Features */
 
-    public func GetModule(_ clazz: jclass?) -> jobject? {
-        fns.GetModule(env, clazz)
-    }
+    // public func GetModule(_ clazz: jclass?) -> jobject? {
+    //     fns.GetModule(env, clazz)
+    // }
 }
