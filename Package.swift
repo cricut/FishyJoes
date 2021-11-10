@@ -41,6 +41,7 @@ let package = Package(
             swiftSettings: [
                 .unsafeFlags(["-I", "\(javaHome)/include"]),
                 .unsafeFlags(["-I", "\(javaHome)/include/linux"], .when(platforms: [.linux])),
+                .unsafeFlags(["-I", "\(javaHome)/include/darwin"], .when(platforms: [.macOS])),
             ]
         ),
         .target(
