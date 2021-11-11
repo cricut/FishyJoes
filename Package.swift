@@ -6,7 +6,12 @@ import Foundation
 let env = ProcessInfo.processInfo.environment
 
 let wasmCompatibleOnly = env["WASM_ONLY"] == "1"
-let javaHome = env["JAVA_HOME_11_X64"] ?? env["JAVA_HOME"] ?? "/usr/local/opt/openjdk"
+let javaHome: String = {
+    let java = env["JAVA_HOME_11_X64"] ?? env["JAVA_HOME"] ?? "/usr/local/opt/openjdk"
+    print(env)
+    print("Using java at: \(java)")
+    return java
+}()
 
 func macOnly<T>(_ things: @autoclosure () -> [T]) -> [T] {
     #if os(macOS)
@@ -67,6 +72,7 @@ let package = Package(
                 .unsafeFlags(["-I", "\(javaHome)/include"]),
                 .unsafeFlags(["-I", "\(javaHome)/include/linux"], .when(platforms: [.linux])),
                 .unsafeFlags(["-I", "\(javaHome)/include/darwin"], .when(platforms: [.macOS])),
+                .unsafeFlags(["-I", "\(javaHome)/include/win32"], .when(platforms: [.windows])),
             ]
         ),
         T.target(
