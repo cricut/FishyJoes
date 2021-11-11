@@ -67,6 +67,7 @@ let package = Package(
                 .unsafeFlags(["-I", "\(javaHome)/include"]),
                 .unsafeFlags(["-I", "\(javaHome)/include/linux"], .when(platforms: [.linux])),
                 .unsafeFlags(["-I", "\(javaHome)/include/darwin"], .when(platforms: [.macOS])),
+                .unsafeFlags(["-I", "\(javaHome)/include/win32"], .when(platforms: [.windows])),
             ]
         ),
         T.target(
