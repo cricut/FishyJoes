@@ -6,12 +6,7 @@ import Foundation
 let env = ProcessInfo.processInfo.environment
 
 let wasmCompatibleOnly = env["WASM_ONLY"] == "1"
-let javaHome: String = {
-    let java = env["JAVA_HOME_11_X64"] ?? env["JAVA_HOME"] ?? "/usr/local/opt/openjdk"
-    print(env)
-    print("Using java at: \(java)")
-    return java
-}()
+let javaHome = env["JAVA_HOME_11_X64"] ?? env["JAVA_HOME"] ?? "/usr/local/opt/openjdk"
 
 func macOnly<T>(_ things: @autoclosure () -> [T]) -> [T] {
     #if os(macOS)
