@@ -29,9 +29,6 @@ struct CodeGen: ParsableCommand {
     @Flag(name: .long, inversion: .prefixedNo, help: "Generate a Kotlin package")
     var kotlin: Bool = false
 
-    @Flag(name: .long, inversion: .prefixedNo, help: "Generate a build script for building on windows")
-    var kotlinWindowsScript: Bool = false
-
     @Flag(name: .long, inversion: .prefixedNo, help: "Generate a Kotlin package without android support (much faster)")
     var kotlinFast: Bool = false
 
@@ -182,9 +179,6 @@ extension CodeGen {
         if nodejs {
             platforms.append(.node)
         }
-        if kotlinWindowsScript {
-            platforms.append(.kotlinWindowsScript)
-        }
         if kotlin || kotlinFast {
             platforms.append(.kotlinSystem)
         }
@@ -252,7 +246,7 @@ extension CodeGen {
                     try platform.swiftBuild()
                 case .node:
                     try platform.swiftBuild("--product", "\(config.module)-node")
-                case .kotlinSystem, .kotlinAndroid, .kotlinWindowsScript:
+                case .kotlinSystem, .kotlinAndroid:
                     try platform.swiftBuild("--product", "\(config.module)-java")
                 }
             }
@@ -304,9 +298,6 @@ extension CodeGen {
                 case .kotlinSystem:
                     try cmd("mkdir", "-p", platform.outputDir).run()
                     try cmd("cp", "\(platform.buildDir)/lib\(config.module)-java.\(dylibExt)", platform.outputDir).run()
-                case .kotlinWindowsScript:
-                    try cmd("echo", "mkdir", "-p", platform.outputDir).run()
-                    try cmd("echo", "cp", "\(platform.buildDir)/lib\(config.module)-java.\(dylibExt)", platform.outputDir).run()
                 case .kotlinAndroid(let arch):
                     try cmd("mkdir", "-p", platform.outputDir).run()
                     try cmd("cp", "\(platform.buildDir)/lib\(config.module)-java.so", platform.outputDir).run()
@@ -355,7 +346,7 @@ extension CodeGen {
                         .append(toFile: packageJsonPath)
                         .run()
                 }
-            case .kotlinSystem, .kotlinAndroid, .kotlinWindowsScript:
+            case .kotlinSystem, .kotlinAndroid:
                 ()
             }
         }
@@ -377,8 +368,6 @@ extension CodeGen {
                     try FileManager.default.withCurrentDirectoryPath("kotlin") {
                         try cmd("./gradlew", "test").run()
                     }
-                case .kotlinWindowsScript:
-                    print("(cd kotlin; ./gradlew test)")
                 case .kotlinAndroid:
                     // TODO
                     ()
@@ -416,7 +405,7 @@ enum AndroidArchitecture: String, Equatable, CaseIterable {
 }
 
 enum Platform: Hashable {
-    case wasm, node, kotlinSystem, kotlinAndroid(AndroidArchitecture), kotlinWindowsScript
+    case wasm, node, kotlinSystem, kotlinAndroid(AndroidArchitecture)
 
     static let nativeMacSwiftBuild = try! cmd("xcrun", "-f", "swift-build").runString()
 
@@ -441,11 +430,6 @@ enum Platform: Hashable {
             #else
             fatalError("unknown host OS")
             #endif
-        case .kotlinWindowsScript:
-            path = "echo"
-            args = ["swift", "build"] + args + [
-                "--build-path", "./.build/windows-build",
-            ]
         case .kotlinAndroid(.arm):
             path = "\(androidToolchain)/usr/bin/swift-build-arm-linux-androideabi"
             args.append(
@@ -487,7 +471,6 @@ enum Platform: Hashable {
             #else
             fatalError("unknown host OS")
             #endif
-        case .kotlinWindowsScript: return "jni-windows"
         case .kotlinAndroid: return "jni-android"
         }
     }
@@ -502,8 +485,6 @@ enum Platform: Hashable {
             #else
             fatalError("unknown host OS")
             #endif
-        case .kotlinWindowsScript:
-            return "kotlin/src/generated/resources/windows"
         case .kotlinAndroid(let arch): return "kotlin/src/generated/resources/lib/\(arch.ndkName)"
         }
     }
@@ -511,7 +492,7 @@ enum Platform: Hashable {
         switch self {
         case .wasm: return "\(config.module) packaged as a typescript library using WebAssembly"
         case .node: return "\(platform) <-> node/ts bindings for \(config.module)"
-        case .kotlinSystem, .kotlinWindowsScript, .kotlinAndroid: return "A JNI wrapper for \(config.module)"
+        case .kotlinSystem, .kotlinAndroid: return "A JNI wrapper for \(config.module)"
         }
     }
     var buildDir: String {
@@ -525,8 +506,6 @@ enum Platform: Hashable {
             #else
             fatalError("unknown host OS")
             #endif
-        case .kotlinWindowsScript:
-            return ".build/windows-build/x86_64-unknown-windows-msvc/release"
         case .kotlinAndroid(.arm):
             return ".build/android-build/armv7-none-linux-androideabi/release"
         case .kotlinAndroid(let arch):
