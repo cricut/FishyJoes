@@ -15,48 +15,44 @@ public func JNIOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try Function2Converter<Int, Int, Int>.javaSetup(env: env)
         let bag = CStringBag()
         let javaClass = try env.globalRef(env.FindClass("com/cricut/fishyjoes/runtime/TestFunction"))
-        try javaOk(
-            env.RegisterNatives(
-                javaClass,
-                JNINativeMethod(
-                    name: bag.add("fun0"),
-                    signature: bag.add("(Lkotlin/jvm/functions/Function2;)Ljava/lang/String;"),
-                    fnPtr: unsafeBitCast(java_fun0, to: UnsafeMutableRawPointer.self)
-                ),
-                JNINativeMethod(
-                    name: bag.add("fun1"),
-                    signature: bag.add("()Lkotlin/jvm/functions/Function2;"),
-                    fnPtr: unsafeBitCast(java_fun1, to: UnsafeMutableRawPointer.self)
-                ),
-                JNINativeMethod(
-                    name: bag.add("makeReference"),
-                    signature: bag.add("()Lcom/cricut/fishyjoes/runtime/SwiftReference;"),
-                    fnPtr: unsafeBitCast(java_ref_make, to: UnsafeMutableRawPointer.self)
-                )
+        try env.RegisterNatives(
+            javaClass,
+            JNINativeMethod(
+                name: bag.add("fun0"),
+                signature: bag.add("(Lkotlin/jvm/functions/Function2;)Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_fun0, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("fun1"),
+                signature: bag.add("()Lkotlin/jvm/functions/Function2;"),
+                fnPtr: unsafeBitCast(java_fun1, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("makeReference"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/SwiftReference;"),
+                fnPtr: unsafeBitCast(java_ref_make, to: UnsafeMutableRawPointer.self)
             )
         )
 
         refClass = try env.globalRef(env.FindClass("com/cricut/fishyjoes/runtime/SwiftReference"))
         refFieldID = try env.GetFieldID(refClass, "ref", "J")
         refConstructorID = try env.GetMethodID(refClass, "<init>", "(J)V")
-        try javaOk(
-            env.RegisterNatives(
-                refClass,
-                JNINativeMethod(
-                    name: bag.add("append"),
-                    signature: bag.add("(J)V"),
-                    fnPtr: unsafeBitCast(java_ref_append, to: UnsafeMutableRawPointer.self)
-                ),
-                JNINativeMethod(
-                    name: bag.add("addr"),
-                    signature: bag.add("()J"),
-                    fnPtr: unsafeBitCast(java_ref_addr, to: UnsafeMutableRawPointer.self)
-                ),
-                JNINativeMethod(
-                    name: bag.add("log"),
-                    signature: bag.add("()V"),
-                    fnPtr: unsafeBitCast(java_ref_log, to: UnsafeMutableRawPointer.self)
-                )
+        try env.RegisterNatives(
+            refClass,
+            JNINativeMethod(
+                name: bag.add("append"),
+                signature: bag.add("(J)V"),
+                fnPtr: unsafeBitCast(java_ref_append, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("addr"),
+                signature: bag.add("()J"),
+                fnPtr: unsafeBitCast(java_ref_addr, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("log"),
+                signature: bag.add("()V"),
+                fnPtr: unsafeBitCast(java_ref_log, to: UnsafeMutableRawPointer.self)
             )
         )
 

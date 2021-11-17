@@ -201,15 +201,15 @@ struct TranslatedReference: TranslatedType {
         }
 
         context.kotlinTranslator.allMethods[sourceType.name, default: []].append(
-            (javaName: "finalize", signature: "()V" , cName: "\(sourceType.name)._javaFinalizer")
+            (javaName: "__jni_finalize", signature: "()V" , cName: "\(sourceType.name)._javaFinalizer")
         )
         context.kotlinTranslator.allMethods[sourceType.name, default: []].append(
-            (javaName: "toString", signature: "()Ljava/lang/String;" , cName: "\(sourceType.name)._javaToString")
+            (javaName: "__jni_toString", signature: "()Ljava/lang/String;" , cName: "\(sourceType.name)._javaToString")
         )
         if equatable {
             context.kotlinTranslator.allMethods[sourceType.name, default: []].append(
                 (
-                    javaName: "_swiftEquals",
+                    javaName: "__jni__swiftEquals",
                     signature: "(\(jniType.asSignature)\(jniType.asSignature))Z",
                     cName: "\(sourceType.name)._javaEquals"
                 )
@@ -218,7 +218,7 @@ struct TranslatedReference: TranslatedType {
         if hashable {
             context.kotlinTranslator.allMethods[sourceType.name, default: []].append(
                 (
-                    javaName: "hashCode",
+                    javaName: "__jni_hashCode",
                     signature: "()I",
                     cName: "\(sourceType.name)._javaHash"
                 )
@@ -257,7 +257,7 @@ struct TranslatedReference: TranslatedType {
                             (labelComment: nil, name: "other", type: .optional(.named("Any"))),
                         ],
                         returnType: .named("Boolean"),
-                        body: "(other is \(kotlinType)) && _swiftEquals(this, other)"
+                        body: "(other is \(kotlinType)) && __jni__swiftEquals(this, other)"
                     )
                 )
             )
