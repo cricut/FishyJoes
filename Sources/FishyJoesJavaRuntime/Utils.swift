@@ -4,17 +4,16 @@ import Foundation
 
 public func javaNonNull<Result>(file: StaticString = #file, line: UInt = #line, _ result: Result?) throws -> Result {
     guard let result = result else {
-        let message = "\(file):\(line): unexpected null"
-        print(message)
-        Thread.callStackSymbols.forEach { print($0) }
-        throw JNIError(message: message)
+        var message = ["\(file):\(line): Unexpected null"]
+        Thread.callStackSymbols.forEach { message.append($0) }
+        throw NullPointerError(message: message.joined(separator: "\n"))
     }
     return result
 }
 
-public func javaOk(_ result: jint) throws {
+public func javaOk(file: StaticString = #file, line: UInt = #line, _ result: jint) throws {
     guard result == JNI_OK else {
-        throw JNIError(message: "unknown jni call failed")
+        throw JNIError(message: "\(file):\(line): unknown jni call failed")
     }
 }
 
@@ -31,12 +30,20 @@ public func callbackBody<Result: Default>(
             env.ExceptionDescribe()
             return .default
         }
-        print("Caught swift error \(e). Re-throwing to java.")
-        guard let errorClass = try? env.FindClass("java/lang/Error"),
-              env.ThrowNew(errorClass, "\(e)") else {
-            fatalError("error while throwing an error")
+        print("Caught swift error \(e). Not Re-throwing to java.")
+        if let nullError = e as? NullPointerError {
+            guard let errorClass = try? env.FindClass("java/lang/NullPointerException"),
+                  env.ThrowNew(errorClass, nullError.message) else {
+                fatalError("error while throwing an error")
+            }
+            return .default
+        } else {
+            guard let errorClass = try? env.FindClass("java/lang/Error"),
+                  env.ThrowNew(errorClass, "\(e)") else {
+                fatalError("error while throwing an error")
+            }
+            return .default
         }
-        return .default
     }
 }
 
@@ -62,6 +69,9 @@ public func callbackBody(
 }
 
 public struct JavaExceptionPending: Error {}
+public struct NullPointerError: Error {
+    public let message: String
+}
 
 public struct JNIError: Error {
     public let message: String
@@ -70,6 +80,7 @@ public struct JNIError: Error {
         self.message = message
     }
 }
+
 
 public class CStringBag {
     private var strings: [UnsafeMutablePointer<CChar>] = []

@@ -32,8 +32,16 @@ public struct Env {
         return result
     }
 
-    public func RegisterNatives(_ clazz: jclass?, _ methods: JNINativeMethod ...) throws -> jint {
-        try RegisterNatives(clazz, methods: methods)
+    public func RegisterNatives(_ clazz: jclass?, _ methods: JNINativeMethod ...) throws {
+        // change to true to debug UnsatisfiedLinkErrors
+        #if false
+        for method in methods {
+            print("registering \(String(cString: method.name, encoding: .utf8)!)")
+            try javaOk(RegisterNatives(clazz, methods: [method]))
+        }
+        #else
+        try javaOk(RegisterNatives(clazz, methods: methods))
+        #endif
     }
 }
 

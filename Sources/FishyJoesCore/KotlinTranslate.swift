@@ -49,7 +49,7 @@ class KotlinTranslate {
         jniSignature = "(\(jniSignature))\(returnType.jniType.asSignature)"
 
         let cMethod = "java_\(containingNamespace)_\(exportAnnotation.name)".replacingOccurrences(of: ".", with: "_")
-        allMethods[containingNamespace, default: []].append((exportAnnotation.name, jniSignature, cMethod))
+        allMethods[containingNamespace, default: []].append(("__jni_\(exportAnnotation.name)", jniSignature, cMethod))
         fragment.outputBlock("let \(cMethod): @convention(c) (", newLineTerminated: false) {
             fragment.outputMap(formals, separator: ",", \.type)
         }
@@ -92,16 +92,8 @@ class KotlinTranslate {
             return []
         }
         let kotlinName = exportAnnotation.name
-        // https://stackoverflow.com/a/43339430/73681
-        let jvmGetName: String
-        let jvmSetName: String
-        if kotlinName.hasPrefix("is") {
-            jvmGetName = kotlinName
-            jvmSetName = "set" + upperCaseFirst(kotlinName.dropFirst(2))
-        } else {
-            jvmGetName = "get" + upperCaseFirst(kotlinName)
-            jvmSetName = "set" + upperCaseFirst(kotlinName)
-        }
+        let jvmGetName = "__jni_\(exportAnnotation.kind == .asMethod ? "" : "get_")\(kotlinName)"
+        let jvmSetName = "__jni_set_\(kotlinName)"
 
         let selfExpression: String
         let containingNamespace: String
@@ -198,7 +190,7 @@ class KotlinTranslate {
                     javaTypeListFragment.output("try \(resolved.converterType.name).javaSetup(env: env)")
                     if case .named = type {
                         if let nativeMethods = allMethods[type.name] {
-                            javaTypeListFragment.outputBlock("try javaOk(env.RegisterNatives(\(type.name).javaClass, ", closeWith: "))") {
+                            javaTypeListFragment.outputBlock("try env.RegisterNatives(\(type.name).javaClass, ", closeWith: ")") {
                                 for (method, signature, cName) in nativeMethods {
                                     let isLast = cName == nativeMethods.last?.cName
                                     javaTypeListFragment.outputBlock("JNINativeMethod(", closeWith: isLast ? ")" : "),") {
