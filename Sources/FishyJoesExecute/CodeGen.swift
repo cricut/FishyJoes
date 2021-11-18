@@ -183,8 +183,7 @@ extension CodeGen {
             platforms.append(.kotlinSystem)
         }
         if kotlin && !kotlinFast {
-            // platforms.append(contentsOf: AndroidArchitecture.allCases.map(Platform.kotlinAndroid))
-            platforms.append(Platform.kotlinAndroid(.aarch64))
+            platforms.append(contentsOf: AndroidArchitecture.allCases.map(Platform.kotlinAndroid))
         }
 
         let generateOnly = Set(buildStep) == [.generate]
