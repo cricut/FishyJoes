@@ -425,7 +425,7 @@ enum Platform: Hashable {
             path = Platform.nativeMacSwiftBuild
             #elseif os(Linux)
             path = "swift"
-            args = ["build"] + args
+            args = ["build", "-Xswiftc", "-static-stdlib"] + args
             #else
             fatalError("unknown host OS")
             #endif
