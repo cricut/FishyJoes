@@ -3,7 +3,7 @@ import Foundation
 import ArgumentParser
 import Yams
 
-let wasmToolchain = "/Library/Developer/Toolchains/swift-wasm-5.3.1-RELEASE.xctoolchain"
+let wasmToolchain = "/Library/Developer/Toolchains/swift-wasm-5.4.0-RELEASE.xctoolchain"
 let androidToolchain = "/Library/Developer/Toolchains/swift-android-toolchain"
 
 let dylibExt: String = {

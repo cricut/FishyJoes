@@ -6,7 +6,7 @@ import Foundation
 let env = ProcessInfo.processInfo.environment
 
 let wasmCompatibleOnly = env["WASM_ONLY"] == "1"
-let javaHome = env["JAVA_HOME_11_X64"] ?? env["JAVA_HOME"] ?? "/usr/local/opt/openjdk"
+let javaHome = env["JAVA_HOME_11_X64"] ?? env["JAVA_HOME"] ?? "/usr/local/opt/openjdk@11"
 
 func macOnly<T>(_ things: @autoclosure () -> [T]) -> [T] {
     #if os(macOS)
@@ -97,6 +97,7 @@ let package = Package(
                         "napi_create_double",
                         "napi_create_external",
                         "napi_create_function",
+                        "napi_create_uint32",
                         "napi_create_int64",
                         "napi_create_object",
                         "napi_create_reference",
@@ -118,6 +119,7 @@ let package = Package(
                         "napi_get_value_bool",
                         "napi_get_value_double",
                         "napi_get_value_external",
+                        "napi_get_value_uint32",
                         "napi_get_value_int64",
                         "napi_get_value_string_utf8",
                         "napi_has_named_property",
