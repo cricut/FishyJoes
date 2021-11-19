@@ -37,7 +37,7 @@ struct TranslatedReference: TranslatedType {
     func nodeDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
             "NodeInterface/\(sourceType.name)+node.swift",
-            additionalImports: ["FishyJoesNodeRuntime"]
+            additionalImports: ["Foundation", "FishyJoesNodeRuntime"]
         )
         fragment.outputBlock("extension \(sourceType.name): FishyJoesNodeRuntime.NodeConverter {") {
             fragment.outputBlock("public static func fromNode(_ value: napi_value?, env: napi_env) throws -> Self {") {
@@ -116,7 +116,7 @@ struct TranslatedReference: TranslatedType {
     func jniDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
             "JavaInterface/\(sourceType.name)+java.swift",
-            additionalImports: ["FishyJoesJavaRuntime"]
+            additionalImports: ["Foundation", "FishyJoesJavaRuntime"]
         )
         fragment.outputBlock("extension \(sourceType.name): JavaMutator {") {
             fragment.output("public static var javaClass: jclass?")

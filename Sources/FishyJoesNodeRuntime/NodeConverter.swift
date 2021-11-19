@@ -46,6 +46,20 @@ extension Double: NodeConverter {
     }
 }
 
+extension UInt8: NodeConverter {
+    public static func fromNode(_ value: napi_value?, env: napi_env) throws -> UInt8 {
+        var result = UInt32(0)
+        try check(napi_get_value_uint32(env, value, &result))
+        return UInt8(result)
+    }
+
+    public static func toNode(_ value: UInt8, env: napi_env) throws -> napi_value? {
+        var result: napi_value?
+        try check(napi_create_uint32(env, UInt32(value), &result))
+        return result
+    }
+}
+
 extension Int: NodeConverter {
     public static func fromNode(_ value: napi_value?, env: napi_env) throws -> Int {
         #if arch(wasm32)
@@ -92,6 +106,61 @@ extension String: NodeConverter {
         var result: napi_value?
         try check(napi_create_string_utf8(env, value, value.utf8CString.count - 1, &result))
         return result
+    }
+}
+
+extension Data: NodeConverter {
+    public static func fromNode(_ value: napi_value?, env: napi_env) throws -> Data {
+        var global: napi_value?
+        try check(napi_get_global(env, &global))
+        
+        // Get the number of bytes in the ArrayBuffer
+        var byteLength: napi_value?
+        try check(napi_get_named_property(env, value, "byteLength", &byteLength))
+        
+        // Get a byte-oriented view of the ArrayBuffer with UInt8Array
+        var uInt8ArrayConstructor: napi_value?
+        try check(napi_get_named_property(env, global, "Uint8Array", &uInt8ArrayConstructor))
+        var uInt8View: napi_value?
+        try check(napi_new_instance(env, uInt8ArrayConstructor, 1, [value], &uInt8View))
+        
+        // Create a Data to store the memory from the ArrayBuffer
+        let count = try Int.fromNode(byteLength, env: env)
+        var data = Data(count: count)
+        
+        // Copy the bytes from the UInt8Array to the Data
+        for index in 0..<count {
+            var byte: napi_value?
+            try check(napi_get_element(env, uInt8View, UInt32(index), &byte))
+            data[index] = try UInt8.fromNode(byte, env: env)
+        }
+        
+        return data
+    }
+
+    public static func toNode(_ value: Data, env: napi_env) throws -> napi_value? {
+        var global: napi_value?
+        try check(napi_get_global(env, &global))
+        
+        // Create an ArrayBuffer of the same size as the Data
+        var arrayBufferConstructor: napi_value?
+        try check(napi_get_named_property(env, global, "ArrayBuffer", &arrayBufferConstructor))
+        var byteCount = try Int.toNode(value.count, env: env)
+        var arrayBuffer: napi_value?
+        try check(napi_new_instance(env, arrayBufferConstructor, 1, &byteCount, &arrayBuffer))
+        
+        // Get a byte-oriented view of the ArrayBuffer with UInt8Array
+        var uInt8ArrayConstructor: napi_value?
+        try check(napi_get_named_property(env, global, "Uint8Array", &uInt8ArrayConstructor))
+        var uInt8View: napi_value?
+        try check(napi_new_instance(env, uInt8ArrayConstructor, 1, &arrayBuffer, &uInt8View))
+        
+        // Copy the bytes from the Data to the UInt8Array
+        for (index, byte) in value.enumerated() {
+            try check(napi_set_element(env, uInt8View, UInt32(index), UInt8.toNode(byte, env: env)))
+        }
+        
+        return arrayBuffer
     }
 }
 

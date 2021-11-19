@@ -38,7 +38,7 @@ struct TranslatedStruct: TranslatedType {
     func nodeDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
             "NodeInterface/\(globalName)+node.swift",
-            additionalImports: ["FishyJoesNodeRuntime"]
+            additionalImports: ["Foundation", "FishyJoesNodeRuntime"]
         )
 
         fragment.outputBlock("extension \(globalName): NodeMutator {") {
@@ -145,7 +145,7 @@ struct TranslatedStruct: TranslatedType {
     func jniDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
             "JavaInterface/\(sourceType.name)+java.swift",
-            additionalImports: ["FishyJoesJavaRuntime"]
+            additionalImports: ["Foundation", "FishyJoesJavaRuntime"]
         )
         let className = context.kotlinTranslator.javaClassName(nodeName, in: context)
         fragment.outputBlock("extension \(sourceType.name): JavaConverter {") {

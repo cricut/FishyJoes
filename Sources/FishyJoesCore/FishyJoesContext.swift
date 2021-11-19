@@ -142,6 +142,7 @@ public class FishyJoesContext {
         let primitiveTypeMap = [
             "Double": (c: "double", ts: "number", jni: JNIType.double),
             "Int": (c: "int", ts: "number", jni: JNIType.long),
+            "UInt8": (c: "uint8_t", ts: "number", jni: JNIType.byte),
             "Bool": (c: "_Bool", ts:"boolean", jni: JNIType.boolean),
         ]
 
@@ -164,6 +165,8 @@ public class FishyJoesContext {
                     return recur(typeOverride)
                 } else if name.name == "String" {
                     return TranslatedString()
+                } else if name.name == "Data" {
+                    return TranslatedData()
                 } else if name.name == "Index", name.namespace.last?.hasPrefix("Array<") == true {
                     // It's a hack.
                     return TranslatedPrimitive(swift: "Int", c: "int", node: "number", jni: .long)

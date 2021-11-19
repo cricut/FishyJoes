@@ -167,7 +167,7 @@ struct NodeTranslate {
     func setupFragment(context: FishyJoesContext, generatedTypes: Set<BetterType>) -> SourceFragment {
         let nodeTypeListFragment = context.swiftFragment(
             "NodeInterface/TypeSetup.swift",
-            additionalImports: ["FishyJoesNodeRuntime"]
+            additionalImports: ["Foundation", "FishyJoesNodeRuntime"]
         )
 
         nodeTypeListFragment.output("@_cdecl(\"napi_register_module_v1\")")
