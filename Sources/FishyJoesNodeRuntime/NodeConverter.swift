@@ -47,18 +47,118 @@ extension Double: NodeConverter {
 }
 
 extension UInt8: NodeConverter {
-    public static func fromNode(_ value: napi_value?, env: napi_env) throws -> UInt8 {
+    public static func fromNode(_ value: napi_value?, env: napi_env) throws -> Self {
         var result = UInt32(0)
         try check(napi_get_value_uint32(env, value, &result))
-        return UInt8(result)
+        return .init(result)
     }
 
-    public static func toNode(_ value: UInt8, env: napi_env) throws -> napi_value? {
+    public static func toNode(_ value: Self, env: napi_env) throws -> napi_value? {
         var result: napi_value?
         try check(napi_create_uint32(env, UInt32(value), &result))
         return result
     }
 }
+
+extension UInt16: NodeConverter {
+    public static func fromNode(_ value: napi_value?, env: napi_env) throws -> Self {
+        var result = UInt32(0)
+        try check(napi_get_value_uint32(env, value, &result))
+        return .init(result)
+    }
+
+    public static func toNode(_ value: Self, env: napi_env) throws -> napi_value? {
+        var result: napi_value?
+        try check(napi_create_uint32(env, UInt32(value), &result))
+        return result
+    }
+}
+
+extension UInt32: NodeConverter {
+    public static func fromNode(_ value: napi_value?, env: napi_env) throws -> Self {
+        var result = UInt32(0)
+        try check(napi_get_value_uint32(env, value, &result))
+        return .init(result)
+    }
+
+    public static func toNode(_ value: Self, env: napi_env) throws -> napi_value? {
+        var result: napi_value?
+        try check(napi_create_uint32(env, UInt32(value), &result))
+        return result
+    }
+}
+
+// TODO: Use BigInt?
+//extension UInt64: NodeConverter {
+//    public static func fromNode(_ value: napi_value?, env: napi_env) throws -> Self {
+//        var result = UInt64(0)
+//        try check(napi_get_value_uint64(env, value, &result))
+//        return .init(result)
+//    }
+//
+//    public static func toNode(_ value: Self, env: napi_env) throws -> napi_value? {
+//        var result: napi_value?
+//        try check(napi_create_uint64(env, UInt32(value), &result))
+//        return result
+//    }
+//}
+
+extension Int8: NodeConverter {
+    public static func fromNode(_ value: napi_value?, env: napi_env) throws -> Self {
+        var result = Int32(0)
+        try check(napi_get_value_int32(env, value, &result))
+        return .init(result)
+    }
+
+    public static func toNode(_ value: Self, env: napi_env) throws -> napi_value? {
+        var result: napi_value?
+        try check(napi_create_int32(env, Int32(value), &result))
+        return result
+    }
+}
+
+extension Int16: NodeConverter {
+    public static func fromNode(_ value: napi_value?, env: napi_env) throws -> Self {
+        var result = Int32(0)
+        try check(napi_get_value_int32(env, value, &result))
+        return .init(result)
+    }
+
+    public static func toNode(_ value: Self, env: napi_env) throws -> napi_value? {
+        var result: napi_value?
+        try check(napi_create_int32(env, Int32(value), &result))
+        return result
+    }
+}
+
+extension Int32: NodeConverter {
+    public static func fromNode(_ value: napi_value?, env: napi_env) throws -> Self {
+        var result = Int32(0)
+        try check(napi_get_value_int32(env, value, &result))
+        return .init(result)
+    }
+
+    public static func toNode(_ value: Self, env: napi_env) throws -> napi_value? {
+        var result: napi_value?
+        try check(napi_create_int32(env, Int32(value), &result))
+        return result
+    }
+}
+
+// TODO: Use BigInt?
+//extension Int64: NodeConverter {
+//    public static func fromNode(_ value: napi_value?, env: napi_env) throws -> Self {
+//        var result = Int64(0)
+//        try check(napi_get_value_uint64(env, value, &result))
+//        return .init(result)
+//    }
+//
+//    public static func toNode(_ value: Self, env: napi_env) throws -> napi_value? {
+//        var result: napi_value?
+//        try check(napi_create_uint64(env, UInt64(value), &result))
+//        return result
+//    }
+//}
 
 extension Int: NodeConverter {
     public static func fromNode(_ value: napi_value?, env: napi_env) throws -> Int {

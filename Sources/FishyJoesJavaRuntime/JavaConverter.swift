@@ -31,14 +31,32 @@ public protocol JavaMutator: JavaConverter {
 }
 
 extension jvalue {
-    public init(_ object: jobject?) {
-        self.init(l: object)
+    public init(_ value: jboolean) {
+        self.init(z: value)
     }
-    public init(_ double: Double) {
-        self.init(d: double)
+    public init(_ value: jbyte) {
+        self.init(b: value)
     }
-    public init(_ int: Int) {
-        self.init(j: jlong(int))
+    public init(_ value: jchar) {
+        self.init(c: value)
+    }
+    public init(_ value: jshort) {
+        self.init(s: value)
+    }
+    public init(_ value: jint) {
+        self.init(i: value)
+    }
+    public init(_ value: jlong) {
+        self.init(j: value)
+    }
+    public init(_ value: jfloat) {
+        self.init(f: value)
+    }
+    public init(_ value: jdouble) {
+        self.init(d: value)
+    }
+    public init(_ value: jobject?) {
+        self.init(l: value)
     }
 }
 
