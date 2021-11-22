@@ -1,6 +1,8 @@
 import Foundation
 @_exported import NodeAPI
 
+// MARK: - NodeJS Type Conversion Protocols
+
 public protocol NodeConverter: Converter {
     static func fromNode(_ value: napi_value?, env: napi_env) throws -> SwiftType
     static func toNode(_ value: SwiftType, env: napi_env) throws -> napi_value?
@@ -16,6 +18,15 @@ extension NodeConverter {
     }
 }
 
+// MARK: - Primitive Type Conversions
+
+extension VoidConverter: NodeConverter {
+    public static func fromNode(_ value: napi_value?, env: napi_env) throws -> Void {}
+    public static func toNode(_ value: Void, env: napi_env) throws -> napi_value? {
+        return nil
+    }
+}
+
 extension Bool: NodeConverter {
     public static func fromNode(_ value: napi_value?, env: napi_env) throws -> Bool {
         var result = false
@@ -27,21 +38,6 @@ extension Bool: NodeConverter {
     public static func toNode(_ value: Bool, env: napi_env) throws -> napi_value? {
         var result: napi_value?
         try check(napi_get_boolean(env, value, &result))
-        return result
-    }
-}
-
-extension Double: NodeConverter {
-    public static func fromNode(_ value: napi_value?, env: napi_env) throws -> Double {
-        var result = 0.0
-        // TODO: should this do JS coercions?
-        try check(napi_get_value_double(env, value, &result))
-        return result
-    }
-
-    public static func toNode(_ value: Double, env: napi_env) throws -> napi_value? {
-        var result: napi_value?
-        try check(napi_create_double(env, value, &result))
         return result
     }
 }
@@ -185,6 +181,38 @@ extension Int: NodeConverter {
     }
 }
 
+extension Float: NodeConverter {
+    public static func fromNode(_ value: napi_value?, env: napi_env) throws -> Float {
+        var result = 0.0
+        // TODO: should this do JS coercions?
+        try check(napi_get_value_double(env, value, &result))
+        return Float(result)
+    }
+
+    public static func toNode(_ value: Float, env: napi_env) throws -> napi_value? {
+        var result: napi_value?
+        try check(napi_create_double(env, Double(value), &result))
+        return result
+    }
+}
+
+extension Double: NodeConverter {
+    public static func fromNode(_ value: napi_value?, env: napi_env) throws -> Double {
+        var result = 0.0
+        // TODO: should this do JS coercions?
+        try check(napi_get_value_double(env, value, &result))
+        return result
+    }
+
+    public static func toNode(_ value: Double, env: napi_env) throws -> napi_value? {
+        var result: napi_value?
+        try check(napi_create_double(env, value, &result))
+        return result
+    }
+}
+
+// MARK: - Less-Primitive Type Conversions
+
 extension String: NodeConverter {
     public static func fromNode(_ value: napi_value?, env: napi_env) throws -> String {
         var length = 0
@@ -263,6 +291,8 @@ extension Data: NodeConverter {
         return arrayBuffer
     }
 }
+
+// MARK: - Generics Type Conversions
 
 extension SetConverter: NodeConverter where ElementConverter: NodeConverter {
     public static func fromNode(_ value: napi_value?, env: napi_env) throws -> SwiftType {
@@ -372,12 +402,5 @@ extension Tuple2Converter: NodeConverter where T0: NodeConverter, T1: NodeConver
     }
 
     public static func nodeSetup(env: napi_env, module: napi_value) throws {
-    }
-}
-
-extension VoidConverter: NodeConverter {
-    public static func fromNode(_ value: napi_value?, env: napi_env) throws -> Void {}
-    public static func toNode(_ value: Void, env: napi_env) throws -> napi_value? {
-        return nil
     }
 }

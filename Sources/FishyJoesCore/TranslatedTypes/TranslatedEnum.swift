@@ -26,10 +26,11 @@ struct TranslatedEnum: TranslatedType {
     struct Value {
         let index: Int
         let name: String?
+        let label: String?
         let type: BetterType
 
         var bindingName: String {
-            name ?? "_\(index)"
+            name ?? label ?? "_\(index)"
         }
         var fieldVar: String {
             "_field_\(name ?? "\(index)")"
@@ -51,6 +52,7 @@ struct TranslatedEnum: TranslatedType {
                     return Value(
                         index: index,
                         name: value.localName,
+                        label: value.externalName,
                         type: value.typeName.better
                     )
                 }
@@ -100,23 +102,23 @@ struct TranslatedEnum: TranslatedType {
             )
         } else {
             fragment.outputBlock("extension \(sourceType.name): FishyJoesNodeRuntime.NodeConverter {") {
-                fragment.outputBlock("public static func fromNode(_ value: napi_value?, env: napi_env) throws -> Self {") {
-                    fragment.output("let instanceData = try FishyJoesNodeRuntime.InstanceData.data(for: env)")
+                fragment.outputBlock("public static func fromNode(_ __value: napi_value?, env __env: napi_env) throws -> Self {") {
+                    fragment.output("let instanceData = try FishyJoesNodeRuntime.InstanceData.data(for: __env)")
                     fragment.output("var isInstanceResult = false")
                     for enumCase in cases {
                         let className = "\(nodeName).\(upperCaseFirst(enumCase.name))"
 
                         fragment.outputBlock("try check(napi_instanceof(", closeWith: "))") {
-                            fragment.output("env,")
-                            fragment.output("value,")
-                            fragment.output("instanceData.constructor(for: \"\(className)\", env: env),")
+                            fragment.output("__env,")
+                            fragment.output("__value,")
+                            fragment.output("instanceData.constructor(for: \"\(className)\", env: __env),")
                             fragment.output("&isInstanceResult")
                         }
                         fragment.outputBlock("if isInstanceResult {") {
                             for value in enumCase.associatedValues {
                                 let name = value.bindingName
                                 fragment.output("var \(name): napi_value?")
-                                fragment.output("try check(napi_get_named_property(env, value, \"\(name)\", &\(name)))")
+                                fragment.output("try check(napi_get_named_property(__env, __value, \"\(name)\", &\(name)))")
                             }
                             if enumCase.associatedValues.isEmpty {
                                 fragment.output("return \(enumCase.name)")
@@ -124,7 +126,7 @@ struct TranslatedEnum: TranslatedType {
                                 fragment.outputBlock("return .\(enumCase.name)(") {
                                     fragment.outputMap(enumCase.associatedValues, separator: ",") { value in
                                         let resolved = context.resolve(type: value.type)
-                                        return "\(value.name.map { "\($0): " } ?? "")try \(resolved.converterType.name).fromNode(\(value.bindingName), env: env)"
+                                        return "\(value.name.map { "\($0): " } ?? "")try \(resolved.converterType.name).fromNode(\(value.bindingName), env: __env)"
                                     }
                                 }
                             }
@@ -135,10 +137,10 @@ struct TranslatedEnum: TranslatedType {
                 }
                 fragment.blankLine()
 
-                fragment.outputBlock("public static func toNode(_ value: Self, env: napi_env) throws -> napi_value? {") {
-                    fragment.output("let instanceData = try FishyJoesNodeRuntime.InstanceData.data(for: env)")
-                    fragment.output("var _result: napi_value?")
-                    fragment.output("switch value {")
+                fragment.outputBlock("public static func toNode(_ __value: Self, env __env: napi_env) throws -> napi_value? {") {
+                    fragment.output("let instanceData = try FishyJoesNodeRuntime.InstanceData.data(for: __env)")
+                    fragment.output("var __result: napi_value?")
+                    fragment.output("switch __value {")
                     for enumCase in cases {
                         let className = "\(nodeName).\(upperCaseFirst(enumCase.name))"
 
@@ -151,21 +153,21 @@ struct TranslatedEnum: TranslatedType {
                         }
                         fragment.outputBlock(caseStatement, closeWith: "") {
                             fragment.outputBlock("try check(napi_new_instance(", closeWith: "))") {
-                                fragment.output("env,")
-                                fragment.output("instanceData.constructor(for: \"\(className)\", env: env),")
+                                fragment.output("__env,")
+                                fragment.output("instanceData.constructor(for: \"\(className)\", env: __env),")
                                 fragment.output("\(enumCase.associatedValues.count),")
                                 fragment.outputBlock("[", closeWith: "],") {
                                     for value in enumCase.associatedValues {
                                         let resolved = context.resolve(type: value.type)
-                                        fragment.output("\(resolved.converterType.name).toNode(\(value.bindingName), env: env),")
+                                        fragment.output("\(resolved.converterType.name).toNode(\(value.bindingName), env: __env),")
                                     }
                                 }
-                                fragment.output("&_result")
+                                fragment.output("&__result")
                             }
                         }
                     }
                     fragment.output("}")
-                    fragment.output("return _result")
+                    fragment.output("return __result")
                 }
                 fragment.blankLine()
 
