@@ -2,8 +2,34 @@
 
 Generates bindings for (some) swift library code that can be called from TypeScript and Kotlin.
 
+## Pretty pictures
+
+[![Generation process](https://lucid.app/publicSegments/view/eaa9f26a-fbab-4b07-856d-dbcfb5722eec/image.png)](https://lucid.app/lucidchart/cac16522-9201-4b7d-9c23-1ad5bc83c8b5/edit)
+
+[![FishyJoesCore](https://lucid.app/publicSegments/view/8d45425b-0134-4142-adb0-ac1bf4c0d50f/image.png)](https://lucid.app/lucidchart/cac16522-9201-4b7d-9c23-1ad5bc83c8b5/edit)
+
 ## Usage
-In either the same repository as the library you're exporting, or a dedicated repo:
+In a dedicated repo, e.g. "CriSVG-bindings":
+
+0. prerequesites (macOS):
+
+Install openjdk:
+```
+brew install openjdk@11
+```
+
+Install swift-wasm toolchain:
+```
+curl -Lo swift-wasm.pkg https://github.com/swiftwasm/swift/releases/download/swift-wasm-5.4.0-RELEASE/swift-wasm-5.4.0-RELEASE-macos_x86_64.pkg
+sudo installer -pkg swift-wasm.pkg -target /
+```
+
+Install swift-android toolchain:
+```
+curl -Lo swift-android-toolchain.tar.gz https://github.com/vgorloff/swift-everywhere-toolchain/releases/download/1.0.66/swift-android-toolchain.tar.gz
+sudo mkdir -p /Library/Developer/Toolchains
+sudo tar -xf swift-android-toolchain.tar.gz -C /Library/Developer/Toolchains/
+```
 
 1. create `fishy-joes.yaml` in the root, with contents:
 ```yaml
