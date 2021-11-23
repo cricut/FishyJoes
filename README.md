@@ -2,6 +2,9 @@
 
 Generates bindings for (some) swift library code that can be called from TypeScript and Kotlin.
 
+## Pretty pictures
+[![Generation process](https://lucid.app/publicSegments/view/eaa9f26a-fbab-4b07-856d-dbcfb5722eec/image.png)](https://lucid.app/lucidchart/cac16522-9201-4b7d-9c23-1ad5bc83c8b5/edit)
+
 ## Usage
 In either the same repository as the library you're exporting, or a dedicated repo:
 
