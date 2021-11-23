@@ -29,6 +29,7 @@ class KotlinClass {
         let type: KType
     }
 
+    let capitalizedModule: String
     let module: String
     let documentation: [String]
     let name: String
@@ -37,6 +38,7 @@ class KotlinClass {
     init(module: String, documentation: [String], name: String) {
         self.name = name
         self.documentation = documentation
+        self.capitalizedModule = module
         self.module = module.lowercased()
     }
 
@@ -55,6 +57,8 @@ class KotlinClass {
         let fragment = SourceFragment(sourceryDestination: "file:../../kotlin/src/generated/kotlin/com/cricut/\(module)/\(name).kt")
 
         fragment.output("package com.cricut.\(module)")
+        fragment.blankLine()
+        fragment.output("import com.cricut.fishyjoes.runtime.LibraryLoader")
         fragment.blankLine()
         output(to: fragment)
         return fragment
@@ -221,7 +225,7 @@ class KotlinProductClass: KotlinClass {
                 fields.filter { $0.isStatic }.forEach { output(field: $0, to: fragment) }
                 methods.filter { $0.isStatic }.forEach { output(method: $0, to: fragment) }
                 fragment.outputBlock("init {") {
-                    fragment.output("LibraryLoader.ensureLoaded()")
+                    fragment.output("LibraryLoader.ensureLoaded(\"\(capitalizedModule)\")")
                 }
             }
             outputInner(to: fragment)
@@ -288,7 +292,7 @@ class KotlinEnumClass: KotlinClass {
                 fields.filter { $0.isStatic }.forEach { output(field: $0, to: fragment) }
                 methods.filter { $0.isStatic }.forEach { output(method: $0, to: fragment) }
                 fragment.outputBlock("init {") {
-                    fragment.output("LibraryLoader.ensureLoaded()")
+                    fragment.output("LibraryLoader.ensureLoaded(\"\(capitalizedModule)\")")
                 }
             }
             outputInner(to: fragment)
