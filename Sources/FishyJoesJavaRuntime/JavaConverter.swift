@@ -168,7 +168,7 @@ extension Int16: JavaConverter {
 
     public static func javaSetup(env: Env) throws {
         guard javaClass == nil else { return }
-        javaClass = try env.globalRef(env.FindClass("java/lang/short"))
+        javaClass = try env.globalRef(env.FindClass("java/lang/Short"))
         _valueMethodID = try env.GetMethodID(javaClass, "shortValue", "()S")
         _constructorMethodID = try env.GetMethodID(javaClass, "<init>", "(S)V")
     }
@@ -322,7 +322,7 @@ extension String: JavaConverter {
     public static var javaClass: jclass?
     public static var javaDescriptor: String { "Ljava/lang/String;" }
 
-    public static func fromJava(_ value: jstring?, env: Env) throws -> String {
+    public static func fromJava(_ value: jstring?, env: Env) throws -> Self {
         let length = env.GetStringLength(value)
         guard let chars = env.GetStringChars(value).0 else {
             throw JNIError(message: "string conversion failed")
@@ -342,6 +342,49 @@ extension String: JavaConverter {
     public static func javaSetup(env: Env) throws {
         guard javaClass == nil else { return }
         javaClass = try env.globalRef(env.FindClass("java/lang/String"))
+    }
+}
+
+extension Data: JavaConverter {
+    public typealias CType = jbyteArray?
+
+    public static var javaClass: jclass?
+    public static var javaDescriptor: String { "[B" }
+
+    public static func fromJava(_ value: jbyteArray?, env: Env) throws -> Self {
+        let length = env.GetArrayLength(value)
+        let result = try env.GetByteArrayElements(value)
+        defer {
+            if let value = value, let elements = result.0 {
+                env.ReleaseByteArrayElements(value, elements, JNI_ABORT)
+            }
+        }
+        guard let elements = result.0 else {
+            throw JNIError(message: "memory allocation failed")
+        }
+        return Data(bytes: elements, count: Int(length))
+    }
+
+    public static func toJava(_ value: Self, env: Env) throws -> jbyteArray? {
+        let length = jsize(value.count)
+        guard length > 0 else {
+            return nil
+        }
+        guard let byteArray = try env.NewByteArray(length) else {
+            throw JNIError(message: "memory allocation failed")
+        }
+        try value.withUnsafeBytes { pointer in
+            guard let bytes = pointer.baseAddress?.assumingMemoryBound(to: jbyte.self) else {
+                throw JNIError(message: "memory access failed")
+            }
+            try env.SetByteArrayRegion(byteArray, 0, length, bytes)
+        }
+        return byteArray
+    }
+
+    public static func javaSetup(env: Env) throws {
+        guard javaClass == nil else { return }
+        javaClass = try env.globalRef(env.FindClass("[B"))
     }
 }
 
