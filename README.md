@@ -1,4 +1,4 @@
-# FishyJoes
+<p align="center"><img src="documentation/logo.png" alt="FishyJoes" width="265" height="265"/></p>
 
 Generates bindings for (some) swift library code that can be called from TypeScript and Kotlin.
 
