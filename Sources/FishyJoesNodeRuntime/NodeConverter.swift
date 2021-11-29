@@ -294,27 +294,24 @@ extension Data: NodeConverter {
 
 // MARK: - Generics Type Conversions
 
-extension SetConverter: NodeConverter where ElementConverter: NodeConverter {
+extension ArrayConverter: NodeConverter where ElementConverter: NodeConverter {
     public static func fromNode(_ value: napi_value?, env: napi_env) throws -> SwiftType {
-        throw JSException(message: "TODO: implement Swift.Set.static func fromNode(_:env:)")
+        var length: UInt32 = 0
+        try check(napi_get_array_length(env, value, &length))
+        return try (0..<length).map { index in
+            var element: napi_value?
+            try check(napi_get_element(env, value, index, &element))
+            return try ElementConverter.fromNode(element, env: env)
+        }
     }
 
     public static func toNode(_ value: SwiftType, env: napi_env) throws -> napi_value? {
-        var global: napi_value?
-        try check(napi_get_global(env, &global))
-        var setConstructor: napi_value?
-        try check(napi_get_named_property(env, global, "Set", &setConstructor))
-
         var array: napi_value?
         try check(napi_create_array_with_length(env, value.count, &array))
-
-        for (index, element) in value.enumerated() {
-            try check(napi_set_element(env, array, UInt32(index), ElementConverter.toNode(element, env: env)))
+        for (index, value) in value.enumerated() {
+            try check(napi_set_element(env, array, UInt32(index), ElementConverter.toNode(value, env: env)))
         }
-
-        var result: napi_value?
-        try check(napi_new_instance(env, setConstructor, 1, &array, &result))
-        return result
+        return array
     }
 }
 
@@ -344,26 +341,31 @@ extension DictionaryConverter: NodeConverter where KeyConverter: NodeConverter, 
     }
 }
 
-extension ArrayConverter: NodeConverter where ElementConverter: NodeConverter {
+extension SetConverter: NodeConverter where ElementConverter: NodeConverter {
     public static func fromNode(_ value: napi_value?, env: napi_env) throws -> SwiftType {
-        var length: UInt32 = 0
-        try check(napi_get_array_length(env, value, &length))
-        return try (0..<length).map { index in
-            var element: napi_value?
-            try check(napi_get_element(env, value, index, &element))
-            return try ElementConverter.fromNode(element, env: env)
-        }
+        throw JSException(message: "TODO: implement Swift.Set.static func fromNode(_:env:)")
     }
 
     public static func toNode(_ value: SwiftType, env: napi_env) throws -> napi_value? {
+        var global: napi_value?
+        try check(napi_get_global(env, &global))
+        var setConstructor: napi_value?
+        try check(napi_get_named_property(env, global, "Set", &setConstructor))
+
         var array: napi_value?
         try check(napi_create_array_with_length(env, value.count, &array))
-        for (index, value) in value.enumerated() {
-            try check(napi_set_element(env, array, UInt32(index), ElementConverter.toNode(value, env: env)))
+
+        for (index, element) in value.enumerated() {
+            try check(napi_set_element(env, array, UInt32(index), ElementConverter.toNode(element, env: env)))
         }
-        return array
+
+        var result: napi_value?
+        try check(napi_new_instance(env, setConstructor, 1, &array, &result))
+        return result
     }
 }
+
+// MARK: - Optional Type Conversion
 
 extension OptionalConverter: NodeConverter where WrappedConverter: NodeConverter {
     public static func fromNode(_ value: napi_value?, env: napi_env) throws -> SwiftType {
@@ -380,6 +382,8 @@ extension OptionalConverter: NodeConverter where WrappedConverter: NodeConverter
         }
     }
 }
+
+// MARK: - Tuple Type Conversions
 
 extension Tuple2Converter: NodeConverter where T0: NodeConverter, T1: NodeConverter {
     public static func fromNode(_ value: napi_value?, env: napi_env) throws -> SwiftType {

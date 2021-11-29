@@ -2,6 +2,8 @@ import Foundation
 @_exported import JNI
 @_exported import FishyJoesCommonRuntime
 
+// MARK: - Java Type Conversion Protocols
+
 public protocol JavaConverter: Converter {
     associatedtype CType = jobject?
 
@@ -29,6 +31,8 @@ extension JavaConverter where CType == jobject? {
 public protocol JavaMutator: JavaConverter {
     static func mutateJava<R>(_ this: CType, env: Env, body: (inout SwiftType) throws -> R) throws -> R
 }
+
+// MARK: - Java Value Convenience
 
 extension jvalue {
     public init(_ value: jboolean) {
@@ -60,6 +64,26 @@ extension jvalue {
     }
 }
 
+// MARK: - Primitive Type Conversions
+
+extension VoidConverter: JavaConverter {
+    public typealias CType = Void
+
+    public static var javaClass: jclass?
+    public static var javaDescriptor: String { "V" }
+
+    public static func fromJava(_ value: Void, env: Env) throws -> Void {}
+    public static func toJava(_ value: Void, env: Env) throws -> Void {}
+
+    public static func fromJava(object: jobject?, env: Env) throws -> Void {}
+    public static func toJavaObject(_ value: Void, env: Env) throws -> jobject? { nil }
+
+    public static func javaSetup(env: Env) throws {
+        guard javaClass == nil else { return }
+        javaClass = try env.globalRef(env.FindClass("java/lang/Object"))
+    }
+}
+
 extension Bool: JavaConverter {
     public typealias CType = jboolean
 
@@ -69,19 +93,19 @@ extension Bool: JavaConverter {
     private static var _javaTrue: jobject!
     private static var _javaFalse: jobject!
 
-    public static func fromJava(_ value: jboolean, env: Env) throws -> Bool {
+    public static func fromJava(_ value: jboolean, env: Env) throws -> Self {
         value == JNI_TRUE
     }
 
-    public static func fromJava(object: jobject?, env: Env) throws -> Bool {
+    public static func fromJava(object: jobject?, env: Env) throws -> Self {
         try env.CallBooleanMethod(object, Self._valueMethodID) != JNI_FALSE
     }
 
-    public static func toJava(_ value: Bool, env: Env) throws -> jboolean {
+    public static func toJava(_ value: Self, env: Env) throws -> jboolean {
         value ? jboolean(JNI_TRUE) : jboolean(JNI_FALSE)
     }
 
-    public static func toJavaObject(_ value: Bool, env: Env) throws -> jobject? {
+    public static func toJavaObject(_ value: Self, env: Env) throws -> jobject? {
         env.NewLocalRef(value ? Self._javaTrue : Self._javaFalse)
     }
 
@@ -93,6 +117,173 @@ extension Bool: JavaConverter {
         let falseFieldID = try env.GetStaticFieldID(javaClass, "FALSE", "Ljava/lang/Boolean;")
         _javaTrue = try env.globalRef(env.GetStaticObjectField(javaClass, trueFieldID))
         _javaFalse = try env.globalRef(env.GetStaticObjectField(javaClass, falseFieldID))
+    }
+}
+
+extension Int8: JavaConverter {
+    public typealias CType = jbyte
+
+    public static var javaClass: jclass?
+    public static var javaDescriptor: String { "B" }
+    private static var _valueMethodID: jmethodID!
+    private static var _constructorMethodID: jmethodID!
+
+    public static func fromJava(_ value: jbyte, env: Env) throws -> Self { value }
+    public static func toJava(_ value: Self, env: Env) throws -> jbyte { value }
+
+    public static func fromJava(object: jobject?, env: Env) throws -> Self {
+        try env.CallByteMethod(object, Self._valueMethodID)
+    }
+
+    public static func toJavaObject(_ value: Self, env: Env) throws -> jobject? {
+        try env.NewObject(Self.javaClass, Self._constructorMethodID, jvalue(b: value))
+    }
+
+    public static func javaSetup(env: Env) throws {
+        guard javaClass == nil else { return }
+        javaClass = try env.globalRef(env.FindClass("java/lang/Byte"))
+        _valueMethodID = try env.GetMethodID(javaClass, "byteValue", "()B")
+        _constructorMethodID = try env.GetMethodID(javaClass, "<init>", "(B)V")
+    }
+}
+
+extension Int16: JavaConverter {
+    public typealias CType = jshort
+
+    public static var javaClass: jclass?
+    public static var javaDescriptor: String { "S" }
+    private static var _valueMethodID: jmethodID!
+    private static var _constructorMethodID: jmethodID!
+
+    public static func fromJava(_ value: jshort, env: Env) throws -> Self { value }
+    public static func toJava(_ value: Self, env: Env) throws -> jshort { value }
+
+    public static func fromJava(object: jobject?, env: Env) throws -> Self {
+        try env.CallShortMethod(object, Self._valueMethodID)
+    }
+
+    public static func toJavaObject(_ value: Self, env: Env) throws -> jobject? {
+        try env.NewObject(Self.javaClass, Self._constructorMethodID, jvalue(s: value))
+    }
+
+    public static func javaSetup(env: Env) throws {
+        guard javaClass == nil else { return }
+        javaClass = try env.globalRef(env.FindClass("java/lang/short"))
+        _valueMethodID = try env.GetMethodID(javaClass, "shortValue", "()S")
+        _constructorMethodID = try env.GetMethodID(javaClass, "<init>", "(S)V")
+    }
+}
+
+extension Int32: JavaConverter {
+    public typealias CType = jint
+
+    public static var javaClass: jclass?
+    public static var javaDescriptor: String { "I" }
+    private static var _valueMethodID: jmethodID!
+    private static var _constructorMethodID: jmethodID!
+
+    public static func fromJava(_ value: jint, env: Env) throws -> Self { value }
+    public static func toJava(_ value: Self, env: Env) throws -> jint { value }
+
+    public static func fromJava(object: jobject?, env: Env) throws -> Self {
+        try env.CallIntMethod(object, Self._valueMethodID)
+    }
+
+    public static func toJavaObject(_ value: Self, env: Env) throws -> jobject? {
+        try env.NewObject(Self.javaClass, Self._constructorMethodID, jvalue(i: value))
+    }
+
+    public static func javaSetup(env: Env) throws {
+        guard javaClass == nil else { return }
+        javaClass = try env.globalRef(env.FindClass("java/lang/Int"))
+        _valueMethodID = try env.GetMethodID(javaClass, "intValue", "()I")
+        _constructorMethodID = try env.GetMethodID(javaClass, "<init>", "(I)V")
+    }
+}
+
+extension Int64: JavaConverter {
+    public typealias CType = jlong
+
+    public static var javaClass: jclass?
+    public static var javaDescriptor: String { "J" }
+    private static var _valueMethodID: jmethodID!
+    private static var _constructorMethodID: jmethodID!
+
+    public static func fromJava(_ value: jlong, env: Env) throws -> Self {
+        Int64(value)
+    }
+
+    public static func toJava(_ value: Self, env: Env) throws -> jlong {
+        jlong(value)
+    }
+
+    public static func fromJava(object: jobject?, env: Env) throws -> Self {
+        Int64(try env.CallLongMethod(object, Self._valueMethodID))
+    }
+
+    public static func toJavaObject(_ value: Self, env: Env) throws -> jobject? {
+        try env.NewObject(Self.javaClass, Self._constructorMethodID, jvalue(j: jlong(value)))
+    }
+
+    public static func javaSetup(env: Env) throws {
+        guard javaClass == nil else { return }
+        javaClass = try env.globalRef(env.FindClass("java/lang/Long"))
+        _valueMethodID = try env.GetMethodID(javaClass, "longValue", "()J")
+        _constructorMethodID = try env.GetMethodID(javaClass, "<init>", "(J)V")
+    }
+}
+
+extension Int: JavaConverter {
+    public typealias CType = Int64.CType
+
+    public static var javaClass: jclass? { Int64.javaClass }
+    public static var javaDescriptor: String { Int64.javaDescriptor }
+
+    public static func fromJava(_ value: jlong, env: Env) throws -> Self {
+        try Self(Int64.fromJava(value, env: env))
+    }
+
+    public static func toJava(_ value: Self, env: Env) throws -> jlong {
+        jlong(value)
+    }
+
+    public static func fromJava(object value: jobject?, env: Env) throws -> Self {
+        Self(try Int64.fromJava(object: value, env: env))
+    }
+
+    public static func toJavaObject(_ value: Self, env: Env) throws -> jobject? {
+        try Int64.toJavaObject(Int64(value), env: env)
+    }
+
+    public static func javaSetup(env: Env) throws {
+        try Int64.javaSetup(env: env)
+    }
+}
+
+extension Float: JavaConverter {
+    public typealias CType = jfloat
+
+    public static var javaClass: jclass?
+    public static var javaDescriptor: String { "F" }
+    private static var _valueMethodID: jmethodID!
+    private static var _constructorMethodID: jmethodID!
+
+    public static func fromJava(_ value: jfloat, env: Env) throws -> Self { value }
+    public static func toJava(_ value: Self, env: Env) throws -> jfloat { value }
+
+    public static func fromJava(object: jobject?, env: Env) throws -> Self{
+        try env.CallFloatMethod(object, Self._valueMethodID)
+    }
+
+    public static func toJavaObject(_ value: Self, env: Env) throws -> jobject? {
+        try env.NewObject(Self.javaClass, Self._constructorMethodID, jvalue(f: value))
+    }
+
+    public static func javaSetup(env: Env) throws {
+        guard javaClass == nil else { return }
+        javaClass = try env.globalRef(env.FindClass("java/lang/Float"))
+        _valueMethodID = try env.GetMethodID(javaClass, "floatValue", "()F")
+        _constructorMethodID = try env.GetMethodID(javaClass, "<init>", "(F)V")
     }
 }
 
@@ -123,91 +314,7 @@ extension Double: JavaConverter {
     }
 }
 
-extension Int64: JavaConverter {
-    public typealias CType = jlong
-
-    public static var javaClass: jclass?
-    public static var javaDescriptor: String { "J" }
-    private static var _valueMethodID: jmethodID!
-    private static var _constructorMethodID: jmethodID!
-
-    public static func fromJava(_ value: jlong, env: Env) throws -> Int64 {
-        Int64(value)
-    }
-
-    public static func toJava(_ value: Int64, env: Env) throws -> jlong {
-        jlong(value)
-    }
-
-    public static func fromJava(object: jobject?, env: Env) throws -> Int64 {
-        Int64(try env.CallLongMethod(object, Self._valueMethodID))
-    }
-
-    public static func toJavaObject(_ value: Int64, env: Env) throws -> jobject? {
-        try env.NewObject(Self.javaClass, Self._constructorMethodID, jvalue(j: jlong(value)))
-    }
-
-    public static func javaSetup(env: Env) throws {
-        guard javaClass == nil else { return }
-        javaClass = try env.globalRef(env.FindClass("java/lang/Long"))
-        _valueMethodID = try env.GetMethodID(javaClass, "longValue", "()J")
-        _constructorMethodID = try env.GetMethodID(javaClass, "<init>", "(J)V")
-    }
-}
-
-extension Int32: JavaConverter {
-    public typealias CType = jint
-
-    public static var javaClass: jclass?
-    public static var javaDescriptor: String { "I" }
-    private static var _valueMethodID: jmethodID!
-    private static var _constructorMethodID: jmethodID!
-
-    public static func fromJava(_ value: jint, env: Env) throws -> Int32 { value }
-    public static func toJava(_ value: Int32, env: Env) throws -> jint { value }
-
-    public static func fromJava(object: jobject?, env: Env) throws -> Int32 {
-        try env.CallIntMethod(object, Self._valueMethodID)
-    }
-
-    public static func toJavaObject(_ value: Int32, env: Env) throws -> jobject? {
-        try env.NewObject(Self.javaClass, Self._constructorMethodID, jvalue(i: value))
-    }
-
-    public static func javaSetup(env: Env) throws {
-        guard javaClass == nil else { return }
-        javaClass = try env.globalRef(env.FindClass("java/lang/Int"))
-        _valueMethodID = try env.GetMethodID(javaClass, "intValue", "()I")
-        _constructorMethodID = try env.GetMethodID(javaClass, "<init>", "(I)V")
-    }
-}
-
-extension Int: JavaConverter {
-    public typealias CType = Int64.CType
-
-    public static var javaClass: jclass? { Int64.javaClass }
-    public static var javaDescriptor: String { Int64.javaDescriptor }
-
-    public static func fromJava(_ value: jlong, env: Env) throws -> Int {
-        try Int(Int64.fromJava(value, env: env))
-    }
-
-    public static func toJava(_ value: Self, env: Env) throws -> jlong {
-        jlong(value)
-    }
-
-    public static func fromJava(object value: jobject?, env: Env) throws -> Int {
-        Int(try Int64.fromJava(object: value, env: env))
-    }
-
-    public static func toJavaObject(_ value: Self, env: Env) throws -> jobject? {
-        try Int64.toJavaObject(Int64(value), env: env)
-    }
-
-    public static func javaSetup(env: Env) throws {
-        try Int64.javaSetup(env: env)
-    }
-}
+// MARK: - Less-Primitive Type Conversions
 
 extension String: JavaConverter {
     public typealias CType = jstring?
@@ -237,6 +344,8 @@ extension String: JavaConverter {
         javaClass = try env.globalRef(env.FindClass("java/lang/String"))
     }
 }
+
+// MARK: - Generics Type Conversions
 
 fileprivate enum JavaIterator {
     static var iteratorClass: jclass?
@@ -281,6 +390,33 @@ fileprivate enum JavaList {
     }
 }
 
+fileprivate enum JavaMap {
+    static var mapClass: jclass?
+    static var hashMapClass: jclass?
+    static var entrySetMethodID: jmethodID?
+    static var getKeyMethodID: jmethodID?
+    static var getValueMethodID: jmethodID?
+    static var initMethodID: jmethodID?
+    static var putMethodID: jmethodID?
+
+    public static func javaSetup(env: Env) throws {
+        guard mapClass == nil else { return }
+
+        mapClass = try env.globalRef(env.FindClass("java/util/Map"))
+        entrySetMethodID = try env.GetMethodID(mapClass, "entrySet", "()Ljava/util/Set;")
+
+        let entryClass = try env.FindClass("java/util/Map$Entry")
+        getKeyMethodID = try env.GetMethodID(entryClass, "getKey", "()Ljava/lang/Object;")
+        getValueMethodID = try env.GetMethodID(entryClass, "getValue", "()Ljava/lang/Object;")
+
+        hashMapClass = try env.globalRef(env.FindClass("java/util/HashMap"))
+        initMethodID = try env.GetMethodID(hashMapClass, "<init>", "(I)V")
+        putMethodID = try env.GetMethodID(hashMapClass, "put", "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;")
+
+        env.DeleteLocalRef(entryClass)
+    }
+}
+
 fileprivate enum JavaSet {
     static var setClass: jclass?
     static var hashSetClass: jclass?
@@ -311,33 +447,6 @@ fileprivate enum JavaSet {
             env.DeleteLocalRef(item)
         }
         env.DeleteLocalRef(iter)
-    }
-}
-
-fileprivate enum JavaMap {
-    static var mapClass: jclass?
-    static var hashMapClass: jclass?
-    static var entrySetMethodID: jmethodID?
-    static var getKeyMethodID: jmethodID?
-    static var getValueMethodID: jmethodID?
-    static var initMethodID: jmethodID?
-    static var putMethodID: jmethodID?
-
-    public static func javaSetup(env: Env) throws {
-        guard mapClass == nil else { return }
-
-        mapClass = try env.globalRef(env.FindClass("java/util/Map"))
-        entrySetMethodID = try env.GetMethodID(mapClass, "entrySet", "()Ljava/util/Set;")
-
-        let entryClass = try env.FindClass("java/util/Map$Entry")
-        getKeyMethodID = try env.GetMethodID(entryClass, "getKey", "()Ljava/lang/Object;")
-        getValueMethodID = try env.GetMethodID(entryClass, "getValue", "()Ljava/lang/Object;")
-
-        hashMapClass = try env.globalRef(env.FindClass("java/util/HashMap"))
-        initMethodID = try env.GetMethodID(hashMapClass, "<init>", "(I)V")
-        putMethodID = try env.GetMethodID(hashMapClass, "put", "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;")
-
-        env.DeleteLocalRef(entryClass)
     }
 }
 
@@ -451,6 +560,8 @@ extension SetConverter: JavaConverter where ElementConverter: JavaConverter, Ele
     }
 }
 
+// MARK: - Optional Type Conversion
+
 extension OptionalConverter: JavaConverter where WrappedConverter: JavaConverter {
     public static var javaClass: jclass? {
         WrappedConverter.javaClass
@@ -479,6 +590,8 @@ extension OptionalConverter: JavaConverter where WrappedConverter: JavaConverter
         try WrappedConverter.javaSetup(env: env)
     }
 }
+
+// MARK: - Tuple Type Conversions
 
 fileprivate var pairClass: jclass!
 fileprivate var pairConstructor: jmethodID!
@@ -523,6 +636,55 @@ extension Tuple2Converter: JavaConverter where T0: JavaConverter, T1: JavaConver
     }
 }
 
+fileprivate var tuple3Class: jclass!
+fileprivate var tuple3Constructor: jmethodID!
+fileprivate var tuple3FirstMethod: jmethodID!
+fileprivate var tuple3SecondMethod: jmethodID!
+fileprivate var tuple3ThirdMethod: jmethodID!
+
+extension Tuple3Converter: JavaConverter where T0: JavaConverter, T1: JavaConverter, T2: JavaConverter {
+    public static var javaClass: jclass? {
+        tuple4Class
+    }
+    public static var javaDescriptor: String {
+        "Lcom/cricut/fishyjoes/runtime/Tuple3;"
+    }
+
+    public static func fromJava(_ value: jobject?, env: Env) throws -> SwiftType {
+        let v0 = try env.CallObjectMethod(value, tuple3FirstMethod)
+        let v1 = try env.CallObjectMethod(value, tuple3SecondMethod)
+        let v2 = try env.CallObjectMethod(value, tuple3ThirdMethod)
+        return (
+            try T0.fromJava(object: v0, env: env),
+            try T1.fromJava(object: v1, env: env),
+            try T2.fromJava(object: v2, env: env)
+        )
+    }
+
+    public static func toJava(_ value: SwiftType, env: Env) throws -> jobject? {
+        let v0 = try jvalue(l: T0.toJavaObject(value.0, env: env))
+        let v1 = try jvalue(l: T1.toJavaObject(value.1, env: env))
+        let v2 = try jvalue(l: T2.toJavaObject(value.2, env: env))
+        let result = try env.NewObject(tuple4Class, tuple3Constructor, v0, v1, v2)
+        env.DeleteLocalRef(v0.l)
+        env.DeleteLocalRef(v1.l)
+        env.DeleteLocalRef(v2.l)
+        return result
+    }
+
+    public static func javaSetup(env: Env) throws {
+        try T0.javaSetup(env: env)
+        try T1.javaSetup(env: env)
+        try T2.javaSetup(env: env)
+
+        guard javaClass == nil else { return }
+        tuple3Class = try env.globalRef(env.FindClass("com/cricut/fishyjoes/runtime/Tuple3"))
+        tuple3Constructor = try env.GetMethodID(javaClass, "<init>", "(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)V")
+        tuple3FirstMethod = try env.GetMethodID(javaClass, "getFirst", "()Ljava/lang/Object;")
+        tuple3SecondMethod = try env.GetMethodID(javaClass, "getSecond", "()Ljava/lang/Object;")
+        tuple3ThirdMethod = try env.GetMethodID(javaClass, "getThird", "()Ljava/lang/Object;")
+    }
+}
 
 fileprivate var tuple4Class: jclass!
 fileprivate var tuple4Constructor: jmethodID!
@@ -530,6 +692,7 @@ fileprivate var tuple4FirstMethod: jmethodID!
 fileprivate var tuple4SecondMethod: jmethodID!
 fileprivate var tuple4ThirdMethod: jmethodID!
 fileprivate var tuple4FourthMethod: jmethodID!
+
 extension Tuple4Converter: JavaConverter where T0: JavaConverter, T1: JavaConverter, T2: JavaConverter, T3: JavaConverter {
     public static var javaClass: jclass? {
         tuple4Class
@@ -577,23 +740,5 @@ extension Tuple4Converter: JavaConverter where T0: JavaConverter, T1: JavaConver
         tuple4SecondMethod = try env.GetMethodID(javaClass, "getSecond", "()Ljava/lang/Object;")
         tuple4ThirdMethod = try env.GetMethodID(javaClass, "getThird", "()Ljava/lang/Object;")
         tuple4FourthMethod = try env.GetMethodID(javaClass, "getFourth", "()Ljava/lang/Object;")
-    }
-}
-
-extension VoidConverter: JavaConverter {
-    public typealias CType = Void
-
-    public static var javaClass: jclass?
-    public static var javaDescriptor: String { "V" }
-
-    public static func fromJava(_ value: Void, env: Env) throws -> Void {}
-    public static func toJava(_ value: Void, env: Env) throws -> Void {}
-
-    public static func fromJava(object: jobject?, env: Env) throws -> Void {}
-    public static func toJavaObject(_ value: Void, env: Env) throws -> jobject? { nil }
-
-    public static func javaSetup(env: Env) throws {
-        guard javaClass == nil else { return }
-        javaClass = try env.globalRef(env.FindClass("java/lang/Object"))
     }
 }
