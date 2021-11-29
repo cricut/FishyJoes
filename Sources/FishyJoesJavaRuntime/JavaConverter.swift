@@ -74,7 +74,7 @@ extension Bool: JavaConverter {
     }
 
     public static func fromJava(object: jobject?, env: Env) throws -> Bool {
-        try env.CallBooleanMethod(object, Self._valueMethodID)
+        try env.CallBooleanMethod(object, Self._valueMethodID) != JNI_FALSE
     }
 
     public static func toJava(_ value: Bool, env: Env) throws -> jboolean {
@@ -272,7 +272,7 @@ fileprivate enum JavaList {
 
     public static func forEach(_ listObject: jobject?, env: Env, body: (jobject?) throws -> Void) throws {
         let iter = try env.CallObjectMethod(listObject, iteratorMethodID)
-        while (try env.CallBooleanMethod(iter, JavaIterator.hasNextMethodID)) {
+        while (try env.CallBooleanMethod(iter, JavaIterator.hasNextMethodID) != JNI_FALSE) {
             let item = try env.CallObjectMethod(iter, JavaIterator.nextMethodID)
             try body(item)
             env.DeleteLocalRef(item)
@@ -305,7 +305,7 @@ fileprivate enum JavaSet {
 
     public static func forEach(_ setObject: jobject?, env: Env, body: (jobject?) throws -> Void) throws {
         let iter = try env.CallObjectMethod(setObject, iteratorMethodID)
-        while (try env.CallBooleanMethod(iter, hasNextMethodID)) {
+        while (try env.CallBooleanMethod(iter, hasNextMethodID) != JNI_FALSE) {
             let item = try env.CallObjectMethod(iter, nextMethodID)
             try body(item)
             env.DeleteLocalRef(item)

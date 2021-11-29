@@ -149,8 +149,8 @@ extension Env {
     public func CallObjectMethod(_ obj: jobject?, _ methodID: jmethodID?, _ args: jvalue ...) throws -> jobject? {
         try check(fns.CallObjectMethodA(env, obj, methodID, args))
     }
-    public func CallBooleanMethod(_ obj: jobject?, _ methodID: jmethodID?, _ args: jvalue ...) throws -> Bool {
-        try check(fns.CallBooleanMethodA(env, obj, methodID, args) != JNI_FALSE)
+    public func CallBooleanMethod(_ obj: jobject?, _ methodID: jmethodID?, _ args: jvalue ...) throws -> jboolean {
+        try check(fns.CallBooleanMethodA(env, obj, methodID, args))
     }
     public func CallByteMethod(_ obj: jobject?, _ methodID: jmethodID?, _ args: jvalue ...) throws -> jbyte {
         try check(fns.CallByteMethodA(env, obj, methodID, args))
@@ -179,8 +179,8 @@ extension Env {
     public func CallNonvirtualObjectMethod(_ obj: jobject?, _ clazz: jclass?, _ methodID: jmethodID?, _ args: jvalue ...) throws -> jobject? {
         try check(fns.CallNonvirtualObjectMethodA(env, obj, clazz, methodID, args))
     }
-    public func CallNonvirtualBooleanMethod(_ obj: jobject?, _ clazz: jclass?, _ methodID: jmethodID?, _ args: jvalue ...) throws -> Bool {
-        try check(fns.CallNonvirtualBooleanMethodA(env, obj, clazz, methodID, args) != JNI_FALSE)
+    public func CallNonvirtualBooleanMethod(_ obj: jobject?, _ clazz: jclass?, _ methodID: jmethodID?, _ args: jvalue ...) throws -> jboolean {
+        try check(fns.CallNonvirtualBooleanMethodA(env, obj, clazz, methodID, args))
     }
     public func CallNonvirtualByteMethod(_ obj: jobject?, _ clazz: jclass?, _ methodID: jmethodID?, _ args: jvalue ...) throws -> jbyte {
         try check(fns.CallNonvirtualByteMethodA(env, obj, clazz, methodID, args))
@@ -214,8 +214,8 @@ extension Env {
     public func GetObjectField(_ obj: jobject?, _ fieldID: jfieldID?) -> jobject? {
         fns.GetObjectField(env, obj, fieldID)
     }
-    public func GetBooleanField(_ obj: jobject?, _ fieldID: jfieldID?) -> Bool {
-        fns.GetBooleanField(env, obj, fieldID) != JNI_FALSE
+    public func GetBooleanField(_ obj: jobject?, _ fieldID: jfieldID?) -> jboolean {
+        fns.GetBooleanField(env, obj, fieldID)
     }
     public func GetByteField(_ obj: jobject?, _ fieldID: jfieldID?) -> jbyte {
         fns.GetByteField(env, obj, fieldID)
@@ -274,8 +274,8 @@ extension Env {
     public func CallStaticObjectMethod(_ clazz: jclass?, _ methodID: jmethodID?, _ args: jvalue ...) throws -> jobject? {
         try check(fns.CallStaticObjectMethodA(env, clazz, methodID, args))
     }
-    public func CallStaticBooleanMethod(_ clazz: jclass?, _ methodID: jmethodID?, _ args: jvalue ...) throws -> Bool {
-        try check(fns.CallStaticBooleanMethodA(env, clazz, methodID, args) != JNI_FALSE)
+    public func CallStaticBooleanMethod(_ clazz: jclass?, _ methodID: jmethodID?, _ args: jvalue ...) throws -> jboolean {
+        try check(fns.CallStaticBooleanMethodA(env, clazz, methodID, args))
     }
     public func CallStaticByteMethod(_ clazz: jclass?, _ methodID: jmethodID?, _ args: jvalue ...) throws -> jbyte {
         try check(fns.CallStaticByteMethodA(env, clazz, methodID, args))
@@ -308,8 +308,8 @@ extension Env {
     public func GetStaticObjectField(_ clazz: jclass?, _ fieldID: jfieldID?) -> jobject? {
         fns.GetStaticObjectField(env, clazz, fieldID)
     }
-    public func GetStaticBooleanField(_ clazz: jclass?, _ fieldID: jfieldID?) -> Bool {
-        fns.GetStaticBooleanField(env, clazz, fieldID) != JNI_FALSE
+    public func GetStaticBooleanField(_ clazz: jclass?, _ fieldID: jfieldID?) -> jboolean {
+        fns.GetStaticBooleanField(env, clazz, fieldID)
     }
     public func GetStaticByteField(_ clazz: jclass?, _ fieldID: jfieldID?) -> jbyte {
         fns.GetStaticByteField(env, clazz, fieldID)
