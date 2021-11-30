@@ -133,7 +133,7 @@ let package = Package(
                         "napi_unwrap",
                         "napi_wrap",
                     ].flatMap {
-                        #if os(linux)
+                        #if os(Linux)
                         return ["-Xlinker", "-u", "-Xlinker", "_\($0)"]
                         #else
                         return ["-Xlinker", "-U", "-Xlinker", "_\($0)"]
