@@ -186,7 +186,7 @@ class KotlinTranslate {
                 for type in generatedTypes.sorted(by: { "\($0)" < "\($1)" }) {
                     guard type != .void else { continue }
                     let resolved = context.resolve(type: type)
-                    javaTypeListFragment.output("// print(\"setting up \(resolved.converterType.name)...\")")
+                    javaTypeListFragment.output("print(\"setting up \(resolved.converterType.name)...\")")
                     javaTypeListFragment.output("try \(resolved.converterType.name).javaSetup(env: env)")
                     if case .named = type {
                         if let nativeMethods = allMethods[type.name] {

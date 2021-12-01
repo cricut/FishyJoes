@@ -5,7 +5,8 @@ struct TranslatedDictionary: TranslatedType {
     let converterType: BetterType
     let nodeName: String
     let kotlinName: String
-    let jniType = JNIType.object("java/util/Map")
+    let kotlinPackage: String? = "kotlin.collections"
+    let jniType = JNIType.object("kotlin/collections/Map")
 
     init(key: TranslatedType, value: TranslatedType) {
         self.sourceType = .generic(base: "Dictionary", args: [key.sourceType, value.sourceType])

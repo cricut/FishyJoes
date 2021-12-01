@@ -14,6 +14,8 @@ public class FishyJoesContext {
     let nodeTranslator = NodeTranslate()
     let kotlinTranslator = KotlinTranslate()
 
+    var kotlinPackage: String { "com.cricut.\(module.lowercased())" }
+    
     public init(context: TemplateContext) {
         let argument = context.argument
         guard let module = argument["module"] as? String else {

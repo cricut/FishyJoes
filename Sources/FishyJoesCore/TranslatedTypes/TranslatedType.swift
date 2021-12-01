@@ -5,6 +5,7 @@ protocol TranslatedType {
     var converterType: BetterType { get }
     var nodeName: String { get }
     var kotlinName: String { get }
+    var kotlinPackage: String? { get }
     var jniType: JNIType { get }
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment]
 }
@@ -33,7 +34,7 @@ extension TranslatedType {
         } else if kotlinName == "Void" {
             return .void
         } else {
-            return .named(kotlinName)
+            return .named(package: kotlinPackage, name: kotlinName)
         }
     }
 }

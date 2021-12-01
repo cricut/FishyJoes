@@ -4,6 +4,7 @@ struct TranslatedStruct: TranslatedType {
     let sourceType: BetterType
     let nodeName: String
     let kotlinName: String
+    let kotlinPackage: String?
     let globalName: String
     let storedVariables: [Variable]
     let computedVariables: [Variable]
@@ -20,6 +21,7 @@ struct TranslatedStruct: TranslatedType {
         self.sourceType = BetterType(named: type)
         self.nodeName = exportAnnotation.name
         self.kotlinName = exportAnnotation.name
+        self.kotlinPackage = context.kotlinPackage
         self.globalName = "\(context.module).\(type.globalName)"
         self.jniType = .object(context.kotlinTranslator.javaClassName(nodeName, in: context))
 

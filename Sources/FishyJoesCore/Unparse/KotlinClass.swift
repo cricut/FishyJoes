@@ -1,7 +1,7 @@
 class KotlinClass {
     indirect enum KType: Equatable {
         case void
-        case named(String)
+        case named(package: String?, name: String)
         case optional(KType)
     }
 
@@ -145,7 +145,8 @@ extension KotlinClass.KType: CustomStringConvertible {
     var description: String {
         switch self {
         case .void: return "Void"
-        case let .named(name): return name
+        case let .named(.none, name): return name
+        case let .named(.some(package), name): return "\(package).\(name)"
         case let .optional(wrapped): return "\(wrapped)?"
         }
     }

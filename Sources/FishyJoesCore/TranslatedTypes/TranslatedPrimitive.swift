@@ -5,6 +5,7 @@ struct TranslatedPrimitive: TranslatedType {
     let cName: String
     let nodeName: String
     let kotlinName: String
+    let kotlinPackage: String?
     let jniType: JNIType
 
     init(
@@ -16,8 +17,9 @@ struct TranslatedPrimitive: TranslatedType {
         self.sourceType = .named(swiftName)
         self.cName = cName
         self.nodeName = nodeName ?? cName
-        self.jniType = jniType
         self.kotlinName = jniType.valueType
+        self.kotlinPackage = nil
+        self.jniType = jniType
     }
 
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] { [] }

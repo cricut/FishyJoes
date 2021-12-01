@@ -7,6 +7,7 @@ struct TranslatedFunction: TranslatedType {
     let sourceType: BetterType
     let nodeName: String
     let kotlinName: String
+    let kotlinPackage: String? = nil
     let jniType: JNIType
 
     init(parameters: [TranslatedType], returnType: TranslatedType) {

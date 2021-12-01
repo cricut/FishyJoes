@@ -23,6 +23,13 @@ struct TranslatedTuple: TranslatedType {
             return "Tuple\(elements.count)<\(elements.map(\.type.kotlinName).joined(separator: ", "))>"
         }
     }
+    var kotlinPackage: String? {
+        if elements.count == 2 {
+            return "kotlin"
+        } else {
+            return "com.cricut.fishyjoes.runtime"
+        }
+    }
 
     init(elements: [Element]) {
         self.elements = elements

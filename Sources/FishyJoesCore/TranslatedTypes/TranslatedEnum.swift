@@ -4,6 +4,7 @@ struct TranslatedEnum: TranslatedType {
     let sourceType: BetterType
     let nodeName: String
     let kotlinName: String
+    let kotlinPackage: String?
     let jniType: JNIType
     let cases: [Case]
     let documentation: [String]
@@ -43,6 +44,7 @@ struct TranslatedEnum: TranslatedType {
         self.sourceType = BetterType(named: type)
         self.nodeName = nodeName
         self.kotlinName = nodeName
+        self.kotlinPackage = context.kotlinPackage
         self.cases = type.cases.map { enumCase in
             Case(
                 documentation: enumCase.documentation,
