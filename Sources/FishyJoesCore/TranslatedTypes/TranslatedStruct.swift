@@ -191,16 +191,16 @@ struct TranslatedStruct: TranslatedType {
 
             fragment.outputBlock("public static func javaSetup(env: Env) throws {") {
                 fragment.output("javaClass = try env.globalRef(env.FindClass(\"\(className)\"))")
-                fragment.output("var constructorDescriptor = \"\"")
+                var constructorDescriptor = ""
                 for storedVar in storedVariables {
                     let resolved = context.resolve(type: storedVar.typeName.better)
                     let converterType = resolved.converterType
-                    fragment.output("_java_\(storedVar.name)_id = try env.GetFieldID(javaClass, \"\(storedVar.name)\", \(converterType.name).javaDescriptor)")
-                    fragment.output("constructorDescriptor += \(converterType.name).javaDescriptor")
+                    fragment.output("_java_\(storedVar.name)_id = try env.GetFieldID(javaClass, \"\(storedVar.name)\", \"\(resolved.jniType.asSignature)\")")
+                    constructorDescriptor += resolved.jniType.asSignature
                 }
-                fragment.output("_constructorMethodID = try env.GetMethodID(javaClass, \"<init>\", \"(\\(constructorDescriptor))V\")")
+                fragment.output("_constructorMethodID = try env.GetMethodID(javaClass, \"<init>\", \"(\(constructorDescriptor))V\")")
             }
-
+                
             fragment.outputBlock("public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout Self) throws -> R) throws -> R {") {
                 fragment.output("var mutatingSelf = try fromJava(this, env: env)")
                 fragment.output("let result = try body(&mutatingSelf)")

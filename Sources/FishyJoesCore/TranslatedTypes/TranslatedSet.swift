@@ -6,7 +6,7 @@ struct TranslatedSet: TranslatedType {
     let nodeName: String
     let kotlinName: String
     let kotlinPackage: String? = "kotlin.collections"
-    let jniType = JNIType.object("kotlin/collections/Set")
+    let jniType = JNIType.object("java/util/Set")
 
     init(element: TranslatedType) {
         self.sourceType = .generic(base: "Set", args: [element.sourceType])

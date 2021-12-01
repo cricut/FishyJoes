@@ -63,7 +63,7 @@ struct TranslatedEnum: TranslatedType {
         self.jniType = .object(context.kotlinTranslator.javaClassName(nodeName, in: context))
         self.documentation = type.documentation
         self.methods = type.methods.compactMap { Method($0) }
-        self.computedVariables = type.computedVariables
+        self.computedVariables = type.variables.filter { $0.exportAnnotation != nil }
     }
 
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] {

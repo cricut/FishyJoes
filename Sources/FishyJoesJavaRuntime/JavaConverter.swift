@@ -396,7 +396,7 @@ fileprivate enum JavaIterator {
     static var hasNextMethodID: jmethodID?
 
     public static func javaSetup(env: Env) throws {
-        iteratorClass = try env.globalRef(env.FindClass("kotlin/collections/Iterator"))
+        iteratorClass = try env.globalRef(env.FindClass("java/util/Iterator"))
         hasNextMethodID = try env.GetMethodID(iteratorClass, "hasNext", "()Z")
         nextMethodID = try env.GetMethodID(iteratorClass, "next", "()Ljava/lang/Object;")
     }
@@ -414,8 +414,8 @@ fileprivate enum JavaList {
 
         try JavaIterator.javaSetup(env: env)
 
-        listClass = try env.globalRef(env.FindClass("kotlin/collections/List"))
-        iteratorMethodID = try env.GetMethodID(listClass, "iterator", "()Lkotlin/collections/Iterator;")
+        listClass = try env.globalRef(env.FindClass("java/util/List"))
+        iteratorMethodID = try env.GetMethodID(listClass, "iterator", "()Ljava/util/Iterator;")
 
         arrayListClass = try env.globalRef(env.FindClass("java/util/ArrayList"))
         initMethodID = try env.GetMethodID(arrayListClass, "<init>", "(I)V")
@@ -445,10 +445,10 @@ fileprivate enum JavaMap {
     public static func javaSetup(env: Env) throws {
         guard mapClass == nil else { return }
 
-        mapClass = try env.globalRef(env.FindClass("kotlin/collections/Map"))
-        entrySetMethodID = try env.GetMethodID(mapClass, "entrySet", "()Lkotlin/collections/Set;")
+        mapClass = try env.globalRef(env.FindClass("java/util/Map"))
+        entrySetMethodID = try env.GetMethodID(mapClass, "entrySet", "()Ljava/util/Set;")
 
-        let entryClass = try env.FindClass("kotlin/collections/Map$Entry")
+        let entryClass = try env.FindClass("java/util/Map$Entry")
         getKeyMethodID = try env.GetMethodID(entryClass, "getKey", "()Ljava/lang/Object;")
         getValueMethodID = try env.GetMethodID(entryClass, "getValue", "()Ljava/lang/Object;")
 
@@ -474,8 +474,8 @@ fileprivate enum JavaSet {
 
         try JavaIterator.javaSetup(env: env)
 
-        setClass = try env.globalRef(env.FindClass("kotlin/collections/Set"))
-        iteratorMethodID = try env.GetMethodID(setClass, "iterator", "()Lkotlin/collections/Iterator;")
+        setClass = try env.globalRef(env.FindClass("java/util/Set"))
+        iteratorMethodID = try env.GetMethodID(setClass, "iterator", "()Ljava/util/Iterator;")
 
         hashSetClass = try env.globalRef(env.FindClass("java/util/HashSet"))
         initMethodID = try env.GetMethodID(hashSetClass, "<init>", "(I)V")
@@ -498,7 +498,7 @@ extension ArrayConverter: JavaConverter where ElementConverter: JavaConverter {
         JavaList.listClass
     }
     public static var javaDescriptor: String {
-        "Lkotlin/collections/List;"
+        "Ljava/util/List;"
     }
 
     public static func fromJava(_ value: jobject?, env: Env) throws -> SwiftType {
@@ -534,7 +534,7 @@ extension DictionaryConverter: JavaConverter where
         JavaMap.mapClass
     }
     public static var javaDescriptor: String {
-        "Lkotlin/collections/Map;"
+        "Ljava/util/Map;"
     }
 
     public static func fromJava(_ value: jobject?, env: Env) throws -> SwiftType {
@@ -576,7 +576,7 @@ extension SetConverter: JavaConverter where ElementConverter: JavaConverter, Ele
         JavaSet.setClass
     }
     public static var javaDescriptor: String {
-        "Lkotlin/collections/Set;"
+        "Ljava/util/Set;"
     }
 
     public static func fromJava(_ value: jobject?, env: Env) throws -> SwiftType {
