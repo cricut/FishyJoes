@@ -1,0 +1,70 @@
+package com.cricut.fishyjoes.runtime
+
+import java.io.BufferedOutputStream
+import java.io.File
+import java.io.FileOutputStream
+
+object LibraryLoader {
+    private var startedLoad = mutableSetOf<String>()
+    fun ensureLoaded(libraryName: String) {
+        synchronized(this) {
+            if (startedLoad.contains(libraryName)) { return }
+            startedLoad.add(libraryName)
+            loadLibrary(libraryName)
+        }
+    }
+
+    private fun loadLibrary(libraryName: String) {
+        // Figure out which version of the library to grab
+        val osName = System.getProperty("os.name")
+        val vendor = System.getProperty("java.vendor")
+
+        if (vendor.contains("Android")) {
+            // android libraries are loaded differently
+            System.loadLibrary("$libraryName-java")
+            return
+        }
+
+        val jarPath: String
+        val ext: String
+
+        if (osName.contains("Linux")) {
+            jarPath = "/linux/lib$libraryName-java.so"
+            ext = "so"
+        } else if (osName.contains("Mac")) {
+            jarPath = "/mac/lib$libraryName-java.dylib"
+            ext = "dylib"
+        } else if (osName.contains("Windows")) {
+            jarPath = "/windows/$libraryName-java.dll"
+            ext = "dll"
+        } else {
+            error("$libraryName unsupported OS: $osName")
+        }
+
+        // Extract dynamic library from jar to temporary file
+        val stream = javaClass.getResourceAsStream( jarPath)
+            ?: error("couldn't find $jarPath")
+        val file = File.createTempFile("lib$libraryName-java", ".$ext")
+        file.deleteOnExit()
+        val out = BufferedOutputStream(FileOutputStream(file))
+
+        val buf = ByteArray(8 * 1024)
+        while (true) {
+            val length = stream.read(buf)
+            if (length <= 0) {
+                break
+            }
+            out.write(buf, 0, length);
+        }
+        //stream.transferTo(out)
+        out.close()
+
+        // Load library
+        System.load(file.absolutePath)
+
+        // Eager cleanup if the OS allows it
+        if (!osName.contains("Windows")) {
+            file.delete()
+        }
+    }
+}

@@ -7,7 +7,16 @@ plugins {
 }
 
 repositories {
+    mavenLocal()
     mavenCentral()
+    maven {
+        name = "GitHubPackagesSwiftRuntime"
+        url = uri("https://maven.pkg.github.com/cricut/android-swift-runtime")
+        credentials {
+            username = if ((System.getenv("GITHUB_USER") ?: "") != "") System.getenv("GITHUB_USER") else project.property("gpr_user") as String
+            password = if ((System.getenv("GITHUB_TOKEN") ?: "") != "") System.getenv("GITHUB_TOKEN") else project.property("gpr_key") as String
+        }
+    }
 }
 
 tasks.register<Jar>("sourcesJar") {
@@ -83,6 +92,7 @@ tasks {
 }
 
 dependencies {
+    implementation("com.cricut:android-swift-runtime:0.0.3")
     implementation(kotlin("stdlib:1.5.31"))
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.1")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.1")
