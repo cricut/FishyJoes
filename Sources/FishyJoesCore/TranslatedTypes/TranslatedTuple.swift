@@ -19,12 +19,16 @@ struct TranslatedTuple: TranslatedType {
     var kotlinName: String {
         if elements.count == 2 {
             return "Pair<\(elements.map(\.type.kotlinName).joined(separator: ", "))>"
+        } else if elements.count == 3 {
+            return "Triple<\(elements.map(\.type.kotlinName).joined(separator: ", "))>"
         } else {
             return "Tuple\(elements.count)<\(elements.map(\.type.kotlinName).joined(separator: ", "))>"
         }
     }
     var kotlinPackage: String? {
         if elements.count == 2 {
+            return "kotlin"
+        } else if elements.count == 3 {
             return "kotlin"
         } else {
             return "com.cricut.fishyjoes.runtime"
@@ -35,6 +39,8 @@ struct TranslatedTuple: TranslatedType {
         self.elements = elements
         if elements.count == 2 {
             self.jniType = .object("kotlin/Pair")
+        } else if elements.count == 3 {
+            self.jniType = .object("kotlin/Triple")
         } else {
             self.jniType = .object("com/cricut/fishyjoes/runtime/Tuple\(elements.count)")
         }

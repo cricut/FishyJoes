@@ -679,24 +679,24 @@ extension Tuple2Converter: JavaConverter where T0: JavaConverter, T1: JavaConver
     }
 }
 
-fileprivate var tuple3Class: jclass!
-fileprivate var tuple3Constructor: jmethodID!
-fileprivate var tuple3FirstMethod: jmethodID!
-fileprivate var tuple3SecondMethod: jmethodID!
-fileprivate var tuple3ThirdMethod: jmethodID!
+fileprivate var tripleClass: jclass!
+fileprivate var tripleConstructor: jmethodID!
+fileprivate var tripleFirstMethod: jmethodID!
+fileprivate var tripleSecondMethod: jmethodID!
+fileprivate var tripleThirdMethod: jmethodID!
 
 extension Tuple3Converter: JavaConverter where T0: JavaConverter, T1: JavaConverter, T2: JavaConverter {
     public static var javaClass: jclass? {
-        tuple4Class
+        tripleClass
     }
     public static var javaDescriptor: String {
-        "Lcom/cricut/fishyjoes/runtime/Tuple3;"
+        "Lkotlin/Triple;"
     }
 
     public static func fromJava(_ value: jobject?, env: Env) throws -> SwiftType {
-        let v0 = try env.CallObjectMethod(value, tuple3FirstMethod)
-        let v1 = try env.CallObjectMethod(value, tuple3SecondMethod)
-        let v2 = try env.CallObjectMethod(value, tuple3ThirdMethod)
+        let v0 = try env.CallObjectMethod(value, tripleFirstMethod)
+        let v1 = try env.CallObjectMethod(value, tripleSecondMethod)
+        let v2 = try env.CallObjectMethod(value, tripleThirdMethod)
         return (
             try T0.fromJava(object: v0, env: env),
             try T1.fromJava(object: v1, env: env),
@@ -708,7 +708,7 @@ extension Tuple3Converter: JavaConverter where T0: JavaConverter, T1: JavaConver
         let v0 = try jvalue(l: T0.toJavaObject(value.0, env: env))
         let v1 = try jvalue(l: T1.toJavaObject(value.1, env: env))
         let v2 = try jvalue(l: T2.toJavaObject(value.2, env: env))
-        let result = try env.NewObject(tuple4Class, tuple3Constructor, v0, v1, v2)
+        let result = try env.NewObject(tripleClass, tripleConstructor, v0, v1, v2)
         env.DeleteLocalRef(v0.l)
         env.DeleteLocalRef(v1.l)
         env.DeleteLocalRef(v2.l)
@@ -721,11 +721,11 @@ extension Tuple3Converter: JavaConverter where T0: JavaConverter, T1: JavaConver
         try T2.javaSetup(env: env)
 
         guard javaClass == nil else { return }
-        tuple3Class = try env.globalRef(env.FindClass("com/cricut/fishyjoes/runtime/Tuple3"))
-        tuple3Constructor = try env.GetMethodID(javaClass, "<init>", "(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)V")
-        tuple3FirstMethod = try env.GetMethodID(javaClass, "getFirst", "()Ljava/lang/Object;")
-        tuple3SecondMethod = try env.GetMethodID(javaClass, "getSecond", "()Ljava/lang/Object;")
-        tuple3ThirdMethod = try env.GetMethodID(javaClass, "getThird", "()Ljava/lang/Object;")
+        tripleClass = try env.globalRef(env.FindClass("kotlin/Triple"))
+        tripleConstructor = try env.GetMethodID(javaClass, "<init>", "(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)V")
+        tripleFirstMethod = try env.GetMethodID(javaClass, "getFirst", "()Ljava/lang/Object;")
+        tripleSecondMethod = try env.GetMethodID(javaClass, "getSecond", "()Ljava/lang/Object;")
+        tripleThirdMethod = try env.GetMethodID(javaClass, "getThird", "()Ljava/lang/Object;")
     }
 }
 
