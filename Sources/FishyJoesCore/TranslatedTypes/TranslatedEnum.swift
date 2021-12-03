@@ -104,23 +104,23 @@ struct TranslatedEnum: TranslatedType {
             )
         } else {
             fragment.outputBlock("extension \(sourceType.name): FishyJoesNodeRuntime.NodeConverter {") {
-                fragment.outputBlock("public static func fromNode(_ __value: napi_value?, env __env: napi_env) throws -> Self {") {
-                    fragment.output("let instanceData = try FishyJoesNodeRuntime.InstanceData.data(for: __env)")
+                fragment.outputBlock("public static func fromNode(_ value: napi_value?, env: napi_env) throws -> Self {") {
+                    fragment.output("let instanceData = try FishyJoesNodeRuntime.InstanceData.data(for: env)")
                     fragment.output("var isInstanceResult = false")
                     for enumCase in cases {
                         let className = "\(nodeName).\(upperCaseFirst(enumCase.name))"
 
                         fragment.outputBlock("try check(napi_instanceof(", closeWith: "))") {
-                            fragment.output("__env,")
-                            fragment.output("__value,")
-                            fragment.output("instanceData.constructor(for: \"\(className)\", env: __env),")
+                            fragment.output("env,")
+                            fragment.output("value,")
+                            fragment.output("instanceData.constructor(for: \"\(className)\", env: env),")
                             fragment.output("&isInstanceResult")
                         }
                         fragment.outputBlock("if isInstanceResult {") {
+                            func variable(for value: Value) -> String { return "_\(value.bindingName)" }
                             for value in enumCase.associatedValues {
-                                let name = value.bindingName
-                                fragment.output("var \(name): napi_value?")
-                                fragment.output("try check(napi_get_named_property(__env, __value, \"\(name)\", &\(name)))")
+                                fragment.output("var \(variable(for: value)): napi_value?")
+                                fragment.output("try check(napi_get_named_property(env, value, \"\(value.bindingName)\", &\(variable(for: value))))")
                             }
                             if enumCase.associatedValues.isEmpty {
                                 fragment.output("return \(enumCase.name)")
@@ -128,7 +128,7 @@ struct TranslatedEnum: TranslatedType {
                                 fragment.outputBlock("return .\(enumCase.name)(") {
                                     fragment.outputMap(enumCase.associatedValues, separator: ",") { value in
                                         let resolved = context.resolve(type: value.type)
-                                        return "\(value.name.map { "\($0): " } ?? "")try \(resolved.converterType.name).fromNode(\(value.bindingName), env: __env)"
+                                        return "\(value.name.map { "\($0): " } ?? "")try \(resolved.converterType.name).fromNode(\(variable(for: value)), env: env)"
                                     }
                                 }
                             }
@@ -139,10 +139,10 @@ struct TranslatedEnum: TranslatedType {
                 }
                 fragment.blankLine()
 
-                fragment.outputBlock("public static func toNode(_ __value: Self, env __env: napi_env) throws -> napi_value? {") {
-                    fragment.output("let instanceData = try FishyJoesNodeRuntime.InstanceData.data(for: __env)")
-                    fragment.output("var __result: napi_value?")
-                    fragment.output("switch __value {")
+                fragment.outputBlock("public static func toNode(_ value: Self, env: napi_env) throws -> napi_value? {") {
+                    fragment.output("let instanceData = try FishyJoesNodeRuntime.InstanceData.data(for: env)")
+                    fragment.output("var result: napi_value?")
+                    fragment.output("switch value {")
                     for enumCase in cases {
                         let className = "\(nodeName).\(upperCaseFirst(enumCase.name))"
 
@@ -155,21 +155,21 @@ struct TranslatedEnum: TranslatedType {
                         }
                         fragment.outputBlock(caseStatement, closeWith: "") {
                             fragment.outputBlock("try check(napi_new_instance(", closeWith: "))") {
-                                fragment.output("__env,")
-                                fragment.output("instanceData.constructor(for: \"\(className)\", env: __env),")
+                                fragment.output("env,")
+                                fragment.output("instanceData.constructor(for: \"\(className)\", env: env),")
                                 fragment.output("\(enumCase.associatedValues.count),")
                                 fragment.outputBlock("[", closeWith: "],") {
                                     for value in enumCase.associatedValues {
                                         let resolved = context.resolve(type: value.type)
-                                        fragment.output("\(resolved.converterType.name).toNode(\(value.bindingName), env: __env),")
+                                        fragment.output("\(resolved.converterType.name).toNode(\(value.bindingName), env: env),")
                                     }
                                 }
-                                fragment.output("&__result")
+                                fragment.output("&result")
                             }
                         }
                     }
                     fragment.output("}")
-                    fragment.output("return __result")
+                    fragment.output("return result")
                 }
                 fragment.blankLine()
 
