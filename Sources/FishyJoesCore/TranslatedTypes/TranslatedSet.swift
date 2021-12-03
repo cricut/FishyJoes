@@ -5,6 +5,7 @@ struct TranslatedSet: TranslatedType {
     let converterType: BetterType
     let nodeName: String
     let kotlinName: String
+    let kotlinPackage: String? = "kotlin.collections"
     let jniType = JNIType.object("java/util/Set")
 
     init(element: TranslatedType) {

@@ -5,6 +5,7 @@ struct TranslatedDictionary: TranslatedType {
     let converterType: BetterType
     let nodeName: String
     let kotlinName: String
+    let kotlinPackage: String? = "kotlin.collections"
     let jniType = JNIType.object("java/util/Map")
 
     init(key: TranslatedType, value: TranslatedType) {

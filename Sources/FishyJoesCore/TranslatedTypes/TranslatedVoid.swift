@@ -6,5 +6,6 @@ struct TranslatedVoid: TranslatedType {
     let cName = "void"
     let nodeName = "void"
     let kotlinName = "Unit"
+    let kotlinPackage: String? = "kotlin"
     let jniType = JNIType.void
 }

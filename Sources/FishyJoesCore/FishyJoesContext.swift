@@ -14,6 +14,8 @@ public class FishyJoesContext {
     let nodeTranslator = NodeTranslate()
     let kotlinTranslator = KotlinTranslate()
 
+    var kotlinPackage: String { "com.cricut.\(module.lowercased())" }
+    
     public init(context: TemplateContext) {
         let argument = context.argument
         guard let module = argument["module"] as? String else {
@@ -140,10 +142,20 @@ public class FishyJoesContext {
         }
 
         let primitiveTypeMap = [
-            "Double": (c: "double", ts: "number", jni: JNIType.double),
-            "Int": (c: "int", ts: "number", jni: JNIType.long),
+            "Bool": (c: "_Bool", ts: "boolean", jni: JNIType.boolean),
             "UInt8": (c: "uint8_t", ts: "number", jni: JNIType.byte),
-            "Bool": (c: "_Bool", ts:"boolean", jni: JNIType.boolean),
+            "UInt16": (c: "uint16_t", ts: "number", jni: JNIType.int),
+            "UInt32": (c: "uint32_t", ts: "number", jni: JNIType.long),
+            // TODO: JavaScript would sadly be using 64-bit double for 64-bit int, losing precision, so need BigInt, and java is sad here too
+//            "UInt64": (c: "uint64_t", ts: "number", jni: JNIType.byte),
+            "Int8": (c: "uint8_t", ts: "number", jni: JNIType.byte),
+            "Int16": (c: "uint16_t", ts: "number", jni: JNIType.short),
+            "Int32": (c: "uint32_t", ts: "number", jni: JNIType.int),
+            // TODO: JavaScript would sadly be using 64-bit double for 64-bit int, loosing precision, so need BigInt
+//            "Int64": (c: "uint64_t", ts: "number", jni: JNIType.long),
+            "Int": (c: "int", ts: "number", jni: JNIType.long),
+            "Float": (c: "float", ts: "number", jni: JNIType.float),
+            "Double": (c: "double", ts: "number", jni: JNIType.double),
         ]
 
         var dontCache = false

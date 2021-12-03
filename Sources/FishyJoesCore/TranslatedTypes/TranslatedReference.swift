@@ -4,6 +4,7 @@ struct TranslatedReference: TranslatedType {
     let sourceType: BetterType
     let nodeName: String
     let kotlinName: String
+    let kotlinPackage: String?
     let methods: [Method]
     let computedVariables: [Variable]
     let documentation: [String]
@@ -21,6 +22,7 @@ struct TranslatedReference: TranslatedType {
         self.sourceType = BetterType(named: type)
         self.nodeName = typeName
         self.kotlinName = typeName
+        self.kotlinPackage = context.kotlinPackage
         self.methods = type.methods.compactMap { Method($0) }
         self.computedVariables = type.variables.filter { $0.exportAnnotation != nil }
         self.documentation = type.documentation
@@ -241,7 +243,7 @@ struct TranslatedReference: TranslatedType {
                             (labelComment: nil, name: "lhs", type: kotlinType),
                             (labelComment: nil, name: "rhs", type: kotlinType),
                         ],
-                        returnType: .named("Boolean"),
+                        returnType: .named(package: nil, name: "Boolean"),
                         body: nil
                     )
                 )
@@ -254,9 +256,9 @@ struct TranslatedReference: TranslatedType {
                         isOverride: true,
                         name: "equals",
                         parameters: [
-                            (labelComment: nil, name: "other", type: .optional(.named("Any"))),
+                            (labelComment: nil, name: "other", type: .optional(.named(package: nil, name: "Any"))),
                         ],
-                        returnType: .named("Boolean"),
+                        returnType: .named(package: nil, name: "Boolean"),
                         body: "(other is \(kotlinType)) && __jni__swiftEquals(this, other)"
                     )
                 )
@@ -271,7 +273,7 @@ struct TranslatedReference: TranslatedType {
                         isOverride: true,
                         name: "hashCode",
                         parameters: [],
-                        returnType: .named("Int"),
+                        returnType: .named(package: nil, name: "Int"),
                         body: nil
                     )
                 )
@@ -285,7 +287,7 @@ struct TranslatedReference: TranslatedType {
                     isOverride: true,
                     name: "toString",
                     parameters: [],
-                    returnType: .named("String"),
+                    returnType: .named(package: nil, name: "String"),
                     body: nil
                 )
             )
@@ -305,7 +307,7 @@ struct TranslatedReference: TranslatedType {
                             isOverride: false,
                             readOnly: true,
                             name: "_swiftReference",
-                            type: .named("Long")
+                            type: .named(package: nil, name: "Long")
                         ),
                     ]
                 ),
