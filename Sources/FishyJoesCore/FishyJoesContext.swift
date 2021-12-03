@@ -146,7 +146,7 @@ public class FishyJoesContext {
             "UInt8": (c: "uint8_t", ts: "number", jni: JNIType.byte),
             "UInt16": (c: "uint16_t", ts: "number", jni: JNIType.int),
             "UInt32": (c: "uint32_t", ts: "number", jni: JNIType.long),
-            // TODO: JavaScript would sadly be using 64-bit double for 64-bit int, loosing precision, so need BigInt, and java is sad here too
+            // TODO: JavaScript would sadly be using 64-bit double for 64-bit int, losing precision, so need BigInt, and java is sad here too
 //            "UInt64": (c: "uint64_t", ts: "number", jni: JNIType.byte),
             "Int8": (c: "uint8_t", ts: "number", jni: JNIType.byte),
             "Int16": (c: "uint16_t", ts: "number", jni: JNIType.short),
