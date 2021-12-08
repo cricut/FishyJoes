@@ -10,6 +10,8 @@ jobs:
     env:
       JDK_VERSION: 11
       GRADLE_OPTS: -Dorg.gradle.daemon=false
+      GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
+      GITHUB_USER: cricut-builduser
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -62,6 +64,8 @@ jobs:
     env:
       JDK_VERSION: 11
       GRADLE_OPTS: -Dorg.gradle.daemon=false
+      GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
+      GITHUB_USER: cricut-builduser
       SWIFT_WASM_URL: |-
         https://github.com/swiftwasm/swift/releases/download/swift-wasm-5.4.0-RELEASE/swift-wasm-5.4.0-RELEASE-ubuntu20.04_x86_64.tar.gz
     runs-on: ubuntu-latest
