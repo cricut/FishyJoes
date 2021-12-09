@@ -18,6 +18,7 @@ export declare namespace TestAPI {
     }
 
     export type Optional<T> = T | undefined;
+    export type Primitives = ;
 }
 
 export declare function init(): Promise<typeof TestAPI>;
