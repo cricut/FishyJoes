@@ -300,11 +300,6 @@ extension CodeGen {
                 case .kotlinAndroid(let arch):
                     try cmd("mkdir", "-p", platform.outputDir).run()
                     try cmd("cp", "\(platform.buildDir)/lib\(config.module)-java.so", platform.outputDir).run()
-                    try cmd(
-                        "\(androidToolchain)/usr/bin/android-copy-libs",
-                        "-target", arch.triple,
-                        "-output", platform.outputDir
-                    ).run()
                 }
             }
             if platforms.contains(.kotlinSystem) {

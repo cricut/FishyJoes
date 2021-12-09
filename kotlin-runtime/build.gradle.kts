@@ -19,9 +19,10 @@ repositories {
     }
 }
 
-tasks.register<Jar>("sourcesJar") {
+val sourcesJar by tasks.registering(Jar::class) {
     archiveClassifier.set("sources")
     from(sourceSets.main.get().allSource)
+    exclude("**/*.so", "**/*.dylib", "**/*.dll")
 }
 
 gradle.rootProject {
@@ -57,8 +58,8 @@ publishing {
             artifactId = properties["artifact"] as? String
             version = properties["version"] as? String
 
-            artifact(tasks.jar)
-            artifact(tasks["sourcesJar"])
+            from(components["java"])
+            artifact(sourcesJar.get())
         }
     }
 }
