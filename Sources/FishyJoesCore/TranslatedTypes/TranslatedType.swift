@@ -33,13 +33,15 @@ extension TranslatedType {
             return .optional(opt.wrapped.kotlinType)
         } else if kotlinName == "Void" {
             return .void
+        } else if let unsignedPrimitiveType = self as? TranslatedUnsignedPrimitive {
+            return .unsigned(jniType: unsignedPrimitiveType.jniType)
         } else {
             return .named(package: kotlinPackage, name: kotlinName)
         }
     }
 }
 
-indirect enum JNIType {
+indirect enum JNIType: Equatable {
     case object(String)
     case array(JNIType)
     case boolean

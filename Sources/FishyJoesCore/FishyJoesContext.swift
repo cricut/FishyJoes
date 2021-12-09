@@ -143,11 +143,6 @@ public class FishyJoesContext {
 
         let primitiveTypeMap = [
             "Bool": (c: "_Bool", ts: "boolean", jni: JNIType.boolean),
-            "UInt8": (c: "uint8_t", ts: "number", jni: JNIType.byte),
-            "UInt16": (c: "uint16_t", ts: "number", jni: JNIType.int),
-            "UInt32": (c: "uint32_t", ts: "number", jni: JNIType.long),
-            // TODO: JavaScript would sadly be using 64-bit double for 64-bit int, losing precision, so need BigInt, and java is sad here too
-//            "UInt64": (c: "uint64_t", ts: "number", jni: JNIType.byte),
             "Int8": (c: "uint8_t", ts: "number", jni: JNIType.byte),
             "Int16": (c: "uint16_t", ts: "number", jni: JNIType.short),
             "Int32": (c: "uint32_t", ts: "number", jni: JNIType.int),
@@ -156,6 +151,14 @@ public class FishyJoesContext {
             "Int": (c: "int", ts: "number", jni: JNIType.long),
             "Float": (c: "float", ts: "number", jni: JNIType.float),
             "Double": (c: "double", ts: "number", jni: JNIType.double),
+        ]
+        
+        let primitiveUnsignedTypeMap = [
+            "UInt8": (c: "uint8_t", ts: "number", jni: JNIType.byte),
+            "UInt16": (c: "uint16_t", ts: "number", jni: JNIType.int),
+            "UInt32": (c: "uint32_t", ts: "number", jni: JNIType.long),
+            // TODO: JavaScript would sadly be using 64-bit double for 64-bit int, losing precision, so need BigInt, and java is sad here too
+//            "UInt64": (c: "uint64_t", ts: "number", jni: JNIType.byte),
         ]
 
         var dontCache = false
@@ -167,6 +170,13 @@ public class FishyJoesContext {
             case let .named(name):
                 if let names = primitiveTypeMap[name.globalName] {
                     return TranslatedPrimitive(
+                        swift: name,
+                        c: names.c,
+                        node: names.ts,
+                        jni: names.jni
+                    )
+                } else if let names = primitiveUnsignedTypeMap[name.globalName] {
+                    return TranslatedUnsignedPrimitive(
                         swift: name,
                         c: names.c,
                         node: names.ts,
