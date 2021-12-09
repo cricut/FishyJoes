@@ -60,8 +60,8 @@
         "repositoryURL": "https://github.com/shibapm/PackageConfig.git",
         "state": {
           "branch": null,
-          "revision": "5df1709f87e40e27b3fbe5022b826aff30d652d9",
-          "version": "1.1.0"
+          "revision": "964537b1e7049f0b0aea41df0a97ece359636ca7",
+          "version": "1.1.1"
         }
       },
       {
@@ -111,11 +111,11 @@
       },
       {
         "package": "Sourcery",
-        "repositoryURL": "https://github.com/cricut/Sourcery",
+        "repositoryURL": "https://github.com/krzysztofzablocki/Sourcery",
         "state": {
-          "branch": "docstrings",
-          "revision": "9bdf1b821e5e248862d5191ff9d861502d82cc6a",
-          "version": null
+          "branch": null,
+          "revision": "fd035e9d1001352e090fe3eb47f4cc59e218b2a7",
+          "version": "1.6.1"
         }
       },
       {
@@ -168,8 +168,8 @@
         "repositoryURL": "https://github.com/nicklockwood/SwiftFormat.git",
         "state": {
           "branch": null,
-          "revision": "c6ef3d0700b32f6512feb31a4a9fbc8122433af9",
-          "version": "0.49.0"
+          "revision": "fab94f3ca17f0f75e87787ed83b3a9423348b14c",
+          "version": "0.49.1"
         }
       },
       {
@@ -177,8 +177,8 @@
         "repositoryURL": "https://github.com/Realm/SwiftLint.git",
         "state": {
           "branch": null,
-          "revision": "d91c2179bb55111790e7053c039d5d7a600dfa3d",
-          "version": "0.41.0"
+          "revision": "d53fc2664df92ef322bfa9ce5238d34f1461526a",
+          "version": "0.42.0"
         }
       },
       {
@@ -231,8 +231,8 @@
         "repositoryURL": "https://github.com/jpsim/Yams",
         "state": {
           "branch": null,
-          "revision": "88caa2e6fffdbef2e91c2022d038576062042907",
-          "version": "4.0.0"
+          "revision": "9ff1cc9327586db4e0c8f46f064b6a82ec1566fa",
+          "version": "4.0.6"
         }
       }
     ]

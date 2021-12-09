@@ -228,6 +228,7 @@ extension CodeGen {
                 arguments: [
                     quiet ? "-q" : nil,
                     "--disableCache",
+                    "--parseDocumentation",
                     "--sources", translateeSources,
                     "--templates", ".build/debug/FishyJoes_FishyJoesExecutionHelper.bundle/FishyJoes.swifttemplate",
                     "--args", "module=\(config.module)",
