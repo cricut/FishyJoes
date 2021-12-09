@@ -12,3 +12,4 @@ node_modules
 *.log
 /kotlin/src/generated/resources/
 .gradle
+local.properties
