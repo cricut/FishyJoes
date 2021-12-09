@@ -1,0 +1,14 @@
+.DS_Store
+/.build
+/Packages
+/*.xcodeproj
+xcuserdata/
+DerivedData/
+.swiftpm/xcode/package.xcworkspace/contents.xcworkspacedata
+/output
+node_modules
+.swift-version
+*.tgz
+*.log
+/kotlin/src/generated/resources/
+.gradle
