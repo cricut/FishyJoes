@@ -339,6 +339,105 @@ sealed class Primitives {
             value: Double
         ): Double
 
+        /**
+         * <!-- FishyJoes.export(maybeEchoBool) -->
+         */
+        fun maybeEchoBool(
+            value: Boolean?
+        ): Boolean? = __jni_maybeEchoBool(value)
+        @JvmStatic
+        private external fun __jni_maybeEchoBool(
+            value: Boolean?
+        ): Boolean?
+
+        /**
+         * <!-- FishyJoes.export(maybeEchoUInt8) -->
+         */
+        fun maybeEchoUInt8(
+            value: UByte?
+        ): UByte? = __jni_maybeEchoUInt8(value?.toByte())?.toUByte()
+        @JvmStatic
+        private external fun __jni_maybeEchoUInt8(
+            value: Byte?
+        ): Byte?
+
+        /**
+         * <!-- FishyJoes.export(maybeEchoUInt16) -->
+         */
+        fun maybeEchoUInt16(
+            value: UShort?
+        ): UShort? = __jni_maybeEchoUInt16(value?.toShort())?.toUShort()
+        @JvmStatic
+        private external fun __jni_maybeEchoUInt16(
+            value: Short?
+        ): Short?
+
+        /**
+         * <!-- FishyJoes.export(maybeEchoUInt32) -->
+         */
+        fun maybeEchoUInt32(
+            value: UInt?
+        ): UInt? = __jni_maybeEchoUInt32(value?.toInt())?.toUInt()
+        @JvmStatic
+        private external fun __jni_maybeEchoUInt32(
+            value: Int?
+        ): Int?
+
+        /**
+         * <!-- FishyJoes.export(maybeEchoInt8) -->
+         */
+        fun maybeEchoInt8(
+            value: Byte?
+        ): Byte? = __jni_maybeEchoInt8(value)
+        @JvmStatic
+        private external fun __jni_maybeEchoInt8(
+            value: Byte?
+        ): Byte?
+
+        /**
+         * <!-- FishyJoes.export(maybeEchoInt16) -->
+         */
+        fun maybeEchoInt16(
+            value: Short?
+        ): Short? = __jni_maybeEchoInt16(value)
+        @JvmStatic
+        private external fun __jni_maybeEchoInt16(
+            value: Short?
+        ): Short?
+
+        /**
+         * <!-- FishyJoes.export(maybeEchoInt32) -->
+         */
+        fun maybeEchoInt32(
+            value: Int?
+        ): Int? = __jni_maybeEchoInt32(value)
+        @JvmStatic
+        private external fun __jni_maybeEchoInt32(
+            value: Int?
+        ): Int?
+
+        /**
+         * <!-- FishyJoes.export(maybeEchoFloat) -->
+         */
+        fun maybeEchoFloat(
+            value: Float?
+        ): Float? = __jni_maybeEchoFloat(value)
+        @JvmStatic
+        private external fun __jni_maybeEchoFloat(
+            value: Float?
+        ): Float?
+
+        /**
+         * <!-- FishyJoes.export(maybeEchoDouble) -->
+         */
+        fun maybeEchoDouble(
+            value: Double?
+        ): Double? = __jni_maybeEchoDouble(value)
+        @JvmStatic
+        private external fun __jni_maybeEchoDouble(
+            value: Double?
+        ): Double?
+
         init {
             LibraryLoader.ensureLoaded("TestAPI")
         }

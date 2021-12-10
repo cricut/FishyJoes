@@ -13,6 +13,24 @@ public func JNIOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
     let env = UnsafeMutablePointer<JNIEnv?>(OpaquePointer(envRaw))
     return FishyJoesJavaRuntime.callbackBody(env!) { env in
         let bag = CStringBag()
+        //print("setting up OptionalConverter<Bool>...")
+        try OptionalConverter<Bool>.javaSetup(env: env)
+        //print("setting up OptionalConverter<Double>...")
+        try OptionalConverter<Double>.javaSetup(env: env)
+        //print("setting up OptionalConverter<Float>...")
+        try OptionalConverter<Float>.javaSetup(env: env)
+        //print("setting up OptionalConverter<Int16>...")
+        try OptionalConverter<Int16>.javaSetup(env: env)
+        //print("setting up OptionalConverter<Int32>...")
+        try OptionalConverter<Int32>.javaSetup(env: env)
+        //print("setting up OptionalConverter<Int8>...")
+        try OptionalConverter<Int8>.javaSetup(env: env)
+        //print("setting up OptionalConverter<UInt16>...")
+        try OptionalConverter<UInt16>.javaSetup(env: env)
+        //print("setting up OptionalConverter<UInt32>...")
+        try OptionalConverter<UInt32>.javaSetup(env: env)
+        //print("setting up OptionalConverter<UInt8>...")
+        try OptionalConverter<UInt8>.javaSetup(env: env)
         //print("setting up Bool...")
         try Bool.javaSetup(env: env)
         //print("setting up Double...")
@@ -98,6 +116,51 @@ public func JNIOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_echoDouble"),
                 signature: bag.add("(D)D"),
                 fnPtr: unsafeBitCast(java_Primitives_echoDouble, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_maybeEchoBool"),
+                signature: bag.add("(Ljava/lang/Boolean;)Ljava/lang/Boolean;"),
+                fnPtr: unsafeBitCast(java_Primitives_maybeEchoBool, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_maybeEchoUInt8"),
+                signature: bag.add("(Ljava/lang/Byte;)Ljava/lang/Byte;"),
+                fnPtr: unsafeBitCast(java_Primitives_maybeEchoUInt8, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_maybeEchoUInt16"),
+                signature: bag.add("(Ljava/lang/Short;)Ljava/lang/Short;"),
+                fnPtr: unsafeBitCast(java_Primitives_maybeEchoUInt16, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_maybeEchoUInt32"),
+                signature: bag.add("(Ljava/lang/Int;)Ljava/lang/Int;"),
+                fnPtr: unsafeBitCast(java_Primitives_maybeEchoUInt32, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_maybeEchoInt8"),
+                signature: bag.add("(Ljava/lang/Byte;)Ljava/lang/Byte;"),
+                fnPtr: unsafeBitCast(java_Primitives_maybeEchoInt8, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_maybeEchoInt16"),
+                signature: bag.add("(Ljava/lang/Short;)Ljava/lang/Short;"),
+                fnPtr: unsafeBitCast(java_Primitives_maybeEchoInt16, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_maybeEchoInt32"),
+                signature: bag.add("(Ljava/lang/Int;)Ljava/lang/Int;"),
+                fnPtr: unsafeBitCast(java_Primitives_maybeEchoInt32, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_maybeEchoFloat"),
+                signature: bag.add("(Ljava/lang/Float;)Ljava/lang/Float;"),
+                fnPtr: unsafeBitCast(java_Primitives_maybeEchoFloat, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_maybeEchoDouble"),
+                signature: bag.add("(Ljava/lang/Double;)Ljava/lang/Double;"),
+                fnPtr: unsafeBitCast(java_Primitives_maybeEchoDouble, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_get_falseBool"),
