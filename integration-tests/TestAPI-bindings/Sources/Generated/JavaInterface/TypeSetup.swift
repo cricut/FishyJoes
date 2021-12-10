@@ -13,6 +13,42 @@ public func JNIOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
     let env = UnsafeMutablePointer<JNIEnv?>(OpaquePointer(envRaw))
     return FishyJoesJavaRuntime.callbackBody(env!) { env in
         let bag = CStringBag()
+        //print("setting up ArrayConverter<OptionalConverter<Bool>>...")
+        try ArrayConverter<OptionalConverter<Bool>>.javaSetup(env: env)
+        //print("setting up ArrayConverter<OptionalConverter<Double>>...")
+        try ArrayConverter<OptionalConverter<Double>>.javaSetup(env: env)
+        //print("setting up ArrayConverter<OptionalConverter<Float>>...")
+        try ArrayConverter<OptionalConverter<Float>>.javaSetup(env: env)
+        //print("setting up ArrayConverter<OptionalConverter<Int16>>...")
+        try ArrayConverter<OptionalConverter<Int16>>.javaSetup(env: env)
+        //print("setting up ArrayConverter<OptionalConverter<Int32>>...")
+        try ArrayConverter<OptionalConverter<Int32>>.javaSetup(env: env)
+        //print("setting up ArrayConverter<OptionalConverter<Int8>>...")
+        try ArrayConverter<OptionalConverter<Int8>>.javaSetup(env: env)
+        //print("setting up ArrayConverter<OptionalConverter<UInt16>>...")
+        try ArrayConverter<OptionalConverter<UInt16>>.javaSetup(env: env)
+        //print("setting up ArrayConverter<OptionalConverter<UInt32>>...")
+        try ArrayConverter<OptionalConverter<UInt32>>.javaSetup(env: env)
+        //print("setting up ArrayConverter<OptionalConverter<UInt8>>...")
+        try ArrayConverter<OptionalConverter<UInt8>>.javaSetup(env: env)
+        //print("setting up ArrayConverter<Bool>...")
+        try ArrayConverter<Bool>.javaSetup(env: env)
+        //print("setting up ArrayConverter<Double>...")
+        try ArrayConverter<Double>.javaSetup(env: env)
+        //print("setting up ArrayConverter<Float>...")
+        try ArrayConverter<Float>.javaSetup(env: env)
+        //print("setting up ArrayConverter<Int16>...")
+        try ArrayConverter<Int16>.javaSetup(env: env)
+        //print("setting up ArrayConverter<Int32>...")
+        try ArrayConverter<Int32>.javaSetup(env: env)
+        //print("setting up ArrayConverter<Int8>...")
+        try ArrayConverter<Int8>.javaSetup(env: env)
+        //print("setting up ArrayConverter<UInt16>...")
+        try ArrayConverter<UInt16>.javaSetup(env: env)
+        //print("setting up ArrayConverter<UInt32>...")
+        try ArrayConverter<UInt32>.javaSetup(env: env)
+        //print("setting up ArrayConverter<UInt8>...")
+        try ArrayConverter<UInt8>.javaSetup(env: env)
         //print("setting up OptionalConverter<Bool>...")
         try OptionalConverter<Bool>.javaSetup(env: env)
         //print("setting up OptionalConverter<Double>...")
@@ -306,6 +342,96 @@ public func JNIOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_get_maxDouble"),
                 signature: bag.add("()D"),
                 fnPtr: unsafeBitCast(java_get_Primitives_maxDouble, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_manyBool"),
+                signature: bag.add("()Ljava/util/List;"),
+                fnPtr: unsafeBitCast(java_get_Primitives_manyBool, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_manyUInt8"),
+                signature: bag.add("()Ljava/util/List;"),
+                fnPtr: unsafeBitCast(java_get_Primitives_manyUInt8, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_manyUInt16"),
+                signature: bag.add("()Ljava/util/List;"),
+                fnPtr: unsafeBitCast(java_get_Primitives_manyUInt16, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_manyUInt32"),
+                signature: bag.add("()Ljava/util/List;"),
+                fnPtr: unsafeBitCast(java_get_Primitives_manyUInt32, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_manyInt8"),
+                signature: bag.add("()Ljava/util/List;"),
+                fnPtr: unsafeBitCast(java_get_Primitives_manyInt8, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_manyInt16"),
+                signature: bag.add("()Ljava/util/List;"),
+                fnPtr: unsafeBitCast(java_get_Primitives_manyInt16, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_manyInt32"),
+                signature: bag.add("()Ljava/util/List;"),
+                fnPtr: unsafeBitCast(java_get_Primitives_manyInt32, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_manyFloat"),
+                signature: bag.add("()Ljava/util/List;"),
+                fnPtr: unsafeBitCast(java_get_Primitives_manyFloat, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_manyDouble"),
+                signature: bag.add("()Ljava/util/List;"),
+                fnPtr: unsafeBitCast(java_get_Primitives_manyDouble, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_manyMaybeBool"),
+                signature: bag.add("()Ljava/util/List;"),
+                fnPtr: unsafeBitCast(java_get_Primitives_manyMaybeBool, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_manyMaybeUInt8"),
+                signature: bag.add("()Ljava/util/List;"),
+                fnPtr: unsafeBitCast(java_get_Primitives_manyMaybeUInt8, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_manyMaybeUInt16"),
+                signature: bag.add("()Ljava/util/List;"),
+                fnPtr: unsafeBitCast(java_get_Primitives_manyMaybeUInt16, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_manyMaybeUInt32"),
+                signature: bag.add("()Ljava/util/List;"),
+                fnPtr: unsafeBitCast(java_get_Primitives_manyMaybeUInt32, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_manyMaybeInt8"),
+                signature: bag.add("()Ljava/util/List;"),
+                fnPtr: unsafeBitCast(java_get_Primitives_manyMaybeInt8, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_manyMaybeInt16"),
+                signature: bag.add("()Ljava/util/List;"),
+                fnPtr: unsafeBitCast(java_get_Primitives_manyMaybeInt16, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_manyMaybeInt32"),
+                signature: bag.add("()Ljava/util/List;"),
+                fnPtr: unsafeBitCast(java_get_Primitives_manyMaybeInt32, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_manyMaybeFloat"),
+                signature: bag.add("()Ljava/util/List;"),
+                fnPtr: unsafeBitCast(java_get_Primitives_manyMaybeFloat, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_manyMaybeDouble"),
+                signature: bag.add("()Ljava/util/List;"),
+                fnPtr: unsafeBitCast(java_get_Primitives_manyMaybeDouble, to: UnsafeMutableRawPointer.self)
             )
         )
         //print("setting up Swift.String...")

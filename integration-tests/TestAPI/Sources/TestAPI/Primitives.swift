@@ -7,6 +7,8 @@
 
 /// <!-- FishyJoes.export(Primitives) -->
 public enum Primitives {
+    // MARK: - Primitive Values
+    
     /// <!-- FishyJoes.export(falseBool) -->
     public static let falseBool: Bool = false
     /// <!-- FishyJoes.export(trueBool) -->
@@ -80,6 +82,62 @@ public enum Primitives {
     /// <!-- FishyJoes.export(maxDouble) -->
     public static let maxDouble: Double = .greatestFiniteMagnitude
     
+    // MARK: - Arrays of Primitive Values
+    
+    /// <!-- FishyJoes.export(manyBool) -->
+    public static let manyBool: [Bool] = [false, true]
+    /// <!-- FishyJoes.export(manyUInt8) -->
+    public static let manyUInt8: [UInt8] = [0, .min, .max]
+    /// <!-- FishyJoes.export(manyUInt16) -->
+    public static let manyUInt16: [UInt16] = [0, .min, .max]
+    /// <!-- FishyJoes.export(manyUInt32) -->
+    public static let manyUInt32: [UInt32] = [0, .min, .max]
+    // TODO: Int64
+//    /// <!-- FishyJoes.export(manyUInt64) -->
+//    public static let manyUInt64: [UInt64] = [0, .min, .max]
+    /// <!-- FishyJoes.export(manyInt8) -->
+    public static let manyInt8: [Int8] = [0, .min, .max]
+    /// <!-- FishyJoes.export(manyInt16) -->
+    public static let manyInt16: [Int16] = [0, .min, .max]
+    /// <!-- FishyJoes.export(manyInt32) -->
+    public static let manyInt32: [Int32] = [0, .min, .max]
+    // TODO: Int64
+//    /// <!-- FishyJoes.export(manyInt64) -->
+//    public static let manyInt64: [Int64] = [0, .min, .max]
+    /// <!-- FishyJoes.export(manyFloat) -->
+    public static let manyFloat: [Float] = [0, -.greatestFiniteMagnitude, .greatestFiniteMagnitude]
+    /// <!-- FishyJoes.export(manyDouble) -->
+    public static let manyDouble: [Double] = [0, -.greatestFiniteMagnitude, .greatestFiniteMagnitude]
+    
+    // MARK: - Arrays of Optional Primitive Values
+    
+    /// <!-- FishyJoes.export(manyMaybeBool) -->
+    public static let manyMaybeBool: [Bool?] = [nil, false, true]
+    /// <!-- FishyJoes.export(manyMaybeUInt8) -->
+    public static let manyMaybeUInt8: [UInt8?] = [nil, 0, .min, .max]
+    /// <!-- FishyJoes.export(manyMaybeUInt16) -->
+    public static let manyMaybeUInt16: [UInt16?] = [nil, 0, .min, .max]
+    /// <!-- FishyJoes.export(manyMaybeUInt32) -->
+    public static let manyMaybeUInt32: [UInt32?] = [nil, 0, .min, .max]
+    // TODO: Int64
+//    /// <!-- FishyJoes.export(manyMaybeUInt64) -->
+//    public static let manyMaybeUInt64: [UInt64?] = [nil, 0, .min, .max]
+    /// <!-- FishyJoes.export(manyMaybeInt8) -->
+    public static let manyMaybeInt8: [Int8?] = [nil, 0, .min, .max]
+    /// <!-- FishyJoes.export(manyMaybeInt16) -->
+    public static let manyMaybeInt16: [Int16?] = [nil, 0, .min, .max]
+    /// <!-- FishyJoes.export(manyMaybeInt32) -->
+    public static let manyMaybeInt32: [Int32?] = [nil, 0, .min, .max]
+    // TODO: Int64
+//    /// <!-- FishyJoes.export(manyMaybeInt64) -->
+//    public static let manyMaybeInt64: [Int64?] = [nil, 0, .min, .max]
+    /// <!-- FishyJoes.export(manyMaybeFloat) -->
+    public static let manyMaybeFloat: [Float?] = [nil, 0, -.greatestFiniteMagnitude, .greatestFiniteMagnitude]
+    /// <!-- FishyJoes.export(manyMaybeDouble) -->
+    public static let manyMaybeDouble: [Double?] = [nil, 0, -.greatestFiniteMagnitude, .greatestFiniteMagnitude]
+    
+    // MARK: - Functions Taking / Returning Primitive Types
+    
     /// <!-- FishyJoes.export(echoBool) -->
     public static func echoBool(value: Bool) -> Bool { return value }
     /// <!-- FishyJoes.export(echoUInt8) -->
@@ -88,6 +146,7 @@ public enum Primitives {
     public static func echoUInt16(value: UInt16) -> UInt16 { return value }
     /// <!-- FishyJoes.export(echoUInt32) -->
     public static func echoUInt32(value: UInt32) -> UInt32 { return value }
+    // TODO: Int64
 //    /// <!-- FishyJoes.export(echoUInt64) -->
 //    public static func echoUInt64(value: UInt64) -> UInt64 { return value }
     /// <!-- FishyJoes.export(echoInt8) -->
@@ -96,12 +155,15 @@ public enum Primitives {
     public static func echoInt16(value: Int16) -> Int16 { return value }
     /// <!-- FishyJoes.export(echoInt32) -->
     public static func echoInt32(value: Int32) -> Int32 { return value }
+    // TODO: Int64
 //    /// <!-- FishyJoes.export(echoInt64) -->
 //    public static func echoInt64(value: Int64) -> Int64 { return value }
     /// <!-- FishyJoes.export(echoFloat) -->
     public static func echoFloat(value: Float) -> Float { return value }
     /// <!-- FishyJoes.export(echoDouble) -->
     public static func echoDouble(value: Double) -> Double { return value }
+    
+    // MARK: - Functions Taking / Returning Optional Primitive Types
     
     /// <!-- FishyJoes.export(maybeEchoBool) -->
     public static func maybeEchoBool(value: Bool?) -> Bool? { return value }
@@ -111,6 +173,7 @@ public enum Primitives {
     public static func maybeEchoUInt16(value: UInt16?) -> UInt16? { return value }
     /// <!-- FishyJoes.export(maybeEchoUInt32) -->
     public static func maybeEchoUInt32(value: UInt32?) -> UInt32? { return value }
+    // TODO: Int64
 //    /// <!-- FishyJoes.export(maybeEchoUInt64?) -->
 //    public static func maybeEchoUInt64(value: UInt64?) -> UInt64? { return value }
     /// <!-- FishyJoes.export(maybeEchoInt8) -->
@@ -119,6 +182,7 @@ public enum Primitives {
     public static func maybeEchoInt16(value: Int16?) -> Int16? { return value }
     /// <!-- FishyJoes.export(maybeEchoInt32) -->
     public static func maybeEchoInt32(value: Int32?) -> Int32? { return value }
+    // TODO: Int64
 //    /// <!-- FishyJoes.export(maybeEchoInt64) -->
 //    public static func maybeEchoInt64(value: Int64?) -> Int64? { return value }
     /// <!-- FishyJoes.export(maybeEchoFloat) -->

@@ -270,6 +270,168 @@ sealed class Primitives {
         private external fun __jni_get_maxDouble(): Double
 
         /**
+         * <!-- FishyJoes.export(manyBool) -->
+         */
+        val manyBool: kotlin.collections.List<Boolean>
+          get() = __jni_get_manyBool()
+        @JvmStatic
+        @JvmName("__jni_get_manyBool")
+        private external fun __jni_get_manyBool(): kotlin.collections.List<Boolean>
+
+        /**
+         * <!-- FishyJoes.export(manyUInt8) -->
+         */
+        val manyUInt8: kotlin.collections.List<UByte>
+          get() = __jni_get_manyUInt8()
+        @JvmStatic
+        @JvmName("__jni_get_manyUInt8")
+        private external fun __jni_get_manyUInt8(): kotlin.collections.List<UByte>
+
+        /**
+         * <!-- FishyJoes.export(manyUInt16) -->
+         */
+        val manyUInt16: kotlin.collections.List<UShort>
+          get() = __jni_get_manyUInt16()
+        @JvmStatic
+        @JvmName("__jni_get_manyUInt16")
+        private external fun __jni_get_manyUInt16(): kotlin.collections.List<UShort>
+
+        /**
+         * <!-- FishyJoes.export(manyUInt32) -->
+         */
+        val manyUInt32: kotlin.collections.List<UInt>
+          get() = __jni_get_manyUInt32()
+        @JvmStatic
+        @JvmName("__jni_get_manyUInt32")
+        private external fun __jni_get_manyUInt32(): kotlin.collections.List<UInt>
+
+        /**
+         * <!-- FishyJoes.export(manyInt8) -->
+         */
+        val manyInt8: kotlin.collections.List<Byte>
+          get() = __jni_get_manyInt8()
+        @JvmStatic
+        @JvmName("__jni_get_manyInt8")
+        private external fun __jni_get_manyInt8(): kotlin.collections.List<Byte>
+
+        /**
+         * <!-- FishyJoes.export(manyInt16) -->
+         */
+        val manyInt16: kotlin.collections.List<Short>
+          get() = __jni_get_manyInt16()
+        @JvmStatic
+        @JvmName("__jni_get_manyInt16")
+        private external fun __jni_get_manyInt16(): kotlin.collections.List<Short>
+
+        /**
+         * <!-- FishyJoes.export(manyInt32) -->
+         */
+        val manyInt32: kotlin.collections.List<Int>
+          get() = __jni_get_manyInt32()
+        @JvmStatic
+        @JvmName("__jni_get_manyInt32")
+        private external fun __jni_get_manyInt32(): kotlin.collections.List<Int>
+
+        /**
+         * <!-- FishyJoes.export(manyFloat) -->
+         */
+        val manyFloat: kotlin.collections.List<Float>
+          get() = __jni_get_manyFloat()
+        @JvmStatic
+        @JvmName("__jni_get_manyFloat")
+        private external fun __jni_get_manyFloat(): kotlin.collections.List<Float>
+
+        /**
+         * <!-- FishyJoes.export(manyDouble) -->
+         */
+        val manyDouble: kotlin.collections.List<Double>
+          get() = __jni_get_manyDouble()
+        @JvmStatic
+        @JvmName("__jni_get_manyDouble")
+        private external fun __jni_get_manyDouble(): kotlin.collections.List<Double>
+
+        /**
+         * <!-- FishyJoes.export(manyMaybeBool) -->
+         */
+        val manyMaybeBool: kotlin.collections.List<Boolean?>
+          get() = __jni_get_manyMaybeBool()
+        @JvmStatic
+        @JvmName("__jni_get_manyMaybeBool")
+        private external fun __jni_get_manyMaybeBool(): kotlin.collections.List<Boolean?>
+
+        /**
+         * <!-- FishyJoes.export(manyMaybeUInt8) -->
+         */
+        val manyMaybeUInt8: kotlin.collections.List<UByte?>
+          get() = __jni_get_manyMaybeUInt8()
+        @JvmStatic
+        @JvmName("__jni_get_manyMaybeUInt8")
+        private external fun __jni_get_manyMaybeUInt8(): kotlin.collections.List<UByte?>
+
+        /**
+         * <!-- FishyJoes.export(manyMaybeUInt16) -->
+         */
+        val manyMaybeUInt16: kotlin.collections.List<UShort?>
+          get() = __jni_get_manyMaybeUInt16()
+        @JvmStatic
+        @JvmName("__jni_get_manyMaybeUInt16")
+        private external fun __jni_get_manyMaybeUInt16(): kotlin.collections.List<UShort?>
+
+        /**
+         * <!-- FishyJoes.export(manyMaybeUInt32) -->
+         */
+        val manyMaybeUInt32: kotlin.collections.List<UInt?>
+          get() = __jni_get_manyMaybeUInt32()
+        @JvmStatic
+        @JvmName("__jni_get_manyMaybeUInt32")
+        private external fun __jni_get_manyMaybeUInt32(): kotlin.collections.List<UInt?>
+
+        /**
+         * <!-- FishyJoes.export(manyMaybeInt8) -->
+         */
+        val manyMaybeInt8: kotlin.collections.List<Byte?>
+          get() = __jni_get_manyMaybeInt8()
+        @JvmStatic
+        @JvmName("__jni_get_manyMaybeInt8")
+        private external fun __jni_get_manyMaybeInt8(): kotlin.collections.List<Byte?>
+
+        /**
+         * <!-- FishyJoes.export(manyMaybeInt16) -->
+         */
+        val manyMaybeInt16: kotlin.collections.List<Short?>
+          get() = __jni_get_manyMaybeInt16()
+        @JvmStatic
+        @JvmName("__jni_get_manyMaybeInt16")
+        private external fun __jni_get_manyMaybeInt16(): kotlin.collections.List<Short?>
+
+        /**
+         * <!-- FishyJoes.export(manyMaybeInt32) -->
+         */
+        val manyMaybeInt32: kotlin.collections.List<Int?>
+          get() = __jni_get_manyMaybeInt32()
+        @JvmStatic
+        @JvmName("__jni_get_manyMaybeInt32")
+        private external fun __jni_get_manyMaybeInt32(): kotlin.collections.List<Int?>
+
+        /**
+         * <!-- FishyJoes.export(manyMaybeFloat) -->
+         */
+        val manyMaybeFloat: kotlin.collections.List<Float?>
+          get() = __jni_get_manyMaybeFloat()
+        @JvmStatic
+        @JvmName("__jni_get_manyMaybeFloat")
+        private external fun __jni_get_manyMaybeFloat(): kotlin.collections.List<Float?>
+
+        /**
+         * <!-- FishyJoes.export(manyMaybeDouble) -->
+         */
+        val manyMaybeDouble: kotlin.collections.List<Double?>
+          get() = __jni_get_manyMaybeDouble()
+        @JvmStatic
+        @JvmName("__jni_get_manyMaybeDouble")
+        private external fun __jni_get_manyMaybeDouble(): kotlin.collections.List<Double?>
+
+        /**
          * <!-- FishyJoes.export(echoBool) -->
          */
         fun echoBool(
