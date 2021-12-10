@@ -124,17 +124,17 @@ public func JNIOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
             ),
             JNINativeMethod(
                 name: bag.add("__jni_maybeEchoUInt8"),
-                signature: bag.add("(Ljava/lang/Byte;)Ljava/lang/Byte;"),
+                signature: bag.add("(Lkotlin/UByte;)Lkotlin/UByte;"),
                 fnPtr: unsafeBitCast(java_Primitives_maybeEchoUInt8, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_maybeEchoUInt16"),
-                signature: bag.add("(Ljava/lang/Short;)Ljava/lang/Short;"),
+                signature: bag.add("(Lkotlin/UShort;)Lkotlin/UShort;"),
                 fnPtr: unsafeBitCast(java_Primitives_maybeEchoUInt16, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_maybeEchoUInt32"),
-                signature: bag.add("(Ljava/lang/Int;)Ljava/lang/Int;"),
+                signature: bag.add("(Lkotlin/UInt;)Lkotlin/UInt;"),
                 fnPtr: unsafeBitCast(java_Primitives_maybeEchoUInt32, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
@@ -149,7 +149,7 @@ public func JNIOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
             ),
             JNINativeMethod(
                 name: bag.add("__jni_maybeEchoInt32"),
-                signature: bag.add("(Ljava/lang/Int;)Ljava/lang/Int;"),
+                signature: bag.add("(Ljava/lang/Integer;)Ljava/lang/Integer;"),
                 fnPtr: unsafeBitCast(java_Primitives_maybeEchoInt32, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
