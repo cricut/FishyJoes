@@ -355,33 +355,33 @@ sealed class Primitives {
          */
         fun maybeEchoUInt8(
             value: UByte?
-        ): UByte? = __jni_maybeEchoUInt8(value?.toByte())?.toUByte()
+        ): UByte? = __jni_maybeEchoUInt8(value)
         @JvmStatic
         private external fun __jni_maybeEchoUInt8(
-            value: Byte?
-        ): Byte?
+            value: UByte?
+        ): UByte?
 
         /**
          * <!-- FishyJoes.export(maybeEchoUInt16) -->
          */
         fun maybeEchoUInt16(
             value: UShort?
-        ): UShort? = __jni_maybeEchoUInt16(value?.toShort())?.toUShort()
+        ): UShort? = __jni_maybeEchoUInt16(value)
         @JvmStatic
         private external fun __jni_maybeEchoUInt16(
-            value: Short?
-        ): Short?
+            value: UShort?
+        ): UShort?
 
         /**
          * <!-- FishyJoes.export(maybeEchoUInt32) -->
          */
         fun maybeEchoUInt32(
             value: UInt?
-        ): UInt? = __jni_maybeEchoUInt32(value?.toInt())?.toUInt()
+        ): UInt? = __jni_maybeEchoUInt32(value)
         @JvmStatic
         private external fun __jni_maybeEchoUInt32(
-            value: Int?
-        ): Int?
+            value: UInt?
+        ): UInt?
 
         /**
          * <!-- FishyJoes.export(maybeEchoInt8) -->
