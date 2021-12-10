@@ -153,7 +153,7 @@ extension KotlinClass.KType: CustomStringConvertible {
         case let .unsigned(jniType): return jniType.valueType
         case let .named(.none, name): return name
         case let .named(.some(package), name): return "\(package).\(name)"
-        case let .optional(wrapped): return "\(wrapped.jvmType)?"
+        case let .optional(wrapped): return "\(wrapped.kotlinType)?"
         }
     }
     
@@ -168,22 +168,12 @@ extension KotlinClass.KType: CustomStringConvertible {
     var toJVMType: String {
         switch self {
         case .unsigned: return ".to\(jvmType)()"
-        case let .optional(wrapped):
-            switch wrapped {
-            case .unsigned: return "?.to\(wrapped.jvmType)()"
-            default: return ""
-            }
         default: return ""
         }
     }
     var toKotlinType: String {
         switch self {
         case .unsigned: return ".to\(kotlinType)()"
-        case let .optional(wrapped):
-            switch wrapped {
-            case .unsigned: return "?.to\(wrapped.kotlinType)()"
-            default: return ""
-            }
         default: return ""
         }
     }
