@@ -10,7 +10,7 @@ struct TranslatedOptional: TranslatedType {
         self.nodeName = wrapped.nodeName
         self.kotlinName = wrapped.kotlinName + "?"
         self.kotlinPackage = wrapped.kotlinPackage
-        self.jniType = wrapped.jniType.asObjectType
+        self.jniType = wrapped.jniObjectType
     }
 
     var sourceType: BetterType {

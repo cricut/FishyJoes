@@ -9,7 +9,7 @@ struct TranslatedUnsignedPrimitive: TranslatedType {
     let jniType: JNIType
     var jvmToKotlin: String { ".toU\(jniType.valueType)()" }
     var kotlinToJVM: String { ".to\(jniType.valueType)()" }
-    
+
     init(
         swift swiftName: BetterType.Name,
         c cName: String,
@@ -19,7 +19,7 @@ struct TranslatedUnsignedPrimitive: TranslatedType {
         self.sourceType = .named(swiftName)
         self.cName = cName
         self.nodeName = nodeName ?? cName
-        self.kotlinName = jniType.valueType
+        self.kotlinName = "U" + jniType.valueType
         self.kotlinPackage = nil
         self.jniType = jniType
     }

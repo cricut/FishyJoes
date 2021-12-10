@@ -39,6 +39,19 @@ extension TranslatedType {
             return .named(package: kotlinPackage, name: kotlinName)
         }
     }
+
+    var jniObjectType: JNIType {
+        if let unsigned = self as? TranslatedUnsignedPrimitive {
+            return .object("kotlin/\(unsigned.kotlinName)")
+        } else {
+            switch jniType {
+            case .object: return jniType
+            case .array: return jniType
+            case .int: return .object("java/lang/Integer")
+            default: return .object("java/lang/\(jniType.valueType)")
+            }
+        }
+    }
 }
 
 indirect enum JNIType: Equatable {
@@ -85,14 +98,6 @@ extension JNIType {
         case .float: return "F"
         case .double: return "D"
         case .void: return "V"
-        }
-    }
-
-    var asObjectType: JNIType {
-        switch self {
-        case .object: return self
-        case .array: return self
-        default: return .object("java/lang/\(valueType)")
         }
     }
 }

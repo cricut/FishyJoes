@@ -15,11 +15,14 @@ class ExportedByReference private constructor(
     var text: kotlin.String
       get() = __jni_get_text()
       set(value) { __jni_set_text(value) } 
+    @JvmName("__jni_get_text")
     private external fun __jni_get_text(): kotlin.String
+    @JvmName("__jni_set_text")
     private external fun __jni_set_text(newValue: kotlin.String)
 
     override fun toString(
     ): String = __jni_toString()
+    @JvmName("__jni_toString")
     private external fun __jni_toString(
     ): String
 
@@ -33,6 +36,7 @@ class ExportedByReference private constructor(
         fun create(
         ): com.cricut.testapi.ExportedByReference = __jni_create()
         @JvmStatic
+        @JvmName("__jni_create")
         private external fun __jni_create(
         ): com.cricut.testapi.ExportedByReference
 

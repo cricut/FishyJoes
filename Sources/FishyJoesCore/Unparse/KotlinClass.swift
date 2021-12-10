@@ -93,11 +93,14 @@ class KotlinClass {
         if field.isStatic {
             fragment.output("@JvmStatic")
         }
+
+        fragment.output("@JvmName(\"__jni_get_\(field.name)\")")
         fragment.output("private external fun __jni_get_\(field.name)(): \(field.type.jvmType)")
         if !field.readOnly {
             if field.isStatic {
                 fragment.output("@JvmStatic")
             }
+            fragment.output("@JvmName(\"__jni_set_\(field.name)\")")
             fragment.output("private external fun __jni_set_\(field.name)(newValue: \(field.type.jvmType))")
         }
         fragment.blankLine()
@@ -128,6 +131,7 @@ class KotlinClass {
             if method.isStatic {
                 fragment.output("@JvmStatic")
             }
+            fragment.output("@JvmName(\"__jni_\(method.name)\")")
             fragment.outputBlock("private external fun __jni_\(method.name)(", newLineTerminated: false) {
                 fragment.outputMap(method.parameters, separator: ",") { parameter in
                     return "\(parameter.name): \(parameter.type.jvmType)"
@@ -146,44 +150,34 @@ extension KotlinClass.KType: CustomStringConvertible {
     var description: String {
         "FIXME: You should not use this, you should use one of the representations below. \(jvmType)"
     }
-    
+
     var jvmType: String {
         switch self {
-        case .void: return "Void"
         case let .unsigned(jniType): return jniType.valueType
-        case let .named(.none, name): return name
-        case let .named(.some(package), name): return "\(package).\(name)"
-        case let .optional(wrapped): return "\(wrapped.jvmType)?"
+        default: return kotlinType
         }
     }
-    
+
     var kotlinType: String {
         switch self {
+        case .void: return "Void"
         case let .unsigned(jniType): return "U\(jniType.valueType)"
+        case let .named(.none, name): return name
+        case let .named(.some(package), name): return "\(package).\(name)"
         case let .optional(wrapped): return "\(wrapped.kotlinType)?"
         default: return jvmType
         }
     }
-    
+
     var toJVMType: String {
         switch self {
         case .unsigned: return ".to\(jvmType)()"
-        case let .optional(wrapped):
-            switch wrapped {
-            case .unsigned: return "?.to\(wrapped.jvmType)()"
-            default: return ""
-            }
         default: return ""
         }
     }
     var toKotlinType: String {
         switch self {
         case .unsigned: return ".to\(kotlinType)()"
-        case let .optional(wrapped):
-            switch wrapped {
-            case .unsigned: return "?.to\(wrapped.kotlinType)()"
-            default: return ""
-            }
         default: return ""
         }
     }

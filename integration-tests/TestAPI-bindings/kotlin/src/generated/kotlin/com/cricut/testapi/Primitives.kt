@@ -14,6 +14,7 @@ sealed class Primitives {
         val falseBool: Boolean
           get() = __jni_get_falseBool()
         @JvmStatic
+        @JvmName("__jni_get_falseBool")
         private external fun __jni_get_falseBool(): Boolean
 
         /**
@@ -22,6 +23,7 @@ sealed class Primitives {
         val trueBool: Boolean
           get() = __jni_get_trueBool()
         @JvmStatic
+        @JvmName("__jni_get_trueBool")
         private external fun __jni_get_trueBool(): Boolean
 
         /**
@@ -30,6 +32,7 @@ sealed class Primitives {
         val zeroUInt8: UByte
           get() = __jni_get_zeroUInt8().toUByte()
         @JvmStatic
+        @JvmName("__jni_get_zeroUInt8")
         private external fun __jni_get_zeroUInt8(): Byte
 
         /**
@@ -38,6 +41,7 @@ sealed class Primitives {
         val minUInt8: UByte
           get() = __jni_get_minUInt8().toUByte()
         @JvmStatic
+        @JvmName("__jni_get_minUInt8")
         private external fun __jni_get_minUInt8(): Byte
 
         /**
@@ -46,6 +50,7 @@ sealed class Primitives {
         val maxUInt8: UByte
           get() = __jni_get_maxUInt8().toUByte()
         @JvmStatic
+        @JvmName("__jni_get_maxUInt8")
         private external fun __jni_get_maxUInt8(): Byte
 
         /**
@@ -54,6 +59,7 @@ sealed class Primitives {
         val zeroUInt16: UShort
           get() = __jni_get_zeroUInt16().toUShort()
         @JvmStatic
+        @JvmName("__jni_get_zeroUInt16")
         private external fun __jni_get_zeroUInt16(): Short
 
         /**
@@ -62,6 +68,7 @@ sealed class Primitives {
         val minUInt16: UShort
           get() = __jni_get_minUInt16().toUShort()
         @JvmStatic
+        @JvmName("__jni_get_minUInt16")
         private external fun __jni_get_minUInt16(): Short
 
         /**
@@ -70,6 +77,7 @@ sealed class Primitives {
         val maxUInt16: UShort
           get() = __jni_get_maxUInt16().toUShort()
         @JvmStatic
+        @JvmName("__jni_get_maxUInt16")
         private external fun __jni_get_maxUInt16(): Short
 
         /**
@@ -78,6 +86,7 @@ sealed class Primitives {
         val zeroUInt32: UInt
           get() = __jni_get_zeroUInt32().toUInt()
         @JvmStatic
+        @JvmName("__jni_get_zeroUInt32")
         private external fun __jni_get_zeroUInt32(): Int
 
         /**
@@ -86,6 +95,7 @@ sealed class Primitives {
         val minUInt32: UInt
           get() = __jni_get_minUInt32().toUInt()
         @JvmStatic
+        @JvmName("__jni_get_minUInt32")
         private external fun __jni_get_minUInt32(): Int
 
         /**
@@ -94,6 +104,7 @@ sealed class Primitives {
         val maxUInt32: UInt
           get() = __jni_get_maxUInt32().toUInt()
         @JvmStatic
+        @JvmName("__jni_get_maxUInt32")
         private external fun __jni_get_maxUInt32(): Int
 
         /**
@@ -102,6 +113,7 @@ sealed class Primitives {
         val zeroInt8: Byte
           get() = __jni_get_zeroInt8()
         @JvmStatic
+        @JvmName("__jni_get_zeroInt8")
         private external fun __jni_get_zeroInt8(): Byte
 
         /**
@@ -110,6 +122,7 @@ sealed class Primitives {
         val minInt8: Byte
           get() = __jni_get_minInt8()
         @JvmStatic
+        @JvmName("__jni_get_minInt8")
         private external fun __jni_get_minInt8(): Byte
 
         /**
@@ -118,6 +131,7 @@ sealed class Primitives {
         val maxInt8: Byte
           get() = __jni_get_maxInt8()
         @JvmStatic
+        @JvmName("__jni_get_maxInt8")
         private external fun __jni_get_maxInt8(): Byte
 
         /**
@@ -126,6 +140,7 @@ sealed class Primitives {
         val zeroInt16: Short
           get() = __jni_get_zeroInt16()
         @JvmStatic
+        @JvmName("__jni_get_zeroInt16")
         private external fun __jni_get_zeroInt16(): Short
 
         /**
@@ -134,6 +149,7 @@ sealed class Primitives {
         val minInt16: Short
           get() = __jni_get_minInt16()
         @JvmStatic
+        @JvmName("__jni_get_minInt16")
         private external fun __jni_get_minInt16(): Short
 
         /**
@@ -142,6 +158,7 @@ sealed class Primitives {
         val maxInt16: Short
           get() = __jni_get_maxInt16()
         @JvmStatic
+        @JvmName("__jni_get_maxInt16")
         private external fun __jni_get_maxInt16(): Short
 
         /**
@@ -150,6 +167,7 @@ sealed class Primitives {
         val zeroInt32: Int
           get() = __jni_get_zeroInt32()
         @JvmStatic
+        @JvmName("__jni_get_zeroInt32")
         private external fun __jni_get_zeroInt32(): Int
 
         /**
@@ -158,6 +176,7 @@ sealed class Primitives {
         val minInt32: Int
           get() = __jni_get_minInt32()
         @JvmStatic
+        @JvmName("__jni_get_minInt32")
         private external fun __jni_get_minInt32(): Int
 
         /**
@@ -166,6 +185,7 @@ sealed class Primitives {
         val maxInt32: Int
           get() = __jni_get_maxInt32()
         @JvmStatic
+        @JvmName("__jni_get_maxInt32")
         private external fun __jni_get_maxInt32(): Int
 
         /**
@@ -174,6 +194,7 @@ sealed class Primitives {
         val zeroInt: Long
           get() = __jni_get_zeroInt()
         @JvmStatic
+        @JvmName("__jni_get_zeroInt")
         private external fun __jni_get_zeroInt(): Long
 
         /**
@@ -182,6 +203,7 @@ sealed class Primitives {
         val minInt: Long
           get() = __jni_get_minInt()
         @JvmStatic
+        @JvmName("__jni_get_minInt")
         private external fun __jni_get_minInt(): Long
 
         /**
@@ -190,6 +212,7 @@ sealed class Primitives {
         val maxInt: Long
           get() = __jni_get_maxInt()
         @JvmStatic
+        @JvmName("__jni_get_maxInt")
         private external fun __jni_get_maxInt(): Long
 
         /**
@@ -198,6 +221,7 @@ sealed class Primitives {
         val zeroFloat: Float
           get() = __jni_get_zeroFloat()
         @JvmStatic
+        @JvmName("__jni_get_zeroFloat")
         private external fun __jni_get_zeroFloat(): Float
 
         /**
@@ -206,6 +230,7 @@ sealed class Primitives {
         val minFloat: Float
           get() = __jni_get_minFloat()
         @JvmStatic
+        @JvmName("__jni_get_minFloat")
         private external fun __jni_get_minFloat(): Float
 
         /**
@@ -214,6 +239,7 @@ sealed class Primitives {
         val maxFloat: Float
           get() = __jni_get_maxFloat()
         @JvmStatic
+        @JvmName("__jni_get_maxFloat")
         private external fun __jni_get_maxFloat(): Float
 
         /**
@@ -222,6 +248,7 @@ sealed class Primitives {
         val zeroDouble: Double
           get() = __jni_get_zeroDouble()
         @JvmStatic
+        @JvmName("__jni_get_zeroDouble")
         private external fun __jni_get_zeroDouble(): Double
 
         /**
@@ -230,6 +257,7 @@ sealed class Primitives {
         val minDouble: Double
           get() = __jni_get_minDouble()
         @JvmStatic
+        @JvmName("__jni_get_minDouble")
         private external fun __jni_get_minDouble(): Double
 
         /**
@@ -238,6 +266,7 @@ sealed class Primitives {
         val maxDouble: Double
           get() = __jni_get_maxDouble()
         @JvmStatic
+        @JvmName("__jni_get_maxDouble")
         private external fun __jni_get_maxDouble(): Double
 
         /**
@@ -247,6 +276,7 @@ sealed class Primitives {
             value: Boolean
         ): Boolean = __jni_echoBool(value)
         @JvmStatic
+        @JvmName("__jni_echoBool")
         private external fun __jni_echoBool(
             value: Boolean
         ): Boolean
@@ -258,6 +288,7 @@ sealed class Primitives {
             value: UByte
         ): UByte = __jni_echoUInt8(value.toByte()).toUByte()
         @JvmStatic
+        @JvmName("__jni_echoUInt8")
         private external fun __jni_echoUInt8(
             value: Byte
         ): Byte
@@ -269,6 +300,7 @@ sealed class Primitives {
             value: UShort
         ): UShort = __jni_echoUInt16(value.toShort()).toUShort()
         @JvmStatic
+        @JvmName("__jni_echoUInt16")
         private external fun __jni_echoUInt16(
             value: Short
         ): Short
@@ -280,6 +312,7 @@ sealed class Primitives {
             value: UInt
         ): UInt = __jni_echoUInt32(value.toInt()).toUInt()
         @JvmStatic
+        @JvmName("__jni_echoUInt32")
         private external fun __jni_echoUInt32(
             value: Int
         ): Int
@@ -291,6 +324,7 @@ sealed class Primitives {
             value: Byte
         ): Byte = __jni_echoInt8(value)
         @JvmStatic
+        @JvmName("__jni_echoInt8")
         private external fun __jni_echoInt8(
             value: Byte
         ): Byte
@@ -302,6 +336,7 @@ sealed class Primitives {
             value: Short
         ): Short = __jni_echoInt16(value)
         @JvmStatic
+        @JvmName("__jni_echoInt16")
         private external fun __jni_echoInt16(
             value: Short
         ): Short
@@ -313,6 +348,7 @@ sealed class Primitives {
             value: Int
         ): Int = __jni_echoInt32(value)
         @JvmStatic
+        @JvmName("__jni_echoInt32")
         private external fun __jni_echoInt32(
             value: Int
         ): Int
@@ -324,6 +360,7 @@ sealed class Primitives {
             value: Float
         ): Float = __jni_echoFloat(value)
         @JvmStatic
+        @JvmName("__jni_echoFloat")
         private external fun __jni_echoFloat(
             value: Float
         ): Float
@@ -335,6 +372,7 @@ sealed class Primitives {
             value: Double
         ): Double = __jni_echoDouble(value)
         @JvmStatic
+        @JvmName("__jni_echoDouble")
         private external fun __jni_echoDouble(
             value: Double
         ): Double
@@ -346,6 +384,7 @@ sealed class Primitives {
             value: Boolean?
         ): Boolean? = __jni_maybeEchoBool(value)
         @JvmStatic
+        @JvmName("__jni_maybeEchoBool")
         private external fun __jni_maybeEchoBool(
             value: Boolean?
         ): Boolean?
@@ -357,6 +396,7 @@ sealed class Primitives {
             value: UByte?
         ): UByte? = __jni_maybeEchoUInt8(value)
         @JvmStatic
+        @JvmName("__jni_maybeEchoUInt8")
         private external fun __jni_maybeEchoUInt8(
             value: UByte?
         ): UByte?
@@ -368,6 +408,7 @@ sealed class Primitives {
             value: UShort?
         ): UShort? = __jni_maybeEchoUInt16(value)
         @JvmStatic
+        @JvmName("__jni_maybeEchoUInt16")
         private external fun __jni_maybeEchoUInt16(
             value: UShort?
         ): UShort?
@@ -379,6 +420,7 @@ sealed class Primitives {
             value: UInt?
         ): UInt? = __jni_maybeEchoUInt32(value)
         @JvmStatic
+        @JvmName("__jni_maybeEchoUInt32")
         private external fun __jni_maybeEchoUInt32(
             value: UInt?
         ): UInt?
@@ -390,6 +432,7 @@ sealed class Primitives {
             value: Byte?
         ): Byte? = __jni_maybeEchoInt8(value)
         @JvmStatic
+        @JvmName("__jni_maybeEchoInt8")
         private external fun __jni_maybeEchoInt8(
             value: Byte?
         ): Byte?
@@ -401,6 +444,7 @@ sealed class Primitives {
             value: Short?
         ): Short? = __jni_maybeEchoInt16(value)
         @JvmStatic
+        @JvmName("__jni_maybeEchoInt16")
         private external fun __jni_maybeEchoInt16(
             value: Short?
         ): Short?
@@ -412,6 +456,7 @@ sealed class Primitives {
             value: Int?
         ): Int? = __jni_maybeEchoInt32(value)
         @JvmStatic
+        @JvmName("__jni_maybeEchoInt32")
         private external fun __jni_maybeEchoInt32(
             value: Int?
         ): Int?
@@ -423,6 +468,7 @@ sealed class Primitives {
             value: Float?
         ): Float? = __jni_maybeEchoFloat(value)
         @JvmStatic
+        @JvmName("__jni_maybeEchoFloat")
         private external fun __jni_maybeEchoFloat(
             value: Float?
         ): Float?
@@ -434,6 +480,7 @@ sealed class Primitives {
             value: Double?
         ): Double? = __jni_maybeEchoDouble(value)
         @JvmStatic
+        @JvmName("__jni_maybeEchoDouble")
         private external fun __jni_maybeEchoDouble(
             value: Double?
         ): Double?
