@@ -105,6 +105,25 @@ public func JNIOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try Int32.javaSetup(env: env)
         //print("setting up Int8...")
         try Int8.javaSetup(env: env)
+        //print("setting up Primitives.PrimitiveHolder...")
+        try Primitives.PrimitiveHolder.javaSetup(env: env)
+        try env.RegisterNatives(Primitives.PrimitiveHolder.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_get_staticPropery"),
+                signature: bag.add("()Ljava/util/List;"),
+                fnPtr: unsafeBitCast(java_get_Primitives_PrimitiveHolder_staticPropery, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_staticMutablePropery"),
+                signature: bag.add("()Ljava/util/List;"),
+                fnPtr: unsafeBitCast(java_get_Primitives_PrimitiveHolder_staticMutablePropery, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_set_staticMutablePropery"),
+                signature: bag.add("(Ljava/util/List;)V"),
+                fnPtr: unsafeBitCast(java_set_Primitives_PrimitiveHolder_staticMutablePropery, to: UnsafeMutableRawPointer.self)
+            )
+        )
         //print("setting up Primitives...")
         try Primitives.javaSetup(env: env)
         try env.RegisterNatives(Primitives.javaClass,
@@ -432,6 +451,11 @@ public func JNIOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_get_manyMaybeDouble"),
                 signature: bag.add("()Ljava/util/List;"),
                 fnPtr: unsafeBitCast(java_get_Primitives_manyMaybeDouble, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_defaultPrimitiveHolder"),
+                signature: bag.add("()Lcom/cricut/testapi/Primitives$PrimitiveHolder;"),
+                fnPtr: unsafeBitCast(java_get_Primitives_defaultPrimitiveHolder, to: UnsafeMutableRawPointer.self)
             )
         )
         //print("setting up Swift.String...")

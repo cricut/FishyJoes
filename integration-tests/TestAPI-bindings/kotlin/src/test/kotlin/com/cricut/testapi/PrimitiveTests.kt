@@ -44,36 +44,36 @@ internal class PrimitiveTests {
 
     @Test
     fun testArraysOfPrimitiveValues() {
-        assert(Primitives.manyBool.zip(arrayOf(false, true)).all { it.first == it.second })
-        assert(Primitives.manyUInt8.zip(arrayOf(0.toUByte(), UByte.MIN_VALUE, UByte.MAX_VALUE)).all { it.first == it.second })
-        assert(Primitives.manyUInt16.zip(arrayOf(0.toUShort(), UShort.MIN_VALUE, UShort.MAX_VALUE)).all { it.first == it.second })
-        assert(Primitives.manyUInt32.zip(arrayOf(0.toUInt(), UInt.MIN_VALUE, UInt.MAX_VALUE)).all { it.first == it.second })
+        assertEquals(Primitives.manyBool, arrayListOf(false, true))
+        assertEquals(Primitives.manyUInt8, arrayListOf(0.toUByte(), UByte.MIN_VALUE, UByte.MAX_VALUE))
+        assertEquals(Primitives.manyUInt16, arrayListOf(0.toUShort(), UShort.MIN_VALUE, UShort.MAX_VALUE))
+        assertEquals(Primitives.manyUInt32, arrayListOf(0.toUInt(), UInt.MIN_VALUE, UInt.MAX_VALUE))
         // TODO: UInt64
-//        assert(Primitives.manyUInt64.zip(arrayOf(0.toULong(), ULong.MIN_VALUE, ULong.MAX_VALUE)).all { it.first == it.second })
-        assert(Primitives.manyInt8.zip(arrayOf(0.toByte(), Byte.MIN_VALUE, Byte.MAX_VALUE)).all { it.first == it.second })
-        assert(Primitives.manyInt16.zip(arrayOf(0.toShort(), Short.MIN_VALUE, Short.MAX_VALUE)).all { it.first == it.second })
-        assert(Primitives.manyInt32.zip(arrayOf(0.toInt(), Int.MIN_VALUE, Int.MAX_VALUE)).all { it.first == it.second })
+//        assertEquals(Primitives.manyUInt64, arrayListOf(0.toULong(), ULong.MIN_VALUE, ULong.MAX_VALUE))
+        assertEquals(Primitives.manyInt8, arrayListOf(0.toByte(), Byte.MIN_VALUE, Byte.MAX_VALUE))
+        assertEquals(Primitives.manyInt16, arrayListOf(0.toShort(), Short.MIN_VALUE, Short.MAX_VALUE))
+        assertEquals(Primitives.manyInt32, arrayListOf(0.toInt(), Int.MIN_VALUE, Int.MAX_VALUE))
         // TODO: Int64
-//        assert(Primitives.manyInt64.zip(arrayOf(0.toLong(), Long.MIN_VALUE, Long.MAX_VALUE)).all { it.first == it.second })
-        assert(Primitives.manyFloat.zip(arrayOf(0.toFloat(), -Float.MAX_VALUE, Float.MAX_VALUE)).all { it.first == it.second })
-        assert(Primitives.manyDouble.zip(arrayOf(0.toDouble(), -Double.MAX_VALUE, Double.MAX_VALUE)).all { it.first == it.second })
+//        assertEquals(Primitives.manyInt64, arrayListOf(0.toLong(), Long.MIN_VALUE, Long.MAX_VALUE))
+        assertEquals(Primitives.manyFloat, arrayListOf(0.toFloat(), -Float.MAX_VALUE, Float.MAX_VALUE))
+        assertEquals(Primitives.manyDouble, arrayListOf(0.toDouble(), -Double.MAX_VALUE, Double.MAX_VALUE))
     }
 
     @Test
     fun testArraysOfOptionalPrimitiveValues() {
-        assert(Primitives.manyMaybeBool.zip(arrayOf(null, false, true)).all { it.first == it.second })
-        assert(Primitives.manyMaybeUInt8.zip(arrayOf(null, 0.toUByte(), UByte.MIN_VALUE, UByte.MAX_VALUE)).all { it.first == it.second })
-        assert(Primitives.manyMaybeUInt16.zip(arrayOf(null, 0.toUShort(), UShort.MIN_VALUE, UShort.MAX_VALUE)).all { it.first == it.second })
-        assert(Primitives.manyMaybeUInt32.zip(arrayOf(null, 0.toUInt(), UInt.MIN_VALUE, UInt.MAX_VALUE)).all { it.first == it.second })
+        assertEquals(Primitives.manyMaybeBool, arrayListOf(null, false, true))
+        assertEquals(Primitives.manyMaybeUInt8, arrayListOf(null, 0.toUByte(), UByte.MIN_VALUE, UByte.MAX_VALUE))
+        assertEquals(Primitives.manyMaybeUInt16, arrayListOf(null, 0.toUShort(), UShort.MIN_VALUE, UShort.MAX_VALUE))
+        assertEquals(Primitives.manyMaybeUInt32, arrayListOf(null, 0.toUInt(), UInt.MIN_VALUE, UInt.MAX_VALUE))
         // TODO: UInt64
-//        assert(Primitives.manyMaybeUInt64.zip(arrayOf(null, 0.toULong(), ULong.MIN_VALUE, ULong.MAX_VALUE)).all { it.first == it.second })
-        assert(Primitives.manyMaybeInt8.zip(arrayOf(null, 0.toByte(), Byte.MIN_VALUE, Byte.MAX_VALUE)).all { it.first == it.second })
-        assert(Primitives.manyMaybeInt16.zip(arrayOf(null, 0.toShort(), Short.MIN_VALUE, Short.MAX_VALUE)).all { it.first == it.second })
-        assert(Primitives.manyMaybeInt32.zip(arrayOf(null, 0.toInt(), Int.MIN_VALUE, Int.MAX_VALUE)).all { it.first == it.second })
+//        assertEquals(Primitives.manyMaybeUInt64, (arrayListOf(null, 0.toULong(), ULong.MIN_VALUE, ULong.MAX_VALUE))
+        assertEquals(Primitives.manyMaybeInt8, arrayListOf(null, 0.toByte(), Byte.MIN_VALUE, Byte.MAX_VALUE))
+        assertEquals(Primitives.manyMaybeInt16, arrayListOf(null, 0.toShort(), Short.MIN_VALUE, Short.MAX_VALUE))
+        assertEquals(Primitives.manyMaybeInt32, arrayListOf(null, 0.toInt(), Int.MIN_VALUE, Int.MAX_VALUE))
         // TODO: Int64
-//        assert(Primitives.manyMaybeInt64.zip(arrayOf(null, 0.toLong(), Long.MIN_VALUE, Long.MAX_VALUE)).all { it.first == it.second })
-        assert(Primitives.manyMaybeFloat.zip(arrayOf(null, 0.toFloat(), -Float.MAX_VALUE, Float.MAX_VALUE)).all { it.first == it.second })
-        assert(Primitives.manyMaybeDouble.zip(arrayOf(null, 0.toDouble(), -Double.MAX_VALUE, Double.MAX_VALUE)).all { it.first == it.second })
+//        assertEquals(Primitives.manyMaybeInt64, arrayListOf(null, 0.toLong(), Long.MIN_VALUE, Long.MAX_VALUE))
+        assertEquals(Primitives.manyMaybeFloat, arrayListOf(null, 0.toFloat(), -Float.MAX_VALUE, Float.MAX_VALUE))
+        assertEquals(Primitives.manyMaybeDouble, arrayListOf(null, 0.toDouble(), -Double.MAX_VALUE, Double.MAX_VALUE))
     }
 
     @Test
@@ -162,5 +162,23 @@ internal class PrimitiveTests {
         assertEquals(Primitives.maybeEchoDouble(0.0), 0.0)
         assertEquals(Primitives.maybeEchoDouble(-Double.MAX_VALUE), -Double.MAX_VALUE)
         assertEquals(Primitives.maybeEchoDouble(Double.MAX_VALUE), Double.MAX_VALUE)
+    }
+
+    @Test
+    fun testFunctionsTakingClosuresWithPrimitiveTypes() {
+        // TODO: Fix breakage
+//        assertEquals(Primitives.valueMapper(10) { (it ?: 0) * 2 }, 20)
+    }
+
+    @Test
+    fun testObjectsWithPrimitiveMembers() {
+        assertEquals(Primitives.PrimitiveHolder.staticPropery, arrayListOf(null, 0.toUByte(), UByte.MIN_VALUE, UByte.MAX_VALUE))
+        assertEquals(Primitives.PrimitiveHolder.staticMutablePropery, arrayListOf(null, 0.toUByte(), UByte.MIN_VALUE, UByte.MAX_VALUE))
+        Primitives.PrimitiveHolder.staticMutablePropery = arrayListOf(100.toUByte(), 200.toUByte())
+        assertEquals(Primitives.PrimitiveHolder.staticMutablePropery, arrayListOf(100.toUByte(), 200.toUByte()))
+        val s = Primitives.defaultPrimitiveHolder
+        assertEquals(s, Primitives.defaultPrimitiveHolder)
+        s.b = !s.b
+        assertNotEquals(s, Primitives.defaultPrimitiveHolder)
     }
 }

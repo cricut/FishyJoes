@@ -20,6 +20,7 @@ public func napi_register_module_v1(env: napi_env, exports: napi_value) -> napi_
         try Int16.nodeSetup(env: env, module: module)
         try Int32.nodeSetup(env: env, module: module)
         try Int8.nodeSetup(env: env, module: module)
+        try Primitives.PrimitiveHolder.nodeSetup(env: env, module: module)
         try Primitives.nodeSetup(env: env, module: module)
         try String.nodeSetup(env: env, module: module)
         try UInt16.nodeSetup(env: env, module: module)

@@ -92,7 +92,7 @@ public enum Primitives {
     public static let manyUInt16: [UInt16] = [0, .min, .max]
     /// <!-- FishyJoes.export(manyUInt32) -->
     public static let manyUInt32: [UInt32] = [0, .min, .max]
-    // TODO: Int64
+    // TODO: UInt64
 //    /// <!-- FishyJoes.export(manyUInt64) -->
 //    public static let manyUInt64: [UInt64] = [0, .min, .max]
     /// <!-- FishyJoes.export(manyInt8) -->
@@ -119,7 +119,7 @@ public enum Primitives {
     public static let manyMaybeUInt16: [UInt16?] = [nil, 0, .min, .max]
     /// <!-- FishyJoes.export(manyMaybeUInt32) -->
     public static let manyMaybeUInt32: [UInt32?] = [nil, 0, .min, .max]
-    // TODO: Int64
+    // TODO: UInt64
 //    /// <!-- FishyJoes.export(manyMaybeUInt64) -->
 //    public static let manyMaybeUInt64: [UInt64?] = [nil, 0, .min, .max]
     /// <!-- FishyJoes.export(manyMaybeInt8) -->
@@ -146,7 +146,7 @@ public enum Primitives {
     public static func echoUInt16(value: UInt16) -> UInt16 { return value }
     /// <!-- FishyJoes.export(echoUInt32) -->
     public static func echoUInt32(value: UInt32) -> UInt32 { return value }
-    // TODO: Int64
+    // TODO: UInt64
 //    /// <!-- FishyJoes.export(echoUInt64) -->
 //    public static func echoUInt64(value: UInt64) -> UInt64 { return value }
     /// <!-- FishyJoes.export(echoInt8) -->
@@ -173,7 +173,7 @@ public enum Primitives {
     public static func maybeEchoUInt16(value: UInt16?) -> UInt16? { return value }
     /// <!-- FishyJoes.export(maybeEchoUInt32) -->
     public static func maybeEchoUInt32(value: UInt32?) -> UInt32? { return value }
-    // TODO: Int64
+    // TODO: UInt64
 //    /// <!-- FishyJoes.export(maybeEchoUInt64?) -->
 //    public static func maybeEchoUInt64(value: UInt64?) -> UInt64? { return value }
     /// <!-- FishyJoes.export(maybeEchoInt8) -->
@@ -189,4 +189,69 @@ public enum Primitives {
     public static func maybeEchoFloat(value: Float?) -> Float? { return value }
     /// <!-- FishyJoes.export(maybeEchoDouble) -->
     public static func maybeEchoDouble(value: Double?) -> Double? { return value }
+    
+    // MARK: - Functions Taking Closures with Primitive Types
+
+    // TODO: Breaks with FishyJoes/Sources/FishyJoesCore/FishyJoesContext.swift:196: Don't know how to translate type `Name(name: "UInt8?", namespace: [])`
+//    /// <!-- FishyJoes.export(valueMapper) -->
+//    public static func valueMapper(value: UInt8?, _ mapper: ((UInt8?) -> (UInt8?))) -> UInt8? { return mapper(value) }
+    
+    // MARK: - Objects with Primitive Members
+    
+    /// <!-- FishyJoes.export(Primitives.PrimitiveHolder) -->
+    public struct PrimitiveHolder {
+        /// <!-- FishyJoes.export(staticPropery) -->
+        public static let staticPropery: [UInt8?] = [nil, 0, .min, .max]
+        /// <!-- FishyJoes.export(staticMutablePropery) -->
+        public static var staticMutablePropery: [UInt8?] = [nil, 0, .min, .max]
+        
+        public var b: Bool = false
+        public var bq: Bool? = nil
+        public var ui8: UInt8 = .min
+        public var ui8q: UInt8? = nil
+        public var ui16: UInt16 = .min
+        public var ui16q: UInt16? = nil
+        public var ui32: UInt32 = .min
+        public var ui32q: UInt32? = nil
+        // TODO: UInt64
+//        public var ui64: UInt64 = .min
+//        public var ui64q: UInt64? = nil
+        public var i8: Int8 = .min
+        public var i8q: Int8? = nil
+        public var i16: Int16 = .min
+        public var i16q: Int16? = nil
+        public var i32: Int32 = .min
+        public var i32q: Int32? = nil
+        // TODO: Int64
+//        public var i64: Int64 = .min
+//        public var i64q: Int64? = nil
+        public var f: Float = -.greatestFiniteMagnitude
+        public var fq: Float? = nil
+        public var d: Double = -.greatestFiniteMagnitude
+        public var dq: Double? = nil
+        
+        public init(b: Bool = false, bq: Bool? = nil, ui8: UInt8 = .min, ui8q: UInt8? = nil, ui16: UInt16 = .min, ui16q: UInt16? = nil, ui32: UInt32 = .min, ui32q: UInt32? = nil, i8: Int8 = .min, i8q: Int8? = nil, i16: Int16 = .min, i16q: Int16? = nil, i32: Int32 = .min, i32q: Int32? = nil, f: Float = -.greatestFiniteMagnitude, fq: Float? = nil, d: Double = -.greatestFiniteMagnitude, dq: Double? = nil) {
+            self.b = b
+            self.bq = bq
+            self.ui8 = ui8
+            self.ui8q = ui8q
+            self.ui16 = ui16
+            self.ui16q = ui16q
+            self.ui32 = ui32
+            self.ui32q = ui32q
+            self.i8 = i8
+            self.i8q = i8q
+            self.i16 = i16
+            self.i16q = i16q
+            self.i32 = i32
+            self.i32q = i32q
+            self.f = f
+            self.fq = fq
+            self.d = d
+            self.dq = dq
+        }
+    }
+    
+    /// <!-- FishyJoes.export(defaultPrimitiveHolder) -->
+    public static let defaultPrimitiveHolder = PrimitiveHolder()
 }

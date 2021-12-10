@@ -432,6 +432,15 @@ sealed class Primitives {
         private external fun __jni_get_manyMaybeDouble(): kotlin.collections.List<Double?>
 
         /**
+         * <!-- FishyJoes.export(defaultPrimitiveHolder) -->
+         */
+        val defaultPrimitiveHolder: com.cricut.testapi.Primitives.PrimitiveHolder
+          get() = __jni_get_defaultPrimitiveHolder()
+        @JvmStatic
+        @JvmName("__jni_get_defaultPrimitiveHolder")
+        private external fun __jni_get_defaultPrimitiveHolder(): com.cricut.testapi.Primitives.PrimitiveHolder
+
+        /**
          * <!-- FishyJoes.export(echoBool) -->
          */
         fun echoBool(
@@ -649,6 +658,60 @@ sealed class Primitives {
 
         init {
             LibraryLoader.ensureLoaded("TestAPI")
+        }
+    }
+
+    /**
+     * <!-- FishyJoes.export(Primitives.PrimitiveHolder) -->
+     */
+    data class PrimitiveHolder(
+        var b: Boolean,
+        var bq: Boolean?,
+        var ui8: UByte,
+        var ui8q: UByte?,
+        var ui16: UShort,
+        var ui16q: UShort?,
+        var ui32: UInt,
+        var ui32q: UInt?,
+        var i8: Byte,
+        var i8q: Byte?,
+        var i16: Short,
+        var i16q: Short?,
+        var i32: Int,
+        var i32q: Int?,
+        var f: Float,
+        var fq: Float?,
+        var d: Double,
+        var dq: Double?
+    )
+     {
+
+        companion object {
+            /**
+             * <!-- FishyJoes.export(staticPropery) -->
+             */
+            val staticPropery: kotlin.collections.List<UByte?>
+              get() = __jni_get_staticPropery()
+            @JvmStatic
+            @JvmName("__jni_get_staticPropery")
+            private external fun __jni_get_staticPropery(): kotlin.collections.List<UByte?>
+
+            /**
+             * <!-- FishyJoes.export(staticMutablePropery) -->
+             */
+            var staticMutablePropery: kotlin.collections.List<UByte?>
+              get() = __jni_get_staticMutablePropery()
+              set(value) { __jni_set_staticMutablePropery(value) } 
+            @JvmStatic
+            @JvmName("__jni_get_staticMutablePropery")
+            private external fun __jni_get_staticMutablePropery(): kotlin.collections.List<UByte?>
+            @JvmStatic
+            @JvmName("__jni_set_staticMutablePropery")
+            private external fun __jni_set_staticMutablePropery(newValue: kotlin.collections.List<UByte?>)
+
+            init {
+                LibraryLoader.ensureLoaded("TestAPI")
+            }
         }
     }
 }

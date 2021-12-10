@@ -19,6 +19,61 @@ export declare namespace TestAPI {
 
     export type Optional<T> = T | undefined;
     export type Primitives = ;
+
+    export namespace Primitives {
+        /**
+         * <!-- FishyJoes.export(Primitives.PrimitiveHolder) -->
+         */
+        export class PrimitiveHolder {
+            constructor(b: boolean, bq: Optional<boolean>, ui8: number, ui8q: Optional<number>, ui16: number, ui16q: Optional<number>, ui32: number, ui32q: Optional<number>, i8: number, i8q: Optional<number>, i16: number, i16q: Optional<number>, i32: number, i32q: Optional<number>, f: number, fq: Optional<number>, d: number, dq: Optional<number>)
+
+            b: boolean;
+
+            bq?: boolean;
+
+            ui8: number;
+
+            ui8q?: number;
+
+            ui16: number;
+
+            ui16q?: number;
+
+            ui32: number;
+
+            ui32q?: number;
+
+            i8: number;
+
+            i8q?: number;
+
+            i16: number;
+
+            i16q?: number;
+
+            i32: number;
+
+            i32q?: number;
+
+            f: number;
+
+            fq?: number;
+
+            d: number;
+
+            dq?: number;
+
+            /**
+             * <!-- FishyJoes.export(staticPropery) -->
+             */
+            static readonly staticPropery: number[];
+
+            /**
+             * <!-- FishyJoes.export(staticMutablePropery) -->
+             */
+            static staticMutablePropery: number[];
+        }
+    }
 }
 
 export declare function init(): Promise<typeof TestAPI>;
