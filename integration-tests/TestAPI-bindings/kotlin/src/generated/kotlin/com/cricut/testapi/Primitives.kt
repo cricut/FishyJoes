@@ -240,6 +240,105 @@ sealed class Primitives {
         @JvmStatic
         private external fun __jni_get_maxDouble(): Double
 
+        /**
+         * <!-- FishyJoes.export(echoBool) -->
+         */
+        fun echoBool(
+            value: Boolean
+        ): Boolean = __jni_echoBool(value)
+        @JvmStatic
+        private external fun __jni_echoBool(
+            value: Boolean
+        ): Boolean
+
+        /**
+         * <!-- FishyJoes.export(echoUInt8) -->
+         */
+        fun echoUInt8(
+            value: UByte
+        ): UByte = __jni_echoUInt8(value.toByte()).toUByte()
+        @JvmStatic
+        private external fun __jni_echoUInt8(
+            value: Byte
+        ): Byte
+
+        /**
+         * <!-- FishyJoes.export(echoUInt16) -->
+         */
+        fun echoUInt16(
+            value: UShort
+        ): UShort = __jni_echoUInt16(value.toShort()).toUShort()
+        @JvmStatic
+        private external fun __jni_echoUInt16(
+            value: Short
+        ): Short
+
+        /**
+         * <!-- FishyJoes.export(echoUInt32) -->
+         */
+        fun echoUInt32(
+            value: UInt
+        ): UInt = __jni_echoUInt32(value.toInt()).toUInt()
+        @JvmStatic
+        private external fun __jni_echoUInt32(
+            value: Int
+        ): Int
+
+        /**
+         * <!-- FishyJoes.export(echoInt8) -->
+         */
+        fun echoInt8(
+            value: Byte
+        ): Byte = __jni_echoInt8(value)
+        @JvmStatic
+        private external fun __jni_echoInt8(
+            value: Byte
+        ): Byte
+
+        /**
+         * <!-- FishyJoes.export(echoInt16) -->
+         */
+        fun echoInt16(
+            value: Short
+        ): Short = __jni_echoInt16(value)
+        @JvmStatic
+        private external fun __jni_echoInt16(
+            value: Short
+        ): Short
+
+        /**
+         * <!-- FishyJoes.export(echoInt32) -->
+         */
+        fun echoInt32(
+            value: Int
+        ): Int = __jni_echoInt32(value)
+        @JvmStatic
+        private external fun __jni_echoInt32(
+            value: Int
+        ): Int
+
+        /**
+         * <!-- FishyJoes.export(echoFloat) -->
+         */
+        fun echoFloat(
+            value: Float
+        ): Float = __jni_echoFloat(value)
+        @JvmStatic
+        private external fun __jni_echoFloat(
+            value: Float
+        ): Float
+
+        /**
+         * <!-- FishyJoes.export(echoDouble) -->
+         */
+        fun echoDouble(
+            value: Double
+        ): Double = __jni_echoDouble(value)
+        @JvmStatic
+        private external fun __jni_echoDouble(
+            value: Double
+        ): Double
+
         init {
             LibraryLoader.ensureLoaded("TestAPI")
         }

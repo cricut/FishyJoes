@@ -55,6 +55,51 @@ public func JNIOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try Primitives.javaSetup(env: env)
         try env.RegisterNatives(Primitives.javaClass,
             JNINativeMethod(
+                name: bag.add("__jni_echoBool"),
+                signature: bag.add("(Z)Z"),
+                fnPtr: unsafeBitCast(java_Primitives_echoBool, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_echoUInt8"),
+                signature: bag.add("(B)B"),
+                fnPtr: unsafeBitCast(java_Primitives_echoUInt8, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_echoUInt16"),
+                signature: bag.add("(S)S"),
+                fnPtr: unsafeBitCast(java_Primitives_echoUInt16, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_echoUInt32"),
+                signature: bag.add("(I)I"),
+                fnPtr: unsafeBitCast(java_Primitives_echoUInt32, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_echoInt8"),
+                signature: bag.add("(B)B"),
+                fnPtr: unsafeBitCast(java_Primitives_echoInt8, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_echoInt16"),
+                signature: bag.add("(S)S"),
+                fnPtr: unsafeBitCast(java_Primitives_echoInt16, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_echoInt32"),
+                signature: bag.add("(I)I"),
+                fnPtr: unsafeBitCast(java_Primitives_echoInt32, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_echoFloat"),
+                signature: bag.add("(F)F"),
+                fnPtr: unsafeBitCast(java_Primitives_echoFloat, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_echoDouble"),
+                signature: bag.add("(D)D"),
+                fnPtr: unsafeBitCast(java_Primitives_echoDouble, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
                 name: bag.add("__jni_get_falseBool"),
                 signature: bag.add("()Z"),
                 fnPtr: unsafeBitCast(java_get_Primitives_falseBool, to: UnsafeMutableRawPointer.self)

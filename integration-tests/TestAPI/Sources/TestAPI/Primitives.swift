@@ -79,4 +79,27 @@ public enum Primitives {
     public static let minDouble: Double = -.greatestFiniteMagnitude
     /// <!-- FishyJoes.export(maxDouble) -->
     public static let maxDouble: Double = .greatestFiniteMagnitude
+    
+    /// <!-- FishyJoes.export(echoBool) -->
+    public static func echoBool(value: Bool) -> Bool { return value }
+    /// <!-- FishyJoes.export(echoUInt8) -->
+    public static func echoUInt8(value: UInt8) -> UInt8 { return value }
+    /// <!-- FishyJoes.export(echoUInt16) -->
+    public static func echoUInt16(value: UInt16) -> UInt16 { return value }
+    /// <!-- FishyJoes.export(echoUInt32) -->
+    public static func echoUInt32(value: UInt32) -> UInt32 { return value }
+//    /// <!-- FishyJoes.export(echoUInt64) -->
+//    public static func echoUInt64(value: UInt64) -> UInt64 { return value }
+    /// <!-- FishyJoes.export(echoInt8) -->
+    public static func echoInt8(value: Int8) -> Int8 { return value }
+    /// <!-- FishyJoes.export(echoInt16) -->
+    public static func echoInt16(value: Int16) -> Int16 { return value }
+    /// <!-- FishyJoes.export(echoInt32) -->
+    public static func echoInt32(value: Int32) -> Int32 { return value }
+//    /// <!-- FishyJoes.export(echoInt64) -->
+//    public static func echoInt64(value: Int64) -> Int64 { return value }
+    /// <!-- FishyJoes.export(echoFloat) -->
+    public static func echoFloat(value: Float) -> Float { return value }
+    /// <!-- FishyJoes.export(echoDouble) -->
+    public static func echoDouble(value: Double) -> Double { return value }
 }

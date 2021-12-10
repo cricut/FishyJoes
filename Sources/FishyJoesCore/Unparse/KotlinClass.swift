@@ -121,7 +121,7 @@ class KotlinClass {
             if let body = method.body {
                 fragment.output(" = \(body)\(method.returnType.toKotlinType)")
             } else {
-                fragment.output(" = __jni_\(method.name)(\(method.parameters.map({ "\($0.name)\($0.type.toKotlinType)" }).joined(separator: ", ")))")
+                fragment.output(" = __jni_\(method.name)(\(method.parameters.map({ "\($0.name)\($0.type.toJVMType)" }).joined(separator: ", ")))\(method.returnType.toKotlinType)")
             }
         }
         if method.body == nil {
