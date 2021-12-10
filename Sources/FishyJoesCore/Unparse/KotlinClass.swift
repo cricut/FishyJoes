@@ -168,14 +168,22 @@ extension KotlinClass.KType: CustomStringConvertible {
     var toJVMType: String {
         switch self {
         case .unsigned: return ".to\(jvmType)()"
-        case let .optional(wrapped): return "?.to\(wrapped.jvmType)()"
+        case let .optional(wrapped):
+            switch wrapped {
+            case .unsigned: return "?.to\(wrapped.jvmType)()"
+            default: return ""
+            }
         default: return ""
         }
     }
     var toKotlinType: String {
         switch self {
         case .unsigned: return ".to\(kotlinType)()"
-        case let .optional(wrapped): return "?.to\(wrapped.kotlinType)()"
+        case let .optional(wrapped):
+            switch wrapped {
+            case .unsigned: return "?.to\(wrapped.kotlinType)()"
+            default: return ""
+            }
         default: return ""
         }
     }

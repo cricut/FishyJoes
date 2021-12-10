@@ -102,4 +102,27 @@ public enum Primitives {
     public static func echoFloat(value: Float) -> Float { return value }
     /// <!-- FishyJoes.export(echoDouble) -->
     public static func echoDouble(value: Double) -> Double { return value }
+    
+    /// <!-- FishyJoes.export(maybeEchoBool) -->
+    public static func maybeEchoBool(value: Bool?) -> Bool? { return value }
+    /// <!-- FishyJoes.export(maybeEchoUInt8) -->
+    public static func maybeEchoUInt8(value: UInt8?) -> UInt8? { return value }
+    /// <!-- FishyJoes.export(maybeEchoUInt16) -->
+    public static func maybeEchoUInt16(value: UInt16?) -> UInt16? { return value }
+    /// <!-- FishyJoes.export(maybeEchoUInt32) -->
+    public static func maybeEchoUInt32(value: UInt32?) -> UInt32? { return value }
+//    /// <!-- FishyJoes.export(maybeEchoUInt64?) -->
+//    public static func maybeEchoUInt64(value: UInt64?) -> UInt64? { return value }
+    /// <!-- FishyJoes.export(maybeEchoInt8) -->
+    public static func maybeEchoInt8(value: Int8?) -> Int8? { return value }
+    /// <!-- FishyJoes.export(maybeEchoInt16) -->
+    public static func maybeEchoInt16(value: Int16?) -> Int16? { return value }
+    /// <!-- FishyJoes.export(maybeEchoInt32) -->
+    public static func maybeEchoInt32(value: Int32?) -> Int32? { return value }
+//    /// <!-- FishyJoes.export(maybeEchoInt64) -->
+//    public static func maybeEchoInt64(value: Int64?) -> Int64? { return value }
+    /// <!-- FishyJoes.export(maybeEchoFloat) -->
+    public static func maybeEchoFloat(value: Float?) -> Float? { return value }
+    /// <!-- FishyJoes.export(maybeEchoDouble) -->
+    public static func maybeEchoDouble(value: Double?) -> Double? { return value }
 }
