@@ -25,7 +25,7 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(Primitives.PrimitiveHolder) -->
          */
         export class PrimitiveHolder {
-            constructor(b: boolean, bq: Optional<boolean>, ui8: number, ui8q: Optional<number>, ui16: number, ui16q: Optional<number>, ui32: number, ui32q: Optional<number>, i8: number, i8q: Optional<number>, i16: number, i16q: Optional<number>, i32: number, i32q: Optional<number>, f: number, fq: Optional<number>, d: number, dq: Optional<number>)
+            constructor(b: boolean, bq: Optional<boolean>, ui8: number, ui8q: Optional<number>, ui16: number, ui16q: Optional<number>, ui32: number, ui32q: Optional<number>, ui64: bigint, ui64q: Optional<bigint>, i8: number, i8q: Optional<number>, i16: number, i16q: Optional<number>, i32: number, i32q: Optional<number>, i64: bigint, i64q: Optional<bigint>, f: number, fq: Optional<number>, d: number, dq: Optional<number>)
 
             b: boolean;
 
@@ -43,6 +43,10 @@ export declare namespace TestAPI {
 
             ui32q?: number;
 
+            ui64: bigint;
+
+            ui64q?: bigint;
+
             i8: number;
 
             i8q?: number;
@@ -54,6 +58,10 @@ export declare namespace TestAPI {
             i32: number;
 
             i32q?: number;
+
+            i64: bigint;
+
+            i64q?: bigint;
 
             f: number;
 

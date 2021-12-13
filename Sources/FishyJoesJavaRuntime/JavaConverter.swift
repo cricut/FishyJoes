@@ -214,6 +214,7 @@ extension UInt32: JavaConverter {
 }
 
 extension UInt64: JavaConverter {
+    // NOTE: CType is jlong, which is defined as Int, but is guaranteed by the JNI to be 64-bits
     public typealias CType = jlong
 
     public static var javaClass: jclass?
@@ -223,7 +224,7 @@ extension UInt64: JavaConverter {
     private static var coerceSigned: jmethodID!
     
     public static func fromJava(_ value: CType, env: Env) throws -> Self { .init(bitPattern: Int64(value)) }
-    public static func toJava(_ value: Self, env: Env) throws -> CType { CType(.init(bitPattern: value)) }
+    public static func toJava(_ value: Self, env: Env) throws -> CType { CType(Int64.init(bitPattern: value)) }
 
     public static func fromJava(object: jobject?, env: Env) throws -> Self {
         let signed = try env.CallStaticLongMethod(unsignedConverterClass, Self.coerceUnsigned, jvalue(object))
@@ -252,15 +253,15 @@ extension Int8: JavaConverter {
     private static var _valueMethodID: jmethodID!
     private static var _constructorMethodID: jmethodID!
 
-    public static func fromJava(_ value: jbyte, env: Env) throws -> Self { value }
-    public static func toJava(_ value: Self, env: Env) throws -> jbyte { value }
+    public static func fromJava(_ value: CType, env: Env) throws -> Self { value }
+    public static func toJava(_ value: Self, env: Env) throws -> CType { value }
 
     public static func fromJava(object: jobject?, env: Env) throws -> Self {
         try env.CallByteMethod(object, Self._valueMethodID)
     }
 
     public static func toJavaObject(_ value: Self, env: Env) throws -> jobject? {
-        try env.NewObject(Self.javaClass, Self._constructorMethodID, jvalue(b: value))
+        try env.NewObject(Self.javaClass, Self._constructorMethodID, jvalue(value))
     }
 
     public static func javaSetup(env: Env) throws {
@@ -279,15 +280,15 @@ extension Int16: JavaConverter {
     private static var _valueMethodID: jmethodID!
     private static var _constructorMethodID: jmethodID!
 
-    public static func fromJava(_ value: jshort, env: Env) throws -> Self { value }
-    public static func toJava(_ value: Self, env: Env) throws -> jshort { value }
+    public static func fromJava(_ value: CType, env: Env) throws -> Self { value }
+    public static func toJava(_ value: Self, env: Env) throws -> CType { value }
 
     public static func fromJava(object: jobject?, env: Env) throws -> Self {
         try env.CallShortMethod(object, Self._valueMethodID)
     }
 
     public static func toJavaObject(_ value: Self, env: Env) throws -> jobject? {
-        try env.NewObject(Self.javaClass, Self._constructorMethodID, jvalue(s: value))
+        try env.NewObject(Self.javaClass, Self._constructorMethodID, jvalue(value))
     }
 
     public static func javaSetup(env: Env) throws {
@@ -306,15 +307,15 @@ extension Int32: JavaConverter {
     private static var _valueMethodID: jmethodID!
     private static var _constructorMethodID: jmethodID!
 
-    public static func fromJava(_ value: jint, env: Env) throws -> Self { value }
-    public static func toJava(_ value: Self, env: Env) throws -> jint { value }
+    public static func fromJava(_ value: CType, env: Env) throws -> Self { value }
+    public static func toJava(_ value: Self, env: Env) throws -> CType { value }
 
     public static func fromJava(object: jobject?, env: Env) throws -> Self {
         try env.CallIntMethod(object, Self._valueMethodID)
     }
 
     public static func toJavaObject(_ value: Self, env: Env) throws -> jobject? {
-        try env.NewObject(Self.javaClass, Self._constructorMethodID, jvalue(i: value))
+        try env.NewObject(Self.javaClass, Self._constructorMethodID, jvalue(value))
     }
 
     public static func javaSetup(env: Env) throws {
@@ -326,6 +327,7 @@ extension Int32: JavaConverter {
 }
 
 extension Int64: JavaConverter {
+    // NOTE: CType is jlong, which is defined as Int, but is guaranteed by the JNI to be 64-bits
     public typealias CType = jlong
 
     public static var javaClass: jclass?
@@ -333,20 +335,15 @@ extension Int64: JavaConverter {
     private static var _valueMethodID: jmethodID!
     private static var _constructorMethodID: jmethodID!
 
-    public static func fromJava(_ value: jlong, env: Env) throws -> Self {
-        Int64(value)
-    }
-
-    public static func toJava(_ value: Self, env: Env) throws -> jlong {
-        jlong(value)
-    }
+    public static func fromJava(_ value: CType, env: Env) throws -> Self { Self(value) }
+    public static func toJava(_ value: Self, env: Env) throws -> CType { CType(value) }
 
     public static func fromJava(object: jobject?, env: Env) throws -> Self {
-        Int64(try env.CallLongMethod(object, Self._valueMethodID))
+        Self(try env.CallLongMethod(object, Self._valueMethodID))
     }
 
     public static func toJavaObject(_ value: Self, env: Env) throws -> jobject? {
-        try env.NewObject(Self.javaClass, Self._constructorMethodID, jvalue(j: jlong(value)))
+        try env.NewObject(Self.javaClass, Self._constructorMethodID, jvalue(CType(value)))
     }
 
     public static func javaSetup(env: Env) throws {
@@ -363,12 +360,12 @@ extension Int: JavaConverter {
     public static var javaClass: jclass? { Int64.javaClass }
     public static var javaDescriptor: String { Int64.javaDescriptor }
 
-    public static func fromJava(_ value: jlong, env: Env) throws -> Self {
+    public static func fromJava(_ value: Int64.CType, env: Env) throws -> Self {
         try Self(Int64.fromJava(value, env: env))
     }
 
-    public static func toJava(_ value: Self, env: Env) throws -> jlong {
-        jlong(value)
+    public static func toJava(_ value: Self, env: Env) throws -> Int64.CType {
+        Int64.CType(value)
     }
 
     public static func fromJava(object value: jobject?, env: Env) throws -> Self {

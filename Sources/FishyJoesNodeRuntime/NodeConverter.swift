@@ -79,25 +79,26 @@ extension UInt32: NodeConverter {
 
     public static func toNode(_ value: Self, env: napi_env) throws -> napi_value? {
         var result: napi_value?
-        try check(napi_create_uint32(env, UInt32(value), &result))
+        try check(napi_create_uint32(env, value, &result))
         return result
     }
 }
 
-// TODO: Use BigInt?
-//extension UInt64: NodeConverter {
-//    public static func fromNode(_ value: napi_value?, env: napi_env) throws -> Self {
-//        var result = UInt64(0)
-//        try check(napi_get_value_uint64(env, value, &result))
-//        return .init(result)
-//    }
-//
-//    public static func toNode(_ value: Self, env: napi_env) throws -> napi_value? {
-//        var result: napi_value?
-//        try check(napi_create_uint64(env, UInt32(value), &result))
-//        return result
-//    }
-//}
+extension UInt64: NodeConverter {
+    public static func fromNode(_ value: napi_value?, env: napi_env) throws -> Self {
+        var result = UInt64(0)
+        var lossless = true
+        try check(napi_get_value_bigint_uint64(env, value, &result, &lossless))
+        if !lossless { throw JSException(message: "requested conversion of invalid bigint to uint64") }
+        return .init(result)
+    }
+
+    public static func toNode(_ value: Self, env: napi_env) throws -> napi_value? {
+        var result: napi_value?
+        try check(napi_create_bigint_uint64(env, value, &result))
+        return result
+    }
+}
 
 extension Int8: NodeConverter {
     public static func fromNode(_ value: napi_value?, env: napi_env) throws -> Self {
@@ -141,20 +142,21 @@ extension Int32: NodeConverter {
     }
 }
 
-// TODO: Use BigInt?
-//extension Int64: NodeConverter {
-//    public static func fromNode(_ value: napi_value?, env: napi_env) throws -> Self {
-//        var result = Int64(0)
-//        try check(napi_get_value_uint64(env, value, &result))
-//        return .init(result)
-//    }
-//
-//    public static func toNode(_ value: Self, env: napi_env) throws -> napi_value? {
-//        var result: napi_value?
-//        try check(napi_create_uint64(env, UInt64(value), &result))
-//        return result
-//    }
-//}
+extension Int64: NodeConverter {
+    public static func fromNode(_ value: napi_value?, env: napi_env) throws -> Self {
+        var result = Int64(0)
+        var lossless = true
+        try check(napi_get_value_bigint_int64(env, value, &result, &lossless))
+        if !lossless { throw JSException(message: "requested conversion of invalid bigint to int64") }
+        return .init(result)
+    }
+
+    public static func toNode(_ value: Self, env: napi_env) throws -> napi_value? {
+        var result: napi_value?
+        try check(napi_create_bigint_int64(env, value, &result))
+        return result
+    }
+}
 
 extension Int: NodeConverter {
     public static func fromNode(_ value: napi_value?, env: napi_env) throws -> Int {
