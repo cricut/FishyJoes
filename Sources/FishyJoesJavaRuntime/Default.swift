@@ -2,8 +2,11 @@ public protocol Default {
     static var `default`: Self { get }
 }
 
-extension Int: Default { public static let `default`: Self = 0 }
-extension Int32: Default { public static let `default`: Self = 0 }
-extension UInt8: Default { public static let `default`: Self = 0 }
-extension Double: Default { public static let `default`: Self = .nan }
+extension jboolean: Default { public static let `default`: Self = 0 }
+extension jbyte: Default { public static let `default`: Self = 0 }
+extension jshort: Default { public static let `default`: Self = 0 }
+extension jint: Default { public static let `default`: Self = 0 }
+extension jlong: Default { public static let `default`: Self = 0 }
+extension jfloat: Default { public static let `default`: Self = 0 }
+extension jdouble: Default { public static let `default`: Self = 0 }
 extension Optional: Default { public static var `default`: Self { nil } }

@@ -1,6 +1,7 @@
 class KotlinClass {
     indirect enum KType: Equatable {
         case void
+        case unsigned(jniType: JNIType)
         case named(package: String?, name: String)
         case optional(KType)
     }
@@ -83,21 +84,24 @@ class KotlinClass {
 
     func output(field: Variable, to fragment: SourceFragment) {
         document(field.documentation, fragment: fragment)
-        fragment.output("\(field.isOverride ? "override " : "")\(field.readOnly ? "val" : "var") \(field.name): \(field.type)")
-        fragment.output("  get() = __jni_get_\(field.name)()")
+        fragment.output("\(field.isOverride ? "override " : "")\(field.readOnly ? "val" : "var") \(field.name): \(field.type.kotlinType)")
+        fragment.output("  get() = __jni_get_\(field.name)()\(field.type.toKotlinType)")
         if !field.readOnly {
-            fragment.output("  set(value) { __jni_set_\(field.name)(value) } ")
+            fragment.output("  set(value) { __jni_set_\(field.name)(value\(field.type.toJVMType)) } ")
         }
 
         if field.isStatic {
             fragment.output("@JvmStatic")
         }
-        fragment.output("private external fun __jni_get_\(field.name)(): \(field.type)")
+
+        fragment.output("@JvmName(\"__jni_get_\(field.name)\")")
+        fragment.output("private external fun __jni_get_\(field.name)(): \(field.type.jvmType)")
         if !field.readOnly {
             if field.isStatic {
                 fragment.output("@JvmStatic")
             }
-            fragment.output("private external fun __jni_set_\(field.name)(newValue: \(field.type))")
+            fragment.output("@JvmName(\"__jni_set_\(field.name)\")")
+            fragment.output("private external fun __jni_set_\(field.name)(newValue: \(field.type.jvmType))")
         }
         fragment.blankLine()
     }
@@ -111,29 +115,30 @@ class KotlinClass {
             fragment.outputBlock("fun \(method.name)(", newLineTerminated: false) {
                 fragment.outputMap(method.parameters, separator: ",") { parameter in
                     let labelComment = parameter.labelComment.map { "/* \($0) */ " } ?? ""
-                    return "\(labelComment)\(parameter.name): \(parameter.type)"
+                    return "\(labelComment)\(parameter.name): \(parameter.type.kotlinType)"
                 }
             }
             if method.returnType != KType.void {
-                fragment.output(": \(method.returnType)", newLineTerminated: false)
+                fragment.output(": \(method.returnType.kotlinType)", newLineTerminated: false)
             }
             if let body = method.body {
-                fragment.output(" = \(body)")
+                fragment.output(" = \(body)\(method.returnType.toKotlinType)")
             } else {
-                fragment.output(" = __jni_\(method.name)(\(method.parameters.map(\.name).joined(separator: ", ")))")
+                fragment.output(" = __jni_\(method.name)(\(method.parameters.map({ "\($0.name)\($0.type.toJVMType)" }).joined(separator: ", ")))\(method.returnType.toKotlinType)")
             }
         }
         if method.body == nil {
             if method.isStatic {
                 fragment.output("@JvmStatic")
             }
+            fragment.output("@JvmName(\"__jni_\(method.name)\")")
             fragment.outputBlock("private external fun __jni_\(method.name)(", newLineTerminated: false) {
                 fragment.outputMap(method.parameters, separator: ",") { parameter in
-                    return "\(parameter.name): \(parameter.type)"
+                    return "\(parameter.name): \(parameter.type.jvmType)"
                 }
             }
             if method.returnType != KType.void {
-                fragment.output(": \(method.returnType)", newLineTerminated: false)
+                fragment.output(": \(method.returnType.jvmType)", newLineTerminated: false)
             }
             fragment.output()
         }
@@ -143,11 +148,37 @@ class KotlinClass {
 
 extension KotlinClass.KType: CustomStringConvertible {
     var description: String {
+        "FIXME: You should not use this, you should use one of the representations below. \(jvmType)"
+    }
+
+    var jvmType: String {
+        switch self {
+        case let .unsigned(jniType): return jniType.valueType
+        default: return kotlinType
+        }
+    }
+
+    var kotlinType: String {
         switch self {
         case .void: return "Void"
+        case let .unsigned(jniType): return "U\(jniType.valueType)"
         case let .named(.none, name): return name
         case let .named(.some(package), name): return "\(package).\(name)"
-        case let .optional(wrapped): return "\(wrapped)?"
+        case let .optional(wrapped): return "\(wrapped.kotlinType)?"
+        default: return jvmType
+        }
+    }
+
+    var toJVMType: String {
+        switch self {
+        case .unsigned: return ".to\(jvmType)()"
+        default: return ""
+        }
+    }
+    var toKotlinType: String {
+        switch self {
+        case .unsigned: return ".to\(kotlinType)()"
+        default: return ""
         }
     }
 }
@@ -208,7 +239,7 @@ class KotlinProductClass: KotlinClass {
         }
         fragment.outputBlock("\(classDeclaration)(") {
             fragment.outputMap(constructor.fields, separator: ",") { field in
-                "\(constructor.private ? "private " : "")\(field.readOnly ? "val" : "var") \(field.name): \(field.type)"
+                "\(constructor.private ? "private " : "")\(field.readOnly ? "val" : "var") \(field.name): \(field.type.kotlinType)"
             }
         }
         fragment.outputBlock(" {") {
@@ -278,7 +309,7 @@ class KotlinEnumClass: KotlinClass {
                     document(documentation, fragment: fragment)
                     fragment.outputBlock("data class \(name)(", newLineTerminated: false) {
                         fragment.outputMap(values, separator: ",") { value in
-                            "var \(value.name): \(value.type)"
+                            "var \(value.name): \(value.type.kotlinType)"
                         }
                     }
                     fragment.output(" : \(unqualifiedName)()")

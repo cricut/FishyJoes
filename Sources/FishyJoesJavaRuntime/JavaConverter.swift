@@ -120,6 +120,130 @@ extension Bool: JavaConverter {
     }
 }
 
+extension UInt8: JavaConverter {
+    public typealias CType = jbyte
+
+    public static var javaClass: jclass?
+    public static var javaDescriptor: String { "B" }
+    private static var unsignedConverterClass: jclass?
+    private static var coerceUnsigned: jmethodID!
+    private static var coerceSigned: jmethodID!
+    
+    public static func fromJava(_ value: CType, env: Env) throws -> Self { .init(bitPattern: value) }
+    public static func toJava(_ value: Self, env: Env) throws -> CType { .init(bitPattern: value) }
+
+    public static func fromJava(object: jobject?, env: Env) throws -> Self {
+        let signed = try env.CallStaticByteMethod(unsignedConverterClass, Self.coerceUnsigned, jvalue(object))
+        return .init(bitPattern: signed)
+    }
+
+    public static func toJavaObject(_ value: Self, env: Env) throws -> jobject? {
+        let signed = CType(bitPattern: value)
+        return try env.CallStaticObjectMethod(unsignedConverterClass, Self.coerceSigned, jvalue(signed))
+    }
+
+    public static func javaSetup(env: Env) throws {
+        guard javaClass == nil else { return }
+        javaClass = try env.globalRef(env.FindClass("kotlin/UByte"))
+        unsignedConverterClass = try env.globalRef(env.FindClass("com/cricut/fishyjoes/runtime/UnsignedIntegerConverter"))
+        coerceUnsigned = try env.GetStaticMethodID(unsignedConverterClass, "coerceUByteToByte", "(Lkotlin/UByte;)B")
+        coerceSigned = try env.GetStaticMethodID(unsignedConverterClass, "coerceByteToUByte", "(B)Lkotlin/UByte;")
+    }
+}
+
+extension UInt16: JavaConverter {
+    public typealias CType = jshort
+
+    public static var javaClass: jclass?
+    public static var javaDescriptor: String { "S" }
+    private static var unsignedConverterClass: jclass?
+    private static var coerceUnsigned: jmethodID!
+    private static var coerceSigned: jmethodID!
+    
+    public static func fromJava(_ value: CType, env: Env) throws -> Self { .init(bitPattern: value) }
+    public static func toJava(_ value: Self, env: Env) throws -> CType { .init(bitPattern: value) }
+
+    public static func fromJava(object: jobject?, env: Env) throws -> Self {
+        let signed = try env.CallStaticShortMethod(unsignedConverterClass, Self.coerceUnsigned, jvalue(object))
+        return .init(bitPattern: signed)
+    }
+
+    public static func toJavaObject(_ value: Self, env: Env) throws -> jobject? {
+        let signed = CType(bitPattern: value)
+        return try env.CallStaticObjectMethod(unsignedConverterClass, Self.coerceSigned, jvalue(signed))
+    }
+
+    public static func javaSetup(env: Env) throws {
+        guard javaClass == nil else { return }
+        javaClass = try env.globalRef(env.FindClass("java/lang/Short"))
+        unsignedConverterClass = try env.globalRef(env.FindClass("com/cricut/fishyjoes/runtime/UnsignedIntegerConverter"))
+        coerceUnsigned = try env.GetStaticMethodID(unsignedConverterClass, "coerceUShortToShort", "(Lkotlin/UShort;)S")
+        coerceSigned = try env.GetStaticMethodID(unsignedConverterClass, "coerceShortToUShort", "(S)Lkotlin/UShort;")
+    }
+}
+
+extension UInt32: JavaConverter {
+    public typealias CType = jint
+
+    public static var javaClass: jclass?
+    public static var javaDescriptor: String { "I" }
+    private static var unsignedConverterClass: jclass?
+    private static var coerceUnsigned: jmethodID!
+    private static var coerceSigned: jmethodID!
+    
+    public static func fromJava(_ value: CType, env: Env) throws -> Self { .init(bitPattern: value) }
+    public static func toJava(_ value: Self, env: Env) throws -> CType { .init(bitPattern: value) }
+
+    public static func fromJava(object: jobject?, env: Env) throws -> Self {
+        let signed = try env.CallStaticIntMethod(unsignedConverterClass, Self.coerceUnsigned, jvalue(object))
+        return .init(bitPattern: signed)
+    }
+
+    public static func toJavaObject(_ value: Self, env: Env) throws -> jobject? {
+        let signed = CType(bitPattern: value)
+        return try env.CallStaticObjectMethod(unsignedConverterClass, Self.coerceSigned, jvalue(signed))
+    }
+
+    public static func javaSetup(env: Env) throws {
+        guard javaClass == nil else { return }
+        javaClass = try env.globalRef(env.FindClass("java/lang/Integer"))
+        unsignedConverterClass = try env.globalRef(env.FindClass("com/cricut/fishyjoes/runtime/UnsignedIntegerConverter"))
+        coerceUnsigned = try env.GetStaticMethodID(unsignedConverterClass, "coerceUIntToInt", "(Lkotlin/UInt;)I")
+        coerceSigned = try env.GetStaticMethodID(unsignedConverterClass, "coerceIntToUInt", "(I)Lkotlin/UInt;")
+    }
+}
+
+extension UInt64: JavaConverter {
+    public typealias CType = jlong
+
+    public static var javaClass: jclass?
+    public static var javaDescriptor: String { "J" }
+    private static var unsignedConverterClass: jclass?
+    private static var coerceUnsigned: jmethodID!
+    private static var coerceSigned: jmethodID!
+    
+    public static func fromJava(_ value: CType, env: Env) throws -> Self { .init(bitPattern: Int64(value)) }
+    public static func toJava(_ value: Self, env: Env) throws -> CType { CType(.init(bitPattern: value)) }
+
+    public static func fromJava(object: jobject?, env: Env) throws -> Self {
+        let signed = try env.CallStaticLongMethod(unsignedConverterClass, Self.coerceUnsigned, jvalue(object))
+        return .init(bitPattern: Int64(signed))
+    }
+
+    public static func toJavaObject(_ value: Self, env: Env) throws -> jobject? {
+        let signed = Int64(bitPattern: value)
+        return try env.CallStaticObjectMethod(unsignedConverterClass, Self.coerceSigned, jvalue(CType(signed)))
+    }
+
+    public static func javaSetup(env: Env) throws {
+        guard javaClass == nil else { return }
+        javaClass = try env.globalRef(env.FindClass("java/lang/Long"))
+        unsignedConverterClass = try env.globalRef(env.FindClass("com/cricut/fishyjoes/runtime/UnsignedIntegerConverter"))
+        coerceUnsigned = try env.GetStaticMethodID(unsignedConverterClass, "coerceULongToLong", "(Lkotlin/ULong;)J")
+        coerceSigned = try env.GetStaticMethodID(unsignedConverterClass, "coerceLongToULong", "(J)Lkotlin/ULong;")
+    }
+}
+
 extension Int8: JavaConverter {
     public typealias CType = jbyte
 
@@ -195,7 +319,7 @@ extension Int32: JavaConverter {
 
     public static func javaSetup(env: Env) throws {
         guard javaClass == nil else { return }
-        javaClass = try env.globalRef(env.FindClass("java/lang/Int"))
+        javaClass = try env.globalRef(env.FindClass("java/lang/Integer"))
         _valueMethodID = try env.GetMethodID(javaClass, "intValue", "()I")
         _constructorMethodID = try env.GetMethodID(javaClass, "<init>", "(I)V")
     }

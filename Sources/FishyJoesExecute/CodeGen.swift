@@ -358,7 +358,7 @@ extension CodeGen {
 
                     try cmd("npm", "run", "compile-test").run()
                     try cmd("mv", "output/test/test.js", "output/test/test.mjs").run()
-                    try cmd("node", "--expose-gc", "output/test/test.mjs").run()
+                    try cmd("node", "--expose-gc", "--unhandled-rejections=strict", "output/test/test.mjs").run()
                 case .kotlinSystem:
                     try FileManager.default.withCurrentDirectoryPath("kotlin") {
                         try cmd("./gradlew", "test").run()

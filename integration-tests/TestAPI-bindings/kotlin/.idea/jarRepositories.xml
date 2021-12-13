@@ -17,9 +17,9 @@
       <option name="url" value="https://repo.maven.apache.org/maven2/" />
     </remote-repository>
     <remote-repository>
-      <option name="id" value="GitHubPackagesSwiftRuntime" />
-      <option name="name" value="GitHubPackagesSwiftRuntime" />
-      <option name="url" value="https://maven.pkg.github.com/cricut/android-swift-runtime" />
+      <option name="id" value="GitHubPackagesFishyJoes" />
+      <option name="name" value="GitHubPackagesFishyJoes" />
+      <option name="url" value="https://maven.pkg.github.com/cricut/FishyJoes" />
     </remote-repository>
     <remote-repository>
       <option name="id" value="MavenLocal" />
