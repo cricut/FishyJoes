@@ -59,7 +59,7 @@
             ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
             <ActionContent
                title = "Run Script"
-               scriptText = "set -euxo pipefail&#10;exec &gt; ~/Desktop/FishyJoes-debug-codegen-prebuild.log 2&gt;&amp;1&#10;&#10;env&#10;shift path&#10;cd $WORKSPACE_PATH/../../../integration-tests/TestAPI-bindings&#10;$BUILT_PRODUCTS_DIR/fishy-joes generate --sourcery-dump-path=~/Desktop/sourcery-dump.plist&#10;"
+               scriptText = "set -euxo pipefail&#10;exec &gt; ~/Desktop/FishyJoes-debug-codegen-prebuild.log 2&gt;&amp;1&#10;&#10;env&#10;shift path&#10;cd $WORKSPACE_PATH/../../../integration-tests/TestAPI-bindings&#10;$BUILT_PRODUCTS_DIR/fishy-joes generate --sourcery-dump-path=$BUILT_PRODUCTS_DIR/sourcery-dump.plist&#10;"
                shellToInvoke = "/bin/zsh">
                <EnvironmentBuildable>
                   <BuildableReference
@@ -89,7 +89,7 @@
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "~/Desktop/sourcery-dump.plist"
+            argument = "$BUILT_PRODUCTS_DIR/sourcery-dump.plist"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>
