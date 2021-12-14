@@ -32,6 +32,9 @@ struct CodeGen: ParsableCommand {
     @Flag(name: .long, inversion: .prefixedNo, help: "Generate a Kotlin package without android support (much faster)")
     var kotlinFast: Bool = false
 
+    @Option(help: "Used for debugging fishy-joes code generation")
+    var sourceryDumpPath: String?
+
     enum BuildStep: String, CaseIterable, ExpressibleByArgument {
         case generate, build, test, pack
     }
@@ -234,7 +237,12 @@ extension CodeGen {
                     "--args", "module=\(config.module)",
                     "--args", "fishyJoesExecutable=.build/debug/fishy-joes-execution-helper",
                     "--output", "Sources/Generated"
-                ].compactMap { $0 }
+                ].compactMap { $0 },
+                addEnv: sourceryDumpPath.map {
+                    [
+                        "DUMP_SOURCERY_DATA": URL(fileURLWithPath: ($0 as NSString).expandingTildeInPath, isDirectory: false).path,
+                    ]
+                } ?? [:]
             ).run()
         }
 
