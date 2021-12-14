@@ -9,7 +9,6 @@ extension Primitives: JavaConverter {
     public typealias CType = jobject?
 
     public static var javaClass: jclass?
-    public static var javaDescriptor: String { "Lcom/cricut/testapi/Primitives;" }
 
     public static func fromJava(_ value: jobject?, env: Env) throws -> Self {
         throw JNIError(message: "invalid enum \(try env.javaDescription(value)) for Primitives")

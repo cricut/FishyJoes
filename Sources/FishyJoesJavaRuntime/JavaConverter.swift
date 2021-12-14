@@ -8,7 +8,6 @@ public protocol JavaConverter: Converter {
     associatedtype CType = jobject?
 
     static var javaClass: jclass? { get }
-    static var javaDescriptor: String { get }
 
     static func javaSetup(env: Env) throws
 
@@ -70,7 +69,6 @@ extension VoidConverter: JavaConverter {
     public typealias CType = Void
 
     public static var javaClass: jclass?
-    public static var javaDescriptor: String { "V" }
 
     public static func fromJava(_ value: Void, env: Env) throws -> Void {}
     public static func toJava(_ value: Void, env: Env) throws -> Void {}
@@ -88,7 +86,6 @@ extension Bool: JavaConverter {
     public typealias CType = jboolean
 
     public static var javaClass: jclass?
-    public static var javaDescriptor: String { "Z" }
     private static var _valueMethodID: jmethodID!
     private static var _javaTrue: jobject!
     private static var _javaFalse: jobject!
@@ -124,11 +121,10 @@ extension UInt8: JavaConverter {
     public typealias CType = jbyte
 
     public static var javaClass: jclass?
-    public static var javaDescriptor: String { "B" }
     private static var unsignedConverterClass: jclass?
     private static var coerceUnsigned: jmethodID!
     private static var coerceSigned: jmethodID!
-    
+
     public static func fromJava(_ value: CType, env: Env) throws -> Self { .init(bitPattern: value) }
     public static func toJava(_ value: Self, env: Env) throws -> CType { .init(bitPattern: value) }
 
@@ -155,11 +151,10 @@ extension UInt16: JavaConverter {
     public typealias CType = jshort
 
     public static var javaClass: jclass?
-    public static var javaDescriptor: String { "S" }
     private static var unsignedConverterClass: jclass?
     private static var coerceUnsigned: jmethodID!
     private static var coerceSigned: jmethodID!
-    
+
     public static func fromJava(_ value: CType, env: Env) throws -> Self { .init(bitPattern: value) }
     public static func toJava(_ value: Self, env: Env) throws -> CType { .init(bitPattern: value) }
 
@@ -186,11 +181,10 @@ extension UInt32: JavaConverter {
     public typealias CType = jint
 
     public static var javaClass: jclass?
-    public static var javaDescriptor: String { "I" }
     private static var unsignedConverterClass: jclass?
     private static var coerceUnsigned: jmethodID!
     private static var coerceSigned: jmethodID!
-    
+
     public static func fromJava(_ value: CType, env: Env) throws -> Self { .init(bitPattern: value) }
     public static func toJava(_ value: Self, env: Env) throws -> CType { .init(bitPattern: value) }
 
@@ -217,11 +211,10 @@ extension UInt64: JavaConverter {
     public typealias CType = jlong
 
     public static var javaClass: jclass?
-    public static var javaDescriptor: String { "J" }
     private static var unsignedConverterClass: jclass?
     private static var coerceUnsigned: jmethodID!
     private static var coerceSigned: jmethodID!
-    
+
     public static func fromJava(_ value: CType, env: Env) throws -> Self { .init(bitPattern: Int64(value)) }
     public static func toJava(_ value: Self, env: Env) throws -> CType { CType(.init(bitPattern: value)) }
 
@@ -248,7 +241,6 @@ extension Int8: JavaConverter {
     public typealias CType = jbyte
 
     public static var javaClass: jclass?
-    public static var javaDescriptor: String { "B" }
     private static var _valueMethodID: jmethodID!
     private static var _constructorMethodID: jmethodID!
 
@@ -275,7 +267,6 @@ extension Int16: JavaConverter {
     public typealias CType = jshort
 
     public static var javaClass: jclass?
-    public static var javaDescriptor: String { "S" }
     private static var _valueMethodID: jmethodID!
     private static var _constructorMethodID: jmethodID!
 
@@ -302,7 +293,6 @@ extension Int32: JavaConverter {
     public typealias CType = jint
 
     public static var javaClass: jclass?
-    public static var javaDescriptor: String { "I" }
     private static var _valueMethodID: jmethodID!
     private static var _constructorMethodID: jmethodID!
 
@@ -329,7 +319,6 @@ extension Int64: JavaConverter {
     public typealias CType = jlong
 
     public static var javaClass: jclass?
-    public static var javaDescriptor: String { "J" }
     private static var _valueMethodID: jmethodID!
     private static var _constructorMethodID: jmethodID!
 
@@ -361,7 +350,6 @@ extension Int: JavaConverter {
     public typealias CType = Int64.CType
 
     public static var javaClass: jclass? { Int64.javaClass }
-    public static var javaDescriptor: String { Int64.javaDescriptor }
 
     public static func fromJava(_ value: jlong, env: Env) throws -> Self {
         try Self(Int64.fromJava(value, env: env))
@@ -388,7 +376,6 @@ extension Float: JavaConverter {
     public typealias CType = jfloat
 
     public static var javaClass: jclass?
-    public static var javaDescriptor: String { "F" }
     private static var _valueMethodID: jmethodID!
     private static var _constructorMethodID: jmethodID!
 
@@ -415,7 +402,6 @@ extension Double: JavaConverter {
     public typealias CType = jdouble
 
     public static var javaClass: jclass?
-    public static var javaDescriptor: String { "D" }
     private static var _valueMethodID: jmethodID!
     private static var _constructorMethodID: jmethodID!
 
@@ -444,7 +430,6 @@ extension String: JavaConverter {
     public typealias CType = jstring?
 
     public static var javaClass: jclass?
-    public static var javaDescriptor: String { "Ljava/lang/String;" }
 
     public static func fromJava(_ value: jstring?, env: Env) throws -> Self {
         let length = env.GetStringLength(value)
@@ -473,7 +458,6 @@ extension Data: JavaConverter {
     public typealias CType = jbyteArray?
 
     public static var javaClass: jclass?
-    public static var javaDescriptor: String { "[B" }
 
     public static func fromJava(_ value: jbyteArray?, env: Env) throws -> Self {
         let length = env.GetArrayLength(value)
@@ -621,9 +605,6 @@ extension ArrayConverter: JavaConverter where ElementConverter: JavaConverter {
     public static var javaClass: jclass? {
         JavaList.listClass
     }
-    public static var javaDescriptor: String {
-        "Ljava/util/List;"
-    }
 
     public static func fromJava(_ value: jobject?, env: Env) throws -> SwiftType {
         var result = SwiftType()
@@ -656,9 +637,6 @@ extension DictionaryConverter: JavaConverter where
 {
     public static var javaClass: jclass? {
         JavaMap.mapClass
-    }
-    public static var javaDescriptor: String {
-        "Ljava/util/Map;"
     }
 
     public static func fromJava(_ value: jobject?, env: Env) throws -> SwiftType {
@@ -699,9 +677,6 @@ extension SetConverter: JavaConverter where ElementConverter: JavaConverter, Ele
     public static var javaClass: jclass? {
         JavaSet.setClass
     }
-    public static var javaDescriptor: String {
-        "Ljava/util/Set;"
-    }
 
     public static func fromJava(_ value: jobject?, env: Env) throws -> SwiftType {
         var result = SwiftType()
@@ -732,9 +707,6 @@ extension SetConverter: JavaConverter where ElementConverter: JavaConverter, Ele
 extension OptionalConverter: JavaConverter where WrappedConverter: JavaConverter {
     public static var javaClass: jclass? {
         WrappedConverter.javaClass
-    }
-    public static var javaDescriptor: String {
-        WrappedConverter.javaDescriptor
     }
 
     public static func fromJava(_ value: jobject?, env: Env) throws -> SwiftType {
@@ -768,9 +740,6 @@ fileprivate var pairSecondMethod: jmethodID!
 extension Tuple2Converter: JavaConverter where T0: JavaConverter, T1: JavaConverter {
     public static var javaClass: jclass? {
         pairClass
-    }
-    public static var javaDescriptor: String {
-        "Lkotlin/Pair;"
     }
 
     public static func fromJava(_ value: jobject?, env: Env) throws -> SwiftType {
@@ -812,9 +781,6 @@ fileprivate var tripleThirdMethod: jmethodID!
 extension Tuple3Converter: JavaConverter where T0: JavaConverter, T1: JavaConverter, T2: JavaConverter {
     public static var javaClass: jclass? {
         tripleClass
-    }
-    public static var javaDescriptor: String {
-        "Lkotlin/Triple;"
     }
 
     public static func fromJava(_ value: jobject?, env: Env) throws -> SwiftType {
@@ -863,9 +829,6 @@ fileprivate var tuple4FourthMethod: jmethodID!
 extension Tuple4Converter: JavaConverter where T0: JavaConverter, T1: JavaConverter, T2: JavaConverter, T3: JavaConverter {
     public static var javaClass: jclass? {
         tuple4Class
-    }
-    public static var javaDescriptor: String {
-        "Lcom/cricut/fishyjoes/runtime/Tuple4;"
     }
 
     public static func fromJava(_ value: jobject?, env: Env) throws -> SwiftType {

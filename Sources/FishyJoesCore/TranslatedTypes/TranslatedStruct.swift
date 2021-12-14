@@ -156,7 +156,6 @@ struct TranslatedStruct: TranslatedType {
             fragment.blankLine()
 
             fragment.output("public static var javaClass: jclass?")
-            fragment.output("public static var javaDescriptor: String { \"L\(className);\" }")
             for storedVar in storedVariables {
                 fragment.output("private static var _java_\(storedVar.name)_id: jfieldID!")
             }
@@ -200,7 +199,7 @@ struct TranslatedStruct: TranslatedType {
                 }
                 fragment.output("_constructorMethodID = try env.GetMethodID(javaClass, \"<init>\", \"(\(constructorDescriptor))V\")")
             }
-                
+
             fragment.outputBlock("public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout Self) throws -> R) throws -> R {") {
                 fragment.output("var mutatingSelf = try fromJava(this, env: env)")
                 fragment.output("let result = try body(&mutatingSelf)")

@@ -111,9 +111,6 @@ extension Function0Converter: JavaConverter where R: JavaConverter {
     public static var javaClass: jclass? {
         SwiftFunctionImpl.implClass
     }
-    public static var javaDescriptor: String {
-        "Lkotlin.jvm.functions.Function0;"
-    }
 
     public static func fromJava(_ value: jobject?, env: Env) throws -> SwiftType {
         let escapingRef = try JavaReference(local: value, env: env)
@@ -153,9 +150,6 @@ extension Function0Converter: JavaConverter where R: JavaConverter {
 extension Function1Converter: JavaConverter where P0: JavaConverter, R: JavaConverter {
     public static var javaClass: jclass? {
         SwiftFunctionImpl.implClass
-    }
-    public static var javaDescriptor: String {
-        "Lkotlin.jvm.functions.Function1;"
     }
 
     public static func fromJava(_ value: jobject?, env: Env) throws -> SwiftType {
@@ -199,9 +193,6 @@ extension Function1Converter: JavaConverter where P0: JavaConverter, R: JavaConv
 extension Function2Converter: JavaConverter where P0: JavaConverter, P1: JavaConverter, R: JavaConverter {
     public static var javaClass: jclass? {
         SwiftFunctionImpl.implClass
-    }
-    public static var javaDescriptor: String {
-        "Lkotlin.jvm.functions.Function2;"
     }
 
     public static func fromJava(_ value: jobject?, env: Env) throws -> SwiftType {
