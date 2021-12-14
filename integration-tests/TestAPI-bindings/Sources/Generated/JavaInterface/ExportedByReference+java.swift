@@ -6,7 +6,6 @@ import TestAPI
 
 extension ExportedByReference: JavaMutator {
     public static var javaClass: jclass?
-    public static var javaDescriptor: String { "Lcom/cricut/testapi/ExportedByReference;" }
     private static var _refFieldID: jfieldID!
     private static var _constructorMethodID: jmethodID!
     public static func fromJava(_ value: jobject?, env: Env) throws -> Self {

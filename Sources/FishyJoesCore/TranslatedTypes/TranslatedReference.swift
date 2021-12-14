@@ -122,7 +122,6 @@ struct TranslatedReference: TranslatedType {
         )
         fragment.outputBlock("extension \(sourceType.name): JavaMutator {") {
             fragment.output("public static var javaClass: jclass?")
-            fragment.output("public static var javaDescriptor: String { \"L\(className);\" }")
             fragment.output("private static var _refFieldID: jfieldID!")
             fragment.output("private static var _constructorMethodID: jmethodID!")
 
