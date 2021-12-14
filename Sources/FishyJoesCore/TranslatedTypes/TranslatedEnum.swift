@@ -279,7 +279,6 @@ struct TranslatedEnum: TranslatedType {
             fragment.blankLine()
 
             fragment.output("public static var javaClass: jclass?")
-            fragment.output("public static var javaDescriptor: String { \"\(jniType.asSignature)\" }")
             for enumCase in cases {
                 if enumCase.associatedValues.isEmpty {
                     fragment.output("static var \(enumCase.classVar): jobject!")

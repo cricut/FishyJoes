@@ -9,7 +9,6 @@ extension Primitives.PrimitiveHolder: JavaConverter {
     public typealias CType = jobject?
 
     public static var javaClass: jclass?
-    public static var javaDescriptor: String { "Lcom/cricut/testapi/Primitives$PrimitiveHolder;" }
     private static var _java_b_id: jfieldID!
     private static var _java_bq_id: jfieldID!
     private static var _java_ui8_id: jfieldID!
