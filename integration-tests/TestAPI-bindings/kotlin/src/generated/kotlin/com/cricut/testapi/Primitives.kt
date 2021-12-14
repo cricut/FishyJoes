@@ -3,9 +3,20 @@ package com.cricut.testapi
 import com.cricut.fishyjoes.runtime.LibraryLoader
 
 /**
- * <!-- FishyJoes.export(Primitives) -->
+ * <!-- FishyJoes.exportReference(Primitives) -->
  */
-sealed class Primitives {
+class Primitives private constructor(
+    private val _swiftReference: Long
+)
+ {
+    override fun toString(
+    ): String = __jni_toString()
+    @JvmName("__jni_toString")
+    private external fun __jni_toString(
+    ): String
+
+    protected fun finalize() = __jni_finalize()
+    private external fun __jni_finalize()
 
     companion object {
         /**

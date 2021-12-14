@@ -5,14 +5,14 @@
 //  Created by Matt Stoker on 12/9/21.
 //
 
-/// <!-- FishyJoes.export(Primitives) -->
+/// <!-- FishyJoes.exportReference(Primitives) -->
 public enum Primitives {
     // MARK: - Primitive Values
     
     /// <!-- FishyJoes.export(falseBool) -->
     public static let falseBool: Bool = false
     /// <!-- FishyJoes.export(trueBool) -->
-    public static let trueBool = true
+    public static let trueBool: Bool = true
     /// <!-- FishyJoes.export(zeroUInt8) -->
     public static let zeroUInt8: UInt8 = 0
     /// <!-- FishyJoes.export(minUInt8) -->
