@@ -10,8 +10,8 @@ import(`${MODULE_PATH}/TestAPI.js`).then(({ TestAPI }) => {
 
     // Tests
 
-    console.log("Testing Primitive Values...")
     function testPrimitiveValues() {
+        console.log("Testing Primitive Values...")
         assertEqual(TestAPI.Primitives.falseBool, false);
         assertEqual(TestAPI.Primitives.trueBool, true);
         assertEqual(TestAPI.Primitives.zeroUInt8, 0);
@@ -47,8 +47,8 @@ import(`${MODULE_PATH}/TestAPI.js`).then(({ TestAPI }) => {
     }
     testPrimitiveValues()
 
-    console.log("Testing Arrays of Primitive Values...")
     function testArraysOfPrimitiveValues() {
+        console.log("Testing Arrays of Primitive Values...")
         assertArraysEqual(TestAPI.Primitives.manyBool, [false, true])
         assertArraysEqual(TestAPI.Primitives.manyUInt8, [0, 0x00, 0xFF]);
         assertArraysEqual(TestAPI.Primitives.manyUInt16, [0, 0x0000, 0xFFFF]);
@@ -63,24 +63,24 @@ import(`${MODULE_PATH}/TestAPI.js`).then(({ TestAPI }) => {
     }
     testArraysOfPrimitiveValues()
 
-    console.log("Testing Arrays of Optional Primitive Values...")
     function testArraysOfOptionalPrimitiveValues() {
-        assertArraysEqual(TestAPI.Primitives.manyMaybeBool, [null, false, true]);
-        assertArraysEqual(TestAPI.Primitives.manyMaybeUInt8, [null, 0, 0x00, 0xFF]);
-        assertArraysEqual(TestAPI.Primitives.manyMaybeUInt16, [null, 0, 0x0000, 0xFFFF]);
-        assertArraysEqual(TestAPI.Primitives.manyMaybeUInt32, [null, 0, 0x00000000, 0xFFFFFFFF]);
-        assertArraysEqual(TestAPI.Primitives.manyMaybeUInt64, [null, 0, BigInt("0x0000000000000000"), BigInt("0xFFFFFFFFFFFFFFFF")]);
-        assertArraysEqual(TestAPI.Primitives.manyMaybeInt8, [null, 0, -0x80, 0x7F]);
-        assertArraysEqual(TestAPI.Primitives.manyMaybeInt16, [null, 0, -0x8000, 0x7FFF]);
-        assertArraysEqual(TestAPI.Primitives.manyMaybeInt32, [null, 0, -0x80000000, 0x7FFFFFFF]);
-        assertArraysEqual(TestAPI.Primitives.manyMaybeInt64, [null, 0, -BigInt("0x8000000000000000"), BigInt("0x7FFFFFFFFFFFFFFF")]);
-        assertArraysEqual(TestAPI.Primitives.manyMaybeFloat, [null, 0, -3.4028234663852886e+38, 3.4028234663852886e+38]);
-        assertArraysEqual(TestAPI.Primitives.manyMaybeDouble, [null, 0, -Number.MAX_VALUE, Number.MAX_VALUE]);
+        console.log("Testing Arrays of Optional Primitive Values...")
+        assertArraysEqual(TestAPI.Primitives.manyMaybeBool, [undefined, false, true]);
+        assertArraysEqual(TestAPI.Primitives.manyMaybeUInt8, [undefined, 0, 0x00, 0xFF]);
+        assertArraysEqual(TestAPI.Primitives.manyMaybeUInt16, [undefined, 0, 0x0000, 0xFFFF]);
+        assertArraysEqual(TestAPI.Primitives.manyMaybeUInt32, [undefined, 0, 0x00000000, 0xFFFFFFFF]);
+        assertArraysEqual(TestAPI.Primitives.manyMaybeUInt64, [undefined, 0, BigInt("0x0000000000000000"), BigInt("0xFFFFFFFFFFFFFFFF")]);
+        assertArraysEqual(TestAPI.Primitives.manyMaybeInt8, [undefined, 0, -0x80, 0x7F]);
+        assertArraysEqual(TestAPI.Primitives.manyMaybeInt16, [undefined, 0, -0x8000, 0x7FFF]);
+        assertArraysEqual(TestAPI.Primitives.manyMaybeInt32, [undefined, 0, -0x80000000, 0x7FFFFFFF]);
+        assertArraysEqual(TestAPI.Primitives.manyMaybeInt64, [undefined, 0, -BigInt("0x8000000000000000"), BigInt("0x7FFFFFFFFFFFFFFF")]);
+        assertArraysEqual(TestAPI.Primitives.manyMaybeFloat, [undefined, 0, -3.4028234663852886e+38, 3.4028234663852886e+38]);
+        assertArraysEqual(TestAPI.Primitives.manyMaybeDouble, [undefined, 0, -Number.MAX_VALUE, Number.MAX_VALUE]);
     }
     testArraysOfOptionalPrimitiveValues()
 
-    console.log("Testing Functions Taking and Returning Primitive Types...")
     function testFunctionsTakingAndReturningPrimitiveTypes() {
+        console.log("Testing Functions Taking and Returning Primitive Types...")
         assertEqual(TestAPI.Primitives.echoBool(false), false);
         assertEqual(TestAPI.Primitives.echoBool(true), true);
         assertEqual(TestAPI.Primitives.echoUInt8(0), 0);
@@ -116,65 +116,67 @@ import(`${MODULE_PATH}/TestAPI.js`).then(({ TestAPI }) => {
     }
     testFunctionsTakingAndReturningPrimitiveTypes()
 
-    // function testFunctionsTakingReturningOptionalPrimitiveTypes() {
-    //     assertEqual(Primitives.maybeEchoBool(null), null);
-    //     assertEqual(Primitives.maybeEchoBool(false), false);
-    //     assertEqual(Primitives.maybeEchoBool(true), true);
-    //     assertEqual(Primitives.maybeEchoUInt8(null), null);
-    //     assertEqual(Primitives.maybeEchoUInt8(0), 0);
-    //     assertEqual(Primitives.maybeEchoUInt8(U-0x80), U-0x80);
-    //     assertEqual(Primitives.maybeEchoUInt8(U0x7F), U0x7F);
-    //     assertEqual(Primitives.maybeEchoUInt16(null), null);
-    //     assertEqual(Primitives.maybeEchoUInt16(0), 0);
-    //     assertEqual(Primitives.maybeEchoUInt16(0x0000), 0x0000);
-    //     assertEqual(Primitives.maybeEchoUInt16(0xFFFF), 0xFFFF);
-    //     assertEqual(Primitives.maybeEchoUInt32(null), null);
-    //     assertEqual(Primitives.maybeEchoUInt32(0), 0);
-    //     assertEqual(Primitives.maybeEchoUInt32(0x00000000), 0x00000000);
-    //     assertEqual(Primitives.maybeEchoUInt32(0xFFFFFFFF), 0xFFFFFFFF);
-    //     assertEqual(Primitives.maybeEchoUInt64(null), null);
-    //     assertEqual(Primitives.maybeEchoUInt64(0), 0);
-    //     assertEqual(Primitives.maybeEchoUInt64(0x0000000000000000), 0x0000000000000000);
-    //     assertEqual(Primitives.maybeEchoUInt64(0xFFFFFFFFFFFFFFFF), 0xFFFFFFFFFFFFFFFF);
-    //     assertEqual(Primitives.maybeEchoInt8(null), null);
-    //     assertEqual(Primitives.maybeEchoInt8(0), 0);
-    //     assertEqual(Primitives.maybeEchoInt8(-0x80), -0x80);
-    //     assertEqual(Primitives.maybeEchoInt8(0x7F), 0x7F);
-    //     assertEqual(Primitives.maybeEchoInt16(null), null);
-    //     assertEqual(Primitives.maybeEchoInt16(0), 0);
-    //     assertEqual(Primitives.maybeEchoInt16(-0x8000), -0x8000);
-    //     assertEqual(Primitives.maybeEchoInt16(0x7FFF), 0x7FFF);
-    //     assertEqual(Primitives.maybeEchoInt32(null), null);
-    //     assertEqual(Primitives.maybeEchoInt32(0), 0);
-    //     assertEqual(Primitives.maybeEchoInt32(-0x80000000), -0x80000000);
-    //     assertEqual(Primitives.maybeEchoInt32(0x7FFFFFFF), 0x7FFFFFFF);
-    //     assertEqual(Primitives.maybeEchoInt64(null), null);
-    //     assertEqual(Primitives.maybeEchoInt64(0), 0);
-    //     assertEqual(Primitives.maybeEchoInt64(-BigInt("0x8000000000000000")), -BigInt("0x8000000000000000"));
-    //     assertEqual(Primitives.maybeEchoInt64(BigInt("0x7FFFFFFFFFFFFFFF")), BigInt("0x7FFFFFFFFFFFFFFF"));
-    //     assertEqual(Primitives.maybeEchoFloat(null), null);
-    //     assertEqual(Primitives.maybeEchoFloat(0.0), 0.0);
-    //     assertEqual(Primitives.maybeEchoFloat(-Float.MAX_VALUE), -Float.MAX_VALUE);
-    //     assertEqual(Primitives.maybeEchoFloat(Float.MAX_VALUE), Float.MAX_VALUE);
-    //     assertEqual(Primitives.maybeEchoDouble(null), null);
-    //     assertEqual(Primitives.maybeEchoDouble(0.0), 0.0);
-    //     assertEqual(Primitives.maybeEchoDouble(-Double.MAX_VALUE), -Double.MAX_VALUE);
-    //     assertEqual(Primitives.maybeEchoDouble(Double.MAX_VALUE), Double.MAX_VALUE);
-    // }
-
+    function testFunctionsTakingReturningOptionalPrimitiveTypes() {
+        console.log("Testing Functions Taking and Returning Optional Primitive Types...")
+        assertEqual(TestAPI.Primitives.maybeEchoBool(undefined), undefined);
+        assertEqual(TestAPI.Primitives.maybeEchoBool(false), false);
+        assertEqual(TestAPI.Primitives.maybeEchoBool(true), true);
+        assertEqual(TestAPI.Primitives.maybeEchoUInt8(undefined), undefined);
+        assertEqual(TestAPI.Primitives.maybeEchoUInt8(0), 0);
+        assertEqual(TestAPI.Primitives.maybeEchoUInt8(0x00), 0x00);
+        assertEqual(TestAPI.Primitives.maybeEchoUInt8(0xFF), 0xFF);
+        assertEqual(TestAPI.Primitives.maybeEchoUInt16(undefined), undefined);
+        assertEqual(TestAPI.Primitives.maybeEchoUInt16(0), 0);
+        assertEqual(TestAPI.Primitives.maybeEchoUInt16(0x0000), 0x0000);
+        assertEqual(TestAPI.Primitives.maybeEchoUInt16(0xFFFF), 0xFFFF);
+        assertEqual(TestAPI.Primitives.maybeEchoUInt32(undefined), undefined);
+        assertEqual(TestAPI.Primitives.maybeEchoUInt32(0), 0);
+        assertEqual(TestAPI.Primitives.maybeEchoUInt32(0x00000000), 0x00000000);
+        assertEqual(TestAPI.Primitives.maybeEchoUInt32(0xFFFFFFFF), 0xFFFFFFFF);
+        assertEqual(TestAPI.Primitives.maybeEchoUInt64(undefined), undefined);
+        assertEqual(TestAPI.Primitives.maybeEchoUInt64(BigInt(0)), BigInt(0));
+        assertEqual(TestAPI.Primitives.maybeEchoUInt64(BigInt("0x0000000000000000")), BigInt("0x0000000000000000"));
+        assertEqual(TestAPI.Primitives.maybeEchoUInt64(BigInt("0xFFFFFFFFFFFFFFFF")), BigInt("0xFFFFFFFFFFFFFFFF"));
+        assertEqual(TestAPI.Primitives.maybeEchoInt8(undefined), undefined);
+        assertEqual(TestAPI.Primitives.maybeEchoInt8(0), 0);
+        assertEqual(TestAPI.Primitives.maybeEchoInt8(-0x80), -0x80);
+        assertEqual(TestAPI.Primitives.maybeEchoInt8(0x7F), 0x7F);
+        assertEqual(TestAPI.Primitives.maybeEchoInt16(undefined), undefined);
+        assertEqual(TestAPI.Primitives.maybeEchoInt16(0), 0);
+        assertEqual(TestAPI.Primitives.maybeEchoInt16(-0x8000), -0x8000);
+        assertEqual(TestAPI.Primitives.maybeEchoInt16(0x7FFF), 0x7FFF);
+        assertEqual(TestAPI.Primitives.maybeEchoInt32(undefined), undefined);
+        assertEqual(TestAPI.Primitives.maybeEchoInt32(0), 0);
+        assertEqual(TestAPI.Primitives.maybeEchoInt32(-0x80000000), -0x80000000);
+        assertEqual(TestAPI.Primitives.maybeEchoInt32(0x7FFFFFFF), 0x7FFFFFFF);
+        assertEqual(TestAPI.Primitives.maybeEchoInt64(undefined), undefined);
+        assertEqual(TestAPI.Primitives.maybeEchoInt64(BigInt(0)), BigInt(0));
+        assertEqual(TestAPI.Primitives.maybeEchoInt64(-BigInt("0x8000000000000000")), -BigInt("0x8000000000000000"));
+        assertEqual(TestAPI.Primitives.maybeEchoInt64(BigInt("0x7FFFFFFFFFFFFFFF")), BigInt("0x7FFFFFFFFFFFFFFF"));
+        assertEqual(TestAPI.Primitives.maybeEchoFloat(undefined), undefined);
+        assertEqual(TestAPI.Primitives.maybeEchoFloat(0.0), 0.0);
+        assertEqual(TestAPI.Primitives.maybeEchoFloat(-3.4028234663852886e+38), -3.4028234663852886e+38);
+        assertEqual(TestAPI.Primitives.maybeEchoFloat(3.4028234663852886e+38), 3.4028234663852886e+38);
+        assertEqual(TestAPI.Primitives.maybeEchoDouble(undefined), undefined);
+        assertEqual(TestAPI.Primitives.maybeEchoDouble(0.0), 0.0);
+        assertEqual(TestAPI.Primitives.maybeEchoDouble(-Number.MAX_VALUE), -Number.MAX_VALUE);
+        assertEqual(TestAPI.Primitives.maybeEchoDouble(Number.MAX_VALUE), Number.MAX_VALUE);
+    }
+    testFunctionsTakingReturningOptionalPrimitiveTypes()
+    
     function testFunctionsTakingClosuresWithPrimitiveTypes() {
         // TODO: Fix breakage
-//        assertEqual(Primitives.valueMapper(10) { (it ?: 0) * 2 }, 20);
+//        assertEqual(TestAPI.Primitives.valueMapper(10) { (it ?: 0) * 2 }, 20);
     }
 
     // function testObjectsWithPrimitiveMembers() {
-    //     assertEqual(Primitives.PrimitiveHolder.staticPropery, [null, 0, U-0x80, U0x7F]);
-    //     assertEqual(Primitives.PrimitiveHolder.staticMutablePropery, [null, 0, U-0x80, U0x7F]);
-    //     Primitives.PrimitiveHolder.staticMutablePropery = [100, 200.toUByte(]);
-    //     assertEqual(Primitives.PrimitiveHolder.staticMutablePropery, [100, 200]);
-    //     val s = Primitives.defaultPrimitiveHolder;
-    //     assertEqual(s, Primitives.defaultPrimitiveHolder);
+    //     assertEqual(TestAPI.Primitives.PrimitiveHolder.staticPropery, [undefined, 0, U-0x80, U0x7F]);
+    //     assertEqual(TestAPI.Primitives.PrimitiveHolder.staticMutablePropery, [undefined, 0, U-0x80, U0x7F]);
+    //     TestAPI.Primitives.PrimitiveHolder.staticMutablePropery = [100, 200.toUByte(]);
+    //     assertEqual(TestAPI.Primitives.PrimitiveHolder.staticMutablePropery, [100, 200]);
+    //     val s = TestAPI.Primitives.defaultPrimitiveHolder;
+    //     assertEqual(s, TestAPI.Primitives.defaultPrimitiveHolder);
     //     s.b = !s.b
-    //     if (s, Primitives.defaultPrimitiveHolder);
+    //     if (s, TestAPI.Primitives.defaultPrimitiveHolder);
     // }
 })

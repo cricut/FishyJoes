@@ -35,7 +35,7 @@ extension Bool: NodeConverter {
         return result
     }
 
-    public static func toNode(_ value: Bool, env: napi_env) throws -> napi_value? {
+    public static func toNode(_ value: Self, env: napi_env) throws -> napi_value? {
         var result: napi_value?
         try check(napi_get_boolean(env, value, &result))
         return result
