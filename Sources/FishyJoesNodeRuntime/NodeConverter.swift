@@ -89,7 +89,7 @@ extension UInt64: NodeConverter {
         var result = UInt64(0)
         var lossless = true
         try check(napi_get_value_bigint_uint64(env, value, &result, &lossless))
-        if !lossless { throw JSException(message: "requested conversion of invalid bigint to uint64") }
+        if !lossless { throw JSException(message: "bigint outside range of \(Self.self)") }
         return .init(result)
     }
 
@@ -147,7 +147,7 @@ extension Int64: NodeConverter {
         var result = Int64(0)
         var lossless = true
         try check(napi_get_value_bigint_int64(env, value, &result, &lossless))
-        if !lossless { throw JSException(message: "requested conversion of invalid bigint to int64") }
+        if !lossless { throw JSException(message: "bigint outside range of \(Self.self)") }
         return .init(result)
     }
 
