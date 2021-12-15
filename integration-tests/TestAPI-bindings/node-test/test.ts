@@ -8,6 +8,21 @@ import(`${MODULE_PATH}/TestAPI.js`).then(({ TestAPI }) => {
         console.assert(array.length == expected.length, array.every(function(e, i) { return e === expected[i] }), array + " was expected to be " + expected)
     }
 
+    function assertObjectsEqual<T>(obj, expected) {
+        var objProps = Object.getOwnPropertyNames(obj);
+        var expectedProps = Object.getOwnPropertyNames(expected);
+        if (objProps.length != expectedProps.length) {
+            return false;
+        }
+        for (var i = 0; i < objProps.length; i++) {
+            var propName = objProps[i];
+            if (objProps[propName] !== expectedProps[propName]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     // Tests
 
     function testPrimitiveValues() {
@@ -166,17 +181,21 @@ import(`${MODULE_PATH}/TestAPI.js`).then(({ TestAPI }) => {
     
     function testFunctionsTakingClosuresWithPrimitiveTypes() {
         // TODO: Fix breakage
-//        assertEqual(TestAPI.Primitives.valueMapper(10) { (it ?: 0) * 2 }, 20);
+        // console.log("Testing Functions Taking Closures with Primitive Types...")
+        // assertEqual(TestAPI.Primitives.valueMapper(10) { (it ?: 0) * 2 }, 20);
     }
+    testFunctionsTakingClosuresWithPrimitiveTypes()
 
-    // function testObjectsWithPrimitiveMembers() {
-    //     assertEqual(TestAPI.Primitives.PrimitiveHolder.staticPropery, [undefined, 0, U-0x80, U0x7F]);
-    //     assertEqual(TestAPI.Primitives.PrimitiveHolder.staticMutablePropery, [undefined, 0, U-0x80, U0x7F]);
-    //     TestAPI.Primitives.PrimitiveHolder.staticMutablePropery = [100, 200.toUByte(]);
-    //     assertEqual(TestAPI.Primitives.PrimitiveHolder.staticMutablePropery, [100, 200]);
-    //     val s = TestAPI.Primitives.defaultPrimitiveHolder;
-    //     assertEqual(s, TestAPI.Primitives.defaultPrimitiveHolder);
-    //     s.b = !s.b
-    //     if (s, TestAPI.Primitives.defaultPrimitiveHolder);
-    // }
+    function testObjectsWithPrimitiveMembers() {
+        console.log("Testing Objects with Primitive Members...")
+        assertArraysEqual(TestAPI.Primitives.PrimitiveHolder.staticPropery, [undefined, 0, 0x00, 0xFF]);
+        assertArraysEqual(TestAPI.Primitives.PrimitiveHolder.staticMutablePropery, [undefined, 0, 0x00, 0xFF]);
+        TestAPI.Primitives.PrimitiveHolder.staticMutablePropery = [100, 200];
+        assertArraysEqual(TestAPI.Primitives.PrimitiveHolder.staticMutablePropery, [100, 200]);
+        let s = TestAPI.Primitives.defaultPrimitiveHolder;
+        assertObjectsEqual(s, TestAPI.Primitives.defaultPrimitiveHolder);
+        s.b = !s.b
+        assertObjectsEqual(s, TestAPI.Primitives.defaultPrimitiveHolder);
+    }
+    testObjectsWithPrimitiveMembers()
 })
