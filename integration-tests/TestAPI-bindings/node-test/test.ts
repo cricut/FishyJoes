@@ -174,4 +174,29 @@ import(`${MODULE_PATH}/TestAPI.js`).then(({ TestAPI }) => {
         assert.notDeepEqual(s, TestAPI.Primitives.defaultPrimitiveHolder);
     }
     testObjectsWithPrimitiveMembers()
+
+    function testStringValues() {
+        console.log("Testing String Values...")
+        assert.equal(TestAPI.Strings.simple, "Hello")
+        assert.equal(TestAPI.Strings.accent, "Olá")
+        assert.equal(TestAPI.Strings.script, "こんにちは")
+        assert.equal(TestAPI.Strings.chinese, "你好")
+        assert.equal(TestAPI.Strings.chineseBMP, "豈更車賈滑")
+        assert.equal(TestAPI.Strings.chineseSIP, "\u{20001}\u{20002}\u{20003}\u{20004}")
+        assert.equal(TestAPI.Strings.emoji, "🤯🐶🍓")
+        assert.equal(TestAPI.Strings.emojiMulti, "👨‍👩‍👧‍👦👍🏿🇺🇸")
+    }
+    testStringValues()
+
+    function testStringEcho() {
+        console.log("Testing String Echo...")
+        assert.equal(TestAPI.Strings.echo(TestAPI.Strings.simple), TestAPI.Strings.simple)
+        assert.equal(TestAPI.Strings.echo(TestAPI.Strings.accent), TestAPI.Strings.accent)
+        assert.equal(TestAPI.Strings.echo(TestAPI.Strings.chinese), TestAPI.Strings.chinese)
+        assert.equal(TestAPI.Strings.echo(TestAPI.Strings.chineseBMP), TestAPI.Strings.chineseBMP)
+        assert.equal(TestAPI.Strings.echo(TestAPI.Strings.chineseSIP), TestAPI.Strings.chineseSIP)
+        assert.equal(TestAPI.Strings.echo(TestAPI.Strings.emoji), TestAPI.Strings.emoji)
+        assert.equal(TestAPI.Strings.echo(TestAPI.Strings.emojiMulti), TestAPI.Strings.emojiMulti)
+    }
+    testStringEcho()
 })
