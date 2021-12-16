@@ -551,7 +551,7 @@ export class NAPI {
         return NAPI_OK;
       }),
       napi_create_bigint_int64: this.wrap((envPtr, value, resultPtr) => {
-        this.writeU32(resultPtr, this.store(BigInt.asIntN(64, value)));
+        this.writeU32(resultPtr, this.store(value));
         return NAPI_OK;
       }),
       napi_create_bigint_uint64: this.wrap((envPtr, value, resultPtr) => {
