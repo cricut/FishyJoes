@@ -47,6 +47,16 @@ extension TestAPI.Primitives.PrimitiveHolder: NodeMutator {
                 try check(napi_get_named_property(env, value, "ui32q", &fieldValue))
                 return try OptionalConverter<UInt32>.fromNode(fieldValue, env: env)
             }(),
+            ui64: try { () -> UInt64 in
+                var fieldValue: napi_value?
+                try check(napi_get_named_property(env, value, "ui64", &fieldValue))
+                return try UInt64.fromNode(fieldValue, env: env)
+            }(),
+            ui64q: try { () -> Optional<UInt64> in
+                var fieldValue: napi_value?
+                try check(napi_get_named_property(env, value, "ui64q", &fieldValue))
+                return try OptionalConverter<UInt64>.fromNode(fieldValue, env: env)
+            }(),
             i8: try { () -> Int8 in
                 var fieldValue: napi_value?
                 try check(napi_get_named_property(env, value, "i8", &fieldValue))
@@ -76,6 +86,16 @@ extension TestAPI.Primitives.PrimitiveHolder: NodeMutator {
                 var fieldValue: napi_value?
                 try check(napi_get_named_property(env, value, "i32q", &fieldValue))
                 return try OptionalConverter<Int32>.fromNode(fieldValue, env: env)
+            }(),
+            i64: try { () -> Int64 in
+                var fieldValue: napi_value?
+                try check(napi_get_named_property(env, value, "i64", &fieldValue))
+                return try Int64.fromNode(fieldValue, env: env)
+            }(),
+            i64q: try { () -> Optional<Int64> in
+                var fieldValue: napi_value?
+                try check(napi_get_named_property(env, value, "i64q", &fieldValue))
+                return try OptionalConverter<Int64>.fromNode(fieldValue, env: env)
             }(),
             f: try { () -> Float in
                 var fieldValue: napi_value?
@@ -110,12 +130,16 @@ extension TestAPI.Primitives.PrimitiveHolder: NodeMutator {
             try OptionalConverter<UInt16>.toNode(value.ui16q, env: env),
             try UInt32.toNode(value.ui32, env: env),
             try OptionalConverter<UInt32>.toNode(value.ui32q, env: env),
+            try UInt64.toNode(value.ui64, env: env),
+            try OptionalConverter<UInt64>.toNode(value.ui64q, env: env),
             try Int8.toNode(value.i8, env: env),
             try OptionalConverter<Int8>.toNode(value.i8q, env: env),
             try Int16.toNode(value.i16, env: env),
             try OptionalConverter<Int16>.toNode(value.i16q, env: env),
             try Int32.toNode(value.i32, env: env),
             try OptionalConverter<Int32>.toNode(value.i32q, env: env),
+            try Int64.toNode(value.i64, env: env),
+            try OptionalConverter<Int64>.toNode(value.i64q, env: env),
             try Float.toNode(value.f, env: env),
             try OptionalConverter<Float>.toNode(value.fq, env: env),
             try Double.toNode(value.d, env: env),
@@ -134,12 +158,16 @@ extension TestAPI.Primitives.PrimitiveHolder: NodeMutator {
         try check(napi_set_named_property(env, this, "ui16q", OptionalConverter<UInt16>.toNode(value.ui16q, env: env)))
         try check(napi_set_named_property(env, this, "ui32", UInt32.toNode(value.ui32, env: env)))
         try check(napi_set_named_property(env, this, "ui32q", OptionalConverter<UInt32>.toNode(value.ui32q, env: env)))
+        try check(napi_set_named_property(env, this, "ui64", UInt64.toNode(value.ui64, env: env)))
+        try check(napi_set_named_property(env, this, "ui64q", OptionalConverter<UInt64>.toNode(value.ui64q, env: env)))
         try check(napi_set_named_property(env, this, "i8", Int8.toNode(value.i8, env: env)))
         try check(napi_set_named_property(env, this, "i8q", OptionalConverter<Int8>.toNode(value.i8q, env: env)))
         try check(napi_set_named_property(env, this, "i16", Int16.toNode(value.i16, env: env)))
         try check(napi_set_named_property(env, this, "i16q", OptionalConverter<Int16>.toNode(value.i16q, env: env)))
         try check(napi_set_named_property(env, this, "i32", Int32.toNode(value.i32, env: env)))
         try check(napi_set_named_property(env, this, "i32q", OptionalConverter<Int32>.toNode(value.i32q, env: env)))
+        try check(napi_set_named_property(env, this, "i64", Int64.toNode(value.i64, env: env)))
+        try check(napi_set_named_property(env, this, "i64q", OptionalConverter<Int64>.toNode(value.i64q, env: env)))
         try check(napi_set_named_property(env, this, "f", Float.toNode(value.f, env: env)))
         try check(napi_set_named_property(env, this, "fq", OptionalConverter<Float>.toNode(value.fq, env: env)))
         try check(napi_set_named_property(env, this, "d", Double.toNode(value.d, env: env)))
@@ -184,19 +212,23 @@ extension TestAPI.Primitives.PrimitiveHolder: NodeMutator {
                 "ui16q": (.stored(mutable: true), isStatic: false),
                 "ui32": (.stored(mutable: true), isStatic: false),
                 "ui32q": (.stored(mutable: true), isStatic: false),
+                "ui64": (.stored(mutable: true), isStatic: false),
+                "ui64q": (.stored(mutable: true), isStatic: false),
                 "i8": (.stored(mutable: true), isStatic: false),
                 "i8q": (.stored(mutable: true), isStatic: false),
                 "i16": (.stored(mutable: true), isStatic: false),
                 "i16q": (.stored(mutable: true), isStatic: false),
                 "i32": (.stored(mutable: true), isStatic: false),
                 "i32q": (.stored(mutable: true), isStatic: false),
+                "i64": (.stored(mutable: true), isStatic: false),
+                "i64q": (.stored(mutable: true), isStatic: false),
                 "f": (.stored(mutable: true), isStatic: false),
                 "fq": (.stored(mutable: true), isStatic: false),
                 "d": (.stored(mutable: true), isStatic: false),
                 "dq": (.stored(mutable: true), isStatic: false),
             ],
             constructor: { env, info in
-                callbackBody(env, info, name: "Primitives.PrimitiveHolder_constructor", expectedArgumentCount: 18) { env in
+                callbackBody(env, info, name: "Primitives.PrimitiveHolder_constructor", expectedArgumentCount: 22) { env in
                     // TODO: typecheck?
                     let this = try env.this()
                     try check(napi_set_named_property(env.env, this, "b", env.argument(at: 0)))
@@ -207,16 +239,20 @@ extension TestAPI.Primitives.PrimitiveHolder: NodeMutator {
                     try check(napi_set_named_property(env.env, this, "ui16q", env.argument(at: 5)))
                     try check(napi_set_named_property(env.env, this, "ui32", env.argument(at: 6)))
                     try check(napi_set_named_property(env.env, this, "ui32q", env.argument(at: 7)))
-                    try check(napi_set_named_property(env.env, this, "i8", env.argument(at: 8)))
-                    try check(napi_set_named_property(env.env, this, "i8q", env.argument(at: 9)))
-                    try check(napi_set_named_property(env.env, this, "i16", env.argument(at: 10)))
-                    try check(napi_set_named_property(env.env, this, "i16q", env.argument(at: 11)))
-                    try check(napi_set_named_property(env.env, this, "i32", env.argument(at: 12)))
-                    try check(napi_set_named_property(env.env, this, "i32q", env.argument(at: 13)))
-                    try check(napi_set_named_property(env.env, this, "f", env.argument(at: 14)))
-                    try check(napi_set_named_property(env.env, this, "fq", env.argument(at: 15)))
-                    try check(napi_set_named_property(env.env, this, "d", env.argument(at: 16)))
-                    try check(napi_set_named_property(env.env, this, "dq", env.argument(at: 17)))
+                    try check(napi_set_named_property(env.env, this, "ui64", env.argument(at: 8)))
+                    try check(napi_set_named_property(env.env, this, "ui64q", env.argument(at: 9)))
+                    try check(napi_set_named_property(env.env, this, "i8", env.argument(at: 10)))
+                    try check(napi_set_named_property(env.env, this, "i8q", env.argument(at: 11)))
+                    try check(napi_set_named_property(env.env, this, "i16", env.argument(at: 12)))
+                    try check(napi_set_named_property(env.env, this, "i16q", env.argument(at: 13)))
+                    try check(napi_set_named_property(env.env, this, "i32", env.argument(at: 14)))
+                    try check(napi_set_named_property(env.env, this, "i32q", env.argument(at: 15)))
+                    try check(napi_set_named_property(env.env, this, "i64", env.argument(at: 16)))
+                    try check(napi_set_named_property(env.env, this, "i64q", env.argument(at: 17)))
+                    try check(napi_set_named_property(env.env, this, "f", env.argument(at: 18)))
+                    try check(napi_set_named_property(env.env, this, "fq", env.argument(at: 19)))
+                    try check(napi_set_named_property(env.env, this, "d", env.argument(at: 20)))
+                    try check(napi_set_named_property(env.env, this, "dq", env.argument(at: 21)))
                     return this
                 }
             }

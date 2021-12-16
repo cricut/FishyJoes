@@ -3,9 +3,20 @@ package com.cricut.testapi
 import com.cricut.fishyjoes.runtime.LibraryLoader
 
 /**
- * <!-- FishyJoes.export(Primitives) -->
+ * <!-- FishyJoes.exportReference(Primitives) -->
  */
-sealed class Primitives {
+class Primitives private constructor(
+    private val _swiftReference: Long
+)
+ {
+    override fun toString(
+    ): String = __jni_toString()
+    @JvmName("__jni_toString")
+    private external fun __jni_toString(
+    ): String
+
+    protected fun finalize() = __jni_finalize()
+    private external fun __jni_finalize()
 
     companion object {
         /**
@@ -108,6 +119,33 @@ sealed class Primitives {
         private external fun __jni_get_maxUInt32(): Int
 
         /**
+         * <!-- FishyJoes.export(zeroUInt64) -->
+         */
+        val zeroUInt64: ULong
+          get() = __jni_get_zeroUInt64().toULong()
+        @JvmStatic
+        @JvmName("__jni_get_zeroUInt64")
+        private external fun __jni_get_zeroUInt64(): Long
+
+        /**
+         * <!-- FishyJoes.export(minUInt64) -->
+         */
+        val minUInt64: ULong
+          get() = __jni_get_minUInt64().toULong()
+        @JvmStatic
+        @JvmName("__jni_get_minUInt64")
+        private external fun __jni_get_minUInt64(): Long
+
+        /**
+         * <!-- FishyJoes.export(maxUInt64) -->
+         */
+        val maxUInt64: ULong
+          get() = __jni_get_maxUInt64().toULong()
+        @JvmStatic
+        @JvmName("__jni_get_maxUInt64")
+        private external fun __jni_get_maxUInt64(): Long
+
+        /**
          * <!-- FishyJoes.export(zeroInt8) -->
          */
         val zeroInt8: Byte
@@ -187,6 +225,33 @@ sealed class Primitives {
         @JvmStatic
         @JvmName("__jni_get_maxInt32")
         private external fun __jni_get_maxInt32(): Int
+
+        /**
+         * <!-- FishyJoes.export(zeroInt64) -->
+         */
+        val zeroInt64: Long
+          get() = __jni_get_zeroInt64()
+        @JvmStatic
+        @JvmName("__jni_get_zeroInt64")
+        private external fun __jni_get_zeroInt64(): Long
+
+        /**
+         * <!-- FishyJoes.export(minInt64) -->
+         */
+        val minInt64: Long
+          get() = __jni_get_minInt64()
+        @JvmStatic
+        @JvmName("__jni_get_minInt64")
+        private external fun __jni_get_minInt64(): Long
+
+        /**
+         * <!-- FishyJoes.export(maxInt64) -->
+         */
+        val maxInt64: Long
+          get() = __jni_get_maxInt64()
+        @JvmStatic
+        @JvmName("__jni_get_maxInt64")
+        private external fun __jni_get_maxInt64(): Long
 
         /**
          * <!-- FishyJoes.export(zeroInt) -->
@@ -306,6 +371,15 @@ sealed class Primitives {
         private external fun __jni_get_manyUInt32(): kotlin.collections.List<UInt>
 
         /**
+         * <!-- FishyJoes.export(manyUInt64) -->
+         */
+        val manyUInt64: kotlin.collections.List<ULong>
+          get() = __jni_get_manyUInt64()
+        @JvmStatic
+        @JvmName("__jni_get_manyUInt64")
+        private external fun __jni_get_manyUInt64(): kotlin.collections.List<ULong>
+
+        /**
          * <!-- FishyJoes.export(manyInt8) -->
          */
         val manyInt8: kotlin.collections.List<Byte>
@@ -331,6 +405,15 @@ sealed class Primitives {
         @JvmStatic
         @JvmName("__jni_get_manyInt32")
         private external fun __jni_get_manyInt32(): kotlin.collections.List<Int>
+
+        /**
+         * <!-- FishyJoes.export(manyInt64) -->
+         */
+        val manyInt64: kotlin.collections.List<Long>
+          get() = __jni_get_manyInt64()
+        @JvmStatic
+        @JvmName("__jni_get_manyInt64")
+        private external fun __jni_get_manyInt64(): kotlin.collections.List<Long>
 
         /**
          * <!-- FishyJoes.export(manyFloat) -->
@@ -387,6 +470,15 @@ sealed class Primitives {
         private external fun __jni_get_manyMaybeUInt32(): kotlin.collections.List<UInt?>
 
         /**
+         * <!-- FishyJoes.export(manyMaybeUInt64) -->
+         */
+        val manyMaybeUInt64: kotlin.collections.List<ULong?>
+          get() = __jni_get_manyMaybeUInt64()
+        @JvmStatic
+        @JvmName("__jni_get_manyMaybeUInt64")
+        private external fun __jni_get_manyMaybeUInt64(): kotlin.collections.List<ULong?>
+
+        /**
          * <!-- FishyJoes.export(manyMaybeInt8) -->
          */
         val manyMaybeInt8: kotlin.collections.List<Byte?>
@@ -412,6 +504,15 @@ sealed class Primitives {
         @JvmStatic
         @JvmName("__jni_get_manyMaybeInt32")
         private external fun __jni_get_manyMaybeInt32(): kotlin.collections.List<Int?>
+
+        /**
+         * <!-- FishyJoes.export(manyMaybeInt64) -->
+         */
+        val manyMaybeInt64: kotlin.collections.List<Long?>
+          get() = __jni_get_manyMaybeInt64()
+        @JvmStatic
+        @JvmName("__jni_get_manyMaybeInt64")
+        private external fun __jni_get_manyMaybeInt64(): kotlin.collections.List<Long?>
 
         /**
          * <!-- FishyJoes.export(manyMaybeFloat) -->
@@ -489,6 +590,18 @@ sealed class Primitives {
         ): Int
 
         /**
+         * <!-- FishyJoes.export(echoUInt64) -->
+         */
+        fun echoUInt64(
+            value: ULong
+        ): ULong = __jni_echoUInt64(value.toLong()).toULong()
+        @JvmStatic
+        @JvmName("__jni_echoUInt64")
+        private external fun __jni_echoUInt64(
+            value: Long
+        ): Long
+
+        /**
          * <!-- FishyJoes.export(echoInt8) -->
          */
         fun echoInt8(
@@ -523,6 +636,18 @@ sealed class Primitives {
         private external fun __jni_echoInt32(
             value: Int
         ): Int
+
+        /**
+         * <!-- FishyJoes.export(echoInt64) -->
+         */
+        fun echoInt64(
+            value: Long
+        ): Long = __jni_echoInt64(value)
+        @JvmStatic
+        @JvmName("__jni_echoInt64")
+        private external fun __jni_echoInt64(
+            value: Long
+        ): Long
 
         /**
          * <!-- FishyJoes.export(echoFloat) -->
@@ -597,6 +722,18 @@ sealed class Primitives {
         ): UInt?
 
         /**
+         * <!-- FishyJoes.export(maybeEchoUInt64) -->
+         */
+        fun maybeEchoUInt64(
+            value: ULong?
+        ): ULong? = __jni_maybeEchoUInt64(value)
+        @JvmStatic
+        @JvmName("__jni_maybeEchoUInt64")
+        private external fun __jni_maybeEchoUInt64(
+            value: ULong?
+        ): ULong?
+
+        /**
          * <!-- FishyJoes.export(maybeEchoInt8) -->
          */
         fun maybeEchoInt8(
@@ -631,6 +768,18 @@ sealed class Primitives {
         private external fun __jni_maybeEchoInt32(
             value: Int?
         ): Int?
+
+        /**
+         * <!-- FishyJoes.export(maybeEchoInt64) -->
+         */
+        fun maybeEchoInt64(
+            value: Long?
+        ): Long? = __jni_maybeEchoInt64(value)
+        @JvmStatic
+        @JvmName("__jni_maybeEchoInt64")
+        private external fun __jni_maybeEchoInt64(
+            value: Long?
+        ): Long?
 
         /**
          * <!-- FishyJoes.export(maybeEchoFloat) -->
@@ -673,12 +822,16 @@ sealed class Primitives {
         var ui16q: UShort?,
         var ui32: UInt,
         var ui32q: UInt?,
+        var ui64: ULong,
+        var ui64q: ULong?,
         var i8: Byte,
         var i8q: Byte?,
         var i16: Short,
         var i16q: Short?,
         var i32: Int,
         var i32q: Int?,
+        var i64: Long,
+        var i64q: Long?,
         var f: Float,
         var fq: Float?,
         var d: Double,

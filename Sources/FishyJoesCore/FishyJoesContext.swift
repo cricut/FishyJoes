@@ -146,8 +146,7 @@ public class FishyJoesContext {
             "Int8": (c: "uint8_t", ts: "number", jni: JNIType.byte),
             "Int16": (c: "uint16_t", ts: "number", jni: JNIType.short),
             "Int32": (c: "uint32_t", ts: "number", jni: JNIType.int),
-            // TODO: JavaScript would sadly be using 64-bit double for 64-bit int, loosing precision, so need BigInt
-//            "Int64": (c: "uint64_t", ts: "number", jni: JNIType.long),
+            "Int64": (c: "uint64_t", ts: "bigint", jni: JNIType.long),
             "Int": (c: "int", ts: "number", jni: JNIType.long),
             "Float": (c: "float", ts: "number", jni: JNIType.float),
             "Double": (c: "double", ts: "number", jni: JNIType.double),
@@ -157,8 +156,7 @@ public class FishyJoesContext {
             "UInt8": (c: "uint8_t", ts: "number", jni: JNIType.byte),
             "UInt16": (c: "uint16_t", ts: "number", jni: JNIType.short),
             "UInt32": (c: "uint32_t", ts: "number", jni: JNIType.int),
-            // TODO: JavaScript would sadly be using 64-bit double for 64-bit int, losing precision, so need BigInt, and java is sad here too
-//            "UInt64": (c: "uint64_t", ts: "number", jni: JNIType.long),
+            "UInt64": (c: "uint64_t", ts: "bigint", jni: JNIType.long),
         ]
 
         var dontCache = false

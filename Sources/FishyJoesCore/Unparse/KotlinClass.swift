@@ -165,7 +165,6 @@ extension KotlinClass.KType: CustomStringConvertible {
         case let .named(.none, name): return name
         case let .named(.some(package), name): return "\(package).\(name)"
         case let .optional(wrapped): return "\(wrapped.kotlinType)?"
-        default: return jvmType
         }
     }
 
