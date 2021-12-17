@@ -174,4 +174,49 @@ import(`${MODULE_PATH}/TestAPI.js`).then(({ TestAPI }) => {
         assert.notDeepEqual(s, TestAPI.Primitives.defaultPrimitiveHolder);
     }
     testObjectsWithPrimitiveMembers()
+
+    function testStringValues() {
+        console.log("Testing String Values...")
+        assert.equal(TestAPI.Strings.simple, "Hello")
+        assert.equal(TestAPI.Strings.accent, "Olá")
+        assert.equal(TestAPI.Strings.script, "こんにちは")
+        assert.equal(TestAPI.Strings.chinese, "你好")
+        assert.equal(TestAPI.Strings.chineseBMP, "豈更車賈滑")
+        assert.equal(TestAPI.Strings.chineseSIP, "\u{20001}\u{20002}\u{20003}\u{20004}")
+        assert.equal(TestAPI.Strings.emoji, "🤯🐶🍓")
+        assert.equal(TestAPI.Strings.emojiMulti, "👨‍👩‍👧‍👦👍🏿🇺🇸")
+    }
+    testStringValues()
+
+    function testStringEcho() {
+        console.log("Testing String Echo...")
+        assert.equal(TestAPI.Strings.echo(TestAPI.Strings.simple), TestAPI.Strings.simple)
+        assert.equal(TestAPI.Strings.echo(TestAPI.Strings.accent), TestAPI.Strings.accent)
+        assert.equal(TestAPI.Strings.echo(TestAPI.Strings.chinese), TestAPI.Strings.chinese)
+        assert.equal(TestAPI.Strings.echo(TestAPI.Strings.chineseBMP), TestAPI.Strings.chineseBMP)
+        assert.equal(TestAPI.Strings.echo(TestAPI.Strings.chineseSIP), TestAPI.Strings.chineseSIP)
+        assert.equal(TestAPI.Strings.echo(TestAPI.Strings.emoji), TestAPI.Strings.emoji)
+        assert.equal(TestAPI.Strings.echo(TestAPI.Strings.emojiMulti), TestAPI.Strings.emojiMulti)
+    }
+    testStringEcho()
+
+    function testBytesValues() {
+        console.log("Testing Bytes Values...")
+        assert.deepEqual(TestAPI.Bytes.bytes, [0xDE, 0xAD, 0xBE, 0xEF])
+        var buffer = new ArrayBuffer(4)
+        var int8View = new Int8Array(buffer)
+        int8View[0] = 0x0B
+        int8View[1] = 0xAD
+        int8View[2] = 0xF0
+        int8View[3] = 0x0D
+        assert.deepEqual(TestAPI.Bytes.data, buffer)
+    }
+    testBytesValues()
+
+    function testBytesEcho() {
+        console.log("Testing Bytes Echo...")
+        assert.deepEqual(TestAPI.Bytes.echoBytes(TestAPI.Bytes.bytes), TestAPI.Bytes.bytes)
+        assert.deepEqual(TestAPI.Bytes.echoData(TestAPI.Bytes.data), TestAPI.Bytes.data)
+    }
+    testBytesEcho()
 })

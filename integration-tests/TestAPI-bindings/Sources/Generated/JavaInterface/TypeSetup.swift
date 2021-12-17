@@ -81,6 +81,42 @@ public func JNIOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try OptionalConverter<UInt8>.javaSetup(env: env)
         //print("setting up Bool...")
         try Bool.javaSetup(env: env)
+        //print("setting up Bytes...")
+        try Bytes.javaSetup(env: env)
+        try env.RegisterNatives(Bytes.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_echoBytes"),
+                signature: bag.add("(Ljava/util/List;)Ljava/util/List;"),
+                fnPtr: unsafeBitCast(java_Bytes_echoBytes, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_echoData"),
+                signature: bag.add("([B)[B"),
+                fnPtr: unsafeBitCast(java_Bytes_echoData, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_bytes"),
+                signature: bag.add("()Ljava/util/List;"),
+                fnPtr: unsafeBitCast(java_get_Bytes_bytes, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_data"),
+                signature: bag.add("()[B"),
+                fnPtr: unsafeBitCast(java_get_Bytes_data, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_finalize"),
+                signature: bag.add("()V"),
+                fnPtr: unsafeBitCast(Bytes._javaFinalizer, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_toString"),
+                signature: bag.add("()Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(Bytes._javaToString, to: UnsafeMutableRawPointer.self)
+            )
+        )
+        //print("setting up Foundation.Data...")
+        try Foundation.Data.javaSetup(env: env)
         //print("setting up Double...")
         try Double.javaSetup(env: env)
         //print("setting up ExportedByReference...")
@@ -554,6 +590,65 @@ public func JNIOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         )
         //print("setting up Swift.String...")
         try Swift.String.javaSetup(env: env)
+        //print("setting up Strings...")
+        try Strings.javaSetup(env: env)
+        try env.RegisterNatives(Strings.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_echo"),
+                signature: bag.add("(Ljava/lang/String;)Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_Strings_echo, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_simple"),
+                signature: bag.add("()Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_get_Strings_simple, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_accent"),
+                signature: bag.add("()Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_get_Strings_accent, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_script"),
+                signature: bag.add("()Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_get_Strings_script, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_chinese"),
+                signature: bag.add("()Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_get_Strings_chinese, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_chineseBMP"),
+                signature: bag.add("()Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_get_Strings_chineseBMP, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_chineseSIP"),
+                signature: bag.add("()Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_get_Strings_chineseSIP, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_emoji"),
+                signature: bag.add("()Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_get_Strings_emoji, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_emojiMulti"),
+                signature: bag.add("()Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_get_Strings_emojiMulti, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_finalize"),
+                signature: bag.add("()V"),
+                fnPtr: unsafeBitCast(Strings._javaFinalizer, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_toString"),
+                signature: bag.add("()Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(Strings._javaToString, to: UnsafeMutableRawPointer.self)
+            )
+        )
         //print("setting up UInt16...")
         try UInt16.javaSetup(env: env)
         //print("setting up UInt32...")

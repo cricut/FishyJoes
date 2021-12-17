@@ -1,5 +1,36 @@
 export declare namespace TestAPI {
     /**
+     * <!-- FishyJoes.exportReference(Bytes) -->
+     */
+    export class Bytes {
+        private constructor()
+
+        /**
+         * <!-- FishyJoes.export(bytes) -->
+         */
+        static readonly bytes: number[];
+
+        /**
+         * <!-- FishyJoes.export(data) -->
+         */
+        static readonly data: ArrayBuffer;
+
+        /**
+         * <!-- FishyJoes.export(echoBytes) -->
+         */
+        static echoBytes(
+            bytes: number[]
+        ): number[];
+
+        /**
+         * <!-- FishyJoes.export(echoData) -->
+         */
+        static echoData(
+            data: ArrayBuffer
+        ): ArrayBuffer;
+    }
+
+    /**
      * <!-- FishyJoes.exportReference(ExportedByReference) -->
      */
     export class ExportedByReference {
@@ -528,6 +559,60 @@ export declare namespace TestAPI {
              */
             static staticMutablePropery: number[];
         }
+    }
+
+    /**
+     * <!-- FishyJoes.exportReference(Strings) -->
+     */
+    export class Strings {
+        private constructor()
+
+        /**
+         * <!-- FishyJoes.export(simple) -->
+         */
+        static readonly simple: string;
+
+        /**
+         * <!-- FishyJoes.export(accent) -->
+         */
+        static readonly accent: string;
+
+        /**
+         * <!-- FishyJoes.export(script) -->
+         */
+        static readonly script: string;
+
+        /**
+         * <!-- FishyJoes.export(chinese) -->
+         */
+        static readonly chinese: string;
+
+        /**
+         * <!-- FishyJoes.export(chineseBMP) -->
+         */
+        static readonly chineseBMP: string;
+
+        /**
+         * <!-- FishyJoes.export(chineseSIP) -->
+         */
+        static readonly chineseSIP: string;
+
+        /**
+         * <!-- FishyJoes.export(emoji) -->
+         */
+        static readonly emoji: string;
+
+        /**
+         * <!-- FishyJoes.export(emojiMulti) -->
+         */
+        static readonly emojiMulti: string;
+
+        /**
+         * <!-- FishyJoes.export(echo) -->
+         */
+        static echo(
+            string: string
+        ): string;
     }
 
     export type Optional<T> = T | undefined;

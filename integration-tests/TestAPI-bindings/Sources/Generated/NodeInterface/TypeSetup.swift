@@ -13,6 +13,8 @@ public func napi_register_module_v1(env: napi_env, exports: napi_value) -> napi_
         napi_set_named_property(env, exports, "default", module)
 
         try Bool.nodeSetup(env: env, module: module)
+        try Bytes.nodeSetup(env: env, module: module)
+        try Data.nodeSetup(env: env, module: module)
         try Double.nodeSetup(env: env, module: module)
         try ExportedByReference.nodeSetup(env: env, module: module)
         try Float.nodeSetup(env: env, module: module)
@@ -24,6 +26,7 @@ public func napi_register_module_v1(env: napi_env, exports: napi_value) -> napi_
         try Primitives.PrimitiveHolder.nodeSetup(env: env, module: module)
         try Primitives.nodeSetup(env: env, module: module)
         try String.nodeSetup(env: env, module: module)
+        try Strings.nodeSetup(env: env, module: module)
         try UInt16.nodeSetup(env: env, module: module)
         try UInt32.nodeSetup(env: env, module: module)
         try UInt64.nodeSetup(env: env, module: module)
