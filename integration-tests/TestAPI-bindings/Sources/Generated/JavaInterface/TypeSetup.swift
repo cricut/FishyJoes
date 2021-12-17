@@ -81,6 +81,42 @@ public func JNIOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try OptionalConverter<UInt8>.javaSetup(env: env)
         //print("setting up Bool...")
         try Bool.javaSetup(env: env)
+        //print("setting up Bytes...")
+        try Bytes.javaSetup(env: env)
+        try env.RegisterNatives(Bytes.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_echoBytes"),
+                signature: bag.add("(Ljava/util/List;)Ljava/util/List;"),
+                fnPtr: unsafeBitCast(java_Bytes_echoBytes, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_echoData"),
+                signature: bag.add("([B)[B"),
+                fnPtr: unsafeBitCast(java_Bytes_echoData, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_bytes"),
+                signature: bag.add("()Ljava/util/List;"),
+                fnPtr: unsafeBitCast(java_get_Bytes_bytes, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_data"),
+                signature: bag.add("()[B"),
+                fnPtr: unsafeBitCast(java_get_Bytes_data, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_finalize"),
+                signature: bag.add("()V"),
+                fnPtr: unsafeBitCast(Bytes._javaFinalizer, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_toString"),
+                signature: bag.add("()Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(Bytes._javaToString, to: UnsafeMutableRawPointer.self)
+            )
+        )
+        //print("setting up Foundation.Data...")
+        try Foundation.Data.javaSetup(env: env)
         //print("setting up Double...")
         try Double.javaSetup(env: env)
         //print("setting up ExportedByReference...")

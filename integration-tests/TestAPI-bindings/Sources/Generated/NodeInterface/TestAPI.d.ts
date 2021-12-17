@@ -1,5 +1,36 @@
 export declare namespace TestAPI {
     /**
+     * <!-- FishyJoes.exportReference(Bytes) -->
+     */
+    export class Bytes {
+        private constructor()
+
+        /**
+         * <!-- FishyJoes.export(bytes) -->
+         */
+        static readonly bytes: number[];
+
+        /**
+         * <!-- FishyJoes.export(data) -->
+         */
+        static readonly data: ArrayBuffer;
+
+        /**
+         * <!-- FishyJoes.export(echoBytes) -->
+         */
+        static echoBytes(
+            bytes: number[]
+        ): number[];
+
+        /**
+         * <!-- FishyJoes.export(echoData) -->
+         */
+        static echoData(
+            data: ArrayBuffer
+        ): ArrayBuffer;
+    }
+
+    /**
      * <!-- FishyJoes.exportReference(ExportedByReference) -->
      */
     export class ExportedByReference {

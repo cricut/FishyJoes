@@ -11,7 +11,7 @@ internal class StringTests {
         assertEquals(Strings.script, "こんにちは")
         assertEquals(Strings.chinese, "你好")
         assertEquals(Strings.chineseBMP, "豈更車賈滑")
-        assertEquals(Strings.chineseSIP, "\uD840\uDC00\uD840\uDC02\uD840\uDC03\uD840\uDC04")
+        assertEquals(Strings.chineseSIP, "\uD840\uDC01\uD840\uDC02\uD840\uDC03\uD840\uDC04")
         assertEquals(Strings.emoji, "🤯🐶🍓")
         assertEquals(Strings.emojiMulti, "👨‍👩‍👧‍👦👍🏿🇺🇸")
     }
