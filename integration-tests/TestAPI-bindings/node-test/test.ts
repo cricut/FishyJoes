@@ -199,4 +199,24 @@ import(`${MODULE_PATH}/TestAPI.js`).then(({ TestAPI }) => {
         assert.equal(TestAPI.Strings.echo(TestAPI.Strings.emojiMulti), TestAPI.Strings.emojiMulti)
     }
     testStringEcho()
+
+    function testBytesValues() {
+        console.log("Testing Bytes Values...")
+        assert.deepEqual(TestAPI.Bytes.bytes, [0xDE, 0xAD, 0xBE, 0xEF])
+        var buffer = new ArrayBuffer(4)
+        var int8View = new Int8Array(buffer)
+        int8View[0] = 0x0B
+        int8View[1] = 0xAD
+        int8View[2] = 0xF0
+        int8View[3] = 0x0D
+        assert.deepEqual(TestAPI.Bytes.data, buffer)
+    }
+    testBytesValues()
+
+    function testBytesEcho() {
+        console.log("Testing Bytes Echo...")
+        assert.deepEqual(TestAPI.Bytes.echoBytes(TestAPI.Bytes.bytes), TestAPI.Bytes.bytes)
+        assert.deepEqual(TestAPI.Bytes.echoData(TestAPI.Bytes.data), TestAPI.Bytes.data)
+    }
+    testBytesEcho()
 })
