@@ -31,6 +31,28 @@ export declare namespace TestAPI {
     }
 
     /**
+     * <!-- FishyJoes.exportReference(Collections) -->
+     */
+    export class Collections {
+        private constructor()
+
+        /**
+         * <!-- FishyJoes.export(arrayOfInt) -->
+         */
+        static readonly arrayOfInt: number[];
+
+        /**
+         * <!-- FishyJoes.export(setOfInt) -->
+         */
+        static readonly setOfInt: Set<number>;
+
+        /**
+         * <!-- FishyJoes.export(dictionaryOfIntToInt) -->
+         */
+        static readonly dictionaryOfIntToInt: Map<number, number>;
+    }
+
+    /**
      * <!-- FishyJoes.exportReference(ExportedByReference) -->
      */
     export class ExportedByReference {
