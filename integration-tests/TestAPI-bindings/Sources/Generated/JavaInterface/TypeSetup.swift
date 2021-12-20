@@ -19,6 +19,8 @@ public func JNIOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try ArrayConverter<OptionalConverter<Double>>.javaSetup(env: env)
         //print("setting up ArrayConverter<OptionalConverter<Float>>...")
         try ArrayConverter<OptionalConverter<Float>>.javaSetup(env: env)
+        //print("setting up ArrayConverter<OptionalConverter<Int>>...")
+        try ArrayConverter<OptionalConverter<Int>>.javaSetup(env: env)
         //print("setting up ArrayConverter<OptionalConverter<Int16>>...")
         try ArrayConverter<OptionalConverter<Int16>>.javaSetup(env: env)
         //print("setting up ArrayConverter<OptionalConverter<Int32>>...")
@@ -59,14 +61,30 @@ public func JNIOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try ArrayConverter<UInt64>.javaSetup(env: env)
         //print("setting up ArrayConverter<UInt8>...")
         try ArrayConverter<UInt8>.javaSetup(env: env)
+        //print("setting up DictionaryConverter<OptionalConverter<Int>, OptionalConverter<Int>>...")
+        try DictionaryConverter<OptionalConverter<Int>, OptionalConverter<Int>>.javaSetup(env: env)
         //print("setting up DictionaryConverter<Int, Int>...")
         try DictionaryConverter<Int, Int>.javaSetup(env: env)
+        //print("setting up OptionalConverter<ArrayConverter<OptionalConverter<Int>>>...")
+        try OptionalConverter<ArrayConverter<OptionalConverter<Int>>>.javaSetup(env: env)
+        //print("setting up OptionalConverter<ArrayConverter<Int>>...")
+        try OptionalConverter<ArrayConverter<Int>>.javaSetup(env: env)
+        //print("setting up OptionalConverter<DictionaryConverter<OptionalConverter<Int>, OptionalConverter<Int>>>...")
+        try OptionalConverter<DictionaryConverter<OptionalConverter<Int>, OptionalConverter<Int>>>.javaSetup(env: env)
+        //print("setting up OptionalConverter<DictionaryConverter<Int, Int>>...")
+        try OptionalConverter<DictionaryConverter<Int, Int>>.javaSetup(env: env)
+        //print("setting up OptionalConverter<SetConverter<OptionalConverter<Int>>>...")
+        try OptionalConverter<SetConverter<OptionalConverter<Int>>>.javaSetup(env: env)
+        //print("setting up OptionalConverter<SetConverter<Int>>...")
+        try OptionalConverter<SetConverter<Int>>.javaSetup(env: env)
         //print("setting up OptionalConverter<Bool>...")
         try OptionalConverter<Bool>.javaSetup(env: env)
         //print("setting up OptionalConverter<Double>...")
         try OptionalConverter<Double>.javaSetup(env: env)
         //print("setting up OptionalConverter<Float>...")
         try OptionalConverter<Float>.javaSetup(env: env)
+        //print("setting up OptionalConverter<Int>...")
+        try OptionalConverter<Int>.javaSetup(env: env)
         //print("setting up OptionalConverter<Int16>...")
         try OptionalConverter<Int16>.javaSetup(env: env)
         //print("setting up OptionalConverter<Int32>...")
@@ -83,6 +101,8 @@ public func JNIOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try OptionalConverter<UInt64>.javaSetup(env: env)
         //print("setting up OptionalConverter<UInt8>...")
         try OptionalConverter<UInt8>.javaSetup(env: env)
+        //print("setting up SetConverter<OptionalConverter<Int>>...")
+        try SetConverter<OptionalConverter<Int>>.javaSetup(env: env)
         //print("setting up SetConverter<Int>...")
         try SetConverter<Int>.javaSetup(env: env)
         //print("setting up Bool...")
@@ -125,6 +145,36 @@ public func JNIOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try Collections.javaSetup(env: env)
         try env.RegisterNatives(Collections.javaClass,
             JNINativeMethod(
+                name: bag.add("__jni_echoArrayOfInt"),
+                signature: bag.add("(Ljava/util/List;)Ljava/util/List;"),
+                fnPtr: unsafeBitCast(java_Collections_echoArrayOfInt, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_echoSetOfInt"),
+                signature: bag.add("(Ljava/util/Set;)Ljava/util/Set;"),
+                fnPtr: unsafeBitCast(java_Collections_echoSetOfInt, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_echoDictionaryOfIntToInt"),
+                signature: bag.add("(Ljava/util/Map;)Ljava/util/Map;"),
+                fnPtr: unsafeBitCast(java_Collections_echoDictionaryOfIntToInt, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_echoMaybeArrayOfMaybeInt"),
+                signature: bag.add("(Ljava/util/List;)Ljava/util/List;"),
+                fnPtr: unsafeBitCast(java_Collections_echoMaybeArrayOfMaybeInt, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_echoMaybeSetOfMaybeInt"),
+                signature: bag.add("(Ljava/util/Set;)Ljava/util/Set;"),
+                fnPtr: unsafeBitCast(java_Collections_echoMaybeSetOfMaybeInt, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_echoMaybeDictionaryOfMaybeIntToMaybeInt"),
+                signature: bag.add("(Ljava/util/Map;)Ljava/util/Map;"),
+                fnPtr: unsafeBitCast(java_Collections_echoMaybeDictionaryOfMaybeIntToMaybeInt, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
                 name: bag.add("__jni_get_arrayOfInt"),
                 signature: bag.add("()Ljava/util/List;"),
                 fnPtr: unsafeBitCast(java_get_Collections_arrayOfInt, to: UnsafeMutableRawPointer.self)
@@ -138,6 +188,36 @@ public func JNIOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_get_dictionaryOfIntToInt"),
                 signature: bag.add("()Ljava/util/Map;"),
                 fnPtr: unsafeBitCast(java_get_Collections_dictionaryOfIntToInt, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_maybeArrayOfInt"),
+                signature: bag.add("()Ljava/util/List;"),
+                fnPtr: unsafeBitCast(java_get_Collections_maybeArrayOfInt, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_maybeSetOfInt"),
+                signature: bag.add("()Ljava/util/Set;"),
+                fnPtr: unsafeBitCast(java_get_Collections_maybeSetOfInt, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_maybeDictionaryOfIntToInt"),
+                signature: bag.add("()Ljava/util/Map;"),
+                fnPtr: unsafeBitCast(java_get_Collections_maybeDictionaryOfIntToInt, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_maybeArrayOfMaybeInt"),
+                signature: bag.add("()Ljava/util/List;"),
+                fnPtr: unsafeBitCast(java_get_Collections_maybeArrayOfMaybeInt, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_maybeSetOfMaybeInt"),
+                signature: bag.add("()Ljava/util/Set;"),
+                fnPtr: unsafeBitCast(java_get_Collections_maybeSetOfMaybeInt, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_maybeDictionaryOfMaybeIntToMaybeInt"),
+                signature: bag.add("()Ljava/util/Map;"),
+                fnPtr: unsafeBitCast(java_get_Collections_maybeDictionaryOfMaybeIntToMaybeInt, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_finalize"),

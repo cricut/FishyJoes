@@ -33,6 +33,102 @@ extension Collections: FishyJoesNodeRuntime.NodeConverter {
             env: env,
             name: "Collections",
             properties: [
+                "echoArrayOfInt": (
+                    .method(
+                        { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "echoArrayOfInt", expectedArgumentCount: 1) { env in
+                                let result = try ArrayConverter<Int>.toNode(
+                                    Collections.echo(
+                                        arrayOfInt: try env.argument(at: 0, converter: ArrayConverter<Int>.self)
+                                    ),
+                                    env: env.env
+                                )
+                                return result
+                            }
+                        }
+                    ),
+                    isStatic: true
+                ),
+                "echoSetOfInt": (
+                    .method(
+                        { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "echoSetOfInt", expectedArgumentCount: 1) { env in
+                                let result = try SetConverter<Int>.toNode(
+                                    Collections.echo(
+                                        setOfInt: try env.argument(at: 0, converter: SetConverter<Int>.self)
+                                    ),
+                                    env: env.env
+                                )
+                                return result
+                            }
+                        }
+                    ),
+                    isStatic: true
+                ),
+                "echoDictionaryOfIntToInt": (
+                    .method(
+                        { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "echoDictionaryOfIntToInt", expectedArgumentCount: 1) { env in
+                                let result = try DictionaryConverter<Int, Int>.toNode(
+                                    Collections.echo(
+                                        dictionaryOfIntToInt: try env.argument(at: 0, converter: DictionaryConverter<Int, Int>.self)
+                                    ),
+                                    env: env.env
+                                )
+                                return result
+                            }
+                        }
+                    ),
+                    isStatic: true
+                ),
+                "echoMaybeArrayOfMaybeInt": (
+                    .method(
+                        { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "echoMaybeArrayOfMaybeInt", expectedArgumentCount: 1) { env in
+                                let result = try OptionalConverter<ArrayConverter<OptionalConverter<Int>>>.toNode(
+                                    Collections.echo(
+                                        maybeArrayOfMaybeInt: try env.argument(at: 0, converter: OptionalConverter<ArrayConverter<OptionalConverter<Int>>>.self)
+                                    ),
+                                    env: env.env
+                                )
+                                return result
+                            }
+                        }
+                    ),
+                    isStatic: true
+                ),
+                "echoMaybeSetOfMaybeInt": (
+                    .method(
+                        { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "echoMaybeSetOfMaybeInt", expectedArgumentCount: 1) { env in
+                                let result = try OptionalConverter<SetConverter<OptionalConverter<Int>>>.toNode(
+                                    Collections.echo(
+                                        maybeSetOfMaybeInt: try env.argument(at: 0, converter: OptionalConverter<SetConverter<OptionalConverter<Int>>>.self)
+                                    ),
+                                    env: env.env
+                                )
+                                return result
+                            }
+                        }
+                    ),
+                    isStatic: true
+                ),
+                "echoMaybeDictionaryOfMaybeIntToMaybeInt": (
+                    .method(
+                        { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "echoMaybeDictionaryOfMaybeIntToMaybeInt", expectedArgumentCount: 1) { env in
+                                let result = try OptionalConverter<DictionaryConverter<OptionalConverter<Int>, OptionalConverter<Int>>>.toNode(
+                                    Collections.echo(
+                                        maybeDictionaryOfMaybeIntToMaybeInt: try env.argument(at: 0, converter: OptionalConverter<DictionaryConverter<OptionalConverter<Int>, OptionalConverter<Int>>>.self)
+                                    ),
+                                    env: env.env
+                                )
+                                return result
+                            }
+                        }
+                    ),
+                    isStatic: true
+                ),
                 "arrayOfInt": (
                     .accessor(
                         getter: { env, info in
@@ -60,6 +156,72 @@ extension Collections: FishyJoesNodeRuntime.NodeConverter {
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "dictionaryOfIntToInt", expectedArgumentCount: 0) { env in
                                 try DictionaryConverter<Int, Int>.toNode(Collections.dictionaryOfIntToInt, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: true
+                ),
+                "maybeArrayOfInt": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeArrayOfInt", expectedArgumentCount: 0) { env in
+                                try OptionalConverter<ArrayConverter<Int>>.toNode(Collections.maybeArrayOfInt, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: true
+                ),
+                "maybeSetOfInt": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeSetOfInt", expectedArgumentCount: 0) { env in
+                                try OptionalConverter<SetConverter<Int>>.toNode(Collections.maybeSetOfInt, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: true
+                ),
+                "maybeDictionaryOfIntToInt": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeDictionaryOfIntToInt", expectedArgumentCount: 0) { env in
+                                try OptionalConverter<DictionaryConverter<Int, Int>>.toNode(Collections.maybeDictionaryOfIntToInt, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: true
+                ),
+                "maybeArrayOfMaybeInt": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeArrayOfMaybeInt", expectedArgumentCount: 0) { env in
+                                try OptionalConverter<ArrayConverter<OptionalConverter<Int>>>.toNode(Collections.maybeArrayOfMaybeInt, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: true
+                ),
+                "maybeSetOfMaybeInt": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeSetOfMaybeInt", expectedArgumentCount: 0) { env in
+                                try OptionalConverter<SetConverter<OptionalConverter<Int>>>.toNode(Collections.maybeSetOfMaybeInt, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: true
+                ),
+                "maybeDictionaryOfMaybeIntToMaybeInt": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeDictionaryOfMaybeIntToMaybeInt", expectedArgumentCount: 0) { env in
+                                try OptionalConverter<DictionaryConverter<OptionalConverter<Int>, OptionalConverter<Int>>>.toNode(Collections.maybeDictionaryOfMaybeIntToMaybeInt, env: env.env)
                             }
                         },
                         setter: nil

@@ -50,6 +50,78 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(dictionaryOfIntToInt) -->
          */
         static readonly dictionaryOfIntToInt: Map<number, number>;
+
+        /**
+         * <!-- FishyJoes.export(maybeArrayOfInt) -->
+         */
+        static readonly maybeArrayOfInt?: number[];
+
+        /**
+         * <!-- FishyJoes.export(maybeSetOfInt) -->
+         */
+        static readonly maybeSetOfInt?: Set<number>;
+
+        /**
+         * <!-- FishyJoes.export(maybeDictionaryOfIntToInt) -->
+         */
+        static readonly maybeDictionaryOfIntToInt?: Map<number, number>;
+
+        /**
+         * <!-- FishyJoes.export(maybeArrayOfMaybeInt) -->
+         */
+        static readonly maybeArrayOfMaybeInt?: number[];
+
+        /**
+         * <!-- FishyJoes.export(maybeSetOfMaybeInt) -->
+         */
+        static readonly maybeSetOfMaybeInt?: Set<number>;
+
+        /**
+         * <!-- FishyJoes.export(maybeDictionaryOfMaybeIntToMaybeInt) -->
+         */
+        static readonly maybeDictionaryOfMaybeIntToMaybeInt?: Map<number, number>;
+
+        /**
+         * <!-- FishyJoes.export(echoArrayOfInt) -->
+         */
+        static echoArrayOfInt(
+            arrayOfInt: number[]
+        ): number[];
+
+        /**
+         * <!-- FishyJoes.export(echoSetOfInt) -->
+         */
+        static echoSetOfInt(
+            setOfInt: Set<number>
+        ): Set<number>;
+
+        /**
+         * <!-- FishyJoes.export(echoDictionaryOfIntToInt) -->
+         */
+        static echoDictionaryOfIntToInt(
+            dictionaryOfIntToInt: Map<number, number>
+        ): Map<number, number>;
+
+        /**
+         * <!-- FishyJoes.export(echoMaybeArrayOfMaybeInt) -->
+         */
+        static echoMaybeArrayOfMaybeInt(
+            maybeArrayOfMaybeInt: Optional<number[]>
+        ): Optional<number[]>;
+
+        /**
+         * <!-- FishyJoes.export(echoMaybeSetOfMaybeInt) -->
+         */
+        static echoMaybeSetOfMaybeInt(
+            maybeSetOfMaybeInt: Optional<Set<number>>
+        ): Optional<Set<number>>;
+
+        /**
+         * <!-- FishyJoes.export(echoMaybeDictionaryOfMaybeIntToMaybeInt) -->
+         */
+        static echoMaybeDictionaryOfMaybeIntToMaybeInt(
+            maybeDictionaryOfMaybeIntToMaybeInt: Optional<Map<number, number>>
+        ): Optional<Map<number, number>>;
     }
 
     /**
