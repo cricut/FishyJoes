@@ -57,4 +57,39 @@ public enum Collections {
     // TODO: Breaks during generation with error: invalid conversion from throwing function of type
 //    /// <!-- FishyJoes.export(collectionMapper) -->
 //    public static func collectionMapper(collection: [Int?]?, _ mapper: ([Int?]?) -> [Int?]?) -> [Int?]? { return mapper(collection) }
+    
+    // MARK: - Objects with Collection Members
+    
+    /// <!-- FishyJoes.export(Collections.CollectionHolder) -->
+    public struct CollectionHolder {
+        /// <!-- FishyJoes.export(staticPropery) -->
+        public static let staticPropery: [Int?] = [nil,2,7,3,5,8]
+        /// <!-- FishyJoes.export(staticMutablePropery) -->
+        public static var staticMutablePropery: [Int?] = [nil,2,7,3,5,8]
+        
+        public var boolArray: [Bool] = [false,true]
+        public var boolSet: Set<Bool> = [false,true]
+        public var boolDictionary: [Bool:Bool] = [true:false, false:true]
+        public var integerArray: [Int] = [2,7,3,5,8]
+        public var integerSet: Set<Int> = [5,9,2,4,3]
+        public var integerDictionary: [Int:Int] = [1:10, 2:20, 3:30, 4:40, 5:50]
+        public var stringArray: [String] = ["apple","pear","strawberry"]
+        public var stringSet: Set<String> = ["apple","pear","strawberry"]
+        public var stringDictionary: [String:String] = ["fruitOne":"apple", "fruitTwo":"pear", "fruitThree":"strawberry"]
+        
+        public init(boolArray: [Bool] = [false,true], boolSet: Set<Bool> = [false,true], boolDictionary: [Bool : Bool] = [true:false, false:true], integerArray: [Int] = [2,7,3,5,8], integerSet: Set<Int> = [5,9,2,4,3], integerDictionary: [Int : Int] = [1:10, 2:20, 3:30, 4:40, 5:50], stringArray: [String] = ["apple","pear","strawberry"], stringSet: Set<String> = ["apple","pear","strawberry"], stringDictionary: [String : String] = ["fruitOne":"apple", "fruitTwo":"pear", "fruitThree":"strawberry"]) {
+            self.boolArray = boolArray
+            self.boolSet = boolSet
+            self.boolDictionary = boolDictionary
+            self.integerArray = integerArray
+            self.integerSet = integerSet
+            self.integerDictionary = integerDictionary
+            self.stringArray = stringArray
+            self.stringSet = stringSet
+            self.stringDictionary = stringDictionary
+        }
+    }
+    
+    /// <!-- FishyJoes.export(defaultCollectionHolder) -->
+    public static let defaultCollectionHolder = CollectionHolder()
 }

@@ -67,4 +67,16 @@ internal class CollectionTests {
         // TODO: Fix breakage
 //        assertEquals(Collections.collectionMapper(arrayOf(10,20,30)) { (it ?: arrayOf()).map { it * 2 } }, arrayListOf(20,40,60))
     }
+
+    @Test
+    fun testObjectsWithCollectionMembers() {
+        assertEquals(Collections.CollectionHolder.staticPropery, arrayListOf(null, 2,7,3,5,8).map { it?.toLong() })
+        assertEquals(Collections.CollectionHolder.staticMutablePropery, arrayListOf(null, 2,7,3,5,8).map { it?.toLong() })
+        Collections.CollectionHolder.staticMutablePropery = arrayListOf(100,null,200).map { it?.toLong() }
+        assertEquals(Collections.CollectionHolder.staticMutablePropery, arrayListOf(100,null,200).map { it?.toLong() })
+        val s = Collections.defaultCollectionHolder
+        assertEquals(s, Collections.defaultCollectionHolder)
+        s.boolDictionary = s.boolDictionary.map { Pair(it.key, !it.value) }.toMap()
+        assertNotEquals(s, Collections.defaultCollectionHolder)
+    }
 }

@@ -82,6 +82,11 @@ export declare namespace TestAPI {
         static readonly maybeDictionaryOfMaybeIntToMaybeInt?: Map<number, number>;
 
         /**
+         * <!-- FishyJoes.export(defaultCollectionHolder) -->
+         */
+        static readonly defaultCollectionHolder: Collections.CollectionHolder;
+
+        /**
          * <!-- FishyJoes.export(echoArrayOfInt) -->
          */
         static echoArrayOfInt(
@@ -122,6 +127,42 @@ export declare namespace TestAPI {
         static echoMaybeDictionaryOfMaybeIntToMaybeInt(
             maybeDictionaryOfMaybeIntToMaybeInt: Optional<Map<number, number>>
         ): Optional<Map<number, number>>;
+    }
+    export namespace Collections {
+        /**
+         * <!-- FishyJoes.export(Collections.CollectionHolder) -->
+         */
+        export class CollectionHolder {
+            constructor(boolArray: boolean[], boolSet: Set<boolean>, boolDictionary: Map<boolean, boolean>, integerArray: number[], integerSet: Set<number>, integerDictionary: Map<number, number>, stringArray: string[], stringSet: Set<string>, stringDictionary: Map<string, string>)
+
+            boolArray: boolean[];
+
+            boolSet: Set<boolean>;
+
+            boolDictionary: Map<boolean, boolean>;
+
+            integerArray: number[];
+
+            integerSet: Set<number>;
+
+            integerDictionary: Map<number, number>;
+
+            stringArray: string[];
+
+            stringSet: Set<string>;
+
+            stringDictionary: Map<string, string>;
+
+            /**
+             * <!-- FishyJoes.export(staticPropery) -->
+             */
+            static readonly staticPropery: number[];
+
+            /**
+             * <!-- FishyJoes.export(staticMutablePropery) -->
+             */
+            static staticMutablePropery: number[];
+        }
     }
 
     /**

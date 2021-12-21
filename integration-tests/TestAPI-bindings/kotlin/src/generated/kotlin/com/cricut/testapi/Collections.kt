@@ -101,6 +101,15 @@ class Collections private constructor(
         private external fun __jni_get_maybeDictionaryOfMaybeIntToMaybeInt(): kotlin.collections.Map<Long?, Long?>?
 
         /**
+         * <!-- FishyJoes.export(defaultCollectionHolder) -->
+         */
+        val defaultCollectionHolder: com.cricut.testapi.Collections.CollectionHolder
+          get() = __jni_get_defaultCollectionHolder()
+        @JvmStatic
+        @JvmName("__jni_get_defaultCollectionHolder")
+        private external fun __jni_get_defaultCollectionHolder(): com.cricut.testapi.Collections.CollectionHolder
+
+        /**
          * <!-- FishyJoes.export(echoArrayOfInt) -->
          */
         fun echoArrayOfInt(
@@ -174,6 +183,51 @@ class Collections private constructor(
 
         init {
             LibraryLoader.ensureLoaded("TestAPI")
+        }
+    }
+
+    /**
+     * <!-- FishyJoes.export(Collections.CollectionHolder) -->
+     */
+    data class CollectionHolder(
+        var boolArray: kotlin.collections.List<Boolean>,
+        var boolSet: kotlin.collections.Set<Boolean>,
+        var boolDictionary: kotlin.collections.Map<Boolean, Boolean>,
+        var integerArray: kotlin.collections.List<Long>,
+        var integerSet: kotlin.collections.Set<Long>,
+        var integerDictionary: kotlin.collections.Map<Long, Long>,
+        var stringArray: kotlin.collections.List<String>,
+        var stringSet: kotlin.collections.Set<String>,
+        var stringDictionary: kotlin.collections.Map<String, String>
+    )
+     {
+
+        companion object {
+            /**
+             * <!-- FishyJoes.export(staticPropery) -->
+             */
+            val staticPropery: kotlin.collections.List<Long?>
+              get() = __jni_get_staticPropery()
+            @JvmStatic
+            @JvmName("__jni_get_staticPropery")
+            private external fun __jni_get_staticPropery(): kotlin.collections.List<Long?>
+
+            /**
+             * <!-- FishyJoes.export(staticMutablePropery) -->
+             */
+            var staticMutablePropery: kotlin.collections.List<Long?>
+              get() = __jni_get_staticMutablePropery()
+              set(value) { __jni_set_staticMutablePropery(value) } 
+            @JvmStatic
+            @JvmName("__jni_get_staticMutablePropery")
+            private external fun __jni_get_staticMutablePropery(): kotlin.collections.List<Long?>
+            @JvmStatic
+            @JvmName("__jni_set_staticMutablePropery")
+            private external fun __jni_set_staticMutablePropery(newValue: kotlin.collections.List<Long?>)
+
+            init {
+                LibraryLoader.ensureLoaded("TestAPI")
+            }
         }
     }
 }

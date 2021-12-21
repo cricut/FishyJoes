@@ -53,6 +53,8 @@ public func JNIOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try ArrayConverter<Int64>.javaSetup(env: env)
         //print("setting up ArrayConverter<Int8>...")
         try ArrayConverter<Int8>.javaSetup(env: env)
+        //print("setting up ArrayConverter<Swift.String>...")
+        try ArrayConverter<Swift.String>.javaSetup(env: env)
         //print("setting up ArrayConverter<UInt16>...")
         try ArrayConverter<UInt16>.javaSetup(env: env)
         //print("setting up ArrayConverter<UInt32>...")
@@ -63,8 +65,12 @@ public func JNIOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try ArrayConverter<UInt8>.javaSetup(env: env)
         //print("setting up DictionaryConverter<OptionalConverter<Int>, OptionalConverter<Int>>...")
         try DictionaryConverter<OptionalConverter<Int>, OptionalConverter<Int>>.javaSetup(env: env)
+        //print("setting up DictionaryConverter<Bool, Bool>...")
+        try DictionaryConverter<Bool, Bool>.javaSetup(env: env)
         //print("setting up DictionaryConverter<Int, Int>...")
         try DictionaryConverter<Int, Int>.javaSetup(env: env)
+        //print("setting up DictionaryConverter<Swift.String, Swift.String>...")
+        try DictionaryConverter<Swift.String, Swift.String>.javaSetup(env: env)
         //print("setting up OptionalConverter<ArrayConverter<OptionalConverter<Int>>>...")
         try OptionalConverter<ArrayConverter<OptionalConverter<Int>>>.javaSetup(env: env)
         //print("setting up OptionalConverter<ArrayConverter<Int>>...")
@@ -103,8 +109,12 @@ public func JNIOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try OptionalConverter<UInt8>.javaSetup(env: env)
         //print("setting up SetConverter<OptionalConverter<Int>>...")
         try SetConverter<OptionalConverter<Int>>.javaSetup(env: env)
+        //print("setting up SetConverter<Bool>...")
+        try SetConverter<Bool>.javaSetup(env: env)
         //print("setting up SetConverter<Int>...")
         try SetConverter<Int>.javaSetup(env: env)
+        //print("setting up SetConverter<Swift.String>...")
+        try SetConverter<Swift.String>.javaSetup(env: env)
         //print("setting up Bool...")
         try Bool.javaSetup(env: env)
         //print("setting up Bytes...")
@@ -139,6 +149,25 @@ public func JNIOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_toString"),
                 signature: bag.add("()Ljava/lang/String;"),
                 fnPtr: unsafeBitCast(Bytes._javaToString, to: UnsafeMutableRawPointer.self)
+            )
+        )
+        //print("setting up Collections.CollectionHolder...")
+        try Collections.CollectionHolder.javaSetup(env: env)
+        try env.RegisterNatives(Collections.CollectionHolder.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_get_staticPropery"),
+                signature: bag.add("()Ljava/util/List;"),
+                fnPtr: unsafeBitCast(java_get_Collections_CollectionHolder_staticPropery, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_staticMutablePropery"),
+                signature: bag.add("()Ljava/util/List;"),
+                fnPtr: unsafeBitCast(java_get_Collections_CollectionHolder_staticMutablePropery, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_set_staticMutablePropery"),
+                signature: bag.add("(Ljava/util/List;)V"),
+                fnPtr: unsafeBitCast(java_set_Collections_CollectionHolder_staticMutablePropery, to: UnsafeMutableRawPointer.self)
             )
         )
         //print("setting up Collections...")
@@ -218,6 +247,11 @@ public func JNIOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_get_maybeDictionaryOfMaybeIntToMaybeInt"),
                 signature: bag.add("()Ljava/util/Map;"),
                 fnPtr: unsafeBitCast(java_get_Collections_maybeDictionaryOfMaybeIntToMaybeInt, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_defaultCollectionHolder"),
+                signature: bag.add("()Lcom/cricut/testapi/Collections$CollectionHolder;"),
+                fnPtr: unsafeBitCast(java_get_Collections_defaultCollectionHolder, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_finalize"),

@@ -228,6 +228,17 @@ extension Collections: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
+                "defaultCollectionHolder": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "defaultCollectionHolder", expectedArgumentCount: 0) { env in
+                                try Collections.CollectionHolder.toNode(Collections.defaultCollectionHolder, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: true
+                ),
             ],
             constructor: { env, info in
                 FishyJoesNodeRuntime.callbackBody(env, info, name: "Collections_constructor", expectedArgumentCount: 1) { env in
