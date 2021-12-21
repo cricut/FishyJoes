@@ -49,7 +49,7 @@ internal class CollectionTests {
         assertEquals(Collections.echoArrayOfInt(Collections.arrayOfInt), Collections.arrayOfInt)
         // TODO: Dies with: Wrong object class or methodID passed to JNI call
 //        assertEquals(Collections.echoSetOfInt(Collections.setOfInt), Collections.setOfInt)
-        // TODO: Wrong object class or methodID passed to JNI call
+        // TODO: Dies with: Wrong object class or methodID passed to JNI call
 //        assertEquals(Collections.echoDictionaryOfIntToInt(Collections.dictionaryOfIntToInt), Collections.dictionaryOfIntToInt)
     }
 
