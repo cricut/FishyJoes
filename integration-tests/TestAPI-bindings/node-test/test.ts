@@ -283,4 +283,21 @@ import(`${MODULE_PATH}/TestAPI.js`).then(({ TestAPI }) => {
         // assert.deepEqual(TestAPI.Collections.collectionMapper(arrayOf(10,20,30)) { (it ?: arrayOf()).map { it * 2 } }, arrayListOf(20,40,60))
     }
     testFunctionsTakingClosuresWithCollectionTypes()
+
+    function testObjectsWithCollectionMembers() {
+        console.log("Testing Objects with Collection Members...")
+        assert.deepEqual(TestAPI.Collections.CollectionHolder.staticPropery, [undefined,2,7,3,5,8]);
+        assert.deepEqual(TestAPI.Collections.CollectionHolder.staticMutablePropery, [undefined,2,7,3,5,8]);
+        TestAPI.Collections.CollectionHolder.staticMutablePropery = [100,undefined,200];
+        assert.deepEqual(TestAPI.Collections.CollectionHolder.staticMutablePropery, [100,undefined,200]);
+        let s = TestAPI.Collections.defaultCollectionHolder;
+        assert.deepEqual(s, TestAPI.Collections.defaultCollectionHolder);
+        var map = new Map<boolean,boolean>()
+        s.boolDictionary.forEach((value: boolean, key: boolean) => {
+            map.set(key, !value);
+        });
+        s.boolDictionary = map
+        assert.notDeepEqual(s, TestAPI.Collections.defaultCollectionHolder);
+    }
+    testObjectsWithCollectionMembers()
 })

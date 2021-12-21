@@ -70,8 +70,8 @@ internal class CollectionTests {
 
     @Test
     fun testObjectsWithCollectionMembers() {
-        assertEquals(Collections.CollectionHolder.staticPropery, arrayListOf(null, 2,7,3,5,8).map { it?.toLong() })
-        assertEquals(Collections.CollectionHolder.staticMutablePropery, arrayListOf(null, 2,7,3,5,8).map { it?.toLong() })
+        assertEquals(Collections.CollectionHolder.staticPropery, arrayListOf(null,2,7,3,5,8).map { it?.toLong() })
+        assertEquals(Collections.CollectionHolder.staticMutablePropery, arrayListOf(null,2,7,3,5,8).map { it?.toLong() })
         Collections.CollectionHolder.staticMutablePropery = arrayListOf(100,null,200).map { it?.toLong() }
         assertEquals(Collections.CollectionHolder.staticMutablePropery, arrayListOf(100,null,200).map { it?.toLong() })
         val s = Collections.defaultCollectionHolder
