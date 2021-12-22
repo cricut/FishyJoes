@@ -34,6 +34,19 @@ extension ExportedByReference: JavaMutator {
         let longRef = UInt(env.GetLongField(this, _refFieldID))
         return try body(&Box<ExportedByReference>.takeUnretainedOpaque(javaNonNull(UnsafeMutablePointer(bitPattern: longRef))).value)
     }
+    static let _javaEquals: @convention(c)(
+        UnsafeMutablePointer<JNIEnv?>,
+        jobject?,
+        jobject?,
+        jobject?
+    ) -> Bool.CType = { _javaEnv, _, lhs, rhs in
+        FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
+            return try Bool.toJava(
+                ExportedByReference.fromJava(lhs, env: _javaEnv) == ExportedByReference.fromJava(rhs, env: _javaEnv),
+                env: _javaEnv
+            )
+        }
+    }
     static let _javaToString: @convention(c)(
         UnsafeMutablePointer<JNIEnv?>,
         jobject?

@@ -290,6 +290,11 @@ public func JNIOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_toString"),
                 signature: bag.add("()Ljava/lang/String;"),
                 fnPtr: unsafeBitCast(ExportedByReference._javaToString, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni__swiftEquals"),
+                signature: bag.add("(Lcom/cricut/testapi/ExportedByReference;Lcom/cricut/testapi/ExportedByReference;)Z"),
+                fnPtr: unsafeBitCast(ExportedByReference._javaEquals, to: UnsafeMutableRawPointer.self)
             )
         )
         //print("setting up Float...")

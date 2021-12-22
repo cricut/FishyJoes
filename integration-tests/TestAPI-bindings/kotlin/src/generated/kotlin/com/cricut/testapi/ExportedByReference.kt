@@ -20,6 +20,10 @@ class ExportedByReference private constructor(
     @JvmName("__jni_set_text")
     private external fun __jni_set_text(newValue: kotlin.String)
 
+    override fun equals(
+        other: Any?
+    ): Boolean = (other is com.cricut.testapi.ExportedByReference) && __jni__swiftEquals(this, other)
+
     override fun toString(
     ): String = __jni_toString()
     @JvmName("__jni_toString")
@@ -39,6 +43,13 @@ class ExportedByReference private constructor(
         @JvmName("__jni_create")
         private external fun __jni_create(
         ): com.cricut.testapi.ExportedByReference
+
+        @JvmStatic
+        @JvmName("__jni__swiftEquals")
+        private external fun __jni__swiftEquals(
+            lhs: com.cricut.testapi.ExportedByReference,
+            rhs: com.cricut.testapi.ExportedByReference
+        ): Boolean
 
         init {
             LibraryLoader.ensureLoaded("TestAPI")

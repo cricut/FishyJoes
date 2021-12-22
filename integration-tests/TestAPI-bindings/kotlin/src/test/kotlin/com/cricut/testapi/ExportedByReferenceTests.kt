@@ -7,5 +7,6 @@ internal class ExportedByReferenceTests {
     @Test
     fun makeMeIntoATest() {
         assertEquals(ExportedByReference.create().text, "Hello, World!")
+        assertEquals(ExportedByReference.create(), ExportedByReference.create())
     }
 }
