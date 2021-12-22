@@ -178,6 +178,46 @@ import(`${MODULE_PATH}/TestAPI.js`).then(({ TestAPI }) => {
     }
     testObjectsWithPrimitiveMembers()
 
+    // Struct Tests
+
+    function testStructConstruction() {
+        console.log("Testing Struct Construction...")
+        let memberwise = TestAPI.Structs.MemberwiseStruct.create()
+        assert.equal(memberwise.immutable, "Eternal")
+        assert.equal(memberwise.mutable, "Fickle")
+
+        let reference = TestAPI.Structs.ReferenceStruct.create()
+        assert.equal(reference.immutable, "Eternal")
+        assert.equal(reference.mutable, "Fickle")
+    }
+    testStructConstruction()
+
+    function testStructMutablility() {
+        console.log("Testing Struct Mutability...")
+        let memberwise = TestAPI.Structs.MemberwiseStruct.create()
+        assert.equal(memberwise.immutable, "Eternal")
+        // memberwise.immutable = "Should generate a compile error!"
+        assert.equal(memberwise.mutable, "Fickle")
+        memberwise.mutable = "Fickle as the wind"
+        assert.notEqual(memberwise.mutable, "Fickle")
+
+        let reference = TestAPI.Structs.ReferenceStruct.create()
+        assert.equal(reference.immutable, "Eternal")
+        // reference.immutable = "Should generate a compile error!"
+        assert.equal(reference.mutable, "Fickle")
+        memberwise.mutable = "Fickle as the wind"
+        assert.notEqual(memberwise.mutable, "Fickle")
+    }
+    testStructMutablility()
+
+    function testStructEquality() {
+        console.log("Testing Struct Equality...")
+        assert.deepEqual(TestAPI.Structs.MemberwiseStruct.create(), TestAPI.Structs.MemberwiseStruct.create())
+        assert.deepEqual(TestAPI.Structs.ReferenceStruct.create(), TestAPI.Structs.ReferenceStruct.create())
+        assert.notDeepEqual(TestAPI.Structs.MemberwiseStruct.create(), TestAPI.Structs.ReferenceStruct.create())
+    }
+    testStructEquality()
+
     // String Tests
 
     function testStringValues() {

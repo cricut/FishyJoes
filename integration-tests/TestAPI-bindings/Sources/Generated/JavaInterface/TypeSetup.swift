@@ -268,35 +268,6 @@ public func JNIOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try Foundation.Data.javaSetup(env: env)
         //print("setting up Double...")
         try Double.javaSetup(env: env)
-        //print("setting up ExportedByReference...")
-        try ExportedByReference.javaSetup(env: env)
-        try env.RegisterNatives(ExportedByReference.javaClass,
-            JNINativeMethod(
-                name: bag.add("__jni_create"),
-                signature: bag.add("()Lcom/cricut/testapi/ExportedByReference;"),
-                fnPtr: unsafeBitCast(java_ExportedByReference_create, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_text"),
-                signature: bag.add("()Ljava/lang/String;"),
-                fnPtr: unsafeBitCast(java_get_ExportedByReference_text, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_finalize"),
-                signature: bag.add("()V"),
-                fnPtr: unsafeBitCast(ExportedByReference._javaFinalizer, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_toString"),
-                signature: bag.add("()Ljava/lang/String;"),
-                fnPtr: unsafeBitCast(ExportedByReference._javaToString, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni__swiftEquals"),
-                signature: bag.add("(Lcom/cricut/testapi/ExportedByReference;Lcom/cricut/testapi/ExportedByReference;)Z"),
-                fnPtr: unsafeBitCast(ExportedByReference._javaEquals, to: UnsafeMutableRawPointer.self)
-            )
-        )
         //print("setting up Float...")
         try Float.javaSetup(env: env)
         //print("setting up Int...")
@@ -309,6 +280,15 @@ public func JNIOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try Int64.javaSetup(env: env)
         //print("setting up Int8...")
         try Int8.javaSetup(env: env)
+        //print("setting up Structs.MemberwiseStruct...")
+        try Structs.MemberwiseStruct.javaSetup(env: env)
+        try env.RegisterNatives(Structs.MemberwiseStruct.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_create"),
+                signature: bag.add("()Lcom/cricut/testapi/Structs$MemberwiseStruct;"),
+                fnPtr: unsafeBitCast(java_Structs_MemberwiseStruct_create, to: UnsafeMutableRawPointer.self)
+            )
+        )
         //print("setting up Primitives.PrimitiveHolder...")
         try Primitives.PrimitiveHolder.javaSetup(env: env)
         try env.RegisterNatives(Primitives.PrimitiveHolder.javaClass,
@@ -742,6 +722,40 @@ public func JNIOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(Primitives._javaToString, to: UnsafeMutableRawPointer.self)
             )
         )
+        //print("setting up Structs.ReferenceStruct...")
+        try Structs.ReferenceStruct.javaSetup(env: env)
+        try env.RegisterNatives(Structs.ReferenceStruct.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_create"),
+                signature: bag.add("()Lcom/cricut/testapi/Structs$ReferenceStruct;"),
+                fnPtr: unsafeBitCast(java_Structs_ReferenceStruct_create, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_immutable"),
+                signature: bag.add("()Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_get_Structs_ReferenceStruct_immutable, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_mutable"),
+                signature: bag.add("()Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_get_Structs_ReferenceStruct_mutable, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_finalize"),
+                signature: bag.add("()V"),
+                fnPtr: unsafeBitCast(Structs.ReferenceStruct._javaFinalizer, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_toString"),
+                signature: bag.add("()Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(Structs.ReferenceStruct._javaToString, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni__swiftEquals"),
+                signature: bag.add("(Lcom/cricut/testapi/Structs$ReferenceStruct;Lcom/cricut/testapi/Structs$ReferenceStruct;)Z"),
+                fnPtr: unsafeBitCast(Structs.ReferenceStruct._javaEquals, to: UnsafeMutableRawPointer.self)
+            )
+        )
         //print("setting up Swift.String...")
         try Swift.String.javaSetup(env: env)
         //print("setting up Strings...")
@@ -801,6 +815,20 @@ public func JNIOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_toString"),
                 signature: bag.add("()Ljava/lang/String;"),
                 fnPtr: unsafeBitCast(Strings._javaToString, to: UnsafeMutableRawPointer.self)
+            )
+        )
+        //print("setting up Structs...")
+        try Structs.javaSetup(env: env)
+        try env.RegisterNatives(Structs.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_finalize"),
+                signature: bag.add("()V"),
+                fnPtr: unsafeBitCast(Structs._javaFinalizer, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_toString"),
+                signature: bag.add("()Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(Structs._javaToString, to: UnsafeMutableRawPointer.self)
             )
         )
         //print("setting up UInt16...")

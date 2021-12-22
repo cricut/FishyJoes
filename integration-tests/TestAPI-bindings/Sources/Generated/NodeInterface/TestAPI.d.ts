@@ -166,24 +166,6 @@ export declare namespace TestAPI {
     }
 
     /**
-     * <!-- FishyJoes.exportReference(ExportedByReference) -->
-     */
-    export class ExportedByReference {
-        private constructor()
-
-        /**
-         * <!-- FishyJoes.export(text) -->
-         */
-        text: string;
-
-        /**
-         * <!-- FishyJoes.export(create) -->
-         */
-        static create(
-        ): ExportedByReference;
-    }
-
-    /**
      * <!-- FishyJoes.exportReference(Primitives) -->
      */
     export class Primitives {
@@ -748,6 +730,54 @@ export declare namespace TestAPI {
         static echo(
             string: string
         ): string;
+    }
+
+    /**
+     * <!-- FishyJoes.exportReference(Structs) -->
+     */
+    export class Structs {
+        private constructor()
+    }
+    export namespace Structs {
+        /**
+         * <!-- FishyJoes.export(Structs.MemberwiseStruct) -->
+         */
+        export class MemberwiseStruct {
+            constructor(immutable: string, mutable: string)
+
+            immutable: string;
+
+            mutable: string;
+
+            /**
+             * <!-- FishyJoes.export(create) -->
+             */
+            static create(
+            ): Structs.MemberwiseStruct;
+        }
+
+        /**
+         * <!-- FishyJoes.exportReference(Structs.ReferenceStruct) -->
+         */
+        export class ReferenceStruct {
+            private constructor()
+
+            /**
+             * <!-- FishyJoes.export(immutable) -->
+             */
+            immutable: string;
+
+            /**
+             * <!-- FishyJoes.export(mutable) -->
+             */
+            mutable: string;
+
+            /**
+             * <!-- FishyJoes.export(create) -->
+             */
+            static create(
+            ): Structs.ReferenceStruct;
+        }
     }
 
     export type Optional<T> = T | undefined;
