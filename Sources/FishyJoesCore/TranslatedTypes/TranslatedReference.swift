@@ -258,7 +258,7 @@ struct TranslatedReference: TranslatedType {
                             (labelComment: nil, name: "other", type: .optional(.named(package: nil, name: "Any"))),
                         ],
                         returnType: .named(package: nil, name: "Boolean"),
-                        body: "(other is \(kotlinType)) && __jni__swiftEquals(this, other)"
+                        body: "(other is \(kotlinType.kotlinType)) && __jni__swiftEquals(this, other)"
                     )
                 )
             )

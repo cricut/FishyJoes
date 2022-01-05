@@ -1,6 +1,9 @@
 import { strict as assert } from 'assert';
 
 import(`${MODULE_PATH}/TestAPI.js`).then(({ TestAPI }) => {
+
+    // Primitive Tests
+
     function testPrimitiveValues() {
         console.log("Testing Primitive Values...")
         assert.equal(TestAPI.Primitives.falseBool, false);
@@ -175,6 +178,48 @@ import(`${MODULE_PATH}/TestAPI.js`).then(({ TestAPI }) => {
     }
     testObjectsWithPrimitiveMembers()
 
+    // Struct Tests
+
+    function testStructConstruction() {
+        console.log("Testing Struct Construction...")
+        let memberwise = TestAPI.Structs.MemberwiseStruct.create()
+        assert.equal(memberwise.immutable, "Eternal")
+        assert.equal(memberwise.mutable, "Fickle")
+
+        let reference = TestAPI.Structs.ReferenceStruct.create()
+        assert.equal(reference.immutable, "Eternal")
+        assert.equal(reference.mutable, "Fickle")
+    }
+    testStructConstruction()
+
+    function testStructMutablility() {
+        console.log("Testing Struct Mutability...")
+        let memberwise = TestAPI.Structs.MemberwiseStruct.create()
+        assert.equal(memberwise.immutable, "Eternal")
+        // memberwise.immutable = "Should generate a compile error!"
+        assert.equal(memberwise.mutable, "Fickle")
+        memberwise.mutable = "Fickle as the wind"
+        assert.notEqual(memberwise.mutable, "Fickle")
+
+        let reference = TestAPI.Structs.ReferenceStruct.create()
+        assert.equal(reference.immutable, "Eternal")
+        // reference.immutable = "Should generate a compile error!"
+        assert.equal(reference.mutable, "Fickle")
+        memberwise.mutable = "Fickle as the wind"
+        assert.notEqual(memberwise.mutable, "Fickle")
+    }
+    testStructMutablility()
+
+    function testStructEquality() {
+        console.log("Testing Struct Equality...")
+        assert.deepEqual(TestAPI.Structs.MemberwiseStruct.create(), TestAPI.Structs.MemberwiseStruct.create())
+        assert.deepEqual(TestAPI.Structs.ReferenceStruct.create(), TestAPI.Structs.ReferenceStruct.create())
+        assert.notDeepEqual(TestAPI.Structs.MemberwiseStruct.create(), TestAPI.Structs.ReferenceStruct.create())
+    }
+    testStructEquality()
+
+    // String Tests
+
     function testStringValues() {
         console.log("Testing String Values...")
         assert.equal(TestAPI.Strings.simple, "Hello")
@@ -200,6 +245,8 @@ import(`${MODULE_PATH}/TestAPI.js`).then(({ TestAPI }) => {
     }
     testStringEcho()
 
+    // Bytes Tests
+
     function testBytesValues() {
         console.log("Testing Bytes Values...")
         assert.deepEqual(TestAPI.Bytes.bytes, [0xDE, 0xAD, 0xBE, 0xEF])
@@ -219,4 +266,78 @@ import(`${MODULE_PATH}/TestAPI.js`).then(({ TestAPI }) => {
         assert.deepEqual(TestAPI.Bytes.echoData(TestAPI.Bytes.data), TestAPI.Bytes.data)
     }
     testBytesEcho()
+
+    // Collection Tests
+
+    function testCollectionValues() {
+        console.log("Testing Collection Values...")
+        assert.deepEqual(TestAPI.Collections.arrayOfInt, [2,7,3,5,8])
+        assert([5,9,2,4,3].reduce(function(r,x){ return r && TestAPI.Collections.setOfInt.has(x); }))
+        let map = new Map<number, number>([[1,10],[2,20],[3,30],[4,40],[5,50]])
+        assert.deepEqual(TestAPI.Collections.dictionaryOfIntToInt, map)
+    }
+    testCollectionValues()
+
+    function testOptionalCollectionValues() {
+        console.log("Testing Optional Collection Values...")
+        assert.deepEqual(TestAPI.Collections.maybeArrayOfInt, [2,7,3,5,8])
+        assert([5,9,2,4,3].reduce(function(r,x){ return r && TestAPI.Collections.maybeSetOfInt.has(x); }))
+        let map = new Map<number, number>([[1,10],[2,20],[3,30],[4,40],[5,50]])
+        assert.deepEqual(TestAPI.Collections.maybeDictionaryOfIntToInt, map)
+    }
+    testOptionalCollectionValues()
+
+    function testOptionalCollectionOfOptionalValues() {
+        console.log("Testing Optional Collection of Optional Values...")
+        assert.deepEqual(TestAPI.Collections.maybeArrayOfMaybeInt, [undefined, 2,7,3,5,8])
+        // TODO: What happened to the nil value on the Swift side?!?
+        assert([5,9,2,4,3].reduce(function(r,x){ return r && TestAPI.Collections.maybeSetOfMaybeInt.has(x); }))
+        let map = new Map<number, number>([[undefined,100],[1,10],[2,20],[3,30],[4,40],[5,50]])
+        assert.deepEqual(TestAPI.Collections.maybeDictionaryOfMaybeIntToMaybeInt, map)
+    }
+    testOptionalCollectionOfOptionalValues()
+
+    function testFunctionsTakingAndReturningCollectionTypes() {
+        console.log("Testing Functions Taking and Returning Collection Types...")
+        assert.deepEqual(TestAPI.Collections.echoArrayOfInt(TestAPI.Collections.arrayOfInt), TestAPI.Collections.arrayOfInt)
+        // TODO: Dies with: TODO: implement Swift.Set.static func fromNode(_:env:)
+        // assert.deepEqual(TestAPI.Collections.echoSetOfInt(TestAPI.Collections.setOfInt), TestAPI.Collections.setOfInt)
+        // TODO: Dies with: TODO: implement Swift.Dictionary.static func fromNode(_:env:)
+        // assert.deepEqual(TestAPI.Collections.echoDictionaryOfIntToInt(TestAPI.Collections.dictionaryOfIntToInt), TestAPI.Collections.dictionaryOfIntToInt)
+    }
+    testFunctionsTakingAndReturningCollectionTypes()
+
+    function testFunctionsTakingAndReturningOptionalCollectionTypes() {
+        console.log("Testing Functions Taking and Returning Optional Collection Types...")
+        assert.deepEqual(TestAPI.Collections.echoMaybeArrayOfMaybeInt(TestAPI.Collections.maybeArrayOfMaybeInt), TestAPI.Collections.maybeArrayOfMaybeInt)
+        // TODO: Dies with: TODO: implement Swift.Set.static func fromNode(_:env:)
+        // assert.deepEqual(TestAPI.Collections.echoMaybeSetOfMaybeInt(TestAPI.Collections.maybeSetOfMaybeInt), TestAPI.Collections.maybeSetOfMaybeInt)
+        // TODO: Dies with: TODO: implement Swift.Dictionary.static func fromNode(_:env:)
+        // assert.deepEqual(TestAPI.Collections.echoMaybeDictionaryOfMaybeIntToMaybeInt(TestAPI.Collections.maybeDictionaryOfMaybeIntToMaybeInt), TestAPI.Collections.maybeDictionaryOfMaybeIntToMaybeInt)
+    }
+    testFunctionsTakingAndReturningOptionalCollectionTypes()
+
+    function testFunctionsTakingClosuresWithCollectionTypes() {
+        // TODO: Fix breakage
+        // console.log("Testing Functions Taking Closures with Collection Types...")
+        // assert.deepEqual(TestAPI.Collections.collectionMapper(arrayOf(10,20,30)) { (it ?: arrayOf()).map { it * 2 } }, arrayListOf(20,40,60))
+    }
+    testFunctionsTakingClosuresWithCollectionTypes()
+
+    function testObjectsWithCollectionMembers() {
+        console.log("Testing Objects with Collection Members...")
+        assert.deepEqual(TestAPI.Collections.CollectionHolder.staticPropery, [undefined,2,7,3,5,8]);
+        assert.deepEqual(TestAPI.Collections.CollectionHolder.staticMutablePropery, [undefined,2,7,3,5,8]);
+        TestAPI.Collections.CollectionHolder.staticMutablePropery = [100,undefined,200];
+        assert.deepEqual(TestAPI.Collections.CollectionHolder.staticMutablePropery, [100,undefined,200]);
+        let s = TestAPI.Collections.defaultCollectionHolder;
+        assert.deepEqual(s, TestAPI.Collections.defaultCollectionHolder);
+        var map = new Map<boolean,boolean>()
+        s.boolDictionary.forEach((value: boolean, key: boolean) => {
+            map.set(key, !value);
+        });
+        s.boolDictionary = map
+        assert.notDeepEqual(s, TestAPI.Collections.defaultCollectionHolder);
+    }
+    testObjectsWithCollectionMembers()
 })

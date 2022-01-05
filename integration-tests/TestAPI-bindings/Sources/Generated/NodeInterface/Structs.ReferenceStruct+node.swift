@@ -4,17 +4,17 @@ import FishyJoesNodeRuntime
 import Foundation
 import TestAPI
 
-extension ExportedByReference: FishyJoesNodeRuntime.NodeConverter {
+extension Structs.ReferenceStruct: FishyJoesNodeRuntime.NodeConverter {
     public static func fromNode(_ value: napi_value?, env: napi_env) throws -> Self {
         var pointer: UnsafeMutableRawPointer?
         try check(napi_unwrap(env, value, &pointer))
         guard let nonNilPointer = pointer else {
-            throw JSException(message: "expected ExportedByReference, got nil")
+            throw JSException(message: "expected Structs.ReferenceStruct, got nil")
         }
-        return try Box<ExportedByReference>.takeUnretainedOpaque(nonNilPointer).value
+        return try Box<Structs.ReferenceStruct>.takeUnretainedOpaque(nonNilPointer).value
     }
     public static func toNode(_ value: Self, env: napi_env) throws -> napi_value? {
-        let constructor = try FishyJoesNodeRuntime.InstanceData.data(for: env).constructor(for: "ExportedByReference", env: env)
+        let constructor = try FishyJoesNodeRuntime.InstanceData.data(for: env).constructor(for: "Structs.ReferenceStruct", env: env)
         var args: napi_value? = try FishyJoesNodeRuntime.Box(value).retainedExternal(env: env)
         var result: napi_value?
         try check(napi_new_instance(env, constructor, 1, &args, &result))
@@ -24,21 +24,21 @@ extension ExportedByReference: FishyJoesNodeRuntime.NodeConverter {
         var pointer: UnsafeMutableRawPointer?
         try check(napi_unwrap(env, this, &pointer))
         guard let nonNilPointer = pointer else {
-            throw JSException(message: "expected ExportedByReference, got nil")
+            throw JSException(message: "expected Structs.ReferenceStruct, got nil")
         }
-        try Box<ExportedByReference>.takeUnretainedOpaque(nonNilPointer).value = value
+        try Box<Structs.ReferenceStruct>.takeUnretainedOpaque(nonNilPointer).value = value
     }
     public static func nodeSetup(env: napi_env, module: napi_value) throws {
         let nodeClass = try NodeClass(
             env: env,
-            name: "ExportedByReference",
+            name: "Structs.ReferenceStruct",
             properties: [
                 "create": (
                     .method(
                         { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "create", expectedArgumentCount: 0) { env in
-                                let result = try ExportedByReference.toNode(
-                                    ExportedByReference(
+                                let result = try Structs.ReferenceStruct.toNode(
+                                    Structs.ReferenceStruct(
                                     ),
                                     env: env.env
                                 )
@@ -48,11 +48,22 @@ extension ExportedByReference: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "text": (
+                "immutable": (
                     .accessor(
                         getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "text", expectedArgumentCount: 0) { env in
-                                try Swift.String.toNode(env.this(converter: ExportedByReference.self).text, env: env.env)
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "immutable", expectedArgumentCount: 0) { env in
+                                try Swift.String.toNode(env.this(converter: Structs.ReferenceStruct.self).immutable, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: false
+                ),
+                "mutable": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "mutable", expectedArgumentCount: 0) { env in
+                                try Swift.String.toNode(env.this(converter: Structs.ReferenceStruct.self).mutable, env: env.env)
                             }
                         },
                         setter: nil
@@ -61,13 +72,13 @@ extension ExportedByReference: FishyJoesNodeRuntime.NodeConverter {
                 ),
             ],
             constructor: { env, info in
-                FishyJoesNodeRuntime.callbackBody(env, info, name: "ExportedByReference_constructor", expectedArgumentCount: 1) { env in
+                FishyJoesNodeRuntime.callbackBody(env, info, name: "Structs.ReferenceStruct_constructor", expectedArgumentCount: 1) { env in
                     // TODO: typecheck?
                     let this = try env.this()
                     let selfValue = try env.argument(at: 0)
-                    let boxed = try FishyJoesNodeRuntime.Box<ExportedByReference>.takeUnretained(selfValue, env: env.env)
+                    let boxed = try FishyJoesNodeRuntime.Box<Structs.ReferenceStruct>.takeUnretained(selfValue, env: env.env)
                     let finalizer: napi_finalize = { env, data, _ in
-                        FishyJoesNodeRuntime.Box<ExportedByReference>.releaseOpaque(data)
+                        FishyJoesNodeRuntime.Box<Structs.ReferenceStruct>.releaseOpaque(data)
                     }
                     try check(env: env.env, napi_wrap(env.env, this, boxed.retainedOpaque(), finalizer, nil, nil))
                     return this
@@ -77,7 +88,7 @@ extension ExportedByReference: FishyJoesNodeRuntime.NodeConverter {
         try FishyJoesNodeRuntime.mergeDefinitionInto(
             env: env,
             module: module,
-            path: "ExportedByReference",
+            path: "Structs.ReferenceStruct",
             nodeClass: nodeClass.constructor.value(env: env)
         )
     }

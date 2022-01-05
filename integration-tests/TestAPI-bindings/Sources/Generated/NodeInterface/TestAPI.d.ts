@@ -31,21 +31,138 @@ export declare namespace TestAPI {
     }
 
     /**
-     * <!-- FishyJoes.exportReference(ExportedByReference) -->
+     * <!-- FishyJoes.exportReference(Collections) -->
      */
-    export class ExportedByReference {
+    export class Collections {
         private constructor()
 
         /**
-         * <!-- FishyJoes.export(text) -->
+         * <!-- FishyJoes.export(arrayOfInt) -->
          */
-        text: string;
+        static readonly arrayOfInt: number[];
 
         /**
-         * <!-- FishyJoes.export(create) -->
+         * <!-- FishyJoes.export(setOfInt) -->
          */
-        static create(
-        ): ExportedByReference;
+        static readonly setOfInt: Set<number>;
+
+        /**
+         * <!-- FishyJoes.export(dictionaryOfIntToInt) -->
+         */
+        static readonly dictionaryOfIntToInt: Map<number, number>;
+
+        /**
+         * <!-- FishyJoes.export(maybeArrayOfInt) -->
+         */
+        static readonly maybeArrayOfInt?: number[];
+
+        /**
+         * <!-- FishyJoes.export(maybeSetOfInt) -->
+         */
+        static readonly maybeSetOfInt?: Set<number>;
+
+        /**
+         * <!-- FishyJoes.export(maybeDictionaryOfIntToInt) -->
+         */
+        static readonly maybeDictionaryOfIntToInt?: Map<number, number>;
+
+        /**
+         * <!-- FishyJoes.export(maybeArrayOfMaybeInt) -->
+         */
+        static readonly maybeArrayOfMaybeInt?: number[];
+
+        /**
+         * <!-- FishyJoes.export(maybeSetOfMaybeInt) -->
+         */
+        static readonly maybeSetOfMaybeInt?: Set<number>;
+
+        /**
+         * <!-- FishyJoes.export(maybeDictionaryOfMaybeIntToMaybeInt) -->
+         */
+        static readonly maybeDictionaryOfMaybeIntToMaybeInt?: Map<number, number>;
+
+        /**
+         * <!-- FishyJoes.export(defaultCollectionHolder) -->
+         */
+        static readonly defaultCollectionHolder: Collections.CollectionHolder;
+
+        /**
+         * <!-- FishyJoes.export(echoArrayOfInt) -->
+         */
+        static echoArrayOfInt(
+            arrayOfInt: number[]
+        ): number[];
+
+        /**
+         * <!-- FishyJoes.export(echoSetOfInt) -->
+         */
+        static echoSetOfInt(
+            setOfInt: Set<number>
+        ): Set<number>;
+
+        /**
+         * <!-- FishyJoes.export(echoDictionaryOfIntToInt) -->
+         */
+        static echoDictionaryOfIntToInt(
+            dictionaryOfIntToInt: Map<number, number>
+        ): Map<number, number>;
+
+        /**
+         * <!-- FishyJoes.export(echoMaybeArrayOfMaybeInt) -->
+         */
+        static echoMaybeArrayOfMaybeInt(
+            maybeArrayOfMaybeInt: Optional<number[]>
+        ): Optional<number[]>;
+
+        /**
+         * <!-- FishyJoes.export(echoMaybeSetOfMaybeInt) -->
+         */
+        static echoMaybeSetOfMaybeInt(
+            maybeSetOfMaybeInt: Optional<Set<number>>
+        ): Optional<Set<number>>;
+
+        /**
+         * <!-- FishyJoes.export(echoMaybeDictionaryOfMaybeIntToMaybeInt) -->
+         */
+        static echoMaybeDictionaryOfMaybeIntToMaybeInt(
+            maybeDictionaryOfMaybeIntToMaybeInt: Optional<Map<number, number>>
+        ): Optional<Map<number, number>>;
+    }
+    export namespace Collections {
+        /**
+         * <!-- FishyJoes.export(Collections.CollectionHolder) -->
+         */
+        export class CollectionHolder {
+            constructor(boolArray: boolean[], boolSet: Set<boolean>, boolDictionary: Map<boolean, boolean>, integerArray: number[], integerSet: Set<number>, integerDictionary: Map<number, number>, stringArray: string[], stringSet: Set<string>, stringDictionary: Map<string, string>)
+
+            boolArray: boolean[];
+
+            boolSet: Set<boolean>;
+
+            boolDictionary: Map<boolean, boolean>;
+
+            integerArray: number[];
+
+            integerSet: Set<number>;
+
+            integerDictionary: Map<number, number>;
+
+            stringArray: string[];
+
+            stringSet: Set<string>;
+
+            stringDictionary: Map<string, string>;
+
+            /**
+             * <!-- FishyJoes.export(staticPropery) -->
+             */
+            static readonly staticPropery: number[];
+
+            /**
+             * <!-- FishyJoes.export(staticMutablePropery) -->
+             */
+            static staticMutablePropery: number[];
+        }
     }
 
     /**
@@ -613,6 +730,54 @@ export declare namespace TestAPI {
         static echo(
             string: string
         ): string;
+    }
+
+    /**
+     * <!-- FishyJoes.exportReference(Structs) -->
+     */
+    export class Structs {
+        private constructor()
+    }
+    export namespace Structs {
+        /**
+         * <!-- FishyJoes.export(Structs.MemberwiseStruct) -->
+         */
+        export class MemberwiseStruct {
+            constructor(immutable: string, mutable: string)
+
+            immutable: string;
+
+            mutable: string;
+
+            /**
+             * <!-- FishyJoes.export(create) -->
+             */
+            static create(
+            ): Structs.MemberwiseStruct;
+        }
+
+        /**
+         * <!-- FishyJoes.exportReference(Structs.ReferenceStruct) -->
+         */
+        export class ReferenceStruct {
+            private constructor()
+
+            /**
+             * <!-- FishyJoes.export(immutable) -->
+             */
+            immutable: string;
+
+            /**
+             * <!-- FishyJoes.export(mutable) -->
+             */
+            mutable: string;
+
+            /**
+             * <!-- FishyJoes.export(create) -->
+             */
+            static create(
+            ): Structs.ReferenceStruct;
+        }
     }
 
     export type Optional<T> = T | undefined;

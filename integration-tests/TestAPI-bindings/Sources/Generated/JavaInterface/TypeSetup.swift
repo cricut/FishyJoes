@@ -19,6 +19,8 @@ public func JNIOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try ArrayConverter<OptionalConverter<Double>>.javaSetup(env: env)
         //print("setting up ArrayConverter<OptionalConverter<Float>>...")
         try ArrayConverter<OptionalConverter<Float>>.javaSetup(env: env)
+        //print("setting up ArrayConverter<OptionalConverter<Int>>...")
+        try ArrayConverter<OptionalConverter<Int>>.javaSetup(env: env)
         //print("setting up ArrayConverter<OptionalConverter<Int16>>...")
         try ArrayConverter<OptionalConverter<Int16>>.javaSetup(env: env)
         //print("setting up ArrayConverter<OptionalConverter<Int32>>...")
@@ -41,6 +43,8 @@ public func JNIOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try ArrayConverter<Double>.javaSetup(env: env)
         //print("setting up ArrayConverter<Float>...")
         try ArrayConverter<Float>.javaSetup(env: env)
+        //print("setting up ArrayConverter<Int>...")
+        try ArrayConverter<Int>.javaSetup(env: env)
         //print("setting up ArrayConverter<Int16>...")
         try ArrayConverter<Int16>.javaSetup(env: env)
         //print("setting up ArrayConverter<Int32>...")
@@ -49,6 +53,8 @@ public func JNIOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try ArrayConverter<Int64>.javaSetup(env: env)
         //print("setting up ArrayConverter<Int8>...")
         try ArrayConverter<Int8>.javaSetup(env: env)
+        //print("setting up ArrayConverter<Swift.String>...")
+        try ArrayConverter<Swift.String>.javaSetup(env: env)
         //print("setting up ArrayConverter<UInt16>...")
         try ArrayConverter<UInt16>.javaSetup(env: env)
         //print("setting up ArrayConverter<UInt32>...")
@@ -57,12 +63,34 @@ public func JNIOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try ArrayConverter<UInt64>.javaSetup(env: env)
         //print("setting up ArrayConverter<UInt8>...")
         try ArrayConverter<UInt8>.javaSetup(env: env)
+        //print("setting up DictionaryConverter<OptionalConverter<Int>, OptionalConverter<Int>>...")
+        try DictionaryConverter<OptionalConverter<Int>, OptionalConverter<Int>>.javaSetup(env: env)
+        //print("setting up DictionaryConverter<Bool, Bool>...")
+        try DictionaryConverter<Bool, Bool>.javaSetup(env: env)
+        //print("setting up DictionaryConverter<Int, Int>...")
+        try DictionaryConverter<Int, Int>.javaSetup(env: env)
+        //print("setting up DictionaryConverter<Swift.String, Swift.String>...")
+        try DictionaryConverter<Swift.String, Swift.String>.javaSetup(env: env)
+        //print("setting up OptionalConverter<ArrayConverter<OptionalConverter<Int>>>...")
+        try OptionalConverter<ArrayConverter<OptionalConverter<Int>>>.javaSetup(env: env)
+        //print("setting up OptionalConverter<ArrayConverter<Int>>...")
+        try OptionalConverter<ArrayConverter<Int>>.javaSetup(env: env)
+        //print("setting up OptionalConverter<DictionaryConverter<OptionalConverter<Int>, OptionalConverter<Int>>>...")
+        try OptionalConverter<DictionaryConverter<OptionalConverter<Int>, OptionalConverter<Int>>>.javaSetup(env: env)
+        //print("setting up OptionalConverter<DictionaryConverter<Int, Int>>...")
+        try OptionalConverter<DictionaryConverter<Int, Int>>.javaSetup(env: env)
+        //print("setting up OptionalConverter<SetConverter<OptionalConverter<Int>>>...")
+        try OptionalConverter<SetConverter<OptionalConverter<Int>>>.javaSetup(env: env)
+        //print("setting up OptionalConverter<SetConverter<Int>>...")
+        try OptionalConverter<SetConverter<Int>>.javaSetup(env: env)
         //print("setting up OptionalConverter<Bool>...")
         try OptionalConverter<Bool>.javaSetup(env: env)
         //print("setting up OptionalConverter<Double>...")
         try OptionalConverter<Double>.javaSetup(env: env)
         //print("setting up OptionalConverter<Float>...")
         try OptionalConverter<Float>.javaSetup(env: env)
+        //print("setting up OptionalConverter<Int>...")
+        try OptionalConverter<Int>.javaSetup(env: env)
         //print("setting up OptionalConverter<Int16>...")
         try OptionalConverter<Int16>.javaSetup(env: env)
         //print("setting up OptionalConverter<Int32>...")
@@ -79,6 +107,14 @@ public func JNIOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try OptionalConverter<UInt64>.javaSetup(env: env)
         //print("setting up OptionalConverter<UInt8>...")
         try OptionalConverter<UInt8>.javaSetup(env: env)
+        //print("setting up SetConverter<OptionalConverter<Int>>...")
+        try SetConverter<OptionalConverter<Int>>.javaSetup(env: env)
+        //print("setting up SetConverter<Bool>...")
+        try SetConverter<Bool>.javaSetup(env: env)
+        //print("setting up SetConverter<Int>...")
+        try SetConverter<Int>.javaSetup(env: env)
+        //print("setting up SetConverter<Swift.String>...")
+        try SetConverter<Swift.String>.javaSetup(env: env)
         //print("setting up Bool...")
         try Bool.javaSetup(env: env)
         //print("setting up Bytes...")
@@ -115,34 +151,123 @@ public func JNIOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(Bytes._javaToString, to: UnsafeMutableRawPointer.self)
             )
         )
-        //print("setting up Foundation.Data...")
-        try Foundation.Data.javaSetup(env: env)
-        //print("setting up Double...")
-        try Double.javaSetup(env: env)
-        //print("setting up ExportedByReference...")
-        try ExportedByReference.javaSetup(env: env)
-        try env.RegisterNatives(ExportedByReference.javaClass,
+        //print("setting up Collections.CollectionHolder...")
+        try Collections.CollectionHolder.javaSetup(env: env)
+        try env.RegisterNatives(Collections.CollectionHolder.javaClass,
             JNINativeMethod(
-                name: bag.add("__jni_create"),
-                signature: bag.add("()Lcom/cricut/testapi/ExportedByReference;"),
-                fnPtr: unsafeBitCast(java_ExportedByReference_create, to: UnsafeMutableRawPointer.self)
+                name: bag.add("__jni_get_staticPropery"),
+                signature: bag.add("()Ljava/util/List;"),
+                fnPtr: unsafeBitCast(java_get_Collections_CollectionHolder_staticPropery, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_get_text"),
-                signature: bag.add("()Ljava/lang/String;"),
-                fnPtr: unsafeBitCast(java_get_ExportedByReference_text, to: UnsafeMutableRawPointer.self)
+                name: bag.add("__jni_get_staticMutablePropery"),
+                signature: bag.add("()Ljava/util/List;"),
+                fnPtr: unsafeBitCast(java_get_Collections_CollectionHolder_staticMutablePropery, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_set_staticMutablePropery"),
+                signature: bag.add("(Ljava/util/List;)V"),
+                fnPtr: unsafeBitCast(java_set_Collections_CollectionHolder_staticMutablePropery, to: UnsafeMutableRawPointer.self)
+            )
+        )
+        //print("setting up Collections...")
+        try Collections.javaSetup(env: env)
+        try env.RegisterNatives(Collections.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_echoArrayOfInt"),
+                signature: bag.add("(Ljava/util/List;)Ljava/util/List;"),
+                fnPtr: unsafeBitCast(java_Collections_echoArrayOfInt, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_echoSetOfInt"),
+                signature: bag.add("(Ljava/util/Set;)Ljava/util/Set;"),
+                fnPtr: unsafeBitCast(java_Collections_echoSetOfInt, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_echoDictionaryOfIntToInt"),
+                signature: bag.add("(Ljava/util/Map;)Ljava/util/Map;"),
+                fnPtr: unsafeBitCast(java_Collections_echoDictionaryOfIntToInt, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_echoMaybeArrayOfMaybeInt"),
+                signature: bag.add("(Ljava/util/List;)Ljava/util/List;"),
+                fnPtr: unsafeBitCast(java_Collections_echoMaybeArrayOfMaybeInt, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_echoMaybeSetOfMaybeInt"),
+                signature: bag.add("(Ljava/util/Set;)Ljava/util/Set;"),
+                fnPtr: unsafeBitCast(java_Collections_echoMaybeSetOfMaybeInt, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_echoMaybeDictionaryOfMaybeIntToMaybeInt"),
+                signature: bag.add("(Ljava/util/Map;)Ljava/util/Map;"),
+                fnPtr: unsafeBitCast(java_Collections_echoMaybeDictionaryOfMaybeIntToMaybeInt, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_arrayOfInt"),
+                signature: bag.add("()Ljava/util/List;"),
+                fnPtr: unsafeBitCast(java_get_Collections_arrayOfInt, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_setOfInt"),
+                signature: bag.add("()Ljava/util/Set;"),
+                fnPtr: unsafeBitCast(java_get_Collections_setOfInt, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_dictionaryOfIntToInt"),
+                signature: bag.add("()Ljava/util/Map;"),
+                fnPtr: unsafeBitCast(java_get_Collections_dictionaryOfIntToInt, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_maybeArrayOfInt"),
+                signature: bag.add("()Ljava/util/List;"),
+                fnPtr: unsafeBitCast(java_get_Collections_maybeArrayOfInt, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_maybeSetOfInt"),
+                signature: bag.add("()Ljava/util/Set;"),
+                fnPtr: unsafeBitCast(java_get_Collections_maybeSetOfInt, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_maybeDictionaryOfIntToInt"),
+                signature: bag.add("()Ljava/util/Map;"),
+                fnPtr: unsafeBitCast(java_get_Collections_maybeDictionaryOfIntToInt, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_maybeArrayOfMaybeInt"),
+                signature: bag.add("()Ljava/util/List;"),
+                fnPtr: unsafeBitCast(java_get_Collections_maybeArrayOfMaybeInt, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_maybeSetOfMaybeInt"),
+                signature: bag.add("()Ljava/util/Set;"),
+                fnPtr: unsafeBitCast(java_get_Collections_maybeSetOfMaybeInt, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_maybeDictionaryOfMaybeIntToMaybeInt"),
+                signature: bag.add("()Ljava/util/Map;"),
+                fnPtr: unsafeBitCast(java_get_Collections_maybeDictionaryOfMaybeIntToMaybeInt, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_defaultCollectionHolder"),
+                signature: bag.add("()Lcom/cricut/testapi/Collections$CollectionHolder;"),
+                fnPtr: unsafeBitCast(java_get_Collections_defaultCollectionHolder, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_finalize"),
                 signature: bag.add("()V"),
-                fnPtr: unsafeBitCast(ExportedByReference._javaFinalizer, to: UnsafeMutableRawPointer.self)
+                fnPtr: unsafeBitCast(Collections._javaFinalizer, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_toString"),
                 signature: bag.add("()Ljava/lang/String;"),
-                fnPtr: unsafeBitCast(ExportedByReference._javaToString, to: UnsafeMutableRawPointer.self)
+                fnPtr: unsafeBitCast(Collections._javaToString, to: UnsafeMutableRawPointer.self)
             )
         )
+        //print("setting up Foundation.Data...")
+        try Foundation.Data.javaSetup(env: env)
+        //print("setting up Double...")
+        try Double.javaSetup(env: env)
         //print("setting up Float...")
         try Float.javaSetup(env: env)
         //print("setting up Int...")
@@ -155,6 +280,15 @@ public func JNIOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try Int64.javaSetup(env: env)
         //print("setting up Int8...")
         try Int8.javaSetup(env: env)
+        //print("setting up Structs.MemberwiseStruct...")
+        try Structs.MemberwiseStruct.javaSetup(env: env)
+        try env.RegisterNatives(Structs.MemberwiseStruct.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_create"),
+                signature: bag.add("()Lcom/cricut/testapi/Structs$MemberwiseStruct;"),
+                fnPtr: unsafeBitCast(java_Structs_MemberwiseStruct_create, to: UnsafeMutableRawPointer.self)
+            )
+        )
         //print("setting up Primitives.PrimitiveHolder...")
         try Primitives.PrimitiveHolder.javaSetup(env: env)
         try env.RegisterNatives(Primitives.PrimitiveHolder.javaClass,
@@ -588,6 +722,40 @@ public func JNIOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(Primitives._javaToString, to: UnsafeMutableRawPointer.self)
             )
         )
+        //print("setting up Structs.ReferenceStruct...")
+        try Structs.ReferenceStruct.javaSetup(env: env)
+        try env.RegisterNatives(Structs.ReferenceStruct.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_create"),
+                signature: bag.add("()Lcom/cricut/testapi/Structs$ReferenceStruct;"),
+                fnPtr: unsafeBitCast(java_Structs_ReferenceStruct_create, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_immutable"),
+                signature: bag.add("()Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_get_Structs_ReferenceStruct_immutable, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_mutable"),
+                signature: bag.add("()Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_get_Structs_ReferenceStruct_mutable, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_finalize"),
+                signature: bag.add("()V"),
+                fnPtr: unsafeBitCast(Structs.ReferenceStruct._javaFinalizer, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_toString"),
+                signature: bag.add("()Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(Structs.ReferenceStruct._javaToString, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni__swiftEquals"),
+                signature: bag.add("(Lcom/cricut/testapi/Structs$ReferenceStruct;Lcom/cricut/testapi/Structs$ReferenceStruct;)Z"),
+                fnPtr: unsafeBitCast(Structs.ReferenceStruct._javaEquals, to: UnsafeMutableRawPointer.self)
+            )
+        )
         //print("setting up Swift.String...")
         try Swift.String.javaSetup(env: env)
         //print("setting up Strings...")
@@ -647,6 +815,20 @@ public func JNIOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_toString"),
                 signature: bag.add("()Ljava/lang/String;"),
                 fnPtr: unsafeBitCast(Strings._javaToString, to: UnsafeMutableRawPointer.self)
+            )
+        )
+        //print("setting up Structs...")
+        try Structs.javaSetup(env: env)
+        try env.RegisterNatives(Structs.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_finalize"),
+                signature: bag.add("()V"),
+                fnPtr: unsafeBitCast(Structs._javaFinalizer, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_toString"),
+                signature: bag.add("()Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(Structs._javaToString, to: UnsafeMutableRawPointer.self)
             )
         )
         //print("setting up UInt16...")
