@@ -6,42 +6,23 @@ import org.junit.jupiter.api.Test
 internal class CollectionTests {
     @Test
     fun testCollectionValues() {
-        assertEquals(Collections.arrayOfInt, arrayListOf(2,7,3,5,8).map { it.toLong() })
-        assert(Collections.setOfInt.containsAll(setOf(5,9,2,4,3).map { it.toLong() }))
-        assertEquals(Collections.dictionaryOfIntToInt, mapOf(
-            1.toLong() to 10.toLong(),
-            2.toLong() to 20.toLong(),
-            3.toLong() to 30.toLong(),
-            4.toLong() to 40.toLong(),
-            5.toLong() to 50.toLong()
-        ))
+        assertEquals(Collections.arrayOfInt, arrayListOf(2L,7L,3L,5L,8L))
+        assert(Collections.setOfInt.containsAll(setOf(5L,9L,2L,4L,3L)))
+        assertEquals(Collections.dictionaryOfIntToInt, mapOf(1L to 10L,2L to 20L,3L to 30L,4L to 40L,5L to 50L))
     }
 
     @Test
     fun testOptionalCollectionValues() {
-        assertEquals(Collections.maybeArrayOfInt, arrayListOf(2,7,3,5,8).map { it.toLong() })
-        assert(Collections.maybeSetOfInt?.containsAll(setOf(5,9,2,4,3).map { it.toLong() }) ?: false)
-        assertEquals(Collections.maybeDictionaryOfIntToInt, mapOf(
-            1.toLong() to 10.toLong(),
-            2.toLong() to 20.toLong(),
-            3.toLong() to 30.toLong(),
-            4.toLong() to 40.toLong(),
-            5.toLong() to 50.toLong()
-        ))
+        assertEquals(Collections.maybeArrayOfInt, arrayListOf(2L,7L,3L,5L,8L))
+        assertEquals(Collections.maybeSetOfInt?.containsAll(setOf(5L,9L,2L,4L,3L)), true)
+        assertEquals(Collections.maybeDictionaryOfIntToInt, mapOf(1L to 10L,2L to 20L,3L to 30L,4L to 40L,5L to 50L))
     }
 
     @Test
     fun testOptionalCollectionOfOptionalValues() {
-        assertEquals(Collections.maybeArrayOfMaybeInt, arrayListOf(null, 2,7,3,5,8).map { it?.toLong() })
-        assert(Collections.maybeSetOfMaybeInt?.containsAll(setOf(null, 5,9,2,4,3).map { it?.toLong() }) ?: false)
-        assertEquals(Collections.maybeDictionaryOfMaybeIntToMaybeInt, mapOf(
-            null to 100,
-            1.toLong() to 10.toLong(),
-            2.toLong() to 20.toLong(),
-            3.toLong() to 30.toLong(),
-            4.toLong() to 40.toLong(),
-            5.toLong() to 50.toLong()
-        ))
+        assertEquals(Collections.maybeArrayOfMaybeInt, arrayListOf(null,2L,7L,3L,5L,8L))
+        assertEquals(Collections.maybeSetOfMaybeInt?.containsAll(setOf(null,5L,9L,2L,4L,3L)), true)
+        assertEquals(Collections.maybeDictionaryOfMaybeIntToMaybeInt, mapOf(null to 100,1L to 10L,2L to 20L,3L to 30L,4L to 40L,5L to 50L))
     }
 
     @Test
@@ -70,10 +51,10 @@ internal class CollectionTests {
 
     @Test
     fun testObjectsWithCollectionMembers() {
-        assertEquals(Collections.CollectionHolder.staticPropery, arrayListOf(null,2,7,3,5,8).map { it?.toLong() })
-        assertEquals(Collections.CollectionHolder.staticMutablePropery, arrayListOf(null,2,7,3,5,8).map { it?.toLong() })
-        Collections.CollectionHolder.staticMutablePropery = arrayListOf(100,null,200).map { it?.toLong() }
-        assertEquals(Collections.CollectionHolder.staticMutablePropery, arrayListOf(100,null,200).map { it?.toLong() })
+        assertEquals(Collections.CollectionHolder.staticPropery, arrayListOf(null,2L,7L,3L,5L,8L))
+        assertEquals(Collections.CollectionHolder.staticMutablePropery, arrayListOf(null,2L,7L,3L,5L,8L))
+        Collections.CollectionHolder.staticMutablePropery = arrayListOf(100L,null,200L)
+        assertEquals(Collections.CollectionHolder.staticMutablePropery, arrayListOf(100L,null,200L))
         val s = Collections.defaultCollectionHolder
         assertEquals(s, Collections.defaultCollectionHolder)
         s.boolDictionary = s.boolDictionary.map { Pair(it.key, !it.value) }.toMap()
