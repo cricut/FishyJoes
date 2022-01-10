@@ -1,7 +1,6 @@
 import FishyJoesJavaRuntime
 
 var refClass: jclass?
-var refFieldID: jfieldID?
 var refConstructorID: jmethodID?
 
 @_cdecl("JNI_OnLoad")
@@ -29,13 +28,12 @@ public func JNIOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
             ),
             JNINativeMethod(
                 name: bag.add("makeReference"),
-                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/SwiftReference;"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/TestReference;"),
                 fnPtr: unsafeBitCast(java_ref_make, to: UnsafeMutableRawPointer.self)
             )
         )
 
-        refClass = try env.globalRef(env.FindClass("com/cricut/fishyjoes/runtime/SwiftReference"))
-        refFieldID = try env.GetFieldID(refClass, "ref", "J")
+        refClass = try env.globalRef(env.FindClass("com/cricut/fishyjoes/runtime/TestReference"))
         refConstructorID = try env.GetMethodID(refClass, "<init>", "(J)V")
         try env.RegisterNatives(
             refClass,
@@ -82,16 +80,13 @@ let java_ref_make: @convention(c) (UnsafeMutablePointer<JNIEnv?>, jobject) -> jo
 
 let java_ref_append: @convention(c) (UnsafeMutablePointer<JNIEnv?>, jobject, jlong) -> Void = { env, this, appendee in
     FishyJoesJavaRuntime.callbackBody(env) { env in
-        let longRef = UInt(env.GetLongField(this, refFieldID))
-        let box = try Box<[Int64]>.takeUnretainedOpaque(UnsafeMutablePointer(bitPattern: longRef)!)
-        box.value.append(Int64(appendee))
+        try Box<[Int64]>.fromJava(this, env: env).value.append(Int64(appendee))
     }
 }
 
 let java_ref_addr: @convention(c) (UnsafeMutablePointer<JNIEnv?>, jobject) -> jlong = { env, this in
     FishyJoesJavaRuntime.callbackBody(env) { env in
-        let longRef = UInt(env.GetLongField(this, refFieldID))
-        let box = try Box<[Int64]>.takeUnretainedOpaque(UnsafeMutablePointer(bitPattern: longRef)!)
+        let box = try Box<[Int64]>.fromJava(this, env: env)
         let storage = { (x: UnsafeRawPointer) in x }(box.value)
         return jlong(UInt(bitPattern: storage))
     }
@@ -99,8 +94,7 @@ let java_ref_addr: @convention(c) (UnsafeMutablePointer<JNIEnv?>, jobject) -> jl
 
 let java_ref_log: @convention(c) (UnsafeMutablePointer<JNIEnv?>, jobject) -> Void = { env, this in
     FishyJoesJavaRuntime.callbackBody(env) { env in
-        let longRef = UInt(env.GetLongField(this, refFieldID))
-        let box = try Box<[Int64]>.takeUnretainedOpaque(UnsafeMutablePointer(bitPattern: longRef)!)
+        let box = try Box<[Int64]>.fromJava(this, env: env)
         print(box.value)
     }
 }

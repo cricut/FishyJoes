@@ -201,15 +201,13 @@ class KotlinProductClass: KotlinClass {
     let constructor: Constructor
     let fields: [Variable]
     let methods: [Method]
-    let finalizer: Bool
 
     init(
         module: String,
         documentation: [String],
         name: String,
         constructor: Constructor,
-        fieldsAndMethods: [MethodOrVariable],
-        finalizer: Bool = false
+        fieldsAndMethods: [MethodOrVariable]
     ) {
         self.constructor = constructor
         self.fields = fieldsAndMethods.compactMap {
@@ -224,7 +222,6 @@ class KotlinProductClass: KotlinClass {
             }
             return method
         }
-        self.finalizer = finalizer
         super.init(module: module, documentation: documentation, name: name)
     }
 
@@ -244,11 +241,6 @@ class KotlinProductClass: KotlinClass {
         fragment.outputBlock(" {") {
             fields.filter { !$0.isStatic }.forEach { output(field: $0, to: fragment) }
             methods.filter { !$0.isStatic }.forEach { output(method: $0, to: fragment) }
-
-            if finalizer {
-                fragment.output("protected fun finalize() = __jni_finalize()")
-                fragment.output("private external fun __jni_finalize()")
-            }
 
             fragment.blankLine()
 
