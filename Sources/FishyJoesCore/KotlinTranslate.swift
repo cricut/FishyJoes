@@ -15,12 +15,13 @@ class KotlinTranslate {
         let containingNamespace: String
 
         if let selfType = method.definedIn {
-            containingNamespace = context.resolve(type: selfType).sourceType.name
+            let resolved = context.resolve(type: selfType)
+            containingNamespace = resolved.sourceType.name
 
             if method.isStatic {
                 selfExpression = containingNamespace
             } else {
-                selfExpression = "\(containingNamespace).fromJava(_javaThis, env: _javaEnv)"
+                selfExpression = "\(resolved.converterType.name).fromJava(_javaThis, env: _javaEnv)"
             }
         } else {
             containingNamespace = context.module
@@ -190,7 +191,7 @@ class KotlinTranslate {
                     javaTypeListFragment.output("try \(resolved.converterType.name).javaSetup(env: env)")
                     if case .named = type {
                         if let nativeMethods = allMethods[type.name] {
-                            javaTypeListFragment.outputBlock("try env.RegisterNatives(\(type.name).javaClass,", closeWith: ")") {
+                            javaTypeListFragment.outputBlock("try env.RegisterNatives(\(resolved.converterType.name).javaClass,", closeWith: ")") {
                                 for (method, signature, cName) in nativeMethods {
                                     let isLast = cName == nativeMethods.last?.cName
                                     javaTypeListFragment.outputBlock("JNINativeMethod(", closeWith: isLast ? ")" : "),") {

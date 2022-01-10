@@ -306,7 +306,7 @@ extension CodeGen {
                 case .kotlinSystem:
                     try cmd("mkdir", "-p", platform.outputDir).run()
                     try cmd("cp", "\(platform.buildDir)/lib\(config.module)-java.\(dylibExt)", platform.outputDir).run()
-                case .kotlinAndroid(let arch):
+                case .kotlinAndroid:
                     try cmd("mkdir", "-p", platform.outputDir).run()
                     try cmd("cp", "\(platform.buildDir)/lib\(config.module)-java.so", platform.outputDir).run()
                 }

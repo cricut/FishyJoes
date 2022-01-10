@@ -122,23 +122,10 @@ struct TranslatedReference: TranslatedType {
         )
         fragment.outputBlock("extension \(sourceType.name): JavaMutator {") {
             fragment.output("public static var javaClass: jclass?")
-            fragment.output("private static var _refFieldID: jfieldID!")
             fragment.output("private static var _constructorMethodID: jmethodID!")
 
             fragment.outputBlock("public static func fromJava(_ value: jobject?, env: Env) throws -> Self {") {
-                fragment.output("let longRef = UInt(env.GetLongField(value, _refFieldID))")
-                fragment.output("return try Box<\(sourceType.name)>.takeUnretainedOpaque(javaNonNull(UnsafeMutablePointer(bitPattern: longRef))).value")
-            }
-
-            fragment.outputBlock("static let _javaFinalizer: @convention(c)(", newLineTerminated: false) {
-                fragment.output("UnsafeMutablePointer<JNIEnv?>,")
-                fragment.output("jobject")
-            }
-            fragment.outputBlock(" -> Void = { env, this in", closeWith: "}") {
-                fragment.outputBlock("FishyJoesJavaRuntime.callbackBody(env) { env in", closeWith: "}") {
-                    fragment.output("let longRef = UInt(env.GetLongField(this, _refFieldID))")
-                    fragment.output("Box<\(sourceType.name)>.releaseOpaque(try javaNonNull(UnsafeMutablePointer(bitPattern: longRef)))")
-                }
+                fragment.output("try Box<\(sourceType.name)>.fromJava(value, env: env).value")
             }
 
             fragment.outputBlock("public static func toJava(_ value: Self, env: Env) throws -> jobject? {") {
@@ -147,14 +134,13 @@ struct TranslatedReference: TranslatedType {
             }
 
             fragment.outputBlock("public static func javaSetup(env: Env) throws {") {
+                fragment.output("try AnyBox.javaSetup(env: env)")
                 fragment.output("javaClass = try env.globalRef(env.FindClass(\"\(className)\"))")
-                fragment.output("_refFieldID = try env.GetFieldID(javaClass, \"_swiftReference\", \"J\")")
                 fragment.output("_constructorMethodID = try env.GetMethodID(javaClass, \"<init>\", \"(J)V\")")
             }
 
             fragment.outputBlock("public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout Self) throws -> R) throws -> R {") {
-                fragment.output("let longRef = UInt(env.GetLongField(this, _refFieldID))")
-                fragment.output("return try body(&Box<\(sourceType.name)>.takeUnretainedOpaque(javaNonNull(UnsafeMutablePointer(bitPattern: longRef))).value)")
+                fragment.output("try body(&Box<\(sourceType.name)>.fromJava(this, env: env).value)")
             }
 
             if equatable {
@@ -187,30 +173,12 @@ struct TranslatedReference: TranslatedType {
                     }
                 }
             }
-            fragment.outputBlock("static let _javaToString: @convention(c)(", newLineTerminated: false) {
-                fragment.output("UnsafeMutablePointer<JNIEnv?>,")
-                fragment.output("jobject?")
-            }
-            fragment.outputBlock(" -> String.CType = { _javaEnv, _javaThis in", closeWith: "}") {
-                fragment.outputBlock("FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in", closeWith: "}") {
-                    fragment.outputBlock("try String.toJava(") {
-                        fragment.output("\"\\(\(sourceType.name).fromJava(_javaThis, env: _javaEnv))\",")
-                        fragment.output("env: _javaEnv")
-                    }
-                }
-            }
         }
 
-        context.kotlinTranslator.allMethods[sourceType.name, default: []].append(
-            (javaName: "__jni_finalize", signature: "()V" , cName: "\(sourceType.name)._javaFinalizer")
-        )
-        context.kotlinTranslator.allMethods[sourceType.name, default: []].append(
-            (javaName: "__jni_toString", signature: "()Ljava/lang/String;" , cName: "\(sourceType.name)._javaToString")
-        )
         if equatable {
             context.kotlinTranslator.allMethods[sourceType.name, default: []].append(
                 (
-                    javaName: "__jni__swiftEquals",
+                    javaName: "__jni_swiftEquals",
                     signature: "(\(jniType.asSignature)\(jniType.asSignature))Z",
                     cName: "\(sourceType.name)._javaEquals"
                 )
@@ -237,7 +205,7 @@ struct TranslatedReference: TranslatedType {
                         documentation: [],
                         isStatic: true,
                         isOverride: false,
-                        name: "_swiftEquals",
+                        name: "swiftEquals",
                         parameters: [
                             (labelComment: nil, name: "lhs", type: kotlinType),
                             (labelComment: nil, name: "rhs", type: kotlinType),
@@ -258,7 +226,7 @@ struct TranslatedReference: TranslatedType {
                             (labelComment: nil, name: "other", type: .optional(.named(package: nil, name: "Any"))),
                         ],
                         returnType: .named(package: nil, name: "Boolean"),
-                        body: "(other is \(kotlinType.kotlinType)) && __jni__swiftEquals(this, other)"
+                        body: "(other is \(kotlinType.kotlinType)) && __jni_swiftEquals(this, other)"
                     )
                 )
             )
@@ -278,42 +246,27 @@ struct TranslatedReference: TranslatedType {
                 )
             )
         }
-        fieldsAndMethods.append(
-            .method(
-                KotlinClass.Method(
-                    documentation: [],
-                    isStatic: false,
-                    isOverride: true,
-                    name: "toString",
-                    parameters: [],
-                    returnType: .named(package: nil, name: "String"),
-                    body: nil
-                )
-            )
-        )
 
-        context.kotlinClasses.append(
-            KotlinProductClass(
-                module: context.module,
-                documentation: documentation,
-                name: nodeName,
-                constructor: .init(
-                    private: true,
-                    fields: [
-                        .init(
-                            documentation: [],
-                            isStatic: false,
-                            isOverride: false,
-                            readOnly: true,
-                            name: "_swiftReference",
-                            type: .named(package: nil, name: "Long")
-                        ),
-                    ]
-                ),
-                fieldsAndMethods: fieldsAndMethods,
-                finalizer: true
-            )
+        let product = KotlinProductClass(
+            module: context.module,
+            documentation: documentation,
+            name: nodeName,
+            constructor: .init(
+                private: true,
+                fields: [
+                    .init(
+                        documentation: [],
+                        isStatic: false,
+                        isOverride: false,
+                        readOnly: true,
+                        name: "_swiftReference",
+                        type: .named(package: nil, name: "Long")
+                    ),
+                ]
+            ),
+            fieldsAndMethods: fieldsAndMethods
         )
+        context.kotlinClasses.append(product)
 
         return fragment
     }

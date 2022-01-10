@@ -193,7 +193,6 @@ struct TranslatedStruct: TranslatedType {
                 var constructorDescriptor = ""
                 for storedVar in storedVariables {
                     let resolved = context.resolve(type: storedVar.typeName.better)
-                    let converterType = resolved.converterType
                     fragment.output("_java_\(storedVar.name)_id = try env.GetFieldID(javaClass, \"\(storedVar.name)\", \"\(resolved.jniType.asSignature)\")")
                     constructorDescriptor += resolved.jniType.asSignature
                 }
