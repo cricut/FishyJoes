@@ -10,13 +10,21 @@ repositories {
     mavenLocal()
     mavenCentral()
     maven {
-        name = "GitHubPackagesFishyJoes"
-        url = uri("https://maven.pkg.github.com/cricut/FishyJoes")
+        name = "GitHubPackagesSwiftRuntime"
+        url = uri("https://maven.pkg.github.com/cricut/android-swift-runtime")
         credentials {
             username = if ((System.getenv("GITHUB_USER") ?: "") != "") System.getenv("GITHUB_USER") else project.property("gpr_user") as String
             password = if ((System.getenv("GITHUB_TOKEN") ?: "") != "") System.getenv("GITHUB_TOKEN") else project.property("gpr_key") as String
         }
     }
+//    maven {
+//        name = "GitHubPackagesFishyJoes"
+//        url = uri("https://maven.pkg.github.com/cricut/FishyJoes")
+//        credentials {
+//            username = if ((System.getenv("GITHUB_USER") ?: "") != "") System.getenv("GITHUB_USER") else project.property("gpr_user") as String
+//            password = if ((System.getenv("GITHUB_TOKEN") ?: "") != "") System.getenv("GITHUB_TOKEN") else project.property("gpr_key") as String
+//        }
+//    }
 }
 
 val sourcesJar by tasks.registering(Jar::class) {
@@ -90,7 +98,7 @@ tasks {
 
 dependencies {
     implementation(kotlin("stdlib:1.5.21"))
-    api("com.cricut.fishyjoes:runtime:0.2.2")
+    api("com.cricut.fishyjoes:runtime:local")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.0")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.0")
 }
