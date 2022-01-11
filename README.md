@@ -1,9 +1,9 @@
 <p align="center"><img src="documentation/logo.png" alt="FishyJoes" width="265" height="265"/></p>
 
 # Status
-![Mac](https://github.com/cricut/FishyJoes/actions/workflows/mac.yml/badge.svg?branch=main)
-![Integration Tests](https://github.com/cricut/FishyJoes/actions/workflows/integration-tests.yaml/badge.svg?branch=main)
 
+[![Build & test](https://github.com/cricut/FishyJoes/actions/workflows/mac.yml/badge.svg?branch=main)](https://github.com/cricut/FishyJoes/actions/workflows/mac.yml)
+[![Integration tests](https://github.com/cricut/FishyJoes/actions/workflows/integration-tests.yaml/badge.svg?branch=main)](https://github.com/cricut/FishyJoes/actions/workflows/integration-tests.yaml)
 # Description
 
 Generates bindings for (some) swift library code that can be called from TypeScript and Kotlin.
