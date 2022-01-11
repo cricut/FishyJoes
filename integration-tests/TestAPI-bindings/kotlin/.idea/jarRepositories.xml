@@ -24,7 +24,12 @@
     <remote-repository>
       <option name="id" value="MavenLocal" />
       <option name="name" value="MavenLocal" />
-      <option name="url" value="file:$USER_HOME$/.m2/repository/" />
+      <option name="url" value="file:$MAVEN_REPOSITORY$/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="GitHubPackagesSwiftRuntime" />
+      <option name="name" value="GitHubPackagesSwiftRuntime" />
+      <option name="url" value="https://maven.pkg.github.com/cricut/android-swift-runtime" />
     </remote-repository>
   </component>
 </project>
