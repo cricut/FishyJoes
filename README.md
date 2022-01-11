@@ -1,8 +1,8 @@
 <p align="center"><img src="documentation/logo.png" alt="FishyJoes" width="265" height="265"/></p>
 
 # Status
-![Mac](https://github.com/cricut/FishyJoes/actions/workflows/mac.yml/badge.svg)
-![Integration Tests](https://github.com/cricut/FishyJoes/actions/workflows/integration-tests.yaml/badge.svg)
+![Mac](https://github.com/cricut/FishyJoes/actions/workflows/mac.yml/badge.svg?branch=main)
+![Integration Tests](https://github.com/cricut/FishyJoes/actions/workflows/integration-tests.yaml/badge.svg?branch=main)
 
 # Description
 
