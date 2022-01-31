@@ -10,6 +10,7 @@ struct TranslatedEnum: TranslatedType {
     let documentation: [String]
     let methods: [Method]
     let computedVariables: [Variable]
+    let conformances: Set<String>
 
     struct Case {
         let documentation: [String]
@@ -38,7 +39,7 @@ struct TranslatedEnum: TranslatedType {
         }
     }
 
-    init(context: FishyJoesContext, type: Enum) {
+    init(context: FishyJoesContext, type: Enum, conformances: Set<String>) {
         guard let nodeName = type.exportAnnotation?.name else { fatalErr("export symbol not specified") }
 
         self.sourceType = BetterType(named: type)
@@ -64,6 +65,7 @@ struct TranslatedEnum: TranslatedType {
         self.documentation = type.documentation
         self.methods = type.methods.compactMap { Method($0) }
         self.computedVariables = type.variables.filter { $0.exportAnnotation != nil }
+        self.conformances = conformances
     }
 
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
@@ -88,9 +90,11 @@ struct TranslatedEnum: TranslatedType {
                 }
 
                 fragment.outputBlock("public static func toNode(_ value: Self, env: napi_env) throws -> napi_value? {") {
-                    fragment.outputBlock("switch value {") {
-                        for enumCase in cases {
-                            fragment.output("case .\(enumCase.name): return try String.toNode(\"\(enumCase.name)\", env: env)")
+                    if !cases.isEmpty {
+                        fragment.outputBlock("switch value {") {
+                            for enumCase in cases {
+                                fragment.output("case .\(enumCase.name): return try String.toNode(\"\(enumCase.name)\", env: env)")
+                            }
                         }
                     }
                 }
@@ -315,28 +319,30 @@ struct TranslatedEnum: TranslatedType {
             fragment.blankLine()
 
             fragment.outputBlock("public static func toJava(_ value: Self, env: Env) throws -> jobject? {") {
-                fragment.output("switch value {")
-                for enumCase in cases {
-                    let name = enumCase.name
-                    if enumCase.associatedValues.isEmpty {
-                        fragment.output("case .\(name): return env.NewLocalRef(Self._java_\(name))")
-                    } else {
-                        let joinedNames = enumCase.associatedValues.map(\.bindingName).joined(separator: ", ")
-                        fragment.outputBlock("case let .\(name)(\(joinedNames)):", closeWith: "", newLineTerminated: false) {
-                            fragment.outputBlock("return try env.NewObject(", closeWith: ")") {
-                                fragment.output("Self.\(enumCase.classVar),")
-                                fragment.output("Self.\(enumCase.classInitVar)", newLineTerminated: false)
-                                for value in enumCase.associatedValues {
-                                    let resolved = context.resolve(type: value.type)
-                                    fragment.output(",")
-                                    fragment.output("jvalue(\(resolved.converterType.name).toJava(\(value.bindingName), env: env))", newLineTerminated: false)
+                if !cases.isEmpty {
+                    fragment.output("switch value {")
+                    for enumCase in cases {
+                        let name = enumCase.name
+                        if enumCase.associatedValues.isEmpty {
+                            fragment.output("case .\(name): return env.NewLocalRef(Self._java_\(name))")
+                        } else {
+                            let joinedNames = enumCase.associatedValues.map(\.bindingName).joined(separator: ", ")
+                            fragment.outputBlock("case let .\(name)(\(joinedNames)):", closeWith: "", newLineTerminated: false) {
+                                fragment.outputBlock("return try env.NewObject(", closeWith: ")") {
+                                    fragment.output("Self.\(enumCase.classVar),")
+                                    fragment.output("Self.\(enumCase.classInitVar)", newLineTerminated: false)
+                                    for value in enumCase.associatedValues {
+                                        let resolved = context.resolve(type: value.type)
+                                        fragment.output(",")
+                                        fragment.output("jvalue(\(resolved.converterType.name).toJava(\(value.bindingName), env: env))", newLineTerminated: false)
+                                    }
+                                    fragment.blankLine()
                                 }
-                                fragment.blankLine()
                             }
                         }
                     }
+                    fragment.output("}")
                 }
-                fragment.output("}")
             }
             fragment.blankLine()
 
@@ -393,7 +399,7 @@ struct TranslatedEnum: TranslatedType {
                 fieldsAndMethods:
                     computedVariables.compactMap { context.kotlin(field: $0, useNativeName: false) } +
                     methods.compactMap { context.kotlin(method: $0) }
-            )
+            ).conforming(to: conformances, context: context)
         )
 
         return fragment

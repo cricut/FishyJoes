@@ -5,7 +5,7 @@
 //  Created by Matt Stoker on 12/22/21.
 //
 
-/// <!-- FishyJoes.exportReference(Structs) -->
+/// <!-- FishyJoes.export(Structs) -->
 public enum Structs {
     /// <!-- FishyJoes.export(Structs.MemberwiseStruct) -->
     public struct MemberwiseStruct: Equatable {
@@ -17,11 +17,11 @@ public enum Structs {
             self.immutable = immutable
             self.mutable = mutable
         }
-        
+
         /// <!-- FishyJoes.export(create) -->
         public init() {}
     }
-    
+
     /// <!-- FishyJoes.exportReference(Structs.ReferenceStruct) -->
     public struct ReferenceStruct: Equatable {
         /// <!-- FishyJoes.export(immutable) -->

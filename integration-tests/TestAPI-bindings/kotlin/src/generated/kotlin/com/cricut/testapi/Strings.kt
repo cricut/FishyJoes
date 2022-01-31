@@ -3,12 +3,9 @@ package com.cricut.testapi
 import com.cricut.fishyjoes.runtime.LibraryLoader
 
 /**
- * <!-- FishyJoes.exportReference(Strings) -->
+ * <!-- FishyJoes.export(Strings) -->
  */
-class Strings private constructor(
-    private val _swiftReference: Long
-)
- {
+sealed class Strings {
 
     companion object {
         /**

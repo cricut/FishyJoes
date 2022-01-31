@@ -17,34 +17,57 @@ public func javaOk(file: StaticString = #file, line: UInt = #line, _ result: jin
     }
 }
 
+extension Env {
+    public func callbackBody<Result: Default>(_ body: () throws -> Result) -> Result {
+        do {
+            return try body()
+        } catch let e {
+            if ExceptionCheck() {
+                // no need to generate an exception, one is already pending and is probably the root cause
+                ExceptionDescribe()
+                return .default
+            }
+            print("Caught swift error \(e). Not Re-throwing to java.")
+            if let nullError = e as? NullPointerError {
+                guard let errorClass = try? FindClass("java/lang/NullPointerException"),
+                      ThrowNew(errorClass, nullError.message) else {
+                    fatalError("error while throwing an error")
+                }
+                return .default
+            } else {
+                guard let errorClass = try? FindClass("java/lang/Error"),
+                      ThrowNew(errorClass, "\(e)") else {
+                    fatalError("error while throwing an error")
+                }
+                return .default
+            }
+        }
+    }
+
+    public func callbackBody(_ body: () throws -> Void) {
+        do {
+            try body()
+        } catch let e {
+            if ExceptionCheck() {
+                // no need to generate an exception, one is already pending and is probably the root cause
+                ExceptionDescribe()
+                return
+            }
+            print("Caught swift error \(e). Re-throwing to java.")
+            guard let errorClass = try? FindClass("java/lang/Error"),
+                  ThrowNew(errorClass, "\(e)") else {
+                fatalError("error while throwing an error")
+            }
+        }
+    }
+}
+
 public func callbackBody<Result: Default>(
     _ env: UnsafeMutablePointer<JNIEnv?>,
     _ body: (_ env: Env) throws -> Result
 ) -> Result {
     let env = Env(env: env)
-    do {
-        return try body(env)
-    } catch let e {
-        if env.ExceptionCheck() {
-            // no need to generate an exception, one is already pending and is probably the root cause
-            env.ExceptionDescribe()
-            return .default
-        }
-        print("Caught swift error \(e). Not Re-throwing to java.")
-        if let nullError = e as? NullPointerError {
-            guard let errorClass = try? env.FindClass("java/lang/NullPointerException"),
-                  env.ThrowNew(errorClass, nullError.message) else {
-                fatalError("error while throwing an error")
-            }
-            return .default
-        } else {
-            guard let errorClass = try? env.FindClass("java/lang/Error"),
-                  env.ThrowNew(errorClass, "\(e)") else {
-                fatalError("error while throwing an error")
-            }
-            return .default
-        }
-    }
+    return env.callbackBody { try body(env) }
 }
 
 public func callbackBody(
@@ -52,20 +75,7 @@ public func callbackBody(
     _ body: (_ env: Env) throws -> Void
 ) {
     let env = Env(env: env)
-    do {
-        try body(env)
-    } catch let e {
-        if env.ExceptionCheck() {
-            // no need to generate an exception, one is already pending and is probably the root cause
-            env.ExceptionDescribe()
-            return
-        }
-        print("Caught swift error \(e). Re-throwing to java.")
-        guard let errorClass = try? env.FindClass("java/lang/Error"),
-              env.ThrowNew(errorClass, "\(e)") else {
-            fatalError("error while throwing an error")
-        }
-    }
+    env.callbackBody { try body(env) }
 }
 
 public struct JavaExceptionPending: Error {}

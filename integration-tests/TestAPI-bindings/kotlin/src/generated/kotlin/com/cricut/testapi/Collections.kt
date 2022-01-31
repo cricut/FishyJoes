@@ -3,12 +3,9 @@ package com.cricut.testapi
 import com.cricut.fishyjoes.runtime.LibraryLoader
 
 /**
- * <!-- FishyJoes.exportReference(Collections) -->
+ * <!-- FishyJoes.export(Collections) -->
  */
-class Collections private constructor(
-    private val _swiftReference: Long
-)
- {
+sealed class Collections {
 
     companion object {
         /**
@@ -191,8 +188,7 @@ class Collections private constructor(
         var stringArray: kotlin.collections.List<String>,
         var stringSet: kotlin.collections.Set<String>,
         var stringDictionary: kotlin.collections.Map<String, String>
-    )
-     {
+    ) {
 
         companion object {
             /**

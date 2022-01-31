@@ -15,7 +15,7 @@ public class FishyJoesContext {
     let kotlinTranslator = KotlinTranslate()
 
     var kotlinPackage: String { "com.cricut.\(module.lowercased())" }
-    
+
     public init(context: TemplateContext) {
         let argument = context.argument
         guard let module = argument["module"] as? String else {
@@ -43,21 +43,23 @@ public class FishyJoesContext {
         var collectedFragments: [SourceFragment] = []
 
         // Collect type information before starting translation
-        for translatedType in templateContext.types.all.compactMap(translate(typeDefinition:)) {
+        for translatedType in templateContext.types.types.compactMap(translate(typeDefinition:)) {
             let name = translatedType.sourceType
             precondition(typeCache[name] == nil, "duplicate definitions found for \(name)")
             typeCache[name] = translatedType
         }
 
         // Translate
-        for type in templateContext.types.all + templateContext.types.extensions {
-            for method in type.allMethods.compactMap(Method.init) {
-                collectedFragments.append(contentsOf: kotlinTranslator.translate(method: method, context: self))
-            }
-            for variable in type.rawVariables {
-                collectedFragments.append(contentsOf: kotlinTranslator.translate(variable: variable, context: self))
-            }
+        let allMethods = Set(templateContext.types.types.flatMap { $0.allMethods.compactMap(Method.init) })
+        for method in allMethods.sorted(by: { $0.callName < $1.callName }) {
+            collectedFragments.append(contentsOf: kotlinTranslator.translate(method: method, context: self))
         }
+
+        let allVars = Set(templateContext.types.types.flatMap(\.rawVariables))
+        for variable in allVars.sorted(by: { $0.name < $1.name }) {
+            collectedFragments.append(contentsOf: kotlinTranslator.translate(variable: variable, context: self))
+        }
+
         // Translate any top level functions
         for _ in templateContext.functions.compactMap(Method.init) {
             fatalErr("Support for exporting top level functions has been removed for now")
@@ -96,7 +98,14 @@ public class FishyJoesContext {
         allFragments.append(tsAnnotations.fragment)
 
         // process all the fragments so that inner classes are inside outer classes
-        let rootClass = KotlinClass(module: "", documentation: [], name: "__root__")
+        let rootClass = KotlinClass(
+            module: "",
+            documentation: [],
+            name: "__root__",
+            methods: [],
+            fields: [],
+            conformances: []
+        )
         // sort by length of qualified name so that outer classes are processed before inner ones
         for ktClass in kotlinClasses.sorted(by: { $0.name.utf8.count < $1.name.utf8.count }) {
             var namespace = Array(ktClass.name.split(separator: ".").map(String.init).dropLast().reversed())
@@ -125,12 +134,17 @@ public class FishyJoesContext {
             return nil
         }
 
+        let defaultIgnoredConformances: Set<String> = ["Equatable", "Codable", "Encodable", "Decodable", "Hashable"]
+        let matchedConformances = Set(type.inheritedTypes).subtracting(defaultIgnoredConformances)
+
         if annotation.kind == .asReference {
-            return TranslatedReference(context: self, type: type)
+            return TranslatedReference(context: self, type: type, conformances: matchedConformances)
         } else if type.kind == "struct" {
-            return TranslatedStruct(context: self, type: type)
+            return TranslatedStruct(context: self, type: type, conformances: matchedConformances)
         } else if let type = type as? Enum {
-            return TranslatedEnum(context: self, type: type)
+            return TranslatedEnum(context: self, type: type, conformances: matchedConformances)
+        } else if let type = type as? SourceryProtocol {
+            return TranslatedProtocol(context: self, type: type, conformances: matchedConformances)
         } else {
             fatalErr("TODO: annotation on unknown kind \"\(type.kind)\" on type `\(type.globalName)`")
         }
@@ -146,12 +160,12 @@ public class FishyJoesContext {
             "Int8": (c: "uint8_t", ts: "number", jni: JNIType.byte),
             "Int16": (c: "uint16_t", ts: "number", jni: JNIType.short),
             "Int32": (c: "uint32_t", ts: "number", jni: JNIType.int),
-            "Int64": (c: "uint64_t", ts: "bigint", jni: JNIType.long),
+            "Int64": (c: "int64_t", ts: "bigint", jni: JNIType.long),
             "Int": (c: "int", ts: "number", jni: JNIType.long),
             "Float": (c: "float", ts: "number", jni: JNIType.float),
             "Double": (c: "double", ts: "number", jni: JNIType.double),
         ]
-        
+
         let primitiveUnsignedTypeMap = [
             "UInt8": (c: "uint8_t", ts: "number", jni: JNIType.byte),
             "UInt16": (c: "uint16_t", ts: "number", jni: JNIType.short),

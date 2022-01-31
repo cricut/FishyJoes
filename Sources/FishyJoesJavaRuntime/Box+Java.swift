@@ -9,7 +9,7 @@ extension Box {
 }
 
 extension AnyBox {
-    static var javaClass: jclass?
+    public static var javaClass: jclass?
     static var refFieldID: jfieldID?
 
     public static func fromJava(_ value: jobject?, env: Env) throws -> AnyBox {

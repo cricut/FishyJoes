@@ -215,12 +215,14 @@ extension CodeGen {
             // MARK: Generate code
             try cmd("rm", "-rf", "Sources/Generated", "kotlin/src/generated").run()
             try cmd("mkdir", "-p",
+                    "Sources/Generated/CommonInterface",
                     "Sources/Generated/NodeInterface",
                     "Sources/Generated/JavaInterface",
                     "kotlin/src/generated/kotlin/com/cricut/\(config.module.lowercased())"
             ).run()
             try cmd(
                 "touch",
+                "Sources/Generated/CommonInterface/EmptyPlaceholder.swift",
                 "Sources/Generated/NodeInterface/EmptyPlaceholder.swift",
                 "Sources/Generated/JavaInterface/EmptyPlaceholder.swift"
             ).run()

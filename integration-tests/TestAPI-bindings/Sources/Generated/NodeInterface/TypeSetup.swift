@@ -12,6 +12,8 @@ public func napi_register_module_v1(env: napi_env, exports: napi_value) -> napi_
         napi_set_named_property(env, exports, "TestAPI", module)
         napi_set_named_property(env, exports, "default", module)
 
+        try AProtocol.nodeSetup(env: env, module: module)
+        try AProtocolImplementation.nodeSetup(env: env, module: module)
         try Bool.nodeSetup(env: env, module: module)
         try Bytes.nodeSetup(env: env, module: module)
         try Collections.CollectionHolder.nodeSetup(env: env, module: module)

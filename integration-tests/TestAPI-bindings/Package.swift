@@ -33,6 +33,7 @@ let package = Package(
         .target(
             name: "NodeInterface",
             dependencies: [
+                "CommonInterface",
                 .product(name: "TestAPI", package: "TestAPI"),
                 .product(name: "FishyJoesNodeRuntime", package: "FishyJoes"),
             ],
@@ -40,6 +41,10 @@ let package = Package(
             resources: [
                 .copy("TestAPI.d.ts"),
             ]
+        ),
+        .target(
+            name: "CommonInterface",
+            path: "Sources/Generated/CommonInterface"
         ),
     ] + (wasmCompatibleOnly ? [
              .target(
@@ -52,6 +57,7 @@ let package = Package(
              .target(
                  name: "JavaInterface",
                  dependencies: [
+                     "CommonInterface",
                      .product(name: "TestAPI", package: "TestAPI"),
                      .product(name: "FishyJoesJavaRuntime", package: "FishyJoes"),
                  ],

@@ -7,6 +7,7 @@ protocol TranslatedType {
     var kotlinName: String { get }
     var kotlinPackage: String? { get }
     var jniType: JNIType { get }
+    var conformances: Set<String> { get }
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment]
 }
 
@@ -52,9 +53,11 @@ extension TranslatedType {
             }
         }
     }
+
+    var conformances: Set<String> { [] }
 }
 
-indirect enum JNIType: Equatable {
+indirect enum JNIType: Hashable {
     case object(String)
     case array(JNIType)
     case boolean

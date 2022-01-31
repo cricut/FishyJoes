@@ -14,13 +14,13 @@ extension Structs.ReferenceStruct: JavaMutator {
         let ptr = jvalue(j: jlong(UInt(bitPattern: Box(value).retainedOpaque())))
         return try env.NewObject(javaClass, _constructorMethodID, ptr)
     }
+    public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout Self) throws -> R) throws -> R {
+        try body(&Box<Structs.ReferenceStruct>.fromJava(this, env: env).value)
+    }
     public static func javaSetup(env: Env) throws {
         try AnyBox.javaSetup(env: env)
         javaClass = try env.globalRef(env.FindClass("com/cricut/testapi/Structs$ReferenceStruct"))
         _constructorMethodID = try env.GetMethodID(javaClass, "<init>", "(J)V")
-    }
-    public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout Self) throws -> R) throws -> R {
-        try body(&Box<Structs.ReferenceStruct>.fromJava(this, env: env).value)
     }
     static let _javaEquals: @convention(c)(
         UnsafeMutablePointer<JNIEnv?>,

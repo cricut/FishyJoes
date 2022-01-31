@@ -1,7 +1,7 @@
 import Foundation
 import SourceryRuntime
 
-struct Method {
+struct Method: Hashable {
     let name: String
     let callName: String
     let exportAnnotation: ExportAnnotation
@@ -11,11 +11,12 @@ struct Method {
 
     let documentation: [String]
 
-    let definedIn: BetterType?
+    var definedIn: BetterType?
     let isStatic: Bool
     let isMutating: Bool
     let isInitializer: Bool
     let isThrowing: Bool
+    var implemented: Bool
 
     init(
         name: String,
@@ -28,7 +29,8 @@ struct Method {
         isStatic: Bool = false,
         isMutating: Bool = false,
         isInitializer: Bool = false,
-        isThrowing: Bool = false
+        isThrowing: Bool = false,
+        implemented: Bool = false
     ) {
         self.name = name
         self.callName = callName ?? name
@@ -41,6 +43,7 @@ struct Method {
         self.isMutating = isMutating
         self.isInitializer = isInitializer
         self.isThrowing = isThrowing
+        self.implemented = implemented
     }
 
     init?(_ method: SourceryMethod) {
@@ -75,5 +78,6 @@ struct Method {
         }
         precondition(omitParameters.isEmpty, "Can't find parameters \(omitParameters) to omit")
         self.parameters = parameters
+        self.implemented = false
     }
 }

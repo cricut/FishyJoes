@@ -2,22 +2,6 @@ import Foundation
 import JNI
 import FishyJoesCommonRuntime
 
-class JavaReference {
-    let object: jobject?
-    let env: Env
-
-    init(local: jobject?, env: Env) throws {
-        self.object = try env.globalRef(local)
-        self.env = env
-    }
-
-    deinit {
-        if let object = object {
-            env.DeleteGlobalRef(object)
-        }
-    }
-}
-
 private enum SwiftFunctionImpl {
     static var implClass: jclass?
     static var constructor: jmethodID?
@@ -88,11 +72,8 @@ extension Function0Converter: JavaConverter where R: JavaConverter {
 
     public static func fromJava(_ value: jobject?, env: Env) throws -> SwiftType {
         let escapingRef = try JavaReference(local: value, env: env)
-        let initThread = Thread.current
         return {
-            guard initThread == Thread.current else {
-                fatalError("Callback invoked on different thread")
-            }
+            let env = try escapingRef.vm.currentThreadEnv()
             return try R.fromJava(
                 object: env.CallObjectMethod(
                     escapingRef.object,
@@ -128,11 +109,8 @@ extension Function1Converter: JavaConverter where P0: JavaConverter, R: JavaConv
 
     public static func fromJava(_ value: jobject?, env: Env) throws -> SwiftType {
         let escapingRef = try JavaReference(local: value, env: env)
-        let initThread = Thread.current
         return { p0 in
-            guard initThread == Thread.current else {
-                fatalError("Callback invoked on different thread")
-            }
+            let env = try escapingRef.vm.currentThreadEnv()
             return try R.fromJava(
                 object: env.CallObjectMethod(
                     escapingRef.object,
@@ -171,11 +149,8 @@ extension Function2Converter: JavaConverter where P0: JavaConverter, P1: JavaCon
 
     public static func fromJava(_ value: jobject?, env: Env) throws -> SwiftType {
         let escapingRef = try JavaReference(local: value, env: env)
-        let initThread = Thread.current
         return { p0, p1 in
-            guard initThread == Thread.current else {
-                fatalError("Callback invoked on different thread")
-            }
+            let env = try escapingRef.vm.currentThreadEnv()
             return try R.fromJava(
                 object: env.CallObjectMethod(
                     escapingRef.object,

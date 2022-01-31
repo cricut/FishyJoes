@@ -1,7 +1,7 @@
 import SourceryRuntime
 import Foundation
 
-struct ExportAnnotation {
+struct ExportAnnotation: Hashable {
     let kind: Kind
     let name: String
     let isOverride: Bool

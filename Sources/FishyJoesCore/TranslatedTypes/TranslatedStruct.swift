@@ -11,8 +11,9 @@ struct TranslatedStruct: TranslatedType {
     let methods: [Method]
     let documentation: [String]
     let jniType: JNIType
+    let conformances: Set<String>
 
-    init(context: FishyJoesContext, type: Type) {
+    init(context: FishyJoesContext, type: Type, conformances: Set<String>) {
         guard let exportAnnotation = type.exportAnnotation else {
             fatalErr("c symbol not specified")
         }
@@ -31,6 +32,7 @@ struct TranslatedStruct: TranslatedType {
 
         self.methods = type.methods.compactMap { Method($0) }
         self.documentation = type.documentation
+        self.conformances = conformances
     }
 
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
@@ -231,7 +233,7 @@ struct TranslatedStruct: TranslatedType {
                 fieldsAndMethods:
                     computedVariables.compactMap { context.kotlin(field: $0, useNativeName: false) } +
                     methods.compactMap { context.kotlin(method: $0) }
-            )
+            ).conforming(to: conformances, context: context)
         )
 
         return fragment

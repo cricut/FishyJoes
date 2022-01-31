@@ -3,12 +3,9 @@ package com.cricut.testapi
 import com.cricut.fishyjoes.runtime.LibraryLoader
 
 /**
- * <!-- FishyJoes.exportReference(Structs) -->
+ * <!-- FishyJoes.export(Structs) -->
  */
-class Structs private constructor(
-    private val _swiftReference: Long
-)
- {
+sealed class Structs {
 
     companion object {
         init {
@@ -20,9 +17,8 @@ class Structs private constructor(
      * <!-- FishyJoes.exportReference(Structs.ReferenceStruct) -->
      */
     class ReferenceStruct private constructor(
-        private val _swiftReference: Long
-    )
-     {
+        _swiftReference: Long
+    ): com.cricut.fishyjoes.runtime.SwiftReference(_swiftReference) {
         /**
          * <!-- FishyJoes.export(immutable) -->
          */
@@ -83,8 +79,7 @@ class Structs private constructor(
     data class MemberwiseStruct(
         var immutable: kotlin.String,
         var mutable: kotlin.String
-    )
-     {
+    ) {
 
         companion object {
             /**

@@ -1,4 +1,5 @@
 import JNI
+import Foundation
 import FishyJoesCommonRuntime
 
 public struct Env {
@@ -32,6 +33,12 @@ public struct Env {
         return result
     }
 
+    public func jvm() throws -> JVM {
+        var vm: UnsafeMutablePointer<JavaVM?>?
+        try javaOk(GetJavaVM(&vm))
+        return JVM(javaVM: try javaNonNull(vm))
+    }
+
     public func RegisterNatives(_ clazz: jclass?, _ methods: JNINativeMethod ...) throws {
         // change to true to debug UnsatisfiedLinkErrors
         #if false
@@ -45,6 +52,32 @@ public struct Env {
     }
 }
 
+public struct JVM {
+    let javaVM: UnsafeMutablePointer<JavaVM?>
+
+    public init(javaVM: UnsafeMutablePointer<JavaVM?>) {
+        self.javaVM = javaVM
+    }
+
+    @inline(__always)
+    private var fns: JavaVM.Pointee {
+        javaVM.pointee!.pointee
+    }
+
+    /// Gets or creates the JNI environment associated with the current thread
+    public func currentThreadEnv() throws -> Env {
+        var envRaw: UnsafeMutableRawPointer?
+        switch fns.GetEnv(javaVM, &envRaw, JNI_VERSION_1_4) {
+        case JNI_EDETACHED:
+            print("attaching thread \(Thread.current) to JVM")
+            try javaOk(fns.AttachCurrentThread(javaVM, &envRaw, nil))
+        case let retCode:
+            try javaOk(retCode)
+        }
+        let env = UnsafeMutablePointer<JNIEnv?>(OpaquePointer(envRaw))
+        return Env(env: try javaNonNull(env))
+    }
+}
 
 // MARK: JNI function wrappers
 extension Env {

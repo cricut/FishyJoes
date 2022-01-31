@@ -3,12 +3,9 @@ package com.cricut.testapi
 import com.cricut.fishyjoes.runtime.LibraryLoader
 
 /**
- * <!-- FishyJoes.exportReference(Primitives) -->
+ * <!-- FishyJoes.export(Primitives) -->
  */
-class Primitives private constructor(
-    private val _swiftReference: Long
-)
- {
+sealed class Primitives {
 
     companion object {
         /**
@@ -828,8 +825,7 @@ class Primitives private constructor(
         var fq: Float?,
         var d: Double,
         var dq: Double?
-    )
-     {
+    ) {
 
         companion object {
             /**

@@ -12,8 +12,9 @@ struct TranslatedReference: TranslatedType {
     let jniType: JNIType
     let equatable: Bool
     let hashable: Bool
+    let conformances: Set<String>
 
-    init(context: FishyJoesContext, type: Type) {
+    init(context: FishyJoesContext, type: Type, conformances: Set<String>) {
         guard let exportAnnotation = type.exportAnnotation else {
             fatalErr("c symbol not specified")
         }
@@ -30,6 +31,7 @@ struct TranslatedReference: TranslatedType {
         self.jniType = .object(className)
         self.equatable = type.equatable
         self.hashable = type.hashable
+        self.conformances = conformances
     }
 
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
@@ -133,14 +135,14 @@ struct TranslatedReference: TranslatedType {
                 fragment.output("return try env.NewObject(javaClass, _constructorMethodID, ptr)")
             }
 
+            fragment.outputBlock("public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout Self) throws -> R) throws -> R {") {
+                fragment.output("try body(&Box<\(sourceType.name)>.fromJava(this, env: env).value)")
+            }
+
             fragment.outputBlock("public static func javaSetup(env: Env) throws {") {
                 fragment.output("try AnyBox.javaSetup(env: env)")
                 fragment.output("javaClass = try env.globalRef(env.FindClass(\"\(className)\"))")
                 fragment.output("_constructorMethodID = try env.GetMethodID(javaClass, \"<init>\", \"(J)V\")")
-            }
-
-            fragment.outputBlock("public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout Self) throws -> R) throws -> R {") {
-                fragment.output("try body(&Box<\(sourceType.name)>.fromJava(this, env: env).value)")
             }
 
             if equatable {
@@ -247,26 +249,20 @@ struct TranslatedReference: TranslatedType {
             )
         }
 
-        let product = KotlinProductClass(
-            module: context.module,
-            documentation: documentation,
-            name: nodeName,
-            constructor: .init(
-                private: true,
-                fields: [
-                    .init(
-                        documentation: [],
-                        isStatic: false,
-                        isOverride: false,
-                        readOnly: true,
-                        name: "_swiftReference",
-                        type: .named(package: nil, name: "Long")
-                    ),
-                ]
-            ),
-            fieldsAndMethods: fieldsAndMethods
+        context.kotlinClasses.append(
+            KotlinProductClass(
+                module: context.module,
+                documentation: documentation,
+                name: nodeName,
+                constructor: .init(
+                    private: true,
+                    fields: [],
+                    arguments: [("_swiftReference", .named(package: nil, name: "Long"))]
+                ),
+                fieldsAndMethods: fieldsAndMethods,
+                conformances: ["com.cricut.fishyjoes.runtime.SwiftReference(_swiftReference)"]
+            ).conforming(to: conformances, context: context)
         )
-        context.kotlinClasses.append(product)
 
         return fragment
     }
