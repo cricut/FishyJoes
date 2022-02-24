@@ -4,6 +4,11 @@
 
 [![Build & test](https://github.com/cricut/FishyJoes/actions/workflows/mac.yml/badge.svg?branch=main)](https://github.com/cricut/FishyJoes/actions/workflows/mac.yml)
 [![Integration tests](https://github.com/cricut/FishyJoes/actions/workflows/integration-tests.yaml/badge.svg?branch=main)](https://github.com/cricut/FishyJoes/actions/workflows/integration-tests.yaml)
+
+# Maintainer
+
+Client Enablement
+
 # Description
 
 Generates bindings for (some) swift library code that can be called from TypeScript and Kotlin.
