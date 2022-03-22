@@ -34,7 +34,7 @@ struct CodeGen: ParsableCommand {
     var kotlinFast: Bool = false
 
     @Flag(name: .long, inversion: .prefixedNo, help: "Generate a C# Package")
-    var cHashtag: Bool = false
+    var cSharp: Bool = false
 
     @Option(help: "Used for debugging fishy-joes code generation")
     var sourceryDumpPath: String?
@@ -64,7 +64,7 @@ struct CodeGen: ParsableCommand {
         case wasm
         case kotlin
         case kotlinFast
-        case cHashtag
+        case cSharp
         case sourceryDumpPath
         case version
         case buildStep
@@ -96,7 +96,7 @@ extension CodeGen {
         if kotlin && !kotlinFast {
             platforms.append(contentsOf: AndroidArchitecture.allCases.map(Platform.kotlinAndroid))
         }
-        if cHashtag {
+        if cSharp {
             platforms.append(.cSharp)
         }
     }
