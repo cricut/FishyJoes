@@ -123,12 +123,14 @@ extension CodeGen {
             // MARK: Generate code
             try cmd("rm", "-rf", "Sources/Generated", "kotlin/src/generated").run()
             try cmd("mkdir", "-p",
+                    "Sources/Generated/CSharpInterface",
                     "Sources/Generated/NodeInterface",
                     "Sources/Generated/JavaInterface",
                     "kotlin/src/generated/kotlin/com/cricut/\(config.module.lowercased())"
             ).run()
             try cmd(
                 "touch",
+                "Sources/Generated/CSharpInterface/EmptyPlaceholder.swift",
                 "Sources/Generated/NodeInterface/EmptyPlaceholder.swift",
                 "Sources/Generated/JavaInterface/EmptyPlaceholder.swift"
             ).run()
@@ -217,6 +219,9 @@ extension CodeGen {
                 case .kotlinAndroid:
                     try cmd("mkdir", "-p", platform.outputDir).run()
                     try cmd("cp", "\(platform.buildDir)/lib\(config.module)-java.so", platform.outputDir).run()
+                case .cSharp:
+                    try cmd("mkdir", "-p", platform.outputDir).run()
+                    try cmd("cp", "\(platform.buildDir)/lib\(config.module)-c-sharp.\(dylibExt)", platform.outputDir).run()
                 }
             }
             if platforms.contains(.kotlinSystem) {
@@ -257,8 +262,8 @@ extension CodeGen {
                         .append(toFile: packageJsonPath)
                         .run()
                 }
-            case .kotlinSystem, .kotlinAndroid:
-                ()
+            case .kotlinSystem, .kotlinAndroid, .cSharp:
+                break
             }
         }
 
@@ -281,7 +286,10 @@ extension CodeGen {
                     }
                 case .kotlinAndroid:
                     // TODO
-                    ()
+                    break
+                case .cSharp:
+                    // TODO
+                    break
                 }
             }
         }

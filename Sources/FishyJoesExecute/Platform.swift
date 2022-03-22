@@ -93,7 +93,7 @@ enum Platform: Hashable {
     }
     var outputDir: String {
         switch self {
-        case .wasm, .node: return "output/\(platform)"
+        case .wasm, .node, .cSharp: return "output/\(platform)"
         case .kotlinSystem:
             #if os(macOS)
             return "kotlin/src/generated/resources/mac"
@@ -110,6 +110,7 @@ enum Platform: Hashable {
         case .wasm: return "\(config.module) packaged as a typescript library using WebAssembly"
         case .node: return "\(platform) <-> node/ts bindings for \(config.module)"
         case .kotlinSystem, .kotlinAndroid: return "A JNI wrapper for \(config.module)"
+        case .cSharp: return "A C# wrapper for \(config.module)"
         }
     }
     var buildDir: String {
@@ -127,6 +128,19 @@ enum Platform: Hashable {
             return ".build/android-build/armv7-none-linux-androideabi/release"
         case .kotlinAndroid(let arch):
             return ".build/android-build/\(arch.rawValue)-unknown-linux-android/release"
+        case .cSharp:
+            var cSharpPlatformBuildDirectory: String {
+                #if os(macOS)
+                return "c-sharp-macos"
+                #elseif os(Windows)
+                return "c-sharp-windows"
+                #elseif os(Linux)
+                return "c-sharp-ubuntu"
+                #else
+                fatalError("unknown host OS")
+                #endif
+            }
+            return ".build/\(cSharpPlatformBuildDirectory)/release"
         }
     }
     var isTs: Bool {
