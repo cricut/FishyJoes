@@ -4,6 +4,9 @@ struct TranslatedReference: TranslatedType {
     let sourceType: BetterType
     let nodeName: String
     let kotlinName: String
+    let cppName: String
+    let neutralName: String
+    var containedNamedTypes: [TranslatedType] { [self] }
     let kotlinPackage: String?
     let methods: [Method]
     let computedVariables: [Variable]
@@ -22,6 +25,8 @@ struct TranslatedReference: TranslatedType {
         self.sourceType = BetterType(named: type)
         self.nodeName = typeName
         self.kotlinName = typeName
+        self.cppName = typeName.replacingOccurrences(of: ".", with: "::")
+        self.neutralName = "Reference<To=\(typeName)>"
         self.kotlinPackage = context.kotlinPackage
         self.methods = type.methods.compactMap { Method($0) }
         self.computedVariables = type.variables.filter { $0.exportAnnotation != nil }
@@ -33,7 +38,77 @@ struct TranslatedReference: TranslatedType {
     }
 
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
-        return [nodeDefinitionFragment(in: context), jniDefinitionFragment(in: context)]
+        return [nodeDefinitionFragment(in: context), jniDefinitionFragment(in: context), neutralDefinitionFragment(in: context), cppDefinitionFragment(in: context)]
+    }
+    
+    func cppDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
+        let fragment = SourceFragment(sourceryDestination: "file:CPPInterface/\(sourceType.name).swift")
+        var newMethods: [CPPClass.CPPMethod] = []
+        newMethods.append(contentsOf: methods.map { context.cppTranslator.translateToHeaderFragment(method: $0, in: context) });
+        for variable in computedVariables {
+            let accessors = context.cppTranslator.translateToHeaderFragment(variable: variable, in: context)
+            newMethods.append(accessors.getter)
+            if let setter = accessors.setter {
+                newMethods.append(setter)
+            }
+        }
+        let refField = CPPClass.CPPField(
+            documentation: [
+                "Reference to Swift-managed data"
+            ], 
+            isStatic: false,
+            isPrivate: true,
+            name: "_ref",
+            type: TranslatedPrimitive(swift: BetterType.Name(name: "UInt64"), c: "uint64_t", node: "number", jni: JNIType.long),
+            initializer: nil
+        )
+        let newClass = CPPClass(
+            module: context.module,
+            documentation: documentation,
+            name: sourceType.name,
+            constructors: [
+                CPPClass.CPPConstructor(
+                    documentation: ["Create empty \(sourceType.name) (only to be used by FishyJoes internally)"],
+                    isPrivate: true,
+                    parameters: [],
+                    initializers: [],
+                    body: { fragment in 
+                        fragment.output("// (empty)")
+                    }
+                )
+            ],
+            methods: newMethods,
+            fields: [refField],
+            serializedFields: [refField]
+        )
+        context.cppClasses[newClass.qualifiedName] = newClass
+        return fragment
+    }
+ 
+    func neutralDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
+        let fragment = SourceFragment(
+            sourceryDestination: "file:../../DebugGenerated/\(sourceType.name)+ReferenceInfo.txt"
+        )
+        fragment.outputBlock("TranslatedReference for \(sourceType.name) {") {
+            fragment.output("Equatable: \(equatable)")
+            fragment.output("Hashable: \(hashable)")
+            fragment.outputBlock("Documentation {") {
+                for doc in documentation {
+                    fragment.output(doc)
+                }
+            }
+            fragment.outputBlock("Methods {") {
+                for method in methods {
+                    context.neutralTranslator.output(method: method, context: context, fragment: fragment)
+                }
+            }
+            fragment.outputBlock("Variables {") {
+                for variable in computedVariables {
+                    context.neutralTranslator.output(variable: variable, context: context, fragment: fragment)
+                }
+            }
+        }
+        return fragment
     }
 
     func nodeDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {

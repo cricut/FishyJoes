@@ -16,6 +16,9 @@ struct TranslatedTuple: TranslatedType {
 
     let sourceType: BetterType
     var nodeName: String { "[\(elements.map(\.type.nodeName).joined(separator: ", "))]" }
+    var cppName: String { "std::tuple<\(elements.map(\.type.cppName).joined(separator: ", "))>" }
+    var neutralName: String { "Tuple<Types=[\(elements.map(\.type.neutralName).joined(separator: ", "))]>" }
+    var containedNamedTypes: [TranslatedType] { Array(elements.map(\.type.containedNamedTypes).joined()) }
     var kotlinName: String {
         if elements.count == 2 {
             return "Pair<\(elements.map(\.type.kotlinName).joined(separator: ", "))>"

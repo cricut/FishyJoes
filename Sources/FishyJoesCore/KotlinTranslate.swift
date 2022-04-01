@@ -220,7 +220,9 @@ class KotlinTranslate {
                 omitParameters.remove(parameter.name)
                 continue
             }
+            extLog("Unresolved parameter type for \(exportAnnotation.name): \(parameter)")
             let resolved = context.resolve(type: parameter.type, generics: exportAnnotation.genericOverrides)
+            extLog("Resolved parameter type for \(exportAnnotation.name): \(resolved.neutralName)")
             var label: String?
             if let swiftLabel = parameter.label, swiftLabel != parameter.name {
                 label = swiftLabel

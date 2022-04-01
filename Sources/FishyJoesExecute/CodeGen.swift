@@ -213,7 +213,7 @@ extension CodeGen {
             }
 
             // MARK: Generate code
-            try cmd("rm", "-rf", "Sources/Generated", "kotlin/src/generated").run()
+            try cmd("rm", "-rf", "Sources/Generated", "kotlin/src/generated", "DebugGenerated", "cpp").run()
             try cmd("mkdir", "-p",
                     "Sources/Generated/NodeInterface",
                     "Sources/Generated/JavaInterface",
@@ -503,7 +503,13 @@ enum Platform: Hashable {
         case .wasm: return ".build/wasm-build/wasm32-unknown-wasi/release"
         case .node, .kotlinSystem:
             #if os(macOS)
+            #if arch(x86_64)
             return ".build/x86_64-apple-macosx/release"
+            #elseif arch(arm64)
+            return ".build/arm64-apple-macosx/release"
+            #else
+            fatalError("unknown mac arch")
+            #endif
             #elseif os(Linux)
             return ".build/x86_64-unknown-linux-gnu/release"
             #else

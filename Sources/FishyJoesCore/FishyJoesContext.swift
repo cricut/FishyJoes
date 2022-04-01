@@ -10,9 +10,13 @@ public class FishyJoesContext {
 
     var tsAnnotations: TypeScriptAnnotations
     var kotlinClasses: [KotlinClass] = []
+    //qualified name (ie "ContainingClass::ClassName") -> CPPClass
+    var cppClasses: [String : CPPClass] = [:]
 
     let nodeTranslator = NodeTranslate()
     let kotlinTranslator = KotlinTranslate()
+    let cppTranslator = CPPTranslate()
+    let neutralTranslator = NeutralTranslate()
 
     var kotlinPackage: String { "com.cricut.\(module.lowercased())" }
     
@@ -40,11 +44,14 @@ public class FishyJoesContext {
     }
 
     public func translateAll() -> String {
+        extLog("hi")
         var collectedFragments: [SourceFragment] = []
 
         // Collect type information before starting translation
+        // This collects the named types possible for use later in resolve().
         for translatedType in templateContext.types.all.compactMap(translate(typeDefinition:)) {
             let name = translatedType.sourceType
+            extLog("name is \(name)")
             precondition(typeCache[name] == nil, "duplicate definitions found for \(name)")
             typeCache[name] = translatedType
         }
@@ -115,7 +122,25 @@ public class FishyJoesContext {
             containingClass.innerClasses.append(ktClass)
         }
         allFragments.append(contentsOf: rootClass.innerClasses.map(\.fragment))
+        
+        for classObj in cppClasses.values {
+            if let parent = classObj.parentQualifiedName {
+                cppClasses[parent]!.innerClasses.append(classObj)
+            }
+        }
+        
+        allFragments.append(cppTranslator.generatePreHeader(in: self))
+        
+        for cppClass in cppClasses.values {
+            if cppClass.parentQualifiedName == nil {
+                allFragments.append(cppClass.headerFragment())
+                allFragments.append(cppClass.sourceFragment())
+            }
+        }
 
+        allFragments.append(cppTranslator.generateCombinedHeader(in: self))
+        allFragments.append(cppTranslator.generatePackImplHeader(in: self))
+        
         return allFragments.map(\.contents).joined()
     }
 
@@ -124,6 +149,8 @@ public class FishyJoesContext {
             // Not annotated for export
             return nil
         }
+        
+        extLog("type is \(type)")
 
         if annotation.kind == .asReference {
             return TranslatedReference(context: self, type: type)
@@ -142,12 +169,12 @@ public class FishyJoesContext {
         }
 
         let primitiveTypeMap = [
-            "Bool": (c: "_Bool", ts: "boolean", jni: JNIType.boolean),
-            "Int8": (c: "uint8_t", ts: "number", jni: JNIType.byte),
-            "Int16": (c: "uint16_t", ts: "number", jni: JNIType.short),
-            "Int32": (c: "uint32_t", ts: "number", jni: JNIType.int),
-            "Int64": (c: "uint64_t", ts: "bigint", jni: JNIType.long),
-            "Int": (c: "int", ts: "number", jni: JNIType.long),
+            "Bool": (c: "bool", ts: "boolean", jni: JNIType.boolean),
+            "Int8": (c: "int8_t", ts: "number", jni: JNIType.byte),
+            "Int16": (c: "int16_t", ts: "number", jni: JNIType.short),
+            "Int32": (c: "int32_t", ts: "number", jni: JNIType.int),
+            "Int64": (c: "int64_t", ts: "bigint", jni: JNIType.long),
+            "Int": (c: "int64_t", ts: "number", jni: JNIType.long),
             "Float": (c: "float", ts: "number", jni: JNIType.float),
             "Double": (c: "double", ts: "number", jni: JNIType.double),
         ]
