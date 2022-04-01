@@ -30,7 +30,7 @@ brew install openjdk@11
 
 Install swift-wasm toolchain:
 ```
-curl -Lo swift-wasm.pkg https://github.com/swiftwasm/swift/releases/download/swift-wasm-5.4.0-RELEASE/swift-wasm-5.4.0-RELEASE-macos_x86_64.pkg
+curl -Lo swift-wasm.pkg https://github.com/swiftwasm/swift/releases/download/swift-wasm-5.6.0-RELEASE/swift-wasm-5.6.0-RELEASE-macos_x86_64.pkg
 sudo installer -pkg swift-wasm.pkg -target /
 ```
 
