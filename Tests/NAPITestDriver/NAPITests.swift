@@ -14,6 +14,7 @@ class NAPITests: XCTestCase {
     let LDFLAGS = [
         "-L/Library/Developer/Toolchains/swift-wasm-5.6.0-RELEASE.xctoolchain/usr/lib",
         "-sdk", "/Library/Developer/Toolchains/swift-wasm-5.6.0-RELEASE.xctoolchain/usr/share/wasi-sysroot",
+        "-lswiftCore",
         "-emit-executable",
         "-target", "wasm32-unknown-wasi",
         "-Xlinker", "--export=napi_register_wasm_v1",
@@ -22,6 +23,7 @@ class NAPITests: XCTestCase {
         "-Xlinker", "--allow-undefined",
         "-Xlinker", "--export-table",
     ]
+
     lazy var commonSources = [
         "\(testDirectory)/common.c",
         "\(testDirectory)/entry_point.c",

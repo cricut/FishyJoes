@@ -99,7 +99,10 @@ jobs:
         run: |
           set -euxo pipefail
 
-          sudo apt-get install zsh binaryen
+          sudo apt-get install zsh
+
+          # Sadly, Ubuntu LTS doesn't have an up-to-date binaryen, so use a wasm version instead
+          npm -g install binaryen
 
           curl -Lo swift-wasm.tgz $SWIFT_WASM_URL
           sudo mkdir -p /Library/Developer/Toolchains/swift-wasm-5.6.0-RELEASE.xctoolchain
