@@ -3,7 +3,7 @@ import XCTest
 import swsh
 
 class NAPITests: XCTestCase {
-    lazy var testDirectory = "node-tests/js-native-api"
+    lazy var testDirectory = "Tests/NAPITests/node-tests/js-native-api"
     let CC = "/Library/Developer/Toolchains/swift-wasm-5.6.0-RELEASE.xctoolchain/usr/bin/clang"
     let LD = "/Library/Developer/Toolchains/swift-wasm-5.6.0-RELEASE.xctoolchain/usr/bin/swiftc"
     let CFLAGS = [
