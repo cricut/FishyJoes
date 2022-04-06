@@ -243,53 +243,53 @@ extension Data: NodeConverter {
     public static func fromNode(_ value: napi_value?, env: napi_env) throws -> Data {
         var global: napi_value?
         try check(napi_get_global(env, &global))
-        
+
         // Get the number of bytes in the ArrayBuffer
         var byteLength: napi_value?
         try check(napi_get_named_property(env, value, "byteLength", &byteLength))
-        
+
         // Get a byte-oriented view of the ArrayBuffer with UInt8Array
         var uInt8ArrayConstructor: napi_value?
         try check(napi_get_named_property(env, global, "Uint8Array", &uInt8ArrayConstructor))
         var uInt8View: napi_value?
         try check(napi_new_instance(env, uInt8ArrayConstructor, 1, [value], &uInt8View))
-        
+
         // Create a Data to store the memory from the ArrayBuffer
         let count = try Int.fromNode(byteLength, env: env)
         var data = Data(count: count)
-        
+
         // Copy the bytes from the UInt8Array to the Data
         for index in 0..<count {
             var byte: napi_value?
             try check(napi_get_element(env, uInt8View, UInt32(index), &byte))
             data[index] = try UInt8.fromNode(byte, env: env)
         }
-        
+
         return data
     }
 
     public static func toNode(_ value: Data, env: napi_env) throws -> napi_value? {
         var global: napi_value?
         try check(napi_get_global(env, &global))
-        
+
         // Create an ArrayBuffer of the same size as the Data
         var arrayBufferConstructor: napi_value?
         try check(napi_get_named_property(env, global, "ArrayBuffer", &arrayBufferConstructor))
         var byteCount = try Int.toNode(value.count, env: env)
         var arrayBuffer: napi_value?
         try check(napi_new_instance(env, arrayBufferConstructor, 1, &byteCount, &arrayBuffer))
-        
+
         // Get a byte-oriented view of the ArrayBuffer with UInt8Array
         var uInt8ArrayConstructor: napi_value?
         try check(napi_get_named_property(env, global, "Uint8Array", &uInt8ArrayConstructor))
         var uInt8View: napi_value?
         try check(napi_new_instance(env, uInt8ArrayConstructor, 1, &arrayBuffer, &uInt8View))
-        
+
         // Copy the bytes from the Data to the UInt8Array
         for (index, byte) in value.enumerated() {
             try check(napi_set_element(env, uInt8View, UInt32(index), UInt8.toNode(byte, env: env)))
         }
-        
+
         return arrayBuffer
     }
 }
@@ -382,91 +382,5 @@ extension OptionalConverter: NodeConverter where WrappedConverter: NodeConverter
             try check(napi_get_undefined(env, &result))
             return result
         }
-    }
-}
-
-// MARK: - Tuple Type Conversions
-
-extension Tuple2Converter: NodeConverter where T0: NodeConverter, T1: NodeConverter {
-    public static func fromNode(_ value: napi_value?, env: napi_env) throws -> SwiftType {
-        var v0: napi_value?
-        var v1: napi_value?
-        try check(napi_get_element(env, value, 0, &v0))
-        try check(napi_get_element(env, value, 1, &v1))
-        return (
-            try T0.fromNode(v0, env: env),
-            try T1.fromNode(v1, env: env)
-        )
-    }
-
-    public static func toNode(_ value: SwiftType, env: napi_env) throws -> napi_value? {
-        var array: napi_value?
-        try check(napi_create_array_with_length(env, 2, &array))
-        try check(napi_set_element(env, array, 0, T0.toNode(value.0, env: env)))
-        try check(napi_set_element(env, array, 1, T1.toNode(value.1, env: env)))
-        return array
-    }
-
-    public static func nodeSetup(env: napi_env, module: napi_value) throws {
-    }
-}
-
-extension Tuple3Converter: NodeConverter where T0: NodeConverter, T1: NodeConverter, T2: NodeConverter {
-    public static func fromNode(_ value: napi_value?, env: napi_env) throws -> SwiftType {
-        var v0: napi_value?
-        var v1: napi_value?
-        var v2: napi_value?
-        try check(napi_get_element(env, value, 0, &v0))
-        try check(napi_get_element(env, value, 1, &v1))
-        try check(napi_get_element(env, value, 2, &v2))
-        return (
-            try T0.fromNode(v0, env: env),
-            try T1.fromNode(v1, env: env),
-            try T2.fromNode(v2, env: env)
-        )
-    }
-
-    public static func toNode(_ value: SwiftType, env: napi_env) throws -> napi_value? {
-        var array: napi_value?
-        try check(napi_create_array_with_length(env, 3, &array))
-        try check(napi_set_element(env, array, 0, T0.toNode(value.0, env: env)))
-        try check(napi_set_element(env, array, 1, T1.toNode(value.1, env: env)))
-        try check(napi_set_element(env, array, 2, T2.toNode(value.2, env: env)))
-        return array
-    }
-
-    public static func nodeSetup(env: napi_env, module: napi_value) throws {
-    }
-}
-
-extension Tuple4Converter: NodeConverter where T0: NodeConverter, T1: NodeConverter, T2: NodeConverter, T3: NodeConverter {
-    public static func fromNode(_ value: napi_value?, env: napi_env) throws -> SwiftType {
-        var v0: napi_value?
-        var v1: napi_value?
-        var v2: napi_value?
-        var v3: napi_value?
-        try check(napi_get_element(env, value, 0, &v0))
-        try check(napi_get_element(env, value, 1, &v1))
-        try check(napi_get_element(env, value, 2, &v2))
-        try check(napi_get_element(env, value, 3, &v3))
-        return (
-            try T0.fromNode(v0, env: env),
-            try T1.fromNode(v1, env: env),
-            try T2.fromNode(v2, env: env),
-            try T3.fromNode(v3, env: env)
-        )
-    }
-
-    public static func toNode(_ value: SwiftType, env: napi_env) throws -> napi_value? {
-        var array: napi_value?
-        try check(napi_create_array_with_length(env, 4, &array))
-        try check(napi_set_element(env, array, 0, T0.toNode(value.0, env: env)))
-        try check(napi_set_element(env, array, 1, T1.toNode(value.1, env: env)))
-        try check(napi_set_element(env, array, 2, T2.toNode(value.2, env: env)))
-        try check(napi_set_element(env, array, 3, T3.toNode(value.3, env: env)))
-        return array
-    }
-
-    public static func nodeSetup(env: napi_env, module: napi_value) throws {
     }
 }
