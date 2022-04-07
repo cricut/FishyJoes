@@ -42,7 +42,7 @@ jobs:
 
           brew install binaryen
 
-          (cd node-tests; npm install)
+          (cd Tests/NAPITests/node-tests; npm install)
 
       - name: Build
         shell: zsh {0}
