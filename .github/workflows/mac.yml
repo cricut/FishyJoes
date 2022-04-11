@@ -2,9 +2,6 @@ name: Build & test
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
   label:
     types:
       - created
