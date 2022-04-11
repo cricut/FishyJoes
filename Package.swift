@@ -42,8 +42,9 @@ let package = Package(
     dependencies: macOnly(
         [
             D.package(
-                url: "https://github.com/krzysztofzablocki/Sourcery", .exact("1.8.0")
-                // path: "../Sourcery"
+                url: "https://github.com/krzysztofzablocki/Sourcery", .branch("master")
+//                url: "https://github.com/krzysztofzablocki/Sourcery", .exact("1.8.0")
+//                 path: "../Sourcery"
             ),
         ]
     ) + wasmIncompatible(
