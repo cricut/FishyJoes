@@ -12,7 +12,7 @@ on:
 jobs:
   integration-tests-mac:
     name: "mac: integration tests"
-    runs-on: macOS-11.6
+    runs-on: macOS-latest
     env:
       JDK_VERSION: 11
       GRADLE_OPTS: -Dorg.gradle.daemon=false
