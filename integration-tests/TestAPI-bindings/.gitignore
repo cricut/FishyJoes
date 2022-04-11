@@ -13,3 +13,4 @@ node_modules
 /kotlin/src/generated/resources/
 .gradle
 local.properties
+Package.resolved

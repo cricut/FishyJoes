@@ -8,6 +8,9 @@ on:
     types:
       - created
   pull_request:
+  push:
+    branches:
+      - main
 
 jobs:
   integration-tests-mac:
@@ -61,8 +64,10 @@ jobs:
         shell: zsh {0}
         run: |
           set -euxo pipefail
-          cd integration-tests/TestAPI-bindings
 
+          (cd kotlin-runtime; ./gradlew publishToMavenLocal)
+
+          cd integration-tests/TestAPI-bindings
           swift run -- fishy-joes --kotlin-fast generate build test
 
   integration-tests-linux:
@@ -73,7 +78,7 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
       GITHUB_USER: cricut-builduser
       SWIFT_WASM_URL: |-
-        https://github.com/swiftwasm/swift/releases/download/swift-wasm-5.4.0-RELEASE/swift-wasm-5.4.0-RELEASE-ubuntu20.04_x86_64.tar.gz
+        https://github.com/swiftwasm/swift/releases/download/swift-wasm-5.6.0-RELEASE/swift-wasm-5.6.0-RELEASE-ubuntu20.04_x86_64.tar.gz
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -102,9 +107,12 @@ jobs:
 
           sudo apt-get install zsh
 
+          # Sadly, Ubuntu LTS doesn't have an up-to-date binaryen, so use a wasm version instead
+          npm -g install binaryen
+
           curl -Lo swift-wasm.tgz $SWIFT_WASM_URL
-          sudo mkdir -p /Library/Developer/Toolchains/swift-wasm-5.4.0-RELEASE.xctoolchain
-          sudo tar -xf swift-wasm.tgz -C /Library/Developer/Toolchains/swift-wasm-5.4.0-RELEASE.xctoolchain --strip-components 1
+          sudo mkdir -p /Library/Developer/Toolchains/swift-wasm-5.6.0-RELEASE.xctoolchain
+          sudo tar -xf swift-wasm.tgz -C /Library/Developer/Toolchains/swift-wasm-5.6.0-RELEASE.xctoolchain --strip-components 1
 
       - name: Test from node
         shell: zsh {0}
@@ -120,6 +128,8 @@ jobs:
         shell: zsh {0}
         run: |
           set -euxo pipefail
-          cd integration-tests/TestAPI-bindings
 
+          (cd kotlin-runtime; ./gradlew publishToMavenLocal)
+
+          cd integration-tests/TestAPI-bindings
           swift run -- fishy-joes --kotlin-fast build test

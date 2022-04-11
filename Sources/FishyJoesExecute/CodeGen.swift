@@ -3,7 +3,7 @@ import Foundation
 import ArgumentParser
 import Yams
 
-let wasmToolchain = "/Library/Developer/Toolchains/swift-wasm-5.4.0-RELEASE.xctoolchain"
+let wasmToolchain = "/Library/Developer/Toolchains/swift-wasm-5.6.0-RELEASE.xctoolchain"
 let androidToolchain = "/Library/Developer/Toolchains/swift-android-toolchain"
 
 let dylibExt: String = {
@@ -31,6 +31,9 @@ struct CodeGen: ParsableCommand {
 
     @Flag(name: .long, inversion: .prefixedNo, help: "Generate a Kotlin package without android support (much faster)")
     var kotlinFast: Bool = false
+
+    @Flag(name: .long, inversion: .prefixedNo, help: "Additional wasm optimizations (takes some time)")
+    var wasmOpt: Bool = true
 
     @Option(help: "Used for debugging fishy-joes code generation")
     var sourceryDumpPath: String?
@@ -274,11 +277,18 @@ extension CodeGen {
             }
 
             for platform in platforms {
-                func copyJs(resourceExt: String) throws {
-                }
                 switch platform {
                 case .wasm:
-                    try cmd("cp", "\(platform.buildDir)/DummyMain.wasm", "\(platform.outputDir)/\(config.module).wasm").run()
+                    if wasmOpt, cmd("wasm-opt", "--version").runBool() {
+                        try cmd("wasm-opt", "\(platform.buildDir)/DummyMain.wasm", "-O1", "-o", "\(platform.outputDir)/\(config.module).wasm").run()
+                    } else {
+                        if wasmOpt {
+                            print("WARNING: wasm-opt is not installed, resulting build will be bigger and possibly slower")
+                        } else {
+                            print("skipping wasm-opt")
+                        }
+                        try cmd("cp", "\(platform.buildDir)/DummyMain.wasm", "\(platform.outputDir)/\(config.module).wasm").run()
+                    }
                     try cmd(
                         "cp",
                         "\(platform.buildDir)/FishyJoes_FishyJoesNodeRuntime.resources/js/wasm-napi.js",
@@ -314,7 +324,7 @@ extension CodeGen {
                 case .kotlinSystem:
                     try cmd("mkdir", "-p", platform.outputDir).run()
                     try cmd("cp", "\(platform.buildDir)/lib\(config.module)-java.\(dylibExt)", platform.outputDir).run()
-                case .kotlinAndroid(let arch):
+                case .kotlinAndroid:
                     try cmd("mkdir", "-p", platform.outputDir).run()
                     try cmd("cp", "\(platform.buildDir)/lib\(config.module)-java.so", platform.outputDir).run()
                 }

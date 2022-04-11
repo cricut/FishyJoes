@@ -200,10 +200,11 @@ let package = Package(
                 ]
             ),
             T.testTarget(
-                name: "NAPITestDriver",
+                name: "NAPITests",
                 dependencies: [
                     .product(name: "swsh", package: "swsh"),
-                ]
+                ],
+                exclude: ["node-tests"]
             ),
         ]
     )

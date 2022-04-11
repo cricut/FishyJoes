@@ -9,14 +9,6 @@ class Structs private constructor(
     private val _swiftReference: Long
 )
  {
-    override fun toString(
-    ): String = __jni_toString()
-    @JvmName("__jni_toString")
-    private external fun __jni_toString(
-    ): String
-
-    protected fun finalize() = __jni_finalize()
-    private external fun __jni_finalize()
 
     companion object {
         init {
@@ -55,16 +47,7 @@ class Structs private constructor(
 
         override fun equals(
             other: Any?
-        ): Boolean = (other is com.cricut.testapi.Structs.ReferenceStruct) && __jni__swiftEquals(this, other)
-
-        override fun toString(
-        ): String = __jni_toString()
-        @JvmName("__jni_toString")
-        private external fun __jni_toString(
-        ): String
-
-        protected fun finalize() = __jni_finalize()
-        private external fun __jni_finalize()
+        ): Boolean = (other is com.cricut.testapi.Structs.ReferenceStruct) && __jni_swiftEquals(this, other)
 
         companion object {
             /**
@@ -77,9 +60,13 @@ class Structs private constructor(
             private external fun __jni_create(
             ): com.cricut.testapi.Structs.ReferenceStruct
 
+            fun swiftEquals(
+                lhs: com.cricut.testapi.Structs.ReferenceStruct,
+                rhs: com.cricut.testapi.Structs.ReferenceStruct
+            ): Boolean = __jni_swiftEquals(lhs, rhs)
             @JvmStatic
-            @JvmName("__jni__swiftEquals")
-            private external fun __jni__swiftEquals(
+            @JvmName("__jni_swiftEquals")
+            private external fun __jni_swiftEquals(
                 lhs: com.cricut.testapi.Structs.ReferenceStruct,
                 rhs: com.cricut.testapi.Structs.ReferenceStruct
             ): Boolean

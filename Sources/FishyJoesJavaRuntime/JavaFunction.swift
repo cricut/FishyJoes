@@ -22,30 +22,12 @@ private enum SwiftFunctionImpl {
     static var implClass: jclass?
     static var constructor: jmethodID?
     static var invokeMethods: [Int: jmethodID] = [:]
-    static var refFieldID: jfieldID?
-
-    private static let finalizeFunctionObject: @convention(c) (UnsafeMutablePointer<JNIEnv?>, jobject) -> Void = { env, this in
-        callbackBody(env) { env in
-            let longRef = UInt(env.GetLongField(this, refFieldID))
-            AnyBox.releaseOpaque(try javaNonNull(UnsafeMutablePointer(bitPattern: longRef)))
-        }
-    }
 
     public static func javaSetup(arity: Int, invokePointer: UnsafeMutableRawPointer, env: Env) throws {
-        var methods: [JNINativeMethod] = []
-        let bag = CStringBag()
-
+        try AnyBox.javaSetup(env: env)
         if implClass == nil {
             implClass = try env.globalRef(env.FindClass("com/cricut/fishyjoes/runtime/SwiftFunctionImpl"))
             constructor = try env.GetMethodID(implClass, "<init>", "(IJ)V")
-            refFieldID = try env.GetFieldID(implClass, "_swiftReference", "J")
-            methods.append(
-                JNINativeMethod(
-                    name: bag.add("finalize"),
-                    signature: bag.add("()V"),
-                    fnPtr: unsafeBitCast(finalizeFunctionObject, to: UnsafeMutableRawPointer.self)
-                )
-            )
         }
 
         if invokeMethods[arity] == nil {
@@ -53,7 +35,9 @@ private enum SwiftFunctionImpl {
             let obj = "Ljava/lang/Object;"
             let invokeSignature = "(\(String(repeating: obj, count: arity)))\(obj)"
 
-            methods.append(
+            let bag = CStringBag()
+            try env.RegisterNatives(
+                implClass,
                 JNINativeMethod(
                     name: bag.add("invoke"),
                     signature: bag.add(invokeSignature),
@@ -61,10 +45,6 @@ private enum SwiftFunctionImpl {
                 )
             )
             invokeMethods[arity] = try env.GetMethodID(functionClass, "invoke", invokeSignature)
-        }
-
-        if methods.count > 0 {
-            try javaOk(env.RegisterNatives(implClass, methods: methods))
         }
     }
 }
@@ -76,9 +56,7 @@ private struct AnyFunction0 {
 
     static let cInvoke: @convention(c) (UnsafeMutablePointer<JNIEnv?>, jobject) -> jobject? = { env, this in
         callbackBody(env) { env in
-            let longRef = UInt(env.GetLongField(this, SwiftFunctionImpl.refFieldID))
-            let fun = try Box<Self>.takeUnretainedOpaque(javaNonNull(UnsafeMutablePointer(bitPattern: longRef))).value
-            return try fun.invoke(env)
+            try Box<Self>.fromJava(this, env: env).value.invoke(env)
         }
     }
 }
@@ -88,9 +66,7 @@ private struct AnyFunction1 {
 
     static let cInvoke: @convention(c) (UnsafeMutablePointer<JNIEnv?>, jobject, jobject?) -> jobject? = { env, this, p0 in
         callbackBody(env) { env in
-            let longRef = UInt(env.GetLongField(this, SwiftFunctionImpl.refFieldID))
-            let fun = try Box<Self>.takeUnretainedOpaque(javaNonNull(UnsafeMutablePointer(bitPattern: longRef))).value
-            return try fun.invoke(env, p0)
+            try Box<Self>.fromJava(this, env: env).value.invoke(env, p0)
         }
     }
 }
@@ -100,9 +76,7 @@ private struct AnyFunction2 {
 
     static let cInvoke: @convention(c) (UnsafeMutablePointer<JNIEnv?>, jobject, jobject?, jobject?) -> jobject? = { env, this, p0, p1 in
         callbackBody(env) { env in
-            let longRef = UInt(env.GetLongField(this, SwiftFunctionImpl.refFieldID))
-            let fun = try Box<Self>.takeUnretainedOpaque(javaNonNull(UnsafeMutablePointer(bitPattern: longRef))).value
-            return try fun.invoke(env, p0, p1)
+            try Box<Self>.fromJava(this, env: env).value.invoke(env, p0, p1)
         }
     }
 }

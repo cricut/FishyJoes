@@ -2,7 +2,7 @@ const { WASI } = require("@wasmer/wasi");
 const { WasmFs } = require("@wasmer/wasmfs");
 
 module.exports.init = async () => {
-  const { NAPI } = await import("../../../../../Sources/FishyJoesNodeRuntime/js/wasm-napi.js");
+  const { NAPI } = await import("../../../../../../../Sources/FishyJoesNodeRuntime/js/wasm-napi.js");
   const wasmFs = new WasmFs();
 
   // Output stdout and stderr to console

@@ -1,5 +1,16 @@
 <p align="center"><img src="documentation/logo.png" alt="FishyJoes" width="265" height="265"/></p>
 
+# Status
+
+[![Build & test](https://github.com/cricut/FishyJoes/actions/workflows/mac.yml/badge.svg?branch=main)](https://github.com/cricut/FishyJoes/actions/workflows/mac.yml)
+[![Integration tests](https://github.com/cricut/FishyJoes/actions/workflows/integration-tests.yaml/badge.svg?branch=main)](https://github.com/cricut/FishyJoes/actions/workflows/integration-tests.yaml)
+
+# Maintainer
+
+Client Enablement
+
+# Description
+
 Generates bindings for (some) swift library code that can be called from TypeScript and Kotlin.
 
 ## Pretty pictures
@@ -19,7 +30,7 @@ brew install openjdk@11
 
 Install swift-wasm toolchain:
 ```
-curl -Lo swift-wasm.pkg https://github.com/swiftwasm/swift/releases/download/swift-wasm-5.4.0-RELEASE/swift-wasm-5.4.0-RELEASE-macos_x86_64.pkg
+curl -Lo swift-wasm.pkg https://github.com/swiftwasm/swift/releases/download/swift-wasm-5.6.0-RELEASE/swift-wasm-5.6.0-RELEASE-macos_x86_64.pkg
 sudo installer -pkg swift-wasm.pkg -target /
 ```
 
