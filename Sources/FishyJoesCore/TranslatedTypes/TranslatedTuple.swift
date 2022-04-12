@@ -18,11 +18,11 @@ struct TranslatedTuple: TranslatedType {
     var nodeName: String { "[\(elements.map(\.type.nodeName).joined(separator: ", "))]" }
     var kotlinName: String {
         if elements.count == 2 {
-            return "Pair<\(elements.map(\.type.kotlinName).joined(separator: ", "))>"
+            return "Pair<\(elements.map(\.type.kotlinPackageQualifiedName).joined(separator: ", "))>"
         } else if elements.count == 3 {
-            return "Triple<\(elements.map(\.type.kotlinName).joined(separator: ", "))>"
+            return "Triple<\(elements.map(\.type.kotlinPackageQualifiedName).joined(separator: ", "))>"
         } else {
-            return "Tuple\(elements.count)<\(elements.map(\.type.kotlinName).joined(separator: ", "))>"
+            return "Tuple\(elements.count)<\(elements.map(\.type.kotlinPackageQualifiedName).joined(separator: ", "))>"
         }
     }
     var kotlinPackage: String? {
