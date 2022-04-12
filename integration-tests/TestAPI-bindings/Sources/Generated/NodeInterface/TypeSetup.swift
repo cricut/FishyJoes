@@ -31,6 +31,7 @@ public func napi_register_module_v1(env: napi_env, exports: napi_value) -> napi_
         try String.nodeSetup(env: env, module: module)
         try Strings.nodeSetup(env: env, module: module)
         try Structs.nodeSetup(env: env, module: module)
+        try Tuples.nodeSetup(env: env, module: module)
         try UInt16.nodeSetup(env: env, module: module)
         try UInt32.nodeSetup(env: env, module: module)
         try UInt64.nodeSetup(env: env, module: module)

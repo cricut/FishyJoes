@@ -781,6 +781,7 @@ export declare namespace TestAPI {
     }
 
     export type Optional<T> = T | undefined;
+    export type Tuples = ;
 }
 
 export declare function init(): Promise<typeof TestAPI>;

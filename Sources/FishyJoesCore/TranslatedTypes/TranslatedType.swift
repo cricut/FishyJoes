@@ -28,6 +28,14 @@ extension TranslatedType {
         }
     }
 
+    var kotlinPackageQualifiedName: String {
+        if let package = kotlinPackage {
+            return "\(package).\(kotlinName)"
+        } else {
+            return kotlinName
+        }
+    }
+
     var kotlinType: KotlinClass.KType {
         if let opt = self as? TranslatedOptional {
             return .optional(opt.wrapped.kotlinType)
