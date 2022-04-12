@@ -59,9 +59,9 @@
         "package": "Sourcery",
         "repositoryURL": "https://github.com/krzysztofzablocki/Sourcery",
         "state": {
-          "branch": null,
-          "revision": "fd035e9d1001352e090fe3eb47f4cc59e218b2a7",
-          "version": "1.6.1"
+          "branch": "master",
+          "revision": "fa3b01b8a721113076122f19c8354a351b0dc4f8",
+          "version": null
         }
       },
       {
@@ -105,8 +105,8 @@
         "repositoryURL": "https://github.com/apple/swift-syntax.git",
         "state": {
           "branch": null,
-          "revision": "75e60475d9d8fd5bbc16a12e0eaa2cb01b0c322e",
-          "version": "0.50500.0"
+          "revision": "0b6c22b97f8e9320bca62e82cdbee601cf37ad3f",
+          "version": "0.50600.1"
         }
       },
       {
@@ -120,7 +120,7 @@
       },
       {
         "package": "XcodeProj",
-        "repositoryURL": "https://github.com/tuist/xcodeproj",
+        "repositoryURL": "https://github.com/tuist/XcodeProj.git",
         "state": {
           "branch": null,
           "revision": "446f3a0db73e141c7f57e26fcdb043096b1db52c",

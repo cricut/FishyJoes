@@ -1,0 +1,272 @@
+[
+  {
+    "converterType" : {
+      "named" : {
+        "_0" : {
+          "name" : "Bytes",
+          "namespace" : [
+
+          ]
+        }
+      }
+    },
+    "jniType" : {
+      "object" : {
+        "_0" : "com/cricut/testapi/Bytes"
+      }
+    },
+    "kotlinName" : "Bytes",
+    "kotlinPackage" : "com.cricut.testapi",
+    "nodeName" : "Bytes",
+    "sourceType" : {
+      "named" : {
+        "_0" : {
+          "name" : "Bytes",
+          "namespace" : [
+
+          ]
+        }
+      }
+    }
+  },
+  {
+    "converterType" : {
+      "named" : {
+        "_0" : {
+          "name" : "Collections",
+          "namespace" : [
+
+          ]
+        }
+      }
+    },
+    "jniType" : {
+      "object" : {
+        "_0" : "com/cricut/testapi/Collections"
+      }
+    },
+    "kotlinName" : "Collections",
+    "kotlinPackage" : "com.cricut.testapi",
+    "nodeName" : "Collections",
+    "sourceType" : {
+      "named" : {
+        "_0" : {
+          "name" : "Collections",
+          "namespace" : [
+
+          ]
+        }
+      }
+    }
+  },
+  {
+    "converterType" : {
+      "named" : {
+        "_0" : {
+          "name" : "CollectionHolder",
+          "namespace" : [
+            "Collections"
+          ]
+        }
+      }
+    },
+    "jniType" : {
+      "object" : {
+        "_0" : "com/cricut/testapi/Collections$CollectionHolder"
+      }
+    },
+    "kotlinName" : "Collections.CollectionHolder",
+    "kotlinPackage" : "com.cricut.testapi",
+    "nodeName" : "Collections.CollectionHolder",
+    "sourceType" : {
+      "named" : {
+        "_0" : {
+          "name" : "CollectionHolder",
+          "namespace" : [
+            "Collections"
+          ]
+        }
+      }
+    }
+  },
+  {
+    "converterType" : {
+      "named" : {
+        "_0" : {
+          "name" : "Primitives",
+          "namespace" : [
+
+          ]
+        }
+      }
+    },
+    "jniType" : {
+      "object" : {
+        "_0" : "com/cricut/testapi/Primitives"
+      }
+    },
+    "kotlinName" : "Primitives",
+    "kotlinPackage" : "com.cricut.testapi",
+    "nodeName" : "Primitives",
+    "sourceType" : {
+      "named" : {
+        "_0" : {
+          "name" : "Primitives",
+          "namespace" : [
+
+          ]
+        }
+      }
+    }
+  },
+  {
+    "converterType" : {
+      "named" : {
+        "_0" : {
+          "name" : "PrimitiveHolder",
+          "namespace" : [
+            "Primitives"
+          ]
+        }
+      }
+    },
+    "jniType" : {
+      "object" : {
+        "_0" : "com/cricut/testapi/Primitives$PrimitiveHolder"
+      }
+    },
+    "kotlinName" : "Primitives.PrimitiveHolder",
+    "kotlinPackage" : "com.cricut.testapi",
+    "nodeName" : "Primitives.PrimitiveHolder",
+    "sourceType" : {
+      "named" : {
+        "_0" : {
+          "name" : "PrimitiveHolder",
+          "namespace" : [
+            "Primitives"
+          ]
+        }
+      }
+    }
+  },
+  {
+    "converterType" : {
+      "named" : {
+        "_0" : {
+          "name" : "Strings",
+          "namespace" : [
+
+          ]
+        }
+      }
+    },
+    "jniType" : {
+      "object" : {
+        "_0" : "com/cricut/testapi/Strings"
+      }
+    },
+    "kotlinName" : "Strings",
+    "kotlinPackage" : "com.cricut.testapi",
+    "nodeName" : "Strings",
+    "sourceType" : {
+      "named" : {
+        "_0" : {
+          "name" : "Strings",
+          "namespace" : [
+
+          ]
+        }
+      }
+    }
+  },
+  {
+    "converterType" : {
+      "named" : {
+        "_0" : {
+          "name" : "Structs",
+          "namespace" : [
+
+          ]
+        }
+      }
+    },
+    "jniType" : {
+      "object" : {
+        "_0" : "com/cricut/testapi/Structs"
+      }
+    },
+    "kotlinName" : "Structs",
+    "kotlinPackage" : "com.cricut.testapi",
+    "nodeName" : "Structs",
+    "sourceType" : {
+      "named" : {
+        "_0" : {
+          "name" : "Structs",
+          "namespace" : [
+
+          ]
+        }
+      }
+    }
+  },
+  {
+    "converterType" : {
+      "named" : {
+        "_0" : {
+          "name" : "MemberwiseStruct",
+          "namespace" : [
+            "Structs"
+          ]
+        }
+      }
+    },
+    "jniType" : {
+      "object" : {
+        "_0" : "com/cricut/testapi/Structs$MemberwiseStruct"
+      }
+    },
+    "kotlinName" : "Structs.MemberwiseStruct",
+    "kotlinPackage" : "com.cricut.testapi",
+    "nodeName" : "Structs.MemberwiseStruct",
+    "sourceType" : {
+      "named" : {
+        "_0" : {
+          "name" : "MemberwiseStruct",
+          "namespace" : [
+            "Structs"
+          ]
+        }
+      }
+    }
+  },
+  {
+    "converterType" : {
+      "named" : {
+        "_0" : {
+          "name" : "ReferenceStruct",
+          "namespace" : [
+            "Structs"
+          ]
+        }
+      }
+    },
+    "jniType" : {
+      "object" : {
+        "_0" : "com/cricut/testapi/Structs$ReferenceStruct"
+      }
+    },
+    "kotlinName" : "Structs.ReferenceStruct",
+    "kotlinPackage" : "com.cricut.testapi",
+    "nodeName" : "Structs.ReferenceStruct",
+    "sourceType" : {
+      "named" : {
+        "_0" : {
+          "name" : "ReferenceStruct",
+          "namespace" : [
+            "Structs"
+          ]
+        }
+      }
+    }
+  }
+]
