@@ -2,8 +2,8 @@ import SourceryRuntime
 
 // SourceryRuntime.TypeName is bad; Types are trees, not structs full of booleans.
 // An Optional<Int> isn't a Int that happens to be optional, it's an Optional that may contain an Int!
-indirect enum BetterType: Hashable {
-    struct Name: Hashable {
+indirect enum BetterType: Codable, Hashable {
+    struct Name: Codable, Hashable {
         let name: String
         let namespace: [String]
     }
@@ -15,7 +15,7 @@ indirect enum BetterType: Hashable {
     case generic(base: Name, args: [BetterType])
     case selfType
 
-    struct TupleElement: Hashable {
+    struct TupleElement: Codable, Hashable {
         let label: String
         let type: BetterType
     }
