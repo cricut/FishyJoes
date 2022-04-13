@@ -1,4 +1,4 @@
-class KotlinClass {
+class KotlinClass: Class {
     indirect enum KType: Equatable {
         case void
         case unsigned(jniType: JNIType)

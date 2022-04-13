@@ -5,6 +5,8 @@ struct TranslatedStruct: TranslatedType {
     let nodeName: String
     let kotlinName: String
     let kotlinPackage: String?
+    let cSharpName: String
+    let cSharpNamespace: String?
     let globalName: String
     let storedVariables: [Variable]
     let computedVariables: [Variable]
@@ -22,6 +24,8 @@ struct TranslatedStruct: TranslatedType {
         self.nodeName = exportAnnotation.name
         self.kotlinName = exportAnnotation.name
         self.kotlinPackage = context.kotlinPackage
+        self.cSharpName = exportAnnotation.name
+        self.cSharpNamespace = context.cSharpNamespace
         self.globalName = "\(context.module).\(type.globalName)"
         self.jniType = .object(context.kotlinTranslator.javaClassName(nodeName, in: context))
 

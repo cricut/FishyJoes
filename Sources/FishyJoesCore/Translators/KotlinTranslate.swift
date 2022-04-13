@@ -1,7 +1,9 @@
 import Foundation
 import SourceryRuntime
 
-class KotlinTranslate {
+final class KotlinTranslor: Translator {
+    required init() {}
+    
     func javaClassName(_ name: String, in context: FishyJoesContext) -> String {
         "com/cricut/\(context.module.lowercased())/\(name.replacingOccurrences(of: ".", with: "$"))"
     }

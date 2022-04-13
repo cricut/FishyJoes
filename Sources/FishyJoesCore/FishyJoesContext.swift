@@ -11,11 +11,23 @@ public class FishyJoesContext {
     var tsAnnotations: TypeScriptAnnotations
     var kotlinClasses: [KotlinClass] = []
 
-    let nodeTranslator = NodeTranslate()
-    let kotlinTranslator = KotlinTranslate()
+    let translatorTypes: [Translator.Type] = [
+        NodeTranslator.self,
+        KotlinTranslor.self,
+        CSharpTranslator.self,
+    ]
+    
+    lazy var translators: [Translator] = translatorTypes.map({ $0.init() })
+
+    let nodeTranslator = NodeTranslator()
+    let kotlinTranslator = KotlinTranslor()
+    let cSharpTranslator = CSharpTranslator()
 
     var kotlinPackage: String { "com.cricut.\(module.lowercased())" }
     
+    #warning("TODO C# Namespace")
+    var cSharpNamespace: String { "" }
+
     public init(context: TemplateContext) {
         let argument = context.argument
         guard let module = argument["module"] as? String else {
@@ -73,8 +85,10 @@ public class FishyJoesContext {
                 generatedTypes.insert(type.key)
             }
         }
-        collectedFragments.append(nodeTranslator.setupFragment(context: self, generatedTypes: generatedTypes))
-        collectedFragments.append(kotlinTranslator.setupFragment(context: self, generatedTypes: generatedTypes))
+
+        collectedFragments.append(
+            contentsOf: translators.map { $0.setupFragment(context: self, generatedTypes: generatedTypes) }
+        )
 
         let headerFragments = fileHeaders.keys.map { fileName -> SourceFragment in
             let fragment = SourceFragment(sourceryDestination: "file:\(fileName)")
@@ -96,27 +110,47 @@ public class FishyJoesContext {
         allFragments.append(tsAnnotations.fragment)
 
         // process all the fragments so that inner classes are inside outer classes
-        let rootClass = KotlinClass(module: "", documentation: [], name: "__root__")
+        allFragments.append(
+            contentsOf: processInnerClasses(
+                rootClass: KotlinClass(module: "", documentation: [], name: "__root__"),
+                in: &kotlinClasses
+            )
+        )
+
+        return allFragments.map(\.contents).joined()
+    }
+
+    /// Process a set of classes to nest their innner classes properly for generation.
+    ///
+    /// - Important: The provided `rootClass` is assumed to transfer all ownership to this function.
+    ///     It should genrally not be used elsewhere as it will be heavily mutated.
+    ///     This is why an auto closure is used for this parameter.
+    ///
+    /// - Parameters:
+    ///   - rootClass: The root to put all nested classes inside.
+    ///   - classes: The classes to process.
+    ///   - seperator: The separator in the name to split on for namespaces.
+    /// - Returns: The resulting fragments with their inner classes properly processed.
+    func processInnerClasses<C: Class>(
+        rootClass: @autoclosure () -> C,
+        in classes: inout [C],
+        seperator: Character = "."
+    ) -> [SourceFragment] {
+        let rootClass = rootClass()
         // sort by length of qualified name so that outer classes are processed before inner ones
-        for ktClass in kotlinClasses.sorted(by: { $0.name.utf8.count < $1.name.utf8.count }) {
-            var namespace = Array(ktClass.name.split(separator: ".").map(String.init).dropLast().reversed())
+        for cClass in classes.sorted(by: { $0.name.utf8.count < $1.name.utf8.count }) {
+            var namespace = Array(cClass.name.split(separator: seperator).map(String.init).dropLast().reversed())
 
             var containingClass = rootClass
             while let outer = namespace.popLast() {
                 guard let next = containingClass.innerClasses.first(where: { $0.unqualifiedName == outer }) else {
-                    fatalErr("""
-                        while processing \(ktClass.name):
-                        Unable to find class \(outer) in class \(containingClass.name):
-                        \(containingClass.innerClasses.map(\.name))
-                        """)
+                    fatalError()
                 }
                 containingClass = next
             }
-            containingClass.innerClasses.append(ktClass)
+            containingClass.innerClasses.append(cClass)
         }
-        allFragments.append(contentsOf: rootClass.innerClasses.map(\.fragment))
-
-        return allFragments.map(\.contents).joined()
+        return rootClass.innerClasses.map(\.fragment)
     }
 
     func translate(typeDefinition type: Type) -> TranslatedType? {

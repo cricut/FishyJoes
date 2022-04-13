@@ -7,7 +7,9 @@ func debug(file: StaticString = #file, line: UInt = #line, _ msgs: Any? ...) {
     _ = message.withCString { fputs($0, stderr) }
 }
 
-struct NodeTranslate {
+struct NodeTranslator: Translator {
+    init() {}
+
     func output(getter variable: Variable, context: FishyJoesContext, fragment: SourceFragment)  {
         guard let exportAnnotation = variable.exportAnnotation else {
             fatalErr("Variable not annotated for export: \(variable)")

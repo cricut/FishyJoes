@@ -7,6 +7,8 @@ protocol TranslatedType {
     var kotlinName: String { get }
     var kotlinPackage: String? { get }
     var jniType: JNIType { get }
+    var cSharpName: String { get }
+    var cSharpNamespace: String? { get }
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment]
 }
 

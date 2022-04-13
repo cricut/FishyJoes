@@ -6,6 +6,8 @@ struct TranslatedUnsignedPrimitive: TranslatedType {
     let nodeName: String
     let kotlinName: String
     let kotlinPackage: String?
+    let cSharpName: String
+    let cSharpNamespace: String?
     let jniType: JNIType
     var jvmToKotlin: String { ".toU\(jniType.valueType)()" }
     var kotlinToJVM: String { ".to\(jniType.valueType)()" }
@@ -21,6 +23,9 @@ struct TranslatedUnsignedPrimitive: TranslatedType {
         self.nodeName = nodeName ?? cName
         self.kotlinName = "U" + jniType.valueType
         self.kotlinPackage = nil
+        #warning("TODO C# - Support Unsigned Primitives")
+        self.cSharpName = "?"
+        self.cSharpNamespace = nil
         self.jniType = jniType
     }
 

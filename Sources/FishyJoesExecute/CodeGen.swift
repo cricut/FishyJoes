@@ -33,7 +33,7 @@ struct CodeGen: ParsableCommand {
     @Flag(name: .long, inversion: .prefixedNo, help: "Generate a Kotlin package without android support (much faster)")
     var kotlinFast: Bool = false
 
-    @Flag(name: .long, inversion: .prefixedNo, help: "Generate a C# Package")
+    @Flag(name: .customLong("C#"), inversion: .prefixedNo, help: "Generate a C# Package")
     var cSharp: Bool = false
 
     @Option(help: "Used for debugging fishy-joes code generation")
@@ -136,6 +136,7 @@ extension CodeGen {
             ).run()
             try cmd("swift", "build", "--product", "sourcery").run()
             try cmd("swift", "build", "--product", "fishy-joes-execution-helper").run()
+            // Trampoline into fishy-joes-execution-helper via Sourcery
             try cmd(
                 ".build/debug/sourcery",
                 arguments: [

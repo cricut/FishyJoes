@@ -5,6 +5,8 @@ struct TranslatedReference: TranslatedType {
     let nodeName: String
     let kotlinName: String
     let kotlinPackage: String?
+    let cSharpName: String
+    let cSharpNamespace: String?
     let methods: [Method]
     let computedVariables: [Variable]
     let documentation: [String]
@@ -23,6 +25,8 @@ struct TranslatedReference: TranslatedType {
         self.nodeName = typeName
         self.kotlinName = typeName
         self.kotlinPackage = context.kotlinPackage
+        self.cSharpName = typeName
+        self.cSharpNamespace = context.cSharpNamespace
         self.methods = type.methods.compactMap { Method($0) }
         self.computedVariables = type.variables.filter { $0.exportAnnotation != nil }
         self.documentation = type.documentation

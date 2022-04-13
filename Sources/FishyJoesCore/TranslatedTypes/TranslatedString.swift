@@ -6,4 +6,6 @@ struct TranslatedString: TranslatedType {
     let kotlinName = "String"
     let kotlinPackage: String? = "kotlin"
     let jniType = JNIType.object("java/lang/String")
+    let cSharpName: String = "String"
+    let cSharpNamespace: String? = nil
 }

@@ -7,6 +7,8 @@ struct TranslatedPrimitive: TranslatedType {
     let kotlinName: String
     let kotlinPackage: String?
     let jniType: JNIType
+    let cSharpName: String
+    let cSharpNamespace: String?
 
     init(
         swift swiftName: BetterType.Name,
@@ -20,6 +22,9 @@ struct TranslatedPrimitive: TranslatedType {
         self.kotlinName = jniType.valueType
         self.kotlinPackage = nil
         self.jniType = jniType
+        #warning("TODO C# - Support Primitives")
+        self.cSharpName = "?"
+        self.cSharpNamespace = nil
     }
 
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] { [] }
