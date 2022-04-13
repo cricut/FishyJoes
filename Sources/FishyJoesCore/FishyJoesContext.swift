@@ -22,8 +22,8 @@ public class FishyJoesContext {
         guard let module = argument["module"] as? String else {
             fatalErr("must provide module name as `module` argument to sourcery")
         }
-        guard let requiredModules64 = argument["requiredModules"] as? String,
-    let requiredModulesJSON = Data(base64Encoded: requiredModules64),
+        guard let requiredModulesBase64 = argument["requiredModules"] as? String,
+              let requiredModulesJSON = Data(base64Encoded: requiredModulesBase64),
               let requiredModulePaths = try? JSONDecoder().decode([String].self, from: requiredModulesJSON)
         else {
             fatalErr("must provide `requiredModules` as argument to sourcery")
