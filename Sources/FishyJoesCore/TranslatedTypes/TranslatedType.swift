@@ -54,6 +54,10 @@ extension TranslatedType {
             }
         }
     }
+    
+    var cSharpType: Any {
+        fatalError()
+    }
 }
 
 indirect enum JNIType: Equatable {

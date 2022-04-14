@@ -11,20 +11,33 @@ struct TranslatedUnsignedPrimitive: TranslatedType {
     let jniType: JNIType
     var jvmToKotlin: String { ".toU\(jniType.valueType)()" }
     var kotlinToJVM: String { ".to\(jniType.valueType)()" }
+    
+    init(
+        swift swiftName: BetterType.Name,
+        typeNames: FishyJoesContext.TypeNames
+    ) {
+        self.init(
+            swift: swiftName,
+            c: typeNames.c,
+            node: typeNames.ts,
+            jni: typeNames.jni,
+            cSharp: typeNames.cSharp
+        )
+    }
 
     init(
         swift swiftName: BetterType.Name,
         c cName: String,
         node nodeName: String? = nil,
-        jni jniType: JNIType
+        jni jniType: JNIType,
+        cSharp cSharpName: String
     ) {
         self.sourceType = .named(swiftName)
         self.cName = cName
         self.nodeName = nodeName ?? cName
         self.kotlinName = "U" + jniType.valueType
         self.kotlinPackage = nil
-        #warning("TODO C# - Support Unsigned Primitives")
-        self.cSharpName = "?"
+        self.cSharpName = cSharpName
         self.cSharpNamespace = nil
         self.jniType = jniType
     }

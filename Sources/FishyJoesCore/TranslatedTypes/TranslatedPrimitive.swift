@@ -9,12 +9,26 @@ struct TranslatedPrimitive: TranslatedType {
     let jniType: JNIType
     let cSharpName: String
     let cSharpNamespace: String?
+    
+    init(
+        swift swiftName: BetterType.Name,
+        typeNames: FishyJoesContext.TypeNames
+    ) {
+        self.init(
+            swift: swiftName,
+            c: typeNames.c,
+            node: typeNames.ts,
+            jni: typeNames.jni,
+            cSharp: typeNames.cSharp
+        )
+    }
 
     init(
         swift swiftName: BetterType.Name,
         c cName: String,
         node nodeName: String? = nil,
-        jni jniType: JNIType
+        jni jniType: JNIType,
+        cSharp cSharpName: String
     ) {
         self.sourceType = .named(swiftName)
         self.cName = cName
@@ -22,8 +36,7 @@ struct TranslatedPrimitive: TranslatedType {
         self.kotlinName = jniType.valueType
         self.kotlinPackage = nil
         self.jniType = jniType
-        #warning("TODO C# - Support Primitives")
-        self.cSharpName = "?"
+        self.cSharpName = cSharpName
         self.cSharpNamespace = nil
     }
 

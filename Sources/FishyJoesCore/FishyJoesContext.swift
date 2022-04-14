@@ -169,28 +169,30 @@ public class FishyJoesContext {
             fatalErr("TODO: annotation on unknown kind \"\(type.kind)\" on type `\(type.globalName)`")
         }
     }
+    
+    typealias TypeNames = (c: String, ts: String, jni: JNIType, cSharp: String)
 
     func resolve(type: BetterType, generics: [String: BetterType] = [:]) -> TranslatedType {
         if let resolved = typeCache[type] {
             return resolved
         }
 
-        let primitiveTypeMap = [
-            "Bool": (c: "_Bool", ts: "boolean", jni: JNIType.boolean),
-            "Int8": (c: "uint8_t", ts: "number", jni: JNIType.byte),
-            "Int16": (c: "uint16_t", ts: "number", jni: JNIType.short),
-            "Int32": (c: "uint32_t", ts: "number", jni: JNIType.int),
-            "Int64": (c: "uint64_t", ts: "bigint", jni: JNIType.long),
-            "Int": (c: "int", ts: "number", jni: JNIType.long),
-            "Float": (c: "float", ts: "number", jni: JNIType.float),
-            "Double": (c: "double", ts: "number", jni: JNIType.double),
+        let primitiveTypeMap: [String: TypeNames] = [
+            "Bool": (c: "_Bool", ts: "boolean", jni: JNIType.boolean, cSharp: "bool"),
+            "Int8": (c: "int8_t", ts: "number", jni: JNIType.byte, cSharp: "sbyte"),
+            "Int16": (c: "int16_t", ts: "number", jni: JNIType.short, cSharp: "short"),
+            "Int32": (c: "int32_t", ts: "number", jni: JNIType.int, cSharp: "int"),
+            "Int64": (c: "int64_t", ts: "bigint", jni: JNIType.long, cSharp: "long"),
+            "Int": (c: "int", ts: "number", jni: JNIType.long, cSharp: "nint"),
+            "Float": (c: "float", ts: "number", jni: JNIType.float, cSharp: "float"),
+            "Double": (c: "double", ts: "number", jni: JNIType.double, cSharp: "double"),
         ]
-        
-        let primitiveUnsignedTypeMap = [
-            "UInt8": (c: "uint8_t", ts: "number", jni: JNIType.byte),
-            "UInt16": (c: "uint16_t", ts: "number", jni: JNIType.short),
-            "UInt32": (c: "uint32_t", ts: "number", jni: JNIType.int),
-            "UInt64": (c: "uint64_t", ts: "bigint", jni: JNIType.long),
+
+        let primitiveUnsignedTypeMap: [String: TypeNames] = [
+            "UInt8": (c: "uint8_t", ts: "number", jni: JNIType.byte, cSharp: "byte"),
+            "UInt16": (c: "uint16_t", ts: "number", jni: JNIType.short, cSharp: "ushort"),
+            "UInt32": (c: "uint32_t", ts: "number", jni: JNIType.int, cSharp: "uint"),
+            "UInt64": (c: "uint64_t", ts: "bigint", jni: JNIType.long, cSharp: "ulong"),
         ]
 
         var dontCache = false
@@ -203,16 +205,12 @@ public class FishyJoesContext {
                 if let names = primitiveTypeMap[name.globalName] {
                     return TranslatedPrimitive(
                         swift: name,
-                        c: names.c,
-                        node: names.ts,
-                        jni: names.jni
+                        typeNames: names
                     )
                 } else if let names = primitiveUnsignedTypeMap[name.globalName] {
                     return TranslatedUnsignedPrimitive(
                         swift: name,
-                        c: names.c,
-                        node: names.ts,
-                        jni: names.jni
+                        typeNames: names
                     )
                 } else if let typeOverride = generics[name.name] {
                     dontCache = true
@@ -223,7 +221,7 @@ public class FishyJoesContext {
                     return TranslatedData()
                 } else if name.name == "Index", name.namespace.last?.hasPrefix("Array<") == true {
                     // It's a hack.
-                    return TranslatedPrimitive(swift: "Int", c: "int", node: "number", jni: .long)
+                    return TranslatedPrimitive(swift: "Int", c: "int", node: "number", jni: .long, cSharp: "int")
                 } else {
                     fatalErr("Don't know how to translate type `\(name)`. Maybe annotate it with `sourcery:export(...)`?")
                 }
