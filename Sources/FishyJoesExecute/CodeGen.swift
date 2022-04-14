@@ -82,7 +82,7 @@ extension CodeGen {
     mutating func validate() throws {
         ExternalCommand.verbose = !quiet
 
-        config = FishyJoesConfig.readFromFile()
+        config = try FishyJoesConfig.readFromFile()
 
         guard cmd("test", "-f", "Package.swift").runBool() else {
             throw ValidationError("No Package.swift found in current directory. fishy-joes must be run in the root of the bindings package")
