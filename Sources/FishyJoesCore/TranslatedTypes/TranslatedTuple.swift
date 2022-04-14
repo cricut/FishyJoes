@@ -18,11 +18,11 @@ struct TranslatedTuple: TranslatedType {
     var nodeName: String { "[\(elements.lazy.map(\.type.nodeName).joined(separator: ", "))]" }
     var kotlinName: String {
         if elements.count == 2 {
-            return "Pair<\(elements.lazy.map(\.type.kotlinName).joined(separator: ", "))>"
+            return "Pair<\(elements.lazy.map(\.type.kotlinPackageQualifiedName).joined(separator: ", "))>"
         } else if elements.count == 3 {
-            return "Triple<\(elements.lazy.map(\.type.kotlinName).joined(separator: ", "))>"
+            return "Triple<\(elements.lazy.map(\.type.kotlinPackageQualifiedName).joined(separator: ", "))>"
         } else {
-            return "Tuple\(elements.count)<\(elements.lazy.map(\.type.kotlinName).joined(separator: ", "))>"
+            return "Tuple\(elements.count)<\(elements.lazy.map(\.type.kotlinPackageQualifiedName).joined(separator: ", "))>"
         }
     }
     var kotlinPackage: String? {

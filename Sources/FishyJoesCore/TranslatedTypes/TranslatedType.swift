@@ -13,9 +13,6 @@ protocol TranslatedType {
 }
 
 extension TranslatedType {
-    var cForwardDeclaration: String? { nil }
-    var asSwiftAccessor: String { fatalErr("asSwiftAccessor not implemented for \(Self.self)") }
-
     var converterType: BetterType {
         sourceType
     }
@@ -27,6 +24,14 @@ extension TranslatedType {
             return .optional(opt.wrapped.nodeType)
         } else {
             return .named(nodeName)
+        }
+    }
+
+    var kotlinPackageQualifiedName: String {
+        if let package = kotlinPackage {
+            return "\(package).\(kotlinName)"
+        } else {
+            return kotlinName
         }
     }
 
@@ -60,7 +65,7 @@ extension TranslatedType {
     }
 }
 
-indirect enum JNIType: Equatable {
+indirect enum JNIType: Codable, Equatable {
     case object(String)
     case array(JNIType)
     case boolean

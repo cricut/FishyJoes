@@ -2,7 +2,7 @@ import ArgumentParser
 import Foundation
 import swsh
 
-let wasmToolchain = "/Library/Developer/Toolchains/swift-wasm-5.4.0-RELEASE.xctoolchain"
+let wasmToolchain = "/Library/Developer/Toolchains/swift-wasm-5.6.0-RELEASE.xctoolchain"
 let androidToolchain = "/Library/Developer/Toolchains/swift-android-toolchain"
 
 let dylibExt: String = {
@@ -35,6 +35,9 @@ struct CodeGen: ParsableCommand {
 
     @Flag(name: .customLong("C#"), inversion: .prefixedNo, help: "Generate a C# Package")
     var cSharp: Bool = false
+
+    @Flag(name: .long, inversion: .prefixedNo, help: "Additional wasm optimizations (takes some time)")
+    var wasmOpt: Bool = true
 
     @Option(help: "Used for debugging fishy-joes code generation")
     var sourceryDumpPath: String?
@@ -146,6 +149,7 @@ extension CodeGen {
                     "--sources", translateeSources,
                     "--templates", ".build/debug/FishyJoes_FishyJoesExecutionHelper.bundle/FishyJoes.swifttemplate",
                     "--args", "module=\(config.module)",
+                    "--args", "requiredModules=\"\(try! JSONEncoder().encode(config.requiredModulePaths).base64EncodedString())\"",
                     "--args", "fishyJoesExecutable=.build/debug/fishy-joes-execution-helper",
                     "--output", "Sources/Generated"
                 ].compactMap { $0 },
@@ -181,7 +185,16 @@ extension CodeGen {
             for platform in platforms {
                 switch platform {
                 case .wasm:
-                    try cmd("cp", "\(platform.buildDir)/DummyMain.wasm", "\(platform.outputDir)/\(config.module).wasm").run()
+                    if wasmOpt, cmd("wasm-opt", "--version").runBool() {
+                        try cmd("wasm-opt", "\(platform.buildDir)/DummyMain.wasm", "-O1", "-o", "\(platform.outputDir)/\(config.module).wasm").run()
+                    } else {
+                        if wasmOpt {
+                            print("WARNING: wasm-opt is not installed, resulting build will be bigger and possibly slower")
+                        } else {
+                            print("skipping wasm-opt")
+                        }
+                        try cmd("cp", "\(platform.buildDir)/DummyMain.wasm", "\(platform.outputDir)/\(config.module).wasm").run()
+                    }
                     try cmd(
                         "cp",
                         "\(platform.buildDir)/FishyJoes_FishyJoesNodeRuntime.resources/js/wasm-napi.js",

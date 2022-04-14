@@ -1,4 +1,4 @@
-// Generated using Sourcery 1.6.1 — https://github.com/krzysztofzablocki/Sourcery
+// Generated using Sourcery 1.8.0 — https://github.com/krzysztofzablocki/Sourcery
 // DO NOT EDIT
 import FishyJoesJavaRuntime
 import Foundation
@@ -769,6 +769,40 @@ public func JNIOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         )
         //print("setting up Structs...")
         try Structs.javaSetup(env: env)
+        //print("setting up Tuples...")
+        try Tuples.javaSetup(env: env)
+        try env.RegisterNatives(Tuples.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_checkTuples"),
+                signature: bag.add("(Lkotlin/Pair;Lkotlin/Triple;Lcom/cricut/fishyjoes/runtime/Tuple4;Lcom/cricut/fishyjoes/runtime/Tuple5;Lcom/cricut/fishyjoes/runtime/Tuple6;)Z"),
+                fnPtr: unsafeBitCast(java_Tuples_checkTuples, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_tuple2"),
+                signature: bag.add("()Lkotlin/Pair;"),
+                fnPtr: unsafeBitCast(java_get_Tuples_tuple2, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_tuple3"),
+                signature: bag.add("()Lkotlin/Triple;"),
+                fnPtr: unsafeBitCast(java_get_Tuples_tuple3, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_tuple4"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/Tuple4;"),
+                fnPtr: unsafeBitCast(java_get_Tuples_tuple4, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_tuple5"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/Tuple5;"),
+                fnPtr: unsafeBitCast(java_get_Tuples_tuple5, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_tuple6"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/Tuple6;"),
+                fnPtr: unsafeBitCast(java_get_Tuples_tuple6, to: UnsafeMutableRawPointer.self)
+            )
+        )
         //print("setting up UInt16...")
         try UInt16.javaSetup(env: env)
         //print("setting up UInt32...")
@@ -777,6 +811,16 @@ public func JNIOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try UInt64.javaSetup(env: env)
         //print("setting up UInt8...")
         try UInt8.javaSetup(env: env)
+        //print("setting up Tuple2Converter<Int, Swift.String>...")
+        try Tuple2Converter<Int, Swift.String>.javaSetup(env: env)
+        //print("setting up Tuple3Converter<Swift.String, Double, Swift.String>...")
+        try Tuple3Converter<Swift.String, Double, Swift.String>.javaSetup(env: env)
+        //print("setting up Tuple6Converter<Swift.String, Int, Double, Tuple4Converter<Tuple2Converter<Int, Swift.String>, Tuple3Converter<Swift.String, Double, Swift.String>, Swift.String, Bool>, Tuple5Converter<Swift.String, UInt8, Tuple4Converter<Tuple2Converter<Int, Swift.String>, Tuple3Converter<Swift.String, Double, Swift.String>, Swift.String, Bool>, Tuple3Converter<Swift.String, Double, Swift.String>, Tuple2Converter<Int, Swift.String>>, Bool>...")
+        try Tuple6Converter<Swift.String, Int, Double, Tuple4Converter<Tuple2Converter<Int, Swift.String>, Tuple3Converter<Swift.String, Double, Swift.String>, Swift.String, Bool>, Tuple5Converter<Swift.String, UInt8, Tuple4Converter<Tuple2Converter<Int, Swift.String>, Tuple3Converter<Swift.String, Double, Swift.String>, Swift.String, Bool>, Tuple3Converter<Swift.String, Double, Swift.String>, Tuple2Converter<Int, Swift.String>>, Bool>.javaSetup(env: env)
+        //print("setting up Tuple5Converter<Swift.String, UInt8, Tuple4Converter<Tuple2Converter<Int, Swift.String>, Tuple3Converter<Swift.String, Double, Swift.String>, Swift.String, Bool>, Tuple3Converter<Swift.String, Double, Swift.String>, Tuple2Converter<Int, Swift.String>>...")
+        try Tuple5Converter<Swift.String, UInt8, Tuple4Converter<Tuple2Converter<Int, Swift.String>, Tuple3Converter<Swift.String, Double, Swift.String>, Swift.String, Bool>, Tuple3Converter<Swift.String, Double, Swift.String>, Tuple2Converter<Int, Swift.String>>.javaSetup(env: env)
+        //print("setting up Tuple4Converter<Tuple2Converter<Int, Swift.String>, Tuple3Converter<Swift.String, Double, Swift.String>, Swift.String, Bool>...")
+        try Tuple4Converter<Tuple2Converter<Int, Swift.String>, Tuple3Converter<Swift.String, Double, Swift.String>, Swift.String, Bool>.javaSetup(env: env)
         return JNI_VERSION_1_4
     }
 }

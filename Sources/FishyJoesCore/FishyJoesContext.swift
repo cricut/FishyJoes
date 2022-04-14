@@ -3,6 +3,7 @@ import SourceryRuntime
 
 public class FishyJoesContext {
     let module: String
+    let requiredModulePaths: [String]
     let templateContext: TemplateContext
     var typeCache: [BetterType: TranslatedType] = [:]
     var fileHeaders: [String: Set<String>] = [:]
@@ -33,8 +34,15 @@ public class FishyJoesContext {
         guard let module = argument["module"] as? String else {
             fatalErr("must provide module name as `module` argument to sourcery")
         }
+        guard let requiredModulesBase64 = argument["requiredModules"] as? String,
+              let requiredModulesJSON = Data(base64Encoded: requiredModulesBase64),
+              let requiredModulePaths = try? JSONDecoder().decode([String].self, from: requiredModulesJSON)
+        else {
+            fatalErr("must provide `requiredModules` as argument to sourcery")
+        }
         self.templateContext = context
         self.module = module
+        self.requiredModulePaths = requiredModulePaths
         self.tsAnnotations = TypeScriptAnnotations(
             rootNamespace: .init(
                 name: module,
@@ -53,13 +61,30 @@ public class FishyJoesContext {
 
     public func translateAll() -> String {
         var collectedFragments: [SourceFragment] = []
+        var moduleDefinedTypes: [AnyTranslatedType] = []
+
+        // Import any required FishyJoes modules
+        for path in requiredModulePaths {
+            guard let moduleTypes = try? JSONDecoder().decode([AnyTranslatedType].self, from: Data(contentsOf: URL(fileURLWithPath: path))) else {
+                fatalErr("error reading fishy joes module file at \(path)")
+            }
+            for translatedType in moduleTypes {
+                typeCache[translatedType.sourceType] = translatedType
+            }
+        }
 
         // Collect type information before starting translation
         for translatedType in templateContext.types.all.compactMap(translate(typeDefinition:)) {
             let name = translatedType.sourceType
             precondition(typeCache[name] == nil, "duplicate definitions found for \(name)")
             typeCache[name] = translatedType
+            moduleDefinedTypes.append(translatedType.asAnyTranslatedType)
         }
+        let moduleInfoFragment = SourceFragment(sourceryDestination: "file:\(module).fishyjoesmodule")
+        collectedFragments.append(moduleInfoFragment)
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = [.prettyPrinted, .sortedKeys, .withoutEscapingSlashes]
+        moduleInfoFragment.output(String(data: try! encoder.encode(moduleDefinedTypes), encoding: .utf8)!)
 
         // Translate
         for type in templateContext.types.all + templateContext.types.extensions {
