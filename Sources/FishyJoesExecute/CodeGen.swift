@@ -68,6 +68,7 @@ struct CodeGen: ParsableCommand {
         case kotlin
         case kotlinFast
         case cSharp
+        case wasmOpt
         case sourceryDumpPath
         case version
         case buildStep
@@ -81,7 +82,7 @@ extension CodeGen {
     mutating func validate() throws {
         ExternalCommand.verbose = !quiet
 
-        config = try FishyJoesConfig.readFromFile()
+        config = FishyJoesConfig.readFromFile()
 
         guard cmd("test", "-f", "Package.swift").runBool() else {
             throw ValidationError("No Package.swift found in current directory. fishy-joes must be run in the root of the bindings package")
