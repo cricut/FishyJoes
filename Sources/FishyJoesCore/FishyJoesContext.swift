@@ -18,16 +18,18 @@ public class FishyJoesContext {
         CSharpTranslator.self,
     ]
     
-    lazy var translators: [Translator] = translatorTypes.map({ $0.init() })
-
     let nodeTranslator = NodeTranslator()
     let kotlinTranslator = KotlinTranslor()
     let cSharpTranslator = CSharpTranslator()
 
+    lazy var translators: [Translator] = [
+        nodeTranslator,
+        kotlinTranslator,
+        cSharpTranslator,
+    ]
+
     var kotlinPackage: String { "com.cricut.\(module.lowercased())" }
-    
-    #warning("TODO C# Namespace")
-    var cSharpNamespace: String { "" }
+    var cSharpNamespace: String { "Cricut.\(module)" }
 
     public init(context: TemplateContext) {
         let argument = context.argument
@@ -98,8 +100,6 @@ public class FishyJoesContext {
         // Translate any top level functions
         for _ in templateContext.functions.compactMap(Method.init) {
             fatalErr("Support for exporting top level functions has been removed for now")
-            // collectedFragments.append(contentsOf: nodeTranslator.translate(method: topLevelFunction, context: self))
-            // collectedFragments.append(contentsOf: kotlinTranslator.translate(method: topLevelFunction, context: self))
         }
 
         var generatedTypes = Set<BetterType>()
@@ -156,20 +156,24 @@ public class FishyJoesContext {
     ///   - classes: The classes to process.
     ///   - seperator: The separator in the name to split on for namespaces.
     /// - Returns: The resulting fragments with their inner classes properly processed.
-    func processInnerClasses<C: Class>(
+    func processInnerClasses<C: NestedClass>(
         rootClass: @autoclosure () -> C,
         in classes: inout [C],
-        seperator: Character = "."
+        separator: Character = "."
     ) -> [SourceFragment] {
         let rootClass = rootClass()
         // sort by length of qualified name so that outer classes are processed before inner ones
         for cClass in classes.sorted(by: { $0.name.utf8.count < $1.name.utf8.count }) {
-            var namespace = Array(cClass.name.split(separator: seperator).map(String.init).dropLast().reversed())
+            var namespace = Array(cClass.name.split(separator: separator).map(String.init).dropLast().reversed())
 
             var containingClass = rootClass
             while let outer = namespace.popLast() {
                 guard let next = containingClass.innerClasses.first(where: { $0.unqualifiedName == outer }) else {
-                    fatalError()
+                    fatalErr("""
+                        while processing \(cClass.name):
+                        Unable to find class \(outer) in class \(containingClass.name):
+                        \(containingClass.innerClasses.map(\.name))
+                        """)
                 }
                 containingClass = next
             }

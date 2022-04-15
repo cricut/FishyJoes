@@ -54,7 +54,7 @@ public struct Box<T> {
     }
 }
 
-public class AnyBox {
+public final class AnyBox {
     public var value: Any
     public init(_ value: Any) {
         self.value = value
