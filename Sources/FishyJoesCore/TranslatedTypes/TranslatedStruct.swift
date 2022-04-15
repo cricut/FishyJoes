@@ -53,13 +53,14 @@ struct TranslatedStruct: TranslatedType {
                 newMethods.append(setter)
             }
         }
-        var newFields: [CPPClass.CPPField] = storedVariables.map { variable in
+        let newFields: [CPPClass.CPPField] = storedVariables.map { variable in
+            let fieldType = context.resolve(type: variable.typeName.better)
             return CPPClass.CPPField(
                 documentation: variable.documentation,
                 isStatic: variable.isStatic,
                 isPrivate: false,
                 name: variable.name,
-                type: context.resolve(type: variable.typeName.better),
+                type: .type(fieldType),
                 initializer: nil
             )
         }
@@ -67,20 +68,10 @@ struct TranslatedStruct: TranslatedType {
             module: context.module,
             documentation: documentation,
             name: sourceType.name,
-            constructors: [
-                CPPClass.CPPConstructor(
-                    documentation: ["Create empty \(sourceType.name) (only to be used by FishyJoes internally)"],
-                    isPrivate: true,
-                    parameters: [],
-                    initializers: [],
-                    body: { fragment in
-                        fragment.output("// (empty)")
-                    }
-                )
-            ],
             methods: newMethods,
             fields: newFields,
-            serializedFields: newFields
+            serializedFields: newFields,
+            completeConstructorVisible: true
         )
         context.cppClasses[newClass.qualifiedName] = newClass
         return fragment
@@ -102,7 +93,7 @@ struct TranslatedStruct: TranslatedType {
                 }
             }
             fragment.outputBlock("Stored Variables {") {
-                for variable in computedVariables {
+                for variable in storedVariables {
                     context.neutralTranslator.output(variable: variable, context: context, fragment: fragment)
                 }
             }

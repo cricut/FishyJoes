@@ -59,27 +59,17 @@ struct TranslatedReference: TranslatedType {
             isStatic: false,
             isPrivate: true,
             name: "_ref",
-            type: TranslatedPrimitive(swift: BetterType.Name(name: "UInt64"), c: "uint64_t", node: "number", jni: JNIType.long),
+            type: .swiftRef(hashable: hashable && equatable),
             initializer: nil
         )
         let newClass = CPPClass(
             module: context.module,
             documentation: documentation,
             name: sourceType.name,
-            constructors: [
-                CPPClass.CPPConstructor(
-                    documentation: ["Create empty \(sourceType.name) (only to be used by FishyJoes internally)"],
-                    isPrivate: true,
-                    parameters: [],
-                    initializers: [],
-                    body: { fragment in 
-                        fragment.output("// (empty)")
-                    }
-                )
-            ],
             methods: newMethods,
             fields: [refField],
-            serializedFields: [refField]
+            serializedFields: [refField],
+            completeConstructorVisible: false
         )
         context.cppClasses[newClass.qualifiedName] = newClass
         return fragment

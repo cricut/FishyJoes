@@ -2,48 +2,29 @@ import Foundation
 import SourceryRuntime
 
 class CPPTranslate {
-    private func generateCPPInterfaceMethod(
+    func generateCPPInterfaceMethod(
         name: String,
+        bindingOnlyName: String? = nil,
         generics: [String : BetterType],
         parameters: [CPPClass.CPPParameter],
-        returnType: TranslatedType,
+        returnType: CPPClass.CPPType,
         documentation: [String],
-        definedIn: BetterType?,
+        definedInCPPClassNamed: String?,
         isStatic: Bool,
         isMutating: Bool,
+        isPrivate: Bool = false,
         in context: FishyJoesContext
     ) -> CPPClass.CPPMethod {
-        var cBindingName: String
-        if let selfType = definedIn {
-            let resolvedSelf = context.resolve(type: selfType)
-            let selfNameUnderscores = resolvedSelf.cppName.replacingOccurrences(of: "::", with: "_")
-            cBindingName = "FJInternalBinding_\(context.module)_\(selfNameUnderscores)_\(name)"
-        } else {
-            cBindingName = "FJInternalBinding_\(context.module)_\(name)"
-        }
         return CPPClass.CPPMethod(
             name: name,
             documentation: documentation,
             isStatic: isStatic,
+            isPrivate: isPrivate,
+            isConst: !isMutating,
             parameters: parameters,
             returnType: returnType,
-            bindings: [CPPClass.CPPBinding(symbol: cBindingName, params: isStatic ? parameters.count : parameters.count + 1)]
-        ) { fragment in
-            //method body lambda
-            let paramsPassed = ((isStatic ? [] : [
-                isMutating ? "FishyJoesInternal::Packer::packThenUnpackMutatedMembersOnDestruct(*this).ptr()" : "FishyJoesInternal::Packer::pack(*this).ptr()"
-            ]) + parameters.map { "FishyJoesInternal::Packer::pack(\($0.name)).ptr()" }).joined(separator: ", ")
-            var callStmt = ""
-            if !(returnType is TranslatedVoid) {
-                callStmt += "return FishyJoesInternal::Packer::unpack<\(returnType.cppName)>("
-            }
-            callStmt += "FishyJoesInternal::CBindings::\(cBindingName)(\(paramsPassed))"
-            if !(returnType is TranslatedVoid) {
-                callStmt += ")"
-            }
-            callStmt += ";"
-            fragment.output(callStmt)
-        }
+            bindingOnlyName: bindingOnlyName
+        )
     }
     func translateToHeaderFragment(method: Method, in context: FishyJoesContext) -> CPPClass.CPPMethod {
         let resolvedReturn = context.resolve(type: method.returnType, generics: method.exportAnnotation.genericOverrides)
@@ -54,13 +35,13 @@ class CPPTranslate {
                 CPPClass.CPPParameter(
                     labelComment: formal.label,
                     name: formal.name,
-                    type: context.resolve(type: formal.type, generics: method.exportAnnotation.genericOverrides),
+                    type: .type(context.resolve(type: formal.type, generics: method.exportAnnotation.genericOverrides)),
                     defaultValue: formal.defaultValue
                 )
             }),
-            returnType: resolvedReturn,
+            returnType: .type(resolvedReturn),
             documentation: method.documentation,
-            definedIn: method.definedIn,
+            definedInCPPClassNamed: method.definedIn != nil ? context.resolve(type: method.definedIn!).cppName : nil,
             isStatic: method.isStatic,
             isMutating: method.isMutating,
             in: context
@@ -73,9 +54,9 @@ class CPPTranslate {
             name: "get\(capitalizedVariableName)",
             generics: [:],
             parameters: [],
-            returnType: varType,
+            returnType: .type(varType),
             documentation: variable.documentation,
-            definedIn: variable.definedInTypeName?.better,
+            definedInCPPClassNamed: variable.definedInTypeName != nil ? context.resolve(type: variable.definedInTypeName!.better).cppName : nil,
             isStatic: variable.isStatic,
             isMutating: false,
             in: context
@@ -88,18 +69,59 @@ class CPPTranslate {
                 parameters: [CPPClass.CPPParameter(
                     labelComment: "newVal",
                     name: "newVal",
-                    type: varType,
+                    type: .type(varType),
                     defaultValue: nil
                 )],
-                returnType: TranslatedVoid(),
+                returnType: .type(TranslatedVoid()),
                 documentation: variable.documentation,
-                definedIn: variable.definedInTypeName?.better,
+                definedInCPPClassNamed: variable.definedInTypeName != nil ? context.resolve(type: variable.definedInTypeName!.better).cppName : nil,
                 isStatic: variable.isStatic,
                 isMutating: true,
                 in: context
             )
         }
         return (getter: getter, setter: setter)
+    }
+    
+    func generateEqualityHeader(in context: FishyJoesContext) -> SourceFragment {
+        let frag = SourceFragment(sourceryDestination: "file:../../cpp/include/\(context.module)_eq.hpp")
+        frag.output("#include <functional>")
+        let hashableObjs = context.cppClasses.values.filter { $0.isHashable(in: context) }
+        frag.outputBlock("template <> struct std::hash<\(context.module)::FishyJoesInternal::SwiftReference> {", semicolonTerminated: true) {
+            frag.outputBlock("size_t operator()(const \(context.module)::FishyJoesInternal::SwiftReference& ref) {") {
+                frag.output("return (size_t)\(context.module)::FishyJoesInternal::\(context.module)_swift_hash(ref.ref.get());")
+            }
+        }
+        frag.outputBlock("inline bool operator==(const \(context.module)::FishyJoesInternal::SwiftReference& ref1, const \(context.module)::FishyJoesInternal::SwiftReference& ref2) {") {
+            frag.output("return \(context.module)::FishyJoesInternal::\(context.module)_swift_check_equality(ref1.ref.get(), ref2.ref.get());")
+        }
+        for classObj in hashableObjs {
+            let typeNameWithModule = "\(context.module)::\(classObj.qualifiedName)"
+            frag.outputBlock("template <> struct std::hash<\(typeNameWithModule)> {", semicolonTerminated: true) {
+                frag.output("size_t operator()(const \(typeNameWithModule) &obj) const;")
+            }
+            frag.outputBlock("namespace \(context.module) {") {
+                frag.output("inline bool operator==(const \(classObj.qualifiedName)& lhs, const \(classObj.qualifiedName)& rhs);")
+            }
+        }
+        for classObj in hashableObjs {
+            let typeNameWithModule = "\(context.module)::\(classObj.qualifiedName)"
+            frag.outputBlock("size_t std::hash<\(typeNameWithModule)>::operator()(const \(typeNameWithModule) &obj) const {") {
+                frag.output("size_t ret = 0;")
+                for field in classObj.serializedFields {
+                    frag.output("\(context.module)::FishyJoesInternal::hashCombine(ret, obj.\(field.name));")
+                }
+                frag.output("return ret;")
+            }
+        }
+        for classObj in hashableObjs {
+            frag.outputBlock("namespace \(context.module) {") {
+                frag.outputBlock("inline bool operator==(const \(classObj.qualifiedName)& lhs, const \(classObj.qualifiedName)& rhs) {") {
+                    frag.output("return std::equal_to<std::decay_t<decltype(lhs)>>()(lhs, rhs);")
+                }
+            }
+        }
+        return frag
     }
     
     func generatePreHeader(in context: FishyJoesContext) -> SourceFragment {
@@ -115,23 +137,44 @@ class CPPTranslate {
         frag.output("#include <optional>")
         frag.output("#include <string>")
         frag.output("#include <tuple>")
+        frag.output("#include <memory>")
         frag.output("")
         
         frag.outputBlock("namespace \(context.module) {") {
             frag.outputBlock("namespace FishyJoesInternal {") {
                 //generated classes are friends with FishyJoesInternal::Packer
                 //to allow packer_impl.hpp (in src/) to access private members
-                frag.output("class Packer;")
+                frag.output("struct Packer;")
                 frag.output("")
+                
+                //hash combination
+                frag.output("template <typename T>")
+                frag.outputBlock("inline void hashCombine(std::size_t &seed, const T &v) {") {
+                    frag.output("seed ^= std::hash<T>()(v) + 0x9e3779b9 + (seed << 6) + (seed >> 2);")
+                }
+                
+                frag.outputBlock("extern \"C\" {") {
+                    frag.output("void \(context.module)_swift_release(void* swift_obj);")
+                    frag.output("void \(context.module)_swift_release_packed_data(void* swift_buf);")
+                    frag.output("bool \(context.module)_swift_check_equality(void* swift_obj_1, void* swift_obj_2);")
+                    frag.output("uint64_t \(context.module)_swift_hash(void* swift_obj);")
+                }
+                
+                frag.outputBlock("struct SwiftReference {", semicolonTerminated: true) {
+                    frag.output("std::shared_ptr<void> ref;")
+                }
+                
+                frag.outputBlock("SwiftReference swiftRefFromPtr(uint64_t ptr) {") {
+                    frag.output("return {.ref = {(void*)ptr, \(context.module)_swift_release}};")
+                }
                 
                 //output all bindings
                 frag.outputBlock("namespace CBindings {") {
                     frag.outputBlock("extern \"C\" {") {
                         for classObj in context.cppClasses.values {
                             for method in classObj.methods {
-                                for binding in method.bindings {
-                                    frag.output("void* \(binding.symbol)(\(Array(repeating: "void*", count: binding.params).joined(separator: ", ")));")
-                                }
+                                let binding = method.binding(for: classObj, in: context)
+                                frag.output("void* \(binding.symbol)(\(Array(repeating: "void*", count: binding.params).joined(separator: ", ")));")
                             }
                         }
                     }
@@ -156,6 +199,7 @@ class CPPTranslate {
                 frag.output("#include \"\(cppClass.swiftQualifiedName).hpp\"")
             }
         }
+        frag.output("#include \"\(context.module)_eq.hpp\"")
         return frag
     }
     
@@ -168,22 +212,23 @@ class CPPTranslate {
         let frag = SourceFragment(sourceryDestination: "file:../../cpp/src/shared_impl.hpp")
         frag.output("#include \"\(context.module).hpp\"")
         frag.output("#include <cstdlib>")
+        frag.output("#include <utility>")
         frag.output("")
         frag.outputBlock("namespace \(context.module) {") {
             frag.outputBlock("struct FishyJoesInternal::Packer {", semicolonTerminated: true) {
                 frag.output("std::vector<uint8_t> data;")
                 frag.output("int idx;")
                 frag.output("//size must be power of 2")
-                frag.outputBlock("void align(int size) {") {
+                frag.outputBlock("inline void align(int size) {") {
                     frag.output("auto off = idx & (size - 1);")
                     frag.output("if(off) idx += size - off;")
                 }
-                frag.outputBlock("void* ptr() {") {
+                frag.outputBlock("inline void* ptr() {") {
                     frag.output("align(8);")
                     frag.output("data.resize(idx);")
                     frag.output("return data.data();")
                 }
-                frag.outputBlock("static Packer fromSwiftPtr(void* ptr) {") {
+                frag.outputBlock("static inline Packer fromSwiftPtr(void* ptr) {") {
                     frag.output("uint32_t data_size = *(uint32_t*)ptr;")
                     frag.output("uint8_t* u8ptr = ((uint8_t*)ptr) + 4;")
                     frag.output("//copy data into a Packer")
@@ -192,15 +237,9 @@ class CPPTranslate {
                     frag.output("free(ptr);")
                     frag.output("return ret;")
                 }
-                frag.output("template <typename T>")
-                frag.outputBlock("T get_temporary() {") {
-                    frag.output("T ret;")
-                    frag.output("get(ret);")
-                    frag.output("return ret;")
-                }
                 
                 frag.output("template <typename T>")
-                frag.outputBlock("static Packer pack(const T& obj) {") {
+                frag.outputBlock("static inline Packer pack(const T& obj) {") {
                     frag.output("Packer packer;")
                     frag.output("packer.put(obj);")
                     frag.output("return packer;")
@@ -208,17 +247,20 @@ class CPPTranslate {
                 
                 //TODO: fix
                 frag.output("template <typename T>")
-                frag.outputBlock("static Packer packThenUnpackMutatedMembersOnDestruct(T& obj) {") {
+                frag.outputBlock("static inline Packer packThenUnpackMutatedMembersOnDestruct(T& obj) {") {
                     frag.output("Packer packer;")
                     frag.output("packer.put(obj);")
                     frag.output("return packer;")
                 }
                 
                 frag.output("template <typename T>")
-                frag.outputBlock("static T unpack(void* swiftPtr) {") {
-                    frag.output("T ret;")
-                    frag.output("fromSwiftPtr(swiftPtr).get(ret);")
-                    frag.output("return ret;")
+                frag.outputBlock("static inline T unpack(void* swiftPtr) {") {
+                    frag.output("return fromSwiftPtr(swiftPtr).get_t<T>();")
+                }
+                
+                frag.output("template <typename T>")
+                frag.outputBlock("inline T get_t() {") {
+                    frag.output("return get(std::in_place_type_t<T>{});")
                 }
                 
                 for simple_type in [ // must be power-of-2-bytes sized types
@@ -226,37 +268,48 @@ class CPPTranslate {
                     "int8_t", "int16_t", "int32_t", "int64_t",
                     "bool", "char", "float", "double"
                 ] {
-                    frag.outputBlock("void put(const \(simple_type)& obj) {") {
+                    frag.outputBlock("inline void put(const \(simple_type)& obj) {") {
                         frag.output("align(sizeof(obj));")
                         frag.output("data.resize(data.size() + sizeof(obj));")
                         frag.output("*(\(simple_type)*)(data.data() + idx) = obj;")
                         frag.output("idx += sizeof(obj);")
                     }
-                    frag.outputBlock("void get(\(simple_type)& out) {") {
-                        frag.output("align(sizeof(out));")
-                        frag.output("out = *(\(simple_type)*)(data.data() + idx);")
-                        frag.output("idx += sizeof(out);")
+                    frag.outputBlock("inline \(simple_type) get(std::in_place_type_t<\(simple_type)> typeGuide = std::in_place_type_t<\(simple_type)>{}) {") {
+                        frag.output("align(sizeof(\(simple_type)));")
+                        frag.output("auto ret = *(\(simple_type)*)(data.data() + idx);")
+                        frag.output("idx += sizeof(\(simple_type));")
+                        frag.output("return ret;")
                     }
+                }
+                
+                frag.outputBlock("inline void put(const FishyJoesInternal::SwiftReference &ref) {") {
+                    frag.output("put((uint64_t)ref.ref.get());")
+                }
+                
+                frag.outputBlock("inline FishyJoesInternal::SwiftReference get(std::in_place_type_t<FishyJoesInternal::SwiftReference> typeGuide = std::in_place_type_t<FishyJoesInternal::SwiftReference>{}) {") {
+                    frag.output("return {.ref = {(void*)get_t<uint64_t>(), FishyJoesInternal::\(context.module)_swift_release}};")
                 }
                 
                 //now to deal with packing all the STL types we generate
                 frag.output("template <typename T>")
-                frag.outputBlock("void put(const std::vector<T>& vec) {") {
+                frag.outputBlock("inline void put(const std::vector<T>& vec) {") {
                     frag.output("put((uint64_t)vec.size());")
                     frag.outputBlock("for(const auto &ele: vec) {") {
                         frag.output("put(ele);")
                     }
                 }
                 frag.output("template <typename T>")
-                frag.outputBlock("void get(std::vector<T>& out) {") {
-                    frag.output("auto length = get_temporary<uint64_t>();")
+                frag.outputBlock("inline std::vector<T> get(std::in_place_type_t<std::vector<T>> typeGuide = std::in_place_type_t<std::vector<T>>{}) {") {
+                    frag.output("std::vector<T> out;")
+                    frag.output("auto length = get_t<uint64_t>();")
                     frag.outputBlock("for(int i = 0; i < length; i++) {") {
-                        frag.output("out.push_back(get_temporary<T>());")
+                        frag.output("out.emplace_back(get_t<T>());")
                     }
+                    frag.output("return out;")
                 }
                 
                 frag.output("template <typename K, typename V>")
-                frag.outputBlock("void put(const std::unordered_map<K, V>& map) {") {
+                frag.outputBlock("inline void put(const std::unordered_map<K, V>& map) {") {
                     frag.output("put((uint64_t)map.size());")
                     frag.outputBlock("for(const auto &entry: map) {") {
                         frag.output("put(entry.first);")
@@ -264,16 +317,17 @@ class CPPTranslate {
                     }
                 }
                 frag.output("template <typename K, typename V>")
-                frag.outputBlock("void get(std::unordered_map<K, V>& out) {") {
-                    frag.output("out.clear();")
-                    frag.output("auto len = get_temporary<uint64_t>();")
+                frag.outputBlock("inline std::unordered_map<K, V> get(std::in_place_type_t<std::unordered_map<K, V>> typeGuide = std::in_place_type_t<std::unordered_map<K, V>>{}) {") {
+                    frag.output("std::unordered_map<K, V> out;")
+                    frag.output("auto len = get_t<uint64_t>();")
                     frag.outputBlock("for(int i = 0; i < len; i++) {") {
-                        frag.output("out.insert({get_temporary<K>(), get_temporary<V>()});")
+                        frag.output("out.insert({get_t<K>(), get_t<V>()});")
                     }
+                    frag.output("return out;")
                 }
                 
                 frag.output("template <typename... Types>")
-                frag.outputBlock("void put(const std::variant<Types...>& variant) {") {
+                frag.outputBlock("inline void put(const std::variant<Types...>& variant) {") {
                     frag.output("put((int64_t)variant.index());")
                     frag.output("std::visit([&](auto&& arg){ put(arg); }, variant);");
                 }
@@ -286,85 +340,82 @@ class CPPTranslate {
                 //simply checks against (type index = 0, 1, 2, ... (in reverse actually))
                 //then fills in a variant with the corresponding type when a match is hit.
                 frag.output("template <typename Variant, int N>")
-                frag.outputBlock("std::enable_if_t<N != 0, Variant> get_variant_helper(int n) {") {
+                frag.outputBlock("inline std::enable_if_t<N != 0, Variant> get_variant_helper(int n) {") {
                     frag.output("if(n >= N || n < 0) {")
                     frag.output("  throw std::runtime_error(\"invalid variant index when unpacking\");")
                     frag.output("} else if(n == N - 1) {")
-                    frag.output("  return get_temporary<std::variant_alternative_t<N - 1, Variant>>();")
+                    frag.output("  return get_t<std::variant_alternative_t<N - 1, Variant>>();")
                     frag.output("} else {")
                     frag.output("  return get_variant_helper<Variant, N - 1>(n);")
                     frag.output("}")
                 }
                 frag.output("template <typename Variant, int N>")
-                frag.outputBlock("std::enable_if_t<N == 0, Variant> get_variant_helper(int n) {") {
+                frag.outputBlock("inline std::enable_if_t<N == 0, Variant> get_variant_helper(int n) {") {
                     frag.output("throw std::runtime_error(\"invalid variant index when unpacking\");")
                 }
                 frag.output("template <typename... Types>")
-                frag.outputBlock("void get(std::variant<Types...>& out) {") {
-                    frag.output("int index = (int)get_temporary<int64_t>();")
-                    frag.output("out = get_variant_helper<std::variant<Types...>, std::variant_size_v<std::variant<Types...>>>(index);")
+                frag.outputBlock("inline std::variant<Types...> get(std::in_place_type_t<std::variant<Types...>> typeGuide = std::in_place_type_t<std::variant<Types...>>{}) {") {
+                    frag.output("int index = (int)get_t<int64_t>();")
+                    frag.output("return get_variant_helper<std::variant<Types...>, std::variant_size_v<std::variant<Types...>>>(index);")
                 }
                 //(end of get() implementation for std::variant)
                 
                 frag.output("template <typename T>")
-                frag.outputBlock("void put(const std::optional<T>& obj) {") {
+                frag.outputBlock("inline void put(const std::optional<T>& obj) {") {
                     frag.output("put(obj.has_value());")
                     frag.output("if(obj.has_value()) put(*obj);")
                 }
                 frag.output("template <typename T>")
-                frag.outputBlock("void get(std::optional<T>& out) {") {
-                    frag.output("out.reset();")
-                    frag.output("if(get_temporary<bool>()) get(*out);")
+                frag.outputBlock("inline std::optional<T> get(std::in_place_type_t<std::optional<T>> typeGuide = std::in_place_type_t<std::optional<T>>{}) {") {
+                    frag.output("if(!get_t<bool>()) return std::nullopt;")
+                    frag.output("return get_t<T>();")
                 }
                 
                 frag.output("template <typename T>")
-                frag.outputBlock("void put(const std::unordered_set<T>& obj) {") {
+                frag.outputBlock("inline void put(const std::unordered_set<T>& obj) {") {
                     frag.output("put((uint64_t)obj.size());")
                     frag.outputBlock("for(const auto &entry: obj) {") {
                         frag.output("put(entry);")
                     }
                 }
                 frag.output("template <typename T>")
-                frag.outputBlock("void get(std::unordered_set<T>& out) {") {
-                    frag.output("out.clear();")
-                    frag.output("auto length = get_temporary<uint64_t>();")
+                frag.outputBlock("inline std::unordered_set<T> get(std::in_place_type_t<std::unordered_set<T>> typeGuide = std::in_place_type_t<std::unordered_set<T>>{}) {") {
+                    frag.output("std::unordered_set<T> out;")
+                    frag.output("auto length = get_t<uint64_t>();")
                     frag.outputBlock("for(int i = 0; i < length; i++) {") {
-                        frag.output("out.insert(get_temporary<T>());")
+                        frag.output("out.insert(get_t<T>());")
                     }
+                    frag.output("return out;")
                 }
                 
-                frag.outputBlock("void put(const std::string& str) {") {
+                frag.outputBlock("inline void put(const std::string& str) {") {
                     frag.output("put((uint64_t)str.size());")
                     frag.outputBlock("for(const auto &ch: str) {") {
                         frag.output("put(ch);")
                     }
                 }
-                frag.outputBlock("void get(std::string& out) {") {
-                    frag.output("out.resize((size_t)get_temporary<uint64_t>());")
+                frag.outputBlock("inline std::string get(std::in_place_type_t<std::string> typeGuide = std::in_place_type_t<std::string>{}) {") {
+                    frag.output("std::string out((size_t)get_t<uint64_t>(), ' ');")
                     frag.outputBlock("for(auto &ch: out) {") {
-                        frag.output("get(ch);")
+                        frag.output("ch = get_t<char>();")
                     }
+                    frag.output("return out;")
                 }
-                
-                //this feels more natural now
-                //I have become one with the C++ compiler
-                //＼＼\\٩( 'ω' )و //／／ C++センスキターーーーー
-                //exit case
                 frag.output("template <typename Tuple, int N>")
-                frag.output("std::enable_if_t<N >= std::tuple_size_v<Tuple>> put_tuple_helper(const Tuple& tuple) {}")
+                frag.output("inline std::enable_if_t<N >= std::tuple_size_v<Tuple>> put_tuple_helper(const Tuple& tuple) {}")
                 //main case
                 frag.output("template <typename Tuple, int N>")
-                frag.outputBlock("std::enable_if_t<N < std::tuple_size_v<Tuple>> put_tuple_helper(const Tuple& tuple) {") {
+                frag.outputBlock("inline std::enable_if_t<N < std::tuple_size_v<Tuple>> put_tuple_helper(const Tuple& tuple) {") {
                     frag.output("put(std::get<N>(tuple));")
                     frag.output("put_tuple_helper<Tuple, N + 1>(tuple);")
                 }
                 frag.output("template <typename... Types>")
-                frag.outputBlock("void put(const std::tuple<Types...>& tuple) {") {
+                frag.outputBlock("inline void put(const std::tuple<Types...>& tuple) {") {
                     frag.output("put_tuple_helper<std::tuple<Types...>, 0>(tuple);")
                 }
                 frag.output("template <typename... Types>")
-                frag.outputBlock("void get(std::tuple<Types...>& tuple) {") {
-                    frag.output("tuple = std::make_tuple(get_temporary<Types>()...);")
+                frag.outputBlock("inline std::tuple<Types...> get(std::in_place_type_t<std::tuple<Types...>> typeGuide = std::in_place_type_t<std::tuple<Types...>>{}) {") {
+                    frag.output("return std::make_tuple(get_t<Types>()...);")
                 }
                 for cppClass in context.cppClasses.values {
                     cppClass.packerImpl(to: frag)

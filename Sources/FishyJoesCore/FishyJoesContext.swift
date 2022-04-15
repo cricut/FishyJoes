@@ -12,6 +12,8 @@ public class FishyJoesContext {
     var kotlinClasses: [KotlinClass] = []
     //qualified name (ie "ContainingClass::ClassName") -> CPPClass
     var cppClasses: [String : CPPClass] = [:]
+    //[qualifiedName/cppName]
+    var classesNeedingHashSpecialization: [CPPClass] = []
 
     let nodeTranslator = NodeTranslate()
     let kotlinTranslator = KotlinTranslate()
@@ -134,10 +136,11 @@ public class FishyJoesContext {
         for cppClass in cppClasses.values {
             if cppClass.parentQualifiedName == nil {
                 allFragments.append(cppClass.headerFragment())
-                allFragments.append(cppClass.sourceFragment())
             }
+            allFragments.append(cppClass.sourceFragment(in: self))
         }
 
+        allFragments.append(cppTranslator.generateEqualityHeader(in: self))
         allFragments.append(cppTranslator.generateCombinedHeader(in: self))
         allFragments.append(cppTranslator.generatePackImplHeader(in: self))
         
