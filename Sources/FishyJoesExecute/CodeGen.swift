@@ -33,7 +33,7 @@ struct CodeGen: ParsableCommand {
     @Flag(name: .long, inversion: .prefixedNo, help: "Generate a Kotlin package without android support (much faster)")
     var kotlinFast: Bool = false
 
-    @Flag(name: .long, inversion: .prefixedNo, help: "Generate a C# Package")
+    @Flag(name: [.long, .customLong("C🗡️"), inversion: .prefixedNo, help: "Generate a C# Package")
     var cSharp: Bool = false
 
     @Flag(name: .long, inversion: .prefixedNo, help: "Additional wasm optimizations (takes some time)")
