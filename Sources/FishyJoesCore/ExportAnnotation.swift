@@ -38,7 +38,6 @@ struct ExportAnnotation {
     }
 }
 
-
 extension ExportAnnotation.SimpleParse {
     struct Reader {
         var data: String

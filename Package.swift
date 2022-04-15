@@ -32,6 +32,7 @@ let package = Package(
         [
             P.library(name: "FishyJoesJavaRuntime", targets: ["FishyJoesJavaRuntime"]),
             P.library(name: "JavaRuntimeTestHarness", type: .dynamic, targets: ["JavaRuntimeTestHarness"]),
+            P.library(name: "FishyJoesCSharpRuntime", targets: ["FishyJoesCSharpRuntime"]),
             P.executable(name: "fishy-joes", targets: ["FishyJoesExecute"]),
         ]
     ) + macOnly(
@@ -73,6 +74,12 @@ let package = Package(
         ),
         T.target(
             name: "JavaRuntimeTestHarness",
+            dependencies: [
+                .target(name: "FishyJoesJavaRuntime"),
+            ]
+        ),
+        T.target(
+            name: "FishyJoesCSharpRuntime",
             dependencies: [
                 .target(name: "FishyJoesJavaRuntime"),
             ]

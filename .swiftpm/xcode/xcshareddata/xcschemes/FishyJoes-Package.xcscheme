@@ -188,6 +188,20 @@
                ReferencedContainer = "container:">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "FishyJoesCSharpRuntime"
+               BuildableName = "FishyJoesCSharpRuntime"
+               BlueprintName = "FishyJoesCSharpRuntime"
+               ReferencedContainer = "container:">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -213,6 +227,16 @@
                BlueprintIdentifier = "NAPITestDriver"
                BuildableName = "NAPITestDriver"
                BlueprintName = "NAPITestDriver"
+               ReferencedContainer = "container:">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "NAPITests"
+               BuildableName = "NAPITests"
+               BlueprintName = "NAPITests"
                ReferencedContainer = "container:">
             </BuildableReference>
          </TestableReference>

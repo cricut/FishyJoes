@@ -5,6 +5,8 @@ struct AnyTranslatedType: Codable {
     var kotlinName: String
     var kotlinPackage: String?
     var jniType: JNIType
+    var cSharpName: String
+    var cSharpNamespace: String?
 }
 
 extension AnyTranslatedType: TranslatedType {
@@ -21,7 +23,9 @@ extension TranslatedType {
             nodeName: nodeName,
             kotlinName: kotlinName,
             kotlinPackage: kotlinPackage,
-            jniType: jniType
+            jniType: jniType,
+            cSharpName: cSharpName,
+            cSharpNamespace: cSharpNamespace
         )
     }
 }

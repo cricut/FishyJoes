@@ -12,10 +12,24 @@ public class FishyJoesContext {
     var tsAnnotations: TypeScriptAnnotations
     var kotlinClasses: [KotlinClass] = []
 
-    let nodeTranslator = NodeTranslate()
-    let kotlinTranslator = KotlinTranslate()
+    let translatorTypes: [Translator.Type] = [
+        NodeTranslator.self,
+        KotlinTranslor.self,
+        CSharpTranslator.self,
+    ]
+    
+    let nodeTranslator = NodeTranslator()
+    let kotlinTranslator = KotlinTranslor()
+    let cSharpTranslator = CSharpTranslator()
+
+    lazy var translators: [Translator] = [
+        nodeTranslator,
+        kotlinTranslator,
+        cSharpTranslator,
+    ]
 
     var kotlinPackage: String { "com.cricut.\(module.lowercased())" }
+    var cSharpNamespace: String { "Cricut.\(module)" }
 
     public init(context: TemplateContext) {
         let argument = context.argument
@@ -86,8 +100,6 @@ public class FishyJoesContext {
         // Translate any top level functions
         for _ in templateContext.functions.compactMap(Method.init) {
             fatalErr("Support for exporting top level functions has been removed for now")
-            // collectedFragments.append(contentsOf: nodeTranslator.translate(method: topLevelFunction, context: self))
-            // collectedFragments.append(contentsOf: kotlinTranslator.translate(method: topLevelFunction, context: self))
         }
 
         var generatedTypes = Set<BetterType>()
@@ -98,8 +110,10 @@ public class FishyJoesContext {
                 generatedTypes.insert(type.key)
             }
         }
-        collectedFragments.append(nodeTranslator.setupFragment(context: self, generatedTypes: generatedTypes))
-        collectedFragments.append(kotlinTranslator.setupFragment(context: self, generatedTypes: generatedTypes))
+
+        collectedFragments.append(
+            contentsOf: translators.map { $0.setupFragment(context: self, generatedTypes: generatedTypes) }
+        )
 
         let headerFragments = fileHeaders.keys.map { fileName -> SourceFragment in
             let fragment = SourceFragment(sourceryDestination: "file:\(fileName)")
@@ -121,27 +135,51 @@ public class FishyJoesContext {
         allFragments.append(tsAnnotations.fragment)
 
         // process all the fragments so that inner classes are inside outer classes
-        let rootClass = KotlinClass(module: "", documentation: [], name: "__root__")
+        allFragments.append(
+            contentsOf: processInnerClasses(
+                rootClass: KotlinClass(module: "", documentation: [], name: "__root__"),
+                in: &kotlinClasses
+            )
+        )
+
+        return allFragments.map(\.contents).joined()
+    }
+
+    /// Process a set of classes to nest their innner classes properly for generation.
+    ///
+    /// - Important: The provided `rootClass` is assumed to transfer all ownership to this function.
+    ///     It should genrally not be used elsewhere as it will be heavily mutated.
+    ///     This is why an auto closure is used for this parameter.
+    ///
+    /// - Parameters:
+    ///   - rootClass: The root to put all nested classes inside.
+    ///   - classes: The classes to process.
+    ///   - seperator: The separator in the name to split on for namespaces.
+    /// - Returns: The resulting fragments with their inner classes properly processed.
+    func processInnerClasses<C: NestedClass>(
+        rootClass: @autoclosure () -> C,
+        in classes: inout [C],
+        separator: Character = "."
+    ) -> [SourceFragment] {
+        let rootClass = rootClass()
         // sort by length of qualified name so that outer classes are processed before inner ones
-        for ktClass in kotlinClasses.sorted(by: { $0.name.utf8.count < $1.name.utf8.count }) {
-            var namespace = Array(ktClass.name.split(separator: ".").map(String.init).dropLast().reversed())
+        for cClass in classes.sorted(by: { $0.name.utf8.count < $1.name.utf8.count }) {
+            var namespace = Array(cClass.name.split(separator: separator).map(String.init).dropLast().reversed())
 
             var containingClass = rootClass
             while let outer = namespace.popLast() {
                 guard let next = containingClass.innerClasses.first(where: { $0.unqualifiedName == outer }) else {
                     fatalErr("""
-                        while processing \(ktClass.name):
+                        while processing \(cClass.name):
                         Unable to find class \(outer) in class \(containingClass.name):
                         \(containingClass.innerClasses.map(\.name))
                         """)
                 }
                 containingClass = next
             }
-            containingClass.innerClasses.append(ktClass)
+            containingClass.innerClasses.append(cClass)
         }
-        allFragments.append(contentsOf: rootClass.innerClasses.map(\.fragment))
-
-        return allFragments.map(\.contents).joined()
+        return rootClass.innerClasses.map(\.fragment)
     }
 
     func translate(typeDefinition type: Type) -> TranslatedType? {
@@ -160,28 +198,30 @@ public class FishyJoesContext {
             fatalErr("TODO: annotation on unknown kind \"\(type.kind)\" on type `\(type.globalName)`")
         }
     }
+    
+    typealias TypeNames = (c: String, ts: String, jni: JNIType, cSharp: String)
 
     func resolve(type: BetterType, generics: [String: BetterType] = [:]) -> TranslatedType {
         if let resolved = typeCache[type] {
             return resolved
         }
 
-        let primitiveTypeMap = [
-            "Bool": (c: "_Bool", ts: "boolean", jni: JNIType.boolean),
-            "Int8": (c: "uint8_t", ts: "number", jni: JNIType.byte),
-            "Int16": (c: "uint16_t", ts: "number", jni: JNIType.short),
-            "Int32": (c: "uint32_t", ts: "number", jni: JNIType.int),
-            "Int64": (c: "uint64_t", ts: "bigint", jni: JNIType.long),
-            "Int": (c: "int", ts: "number", jni: JNIType.long),
-            "Float": (c: "float", ts: "number", jni: JNIType.float),
-            "Double": (c: "double", ts: "number", jni: JNIType.double),
+        let primitiveTypeMap: [String: TypeNames] = [
+            "Bool": (c: "_Bool", ts: "boolean", jni: JNIType.boolean, cSharp: "bool"),
+            "Int8": (c: "int8_t", ts: "number", jni: JNIType.byte, cSharp: "sbyte"),
+            "Int16": (c: "int16_t", ts: "number", jni: JNIType.short, cSharp: "short"),
+            "Int32": (c: "int32_t", ts: "number", jni: JNIType.int, cSharp: "int"),
+            "Int64": (c: "int64_t", ts: "bigint", jni: JNIType.long, cSharp: "long"),
+            "Int": (c: "int", ts: "number", jni: JNIType.long, cSharp: "nint"),
+            "Float": (c: "float", ts: "number", jni: JNIType.float, cSharp: "float"),
+            "Double": (c: "double", ts: "number", jni: JNIType.double, cSharp: "double"),
         ]
 
-        let primitiveUnsignedTypeMap = [
-            "UInt8": (c: "uint8_t", ts: "number", jni: JNIType.byte),
-            "UInt16": (c: "uint16_t", ts: "number", jni: JNIType.short),
-            "UInt32": (c: "uint32_t", ts: "number", jni: JNIType.int),
-            "UInt64": (c: "uint64_t", ts: "bigint", jni: JNIType.long),
+        let primitiveUnsignedTypeMap: [String: TypeNames] = [
+            "UInt8": (c: "uint8_t", ts: "number", jni: JNIType.byte, cSharp: "byte"),
+            "UInt16": (c: "uint16_t", ts: "number", jni: JNIType.short, cSharp: "ushort"),
+            "UInt32": (c: "uint32_t", ts: "number", jni: JNIType.int, cSharp: "uint"),
+            "UInt64": (c: "uint64_t", ts: "bigint", jni: JNIType.long, cSharp: "ulong"),
         ]
 
         var dontCache = false
@@ -194,16 +234,12 @@ public class FishyJoesContext {
                 if let names = primitiveTypeMap[name.globalName] {
                     return TranslatedPrimitive(
                         swift: name,
-                        c: names.c,
-                        node: names.ts,
-                        jni: names.jni
+                        typeNames: names
                     )
                 } else if let names = primitiveUnsignedTypeMap[name.globalName] {
                     return TranslatedUnsignedPrimitive(
                         swift: name,
-                        c: names.c,
-                        node: names.ts,
-                        jni: names.jni
+                        typeNames: names
                     )
                 } else if let typeOverride = generics[name.name] {
                     dontCache = true
@@ -214,7 +250,7 @@ public class FishyJoesContext {
                     return TranslatedData()
                 } else if name.name == "Index", name.namespace.last?.hasPrefix("Array<") == true {
                     // It's a hack.
-                    return TranslatedPrimitive(swift: "Int", c: "int", node: "number", jni: .long)
+                    return TranslatedPrimitive(swift: "Int", c: "int", node: "number", jni: .long, cSharp: "int")
                 } else {
                     fatalErr("Don't know how to translate type `\(name)`. Maybe annotate it with `sourcery:export(...)`?")
                 }

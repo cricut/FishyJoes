@@ -6,4 +6,6 @@ struct TranslatedData: TranslatedType {
     let kotlinName = "ByteArray"
     let kotlinPackage: String? = "kotlin"
     let jniType = JNIType.array(.byte)
+    let cSharpName: String = "byte[]"
+    let cSharpNamespace: String? = nil
 }

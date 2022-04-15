@@ -7,11 +7,14 @@ struct TranslatedSet: TranslatedType {
     let kotlinName: String
     let kotlinPackage: String? = "kotlin.collections"
     let jniType = JNIType.object("java/util/Set")
+    let cSharpName: String
+    let cSharpNamespace: String? = "System.Collections.Generic"
 
     init(element: TranslatedType) {
         self.sourceType = .generic(base: "Set", args: [element.sourceType])
         self.converterType = .generic(base: "SetConverter", args: [element.converterType])
         self.nodeName = "Set<\(element.nodeName)>"
         self.kotlinName = "Set<\(element.kotlinName)>"
+        self.cSharpName = "HashSet<\(element.cSharpName)>"
     }
 }

@@ -6,6 +6,8 @@ struct TranslatedEnum: TranslatedType {
     let kotlinName: String
     let kotlinPackage: String?
     let jniType: JNIType
+    let cSharpName: String
+    let cSharpNamespace: String?
     let cases: [Case]
     let documentation: [String]
     let methods: [Method]
@@ -39,12 +41,14 @@ struct TranslatedEnum: TranslatedType {
     }
 
     init(context: FishyJoesContext, type: Enum) {
-        guard let nodeName = type.exportAnnotation?.name else { fatalErr("export symbol not specified") }
+        guard let name = type.exportAnnotation?.name else { fatalErr("export symbol not specified") }
 
         self.sourceType = BetterType(named: type)
-        self.nodeName = nodeName
-        self.kotlinName = nodeName
+        self.nodeName = name
+        self.kotlinName = name
         self.kotlinPackage = context.kotlinPackage
+        self.cSharpName = name
+        self.cSharpNamespace = context.cSharpNamespace
         self.cases = type.cases.map { enumCase in
             Case(
                 documentation: enumCase.documentation,

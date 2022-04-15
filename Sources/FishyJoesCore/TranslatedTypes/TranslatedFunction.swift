@@ -9,6 +9,8 @@ struct TranslatedFunction: TranslatedType {
     let kotlinName: String
     let kotlinPackage: String? = nil
     let jniType: JNIType
+    let cSharpName: String
+    let cSharpNamespace: String? = nil
 
     init(parameters: [TranslatedType], returnType: TranslatedType) {
         self.parameters = parameters
@@ -18,6 +20,8 @@ struct TranslatedFunction: TranslatedType {
         self.nodeName = "(\(parameters.map { "_: \($0.nodeName)" }.joined(separator: ", "))) => \(returnType.nodeName)"
         self.kotlinName = "(\(parameters.map(\.kotlinName).joined(separator: ", "))) -> \(returnType.kotlinName)"
         self.jniType = .object("kotlin/jvm/functions/Function\(parameters.count)")
+        #warning("TODO C# Function Translation")
+        self.cSharpName = ""
     }
 
     var converterType: BetterType {
