@@ -37,7 +37,7 @@ let package = Package(
         ]
     ) + macOnly(
         [
-            P.executable(name: "fishy-joes-execution-helper", targets: ["FishyJoesExecutionHelper"]),
+            P.executable(name: "🐟☕️", targets: ["FishyJoesExecutionHelper"]),
         ]
     ),
     dependencies: macOnly(
