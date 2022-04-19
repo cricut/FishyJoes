@@ -73,7 +73,7 @@ struct CodeGen: ParsableCommand {
         case version
         case buildStep
     }
-    
+
     var config: FishyJoesConfig!
     var platforms: [Platform] = []
 }
@@ -87,7 +87,7 @@ extension CodeGen {
         guard cmd("test", "-f", "Package.swift").runBool() else {
             throw ValidationError("No Package.swift found in current directory. fishy-joes must be run in the root of the bindings package")
         }
-        
+
         if wasm {
             platforms.append(.wasm)
         }
@@ -104,7 +104,7 @@ extension CodeGen {
             platforms.append(.cSharp)
         }
     }
-    
+
     mutating func run() throws {
         if buildStep.contains(.generate) {
             let packageJSON = try cmd("swift", "package", "dump-package").runData()
@@ -139,7 +139,7 @@ extension CodeGen {
                 "Sources/Generated/JavaInterface/EmptyPlaceholder.swift"
             ).run()
             try cmd("swift", "build", "--product", "sourcery").run()
-            try cmd("swift", "build", "--product", "fishy-joes-execution-helper").run()
+            try cmd("swift", "build", "--product", "🐟☕️").run()
             // Trampoline into fishy-joes-execution-helper via Sourcery
             try cmd(
                 ".build/debug/sourcery",
@@ -151,7 +151,7 @@ extension CodeGen {
                     "--templates", ".build/debug/FishyJoes_FishyJoesExecutionHelper.bundle/FishyJoes.swifttemplate",
                     "--args", "module=\(config.module)",
                     "--args", "requiredModules=\"\(try! JSONEncoder().encode(config.requiredModulePaths).base64EncodedString())\"",
-                    "--args", "fishyJoesExecutable=.build/debug/fishy-joes-execution-helper",
+                    "--args", "fishyJoesExecutable=.build/debug/🐟☕️",
                     "--output", "Sources/Generated"
                 ].compactMap { $0 },
                 addEnv: sourceryDumpPath.map {
