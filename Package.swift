@@ -30,7 +30,7 @@ let package = Package(
         P.library(name: "FishyJoesNodeRuntime", targets: ["FishyJoesNodeRuntime"]),
     ] + wasmIncompatible(
         [
-            P.library(name: "FishyJoesJavaRuntime", targets: ["FishyJoesJavaRuntime"]),
+            P.library(name: "FishyJoesJavaRuntime", type: .dynamic, targets: ["FishyJoesJavaRuntime"]),
             P.library(name: "JavaRuntimeTestHarness", type: .dynamic, targets: ["JavaRuntimeTestHarness"]),
             P.library(name: "FishyJoesCSharpRuntime", targets: ["FishyJoesCSharpRuntime"]),
             P.executable(name: "fishy-joes", targets: ["FishyJoesExecute"]),

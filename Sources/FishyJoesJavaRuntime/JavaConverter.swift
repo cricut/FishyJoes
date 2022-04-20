@@ -569,8 +569,6 @@ fileprivate enum JavaSet {
     static var setClass: jclass?
     static var hashSetClass: jclass?
     static var iteratorMethodID: jmethodID?
-    static var nextMethodID: jmethodID?
-    static var hasNextMethodID: jmethodID?
     static var initMethodID: jmethodID?
     static var addMethodID: jmethodID?
 
@@ -589,8 +587,8 @@ fileprivate enum JavaSet {
 
     public static func forEach(_ setObject: jobject?, env: Env, body: (jobject?) throws -> Void) throws {
         let iter = try env.CallObjectMethod(setObject, iteratorMethodID)
-        while (try env.CallBooleanMethod(iter, hasNextMethodID) != JNI_FALSE) {
-            let item = try env.CallObjectMethod(iter, nextMethodID)
+        while try env.CallBooleanMethod(iter, JavaIterator.hasNextMethodID) != JNI_FALSE {
+            let item = try env.CallObjectMethod(iter, JavaIterator.nextMethodID)
             try body(item)
             env.DeleteLocalRef(item)
         }

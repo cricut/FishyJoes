@@ -37,6 +37,10 @@ extension BetterType {
     static func `set`(_ element: BetterType) -> BetterType {
         .generic(base: "Set", args: [element])
     }
+
+    static func result(_ success: BetterType, _ failure: BetterType) -> BetterType {
+        .generic(base: "Result", args: [success, failure])
+    }
 }
 
 extension SourceryRuntime.`Type` {

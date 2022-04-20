@@ -3,9 +3,9 @@ import SourceryRuntime
 
 final class KotlinTranslor: Translator {
     required init() {}
-    
+
     func javaClassName(_ name: String, in context: FishyJoesContext) -> String {
-        "com/cricut/\(context.module.lowercased())/\(name.replacingOccurrences(of: ".", with: "$"))"
+        "com/cricut/\(context.module.name.lowercased())/\(name.replacingOccurrences(of: ".", with: "$"))"
     }
 
     var allMethods: [String: [(javaName: String, signature: String, cName: String)]] = [:]
@@ -26,8 +26,8 @@ final class KotlinTranslor: Translator {
                 selfExpression = "\(resolved.converterType.name).fromJava(_javaThis, env: _javaEnv)"
             }
         } else {
-            containingNamespace = context.module
-            selfExpression = context.module
+            containingNamespace = context.module.name
+            selfExpression = context.module.name
         }
 
         let formals = [
@@ -110,8 +110,8 @@ final class KotlinTranslor: Translator {
                 selfExpression = "\(containingNamespace).fromJava(_javaThis, env: _javaEnv)"
             }
         } else {
-            containingNamespace = context.module
-            selfExpression = context.module
+            containingNamespace = context.module.name
+            selfExpression = context.module.name
         }
 
         let cGetName = "java_get_\(containingNamespace)_\(exportAnnotation.name)".replacingOccurrences(of: ".", with: "_")
@@ -171,7 +171,7 @@ final class KotlinTranslor: Translator {
         return [fragment]
     }
 
-    func setupFragment(context: FishyJoesContext, generatedTypes: Set<BetterType>) -> SourceFragment {
+    func setupFragments(context: FishyJoesContext, generatedTypes: Set<BetterType>) -> [SourceFragment] {
         let javaTypeListFragment = context.swiftFragment(
             "JavaInterface/TypeSetup.swift",
             additionalImports: ["Foundation", "FishyJoesJavaRuntime"]
@@ -209,7 +209,32 @@ final class KotlinTranslor: Translator {
                 javaTypeListFragment.output("return JNI_VERSION_1_4")
             }
         }
-        return javaTypeListFragment
+
+        let module = context.module
+        let ktFragment = SourceFragment(
+            sourceryDestination: "file:../../kotlin/src/generated/kotlin/com/cricut/\(module.name.lowercased())/loadNativeLibs.kt"
+        )
+        ktFragment.output("package \(module.kotlinPackage)")
+        ktFragment.blankLine()
+        ktFragment.output("import com.cricut.fishyjoes.runtime.LibraryLoader")
+        ktFragment.blankLine()
+        ktFragment.outputBlock("internal fun loadNativeLibs() {") {
+            ktFragment.output("LibraryLoader.ensureLoaded(\"FishyJoesJavaRuntime\")")
+            for dependency in module.dependencies {
+                ktFragment.output("LibraryLoader.ensureLoaded(\"\(dependency)\")")
+                ktFragment.output("LibraryLoader.ensureLoaded(\"\(dependency)-java\")")
+            }
+            ktFragment.output("LibraryLoader.ensureLoaded(\"\(module.name)\")")
+            ktFragment.output("LibraryLoader.ensureLoaded(\"\(module.name)-java\")")
+        }
+
+        let exportFragment = SourceFragment(sourceryDestination: "file:JavaInterface/@_exported.swift")
+        exportFragment.output("@_exported import \(module.name)")
+        for dependency in module.dependencies {
+            exportFragment.output("@_exported import \(dependency)_JavaInterface")
+        }
+
+        return [javaTypeListFragment, ktFragment, exportFragment]
     }
 
     func kotlin(method: Method, context: FishyJoesContext) -> KotlinClass.MethodOrVariable? {

@@ -268,5 +268,35 @@
         }
       }
     }
+  },
+  {
+    "converterType" : {
+      "named" : {
+        "_0" : {
+          "name" : "Tuples",
+          "namespace" : [
+
+          ]
+        }
+      }
+    },
+    "jniType" : {
+      "object" : {
+        "_0" : "com/cricut/testapi/Tuples"
+      }
+    },
+    "kotlinName" : "Tuples",
+    "kotlinPackage" : "com.cricut.testapi",
+    "nodeName" : "Tuples",
+    "sourceType" : {
+      "named" : {
+        "_0" : {
+          "name" : "Tuples",
+          "namespace" : [
+
+          ]
+        }
+      }
+    }
   }
 ]

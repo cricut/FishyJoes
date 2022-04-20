@@ -46,7 +46,7 @@ struct TranslatedEnum: TranslatedType {
         self.sourceType = BetterType(named: type)
         self.nodeName = name
         self.kotlinName = name
-        self.kotlinPackage = context.kotlinPackage
+        self.kotlinPackage = context.module.kotlinPackage
         self.cSharpName = name
         self.cSharpNamespace = context.cSharpNamespace
         self.cases = type.cases.map { enumCase in
@@ -83,12 +83,12 @@ struct TranslatedEnum: TranslatedType {
             // Simple enum, export as strings
             fragment.outputBlock("extension \(sourceType.name): FishyJoesNodeRuntime.NodeConverter {") {
                 fragment.outputBlock("public static func fromNode(_ value: napi_value?, env: napi_env) throws -> Self {") {
-                    fragment.outputBlock("switch try String.fromNode(value, env: env) {") {
-                        for enumCase in cases {
-                            fragment.output("case \"\(enumCase.name)\": return .\(enumCase.name)")
-                        }
-                        fragment.output("case let unknown: print(\"invalid enum string '\\(unknown)' for \(sourceType.name)\"); fatalError()")
+                    fragment.output("switch try String.fromNode(value, env: env) {")
+                    for enumCase in cases {
+                        fragment.output("case \"\(enumCase.name)\": return .\(enumCase.name)")
                     }
+                    fragment.output("case let unknown: fatalError(\"invalid enum string '\\(unknown)' for \(sourceType.name)\")")
+                    fragment.output("}")
                 }
 
                 fragment.outputBlock("public static func toNode(_ value: Self, env: napi_env) throws -> napi_value? {") {

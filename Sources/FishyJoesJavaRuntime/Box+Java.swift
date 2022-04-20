@@ -26,7 +26,7 @@ extension AnyBox {
 
     private static let toString: @convention(c) (UnsafeMutablePointer<JNIEnv?>, jobject) -> jobject? = { env, this in
         callbackBody(env) { env in
-            try String.toJava("\(fromJava(this, env: env))", env: env)
+            try String.toJava("\(fromJava(this, env: env).value)", env: env)
         }
     }
 
