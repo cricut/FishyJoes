@@ -23,7 +23,7 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
       GITHUB_USER: cricut-builduser
       SWIFT_ANDROID_URL: |-
-        https://github.com/vgorloff/swift-everywhere-toolchain/releases/download/1.0.77/swift-android-toolchain.tar.gz
+        https://github.com/vgorloff/swift-everywhere-toolchain/releases/download/1.0.74/swift-android-toolchain.tar.gz
 
     steps:
       - name: Checkout
