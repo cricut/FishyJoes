@@ -1,14 +1,9 @@
 package com.cricut.testapi
 
-import com.cricut.fishyjoes.runtime.LibraryLoader
-
 /**
  * <!-- FishyJoes.exportReference(Collections) -->
  */
-class Collections private constructor(
-    private val _swiftReference: Long
-)
- {
+class Collections private constructor(swiftReference: Long): com.cricut.fishyjoes.runtime.SwiftReference(swiftReference) {
 
     companion object {
         /**
@@ -173,9 +168,7 @@ class Collections private constructor(
             maybeDictionaryOfMaybeIntToMaybeInt: kotlin.collections.Map<Long?, Long?>?
         ): kotlin.collections.Map<Long?, Long?>?
 
-        init {
-            LibraryLoader.ensureLoaded("TestAPI")
-        }
+        init { loadNativeLibs() }
     }
 
     /**
@@ -217,9 +210,7 @@ class Collections private constructor(
             @JvmName("__jni_set_staticMutablePropery")
             private external fun __jni_set_staticMutablePropery(newValue: kotlin.collections.List<Long?>)
 
-            init {
-                LibraryLoader.ensureLoaded("TestAPI")
-            }
+            init { loadNativeLibs() }
         }
     }
 }

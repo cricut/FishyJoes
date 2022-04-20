@@ -1,31 +1,31 @@
-struct AnyTranslatedType: Codable {
+struct ExternalTranslatedType: Codable {
     var sourceType: BetterType
     var converterType: BetterType
     var nodeName: String
     var kotlinName: String
     var kotlinPackage: String?
-    var jniType: JNIType
     var cSharpName: String
     var cSharpNamespace: String?
+    var jniType: JNIType
 }
 
-extension AnyTranslatedType: TranslatedType {
+extension ExternalTranslatedType: TranslatedType {
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
-        fatalErr("AnyTranslatedType doesn't support code generation")
+        []
     }
 }
 
 extension TranslatedType {
-    var asAnyTranslatedType: AnyTranslatedType {
-        AnyTranslatedType(
+    var asExternal: ExternalTranslatedType {
+        ExternalTranslatedType(
             sourceType: sourceType,
             converterType: converterType,
             nodeName: nodeName,
             kotlinName: kotlinName,
             kotlinPackage: kotlinPackage,
-            jniType: jniType,
             cSharpName: cSharpName,
-            cSharpNamespace: cSharpNamespace
+            cSharpNamespace: cSharpNamespace,
+            jniType: jniType
         )
     }
 }

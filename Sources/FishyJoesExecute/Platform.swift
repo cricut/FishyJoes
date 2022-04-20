@@ -13,7 +13,7 @@ enum Platform: Hashable {
         var args = arguments
         args.append(contentsOf: ["--configuration", "release"])
         let path: String
-        var env: [String: String] = [:]
+        var env: [String: String] = ["SWIFT_PACKAGE_FORCE_DYNAMIC": "1"]
         switch self {
         case .wasm:
             path = "\(wasmToolchain)/usr/bin/swift-build"

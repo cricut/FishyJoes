@@ -28,8 +28,8 @@ struct NodeTranslator: Translator {
                 selfExpression = "env.this(converter: \(containingNamespace).self)"
             }
         } else {
-            containingNamespace = context.module
-            selfExpression = context.module
+            containingNamespace = context.module.name
+            selfExpression = context.module.name
         }
 
         fragment.outputBlock("{ env, info in", closeWith: "}", newLineTerminated: false) {
@@ -40,7 +40,7 @@ struct NodeTranslator: Translator {
         }
     }
 
-    func output(setter variable: Variable, context: FishyJoesContext, fragment: SourceFragment)  {
+    func output(setter variable: Variable, context: FishyJoesContext, fragment: SourceFragment) {
         guard let exportAnnotation = variable.exportAnnotation else {
             fatalErr("Variable not annotated for export: \(variable)")
         }
@@ -62,8 +62,8 @@ struct NodeTranslator: Translator {
                 selfExpression = "env.this(converter: \(containingNamespace).self)"
             }
         } else {
-            containingNamespace = context.module
-            selfExpression = context.module
+            containingNamespace = context.module.name
+            selfExpression = context.module.name
         }
 
         fragment.outputBlock("{ env, info in", closeWith: "}", newLineTerminated: false) {
@@ -97,8 +97,8 @@ struct NodeTranslator: Translator {
                 selfExpression = "env.this(converter: \(containingNamespace).self)"
             }
         } else {
-            containingNamespace = context.module
-            selfExpression = context.module
+            containingNamespace = context.module.name
+            selfExpression = context.module.name
         }
 
         let returnType = context.resolve(type: method.returnType, generics: exportAnnotation.genericOverrides)
@@ -166,7 +166,7 @@ struct NodeTranslator: Translator {
         return didOutput
     }
 
-    func setupFragment(context: FishyJoesContext, generatedTypes: Set<BetterType>) -> SourceFragment {
+    func setupFragments(context: FishyJoesContext, generatedTypes: Set<BetterType>) -> [SourceFragment] {
         let nodeTypeListFragment = context.swiftFragment(
             "NodeInterface/TypeSetup.swift",
             additionalImports: ["Foundation", "FishyJoesNodeRuntime"]
@@ -190,6 +190,6 @@ struct NodeTranslator: Translator {
                 nodeTypeListFragment.output("return exports")
             }
         }
-        return nodeTypeListFragment
+        return [nodeTypeListFragment]
     }
 }

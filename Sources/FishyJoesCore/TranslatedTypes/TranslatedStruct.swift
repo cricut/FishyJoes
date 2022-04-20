@@ -23,7 +23,7 @@ struct TranslatedStruct: TranslatedType {
         self.sourceType = BetterType(named: type)
         self.nodeName = exportAnnotation.name
         self.kotlinName = exportAnnotation.name
-        self.kotlinPackage = context.kotlinPackage
+        self.kotlinPackage = context.module.kotlinPackage
         self.cSharpName = exportAnnotation.name
         self.cSharpNamespace = context.cSharpNamespace
         self.globalName = "\(context.module).\(type.globalName)"
@@ -48,7 +48,6 @@ struct TranslatedStruct: TranslatedType {
         )
 
         fragment.outputBlock("extension \(globalName): NodeMutator {") {
-
             fragment.outputBlock("public static func fromNode(_ value: napi_value?, env: napi_env) throws -> Self {") {
                 // TODO: type check
                 fragment.outputBlock("Self(") {
@@ -223,7 +222,7 @@ struct TranslatedStruct: TranslatedType {
                 module: context.module,
                 documentation: documentation,
                 name: nodeName,
-                constructor: .init(
+                constructor: .`public`(
                     fields: storedVariables.compactMap {
                         switch context.kotlin(field: $0, useNativeName: true) {
                         case .method: fatalErr("Can't export a stored variable as a method")

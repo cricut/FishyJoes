@@ -64,6 +64,10 @@ publishing {
     }
 }
 
+sourceSets.main {
+    resources.srcDir("src/generated/resources")
+}
+
 task<Exec>("buildSwiftTestHarness") {
     commandLine("swift", "build", "--product", "JavaRuntimeTestHarness")
 }

@@ -21,7 +21,7 @@ object LibraryLoader {
 
         if (vendor.contains("Android")) {
             // android libraries are loaded differently
-            System.loadLibrary("$libraryName-java")
+            System.loadLibrary("$libraryName")
             return
         }
 
@@ -29,13 +29,13 @@ object LibraryLoader {
         val ext: String
 
         if (osName.contains("Linux")) {
-            jarPath = "/linux/lib$libraryName-java.so"
+            jarPath = "/linux/lib$libraryName.so"
             ext = "so"
         } else if (osName.contains("Mac")) {
-            jarPath = "/mac/lib$libraryName-java.dylib"
+            jarPath = "/mac/lib$libraryName.dylib"
             ext = "dylib"
         } else if (osName.contains("Windows")) {
-            jarPath = "/windows/$libraryName-java.dll"
+            jarPath = "/windows/$libraryName.dll"
             ext = "dll"
         } else {
             error("$libraryName unsupported OS: $osName")
@@ -44,7 +44,7 @@ object LibraryLoader {
         // Extract dynamic library from jar to temporary file
         val stream = javaClass.getResourceAsStream( jarPath)
             ?: error("couldn't find $jarPath")
-        val file = File.createTempFile("lib$libraryName-java", ".$ext")
+        val file = File.createTempFile("lib$libraryName", ".$ext")
         file.deleteOnExit()
         val out = BufferedOutputStream(FileOutputStream(file))
 

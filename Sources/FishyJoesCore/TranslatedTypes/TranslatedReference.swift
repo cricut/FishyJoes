@@ -24,7 +24,7 @@ struct TranslatedReference: TranslatedType {
         self.sourceType = BetterType(named: type)
         self.nodeName = typeName
         self.kotlinName = typeName
-        self.kotlinPackage = context.kotlinPackage
+        self.kotlinPackage = context.module.kotlinPackage
         self.cSharpName = typeName
         self.cSharpNamespace = context.cSharpNamespace
         self.methods = type.methods.compactMap { Method($0) }
@@ -255,20 +255,9 @@ struct TranslatedReference: TranslatedType {
             module: context.module,
             documentation: documentation,
             name: nodeName,
-            constructor: .init(
-                private: true,
-                fields: [
-                    .init(
-                        documentation: [],
-                        isStatic: false,
-                        isOverride: false,
-                        readOnly: true,
-                        name: "_swiftReference",
-                        type: .named(package: nil, name: "Long")
-                    ),
-                ]
-            ),
-            fieldsAndMethods: fieldsAndMethods
+            constructor: .reference,
+            fieldsAndMethods: fieldsAndMethods,
+            reference: true
         )
         context.kotlinClasses.append(product)
 

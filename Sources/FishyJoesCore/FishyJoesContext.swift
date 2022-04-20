@@ -2,7 +2,7 @@ import Foundation
 import SourceryRuntime
 
 public class FishyJoesContext {
-    let module: String
+    let module: Module
     let requiredModulePaths: [String]
     let templateContext: TemplateContext
     var typeCache: [BetterType: TranslatedType] = [:]
@@ -17,7 +17,7 @@ public class FishyJoesContext {
         KotlinTranslor.self,
         CSharpTranslator.self,
     ]
-    
+
     let nodeTranslator = NodeTranslator()
     let kotlinTranslator = KotlinTranslor()
     let cSharpTranslator = CSharpTranslator()
@@ -27,9 +27,6 @@ public class FishyJoesContext {
         kotlinTranslator,
         cSharpTranslator,
     ]
-
-    var kotlinPackage: String { "com.cricut.\(module.lowercased())" }
-    var cSharpNamespace: String { "Cricut.\(module)" }
 
     public init(context: TemplateContext) {
         let argument = context.argument
@@ -43,7 +40,10 @@ public class FishyJoesContext {
             fatalErr("must provide `requiredModules` as argument to sourcery")
         }
         self.templateContext = context
-        self.module = module
+        self.module = Module(
+            name: module,
+            dependencies: requiredModulePaths.map { (($0 as NSString).lastPathComponent as NSString).deletingPathExtension }
+        )
         self.requiredModulePaths = requiredModulePaths
         self.tsAnnotations = TypeScriptAnnotations(
             rootNamespace: .init(
@@ -56,18 +56,18 @@ public class FishyJoesContext {
     }
 
     func swiftFragment(_ name: String, additionalImports: [String] = []) -> SourceFragment {
-        let imports = ["import \(module)"] + additionalImports.map { "import \($0)" }
+        let imports = (module.dependencies + [module] + additionalImports).map { "import \($0)" }
         fileHeaders[name, default: []].formUnion(imports)
         return SourceFragment(sourceryDestination: "file:\(name)")
     }
 
     public func translateAll() -> String {
         var collectedFragments: [SourceFragment] = []
-        var moduleDefinedTypes: [AnyTranslatedType] = []
+        var moduleDefinedTypes: [ExternalTranslatedType] = []
 
         // Import any required FishyJoes modules
         for path in requiredModulePaths {
-            guard let moduleTypes = try? JSONDecoder().decode([AnyTranslatedType].self, from: Data(contentsOf: URL(fileURLWithPath: path))) else {
+            guard let moduleTypes = try? JSONDecoder().decode([ExternalTranslatedType].self, from: Data(contentsOf: URL(fileURLWithPath: path))) else {
                 fatalErr("error reading fishy joes module file at \(path)")
             }
             for translatedType in moduleTypes {
@@ -80,7 +80,7 @@ public class FishyJoesContext {
             let name = translatedType.sourceType
             precondition(typeCache[name] == nil, "duplicate definitions found for \(name)")
             typeCache[name] = translatedType
-            moduleDefinedTypes.append(translatedType.asAnyTranslatedType)
+            moduleDefinedTypes.append(translatedType.asExternal)
         }
         let moduleInfoFragment = SourceFragment(sourceryDestination: "file:\(module).fishyjoesmodule")
         collectedFragments.append(moduleInfoFragment)
@@ -89,11 +89,17 @@ public class FishyJoesContext {
         moduleInfoFragment.output(String(data: try! encoder.encode(moduleDefinedTypes), encoding: .utf8)!)
 
         // Translate
+        var seenMethods: Set<Method> = []
         for type in templateContext.types.all + templateContext.types.extensions {
             for method in type.allMethods.compactMap(Method.init) {
+                if seenMethods.contains(method) {
+                    continue
+                }
+                seenMethods.insert(method)
                 collectedFragments.append(contentsOf: kotlinTranslator.translate(method: method, context: self))
             }
             for variable in type.rawVariables {
+                guard variable.exportAnnotation != nil else { continue }
                 collectedFragments.append(contentsOf: kotlinTranslator.translate(variable: variable, context: self))
             }
         }
@@ -110,9 +116,8 @@ public class FishyJoesContext {
                 generatedTypes.insert(type.key)
             }
         }
-
         collectedFragments.append(
-            contentsOf: translators.map { $0.setupFragment(context: self, generatedTypes: generatedTypes) }
+            contentsOf: translators.flatMap { $0.setupFragments(context: self, generatedTypes: generatedTypes) }
         )
 
         let headerFragments = fileHeaders.keys.map { fileName -> SourceFragment in
@@ -137,7 +142,7 @@ public class FishyJoesContext {
         // process all the fragments so that inner classes are inside outer classes
         allFragments.append(
             contentsOf: processInnerClasses(
-                rootClass: KotlinClass(module: "", documentation: [], name: "__root__"),
+                rootClass: KotlinClass(module: module, documentation: [], name: "__root__"),
                 in: &kotlinClasses
             )
         )
@@ -198,7 +203,7 @@ public class FishyJoesContext {
             fatalErr("TODO: annotation on unknown kind \"\(type.kind)\" on type `\(type.globalName)`")
         }
     }
-    
+
     typealias TypeNames = (c: String, ts: String, jni: JNIType, cSharp: String)
 
     func resolve(type: BetterType, generics: [String: BetterType] = [:]) -> TranslatedType {
@@ -268,6 +273,8 @@ public class FishyJoesContext {
                     return TranslatedSet(element: recur(args[0]))
                 case ("Dictionary", 2):
                     return TranslatedDictionary(key: recur(args[0]), value: recur(args[1]))
+                case ("Result", 2):
+                    return TranslatedResult(success: recur(args[0]), failure: recur(args[1]))
                 default:
                     fatalErr("TODO: resolve(type: \(type))")
                 }

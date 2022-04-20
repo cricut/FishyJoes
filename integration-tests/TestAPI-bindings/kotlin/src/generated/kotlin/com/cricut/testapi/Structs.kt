@@ -1,28 +1,18 @@
 package com.cricut.testapi
 
-import com.cricut.fishyjoes.runtime.LibraryLoader
-
 /**
  * <!-- FishyJoes.exportReference(Structs) -->
  */
-class Structs private constructor(
-    private val _swiftReference: Long
-)
- {
+class Structs private constructor(swiftReference: Long): com.cricut.fishyjoes.runtime.SwiftReference(swiftReference) {
 
     companion object {
-        init {
-            LibraryLoader.ensureLoaded("TestAPI")
-        }
+        init { loadNativeLibs() }
     }
 
     /**
      * <!-- FishyJoes.exportReference(Structs.ReferenceStruct) -->
      */
-    class ReferenceStruct private constructor(
-        private val _swiftReference: Long
-    )
-     {
+    class ReferenceStruct private constructor(swiftReference: Long): com.cricut.fishyjoes.runtime.SwiftReference(swiftReference) {
         /**
          * <!-- FishyJoes.export(immutable) -->
          */
@@ -71,9 +61,7 @@ class Structs private constructor(
                 rhs: com.cricut.testapi.Structs.ReferenceStruct
             ): Boolean
 
-            init {
-                LibraryLoader.ensureLoaded("TestAPI")
-            }
+            init { loadNativeLibs() }
         }
     }
 
@@ -97,9 +85,7 @@ class Structs private constructor(
             private external fun __jni_create(
             ): com.cricut.testapi.Structs.MemberwiseStruct
 
-            init {
-                LibraryLoader.ensureLoaded("TestAPI")
-            }
+            init { loadNativeLibs() }
         }
     }
 }

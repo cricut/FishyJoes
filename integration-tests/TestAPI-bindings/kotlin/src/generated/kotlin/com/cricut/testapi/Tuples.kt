@@ -1,7 +1,5 @@
 package com.cricut.testapi
 
-import com.cricut.fishyjoes.runtime.LibraryLoader
-
 /**
  * <!-- FishyJoes.export(Tuples) -->
  */
@@ -73,8 +71,6 @@ sealed class Tuples {
             t6: com.cricut.fishyjoes.runtime.Tuple6<kotlin.String, Long, Double, com.cricut.fishyjoes.runtime.Tuple4<kotlin.Pair<Long, kotlin.String>, kotlin.Triple<kotlin.String, Double, kotlin.String>, kotlin.String, Boolean>, com.cricut.fishyjoes.runtime.Tuple5<kotlin.String, UByte, com.cricut.fishyjoes.runtime.Tuple4<kotlin.Pair<Long, kotlin.String>, kotlin.Triple<kotlin.String, Double, kotlin.String>, kotlin.String, Boolean>, kotlin.Triple<kotlin.String, Double, kotlin.String>, kotlin.Pair<Long, kotlin.String>>, Boolean>
         ): Boolean
 
-        init {
-            LibraryLoader.ensureLoaded("TestAPI")
-        }
+        init { loadNativeLibs() }
     }
 }
