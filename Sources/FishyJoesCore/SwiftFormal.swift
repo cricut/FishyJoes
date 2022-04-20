@@ -1,4 +1,4 @@
-struct SwiftFormal {
+struct SwiftFormal: Hashable {
     let label: String?
     let name: String
     let type: BetterType

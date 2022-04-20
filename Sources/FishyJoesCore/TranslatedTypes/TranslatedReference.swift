@@ -26,7 +26,7 @@ struct TranslatedReference: TranslatedType {
         self.kotlinName = typeName
         self.kotlinPackage = context.module.kotlinPackage
         self.cSharpName = typeName
-        self.cSharpNamespace = context.cSharpNamespace
+        self.cSharpNamespace = context.module.cSharpNamespace
         self.methods = type.methods.compactMap { Method($0) }
         self.computedVariables = type.variables.filter { $0.exportAnnotation != nil }
         self.documentation = type.documentation

@@ -25,7 +25,7 @@ struct TranslatedStruct: TranslatedType {
         self.kotlinName = exportAnnotation.name
         self.kotlinPackage = context.module.kotlinPackage
         self.cSharpName = exportAnnotation.name
-        self.cSharpNamespace = context.cSharpNamespace
+        self.cSharpNamespace = context.module.cSharpNamespace
         self.globalName = "\(context.module).\(type.globalName)"
         self.jniType = .object(context.kotlinTranslator.javaClassName(nodeName, in: context))
 

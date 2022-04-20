@@ -1,7 +1,7 @@
 import SourceryRuntime
 import Foundation
 
-struct ExportAnnotation {
+struct ExportAnnotation: Hashable {
     let kind: Kind
     let name: String
     let isOverride: Bool
@@ -31,7 +31,7 @@ struct ExportAnnotation {
         case curlyBracketed([SimpleParse])
     }
 
-    enum Kind: String, Equatable, CaseIterable {
+    enum Kind: String, Hashable, CaseIterable {
         case unmodified = "export"
         case asReference = "exportReference"
         case asMethod = "exportAsMethod"

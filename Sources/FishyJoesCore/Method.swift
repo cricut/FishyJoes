@@ -1,7 +1,7 @@
 import Foundation
 import SourceryRuntime
 
-struct Method {
+struct Method: Hashable {
     let name: String
     let callName: String
     let exportAnnotation: ExportAnnotation
