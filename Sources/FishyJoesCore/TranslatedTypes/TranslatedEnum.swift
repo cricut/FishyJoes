@@ -48,7 +48,7 @@ struct TranslatedEnum: TranslatedType {
         self.kotlinName = name
         self.kotlinPackage = context.module.kotlinPackage
         self.cSharpName = name
-        self.cSharpNamespace = context.cSharpNamespace
+        self.cSharpNamespace = context.module.cSharpNamespace
         self.cases = type.cases.map { enumCase in
             Case(
                 documentation: enumCase.documentation,

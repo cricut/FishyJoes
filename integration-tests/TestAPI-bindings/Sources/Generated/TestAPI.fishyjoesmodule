@@ -10,6 +10,8 @@
         }
       }
     },
+    "cSharpName" : "Bytes",
+    "cSharpNamespace" : "Cricut.TestAPI",
     "jniType" : {
       "object" : {
         "_0" : "com/cricut/testapi/Bytes"
@@ -40,6 +42,8 @@
         }
       }
     },
+    "cSharpName" : "Collections",
+    "cSharpNamespace" : "Cricut.TestAPI",
     "jniType" : {
       "object" : {
         "_0" : "com/cricut/testapi/Collections"
@@ -70,6 +74,8 @@
         }
       }
     },
+    "cSharpName" : "Collections.CollectionHolder",
+    "cSharpNamespace" : "Cricut.TestAPI",
     "jniType" : {
       "object" : {
         "_0" : "com/cricut/testapi/Collections$CollectionHolder"
@@ -100,6 +106,8 @@
         }
       }
     },
+    "cSharpName" : "Primitives",
+    "cSharpNamespace" : "Cricut.TestAPI",
     "jniType" : {
       "object" : {
         "_0" : "com/cricut/testapi/Primitives"
@@ -130,6 +138,8 @@
         }
       }
     },
+    "cSharpName" : "Primitives.PrimitiveHolder",
+    "cSharpNamespace" : "Cricut.TestAPI",
     "jniType" : {
       "object" : {
         "_0" : "com/cricut/testapi/Primitives$PrimitiveHolder"
@@ -160,6 +170,8 @@
         }
       }
     },
+    "cSharpName" : "Strings",
+    "cSharpNamespace" : "Cricut.TestAPI",
     "jniType" : {
       "object" : {
         "_0" : "com/cricut/testapi/Strings"
@@ -190,6 +202,8 @@
         }
       }
     },
+    "cSharpName" : "Structs",
+    "cSharpNamespace" : "Cricut.TestAPI",
     "jniType" : {
       "object" : {
         "_0" : "com/cricut/testapi/Structs"
@@ -220,6 +234,8 @@
         }
       }
     },
+    "cSharpName" : "Structs.MemberwiseStruct",
+    "cSharpNamespace" : "Cricut.TestAPI",
     "jniType" : {
       "object" : {
         "_0" : "com/cricut/testapi/Structs$MemberwiseStruct"
@@ -250,6 +266,8 @@
         }
       }
     },
+    "cSharpName" : "Structs.ReferenceStruct",
+    "cSharpNamespace" : "Cricut.TestAPI",
     "jniType" : {
       "object" : {
         "_0" : "com/cricut/testapi/Structs$ReferenceStruct"
@@ -280,6 +298,8 @@
         }
       }
     },
+    "cSharpName" : "Tuples",
+    "cSharpNamespace" : "Cricut.TestAPI",
     "jniType" : {
       "object" : {
         "_0" : "com/cricut/testapi/Tuples"
