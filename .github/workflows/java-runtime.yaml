@@ -18,7 +18,7 @@ jobs:
     runs-on: macOS-latest
     env:
       JDK_VERSION: 11
-      NDK_VERSION: 21.3.6528147
+      NDK_VERSION: 21.4.7075529
       GRADLE_OPTS: -Dorg.gradle.daemon=false
       GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
       GITHUB_USER: cricut-builduser
@@ -181,7 +181,7 @@ jobs:
           set -euxo pipefail
 
           mkdir -p kotlin-runtime/src/generated/resources/windows
-          cp .build/windows-build/x86_64-unknown-windows-msvc/release/FishyJoesJavaRuntime.dll kotlin/src/generated/resources/windows
+          cp .build/windows-build/x86_64-unknown-windows-msvc/release/FishyJoesJavaRuntime.dll kotlin-runtime/src/generated/resources/windows
 
       - name: Test FishyJoesJavaRuntime from gradle
         shell: pwsh
