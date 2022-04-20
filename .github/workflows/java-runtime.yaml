@@ -91,7 +91,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: mac_generated
-          path: kotlin/src/generated
+          path: kotlin-runtime/src/generated
 
   build-test-kotlin-linux:
     name: "linux: Build and test java runtime"
@@ -186,7 +186,7 @@ jobs:
       - name: Test FishyJoesJavaRuntime from gradle
         shell: pwsh
         run: |
-          cd kotlin
+          cd kotlin-runtime
           .\gradlew test
 
       - name: Upload library
@@ -235,8 +235,8 @@ jobs:
 
           ls *
 
-          rm -rf kotlin/src/generated
-          mv mac_generated kotlin/src/generated
+          rm -rf kotlin-runtime/src/generated
+          mv mac_generated kotlin-runtime/src/generated
           mkdir -p kotlin-runtime/src/generated/resources/{windows,linux}
           mv ubuntu_lib/libFishyJoesJavaRuntime.so kotlin-runtime/src/generated/resources/linux/
           mv windows_lib/FishyJoesJavaRuntime.dll kotlin-runtime/src/generated/resources/windows/
@@ -246,7 +246,7 @@ jobs:
         run: |
           set -euxo pipefail
 
-          cd kotlin
+          cd kotlin-runtime
           ./gradlew publishToMavenLocal
 
       - name: Publish
@@ -260,7 +260,7 @@ jobs:
               VERSION="0.0.1"
           fi
 
-          cd kotlin
+          cd kotlin-runtime
 
           echo "Detected Version is '$VERSION'"
           export VERSION
