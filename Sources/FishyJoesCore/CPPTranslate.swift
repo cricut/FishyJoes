@@ -41,14 +41,14 @@ class CPPTranslate {
             }),
             returnType: .type(resolvedReturn),
             documentation: method.documentation,
-            definedInCPPClassNamed: method.definedIn != nil ? context.resolve(type: method.definedIn!).cppName : nil,
+            definedInCPPClassNamed: method.definedIn.map { context.resolve(type: $0).cppName },
             isStatic: method.isStatic,
             isMutating: method.isMutating,
             in: context
         )
     }
     func translateToHeaderFragment(variable: Variable, in context: FishyJoesContext) -> (getter: CPPClass.CPPMethod, setter: CPPClass.CPPMethod?) {
-        let capitalizedVariableName = variable.name.prefix(1).capitalized + variable.name.dropFirst()
+        let capitalizedVariableName = upperCaseFirst(variable.name)
         let varType = context.resolve(type: variable.typeName.better)
         let getter = generateCPPInterfaceMethod(
             name: "get\(capitalizedVariableName)",
@@ -56,7 +56,7 @@ class CPPTranslate {
             parameters: [],
             returnType: .type(varType),
             documentation: variable.documentation,
-            definedInCPPClassNamed: variable.definedInTypeName != nil ? context.resolve(type: variable.definedInTypeName!.better).cppName : nil,
+            definedInCPPClassNamed: variable.definedInTypeName.map { context.resolve(type: $0.better).cppName },
             isStatic: variable.isStatic,
             isMutating: false,
             in: context
@@ -74,7 +74,7 @@ class CPPTranslate {
                 )],
                 returnType: .type(TranslatedVoid()),
                 documentation: variable.documentation,
-                definedInCPPClassNamed: variable.definedInTypeName != nil ? context.resolve(type: variable.definedInTypeName!.better).cppName : nil,
+                definedInCPPClassNamed: variable.definedInTypeName.map { context.resolve(type: $0.better).cppName },
                 isStatic: variable.isStatic,
                 isMutating: true,
                 in: context

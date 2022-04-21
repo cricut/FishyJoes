@@ -48,7 +48,7 @@ struct TranslatedEnum: TranslatedType {
         self.neutralName = "Enum<TranslatedFrom=\(nodeName)>"
         self.nodeName = nodeName
         self.kotlinName = nodeName
-        self.cppName = type.globalName.replacingOccurrences(of: ".", with: "::")
+        self.cppName = nodeName.replacingOccurrences(of: ".", with: "::")
         self.kotlinPackage = context.kotlinPackage
         self.cases = type.cases.map { enumCase in
             Case(

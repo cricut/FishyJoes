@@ -25,7 +25,7 @@ class CPPClass {
         case named(_: String)
         var cppName: String {
             switch self {
-            case .swiftRef(let _):
+            case .swiftRef:
                 return "FishyJoesInternal::SwiftReference"
             case .type(let type):
                 return type.cppName
@@ -37,14 +37,14 @@ class CPPClass {
         }
         var containedNamedTypes: [TranslatedType] {
             switch self {
-            case .swiftRef(let _):
+            case .swiftRef:
                 return []
             case .type(let type):
                 return type.containedNamedTypes
-            case .variant(let types):
-                //including these types will fail
+            case .variant:
+                //including headers for these types won't work
                 return []
-            case .named(let name):
+            case .named:
                 //.named is used for non-fishyjoes types
                 return []
             }
@@ -137,25 +137,25 @@ class CPPClass {
     let completeConstructorVisible: Bool
     
     func isHashable(in context: FishyJoesContext) -> Bool {
-        var ret = true;
         for field in serializedFields {
             switch field.type {
             case .swiftRef(let hashable):
-                ret = ret && hashable
+                if !hashable {
+                    return false
+                }
             case .type(let type):
                 if type is TranslatedStruct || type is TranslatedEnum || type is TranslatedReference {
-                    ret = ret && context.cppClasses[type.cppName]!.isHashable(in: context)
+                    if !context.cppClasses[type.cppName]!.isHashable(in: context) {
+                        return false
+                    }
                 } else if type is TranslatedDictionary || type is TranslatedFunction || type is TranslatedSet || type is TranslatedTuple || type is TranslatedVoid {
-                    ret = false
+                    return false
                 }
             default:
                 break
             }
-            if !ret {
-                break
-            }
         }
-        return ret
+        return true
     }
     
     init(
@@ -206,7 +206,7 @@ class CPPClass {
     
     private func outputCompleteConstructorDecl(to fragment: SourceFragment) {
         let internalHint = " (only to be used by FishyJoes internally. Look for static methods for initialization or other public constructors.)"
-        fragment.output("///Create new \(name)\(completeConstructorVisible ? "" : internalHint)")
+        fragment.output("/// Create new \(name)\(completeConstructorVisible ? "" : internalHint)")
         fragment.output("\(name)(", newLineTerminated: false)
         fragment.output(
             serializedFields
@@ -238,23 +238,38 @@ class CPPClass {
         fragment.output("{}")
     }
     
+    func stringFor(parameters: [CPPParameter]) -> String {
+        return parameters.map { param in
+            var labelStr: String = ""
+            var defaultValueStr: String = ""
+            if let label = param.labelComment, label != param.name {
+                labelStr = "/* \(label) */ "
+            }
+            if let defaultVal = param.defaultValue {
+                defaultValueStr = " = \(defaultVal)"
+            }
+            return "const \(param.type.cppName) \(labelStr)&\(param.name)\(defaultValueStr)"
+        }
+        .joined(separator: ", ")
+    }
+    
     private func outputDecl(method: CPPMethod, to fragment: SourceFragment) {
         for doc in method.documentation {
-            fragment.output("///\(doc)")
+            fragment.output("/// \(doc)")
         }
-        fragment.output("\(method.isStatic ? "static " : "")\(method.returnType.cppName) \(clean(name: method.name))(\(method.parameters.cppString()))\(method.isOverride ? " override" : "")\(method.isConst ? " const" : "");")
+        fragment.output("\(method.isStatic ? "static " : "")\(method.returnType.cppName) \(clean(name: method.name))(\(stringFor(parameters: method.parameters)))\(method.isOverride ? " override" : "")\(method.isConst ? " const" : "");")
         fragment.output("")
     }
     
     private func outputDef(method: CPPMethod, in context: FishyJoesContext, to fragment: SourceFragment) {
-        fragment.outputBlock("\(method.returnType.cppName) \(qualifiedName)::\(clean(name: method.name))(\(method.parameters.cppString()))\(method.isConst ? " const" : "") {") {
+        fragment.outputBlock("\(method.returnType.cppName) \(qualifiedName)::\(clean(name: method.name))(\(stringFor(parameters: method.parameters)))\(method.isConst ? " const" : "") {") {
             method.body(method, fragment, self, context)
         }
     }
     
     private func output(field: CPPField, to fragment: SourceFragment) {
         for doc in field.documentation {
-            fragment.output("///\(doc)")
+            fragment.output("/// \(doc)")
         }
         if field.isStatic {
             fragment.output("static ", newLineTerminated: false)
@@ -286,13 +301,13 @@ class CPPClass {
     
     func declareSelf(to fragment: SourceFragment) {
         for doc in documentation {
-            fragment.output("///\(doc)")
+            fragment.output("/// \(doc)")
         }
         fragment.outputBlock("class \(name) {", semicolonTerminated: true) {
-            let publicMethods       = methods.filter      { !$0.isPrivate }
-            let privateMethods      = methods.filter      {  $0.isPrivate }
-            let publicFields        = fields.filter       { !$0.isPrivate }
-            let privateFields       = fields.filter       {  $0.isPrivate }
+            let publicMethods = methods.filter { !$0.isPrivate }
+            let privateMethods = methods.filter { $0.isPrivate }
+            let publicFields = fields.filter { !$0.isPrivate }
+            let privateFields = fields.filter { $0.isPrivate }
             
             if !innerClasses.isEmpty {
                 fragment.output("/*  Inner Classes  */")
@@ -397,22 +412,5 @@ class CPPClass {
                 frag.output(serializedFields.map { field in "get_t<decltype(\(module)::\(qualifiedName)::\(field.name))>()" }.joined(separator: ", "))
             }
         }
-    }
-}
-
-extension Array where Element == CPPClass.CPPParameter {
-    func cppString() -> String {
-        return map { param in
-            var labelStr: String = ""
-            var defaultValueStr: String = ""
-            if let label = param.labelComment, label != param.name {
-                labelStr = "/* \(label) */ "
-            }
-            if let defaultVal = param.defaultValue {
-                defaultValueStr = " = \(defaultVal)"
-            }
-            return "const \(param.type.cppName) \(labelStr)&\(param.name)\(defaultValueStr)"
-        }
-        .joined(separator: ", ")
     }
 }
