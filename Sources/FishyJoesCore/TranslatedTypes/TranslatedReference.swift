@@ -46,30 +46,24 @@ struct TranslatedReference: TranslatedType {
             additionalImports: ["Foundation", "FishyJoesNodeRuntime"]
         )
         fragment.outputBlock("extension \(sourceType.name): FishyJoesNodeRuntime.NodeConverter {") {
-            fragment.outputBlock("public static func fromNode(_ value: napi_value?, env: napi_env) throws -> Self {") {
-                fragment.output("var pointer: UnsafeMutableRawPointer?")
-                fragment.output("try check(napi_unwrap(env, value, &pointer))")
-                fragment.outputBlock("guard let nonNilPointer = pointer else {") {
+            fragment.outputBlock("public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {") {
+                fragment.outputBlock("guard let nonNilPointer = try env.unwrap(value) else {") {
                     fragment.output("throw JSException(message: \"expected \(sourceType.name), got nil\")")
                 }
                 fragment.output("return try Box<\(sourceType.name)>.takeUnretainedOpaque(nonNilPointer).value")
             }
-            fragment.outputBlock("public static func toNode(_ value: Self, env: napi_env) throws -> napi_value? {") {
+            fragment.outputBlock("public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {") {
                 fragment.output("let constructor = try FishyJoesNodeRuntime.InstanceData.data(for: env).constructor(for: \"\(nodeName)\", env: env)")
-                fragment.output("var args: napi_value? = try FishyJoesNodeRuntime.Box(value).retainedExternal(env: env)")
-                fragment.output("var result: napi_value?")
-                fragment.output("try check(napi_new_instance(env, constructor, 1, &args, &result))")
-                fragment.output("return result")
+                fragment.output("let arg = try FishyJoesNodeRuntime.Box(value).retainedExternal(env: env)")
+                fragment.output("return try env.newInstance(constructor, [arg])")
             }
-            fragment.outputBlock("public static func mutateNode(_ value: Self, this: napi_value?, env: napi_env) throws {") {
-                fragment.output("var pointer: UnsafeMutableRawPointer?")
-                fragment.output("try check(napi_unwrap(env, this, &pointer))")
-                fragment.outputBlock("guard let nonNilPointer = pointer else {") {
+            fragment.outputBlock("public static func mutateNode(_ value: Self, this: NAPI.Value, env: NAPI.Env) throws {") {
+                fragment.outputBlock("guard let pointer = try env.unwrap(this) else {") {
                     fragment.output("throw JSException(message: \"expected \(sourceType.name), got nil\")")
                 }
-                fragment.output("try Box<\(sourceType.name)>.takeUnretainedOpaque(nonNilPointer).value = value")
+                fragment.output("try Box<\(sourceType.name)>.takeUnretainedOpaque(pointer).value = value")
             }
-            fragment.outputBlock("public static func nodeSetup(env: napi_env, module: napi_value) throws {") {
+            fragment.outputBlock("public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {") {
                 // fragment.output("print(\"setting up \(sourceType.name)\")")
 
                 fragment.outputBlock("let nodeClass = try NodeClass(") {
@@ -85,15 +79,7 @@ struct TranslatedReference: TranslatedType {
                     }
                     fragment.outputBlock("constructor: { env, info in", closeWith: "}") {
                         fragment.outputBlock("FishyJoesNodeRuntime.callbackBody(env, info, name: \"\(nodeName)_constructor\", expectedArgumentCount: 1) { env in", closeWith: "}") {
-                            fragment.output("// TODO: typecheck?")
-                            fragment.output("let this = try env.this()")
-                            fragment.output("let selfValue = try env.argument(at: 0)")
-                            fragment.output("let boxed = try FishyJoesNodeRuntime.Box<\(sourceType.name)>.takeUnretained(selfValue, env: env.env)")
-                            fragment.outputBlock("let finalizer: napi_finalize = { env, data, _ in", closeWith: "}") {
-                                fragment.output("FishyJoesNodeRuntime.Box<\(sourceType.name)>.releaseOpaque(data)")
-                            }
-                            fragment.output("try check(env: env.env, napi_wrap(env.env, this, boxed.retainedOpaque(), finalizer, nil, nil))")
-                            fragment.output("return this")
+                            fragment.output("try FishyJoesNodeRuntime.Box<\(sourceType.name)>.construct(env: env)")
                         }
                     }
                 }

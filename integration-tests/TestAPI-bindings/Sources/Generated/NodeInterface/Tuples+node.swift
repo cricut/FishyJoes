@@ -5,12 +5,12 @@ import Foundation
 import TestAPI
 
 extension Tuples: FishyJoesNodeRuntime.NodeConverter {
-    public static func fromNode(_ value: napi_value?, env: napi_env) throws -> Self {
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
         switch try String.fromNode(value, env: env) {
         case let unknown: fatalError("invalid enum string '\(unknown)' for Tuples")
         }
     }
-    public static func toNode(_ value: Self, env: napi_env) throws -> napi_value? {
+    public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
         switch value {
         }
     }

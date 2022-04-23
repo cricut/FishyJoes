@@ -5,30 +5,24 @@ import Foundation
 import TestAPI
 
 extension Structs.ReferenceStruct: FishyJoesNodeRuntime.NodeConverter {
-    public static func fromNode(_ value: napi_value?, env: napi_env) throws -> Self {
-        var pointer: UnsafeMutableRawPointer?
-        try check(napi_unwrap(env, value, &pointer))
-        guard let nonNilPointer = pointer else {
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
+        guard let nonNilPointer = try env.unwrap(value) else {
             throw JSException(message: "expected Structs.ReferenceStruct, got nil")
         }
         return try Box<Structs.ReferenceStruct>.takeUnretainedOpaque(nonNilPointer).value
     }
-    public static func toNode(_ value: Self, env: napi_env) throws -> napi_value? {
+    public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
         let constructor = try FishyJoesNodeRuntime.InstanceData.data(for: env).constructor(for: "Structs.ReferenceStruct", env: env)
-        var args: napi_value? = try FishyJoesNodeRuntime.Box(value).retainedExternal(env: env)
-        var result: napi_value?
-        try check(napi_new_instance(env, constructor, 1, &args, &result))
-        return result
+        let arg = try FishyJoesNodeRuntime.Box(value).retainedExternal(env: env)
+        return try env.newInstance(constructor, [arg])
     }
-    public static func mutateNode(_ value: Self, this: napi_value?, env: napi_env) throws {
-        var pointer: UnsafeMutableRawPointer?
-        try check(napi_unwrap(env, this, &pointer))
-        guard let nonNilPointer = pointer else {
+    public static func mutateNode(_ value: Self, this: NAPI.Value, env: NAPI.Env) throws {
+        guard let pointer = try env.unwrap(this) else {
             throw JSException(message: "expected Structs.ReferenceStruct, got nil")
         }
-        try Box<Structs.ReferenceStruct>.takeUnretainedOpaque(nonNilPointer).value = value
+        try Box<Structs.ReferenceStruct>.takeUnretainedOpaque(pointer).value = value
     }
-    public static func nodeSetup(env: napi_env, module: napi_value) throws {
+    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let nodeClass = try NodeClass(
             env: env,
             name: "Structs.ReferenceStruct",
@@ -73,15 +67,7 @@ extension Structs.ReferenceStruct: FishyJoesNodeRuntime.NodeConverter {
             ],
             constructor: { env, info in
                 FishyJoesNodeRuntime.callbackBody(env, info, name: "Structs.ReferenceStruct_constructor", expectedArgumentCount: 1) { env in
-                    // TODO: typecheck?
-                    let this = try env.this()
-                    let selfValue = try env.argument(at: 0)
-                    let boxed = try FishyJoesNodeRuntime.Box<Structs.ReferenceStruct>.takeUnretained(selfValue, env: env.env)
-                    let finalizer: napi_finalize = { env, data, _ in
-                        FishyJoesNodeRuntime.Box<Structs.ReferenceStruct>.releaseOpaque(data)
-                    }
-                    try check(env: env.env, napi_wrap(env.env, this, boxed.retainedOpaque(), finalizer, nil, nil))
-                    return this
+                    try FishyJoesNodeRuntime.Box<Structs.ReferenceStruct>.construct(env: env)
                 }
             }
         )

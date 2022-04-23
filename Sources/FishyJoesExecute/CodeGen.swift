@@ -6,15 +6,15 @@ let wasmToolchain = "/Library/Developer/Toolchains/swift-wasm-5.6.0-RELEASE.xcto
 let androidToolchain = "/Library/Developer/Toolchains/swift-android-toolchain"
 
 let dylibExt: String = {
-	#if os(macOS)
-	"dylib"
-	#elseif os(Linux)
-	"so"
+    #if os(macOS)
+    "dylib"
+    #elseif os(Linux)
+    "so"
     #elseif os(Windows)
     "dll"
-	#else
-	fatalError("unknown host OS")
-	#endif
+    #else
+    fatalError("unknown host OS")
+    #endif
 }()
 
 struct CodeGen: ParsableCommand {
@@ -213,6 +213,8 @@ extension CodeGen {
                         "\(platform.buildDir)/FishyJoes_FishyJoesNodeRuntime.resources/js/__MODULE_NAME__.browser.js"
                     ).output(overwritingFile: "\(platform.outputDir)/\(config.module).browser.js").run()
                 case .node:
+                    try cmd("cp", "\(platform.buildDir)/libFishyJoesNodeRuntime.\(dylibExt)", "\(platform.outputDir)/").run()
+                    try cmd("cp", "\(platform.buildDir)/lib\(config.module).\(dylibExt)", "\(platform.outputDir)/").run()
                     try cmd("cp", "\(platform.buildDir)/lib\(config.module)-node.\(dylibExt)", "\(platform.outputDir)/\(config.module).cjs.node").run()
                     try cmd(
                         "cp",

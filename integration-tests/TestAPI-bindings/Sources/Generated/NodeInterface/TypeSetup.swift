@@ -2,15 +2,17 @@
 // DO NOT EDIT
 import FishyJoesNodeRuntime
 import Foundation
+import NodeAPI
 import TestAPI
 
 @_cdecl("napi_register_module_v1")
 public func napi_register_module_v1(env: napi_env, exports: napi_value) -> napi_value? {
-    FishyJoesNodeRuntime.rethrowToNode(env: env) {
-        var module: napi_value!
-        try check(napi_create_object(env, &module))
-        napi_set_named_property(env, exports, "TestAPI", module)
-        napi_set_named_property(env, exports, "default", module)
+    let env = NAPI.Env(ptr: env)
+    let exports = NAPI.Value(ptr: exports)
+    return FishyJoesNodeRuntime.rethrowToNode(env: env) {
+        let module = try env.createObject()
+        try env.setNamedProperty(exports, "TestAPI", module)
+        try env.setNamedProperty(exports, "default", module)
 
         try Bool.nodeSetup(env: env, module: module)
         try Bytes.nodeSetup(env: env, module: module)
