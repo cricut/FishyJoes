@@ -1,15 +1,14 @@
 import Foundation
-import NodeAPI
 import FishyJoesCommonRuntime
 
 protocol AnyFunction {
-    static var cInvoke: napi_callback { get }
+    static var cInvoke: NAPI.Callback { get }
 }
 
 private struct AnyFunction0: AnyFunction {
-    let invoke: (CallbackEnv) throws -> napi_value?
+    let invoke: (CallbackEnv) throws -> NAPI.Value?
 
-    static let cInvoke: napi_callback = { env, info in
+    static let cInvoke: NAPI.Callback = { env, info in
         callbackBody(env, info, name: "<Function0>", expectedArgumentCount: 0) { env in
             try Box<Self>.takeUnretainedOpaque(env.data()!).value
                 .invoke(env)
@@ -18,9 +17,9 @@ private struct AnyFunction0: AnyFunction {
 }
 
 private struct AnyFunction1: AnyFunction {
-    let invoke: (CallbackEnv, napi_value?) throws -> napi_value?
+    let invoke: (CallbackEnv, NAPI.Value) throws -> NAPI.Value
 
-    static let cInvoke: napi_callback = { env, info in
+    static let cInvoke: NAPI.Callback = { env, info in
         callbackBody(env, info, name: "<Function0>", expectedArgumentCount: 0) { env in
             try Box<Self>.takeUnretainedOpaque(env.data()!).value
                 .invoke(env, env.argument(at: 0))
@@ -29,9 +28,9 @@ private struct AnyFunction1: AnyFunction {
 }
 
 private struct AnyFunction2: AnyFunction {
-    let invoke: (CallbackEnv, napi_value?, napi_value?) throws -> napi_value?
+    let invoke: (CallbackEnv, NAPI.Value, NAPI.Value) throws -> NAPI.Value
 
-    static let cInvoke: napi_callback = { env, info in
+    static let cInvoke: NAPI.Callback = { env, info in
         callbackBody(env, info, name: "<Function2>", expectedArgumentCount: 2) { env in
             try Box<Self>.takeUnretainedOpaque(env.data()!).value
                 .invoke(env, env.argument(at: 0), env.argument(at: 1))
@@ -40,9 +39,9 @@ private struct AnyFunction2: AnyFunction {
 }
 
 private struct AnyFunction3: AnyFunction {
-    let invoke: (CallbackEnv, napi_value?, napi_value?, napi_value?) throws -> napi_value?
+    let invoke: (CallbackEnv, NAPI.Value, NAPI.Value, NAPI.Value) throws -> NAPI.Value
 
-    static let cInvoke: napi_callback = { env, info in
+    static let cInvoke: NAPI.Callback = { env, info in
         callbackBody(env, info, name: "<Function3>", expectedArgumentCount: 3) { env in
             try Box<Self>.takeUnretainedOpaque(env.data()!).value
                 .invoke(env, env.argument(at: 0), env.argument(at: 1), env.argument(at: 2))
@@ -51,9 +50,9 @@ private struct AnyFunction3: AnyFunction {
 }
 
 private struct AnyFunction4: AnyFunction {
-    let invoke: (CallbackEnv, napi_value?, napi_value?, napi_value?, napi_value?) throws -> napi_value?
+    let invoke: (CallbackEnv, NAPI.Value, NAPI.Value, NAPI.Value, NAPI.Value) throws -> NAPI.Value
 
-    static let cInvoke: napi_callback = { env, info in
+    static let cInvoke: NAPI.Callback = { env, info in
         callbackBody(env, info, name: "<Function4>", expectedArgumentCount: 4) { env in
             try Box<Self>.takeUnretainedOpaque(env.data()!).value
                 .invoke(env, env.argument(at: 0), env.argument(at: 1), env.argument(at: 2), env.argument(at: 3))
@@ -62,9 +61,9 @@ private struct AnyFunction4: AnyFunction {
 }
 
 private struct AnyFunction5: AnyFunction {
-    let invoke: (CallbackEnv, napi_value?, napi_value?, napi_value?, napi_value?, napi_value?) throws -> napi_value?
+    let invoke: (CallbackEnv, NAPI.Value, NAPI.Value, NAPI.Value, NAPI.Value, NAPI.Value) throws -> NAPI.Value
 
-    static let cInvoke: napi_callback = { env, info in
+    static let cInvoke: NAPI.Callback = { env, info in
         callbackBody(env, info, name: "<Function5>", expectedArgumentCount: 5) { env in
             try Box<Self>.takeUnretainedOpaque(env.data()!).value
                 .invoke(env, env.argument(at: 0), env.argument(at: 1), env.argument(at: 2), env.argument(at: 3), env.argument(at: 4))
@@ -73,9 +72,9 @@ private struct AnyFunction5: AnyFunction {
 }
 
 private struct AnyFunction6: AnyFunction {
-    let invoke: (CallbackEnv, napi_value?, napi_value?, napi_value?, napi_value?, napi_value?, napi_value?) throws -> napi_value?
+    let invoke: (CallbackEnv, NAPI.Value, NAPI.Value, NAPI.Value, NAPI.Value, NAPI.Value, NAPI.Value) throws -> NAPI.Value
 
-    static let cInvoke: napi_callback = { env, info in
+    static let cInvoke: NAPI.Callback = { env, info in
         callbackBody(env, info, name: "<Function6>", expectedArgumentCount: 6) { env in
             try Box<Self>.takeUnretainedOpaque(env.data()!).value
                 .invoke(env, env.argument(at: 0), env.argument(at: 1), env.argument(at: 2), env.argument(at: 3), env.argument(at: 4), env.argument(at: 5))
@@ -84,32 +83,27 @@ private struct AnyFunction6: AnyFunction {
 }
 
 extension AnyFunction {
-    func toNode(env: napi_env) throws -> napi_value? {
-        var result: napi_value?
+    func toNode(env: NAPI.Env) throws -> NAPI.Value {
         let ptr = Box(self).retainedOpaque()
-        try check(napi_create_function(env, "<swift lambda>", -1, Self.cInvoke, ptr, &result))
-        try check(napi_add_finalizer(env, result, ptr, AnyBox.boxFinalize, nil, nil))
+        let result = try env.createFunction("<swift lambda>", Self.cInvoke, ptr)
+        try env.addFinalizerWithoutRef(result, ptr, AnyBox.boxFinalize, nil)
         return result
     }
 }
 
-fileprivate func nodeCall(_ ref: NodeReference, _ args: [napi_value?], env: napi_env) throws -> napi_value? {
-    var undefined: napi_value?
-    try check(napi_get_undefined(env, &undefined))
-    var result: napi_value?
-    try napi_call_function(env, undefined, ref.value(env: env), args.count, args, &result)
-    return result
+fileprivate func nodeCall(_ ref: NodeReference, _ args: [NAPI.Value], env: NAPI.Env) throws -> NAPI.Value {
+    return try env.callFunction(env.getUndefined(), ref.value(env: env), args)
 }
 
 extension Function0Converter: NodeConverter where R: NodeConverter {
-    public static func fromNode(_ value: napi_value?, env: napi_env) throws -> SwiftType {
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
         let escapingRef = try NodeReference(env: env, value: value)
         return {
             try R.fromNode(nodeCall(escapingRef, [], env: env), env: env)
         }
     }
 
-    public static func toNode(_ value: @escaping SwiftType, env: napi_env) throws -> napi_value? {
+    public static func toNode(_ value: @escaping SwiftType, env: NAPI.Env) throws -> NAPI.Value {
         try AnyFunction0 { env in
             return try R.toNode(value(), env: env.env)
         }.toNode(env: env)
@@ -117,7 +111,7 @@ extension Function0Converter: NodeConverter where R: NodeConverter {
 }
 
 extension Function1Converter: NodeConverter where R: NodeConverter, P0: NodeConverter {
-    public static func fromNode(_ value: napi_value?, env: napi_env) throws -> SwiftType {
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
         let escapingRef = try NodeReference(env: env, value: value)
         return { p0 in
             let args = try [
@@ -127,7 +121,7 @@ extension Function1Converter: NodeConverter where R: NodeConverter, P0: NodeConv
         }
     }
 
-    public static func toNode(_ value: @escaping SwiftType, env: napi_env) throws -> napi_value? {
+    public static func toNode(_ value: @escaping SwiftType, env: NAPI.Env) throws -> NAPI.Value {
         try AnyFunction1 { env, p0 in
             let v0 = try P0.fromNode(p0, env: env.env)
             return try R.toNode(value(v0), env: env.env)
@@ -136,7 +130,7 @@ extension Function1Converter: NodeConverter where R: NodeConverter, P0: NodeConv
 }
 
 extension Function2Converter: NodeConverter where R: NodeConverter, P0: NodeConverter, P1: NodeConverter {
-    public static func fromNode(_ value: napi_value?, env: napi_env) throws -> SwiftType {
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
         let escapingRef = try NodeReference(env: env, value: value)
         return { p0, p1 in
             let args = try [
@@ -147,7 +141,7 @@ extension Function2Converter: NodeConverter where R: NodeConverter, P0: NodeConv
         }
     }
 
-    public static func toNode(_ value: @escaping SwiftType, env: napi_env) throws -> napi_value? {
+    public static func toNode(_ value: @escaping SwiftType, env: NAPI.Env) throws -> NAPI.Value {
         try AnyFunction2 { env, p0, p1 in
             let v0 = try P0.fromNode(p0, env: env.env)
             let v1 = try P1.fromNode(p1, env: env.env)
@@ -157,7 +151,7 @@ extension Function2Converter: NodeConverter where R: NodeConverter, P0: NodeConv
 }
 
 extension Function3Converter: NodeConverter where R: NodeConverter, P0: NodeConverter, P1: NodeConverter, P2: NodeConverter {
-    public static func fromNode(_ value: napi_value?, env: napi_env) throws -> SwiftType {
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
         let escapingRef = try NodeReference(env: env, value: value)
         return { p0, p1, p2 in
             let args = try [
@@ -169,7 +163,7 @@ extension Function3Converter: NodeConverter where R: NodeConverter, P0: NodeConv
         }
     }
 
-    public static func toNode(_ value: @escaping SwiftType, env: napi_env) throws -> napi_value? {
+    public static func toNode(_ value: @escaping SwiftType, env: NAPI.Env) throws -> NAPI.Value {
         try AnyFunction3 { env, p0, p1, p2 in
             let v0 = try P0.fromNode(p0, env: env.env)
             let v1 = try P1.fromNode(p1, env: env.env)
@@ -180,7 +174,7 @@ extension Function3Converter: NodeConverter where R: NodeConverter, P0: NodeConv
 }
 
 extension Function4Converter: NodeConverter where R: NodeConverter, P0: NodeConverter, P1: NodeConverter, P2: NodeConverter, P3: NodeConverter {
-    public static func fromNode(_ value: napi_value?, env: napi_env) throws -> SwiftType {
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
         let escapingRef = try NodeReference(env: env, value: value)
         return { p0, p1, p2, p3 in
             let args = try [
@@ -193,7 +187,7 @@ extension Function4Converter: NodeConverter where R: NodeConverter, P0: NodeConv
         }
     }
 
-    public static func toNode(_ value: @escaping SwiftType, env: napi_env) throws -> napi_value? {
+    public static func toNode(_ value: @escaping SwiftType, env: NAPI.Env) throws -> NAPI.Value {
         try AnyFunction4 { env, p0, p1, p2, p3 in
             let v0 = try P0.fromNode(p0, env: env.env)
             let v1 = try P1.fromNode(p1, env: env.env)
@@ -205,7 +199,7 @@ extension Function4Converter: NodeConverter where R: NodeConverter, P0: NodeConv
 }
 
 extension Function5Converter: NodeConverter where R: NodeConverter, P0: NodeConverter, P1: NodeConverter, P2: NodeConverter, P3: NodeConverter, P4: NodeConverter {
-    public static func fromNode(_ value: napi_value?, env: napi_env) throws -> SwiftType {
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
         let escapingRef = try NodeReference(env: env, value: value)
         return { p0, p1, p2, p3, p4 in
             let args = try [
@@ -219,7 +213,7 @@ extension Function5Converter: NodeConverter where R: NodeConverter, P0: NodeConv
         }
     }
 
-    public static func toNode(_ value: @escaping SwiftType, env: napi_env) throws -> napi_value? {
+    public static func toNode(_ value: @escaping SwiftType, env: NAPI.Env) throws -> NAPI.Value {
         try AnyFunction5 { env, p0, p1, p2, p3, p4 in
             let v0 = try P0.fromNode(p0, env: env.env)
             let v1 = try P1.fromNode(p1, env: env.env)
@@ -232,7 +226,7 @@ extension Function5Converter: NodeConverter where R: NodeConverter, P0: NodeConv
 }
 
 extension Function6Converter: NodeConverter where R: NodeConverter, P0: NodeConverter, P1: NodeConverter, P2: NodeConverter, P3: NodeConverter, P4: NodeConverter, P5: NodeConverter {
-    public static func fromNode(_ value: napi_value?, env: napi_env) throws -> SwiftType {
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
         let escapingRef = try NodeReference(env: env, value: value)
         return { p0, p1, p2, p3, p4, p5 in
             let args = try [
@@ -247,7 +241,7 @@ extension Function6Converter: NodeConverter where R: NodeConverter, P0: NodeConv
         }
     }
 
-    public static func toNode(_ value: @escaping SwiftType, env: napi_env) throws -> napi_value? {
+    public static func toNode(_ value: @escaping SwiftType, env: NAPI.Env) throws -> NAPI.Value {
         try AnyFunction6 { env, p0, p1, p2, p3, p4, p5 in
             let v0 = try P0.fromNode(p0, env: env.env)
             let v1 = try P1.fromNode(p1, env: env.env)

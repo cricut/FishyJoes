@@ -169,16 +169,17 @@ struct NodeTranslator: Translator {
     func setupFragments(context: FishyJoesContext, generatedTypes: Set<BetterType>) -> [SourceFragment] {
         let nodeTypeListFragment = context.swiftFragment(
             "NodeInterface/TypeSetup.swift",
-            additionalImports: ["Foundation", "FishyJoesNodeRuntime"]
+            additionalImports: ["Foundation", "FishyJoesNodeRuntime", "NodeAPI"]
         )
 
         nodeTypeListFragment.output("@_cdecl(\"napi_register_module_v1\")")
         nodeTypeListFragment.outputBlock("public func napi_register_module_v1(env: napi_env, exports: napi_value) -> napi_value? {") {
-            nodeTypeListFragment.outputBlock("FishyJoesNodeRuntime.rethrowToNode(env: env) {") {
-                nodeTypeListFragment.output("var module: napi_value!")
-                nodeTypeListFragment.output("try check(napi_create_object(env, &module))")
-                nodeTypeListFragment.output("napi_set_named_property(env, exports, \"\(context.module)\", module)")
-                nodeTypeListFragment.output("napi_set_named_property(env, exports, \"default\", module)")
+            nodeTypeListFragment.output("let env = NAPI.Env(ptr: env)")
+            nodeTypeListFragment.output("let exports = NAPI.Value(ptr: exports)")
+            nodeTypeListFragment.outputBlock("return FishyJoesNodeRuntime.rethrowToNode(env: env) {") {
+                nodeTypeListFragment.output("let module = try env.createObject()")
+                nodeTypeListFragment.output("try env.setNamedProperty(exports, \"\(context.module)\", module)")
+                nodeTypeListFragment.output("try env.setNamedProperty(exports, \"default\", module)")
                 nodeTypeListFragment.blankLine()
                 for type in generatedTypes.sorted(by: { "\($0)" < "\($1)" }) {
                     // TODO: better

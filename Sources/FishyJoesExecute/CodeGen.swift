@@ -6,15 +6,15 @@ let wasmToolchain = "/Library/Developer/Toolchains/swift-wasm-5.6.0-RELEASE.xcto
 let androidToolchain = "/Library/Developer/Toolchains/swift-android-toolchain"
 
 let dylibExt: String = {
-	#if os(macOS)
-	"dylib"
-	#elseif os(Linux)
-	"so"
+    #if os(macOS)
+    "dylib"
+    #elseif os(Linux)
+    "so"
     #elseif os(Windows)
     "dll"
-	#else
-	fatalError("unknown host OS")
-	#endif
+    #else
+    fatalError("unknown host OS")
+    #endif
 }()
 
 struct CodeGen: ParsableCommand {
@@ -73,7 +73,7 @@ struct CodeGen: ParsableCommand {
         case version
         case buildStep
     }
-    
+
     var config: FishyJoesConfig!
     var platforms: [Platform] = []
 }
@@ -87,7 +87,7 @@ extension CodeGen {
         guard cmd("test", "-f", "Package.swift").runBool() else {
             throw ValidationError("No Package.swift found in current directory. fishy-joes must be run in the root of the bindings package")
         }
-        
+
         if wasm {
             platforms.append(.wasm)
         }
@@ -104,7 +104,7 @@ extension CodeGen {
             platforms.append(.cSharp)
         }
     }
-    
+
     mutating func run() throws {
         if buildStep.contains(.generate) {
             let packageJSON = try cmd("swift", "package", "dump-package").runData()
@@ -213,6 +213,8 @@ extension CodeGen {
                         "\(platform.buildDir)/FishyJoes_FishyJoesNodeRuntime.resources/js/__MODULE_NAME__.browser.js"
                     ).output(overwritingFile: "\(platform.outputDir)/\(config.module).browser.js").run()
                 case .node:
+                    try cmd("cp", "\(platform.buildDir)/libFishyJoesNodeRuntime.\(dylibExt)", "\(platform.outputDir)/").run()
+                    try cmd("cp", "\(platform.buildDir)/lib\(config.module).\(dylibExt)", "\(platform.outputDir)/").run()
                     try cmd("cp", "\(platform.buildDir)/lib\(config.module)-node.\(dylibExt)", "\(platform.outputDir)/\(config.module).cjs.node").run()
                     try cmd(
                         "cp",
