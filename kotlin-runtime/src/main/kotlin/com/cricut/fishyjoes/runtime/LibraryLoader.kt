@@ -3,9 +3,16 @@ package com.cricut.fishyjoes.runtime
 import java.io.BufferedOutputStream
 import java.io.File
 import java.io.FileOutputStream
+import java.nio.file.Files
 
 object LibraryLoader {
     private var startedLoad = mutableSetOf<String>()
+    private val libDirectory = lazy {
+        val path = Files.createTempDirectory("java-libs-")
+        path.toFile().deleteOnExit()
+        path
+    }
+
     fun ensureLoaded(libraryName: String) {
         synchronized(this) {
             if (startedLoad.contains(libraryName)) { return }
@@ -44,8 +51,7 @@ object LibraryLoader {
         // Extract dynamic library from jar to temporary file
         val stream = javaClass.getResourceAsStream( jarPath)
             ?: error("couldn't find $jarPath")
-        val file = File.createTempFile("lib$libraryName", ".$ext")
-        file.deleteOnExit()
+        val file = libDirectory.value.resolve("lib$libraryName.$ext").toFile()t
         val out = BufferedOutputStream(FileOutputStream(file))
 
         val buf = ByteArray(8 * 1024)
