@@ -62,13 +62,13 @@ jobs:
         run: |
           set -euxo pipefail
 
-          libdir=kotlin-runtime/src/generated/resources
+          libdir=kotlin-runtime/src/generated/resources/mac
 
-          rm -rf $libdir/mac
-          mkdir -p $libdir/mac
+          rm -rf $libdir
+          mkdir -p $libdir
 
           swift build --configuration release --product FishyJoesJavaRuntime
-          cp .build/release/libFishyJoesJavaRuntime.dylib $libdir/mac
+          cp .build/release/libFishyJoesJavaRuntime.dylib $libdir
 
           (cd kotlin-runtime; ./gradlew publishToMavenLocal)
 
@@ -119,6 +119,24 @@ jobs:
           sudo mkdir -p /Library/Developer/Toolchains/swift-wasm-5.6.0-RELEASE.xctoolchain
           sudo tar -xf swift-wasm.tgz -C /Library/Developer/Toolchains/swift-wasm-5.6.0-RELEASE.xctoolchain --strip-components 1
 
+      - name: Test from gradle
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+
+          libdir=kotlin-runtime/src/generated/resources/linux
+
+          rm -rf $libdir
+          mkdir -p $libdir
+
+          swift build --configuration release --product FishyJoesJavaRuntime
+          cp .build/release/libFishyJoesJavaRuntime.so $libdir
+
+          (cd kotlin-runtime; ./gradlew publishToMavenLocal)
+
+          cd integration-tests/TestAPI-bindings
+          swift run -- fishy-joes --kotlin-fast build test
+
       - name: Test from node
         shell: zsh {0}
         run: |
@@ -128,13 +146,3 @@ jobs:
           npm install
 
           swift run -- fishy-joes --nodejs --wasm build test
-
-      - name: Test from gradle
-        shell: zsh {0}
-        run: |
-          set -euxo pipefail
-
-          (cd kotlin-runtime; ./gradlew publishToMavenLocal)
-
-          cd integration-tests/TestAPI-bindings
-          swift run -- fishy-joes --kotlin-fast build test
