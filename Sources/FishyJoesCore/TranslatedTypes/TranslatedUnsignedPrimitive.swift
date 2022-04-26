@@ -11,7 +11,7 @@ struct TranslatedUnsignedPrimitive: TranslatedType {
     let jniType: JNIType
     var jvmToKotlin: String { ".toU\(jniType.valueType)()" }
     var kotlinToJVM: String { ".to\(jniType.valueType)()" }
-    
+
     init(
         swift swiftName: BetterType.Name,
         typeNames: FishyJoesContext.TypeNames

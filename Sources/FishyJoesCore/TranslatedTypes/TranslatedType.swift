@@ -59,9 +59,9 @@ extension TranslatedType {
             }
         }
     }
-    
+
     var cSharpType: Any {
-        fatalError()
+        fatalError("TODO")
     }
 }
 

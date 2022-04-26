@@ -20,7 +20,7 @@ extension NodeConverter {
 // MARK: - Primitive Type Conversions
 
 extension VoidConverter: NodeConverter {
-    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Void {}
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws {}
     public static func toNode(_ value: Void, env: NAPI.Env) throws -> NAPI.Value {
         return .init(ptr: nil)
     }

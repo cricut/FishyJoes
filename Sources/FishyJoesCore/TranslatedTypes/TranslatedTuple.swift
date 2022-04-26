@@ -34,7 +34,7 @@ struct TranslatedTuple: TranslatedType {
             return "com.cricut.fishyjoes.runtime"
         }
     }
-    
+
     var cSharpName: String {
         "(\(elements.lazy.map(\.type.cSharpName).joined(separator: ", ")))"
     }

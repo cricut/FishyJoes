@@ -1,6 +1,6 @@
+import FishyJoesCommonRuntime
 import Foundation
 import NodeAPI
-import FishyJoesCommonRuntime
 
 extension Tuple2Converter: NodeConverter where T0: NodeConverter, T1: NodeConverter {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {

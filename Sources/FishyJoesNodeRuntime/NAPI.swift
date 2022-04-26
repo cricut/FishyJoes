@@ -1,5 +1,5 @@
-import NodeAPI
 import Foundation
+import NodeAPI
 
 public enum NAPI {
     public typealias Env = swift_napi_env
@@ -13,7 +13,6 @@ public enum NAPI {
     public typealias CleanupHook = @convention(c) (UnsafeMutableRawPointer?) -> Void
     public typealias Callback = napi_callback
 }
-
 
 // MARK: napi function wrappers
 extension NAPI.Env {
@@ -328,7 +327,7 @@ extension NAPI.Env {
         return result
     }
     public func getValueBool(_ value: NAPI.Value) throws -> Bool {
-        var result: Bool = false
+        var result = false
         try check(napi_get_value_bool(ptr, value.ptr, &result))
         return result
     }
@@ -339,13 +338,13 @@ extension NAPI.Env {
     }
     public func getValueBigintInt64(_ value: NAPI.Value) throws -> (Int64, lossless: Bool) {
         var result: Int64 = 0
-        var lossless: Bool = false
+        var lossless = false
         try check(napi_get_value_bigint_int64(ptr, value.ptr, &result, &lossless))
         return (result, lossless)
     }
     public func getValueBigintUint64(_ value: NAPI.Value) throws -> (UInt64, lossless: Bool) {
         var result: UInt64 = 0
-        var lossless: Bool = false
+        var lossless = false
         try check(napi_get_value_bigint_uint64(ptr, value.ptr, &result, &lossless))
         return (result, lossless)
     }
@@ -438,52 +437,52 @@ extension NAPI.Env {
         return result
     }
     public func typeof(_ value: NAPI.Value) throws -> napi_valuetype {
-        var result: napi_valuetype = napi_undefined;
+        var result: napi_valuetype = napi_undefined
         try check(napi_typeof(ptr, value.ptr, &result))
         return result
     }
     public func instanceof(_ object: NAPI.Value, _ constructor: NAPI.Value) throws -> Bool {
-        var result: Bool = false
+        var result = false
         try check(napi_instanceof(ptr, object.ptr, constructor.ptr, &result))
         return result
     }
     public func isArray(_ value: NAPI.Value) throws -> Bool {
-        var result: Bool = false
+        var result = false
         try check(napi_is_array(ptr, value.ptr, &result))
         return result
     }
     public func isArraybuffer(_ value: NAPI.Value) throws -> Bool {
-        var result: Bool = false
+        var result = false
         try check(napi_is_arraybuffer(ptr, value.ptr, &result))
         return result
     }
     public func isBuffer(_ value: NAPI.Value) throws -> Bool {
-        var result: Bool = false
+        var result = false
         try check(napi_is_buffer(ptr, value.ptr, &result))
         return result
     }
     public func isDate(_ value: NAPI.Value) throws -> Bool {
-        var result: Bool = false
+        var result = false
         try check(napi_is_date(ptr, value.ptr, &result))
         return result
     }
     public func isError(_ value: NAPI.Value) throws -> Bool {
-        var result: Bool = false
+        var result = false
         try check(napi_is_error(ptr, value.ptr, &result))
         return result
     }
     public func isTypedarray(_ value: NAPI.Value) throws -> Bool {
-        var result: Bool = false
+        var result = false
         try check(napi_is_typedarray(ptr, value.ptr, &result))
         return result
     }
     public func isDataview(_ value: NAPI.Value) throws -> Bool {
-        var result: Bool = false
+        var result = false
         try check(napi_is_dataview(ptr, value.ptr, &result))
         return result
     }
     public func strictEquals(_ lhs: NAPI.Value, _ rhs: NAPI.Value) throws -> Bool {
-        var result: Bool = false
+        var result = false
         try check(napi_strict_equals(ptr, lhs.ptr, rhs.ptr, &result))
         return result
     }
@@ -491,7 +490,7 @@ extension NAPI.Env {
         try check(napi_detach_arraybuffer(ptr, arraybuffer.ptr))
     }
     public func isDetachedArraybuffer(_ arraybuffer: NAPI.Value) throws -> Bool {
-        var result: Bool = false
+        var result = false
         try check(napi_is_detached_arraybuffer(ptr, arraybuffer.ptr, &result))
         return result
     }
@@ -516,17 +515,17 @@ extension NAPI.Env {
         return result
     }
     public func hasProperty(_ object: NAPI.Value, _ key: NAPI.Value) throws -> Bool {
-        var result: Bool = false
+        var result = false
         try check(napi_has_property(ptr, object.ptr, key.ptr, &result))
         return result
     }
     public func deleteProperty(_ object: NAPI.Value, _ key: NAPI.Value) throws -> Bool {
-        var result: Bool = false
+        var result = false
         try check(napi_delete_property(ptr, object.ptr, key.ptr, &result))
         return result
     }
     public func hasOwnProperty(_ object: NAPI.Value, _ key: NAPI.Value) throws -> Bool {
-        var result: Bool = false
+        var result = false
         try check(napi_has_own_property(ptr, object.ptr, key.ptr, &result))
         return result
     }
@@ -539,7 +538,7 @@ extension NAPI.Env {
         return result
     }
     public func hasNamedProperty(_ object: NAPI.Value, _ utf8Name: String) throws -> Bool {
-        var result: Bool = false
+        var result = false
         try check(napi_has_named_property(ptr, object.ptr, utf8Name, &result))
         return result
     }
@@ -552,12 +551,12 @@ extension NAPI.Env {
         return result
     }
     public func hasElement(_ object: NAPI.Value, _ index: UInt32) throws -> Bool {
-        var result: Bool = false
+        var result = false
         try check(napi_has_element(ptr, object.ptr, index, &result))
         return result
     }
     public func deleteElement(_ object: NAPI.Value, _ index: UInt32) throws -> Bool {
-        var result: Bool = false
+        var result = false
         try check(napi_delete_element(ptr, object.ptr, index, &result))
         return result
     }
@@ -636,7 +635,7 @@ extension NAPI.Env {
         try check(napi_type_tag_object(ptr, jsObject.ptr, typeTag))
     }
     public func checkObjectTypeTag(_ jsObject: NAPI.Value, typeTag: UnsafePointer<napi_type_tag>) throws -> Bool {
-        var result: Bool = false
+        var result = false
         try check(napi_check_object_type_tag(ptr, jsObject.ptr, typeTag, &result))
         return result
     }
@@ -649,7 +648,7 @@ extension NAPI.Env {
         try check(napi_add_finalizer(ptr, jsObject.ptr, nativeObject, finalizeCb, finalizeHint, nil))
     }
 
-    // MARK asynchronous operations
+    // MARK: asynchronous operations
     // napi_create_async_work
     // napi_delete_async_work
     // napi_queue_async_work

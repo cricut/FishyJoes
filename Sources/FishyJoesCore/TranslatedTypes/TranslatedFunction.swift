@@ -30,5 +30,4 @@ struct TranslatedFunction: TranslatedType {
             args: (parameters + [returnType]).map(\.converterType)
         )
     }
-
 }

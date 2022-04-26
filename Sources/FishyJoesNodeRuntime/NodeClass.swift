@@ -2,10 +2,10 @@ import Foundation
 import NodeAPI
 
 extension napi_property_attributes {
-    static func |(_ a: Self, b: Self) -> Self {
+    static func | (_ a: Self, b: Self) -> Self {
         .init(rawValue: a.rawValue | b.rawValue)
     }
-    static func |=(_ lhs: inout Self, _ rhs: Self) {
+    static func |= (_ lhs: inout Self, _ rhs: Self) {
         lhs = lhs | rhs
     }
 }
@@ -27,7 +27,6 @@ public struct NodeClass {
         constructor: @escaping napi_callback
     ) throws {
         let undefined = try env.getUndefined()
-
 
         var nodeProperties: [napi_property_descriptor] = []
         for (name, (prop, isStatic)) in properties {

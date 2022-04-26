@@ -20,7 +20,7 @@ public enum Tuple2Converter<T0: Converter, T1: Converter>: Converter {
     public typealias SwiftType = (T0.SwiftType, T1.SwiftType)
 }
 
-public enum Tuple3Converter<T0: Converter, T1: Converter, T2:Converter>: Converter {
+public enum Tuple3Converter<T0: Converter, T1: Converter, T2: Converter>: Converter {
     public typealias SwiftType = (T0.SwiftType, T1.SwiftType, T2.SwiftType)
 }
 
@@ -69,15 +69,11 @@ public enum ArrayConverter<ElementConverter: Converter>: Converter {
     public typealias SwiftType = [ElementConverter.SwiftType]
 }
 
-public enum DictionaryConverter<KeyConverter: Converter, ValueConverter: Converter>: Converter
-    where KeyConverter.SwiftType: Hashable
-{
+public enum DictionaryConverter<KeyConverter: Converter, ValueConverter: Converter>: Converter where KeyConverter.SwiftType: Hashable {
     public typealias SwiftType = [KeyConverter.SwiftType: ValueConverter.SwiftType]
 }
 
-public enum SetConverter<ElementConverter: Converter>: Converter
-    where ElementConverter.SwiftType: Hashable
-{
+public enum SetConverter<ElementConverter: Converter>: Converter where ElementConverter.SwiftType: Hashable {
     public typealias SwiftType = Set<ElementConverter.SwiftType>
 }
 

@@ -1,4 +1,3 @@
-
 /// <!-- FishyJoes.export(Tuples) -->
 public enum Tuples {
     public typealias T2 = (Int, String)

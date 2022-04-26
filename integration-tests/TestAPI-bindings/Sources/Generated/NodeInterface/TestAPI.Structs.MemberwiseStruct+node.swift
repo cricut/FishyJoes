@@ -1,5 +1,6 @@
 // Generated using Sourcery 1.8.0 — https://github.com/krzysztofzablocki/Sourcery
 // DO NOT EDIT
+// swiftlint:disable superfluous_disable_command unused_closure_parameter syntactic_sugar
 import FishyJoesNodeRuntime
 import Foundation
 import TestAPI
@@ -35,18 +36,16 @@ extension TestAPI.Structs.MemberwiseStruct: NodeMutator {
             name: "Structs.MemberwiseStruct",
             properties: [
                 "create": (
-                    .method(
-                        { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "create", expectedArgumentCount: 0) { env in
-                                let result = try Structs.MemberwiseStruct.toNode(
-                                    Structs.MemberwiseStruct(
-                                    ),
-                                    env: env.env
-                                )
-                                return result
-                            }
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "create", expectedArgumentCount: 0) { env in
+                            let result = try Structs.MemberwiseStruct.toNode(
+                                Structs.MemberwiseStruct(
+                                ),
+                                env: env.env
+                            )
+                            return result
                         }
-                    ),
+                    },
                     isStatic: true
                 ),
                 "immutable": (.stored(mutable: true), isStatic: false),

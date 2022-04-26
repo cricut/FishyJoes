@@ -1,6 +1,6 @@
 import Foundation
-import XCTest
 import swsh
+import XCTest
 
 class NAPITests: XCTestCase {
     lazy var testDirectory = "Tests/NAPITests/node-tests/js-native-api"
@@ -29,8 +29,8 @@ class NAPITests: XCTestCase {
         "\(testDirectory)/entry_point.c",
     ]
 
-
     override func setUp() {
+        super.setUp()
         // ExternalCommand.verbose = true
     }
 

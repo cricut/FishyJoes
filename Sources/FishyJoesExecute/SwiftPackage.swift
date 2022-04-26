@@ -43,4 +43,3 @@ extension SwiftPackage {
         return target.path ?? "./Sources/\(targetName)"
     }
 }
-
