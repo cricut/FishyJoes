@@ -124,10 +124,8 @@ enum Platform: Hashable {
             #else
             fatalError("unknown host OS")
             #endif
-        case .kotlinAndroid(.arm):
-            return ".build/android-build/armv7-none-linux-androideabi/release"
         case .kotlinAndroid(let arch):
-            return ".build/android-build/\(arch.rawValue)-unknown-linux-android/release"
+            return ".build/android-build/\(arch.triple)/release"
         case .cSharp:
             var cSharpPlatformBuildDirectory: String {
                 #if os(macOS)

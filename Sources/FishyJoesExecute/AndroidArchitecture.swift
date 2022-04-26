@@ -3,7 +3,7 @@ enum AndroidArchitecture: String, Equatable, CaseIterable {
 
     var triple: String {
         switch self {
-        case .arm: return "armv7-none-linux-androideabi"
+        case .arm: return "armv7-unknown-linux-android"
         default: return "\(rawValue)-unknown-linux-android"
         }
     }
