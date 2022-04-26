@@ -69,7 +69,7 @@ object LibraryLoader {
         System.load(file.absolutePath)
 
         // Eager cleanup if the OS allows it
-        if (!osName.contains("Windows")) {
+        if (osName.contains("Mac")) {
             file.delete()
         }
     }
