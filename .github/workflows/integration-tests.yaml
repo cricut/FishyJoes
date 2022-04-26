@@ -119,9 +119,6 @@ jobs:
           sudo mkdir -p /Library/Developer/Toolchains/swift-wasm-5.6.0-RELEASE.xctoolchain
           sudo tar -xf swift-wasm.tgz -C /Library/Developer/Toolchains/swift-wasm-5.6.0-RELEASE.xctoolchain --strip-components 1
 
-      - name: SwiftLint
-        uses: norio-nomura/action-swiftlint@3.2.1
-
       - name: Test from gradle
         shell: zsh {0}
         run: |

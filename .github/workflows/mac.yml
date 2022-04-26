@@ -28,6 +28,10 @@ jobs:
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
+      - name: swiftlint
+        run: |
+          swiftlint lint --reporter github-actions-logging
+
       - name: Setup Node
         uses: actions/setup-node@v1
         with:
