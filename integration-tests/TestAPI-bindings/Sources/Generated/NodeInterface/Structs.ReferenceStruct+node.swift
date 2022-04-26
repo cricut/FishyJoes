@@ -1,5 +1,6 @@
 // Generated using Sourcery 1.8.0 — https://github.com/krzysztofzablocki/Sourcery
 // DO NOT EDIT
+// swiftlint:disable superfluous_disable_command unused_closure_parameter syntactic_sugar
 import FishyJoesNodeRuntime
 import Foundation
 import TestAPI
@@ -28,18 +29,16 @@ extension Structs.ReferenceStruct: FishyJoesNodeRuntime.NodeConverter {
             name: "Structs.ReferenceStruct",
             properties: [
                 "create": (
-                    .method(
-                        { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "create", expectedArgumentCount: 0) { env in
-                                let result = try Structs.ReferenceStruct.toNode(
-                                    Structs.ReferenceStruct(
-                                    ),
-                                    env: env.env
-                                )
-                                return result
-                            }
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "create", expectedArgumentCount: 0) { env in
+                            let result = try Structs.ReferenceStruct.toNode(
+                                Structs.ReferenceStruct(
+                                ),
+                                env: env.env
+                            )
+                            return result
                         }
-                    ),
+                    },
                     isStatic: true
                 ),
                 "immutable": (

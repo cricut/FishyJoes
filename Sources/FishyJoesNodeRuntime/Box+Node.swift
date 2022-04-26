@@ -1,5 +1,5 @@
-import Foundation
 @_exported import FishyJoesCommonRuntime
+import Foundation
 
 extension Box {
     public func retainedExternal(env: NAPI.Env) throws -> NAPI.Value {
@@ -21,7 +21,7 @@ extension Box {
 }
 
 extension AnyBox {
-    static let boxFinalize: NAPI.Finalize = { env, data, hint in
+    static let boxFinalize: NAPI.Finalize = { _, data, hint in
         if let hint = hint {
             let s = String(cString: hint.assumingMemoryBound(to: CChar.self))
             print("boxFinalize: \(s)")

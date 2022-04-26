@@ -1,6 +1,6 @@
+@_exported import FishyJoesCommonRuntime
 import Foundation
 @_exported import JNI
-@_exported import FishyJoesCommonRuntime
 
 // MARK: - Java Type Conversion Protocols
 
@@ -70,10 +70,10 @@ extension VoidConverter: JavaConverter {
 
     public static var javaClass: jclass?
 
-    public static func fromJava(_ value: Void, env: Env) throws -> Void {}
-    public static func toJava(_ value: Void, env: Env) throws -> Void {}
+    public static func fromJava(_ value: Void, env: Env) throws {}
+    public static func toJava(_ value: Void, env: Env) throws {}
 
-    public static func fromJava(object: jobject?, env: Env) throws -> Void {}
+    public static func fromJava(object: jobject?, env: Env) throws {}
     public static func toJavaObject(_ value: Void, env: Env) throws -> jobject? { nil }
 
     public static func javaSetup(env: Env) throws {
@@ -217,7 +217,7 @@ extension UInt64: JavaConverter {
     private static var coerceSigned: jmethodID!
 
     public static func fromJava(_ value: CType, env: Env) throws -> Self { .init(bitPattern: Int64(value)) }
-    public static func toJava(_ value: Self, env: Env) throws -> CType { CType(Int64.init(bitPattern: value)) }
+    public static func toJava(_ value: Self, env: Env) throws -> CType { CType(Int64(bitPattern: value)) }
 
     public static func fromJava(object: jobject?, env: Env) throws -> Self {
         let signed = try env.CallStaticLongMethod(unsignedConverterClass, Self.coerceUnsigned, jvalue(object))
@@ -379,7 +379,7 @@ extension Float: JavaConverter {
     public static func fromJava(_ value: jfloat, env: Env) throws -> Self { value }
     public static func toJava(_ value: Self, env: Env) throws -> jfloat { value }
 
-    public static func fromJava(object: jobject?, env: Env) throws -> Self{
+    public static func fromJava(object: jobject?, env: Env) throws -> Self {
         try env.CallFloatMethod(object, Self._valueMethodID)
     }
 
@@ -405,7 +405,7 @@ extension Double: JavaConverter {
     public static func fromJava(_ value: jdouble, env: Env) throws -> Double { value }
     public static func toJava(_ value: Double, env: Env) throws -> jdouble { value }
 
-    public static func fromJava(object: jobject?, env: Env) throws -> Double{
+    public static func fromJava(object: jobject?, env: Env) throws -> Double {
         try env.CallDoubleMethod(object, Self._valueMethodID)
     }
 
@@ -495,7 +495,7 @@ extension Data: JavaConverter {
 
 // MARK: - Generics Type Conversions
 
-fileprivate enum JavaIterator {
+private enum JavaIterator {
     static var iteratorClass: jclass?
     static var nextMethodID: jmethodID?
     static var hasNextMethodID: jmethodID?
@@ -507,7 +507,7 @@ fileprivate enum JavaIterator {
     }
 }
 
-fileprivate enum JavaList {
+private enum JavaList {
     static var listClass: jclass?
     static var arrayListClass: jclass?
     static var iteratorMethodID: jmethodID?
@@ -529,7 +529,7 @@ fileprivate enum JavaList {
 
     public static func forEach(_ listObject: jobject?, env: Env, body: (jobject?) throws -> Void) throws {
         let iter = try env.CallObjectMethod(listObject, iteratorMethodID)
-        while (try env.CallBooleanMethod(iter, JavaIterator.hasNextMethodID) != JNI_FALSE) {
+        while try env.CallBooleanMethod(iter, JavaIterator.hasNextMethodID) != JNI_FALSE {
             let item = try env.CallObjectMethod(iter, JavaIterator.nextMethodID)
             try body(item)
             env.DeleteLocalRef(item)
@@ -538,7 +538,7 @@ fileprivate enum JavaList {
     }
 }
 
-fileprivate enum JavaMap {
+private enum JavaMap {
     static var mapClass: jclass?
     static var hashMapClass: jclass?
     static var entrySetMethodID: jmethodID?
@@ -565,7 +565,7 @@ fileprivate enum JavaMap {
     }
 }
 
-fileprivate enum JavaSet {
+private enum JavaSet {
     static var setClass: jclass?
     static var hashSetClass: jclass?
     static var iteratorMethodID: jmethodID?
@@ -628,8 +628,7 @@ extension ArrayConverter: JavaConverter where ElementConverter: JavaConverter {
 extension DictionaryConverter: JavaConverter where
     KeyConverter: JavaConverter,
     KeyConverter.SwiftType: Hashable,
-    ValueConverter: JavaConverter
-{
+    ValueConverter: JavaConverter {
     public static var javaClass: jclass? {
         JavaMap.mapClass
     }
@@ -675,7 +674,7 @@ extension SetConverter: JavaConverter where ElementConverter: JavaConverter, Ele
 
     public static func fromJava(_ value: jobject?, env: Env) throws -> SwiftType {
         var result = SwiftType()
-        try JavaSet.forEach(value, env: env) { entry in
+        try JavaSet.forEach(value, env: env) { _ in
             result.insert(try ElementConverter.fromJava(object: value, env: env))
         }
         return result
@@ -727,10 +726,10 @@ extension OptionalConverter: JavaConverter where WrappedConverter: JavaConverter
 
 // MARK: - Tuple Type Conversions
 
-fileprivate var pairClass: jclass!
-fileprivate var pairConstructor: jmethodID!
-fileprivate var pairFirstMethod: jmethodID!
-fileprivate var pairSecondMethod: jmethodID!
+private var pairClass: jclass!
+private var pairConstructor: jmethodID!
+private var pairFirstMethod: jmethodID!
+private var pairSecondMethod: jmethodID!
 
 extension Tuple2Converter: JavaConverter where T0: JavaConverter, T1: JavaConverter {
     public static var javaClass: jclass? {
@@ -767,11 +766,11 @@ extension Tuple2Converter: JavaConverter where T0: JavaConverter, T1: JavaConver
     }
 }
 
-fileprivate var tripleClass: jclass!
-fileprivate var tripleConstructor: jmethodID!
-fileprivate var tripleFirstMethod: jmethodID!
-fileprivate var tripleSecondMethod: jmethodID!
-fileprivate var tripleThirdMethod: jmethodID!
+private var tripleClass: jclass!
+private var tripleConstructor: jmethodID!
+private var tripleFirstMethod: jmethodID!
+private var tripleSecondMethod: jmethodID!
+private var tripleThirdMethod: jmethodID!
 
 extension Tuple3Converter: JavaConverter where T0: JavaConverter, T1: JavaConverter, T2: JavaConverter {
     public static var javaClass: jclass? {
@@ -814,12 +813,12 @@ extension Tuple3Converter: JavaConverter where T0: JavaConverter, T1: JavaConver
     }
 }
 
-fileprivate var tuple4Class: jclass!
-fileprivate var tuple4Constructor: jmethodID!
-fileprivate var tuple4FirstMethod: jmethodID!
-fileprivate var tuple4SecondMethod: jmethodID!
-fileprivate var tuple4ThirdMethod: jmethodID!
-fileprivate var tuple4FourthMethod: jmethodID!
+private var tuple4Class: jclass!
+private var tuple4Constructor: jmethodID!
+private var tuple4FirstMethod: jmethodID!
+private var tuple4SecondMethod: jmethodID!
+private var tuple4ThirdMethod: jmethodID!
+private var tuple4FourthMethod: jmethodID!
 
 extension Tuple4Converter: JavaConverter where T0: JavaConverter, T1: JavaConverter, T2: JavaConverter, T3: JavaConverter {
     public static var javaClass: jclass? {
@@ -868,13 +867,13 @@ extension Tuple4Converter: JavaConverter where T0: JavaConverter, T1: JavaConver
     }
 }
 
-fileprivate var tuple5Class: jclass!
-fileprivate var tuple5Constructor: jmethodID!
-fileprivate var tuple5FirstMethod: jmethodID!
-fileprivate var tuple5SecondMethod: jmethodID!
-fileprivate var tuple5ThirdMethod: jmethodID!
-fileprivate var tuple5FourthMethod: jmethodID!
-fileprivate var tuple5FifthMethod: jmethodID!
+private var tuple5Class: jclass!
+private var tuple5Constructor: jmethodID!
+private var tuple5FirstMethod: jmethodID!
+private var tuple5SecondMethod: jmethodID!
+private var tuple5ThirdMethod: jmethodID!
+private var tuple5FourthMethod: jmethodID!
+private var tuple5FifthMethod: jmethodID!
 
 extension Tuple5Converter: JavaConverter where T0: JavaConverter, T1: JavaConverter, T2: JavaConverter, T3: JavaConverter, T4: JavaConverter {
     public static var javaClass: jclass? {
@@ -929,14 +928,14 @@ extension Tuple5Converter: JavaConverter where T0: JavaConverter, T1: JavaConver
     }
 }
 
-fileprivate var tuple6Class: jclass!
-fileprivate var tuple6Constructor: jmethodID!
-fileprivate var tuple6FirstMethod: jmethodID!
-fileprivate var tuple6SecondMethod: jmethodID!
-fileprivate var tuple6ThirdMethod: jmethodID!
-fileprivate var tuple6FourthMethod: jmethodID!
-fileprivate var tuple6FifthMethod: jmethodID!
-fileprivate var tuple6SixthMethod: jmethodID!
+private var tuple6Class: jclass!
+private var tuple6Constructor: jmethodID!
+private var tuple6FirstMethod: jmethodID!
+private var tuple6SecondMethod: jmethodID!
+private var tuple6ThirdMethod: jmethodID!
+private var tuple6FourthMethod: jmethodID!
+private var tuple6FifthMethod: jmethodID!
+private var tuple6SixthMethod: jmethodID!
 
 extension Tuple6Converter: JavaConverter where T0: JavaConverter, T1: JavaConverter, T2: JavaConverter, T3: JavaConverter, T4: JavaConverter, T5: JavaConverter {
     public static var javaClass: jclass? {

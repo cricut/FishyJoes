@@ -1,6 +1,6 @@
+import Darwin
 import Foundation
 import SourceryRuntime
-import Darwin
 
 func debug(file: StaticString = #file, line: UInt = #line, _ msgs: Any? ...) {
     let message = "\(file):\(line): " + msgs.map { "\($0 ?? "<null>")" }.joined(separator: " ") + "\n"
@@ -10,7 +10,7 @@ func debug(file: StaticString = #file, line: UInt = #line, _ msgs: Any? ...) {
 struct NodeTranslator: Translator {
     init() {}
 
-    func output(getter variable: Variable, context: FishyJoesContext, fragment: SourceFragment)  {
+    func output(getter variable: Variable, context: FishyJoesContext, fragment: SourceFragment) {
         guard let exportAnnotation = variable.exportAnnotation else {
             fatalErr("Variable not annotated for export: \(variable)")
         }
@@ -81,7 +81,7 @@ struct NodeTranslator: Translator {
         }
     }
 
-    func output(method: Method, context: FishyJoesContext, fragment: SourceFragment) {
+    func output(method: Method, context: FishyJoesContext, fragment: SourceFragment, newLineTerminated: Bool = true) {
         let exportAnnotation = method.exportAnnotation
         let nodeName = exportAnnotation.name
 
@@ -103,7 +103,7 @@ struct NodeTranslator: Translator {
 
         let returnType = context.resolve(type: method.returnType, generics: exportAnnotation.genericOverrides)
 
-        fragment.outputBlock("{ env, info in", closeWith: "}") {
+        fragment.outputBlock("{ env, info in", closeWith: "}", newLineTerminated: newLineTerminated) {
             fragment.outputBlock("FishyJoesNodeRuntime.callbackBody(env, info, name: \"\(nodeName)\", expectedArgumentCount: \(method.parameters.count)) { env in", closeWith: "}") {
                 let callName = method.isInitializer ? "" : ".\(method.callName)"
 
@@ -111,7 +111,6 @@ struct NodeTranslator: Translator {
                     fragment.output("var mutatingSelf = try \(selfExpression)")
                     selfExpression = "mutatingSelf"
                 }
-
 
                 fragment.outputBlock("let result = try \(returnType.converterType.name).toNode(") {
                     fragment.outputBlock("\(selfExpression)\(callName)(", closeWith: "),") {
@@ -134,10 +133,10 @@ struct NodeTranslator: Translator {
 
     func outputProperties(methods: [Method], context: FishyJoesContext, fragment: SourceFragment) -> Bool {
         for method in methods {
-            fragment.outputBlock("\"\(method.exportAnnotation.name)\": (", closeWith: "),") {
-                fragment.outputBlock(".method(", closeWith: "),") {
-                    output(method: method, context: context, fragment: fragment)
-                }
+            fragment.outputBlock("\"\(method.exportAnnotation.name)\": (", closeWith: "),")  {
+                fragment.output(".method ", newLineTerminated: false)
+                output(method: method, context: context, fragment: fragment, newLineTerminated: false)
+                fragment.output(",")
                 fragment.output("isStatic: \(method.isStatic)")
             }
         }

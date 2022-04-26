@@ -1,6 +1,6 @@
+import FishyJoesCommonRuntime
 import Foundation
 import JNI
-import FishyJoesCommonRuntime
 
 class JavaReference {
     let object: jobject?
@@ -120,7 +120,6 @@ private struct AnyFunction6 {
         }
     }
 }
-
 
 extension Function0Converter: JavaConverter where R: JavaConverter {
     public static var javaClass: jclass? {

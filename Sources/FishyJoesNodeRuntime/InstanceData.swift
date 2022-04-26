@@ -18,7 +18,7 @@ public class InstanceData {
             return Unmanaged<InstanceData>.fromOpaque(pointer).takeUnretainedValue()
         }
         let data = InstanceData()
-        let finalizer: NAPI.Finalize = { env, data, _ in
+        let finalizer: NAPI.Finalize = { _, data, _ in
             guard let data = data else { return }
             Unmanaged<InstanceData>.fromOpaque(data).release()
         }

@@ -30,8 +30,8 @@ struct NPMPackage: Codable {
         var url: String
         var directory: String
     }
-    
-    struct PublishConfig: Codable  {
+
+    struct PublishConfig: Codable {
         var registry: String = "https://npm.pkg.github.com/"
     }
 }

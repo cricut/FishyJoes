@@ -19,25 +19,25 @@ let dylibExt: String = {
 
 struct CodeGen: ParsableCommand {
     @Flag(name: .shortAndLong, help: "suppress verbose output")
-    var quiet: Bool = false
+    var quiet = false
 
     @Flag(name: .long, inversion: .prefixedNo, help: "Generate a Web-assembly based node package")
-    var nodejs: Bool = false
+    var nodejs = false
 
     @Flag(name: .long, inversion: .prefixedNo, help: "Generate a NodeJS N-API based node package")
-    var wasm: Bool = false
+    var wasm = false
 
     @Flag(name: .long, inversion: .prefixedNo, help: "Generate a Kotlin package")
-    var kotlin: Bool = false
+    var kotlin = false
 
     @Flag(name: .long, inversion: .prefixedNo, help: "Generate a Kotlin package without android support (much faster)")
-    var kotlinFast: Bool = false
+    var kotlinFast = false
 
     @Flag(name: [.long, .customLong("C🗡️")], inversion: .prefixedNo, help: "Generate a C# Package")
-    var cSharp: Bool = false
+    var cSharp = false
 
     @Flag(name: .long, inversion: .prefixedNo, help: "Additional wasm optimizations (takes some time)")
-    var wasmOpt: Bool = true
+    var wasmOpt = true
 
     @Option(help: "Used for debugging fishy-joes code generation")
     var sourceryDumpPath: String?

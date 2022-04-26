@@ -1,6 +1,6 @@
 import FishyJoesCore
-import SourceryRuntime
 import Foundation
+import SourceryRuntime
 
 guard CommandLine.argc > 2, CommandLine.arguments[1] == "--executing-from-within-sourcery" else {
     fatalError("Not meant to be called directly. Invoke via fishy-joes instead.")

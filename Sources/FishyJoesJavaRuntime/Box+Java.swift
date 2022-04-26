@@ -1,6 +1,6 @@
+import FishyJoesCommonRuntime
 import Foundation
 import JNI
-import FishyJoesCommonRuntime
 
 extension Box {
     public static func fromJava(_ value: jobject?, env: Env) throws -> Box<T> {

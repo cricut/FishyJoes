@@ -1,5 +1,5 @@
-import XCTest
 @testable import FishyJoesCore
+import XCTest
 
 extension ExportAnnotation.SimpleParse: ExpressibleByStringLiteral {
     public init(stringLiteral: String) {

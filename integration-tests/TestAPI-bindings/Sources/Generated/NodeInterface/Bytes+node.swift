@@ -1,5 +1,6 @@
 // Generated using Sourcery 1.8.0 — https://github.com/krzysztofzablocki/Sourcery
 // DO NOT EDIT
+// swiftlint:disable superfluous_disable_command unused_closure_parameter syntactic_sugar
 import FishyJoesNodeRuntime
 import Foundation
 import TestAPI
@@ -28,35 +29,31 @@ extension Bytes: FishyJoesNodeRuntime.NodeConverter {
             name: "Bytes",
             properties: [
                 "echoBytes": (
-                    .method(
-                        { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "echoBytes", expectedArgumentCount: 1) { env in
-                                let result = try ArrayConverter<UInt8>.toNode(
-                                    Bytes.echo(
-                                        bytes: try env.argument(at: 0, converter: ArrayConverter<UInt8>.self)
-                                    ),
-                                    env: env.env
-                                )
-                                return result
-                            }
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoBytes", expectedArgumentCount: 1) { env in
+                            let result = try ArrayConverter<UInt8>.toNode(
+                                Bytes.echo(
+                                    bytes: try env.argument(at: 0, converter: ArrayConverter<UInt8>.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
                         }
-                    ),
+                    },
                     isStatic: true
                 ),
                 "echoData": (
-                    .method(
-                        { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "echoData", expectedArgumentCount: 1) { env in
-                                let result = try Foundation.Data.toNode(
-                                    Bytes.echo(
-                                        data: try env.argument(at: 0, converter: Foundation.Data.self)
-                                    ),
-                                    env: env.env
-                                )
-                                return result
-                            }
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoData", expectedArgumentCount: 1) { env in
+                            let result = try Foundation.Data.toNode(
+                                Bytes.echo(
+                                    data: try env.argument(at: 0, converter: Foundation.Data.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
                         }
-                    ),
+                    },
                     isStatic: true
                 ),
                 "bytes": (

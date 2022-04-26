@@ -1,5 +1,5 @@
-import JNI
 import FishyJoesCommonRuntime
+import JNI
 
 public struct Env {
     public var env: UnsafeMutablePointer<JNIEnv?>
@@ -50,7 +50,6 @@ public struct Env {
         #endif
     }
 }
-
 
 // MARK: JNI function wrappers
 extension Env {

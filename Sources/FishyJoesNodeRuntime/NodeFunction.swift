@@ -1,5 +1,5 @@
-import Foundation
 import FishyJoesCommonRuntime
+import Foundation
 
 protocol AnyFunction {
     static var cInvoke: NAPI.Callback { get }
@@ -91,7 +91,7 @@ extension AnyFunction {
     }
 }
 
-fileprivate func nodeCall(_ ref: NodeReference, _ args: [NAPI.Value], env: NAPI.Env) throws -> NAPI.Value {
+private func nodeCall(_ ref: NodeReference, _ args: [NAPI.Value], env: NAPI.Env) throws -> NAPI.Value {
     return try env.callFunction(env.getUndefined(), ref.value(env: env), args)
 }
 

@@ -17,11 +17,11 @@ public enum Structs {
             self.immutable = immutable
             self.mutable = mutable
         }
-        
+
         /// <!-- FishyJoes.export(create) -->
         public init() {}
     }
-    
+
     /// <!-- FishyJoes.exportReference(Structs.ReferenceStruct) -->
     public struct ReferenceStruct: Equatable {
         /// <!-- FishyJoes.export(immutable) -->

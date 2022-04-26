@@ -1,5 +1,6 @@
 // Generated using Sourcery 1.8.0 — https://github.com/krzysztofzablocki/Sourcery
 // DO NOT EDIT
+// swiftlint:disable superfluous_disable_command unused_closure_parameter syntactic_sugar
 import FishyJoesNodeRuntime
 import Foundation
 import TestAPI
@@ -28,19 +29,17 @@ extension Strings: FishyJoesNodeRuntime.NodeConverter {
             name: "Strings",
             properties: [
                 "echo": (
-                    .method(
-                        { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "echo", expectedArgumentCount: 1) { env in
-                                let result = try Swift.String.toNode(
-                                    Strings.echo(
-                                        try env.argument(at: 0, converter: Swift.String.self)
-                                    ),
-                                    env: env.env
-                                )
-                                return result
-                            }
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echo", expectedArgumentCount: 1) { env in
+                            let result = try Swift.String.toNode(
+                                Strings.echo(
+                                    try env.argument(at: 0, converter: Swift.String.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
                         }
-                    ),
+                    },
                     isStatic: true
                 ),
                 "simple": (

@@ -9,7 +9,7 @@ struct TranslatedPrimitive: TranslatedType {
     let jniType: JNIType
     let cSharpName: String
     let cSharpNamespace: String?
-    
+
     init(
         swift swiftName: BetterType.Name,
         typeNames: FishyJoesContext.TypeNames

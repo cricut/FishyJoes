@@ -84,6 +84,8 @@ jobs:
       GITHUB_USER: cricut-builduser
       SWIFT_WASM_URL: |-
         https://github.com/swiftwasm/swift/releases/download/swift-wasm-5.6.0-RELEASE/swift-wasm-5.6.0-RELEASE-ubuntu20.04_x86_64.tar.gz
+      SWIFTLINT_URL: |-
+        https://github.com/realm/SwiftLint/releases/download/0.47.1/swiftlint_linux.zip
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -118,6 +120,13 @@ jobs:
           curl -Lo swift-wasm.tgz $SWIFT_WASM_URL
           sudo mkdir -p /Library/Developer/Toolchains/swift-wasm-5.6.0-RELEASE.xctoolchain
           sudo tar -xf swift-wasm.tgz -C /Library/Developer/Toolchains/swift-wasm-5.6.0-RELEASE.xctoolchain --strip-components 1
+
+          curl -Lo swiftlint_linux.zip $SWIFT_WASM_URL
+          unzip swiftlint_linux.zip swiftlint
+
+      - name: SwiftLint
+        run: |
+          ./swiftlint lint --reporter github-actions-logging
 
       - name: Test from gradle
         shell: zsh {0}
