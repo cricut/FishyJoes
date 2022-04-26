@@ -121,7 +121,7 @@ jobs:
           sudo mkdir -p /Library/Developer/Toolchains/swift-wasm-5.6.0-RELEASE.xctoolchain
           sudo tar -xf swift-wasm.tgz -C /Library/Developer/Toolchains/swift-wasm-5.6.0-RELEASE.xctoolchain --strip-components 1
 
-          curl -Lo swiftlint_linux.zip $SWIFT_WASM_URL
+          curl -Lo swiftlint_linux.zip $SWIFTLINT_URL
           unzip swiftlint_linux.zip swiftlint
 
       - name: SwiftLint
