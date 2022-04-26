@@ -30,7 +30,7 @@ jobs:
 
       - name: swiftlint
         run: |
-          swiftlint lint --reporter github-actions-logging
+          swiftlint lint --strict --reporter github-actions-logging
 
       - name: Setup Node
         uses: actions/setup-node@v1
