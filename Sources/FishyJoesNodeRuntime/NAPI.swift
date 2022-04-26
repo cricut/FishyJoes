@@ -174,18 +174,21 @@ extension NAPI.Env {
         try check(napi_create_arraybuffer(ptr, byteLength, &data, &result.ptr))
         return (data, result)
     }
-    public func createBuffer(_ size: Int) throws -> (data: UnsafeMutableRawPointer?, result: NAPI.Value) {
-        var result = NAPI.Value()
-        var data: UnsafeMutableRawPointer?
-        try check(napi_create_buffer(ptr, size, &data, &result.ptr))
-        return (data, result)
-    }
-    public func createBufferCopy(_ length: Int, data: UnsafeRawPointer?) throws -> (data: UnsafeMutableRawPointer?, result: NAPI.Value) {
-        var result = NAPI.Value()
-        var result_data: UnsafeMutableRawPointer?
-        try check(napi_create_buffer_copy(ptr, length, data, &result_data, &result.ptr))
-        return (result_data, result)
-    }
+
+    // Currently unused. If needed, will need a wasm implementation
+    // public func createBuffer(_ size: Int) throws -> (data: UnsafeMutableRawPointer?, result: NAPI.Value) {
+    //     var result = NAPI.Value()
+    //     var data: UnsafeMutableRawPointer?
+    //     try check(napi_create_buffer(ptr, size, &data, &result.ptr))
+    //     return (data, result)
+    // }
+    // public func createBufferCopy(_ length: Int, data: UnsafeRawPointer?) throws -> (data: UnsafeMutableRawPointer?, result: NAPI.Value) {
+    //     var result = NAPI.Value()
+    //     var result_data: UnsafeMutableRawPointer?
+    //     try check(napi_create_buffer_copy(ptr, length, data, &result_data, &result.ptr))
+    //     return (result_data, result)
+    // }
+
     public func createDate(_ time: Double) throws -> NAPI.Value {
         var result = NAPI.Value()
         try check(napi_create_date(ptr, time, &result.ptr))
@@ -282,12 +285,15 @@ extension NAPI.Env {
         try check(napi_get_array_length(ptr, value.ptr, &result))
         return result
     }
-    public func getArraybufferInfo(_ arraybuffer: NAPI.Value) throws -> (data: UnsafeMutableRawPointer?, byteLength: Int) {
-        var data: UnsafeMutableRawPointer?
-        var byteLength: Int = 0
-        try check(napi_get_arraybuffer_info(ptr, arraybuffer.ptr, &data, &byteLength))
-        return (data, byteLength)
-    }
+
+    // Currently unused. If needed, will need a wasm implementation
+    // public func getArraybufferInfo(_ arraybuffer: NAPI.Value) throws -> (data: UnsafeMutableRawPointer?, byteLength: Int) {
+    //     var data: UnsafeMutableRawPointer?
+    //     var byteLength: Int = 0
+    //     try check(napi_get_arraybuffer_info(ptr, arraybuffer.ptr, &data, &byteLength))
+    //     return (data, byteLength)
+    // }
+
     public func getBufferInfo(_ value: NAPI.Value) throws -> (data: UnsafeMutableRawPointer?, length: Int) {
         var data: UnsafeMutableRawPointer?
         var length: Int = 0
@@ -656,11 +662,14 @@ extension NAPI.Env {
     // napi_close_callback_scope
 
     // MARK: Version management
-    public func getNodeVersion() throws -> UnsafePointer<napi_node_version>? {
-        var result: UnsafePointer<napi_node_version>?
-        try check(napi_get_node_version(ptr, &result))
-        return result
-    }
+
+    // Currently unused. If needed, will need a wasm implementation
+    // public func getNodeVersion() throws -> UnsafePointer<napi_node_version>? {
+    //     var result: UnsafePointer<napi_node_version>?
+    //     try check(napi_get_node_version(ptr, &result))
+    //     return result
+    // }
+
     public func getVersion() throws -> UInt32 {
         var result: UInt32 = 0
         try check(napi_get_version(ptr, &result))
