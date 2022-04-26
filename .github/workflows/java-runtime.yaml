@@ -184,12 +184,6 @@ jobs:
           mkdir -p kotlin-runtime/src/generated/resources/windows
           cp .build/windows-build/x86_64-unknown-windows-msvc/release/FishyJoesJavaRuntime.dll kotlin-runtime/src/generated/resources/windows
 
-      - name: Test FishyJoesJavaRuntime from gradle
-        shell: pwsh
-        run: |
-          cd kotlin-runtime
-          .\gradlew test
-
       - name: Upload library
         uses: actions/upload-artifact@v2
         with:
