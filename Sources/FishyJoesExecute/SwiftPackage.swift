@@ -15,9 +15,14 @@ struct SwiftPackage: Decodable {
 
 extension SwiftPackage.Dependency: Decodable {
     enum CodingKeys: String, CodingKey {
-        case scm, sourceControl, local, fileSystem
+        // Swift 5.5
+        case scm, local
+
+        // Swift 5.6
+        case sourceControl, fileSystem
     }
 
+    // Swift 5.6
     private enum LocationCodingKeys: String, CodingKey {
         case remote
     }
@@ -33,7 +38,7 @@ extension SwiftPackage.Dependency: Decodable {
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        if var scmListContainer = try? container.nestedUnkeyedContainer(forKey: .sourceControl) { // Swift 5.6
+        if var scmListContainer = try? container.nestedUnkeyedContainer(forKey: .sourceControl) {
             let scmContainer = try scmListContainer.nestedContainer(keyedBy: SCMCodingKeys.self)
             let identity = try scmContainer.decode(String.self, forKey: .identity)
 
@@ -41,7 +46,7 @@ extension SwiftPackage.Dependency: Decodable {
             var remoteContainer = try locationContainer.nestedUnkeyedContainer(forKey: .remote)
             let location = try remoteContainer.decode(URL.self)
             self = .scm(identity: identity, location: location)
-        } else if var scmListContainer = try? container.nestedUnkeyedContainer(forKey: .scm) { // Swift 5.5
+        } else if var scmListContainer = try? container.nestedUnkeyedContainer(forKey: .scm) {
             let scmContainer = try scmListContainer.nestedContainer(keyedBy: SCMCodingKeys.self)
             let identity = try scmContainer.decode(String.self, forKey: .identity)
             let location = try scmContainer.decode(URL.self, forKey: .location)
