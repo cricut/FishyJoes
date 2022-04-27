@@ -1,5 +1,5 @@
-import XCTest
 @testable import FishyJoesExecute
+import XCTest
 
 class SwiftPackageTests: XCTestCase {
     func testSwift5_5() throws {
