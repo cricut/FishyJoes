@@ -1,1 +1,0 @@
-CodeGen.main()

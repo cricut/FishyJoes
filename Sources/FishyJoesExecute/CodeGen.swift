@@ -17,7 +17,7 @@ let dylibExt: String = {
     #endif
 }()
 
-struct CodeGen: ParsableCommand {
+public struct CodeGen: ParsableCommand {
     @Flag(name: .shortAndLong, help: "suppress verbose output")
     var quiet = false
 
@@ -76,10 +76,12 @@ struct CodeGen: ParsableCommand {
 
     var config: FishyJoesConfig!
     var platforms: [Platform] = []
+
+    public init() {}
 }
 
 extension CodeGen {
-    mutating func validate() throws {
+    public mutating func validate() throws {
         ExternalCommand.verbose = !quiet
 
         config = try FishyJoesConfig.readFromFile()
@@ -105,12 +107,15 @@ extension CodeGen {
         }
     }
 
-    mutating func run() throws {
+    public mutating func run() throws {
         if buildStep.contains(.generate) {
             let packageJSON = try cmd("swift", "package", "dump-package").runData()
 
-            guard let packageInfo = try? JSONDecoder().decode(SwiftPackage.self, from: packageJSON) else {
-                fatalError("Couldn't parse swift package")
+            let packageInfo: SwiftPackage
+            do {
+                packageInfo = try JSONDecoder().decode(SwiftPackage.self, from: packageJSON)
+            } catch let error {
+                fatalError("Couldn't parse swift package: \(error)")
             }
             let translateeSources: String
             if let translateeDependency = packageInfo.dependencyMap[config.module.lowercased()] {
