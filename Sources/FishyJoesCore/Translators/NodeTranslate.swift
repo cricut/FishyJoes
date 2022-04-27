@@ -133,7 +133,7 @@ struct NodeTranslator: Translator {
 
     func outputProperties(methods: [Method], context: FishyJoesContext, fragment: SourceFragment) -> Bool {
         for method in methods {
-            fragment.outputBlock("\"\(method.exportAnnotation.name)\": (", closeWith: "),")  {
+            fragment.outputBlock("\"\(method.exportAnnotation.name)\": (", closeWith: "),") {
                 fragment.output(".method ", newLineTerminated: false)
                 output(method: method, context: context, fragment: fragment, newLineTerminated: false)
                 fragment.output(",")
