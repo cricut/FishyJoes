@@ -124,13 +124,6 @@ jobs:
           curl -Lo swiftlint_linux.zip $SWIFTLINT_URL
           unzip swiftlint_linux.zip swiftlint
 
-      - name: SwiftLint
-        run: |
-          set -euxo pipefail
-
-          export LD_LIBRARY_PATH=/usr/share/swift/usr/lib/swift/linux
-          ./swiftlint --reporter github-actions-logging
-
       - name: Test from gradle
         shell: zsh {0}
         run: |
