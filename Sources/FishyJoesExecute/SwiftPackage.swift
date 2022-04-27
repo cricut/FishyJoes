@@ -38,11 +38,8 @@ extension SwiftPackage.Dependency: Decodable {
             let identity = try scmContainer.decode(String.self, forKey: .identity)
 
             let locationContainer = try scmContainer.nestedContainer(keyedBy: LocationCodingKeys.self, forKey: .location)
-            let remote = try locationContainer.decode([URL].self, forKey: .remote)
-            guard let location = remote.first else {
-                let context = DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "remote array empty")
-                throw DecodingError.dataCorrupted(context)
-            }
+            var remoteContainer = try locationContainer.nestedUnkeyedContainer(forKey: .remote)
+            let location = try remoteContainer.decode(URL.self)
             self = .scm(identity: identity, location: location)
         } else if var scmListContainer = try? container.nestedUnkeyedContainer(forKey: .scm) { // Swift 5.5
             let scmContainer = try scmListContainer.nestedContainer(keyedBy: SCMCodingKeys.self)
