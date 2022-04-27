@@ -18,20 +18,20 @@ extension SwiftPackage.Dependency: Decodable {
         case scm, sourceControl, local, fileSystem
     }
 
+    private enum LocationCodingKeys: String, CodingKey {
+        case remote
+    }
+
+    private enum SCMCodingKeys: String, CodingKey {
+        case identity, location
+    }
+
+    private enum LocalCodingKeys: String, CodingKey {
+        case identity, path
+    }
+
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-
-        enum LocationCodingKeys: String, CodingKey {
-            case remote
-        }
-
-        enum SCMCodingKeys: String, CodingKey {
-            case identity, location
-        }
-
-        enum LocalCodingKeys: String, CodingKey {
-            case identity, path
-        }
 
         if var scmListContainer = try? container.nestedUnkeyedContainer(forKey: .sourceControl) { // Swift 5.6
             let scmContainer = try scmListContainer.nestedContainer(keyedBy: SCMCodingKeys.self)
