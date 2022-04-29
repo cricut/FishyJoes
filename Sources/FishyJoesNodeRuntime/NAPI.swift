@@ -25,7 +25,9 @@ extension NAPI.Env {
             let errorStr = "\(file):\(line): n-api error: \(message)"
 
             print(errorStr)
+            #if !os(WASI)
             Thread.callStackSymbols.forEach { print($0) }
+            #endif
 
             throw JSException(message: errorStr)
         }
