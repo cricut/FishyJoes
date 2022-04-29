@@ -9,9 +9,9 @@ enum Platform: Hashable {
 
     static let nativeMacSwiftBuild = try! cmd("xcrun", "-f", "swift-build").runString()
 
-    func swiftBuild(arguments: [String]) throws {
+    func swiftBuild(arguments: [String], debug: Bool) throws {
         var args = arguments
-        args.append(contentsOf: ["--configuration", "release"])
+        args.append(contentsOf: ["--configuration", debug ? "debug" : "release"])
         let path: String
         var env: [String: String] = ["SWIFT_PACKAGE_FORCE_DYNAMIC": "1"]
         switch self {
@@ -55,8 +55,8 @@ enum Platform: Hashable {
         try cmd(path, arguments: args, addEnv: env).run()
     }
 
-    func swiftBuild(_ arguments: String...) throws {
-        try swiftBuild(arguments: arguments)
+    func swiftBuild(_ arguments: String..., debug: Bool) throws {
+        try swiftBuild(arguments: arguments, debug: debug)
     }
 
     var platform: String {

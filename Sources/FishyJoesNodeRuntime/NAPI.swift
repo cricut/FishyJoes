@@ -21,7 +21,13 @@ extension NAPI.Env {
             var err: UnsafePointer<napi_extended_error_info>?
             napi_get_last_error_info(ptr, &err)
             let message = err.flatMap(\.pointee.error_message).map(String.init(cString:)) ?? "unknown error"
-            throw JSException(message: "\(file):\(line): n-api error: \(message)")
+
+            let errorStr = "\(file):\(line): n-api error: \(message)"
+
+            print(errorStr)
+            Thread.callStackSymbols.forEach { print($0) }
+
+            throw JSException(message: errorStr)
         }
     }
 
