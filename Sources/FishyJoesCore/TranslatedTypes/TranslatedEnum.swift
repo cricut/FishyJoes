@@ -113,11 +113,7 @@ struct TranslatedEnum: TranslatedType {
                     for enumCase in cases {
                         let className = "\(nodeName).\(upperCaseFirst(enumCase.name))"
 
-                        fragment.outputBlock("let isInstanceResult = try env.instanceof(") {
-                            fragment.output("value,")
-                            fragment.output("instanceData.constructor(for: \"\(className)\", env: env),")
-                        }
-                        fragment.outputBlock("if isInstanceResult {") {
+                        fragment.outputBlock("if try env.instanceof(value, instanceData.constructor(for: \"\(className)\", env: env)) {") {
                             func variable(for value: Value) -> String { return "_\(value.bindingName)" }
                             for value in enumCase.associatedValues {
                                 fragment.output("let \(variable(for: value)) = try env.getNamedProperty(value, \"\(value.bindingName)\")")
@@ -155,8 +151,7 @@ struct TranslatedEnum: TranslatedType {
                         fragment.outputBlock(caseStatement, closeWith: "") {
                             fragment.outputBlock("return try env.newInstance(") {
                                 fragment.output("instanceData.constructor(for: \"\(className)\", env: env),")
-                                fragment.output("\(enumCase.associatedValues.count),")
-                                fragment.outputBlock("[", closeWith: "],") {
+                                fragment.outputBlock("[") {
                                     for value in enumCase.associatedValues {
                                         let resolved = context.resolve(type: value.type)
                                         fragment.output("\(resolved.converterType.name).toNode(\(value.bindingName), env: env),")

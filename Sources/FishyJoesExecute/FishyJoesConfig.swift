@@ -5,7 +5,7 @@ import Yams
 struct FishyJoesConfig: Codable {
     let module: String
     let publishRepository: String?
-    let requiredModulePaths: [String]
+    let requiredModules: [String]
 
     static func readFromFile() throws -> FishyJoesConfig {
         guard let configData = try? cmd("cat", "fishy-joes.yaml").runString() else {
@@ -39,12 +39,12 @@ struct FishyJoesConfig: Codable {
             }
             return str
         }
-        let requiredModulePaths = try configDictionary["requiredModules"].map { obj -> [String] in
+        let requiredModules = try configDictionary["requiredModules"].map { obj -> [String] in
             guard let list = obj as? [String] else {
-                throw ValidationError("fishy-joes.yaml value for key `requiredModules` is not an array of file paths")
+                throw ValidationError("fishy-joes.yaml value for key `requiredModules` is not an array of module names")
             }
             return list
         }
-        return FishyJoesConfig(module: module, publishRepository: publishRepository, requiredModulePaths: requiredModulePaths ?? [])
+        return FishyJoesConfig(module: module, publishRepository: publishRepository, requiredModules: requiredModules ?? [])
     }
 }

@@ -190,6 +190,13 @@ struct NodeTranslator: Translator {
                 nodeTypeListFragment.output("return exports")
             }
         }
-        return [nodeTypeListFragment]
+
+        let exportFragment = SourceFragment(sourceryDestination: "file:NodeInterface/@_exported.swift")
+        exportFragment.output("@_exported import \(context.module.name)")
+        for dependency in context.module.dependencies {
+            exportFragment.output("@_exported import \(dependency)_NodeInterface")
+        }
+
+        return [nodeTypeListFragment, exportFragment]
     }
 }

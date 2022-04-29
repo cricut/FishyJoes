@@ -39,6 +39,9 @@ public struct CodeGen: ParsableCommand {
     @Flag(name: .long, inversion: .prefixedNo, help: "Additional wasm optimizations (takes some time)")
     var wasmOpt = true
 
+    @Flag(name: .long, help: "Build library in debug mode")
+    var debug = false
+
     @Option(help: "Used for debugging fishy-joes code generation")
     var sourceryDumpPath: String?
 
@@ -72,6 +75,7 @@ public struct CodeGen: ParsableCommand {
         case sourceryDumpPath
         case version
         case buildStep
+        case debug
     }
 
     var config: FishyJoesConfig!
@@ -129,6 +133,15 @@ extension CodeGen {
                 fatalError("Couldn't locate FishyJoes in Package.swift")
             }
 
+            var fishyJoesModuleFiles: [String] = []
+            for moduleName in config.requiredModules {
+                guard let dependencyURL = packageInfo.dependencyMap["\(moduleName.lowercased())-bindings"] else {
+                    fatalError("Couldn't locate \(moduleName.lowercased())-bindings in Package.swift, but it's required by fishyjoes.json")
+                }
+                let dependencyPath = (dependencyURL.scheme == nil ? dependencyURL.path : ".build/checkouts/\(config.module)") + "/Sources"
+                fishyJoesModuleFiles.append("\(dependencyPath)/Generated/\(moduleName).fishyjoesmodule")
+            }
+
             // MARK: Generate code
             try cmd("rm", "-rf", "Sources/Generated", "kotlin/src/generated").run()
             try cmd("mkdir", "-p",
@@ -155,7 +168,7 @@ extension CodeGen {
                     "--sources", translateeSources,
                     "--templates", ".build/debug/FishyJoes_FishyJoesExecutionHelper.bundle/FishyJoes.swifttemplate",
                     "--args", "module=\(config.module)",
-                    "--args", "requiredModules=\"\(try! JSONEncoder().encode(config.requiredModulePaths).base64EncodedString())\"",
+                    "--args", "requiredModules=\"\(try! JSONEncoder().encode(fishyJoesModuleFiles).base64EncodedString())\"",
                     "--args", "fishyJoesExecutable=.build/debug/🐟☕️",
                     "--output", "Sources/Generated"
                 ].compactMap { $0 },
@@ -172,13 +185,13 @@ extension CodeGen {
             for platform in platforms {
                 switch platform {
                 case .wasm:
-                    try platform.swiftBuild()
+                    try platform.swiftBuild(debug: debug)
                 case .node:
-                    try platform.swiftBuild("--product", "\(config.module)-node")
+                    try platform.swiftBuild("--product", "\(config.module)-node", debug: debug)
                 case .kotlinSystem, .kotlinAndroid:
-                    try platform.swiftBuild("--product", "\(config.module)-java")
+                    try platform.swiftBuild("--product", "\(config.module)-java", debug: debug)
                 case .cSharp:
-                    try platform.swiftBuild("--product", "\(config.module)-c-sharp")
+                    try platform.swiftBuild("--product", "\(config.module)-c-sharp", debug: debug)
                 }
             }
 
@@ -219,22 +232,31 @@ extension CodeGen {
                     ).output(overwritingFile: "\(platform.outputDir)/\(config.module).browser.js").run()
                 case .node:
                     try cmd("cp", "\(platform.buildDir)/libFishyJoesNodeRuntime.\(dylibExt)", "\(platform.outputDir)/").run()
-                    try cmd("cp", "\(platform.buildDir)/lib\(config.module).\(dylibExt)", "\(platform.outputDir)/").run()
-                    try cmd("cp", "\(platform.buildDir)/lib\(config.module)-node.\(dylibExt)", "\(platform.outputDir)/\(config.module).cjs.node").run()
+                    for dependency in config.requiredModules + [config.module] {
+                        try cmd("cp", "\(platform.buildDir)/lib\(dependency).\(dylibExt)", "\(platform.outputDir)/").run()
+
+                        // For node to load a library correctly, the file must be ".cjs.node" and not a symlink
+                        // But for the linker to find required libraries, they need their original names.
+                        // So we symlink `libModule-node.dylib` -> `module.cjs.node`
+                        let compiledLibName = "lib\(dependency)-node.\(dylibExt)"
+                        let nodeLibName = "\(dependency).cjs.node"
+                        try cmd("cp", "\(platform.buildDir)/\(compiledLibName)", "\(platform.outputDir)/\(nodeLibName)").run()
+                        try cmd("ln", "-s", nodeLibName, "\(platform.outputDir)/\(compiledLibName)").run()
+                    }
                     try cmd(
                         "cp",
                         "Sources/Generated/NodeInterface/\(config.module).d.ts",
                         platform.outputDir
                     ).run()
-                    try cmd(
-                        "echo",
-                        """
-                            import { createRequire } from 'module';
-                            const require = createRequire(import.meta.url);
-                            export const { \(config.module) } = require('./\(config.module).cjs')
-                            export default \(config.module)
-                            """
-                    ).output(overwritingFile: "\(platform.outputDir)/\(config.module).js").run()
+                    var moduleDotJS = [
+                        "import { createRequire } from 'module';",
+                        "const require = createRequire(import.meta.url);",
+                    ]
+                    for module in config.requiredModules + [config.module] {
+                        moduleDotJS.append("export const { \(module) } = require('./\(module).cjs');")
+                    }
+                    moduleDotJS.append("export default \(config.module);")
+                    try cmd("echo", moduleDotJS.joined(separator: "\n")).output(overwritingFile: "\(platform.outputDir)/\(config.module).js").run()
                 case .kotlinSystem:
                     try cmd("mkdir", "-p", platform.outputDir).run()
                     try cmd("cp", "\(platform.buildDir)/lib\(config.module).\(dylibExt)", platform.outputDir).run()
