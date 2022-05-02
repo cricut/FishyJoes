@@ -135,10 +135,11 @@ extension CodeGen {
 
             var fishyJoesModuleFiles: [String] = []
             for moduleName in config.requiredModules {
-                guard let dependencyURL = packageInfo.dependencyMap["\(moduleName.lowercased())-bindings"] else {
-                    fatalError("Couldn't locate \(moduleName.lowercased())-bindings in Package.swift, but it's required by fishyjoes.json")
+                let bindingModule = "\(moduleName)-bindings"
+                guard let dependencyURL = packageInfo.dependencyMap[bindingModule.lowercased()] else {
+                    fatalError("Couldn't locate \(bindingModule) in Package.swift, but it's required by fishyjoes.json")
                 }
-                let dependencyPath = (dependencyURL.scheme == nil ? dependencyURL.path : ".build/checkouts/\(config.module)") + "/Sources"
+                let dependencyPath = (dependencyURL.scheme == nil ? dependencyURL.path : ".build/checkouts/\(bindingModule)") + "/Sources"
                 fishyJoesModuleFiles.append("\(dependencyPath)/Generated/\(moduleName).fishyjoesmodule")
             }
 
