@@ -59,9 +59,9 @@
         "package": "Sourcery",
         "repositoryURL": "https://github.com/krzysztofzablocki/Sourcery",
         "state": {
-          "branch": "master",
-          "revision": "fa3b01b8a721113076122f19c8354a351b0dc4f8",
-          "version": null
+          "branch": null,
+          "revision": "9616fade78c7a79f257c7b9b401a71820b501101",
+          "version": "1.8.1"
         }
       },
       {
