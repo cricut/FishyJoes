@@ -30,13 +30,13 @@ export const init = async () => {
     args: [], env: {},
     bindings: {
       ...WASI.defaultBindings,
-      fs: wasmFs.fs
+      fs: wasmFs.fs,
     }
   });
   let napi = new NAPI();
   const importObject = {
     wasi_snapshot_preview1: wasi.wasiImport,
-    "napi": napi.exports,
+    ...napi.exports,
   };
 
   let wasmPromise

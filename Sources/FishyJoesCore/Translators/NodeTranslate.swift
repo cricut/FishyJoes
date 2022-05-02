@@ -194,7 +194,8 @@ struct NodeTranslator: Translator {
             nodeTypeListFragment.blankLine()
             for type in generatedTypes.sorted(by: { "\($0)" < "\($1)" }) {
                 // TODO: better
-                guard case .named = type else {
+                guard case .named = type,
+                      !(context.resolve(type: type) is ExternalTranslatedType) else {
                     continue
                 }
                 nodeTypeListFragment.output("try \(type.name).nodeSetup(env: env, module: module)")

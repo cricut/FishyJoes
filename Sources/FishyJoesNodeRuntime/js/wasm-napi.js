@@ -304,6 +304,23 @@ export class NAPI {
 
   makeExports() {
     return {
+      napi: this.makeNAPIExports(),
+      env: this.makeEnvExports(),
+    }
+  }
+
+  makeEnvExports() {
+    // Needed to support various C/C++ features
+    let tempRet0 = 0;
+    return {
+      setTempRet0: (value) => { tempRet0 = value; },
+      getTempRet0: () => tempRet0,
+      mprotect: () => 0,
+    };
+  }
+
+  makeNAPIExports() {
+    return {
       napi_get_last_error_info: (envPtr, extendedErrorInfoPtrPtr) => {
         this.writeU32(this.extendedErrorInfoPtr + 0, this.readU32(this.errorMessageTable + 4 * this.lastErrorCode)); // const char* error_message
         this.writeU32(this.extendedErrorInfoPtr + 4, 0); // void* engine_reserved
