@@ -47,8 +47,7 @@ let package = Package(
     dependencies: macOnly(
         [
             D.package(
-                url: "https://github.com/krzysztofzablocki/Sourcery", .branch("master")
-//                url: "https://github.com/krzysztofzablocki/Sourcery", .exact("1.8.0")
+                url: "https://github.com/krzysztofzablocki/Sourcery", .exact("1.8.1")
 //                 path: "../Sourcery"
             ),
         ]
