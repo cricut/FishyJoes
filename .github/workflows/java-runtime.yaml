@@ -15,7 +15,7 @@ on:
 jobs:
   build-test-kotlin-mac:
     name: "mac: Build and test java runtime"
-    runs-on: macOS-latest
+    runs-on: macOS-12
     env:
       JDK_VERSION: 11
       GRADLE_OPTS: -Dorg.gradle.daemon=false
