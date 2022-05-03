@@ -206,16 +206,17 @@ extension NAPI.Env {
         try check(napi_create_external(ptr, data, finalizeCb, finalize_hint, &result.ptr))
         return result
     }
-    public func createExternalArraybuffer(_ external_data: UnsafeMutableRawPointer?, byteLength: Int, finalizeCb: @escaping NAPI.Finalize, finalize_hint: UnsafeMutableRawPointer?) throws -> NAPI.Value {
-        var result = NAPI.Value()
-        try check(napi_create_external_arraybuffer(ptr, external_data, byteLength, finalizeCb, finalize_hint, &result.ptr))
-        return result
-    }
-    public func createExternalBuffer(length: Int, _ data: UnsafeMutableRawPointer?, _ finalizeCb: @escaping NAPI.Finalize, _ finalizeHint: UnsafeMutableRawPointer?) throws -> NAPI.Value {
-        var result = NAPI.Value()
-        try check(napi_create_external_buffer(ptr, length, data, finalizeCb, finalizeHint, &result.ptr))
-        return result
-    }
+    // Currently unused. If needed, will need a wasm implementation
+    // public func createExternalArraybuffer(_ external_data: UnsafeMutableRawPointer?, byteLength: Int, finalizeCb: @escaping NAPI.Finalize, finalize_hint: UnsafeMutableRawPointer?) throws -> NAPI.Value {
+    //     var result = NAPI.Value()
+    //     try check(napi_create_external_arraybuffer(ptr, external_data, byteLength, finalizeCb, finalize_hint, &result.ptr))
+    //     return result
+    // }
+    // public func createExternalBuffer(length: Int, _ data: UnsafeMutableRawPointer?, _ finalizeCb: @escaping NAPI.Finalize, _ finalizeHint: UnsafeMutableRawPointer?) throws -> NAPI.Value {
+    //     var result = NAPI.Value()
+    //     try check(napi_create_external_buffer(ptr, length, data, finalizeCb, finalizeHint, &result.ptr))
+    //     return result
+    // }
     public func createObject() throws -> NAPI.Value {
         var result = NAPI.Value()
         try check(napi_create_object(ptr, &result.ptr))
@@ -300,13 +301,12 @@ extension NAPI.Env {
     //     try check(napi_get_arraybuffer_info(ptr, arraybuffer.ptr, &data, &byteLength))
     //     return (data, byteLength)
     // }
-
-    public func getBufferInfo(_ value: NAPI.Value) throws -> (data: UnsafeMutableRawPointer?, length: Int) {
-        var data: UnsafeMutableRawPointer?
-        var length: Int = 0
-        try check(napi_get_buffer_info(ptr, value.ptr, &data, &length))
-        return (data, length)
-    }
+    // public func getBufferInfo(_ value: NAPI.Value) throws -> (data: UnsafeMutableRawPointer?, length: Int) {
+    //     var data: UnsafeMutableRawPointer?
+    //     var length: Int = 0
+    //     try check(napi_get_buffer_info(ptr, value.ptr, &data, &length))
+    //     return (data, length)
+    // }
     public func getPrototype(_ object: NAPI.Value) throws -> NAPI.Value {
         var result = NAPI.Value()
         try check(napi_get_prototype(ptr, object.ptr, &result.ptr))
@@ -729,9 +729,9 @@ extension NAPI.Env {
     // napi_unref_threadsafe_public function
 
     // MARK: Miscellaneous utilities
-    public func getModuleFileName() throws -> String? {
-        var result: UnsafePointer<CChar>?
-        try check(node_api_get_module_file_name(ptr, &result))
-        return result.map(String.init(cString:))
-    }
+    // public func getModuleFileName() throws -> String? {
+    //     var result: UnsafePointer<CChar>?
+    //     try check(node_api_get_module_file_name(ptr, &result))
+    //     return result.map(String.init(cString:))
+    // }
 }

@@ -2,9 +2,6 @@ import ArgumentParser
 import Foundation
 import swsh
 
-let wasmToolchain = "/Library/Developer/Toolchains/swift-wasm-5.6.0-RELEASE.xctoolchain"
-let androidToolchain = "/Library/Developer/Toolchains/swift-android-toolchain"
-
 let dylibExt: String = {
     #if os(macOS)
     "dylib"
