@@ -74,6 +74,14 @@ jobs:
           )
 
           for platformStr in $androidsStupidPlatforms; do
+              # From https://github.com/flowkey/swift-android-toolchain/pull/15/files
+              NDK_VERSION=$(cat /Library/Developer/Toolchains/swift-android-toolchain/NDK_VERSION)
+              ANDROID_NDK_PATH=/usr/local/ndk/$NDK_VERSION
+
+              # Ensure clang from ndk is used when invoking `clang` without specific path.
+              # Otherwise it executes `/usr/bin/clang` which references clang from xcode command line tools.
+              export PATH="$ANDROID_NDK_PATH/toolchains/llvm/prebuilt/darwin-x86_64/bin:$PATH"
+
               platform=(${(z)platformStr})
               /Library/Developer/Toolchains/swift-android-toolchain/usr/bin/swift-build-${platform[1]} --configuration release --product FishyJoesJavaRuntime
               installDir=$libdir/lib/${platform[3]}
