@@ -2,7 +2,7 @@
 
 # Status
 
-[![Build & test](https://github.com/cricut/FishyJoes/actions/workflows/mac.yml/badge.svg?branch=main)](https://github.com/cricut/FishyJoes/actions/workflows/mac.yml)
+[![Build & test](https://github.com/cricut/FishyJoes/actions/workflows/unit-tests.yaml/badge.svg?branch=main)](https://github.com/cricut/FishyJoes/actions/workflows/unit-tests.yaml)
 [![Integration tests](https://github.com/cricut/FishyJoes/actions/workflows/integration-tests.yaml/badge.svg?branch=main)](https://github.com/cricut/FishyJoes/actions/workflows/integration-tests.yaml)
 
 # Maintainer
