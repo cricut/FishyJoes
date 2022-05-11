@@ -6,11 +6,12 @@ import Foundation
 let env = ProcessInfo.processInfo.environment
 
 let wasmCompatibleOnly = env["WASM_ONLY"] == "1"
+let androidCompatibleOnly = env["ANDROID_COMPATIBLE_ONLY"] == "1"
 let javaHome = env["JAVA_HOME_11_X64"] ?? env["JAVA_HOME"] ?? "/usr/local/opt/openjdk@11"
 
-func macOnly<T>(_ things: @autoclosure () -> [T]) -> [T] {
+func macNativeOnly<T>(_ things: @autoclosure () -> [T]) -> [T] {
     #if os(macOS)
-    return wasmCompatibleOnly ? [] : things()
+    return (wasmCompatibleOnly || androidCompatibleOnly) ? [] : things()
     #else
     return []
     #endif
@@ -39,12 +40,12 @@ let package = Package(
             P.library(name: "FishyJoesCSharpRuntime", targets: ["FishyJoesCSharpRuntime"]),
             P.executable(name: "fishy-joes", targets: ["FishyJoesExecuteMain"]),
         ]
-    ) + macOnly(
+    ) + macNativeOnly(
         [
             P.executable(name: "🐟☕️", targets: ["FishyJoesExecutionHelper"]),
         ]
     ),
-    dependencies: macOnly(
+    dependencies: macNativeOnly(
         [
             D.package(
                 url: "https://github.com/krzysztofzablocki/Sourcery", .exact("1.8.1")
@@ -246,7 +247,7 @@ let package = Package(
                 ),
             ]
         ),
-    ] + macOnly(
+    ] + macNativeOnly(
         [
             T.target(
                 name: "FishyJoesCore",
