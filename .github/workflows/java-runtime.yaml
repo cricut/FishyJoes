@@ -72,6 +72,7 @@ jobs:
               "i686-linux-android i686-unknown-linux-android x86"
               "x86_64-linux-android x86_64-unknown-linux-android x86_64"
           )
+          export ANDROID_COMPATIBLE_ONLY=1
 
           for platformStr in $androidsStupidPlatforms; do
               # From https://github.com/flowkey/swift-android-toolchain/pull/15/files
