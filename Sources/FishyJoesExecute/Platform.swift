@@ -39,6 +39,7 @@ enum Platform: Hashable {
             #endif
         case .kotlinAndroid(.arm):
             path = "\(androidToolchain)/usr/bin/swift-build-arm-linux-androideabi"
+            env["ANDROID_COMPATIBLE_ONLY"] = "1"
             args.append(
                 contentsOf: [
                     "--build-path", "./.build/android-build",
@@ -46,6 +47,7 @@ enum Platform: Hashable {
             )
         case let .kotlinAndroid(arch):
             path = "\(androidToolchain)/usr/bin/swift-build-\(arch.rawValue)-linux-android"
+            env["ANDROID_COMPATIBLE_ONLY"] = "1"
             args.append(
                 contentsOf: [
                     "--build-path", "./.build/android-build",
