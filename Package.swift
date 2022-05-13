@@ -295,7 +295,7 @@ let package = Package(
                 ]
             ),
         ]
-    ) + (androidCompatibleOnly ? [] : [
+    ) + (androidCompatibleOnly || wasmCompatibleOnly ? [] : [
         T.testTarget(
             name: "NAPITests",
             dependencies: [
