@@ -294,13 +294,14 @@ let package = Package(
                     .product(name: "Yams", package: "Yams"),
                 ]
             ),
-            T.testTarget(
-                name: "NAPITests",
-                dependencies: [
-                    .product(name: "swsh", package: "swsh"),
-                ],
-                exclude: ["node-tests"]
-            ),
         ]
-    )
+    ) + (androidCompatibleOnly ? [] : [
+        T.testTarget(
+            name: "NAPITests",
+            dependencies: [
+                .product(name: "swsh", package: "swsh"),
+            ],
+            exclude: ["node-tests"]
+        ),
+    ])
 )
