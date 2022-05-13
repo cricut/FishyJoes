@@ -12,6 +12,10 @@ on:
   release:
     types: [published]
 
+concurrency:
+  group: build-${{ github.event.pull_request.number || github.ref }}-${{ github.workflow }}
+  cancel-in-progress: true
+
 jobs:
   build-test-kotlin-mac:
     name: "mac: Build and test java runtime"
