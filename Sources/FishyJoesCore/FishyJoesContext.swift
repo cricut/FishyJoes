@@ -8,6 +8,7 @@ public class FishyJoesContext {
     var typeCache: [BetterType: TranslatedType] = [:]
     var fileHeaders: [String: Set<String>] = [:]
     var fileFooters: [String: Set<String>] = [:]
+    var resolveDebugContext = ""
 
     var tsAnnotations: TypeScriptAnnotations
     var kotlinClasses: [KotlinClass] = []
@@ -77,7 +78,11 @@ public class FishyJoesContext {
         }
 
         // Collect type information before starting translation
-        for translatedType in templateContext.types.all.compactMap(translate(typeDefinition:)) {
+        let translatedTypes = templateContext.types.all.compactMap { type -> TranslatedType? in
+            resolveDebugContext = "Translating type \(type.name)"
+            return translate(typeDefinition: type)
+        }
+        for translatedType in translatedTypes {
             let name = translatedType.sourceType
             precondition(typeCache[name] == nil, "duplicate definitions found for \(name)")
             typeCache[name] = translatedType
@@ -96,10 +101,12 @@ public class FishyJoesContext {
                 if seenMethods.contains(method) {
                     continue
                 }
+                resolveDebugContext = "Translating method \(type.name).\(method.name)"
                 seenMethods.insert(method)
                 collectedFragments.append(contentsOf: kotlinTranslator.translate(method: method, context: self))
             }
             for variable in type.rawVariables {
+                resolveDebugContext = "Translating variable \(type.name).\(variable.name)"
                 guard variable.exportAnnotation != nil else { continue }
                 collectedFragments.append(contentsOf: kotlinTranslator.translate(variable: variable, context: self))
             }
@@ -112,13 +119,17 @@ public class FishyJoesContext {
         var generatedTypes = Set<BetterType>()
         while generatedTypes != Set(typeCache.keys) {
             for type in typeCache.sorted(by: { "\($0.key)" < "\($1.key)" }) {
+                resolveDebugContext = "generating definition code for \(type.key.name)"
                 guard !generatedTypes.contains(type.key) else { continue }
                 collectedFragments.append(contentsOf: type.value.definitionFragments(in: self))
                 generatedTypes.insert(type.key)
             }
         }
         collectedFragments.append(
-            contentsOf: translators.flatMap { $0.setupFragments(context: self, generatedTypes: generatedTypes) }
+            contentsOf: translators.flatMap { translator -> [SourceFragment] in
+                resolveDebugContext = "generating setup code for \(type(of: translator))"
+                return translator.setupFragments(context: self, generatedTypes: generatedTypes)
+            }
         )
 
         let headerFragments = fileHeaders.keys.map { fileName -> SourceFragment in
@@ -258,7 +269,13 @@ public class FishyJoesContext {
                     // It's a hack.
                     return TranslatedPrimitive(swift: "Int", c: "int", node: "number", jni: .long, cSharp: "int")
                 } else {
-                    fatalErr("Don't know how to translate type `\(name)`. Maybe annotate it with `sourcery:export(...)`?")
+                    fatalErr(
+                        """
+                            Don't know how to translate type `\(name)`.
+                            Maybe annotate it with `sourcery:export(...)`?
+                            context: \(resolveDebugContext)
+                            """
+                    )
                 }
             case .void:
                 return TranslatedVoid()
@@ -277,12 +294,22 @@ public class FishyJoesContext {
                 case ("Result", 2):
                     return TranslatedResult(success: recur(args[0]), failure: recur(args[1]))
                 default:
-                    fatalErr("TODO: resolve(type: \(type))")
+                    fatalErr(
+                        """
+                            TODO: resolve(type: \(type))
+                            context: \(resolveDebugContext)
+                            """
+                    )
                 }
             case .function(let parameters, let returnType):
                 return TranslatedFunction(parameters: parameters.map(recur), returnType: recur(returnType))
             default:
-                fatalErr("TODO: resolve(type: \(type))")
+                fatalErr(
+                    """
+                        TODO: resolve(type: \(type))
+                        context: \(resolveDebugContext)
+                        """
+                )
             }
         }()
         if !dontCache {

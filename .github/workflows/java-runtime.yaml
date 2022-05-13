@@ -12,6 +12,10 @@ on:
   release:
     types: [published]
 
+concurrency:
+  group: build-${{ github.event.pull_request.number || github.ref }}-${{ github.workflow }}
+  cancel-in-progress: true
+
 jobs:
   build-test-kotlin-mac:
     name: "mac: Build and test java runtime"
@@ -22,7 +26,7 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
       GITHUB_USER: cricut-builduser
       SWIFT_ANDROID_URL: |-
-        https://github.com/vgorloff/swift-everywhere-toolchain/releases/download/1.0.73/swift-android-toolchain.tar.gz
+        https://github.com/vgorloff/swift-everywhere-toolchain/releases/download/1.0.78/swift-android-toolchain.tar.gz
 
     steps:
       - name: Checkout
@@ -42,7 +46,7 @@ jobs:
           sudo mkdir -p /Library/Developer/Toolchains
           sudo tar -xf swift-android-toolchain.tar.gz -C /Library/Developer/Toolchains/
 
-          NDK_VERSION=$(cat /Library/Developer/Toolchains/swift-android-toolchain/NDK_VERSION)
+          NDK_VERSION=$(cat /Library/Developer/Toolchains/swift-android-toolchain/NDK_VERSION || echo 21.3.6528147)
 
           ~/Library/Android/sdk/tools/bin/sdkmanager "ndk;$NDK_VERSION" >/dev/null 2>&1
           sudo mkdir -p /usr/local/ndk
@@ -66,29 +70,8 @@ jobs:
           swift build --configuration release --product FishyJoesJavaRuntime
           cp .build/release/libFishyJoesJavaRuntime.dylib $libdir/mac
 
-          androidsStupidPlatforms=(
-              "aarch64-linux-android aarch64-unknown-linux-android arm64-v8a"
-              "arm-linux-androideabi armv7-unknown-linux-android armeabi-v7a"
-              "i686-linux-android i686-unknown-linux-android x86"
-              "x86_64-linux-android x86_64-unknown-linux-android x86_64"
-          )
-          export ANDROID_COMPATIBLE_ONLY=1
+          ./scripts/compile-android-runtime.sh
 
-          for platformStr in $androidsStupidPlatforms; do
-              # From https://github.com/flowkey/swift-android-toolchain/pull/15/files
-              NDK_VERSION=$(cat /Library/Developer/Toolchains/swift-android-toolchain/NDK_VERSION)
-              ANDROID_NDK_PATH=/usr/local/ndk/$NDK_VERSION
-
-              # Ensure clang from ndk is used when invoking `clang` without specific path.
-              # Otherwise it executes `/usr/bin/clang` which references clang from xcode command line tools.
-              export PATH="$ANDROID_NDK_PATH/toolchains/llvm/prebuilt/darwin-x86_64/bin:$PATH"
-
-              platform=(${(z)platformStr})
-              /Library/Developer/Toolchains/swift-android-toolchain/usr/bin/swift-build-${platform[1]} --configuration release --product FishyJoesJavaRuntime
-              installDir=$libdir/lib/${platform[3]}
-              mkdir -p $installDir/
-              cp .build/${platform[2]}/release/libFishyJoesJavaRuntime.so $installDir/
-          done
       - name: Test FishyJoesJavaRuntime from gradle
         shell: zsh {0}
         run: |
