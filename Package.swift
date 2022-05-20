@@ -39,6 +39,7 @@ let package = Package(
             P.library(name: "JavaRuntimeTestHarness", type: .dynamic, targets: ["JavaRuntimeTestHarness"]),
             P.library(name: "FishyJoesCSharpRuntime", targets: ["FishyJoesCSharpRuntime"]),
             P.executable(name: "fishy-joes", targets: ["FishyJoesExecuteMain"]),
+            // P.executable(name: "fishy-joes-wasm-link", targets: ["FishyJoesWasmLinkExecute"]),
         ]
     ) + macNativeOnly(
         [
@@ -294,6 +295,19 @@ let package = Package(
                     .product(name: "Yams", package: "Yams"),
                 ]
             ),
+            // T.target(
+            //     name: "FishyJoesWasmLinkExecute",
+            //     dependencies: [
+            //         "FishyJoesWasmLink",
+            //         .product(name: "ArgumentParser", package: "swift-argument-parser"),
+            //     ]
+            // ),
+            // T.target(
+            //     name: "FishyJoesWasmLink",
+            //     dependencies: [
+            //         .product(name: "swsh", package: "swsh"),
+            //     ]
+            // ),
         ]
     ) + (androidCompatibleOnly || wasmCompatibleOnly ? [] : [
         T.testTarget(

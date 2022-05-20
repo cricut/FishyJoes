@@ -171,24 +171,35 @@ struct NodeTranslator: Translator {
             additionalImports: ["Foundation", "FishyJoesNodeRuntime", "NodeAPI"]
         )
 
+        // This function is defined under 2 names: the standard "napi_register_module_v1", and a unique, module-qualified name.
+        // To conform to the interface defined by NAPI, the standard name is needed.
+        // To statically link 2 or more FishyJoes modules together (WASM currently does this) the unique name is needed.
+        // Then, the standard name must be redefined to call each of the unique names of the linked modules.
+        nodeTypeListFragment.output("#if !os(WASI)")
         nodeTypeListFragment.output("@_cdecl(\"napi_register_module_v1\")")
         nodeTypeListFragment.outputBlock("public func napi_register_module_v1(env: napi_env, exports: napi_value) -> napi_value? {") {
             nodeTypeListFragment.output("let env = NAPI.Env(ptr: env)")
             nodeTypeListFragment.output("let exports = NAPI.Value(ptr: exports)")
             nodeTypeListFragment.outputBlock("return FishyJoesNodeRuntime.rethrowToNode(env: env) {") {
-                nodeTypeListFragment.output("let module = try env.createObject()")
-                nodeTypeListFragment.output("try env.setNamedProperty(exports, \"\(context.module)\", module)")
-                nodeTypeListFragment.output("try env.setNamedProperty(exports, \"default\", module)")
-                nodeTypeListFragment.blankLine()
-                for type in generatedTypes.sorted(by: { "\($0)" < "\($1)" }) {
-                    // TODO: better
-                    guard case .named = type else {
-                        continue
-                    }
-                    nodeTypeListFragment.output("try \(type.name).nodeSetup(env: env, module: module)")
-                }
-                nodeTypeListFragment.output("return exports")
+                nodeTypeListFragment.output("try registerModule\(context.module)(env: env, exports: exports)")
             }
+        }
+        nodeTypeListFragment.output("#endif")
+        nodeTypeListFragment.blankLine()
+
+        nodeTypeListFragment.outputBlock("public func registerModule\(context.module)(env: NAPI.Env, exports: NAPI.Value) throws -> NAPI.Value {") {
+            nodeTypeListFragment.output("let module = try env.createObject()")
+            nodeTypeListFragment.output("try env.setNamedProperty(exports, \"\(context.module)\", module)")
+            nodeTypeListFragment.output("try env.setNamedProperty(exports, \"default\", module)")
+            nodeTypeListFragment.blankLine()
+            for type in generatedTypes.sorted(by: { "\($0)" < "\($1)" }) {
+                // TODO: better
+                guard case .named = type else {
+                    continue
+                }
+                nodeTypeListFragment.output("try \(type.name).nodeSetup(env: env, module: module)")
+            }
+            nodeTypeListFragment.output("return exports")
         }
 
         let exportFragment = SourceFragment(sourceryDestination: "file:NodeInterface/@_exported.swift")
