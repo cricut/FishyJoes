@@ -35,3 +35,12 @@ extension Array {
         (self[safe: 0], self[safe: 1], self[safe: 2], self[safe: 3])
     }
 }
+
+extension Result where Failure == Never {
+    var neverFails: Success {
+        switch self {
+        case .success(let success):
+            return success
+        }
+    }
+}

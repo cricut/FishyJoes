@@ -16,11 +16,11 @@ extension ExternalTranslatedType: TranslatedType {
 }
 
 extension TranslatedType {
-    var asExternal: ExternalTranslatedType {
+    func asExternal(in module: Module) -> ExternalTranslatedType {
         ExternalTranslatedType(
             sourceType: sourceType,
             converterType: converterType,
-            nodeName: nodeName,
+            nodeName: "\(module.name).\(nodeName)",
             kotlinName: kotlinName,
             kotlinPackage: kotlinPackage,
             cSharpName: cSharpName,

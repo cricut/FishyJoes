@@ -218,14 +218,17 @@ extension CodeGen {
                         "Sources/Generated/NodeInterface/\(config.module).d.ts",
                         platform.outputDir
                     ).run()
+                    let dependencySplat = config.requiredModules.map { "\($0), " }.joined()
                     try cmd(
                         "sed",
                         "-e", "s/__MODULE_NAME__/\(config.module)/g",
+                        "-e", "s/__MODULE_DEPENDENCIES__/\(dependencySplat)/g",
                         "\(platform.buildDir(debug: debug))/FishyJoes_FishyJoesNodeRuntime.resources/js/__MODULE_NAME__.js"
                     ).output(overwritingFile: "\(platform.outputDir)/\(config.module).js").run()
                     try cmd(
                         "sed",
                         "-e", "s/__MODULE_NAME__/\(config.module)/g",
+                        "-e", "s/__MODULE_DEPENDENCIES__/\(dependencySplat)/g",
                         "\(platform.buildDir(debug: debug))/FishyJoes_FishyJoesNodeRuntime.resources/js/__MODULE_NAME__.browser.js"
                     ).output(overwritingFile: "\(platform.outputDir)/\(config.module).browser.js").run()
                 case .node:
