@@ -7,7 +7,7 @@ import { WASI } from "@wasmer/wasi";
 import { WasmFs } from "@wasmer/wasmfs";
 import { NAPI } from "./wasm-napi.js";
 
-let __MODULE_NAME__;
+let __MODULE_EXPORTS__;
 
 const init = async () => {
   const wasmFs = new WasmFs();
@@ -43,7 +43,7 @@ const init = async () => {
   let napi = new NAPI();
   const importObject = {
     wasi_snapshot_preview1: wasi.wasiImport,
-    "napi": napi.exports,
+    ...napi.exports,
   };
 
   const response = await fetch("__MODULE_NAME__.wasm");
@@ -53,8 +53,8 @@ const init = async () => {
   console.log(instance);
   wasi.start(instance);
   const library = napi.init(instance);
-  __MODULE_NAME__ = library.default;
-  return __MODULE_NAME__;
+  { __MODULE_NAME__, __MODULE_DEPENDENCIES__} = library;
+  return library;
 };
 
-export { init, __MODULE_NAME__ };
+export { init, __MODULE_NAME__, __MODULE_DEPENDENCIES__};

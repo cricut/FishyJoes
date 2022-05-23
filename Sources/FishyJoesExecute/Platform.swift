@@ -122,19 +122,20 @@ enum Platform: Hashable {
         case .cSharp: return "A C# wrapper for \(config.module)"
         }
     }
-    var buildDir: String {
+    func buildDir(debug: Bool) -> String {
+        let configuration = debug ? "debug" : "release"
         switch self {
-        case .wasm: return ".build/wasm-build/wasm32-unknown-wasi/release"
+        case .wasm: return ".build/wasm-build/wasm32-unknown-wasi/\(configuration)"
         case .node, .kotlinSystem:
             #if os(macOS)
-            return ".build/x86_64-apple-macosx/release"
+            return ".build/x86_64-apple-macosx/\(configuration)"
             #elseif os(Linux)
-            return ".build/x86_64-unknown-linux-gnu/release"
+            return ".build/x86_64-unknown-linux-gnu/\(configuration)"
             #else
             fatalError("unknown host OS")
             #endif
         case .kotlinAndroid(let arch):
-            return ".build/android-build/\(arch.triple)/release"
+            return ".build/android-build/\(arch.triple)/\(configuration)"
         case .cSharp:
             var cSharpPlatformBuildDirectory: String {
                 #if os(macOS)
@@ -147,7 +148,7 @@ enum Platform: Hashable {
                 fatalError("unknown host OS")
                 #endif
             }
-            return ".build/\(cSharpPlatformBuildDirectory)/release"
+            return ".build/\(cSharpPlatformBuildDirectory)/\(configuration)"
         }
     }
     var isTs: Bool {

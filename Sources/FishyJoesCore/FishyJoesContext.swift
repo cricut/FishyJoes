@@ -47,12 +47,8 @@ public class FishyJoesContext {
         )
         self.requiredModulePaths = requiredModulePaths
         self.tsAnnotations = TypeScriptAnnotations(
-            rootNamespace: .init(
-                name: module,
-                typealiases: [
-                    .init(documentation: [], name: "Optional<T>", value: .union([.named("T"), .named("undefined")])),
-                ]
-            )
+            rootNamespaces: [.init(name: module, typealiases: [])],
+            defaultNamespace: module
         )
     }
 
@@ -69,12 +65,16 @@ public class FishyJoesContext {
 
         // Import any required FishyJoes modules
         for path in requiredModulePaths {
-            guard let moduleTypes = try? JSONDecoder().decode([ExternalTranslatedType].self, from: Data(contentsOf: URL(fileURLWithPath: path))) else {
-                fatalErr("error reading fishy joes module file at \(path)")
-            }
-            for translatedType in moduleTypes {
+            let moduleInfo = Result {
+                try JSONDecoder().decode(ModuleInfo.self, from: Data(contentsOf: URL(fileURLWithPath: path)))
+            }.mapError { error in
+                fatalErr("error reading fishy joes module file at \(path):\n\(error)")
+            }.neverFails
+
+            for translatedType in moduleInfo.types {
                 typeCache[translatedType.sourceType] = translatedType
             }
+            tsAnnotations.rootNamespaces.append(contentsOf: moduleInfo.typeScriptAnnotations.rootNamespaces)
         }
 
         // Collect type information before starting translation
@@ -86,13 +86,8 @@ public class FishyJoesContext {
             let name = translatedType.sourceType
             precondition(typeCache[name] == nil, "duplicate definitions found for \(name)")
             typeCache[name] = translatedType
-            moduleDefinedTypes.append(translatedType.asExternal)
+            moduleDefinedTypes.append(translatedType.asExternal(in: module))
         }
-        let moduleInfoFragment = SourceFragment(sourceryDestination: "file:\(module).fishyjoesmodule")
-        collectedFragments.append(moduleInfoFragment)
-        let encoder = JSONEncoder()
-        encoder.outputFormatting = [.prettyPrinted, .sortedKeys, .withoutEscapingSlashes]
-        moduleInfoFragment.output(String(data: try! encoder.encode(moduleDefinedTypes), encoding: .utf8)!)
 
         // Translate
         var seenMethods: Set<Method> = []
@@ -158,6 +153,17 @@ public class FishyJoesContext {
                 in: &kotlinClasses
             )
         )
+
+        // Output moduleInfo for FishyJoes packages that depend on this one
+        let moduleInfoFragment = SourceFragment(sourceryDestination: "file:\(module).fishyjoesmodule")
+        let moduleInfo = ModuleInfo(
+            types: moduleDefinedTypes,
+            typeScriptAnnotations: tsAnnotations
+        )
+        allFragments.append(moduleInfoFragment)
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = [.prettyPrinted, .sortedKeys, .withoutEscapingSlashes]
+        moduleInfoFragment.output(String(data: try! encoder.encode(moduleInfo), encoding: .utf8)!)
 
         return allFragments.map(\.contents).joined()
     }
@@ -321,7 +327,7 @@ public class FishyJoesContext {
     func ts(method: Method) -> TypeScriptAnnotations.Method? {
         let exportAnnotation = method.exportAnnotation
         var omitParameters = Set(exportAnnotation.omitParameters)
-        var parameters: [(labelComment: String?, name: String, TypeScriptAnnotations.TSType)] = []
+        var parameters: [TypeScriptAnnotations.Method.Parameter] = []
         for parameter in method.parameters {
             if omitParameters.contains(parameter.name) {
                 precondition(parameter.defaultValue != nil, "Can't omit non-default parameter")
@@ -333,7 +339,7 @@ public class FishyJoesContext {
             if let swiftLabel = parameter.label, swiftLabel != parameter.name {
                 label = swiftLabel
             }
-            parameters.append((label, parameter.name, resolved.nodeType))
+            parameters.append(.init(labelComment: label, name: parameter.name, type: resolved.nodeType))
         }
 
         return TypeScriptAnnotations.Method(

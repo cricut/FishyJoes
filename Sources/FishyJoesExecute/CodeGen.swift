@@ -203,42 +203,45 @@ extension CodeGen {
                 switch platform {
                 case .wasm:
                     if wasmOpt, cmd("wasm-opt", "--version").runBool() {
-                        try cmd("wasm-opt", "\(platform.buildDir)/DummyMain.wasm", "-O1", "-o", "\(platform.outputDir)/\(config.module).wasm").run()
+                        try cmd("wasm-opt", "\(platform.buildDir(debug: debug))/DummyMain.wasm", "-O1", "-o", "\(platform.outputDir)/\(config.module).wasm").run()
                     } else {
                         if wasmOpt {
                             print("WARNING: wasm-opt is not installed, resulting build will be bigger and possibly slower")
                         } else {
                             print("skipping wasm-opt")
                         }
-                        try cmd("cp", "\(platform.buildDir)/DummyMain.wasm", "\(platform.outputDir)/\(config.module).wasm").run()
+                        try cmd("cp", "\(platform.buildDir(debug: debug))/DummyMain.wasm", "\(platform.outputDir)/\(config.module).wasm").run()
                     }
                     try cmd(
                         "cp",
-                        "\(platform.buildDir)/FishyJoes_FishyJoesNodeRuntime.resources/js/wasm-napi.js",
+                        "\(platform.buildDir(debug: debug))/FishyJoes_FishyJoesNodeRuntime.resources/js/wasm-napi.js",
                         "Sources/Generated/NodeInterface/\(config.module).d.ts",
                         platform.outputDir
                     ).run()
+                    let dependencySplat = config.requiredModules.map { "\($0), " }.joined()
                     try cmd(
                         "sed",
                         "-e", "s/__MODULE_NAME__/\(config.module)/g",
-                        "\(platform.buildDir)/FishyJoes_FishyJoesNodeRuntime.resources/js/__MODULE_NAME__.js"
+                        "-e", "s/__MODULE_DEPENDENCIES__/\(dependencySplat)/g",
+                        "\(platform.buildDir(debug: debug))/FishyJoes_FishyJoesNodeRuntime.resources/js/__MODULE_NAME__.js"
                     ).output(overwritingFile: "\(platform.outputDir)/\(config.module).js").run()
                     try cmd(
                         "sed",
                         "-e", "s/__MODULE_NAME__/\(config.module)/g",
-                        "\(platform.buildDir)/FishyJoes_FishyJoesNodeRuntime.resources/js/__MODULE_NAME__.browser.js"
+                        "-e", "s/__MODULE_DEPENDENCIES__/\(dependencySplat)/g",
+                        "\(platform.buildDir(debug: debug))/FishyJoes_FishyJoesNodeRuntime.resources/js/__MODULE_NAME__.browser.js"
                     ).output(overwritingFile: "\(platform.outputDir)/\(config.module).browser.js").run()
                 case .node:
-                    try cmd("cp", "\(platform.buildDir)/libFishyJoesNodeRuntime.\(dylibExt)", "\(platform.outputDir)/").run()
+                    try cmd("cp", "\(platform.buildDir(debug: debug))/libFishyJoesNodeRuntime.\(dylibExt)", "\(platform.outputDir)/").run()
                     for dependency in config.requiredModules + [config.module] {
-                        try cmd("cp", "\(platform.buildDir)/lib\(dependency).\(dylibExt)", "\(platform.outputDir)/").run()
+                        try cmd("cp", "\(platform.buildDir(debug: debug))/lib\(dependency).\(dylibExt)", "\(platform.outputDir)/").run()
 
                         // For node to load a library correctly, the file must be ".cjs.node" and not a symlink
                         // But for the linker to find required libraries, they need their original names.
                         // So we symlink `libModule-node.dylib` -> `module.cjs.node`
                         let compiledLibName = "lib\(dependency)-node.\(dylibExt)"
                         let nodeLibName = "\(dependency).cjs.node"
-                        try cmd("cp", "\(platform.buildDir)/\(compiledLibName)", "\(platform.outputDir)/\(nodeLibName)").run()
+                        try cmd("cp", "\(platform.buildDir(debug: debug))/\(compiledLibName)", "\(platform.outputDir)/\(nodeLibName)").run()
                         try cmd("ln", "-s", nodeLibName, "\(platform.outputDir)/\(compiledLibName)").run()
                     }
                     try cmd(
@@ -257,15 +260,15 @@ extension CodeGen {
                     try cmd("echo", moduleDotJS.joined(separator: "\n")).output(overwritingFile: "\(platform.outputDir)/\(config.module).js").run()
                 case .kotlinSystem:
                     try cmd("mkdir", "-p", platform.outputDir).run()
-                    try cmd("cp", "\(platform.buildDir)/lib\(config.module).\(dylibExt)", platform.outputDir).run()
-                    try cmd("cp", "\(platform.buildDir)/lib\(config.module)-java.\(dylibExt)", platform.outputDir).run()
+                    try cmd("cp", "\(platform.buildDir(debug: debug))/lib\(config.module).\(dylibExt)", platform.outputDir).run()
+                    try cmd("cp", "\(platform.buildDir(debug: debug))/lib\(config.module)-java.\(dylibExt)", platform.outputDir).run()
                 case .kotlinAndroid:
                     try cmd("mkdir", "-p", platform.outputDir).run()
-                    try cmd("cp", "\(platform.buildDir)/lib\(config.module).so", platform.outputDir).run()
-                    try cmd("cp", "\(platform.buildDir)/lib\(config.module)-java.so", platform.outputDir).run()
+                    try cmd("cp", "\(platform.buildDir(debug: debug))/lib\(config.module).so", platform.outputDir).run()
+                    try cmd("cp", "\(platform.buildDir(debug: debug))/lib\(config.module)-java.so", platform.outputDir).run()
                 case .cSharp:
                     try cmd("mkdir", "-p", platform.outputDir).run()
-                    try cmd("cp", "\(platform.buildDir)/lib\(config.module)-c-sharp.\(dylibExt)", platform.outputDir).run()
+                    try cmd("cp", "\(platform.buildDir(debug: debug))/lib\(config.module)-c-sharp.\(dylibExt)", platform.outputDir).run()
                 }
             }
             if platforms.contains(.kotlinSystem) {

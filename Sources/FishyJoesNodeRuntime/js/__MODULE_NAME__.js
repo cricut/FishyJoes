@@ -30,13 +30,13 @@ export const init = async () => {
     args: [], env: {},
     bindings: {
       ...WASI.defaultBindings,
-      fs: wasmFs.fs
+      fs: wasmFs.fs,
     }
   });
   let napi = new NAPI();
   const importObject = {
     wasi_snapshot_preview1: wasi.wasiImport,
-    "napi": napi.exports,
+    ...napi.exports,
   };
 
   let wasmPromise
@@ -54,9 +54,9 @@ export const init = async () => {
   const { instance } = await wasmPromise;
   console.log(instance);
   wasi.start(instance);
-  const __MODULE_NAME__ = napi.init(instance);
-  return __MODULE_NAME__.default
+  const library = napi.init(instance);
+  return library
 };
 
-export const __MODULE_NAME__ = await init();
+export const { __MODULE_NAME__, __MODULE_DEPENDENCIES__} = await init();
 export default __MODULE_NAME__;
