@@ -5,8 +5,8 @@
 //  Created by Gabriel Pulido on 4/26/22.
 //
 
-import Foundation
 @_exported import FishyJoesCommonRuntime
+import Foundation
 
 public class CPPPacker {
     var data = Data()
@@ -60,7 +60,7 @@ public protocol CPPConverter: Converter {
 }
 
 extension VoidConverter: CPPConverter {
-    public static func fromCPP(_: CPPPacker) throws -> Void {}
+    public static func fromCPP(_: CPPPacker) throws {}
     public static func toCPP(_: CPPPacker, _ val: Void) throws {}
 }
 
@@ -150,9 +150,9 @@ extension DictionaryConverter: CPPConverter where
     KeyConverter: CPPConverter,
     KeyConverter.SwiftType: Hashable,
     ValueConverter: CPPConverter {
-    public static func fromCPP(_ packer: CPPPacker) throws -> [KeyConverter.SwiftType : ValueConverter.SwiftType] {
+    public static func fromCPP(_ packer: CPPPacker) throws -> [KeyConverter.SwiftType: ValueConverter.SwiftType] {
         let count = packer.take(UInt64.self)
-        var ret: [KeyConverter.SwiftType : ValueConverter.SwiftType] = [:]
+        var ret: [KeyConverter.SwiftType: ValueConverter.SwiftType] = [:]
         for _ in 0..<count {
             let key = KeyConverter.fromCPP(packer)
             let val = ValueConverter.fromCPP(packer)
@@ -160,7 +160,7 @@ extension DictionaryConverter: CPPConverter where
         }
         return ret
     }
-    public static func toCPP(_ packer: CPPPacker, _ dict: [KeyConverter.SwiftType : ValueConverter.SwiftType]) throws {
+    public static func toCPP(_ packer: CPPPacker, _ dict: [KeyConverter.SwiftType: ValueConverter.SwiftType]) throws {
         packer.put(UInt64(dict.count))
         for pair in dict {
             KeyConverter.toCPP(packer, pair.key)

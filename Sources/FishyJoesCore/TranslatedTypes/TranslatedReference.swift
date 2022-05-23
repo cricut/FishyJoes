@@ -44,11 +44,11 @@ struct TranslatedReference: TranslatedType {
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
         return [nodeDefinitionFragment(in: context), jniDefinitionFragment(in: context), neutralDefinitionFragment(in: context), cppDefinitionFragment(in: context)]
     }
-    
+
     func cppDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = SourceFragment(sourceryDestination: "file:CPPInterface/\(sourceType.name).swift")
         var newMethods: [CPPClass.CPPMethod] = []
-        newMethods.append(contentsOf: methods.map { context.cppTranslator.translateToHeaderFragment(method: $0, in: context) });
+        newMethods.append(contentsOf: methods.map { context.cppTranslator.translateToHeaderFragment(method: $0, in: context) })
         for variable in computedVariables {
             let accessors = context.cppTranslator.translateToHeaderFragment(variable: variable, in: context)
             newMethods.append(accessors.getter)
@@ -59,7 +59,7 @@ struct TranslatedReference: TranslatedType {
         let refField = CPPClass.CPPField(
             documentation: [
                 "Reference to Swift-managed data"
-            ], 
+            ],
             isStatic: false,
             isPrivate: true,
             name: "_ref",
@@ -78,7 +78,7 @@ struct TranslatedReference: TranslatedType {
         context.cppClasses[newClass.qualifiedName] = newClass
         return fragment
     }
- 
+
     func neutralDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = SourceFragment(
             sourceryDestination: "file:../../DebugGenerated/\(sourceType.name)+ReferenceInfo.txt"

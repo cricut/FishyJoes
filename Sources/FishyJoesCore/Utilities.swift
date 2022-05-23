@@ -19,8 +19,7 @@ public func extLog(_ message: String) {
         }
         fileHandle.seekToEndOfFile()
         fileHandle.write(data)
-    }
-    else {
+    } else {
         try! data.write(to: URL(fileURLWithPath: ".sourcery-log"), options: .atomic)
     }
 }

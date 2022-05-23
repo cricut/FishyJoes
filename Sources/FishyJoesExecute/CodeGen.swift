@@ -23,7 +23,7 @@ public struct CodeGen: ParsableCommand {
 
     @Flag(name: .long, inversion: .prefixedNo, help: "Generate a Web-assembly based node package")
     var wasm = false
-    
+
     @Flag(name: .long, inversion: .prefixedNo, help: "Generate a C++ package")
     var cpp = false
 

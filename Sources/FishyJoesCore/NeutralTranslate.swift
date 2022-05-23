@@ -1,11 +1,9 @@
 import Foundation
+import SourceryRuntime
 
 /*
  * Helps generate psuedocode-ish files showing internal details used by FishyJoes during code generation
  */
-
-import Foundation
-import SourceryRuntime
 
 class NeutralTranslate {
     func output(method: Method, context: FishyJoesContext, fragment: SourceFragment) {

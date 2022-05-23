@@ -49,3 +49,4 @@ disabled_rules:
     - trailing_comma
     - type_body_length
     - type_name
+    - for_where

@@ -78,10 +78,10 @@ struct TranslatedEnum: TranslatedType {
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
         return [nodeDefinitionFragment(in: context), jniDefinitionFragment(in: context), neutralDefinitionFragment(in: context), cppDefinitionFragment(in: context)]
     }
-    
+
     func cppDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         var newMethods: [CPPClass.CPPMethod] = []
-        newMethods.append(contentsOf: methods.map { context.cppTranslator.translateToHeaderFragment(method: $0, in: context) });
+        newMethods.append(contentsOf: methods.map { context.cppTranslator.translateToHeaderFragment(method: $0, in: context) })
         for variable in computedVariables {
             let accessors = context.cppTranslator.translateToHeaderFragment(variable: variable, in: context)
             newMethods.append(accessors.getter)
@@ -130,8 +130,8 @@ struct TranslatedEnum: TranslatedType {
             methods: newMethods,
             fields: [varField],
             serializedFields: [varField],
-            magicalElements: [{(fragment: SourceFragment) -> Void in
-                //define VariantType for later methods
+            magicalElements: [ {(fragment: SourceFragment) -> Void in
+                // define VariantType for later methods
                 fragment.output("private:")
                 fragment.output("using VariantType = std::variant<\(cases.map(\.name).joined(separator: ", "))>;")
             }, {(fragment: SourceFragment) -> Void in
@@ -182,7 +182,7 @@ struct TranslatedEnum: TranslatedType {
         context.cppClasses[newClass.qualifiedName] = newClass
         return SourceFragment(sourceryDestination: "file:CPPInterface/\(sourceType.name).swift")
     }
-    
+
     func neutralDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = SourceFragment(
             sourceryDestination: "file:../../DebugGenerated/\(sourceType.name)+EnumInfo.txt"

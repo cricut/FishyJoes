@@ -12,9 +12,9 @@ public class FishyJoesContext {
 
     var tsAnnotations: TypeScriptAnnotations
     var kotlinClasses: [KotlinClass] = []
-    //qualified name (ie "ContainingClass::ClassName") -> CPPClass
-    var cppClasses: [String : CPPClass] = [:]
-    //[qualifiedName/cppName]
+    // qualified name (ie "ContainingClass::ClassName") -> CPPClass
+    var cppClasses: [String: CPPClass] = [:]
+    // [qualifiedName/cppName]
     var classesNeedingHashSpecialization: [CPPClass] = []
 
     let translatorTypes: [Translator.Type] = [
@@ -175,17 +175,17 @@ public class FishyJoesContext {
         let encoder = JSONEncoder()
         encoder.outputFormatting = [.prettyPrinted, .sortedKeys, .withoutEscapingSlashes]
         moduleInfoFragment.output(String(data: try! encoder.encode(moduleInfo), encoding: .utf8)!)
-        
+
         allFragments.append(contentsOf: rootClass.innerClasses.map(\.fragment))
-        
+
         for classObj in cppClasses.values {
             if let parent = classObj.parentQualifiedName {
                 cppClasses[parent]!.innerClasses.append(classObj)
             }
         }
-        
+
         allFragments.append(cppTranslator.generatePreHeader(in: self))
-        
+
         for cppClass in cppClasses.values {
             if cppClass.parentQualifiedName == nil {
                 allFragments.append(cppClass.headerFragment())

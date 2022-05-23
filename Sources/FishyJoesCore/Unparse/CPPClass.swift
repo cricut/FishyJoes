@@ -42,10 +42,10 @@ class CPPClass {
             case .type(let type):
                 return type.containedNamedTypes
             case .variant:
-                //including headers for these types won't work
+                // including headers for these types won't work
                 return []
             case .named:
-                //.named is used for non-fishyjoes types
+                // .named is used for non-fishyjoes types
                 return []
             }
         }
@@ -97,7 +97,7 @@ class CPPClass {
             self.isMutable = isMutable
             self.body = body ?? { (method, fragment, classObj, context) in
                 let cBindingName = method.binding(for: classObj, in: context).symbol
-                //method body lambda
+                // method body lambda
                 let paramsPassed = ((isStatic ? [] : [
                     method.isMutable ? "FishyJoesInternal::Packer::packThenUnpackMutatedMembersOnDestruct(*this).ptr()" : "FishyJoesInternal::Packer::pack(*this).ptr()"
                 ]) + parameters.map { "FishyJoesInternal::Packer::pack(\($0.name)).ptr()" }).joined(separator: ", ")
@@ -130,12 +130,12 @@ class CPPClass {
     let documentation: [String]
     let methods: [CPPMethod]
     let fields: [CPPField]
-    //(mutated by FishyJoesContext once all CPPClass instances are set up)
+    // (mutated by FishyJoesContext once all CPPClass instances are set up)
     var innerClasses: [CPPClass]
     let serializedFields: [CPPField]
     let magicalElements: [(SourceFragment) -> Void]
     let completeConstructorVisible: Bool
-    
+
     func isHashable(in context: FishyJoesContext) -> Bool {
         for field in serializedFields {
             switch field.type {
@@ -157,7 +157,7 @@ class CPPClass {
         }
         return true
     }
-    
+
     init(
         module: String, documentation: [String], name: String,
         methods: [CPPMethod] = [],
@@ -185,25 +185,25 @@ class CPPClass {
         self.magicalElements = magicalElements
         self.completeConstructorVisible = completeConstructorVisible
     }
-    
+
     var containedNamedFields: [TranslatedType] {
         Array(self.methods.map(\.containedNamedTypes).joined()) +
         Array(self.fields.map(\.type.containedNamedTypes).joined())
     }
-    
+
     let cppKeywords: Set<String> = ["alignas", "alignof", "and", "and_eq", "asm", "atomic_cancel", "atomic_commit", "atomic_noexcept", "auto", "bitand", "bitor", "bool", "break", "case", "catch", "char", "char8_t", "char16_t", "char32_t", "class", "compl", "concept", "const", "consteval", "constexpr", "constinit", "const_cast", "continue", "co_await", "co_return", "co_yield", "decltype", "default", "delete", "do", "double", "dynamic_cast", "else", "enum", "explicit", "export", "extern", "false", "float", "for", "friend", "goto", "if", "inline", "int", "long", "mutable", "namespace", "new", "noexcept", "not", "not_eq", "nullptr", "operator", "or", "or_eq", "private", "protected", "public", "reflexpr", "register", "reinterpret_cast", "requires", "return", "short", "signed", "sizeof", "static", "static_assert", "static_cast", "struct", "switch", "synchronized", "template", "this", "thread_local", "throw", "true", "try", "typedef", "typeid", "typename", "union", "unsigned", "using", "virtual", "void", "volatile", "wchar_t", "while", "xor", "xor_eq"]
-    
-    //make not contain keywords
+
+    // make not contain keywords
     func clean(name: String) -> String {
         if cppKeywords.contains(name) {
             return name + "_"
         }
         return name
     }
-    
-    //the three below functions require isPrivate to have already been handled, see output(to fragment:)
-    //(we could put private: or public: on each declaration but that's ugly)
-    
+
+    // the three below functions require isPrivate to have already been handled, see output(to fragment:)
+    // (we could put private: or public: on each declaration but that's ugly)
+
     private func outputCompleteConstructorDecl(to fragment: SourceFragment) {
         let internalHint = " (only to be used by FishyJoes internally. Look for static methods for initialization or other public constructors.)"
         fragment.output("/// Create new \(name)\(completeConstructorVisible ? "" : internalHint)")
@@ -216,7 +216,7 @@ class CPPClass {
         )
         fragment.output(");")
     }
-    
+
     private func outputCompleteConstructorDef(to fragment: SourceFragment) {
         fragment.output("\(qualifiedName)::\(name)(", newLineTerminated: false)
         fragment.output(
@@ -237,7 +237,7 @@ class CPPClass {
         }
         fragment.output("{}")
     }
-    
+
     func stringFor(parameters: [CPPParameter]) -> String {
         return parameters.map { param in
             var labelStr: String = ""
@@ -252,7 +252,7 @@ class CPPClass {
         }
         .joined(separator: ", ")
     }
-    
+
     private func outputDecl(method: CPPMethod, to fragment: SourceFragment) {
         for doc in method.documentation {
             fragment.output("/// \(doc)")
@@ -260,13 +260,13 @@ class CPPClass {
         fragment.output("\(method.isStatic ? "static " : "")\(method.returnType.cppName) \(clean(name: method.name))(\(stringFor(parameters: method.parameters)))\(method.isOverride ? " override" : "")\(method.isConst ? " const" : "");")
         fragment.output("")
     }
-    
+
     private func outputDef(method: CPPMethod, in context: FishyJoesContext, to fragment: SourceFragment) {
         fragment.outputBlock("\(method.returnType.cppName) \(qualifiedName)::\(clean(name: method.name))(\(stringFor(parameters: method.parameters)))\(method.isConst ? " const" : "") {") {
             method.body(method, fragment, self, context)
         }
     }
-    
+
     private func output(field: CPPField, to fragment: SourceFragment) {
         for doc in field.documentation {
             fragment.output("/// \(doc)")
@@ -281,7 +281,7 @@ class CPPClass {
             fragment.output(";")
         }
     }
-    
+
     private func includeHeadersForDependentTypes(into fragment: SourceFragment) {
         var names: Set<String> = []
         for type in containedNamedFields {
@@ -298,7 +298,7 @@ class CPPClass {
             fragment.output("#include \"\(name).hpp\"")
         }
     }
-    
+
     func declareSelf(to fragment: SourceFragment) {
         for doc in documentation {
             fragment.output("/// \(doc)")
@@ -308,7 +308,7 @@ class CPPClass {
             let privateMethods = methods.filter { $0.isPrivate }
             let publicFields = fields.filter { !$0.isPrivate }
             let privateFields = fields.filter { $0.isPrivate }
-            
+
             if !innerClasses.isEmpty {
                 fragment.output("/*  Inner Classes  */")
                 fragment.output("public:")
@@ -320,16 +320,16 @@ class CPPClass {
                 }
                 fragment.output("")
             }
-            
+
             if !magicalElements.isEmpty {
                 fragment.output("/* Special */")
-                fragment.output("");
+                fragment.output("")
                 for magicalElement in magicalElements {
                     magicalElement(fragment)
                     fragment.output("")
                 }
             }
-            
+
             fragment.output("/*  Complete Constructor  */")
             if completeConstructorVisible {
                 fragment.output("public:")
@@ -338,7 +338,7 @@ class CPPClass {
             }
             outputCompleteConstructorDecl(to: fragment)
             fragment.output("")
-            
+
             fragment.output("/*  Methods  */")
             if !publicMethods.isEmpty {
                 fragment.output("public:")
@@ -349,7 +349,7 @@ class CPPClass {
                 privateMethods.forEach { outputDecl(method: $0, to: fragment) }
             }
             fragment.output("")
-            
+
             fragment.output("/*  Data  */")
             if !publicFields.isEmpty {
                 fragment.output("public:")
@@ -365,7 +365,7 @@ class CPPClass {
             fragment.output("template <typename T> friend struct std::equal_to;")
         }
     }
-    
+
     func headerFragment() -> SourceFragment {
         let fragment = SourceFragment(sourceryDestination: "file:../../cpp/include/\(swiftQualifiedName).hpp")
         fragment.output("#pragma once")
@@ -377,7 +377,7 @@ class CPPClass {
         }
         return fragment
     }
-    
+
     func sourceFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = SourceFragment(sourceryDestination: "file:../../cpp/src/\(swiftQualifiedName).cpp")
         fragment.output("#include \"shared_impl.hpp\"")
@@ -389,16 +389,16 @@ class CPPClass {
         }
         return fragment
     }
-    
-    //Declare overloaded FishyJoesInternal::Packer::put & get for this type
-    //context:
-    //namespace CriGeo {
-    //  namespace FishyJoesInternal {
-    //    struct FishyJoesInternal::Packer {
-    //      /* we're adding put/get overloads here */
-    //    }
-    //  }
-    //}
+
+    // Declare overloaded FishyJoesInternal::Packer::put & get for this type
+    // context:
+    // namespace CriGeo {
+    //   namespace FishyJoesInternal {
+    //     struct FishyJoesInternal::Packer {
+    //       /* we're adding put/get overloads here */
+    //     }
+    //   }
+    // }
     func packerImpl(to frag: SourceFragment) {
         // thank you generatePackImplHeader for doing the hard work here!
         // we can just recurse into put/get for serialized fields and that's it.
