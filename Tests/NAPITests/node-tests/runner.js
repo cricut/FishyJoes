@@ -36,9 +36,9 @@ module.exports.init = async () => {
   let napi = new NAPI();
   const importObject = {
     wasi_snapshot_preview1: wasi.wasiImport,
-    napi: napi.exports,
-    env: { main() {} },
+    ...napi.exports,
   };
+  importObject.env.main = () => {}
 
   const path = await import('path');
   const url = await import('url');
@@ -49,6 +49,6 @@ module.exports.init = async () => {
 
   const { instance } = await wasmPromise;
   wasi.start(instance);
-  const plugin = napi.init(instance);
-  return plugin
+  const library = napi.init(instance);
+  return library
 };
