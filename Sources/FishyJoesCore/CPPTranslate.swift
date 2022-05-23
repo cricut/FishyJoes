@@ -218,6 +218,8 @@ class CPPTranslate {
             frag.outputBlock("struct FishyJoesInternal::Packer {", semicolonTerminated: true) {
                 frag.output("std::vector<uint8_t> data;")
                 frag.output("int idx;")
+                //maybe a bad idea to use std::function here?
+                frag.output("std::function<void()> on_destruct;")
                 frag.output("//size must be power of 2")
                 frag.outputBlock("inline void align(int size) {") {
                     frag.output("auto off = idx & (size - 1);")
@@ -233,9 +235,12 @@ class CPPTranslate {
                     frag.output("uint8_t* u8ptr = ((uint8_t*)ptr) + 4;")
                     frag.output("//copy data into a Packer")
                     frag.output("Packer ret = { .data = { u8ptr, u8ptr + data_size }, .idx = 0 };")
-                    frag.output("//free (swift must have allocated this ptr with c stdlib malloc!)")
-                    frag.output("free(ptr);")
+                    frag.output("\(context.module)_swift_release_packed_data(ptr);")
                     frag.output("return ret;")
+                }
+                
+                frag.outputBlock("~Packer() {") {
+                    <#code#>
                 }
                 
                 frag.output("template <typename T>")
@@ -250,6 +255,7 @@ class CPPTranslate {
                 frag.outputBlock("static inline Packer packThenUnpackMutatedMembersOnDestruct(T& obj) {") {
                     frag.output("Packer packer;")
                     frag.output("packer.put(obj);")
+                    frag.output("throw std::runtime_error(\"TODO: actually implement this properly\");")
                     frag.output("return packer;")
                 }
                 

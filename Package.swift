@@ -31,6 +31,7 @@ let package = Package(
     ] + wasmIncompatible(
         [
             P.library(name: "FishyJoesJavaRuntime", targets: ["FishyJoesJavaRuntime"]),
+            P.library(name: "FishyJoesCPPRuntime", targets: ["FishyJoesCPPRuntime"]),
             P.library(name: "JavaRuntimeTestHarness", type: .dynamic, targets: ["JavaRuntimeTestHarness"]),
             P.executable(name: "fishy-joes", targets: ["FishyJoesExecute"]),
         ]
@@ -68,6 +69,12 @@ let package = Package(
                 .unsafeFlags(["-I", "\(javaHome)/include/linux"], .when(platforms: [.linux])),
                 .unsafeFlags(["-I", "\(javaHome)/include/darwin"], .when(platforms: [.macOS])),
                 .unsafeFlags(["-I", "\(javaHome)/include/win32"], .when(platforms: [.windows])),
+            ]
+        ),
+        T.target(
+            name: "FishyJoesCPPRuntime",
+            dependencies: [
+                .target(name: "FishyJoesCommonRuntime")
             ]
         ),
         T.target(

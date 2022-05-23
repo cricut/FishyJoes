@@ -25,6 +25,9 @@ struct CodeGen: ParsableCommand {
 
     @Flag(name: .long, inversion: .prefixedNo, help: "Generate a NodeJS N-API based node package")
     var wasm: Bool = false
+    
+    @Flag(name: .long, inversion: .prefixedNo, help: "Generate a C++ package")
+    var cpp: Bool = false
 
     @Flag(name: .long, inversion: .prefixedNo, help: "Generate a Kotlin package")
     var kotlin: Bool = false
@@ -182,6 +185,9 @@ extension CodeGen {
         if nodejs {
             platforms.append(.node)
         }
+        if cpp {
+            platforms.append(.cpp)
+        }
         if kotlin || kotlinFast {
             platforms.append(.kotlinSystem)
         }
@@ -217,12 +223,14 @@ extension CodeGen {
             try cmd("mkdir", "-p",
                     "Sources/Generated/NodeInterface",
                     "Sources/Generated/JavaInterface",
+                    "Sources/Generated/CPPInterface",
                     "kotlin/src/generated/kotlin/com/cricut/\(config.module.lowercased())"
             ).run()
             try cmd(
                 "touch",
                 "Sources/Generated/NodeInterface/EmptyPlaceholder.swift",
-                "Sources/Generated/JavaInterface/EmptyPlaceholder.swift"
+                "Sources/Generated/JavaInterface/EmptyPlaceholder.swift",
+                "Sources/Generated/CPPInterface/EmptyPlaceholder.swift"
             ).run()
             try cmd("swift", "build", "--product", "sourcery").run()
             try cmd("swift", "build", "--product", "fishy-joes-execution-helper").run()
@@ -256,6 +264,8 @@ extension CodeGen {
                     try platform.swiftBuild("--product", "\(config.module)-node")
                 case .kotlinSystem, .kotlinAndroid:
                     try platform.swiftBuild("--product", "\(config.module)-java")
+                case .cpp:
+                    try platform.swiftBuild("--product", "\(config.module)-cpp")
                 }
             }
 
@@ -309,6 +319,9 @@ extension CodeGen {
                 case .kotlinAndroid:
                     try cmd("mkdir", "-p", platform.outputDir).run()
                     try cmd("cp", "\(platform.buildDir)/lib\(config.module)-java.so", platform.outputDir).run()
+                case .cpp:
+                    try cmd("mkdir", "-p", platform.outputDir).run()
+                    
                 }
             }
             if platforms.contains(.kotlinSystem) {
@@ -349,7 +362,7 @@ extension CodeGen {
                         .append(toFile: packageJsonPath)
                         .run()
                 }
-            case .kotlinSystem, .kotlinAndroid:
+            case .kotlinSystem, .kotlinAndroid, .cpp:
                 ()
             }
         }
@@ -371,7 +384,7 @@ extension CodeGen {
                     try FileManager.default.withCurrentDirectoryPath("kotlin") {
                         try cmd("./gradlew", "test").run()
                     }
-                case .kotlinAndroid:
+                case .kotlinAndroid, .cpp:
                     // TODO
                     ()
                 }
@@ -408,7 +421,7 @@ enum AndroidArchitecture: String, Equatable, CaseIterable {
 }
 
 enum Platform: Hashable {
-    case wasm, node, kotlinSystem, kotlinAndroid(AndroidArchitecture)
+    case wasm, node, cpp, kotlinSystem, kotlinAndroid(AndroidArchitecture)
 
     static let nativeMacSwiftBuild = try! cmd("xcrun", "-f", "swift-build").runString()
 
@@ -447,6 +460,15 @@ enum Platform: Hashable {
                     "--build-path", "./.build/android-build",
                 ]
             )
+        case .cpp:
+            #if os(macOS)
+            path = Platform.nativeMacSwiftBuild
+            #elseif os(Linux)
+            path = "swift"
+            args = ["build", "-Xswiftc", "-static-stdlib"] + args
+            #else
+            fatalError("unknown host OS")
+            #endif
         }
         try cmd(path, arguments: args, addEnv: env).run()
     }
@@ -475,11 +497,12 @@ enum Platform: Hashable {
             fatalError("unknown host OS")
             #endif
         case .kotlinAndroid: return "jni-android"
+        case .cpp: return "cpp"
         }
     }
     var outputDir: String {
         switch self {
-        case .wasm, .node: return "output/\(platform)"
+        case .wasm, .node, .cpp: return "output/\(platform)"
         case .kotlinSystem:
             #if os(macOS)
             return "kotlin/src/generated/resources/mac"
@@ -495,6 +518,7 @@ enum Platform: Hashable {
         switch self {
         case .wasm: return "\(config.module) packaged as a typescript library using WebAssembly"
         case .node: return "\(platform) <-> node/ts bindings for \(config.module)"
+        case .cpp: return "\(config.module) C++ bingings"
         case .kotlinSystem, .kotlinAndroid: return "A JNI wrapper for \(config.module)"
         }
     }
@@ -519,6 +543,20 @@ enum Platform: Hashable {
             return ".build/android-build/armv7-none-linux-androideabi/release"
         case .kotlinAndroid(let arch):
             return ".build/android-build/\(arch.rawValue)-unknown-linux-android/release"
+        case .cpp:
+            #if os(macOS)
+            #if arch(x86_64)
+            return ".build/cpp-build/x86_64-apple-macosx/release"
+            #elseif arch(arm64)
+            return ".build/cpp-build/arm64-apple-macosx/release"
+            #else
+            fatalError("unknown mac arch")
+            #endif
+            #elseif os(Linux)
+            return ".build/cpp-build/x86_64-unknown-linux-gnu/release"
+            #else
+            fatalError("unknown host OS")
+            #endif
         }
     }
     var isTs: Bool {

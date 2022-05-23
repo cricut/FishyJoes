@@ -46,14 +46,12 @@ public class FishyJoesContext {
     }
 
     public func translateAll() -> String {
-        extLog("hi")
         var collectedFragments: [SourceFragment] = []
 
         // Collect type information before starting translation
         // This collects the named types possible for use later in resolve().
         for translatedType in templateContext.types.all.compactMap(translate(typeDefinition:)) {
             let name = translatedType.sourceType
-            extLog("name is \(name)")
             precondition(typeCache[name] == nil, "duplicate definitions found for \(name)")
             typeCache[name] = translatedType
         }
@@ -144,6 +142,11 @@ public class FishyJoesContext {
         allFragments.append(cppTranslator.generateCombinedHeader(in: self))
         allFragments.append(cppTranslator.generatePackImplHeader(in: self))
         
+        let testFrag = swiftFragment("CPPInterface/testme.swift", additionalImports: ["Foundation", "FishyJoesCPPRuntime"])
+        testFrag.output("//hi")
+        testFrag.output("let awesome = CPPPacker(data: Data(), idx: 0)")
+        allFragments.append(testFrag)
+        
         return allFragments.map(\.contents).joined()
     }
 
@@ -152,8 +155,6 @@ public class FishyJoesContext {
             // Not annotated for export
             return nil
         }
-        
-        extLog("type is \(type)")
 
         if annotation.kind == .asReference {
             return TranslatedReference(context: self, type: type)
