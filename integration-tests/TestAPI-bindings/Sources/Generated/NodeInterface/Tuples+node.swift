@@ -7,12 +7,16 @@ import TestAPI
 
 extension Tuples: FishyJoesNodeRuntime.NodeConverter {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
-        switch try String.fromNode(value, env: env) {
-        case let unknown: fatalError("invalid enum string '\(unknown)' for Tuples")
-        }
+        let instanceData = try FishyJoesNodeRuntime.InstanceData.data(for: env)
+        fatalError("invalid enum for Tuples")
     }
+
     public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
+        let instanceData = try FishyJoesNodeRuntime.InstanceData.data(for: env)
         switch value {
         }
+    }
+
+    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
     }
 }
