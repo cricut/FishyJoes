@@ -1,5 +1,5 @@
-import NodeAPI
 import FishyJoesNodeRuntime
+import NodeAPI
 import NodeInterface
 
 @_cdecl("napi_register_module_v1")
