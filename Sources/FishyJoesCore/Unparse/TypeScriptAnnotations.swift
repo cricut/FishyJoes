@@ -1,12 +1,12 @@
-struct TypeScriptAnnotations {
-    indirect enum TSType {
+struct TypeScriptAnnotations: Codable {
+    enum TSType: Codable {
         case named(String)
-        case optional(TSType)
+        indirect case optional(TSType)
         case union([TSType])
         case exactString(String)
     }
 
-    struct Variable {
+    struct Variable: Codable {
         let documentation: [String]
         let readOnly: Bool
         let isStatic: Bool
@@ -14,21 +14,26 @@ struct TypeScriptAnnotations {
         let type: TSType
     }
 
-    struct Method {
+    struct Method: Codable {
+        struct Parameter: Codable {
+            let labelComment: String?
+            let name: String
+            let type: TSType
+        }
         let documentation: [String]
         let isStatic: Bool
         let name: String
-        let parameters: [(labelComment: String?, name: String, type: TSType)]
+        let parameters: [Parameter]
         let returnType: TSType
     }
 
-    struct Typealias {
+    struct Typealias: Codable {
         let documentation: [String]
         var name: String
         let value: TSType
     }
 
-    struct Class {
+    struct Class: Codable {
         let documentation: [String]
         var name: String
         let superclass: String?
@@ -61,7 +66,7 @@ struct TypeScriptAnnotations {
         }
     }
 
-    class Namespace {
+    class Namespace: Codable {
         let name: String
         var classes: [Class]
         var typealiases: [Typealias]
@@ -75,7 +80,8 @@ struct TypeScriptAnnotations {
         }
     }
 
-    let rootNamespace: Namespace
+    var rootNamespaces: [Namespace]
+    let defaultNamespace: String
 }
 
 extension TypeScriptAnnotations.TSType: CustomStringConvertible {
@@ -114,6 +120,9 @@ extension TypeScriptAnnotations {
         }
         var namespaceParts = name.split(separator: ".").map(String.init)
         let name = namespaceParts.popLast()!
+
+        let rootNamespace = rootNamespaces.first { $0.name == defaultNamespace }!
+
         return (find(rootNamespace, namespaceParts), name)
     }
 
@@ -132,7 +141,9 @@ extension TypeScriptAnnotations {
     }
 
     var fragment: SourceFragment {
-        let fragment = SourceFragment(sourceryDestination: "file:NodeInterface/\(rootNamespace.name).d.ts")
+        let fragment = SourceFragment(sourceryDestination: "file:NodeInterface/\(defaultNamespace).d.ts")
+
+        fragment.output("export type Optional<T> = T | undefined;")
 
         func document(_ documentation: [String]) {
             guard !documentation.isEmpty else { return }
@@ -204,9 +215,40 @@ extension TypeScriptAnnotations {
             }
             fragment.blankLine()
         }
-        output(namespace: rootNamespace, declare: true)
-        fragment.output("export declare function init(): Promise<typeof \(rootNamespace.name)>;")
-        fragment.output("export default \(rootNamespace.name);")
+        rootNamespaces.forEach { output(namespace: $0, declare: true) }
+        fragment.outputBlock("export declare function init(): Promise<{", closeWith: "}>;") {
+            for rootNamespace in rootNamespaces {
+                fragment.output("\(rootNamespace.name): typeof \(rootNamespace.name),")
+            }
+        }
+        fragment.output("export default \(defaultNamespace);")
         return fragment
+    }
+}
+
+// Tuples aren't codable :(
+extension TypeScriptAnnotations.Class.Constructor: Codable {
+    fileprivate struct NameType: Codable {
+        let name: String
+        let type: TypeScriptAnnotations.TSType
+    }
+
+    init(from decoder: Decoder) throws {
+        if let args = try [NameType]?.init(from: decoder) {
+            self = .visible(args.map { ($0.name, $0.type) })
+        } else {
+            self = .hidden
+        }
+    }
+
+    func encode(to encoder: Encoder) throws {
+        let codable: [NameType]?
+        switch self {
+        case .hidden:
+            codable = nil
+        case .visible(let args):
+            codable = args.map { NameType(name: $0.name, type: $0.type) }
+        }
+        try codable.encode(to: encoder)
     }
 }

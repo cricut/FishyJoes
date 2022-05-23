@@ -8,11 +8,11 @@
 /// <!-- FishyJoes.exportReference(Primitives) -->
 public enum Primitives {
     // MARK: - Primitive Values
-    
+
     /// <!-- FishyJoes.export(falseBool) -->
-    public static let falseBool: Bool = false
+    public static let falseBool = false
     /// <!-- FishyJoes.export(trueBool) -->
-    public static let trueBool: Bool = true
+    public static let trueBool = true
     /// <!-- FishyJoes.export(zeroUInt8) -->
     public static let zeroUInt8: UInt8 = 0
     /// <!-- FishyJoes.export(minUInt8) -->
@@ -79,9 +79,9 @@ public enum Primitives {
     public static let minDouble: Double = -.greatestFiniteMagnitude
     /// <!-- FishyJoes.export(maxDouble) -->
     public static let maxDouble: Double = .greatestFiniteMagnitude
-    
+
     // MARK: - Arrays of Primitive Values
-    
+
     /// <!-- FishyJoes.export(manyBool) -->
     public static let manyBool: [Bool] = [false, true]
     /// <!-- FishyJoes.export(manyUInt8) -->
@@ -104,9 +104,9 @@ public enum Primitives {
     public static let manyFloat: [Float] = [0, -.greatestFiniteMagnitude, .greatestFiniteMagnitude]
     /// <!-- FishyJoes.export(manyDouble) -->
     public static let manyDouble: [Double] = [0, -.greatestFiniteMagnitude, .greatestFiniteMagnitude]
-    
+
     // MARK: - Arrays of Optional Primitive Values
-    
+
     /// <!-- FishyJoes.export(manyMaybeBool) -->
     public static let manyMaybeBool: [Bool?] = [nil, false, true]
     /// <!-- FishyJoes.export(manyMaybeUInt8) -->
@@ -129,9 +129,9 @@ public enum Primitives {
     public static let manyMaybeFloat: [Float?] = [nil, 0, -.greatestFiniteMagnitude, .greatestFiniteMagnitude]
     /// <!-- FishyJoes.export(manyMaybeDouble) -->
     public static let manyMaybeDouble: [Double?] = [nil, 0, -.greatestFiniteMagnitude, .greatestFiniteMagnitude]
-    
+
     // MARK: - Functions Taking / Returning Primitive Types
-    
+
     /// <!-- FishyJoes.export(echoBool) -->
     public static func echoBool(value: Bool) -> Bool { return value }
     /// <!-- FishyJoes.export(echoUInt8) -->
@@ -154,9 +154,9 @@ public enum Primitives {
     public static func echoFloat(value: Float) -> Float { return value }
     /// <!-- FishyJoes.export(echoDouble) -->
     public static func echoDouble(value: Double) -> Double { return value }
-    
+
     // MARK: - Functions Taking / Returning Optional Primitive Types
-    
+
     /// <!-- FishyJoes.export(maybeEchoBool) -->
     public static func maybeEchoBool(value: Bool?) -> Bool? { return value }
     /// <!-- FishyJoes.export(maybeEchoUInt8) -->
@@ -179,45 +179,45 @@ public enum Primitives {
     public static func maybeEchoFloat(value: Float?) -> Float? { return value }
     /// <!-- FishyJoes.export(maybeEchoDouble) -->
     public static func maybeEchoDouble(value: Double?) -> Double? { return value }
-    
+
     // MARK: - Functions Taking Closures with Primitive Types
 
     // TODO: Breaks with FishyJoes/Sources/FishyJoesCore/FishyJoesContext.swift:196: Don't know how to translate type `Name(name: "UInt8?", namespace: [])`
 //    /// <!-- FishyJoes.export(valueMapper) -->
 //    public static func valueMapper(value: UInt8?, _ mapper: ((UInt8?) -> (UInt8?))) -> UInt8? { return mapper(value) }
-    
+
     // MARK: - Objects with Primitive Members
-    
+
     /// <!-- FishyJoes.export(Primitives.PrimitiveHolder) -->
     public struct PrimitiveHolder {
         /// <!-- FishyJoes.export(staticPropery) -->
         public static let staticPropery: [UInt8?] = [nil, 0, .min, .max]
         /// <!-- FishyJoes.export(staticMutablePropery) -->
         public static var staticMutablePropery: [UInt8?] = [nil, 0, .min, .max]
-        
-        public var b: Bool = false
-        public var bq: Bool? = nil
+
+        public var b = false
+        public var bq: Bool?
         public var ui8: UInt8 = .min
-        public var ui8q: UInt8? = nil
+        public var ui8q: UInt8?
         public var ui16: UInt16 = .min
-        public var ui16q: UInt16? = nil
+        public var ui16q: UInt16?
         public var ui32: UInt32 = .min
-        public var ui32q: UInt32? = nil
+        public var ui32q: UInt32?
         public var ui64: UInt64 = .min
-        public var ui64q: UInt64? = nil
+        public var ui64q: UInt64?
         public var i8: Int8 = .min
-        public var i8q: Int8? = nil
+        public var i8q: Int8?
         public var i16: Int16 = .min
-        public var i16q: Int16? = nil
+        public var i16q: Int16?
         public var i32: Int32 = .min
-        public var i32q: Int32? = nil
+        public var i32q: Int32?
         public var i64: Int64 = .min
-        public var i64q: Int64? = nil
+        public var i64q: Int64?
         public var f: Float = -.greatestFiniteMagnitude
-        public var fq: Float? = nil
+        public var fq: Float?
         public var d: Double = -.greatestFiniteMagnitude
-        public var dq: Double? = nil
-        
+        public var dq: Double?
+
         public init(b: Bool = false, bq: Bool? = nil, ui8: UInt8 = .min, ui8q: UInt8? = nil, ui16: UInt16 = .min, ui16q: UInt16? = nil, ui32: UInt32 = .min, ui32q: UInt32? = nil, ui64: UInt64 = .min, ui64q: UInt64? = nil, i8: Int8 = .min, i8q: Int8? = nil, i16: Int16 = .min, i16q: Int16? = nil, i32: Int32 = .min, i32q: Int32? = nil, i64: Int64 = .min, i64q: Int64? = nil, f: Float = -.greatestFiniteMagnitude, fq: Float? = nil, d: Double = -.greatestFiniteMagnitude, dq: Double? = nil) {
             self.b = b
             self.bq = bq
@@ -243,7 +243,7 @@ public enum Primitives {
             self.dq = dq
         }
     }
-    
+
     /// <!-- FishyJoes.export(defaultPrimitiveHolder) -->
     public static let defaultPrimitiveHolder = PrimitiveHolder()
 }

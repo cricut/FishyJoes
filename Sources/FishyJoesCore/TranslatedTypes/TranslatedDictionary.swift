@@ -10,6 +10,8 @@ struct TranslatedDictionary: TranslatedType {
     let containedNamedTypes: [TranslatedType]
     let kotlinPackage: String? = "kotlin.collections"
     let jniType = JNIType.object("java/util/Map")
+    let cSharpName: String
+    let cSharpNamespace: String? = "System.Collections.Generic"
 
     init(key: TranslatedType, value: TranslatedType) {
         self.sourceType = .generic(base: "Dictionary", args: [key.sourceType, value.sourceType])
@@ -19,5 +21,6 @@ struct TranslatedDictionary: TranslatedType {
         self.cppName = "std::unordered_map<\(key.cppName), \(value.cppName)>"
         self.neutralName = "Dictionary<K=\(key.neutralName), V=\(value.neutralName)>"
         self.containedNamedTypes = key.containedNamedTypes + value.containedNamedTypes
+        self.cSharpName = "Dictionary<\(key.cSharpName), \(value.cSharpName)>"
     }
 }

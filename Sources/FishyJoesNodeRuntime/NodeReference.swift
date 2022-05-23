@@ -1,23 +1,26 @@
 import Foundation
-import NodeAPI
 
 public class NodeReference {
-    private var env: napi_env
-    private var ref: napi_ref?
+    private var env: NAPI.Env
+    private var ref: NAPI.Ref
 
-    public init(env: napi_env, value: napi_value?) throws {
+    public init(env: NAPI.Env, value: NAPI.Value) throws {
         self.env = env
-        try check(napi_create_reference(env, value, 1, &ref))
+        self.ref = try env.createReference(value, 1)
     }
 
-    public func value(env: napi_env) throws -> napi_value? {
-        var result: napi_value?
-        try check(napi_get_reference_value(env, ref, &result))
-        return result
+    public func value(env: NAPI.Env) throws -> NAPI.Value {
+        try env.getReferenceValue(ref)
     }
 
     deinit {
-        _ = napi_delete_reference(env, ref)
-        ref = nil
+        try? env.deleteReference(ref)
+        ref.ptr = nil
+    }
+}
+
+extension NAPI.Env {
+    public func reference(_ value: NAPI.Value) throws -> NodeReference {
+        try NodeReference(env: self, value: value)
     }
 }

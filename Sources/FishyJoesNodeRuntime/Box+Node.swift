@@ -1,19 +1,27 @@
-import Foundation
 @_exported import FishyJoesCommonRuntime
-@_exported import NodeAPI
+import Foundation
 
 extension Box {
-    public func retainedExternal(env: napi_env) throws -> napi_value? {
+    public func retainedExternal(env: NAPI.Env) throws -> NAPI.Value {
         try box.retainedExternal(env: env)
     }
 
-    public static func takeUnretained(_ value: napi_value?, env: napi_env) throws -> Box<T> {
+    public static func takeUnretained(_ value: NAPI.Value, env: NAPI.Env) throws -> Box<T> {
         try Box(inner: AnyBox.takeUnretained(value, env: env))
+    }
+
+    // Invoked as js constructor from TranslatedReference.swift
+    public static func construct(env: CallbackEnv) throws -> NAPI.Value {
+        let this = try env.this()
+        let selfValue = try env.argument(at: 0)
+        let boxed = try takeUnretained(selfValue, env: env.env)
+        try env.env.wrapWithoutRef(this, boxed.retainedOpaque(), AnyBox.boxFinalize, nil)
+        return this
     }
 }
 
 extension AnyBox {
-    static let boxFinalize: napi_finalize = { env, data, hint in
+    static let boxFinalize: NAPI.Finalize = { _, data, hint in
         if let hint = hint {
             let s = String(cString: hint.assumingMemoryBound(to: CChar.self))
             print("boxFinalize: \(s)")
@@ -21,19 +29,14 @@ extension AnyBox {
         AnyBox.releaseOpaque(data)
     }
 
-    func retainedExternal(env: napi_env) throws -> napi_value? {
-        var result: napi_value?
-
-        try check(napi_create_external(env, retainedOpaque(), Self.boxFinalize, nil, &result))
-        return result
+    func retainedExternal(env: NAPI.Env) throws -> NAPI.Value {
+        try env.createExternal(retainedOpaque(), Self.boxFinalize, nil)
     }
 
-    static func takeUnretained(_ value: napi_value?, env: napi_env) throws -> AnyBox {
-        var pointer: UnsafeMutableRawPointer?
-        try check(napi_get_value_external(env, value, &pointer))
-        guard let nonNilPointer = pointer else {
+    static func takeUnretained(_ value: NAPI.Value, env: NAPI.Env) throws -> AnyBox {
+        guard let pointer = try env.getValueExternal(value) else {
             throw JSException(message: "received nil from napi_get_value_external")
         }
-        return takeUnretainedOpaque(nonNilPointer)
+        return takeUnretainedOpaque(pointer)
     }
 }

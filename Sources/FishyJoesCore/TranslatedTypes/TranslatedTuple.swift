@@ -15,17 +15,17 @@ struct TranslatedTuple: TranslatedType {
     }
 
     let sourceType: BetterType
-    var nodeName: String { "[\(elements.map(\.type.nodeName).joined(separator: ", "))]" }
-    var cppName: String { "std::tuple<\(elements.map(\.type.cppName).joined(separator: ", "))>" }
-    var neutralName: String { "Tuple<Types=[\(elements.map(\.type.neutralName).joined(separator: ", "))]>" }
-    var containedNamedTypes: [TranslatedType] { Array(elements.map(\.type.containedNamedTypes).joined()) }
+    var nodeName: String { "[\(elements.lazy.map(\.type.nodeName).joined(separator: ", "))]" }
+    var cppName: String { "std::tuple<\(elements.lazy.map(\.type.cppName).joined(separator: ", "))>" }
+    var neutralName: String { "Tuple<Types=[\(elements.lazy.map(\.type.neutralName).joined(separator: ", "))]>" }
+    var containedNamedTypes: [TranslatedType] { Array(elements.lazy.map(\.type.containedNamedTypes).joined()) }
     var kotlinName: String {
         if elements.count == 2 {
-            return "Pair<\(elements.map(\.type.kotlinName).joined(separator: ", "))>"
+            return "Pair<\(elements.lazy.map(\.type.kotlinPackageQualifiedName).joined(separator: ", "))>"
         } else if elements.count == 3 {
-            return "Triple<\(elements.map(\.type.kotlinName).joined(separator: ", "))>"
+            return "Triple<\(elements.lazy.map(\.type.kotlinPackageQualifiedName).joined(separator: ", "))>"
         } else {
-            return "Tuple\(elements.count)<\(elements.map(\.type.kotlinName).joined(separator: ", "))>"
+            return "Tuple\(elements.count)<\(elements.lazy.map(\.type.kotlinPackageQualifiedName).joined(separator: ", "))>"
         }
     }
     var kotlinPackage: String? {
@@ -37,6 +37,12 @@ struct TranslatedTuple: TranslatedType {
             return "com.cricut.fishyjoes.runtime"
         }
     }
+
+    var cSharpName: String {
+        "(\(elements.lazy.map(\.type.cSharpName).joined(separator: ", ")))"
+    }
+
+    let cSharpNamespace: String? = nil
 
     init(elements: [Element]) {
         self.elements = elements

@@ -1,6 +1,6 @@
+@_exported import FishyJoesCommonRuntime
 import Foundation
 @_exported import JNI
-@_exported import FishyJoesCommonRuntime
 
 // MARK: - Java Type Conversion Protocols
 
@@ -70,10 +70,10 @@ extension VoidConverter: JavaConverter {
 
     public static var javaClass: jclass?
 
-    public static func fromJava(_ value: Void, env: Env) throws -> Void {}
-    public static func toJava(_ value: Void, env: Env) throws -> Void {}
+    public static func fromJava(_ value: Void, env: Env) throws {}
+    public static func toJava(_ value: Void, env: Env) throws {}
 
-    public static func fromJava(object: jobject?, env: Env) throws -> Void {}
+    public static func fromJava(object: jobject?, env: Env) throws {}
     public static func toJavaObject(_ value: Void, env: Env) throws -> jobject? { nil }
 
     public static func javaSetup(env: Env) throws {
@@ -217,7 +217,7 @@ extension UInt64: JavaConverter {
     private static var coerceSigned: jmethodID!
 
     public static func fromJava(_ value: CType, env: Env) throws -> Self { .init(bitPattern: Int64(value)) }
-    public static func toJava(_ value: Self, env: Env) throws -> CType { CType(Int64.init(bitPattern: value)) }
+    public static func toJava(_ value: Self, env: Env) throws -> CType { CType(Int64(bitPattern: value)) }
 
     public static func fromJava(object: jobject?, env: Env) throws -> Self {
         let signed = try env.CallStaticLongMethod(unsignedConverterClass, Self.coerceUnsigned, jvalue(object))
@@ -379,7 +379,7 @@ extension Float: JavaConverter {
     public static func fromJava(_ value: jfloat, env: Env) throws -> Self { value }
     public static func toJava(_ value: Self, env: Env) throws -> jfloat { value }
 
-    public static func fromJava(object: jobject?, env: Env) throws -> Self{
+    public static func fromJava(object: jobject?, env: Env) throws -> Self {
         try env.CallFloatMethod(object, Self._valueMethodID)
     }
 
@@ -405,7 +405,7 @@ extension Double: JavaConverter {
     public static func fromJava(_ value: jdouble, env: Env) throws -> Double { value }
     public static func toJava(_ value: Double, env: Env) throws -> jdouble { value }
 
-    public static func fromJava(object: jobject?, env: Env) throws -> Double{
+    public static func fromJava(object: jobject?, env: Env) throws -> Double {
         try env.CallDoubleMethod(object, Self._valueMethodID)
     }
 
@@ -495,7 +495,7 @@ extension Data: JavaConverter {
 
 // MARK: - Generics Type Conversions
 
-fileprivate enum JavaIterator {
+private enum JavaIterator {
     static var iteratorClass: jclass?
     static var nextMethodID: jmethodID?
     static var hasNextMethodID: jmethodID?
@@ -507,7 +507,7 @@ fileprivate enum JavaIterator {
     }
 }
 
-fileprivate enum JavaList {
+private enum JavaList {
     static var listClass: jclass?
     static var arrayListClass: jclass?
     static var iteratorMethodID: jmethodID?
@@ -529,7 +529,7 @@ fileprivate enum JavaList {
 
     public static func forEach(_ listObject: jobject?, env: Env, body: (jobject?) throws -> Void) throws {
         let iter = try env.CallObjectMethod(listObject, iteratorMethodID)
-        while (try env.CallBooleanMethod(iter, JavaIterator.hasNextMethodID) != JNI_FALSE) {
+        while try env.CallBooleanMethod(iter, JavaIterator.hasNextMethodID) != JNI_FALSE {
             let item = try env.CallObjectMethod(iter, JavaIterator.nextMethodID)
             try body(item)
             env.DeleteLocalRef(item)
@@ -538,7 +538,7 @@ fileprivate enum JavaList {
     }
 }
 
-fileprivate enum JavaMap {
+private enum JavaMap {
     static var mapClass: jclass?
     static var hashMapClass: jclass?
     static var entrySetMethodID: jmethodID?
@@ -565,12 +565,10 @@ fileprivate enum JavaMap {
     }
 }
 
-fileprivate enum JavaSet {
+private enum JavaSet {
     static var setClass: jclass?
     static var hashSetClass: jclass?
     static var iteratorMethodID: jmethodID?
-    static var nextMethodID: jmethodID?
-    static var hasNextMethodID: jmethodID?
     static var initMethodID: jmethodID?
     static var addMethodID: jmethodID?
 
@@ -589,8 +587,8 @@ fileprivate enum JavaSet {
 
     public static func forEach(_ setObject: jobject?, env: Env, body: (jobject?) throws -> Void) throws {
         let iter = try env.CallObjectMethod(setObject, iteratorMethodID)
-        while (try env.CallBooleanMethod(iter, hasNextMethodID) != JNI_FALSE) {
-            let item = try env.CallObjectMethod(iter, nextMethodID)
+        while try env.CallBooleanMethod(iter, JavaIterator.hasNextMethodID) != JNI_FALSE {
+            let item = try env.CallObjectMethod(iter, JavaIterator.nextMethodID)
             try body(item)
             env.DeleteLocalRef(item)
         }
@@ -630,8 +628,7 @@ extension ArrayConverter: JavaConverter where ElementConverter: JavaConverter {
 extension DictionaryConverter: JavaConverter where
     KeyConverter: JavaConverter,
     KeyConverter.SwiftType: Hashable,
-    ValueConverter: JavaConverter
-{
+    ValueConverter: JavaConverter {
     public static var javaClass: jclass? {
         JavaMap.mapClass
     }
@@ -677,7 +674,7 @@ extension SetConverter: JavaConverter where ElementConverter: JavaConverter, Ele
 
     public static func fromJava(_ value: jobject?, env: Env) throws -> SwiftType {
         var result = SwiftType()
-        try JavaSet.forEach(value, env: env) { entry in
+        try JavaSet.forEach(value, env: env) { _ in
             result.insert(try ElementConverter.fromJava(object: value, env: env))
         }
         return result
@@ -729,10 +726,10 @@ extension OptionalConverter: JavaConverter where WrappedConverter: JavaConverter
 
 // MARK: - Tuple Type Conversions
 
-fileprivate var pairClass: jclass!
-fileprivate var pairConstructor: jmethodID!
-fileprivate var pairFirstMethod: jmethodID!
-fileprivate var pairSecondMethod: jmethodID!
+private var pairClass: jclass!
+private var pairConstructor: jmethodID!
+private var pairFirstMethod: jmethodID!
+private var pairSecondMethod: jmethodID!
 
 extension Tuple2Converter: JavaConverter where T0: JavaConverter, T1: JavaConverter {
     public static var javaClass: jclass? {
@@ -769,11 +766,11 @@ extension Tuple2Converter: JavaConverter where T0: JavaConverter, T1: JavaConver
     }
 }
 
-fileprivate var tripleClass: jclass!
-fileprivate var tripleConstructor: jmethodID!
-fileprivate var tripleFirstMethod: jmethodID!
-fileprivate var tripleSecondMethod: jmethodID!
-fileprivate var tripleThirdMethod: jmethodID!
+private var tripleClass: jclass!
+private var tripleConstructor: jmethodID!
+private var tripleFirstMethod: jmethodID!
+private var tripleSecondMethod: jmethodID!
+private var tripleThirdMethod: jmethodID!
 
 extension Tuple3Converter: JavaConverter where T0: JavaConverter, T1: JavaConverter, T2: JavaConverter {
     public static var javaClass: jclass? {
@@ -816,12 +813,12 @@ extension Tuple3Converter: JavaConverter where T0: JavaConverter, T1: JavaConver
     }
 }
 
-fileprivate var tuple4Class: jclass!
-fileprivate var tuple4Constructor: jmethodID!
-fileprivate var tuple4FirstMethod: jmethodID!
-fileprivate var tuple4SecondMethod: jmethodID!
-fileprivate var tuple4ThirdMethod: jmethodID!
-fileprivate var tuple4FourthMethod: jmethodID!
+private var tuple4Class: jclass!
+private var tuple4Constructor: jmethodID!
+private var tuple4FirstMethod: jmethodID!
+private var tuple4SecondMethod: jmethodID!
+private var tuple4ThirdMethod: jmethodID!
+private var tuple4FourthMethod: jmethodID!
 
 extension Tuple4Converter: JavaConverter where T0: JavaConverter, T1: JavaConverter, T2: JavaConverter, T3: JavaConverter {
     public static var javaClass: jclass? {
@@ -867,5 +864,134 @@ extension Tuple4Converter: JavaConverter where T0: JavaConverter, T1: JavaConver
         tuple4SecondMethod = try env.GetMethodID(javaClass, "getSecond", "()Ljava/lang/Object;")
         tuple4ThirdMethod = try env.GetMethodID(javaClass, "getThird", "()Ljava/lang/Object;")
         tuple4FourthMethod = try env.GetMethodID(javaClass, "getFourth", "()Ljava/lang/Object;")
+    }
+}
+
+private var tuple5Class: jclass!
+private var tuple5Constructor: jmethodID!
+private var tuple5FirstMethod: jmethodID!
+private var tuple5SecondMethod: jmethodID!
+private var tuple5ThirdMethod: jmethodID!
+private var tuple5FourthMethod: jmethodID!
+private var tuple5FifthMethod: jmethodID!
+
+extension Tuple5Converter: JavaConverter where T0: JavaConverter, T1: JavaConverter, T2: JavaConverter, T3: JavaConverter, T4: JavaConverter {
+    public static var javaClass: jclass? {
+        tuple5Class
+    }
+
+    public static func fromJava(_ value: jobject?, env: Env) throws -> SwiftType {
+        let v0 = try env.CallObjectMethod(value, tuple5FirstMethod)
+        let v1 = try env.CallObjectMethod(value, tuple5SecondMethod)
+        let v2 = try env.CallObjectMethod(value, tuple5ThirdMethod)
+        let v3 = try env.CallObjectMethod(value, tuple5FourthMethod)
+        let v4 = try env.CallObjectMethod(value, tuple5FifthMethod)
+        return (
+            try T0.fromJava(object: v0, env: env),
+            try T1.fromJava(object: v1, env: env),
+            try T2.fromJava(object: v2, env: env),
+            try T3.fromJava(object: v3, env: env),
+            try T4.fromJava(object: v4, env: env)
+        )
+    }
+
+    public static func toJava(_ value: SwiftType, env: Env) throws -> jobject? {
+        let v0 = try jvalue(l: T0.toJavaObject(value.0, env: env))
+        let v1 = try jvalue(l: T1.toJavaObject(value.1, env: env))
+        let v2 = try jvalue(l: T2.toJavaObject(value.2, env: env))
+        let v3 = try jvalue(l: T3.toJavaObject(value.3, env: env))
+        let v4 = try jvalue(l: T4.toJavaObject(value.4, env: env))
+        let result = try env.NewObject(tuple5Class, tuple5Constructor, v0, v1, v2, v3, v4)
+        env.DeleteLocalRef(v0.l)
+        env.DeleteLocalRef(v1.l)
+        env.DeleteLocalRef(v2.l)
+        env.DeleteLocalRef(v3.l)
+        env.DeleteLocalRef(v4.l)
+        return result
+    }
+
+    public static func javaSetup(env: Env) throws {
+        try T0.javaSetup(env: env)
+        try T1.javaSetup(env: env)
+        try T2.javaSetup(env: env)
+        try T3.javaSetup(env: env)
+        try T4.javaSetup(env: env)
+
+        guard javaClass == nil else { return }
+        tuple5Class = try env.globalRef(env.FindClass("com/cricut/fishyjoes/runtime/Tuple5"))
+        tuple5Constructor = try env.GetMethodID(javaClass, "<init>", "(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)V")
+        tuple5FirstMethod = try env.GetMethodID(javaClass, "getFirst", "()Ljava/lang/Object;")
+        tuple5SecondMethod = try env.GetMethodID(javaClass, "getSecond", "()Ljava/lang/Object;")
+        tuple5ThirdMethod = try env.GetMethodID(javaClass, "getThird", "()Ljava/lang/Object;")
+        tuple5FourthMethod = try env.GetMethodID(javaClass, "getFourth", "()Ljava/lang/Object;")
+        tuple5FifthMethod = try env.GetMethodID(javaClass, "getFifth", "()Ljava/lang/Object;")
+    }
+}
+
+private var tuple6Class: jclass!
+private var tuple6Constructor: jmethodID!
+private var tuple6FirstMethod: jmethodID!
+private var tuple6SecondMethod: jmethodID!
+private var tuple6ThirdMethod: jmethodID!
+private var tuple6FourthMethod: jmethodID!
+private var tuple6FifthMethod: jmethodID!
+private var tuple6SixthMethod: jmethodID!
+
+extension Tuple6Converter: JavaConverter where T0: JavaConverter, T1: JavaConverter, T2: JavaConverter, T3: JavaConverter, T4: JavaConverter, T5: JavaConverter {
+    public static var javaClass: jclass? {
+        tuple6Class
+    }
+
+    public static func fromJava(_ value: jobject?, env: Env) throws -> SwiftType {
+        let v0 = try env.CallObjectMethod(value, tuple6FirstMethod)
+        let v1 = try env.CallObjectMethod(value, tuple6SecondMethod)
+        let v2 = try env.CallObjectMethod(value, tuple6ThirdMethod)
+        let v3 = try env.CallObjectMethod(value, tuple6FourthMethod)
+        let v4 = try env.CallObjectMethod(value, tuple6FifthMethod)
+        let v5 = try env.CallObjectMethod(value, tuple6SixthMethod)
+        return (
+            try T0.fromJava(object: v0, env: env),
+            try T1.fromJava(object: v1, env: env),
+            try T2.fromJava(object: v2, env: env),
+            try T3.fromJava(object: v3, env: env),
+            try T4.fromJava(object: v4, env: env),
+            try T5.fromJava(object: v5, env: env)
+        )
+    }
+
+    public static func toJava(_ value: SwiftType, env: Env) throws -> jobject? {
+        let v0 = try jvalue(l: T0.toJavaObject(value.0, env: env))
+        let v1 = try jvalue(l: T1.toJavaObject(value.1, env: env))
+        let v2 = try jvalue(l: T2.toJavaObject(value.2, env: env))
+        let v3 = try jvalue(l: T3.toJavaObject(value.3, env: env))
+        let v4 = try jvalue(l: T4.toJavaObject(value.4, env: env))
+        let v5 = try jvalue(l: T5.toJavaObject(value.5, env: env))
+        let result = try env.NewObject(tuple6Class, tuple6Constructor, v0, v1, v2, v3, v4, v5)
+        env.DeleteLocalRef(v0.l)
+        env.DeleteLocalRef(v1.l)
+        env.DeleteLocalRef(v2.l)
+        env.DeleteLocalRef(v3.l)
+        env.DeleteLocalRef(v4.l)
+        env.DeleteLocalRef(v5.l)
+        return result
+    }
+
+    public static func javaSetup(env: Env) throws {
+        try T0.javaSetup(env: env)
+        try T1.javaSetup(env: env)
+        try T2.javaSetup(env: env)
+        try T3.javaSetup(env: env)
+        try T4.javaSetup(env: env)
+        try T5.javaSetup(env: env)
+
+        guard javaClass == nil else { return }
+        tuple6Class = try env.globalRef(env.FindClass("com/cricut/fishyjoes/runtime/Tuple6"))
+        tuple6Constructor = try env.GetMethodID(javaClass, "<init>", "(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)V")
+        tuple6FirstMethod = try env.GetMethodID(javaClass, "getFirst", "()Ljava/lang/Object;")
+        tuple6SecondMethod = try env.GetMethodID(javaClass, "getSecond", "()Ljava/lang/Object;")
+        tuple6ThirdMethod = try env.GetMethodID(javaClass, "getThird", "()Ljava/lang/Object;")
+        tuple6FourthMethod = try env.GetMethodID(javaClass, "getFourth", "()Ljava/lang/Object;")
+        tuple6FifthMethod = try env.GetMethodID(javaClass, "getFifth", "()Ljava/lang/Object;")
+        tuple6SixthMethod = try env.GetMethodID(javaClass, "getSixth", "()Ljava/lang/Object;")
     }
 }

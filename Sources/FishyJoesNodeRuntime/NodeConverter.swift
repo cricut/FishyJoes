@@ -1,295 +1,215 @@
 import Foundation
-@_exported import NodeAPI
 
 // MARK: - NodeJS Type Conversion Protocols
 
 public protocol NodeConverter: Converter {
-    static func fromNode(_ value: napi_value?, env: napi_env) throws -> SwiftType
-    static func toNode(_ value: SwiftType, env: napi_env) throws -> napi_value?
-    static func nodeSetup(env: napi_env, module: napi_value) throws
+    static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType
+    static func toNode(_ value: SwiftType, env: NAPI.Env) throws -> NAPI.Value
+    static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws
 }
 
 public protocol NodeMutator: NodeConverter {
-    static func mutateNode(_ value: SwiftType, this: napi_value?, env: napi_env) throws
+    static func mutateNode(_ value: SwiftType, this: NAPI.Value, env: NAPI.Env) throws
 }
 
 extension NodeConverter {
-    public static func nodeSetup(env: napi_env, module: napi_value) throws {
+    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
     }
 }
 
 // MARK: - Primitive Type Conversions
 
 extension VoidConverter: NodeConverter {
-    public static func fromNode(_ value: napi_value?, env: napi_env) throws -> Void {}
-    public static func toNode(_ value: Void, env: napi_env) throws -> napi_value? {
-        return nil
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws {}
+    public static func toNode(_ value: Void, env: NAPI.Env) throws -> NAPI.Value {
+        return .init(ptr: nil)
     }
 }
 
 extension Bool: NodeConverter {
-    public static func fromNode(_ value: napi_value?, env: napi_env) throws -> Bool {
-        var result = false
-        // TODO: should this do JS coercions?
-        try check(napi_get_value_bool(env, value, &result))
-        return result
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Bool {
+        try env.getValueBool(value)
     }
 
-    public static func toNode(_ value: Self, env: napi_env) throws -> napi_value? {
-        var result: napi_value?
-        try check(napi_get_boolean(env, value, &result))
-        return result
+    public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
+        try env.getBoolean(value)
     }
 }
 
 extension UInt8: NodeConverter {
-    public static func fromNode(_ value: napi_value?, env: napi_env) throws -> Self {
-        var result = UInt32(0)
-        try check(napi_get_value_uint32(env, value, &result))
-        return .init(result)
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
+        try UInt8(env.getValueUint32(value))
     }
 
-    public static func toNode(_ value: Self, env: napi_env) throws -> napi_value? {
-        var result: napi_value?
-        try check(napi_create_uint32(env, UInt32(value), &result))
-        return result
+    public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
+        try env.createUint32(UInt32(value))
     }
 }
 
 extension UInt16: NodeConverter {
-    public static func fromNode(_ value: napi_value?, env: napi_env) throws -> Self {
-        var result = UInt32(0)
-        try check(napi_get_value_uint32(env, value, &result))
-        return .init(result)
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
+        try UInt16(env.getValueUint32(value))
     }
 
-    public static func toNode(_ value: Self, env: napi_env) throws -> napi_value? {
-        var result: napi_value?
-        try check(napi_create_uint32(env, UInt32(value), &result))
-        return result
+    public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
+        try env.createUint32(UInt32(value))
     }
 }
 
 extension UInt32: NodeConverter {
-    public static func fromNode(_ value: napi_value?, env: napi_env) throws -> Self {
-        var result = UInt32(0)
-        try check(napi_get_value_uint32(env, value, &result))
-        return .init(result)
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
+        try env.getValueUint32(value)
     }
 
-    public static func toNode(_ value: Self, env: napi_env) throws -> napi_value? {
-        var result: napi_value?
-        try check(napi_create_uint32(env, value, &result))
-        return result
+    public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
+        try env.createUint32(value)
     }
 }
 
 extension UInt64: NodeConverter {
-    public static func fromNode(_ value: napi_value?, env: napi_env) throws -> Self {
-        var result = UInt64(0)
-        var lossless = true
-        try check(napi_get_value_bigint_uint64(env, value, &result, &lossless))
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
+        let (result, lossless) = try env.getValueBigintUint64(value)
         if !lossless { throw JSException(message: "bigint outside range of \(Self.self)") }
         return .init(result)
     }
 
-    public static func toNode(_ value: Self, env: napi_env) throws -> napi_value? {
-        var result: napi_value?
-        try check(napi_create_bigint_uint64(env, value, &result))
-        return result
+    public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
+        try env.createBigintUint64(value)
     }
 }
 
 extension Int8: NodeConverter {
-    public static func fromNode(_ value: napi_value?, env: napi_env) throws -> Self {
-        var result = Int32(0)
-        try check(napi_get_value_int32(env, value, &result))
-        return .init(result)
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
+        try Int8(env.getValueInt32(value))
     }
 
-    public static func toNode(_ value: Self, env: napi_env) throws -> napi_value? {
-        var result: napi_value?
-        try check(napi_create_int32(env, Int32(value), &result))
-        return result
+    public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
+        try env.createInt32(Int32(value))
     }
 }
 
 extension Int16: NodeConverter {
-    public static func fromNode(_ value: napi_value?, env: napi_env) throws -> Self {
-        var result = Int32(0)
-        try check(napi_get_value_int32(env, value, &result))
-        return .init(result)
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
+        try Int16(env.getValueInt32(value))
     }
 
-    public static func toNode(_ value: Self, env: napi_env) throws -> napi_value? {
-        var result: napi_value?
-        try check(napi_create_int32(env, Int32(value), &result))
-        return result
+    public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
+        try env.createInt32(Int32(value))
     }
 }
 
 extension Int32: NodeConverter {
-    public static func fromNode(_ value: napi_value?, env: napi_env) throws -> Self {
-        var result = Int32(0)
-        try check(napi_get_value_int32(env, value, &result))
-        return .init(result)
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
+        try env.getValueInt32(value)
     }
 
-    public static func toNode(_ value: Self, env: napi_env) throws -> napi_value? {
-        var result: napi_value?
-        try check(napi_create_int32(env, Int32(value), &result))
-        return result
+    public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
+        try env.createInt32(Int32(value))
     }
 }
 
 extension Int64: NodeConverter {
-    public static func fromNode(_ value: napi_value?, env: napi_env) throws -> Self {
-        var result = Int64(0)
-        var lossless = true
-        try check(napi_get_value_bigint_int64(env, value, &result, &lossless))
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
+        let (result, lossless) = try env.getValueBigintInt64(value)
         if !lossless { throw JSException(message: "bigint outside range of \(Self.self)") }
         return .init(result)
     }
 
-    public static func toNode(_ value: Self, env: napi_env) throws -> napi_value? {
-        var result: napi_value?
-        try check(napi_create_bigint_int64(env, value, &result))
-        return result
+    public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
+        try env.createBigintInt64(value)
     }
 }
 
 extension Int: NodeConverter {
-    public static func fromNode(_ value: napi_value?, env: napi_env) throws -> Int {
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Int {
         #if arch(wasm32)
-        var result = Int32(0)
-        // TODO: should this do JS coercions?
-        try check(napi_get_value_int32(env, value, &result))
+        return try Int(env.getValueInt32(value))
         #else
-        var result = Int64(0)
-        // TODO: should this do JS coercions?
-        try check(napi_get_value_int64(env, value, &result))
+        return try Int(env.getValueInt64(value))
         #endif
-        return Int(result)
     }
 
-    public static func toNode(_ value: Int, env: napi_env) throws -> napi_value? {
-        var result: napi_value?
+    public static func toNode(_ value: Int, env: NAPI.Env) throws -> NAPI.Value {
         #if arch(wasm32)
-        try check(napi_create_int32(env, Int32(value), &result))
+        return try env.createInt32(Int32(value))
         #else
-        try check(napi_create_int64(env, Int64(value), &result))
+        return try env.createInt64(Int64(value))
         #endif
-        return result
     }
 }
 
 extension Float: NodeConverter {
-    public static func fromNode(_ value: napi_value?, env: napi_env) throws -> Float {
-        var result = 0.0
-        // TODO: should this do JS coercions?
-        try check(napi_get_value_double(env, value, &result))
-        return Float(result)
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Float {
+        try Float(env.getValueDouble(value))
     }
 
-    public static func toNode(_ value: Float, env: napi_env) throws -> napi_value? {
-        var result: napi_value?
-        try check(napi_create_double(env, Double(value), &result))
-        return result
+    public static func toNode(_ value: Float, env: NAPI.Env) throws -> NAPI.Value {
+        try env.createDouble(Double(value))
     }
 }
 
 extension Double: NodeConverter {
-    public static func fromNode(_ value: napi_value?, env: napi_env) throws -> Double {
-        var result = 0.0
-        // TODO: should this do JS coercions?
-        try check(napi_get_value_double(env, value, &result))
-        return result
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Double {
+        try env.getValueDouble(value)
     }
 
-    public static func toNode(_ value: Double, env: napi_env) throws -> napi_value? {
-        var result: napi_value?
-        try check(napi_create_double(env, value, &result))
-        return result
+    public static func toNode(_ value: Double, env: NAPI.Env) throws -> NAPI.Value {
+        try env.createDouble(value)
     }
 }
 
 // MARK: - Less-Primitive Type Conversions
 
 extension String: NodeConverter {
-    public static func fromNode(_ value: napi_value?, env: napi_env) throws -> String {
-        var length = 0
-        try check(napi_get_value_string_utf8(env, value, nil, 0, &length))
-        length += 1
-        var data = Data(count: length)
-        _ = try data.withUnsafeMutableBytes { bytes -> Int in
-            try check(napi_get_value_string_utf8(env, value, bytes.bindMemory(to: CChar.self).baseAddress, length, &length))
-            return 42
-        }
-        data.removeLast()
-        guard let string = String(data: data, encoding: .utf8) else {
-            throw JSException(message: "invalid utf8 string")
-        }
-        return string
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> String {
+        try env.getValueStringUtf8(value)!
     }
 
-    public static func toNode(_ value: String, env: napi_env) throws -> napi_value? {
-        var result: napi_value?
-        try check(napi_create_string_utf8(env, value, value.utf8CString.count - 1, &result))
-        return result
+    public static func toNode(_ value: String, env: NAPI.Env) throws -> NAPI.Value {
+        try env.createStringUtf8(value)
     }
 }
 
 extension Data: NodeConverter {
-    public static func fromNode(_ value: napi_value?, env: napi_env) throws -> Data {
-        var global: napi_value?
-        try check(napi_get_global(env, &global))
-        
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Data {
+        let global = try env.getGlobal()
+
         // Get the number of bytes in the ArrayBuffer
-        var byteLength: napi_value?
-        try check(napi_get_named_property(env, value, "byteLength", &byteLength))
-        
+        let byteLength = try env.getNamedProperty(value, "byteLength")
+
         // Get a byte-oriented view of the ArrayBuffer with UInt8Array
-        var uInt8ArrayConstructor: napi_value?
-        try check(napi_get_named_property(env, global, "Uint8Array", &uInt8ArrayConstructor))
-        var uInt8View: napi_value?
-        try check(napi_new_instance(env, uInt8ArrayConstructor, 1, [value], &uInt8View))
-        
+        let uInt8ArrayConstructor = try env.getNamedProperty(global, "Uint8Array")
+        let uInt8View = try env.newInstance(uInt8ArrayConstructor, [value])
+
         // Create a Data to store the memory from the ArrayBuffer
         let count = try Int.fromNode(byteLength, env: env)
         var data = Data(count: count)
-        
+
         // Copy the bytes from the UInt8Array to the Data
         for index in 0..<count {
-            var byte: napi_value?
-            try check(napi_get_element(env, uInt8View, UInt32(index), &byte))
-            data[index] = try UInt8.fromNode(byte, env: env)
+            data[index] = try UInt8.fromNode(try env.getElement(uInt8View, UInt32(index)), env: env)
         }
-        
+
         return data
     }
 
-    public static func toNode(_ value: Data, env: napi_env) throws -> napi_value? {
-        var global: napi_value?
-        try check(napi_get_global(env, &global))
-        
+    public static func toNode(_ value: Data, env: NAPI.Env) throws -> NAPI.Value {
+        let global = try env.getGlobal()
+
         // Create an ArrayBuffer of the same size as the Data
-        var arrayBufferConstructor: napi_value?
-        try check(napi_get_named_property(env, global, "ArrayBuffer", &arrayBufferConstructor))
-        var byteCount = try Int.toNode(value.count, env: env)
-        var arrayBuffer: napi_value?
-        try check(napi_new_instance(env, arrayBufferConstructor, 1, &byteCount, &arrayBuffer))
-        
+        let arrayBufferConstructor = try env.getNamedProperty(global, "ArrayBuffer")
+        let byteCount = try Int.toNode(value.count, env: env)
+        let arrayBuffer = try env.newInstance(arrayBufferConstructor, [byteCount])
+
         // Get a byte-oriented view of the ArrayBuffer with UInt8Array
-        var uInt8ArrayConstructor: napi_value?
-        try check(napi_get_named_property(env, global, "Uint8Array", &uInt8ArrayConstructor))
-        var uInt8View: napi_value?
-        try check(napi_new_instance(env, uInt8ArrayConstructor, 1, &arrayBuffer, &uInt8View))
-        
+        let uInt8ArrayConstructor = try env.getNamedProperty(global, "Uint8Array")
+        let uInt8View = try env.newInstance(uInt8ArrayConstructor, [arrayBuffer])
+
         // Copy the bytes from the Data to the UInt8Array
         for (index, byte) in value.enumerated() {
-            try check(napi_set_element(env, uInt8View, UInt32(index), UInt8.toNode(byte, env: env)))
+            try env.setElement(uInt8View, UInt32(index), UInt8.toNode(byte, env: env))
         }
-        
+
         return arrayBuffer
     }
 }
@@ -297,46 +217,51 @@ extension Data: NodeConverter {
 // MARK: - Generics Type Conversions
 
 extension ArrayConverter: NodeConverter where ElementConverter: NodeConverter {
-    public static func fromNode(_ value: napi_value?, env: napi_env) throws -> SwiftType {
-        var length: UInt32 = 0
-        try check(napi_get_array_length(env, value, &length))
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
+        let length = try env.getArrayLength(value)
         return try (0..<length).map { index in
-            var element: napi_value?
-            try check(napi_get_element(env, value, index, &element))
-            return try ElementConverter.fromNode(element, env: env)
+            try ElementConverter.fromNode(env.getElement(value, index), env: env)
         }
     }
 
-    public static func toNode(_ value: SwiftType, env: napi_env) throws -> napi_value? {
-        var array: napi_value?
-        try check(napi_create_array_with_length(env, value.count, &array))
+    public static func toNode(_ value: SwiftType, env: NAPI.Env) throws -> NAPI.Value {
+        let array = try env.createArrayWithLength(value.count)
         for (index, value) in value.enumerated() {
-            try check(napi_set_element(env, array, UInt32(index), ElementConverter.toNode(value, env: env)))
+            try env.setElement(array, UInt32(index), ElementConverter.toNode(value, env: env))
         }
         return array
     }
 }
 
 extension DictionaryConverter: NodeConverter where KeyConverter: NodeConverter, ValueConverter: NodeConverter {
-    public static func fromNode(_ value: napi_value?, env: napi_env) throws -> SwiftType {
-        throw JSException(message: "TODO: implement Swift.Dictionary.static func fromNode(_:env:)")
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
+        let iterator = try env.callFunction(value, env.getNamedProperty(value, "entries"), [])
+        let nextFun = try env.getNamedProperty(iterator, "next")
+        func next() throws -> NAPI.Value? {
+            let result = try env.callFunction(iterator, nextFun, [])
+            guard try !env.getValueBool(env.getNamedProperty(result, "done")) else {
+                return nil
+            }
+            return try env.getNamedProperty(result, "value")
+        }
+
+        var result: SwiftType = [:]
+        while let entry = try next() {
+            let key = try KeyConverter.fromNode(env.getElement(entry, 0), env: env)
+            let value = try ValueConverter.fromNode(env.getElement(entry, 1), env: env)
+            result[key] = value
+        }
+        return result
     }
 
-    public static func toNode(_ dict: SwiftType, env: napi_env) throws -> napi_value? {
-        var global: napi_value?
-        try check(napi_get_global(env, &global))
-        var mapConstructor: napi_value?
-        try check(napi_get_named_property(env, global, "Map", &mapConstructor))
+    public static func toNode(_ dict: SwiftType, env: NAPI.Env) throws -> NAPI.Value {
+        let global = try env.getGlobal()
+        let mapConstructor = try env.getNamedProperty(global, "Map")
+        let map = try env.newInstance(mapConstructor, [])
+        let mapSet = try env.getNamedProperty(map, "set")
 
-        var map: napi_value?
-        try check(napi_new_instance(env, mapConstructor, 0, nil, &map))
-
-        var mapSet: napi_value?
-        try check(napi_get_named_property(env, map, "set", &mapSet))
-
-        var unusedOut: napi_value?
         for (key, value) in dict {
-            try check(napi_call_function(env, map, mapSet, 2, [KeyConverter.toNode(key, env: env), ValueConverter.toNode(value, env: env)], &unusedOut))
+            _ = try env.callFunction(map, mapSet, [KeyConverter.toNode(key, env: env), ValueConverter.toNode(value, env: env)])
         }
 
         return map
@@ -344,129 +269,36 @@ extension DictionaryConverter: NodeConverter where KeyConverter: NodeConverter, 
 }
 
 extension SetConverter: NodeConverter where ElementConverter: NodeConverter {
-    public static func fromNode(_ value: napi_value?, env: napi_env) throws -> SwiftType {
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
         throw JSException(message: "TODO: implement Swift.Set.static func fromNode(_:env:)")
     }
 
-    public static func toNode(_ value: SwiftType, env: napi_env) throws -> napi_value? {
-        var global: napi_value?
-        try check(napi_get_global(env, &global))
-        var setConstructor: napi_value?
-        try check(napi_get_named_property(env, global, "Set", &setConstructor))
+    public static func toNode(_ value: SwiftType, env: NAPI.Env) throws -> NAPI.Value {
+        let global = try env.getGlobal()
+        let setConstructor: NAPI.Value = try env.getNamedProperty(global, "Set")
 
-        var array: napi_value?
-        try check(napi_create_array_with_length(env, value.count, &array))
+        let array = try env.createArrayWithLength(value.count)
 
         for (index, element) in value.enumerated() {
-            try check(napi_set_element(env, array, UInt32(index), ElementConverter.toNode(element, env: env)))
+            try env.setElement(array, UInt32(index), ElementConverter.toNode(element, env: env))
         }
 
-        var result: napi_value?
-        try check(napi_new_instance(env, setConstructor, 1, &array, &result))
-        return result
+        return try env.newInstance(setConstructor, [array])
     }
 }
 
 // MARK: - Optional Type Conversion
 
 extension OptionalConverter: NodeConverter where WrappedConverter: NodeConverter {
-    public static func fromNode(_ value: napi_value?, env: napi_env) throws -> SwiftType {
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
         try nodeIsUndefiend(value, env: env) ? nil : WrappedConverter.fromNode(value, env: env)
     }
 
-    public static func toNode(_ value: SwiftType, env: napi_env) throws -> napi_value? {
+    public static func toNode(_ value: SwiftType, env: NAPI.Env) throws -> NAPI.Value {
         if let wrapped = value {
             return try WrappedConverter.toNode(wrapped, env: env)
         } else {
-            var result: napi_value?
-            try check(napi_get_undefined(env, &result))
-            return result
+            return try env.getUndefined()
         }
-    }
-}
-
-// MARK: - Tuple Type Conversions
-
-extension Tuple2Converter: NodeConverter where T0: NodeConverter, T1: NodeConverter {
-    public static func fromNode(_ value: napi_value?, env: napi_env) throws -> SwiftType {
-        var v0: napi_value?
-        var v1: napi_value?
-        try check(napi_get_element(env, value, 0, &v0))
-        try check(napi_get_element(env, value, 1, &v1))
-        return (
-            try T0.fromNode(v0, env: env),
-            try T1.fromNode(v1, env: env)
-        )
-    }
-
-    public static func toNode(_ value: SwiftType, env: napi_env) throws -> napi_value? {
-        var array: napi_value?
-        try check(napi_create_array_with_length(env, 2, &array))
-        try check(napi_set_element(env, array, 0, T0.toNode(value.0, env: env)))
-        try check(napi_set_element(env, array, 1, T1.toNode(value.1, env: env)))
-        return array
-    }
-
-    public static func nodeSetup(env: napi_env, module: napi_value) throws {
-    }
-}
-
-extension Tuple3Converter: NodeConverter where T0: NodeConverter, T1: NodeConverter, T2: NodeConverter {
-    public static func fromNode(_ value: napi_value?, env: napi_env) throws -> SwiftType {
-        var v0: napi_value?
-        var v1: napi_value?
-        var v2: napi_value?
-        try check(napi_get_element(env, value, 0, &v0))
-        try check(napi_get_element(env, value, 1, &v1))
-        try check(napi_get_element(env, value, 2, &v2))
-        return (
-            try T0.fromNode(v0, env: env),
-            try T1.fromNode(v1, env: env),
-            try T2.fromNode(v2, env: env)
-        )
-    }
-
-    public static func toNode(_ value: SwiftType, env: napi_env) throws -> napi_value? {
-        var array: napi_value?
-        try check(napi_create_array_with_length(env, 3, &array))
-        try check(napi_set_element(env, array, 0, T0.toNode(value.0, env: env)))
-        try check(napi_set_element(env, array, 1, T1.toNode(value.1, env: env)))
-        try check(napi_set_element(env, array, 2, T2.toNode(value.2, env: env)))
-        return array
-    }
-
-    public static func nodeSetup(env: napi_env, module: napi_value) throws {
-    }
-}
-
-extension Tuple4Converter: NodeConverter where T0: NodeConverter, T1: NodeConverter, T2: NodeConverter, T3: NodeConverter {
-    public static func fromNode(_ value: napi_value?, env: napi_env) throws -> SwiftType {
-        var v0: napi_value?
-        var v1: napi_value?
-        var v2: napi_value?
-        var v3: napi_value?
-        try check(napi_get_element(env, value, 0, &v0))
-        try check(napi_get_element(env, value, 1, &v1))
-        try check(napi_get_element(env, value, 2, &v2))
-        try check(napi_get_element(env, value, 3, &v3))
-        return (
-            try T0.fromNode(v0, env: env),
-            try T1.fromNode(v1, env: env),
-            try T2.fromNode(v2, env: env),
-            try T3.fromNode(v3, env: env)
-        )
-    }
-
-    public static func toNode(_ value: SwiftType, env: napi_env) throws -> napi_value? {
-        var array: napi_value?
-        try check(napi_create_array_with_length(env, 4, &array))
-        try check(napi_set_element(env, array, 0, T0.toNode(value.0, env: env)))
-        try check(napi_set_element(env, array, 1, T1.toNode(value.1, env: env)))
-        try check(napi_set_element(env, array, 2, T2.toNode(value.2, env: env)))
-        try check(napi_set_element(env, array, 3, T3.toNode(value.3, env: env)))
-        return array
-    }
-
-    public static func nodeSetup(env: napi_env, module: napi_value) throws {
     }
 }

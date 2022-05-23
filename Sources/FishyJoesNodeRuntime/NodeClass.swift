@@ -2,10 +2,10 @@ import Foundation
 import NodeAPI
 
 extension napi_property_attributes {
-    static func |(_ a: Self, b: Self) -> Self {
+    static func | (_ a: Self, b: Self) -> Self {
         .init(rawValue: a.rawValue | b.rawValue)
     }
-    static func |=(_ lhs: inout Self, _ rhs: Self) {
+    static func |= (_ lhs: inout Self, _ rhs: Self) {
         lhs = lhs | rhs
     }
 }
@@ -20,16 +20,13 @@ public struct NodeClass {
     }
 
     public init(
-        env: napi_env,
+        env: NAPI.Env,
         name: String,
         callbackData: UnsafeMutableRawPointer? = nil,
         properties: [String: (Property, isStatic: Bool)],
         constructor: @escaping napi_callback
     ) throws {
-        var undefined: napi_value?
-        try check(napi_get_undefined(env, &undefined))
-
-        var nodeConstructor: napi_value?
+        let undefined = try env.getUndefined()
 
         var nodeProperties: [napi_property_descriptor] = []
         for (name, (prop, isStatic)) in properties {
@@ -43,8 +40,8 @@ public struct NodeClass {
                 }
                 nodeProperties.append(
                     napi_property_descriptor(
-                        utf8name: nil, name: nodeName,
-                        method: nil, getter: nil, setter: nil, value: undefined,
+                        utf8name: nil, name: nodeName.ptr,
+                        method: nil, getter: nil, setter: nil, value: undefined.ptr,
                         attributes: attributes,
                         data: nil
                     )
@@ -52,7 +49,7 @@ public struct NodeClass {
             case let .method(fun):
                 nodeProperties.append(
                     napi_property_descriptor(
-                        utf8name: nil, name: nodeName,
+                        utf8name: nil, name: nodeName.ptr,
                         method: fun, getter: nil, setter: nil, value: nil,
                         attributes: attributes,
                         data: callbackData
@@ -61,7 +58,7 @@ public struct NodeClass {
             case let .accessor(getter, setter):
                 nodeProperties.append(
                     napi_property_descriptor(
-                        utf8name: nil, name: nodeName,
+                        utf8name: nil, name: nodeName.ptr,
                         method: nil, getter: getter, setter: setter, value: nil,
                         attributes: attributes,
                         data: callbackData
@@ -69,14 +66,12 @@ public struct NodeClass {
                 )
             }
         }
-        try check(
-            napi_define_class(
-                env, name, name.utf8.count,
-                constructor,
-                callbackData,
-                nodeProperties.count, nodeProperties,
-                &nodeConstructor
-            )
+
+        let nodeConstructor = try env.defineClass(
+            name,
+            constructor,
+            callbackData,
+            nodeProperties
         )
         self.constructor = try NodeReference(env: env, value: nodeConstructor)
         try InstanceData.data(for: env).constructors[name] = self.constructor

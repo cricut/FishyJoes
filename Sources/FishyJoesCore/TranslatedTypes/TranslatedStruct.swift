@@ -8,6 +8,8 @@ struct TranslatedStruct: TranslatedType {
     let neutralName: String
     var containedNamedTypes: [TranslatedType] { [self] }
     let kotlinPackage: String?
+    let cSharpName: String
+    let cSharpNamespace: String?
     let globalName: String
     let storedVariables: [Variable]
     let computedVariables: [Variable]
@@ -26,7 +28,9 @@ struct TranslatedStruct: TranslatedType {
         self.kotlinName = exportAnnotation.name
         self.cppName = exportAnnotation.name.replacingOccurrences(of: ".", with: "::")
         self.neutralName = "Struct<Named=\(exportAnnotation.name)>"
-        self.kotlinPackage = context.kotlinPackage
+        self.kotlinPackage = context.module.kotlinPackage
+        self.cSharpName = exportAnnotation.name
+        self.cSharpNamespace = context.module.cSharpNamespace
         self.globalName = "\(context.module).\(type.globalName)"
         self.jniType = .object(context.kotlinTranslator.javaClassName(nodeName, in: context))
 
@@ -113,44 +117,40 @@ struct TranslatedStruct: TranslatedType {
         )
 
         fragment.outputBlock("extension \(globalName): NodeMutator {") {
-
-            fragment.outputBlock("public static func fromNode(_ value: napi_value?, env: napi_env) throws -> Self {") {
+            fragment.outputBlock("public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {") {
                 // TODO: type check
                 fragment.outputBlock("Self(") {
                     for (index, storedVar) in storedVariables.enumerated() {
                         let resolved = context.resolve(type: storedVar.typeName.better)
                         let last = index == storedVariables.count - 1
                         fragment.outputBlock("\(storedVar.name): try { () -> \(resolved.sourceType.name) in", closeWith: last ? "}()" : "}(),") {
-                            fragment.output("var fieldValue: napi_value?")
-                            fragment.output("try check(napi_get_named_property(env, value, \"\(storedVar.name)\", &fieldValue))")
+                            fragment.output("let fieldValue = try env.getNamedProperty(value, \"\(storedVar.name)\")")
                             fragment.output("return try \(resolved.converterType.name).fromNode(fieldValue, env: env)")
                         }
                     }
                 }
             }
 
-            fragment.outputBlock("public static func toNode(_ value: Self, env: napi_env) throws -> napi_value? {") {
+            fragment.outputBlock("public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {") {
                 fragment.output("let constructor = try InstanceData.data(for: env).constructor(for: \"\(nodeName)\", env: env)")
-                fragment.outputBlock("let args: [napi_value?] = [") {
+                fragment.outputBlock("let args: [NAPI.Value] = [") {
                     for storedVar in storedVariables {
                         let resolved = context.resolve(type: storedVar.typeName.better)
                         fragment.output("try \(resolved.converterType.name).toNode(value.\(storedVar.name), env: env),")
                     }
                 }
-                fragment.output("var result: napi_value?")
-                fragment.output("try check(napi_new_instance(env, constructor, args.count, args, &result))")
-                fragment.output("return result")
+                fragment.output("return try env.newInstance(constructor, args)")
             }
 
-            fragment.outputBlock("public static func mutateNode(_ value: Self, this: napi_value?, env: napi_env) throws {") {
+            fragment.outputBlock("public static func mutateNode(_ value: Self, this: NAPI.Value, env: NAPI.Env) throws {") {
                 for storedVar in storedVariables {
                     guard storedVar.isMutable else { continue }
                     let resolved = context.resolve(type: storedVar.typeName.better)
-                    fragment.output("try check(napi_set_named_property(env, this, \"\(storedVar.name)\", \(resolved.converterType.name).toNode(value.\(storedVar.name), env: env)))")
+                    fragment.output("try env.setNamedProperty(this, \"\(storedVar.name)\", \(resolved.converterType.name).toNode(value.\(storedVar.name), env: env))")
                 }
             }
 
-            fragment.outputBlock("public static func nodeSetup(env: napi_env, module: napi_value) throws {") {
+            fragment.outputBlock("public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {") {
                 // fragment.output("print(\"setting up \(globalName)\")")
 
                 fragment.outputBlock("let nodeClass = try NodeClass(") {
@@ -176,7 +176,7 @@ struct TranslatedStruct: TranslatedType {
                             fragment.output("// TODO: typecheck?")
                             fragment.output("let this = try env.this()")
                             for (index, storedVar) in storedVariables.enumerated() {
-                                fragment.output("try check(napi_set_named_property(env.env, this, \"\(storedVar.name)\", env.argument(at: \(index))))")
+                                fragment.output("try env.env.setNamedProperty(this, \"\(storedVar.name)\", env.argument(at: \(index)))")
                             }
                             fragment.output("return this")
                         }
@@ -288,7 +288,7 @@ struct TranslatedStruct: TranslatedType {
                 module: context.module,
                 documentation: documentation,
                 name: nodeName,
-                constructor: .init(
+                constructor: .`public`(
                     fields: storedVariables.compactMap {
                         switch context.kotlin(field: $0, useNativeName: true) {
                         case .method: fatalErr("Can't export a stored variable as a method")

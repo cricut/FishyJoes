@@ -5,7 +5,7 @@ extension Optional {
 }
 
 infix operator ||=
-func ||=(left: inout Bool, right: Bool) { left = left || right }
+func ||= (left: inout Bool, right: Bool) { left = left || right }
 
 public func fatalErr(_ message: String = "", file: StaticString = #file, line: UInt = #line) -> Never {
     fatalError("\n\(file):\(line): \(message)\n\(Thread.callStackSymbols.joined(separator: "\n"))\n")
@@ -47,5 +47,14 @@ extension Array {
     }
     var first4: (Element?, Element?, Element?, Element?) {
         (self[safe: 0], self[safe: 1], self[safe: 2], self[safe: 3])
+    }
+}
+
+extension Result where Failure == Never {
+    var neverFails: Success {
+        switch self {
+        case .success(let success):
+            return success
+        }
     }
 }

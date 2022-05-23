@@ -1,49 +1,56 @@
-import swsh
-import Foundation
 import ArgumentParser
-import Yams
-
-let wasmToolchain = "/Library/Developer/Toolchains/swift-wasm-5.4.0-RELEASE.xctoolchain"
-let androidToolchain = "/Library/Developer/Toolchains/swift-android-toolchain"
+import Foundation
+import swsh
 
 let dylibExt: String = {
-	#if os(macOS)
-	"dylib"
-	#elseif os(Linux)
-	"so"
-	#else
-	fatalError("unknown host OS")
-	#endif
+    #if os(macOS)
+    "dylib"
+    #elseif os(Linux)
+    "so"
+    #elseif os(Windows)
+    "dll"
+    #else
+    fatalError("unknown host OS")
+    #endif
 }()
 
-struct CodeGen: ParsableCommand {
+public struct CodeGen: ParsableCommand {
     @Flag(name: .shortAndLong, help: "suppress verbose output")
-    var quiet: Bool = false
-
-    @Flag(name: .long, inversion: .prefixedNo, help: "Generate a Web-assembly based node package")
-    var nodejs: Bool = false
+    var quiet = false
 
     @Flag(name: .long, inversion: .prefixedNo, help: "Generate a NodeJS N-API based node package")
-    var wasm: Bool = false
+    var nodejs = false
+
+    @Flag(name: .long, inversion: .prefixedNo, help: "Generate a Web-assembly based node package")
+    var wasm = false
     
     @Flag(name: .long, inversion: .prefixedNo, help: "Generate a C++ package")
-    var cpp: Bool = false
+    var cpp = false
 
     @Flag(name: .long, inversion: .prefixedNo, help: "Generate a Kotlin package")
-    var kotlin: Bool = false
+    var kotlin = false
 
     @Flag(name: .long, inversion: .prefixedNo, help: "Generate a Kotlin package without android support (much faster)")
-    var kotlinFast: Bool = false
+    var kotlinFast = false
+
+    @Flag(name: [.long, .customLong("C🗡️")], inversion: .prefixedNo, help: "Generate a C# Package")
+    var cSharp = false
+
+    @Flag(name: .long, inversion: .prefixedNo, help: "Additional wasm optimizations (takes some time)")
+    var wasmOpt = true
+
+    @Flag(name: .long, help: "Build library in debug mode")
+    var debug = false
 
     @Option(help: "Used for debugging fishy-joes code generation")
     var sourceryDumpPath: String?
 
+    @Option(name: .long, help: "Update version number of generated package.")
+    var version: String?
+
     enum BuildStep: String, CaseIterable, ExpressibleByArgument {
         case generate, build, test, pack
     }
-
-    @Option(name: .long, help: "Update version number of generated package.")
-    var version: String?
 
     @Argument(
         help: """
@@ -56,129 +63,37 @@ struct CodeGen: ParsableCommand {
             """
     )
     var buildStep: [BuildStep] = [.generate, .build, .test]
-}
 
-struct SwiftPackage: Codable {
-    struct Dependency: Codable {
-        struct SCM: Codable {
-            let identity: String
-            let location: URL
-        }
-        struct Local: Codable {
-            let identity: String
-            let path: String
-        }
-        let scm: [SCM]?
-        let local: [Local]?
-    }
-    struct Target: Codable {
-        let name: String
-        let path: String?
-    }
-    let dependencies: [Dependency]
-    let targets: [Target]
-}
-
-extension SwiftPackage {
-    var dependencyMap: [String: URL] {
-        let locals = dependencies.flatMap { $0.local ?? [] }.map { ($0.identity.lowercased(), URL(string: $0.path)!) }
-        let scms = dependencies.flatMap { $0.scm ?? [] }.map { ($0.identity.lowercased(), $0.location) }
-        return Dictionary(uniqueKeysWithValues: locals + scms)
+    enum CodingKeys: CodingKey {
+        case quiet
+        case nodejs
+        case wasm
+        case kotlin
+        case kotlinFast
+        case cSharp
+        case wasmOpt
+        case sourceryDumpPath
+        case version
+        case buildStep
+        case debug
     }
 
-    func path(toTarget targetName: String) -> String? {
-        guard let target = targets.first(where: { $0.name == targetName }) else {
-            return nil
-        }
-        return target.path ?? "./Sources/\(targetName)"
-    }
-}
+    var config: FishyJoesConfig!
+    var platforms: [Platform] = []
 
-struct FishyJoesConfig: Codable {
-    let module: String
-    let publishRepository: String?
-
-    static func readFromFile() -> FishyJoesConfig {
-        guard let configData = try? cmd("cat", "fishy-joes.yaml").runString() else {
-            fatalError("missing config file fishy-joes.yaml")
-        }
-        guard let configObject = try? Yams.load(yaml: configData) else {
-            print("fishy-joes.yaml is not valid YAML. Should be something like:")
-            print("---")
-            print("module: MyModule")
-            fatalError("invalid YAML")
-        }
-        guard let configDictionary = configObject as? [String: Any] else {
-            print("fishy-joes.yaml root object must be a dictionary. Should be something like:")
-            print("---")
-            print("module: MyModule")
-            fatalError("invalid YAML")
-        }
-        guard let moduleObj = configDictionary["module"] else {
-            fatalError("fishy-joes.yaml missing key `module`. Should be the name of the library target you're exporting.")
-        }
-        guard let module = moduleObj as? String else {
-            fatalError("fishy-joes.yaml value for key `module` is not a string. Should be the name of the library target you're exporting.")
-        }
-        let publishRepository = configDictionary["publishRepository"].map { obj -> String in
-            guard let str = obj as? String else {
-                fatalError("fishy-joes.yaml value for key `publishRepository` is not a string")
-            }
-            return str
-        }
-        return FishyJoesConfig(module: module, publishRepository: publishRepository)
-    }
-}
-
-struct NPMPackage: Codable {
-    var name: String
-    var version: String?
-    var description: String?
-    var main: String?
-    var type: String?
-    var types: String?
-    var browser: String?
-    var author: String?
-    var repository: Repository?
-    var publishConfig: PublishConfig? = PublishConfig()
-    var dependencies: [String: String]?
-
-    init(config: FishyJoesConfig, platform: Platform, version: String, dependencies: [String: String]?) {
-        self.name = "@cricut/\(config.module.lowercased())-\(platform.platform.replacingOccurrences(of: "node-", with: ""))"
-        self.version = version
-        self.description = platform.packageDescription(config: config)
-        self.dependencies = dependencies
-        self.main = "\(config.module).js"
-        self.type = "module"
-        self.types = "\(config.module).d.ts"
-        self.browser = "\(config.module).browser.js"
-        self.repository = config.publishRepository.map {
-            Repository(type: "git", url: "ssh://git@\($0).git", directory: "packages")
-        }
-    }
-
-    struct Repository: Codable {
-        var type: String
-        var url: String
-        var directory: String
-    }
-
-    struct PublishConfig: Codable  {
-        var registry: String = "https://npm.pkg.github.com/"
-    }
+    public init() {}
 }
 
 extension CodeGen {
-    mutating func run() throws {
+    public mutating func validate() throws {
         ExternalCommand.verbose = !quiet
 
+        config = try FishyJoesConfig.readFromFile()
+
         guard cmd("test", "-f", "Package.swift").runBool() else {
-            fatalError("No Package.swift found in current directory. fishy-joes must be run in the root of the bindings package")
+            throw ValidationError("No Package.swift found in current directory. fishy-joes must be run in the root of the bindings package")
         }
 
-        let config = FishyJoesConfig.readFromFile()
-
-        var platforms: [Platform] = []
         if wasm {
             platforms.append(.wasm)
         }
@@ -194,17 +109,20 @@ extension CodeGen {
         if kotlin && !kotlinFast {
             platforms.append(contentsOf: AndroidArchitecture.allCases.map(Platform.kotlinAndroid))
         }
-
-        let generateOnly = Set(buildStep) == [.generate]
-        guard !platforms.isEmpty || generateOnly else {
-            fatalError("must specify at least one of --wasm, --nodejs, or --kotlin for requested build steps")
+        if cSharp {
+            platforms.append(.cSharp)
         }
+    }
 
+    public mutating func run() throws {
         if buildStep.contains(.generate) {
             let packageJSON = try cmd("swift", "package", "dump-package").runData()
 
-            guard let packageInfo = try? JSONDecoder().decode(SwiftPackage.self, from: packageJSON) else {
-                fatalError("Couldn't parse swift package")
+            let packageInfo: SwiftPackage
+            do {
+                packageInfo = try JSONDecoder().decode(SwiftPackage.self, from: packageJSON)
+            } catch let error {
+                fatalError("Couldn't parse swift package: \(error)")
             }
             let translateeSources: String
             if let translateeDependency = packageInfo.dependencyMap[config.module.lowercased()] {
@@ -218,9 +136,20 @@ extension CodeGen {
                 fatalError("Couldn't locate FishyJoes in Package.swift")
             }
 
+            var fishyJoesModuleFiles: [String] = []
+            for moduleName in config.requiredModules {
+                let bindingModule = "\(moduleName)-bindings"
+                guard let dependencyURL = packageInfo.dependencyMap[bindingModule.lowercased()] else {
+                    fatalError("Couldn't locate \(bindingModule) in Package.swift, but it's required by fishyjoes.json")
+                }
+                let dependencyPath = (dependencyURL.scheme == nil ? dependencyURL.path : ".build/checkouts/\(bindingModule)") + "/Sources"
+                fishyJoesModuleFiles.append("\(dependencyPath)/Generated/\(moduleName).fishyjoesmodule")
+            }
+
             // MARK: Generate code
             try cmd("rm", "-rf", "Sources/Generated", "kotlin/src/generated", "DebugGenerated", "cpp").run()
             try cmd("mkdir", "-p",
+                    "Sources/Generated/CSharpInterface",
                     "Sources/Generated/NodeInterface",
                     "Sources/Generated/JavaInterface",
                     "Sources/Generated/CPPInterface",
@@ -228,12 +157,14 @@ extension CodeGen {
             ).run()
             try cmd(
                 "touch",
+                "Sources/Generated/CSharpInterface/EmptyPlaceholder.swift",
                 "Sources/Generated/NodeInterface/EmptyPlaceholder.swift",
                 "Sources/Generated/JavaInterface/EmptyPlaceholder.swift",
                 "Sources/Generated/CPPInterface/EmptyPlaceholder.swift"
             ).run()
             try cmd("swift", "build", "--product", "sourcery").run()
-            try cmd("swift", "build", "--product", "fishy-joes-execution-helper").run()
+            try cmd("swift", "build", "--product", "🐟☕️").run()
+            // Trampoline into fishy-joes-execution-helper via Sourcery
             try cmd(
                 ".build/debug/sourcery",
                 arguments: [
@@ -243,7 +174,8 @@ extension CodeGen {
                     "--sources", translateeSources,
                     "--templates", ".build/debug/FishyJoes_FishyJoesExecutionHelper.bundle/FishyJoes.swifttemplate",
                     "--args", "module=\(config.module)",
-                    "--args", "fishyJoesExecutable=.build/debug/fishy-joes-execution-helper",
+                    "--args", "requiredModules=\"\(try! JSONEncoder().encode(fishyJoesModuleFiles).base64EncodedString())\"",
+                    "--args", "fishyJoesExecutable=.build/debug/🐟☕️",
                     "--output", "Sources/Generated"
                 ].compactMap { $0 },
                 addEnv: sourceryDumpPath.map {
@@ -259,13 +191,15 @@ extension CodeGen {
             for platform in platforms {
                 switch platform {
                 case .wasm:
-                    try platform.swiftBuild()
+                    try platform.swiftBuild(debug: debug)
                 case .node:
-                    try platform.swiftBuild("--product", "\(config.module)-node")
+                    try platform.swiftBuild("--product", "\(config.module)-node", debug: debug)
                 case .kotlinSystem, .kotlinAndroid:
-                    try platform.swiftBuild("--product", "\(config.module)-java")
+                    try platform.swiftBuild("--product", "\(config.module)-java", debug: debug)
                 case .cpp:
-                    try platform.swiftBuild("--product", "\(config.module)-cpp")
+                    try platform.swiftBuild("--product", "\(config.module)-cpp", debug: debug)
+                case .cSharp:
+                    try platform.swiftBuild("--product", "\(config.module)-c-sharp", debug: debug)
                 }
             }
 
@@ -276,52 +210,77 @@ extension CodeGen {
             }
 
             for platform in platforms {
-                func copyJs(resourceExt: String) throws {
-                }
                 switch platform {
                 case .wasm:
-                    try cmd("cp", "\(platform.buildDir)/DummyMain.wasm", "\(platform.outputDir)/\(config.module).wasm").run()
+                    if wasmOpt, cmd("wasm-opt", "--version").runBool() {
+                        try cmd("wasm-opt", "\(platform.buildDir(debug: debug))/DummyMain.wasm", "-O1", "-o", "\(platform.outputDir)/\(config.module).wasm").run()
+                    } else {
+                        if wasmOpt {
+                            print("WARNING: wasm-opt is not installed, resulting build will be bigger and possibly slower")
+                        } else {
+                            print("skipping wasm-opt")
+                        }
+                        try cmd("cp", "\(platform.buildDir(debug: debug))/DummyMain.wasm", "\(platform.outputDir)/\(config.module).wasm").run()
+                    }
                     try cmd(
                         "cp",
-                        "\(platform.buildDir)/FishyJoes_FishyJoesNodeRuntime.resources/js/wasm-napi.js",
+                        "\(platform.buildDir(debug: debug))/FishyJoes_FishyJoesNodeRuntime.resources/js/wasm-napi.js",
                         "Sources/Generated/NodeInterface/\(config.module).d.ts",
                         platform.outputDir
                     ).run()
+                    let dependencySplat = config.requiredModules.map { "\($0), " }.joined()
                     try cmd(
                         "sed",
                         "-e", "s/__MODULE_NAME__/\(config.module)/g",
-                        "\(platform.buildDir)/FishyJoes_FishyJoesNodeRuntime.resources/js/__MODULE_NAME__.js"
+                        "-e", "s/__MODULE_DEPENDENCIES__/\(dependencySplat)/g",
+                        "\(platform.buildDir(debug: debug))/FishyJoes_FishyJoesNodeRuntime.resources/js/__MODULE_NAME__.js"
                     ).output(overwritingFile: "\(platform.outputDir)/\(config.module).js").run()
                     try cmd(
                         "sed",
                         "-e", "s/__MODULE_NAME__/\(config.module)/g",
-                        "\(platform.buildDir)/FishyJoes_FishyJoesNodeRuntime.resources/js/__MODULE_NAME__.browser.js"
+                        "-e", "s/__MODULE_DEPENDENCIES__/\(dependencySplat)/g",
+                        "\(platform.buildDir(debug: debug))/FishyJoes_FishyJoesNodeRuntime.resources/js/__MODULE_NAME__.browser.js"
                     ).output(overwritingFile: "\(platform.outputDir)/\(config.module).browser.js").run()
                 case .node:
-                    try cmd("cp", "\(platform.buildDir)/lib\(config.module)-node.\(dylibExt)", "\(platform.outputDir)/\(config.module).cjs.node").run()
+                    try cmd("cp", "\(platform.buildDir(debug: debug))/libFishyJoesNodeRuntime.\(dylibExt)", "\(platform.outputDir)/").run()
+                    for dependency in config.requiredModules + [config.module] {
+                        try cmd("cp", "\(platform.buildDir(debug: debug))/lib\(dependency).\(dylibExt)", "\(platform.outputDir)/").run()
+
+                        // For node to load a library correctly, the file must be ".cjs.node" and not a symlink
+                        // But for the linker to find required libraries, they need their original names.
+                        // So we symlink `libModule-node.dylib` -> `module.cjs.node`
+                        let compiledLibName = "lib\(dependency)-node.\(dylibExt)"
+                        let nodeLibName = "\(dependency).cjs.node"
+                        try cmd("cp", "\(platform.buildDir(debug: debug))/\(compiledLibName)", "\(platform.outputDir)/\(nodeLibName)").run()
+                        try cmd("ln", "-s", nodeLibName, "\(platform.outputDir)/\(compiledLibName)").run()
+                    }
                     try cmd(
                         "cp",
                         "Sources/Generated/NodeInterface/\(config.module).d.ts",
                         platform.outputDir
                     ).run()
-                    try cmd(
-                        "echo",
-                        """
-                            import { createRequire } from 'module';
-                            const require = createRequire(import.meta.url);
-                            export const { \(config.module) } = require('./\(config.module).cjs')
-                            export default \(config.module)
-                            """
-                    ).output(overwritingFile: "\(platform.outputDir)/\(config.module).js").run()
+                    var moduleDotJS = [
+                        "import { createRequire } from 'module';",
+                        "const require = createRequire(import.meta.url);",
+                    ]
+                    for module in config.requiredModules + [config.module] {
+                        moduleDotJS.append("export const { \(module) } = require('./\(module).cjs');")
+                    }
+                    moduleDotJS.append("export default \(config.module);")
+                    try cmd("echo", moduleDotJS.joined(separator: "\n")).output(overwritingFile: "\(platform.outputDir)/\(config.module).js").run()
                 case .kotlinSystem:
                     try cmd("mkdir", "-p", platform.outputDir).run()
-                    try cmd("cp", "\(platform.buildDir)/lib\(config.module)-java.\(dylibExt)", platform.outputDir).run()
+                    try cmd("cp", "\(platform.buildDir(debug: debug))/lib\(config.module).\(dylibExt)", platform.outputDir).run()
+                    try cmd("cp", "\(platform.buildDir(debug: debug))/lib\(config.module)-java.\(dylibExt)", platform.outputDir).run()
                 case .kotlinAndroid:
                     try cmd("mkdir", "-p", platform.outputDir).run()
-                    try cmd("cp", "\(platform.buildDir)/lib\(config.module)-java.so", platform.outputDir).run()
+                    try cmd("cp", "\(platform.buildDir(debug: debug))/lib\(config.module).so", platform.outputDir).run()
+                    try cmd("cp", "\(platform.buildDir(debug: debug))/lib\(config.module)-java.so", platform.outputDir).run()
                 case .cpp:
                     try cmd("mkdir", "-p", platform.outputDir).run()
-                    
+                case .cSharp:
+                    try cmd("mkdir", "-p", platform.outputDir).run()
+                    try cmd("cp", "\(platform.buildDir(debug: debug))/lib\(config.module)-c-sharp.\(dylibExt)", platform.outputDir).run()
                 }
             }
             if platforms.contains(.kotlinSystem) {
@@ -362,8 +321,8 @@ extension CodeGen {
                         .append(toFile: packageJsonPath)
                         .run()
                 }
-            case .kotlinSystem, .kotlinAndroid, .cpp:
-                ()
+            case .kotlinSystem, .kotlinAndroid, .cpp, .cSharp:
+                break
             }
         }
 
@@ -386,7 +345,10 @@ extension CodeGen {
                     }
                 case .kotlinAndroid, .cpp:
                     // TODO
-                    ()
+                    break
+                case .cSharp:
+                    // TODO
+                    break
                 }
             }
         }
@@ -397,169 +359,5 @@ extension CodeGen {
                 try cmd("npm", "pack", "./\(platform.outputDir)").run()
             }
         }
-    }
-}
-
-enum AndroidArchitecture: String, Equatable, CaseIterable {
-    case arm, i686, x86_64, aarch64
-
-    var triple: String {
-        switch self {
-        case .arm: return "armv7-none-linux-androideabi"
-        default: return "\(rawValue)-unknown-linux-android"
-        }
-    }
-
-    var ndkName: String {
-        switch self {
-        case .arm: return "armeabi-v7a"
-        case .i686: return "x86"
-        case .x86_64: return "x86_64"
-        case .aarch64: return "arm64-v8a"
-        }
-    }
-}
-
-enum Platform: Hashable {
-    case wasm, node, cpp, kotlinSystem, kotlinAndroid(AndroidArchitecture)
-
-    static let nativeMacSwiftBuild = try! cmd("xcrun", "-f", "swift-build").runString()
-
-    func swiftBuild(arguments: [String]) throws {
-        var args = arguments
-        args.append(contentsOf: ["--configuration", "release"])
-        let path: String
-        var env: [String: String] = [:]
-        switch self {
-        case .wasm:
-            path = "\(wasmToolchain)/usr/bin/swift-build"
-            args.append(contentsOf: ["--triple", "wasm32-unknown-wasi"])
-            // custom build paths to avoid different versions of spm destroying each other's caches
-            args.append(contentsOf: ["--build-path", "./.build/wasm-build"])
-            env = ["WASM_ONLY": "1"]
-        case .node, .kotlinSystem:
-            #if os(macOS)
-            path = Platform.nativeMacSwiftBuild
-            #elseif os(Linux)
-            path = "swift"
-            args = ["build", "-Xswiftc", "-static-stdlib"] + args
-            #else
-            fatalError("unknown host OS")
-            #endif
-        case .kotlinAndroid(.arm):
-            path = "\(androidToolchain)/usr/bin/swift-build-arm-linux-androideabi"
-            args.append(
-                contentsOf: [
-                    "--build-path", "./.build/android-build",
-                ]
-            )
-        case .kotlinAndroid(let arch):
-            path = "\(androidToolchain)/usr/bin/swift-build-\(arch.rawValue)-linux-android"
-            args.append(
-                contentsOf: [
-                    "--build-path", "./.build/android-build",
-                ]
-            )
-        case .cpp:
-            #if os(macOS)
-            path = Platform.nativeMacSwiftBuild
-            #elseif os(Linux)
-            path = "swift"
-            args = ["build", "-Xswiftc", "-static-stdlib"] + args
-            #else
-            fatalError("unknown host OS")
-            #endif
-        }
-        try cmd(path, arguments: args, addEnv: env).run()
-    }
-
-    func swiftBuild(_ arguments: String...) throws {
-        try swiftBuild(arguments: arguments)
-    }
-
-    var platform: String {
-        switch self {
-        case .wasm: return "wasm"
-        case .node:
-            #if os(macOS)
-            return "node-native-macos"
-            #elseif os(Linux)
-            return "node-native-ubuntu"
-            #else
-            fatalError("unknown host OS")
-            #endif
-        case .kotlinSystem:
-            #if os(macOS)
-            return "jni-macos"
-            #elseif os(Linux)
-            return "jni-ubuntu"
-            #else
-            fatalError("unknown host OS")
-            #endif
-        case .kotlinAndroid: return "jni-android"
-        case .cpp: return "cpp"
-        }
-    }
-    var outputDir: String {
-        switch self {
-        case .wasm, .node, .cpp: return "output/\(platform)"
-        case .kotlinSystem:
-            #if os(macOS)
-            return "kotlin/src/generated/resources/mac"
-            #elseif os(Linux)
-            return "kotlin/src/generated/resources/linux"
-            #else
-            fatalError("unknown host OS")
-            #endif
-        case .kotlinAndroid(let arch): return "kotlin/src/generated/resources/lib/\(arch.ndkName)"
-        }
-    }
-    func packageDescription(config: FishyJoesConfig) -> String {
-        switch self {
-        case .wasm: return "\(config.module) packaged as a typescript library using WebAssembly"
-        case .node: return "\(platform) <-> node/ts bindings for \(config.module)"
-        case .cpp: return "\(config.module) C++ bingings"
-        case .kotlinSystem, .kotlinAndroid: return "A JNI wrapper for \(config.module)"
-        }
-    }
-    var buildDir: String {
-        switch self {
-        case .wasm: return ".build/wasm-build/wasm32-unknown-wasi/release"
-        case .node, .kotlinSystem:
-            #if os(macOS)
-            #if arch(x86_64)
-            return ".build/x86_64-apple-macosx/release"
-            #elseif arch(arm64)
-            return ".build/arm64-apple-macosx/release"
-            #else
-            fatalError("unknown mac arch")
-            #endif
-            #elseif os(Linux)
-            return ".build/x86_64-unknown-linux-gnu/release"
-            #else
-            fatalError("unknown host OS")
-            #endif
-        case .kotlinAndroid(.arm):
-            return ".build/android-build/armv7-none-linux-androideabi/release"
-        case .kotlinAndroid(let arch):
-            return ".build/android-build/\(arch.rawValue)-unknown-linux-android/release"
-        case .cpp:
-            #if os(macOS)
-            #if arch(x86_64)
-            return ".build/cpp-build/x86_64-apple-macosx/release"
-            #elseif arch(arm64)
-            return ".build/cpp-build/arm64-apple-macosx/release"
-            #else
-            fatalError("unknown mac arch")
-            #endif
-            #elseif os(Linux)
-            return ".build/cpp-build/x86_64-unknown-linux-gnu/release"
-            #else
-            fatalError("unknown host OS")
-            #endif
-        }
-    }
-    var isTs: Bool {
-        self == .wasm || self == .node
     }
 }

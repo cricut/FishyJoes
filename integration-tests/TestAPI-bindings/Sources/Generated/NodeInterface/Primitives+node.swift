@@ -1,388 +1,339 @@
-// Generated using Sourcery 1.6.1 — https://github.com/krzysztofzablocki/Sourcery
+// Generated using Sourcery 1.8.1 — https://github.com/krzysztofzablocki/Sourcery
 // DO NOT EDIT
+// swiftlint:disable superfluous_disable_command unused_closure_parameter syntactic_sugar
 import FishyJoesNodeRuntime
 import Foundation
 import TestAPI
 
 extension Primitives: FishyJoesNodeRuntime.NodeConverter {
-    public static func fromNode(_ value: napi_value?, env: napi_env) throws -> Self {
-        var pointer: UnsafeMutableRawPointer?
-        try check(napi_unwrap(env, value, &pointer))
-        guard let nonNilPointer = pointer else {
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
+        guard let nonNilPointer = try env.unwrap(value) else {
             throw JSException(message: "expected Primitives, got nil")
         }
         return try Box<Primitives>.takeUnretainedOpaque(nonNilPointer).value
     }
-    public static func toNode(_ value: Self, env: napi_env) throws -> napi_value? {
+    public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
         let constructor = try FishyJoesNodeRuntime.InstanceData.data(for: env).constructor(for: "Primitives", env: env)
-        var args: napi_value? = try FishyJoesNodeRuntime.Box(value).retainedExternal(env: env)
-        var result: napi_value?
-        try check(napi_new_instance(env, constructor, 1, &args, &result))
-        return result
+        let arg = try FishyJoesNodeRuntime.Box(value).retainedExternal(env: env)
+        return try env.newInstance(constructor, [arg])
     }
-    public static func mutateNode(_ value: Self, this: napi_value?, env: napi_env) throws {
-        var pointer: UnsafeMutableRawPointer?
-        try check(napi_unwrap(env, this, &pointer))
-        guard let nonNilPointer = pointer else {
+    public static func mutateNode(_ value: Self, this: NAPI.Value, env: NAPI.Env) throws {
+        guard let pointer = try env.unwrap(this) else {
             throw JSException(message: "expected Primitives, got nil")
         }
-        try Box<Primitives>.takeUnretainedOpaque(nonNilPointer).value = value
+        try Box<Primitives>.takeUnretainedOpaque(pointer).value = value
     }
-    public static func nodeSetup(env: napi_env, module: napi_value) throws {
+    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let nodeClass = try NodeClass(
             env: env,
             name: "Primitives",
             properties: [
                 "echoBool": (
-                    .method(
-                        { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "echoBool", expectedArgumentCount: 1) { env in
-                                let result = try Bool.toNode(
-                                    Primitives.echoBool(
-                                        value: try env.argument(at: 0, converter: Bool.self)
-                                    ),
-                                    env: env.env
-                                )
-                                return result
-                            }
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoBool", expectedArgumentCount: 1) { env in
+                            let result = try Bool.toNode(
+                                Primitives.echoBool(
+                                    value: try env.argument(at: 0, converter: Bool.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
                         }
-                    ),
+                    },
                     isStatic: true
                 ),
                 "echoUInt8": (
-                    .method(
-                        { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "echoUInt8", expectedArgumentCount: 1) { env in
-                                let result = try UInt8.toNode(
-                                    Primitives.echoUInt8(
-                                        value: try env.argument(at: 0, converter: UInt8.self)
-                                    ),
-                                    env: env.env
-                                )
-                                return result
-                            }
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoUInt8", expectedArgumentCount: 1) { env in
+                            let result = try UInt8.toNode(
+                                Primitives.echoUInt8(
+                                    value: try env.argument(at: 0, converter: UInt8.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
                         }
-                    ),
+                    },
                     isStatic: true
                 ),
                 "echoUInt16": (
-                    .method(
-                        { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "echoUInt16", expectedArgumentCount: 1) { env in
-                                let result = try UInt16.toNode(
-                                    Primitives.echoUInt16(
-                                        value: try env.argument(at: 0, converter: UInt16.self)
-                                    ),
-                                    env: env.env
-                                )
-                                return result
-                            }
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoUInt16", expectedArgumentCount: 1) { env in
+                            let result = try UInt16.toNode(
+                                Primitives.echoUInt16(
+                                    value: try env.argument(at: 0, converter: UInt16.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
                         }
-                    ),
+                    },
                     isStatic: true
                 ),
                 "echoUInt32": (
-                    .method(
-                        { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "echoUInt32", expectedArgumentCount: 1) { env in
-                                let result = try UInt32.toNode(
-                                    Primitives.echoUInt32(
-                                        value: try env.argument(at: 0, converter: UInt32.self)
-                                    ),
-                                    env: env.env
-                                )
-                                return result
-                            }
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoUInt32", expectedArgumentCount: 1) { env in
+                            let result = try UInt32.toNode(
+                                Primitives.echoUInt32(
+                                    value: try env.argument(at: 0, converter: UInt32.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
                         }
-                    ),
+                    },
                     isStatic: true
                 ),
                 "echoUInt64": (
-                    .method(
-                        { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "echoUInt64", expectedArgumentCount: 1) { env in
-                                let result = try UInt64.toNode(
-                                    Primitives.echoUInt64(
-                                        value: try env.argument(at: 0, converter: UInt64.self)
-                                    ),
-                                    env: env.env
-                                )
-                                return result
-                            }
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoUInt64", expectedArgumentCount: 1) { env in
+                            let result = try UInt64.toNode(
+                                Primitives.echoUInt64(
+                                    value: try env.argument(at: 0, converter: UInt64.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
                         }
-                    ),
+                    },
                     isStatic: true
                 ),
                 "echoInt8": (
-                    .method(
-                        { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "echoInt8", expectedArgumentCount: 1) { env in
-                                let result = try Int8.toNode(
-                                    Primitives.echoInt8(
-                                        value: try env.argument(at: 0, converter: Int8.self)
-                                    ),
-                                    env: env.env
-                                )
-                                return result
-                            }
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoInt8", expectedArgumentCount: 1) { env in
+                            let result = try Int8.toNode(
+                                Primitives.echoInt8(
+                                    value: try env.argument(at: 0, converter: Int8.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
                         }
-                    ),
+                    },
                     isStatic: true
                 ),
                 "echoInt16": (
-                    .method(
-                        { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "echoInt16", expectedArgumentCount: 1) { env in
-                                let result = try Int16.toNode(
-                                    Primitives.echoInt16(
-                                        value: try env.argument(at: 0, converter: Int16.self)
-                                    ),
-                                    env: env.env
-                                )
-                                return result
-                            }
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoInt16", expectedArgumentCount: 1) { env in
+                            let result = try Int16.toNode(
+                                Primitives.echoInt16(
+                                    value: try env.argument(at: 0, converter: Int16.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
                         }
-                    ),
+                    },
                     isStatic: true
                 ),
                 "echoInt32": (
-                    .method(
-                        { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "echoInt32", expectedArgumentCount: 1) { env in
-                                let result = try Int32.toNode(
-                                    Primitives.echoInt32(
-                                        value: try env.argument(at: 0, converter: Int32.self)
-                                    ),
-                                    env: env.env
-                                )
-                                return result
-                            }
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoInt32", expectedArgumentCount: 1) { env in
+                            let result = try Int32.toNode(
+                                Primitives.echoInt32(
+                                    value: try env.argument(at: 0, converter: Int32.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
                         }
-                    ),
+                    },
                     isStatic: true
                 ),
                 "echoInt64": (
-                    .method(
-                        { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "echoInt64", expectedArgumentCount: 1) { env in
-                                let result = try Int64.toNode(
-                                    Primitives.echoInt64(
-                                        value: try env.argument(at: 0, converter: Int64.self)
-                                    ),
-                                    env: env.env
-                                )
-                                return result
-                            }
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoInt64", expectedArgumentCount: 1) { env in
+                            let result = try Int64.toNode(
+                                Primitives.echoInt64(
+                                    value: try env.argument(at: 0, converter: Int64.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
                         }
-                    ),
+                    },
                     isStatic: true
                 ),
                 "echoFloat": (
-                    .method(
-                        { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "echoFloat", expectedArgumentCount: 1) { env in
-                                let result = try Float.toNode(
-                                    Primitives.echoFloat(
-                                        value: try env.argument(at: 0, converter: Float.self)
-                                    ),
-                                    env: env.env
-                                )
-                                return result
-                            }
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoFloat", expectedArgumentCount: 1) { env in
+                            let result = try Float.toNode(
+                                Primitives.echoFloat(
+                                    value: try env.argument(at: 0, converter: Float.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
                         }
-                    ),
+                    },
                     isStatic: true
                 ),
                 "echoDouble": (
-                    .method(
-                        { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "echoDouble", expectedArgumentCount: 1) { env in
-                                let result = try Double.toNode(
-                                    Primitives.echoDouble(
-                                        value: try env.argument(at: 0, converter: Double.self)
-                                    ),
-                                    env: env.env
-                                )
-                                return result
-                            }
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoDouble", expectedArgumentCount: 1) { env in
+                            let result = try Double.toNode(
+                                Primitives.echoDouble(
+                                    value: try env.argument(at: 0, converter: Double.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
                         }
-                    ),
+                    },
                     isStatic: true
                 ),
                 "maybeEchoBool": (
-                    .method(
-                        { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeEchoBool", expectedArgumentCount: 1) { env in
-                                let result = try OptionalConverter<Bool>.toNode(
-                                    Primitives.maybeEchoBool(
-                                        value: try env.argument(at: 0, converter: OptionalConverter<Bool>.self)
-                                    ),
-                                    env: env.env
-                                )
-                                return result
-                            }
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeEchoBool", expectedArgumentCount: 1) { env in
+                            let result = try OptionalConverter<Bool>.toNode(
+                                Primitives.maybeEchoBool(
+                                    value: try env.argument(at: 0, converter: OptionalConverter<Bool>.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
                         }
-                    ),
+                    },
                     isStatic: true
                 ),
                 "maybeEchoUInt8": (
-                    .method(
-                        { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeEchoUInt8", expectedArgumentCount: 1) { env in
-                                let result = try OptionalConverter<UInt8>.toNode(
-                                    Primitives.maybeEchoUInt8(
-                                        value: try env.argument(at: 0, converter: OptionalConverter<UInt8>.self)
-                                    ),
-                                    env: env.env
-                                )
-                                return result
-                            }
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeEchoUInt8", expectedArgumentCount: 1) { env in
+                            let result = try OptionalConverter<UInt8>.toNode(
+                                Primitives.maybeEchoUInt8(
+                                    value: try env.argument(at: 0, converter: OptionalConverter<UInt8>.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
                         }
-                    ),
+                    },
                     isStatic: true
                 ),
                 "maybeEchoUInt16": (
-                    .method(
-                        { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeEchoUInt16", expectedArgumentCount: 1) { env in
-                                let result = try OptionalConverter<UInt16>.toNode(
-                                    Primitives.maybeEchoUInt16(
-                                        value: try env.argument(at: 0, converter: OptionalConverter<UInt16>.self)
-                                    ),
-                                    env: env.env
-                                )
-                                return result
-                            }
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeEchoUInt16", expectedArgumentCount: 1) { env in
+                            let result = try OptionalConverter<UInt16>.toNode(
+                                Primitives.maybeEchoUInt16(
+                                    value: try env.argument(at: 0, converter: OptionalConverter<UInt16>.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
                         }
-                    ),
+                    },
                     isStatic: true
                 ),
                 "maybeEchoUInt32": (
-                    .method(
-                        { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeEchoUInt32", expectedArgumentCount: 1) { env in
-                                let result = try OptionalConverter<UInt32>.toNode(
-                                    Primitives.maybeEchoUInt32(
-                                        value: try env.argument(at: 0, converter: OptionalConverter<UInt32>.self)
-                                    ),
-                                    env: env.env
-                                )
-                                return result
-                            }
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeEchoUInt32", expectedArgumentCount: 1) { env in
+                            let result = try OptionalConverter<UInt32>.toNode(
+                                Primitives.maybeEchoUInt32(
+                                    value: try env.argument(at: 0, converter: OptionalConverter<UInt32>.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
                         }
-                    ),
+                    },
                     isStatic: true
                 ),
                 "maybeEchoUInt64": (
-                    .method(
-                        { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeEchoUInt64", expectedArgumentCount: 1) { env in
-                                let result = try OptionalConverter<UInt64>.toNode(
-                                    Primitives.maybeEchoUInt64(
-                                        value: try env.argument(at: 0, converter: OptionalConverter<UInt64>.self)
-                                    ),
-                                    env: env.env
-                                )
-                                return result
-                            }
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeEchoUInt64", expectedArgumentCount: 1) { env in
+                            let result = try OptionalConverter<UInt64>.toNode(
+                                Primitives.maybeEchoUInt64(
+                                    value: try env.argument(at: 0, converter: OptionalConverter<UInt64>.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
                         }
-                    ),
+                    },
                     isStatic: true
                 ),
                 "maybeEchoInt8": (
-                    .method(
-                        { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeEchoInt8", expectedArgumentCount: 1) { env in
-                                let result = try OptionalConverter<Int8>.toNode(
-                                    Primitives.maybeEchoInt8(
-                                        value: try env.argument(at: 0, converter: OptionalConverter<Int8>.self)
-                                    ),
-                                    env: env.env
-                                )
-                                return result
-                            }
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeEchoInt8", expectedArgumentCount: 1) { env in
+                            let result = try OptionalConverter<Int8>.toNode(
+                                Primitives.maybeEchoInt8(
+                                    value: try env.argument(at: 0, converter: OptionalConverter<Int8>.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
                         }
-                    ),
+                    },
                     isStatic: true
                 ),
                 "maybeEchoInt16": (
-                    .method(
-                        { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeEchoInt16", expectedArgumentCount: 1) { env in
-                                let result = try OptionalConverter<Int16>.toNode(
-                                    Primitives.maybeEchoInt16(
-                                        value: try env.argument(at: 0, converter: OptionalConverter<Int16>.self)
-                                    ),
-                                    env: env.env
-                                )
-                                return result
-                            }
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeEchoInt16", expectedArgumentCount: 1) { env in
+                            let result = try OptionalConverter<Int16>.toNode(
+                                Primitives.maybeEchoInt16(
+                                    value: try env.argument(at: 0, converter: OptionalConverter<Int16>.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
                         }
-                    ),
+                    },
                     isStatic: true
                 ),
                 "maybeEchoInt32": (
-                    .method(
-                        { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeEchoInt32", expectedArgumentCount: 1) { env in
-                                let result = try OptionalConverter<Int32>.toNode(
-                                    Primitives.maybeEchoInt32(
-                                        value: try env.argument(at: 0, converter: OptionalConverter<Int32>.self)
-                                    ),
-                                    env: env.env
-                                )
-                                return result
-                            }
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeEchoInt32", expectedArgumentCount: 1) { env in
+                            let result = try OptionalConverter<Int32>.toNode(
+                                Primitives.maybeEchoInt32(
+                                    value: try env.argument(at: 0, converter: OptionalConverter<Int32>.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
                         }
-                    ),
+                    },
                     isStatic: true
                 ),
                 "maybeEchoInt64": (
-                    .method(
-                        { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeEchoInt64", expectedArgumentCount: 1) { env in
-                                let result = try OptionalConverter<Int64>.toNode(
-                                    Primitives.maybeEchoInt64(
-                                        value: try env.argument(at: 0, converter: OptionalConverter<Int64>.self)
-                                    ),
-                                    env: env.env
-                                )
-                                return result
-                            }
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeEchoInt64", expectedArgumentCount: 1) { env in
+                            let result = try OptionalConverter<Int64>.toNode(
+                                Primitives.maybeEchoInt64(
+                                    value: try env.argument(at: 0, converter: OptionalConverter<Int64>.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
                         }
-                    ),
+                    },
                     isStatic: true
                 ),
                 "maybeEchoFloat": (
-                    .method(
-                        { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeEchoFloat", expectedArgumentCount: 1) { env in
-                                let result = try OptionalConverter<Float>.toNode(
-                                    Primitives.maybeEchoFloat(
-                                        value: try env.argument(at: 0, converter: OptionalConverter<Float>.self)
-                                    ),
-                                    env: env.env
-                                )
-                                return result
-                            }
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeEchoFloat", expectedArgumentCount: 1) { env in
+                            let result = try OptionalConverter<Float>.toNode(
+                                Primitives.maybeEchoFloat(
+                                    value: try env.argument(at: 0, converter: OptionalConverter<Float>.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
                         }
-                    ),
+                    },
                     isStatic: true
                 ),
                 "maybeEchoDouble": (
-                    .method(
-                        { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeEchoDouble", expectedArgumentCount: 1) { env in
-                                let result = try OptionalConverter<Double>.toNode(
-                                    Primitives.maybeEchoDouble(
-                                        value: try env.argument(at: 0, converter: OptionalConverter<Double>.self)
-                                    ),
-                                    env: env.env
-                                )
-                                return result
-                            }
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeEchoDouble", expectedArgumentCount: 1) { env in
+                            let result = try OptionalConverter<Double>.toNode(
+                                Primitives.maybeEchoDouble(
+                                    value: try env.argument(at: 0, converter: OptionalConverter<Double>.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
                         }
-                    ),
+                    },
                     isStatic: true
                 ),
                 "falseBool": (
@@ -1026,15 +977,7 @@ extension Primitives: FishyJoesNodeRuntime.NodeConverter {
             ],
             constructor: { env, info in
                 FishyJoesNodeRuntime.callbackBody(env, info, name: "Primitives_constructor", expectedArgumentCount: 1) { env in
-                    // TODO: typecheck?
-                    let this = try env.this()
-                    let selfValue = try env.argument(at: 0)
-                    let boxed = try FishyJoesNodeRuntime.Box<Primitives>.takeUnretained(selfValue, env: env.env)
-                    let finalizer: napi_finalize = { env, data, _ in
-                        FishyJoesNodeRuntime.Box<Primitives>.releaseOpaque(data)
-                    }
-                    try check(env: env.env, napi_wrap(env.env, this, boxed.retainedOpaque(), finalizer, nil, nil))
-                    return this
+                    try FishyJoesNodeRuntime.Box<Primitives>.construct(env: env)
                 }
             }
         )

@@ -1,7 +1,7 @@
 import Foundation
 import SourceryRuntime
 
-class CPPTranslate {
+class CPPTranslate: Translator {
     func generateCPPInterfaceMethod(
         name: String,
         bindingOnlyName: String? = nil,

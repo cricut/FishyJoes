@@ -1,14 +1,9 @@
 package com.cricut.testapi
 
-import com.cricut.fishyjoes.runtime.LibraryLoader
-
 /**
  * <!-- FishyJoes.exportReference(Bytes) -->
  */
-class Bytes private constructor(
-    private val _swiftReference: Long
-)
- {
+class Bytes private constructor(swiftReference: Long): com.cricut.fishyjoes.runtime.SwiftReference(swiftReference) {
 
     companion object {
         /**
@@ -53,8 +48,6 @@ class Bytes private constructor(
             data: kotlin.ByteArray
         ): kotlin.ByteArray
 
-        init {
-            LibraryLoader.ensureLoaded("TestAPI")
-        }
+        init { loadNativeLibs() }
     }
 }

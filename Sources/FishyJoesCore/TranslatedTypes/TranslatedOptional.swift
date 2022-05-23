@@ -7,6 +7,8 @@ struct TranslatedOptional: TranslatedType {
     let containedNamedTypes: [TranslatedType]
     let kotlinPackage: String?
     let jniType: JNIType
+    let cSharpName: String
+    let cSharpNamespace: String?
 
     init(wrapped: TranslatedType) {
         self.wrapped = wrapped
@@ -17,6 +19,8 @@ struct TranslatedOptional: TranslatedType {
         self.containedNamedTypes = wrapped.containedNamedTypes
         self.kotlinPackage = wrapped.kotlinPackage
         self.jniType = wrapped.jniObjectType
+        self.cSharpName = wrapped.cSharpName + "?"
+        self.cSharpNamespace = nil
     }
 
     var sourceType: BetterType {

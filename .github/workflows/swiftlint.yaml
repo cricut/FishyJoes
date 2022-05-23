@@ -1,0 +1,20 @@
+name: SwiftLint
+on:
+  workflow_dispatch:
+  label:
+    types:
+      - created
+  pull_request:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/realm/swiftlint:5.5-latest
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
+
+    - name: SwiftLint
+      run: |
+        swiftlint --reporter github-actions-logging --strict

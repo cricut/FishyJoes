@@ -1,14 +1,9 @@
 package com.cricut.testapi
 
-import com.cricut.fishyjoes.runtime.LibraryLoader
-
 /**
  * <!-- FishyJoes.exportReference(Primitives) -->
  */
-class Primitives private constructor(
-    private val _swiftReference: Long
-)
- {
+class Primitives private constructor(swiftReference: Long): com.cricut.fishyjoes.runtime.SwiftReference(swiftReference) {
 
     companion object {
         /**
@@ -797,9 +792,7 @@ class Primitives private constructor(
             value: Double?
         ): Double?
 
-        init {
-            LibraryLoader.ensureLoaded("TestAPI")
-        }
+        init { loadNativeLibs() }
     }
 
     /**
@@ -854,9 +847,7 @@ class Primitives private constructor(
             @JvmName("__jni_set_staticMutablePropery")
             private external fun __jni_set_staticMutablePropery(newValue: kotlin.collections.List<UByte?>)
 
-            init {
-                LibraryLoader.ensureLoaded("TestAPI")
-            }
+            init { loadNativeLibs() }
         }
     }
 }

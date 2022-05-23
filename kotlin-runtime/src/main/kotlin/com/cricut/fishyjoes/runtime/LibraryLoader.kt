@@ -3,9 +3,16 @@ package com.cricut.fishyjoes.runtime
 import java.io.BufferedOutputStream
 import java.io.File
 import java.io.FileOutputStream
+import java.nio.file.Files
 
 object LibraryLoader {
     private var startedLoad = mutableSetOf<String>()
+    private val libDirectory = lazy {
+        val path = Files.createTempDirectory("java-libs-")
+        path.toFile().deleteOnExit()
+        path
+    }
+
     fun ensureLoaded(libraryName: String) {
         synchronized(this) {
             if (startedLoad.contains(libraryName)) { return }
@@ -21,30 +28,34 @@ object LibraryLoader {
 
         if (vendor.contains("Android")) {
             // android libraries are loaded differently
-            System.loadLibrary("$libraryName-java")
+            System.loadLibrary(libraryName)
             return
         }
 
         val jarPath: String
+        val prefix: String
         val ext: String
 
         if (osName.contains("Linux")) {
-            jarPath = "/linux/lib$libraryName-java.so"
+            jarPath = "/linux/lib$libraryName.so"
+            prefix = "lib"
             ext = "so"
         } else if (osName.contains("Mac")) {
-            jarPath = "/mac/lib$libraryName-java.dylib"
+            jarPath = "/mac/lib$libraryName.dylib"
+            prefix = "lib"
             ext = "dylib"
         } else if (osName.contains("Windows")) {
-            jarPath = "/windows/$libraryName-java.dll"
+            jarPath = "/windows/$libraryName.dll"
+            prefix = ""
             ext = "dll"
         } else {
             error("$libraryName unsupported OS: $osName")
         }
 
         // Extract dynamic library from jar to temporary file
-        val stream = javaClass.getResourceAsStream( jarPath)
+        val stream = javaClass.getResourceAsStream(jarPath)
             ?: error("couldn't find $jarPath")
-        val file = File.createTempFile("lib$libraryName-java", ".$ext")
+        val file = libDirectory.value.resolve("$prefix$libraryName.$ext").toFile()
         file.deleteOnExit()
         val out = BufferedOutputStream(FileOutputStream(file))
 
@@ -63,7 +74,7 @@ object LibraryLoader {
         System.load(file.absolutePath)
 
         // Eager cleanup if the OS allows it
-        if (!osName.contains("Windows")) {
+        if (osName.contains("Mac")) {
             file.delete()
         }
     }

@@ -1,4 +1,4 @@
-class KotlinClass {
+class KotlinClass: NestedClass {
     indirect enum KType: Equatable {
         case void
         case unsigned(jniType: JNIType)
@@ -30,17 +30,15 @@ class KotlinClass {
         let type: KType
     }
 
-    let capitalizedModule: String
-    let module: String
+    let module: Module
     let documentation: [String]
     let name: String
     var innerClasses: [KotlinClass] = []
 
-    init(module: String, documentation: [String], name: String) {
+    init(module: Module, documentation: [String], name: String) {
         self.name = name
         self.documentation = documentation
-        self.capitalizedModule = module
-        self.module = module.lowercased()
+        self.module = module
     }
 
     func output(to fragment: SourceFragment) {
@@ -55,11 +53,13 @@ class KotlinClass {
     }
 
     var fragment: SourceFragment {
-        let fragment = SourceFragment(sourceryDestination: "file:../../kotlin/src/generated/kotlin/com/cricut/\(module)/\(name).kt")
+        let fragment = SourceFragment(sourceryDestination: "file:../../kotlin/src/generated/kotlin/com/cricut/\(module.name.lowercased())/\(name).kt")
 
-        fragment.output("package com.cricut.\(module)")
+        fragment.output("package \(module.kotlinPackage)")
         fragment.blankLine()
-        fragment.output("import com.cricut.fishyjoes.runtime.LibraryLoader")
+        for dependency in module.dependencies {
+            fragment.output("import com.cricut.\(dependency.lowercased()).*")
+        }
         fragment.blankLine()
         output(to: fragment)
         return fragment
@@ -188,54 +188,52 @@ class KotlinProductClass: KotlinClass {
         let value: KType
     }
 
-    struct Constructor {
-        let `private`: Bool
-        let fields: [Variable]
-
-        init(`private`: Bool = false, fields: [Variable]) {
-            self.private = `private`
-            self.fields = fields
-        }
+    enum Constructor {
+        case `public`(fields: [Variable])
+        case reference
     }
 
     let constructor: Constructor
     let fields: [Variable]
     let methods: [Method]
+    let reference: Bool
 
     init(
-        module: String,
+        module: Module,
         documentation: [String],
         name: String,
         constructor: Constructor,
-        fieldsAndMethods: [MethodOrVariable]
+        fieldsAndMethods: [MethodOrVariable],
+        reference: Bool = false
     ) {
         self.constructor = constructor
         self.fields = fieldsAndMethods.compactMap {
-            guard case let .variable(field) = $0 else{
+            guard case let .variable(field) = $0 else {
                 return nil
             }
             return field
         }
         self.methods = fieldsAndMethods.compactMap {
-            guard case let .method(method) = $0 else{
+            guard case let .method(method) = $0 else {
                 return nil
             }
             return method
         }
+        self.reference = reference
         super.init(module: module, documentation: documentation, name: name)
     }
 
     override func output(to fragment: SourceFragment) {
         document(documentation, fragment: fragment)
-        let classDeclaration: String
-        if constructor.private {
-            classDeclaration = "class \(unqualifiedName) private constructor"
-        } else {
-            classDeclaration = "data class \(unqualifiedName)"
-        }
-        fragment.outputBlock("\(classDeclaration)(") {
-            fragment.outputMap(constructor.fields, separator: ",") { field in
-                "\(constructor.private ? "private " : "")\(field.readOnly ? "val" : "var") \(field.name): \(field.type.kotlinType)"
+
+        switch constructor {
+        case .reference:
+            fragment.output("class \(unqualifiedName) private constructor(swiftReference: Long): com.cricut.fishyjoes.runtime.SwiftReference(swiftReference)", newLineTerminated: false)
+        case .`public`(let fields):
+            fragment.outputBlock("data class \(unqualifiedName)(") {
+                fragment.outputMap(fields, separator: ",") { field in
+                    "\(field.readOnly ? "val" : "var") \(field.name): \(field.type.kotlinType)"
+                }
             }
         }
         fragment.outputBlock(" {") {
@@ -247,9 +245,7 @@ class KotlinProductClass: KotlinClass {
             fragment.outputBlock("companion object {") {
                 fields.filter { $0.isStatic }.forEach { output(field: $0, to: fragment) }
                 methods.filter { $0.isStatic }.forEach { output(method: $0, to: fragment) }
-                fragment.outputBlock("init {") {
-                    fragment.output("LibraryLoader.ensureLoaded(\"\(capitalizedModule)\")")
-                }
+                fragment.output("init { loadNativeLibs() }")
             }
             outputInner(to: fragment)
         }
@@ -267,7 +263,7 @@ class KotlinEnumClass: KotlinClass {
     }
 
     init(
-        module: String,
+        module: Module,
         documentation: [String],
         name: String,
         cases: [Case],
@@ -275,13 +271,13 @@ class KotlinEnumClass: KotlinClass {
     ) {
         self.cases = cases
         self.fields = fieldsAndMethods.compactMap {
-            guard case let .variable(field) = $0 else{
+            guard case let .variable(field) = $0 else {
                 return nil
             }
             return field
         }
         self.methods = fieldsAndMethods.compactMap {
-            guard case let .method(method) = $0 else{
+            guard case let .method(method) = $0 else {
                 return nil
             }
             return method
@@ -314,9 +310,7 @@ class KotlinEnumClass: KotlinClass {
             fragment.outputBlock("companion object {") {
                 fields.filter { $0.isStatic }.forEach { output(field: $0, to: fragment) }
                 methods.filter { $0.isStatic }.forEach { output(method: $0, to: fragment) }
-                fragment.outputBlock("init {") {
-                    fragment.output("LibraryLoader.ensureLoaded(\"\(capitalizedModule)\")")
-                }
+                fragment.output("init { loadNativeLibs() }")
             }
             outputInner(to: fragment)
         }

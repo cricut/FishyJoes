@@ -1,6 +1,6 @@
+@_exported import FishyJoesCommonRuntime
 import Foundation
 @_exported import JNI
-@_exported import FishyJoesCommonRuntime
 
 public func javaNonNull<Result>(file: StaticString = #file, line: UInt = #line, _ result: Result?) throws -> Result {
     guard let result = result else {
@@ -80,7 +80,6 @@ public struct JNIError: Error {
         self.message = message
     }
 }
-
 
 public class CStringBag {
     private var strings: [UnsafeMutablePointer<CChar>] = []

@@ -11,4 +11,6 @@ struct TranslatedVoid: TranslatedType {
     let kotlinName = "Unit"
     let kotlinPackage: String? = "kotlin"
     let jniType = JNIType.void
+    var cSharpName: String = "void"
+    var cSharpNamespace: String?
 }

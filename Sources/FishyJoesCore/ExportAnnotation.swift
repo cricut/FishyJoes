@@ -1,7 +1,7 @@
-import SourceryRuntime
 import Foundation
+import SourceryRuntime
 
-struct ExportAnnotation {
+struct ExportAnnotation: Hashable {
     let kind: Kind
     let name: String
     let isOverride: Bool
@@ -31,13 +31,12 @@ struct ExportAnnotation {
         case curlyBracketed([SimpleParse])
     }
 
-    enum Kind: String, Equatable, CaseIterable {
+    enum Kind: String, Hashable, CaseIterable {
         case unmodified = "export"
         case asReference = "exportReference"
         case asMethod = "exportAsMethod"
     }
 }
-
 
 extension ExportAnnotation.SimpleParse {
     struct Reader {
@@ -138,12 +137,12 @@ extension ExportAnnotation.SimpleParse.Reader {
     }
 }
 
-fileprivate let annotationPattern = try! NSRegularExpression(pattern: #"^\s*<!--\s*FishyJoes\.(.*)\((.*)\)\s*-->\s*$"#)
+private let annotationPattern = try! NSRegularExpression(pattern: #"^\s*<!--\s*FishyJoes\.(.*)\((.*)\)\s*-->\s*$"#)
 extension Documented {
     var exportAnnotation: ExportAnnotation? {
         for docLine in documentation {
             let nsString = docLine as NSString
-            guard let match = annotationPattern.firstMatch(in: docLine, range: NSMakeRange(0, nsString.length)) else {
+            guard let match = annotationPattern.firstMatch(in: docLine, range: NSRange(location: 0, length: nsString.length)) else {
                 continue
             }
             let annotationName = nsString.substring(with: match.range(at: 1))

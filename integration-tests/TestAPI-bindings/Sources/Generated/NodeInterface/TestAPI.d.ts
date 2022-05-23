@@ -1,3 +1,4 @@
+export type Optional<T> = T | undefined;
 export declare namespace TestAPI {
     /**
      * <!-- FishyJoes.exportReference(Bytes) -->
@@ -780,8 +781,52 @@ export declare namespace TestAPI {
         }
     }
 
-    export type Optional<T> = T | undefined;
+    export type Tuples = ;
+
+    export namespace Tuples {
+        class _FictionalCommonSuperclass {
+            constructor()
+
+            /**
+             * <!-- FishyJoes.export(tuple2) -->
+             */
+            static readonly tuple2: [number, string];
+
+            /**
+             * <!-- FishyJoes.export(tuple3) -->
+             */
+            static readonly tuple3: [string, number, string];
+
+            /**
+             * <!-- FishyJoes.export(tuple4) -->
+             */
+            static readonly tuple4: [[number, string], [string, number, string], string, boolean];
+
+            /**
+             * <!-- FishyJoes.export(tuple5) -->
+             */
+            static readonly tuple5: [string, number, [[number, string], [string, number, string], string, boolean], [string, number, string], [number, string]];
+
+            /**
+             * <!-- FishyJoes.export(tuple6) -->
+             */
+            static readonly tuple6: [string, number, number, [[number, string], [string, number, string], string, boolean], [string, number, [[number, string], [string, number, string], string, boolean], [string, number, string], [number, string]], boolean];
+
+            /**
+             * <!-- FishyJoes.export(checkTuples) -->
+             */
+            static checkTuples(
+                t2: [number, string],
+                t3: [string, number, string],
+                t4: [[number, string], [string, number, string], string, boolean],
+                t5: [string, number, [[number, string], [string, number, string], string, boolean], [string, number, string], [number, string]],
+                t6: [string, number, number, [[number, string], [string, number, string], string, boolean], [string, number, [[number, string], [string, number, string], string, boolean], [string, number, string], [number, string]], boolean]
+            ): boolean;
+        }
+    }
 }
 
-export declare function init(): Promise<typeof TestAPI>;
+export declare function init(): Promise<{
+    TestAPI: typeof TestAPI,
+}>;
 export default TestAPI;

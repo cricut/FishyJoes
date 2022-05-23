@@ -1,5 +1,5 @@
-import JNI
 import FishyJoesCommonRuntime
+import JNI
 
 public struct Env {
     public var env: UnsafeMutablePointer<JNIEnv?>
@@ -25,6 +25,12 @@ public struct Env {
         return try String.fromJava(string, env: self)
     }
 
+    public func methodDescription(_ cls: jclass?, _ methodID: jmethodID?, isStatic: Bool = false) throws -> String {
+        let refl = try ToReflectedMethod(cls, methodID, isStatic ? 1 : 0)
+        defer { DeleteLocalRef(refl) }
+        return try javaDescription(refl)
+    }
+
     public func check<Result>(_ result: Result) throws -> Result {
         if ExceptionCheck() {
             throw JavaExceptionPending()
@@ -44,7 +50,6 @@ public struct Env {
         #endif
     }
 }
-
 
 // MARK: JNI function wrappers
 extension Env {
