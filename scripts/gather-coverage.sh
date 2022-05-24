@@ -64,4 +64,4 @@ binaries=(
 
 xcrun llvm-profdata merge coverage-data/*.profraw > coverage-data/combined.profdata
 
-xcrun llvm-cov export -object=$^binaries -instr-profile=coverage-data/combined.profdata -format=lcov > coverage-data/combined.lcov
+xcrun llvm-cov export -object=$^binaries -instr-profile=coverage-data/combined.profdata -format=text > coverage-data/combined.json
