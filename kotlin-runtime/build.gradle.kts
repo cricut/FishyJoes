@@ -69,7 +69,11 @@ sourceSets.main {
 }
 
 task<Exec>("buildSwiftTestHarness") {
-    commandLine("swift", "build", "--product", "JavaRuntimeTestHarness")
+    if (System.getenv("FISHYJOES_COVERAGE_PATH") == null) {
+        commandLine("swift", "build", "--product", "JavaRuntimeTestHarness")
+    } else {
+        commandLine("swift", "build", "--enable-code-coverage", "--product", "JavaRuntimeTestHarness")
+    }
 }
 
 tasks.test {

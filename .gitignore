@@ -7,3 +7,4 @@ DerivedData/
 .swiftpm/xcode/package.xcworkspace/contents.xcworkspacedata
 .gradle
 kotlin-runtime/src/generated/resources/
+coverage-data
