@@ -67,7 +67,7 @@ jobs:
         run: |
           set -euxo pipefail
 
-          # brew install sonar-scanner
+          brew install sonar-scanner
 
           sonar-scanner \
             -Dsonar.sources=. \
