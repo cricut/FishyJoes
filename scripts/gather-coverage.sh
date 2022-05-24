@@ -8,6 +8,17 @@ export FISHYJOES_COVERAGE_PATH=$PWD/coverage-data
 rm -rf $FISHYJOES_COVERAGE_PATH
 mkdir -p $FISHYJOES_COVERAGE_PATH
 
+# Publish runtime to maven local
+libdir=kotlin-runtime/src/generated/resources/mac
+
+rm -rf $libdir
+mkdir -p $libdir
+
+swift build --configuration debug --enable-code-coverage --product FishyJoesJavaRuntime
+cp .build/debug/libFishyJoesJavaRuntime.dylib $libdir
+
+(cd kotlin-runtime; ./gradlew publishToMavenLocal)
+
 # Gather coverage for unit tests
 (
     rm -rf .build/debug/codecov/
@@ -34,16 +45,6 @@ mkdir -p $FISHYJOES_COVERAGE_PATH
     export LLVM_PROFILE_FILE=$FISHYJOES_COVERAGE_PATH/integration-tests-node.profraw
     swift run --enable-code-coverage -- fishy-joes test --nodejs --debug
 )
-
-libdir=kotlin-runtime/src/generated/resources/mac
-
-rm -rf $libdir
-mkdir -p $libdir
-
-swift build --configuration debug --enable-code-coverage --product FishyJoesJavaRuntime
-cp .build/debug/libFishyJoesJavaRuntime.dylib $libdir
-
-(cd kotlin-runtime; ./gradlew publishToMavenLocal)
 
 (
     cd integration-tests/TestAPI-bindings
