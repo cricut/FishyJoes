@@ -14,7 +14,7 @@ concurrency:
 
 jobs:
   coverage:
-    runs-on: [self-hosted, macOS]
+    runs-on: macOS-12
     env:
       JDK_VERSION: 11
       GRADLE_OPTS: -Dorg.gradle.daemon=false
@@ -24,6 +24,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+
+      - name: Setup Git Credentials
+        uses: fusion-engineering/setup-git-credentials@v2.0.1
+        with:
+          credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
       - name: Setup JDK 1.11
         uses: actions/setup-java@v1
