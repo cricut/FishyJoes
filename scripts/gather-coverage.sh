@@ -57,6 +57,7 @@ binaries=(
     .build/debug/fishy-joes
     .build/debug/FishyJoesPackageTests.xctest/Contents/MacOS/FishyJoesPackageTests
     .build/debug/libJavaRuntimeTestHarness.dylib
+    .build/debug/libFishyJoesJavaRuntime.dylib
     integration-tests/TestAPI-bindings/.build/debug/libTestAPI.dylib
     integration-tests/TestAPI-bindings/.build/debug/libFishyJoesJavaRuntime.dylib
     integration-tests/TestAPI-bindings/.build/debug/libFishyJoesNodeRuntime.dylib
