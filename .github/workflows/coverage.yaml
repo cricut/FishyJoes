@@ -52,7 +52,7 @@ jobs:
 
           brew install binaryen
 
-          npm install
+          (cd integration-tests/TestAPI-bindings; npm install)
           (cd Tests/NAPITests/node-tests; npm install)
 
       - name: Gather coverage
