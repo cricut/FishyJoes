@@ -21,6 +21,8 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
       GITHUB_USER: cricut-builduser
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      SWIFT_WASM_URL: |-
+        https://github.com/swiftwasm/swift/releases/download/swift-wasm-5.6.0-RELEASE/swift-wasm-5.6.0-RELEASE-macos_x86_64.pkg
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -39,6 +41,18 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: '16.x'
+
+      - name: Configure build environment
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+
+          curl -Lo swift-wasm.pkg $SWIFT_WASM_URL
+          sudo installer -pkg swift-wasm.pkg -target /
+
+          brew install binaryen
+
+          (cd Tests/NAPITests/node-tests; npm install)
 
       - name: Gather coverage
         shell: zsh {0}
