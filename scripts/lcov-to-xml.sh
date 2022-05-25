@@ -16,6 +16,12 @@ sed -En -f <(cat <<'EOF'
 
 # line of coverage in the format "DA:42,37"
 /^DA:/ {
+    # escape XML
+    s/&/\&amp;/g
+    s/</\&lt;/g
+    s/>/\&gt;/g
+    s/"/\&quot;/g
+
     s#^DA:([[:digit:]]+),0$#    <lineToCover lineNumber="\1" covered="false" />#
     s#^DA:([[:digit:]]+),[[:digit:]]+$#    <lineToCover lineNumber="\1" covered="true" />#
     p
