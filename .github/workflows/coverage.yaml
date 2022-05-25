@@ -71,5 +71,4 @@ jobs:
 
           sonar-scanner \
             -Dsonar.sources=. \
-            -Dsonar.cfamily.llvm-cov.reportPath=coverage-data/combined.json \
-            -Dsonar.cfamily.build-wrapper-output.bypass=true
+            -Dsonar.coverageReportPaths=coverage-data/coverage.xml
