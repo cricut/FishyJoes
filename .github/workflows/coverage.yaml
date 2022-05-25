@@ -72,4 +72,5 @@ jobs:
 
           sonar-scanner \
             -Dsonar.sources=. \
-            -Dsonar.coverageReportPaths=coverage-data/coverage.xml
+            -Dsonar.coverageReportPaths=coverage-data/coverage.xml \
+            -Dsonar.coverage.jacoco.xmlReportPaths=coverage-data/jacoco-*/test/jacocoTestReport.xml

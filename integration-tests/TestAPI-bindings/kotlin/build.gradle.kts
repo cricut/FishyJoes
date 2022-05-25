@@ -4,6 +4,7 @@ import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 plugins {
     `maven-publish`
     kotlin("jvm") version "1.5.21"
+    jacoco
 }
 
 repositories {
@@ -49,32 +50,12 @@ gradle.rootProject {
     }
 }
 
-publishing {
-    repositories {
-        maven {
-            name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/cricut/TestAPI-bindings")
-            credentials {
-                username = System.getenv("GITHUB_ACTOR")
-                password = System.getenv("GITHUB_PUBLISH_TOKEN")
-            }
-        }
-    }
-    publications {
-        create<MavenPublication>("mavenJava") {
-            groupId = properties["group"] as? String
-            artifactId = properties["artifact"] as? String
-            version = properties["version"] as? String
-
-            from(components["java"])
-            artifact(sourcesJar.get())
-        }
-    }
-}
-
 sourceSets.main {
     java.srcDir("src/generated/kotlin")
     resources.srcDir("src/generated/resources")
+
+    java.srcDir("../../../kotlin-runtime/src/main/kotlin")
+    resources.srcDir("../../../kotlin-runtime/src/generated/resources")
 }
 
 tasks.test {
@@ -85,6 +66,17 @@ tasks.test {
         events("started", "skipped", "passed", "failed")
         showStandardStreams = true
     }
+}
+
+tasks.jacocoTestReport {
+    reports {
+        xml.required.set(true)
+    }
+}
+
+jacoco {
+    toolVersion = "0.8.7"
+    reportsDirectory.set(layout.projectDirectory.dir("../../../coverage-data/jacoco-integration"))
 }
 
 tasks {
@@ -98,7 +90,6 @@ tasks {
 
 dependencies {
     implementation(kotlin("stdlib:1.5.21"))
-    api("com.cricut.fishyjoes:runtime:local")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.0")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.0")
 }

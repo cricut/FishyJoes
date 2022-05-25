@@ -325,7 +325,10 @@ extension CodeGen {
         if buildStep.contains(.test) {
             for platform in platforms {
                 let env = codeCoveragePath.map {
-                    ["LLVM_PROFILE_FILE": "\($0)/fishy-joes-test-\(platform)-\(UUID()).profraw"]
+                    [
+                        "LLVM_PROFILE_FILE": "\($0)/fishy-joes-test-\(platform)-\(UUID()).profraw",
+                        "NODE_V8_COVERAGE": "\($0)/node",
+                    ]
                 } ?? [:]
                 switch platform {
                 case .wasm, .node:
@@ -339,7 +342,8 @@ extension CodeGen {
                     try cmd("node", "--expose-gc", "--unhandled-rejections=strict", "output/test/test.mjs", addEnv: env).run()
                 case .kotlinSystem:
                     try FileManager.default.withCurrentDirectoryPath("kotlin") {
-                        try cmd("./gradlew", "cleanTest", "test", addEnv: env).run()
+                        let tasks = ["cleanTest", "test"] + (codeCoveragePath == nil ? [] : ["jacocoTestReport"])
+                        try cmd("./gradlew", arguments: tasks, addEnv: env).run()
                     }
                 case .kotlinAndroid:
                     // TODO
