@@ -60,6 +60,7 @@ jobs:
         run: |
           set -euxo pipefail
 
+          ./scripts/generate-raw-coverage.sh
           ./scripts/gather-coverage.sh
 
       - name: Upload to sonar cloud
