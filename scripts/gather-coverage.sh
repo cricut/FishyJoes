@@ -67,4 +67,4 @@ xcrun llvm-profdata merge coverage-data/*.profraw > coverage-data/combined.profd
 
 xcrun llvm-cov export -object=$^binaries -instr-profile=coverage-data/combined.profdata -format=lcov > coverage-data/lcov.info
 
-./lcov-to-xml.sh <coverage-data/lcov.info >coverage-data/coverage.xml
+./scripts/lcov-to-xml.sh <coverage-data/lcov.info >coverage-data/coverage.xml
