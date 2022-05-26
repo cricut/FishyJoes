@@ -71,6 +71,6 @@ jobs:
           brew install sonar-scanner
 
           sonar-scanner \
-            -Dsonar.sources=. \
-            -Dsonar.coverageReportPaths=coverage-data/coverage.xml \
-            -Dsonar.coverage.jacoco.xmlReportPaths=coverage-data/jacoco-*/test/jacocoTestReport.xml
+            '-Dsonar.sources=.' \
+            '-Dsonar.coverageReportPaths=coverage-data/coverage.xml' \
+            '-Dsonar.coverage.jacoco.xmlReportPaths=coverage-data/jacoco-*/test/jacocoTestReport.xml'
