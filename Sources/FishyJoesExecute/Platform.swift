@@ -3,6 +3,11 @@ import swsh
 let wasmToolchain = "/Library/Developer/Toolchains/swift-wasm-5.6.0-RELEASE.xctoolchain"
 let androidToolchain = "/Library/Developer/Toolchains/swift-android-toolchain"
 
+struct BuildConfiguration {
+    let debug: Bool
+    let codeCoverage: Bool
+}
+
 enum Platform: Hashable {
     case wasm
     case node
@@ -12,9 +17,12 @@ enum Platform: Hashable {
 
     static let nativeMacSwiftBuild = try! cmd("xcrun", "-f", "swift-build").runString()
 
-    func swiftBuild(arguments: [String], debug: Bool) throws {
+    func swiftBuild(arguments: [String], configuration: BuildConfiguration) throws {
         var args = arguments
-        args.append(contentsOf: ["--configuration", debug ? "debug" : "release"])
+        args.append(contentsOf: ["--configuration", configuration.debug ? "debug" : "release"])
+        if configuration.codeCoverage {
+            args.append("--enable-code-coverage")
+        }
         let path: String
         var env: [String: String] = ["SWIFT_PACKAGE_FORCE_DYNAMIC": "1"]
         switch self {
@@ -64,8 +72,8 @@ enum Platform: Hashable {
         try cmd(path, arguments: args, addEnv: env).run()
     }
 
-    func swiftBuild(_ arguments: String..., debug: Bool) throws {
-        try swiftBuild(arguments: arguments, debug: debug)
+    func swiftBuild(_ arguments: String..., configuration: BuildConfiguration) throws {
+        try swiftBuild(arguments: arguments, configuration: configuration)
     }
 
     var platform: String {
