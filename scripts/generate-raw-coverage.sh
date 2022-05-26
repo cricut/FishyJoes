@@ -24,14 +24,14 @@ cp .build/debug/libFishyJoesJavaRuntime.dylib $libdir
     ./gradlew clean test jacocoTestReport
 )
 
-Gather coverage for unit tests
+# Gather coverage for unit tests
 (
     rm -rf .build/debug/codecov/
     swift test --enable-code-coverage
     cp .build/debug/codecov/*.profraw $FISHYJOES_COVERAGE_PATH
 )
 
-Gather coverage for integration tests
+# Gather coverage for integration tests
 (
     cd integration-tests/TestAPI-bindings
     export LLVM_PROFILE_FILE=$FISHYJOES_COVERAGE_PATH/integration-tests-generate-build.profraw
