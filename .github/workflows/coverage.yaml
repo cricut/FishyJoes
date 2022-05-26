@@ -68,6 +68,8 @@ jobs:
         run: |
           set -euxo pipefail
 
+          git fetch origin main
+
           brew install sonar-scanner
 
           sonar-scanner \
