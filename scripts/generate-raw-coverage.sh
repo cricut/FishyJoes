@@ -35,7 +35,7 @@ cp .build/debug/libFishyJoesJavaRuntime.dylib $libdir
 (
     cd integration-tests/TestAPI-bindings
     export LLVM_PROFILE_FILE=$FISHYJOES_COVERAGE_PATH/integration-tests-generate-build.profraw
-    swift run --enable-code-coverage -- fishy-joes generate build --kotlin-fast --nodejs --debug
+    swift run --enable-code-coverage -- fishy-joes build --kotlin-fast --nodejs --debug
 )
 
 (
