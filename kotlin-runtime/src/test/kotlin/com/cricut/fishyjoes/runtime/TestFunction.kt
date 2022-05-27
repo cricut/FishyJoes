@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test
 data class TestReference(var ref: Long) {
     external fun append(x: Long)
     external fun addr(): Long
-    external fun log()
 }
 
 internal class TestFunction {

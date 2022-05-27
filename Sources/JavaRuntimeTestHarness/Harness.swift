@@ -4,7 +4,7 @@ var refClass: jclass?
 var refConstructorID: jmethodID?
 
 @_cdecl("JNI_OnLoad")
-public func JNIOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutableRawPointer) -> jint {
+public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutableRawPointer) -> jint {
     var envRaw: UnsafeMutableRawPointer?
     guard vm.pointee!.pointee.GetEnv(vm, &envRaw, JNI_VERSION_1_4) == JNI_OK else {
         fatalError("Couldn't obtain jvm environment")
@@ -46,11 +46,6 @@ public func JNIOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("addr"),
                 signature: bag.add("()J"),
                 fnPtr: unsafeBitCast(java_ref_addr, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("log"),
-                signature: bag.add("()V"),
-                fnPtr: unsafeBitCast(java_ref_log, to: UnsafeMutableRawPointer.self)
             )
         )
 
@@ -89,12 +84,5 @@ let java_ref_addr: @convention(c) (UnsafeMutablePointer<JNIEnv?>, jobject) -> jl
         let box = try Box<[Int64]>.fromJava(this, env: env)
         let storage = { (x: UnsafeRawPointer) in x }(box.value)
         return jlong(UInt(bitPattern: storage))
-    }
-}
-
-let java_ref_log: @convention(c) (UnsafeMutablePointer<JNIEnv?>, jobject) -> Void = { env, this in
-    FishyJoesJavaRuntime.callbackBody(env) { env in
-        let box = try Box<[Int64]>.fromJava(this, env: env)
-        print(box.value)
     }
 }

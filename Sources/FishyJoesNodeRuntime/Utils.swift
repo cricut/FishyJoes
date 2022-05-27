@@ -9,6 +9,9 @@ public struct JSException: Error {
     }
 }
 
+// Node has already recorded an exception. Let it propigate.
+public struct JSExceptionPending: Error {}
+
 public func callbackBody(
     _ env: napi_env!,
     _ info: napi_callback_info!,
@@ -25,6 +28,9 @@ public func callbackBody(
 public func rethrowToNode(env: NAPI.Env, _ body: () throws -> NAPI.Value?) -> napi_value? {
     do {
         return try body()?.ptr
+    } catch is JSExceptionPending {
+        // let js deal with the exception
+        return nil
     } catch let e {
         print("Caught swift error \(e). Re-throwing to node.")
         try? env.throw(String.toNode(e.localizedDescription, env: env))

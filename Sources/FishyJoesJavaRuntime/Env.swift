@@ -565,8 +565,10 @@ extension Env {
         fns.MonitorExit(env, obj)
     }
 
-    public func GetJavaVM(_ vm: UnsafeMutablePointer<UnsafeMutablePointer<JavaVM?>?>) -> jint {
-        fns.GetJavaVM(env, vm)
+    public func GetJavaVM() throws -> UnsafeMutablePointer<JavaVM?>? {
+        var vm: UnsafeMutablePointer<JavaVM?>?
+        try javaOk(fns.GetJavaVM(env, &vm))
+        return vm
     }
 
     public func GetStringRegion(_ str: jstring?, _ start: jsize, _ len: jsize, _ buf: UnsafeMutablePointer<jchar>) throws {

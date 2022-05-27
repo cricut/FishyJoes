@@ -2,22 +2,6 @@ import FishyJoesCommonRuntime
 import Foundation
 import JNI
 
-class JavaReference {
-    let object: jobject?
-    let env: Env
-
-    init(local: jobject?, env: Env) throws {
-        self.object = try env.globalRef(local)
-        self.env = env
-    }
-
-    deinit {
-        if let object = object {
-            env.DeleteGlobalRef(object)
-        }
-    }
-}
-
 private enum SwiftFunctionImpl {
     static var implClass: jclass?
     static var constructor: jmethodID?
@@ -265,7 +249,7 @@ extension Function3Converter: JavaConverter where R: JavaConverter, P0: JavaConv
             return try R.fromJava(
                 object: env.CallObjectMethod(
                     escapingRef.object,
-                    SwiftFunctionImpl.invokeMethods[2],
+                    SwiftFunctionImpl.invokeMethods[3],
                     jvalue(l: P0.toJavaObject(p0, env: env)),
                     jvalue(l: P1.toJavaObject(p1, env: env)),
                     jvalue(l: P2.toJavaObject(p2, env: env))
@@ -314,7 +298,7 @@ extension Function4Converter: JavaConverter where R: JavaConverter, P0: JavaConv
             return try R.fromJava(
                 object: env.CallObjectMethod(
                     escapingRef.object,
-                    SwiftFunctionImpl.invokeMethods[2],
+                    SwiftFunctionImpl.invokeMethods[4],
                     jvalue(l: P0.toJavaObject(p0, env: env)),
                     jvalue(l: P1.toJavaObject(p1, env: env)),
                     jvalue(l: P2.toJavaObject(p2, env: env)),
@@ -366,7 +350,7 @@ extension Function5Converter: JavaConverter where R: JavaConverter, P0: JavaConv
             return try R.fromJava(
                 object: env.CallObjectMethod(
                     escapingRef.object,
-                    SwiftFunctionImpl.invokeMethods[2],
+                    SwiftFunctionImpl.invokeMethods[5],
                     jvalue(l: P0.toJavaObject(p0, env: env)),
                     jvalue(l: P1.toJavaObject(p1, env: env)),
                     jvalue(l: P2.toJavaObject(p2, env: env)),
@@ -421,7 +405,7 @@ extension Function6Converter: JavaConverter where R: JavaConverter, P0: JavaConv
             return try R.fromJava(
                 object: env.CallObjectMethod(
                     escapingRef.object,
-                    SwiftFunctionImpl.invokeMethods[2],
+                    SwiftFunctionImpl.invokeMethods[6],
                     jvalue(l: P0.toJavaObject(p0, env: env)),
                     jvalue(l: P1.toJavaObject(p1, env: env)),
                     jvalue(l: P2.toJavaObject(p2, env: env)),

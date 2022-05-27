@@ -18,6 +18,9 @@ public enum NAPI {
 extension NAPI.Env {
     private func check(_ status: napi_status, file: StaticString = #file, line: UInt = #line) throws {
         guard status == napi_ok else {
+            if try isExceptionPending() {
+                throw JSExceptionPending()
+            }
             var err: UnsafePointer<napi_extended_error_info>?
             napi_get_last_error_info(ptr, &err)
             let message = err.flatMap(\.pointee.error_message).map(String.init(cString:)) ?? "unknown error"
