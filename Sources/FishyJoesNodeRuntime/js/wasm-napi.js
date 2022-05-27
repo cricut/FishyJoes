@@ -185,7 +185,7 @@ export class NAPI {
           if (self.exception !== kNoException) {
             const e = self.exception;
             self.exception = kNoException;
-            throw e; // eslint-disable-line no-unsafe-finally
+            throw e; // nosonar eslint-disable-line no-unsafe-finally
           }
         }
       });
@@ -210,7 +210,7 @@ export class NAPI {
           if (self.exception !== kNoException) {
             const e = self.exception;
             self.exception = kNoException;
-            throw e; // eslint-disable-line no-unsafe-finally
+            throw e; // nosonar eslint-disable-line no-unsafe-finally
           }
         }
       });
@@ -1683,7 +1683,7 @@ export class NAPI {
       if (this.exception !== kNoException) {
         const e = this.exception;
         this.exception = kNoException;
-        throw e; // eslint-disable-line no-unsafe-finally
+        throw e; // nosonar eslint-disable-line no-unsafe-finally
       }
     }
   }

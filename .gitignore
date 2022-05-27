@@ -8,3 +8,4 @@ DerivedData/
 .gradle
 kotlin-runtime/src/generated/resources/
 coverage-data
+default.profraw
