@@ -35,7 +35,7 @@ cp .build/debug/libFishyJoesJavaRuntime.dylib $libdir
 (
     cd integration-tests/TestAPI-bindings
     export LLVM_PROFILE_FILE=$FISHYJOES_COVERAGE_PATH/integration-tests-generate-build.profraw
-    swift run --enable-code-coverage -- fishy-joes build --kotlin-fast --nodejs --debug
+    swift run --enable-code-coverage -- fishy-joes generate build --kotlin-fast --nodejs --debug
 )
 
 (
@@ -49,3 +49,12 @@ cp .build/debug/libFishyJoesJavaRuntime.dylib $libdir
     export LLVM_PROFILE_FILE=$FISHYJOES_COVERAGE_PATH/integration-tests-kotlin.profraw
     swift run --enable-code-coverage -- fishy-joes build test --kotlin-fast --debug
 )
+
+# Check that generation didn't change anything
+if [ ! -z "$(cd integration-tests/TestAPI-Bindings; git status --porcelain .)" ]; then
+    # fail CI, but keep going
+    echo "::error:: generation modified sources, coverage won't match with commited files"
+    echo "::error::   run `swift run fishy-joes generate` from integration-tests/TestAPI-Bindings and re-commit"
+    git status
+    exit 1
+fi
