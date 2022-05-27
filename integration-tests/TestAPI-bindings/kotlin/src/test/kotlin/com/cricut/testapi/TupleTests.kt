@@ -28,4 +28,18 @@ internal class TupleTests {
             tuple2, tuple3, tuple4, tuple5, tuple6
         ))
     }
+
+    @Test
+    fun testToString() {
+        val str2 = "(1, two)"
+        val str3 = "(one, 2.1, three)"
+        val str4 = "($str2, $str3, IV, true)"
+        val str5 = "(I, 2, $str4, $str3, $str2)"
+        val str6 = "(one, 2, 3.14, $str4, $str5, false)"
+        assertEquals(str2, tuple2.toString())
+        assertEquals(str3, tuple3.toString())
+        assertEquals(str4, tuple4.toString())
+        assertEquals(str5, tuple5.toString())
+        assertEquals(str6, tuple6.toString())
+    }
 }

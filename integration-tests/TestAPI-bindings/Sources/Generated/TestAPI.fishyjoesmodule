@@ -100,6 +100,70 @@
       "converterType" : {
         "named" : {
           "_0" : {
+            "name" : "Functions",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cSharpName" : "Functions",
+      "cSharpNamespace" : "Cricut.TestAPI",
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/Functions"
+        }
+      },
+      "kotlinName" : "Functions",
+      "kotlinPackage" : "com.cricut.testapi",
+      "nodeName" : "TestAPI.Functions",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "name" : "Functions",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "name" : "TheError",
+            "namespace" : [
+              "Functions"
+            ]
+          }
+        }
+      },
+      "cSharpName" : "Functions.TheError",
+      "cSharpNamespace" : "Cricut.TestAPI",
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/Functions$TheError"
+        }
+      },
+      "kotlinName" : "Functions.TheError",
+      "kotlinPackage" : "com.cricut.testapi",
+      "nodeName" : "TestAPI.Functions.TheError",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "name" : "TheError",
+            "namespace" : [
+              "Functions"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
             "name" : "Primitives",
             "namespace" : [
 
@@ -729,6 +793,278 @@
               }
             ],
             "name" : "Collections"
+          },
+          {
+            "constructor" : null,
+            "documentation" : [
+              "<!-- FishyJoes.exportReference(Functions) -->"
+            ],
+            "exported" : true,
+            "fields" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(const42) -->"
+                ],
+                "isStatic" : true,
+                "name" : "const42",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "() => number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(abs) -->"
+                ],
+                "isStatic" : true,
+                "name" : "abs",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_: number) => number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(intCompose) -->"
+                ],
+                "isStatic" : true,
+                "name" : "intCompose",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_: (_: number) => number, _: (_: number) => number) => (_: number) => number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(add3Things) -->"
+                ],
+                "isStatic" : true,
+                "name" : "add3Things",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_: number, _: number, _: number) => number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(makeList) -->"
+                ],
+                "isStatic" : true,
+                "name" : "makeList",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_: string, _: string, _: string, _: string) => string[]"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(fifthThing) -->"
+                ],
+                "isStatic" : true,
+                "name" : "fifthThing",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_: string, _: number, _: number, _: string, _: () => number) => () => number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(sixthThing) -->"
+                ],
+                "isStatic" : true,
+                "name" : "sixthThing",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "(_: string, _: number, _: number, _: string, _: () => number, _: number) => number"
+                  }
+                }
+              }
+            ],
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(exercise0) -->"
+                ],
+                "isStatic" : true,
+                "name" : "exercise0",
+                "parameters" : [
+                  {
+                    "name" : "fn",
+                    "type" : {
+                      "named" : {
+                        "_0" : "() => number"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(exercise1) -->"
+                ],
+                "isStatic" : true,
+                "name" : "exercise1",
+                "parameters" : [
+                  {
+                    "name" : "fn",
+                    "type" : {
+                      "named" : {
+                        "_0" : "(_: number) => number"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(exercise2) -->"
+                ],
+                "isStatic" : true,
+                "name" : "exercise2",
+                "parameters" : [
+                  {
+                    "name" : "fn",
+                    "type" : {
+                      "named" : {
+                        "_0" : "(_: (_: number) => number, _: (_: number) => number) => (_: number) => number"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(exercise3) -->"
+                ],
+                "isStatic" : true,
+                "name" : "exercise3",
+                "parameters" : [
+                  {
+                    "name" : "fn",
+                    "type" : {
+                      "named" : {
+                        "_0" : "(_: number, _: number, _: number) => number"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(exercise4) -->"
+                ],
+                "isStatic" : true,
+                "name" : "exercise4",
+                "parameters" : [
+                  {
+                    "name" : "fn",
+                    "type" : {
+                      "named" : {
+                        "_0" : "(_: string, _: string, _: string, _: string) => string[]"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(exercise5) -->"
+                ],
+                "isStatic" : true,
+                "name" : "exercise5",
+                "parameters" : [
+                  {
+                    "name" : "fn",
+                    "type" : {
+                      "named" : {
+                        "_0" : "(_: string, _: number, _: number, _: string, _: () => number) => () => number"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(exercise6) -->"
+                ],
+                "isStatic" : true,
+                "name" : "exercise6",
+                "parameters" : [
+                  {
+                    "name" : "fn",
+                    "type" : {
+                      "named" : {
+                        "_0" : "(_: string, _: number, _: number, _: string, _: () => number, _: number) => number"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(willThrow) -->"
+                ],
+                "isStatic" : true,
+                "name" : "willThrow",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              }
+            ],
+            "name" : "Functions"
           },
           {
             "constructor" : null,
@@ -2456,6 +2792,31 @@
               }
             ],
             "name" : "Collections",
+            "namespaces" : {
+
+            },
+            "typealiases" : [
+
+            ]
+          },
+          "Functions" : {
+            "classes" : [
+              {
+                "constructor" : null,
+                "documentation" : [
+                  "<!-- FishyJoes.exportReference(Functions.TheError) -->"
+                ],
+                "exported" : true,
+                "fields" : [
+
+                ],
+                "methods" : [
+
+                ],
+                "name" : "TheError"
+              }
+            ],
+            "name" : "Functions",
             "namespaces" : {
 
             },
