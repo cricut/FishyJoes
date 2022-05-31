@@ -7,17 +7,17 @@ template <> struct std::hash<TestAPI::FishyJoesInternal::SwiftReference> {
 inline bool operator==(const TestAPI::FishyJoesInternal::SwiftReference& ref1, const TestAPI::FishyJoesInternal::SwiftReference& ref2) {
     return TestAPI::FishyJoesInternal::TestAPI_swift_check_equality(ref1.ref.get(), ref2.ref.get());
 }
-template <> struct std::hash<TestAPI::SimpleEnum::red> {
-    size_t operator()(const TestAPI::SimpleEnum::red &obj) const;
+template <> struct std::hash<TestAPI::AssociatedDataEnum> {
+    size_t operator()(const TestAPI::AssociatedDataEnum &obj) const;
 };
 namespace TestAPI {
-    inline bool operator==(const SimpleEnum::red& lhs, const SimpleEnum::red& rhs);
+    inline bool operator==(const AssociatedDataEnum& lhs, const AssociatedDataEnum& rhs);
 }
-template <> struct std::hash<TestAPI::AssociatedDataEnum::thing> {
-    size_t operator()(const TestAPI::AssociatedDataEnum::thing &obj) const;
+template <> struct std::hash<TestAPI::AssociatedDataEnum::bar> {
+    size_t operator()(const TestAPI::AssociatedDataEnum::bar &obj) const;
 };
 namespace TestAPI {
-    inline bool operator==(const AssociatedDataEnum::thing& lhs, const AssociatedDataEnum::thing& rhs);
+    inline bool operator==(const AssociatedDataEnum::bar& lhs, const AssociatedDataEnum::bar& rhs);
 }
 template <> struct std::hash<TestAPI::AssociatedDataEnum::other> {
     size_t operator()(const TestAPI::AssociatedDataEnum::other &obj) const;
@@ -25,23 +25,11 @@ template <> struct std::hash<TestAPI::AssociatedDataEnum::other> {
 namespace TestAPI {
     inline bool operator==(const AssociatedDataEnum::other& lhs, const AssociatedDataEnum::other& rhs);
 }
-template <> struct std::hash<TestAPI::AssociatedDataEnum> {
-    size_t operator()(const TestAPI::AssociatedDataEnum &obj) const;
+template <> struct std::hash<TestAPI::AssociatedDataEnum::thing> {
+    size_t operator()(const TestAPI::AssociatedDataEnum::thing &obj) const;
 };
 namespace TestAPI {
-    inline bool operator==(const AssociatedDataEnum& lhs, const AssociatedDataEnum& rhs);
-}
-template <> struct std::hash<TestAPI::SimpleEnum::green> {
-    size_t operator()(const TestAPI::SimpleEnum::green &obj) const;
-};
-namespace TestAPI {
-    inline bool operator==(const SimpleEnum::green& lhs, const SimpleEnum::green& rhs);
-}
-template <> struct std::hash<TestAPI::SimpleEnum::blue> {
-    size_t operator()(const TestAPI::SimpleEnum::blue &obj) const;
-};
-namespace TestAPI {
-    inline bool operator==(const SimpleEnum::blue& lhs, const SimpleEnum::blue& rhs);
+    inline bool operator==(const AssociatedDataEnum::thing& lhs, const AssociatedDataEnum::thing& rhs);
 }
 template <> struct std::hash<TestAPI::EmptyEnum> {
     size_t operator()(const TestAPI::EmptyEnum &obj) const;
@@ -55,11 +43,29 @@ template <> struct std::hash<TestAPI::Primitives::PrimitiveHolder> {
 namespace TestAPI {
     inline bool operator==(const Primitives::PrimitiveHolder& lhs, const Primitives::PrimitiveHolder& rhs);
 }
-template <> struct std::hash<TestAPI::AssociatedDataEnum::bar> {
-    size_t operator()(const TestAPI::AssociatedDataEnum::bar &obj) const;
+template <> struct std::hash<TestAPI::SimpleEnum> {
+    size_t operator()(const TestAPI::SimpleEnum &obj) const;
 };
 namespace TestAPI {
-    inline bool operator==(const AssociatedDataEnum::bar& lhs, const AssociatedDataEnum::bar& rhs);
+    inline bool operator==(const SimpleEnum& lhs, const SimpleEnum& rhs);
+}
+template <> struct std::hash<TestAPI::SimpleEnum::blue> {
+    size_t operator()(const TestAPI::SimpleEnum::blue &obj) const;
+};
+namespace TestAPI {
+    inline bool operator==(const SimpleEnum::blue& lhs, const SimpleEnum::blue& rhs);
+}
+template <> struct std::hash<TestAPI::SimpleEnum::green> {
+    size_t operator()(const TestAPI::SimpleEnum::green &obj) const;
+};
+namespace TestAPI {
+    inline bool operator==(const SimpleEnum::green& lhs, const SimpleEnum::green& rhs);
+}
+template <> struct std::hash<TestAPI::SimpleEnum::red> {
+    size_t operator()(const TestAPI::SimpleEnum::red &obj) const;
+};
+namespace TestAPI {
+    inline bool operator==(const SimpleEnum::red& lhs, const SimpleEnum::red& rhs);
 }
 template <> struct std::hash<TestAPI::Structs::MemberwiseStruct> {
     size_t operator()(const TestAPI::Structs::MemberwiseStruct &obj) const;
@@ -73,19 +79,15 @@ template <> struct std::hash<TestAPI::Tuples> {
 namespace TestAPI {
     inline bool operator==(const Tuples& lhs, const Tuples& rhs);
 }
-template <> struct std::hash<TestAPI::SimpleEnum> {
-    size_t operator()(const TestAPI::SimpleEnum &obj) const;
-};
-namespace TestAPI {
-    inline bool operator==(const SimpleEnum& lhs, const SimpleEnum& rhs);
-}
-size_t std::hash<TestAPI::SimpleEnum::red>::operator()(const TestAPI::SimpleEnum::red &obj) const {
+size_t std::hash<TestAPI::AssociatedDataEnum>::operator()(const TestAPI::AssociatedDataEnum &obj) const {
     size_t ret = 0;
+    TestAPI::FishyJoesInternal::hashCombine(ret, obj._variant);
     return ret;
 }
-size_t std::hash<TestAPI::AssociatedDataEnum::thing>::operator()(const TestAPI::AssociatedDataEnum::thing &obj) const {
+size_t std::hash<TestAPI::AssociatedDataEnum::bar>::operator()(const TestAPI::AssociatedDataEnum::bar &obj) const {
     size_t ret = 0;
-    TestAPI::FishyJoesInternal::hashCombine(ret, obj.value);
+    TestAPI::FishyJoesInternal::hashCombine(ret, obj.named);
+    TestAPI::FishyJoesInternal::hashCombine(ret, obj._1);
     return ret;
 }
 size_t std::hash<TestAPI::AssociatedDataEnum::other>::operator()(const TestAPI::AssociatedDataEnum::other &obj) const {
@@ -94,17 +96,9 @@ size_t std::hash<TestAPI::AssociatedDataEnum::other>::operator()(const TestAPI::
     TestAPI::FishyJoesInternal::hashCombine(ret, obj._1);
     return ret;
 }
-size_t std::hash<TestAPI::AssociatedDataEnum>::operator()(const TestAPI::AssociatedDataEnum &obj) const {
+size_t std::hash<TestAPI::AssociatedDataEnum::thing>::operator()(const TestAPI::AssociatedDataEnum::thing &obj) const {
     size_t ret = 0;
-    TestAPI::FishyJoesInternal::hashCombine(ret, obj._variant);
-    return ret;
-}
-size_t std::hash<TestAPI::SimpleEnum::green>::operator()(const TestAPI::SimpleEnum::green &obj) const {
-    size_t ret = 0;
-    return ret;
-}
-size_t std::hash<TestAPI::SimpleEnum::blue>::operator()(const TestAPI::SimpleEnum::blue &obj) const {
-    size_t ret = 0;
+    TestAPI::FishyJoesInternal::hashCombine(ret, obj.value);
     return ret;
 }
 size_t std::hash<TestAPI::EmptyEnum>::operator()(const TestAPI::EmptyEnum &obj) const {
@@ -138,10 +132,21 @@ size_t std::hash<TestAPI::Primitives::PrimitiveHolder>::operator()(const TestAPI
     TestAPI::FishyJoesInternal::hashCombine(ret, obj.dq);
     return ret;
 }
-size_t std::hash<TestAPI::AssociatedDataEnum::bar>::operator()(const TestAPI::AssociatedDataEnum::bar &obj) const {
+size_t std::hash<TestAPI::SimpleEnum>::operator()(const TestAPI::SimpleEnum &obj) const {
     size_t ret = 0;
-    TestAPI::FishyJoesInternal::hashCombine(ret, obj.named);
-    TestAPI::FishyJoesInternal::hashCombine(ret, obj._1);
+    TestAPI::FishyJoesInternal::hashCombine(ret, obj._variant);
+    return ret;
+}
+size_t std::hash<TestAPI::SimpleEnum::blue>::operator()(const TestAPI::SimpleEnum::blue &obj) const {
+    size_t ret = 0;
+    return ret;
+}
+size_t std::hash<TestAPI::SimpleEnum::green>::operator()(const TestAPI::SimpleEnum::green &obj) const {
+    size_t ret = 0;
+    return ret;
+}
+size_t std::hash<TestAPI::SimpleEnum::red>::operator()(const TestAPI::SimpleEnum::red &obj) const {
+    size_t ret = 0;
     return ret;
 }
 size_t std::hash<TestAPI::Structs::MemberwiseStruct>::operator()(const TestAPI::Structs::MemberwiseStruct &obj) const {
@@ -155,18 +160,13 @@ size_t std::hash<TestAPI::Tuples>::operator()(const TestAPI::Tuples &obj) const 
     TestAPI::FishyJoesInternal::hashCombine(ret, obj._variant);
     return ret;
 }
-size_t std::hash<TestAPI::SimpleEnum>::operator()(const TestAPI::SimpleEnum &obj) const {
-    size_t ret = 0;
-    TestAPI::FishyJoesInternal::hashCombine(ret, obj._variant);
-    return ret;
-}
 namespace TestAPI {
-    inline bool operator==(const SimpleEnum::red& lhs, const SimpleEnum::red& rhs) {
+    inline bool operator==(const AssociatedDataEnum& lhs, const AssociatedDataEnum& rhs) {
         return std::equal_to<std::decay_t<decltype(lhs)>>()(lhs, rhs);
     }
 }
 namespace TestAPI {
-    inline bool operator==(const AssociatedDataEnum::thing& lhs, const AssociatedDataEnum::thing& rhs) {
+    inline bool operator==(const AssociatedDataEnum::bar& lhs, const AssociatedDataEnum::bar& rhs) {
         return std::equal_to<std::decay_t<decltype(lhs)>>()(lhs, rhs);
     }
 }
@@ -176,17 +176,7 @@ namespace TestAPI {
     }
 }
 namespace TestAPI {
-    inline bool operator==(const AssociatedDataEnum& lhs, const AssociatedDataEnum& rhs) {
-        return std::equal_to<std::decay_t<decltype(lhs)>>()(lhs, rhs);
-    }
-}
-namespace TestAPI {
-    inline bool operator==(const SimpleEnum::green& lhs, const SimpleEnum::green& rhs) {
-        return std::equal_to<std::decay_t<decltype(lhs)>>()(lhs, rhs);
-    }
-}
-namespace TestAPI {
-    inline bool operator==(const SimpleEnum::blue& lhs, const SimpleEnum::blue& rhs) {
+    inline bool operator==(const AssociatedDataEnum::thing& lhs, const AssociatedDataEnum::thing& rhs) {
         return std::equal_to<std::decay_t<decltype(lhs)>>()(lhs, rhs);
     }
 }
@@ -201,7 +191,22 @@ namespace TestAPI {
     }
 }
 namespace TestAPI {
-    inline bool operator==(const AssociatedDataEnum::bar& lhs, const AssociatedDataEnum::bar& rhs) {
+    inline bool operator==(const SimpleEnum& lhs, const SimpleEnum& rhs) {
+        return std::equal_to<std::decay_t<decltype(lhs)>>()(lhs, rhs);
+    }
+}
+namespace TestAPI {
+    inline bool operator==(const SimpleEnum::blue& lhs, const SimpleEnum::blue& rhs) {
+        return std::equal_to<std::decay_t<decltype(lhs)>>()(lhs, rhs);
+    }
+}
+namespace TestAPI {
+    inline bool operator==(const SimpleEnum::green& lhs, const SimpleEnum::green& rhs) {
+        return std::equal_to<std::decay_t<decltype(lhs)>>()(lhs, rhs);
+    }
+}
+namespace TestAPI {
+    inline bool operator==(const SimpleEnum::red& lhs, const SimpleEnum::red& rhs) {
         return std::equal_to<std::decay_t<decltype(lhs)>>()(lhs, rhs);
     }
 }
@@ -212,11 +217,6 @@ namespace TestAPI {
 }
 namespace TestAPI {
     inline bool operator==(const Tuples& lhs, const Tuples& rhs) {
-        return std::equal_to<std::decay_t<decltype(lhs)>>()(lhs, rhs);
-    }
-}
-namespace TestAPI {
-    inline bool operator==(const SimpleEnum& lhs, const SimpleEnum& rhs) {
         return std::equal_to<std::decay_t<decltype(lhs)>>()(lhs, rhs);
     }
 }

@@ -46,7 +46,6 @@ extension AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
                     Int.toNode(value, env: env),
                 ]
             )
-        
         case let .other(unnamed, _1):
             return try env.newInstance(
                 instanceData.constructor(for: "AssociatedDataEnum.Other", env: env),
@@ -55,7 +54,6 @@ extension AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
                     Int.toNode(_1, env: env),
                 ]
             )
-        
         case let .bar(named, _1):
             return try env.newInstance(
                 instanceData.constructor(for: "AssociatedDataEnum.Bar", env: env),
@@ -64,7 +62,6 @@ extension AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
                     AssociatedDataEnum.toNode(_1, env: env),
                 ]
             )
-        
         }
     }
 

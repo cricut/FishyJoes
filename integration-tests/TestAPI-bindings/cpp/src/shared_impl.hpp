@@ -310,19 +310,30 @@ namespace TestAPI {
         inline std::tuple<Types...> get(std::in_place_type_t<std::tuple<Types...>> typeGuide = std::in_place_type_t<std::tuple<Types...>>{}) {
             return std::make_tuple(get_t<Types>()...);
         }
-        inline void put(const TestAPI::Bytes& obj) {
-            put(obj._ref);
+        inline void put(const TestAPI::AssociatedDataEnum& obj) {
+            put(obj._variant);
         }
-        inline TestAPI::Bytes get(std::in_place_type_t<TestAPI::Bytes> obj = std::in_place_type_t<TestAPI::Bytes>{}) {
-            return TestAPI::Bytes {
-                get_t<decltype(TestAPI::Bytes::_ref)>()
+        inline TestAPI::AssociatedDataEnum get(std::in_place_type_t<TestAPI::AssociatedDataEnum> obj = std::in_place_type_t<TestAPI::AssociatedDataEnum>{}) {
+            return TestAPI::AssociatedDataEnum {
+                get_t<decltype(TestAPI::AssociatedDataEnum::_variant)>()
             };
         }
-        inline void put(const TestAPI::SimpleEnum::red& obj) {
+        inline void put(const TestAPI::AssociatedDataEnum::bar& obj) {
+            put(obj.named);
+            put(obj._1);
         }
-        inline TestAPI::SimpleEnum::red get(std::in_place_type_t<TestAPI::SimpleEnum::red> obj = std::in_place_type_t<TestAPI::SimpleEnum::red>{}) {
-            return TestAPI::SimpleEnum::red {
-                
+        inline TestAPI::AssociatedDataEnum::bar get(std::in_place_type_t<TestAPI::AssociatedDataEnum::bar> obj = std::in_place_type_t<TestAPI::AssociatedDataEnum::bar>{}) {
+            return TestAPI::AssociatedDataEnum::bar {
+                get_t<decltype(TestAPI::AssociatedDataEnum::bar::named)>(), get_t<decltype(TestAPI::AssociatedDataEnum::bar::_1)>()
+            };
+        }
+        inline void put(const TestAPI::AssociatedDataEnum::other& obj) {
+            put(obj.unnamed);
+            put(obj._1);
+        }
+        inline TestAPI::AssociatedDataEnum::other get(std::in_place_type_t<TestAPI::AssociatedDataEnum::other> obj = std::in_place_type_t<TestAPI::AssociatedDataEnum::other>{}) {
+            return TestAPI::AssociatedDataEnum::other {
+                get_t<decltype(TestAPI::AssociatedDataEnum::other::unnamed)>(), get_t<decltype(TestAPI::AssociatedDataEnum::other::_1)>()
             };
         }
         inline void put(const TestAPI::AssociatedDataEnum::thing& obj) {
@@ -333,13 +344,20 @@ namespace TestAPI {
                 get_t<decltype(TestAPI::AssociatedDataEnum::thing::value)>()
             };
         }
-        inline void put(const TestAPI::AssociatedDataEnum::other& obj) {
-            put(obj.unnamed);
-            put(obj._1);
+        inline void put(const TestAPI::Bytes& obj) {
+            put(obj._ref);
         }
-        inline TestAPI::AssociatedDataEnum::other get(std::in_place_type_t<TestAPI::AssociatedDataEnum::other> obj = std::in_place_type_t<TestAPI::AssociatedDataEnum::other>{}) {
-            return TestAPI::AssociatedDataEnum::other {
-                get_t<decltype(TestAPI::AssociatedDataEnum::other::unnamed)>(), get_t<decltype(TestAPI::AssociatedDataEnum::other::_1)>()
+        inline TestAPI::Bytes get(std::in_place_type_t<TestAPI::Bytes> obj = std::in_place_type_t<TestAPI::Bytes>{}) {
+            return TestAPI::Bytes {
+                get_t<decltype(TestAPI::Bytes::_ref)>()
+            };
+        }
+        inline void put(const TestAPI::Collections& obj) {
+            put(obj._ref);
+        }
+        inline TestAPI::Collections get(std::in_place_type_t<TestAPI::Collections> obj = std::in_place_type_t<TestAPI::Collections>{}) {
+            return TestAPI::Collections {
+                get_t<decltype(TestAPI::Collections::_ref)>()
             };
         }
         inline void put(const TestAPI::Collections::CollectionHolder& obj) {
@@ -358,52 +376,6 @@ namespace TestAPI {
                 get_t<decltype(TestAPI::Collections::CollectionHolder::boolArray)>(), get_t<decltype(TestAPI::Collections::CollectionHolder::boolSet)>(), get_t<decltype(TestAPI::Collections::CollectionHolder::boolDictionary)>(), get_t<decltype(TestAPI::Collections::CollectionHolder::integerArray)>(), get_t<decltype(TestAPI::Collections::CollectionHolder::integerSet)>(), get_t<decltype(TestAPI::Collections::CollectionHolder::integerDictionary)>(), get_t<decltype(TestAPI::Collections::CollectionHolder::stringArray)>(), get_t<decltype(TestAPI::Collections::CollectionHolder::stringSet)>(), get_t<decltype(TestAPI::Collections::CollectionHolder::stringDictionary)>()
             };
         }
-        inline void put(const TestAPI::Structs::ReferenceStruct& obj) {
-            put(obj._ref);
-        }
-        inline TestAPI::Structs::ReferenceStruct get(std::in_place_type_t<TestAPI::Structs::ReferenceStruct> obj = std::in_place_type_t<TestAPI::Structs::ReferenceStruct>{}) {
-            return TestAPI::Structs::ReferenceStruct {
-                get_t<decltype(TestAPI::Structs::ReferenceStruct::_ref)>()
-            };
-        }
-        inline void put(const TestAPI::Strings& obj) {
-            put(obj._ref);
-        }
-        inline TestAPI::Strings get(std::in_place_type_t<TestAPI::Strings> obj = std::in_place_type_t<TestAPI::Strings>{}) {
-            return TestAPI::Strings {
-                get_t<decltype(TestAPI::Strings::_ref)>()
-            };
-        }
-        inline void put(const TestAPI::AssociatedDataEnum& obj) {
-            put(obj._variant);
-        }
-        inline TestAPI::AssociatedDataEnum get(std::in_place_type_t<TestAPI::AssociatedDataEnum> obj = std::in_place_type_t<TestAPI::AssociatedDataEnum>{}) {
-            return TestAPI::AssociatedDataEnum {
-                get_t<decltype(TestAPI::AssociatedDataEnum::_variant)>()
-            };
-        }
-        inline void put(const TestAPI::SimpleEnum::green& obj) {
-        }
-        inline TestAPI::SimpleEnum::green get(std::in_place_type_t<TestAPI::SimpleEnum::green> obj = std::in_place_type_t<TestAPI::SimpleEnum::green>{}) {
-            return TestAPI::SimpleEnum::green {
-                
-            };
-        }
-        inline void put(const TestAPI::SimpleEnum::blue& obj) {
-        }
-        inline TestAPI::SimpleEnum::blue get(std::in_place_type_t<TestAPI::SimpleEnum::blue> obj = std::in_place_type_t<TestAPI::SimpleEnum::blue>{}) {
-            return TestAPI::SimpleEnum::blue {
-                
-            };
-        }
-        inline void put(const TestAPI::Structs& obj) {
-            put(obj._ref);
-        }
-        inline TestAPI::Structs get(std::in_place_type_t<TestAPI::Structs> obj = std::in_place_type_t<TestAPI::Structs>{}) {
-            return TestAPI::Structs {
-                get_t<decltype(TestAPI::Structs::_ref)>()
-            };
-        }
         inline void put(const TestAPI::EmptyEnum& obj) {
             put(obj._variant);
         }
@@ -412,12 +384,28 @@ namespace TestAPI {
                 get_t<decltype(TestAPI::EmptyEnum::_variant)>()
             };
         }
-        inline void put(const TestAPI::Collections& obj) {
+        inline void put(const TestAPI::Functions& obj) {
             put(obj._ref);
         }
-        inline TestAPI::Collections get(std::in_place_type_t<TestAPI::Collections> obj = std::in_place_type_t<TestAPI::Collections>{}) {
-            return TestAPI::Collections {
-                get_t<decltype(TestAPI::Collections::_ref)>()
+        inline TestAPI::Functions get(std::in_place_type_t<TestAPI::Functions> obj = std::in_place_type_t<TestAPI::Functions>{}) {
+            return TestAPI::Functions {
+                get_t<decltype(TestAPI::Functions::_ref)>()
+            };
+        }
+        inline void put(const TestAPI::Functions::TheError& obj) {
+            put(obj._ref);
+        }
+        inline TestAPI::Functions::TheError get(std::in_place_type_t<TestAPI::Functions::TheError> obj = std::in_place_type_t<TestAPI::Functions::TheError>{}) {
+            return TestAPI::Functions::TheError {
+                get_t<decltype(TestAPI::Functions::TheError::_ref)>()
+            };
+        }
+        inline void put(const TestAPI::Primitives& obj) {
+            put(obj._ref);
+        }
+        inline TestAPI::Primitives get(std::in_place_type_t<TestAPI::Primitives> obj = std::in_place_type_t<TestAPI::Primitives>{}) {
+            return TestAPI::Primitives {
+                get_t<decltype(TestAPI::Primitives::_ref)>()
             };
         }
         inline void put(const TestAPI::Primitives::PrimitiveHolder& obj) {
@@ -449,21 +437,49 @@ namespace TestAPI {
                 get_t<decltype(TestAPI::Primitives::PrimitiveHolder::b)>(), get_t<decltype(TestAPI::Primitives::PrimitiveHolder::bq)>(), get_t<decltype(TestAPI::Primitives::PrimitiveHolder::ui8)>(), get_t<decltype(TestAPI::Primitives::PrimitiveHolder::ui8q)>(), get_t<decltype(TestAPI::Primitives::PrimitiveHolder::ui16)>(), get_t<decltype(TestAPI::Primitives::PrimitiveHolder::ui16q)>(), get_t<decltype(TestAPI::Primitives::PrimitiveHolder::ui32)>(), get_t<decltype(TestAPI::Primitives::PrimitiveHolder::ui32q)>(), get_t<decltype(TestAPI::Primitives::PrimitiveHolder::ui64)>(), get_t<decltype(TestAPI::Primitives::PrimitiveHolder::ui64q)>(), get_t<decltype(TestAPI::Primitives::PrimitiveHolder::i8)>(), get_t<decltype(TestAPI::Primitives::PrimitiveHolder::i8q)>(), get_t<decltype(TestAPI::Primitives::PrimitiveHolder::i16)>(), get_t<decltype(TestAPI::Primitives::PrimitiveHolder::i16q)>(), get_t<decltype(TestAPI::Primitives::PrimitiveHolder::i32)>(), get_t<decltype(TestAPI::Primitives::PrimitiveHolder::i32q)>(), get_t<decltype(TestAPI::Primitives::PrimitiveHolder::i64)>(), get_t<decltype(TestAPI::Primitives::PrimitiveHolder::i64q)>(), get_t<decltype(TestAPI::Primitives::PrimitiveHolder::f)>(), get_t<decltype(TestAPI::Primitives::PrimitiveHolder::fq)>(), get_t<decltype(TestAPI::Primitives::PrimitiveHolder::d)>(), get_t<decltype(TestAPI::Primitives::PrimitiveHolder::dq)>()
             };
         }
-        inline void put(const TestAPI::AssociatedDataEnum::bar& obj) {
-            put(obj.named);
-            put(obj._1);
+        inline void put(const TestAPI::SimpleEnum& obj) {
+            put(obj._variant);
         }
-        inline TestAPI::AssociatedDataEnum::bar get(std::in_place_type_t<TestAPI::AssociatedDataEnum::bar> obj = std::in_place_type_t<TestAPI::AssociatedDataEnum::bar>{}) {
-            return TestAPI::AssociatedDataEnum::bar {
-                get_t<decltype(TestAPI::AssociatedDataEnum::bar::named)>(), get_t<decltype(TestAPI::AssociatedDataEnum::bar::_1)>()
+        inline TestAPI::SimpleEnum get(std::in_place_type_t<TestAPI::SimpleEnum> obj = std::in_place_type_t<TestAPI::SimpleEnum>{}) {
+            return TestAPI::SimpleEnum {
+                get_t<decltype(TestAPI::SimpleEnum::_variant)>()
             };
         }
-        inline void put(const TestAPI::Functions& obj) {
+        inline void put(const TestAPI::SimpleEnum::blue& obj) {
+        }
+        inline TestAPI::SimpleEnum::blue get(std::in_place_type_t<TestAPI::SimpleEnum::blue> obj = std::in_place_type_t<TestAPI::SimpleEnum::blue>{}) {
+            return TestAPI::SimpleEnum::blue {
+                
+            };
+        }
+        inline void put(const TestAPI::SimpleEnum::green& obj) {
+        }
+        inline TestAPI::SimpleEnum::green get(std::in_place_type_t<TestAPI::SimpleEnum::green> obj = std::in_place_type_t<TestAPI::SimpleEnum::green>{}) {
+            return TestAPI::SimpleEnum::green {
+                
+            };
+        }
+        inline void put(const TestAPI::SimpleEnum::red& obj) {
+        }
+        inline TestAPI::SimpleEnum::red get(std::in_place_type_t<TestAPI::SimpleEnum::red> obj = std::in_place_type_t<TestAPI::SimpleEnum::red>{}) {
+            return TestAPI::SimpleEnum::red {
+                
+            };
+        }
+        inline void put(const TestAPI::Strings& obj) {
             put(obj._ref);
         }
-        inline TestAPI::Functions get(std::in_place_type_t<TestAPI::Functions> obj = std::in_place_type_t<TestAPI::Functions>{}) {
-            return TestAPI::Functions {
-                get_t<decltype(TestAPI::Functions::_ref)>()
+        inline TestAPI::Strings get(std::in_place_type_t<TestAPI::Strings> obj = std::in_place_type_t<TestAPI::Strings>{}) {
+            return TestAPI::Strings {
+                get_t<decltype(TestAPI::Strings::_ref)>()
+            };
+        }
+        inline void put(const TestAPI::Structs& obj) {
+            put(obj._ref);
+        }
+        inline TestAPI::Structs get(std::in_place_type_t<TestAPI::Structs> obj = std::in_place_type_t<TestAPI::Structs>{}) {
+            return TestAPI::Structs {
+                get_t<decltype(TestAPI::Structs::_ref)>()
             };
         }
         inline void put(const TestAPI::Structs::MemberwiseStruct& obj) {
@@ -475,12 +491,12 @@ namespace TestAPI {
                 get_t<decltype(TestAPI::Structs::MemberwiseStruct::immutable)>(), get_t<decltype(TestAPI::Structs::MemberwiseStruct::mutable)>()
             };
         }
-        inline void put(const TestAPI::Primitives& obj) {
+        inline void put(const TestAPI::Structs::ReferenceStruct& obj) {
             put(obj._ref);
         }
-        inline TestAPI::Primitives get(std::in_place_type_t<TestAPI::Primitives> obj = std::in_place_type_t<TestAPI::Primitives>{}) {
-            return TestAPI::Primitives {
-                get_t<decltype(TestAPI::Primitives::_ref)>()
+        inline TestAPI::Structs::ReferenceStruct get(std::in_place_type_t<TestAPI::Structs::ReferenceStruct> obj = std::in_place_type_t<TestAPI::Structs::ReferenceStruct>{}) {
+            return TestAPI::Structs::ReferenceStruct {
+                get_t<decltype(TestAPI::Structs::ReferenceStruct::_ref)>()
             };
         }
         inline void put(const TestAPI::Tuples& obj) {
@@ -489,22 +505,6 @@ namespace TestAPI {
         inline TestAPI::Tuples get(std::in_place_type_t<TestAPI::Tuples> obj = std::in_place_type_t<TestAPI::Tuples>{}) {
             return TestAPI::Tuples {
                 get_t<decltype(TestAPI::Tuples::_variant)>()
-            };
-        }
-        inline void put(const TestAPI::SimpleEnum& obj) {
-            put(obj._variant);
-        }
-        inline TestAPI::SimpleEnum get(std::in_place_type_t<TestAPI::SimpleEnum> obj = std::in_place_type_t<TestAPI::SimpleEnum>{}) {
-            return TestAPI::SimpleEnum {
-                get_t<decltype(TestAPI::SimpleEnum::_variant)>()
-            };
-        }
-        inline void put(const TestAPI::Functions::TheError& obj) {
-            put(obj._ref);
-        }
-        inline TestAPI::Functions::TheError get(std::in_place_type_t<TestAPI::Functions::TheError> obj = std::in_place_type_t<TestAPI::Functions::TheError>{}) {
-            return TestAPI::Functions::TheError {
-                get_t<decltype(TestAPI::Functions::TheError::_ref)>()
             };
         }
     };

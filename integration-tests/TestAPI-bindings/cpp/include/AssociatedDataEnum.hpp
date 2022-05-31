@@ -7,20 +7,21 @@ namespace TestAPI {
     class AssociatedDataEnum {
         /*  Inner Classes  */
         public:
-        class thing;
-        class other;
         class bar;
-        class thing {
+        class other;
+        class thing;
+        class bar {
             /*  Complete Constructor  */
             public:
-            /// Create new thing
-            thing(const int &value);
+            /// Create new bar
+            bar(const std::string &named, const AssociatedDataEnum &_1);
             
             /*  Methods  */
             
             /*  Data  */
             public:
-            int value;
+            std::string named;
+            AssociatedDataEnum _1;
             
             friend struct FishyJoesInternal::Packer;
             template <typename T> friend struct std::hash;
@@ -43,18 +44,17 @@ namespace TestAPI {
             template <typename T> friend struct std::hash;
             template <typename T> friend struct std::equal_to;
         };
-        class bar {
+        class thing {
             /*  Complete Constructor  */
             public:
-            /// Create new bar
-            bar(const std::string &named, const AssociatedDataEnum &_1);
+            /// Create new thing
+            thing(const int &value);
             
             /*  Methods  */
             
             /*  Data  */
             public:
-            std::string named;
-            AssociatedDataEnum _1;
+            int value;
             
             friend struct FishyJoesInternal::Packer;
             template <typename T> friend struct std::hash;

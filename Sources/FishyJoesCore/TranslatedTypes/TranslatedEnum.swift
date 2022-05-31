@@ -253,11 +253,13 @@ struct TranslatedEnum: TranslatedType {
                 }
 
                 fragment.outputBlock("public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {") {
-                    fragment.outputBlock("switch value {") {
-                        for enumCase in cases {
-                            fragment.output("case .\(enumCase.name): return try String.toNode(\"\(enumCase.name)\", env: env)")
+                    fragment.output("switch value {")
+                    for enumCase in cases {
+                        fragment.outputBlock("case .\(enumCase.name):", closeWith: "", newLineTerminated: false) {
+                            fragment.output("return try String.toNode(\"\(enumCase.name)\", env: env)")
                         }
                     }
+                    fragment.output("}")
                 }
             }
             context.tsAnnotations.add(
@@ -309,7 +311,7 @@ struct TranslatedEnum: TranslatedType {
                             let values = enumCase.associatedValues.map(\.bindingName).joined(separator: ", ")
                             caseStatement = "case let .\(enumCase.name)(\(values)):"
                         }
-                        fragment.outputBlock(caseStatement, closeWith: "") {
+                        fragment.outputBlock(caseStatement, closeWith: "", newLineTerminated: false) {
                             fragment.outputBlock("return try env.newInstance(") {
                                 fragment.output("instanceData.constructor(for: \"\(className)\", env: env),")
                                 fragment.outputBlock("[") {
@@ -470,7 +472,7 @@ struct TranslatedEnum: TranslatedType {
                 for enumCase in cases {
                     let name = enumCase.name
                     if enumCase.associatedValues.isEmpty {
-                        fragment.outputBlock("case .\(name):", closeWith: "") {
+                        fragment.outputBlock("case .\(name):", closeWith: "", newLineTerminated: false) {
                             fragment.output("return env.GetStaticObjectField(Self.\(enumCase.classVar), Self.\(enumCase.classInstanceVar))")
                         }
                     } else {

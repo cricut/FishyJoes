@@ -86,7 +86,7 @@ final class CPPTranslate: Translator {
     func generateEqualityHeader(in context: FishyJoesContext) -> SourceFragment {
         let frag = SourceFragment(sourceryDestination: "file:../../cpp/include/\(context.module)_eq.hpp")
         frag.output("#include <functional>")
-        let hashableObjs = context.cppClasses.values.filter { $0.isHashable(in: context) }
+        let hashableObjs = context.sortedCppClasses.filter { $0.isHashable(in: context) }
         frag.outputBlock("template <> struct std::hash<\(context.module)::FishyJoesInternal::SwiftReference> {", semicolonTerminated: true) {
             frag.outputBlock("size_t operator()(const \(context.module)::FishyJoesInternal::SwiftReference& ref) {") {
                 frag.output("return (size_t)\(context.module)::FishyJoesInternal::\(context.module)_swift_hash(ref.ref.get());")
@@ -171,7 +171,7 @@ final class CPPTranslate: Translator {
                 // output all bindings
                 frag.outputBlock("namespace CBindings {") {
                     frag.outputBlock("extern \"C\" {") {
-                        for classObj in context.cppClasses.values {
+                        for classObj in context.sortedCppClasses {
                             for method in classObj.methods {
                                 let binding = method.binding(for: classObj, in: context)
                                 frag.output("void* \(binding.symbol)(\(Array(repeating: "void*", count: binding.params).joined(separator: ", ")));")
@@ -182,7 +182,7 @@ final class CPPTranslate: Translator {
             }
             frag.output("")
             // forward-declare top level classes
-            for classObj in context.cppClasses.values {
+            for classObj in context.sortedCppClasses {
                 if classObj.parentQualifiedName == nil {
                     frag.output("class \(classObj.qualifiedName);")
                 }
@@ -194,7 +194,7 @@ final class CPPTranslate: Translator {
     func generateCombinedHeader(in context: FishyJoesContext) -> SourceFragment {
         let frag = SourceFragment(sourceryDestination: "file:../../cpp/include/\(context.module).hpp")
         frag.output("#include \"\(context.module)_pre.hpp\"")
-        for cppClass in context.cppClasses.values {
+        for cppClass in context.sortedCppClasses {
             if cppClass.parentQualifiedName == nil {
                 frag.output("#include \"\(cppClass.swiftQualifiedName).hpp\"")
             }
@@ -422,7 +422,7 @@ final class CPPTranslate: Translator {
                 frag.outputBlock("inline std::tuple<Types...> get(std::in_place_type_t<std::tuple<Types...>> typeGuide = std::in_place_type_t<std::tuple<Types...>>{}) {") {
                     frag.output("return std::make_tuple(get_t<Types>()...);")
                 }
-                for cppClass in context.cppClasses.values {
+                for cppClass in context.sortedCppClasses {
                     cppClass.packerImpl(to: frag)
                 }
             }

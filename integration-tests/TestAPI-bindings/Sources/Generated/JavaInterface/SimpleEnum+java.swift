@@ -34,13 +34,10 @@ extension SimpleEnum: JavaConverter {
         switch value {
         case .red:
             return env.GetStaticObjectField(Self._java_red, Self._java_red_INSTANCE)
-        
         case .green:
             return env.GetStaticObjectField(Self._java_green, Self._java_green_INSTANCE)
-        
         case .blue:
             return env.GetStaticObjectField(Self._java_blue, Self._java_blue_INSTANCE)
-        
         }
     }
 

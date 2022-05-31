@@ -7,14 +7,14 @@ namespace TestAPI {
     class SimpleEnum {
         /*  Inner Classes  */
         public:
-        class red;
-        class green;
         class blue;
-        class red {
+        class green;
+        class red;
+        class blue {
             /*  Complete Constructor  */
             public:
-            /// Create new red
-            red();
+            /// Create new blue
+            blue();
             
             /*  Methods  */
             
@@ -38,11 +38,11 @@ namespace TestAPI {
             template <typename T> friend struct std::hash;
             template <typename T> friend struct std::equal_to;
         };
-        class blue {
+        class red {
             /*  Complete Constructor  */
             public:
-            /// Create new blue
-            blue();
+            /// Create new red
+            red();
             
             /*  Methods  */
             

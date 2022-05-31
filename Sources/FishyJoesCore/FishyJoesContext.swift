@@ -14,6 +14,9 @@ public class FishyJoesContext {
     var kotlinClasses: [KotlinClass] = []
     // qualified name (ie "ContainingClass::ClassName") -> CPPClass
     var cppClasses: [String: CPPClass] = [:]
+    var sortedCppClasses: [CPPClass] {
+        cppClasses.sorted { $0.key < $1.key }.map(\.value)
+    }
     // [qualifiedName/cppName]
     var classesNeedingHashSpecialization: [CPPClass] = []
 
@@ -132,13 +135,13 @@ public class FishyJoesContext {
             }
         }
 
-        for classObj in cppClasses.values {
+        for classObj in sortedCppClasses {
             if let parent = classObj.parentQualifiedName {
                 cppClasses[parent]!.innerClasses.append(classObj)
             }
         }
 
-        for cppClass in cppClasses.values {
+        for cppClass in sortedCppClasses {
             if cppClass.parentQualifiedName == nil {
                 collectedFragments.append(cppClass.headerFragment())
             }

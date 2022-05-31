@@ -32,30 +32,12 @@ namespace TestAPI {
         }
         namespace CBindings {
             extern "C" {
+                void* FJInternalBinding_TestAPI_AssociatedDataEnum_plus(void*, void*);
+                void* FJInternalBinding_TestAPI_AssociatedDataEnum_getIntValue(void*);
                 void* FJInternalBinding_TestAPI_Bytes_echoBytes(void*);
                 void* FJInternalBinding_TestAPI_Bytes_echoData(void*);
                 void* FJInternalBinding_TestAPI_Bytes_getBytes();
                 void* FJInternalBinding_TestAPI_Bytes_getData();
-                void* FJInternalBinding_TestAPI_Collections_CollectionHolder_getStaticPropery();
-                void* FJInternalBinding_TestAPI_Collections_CollectionHolder_getStaticMutablePropery();
-                void* FJInternalBinding_TestAPI_Collections_CollectionHolder_setStaticMutablePropery(void*);
-                void* FJInternalBinding_TestAPI_Structs_ReferenceStruct_create();
-                void* FJInternalBinding_TestAPI_Structs_ReferenceStruct_getImmutable(void*);
-                void* FJInternalBinding_TestAPI_Structs_ReferenceStruct_setImmutable(void*, void*);
-                void* FJInternalBinding_TestAPI_Structs_ReferenceStruct_getMutable(void*);
-                void* FJInternalBinding_TestAPI_Structs_ReferenceStruct_setMutable(void*, void*);
-                void* FJInternalBinding_TestAPI_Strings_echo(void*);
-                void* FJInternalBinding_TestAPI_Strings_getSimple();
-                void* FJInternalBinding_TestAPI_Strings_getAccent();
-                void* FJInternalBinding_TestAPI_Strings_getScript();
-                void* FJInternalBinding_TestAPI_Strings_getChinese();
-                void* FJInternalBinding_TestAPI_Strings_getChineseBMP();
-                void* FJInternalBinding_TestAPI_Strings_getChineseSIP();
-                void* FJInternalBinding_TestAPI_Strings_getEmoji();
-                void* FJInternalBinding_TestAPI_Strings_getEmojiMulti();
-                void* FJInternalBinding_TestAPI_AssociatedDataEnum_plus(void*, void*);
-                void* FJInternalBinding_TestAPI_AssociatedDataEnum_getIntValue(void*);
-                void* FJInternalBinding_TestAPI_EmptyEnum_notGoingToHappen();
                 void* FJInternalBinding_TestAPI_Collections_echoArrayOfInt(void*);
                 void* FJInternalBinding_TestAPI_Collections_echoSetOfInt(void*);
                 void* FJInternalBinding_TestAPI_Collections_echoDictionaryOfIntToInt(void*);
@@ -72,9 +54,10 @@ namespace TestAPI {
                 void* FJInternalBinding_TestAPI_Collections_getMaybeSetOfMaybeInt();
                 void* FJInternalBinding_TestAPI_Collections_getMaybeDictionaryOfMaybeIntToMaybeInt();
                 void* FJInternalBinding_TestAPI_Collections_getDefaultCollectionHolder();
-                void* FJInternalBinding_TestAPI_Primitives_PrimitiveHolder_getStaticPropery();
-                void* FJInternalBinding_TestAPI_Primitives_PrimitiveHolder_getStaticMutablePropery();
-                void* FJInternalBinding_TestAPI_Primitives_PrimitiveHolder_setStaticMutablePropery(void*);
+                void* FJInternalBinding_TestAPI_Collections_CollectionHolder_getStaticPropery();
+                void* FJInternalBinding_TestAPI_Collections_CollectionHolder_getStaticMutablePropery();
+                void* FJInternalBinding_TestAPI_Collections_CollectionHolder_setStaticMutablePropery(void*);
+                void* FJInternalBinding_TestAPI_EmptyEnum_notGoingToHappen();
                 void* FJInternalBinding_TestAPI_Functions_exercise0(void*);
                 void* FJInternalBinding_TestAPI_Functions_exercise1(void*);
                 void* FJInternalBinding_TestAPI_Functions_exercise2(void*);
@@ -90,7 +73,6 @@ namespace TestAPI {
                 void* FJInternalBinding_TestAPI_Functions_getMakeList();
                 void* FJInternalBinding_TestAPI_Functions_getFifthThing();
                 void* FJInternalBinding_TestAPI_Functions_getSix();
-                void* FJInternalBinding_TestAPI_Structs_MemberwiseStruct_create();
                 void* FJInternalBinding_TestAPI_Primitives_echoBool(void*);
                 void* FJInternalBinding_TestAPI_Primitives_echoUInt8(void*);
                 void* FJInternalBinding_TestAPI_Primitives_echoUInt16(void*);
@@ -171,26 +153,44 @@ namespace TestAPI {
                 void* FJInternalBinding_TestAPI_Primitives_getManyMaybeFloat();
                 void* FJInternalBinding_TestAPI_Primitives_getManyMaybeDouble();
                 void* FJInternalBinding_TestAPI_Primitives_getDefaultPrimitiveHolder();
+                void* FJInternalBinding_TestAPI_Primitives_PrimitiveHolder_getStaticPropery();
+                void* FJInternalBinding_TestAPI_Primitives_PrimitiveHolder_getStaticMutablePropery();
+                void* FJInternalBinding_TestAPI_Primitives_PrimitiveHolder_setStaticMutablePropery(void*);
+                void* FJInternalBinding_TestAPI_SimpleEnum_pickAColor(void*);
+                void* FJInternalBinding_TestAPI_SimpleEnum_getHex(void*);
+                void* FJInternalBinding_TestAPI_Strings_echo(void*);
+                void* FJInternalBinding_TestAPI_Strings_getSimple();
+                void* FJInternalBinding_TestAPI_Strings_getAccent();
+                void* FJInternalBinding_TestAPI_Strings_getScript();
+                void* FJInternalBinding_TestAPI_Strings_getChinese();
+                void* FJInternalBinding_TestAPI_Strings_getChineseBMP();
+                void* FJInternalBinding_TestAPI_Strings_getChineseSIP();
+                void* FJInternalBinding_TestAPI_Strings_getEmoji();
+                void* FJInternalBinding_TestAPI_Strings_getEmojiMulti();
+                void* FJInternalBinding_TestAPI_Structs_MemberwiseStruct_create();
+                void* FJInternalBinding_TestAPI_Structs_ReferenceStruct_create();
+                void* FJInternalBinding_TestAPI_Structs_ReferenceStruct_getImmutable(void*);
+                void* FJInternalBinding_TestAPI_Structs_ReferenceStruct_setImmutable(void*, void*);
+                void* FJInternalBinding_TestAPI_Structs_ReferenceStruct_getMutable(void*);
+                void* FJInternalBinding_TestAPI_Structs_ReferenceStruct_setMutable(void*, void*);
                 void* FJInternalBinding_TestAPI_Tuples_checkTuples(void*, void*, void*, void*, void*);
                 void* FJInternalBinding_TestAPI_Tuples_getTuple2();
                 void* FJInternalBinding_TestAPI_Tuples_getTuple3();
                 void* FJInternalBinding_TestAPI_Tuples_getTuple4();
                 void* FJInternalBinding_TestAPI_Tuples_getTuple5();
                 void* FJInternalBinding_TestAPI_Tuples_getTuple6();
-                void* FJInternalBinding_TestAPI_SimpleEnum_pickAColor(void*);
-                void* FJInternalBinding_TestAPI_SimpleEnum_getHex(void*);
             }
         }
     }
     
-    class Bytes;
-    class Strings;
     class AssociatedDataEnum;
-    class Structs;
-    class EmptyEnum;
+    class Bytes;
     class Collections;
+    class EmptyEnum;
     class Functions;
     class Primitives;
-    class Tuples;
     class SimpleEnum;
+    class Strings;
+    class Structs;
+    class Tuples;
 }

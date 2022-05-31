@@ -6,8 +6,30 @@ namespace TestAPI {
     class Structs {
         /*  Inner Classes  */
         public:
-        class ReferenceStruct;
         class MemberwiseStruct;
+        class ReferenceStruct;
+        /// <!-- FishyJoes.export(Structs.MemberwiseStruct) -->
+        class MemberwiseStruct {
+            /*  Complete Constructor  */
+            public:
+            /// Create new MemberwiseStruct
+            MemberwiseStruct(const std::string &immutable, const std::string &mutable);
+            
+            /*  Methods  */
+            public:
+            /// <!-- FishyJoes.export(create) -->
+            static Structs::MemberwiseStruct create();
+            
+            
+            /*  Data  */
+            public:
+            std::string immutable;
+            std::string mutable;
+            
+            friend struct FishyJoesInternal::Packer;
+            template <typename T> friend struct std::hash;
+            template <typename T> friend struct std::equal_to;
+        };
         /// <!-- FishyJoes.exportReference(Structs.ReferenceStruct) -->
         class ReferenceStruct {
             /*  Complete Constructor  */
@@ -37,28 +59,6 @@ namespace TestAPI {
             private:
             /// Reference to Swift-managed data
             FishyJoesInternal::SwiftReference _ref;
-            
-            friend struct FishyJoesInternal::Packer;
-            template <typename T> friend struct std::hash;
-            template <typename T> friend struct std::equal_to;
-        };
-        /// <!-- FishyJoes.export(Structs.MemberwiseStruct) -->
-        class MemberwiseStruct {
-            /*  Complete Constructor  */
-            public:
-            /// Create new MemberwiseStruct
-            MemberwiseStruct(const std::string &immutable, const std::string &mutable);
-            
-            /*  Methods  */
-            public:
-            /// <!-- FishyJoes.export(create) -->
-            static Structs::MemberwiseStruct create();
-            
-            
-            /*  Data  */
-            public:
-            std::string immutable;
-            std::string mutable;
             
             friend struct FishyJoesInternal::Packer;
             template <typename T> friend struct std::hash;

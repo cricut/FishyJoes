@@ -16,9 +16,12 @@ extension SimpleEnum: FishyJoesNodeRuntime.NodeConverter {
     }
     public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
         switch value {
-            case .red: return try String.toNode("red", env: env)
-            case .green: return try String.toNode("green", env: env)
-            case .blue: return try String.toNode("blue", env: env)
+        case .red:
+            return try String.toNode("red", env: env)
+        case .green:
+            return try String.toNode("green", env: env)
+        case .blue:
+            return try String.toNode("blue", env: env)
         }
     }
 }
