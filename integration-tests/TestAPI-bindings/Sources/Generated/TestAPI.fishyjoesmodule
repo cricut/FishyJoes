@@ -11,6 +11,7 @@
           }
         }
       },
+      "cppName" : "AssociatedDataEnum",
       "cSharpName" : "AssociatedDataEnum",
       "cSharpNamespace" : "Cricut.TestAPI",
       "jniType" : {
@@ -20,6 +21,7 @@
       },
       "kotlinName" : "AssociatedDataEnum",
       "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=AssociatedDataEnum>>",
       "nodeName" : "TestAPI.AssociatedDataEnum",
       "sourceType" : {
         "named" : {
@@ -43,6 +45,7 @@
           }
         }
       },
+      "cppName" : "Bytes",
       "cSharpName" : "Bytes",
       "cSharpNamespace" : "Cricut.TestAPI",
       "jniType" : {
@@ -52,6 +55,7 @@
       },
       "kotlinName" : "Bytes",
       "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Reference<To=Bytes>>",
       "nodeName" : "TestAPI.Bytes",
       "sourceType" : {
         "named" : {
@@ -75,6 +79,7 @@
           }
         }
       },
+      "cppName" : "Collections",
       "cSharpName" : "Collections",
       "cSharpNamespace" : "Cricut.TestAPI",
       "jniType" : {
@@ -84,6 +89,7 @@
       },
       "kotlinName" : "Collections",
       "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Reference<To=Collections>>",
       "nodeName" : "TestAPI.Collections",
       "sourceType" : {
         "named" : {
@@ -107,6 +113,7 @@
           }
         }
       },
+      "cppName" : "Collections::CollectionHolder",
       "cSharpName" : "Collections.CollectionHolder",
       "cSharpNamespace" : "Cricut.TestAPI",
       "jniType" : {
@@ -116,6 +123,7 @@
       },
       "kotlinName" : "Collections.CollectionHolder",
       "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Struct<Named=Collections.CollectionHolder>>",
       "nodeName" : "TestAPI.Collections.CollectionHolder",
       "sourceType" : {
         "named" : {
@@ -139,6 +147,7 @@
           }
         }
       },
+      "cppName" : "EmptyEnum",
       "cSharpName" : "EmptyEnum",
       "cSharpNamespace" : "Cricut.TestAPI",
       "jniType" : {
@@ -148,6 +157,7 @@
       },
       "kotlinName" : "EmptyEnum",
       "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=EmptyEnum>>",
       "nodeName" : "TestAPI.EmptyEnum",
       "sourceType" : {
         "named" : {
@@ -171,6 +181,7 @@
           }
         }
       },
+      "cppName" : "Functions",
       "cSharpName" : "Functions",
       "cSharpNamespace" : "Cricut.TestAPI",
       "jniType" : {
@@ -180,6 +191,7 @@
       },
       "kotlinName" : "Functions",
       "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Reference<To=Functions>>",
       "nodeName" : "TestAPI.Functions",
       "sourceType" : {
         "named" : {
@@ -203,6 +215,7 @@
           }
         }
       },
+      "cppName" : "Functions::TheError",
       "cSharpName" : "Functions.TheError",
       "cSharpNamespace" : "Cricut.TestAPI",
       "jniType" : {
@@ -212,6 +225,7 @@
       },
       "kotlinName" : "Functions.TheError",
       "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Reference<To=Functions.TheError>>",
       "nodeName" : "TestAPI.Functions.TheError",
       "sourceType" : {
         "named" : {
@@ -235,6 +249,7 @@
           }
         }
       },
+      "cppName" : "Primitives",
       "cSharpName" : "Primitives",
       "cSharpNamespace" : "Cricut.TestAPI",
       "jniType" : {
@@ -244,6 +259,7 @@
       },
       "kotlinName" : "Primitives",
       "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Reference<To=Primitives>>",
       "nodeName" : "TestAPI.Primitives",
       "sourceType" : {
         "named" : {
@@ -267,6 +283,7 @@
           }
         }
       },
+      "cppName" : "Primitives::PrimitiveHolder",
       "cSharpName" : "Primitives.PrimitiveHolder",
       "cSharpNamespace" : "Cricut.TestAPI",
       "jniType" : {
@@ -276,6 +293,7 @@
       },
       "kotlinName" : "Primitives.PrimitiveHolder",
       "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Struct<Named=Primitives.PrimitiveHolder>>",
       "nodeName" : "TestAPI.Primitives.PrimitiveHolder",
       "sourceType" : {
         "named" : {
@@ -299,6 +317,7 @@
           }
         }
       },
+      "cppName" : "SimpleEnum",
       "cSharpName" : "SimpleEnum",
       "cSharpNamespace" : "Cricut.TestAPI",
       "jniType" : {
@@ -308,6 +327,7 @@
       },
       "kotlinName" : "SimpleEnum",
       "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=SimpleEnum>>",
       "nodeName" : "TestAPI.SimpleEnum",
       "sourceType" : {
         "named" : {
@@ -331,6 +351,7 @@
           }
         }
       },
+      "cppName" : "Strings",
       "cSharpName" : "Strings",
       "cSharpNamespace" : "Cricut.TestAPI",
       "jniType" : {
@@ -340,6 +361,7 @@
       },
       "kotlinName" : "Strings",
       "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Reference<To=Strings>>",
       "nodeName" : "TestAPI.Strings",
       "sourceType" : {
         "named" : {
@@ -363,6 +385,7 @@
           }
         }
       },
+      "cppName" : "Structs",
       "cSharpName" : "Structs",
       "cSharpNamespace" : "Cricut.TestAPI",
       "jniType" : {
@@ -372,6 +395,7 @@
       },
       "kotlinName" : "Structs",
       "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Reference<To=Structs>>",
       "nodeName" : "TestAPI.Structs",
       "sourceType" : {
         "named" : {
@@ -395,6 +419,7 @@
           }
         }
       },
+      "cppName" : "Structs::MemberwiseStruct",
       "cSharpName" : "Structs.MemberwiseStruct",
       "cSharpNamespace" : "Cricut.TestAPI",
       "jniType" : {
@@ -404,6 +429,7 @@
       },
       "kotlinName" : "Structs.MemberwiseStruct",
       "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Struct<Named=Structs.MemberwiseStruct>>",
       "nodeName" : "TestAPI.Structs.MemberwiseStruct",
       "sourceType" : {
         "named" : {
@@ -427,6 +453,7 @@
           }
         }
       },
+      "cppName" : "Structs::ReferenceStruct",
       "cSharpName" : "Structs.ReferenceStruct",
       "cSharpNamespace" : "Cricut.TestAPI",
       "jniType" : {
@@ -436,6 +463,7 @@
       },
       "kotlinName" : "Structs.ReferenceStruct",
       "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Reference<To=Structs.ReferenceStruct>>",
       "nodeName" : "TestAPI.Structs.ReferenceStruct",
       "sourceType" : {
         "named" : {
@@ -459,6 +487,7 @@
           }
         }
       },
+      "cppName" : "Tuples",
       "cSharpName" : "Tuples",
       "cSharpNamespace" : "Cricut.TestAPI",
       "jniType" : {
@@ -468,6 +497,7 @@
       },
       "kotlinName" : "Tuples",
       "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=Tuples>>",
       "nodeName" : "TestAPI.Tuples",
       "sourceType" : {
         "named" : {

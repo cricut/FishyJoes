@@ -931,6 +931,18 @@ export declare namespace TestAPI {
         }
     }
 
+    export namespace EmptyEnum {
+        class _FictionalCommonSuperclass {
+            constructor()
+
+            /**
+             * <!-- FishyJoes.export(notGoingToHappen) -->
+             */
+            static notGoingToHappen(
+            ): EmptyEnum;
+        }
+    }
+
     export namespace Tuples {
         class _FictionalCommonSuperclass {
             constructor()
@@ -970,18 +982,6 @@ export declare namespace TestAPI {
                 t5: [string, number, [[number, string], [string, number, string], string, boolean], [string, number, string], [number, string]],
                 t6: [string, number, number, [[number, string], [string, number, string], string, boolean], [string, number, [[number, string], [string, number, string], string, boolean], [string, number, string], [number, string]], boolean]
             ): boolean;
-        }
-    }
-
-    export namespace EmptyEnum {
-        class _FictionalCommonSuperclass {
-            constructor()
-
-            /**
-             * <!-- FishyJoes.export(notGoingToHappen) -->
-             */
-            static notGoingToHappen(
-            ): EmptyEnum;
         }
     }
 }

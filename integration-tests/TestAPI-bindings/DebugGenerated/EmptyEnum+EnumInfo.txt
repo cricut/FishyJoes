@@ -1,0 +1,26 @@
+TranslatedEnum for EmptyEnum {
+    Documentation {
+        <!-- FishyJoes.export(EmptyEnum) -->
+    }
+    Cases {
+    }
+    Methods {
+        Method notGoingToHappen() {
+            Annotation: ExportAnnotation(kind: FishyJoesCore.ExportAnnotation.Kind.unmodified, name: "notGoingToHappen", isOverride: false, genericOverrides: [:], omitParameters: [])
+            Generic Overrides: [:]
+            Call Name: notGoingToHappen
+            Static: true
+            Mutating: false
+            Throwing: true
+            Initializer: false
+            Documentation {
+                <!-- FishyJoes.export(notGoingToHappen) -->
+            }
+            Parameters {
+            }
+            Return Type: Enum<TranslatedFrom=EmptyEnum>
+        }
+    }
+    Computed Variables {
+    }
+}

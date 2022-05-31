@@ -1,0 +1,83 @@
+TranslatedReference for Strings {
+    Equatable: false
+    Hashable: false
+    Documentation {
+        <!-- FishyJoes.exportReference(Strings) -->
+    }
+    Methods {
+        Method echo(_ string: String) {
+            Annotation: ExportAnnotation(kind: FishyJoesCore.ExportAnnotation.Kind.unmodified, name: "echo", isOverride: false, genericOverrides: [:], omitParameters: [])
+            Generic Overrides: [:]
+            Call Name: echo
+            Static: true
+            Mutating: false
+            Throwing: false
+            Initializer: false
+            Documentation {
+                <!-- FishyJoes.export(echo) -->
+            }
+            Parameters {
+                string: String
+            }
+            Return Type: String
+        }
+    }
+    Variables {
+        Variable {
+            Annotation: ExportAnnotation(kind: FishyJoesCore.ExportAnnotation.Kind.unmodified, name: "simple", isOverride: false, genericOverrides: [:], omitParameters: [])
+            Name: simple
+            Type: String
+            Mutable: false
+            Defined in: Strings
+        }
+        Variable {
+            Annotation: ExportAnnotation(kind: FishyJoesCore.ExportAnnotation.Kind.unmodified, name: "accent", isOverride: false, genericOverrides: [:], omitParameters: [])
+            Name: accent
+            Type: String
+            Mutable: false
+            Defined in: Strings
+        }
+        Variable {
+            Annotation: ExportAnnotation(kind: FishyJoesCore.ExportAnnotation.Kind.unmodified, name: "script", isOverride: false, genericOverrides: [:], omitParameters: [])
+            Name: script
+            Type: String
+            Mutable: false
+            Defined in: Strings
+        }
+        Variable {
+            Annotation: ExportAnnotation(kind: FishyJoesCore.ExportAnnotation.Kind.unmodified, name: "chinese", isOverride: false, genericOverrides: [:], omitParameters: [])
+            Name: chinese
+            Type: String
+            Mutable: false
+            Defined in: Strings
+        }
+        Variable {
+            Annotation: ExportAnnotation(kind: FishyJoesCore.ExportAnnotation.Kind.unmodified, name: "chineseBMP", isOverride: false, genericOverrides: [:], omitParameters: [])
+            Name: chineseBMP
+            Type: String
+            Mutable: false
+            Defined in: Strings
+        }
+        Variable {
+            Annotation: ExportAnnotation(kind: FishyJoesCore.ExportAnnotation.Kind.unmodified, name: "chineseSIP", isOverride: false, genericOverrides: [:], omitParameters: [])
+            Name: chineseSIP
+            Type: String
+            Mutable: false
+            Defined in: Strings
+        }
+        Variable {
+            Annotation: ExportAnnotation(kind: FishyJoesCore.ExportAnnotation.Kind.unmodified, name: "emoji", isOverride: false, genericOverrides: [:], omitParameters: [])
+            Name: emoji
+            Type: String
+            Mutable: false
+            Defined in: Strings
+        }
+        Variable {
+            Annotation: ExportAnnotation(kind: FishyJoesCore.ExportAnnotation.Kind.unmodified, name: "emojiMulti", isOverride: false, genericOverrides: [:], omitParameters: [])
+            Name: emojiMulti
+            Type: String
+            Mutable: false
+            Defined in: Strings
+        }
+    }
+}

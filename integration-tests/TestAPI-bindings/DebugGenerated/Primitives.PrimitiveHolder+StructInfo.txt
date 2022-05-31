@@ -1,0 +1,157 @@
+TranslatedStruct for Primitives.PrimitiveHolder {
+    Documentation {
+        <!-- FishyJoes.export(Primitives.PrimitiveHolder) -->
+    }
+    Methods {
+    }
+    Stored Variables {
+        Variable {
+            Name: not exported
+            Type: Primitive<bool>
+            Mutable: true
+            Defined in: Primitives.PrimitiveHolder
+        }
+        Variable {
+            Name: not exported
+            Type: Optional<Primitive<bool>>
+            Mutable: true
+            Defined in: Primitives.PrimitiveHolder
+        }
+        Variable {
+            Name: not exported
+            Type: UnsignedPrimitive<uint8_t>
+            Mutable: true
+            Defined in: Primitives.PrimitiveHolder
+        }
+        Variable {
+            Name: not exported
+            Type: Optional<UnsignedPrimitive<uint8_t>>
+            Mutable: true
+            Defined in: Primitives.PrimitiveHolder
+        }
+        Variable {
+            Name: not exported
+            Type: UnsignedPrimitive<uint16_t>
+            Mutable: true
+            Defined in: Primitives.PrimitiveHolder
+        }
+        Variable {
+            Name: not exported
+            Type: Optional<UnsignedPrimitive<uint16_t>>
+            Mutable: true
+            Defined in: Primitives.PrimitiveHolder
+        }
+        Variable {
+            Name: not exported
+            Type: UnsignedPrimitive<uint32_t>
+            Mutable: true
+            Defined in: Primitives.PrimitiveHolder
+        }
+        Variable {
+            Name: not exported
+            Type: Optional<UnsignedPrimitive<uint32_t>>
+            Mutable: true
+            Defined in: Primitives.PrimitiveHolder
+        }
+        Variable {
+            Name: not exported
+            Type: UnsignedPrimitive<uint64_t>
+            Mutable: true
+            Defined in: Primitives.PrimitiveHolder
+        }
+        Variable {
+            Name: not exported
+            Type: Optional<UnsignedPrimitive<uint64_t>>
+            Mutable: true
+            Defined in: Primitives.PrimitiveHolder
+        }
+        Variable {
+            Name: not exported
+            Type: Primitive<int8_t>
+            Mutable: true
+            Defined in: Primitives.PrimitiveHolder
+        }
+        Variable {
+            Name: not exported
+            Type: Optional<Primitive<int8_t>>
+            Mutable: true
+            Defined in: Primitives.PrimitiveHolder
+        }
+        Variable {
+            Name: not exported
+            Type: Primitive<int16_t>
+            Mutable: true
+            Defined in: Primitives.PrimitiveHolder
+        }
+        Variable {
+            Name: not exported
+            Type: Optional<Primitive<int16_t>>
+            Mutable: true
+            Defined in: Primitives.PrimitiveHolder
+        }
+        Variable {
+            Name: not exported
+            Type: Primitive<int32_t>
+            Mutable: true
+            Defined in: Primitives.PrimitiveHolder
+        }
+        Variable {
+            Name: not exported
+            Type: Optional<Primitive<int32_t>>
+            Mutable: true
+            Defined in: Primitives.PrimitiveHolder
+        }
+        Variable {
+            Name: not exported
+            Type: Primitive<int64_t>
+            Mutable: true
+            Defined in: Primitives.PrimitiveHolder
+        }
+        Variable {
+            Name: not exported
+            Type: Optional<Primitive<int64_t>>
+            Mutable: true
+            Defined in: Primitives.PrimitiveHolder
+        }
+        Variable {
+            Name: not exported
+            Type: Primitive<float>
+            Mutable: true
+            Defined in: Primitives.PrimitiveHolder
+        }
+        Variable {
+            Name: not exported
+            Type: Optional<Primitive<float>>
+            Mutable: true
+            Defined in: Primitives.PrimitiveHolder
+        }
+        Variable {
+            Name: not exported
+            Type: Primitive<double>
+            Mutable: true
+            Defined in: Primitives.PrimitiveHolder
+        }
+        Variable {
+            Name: not exported
+            Type: Optional<Primitive<double>>
+            Mutable: true
+            Defined in: Primitives.PrimitiveHolder
+        }
+    }
+    Computed Variables {
+        Variable {
+            Annotation: ExportAnnotation(kind: FishyJoesCore.ExportAnnotation.Kind.unmodified, name: "staticPropery", isOverride: false, genericOverrides: [:], omitParameters: [])
+            Name: staticPropery
+            Type: List<V=Optional<UnsignedPrimitive<uint8_t>>>
+            Mutable: false
+            Defined in: Primitives.PrimitiveHolder
+        }
+        Variable {
+            Annotation: ExportAnnotation(kind: FishyJoesCore.ExportAnnotation.Kind.unmodified, name: "staticMutablePropery", isOverride: false, genericOverrides: [:], omitParameters: [])
+            Name: staticMutablePropery
+            Type: List<V=Optional<UnsignedPrimitive<uint8_t>>>
+            Mutable: true
+            Defined in: Primitives.PrimitiveHolder
+        }
+    }
+}

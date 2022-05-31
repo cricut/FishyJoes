@@ -1,0 +1,38 @@
+TranslatedStruct for Structs.MemberwiseStruct {
+    Documentation {
+        <!-- FishyJoes.export(Structs.MemberwiseStruct) -->
+    }
+    Methods {
+        Method init() {
+            Annotation: ExportAnnotation(kind: FishyJoesCore.ExportAnnotation.Kind.unmodified, name: "create", isOverride: false, genericOverrides: [:], omitParameters: [])
+            Generic Overrides: [:]
+            Call Name: init
+            Static: true
+            Mutating: false
+            Throwing: false
+            Initializer: true
+            Documentation {
+                <!-- FishyJoes.export(create) -->
+            }
+            Parameters {
+            }
+            Return Type: Struct<Named=Structs.MemberwiseStruct>
+        }
+    }
+    Stored Variables {
+        Variable {
+            Name: not exported
+            Type: String
+            Mutable: false
+            Defined in: Structs.MemberwiseStruct
+        }
+        Variable {
+            Name: not exported
+            Type: String
+            Mutable: false
+            Defined in: Structs.MemberwiseStruct
+        }
+    }
+    Computed Variables {
+    }
+}
