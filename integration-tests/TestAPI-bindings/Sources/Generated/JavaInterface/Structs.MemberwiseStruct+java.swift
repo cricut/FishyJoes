@@ -34,6 +34,7 @@ extension Structs.MemberwiseStruct: JavaConverter {
         )
     }
     public static func javaSetup(env: Env) throws {
+        guard javaClass == nil else { return }
         javaClass = try env.globalRef(env.FindClass("com/cricut/testapi/Structs$MemberwiseStruct"))
         _java_immutable_id = try env.GetFieldID(javaClass, "immutable", "Ljava/lang/String;")
         _java_mutable_id = try env.GetFieldID(javaClass, "mutable", "Ljava/lang/String;")

@@ -3,7 +3,7 @@ import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 
 plugins {
     `maven-publish`
-    kotlin("jvm") version "1.5.21"
+    kotlin("jvm") version "1.6.21"
     jacoco
 }
 
@@ -18,14 +18,6 @@ repositories {
             password = if ((System.getenv("GITHUB_TOKEN") ?: "") != "") System.getenv("GITHUB_TOKEN") else project.property("gpr_key") as String
         }
     }
-//    maven {
-//        name = "GitHubPackagesFishyJoes"
-//        url = uri("https://maven.pkg.github.com/cricut/FishyJoes")
-//        credentials {
-//            username = if ((System.getenv("GITHUB_USER") ?: "") != "") System.getenv("GITHUB_USER") else project.property("gpr_user") as String
-//            password = if ((System.getenv("GITHUB_TOKEN") ?: "") != "") System.getenv("GITHUB_TOKEN") else project.property("gpr_key") as String
-//        }
-//    }
 }
 
 val sourcesJar by tasks.registering(Jar::class) {
@@ -53,14 +45,15 @@ gradle.rootProject {
 sourceSets.main {
     java.srcDir("src/generated/kotlin")
     resources.srcDir("src/generated/resources")
-
-    java.srcDir("../../../kotlin-runtime/src/main/kotlin")
-    resources.srcDir("../../../kotlin-runtime/src/generated/resources")
 }
 
 tasks.test {
     useJUnitPlatform()
-    jvmArgs("-Xcheck:jni", "-XX:+SuppressFatalErrorMessage")
+
+    jvmArgs(
+//        "-Xcheck:jni",
+        "-XX:+SuppressFatalErrorMessage",
+    )
     testLogging {
         exceptionFormat = TestExceptionFormat.FULL
         events("started", "skipped", "passed", "failed")
@@ -75,7 +68,7 @@ tasks.jacocoTestReport {
 }
 
 jacoco {
-    toolVersion = "0.8.7"
+    toolVersion = "0.8.8"
     reportsDirectory.set(layout.projectDirectory.dir("../../../coverage-data/jacoco-integration"))
 }
 
@@ -89,7 +82,8 @@ tasks {
 }
 
 dependencies {
-    implementation(kotlin("stdlib:1.5.21"))
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.0")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.0")
+    implementation(kotlin("stdlib:1.6.21"))
+    api("com.cricut.fishyjoes:runtime:local")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.2")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.2")
 }

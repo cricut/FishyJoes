@@ -76,6 +76,7 @@ extension Collections.CollectionHolder: JavaConverter {
         )
     }
     public static func javaSetup(env: Env) throws {
+        guard javaClass == nil else { return }
         javaClass = try env.globalRef(env.FindClass("com/cricut/testapi/Collections$CollectionHolder"))
         _java_boolArray_id = try env.GetFieldID(javaClass, "boolArray", "Ljava/util/List;")
         _java_boolSet_id = try env.GetFieldID(javaClass, "boolSet", "Ljava/util/Set;")

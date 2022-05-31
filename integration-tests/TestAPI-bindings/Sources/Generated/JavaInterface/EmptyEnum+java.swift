@@ -5,14 +5,14 @@ import FishyJoesJavaRuntime
 import Foundation
 import TestAPI
 
-extension Tuples: JavaConverter {
+extension EmptyEnum: JavaConverter {
     public typealias SwiftType = Self
     public typealias CType = jobject?
 
     public static var javaClass: jclass?
 
     public static func fromJava(_ value: jobject?, env: Env) throws -> Self {
-        throw JNIError(message: "invalid enum \(try env.javaDescription(value)) for Tuples")
+        throw JNIError(message: "invalid enum \(try env.javaDescription(value)) for EmptyEnum")
     }
 
     public static func toJava(_ value: Self, env: Env) throws -> jobject? {
@@ -22,6 +22,6 @@ extension Tuples: JavaConverter {
 
     public static func javaSetup(env: Env) throws {
         guard javaClass == nil else { return }
-        javaClass = try env.globalRef(env.FindClass("com/cricut/testapi/Tuples"))
+        javaClass = try env.globalRef(env.FindClass("com/cricut/testapi/EmptyEnum"))
     }
 }

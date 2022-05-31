@@ -381,4 +381,40 @@ import(`${MODULE_PATH}/TestAPI.js`).then(({ TestAPI }) => {
         testExceptions()
     }
     testFunctions()
+
+    // MARK: Enum tests
+    function testEnums() {
+        function testEmptyEnum() {
+            console.log("Testing empty enums...")
+            assert.throws(() => TestAPI.EmptyEnum.notGoingToHappen())
+        }
+        testEmptyEnum()
+
+        // Currently not supported in TS
+        // function testSimpleEnum() {
+        //     console.log("Testing simple enums...")
+        //     assert.deepEqual(0xff0000, TestAPI.SimpleEnum.red.hex)
+        //     assert.deepEqual(0x00ff00, TestAPI.SimpleEnum.green.hex)
+        //     assert.deepEqual(0x0000ff, TestAPI.SimpleEnum.blue.hex)
+        //     assert.deepEqual(TestAPI.SimpleEnum.red, TestAPI.SimpleEnum.pickAColor(0))
+        //     assert.deepEqual(TestAPI.SimpleEnum.green, TestAPI.SimpleEnum.pickAColor(1))
+        //     assert.deepEqual(TestAPI.SimpleEnum.blue, TestAPI.SimpleEnum.pickAColor(2))
+        // }
+        // testSimpleEnum()
+
+        function testAssociatedDataEnum() {
+            console.log("Testing associated data enums...")
+
+            const shape1 = (x: number) => new TestAPI.AssociatedDataEnum.Thing(x)
+            const shape2 = (x: String, y: String, z: number) => new TestAPI.AssociatedDataEnum.Bar(x, new TestAPI.AssociatedDataEnum.Other(y, z))
+
+            assert.deepEqual(4, shape1(4).intValue)
+            assert.deepEqual(11, shape2("hello", "world", 8).intValue)
+            assert.deepEqual(shape1(9), shape1(2).plus(shape2("x", "y", 4)))
+            assert.deepEqual(shape2("y","z", 7), shape2("y", "z", 2).plus(shape1(5)))
+        }
+        testAssociatedDataEnum()
+    }
+    testEnums()
+
 })

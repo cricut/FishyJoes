@@ -501,6 +501,7 @@ private enum JavaIterator {
     static var hasNextMethodID: jmethodID?
 
     public static func javaSetup(env: Env) throws {
+        guard iteratorClass == nil else { return }
         iteratorClass = try env.globalRef(env.FindClass("java/util/Iterator"))
         hasNextMethodID = try env.GetMethodID(iteratorClass, "hasNext", "()Z")
         nextMethodID = try env.GetMethodID(iteratorClass, "next", "()Ljava/lang/Object;")

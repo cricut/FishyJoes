@@ -886,7 +886,50 @@ export declare namespace TestAPI {
         }
     }
 
+    export type AssociatedDataEnum = AssociatedDataEnum.Thing | AssociatedDataEnum.Other | AssociatedDataEnum.Bar;
+    export type EmptyEnum = ;
+    export type SimpleEnum = "red" | "green" | "blue";
     export type Tuples = ;
+
+    export namespace AssociatedDataEnum {
+        class _FictionalCommonSuperclass {
+            constructor()
+
+            /**
+             * <!-- FishyJoes.export(intValue) -->
+             */
+            readonly intValue: number;
+
+            /**
+             * <!-- FishyJoes.export(plus) -->
+             */
+            plus(
+                other: AssociatedDataEnum
+            ): AssociatedDataEnum;
+        }
+
+        export class Thing extends _FictionalCommonSuperclass {
+            constructor(value: number)
+
+            readonly value: number;
+        }
+
+        export class Other extends _FictionalCommonSuperclass {
+            constructor(unnamed: string, _1: number)
+
+            readonly unnamed: string;
+
+            readonly _1: number;
+        }
+
+        export class Bar extends _FictionalCommonSuperclass {
+            constructor(named: string, _1: AssociatedDataEnum)
+
+            readonly named: string;
+
+            readonly _1: AssociatedDataEnum;
+        }
+    }
 
     export namespace Tuples {
         class _FictionalCommonSuperclass {
@@ -927,6 +970,18 @@ export declare namespace TestAPI {
                 t5: [string, number, [[number, string], [string, number, string], string, boolean], [string, number, string], [number, string]],
                 t6: [string, number, number, [[number, string], [string, number, string], string, boolean], [string, number, [[number, string], [string, number, string], string, boolean], [string, number, string], [number, string]], boolean]
             ): boolean;
+        }
+    }
+
+    export namespace EmptyEnum {
+        class _FictionalCommonSuperclass {
+            constructor()
+
+            /**
+             * <!-- FishyJoes.export(notGoingToHappen) -->
+             */
+            static notGoingToHappen(
+            ): EmptyEnum;
         }
     }
 }
