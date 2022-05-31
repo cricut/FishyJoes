@@ -122,7 +122,7 @@ class CPPClass {
         let type: CPPType
         let initializer: String?
     }
-    let module: String
+    let module: Module
     let qualifiedName: String
     let parentQualifiedName: String?
     let swiftQualifiedName: String
@@ -159,7 +159,7 @@ class CPPClass {
     }
 
     init(
-        module: String, documentation: [String], name: String,
+        module: Module, documentation: [String], name: String,
         methods: [CPPMethod] = [],
         fields: [CPPField] = [],
         serializedFields: [CPPField] = [],

@@ -68,6 +68,7 @@ public struct CodeGen: ParsableCommand {
         case quiet
         case nodejs
         case wasm
+        case cpp
         case kotlin
         case kotlinFast
         case cSharp

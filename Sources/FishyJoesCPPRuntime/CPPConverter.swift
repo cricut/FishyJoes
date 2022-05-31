@@ -154,8 +154,8 @@ extension DictionaryConverter: CPPConverter where
         let count = packer.take(UInt64.self)
         var ret: [KeyConverter.SwiftType: ValueConverter.SwiftType] = [:]
         for _ in 0..<count {
-            let key = KeyConverter.fromCPP(packer)
-            let val = ValueConverter.fromCPP(packer)
+            let key = try KeyConverter.fromCPP(packer)
+            let val = try ValueConverter.fromCPP(packer)
             ret[key] = val
         }
         return ret
@@ -163,8 +163,8 @@ extension DictionaryConverter: CPPConverter where
     public static func toCPP(_ packer: CPPPacker, _ dict: [KeyConverter.SwiftType: ValueConverter.SwiftType]) throws {
         packer.put(UInt64(dict.count))
         for pair in dict {
-            KeyConverter.toCPP(packer, pair.key)
-            ValueConverter.toCPP(packer, pair.value)
+            try KeyConverter.toCPP(packer, pair.key)
+            try ValueConverter.toCPP(packer, pair.value)
         }
     }
 }
@@ -174,64 +174,64 @@ extension SetConverter: CPPConverter where ElementConverter: CPPConverter, Eleme
         let count = packer.take(UInt64.self)
         var ret: Set<ElementConverter.SwiftType> = []
         for _ in 0..<count {
-            ret.insert(ElementConverter.fromCPP(packer))
+            ret.insert(try ElementConverter.fromCPP(packer))
         }
         return ret
     }
     public static func toCPP(_ packer: CPPPacker, _ set: Set<ElementConverter.SwiftType>) throws {
         packer.put(UInt64(set.count))
         for val in set {
-            ElementConverter.toCPP(packer, val)
+            try ElementConverter.toCPP(packer, val)
         }
     }
 }
 
 extension OptionalConverter: CPPConverter where WrappedConverter: CPPConverter {
     public static func fromCPP(_ packer: CPPPacker) throws -> WrappedConverter.SwiftType? {
-        if Bool.fromCPP(packer) {
-            return WrappedConverter.fromCPP(packer)
+        if try Bool.fromCPP(packer) {
+            return try WrappedConverter.fromCPP(packer)
         }
         return nil
     }
     public static func toCPP(_ packer: CPPPacker, _ val: WrappedConverter.SwiftType?) throws {
         if let nonNil = val {
-            Bool.toCPP(packer, true)
-            WrappedConverter.toCPP(packer, nonNil)
+            try Bool.toCPP(packer, true)
+            try WrappedConverter.toCPP(packer, nonNil)
         } else {
-            Bool.toCPP(packer, false)
+            try Bool.toCPP(packer, false)
         }
     }
 }
 
 extension Tuple2Converter: CPPConverter where T0: CPPConverter, T1: CPPConverter {
     public static func fromCPP(_ packer: CPPPacker) throws -> (T0.SwiftType, T1.SwiftType) {
-        return (T0.fromCPP(packer), T1.fromCPP(packer))
+        return (try T0.fromCPP(packer), try T1.fromCPP(packer))
     }
     public static func toCPP(_ packer: CPPPacker, _ tup: (T0.SwiftType, T1.SwiftType)) throws {
-        T0.toCPP(packer, tup.0)
-        T1.toCPP(packer, tup.1)
+        try T0.toCPP(packer, tup.0)
+        try T1.toCPP(packer, tup.1)
     }
 }
 
 extension Tuple3Converter: CPPConverter where T0: CPPConverter, T1: CPPConverter, T2: CPPConverter {
     public static func fromCPP(_ packer: CPPPacker) throws -> (T0.SwiftType, T1.SwiftType, T2.SwiftType) {
-        return (T0.fromCPP(packer), T1.fromCPP(packer), T2.fromCPP(packer))
+        return (try T0.fromCPP(packer), try T1.fromCPP(packer), try T2.fromCPP(packer))
     }
     public static func toCPP(_ packer: CPPPacker, _ tup: (T0.SwiftType, T1.SwiftType, T2.SwiftType)) throws {
-        T0.toCPP(packer, tup.0)
-        T1.toCPP(packer, tup.1)
-        T2.toCPP(packer, tup.2)
+        try T0.toCPP(packer, tup.0)
+        try T1.toCPP(packer, tup.1)
+        try T2.toCPP(packer, tup.2)
     }
 }
 
 extension Tuple4Converter: CPPConverter where T0: CPPConverter, T1: CPPConverter, T2: CPPConverter, T3: CPPConverter {
     public static func fromCPP(_ packer: CPPPacker) throws -> (T0.SwiftType, T1.SwiftType, T2.SwiftType, T3.SwiftType) {
-        return (T0.fromCPP(packer), T1.fromCPP(packer), T2.fromCPP(packer), T3.fromCPP(packer))
+        return (try T0.fromCPP(packer), try T1.fromCPP(packer), try T2.fromCPP(packer), try T3.fromCPP(packer))
     }
     public static func toCPP(_ packer: CPPPacker, _ tup: (T0.SwiftType, T1.SwiftType, T2.SwiftType, T3.SwiftType)) throws {
-        T0.toCPP(packer, tup.0)
-        T1.toCPP(packer, tup.1)
-        T0.toCPP(packer, tup.2)
-        T1.toCPP(packer, tup.3)
+        try T0.toCPP(packer, tup.0)
+        try T1.toCPP(packer, tup.1)
+        try T2.toCPP(packer, tup.2)
+        try T3.toCPP(packer, tup.3)
     }
 }

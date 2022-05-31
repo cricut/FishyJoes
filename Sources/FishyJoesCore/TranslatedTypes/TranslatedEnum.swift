@@ -47,8 +47,8 @@ struct TranslatedEnum: TranslatedType {
         guard let name = type.exportAnnotation?.name else { fatalErr("export symbol not specified") }
 
         self.sourceType = BetterType(named: type)
-        self.neutralName = "Enum<TranslatedFrom=\(nodeName)>"
-        self.cppName = nodeName.replacingOccurrences(of: ".", with: "::")
+        self.neutralName = "Enum<TranslatedFrom=\(name)>"
+        self.cppName = name.replacingOccurrences(of: ".", with: "::")
         self.nodeName = name
         self.kotlinName = name
         self.kotlinPackage = context.module.kotlinPackage

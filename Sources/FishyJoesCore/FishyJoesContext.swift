@@ -131,6 +131,20 @@ public class FishyJoesContext {
                 generatedTypes.insert(type.key)
             }
         }
+
+        for classObj in cppClasses.values {
+            if let parent = classObj.parentQualifiedName {
+                cppClasses[parent]!.innerClasses.append(classObj)
+            }
+        }
+
+        for cppClass in cppClasses.values {
+            if cppClass.parentQualifiedName == nil {
+                collectedFragments.append(cppClass.headerFragment())
+            }
+            collectedFragments.append(cppClass.sourceFragment(in: self))
+        }
+
         collectedFragments.append(
             contentsOf: translators.flatMap { translator -> [SourceFragment] in
                 resolveDebugContext = "generating setup code for \(type(of: translator))"
@@ -175,27 +189,6 @@ public class FishyJoesContext {
         let encoder = JSONEncoder()
         encoder.outputFormatting = [.prettyPrinted, .sortedKeys, .withoutEscapingSlashes]
         moduleInfoFragment.output(String(data: try! encoder.encode(moduleInfo), encoding: .utf8)!)
-
-        allFragments.append(contentsOf: rootClass.innerClasses.map(\.fragment))
-
-        for classObj in cppClasses.values {
-            if let parent = classObj.parentQualifiedName {
-                cppClasses[parent]!.innerClasses.append(classObj)
-            }
-        }
-
-        allFragments.append(cppTranslator.generatePreHeader(in: self))
-
-        for cppClass in cppClasses.values {
-            if cppClass.parentQualifiedName == nil {
-                allFragments.append(cppClass.headerFragment())
-            }
-            allFragments.append(cppClass.sourceFragment(in: self))
-        }
-
-        allFragments.append(cppTranslator.generateEqualityHeader(in: self))
-        allFragments.append(cppTranslator.generateCombinedHeader(in: self))
-        allFragments.append(cppTranslator.generatePackImplHeader(in: self))
 
         return allFragments.map(\.contents).joined()
     }

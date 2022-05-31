@@ -5,7 +5,7 @@ import SourceryRuntime
  * Helps generate psuedocode-ish files showing internal details used by FishyJoes during code generation
  */
 
-class NeutralTranslate {
+final class NeutralTranslate: Translator {
     func output(method: Method, context: FishyJoesContext, fragment: SourceFragment) {
         fragment.outputBlock("Method \(method.name) {") {
             fragment.output("Annotation: \(method.exportAnnotation)")
@@ -49,5 +49,9 @@ class NeutralTranslate {
                 fragment.output("Does not belong to a type")
             }
         }
+    }
+    init() {}
+    func setupFragments(context: FishyJoesContext, generatedTypes: Set<BetterType>) -> [SourceFragment] {
+        return []
     }
 }

@@ -1,7 +1,7 @@
 import Foundation
 import SourceryRuntime
 
-class CPPTranslate: Translator {
+final class CPPTranslate: Translator {
     func generateCPPInterfaceMethod(
         name: String,
         bindingOnlyName: String? = nil,
@@ -219,7 +219,7 @@ class CPPTranslate: Translator {
                 frag.output("std::vector<uint8_t> data;")
                 frag.output("int idx;")
                 // maybe a bad idea to use std::function here?
-                frag.output("std::function<void()> on_destruct;")
+                frag.output("std::function<void()> on_destruct = [](){};")
                 frag.output("//size must be power of 2")
                 frag.outputBlock("inline void align(int size) {") {
                     frag.output("auto off = idx & (size - 1);")
@@ -240,7 +240,7 @@ class CPPTranslate: Translator {
                 }
 
                 frag.outputBlock("~Packer() {") {
-                    <#code#>
+                    frag.output("on_destruct();")
                 }
 
                 frag.output("template <typename T>")
@@ -255,7 +255,7 @@ class CPPTranslate: Translator {
                 frag.outputBlock("static inline Packer packThenUnpackMutatedMembersOnDestruct(T& obj) {") {
                     frag.output("Packer packer;")
                     frag.output("packer.put(obj);")
-                    frag.output("throw std::runtime_error(\"TODO: actually implement this properly\");")
+                    frag.output("packer.on_destruct = [&](){ obj = packer.get_t<T>(); };")
                     frag.output("return packer;")
                 }
 
@@ -429,5 +429,14 @@ class CPPTranslate: Translator {
             }
         }
         return frag
+    }
+    init() {}
+    func setupFragments(context: FishyJoesContext, generatedTypes: Set<BetterType>) -> [SourceFragment] {
+        return [
+            generatePreHeader(in: context),
+            generateEqualityHeader(in: context),
+            generateCombinedHeader(in: context),
+            generatePackImplHeader(in: context)
+        ]
     }
 }
