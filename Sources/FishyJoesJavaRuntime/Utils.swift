@@ -27,10 +27,8 @@ public func callbackBody<Result: Default>(
     } catch let e {
         if env.ExceptionCheck() {
             // no need to generate an exception, one is already pending and is probably the root cause
-            env.ExceptionDescribe()
             return .default
         }
-        print("Caught swift error \(e). Not Re-throwing to java.")
         if let nullError = e as? NullPointerError {
             guard let errorClass = try? env.FindClass("java/lang/NullPointerException"),
                   env.ThrowNew(errorClass, nullError.message) else {
@@ -57,7 +55,6 @@ public func callbackBody(
     } catch let e {
         if env.ExceptionCheck() {
             // no need to generate an exception, one is already pending and is probably the root cause
-            env.ExceptionDescribe()
             return
         }
         print("Caught swift error \(e). Re-throwing to java.")

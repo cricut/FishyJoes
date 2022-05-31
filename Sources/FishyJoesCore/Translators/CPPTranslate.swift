@@ -250,7 +250,6 @@ final class CPPTranslate: Translator {
                     frag.output("return packer;")
                 }
 
-                // TODO: fix
                 frag.output("template <typename T>")
                 frag.outputBlock("static inline Packer packThenUnpackMutatedMembersOnDestruct(T& obj) {") {
                     frag.output("Packer packer;")

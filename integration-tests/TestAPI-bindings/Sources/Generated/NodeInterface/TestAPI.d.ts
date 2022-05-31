@@ -167,6 +167,111 @@ export declare namespace TestAPI {
     }
 
     /**
+     * <!-- FishyJoes.exportReference(Functions) -->
+     */
+    export class Functions {
+        private constructor()
+
+        /**
+         * <!-- FishyJoes.export(const42) -->
+         */
+        static readonly const42: () => number;
+
+        /**
+         * <!-- FishyJoes.export(abs) -->
+         */
+        static readonly abs: (_: number) => number;
+
+        /**
+         * <!-- FishyJoes.export(intCompose) -->
+         */
+        static readonly intCompose: (_: (_: number) => number, _: (_: number) => number) => (_: number) => number;
+
+        /**
+         * <!-- FishyJoes.export(add3Things) -->
+         */
+        static readonly add3Things: (_: number, _: number, _: number) => number;
+
+        /**
+         * <!-- FishyJoes.export(makeList) -->
+         */
+        static readonly makeList: (_: string, _: string, _: string, _: string) => string[];
+
+        /**
+         * <!-- FishyJoes.export(fifthThing) -->
+         */
+        static readonly fifthThing: (_: string, _: number, _: number, _: string, _: () => number) => () => number;
+
+        /**
+         * <!-- FishyJoes.export(sixthThing) -->
+         */
+        static readonly sixthThing: (_: string, _: number, _: number, _: string, _: () => number, _: number) => number;
+
+        /**
+         * <!-- FishyJoes.export(exercise0) -->
+         */
+        static exercise0(
+            fn: () => number
+        ): string;
+
+        /**
+         * <!-- FishyJoes.export(exercise1) -->
+         */
+        static exercise1(
+            fn: (_: number) => number
+        ): string;
+
+        /**
+         * <!-- FishyJoes.export(exercise2) -->
+         */
+        static exercise2(
+            fn: (_: (_: number) => number, _: (_: number) => number) => (_: number) => number
+        ): string;
+
+        /**
+         * <!-- FishyJoes.export(exercise3) -->
+         */
+        static exercise3(
+            fn: (_: number, _: number, _: number) => number
+        ): string;
+
+        /**
+         * <!-- FishyJoes.export(exercise4) -->
+         */
+        static exercise4(
+            fn: (_: string, _: string, _: string, _: string) => string[]
+        ): string;
+
+        /**
+         * <!-- FishyJoes.export(exercise5) -->
+         */
+        static exercise5(
+            fn: (_: string, _: number, _: number, _: string, _: () => number) => () => number
+        ): string;
+
+        /**
+         * <!-- FishyJoes.export(exercise6) -->
+         */
+        static exercise6(
+            fn: (_: string, _: number, _: number, _: string, _: () => number, _: number) => number
+        ): string;
+
+        /**
+         * <!-- FishyJoes.export(willThrow) -->
+         */
+        static willThrow(
+        ): string;
+    }
+    export namespace Functions {
+        /**
+         * <!-- FishyJoes.exportReference(Functions.TheError) -->
+         */
+        export class TheError {
+            private constructor()
+        }
+    }
+
+    /**
      * <!-- FishyJoes.exportReference(Primitives) -->
      */
     export class Primitives {

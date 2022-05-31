@@ -157,7 +157,7 @@ import(`${MODULE_PATH}/TestAPI.js`).then(({ TestAPI }) => {
         assert.equal(TestAPI.Primitives.maybeEchoDouble(Number.MAX_VALUE), Number.MAX_VALUE);
     }
     testFunctionsTakingReturningOptionalPrimitiveTypes()
-    
+
     function testFunctionsTakingClosuresWithPrimitiveTypes() {
         // TODO: Fix breakage
         // console.log("Testing Functions Taking Closures with Primitive Types...")
@@ -340,4 +340,45 @@ import(`${MODULE_PATH}/TestAPI.js`).then(({ TestAPI }) => {
         assert.notDeepEqual(s, TestAPI.Collections.defaultCollectionHolder);
     }
     testObjectsWithCollectionMembers()
+
+    // MARK: Function tests
+    function testFunctions() {
+        function testGettingSwiftFunctions() {
+            console.log("Testing getting swift function values...")
+            assert.deepEqual(42, TestAPI.Functions.const42())
+            assert.deepEqual(3, TestAPI.Functions.abs(-3))
+
+            // const composed = TestAPI.Functions.intCompose(x => x + 1 , x => x * 3)
+            // assert.deepEqual(10, composed(3))
+            // assert.deepEqual(7, composed(2))
+
+            assert.deepEqual(8.5, TestAPI.Functions.add3Things(3, 4.5, 1))
+            assert.deepEqual(["a", "b", "c", "d"], TestAPI.Functions.makeList("a", "b", "c", "d"))
+            assert.deepEqual(84, TestAPI.Functions.fifthThing("hi", 1, 1, "...", () => 84)())
+            assert.deepEqual(17, TestAPI.Functions.sixthThing("hi", 1, 1, "...", () => 84, 17))
+        }
+        testGettingSwiftFunctions()
+
+        function testPassingFunctionsToSwift() {
+            console.log("Testing passing function values to swift...")
+            assert.deepEqual("8", TestAPI.Functions.exercise0(() => 8))
+            assert.deepEqual("3", TestAPI.Functions.exercise1((x) => Math.abs(x)))
+            assert.deepEqual("25", TestAPI.Functions.exercise2((f, g) => x => f(g(x))))
+            assert.deepEqual("7.4", TestAPI.Functions.exercise3((a, b, c) => a + b + c))
+            assert.deepEqual('["a", "b", "c", "d"]', TestAPI.Functions.exercise4((a, b, c, d) => [a, b, c, d]))
+            assert.deepEqual("83", TestAPI.Functions.exercise5((a, b, c, d, f) => f))
+            assert.deepEqual("42", TestAPI.Functions.exercise6((a, b, c, d, e, i) => i))
+        }
+        testPassingFunctionsToSwift()
+
+        function testExceptions() {
+            console.log("Testing throwing function values...")
+            assert.throws(() => TestAPI.Functions.willThrow(), /TheError/)
+
+            const composed = TestAPI.Functions.intCompose(a => a, (x) => { throw "ComposeError" })
+            assert.throws(() => composed(3), "ComposeErrorz")
+        }
+        testExceptions()
+    }
+    testFunctions()
 })

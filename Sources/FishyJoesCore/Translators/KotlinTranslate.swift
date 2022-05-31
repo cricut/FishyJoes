@@ -178,7 +178,7 @@ final class KotlinTranslor: Translator {
         )
 
         javaTypeListFragment.output("@_cdecl(\"JNI_OnLoad\")")
-        javaTypeListFragment.outputBlock("public func JNIOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutableRawPointer) -> jint {") {
+        javaTypeListFragment.outputBlock("public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutableRawPointer) -> jint {") {
             javaTypeListFragment.output("var envRaw: UnsafeMutableRawPointer?")
             javaTypeListFragment.outputBlock("guard vm.pointee!.pointee.GetEnv(vm, &envRaw, JNI_VERSION_1_4) == JNI_OK else {") {
                 javaTypeListFragment.output("fatalError(\"Couldn't obtain jvm environment\")")

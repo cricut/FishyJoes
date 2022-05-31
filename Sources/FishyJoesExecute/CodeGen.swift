@@ -52,6 +52,8 @@ public struct CodeGen: ParsableCommand {
         case generate, build, test, pack
     }
 
+    let codeCoveragePath = ProcessInfo.processInfo.environment["FISHYJOES_COVERAGE_PATH"]
+
     @Argument(
         help: """
             one or more of:
@@ -164,8 +166,16 @@ extension CodeGen {
                 "Sources/Generated/CPPInterface/EmptyPlaceholder.swift"
             ).run()
             try cmd("swift", "build", "--product", "sourcery").run()
-            try cmd("swift", "build", "--product", "🐟☕️").run()
+            try cmd("swift", arguments: ["build"] + (codeCoveragePath == nil ? [] : ["--enable-code-coverage"]) + ["--product", "🐟☕️"]).run()
+
             // Trampoline into fishy-joes-execution-helper via Sourcery
+            var sourceryEnv: [String: String] = [:]
+            if let sourceryDumpPath = sourceryDumpPath {
+                sourceryEnv["DUMP_SOURCERY_DATA"] = URL(fileURLWithPath: (sourceryDumpPath as NSString).expandingTildeInPath, isDirectory: false).path
+            }
+            if let codeCoveragePath = codeCoveragePath {
+                sourceryEnv["LLVM_PROFILE_FILE"] = "\(codeCoveragePath)/fishy-joes-execution-helper-\(UUID()).profraw"
+            }
             try cmd(
                 ".build/debug/sourcery",
                 arguments: [
@@ -179,28 +189,25 @@ extension CodeGen {
                     "--args", "fishyJoesExecutable=.build/debug/🐟☕️",
                     "--output", "Sources/Generated"
                 ].compactMap { $0 },
-                addEnv: sourceryDumpPath.map {
-                    [
-                        "DUMP_SOURCERY_DATA": URL(fileURLWithPath: ($0 as NSString).expandingTildeInPath, isDirectory: false).path,
-                    ]
-                } ?? [:]
+                addEnv: sourceryEnv
             ).run()
         }
 
         if buildStep.contains(.build) {
             // MARK: Build library
+            let configuration = BuildConfiguration(debug: debug, codeCoverage: codeCoveragePath != nil)
             for platform in platforms {
                 switch platform {
                 case .wasm:
-                    try platform.swiftBuild(debug: debug)
+                    try platform.swiftBuild(configuration: configuration)
                 case .node:
-                    try platform.swiftBuild("--product", "\(config.module)-node", debug: debug)
+                    try platform.swiftBuild("--product", "\(config.module)-node", configuration: configuration)
                 case .kotlinSystem, .kotlinAndroid:
-                    try platform.swiftBuild("--product", "\(config.module)-java", debug: debug)
+                    try platform.swiftBuild("--product", "\(config.module)-java", configuration: configuration)
                 case .cpp:
-                    try platform.swiftBuild("--product", "\(config.module)-cpp", debug: debug)
+                    try platform.swiftBuild("--product", "\(config.module)-cpp", configuration: configuration)
                 case .cSharp:
-                    try platform.swiftBuild("--product", "\(config.module)-c-sharp", debug: debug)
+                    try platform.swiftBuild("--product", "\(config.module)-c-sharp", configuration: configuration)
                 }
             }
 
@@ -286,7 +293,7 @@ extension CodeGen {
             }
             if platforms.contains(.kotlinSystem) {
                 try FileManager.default.withCurrentDirectoryPath("kotlin") {
-                    try cmd("./gradlew", "build").run()
+                    try cmd("./gradlew", "build", "-Dskip.tests").run()
                 }
             }
             if version == nil {
@@ -330,6 +337,12 @@ extension CodeGen {
         // MARK: test that things run properly
         if buildStep.contains(.test) {
             for platform in platforms {
+                let env = codeCoveragePath.map {
+                    [
+                        "LLVM_PROFILE_FILE": "\($0)/fishy-joes-test-\(platform)-\(UUID()).profraw",
+                        "NODE_V8_COVERAGE": "\($0)/node",
+                    ]
+                } ?? [:]
                 switch platform {
                 case .wasm, .node:
                     try cmd("mkdir", "-p", "output/test/").run()
@@ -339,10 +352,11 @@ extension CodeGen {
 
                     try cmd("npm", "run", "compile-test").run()
                     try cmd("mv", "output/test/test.js", "output/test/test.mjs").run()
-                    try cmd("node", "--expose-gc", "--unhandled-rejections=strict", "output/test/test.mjs").run()
+                    try cmd("node", "--expose-gc", "--unhandled-rejections=strict", "output/test/test.mjs", addEnv: env).run()
                 case .kotlinSystem:
                     try FileManager.default.withCurrentDirectoryPath("kotlin") {
-                        try cmd("./gradlew", "test").run()
+                        let tasks = ["cleanTest", "test"] + (codeCoveragePath == nil ? [] : ["jacocoTestReport"])
+                        try cmd("./gradlew", arguments: tasks, addEnv: env).run()
                     }
                 case .kotlinAndroid, .cpp:
                     // TODO

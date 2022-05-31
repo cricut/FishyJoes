@@ -6,7 +6,7 @@ import Foundation
 import TestAPI
 
 @_cdecl("JNI_OnLoad")
-public func JNIOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutableRawPointer) -> jint {
+public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutableRawPointer) -> jint {
     var envRaw: UnsafeMutableRawPointer?
     guard vm.pointee!.pointee.GetEnv(vm, &envRaw, JNI_VERSION_1_4) == JNI_OK else {
         fatalError("Couldn't obtain jvm environment")
@@ -14,6 +14,20 @@ public func JNIOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
     let env = UnsafeMutablePointer<JNIEnv?>(OpaquePointer(envRaw))
     return FishyJoesJavaRuntime.callbackBody(env!) { env in
         let bag = CStringBag()
+        // print("setting up Function2Converter<Function1Converter<Int, Int>, Function1Converter<Int, Int>, Function1Converter<Int, Int>>...")
+        try Function2Converter<Function1Converter<Int, Int>, Function1Converter<Int, Int>, Function1Converter<Int, Int>>.javaSetup(env: env)
+        // print("setting up Function3Converter<Float, Double, Int, Double>...")
+        try Function3Converter<Float, Double, Int, Double>.javaSetup(env: env)
+        // print("setting up Function1Converter<Int, Int>...")
+        try Function1Converter<Int, Int>.javaSetup(env: env)
+        // print("setting up Function6Converter<Swift.String, Int, Double, Swift.String, Function0Converter<Int>, Int, Int>...")
+        try Function6Converter<Swift.String, Int, Double, Swift.String, Function0Converter<Int>, Int, Int>.javaSetup(env: env)
+        // print("setting up Function5Converter<Swift.String, Int, Double, Swift.String, Function0Converter<Int>, Function0Converter<Int>>...")
+        try Function5Converter<Swift.String, Int, Double, Swift.String, Function0Converter<Int>, Function0Converter<Int>>.javaSetup(env: env)
+        // print("setting up Function4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>...")
+        try Function4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.javaSetup(env: env)
+        // print("setting up Function0Converter<Int>...")
+        try Function0Converter<Int>.javaSetup(env: env)
         // print("setting up ArrayConverter<OptionalConverter<Bool>>...")
         try ArrayConverter<OptionalConverter<Bool>>.javaSetup(env: env)
         // print("setting up ArrayConverter<OptionalConverter<Double>>...")
@@ -251,6 +265,85 @@ public func JNIOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try Double.javaSetup(env: env)
         // print("setting up Float...")
         try Float.javaSetup(env: env)
+        // print("setting up Functions...")
+        try Functions.javaSetup(env: env)
+        try env.RegisterNatives(Functions.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_exercise0"),
+                signature: bag.add("(Lkotlin/jvm/functions/Function0;)Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_Functions_exercise0, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_exercise1"),
+                signature: bag.add("(Lkotlin/jvm/functions/Function1;)Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_Functions_exercise1, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_exercise2"),
+                signature: bag.add("(Lkotlin/jvm/functions/Function2;)Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_Functions_exercise2, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_exercise3"),
+                signature: bag.add("(Lkotlin/jvm/functions/Function3;)Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_Functions_exercise3, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_exercise4"),
+                signature: bag.add("(Lkotlin/jvm/functions/Function4;)Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_Functions_exercise4, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_exercise5"),
+                signature: bag.add("(Lkotlin/jvm/functions/Function5;)Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_Functions_exercise5, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_exercise6"),
+                signature: bag.add("(Lkotlin/jvm/functions/Function6;)Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_Functions_exercise6, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_willThrow"),
+                signature: bag.add("()Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_Functions_willThrow, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_const42"),
+                signature: bag.add("()Lkotlin/jvm/functions/Function0;"),
+                fnPtr: unsafeBitCast(java_get_Functions_const42, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_abs"),
+                signature: bag.add("()Lkotlin/jvm/functions/Function1;"),
+                fnPtr: unsafeBitCast(java_get_Functions_abs, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_intCompose"),
+                signature: bag.add("()Lkotlin/jvm/functions/Function2;"),
+                fnPtr: unsafeBitCast(java_get_Functions_intCompose, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_add3Things"),
+                signature: bag.add("()Lkotlin/jvm/functions/Function3;"),
+                fnPtr: unsafeBitCast(java_get_Functions_add3Things, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_makeList"),
+                signature: bag.add("()Lkotlin/jvm/functions/Function4;"),
+                fnPtr: unsafeBitCast(java_get_Functions_makeList, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_fifthThing"),
+                signature: bag.add("()Lkotlin/jvm/functions/Function5;"),
+                fnPtr: unsafeBitCast(java_get_Functions_fifthThing, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_sixthThing"),
+                signature: bag.add("()Lkotlin/jvm/functions/Function6;"),
+                fnPtr: unsafeBitCast(java_get_Functions_sixthThing, to: UnsafeMutableRawPointer.self)
+            )
+        )
         // print("setting up Int...")
         try Int.javaSetup(env: env)
         // print("setting up Int16...")
@@ -770,6 +863,8 @@ public func JNIOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         )
         // print("setting up Structs...")
         try Structs.javaSetup(env: env)
+        // print("setting up Functions.TheError...")
+        try Functions.TheError.javaSetup(env: env)
         // print("setting up Tuples...")
         try Tuples.javaSetup(env: env)
         try env.RegisterNatives(Tuples.javaClass,

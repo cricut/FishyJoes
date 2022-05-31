@@ -4,6 +4,7 @@ import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 plugins {
     `maven-publish`
     kotlin("jvm") version "1.5.31"
+    jacoco
 }
 
 repositories {
@@ -69,7 +70,11 @@ sourceSets.main {
 }
 
 task<Exec>("buildSwiftTestHarness") {
-    commandLine("swift", "build", "--product", "JavaRuntimeTestHarness")
+    if (System.getenv("FISHYJOES_COVERAGE_PATH") == null) {
+        commandLine("swift", "build", "--product", "JavaRuntimeTestHarness")
+    } else {
+        commandLine("swift", "build", "--enable-code-coverage", "--product", "JavaRuntimeTestHarness")
+    }
 }
 
 tasks.test {
@@ -85,6 +90,17 @@ tasks.test {
         events("started", "skipped", "passed", "failed")
         showStandardStreams = true
     }
+}
+
+tasks.jacocoTestReport {
+    reports {
+        xml.required.set(true)
+    }
+}
+
+jacoco {
+    toolVersion = "0.8.7"
+    reportsDirectory.set(layout.buildDirectory.dir("../../coverage-data/jacoco-unit"))
 }
 
 tasks {
