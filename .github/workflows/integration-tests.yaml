@@ -73,6 +73,7 @@ jobs:
 
           swift build --configuration release --product FishyJoesJavaRuntime
           cp .build/release/libFishyJoesJavaRuntime.dylib $libdir
+          (cd kotlin-runtime && ./gradlew publishToMavenLocal)
 
           cd integration-tests/TestAPI-bindings
           swift run -- fishy-joes --kotlin-fast generate build test
@@ -138,6 +139,7 @@ jobs:
 
           swift build --configuration release --product FishyJoesJavaRuntime
           cp .build/release/libFishyJoesJavaRuntime.so $libdir
+          (cd kotlin-runtime && ./gradlew publishToMavenLocal)
 
           cd integration-tests/TestAPI-bindings
           swift run -- fishy-joes --kotlin-fast build test

@@ -27,6 +27,9 @@ struct TranslatedEnum: TranslatedType {
         var classInitVar: String {
             "_java_\(name)_init"
         }
+        var classInstanceVar: String {
+            "_java_\(name)_INSTANCE"
+        }
     }
 
     struct Value {
@@ -60,10 +63,15 @@ struct TranslatedEnum: TranslatedType {
                 name: enumCase.name,
                 associatedValues: enumCase.associatedValues.enumerated().map {
                     let (index, value) = $0
+                    var label: String?
+                    // If externalName is "0" or "1", don't use it
+                    if let externalName = value.externalName, Int(externalName) == nil {
+                        label = externalName
+                    }
                     return Value(
                         index: index,
                         name: value.localName,
-                        label: value.externalName,
+                        label: label,
                         type: value.typeName.better
                     )
                 }
@@ -245,11 +253,13 @@ struct TranslatedEnum: TranslatedType {
                 }
 
                 fragment.outputBlock("public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {") {
-                    fragment.outputBlock("switch value {") {
-                        for enumCase in cases {
-                            fragment.output("case .\(enumCase.name): return try String.toNode(\"\(enumCase.name)\", env: env)")
+                    fragment.output("switch value {")
+                    for enumCase in cases {
+                        fragment.outputBlock("case .\(enumCase.name):", closeWith: "", newLineTerminated: false) {
+                            fragment.output("return try String.toNode(\"\(enumCase.name)\", env: env)")
                         }
                     }
+                    fragment.output("}")
                 }
             }
             context.tsAnnotations.add(
@@ -301,7 +311,7 @@ struct TranslatedEnum: TranslatedType {
                             let values = enumCase.associatedValues.map(\.bindingName).joined(separator: ", ")
                             caseStatement = "case let .\(enumCase.name)(\(values)):"
                         }
-                        fragment.outputBlock(caseStatement, closeWith: "") {
+                        fragment.outputBlock(caseStatement, closeWith: "", newLineTerminated: false) {
                             fragment.outputBlock("return try env.newInstance(") {
                                 fragment.output("instanceData.constructor(for: \"\(className)\", env: env),")
                                 fragment.outputBlock("[") {
@@ -425,7 +435,8 @@ struct TranslatedEnum: TranslatedType {
             fragment.output("public static var javaClass: jclass?")
             for enumCase in cases {
                 if enumCase.associatedValues.isEmpty {
-                    fragment.output("static var \(enumCase.classVar): jobject!")
+                    fragment.output("static var \(enumCase.classVar): jclass!")
+                    fragment.output("static var \(enumCase.classInstanceVar): jfieldID!")
                 } else {
                     fragment.output("static var \(enumCase.classVar): jclass!")
                     fragment.output("static var \(enumCase.classInitVar): jmethodID!")
@@ -438,12 +449,10 @@ struct TranslatedEnum: TranslatedType {
 
             fragment.outputBlock("public static func fromJava(_ value: jobject?, env: Env) throws -> Self {") {
                 for enumCase in cases {
-                    if enumCase.associatedValues.isEmpty {
-                        fragment.outputBlock("if env.IsSameObject(value, Self.\(enumCase.classVar)) {") {
+                    fragment.outputBlock("if env.IsInstanceOf(value, Self.\(enumCase.classVar)) {") {
+                        if enumCase.associatedValues.isEmpty {
                             fragment.output("return .\(enumCase.name)")
-                        }
-                    } else {
-                        fragment.outputBlock("if env.IsInstanceOf(value, Self.\(enumCase.classVar)) {") {
+                        } else {
                             fragment.outputBlock("return .\(enumCase.name)(") {
                                 fragment.outputMap(enumCase.associatedValues, separator: ",") { value in
                                     let resolved = context.resolve(type: value.type)
@@ -463,7 +472,9 @@ struct TranslatedEnum: TranslatedType {
                 for enumCase in cases {
                     let name = enumCase.name
                     if enumCase.associatedValues.isEmpty {
-                        fragment.output("case .\(name): return env.NewLocalRef(Self._java_\(name))")
+                        fragment.outputBlock("case .\(name):", closeWith: "", newLineTerminated: false) {
+                            fragment.output("return env.GetStaticObjectField(Self.\(enumCase.classVar), Self.\(enumCase.classInstanceVar))")
+                        }
                     } else {
                         let joinedNames = enumCase.associatedValues.map(\.bindingName).joined(separator: ", ")
                         fragment.outputBlock("case let .\(name)(\(joinedNames)):", closeWith: "", newLineTerminated: false) {
@@ -485,18 +496,14 @@ struct TranslatedEnum: TranslatedType {
             fragment.blankLine()
 
             fragment.outputBlock("public static func javaSetup(env: Env) throws {") {
+                fragment.output("guard javaClass == nil else { return }")
                 fragment.output("javaClass = try env.globalRef(env.FindClass(\"\(className)\"))")
                 for enumCase in cases {
                     let name = enumCase.name
                     let subclassName = "\(className)$\(upperCaseFirst(name))"
+                    fragment.output("\(enumCase.classVar) = try env.globalRef(env.FindClass(\"\(subclassName)\"))")
                     if enumCase.associatedValues.isEmpty {
-                        fragment.output("let _class_\(name) = try env.FindClass(\"\(subclassName)\")")
-                        fragment.outputBlock("\(enumCase.classVar) = try env.globalRef(") {
-                            fragment.outputBlock("env.GetStaticObjectField(") {
-                                fragment.output("_class_\(name),")
-                                fragment.output("env.GetStaticFieldID(_class_\(name), \"INSTANCE\", \"L\(subclassName);\")")
-                            }
-                        }
+                        fragment.output("\(enumCase.classInstanceVar) = try env.GetStaticFieldID(\(enumCase.classVar), \"INSTANCE\", \"L\(subclassName);\")")
                     } else {
                         var sig = "\"("
                         for value in enumCase.associatedValues {
@@ -504,7 +511,6 @@ struct TranslatedEnum: TranslatedType {
                             sig += resolved.jniType.asSignature
                         }
                         sig += ")V\""
-                        fragment.output("\(enumCase.classVar) = try env.globalRef(env.FindClass(\"\(subclassName)\"))")
                         fragment.output("\(enumCase.classInitVar) = try env.GetMethodID(\(enumCase.classVar), \"<init>\", \(sig))")
                         for value in enumCase.associatedValues {
                             let resolved = context.resolve(type: value.type)

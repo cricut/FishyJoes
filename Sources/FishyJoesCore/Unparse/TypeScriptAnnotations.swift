@@ -206,7 +206,7 @@ extension TypeScriptAnnotations {
                     fragment.output("export type \(alias.name) = \(alias.value);")
                 }
                 fragment.blankLine()
-                for namespace in namespace.namespaces.values {
+                for namespace in namespace.namespaces.sorted(by: { $0.key < $1.key }).map(\.value) {
                     if processedNamespaces.contains(namespace.name) {
                         continue
                     }

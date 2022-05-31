@@ -1,0 +1,11 @@
+TranslatedReference for Structs {
+    Equatable: false
+    Hashable: false
+    Documentation {
+        <!-- FishyJoes.exportReference(Structs) -->
+    }
+    Methods {
+    }
+    Variables {
+    }
+}

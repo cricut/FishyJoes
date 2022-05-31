@@ -16,6 +16,7 @@ extension Bytes: JavaMutator {
         return try env.NewObject(javaClass, _constructorMethodID, ptr)
     }
     public static func javaSetup(env: Env) throws {
+        guard javaClass == nil else { return }
         try AnyBox.javaSetup(env: env)
         javaClass = try env.globalRef(env.FindClass("com/cricut/testapi/Bytes"))
         _constructorMethodID = try env.GetMethodID(javaClass, "<init>", "(J)V")

@@ -1,0 +1,66 @@
+TranslatedEnum for Tuples {
+    Documentation {
+        <!-- FishyJoes.export(Tuples) -->
+    }
+    Cases {
+    }
+    Methods {
+        Method checkTuples(t2: T2, t3: T3, t4: T4, t5: T5, t6: T6) {
+            Annotation: ExportAnnotation(kind: FishyJoesCore.ExportAnnotation.Kind.unmodified, name: "checkTuples", isOverride: false, genericOverrides: [:], omitParameters: [])
+            Generic Overrides: [:]
+            Call Name: checkTuples
+            Static: true
+            Mutating: false
+            Throwing: false
+            Initializer: false
+            Documentation {
+                <!-- FishyJoes.export(checkTuples) -->
+            }
+            Parameters {
+                t2: Tuple<Types=[Primitive<int>, String]>
+                t3: Tuple<Types=[String, Primitive<double>, String]>
+                t4: Tuple<Types=[Tuple<Types=[Primitive<int>, String]>, Tuple<Types=[String, Primitive<double>, String]>, String, Primitive<bool>]>
+                t5: Tuple<Types=[String, UnsignedPrimitive<uint8_t>, Tuple<Types=[Tuple<Types=[Primitive<int>, String]>, Tuple<Types=[String, Primitive<double>, String]>, String, Primitive<bool>]>, Tuple<Types=[String, Primitive<double>, String]>, Tuple<Types=[Primitive<int>, String]>]>
+                t6: Tuple<Types=[String, Primitive<int>, Primitive<double>, Tuple<Types=[Tuple<Types=[Primitive<int>, String]>, Tuple<Types=[String, Primitive<double>, String]>, String, Primitive<bool>]>, Tuple<Types=[String, UnsignedPrimitive<uint8_t>, Tuple<Types=[Tuple<Types=[Primitive<int>, String]>, Tuple<Types=[String, Primitive<double>, String]>, String, Primitive<bool>]>, Tuple<Types=[String, Primitive<double>, String]>, Tuple<Types=[Primitive<int>, String]>]>, Primitive<bool>]>
+            }
+            Return Type: Primitive<bool>
+        }
+    }
+    Computed Variables {
+        Variable {
+            Annotation: ExportAnnotation(kind: FishyJoesCore.ExportAnnotation.Kind.unmodified, name: "tuple2", isOverride: false, genericOverrides: [:], omitParameters: [])
+            Name: tuple2
+            Type: Tuple<Types=[Primitive<int>, String]>
+            Mutable: false
+            Defined in: Tuples
+        }
+        Variable {
+            Annotation: ExportAnnotation(kind: FishyJoesCore.ExportAnnotation.Kind.unmodified, name: "tuple3", isOverride: false, genericOverrides: [:], omitParameters: [])
+            Name: tuple3
+            Type: Tuple<Types=[String, Primitive<double>, String]>
+            Mutable: false
+            Defined in: Tuples
+        }
+        Variable {
+            Annotation: ExportAnnotation(kind: FishyJoesCore.ExportAnnotation.Kind.unmodified, name: "tuple4", isOverride: false, genericOverrides: [:], omitParameters: [])
+            Name: tuple4
+            Type: Tuple<Types=[Tuple<Types=[Primitive<int>, String]>, Tuple<Types=[String, Primitive<double>, String]>, String, Primitive<bool>]>
+            Mutable: false
+            Defined in: Tuples
+        }
+        Variable {
+            Annotation: ExportAnnotation(kind: FishyJoesCore.ExportAnnotation.Kind.unmodified, name: "tuple5", isOverride: false, genericOverrides: [:], omitParameters: [])
+            Name: tuple5
+            Type: Tuple<Types=[String, UnsignedPrimitive<uint8_t>, Tuple<Types=[Tuple<Types=[Primitive<int>, String]>, Tuple<Types=[String, Primitive<double>, String]>, String, Primitive<bool>]>, Tuple<Types=[String, Primitive<double>, String]>, Tuple<Types=[Primitive<int>, String]>]>
+            Mutable: false
+            Defined in: Tuples
+        }
+        Variable {
+            Annotation: ExportAnnotation(kind: FishyJoesCore.ExportAnnotation.Kind.unmodified, name: "tuple6", isOverride: false, genericOverrides: [:], omitParameters: [])
+            Name: tuple6
+            Type: Tuple<Types=[String, Primitive<int>, Primitive<double>, Tuple<Types=[Tuple<Types=[Primitive<int>, String]>, Tuple<Types=[String, Primitive<double>, String]>, String, Primitive<bool>]>, Tuple<Types=[String, UnsignedPrimitive<uint8_t>, Tuple<Types=[Tuple<Types=[Primitive<int>, String]>, Tuple<Types=[String, Primitive<double>, String]>, String, Primitive<bool>]>, Tuple<Types=[String, Primitive<double>, String]>, Tuple<Types=[Primitive<int>, String]>]>, Primitive<bool>]>
+            Mutable: false
+            Defined in: Tuples
+        }
+    }
+}

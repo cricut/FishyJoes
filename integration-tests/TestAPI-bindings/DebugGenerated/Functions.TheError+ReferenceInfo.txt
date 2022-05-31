@@ -1,0 +1,11 @@
+TranslatedReference for Functions.TheError {
+    Equatable: false
+    Hashable: false
+    Documentation {
+        <!-- FishyJoes.exportReference(Functions.TheError) -->
+    }
+    Methods {
+    }
+    Variables {
+    }
+}

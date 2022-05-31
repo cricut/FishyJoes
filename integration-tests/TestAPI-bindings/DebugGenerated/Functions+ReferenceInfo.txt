@@ -1,0 +1,187 @@
+TranslatedReference for Functions {
+    Equatable: false
+    Hashable: false
+    Documentation {
+        <!-- FishyJoes.exportReference(Functions) -->
+    }
+    Methods {
+        Method exercise0(_ fn: Fun0) {
+            Annotation: ExportAnnotation(kind: FishyJoesCore.ExportAnnotation.Kind.unmodified, name: "exercise0", isOverride: false, genericOverrides: [:], omitParameters: [])
+            Generic Overrides: [:]
+            Call Name: exercise0
+            Static: true
+            Mutating: false
+            Throwing: true
+            Initializer: false
+            Documentation {
+                <!-- FishyJoes.export(exercise0) -->
+            }
+            Parameters {
+                fn: Function<ReturnType=Primitive<int>, Params=[]>
+            }
+            Return Type: String
+        }
+        Method exercise1(_ fn: Fun1) {
+            Annotation: ExportAnnotation(kind: FishyJoesCore.ExportAnnotation.Kind.unmodified, name: "exercise1", isOverride: false, genericOverrides: [:], omitParameters: [])
+            Generic Overrides: [:]
+            Call Name: exercise1
+            Static: true
+            Mutating: false
+            Throwing: true
+            Initializer: false
+            Documentation {
+                <!-- FishyJoes.export(exercise1) -->
+            }
+            Parameters {
+                fn: Function<ReturnType=Primitive<int>, Params=[Primitive<int>]>
+            }
+            Return Type: String
+        }
+        Method exercise2(_ fn: Fun2) {
+            Annotation: ExportAnnotation(kind: FishyJoesCore.ExportAnnotation.Kind.unmodified, name: "exercise2", isOverride: false, genericOverrides: [:], omitParameters: [])
+            Generic Overrides: [:]
+            Call Name: exercise2
+            Static: true
+            Mutating: false
+            Throwing: true
+            Initializer: false
+            Documentation {
+                <!-- FishyJoes.export(exercise2) -->
+            }
+            Parameters {
+                fn: Function<ReturnType=Function<ReturnType=Primitive<int>, Params=[Primitive<int>]>, Params=[Function<ReturnType=Primitive<int>, Params=[Primitive<int>]>, Function<ReturnType=Primitive<int>, Params=[Primitive<int>]>]>
+            }
+            Return Type: String
+        }
+        Method exercise3(_ fn: Fun3) {
+            Annotation: ExportAnnotation(kind: FishyJoesCore.ExportAnnotation.Kind.unmodified, name: "exercise3", isOverride: false, genericOverrides: [:], omitParameters: [])
+            Generic Overrides: [:]
+            Call Name: exercise3
+            Static: true
+            Mutating: false
+            Throwing: true
+            Initializer: false
+            Documentation {
+                <!-- FishyJoes.export(exercise3) -->
+            }
+            Parameters {
+                fn: Function<ReturnType=Primitive<double>, Params=[Primitive<float>, Primitive<double>, Primitive<int>]>
+            }
+            Return Type: String
+        }
+        Method exercise4(_ fn: Fun4) {
+            Annotation: ExportAnnotation(kind: FishyJoesCore.ExportAnnotation.Kind.unmodified, name: "exercise4", isOverride: false, genericOverrides: [:], omitParameters: [])
+            Generic Overrides: [:]
+            Call Name: exercise4
+            Static: true
+            Mutating: false
+            Throwing: true
+            Initializer: false
+            Documentation {
+                <!-- FishyJoes.export(exercise4) -->
+            }
+            Parameters {
+                fn: Function<ReturnType=List<V=String>, Params=[String, String, String, String]>
+            }
+            Return Type: String
+        }
+        Method exercise5(_ fn: Fun5) {
+            Annotation: ExportAnnotation(kind: FishyJoesCore.ExportAnnotation.Kind.unmodified, name: "exercise5", isOverride: false, genericOverrides: [:], omitParameters: [])
+            Generic Overrides: [:]
+            Call Name: exercise5
+            Static: true
+            Mutating: false
+            Throwing: true
+            Initializer: false
+            Documentation {
+                <!-- FishyJoes.export(exercise5) -->
+            }
+            Parameters {
+                fn: Function<ReturnType=Function<ReturnType=Primitive<int>, Params=[]>, Params=[String, Primitive<int>, Primitive<double>, String, Function<ReturnType=Primitive<int>, Params=[]>]>
+            }
+            Return Type: String
+        }
+        Method exercise6(_ fn: Fun6) {
+            Annotation: ExportAnnotation(kind: FishyJoesCore.ExportAnnotation.Kind.unmodified, name: "exercise6", isOverride: false, genericOverrides: [:], omitParameters: [])
+            Generic Overrides: [:]
+            Call Name: exercise6
+            Static: true
+            Mutating: false
+            Throwing: true
+            Initializer: false
+            Documentation {
+                <!-- FishyJoes.export(exercise6) -->
+            }
+            Parameters {
+                fn: Function<ReturnType=Primitive<int>, Params=[String, Primitive<int>, Primitive<double>, String, Function<ReturnType=Primitive<int>, Params=[]>, Primitive<int>]>
+            }
+            Return Type: String
+        }
+        Method willThrow() {
+            Annotation: ExportAnnotation(kind: FishyJoesCore.ExportAnnotation.Kind.unmodified, name: "willThrow", isOverride: false, genericOverrides: [:], omitParameters: [])
+            Generic Overrides: [:]
+            Call Name: willThrow
+            Static: true
+            Mutating: false
+            Throwing: true
+            Initializer: false
+            Documentation {
+                <!-- FishyJoes.export(willThrow) -->
+            }
+            Parameters {
+            }
+            Return Type: String
+        }
+    }
+    Variables {
+        Variable {
+            Annotation: ExportAnnotation(kind: FishyJoesCore.ExportAnnotation.Kind.unmodified, name: "const42", isOverride: false, genericOverrides: [:], omitParameters: [])
+            Name: const42
+            Type: Function<ReturnType=Primitive<int>, Params=[]>
+            Mutable: false
+            Defined in: Functions
+        }
+        Variable {
+            Annotation: ExportAnnotation(kind: FishyJoesCore.ExportAnnotation.Kind.unmodified, name: "abs", isOverride: false, genericOverrides: [:], omitParameters: [])
+            Name: abs
+            Type: Function<ReturnType=Primitive<int>, Params=[Primitive<int>]>
+            Mutable: false
+            Defined in: Functions
+        }
+        Variable {
+            Annotation: ExportAnnotation(kind: FishyJoesCore.ExportAnnotation.Kind.unmodified, name: "intCompose", isOverride: false, genericOverrides: [:], omitParameters: [])
+            Name: intCompose
+            Type: Function<ReturnType=Function<ReturnType=Primitive<int>, Params=[Primitive<int>]>, Params=[Function<ReturnType=Primitive<int>, Params=[Primitive<int>]>, Function<ReturnType=Primitive<int>, Params=[Primitive<int>]>]>
+            Mutable: false
+            Defined in: Functions
+        }
+        Variable {
+            Annotation: ExportAnnotation(kind: FishyJoesCore.ExportAnnotation.Kind.unmodified, name: "add3Things", isOverride: false, genericOverrides: [:], omitParameters: [])
+            Name: add3Things
+            Type: Function<ReturnType=Primitive<double>, Params=[Primitive<float>, Primitive<double>, Primitive<int>]>
+            Mutable: false
+            Defined in: Functions
+        }
+        Variable {
+            Annotation: ExportAnnotation(kind: FishyJoesCore.ExportAnnotation.Kind.unmodified, name: "makeList", isOverride: false, genericOverrides: [:], omitParameters: [])
+            Name: makeList
+            Type: Function<ReturnType=List<V=String>, Params=[String, String, String, String]>
+            Mutable: false
+            Defined in: Functions
+        }
+        Variable {
+            Annotation: ExportAnnotation(kind: FishyJoesCore.ExportAnnotation.Kind.unmodified, name: "fifthThing", isOverride: false, genericOverrides: [:], omitParameters: [])
+            Name: fifthThing
+            Type: Function<ReturnType=Function<ReturnType=Primitive<int>, Params=[]>, Params=[String, Primitive<int>, Primitive<double>, String, Function<ReturnType=Primitive<int>, Params=[]>]>
+            Mutable: false
+            Defined in: Functions
+        }
+        Variable {
+            Annotation: ExportAnnotation(kind: FishyJoesCore.ExportAnnotation.Kind.unmodified, name: "sixthThing", isOverride: false, genericOverrides: [:], omitParameters: [])
+            Name: sixthThing
+            Type: Function<ReturnType=Primitive<int>, Params=[String, Primitive<int>, Primitive<double>, String, Function<ReturnType=Primitive<int>, Params=[]>, Primitive<int>]>
+            Mutable: false
+            Defined in: Functions
+        }
+    }
+}

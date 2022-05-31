@@ -21,6 +21,7 @@ extension Tuples: JavaConverter {
     }
 
     public static func javaSetup(env: Env) throws {
+        guard javaClass == nil else { return }
         javaClass = try env.globalRef(env.FindClass("com/cricut/testapi/Tuples"))
     }
 }

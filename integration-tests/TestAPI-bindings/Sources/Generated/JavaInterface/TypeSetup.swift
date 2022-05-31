@@ -114,6 +114,8 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try OptionalConverter<Int64>.javaSetup(env: env)
         // print("setting up OptionalConverter<Int8>...")
         try OptionalConverter<Int8>.javaSetup(env: env)
+        // print("setting up OptionalConverter<SimpleEnum>...")
+        try OptionalConverter<SimpleEnum>.javaSetup(env: env)
         // print("setting up OptionalConverter<UInt16>...")
         try OptionalConverter<UInt16>.javaSetup(env: env)
         // print("setting up OptionalConverter<UInt32>...")
@@ -130,6 +132,20 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try SetConverter<Int>.javaSetup(env: env)
         // print("setting up SetConverter<Swift.String>...")
         try SetConverter<Swift.String>.javaSetup(env: env)
+        // print("setting up AssociatedDataEnum...")
+        try AssociatedDataEnum.javaSetup(env: env)
+        try env.RegisterNatives(AssociatedDataEnum.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_plus"),
+                signature: bag.add("(Lcom/cricut/testapi/AssociatedDataEnum;)Lcom/cricut/testapi/AssociatedDataEnum;"),
+                fnPtr: unsafeBitCast(java_AssociatedDataEnum_plus, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_intValue"),
+                signature: bag.add("()J"),
+                fnPtr: unsafeBitCast(java_get_AssociatedDataEnum_intValue, to: UnsafeMutableRawPointer.self)
+            )
+        )
         // print("setting up Bool...")
         try Bool.javaSetup(env: env)
         // print("setting up Bytes...")
@@ -263,6 +279,15 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try Foundation.Data.javaSetup(env: env)
         // print("setting up Double...")
         try Double.javaSetup(env: env)
+        // print("setting up EmptyEnum...")
+        try EmptyEnum.javaSetup(env: env)
+        try env.RegisterNatives(EmptyEnum.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_notGoingToHappen"),
+                signature: bag.add("()Lcom/cricut/testapi/EmptyEnum;"),
+                fnPtr: unsafeBitCast(java_EmptyEnum_notGoingToHappen, to: UnsafeMutableRawPointer.self)
+            )
+        )
         // print("setting up Float...")
         try Float.javaSetup(env: env)
         // print("setting up Functions...")
@@ -808,6 +833,20 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_swiftEquals"),
                 signature: bag.add("(Lcom/cricut/testapi/Structs$ReferenceStruct;Lcom/cricut/testapi/Structs$ReferenceStruct;)Z"),
                 fnPtr: unsafeBitCast(Structs.ReferenceStruct._javaEquals, to: UnsafeMutableRawPointer.self)
+            )
+        )
+        // print("setting up SimpleEnum...")
+        try SimpleEnum.javaSetup(env: env)
+        try env.RegisterNatives(SimpleEnum.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_pickAColor"),
+                signature: bag.add("(J)Lcom/cricut/testapi/SimpleEnum;"),
+                fnPtr: unsafeBitCast(java_SimpleEnum_pickAColor, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_hex"),
+                signature: bag.add("()J"),
+                fnPtr: unsafeBitCast(java_get_SimpleEnum_hex, to: UnsafeMutableRawPointer.self)
             )
         )
         // print("setting up Swift.String...")

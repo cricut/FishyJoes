@@ -258,6 +258,7 @@ struct TranslatedStruct: TranslatedType {
             }
 
             fragment.outputBlock("public static func javaSetup(env: Env) throws {") {
+                fragment.output("guard javaClass == nil else { return }")
                 fragment.output("javaClass = try env.globalRef(env.FindClass(\"\(className)\"))")
                 var constructorDescriptor = ""
                 for storedVar in storedVariables {

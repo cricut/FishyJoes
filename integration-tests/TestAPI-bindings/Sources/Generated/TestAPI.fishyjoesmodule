@@ -4,6 +4,40 @@
       "converterType" : {
         "named" : {
           "_0" : {
+            "name" : "AssociatedDataEnum",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cppName" : "AssociatedDataEnum",
+      "cSharpName" : "AssociatedDataEnum",
+      "cSharpNamespace" : "Cricut.TestAPI",
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/AssociatedDataEnum"
+        }
+      },
+      "kotlinName" : "AssociatedDataEnum",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=AssociatedDataEnum>>",
+      "nodeName" : "TestAPI.AssociatedDataEnum",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "name" : "AssociatedDataEnum",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
             "name" : "Bytes",
             "namespace" : [
 
@@ -11,6 +45,7 @@
           }
         }
       },
+      "cppName" : "Bytes",
       "cSharpName" : "Bytes",
       "cSharpNamespace" : "Cricut.TestAPI",
       "jniType" : {
@@ -20,6 +55,7 @@
       },
       "kotlinName" : "Bytes",
       "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Reference<To=Bytes>>",
       "nodeName" : "TestAPI.Bytes",
       "sourceType" : {
         "named" : {
@@ -43,6 +79,7 @@
           }
         }
       },
+      "cppName" : "Collections",
       "cSharpName" : "Collections",
       "cSharpNamespace" : "Cricut.TestAPI",
       "jniType" : {
@@ -52,6 +89,7 @@
       },
       "kotlinName" : "Collections",
       "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Reference<To=Collections>>",
       "nodeName" : "TestAPI.Collections",
       "sourceType" : {
         "named" : {
@@ -75,6 +113,7 @@
           }
         }
       },
+      "cppName" : "Collections::CollectionHolder",
       "cSharpName" : "Collections.CollectionHolder",
       "cSharpNamespace" : "Cricut.TestAPI",
       "jniType" : {
@@ -84,6 +123,7 @@
       },
       "kotlinName" : "Collections.CollectionHolder",
       "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Struct<Named=Collections.CollectionHolder>>",
       "nodeName" : "TestAPI.Collections.CollectionHolder",
       "sourceType" : {
         "named" : {
@@ -100,6 +140,40 @@
       "converterType" : {
         "named" : {
           "_0" : {
+            "name" : "EmptyEnum",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cppName" : "EmptyEnum",
+      "cSharpName" : "EmptyEnum",
+      "cSharpNamespace" : "Cricut.TestAPI",
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/EmptyEnum"
+        }
+      },
+      "kotlinName" : "EmptyEnum",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=EmptyEnum>>",
+      "nodeName" : "TestAPI.EmptyEnum",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "name" : "EmptyEnum",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
             "name" : "Functions",
             "namespace" : [
 
@@ -107,6 +181,7 @@
           }
         }
       },
+      "cppName" : "Functions",
       "cSharpName" : "Functions",
       "cSharpNamespace" : "Cricut.TestAPI",
       "jniType" : {
@@ -116,6 +191,7 @@
       },
       "kotlinName" : "Functions",
       "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Reference<To=Functions>>",
       "nodeName" : "TestAPI.Functions",
       "sourceType" : {
         "named" : {
@@ -139,6 +215,7 @@
           }
         }
       },
+      "cppName" : "Functions::TheError",
       "cSharpName" : "Functions.TheError",
       "cSharpNamespace" : "Cricut.TestAPI",
       "jniType" : {
@@ -148,6 +225,7 @@
       },
       "kotlinName" : "Functions.TheError",
       "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Reference<To=Functions.TheError>>",
       "nodeName" : "TestAPI.Functions.TheError",
       "sourceType" : {
         "named" : {
@@ -171,6 +249,7 @@
           }
         }
       },
+      "cppName" : "Primitives",
       "cSharpName" : "Primitives",
       "cSharpNamespace" : "Cricut.TestAPI",
       "jniType" : {
@@ -180,6 +259,7 @@
       },
       "kotlinName" : "Primitives",
       "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Reference<To=Primitives>>",
       "nodeName" : "TestAPI.Primitives",
       "sourceType" : {
         "named" : {
@@ -203,6 +283,7 @@
           }
         }
       },
+      "cppName" : "Primitives::PrimitiveHolder",
       "cSharpName" : "Primitives.PrimitiveHolder",
       "cSharpNamespace" : "Cricut.TestAPI",
       "jniType" : {
@@ -212,6 +293,7 @@
       },
       "kotlinName" : "Primitives.PrimitiveHolder",
       "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Struct<Named=Primitives.PrimitiveHolder>>",
       "nodeName" : "TestAPI.Primitives.PrimitiveHolder",
       "sourceType" : {
         "named" : {
@@ -228,6 +310,40 @@
       "converterType" : {
         "named" : {
           "_0" : {
+            "name" : "SimpleEnum",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cppName" : "SimpleEnum",
+      "cSharpName" : "SimpleEnum",
+      "cSharpNamespace" : "Cricut.TestAPI",
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/SimpleEnum"
+        }
+      },
+      "kotlinName" : "SimpleEnum",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=SimpleEnum>>",
+      "nodeName" : "TestAPI.SimpleEnum",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "name" : "SimpleEnum",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
             "name" : "Strings",
             "namespace" : [
 
@@ -235,6 +351,7 @@
           }
         }
       },
+      "cppName" : "Strings",
       "cSharpName" : "Strings",
       "cSharpNamespace" : "Cricut.TestAPI",
       "jniType" : {
@@ -244,6 +361,7 @@
       },
       "kotlinName" : "Strings",
       "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Reference<To=Strings>>",
       "nodeName" : "TestAPI.Strings",
       "sourceType" : {
         "named" : {
@@ -267,6 +385,7 @@
           }
         }
       },
+      "cppName" : "Structs",
       "cSharpName" : "Structs",
       "cSharpNamespace" : "Cricut.TestAPI",
       "jniType" : {
@@ -276,6 +395,7 @@
       },
       "kotlinName" : "Structs",
       "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Reference<To=Structs>>",
       "nodeName" : "TestAPI.Structs",
       "sourceType" : {
         "named" : {
@@ -299,6 +419,7 @@
           }
         }
       },
+      "cppName" : "Structs::MemberwiseStruct",
       "cSharpName" : "Structs.MemberwiseStruct",
       "cSharpNamespace" : "Cricut.TestAPI",
       "jniType" : {
@@ -308,6 +429,7 @@
       },
       "kotlinName" : "Structs.MemberwiseStruct",
       "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Struct<Named=Structs.MemberwiseStruct>>",
       "nodeName" : "TestAPI.Structs.MemberwiseStruct",
       "sourceType" : {
         "named" : {
@@ -331,6 +453,7 @@
           }
         }
       },
+      "cppName" : "Structs::ReferenceStruct",
       "cSharpName" : "Structs.ReferenceStruct",
       "cSharpNamespace" : "Cricut.TestAPI",
       "jniType" : {
@@ -340,6 +463,7 @@
       },
       "kotlinName" : "Structs.ReferenceStruct",
       "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Reference<To=Structs.ReferenceStruct>>",
       "nodeName" : "TestAPI.Structs.ReferenceStruct",
       "sourceType" : {
         "named" : {
@@ -363,6 +487,7 @@
           }
         }
       },
+      "cppName" : "Tuples",
       "cSharpName" : "Tuples",
       "cSharpNamespace" : "Cricut.TestAPI",
       "jniType" : {
@@ -372,6 +497,7 @@
       },
       "kotlinName" : "Tuples",
       "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=Tuples>>",
       "nodeName" : "TestAPI.Tuples",
       "sourceType" : {
         "named" : {
@@ -2559,6 +2685,216 @@
         ],
         "name" : "TestAPI",
         "namespaces" : {
+          "AssociatedDataEnum" : {
+            "classes" : [
+              {
+                "constructor" : [
+
+                ],
+                "documentation" : [
+
+                ],
+                "exported" : false,
+                "fields" : [
+                  {
+                    "documentation" : [
+                      "<!-- FishyJoes.export(intValue) -->"
+                    ],
+                    "isStatic" : false,
+                    "name" : "intValue",
+                    "readOnly" : true,
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                ],
+                "methods" : [
+                  {
+                    "documentation" : [
+                      "<!-- FishyJoes.export(plus) -->"
+                    ],
+                    "isStatic" : false,
+                    "name" : "plus",
+                    "parameters" : [
+                      {
+                        "name" : "other",
+                        "type" : {
+                          "named" : {
+                            "_0" : "AssociatedDataEnum"
+                          }
+                        }
+                      }
+                    ],
+                    "returnType" : {
+                      "named" : {
+                        "_0" : "AssociatedDataEnum"
+                      }
+                    }
+                  }
+                ],
+                "name" : "_FictionalCommonSuperclass"
+              },
+              {
+                "constructor" : [
+                  {
+                    "name" : "value",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                ],
+                "documentation" : [
+
+                ],
+                "exported" : true,
+                "fields" : [
+                  {
+                    "documentation" : [
+
+                    ],
+                    "isStatic" : false,
+                    "name" : "value",
+                    "readOnly" : true,
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                ],
+                "methods" : [
+
+                ],
+                "name" : "Thing",
+                "superclass" : "_FictionalCommonSuperclass"
+              },
+              {
+                "constructor" : [
+                  {
+                    "name" : "unnamed",
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  },
+                  {
+                    "name" : "_1",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                ],
+                "documentation" : [
+
+                ],
+                "exported" : true,
+                "fields" : [
+                  {
+                    "documentation" : [
+
+                    ],
+                    "isStatic" : false,
+                    "name" : "unnamed",
+                    "readOnly" : true,
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "isStatic" : false,
+                    "name" : "_1",
+                    "readOnly" : true,
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                ],
+                "methods" : [
+
+                ],
+                "name" : "Other",
+                "superclass" : "_FictionalCommonSuperclass"
+              },
+              {
+                "constructor" : [
+                  {
+                    "name" : "named",
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  },
+                  {
+                    "name" : "_1",
+                    "type" : {
+                      "named" : {
+                        "_0" : "AssociatedDataEnum"
+                      }
+                    }
+                  }
+                ],
+                "documentation" : [
+
+                ],
+                "exported" : true,
+                "fields" : [
+                  {
+                    "documentation" : [
+
+                    ],
+                    "isStatic" : false,
+                    "name" : "named",
+                    "readOnly" : true,
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "isStatic" : false,
+                    "name" : "_1",
+                    "readOnly" : true,
+                    "type" : {
+                      "named" : {
+                        "_0" : "AssociatedDataEnum"
+                      }
+                    }
+                  }
+                ],
+                "methods" : [
+
+                ],
+                "name" : "Bar",
+                "superclass" : "_FictionalCommonSuperclass"
+              }
+            ],
+            "name" : "AssociatedDataEnum",
+            "namespaces" : {
+
+            },
+            "typealiases" : [
+
+            ]
+          },
           "Collections" : {
             "classes" : [
               {
@@ -2792,6 +3128,47 @@
               }
             ],
             "name" : "Collections",
+            "namespaces" : {
+
+            },
+            "typealiases" : [
+
+            ]
+          },
+          "EmptyEnum" : {
+            "classes" : [
+              {
+                "constructor" : [
+
+                ],
+                "documentation" : [
+
+                ],
+                "exported" : false,
+                "fields" : [
+
+                ],
+                "methods" : [
+                  {
+                    "documentation" : [
+                      "<!-- FishyJoes.export(notGoingToHappen) -->"
+                    ],
+                    "isStatic" : true,
+                    "name" : "notGoingToHappen",
+                    "parameters" : [
+
+                    ],
+                    "returnType" : {
+                      "named" : {
+                        "_0" : "EmptyEnum"
+                      }
+                    }
+                  }
+                ],
+                "name" : "_FictionalCommonSuperclass"
+              }
+            ],
+            "name" : "EmptyEnum",
             "namespaces" : {
 
             },
@@ -3705,6 +4082,73 @@
           }
         },
         "typealiases" : [
+          {
+            "documentation" : [
+              "<!-- FishyJoes.export(AssociatedDataEnum) -->"
+            ],
+            "name" : "AssociatedDataEnum",
+            "value" : {
+              "union" : {
+                "_0" : [
+                  {
+                    "named" : {
+                      "_0" : "AssociatedDataEnum.Thing"
+                    }
+                  },
+                  {
+                    "named" : {
+                      "_0" : "AssociatedDataEnum.Other"
+                    }
+                  },
+                  {
+                    "named" : {
+                      "_0" : "AssociatedDataEnum.Bar"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "documentation" : [
+              "<!-- FishyJoes.export(EmptyEnum) -->"
+            ],
+            "name" : "EmptyEnum",
+            "value" : {
+              "union" : {
+                "_0" : [
+
+                ]
+              }
+            }
+          },
+          {
+            "documentation" : [
+              "<!-- FishyJoes.export(SimpleEnum) -->"
+            ],
+            "name" : "SimpleEnum",
+            "value" : {
+              "union" : {
+                "_0" : [
+                  {
+                    "exactString" : {
+                      "_0" : "red"
+                    }
+                  },
+                  {
+                    "exactString" : {
+                      "_0" : "green"
+                    }
+                  },
+                  {
+                    "exactString" : {
+                      "_0" : "blue"
+                    }
+                  }
+                ]
+              }
+            }
+          },
           {
             "documentation" : [
               "<!-- FishyJoes.export(Tuples) -->"

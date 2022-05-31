@@ -2,6 +2,7 @@ package com.cricut.testapi
 
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import kotlin.math.abs
 
 internal class FunctionTests {
@@ -26,8 +27,8 @@ internal class FunctionTests {
 
     @Test
     fun testExceptionInCompose() {
-        val composed = Functions.intCompose({ it }, { throw ComposeError })
-        assertThrows(ComposeError::class.java) { composed(3) }
+        val composed = Functions.intCompose({ throw ComposeError }, { it })
+        assertThrows<ComposeError> { composed(3) }
     }
 
     @Test

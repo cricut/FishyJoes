@@ -189,6 +189,7 @@ struct TranslatedReference: TranslatedType {
             }
 
             fragment.outputBlock("public static func javaSetup(env: Env) throws {") {
+                fragment.output("guard javaClass == nil else { return }")
                 fragment.output("try AnyBox.javaSetup(env: env)")
                 fragment.output("javaClass = try env.globalRef(env.FindClass(\"\(className)\"))")
                 fragment.output("_constructorMethodID = try env.GetMethodID(javaClass, \"<init>\", \"(J)V\")")

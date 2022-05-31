@@ -154,6 +154,7 @@ extension Primitives.PrimitiveHolder: JavaConverter {
         )
     }
     public static func javaSetup(env: Env) throws {
+        guard javaClass == nil else { return }
         javaClass = try env.globalRef(env.FindClass("com/cricut/testapi/Primitives$PrimitiveHolder"))
         _java_b_id = try env.GetFieldID(javaClass, "b", "Z")
         _java_bq_id = try env.GetFieldID(javaClass, "bq", "Ljava/lang/Boolean;")
