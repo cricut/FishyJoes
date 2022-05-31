@@ -4,6 +4,9 @@ struct TranslatedResult: TranslatedType {
     let nodeName: String
     let kotlinName: String
     let kotlinPackage: String? = "com.cricut.fishyjoes.runtime"
+    let cppName: String = "TODO"
+    let neutralName: String
+    let containedNamedTypes: [TranslatedType]
     let cSharpName: String = "TODO"
     let cSharpNamespace: String? = nil
     let jniType = JNIType.object("com/cricut/fishyjoes/runtime/TypedArray")
@@ -12,6 +15,8 @@ struct TranslatedResult: TranslatedType {
         self.success = success
         self.failure = failure
         self.nodeName = "TODO"
+        self.neutralName = "Result<success=\(success.neutralName), failure=\(failure.neutralName)>"
+        self.containedNamedTypes = [success, failure]
         self.kotlinName = "TypedResult<\(success.kotlinName), \(failure.kotlinName)>"
     }
 

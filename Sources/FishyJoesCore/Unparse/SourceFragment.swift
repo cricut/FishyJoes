@@ -34,18 +34,21 @@ class SourceFragment {
         stringBuilder.append("\n")
     }
 
-    func output(_ line: String, newLineTerminated: Bool = true) {
+    func output(_ line: String, newLineTerminated: Bool = true, semicolonTerminated: Bool = false) {
         if isFreshLine {
             stringBuilder.append(String(repeating: " ", count: 4 * currentIndent))
         }
         stringBuilder.append(line)
+        if semicolonTerminated {
+            stringBuilder.append(";")
+        }
         if newLineTerminated {
             stringBuilder.append("\n")
         }
         isFreshLine = newLineTerminated
     }
 
-    func outputBlock<R>(_ openingLine: String, closeWith close: String? = nil, newLineTerminated: Bool = true, _ body: () throws -> R) rethrows -> R {
+    func outputBlock<R>(_ openingLine: String, closeWith close: String? = nil, newLineTerminated: Bool = true, semicolonTerminated: Bool = false, _ body: () throws -> R) rethrows -> R {
         output(openingLine)
         let matchingClose: String
         if let close = close {
@@ -69,7 +72,7 @@ class SourceFragment {
         if previousLines.count == 2, previousLines.last == "\n", previousLines.first?.hasSuffix("\n") == true {
             _ = stringBuilder.popLast()
         }
-        output(matchingClose, newLineTerminated: newLineTerminated)
+        output(matchingClose, newLineTerminated: newLineTerminated, semicolonTerminated: semicolonTerminated)
         return result
     }
 

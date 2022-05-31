@@ -11,6 +11,7 @@ struct BuildConfiguration {
 enum Platform: Hashable {
     case wasm
     case node
+    case cpp
     case kotlinSystem
     case kotlinAndroid(AndroidArchitecture)
     case cSharp
@@ -68,6 +69,15 @@ enum Platform: Hashable {
             path = "swift"
             args = ["build", "-Xswiftc", "-static-stdlib"] + args
             #endif
+        case .cpp:
+            #if os(macOS)
+            path = Platform.nativeMacSwiftBuild
+            #elseif os(Linux)
+            path = "swift"
+            args = ["build", "-Xswiftc", "-static-stdlib"] + args
+            #else
+            fatalError("unknown host OS")
+            #endif
         }
         try cmd(path, arguments: args, addEnv: env).run()
     }
@@ -106,11 +116,12 @@ enum Platform: Hashable {
             #else
             fatalError("unknown host OS")
             #endif
+        case .cpp: return "cpp"
         }
     }
     var outputDir: String {
         switch self {
-        case .wasm, .node, .cSharp: return "output/\(platform)"
+        case .wasm, .node, .cpp, .cSharp: return "output/\(platform)"
         case .kotlinSystem:
             #if os(macOS)
             return "kotlin/src/generated/resources/mac"
@@ -126,6 +137,7 @@ enum Platform: Hashable {
         switch self {
         case .wasm: return "\(config.module) packaged as a typescript library using WebAssembly"
         case .node: return "\(platform) <-> node/ts bindings for \(config.module)"
+        case .cpp: return "\(config.module) C++ bingings"
         case .kotlinSystem, .kotlinAndroid: return "A JNI wrapper for \(config.module)"
         case .cSharp: return "A C# wrapper for \(config.module)"
         }
@@ -157,6 +169,20 @@ enum Platform: Hashable {
                 #endif
             }
             return ".build/\(cSharpPlatformBuildDirectory)/\(configuration)"
+        case .cpp:
+            #if os(macOS)
+            #if arch(x86_64)
+            return ".build/cpp-build/x86_64-apple-macosx/release"
+            #elseif arch(arm64)
+            return ".build/cpp-build/arm64-apple-macosx/release"
+            #else
+            fatalError("unknown mac arch")
+            #endif
+            #elseif os(Linux)
+            return ".build/cpp-build/x86_64-unknown-linux-gnu/release"
+            #else
+            fatalError("unknown host OS")
+            #endif
         }
     }
     var isTs: Bool {

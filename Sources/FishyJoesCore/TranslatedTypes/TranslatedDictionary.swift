@@ -5,6 +5,9 @@ struct TranslatedDictionary: TranslatedType {
     let converterType: BetterType
     let nodeName: String
     let kotlinName: String
+    var cppName: String
+    let neutralName: String
+    let containedNamedTypes: [TranslatedType]
     let kotlinPackage: String? = "kotlin.collections"
     let jniType = JNIType.object("java/util/Map")
     let cSharpName: String
@@ -15,6 +18,9 @@ struct TranslatedDictionary: TranslatedType {
         self.converterType = .generic(base: "DictionaryConverter", args: [key.converterType, value.converterType])
         self.nodeName = "Map<\(key.nodeName), \(value.nodeName)>"
         self.kotlinName = "Map<\(key.kotlinName), \(value.kotlinName)>"
+        self.cppName = "std::unordered_map<\(key.cppName), \(value.cppName)>"
+        self.neutralName = "Dictionary<K=\(key.neutralName), V=\(value.neutralName)>"
+        self.containedNamedTypes = key.containedNamedTypes + value.containedNamedTypes
         self.cSharpName = "Dictionary<\(key.cSharpName), \(value.cSharpName)>"
     }
 }

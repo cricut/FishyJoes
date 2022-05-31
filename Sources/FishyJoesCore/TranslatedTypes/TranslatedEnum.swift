@@ -4,6 +4,9 @@ struct TranslatedEnum: TranslatedType {
     let sourceType: BetterType
     let nodeName: String
     let kotlinName: String
+    let cppName: String
+    let neutralName: String
+    var containedNamedTypes: [TranslatedType] { [self] }
     let kotlinPackage: String?
     let jniType: JNIType
     let cSharpName: String
@@ -44,6 +47,8 @@ struct TranslatedEnum: TranslatedType {
         guard let name = type.exportAnnotation?.name else { fatalErr("export symbol not specified") }
 
         self.sourceType = BetterType(named: type)
+        self.neutralName = "Enum<TranslatedFrom=\(name)>"
+        self.cppName = name.replacingOccurrences(of: ".", with: "::")
         self.nodeName = name
         self.kotlinName = name
         self.kotlinPackage = context.module.kotlinPackage
@@ -71,7 +76,155 @@ struct TranslatedEnum: TranslatedType {
     }
 
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
-        return [nodeDefinitionFragment(in: context), jniDefinitionFragment(in: context)]
+        return [nodeDefinitionFragment(in: context), jniDefinitionFragment(in: context), neutralDefinitionFragment(in: context), cppDefinitionFragment(in: context)]
+    }
+
+    func cppDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
+        var newMethods: [CPPClass.CPPMethod] = []
+        newMethods.append(contentsOf: methods.map { context.cppTranslator.translateToHeaderFragment(method: $0, in: context) })
+        for variable in computedVariables {
+            let accessors = context.cppTranslator.translateToHeaderFragment(variable: variable, in: context)
+            newMethods.append(accessors.getter)
+            if let setter = accessors.setter {
+                newMethods.append(setter)
+            }
+        }
+        let innerStructs = cases.map { caseObj -> CPPClass in
+            let innerFields = caseObj.associatedValues.map({ val in
+                CPPClass.CPPField(
+                    documentation: [],
+                    isStatic: false,
+                    isPrivate: false,
+                    name: val.bindingName,
+                    type: .type(context.resolve(type: val.type)),
+                    initializer: nil
+                )
+            })
+            return CPPClass(
+                module: context.module,
+                documentation: caseObj.documentation,
+                name: sourceType.name + "." + caseObj.name,
+                methods: [],
+                fields: innerFields,
+                serializedFields: innerFields,
+                innerClases: [],
+                completeConstructorVisible: true
+            )
+        }
+        for innerStruct in innerStructs {
+            context.cppClasses[innerStruct.qualifiedName] = innerStruct
+        }
+        let varField = CPPClass.CPPField(
+            documentation: ["std::variant containing subtypes"],
+            isStatic: false,
+            isPrivate: true,
+            name: "_variant",
+            type: .variant(cases.map(\.name)),
+            initializer: nil
+        )
+        let me = sourceType.name.split(separator: ".").last!
+        let newClass = CPPClass(
+            module: context.module,
+            documentation: documentation,
+            name: sourceType.name,
+            methods: newMethods,
+            fields: [varField],
+            serializedFields: [varField],
+            magicalElements: [ {(fragment: SourceFragment) -> Void in
+                // define VariantType for later methods
+                fragment.output("private:")
+                fragment.output("using VariantType = std::variant<\(cases.map(\.name).joined(separator: ", "))>;")
+            }, {(fragment: SourceFragment) -> Void in
+                fragment.output("public:")
+                fragment.output("template <typename T>")
+                fragment.output("\(me)(const T& caseObj): _variant(caseObj) {}")
+            }, {(fragment: SourceFragment) -> Void in
+                fragment.output("template <typename T>")
+                fragment.outputBlock("\(me)& operator=(const T& rhs) {") {
+                    fragment.output("_variant = rhs;")
+                    fragment.output("return *this;")
+                }
+            }, {(fragment: SourceFragment) -> Void in
+                fragment.output("template <typename T>")
+                fragment.outputBlock("std::invoke_result_t<T, std::variant_alternative_t<0, VariantType>> visit(const T& visitor) {") {
+                    fragment.output("return std::visit(visitor, _variant);")
+                }
+            }, {(fragment: SourceFragment) -> Void in
+                fragment.output("template <typename T>")
+                fragment.outputBlock("bool isOfType() {") {
+                    fragment.output("std::holds_alternative<T>(_variant);")
+                }
+                fragment.output("template <const auto& n>")
+                fragment.outputBlock("bool isOfType() {") {
+                    fragment.output("return isOfType<std::decay_t<decltype(n)>>();")
+                }
+            }, {(fragment: SourceFragment) -> Void in
+                fragment.output("template <typename T>")
+                fragment.outputBlock("T* getIfIs() {") {
+                    fragment.output("return std::get_if<T>(&_variant);")
+                }
+                fragment.output("template <const auto& n>")
+                fragment.outputBlock("std::decay_t<decltype(n)>* getIfIs() {") {
+                    fragment.output("return getIfIs<std::decay_t<decltype(n)>>();")
+                }
+            }, {(fragment: SourceFragment) -> Void in
+                fragment.output("template <typename T>")
+                fragment.outputBlock("T& get() {") {
+                    fragment.output("return std::get<T>(_variant);")
+                }
+                fragment.output("template <const auto& n>")
+                fragment.outputBlock("std::decay_t<decltype(n)>& get() {") {
+                    fragment.output("return get<std::decay_t<decltype(n)>>();")
+                }
+            }],
+            completeConstructorVisible: false
+        )
+        context.cppClasses[newClass.qualifiedName] = newClass
+        return SourceFragment(sourceryDestination: "file:CPPInterface/\(sourceType.name).swift")
+    }
+
+    func neutralDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
+        let fragment = SourceFragment(
+            sourceryDestination: "file:../../DebugGenerated/\(sourceType.name)+EnumInfo.txt"
+        )
+        fragment.outputBlock("TranslatedEnum for \(sourceType.name) {") {
+            fragment.outputBlock("Documentation {") {
+                for doc in documentation {
+                    fragment.output(doc)
+                }
+            }
+            fragment.outputBlock("Cases {") {
+                for singleCase in cases {
+                    fragment.outputBlock("Case \(singleCase.name) {") {
+                        fragment.outputBlock("Documentation {") {
+                            for doc in singleCase.documentation {
+                                fragment.output(doc)
+                            }
+                        }
+                        fragment.outputBlock("Values {") {
+                            for value in singleCase.associatedValues {
+                                fragment.outputBlock("Value \(value.name ?? "(nil)") {") {
+                                    fragment.output("Index: \(value.index)")
+                                    fragment.output("Label: \(value.label ?? "(nil)")")
+                                    fragment.output("Type: \(context.resolve(type: value.type).neutralName)")
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            fragment.outputBlock("Methods {") {
+                for method in methods {
+                    context.neutralTranslator.output(method: method, context: context, fragment: fragment)
+                }
+            }
+            fragment.outputBlock("Computed Variables {") {
+                for variable in computedVariables {
+                    context.neutralTranslator.output(variable: variable, context: context, fragment: fragment)
+                }
+            }
+        }
+        return fragment
     }
 
     func nodeDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {

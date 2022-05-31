@@ -4,6 +4,9 @@ struct TranslatedStruct: TranslatedType {
     let sourceType: BetterType
     let nodeName: String
     let kotlinName: String
+    let cppName: String
+    let neutralName: String
+    var containedNamedTypes: [TranslatedType] { [self] }
     let kotlinPackage: String?
     let cSharpName: String
     let cSharpNamespace: String?
@@ -23,6 +26,8 @@ struct TranslatedStruct: TranslatedType {
         self.sourceType = BetterType(named: type)
         self.nodeName = exportAnnotation.name
         self.kotlinName = exportAnnotation.name
+        self.cppName = exportAnnotation.name.replacingOccurrences(of: ".", with: "::")
+        self.neutralName = "Struct<Named=\(exportAnnotation.name)>"
         self.kotlinPackage = context.module.kotlinPackage
         self.cSharpName = exportAnnotation.name
         self.cSharpNamespace = context.module.cSharpNamespace
@@ -38,7 +43,71 @@ struct TranslatedStruct: TranslatedType {
     }
 
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
-        [nodeDefinitionFragment(in: context), jniDefinitionFragment(in: context)]
+        [nodeDefinitionFragment(in: context), jniDefinitionFragment(in: context), neutralDefinitionFragment(in: context), cppDefinitionFragment(in: context)]
+    }
+
+    func cppDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
+        let fragment = SourceFragment(sourceryDestination: "file:CPPInterface/\(sourceType.name).swift")
+        var newMethods: [CPPClass.CPPMethod] = []
+        newMethods.append(contentsOf: methods.map { context.cppTranslator.translateToHeaderFragment(method: $0, in: context) })
+        for variable in computedVariables {
+            let accessors = context.cppTranslator.translateToHeaderFragment(variable: variable, in: context)
+            newMethods.append(accessors.getter)
+            if let setter = accessors.setter {
+                newMethods.append(setter)
+            }
+        }
+        let newFields: [CPPClass.CPPField] = storedVariables.map { variable in
+            let fieldType = context.resolve(type: variable.typeName.better)
+            return CPPClass.CPPField(
+                documentation: variable.documentation,
+                isStatic: variable.isStatic,
+                isPrivate: false,
+                name: variable.name,
+                type: .type(fieldType),
+                initializer: nil
+            )
+        }
+        let newClass = CPPClass(
+            module: context.module,
+            documentation: documentation,
+            name: sourceType.name,
+            methods: newMethods,
+            fields: newFields,
+            serializedFields: newFields,
+            completeConstructorVisible: true
+        )
+        context.cppClasses[newClass.qualifiedName] = newClass
+        return fragment
+    }
+
+    func neutralDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
+        let fragment = SourceFragment(
+            sourceryDestination: "file:../../DebugGenerated/\(sourceType.name)+StructInfo.txt"
+        )
+        fragment.outputBlock("TranslatedStruct for \(sourceType.name) {") {
+            fragment.outputBlock("Documentation {") {
+                for doc in documentation {
+                    fragment.output(doc)
+                }
+            }
+            fragment.outputBlock("Methods {") {
+                for method in methods {
+                    context.neutralTranslator.output(method: method, context: context, fragment: fragment)
+                }
+            }
+            fragment.outputBlock("Stored Variables {") {
+                for variable in storedVariables {
+                    context.neutralTranslator.output(variable: variable, context: context, fragment: fragment)
+                }
+            }
+            fragment.outputBlock("Computed Variables {") {
+                for variable in computedVariables {
+                    context.neutralTranslator.output(variable: variable, context: context, fragment: fragment)
+                }
+            }
+        }
+        return fragment
     }
 
     func nodeDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {

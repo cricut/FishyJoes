@@ -4,8 +4,9 @@
 /*.xcodeproj
 xcuserdata/
 DerivedData/
-.swiftpm/xcode/package.xcworkspace/contents.xcworkspacedata
+.swiftpm
 .gradle
+.vscode
 kotlin-runtime/src/generated/resources/
 coverage-data
 default.profraw

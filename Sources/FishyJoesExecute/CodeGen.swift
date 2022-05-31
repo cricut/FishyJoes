@@ -18,11 +18,14 @@ public struct CodeGen: ParsableCommand {
     @Flag(name: .shortAndLong, help: "suppress verbose output")
     var quiet = false
 
-    @Flag(name: .long, inversion: .prefixedNo, help: "Generate a Web-assembly based node package")
+    @Flag(name: .long, inversion: .prefixedNo, help: "Generate a NodeJS N-API based node package")
     var nodejs = false
 
-    @Flag(name: .long, inversion: .prefixedNo, help: "Generate a NodeJS N-API based node package")
+    @Flag(name: .long, inversion: .prefixedNo, help: "Generate a Web-assembly based node package")
     var wasm = false
+
+    @Flag(name: .long, inversion: .prefixedNo, help: "Generate a C++ package")
+    var cpp = false
 
     @Flag(name: .long, inversion: .prefixedNo, help: "Generate a Kotlin package")
     var kotlin = false
@@ -67,6 +70,7 @@ public struct CodeGen: ParsableCommand {
         case quiet
         case nodejs
         case wasm
+        case cpp
         case kotlin
         case kotlinFast
         case cSharp
@@ -98,6 +102,9 @@ extension CodeGen {
         }
         if nodejs {
             platforms.append(.node)
+        }
+        if cpp {
+            platforms.append(.cpp)
         }
         if kotlin || kotlinFast {
             platforms.append(.kotlinSystem)
@@ -143,18 +150,20 @@ extension CodeGen {
             }
 
             // MARK: Generate code
-            try cmd("rm", "-rf", "Sources/Generated", "kotlin/src/generated").run()
+            try cmd("rm", "-rf", "Sources/Generated", "kotlin/src/generated", "DebugGenerated", "cpp").run()
             try cmd("mkdir", "-p",
                     "Sources/Generated/CSharpInterface",
                     "Sources/Generated/NodeInterface",
                     "Sources/Generated/JavaInterface",
+                    "Sources/Generated/CPPInterface",
                     "kotlin/src/generated/kotlin/com/cricut/\(config.module.lowercased())"
             ).run()
             try cmd(
                 "touch",
                 "Sources/Generated/CSharpInterface/EmptyPlaceholder.swift",
                 "Sources/Generated/NodeInterface/EmptyPlaceholder.swift",
-                "Sources/Generated/JavaInterface/EmptyPlaceholder.swift"
+                "Sources/Generated/JavaInterface/EmptyPlaceholder.swift",
+                "Sources/Generated/CPPInterface/EmptyPlaceholder.swift"
             ).run()
             try cmd("swift", "build", "--product", "sourcery").run()
             try cmd("swift", arguments: ["build"] + (codeCoveragePath == nil ? [] : ["--enable-code-coverage"]) + ["--product", "🐟☕️"]).run()
@@ -195,6 +204,8 @@ extension CodeGen {
                     try platform.swiftBuild("--product", "\(config.module)-node", configuration: configuration)
                 case .kotlinSystem, .kotlinAndroid:
                     try platform.swiftBuild("--product", "\(config.module)-java", configuration: configuration)
+                case .cpp:
+                    try platform.swiftBuild("--product", "\(config.module)-cpp", configuration: configuration)
                 case .cSharp:
                     try platform.swiftBuild("--product", "\(config.module)-c-sharp", configuration: configuration)
                 }
@@ -273,6 +284,8 @@ extension CodeGen {
                     try cmd("mkdir", "-p", platform.outputDir).run()
                     try cmd("cp", "\(platform.buildDir(debug: debug))/lib\(config.module).so", platform.outputDir).run()
                     try cmd("cp", "\(platform.buildDir(debug: debug))/lib\(config.module)-java.so", platform.outputDir).run()
+                case .cpp:
+                    try cmd("mkdir", "-p", platform.outputDir).run()
                 case .cSharp:
                     try cmd("mkdir", "-p", platform.outputDir).run()
                     try cmd("cp", "\(platform.buildDir(debug: debug))/lib\(config.module)-c-sharp.\(dylibExt)", platform.outputDir).run()
@@ -316,7 +329,7 @@ extension CodeGen {
                         .append(toFile: packageJsonPath)
                         .run()
                 }
-            case .kotlinSystem, .kotlinAndroid, .cSharp:
+            case .kotlinSystem, .kotlinAndroid, .cpp, .cSharp:
                 break
             }
         }
@@ -345,7 +358,7 @@ extension CodeGen {
                         let tasks = ["cleanTest", "test"] + (codeCoveragePath == nil ? [] : ["jacocoTestReport"])
                         try cmd("./gradlew", arguments: tasks, addEnv: env).run()
                     }
-                case .kotlinAndroid:
+                case .kotlinAndroid, .cpp:
                     // TODO
                     break
                 case .cSharp:

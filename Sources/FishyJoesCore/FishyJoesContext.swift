@@ -12,21 +12,31 @@ public class FishyJoesContext {
 
     var tsAnnotations: TypeScriptAnnotations
     var kotlinClasses: [KotlinClass] = []
+    // qualified name (ie "ContainingClass::ClassName") -> CPPClass
+    var cppClasses: [String: CPPClass] = [:]
+    // [qualifiedName/cppName]
+    var classesNeedingHashSpecialization: [CPPClass] = []
 
     let translatorTypes: [Translator.Type] = [
         NodeTranslator.self,
         KotlinTranslor.self,
         CSharpTranslator.self,
+        CPPTranslate.self,
+        NeutralTranslate.self,
     ]
 
     let nodeTranslator = NodeTranslator()
     let kotlinTranslator = KotlinTranslor()
     let cSharpTranslator = CSharpTranslator()
+    let cppTranslator = CPPTranslate()
+    let neutralTranslator = NeutralTranslate()
 
     lazy var translators: [Translator] = [
         nodeTranslator,
         kotlinTranslator,
         cSharpTranslator,
+        cppTranslator,
+        neutralTranslator,
     ]
 
     public init(context: TemplateContext) {
@@ -78,6 +88,7 @@ public class FishyJoesContext {
         }
 
         // Collect type information before starting translation
+        // This collects the named types possible for use later in resolve().
         let translatedTypes = templateContext.types.all.compactMap { type -> TranslatedType? in
             resolveDebugContext = "Translating type \(type.name)"
             return translate(typeDefinition: type)
@@ -120,6 +131,20 @@ public class FishyJoesContext {
                 generatedTypes.insert(type.key)
             }
         }
+
+        for classObj in cppClasses.values {
+            if let parent = classObj.parentQualifiedName {
+                cppClasses[parent]!.innerClasses.append(classObj)
+            }
+        }
+
+        for cppClass in cppClasses.values {
+            if cppClass.parentQualifiedName == nil {
+                collectedFragments.append(cppClass.headerFragment())
+            }
+            collectedFragments.append(cppClass.sourceFragment(in: self))
+        }
+
         collectedFragments.append(
             contentsOf: translators.flatMap { translator -> [SourceFragment] in
                 resolveDebugContext = "generating setup code for \(type(of: translator))"
@@ -230,7 +255,7 @@ public class FishyJoesContext {
         }
 
         let primitiveTypeMap: [String: TypeNames] = [
-            "Bool": (c: "_Bool", ts: "boolean", jni: JNIType.boolean, cSharp: "bool"),
+            "Bool": (c: "bool", ts: "boolean", jni: JNIType.boolean, cSharp: "bool"),
             "Int8": (c: "int8_t", ts: "number", jni: JNIType.byte, cSharp: "sbyte"),
             "Int16": (c: "int16_t", ts: "number", jni: JNIType.short, cSharp: "short"),
             "Int32": (c: "int32_t", ts: "number", jni: JNIType.int, cSharp: "int"),

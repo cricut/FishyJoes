@@ -5,6 +5,9 @@ protocol TranslatedType {
     var converterType: BetterType { get }
     var nodeName: String { get }
     var kotlinName: String { get }
+    var cppName: String { get }
+    var neutralName: String { get }
+    var containedNamedTypes: [TranslatedType] { get }
     var kotlinPackage: String? { get }
     var jniType: JNIType { get }
     var cSharpName: String { get }

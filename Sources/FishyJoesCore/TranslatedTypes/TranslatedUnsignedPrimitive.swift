@@ -5,6 +5,9 @@ struct TranslatedUnsignedPrimitive: TranslatedType {
     let cName: String
     let nodeName: String
     let kotlinName: String
+    let cppName: String
+    let neutralName: String
+    let containedNamedTypes: [TranslatedType]
     let kotlinPackage: String?
     let cSharpName: String
     let cSharpNamespace: String?
@@ -28,14 +31,17 @@ struct TranslatedUnsignedPrimitive: TranslatedType {
     init(
         swift swiftName: BetterType.Name,
         c cName: String,
-        node nodeName: String? = nil,
+        node nodeName: String,
         jni jniType: JNIType,
         cSharp cSharpName: String
     ) {
         self.sourceType = .named(swiftName)
         self.cName = cName
-        self.nodeName = nodeName ?? cName
+        self.nodeName = nodeName
         self.kotlinName = "U" + jniType.valueType
+        self.cppName = cName
+        self.neutralName = "UnsignedPrimitive<\(cName)>"
+        self.containedNamedTypes = []
         self.kotlinPackage = nil
         self.cSharpName = cSharpName
         self.cSharpNamespace = nil
