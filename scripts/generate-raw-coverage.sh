@@ -15,6 +15,7 @@ mkdir -p $libdir
 
 swift build --configuration debug --enable-code-coverage --product FishyJoesJavaRuntime
 cp .build/debug/libFishyJoesJavaRuntime.dylib $libdir
+(cd kotlin-runtime && ./gradlew publishToMavenLocal)
 
 # Gather coverage from kotlin tests
 (
