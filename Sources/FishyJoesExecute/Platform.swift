@@ -15,6 +15,7 @@ enum Platform: Hashable {
     case kotlinSystem
     case kotlinAndroid(AndroidArchitecture)
     case cSharp
+    case dartSystem
 
     static let nativeMacSwiftBuild = try! cmd("xcrun", "-f", "swift-build").runString()
 
@@ -37,7 +38,7 @@ enum Platform: Hashable {
             // args.append(contentsOf: ["-Xswiftc", "-Xclang-linker", "-Xswiftc", "-mexec-model=reactor"])
 
             env = ["WASM_ONLY": "1"]
-        case .node, .kotlinSystem:
+        case .node, .kotlinSystem, .dartSystem:
             #if os(macOS)
             path = Platform.nativeMacSwiftBuild
             #elseif os(Linux)
@@ -86,6 +87,29 @@ enum Platform: Hashable {
         try swiftBuild(arguments: arguments, configuration: configuration)
     }
 
+    func dylibName(for lib: String) -> String {
+        switch self {
+        case .wasm:
+            fatalError("dynamic linking is currently unsupported in wasm")
+        case .kotlinAndroid:
+            return "lib\(lib).so"
+        case .node, .kotlinSystem, .cSharp, .cpp, .dartSystem:
+            #if os(macOS)
+            return "lib\(lib).dylib"
+            #elseif os(Linux)
+            return "lib\(lib).so"
+            #elseif os(Windows)
+            return "\(lib).dll"
+            #else
+            fatalError("unknown host OS")
+            #endif
+        }
+    }
+
+    func dylibPath(for lib: String, configuration: BuildConfiguration) -> String {
+        buildDir(debug: configuration.debug) + "/" + dylibName(for: lib)
+    }
+
     var platform: String {
         switch self {
         case .wasm: return "wasm"
@@ -117,6 +141,7 @@ enum Platform: Hashable {
             fatalError("unknown host OS")
             #endif
         case .cpp: return "cpp"
+        case .dartSystem: return "dart"
         }
     }
 
@@ -145,6 +170,14 @@ enum Platform: Hashable {
             fatalError("unknown host OS")
             #endif
         case .cpp: return "cpp/generated/lib/"
+        case .dartSystem:
+            #if os(macOS)
+            return "dart/generated/binaries/mac"
+            #elseif os(Linux)
+            return "dart/generated/binaries/linux"
+            #else
+            fatalError("unknown host OS")
+            #endif
         }
     }
 
@@ -155,6 +188,7 @@ enum Platform: Hashable {
         case .cpp: return "\(config.module) C++ bingings"
         case .kotlinSystem, .kotlinAndroid: return "A JNI wrapper for \(config.module)"
         case .cSharp: return "A C# wrapper for \(config.module)"
+        case .dartSystem: return "A Dart wrapper for \(config.module)"
         }
     }
 
@@ -162,7 +196,7 @@ enum Platform: Hashable {
         let configuration = debug ? "debug" : "release"
         switch self {
         case .wasm: return ".build/wasm-build/wasm32-unknown-wasi/\(configuration)"
-        case .node, .kotlinSystem, .cSharp, .cpp:
+        case .node, .kotlinSystem, .cSharp, .cpp, .dartSystem:
             #if os(macOS)
             return ".build/x86_64-apple-macosx/\(configuration)"
             #elseif os(Linux)

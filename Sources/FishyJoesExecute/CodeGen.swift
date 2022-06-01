@@ -2,18 +2,6 @@ import ArgumentParser
 import Foundation
 import swsh
 
-let dylibExt: String = {
-    #if os(macOS)
-    "dylib"
-    #elseif os(Linux)
-    "so"
-    #elseif os(Windows)
-    "dll"
-    #else
-    fatalError("unknown host OS")
-    #endif
-}()
-
 public struct CodeGen: ParsableCommand {
     @Flag(name: .shortAndLong, help: "suppress verbose output")
     var quiet = false
@@ -35,6 +23,9 @@ public struct CodeGen: ParsableCommand {
 
     @Flag(name: [.long, .customLong("C🗡️")], inversion: .prefixedNo, help: "Generate a C# Package")
     var cSharp = false
+
+    @Flag(name: .long, inversion: .prefixedNo, help: "Generate a Dart package")
+    var dart = false
 
     @Flag(name: .long, inversion: .prefixedNo, help: "Additional wasm optimizations (takes some time)")
     var wasmOpt = true
@@ -74,6 +65,7 @@ public struct CodeGen: ParsableCommand {
         case kotlin
         case kotlinFast
         case cSharp
+        case dart
         case wasmOpt
         case sourceryDumpPath
         case version
@@ -114,6 +106,9 @@ extension CodeGen {
         }
         if cSharp {
             platforms.append(.cSharp)
+        }
+        if dart {
+            platforms.append(.dartSystem)
         }
     }
 
@@ -225,6 +220,8 @@ extension CodeGen {
                     try platform.swiftBuild("--product", "\(config.module)-cpp", configuration: configuration)
                 case .cSharp:
                     try platform.swiftBuild("--product", "\(config.module)-c-sharp", configuration: configuration)
+                case .dartSystem:
+                    try platform.swiftBuild("--product", "\(config.module)-dart", configuration: configuration)
                 }
             }
 
@@ -316,7 +313,7 @@ extension CodeGen {
                         // For node to load a library correctly, the file must be ".cjs.node" and not a symlink
                         // But for the linker to find required libraries, they need their original names.
                         // So we symlink `libModule-node.dylib` -> `module.cjs.node`
-                        let compiledLibName = "lib\(dependency)-node.\(dylibExt)"
+                        let compiledLibName = platform.dylibName(for: "\(dependency)-node")
                         let nodeLibName = "\(dependency).cjs.node"
                         try cmd("cp", "\(platform.buildDir(debug: debug))/\(compiledLibName)", "\(outputDir)/\(nodeLibName)").run()
                         try cmd("ln", "-s", nodeLibName, "\(outputDir)/\(compiledLibName)").run()
@@ -349,6 +346,9 @@ extension CodeGen {
                     try cmd("mkdir", "-p", outputDir).run()
                     try cmd("cp", "\(platform.buildDir(debug: debug))/lib\(config.module).\(dylibExt)", outputDir).run()
                     try cmd("cp", "\(platform.buildDir(debug: debug))/lib\(config.module)-c-sharp.\(dylibExt)", outputDir).run()
+                case .dartSystem:
+                    try cmd("mkdir", "-p", platform.outputDir).run()
+                    try cmd("cp", platform.dylibPath(for: "\(config.module)-dart", configuration: configuration), platform.outputDir).run()
                 }
             }
             if platforms.contains(.kotlinSystem) {
@@ -394,7 +394,7 @@ extension CodeGen {
                         .append(toFile: packageJsonPath)
                         .run()
                 }
-            case .kotlinSystem, .kotlinAndroid, .cpp, .cSharp:
+            case .kotlinSystem, .kotlinAndroid, .cpp, .cSharp, .dartSystem:
                 break
             }
         }
@@ -420,7 +420,7 @@ extension CodeGen {
                         let tasks = ["cleanTest", "test"] + (codeCoveragePath == nil ? [] : ["jacocoTestReport"])
                         try cmd("./gradlew", arguments: tasks, addEnv: env).run()
                     }
-                case .kotlinAndroid, .cpp:
+                case .kotlinAndroid, .cpp, .dartSystem:
                     // TODO
                     break
                 case .cSharp:
