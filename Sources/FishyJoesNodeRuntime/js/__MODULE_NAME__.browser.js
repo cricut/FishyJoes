@@ -7,7 +7,7 @@ import { WASI } from "@wasmer/wasi";
 import { WasmFs } from "@wasmer/wasmfs";
 import { NAPI } from "./wasm-napi.js";
 
-let __MODULE_EXPORTS__;
+let __MODULE_NAME__ __MODULE_DEPENDENCIES__;
 
 const init = async () => {
   const wasmFs = new WasmFs();
@@ -53,8 +53,8 @@ const init = async () => {
   console.log(instance);
   wasi.start(instance);
   const library = napi.init(instance);
-  { __MODULE_NAME__, __MODULE_DEPENDENCIES__} = library;
+  ({ __MODULE_NAME__ __MODULE_DEPENDENCIES__ } = library);
   return library;
 };
 
-export { init, __MODULE_NAME__, __MODULE_DEPENDENCIES__};
+export { init, __MODULE_NAME__ __MODULE_DEPENDENCIES__};
