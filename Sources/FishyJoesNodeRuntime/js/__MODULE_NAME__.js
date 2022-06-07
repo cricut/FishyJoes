@@ -58,5 +58,5 @@ export const init = async () => {
   return library
 };
 
-export const { __MODULE_NAME__, __MODULE_DEPENDENCIES__} = await init();
+export const { __MODULE_NAME__ __MODULE_DEPENDENCIES__ } = await init();
 export default __MODULE_NAME__;

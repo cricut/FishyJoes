@@ -236,7 +236,7 @@ extension CodeGen {
                         "Sources/Generated/NodeInterface/\(config.module).d.ts",
                         platform.outputDir
                     ).run()
-                    let dependencySplat = config.requiredModules.map { "\($0), " }.joined()
+                    let dependencySplat = config.requiredModules.map { ", \($0)" }.joined()
                     try cmd(
                         "sed",
                         "-e", "s/__MODULE_NAME__/\(config.module)/g",
