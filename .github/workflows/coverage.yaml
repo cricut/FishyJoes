@@ -15,7 +15,7 @@ concurrency:
 
 jobs:
   coverage:
-    runs-on: macOS-12
+    runs-on: [macOS, sojo]
     env:
       JDK_VERSION: 11
       GRADLE_OPTS: -Dorg.gradle.daemon=false
