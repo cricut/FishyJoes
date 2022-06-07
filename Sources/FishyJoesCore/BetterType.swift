@@ -169,4 +169,13 @@ extension BetterType {
             return false
         }
     }
+
+    var mangledName: String {
+        // Not a good or reversible mangling, but hopefully good enough
+        let lowercase = CharacterSet(charactersIn: "a"..."z")
+        let uppercase = CharacterSet(charactersIn: "A"..."Z")
+        let digits = CharacterSet(charactersIn: "0"..."9")
+        let invalidCharacters = lowercase.union(uppercase).union(digits).inverted
+        return name.components(separatedBy: invalidCharacters).joined(separator: "_")
+    }
 }

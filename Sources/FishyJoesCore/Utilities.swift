@@ -4,6 +4,11 @@ extension Optional {
     var asArray: [Wrapped] { map { [$0] } ?? [] }
 }
 
+func debug(file: StaticString = #file, line: UInt = #line, _ msgs: Any? ...) {
+    let message = "\(file):\(line): " + msgs.map { "\($0 ?? "<null>")" }.joined(separator: " ") + "\n"
+    _ = message.withCString { fputs($0, stderr) }
+}
+
 infix operator ||=
 func ||= (left: inout Bool, right: Bool) { left = left || right }
 
@@ -29,11 +34,6 @@ extension FileHandle: TextOutputStream {
         let data = Data(string.utf8)
         self.write(data)
     }
-}
-
-func debug(file: StaticString = #file, line: UInt = #line, _ msgs: Any? ...) {
-    var errorHandle = FileHandle.standardError
-    print("\(file):\(line): " + msgs.map { "\($0 ?? "<null>")" }.joined(separator: " "), to: &errorHandle)
 }
 
 func snakify<S: StringProtocol>(_ camel: S) -> String {

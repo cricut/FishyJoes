@@ -30,6 +30,11 @@ let package = Package(
                 type: .dynamic,
                 targets: ["TestAPI_CSharpInterface"]
             ),
+            .library(
+                name: "TestAPI-dart",
+                type: .dynamic,
+                targets: ["TestAPI_DartInterface"]
+            ),
         ]
     ),
     dependencies: [
@@ -73,6 +78,14 @@ let package = Package(
                 ],
                 path: "Sources/Generated/CSharpInterface"
             ),
+             .target(
+                 name: "TestAPI_DartInterface",
+                 dependencies: [
+                     .product(name: "TestAPI", package: "TestAPI"),
+                     .product(name: "FishyJoesDartRuntime", package: "FishyJoes"),
+                 ],
+                 path: "Sources/Generated/DartInterface"
+             ),
         ]
     )
 )

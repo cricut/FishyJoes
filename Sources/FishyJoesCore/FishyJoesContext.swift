@@ -29,6 +29,7 @@ public class FishyJoesContext {
     let cSharpTranslator = CSharpTranslator()
     let cppTranslator = CPPTranslate()
     let neutralTranslator = NeutralTranslate()
+    let dartTranslator = DartTranslator()
 
     lazy var translators: [Translator] = [
         nodeTranslator,
@@ -36,6 +37,7 @@ public class FishyJoesContext {
         cSharpTranslator,
         cppTranslator,
         // neutralTranslator,
+        dartTranslator,
     ]
 
     public init(context: TemplateContext) {

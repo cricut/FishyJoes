@@ -40,6 +40,7 @@ let package = Package(
             P.library(name: "FishyJoesCSharpRuntime", type: .dynamic, targets: ["FishyJoesCSharpRuntime"]),
             P.library(name: "FishyJoesCPPRuntime", targets: ["FishyJoesCPPRuntime"]),
             P.library(name: "JavaRuntimeTestHarness", type: .dynamic, targets: ["JavaRuntimeTestHarness"]),
+            P.library(name: "FishyJoesDartRuntime", type: .dynamic, targets: ["FishyJoesDartRuntime"]),
             P.executable(name: "fishy-joes", targets: ["FishyJoesExecuteMain"]),
         ]
     ) + generationEnabled(
@@ -64,6 +65,7 @@ let package = Package(
     targets: [
         T.systemLibrary(name: "NodeAPI"),
         T.systemLibrary(name: "JNI"),
+        T.target(name: "DartAPI"),
         T.target(name: "FishyJoesCommonRuntime"),
         T.target(
             name: "FishyJoesJavaRuntime",
@@ -93,6 +95,13 @@ let package = Package(
         T.target(
             name: "FishyJoesCSharpRuntime",
             dependencies: [
+                .target(name: "FishyJoesCommonRuntime"),
+            ]
+        ),
+        T.target(
+            name: "FishyJoesDartRuntime",
+            dependencies: [
+                .target(name: "DartAPI"),
                 .target(name: "FishyJoesCommonRuntime"),
             ]
         ),

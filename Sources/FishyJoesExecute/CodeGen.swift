@@ -156,6 +156,7 @@ extension CodeGen {
                     "Sources/Generated/NodeInterface",
                     "Sources/Generated/JavaInterface",
                     "Sources/Generated/CPPInterface",
+                    "Sources/Generated/DartInterface",
                     "kotlin/src/generated/kotlin/com/cricut/\(config.module.lowercased())"
             ).run()
             try cmd(
@@ -163,7 +164,8 @@ extension CodeGen {
                 "Sources/Generated/CSharpInterface/EmptyPlaceholder.swift",
                 "Sources/Generated/NodeInterface/EmptyPlaceholder.swift",
                 "Sources/Generated/JavaInterface/EmptyPlaceholder.swift",
-                "Sources/Generated/CPPInterface/EmptyPlaceholder.swift"
+                "Sources/Generated/CPPInterface/EmptyPlaceholder.swift",
+                "Sources/Generated/DartInterface/EmptyPlaceholder.swift"
             ).run()
             try cmd("swift", "build", "--product", "sourcery").run()
             try cmd("swift", arguments: ["build"] + (codeCoveragePath == nil ? [] : ["--enable-code-coverage"]) + ["--product", "🐟☕️"]).run()
@@ -306,9 +308,9 @@ extension CodeGen {
                     }
 
                 case .node:
-                    try cmd("cp", "\(platform.buildDir(debug: debug))/libFishyJoesNodeRuntime.\(dylibExt)", "\(outputDir)/").run()
+                    try cmd("cp", "\(platform.buildDir(debug: debug))/\(platform.dylibName(for: "FishyJoesNodeRuntime"))", "\(outputDir)/").run()
                     for dependency in config.requiredModules + [config.module] {
-                        try cmd("cp", "\(platform.buildDir(debug: debug))/lib\(dependency).\(dylibExt)", "\(outputDir)/").run()
+                        try cmd("cp", "\(platform.buildDir(debug: debug))/\(platform.dylibName(for: dependency))", "\(outputDir)/").run()
 
                         // For node to load a library correctly, the file must be ".cjs.node" and not a symlink
                         // But for the linker to find required libraries, they need their original names.
@@ -332,23 +334,20 @@ extension CodeGen {
                     }
                     moduleDotJS.append("export default \(config.module);")
                     try cmd("echo", moduleDotJS.joined(separator: "\n")).output(overwritingFile: "\(outputDir)/\(config.module).js").run()
-                case .kotlinSystem:
+                case .kotlinSystem, .kotlinAndroid:
                     try cmd("mkdir", "-p", outputDir).run()
-                    try cmd("cp", "\(platform.buildDir(debug: debug))/lib\(config.module).\(dylibExt)", outputDir).run()
-                    try cmd("cp", "\(platform.buildDir(debug: debug))/lib\(config.module)-java.\(dylibExt)", outputDir).run()
-                case .kotlinAndroid:
-                    try cmd("mkdir", "-p", outputDir).run()
-                    try cmd("cp", "\(platform.buildDir(debug: debug))/lib\(config.module).so", outputDir).run()
-                    try cmd("cp", "\(platform.buildDir(debug: debug))/lib\(config.module)-java.so", outputDir).run()
+                    try cmd("cp", platform.dylibPath(for: config.module, configuration: configuration), outputDir).run()
+                    try cmd("cp", platform.dylibPath(for: config.module + "-java", configuration: configuration), outputDir).run()
                 case .cpp:
                     try cmd("mkdir", "-p", outputDir).run()
                 case .cSharp:
                     try cmd("mkdir", "-p", outputDir).run()
-                    try cmd("cp", "\(platform.buildDir(debug: debug))/lib\(config.module).\(dylibExt)", outputDir).run()
-                    try cmd("cp", "\(platform.buildDir(debug: debug))/lib\(config.module)-c-sharp.\(dylibExt)", outputDir).run()
+                    try cmd("cp", platform.dylibPath(for: config.module, configuration: configuration), outputDir).run()
+                    try cmd("cp", platform.dylibPath(for: config.module + "-c-sharp", configuration: configuration), outputDir).run()
                 case .dartSystem:
-                    try cmd("mkdir", "-p", platform.outputDir).run()
-                    try cmd("cp", platform.dylibPath(for: "\(config.module)-dart", configuration: configuration), platform.outputDir).run()
+                    try cmd("mkdir", "-p", outputDir).run()
+                    try cmd("cp", platform.dylibPath(for: config.module, configuration: configuration), outputDir).run()
+                    try cmd("cp", platform.dylibPath(for: config.module + "-dart", configuration: configuration), outputDir).run()
                 }
             }
             if platforms.contains(.kotlinSystem) {
