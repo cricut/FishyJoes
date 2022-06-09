@@ -306,19 +306,19 @@ extension CodeGen {
             switch platform {
             case .wasm, .node:
                 if let version = version {
-                    // MARK: generate package.json
+                    // MARK: generate package.json from template
                     let packageJsonPath = "\(platform.outputDir)/package.json"
                     let prettyEncoder = JSONEncoder()
                     prettyEncoder.outputFormatting = [
                         .prettyPrinted,
                         .withoutEscapingSlashes
                     ]
-                    let selfPackage = try cmd("cat", "package.json").runJSON(NPMPackage.self)
+                    let templatePackage = try cmd("cat", "package.template.json").runJSON(NPMPackage.self)
                     let package = NPMPackage(
                         config: config,
                         platform: platform,
                         version: version,
-                        dependencies: selfPackage.dependencies
+                        dependencies: templatePackage.dependencies
                     )
                     try cmd("cat")
                         .inputJSON(from: package, encoder: prettyEncoder)
@@ -345,14 +345,10 @@ extension CodeGen {
                 } ?? [:]
                 switch platform {
                 case .wasm, .node:
-                    try cmd("mkdir", "-p", "output/test/").run()
-
-                    try cmd("echo", "const MODULE_PATH = '../\(platform.platform)';").output(overwritingFile: "output/test/test.ts").run()
-                    try cmd("cat", "node-test/test.ts").append(toFile: "output/test/test.ts").run()
-
-                    try cmd("npm", "run", "compile-test").run()
-                    try cmd("mv", "output/test/test.js", "output/test/test.mjs").run()
-                    try cmd("node", "--expose-gc", "--unhandled-rejections=strict", "output/test/test.mjs", addEnv: env).run()
+                    try FileManager.default.withCurrentDirectoryPath("node-test") {
+                        try cmd("npm", "install").run()
+                        try cmd("npm", "run", "test-\(platform.platform)").run()
+                    }
                 case .kotlinSystem:
                     try FileManager.default.withCurrentDirectoryPath("kotlin") {
                         let tasks = ["cleanTest", "test"] + (codeCoveragePath == nil ? [] : ["jacocoTestReport"])
