@@ -7,6 +7,7 @@
     "test": "npm run test-wasm && npm run test-node-native-macos",
     "test-wasm": "node --experimental-vm-modules node_modules/jest/bin/jest.js --runInBand -c jest.config.wasm.cjs",
     "test-node-native-macos": "node --experimental-vm-modules node_modules/jest/bin/jest.js --runInBand -c jest.config.native-macos.cjs",
+    "test-node-native-ubuntu": "node --experimental-vm-modules node_modules/jest/bin/jest.js --runInBand -c jest.config.native-ubuntu.cjs",
     "clearCache": "node node_modules/jest/bin/jest.js --clearCache"
   },
   "devDependencies": {
