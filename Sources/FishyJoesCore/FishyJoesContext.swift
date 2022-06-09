@@ -137,7 +137,11 @@ public class FishyJoesContext {
 
         for classObj in sortedCppClasses {
             if let parent = classObj.parentQualifiedName {
-                cppClasses[parent]!.innerClasses.append(classObj)
+                guard let parentClass = cppClasses[parent] else {
+                    // TODO: this actually happens in CriText. Should be dealt with properly
+                    continue
+                }
+                parentClass.innerClasses.append(classObj)
             }
         }
 
