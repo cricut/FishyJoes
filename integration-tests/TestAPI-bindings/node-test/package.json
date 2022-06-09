@@ -1,0 +1,25 @@
+{
+  "name": "testapi-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "node --experimental-vm-modules --experimental-wasm-modules node_modules/jest/bin/jest.js --runInBand",
+    "clearCache": "node --experimental-vm-modules --experimental-wasm-modules node_modules/jest/bin/jest.js --clearCache"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.18.2",
+    "@types/jest": "^28.1.1",
+    "jest": "^28.1.1",
+    "ts-jest": "^28.0.4"
+  },
+  "type": "module",
+  "dependencies": {
+    "@cricut/testapi-wasm": "file:../output/wasm",
+    "@wasmer/wasi": "^0.12.0",
+    "@wasmer/wasmfs": "^0.12.0",
+    "buffer": "^5.7.1",
+    "process": "^0.11.10",
+    "util": "^0.11.1"
+  }
+}
