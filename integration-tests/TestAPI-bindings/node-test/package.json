@@ -8,7 +8,7 @@
     "test-wasm": "node --experimental-vm-modules node_modules/jest/bin/jest.js --runInBand -c jest.config.wasm.cjs",
     "test-node-native-macos": "node --experimental-vm-modules node_modules/jest/bin/jest.js --runInBand -c jest.config.native-macos.cjs",
     "test-node-native-ubuntu": "node --experimental-vm-modules node_modules/jest/bin/jest.js --runInBand -c jest.config.native-ubuntu.cjs",
-    "clearCache": "node node_modules/jest/bin/jest.js --clearCache"
+    "clear-cache": "node node_modules/jest/bin/jest.js --clear-cache"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.18.2",
@@ -19,7 +19,8 @@
   "type": "module",
   "optionalDependencies": {
     "@cricut/testapi-wasm": "file:../output/wasm",
-    "@cricut/testapi-native-macos": "file:../output/node-native-macos"
+    "@cricut/testapi-native-macos": "file:../output/node-native-macos",
+    "@cricut/testapi-native-ubuntu": "file:../output/node-native-ubuntu"
   },
   "dependencies": {
     "@wasmer/wasi": "^0.12.0",

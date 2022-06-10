@@ -347,6 +347,7 @@ extension CodeGen {
                 case .wasm, .node:
                     try FileManager.default.withCurrentDirectoryPath("node-test") {
                         try cmd("npm", "install").run()
+                        try cmd("npm", "run", "clear-cache").run()
                         try cmd("npm", "run", "test-\(platform.platform)").run()
                     }
                 case .kotlinSystem:
