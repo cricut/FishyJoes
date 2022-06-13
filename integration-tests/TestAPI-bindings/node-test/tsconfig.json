@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "noImplicitAny": true,
+    "strict": true,
+    "target": "es2017",
+    "paths": {
+      "TestAPI": ["../Sources/Generated/NodeInterface/TestAPI.d.ts"]
+    }
+  }
+}

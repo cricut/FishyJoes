@@ -1,0 +1,32 @@
+{
+  "name": "testapi-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run test-wasm && npm run test-node-native-macos",
+    "test-wasm": "node --experimental-vm-modules node_modules/jest/bin/jest.js --run-in-band --detect-open-handles --force-exit --debug --no-watchman -c jest.config.wasm.cjs",
+    "test-node-native-macos": "node --experimental-vm-modules node_modules/jest/bin/jest.js --run-in-band --detect-open-handles --force-exit --debug --no-watchman -c jest.config.native-macos.cjs",
+    "test-node-native-ubuntu": "node --experimental-vm-modules node_modules/jest/bin/jest.js --run-in-band --detect-open-handles --force-exit --debug --no-watchman -c jest.config.native-ubuntu.cjs",
+    "clear-cache": "node node_modules/jest/bin/jest.js --clear-cache"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.18.2",
+    "@types/jest": "^28.1.1",
+    "jest": "^28.1.1",
+    "ts-jest": "^28.0.4"
+  },
+  "type": "module",
+  "optionalDependencies": {
+    "@cricut/testapi-wasm": "file:../output/wasm",
+    "@cricut/testapi-native-macos": "file:../output/node-native-macos",
+    "@cricut/testapi-native-ubuntu": "file:../output/node-native-ubuntu"
+  },
+  "dependencies": {
+    "@wasmer/wasi": "^0.12.0",
+    "@wasmer/wasmfs": "^0.12.0",
+    "buffer": "^5.7.1",
+    "process": "^0.11.10",
+    "util": "^0.11.1"
+  }
+}

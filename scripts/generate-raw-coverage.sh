@@ -54,8 +54,8 @@ cp .build/debug/libFishyJoesJavaRuntime.dylib $libdir
 # Check that generation didn't change anything
 if [ ! -z "$(cd integration-tests/TestAPI-Bindings; git status --porcelain .)" ]; then
     # fail CI, but keep going
-    echo "::error:: generation modified sources, coverage won't match with commited files"
-    echo "::error::   run `swift run fishy-joes generate` from integration-tests/TestAPI-Bindings and re-commit"
+    echo '::error:: generation modified sources, coverage won'\''t match with commited files'
+    echo '::error::   run `swift run fishy-joes generate` from integration-tests/TestAPI-Bindings and re-commit'
     git status
     exit 1
 fi

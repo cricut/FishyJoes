@@ -14,3 +14,4 @@ node_modules
 .gradle
 local.properties
 Package.resolved
+package-lock.json
