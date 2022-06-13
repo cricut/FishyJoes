@@ -5,7 +5,7 @@
     "strict": true,
     "target": "es2017",
     "paths": {
-      "TestAPI": ["../output/wasm/TestAPI.d.ts"]
+      "TestAPI": ["../Sources/Generated/NodeInterface/TestAPI.d.ts"]
     }
   }
 }
