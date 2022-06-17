@@ -1,7 +1,7 @@
 // swift-tools-version:5.3
 
-import PackageDescription
 import Foundation
+import PackageDescription
 
 let wasmCompatibleOnly = ProcessInfo.processInfo.environment["WASM_ONLY"] == "1"
 
@@ -13,18 +13,20 @@ let package = Package(
             name: "TestAPI-wasm",
             targets: ["TestAPI_NodeInterface"]
         ),
-    ] + (wasmCompatibleOnly ? [] : [
-             .library(
-                 name: "TestAPI-node",
-                 type: .dynamic,
-                 targets: ["TestAPI_NodeInterface"]
-             ),
-             .library(
-                 name: "TestAPI-java",
-                 type: .dynamic,
-                 targets: ["TestAPI_JavaInterface"]
-             )
-         ]),
+    ] + (
+        wasmCompatibleOnly ? [] : [
+            .library(
+                name: "TestAPI-node",
+                type: .dynamic,
+                targets: ["TestAPI_NodeInterface"]
+            ),
+            .library(
+                name: "TestAPI-java",
+                type: .dynamic,
+                targets: ["TestAPI_JavaInterface"]
+            )
+        ]
+    ),
     dependencies: [
         .package(path: "../TestAPI"),
         .package(name: "FishyJoes", path: "../.."),

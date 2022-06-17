@@ -1,7 +1,7 @@
 // swift-tools-version:5.3
 
-import PackageDescription
 import Foundation
+import PackageDescription
 
 let wasmCompatibleOnly = ProcessInfo.processInfo.environment["WASM_ONLY"] == "1"
 
@@ -16,18 +16,20 @@ let package = Package(
             name: "__MODULE_NAME__-wasm",
             targets: ["__MODULE_NAME___NodeInterface"]
         ),
-    ] + (wasmCompatibleOnly ? [] : [
-             .library(
-                 name: "__MODULE_NAME__-node",
-                 type: .dynamic,
-                 targets: ["__MODULE_NAME___NodeInterface"]
-             ),
-             .library(
-                 name: "__MODULE_NAME__-java",
-                 type: .dynamic,
-                 targets: ["__MODULE_NAME___JavaInterface"]
-             )
-         ]),
+    ] + (
+        wasmCompatibleOnly ? [] : [
+            .library(
+                name: "__MODULE_NAME__-node",
+                type: .dynamic,
+                targets: ["__MODULE_NAME___NodeInterface"]
+            ),
+            .library(
+                name: "__MODULE_NAME__-java",
+                type: .dynamic,
+                targets: ["__MODULE_NAME___JavaInterface"]
+            )
+        ]
+    ),
     dependencies: [
         .package(
             // url: "https://github.com/cricut/__MODULE_NAME__", .exact("__MODULE_VERSION__")
