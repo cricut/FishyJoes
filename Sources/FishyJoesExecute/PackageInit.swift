@@ -72,11 +72,9 @@ public struct PackageInit: ParsableCommand {
         }
     }
 
-
     func join(lines: [String], indent: Int) -> String {
         lines.map { "\n\(String(repeating: " ", count: indent))\($0)" }.joined()
     }
-
 
     func processString(_ input: String) -> String {
         var string = input
@@ -123,7 +121,6 @@ public struct PackageInit: ParsableCommand {
             of: "__REGISTER_DEPENDENCIES__",
             with: join(lines: registerDependencyLines, indent: 8)
         )
-
 
         return string
     }
