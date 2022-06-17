@@ -72,6 +72,12 @@ public struct PackageInit: ParsableCommand {
         }
     }
 
+
+    func join(lines: [String], indent: Int) -> String {
+        lines.map { "\n\(String(repeating: " ", count: indent))\($0)" }.joined()
+    }
+
+
     func processString(_ input: String) -> String {
         var string = input
         string = string.replacingOccurrences(of: "__MODULE_NAME__", with: config.module)
@@ -89,31 +95,35 @@ public struct PackageInit: ParsableCommand {
                 "),",
             ]
         }
-
-        let nodeDependencyLines = config.requiredModules.map { dependency in
-            ".product(name: wasmCompatibleOnly ? \"\(dependency)-wasm\" : \"\(dependency)-node\", package: \"\(dependency)-bindings\"),"
-        }
-
-        let javaDependencyLines = config.requiredModules.map { dependency in
-            ".product(name: \"\(dependency)-java\", package: \"\(dependency)-bindings\"),"
-        }
-
-        func join(lines: [String], indent: Int) -> String {
-            lines.map { "\n\(String(repeating: " ", count: indent))\($0)" }.joined()
-        }
-
         string = string.replacingOccurrences(
             of: "__PACKAGE_DEPENDENCY_DECLARATIONS__",
             with: join(lines: packageDependencyLines, indent: 8)
         )
+
+        let nodeDependencyLines = config.requiredModules.map { dependency in
+            ".product(name: wasmCompatibleOnly ? \"\(dependency)-wasm\" : \"\(dependency)-node\", package: \"\(dependency)-bindings\"),"
+        }
         string = string.replacingOccurrences(
             of: "__NODE_TARGET_DEPENDENCIES__",
             with: join(lines: nodeDependencyLines, indent: 16)
         )
+
+        let javaDependencyLines = config.requiredModules.map { dependency in
+            ".product(name: \"\(dependency)-java\", package: \"\(dependency)-bindings\"),"
+        }
         string = string.replacingOccurrences(
             of: "__JAVA_TARGET_DEPENDENCIES__",
             with: join(lines: javaDependencyLines, indent: 20)
         )
+
+        let registerDependencyLines = (config.requiredModules + [config.module]).map { dependency in
+            "exports = try registerModule\(dependency)(env: env, exports: exports)"
+        }
+        string = string.replacingOccurrences(
+            of: "__REGISTER_DEPENDENCIES__",
+            with: join(lines: registerDependencyLines, indent: 8)
+        )
+
 
         return string
     }
