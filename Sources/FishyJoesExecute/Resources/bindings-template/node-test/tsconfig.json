@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "noImplicitAny": true,
+    "strict": true,
+    "target": "es2017",
+    "paths": {
+      "__MODULE_NAME__": ["../Sources/Generated/NodeInterface/__MODULE_NAME__.d.ts"]
+    }
+  }
+}
