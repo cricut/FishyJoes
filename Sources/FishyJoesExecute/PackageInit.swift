@@ -4,15 +4,14 @@ import swsh
 import Yams
 
 public struct PackageInit: ParsableCommand {
-    @Flag()
+    @Flag(help: "continue with generation, even if not in a clean git state")
     var force = false
 
     var config: FishyJoesConfig!
 
     struct Error: Swift.Error {}
 
-    public init() {
-    }
+    public init() {}
 
     public mutating func run() throws {
         ExternalCommand.verbose = true
@@ -76,6 +75,7 @@ public struct PackageInit: ParsableCommand {
         lines.map { "\n\(String(repeating: " ", count: indent))\($0)" }.joined()
     }
 
+    // Fill in templates for both filenames and file contents
     func processString(_ input: String) -> String {
         var string = input
         string = string.replacingOccurrences(of: "__MODULE_NAME__", with: config.module)
