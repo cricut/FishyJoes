@@ -19,13 +19,37 @@ Generates bindings for (some) swift library code that can be called from TypeScr
 
 [![FishyJoesCore](https://lucid.app/publicSegments/view/8d45425b-0134-4142-adb0-ac1bf4c0d50f/image.png)](https://lucid.app/lucidchart/cac16522-9201-4b7d-9c23-1ad5bc83c8b5/edit)
 
-## Usage
+## Updating fishyjoes
+
+Update `fishyJoesVersion` in Package.swift.
+
+To see if there are difference in how FishyJoes expects the bindings repository to be structured, commit/stash any changes and run
+```
+swift run fishy-joes package-init
+git diff
+```
+
+These are recommendations only, take or leave the changes.
+
+## Updating exported library
+
+0. Update version in Package.swift
+
+1. `swift run fishy-joes generate`
+
+2. (optional) Test locally. See pre-requisites in next section, then
+
+```
+swift run fishy-joes build test --wasm --nodejs --kotlin-fast
+```
+
+## Starting a new bindings repo
 
 0. prerequesites (macOS):
 
-Install openjdk:
+Install openjdk and mint:
 ```
-brew install openjdk@11
+brew install openjdk@11 mint
 ```
 
 Install swift-wasm toolchain:
@@ -41,27 +65,13 @@ sudo mkdir -p /Library/Developer/Toolchains
 sudo tar -xf swift-android-toolchain.tar.gz -C /Library/Developer/Toolchains/
 ```
 
-1. Clone a template repo named e.g. "YourModule-bindings" if generating for a repo named "YourModule" from https://github.com/cricut/FishyJoes-bindings-template
+1. In a new git repository, named `YourAwesomeLibrary-bindings`:
+```
+mint run --executable fishy-joes cricut/FishyJoes package-init
+```
+Fill in a few details about the swift target and bindings repo when asked
 
-rename directory `kotlin/src/test/kotlin/com/cricut/__MODULE_NAME__BUT_LOWERCASED_BECAUSE_THAT_IS_JAVA_CONVENTION_APPRENTLY__` to your lowercase module name, e.g. yourmodule
-
-replace occurances of string `__MODULE_NAME__BUT_LOWERCASED_BECAUSE_THAT_IS_JAVA_CONVENTION_APPRENTLY__` with the same, lowercased name in
- - kotlin/gradle.properties
- - kotlin/src/test/kotlin/com/cricut/{newname}/TestsGoHere.kt
-
-replace `__MODULE_NAME__` with your repo name (e.g. "YourModule") in the following files:
- - node-test/test.ts
- - kotlin/build.gradle.kts
- - package.json
- - Package.swift
- - fishy-joes.yaml
-
-replace `__MODULE_VERSION__` with the version of the swift package you want to export in:
- - Package.swift
-
-2. Run `npm install`
-
-3. Annotate swift source symbols that you want exported. e.g.
+2. Annotate swift source symbols that you want exported. e.g.
 ```swift
 /// <!-- FishyJoes.exportReference(Foo) -->
 public struct Foo {
@@ -72,18 +82,16 @@ public struct Foo {
 }
 ```
 
-4. Modify the test file at `node-test/test.ts` to exercise your library in typescript
+3. Modify/create the test files at `node-test/*.test.ts` to exercise your library in typescript
 
-5. generate, build and test!
+4. generate, build and test!
 `swift run fishy-joes --wasm --nodejs generate build test`
 
-6. Modify and probably rename the test file `TestsGoHere.kt` to exercise your library in kotlin
+5. Modify and probably rename the test files in `kotlin/src/test/**/*.kt` to exercise your library in kotlin
 
-7. generate, build and test!
+6. generate, build and test!
 `swift run fishy-joes --kotlin-fast generate build test`
 
-8. Publish!
-
+7. Publish!
 
 [Tutorial by Matt](https://cricut-my.sharepoint.com/personal/mstoker_cricut_com/_layouts/15/onedrive.aspx?id=%2Fpersonal%2Fmstoker%5Fcricut%5Fcom%2FDocuments%2FRecordings%2FClient%20Enablement%20Demos%2D20220505%5F145944%2DMeeting%20Recording%2Emp4&parent=%2Fpersonal%2Fmstoker%5Fcricut%5Fcom%2FDocuments%2FRecordings&ga=1)
-
