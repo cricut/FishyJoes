@@ -1,7 +1,7 @@
 // swift-tools-version:5.3
 
-import PackageDescription
 import Foundation
+import PackageDescription
 
 let wasmCompatibleOnly = ProcessInfo.processInfo.environment["WASM_ONLY"] == "1"
 
@@ -11,27 +11,29 @@ let package = Package(
     products: [
         .library(
             name: "TestAPI-wasm",
-            targets: ["NodeInterface"]
+            targets: ["TestAPI_NodeInterface"]
         ),
-    ] + (wasmCompatibleOnly ? [] : [
-             .library(
-                 name: "TestAPI-node",
-                 type: .dynamic,
-                 targets: ["NodeInterface"]
-             ),
-             .library(
-                 name: "TestAPI-java",
-                 type: .dynamic,
-                 targets: ["JavaInterface"]
-             )
-         ]),
+    ] + (
+        wasmCompatibleOnly ? [] : [
+            .library(
+                name: "TestAPI-node",
+                type: .dynamic,
+                targets: ["TestAPI_NodeInterface"]
+            ),
+            .library(
+                name: "TestAPI-java",
+                type: .dynamic,
+                targets: ["TestAPI_JavaInterface"]
+            )
+        ]
+    ),
     dependencies: [
         .package(path: "../TestAPI"),
         .package(name: "FishyJoes", path: "../.."),
     ],
     targets: [
         .target(
-            name: "NodeInterface",
+            name: "TestAPI_NodeInterface",
             dependencies: [
                 .product(name: "TestAPI", package: "TestAPI"),
                 .product(name: "FishyJoesNodeRuntime", package: "FishyJoes"),
@@ -41,28 +43,26 @@ let package = Package(
                 .copy("TestAPI.d.ts"),
             ]
         ),
-    ] + (wasmCompatibleOnly ? [
-             .target(
-                 name: "DummyMain",
-                 dependencies: [
-                     "NodeInterface",
-                 ]
-             ),
-         ] : [
-             .target(
-                 name: "JavaInterface",
-                 dependencies: [
-                     .product(name: "TestAPI", package: "TestAPI"),
-                     .product(name: "FishyJoesJavaRuntime", package: "FishyJoes"),
-                 ],
-                 path: "Sources/Generated/JavaInterface",
-                 resources: [
-                     .copy("TestAPI.d.ts"),
-                 ],
-                 linkerSettings: [
-                     .unsafeFlags(["-Xlinker", "--export=napi_register_module_v1"], .when(platforms: [.wasi])),
-                 ]
-             ),
-         ]
+    ] + (
+        wasmCompatibleOnly ? [
+            .target(
+                name: "DummyMain",
+                dependencies: [
+                    "TestAPI_NodeInterface",
+                ]
+            ),
+        ] : [
+            .target(
+                name: "TestAPI_JavaInterface",
+                dependencies: [
+                    .product(name: "TestAPI", package: "TestAPI"),
+                    .product(name: "FishyJoesJavaRuntime", package: "FishyJoes"),
+                ],
+                path: "Sources/Generated/JavaInterface",
+                linkerSettings: [
+                    .unsafeFlags(["-Xlinker", "--export=napi_register_module_v1"], .when(platforms: [.wasi])),
+                ]
+            ),
+        ]
     )
 )

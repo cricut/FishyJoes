@@ -4,6 +4,9 @@ included:
     - ./integration-tests/TestAPI/Sources
     - ./integration-tests/TestAPI-bindings/Sources
 
+excluded:
+    - ./Sources/FishyJoesExecute/Resources
+
 opt_in_rules:
     - anyobject_protocol
     - array_init
