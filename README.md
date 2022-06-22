@@ -47,9 +47,9 @@ swift run fishy-joes build test --wasm --nodejs --kotlin-fast
 
 0. prerequesites (macOS):
 
-Install openjdk and mint:
+Install openjdk, mint, and npm:
 ```
-brew install openjdk@11 mint
+brew install openjdk@11 mint npm
 ```
 
 Install swift-wasm toolchain:

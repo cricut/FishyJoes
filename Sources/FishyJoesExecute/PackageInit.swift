@@ -4,6 +4,8 @@ import swsh
 import Yams
 
 public struct PackageInit: ParsableCommand {
+    public static var configuration = CommandConfiguration(abstract: "create/update the recommended files for a bindings repo in the current directory")
+
     @Flag(help: "continue with generation, even if not in a clean git state")
     var force = false
 
