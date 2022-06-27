@@ -887,9 +887,9 @@ export declare namespace TestAPI {
     }
 
     export type AssociatedDataEnum = AssociatedDataEnum.Thing | AssociatedDataEnum.Other | AssociatedDataEnum.Bar;
-    export type EmptyEnum = ;
+    export type EmptyEnum = never;
     export type SimpleEnum = "red" | "green" | "blue";
-    export type Tuples = ;
+    export type Tuples = never;
 
     export namespace AssociatedDataEnum {
         class _FictionalCommonSuperclass {
