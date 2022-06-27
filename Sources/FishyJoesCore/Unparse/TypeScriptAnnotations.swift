@@ -92,7 +92,7 @@ extension TypeScriptAnnotations.TSType: CustomStringConvertible {
         case let .optional(wrapped):
             return "Optional<\(wrapped)>"
         case let .union(types):
-            return types.map(\.description).joined(separator: " | ")
+            return types.isEmpty ? "never" : types.map(\.description).joined(separator: " | ")
         case let .exactString(string):
             return "\"\(string)\""
         }
