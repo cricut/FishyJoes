@@ -30,32 +30,32 @@ object LibraryLoader {
         // Figure out which version of the library to grab
         val osName = System.getProperty("os.name")
 
-        val jarPath: String
+        val pathInJar: String
         val prefix: String
         val ext: String
 
         if (osName.contains("Linux")) {
-            jarPath = "/linux/lib$libraryName.so"
+            pathInJar = "/linux/lib$libraryName.so"
             prefix = "lib"
             ext = "so"
         } else if (osName.contains("Mac")) {
-            jarPath = "/mac/lib$libraryName.dylib"
+            pathInJar = "/mac/lib$libraryName.dylib"
             prefix = "lib"
             ext = "dylib"
         } else if (osName.contains("Windows")) {
-            jarPath = "/windows/$libraryName.dll"
+            pathInJar = "/windows/$libraryName.dll"
             prefix = ""
             ext = "dll"
         } else {
             error("$libraryName unsupported OS: $osName")
         }
-        return extractLibraryFromJar(javaClass, jarPath, "$prefix$libraryName.$ext")
+        return extractLibraryFromJar(javaClass, pathInJar, "$prefix$libraryName.$ext")
     }
 
-    private fun <T> extractLibraryFromJar(relativeClass: Class<T>, jarPath: String, outFileName: String): File {
+    private fun <T> extractLibraryFromJar(relativeClass: Class<T>, pathInJar: String, outFileName: String): File {
         // Extract dynamic library from jar to temporary file
-        val stream = relativeClass.getResourceAsStream(jarPath)
-            ?: error("couldn't find $jarPath")
+        val stream = relativeClass.getResourceAsStream(pathInJar)
+            ?: error("couldn't find $pathInJar")
         val file = libDirectory.value.resolve(outFileName).toFile()
         file.deleteOnExit()
         val out = BufferedOutputStream(FileOutputStream(file))
@@ -78,8 +78,7 @@ object LibraryLoader {
         val osName = System.getProperty("os.name")
         val vendor = System.getProperty("java.vendor")
 
-        if (vendor.contains("Android"))
-        {
+        if (vendor.contains("Android")) {
             // android libraries are loaded differently
             System.loadLibrary(libraryName)
             return
@@ -107,13 +106,13 @@ object LibraryLoader {
         val stdlibLibraries = SwiftStdlib.javaClass.getResource("/linux/stdlib.txt")!!
             .readText()
             .split('\n')
-            .filter { !it.isEmpty() }
+            .filter { it.isNotEmpty() }
 
         for (lib in stdlibLibraries) {
             // TODO: put back in this code once we have correct symlinks in place
 //            if (lib.endsWith(".so")) {
-                // copy file
-                extractLibraryFromJar(SwiftStdlib.javaClass, "/linux/$lib", lib)
+//                // copy file
+            extractLibraryFromJar(SwiftStdlib.javaClass, "/linux/$lib", lib)
 //            }
         }
 //        for (lib in stdlibLibraries) {
