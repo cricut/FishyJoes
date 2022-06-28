@@ -5,7 +5,6 @@ import java.io.File
 import java.io.FileOutputStream
 import java.nio.file.Files
 import com.cricut.androidswiftruntime.SwiftStdlib
-import kotlin.io.path.Path
 
 object LibraryLoader {
     private var startedLoad = mutableSetOf<String>()
@@ -50,12 +49,12 @@ object LibraryLoader {
         } else {
             error("$libraryName unsupported OS: $osName")
         }
-        return extractLibraryFromJar(jarPath, "$prefix$libraryName.$ext")
+        return extractLibraryFromJar(javaClass, jarPath, "$prefix$libraryName.$ext")
     }
 
-    private fun extractLibraryFromJar(jarPath: String, outFileName: String): File {
+    private fun <T> extractLibraryFromJar(relativeClass: Class<T>, jarPath: String, outFileName: String): File {
         // Extract dynamic library from jar to temporary file
-        val stream = javaClass.getResourceAsStream(jarPath)
+        val stream = relativeClass.getResourceAsStream(jarPath)
             ?: error("couldn't find $jarPath")
         val file = libDirectory.value.resolve(outFileName).toFile()
         file.deleteOnExit()
@@ -114,7 +113,7 @@ object LibraryLoader {
             // TODO: put back in this code once we have correct symlinks in place
 //            if (lib.endsWith(".so")) {
                 // copy file
-                extractLibraryFromJar("/linux/$lib", lib)
+                extractLibraryFromJar(SwiftStdlib.javaClass, "/linux/$lib", lib)
 //            }
         }
 //        for (lib in stdlibLibraries) {
