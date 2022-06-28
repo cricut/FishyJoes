@@ -62,8 +62,7 @@ object LibraryLoader {
         val out = BufferedOutputStream(FileOutputStream(file))
 
         val buf = ByteArray(8 * 1024)
-        while (true)
-        {
+        while (true) {
             val length = stream.read(buf)
             if (length <= 0) {
                 break
@@ -112,6 +111,7 @@ object LibraryLoader {
             .filter { !it.isEmpty() }
 
         for (lib in stdlibLibraries) {
+            // TODO: put back in this code once we have correct symlinks in place
 //            if (lib.endsWith(".so")) {
                 // copy file
                 extractLibraryFromJar("/linux/$lib", lib)
