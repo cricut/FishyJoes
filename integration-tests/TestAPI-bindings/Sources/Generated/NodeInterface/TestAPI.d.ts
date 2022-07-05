@@ -5,6 +5,7 @@ export declare namespace TestAPI {
      */
     export class Bytes {
         private constructor()
+        private _inhibitStructuralTyping: any
 
         /**
          * <!-- FishyJoes.export(bytes) -->
@@ -36,6 +37,7 @@ export declare namespace TestAPI {
      */
     export class Collections {
         private constructor()
+        private _inhibitStructuralTyping: any
 
         /**
          * <!-- FishyJoes.export(arrayOfInt) -->
@@ -171,6 +173,7 @@ export declare namespace TestAPI {
      */
     export class Functions {
         private constructor()
+        private _inhibitStructuralTyping: any
 
         /**
          * <!-- FishyJoes.export(const42) -->
@@ -268,6 +271,7 @@ export declare namespace TestAPI {
          */
         export class TheError {
             private constructor()
+            private _inhibitStructuralTyping: any
         }
     }
 
@@ -276,6 +280,7 @@ export declare namespace TestAPI {
      */
     export class Primitives {
         private constructor()
+        private _inhibitStructuralTyping: any
 
         /**
          * <!-- FishyJoes.export(falseBool) -->
@@ -789,6 +794,7 @@ export declare namespace TestAPI {
      */
     export class Strings {
         private constructor()
+        private _inhibitStructuralTyping: any
 
         /**
          * <!-- FishyJoes.export(simple) -->
@@ -843,6 +849,7 @@ export declare namespace TestAPI {
      */
     export class Structs {
         private constructor()
+        private _inhibitStructuralTyping: any
     }
     export namespace Structs {
         /**
@@ -867,6 +874,7 @@ export declare namespace TestAPI {
          */
         export class ReferenceStruct {
             private constructor()
+            private _inhibitStructuralTyping: any
 
             /**
              * <!-- FishyJoes.export(immutable) -->
