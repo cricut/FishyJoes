@@ -14,7 +14,6 @@ public class FishyJoesContext {
     var kotlinClasses: [KotlinClass] = []
     // qualified name (ie "ContainingClass::ClassName") -> CPPClass
     var cppClasses: [String: CPPClass] = [:]
-    // [qualifiedName/cppName]
     var classesNeedingHashSpecialization: [CPPClass] = []
 
     let translatorTypes: [Translator.Type] = [
@@ -107,12 +106,12 @@ public class FishyJoesContext {
                 if seenMethods.contains(method) {
                     continue
                 }
-                resolveDebugContext = "Translating method \(type.name).\(method.name)"
+                resolveDebugContext = "Translating method \(type.name).\(method.name) for kotlin"
                 seenMethods.insert(method)
                 collectedFragments.append(contentsOf: kotlinTranslator.translate(method: method, context: self))
             }
             for variable in type.rawVariables {
-                resolveDebugContext = "Translating variable \(type.name).\(variable.name)"
+                resolveDebugContext = "Translating variable \(type.name).\(variable.name) for kotlin"
                 guard variable.exportAnnotation != nil else { continue }
                 collectedFragments.append(contentsOf: kotlinTranslator.translate(variable: variable, context: self))
             }
@@ -140,8 +139,10 @@ public class FishyJoesContext {
 
         for cppClass in cppClasses.values {
             if cppClass.parentQualifiedName == nil {
+                resolveDebugContext = "generating c++ header for \(cppClass.qualifiedName)"
                 collectedFragments.append(cppClass.headerFragment())
             }
+            resolveDebugContext = "generating c++ source for \(cppClass.qualifiedName)"
             collectedFragments.append(cppClass.sourceFragment(in: self))
         }
 

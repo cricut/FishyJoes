@@ -20,7 +20,9 @@ class CPPClass {
     }
     enum CPPType {
         case type(_: TranslatedType)
-        case swiftRef(hashable: Bool)
+        // A SwiftReference is hashable and/or/nor equatable
+        // if the underlying swift class is hashable or equatable.
+        case swiftRef(hashable: Bool, equatable: Bool)
         case variant(_: [String])
         case named(_: String)
         var cppName: String {
@@ -133,13 +135,13 @@ class CPPClass {
     // (mutated by FishyJoesContext once all CPPClass instances are set up)
     var innerClasses: [CPPClass]
     let serializedFields: [CPPField]
-    let magicalElements: [(SourceFragment) -> Void]
+    let miscElements: [(SourceFragment) -> Void]
     let completeConstructorVisible: Bool
 
     func isHashable(in context: FishyJoesContext) -> Bool {
         for field in serializedFields {
             switch field.type {
-            case .swiftRef(let hashable):
+            case .swiftRef(let hashable, _):
                 if !hashable {
                     return false
                 }
@@ -158,13 +160,36 @@ class CPPClass {
         return true
     }
 
+    func isEquatable(in context: FishyJoesContext) -> Bool {
+        for field in serializedFields {
+            switch field.type {
+            case .swiftRef(_, let equatable):
+                if !equatable {
+                    return false
+                }
+            case .type(let type):
+                if type is TranslatedStruct || type is TranslatedEnum || type is TranslatedReference {
+                    if !context.cppClasses[type.cppName]!.isEquatable(in: context) {
+                        return false
+                    }
+                } else if type is TranslatedDictionary || type is TranslatedFunction || type is TranslatedSet || type is TranslatedTuple || type is TranslatedVoid {
+                    return false
+                }
+            default:
+                break
+            }
+        }
+        return true
+    }
+
     init(
         module: Module, documentation: [String], name: String,
         methods: [CPPMethod] = [],
         fields: [CPPField] = [],
         serializedFields: [CPPField] = [],
         innerClases: [CPPClass] = [],
-        magicalElements: [(SourceFragment) -> Void] = [],
+        // Other miscellaneous bits of code to include in the class.
+        miscElements: [(SourceFragment) -> Void] = [],
         completeConstructorVisible: Bool = false
     ) {
         let nameParts = name.split(separator: ".")
@@ -182,7 +207,7 @@ class CPPClass {
         self.fields = fields
         self.innerClasses = innerClases
         self.serializedFields = serializedFields
-        self.magicalElements = magicalElements
+        self.miscElements = miscElements
         self.completeConstructorVisible = completeConstructorVisible
     }
 
@@ -321,10 +346,10 @@ class CPPClass {
                 fragment.output("")
             }
 
-            if !magicalElements.isEmpty {
+            if !miscElements.isEmpty {
                 fragment.output("/* Special */")
                 fragment.output("")
-                for magicalElement in magicalElements {
+                for magicalElement in miscElements {
                     magicalElement(fragment)
                     fragment.output("")
                 }
@@ -362,7 +387,6 @@ class CPPClass {
             fragment.output("")
             fragment.output("friend struct FishyJoesInternal::Packer;")
             fragment.output("template <typename T> friend struct std::hash;")
-            fragment.output("template <typename T> friend struct std::equal_to;")
         }
     }
 

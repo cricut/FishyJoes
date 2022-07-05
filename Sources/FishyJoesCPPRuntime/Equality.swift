@@ -38,7 +38,7 @@ func getHash(of obj: Any) -> Int {
     return (obj as! AnyHashable).hashValue
 }
 
-@_cdecl("fishyjoes_swift_calc_hash")
-func getHashOfSwiftReference(_ ref: UnsafeMutableRawPointer) -> Int {
-    return try! getHash(of: Box.takeUnretainedOpaque(ref).value)
+@_cdecl("fishyjoes_swift_hash")
+func getHashOfSwiftReference(_ ref: UnsafeMutableRawPointer) -> UInt64 {
+    return UInt64(try! getHash(of: Box.takeUnretainedOpaque(ref).value))
 }

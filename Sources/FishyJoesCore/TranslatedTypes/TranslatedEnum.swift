@@ -130,7 +130,7 @@ struct TranslatedEnum: TranslatedType {
             methods: newMethods,
             fields: [varField],
             serializedFields: [varField],
-            magicalElements: [ {(fragment: SourceFragment) -> Void in
+            miscElements: [ {(fragment: SourceFragment) -> Void in
                 // define VariantType for later methods
                 fragment.output("private:")
                 fragment.output("using VariantType = std::variant<\(cases.map(\.name).joined(separator: ", "))>;")
@@ -180,7 +180,55 @@ struct TranslatedEnum: TranslatedType {
             completeConstructorVisible: false
         )
         context.cppClasses[newClass.qualifiedName] = newClass
-        return SourceFragment(sourceryDestination: "file:CPPInterface/\(sourceType.name).swift")
+        let fragment = context.swiftFragment(
+            "CPPInterface/\(sourceType.name).swift",
+            additionalImports: ["Foundation", "FishyJoesCPPRuntime"]
+        )
+        fragment.outputBlock("extension \(sourceType.name): CPPConverter {") {
+            fragment.outputBlock("public static func fromCPP(_ packer: CPPPacker) throws -> Self {") {
+                fragment.output("let tag = try UInt64.fromCPP(packer)")
+                fragment.outputBlock("switch tag {") {
+                    for (index, caseObj) in cases.enumerated() {
+                        fragment.outputBlock("case \(index):", closeWith: "") {
+                            if caseObj.associatedValues.isEmpty {
+                                fragment.output("return \(caseObj.name)")
+                            } else {
+                                fragment.outputBlock("return .\(caseObj.name)(") {
+                                    fragment.outputMap(caseObj.associatedValues, separator: ",") { value in
+                                        let resolved = context.resolve(type: value.type)
+                                        return "\(value.name.map { "\($0): " } ?? "")try \(resolved.converterType.name).fromCPP(packer)"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    fragment.outputBlock("default:", closeWith: "") {
+                        fragment.output("fatalError(\"Enum received from C++ has invalid state. Expected a tag in the range of [0, \(cases.count)), but got \\(tag).\")")
+                    }
+                }
+            }
+            fragment.outputBlock("public static func toCPP(_ packer: CPPPacker, _ value: Self) throws {") {
+                fragment.output("switch value {")
+                for (index, enumCase) in cases.enumerated() {
+                    let caseStatement: String
+                    if enumCase.associatedValues.isEmpty {
+                        caseStatement = "case .\(enumCase.name):"
+                    } else {
+                        let values = enumCase.associatedValues.map(\.bindingName).joined(separator: ", ")
+                        caseStatement = "case let .\(enumCase.name)(\(values)):"
+                    }
+                    fragment.outputBlock(caseStatement, closeWith: "") {
+                        fragment.output("try UInt64.toCPP(packer, \(index))")
+                        for value in enumCase.associatedValues {
+                            let resolved = context.resolve(type: value.type)
+                            fragment.output("try \(resolved.converterType.name).toCPP(packer, \(value.bindingName))")
+                        }
+                    }
+                }
+                fragment.output("}")
+            }
+        }
+        return fragment
     }
 
     func neutralDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {

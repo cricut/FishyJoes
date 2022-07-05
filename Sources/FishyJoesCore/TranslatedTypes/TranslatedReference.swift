@@ -46,7 +46,7 @@ struct TranslatedReference: TranslatedType {
     }
 
     func cppDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
-        let fragment = SourceFragment(sourceryDestination: "file:CPPInterface/\(sourceType.name).swift")
+        // Set up C++ class
         var newMethods: [CPPClass.CPPMethod] = []
         newMethods.append(contentsOf: methods.map { context.cppTranslator.translateToHeaderFragment(method: $0, in: context) })
         for variable in computedVariables {
@@ -63,7 +63,7 @@ struct TranslatedReference: TranslatedType {
             isStatic: false,
             isPrivate: true,
             name: "_ref",
-            type: .swiftRef(hashable: hashable && equatable),
+            type: .swiftRef(hashable: hashable, equatable: equatable),
             initializer: nil
         )
         let newClass = CPPClass(
@@ -76,6 +76,20 @@ struct TranslatedReference: TranslatedType {
             completeConstructorVisible: false
         )
         context.cppClasses[newClass.qualifiedName] = newClass
+
+        // Swift fragment
+        let fragment = context.swiftFragment(
+            "CPPInterface/\(sourceType.name).swift",
+            additionalImports: ["Foundation", "FishyJoesCPPRuntime"]
+        )
+        fragment.outputBlock("extension \(sourceType.name): FishyJoesCPPRuntime.CPPConverter {") {
+            fragment.outputBlock("public static func fromCPP(_ packer: CPPPacker) throws -> Self {") {
+                fragment.output("return try Box<Self>.fromCPP(packer).value")
+            }
+            fragment.outputBlock("public static func toCPP(_ packer: CPPPacker, _ value: Self) {") {
+                fragment.output("Box<Self>.toCPP(packer, Box<Self>(value))")
+            }
+        }
         return fragment
     }
 

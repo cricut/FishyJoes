@@ -87,23 +87,30 @@ final class CPPTranslate: Translator {
         let frag = SourceFragment(sourceryDestination: "file:../../cpp/include/\(context.module)_eq.hpp")
         frag.output("#include <functional>")
         let hashableObjs = context.cppClasses.values.filter { $0.isHashable(in: context) }
+        let equatableObjs = context.cppClasses.values.filter { $0.isEquatable(in: context) }
+        // Hash/Equality for references
         frag.outputBlock("template <> struct std::hash<\(context.module)::FishyJoesInternal::SwiftReference> {", semicolonTerminated: true) {
             frag.outputBlock("size_t operator()(const \(context.module)::FishyJoesInternal::SwiftReference& ref) {") {
-                frag.output("return (size_t)\(context.module)::FishyJoesInternal::\(context.module)_swift_hash(ref.ref.get());")
+                frag.output("return (size_t)\(context.module)::FishyJoesInternal::fishyjoes_swift_hash(ref.ref.get());")
             }
         }
         frag.outputBlock("inline bool operator==(const \(context.module)::FishyJoesInternal::SwiftReference& ref1, const \(context.module)::FishyJoesInternal::SwiftReference& ref2) {") {
-            frag.output("return \(context.module)::FishyJoesInternal::\(context.module)_swift_check_equality(ref1.ref.get(), ref2.ref.get());")
+            frag.output("return \(context.module)::FishyJoesInternal::fishyjoes_swift_check_equality(ref1.ref.get(), ref2.ref.get());")
         }
+        // Forward declarations of std::hash and operator==
+        // Needed as their implementations will depend on each other
         for classObj in hashableObjs {
             let typeNameWithModule = "\(context.module)::\(classObj.qualifiedName)"
             frag.outputBlock("template <> struct std::hash<\(typeNameWithModule)> {", semicolonTerminated: true) {
                 frag.output("size_t operator()(const \(typeNameWithModule) &obj) const;")
             }
+        }
+        for classObj in equatableObjs {
             frag.outputBlock("namespace \(context.module) {") {
                 frag.output("inline bool operator==(const \(classObj.qualifiedName)& lhs, const \(classObj.qualifiedName)& rhs);")
             }
         }
+        // Definitions
         for classObj in hashableObjs {
             let typeNameWithModule = "\(context.module)::\(classObj.qualifiedName)"
             frag.outputBlock("size_t std::hash<\(typeNameWithModule)>::operator()(const \(typeNameWithModule) &obj) const {") {
@@ -114,10 +121,13 @@ final class CPPTranslate: Translator {
                 frag.output("return ret;")
             }
         }
-        for classObj in hashableObjs {
+        for classObj in equatableObjs {
             frag.outputBlock("namespace \(context.module) {") {
                 frag.outputBlock("inline bool operator==(const \(classObj.qualifiedName)& lhs, const \(classObj.qualifiedName)& rhs) {") {
-                    frag.output("return std::equal_to<std::decay_t<decltype(lhs)>>()(lhs, rhs);")
+                    for field in classObj.serializedFields {
+                        frag.output("if(lhs.\(field.name) != rhs.\(field.name)) return false;")
+                    }
+                    frag.output("return true;")
                 }
             }
         }
@@ -154,10 +164,10 @@ final class CPPTranslate: Translator {
                 }
 
                 frag.outputBlock("extern \"C\" {") {
-                    frag.output("void \(context.module)_swift_release(void* swift_obj);")
-                    frag.output("void \(context.module)_swift_release_packed_data(void* swift_buf);")
-                    frag.output("bool \(context.module)_swift_check_equality(void* swift_obj_1, void* swift_obj_2);")
-                    frag.output("uint64_t \(context.module)_swift_hash(void* swift_obj);")
+                    frag.output("void fishyjoes_swift_release(void* swift_obj);")
+                    frag.output("void fishyjoes_swift_release_packed_data(void* swift_buf);")
+                    frag.output("bool fishyjoes_swift_check_equality(void* swift_obj_1, void* swift_obj_2);")
+                    frag.output("uint64_t fishyjoes_swift_hash(void* swift_obj);")
                 }
 
                 frag.outputBlock("struct SwiftReference {", semicolonTerminated: true) {
@@ -165,7 +175,7 @@ final class CPPTranslate: Translator {
                 }
 
                 frag.outputBlock("SwiftReference swiftRefFromPtr(uint64_t ptr) {") {
-                    frag.output("return {.ref = {(void*)ptr, \(context.module)_swift_release}};")
+                    frag.output("return {.ref = {(void*)ptr, fishyjoes_swift_release}};")
                 }
 
                 // output all bindings
@@ -235,7 +245,7 @@ final class CPPTranslate: Translator {
                     frag.output("uint8_t* u8ptr = ((uint8_t*)ptr) + 4;")
                     frag.output("//copy data into a Packer")
                     frag.output("Packer ret = { .data = { u8ptr, u8ptr + data_size }, .idx = 0 };")
-                    frag.output("\(context.module)_swift_release_packed_data(ptr);")
+                    frag.output("fishyjoes_swift_release_packed_data(ptr);")
                     frag.output("return ret;")
                 }
 
@@ -292,7 +302,7 @@ final class CPPTranslate: Translator {
                 }
 
                 frag.outputBlock("inline FishyJoesInternal::SwiftReference get(std::in_place_type_t<FishyJoesInternal::SwiftReference> typeGuide = std::in_place_type_t<FishyJoesInternal::SwiftReference>{}) {") {
-                    frag.output("return {.ref = {(void*)get_t<uint64_t>(), FishyJoesInternal::\(context.module)_swift_release}};")
+                    frag.output("return {.ref = {(void*)get_t<uint64_t>(), FishyJoesInternal::fishyjoes_swift_release}};")
                 }
 
                 // now to deal with packing all the STL types we generate

@@ -47,7 +47,6 @@ struct TranslatedStruct: TranslatedType {
     }
 
     func cppDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
-        let fragment = SourceFragment(sourceryDestination: "file:CPPInterface/\(sourceType.name).swift")
         var newMethods: [CPPClass.CPPMethod] = []
         newMethods.append(contentsOf: methods.map { context.cppTranslator.translateToHeaderFragment(method: $0, in: context) })
         for variable in computedVariables {
@@ -78,6 +77,30 @@ struct TranslatedStruct: TranslatedType {
             completeConstructorVisible: true
         )
         context.cppClasses[newClass.qualifiedName] = newClass
+
+        let fragment = context.swiftFragment(
+            "CPPInterface/\(sourceType.name).swift",
+            additionalImports: ["Foundation", "FishyJoesCPPRuntime"]
+        )
+        fragment.outputBlock("extension \(sourceType.name): CPPConverter {") {
+            fragment.outputBlock("public static func fromCPP(_ packer: CPPPacker) throws -> Self {") {
+                fragment.outputBlock("Self(") {
+                    for (index, storedVar) in storedVariables.enumerated() {
+                        let resolved = context.resolve(type: storedVar.typeName.better)
+                        let last = index == storedVariables.count - 1
+                        fragment.outputBlock("\(storedVar.name): try { () -> \(resolved.sourceType.name) in", closeWith: last ? "}()" : "}(),") {
+                            fragment.output("return try \(resolved.converterType.name).fromCPP(packer)")
+                        }
+                    }
+                }
+            }
+            fragment.outputBlock("public static func toCPP(_ packer: CPPPacker, _ value: Self) throws {") {
+                for storedVar in storedVariables {
+                    let resolved = context.resolve(type: storedVar.typeName.better)
+                    fragment.output("try \(resolved.converterType.name).toCPP(packer, value.\(storedVar.name))")
+                }
+            }
+        }
         return fragment
     }
 
