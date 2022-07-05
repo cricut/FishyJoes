@@ -28,6 +28,9 @@ extension CallbackEnv {
             return info
         }
         let info = try env.getCbInfo(self.napiInfo)
+        guard info.argv.count == expectedArgumentCount else {
+            fatalError("Error in \(name): Expected \(expectedArgumentCount) arguments, got \(info.argv.count)")
+        }
         self.info = info
         return info
     }
