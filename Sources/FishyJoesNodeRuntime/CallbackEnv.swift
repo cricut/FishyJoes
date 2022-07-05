@@ -23,13 +23,17 @@ public class CallbackEnv {
 }
 
 extension CallbackEnv {
+    struct ArityError: Error {
+        let message: String
+    }
+
     private func getInfo() throws -> Info {
         if let info = self.info {
             return info
         }
         let info = try env.getCbInfo(self.napiInfo)
         guard info.argv.count == expectedArgumentCount else {
-            fatalError("Error in \(name): Expected \(expectedArgumentCount) arguments, got \(info.argv.count)")
+            throw ArityError(message: "Error in \(name): Expected \(expectedArgumentCount) arguments, got \(info.argv.count)")
         }
         self.info = info
         return info
