@@ -20,7 +20,7 @@ private struct AnyFunction1: AnyFunction {
     let invoke: (CallbackEnv, NAPI.Value) throws -> NAPI.Value
 
     static let cInvoke: NAPI.Callback = { env, info in
-        callbackBody(env, info, name: "<Function0>", expectedArgumentCount: 0) { env in
+        callbackBody(env, info, name: "<Function1>", expectedArgumentCount: 1) { env in
             try Box<Self>.takeUnretainedOpaque(env.data()!).value
                 .invoke(env, env.argument(at: 0))
         }

@@ -160,6 +160,14 @@ export class NAPI {
     this.lastErrorCode = NAPI_OK;
   }
 
+  returnError(errorCode) {
+    if (errorCode !== NAPI_OK) {
+      console.trace();
+      console.warn(`NAPI error ${errorCode}: ${error_messages[errorCode]}`);
+    }
+    return errorCode
+  }
+
   createFunction(envPtr, cb, data, name = undefined, mode = kFuncNormal, owner = undefined) {
     const self = this;
     const f = self.indirectFunctionTable.get(cb);
@@ -292,7 +300,7 @@ export class NAPI {
   createError(C, codeIdx, msgIdx, resultPtr) {
     const msg = this.load(msgIdx);
     if (typeof msg !== 'string') {
-      return NAPI_STRING_EXPECTED;
+      return this.returnError(NAPI_STRING_EXPECTED);
     }
     const e = new C(msg);
     if (codeIdx !== 0) {
@@ -348,7 +356,7 @@ export class NAPI {
 
       napi_get_and_clear_last_exception: this.wrap((envPtr, resultPtr) => {
         if (this.exception === kNoException) {
-          return NAPI_GENERIC_FAILURE;
+          return this.returnError(NAPI_GENERIC_FAILURE);
         }
         const e = this.exception;
         this.exception = kNoException;
@@ -404,10 +412,10 @@ export class NAPI {
       napi_escape_handle: this.wrap((envPtr, scopePtr, escapeeIdx, resultPtr) => {
         const scope = this.scopes[scopePtr];
         if (!scope.escapable) {
-          return NAPI_HANDLE_SCOPE_MISMATCH;
+          return this.returnError(NAPI_HANDLE_SCOPE_MISMATCH);
         }
         if (scope.escaped) {
-          return NAPI_ESCAPE_CALLED_TWICE;
+          return this.returnError(NAPI_ESCAPE_CALLED_TWICE);
         }
         scope.escaped = true;
         this.handles[scope.escapeSlot] = this.load(escapeeIdx);
@@ -427,7 +435,7 @@ export class NAPI {
       napi_reference_ref: this.wrap((envPtr, refIdx, resultPtr) => {
         const ref = this.references[refIdx];
         if (ref.ref < 0) {
-          return NAPI_GENERIC_FAILURE;
+          return this.returnError(NAPI_GENERIC_FAILURE);
         } else if (ref.ref === 0) {
           // convert weak reference to strong
           ref.value = ref.value.deref()
@@ -578,7 +586,7 @@ export class NAPI {
       napi_create_bigint_words: this.wrap((envPtr, signBit, wordCount, wordsPtr, resultPtr) => {
         // For compatibility with node's version of BigInt
         if (wordCount < 0) {
-          return NAPI_INVALID_ARG;
+          return this.returnError(NAPI_INVALID_ARG);
         }
         if (wordCount > (1 << 22)) {
           throw new RangeError("Maximum BigInt size exceeded");
@@ -597,7 +605,7 @@ export class NAPI {
       }),
       napi_create_string_latin1: this.wrap((envPtr, strPtr, length, resultPtr) => {
         if (envPtr === 0 || (length !== 0 && strPtr === 0) || resultPtr === 0) {
-          return NAPI_INVALID_ARG;
+          return this.returnError(NAPI_INVALID_ARG);
         }
         const str = this.readString(strPtr, length, 'latin1');
         this.writeU32(resultPtr, this.store(str));
@@ -605,7 +613,7 @@ export class NAPI {
       }),
       napi_create_string_utf16: this.wrap((envPtr, strPtr, length, resultPtr) => {
         if (envPtr === 0 || (length !== 0 && strPtr === 0) || resultPtr === 0) {
-          return NAPI_INVALID_ARG;
+          return this.returnError(NAPI_INVALID_ARG);
         }
         const str = this.readString(strPtr, length, 'utf16le');
         this.writeU32(resultPtr, this.store(str));
@@ -613,7 +621,7 @@ export class NAPI {
       }),
       napi_create_string_utf8: this.wrap((envPtr, strPtr, length, resultPtr) => {
         if (envPtr === 0 || (length !== 0 && strPtr === 0) || resultPtr === 0) {
-          return NAPI_INVALID_ARG;
+          return this.returnError(NAPI_INVALID_ARG);
         }
         const str = this.readString(strPtr, length, 'utf8');
         this.writeU32(resultPtr, this.store(str));
@@ -623,14 +631,14 @@ export class NAPI {
       napi_get_array_length: this.wrap((envPtr, valueIdx, resultPtr) => {
         const a = this.load(valueIdx);
         if (!util.isArray(a)) {
-          return NAPI_ARRAY_EXPECTED;
+          return this.returnError(NAPI_ARRAY_EXPECTED);
         }
         this.writeU32(resultPtr, a.length);
         return NAPI_OK;
       }),
       napi_get_prototype: this.wrap((envPtr, valueIdx, resultPtr) => {
         if (envPtr === 0 || valueIdx === 0 || resultPtr === 0) {
-          return NAPI_INVALID_ARG;
+          return this.returnError(NAPI_INVALID_ARG);
         }
         const proto = Object.getPrototypeOf(this.load(valueIdx));
         this.writeU32(resultPtr, this.store(proto));
@@ -639,7 +647,7 @@ export class NAPI {
       napi_get_typedarray_info: this.wrap((envPtr, typedarrayIdx, typePtr, lengthPtr, dataPtr, arraybufferPtr, byteOffsetPtr) => {
         const typedArray = this.load(typedarrayIdx);
         if (!util.types.isTypedArray(typedArray)) {
-          return NAPI_ARRAYBUFFER_EXPECTED;
+          return this.returnError(NAPI_ARRAYBUFFER_EXPECTED);
         }
         this.writeU32(typePtr, {
           Int8Array: 0,
@@ -663,7 +671,7 @@ export class NAPI {
       napi_get_dataview_info: this.wrap((envPtr, dataviewIdx, byteLengthPtr, dataPtr, arraybufferPtr, byteOffsetPtr) => {
         const dataView = this.load(dataviewIdx);
         if (!util.types.isDataView(dataView)) {
-          return NAPI_INVALID_ARG;
+          return this.returnError(NAPI_INVALID_ARG);
         }
         this.writeU32(byteLengthPtr, dataView.byteLength);
         this.writeU32(dataPtr, 0);
@@ -674,29 +682,29 @@ export class NAPI {
       napi_get_date_value: this.wrap((envPtr, valueIdx, resultPtr) => {
         const d = this.load(valueIdx);
         if (!util.types.isDate(d)) {
-          return NAPI_DATE_EXPECTED;
+          return this.returnError(NAPI_DATE_EXPECTED);
         }
         this.writeF64(resultPtr, d.getTime());
         return NAPI_OK;
       }),
       napi_get_value_bool: this.wrap((envPtr, valueIdx, resultPtr) => {
         if (envPtr === 0 || valueIdx === 0 || resultPtr === 0) {
-          return NAPI_INVALID_ARG;
+          return this.returnError(NAPI_INVALID_ARG);
         }
         const b = this.load(valueIdx);
         if (typeof b !== 'boolean') {
-          return NAPI_BOOLEAN_EXPECTED;
+          return this.returnError(NAPI_BOOLEAN_EXPECTED);
         }
         this.writeU8(resultPtr, b);
         return NAPI_OK;
       }),
       napi_get_value_double: this.wrap((envPtr, valueIdx, resultPtr) => {
         if (envPtr === 0 || valueIdx === 0 || resultPtr === 0) {
-          return NAPI_INVALID_ARG;
+          return this.returnError(NAPI_INVALID_ARG);
         }
         const v = this.load(valueIdx);
         if (typeof v !== 'number') {
-          return NAPI_NUMBER_EXPECTED;
+          return this.returnError(NAPI_NUMBER_EXPECTED);
         }
         this.writeF64(resultPtr, v);
         return NAPI_OK;
@@ -704,7 +712,7 @@ export class NAPI {
       napi_get_value_bigint_int64: this.wrap((envPtr, valueIdx, resultPtr, losslessPtr) => {
         const b = this.load(valueIdx);
         if (typeof b !== 'bigint') {
-          return NAPI_BIGINT_EXPECTED;
+          return this.returnError(NAPI_BIGINT_EXPECTED);
         }
         if (losslessPtr !== 0) {
           this.writeU8(losslessPtr, BigInt.asIntN(64, b) === b);
@@ -715,7 +723,7 @@ export class NAPI {
       napi_get_value_bigint_uint64: this.wrap((envPtr, valueIdx, resultPtr, losslessPtr) => {
         const b = this.load(valueIdx);
         if (typeof b !== 'bigint') {
-          return NAPI_BIGINT_EXPECTED;
+          return this.returnError(NAPI_BIGINT_EXPECTED);
         }
         if (losslessPtr !== 0) {
           this.writeU8(losslessPtr, BigInt.asUintN(64, b) === b);
@@ -726,7 +734,7 @@ export class NAPI {
       napi_get_value_bigint_words: this.wrap((envPtr, valueIdx, signBitPtr, wordCountPtr, wordsPtr) => {
         const b = this.load(valueIdx);
         if (typeof b !== 'bigint') {
-          return NAPI_BIGINT_EXPECTED;
+          return this.returnError(NAPI_BIGINT_EXPECTED);
         }
         if (signBitPtr !== 0) {
           this.writeU8(signBitPtr, b < 0n);
@@ -749,29 +757,29 @@ export class NAPI {
       napi_get_value_external: this.wrap((envPtr, valueIdx, resultPtr) => {
         const e = this.load(valueIdx);
         if (!this.externalData.has(e)) {
-          return NAPI_INVALID_ARG;
+          return this.returnError(NAPI_INVALID_ARG);
         }
         this.writeU32(resultPtr, this.externalData.get(e));
         return NAPI_OK;
       }),
       napi_get_value_int32: this.wrap((envPtr, valueIdx, resultPtr) => {
         if (envPtr === 0 || valueIdx === 0 || resultPtr === 0) {
-          return NAPI_INVALID_ARG;
+          return this.returnError(NAPI_INVALID_ARG);
         }
         let n = this.load(valueIdx);
         if (typeof n !== 'number') {
-          return NAPI_NUMBER_EXPECTED;
+          return this.returnError(NAPI_NUMBER_EXPECTED);
         }
         this.writeI32(resultPtr, isFinite(n) ? n : 0);
         return NAPI_OK;
       }),
       napi_get_value_int64: this.wrap((envPtr, valueIdx, resultPtr) => {
         if (envPtr === 0 || valueIdx === 0 || resultPtr === 0) {
-          return NAPI_INVALID_ARG;
+          return this.returnError(NAPI_INVALID_ARG);
         }
         let n = this.load(valueIdx);
         if (typeof n !== 'number') {
-          return NAPI_NUMBER_EXPECTED;
+          return this.returnError(NAPI_NUMBER_EXPECTED);
         }
         this.writeI64(resultPtr, BigInt(isFinite(n) ? Math.trunc(n) : 0));
         return NAPI_OK;
@@ -780,15 +788,15 @@ export class NAPI {
         bufPtr >>>= 0;
         bufSize >>>= 0;
         if (envPtr === 0 || valueIdx === 0) {
-          return NAPI_INVALID_ARG;
+          return this.returnError(NAPI_INVALID_ARG);
         }
         const s = this.load(valueIdx);
         if (typeof s !== 'string') {
-          return NAPI_STRING_EXPECTED;
+          return this.returnError(NAPI_STRING_EXPECTED);
         }
         if (bufPtr === 0) {
           if (resultPtr === 0) {
-            return NAPI_INVALID_ARG;
+            return this.returnError(NAPI_INVALID_ARG);
           }
           this.writeU32(resultPtr, s.length)
         } else {
@@ -802,15 +810,15 @@ export class NAPI {
         bufPtr >>>= 0;
         bufSize >>>= 0;
         if (envPtr === 0 || valueIdx === 0) {
-          return NAPI_INVALID_ARG;
+          return this.returnError(NAPI_INVALID_ARG);
         }
         const s = this.load(valueIdx);
         if (typeof s !== 'string') {
-          return NAPI_STRING_EXPECTED;
+          return this.returnError(NAPI_STRING_EXPECTED);
         }
         if (bufPtr === 0) {
           if (resultPtr === 0) {
-            return NAPI_INVALID_ARG;
+            return this.returnError(NAPI_INVALID_ARG);
           }
           const length = (new TextEncoder()).encode(s).length;
           this.writeU32(resultPtr, length);
@@ -825,15 +833,15 @@ export class NAPI {
         bufPtr >>>= 0;
         bufSize >>>= 0;
         if (envPtr === 0 || valueIdx === 0) {
-          return NAPI_INVALID_ARG;
+          return this.returnError(NAPI_INVALID_ARG);
         }
         const s = this.load(valueIdx);
         if (typeof s !== 'string') {
-          return NAPI_STRING_EXPECTED;
+          return this.returnError(NAPI_STRING_EXPECTED);
         }
         if (bufPtr === 0) {
           if (resultPtr === 0) {
-            return NAPI_INVALID_ARG;
+            return this.returnError(NAPI_INVALID_ARG);
           }
           this.writeU32(resultPtr, s.length)
         } else {
@@ -846,11 +854,11 @@ export class NAPI {
       }),
       napi_get_value_uint32: this.wrap((envPtr, valueIdx, resultPtr) => {
         if (envPtr === 0 || valueIdx === 0 || resultPtr === 0) {
-          return NAPI_INVALID_ARG;
+          return this.returnError(NAPI_INVALID_ARG);
         }
         let n = this.load(valueIdx);
         if (typeof n !== 'number') {
-          return NAPI_NUMBER_EXPECTED;
+          return this.returnError(NAPI_NUMBER_EXPECTED);
         }
         this.writeU32(resultPtr, isFinite(n) ? n : 0);
         return NAPI_OK;
@@ -873,28 +881,28 @@ export class NAPI {
       }),
       napi_coerce_to_bool: this.wrap((envPtr, valueIdx, resultPtr) => {
         if (envPtr === 0 || valueIdx === 0 || resultPtr === 0) {
-          return NAPI_INVALID_ARG;
+          return this.returnError(NAPI_INVALID_ARG);
         }
         this.writeU32(resultPtr, this.store(Boolean(this.load(valueIdx))));
         return NAPI_OK;
       }),
       napi_coerce_to_number: this.wrap((envPtr, valueIdx, resultPtr) => {
         if (envPtr === 0 || valueIdx === 0 || resultPtr === 0) {
-          return NAPI_INVALID_ARG;
+          return this.returnError(NAPI_INVALID_ARG);
         }
         this.writeU32(resultPtr, this.store(Number(this.load(valueIdx))));
         return NAPI_OK;
       }),
       napi_coerce_to_object: this.wrap((envPtr, valueIdx, resultPtr) => {
         if (envPtr === 0 || valueIdx === 0 || resultPtr === 0) {
-          return NAPI_INVALID_ARG;
+          return this.returnError(NAPI_INVALID_ARG);
         }
         this.writeU32(resultPtr, this.store(Object(this.load(valueIdx))));
         return NAPI_OK;
       }),
       napi_coerce_to_string: this.wrap((envPtr, valueIdx, resultPtr) => {
         if (envPtr === 0 || valueIdx === 0 || resultPtr === 0) {
-          return NAPI_INVALID_ARG;
+          return this.returnError(NAPI_INVALID_ARG);
         }
         const value = this.load(valueIdx)
         if (typeof value === 'symbol') {
@@ -950,7 +958,7 @@ export class NAPI {
         const cons = this.load(constructorIdx);
         if (typeof cons !== 'function') {
           this.exception = new TypeError('Constructor must be a function');
-          return NAPI_FUNCTION_EXPECTED;
+          return this.returnError(NAPI_FUNCTION_EXPECTED);
         }
         this.writeU8(resultPtr, object instanceof cons);
         return NAPI_OK;
@@ -990,21 +998,21 @@ export class NAPI {
       napi_detach_arraybuffer: this.wrap((env, valueIdx) => {
         const ab = this.load(valueIdx);
         if (!util.types.isArrayBuffer(ab)) {
-          return NAPI_DETACHABLE_ARRAYBUFFER_EXPECTED;
+          return this.returnError(NAPI_DETACHABLE_ARRAYBUFFER_EXPECTED);
         }
         return NAPI_OK;
       }),
       napi_is_detached_arraybuffer: this.wrap((envPtr, valueIdx, resultPtr) => {
         const ab = this.load(valueIdx);
         if (!util.types.isArrayBuffer(ab)) {
-          return NAPI_ARRAYBUFFER_EXPECTED;
+          return this.returnError(NAPI_ARRAYBUFFER_EXPECTED);
         }
         this.writeU8(resultPtr, false);
         return NAPI_OK;
       }),
       napi_get_property_names: this.wrap((envPtr, valueIdx, resultPtr) => {
         if (envPtr === 0 || valueIdx === 0 || resultPtr === 0) {
-          return NAPI_INVALID_ARG;
+          return this.returnError(NAPI_INVALID_ARG);
         }
         let object = this.load(valueIdx);
         // from https://stackoverflow.com/a/59341249/73681
@@ -1017,7 +1025,7 @@ export class NAPI {
       }),
       napi_get_all_property_names: this.wrap((envPtr, valueIdx, keyMode, keyFilter, keyConversion, resultPtr) => {
         if (envPtr === 0 || valueIdx === 0 || resultPtr === 0) {
-          return NAPI_INVALID_ARG;
+          return this.returnError(NAPI_INVALID_ARG);
         }
         const object = this.load(valueIdx);
 
@@ -1102,7 +1110,7 @@ export class NAPI {
       }),
       napi_set_property: this.wrap((envPtr, objectIdx, keyIdx, valueIdx) => {
         if (envPtr === 0 || objectIdx === 0 || keyIdx === 0 || valueIdx === 0) {
-          return NAPI_INVALID_ARG;
+          return this.returnError(NAPI_INVALID_ARG);
         }
         const object = this.load(objectIdx);
         const key = this.load(keyIdx);
@@ -1112,7 +1120,7 @@ export class NAPI {
       }),
       napi_get_property: this.wrap((envPtr, objectIdx, keyIdx, resultPtr) => {
         if (envPtr === 0 || objectIdx === 0 || keyIdx === 0 || resultPtr === 0) {
-          return NAPI_INVALID_ARG;
+          return this.returnError(NAPI_INVALID_ARG);
         }
         const object = this.load(objectIdx);
         const key = this.load(keyIdx);
@@ -1121,7 +1129,7 @@ export class NAPI {
       }),
       napi_has_property: this.wrap((envPtr, objectIdx, keyIdx, resultPtr) => {
         if (envPtr === 0 || objectIdx === 0 || keyIdx === 0 || resultPtr === 0) {
-          return NAPI_INVALID_ARG;
+          return this.returnError(NAPI_INVALID_ARG);
         }
         const object = this.load(objectIdx);
         const key = this.load(keyIdx);
@@ -1130,7 +1138,7 @@ export class NAPI {
       }),
       napi_delete_property: this.wrap((envPtr, objectIdx, keyIdx, resultPtr) => {
         if (envPtr === 0 || objectIdx === 0 || keyIdx === 0) {
-          return NAPI_INVALID_ARG;
+          return this.returnError(NAPI_INVALID_ARG);
         }
         const object = this.load(objectIdx);
         const key = this.load(keyIdx);
@@ -1150,19 +1158,19 @@ export class NAPI {
       }),
       napi_has_own_property: this.wrap((envPtr, objectIdx, keyIdx, resultPtr) => {
         if (envPtr === 0 || objectIdx === 0 || keyIdx === 0 || resultPtr === 0) {
-          return NAPI_INVALID_ARG;
+          return this.returnError(NAPI_INVALID_ARG);
         }
         const object = this.load(objectIdx);
         const key = this.load(keyIdx);
         if (typeof key !== 'string' && typeof key !== 'symbol') {
-          return NAPI_NAME_EXPECTED;
+          return this.returnError(NAPI_NAME_EXPECTED);
         }
         this.writeU8(resultPtr, hasOwnProperty(object, key));
         return NAPI_OK;
       }),
       napi_set_named_property: this.wrap((envPtr, objectIdx, utf8NamePtr, valueIdx) => {
         if (envPtr === 0 || objectIdx === 0 || utf8NamePtr === 0 || valueIdx === 0) {
-          return NAPI_INVALID_ARG;
+          return this.returnError(NAPI_INVALID_ARG);
         }
         const object = this.load(objectIdx);
         const name = this.readCStringFrom(utf8NamePtr);
@@ -1172,7 +1180,7 @@ export class NAPI {
       }),
       napi_get_named_property: this.wrap((envPtr, objectIdx, utf8NamePtr, resultPtr) => {
         if (envPtr === 0 || objectIdx === 0 || utf8NamePtr === 0 || resultPtr === 0) {
-          return NAPI_INVALID_ARG;
+          return this.returnError(NAPI_INVALID_ARG);
         }
         const object = this.load(objectIdx);
         const name = this.readCStringFrom(utf8NamePtr);
@@ -1181,7 +1189,7 @@ export class NAPI {
       }),
       napi_has_named_property: this.wrap((envPtr, objectIdx, utf8NamePtr, resultPtr) => {
         if (envPtr === 0 || objectIdx === 0 || utf8NamePtr === 0 || resultPtr === 0) {
-          return NAPI_INVALID_ARG;
+          return this.returnError(NAPI_INVALID_ARG);
         }
         const object = this.load(objectIdx);
         const key = this.readCStringFrom(utf8NamePtr);
@@ -1190,7 +1198,7 @@ export class NAPI {
       }),
       napi_set_element: this.wrap((envPtr, objectIdx, index, valueIdx) => {
         if (envPtr === 0 || objectIdx === 0 || valueIdx === 0) {
-          return NAPI_INVALID_ARG;
+          return this.returnError(NAPI_INVALID_ARG);
         }
         index >>>= 0;
         this.load(objectIdx)[index] = this.load(valueIdx);
@@ -1198,7 +1206,7 @@ export class NAPI {
       }),
       napi_get_element: this.wrap((envPtr, objectIdx, index, resultPtr) => {
         if (envPtr === 0 || objectIdx === 0 || resultPtr === 0) {
-          return NAPI_INVALID_ARG;
+          return this.returnError(NAPI_INVALID_ARG);
         }
         index >>>= 0;
         this.writeU32(resultPtr, this.store(this.load(objectIdx)[index]));
@@ -1206,7 +1214,7 @@ export class NAPI {
       }),
       napi_has_element: this.wrap((envPtr, objectIdx, index, resultPtr) => {
         if (envPtr === 0 || objectIdx === 0 || resultPtr === 0) {
-          return NAPI_INVALID_ARG;
+          return this.returnError(NAPI_INVALID_ARG);
         }
         index >>>= 0;
         const object = this.load(objectIdx);
@@ -1215,7 +1223,7 @@ export class NAPI {
       }),
       napi_delete_element: this.wrap((envPtr, objectIdx, index, resultPtr) => {
         if (envPtr === 0 || objectIdx === 0) {
-          return NAPI_INVALID_ARG;
+          return this.returnError(NAPI_INVALID_ARG);
         }
         index >>>= 0;
         const object = this.load(objectIdx);
@@ -1235,12 +1243,12 @@ export class NAPI {
       }),
       napi_define_properties: this.wrap((envPtr, objectIdx, propertyCount, propertiesPtr) => {
         if (envPtr === 0 || objectIdx === 0 || (propertyCount > 0 && propertiesPtr == 0)) {
-          return NAPI_INVALID_ARG;
+          return this.returnError(NAPI_INVALID_ARG);
         }
         propertyCount >>>= 0;
         const object = this.load(objectIdx);
         if (typeof object !== 'object' || object === null) {
-          return NAPI_OBJECT_EXPECTED;
+          return this.returnError(NAPI_OBJECT_EXPECTED);
         }
         this.readPropertyDescriptors(propertyCount, propertiesPtr)
           .forEach(({
@@ -1281,7 +1289,7 @@ export class NAPI {
         const func = this.load(funcIdx);
 
         if (typeof func !== 'function') {
-          return NAPI_FUNCTION_EXPECTED;
+          return this.returnError(NAPI_FUNCTION_EXPECTED);
         }
 
         const args = [];
@@ -1294,7 +1302,7 @@ export class NAPI {
           this.writeU32(resultPtr, this.store(result));
         } catch (e) {
           this.exception = e;
-          return NAPI_PENDING_EXCEPTION;
+          return this.returnError(NAPI_PENDING_EXCEPTION);
         }
 
         return NAPI_OK;
@@ -1337,7 +1345,7 @@ export class NAPI {
         argc >>>= 0;
         const cons = this.load(consIdx);
         if (typeof cons !== 'function') {
-          return NAPI_FUNCTION_EXPECTED;
+          return this.returnError(NAPI_FUNCTION_EXPECTED);
         }
         const args = [];
         for (let i = 0; i < argc; i += 1) {
@@ -1354,7 +1362,7 @@ export class NAPI {
             resultPtr === 0 ||
             (propertyCount !== 0 && propertiesPtr === 0)
            ) {
-          return NAPI_INVALID_ARG;
+          return this.returnError(NAPI_INVALID_ARG);
         }
         const func = this.createFunction(
           envPtr, constructorIdx, data, utf8NameLength > 0
@@ -1391,7 +1399,7 @@ export class NAPI {
       napi_wrap: this.wrap((envPtr, jsObjectIdx, nativeObjectPtr, finalizeCb, finalizeHint, resultPtr) => {
         const jsObject = this.load(jsObjectIdx);
         if (this.wrapData.has(jsObject)) {
-          return NAPI_INVALID_ARG;
+          return this.returnError(NAPI_INVALID_ARG);
         }
         this.finalizationRegistry
           .register(jsObject, [finalizeCb, envPtr, nativeObjectPtr, finalizeHint]);
@@ -1404,7 +1412,7 @@ export class NAPI {
       napi_unwrap: this.wrap((envPtr, jsObjectIdx, resultPtr) => {
         const jsObject = this.load(jsObjectIdx);
         if (!this.wrapData.has(jsObject)) {
-          return NAPI_INVALID_ARG;
+          return this.returnError(NAPI_INVALID_ARG);
         }
         this.writeU32(resultPtr, this.wrapData.get(jsObject));
         return NAPI_OK;
@@ -1412,7 +1420,7 @@ export class NAPI {
       napi_remove_wrap: this.wrap((envPtr, jsObjectIdx, resultPtr) => {
         const jsObject = this.load(jsObjectIdx);
         if (!this.wrapData.has(jsObject)) {
-          return NAPI_INVALID_ARG;
+          return this.returnError(NAPI_INVALID_ARG);
         }
         const nativeObjectPtr = this.wrapData.get(jsObject);
         this.wrapData.delete(jsObject);
@@ -1423,10 +1431,10 @@ export class NAPI {
       napi_type_tag_object: this.wrap((envPtr, jsObjectIdx, typeTagPtr) => {
         const jsObject = this.load(jsObjectIdx);
         if (!util.isObject(jsObject)) {
-          return NAPI_OBJECT_EXPECTED;
+          return this.returnError(NAPI_OBJECT_EXPECTED);
         }
         if (this.typeTags.has(jsObject)) {
-          return NAPI_INVALID_ARG;
+          return this.returnError(NAPI_INVALID_ARG);
         }
         const typeTag = {
           upper: this.readU64(typeTagPtr),
@@ -1438,7 +1446,7 @@ export class NAPI {
       napi_check_object_type_tag: this.wrap((envPtr, jsObjectIdx, typeTagPtr, resultPtr) => {
         const jsObject = this.load(jsObjectIdx);
         if (!util.isObject(jsObject)) {
-          return NAPI_OBJECT_EXPECTED;
+          return this.returnError(NAPI_OBJECT_EXPECTED);
         }
         const typeTag = {
           upper: this.readU64(typeTagPtr),
