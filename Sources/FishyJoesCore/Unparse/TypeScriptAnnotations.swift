@@ -166,6 +166,7 @@ extension TypeScriptAnnotations {
                         switch tsClass.constructor {
                         case .hidden:
                             fragment.output("private constructor()")
+                            fragment.output("private _inhibitStructuralTyping: any")
                             fragment.blankLine()
                         case .visible(let parameters):
                             fragment.output("constructor(\(parameters.map { "\($0.name): \($0.type)" }.joined(separator: ", ")))")
