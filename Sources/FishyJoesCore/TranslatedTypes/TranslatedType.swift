@@ -63,7 +63,7 @@ extension TranslatedType {
         }
     }
 
-    var cSharpType: Any {
+    var cSharpType: CSharpClass.CSType {
         fatalError("TODO")
     }
 }

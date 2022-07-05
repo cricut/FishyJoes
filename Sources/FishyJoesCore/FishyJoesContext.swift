@@ -20,16 +20,8 @@ public class FishyJoesContext {
     // [qualifiedName/cppName]
     var classesNeedingHashSpecialization: [CPPClass] = []
 
-    let translatorTypes: [Translator.Type] = [
-        NodeTranslator.self,
-        KotlinTranslor.self,
-        CSharpTranslator.self,
-        CPPTranslate.self,
-        NeutralTranslate.self,
-    ]
-
     let nodeTranslator = NodeTranslator()
-    let kotlinTranslator = KotlinTranslor()
+    let kotlinTranslator = KotlinTranslator()
     let cSharpTranslator = CSharpTranslator()
     let cppTranslator = CPPTranslate()
     let neutralTranslator = NeutralTranslate()
@@ -39,7 +31,7 @@ public class FishyJoesContext {
         kotlinTranslator,
         cSharpTranslator,
         cppTranslator,
-        neutralTranslator,
+        // neutralTranslator,
     ]
 
     public init(context: TemplateContext) {

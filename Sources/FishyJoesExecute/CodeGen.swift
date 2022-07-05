@@ -296,6 +296,11 @@ extension CodeGen {
                     try cmd("./gradlew", "build", "-Dskip.tests").run()
                 }
             }
+            if platforms.contains(.cSharp) {
+                try FileManager.default.withCurrentDirectoryPath("c-sharp") {
+                    try cmd("dotnet", "build").run()
+                }
+            }
             if version == nil {
                 // use dummy version to build package
                 version = "0.0.1"

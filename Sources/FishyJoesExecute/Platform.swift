@@ -67,7 +67,7 @@ enum Platform: Hashable {
             path = Platform.nativeMacSwiftBuild
             #elseif os(Linux)
             path = "swift"
-            args = ["build", "-Xswiftc", "-static-stdlib"] + args
+            args = ["build"] + args
             #endif
         case .cpp:
             #if os(macOS)
@@ -119,20 +119,26 @@ enum Platform: Hashable {
         case .cpp: return "cpp"
         }
     }
+
     var outputDir: String {
         switch self {
-        case .wasm, .node, .cpp, .cSharp: return "output/\(platform)"
+        case .wasm, .node: return "output/\(platform)"
         case .kotlinSystem:
             #if os(macOS)
             return "kotlin/src/generated/resources/mac"
             #elseif os(Linux)
             return "kotlin/src/generated/resources/linux"
+            #elseif os(Windows)
+            return "kotlin/src/generated/resources/windows"
             #else
             fatalError("unknown host OS")
             #endif
         case .kotlinAndroid(let arch): return "kotlin/src/generated/resources/lib/\(arch.ndkName)"
+        case .cSharp: return "c-sharp/generated/lib/"
+        case .cpp: return "cpp/generated/lib/"
         }
     }
+
     func packageDescription(config: FishyJoesConfig) -> String {
         switch self {
         case .wasm: return "\(config.module) packaged as a typescript library using WebAssembly"
@@ -142,11 +148,12 @@ enum Platform: Hashable {
         case .cSharp: return "A C# wrapper for \(config.module)"
         }
     }
+
     func buildDir(debug: Bool) -> String {
         let configuration = debug ? "debug" : "release"
         switch self {
         case .wasm: return ".build/wasm-build/wasm32-unknown-wasi/\(configuration)"
-        case .node, .kotlinSystem:
+        case .node, .kotlinSystem, .cSharp, .cpp:
             #if os(macOS)
             return ".build/x86_64-apple-macosx/\(configuration)"
             #elseif os(Linux)
@@ -156,35 +163,9 @@ enum Platform: Hashable {
             #endif
         case .kotlinAndroid(let arch):
             return ".build/android-build/\(arch.triple)/\(configuration)"
-        case .cSharp:
-            var cSharpPlatformBuildDirectory: String {
-                #if os(macOS)
-                return "c-sharp-macos"
-                #elseif os(Windows)
-                return "c-sharp-windows"
-                #elseif os(Linux)
-                return "c-sharp-ubuntu"
-                #else
-                fatalError("unknown host OS")
-                #endif
-            }
-            return ".build/\(cSharpPlatformBuildDirectory)/\(configuration)"
-        case .cpp:
-            #if os(macOS)
-            #if arch(x86_64)
-            return ".build/cpp-build/x86_64-apple-macosx/release"
-            #elseif arch(arm64)
-            return ".build/cpp-build/arm64-apple-macosx/release"
-            #else
-            fatalError("unknown mac arch")
-            #endif
-            #elseif os(Linux)
-            return ".build/cpp-build/x86_64-unknown-linux-gnu/release"
-            #else
-            fatalError("unknown host OS")
-            #endif
         }
     }
+
     var isTs: Bool {
         self == .wasm || self == .node
     }

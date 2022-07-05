@@ -42,7 +42,13 @@ struct TranslatedReference: TranslatedType {
     }
 
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
-        return [nodeDefinitionFragment(in: context), jniDefinitionFragment(in: context), neutralDefinitionFragment(in: context), cppDefinitionFragment(in: context)]
+        return [
+            nodeDefinitionFragment(in: context),
+            jniDefinitionFragment(in: context),
+            cSharpDefinitionFragment(in: context),
+            neutralDefinitionFragment(in: context),
+            cppDefinitionFragment(in: context),
+        ]
     }
 
     func cppDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
@@ -312,6 +318,156 @@ struct TranslatedReference: TranslatedType {
             reference: true
         )
         context.kotlinClasses.append(product)
+
+        return fragment
+    }
+
+    func cSharpDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
+        let fragment = context.swiftFragment(
+            "CSharpInterface/\(sourceType.name)+cSharp.swift",
+            additionalImports: ["Foundation", "FishyJoesCSharpRuntime"]
+        )
+
+        fragment.output("@_cdecl(\"\(converterType.genericBaseName.mangledName)Setup\")")
+        fragment.outputBlock("fileprivate func cSharpSetup(", newLineTerminated: false) {
+            fragment.output("constructorMethod: @escaping @convention(c) (UnsafeMutableRawPointer) -> csObject")
+        }
+        fragment.outputBlock(" {") {
+            fragment.output("guard \(sourceType.name)._constructorMethod == nil else { return }")
+            fragment.output("\(sourceType.name)._constructorMethod = constructorMethod")
+        }
+        fragment.blankLine()
+
+        fragment.outputBlock("extension \(sourceType.name): CSharpMutator {") {
+            fragment.output("fileprivate static var _constructorMethod: ((UnsafeMutableRawPointer) -> csObject)!")
+            fragment.blankLine()
+
+            fragment.outputBlock("public static func fromCSharp(_ value: csObject) throws -> Self {") {
+                fragment.output("try Box<\(sourceType.name)>.fromCSharp(value).value")
+            }
+            fragment.blankLine()
+
+            fragment.outputBlock("public static func toCSharp(_ value: Self) throws -> csObject {") {
+                fragment.output("let ptr = Box(value).retainedOpaque()")
+                fragment.output("return _constructorMethod(ptr)")
+            }
+            fragment.blankLine()
+
+            fragment.outputBlock("public static func mutateCSharp<R>(_ this: csObject, body: (inout Self) throws -> R) throws -> R {") {
+                fragment.output("try body(&Box<\(sourceType.name)>.fromCSharp(this).value)")
+            }
+
+            // if equatable {
+            //     fragment.outputBlock("static let _cSharpEquals: @convention(c)(", newLineTerminated: false) {
+            //         fragment.output("csObject,")
+            //         fragment.output("csObject,")
+            //         fragment.output("csObject")
+            //     }
+            //     fragment.outputBlock(" -> Bool.CType = { _cSharpEnv, _, lhs, rhs in", closeWith: "}") {
+            //         fragment.outputBlock("FishyJoesCSharpRuntime.callbackBody(_cSharpEnv) { _cSharpEnv in", closeWith: "}") {
+            //             fragment.outputBlock("return try Bool.toCSharp(") {
+            //                 fragment.output("\(sourceType.name).fromCSharp(lhs) == \(sourceType.name).fromCSharp(rhs),")
+            //                 fragment.output("env: _cSharpEnv")
+            //             }
+            //         }
+            //     }
+            // }
+            // if hashable {
+            //     fragment.outputBlock("static let _cSharpHash: @convention(c)(", newLineTerminated: false) {
+            //         fragment.output("csObject")
+            //     }
+            //     fragment.outputBlock(" -> Int32.CType = { _cSharpEnv, _cSharpThis in", closeWith: "}") {
+            //         fragment.outputBlock("FishyJoesCSharpRuntime.callbackBody(_cSharpEnv) { _cSharpEnv in", closeWith: "}") {
+            //             fragment.outputBlock("return try Int32.toCSharp(") {
+            //                 fragment.output("Int32(truncatingIfNeeded: \(sourceType.name).fromCSharp(_cSharpThis).hashValue),")
+            //                 fragment.output("env: _cSharpEnv")
+            //             }
+            //         }
+            //     }
+            // }
+        }
+
+        // if equatable {
+        //     context.kotlinTranslator.allMethods[sourceType.name, default: []].append(
+        //         (
+        //             cSharpName: "__jni_swiftEquals",
+        //             signature: "(\(jniType.asSignature)\(jniType.asSignature))Z",
+        //             cName: "\(sourceType.name)._cSharpEquals"
+        //         )
+        //     )
+        // }
+        // if hashable {
+        //     context.kotlinTranslator.allMethods[sourceType.name, default: []].append(
+        //         (
+        //             cSharpName: "__jni_hashCode",
+        //             signature: "()I",
+        //             cName: "\(sourceType.name)._cSharpHash"
+        //         )
+        //     )
+        // }
+
+        // var fieldsAndMethods =
+        //     computedVariables.compactMap { context.kotlin(field: $0, useNativeName: false) } +
+        //     methods.compactMap { context.kotlin(method: $0) }
+
+        // if equatable {
+        //     fieldsAndMethods.append(
+        //         .method(
+        //             KotlinClass.Method(
+        //                 documentation: [],
+        //                 isStatic: true,
+        //                 isOverride: false,
+        //                 name: "swiftEquals",
+        //                 parameters: [
+        //                     (labelComment: nil, name: "lhs", type: kotlinType),
+        //                     (labelComment: nil, name: "rhs", type: kotlinType),
+        //                 ],
+        //                 returnType: .named(package: nil, name: "Boolean"),
+        //                 body: nil
+        //             )
+        //         )
+        //     )
+        //     fieldsAndMethods.append(
+        //         .method(
+        //             KotlinClass.Method(
+        //                 documentation: [],
+        //                 isStatic: false,
+        //                 isOverride: true,
+        //                 name: "equals",
+        //                 parameters: [
+        //                     (labelComment: nil, name: "other", type: .optional(.named(package: nil, name: "Any"))),
+        //                 ],
+        //                 returnType: .named(package: nil, name: "Boolean"),
+        //                 body: "(other is \(kotlinType.kotlinType)) && __jni_swiftEquals(this, other)"
+        //             )
+        //         )
+        //     )
+        // }
+        // if hashable {
+        //     fieldsAndMethods.append(
+        //         .method(
+        //             KotlinClass.Method(
+        //                 documentation: [],
+        //                 isStatic: false,
+        //                 isOverride: true,
+        //                 name: "hashCode",
+        //                 parameters: [],
+        //                 returnType: .named(package: nil, name: "Int"),
+        //                 body: nil
+        //             )
+        //         )
+        //     )
+        // }
+
+        // let product = KotlinProductClass(
+        //     module: context.module,
+        //     documentation: documentation,
+        //     name: nodeName,
+        //     constructor: .reference,
+        //     fieldsAndMethods: fieldsAndMethods,
+        //     reference: true
+        // )
+        // context.kotlinClasses.append(product)
 
         return fragment
     }

@@ -24,7 +24,12 @@ let package = Package(
                 name: "TestAPI-java",
                 type: .dynamic,
                 targets: ["TestAPI_JavaInterface"]
-            )
+            ),
+            .library(
+                name: "TestAPI-c-sharp",
+                type: .dynamic,
+                targets: ["TestAPI_CSharpInterface"]
+            ),
         ]
     ),
     dependencies: [
@@ -58,10 +63,15 @@ let package = Package(
                     .product(name: "TestAPI", package: "TestAPI"),
                     .product(name: "FishyJoesJavaRuntime", package: "FishyJoes"),
                 ],
-                path: "Sources/Generated/JavaInterface",
-                linkerSettings: [
-                    .unsafeFlags(["-Xlinker", "--export=napi_register_module_v1"], .when(platforms: [.wasi])),
-                ]
+                path: "Sources/Generated/JavaInterface"
+            ),
+            .target(
+                name: "TestAPI_CSharpInterface",
+                dependencies: [
+                    .product(name: "TestAPI", package: "TestAPI"),
+                    .product(name: "FishyJoesCSharpRuntime", package: "FishyJoes"),
+                ],
+                path: "Sources/Generated/CSharpInterface"
             ),
         ]
     )
