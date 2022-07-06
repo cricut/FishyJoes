@@ -12,6 +12,7 @@ public class FishyJoesContext {
 
     var tsAnnotations: TypeScriptAnnotations
     var kotlinClasses: [KotlinClass] = []
+    var cSharpClasses: [CSharpClass] = []
     // qualified name (ie "ContainingClass::ClassName") -> CPPClass
     var cppClasses: [String: CPPClass] = [:]
     var sortedCppClasses: [CPPClass] {
@@ -172,10 +173,15 @@ public class FishyJoesContext {
 
         // process all the fragments so that inner classes are inside outer classes
         allFragments.append(
-            contentsOf: processInnerClasses(
-                rootClass: KotlinClass(module: module, documentation: [], name: "__root__"),
-                in: &kotlinClasses
-            )
+            contentsOf:
+                processInnerClasses(
+                    rootClass: KotlinClass(module: module, documentation: [], name: "__root__"),
+                    in: &kotlinClasses
+                ) +
+                processInnerClasses(
+                    rootClass: CSharpClass(module: module, documentation: [], name: "__root__"),
+                    in: &cSharpClasses
+                )
         )
 
         // Output moduleInfo for FishyJoes packages that depend on this one
@@ -404,5 +410,13 @@ public class FishyJoesContext {
 
     func kotlin(field: Variable, useNativeName: Bool = false) -> KotlinClass.MethodOrVariable? {
         kotlinTranslator.kotlin(field: field, context: self, useNativeName: useNativeName)
+    }
+
+    func cSharp(method: Method, of type: TranslatedType) -> CSharpClass.MethodOrVariable? {
+        cSharpTranslator.cSharp(method: method, of: type, context: self)
+    }
+
+    func cSharp(field: Variable, of type: TranslatedType, useNativeName: Bool = false) -> CSharpClass.MethodOrVariable? {
+        cSharpTranslator.cSharp(field: field, of: type, context: self, useNativeName: useNativeName)
     }
 }

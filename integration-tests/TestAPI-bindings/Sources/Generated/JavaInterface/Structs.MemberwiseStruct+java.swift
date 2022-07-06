@@ -5,7 +5,7 @@ import FishyJoesJavaRuntime
 import Foundation
 import TestAPI
 
-extension Structs.MemberwiseStruct: JavaConverter {
+extension Structs.MemberwiseStruct: JavaMutator {
     public typealias SwiftType = Self
     public typealias CType = jobject?
 

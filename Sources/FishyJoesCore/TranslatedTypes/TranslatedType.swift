@@ -64,7 +64,11 @@ extension TranslatedType {
     }
 
     var cSharpType: CSharpClass.CSType {
-        fatalError("TODO")
+        return .named(package: cSharpNamespace, name: cSharpName)
+    }
+
+    var mangledName: String {
+        converterType.name.mangled
     }
 }
 

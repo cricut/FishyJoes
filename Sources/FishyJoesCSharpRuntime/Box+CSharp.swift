@@ -9,9 +9,9 @@ extension Box {
 
 @_cdecl("FJRuntime_AnyBox_setup")
 fileprivate func AnyBoxSetup(
-    cSharpConstructor: @escaping @convention(c) (UnsafeMutableRawPointer, _ exn: UnsafeMutablePointer<csObject>) -> csObject,
-    refGetter: @escaping @convention(c) (csObject, _ exn: UnsafeMutablePointer<csObject>) -> UnsafeMutableRawPointer?,
-    _ exn: UnsafeMutablePointer<csObject>
+    cSharpConstructor: @escaping @convention(c) (UnsafeMutableRawPointer, _ exn: csOutExn) -> csObject,
+    refGetter: @escaping @convention(c) (csObject, _ exn: csOutExn) -> UnsafeMutableRawPointer?,
+    _ exn: csOutExn
 ) {
     guard AnyBox.cSharpConstructor == nil else { return }
     AnyBox.cSharpConstructor = cSharpConstructor
@@ -19,7 +19,7 @@ fileprivate func AnyBoxSetup(
 }
 
 @_cdecl("FJRuntime_AnyBox_finalize")
-fileprivate func AnyBoxFinalize(this: csObject, _ exn: UnsafeMutablePointer<csObject>) {
+fileprivate func AnyBoxFinalize(this: csObject, _ exn: csOutExn) {
     let ptr = AnyBox.refGetter(this, exn)
     guard exn.pointee != nil else { return }
     Env.catching(to: exn) {
@@ -29,15 +29,15 @@ fileprivate func AnyBoxFinalize(this: csObject, _ exn: UnsafeMutablePointer<csOb
 }
 
 @_cdecl("FJRuntime_AnyBox_toString")
-fileprivate func toString(this: csObject, _ exn: UnsafeMutablePointer<csObject>) -> csObject {
+fileprivate func toString(this: csObject, _ exn: csOutExn) -> csObject {
     Env.catching(to: exn) {
         try String.toCSharp("\(AnyBox.fromCSharp(this).value)")
     }
 }
 
 extension AnyBox {
-    fileprivate static var cSharpConstructor: ((UnsafeMutableRawPointer, _ exn: UnsafeMutablePointer<csObject>) -> csObject)!
-    fileprivate static var refGetter: ((csObject, _ exn: UnsafeMutablePointer<csObject>) -> UnsafeMutableRawPointer?)!
+    fileprivate static var cSharpConstructor: ((UnsafeMutableRawPointer, _ exn: csOutExn) -> csObject)!
+    fileprivate static var refGetter: ((csObject, _ exn: csOutExn) -> UnsafeMutableRawPointer?)!
 
     public static func fromCSharp(_ value: csObject) throws -> AnyBox {
         let ref = try Env.check { exn in refGetter(value, exn) }

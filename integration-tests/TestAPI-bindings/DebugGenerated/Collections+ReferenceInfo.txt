@@ -85,8 +85,8 @@ TranslatedReference for Collections {
             }
             Return Type: Optional<Set<K=Optional<Primitive<int>>>>
         }
-        Method echo(maybeDictionaryOfMaybeIntToMaybeInt: [Int?: Int?]?) {
-            Annotation: ExportAnnotation(kind: FishyJoesCore.ExportAnnotation.Kind.unmodified, name: "echoMaybeDictionaryOfMaybeIntToMaybeInt", isOverride: false, genericOverrides: [:], omitParameters: [])
+        Method echo(maybeDictionaryOfIntToMaybeInt: [Int: Int?]?) {
+            Annotation: ExportAnnotation(kind: FishyJoesCore.ExportAnnotation.Kind.unmodified, name: "echoMaybeDictionaryOfIntToMaybeInt", isOverride: false, genericOverrides: [:], omitParameters: [])
             Generic Overrides: [:]
             Call Name: echo
             Static: true
@@ -94,12 +94,12 @@ TranslatedReference for Collections {
             Throwing: false
             Initializer: false
             Documentation {
-                <!-- FishyJoes.export(echoMaybeDictionaryOfMaybeIntToMaybeInt) -->
+                <!-- FishyJoes.export(echoMaybeDictionaryOfIntToMaybeInt) -->
             }
             Parameters {
-                maybeDictionaryOfMaybeIntToMaybeInt: Optional<Dictionary<K=Optional<Primitive<int>>, V=Optional<Primitive<int>>>>
+                maybeDictionaryOfIntToMaybeInt: Optional<Dictionary<K=Primitive<int>, V=Optional<Primitive<int>>>>
             }
-            Return Type: Optional<Dictionary<K=Optional<Primitive<int>>, V=Optional<Primitive<int>>>>
+            Return Type: Optional<Dictionary<K=Primitive<int>, V=Optional<Primitive<int>>>>
         }
     }
     Variables {
@@ -160,9 +160,9 @@ TranslatedReference for Collections {
             Defined in: Collections
         }
         Variable {
-            Annotation: ExportAnnotation(kind: FishyJoesCore.ExportAnnotation.Kind.unmodified, name: "maybeDictionaryOfMaybeIntToMaybeInt", isOverride: false, genericOverrides: [:], omitParameters: [])
-            Name: maybeDictionaryOfMaybeIntToMaybeInt
-            Type: Optional<Dictionary<K=Optional<Primitive<int>>, V=Optional<Primitive<int>>>>
+            Annotation: ExportAnnotation(kind: FishyJoesCore.ExportAnnotation.Kind.unmodified, name: "maybeDictionaryOfIntToMaybeInt", isOverride: false, genericOverrides: [:], omitParameters: [])
+            Name: maybeDictionaryOfIntToMaybeInt
+            Type: Optional<Dictionary<K=Primitive<int>, V=Optional<Primitive<int>>>>
             Mutable: false
             Defined in: Collections
         }

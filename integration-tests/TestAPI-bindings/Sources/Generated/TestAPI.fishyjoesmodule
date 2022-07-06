@@ -731,10 +731,10 @@
               },
               {
                 "documentation" : [
-                  "<!-- FishyJoes.export(maybeDictionaryOfMaybeIntToMaybeInt) -->"
+                  "<!-- FishyJoes.export(maybeDictionaryOfIntToMaybeInt) -->"
                 ],
                 "isStatic" : true,
-                "name" : "maybeDictionaryOfMaybeIntToMaybeInt",
+                "name" : "maybeDictionaryOfIntToMaybeInt",
                 "readOnly" : true,
                 "type" : {
                   "optional" : {
@@ -889,13 +889,13 @@
               },
               {
                 "documentation" : [
-                  "<!-- FishyJoes.export(echoMaybeDictionaryOfMaybeIntToMaybeInt) -->"
+                  "<!-- FishyJoes.export(echoMaybeDictionaryOfIntToMaybeInt) -->"
                 ],
                 "isStatic" : true,
-                "name" : "echoMaybeDictionaryOfMaybeIntToMaybeInt",
+                "name" : "echoMaybeDictionaryOfIntToMaybeInt",
                 "parameters" : [
                   {
-                    "name" : "maybeDictionaryOfMaybeIntToMaybeInt",
+                    "name" : "maybeDictionaryOfIntToMaybeInt",
                     "type" : {
                       "optional" : {
                         "_0" : {

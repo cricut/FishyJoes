@@ -13,7 +13,7 @@ struct TranslatedFunction: TranslatedType {
     let kotlinPackage: String? = nil
     let jniType: JNIType
     let cSharpName: String
-    let cSharpNamespace: String? = nil
+    let cSharpNamespace: String? = "System"
 
     init(parameters: [TranslatedType], returnType: TranslatedType) {
         self.parameters = parameters
@@ -26,8 +26,11 @@ struct TranslatedFunction: TranslatedType {
         self.cppName = "std::function<\(returnType.cppName)(\(parameters.map(\.cppName).joined(separator: ", "))>"
         self.containedNamedTypes = parameters.map { $0.containedNamedTypes }.joined() + returnType.containedNamedTypes
         self.jniType = .object("kotlin/jvm/functions/Function\(parameters.count)")
-        #warning("TODO C# Function Translation")
-        self.cSharpName = ""
+        if returnType.sourceType == .void {
+            self.cSharpName = "Action<\(parameters.map(\.cSharpName).joined(separator: ", "))>"
+        } else {
+            self.cSharpName = "Func<\((parameters.map(\.cSharpName) + [returnType.cSharpName]).joined(separator: ", "))>"
+        }
     }
 
     var converterType: BetterType {

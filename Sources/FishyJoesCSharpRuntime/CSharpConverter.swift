@@ -13,6 +13,26 @@ public protocol CSharpConverter: Converter {
     static func toCSharpObject(_ value: SwiftType) throws -> csObject
 }
 
+fileprivate protocol PrimitiveCSharpConverter: CSharpConverter where SwiftType == Self, CType == Self {
+    typealias ValueMethod = (csObject, csOutExn) -> Self
+    typealias ConstructorMethod = (Self, csOutExn) -> csObject
+
+    static var valueMethod: ValueMethod! { get }
+    static var constructorMethod: ConstructorMethod! { get }
+}
+
+extension PrimitiveCSharpConverter {
+    public static func fromCSharp(_ value: Self) throws -> Self { value }
+    public static func toCSharp(_ value: Self) throws -> Self { value }
+
+    public static func fromCSharp(object: csObject) throws -> Self {
+        try Env.check { exn in valueMethod(object, exn) }
+    }
+    public static func toCSharpObject(_ value: Self) throws -> csObject {
+        try Env.check { exn in constructorMethod(value, exn) }
+    }
+}
+
 extension CSharpConverter where CType == csObject {
     public static func toCSharpObject(_ value: SwiftType) throws -> csObject {
         try toCSharp(value)
@@ -41,7 +61,7 @@ extension VoidConverter: CSharpConverter {
 extension Bool: CSharpConverter {
     public typealias CType = UInt8
 
-    typealias ValueMethod = @convention(c) (csObject, UnsafeMutablePointer<csObject>) -> CType
+    typealias ValueMethod = @convention(c) (csObject, csOutExn) -> CType
 
     fileprivate static var cSharpTrue: csObject = nil
     fileprivate static var cSharpFalse: csObject = nil
@@ -69,7 +89,7 @@ func Bool_cSharpSetup(
     cSharpTrue: csObject,
     cSharpFalse: csObject,
     valueMethod: @escaping Bool.ValueMethod,
-    _ exn: UnsafeMutablePointer<csObject>
+    _ exn: csOutExn
 ) {
     guard Bool.cSharpTrue == nil else { return }
     Env.catching(to: exn) {
@@ -79,309 +99,203 @@ func Bool_cSharpSetup(
     }
 }
 
-// extension UInt8: CSharpConverter {
-//     public typealias CType = jbyte
-
-//     public static var cSharpClass: csObject
-//     private static var unsignedConverterClass: csObject
-//     private static var coerceUnsigned: jmethodID!
-//     private static var coerceSigned: jmethodID!
-
-//     public static func fromCSharp(_ value: CType) throws -> Self { .init(bitPattern: value) }
-//     public static func toCSharp(_ value: Self) throws -> CType { .init(bitPattern: value) }
-
-//     public static func fromCSharp(object: csObject) throws -> Self {
-//         let signed = try env.CallStaticByteMethod(unsignedConverterClass, Self.coerceUnsigned, jvalue(object))
-//         return .init(bitPattern: signed)
-//     }
-
-//     public static func toCSharpObject(_ value: Self) throws -> csObject {
-//         let signed = CType(bitPattern: value)
-//         return try env.CallStaticObjectMethod(unsignedConverterClass, Self.coerceSigned, jvalue(signed))
-//     }
-
-//     public static func cSharpSetup() throws {
-//         guard cSharpClass == nil else { return }
-//         cSharpClass = try env.globalRef(env.FindClass("kotlin/UByte"))
-//         unsignedConverterClass = try env.globalRef(env.FindClass("com/cricut/fishyjoes/runtime/UnsignedIntegerConverter"))
-//         coerceUnsigned = try env.GetStaticMethodID(unsignedConverterClass, "coerceUByteToByte", "(Lkotlin/UByte;)B")
-//         coerceSigned = try env.GetStaticMethodID(unsignedConverterClass, "coerceByteToUByte", "(B)Lkotlin/UByte;")
-//     }
-// }
-
-// extension UInt16: CSharpConverter {
-//     public typealias CType = jshort
-
-//     public static var cSharpClass: csObject
-//     private static var unsignedConverterClass: csObject
-//     private static var coerceUnsigned: jmethodID!
-//     private static var coerceSigned: jmethodID!
-
-//     public static func fromCSharp(_ value: CType) throws -> Self { .init(bitPattern: value) }
-//     public static func toCSharp(_ value: Self) throws -> CType { .init(bitPattern: value) }
-
-//     public static func fromCSharp(object: csObject) throws -> Self {
-//         let signed = try env.CallStaticShortMethod(unsignedConverterClass, Self.coerceUnsigned, jvalue(object))
-//         return .init(bitPattern: signed)
-//     }
-
-//     public static func toCSharpObject(_ value: Self) throws -> csObject {
-//         let signed = CType(bitPattern: value)
-//         return try env.CallStaticObjectMethod(unsignedConverterClass, Self.coerceSigned, jvalue(signed))
-//     }
-
-//     public static func cSharpSetup() throws {
-//         guard cSharpClass == nil else { return }
-//         cSharpClass = try env.globalRef(env.FindClass("cSharp/lang/Short"))
-//         unsignedConverterClass = try env.globalRef(env.FindClass("com/cricut/fishyjoes/runtime/UnsignedIntegerConverter"))
-//         coerceUnsigned = try env.GetStaticMethodID(unsignedConverterClass, "coerceUShortToShort", "(Lkotlin/UShort;)S")
-//         coerceSigned = try env.GetStaticMethodID(unsignedConverterClass, "coerceShortToUShort", "(S)Lkotlin/UShort;")
-//     }
-// }
-
-// extension UInt32: CSharpConverter {
-//     public typealias CType = jint
-
-//     public static var cSharpClass: csObject
-//     private static var unsignedConverterClass: csObject
-//     private static var coerceUnsigned: jmethodID!
-//     private static var coerceSigned: jmethodID!
-
-//     public static func fromCSharp(_ value: CType) throws -> Self { .init(bitPattern: value) }
-//     public static func toCSharp(_ value: Self) throws -> CType { .init(bitPattern: value) }
-
-//     public static func fromCSharp(object: csObject) throws -> Self {
-//         let signed = try env.CallStaticIntMethod(unsignedConverterClass, Self.coerceUnsigned, jvalue(object))
-//         return .init(bitPattern: signed)
-//     }
-
-//     public static func toCSharpObject(_ value: Self) throws -> csObject {
-//         let signed = CType(bitPattern: value)
-//         return try env.CallStaticObjectMethod(unsignedConverterClass, Self.coerceSigned, jvalue(signed))
-//     }
-
-//     public static func cSharpSetup() throws {
-//         guard cSharpClass == nil else { return }
-//         cSharpClass = try env.globalRef(env.FindClass("cSharp/lang/Integer"))
-//         unsignedConverterClass = try env.globalRef(env.FindClass("com/cricut/fishyjoes/runtime/UnsignedIntegerConverter"))
-//         coerceUnsigned = try env.GetStaticMethodID(unsignedConverterClass, "coerceUIntToInt", "(Lkotlin/UInt;)I")
-//         coerceSigned = try env.GetStaticMethodID(unsignedConverterClass, "coerceIntToUInt", "(I)Lkotlin/UInt;")
-//     }
-// }
-
-// extension UInt64: CSharpConverter {
-//     // NOTE: CType is jlong, which is defined as Int, but is guaranteed by the JNI to be 64-bits
-//     public typealias CType = jlong
-
-//     public static var cSharpClass: csObject
-//     private static var unsignedConverterClass: csObject
-//     private static var coerceUnsigned: jmethodID!
-//     private static var coerceSigned: jmethodID!
-
-//     public static func fromCSharp(_ value: CType) throws -> Self { .init(bitPattern: Int64(value)) }
-//     public static func toCSharp(_ value: Self) throws -> CType { CType(Int64(bitPattern: value)) }
-
-//     public static func fromCSharp(object: csObject) throws -> Self {
-//         let signed = try env.CallStaticLongMethod(unsignedConverterClass, Self.coerceUnsigned, jvalue(object))
-//         return .init(bitPattern: Int64(signed))
-//     }
-
-//     public static func toCSharpObject(_ value: Self) throws -> csObject {
-//         let signed = Int64(bitPattern: value)
-//         return try env.CallStaticObjectMethod(unsignedConverterClass, Self.coerceSigned, jvalue(CType(signed)))
-//     }
-
-//     public static func cSharpSetup() throws {
-//         guard cSharpClass == nil else { return }
-//         cSharpClass = try env.globalRef(env.FindClass("cSharp/lang/Long"))
-//         unsignedConverterClass = try env.globalRef(env.FindClass("com/cricut/fishyjoes/runtime/UnsignedIntegerConverter"))
-//         coerceUnsigned = try env.GetStaticMethodID(unsignedConverterClass, "coerceULongToLong", "(Lkotlin/ULong;)J")
-//         coerceSigned = try env.GetStaticMethodID(unsignedConverterClass, "coerceLongToULong", "(J)Lkotlin/ULong;")
-//     }
-// }
-
-// extension Int8: CSharpConverter {
-//     public typealias CType = jbyte
-
-//     public static var cSharpClass: csObject
-//     private static var _valueMethodID: jmethodID!
-//     private static var _constructorMethodID: jmethodID!
-
-//     public static func fromCSharp(_ value: CType) throws -> Self { value }
-//     public static func toCSharp(_ value: Self) throws -> CType { value }
-
-//     public static func fromCSharp(object: csObject) throws -> Self {
-//         try env.CallByteMethod(object, Self._valueMethodID)
-//     }
-
-//     public static func toCSharpObject(_ value: Self) throws -> csObject {
-//         try env.NewObject(Self.cSharpClass, Self._constructorMethodID, jvalue(value))
-//     }
-
-//     public static func cSharpSetup() throws {
-//         guard cSharpClass == nil else { return }
-//         cSharpClass = try env.globalRef(env.FindClass("cSharp/lang/Byte"))
-//         _valueMethodID = try env.GetMethodID(cSharpClass, "byteValue", "()B")
-//         _constructorMethodID = try env.GetMethodID(cSharpClass, "<init>", "(B)V")
-//     }
-// }
-
-// extension Int16: CSharpConverter {
-//     public typealias CType = jshort
-
-//     public static var cSharpClass: csObject
-//     private static var _valueMethodID: jmethodID!
-//     private static var _constructorMethodID: jmethodID!
-
-//     public static func fromCSharp(_ value: CType) throws -> Self { value }
-//     public static func toCSharp(_ value: Self) throws -> CType { value }
-
-//     public static func fromCSharp(object: csObject) throws -> Self {
-//         try env.CallShortMethod(object, Self._valueMethodID)
-//     }
-
-//     public static func toCSharpObject(_ value: Self) throws -> csObject {
-//         try env.NewObject(Self.cSharpClass, Self._constructorMethodID, jvalue(value))
-//     }
-
-//     public static func cSharpSetup() throws {
-//         guard cSharpClass == nil else { return }
-//         cSharpClass = try env.globalRef(env.FindClass("cSharp/lang/Short"))
-//         _valueMethodID = try env.GetMethodID(cSharpClass, "shortValue", "()S")
-//         _constructorMethodID = try env.GetMethodID(cSharpClass, "<init>", "(S)V")
-//     }
-// }
-
-// extension Int32: CSharpConverter {
-//     public typealias CType = jint
-
-//     public static var cSharpClass: csObject
-//     private static var _valueMethodID: jmethodID!
-//     private static var _constructorMethodID: jmethodID!
-
-//     public static func fromCSharp(_ value: CType) throws -> Self { value }
-//     public static func toCSharp(_ value: Self) throws -> CType { value }
-
-//     public static func fromCSharp(object: csObject) throws -> Self {
-//         try env.CallIntMethod(object, Self._valueMethodID)
-//     }
-
-//     public static func toCSharpObject(_ value: Self) throws -> csObject {
-//         try env.NewObject(Self.cSharpClass, Self._constructorMethodID, jvalue(value))
-//     }
-
-//     public static func cSharpSetup() throws {
-//         guard cSharpClass == nil else { return }
-//         cSharpClass = try env.globalRef(env.FindClass("cSharp/lang/Integer"))
-//         _valueMethodID = try env.GetMethodID(cSharpClass, "intValue", "()I")
-//         _constructorMethodID = try env.GetMethodID(cSharpClass, "<init>", "(I)V")
-//     }
-// }
-
-// extension Int64: CSharpConverter {
-//     // NOTE: CType is jlong, which is defined as Int, but is guaranteed by the JNI to be 64-bits
-//     public typealias CType = jlong
-
-//     public static var cSharpClass: csObject
-//     private static var _valueMethodID: jmethodID!
-//     private static var _constructorMethodID: jmethodID!
-
-//     public static func fromCSharp(_ value: CType) throws -> Self { Self(value) }
-//     public static func toCSharp(_ value: Self) throws -> CType { CType(value) }
-
-//     public static func fromCSharp(object: csObject) throws -> Self {
-//         Self(try env.CallLongMethod(object, Self._valueMethodID))
-//     }
-
-//     public static func toCSharpObject(_ value: Self) throws -> csObject {
-//         try env.NewObject(Self.cSharpClass, Self._constructorMethodID, jvalue(CType(value)))
-//     }
-
-//     public static func cSharpSetup() throws {
-//         guard cSharpClass == nil else { return }
-//         cSharpClass = try env.globalRef(env.FindClass("cSharp/lang/Long"))
-//         _valueMethodID = try env.GetMethodID(cSharpClass, "longValue", "()J")
-//         _constructorMethodID = try env.GetMethodID(cSharpClass, "<init>", "(J)V")
-//     }
-// }
-
-// extension Int: CSharpConverter {
-//     public typealias CType = Int64.CType
-
-//     public static var cSharpClass: csObject { Int64.cSharpClass }
-
-//     public static func fromCSharp(_ value: Int64.CType) throws -> Self {
-//         try Self(Int64.fromCSharp(value))
-//     }
-
-//     public static func toCSharp(_ value: Self) throws -> Int64.CType {
-//         Int64.CType(value)
-//     }
-
-//     public static func fromCSharp(object value: csObject) throws -> Self {
-//         Self(try Int64.fromCSharp(object: value))
-//     }
-
-//     public static func toCSharpObject(_ value: Self) throws -> csObject {
-//         try Int64.toCSharpObject(Int64(value))
-//     }
-
-//     public static func cSharpSetup() throws {
-//         try Int64.cSharpSetup()
-//     }
-// }
-
-// extension Float: CSharpConverter {
-//     public typealias CType = jfloat
-
-//     public static var cSharpClass: csObject
-//     private static var _valueMethodID: jmethodID!
-//     private static var _constructorMethodID: jmethodID!
-
-//     public static func fromCSharp(_ value: jfloat) throws -> Self { value }
-//     public static func toCSharp(_ value: Self) throws -> jfloat { value }
-
-//     public static func fromCSharp(object: csObject) throws -> Self {
-//         try env.CallFloatMethod(object, Self._valueMethodID)
-//     }
-
-//     public static func toCSharpObject(_ value: Self) throws -> csObject {
-//         try env.NewObject(Self.cSharpClass, Self._constructorMethodID, jvalue(f: value))
-//     }
-
-//     public static func cSharpSetup() throws {
-//         guard cSharpClass == nil else { return }
-//         cSharpClass = try env.globalRef(env.FindClass("cSharp/lang/Float"))
-//         _valueMethodID = try env.GetMethodID(cSharpClass, "floatValue", "()F")
-//         _constructorMethodID = try env.GetMethodID(cSharpClass, "<init>", "(F)V")
-//     }
-// }
-
-// extension Double: CSharpConverter {
-//     public typealias CType = jdouble
-
-//     public static var cSharpClass: csObject
-//     private static var _valueMethodID: jmethodID!
-//     private static var _constructorMethodID: jmethodID!
-
-//     public static func fromCSharp(_ value: jdouble) throws -> Double { value }
-//     public static func toCSharp(_ value: Double) throws -> jdouble { value }
-
-//     public static func fromCSharp(object: csObject) throws -> Double {
-//         try env.CallDoubleMethod(object, Self._valueMethodID)
-//     }
-
-//     public static func toCSharpObject(_ value: Double) throws -> csObject {
-//         try env.NewObject(Self.cSharpClass, Self._constructorMethodID, jvalue(d: value))
-//     }
-
-//     public static func cSharpSetup() throws {
-//         guard cSharpClass == nil else { return }
-//         cSharpClass = try env.globalRef(env.FindClass("cSharp/lang/Double"))
-//         _valueMethodID = try env.GetMethodID(cSharpClass, "doubleValue", "()D")
-//         _constructorMethodID = try env.GetMethodID(cSharpClass, "<init>", "(D)V")
-//     }
-// }
+extension Int8: PrimitiveCSharpConverter {
+    fileprivate static var valueMethod: ValueMethod!
+    fileprivate static var constructorMethod: ConstructorMethod!
+}
+
+@_cdecl("FJRuntimeInt8Setup")
+private func Int8_cSharpSetup(
+    valueMethod: @escaping Int8.ValueMethod,
+    constructorMethod: @escaping Int8.ConstructorMethod,
+    _ exn: csOutExn
+) {
+    guard Int8.valueMethod == nil else { return }
+    Env.catching(to: exn) {
+        Int8.valueMethod = valueMethod
+        Int8.constructorMethod = constructorMethod
+    }
+}
+
+extension Int16: PrimitiveCSharpConverter {
+    fileprivate static var valueMethod: ValueMethod!
+    fileprivate static var constructorMethod: ConstructorMethod!
+}
+
+@_cdecl("FJRuntimeInt16Setup")
+private func Int16_cSharpSetup(
+    valueMethod: @escaping Int16.ValueMethod,
+    constructorMethod: @escaping Int16.ConstructorMethod,
+    _ exn: csOutExn
+) {
+    guard Int16.valueMethod == nil else { return }
+    Env.catching(to: exn) {
+        Int16.valueMethod = valueMethod
+        Int16.constructorMethod = constructorMethod
+    }
+}
+
+extension Int32: PrimitiveCSharpConverter {
+    fileprivate static var valueMethod: ValueMethod!
+    fileprivate static var constructorMethod: ConstructorMethod!
+}
+
+@_cdecl("FJRuntimeInt32Setup")
+private func Int32_cSharpSetup(
+    valueMethod: @escaping Int32.ValueMethod,
+    constructorMethod: @escaping Int32.ConstructorMethod,
+    _ exn: csOutExn
+) {
+    guard Int32.valueMethod == nil else { return }
+    Env.catching(to: exn) {
+        Int32.valueMethod = valueMethod
+        Int32.constructorMethod = constructorMethod
+    }
+}
+
+extension Int64: PrimitiveCSharpConverter {
+    fileprivate static var valueMethod: ValueMethod!
+    fileprivate static var constructorMethod: ConstructorMethod!
+}
+
+@_cdecl("FJRuntimeInt64Setup")
+private func Int64_cSharpSetup(
+    valueMethod: @escaping Int64.ValueMethod,
+    constructorMethod: @escaping Int64.ConstructorMethod,
+    _ exn: csOutExn
+) {
+    guard Int64.valueMethod == nil else { return }
+    Env.catching(to: exn) {
+        Int64.valueMethod = valueMethod
+        Int64.constructorMethod = constructorMethod
+    }
+}
+
+extension UInt8: PrimitiveCSharpConverter {
+    fileprivate static var valueMethod: ValueMethod!
+    fileprivate static var constructorMethod: ConstructorMethod!
+}
+
+@_cdecl("FJRuntimeUInt8Setup")
+private func UInt8_cSharpSetup(
+    valueMethod: @escaping UInt8.ValueMethod,
+    constructorMethod: @escaping UInt8.ConstructorMethod,
+    _ exn: csOutExn
+) {
+    guard UInt8.valueMethod == nil else { return }
+    Env.catching(to: exn) {
+        UInt8.valueMethod = valueMethod
+        UInt8.constructorMethod = constructorMethod
+    }
+}
+
+extension UInt16: PrimitiveCSharpConverter {
+    fileprivate static var valueMethod: ValueMethod!
+    fileprivate static var constructorMethod: ConstructorMethod!
+}
+
+@_cdecl("FJRuntimeUInt16Setup")
+private func UInt16_cSharpSetup(
+    valueMethod: @escaping UInt16.ValueMethod,
+    constructorMethod: @escaping UInt16.ConstructorMethod,
+    _ exn: csOutExn
+) {
+    guard UInt16.valueMethod == nil else { return }
+    Env.catching(to: exn) {
+        UInt16.valueMethod = valueMethod
+        UInt16.constructorMethod = constructorMethod
+    }
+}
+
+extension UInt32: PrimitiveCSharpConverter {
+    fileprivate static var valueMethod: ValueMethod!
+    fileprivate static var constructorMethod: ConstructorMethod!
+}
+
+@_cdecl("FJRuntimeUInt32Setup")
+private func UInt32_cSharpSetup(
+    valueMethod: @escaping UInt32.ValueMethod,
+    constructorMethod: @escaping UInt32.ConstructorMethod,
+    _ exn: csOutExn
+) {
+    guard UInt32.valueMethod == nil else { return }
+    Env.catching(to: exn) {
+        UInt32.valueMethod = valueMethod
+        UInt32.constructorMethod = constructorMethod
+    }
+}
+
+extension UInt64: PrimitiveCSharpConverter {
+    fileprivate static var valueMethod: ValueMethod!
+    fileprivate static var constructorMethod: ConstructorMethod!
+}
+
+@_cdecl("FJRuntimeUInt64Setup")
+private func UInt64_cSharpSetup(
+    valueMethod: @escaping UInt64.ValueMethod,
+    constructorMethod: @escaping UInt64.ConstructorMethod,
+    _ exn: csOutExn
+) {
+    guard UInt64.valueMethod == nil else { return }
+    Env.catching(to: exn) {
+        UInt64.valueMethod = valueMethod
+        UInt64.constructorMethod = constructorMethod
+    }
+}
+
+extension Int: PrimitiveCSharpConverter {
+    fileprivate static var valueMethod: ValueMethod!
+    fileprivate static var constructorMethod: ConstructorMethod!
+}
+
+@_cdecl("FJRuntimeIntSetup")
+private func Int_cSharpSetup(
+    valueMethod: @escaping Int.ValueMethod,
+    constructorMethod: @escaping Int.ConstructorMethod,
+    _ exn: csOutExn
+) {
+    guard Int.valueMethod == nil else { return }
+    Env.catching(to: exn) {
+        Int.valueMethod = valueMethod
+        Int.constructorMethod = constructorMethod
+    }
+}
+
+extension Float: PrimitiveCSharpConverter {
+    fileprivate static var valueMethod: ValueMethod!
+    fileprivate static var constructorMethod: ConstructorMethod!
+}
+
+@_cdecl("FJRuntimeFloatSetup")
+private func Float_cSharpSetup(
+    valueMethod: @escaping Float.ValueMethod,
+    constructorMethod: @escaping Float.ConstructorMethod,
+    _ exn: csOutExn
+) {
+    guard Float.valueMethod == nil else { return }
+    Env.catching(to: exn) {
+        Float.valueMethod = valueMethod
+        Float.constructorMethod = constructorMethod
+    }
+}
+
+extension Double: PrimitiveCSharpConverter {
+    fileprivate static var valueMethod: ValueMethod!
+    fileprivate static var constructorMethod: ConstructorMethod!
+}
+
+@_cdecl("FJRuntimeDoubleSetup")
+private func Double_cSharpSetup(
+    valueMethod: @escaping Double.ValueMethod,
+    constructorMethod: @escaping Double.ConstructorMethod,
+    _ exn: csOutExn
+) {
+    guard Double.valueMethod == nil else { return }
+    Env.catching(to: exn) {
+        Double.valueMethod = valueMethod
+        Double.constructorMethod = constructorMethod
+    }
+}
 
 // MARK: - Less-Primitive Type Conversions
 
@@ -397,49 +311,42 @@ extension String: CSharpConverter {
     }
 }
 
-// extension Data: CSharpConverter {
-//     public typealias CType = jbyteArray?
+extension Data: CSharpConverter {
+    public static func fromCSharp(_ value: csObject) throws -> Self {
+        fatalError("TODO")
+        // let length = env.GetArrayLength(value)
+        // let result = try env.GetByteArrayElements(value)
+        // defer {
+        //     if let value = value, let elements = result.0 {
+        //         env.ReleaseByteArrayElements(value, elements, JNI_ABORT)
+        //     }
+        // }
+        // guard let elements = result.0 else {
+        //     throw JNIError(message: "memory allocation failed")
+        // }
+        // return Data(bytes: elements, count: Int(length))
+    }
 
-//     public static var cSharpClass: csObject
+    public static func toCSharp(_ value: Self) throws -> csObject {
+        fatalError("TODO")
+        // let length = jsize(value.count)
+        // guard length > 0 else {
+        //     return nil
+        // }
+        // guard let byteArray = try env.NewByteArray(length) else {
+        //     throw JNIError(message: "memory allocation failed")
+        // }
+        // try value.withUnsafeBytes { pointer in
+        //     guard let bytes = pointer.baseAddress?.assumingMemoryBound(to: jbyte.self) else {
+        //         throw JNIError(message: "memory access failed")
+        //     }
+        //     try env.SetByteArrayRegion(byteArray, 0, length, bytes)
+        // }
+        // return byteArray
+    }
+}
 
-//     public static func fromCSharp(_ value: jbyteArray?) throws -> Self {
-//         let length = env.GetArrayLength(value)
-//         let result = try env.GetByteArrayElements(value)
-//         defer {
-//             if let value = value, let elements = result.0 {
-//                 env.ReleaseByteArrayElements(value, elements, JNI_ABORT)
-//             }
-//         }
-//         guard let elements = result.0 else {
-//             throw JNIError(message: "memory allocation failed")
-//         }
-//         return Data(bytes: elements, count: Int(length))
-//     }
-
-//     public static func toCSharp(_ value: Self) throws -> jbyteArray? {
-//         let length = jsize(value.count)
-//         guard length > 0 else {
-//             return nil
-//         }
-//         guard let byteArray = try env.NewByteArray(length) else {
-//             throw JNIError(message: "memory allocation failed")
-//         }
-//         try value.withUnsafeBytes { pointer in
-//             guard let bytes = pointer.baseAddress?.assumingMemoryBound(to: jbyte.self) else {
-//                 throw JNIError(message: "memory access failed")
-//             }
-//             try env.SetByteArrayRegion(byteArray, 0, length, bytes)
-//         }
-//         return byteArray
-//     }
-
-//     public static func cSharpSetup() throws {
-//         guard cSharpClass == nil else { return }
-//         cSharpClass = try env.globalRef(env.FindClass("[B"))
-//     }
-// }
-
-// // MARK: - Generics Type Conversions
+// MARK: - Generics Type Conversions
 
 // private enum CSharpIterator {
 //     static var iteratorClass: csObject
@@ -543,175 +450,130 @@ extension String: CSharpConverter {
 //     }
 // }
 
-// extension ArrayConverter: CSharpConverter where ElementConverter: CSharpConverter {
-//     public static var cSharpClass: csObject {
-//         CSharpList.listClass
-//     }
+extension ArrayConverter: CSharpConverter where ElementConverter: CSharpConverter {
+    public static func fromCSharp(_ value: csObject) throws -> SwiftType {
+        fatalError("TODO")
+        // var result = SwiftType()
+        // try CSharpList.forEach(value) { item in
+        //     result.append(try ElementConverter.fromCSharp(object: item))
+        // }
+        // return result
+    }
 
-//     public static func fromCSharp(_ value: csObject) throws -> SwiftType {
-//         var result = SwiftType()
-//         try CSharpList.forEach(value) { item in
-//             result.append(try ElementConverter.fromCSharp(object: item))
-//         }
-//         return result
-//     }
+    public static func toCSharp(_ value: SwiftType) throws -> csObject {
+        fatalError("TODO")
+        // let array = try env.NewObject(CSharpList.arrayListClass, CSharpList.initMethodID, jvalue(i: jint(value.count)))
+        // for element in value {
+        //     let cSharpElement = try ElementConverter.toCSharpObject(element)
+        //     _ = try env.CallBooleanMethod(array, CSharpList.addMethodID, jvalue(l: cSharpElement))
+        //     env.DeleteLocalRef(cSharpElement)
+        // }
+        // return array
+    }
+}
 
-//     public static func toCSharp(_ value: SwiftType) throws -> csObject {
-//         let array = try env.NewObject(CSharpList.arrayListClass, CSharpList.initMethodID, jvalue(i: jint(value.count)))
-//         for element in value {
-//             let cSharpElement = try ElementConverter.toCSharpObject(element)
-//             _ = try env.CallBooleanMethod(array, CSharpList.addMethodID, jvalue(l: cSharpElement))
-//             env.DeleteLocalRef(cSharpElement)
-//         }
-//         return array
-//     }
+extension DictionaryConverter: CSharpConverter where KeyConverter: CSharpConverter, KeyConverter.SwiftType: Hashable, ValueConverter: CSharpConverter {
+    public static func fromCSharp(_ value: csObject) throws -> SwiftType {
+        fatalError("TODO")
+        // let entries = try env.CallObjectMethod(value, CSharpMap.entrySetMethodID)
+        // var result = SwiftType()
+        // try CSharpSet.forEach(entries) { entry in
+        //     let key = try env.CallObjectMethod(entry, CSharpMap.getKeyMethodID)
+        //     let value = try env.CallObjectMethod(entry, CSharpMap.getValueMethodID)
+        //     result[try KeyConverter.fromCSharp(object: key)] = try ValueConverter.fromCSharp(object: value)
+        //     env.DeleteLocalRef(key)
+        //     env.DeleteLocalRef(value)
+        // }
+        // return result
+    }
 
-//     public static func cSharpSetup() throws {
-//         try CSharpList.cSharpSetup()
-//         try ElementConverter.cSharpSetup()
-//     }
-// }
+    public static func toCSharp(_ value: SwiftType) throws -> csObject {
+        fatalError("TODO")
+        // let hashMap = try env.NewObject(CSharpMap.hashMapClass, CSharpMap.initMethodID, jvalue(i: jint(value.count)))
+        // for (key, value) in value {
+        //     let cSharpKey = try KeyConverter.toCSharpObject(key)
+        //     let cSharpValue = try ValueConverter.toCSharpObject(value)
+        //     let prevValue = try env.CallObjectMethod(hashMap, CSharpMap.putMethodID, jvalue(l: cSharpKey), jvalue(l: cSharpValue))
+        //     env.DeleteLocalRef(cSharpKey)
+        //     env.DeleteLocalRef(cSharpValue)
+        //     env.DeleteLocalRef(prevValue)
+        // }
+        // return hashMap
+    }
+}
 
-// extension DictionaryConverter: CSharpConverter where
-//     KeyConverter: CSharpConverter,
-//     KeyConverter.SwiftType: Hashable,
-//     ValueConverter: CSharpConverter {
-//     public static var cSharpClass: csObject {
-//         CSharpMap.mapClass
-//     }
+extension SetConverter: CSharpConverter where ElementConverter: CSharpConverter, ElementConverter.SwiftType: Hashable {
+    public static func fromCSharp(_ value: csObject) throws -> SwiftType {
+        fatalError("TODO")
+        // var result = SwiftType()
+        // try CSharpSet.forEach(value) { _ in
+        //     result.insert(try ElementConverter.fromCSharp(object: value))
+        // }
+        // return result
+    }
 
-//     public static func fromCSharp(_ value: csObject) throws -> SwiftType {
-//         let entries = try env.CallObjectMethod(value, CSharpMap.entrySetMethodID)
-//         var result = SwiftType()
-//         try CSharpSet.forEach(entries) { entry in
-//             let key = try env.CallObjectMethod(entry, CSharpMap.getKeyMethodID)
-//             let value = try env.CallObjectMethod(entry, CSharpMap.getValueMethodID)
-//             result[try KeyConverter.fromCSharp(object: key)] = try ValueConverter.fromCSharp(object: value)
-//             env.DeleteLocalRef(key)
-//             env.DeleteLocalRef(value)
-//         }
-//         return result
-//     }
+    public static func toCSharp(_ value: SwiftType) throws -> csObject {
+        fatalError("TODO")
+        // let hashSet = try env.NewObject(CSharpSet.hashSetClass, CSharpSet.initMethodID, jvalue(i: jint(value.count)))
+        // for element in value {
+        //     let cSharpElement = try ElementConverter.toCSharpObject(element)
+        //     _ = try env.CallBooleanMethod(hashSet, CSharpSet.addMethodID, jvalue(l: cSharpElement))
+        //     env.DeleteLocalRef(cSharpElement)
+        // }
+        // return hashSet
+    }
+}
 
-//     public static func toCSharp(_ value: SwiftType) throws -> csObject {
-//         let hashMap = try env.NewObject(CSharpMap.hashMapClass, CSharpMap.initMethodID, jvalue(i: jint(value.count)))
-//         for (key, value) in value {
-//             let cSharpKey = try KeyConverter.toCSharpObject(key)
-//             let cSharpValue = try ValueConverter.toCSharpObject(value)
-//             let prevValue = try env.CallObjectMethod(hashMap, CSharpMap.putMethodID, jvalue(l: cSharpKey), jvalue(l: cSharpValue))
-//             env.DeleteLocalRef(cSharpKey)
-//             env.DeleteLocalRef(cSharpValue)
-//             env.DeleteLocalRef(prevValue)
-//         }
-//         return hashMap
-//     }
+// MARK: - Optional Type Conversion
 
-//     public static func cSharpSetup() throws {
-//         try CSharpSet.cSharpSetup()
-//         try CSharpMap.cSharpSetup()
-//         try KeyConverter.cSharpSetup()
-//         try ValueConverter.cSharpSetup()
-//     }
-// }
+extension OptionalConverter: CSharpConverter where WrappedConverter: CSharpConverter {
+    public static func fromCSharp(_ value: csObject) throws -> SwiftType {
+        fatalError("TODO")
+        // if value == nil {
+        //     return nil
+        // } else {
+        //     return try WrappedConverter.fromCSharp(object: value)
+        // }
+    }
 
-// extension SetConverter: CSharpConverter where ElementConverter: CSharpConverter, ElementConverter.SwiftType: Hashable {
-//     public static var cSharpClass: csObject {
-//         CSharpSet.setClass
-//     }
+    public static func toCSharp(_ value: SwiftType) throws -> csObject {
+        fatalError("TODO")
+        // if let wrapped = value {
+        //     return try WrappedConverter.toCSharpObject(wrapped)
+        // } else {
+        //     return nil
+        // }
+    }
+}
 
-//     public static func fromCSharp(_ value: csObject) throws -> SwiftType {
-//         var result = SwiftType()
-//         try CSharpSet.forEach(value) { _ in
-//             result.insert(try ElementConverter.fromCSharp(object: value))
-//         }
-//         return result
-//     }
-
-//     public static func toCSharp(_ value: SwiftType) throws -> csObject {
-//         let hashSet = try env.NewObject(CSharpSet.hashSetClass, CSharpSet.initMethodID, jvalue(i: jint(value.count)))
-//         for element in value {
-//             let cSharpElement = try ElementConverter.toCSharpObject(element)
-//             _ = try env.CallBooleanMethod(hashSet, CSharpSet.addMethodID, jvalue(l: cSharpElement))
-//             env.DeleteLocalRef(cSharpElement)
-//         }
-//         return hashSet
-//     }
-
-//     public static func cSharpSetup() throws {
-//         try CSharpSet.cSharpSetup()
-//         try ElementConverter.cSharpSetup()
-//     }
-// }
-
-// // MARK: - Optional Type Conversion
-
-// extension OptionalConverter: CSharpConverter where WrappedConverter: CSharpConverter {
-//     public static var cSharpClass: csObject {
-//         WrappedConverter.cSharpClass
-//     }
-
-//     public static func fromCSharp(_ value: csObject) throws -> SwiftType {
-//         if value == nil {
-//             return nil
-//         } else {
-//             return try WrappedConverter.fromCSharp(object: value)
-//         }
-//     }
-
-//     public static func toCSharp(_ value: SwiftType) throws -> csObject {
-//         if let wrapped = value {
-//             return try WrappedConverter.toCSharpObject(wrapped)
-//         } else {
-//             return nil
-//         }
-//     }
-
-//     public static func cSharpSetup() throws {
-//         try WrappedConverter.cSharpSetup()
-//     }
-// }
-
-// // MARK: - Tuple Type Conversions
+// MARK: - Tuple Type Conversions
 
 // private var pairClass: csObject
 // private var pairConstructor: jmethodID!
 // private var pairFirstMethod: jmethodID!
 // private var pairSecondMethod: jmethodID!
 
-// extension Tuple2Converter: CSharpConverter where T0: CSharpConverter, T1: CSharpConverter {
-//     public static var cSharpClass: csObject {
-//         pairClass
-//     }
+extension Tuple2Converter: CSharpConverter where T0: CSharpConverter, T1: CSharpConverter {
+    public static func fromCSharp(_ value: csObject) throws -> SwiftType {
+        fatalError("TODO")
+        // let v0 = try env.CallObjectMethod(value, pairFirstMethod)
+        // let v1 = try env.CallObjectMethod(value, pairSecondMethod)
+        // return (
+        //     try T0.fromCSharp(object: v0),
+        //     try T1.fromCSharp(object: v1)
+        // )
+    }
 
-//     public static func fromCSharp(_ value: csObject) throws -> SwiftType {
-//         let v0 = try env.CallObjectMethod(value, pairFirstMethod)
-//         let v1 = try env.CallObjectMethod(value, pairSecondMethod)
-//         return (
-//             try T0.fromCSharp(object: v0),
-//             try T1.fromCSharp(object: v1)
-//         )
-//     }
-
-//     public static func toCSharp(_ value: SwiftType) throws -> csObject {
-//         let v0 = try jvalue(l: T0.toCSharpObject(value.0))
-//         let v1 = try jvalue(l: T1.toCSharpObject(value.1))
-//         let result = try env.NewObject(pairClass, pairConstructor, v0, v1)
-//         env.DeleteLocalRef(v0.l)
-//         env.DeleteLocalRef(v1.l)
-//         return result
-//     }
-
-//     public static func cSharpSetup() throws {
-//         try T0.cSharpSetup()
-//         try T1.cSharpSetup()
-
-//         guard cSharpClass == nil else { return }
-//         pairClass = try env.globalRef(env.FindClass("kotlin/Pair"))
-//         pairConstructor = try env.GetMethodID(cSharpClass, "<init>", "(LcSharp/lang/Object;LcSharp/lang/Object;)V")
-//         pairFirstMethod = try env.GetMethodID(cSharpClass, "getFirst", "()LcSharp/lang/Object;")
-//         pairSecondMethod = try env.GetMethodID(cSharpClass, "getSecond", "()LcSharp/lang/Object;")
-//     }
-// }
+    public static func toCSharp(_ value: SwiftType) throws -> csObject {
+        fatalError("TODO")
+        // let v0 = try jvalue(l: T0.toCSharpObject(value.0))
+        // let v1 = try jvalue(l: T1.toCSharpObject(value.1))
+        // let result = try env.NewObject(pairClass, pairConstructor, v0, v1)
+        // env.DeleteLocalRef(v0.l)
+        // env.DeleteLocalRef(v1.l)
+        // return result
+    }
+}
 
 // private var tripleClass: csObject
 // private var tripleConstructor: jmethodID!
@@ -719,46 +581,31 @@ extension String: CSharpConverter {
 // private var tripleSecondMethod: jmethodID!
 // private var tripleThirdMethod: jmethodID!
 
-// extension Tuple3Converter: CSharpConverter where T0: CSharpConverter, T1: CSharpConverter, T2: CSharpConverter {
-//     public static var cSharpClass: csObject {
-//         tripleClass
-//     }
+extension Tuple3Converter: CSharpConverter where T0: CSharpConverter, T1: CSharpConverter, T2: CSharpConverter {
+    public static func fromCSharp(_ value: csObject) throws -> SwiftType {
+        fatalError("TODO")
+        // let v0 = try env.CallObjectMethod(value, tripleFirstMethod)
+        // let v1 = try env.CallObjectMethod(value, tripleSecondMethod)
+        // let v2 = try env.CallObjectMethod(value, tripleThirdMethod)
+        // return (
+        //     try T0.fromCSharp(object: v0),
+        //     try T1.fromCSharp(object: v1),
+        //     try T2.fromCSharp(object: v2)
+        // )
+    }
 
-//     public static func fromCSharp(_ value: csObject) throws -> SwiftType {
-//         let v0 = try env.CallObjectMethod(value, tripleFirstMethod)
-//         let v1 = try env.CallObjectMethod(value, tripleSecondMethod)
-//         let v2 = try env.CallObjectMethod(value, tripleThirdMethod)
-//         return (
-//             try T0.fromCSharp(object: v0),
-//             try T1.fromCSharp(object: v1),
-//             try T2.fromCSharp(object: v2)
-//         )
-//     }
-
-//     public static func toCSharp(_ value: SwiftType) throws -> csObject {
-//         let v0 = try jvalue(l: T0.toCSharpObject(value.0))
-//         let v1 = try jvalue(l: T1.toCSharpObject(value.1))
-//         let v2 = try jvalue(l: T2.toCSharpObject(value.2))
-//         let result = try env.NewObject(tripleClass, tripleConstructor, v0, v1, v2)
-//         env.DeleteLocalRef(v0.l)
-//         env.DeleteLocalRef(v1.l)
-//         env.DeleteLocalRef(v2.l)
-//         return result
-//     }
-
-//     public static func cSharpSetup() throws {
-//         try T0.cSharpSetup()
-//         try T1.cSharpSetup()
-//         try T2.cSharpSetup()
-
-//         guard cSharpClass == nil else { return }
-//         tripleClass = try env.globalRef(env.FindClass("kotlin/Triple"))
-//         tripleConstructor = try env.GetMethodID(cSharpClass, "<init>", "(LcSharp/lang/Object;LcSharp/lang/Object;LcSharp/lang/Object;)V")
-//         tripleFirstMethod = try env.GetMethodID(cSharpClass, "getFirst", "()LcSharp/lang/Object;")
-//         tripleSecondMethod = try env.GetMethodID(cSharpClass, "getSecond", "()LcSharp/lang/Object;")
-//         tripleThirdMethod = try env.GetMethodID(cSharpClass, "getThird", "()LcSharp/lang/Object;")
-//     }
-// }
+    public static func toCSharp(_ value: SwiftType) throws -> csObject {
+        fatalError("TODO")
+        // let v0 = try jvalue(l: T0.toCSharpObject(value.0))
+        // let v1 = try jvalue(l: T1.toCSharpObject(value.1))
+        // let v2 = try jvalue(l: T2.toCSharpObject(value.2))
+        // let result = try env.NewObject(tripleClass, tripleConstructor, v0, v1, v2)
+        // env.DeleteLocalRef(v0.l)
+        // env.DeleteLocalRef(v1.l)
+        // env.DeleteLocalRef(v2.l)
+        // return result
+    }
+}
 
 // private var tuple4Class: csObject
 // private var tuple4Constructor: jmethodID!
@@ -767,52 +614,35 @@ extension String: CSharpConverter {
 // private var tuple4ThirdMethod: jmethodID!
 // private var tuple4FourthMethod: jmethodID!
 
-// extension Tuple4Converter: CSharpConverter where T0: CSharpConverter, T1: CSharpConverter, T2: CSharpConverter, T3: CSharpConverter {
-//     public static var cSharpClass: csObject {
-//         tuple4Class
-//     }
+extension Tuple4Converter: CSharpConverter where T0: CSharpConverter, T1: CSharpConverter, T2: CSharpConverter, T3: CSharpConverter {
+    public static func fromCSharp(_ value: csObject) throws -> SwiftType {
+        fatalError("TODO")
+        // let v0 = try env.CallObjectMethod(value, tuple4FirstMethod)
+        // let v1 = try env.CallObjectMethod(value, tuple4SecondMethod)
+        // let v2 = try env.CallObjectMethod(value, tuple4ThirdMethod)
+        // let v3 = try env.CallObjectMethod(value, tuple4FourthMethod)
+        // return (
+        //     try T0.fromCSharp(object: v0),
+        //     try T1.fromCSharp(object: v1),
+        //     try T2.fromCSharp(object: v2),
+        //     try T3.fromCSharp(object: v3)
+        // )
+    }
 
-//     public static func fromCSharp(_ value: csObject) throws -> SwiftType {
-//         let v0 = try env.CallObjectMethod(value, tuple4FirstMethod)
-//         let v1 = try env.CallObjectMethod(value, tuple4SecondMethod)
-//         let v2 = try env.CallObjectMethod(value, tuple4ThirdMethod)
-//         let v3 = try env.CallObjectMethod(value, tuple4FourthMethod)
-//         return (
-//             try T0.fromCSharp(object: v0),
-//             try T1.fromCSharp(object: v1),
-//             try T2.fromCSharp(object: v2),
-//             try T3.fromCSharp(object: v3)
-//         )
-//     }
-
-//     public static func toCSharp(_ value: SwiftType) throws -> csObject {
-//         let v0 = try jvalue(l: T0.toCSharpObject(value.0))
-//         let v1 = try jvalue(l: T1.toCSharpObject(value.1))
-//         let v2 = try jvalue(l: T2.toCSharpObject(value.2))
-//         let v3 = try jvalue(l: T3.toCSharpObject(value.3))
-//         let result = try env.NewObject(tuple4Class, tuple4Constructor, v0, v1, v2, v3)
-//         env.DeleteLocalRef(v0.l)
-//         env.DeleteLocalRef(v1.l)
-//         env.DeleteLocalRef(v2.l)
-//         env.DeleteLocalRef(v3.l)
-//         return result
-//     }
-
-//     public static func cSharpSetup() throws {
-//         try T0.cSharpSetup()
-//         try T1.cSharpSetup()
-//         try T2.cSharpSetup()
-//         try T3.cSharpSetup()
-
-//         guard cSharpClass == nil else { return }
-//         tuple4Class = try env.globalRef(env.FindClass("com/cricut/fishyjoes/runtime/Tuple4"))
-//         tuple4Constructor = try env.GetMethodID(cSharpClass, "<init>", "(LcSharp/lang/Object;LcSharp/lang/Object;LcSharp/lang/Object;LcSharp/lang/Object;)V")
-//         tuple4FirstMethod = try env.GetMethodID(cSharpClass, "getFirst", "()LcSharp/lang/Object;")
-//         tuple4SecondMethod = try env.GetMethodID(cSharpClass, "getSecond", "()LcSharp/lang/Object;")
-//         tuple4ThirdMethod = try env.GetMethodID(cSharpClass, "getThird", "()LcSharp/lang/Object;")
-//         tuple4FourthMethod = try env.GetMethodID(cSharpClass, "getFourth", "()LcSharp/lang/Object;")
-//     }
-// }
+    public static func toCSharp(_ value: SwiftType) throws -> csObject {
+        fatalError("TODO")
+        // let v0 = try jvalue(l: T0.toCSharpObject(value.0))
+        // let v1 = try jvalue(l: T1.toCSharpObject(value.1))
+        // let v2 = try jvalue(l: T2.toCSharpObject(value.2))
+        // let v3 = try jvalue(l: T3.toCSharpObject(value.3))
+        // let result = try env.NewObject(tuple4Class, tuple4Constructor, v0, v1, v2, v3)
+        // env.DeleteLocalRef(v0.l)
+        // env.DeleteLocalRef(v1.l)
+        // env.DeleteLocalRef(v2.l)
+        // env.DeleteLocalRef(v3.l)
+        // return result
+    }
+}
 
 // private var tuple5Class: csObject
 // private var tuple5Constructor: jmethodID!
@@ -822,58 +652,39 @@ extension String: CSharpConverter {
 // private var tuple5FourthMethod: jmethodID!
 // private var tuple5FifthMethod: jmethodID!
 
-// extension Tuple5Converter: CSharpConverter where T0: CSharpConverter, T1: CSharpConverter, T2: CSharpConverter, T3: CSharpConverter, T4: CSharpConverter {
-//     public static var cSharpClass: csObject {
-//         tuple5Class
-//     }
+extension Tuple5Converter: CSharpConverter where T0: CSharpConverter, T1: CSharpConverter, T2: CSharpConverter, T3: CSharpConverter, T4: CSharpConverter {
+    public static func fromCSharp(_ value: csObject) throws -> SwiftType {
+        fatalError("TODO")
+        // let v0 = try env.CallObjectMethod(value, tuple5FirstMethod)
+        // let v1 = try env.CallObjectMethod(value, tuple5SecondMethod)
+        // let v2 = try env.CallObjectMethod(value, tuple5ThirdMethod)
+        // let v3 = try env.CallObjectMethod(value, tuple5FourthMethod)
+        // let v4 = try env.CallObjectMethod(value, tuple5FifthMethod)
+        // return (
+        //     try T0.fromCSharp(object: v0),
+        //     try T1.fromCSharp(object: v1),
+        //     try T2.fromCSharp(object: v2),
+        //     try T3.fromCSharp(object: v3),
+        //     try T4.fromCSharp(object: v4)
+        // )
+    }
 
-//     public static func fromCSharp(_ value: csObject) throws -> SwiftType {
-//         let v0 = try env.CallObjectMethod(value, tuple5FirstMethod)
-//         let v1 = try env.CallObjectMethod(value, tuple5SecondMethod)
-//         let v2 = try env.CallObjectMethod(value, tuple5ThirdMethod)
-//         let v3 = try env.CallObjectMethod(value, tuple5FourthMethod)
-//         let v4 = try env.CallObjectMethod(value, tuple5FifthMethod)
-//         return (
-//             try T0.fromCSharp(object: v0),
-//             try T1.fromCSharp(object: v1),
-//             try T2.fromCSharp(object: v2),
-//             try T3.fromCSharp(object: v3),
-//             try T4.fromCSharp(object: v4)
-//         )
-//     }
-
-//     public static func toCSharp(_ value: SwiftType) throws -> csObject {
-//         let v0 = try jvalue(l: T0.toCSharpObject(value.0))
-//         let v1 = try jvalue(l: T1.toCSharpObject(value.1))
-//         let v2 = try jvalue(l: T2.toCSharpObject(value.2))
-//         let v3 = try jvalue(l: T3.toCSharpObject(value.3))
-//         let v4 = try jvalue(l: T4.toCSharpObject(value.4))
-//         let result = try env.NewObject(tuple5Class, tuple5Constructor, v0, v1, v2, v3, v4)
-//         env.DeleteLocalRef(v0.l)
-//         env.DeleteLocalRef(v1.l)
-//         env.DeleteLocalRef(v2.l)
-//         env.DeleteLocalRef(v3.l)
-//         env.DeleteLocalRef(v4.l)
-//         return result
-//     }
-
-//     public static func cSharpSetup() throws {
-//         try T0.cSharpSetup()
-//         try T1.cSharpSetup()
-//         try T2.cSharpSetup()
-//         try T3.cSharpSetup()
-//         try T4.cSharpSetup()
-
-//         guard cSharpClass == nil else { return }
-//         tuple5Class = try env.globalRef(env.FindClass("com/cricut/fishyjoes/runtime/Tuple5"))
-//         tuple5Constructor = try env.GetMethodID(cSharpClass, "<init>", "(LcSharp/lang/Object;LcSharp/lang/Object;LcSharp/lang/Object;LcSharp/lang/Object;LcSharp/lang/Object;)V")
-//         tuple5FirstMethod = try env.GetMethodID(cSharpClass, "getFirst", "()LcSharp/lang/Object;")
-//         tuple5SecondMethod = try env.GetMethodID(cSharpClass, "getSecond", "()LcSharp/lang/Object;")
-//         tuple5ThirdMethod = try env.GetMethodID(cSharpClass, "getThird", "()LcSharp/lang/Object;")
-//         tuple5FourthMethod = try env.GetMethodID(cSharpClass, "getFourth", "()LcSharp/lang/Object;")
-//         tuple5FifthMethod = try env.GetMethodID(cSharpClass, "getFifth", "()LcSharp/lang/Object;")
-//     }
-// }
+    public static func toCSharp(_ value: SwiftType) throws -> csObject {
+        fatalError("TODO")
+        // let v0 = try jvalue(l: T0.toCSharpObject(value.0))
+        // let v1 = try jvalue(l: T1.toCSharpObject(value.1))
+        // let v2 = try jvalue(l: T2.toCSharpObject(value.2))
+        // let v3 = try jvalue(l: T3.toCSharpObject(value.3))
+        // let v4 = try jvalue(l: T4.toCSharpObject(value.4))
+        // let result = try env.NewObject(tuple5Class, tuple5Constructor, v0, v1, v2, v3, v4)
+        // env.DeleteLocalRef(v0.l)
+        // env.DeleteLocalRef(v1.l)
+        // env.DeleteLocalRef(v2.l)
+        // env.DeleteLocalRef(v3.l)
+        // env.DeleteLocalRef(v4.l)
+        // return result
+    }
+}
 
 // private var tuple6Class: csObject
 // private var tuple6Constructor: jmethodID!
@@ -884,61 +695,40 @@ extension String: CSharpConverter {
 // private var tuple6FifthMethod: jmethodID!
 // private var tuple6SixthMethod: jmethodID!
 
-// extension Tuple6Converter: CSharpConverter where T0: CSharpConverter, T1: CSharpConverter, T2: CSharpConverter, T3: CSharpConverter, T4: CSharpConverter, T5: CSharpConverter {
-//     public static var cSharpClass: csObject {
-//         tuple6Class
-//     }
+extension Tuple6Converter: CSharpConverter where T0: CSharpConverter, T1: CSharpConverter, T2: CSharpConverter, T3: CSharpConverter, T4: CSharpConverter, T5: CSharpConverter {
+    public static func fromCSharp(_ value: csObject) throws -> SwiftType {
+        fatalError("TODO")
+        // let v0 = try env.CallObjectMethod(value, tuple6FirstMethod)
+        // let v1 = try env.CallObjectMethod(value, tuple6SecondMethod)
+        // let v2 = try env.CallObjectMethod(value, tuple6ThirdMethod)
+        // let v3 = try env.CallObjectMethod(value, tuple6FourthMethod)
+        // let v4 = try env.CallObjectMethod(value, tuple6FifthMethod)
+        // let v5 = try env.CallObjectMethod(value, tuple6SixthMethod)
+        // return (
+        //     try T0.fromCSharp(object: v0),
+        //     try T1.fromCSharp(object: v1),
+        //     try T2.fromCSharp(object: v2),
+        //     try T3.fromCSharp(object: v3),
+        //     try T4.fromCSharp(object: v4),
+        //     try T5.fromCSharp(object: v5)
+        // )
+    }
 
-//     public static func fromCSharp(_ value: csObject) throws -> SwiftType {
-//         let v0 = try env.CallObjectMethod(value, tuple6FirstMethod)
-//         let v1 = try env.CallObjectMethod(value, tuple6SecondMethod)
-//         let v2 = try env.CallObjectMethod(value, tuple6ThirdMethod)
-//         let v3 = try env.CallObjectMethod(value, tuple6FourthMethod)
-//         let v4 = try env.CallObjectMethod(value, tuple6FifthMethod)
-//         let v5 = try env.CallObjectMethod(value, tuple6SixthMethod)
-//         return (
-//             try T0.fromCSharp(object: v0),
-//             try T1.fromCSharp(object: v1),
-//             try T2.fromCSharp(object: v2),
-//             try T3.fromCSharp(object: v3),
-//             try T4.fromCSharp(object: v4),
-//             try T5.fromCSharp(object: v5)
-//         )
-//     }
-
-//     public static func toCSharp(_ value: SwiftType) throws -> csObject {
-//         let v0 = try jvalue(l: T0.toCSharpObject(value.0))
-//         let v1 = try jvalue(l: T1.toCSharpObject(value.1))
-//         let v2 = try jvalue(l: T2.toCSharpObject(value.2))
-//         let v3 = try jvalue(l: T3.toCSharpObject(value.3))
-//         let v4 = try jvalue(l: T4.toCSharpObject(value.4))
-//         let v5 = try jvalue(l: T5.toCSharpObject(value.5))
-//         let result = try env.NewObject(tuple6Class, tuple6Constructor, v0, v1, v2, v3, v4, v5)
-//         env.DeleteLocalRef(v0.l)
-//         env.DeleteLocalRef(v1.l)
-//         env.DeleteLocalRef(v2.l)
-//         env.DeleteLocalRef(v3.l)
-//         env.DeleteLocalRef(v4.l)
-//         env.DeleteLocalRef(v5.l)
-//         return result
-//     }
-
-//     public static func cSharpSetup() throws {
-//         try T0.cSharpSetup()
-//         try T1.cSharpSetup()
-//         try T2.cSharpSetup()
-//         try T3.cSharpSetup()
-//         try T4.cSharpSetup()
-//         try T5.cSharpSetup()
-
-//         guard cSharpClass == nil else { return }
-//         tuple6Class = try env.globalRef(env.FindClass("com/cricut/fishyjoes/runtime/Tuple6"))
-//         tuple6Constructor = try env.GetMethodID(cSharpClass, "<init>", "(LcSharp/lang/Object;LcSharp/lang/Object;LcSharp/lang/Object;LcSharp/lang/Object;LcSharp/lang/Object;LcSharp/lang/Object;)V")
-//         tuple6FirstMethod = try env.GetMethodID(cSharpClass, "getFirst", "()LcSharp/lang/Object;")
-//         tuple6SecondMethod = try env.GetMethodID(cSharpClass, "getSecond", "()LcSharp/lang/Object;")
-//         tuple6ThirdMethod = try env.GetMethodID(cSharpClass, "getThird", "()LcSharp/lang/Object;")
-//         tuple6FourthMethod = try env.GetMethodID(cSharpClass, "getFourth", "()LcSharp/lang/Object;")
-//         tuple6FifthMethod = try env.GetMethodID(cSharpClass, "getFifth", "()LcSharp/lang/Object;")
-//         tuple6SixthMethod = try env.GetMethodID(cSharpClass, "getSixth", "()LcSharp/lang/Object;")
-//     }
-// }
+    public static func toCSharp(_ value: SwiftType) throws -> csObject {
+        fatalError("TODO")
+        // let v0 = try jvalue(l: T0.toCSharpObject(value.0))
+        // let v1 = try jvalue(l: T1.toCSharpObject(value.1))
+        // let v2 = try jvalue(l: T2.toCSharpObject(value.2))
+        // let v3 = try jvalue(l: T3.toCSharpObject(value.3))
+        // let v4 = try jvalue(l: T4.toCSharpObject(value.4))
+        // let v5 = try jvalue(l: T5.toCSharpObject(value.5))
+        // let result = try env.NewObject(tuple6Class, tuple6Constructor, v0, v1, v2, v3, v4, v5)
+        // env.DeleteLocalRef(v0.l)
+        // env.DeleteLocalRef(v1.l)
+        // env.DeleteLocalRef(v2.l)
+        // env.DeleteLocalRef(v3.l)
+        // env.DeleteLocalRef(v4.l)
+        // env.DeleteLocalRef(v5.l)
+        // return result
+    }
+}

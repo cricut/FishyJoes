@@ -185,32 +185,34 @@ final class CSharpTranslator: Translator {
             .mapValues { types in types.sorted { "\($0)" < "\($1)" } }
             .sorted { $0.key < $1.key }
 
-        fragment.outputBlock("public class \(context.module.name) {") {
-            var initializerWriters: [() -> Void] = []
-            for (baseName, _) in uniqueBaseTypes {
-                fragment.output("[DllImport(\"\(context.module.name)\")]")
-                let setupName = "\(baseName)Setup"
-                fragment.outputBlock("static extern void \(setupName)(", closeWith: ");") {
-                    // fragment.output("...")
-                    initializerWriters.append {
-                        fragment.output("Console.WriteLine(\"setting up \(baseName)...\");")
-                        // fragment.output("\(setupName)(...);")
-                        fragment.output("\(setupName)();")
+        fragment.outputBlock("namespace Cricut.\(context.module.name) {") {
+            fragment.outputBlock("public class _TypeSetup {") {
+                var initializerWriters: [() -> Void] = []
+                for (baseName, _) in uniqueBaseTypes {
+                    fragment.output("[DllImport(\"\(context.module.name)\")]")
+                    let setupName = "\(baseName)Setup"
+                    fragment.outputBlock("static extern void \(setupName)(", closeWith: ");") {
+                        // fragment.output("...")
+                        initializerWriters.append {
+                            fragment.output("Console.WriteLine(\"setting up \(baseName)...\");")
+                            // fragment.output("\(setupName)(...);")
+                            fragment.output("\(setupName)();")
+                        }
                     }
+                    fragment.blankLine()
                 }
+
+                fragment.output("public static void _ensureLoaded() {}")
                 fragment.blankLine()
-            }
 
-            fragment.output("public static void _ensureLoaded() {}")
-            fragment.blankLine()
-
-            fragment.outputBlock("static \(context.module.name)() {") {
-                for dependency in context.module.dependencies {
-                    fragment.output("// There's no explicit way to call the static constructor, so do this instead")
-                    fragment.output("\(dependency)._ensureLoaded()")
-                }
-                for writer in initializerWriters {
-                    writer()
+                fragment.outputBlock("static _TypeSetup() {") {
+                    for dependency in context.module.dependencies {
+                        fragment.output("// There's no explicit way to call the static constructor, so do this instead")
+                        fragment.output("\(dependency)._ensureLoaded()")
+                    }
+                    for writer in initializerWriters {
+                        writer()
+                    }
                 }
             }
         }
@@ -224,7 +226,7 @@ final class CSharpTranslator: Translator {
         return [fragment, exportFragment]
     }
 
-    func cSharp(method: Method, context: FishyJoesContext) -> CSharpClass.MethodOrVariable? {
+    func cSharp(method: Method, of type: TranslatedType, context: FishyJoesContext) -> CSharpClass.MethodOrVariable? {
         let exportAnnotation = method.exportAnnotation
         var omitParameters = Set(exportAnnotation.omitParameters)
         var parameters: [(labelComment: String?, name: String, CSharpClass.CSType)] = []
@@ -248,6 +250,7 @@ final class CSharpTranslator: Translator {
                 isStatic: method.isStatic,
                 isOverride: method.exportAnnotation.isOverride,
                 name: exportAnnotation.name,
+                mangledName: "\(type.mangledName)_\(exportAnnotation.name.mangled)",
                 parameters: parameters,
                 returnType: context.resolve(type: method.returnType, generics: exportAnnotation.genericOverrides).cSharpType,
                 body: nil
@@ -255,7 +258,7 @@ final class CSharpTranslator: Translator {
         )
     }
 
-    func cSharp(field: Variable, context: FishyJoesContext, useNativeName: Bool = false) -> CSharpClass.MethodOrVariable? {
+    func cSharp(field: Variable, of type: TranslatedType, context: FishyJoesContext, useNativeName: Bool = false) -> CSharpClass.MethodOrVariable? {
         let csName: String
         var asMethod = false
 
@@ -279,6 +282,7 @@ final class CSharpTranslator: Translator {
                     isStatic: field.isStatic,
                     isOverride: field.exportAnnotation?.isOverride ?? false,
                     name: csName,
+                    mangledName: "\(type.mangledName)_\(csName.mangled)",
                     parameters: [],
                     returnType: resolved.cSharpType,
                     body: nil
@@ -292,6 +296,7 @@ final class CSharpTranslator: Translator {
                     isOverride: field.exportAnnotation?.isOverride ?? false,
                     readOnly: !field.isMutable,
                     name: csName,
+                    mangledName: "\(type.mangledName)_\(csName.mangled)",
                     type: resolved.cSharpType
                 )
             )

@@ -37,4 +37,15 @@ extension Structs.ReferenceStruct: JavaMutator {
             )
         }
     }
+    static let _javaHash: @convention(c)(
+        UnsafeMutablePointer<JNIEnv?>,
+        jobject?
+    ) -> Int32.CType = { _javaEnv, _javaThis in
+        FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
+            return try Int32.toJava(
+                Int32(truncatingIfNeeded: Structs.ReferenceStruct.fromJava(_javaThis, env: _javaEnv).hashValue),
+                env: _javaEnv
+            )
+        }
+    }
 }

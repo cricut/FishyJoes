@@ -78,9 +78,9 @@ export declare namespace TestAPI {
         static readonly maybeSetOfMaybeInt?: Set<number>;
 
         /**
-         * <!-- FishyJoes.export(maybeDictionaryOfMaybeIntToMaybeInt) -->
+         * <!-- FishyJoes.export(maybeDictionaryOfIntToMaybeInt) -->
          */
-        static readonly maybeDictionaryOfMaybeIntToMaybeInt?: Map<number, number>;
+        static readonly maybeDictionaryOfIntToMaybeInt?: Map<number, number>;
 
         /**
          * <!-- FishyJoes.export(defaultCollectionHolder) -->
@@ -123,10 +123,10 @@ export declare namespace TestAPI {
         ): Optional<Set<number>>;
 
         /**
-         * <!-- FishyJoes.export(echoMaybeDictionaryOfMaybeIntToMaybeInt) -->
+         * <!-- FishyJoes.export(echoMaybeDictionaryOfIntToMaybeInt) -->
          */
-        static echoMaybeDictionaryOfMaybeIntToMaybeInt(
-            maybeDictionaryOfMaybeIntToMaybeInt: Optional<Map<number, number>>
+        static echoMaybeDictionaryOfIntToMaybeInt(
+            maybeDictionaryOfIntToMaybeInt: Optional<Map<number, number>>
         ): Optional<Map<number, number>>;
     }
     export namespace Collections {

@@ -43,7 +43,7 @@ namespace TestAPI {
                 void* FJInternalBinding_TestAPI_Collections_echoDictionaryOfIntToInt(void*);
                 void* FJInternalBinding_TestAPI_Collections_echoMaybeArrayOfMaybeInt(void*);
                 void* FJInternalBinding_TestAPI_Collections_echoMaybeSetOfMaybeInt(void*);
-                void* FJInternalBinding_TestAPI_Collections_echoMaybeDictionaryOfMaybeIntToMaybeInt(void*);
+                void* FJInternalBinding_TestAPI_Collections_echoMaybeDictionaryOfIntToMaybeInt(void*);
                 void* FJInternalBinding_TestAPI_Collections_getArrayOfInt();
                 void* FJInternalBinding_TestAPI_Collections_getSetOfInt();
                 void* FJInternalBinding_TestAPI_Collections_getDictionaryOfIntToInt();
@@ -52,7 +52,7 @@ namespace TestAPI {
                 void* FJInternalBinding_TestAPI_Collections_getMaybeDictionaryOfIntToInt();
                 void* FJInternalBinding_TestAPI_Collections_getMaybeArrayOfMaybeInt();
                 void* FJInternalBinding_TestAPI_Collections_getMaybeSetOfMaybeInt();
-                void* FJInternalBinding_TestAPI_Collections_getMaybeDictionaryOfMaybeIntToMaybeInt();
+                void* FJInternalBinding_TestAPI_Collections_getMaybeDictionaryOfIntToMaybeInt();
                 void* FJInternalBinding_TestAPI_Collections_getDefaultCollectionHolder();
                 void* FJInternalBinding_TestAPI_Collections_CollectionHolder_getStaticPropery();
                 void* FJInternalBinding_TestAPI_Collections_CollectionHolder_getStaticMutablePropery();

@@ -31,8 +31,8 @@ public enum Collections {
     public static let maybeArrayOfMaybeInt: [Int?]? = [nil, 2, 7, 3, 5, 8]
     /// <!-- FishyJoes.export(maybeSetOfMaybeInt) -->
     public static let maybeSetOfMaybeInt: Set<Int?>? = [nil, 5, 9, 2, 4, 3]
-    /// <!-- FishyJoes.export(maybeDictionaryOfMaybeIntToMaybeInt) -->
-    public static let maybeDictionaryOfMaybeIntToMaybeInt: [Int?: Int?]? = [nil: 100, 1: 10, 2: 20, 3: 30, 4: 40, 5: 50]
+    /// <!-- FishyJoes.export(maybeDictionaryOfIntToMaybeInt) -->
+    public static let maybeDictionaryOfIntToMaybeInt: [Int: Int?]? = [100: nil, 1: 10, 2: 20, 3: 30, 4: 40, 5: 50]
 
     // MARK: - Functions Taking / Returning Collection Types
 
@@ -49,8 +49,8 @@ public enum Collections {
     public static func echo(maybeArrayOfMaybeInt: [Int?]?) -> [Int?]? { return maybeArrayOfMaybeInt }
     /// <!-- FishyJoes.export(echoMaybeSetOfMaybeInt) -->
     public static func echo(maybeSetOfMaybeInt: Set<Int?>?) -> Set<Int?>? { return maybeSetOfMaybeInt }
-    /// <!-- FishyJoes.export(echoMaybeDictionaryOfMaybeIntToMaybeInt) -->
-    public static func echo(maybeDictionaryOfMaybeIntToMaybeInt: [Int?: Int?]?) -> [Int?: Int?]? { return maybeDictionaryOfMaybeIntToMaybeInt }
+    /// <!-- FishyJoes.export(echoMaybeDictionaryOfIntToMaybeInt) -->
+    public static func echo(maybeDictionaryOfIntToMaybeInt: [Int: Int?]?) -> [Int: Int?]? { return maybeDictionaryOfIntToMaybeInt }
 
     // MARK: - Functions Taking Closures with Collection Types
 

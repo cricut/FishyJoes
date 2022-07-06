@@ -43,7 +43,13 @@ struct TranslatedStruct: TranslatedType {
     }
 
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
-        [nodeDefinitionFragment(in: context), jniDefinitionFragment(in: context), neutralDefinitionFragment(in: context), cppDefinitionFragment(in: context)]
+        [
+            nodeDefinitionFragment(in: context),
+            jniDefinitionFragment(in: context),
+            cSharpDefinitionFragment(in: context),
+            neutralDefinitionFragment(in: context),
+            cppDefinitionFragment(in: context),
+        ]
     }
 
     func cppDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
@@ -218,8 +224,8 @@ struct TranslatedStruct: TranslatedType {
             "JavaInterface/\(sourceType.name)+java.swift",
             additionalImports: ["Foundation", "FishyJoesJavaRuntime"]
         )
-        let className = context.kotlinTranslator.javaClassName(nodeName, in: context)
-        fragment.outputBlock("extension \(sourceType.name): JavaConverter {") {
+        let className = context.kotlinTranslator.javaClassName(kotlinName, in: context)
+        fragment.outputBlock("extension \(sourceType.name): JavaMutator {") {
             fragment.output("public typealias SwiftType = Self")
             fragment.output("public typealias CType = jobject?")
             fragment.blankLine()
@@ -288,7 +294,7 @@ struct TranslatedStruct: TranslatedType {
             KotlinProductClass(
                 module: context.module,
                 documentation: documentation,
-                name: nodeName,
+                name: kotlinName,
                 constructor: .`public`(
                     fields: storedVariables.compactMap {
                         switch context.kotlin(field: $0, useNativeName: true) {
@@ -301,6 +307,121 @@ struct TranslatedStruct: TranslatedType {
                 fieldsAndMethods:
                     computedVariables.compactMap { context.kotlin(field: $0, useNativeName: false) } +
                     methods.compactMap { context.kotlin(method: $0) }
+            )
+        )
+
+        return fragment
+    }
+
+    func cSharpDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
+        let fragment = context.swiftFragment(
+            "CSharpInterface/\(sourceType.name)+cSharp.swift",
+            additionalImports: ["Foundation", "FishyJoesCSharpRuntime"]
+        )
+
+        fragment.output("@_cdecl(\"\(converterType.genericBaseName.mangledName)Setup\")")
+        fragment.outputBlock("fileprivate func cSharpSetup(", newLineTerminated: false) {
+            fragment.output("constructorMethod: @escaping \(converterType.name)._ConstructorMethod,")
+            for storedVar in storedVariables {
+                let resolved = context.resolve(type: storedVar.typeName.better)
+                fragment.output("_ \(storedVar.name)Getter: @escaping (csObject, _ exn: csOutExn) -> \(resolved.converterType.name).CType,")
+            }
+            fragment.output("_ exn: csOutExn")
+        }
+        fragment.outputBlock(" {") {
+            fragment.output("guard \(converterType.name)._constructorMethod == nil else { return }")
+            fragment.output("\(converterType.name)._constructorMethod = constructorMethod")
+            for storedVar in storedVariables {
+                fragment.output("\(converterType.name)._\(storedVar.name)Getter = \(storedVar.name)Getter")
+            }
+        }
+        fragment.blankLine()
+
+        fragment.outputBlock("extension \(converterType.name): CSharpConverter {") {
+            for storedVar in storedVariables {
+                let resolved = context.resolve(type: storedVar.typeName.better)
+                fragment.output("fileprivate static var _\(storedVar.name)Getter: ((csObject, _ exn: csOutExn) -> \(resolved.converterType.name).CType)!")
+            }
+            fragment.outputBlock("fileprivate typealias _ConstructorMethod = (", closeWith: ") -> csObject") {
+                for storedVar in storedVariables {
+                    let resolved = context.resolve(type: storedVar.typeName.better)
+                    fragment.output("\(resolved.converterType.name).CType,")
+                }
+                fragment.output("_ exn: csOutExn")
+            }
+            fragment.output("fileprivate static var _constructorMethod: _ConstructorMethod!")
+            fragment.blankLine()
+
+            fragment.outputBlock("public static func fromCSharp(_ value: csObject) throws -> Self {") {
+                fragment.outputBlock("Self(") {
+                    for (index, storedVar) in storedVariables.enumerated() {
+                        let resolved = context.resolve(type: storedVar.typeName.better)
+                        let last = index == storedVariables.count - 1
+                        fragment.outputBlock("\(storedVar.name): try \(resolved.converterType.name).fromCSharp(", closeWith: last ? ")" : "),") {
+                            fragment.output("try Env.check { exn in _\(storedVar.name)Getter(value, exn) }")
+                        }
+                    }
+                }
+            }
+            fragment.blankLine()
+
+            fragment.outputBlock("public static func toCSharp(_ value: Self) throws -> csObject {") {
+                fragment.outputBlock("try Env.check { exn in", closeWith: "}") {
+                    fragment.outputBlock("_constructorMethod(") {
+                        for storedVar in storedVariables {
+                            let resolved = context.resolve(type: storedVar.typeName.better)
+                            fragment.output("try \(resolved.converterType.name).toCSharp(value.\(storedVar.name)),")
+                        }
+                        fragment.output("exn")
+                    }
+                }
+            }
+            fragment.blankLine()
+
+            // fragment.outputBlock("public static func javaSetup(env: Env) throws {") {
+            //     fragment.output("guard javaClass == nil else { return }")
+            //     fragment.output("javaClass = try env.globalRef(env.FindClass(\"\(className)\"))")
+            //     var constructorDescriptor = ""
+            //     for storedVar in storedVariables {
+            //         let resolved = context.resolve(type: storedVar.typeName.better)
+            //         fragment.output("_java_\(storedVar.name)_id = try env.GetFieldID(javaClass, \"\(storedVar.name)\", \"\(resolved.jniType.asSignature)\")")
+            //         constructorDescriptor += resolved.jniType.asSignature
+            //     }
+            //     fragment.output("_constructorMethod = try env.GetMethodID(javaClass, \"<init>\", \"(\(constructorDescriptor))V\")")
+            // }
+
+            // fragment.outputBlock("public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout Self) throws -> R) throws -> R {") {
+            //     fragment.output("var mutatingSelf = try fromJava(this, env: env)")
+            //     fragment.output("let result = try body(&mutatingSelf)")
+            //     for storedVar in storedVariables {
+            //         let resolved = context.resolve(type: storedVar.typeName.better)
+            //         let fieldCType = resolved.jniType.valueType
+            //         fragment.outputBlock("try env.Set\(fieldCType)Field(") {
+            //             fragment.output("this, Self._java_\(storedVar.name)_id,")
+            //             fragment.output("\(resolved.converterType.name).toJava(mutatingSelf.\(storedVar.name), env: env)")
+            //         }
+            //     }
+            //     fragment.output("return result")
+            // }
+        }
+
+        context.cSharpClasses.append(
+            CSharpProductClass(
+                module: context.module,
+                documentation: documentation,
+                name: cSharpName,
+                constructor: .`public`(
+                    fields: storedVariables.compactMap {
+                        switch context.cSharp(field: $0, of: self, useNativeName: true) {
+                        case .method: fatalErr("Can't export a stored variable `\(self.sourceType.name).\($0.name)` as a method")
+                        case .variable(let field): return field
+                        case nil: return nil
+                        }
+                    }
+                ),
+                fieldsAndMethods:
+                    computedVariables.compactMap { context.cSharp(field: $0, of: self, useNativeName: false) } +
+                    methods.compactMap { context.cSharp(method: $0, of: self) }
             )
         )
 

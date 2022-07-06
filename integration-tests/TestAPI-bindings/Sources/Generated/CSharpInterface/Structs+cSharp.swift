@@ -7,14 +7,15 @@ import TestAPI
 
 @_cdecl("StructsSetup")
 fileprivate func cSharpSetup(
-    constructorMethod: @escaping @convention(c) (UnsafeMutableRawPointer) -> csObject
+    constructorMethod: @escaping @convention(c) (UnsafeMutableRawPointer, _ exn: csOutExn) -> csObject,
+    _ exn: csOutExn
 ) {
     guard Structs._constructorMethod == nil else { return }
     Structs._constructorMethod = constructorMethod
 }
 
 extension Structs: CSharpMutator {
-    fileprivate static var _constructorMethod: ((UnsafeMutableRawPointer) -> csObject)!
+    fileprivate static var _constructorMethod: ((UnsafeMutableRawPointer, _ exn: csOutExn) -> csObject)!
 
     public static func fromCSharp(_ value: csObject) throws -> Self {
         try Box<Structs>.fromCSharp(value).value
@@ -22,7 +23,7 @@ extension Structs: CSharpMutator {
 
     public static func toCSharp(_ value: Self) throws -> csObject {
         let ptr = Box(value).retainedOpaque()
-        return _constructorMethod(ptr)
+        return try Env.check { env in _constructorMethod(ptr, env) }
     }
 
     public static func mutateCSharp<R>(_ this: csObject, body: (inout Self) throws -> R) throws -> R {

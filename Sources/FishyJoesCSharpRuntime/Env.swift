@@ -2,6 +2,7 @@
 import Foundation
 
 public typealias csObject = OpaquePointer?
+public typealias csOutExn = UnsafeMutablePointer<csObject>
 
 public struct CSharpException: Error {
     var exception: csObject
@@ -19,38 +20,38 @@ func Env_setupGCPin(
 }
 
 public enum Env {
-    typealias PinFn = @convention(c) (csObject, _ exn: UnsafeMutablePointer<csObject>) -> Void
-    typealias UnpinFn = @convention(c) (csObject, _ exn: UnsafeMutablePointer<csObject>) -> Void
-    typealias NewErrorFn = @convention(c) (UnsafePointer<CChar>) -> csObject
+    public typealias PinFn = @convention(c) (csObject, _ exn: csOutExn) -> Void
+    public typealias UnpinFn = @convention(c) (csObject, _ exn: csOutExn) -> Void
+    public typealias NewErrorFn = @convention(c) (UnsafePointer<CChar>) -> csObject
 
     fileprivate static var pinFn: PinFn!
     fileprivate static var unpinFn: UnpinFn!
     fileprivate static var newErrorFn: NewErrorFn!
 
-    static func expectNull(_ object: csObject) throws {
+    public static func expectNull(_ object: csObject) throws {
         if let exception = object {
             throw CSharpException(exception: exception)
         }
     }
 
-    static func nonNull<R>(_ value: R?) throws -> R {
+    public static func nonNull<R>(_ value: R?) throws -> R {
         guard let value = value else {
             throw NullPointerError()
         }
         return value
     }
 
-    static func pin(object: csObject) throws -> csObject {
+    public static func pin(object: csObject) throws -> csObject {
         try check { exn in pinFn(object, exn) }
         return object
     }
 
-    static func unpin(object: csObject) throws -> csObject {
+    public static func unpin(object: csObject) throws -> csObject {
         try check { exn in pinFn(object, exn) }
         return object
     }
 
-    static func check<R>(_ body: (_ exn: UnsafeMutablePointer<csObject>) throws -> R) throws -> R {
+    public static func check<R>(_ body: (_ exn: csOutExn) throws -> R) throws -> R {
         var exn: csObject = nil
         let result = try body(&exn)
         if let exn = exn {
@@ -59,7 +60,7 @@ public enum Env {
         return result
     }
 
-    static func catching(to pointer: UnsafeMutablePointer<csObject>, _ body: () throws -> Void) {
+    public static func catching(to pointer: csOutExn, _ body: () throws -> Void) {
         do {
             try body()
         } catch let exception as CSharpException {
@@ -69,8 +70,7 @@ public enum Env {
         }
     }
 
-    @_disfavoredOverload
-    static func catching<R: Default>(to pointer: UnsafeMutablePointer<csObject>, _ body: () throws -> R) -> R {
+    public static func catching<R: Default>(to pointer: csOutExn, _ body: () throws -> R) -> R {
         var result: R?
         catching(to: pointer) {
             result = try body()

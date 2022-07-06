@@ -1,6 +1,6 @@
 TranslatedReference for Structs.ReferenceStruct {
     Equatable: true
-    Hashable: false
+    Hashable: true
     Documentation {
         <!-- FishyJoes.exportReference(Structs.ReferenceStruct) -->
     }

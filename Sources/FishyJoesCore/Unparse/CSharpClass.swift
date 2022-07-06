@@ -1,7 +1,14 @@
+private var forbiddenVarNames: Set<String> = [
+    "String",
+    "string",
+]
+private func deforbidify(_ name: String) -> String {
+    forbiddenVarNames.contains(name) ? "_\(name)" : name
+}
+
 class CSharpClass: NestedClass {
     indirect enum CSType: Equatable {
         case void
-        case unsigned(jniType: JNIType)
         case named(package: String?, name: String)
         case optional(CSType)
     }
@@ -16,17 +23,19 @@ class CSharpClass: NestedClass {
         let isStatic: Bool
         let isOverride: Bool
         let name: String
+        let mangledName: String
         let parameters: [(labelComment: String?, name: String, type: CSType)]
         let returnType: CSType
         let body: String?
     }
 
-    struct Variable {
+    struct Variable: Equatable {
         let documentation: [String]
         let isStatic: Bool
         let isOverride: Bool
         let readOnly: Bool
         let name: String
+        let mangledName: String
         let type: CSType
     }
 
@@ -55,12 +64,18 @@ class CSharpClass: NestedClass {
     var fragment: SourceFragment {
         let fragment = SourceFragment(sourceryDestination: "file:../../c-sharp/src/generated/\(name).cs")
 
-        fragment.blankLine()
+        fragment.output("using System;")
+        fragment.output("using System.Runtime.InteropServices;")
+        fragment.output("using System.Collections.Generic;")
+        fragment.output("using Cricut.FishyJoesRuntime;")
+        fragment.output("using static Cricut.FishyJoesRuntime.Utilities;")
         for dependency in module.dependencies {
-            fragment.output("import \(dependency.lowercased())")
+            fragment.output("using \(dependency.lowercased());")
         }
         fragment.blankLine()
-        output(to: fragment)
+        fragment.outputBlock("namespace Cricut.\(module.name) {") {
+            output(to: fragment)
+        }
         return fragment
     }
 
@@ -83,24 +98,22 @@ class CSharpClass: NestedClass {
 
     func output(field: Variable, to fragment: SourceFragment) {
         document(field.documentation, fragment: fragment)
-        fragment.output("\(field.isOverride ? "override " : "")\(field.readOnly ? "val" : "var") \(field.name): \(field.type.cSharpType)")
-        fragment.output("  get() = __jni_get_\(field.name)()\(field.type.toCSharpType)")
-        if !field.readOnly {
-            fragment.output("  set(value) { __jni_set_\(field.name)(value\(field.type.toJVMType)) } ")
-        }
-
-        if field.isStatic {
-            fragment.output("@JvmStatic")
-        }
-
-        fragment.output("@JvmName(\"__jni_get_\(field.name)\")")
-        fragment.output("private external fun __jni_get_\(field.name)(): \(field.type.jvmType)")
-        if !field.readOnly {
-            if field.isStatic {
-                fragment.output("@JvmStatic")
+        let selfFormal = field.isStatic ? "" : "object self, "
+        let selfArg = field.isStatic ? "" : "this, "
+        fragment.outputBlock("public \(field.isOverride ? "override " : "")\(field.type.cSharpType) \(field.name) {") {
+            fragment.output("get => Check((out Exception? exn) => __cs_get_\(field.mangledName)(\(selfArg)out exn));")
+            if !field.readOnly {
+                fragment.output("set { Check((out Exception? exn) => __cs_set_\(field.mangledName)(\(selfArg)value, out exn)); }")
             }
-            fragment.output("@JvmName(\"__jni_set_\(field.name)\")")
-            fragment.output("private external fun __jni_set_\(field.name)(newValue: \(field.type.jvmType))")
+        }
+
+        fragment.blankLine()
+        fragment.output("[DllImport(\"\(module.name)\")]")
+        fragment.output("private static extern \(field.type.cSharpType) __cs_get_\(field.mangledName)(\(selfFormal)out Exception? exn);")
+        if !field.readOnly {
+            fragment.blankLine()
+            fragment.output("[DllImport(\"\(module.name)\")]")
+            fragment.output("private static extern void __cs_set_\(field.mangledName)(\(selfFormal)\(field.type.cSharpType) value, out Exception? exn);")
         }
         fragment.blankLine()
     }
@@ -108,38 +121,31 @@ class CSharpClass: NestedClass {
     func output(method: Method, to fragment: SourceFragment) {
         document(method.documentation, fragment: fragment)
         if !method.name.hasPrefix("_") {
-            if method.isOverride {
-                fragment.output("override ", newLineTerminated: false)
-            }
-            fragment.outputBlock("fun \(method.name)(", newLineTerminated: false) {
+            fragment.output("public \(method.isOverride ? "override " : "")", newLineTerminated: false)
+            fragment.outputBlock("\(method.returnType.cSharpType) \(method.name)(", newLineTerminated: false) {
                 fragment.outputMap(method.parameters, separator: ",") { parameter in
                     let labelComment = parameter.labelComment.map { "/* \($0) */ " } ?? ""
-                    return "\(labelComment)\(parameter.name): \(parameter.type.cSharpType)"
+                    return "\(parameter.type.cSharpType) \(labelComment)\(deforbidify(parameter.name))"
                 }
             }
-            if method.returnType != CSType.void {
-                fragment.output(": \(method.returnType.cSharpType)", newLineTerminated: false)
-            }
             if let body = method.body {
-                fragment.output(" = \(body)\(method.returnType.toCSharpType)")
+                fragment.output(" => \(body);")
             } else {
-                fragment.output(" = __jni_\(method.name)(\(method.parameters.map({ "\($0.name)\($0.type.toJVMType)" }).joined(separator: ", ")))\(method.returnType.toCSharpType)")
+                let paramStrings = (method.isStatic ? [] : ["this"]) + method.parameters.map { "\(deforbidify($0.name))" } + ["out exn"]
+                fragment.output(" => Check((out Exception? exn) => __cs_\(method.mangledName)(\(paramStrings.joined(separator: ", "))));")
             }
         }
         if method.body == nil {
-            if method.isStatic {
-                fragment.output("@JvmStatic")
-            }
-            fragment.output("@JvmName(\"__jni_\(method.name)\")")
-            fragment.outputBlock("private external fun __jni_\(method.name)(", newLineTerminated: false) {
-                fragment.outputMap(method.parameters, separator: ",") { parameter in
-                    return "\(parameter.name): \(parameter.type.jvmType)"
+            fragment.output("[DllImport(\"\(module.name)\")]")
+            fragment.outputBlock("static extern \(method.returnType.cSharpType) __cs_\(method.mangledName)(", closeWith: ");") {
+                if !method.isStatic {
+                    fragment.output("object self,")
                 }
+                for parameter in method.parameters {
+                    fragment.output("\(parameter.type.cSharpType) \(deforbidify(parameter.name)),")
+                }
+                fragment.output("out Exception? exn")
             }
-            if method.returnType != CSType.void {
-                fragment.output(": \(method.returnType.jvmType)", newLineTerminated: false)
-            }
-            fragment.output()
         }
         fragment.blankLine()
     }
@@ -147,36 +153,15 @@ class CSharpClass: NestedClass {
 
 extension CSharpClass.CSType: CustomStringConvertible {
     var description: String {
-        "FIXME: You should not use this, you should use one of the representations below. \(jvmType)"
-    }
-
-    var jvmType: String {
-        switch self {
-        case let .unsigned(jniType): return jniType.valueType
-        default: return cSharpType
-        }
+        "FIXME: You should not use this, you should use one of the representations below. \(cSharpType)"
     }
 
     var cSharpType: String {
         switch self {
         case .void: return "Void"
-        case let .unsigned(jniType): return "U\(jniType.valueType)"
         case let .named(.none, name): return name
         case let .named(.some(package), name): return "\(package).\(name)"
         case let .optional(wrapped): return "\(wrapped.cSharpType)?"
-        }
-    }
-
-    var toJVMType: String {
-        switch self {
-        case .unsigned: return ".to\(jvmType)()"
-        default: return ""
-        }
-    }
-    var toCSharpType: String {
-        switch self {
-        case .unsigned: return ".to\(cSharpType)()"
-        default: return ""
         }
     }
 }
@@ -187,7 +172,7 @@ class CSharpProductClass: CSharpClass {
         let value: CSType
     }
 
-    enum Constructor {
+    enum Constructor: Equatable {
         case `public`(fields: [Variable])
         case reference
     }
@@ -225,28 +210,37 @@ class CSharpProductClass: CSharpClass {
     override func output(to fragment: SourceFragment) {
         document(documentation, fragment: fragment)
 
-        switch constructor {
-        case .reference:
-            fragment.output("class \(unqualifiedName) private constructor(swiftReference: Long): com.cricut.fishyjoes.runtime.SwiftReference(swiftReference)", newLineTerminated: false)
-        case .`public`(let fields):
-            fragment.outputBlock("data class \(unqualifiedName)(") {
-                fragment.outputMap(fields, separator: ",") { field in
-                    "\(field.readOnly ? "val" : "var") \(field.name): \(field.type.cSharpType)"
+        let implements = constructor == .reference ? " : SwiftReference" : ""
+        fragment.outputBlock("public class \(unqualifiedName)\(implements) {") {
+            switch constructor {
+            case .reference:
+                fragment.output("\(unqualifiedName)(IntPtr reference): base(reference) {}")
+            case .public(let fields):
+                for field in fields {
+                    fragment.output("\(field.type.cSharpType) \(deforbidify(field.name));")
+                }
+                fragment.blankLine()
+
+                fragment.outputBlock("\(unqualifiedName)(", newLineTerminated: false) {
+                    fragment.outputMap(fields, separator: ",") { field in
+                        "\(field.type.cSharpType) \(deforbidify(field.name))"
+                    }
+                }
+                fragment.outputBlock(" {") {
+                    for field in fields {
+                        fragment.output("this.\(deforbidify(field.name)) = \(deforbidify(field.name));")
+                    }
                 }
             }
-        }
-        fragment.outputBlock(" {") {
-            fields.filter { !$0.isStatic }.forEach { output(field: $0, to: fragment) }
-            methods.filter { !$0.isStatic }.forEach { output(method: $0, to: fragment) }
-
             fragment.blankLine()
 
-            fragment.outputBlock("companion object {") {
-                fields.filter { $0.isStatic }.forEach { output(field: $0, to: fragment) }
-                methods.filter { $0.isStatic }.forEach { output(method: $0, to: fragment) }
-                fragment.output("init { loadNativeLibs() }")
-            }
+            fields.forEach { output(field: $0, to: fragment) }
+            methods.forEach { output(method: $0, to: fragment) }
+            fragment.blankLine()
+
             outputInner(to: fragment)
+
+            fragment.output("static \(unqualifiedName)() { _TypeSetup._ensureLoaded(); }")
         }
     }
 }
@@ -295,7 +289,7 @@ class CSharpEnumClass: CSharpClass {
                     document(documentation, fragment: fragment)
                     fragment.outputBlock("data class \(name)(", newLineTerminated: false) {
                         fragment.outputMap(values, separator: ",") { value in
-                            "var \(value.name): \(value.type.cSharpType)"
+                            "\(value.type.cSharpType) \(value.name);"
                         }
                     }
                     fragment.output(" : \(unqualifiedName)()")

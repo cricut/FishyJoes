@@ -66,8 +66,8 @@ namespace TestAPI {
         /// <!-- FishyJoes.export(echoMaybeSetOfMaybeInt) -->
         static std::optional<std::unordered_set<std::optional<int>>> echoMaybeSetOfMaybeInt(const std::optional<std::unordered_set<std::optional<int>>> &maybeSetOfMaybeInt);
         
-        /// <!-- FishyJoes.export(echoMaybeDictionaryOfMaybeIntToMaybeInt) -->
-        static std::optional<std::unordered_map<std::optional<int>, std::optional<int>>> echoMaybeDictionaryOfMaybeIntToMaybeInt(const std::optional<std::unordered_map<std::optional<int>, std::optional<int>>> &maybeDictionaryOfMaybeIntToMaybeInt);
+        /// <!-- FishyJoes.export(echoMaybeDictionaryOfIntToMaybeInt) -->
+        static std::optional<std::unordered_map<int, std::optional<int>>> echoMaybeDictionaryOfIntToMaybeInt(const std::optional<std::unordered_map<int, std::optional<int>>> &maybeDictionaryOfIntToMaybeInt);
         
         /// <!-- FishyJoes.export(arrayOfInt) -->
         static std::vector<int> getArrayOfInt();
@@ -93,8 +93,8 @@ namespace TestAPI {
         /// <!-- FishyJoes.export(maybeSetOfMaybeInt) -->
         static std::optional<std::unordered_set<std::optional<int>>> getMaybeSetOfMaybeInt();
         
-        /// <!-- FishyJoes.export(maybeDictionaryOfMaybeIntToMaybeInt) -->
-        static std::optional<std::unordered_map<std::optional<int>, std::optional<int>>> getMaybeDictionaryOfMaybeIntToMaybeInt();
+        /// <!-- FishyJoes.export(maybeDictionaryOfIntToMaybeInt) -->
+        static std::optional<std::unordered_map<int, std::optional<int>>> getMaybeDictionaryOfIntToMaybeInt();
         
         /// <!-- FishyJoes.export(defaultCollectionHolder) -->
         static Collections::CollectionHolder getDefaultCollectionHolder();

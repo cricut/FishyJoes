@@ -205,6 +205,10 @@ struct TranslatedReference: TranslatedType {
                 fragment.output("try body(&Box<\(sourceType.name)>.fromJava(this, env: env).value)")
             }
 
+            if equatable != hashable {
+                fatalErr("Type \(sourceType.name) must implement either none or both of Equatable and Hashable")
+            }
+
             if equatable {
                 fragment.outputBlock("static let _javaEquals: @convention(c)(", newLineTerminated: false) {
                     fragment.output("UnsafeMutablePointer<JNIEnv?>,")
@@ -312,7 +316,7 @@ struct TranslatedReference: TranslatedType {
         let product = KotlinProductClass(
             module: context.module,
             documentation: documentation,
-            name: nodeName,
+            name: kotlinName,
             constructor: .reference,
             fieldsAndMethods: fieldsAndMethods,
             reference: true
@@ -330,16 +334,17 @@ struct TranslatedReference: TranslatedType {
 
         fragment.output("@_cdecl(\"\(converterType.genericBaseName.mangledName)Setup\")")
         fragment.outputBlock("fileprivate func cSharpSetup(", newLineTerminated: false) {
-            fragment.output("constructorMethod: @escaping @convention(c) (UnsafeMutableRawPointer) -> csObject")
+            fragment.output("constructorMethod: @escaping @convention(c) (UnsafeMutableRawPointer, _ exn: csOutExn) -> csObject,")
+            fragment.output("_ exn: csOutExn")
         }
         fragment.outputBlock(" {") {
-            fragment.output("guard \(sourceType.name)._constructorMethod == nil else { return }")
-            fragment.output("\(sourceType.name)._constructorMethod = constructorMethod")
+            fragment.output("guard \(converterType.name)._constructorMethod == nil else { return }")
+            fragment.output("\(converterType.name)._constructorMethod = constructorMethod")
         }
         fragment.blankLine()
 
-        fragment.outputBlock("extension \(sourceType.name): CSharpMutator {") {
-            fragment.output("fileprivate static var _constructorMethod: ((UnsafeMutableRawPointer) -> csObject)!")
+        fragment.outputBlock("extension \(converterType.name): CSharpMutator {") {
+            fragment.output("fileprivate static var _constructorMethod: ((UnsafeMutableRawPointer, _ exn: csOutExn) -> csObject)!")
             fragment.blankLine()
 
             fragment.outputBlock("public static func fromCSharp(_ value: csObject) throws -> Self {") {
@@ -349,125 +354,122 @@ struct TranslatedReference: TranslatedType {
 
             fragment.outputBlock("public static func toCSharp(_ value: Self) throws -> csObject {") {
                 fragment.output("let ptr = Box(value).retainedOpaque()")
-                fragment.output("return _constructorMethod(ptr)")
+                fragment.output("return try Env.check { env in _constructorMethod(ptr, env) }")
             }
             fragment.blankLine()
 
             fragment.outputBlock("public static func mutateCSharp<R>(_ this: csObject, body: (inout Self) throws -> R) throws -> R {") {
                 fragment.output("try body(&Box<\(sourceType.name)>.fromCSharp(this).value)")
             }
+        }
 
-            // if equatable {
-            //     fragment.outputBlock("static let _cSharpEquals: @convention(c)(", newLineTerminated: false) {
-            //         fragment.output("csObject,")
-            //         fragment.output("csObject,")
-            //         fragment.output("csObject")
-            //     }
-            //     fragment.outputBlock(" -> Bool.CType = { _cSharpEnv, _, lhs, rhs in", closeWith: "}") {
-            //         fragment.outputBlock("FishyJoesCSharpRuntime.callbackBody(_cSharpEnv) { _cSharpEnv in", closeWith: "}") {
-            //             fragment.outputBlock("return try Bool.toCSharp(") {
-            //                 fragment.output("\(sourceType.name).fromCSharp(lhs) == \(sourceType.name).fromCSharp(rhs),")
-            //                 fragment.output("env: _cSharpEnv")
-            //             }
-            //         }
-            //     }
-            // }
-            // if hashable {
-            //     fragment.outputBlock("static let _cSharpHash: @convention(c)(", newLineTerminated: false) {
-            //         fragment.output("csObject")
-            //     }
-            //     fragment.outputBlock(" -> Int32.CType = { _cSharpEnv, _cSharpThis in", closeWith: "}") {
-            //         fragment.outputBlock("FishyJoesCSharpRuntime.callbackBody(_cSharpEnv) { _cSharpEnv in", closeWith: "}") {
-            //             fragment.outputBlock("return try Int32.toCSharp(") {
-            //                 fragment.output("Int32(truncatingIfNeeded: \(sourceType.name).fromCSharp(_cSharpThis).hashValue),")
-            //                 fragment.output("env: _cSharpEnv")
-            //             }
-            //         }
-            //     }
-            // }
+        if equatable != hashable {
+            fatalErr("Type \(sourceType.name) must implement either none or both of Equatable and Hashable")
+        }
+
+        if equatable {
+            fragment.output("@_cdecl(\"\(sourceType.name.mangled)_equals\")")
+            fragment.outputBlock("private func cSharpEquals(lhs: csObject, rhs: csObject, exn: csOutExn) -> Bool.CType {") {
+                fragment.outputBlock("Env.catching(to: exn) {") {
+                    fragment.output("return try Bool.toCSharp(\(sourceType.name).fromCSharp(lhs) == \(sourceType.name).fromCSharp(rhs))")
+                }
+            }
+        }
+        if hashable {
+            fragment.output("@_cdecl(\"\(sourceType.name.mangled)_hash\")")
+            fragment.outputBlock("private func cSharpHash(this: csObject, exn: csOutExn) -> Int32.CType {") {
+                fragment.outputBlock("Env.catching(to: exn) {") {
+                    fragment.outputBlock("try Int32.toCSharp(") {
+                        fragment.output("Int32(truncatingIfNeeded: \(sourceType.name).fromCSharp(this).hashValue)")
+                    }
+                }
+            }
         }
 
         // if equatable {
-        //     context.kotlinTranslator.allMethods[sourceType.name, default: []].append(
+        //     context.cSharpTranslator.allMethods[sourceType.name, default: []].append(
         //         (
-        //             cSharpName: "__jni_swiftEquals",
+        //             cSharpName: "__cs_swiftEquals",
         //             signature: "(\(jniType.asSignature)\(jniType.asSignature))Z",
         //             cName: "\(sourceType.name)._cSharpEquals"
         //         )
         //     )
         // }
         // if hashable {
-        //     context.kotlinTranslator.allMethods[sourceType.name, default: []].append(
+        //     context.cSharpTranslator.allMethods[sourceType.name, default: []].append(
         //         (
-        //             cSharpName: "__jni_hashCode",
+        //             cSharpName: "__cs_hashCode",
         //             signature: "()I",
         //             cName: "\(sourceType.name)._cSharpHash"
         //         )
         //     )
         // }
 
-        // var fieldsAndMethods =
-        //     computedVariables.compactMap { context.kotlin(field: $0, useNativeName: false) } +
-        //     methods.compactMap { context.kotlin(method: $0) }
+        var fieldsAndMethods =
+            computedVariables.compactMap { context.cSharp(field: $0, of: self, useNativeName: false) } +
+            methods.compactMap { context.cSharp(method: $0, of: self) }
 
-        // if equatable {
-        //     fieldsAndMethods.append(
-        //         .method(
-        //             KotlinClass.Method(
-        //                 documentation: [],
-        //                 isStatic: true,
-        //                 isOverride: false,
-        //                 name: "swiftEquals",
-        //                 parameters: [
-        //                     (labelComment: nil, name: "lhs", type: kotlinType),
-        //                     (labelComment: nil, name: "rhs", type: kotlinType),
-        //                 ],
-        //                 returnType: .named(package: nil, name: "Boolean"),
-        //                 body: nil
-        //             )
-        //         )
-        //     )
-        //     fieldsAndMethods.append(
-        //         .method(
-        //             KotlinClass.Method(
-        //                 documentation: [],
-        //                 isStatic: false,
-        //                 isOverride: true,
-        //                 name: "equals",
-        //                 parameters: [
-        //                     (labelComment: nil, name: "other", type: .optional(.named(package: nil, name: "Any"))),
-        //                 ],
-        //                 returnType: .named(package: nil, name: "Boolean"),
-        //                 body: "(other is \(kotlinType.kotlinType)) && __jni_swiftEquals(this, other)"
-        //             )
-        //         )
-        //     )
-        // }
-        // if hashable {
-        //     fieldsAndMethods.append(
-        //         .method(
-        //             KotlinClass.Method(
-        //                 documentation: [],
-        //                 isStatic: false,
-        //                 isOverride: true,
-        //                 name: "hashCode",
-        //                 parameters: [],
-        //                 returnType: .named(package: nil, name: "Int"),
-        //                 body: nil
-        //             )
-        //         )
-        //     )
-        // }
+        if equatable {
+            fieldsAndMethods.append(
+                .method(
+                    CSharpClass.Method(
+                        documentation: [],
+                        isStatic: false,
+                        isOverride: true,
+                        name: "Equals",
+                        mangledName: "",
+                        parameters: [
+                            (labelComment: nil, name: "other", type: .optional(.named(package: nil, name: "object"))),
+                        ],
+                        returnType: .named(package: nil, name: "bool"),
+                        body: "Check((out Exception? exn) => __cs_\(sourceType.name.mangled)_equals(this, other as \(cSharpType.cSharpType), out exn))"
+                    )
+                )
+            )
+            fieldsAndMethods.append(
+                .method(
+                    CSharpClass.Method(
+                        documentation: [],
+                        isStatic: true,
+                        isOverride: false,
+                        name: "_equals",
+                        mangledName: "\(sourceType.name.mangled)_equals",
+                        parameters: [
+                            (labelComment: nil, name: "lhs", type: cSharpType),
+                            (labelComment: nil, name: "rhs", type: .optional(cSharpType)),
+                        ],
+                        returnType: .named(package: nil, name: "bool"),
+                        body: nil
+                    )
+                )
+            )
+        }
+        if hashable {
+            fieldsAndMethods.append(
+                .method(
+                    CSharpClass.Method(
+                        documentation: [],
+                        isStatic: false,
+                        isOverride: true,
+                        name: "GetHashCode",
+                        mangledName: "\(sourceType.name.mangled)_hash",
+                        parameters: [],
+                        returnType: .named(package: nil, name: "int"),
+                        body: nil
+                    )
+                )
+            )
+        }
 
-        // let product = KotlinProductClass(
-        //     module: context.module,
-        //     documentation: documentation,
-        //     name: nodeName,
-        //     constructor: .reference,
-        //     fieldsAndMethods: fieldsAndMethods,
-        //     reference: true
-        // )
-        // context.kotlinClasses.append(product)
+        let product = CSharpProductClass(
+            module: context.module,
+            documentation: documentation,
+            name: cSharpName,
+            constructor: .reference,
+            fieldsAndMethods: fieldsAndMethods,
+            reference: true
+        )
+        context.cSharpClasses.append(product)
 
         return fragment
     }
