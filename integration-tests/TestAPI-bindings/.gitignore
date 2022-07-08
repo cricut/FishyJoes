@@ -11,6 +11,7 @@ node_modules
 *.tgz
 *.log
 /kotlin/src/generated/resources/
+/c-sharp/generated/lib/
 .gradle
 local.properties
 Package.resolved

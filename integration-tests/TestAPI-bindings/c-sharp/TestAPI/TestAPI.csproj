@@ -1,13 +1,14 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
+
   <ItemGroup>
-    <ProjectReference Include="..\..\..\c-sharp-runtime\Cricut.FishyJoesRuntime.csproj" />
+    <ProjectReference Include="..\..\..\..\c-sharp-runtime\Cricut.FishyJoesRuntime.csproj" />
   </ItemGroup>
+
   <PropertyGroup>
-    <OutputType>library</OutputType>
     <TargetFramework>net5.0</TargetFramework>
     <Nullable>enable</Nullable>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
+
 </Project>

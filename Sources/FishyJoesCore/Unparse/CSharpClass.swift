@@ -7,8 +7,9 @@ private func deforbidify(_ name: String) -> String {
 }
 
 class CSharpClass: NestedClass {
-    indirect enum CSType: Equatable {
+    indirect enum CSType: Equatable, Codable {
         case void
+        case primitive(String)
         case named(package: String?, name: String)
         case optional(CSType)
     }
@@ -26,7 +27,7 @@ class CSharpClass: NestedClass {
         let mangledName: String
         let parameters: [(labelComment: String?, name: String, type: CSType)]
         let returnType: CSType
-        let body: String?
+        let body: [String]?
     }
 
     struct Variable: Equatable {
@@ -61,19 +62,10 @@ class CSharpClass: NestedClass {
         }
     }
 
-    var fragment: SourceFragment {
-        let fragment = SourceFragment(sourceryDestination: "file:../../c-sharp/src/generated/\(name).cs")
+    func fragment(context: FishyJoesContext) -> SourceFragment {
+        let fragment = context.cSharpFragment("\(unqualifiedName).cs")
 
-        fragment.output("using System;")
-        fragment.output("using System.Runtime.InteropServices;")
-        fragment.output("using System.Collections.Generic;")
-        fragment.output("using Cricut.FishyJoesRuntime;")
-        fragment.output("using static Cricut.FishyJoesRuntime.Utilities;")
-        for dependency in module.dependencies {
-            fragment.output("using \(dependency.lowercased());")
-        }
-        fragment.blankLine()
-        fragment.outputBlock("namespace Cricut.\(module.name) {") {
+        fragment.outputBlock ("namespace \(module.cSharpNamespace) {") {
             output(to: fragment)
         }
         return fragment
@@ -96,24 +88,52 @@ class CSharpClass: NestedClass {
         String(name.split(separator: ".").last!)
     }
 
+    var dllImportMark: String {
+        "[DllImport(\"\(module.name)-c-sharp.dylib\", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]"
+    }
+
     func output(field: Variable, to fragment: SourceFragment) {
         document(field.documentation, fragment: fragment)
-        let selfFormal = field.isStatic ? "" : "object self, "
-        let selfArg = field.isStatic ? "" : "this, "
-        fragment.outputBlock("public \(field.isOverride ? "override " : "")\(field.type.cSharpType) \(field.name) {") {
-            fragment.output("get => Check((out Exception? exn) => __cs_get_\(field.mangledName)(\(selfArg)out exn));")
+        let selfFormal = field.isStatic ? "" : "IntPtr self, "
+        let selfArg = field.isStatic ? "" : "thisHandle.ptr, "
+        fragment.output("public \(field.isOverride ? "override " : "")\(field.isStatic ? "static " : "")", newLineTerminated: false)
+        fragment.outputBlock("\(field.type.name) \(field.name) {") {
+            fragment.outputBlock("get => Check((out IntPtr exn) => {", closeWith: "});") {
+                if !field.isStatic {
+                    fragment.output("using var thisHandle = new GCRef(this);")
+                }
+                if field.type.isObject {
+                    fragment.output("return ConsumeHandle<\(field.type.name)>(__cs_get_\(field.mangledName)(\(selfArg)out exn));")
+                } else {
+                    fragment.output("return __cs_get_\(field.mangledName)(\(selfArg)out exn);")
+                }
+            }
             if !field.readOnly {
-                fragment.output("set { Check((out Exception? exn) => __cs_set_\(field.mangledName)(\(selfArg)value, out exn)); }")
+                fragment.outputBlock("set {") {
+                    fragment.outputBlock("Check((out IntPtr exn) => {", closeWith: "});") {
+                        if !field.isStatic {
+                            fragment.output("using var thisHandle = new GCRef(this);")
+                        }
+                        let valueValue: String
+                        if field.type.isObject {
+                            fragment.output("using var valueHandle = new GCRef(value);")
+                            valueValue = "valueHandle.ptr"
+                        } else {
+                            valueValue = "value"
+                        }
+                        fragment.output("__cs_set_\(field.mangledName)(\(selfArg)\(valueValue), out exn);")
+                    }
+                }
             }
         }
 
         fragment.blankLine()
-        fragment.output("[DllImport(\"\(module.name)\")]")
-        fragment.output("private static extern \(field.type.cSharpType) __cs_get_\(field.mangledName)(\(selfFormal)out Exception? exn);")
+        fragment.output(dllImportMark)
+        fragment.output("private static extern \(field.type.pInvokeName) __cs_get_\(field.mangledName)(\(selfFormal)out IntPtr exn);")
         if !field.readOnly {
             fragment.blankLine()
-            fragment.output("[DllImport(\"\(module.name)\")]")
-            fragment.output("private static extern void __cs_set_\(field.mangledName)(\(selfFormal)\(field.type.cSharpType) value, out Exception? exn);")
+            fragment.output(dllImportMark)
+            fragment.output("private static extern void __cs_set_\(field.mangledName)(\(selfFormal)\(field.type.pInvokeName) value, out IntPtr exn);")
         }
         fragment.blankLine()
     }
@@ -121,30 +141,54 @@ class CSharpClass: NestedClass {
     func output(method: Method, to fragment: SourceFragment) {
         document(method.documentation, fragment: fragment)
         if !method.name.hasPrefix("_") {
-            fragment.output("public \(method.isOverride ? "override " : "")", newLineTerminated: false)
-            fragment.outputBlock("\(method.returnType.cSharpType) \(method.name)(", newLineTerminated: false) {
+            fragment.output("public \(method.isOverride ? "override " : "")\(method.isStatic ? "static " : "")", newLineTerminated: false)
+            fragment.outputBlock("\(method.returnType.name) \(method.name)(", newLineTerminated: false) {
                 fragment.outputMap(method.parameters, separator: ",") { parameter in
                     let labelComment = parameter.labelComment.map { "/* \($0) */ " } ?? ""
-                    return "\(parameter.type.cSharpType) \(labelComment)\(deforbidify(parameter.name))"
+                    return "\(parameter.type.name) \(labelComment)\(deforbidify(parameter.name))"
                 }
             }
-            if let body = method.body {
-                fragment.output(" => \(body);")
-            } else {
-                let paramStrings = (method.isStatic ? [] : ["this"]) + method.parameters.map { "\(deforbidify($0.name))" } + ["out exn"]
-                fragment.output(" => Check((out Exception? exn) => __cs_\(method.mangledName)(\(paramStrings.joined(separator: ", "))));")
+            fragment.outputBlock(" {") {
+                if let body = method.body {
+                    body.forEach { fragment.output($0) }
+                } else {
+                    var paramStrings: [String] = []
+                    if !method.isStatic {
+                        fragment.output("using var _thisHandle = new GCRef(this);")
+                        paramStrings.append("_thisHandle.ptr")
+                    }
+                    for param in method.parameters {
+                        if param.type.isObject {
+                            fragment.output("using var _\(param.name)Handle = new GCRef(\(deforbidify(param.name)));")
+                            paramStrings.append("_\(param.name)Handle.ptr")
+                        } else {
+                            paramStrings.append("\(deforbidify(param.name))")
+                        }
+                    }
+                    paramStrings.append("out _exn")
+
+                    let body = "Check((out IntPtr _exn) => __cs_\(method.mangledName)(\(paramStrings.joined(separator: ", "))))"
+                    if method.returnType.isObject {
+                        fragment.outputBlock("return ConsumeHandle<\(method.returnType.name)>(", closeWith: ");") {
+                            fragment.output(body)
+                        }
+                    } else {
+                        fragment.output("return \(body);")
+                    }
+                }
             }
         }
         if method.body == nil {
-            fragment.output("[DllImport(\"\(module.name)\")]")
-            fragment.outputBlock("static extern \(method.returnType.cSharpType) __cs_\(method.mangledName)(", closeWith: ");") {
+            fragment.blankLine()
+            fragment.output(dllImportMark)
+            fragment.outputBlock("private static extern \(method.returnType.pInvokeName) __cs_\(method.mangledName)(", closeWith: ");") {
                 if !method.isStatic {
-                    fragment.output("object self,")
+                    fragment.output("IntPtr self,")
                 }
                 for parameter in method.parameters {
-                    fragment.output("\(parameter.type.cSharpType) \(deforbidify(parameter.name)),")
+                    fragment.output("\(parameter.type.pInvokeName) \(deforbidify(parameter.name)),")
                 }
-                fragment.output("out Exception? exn")
+                fragment.output("out IntPtr exn")
             }
         }
         fragment.blankLine()
@@ -153,15 +197,27 @@ class CSharpClass: NestedClass {
 
 extension CSharpClass.CSType: CustomStringConvertible {
     var description: String {
-        "FIXME: You should not use this, you should use one of the representations below. \(cSharpType)"
+        "FIXME: You should not use this, you should use one of the representations below. \(name)"
     }
 
-    var cSharpType: String {
+    var name: String {
         switch self {
         case .void: return "Void"
         case let .named(.none, name): return name
         case let .named(.some(package), name): return "\(package).\(name)"
-        case let .optional(wrapped): return "\(wrapped.cSharpType)?"
+        case let .primitive(name): return name
+        case let .optional(wrapped): return "\(wrapped.name)?"
+        }
+    }
+
+    var pInvokeName: String {
+        isObject ? "IntPtr" : name
+    }
+
+    var isObject: Bool {
+        switch self {
+        case .named, .optional: return true
+        default: return false
         }
     }
 }
@@ -180,15 +236,13 @@ class CSharpProductClass: CSharpClass {
     let constructor: Constructor
     let fields: [Variable]
     let methods: [Method]
-    let reference: Bool
 
     init(
         module: Module,
         documentation: [String],
         name: String,
         constructor: Constructor,
-        fieldsAndMethods: [MethodOrVariable],
-        reference: Bool = false
+        fieldsAndMethods: [MethodOrVariable]
     ) {
         self.constructor = constructor
         self.fields = fieldsAndMethods.compactMap {
@@ -203,27 +257,31 @@ class CSharpProductClass: CSharpClass {
             }
             return method
         }
-        self.reference = reference
         super.init(module: module, documentation: documentation, name: name)
     }
 
     override func output(to fragment: SourceFragment) {
         document(documentation, fragment: fragment)
 
-        let implements = constructor == .reference ? " : SwiftReference" : ""
-        fragment.outputBlock("public class \(unqualifiedName)\(implements) {") {
+        switch constructor {
+        case .reference:
+            fragment.output("public class \(unqualifiedName) : SwiftReference ", newLineTerminated: false)
+        case .public:
+            fragment.output("public struct \(unqualifiedName) ", newLineTerminated: false)
+        }
+        fragment.outputBlock("{") {
             switch constructor {
             case .reference:
-                fragment.output("\(unqualifiedName)(IntPtr reference): base(reference) {}")
+                fragment.output("internal \(unqualifiedName)(IntPtr reference): base(reference) {}")
             case .public(let fields):
                 for field in fields {
-                    fragment.output("\(field.type.cSharpType) \(deforbidify(field.name));")
+                    fragment.output("public \(field.type.name) \(deforbidify(field.name));")
                 }
                 fragment.blankLine()
 
-                fragment.outputBlock("\(unqualifiedName)(", newLineTerminated: false) {
+                fragment.outputBlock("public \(unqualifiedName)(", newLineTerminated: false) {
                     fragment.outputMap(fields, separator: ",") { field in
-                        "\(field.type.cSharpType) \(deforbidify(field.name))"
+                        "\(field.type.name) \(deforbidify(field.name))"
                     }
                 }
                 fragment.outputBlock(" {") {
@@ -289,7 +347,7 @@ class CSharpEnumClass: CSharpClass {
                     document(documentation, fragment: fragment)
                     fragment.outputBlock("data class \(name)(", newLineTerminated: false) {
                         fragment.outputMap(values, separator: ",") { value in
-                            "\(value.type.cSharpType) \(value.name);"
+                            "\(value.type.name) \(value.name);"
                         }
                     }
                     fragment.output(" : \(unqualifiedName)()")

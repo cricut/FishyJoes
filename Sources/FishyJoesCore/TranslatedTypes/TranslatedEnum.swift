@@ -9,8 +9,7 @@ struct TranslatedEnum: TranslatedType {
     var containedNamedTypes: [TranslatedType] { [self] }
     let kotlinPackage: String?
     let jniType: JNIType
-    let cSharpName: String
-    let cSharpNamespace: String?
+    let cSharpType: CSharpClass.CSType
     let cases: [Case]
     let documentation: [String]
     let methods: [Method]
@@ -55,8 +54,7 @@ struct TranslatedEnum: TranslatedType {
         self.nodeName = name
         self.kotlinName = name
         self.kotlinPackage = context.module.kotlinPackage
-        self.cSharpName = name
-        self.cSharpNamespace = context.module.cSharpNamespace
+        self.cSharpType = .named(package: context.module.cSharpNamespace, name: name)
         self.cases = type.cases.map { enumCase in
             Case(
                 documentation: enumCase.documentation,
@@ -548,4 +546,6 @@ struct TranslatedEnum: TranslatedType {
 
         return fragment
     }
+
+    var cSharpSetupParameters: [CSharpSetupParameter] { [] }
 }

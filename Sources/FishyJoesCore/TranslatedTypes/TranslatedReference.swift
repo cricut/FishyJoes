@@ -8,8 +8,7 @@ struct TranslatedReference: TranslatedType {
     let neutralName: String
     var containedNamedTypes: [TranslatedType] { [self] }
     let kotlinPackage: String?
-    let cSharpName: String
-    let cSharpNamespace: String?
+    let cSharpType: CSharpClass.CSType
     let methods: [Method]
     let computedVariables: [Variable]
     let documentation: [String]
@@ -30,8 +29,7 @@ struct TranslatedReference: TranslatedType {
         self.neutralName = "Reference<To=\(typeName)>"
         self.kotlinName = typeName
         self.kotlinPackage = context.module.kotlinPackage
-        self.cSharpName = typeName
-        self.cSharpNamespace = context.module.cSharpNamespace
+        self.cSharpType = .named(package: context.module.cSharpNamespace, name: typeName)
         self.methods = type.methods.compactMap { Method($0) }
         self.computedVariables = type.variables.filter { $0.exportAnnotation != nil }
         self.documentation = type.documentation
@@ -318,12 +316,22 @@ struct TranslatedReference: TranslatedType {
             documentation: documentation,
             name: kotlinName,
             constructor: .reference,
-            fieldsAndMethods: fieldsAndMethods,
-            reference: true
+            fieldsAndMethods: fieldsAndMethods
         )
         context.kotlinClasses.append(product)
 
         return fragment
+    }
+
+    var cSharpSetupParameters: [CSharpSetupParameter] {
+        [
+            .init(
+                name: "constructorMethod",
+                type: "SwiftReference.Constructor",
+                value: "(IntPtr ptr, out IntPtr exn) => " +
+                    "Utilities.Catching(out exn, () => (IntPtr)GCHandle.Alloc(new \(cSharpType.name)(ptr)))"
+            ),
+        ]
     }
 
     func cSharpDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
@@ -332,7 +340,8 @@ struct TranslatedReference: TranslatedType {
             additionalImports: ["Foundation", "FishyJoesCSharpRuntime"]
         )
 
-        fragment.output("@_cdecl(\"\(converterType.genericBaseName.mangledName)Setup\")")
+        let baseName = converterType.genericBaseName.mangledName
+        fragment.output("@_cdecl(\"\(baseName)Setup\")")
         fragment.outputBlock("fileprivate func cSharpSetup(", newLineTerminated: false) {
             fragment.output("constructorMethod: @escaping @convention(c) (UnsafeMutableRawPointer, _ exn: csOutExn) -> csObject,")
             fragment.output("_ exn: csOutExn")
@@ -421,8 +430,12 @@ struct TranslatedReference: TranslatedType {
                         parameters: [
                             (labelComment: nil, name: "other", type: .optional(.named(package: nil, name: "object"))),
                         ],
-                        returnType: .named(package: nil, name: "bool"),
-                        body: "Check((out Exception? exn) => __cs_\(sourceType.name.mangled)_equals(this, other as \(cSharpType.cSharpType), out exn))"
+                        returnType: .primitive("bool"),
+                        body: [
+                            "using var thisHandle = new GCRef(this);",
+                            "using var otherHandle = new GCRef(other as \(cSharpType.name));",
+                            "return Check((out IntPtr exn) => __cs_\(sourceType.name.mangled)_equals(thisHandle.ptr, otherHandle.ptr, out exn));",
+                        ]
                     )
                 )
             )
@@ -438,7 +451,7 @@ struct TranslatedReference: TranslatedType {
                             (labelComment: nil, name: "lhs", type: cSharpType),
                             (labelComment: nil, name: "rhs", type: .optional(cSharpType)),
                         ],
-                        returnType: .named(package: nil, name: "bool"),
+                        returnType: .primitive("bool"),
                         body: nil
                     )
                 )
@@ -454,7 +467,7 @@ struct TranslatedReference: TranslatedType {
                         name: "GetHashCode",
                         mangledName: "\(sourceType.name.mangled)_hash",
                         parameters: [],
-                        returnType: .named(package: nil, name: "int"),
+                        returnType: .primitive("int"),
                         body: nil
                     )
                 )
@@ -464,10 +477,9 @@ struct TranslatedReference: TranslatedType {
         let product = CSharpProductClass(
             module: context.module,
             documentation: documentation,
-            name: cSharpName,
+            name: cSharpType.name,
             constructor: .reference,
-            fieldsAndMethods: fieldsAndMethods,
-            reference: true
+            fieldsAndMethods: fieldsAndMethods
         )
         context.cSharpClasses.append(product)
 

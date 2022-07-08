@@ -10,8 +10,7 @@ struct TranslatedPrimitive: TranslatedType {
     let containedNamedTypes: [TranslatedType]
     let kotlinPackage: String?
     let jniType: JNIType
-    let cSharpName: String
-    let cSharpNamespace: String?
+    let cSharpType: CSharpClass.CSType
 
     init(
         swift swiftName: BetterType.Name,
@@ -42,9 +41,10 @@ struct TranslatedPrimitive: TranslatedType {
         self.containedNamedTypes = []
         self.kotlinPackage = nil
         self.jniType = jniType
-        self.cSharpName = cSharpName
-        self.cSharpNamespace = nil
+        self.cSharpType = .primitive(cSharpName)
     }
 
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] { [] }
+
+    var cSharpSetupParameters: [CSharpSetupParameter] { [] }
 }

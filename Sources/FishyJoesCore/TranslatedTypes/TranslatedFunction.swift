@@ -12,8 +12,7 @@ struct TranslatedFunction: TranslatedType {
     let containedNamedTypes: [TranslatedType]
     let kotlinPackage: String? = nil
     let jniType: JNIType
-    let cSharpName: String
-    let cSharpNamespace: String? = "System"
+    let cSharpType: CSharpClass.CSType
 
     init(parameters: [TranslatedType], returnType: TranslatedType) {
         self.parameters = parameters
@@ -27,9 +26,15 @@ struct TranslatedFunction: TranslatedType {
         self.containedNamedTypes = parameters.map { $0.containedNamedTypes }.joined() + returnType.containedNamedTypes
         self.jniType = .object("kotlin/jvm/functions/Function\(parameters.count)")
         if returnType.sourceType == .void {
-            self.cSharpName = "Action<\(parameters.map(\.cSharpName).joined(separator: ", "))>"
+            self.cSharpType = .named(
+                package: "System",
+                name: "Action<\(parameters.map(\.cSharpType.name).joined(separator: ", "))>"
+            )
         } else {
-            self.cSharpName = "Func<\((parameters.map(\.cSharpName) + [returnType.cSharpName]).joined(separator: ", "))>"
+            self.cSharpType = .named(
+                package: "System",
+                name: "Func<\((parameters.map(\.cSharpType.name) + [returnType.cSharpType.name]).joined(separator: ", "))>"
+            )
         }
     }
 
@@ -39,4 +44,6 @@ struct TranslatedFunction: TranslatedType {
             args: (parameters + [returnType]).map(\.converterType)
         )
     }
+
+    var cSharpSetupParameters: [CSharpSetupParameter] { [] }
 }

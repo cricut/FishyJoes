@@ -10,8 +10,8 @@ protocol TranslatedType {
     var containedNamedTypes: [TranslatedType] { get }
     var kotlinPackage: String? { get }
     var jniType: JNIType { get }
-    var cSharpName: String { get }
-    var cSharpNamespace: String? { get }
+    var cSharpType: CSharpClass.CSType { get }
+    var cSharpSetupParameters: [CSharpSetupParameter] { get }
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment]
 }
 
@@ -61,10 +61,6 @@ extension TranslatedType {
             default: return .object("java/lang/\(jniType.valueType)")
             }
         }
-    }
-
-    var cSharpType: CSharpClass.CSType {
-        return .named(package: cSharpNamespace, name: cSharpName)
     }
 
     var mangledName: String {
@@ -118,4 +114,10 @@ extension JNIType {
         case .void: return "V"
         }
     }
+}
+
+struct CSharpSetupParameter: Hashable {
+    let name: String
+    let type: String
+    let value: String
 }

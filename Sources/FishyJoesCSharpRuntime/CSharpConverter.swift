@@ -93,8 +93,8 @@ func Bool_cSharpSetup(
 ) {
     guard Bool.cSharpTrue == nil else { return }
     Env.catching(to: exn) {
-        Bool.cSharpTrue = try Env.pin(object: cSharpTrue)
-        Bool.cSharpFalse = try Env.pin(object: cSharpFalse)
+        Bool.cSharpTrue = try Env.newRef(cSharpTrue)
+        Bool.cSharpFalse = try Env.newRef(cSharpFalse)
         Bool.valueMethod = valueMethod
     }
 }

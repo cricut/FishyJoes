@@ -65,6 +65,22 @@ public class FishyJoesContext {
         return SourceFragment(sourceryDestination: "file:\(name)")
     }
 
+    func cSharpFragment(_ name: String) -> SourceFragment {
+        let fileName = "../../c-sharp/\(module.name)/generated/\(name)"
+        fileHeaders[fileName, default: []].formUnion(
+            [
+                "using System;",
+                "using System.Runtime.InteropServices;",
+                "using System.Collections.Generic;",
+                "using Cricut.FishyJoesRuntime;",
+                "using static Cricut.FishyJoesRuntime.Utilities;",
+            ] + module.dependencies.map { dependency in
+                "using \(dependency.lowercased());"
+            }
+        )
+        return SourceFragment(sourceryDestination: "file:\(fileName)")
+    }
+
     public func translateAll() -> String {
         var collectedFragments: [SourceFragment] = []
         var moduleDefinedTypes: [ExternalTranslatedType] = []
@@ -152,6 +168,33 @@ public class FishyJoesContext {
             }
         )
 
+        collectedFragments.append(tsAnnotations.fragment)
+
+        // process all the fragments so that inner classes are inside outer classes
+        collectedFragments.append(
+            contentsOf:
+                processInnerClasses(
+                    rootClass: KotlinClass(module: module, documentation: [], name: "__root__"),
+                    in: &kotlinClasses
+                ) +
+                processInnerClasses(
+                    rootClass: CSharpClass(module: module, documentation: [], name: "__root__"),
+                    in: &cSharpClasses,
+                    ignorePrefix: "\(module.cSharpNamespace)."
+                )
+        )
+
+        // Output moduleInfo for FishyJoes packages that depend on this one
+        let moduleInfoFragment = SourceFragment(sourceryDestination: "file:\(module).fishyjoesmodule")
+        let moduleInfo = ModuleInfo(
+            types: moduleDefinedTypes,
+            typeScriptAnnotations: tsAnnotations
+        )
+        collectedFragments.append(moduleInfoFragment)
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = [.prettyPrinted, .sortedKeys, .withoutEscapingSlashes]
+        moduleInfoFragment.output(String(data: try! encoder.encode(moduleInfo), encoding: .utf8)!)
+
         let headerFragments = fileHeaders.keys.map { fileName -> SourceFragment in
             let fragment = SourceFragment(sourceryDestination: "file:\(fileName)")
             for headerLine in fileHeaders[fileName, default: []].sorted() {
@@ -167,35 +210,7 @@ public class FishyJoesContext {
             return fragment
         }
 
-        var allFragments = headerFragments + collectedFragments + footerFragments
-
-        allFragments.append(tsAnnotations.fragment)
-
-        // process all the fragments so that inner classes are inside outer classes
-        allFragments.append(
-            contentsOf:
-                processInnerClasses(
-                    rootClass: KotlinClass(module: module, documentation: [], name: "__root__"),
-                    in: &kotlinClasses
-                ) +
-                processInnerClasses(
-                    rootClass: CSharpClass(module: module, documentation: [], name: "__root__"),
-                    in: &cSharpClasses
-                )
-        )
-
-        // Output moduleInfo for FishyJoes packages that depend on this one
-        let moduleInfoFragment = SourceFragment(sourceryDestination: "file:\(module).fishyjoesmodule")
-        let moduleInfo = ModuleInfo(
-            types: moduleDefinedTypes,
-            typeScriptAnnotations: tsAnnotations
-        )
-        allFragments.append(moduleInfoFragment)
-        let encoder = JSONEncoder()
-        encoder.outputFormatting = [.prettyPrinted, .sortedKeys, .withoutEscapingSlashes]
-        moduleInfoFragment.output(String(data: try! encoder.encode(moduleInfo), encoding: .utf8)!)
-
-        return allFragments.map(\.contents).joined()
+        return (headerFragments + collectedFragments + footerFragments).map(\.contents).joined()
     }
 
     /// Process a set of classes to nest their innner classes properly for generation.
@@ -212,18 +227,23 @@ public class FishyJoesContext {
     func processInnerClasses<C: NestedClass>(
         rootClass: @autoclosure () -> C,
         in classes: inout [C],
-        separator: Character = "."
+        separator: Character = ".",
+        ignorePrefix: String = ""
     ) -> [SourceFragment] {
         let rootClass = rootClass()
         // sort by length of qualified name so that outer classes are processed before inner ones
         for cClass in classes.sorted(by: { $0.name.utf8.count < $1.name.utf8.count }) {
-            var namespace = Array(cClass.name.split(separator: separator).map(String.init).dropLast().reversed())
+            var name = cClass.name
+            if name.hasPrefix(ignorePrefix) {
+                name = String(name.dropFirst(ignorePrefix.count))
+            }
+            var namespace = Array(name.split(separator: separator).map(String.init).dropLast().reversed())
 
             var containingClass = rootClass
             while let outer = namespace.popLast() {
                 guard let next = containingClass.innerClasses.first(where: { $0.unqualifiedName == outer }) else {
                     fatalErr("""
-                        while processing \(cClass.name):
+                        while processing \(name):
                         Unable to find class \(outer) in class \(containingClass.name):
                         \(containingClass.innerClasses.map(\.name))
                         """)
@@ -232,7 +252,7 @@ public class FishyJoesContext {
             }
             containingClass.innerClasses.append(cClass)
         }
-        return rootClass.innerClasses.map(\.fragment)
+        return rootClass.innerClasses.map { $0.fragment(context: self) }
     }
 
     func translate(typeDefinition type: Type) -> TranslatedType? {

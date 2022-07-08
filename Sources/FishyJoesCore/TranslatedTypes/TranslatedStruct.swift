@@ -8,8 +8,7 @@ struct TranslatedStruct: TranslatedType {
     let neutralName: String
     var containedNamedTypes: [TranslatedType] { [self] }
     let kotlinPackage: String?
-    let cSharpName: String
-    let cSharpNamespace: String?
+    let cSharpType: CSharpClass.CSType
     let globalName: String
     let storedVariables: [Variable]
     let computedVariables: [Variable]
@@ -29,8 +28,7 @@ struct TranslatedStruct: TranslatedType {
         self.cppName = exportAnnotation.name.replacingOccurrences(of: ".", with: "::")
         self.neutralName = "Struct<Named=\(exportAnnotation.name)>"
         self.kotlinPackage = context.module.kotlinPackage
-        self.cSharpName = exportAnnotation.name
-        self.cSharpNamespace = context.module.cSharpNamespace
+        self.cSharpType = .named(package: context.module.cSharpNamespace, name: exportAnnotation.name)
         self.globalName = "\(context.module).\(type.globalName)"
         self.jniType = .object(context.kotlinTranslator.javaClassName(nodeName, in: context))
 
@@ -313,6 +311,8 @@ struct TranslatedStruct: TranslatedType {
         return fragment
     }
 
+    var cSharpSetupParameters: [CSharpSetupParameter] { [] }
+
     func cSharpDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
             "CSharpInterface/\(sourceType.name)+cSharp.swift",
@@ -409,7 +409,7 @@ struct TranslatedStruct: TranslatedType {
             CSharpProductClass(
                 module: context.module,
                 documentation: documentation,
-                name: cSharpName,
+                name: cSharpType.name,
                 constructor: .`public`(
                     fields: storedVariables.compactMap {
                         switch context.cSharp(field: $0, of: self, useNativeName: true) {

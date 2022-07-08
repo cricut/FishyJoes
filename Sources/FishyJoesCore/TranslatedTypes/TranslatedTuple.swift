@@ -38,8 +38,8 @@ struct TranslatedTuple: TranslatedType {
         }
     }
 
-    var cSharpName: String {
-        "(\(elements.lazy.map(\.type.cSharpName).joined(separator: ", ")))"
+    var cSharpType: CSharpClass.CSType {
+        .named(package: "System", name: "Tuple<\(elements.lazy.map(\.type.cSharpType.name).joined(separator: ", "))>")
     }
 
     let cSharpNamespace: String? = nil
@@ -57,4 +57,6 @@ struct TranslatedTuple: TranslatedType {
     }
 
     let jniType: JNIType
+
+    var cSharpSetupParameters: [CSharpSetupParameter] { [] }
 }

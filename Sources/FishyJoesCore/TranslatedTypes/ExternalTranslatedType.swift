@@ -6,8 +6,7 @@ struct ExternalTranslatedType: Codable {
     var neutralName: String
     var kotlinName: String
     var kotlinPackage: String?
-    var cSharpName: String
-    var cSharpNamespace: String?
+    var cSharpType: CSharpClass.CSType
     var jniType: JNIType
 }
 
@@ -16,6 +15,8 @@ extension ExternalTranslatedType: TranslatedType {
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
         []
     }
+
+    var cSharpSetupParameters: [CSharpSetupParameter] { [] }
 }
 
 extension TranslatedType {
@@ -28,8 +29,7 @@ extension TranslatedType {
             neutralName: "ExternalTranslatedType<of=\(neutralName)>",
             kotlinName: kotlinName,
             kotlinPackage: kotlinPackage,
-            cSharpName: cSharpName,
-            cSharpNamespace: cSharpNamespace,
+            cSharpType: cSharpType,
             jniType: jniType
         )
     }

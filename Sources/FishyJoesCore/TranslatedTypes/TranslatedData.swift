@@ -9,6 +9,7 @@ struct TranslatedData: TranslatedType {
     let containedNamedTypes: [TranslatedType] = []
     let kotlinPackage: String? = "kotlin"
     let jniType = JNIType.array(.byte)
-    let cSharpName: String = "byte[]"
-    let cSharpNamespace: String? = nil
+    let cSharpType: CSharpClass.CSType = .named(package: nil, name: "byte[]")
+
+    var cSharpSetupParameters: [CSharpSetupParameter] { [] }
 }
