@@ -23,13 +23,13 @@ namespace Cricut.TestAPI {
 
         [DllImport("TestAPI-c-sharp.dylib")]
         static extern void BytesSetup(
-            SwiftReference.Constructor constructorMethod,
+            SwiftReference.ConstructorDelegate constructorMethod,
             out IntPtr _exn
         );
 
         [DllImport("TestAPI-c-sharp.dylib")]
         static extern void CollectionsSetup(
-            SwiftReference.Constructor constructorMethod,
+            SwiftReference.ConstructorDelegate constructorMethod,
             out IntPtr _exn
         );
 
@@ -100,13 +100,13 @@ namespace Cricut.TestAPI {
 
         [DllImport("TestAPI-c-sharp.dylib")]
         static extern void FunctionsSetup(
-            SwiftReference.Constructor constructorMethod,
+            SwiftReference.ConstructorDelegate constructorMethod,
             out IntPtr _exn
         );
 
         [DllImport("TestAPI-c-sharp.dylib")]
         static extern void Functions_TheErrorSetup(
-            SwiftReference.Constructor constructorMethod,
+            SwiftReference.ConstructorDelegate constructorMethod,
             out IntPtr _exn
         );
 
@@ -142,7 +142,7 @@ namespace Cricut.TestAPI {
 
         [DllImport("TestAPI-c-sharp.dylib")]
         static extern void PrimitivesSetup(
-            SwiftReference.Constructor constructorMethod,
+            SwiftReference.ConstructorDelegate constructorMethod,
             out IntPtr _exn
         );
 
@@ -163,13 +163,13 @@ namespace Cricut.TestAPI {
 
         [DllImport("TestAPI-c-sharp.dylib")]
         static extern void StringsSetup(
-            SwiftReference.Constructor constructorMethod,
+            SwiftReference.ConstructorDelegate constructorMethod,
             out IntPtr _exn
         );
 
         [DllImport("TestAPI-c-sharp.dylib")]
         static extern void StructsSetup(
-            SwiftReference.Constructor constructorMethod,
+            SwiftReference.ConstructorDelegate constructorMethod,
             out IntPtr _exn
         );
 
@@ -180,7 +180,7 @@ namespace Cricut.TestAPI {
 
         [DllImport("TestAPI-c-sharp.dylib")]
         static extern void Structs_ReferenceStructSetup(
-            SwiftReference.Constructor constructorMethod,
+            SwiftReference.ConstructorDelegate constructorMethod,
             out IntPtr _exn
         );
 

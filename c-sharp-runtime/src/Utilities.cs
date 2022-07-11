@@ -3,6 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace Cricut.FishyJoesRuntime {
     public class Utilities {
+        /// Holds onto a GC Handle for the lifetime of the object
         public class GCRef : IDisposable {
             public GCRef(object? obj) {
                 handle = GCHandle.Alloc(obj);
@@ -23,6 +24,7 @@ namespace Cricut.FishyJoesRuntime {
             }
         }
 
+        /// Returns the target of a handle, and frees the handle.
         public static R ConsumeHandle<R>(IntPtr ptr) {
             if (ptr == IntPtr.Zero) {
                 return default(R)!;
@@ -36,6 +38,8 @@ namespace Cricut.FishyJoesRuntime {
         public delegate R CheckBody<R>(out IntPtr exn);
         public delegate void CheckVoidBody(out IntPtr exn);
 
+        /// Passes an exception out-parameter for body to report any errors, If set to non-null, it will then throw the exception.
+        /// `body` passes ownership of `exn` to `Check`
         public static R Check<R>(CheckBody<R> body) {
             IntPtr exn = IntPtr.Zero;
             var result = body(out exn);
@@ -48,6 +52,8 @@ namespace Cricut.FishyJoesRuntime {
             return result;
         }
 
+        /// Passes an exception out-parameter for body to report any errors, If set to non-null, it will then throw the exception.
+        /// `body` passes ownership of `exn` to `Check`
         public static void Check(CheckVoidBody body) {
             IntPtr exn = IntPtr.Zero;
             body(out exn);
@@ -59,6 +65,7 @@ namespace Cricut.FishyJoesRuntime {
             }
         }
 
+        /// Converts any thrown exceptions in `body` into setting of out parameter `exn`. Caller is responsible for ownership of `exn`
         public static R? Catching<R>(out IntPtr exn, Func<R> body) {
             try {
                 var ret = body();
@@ -70,6 +77,7 @@ namespace Cricut.FishyJoesRuntime {
             }
         }
 
+        /// Converts any thrown exceptions in `body` into setting of out parameter `exn`. Caller is responsible for ownership of `exn`
         public static void Catching(out IntPtr exn, Action body) {
             try {
                 body();

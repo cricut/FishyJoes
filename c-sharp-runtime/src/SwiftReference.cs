@@ -3,10 +3,11 @@ using System.Runtime.InteropServices;
 using static Cricut.FishyJoesRuntime.Utilities;
 
 namespace Cricut.FishyJoesRuntime {
+    /// Holds a retained reference to a swift heap object. Use as the base class for adding more specific reference behavior
     public class SwiftReference : IDisposable {
         private IntPtr reference;
 
-        public delegate IntPtr Constructor(IntPtr reference, out IntPtr exn);
+        public delegate IntPtr ConstructorDelegate(IntPtr reference, out IntPtr exn);
 
         protected SwiftReference(IntPtr reference) {
             this.reference = reference;
