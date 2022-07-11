@@ -343,7 +343,7 @@ struct TranslatedReference: TranslatedType {
 
         let baseName = converterType.genericBaseName.mangledName
         fragment.output("@_cdecl(\"\(baseName)Setup\")")
-        fragment.outputBlock("fileprivate func cSharpSetup(", newLineTerminated: false) {
+        fragment.outputBlock("private func cSharpSetup(", newLineTerminated: false) {
             fragment.output("constructorMethod: @escaping @convention(c) (UnsafeMutableRawPointer, _ exn: csOutExn) -> csObject,")
             fragment.output("_ exn: csOutExn")
         }

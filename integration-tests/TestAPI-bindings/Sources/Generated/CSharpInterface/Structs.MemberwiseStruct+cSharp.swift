@@ -6,7 +6,7 @@ import Foundation
 import TestAPI
 
 @_cdecl("Structs_MemberwiseStructSetup")
-fileprivate func cSharpSetup(
+private func cSharpSetup(
     constructorMethod: @escaping Structs.MemberwiseStruct._ConstructorMethod,
     _ immutableGetter: @escaping (csObject, _ exn: csOutExn) -> Swift.String.CType,
     _ mutableGetter: @escaping (csObject, _ exn: csOutExn) -> Swift.String.CType,

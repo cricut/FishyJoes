@@ -65,7 +65,7 @@ class CSharpClass: NestedClass {
     func fragment(context: FishyJoesContext) -> SourceFragment {
         let fragment = context.cSharpFragment("\(unqualifiedName).cs")
 
-        fragment.outputBlock ("namespace \(module.cSharpNamespace) {") {
+        fragment.outputBlock("namespace \(module.cSharpNamespace) {") {
             output(to: fragment)
         }
         return fragment

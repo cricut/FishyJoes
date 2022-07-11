@@ -162,7 +162,7 @@ final class CSharpTranslator: Translator {
 
     func setupFragments(context: FishyJoesContext, generatedTypes: Set<BetterType>) -> [SourceFragment] {
         let fragment = context.cSharpFragment("TypeSetup.cs")
-        let uniqueBaseTypes = Dictionary<String, [TranslatedType]>(
+        let uniqueBaseTypes = [String: [TranslatedType]](
             generatedTypes.map { type in
                 let resolved = context.resolve(type: type)
                 return (resolved.converterType.genericBaseName.mangledName, [resolved])

@@ -321,7 +321,7 @@ struct TranslatedStruct: TranslatedType {
         )
 
         fragment.output("@_cdecl(\"\(converterType.genericBaseName.mangledName)Setup\")")
-        fragment.outputBlock("fileprivate func cSharpSetup(", newLineTerminated: false) {
+        fragment.outputBlock("private func cSharpSetup(", newLineTerminated: false) {
             fragment.output("constructorMethod: @escaping \(converterType.name)._ConstructorMethod,")
             for storedVar in storedVariables {
                 let resolved = context.resolve(type: storedVar.typeName.better)

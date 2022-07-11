@@ -6,7 +6,7 @@ import Foundation
 import TestAPI
 
 @_cdecl("StringsSetup")
-fileprivate func cSharpSetup(
+private func cSharpSetup(
     constructorMethod: @escaping @convention(c) (UnsafeMutableRawPointer, _ exn: csOutExn) -> csObject,
     _ exn: csOutExn
 ) {

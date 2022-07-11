@@ -13,7 +13,7 @@ public protocol CSharpConverter: Converter {
     static func toCSharpObject(_ value: SwiftType) throws -> csObject
 }
 
-fileprivate protocol PrimitiveCSharpConverter: CSharpConverter where SwiftType == Self, CType == Self {
+private protocol PrimitiveCSharpConverter: CSharpConverter where SwiftType == Self, CType == Self {
     typealias ValueMethod = (csObject, csOutExn) -> Self
     typealias ConstructorMethod = (Self, csOutExn) -> csObject
 
@@ -93,8 +93,8 @@ func Bool_cSharpSetup(
 ) {
     guard Bool.cSharpTrue == nil else { return }
     Env.catching(to: exn) {
-        Bool.cSharpTrue = try Env.newRef(cSharpTrue)
-        Bool.cSharpFalse = try Env.newRef(cSharpFalse)
+        Bool.cSharpTrue = Env.newRef(cSharpTrue)
+        Bool.cSharpFalse = Env.newRef(cSharpFalse)
         Bool.valueMethod = valueMethod
     }
 }
@@ -299,7 +299,7 @@ private func Double_cSharpSetup(
 
 // MARK: - Less-Primitive Type Conversions
 
-fileprivate var String_getLength: ((csObject) -> UInt)!
+private var String_getLength: ((csObject) -> UInt)!
 
 extension String: CSharpConverter {
     public static func fromCSharp(_ value: csObject) throws -> Self {

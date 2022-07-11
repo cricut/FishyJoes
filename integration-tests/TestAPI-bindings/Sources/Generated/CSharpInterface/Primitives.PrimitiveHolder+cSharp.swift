@@ -6,7 +6,7 @@ import Foundation
 import TestAPI
 
 @_cdecl("Primitives_PrimitiveHolderSetup")
-fileprivate func cSharpSetup(
+private func cSharpSetup(
     constructorMethod: @escaping Primitives.PrimitiveHolder._ConstructorMethod,
     _ bGetter: @escaping (csObject, _ exn: csOutExn) -> Bool.CType,
     _ bqGetter: @escaping (csObject, _ exn: csOutExn) -> OptionalConverter<Bool>.CType,

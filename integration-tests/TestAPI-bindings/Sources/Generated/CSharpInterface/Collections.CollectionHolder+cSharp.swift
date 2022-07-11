@@ -6,7 +6,7 @@ import Foundation
 import TestAPI
 
 @_cdecl("Collections_CollectionHolderSetup")
-fileprivate func cSharpSetup(
+private func cSharpSetup(
     constructorMethod: @escaping Collections.CollectionHolder._ConstructorMethod,
     _ boolArrayGetter: @escaping (csObject, _ exn: csOutExn) -> ArrayConverter<Bool>.CType,
     _ boolSetGetter: @escaping (csObject, _ exn: csOutExn) -> SetConverter<Bool>.CType,

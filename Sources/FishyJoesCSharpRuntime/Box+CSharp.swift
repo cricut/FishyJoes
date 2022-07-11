@@ -8,7 +8,7 @@ extension Box {
 }
 
 @_cdecl("FJRuntime_AnyBox_setup")
-fileprivate func AnyBoxSetup(
+private func AnyBoxSetup(
     cSharpConstructor: @escaping @convention(c) (UnsafeMutableRawPointer, _ exn: csOutExn) -> csObject,
     refGetter: @escaping @convention(c) (csObject, _ exn: csOutExn) -> UnsafeMutableRawPointer?,
     _ exn: csOutExn
@@ -19,7 +19,7 @@ fileprivate func AnyBoxSetup(
 }
 
 @_cdecl("FJRuntime_AnyBox_finalize")
-fileprivate func AnyBoxFinalize(this: csObject, _ exn: csOutExn) {
+private func AnyBoxFinalize(this: csObject, _ exn: csOutExn) {
     let ptr = AnyBox.refGetter(this, exn)
     guard exn.pointee != nil else { return }
     Env.catching(to: exn) {
@@ -29,7 +29,7 @@ fileprivate func AnyBoxFinalize(this: csObject, _ exn: csOutExn) {
 }
 
 @_cdecl("FJRuntime_AnyBox_toString")
-fileprivate func toString(this: csObject, _ exn: csOutExn) -> csObject {
+private func toString(this: csObject, _ exn: csOutExn) -> csObject {
     Env.catching(to: exn) {
         try String.toCSharp("\(AnyBox.fromCSharp(this).value)")
     }
