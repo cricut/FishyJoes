@@ -22,7 +22,7 @@ internal class CollectionTests {
     fun testOptionalCollectionOfOptionalValues() {
         assertEquals(Collections.maybeArrayOfMaybeInt, arrayListOf(null,2L,7L,3L,5L,8L))
         assertEquals(Collections.maybeSetOfMaybeInt?.containsAll(setOf(null,5L,9L,2L,4L,3L)), true)
-        assertEquals(Collections.maybeDictionaryOfMaybeIntToMaybeInt, mapOf(null to 100,1L to 10L,2L to 20L,3L to 30L,4L to 40L,5L to 50L))
+        assertEquals(Collections.maybeDictionaryOfIntToMaybeInt, mapOf(100 to null,1L to 10L,2L to 20L,3L to 30L,4L to 40L,5L to 50L))
     }
 
     @Test
@@ -40,7 +40,7 @@ internal class CollectionTests {
         // TODO: Dies with: Wrong object class or methodID passed to JNI call
 //        assertEquals(Collections.echoMaybeSetOfMaybeInt(Collections.maybeSetOfMaybeInt), Collections.maybeSetOfMaybeInt)
         // TODO: Dies with: Wrong object class or methodID passed to JNI call
-//        assertEquals(Collections.echoMaybeDictionaryOfMaybeIntToMaybeInt(Collections.maybeDictionaryOfMaybeIntToMaybeInt), Collections.maybeDictionaryOfMaybeIntToMaybeInt)
+//        assertEquals(Collections.echoMaybeDictionaryOfMaybeIntToMaybeInt(Collections.maybeDictionaryOfIntToMaybeInt), Collections.maybeDictionaryOfIntToMaybeInt)
     }
 
     @Test

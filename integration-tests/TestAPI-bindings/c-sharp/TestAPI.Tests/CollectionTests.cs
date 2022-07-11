@@ -47,7 +47,7 @@ namespace TestAPI.Tests {
             // TODO: Dies with: Wrong object class or methodID passed to JNI call
             //        Assert.Equal(Collections.echoMaybeSetOfMaybeInt(Collections.maybeSetOfMaybeInt), Collections.maybeSetOfMaybeInt);
             // TODO: Dies with: Wrong object class or methodID passed to JNI call
-            //        Assert.Equal(Collections.echoMaybeDictionaryOfMaybeIntToMaybeInt(Collections.maybeDictionaryOfMaybeIntToMaybeInt), Collections.maybeDictionaryOfMaybeIntToMaybeInt);
+            //        Assert.Equal(Collections.echoMaybeDictionaryOfMaybeIntToMaybeInt(Collections.maybeDictionaryOfIntToMaybeInt), Collections.maybeDictionaryOfIntToMaybeInt);
     }
 
         [Fact]

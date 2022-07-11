@@ -25,8 +25,8 @@ test('OptionalCollectionOfOptionalValues', () => {
     for (let x of [5, 9, 2, 4, 3]) {
         expect(TestAPI.Collections.maybeSetOfMaybeInt!.has(x)).toBe(true)
     }
-    let map = new Map([[undefined,100],[1,10],[2,20],[3,30],[4,40],[5,50]])
-    expect(sortedEntries(TestAPI.Collections.maybeDictionaryOfMaybeIntToMaybeInt!)).toEqual(sortedEntries(map))
+    let map = new Map([[100,undefined],[1,10],[2,20],[3,30],[4,40],[5,50]])
+    expect(sortedEntries(TestAPI.Collections.maybeDictionaryOfIntToMaybeInt!)).toEqual(sortedEntries(map))
 });
 
 test('FunctionsTakingAndReturningCollectionTypes', () => {
@@ -42,7 +42,7 @@ test('FunctionsTakingAndReturningOptionalCollectionTypes', () => {
     // TODO: Dies with: TODO: implement Swift.Set.static func fromNode(_:env:)
     // expect(TestAPI.Collections.echoMaybeSetOfMaybeInt(TestAPI.Collections.maybeSetOfMaybeInt)).toEqual(TestAPI.Collections.maybeSetOfMaybeInt)
     // TODO: Dies with: TODO: implement Swift.Dictionary.static func fromNode(_:env:)
-    // expect(TestAPI.Collections.echoMaybeDictionaryOfMaybeIntToMaybeInt(TestAPI.Collections.maybeDictionaryOfMaybeIntToMaybeInt)).toEqual(TestAPI.Collections.maybeDictionaryOfMaybeIntToMaybeInt)
+    // expect(TestAPI.Collections.echoMaybeDictionaryOfMaybeIntToMaybeInt(TestAPI.Collections.maybeDictionaryOfIntToMaybeInt)).toEqual(TestAPI.Collections.maybeDictionaryOfMaybeIntToMaybeInt)
 });
 
 test('FunctionsTakingClosuresWithCollectionTypes', () => {
