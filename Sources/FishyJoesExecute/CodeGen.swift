@@ -185,6 +185,7 @@ extension CodeGen {
                     "--sources", translateeSources,
                     "--templates", ".build/debug/FishyJoes_FishyJoesExecutionHelper.bundle/FishyJoes.swifttemplate",
                     "--args", "module=\(config.module)",
+                    "--args", "debugRepresentation=\(debug)",
                     "--args", "requiredModules=\"\(try! JSONEncoder().encode(fishyJoesModuleFiles).base64EncodedString())\"",
                     "--args", "fishyJoesExecutable=.build/debug/🐟☕️",
                     "--output", "Sources/Generated"

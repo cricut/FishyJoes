@@ -10,6 +10,8 @@ public class FishyJoesContext {
     var fileFooters: [String: Set<String>] = [:]
     var resolveDebugContext = ""
 
+    let dumpDebugRepresentation: Bool
+
     var tsAnnotations: TypeScriptAnnotations
     var kotlinClasses: [KotlinClass] = []
     var cSharpClasses: [CSharpClass] = []
@@ -56,6 +58,7 @@ public class FishyJoesContext {
             rootNamespaces: [.init(name: module, typealiases: [])],
             defaultNamespace: module
         )
+        self.dumpDebugRepresentation = argument["debugRepresentation"] as? String == "true"
     }
 
     func swiftFragment(_ name: String, additionalImports: [String] = []) -> SourceFragment {

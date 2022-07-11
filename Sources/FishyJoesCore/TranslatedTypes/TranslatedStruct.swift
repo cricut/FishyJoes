@@ -45,9 +45,8 @@ struct TranslatedStruct: TranslatedType {
             nodeDefinitionFragment(in: context),
             jniDefinitionFragment(in: context),
             cSharpDefinitionFragment(in: context),
-            neutralDefinitionFragment(in: context),
             cppDefinitionFragment(in: context),
-        ]
+        ] + neutralDefinitionFragments(in: context)
     }
 
     func cppDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
@@ -85,7 +84,9 @@ struct TranslatedStruct: TranslatedType {
         return fragment
     }
 
-    func neutralDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
+    func neutralDefinitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
+        guard context.dumpDebugRepresentation else { return [] }
+
         let fragment = SourceFragment(
             sourceryDestination: "file:../../DebugGenerated/\(sourceType.name)+StructInfo.txt"
         )
@@ -111,7 +112,7 @@ struct TranslatedStruct: TranslatedType {
                 }
             }
         }
-        return fragment
+        return [fragment]
     }
 
     func nodeDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {

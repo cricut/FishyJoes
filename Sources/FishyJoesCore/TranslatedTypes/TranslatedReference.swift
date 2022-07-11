@@ -44,9 +44,8 @@ struct TranslatedReference: TranslatedType {
             nodeDefinitionFragment(in: context),
             jniDefinitionFragment(in: context),
             cSharpDefinitionFragment(in: context),
-            neutralDefinitionFragment(in: context),
             cppDefinitionFragment(in: context),
-        ]
+        ] + neutralDefinitionFragments(in: context)
     }
 
     func cppDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
@@ -83,7 +82,9 @@ struct TranslatedReference: TranslatedType {
         return fragment
     }
 
-    func neutralDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
+    func neutralDefinitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
+        guard context.dumpDebugRepresentation else { return [] }
+
         let fragment = SourceFragment(
             sourceryDestination: "file:../../DebugGenerated/\(sourceType.name)+ReferenceInfo.txt"
         )
@@ -106,7 +107,7 @@ struct TranslatedReference: TranslatedType {
                 }
             }
         }
-        return fragment
+        return [fragment]
     }
 
     func nodeDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
@@ -327,7 +328,7 @@ struct TranslatedReference: TranslatedType {
         [
             .init(
                 name: "constructorMethod",
-                type: "SwiftReference.Constructor",
+                type: "SwiftReference.ConstructorDelegate",
                 value: "(IntPtr ptr, out IntPtr exn) => " +
                     "Utilities.Catching(out exn, () => (IntPtr)GCHandle.Alloc(new \(cSharpType.name)(ptr)))"
             ),

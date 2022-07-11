@@ -82,7 +82,11 @@ struct TranslatedEnum: TranslatedType {
     }
 
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
-        return [nodeDefinitionFragment(in: context), jniDefinitionFragment(in: context), neutralDefinitionFragment(in: context), cppDefinitionFragment(in: context)]
+        return [
+            nodeDefinitionFragment(in: context),
+            jniDefinitionFragment(in: context),
+            cppDefinitionFragment(in: context),
+        ] + neutralDefinitionFragments(in: context)
     }
 
     func cppDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
@@ -189,7 +193,9 @@ struct TranslatedEnum: TranslatedType {
         return SourceFragment(sourceryDestination: "file:CPPInterface/\(sourceType.name).swift")
     }
 
-    func neutralDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
+    func neutralDefinitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
+        guard context.dumpDebugRepresentation else { return [] }
+
         let fragment = SourceFragment(
             sourceryDestination: "file:../../DebugGenerated/\(sourceType.name)+EnumInfo.txt"
         )
@@ -230,7 +236,7 @@ struct TranslatedEnum: TranslatedType {
                 }
             }
         }
-        return fragment
+        return [fragment]
     }
 
     func nodeDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
