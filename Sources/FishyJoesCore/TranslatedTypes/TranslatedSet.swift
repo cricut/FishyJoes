@@ -10,8 +10,7 @@ struct TranslatedSet: TranslatedType {
     let containedNamedTypes: [TranslatedType]
     let kotlinPackage: String? = "kotlin.collections"
     let jniType = JNIType.object("java/util/Set")
-    let cSharpName: String
-    let cSharpNamespace: String? = "System.Collections.Generic"
+    let cSharpType: CSharpClass.CSType
 
     init(element: TranslatedType) {
         self.sourceType = .generic(base: "Set", args: [element.sourceType])
@@ -21,6 +20,8 @@ struct TranslatedSet: TranslatedType {
         self.cppName = "std::unordered_set<\(element.cppName)>"
         self.neutralName = "Set<K=\(element.neutralName)>"
         self.containedNamedTypes = element.containedNamedTypes
-        self.cSharpName = "HashSet<\(element.cSharpName)>"
+        self.cSharpType = .named(package: "System.Collections.Generic", name: "HashSet<\(element.cSharpType.name)>")
     }
+
+    var cSharpSetupParameters: [CSharpSetupParameter] { [] }
 }

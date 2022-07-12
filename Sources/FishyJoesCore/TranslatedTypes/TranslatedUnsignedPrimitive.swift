@@ -9,8 +9,7 @@ struct TranslatedUnsignedPrimitive: TranslatedType {
     let neutralName: String
     let containedNamedTypes: [TranslatedType]
     let kotlinPackage: String?
-    let cSharpName: String
-    let cSharpNamespace: String?
+    let cSharpType: CSharpClass.CSType
     let jniType: JNIType
     var jvmToKotlin: String { ".toU\(jniType.valueType)()" }
     var kotlinToJVM: String { ".to\(jniType.valueType)()" }
@@ -43,10 +42,11 @@ struct TranslatedUnsignedPrimitive: TranslatedType {
         self.neutralName = "UnsignedPrimitive<\(cName)>"
         self.containedNamedTypes = []
         self.kotlinPackage = nil
-        self.cSharpName = cSharpName
-        self.cSharpNamespace = nil
+        self.cSharpType = .primitive(cSharpName)
         self.jniType = jniType
     }
 
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] { [] }
+
+    var cSharpSetupParameters: [CSharpSetupParameter] { [] }
 }

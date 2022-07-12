@@ -12,8 +12,12 @@
         }
       },
       "cppName" : "AssociatedDataEnum",
-      "cSharpName" : "AssociatedDataEnum",
-      "cSharpNamespace" : "Cricut.TestAPI",
+      "cSharpType" : {
+        "named" : {
+          "name" : "AssociatedDataEnum",
+          "package" : "Cricut.TestAPI"
+        }
+      },
       "jniType" : {
         "object" : {
           "_0" : "com/cricut/testapi/AssociatedDataEnum"
@@ -46,8 +50,12 @@
         }
       },
       "cppName" : "Bytes",
-      "cSharpName" : "Bytes",
-      "cSharpNamespace" : "Cricut.TestAPI",
+      "cSharpType" : {
+        "named" : {
+          "name" : "Bytes",
+          "package" : "Cricut.TestAPI"
+        }
+      },
       "jniType" : {
         "object" : {
           "_0" : "com/cricut/testapi/Bytes"
@@ -80,8 +88,12 @@
         }
       },
       "cppName" : "Collections",
-      "cSharpName" : "Collections",
-      "cSharpNamespace" : "Cricut.TestAPI",
+      "cSharpType" : {
+        "named" : {
+          "name" : "Collections",
+          "package" : "Cricut.TestAPI"
+        }
+      },
       "jniType" : {
         "object" : {
           "_0" : "com/cricut/testapi/Collections"
@@ -114,8 +126,12 @@
         }
       },
       "cppName" : "Collections::CollectionHolder",
-      "cSharpName" : "Collections.CollectionHolder",
-      "cSharpNamespace" : "Cricut.TestAPI",
+      "cSharpType" : {
+        "named" : {
+          "name" : "Collections.CollectionHolder",
+          "package" : "Cricut.TestAPI"
+        }
+      },
       "jniType" : {
         "object" : {
           "_0" : "com/cricut/testapi/Collections$CollectionHolder"
@@ -148,8 +164,12 @@
         }
       },
       "cppName" : "EmptyEnum",
-      "cSharpName" : "EmptyEnum",
-      "cSharpNamespace" : "Cricut.TestAPI",
+      "cSharpType" : {
+        "named" : {
+          "name" : "EmptyEnum",
+          "package" : "Cricut.TestAPI"
+        }
+      },
       "jniType" : {
         "object" : {
           "_0" : "com/cricut/testapi/EmptyEnum"
@@ -182,8 +202,12 @@
         }
       },
       "cppName" : "Functions",
-      "cSharpName" : "Functions",
-      "cSharpNamespace" : "Cricut.TestAPI",
+      "cSharpType" : {
+        "named" : {
+          "name" : "Functions",
+          "package" : "Cricut.TestAPI"
+        }
+      },
       "jniType" : {
         "object" : {
           "_0" : "com/cricut/testapi/Functions"
@@ -216,8 +240,12 @@
         }
       },
       "cppName" : "Functions::TheError",
-      "cSharpName" : "Functions.TheError",
-      "cSharpNamespace" : "Cricut.TestAPI",
+      "cSharpType" : {
+        "named" : {
+          "name" : "Functions.TheError",
+          "package" : "Cricut.TestAPI"
+        }
+      },
       "jniType" : {
         "object" : {
           "_0" : "com/cricut/testapi/Functions$TheError"
@@ -250,8 +278,12 @@
         }
       },
       "cppName" : "Primitives",
-      "cSharpName" : "Primitives",
-      "cSharpNamespace" : "Cricut.TestAPI",
+      "cSharpType" : {
+        "named" : {
+          "name" : "Primitives",
+          "package" : "Cricut.TestAPI"
+        }
+      },
       "jniType" : {
         "object" : {
           "_0" : "com/cricut/testapi/Primitives"
@@ -284,8 +316,12 @@
         }
       },
       "cppName" : "Primitives::PrimitiveHolder",
-      "cSharpName" : "Primitives.PrimitiveHolder",
-      "cSharpNamespace" : "Cricut.TestAPI",
+      "cSharpType" : {
+        "named" : {
+          "name" : "Primitives.PrimitiveHolder",
+          "package" : "Cricut.TestAPI"
+        }
+      },
       "jniType" : {
         "object" : {
           "_0" : "com/cricut/testapi/Primitives$PrimitiveHolder"
@@ -318,8 +354,12 @@
         }
       },
       "cppName" : "SimpleEnum",
-      "cSharpName" : "SimpleEnum",
-      "cSharpNamespace" : "Cricut.TestAPI",
+      "cSharpType" : {
+        "named" : {
+          "name" : "SimpleEnum",
+          "package" : "Cricut.TestAPI"
+        }
+      },
       "jniType" : {
         "object" : {
           "_0" : "com/cricut/testapi/SimpleEnum"
@@ -352,8 +392,12 @@
         }
       },
       "cppName" : "Strings",
-      "cSharpName" : "Strings",
-      "cSharpNamespace" : "Cricut.TestAPI",
+      "cSharpType" : {
+        "named" : {
+          "name" : "Strings",
+          "package" : "Cricut.TestAPI"
+        }
+      },
       "jniType" : {
         "object" : {
           "_0" : "com/cricut/testapi/Strings"
@@ -386,8 +430,12 @@
         }
       },
       "cppName" : "Structs",
-      "cSharpName" : "Structs",
-      "cSharpNamespace" : "Cricut.TestAPI",
+      "cSharpType" : {
+        "named" : {
+          "name" : "Structs",
+          "package" : "Cricut.TestAPI"
+        }
+      },
       "jniType" : {
         "object" : {
           "_0" : "com/cricut/testapi/Structs"
@@ -420,8 +468,12 @@
         }
       },
       "cppName" : "Structs::MemberwiseStruct",
-      "cSharpName" : "Structs.MemberwiseStruct",
-      "cSharpNamespace" : "Cricut.TestAPI",
+      "cSharpType" : {
+        "named" : {
+          "name" : "Structs.MemberwiseStruct",
+          "package" : "Cricut.TestAPI"
+        }
+      },
       "jniType" : {
         "object" : {
           "_0" : "com/cricut/testapi/Structs$MemberwiseStruct"
@@ -454,8 +506,12 @@
         }
       },
       "cppName" : "Structs::ReferenceStruct",
-      "cSharpName" : "Structs.ReferenceStruct",
-      "cSharpNamespace" : "Cricut.TestAPI",
+      "cSharpType" : {
+        "named" : {
+          "name" : "Structs.ReferenceStruct",
+          "package" : "Cricut.TestAPI"
+        }
+      },
       "jniType" : {
         "object" : {
           "_0" : "com/cricut/testapi/Structs$ReferenceStruct"
@@ -488,8 +544,12 @@
         }
       },
       "cppName" : "Tuples",
-      "cSharpName" : "Tuples",
-      "cSharpNamespace" : "Cricut.TestAPI",
+      "cSharpType" : {
+        "named" : {
+          "name" : "Tuples",
+          "package" : "Cricut.TestAPI"
+        }
+      },
       "jniType" : {
         "object" : {
           "_0" : "com/cricut/testapi/Tuples"
@@ -731,10 +791,10 @@
               },
               {
                 "documentation" : [
-                  "<!-- FishyJoes.export(maybeDictionaryOfMaybeIntToMaybeInt) -->"
+                  "<!-- FishyJoes.export(maybeDictionaryOfIntToMaybeInt) -->"
                 ],
                 "isStatic" : true,
-                "name" : "maybeDictionaryOfMaybeIntToMaybeInt",
+                "name" : "maybeDictionaryOfIntToMaybeInt",
                 "readOnly" : true,
                 "type" : {
                   "optional" : {
@@ -889,13 +949,13 @@
               },
               {
                 "documentation" : [
-                  "<!-- FishyJoes.export(echoMaybeDictionaryOfMaybeIntToMaybeInt) -->"
+                  "<!-- FishyJoes.export(echoMaybeDictionaryOfIntToMaybeInt) -->"
                 ],
                 "isStatic" : true,
-                "name" : "echoMaybeDictionaryOfMaybeIntToMaybeInt",
+                "name" : "echoMaybeDictionaryOfIntToMaybeInt",
                 "parameters" : [
                   {
-                    "name" : "maybeDictionaryOfMaybeIntToMaybeInt",
+                    "name" : "maybeDictionaryOfIntToMaybeInt",
                     "type" : {
                       "optional" : {
                         "_0" : {

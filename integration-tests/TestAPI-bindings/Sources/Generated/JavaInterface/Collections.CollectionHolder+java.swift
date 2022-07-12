@@ -5,7 +5,7 @@ import FishyJoesJavaRuntime
 import Foundation
 import TestAPI
 
-extension Collections.CollectionHolder: JavaConverter {
+extension Collections.CollectionHolder: JavaMutator {
     public typealias SwiftType = Self
     public typealias CType = jobject?
 

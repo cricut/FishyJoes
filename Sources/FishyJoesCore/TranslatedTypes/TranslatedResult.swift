@@ -7,8 +7,7 @@ struct TranslatedResult: TranslatedType {
     let cppName: String = "TODO"
     let neutralName: String
     let containedNamedTypes: [TranslatedType]
-    let cSharpName: String = "TODO"
-    let cSharpNamespace: String? = nil
+    let cSharpType: CSharpClass.CSType = .primitive("TODO")
     let jniType = JNIType.object("com/cricut/fishyjoes/runtime/TypedArray")
 
     init(success: TranslatedType, failure: TranslatedType) {
@@ -27,4 +26,6 @@ struct TranslatedResult: TranslatedType {
     var converterType: BetterType {
         .generic(base: "ResultConverter", args: [success.converterType, failure.converterType])
     }
+
+    var cSharpSetupParameters: [CSharpSetupParameter] { [] }
 }

@@ -79,13 +79,13 @@ class Collections private constructor(swiftReference: Long): com.cricut.fishyjoe
         private external fun __jni_get_maybeSetOfMaybeInt(): kotlin.collections.Set<Long?>?
 
         /**
-         * <!-- FishyJoes.export(maybeDictionaryOfMaybeIntToMaybeInt) -->
+         * <!-- FishyJoes.export(maybeDictionaryOfIntToMaybeInt) -->
          */
-        val maybeDictionaryOfMaybeIntToMaybeInt: kotlin.collections.Map<Long?, Long?>?
-          get() = __jni_get_maybeDictionaryOfMaybeIntToMaybeInt()
+        val maybeDictionaryOfIntToMaybeInt: kotlin.collections.Map<Long, Long?>?
+          get() = __jni_get_maybeDictionaryOfIntToMaybeInt()
         @JvmStatic
-        @JvmName("__jni_get_maybeDictionaryOfMaybeIntToMaybeInt")
-        private external fun __jni_get_maybeDictionaryOfMaybeIntToMaybeInt(): kotlin.collections.Map<Long?, Long?>?
+        @JvmName("__jni_get_maybeDictionaryOfIntToMaybeInt")
+        private external fun __jni_get_maybeDictionaryOfIntToMaybeInt(): kotlin.collections.Map<Long, Long?>?
 
         /**
          * <!-- FishyJoes.export(defaultCollectionHolder) -->
@@ -157,16 +157,16 @@ class Collections private constructor(swiftReference: Long): com.cricut.fishyjoe
         ): kotlin.collections.Set<Long?>?
 
         /**
-         * <!-- FishyJoes.export(echoMaybeDictionaryOfMaybeIntToMaybeInt) -->
+         * <!-- FishyJoes.export(echoMaybeDictionaryOfIntToMaybeInt) -->
          */
-        fun echoMaybeDictionaryOfMaybeIntToMaybeInt(
-            maybeDictionaryOfMaybeIntToMaybeInt: kotlin.collections.Map<Long?, Long?>?
-        ): kotlin.collections.Map<Long?, Long?>? = __jni_echoMaybeDictionaryOfMaybeIntToMaybeInt(maybeDictionaryOfMaybeIntToMaybeInt)
+        fun echoMaybeDictionaryOfIntToMaybeInt(
+            maybeDictionaryOfIntToMaybeInt: kotlin.collections.Map<Long, Long?>?
+        ): kotlin.collections.Map<Long, Long?>? = __jni_echoMaybeDictionaryOfIntToMaybeInt(maybeDictionaryOfIntToMaybeInt)
         @JvmStatic
-        @JvmName("__jni_echoMaybeDictionaryOfMaybeIntToMaybeInt")
-        private external fun __jni_echoMaybeDictionaryOfMaybeIntToMaybeInt(
-            maybeDictionaryOfMaybeIntToMaybeInt: kotlin.collections.Map<Long?, Long?>?
-        ): kotlin.collections.Map<Long?, Long?>?
+        @JvmName("__jni_echoMaybeDictionaryOfIntToMaybeInt")
+        private external fun __jni_echoMaybeDictionaryOfIntToMaybeInt(
+            maybeDictionaryOfIntToMaybeInt: kotlin.collections.Map<Long, Long?>?
+        ): kotlin.collections.Map<Long, Long?>?
 
         init { loadNativeLibs() }
     }

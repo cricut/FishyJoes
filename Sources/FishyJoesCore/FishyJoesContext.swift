@@ -10,8 +10,11 @@ public class FishyJoesContext {
     var fileFooters: [String: Set<String>] = [:]
     var resolveDebugContext = ""
 
+    let dumpDebugRepresentation: Bool
+
     var tsAnnotations: TypeScriptAnnotations
     var kotlinClasses: [KotlinClass] = []
+    var cSharpClasses: [CSharpClass] = []
     // qualified name (ie "ContainingClass::ClassName") -> CPPClass
     var cppClasses: [String: CPPClass] = [:]
     var sortedCppClasses: [CPPClass] {
@@ -20,16 +23,8 @@ public class FishyJoesContext {
     // [qualifiedName/cppName]
     var classesNeedingHashSpecialization: [CPPClass] = []
 
-    let translatorTypes: [Translator.Type] = [
-        NodeTranslator.self,
-        KotlinTranslor.self,
-        CSharpTranslator.self,
-        CPPTranslate.self,
-        NeutralTranslate.self,
-    ]
-
     let nodeTranslator = NodeTranslator()
-    let kotlinTranslator = KotlinTranslor()
+    let kotlinTranslator = KotlinTranslator()
     let cSharpTranslator = CSharpTranslator()
     let cppTranslator = CPPTranslate()
     let neutralTranslator = NeutralTranslate()
@@ -39,7 +34,7 @@ public class FishyJoesContext {
         kotlinTranslator,
         cSharpTranslator,
         cppTranslator,
-        neutralTranslator,
+        // neutralTranslator,
     ]
 
     public init(context: TemplateContext) {
@@ -63,6 +58,7 @@ public class FishyJoesContext {
             rootNamespaces: [.init(name: module, typealiases: [])],
             defaultNamespace: module
         )
+        self.dumpDebugRepresentation = argument["debugRepresentation"] as? String == "true"
     }
 
     func swiftFragment(_ name: String, additionalImports: [String] = []) -> SourceFragment {
@@ -70,6 +66,22 @@ public class FishyJoesContext {
         headerLines.append("// swiftlint:disable superfluous_disable_command unused_closure_parameter syntactic_sugar")
         fileHeaders[name, default: []].formUnion(headerLines)
         return SourceFragment(sourceryDestination: "file:\(name)")
+    }
+
+    func cSharpFragment(_ name: String) -> SourceFragment {
+        let fileName = "../../c-sharp/\(module.name)/generated/\(name)"
+        fileHeaders[fileName, default: []].formUnion(
+            [
+                "using System;",
+                "using System.Runtime.InteropServices;",
+                "using System.Collections.Generic;",
+                "using Cricut.FishyJoesRuntime;",
+                "using static Cricut.FishyJoesRuntime.Utilities;",
+            ] + module.dependencies.map { dependency in
+                "using \(dependency.lowercased());"
+            }
+        )
+        return SourceFragment(sourceryDestination: "file:\(fileName)")
     }
 
     public func translateAll() -> String {
@@ -159,6 +171,33 @@ public class FishyJoesContext {
             }
         )
 
+        collectedFragments.append(tsAnnotations.fragment)
+
+        // process all the fragments so that inner classes are inside outer classes
+        collectedFragments.append(
+            contentsOf:
+                processInnerClasses(
+                    rootClass: KotlinClass(module: module, documentation: [], name: "__root__"),
+                    in: &kotlinClasses
+                ) +
+                processInnerClasses(
+                    rootClass: CSharpClass(module: module, documentation: [], name: "__root__"),
+                    in: &cSharpClasses,
+                    ignorePrefix: "\(module.cSharpNamespace)."
+                )
+        )
+
+        // Output moduleInfo for FishyJoes packages that depend on this one
+        let moduleInfoFragment = SourceFragment(sourceryDestination: "file:\(module).fishyjoesmodule")
+        let moduleInfo = ModuleInfo(
+            types: moduleDefinedTypes,
+            typeScriptAnnotations: tsAnnotations
+        )
+        collectedFragments.append(moduleInfoFragment)
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = [.prettyPrinted, .sortedKeys, .withoutEscapingSlashes]
+        moduleInfoFragment.output(String(data: try! encoder.encode(moduleInfo), encoding: .utf8)!)
+
         let headerFragments = fileHeaders.keys.map { fileName -> SourceFragment in
             let fragment = SourceFragment(sourceryDestination: "file:\(fileName)")
             for headerLine in fileHeaders[fileName, default: []].sorted() {
@@ -174,30 +213,7 @@ public class FishyJoesContext {
             return fragment
         }
 
-        var allFragments = headerFragments + collectedFragments + footerFragments
-
-        allFragments.append(tsAnnotations.fragment)
-
-        // process all the fragments so that inner classes are inside outer classes
-        allFragments.append(
-            contentsOf: processInnerClasses(
-                rootClass: KotlinClass(module: module, documentation: [], name: "__root__"),
-                in: &kotlinClasses
-            )
-        )
-
-        // Output moduleInfo for FishyJoes packages that depend on this one
-        let moduleInfoFragment = SourceFragment(sourceryDestination: "file:\(module).fishyjoesmodule")
-        let moduleInfo = ModuleInfo(
-            types: moduleDefinedTypes,
-            typeScriptAnnotations: tsAnnotations
-        )
-        allFragments.append(moduleInfoFragment)
-        let encoder = JSONEncoder()
-        encoder.outputFormatting = [.prettyPrinted, .sortedKeys, .withoutEscapingSlashes]
-        moduleInfoFragment.output(String(data: try! encoder.encode(moduleInfo), encoding: .utf8)!)
-
-        return allFragments.map(\.contents).joined()
+        return (headerFragments + collectedFragments + footerFragments).map(\.contents).joined()
     }
 
     /// Process a set of classes to nest their innner classes properly for generation.
@@ -214,18 +230,23 @@ public class FishyJoesContext {
     func processInnerClasses<C: NestedClass>(
         rootClass: @autoclosure () -> C,
         in classes: inout [C],
-        separator: Character = "."
+        separator: Character = ".",
+        ignorePrefix: String = ""
     ) -> [SourceFragment] {
         let rootClass = rootClass()
         // sort by length of qualified name so that outer classes are processed before inner ones
         for cClass in classes.sorted(by: { $0.name.utf8.count < $1.name.utf8.count }) {
-            var namespace = Array(cClass.name.split(separator: separator).map(String.init).dropLast().reversed())
+            var name = cClass.name
+            if name.hasPrefix(ignorePrefix) {
+                name = String(name.dropFirst(ignorePrefix.count))
+            }
+            var namespace = Array(name.split(separator: separator).map(String.init).dropLast().reversed())
 
             var containingClass = rootClass
             while let outer = namespace.popLast() {
                 guard let next = containingClass.innerClasses.first(where: { $0.unqualifiedName == outer }) else {
                     fatalErr("""
-                        while processing \(cClass.name):
+                        while processing \(name):
                         Unable to find class \(outer) in class \(containingClass.name):
                         \(containingClass.innerClasses.map(\.name))
                         """)
@@ -234,7 +255,7 @@ public class FishyJoesContext {
             }
             containingClass.innerClasses.append(cClass)
         }
-        return rootClass.innerClasses.map(\.fragment)
+        return rootClass.innerClasses.map { $0.fragment(context: self) }
     }
 
     func translate(typeDefinition type: Type) -> TranslatedType? {
@@ -412,5 +433,13 @@ public class FishyJoesContext {
 
     func kotlin(field: Variable, useNativeName: Bool = false) -> KotlinClass.MethodOrVariable? {
         kotlinTranslator.kotlin(field: field, context: self, useNativeName: useNativeName)
+    }
+
+    func cSharp(method: Method, of type: TranslatedType) -> CSharpClass.MethodOrVariable? {
+        cSharpTranslator.cSharp(method: method, of: type, context: self)
+    }
+
+    func cSharp(field: Variable, of type: TranslatedType, useNativeName: Bool = false) -> CSharpClass.MethodOrVariable? {
+        cSharpTranslator.cSharp(field: field, of: type, context: self, useNativeName: useNativeName)
     }
 }

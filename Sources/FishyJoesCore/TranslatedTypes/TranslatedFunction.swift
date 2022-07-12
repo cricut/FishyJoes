@@ -12,8 +12,7 @@ struct TranslatedFunction: TranslatedType {
     let containedNamedTypes: [TranslatedType]
     let kotlinPackage: String? = nil
     let jniType: JNIType
-    let cSharpName: String
-    let cSharpNamespace: String? = nil
+    let cSharpType: CSharpClass.CSType
 
     init(parameters: [TranslatedType], returnType: TranslatedType) {
         self.parameters = parameters
@@ -26,8 +25,17 @@ struct TranslatedFunction: TranslatedType {
         self.cppName = "std::function<\(returnType.cppName)(\(parameters.map(\.cppName).joined(separator: ", "))>"
         self.containedNamedTypes = parameters.map { $0.containedNamedTypes }.joined() + returnType.containedNamedTypes
         self.jniType = .object("kotlin/jvm/functions/Function\(parameters.count)")
-        #warning("TODO C# Function Translation")
-        self.cSharpName = ""
+        if returnType.sourceType == .void {
+            self.cSharpType = .named(
+                package: "System",
+                name: "Action<\(parameters.map(\.cSharpType.name).joined(separator: ", "))>"
+            )
+        } else {
+            self.cSharpType = .named(
+                package: "System",
+                name: "Func<\((parameters.map(\.cSharpType.name) + [returnType.cSharpType.name]).joined(separator: ", "))>"
+            )
+        }
     }
 
     var converterType: BetterType {
@@ -36,4 +44,6 @@ struct TranslatedFunction: TranslatedType {
             args: (parameters + [returnType]).map(\.converterType)
         )
     }
+
+    var cSharpSetupParameters: [CSharpSetupParameter] { [] }
 }

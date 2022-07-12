@@ -16,8 +16,8 @@ namespace TestAPI {
     std::optional<std::unordered_set<std::optional<int>>> Collections::echoMaybeSetOfMaybeInt(const std::optional<std::unordered_set<std::optional<int>>> &maybeSetOfMaybeInt) {
         return FishyJoesInternal::Packer::unpack<std::optional<std::unordered_set<std::optional<int>>>>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Collections_echoMaybeSetOfMaybeInt(FishyJoesInternal::Packer::pack(maybeSetOfMaybeInt).ptr()));
     }
-    std::optional<std::unordered_map<std::optional<int>, std::optional<int>>> Collections::echoMaybeDictionaryOfMaybeIntToMaybeInt(const std::optional<std::unordered_map<std::optional<int>, std::optional<int>>> &maybeDictionaryOfMaybeIntToMaybeInt) {
-        return FishyJoesInternal::Packer::unpack<std::optional<std::unordered_map<std::optional<int>, std::optional<int>>>>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Collections_echoMaybeDictionaryOfMaybeIntToMaybeInt(FishyJoesInternal::Packer::pack(maybeDictionaryOfMaybeIntToMaybeInt).ptr()));
+    std::optional<std::unordered_map<int, std::optional<int>>> Collections::echoMaybeDictionaryOfIntToMaybeInt(const std::optional<std::unordered_map<int, std::optional<int>>> &maybeDictionaryOfIntToMaybeInt) {
+        return FishyJoesInternal::Packer::unpack<std::optional<std::unordered_map<int, std::optional<int>>>>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Collections_echoMaybeDictionaryOfIntToMaybeInt(FishyJoesInternal::Packer::pack(maybeDictionaryOfIntToMaybeInt).ptr()));
     }
     std::vector<int> Collections::getArrayOfInt() {
         return FishyJoesInternal::Packer::unpack<std::vector<int>>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Collections_getArrayOfInt());
@@ -43,8 +43,8 @@ namespace TestAPI {
     std::optional<std::unordered_set<std::optional<int>>> Collections::getMaybeSetOfMaybeInt() {
         return FishyJoesInternal::Packer::unpack<std::optional<std::unordered_set<std::optional<int>>>>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Collections_getMaybeSetOfMaybeInt());
     }
-    std::optional<std::unordered_map<std::optional<int>, std::optional<int>>> Collections::getMaybeDictionaryOfMaybeIntToMaybeInt() {
-        return FishyJoesInternal::Packer::unpack<std::optional<std::unordered_map<std::optional<int>, std::optional<int>>>>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Collections_getMaybeDictionaryOfMaybeIntToMaybeInt());
+    std::optional<std::unordered_map<int, std::optional<int>>> Collections::getMaybeDictionaryOfIntToMaybeInt() {
+        return FishyJoesInternal::Packer::unpack<std::optional<std::unordered_map<int, std::optional<int>>>>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Collections_getMaybeDictionaryOfIntToMaybeInt());
     }
     Collections::CollectionHolder Collections::getDefaultCollectionHolder() {
         return FishyJoesInternal::Packer::unpack<Collections::CollectionHolder>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Collections_getDefaultCollectionHolder());

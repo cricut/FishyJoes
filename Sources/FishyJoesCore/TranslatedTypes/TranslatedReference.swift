@@ -8,8 +8,7 @@ struct TranslatedReference: TranslatedType {
     let neutralName: String
     var containedNamedTypes: [TranslatedType] { [self] }
     let kotlinPackage: String?
-    let cSharpName: String
-    let cSharpNamespace: String?
+    let cSharpType: CSharpClass.CSType
     let methods: [Method]
     let computedVariables: [Variable]
     let documentation: [String]
@@ -30,8 +29,7 @@ struct TranslatedReference: TranslatedType {
         self.neutralName = "Reference<To=\(typeName)>"
         self.kotlinName = typeName
         self.kotlinPackage = context.module.kotlinPackage
-        self.cSharpName = typeName
-        self.cSharpNamespace = context.module.cSharpNamespace
+        self.cSharpType = .named(package: context.module.cSharpNamespace, name: typeName)
         self.methods = type.methods.compactMap { Method($0) }
         self.computedVariables = type.variables.filter { $0.exportAnnotation != nil }
         self.documentation = type.documentation
@@ -42,7 +40,12 @@ struct TranslatedReference: TranslatedType {
     }
 
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
-        return [nodeDefinitionFragment(in: context), jniDefinitionFragment(in: context), neutralDefinitionFragment(in: context), cppDefinitionFragment(in: context)]
+        return [
+            nodeDefinitionFragment(in: context),
+            jniDefinitionFragment(in: context),
+            cSharpDefinitionFragment(in: context),
+            cppDefinitionFragment(in: context),
+        ] + neutralDefinitionFragments(in: context)
     }
 
     func cppDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
@@ -79,7 +82,9 @@ struct TranslatedReference: TranslatedType {
         return fragment
     }
 
-    func neutralDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
+    func neutralDefinitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
+        guard context.dumpDebugRepresentation else { return [] }
+
         let fragment = SourceFragment(
             sourceryDestination: "file:../../DebugGenerated/\(sourceType.name)+ReferenceInfo.txt"
         )
@@ -102,7 +107,7 @@ struct TranslatedReference: TranslatedType {
                 }
             }
         }
-        return fragment
+        return [fragment]
     }
 
     func nodeDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
@@ -197,6 +202,10 @@ struct TranslatedReference: TranslatedType {
 
             fragment.outputBlock("public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout Self) throws -> R) throws -> R {") {
                 fragment.output("try body(&Box<\(sourceType.name)>.fromJava(this, env: env).value)")
+            }
+
+            if equatable != hashable {
+                fatalErr("Type \(sourceType.name) must implement either none or both of Equatable and Hashable")
             }
 
             if equatable {
@@ -306,12 +315,174 @@ struct TranslatedReference: TranslatedType {
         let product = KotlinProductClass(
             module: context.module,
             documentation: documentation,
-            name: nodeName,
+            name: kotlinName,
             constructor: .reference,
-            fieldsAndMethods: fieldsAndMethods,
-            reference: true
+            fieldsAndMethods: fieldsAndMethods
         )
         context.kotlinClasses.append(product)
+
+        return fragment
+    }
+
+    var cSharpSetupParameters: [CSharpSetupParameter] {
+        [
+            .init(
+                name: "constructorMethod",
+                type: "SwiftReference.ConstructorDelegate",
+                value: "(IntPtr ptr, out IntPtr exn) => " +
+                    "Utilities.Catching(out exn, () => (IntPtr)GCHandle.Alloc(new \(cSharpType.name)(ptr)))"
+            ),
+        ]
+    }
+
+    func cSharpDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
+        let fragment = context.swiftFragment(
+            "CSharpInterface/\(sourceType.name)+cSharp.swift",
+            additionalImports: ["Foundation", "FishyJoesCSharpRuntime"]
+        )
+
+        let baseName = converterType.genericBaseName.mangledName
+        fragment.output("@_cdecl(\"\(baseName)Setup\")")
+        fragment.outputBlock("private func cSharpSetup(", newLineTerminated: false) {
+            fragment.output("constructorMethod: @escaping @convention(c) (UnsafeMutableRawPointer, _ exn: csOutExn) -> csObject,")
+            fragment.output("_ exn: csOutExn")
+        }
+        fragment.outputBlock(" {") {
+            fragment.output("guard \(converterType.name)._constructorMethod == nil else { return }")
+            fragment.output("\(converterType.name)._constructorMethod = constructorMethod")
+        }
+        fragment.blankLine()
+
+        fragment.outputBlock("extension \(converterType.name): CSharpMutator {") {
+            fragment.output("fileprivate static var _constructorMethod: ((UnsafeMutableRawPointer, _ exn: csOutExn) -> csObject)!")
+            fragment.blankLine()
+
+            fragment.outputBlock("public static func fromCSharp(_ value: csObject) throws -> Self {") {
+                fragment.output("try Box<\(sourceType.name)>.fromCSharp(value).value")
+            }
+            fragment.blankLine()
+
+            fragment.outputBlock("public static func toCSharp(_ value: Self) throws -> csObject {") {
+                fragment.output("let ptr = Box(value).retainedOpaque()")
+                fragment.output("return try Env.check { env in _constructorMethod(ptr, env) }")
+            }
+            fragment.blankLine()
+
+            fragment.outputBlock("public static func mutateCSharp<R>(_ this: csObject, body: (inout Self) throws -> R) throws -> R {") {
+                fragment.output("try body(&Box<\(sourceType.name)>.fromCSharp(this).value)")
+            }
+        }
+
+        if equatable != hashable {
+            fatalErr("Type \(sourceType.name) must implement either none or both of Equatable and Hashable")
+        }
+
+        if equatable {
+            fragment.output("@_cdecl(\"\(sourceType.name.mangled)_equals\")")
+            fragment.outputBlock("private func cSharpEquals(lhs: csObject, rhs: csObject, exn: csOutExn) -> Bool.CType {") {
+                fragment.outputBlock("Env.catching(to: exn) {") {
+                    fragment.output("return try Bool.toCSharp(\(sourceType.name).fromCSharp(lhs) == \(sourceType.name).fromCSharp(rhs))")
+                }
+            }
+        }
+        if hashable {
+            fragment.output("@_cdecl(\"\(sourceType.name.mangled)_hash\")")
+            fragment.outputBlock("private func cSharpHash(this: csObject, exn: csOutExn) -> Int32.CType {") {
+                fragment.outputBlock("Env.catching(to: exn) {") {
+                    fragment.outputBlock("try Int32.toCSharp(") {
+                        fragment.output("Int32(truncatingIfNeeded: \(sourceType.name).fromCSharp(this).hashValue)")
+                    }
+                }
+            }
+        }
+
+        // if equatable {
+        //     context.cSharpTranslator.allMethods[sourceType.name, default: []].append(
+        //         (
+        //             cSharpName: "__cs_swiftEquals",
+        //             signature: "(\(jniType.asSignature)\(jniType.asSignature))Z",
+        //             cName: "\(sourceType.name)._cSharpEquals"
+        //         )
+        //     )
+        // }
+        // if hashable {
+        //     context.cSharpTranslator.allMethods[sourceType.name, default: []].append(
+        //         (
+        //             cSharpName: "__cs_hashCode",
+        //             signature: "()I",
+        //             cName: "\(sourceType.name)._cSharpHash"
+        //         )
+        //     )
+        // }
+
+        var fieldsAndMethods =
+            computedVariables.compactMap { context.cSharp(field: $0, of: self, useNativeName: false) } +
+            methods.compactMap { context.cSharp(method: $0, of: self) }
+
+        if equatable {
+            fieldsAndMethods.append(
+                .method(
+                    CSharpClass.Method(
+                        documentation: [],
+                        isStatic: false,
+                        isOverride: true,
+                        name: "Equals",
+                        mangledName: "",
+                        parameters: [
+                            (labelComment: nil, name: "other", type: .optional(.named(package: nil, name: "object"))),
+                        ],
+                        returnType: .primitive("bool"),
+                        body: [
+                            "using var thisHandle = new GCRef(this);",
+                            "using var otherHandle = new GCRef(other as \(cSharpType.name));",
+                            "return Check((out IntPtr exn) => __cs_\(sourceType.name.mangled)_equals(thisHandle.ptr, otherHandle.ptr, out exn));",
+                        ]
+                    )
+                )
+            )
+            fieldsAndMethods.append(
+                .method(
+                    CSharpClass.Method(
+                        documentation: [],
+                        isStatic: true,
+                        isOverride: false,
+                        name: "_equals",
+                        mangledName: "\(sourceType.name.mangled)_equals",
+                        parameters: [
+                            (labelComment: nil, name: "lhs", type: cSharpType),
+                            (labelComment: nil, name: "rhs", type: .optional(cSharpType)),
+                        ],
+                        returnType: .primitive("bool"),
+                        body: nil
+                    )
+                )
+            )
+        }
+        if hashable {
+            fieldsAndMethods.append(
+                .method(
+                    CSharpClass.Method(
+                        documentation: [],
+                        isStatic: false,
+                        isOverride: true,
+                        name: "GetHashCode",
+                        mangledName: "\(sourceType.name.mangled)_hash",
+                        parameters: [],
+                        returnType: .primitive("int"),
+                        body: nil
+                    )
+                )
+            )
+        }
+
+        let product = CSharpProductClass(
+            module: context.module,
+            documentation: documentation,
+            name: cSharpType.name,
+            constructor: .reference,
+            fieldsAndMethods: fieldsAndMethods
+        )
+        context.cSharpClasses.append(product)
 
         return fragment
     }

@@ -1,7 +1,7 @@
 import Foundation
 import SourceryRuntime
 
-final class KotlinTranslor: Translator {
+final class KotlinTranslator: Translator {
     required init() {}
 
     func javaClassName(_ name: String, in context: FishyJoesContext) -> String {

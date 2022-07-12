@@ -52,7 +52,7 @@ class KotlinClass: NestedClass {
         }
     }
 
-    var fragment: SourceFragment {
+    func fragment(context: FishyJoesContext) -> SourceFragment {
         let fragment = SourceFragment(sourceryDestination: "file:../../kotlin/src/generated/kotlin/com/cricut/\(module.name.lowercased())/\(name).kt")
 
         fragment.output("package \(module.kotlinPackage)")
@@ -196,15 +196,13 @@ class KotlinProductClass: KotlinClass {
     let constructor: Constructor
     let fields: [Variable]
     let methods: [Method]
-    let reference: Bool
 
     init(
         module: Module,
         documentation: [String],
         name: String,
         constructor: Constructor,
-        fieldsAndMethods: [MethodOrVariable],
-        reference: Bool = false
+        fieldsAndMethods: [MethodOrVariable]
     ) {
         self.constructor = constructor
         self.fields = fieldsAndMethods.compactMap {
@@ -219,7 +217,6 @@ class KotlinProductClass: KotlinClass {
             }
             return method
         }
-        self.reference = reference
         super.init(module: module, documentation: documentation, name: name)
     }
 

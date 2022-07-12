@@ -39,6 +39,12 @@ class Structs private constructor(swiftReference: Long): com.cricut.fishyjoes.ru
             other: Any?
         ): Boolean = (other is com.cricut.testapi.Structs.ReferenceStruct) && __jni_swiftEquals(this, other)
 
+        override fun hashCode(
+        ): Int = __jni_hashCode()
+        @JvmName("__jni_hashCode")
+        private external fun __jni_hashCode(
+        ): Int
+
         companion object {
             /**
              * <!-- FishyJoes.export(create) -->

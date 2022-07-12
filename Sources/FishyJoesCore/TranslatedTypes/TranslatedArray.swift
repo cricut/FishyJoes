@@ -10,8 +10,7 @@ struct TranslatedArray: TranslatedType {
     let containedNamedTypes: [TranslatedType]
     let kotlinPackage: String? = "kotlin.collections"
     let jniType = JNIType.object("java/util/List")
-    var cSharpName: String
-    var cSharpNamespace: String?
+    var cSharpType: CSharpClass.CSType
 
     init(element: TranslatedType) {
         self.sourceType = .array(element.sourceType)
@@ -21,6 +20,8 @@ struct TranslatedArray: TranslatedType {
         self.cppName = "std::vector<\(element.cppName)>"
         self.neutralName = "List<V=\(element.neutralName)>"
         self.containedNamedTypes = element.containedNamedTypes
-        self.cSharpName = "\(element.cSharpName)[]"
+        self.cSharpType = .named(package: nil, name: "\(element.cSharpType.name)[]")
     }
+
+    var cSharpSetupParameters: [CSharpSetupParameter] { [] }
 }

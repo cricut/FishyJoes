@@ -8,7 +8,7 @@
 /// <!-- FishyJoes.exportReference(Structs) -->
 public enum Structs {
     /// <!-- FishyJoes.export(Structs.MemberwiseStruct) -->
-    public struct MemberwiseStruct: Equatable {
+    public struct MemberwiseStruct: Hashable {
         public private(set) var immutable = "Eternal"
         public private(set) var mutable = "Fickle"
 
@@ -23,7 +23,7 @@ public enum Structs {
     }
 
     /// <!-- FishyJoes.exportReference(Structs.ReferenceStruct) -->
-    public struct ReferenceStruct: Equatable {
+    public struct ReferenceStruct: Hashable {
         /// <!-- FishyJoes.export(immutable) -->
         public private(set) var immutable = "Eternal"
         /// <!-- FishyJoes.export(mutable) -->

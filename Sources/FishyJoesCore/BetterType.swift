@@ -1,3 +1,4 @@
+import Foundation
 import SourceryRuntime
 
 // SourceryRuntime.TypeName is bad; Types are trees, not structs full of booleans.
@@ -104,6 +105,10 @@ extension BetterType.Name: ExpressibleByStringLiteral {
     var globalName: String {
         (namespace + [name]).joined(separator: ".")
     }
+
+    var mangledName: String {
+        globalName.mangled
+    }
 }
 
 extension BetterType {
@@ -142,6 +147,17 @@ extension BetterType {
             return name.namespace
         default:
             return []
+        }
+    }
+
+    var genericBaseName: Name {
+        switch self {
+        case let .generic(name, _):
+            return name
+        case let .named(name):
+            return name
+        default:
+            return Name(name: name, namespace: [])
         }
     }
 }

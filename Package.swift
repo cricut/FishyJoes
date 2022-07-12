@@ -36,9 +36,9 @@ let package = Package(
     ] + wasmIncompatible(
         [
             P.library(name: "FishyJoesJavaRuntime", type: .dynamic, targets: ["FishyJoesJavaRuntime"]),
+            P.library(name: "FishyJoesCSharpRuntime", type: .dynamic, targets: ["FishyJoesCSharpRuntime"]),
             P.library(name: "FishyJoesCPPRuntime", targets: ["FishyJoesCPPRuntime"]),
             P.library(name: "JavaRuntimeTestHarness", type: .dynamic, targets: ["JavaRuntimeTestHarness"]),
-            P.library(name: "FishyJoesCSharpRuntime", targets: ["FishyJoesCSharpRuntime"]),
             P.executable(name: "fishy-joes", targets: ["FishyJoesExecuteMain"]),
         ]
     ) + macNativeOnly(
@@ -92,7 +92,7 @@ let package = Package(
         T.target(
             name: "FishyJoesCSharpRuntime",
             dependencies: [
-                .target(name: "FishyJoesJavaRuntime"),
+                .target(name: "FishyJoesCommonRuntime"),
             ]
         ),
         T.target(

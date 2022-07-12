@@ -185,6 +185,7 @@ extension CodeGen {
                     "--sources", translateeSources,
                     "--templates", ".build/debug/FishyJoes_FishyJoesExecutionHelper.bundle/FishyJoes.swifttemplate",
                     "--args", "module=\(config.module)",
+                    "--args", "debugRepresentation=\(debug)",
                     "--args", "requiredModules=\"\(try! JSONEncoder().encode(fishyJoesModuleFiles).base64EncodedString())\"",
                     "--args", "fishyJoesExecutable=.build/debug/🐟☕️",
                     "--output", "Sources/Generated"
@@ -288,12 +289,19 @@ extension CodeGen {
                     try cmd("mkdir", "-p", platform.outputDir).run()
                 case .cSharp:
                     try cmd("mkdir", "-p", platform.outputDir).run()
+                    try cmd("cp", "\(platform.buildDir(debug: debug))/lib\(config.module).\(dylibExt)", platform.outputDir).run()
                     try cmd("cp", "\(platform.buildDir(debug: debug))/lib\(config.module)-c-sharp.\(dylibExt)", platform.outputDir).run()
+                    try cmd("cp", "\(platform.buildDir(debug: debug))/libFishyJoesCSharpRuntime.\(dylibExt)", platform.outputDir).run()
                 }
             }
             if platforms.contains(.kotlinSystem) {
                 try FileManager.default.withCurrentDirectoryPath("kotlin") {
                     try cmd("./gradlew", "build", "-Dskip.tests").run()
+                }
+            }
+            if platforms.contains(.cSharp) {
+                try FileManager.default.withCurrentDirectoryPath("c-sharp") {
+                    try cmd("dotnet", "build").run()
                 }
             }
             if version == nil {
@@ -337,7 +345,7 @@ extension CodeGen {
         // MARK: test that things run properly
         if buildStep.contains(.test) {
             for platform in platforms {
-                let env = codeCoveragePath.map {
+                var env = codeCoveragePath.map {
                     [
                         "LLVM_PROFILE_FILE": "\($0)/fishy-joes-test-\(platform)-\(UUID()).profraw",
                         "NODE_V8_COVERAGE": "\($0)/node",
@@ -359,8 +367,10 @@ extension CodeGen {
                     // TODO
                     break
                 case .cSharp:
-                    // TODO
-                    break
+                    try FileManager.default.withCurrentDirectoryPath("c-sharp") {
+                        env["DYLD_LIBRARY_PATH"] = "\(FileManager.default.currentDirectoryPath)/generated/lib"
+                        try cmd("dotnet", "test", addEnv: env).run()
+                    }
                 }
             }
         }

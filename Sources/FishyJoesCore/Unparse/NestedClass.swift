@@ -10,5 +10,5 @@ protocol _NestedClass: AnyObject {
     var name: String { get }
     var innerClasses: [InnerClass] { get set }
     var unqualifiedName: String { get }
-    var fragment: SourceFragment { get }
+    func fragment(context: FishyJoesContext) -> SourceFragment
 }
