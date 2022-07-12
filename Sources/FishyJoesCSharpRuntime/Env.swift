@@ -63,7 +63,7 @@ public enum Env {
         }
     }
 
-    public static func catching<R: Default>(to pointer: csOutExn, _ body: () throws -> R) -> R {
+    public static func catching<R: Defaultable>(to pointer: csOutExn, _ body: () throws -> R) -> R {
         var result: R?
         catching(to: pointer) {
             result = try body()

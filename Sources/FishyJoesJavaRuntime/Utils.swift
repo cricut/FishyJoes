@@ -17,7 +17,7 @@ public func javaOk(file: StaticString = #file, line: UInt = #line, _ result: jin
     }
 }
 
-public func callbackBody<Result: Default>(
+public func callbackBody<Result: Defaultable>(
     _ env: UnsafeMutablePointer<JNIEnv?>,
     _ body: (_ env: Env) throws -> Result
 ) -> Result {
