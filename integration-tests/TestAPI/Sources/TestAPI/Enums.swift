@@ -2,7 +2,7 @@ import Foundation
 
 /// <!-- FishyJoes.export(EmptyEnum) -->
 public enum EmptyEnum: Hashable {
-    /// <!-- FishyJoes.export(notGoingToHappen) -->
+    /// <!-- FishyJoes.export(notGoingToHappen, noReturn: true) -->
     public static func notGoingToHappen() throws -> EmptyEnum {
         throw NotImportantError()
     }

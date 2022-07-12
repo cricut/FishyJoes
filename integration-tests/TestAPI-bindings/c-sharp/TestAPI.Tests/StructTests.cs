@@ -1,44 +1,43 @@
 using System;
 using Xunit;
-using Cricut.TestAPI;
 
-namespace TestAPI.Tests {
+namespace Cricut.TestAPI.Tests {
     public class StructTests {
         [Fact]
         void testConstruction() {
-            var memberwise = Structs.MemberwiseStruct.create();
-            Assert.Equal("Eternal", memberwise.immutable);
-            Assert.Equal("Fickle", memberwise.mutable);
+            var memberwise = Structs.MemberwiseStruct.Create();
+            Assert.Equal("Eternal", memberwise.Immutable);
+            Assert.Equal("Fickle", memberwise.Mutable);
 
-            var reference = Structs.ReferenceStruct.create();
-            Assert.Equal("Eternal", reference.immutable);
-            Assert.Equal("Fickle", reference.mutable);
+            var reference = Structs.ReferenceStruct.Create();
+            Assert.Equal("Eternal", reference.Immutable);
+            Assert.Equal("Fickle", reference.Mutable);
         }
 
         [Fact]
         void testMutablility() {
-            var memberwise = Structs.MemberwiseStruct.create();
-            Assert.Equal("Eternal", memberwise.immutable);
+            var memberwise = Structs.MemberwiseStruct.Create();
+            Assert.Equal("Eternal", memberwise.Immutable);
             // TODO: Ensure this is true!
             // memberwise.immutable = "Should generate a compile Error!"
-            Assert.Equal("Fickle", memberwise.mutable);
-            memberwise.mutable = "Fickle as the wind";
-            Assert.NotEqual("Fickle", memberwise.mutable);
+            Assert.Equal("Fickle", memberwise.Mutable);
+            memberwise.Mutable = "Fickle as the wind";
+            Assert.NotEqual("Fickle", memberwise.Mutable);
 
-            var reference = Structs.ReferenceStruct.create();
-            Assert.Equal("Eternal", reference.immutable);
+            var reference = Structs.ReferenceStruct.Create();
+            Assert.Equal("Eternal", reference.Immutable);
             // TODO: Ensure this is true!
             // reference.immutable = "Should generate a compile Error!"
-            Assert.Equal("Fickle", reference.mutable);
-            memberwise.mutable = "Fickle as the wind";
-            Assert.NotEqual("Fickle", memberwise.mutable);
+            Assert.Equal("Fickle", reference.Mutable);
+            memberwise.Mutable = "Fickle as the wind";
+            Assert.NotEqual("Fickle", memberwise.Mutable);
         }
 
         [Fact]
         void testEquality() {
-            Assert.Equal(Structs.MemberwiseStruct.create(), Structs.MemberwiseStruct.create());
-            Assert.Equal(Structs.ReferenceStruct.create(), Structs.ReferenceStruct.create());
-            Assert.NotEqual<object>(Structs.MemberwiseStruct.create(), Structs.ReferenceStruct.create());
+            Assert.Equal(Structs.MemberwiseStruct.Create(), Structs.MemberwiseStruct.Create());
+            Assert.Equal(Structs.ReferenceStruct.Create(), Structs.ReferenceStruct.Create());
+            Assert.NotEqual<object>(Structs.MemberwiseStruct.Create(), Structs.ReferenceStruct.Create());
         }
     }
 }

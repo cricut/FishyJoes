@@ -19,6 +19,9 @@ namespace TestAPI {
     std::optional<std::unordered_map<int, std::optional<int>>> Collections::echoMaybeDictionaryOfIntToMaybeInt(const std::optional<std::unordered_map<int, std::optional<int>>> &maybeDictionaryOfIntToMaybeInt) {
         return FishyJoesInternal::Packer::unpack<std::optional<std::unordered_map<int, std::optional<int>>>>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Collections_echoMaybeDictionaryOfIntToMaybeInt(FishyJoesInternal::Packer::pack(maybeDictionaryOfIntToMaybeInt).ptr()));
     }
+    std::optional<std::vector<std::optional<int>>> Collections::collectionMapper(const std::optional<std::vector<std::optional<int>>> &collection, const std::function<std::optional<std::vector<std::optional<int>>>(std::optional<std::vector<std::optional<int>>>> &mapper) {
+        return FishyJoesInternal::Packer::unpack<std::optional<std::vector<std::optional<int>>>>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Collections_collectionMapper(FishyJoesInternal::Packer::pack(collection).ptr(), FishyJoesInternal::Packer::pack(mapper).ptr()));
+    }
     std::vector<int> Collections::getArrayOfInt() {
         return FishyJoesInternal::Packer::unpack<std::vector<int>>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Collections_getArrayOfInt());
     }

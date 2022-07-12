@@ -35,6 +35,7 @@ class CSharpClass: NestedClass {
         let isStatic: Bool
         let isOverride: Bool
         let readOnly: Bool
+        let asMethod: Bool
         let name: String
         let mangledName: String
         let type: CSType
@@ -73,66 +74,81 @@ class CSharpClass: NestedClass {
 
     func document(_ documentation: [String], fragment: SourceFragment) {
         guard !documentation.isEmpty else { return }
-        fragment.output("/**")
+        fragment.output("/// <summary>")
         for line in documentation {
-            fragment.output(
-                " " + "* \(line)"
-                    .trimmingCharacters(in: .whitespaces)
-                    .replacingOccurrences(of: "[$", with: "[?")
-            )
+            fragment.output("/// <para>\(line)</para>")
         }
-        fragment.output(" */")
+        fragment.output("/// </summary>")
     }
 
     var unqualifiedName: String {
         String(name.split(separator: ".").last!)
     }
 
-    var dllImportMark: String {
-        "[DllImport(\"\(module.name)-c-sharp.dylib\", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]"
-    }
-
     func output(field: Variable, to fragment: SourceFragment) {
         document(field.documentation, fragment: fragment)
         let selfFormal = field.isStatic ? "" : "IntPtr self, "
         let selfArg = field.isStatic ? "" : "thisHandle.ptr, "
-        fragment.output("public \(field.isOverride ? "override " : "")\(field.isStatic ? "static " : "")", newLineTerminated: false)
-        fragment.outputBlock("\(field.type.name) \(field.name) {") {
-            fragment.outputBlock("get => Check((out IntPtr exn) => {", closeWith: "});") {
-                if !field.isStatic {
-                    fragment.output("using var thisHandle = new GCRef(this);")
-                }
+
+        func outputGetterBody() {
+            if !field.isStatic {
+                fragment.output("using var thisHandle = new GCRef(this);")
+            }
+            fragment.outputBlock("return Check((out IntPtr exn) => ", closeWith: ");") {
                 if field.type.isObject {
-                    fragment.output("return ConsumeHandle<\(field.type.name)>(__cs_get_\(field.mangledName)(\(selfArg)out exn));")
+                    fragment.output("ConsumeHandle<\(field.type.name)>(__cs_get_\(field.mangledName)(\(selfArg)out exn))")
                 } else {
-                    fragment.output("return __cs_get_\(field.mangledName)(\(selfArg)out exn);")
+                    fragment.output("__cs_get_\(field.mangledName)(\(selfArg)out exn)")
                 }
             }
+        }
+
+        func outputSetterBody() {
+            if !field.isStatic {
+                fragment.output("using var thisHandle = new GCRef(this);")
+            }
+            let valueValue: String
+            if field.type.isObject {
+                fragment.output("using var valueHandle = new GCRef(value);")
+                valueValue = "valueHandle.ptr"
+            } else {
+                valueValue = "value"
+            }
+            fragment.outputBlock("Check((out IntPtr exn) => ", closeWith: ");") {
+                fragment.output("__cs_set_\(field.mangledName)(\(selfArg)\(valueValue), out exn)")
+            }
+        }
+
+        if field.asMethod {
+            fragment.output("public \(field.isOverride ? "override " : "")\(field.isStatic ? "static " : "")", newLineTerminated: false)
+            fragment.outputBlock("\(field.type.name) Get\(field.name)() {") {
+                outputGetterBody()
+            }
             if !field.readOnly {
-                fragment.outputBlock("set {") {
-                    fragment.outputBlock("Check((out IntPtr exn) => {", closeWith: "});") {
-                        if !field.isStatic {
-                            fragment.output("using var thisHandle = new GCRef(this);")
-                        }
-                        let valueValue: String
-                        if field.type.isObject {
-                            fragment.output("using var valueHandle = new GCRef(value);")
-                            valueValue = "valueHandle.ptr"
-                        } else {
-                            valueValue = "value"
-                        }
-                        fragment.output("__cs_set_\(field.mangledName)(\(selfArg)\(valueValue), out exn);")
+                fragment.outputBlock("void Set\(field.name)(\(field.type.name) value) {") {
+                    outputSetterBody()
+                }
+            }
+        } else {
+            fragment.output("public \(field.isOverride ? "override " : "")\(field.isStatic ? "static " : "")", newLineTerminated: false)
+            fragment.outputBlock("\(field.type.name) \(field.name) {") {
+                fragment.outputBlock("get {") {
+                    outputGetterBody()
+                }
+                if !field.readOnly {
+                    fragment.outputBlock("set {") {
+                        outputSetterBody()
                     }
                 }
             }
         }
 
         fragment.blankLine()
-        fragment.output(dllImportMark)
+        fragment.output(module.dllImportMark)
         fragment.output("private static extern \(field.type.pInvokeName) __cs_get_\(field.mangledName)(\(selfFormal)out IntPtr exn);")
         if !field.readOnly {
             fragment.blankLine()
-            fragment.output(dllImportMark)
+            fragment.output(module.dllImportMark)
             fragment.output("private static extern void __cs_set_\(field.mangledName)(\(selfFormal)\(field.type.pInvokeName) value, out IntPtr exn);")
         }
         fragment.blankLine()
@@ -172,6 +188,8 @@ class CSharpClass: NestedClass {
                         fragment.outputBlock("return ConsumeHandle<\(method.returnType.name)>(", closeWith: ");") {
                             fragment.output(body)
                         }
+                    } else if method.returnType == .void {
+                        fragment.output("\(body);")
                     } else {
                         fragment.output("return \(body);")
                     }
@@ -180,7 +198,7 @@ class CSharpClass: NestedClass {
         }
         if method.body == nil {
             fragment.blankLine()
-            fragment.output(dllImportMark)
+            fragment.output(module.dllImportMark)
             fragment.outputBlock("private static extern \(method.returnType.pInvokeName) __cs_\(method.mangledName)(", closeWith: ");") {
                 if !method.isStatic {
                     fragment.output("IntPtr self,")
@@ -202,7 +220,7 @@ extension CSharpClass.CSType: CustomStringConvertible {
 
     var name: String {
         switch self {
-        case .void: return "Void"
+        case .void: return "void"
         case let .named(.none, name): return name
         case let .named(.some(package), name): return "\(package).\(name)"
         case let .primitive(name): return name
@@ -212,6 +230,15 @@ extension CSharpClass.CSType: CustomStringConvertible {
 
     var pInvokeName: String {
         isObject ? "IntPtr" : name
+    }
+
+    var package: String? {
+        switch self {
+        case .named(let package, _):
+            return package
+        default:
+            return nil
+        }
     }
 
     var isObject: Bool {
@@ -267,7 +294,7 @@ class CSharpProductClass: CSharpClass {
         case .reference:
             fragment.output("public class \(unqualifiedName) : SwiftReference ", newLineTerminated: false)
         case .public:
-            fragment.output("public struct \(unqualifiedName) ", newLineTerminated: false)
+            fragment.output("public record \(unqualifiedName) ", newLineTerminated: false)
         }
         fragment.outputBlock("{") {
             switch constructor {
@@ -308,9 +335,11 @@ class CSharpEnumClass: CSharpClass {
     let fields: [Variable]
     let methods: [Method]
 
-    enum Case {
-        case object(name: String)
-        case dataClass(documentation: [String], name: String, values: [(name: String, type: CSType)])
+    struct Case {
+        let documentation: [String]
+        let name: String
+        let values: [(name: String, type: CSType)]
+        let methods: [Method]
     }
 
     init(
@@ -338,32 +367,42 @@ class CSharpEnumClass: CSharpClass {
 
     override func output(to fragment: SourceFragment) {
         document(documentation, fragment: fragment)
-        fragment.outputBlock("sealed class \(unqualifiedName) {") {
-            for enumCase in cases {
-                switch enumCase {
-                case let .object(name):
-                    fragment.output("object \(name) : \(unqualifiedName)()")
-                case let .dataClass(documentation, name, values):
-                    document(documentation, fragment: fragment)
-                    fragment.outputBlock("data class \(name)(", newLineTerminated: false) {
-                        fragment.outputMap(values, separator: ",") { value in
-                            "\(value.type.name) \(value.name);"
-                        }
-                    }
-                    fragment.output(" : \(unqualifiedName)()")
-                }
-            }
-            fields.filter { !$0.isStatic }.forEach { output(field: $0, to: fragment) }
-            methods.filter { !$0.isStatic }.forEach { output(method: $0, to: fragment) }
-
+        fragment.outputBlock("public record \(unqualifiedName) {") {
+            fragment.output("private \(unqualifiedName)() {}")
             fragment.blankLine()
 
-            fragment.outputBlock("companion object {") {
-                fields.filter { $0.isStatic }.forEach { output(field: $0, to: fragment) }
-                methods.filter { $0.isStatic }.forEach { output(method: $0, to: fragment) }
-                fragment.output("init { loadNativeLibs() }")
+            for enumCase in cases {
+                document(enumCase.documentation, fragment: fragment)
+                fragment.outputBlock("public sealed record \(enumCase.name) : \(unqualifiedName) {") {
+                    if enumCase.values.isEmpty {
+                        fragment.output("public \(enumCase.name)() {}")
+                    } else {
+                        for value in enumCase.values {
+                            fragment.output("public \(value.type.name) \(value.name);")
+                        }
+                        fragment.blankLine()
+
+                        fragment.outputBlock("public \(enumCase.name)(", newLineTerminated: false) {
+                            fragment.outputMap(enumCase.values, separator: ",") { value in
+                                "\(value.type.name) \(value.name)"
+                            }
+                        }
+                        fragment.outputBlock(" {") {
+                            for value in enumCase.values {
+                                fragment.output("this.\(value.name) = \(value.name);")
+                            }
+                        }
+                        fragment.blankLine()
+                        enumCase.methods.forEach { output(method: $0, to: fragment) }
+                    }
+                }
             }
+            fields.forEach { output(field: $0, to: fragment) }
+            methods.forEach { output(method: $0, to: fragment) }
+
             outputInner(to: fragment)
+
+            fragment.output("static \(unqualifiedName)() { _TypeSetup._ensureLoaded(); }")
         }
     }
 }

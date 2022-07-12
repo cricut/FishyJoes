@@ -30,7 +30,7 @@ func areEqual(_ lhs: Any, _ rhs: Any) -> Bool {
 }
 
 @_cdecl("fishyjoes_swift_check_equality")
-func areSwiftReferencesEqual(_ lhs: UnsafeMutableRawPointer, _ rhs: UnsafeMutableRawPointer) -> Bool {
+public func areSwiftReferencesEqual(_ lhs: UnsafeMutableRawPointer, _ rhs: UnsafeMutableRawPointer) -> Bool {
     return try! areEqual(Box.takeUnretainedOpaque(lhs).value, Box.takeUnretainedOpaque(rhs).value)
 }
 
@@ -39,6 +39,6 @@ func getHash(of obj: Any) -> Int {
 }
 
 @_cdecl("fishyjoes_swift_calc_hash")
-func getHashOfSwiftReference(_ ref: UnsafeMutableRawPointer) -> Int {
+public func getHashOfSwiftReference(_ ref: UnsafeMutableRawPointer) -> Int {
     return try! getHash(of: Box.takeUnretainedOpaque(ref).value)
 }

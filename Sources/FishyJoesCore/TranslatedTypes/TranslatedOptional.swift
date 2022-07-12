@@ -8,6 +8,7 @@ struct TranslatedOptional: TranslatedType {
     let kotlinPackage: String?
     let jniType: JNIType
     let cSharpType: CSharpClass.CSType
+    let definingModule = Module.runtime
 
     init(wrapped: TranslatedType) {
         self.wrapped = wrapped
@@ -27,6 +28,4 @@ struct TranslatedOptional: TranslatedType {
     var converterType: BetterType {
         .generic(base: "OptionalConverter", args: [wrapped.converterType])
     }
-
-    var cSharpSetupParameters: [CSharpSetupParameter] { [] }
 }

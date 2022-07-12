@@ -19,13 +19,13 @@ extension SimpleEnum: JavaConverter {
 
     public static func fromJava(_ value: jobject?, env: Env) throws -> Self {
         if env.IsInstanceOf(value, Self._java_red) {
-            return .red
+            return Self.red
         }
         if env.IsInstanceOf(value, Self._java_green) {
-            return .green
+            return Self.green
         }
         if env.IsInstanceOf(value, Self._java_blue) {
-            return .blue
+            return Self.blue
         }
         throw JNIError(message: "invalid enum \(try env.javaDescription(value)) for SimpleEnum")
     }

@@ -11,6 +11,7 @@ struct TranslatedPrimitive: TranslatedType {
     let kotlinPackage: String?
     let jniType: JNIType
     let cSharpType: CSharpClass.CSType
+    let definingModule = Module.runtime
 
     init(
         swift swiftName: BetterType.Name,
@@ -45,6 +46,4 @@ struct TranslatedPrimitive: TranslatedType {
     }
 
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] { [] }
-
-    var cSharpSetupParameters: [CSharpSetupParameter] { [] }
 }

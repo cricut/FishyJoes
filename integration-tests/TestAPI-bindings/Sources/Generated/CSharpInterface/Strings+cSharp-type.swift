@@ -5,20 +5,20 @@ import FishyJoesCSharpRuntime
 import Foundation
 import TestAPI
 
-@_cdecl("BytesSetup")
-private func cSharpSetup(
+@_cdecl("TestAPI_Strings_setup")
+public func TestAPI_Strings_setup(
     constructorMethod: @escaping @convention(c) (UnsafeMutableRawPointer, _ exn: csOutExn) -> csObject,
     _ exn: csOutExn
 ) {
-    guard Bytes._constructorMethod == nil else { return }
-    Bytes._constructorMethod = constructorMethod
+    guard Strings._constructorMethod == nil else { return }
+    Strings._constructorMethod = constructorMethod
 }
 
-extension Bytes: CSharpMutator {
+extension Strings: CSharpMutator {
     fileprivate static var _constructorMethod: ((UnsafeMutableRawPointer, _ exn: csOutExn) -> csObject)!
 
     public static func fromCSharp(_ value: csObject) throws -> Self {
-        try Box<Bytes>.fromCSharp(value).value
+        try Box<Strings>.fromCSharp(value).value
     }
 
     public static func toCSharp(_ value: Self) throws -> csObject {
@@ -27,6 +27,6 @@ extension Bytes: CSharpMutator {
     }
 
     public static func mutateCSharp<R>(_ this: csObject, body: (inout Self) throws -> R) throws -> R {
-        try body(&Box<Bytes>.fromCSharp(this).value)
+        try body(&Box<Strings>.fromCSharp(this).value)
     }
 }

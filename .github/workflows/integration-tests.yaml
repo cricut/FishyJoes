@@ -122,6 +122,17 @@ jobs:
           sudo mkdir -p /Library/Developer/Toolchains/swift-wasm-5.6.0-RELEASE.xctoolchain
           sudo tar -xf swift-wasm.tgz -C /Library/Developer/Toolchains/swift-wasm-5.6.0-RELEASE.xctoolchain --strip-components 1
 
+      - name: Test from dotnet
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+
+          ./scripts/compile-c-sharp-runtime.sh
+
+          cd integration-tests/TestAPI-bindings
+
+          swift run -- fishy-joes --c-sharp build test
+
       - name: Test from gradle
         shell: zsh {0}
         run: |

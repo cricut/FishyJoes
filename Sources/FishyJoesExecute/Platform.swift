@@ -120,7 +120,7 @@ enum Platform: Hashable {
         }
     }
 
-    var outputDir: String {
+    func outputDir(_ config: FishyJoesConfig) -> String {
         switch self {
         case .wasm, .node: return "output/\(platform)"
         case .kotlinSystem:
@@ -134,7 +134,16 @@ enum Platform: Hashable {
             fatalError("unknown host OS")
             #endif
         case .kotlinAndroid(let arch): return "kotlin/src/generated/resources/lib/\(arch.ndkName)"
-        case .cSharp: return "c-sharp/generated/lib/"
+        case .cSharp:
+            #if os(macOS)
+            return "c-sharp/\(config.module)/runtimes/osx/native"
+            #elseif os(Linux)
+            return "c-sharp/\(config.module)/runtimes/ubuntu/native"
+            #elseif os(Windows)
+            return "c-sharp/\(config.module)/runtimes/win/native"
+            #else
+            fatalError("unknown host OS")
+            #endif
         case .cpp: return "cpp/generated/lib/"
         }
     }

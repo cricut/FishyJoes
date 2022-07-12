@@ -1,9 +1,8 @@
 using System;
 using Xunit;
-using Cricut.TestAPI;
 
-namespace TestAPI.Tests {
-    using T2 = Tuple<long, string>;
+namespace Cricut.TestAPI.Tests {
+    using T2 = Tuple<nint, string>;
     using T3 = Tuple<string, double, string>;
     // C# is stupid
     namespace T4
@@ -14,7 +13,7 @@ namespace TestAPI.Tests {
             using T5 = Tuple<string, byte, T4, T3, T2>;
             namespace T6
             {
-                using T6 = Tuple<string, long, double, T4, T5, bool>;
+                using T6 = Tuple<string, nint, double, T4, T5, bool>;
 
                 public class TupleTests {
 
@@ -25,28 +24,26 @@ namespace TestAPI.Tests {
                     private T6 tuple6; 
 
                     public TupleTests() {
-                        tuple2 = Tuple.Create(1L, "two");
+                        tuple2 = Tuple.Create((nint)1, "two");
                         tuple3 = Tuple.Create("one", 2.1, "three");
                         tuple4 = Tuple.Create(tuple2, tuple3, "IV", true);
                         tuple5 = Tuple.Create("I", (byte)2, tuple4, tuple3, tuple2);
-                        tuple6 = Tuple.Create("one", 2L, 3.14, tuple4, tuple5, false);
-                    }
-
-/*
-                    [Fact]
-                    void testSwiftTuplesToKotlin() {
-                        Assert.Equal(tuple2, Tuples.tuple2);
-                        Assert.Equal(tuple3, Tuples.tuple3);
-                        Assert.Equal(tuple4, Tuples.tuple4);
-                        Assert.Equal(tuple5, Tuples.tuple5);
-                        Assert.Equal(tuple6, Tuples.tuple6);
+                        tuple6 = Tuple.Create("one", (nint)2, 3.14, tuple4, tuple5, false);
                     }
 
                     [Fact]
-                    void testKotlinTuplesToSwift() {
-                        Assert.True(Tuples.checkTuples(tuple2, tuple3, tuple4, tuple5, tuple6));
+                    void testSwiftTuplesToCSharp() {
+                        Assert.Equal(tuple2, Tuples.Tuple2);
+                        Assert.Equal(tuple3, Tuples.Tuple3);
+                        Assert.Equal(tuple4, Tuples.Tuple4);
+                        Assert.Equal(tuple5, Tuples.Tuple5);
+                        Assert.Equal(tuple6, Tuples.Tuple6);
                     }
-*/
+
+                    [Fact]
+                    void testCSharpTuplesToSwift() {
+                        Assert.True(Tuples.CheckTuples(tuple2, tuple3, tuple4, tuple5, tuple6));
+                    }
                 }
             }
         }

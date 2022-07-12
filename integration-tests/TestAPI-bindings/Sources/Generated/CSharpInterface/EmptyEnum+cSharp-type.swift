@@ -1,0 +1,20 @@
+// Generated using Sourcery 1.8.1 — https://github.com/krzysztofzablocki/Sourcery
+// DO NOT EDIT
+// swiftlint:disable superfluous_disable_command unused_closure_parameter syntactic_sugar
+import FishyJoesCSharpRuntime
+import Foundation
+import TestAPI
+
+@_cdecl("TestAPI_EmptyEnum_setup")
+public func TestAPI_EmptyEnum_setup(
+) {
+}
+
+extension EmptyEnum: CSharpConverter {
+    public static func fromCSharp(_ value: csObject) throws -> Self {
+        throw UninhabitedTypeCreationError(self)
+    }
+
+    public static func toCSharp(_ value: Self) throws -> csObject {
+    }
+}

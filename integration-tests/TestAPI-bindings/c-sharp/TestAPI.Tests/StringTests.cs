@@ -1,30 +1,29 @@
 using System;
 using Xunit;
-using Cricut.TestAPI;
 
-namespace TestAPI.Tests {
+namespace Cricut.TestAPI.Tests {
     public class StringTests {
         [Fact]
         void testStringValues() {
-            Assert.Equal("Hello", Strings.simple);
-            Assert.Equal("Olá", Strings.accent);
-            Assert.Equal("こんにちは", Strings.script);
-            Assert.Equal("你好", Strings.chinese);
-            Assert.Equal("豈更車賈滑", Strings.chineseBMP);
-            Assert.Equal("\uD840\uDC01\uD840\uDC02\uD840\uDC03\uD840\uDC04", Strings.chineseSIP);
-            Assert.Equal("🤯🐶🍓", Strings.emoji);
-            Assert.Equal("👨‍👩‍👧‍👦👍🏿🇺🇸", Strings.emojiMulti);
+            Assert.Equal("Hello", Strings.Simple);
+            Assert.Equal("Olá", Strings.Accent);
+            Assert.Equal("こんにちは", Strings.Script);
+            Assert.Equal("你好", Strings.Chinese);
+            Assert.Equal("豈更車賈滑", Strings.ChineseBMP);
+            Assert.Equal("\uD840\uDC01\uD840\uDC02\uD840\uDC03\uD840\uDC04", Strings.ChineseSIP);
+            Assert.Equal("🤯🐶🍓", Strings.Emoji);
+            Assert.Equal("👨‍👩‍👧‍👦👍🏿🇺🇸", Strings.EmojiMulti);
         }
 
         [Fact]
         void testStringEcho() {
-            Assert.Equal(Strings.simple, Strings.echo(Strings.simple));
-            Assert.Equal(Strings.accent, Strings.echo(Strings.accent));
-            Assert.Equal(Strings.chinese, Strings.echo(Strings.chinese));
-            Assert.Equal(Strings.chineseBMP, Strings.echo(Strings.chineseBMP));
-            Assert.Equal(Strings.chineseSIP, Strings.echo(Strings.chineseSIP));
-            Assert.Equal(Strings.emoji, Strings.echo(Strings.emoji));
-            Assert.Equal(Strings.emojiMulti, Strings.echo(Strings.emojiMulti));
+            Assert.Equal(Strings.Simple, Strings.Echo(Strings.Simple));
+            Assert.Equal(Strings.Accent, Strings.Echo(Strings.Accent));
+            Assert.Equal(Strings.Chinese, Strings.Echo(Strings.Chinese));
+            Assert.Equal(Strings.ChineseBMP, Strings.Echo(Strings.ChineseBMP));
+            Assert.Equal(Strings.ChineseSIP, Strings.Echo(Strings.ChineseSIP));
+            Assert.Equal(Strings.Emoji, Strings.Echo(Strings.Emoji));
+            Assert.Equal(Strings.EmojiMulti, Strings.Echo(Strings.EmojiMulti));
         }
     }
 }

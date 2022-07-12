@@ -130,6 +130,9 @@ namespace TestAPI {
         /// <!-- FishyJoes.export(maybeEchoDouble) -->
         static std::optional<double> maybeEchoDouble(const std::optional<double> &value);
         
+        /// <!-- FishyJoes.export(valueMapper) -->
+        static std::optional<uint8_t> valueMapper(const std::optional<uint8_t> &value, const std::function<std::optional<uint8_t>(std::optional<uint8_t>> &mapper);
+        
         /// <!-- FishyJoes.export(falseBool) -->
         static bool getFalseBool();
         

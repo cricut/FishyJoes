@@ -8,7 +8,7 @@ export declare namespace TestAPI {
         private _inhibitStructuralTyping: any
 
         /**
-         * <!-- FishyJoes.export(bytes) -->
+         * <!-- FishyJoes.export(bytes, cSharp: TheBytes) -->
          */
         static readonly bytes: number[];
 
@@ -130,6 +130,14 @@ export declare namespace TestAPI {
         static echoMaybeDictionaryOfIntToMaybeInt(
             maybeDictionaryOfIntToMaybeInt: Optional<Map<number, number>>
         ): Optional<Map<number, number>>;
+
+        /**
+         * <!-- FishyJoes.export(collectionMapper) -->
+         */
+        static collectionMapper(
+            collection: Optional<number[]>,
+            mapper: (_: number[]) => number[]
+        ): Optional<number[]>;
     }
     export namespace Collections {
         /**
@@ -725,6 +733,14 @@ export declare namespace TestAPI {
         static maybeEchoDouble(
             value: Optional<number>
         ): Optional<number>;
+
+        /**
+         * <!-- FishyJoes.export(valueMapper) -->
+         */
+        static valueMapper(
+            value: Optional<number>,
+            mapper: (_: number) => number
+        ): Optional<number>;
     }
     export namespace Primitives {
         /**
@@ -944,7 +960,7 @@ export declare namespace TestAPI {
             constructor()
 
             /**
-             * <!-- FishyJoes.export(notGoingToHappen) -->
+             * <!-- FishyJoes.export(notGoingToHappen, noReturn: true) -->
              */
             static notGoingToHappen(
             ): EmptyEnum;

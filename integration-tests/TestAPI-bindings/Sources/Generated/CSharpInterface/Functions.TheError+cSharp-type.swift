@@ -5,8 +5,8 @@ import FishyJoesCSharpRuntime
 import Foundation
 import TestAPI
 
-@_cdecl("Functions_TheErrorSetup")
-private func cSharpSetup(
+@_cdecl("TestAPI_Functions_TheError_setup")
+public func TestAPI_Functions_TheError_setup(
     constructorMethod: @escaping @convention(c) (UnsafeMutableRawPointer, _ exn: csOutExn) -> csObject,
     _ exn: csOutExn
 ) {

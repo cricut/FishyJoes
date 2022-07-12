@@ -16,6 +16,10 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         let bag = CStringBag()
         // print("setting up Function2Converter<Function1Converter<Int, Int>, Function1Converter<Int, Int>, Function1Converter<Int, Int>>...")
         try Function2Converter<Function1Converter<Int, Int>, Function1Converter<Int, Int>, Function1Converter<Int, Int>>.javaSetup(env: env)
+        // print("setting up Function1Converter<OptionalConverter<ArrayConverter<OptionalConverter<Int>>>, OptionalConverter<ArrayConverter<OptionalConverter<Int>>>>...")
+        try Function1Converter<OptionalConverter<ArrayConverter<OptionalConverter<Int>>>, OptionalConverter<ArrayConverter<OptionalConverter<Int>>>>.javaSetup(env: env)
+        // print("setting up Function1Converter<OptionalConverter<UInt8>, OptionalConverter<UInt8>>...")
+        try Function1Converter<OptionalConverter<UInt8>, OptionalConverter<UInt8>>.javaSetup(env: env)
         // print("setting up Function3Converter<Float, Double, Int, Double>...")
         try Function3Converter<Float, Double, Int, Double>.javaSetup(env: env)
         // print("setting up Function1Converter<Int, Int>...")
@@ -223,6 +227,11 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_echoMaybeDictionaryOfIntToMaybeInt"),
                 signature: bag.add("(Ljava/util/Map;)Ljava/util/Map;"),
                 fnPtr: unsafeBitCast(java_Collections_echoMaybeDictionaryOfIntToMaybeInt, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_collectionMapper"),
+                signature: bag.add("(Ljava/util/List;Lkotlin/jvm/functions/Function1;)Ljava/util/List;"),
+                fnPtr: unsafeBitCast(java_Collections_collectionMapper, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_get_arrayOfInt"),
@@ -519,6 +528,11 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_maybeEchoDouble"),
                 signature: bag.add("(Ljava/lang/Double;)Ljava/lang/Double;"),
                 fnPtr: unsafeBitCast(java_Primitives_maybeEchoDouble, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_valueMapper"),
+                signature: bag.add("(Lkotlin/UByte;Lkotlin/jvm/functions/Function1;)Lkotlin/UByte;"),
+                fnPtr: unsafeBitCast(java_Primitives_valueMapper, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_get_falseBool"),

@@ -8,9 +8,9 @@ import TestAPI
 extension SimpleEnum: FishyJoesNodeRuntime.NodeConverter {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
         switch try String.fromNode(value, env: env) {
-        case "red": return .red
-        case "green": return .green
-        case "blue": return .blue
+        case "red": return Self.red
+        case "green": return Self.green
+        case "blue": return Self.blue
         case let unknown: fatalError("invalid enum string '\(unknown)' for SimpleEnum")
         }
     }

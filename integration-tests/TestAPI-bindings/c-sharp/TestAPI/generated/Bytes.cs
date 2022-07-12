@@ -5,58 +5,62 @@ using System;
 using static Cricut.FishyJoesRuntime.Utilities;
 
 namespace Cricut.TestAPI {
-    /**
-     * <!-- FishyJoes.exportReference(Bytes) -->
-     */
+    /// <summary>
+    /// <para><!-- FishyJoes.exportReference(Bytes) --></para>
+    /// </summary>
     public class Bytes : SwiftReference {
         internal Bytes(IntPtr reference): base(reference) {}
 
-        /**
-         * <!-- FishyJoes.export(bytes) -->
-         */
-        public static byte[] bytes {
-            get => Check((out IntPtr exn) => {
-                return ConsumeHandle<byte[]>(__cs_get_Bytes_bytes(out exn));
-            });
+        /// <summary>
+        /// <para><!-- FishyJoes.export(bytes, cSharp: TheBytes) --></para>
+        /// </summary>
+        public static System.Collections.Generic.IList<byte> TheBytes {
+            get {
+                return Check((out IntPtr exn) => 
+                    ConsumeHandle<System.Collections.Generic.IList<byte>>(__cs_get_Bytes_TheBytes(out exn))
+                );
+            }
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr __cs_get_Bytes_bytes(out IntPtr exn);
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern IntPtr __cs_get_Bytes_TheBytes(out IntPtr exn);
 
-        /**
-         * <!-- FishyJoes.export(data) -->
-         */
-        public static byte[] data {
-            get => Check((out IntPtr exn) => {
-                return ConsumeHandle<byte[]>(__cs_get_Bytes_data(out exn));
-            });
+        /// <summary>
+        /// <para><!-- FishyJoes.export(data) --></para>
+        /// </summary>
+        public static byte[] Data {
+            get {
+                return Check((out IntPtr exn) => 
+                    ConsumeHandle<byte[]>(__cs_get_Bytes_Data(out exn))
+                );
+            }
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr __cs_get_Bytes_data(out IntPtr exn);
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern IntPtr __cs_get_Bytes_Data(out IntPtr exn);
 
-        /**
-         * <!-- FishyJoes.export(echoBytes) -->
-         */
-        public static byte[] echoBytes(
-            byte[] bytes
+        /// <summary>
+        /// <para><!-- FishyJoes.export(echoBytes) --></para>
+        /// </summary>
+        public static System.Collections.Generic.IList<byte> EchoBytes(
+            System.Collections.Generic.IList<byte> bytes
         ) {
             using var _bytesHandle = new GCRef(bytes);
-            return ConsumeHandle<byte[]>(
+            return ConsumeHandle<System.Collections.Generic.IList<byte>>(
                 Check((out IntPtr _exn) => __cs_Bytes_echoBytes(_bytesHandle.ptr, out _exn))
             );
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern IntPtr __cs_Bytes_echoBytes(
             IntPtr bytes,
             out IntPtr exn
         );
 
-        /**
-         * <!-- FishyJoes.export(echoData) -->
-         */
-        public static byte[] echoData(
+        /// <summary>
+        /// <para><!-- FishyJoes.export(echoData) --></para>
+        /// </summary>
+        public static byte[] EchoData(
             byte[] data
         ) {
             using var _dataHandle = new GCRef(data);
@@ -65,7 +69,7 @@ namespace Cricut.TestAPI {
             );
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern IntPtr __cs_Bytes_echoData(
             IntPtr data,
             out IntPtr exn

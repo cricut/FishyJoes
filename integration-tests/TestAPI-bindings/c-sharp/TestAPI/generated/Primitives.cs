@@ -5,877 +5,993 @@ using System;
 using static Cricut.FishyJoesRuntime.Utilities;
 
 namespace Cricut.TestAPI {
-    /**
-     * <!-- FishyJoes.exportReference(Primitives) -->
-     */
+    /// <summary>
+    /// <para><!-- FishyJoes.exportReference(Primitives) --></para>
+    /// </summary>
     public class Primitives : SwiftReference {
         internal Primitives(IntPtr reference): base(reference) {}
 
-        /**
-         * <!-- FishyJoes.export(falseBool) -->
-         */
-        public static bool falseBool {
-            get => Check((out IntPtr exn) => {
-                return __cs_get_Primitives_falseBool(out exn);
-            });
+        /// <summary>
+        /// <para><!-- FishyJoes.export(falseBool) --></para>
+        /// </summary>
+        public static bool FalseBool {
+            get {
+                return Check((out IntPtr exn) => 
+                    __cs_get_Primitives_FalseBool(out exn)
+                );
+            }
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
-        private static extern bool __cs_get_Primitives_falseBool(out IntPtr exn);
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern bool __cs_get_Primitives_FalseBool(out IntPtr exn);
 
-        /**
-         * <!-- FishyJoes.export(trueBool) -->
-         */
-        public static bool trueBool {
-            get => Check((out IntPtr exn) => {
-                return __cs_get_Primitives_trueBool(out exn);
-            });
+        /// <summary>
+        /// <para><!-- FishyJoes.export(trueBool) --></para>
+        /// </summary>
+        public static bool TrueBool {
+            get {
+                return Check((out IntPtr exn) => 
+                    __cs_get_Primitives_TrueBool(out exn)
+                );
+            }
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
-        private static extern bool __cs_get_Primitives_trueBool(out IntPtr exn);
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern bool __cs_get_Primitives_TrueBool(out IntPtr exn);
 
-        /**
-         * <!-- FishyJoes.export(zeroUInt8) -->
-         */
-        public static byte zeroUInt8 {
-            get => Check((out IntPtr exn) => {
-                return __cs_get_Primitives_zeroUInt8(out exn);
-            });
+        /// <summary>
+        /// <para><!-- FishyJoes.export(zeroUInt8) --></para>
+        /// </summary>
+        public static byte ZeroUInt8 {
+            get {
+                return Check((out IntPtr exn) => 
+                    __cs_get_Primitives_ZeroUInt8(out exn)
+                );
+            }
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
-        private static extern byte __cs_get_Primitives_zeroUInt8(out IntPtr exn);
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern byte __cs_get_Primitives_ZeroUInt8(out IntPtr exn);
 
-        /**
-         * <!-- FishyJoes.export(minUInt8) -->
-         */
-        public static byte minUInt8 {
-            get => Check((out IntPtr exn) => {
-                return __cs_get_Primitives_minUInt8(out exn);
-            });
+        /// <summary>
+        /// <para><!-- FishyJoes.export(minUInt8) --></para>
+        /// </summary>
+        public static byte MinUInt8 {
+            get {
+                return Check((out IntPtr exn) => 
+                    __cs_get_Primitives_MinUInt8(out exn)
+                );
+            }
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
-        private static extern byte __cs_get_Primitives_minUInt8(out IntPtr exn);
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern byte __cs_get_Primitives_MinUInt8(out IntPtr exn);
 
-        /**
-         * <!-- FishyJoes.export(maxUInt8) -->
-         */
-        public static byte maxUInt8 {
-            get => Check((out IntPtr exn) => {
-                return __cs_get_Primitives_maxUInt8(out exn);
-            });
+        /// <summary>
+        /// <para><!-- FishyJoes.export(maxUInt8) --></para>
+        /// </summary>
+        public static byte MaxUInt8 {
+            get {
+                return Check((out IntPtr exn) => 
+                    __cs_get_Primitives_MaxUInt8(out exn)
+                );
+            }
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
-        private static extern byte __cs_get_Primitives_maxUInt8(out IntPtr exn);
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern byte __cs_get_Primitives_MaxUInt8(out IntPtr exn);
 
-        /**
-         * <!-- FishyJoes.export(zeroUInt16) -->
-         */
-        public static ushort zeroUInt16 {
-            get => Check((out IntPtr exn) => {
-                return __cs_get_Primitives_zeroUInt16(out exn);
-            });
+        /// <summary>
+        /// <para><!-- FishyJoes.export(zeroUInt16) --></para>
+        /// </summary>
+        public static ushort ZeroUInt16 {
+            get {
+                return Check((out IntPtr exn) => 
+                    __cs_get_Primitives_ZeroUInt16(out exn)
+                );
+            }
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
-        private static extern ushort __cs_get_Primitives_zeroUInt16(out IntPtr exn);
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern ushort __cs_get_Primitives_ZeroUInt16(out IntPtr exn);
 
-        /**
-         * <!-- FishyJoes.export(minUInt16) -->
-         */
-        public static ushort minUInt16 {
-            get => Check((out IntPtr exn) => {
-                return __cs_get_Primitives_minUInt16(out exn);
-            });
+        /// <summary>
+        /// <para><!-- FishyJoes.export(minUInt16) --></para>
+        /// </summary>
+        public static ushort MinUInt16 {
+            get {
+                return Check((out IntPtr exn) => 
+                    __cs_get_Primitives_MinUInt16(out exn)
+                );
+            }
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
-        private static extern ushort __cs_get_Primitives_minUInt16(out IntPtr exn);
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern ushort __cs_get_Primitives_MinUInt16(out IntPtr exn);
 
-        /**
-         * <!-- FishyJoes.export(maxUInt16) -->
-         */
-        public static ushort maxUInt16 {
-            get => Check((out IntPtr exn) => {
-                return __cs_get_Primitives_maxUInt16(out exn);
-            });
+        /// <summary>
+        /// <para><!-- FishyJoes.export(maxUInt16) --></para>
+        /// </summary>
+        public static ushort MaxUInt16 {
+            get {
+                return Check((out IntPtr exn) => 
+                    __cs_get_Primitives_MaxUInt16(out exn)
+                );
+            }
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
-        private static extern ushort __cs_get_Primitives_maxUInt16(out IntPtr exn);
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern ushort __cs_get_Primitives_MaxUInt16(out IntPtr exn);
 
-        /**
-         * <!-- FishyJoes.export(zeroUInt32) -->
-         */
-        public static uint zeroUInt32 {
-            get => Check((out IntPtr exn) => {
-                return __cs_get_Primitives_zeroUInt32(out exn);
-            });
+        /// <summary>
+        /// <para><!-- FishyJoes.export(zeroUInt32) --></para>
+        /// </summary>
+        public static uint ZeroUInt32 {
+            get {
+                return Check((out IntPtr exn) => 
+                    __cs_get_Primitives_ZeroUInt32(out exn)
+                );
+            }
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
-        private static extern uint __cs_get_Primitives_zeroUInt32(out IntPtr exn);
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern uint __cs_get_Primitives_ZeroUInt32(out IntPtr exn);
 
-        /**
-         * <!-- FishyJoes.export(minUInt32) -->
-         */
-        public static uint minUInt32 {
-            get => Check((out IntPtr exn) => {
-                return __cs_get_Primitives_minUInt32(out exn);
-            });
+        /// <summary>
+        /// <para><!-- FishyJoes.export(minUInt32) --></para>
+        /// </summary>
+        public static uint MinUInt32 {
+            get {
+                return Check((out IntPtr exn) => 
+                    __cs_get_Primitives_MinUInt32(out exn)
+                );
+            }
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
-        private static extern uint __cs_get_Primitives_minUInt32(out IntPtr exn);
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern uint __cs_get_Primitives_MinUInt32(out IntPtr exn);
 
-        /**
-         * <!-- FishyJoes.export(maxUInt32) -->
-         */
-        public static uint maxUInt32 {
-            get => Check((out IntPtr exn) => {
-                return __cs_get_Primitives_maxUInt32(out exn);
-            });
+        /// <summary>
+        /// <para><!-- FishyJoes.export(maxUInt32) --></para>
+        /// </summary>
+        public static uint MaxUInt32 {
+            get {
+                return Check((out IntPtr exn) => 
+                    __cs_get_Primitives_MaxUInt32(out exn)
+                );
+            }
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
-        private static extern uint __cs_get_Primitives_maxUInt32(out IntPtr exn);
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern uint __cs_get_Primitives_MaxUInt32(out IntPtr exn);
 
-        /**
-         * <!-- FishyJoes.export(zeroUInt64) -->
-         */
-        public static ulong zeroUInt64 {
-            get => Check((out IntPtr exn) => {
-                return __cs_get_Primitives_zeroUInt64(out exn);
-            });
+        /// <summary>
+        /// <para><!-- FishyJoes.export(zeroUInt64) --></para>
+        /// </summary>
+        public static ulong ZeroUInt64 {
+            get {
+                return Check((out IntPtr exn) => 
+                    __cs_get_Primitives_ZeroUInt64(out exn)
+                );
+            }
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
-        private static extern ulong __cs_get_Primitives_zeroUInt64(out IntPtr exn);
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern ulong __cs_get_Primitives_ZeroUInt64(out IntPtr exn);
 
-        /**
-         * <!-- FishyJoes.export(minUInt64) -->
-         */
-        public static ulong minUInt64 {
-            get => Check((out IntPtr exn) => {
-                return __cs_get_Primitives_minUInt64(out exn);
-            });
+        /// <summary>
+        /// <para><!-- FishyJoes.export(minUInt64) --></para>
+        /// </summary>
+        public static ulong MinUInt64 {
+            get {
+                return Check((out IntPtr exn) => 
+                    __cs_get_Primitives_MinUInt64(out exn)
+                );
+            }
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
-        private static extern ulong __cs_get_Primitives_minUInt64(out IntPtr exn);
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern ulong __cs_get_Primitives_MinUInt64(out IntPtr exn);
 
-        /**
-         * <!-- FishyJoes.export(maxUInt64) -->
-         */
-        public static ulong maxUInt64 {
-            get => Check((out IntPtr exn) => {
-                return __cs_get_Primitives_maxUInt64(out exn);
-            });
+        /// <summary>
+        /// <para><!-- FishyJoes.export(maxUInt64) --></para>
+        /// </summary>
+        public static ulong MaxUInt64 {
+            get {
+                return Check((out IntPtr exn) => 
+                    __cs_get_Primitives_MaxUInt64(out exn)
+                );
+            }
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
-        private static extern ulong __cs_get_Primitives_maxUInt64(out IntPtr exn);
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern ulong __cs_get_Primitives_MaxUInt64(out IntPtr exn);
 
-        /**
-         * <!-- FishyJoes.export(zeroInt8) -->
-         */
-        public static sbyte zeroInt8 {
-            get => Check((out IntPtr exn) => {
-                return __cs_get_Primitives_zeroInt8(out exn);
-            });
+        /// <summary>
+        /// <para><!-- FishyJoes.export(zeroInt8) --></para>
+        /// </summary>
+        public static sbyte ZeroInt8 {
+            get {
+                return Check((out IntPtr exn) => 
+                    __cs_get_Primitives_ZeroInt8(out exn)
+                );
+            }
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
-        private static extern sbyte __cs_get_Primitives_zeroInt8(out IntPtr exn);
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern sbyte __cs_get_Primitives_ZeroInt8(out IntPtr exn);
 
-        /**
-         * <!-- FishyJoes.export(minInt8) -->
-         */
-        public static sbyte minInt8 {
-            get => Check((out IntPtr exn) => {
-                return __cs_get_Primitives_minInt8(out exn);
-            });
+        /// <summary>
+        /// <para><!-- FishyJoes.export(minInt8) --></para>
+        /// </summary>
+        public static sbyte MinInt8 {
+            get {
+                return Check((out IntPtr exn) => 
+                    __cs_get_Primitives_MinInt8(out exn)
+                );
+            }
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
-        private static extern sbyte __cs_get_Primitives_minInt8(out IntPtr exn);
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern sbyte __cs_get_Primitives_MinInt8(out IntPtr exn);
 
-        /**
-         * <!-- FishyJoes.export(maxInt8) -->
-         */
-        public static sbyte maxInt8 {
-            get => Check((out IntPtr exn) => {
-                return __cs_get_Primitives_maxInt8(out exn);
-            });
+        /// <summary>
+        /// <para><!-- FishyJoes.export(maxInt8) --></para>
+        /// </summary>
+        public static sbyte MaxInt8 {
+            get {
+                return Check((out IntPtr exn) => 
+                    __cs_get_Primitives_MaxInt8(out exn)
+                );
+            }
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
-        private static extern sbyte __cs_get_Primitives_maxInt8(out IntPtr exn);
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern sbyte __cs_get_Primitives_MaxInt8(out IntPtr exn);
 
-        /**
-         * <!-- FishyJoes.export(zeroInt16) -->
-         */
-        public static short zeroInt16 {
-            get => Check((out IntPtr exn) => {
-                return __cs_get_Primitives_zeroInt16(out exn);
-            });
+        /// <summary>
+        /// <para><!-- FishyJoes.export(zeroInt16) --></para>
+        /// </summary>
+        public static short ZeroInt16 {
+            get {
+                return Check((out IntPtr exn) => 
+                    __cs_get_Primitives_ZeroInt16(out exn)
+                );
+            }
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
-        private static extern short __cs_get_Primitives_zeroInt16(out IntPtr exn);
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern short __cs_get_Primitives_ZeroInt16(out IntPtr exn);
 
-        /**
-         * <!-- FishyJoes.export(minInt16) -->
-         */
-        public static short minInt16 {
-            get => Check((out IntPtr exn) => {
-                return __cs_get_Primitives_minInt16(out exn);
-            });
+        /// <summary>
+        /// <para><!-- FishyJoes.export(minInt16) --></para>
+        /// </summary>
+        public static short MinInt16 {
+            get {
+                return Check((out IntPtr exn) => 
+                    __cs_get_Primitives_MinInt16(out exn)
+                );
+            }
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
-        private static extern short __cs_get_Primitives_minInt16(out IntPtr exn);
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern short __cs_get_Primitives_MinInt16(out IntPtr exn);
 
-        /**
-         * <!-- FishyJoes.export(maxInt16) -->
-         */
-        public static short maxInt16 {
-            get => Check((out IntPtr exn) => {
-                return __cs_get_Primitives_maxInt16(out exn);
-            });
+        /// <summary>
+        /// <para><!-- FishyJoes.export(maxInt16) --></para>
+        /// </summary>
+        public static short MaxInt16 {
+            get {
+                return Check((out IntPtr exn) => 
+                    __cs_get_Primitives_MaxInt16(out exn)
+                );
+            }
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
-        private static extern short __cs_get_Primitives_maxInt16(out IntPtr exn);
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern short __cs_get_Primitives_MaxInt16(out IntPtr exn);
 
-        /**
-         * <!-- FishyJoes.export(zeroInt32) -->
-         */
-        public static int zeroInt32 {
-            get => Check((out IntPtr exn) => {
-                return __cs_get_Primitives_zeroInt32(out exn);
-            });
+        /// <summary>
+        /// <para><!-- FishyJoes.export(zeroInt32) --></para>
+        /// </summary>
+        public static int ZeroInt32 {
+            get {
+                return Check((out IntPtr exn) => 
+                    __cs_get_Primitives_ZeroInt32(out exn)
+                );
+            }
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
-        private static extern int __cs_get_Primitives_zeroInt32(out IntPtr exn);
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern int __cs_get_Primitives_ZeroInt32(out IntPtr exn);
 
-        /**
-         * <!-- FishyJoes.export(minInt32) -->
-         */
-        public static int minInt32 {
-            get => Check((out IntPtr exn) => {
-                return __cs_get_Primitives_minInt32(out exn);
-            });
+        /// <summary>
+        /// <para><!-- FishyJoes.export(minInt32) --></para>
+        /// </summary>
+        public static int MinInt32 {
+            get {
+                return Check((out IntPtr exn) => 
+                    __cs_get_Primitives_MinInt32(out exn)
+                );
+            }
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
-        private static extern int __cs_get_Primitives_minInt32(out IntPtr exn);
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern int __cs_get_Primitives_MinInt32(out IntPtr exn);
 
-        /**
-         * <!-- FishyJoes.export(maxInt32) -->
-         */
-        public static int maxInt32 {
-            get => Check((out IntPtr exn) => {
-                return __cs_get_Primitives_maxInt32(out exn);
-            });
+        /// <summary>
+        /// <para><!-- FishyJoes.export(maxInt32) --></para>
+        /// </summary>
+        public static int MaxInt32 {
+            get {
+                return Check((out IntPtr exn) => 
+                    __cs_get_Primitives_MaxInt32(out exn)
+                );
+            }
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
-        private static extern int __cs_get_Primitives_maxInt32(out IntPtr exn);
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern int __cs_get_Primitives_MaxInt32(out IntPtr exn);
 
-        /**
-         * <!-- FishyJoes.export(zeroInt64) -->
-         */
-        public static long zeroInt64 {
-            get => Check((out IntPtr exn) => {
-                return __cs_get_Primitives_zeroInt64(out exn);
-            });
+        /// <summary>
+        /// <para><!-- FishyJoes.export(zeroInt64) --></para>
+        /// </summary>
+        public static long ZeroInt64 {
+            get {
+                return Check((out IntPtr exn) => 
+                    __cs_get_Primitives_ZeroInt64(out exn)
+                );
+            }
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
-        private static extern long __cs_get_Primitives_zeroInt64(out IntPtr exn);
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern long __cs_get_Primitives_ZeroInt64(out IntPtr exn);
 
-        /**
-         * <!-- FishyJoes.export(minInt64) -->
-         */
-        public static long minInt64 {
-            get => Check((out IntPtr exn) => {
-                return __cs_get_Primitives_minInt64(out exn);
-            });
+        /// <summary>
+        /// <para><!-- FishyJoes.export(minInt64) --></para>
+        /// </summary>
+        public static long MinInt64 {
+            get {
+                return Check((out IntPtr exn) => 
+                    __cs_get_Primitives_MinInt64(out exn)
+                );
+            }
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
-        private static extern long __cs_get_Primitives_minInt64(out IntPtr exn);
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern long __cs_get_Primitives_MinInt64(out IntPtr exn);
 
-        /**
-         * <!-- FishyJoes.export(maxInt64) -->
-         */
-        public static long maxInt64 {
-            get => Check((out IntPtr exn) => {
-                return __cs_get_Primitives_maxInt64(out exn);
-            });
+        /// <summary>
+        /// <para><!-- FishyJoes.export(maxInt64) --></para>
+        /// </summary>
+        public static long MaxInt64 {
+            get {
+                return Check((out IntPtr exn) => 
+                    __cs_get_Primitives_MaxInt64(out exn)
+                );
+            }
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
-        private static extern long __cs_get_Primitives_maxInt64(out IntPtr exn);
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern long __cs_get_Primitives_MaxInt64(out IntPtr exn);
 
-        /**
-         * <!-- FishyJoes.export(zeroInt) -->
-         */
-        public static nint zeroInt {
-            get => Check((out IntPtr exn) => {
-                return __cs_get_Primitives_zeroInt(out exn);
-            });
+        /// <summary>
+        /// <para><!-- FishyJoes.export(zeroInt) --></para>
+        /// </summary>
+        public static nint ZeroInt {
+            get {
+                return Check((out IntPtr exn) => 
+                    __cs_get_Primitives_ZeroInt(out exn)
+                );
+            }
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
-        private static extern nint __cs_get_Primitives_zeroInt(out IntPtr exn);
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern nint __cs_get_Primitives_ZeroInt(out IntPtr exn);
 
-        /**
-         * <!-- FishyJoes.export(minInt) -->
-         */
-        public static nint minInt {
-            get => Check((out IntPtr exn) => {
-                return __cs_get_Primitives_minInt(out exn);
-            });
+        /// <summary>
+        /// <para><!-- FishyJoes.export(minInt) --></para>
+        /// </summary>
+        public static nint MinInt {
+            get {
+                return Check((out IntPtr exn) => 
+                    __cs_get_Primitives_MinInt(out exn)
+                );
+            }
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
-        private static extern nint __cs_get_Primitives_minInt(out IntPtr exn);
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern nint __cs_get_Primitives_MinInt(out IntPtr exn);
 
-        /**
-         * <!-- FishyJoes.export(maxInt) -->
-         */
-        public static nint maxInt {
-            get => Check((out IntPtr exn) => {
-                return __cs_get_Primitives_maxInt(out exn);
-            });
+        /// <summary>
+        /// <para><!-- FishyJoes.export(maxInt) --></para>
+        /// </summary>
+        public static nint MaxInt {
+            get {
+                return Check((out IntPtr exn) => 
+                    __cs_get_Primitives_MaxInt(out exn)
+                );
+            }
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
-        private static extern nint __cs_get_Primitives_maxInt(out IntPtr exn);
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern nint __cs_get_Primitives_MaxInt(out IntPtr exn);
 
-        /**
-         * <!-- FishyJoes.export(zeroFloat) -->
-         */
-        public static float zeroFloat {
-            get => Check((out IntPtr exn) => {
-                return __cs_get_Primitives_zeroFloat(out exn);
-            });
+        /// <summary>
+        /// <para><!-- FishyJoes.export(zeroFloat) --></para>
+        /// </summary>
+        public static float ZeroFloat {
+            get {
+                return Check((out IntPtr exn) => 
+                    __cs_get_Primitives_ZeroFloat(out exn)
+                );
+            }
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
-        private static extern float __cs_get_Primitives_zeroFloat(out IntPtr exn);
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern float __cs_get_Primitives_ZeroFloat(out IntPtr exn);
 
-        /**
-         * <!-- FishyJoes.export(minFloat) -->
-         */
-        public static float minFloat {
-            get => Check((out IntPtr exn) => {
-                return __cs_get_Primitives_minFloat(out exn);
-            });
+        /// <summary>
+        /// <para><!-- FishyJoes.export(minFloat) --></para>
+        /// </summary>
+        public static float MinFloat {
+            get {
+                return Check((out IntPtr exn) => 
+                    __cs_get_Primitives_MinFloat(out exn)
+                );
+            }
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
-        private static extern float __cs_get_Primitives_minFloat(out IntPtr exn);
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern float __cs_get_Primitives_MinFloat(out IntPtr exn);
 
-        /**
-         * <!-- FishyJoes.export(maxFloat) -->
-         */
-        public static float maxFloat {
-            get => Check((out IntPtr exn) => {
-                return __cs_get_Primitives_maxFloat(out exn);
-            });
+        /// <summary>
+        /// <para><!-- FishyJoes.export(maxFloat) --></para>
+        /// </summary>
+        public static float MaxFloat {
+            get {
+                return Check((out IntPtr exn) => 
+                    __cs_get_Primitives_MaxFloat(out exn)
+                );
+            }
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
-        private static extern float __cs_get_Primitives_maxFloat(out IntPtr exn);
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern float __cs_get_Primitives_MaxFloat(out IntPtr exn);
 
-        /**
-         * <!-- FishyJoes.export(zeroDouble) -->
-         */
-        public static double zeroDouble {
-            get => Check((out IntPtr exn) => {
-                return __cs_get_Primitives_zeroDouble(out exn);
-            });
+        /// <summary>
+        /// <para><!-- FishyJoes.export(zeroDouble) --></para>
+        /// </summary>
+        public static double ZeroDouble {
+            get {
+                return Check((out IntPtr exn) => 
+                    __cs_get_Primitives_ZeroDouble(out exn)
+                );
+            }
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
-        private static extern double __cs_get_Primitives_zeroDouble(out IntPtr exn);
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern double __cs_get_Primitives_ZeroDouble(out IntPtr exn);
 
-        /**
-         * <!-- FishyJoes.export(minDouble) -->
-         */
-        public static double minDouble {
-            get => Check((out IntPtr exn) => {
-                return __cs_get_Primitives_minDouble(out exn);
-            });
+        /// <summary>
+        /// <para><!-- FishyJoes.export(minDouble) --></para>
+        /// </summary>
+        public static double MinDouble {
+            get {
+                return Check((out IntPtr exn) => 
+                    __cs_get_Primitives_MinDouble(out exn)
+                );
+            }
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
-        private static extern double __cs_get_Primitives_minDouble(out IntPtr exn);
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern double __cs_get_Primitives_MinDouble(out IntPtr exn);
 
-        /**
-         * <!-- FishyJoes.export(maxDouble) -->
-         */
-        public static double maxDouble {
-            get => Check((out IntPtr exn) => {
-                return __cs_get_Primitives_maxDouble(out exn);
-            });
+        /// <summary>
+        /// <para><!-- FishyJoes.export(maxDouble) --></para>
+        /// </summary>
+        public static double MaxDouble {
+            get {
+                return Check((out IntPtr exn) => 
+                    __cs_get_Primitives_MaxDouble(out exn)
+                );
+            }
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
-        private static extern double __cs_get_Primitives_maxDouble(out IntPtr exn);
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern double __cs_get_Primitives_MaxDouble(out IntPtr exn);
 
-        /**
-         * <!-- FishyJoes.export(manyBool) -->
-         */
-        public static bool[] manyBool {
-            get => Check((out IntPtr exn) => {
-                return ConsumeHandle<bool[]>(__cs_get_Primitives_manyBool(out exn));
-            });
+        /// <summary>
+        /// <para><!-- FishyJoes.export(manyBool) --></para>
+        /// </summary>
+        public static System.Collections.Generic.IList<bool> ManyBool {
+            get {
+                return Check((out IntPtr exn) => 
+                    ConsumeHandle<System.Collections.Generic.IList<bool>>(__cs_get_Primitives_ManyBool(out exn))
+                );
+            }
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr __cs_get_Primitives_manyBool(out IntPtr exn);
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern IntPtr __cs_get_Primitives_ManyBool(out IntPtr exn);
 
-        /**
-         * <!-- FishyJoes.export(manyUInt8) -->
-         */
-        public static byte[] manyUInt8 {
-            get => Check((out IntPtr exn) => {
-                return ConsumeHandle<byte[]>(__cs_get_Primitives_manyUInt8(out exn));
-            });
+        /// <summary>
+        /// <para><!-- FishyJoes.export(manyUInt8) --></para>
+        /// </summary>
+        public static System.Collections.Generic.IList<byte> ManyUInt8 {
+            get {
+                return Check((out IntPtr exn) => 
+                    ConsumeHandle<System.Collections.Generic.IList<byte>>(__cs_get_Primitives_ManyUInt8(out exn))
+                );
+            }
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr __cs_get_Primitives_manyUInt8(out IntPtr exn);
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern IntPtr __cs_get_Primitives_ManyUInt8(out IntPtr exn);
 
-        /**
-         * <!-- FishyJoes.export(manyUInt16) -->
-         */
-        public static ushort[] manyUInt16 {
-            get => Check((out IntPtr exn) => {
-                return ConsumeHandle<ushort[]>(__cs_get_Primitives_manyUInt16(out exn));
-            });
+        /// <summary>
+        /// <para><!-- FishyJoes.export(manyUInt16) --></para>
+        /// </summary>
+        public static System.Collections.Generic.IList<ushort> ManyUInt16 {
+            get {
+                return Check((out IntPtr exn) => 
+                    ConsumeHandle<System.Collections.Generic.IList<ushort>>(__cs_get_Primitives_ManyUInt16(out exn))
+                );
+            }
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr __cs_get_Primitives_manyUInt16(out IntPtr exn);
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern IntPtr __cs_get_Primitives_ManyUInt16(out IntPtr exn);
 
-        /**
-         * <!-- FishyJoes.export(manyUInt32) -->
-         */
-        public static uint[] manyUInt32 {
-            get => Check((out IntPtr exn) => {
-                return ConsumeHandle<uint[]>(__cs_get_Primitives_manyUInt32(out exn));
-            });
+        /// <summary>
+        /// <para><!-- FishyJoes.export(manyUInt32) --></para>
+        /// </summary>
+        public static System.Collections.Generic.IList<uint> ManyUInt32 {
+            get {
+                return Check((out IntPtr exn) => 
+                    ConsumeHandle<System.Collections.Generic.IList<uint>>(__cs_get_Primitives_ManyUInt32(out exn))
+                );
+            }
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr __cs_get_Primitives_manyUInt32(out IntPtr exn);
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern IntPtr __cs_get_Primitives_ManyUInt32(out IntPtr exn);
 
-        /**
-         * <!-- FishyJoes.export(manyUInt64) -->
-         */
-        public static ulong[] manyUInt64 {
-            get => Check((out IntPtr exn) => {
-                return ConsumeHandle<ulong[]>(__cs_get_Primitives_manyUInt64(out exn));
-            });
+        /// <summary>
+        /// <para><!-- FishyJoes.export(manyUInt64) --></para>
+        /// </summary>
+        public static System.Collections.Generic.IList<ulong> ManyUInt64 {
+            get {
+                return Check((out IntPtr exn) => 
+                    ConsumeHandle<System.Collections.Generic.IList<ulong>>(__cs_get_Primitives_ManyUInt64(out exn))
+                );
+            }
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr __cs_get_Primitives_manyUInt64(out IntPtr exn);
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern IntPtr __cs_get_Primitives_ManyUInt64(out IntPtr exn);
 
-        /**
-         * <!-- FishyJoes.export(manyInt8) -->
-         */
-        public static sbyte[] manyInt8 {
-            get => Check((out IntPtr exn) => {
-                return ConsumeHandle<sbyte[]>(__cs_get_Primitives_manyInt8(out exn));
-            });
+        /// <summary>
+        /// <para><!-- FishyJoes.export(manyInt8) --></para>
+        /// </summary>
+        public static System.Collections.Generic.IList<sbyte> ManyInt8 {
+            get {
+                return Check((out IntPtr exn) => 
+                    ConsumeHandle<System.Collections.Generic.IList<sbyte>>(__cs_get_Primitives_ManyInt8(out exn))
+                );
+            }
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr __cs_get_Primitives_manyInt8(out IntPtr exn);
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern IntPtr __cs_get_Primitives_ManyInt8(out IntPtr exn);
 
-        /**
-         * <!-- FishyJoes.export(manyInt16) -->
-         */
-        public static short[] manyInt16 {
-            get => Check((out IntPtr exn) => {
-                return ConsumeHandle<short[]>(__cs_get_Primitives_manyInt16(out exn));
-            });
+        /// <summary>
+        /// <para><!-- FishyJoes.export(manyInt16) --></para>
+        /// </summary>
+        public static System.Collections.Generic.IList<short> ManyInt16 {
+            get {
+                return Check((out IntPtr exn) => 
+                    ConsumeHandle<System.Collections.Generic.IList<short>>(__cs_get_Primitives_ManyInt16(out exn))
+                );
+            }
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr __cs_get_Primitives_manyInt16(out IntPtr exn);
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern IntPtr __cs_get_Primitives_ManyInt16(out IntPtr exn);
 
-        /**
-         * <!-- FishyJoes.export(manyInt32) -->
-         */
-        public static int[] manyInt32 {
-            get => Check((out IntPtr exn) => {
-                return ConsumeHandle<int[]>(__cs_get_Primitives_manyInt32(out exn));
-            });
+        /// <summary>
+        /// <para><!-- FishyJoes.export(manyInt32) --></para>
+        /// </summary>
+        public static System.Collections.Generic.IList<int> ManyInt32 {
+            get {
+                return Check((out IntPtr exn) => 
+                    ConsumeHandle<System.Collections.Generic.IList<int>>(__cs_get_Primitives_ManyInt32(out exn))
+                );
+            }
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr __cs_get_Primitives_manyInt32(out IntPtr exn);
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern IntPtr __cs_get_Primitives_ManyInt32(out IntPtr exn);
 
-        /**
-         * <!-- FishyJoes.export(manyInt64) -->
-         */
-        public static long[] manyInt64 {
-            get => Check((out IntPtr exn) => {
-                return ConsumeHandle<long[]>(__cs_get_Primitives_manyInt64(out exn));
-            });
+        /// <summary>
+        /// <para><!-- FishyJoes.export(manyInt64) --></para>
+        /// </summary>
+        public static System.Collections.Generic.IList<long> ManyInt64 {
+            get {
+                return Check((out IntPtr exn) => 
+                    ConsumeHandle<System.Collections.Generic.IList<long>>(__cs_get_Primitives_ManyInt64(out exn))
+                );
+            }
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr __cs_get_Primitives_manyInt64(out IntPtr exn);
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern IntPtr __cs_get_Primitives_ManyInt64(out IntPtr exn);
 
-        /**
-         * <!-- FishyJoes.export(manyFloat) -->
-         */
-        public static float[] manyFloat {
-            get => Check((out IntPtr exn) => {
-                return ConsumeHandle<float[]>(__cs_get_Primitives_manyFloat(out exn));
-            });
+        /// <summary>
+        /// <para><!-- FishyJoes.export(manyFloat) --></para>
+        /// </summary>
+        public static System.Collections.Generic.IList<float> ManyFloat {
+            get {
+                return Check((out IntPtr exn) => 
+                    ConsumeHandle<System.Collections.Generic.IList<float>>(__cs_get_Primitives_ManyFloat(out exn))
+                );
+            }
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr __cs_get_Primitives_manyFloat(out IntPtr exn);
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern IntPtr __cs_get_Primitives_ManyFloat(out IntPtr exn);
 
-        /**
-         * <!-- FishyJoes.export(manyDouble) -->
-         */
-        public static double[] manyDouble {
-            get => Check((out IntPtr exn) => {
-                return ConsumeHandle<double[]>(__cs_get_Primitives_manyDouble(out exn));
-            });
+        /// <summary>
+        /// <para><!-- FishyJoes.export(manyDouble) --></para>
+        /// </summary>
+        public static System.Collections.Generic.IList<double> ManyDouble {
+            get {
+                return Check((out IntPtr exn) => 
+                    ConsumeHandle<System.Collections.Generic.IList<double>>(__cs_get_Primitives_ManyDouble(out exn))
+                );
+            }
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr __cs_get_Primitives_manyDouble(out IntPtr exn);
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern IntPtr __cs_get_Primitives_ManyDouble(out IntPtr exn);
 
-        /**
-         * <!-- FishyJoes.export(manyMaybeBool) -->
-         */
-        public static bool?[] manyMaybeBool {
-            get => Check((out IntPtr exn) => {
-                return ConsumeHandle<bool?[]>(__cs_get_Primitives_manyMaybeBool(out exn));
-            });
+        /// <summary>
+        /// <para><!-- FishyJoes.export(manyMaybeBool) --></para>
+        /// </summary>
+        public static System.Collections.Generic.IList<bool?> ManyMaybeBool {
+            get {
+                return Check((out IntPtr exn) => 
+                    ConsumeHandle<System.Collections.Generic.IList<bool?>>(__cs_get_Primitives_ManyMaybeBool(out exn))
+                );
+            }
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr __cs_get_Primitives_manyMaybeBool(out IntPtr exn);
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern IntPtr __cs_get_Primitives_ManyMaybeBool(out IntPtr exn);
 
-        /**
-         * <!-- FishyJoes.export(manyMaybeUInt8) -->
-         */
-        public static byte?[] manyMaybeUInt8 {
-            get => Check((out IntPtr exn) => {
-                return ConsumeHandle<byte?[]>(__cs_get_Primitives_manyMaybeUInt8(out exn));
-            });
+        /// <summary>
+        /// <para><!-- FishyJoes.export(manyMaybeUInt8) --></para>
+        /// </summary>
+        public static System.Collections.Generic.IList<byte?> ManyMaybeUInt8 {
+            get {
+                return Check((out IntPtr exn) => 
+                    ConsumeHandle<System.Collections.Generic.IList<byte?>>(__cs_get_Primitives_ManyMaybeUInt8(out exn))
+                );
+            }
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr __cs_get_Primitives_manyMaybeUInt8(out IntPtr exn);
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern IntPtr __cs_get_Primitives_ManyMaybeUInt8(out IntPtr exn);
 
-        /**
-         * <!-- FishyJoes.export(manyMaybeUInt16) -->
-         */
-        public static ushort?[] manyMaybeUInt16 {
-            get => Check((out IntPtr exn) => {
-                return ConsumeHandle<ushort?[]>(__cs_get_Primitives_manyMaybeUInt16(out exn));
-            });
+        /// <summary>
+        /// <para><!-- FishyJoes.export(manyMaybeUInt16) --></para>
+        /// </summary>
+        public static System.Collections.Generic.IList<ushort?> ManyMaybeUInt16 {
+            get {
+                return Check((out IntPtr exn) => 
+                    ConsumeHandle<System.Collections.Generic.IList<ushort?>>(__cs_get_Primitives_ManyMaybeUInt16(out exn))
+                );
+            }
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr __cs_get_Primitives_manyMaybeUInt16(out IntPtr exn);
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern IntPtr __cs_get_Primitives_ManyMaybeUInt16(out IntPtr exn);
 
-        /**
-         * <!-- FishyJoes.export(manyMaybeUInt32) -->
-         */
-        public static uint?[] manyMaybeUInt32 {
-            get => Check((out IntPtr exn) => {
-                return ConsumeHandle<uint?[]>(__cs_get_Primitives_manyMaybeUInt32(out exn));
-            });
+        /// <summary>
+        /// <para><!-- FishyJoes.export(manyMaybeUInt32) --></para>
+        /// </summary>
+        public static System.Collections.Generic.IList<uint?> ManyMaybeUInt32 {
+            get {
+                return Check((out IntPtr exn) => 
+                    ConsumeHandle<System.Collections.Generic.IList<uint?>>(__cs_get_Primitives_ManyMaybeUInt32(out exn))
+                );
+            }
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr __cs_get_Primitives_manyMaybeUInt32(out IntPtr exn);
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern IntPtr __cs_get_Primitives_ManyMaybeUInt32(out IntPtr exn);
 
-        /**
-         * <!-- FishyJoes.export(manyMaybeUInt64) -->
-         */
-        public static ulong?[] manyMaybeUInt64 {
-            get => Check((out IntPtr exn) => {
-                return ConsumeHandle<ulong?[]>(__cs_get_Primitives_manyMaybeUInt64(out exn));
-            });
+        /// <summary>
+        /// <para><!-- FishyJoes.export(manyMaybeUInt64) --></para>
+        /// </summary>
+        public static System.Collections.Generic.IList<ulong?> ManyMaybeUInt64 {
+            get {
+                return Check((out IntPtr exn) => 
+                    ConsumeHandle<System.Collections.Generic.IList<ulong?>>(__cs_get_Primitives_ManyMaybeUInt64(out exn))
+                );
+            }
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr __cs_get_Primitives_manyMaybeUInt64(out IntPtr exn);
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern IntPtr __cs_get_Primitives_ManyMaybeUInt64(out IntPtr exn);
 
-        /**
-         * <!-- FishyJoes.export(manyMaybeInt8) -->
-         */
-        public static sbyte?[] manyMaybeInt8 {
-            get => Check((out IntPtr exn) => {
-                return ConsumeHandle<sbyte?[]>(__cs_get_Primitives_manyMaybeInt8(out exn));
-            });
+        /// <summary>
+        /// <para><!-- FishyJoes.export(manyMaybeInt8) --></para>
+        /// </summary>
+        public static System.Collections.Generic.IList<sbyte?> ManyMaybeInt8 {
+            get {
+                return Check((out IntPtr exn) => 
+                    ConsumeHandle<System.Collections.Generic.IList<sbyte?>>(__cs_get_Primitives_ManyMaybeInt8(out exn))
+                );
+            }
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr __cs_get_Primitives_manyMaybeInt8(out IntPtr exn);
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern IntPtr __cs_get_Primitives_ManyMaybeInt8(out IntPtr exn);
 
-        /**
-         * <!-- FishyJoes.export(manyMaybeInt16) -->
-         */
-        public static short?[] manyMaybeInt16 {
-            get => Check((out IntPtr exn) => {
-                return ConsumeHandle<short?[]>(__cs_get_Primitives_manyMaybeInt16(out exn));
-            });
+        /// <summary>
+        /// <para><!-- FishyJoes.export(manyMaybeInt16) --></para>
+        /// </summary>
+        public static System.Collections.Generic.IList<short?> ManyMaybeInt16 {
+            get {
+                return Check((out IntPtr exn) => 
+                    ConsumeHandle<System.Collections.Generic.IList<short?>>(__cs_get_Primitives_ManyMaybeInt16(out exn))
+                );
+            }
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr __cs_get_Primitives_manyMaybeInt16(out IntPtr exn);
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern IntPtr __cs_get_Primitives_ManyMaybeInt16(out IntPtr exn);
 
-        /**
-         * <!-- FishyJoes.export(manyMaybeInt32) -->
-         */
-        public static int?[] manyMaybeInt32 {
-            get => Check((out IntPtr exn) => {
-                return ConsumeHandle<int?[]>(__cs_get_Primitives_manyMaybeInt32(out exn));
-            });
+        /// <summary>
+        /// <para><!-- FishyJoes.export(manyMaybeInt32) --></para>
+        /// </summary>
+        public static System.Collections.Generic.IList<int?> ManyMaybeInt32 {
+            get {
+                return Check((out IntPtr exn) => 
+                    ConsumeHandle<System.Collections.Generic.IList<int?>>(__cs_get_Primitives_ManyMaybeInt32(out exn))
+                );
+            }
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr __cs_get_Primitives_manyMaybeInt32(out IntPtr exn);
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern IntPtr __cs_get_Primitives_ManyMaybeInt32(out IntPtr exn);
 
-        /**
-         * <!-- FishyJoes.export(manyMaybeInt64) -->
-         */
-        public static long?[] manyMaybeInt64 {
-            get => Check((out IntPtr exn) => {
-                return ConsumeHandle<long?[]>(__cs_get_Primitives_manyMaybeInt64(out exn));
-            });
+        /// <summary>
+        /// <para><!-- FishyJoes.export(manyMaybeInt64) --></para>
+        /// </summary>
+        public static System.Collections.Generic.IList<long?> ManyMaybeInt64 {
+            get {
+                return Check((out IntPtr exn) => 
+                    ConsumeHandle<System.Collections.Generic.IList<long?>>(__cs_get_Primitives_ManyMaybeInt64(out exn))
+                );
+            }
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr __cs_get_Primitives_manyMaybeInt64(out IntPtr exn);
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern IntPtr __cs_get_Primitives_ManyMaybeInt64(out IntPtr exn);
 
-        /**
-         * <!-- FishyJoes.export(manyMaybeFloat) -->
-         */
-        public static float?[] manyMaybeFloat {
-            get => Check((out IntPtr exn) => {
-                return ConsumeHandle<float?[]>(__cs_get_Primitives_manyMaybeFloat(out exn));
-            });
+        /// <summary>
+        /// <para><!-- FishyJoes.export(manyMaybeFloat) --></para>
+        /// </summary>
+        public static System.Collections.Generic.IList<float?> ManyMaybeFloat {
+            get {
+                return Check((out IntPtr exn) => 
+                    ConsumeHandle<System.Collections.Generic.IList<float?>>(__cs_get_Primitives_ManyMaybeFloat(out exn))
+                );
+            }
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr __cs_get_Primitives_manyMaybeFloat(out IntPtr exn);
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern IntPtr __cs_get_Primitives_ManyMaybeFloat(out IntPtr exn);
 
-        /**
-         * <!-- FishyJoes.export(manyMaybeDouble) -->
-         */
-        public static double?[] manyMaybeDouble {
-            get => Check((out IntPtr exn) => {
-                return ConsumeHandle<double?[]>(__cs_get_Primitives_manyMaybeDouble(out exn));
-            });
+        /// <summary>
+        /// <para><!-- FishyJoes.export(manyMaybeDouble) --></para>
+        /// </summary>
+        public static System.Collections.Generic.IList<double?> ManyMaybeDouble {
+            get {
+                return Check((out IntPtr exn) => 
+                    ConsumeHandle<System.Collections.Generic.IList<double?>>(__cs_get_Primitives_ManyMaybeDouble(out exn))
+                );
+            }
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr __cs_get_Primitives_manyMaybeDouble(out IntPtr exn);
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern IntPtr __cs_get_Primitives_ManyMaybeDouble(out IntPtr exn);
 
-        /**
-         * <!-- FishyJoes.export(defaultPrimitiveHolder) -->
-         */
-        public static Cricut.TestAPI.Primitives.PrimitiveHolder defaultPrimitiveHolder {
-            get => Check((out IntPtr exn) => {
-                return ConsumeHandle<Cricut.TestAPI.Primitives.PrimitiveHolder>(__cs_get_Primitives_defaultPrimitiveHolder(out exn));
-            });
+        /// <summary>
+        /// <para><!-- FishyJoes.export(defaultPrimitiveHolder) --></para>
+        /// </summary>
+        public static Cricut.TestAPI.Primitives.PrimitiveHolder DefaultPrimitiveHolder {
+            get {
+                return Check((out IntPtr exn) => 
+                    ConsumeHandle<Cricut.TestAPI.Primitives.PrimitiveHolder>(__cs_get_Primitives_DefaultPrimitiveHolder(out exn))
+                );
+            }
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr __cs_get_Primitives_defaultPrimitiveHolder(out IntPtr exn);
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern IntPtr __cs_get_Primitives_DefaultPrimitiveHolder(out IntPtr exn);
 
-        /**
-         * <!-- FishyJoes.export(echoBool) -->
-         */
-        public static bool echoBool(
+        /// <summary>
+        /// <para><!-- FishyJoes.export(echoBool) --></para>
+        /// </summary>
+        public static bool EchoBool(
             bool value
         ) {
             return Check((out IntPtr _exn) => __cs_Primitives_echoBool(value, out _exn));
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern bool __cs_Primitives_echoBool(
             bool value,
             out IntPtr exn
         );
 
-        /**
-         * <!-- FishyJoes.export(echoUInt8) -->
-         */
-        public static byte echoUInt8(
+        /// <summary>
+        /// <para><!-- FishyJoes.export(echoUInt8) --></para>
+        /// </summary>
+        public static byte EchoUInt8(
             byte value
         ) {
             return Check((out IntPtr _exn) => __cs_Primitives_echoUInt8(value, out _exn));
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern byte __cs_Primitives_echoUInt8(
             byte value,
             out IntPtr exn
         );
 
-        /**
-         * <!-- FishyJoes.export(echoUInt16) -->
-         */
-        public static ushort echoUInt16(
+        /// <summary>
+        /// <para><!-- FishyJoes.export(echoUInt16) --></para>
+        /// </summary>
+        public static ushort EchoUInt16(
             ushort value
         ) {
             return Check((out IntPtr _exn) => __cs_Primitives_echoUInt16(value, out _exn));
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern ushort __cs_Primitives_echoUInt16(
             ushort value,
             out IntPtr exn
         );
 
-        /**
-         * <!-- FishyJoes.export(echoUInt32) -->
-         */
-        public static uint echoUInt32(
+        /// <summary>
+        /// <para><!-- FishyJoes.export(echoUInt32) --></para>
+        /// </summary>
+        public static uint EchoUInt32(
             uint value
         ) {
             return Check((out IntPtr _exn) => __cs_Primitives_echoUInt32(value, out _exn));
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern uint __cs_Primitives_echoUInt32(
             uint value,
             out IntPtr exn
         );
 
-        /**
-         * <!-- FishyJoes.export(echoUInt64) -->
-         */
-        public static ulong echoUInt64(
+        /// <summary>
+        /// <para><!-- FishyJoes.export(echoUInt64) --></para>
+        /// </summary>
+        public static ulong EchoUInt64(
             ulong value
         ) {
             return Check((out IntPtr _exn) => __cs_Primitives_echoUInt64(value, out _exn));
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern ulong __cs_Primitives_echoUInt64(
             ulong value,
             out IntPtr exn
         );
 
-        /**
-         * <!-- FishyJoes.export(echoInt8) -->
-         */
-        public static sbyte echoInt8(
+        /// <summary>
+        /// <para><!-- FishyJoes.export(echoInt8) --></para>
+        /// </summary>
+        public static sbyte EchoInt8(
             sbyte value
         ) {
             return Check((out IntPtr _exn) => __cs_Primitives_echoInt8(value, out _exn));
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern sbyte __cs_Primitives_echoInt8(
             sbyte value,
             out IntPtr exn
         );
 
-        /**
-         * <!-- FishyJoes.export(echoInt16) -->
-         */
-        public static short echoInt16(
+        /// <summary>
+        /// <para><!-- FishyJoes.export(echoInt16) --></para>
+        /// </summary>
+        public static short EchoInt16(
             short value
         ) {
             return Check((out IntPtr _exn) => __cs_Primitives_echoInt16(value, out _exn));
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern short __cs_Primitives_echoInt16(
             short value,
             out IntPtr exn
         );
 
-        /**
-         * <!-- FishyJoes.export(echoInt32) -->
-         */
-        public static int echoInt32(
+        /// <summary>
+        /// <para><!-- FishyJoes.export(echoInt32) --></para>
+        /// </summary>
+        public static int EchoInt32(
             int value
         ) {
             return Check((out IntPtr _exn) => __cs_Primitives_echoInt32(value, out _exn));
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern int __cs_Primitives_echoInt32(
             int value,
             out IntPtr exn
         );
 
-        /**
-         * <!-- FishyJoes.export(echoInt64) -->
-         */
-        public static long echoInt64(
+        /// <summary>
+        /// <para><!-- FishyJoes.export(echoInt64) --></para>
+        /// </summary>
+        public static long EchoInt64(
             long value
         ) {
             return Check((out IntPtr _exn) => __cs_Primitives_echoInt64(value, out _exn));
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern long __cs_Primitives_echoInt64(
             long value,
             out IntPtr exn
         );
 
-        /**
-         * <!-- FishyJoes.export(echoFloat) -->
-         */
-        public static float echoFloat(
+        /// <summary>
+        /// <para><!-- FishyJoes.export(echoFloat) --></para>
+        /// </summary>
+        public static float EchoFloat(
             float value
         ) {
             return Check((out IntPtr _exn) => __cs_Primitives_echoFloat(value, out _exn));
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern float __cs_Primitives_echoFloat(
             float value,
             out IntPtr exn
         );
 
-        /**
-         * <!-- FishyJoes.export(echoDouble) -->
-         */
-        public static double echoDouble(
+        /// <summary>
+        /// <para><!-- FishyJoes.export(echoDouble) --></para>
+        /// </summary>
+        public static double EchoDouble(
             double value
         ) {
             return Check((out IntPtr _exn) => __cs_Primitives_echoDouble(value, out _exn));
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern double __cs_Primitives_echoDouble(
             double value,
             out IntPtr exn
         );
 
-        /**
-         * <!-- FishyJoes.export(maybeEchoBool) -->
-         */
-        public static bool? maybeEchoBool(
+        /// <summary>
+        /// <para><!-- FishyJoes.export(maybeEchoBool) --></para>
+        /// </summary>
+        public static bool? MaybeEchoBool(
             bool? value
         ) {
             using var _valueHandle = new GCRef(value);
@@ -884,16 +1000,16 @@ namespace Cricut.TestAPI {
             );
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern IntPtr __cs_Primitives_maybeEchoBool(
             IntPtr value,
             out IntPtr exn
         );
 
-        /**
-         * <!-- FishyJoes.export(maybeEchoUInt8) -->
-         */
-        public static byte? maybeEchoUInt8(
+        /// <summary>
+        /// <para><!-- FishyJoes.export(maybeEchoUInt8) --></para>
+        /// </summary>
+        public static byte? MaybeEchoUInt8(
             byte? value
         ) {
             using var _valueHandle = new GCRef(value);
@@ -902,16 +1018,16 @@ namespace Cricut.TestAPI {
             );
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern IntPtr __cs_Primitives_maybeEchoUInt8(
             IntPtr value,
             out IntPtr exn
         );
 
-        /**
-         * <!-- FishyJoes.export(maybeEchoUInt16) -->
-         */
-        public static ushort? maybeEchoUInt16(
+        /// <summary>
+        /// <para><!-- FishyJoes.export(maybeEchoUInt16) --></para>
+        /// </summary>
+        public static ushort? MaybeEchoUInt16(
             ushort? value
         ) {
             using var _valueHandle = new GCRef(value);
@@ -920,16 +1036,16 @@ namespace Cricut.TestAPI {
             );
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern IntPtr __cs_Primitives_maybeEchoUInt16(
             IntPtr value,
             out IntPtr exn
         );
 
-        /**
-         * <!-- FishyJoes.export(maybeEchoUInt32) -->
-         */
-        public static uint? maybeEchoUInt32(
+        /// <summary>
+        /// <para><!-- FishyJoes.export(maybeEchoUInt32) --></para>
+        /// </summary>
+        public static uint? MaybeEchoUInt32(
             uint? value
         ) {
             using var _valueHandle = new GCRef(value);
@@ -938,16 +1054,16 @@ namespace Cricut.TestAPI {
             );
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern IntPtr __cs_Primitives_maybeEchoUInt32(
             IntPtr value,
             out IntPtr exn
         );
 
-        /**
-         * <!-- FishyJoes.export(maybeEchoUInt64) -->
-         */
-        public static ulong? maybeEchoUInt64(
+        /// <summary>
+        /// <para><!-- FishyJoes.export(maybeEchoUInt64) --></para>
+        /// </summary>
+        public static ulong? MaybeEchoUInt64(
             ulong? value
         ) {
             using var _valueHandle = new GCRef(value);
@@ -956,16 +1072,16 @@ namespace Cricut.TestAPI {
             );
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern IntPtr __cs_Primitives_maybeEchoUInt64(
             IntPtr value,
             out IntPtr exn
         );
 
-        /**
-         * <!-- FishyJoes.export(maybeEchoInt8) -->
-         */
-        public static sbyte? maybeEchoInt8(
+        /// <summary>
+        /// <para><!-- FishyJoes.export(maybeEchoInt8) --></para>
+        /// </summary>
+        public static sbyte? MaybeEchoInt8(
             sbyte? value
         ) {
             using var _valueHandle = new GCRef(value);
@@ -974,16 +1090,16 @@ namespace Cricut.TestAPI {
             );
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern IntPtr __cs_Primitives_maybeEchoInt8(
             IntPtr value,
             out IntPtr exn
         );
 
-        /**
-         * <!-- FishyJoes.export(maybeEchoInt16) -->
-         */
-        public static short? maybeEchoInt16(
+        /// <summary>
+        /// <para><!-- FishyJoes.export(maybeEchoInt16) --></para>
+        /// </summary>
+        public static short? MaybeEchoInt16(
             short? value
         ) {
             using var _valueHandle = new GCRef(value);
@@ -992,16 +1108,16 @@ namespace Cricut.TestAPI {
             );
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern IntPtr __cs_Primitives_maybeEchoInt16(
             IntPtr value,
             out IntPtr exn
         );
 
-        /**
-         * <!-- FishyJoes.export(maybeEchoInt32) -->
-         */
-        public static int? maybeEchoInt32(
+        /// <summary>
+        /// <para><!-- FishyJoes.export(maybeEchoInt32) --></para>
+        /// </summary>
+        public static int? MaybeEchoInt32(
             int? value
         ) {
             using var _valueHandle = new GCRef(value);
@@ -1010,16 +1126,16 @@ namespace Cricut.TestAPI {
             );
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern IntPtr __cs_Primitives_maybeEchoInt32(
             IntPtr value,
             out IntPtr exn
         );
 
-        /**
-         * <!-- FishyJoes.export(maybeEchoInt64) -->
-         */
-        public static long? maybeEchoInt64(
+        /// <summary>
+        /// <para><!-- FishyJoes.export(maybeEchoInt64) --></para>
+        /// </summary>
+        public static long? MaybeEchoInt64(
             long? value
         ) {
             using var _valueHandle = new GCRef(value);
@@ -1028,16 +1144,16 @@ namespace Cricut.TestAPI {
             );
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern IntPtr __cs_Primitives_maybeEchoInt64(
             IntPtr value,
             out IntPtr exn
         );
 
-        /**
-         * <!-- FishyJoes.export(maybeEchoFloat) -->
-         */
-        public static float? maybeEchoFloat(
+        /// <summary>
+        /// <para><!-- FishyJoes.export(maybeEchoFloat) --></para>
+        /// </summary>
+        public static float? MaybeEchoFloat(
             float? value
         ) {
             using var _valueHandle = new GCRef(value);
@@ -1046,16 +1162,16 @@ namespace Cricut.TestAPI {
             );
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern IntPtr __cs_Primitives_maybeEchoFloat(
             IntPtr value,
             out IntPtr exn
         );
 
-        /**
-         * <!-- FishyJoes.export(maybeEchoDouble) -->
-         */
-        public static double? maybeEchoDouble(
+        /// <summary>
+        /// <para><!-- FishyJoes.export(maybeEchoDouble) --></para>
+        /// </summary>
+        public static double? MaybeEchoDouble(
             double? value
         ) {
             using var _valueHandle = new GCRef(value);
@@ -1064,119 +1180,144 @@ namespace Cricut.TestAPI {
             );
         }
 
-        [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern IntPtr __cs_Primitives_maybeEchoDouble(
             IntPtr value,
             out IntPtr exn
         );
 
-        /**
-         * <!-- FishyJoes.export(Primitives.PrimitiveHolder) -->
-         */
-        public struct PrimitiveHolder {
-            public bool b;
-            public bool? bq;
-            public byte ui8;
-            public byte? ui8q;
-            public ushort ui16;
-            public ushort? ui16q;
-            public uint ui32;
-            public uint? ui32q;
-            public ulong ui64;
-            public ulong? ui64q;
-            public sbyte i8;
-            public sbyte? i8q;
-            public short i16;
-            public short? i16q;
-            public int i32;
-            public int? i32q;
-            public long i64;
-            public long? i64q;
-            public float f;
-            public float? fq;
-            public double d;
-            public double? dq;
+        /// <summary>
+        /// <para><!-- FishyJoes.export(valueMapper) --></para>
+        /// </summary>
+        public static byte? ValueMapper(
+            byte? value,
+            System.Func<byte?, byte?> mapper
+        ) {
+            using var _valueHandle = new GCRef(value);
+            using var _mapperHandle = new GCRef(mapper);
+            return ConsumeHandle<byte?>(
+                Check((out IntPtr _exn) => __cs_Primitives_valueMapper(_valueHandle.ptr, _mapperHandle.ptr, out _exn))
+            );
+        }
+
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern IntPtr __cs_Primitives_valueMapper(
+            IntPtr value,
+            IntPtr mapper,
+            out IntPtr exn
+        );
+
+        /// <summary>
+        /// <para><!-- FishyJoes.export(Primitives.PrimitiveHolder) --></para>
+        /// </summary>
+        public record PrimitiveHolder {
+            public bool B;
+            public bool? Bq;
+            public byte Ui8;
+            public byte? Ui8q;
+            public ushort Ui16;
+            public ushort? Ui16q;
+            public uint Ui32;
+            public uint? Ui32q;
+            public ulong Ui64;
+            public ulong? Ui64q;
+            public sbyte I8;
+            public sbyte? I8q;
+            public short I16;
+            public short? I16q;
+            public int I32;
+            public int? I32q;
+            public long I64;
+            public long? I64q;
+            public float F;
+            public float? Fq;
+            public double D;
+            public double? Dq;
 
             public PrimitiveHolder(
-                bool b,
-                bool? bq,
-                byte ui8,
-                byte? ui8q,
-                ushort ui16,
-                ushort? ui16q,
-                uint ui32,
-                uint? ui32q,
-                ulong ui64,
-                ulong? ui64q,
-                sbyte i8,
-                sbyte? i8q,
-                short i16,
-                short? i16q,
-                int i32,
-                int? i32q,
-                long i64,
-                long? i64q,
-                float f,
-                float? fq,
-                double d,
-                double? dq
+                bool B,
+                bool? Bq,
+                byte Ui8,
+                byte? Ui8q,
+                ushort Ui16,
+                ushort? Ui16q,
+                uint Ui32,
+                uint? Ui32q,
+                ulong Ui64,
+                ulong? Ui64q,
+                sbyte I8,
+                sbyte? I8q,
+                short I16,
+                short? I16q,
+                int I32,
+                int? I32q,
+                long I64,
+                long? I64q,
+                float F,
+                float? Fq,
+                double D,
+                double? Dq
             ) {
-                this.b = b;
-                this.bq = bq;
-                this.ui8 = ui8;
-                this.ui8q = ui8q;
-                this.ui16 = ui16;
-                this.ui16q = ui16q;
-                this.ui32 = ui32;
-                this.ui32q = ui32q;
-                this.ui64 = ui64;
-                this.ui64q = ui64q;
-                this.i8 = i8;
-                this.i8q = i8q;
-                this.i16 = i16;
-                this.i16q = i16q;
-                this.i32 = i32;
-                this.i32q = i32q;
-                this.i64 = i64;
-                this.i64q = i64q;
-                this.f = f;
-                this.fq = fq;
-                this.d = d;
-                this.dq = dq;
+                this.B = B;
+                this.Bq = Bq;
+                this.Ui8 = Ui8;
+                this.Ui8q = Ui8q;
+                this.Ui16 = Ui16;
+                this.Ui16q = Ui16q;
+                this.Ui32 = Ui32;
+                this.Ui32q = Ui32q;
+                this.Ui64 = Ui64;
+                this.Ui64q = Ui64q;
+                this.I8 = I8;
+                this.I8q = I8q;
+                this.I16 = I16;
+                this.I16q = I16q;
+                this.I32 = I32;
+                this.I32q = I32q;
+                this.I64 = I64;
+                this.I64q = I64q;
+                this.F = F;
+                this.Fq = Fq;
+                this.D = D;
+                this.Dq = Dq;
             }
 
-            /**
-             * <!-- FishyJoes.export(staticPropery) -->
-             */
-            public static byte?[] staticPropery {
-                get => Check((out IntPtr exn) => {
-                    return ConsumeHandle<byte?[]>(__cs_get_Primitives_PrimitiveHolder_staticPropery(out exn));
-                });
-            }
-
-            [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
-            private static extern IntPtr __cs_get_Primitives_PrimitiveHolder_staticPropery(out IntPtr exn);
-
-            /**
-             * <!-- FishyJoes.export(staticMutablePropery) -->
-             */
-            public static byte?[] staticMutablePropery {
-                get => Check((out IntPtr exn) => {
-                    return ConsumeHandle<byte?[]>(__cs_get_Primitives_PrimitiveHolder_staticMutablePropery(out exn));
-                });
-                set {
-                    Check((out IntPtr exn) => {
-                        using var valueHandle = new GCRef(value);
-                        __cs_set_Primitives_PrimitiveHolder_staticMutablePropery(valueHandle.ptr, out exn);
-                    });
+            /// <summary>
+            /// <para><!-- FishyJoes.export(staticPropery) --></para>
+            /// </summary>
+            public static System.Collections.Generic.IList<byte?> StaticPropery {
+                get {
+                    return Check((out IntPtr exn) => 
+                        ConsumeHandle<System.Collections.Generic.IList<byte?>>(__cs_get_Primitives_PrimitiveHolder_StaticPropery(out exn))
+                    );
                 }
             }
 
-            [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
-            private static extern IntPtr __cs_get_Primitives_PrimitiveHolder_staticMutablePropery(out IntPtr exn);
+            [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            private static extern IntPtr __cs_get_Primitives_PrimitiveHolder_StaticPropery(out IntPtr exn);
 
-            [DllImport("TestAPI-c-sharp.dylib", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
-            private static extern void __cs_set_Primitives_PrimitiveHolder_staticMutablePropery(IntPtr value, out IntPtr exn);
+            /// <summary>
+            /// <para><!-- FishyJoes.export(staticMutablePropery) --></para>
+            /// </summary>
+            public static System.Collections.Generic.IList<byte?> StaticMutablePropery {
+                get {
+                    return Check((out IntPtr exn) => 
+                        ConsumeHandle<System.Collections.Generic.IList<byte?>>(__cs_get_Primitives_PrimitiveHolder_StaticMutablePropery(out exn))
+                    );
+                }
+                set {
+                    using var valueHandle = new GCRef(value);
+                    Check((out IntPtr exn) => 
+                        __cs_set_Primitives_PrimitiveHolder_StaticMutablePropery(valueHandle.ptr, out exn)
+                    );
+                }
+            }
+
+            [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            private static extern IntPtr __cs_get_Primitives_PrimitiveHolder_StaticMutablePropery(out IntPtr exn);
+
+            [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            private static extern void __cs_set_Primitives_PrimitiveHolder_StaticMutablePropery(IntPtr value, out IntPtr exn);
 
             static PrimitiveHolder() { _TypeSetup._ensureLoaded(); }
         }

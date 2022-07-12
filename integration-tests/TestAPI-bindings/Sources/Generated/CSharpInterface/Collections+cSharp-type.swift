@@ -5,20 +5,20 @@ import FishyJoesCSharpRuntime
 import Foundation
 import TestAPI
 
-@_cdecl("FunctionsSetup")
-private func cSharpSetup(
+@_cdecl("TestAPI_Collections_setup")
+public func TestAPI_Collections_setup(
     constructorMethod: @escaping @convention(c) (UnsafeMutableRawPointer, _ exn: csOutExn) -> csObject,
     _ exn: csOutExn
 ) {
-    guard Functions._constructorMethod == nil else { return }
-    Functions._constructorMethod = constructorMethod
+    guard Collections._constructorMethod == nil else { return }
+    Collections._constructorMethod = constructorMethod
 }
 
-extension Functions: CSharpMutator {
+extension Collections: CSharpMutator {
     fileprivate static var _constructorMethod: ((UnsafeMutableRawPointer, _ exn: csOutExn) -> csObject)!
 
     public static func fromCSharp(_ value: csObject) throws -> Self {
-        try Box<Functions>.fromCSharp(value).value
+        try Box<Collections>.fromCSharp(value).value
     }
 
     public static func toCSharp(_ value: Self) throws -> csObject {
@@ -27,6 +27,6 @@ extension Functions: CSharpMutator {
     }
 
     public static func mutateCSharp<R>(_ this: csObject, body: (inout Self) throws -> R) throws -> R {
-        try body(&Box<Functions>.fromCSharp(this).value)
+        try body(&Box<Collections>.fromCSharp(this).value)
     }
 }

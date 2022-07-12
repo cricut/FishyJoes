@@ -7,40 +7,32 @@ extension Box {
     }
 }
 
-@_cdecl("FJRuntime_AnyBox_setup")
-private func AnyBoxSetup(
-    cSharpConstructor: @escaping @convention(c) (UnsafeMutableRawPointer, _ exn: csOutExn) -> csObject,
-    refGetter: @escaping @convention(c) (csObject, _ exn: csOutExn) -> UnsafeMutableRawPointer?,
-    _ exn: csOutExn
-) {
-    guard AnyBox.cSharpConstructor == nil else { return }
-    AnyBox.cSharpConstructor = cSharpConstructor
+@_cdecl("FishyJoesRuntime_AnyBox_setup")
+public func AnyBoxSetup(refGetter: @escaping AnyBox.RefGetter) {
+    guard AnyBox.refGetter == nil else { return }
     AnyBox.refGetter = refGetter
 }
 
-@_cdecl("FJRuntime_AnyBox_finalize")
-private func AnyBoxFinalize(this: csObject, _ exn: csOutExn) {
-    let ptr = AnyBox.refGetter(this, exn)
-    guard exn.pointee != nil else { return }
+@_cdecl("FishyJoesRuntime_AnyBox_releaseRef")
+public func AnyBoxRelease(ptr: UnsafeMutableRawPointer?, _ exn: csOutExn) {
     Env.catching(to: exn) {
-        guard let ptr = ptr else { throw NullPointerError() }
-        AnyBox.releaseOpaque(ptr)
+        AnyBox.releaseOpaque(try Env.unwrap(ptr))
     }
 }
 
-@_cdecl("FJRuntime_AnyBox_toString")
-private func toString(this: csObject, _ exn: csOutExn) -> csObject {
+@_cdecl("FishyJoesRuntime_AnyBox_toString")
+public func toString(ptr: UnsafeMutableRawPointer?, _ exn: csOutExn) -> csObject {
     Env.catching(to: exn) {
-        try String.toCSharp("\(AnyBox.fromCSharp(this).value)")
+        try String.toCSharp("\(AnyBox.takeUnretainedOpaque(try Env.unwrap(ptr)).value)")
     }
 }
 
 extension AnyBox {
-    fileprivate static var cSharpConstructor: ((UnsafeMutableRawPointer, _ exn: csOutExn) -> csObject)!
-    fileprivate static var refGetter: ((csObject, _ exn: csOutExn) -> UnsafeMutableRawPointer?)!
+    public typealias RefGetter = @convention(c) (csObject, _ exn: csOutExn) -> UnsafeMutableRawPointer?
+    fileprivate static var refGetter: RefGetter!
 
     public static func fromCSharp(_ value: csObject) throws -> AnyBox {
         let ref = try Env.check { exn in refGetter(value, exn) }
-        return takeUnretainedOpaque(try Env.nonNull(ref))
+        return takeUnretainedOpaque(try Env.unwrap(ref))
     }
 }

@@ -18,6 +18,13 @@
           "package" : "Cricut.TestAPI"
         }
       },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
       "jniType" : {
         "object" : {
           "_0" : "com/cricut/testapi/AssociatedDataEnum"
@@ -56,6 +63,13 @@
           "package" : "Cricut.TestAPI"
         }
       },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : false,
       "jniType" : {
         "object" : {
           "_0" : "com/cricut/testapi/Bytes"
@@ -94,6 +108,13 @@
           "package" : "Cricut.TestAPI"
         }
       },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : false,
       "jniType" : {
         "object" : {
           "_0" : "com/cricut/testapi/Collections"
@@ -132,6 +153,13 @@
           "package" : "Cricut.TestAPI"
         }
       },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
       "jniType" : {
         "object" : {
           "_0" : "com/cricut/testapi/Collections$CollectionHolder"
@@ -170,6 +198,13 @@
           "package" : "Cricut.TestAPI"
         }
       },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : false,
       "jniType" : {
         "object" : {
           "_0" : "com/cricut/testapi/EmptyEnum"
@@ -208,6 +243,13 @@
           "package" : "Cricut.TestAPI"
         }
       },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : false,
       "jniType" : {
         "object" : {
           "_0" : "com/cricut/testapi/Functions"
@@ -246,6 +288,13 @@
           "package" : "Cricut.TestAPI"
         }
       },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
       "jniType" : {
         "object" : {
           "_0" : "com/cricut/testapi/Functions$TheError"
@@ -284,6 +333,13 @@
           "package" : "Cricut.TestAPI"
         }
       },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : false,
       "jniType" : {
         "object" : {
           "_0" : "com/cricut/testapi/Primitives"
@@ -322,6 +378,13 @@
           "package" : "Cricut.TestAPI"
         }
       },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
       "jniType" : {
         "object" : {
           "_0" : "com/cricut/testapi/Primitives$PrimitiveHolder"
@@ -360,6 +423,13 @@
           "package" : "Cricut.TestAPI"
         }
       },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
       "jniType" : {
         "object" : {
           "_0" : "com/cricut/testapi/SimpleEnum"
@@ -398,6 +468,13 @@
           "package" : "Cricut.TestAPI"
         }
       },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : false,
       "jniType" : {
         "object" : {
           "_0" : "com/cricut/testapi/Strings"
@@ -436,6 +513,13 @@
           "package" : "Cricut.TestAPI"
         }
       },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : false,
       "jniType" : {
         "object" : {
           "_0" : "com/cricut/testapi/Structs"
@@ -474,6 +558,13 @@
           "package" : "Cricut.TestAPI"
         }
       },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
       "jniType" : {
         "object" : {
           "_0" : "com/cricut/testapi/Structs$MemberwiseStruct"
@@ -512,6 +603,13 @@
           "package" : "Cricut.TestAPI"
         }
       },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
       "jniType" : {
         "object" : {
           "_0" : "com/cricut/testapi/Structs$ReferenceStruct"
@@ -550,6 +648,13 @@
           "package" : "Cricut.TestAPI"
         }
       },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : false,
       "jniType" : {
         "object" : {
           "_0" : "com/cricut/testapi/Tuples"
@@ -585,7 +690,7 @@
             "fields" : [
               {
                 "documentation" : [
-                  "<!-- FishyJoes.export(bytes) -->"
+                  "<!-- FishyJoes.export(bytes, cSharp: TheBytes) -->"
                 ],
                 "isStatic" : true,
                 "name" : "bytes",
@@ -972,6 +1077,44 @@
                     "_0" : {
                       "named" : {
                         "_0" : "Map<number, number>"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(collectionMapper) -->"
+                ],
+                "isStatic" : true,
+                "name" : "collectionMapper",
+                "parameters" : [
+                  {
+                    "name" : "collection",
+                    "type" : {
+                      "optional" : {
+                        "_0" : {
+                          "named" : {
+                            "_0" : "number[]"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "name" : "mapper",
+                    "type" : {
+                      "named" : {
+                        "_0" : "(_: number[]) => number[]"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "optional" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "number[]"
                       }
                     }
                   }
@@ -2586,6 +2729,44 @@
                     }
                   }
                 }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(valueMapper) -->"
+                ],
+                "isStatic" : true,
+                "name" : "valueMapper",
+                "parameters" : [
+                  {
+                    "name" : "value",
+                    "type" : {
+                      "optional" : {
+                        "_0" : {
+                          "named" : {
+                            "_0" : "number"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "name" : "mapper",
+                    "type" : {
+                      "named" : {
+                        "_0" : "(_: number) => number"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "optional" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                }
               }
             ],
             "name" : "Primitives"
@@ -3211,7 +3392,7 @@
                 "methods" : [
                   {
                     "documentation" : [
-                      "<!-- FishyJoes.export(notGoingToHappen) -->"
+                      "<!-- FishyJoes.export(notGoingToHappen, noReturn: true) -->"
                     ],
                     "isStatic" : true,
                     "name" : "notGoingToHappen",

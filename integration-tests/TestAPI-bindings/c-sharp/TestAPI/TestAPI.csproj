@@ -11,4 +11,11 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Content Include="runtimes\**\*" PackagePath="runtimes\$(TargetFramework)" />
+    <ContentWithTargetPath Include="runtimes\**\*" >
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <TargetPath>%(Filename)%(Extension)</TargetPath>
+    </ContentWithTargetPath>
+  </ItemGroup>
 </Project>

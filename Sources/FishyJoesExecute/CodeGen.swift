@@ -214,28 +214,29 @@ extension CodeGen {
 
             // MARK: Install library to ./output
             for platform in platforms {
-                try cmd("rm", "-rf", platform.outputDir).run()
-                try cmd("mkdir", "-p", platform.outputDir).run()
+                try cmd("rm", "-rf", platform.outputDir(config)).run()
+                try cmd("mkdir", "-p", platform.outputDir(config)).run()
             }
 
             for platform in platforms {
+                let outputDir = platform.outputDir(config)
                 switch platform {
                 case .wasm:
                     if wasmOpt, cmd("wasm-opt", "--version").runBool() {
-                        try cmd("wasm-opt", "\(platform.buildDir(debug: debug))/DummyMain.wasm", "-O1", "-o", "\(platform.outputDir)/\(config.module).wasm").run()
+                        try cmd("wasm-opt", "\(platform.buildDir(debug: debug))/DummyMain.wasm", "-O1", "-o", "\(outputDir)/\(config.module).wasm").run()
                     } else {
                         if wasmOpt {
                             print("WARNING: wasm-opt is not installed, resulting build will be bigger and possibly slower")
                         } else {
                             print("skipping wasm-opt")
                         }
-                        try cmd("cp", "\(platform.buildDir(debug: debug))/DummyMain.wasm", "\(platform.outputDir)/\(config.module).wasm").run()
+                        try cmd("cp", "\(platform.buildDir(debug: debug))/DummyMain.wasm", "\(outputDir)/\(config.module).wasm").run()
                     }
                     try cmd(
                         "cp",
                         "\(platform.buildDir(debug: debug))/FishyJoes_FishyJoesNodeRuntime.resources/js/wasm-napi.js",
                         "Sources/Generated/NodeInterface/\(config.module).d.ts",
-                        platform.outputDir
+                        outputDir
                     ).run()
                     let dependencySplat = config.requiredModules.map { ", \($0)" }.joined()
                     try cmd(
@@ -243,30 +244,30 @@ extension CodeGen {
                         "-e", "s/__MODULE_NAME__/\(config.module)/g",
                         "-e", "s/__MODULE_DEPENDENCIES__/\(dependencySplat)/g",
                         "\(platform.buildDir(debug: debug))/FishyJoes_FishyJoesNodeRuntime.resources/js/__MODULE_NAME__.js"
-                    ).output(overwritingFile: "\(platform.outputDir)/\(config.module).js").run()
+                    ).output(overwritingFile: "\(outputDir)/\(config.module).js").run()
                     try cmd(
                         "sed",
                         "-e", "s/__MODULE_NAME__/\(config.module)/g",
                         "-e", "s/__MODULE_DEPENDENCIES__/\(dependencySplat)/g",
                         "\(platform.buildDir(debug: debug))/FishyJoes_FishyJoesNodeRuntime.resources/js/__MODULE_NAME__.browser.js"
-                    ).output(overwritingFile: "\(platform.outputDir)/\(config.module).browser.js").run()
+                    ).output(overwritingFile: "\(outputDir)/\(config.module).browser.js").run()
                 case .node:
-                    try cmd("cp", "\(platform.buildDir(debug: debug))/libFishyJoesNodeRuntime.\(dylibExt)", "\(platform.outputDir)/").run()
+                    try cmd("cp", "\(platform.buildDir(debug: debug))/libFishyJoesNodeRuntime.\(dylibExt)", "\(outputDir)/").run()
                     for dependency in config.requiredModules + [config.module] {
-                        try cmd("cp", "\(platform.buildDir(debug: debug))/lib\(dependency).\(dylibExt)", "\(platform.outputDir)/").run()
+                        try cmd("cp", "\(platform.buildDir(debug: debug))/lib\(dependency).\(dylibExt)", "\(outputDir)/").run()
 
                         // For node to load a library correctly, the file must be ".cjs.node" and not a symlink
                         // But for the linker to find required libraries, they need their original names.
                         // So we symlink `libModule-node.dylib` -> `module.cjs.node`
                         let compiledLibName = "lib\(dependency)-node.\(dylibExt)"
                         let nodeLibName = "\(dependency).cjs.node"
-                        try cmd("cp", "\(platform.buildDir(debug: debug))/\(compiledLibName)", "\(platform.outputDir)/\(nodeLibName)").run()
-                        try cmd("ln", "-s", nodeLibName, "\(platform.outputDir)/\(compiledLibName)").run()
+                        try cmd("cp", "\(platform.buildDir(debug: debug))/\(compiledLibName)", "\(outputDir)/\(nodeLibName)").run()
+                        try cmd("ln", "-s", nodeLibName, "\(outputDir)/\(compiledLibName)").run()
                     }
                     try cmd(
                         "cp",
                         "Sources/Generated/NodeInterface/\(config.module).d.ts",
-                        platform.outputDir
+                        outputDir
                     ).run()
                     var moduleDotJS = [
                         "import { createRequire } from 'module';",
@@ -276,22 +277,21 @@ extension CodeGen {
                         moduleDotJS.append("export const { \(module) } = require('./\(module).cjs');")
                     }
                     moduleDotJS.append("export default \(config.module);")
-                    try cmd("echo", moduleDotJS.joined(separator: "\n")).output(overwritingFile: "\(platform.outputDir)/\(config.module).js").run()
+                    try cmd("echo", moduleDotJS.joined(separator: "\n")).output(overwritingFile: "\(outputDir)/\(config.module).js").run()
                 case .kotlinSystem:
-                    try cmd("mkdir", "-p", platform.outputDir).run()
-                    try cmd("cp", "\(platform.buildDir(debug: debug))/lib\(config.module).\(dylibExt)", platform.outputDir).run()
-                    try cmd("cp", "\(platform.buildDir(debug: debug))/lib\(config.module)-java.\(dylibExt)", platform.outputDir).run()
+                    try cmd("mkdir", "-p", outputDir).run()
+                    try cmd("cp", "\(platform.buildDir(debug: debug))/lib\(config.module).\(dylibExt)", outputDir).run()
+                    try cmd("cp", "\(platform.buildDir(debug: debug))/lib\(config.module)-java.\(dylibExt)", outputDir).run()
                 case .kotlinAndroid:
-                    try cmd("mkdir", "-p", platform.outputDir).run()
-                    try cmd("cp", "\(platform.buildDir(debug: debug))/lib\(config.module).so", platform.outputDir).run()
-                    try cmd("cp", "\(platform.buildDir(debug: debug))/lib\(config.module)-java.so", platform.outputDir).run()
+                    try cmd("mkdir", "-p", outputDir).run()
+                    try cmd("cp", "\(platform.buildDir(debug: debug))/lib\(config.module).so", outputDir).run()
+                    try cmd("cp", "\(platform.buildDir(debug: debug))/lib\(config.module)-java.so", outputDir).run()
                 case .cpp:
-                    try cmd("mkdir", "-p", platform.outputDir).run()
+                    try cmd("mkdir", "-p", outputDir).run()
                 case .cSharp:
-                    try cmd("mkdir", "-p", platform.outputDir).run()
-                    try cmd("cp", "\(platform.buildDir(debug: debug))/lib\(config.module).\(dylibExt)", platform.outputDir).run()
-                    try cmd("cp", "\(platform.buildDir(debug: debug))/lib\(config.module)-c-sharp.\(dylibExt)", platform.outputDir).run()
-                    try cmd("cp", "\(platform.buildDir(debug: debug))/libFishyJoesCSharpRuntime.\(dylibExt)", platform.outputDir).run()
+                    try cmd("mkdir", "-p", outputDir).run()
+                    try cmd("cp", "\(platform.buildDir(debug: debug))/lib\(config.module).\(dylibExt)", outputDir).run()
+                    try cmd("cp", "\(platform.buildDir(debug: debug))/lib\(config.module)-c-sharp.\(dylibExt)", outputDir).run()
                 }
             }
             if platforms.contains(.kotlinSystem) {
@@ -301,7 +301,7 @@ extension CodeGen {
             }
             if platforms.contains(.cSharp) {
                 try FileManager.default.withCurrentDirectoryPath("c-sharp") {
-                    try cmd("dotnet", "build").run()
+                    try cmd("dotnet", "build", "\(config.module).sln").run()
                 }
             }
             if version == nil {
@@ -315,7 +315,7 @@ extension CodeGen {
             case .wasm, .node:
                 if let version = version {
                     // MARK: generate package.json from template
-                    let packageJsonPath = "\(platform.outputDir)/package.json"
+                    let packageJsonPath = "\(platform.outputDir(config))/package.json"
                     let prettyEncoder = JSONEncoder()
                     prettyEncoder.outputFormatting = [
                         .prettyPrinted,
@@ -345,7 +345,7 @@ extension CodeGen {
         // MARK: test that things run properly
         if buildStep.contains(.test) {
             for platform in platforms {
-                var env = codeCoveragePath.map {
+                let env = codeCoveragePath.map {
                     [
                         "LLVM_PROFILE_FILE": "\($0)/fishy-joes-test-\(platform)-\(UUID()).profraw",
                         "NODE_V8_COVERAGE": "\($0)/node",
@@ -368,8 +368,11 @@ extension CodeGen {
                     break
                 case .cSharp:
                     try FileManager.default.withCurrentDirectoryPath("c-sharp") {
-                        env["DYLD_LIBRARY_PATH"] = "\(FileManager.default.currentDirectoryPath)/generated/lib"
-                        try cmd("dotnet", "test", addEnv: env).run()
+                        var commandParts = ["dotnet", "test", "\(config.module).sln"]
+                        if let path = codeCoveragePath {
+                            commandParts = ["dotnet-coverage", "collect", "-f", "xml", "-o", "\(path)/integration-tests-c-sharp.xml"] + commandParts
+                        }
+                        try cmd(commandParts.first!, arguments: Array(commandParts.dropFirst()), addEnv: env).run()
                     }
                 }
             }
@@ -378,7 +381,7 @@ extension CodeGen {
         if buildStep.contains(.pack) {
             for platform in platforms {
                 guard platform.isTs else { continue }
-                try cmd("npm", "pack", "./\(platform.outputDir)").run()
+                try cmd("npm", "pack", "./\(platform.outputDir(config))").run()
             }
         }
     }

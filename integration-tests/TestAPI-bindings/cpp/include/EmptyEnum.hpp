@@ -59,7 +59,7 @@ namespace TestAPI {
         
         /*  Methods  */
         public:
-        /// <!-- FishyJoes.export(notGoingToHappen) -->
+        /// <!-- FishyJoes.export(notGoingToHappen, noReturn: true) -->
         static EmptyEnum notGoingToHappen();
         
         

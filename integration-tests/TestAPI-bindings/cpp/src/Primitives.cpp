@@ -67,6 +67,9 @@ namespace TestAPI {
     std::optional<double> Primitives::maybeEchoDouble(const std::optional<double> &value) {
         return FishyJoesInternal::Packer::unpack<std::optional<double>>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Primitives_maybeEchoDouble(FishyJoesInternal::Packer::pack(value).ptr()));
     }
+    std::optional<uint8_t> Primitives::valueMapper(const std::optional<uint8_t> &value, const std::function<std::optional<uint8_t>(std::optional<uint8_t>> &mapper) {
+        return FishyJoesInternal::Packer::unpack<std::optional<uint8_t>>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Primitives_valueMapper(FishyJoesInternal::Packer::pack(value).ptr(), FishyJoesInternal::Packer::pack(mapper).ptr()));
+    }
     bool Primitives::getFalseBool() {
         return FishyJoesInternal::Packer::unpack<bool>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Primitives_getFalseBool());
     }

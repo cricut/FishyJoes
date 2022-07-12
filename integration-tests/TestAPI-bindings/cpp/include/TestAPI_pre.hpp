@@ -44,6 +44,7 @@ namespace TestAPI {
                 void* FJInternalBinding_TestAPI_Collections_echoMaybeArrayOfMaybeInt(void*);
                 void* FJInternalBinding_TestAPI_Collections_echoMaybeSetOfMaybeInt(void*);
                 void* FJInternalBinding_TestAPI_Collections_echoMaybeDictionaryOfIntToMaybeInt(void*);
+                void* FJInternalBinding_TestAPI_Collections_collectionMapper(void*, void*);
                 void* FJInternalBinding_TestAPI_Collections_getArrayOfInt();
                 void* FJInternalBinding_TestAPI_Collections_getSetOfInt();
                 void* FJInternalBinding_TestAPI_Collections_getDictionaryOfIntToInt();
@@ -95,6 +96,7 @@ namespace TestAPI {
                 void* FJInternalBinding_TestAPI_Primitives_maybeEchoInt64(void*);
                 void* FJInternalBinding_TestAPI_Primitives_maybeEchoFloat(void*);
                 void* FJInternalBinding_TestAPI_Primitives_maybeEchoDouble(void*);
+                void* FJInternalBinding_TestAPI_Primitives_valueMapper(void*, void*);
                 void* FJInternalBinding_TestAPI_Primitives_getFalseBool();
                 void* FJInternalBinding_TestAPI_Primitives_getTrueBool();
                 void* FJInternalBinding_TestAPI_Primitives_getZeroUInt8();

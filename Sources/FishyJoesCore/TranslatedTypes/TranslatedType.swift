@@ -11,7 +11,10 @@ protocol TranslatedType {
     var kotlinPackage: String? { get }
     var jniType: JNIType { get }
     var cSharpType: CSharpClass.CSType { get }
-    var cSharpSetupParameters: [CSharpSetupParameter] { get }
+    var definingModule: Module { get }
+    var isInhabited: Bool { get }
+    func cSharpSetupParameters(in context: FishyJoesContext) -> [CSharpSetupParameter]
+    func cSharpSetupDelegates(in context: FishyJoesContext) -> [String]
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment]
 }
 
@@ -66,6 +69,15 @@ extension TranslatedType {
     var mangledName: String {
         converterType.name.mangled
     }
+
+    func cSharpSetupDelegates(in context: FishyJoesContext) -> [String] { [] }
+    func cSharpSetupParameters(in context: FishyJoesContext) -> [CSharpSetupParameter] { [] }
+
+    var cSharpSetupName: String {
+        "\(definingModule)_\(converterType.genericBaseName.mangledName)_setup"
+    }
+
+    var isInhabited: Bool { true }
 }
 
 indirect enum JNIType: Codable, Equatable {
@@ -116,8 +128,77 @@ extension JNIType {
     }
 }
 
-struct CSharpSetupParameter: Hashable {
-    let name: String
-    let type: String
-    let value: String
+enum CSharpSetupParameter {
+    case type(typeValue: String)
+    case value(name: String, type: String, valueWriter: (SourceFragment) -> Void)
+
+    var name: String? {
+        switch self {
+        case .type:
+            return nil
+        case .value(let name, _, _):
+            return name
+        }
+    }
+
+    var type: String? {
+        switch self {
+        case .type:
+            return nil
+        case .value(_, let type, _):
+            return type
+        }
+    }
+
+    var isTypeParameter: Bool {
+        switch self {
+        case .type:
+            return true
+        case .value:
+            return false
+        }
+    }
+
+    var typeValue: String? {
+        switch self {
+        case .type(let value):
+            return value
+        case .value:
+            return nil
+        }
+    }
+
+    var valueWriter: (SourceFragment) -> Void {
+        switch self {
+        case .type:
+            return { _ in }
+        case .value(_, _, let writer):
+            return writer
+        }
+    }
+}
+
+extension Type {
+    // Used both for effeciency and to break cycles
+    fileprivate static var inhabitedCache: [Type: Bool] = [:]
+    var isInhabited: Bool {
+        if let inhabited = Type.inhabitedCache[self] { return inhabited }
+
+        // Will miss some uninhabited, cyclic types, but that's not super important
+        Type.inhabitedCache[self] = true
+        let result: Bool
+        if let self = self as? Enum {
+            result = self.cases.contains { enumCase in
+                enumCase.associatedValues.allSatisfy {
+                    // TODO: fixpoint?
+                    $0.type?.isInhabited ?? true
+                }
+            }
+        } else {
+            result = storedVariables.allSatisfy { $0.isStatic || $0.type?.isInhabited ?? true }
+        }
+
+        Type.inhabitedCache[self] = result
+        return result
+    }
 }

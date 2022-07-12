@@ -168,6 +168,20 @@ class Collections private constructor(swiftReference: Long): com.cricut.fishyjoe
             maybeDictionaryOfIntToMaybeInt: kotlin.collections.Map<Long, Long?>?
         ): kotlin.collections.Map<Long, Long?>?
 
+        /**
+         * <!-- FishyJoes.export(collectionMapper) -->
+         */
+        fun collectionMapper(
+            collection: kotlin.collections.List<Long?>?,
+            mapper: (List<Long?>?) -> List<Long?>?
+        ): kotlin.collections.List<Long?>? = __jni_collectionMapper(collection, mapper)
+        @JvmStatic
+        @JvmName("__jni_collectionMapper")
+        private external fun __jni_collectionMapper(
+            collection: kotlin.collections.List<Long?>?,
+            mapper: (List<Long?>?) -> List<Long?>?
+        ): kotlin.collections.List<Long?>?
+
         init { loadNativeLibs() }
     }
 

@@ -16,6 +16,8 @@ struct TranslatedReference: TranslatedType {
     let jniType: JNIType
     let equatable: Bool
     let hashable: Bool
+    let isInhabited: Bool
+    let definingModule: Module
 
     init(context: FishyJoesContext, type: Type) {
         guard let exportAnnotation = type.exportAnnotation else {
@@ -37,6 +39,8 @@ struct TranslatedReference: TranslatedType {
         self.jniType = .object(className)
         self.equatable = type.equatable
         self.hashable = type.hashable
+        self.isInhabited = type.isInhabited
+        self.definingModule = context.module
     }
 
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
@@ -324,26 +328,27 @@ struct TranslatedReference: TranslatedType {
         return fragment
     }
 
-    var cSharpSetupParameters: [CSharpSetupParameter] {
+    func cSharpSetupParameters(in context: FishyJoesContext) -> [CSharpSetupParameter] {
         [
-            .init(
+            .value(
                 name: "constructorMethod",
-                type: "SwiftReference.ConstructorDelegate",
-                value: "(IntPtr ptr, out IntPtr exn) => " +
-                    "Utilities.Catching(out exn, () => (IntPtr)GCHandle.Alloc(new \(cSharpType.name)(ptr)))"
-            ),
+                type: "SwiftReference.ConstructorDelegate"
+            ) { fragment in
+                fragment.outputBlock("bag<SwiftReference.ConstructorDelegate>((IntPtr ptr, out IntPtr exn) => Catching(out exn, () => {", closeWith: "})),") {
+                    fragment.output("return PassOwnership(new \(cSharpType.name)(ptr));")
+                }
+            },
         ]
     }
 
     func cSharpDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
-            "CSharpInterface/\(sourceType.name)+cSharp.swift",
+            "CSharpInterface/\(sourceType.name)+cSharp-type.swift",
             additionalImports: ["Foundation", "FishyJoesCSharpRuntime"]
         )
 
-        let baseName = converterType.genericBaseName.mangledName
-        fragment.output("@_cdecl(\"\(baseName)Setup\")")
-        fragment.outputBlock("private func cSharpSetup(", newLineTerminated: false) {
+        fragment.output("@_cdecl(\"\(cSharpSetupName)\")")
+        fragment.outputBlock("public func \(cSharpSetupName)(", newLineTerminated: false) {
             fragment.output("constructorMethod: @escaping @convention(c) (UnsafeMutableRawPointer, _ exn: csOutExn) -> csObject,")
             fragment.output("_ exn: csOutExn")
         }
@@ -378,16 +383,16 @@ struct TranslatedReference: TranslatedType {
         }
 
         if equatable {
-            fragment.output("@_cdecl(\"\(sourceType.name.mangled)_equals\")")
-            fragment.outputBlock("private func cSharpEquals(lhs: csObject, rhs: csObject, exn: csOutExn) -> Bool.CType {") {
+            fragment.output("@_cdecl(\"__cs_\(sourceType.name.mangled)_equals\")")
+            fragment.outputBlock("public func \(sourceType.name.mangled)_cSharpEquals(lhs: csObject, rhs: csObject, exn: csOutExn) -> Bool.CType {") {
                 fragment.outputBlock("Env.catching(to: exn) {") {
                     fragment.output("return try Bool.toCSharp(\(sourceType.name).fromCSharp(lhs) == \(sourceType.name).fromCSharp(rhs))")
                 }
             }
         }
         if hashable {
-            fragment.output("@_cdecl(\"\(sourceType.name.mangled)_hash\")")
-            fragment.outputBlock("private func cSharpHash(this: csObject, exn: csOutExn) -> Int32.CType {") {
+            fragment.output("@_cdecl(\"__cs_\(sourceType.name.mangled)_hash\")")
+            fragment.outputBlock("public func \(sourceType.name.mangled)_cSharpHash(this: csObject, exn: csOutExn) -> Int32.CType {") {
                 fragment.outputBlock("Env.catching(to: exn) {") {
                     fragment.outputBlock("try Int32.toCSharp(") {
                         fragment.output("Int32(truncatingIfNeeded: \(sourceType.name).fromCSharp(this).hashValue)")

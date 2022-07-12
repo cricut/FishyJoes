@@ -182,9 +182,8 @@ public enum Primitives {
 
     // MARK: - Functions Taking Closures with Primitive Types
 
-    // TODO: Breaks with FishyJoes/Sources/FishyJoesCore/FishyJoesContext.swift:196: Don't know how to translate type `Name(name: "UInt8?", namespace: [])`
-//    /// <!-- FishyJoes.export(valueMapper) -->
-//    public static func valueMapper(value: UInt8?, _ mapper: ((UInt8?) -> (UInt8?))) -> UInt8? { return mapper(value) }
+    /// <!-- FishyJoes.export(valueMapper) -->
+    public static func valueMapper(value: UInt8?, _ mapper: (UInt8?) throws -> UInt8?) rethrows -> UInt8? { return try mapper(value) }
 
     // MARK: - Objects with Primitive Members
 

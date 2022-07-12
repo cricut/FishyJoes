@@ -5,8 +5,8 @@ import FishyJoesCSharpRuntime
 import Foundation
 import TestAPI
 
-@_cdecl("Structs_ReferenceStructSetup")
-private func cSharpSetup(
+@_cdecl("TestAPI_Structs_ReferenceStruct_setup")
+public func TestAPI_Structs_ReferenceStruct_setup(
     constructorMethod: @escaping @convention(c) (UnsafeMutableRawPointer, _ exn: csOutExn) -> csObject,
     _ exn: csOutExn
 ) {
@@ -30,14 +30,14 @@ extension Structs.ReferenceStruct: CSharpMutator {
         try body(&Box<Structs.ReferenceStruct>.fromCSharp(this).value)
     }
 }
-@_cdecl("Structs_ReferenceStruct_equals")
-private func cSharpEquals(lhs: csObject, rhs: csObject, exn: csOutExn) -> Bool.CType {
+@_cdecl("__cs_Structs_ReferenceStruct_equals")
+public func Structs_ReferenceStruct_cSharpEquals(lhs: csObject, rhs: csObject, exn: csOutExn) -> Bool.CType {
     Env.catching(to: exn) {
         return try Bool.toCSharp(Structs.ReferenceStruct.fromCSharp(lhs) == Structs.ReferenceStruct.fromCSharp(rhs))
     }
 }
-@_cdecl("Structs_ReferenceStruct_hash")
-private func cSharpHash(this: csObject, exn: csOutExn) -> Int32.CType {
+@_cdecl("__cs_Structs_ReferenceStruct_hash")
+public func Structs_ReferenceStruct_cSharpHash(this: csObject, exn: csOutExn) -> Int32.CType {
     Env.catching(to: exn) {
         try Int32.toCSharp(
             Int32(truncatingIfNeeded: Structs.ReferenceStruct.fromCSharp(this).hashValue)

@@ -56,6 +56,9 @@ jobs:
           (cd integration-tests/TestAPI-bindings; npm install)
           (cd Tests/NAPITests/node-tests; npm install)
 
+          dotnet tool install --global dotnet-coverage
+          echo ${HOME}/.dotnet/tools >> $GITHUB_PATH
+
       - name: Gather coverage
         shell: zsh {0}
         run: |
@@ -76,4 +79,5 @@ jobs:
           sonar-scanner \
             '-Dsonar.sources=.' \
             '-Dsonar.coverageReportPaths=coverage-data/coverage.xml' \
-            '-Dsonar.coverage.jacoco.xmlReportPaths=coverage-data/jacoco-*/test/jacocoTestReport.xml'
+            '-Dsonar.coverage.jacoco.xmlReportPaths=coverage-data/jacoco-*/test/jacocoTestReport.xml' \
+            '-Dsonar.cs.vscoveragexml.reportsPaths=coverage-data/integration-tests-c-sharp.xml'

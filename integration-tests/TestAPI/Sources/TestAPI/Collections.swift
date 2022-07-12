@@ -54,9 +54,8 @@ public enum Collections {
 
     // MARK: - Functions Taking Closures with Collection Types
 
-    // TODO: Breaks during generation with error: invalid conversion from throwing function of type
-//    /// <!-- FishyJoes.export(collectionMapper) -->
-//    public static func collectionMapper(collection: [Int?]?, _ mapper: ([Int?]?) -> [Int?]?) -> [Int?]? { return mapper(collection) }
+    /// <!-- FishyJoes.export(collectionMapper) -->
+    public static func collectionMapper(collection: [Int?]?, _ mapper: ([Int?]?) throws -> [Int?]?) rethrows -> [Int?]? { try mapper(collection) }
 
     // MARK: - Objects with Collection Members
 

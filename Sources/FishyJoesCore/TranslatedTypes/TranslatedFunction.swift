@@ -13,6 +13,7 @@ struct TranslatedFunction: TranslatedType {
     let kotlinPackage: String? = nil
     let jniType: JNIType
     let cSharpType: CSharpClass.CSType
+    let definingModule = Module.runtime
 
     init(parameters: [TranslatedType], returnType: TranslatedType) {
         self.parameters = parameters
@@ -45,5 +46,15 @@ struct TranslatedFunction: TranslatedType {
         )
     }
 
-    var cSharpSetupParameters: [CSharpSetupParameter] { [] }
+    func cSharpSetupParameters(in context: FishyJoesContext) -> [CSharpSetupParameter] {
+        return [
+            .type(typeValue: returnType.cSharpType.name),
+        ] + parameters.map { param in
+            .type(typeValue: param.cSharpType.name)
+        } + [
+            .value(name: "typeName", type: "string") { fragment in
+                fragment.output("\"\(converterType.name)\",")
+            },
+        ]
+    }
 }
