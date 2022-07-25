@@ -48,9 +48,9 @@ struct TranslatedReference: TranslatedType {
     func cppDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         // Set up C++ class
         var newMethods: [CPPClass.CPPMethod] = []
-        newMethods.append(contentsOf: methods.map { context.cppTranslator.translateToHeaderFragment(method: $0, in: context) })
+        newMethods.append(contentsOf: methods.map { context.cppTranslator.translateToHeader(method: $0, in: context) })
         for variable in computedVariables {
-            let accessors = context.cppTranslator.translateToHeaderFragment(variable: variable, in: context)
+            let accessors = context.cppTranslator.translateToHeader(variable: variable, in: context)
             newMethods.append(accessors.getter)
             if let setter = accessors.setter {
                 newMethods.append(setter)
@@ -79,7 +79,7 @@ struct TranslatedReference: TranslatedType {
 
         // Swift fragment
         let fragment = context.swiftFragment(
-            "CPPInterface/\(sourceType.name).swift",
+            "CPPInterface/\(sourceType.name)+CPP.swift",
             additionalImports: ["Foundation", "FishyJoesCPPRuntime"]
         )
         fragment.outputBlock("extension \(sourceType.name): FishyJoesCPPRuntime.CPPConverter {") {

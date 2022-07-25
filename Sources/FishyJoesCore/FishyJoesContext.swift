@@ -109,11 +109,15 @@ public class FishyJoesContext {
                 resolveDebugContext = "Translating method \(type.name).\(method.name) for kotlin"
                 seenMethods.insert(method)
                 collectedFragments.append(contentsOf: kotlinTranslator.translate(method: method, context: self))
+                resolveDebugContext = "Translating method \(type.name).\(method.name) for C++"
+                collectedFragments.append(contentsOf: cppTranslator.translateToSwift(method: method, in: self))
             }
             for variable in type.rawVariables {
                 resolveDebugContext = "Translating variable \(type.name).\(variable.name) for kotlin"
                 guard variable.exportAnnotation != nil else { continue }
                 collectedFragments.append(contentsOf: kotlinTranslator.translate(variable: variable, context: self))
+                resolveDebugContext = "Translating variable \(type.name).\(variable.name) for C++"
+                collectedFragments.append(contentsOf: cppTranslator.translateToSwift(variable: variable, in: self))
             }
         }
         // Translate any top level functions
@@ -140,7 +144,7 @@ public class FishyJoesContext {
         for cppClass in cppClasses.values {
             if cppClass.parentQualifiedName == nil {
                 resolveDebugContext = "generating c++ header for \(cppClass.qualifiedName)"
-                collectedFragments.append(cppClass.headerFragment())
+                collectedFragments.append(cppClass.headerFragment(in: self))
             }
             resolveDebugContext = "generating c++ source for \(cppClass.qualifiedName)"
             collectedFragments.append(cppClass.sourceFragment(in: self))

@@ -60,7 +60,6 @@ class CPPClass {
         let isOverride: Bool
         let isPrivate: Bool
         let isConst: Bool
-        let isMutable: Bool
         let parameters: [CPPParameter]
         let returnType: CPPType
         let body: (CPPMethod, SourceFragment, CPPClass, FishyJoesContext) -> Void
@@ -72,7 +71,7 @@ class CPPClass {
             return "FJInternalBinding_\(context.module)_\(selfNameUnderscores)_\(bindingName)"
         }
         func binding(for classObj: CPPClass, in context: FishyJoesContext) -> CPPBinding {
-            return CPPClass.CPPBinding(symbol: completeBindingName(for: classObj, in: context), params: isStatic ? parameters.count : parameters.count + 1)
+            return CPPClass.CPPBinding(symbol: completeBindingName(for: classObj, in: context), params: parameters.count + (!isStatic ? 1 : 0) + (!isStatic && !isConst ? 1 : 0))
         }
         init(
             name: String,
@@ -81,7 +80,6 @@ class CPPClass {
             isOverride: Bool = false,
             isPrivate: Bool = false,
             isConst: Bool = false,
-            isMutable: Bool = false,
             parameters: [CPPParameter] = [],
             returnType: CPPType,
             bindingOnlyName: String? = nil,
@@ -96,16 +94,23 @@ class CPPClass {
             self.parameters = parameters
             self.returnType = returnType
             self.bindingName = bindingOnlyName ?? name
-            self.isMutable = isMutable
             self.body = body ?? { (method, fragment, classObj, context) in
                 let cBindingName = method.binding(for: classObj, in: context).symbol
-                // method body lambda
-                let paramsPassed = ((isStatic ? [] : [
-                    method.isMutable ? "FishyJoesInternal::Packer::packThenUnpackMutatedMembersOnDestruct(*this).ptr()" : "FishyJoesInternal::Packer::pack(*this).ptr()"
-                ]) + parameters.map { "FishyJoesInternal::Packer::pack(\($0.name)).ptr()" }).joined(separator: ", ")
+
+                let mutates = !method.isConst && !method.isStatic
+
+                if mutates {
+                    fragment.output("void* mutated_self = nullptr;")
+                }
+
+                let paramsPassed = ((!isStatic ? [
+                    "FishyJoesInternal::Packer::pack(*this).ptr()"
+                ] : []) + (!isStatic && mutates ? [
+                    "(void*)&mutated_self"
+                ] : []) + parameters.map { "FishyJoesInternal::Packer::pack(\($0.name)).ptr()" }).joined(separator: ", ")
                 var callStmt = ""
                 if !(returnType.cppName == "void") {
-                    callStmt += "return FishyJoesInternal::Packer::unpack<\(returnType.cppName)>("
+                    callStmt += "auto ret = FishyJoesInternal::Packer::unpack<\(returnType.cppName)>("
                 }
                 callStmt += "FishyJoesInternal::CBindings::\(cBindingName)(\(paramsPassed))"
                 if !(returnType.cppName == "void") {
@@ -113,6 +118,16 @@ class CPPClass {
                 }
                 callStmt += ";"
                 fragment.output(callStmt)
+
+                if mutates {
+                    fragment.outputBlock("if(mutated_self) {") {
+                        fragment.output("*this = FishyJoesInternal::Packer::unpack<std::decay_t<decltype(*this)>>(mutated_self);")
+                    }
+                }
+
+                if !(returnType.cppName == "void") {
+                    fragment.output("return ret;")
+                }
             }
         }
     }
@@ -163,16 +178,15 @@ class CPPClass {
     func isEquatable(in context: FishyJoesContext) -> Bool {
         for field in serializedFields {
             switch field.type {
-            case .swiftRef(_, let equatable):
-                if !equatable {
-                    return false
-                }
+            case .swiftRef(_, _):
+                //If not Equatable, just use reference equality.
+                return true
             case .type(let type):
                 if type is TranslatedStruct || type is TranslatedEnum || type is TranslatedReference {
                     if !context.cppClasses[type.cppName]!.isEquatable(in: context) {
                         return false
                     }
-                } else if type is TranslatedDictionary || type is TranslatedFunction || type is TranslatedSet || type is TranslatedTuple || type is TranslatedVoid {
+                } else if type is TranslatedDictionary || type is TranslatedFunction || type is TranslatedSet || type is TranslatedVoid {
                     return false
                 }
             default:
@@ -324,7 +338,7 @@ class CPPClass {
         }
     }
 
-    func declareSelf(to fragment: SourceFragment) {
+    func declareSelf(to fragment: SourceFragment, in context: FishyJoesContext) {
         for doc in documentation {
             fragment.output("/// \(doc)")
         }
@@ -341,7 +355,7 @@ class CPPClass {
                     fragment.output("class \(inner.name);")
                 }
                 for inner in innerClasses {
-                    inner.declareSelf(to: fragment)
+                    inner.declareSelf(to: fragment, in: context)
                 }
                 fragment.output("")
             }
@@ -385,19 +399,24 @@ class CPPClass {
                 privateFields.forEach { output(field: $0, to: fragment) }
             }
             fragment.output("")
+            fragment.output("public:")
             fragment.output("friend struct FishyJoesInternal::Packer;")
             fragment.output("template <typename T> friend struct std::hash;")
+            if isEquatable(in: context) {
+                fragment.output("inline bool operator==(const \(name)& other) const;")
+                fragment.output("inline bool operator!=(const \(name)& other) const { return !(*this == other); }")
+            }
         }
     }
 
-    func headerFragment() -> SourceFragment {
+    func headerFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = SourceFragment(sourceryDestination: "file:../../cpp/include/\(swiftQualifiedName).hpp")
         fragment.output("#pragma once")
         fragment.output("#include \"\(module)_pre.hpp\"")
         includeHeadersForDependentTypes(into: fragment)
         fragment.output("")
         fragment.outputBlock("namespace \(module) {") {
-            declareSelf(to: fragment)
+            declareSelf(to: fragment, in: context)
         }
         return fragment
     }

@@ -11,6 +11,10 @@ import Foundation
 public class CPPPacker {
     var data = Data()
     var idx = 0
+    init(data: Data = Data(), idx: Int = 0) {
+        self.data = data
+        self.idx = idx
+    }
     private func resize(_ newSize: Int) {
         if newSize > data.count {
             data.append(contentsOf: [UInt8](repeating: 0, count: newSize - data.count))
@@ -57,6 +61,34 @@ public class CPPPacker {
 public protocol CPPConverter: Converter {
     static func fromCPP(_: CPPPacker) throws -> SwiftType
     static func toCPP(_: CPPPacker, _: SwiftType) throws
+}
+
+extension CPPConverter {
+    public static func fromCPPPtr(_ ptr: UnsafeMutableRawPointer) throws -> SwiftType {
+        let length = Int(ptr.load(as: UInt64.self))
+        var dump = "IN: "
+        for i in 0..<(length + 8) {
+            dump += String(format: "%02X", UInt(ptr.load(fromByteOffset: i, as: UInt8.self)))
+        }
+        print(dump)
+        let packer = CPPPacker(data: Data(bytes: ptr + 8, count: length), idx: 0)
+        return try fromCPP(packer)
+    }
+
+    //Freed on C++ side using fishyjoes_swift_release_packed_data
+    public static func toCPPPtr(_ val: SwiftType) throws -> UnsafeMutableRawPointer {
+        let packer = CPPPacker()
+        try toCPP(packer, val)
+        let ret = UnsafeMutableRawPointer.allocate(byteCount: packer.idx + 8, alignment: 8)
+        ret.storeBytes(of: UInt64(packer.idx), toByteOffset: 0, as: UInt64.self)
+        packer.data.copyBytes(to: (ret + 8).bindMemory(to: UInt8.self, capacity: packer.idx), from: 0..<packer.idx)
+        var dump = "OUT: "
+        for i in 0..<(packer.idx + 8) {
+            dump += String(format: "%02X", UInt(ret.load(fromByteOffset: i, as: UInt8.self)))
+        }
+        print(dump)
+        return ret
+    }
 }
 
 extension VoidConverter: CPPConverter {
