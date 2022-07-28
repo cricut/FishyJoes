@@ -3,6 +3,7 @@
     <Content Include="$(MSBuildThisFileDirectory)..\runtimes\**">
       <Link>runtimes\%(RecursiveDir)%(Filename)%(Extension)</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Pack>false</Pack>
     </Content>
   </ItemGroup>
 </Project>

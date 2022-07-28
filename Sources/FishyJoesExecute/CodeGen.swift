@@ -301,7 +301,7 @@ extension CodeGen {
             }
             if platforms.contains(.cSharp) {
                 try FileManager.default.withCurrentDirectoryPath("c-sharp") {
-                    try cmd("dotnet", "build", "\(config.module).sln").run()
+                    try cmd("dotnet", "build", "Cricut.\(config.module).sln").run()
                 }
             }
             if version == nil {
@@ -368,7 +368,7 @@ extension CodeGen {
                     break
                 case .cSharp:
                     try FileManager.default.withCurrentDirectoryPath("c-sharp") {
-                        var commandParts = ["dotnet", "test", "\(config.module).sln"]
+                        var commandParts = ["dotnet", "test", "Cricut.\(config.module).sln"]
                         if let path = codeCoveragePath {
                             commandParts = ["dotnet-coverage", "collect", "-f", "xml", "-o", "\(path)/integration-tests-c-sharp.xml"] + commandParts
                         }
@@ -379,9 +379,15 @@ extension CodeGen {
         }
 
         if buildStep.contains(.pack) {
+            let version = version ?? "0.0.1"
             for platform in platforms {
-                guard platform.isTs else { continue }
-                try cmd("npm", "pack", "./\(platform.outputDir(config))").run()
+                if platform.isTs {
+                    try cmd("npm", "pack", "./\(platform.outputDir(config))").run()
+                } else if platform == .cSharp {
+                    let name = "Cricut.\(config.module)"
+                    try cmd("dotnet", "pack", "-c", "Release", "c-sharp/\(name)/\(name).csproj", "/p:Version=\(version)").run()
+                    try cmd("cp", "c-sharp/\(name)/bin/Release/\(name).\(version).nupkg", ".").run()
+                }
             }
         }
     }

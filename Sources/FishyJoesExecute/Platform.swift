@@ -136,11 +136,11 @@ enum Platform: Hashable {
         case .kotlinAndroid(let arch): return "kotlin/src/generated/resources/lib/\(arch.ndkName)"
         case .cSharp:
             #if os(macOS)
-            return "c-sharp/\(config.module)/runtimes/osx/native"
+            return "c-sharp/Cricut.\(config.module)/runtimes/osx/native"
             #elseif os(Linux)
-            return "c-sharp/\(config.module)/runtimes/ubuntu/native"
+            return "c-sharp/Cricut.\(config.module)/runtimes/ubuntu/native"
             #elseif os(Windows)
-            return "c-sharp/\(config.module)/runtimes/win/native"
+            return "c-sharp/Cricut.\(config.module)/runtimes/win/native"
             #else
             fatalError("unknown host OS")
             #endif

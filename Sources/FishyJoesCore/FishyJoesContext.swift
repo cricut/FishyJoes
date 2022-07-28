@@ -69,7 +69,7 @@ public class FishyJoesContext {
     }
 
     func cSharpFragment(_ name: String) -> SourceFragment {
-        let fileName = "../../c-sharp/\(module.name)/generated/\(name)"
+        let fileName = "../../c-sharp/Cricut.\(module.name)/generated/\(name)"
         fileHeaders[fileName, default: []].formUnion(
             [
                 "using System;",
