@@ -28,10 +28,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Setup Git Credentials
-        uses: fusion-engineering/setup-git-credentials@v2.0.1
-        with:
-          credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
+      # - name: Setup Git Credentials
+      #   uses: fusion-engineering/setup-git-credentials@v2.0.1
+      #   with:
+      #     credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
       - name: Setup dotnet
         uses: actions/setup-dotnet@v1
