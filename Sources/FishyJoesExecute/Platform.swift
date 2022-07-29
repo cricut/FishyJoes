@@ -138,7 +138,7 @@ enum Platform: Hashable {
             #if os(macOS)
             return "c-sharp/Cricut.\(config.module)/runtimes/osx/native"
             #elseif os(Linux)
-            return "c-sharp/Cricut.\(config.module)/runtimes/ubuntu/native"
+            return "c-sharp/Cricut.\(config.module)/runtimes/linux/native"
             #elseif os(Windows)
             return "c-sharp/Cricut.\(config.module)/runtimes/win/native"
             #else

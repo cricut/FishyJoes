@@ -77,7 +77,7 @@ jobs:
 
           ./scripts/compile-c-sharp-runtime.sh
 
-      - name: Copy System Swift Runtime SOs
+      - name: Copy system swift runtime SOs
         shell: zsh {0}
         run: |
           set -euxo pipefail
@@ -92,7 +92,7 @@ jobs:
           cp -dv /usr/lib/x86_64-linux-gnu/libicudata.so* $LIB_DIR
           cp -dv /usr/lib/x86_64-linux-gnu/libxml2.so* $LIB_DIR
 
-      - name: Patch Executables & System Swift Runtime SOs to Use Relative Libraries
+      - name: Patch system swift runtime SOs to use relative libraries
         shell: zsh {0}
         run: |
           cd $LIB_DIR

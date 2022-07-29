@@ -379,7 +379,7 @@ extension CodeGen {
         }
 
         if buildStep.contains(.pack) {
-            let version = version ?? "0.0.1"
+            let version = version ?? "0.0.1-unknown"
             for platform in platforms {
                 if platform.isTs {
                     try cmd("npm", "pack", "./\(platform.outputDir(config))").run()
