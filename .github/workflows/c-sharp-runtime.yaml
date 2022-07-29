@@ -57,6 +57,7 @@ jobs:
     env:
       GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
       GITHUB_USER: cricut-builduser
+      LIB_DIR: c-sharp-runtime/runtimes/linux/native
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -76,11 +77,39 @@ jobs:
           set -euxo pipefail
           sudo apt-get install zsh
 
+
       - name: Build FishyJoesCSharpRuntime
         run: |
           set -euxo pipefail
 
           ./scripts/compile-c-sharp-runtime.sh
+
+      - name: Copy System Swift Runtime SOs
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+
+          cp -dv /usr/lib/swift/linux/libswift*.so* $LIB_DIR
+          cp -dv /usr/lib/swift/linux/libicu*.so* $LIB_DIR
+          cp -dv /usr/lib/swift/linux/libFoundation*.so $LIB_DIR
+          cp -dv /usr/lib/swift/linux/libBlocksRuntime.so $LIB_DIR
+          cp -dv /usr/lib/swift/linux/libdispatch.so $LIB_DIR
+          cp -dv /usr/lib/x86_64-linux-gnu/libicui18n.so* $LIB_DIR
+          cp -dv /usr/lib/x86_64-linux-gnu/libicuuc.so* $LIB_DIR
+          cp -dv /usr/lib/x86_64-linux-gnu/libicudata.so* $LIB_DIR
+          cp -dv /usr/lib/x86_64-linux-gnu/libxml2.so* $LIB_DIR
+
+      - name: Patch Executables & System Swift Runtime SOs to Use Relative Libraries
+        run: |
+          apt update
+          apt install patchelf
+
+          cd $LIB_DIR
+
+          SWIFT_RUN_PATH='/usr/lib/swift/linux:./:$ORIGIN'
+          for LIB in lib*.so*; do
+            patchelf --set-rpath $SWIFT_RUN_PATH $LIB
+          done
 
       - name: Upload library
         uses: actions/upload-artifact@v2
@@ -114,13 +143,18 @@ jobs:
             swift build --product FishyJoesCSharpRuntime --configuration release --build-path ./.build/windows-build
           swift-version: "5.4.2"
 
-      - name: Copy resource
+      - name: Copy resources
         shell: bash
         run: |
           set -euxo pipefail
 
-          mkdir -p c-sharp-runtime/runtimes/win/native
-          cp .build/windows-build/x86_64-unknown-windows-msvc/release/FishyJoesCSharpRuntime.dll c-sharp-runtime/runtimes/win/native/
+          LIB_DIR=c-sharp-runtime/runtimes/win/native/
+
+          mkdir -p $LIB_DIR
+          cp .build/windows-build/x86_64-unknown-windows-msvc/release/FishyJoesCSharpRuntime.dll $LIB_DIR
+          ls /
+          cp -R /Library/icu-*/usr/bin/*.dll $LIB_DIR
+          cp -R /Library/Swift-development/bin/*.dll $LIB_DIR
 
       - name: Upload library
         uses: actions/upload-artifact@v2
