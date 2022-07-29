@@ -67,8 +67,8 @@ jobs:
       - name: Configure build environment
         run: |
           set -eux
-          apt-get update
-          apt-get install zsh
+          apt-get -y update
+          apt-get -y install zsh
 
       - name: Build FishyJoesCSharpRuntime
         shell: zsh {0}
