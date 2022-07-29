@@ -138,9 +138,12 @@ jobs:
 
           mkdir -p $LIB_DIR
           cp .build/windows-build/x86_64-unknown-windows-msvc/release/FishyJoesCSharpRuntime.dll $LIB_DIR
-          ls /
-          cp -R /Library/icu-*/usr/bin/*.dll $LIB_DIR
-          cp -R /Library/Swift-development/bin/*.dll $LIB_DIR
+
+          pwd
+          df
+
+          cp -R /c/Library/icu-*/usr/bin/*.dll $LIB_DIR
+          cp -R /c/Library/Swift-development/bin/*.dll $LIB_DIR
 
       - name: Upload library
         uses: actions/upload-artifact@v2
