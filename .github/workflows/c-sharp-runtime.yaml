@@ -66,10 +66,11 @@ jobs:
 
       - name: Configure build environment
         run: |
-          set -euxo pipefail
+          set -eux
           sudo apt-get install zsh
 
       - name: Build FishyJoesCSharpRuntime
+        shell: zsh {0}
         run: |
           set -euxo pipefail
 
@@ -91,6 +92,7 @@ jobs:
           cp -dv /usr/lib/x86_64-linux-gnu/libxml2.so* $LIB_DIR
 
       - name: Patch Executables & System Swift Runtime SOs to Use Relative Libraries
+        shell: zsh {0}
         run: |
           apt update
           apt install patchelf
