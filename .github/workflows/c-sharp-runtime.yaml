@@ -33,11 +33,6 @@ jobs:
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
-      - name: Setup dotnet
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: '5.0.x'
-
       - name: Build FishyJoesCSharpRuntime
         shell: zsh {0}
         run: |
@@ -54,6 +49,8 @@ jobs:
   build-test-c-sharp-linux:
     name: "linux: Build and test C# runtime"
     runs-on: ubuntu-latest
+    container:
+      image: swift
     env:
       GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
       GITHUB_USER: cricut-builduser
@@ -67,16 +64,10 @@ jobs:
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
-      - name: Setup dotnet
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: '5.0.x'
-
       - name: Configure build environment
         run: |
           set -euxo pipefail
           sudo apt-get install zsh
-
 
       - name: Build FishyJoesCSharpRuntime
         run: |
@@ -131,11 +122,6 @@ jobs:
         uses: fusion-engineering/setup-git-credentials@v2.0.1
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
-
-      - name: Setup dotnet
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: '5.0.x'
 
       - uses: MaxDesiatov/swift-windows-action@v1
         with:
