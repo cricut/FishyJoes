@@ -68,7 +68,7 @@ jobs:
         run: |
           set -eux
           apt-get -y update
-          apt-get -y install zsh
+          apt-get -y install zsh patchelf
 
       - name: Build FishyJoesCSharpRuntime
         shell: zsh {0}
@@ -95,9 +95,6 @@ jobs:
       - name: Patch Executables & System Swift Runtime SOs to Use Relative Libraries
         shell: zsh {0}
         run: |
-          apt update
-          apt install patchelf
-
           cd $LIB_DIR
 
           SWIFT_RUN_PATH='/usr/lib/swift/linux:./:$ORIGIN'
@@ -141,9 +138,6 @@ jobs:
 
           mkdir -p $LIB_DIR
           cp .build/windows-build/x86_64-unknown-windows-msvc/release/FishyJoesCSharpRuntime.dll $LIB_DIR
-
-          pwd
-          df
 
           cp -R /c/Library/icu-*/usr/bin/*.dll $LIB_DIR
           cp -R /c/Library/Swift-development/bin/*.dll $LIB_DIR
