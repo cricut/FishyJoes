@@ -6,22 +6,19 @@ using static Cricut.FishyJoesRuntime.Utilities;
 
 namespace Cricut.TestAPI {
     /// <summary>
-    /// <para><!-- FishyJoes.export(SimpleEnum) --></para>
+    /// <!-- FishyJoes.export(SimpleEnum) -->
     /// </summary>
     public record SimpleEnum {
         private SimpleEnum() {}
 
-        public sealed record Red : SimpleEnum {
-            public Red() {}
-        }
-        public sealed record Green : SimpleEnum {
-            public Green() {}
-        }
-        public sealed record Blue : SimpleEnum {
-            public Blue() {}
-        }
+        public sealed record Red : SimpleEnum;
+
+        public sealed record Green : SimpleEnum;
+
+        public sealed record Blue : SimpleEnum;
+
         /// <summary>
-        /// <para><!-- FishyJoes.export(hex) --></para>
+        /// <!-- FishyJoes.export(hex) -->
         /// </summary>
         public nint GetHex() {
             using var thisHandle = new GCRef(this);
@@ -34,7 +31,7 @@ namespace Cricut.TestAPI {
         private static extern nint __cs_get_SimpleEnum_Hex(IntPtr self, out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(pickAColor) --></para>
+        /// <!-- FishyJoes.export(pickAColor) -->
         /// </summary>
         public static Cricut.TestAPI.SimpleEnum? PickAColor(
             nint rawValue

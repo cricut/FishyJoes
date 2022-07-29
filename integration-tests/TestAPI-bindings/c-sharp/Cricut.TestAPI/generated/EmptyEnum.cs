@@ -6,13 +6,13 @@ using static Cricut.FishyJoesRuntime.Utilities;
 
 namespace Cricut.TestAPI {
     /// <summary>
-    /// <para><!-- FishyJoes.export(EmptyEnum) --></para>
+    /// <!-- FishyJoes.export(EmptyEnum) -->
     /// </summary>
     public record EmptyEnum {
         private EmptyEnum() {}
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(notGoingToHappen, noReturn: true) --></para>
+        /// <!-- FishyJoes.export(notGoingToHappen, noReturn: true) -->
         /// </summary>
         public static Cricut.TestAPI.EmptyEnum NotGoingToHappen(
         ) {

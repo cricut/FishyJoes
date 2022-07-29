@@ -6,13 +6,13 @@ using static Cricut.FishyJoesRuntime.Utilities;
 
 namespace Cricut.TestAPI {
     /// <summary>
-    /// <para><!-- FishyJoes.exportReference(Bytes) --></para>
+    /// <!-- FishyJoes.exportReference(Bytes) -->
     /// </summary>
     public class Bytes : SwiftReference {
         internal Bytes(IntPtr reference): base(reference) {}
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(bytes, cSharp: TheBytes) --></para>
+        /// <!-- FishyJoes.export(bytes, cSharp: TheBytes) -->
         /// </summary>
         public static System.Collections.Generic.IList<byte> TheBytes {
             get {
@@ -26,7 +26,7 @@ namespace Cricut.TestAPI {
         private static extern IntPtr __cs_get_Bytes_TheBytes(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(data) --></para>
+        /// <!-- FishyJoes.export(data) -->
         /// </summary>
         public static byte[] Data {
             get {
@@ -40,7 +40,7 @@ namespace Cricut.TestAPI {
         private static extern IntPtr __cs_get_Bytes_Data(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(echoBytes) --></para>
+        /// <!-- FishyJoes.export(echoBytes) -->
         /// </summary>
         public static System.Collections.Generic.IList<byte> EchoBytes(
             System.Collections.Generic.IList<byte> bytes
@@ -58,7 +58,7 @@ namespace Cricut.TestAPI {
         );
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(echoData) --></para>
+        /// <!-- FishyJoes.export(echoData) -->
         /// </summary>
         public static byte[] EchoData(
             byte[] data

@@ -6,13 +6,13 @@ using static Cricut.FishyJoesRuntime.Utilities;
 
 namespace Cricut.TestAPI {
     /// <summary>
-    /// <para><!-- FishyJoes.export(Tuples) --></para>
+    /// <!-- FishyJoes.export(Tuples) -->
     /// </summary>
     public record Tuples {
         private Tuples() {}
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(tuple2) --></para>
+        /// <!-- FishyJoes.export(tuple2) -->
         /// </summary>
         public static System.Tuple<nint, string> Tuple2 {
             get {
@@ -26,7 +26,7 @@ namespace Cricut.TestAPI {
         private static extern IntPtr __cs_get_Tuples_Tuple2(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(tuple3) --></para>
+        /// <!-- FishyJoes.export(tuple3) -->
         /// </summary>
         public static System.Tuple<string, double, string> Tuple3 {
             get {
@@ -40,7 +40,7 @@ namespace Cricut.TestAPI {
         private static extern IntPtr __cs_get_Tuples_Tuple3(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(tuple4) --></para>
+        /// <!-- FishyJoes.export(tuple4) -->
         /// </summary>
         public static System.Tuple<System.Tuple<nint, string>, System.Tuple<string, double, string>, string, bool> Tuple4 {
             get {
@@ -54,7 +54,7 @@ namespace Cricut.TestAPI {
         private static extern IntPtr __cs_get_Tuples_Tuple4(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(tuple5) --></para>
+        /// <!-- FishyJoes.export(tuple5) -->
         /// </summary>
         public static System.Tuple<string, byte, System.Tuple<System.Tuple<nint, string>, System.Tuple<string, double, string>, string, bool>, System.Tuple<string, double, string>, System.Tuple<nint, string>> Tuple5 {
             get {
@@ -68,7 +68,7 @@ namespace Cricut.TestAPI {
         private static extern IntPtr __cs_get_Tuples_Tuple5(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(tuple6) --></para>
+        /// <!-- FishyJoes.export(tuple6) -->
         /// </summary>
         public static System.Tuple<string, nint, double, System.Tuple<System.Tuple<nint, string>, System.Tuple<string, double, string>, string, bool>, System.Tuple<string, byte, System.Tuple<System.Tuple<nint, string>, System.Tuple<string, double, string>, string, bool>, System.Tuple<string, double, string>, System.Tuple<nint, string>>, bool> Tuple6 {
             get {
@@ -82,7 +82,7 @@ namespace Cricut.TestAPI {
         private static extern IntPtr __cs_get_Tuples_Tuple6(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(checkTuples) --></para>
+        /// <!-- FishyJoes.export(checkTuples) -->
         /// </summary>
         public static bool CheckTuples(
             System.Tuple<nint, string> t2,

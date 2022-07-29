@@ -6,13 +6,13 @@ using static Cricut.FishyJoesRuntime.Utilities;
 
 namespace Cricut.TestAPI {
     /// <summary>
-    /// <para><!-- FishyJoes.exportReference(Strings) --></para>
+    /// <!-- FishyJoes.exportReference(Strings) -->
     /// </summary>
     public class Strings : SwiftReference {
         internal Strings(IntPtr reference): base(reference) {}
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(simple) --></para>
+        /// <!-- FishyJoes.export(simple) -->
         /// </summary>
         public static string Simple {
             get {
@@ -26,7 +26,7 @@ namespace Cricut.TestAPI {
         private static extern IntPtr __cs_get_Strings_Simple(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(accent) --></para>
+        /// <!-- FishyJoes.export(accent) -->
         /// </summary>
         public static string Accent {
             get {
@@ -40,7 +40,7 @@ namespace Cricut.TestAPI {
         private static extern IntPtr __cs_get_Strings_Accent(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(script) --></para>
+        /// <!-- FishyJoes.export(script) -->
         /// </summary>
         public static string Script {
             get {
@@ -54,7 +54,7 @@ namespace Cricut.TestAPI {
         private static extern IntPtr __cs_get_Strings_Script(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(chinese) --></para>
+        /// <!-- FishyJoes.export(chinese) -->
         /// </summary>
         public static string Chinese {
             get {
@@ -68,7 +68,7 @@ namespace Cricut.TestAPI {
         private static extern IntPtr __cs_get_Strings_Chinese(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(chineseBMP) --></para>
+        /// <!-- FishyJoes.export(chineseBMP) -->
         /// </summary>
         public static string ChineseBMP {
             get {
@@ -82,7 +82,7 @@ namespace Cricut.TestAPI {
         private static extern IntPtr __cs_get_Strings_ChineseBMP(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(chineseSIP) --></para>
+        /// <!-- FishyJoes.export(chineseSIP) -->
         /// </summary>
         public static string ChineseSIP {
             get {
@@ -96,7 +96,7 @@ namespace Cricut.TestAPI {
         private static extern IntPtr __cs_get_Strings_ChineseSIP(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(emoji) --></para>
+        /// <!-- FishyJoes.export(emoji) -->
         /// </summary>
         public static string Emoji {
             get {
@@ -110,7 +110,7 @@ namespace Cricut.TestAPI {
         private static extern IntPtr __cs_get_Strings_Emoji(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(emojiMulti) --></para>
+        /// <!-- FishyJoes.export(emojiMulti) -->
         /// </summary>
         public static string EmojiMulti {
             get {
@@ -124,7 +124,7 @@ namespace Cricut.TestAPI {
         private static extern IntPtr __cs_get_Strings_EmojiMulti(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(echo) --></para>
+        /// <!-- FishyJoes.export(echo) -->
         /// </summary>
         public static string Echo(
             string _string

@@ -673,8 +673,7 @@ struct TranslatedEnum: TranslatedType {
                         name: name,
                         values: enumCase.associatedValues.map { value in
                             (upperCaseFirst(value.bindingName), context.resolve(type: value.type).cSharpType)
-                        },
-                        methods: []
+                        }
                     )
                 },
                 fieldsAndMethods:

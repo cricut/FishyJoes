@@ -294,7 +294,7 @@ class CPPClass {
 //        if let parentQualifiedName = parentQualifiedName {
 //            names.insert(parentQualifiedName.replacingOccurrences(of: "::", with: "."))
 //        }
-        for name in names {
+        for name in names.sorted() {
             fragment.output("#include \"\(name).hpp\"")
         }
     }

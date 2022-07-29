@@ -6,13 +6,13 @@ using static Cricut.FishyJoesRuntime.Utilities;
 
 namespace Cricut.TestAPI {
     /// <summary>
-    /// <para><!-- FishyJoes.exportReference(Primitives) --></para>
+    /// <!-- FishyJoes.exportReference(Primitives) -->
     /// </summary>
     public class Primitives : SwiftReference {
         internal Primitives(IntPtr reference): base(reference) {}
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(falseBool) --></para>
+        /// <!-- FishyJoes.export(falseBool) -->
         /// </summary>
         public static bool FalseBool {
             get {
@@ -26,7 +26,7 @@ namespace Cricut.TestAPI {
         private static extern bool __cs_get_Primitives_FalseBool(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(trueBool) --></para>
+        /// <!-- FishyJoes.export(trueBool) -->
         /// </summary>
         public static bool TrueBool {
             get {
@@ -40,7 +40,7 @@ namespace Cricut.TestAPI {
         private static extern bool __cs_get_Primitives_TrueBool(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(zeroUInt8) --></para>
+        /// <!-- FishyJoes.export(zeroUInt8) -->
         /// </summary>
         public static byte ZeroUInt8 {
             get {
@@ -54,7 +54,7 @@ namespace Cricut.TestAPI {
         private static extern byte __cs_get_Primitives_ZeroUInt8(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(minUInt8) --></para>
+        /// <!-- FishyJoes.export(minUInt8) -->
         /// </summary>
         public static byte MinUInt8 {
             get {
@@ -68,7 +68,7 @@ namespace Cricut.TestAPI {
         private static extern byte __cs_get_Primitives_MinUInt8(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(maxUInt8) --></para>
+        /// <!-- FishyJoes.export(maxUInt8) -->
         /// </summary>
         public static byte MaxUInt8 {
             get {
@@ -82,7 +82,7 @@ namespace Cricut.TestAPI {
         private static extern byte __cs_get_Primitives_MaxUInt8(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(zeroUInt16) --></para>
+        /// <!-- FishyJoes.export(zeroUInt16) -->
         /// </summary>
         public static ushort ZeroUInt16 {
             get {
@@ -96,7 +96,7 @@ namespace Cricut.TestAPI {
         private static extern ushort __cs_get_Primitives_ZeroUInt16(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(minUInt16) --></para>
+        /// <!-- FishyJoes.export(minUInt16) -->
         /// </summary>
         public static ushort MinUInt16 {
             get {
@@ -110,7 +110,7 @@ namespace Cricut.TestAPI {
         private static extern ushort __cs_get_Primitives_MinUInt16(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(maxUInt16) --></para>
+        /// <!-- FishyJoes.export(maxUInt16) -->
         /// </summary>
         public static ushort MaxUInt16 {
             get {
@@ -124,7 +124,7 @@ namespace Cricut.TestAPI {
         private static extern ushort __cs_get_Primitives_MaxUInt16(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(zeroUInt32) --></para>
+        /// <!-- FishyJoes.export(zeroUInt32) -->
         /// </summary>
         public static uint ZeroUInt32 {
             get {
@@ -138,7 +138,7 @@ namespace Cricut.TestAPI {
         private static extern uint __cs_get_Primitives_ZeroUInt32(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(minUInt32) --></para>
+        /// <!-- FishyJoes.export(minUInt32) -->
         /// </summary>
         public static uint MinUInt32 {
             get {
@@ -152,7 +152,7 @@ namespace Cricut.TestAPI {
         private static extern uint __cs_get_Primitives_MinUInt32(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(maxUInt32) --></para>
+        /// <!-- FishyJoes.export(maxUInt32) -->
         /// </summary>
         public static uint MaxUInt32 {
             get {
@@ -166,7 +166,7 @@ namespace Cricut.TestAPI {
         private static extern uint __cs_get_Primitives_MaxUInt32(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(zeroUInt64) --></para>
+        /// <!-- FishyJoes.export(zeroUInt64) -->
         /// </summary>
         public static ulong ZeroUInt64 {
             get {
@@ -180,7 +180,7 @@ namespace Cricut.TestAPI {
         private static extern ulong __cs_get_Primitives_ZeroUInt64(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(minUInt64) --></para>
+        /// <!-- FishyJoes.export(minUInt64) -->
         /// </summary>
         public static ulong MinUInt64 {
             get {
@@ -194,7 +194,7 @@ namespace Cricut.TestAPI {
         private static extern ulong __cs_get_Primitives_MinUInt64(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(maxUInt64) --></para>
+        /// <!-- FishyJoes.export(maxUInt64) -->
         /// </summary>
         public static ulong MaxUInt64 {
             get {
@@ -208,7 +208,7 @@ namespace Cricut.TestAPI {
         private static extern ulong __cs_get_Primitives_MaxUInt64(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(zeroInt8) --></para>
+        /// <!-- FishyJoes.export(zeroInt8) -->
         /// </summary>
         public static sbyte ZeroInt8 {
             get {
@@ -222,7 +222,7 @@ namespace Cricut.TestAPI {
         private static extern sbyte __cs_get_Primitives_ZeroInt8(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(minInt8) --></para>
+        /// <!-- FishyJoes.export(minInt8) -->
         /// </summary>
         public static sbyte MinInt8 {
             get {
@@ -236,7 +236,7 @@ namespace Cricut.TestAPI {
         private static extern sbyte __cs_get_Primitives_MinInt8(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(maxInt8) --></para>
+        /// <!-- FishyJoes.export(maxInt8) -->
         /// </summary>
         public static sbyte MaxInt8 {
             get {
@@ -250,7 +250,7 @@ namespace Cricut.TestAPI {
         private static extern sbyte __cs_get_Primitives_MaxInt8(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(zeroInt16) --></para>
+        /// <!-- FishyJoes.export(zeroInt16) -->
         /// </summary>
         public static short ZeroInt16 {
             get {
@@ -264,7 +264,7 @@ namespace Cricut.TestAPI {
         private static extern short __cs_get_Primitives_ZeroInt16(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(minInt16) --></para>
+        /// <!-- FishyJoes.export(minInt16) -->
         /// </summary>
         public static short MinInt16 {
             get {
@@ -278,7 +278,7 @@ namespace Cricut.TestAPI {
         private static extern short __cs_get_Primitives_MinInt16(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(maxInt16) --></para>
+        /// <!-- FishyJoes.export(maxInt16) -->
         /// </summary>
         public static short MaxInt16 {
             get {
@@ -292,7 +292,7 @@ namespace Cricut.TestAPI {
         private static extern short __cs_get_Primitives_MaxInt16(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(zeroInt32) --></para>
+        /// <!-- FishyJoes.export(zeroInt32) -->
         /// </summary>
         public static int ZeroInt32 {
             get {
@@ -306,7 +306,7 @@ namespace Cricut.TestAPI {
         private static extern int __cs_get_Primitives_ZeroInt32(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(minInt32) --></para>
+        /// <!-- FishyJoes.export(minInt32) -->
         /// </summary>
         public static int MinInt32 {
             get {
@@ -320,7 +320,7 @@ namespace Cricut.TestAPI {
         private static extern int __cs_get_Primitives_MinInt32(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(maxInt32) --></para>
+        /// <!-- FishyJoes.export(maxInt32) -->
         /// </summary>
         public static int MaxInt32 {
             get {
@@ -334,7 +334,7 @@ namespace Cricut.TestAPI {
         private static extern int __cs_get_Primitives_MaxInt32(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(zeroInt64) --></para>
+        /// <!-- FishyJoes.export(zeroInt64) -->
         /// </summary>
         public static long ZeroInt64 {
             get {
@@ -348,7 +348,7 @@ namespace Cricut.TestAPI {
         private static extern long __cs_get_Primitives_ZeroInt64(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(minInt64) --></para>
+        /// <!-- FishyJoes.export(minInt64) -->
         /// </summary>
         public static long MinInt64 {
             get {
@@ -362,7 +362,7 @@ namespace Cricut.TestAPI {
         private static extern long __cs_get_Primitives_MinInt64(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(maxInt64) --></para>
+        /// <!-- FishyJoes.export(maxInt64) -->
         /// </summary>
         public static long MaxInt64 {
             get {
@@ -376,7 +376,7 @@ namespace Cricut.TestAPI {
         private static extern long __cs_get_Primitives_MaxInt64(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(zeroInt) --></para>
+        /// <!-- FishyJoes.export(zeroInt) -->
         /// </summary>
         public static nint ZeroInt {
             get {
@@ -390,7 +390,7 @@ namespace Cricut.TestAPI {
         private static extern nint __cs_get_Primitives_ZeroInt(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(minInt) --></para>
+        /// <!-- FishyJoes.export(minInt) -->
         /// </summary>
         public static nint MinInt {
             get {
@@ -404,7 +404,7 @@ namespace Cricut.TestAPI {
         private static extern nint __cs_get_Primitives_MinInt(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(maxInt) --></para>
+        /// <!-- FishyJoes.export(maxInt) -->
         /// </summary>
         public static nint MaxInt {
             get {
@@ -418,7 +418,7 @@ namespace Cricut.TestAPI {
         private static extern nint __cs_get_Primitives_MaxInt(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(zeroFloat) --></para>
+        /// <!-- FishyJoes.export(zeroFloat) -->
         /// </summary>
         public static float ZeroFloat {
             get {
@@ -432,7 +432,7 @@ namespace Cricut.TestAPI {
         private static extern float __cs_get_Primitives_ZeroFloat(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(minFloat) --></para>
+        /// <!-- FishyJoes.export(minFloat) -->
         /// </summary>
         public static float MinFloat {
             get {
@@ -446,7 +446,7 @@ namespace Cricut.TestAPI {
         private static extern float __cs_get_Primitives_MinFloat(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(maxFloat) --></para>
+        /// <!-- FishyJoes.export(maxFloat) -->
         /// </summary>
         public static float MaxFloat {
             get {
@@ -460,7 +460,7 @@ namespace Cricut.TestAPI {
         private static extern float __cs_get_Primitives_MaxFloat(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(zeroDouble) --></para>
+        /// <!-- FishyJoes.export(zeroDouble) -->
         /// </summary>
         public static double ZeroDouble {
             get {
@@ -474,7 +474,7 @@ namespace Cricut.TestAPI {
         private static extern double __cs_get_Primitives_ZeroDouble(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(minDouble) --></para>
+        /// <!-- FishyJoes.export(minDouble) -->
         /// </summary>
         public static double MinDouble {
             get {
@@ -488,7 +488,7 @@ namespace Cricut.TestAPI {
         private static extern double __cs_get_Primitives_MinDouble(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(maxDouble) --></para>
+        /// <!-- FishyJoes.export(maxDouble) -->
         /// </summary>
         public static double MaxDouble {
             get {
@@ -502,7 +502,7 @@ namespace Cricut.TestAPI {
         private static extern double __cs_get_Primitives_MaxDouble(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(manyBool) --></para>
+        /// <!-- FishyJoes.export(manyBool) -->
         /// </summary>
         public static System.Collections.Generic.IList<bool> ManyBool {
             get {
@@ -516,7 +516,7 @@ namespace Cricut.TestAPI {
         private static extern IntPtr __cs_get_Primitives_ManyBool(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(manyUInt8) --></para>
+        /// <!-- FishyJoes.export(manyUInt8) -->
         /// </summary>
         public static System.Collections.Generic.IList<byte> ManyUInt8 {
             get {
@@ -530,7 +530,7 @@ namespace Cricut.TestAPI {
         private static extern IntPtr __cs_get_Primitives_ManyUInt8(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(manyUInt16) --></para>
+        /// <!-- FishyJoes.export(manyUInt16) -->
         /// </summary>
         public static System.Collections.Generic.IList<ushort> ManyUInt16 {
             get {
@@ -544,7 +544,7 @@ namespace Cricut.TestAPI {
         private static extern IntPtr __cs_get_Primitives_ManyUInt16(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(manyUInt32) --></para>
+        /// <!-- FishyJoes.export(manyUInt32) -->
         /// </summary>
         public static System.Collections.Generic.IList<uint> ManyUInt32 {
             get {
@@ -558,7 +558,7 @@ namespace Cricut.TestAPI {
         private static extern IntPtr __cs_get_Primitives_ManyUInt32(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(manyUInt64) --></para>
+        /// <!-- FishyJoes.export(manyUInt64) -->
         /// </summary>
         public static System.Collections.Generic.IList<ulong> ManyUInt64 {
             get {
@@ -572,7 +572,7 @@ namespace Cricut.TestAPI {
         private static extern IntPtr __cs_get_Primitives_ManyUInt64(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(manyInt8) --></para>
+        /// <!-- FishyJoes.export(manyInt8) -->
         /// </summary>
         public static System.Collections.Generic.IList<sbyte> ManyInt8 {
             get {
@@ -586,7 +586,7 @@ namespace Cricut.TestAPI {
         private static extern IntPtr __cs_get_Primitives_ManyInt8(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(manyInt16) --></para>
+        /// <!-- FishyJoes.export(manyInt16) -->
         /// </summary>
         public static System.Collections.Generic.IList<short> ManyInt16 {
             get {
@@ -600,7 +600,7 @@ namespace Cricut.TestAPI {
         private static extern IntPtr __cs_get_Primitives_ManyInt16(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(manyInt32) --></para>
+        /// <!-- FishyJoes.export(manyInt32) -->
         /// </summary>
         public static System.Collections.Generic.IList<int> ManyInt32 {
             get {
@@ -614,7 +614,7 @@ namespace Cricut.TestAPI {
         private static extern IntPtr __cs_get_Primitives_ManyInt32(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(manyInt64) --></para>
+        /// <!-- FishyJoes.export(manyInt64) -->
         /// </summary>
         public static System.Collections.Generic.IList<long> ManyInt64 {
             get {
@@ -628,7 +628,7 @@ namespace Cricut.TestAPI {
         private static extern IntPtr __cs_get_Primitives_ManyInt64(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(manyFloat) --></para>
+        /// <!-- FishyJoes.export(manyFloat) -->
         /// </summary>
         public static System.Collections.Generic.IList<float> ManyFloat {
             get {
@@ -642,7 +642,7 @@ namespace Cricut.TestAPI {
         private static extern IntPtr __cs_get_Primitives_ManyFloat(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(manyDouble) --></para>
+        /// <!-- FishyJoes.export(manyDouble) -->
         /// </summary>
         public static System.Collections.Generic.IList<double> ManyDouble {
             get {
@@ -656,7 +656,7 @@ namespace Cricut.TestAPI {
         private static extern IntPtr __cs_get_Primitives_ManyDouble(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(manyMaybeBool) --></para>
+        /// <!-- FishyJoes.export(manyMaybeBool) -->
         /// </summary>
         public static System.Collections.Generic.IList<bool?> ManyMaybeBool {
             get {
@@ -670,7 +670,7 @@ namespace Cricut.TestAPI {
         private static extern IntPtr __cs_get_Primitives_ManyMaybeBool(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(manyMaybeUInt8) --></para>
+        /// <!-- FishyJoes.export(manyMaybeUInt8) -->
         /// </summary>
         public static System.Collections.Generic.IList<byte?> ManyMaybeUInt8 {
             get {
@@ -684,7 +684,7 @@ namespace Cricut.TestAPI {
         private static extern IntPtr __cs_get_Primitives_ManyMaybeUInt8(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(manyMaybeUInt16) --></para>
+        /// <!-- FishyJoes.export(manyMaybeUInt16) -->
         /// </summary>
         public static System.Collections.Generic.IList<ushort?> ManyMaybeUInt16 {
             get {
@@ -698,7 +698,7 @@ namespace Cricut.TestAPI {
         private static extern IntPtr __cs_get_Primitives_ManyMaybeUInt16(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(manyMaybeUInt32) --></para>
+        /// <!-- FishyJoes.export(manyMaybeUInt32) -->
         /// </summary>
         public static System.Collections.Generic.IList<uint?> ManyMaybeUInt32 {
             get {
@@ -712,7 +712,7 @@ namespace Cricut.TestAPI {
         private static extern IntPtr __cs_get_Primitives_ManyMaybeUInt32(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(manyMaybeUInt64) --></para>
+        /// <!-- FishyJoes.export(manyMaybeUInt64) -->
         /// </summary>
         public static System.Collections.Generic.IList<ulong?> ManyMaybeUInt64 {
             get {
@@ -726,7 +726,7 @@ namespace Cricut.TestAPI {
         private static extern IntPtr __cs_get_Primitives_ManyMaybeUInt64(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(manyMaybeInt8) --></para>
+        /// <!-- FishyJoes.export(manyMaybeInt8) -->
         /// </summary>
         public static System.Collections.Generic.IList<sbyte?> ManyMaybeInt8 {
             get {
@@ -740,7 +740,7 @@ namespace Cricut.TestAPI {
         private static extern IntPtr __cs_get_Primitives_ManyMaybeInt8(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(manyMaybeInt16) --></para>
+        /// <!-- FishyJoes.export(manyMaybeInt16) -->
         /// </summary>
         public static System.Collections.Generic.IList<short?> ManyMaybeInt16 {
             get {
@@ -754,7 +754,7 @@ namespace Cricut.TestAPI {
         private static extern IntPtr __cs_get_Primitives_ManyMaybeInt16(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(manyMaybeInt32) --></para>
+        /// <!-- FishyJoes.export(manyMaybeInt32) -->
         /// </summary>
         public static System.Collections.Generic.IList<int?> ManyMaybeInt32 {
             get {
@@ -768,7 +768,7 @@ namespace Cricut.TestAPI {
         private static extern IntPtr __cs_get_Primitives_ManyMaybeInt32(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(manyMaybeInt64) --></para>
+        /// <!-- FishyJoes.export(manyMaybeInt64) -->
         /// </summary>
         public static System.Collections.Generic.IList<long?> ManyMaybeInt64 {
             get {
@@ -782,7 +782,7 @@ namespace Cricut.TestAPI {
         private static extern IntPtr __cs_get_Primitives_ManyMaybeInt64(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(manyMaybeFloat) --></para>
+        /// <!-- FishyJoes.export(manyMaybeFloat) -->
         /// </summary>
         public static System.Collections.Generic.IList<float?> ManyMaybeFloat {
             get {
@@ -796,7 +796,7 @@ namespace Cricut.TestAPI {
         private static extern IntPtr __cs_get_Primitives_ManyMaybeFloat(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(manyMaybeDouble) --></para>
+        /// <!-- FishyJoes.export(manyMaybeDouble) -->
         /// </summary>
         public static System.Collections.Generic.IList<double?> ManyMaybeDouble {
             get {
@@ -810,7 +810,7 @@ namespace Cricut.TestAPI {
         private static extern IntPtr __cs_get_Primitives_ManyMaybeDouble(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(defaultPrimitiveHolder) --></para>
+        /// <!-- FishyJoes.export(defaultPrimitiveHolder) -->
         /// </summary>
         public static Cricut.TestAPI.Primitives.PrimitiveHolder DefaultPrimitiveHolder {
             get {
@@ -824,7 +824,7 @@ namespace Cricut.TestAPI {
         private static extern IntPtr __cs_get_Primitives_DefaultPrimitiveHolder(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(echoBool) --></para>
+        /// <!-- FishyJoes.export(echoBool) -->
         /// </summary>
         public static bool EchoBool(
             bool value
@@ -839,7 +839,7 @@ namespace Cricut.TestAPI {
         );
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(echoUInt8) --></para>
+        /// <!-- FishyJoes.export(echoUInt8) -->
         /// </summary>
         public static byte EchoUInt8(
             byte value
@@ -854,7 +854,7 @@ namespace Cricut.TestAPI {
         );
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(echoUInt16) --></para>
+        /// <!-- FishyJoes.export(echoUInt16) -->
         /// </summary>
         public static ushort EchoUInt16(
             ushort value
@@ -869,7 +869,7 @@ namespace Cricut.TestAPI {
         );
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(echoUInt32) --></para>
+        /// <!-- FishyJoes.export(echoUInt32) -->
         /// </summary>
         public static uint EchoUInt32(
             uint value
@@ -884,7 +884,7 @@ namespace Cricut.TestAPI {
         );
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(echoUInt64) --></para>
+        /// <!-- FishyJoes.export(echoUInt64) -->
         /// </summary>
         public static ulong EchoUInt64(
             ulong value
@@ -899,7 +899,7 @@ namespace Cricut.TestAPI {
         );
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(echoInt8) --></para>
+        /// <!-- FishyJoes.export(echoInt8) -->
         /// </summary>
         public static sbyte EchoInt8(
             sbyte value
@@ -914,7 +914,7 @@ namespace Cricut.TestAPI {
         );
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(echoInt16) --></para>
+        /// <!-- FishyJoes.export(echoInt16) -->
         /// </summary>
         public static short EchoInt16(
             short value
@@ -929,7 +929,7 @@ namespace Cricut.TestAPI {
         );
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(echoInt32) --></para>
+        /// <!-- FishyJoes.export(echoInt32) -->
         /// </summary>
         public static int EchoInt32(
             int value
@@ -944,7 +944,7 @@ namespace Cricut.TestAPI {
         );
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(echoInt64) --></para>
+        /// <!-- FishyJoes.export(echoInt64) -->
         /// </summary>
         public static long EchoInt64(
             long value
@@ -959,7 +959,7 @@ namespace Cricut.TestAPI {
         );
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(echoFloat) --></para>
+        /// <!-- FishyJoes.export(echoFloat) -->
         /// </summary>
         public static float EchoFloat(
             float value
@@ -974,7 +974,7 @@ namespace Cricut.TestAPI {
         );
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(echoDouble) --></para>
+        /// <!-- FishyJoes.export(echoDouble) -->
         /// </summary>
         public static double EchoDouble(
             double value
@@ -989,7 +989,7 @@ namespace Cricut.TestAPI {
         );
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(maybeEchoBool) --></para>
+        /// <!-- FishyJoes.export(maybeEchoBool) -->
         /// </summary>
         public static bool? MaybeEchoBool(
             bool? value
@@ -1007,7 +1007,7 @@ namespace Cricut.TestAPI {
         );
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(maybeEchoUInt8) --></para>
+        /// <!-- FishyJoes.export(maybeEchoUInt8) -->
         /// </summary>
         public static byte? MaybeEchoUInt8(
             byte? value
@@ -1025,7 +1025,7 @@ namespace Cricut.TestAPI {
         );
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(maybeEchoUInt16) --></para>
+        /// <!-- FishyJoes.export(maybeEchoUInt16) -->
         /// </summary>
         public static ushort? MaybeEchoUInt16(
             ushort? value
@@ -1043,7 +1043,7 @@ namespace Cricut.TestAPI {
         );
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(maybeEchoUInt32) --></para>
+        /// <!-- FishyJoes.export(maybeEchoUInt32) -->
         /// </summary>
         public static uint? MaybeEchoUInt32(
             uint? value
@@ -1061,7 +1061,7 @@ namespace Cricut.TestAPI {
         );
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(maybeEchoUInt64) --></para>
+        /// <!-- FishyJoes.export(maybeEchoUInt64) -->
         /// </summary>
         public static ulong? MaybeEchoUInt64(
             ulong? value
@@ -1079,7 +1079,7 @@ namespace Cricut.TestAPI {
         );
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(maybeEchoInt8) --></para>
+        /// <!-- FishyJoes.export(maybeEchoInt8) -->
         /// </summary>
         public static sbyte? MaybeEchoInt8(
             sbyte? value
@@ -1097,7 +1097,7 @@ namespace Cricut.TestAPI {
         );
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(maybeEchoInt16) --></para>
+        /// <!-- FishyJoes.export(maybeEchoInt16) -->
         /// </summary>
         public static short? MaybeEchoInt16(
             short? value
@@ -1115,7 +1115,7 @@ namespace Cricut.TestAPI {
         );
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(maybeEchoInt32) --></para>
+        /// <!-- FishyJoes.export(maybeEchoInt32) -->
         /// </summary>
         public static int? MaybeEchoInt32(
             int? value
@@ -1133,7 +1133,7 @@ namespace Cricut.TestAPI {
         );
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(maybeEchoInt64) --></para>
+        /// <!-- FishyJoes.export(maybeEchoInt64) -->
         /// </summary>
         public static long? MaybeEchoInt64(
             long? value
@@ -1151,7 +1151,7 @@ namespace Cricut.TestAPI {
         );
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(maybeEchoFloat) --></para>
+        /// <!-- FishyJoes.export(maybeEchoFloat) -->
         /// </summary>
         public static float? MaybeEchoFloat(
             float? value
@@ -1169,7 +1169,7 @@ namespace Cricut.TestAPI {
         );
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(maybeEchoDouble) --></para>
+        /// <!-- FishyJoes.export(maybeEchoDouble) -->
         /// </summary>
         public static double? MaybeEchoDouble(
             double? value
@@ -1187,7 +1187,7 @@ namespace Cricut.TestAPI {
         );
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(valueMapper) --></para>
+        /// <!-- FishyJoes.export(valueMapper) -->
         /// </summary>
         public static byte? ValueMapper(
             byte? value,
@@ -1208,7 +1208,7 @@ namespace Cricut.TestAPI {
         );
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(Primitives.PrimitiveHolder) --></para>
+        /// <!-- FishyJoes.export(Primitives.PrimitiveHolder) -->
         /// </summary>
         public record PrimitiveHolder {
             public bool B;
@@ -1283,7 +1283,7 @@ namespace Cricut.TestAPI {
             }
 
             /// <summary>
-            /// <para><!-- FishyJoes.export(staticPropery) --></para>
+            /// <!-- FishyJoes.export(staticPropery) -->
             /// </summary>
             public static System.Collections.Generic.IList<byte?> StaticPropery {
                 get {
@@ -1297,7 +1297,7 @@ namespace Cricut.TestAPI {
             private static extern IntPtr __cs_get_Primitives_PrimitiveHolder_StaticPropery(out IntPtr exn);
 
             /// <summary>
-            /// <para><!-- FishyJoes.export(staticMutablePropery) --></para>
+            /// <!-- FishyJoes.export(staticMutablePropery) -->
             /// </summary>
             public static System.Collections.Generic.IList<byte?> StaticMutablePropery {
                 get {

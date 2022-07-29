@@ -33,6 +33,11 @@ jobs:
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '5.0.x'
+
       - name: Build FishyJoesCSharpRuntime
         shell: zsh {0}
         run: |
@@ -60,6 +65,11 @@ jobs:
         uses: fusion-engineering/setup-git-credentials@v2.0.1
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
+
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '5.0.x'
 
       - name: Configure build environment
         run: |
@@ -92,6 +102,11 @@ jobs:
         uses: fusion-engineering/setup-git-credentials@v2.0.1
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
+
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '5.0.x'
 
       - uses: MaxDesiatov/swift-windows-action@v1
         with:
@@ -130,6 +145,11 @@ jobs:
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '5.0.x'
+
       - name: Configure build environment
         run: |
           set -euxo pipefail
@@ -153,34 +173,39 @@ jobs:
 
           ls -R c-sharp-runtime/
 
+      - name: Determine version
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+
+          VERSION=${GITHUB_REF#refs/*/}
+          if [[ ! $VERSION =~ [0-9]+\.[0-9]+\.[0-9]+ ]]; then
+              VERSION="0.0.1-$(git rev-parse --short HEAD)"
+          fi
+          echo "Detected Version is '$VERSION'"
+          echo VERSION=$VERSION >> $GITHUB_ENV
+
       - name: Pack
         shell: zsh {0}
         run: |
           set -euxo pipefail
 
           cd c-sharp-runtime
-          dotnet pack -c Release
+          dotnet pack -c Release -o out /p:PackageVersion="${{ env.VERSION }}"
 
       - name: Upload result
         uses: actions/upload-artifact@v2
         with:
           name: nuget-package
-          path: c-sharp-runtime/bin/Release/*.nupkg
+          path: out/*.nupkg
 
-      # - name: Publish
-      #   shell: zsh {0}
-      #   if: github.event_name == 'release'
-      #   run: |
-      #     set -euxo pipefail
+      - name: Publish
+        shell: zsh {0}
+        if: github.event_name == 'release'
+        run: |
+          set -euxo pipefail
 
-      #     VERSION=${GITHUB_REF#refs/*/}
-      #     if [[ ! $VERSION =~ [0-9]+\.[0-9]+\.[0-9]+ ]]; then
-      #         VERSION="0.0.1"
-      #     fi
-
-      #     cd c-sharp-runtime
-
-      #     echo "Detected Version is '$VERSION'"
-      #     export VERSION
-      #     ./gradlew updateVersion
-      #     ./gradlew build publish
+          dotnet nuget push ./c-sharp-runtime/out/*.nupkg \
+            --source https://nuget.pkg.github.com/cricut \
+            --api-key ${{ github.token }} \
+            --skip-duplicate

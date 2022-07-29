@@ -76,7 +76,16 @@ class CSharpClass: NestedClass {
         guard !documentation.isEmpty else { return }
         fragment.output("/// <summary>")
         for line in documentation {
-            fragment.output("/// <para>\(line)</para>")
+            if line.hasPrefix("<!--") && line.hasSuffix("-->") {
+                fragment.output("/// \(line)")
+            } else {
+                let escaped = line
+                    .replacingOccurrences(of: "&", with: "&amp;")
+                    .replacingOccurrences(of: "<", with: "&lt;")
+                    .replacingOccurrences(of: ">", with: "&gt;")
+                    .replacingOccurrences(of: "\"", with: "&quot;")
+                fragment.output("/// <para>\(escaped)</para>")
+            }
         }
         fragment.output("/// </summary>")
     }
@@ -339,7 +348,6 @@ class CSharpEnumClass: CSharpClass {
         let documentation: [String]
         let name: String
         let values: [(name: String, type: CSType)]
-        let methods: [Method]
     }
 
     init(
@@ -373,29 +381,16 @@ class CSharpEnumClass: CSharpClass {
 
             for enumCase in cases {
                 document(enumCase.documentation, fragment: fragment)
-                fragment.outputBlock("public sealed record \(enumCase.name) : \(unqualifiedName) {") {
-                    if enumCase.values.isEmpty {
-                        fragment.output("public \(enumCase.name)() {}")
-                    } else {
-                        for value in enumCase.values {
-                            fragment.output("public \(value.type.name) \(value.name);")
+                fragment.output("public sealed record \(enumCase.name)", newLineTerminated: false)
+                if !enumCase.values.isEmpty {
+                    fragment.outputBlock("(", newLineTerminated: false) {
+                        fragment.outputMap(enumCase.values, separator: ",") { value in
+                            "\(value.type.name) \(value.name)"
                         }
-                        fragment.blankLine()
-
-                        fragment.outputBlock("public \(enumCase.name)(", newLineTerminated: false) {
-                            fragment.outputMap(enumCase.values, separator: ",") { value in
-                                "\(value.type.name) \(value.name)"
-                            }
-                        }
-                        fragment.outputBlock(" {") {
-                            for value in enumCase.values {
-                                fragment.output("this.\(value.name) = \(value.name);")
-                            }
-                        }
-                        fragment.blankLine()
-                        enumCase.methods.forEach { output(method: $0, to: fragment) }
                     }
                 }
+                fragment.output(" : \(unqualifiedName);")
+                fragment.blankLine()
             }
             fields.forEach { output(field: $0, to: fragment) }
             methods.forEach { output(method: $0, to: fragment) }

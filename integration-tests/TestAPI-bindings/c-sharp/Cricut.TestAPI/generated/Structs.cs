@@ -6,19 +6,19 @@ using static Cricut.FishyJoesRuntime.Utilities;
 
 namespace Cricut.TestAPI {
     /// <summary>
-    /// <para><!-- FishyJoes.exportReference(Structs) --></para>
+    /// <!-- FishyJoes.exportReference(Structs) -->
     /// </summary>
     public class Structs : SwiftReference {
         internal Structs(IntPtr reference): base(reference) {}
 
         /// <summary>
-        /// <para><!-- FishyJoes.exportReference(Structs.ReferenceStruct) --></para>
+        /// <!-- FishyJoes.exportReference(Structs.ReferenceStruct) -->
         /// </summary>
         public class ReferenceStruct : SwiftReference {
             internal ReferenceStruct(IntPtr reference): base(reference) {}
 
             /// <summary>
-            /// <para><!-- FishyJoes.export(immutable) --></para>
+            /// <!-- FishyJoes.export(immutable) -->
             /// </summary>
             public string Immutable {
                 get {
@@ -43,7 +43,7 @@ namespace Cricut.TestAPI {
             private static extern void __cs_set_Structs_ReferenceStruct_Immutable(IntPtr self, IntPtr value, out IntPtr exn);
 
             /// <summary>
-            /// <para><!-- FishyJoes.export(mutable) --></para>
+            /// <!-- FishyJoes.export(mutable) -->
             /// </summary>
             public string Mutable {
                 get {
@@ -68,7 +68,7 @@ namespace Cricut.TestAPI {
             private static extern void __cs_set_Structs_ReferenceStruct_Mutable(IntPtr self, IntPtr value, out IntPtr exn);
 
             /// <summary>
-            /// <para><!-- FishyJoes.export(create) --></para>
+            /// <!-- FishyJoes.export(create) -->
             /// </summary>
             public static Cricut.TestAPI.Structs.ReferenceStruct Create(
             ) {
@@ -113,7 +113,7 @@ namespace Cricut.TestAPI {
         }
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(Structs.MemberwiseStruct) --></para>
+        /// <!-- FishyJoes.export(Structs.MemberwiseStruct) -->
         /// </summary>
         public record MemberwiseStruct {
             public string Immutable;
@@ -128,7 +128,7 @@ namespace Cricut.TestAPI {
             }
 
             /// <summary>
-            /// <para><!-- FishyJoes.export(create) --></para>
+            /// <!-- FishyJoes.export(create) -->
             /// </summary>
             public static Cricut.TestAPI.Structs.MemberwiseStruct Create(
             ) {

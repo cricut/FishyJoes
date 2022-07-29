@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <ProjectReference Include="..\TestAPI\TestAPI.csproj" />
+    <ProjectReference Include="..\Cricut.TestAPI\Cricut.TestAPI.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

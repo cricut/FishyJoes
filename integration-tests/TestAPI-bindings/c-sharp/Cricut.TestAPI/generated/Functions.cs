@@ -6,13 +6,13 @@ using static Cricut.FishyJoesRuntime.Utilities;
 
 namespace Cricut.TestAPI {
     /// <summary>
-    /// <para><!-- FishyJoes.exportReference(Functions) --></para>
+    /// <!-- FishyJoes.exportReference(Functions) -->
     /// </summary>
     public class Functions : SwiftReference {
         internal Functions(IntPtr reference): base(reference) {}
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(const42) --></para>
+        /// <!-- FishyJoes.export(const42) -->
         /// </summary>
         public static System.Func<nint> Const42 {
             get {
@@ -26,7 +26,7 @@ namespace Cricut.TestAPI {
         private static extern IntPtr __cs_get_Functions_Const42(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(abs) --></para>
+        /// <!-- FishyJoes.export(abs) -->
         /// </summary>
         public static System.Func<nint, nint> Abs {
             get {
@@ -40,7 +40,7 @@ namespace Cricut.TestAPI {
         private static extern IntPtr __cs_get_Functions_Abs(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(intCompose) --></para>
+        /// <!-- FishyJoes.export(intCompose) -->
         /// </summary>
         public static System.Func<System.Func<nint, nint>, System.Func<nint, nint>, System.Func<nint, nint>> IntCompose {
             get {
@@ -54,7 +54,7 @@ namespace Cricut.TestAPI {
         private static extern IntPtr __cs_get_Functions_IntCompose(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(add3Things) --></para>
+        /// <!-- FishyJoes.export(add3Things) -->
         /// </summary>
         public static System.Func<float, double, nint, double> Add3Things {
             get {
@@ -68,7 +68,7 @@ namespace Cricut.TestAPI {
         private static extern IntPtr __cs_get_Functions_Add3Things(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(makeList) --></para>
+        /// <!-- FishyJoes.export(makeList) -->
         /// </summary>
         public static System.Func<string, string, string, string, System.Collections.Generic.IList<string>> MakeList {
             get {
@@ -82,7 +82,7 @@ namespace Cricut.TestAPI {
         private static extern IntPtr __cs_get_Functions_MakeList(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(fifthThing) --></para>
+        /// <!-- FishyJoes.export(fifthThing) -->
         /// </summary>
         public static System.Func<string, nint, double, string, System.Func<nint>, System.Func<nint>> FifthThing {
             get {
@@ -96,7 +96,7 @@ namespace Cricut.TestAPI {
         private static extern IntPtr __cs_get_Functions_FifthThing(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(sixthThing) --></para>
+        /// <!-- FishyJoes.export(sixthThing) -->
         /// </summary>
         public static System.Func<string, nint, double, string, System.Func<nint>, nint, nint> SixthThing {
             get {
@@ -110,7 +110,7 @@ namespace Cricut.TestAPI {
         private static extern IntPtr __cs_get_Functions_SixthThing(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(exercise0) --></para>
+        /// <!-- FishyJoes.export(exercise0) -->
         /// </summary>
         public static string Exercise0(
             System.Func<nint> fn
@@ -128,7 +128,7 @@ namespace Cricut.TestAPI {
         );
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(exercise1) --></para>
+        /// <!-- FishyJoes.export(exercise1) -->
         /// </summary>
         public static string Exercise1(
             System.Func<nint, nint> fn
@@ -146,7 +146,7 @@ namespace Cricut.TestAPI {
         );
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(exercise2) --></para>
+        /// <!-- FishyJoes.export(exercise2) -->
         /// </summary>
         public static string Exercise2(
             System.Func<System.Func<nint, nint>, System.Func<nint, nint>, System.Func<nint, nint>> fn
@@ -164,7 +164,7 @@ namespace Cricut.TestAPI {
         );
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(exercise3) --></para>
+        /// <!-- FishyJoes.export(exercise3) -->
         /// </summary>
         public static string Exercise3(
             System.Func<float, double, nint, double> fn
@@ -182,7 +182,7 @@ namespace Cricut.TestAPI {
         );
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(exercise4) --></para>
+        /// <!-- FishyJoes.export(exercise4) -->
         /// </summary>
         public static string Exercise4(
             System.Func<string, string, string, string, System.Collections.Generic.IList<string>> fn
@@ -200,7 +200,7 @@ namespace Cricut.TestAPI {
         );
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(exercise5) --></para>
+        /// <!-- FishyJoes.export(exercise5) -->
         /// </summary>
         public static string Exercise5(
             System.Func<string, nint, double, string, System.Func<nint>, System.Func<nint>> fn
@@ -218,7 +218,7 @@ namespace Cricut.TestAPI {
         );
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(exercise6) --></para>
+        /// <!-- FishyJoes.export(exercise6) -->
         /// </summary>
         public static string Exercise6(
             System.Func<string, nint, double, string, System.Func<nint>, nint, nint> fn
@@ -236,7 +236,7 @@ namespace Cricut.TestAPI {
         );
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(willThrow) --></para>
+        /// <!-- FishyJoes.export(willThrow) -->
         /// </summary>
         public static string WillThrow(
         ) {
@@ -251,7 +251,7 @@ namespace Cricut.TestAPI {
         );
 
         /// <summary>
-        /// <para><!-- FishyJoes.exportReference(Functions.TheError) --></para>
+        /// <!-- FishyJoes.exportReference(Functions.TheError) -->
         /// </summary>
         public class TheError : SwiftReference {
             internal TheError(IntPtr reference): base(reference) {}

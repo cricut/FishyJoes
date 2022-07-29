@@ -6,13 +6,13 @@ using static Cricut.FishyJoesRuntime.Utilities;
 
 namespace Cricut.TestAPI {
     /// <summary>
-    /// <para><!-- FishyJoes.exportReference(Collections) --></para>
+    /// <!-- FishyJoes.exportReference(Collections) -->
     /// </summary>
     public class Collections : SwiftReference {
         internal Collections(IntPtr reference): base(reference) {}
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(arrayOfInt) --></para>
+        /// <!-- FishyJoes.export(arrayOfInt) -->
         /// </summary>
         public static System.Collections.Generic.IList<nint> ArrayOfInt {
             get {
@@ -26,7 +26,7 @@ namespace Cricut.TestAPI {
         private static extern IntPtr __cs_get_Collections_ArrayOfInt(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(setOfInt) --></para>
+        /// <!-- FishyJoes.export(setOfInt) -->
         /// </summary>
         public static System.Collections.Generic.ISet<nint> SetOfInt {
             get {
@@ -40,7 +40,7 @@ namespace Cricut.TestAPI {
         private static extern IntPtr __cs_get_Collections_SetOfInt(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(dictionaryOfIntToInt) --></para>
+        /// <!-- FishyJoes.export(dictionaryOfIntToInt) -->
         /// </summary>
         public static System.Collections.Generic.IDictionary<nint, nint> DictionaryOfIntToInt {
             get {
@@ -54,7 +54,7 @@ namespace Cricut.TestAPI {
         private static extern IntPtr __cs_get_Collections_DictionaryOfIntToInt(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(maybeArrayOfInt) --></para>
+        /// <!-- FishyJoes.export(maybeArrayOfInt) -->
         /// </summary>
         public static System.Collections.Generic.IList<nint>? MaybeArrayOfInt {
             get {
@@ -68,7 +68,7 @@ namespace Cricut.TestAPI {
         private static extern IntPtr __cs_get_Collections_MaybeArrayOfInt(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(maybeSetOfInt) --></para>
+        /// <!-- FishyJoes.export(maybeSetOfInt) -->
         /// </summary>
         public static System.Collections.Generic.ISet<nint>? MaybeSetOfInt {
             get {
@@ -82,7 +82,7 @@ namespace Cricut.TestAPI {
         private static extern IntPtr __cs_get_Collections_MaybeSetOfInt(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(maybeDictionaryOfIntToInt) --></para>
+        /// <!-- FishyJoes.export(maybeDictionaryOfIntToInt) -->
         /// </summary>
         public static System.Collections.Generic.IDictionary<nint, nint>? MaybeDictionaryOfIntToInt {
             get {
@@ -96,7 +96,7 @@ namespace Cricut.TestAPI {
         private static extern IntPtr __cs_get_Collections_MaybeDictionaryOfIntToInt(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(maybeArrayOfMaybeInt) --></para>
+        /// <!-- FishyJoes.export(maybeArrayOfMaybeInt) -->
         /// </summary>
         public static System.Collections.Generic.IList<nint?>? MaybeArrayOfMaybeInt {
             get {
@@ -110,7 +110,7 @@ namespace Cricut.TestAPI {
         private static extern IntPtr __cs_get_Collections_MaybeArrayOfMaybeInt(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(maybeSetOfMaybeInt) --></para>
+        /// <!-- FishyJoes.export(maybeSetOfMaybeInt) -->
         /// </summary>
         public static System.Collections.Generic.ISet<nint?>? MaybeSetOfMaybeInt {
             get {
@@ -124,7 +124,7 @@ namespace Cricut.TestAPI {
         private static extern IntPtr __cs_get_Collections_MaybeSetOfMaybeInt(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(maybeDictionaryOfIntToMaybeInt) --></para>
+        /// <!-- FishyJoes.export(maybeDictionaryOfIntToMaybeInt) -->
         /// </summary>
         public static System.Collections.Generic.IDictionary<nint, nint?>? MaybeDictionaryOfIntToMaybeInt {
             get {
@@ -138,7 +138,7 @@ namespace Cricut.TestAPI {
         private static extern IntPtr __cs_get_Collections_MaybeDictionaryOfIntToMaybeInt(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(defaultCollectionHolder) --></para>
+        /// <!-- FishyJoes.export(defaultCollectionHolder) -->
         /// </summary>
         public static Cricut.TestAPI.Collections.CollectionHolder DefaultCollectionHolder {
             get {
@@ -152,7 +152,7 @@ namespace Cricut.TestAPI {
         private static extern IntPtr __cs_get_Collections_DefaultCollectionHolder(out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(echoArrayOfInt) --></para>
+        /// <!-- FishyJoes.export(echoArrayOfInt) -->
         /// </summary>
         public static System.Collections.Generic.IList<nint> EchoArrayOfInt(
             System.Collections.Generic.IList<nint> arrayOfInt
@@ -170,7 +170,7 @@ namespace Cricut.TestAPI {
         );
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(echoSetOfInt) --></para>
+        /// <!-- FishyJoes.export(echoSetOfInt) -->
         /// </summary>
         public static System.Collections.Generic.ISet<nint> EchoSetOfInt(
             System.Collections.Generic.ISet<nint> setOfInt
@@ -188,7 +188,7 @@ namespace Cricut.TestAPI {
         );
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(echoDictionaryOfIntToInt) --></para>
+        /// <!-- FishyJoes.export(echoDictionaryOfIntToInt) -->
         /// </summary>
         public static System.Collections.Generic.IDictionary<nint, nint> EchoDictionaryOfIntToInt(
             System.Collections.Generic.IDictionary<nint, nint> dictionaryOfIntToInt
@@ -206,7 +206,7 @@ namespace Cricut.TestAPI {
         );
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(echoMaybeArrayOfMaybeInt) --></para>
+        /// <!-- FishyJoes.export(echoMaybeArrayOfMaybeInt) -->
         /// </summary>
         public static System.Collections.Generic.IList<nint?>? EchoMaybeArrayOfMaybeInt(
             System.Collections.Generic.IList<nint?>? maybeArrayOfMaybeInt
@@ -224,7 +224,7 @@ namespace Cricut.TestAPI {
         );
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(echoMaybeSetOfMaybeInt) --></para>
+        /// <!-- FishyJoes.export(echoMaybeSetOfMaybeInt) -->
         /// </summary>
         public static System.Collections.Generic.ISet<nint?>? EchoMaybeSetOfMaybeInt(
             System.Collections.Generic.ISet<nint?>? maybeSetOfMaybeInt
@@ -242,7 +242,7 @@ namespace Cricut.TestAPI {
         );
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(echoMaybeDictionaryOfIntToMaybeInt) --></para>
+        /// <!-- FishyJoes.export(echoMaybeDictionaryOfIntToMaybeInt) -->
         /// </summary>
         public static System.Collections.Generic.IDictionary<nint, nint?>? EchoMaybeDictionaryOfIntToMaybeInt(
             System.Collections.Generic.IDictionary<nint, nint?>? maybeDictionaryOfIntToMaybeInt
@@ -260,7 +260,7 @@ namespace Cricut.TestAPI {
         );
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(collectionMapper) --></para>
+        /// <!-- FishyJoes.export(collectionMapper) -->
         /// </summary>
         public static System.Collections.Generic.IList<nint?>? CollectionMapper(
             System.Collections.Generic.IList<nint?>? collection,
@@ -281,7 +281,7 @@ namespace Cricut.TestAPI {
         );
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(Collections.CollectionHolder) --></para>
+        /// <!-- FishyJoes.export(Collections.CollectionHolder) -->
         /// </summary>
         public record CollectionHolder {
             public System.Collections.Generic.IList<bool> BoolArray;
@@ -317,7 +317,7 @@ namespace Cricut.TestAPI {
             }
 
             /// <summary>
-            /// <para><!-- FishyJoes.export(staticPropery) --></para>
+            /// <!-- FishyJoes.export(staticPropery) -->
             /// </summary>
             public static System.Collections.Generic.IList<nint?> StaticPropery {
                 get {
@@ -331,7 +331,7 @@ namespace Cricut.TestAPI {
             private static extern IntPtr __cs_get_Collections_CollectionHolder_StaticPropery(out IntPtr exn);
 
             /// <summary>
-            /// <para><!-- FishyJoes.export(staticMutablePropery) --></para>
+            /// <!-- FishyJoes.export(staticMutablePropery) -->
             /// </summary>
             public static System.Collections.Generic.IList<nint?> StaticMutablePropery {
                 get {

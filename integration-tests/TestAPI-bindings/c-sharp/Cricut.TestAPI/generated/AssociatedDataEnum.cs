@@ -6,46 +6,27 @@ using static Cricut.FishyJoesRuntime.Utilities;
 
 namespace Cricut.TestAPI {
     /// <summary>
-    /// <para><!-- FishyJoes.export(AssociatedDataEnum) --></para>
+    /// <!-- FishyJoes.export(AssociatedDataEnum) -->
     /// </summary>
     public record AssociatedDataEnum {
         private AssociatedDataEnum() {}
 
-        public sealed record Thing : AssociatedDataEnum {
-            public nint Value;
+        public sealed record Thing(
+            nint Value
+        ) : AssociatedDataEnum;
 
-            public Thing(
-                nint Value
-            ) {
-                this.Value = Value;
-            }
-        }
-        public sealed record Other : AssociatedDataEnum {
-            public string Unnamed;
-            public nint _1;
+        public sealed record Other(
+            string Unnamed,
+            nint _1
+        ) : AssociatedDataEnum;
 
-            public Other(
-                string Unnamed,
-                nint _1
-            ) {
-                this.Unnamed = Unnamed;
-                this._1 = _1;
-            }
-        }
-        public sealed record Bar : AssociatedDataEnum {
-            public string Named;
-            public Cricut.TestAPI.AssociatedDataEnum _1;
+        public sealed record Bar(
+            string Named,
+            Cricut.TestAPI.AssociatedDataEnum _1
+        ) : AssociatedDataEnum;
 
-            public Bar(
-                string Named,
-                Cricut.TestAPI.AssociatedDataEnum _1
-            ) {
-                this.Named = Named;
-                this._1 = _1;
-            }
-        }
         /// <summary>
-        /// <para><!-- FishyJoes.export(intValue) --></para>
+        /// <!-- FishyJoes.export(intValue) -->
         /// </summary>
         public nint GetIntValue() {
             using var thisHandle = new GCRef(this);
@@ -58,7 +39,7 @@ namespace Cricut.TestAPI {
         private static extern nint __cs_get_AssociatedDataEnum_IntValue(IntPtr self, out IntPtr exn);
 
         /// <summary>
-        /// <para><!-- FishyJoes.export(plus) --></para>
+        /// <!-- FishyJoes.export(plus) -->
         /// </summary>
         public Cricut.TestAPI.AssociatedDataEnum Plus(
             Cricut.TestAPI.AssociatedDataEnum other
