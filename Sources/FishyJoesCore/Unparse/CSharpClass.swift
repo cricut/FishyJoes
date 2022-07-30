@@ -1,11 +1,3 @@
-private var forbiddenVarNames: Set<String> = [
-    "String",
-    "string",
-]
-private func deforbidify(_ name: String) -> String {
-    forbiddenVarNames.contains(name) ? "_\(name)" : name
-}
-
 class CSharpClass: NestedClass {
     indirect enum CSType: Equatable, Codable {
         case void
@@ -170,7 +162,7 @@ class CSharpClass: NestedClass {
             fragment.outputBlock("\(method.returnType.name) \(method.name)(", newLineTerminated: false) {
                 fragment.outputMap(method.parameters, separator: ",") { parameter in
                     let labelComment = parameter.labelComment.map { "/* \($0) */ " } ?? ""
-                    return "\(parameter.type.name) \(labelComment)\(deforbidify(parameter.name))"
+                    return "\(parameter.type.name) \(labelComment)\(CSharpClass.deforbidify(parameter.name))"
                 }
             }
             fragment.outputBlock(" {") {
@@ -184,10 +176,10 @@ class CSharpClass: NestedClass {
                     }
                     for param in method.parameters {
                         if param.type.isObject {
-                            fragment.output("using var _\(param.name)Handle = new GCRef(\(deforbidify(param.name)));")
+                            fragment.output("using var _\(param.name)Handle = new GCRef(\(CSharpClass.deforbidify(param.name)));")
                             paramStrings.append("_\(param.name)Handle.ptr")
                         } else {
-                            paramStrings.append("\(deforbidify(param.name))")
+                            paramStrings.append("\(CSharpClass.deforbidify(param.name))")
                         }
                     }
                     paramStrings.append("out _exn")
@@ -213,7 +205,7 @@ class CSharpClass: NestedClass {
                     fragment.output("IntPtr self,")
                 }
                 for parameter in method.parameters {
-                    fragment.output("\(parameter.type.pInvokeName) \(deforbidify(parameter.name)),")
+                    fragment.output("\(parameter.type.pInvokeName) \(CSharpClass.deforbidify(parameter.name)),")
                 }
                 fragment.output("out IntPtr exn")
             }
@@ -311,18 +303,18 @@ class CSharpProductClass: CSharpClass {
                 fragment.output("internal \(unqualifiedName)(IntPtr reference): base(reference) {}")
             case .public(let fields):
                 for field in fields {
-                    fragment.output("public \(field.type.name) \(deforbidify(field.name));")
+                    fragment.output("public \(field.type.name) \(CSharpClass.deforbidify(field.name));")
                 }
                 fragment.blankLine()
 
                 fragment.outputBlock("public \(unqualifiedName)(", newLineTerminated: false) {
                     fragment.outputMap(fields, separator: ",") { field in
-                        "\(field.type.name) \(deforbidify(field.name))"
+                        "\(field.type.name) \(CSharpClass.deforbidify(field.name))"
                     }
                 }
                 fragment.outputBlock(" {") {
                     for field in fields {
-                        fragment.output("this.\(deforbidify(field.name)) = \(deforbidify(field.name));")
+                        fragment.output("this.\(CSharpClass.deforbidify(field.name)) = \(CSharpClass.deforbidify(field.name));")
                     }
                 }
             }
@@ -399,5 +391,17 @@ class CSharpEnumClass: CSharpClass {
 
             fragment.output("static \(unqualifiedName)() { _TypeSetup._ensureLoaded(); }")
         }
+    }
+}
+
+extension CSharpClass {
+    private static var forbiddenVarNames: Set<String> = [
+        "String",
+        "string",
+        "base",
+    ]
+
+    static func deforbidify(_ name: String) -> String {
+        forbiddenVarNames.contains(name) ? "_\(name)" : name
     }
 }

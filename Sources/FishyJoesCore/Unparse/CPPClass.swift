@@ -145,7 +145,7 @@ class CPPClass {
                 }
             case .type(let type):
                 if type is TranslatedStruct || type is TranslatedEnum || type is TranslatedReference {
-                    if !context.cppClasses[type.cppName]!.isHashable(in: context) {
+                    if context.cppClasses[type.cppName]?.isHashable(in: context) != true {
                         return false
                     }
                 } else if type is TranslatedDictionary || type is TranslatedFunction || type is TranslatedSet || type is TranslatedTuple || type is TranslatedVoid {

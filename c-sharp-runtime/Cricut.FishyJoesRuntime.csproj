@@ -20,7 +20,7 @@
   <ItemGroup>
     <ContentWithTargetPath Include="runtimes\**\*" >
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <TargetPath>%(Filename)%(Extension)</TargetPath>
+      <TargetPath>runtimes\%(RecursiveDir)\%(Filename)%(Extension)</TargetPath>
     </ContentWithTargetPath>
   </ItemGroup>
 

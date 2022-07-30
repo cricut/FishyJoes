@@ -30,7 +30,7 @@ struct TranslatedStruct: TranslatedType {
         self.cppName = exportAnnotation.name.replacingOccurrences(of: ".", with: "::")
         self.neutralName = "Struct<Named=\(exportAnnotation.name)>"
         self.kotlinPackage = context.module.kotlinPackage
-        self.cSharpType = .named(package: context.module.cSharpNamespace, name: upperCaseFirst(exportAnnotation.name))
+        self.cSharpType = .named(package: context.module.cSharpNamespace, name: exportAnnotation.cSharpName)
         self.globalName = "\(context.module).\(type.globalName)"
         self.jniType = .object(context.kotlinTranslator.javaClassName(nodeName, in: context))
 
@@ -321,7 +321,7 @@ struct TranslatedStruct: TranslatedType {
             "delegate IntPtr _\(converterType.genericBaseName.mangledName)Constructor(",
         ] + storedVariables.map { storedVar in
             let resolved = context.resolve(type: storedVar.typeName.better)
-            return "    \(resolved.cSharpType.pInvokeName) \(storedVar.name),"
+            return "    \(resolved.cSharpType.pInvokeName) \(CSharpClass.deforbidify(storedVar.name)),"
         } + [
             "    out IntPtr exn",
             ");",
@@ -339,7 +339,7 @@ struct TranslatedStruct: TranslatedType {
         let constructorType = "_\(converterType.genericBaseName.mangledName)Constructor"
         let constructorArgs = storedVariables.map { storedVar in
             let resolved = context.resolve(type: storedVar.typeName.better)
-            return "\(resolved.cSharpType.pInvokeName) \(storedVar.name), "
+            return "\(resolved.cSharpType.pInvokeName) \(CSharpClass.deforbidify(storedVar.name)), "
         }.joined()
         return [
             .value(
@@ -351,9 +351,9 @@ struct TranslatedStruct: TranslatedType {
                         fragment.outputMap(storedVariables, separator: ",") { storedVar in
                             let resolved = context.resolve(type: storedVar.typeName.better)
                             if resolved.cSharpType.isObject {
-                                return "PeekHandle<\(resolved.cSharpType.name)>(\(storedVar.name))"
+                                return "PeekHandle<\(resolved.cSharpType.name)>(\(CSharpClass.deforbidify(storedVar.name)))"
                             } else {
-                                return storedVar.name
+                                return CSharpClass.deforbidify(storedVar.name)
                             }
                         }
                     }
@@ -371,7 +371,7 @@ struct TranslatedStruct: TranslatedType {
                     type: getType
                 ) { fragment in
                     fragment.outputBlock("bag<\(getType)>((IntPtr obj, out IntPtr exn) => Catching(out exn, () =>", closeWith: ")),") {
-                        let grab = "PeekHandle<\(cSharpType.name)>(obj).\(upperCaseFirst(storedVar.name))"
+                        let grab = "PeekHandle<\(cSharpType.name)>(obj).\(CSharpClass.deforbidify(upperCaseFirst(storedVar.name)))"
                         if resolved.cSharpType.isObject {
                             fragment.output("PassOwnership(\(grab))")
                         } else {
@@ -384,7 +384,7 @@ struct TranslatedStruct: TranslatedType {
                     type: setType
                 ) { fragment in
                     fragment.outputBlock("bag<\(setType)>((IntPtr obj, \(resolved.cSharpType.pInvokeName) newValue, out IntPtr exn) => Catching(out exn, () => {", closeWith: "})),") {
-                        fragment.output("PeekHandle<\(cSharpType.name)>(obj).\(upperCaseFirst(storedVar.name)) = ", newLineTerminated: false)
+                        fragment.output("PeekHandle<\(cSharpType.name)>(obj).\(CSharpClass.deforbidify(upperCaseFirst(storedVar.name))) = ", newLineTerminated: false)
                         fragment.output(resolved.cSharpType.isObject ? "PeekHandle<\(resolved.cSharpType.name)>(newValue);" : "newValue;")
                     }
                 },

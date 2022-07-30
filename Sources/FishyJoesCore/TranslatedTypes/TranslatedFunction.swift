@@ -47,9 +47,11 @@ struct TranslatedFunction: TranslatedType {
     }
 
     func cSharpSetupParameters(in context: FishyJoesContext) -> [CSharpSetupParameter] {
-        return [
-            .type(typeValue: returnType.cSharpType.name),
-        ] + parameters.map { param in
+        return (
+            returnType.sourceType == .void ? [] : [
+                .type(typeValue: returnType.cSharpType.name),
+            ]
+        ) + parameters.map { param in
             .type(typeValue: param.cSharpType.name)
         } + [
             .value(name: "typeName", type: "string") { fragment in

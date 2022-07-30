@@ -41,7 +41,7 @@ struct TranslatedEnum: TranslatedType {
         let type: BetterType
 
         var bindingName: String {
-            name ?? label ?? "_\(index)"
+            CSharpClass.deforbidify(name ?? label ?? "_\(index)")
         }
         var fieldVar: String {
             "_field_\(name ?? "\(index)")"
@@ -49,7 +49,8 @@ struct TranslatedEnum: TranslatedType {
     }
 
     init(context: FishyJoesContext, type: Enum) {
-        guard let name = type.exportAnnotation?.name else { fatalErr("export symbol not specified") }
+        guard let exportAnnotation = type.exportAnnotation else { fatalErr("export symbol not specified") }
+        let name = exportAnnotation.name
 
         self.sourceType = BetterType(named: type)
         self.neutralName = "Enum<TranslatedFrom=\(name)>"
@@ -57,7 +58,7 @@ struct TranslatedEnum: TranslatedType {
         self.nodeName = name
         self.kotlinName = name
         self.kotlinPackage = context.module.kotlinPackage
-        self.cSharpType = .named(package: context.module.cSharpNamespace, name: name)
+        self.cSharpType = .named(package: context.module.cSharpNamespace, name: exportAnnotation.cSharpName)
         self.cases = type.cases.map { enumCase in
             Case(
                 documentation: enumCase.documentation,
