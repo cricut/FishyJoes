@@ -1,5 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\c-sharp-runtime\Cricut.FishyJoesRuntime.csproj" />
   </ItemGroup>
@@ -14,6 +14,10 @@
   <ItemGroup>
     <Content Include="runtimes\**\*" PackagePath="runtimes\$(TargetFramework)" />
     <ContentWithTargetPath Include="runtimes\**\*" >
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <TargetPath>%(Filename)%(Extension)</TargetPath>
+    </ContentWithTargetPath>
+    <ContentWithTargetPath Include="..\..\..\..\c-sharp-runtime\runtimes\**\*" >
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <TargetPath>%(Filename)%(Extension)</TargetPath>
     </ContentWithTargetPath>

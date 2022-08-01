@@ -344,280 +344,280 @@ namespace Cricut.TestAPI {
             FishyJoesRuntime.Loader.ensureLoaded();
             FishyJoes_TestAPI_registerTypes();
 
-            Once("setup_FishyJoesRuntime_((Int) -> Int, (Int) -> Int) -> (Int) -> Int", () => {
+            Once("setup_Function2Converter<Function1Converter<Int, Int>, Function1Converter<Int, Int>, Function1Converter<Int, Int>>", () => {
                 Console.WriteLine("setting up ((Int) -> Int, (Int) -> Int) -> (Int) -> Int...");
                 Utilities.Check((out IntPtr exn) => FishyJoesRuntime_Function2Converter_setup<System.Func<nint, nint>, System.Func<nint, nint>, System.Func<nint, nint>>(
                     "Function2Converter<Function1Converter<Int, Int>, Function1Converter<Int, Int>, Function1Converter<Int, Int>>",
                     out exn
                 ));
             });
-            Once("setup_FishyJoesRuntime_((Int, String), (String, Double, String), String, Bool)", () => {
+            Once("setup_Tuple4Converter<Tuple2Converter<Int, Swift.String>, Tuple3Converter<Swift.String, Double, Swift.String>, Swift.String, Bool>", () => {
                 Console.WriteLine("setting up ((Int, String), (String, Double, String), String, Bool)...");
                 Utilities.Check((out IntPtr exn) => FishyJoesRuntime_Tuple4Converter_setup<System.Tuple<nint, string>, System.Tuple<string, double, string>, string, bool>(
                     "Tuple4Converter<Tuple2Converter<Int, Swift.String>, Tuple3Converter<Swift.String, Double, Swift.String>, Swift.String, Bool>",
                     out exn
                 ));
             });
-            Once("setup_FishyJoesRuntime_() -> Int", () => {
+            Once("setup_Function0Converter<Int>", () => {
                 Console.WriteLine("setting up () -> Int...");
                 Utilities.Check((out IntPtr exn) => FishyJoesRuntime_Function0Converter_setup<nint>(
                     "Function0Converter<Int>",
                     out exn
                 ));
             });
-            Once("setup_FishyJoesRuntime_(Float, Double, Int) -> Double", () => {
+            Once("setup_Function3Converter<Float, Double, Int, Double>", () => {
                 Console.WriteLine("setting up (Float, Double, Int) -> Double...");
                 Utilities.Check((out IntPtr exn) => FishyJoesRuntime_Function3Converter_setup<double, float, double, nint>(
                     "Function3Converter<Float, Double, Int, Double>",
                     out exn
                 ));
             });
-            Once("setup_FishyJoesRuntime_(Int) -> Int", () => {
+            Once("setup_Function1Converter<Int, Int>", () => {
                 Console.WriteLine("setting up (Int) -> Int...");
                 Utilities.Check((out IntPtr exn) => FishyJoesRuntime_Function1Converter_setup<nint, nint>(
                     "Function1Converter<Int, Int>",
                     out exn
                 ));
             });
-            Once("setup_FishyJoesRuntime_(Int, String)", () => {
+            Once("setup_Tuple2Converter<Int, Swift.String>", () => {
                 Console.WriteLine("setting up (Int, String)...");
                 Utilities.Check((out IntPtr exn) => FishyJoesRuntime_Tuple2Converter_setup<nint, string>(
                     "Tuple2Converter<Int, Swift.String>",
                     out exn
                 ));
             });
-            Once("setup_FishyJoesRuntime_(Optional<Array<Optional<Int>>>) -> Optional<Array<Optional<Int>>>", () => {
+            Once("setup_Function1Converter<OptionalConverter<ArrayConverter<OptionalConverter<Int>>>, OptionalConverter<ArrayConverter<OptionalConverter<Int>>>>", () => {
                 Console.WriteLine("setting up (Optional<Array<Optional<Int>>>) -> Optional<Array<Optional<Int>>>...");
                 Utilities.Check((out IntPtr exn) => FishyJoesRuntime_Function1Converter_setup<System.Collections.Generic.IList<nint?>?, System.Collections.Generic.IList<nint?>?>(
                     "Function1Converter<OptionalConverter<ArrayConverter<OptionalConverter<Int>>>, OptionalConverter<ArrayConverter<OptionalConverter<Int>>>>",
                     out exn
                 ));
             });
-            Once("setup_FishyJoesRuntime_(Optional<UInt8>) -> Optional<UInt8>", () => {
+            Once("setup_Function1Converter<OptionalConverter<UInt8>, OptionalConverter<UInt8>>", () => {
                 Console.WriteLine("setting up (Optional<UInt8>) -> Optional<UInt8>...");
                 Utilities.Check((out IntPtr exn) => FishyJoesRuntime_Function1Converter_setup<byte?, byte?>(
                     "Function1Converter<OptionalConverter<UInt8>, OptionalConverter<UInt8>>",
                     out exn
                 ));
             });
-            Once("setup_FishyJoesRuntime_(String, Double, String)", () => {
+            Once("setup_Tuple3Converter<Swift.String, Double, Swift.String>", () => {
                 Console.WriteLine("setting up (String, Double, String)...");
                 Utilities.Check((out IntPtr exn) => FishyJoesRuntime_Tuple3Converter_setup<string, double, string>(
                     "Tuple3Converter<Swift.String, Double, Swift.String>",
                     out exn
                 ));
             });
-            Once("setup_FishyJoesRuntime_(String, Int, Double, ((Int, String), (String, Double, String), String, Bool), (String, UInt8, ((Int, String), (String, Double, String), String, Bool), (String, Double, String), (Int, String)), Bool)", () => {
+            Once("setup_Tuple6Converter<Swift.String, Int, Double, Tuple4Converter<Tuple2Converter<Int, Swift.String>, Tuple3Converter<Swift.String, Double, Swift.String>, Swift.String, Bool>, Tuple5Converter<Swift.String, UInt8, Tuple4Converter<Tuple2Converter<Int, Swift.String>, Tuple3Converter<Swift.String, Double, Swift.String>, Swift.String, Bool>, Tuple3Converter<Swift.String, Double, Swift.String>, Tuple2Converter<Int, Swift.String>>, Bool>", () => {
                 Console.WriteLine("setting up (String, Int, Double, ((Int, String), (String, Double, String), String, Bool), (String, UInt8, ((Int, String), (String, Double, String), String, Bool), (String, Double, String), (Int, String)), Bool)...");
                 Utilities.Check((out IntPtr exn) => FishyJoesRuntime_Tuple6Converter_setup<string, nint, double, System.Tuple<System.Tuple<nint, string>, System.Tuple<string, double, string>, string, bool>, System.Tuple<string, byte, System.Tuple<System.Tuple<nint, string>, System.Tuple<string, double, string>, string, bool>, System.Tuple<string, double, string>, System.Tuple<nint, string>>, bool>(
                     "Tuple6Converter<Swift.String, Int, Double, Tuple4Converter<Tuple2Converter<Int, Swift.String>, Tuple3Converter<Swift.String, Double, Swift.String>, Swift.String, Bool>, Tuple5Converter<Swift.String, UInt8, Tuple4Converter<Tuple2Converter<Int, Swift.String>, Tuple3Converter<Swift.String, Double, Swift.String>, Swift.String, Bool>, Tuple3Converter<Swift.String, Double, Swift.String>, Tuple2Converter<Int, Swift.String>>, Bool>",
                     out exn
                 ));
             });
-            Once("setup_FishyJoesRuntime_(String, Int, Double, String, () -> Int) -> () -> Int", () => {
+            Once("setup_Function5Converter<Swift.String, Int, Double, Swift.String, Function0Converter<Int>, Function0Converter<Int>>", () => {
                 Console.WriteLine("setting up (String, Int, Double, String, () -> Int) -> () -> Int...");
                 Utilities.Check((out IntPtr exn) => FishyJoesRuntime_Function5Converter_setup<System.Func<nint>, string, nint, double, string, System.Func<nint>>(
                     "Function5Converter<Swift.String, Int, Double, Swift.String, Function0Converter<Int>, Function0Converter<Int>>",
                     out exn
                 ));
             });
-            Once("setup_FishyJoesRuntime_(String, Int, Double, String, () -> Int, Int) -> Int", () => {
+            Once("setup_Function6Converter<Swift.String, Int, Double, Swift.String, Function0Converter<Int>, Int, Int>", () => {
                 Console.WriteLine("setting up (String, Int, Double, String, () -> Int, Int) -> Int...");
                 Utilities.Check((out IntPtr exn) => FishyJoesRuntime_Function6Converter_setup<nint, string, nint, double, string, System.Func<nint>, nint>(
                     "Function6Converter<Swift.String, Int, Double, Swift.String, Function0Converter<Int>, Int, Int>",
                     out exn
                 ));
             });
-            Once("setup_FishyJoesRuntime_(String, String, String, String) -> Array<String>", () => {
+            Once("setup_Function4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>", () => {
                 Console.WriteLine("setting up (String, String, String, String) -> Array<String>...");
                 Utilities.Check((out IntPtr exn) => FishyJoesRuntime_Function4Converter_setup<System.Collections.Generic.IList<string>, string, string, string, string>(
                     "Function4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>",
                     out exn
                 ));
             });
-            Once("setup_FishyJoesRuntime_(String, UInt8, ((Int, String), (String, Double, String), String, Bool), (String, Double, String), (Int, String))", () => {
+            Once("setup_Tuple5Converter<Swift.String, UInt8, Tuple4Converter<Tuple2Converter<Int, Swift.String>, Tuple3Converter<Swift.String, Double, Swift.String>, Swift.String, Bool>, Tuple3Converter<Swift.String, Double, Swift.String>, Tuple2Converter<Int, Swift.String>>", () => {
                 Console.WriteLine("setting up (String, UInt8, ((Int, String), (String, Double, String), String, Bool), (String, Double, String), (Int, String))...");
                 Utilities.Check((out IntPtr exn) => FishyJoesRuntime_Tuple5Converter_setup<string, byte, System.Tuple<System.Tuple<nint, string>, System.Tuple<string, double, string>, string, bool>, System.Tuple<string, double, string>, System.Tuple<nint, string>>(
                     "Tuple5Converter<Swift.String, UInt8, Tuple4Converter<Tuple2Converter<Int, Swift.String>, Tuple3Converter<Swift.String, Double, Swift.String>, Swift.String, Bool>, Tuple3Converter<Swift.String, Double, Swift.String>, Tuple2Converter<Int, Swift.String>>",
                     out exn
                 ));
             });
-            Once("setup_FishyJoesRuntime_Array<Bool>", () => {
+            Once("setup_ArrayConverter<Bool>", () => {
                 Console.WriteLine("setting up Array<Bool>...");
                 Utilities.Check((out IntPtr exn) => FishyJoesRuntime_ArrayConverter_setup<bool>(
                     "ArrayConverter<Bool>",
                     out exn
                 ));
             });
-            Once("setup_FishyJoesRuntime_Array<Double>", () => {
+            Once("setup_ArrayConverter<Double>", () => {
                 Console.WriteLine("setting up Array<Double>...");
                 Utilities.Check((out IntPtr exn) => FishyJoesRuntime_ArrayConverter_setup<double>(
                     "ArrayConverter<Double>",
                     out exn
                 ));
             });
-            Once("setup_FishyJoesRuntime_Array<Float>", () => {
+            Once("setup_ArrayConverter<Float>", () => {
                 Console.WriteLine("setting up Array<Float>...");
                 Utilities.Check((out IntPtr exn) => FishyJoesRuntime_ArrayConverter_setup<float>(
                     "ArrayConverter<Float>",
                     out exn
                 ));
             });
-            Once("setup_FishyJoesRuntime_Array<Int16>", () => {
+            Once("setup_ArrayConverter<Int16>", () => {
                 Console.WriteLine("setting up Array<Int16>...");
                 Utilities.Check((out IntPtr exn) => FishyJoesRuntime_ArrayConverter_setup<short>(
                     "ArrayConverter<Int16>",
                     out exn
                 ));
             });
-            Once("setup_FishyJoesRuntime_Array<Int32>", () => {
+            Once("setup_ArrayConverter<Int32>", () => {
                 Console.WriteLine("setting up Array<Int32>...");
                 Utilities.Check((out IntPtr exn) => FishyJoesRuntime_ArrayConverter_setup<int>(
                     "ArrayConverter<Int32>",
                     out exn
                 ));
             });
-            Once("setup_FishyJoesRuntime_Array<Int64>", () => {
+            Once("setup_ArrayConverter<Int64>", () => {
                 Console.WriteLine("setting up Array<Int64>...");
                 Utilities.Check((out IntPtr exn) => FishyJoesRuntime_ArrayConverter_setup<long>(
                     "ArrayConverter<Int64>",
                     out exn
                 ));
             });
-            Once("setup_FishyJoesRuntime_Array<Int8>", () => {
+            Once("setup_ArrayConverter<Int8>", () => {
                 Console.WriteLine("setting up Array<Int8>...");
                 Utilities.Check((out IntPtr exn) => FishyJoesRuntime_ArrayConverter_setup<sbyte>(
                     "ArrayConverter<Int8>",
                     out exn
                 ));
             });
-            Once("setup_FishyJoesRuntime_Array<Int>", () => {
+            Once("setup_ArrayConverter<Int>", () => {
                 Console.WriteLine("setting up Array<Int>...");
                 Utilities.Check((out IntPtr exn) => FishyJoesRuntime_ArrayConverter_setup<nint>(
                     "ArrayConverter<Int>",
                     out exn
                 ));
             });
-            Once("setup_FishyJoesRuntime_Array<Optional<Bool>>", () => {
+            Once("setup_ArrayConverter<OptionalConverter<Bool>>", () => {
                 Console.WriteLine("setting up Array<Optional<Bool>>...");
                 Utilities.Check((out IntPtr exn) => FishyJoesRuntime_ArrayConverter_setup<bool?>(
                     "ArrayConverter<OptionalConverter<Bool>>",
                     out exn
                 ));
             });
-            Once("setup_FishyJoesRuntime_Array<Optional<Double>>", () => {
+            Once("setup_ArrayConverter<OptionalConverter<Double>>", () => {
                 Console.WriteLine("setting up Array<Optional<Double>>...");
                 Utilities.Check((out IntPtr exn) => FishyJoesRuntime_ArrayConverter_setup<double?>(
                     "ArrayConverter<OptionalConverter<Double>>",
                     out exn
                 ));
             });
-            Once("setup_FishyJoesRuntime_Array<Optional<Float>>", () => {
+            Once("setup_ArrayConverter<OptionalConverter<Float>>", () => {
                 Console.WriteLine("setting up Array<Optional<Float>>...");
                 Utilities.Check((out IntPtr exn) => FishyJoesRuntime_ArrayConverter_setup<float?>(
                     "ArrayConverter<OptionalConverter<Float>>",
                     out exn
                 ));
             });
-            Once("setup_FishyJoesRuntime_Array<Optional<Int16>>", () => {
+            Once("setup_ArrayConverter<OptionalConverter<Int16>>", () => {
                 Console.WriteLine("setting up Array<Optional<Int16>>...");
                 Utilities.Check((out IntPtr exn) => FishyJoesRuntime_ArrayConverter_setup<short?>(
                     "ArrayConverter<OptionalConverter<Int16>>",
                     out exn
                 ));
             });
-            Once("setup_FishyJoesRuntime_Array<Optional<Int32>>", () => {
+            Once("setup_ArrayConverter<OptionalConverter<Int32>>", () => {
                 Console.WriteLine("setting up Array<Optional<Int32>>...");
                 Utilities.Check((out IntPtr exn) => FishyJoesRuntime_ArrayConverter_setup<int?>(
                     "ArrayConverter<OptionalConverter<Int32>>",
                     out exn
                 ));
             });
-            Once("setup_FishyJoesRuntime_Array<Optional<Int64>>", () => {
+            Once("setup_ArrayConverter<OptionalConverter<Int64>>", () => {
                 Console.WriteLine("setting up Array<Optional<Int64>>...");
                 Utilities.Check((out IntPtr exn) => FishyJoesRuntime_ArrayConverter_setup<long?>(
                     "ArrayConverter<OptionalConverter<Int64>>",
                     out exn
                 ));
             });
-            Once("setup_FishyJoesRuntime_Array<Optional<Int8>>", () => {
+            Once("setup_ArrayConverter<OptionalConverter<Int8>>", () => {
                 Console.WriteLine("setting up Array<Optional<Int8>>...");
                 Utilities.Check((out IntPtr exn) => FishyJoesRuntime_ArrayConverter_setup<sbyte?>(
                     "ArrayConverter<OptionalConverter<Int8>>",
                     out exn
                 ));
             });
-            Once("setup_FishyJoesRuntime_Array<Optional<Int>>", () => {
+            Once("setup_ArrayConverter<OptionalConverter<Int>>", () => {
                 Console.WriteLine("setting up Array<Optional<Int>>...");
                 Utilities.Check((out IntPtr exn) => FishyJoesRuntime_ArrayConverter_setup<nint?>(
                     "ArrayConverter<OptionalConverter<Int>>",
                     out exn
                 ));
             });
-            Once("setup_FishyJoesRuntime_Array<Optional<UInt16>>", () => {
+            Once("setup_ArrayConverter<OptionalConverter<UInt16>>", () => {
                 Console.WriteLine("setting up Array<Optional<UInt16>>...");
                 Utilities.Check((out IntPtr exn) => FishyJoesRuntime_ArrayConverter_setup<ushort?>(
                     "ArrayConverter<OptionalConverter<UInt16>>",
                     out exn
                 ));
             });
-            Once("setup_FishyJoesRuntime_Array<Optional<UInt32>>", () => {
+            Once("setup_ArrayConverter<OptionalConverter<UInt32>>", () => {
                 Console.WriteLine("setting up Array<Optional<UInt32>>...");
                 Utilities.Check((out IntPtr exn) => FishyJoesRuntime_ArrayConverter_setup<uint?>(
                     "ArrayConverter<OptionalConverter<UInt32>>",
                     out exn
                 ));
             });
-            Once("setup_FishyJoesRuntime_Array<Optional<UInt64>>", () => {
+            Once("setup_ArrayConverter<OptionalConverter<UInt64>>", () => {
                 Console.WriteLine("setting up Array<Optional<UInt64>>...");
                 Utilities.Check((out IntPtr exn) => FishyJoesRuntime_ArrayConverter_setup<ulong?>(
                     "ArrayConverter<OptionalConverter<UInt64>>",
                     out exn
                 ));
             });
-            Once("setup_FishyJoesRuntime_Array<Optional<UInt8>>", () => {
+            Once("setup_ArrayConverter<OptionalConverter<UInt8>>", () => {
                 Console.WriteLine("setting up Array<Optional<UInt8>>...");
                 Utilities.Check((out IntPtr exn) => FishyJoesRuntime_ArrayConverter_setup<byte?>(
                     "ArrayConverter<OptionalConverter<UInt8>>",
                     out exn
                 ));
             });
-            Once("setup_FishyJoesRuntime_Array<String>", () => {
+            Once("setup_ArrayConverter<Swift.String>", () => {
                 Console.WriteLine("setting up Array<String>...");
                 Utilities.Check((out IntPtr exn) => FishyJoesRuntime_ArrayConverter_setup<string>(
                     "ArrayConverter<Swift.String>",
                     out exn
                 ));
             });
-            Once("setup_FishyJoesRuntime_Array<UInt16>", () => {
+            Once("setup_ArrayConverter<UInt16>", () => {
                 Console.WriteLine("setting up Array<UInt16>...");
                 Utilities.Check((out IntPtr exn) => FishyJoesRuntime_ArrayConverter_setup<ushort>(
                     "ArrayConverter<UInt16>",
                     out exn
                 ));
             });
-            Once("setup_FishyJoesRuntime_Array<UInt32>", () => {
+            Once("setup_ArrayConverter<UInt32>", () => {
                 Console.WriteLine("setting up Array<UInt32>...");
                 Utilities.Check((out IntPtr exn) => FishyJoesRuntime_ArrayConverter_setup<uint>(
                     "ArrayConverter<UInt32>",
                     out exn
                 ));
             });
-            Once("setup_FishyJoesRuntime_Array<UInt64>", () => {
+            Once("setup_ArrayConverter<UInt64>", () => {
                 Console.WriteLine("setting up Array<UInt64>...");
                 Utilities.Check((out IntPtr exn) => FishyJoesRuntime_ArrayConverter_setup<ulong>(
                     "ArrayConverter<UInt64>",
                     out exn
                 ));
             });
-            Once("setup_FishyJoesRuntime_Array<UInt8>", () => {
+            Once("setup_ArrayConverter<UInt8>", () => {
                 Console.WriteLine("setting up Array<UInt8>...");
                 Utilities.Check((out IntPtr exn) => FishyJoesRuntime_ArrayConverter_setup<byte>(
                     "ArrayConverter<UInt8>",
                     out exn
                 ));
             });
-            Once("setup_TestAPI_AssociatedDataEnum", () => {
+            Once("setup_AssociatedDataEnum", () => {
                 Console.WriteLine("setting up AssociatedDataEnum...");
                 Utilities.Check((out IntPtr exn) => TestAPI_AssociatedDataEnum_setup(
                     bag<FishyJoesRuntime.EnumDiscriminator>((IntPtr obj, out IntPtr exn) => Catching(out exn, () => {
@@ -713,7 +713,7 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
-            Once("setup_TestAPI_Bytes", () => {
+            Once("setup_Bytes", () => {
                 Console.WriteLine("setting up Bytes...");
                 Utilities.Check((out IntPtr exn) => TestAPI_Bytes_setup(
                     bag<SwiftReference.ConstructorDelegate>((IntPtr ptr, out IntPtr exn) => Catching(out exn, () => {
@@ -722,7 +722,7 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
-            Once("setup_TestAPI_Collections", () => {
+            Once("setup_Collections", () => {
                 Console.WriteLine("setting up Collections...");
                 Utilities.Check((out IntPtr exn) => TestAPI_Collections_setup(
                     bag<SwiftReference.ConstructorDelegate>((IntPtr ptr, out IntPtr exn) => Catching(out exn, () => {
@@ -731,7 +731,7 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
-            Once("setup_TestAPI_Collections.CollectionHolder", () => {
+            Once("setup_Collections.CollectionHolder", () => {
                 Console.WriteLine("setting up Collections.CollectionHolder...");
                 Utilities.Check((out IntPtr exn) => TestAPI_Collections_CollectionHolder_setup(
                     bag<_Collections_CollectionHolderConstructor>((IntPtr boolArray, IntPtr boolSet, IntPtr boolDictionary, IntPtr integerArray, IntPtr integerSet, IntPtr integerDictionary, IntPtr stringArray, IntPtr stringSet, IntPtr stringDictionary, out IntPtr exn) => Catching(out exn, () => {
@@ -804,41 +804,41 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
-            Once("setup_FishyJoesRuntime_Dictionary<Bool, Bool>", () => {
+            Once("setup_DictionaryConverter<Bool, Bool>", () => {
                 Console.WriteLine("setting up Dictionary<Bool, Bool>...");
                 Utilities.Check((out IntPtr exn) => FishyJoesRuntime_DictionaryConverter_setup<bool, bool>(
                     "DictionaryConverter<Bool, Bool>",
                     out exn
                 ));
             });
-            Once("setup_FishyJoesRuntime_Dictionary<Int, Int>", () => {
+            Once("setup_DictionaryConverter<Int, Int>", () => {
                 Console.WriteLine("setting up Dictionary<Int, Int>...");
                 Utilities.Check((out IntPtr exn) => FishyJoesRuntime_DictionaryConverter_setup<nint, nint>(
                     "DictionaryConverter<Int, Int>",
                     out exn
                 ));
             });
-            Once("setup_FishyJoesRuntime_Dictionary<Int, Optional<Int>>", () => {
+            Once("setup_DictionaryConverter<Int, OptionalConverter<Int>>", () => {
                 Console.WriteLine("setting up Dictionary<Int, Optional<Int>>...");
                 Utilities.Check((out IntPtr exn) => FishyJoesRuntime_DictionaryConverter_setup<nint, nint?>(
                     "DictionaryConverter<Int, OptionalConverter<Int>>",
                     out exn
                 ));
             });
-            Once("setup_FishyJoesRuntime_Dictionary<String, String>", () => {
+            Once("setup_DictionaryConverter<Swift.String, Swift.String>", () => {
                 Console.WriteLine("setting up Dictionary<String, String>...");
                 Utilities.Check((out IntPtr exn) => FishyJoesRuntime_DictionaryConverter_setup<string, string>(
                     "DictionaryConverter<Swift.String, Swift.String>",
                     out exn
                 ));
             });
-            Once("setup_TestAPI_EmptyEnum", () => {
+            Once("setup_EmptyEnum", () => {
                 Console.WriteLine("setting up EmptyEnum...");
                 Utilities.Check((out IntPtr exn) => TestAPI_EmptyEnum_setup(
                     out exn
                 ));
             });
-            Once("setup_TestAPI_Functions", () => {
+            Once("setup_Functions", () => {
                 Console.WriteLine("setting up Functions...");
                 Utilities.Check((out IntPtr exn) => TestAPI_Functions_setup(
                     bag<SwiftReference.ConstructorDelegate>((IntPtr ptr, out IntPtr exn) => Catching(out exn, () => {
@@ -847,7 +847,7 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
-            Once("setup_TestAPI_Functions.TheError", () => {
+            Once("setup_Functions.TheError", () => {
                 Console.WriteLine("setting up Functions.TheError...");
                 Utilities.Check((out IntPtr exn) => TestAPI_Functions_TheError_setup(
                     bag<SwiftReference.ConstructorDelegate>((IntPtr ptr, out IntPtr exn) => Catching(out exn, () => {
@@ -856,121 +856,121 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
-            Once("setup_FishyJoesRuntime_Optional<Array<Int>>", () => {
+            Once("setup_OptionalConverter<ArrayConverter<Int>>", () => {
                 Console.WriteLine("setting up Optional<Array<Int>>...");
                 Utilities.Check((out IntPtr exn) => FishyJoesRuntime_OptionalConverter_setup(
                     out exn
                 ));
             });
-            Once("setup_FishyJoesRuntime_Optional<Array<Optional<Int>>>", () => {
+            Once("setup_OptionalConverter<ArrayConverter<OptionalConverter<Int>>>", () => {
                 Console.WriteLine("setting up Optional<Array<Optional<Int>>>...");
                 Utilities.Check((out IntPtr exn) => FishyJoesRuntime_OptionalConverter_setup(
                     out exn
                 ));
             });
-            Once("setup_FishyJoesRuntime_Optional<Bool>", () => {
+            Once("setup_OptionalConverter<Bool>", () => {
                 Console.WriteLine("setting up Optional<Bool>...");
                 Utilities.Check((out IntPtr exn) => FishyJoesRuntime_OptionalConverter_setup(
                     out exn
                 ));
             });
-            Once("setup_FishyJoesRuntime_Optional<Dictionary<Int, Int>>", () => {
+            Once("setup_OptionalConverter<DictionaryConverter<Int, Int>>", () => {
                 Console.WriteLine("setting up Optional<Dictionary<Int, Int>>...");
                 Utilities.Check((out IntPtr exn) => FishyJoesRuntime_OptionalConverter_setup(
                     out exn
                 ));
             });
-            Once("setup_FishyJoesRuntime_Optional<Dictionary<Int, Optional<Int>>>", () => {
+            Once("setup_OptionalConverter<DictionaryConverter<Int, OptionalConverter<Int>>>", () => {
                 Console.WriteLine("setting up Optional<Dictionary<Int, Optional<Int>>>...");
                 Utilities.Check((out IntPtr exn) => FishyJoesRuntime_OptionalConverter_setup(
                     out exn
                 ));
             });
-            Once("setup_FishyJoesRuntime_Optional<Double>", () => {
+            Once("setup_OptionalConverter<Double>", () => {
                 Console.WriteLine("setting up Optional<Double>...");
                 Utilities.Check((out IntPtr exn) => FishyJoesRuntime_OptionalConverter_setup(
                     out exn
                 ));
             });
-            Once("setup_FishyJoesRuntime_Optional<Float>", () => {
+            Once("setup_OptionalConverter<Float>", () => {
                 Console.WriteLine("setting up Optional<Float>...");
                 Utilities.Check((out IntPtr exn) => FishyJoesRuntime_OptionalConverter_setup(
                     out exn
                 ));
             });
-            Once("setup_FishyJoesRuntime_Optional<Int16>", () => {
+            Once("setup_OptionalConverter<Int16>", () => {
                 Console.WriteLine("setting up Optional<Int16>...");
                 Utilities.Check((out IntPtr exn) => FishyJoesRuntime_OptionalConverter_setup(
                     out exn
                 ));
             });
-            Once("setup_FishyJoesRuntime_Optional<Int32>", () => {
+            Once("setup_OptionalConverter<Int32>", () => {
                 Console.WriteLine("setting up Optional<Int32>...");
                 Utilities.Check((out IntPtr exn) => FishyJoesRuntime_OptionalConverter_setup(
                     out exn
                 ));
             });
-            Once("setup_FishyJoesRuntime_Optional<Int64>", () => {
+            Once("setup_OptionalConverter<Int64>", () => {
                 Console.WriteLine("setting up Optional<Int64>...");
                 Utilities.Check((out IntPtr exn) => FishyJoesRuntime_OptionalConverter_setup(
                     out exn
                 ));
             });
-            Once("setup_FishyJoesRuntime_Optional<Int8>", () => {
+            Once("setup_OptionalConverter<Int8>", () => {
                 Console.WriteLine("setting up Optional<Int8>...");
                 Utilities.Check((out IntPtr exn) => FishyJoesRuntime_OptionalConverter_setup(
                     out exn
                 ));
             });
-            Once("setup_FishyJoesRuntime_Optional<Int>", () => {
+            Once("setup_OptionalConverter<Int>", () => {
                 Console.WriteLine("setting up Optional<Int>...");
                 Utilities.Check((out IntPtr exn) => FishyJoesRuntime_OptionalConverter_setup(
                     out exn
                 ));
             });
-            Once("setup_FishyJoesRuntime_Optional<Set<Int>>", () => {
+            Once("setup_OptionalConverter<SetConverter<Int>>", () => {
                 Console.WriteLine("setting up Optional<Set<Int>>...");
                 Utilities.Check((out IntPtr exn) => FishyJoesRuntime_OptionalConverter_setup(
                     out exn
                 ));
             });
-            Once("setup_FishyJoesRuntime_Optional<Set<Optional<Int>>>", () => {
+            Once("setup_OptionalConverter<SetConverter<OptionalConverter<Int>>>", () => {
                 Console.WriteLine("setting up Optional<Set<Optional<Int>>>...");
                 Utilities.Check((out IntPtr exn) => FishyJoesRuntime_OptionalConverter_setup(
                     out exn
                 ));
             });
-            Once("setup_FishyJoesRuntime_Optional<SimpleEnum>", () => {
+            Once("setup_OptionalConverter<SimpleEnum>", () => {
                 Console.WriteLine("setting up Optional<SimpleEnum>...");
                 Utilities.Check((out IntPtr exn) => FishyJoesRuntime_OptionalConverter_setup(
                     out exn
                 ));
             });
-            Once("setup_FishyJoesRuntime_Optional<UInt16>", () => {
+            Once("setup_OptionalConverter<UInt16>", () => {
                 Console.WriteLine("setting up Optional<UInt16>...");
                 Utilities.Check((out IntPtr exn) => FishyJoesRuntime_OptionalConverter_setup(
                     out exn
                 ));
             });
-            Once("setup_FishyJoesRuntime_Optional<UInt32>", () => {
+            Once("setup_OptionalConverter<UInt32>", () => {
                 Console.WriteLine("setting up Optional<UInt32>...");
                 Utilities.Check((out IntPtr exn) => FishyJoesRuntime_OptionalConverter_setup(
                     out exn
                 ));
             });
-            Once("setup_FishyJoesRuntime_Optional<UInt64>", () => {
+            Once("setup_OptionalConverter<UInt64>", () => {
                 Console.WriteLine("setting up Optional<UInt64>...");
                 Utilities.Check((out IntPtr exn) => FishyJoesRuntime_OptionalConverter_setup(
                     out exn
                 ));
             });
-            Once("setup_FishyJoesRuntime_Optional<UInt8>", () => {
+            Once("setup_OptionalConverter<UInt8>", () => {
                 Console.WriteLine("setting up Optional<UInt8>...");
                 Utilities.Check((out IntPtr exn) => FishyJoesRuntime_OptionalConverter_setup(
                     out exn
                 ));
             });
-            Once("setup_TestAPI_Primitives", () => {
+            Once("setup_Primitives", () => {
                 Console.WriteLine("setting up Primitives...");
                 Utilities.Check((out IntPtr exn) => TestAPI_Primitives_setup(
                     bag<SwiftReference.ConstructorDelegate>((IntPtr ptr, out IntPtr exn) => Catching(out exn, () => {
@@ -979,7 +979,7 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
-            Once("setup_TestAPI_Primitives.PrimitiveHolder", () => {
+            Once("setup_Primitives.PrimitiveHolder", () => {
                 Console.WriteLine("setting up Primitives.PrimitiveHolder...");
                 Utilities.Check((out IntPtr exn) => TestAPI_Primitives_PrimitiveHolder_setup(
                     bag<_Primitives_PrimitiveHolderConstructor>((bool b, IntPtr bq, byte ui8, IntPtr ui8q, ushort ui16, IntPtr ui16q, uint ui32, IntPtr ui32q, ulong ui64, IntPtr ui64q, sbyte i8, IntPtr i8q, short i16, IntPtr i16q, int i32, IntPtr i32q, long i64, IntPtr i64q, float f, IntPtr fq, double d, IntPtr dq, out IntPtr exn) => Catching(out exn, () => {
@@ -1143,35 +1143,35 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
-            Once("setup_FishyJoesRuntime_Set<Bool>", () => {
+            Once("setup_SetConverter<Bool>", () => {
                 Console.WriteLine("setting up Set<Bool>...");
                 Utilities.Check((out IntPtr exn) => FishyJoesRuntime_SetConverter_setup<bool>(
                     "SetConverter<Bool>",
                     out exn
                 ));
             });
-            Once("setup_FishyJoesRuntime_Set<Int>", () => {
+            Once("setup_SetConverter<Int>", () => {
                 Console.WriteLine("setting up Set<Int>...");
                 Utilities.Check((out IntPtr exn) => FishyJoesRuntime_SetConverter_setup<nint>(
                     "SetConverter<Int>",
                     out exn
                 ));
             });
-            Once("setup_FishyJoesRuntime_Set<Optional<Int>>", () => {
+            Once("setup_SetConverter<OptionalConverter<Int>>", () => {
                 Console.WriteLine("setting up Set<Optional<Int>>...");
                 Utilities.Check((out IntPtr exn) => FishyJoesRuntime_SetConverter_setup<nint?>(
                     "SetConverter<OptionalConverter<Int>>",
                     out exn
                 ));
             });
-            Once("setup_FishyJoesRuntime_Set<String>", () => {
+            Once("setup_SetConverter<Swift.String>", () => {
                 Console.WriteLine("setting up Set<String>...");
                 Utilities.Check((out IntPtr exn) => FishyJoesRuntime_SetConverter_setup<string>(
                     "SetConverter<Swift.String>",
                     out exn
                 ));
             });
-            Once("setup_TestAPI_SimpleEnum", () => {
+            Once("setup_SimpleEnum", () => {
                 Console.WriteLine("setting up SimpleEnum...");
                 Utilities.Check((out IntPtr exn) => TestAPI_SimpleEnum_setup(
                     bag<FishyJoesRuntime.EnumDiscriminator>((IntPtr obj, out IntPtr exn) => Catching(out exn, () => {
@@ -1247,7 +1247,7 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
-            Once("setup_TestAPI_Strings", () => {
+            Once("setup_Strings", () => {
                 Console.WriteLine("setting up Strings...");
                 Utilities.Check((out IntPtr exn) => TestAPI_Strings_setup(
                     bag<SwiftReference.ConstructorDelegate>((IntPtr ptr, out IntPtr exn) => Catching(out exn, () => {
@@ -1256,7 +1256,7 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
-            Once("setup_TestAPI_Structs", () => {
+            Once("setup_Structs", () => {
                 Console.WriteLine("setting up Structs...");
                 Utilities.Check((out IntPtr exn) => TestAPI_Structs_setup(
                     bag<SwiftReference.ConstructorDelegate>((IntPtr ptr, out IntPtr exn) => Catching(out exn, () => {
@@ -1265,7 +1265,7 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
-            Once("setup_TestAPI_Structs.MemberwiseStruct", () => {
+            Once("setup_Structs.MemberwiseStruct", () => {
                 Console.WriteLine("setting up Structs.MemberwiseStruct...");
                 Utilities.Check((out IntPtr exn) => TestAPI_Structs_MemberwiseStruct_setup(
                     bag<_Structs_MemberwiseStructConstructor>((IntPtr immutable, IntPtr mutable, out IntPtr exn) => Catching(out exn, () => {
@@ -1289,7 +1289,7 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
-            Once("setup_TestAPI_Structs.ReferenceStruct", () => {
+            Once("setup_Structs.ReferenceStruct", () => {
                 Console.WriteLine("setting up Structs.ReferenceStruct...");
                 Utilities.Check((out IntPtr exn) => TestAPI_Structs_ReferenceStruct_setup(
                     bag<SwiftReference.ConstructorDelegate>((IntPtr ptr, out IntPtr exn) => Catching(out exn, () => {
@@ -1298,7 +1298,7 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
-            Once("setup_TestAPI_Tuples", () => {
+            Once("setup_Tuples", () => {
                 Console.WriteLine("setting up Tuples...");
                 Utilities.Check((out IntPtr exn) => TestAPI_Tuples_setup(
                     out exn
