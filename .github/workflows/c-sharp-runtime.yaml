@@ -217,7 +217,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: nuget-package
-          path: out/*.nupkg
+          path: c-sharp-runtime/out/*.*nupkg
 
       - name: Publish
         shell: zsh {0}
@@ -225,7 +225,7 @@ jobs:
         run: |
           set -euxo pipefail
 
-          dotnet nuget push ./c-sharp-runtime/out/*.nupkg \
+          dotnet nuget push ./c-sharp-runtime/out/*.*nupkg \
             --source https://nuget.pkg.github.com/cricut \
             --api-key ${{ github.token }} \
             --skip-duplicate
