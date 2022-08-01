@@ -201,7 +201,7 @@ final class CSharpTranslator: Translator {
                     }
 
                     initializerWriters.append {
-                        fragment.outputBlock("Once(\"setup_\(resolved.definingModule)_\(type.name)\", () => {", closeWith: "});") {
+                        fragment.outputBlock("Once(\"setup_\(resolved.converterType.name)\", () => {", closeWith: "});") {
                             fragment.output("Console.WriteLine(\"setting up \(type.name)...\");")
 
                             var typeArgStr = ""
