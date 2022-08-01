@@ -328,7 +328,7 @@ public class FishyJoesContext {
                     return TranslatedData()
                 } else if name.name == "Index", name.namespace.last?.hasPrefix("Array<") == true {
                     // It's a hack.
-                    return TranslatedPrimitive(swift: "Int", c: "int", node: "number", jni: .long, cSharp: "int")
+                    return TranslatedPrimitive(swift: "Int", typeNames: primitiveTypeMap["Int"]!)
                 } else {
                     fatalErr(
                         """
