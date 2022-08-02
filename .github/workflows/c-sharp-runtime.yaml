@@ -123,11 +123,14 @@ jobs:
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
-      - uses: MaxDesiatov/swift-windows-action@v1
+      - uses: compnerd/gha-setup-swift@main
         with:
-          shell-action: |
-            swift build --product FishyJoesCSharpRuntime --configuration release --build-path ./.build/windows-build
-          swift-version: "5.6.2"
+          branch: swift-5.6.2-release
+          tag: 5.6.2-RELEASE
+
+      - name: Compile swift
+        run: |
+          swift build --product FishyJoesCSharpRuntime --configuration release --build-path ./.build/windows-build
 
       - name: Copy resources
         shell: bash
