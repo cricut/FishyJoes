@@ -5,13 +5,14 @@ import Foundation
 
 let env = ProcessInfo.processInfo.environment
 
+let disableGeneration = env["DISABLE_GENERATION"] == "1"
 let wasmCompatibleOnly = env["WASM_ONLY"] == "1"
 let androidCompatibleOnly = env["ANDROID_COMPATIBLE_ONLY"] == "1"
 let javaHome = env["JAVA_HOME_11_X64"] ?? env["JAVA_HOME"] ?? "/usr/local/opt/openjdk@11"
 
-func macNativeOnly<T>(_ things: @autoclosure () -> [T]) -> [T] {
+func generationEnabled<T>(_ things: @autoclosure () -> [T]) -> [T] {
     #if os(macOS)
-    return (wasmCompatibleOnly || androidCompatibleOnly) ? [] : things()
+    return (disableGeneration || wasmCompatibleOnly || androidCompatibleOnly) ? [] : things()
     #else
     return []
     #endif
@@ -41,12 +42,12 @@ let package = Package(
             P.library(name: "JavaRuntimeTestHarness", type: .dynamic, targets: ["JavaRuntimeTestHarness"]),
             P.executable(name: "fishy-joes", targets: ["FishyJoesExecuteMain"]),
         ]
-    ) + macNativeOnly(
+    ) + generationEnabled(
         [
             P.executable(name: "🐟☕️", targets: ["FishyJoesExecutionHelper"]),
         ]
     ),
-    dependencies: macNativeOnly(
+    dependencies: generationEnabled(
         [
             D.package(
                 url: "https://github.com/krzysztofzablocki/Sourcery", .exact("1.8.1")
@@ -254,7 +255,7 @@ let package = Package(
                 ),
             ]
         ),
-    ] + macNativeOnly(
+    ] + generationEnabled(
         [
             T.target(
                 name: "FishyJoesCore",
