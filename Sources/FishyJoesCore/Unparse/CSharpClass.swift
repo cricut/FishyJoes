@@ -231,7 +231,6 @@ extension CSharpClass.CSType: CustomStringConvertible {
         }
     }
 
-
     var pInvokeConsumeName: String {
         isObject ? "ConsumedRef" : name
     }
