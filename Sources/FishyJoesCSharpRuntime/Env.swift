@@ -4,12 +4,14 @@ import Foundation
 public typealias csObject = OpaquePointer?
 public typealias csOutExn = UnsafeMutablePointer<csObject>
 
+public typealias TypeID = Int
+
 public struct CSharpException: Error {
     var exception: CSharpReference
 }
 
-@_cdecl("FJRuntimeEnvSetup")
-func Env_setupGCPin(
+@_cdecl("FishyJoesRuntime_Env_setup")
+public func Env_setupGCPin(
     newRefFn: @escaping Env.NewRefFn,
     deleteRefFn: @escaping Env.DeleteRefFn,
     newErrorFn: @escaping Env.NewErrorFn
@@ -19,28 +21,58 @@ func Env_setupGCPin(
     Env.newErrorFn = newErrorFn
 }
 
+@_cdecl("FishyJoesRuntime_getTypeID")
+public func Env_getTypeID(name: UnsafePointer<unichar>) -> TypeID {
+    let name = String(decodingCString: name, as: Unicode.UTF16.self)
+    guard let typeID = Env.typeIDsByName[name] else {
+        fatalError("Couldn't find FishyJoes type id for '\(name)'")
+    }
+    return typeID
+}
+
 public enum Env {
     public typealias NewRefFn = @convention(c) (csObject) -> csObject
     public typealias DeleteRefFn = @convention(c) (csObject) -> Void
-    public typealias NewErrorFn = @convention(c) (UnsafePointer<CChar>) -> csObject
+    public typealias NewErrorFn = @convention(c) (UnsafePointer<UInt16>) -> csObject
 
-    fileprivate static var newRefFn: NewRefFn!
-    fileprivate static var deleteRefFn: DeleteRefFn!
-    fileprivate static var newErrorFn: NewErrorFn!
+    fileprivate static var newRefFn: NewRefFn?
+    fileprivate static var deleteRefFn: DeleteRefFn?
+    fileprivate static var newErrorFn: NewErrorFn?
 
-    public static func nonNull<R>(_ value: R?) throws -> R {
+    fileprivate static var typeIDsByObject: [ObjectIdentifier: TypeID] = [:]
+    public private(set) static var typeIDsByID: [TypeID: ObjectIdentifier] = [:]
+    public private(set) static var typeIDsByName: [String: TypeID] = [:]
+
+    private static var nextTypeID: TypeID = 0
+    private static func newTypeID() -> TypeID {
+        defer { nextTypeID += 1 }
+        return nextTypeID
+    }
+
+    public static func registerType<T>(_ type: T.Type, as name: String) {
+        let objectID = ObjectIdentifier(type)
+        guard typeIDsByObject[objectID] == nil else { return }
+        let typeID = newTypeID()
+        typeIDsByObject[objectID] = typeID
+        typeIDsByID[typeID] = objectID
+        typeIDsByName[name] = typeID
+    }
+
+    public static func unwrap<R>(_ value: R?, file: StaticString = #file, line: UInt = #line) throws -> R {
         guard let value = value else {
-            throw NullPointerError()
+            var message = ["\(file):\(line): Unexpected null"]
+            Thread.callStackSymbols.forEach { message.append($0) }
+            throw NullPointerError(message: message.joined(separator: "\n"))
         }
         return value
     }
 
     public static func newRef(_ object: csObject) -> csObject {
-        newRefFn(object)
+        newRefFn!(object)
     }
 
     public static func deleteRef(_ object: csObject) {
-        deleteRefFn(object)
+        deleteRefFn!(object)
     }
 
     public static func check<R>(_ body: (_ exn: csOutExn) throws -> R) throws -> R {
@@ -59,7 +91,9 @@ public enum Env {
         } catch let exception as CSharpException {
             pointer.pointee = newRef(exception.exception.object)
         } catch let exception {
-            pointer.pointee = "\(exception)".withCString(newErrorFn)
+            var utf16Message = Array("\(exception)".utf16)
+            utf16Message.append(0)
+            pointer.pointee = utf16Message.withUnsafeBufferPointer { newErrorFn!($0.baseAddress!) }
         }
     }
 

@@ -13,6 +13,7 @@ struct TranslatedUnsignedPrimitive: TranslatedType {
     let jniType: JNIType
     var jvmToKotlin: String { ".toU\(jniType.valueType)()" }
     var kotlinToJVM: String { ".to\(jniType.valueType)()" }
+    let definingModule = Module.runtime
 
     init(
         swift swiftName: BetterType.Name,
@@ -47,6 +48,4 @@ struct TranslatedUnsignedPrimitive: TranslatedType {
     }
 
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] { [] }
-
-    var cSharpSetupParameters: [CSharpSetupParameter] { [] }
 }

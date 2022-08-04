@@ -10,7 +10,7 @@ extension AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
         let instanceData = try FishyJoesNodeRuntime.InstanceData.data(for: env)
         if try env.instanceof(value, instanceData.constructor(for: "AssociatedDataEnum.Thing", env: env)) {
             let _value = try env.getNamedProperty(value, "value")
-            return .thing(
+            return Self.thing(
                 value: try Int.fromNode(_value, env: env)
             )
         }
@@ -18,7 +18,7 @@ extension AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
         if try env.instanceof(value, instanceData.constructor(for: "AssociatedDataEnum.Other", env: env)) {
             let _unnamed = try env.getNamedProperty(value, "unnamed")
             let __1 = try env.getNamedProperty(value, "_1")
-            return .other(
+            return Self.other(
                 try Swift.String.fromNode(_unnamed, env: env),
                 try Int.fromNode(__1, env: env)
             )
@@ -27,7 +27,7 @@ extension AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
         if try env.instanceof(value, instanceData.constructor(for: "AssociatedDataEnum.Bar", env: env)) {
             let _named = try env.getNamedProperty(value, "named")
             let __1 = try env.getNamedProperty(value, "_1")
-            return .bar(
+            return Self.bar(
                 named: try Swift.String.fromNode(_named, env: env),
                 try AssociatedDataEnum.fromNode(__1, env: env)
             )

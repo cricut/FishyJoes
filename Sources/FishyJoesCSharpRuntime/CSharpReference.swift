@@ -4,7 +4,7 @@ import Foundation
 class CSharpReference {
     let object: csObject
 
-    init(_ object: csObject) {
+    init(_ object: csObject) throws {
         self.object = object.flatMap(Env.newRef)
     }
 

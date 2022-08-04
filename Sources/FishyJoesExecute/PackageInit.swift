@@ -30,13 +30,67 @@ public struct PackageInit: ParsableCommand {
         let sourcePath = Bundle.module.resourceURL!.appendingPathComponent("bindings-template", isDirectory: true).path
         let destPath = FileManager.default.currentDirectoryPath
         try install(sourcePath, to: destPath)
+        try setupKotlin(config: config)
+        try setupCSharp(config: config)
+    }
 
+    func setupKotlin(config: FishyJoesConfig) throws {
         // Install gradle
         if !cmd("gradle", "--version").runBool() {
             try Interactive.confirmCommand(description: "Install gradle", cmd("brew", "install", "gradle"))
         }
+        try cmd("mkdir", "-p", "kotlin").run()
         try FileManager.default.withCurrentDirectoryPath("kotlin") {
             try cmd("gradle", ":wrapper").run()
+        }
+    }
+
+    func setupCSharp(config: FishyJoesConfig) throws {
+        // Install dotnet
+        if !cmd("dotnet", "--version").runBool() {
+            try Interactive.confirmCommand(description: "Install dotnet", cmd("brew", "install", "dotnet"))
+        }
+        if !cmd("xq", "--version").runBool() {
+            try Interactive.confirmCommand(description: "Install xq", cmd("brew", "install", "python-yq"))
+        }
+        try cmd("mkdir", "-p", "c-sharp").run()
+        try FileManager.default.withCurrentDirectoryPath("c-sharp") {
+            let module = config.module
+            try cmd("dotnet", "new", "sln", "--output", ".", "--name", module, "--force").run()
+            try cmd("dotnet", "new", "classlib", "-f", "net5.0", "--output", module, "--force").run()
+            try cmd("rm", "-f", "\(module)/Class1.cs").run()
+            try cmd("dotnet", "new", "xunit", "-f", "net5.0", "--output", "\(module).Tests", "--force").run()
+
+            try cmd("dotnet", "sln", "add", "./\(module)/\(module).csproj").run()
+            try cmd("dotnet", "sln", "add", "./\(module).Tests/\(module).Tests.csproj").run()
+
+            try cmd("dotnet", "add", "./\(module).Tests/\(module).Tests.csproj", "reference", "./\(module)/\(module).csproj").run()
+
+            let projectFix = #"""
+                .Project.PropertyGroup += {
+                    "Nullable": "enable",
+                    "TreatWarningsAsErrors": true,
+                    "AllowUnsafeBlocks": true
+                } |
+                .Project.ItemGroup += {
+                    "Content": {
+                        "@Include": "runtimes\\**\\*",
+                        "@PackagePath": "runtimes\\$(TargetFramework)"
+                    },
+                    "ContentWithTargetPath": {
+                        "@Include": "runtimes\\**\\*",
+                        "CopyToOutputDirectory": "Always",
+                        "TargetPath": "%(Filename)%(Extension)"
+                    }
+                }
+                """#
+            for project in [config.module, "\(config.module).Tests"] {
+                let projectFile = "\(project)/\(project).csproj"
+                try cmd("xq", "-x", projectFix, projectFile)
+                    .output(overwritingFile: "\(projectFile).updated")
+                    .run()
+                try cmd("mv", "\(projectFile).updated", projectFile).run()
+            }
         }
     }
 

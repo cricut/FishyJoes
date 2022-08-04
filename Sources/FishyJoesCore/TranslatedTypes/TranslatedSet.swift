@@ -1,6 +1,8 @@
 import SourceryRuntime
 
 struct TranslatedSet: TranslatedType {
+    let elementType: TranslatedType
+
     let sourceType: BetterType
     let converterType: BetterType
     let nodeName: String
@@ -11,8 +13,10 @@ struct TranslatedSet: TranslatedType {
     let kotlinPackage: String? = "kotlin.collections"
     let jniType = JNIType.object("java/util/Set")
     let cSharpType: CSharpClass.CSType
+    let definingModule = Module.runtime
 
     init(element: TranslatedType) {
+        self.elementType = element
         self.sourceType = .generic(base: "Set", args: [element.sourceType])
         self.converterType = .generic(base: "SetConverter", args: [element.converterType])
         self.nodeName = "Set<\(element.nodeName)>"
@@ -20,8 +24,18 @@ struct TranslatedSet: TranslatedType {
         self.cppName = "std::unordered_set<\(element.cppName)>"
         self.neutralName = "Set<K=\(element.neutralName)>"
         self.containedNamedTypes = element.containedNamedTypes
-        self.cSharpType = .named(package: "System.Collections.Generic", name: "HashSet<\(element.cSharpType.name)>")
+        self.cSharpType = .named(package: "System.Collections.Generic", name: "ISet<\(element.cSharpType.name)>")
     }
 
-    var cSharpSetupParameters: [CSharpSetupParameter] { [] }
+    func cSharpSetupParameters(in context: FishyJoesContext) -> [CSharpSetupParameter] {
+        [
+            .type(typeValue: elementType.cSharpType.name),
+            .value(
+                name: "typeName",
+                type: "string"
+            ) { fragment in
+                fragment.output("\"\(converterType.name)\",")
+            },
+        ]
+    }
 }

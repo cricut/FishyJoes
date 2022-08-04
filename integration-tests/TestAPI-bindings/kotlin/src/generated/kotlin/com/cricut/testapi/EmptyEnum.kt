@@ -7,7 +7,7 @@ sealed class EmptyEnum {
 
     companion object {
         /**
-         * <!-- FishyJoes.export(notGoingToHappen) -->
+         * <!-- FishyJoes.export(notGoingToHappen, noReturn: true) -->
          */
         fun notGoingToHappen(
         ): com.cricut.testapi.EmptyEnum = __jni_notGoingToHappen()

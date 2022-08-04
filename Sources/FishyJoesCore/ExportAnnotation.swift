@@ -4,20 +4,26 @@ import SourceryRuntime
 struct ExportAnnotation: Hashable {
     let kind: Kind
     let name: String
+    let cSharpName: String
     let isOverride: Bool
+    let noReturn: Bool
     let genericOverrides: [String: BetterType]
     let omitParameters: [String]
 
     init(
         kind: Kind = .unmodified,
         name: String,
+        cSharpName: String?,
         isOverride: Bool = false,
+        noReturn: Bool = false,
         genericOverrides: [String: BetterType] = [:],
         omitParameters: [String] = []
     ) {
         self.kind = kind
-        self.name = name // ?? "_\(UUID())".replacingOccurrences(of: "-", with: "_")
+        self.name = name
+        self.cSharpName = cSharpName ?? name
         self.isOverride = isOverride
+        self.noReturn = noReturn
         self.genericOverrides = genericOverrides
         self.omitParameters = omitParameters
     }
@@ -176,7 +182,7 @@ extension Documented {
                 }
             }
 
-            if let unknown = Set(attrs.keys).subtracting(["omitParameters", "generic", "override"]).first {
+            if let unknown = Set(attrs.keys).subtracting(["omitParameters", "generic", "override", "cSharp", "noReturn"]).first {
                 fatalErr("unknown attribute \(unknown) in \(docLine)")
             }
 
@@ -193,6 +199,14 @@ extension Documented {
                     }
                     return name
                 }
+            }
+
+            var cSharpName: String?
+            if let cSharpParse = attrs["cSharp"] {
+                guard case .token(let name) = cSharpParse else {
+                    fatalErr("invalid cSharp name in \(docLine).")
+                }
+                cSharpName = name
             }
 
             var genericOverrides: [String: BetterType] = [:]
@@ -216,6 +230,11 @@ extension Documented {
                 isOverride = true
             }
 
+            var noReturn = false
+            if case .token("true") = attrs["noReturn"] {
+                noReturn = true
+            }
+
             // func idAttr(_ key: String) -> String? {
             //     guard let tree = attrs[key] else { return nil }
             //     guard case .token(let id) = tree else {
@@ -227,7 +246,9 @@ extension Documented {
             return ExportAnnotation(
                 kind: kind,
                 name: exportName,
+                cSharpName: cSharpName,
                 isOverride: isOverride,
+                noReturn: noReturn,
                 genericOverrides: genericOverrides,
                 omitParameters: omitParameters
             )

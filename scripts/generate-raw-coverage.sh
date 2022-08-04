@@ -17,6 +17,8 @@ swift build --configuration debug --enable-code-coverage --product FishyJoesJava
 cp .build/debug/libFishyJoesJavaRuntime.dylib $libdir
 (cd kotlin-runtime && ./gradlew publishToMavenLocal)
 
+CONFIGURATION=debug ./scripts/compile-c-sharp-runtime.sh
+
 # Gather coverage from kotlin tests
 (
     cd kotlin-runtime
@@ -49,6 +51,12 @@ cp .build/debug/libFishyJoesJavaRuntime.dylib $libdir
     cd integration-tests/TestAPI-bindings
     export LLVM_PROFILE_FILE=$FISHYJOES_COVERAGE_PATH/integration-tests-kotlin.profraw
     swift run --enable-code-coverage -- fishy-joes build test --kotlin-fast --debug
+)
+
+(
+    cd integration-tests/TestAPI-bindings
+    export LLVM_PROFILE_FILE=$FISHYJOES_COVERAGE_PATH/integration-tests-c-sharp.profraw
+    swift run --enable-code-coverage -- fishy-joes build test --c-sharp --debug
 )
 
 # Check that generation didn't change anything

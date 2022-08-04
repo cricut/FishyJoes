@@ -69,6 +69,9 @@ namespace TestAPI {
         /// <!-- FishyJoes.export(echoMaybeDictionaryOfIntToMaybeInt) -->
         static std::optional<std::unordered_map<int, std::optional<int>>> echoMaybeDictionaryOfIntToMaybeInt(const std::optional<std::unordered_map<int, std::optional<int>>> &maybeDictionaryOfIntToMaybeInt);
         
+        /// <!-- FishyJoes.export(collectionMapper) -->
+        static std::optional<std::vector<std::optional<int>>> collectionMapper(const std::optional<std::vector<std::optional<int>>> &collection, const std::function<std::optional<std::vector<std::optional<int>>>(std::optional<std::vector<std::optional<int>>>> &mapper);
+        
         /// <!-- FishyJoes.export(arrayOfInt) -->
         static std::vector<int> getArrayOfInt();
         

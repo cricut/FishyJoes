@@ -10,6 +10,5 @@ struct TranslatedData: TranslatedType {
     let kotlinPackage: String? = "kotlin"
     let jniType = JNIType.array(.byte)
     let cSharpType: CSharpClass.CSType = .named(package: nil, name: "byte[]")
-
-    var cSharpSetupParameters: [CSharpSetupParameter] { [] }
+    let definingModule = Module.runtime
 }

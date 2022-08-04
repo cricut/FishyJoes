@@ -336,6 +336,21 @@ extension Primitives: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
+                "valueMapper": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "valueMapper", expectedArgumentCount: 2) { env in
+                            let result = try OptionalConverter<UInt8>.toNode(
+                                Primitives.valueMapper(
+                                    value: try env.argument(at: 0, converter: OptionalConverter<UInt8>.self),
+                                    try env.argument(at: 1, converter: Function1Converter<OptionalConverter<UInt8>, OptionalConverter<UInt8>>.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: true
+                ),
                 "falseBool": (
                     .accessor(
                         getter: { env, info in

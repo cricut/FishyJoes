@@ -160,4 +160,13 @@ extension BetterType {
             return Name(name: name, namespace: [])
         }
     }
+
+    var isGeneric: Bool {
+        switch self {
+        case .generic, .tuple, .function:
+            return true
+        default:
+            return false
+        }
+    }
 }

@@ -27,7 +27,12 @@ let package = Package(
                 name: "__MODULE_NAME__-java",
                 type: .dynamic,
                 targets: ["__MODULE_NAME___JavaInterface"]
-            )
+            ),
+            .library(
+                name: "__MODULE_NAME__-c-sharp",
+                type: .dynamic,
+                targets: ["__MODULE_NAME___CSharpInterface"]
+            ),
         ]
     ),
     dependencies: [
@@ -37,8 +42,8 @@ let package = Package(
         ),
         .package(
             // NOTE: Must reference releases using "branch" instead of "exact" because of required usage of "unsafeFlags" in FishyJoes
-            url: "https://github.com/cricut/FishyJoes", .branch(fishyJoesVersion)
-            // path: "../FishyJoes"
+            // url: "https://github.com/cricut/FishyJoes", .branch(fishyJoesVersion)
+            path: "../FishyJoes"
         ),__PACKAGE_DEPENDENCY_DECLARATIONS__
     ],
     targets: [
@@ -68,10 +73,15 @@ let package = Package(
                     .product(name: "__MODULE_NAME__", package: "__MODULE_NAME__"),
                     .product(name: "FishyJoesJavaRuntime", package: "FishyJoes"),__JAVA_TARGET_DEPENDENCIES__
                 ],
-                path: "Sources/Generated/JavaInterface",
-                linkerSettings: [
-                    .unsafeFlags(["-Xlinker", "--export=napi_register_module_v1"], .when(platforms: [.wasi])),
-                ]
+                path: "Sources/Generated/JavaInterface"
+            ),
+            .target(
+                name: "__MODULE_NAME___CSharpInterface",
+                dependencies: [
+                    .product(name: "__MODULE_NAME__", package: "__MODULE_NAME__"),
+                    .product(name: "FishyJoesCSharpRuntime", package: "FishyJoes"),__JAVA_TARGET_DEPENDENCIES__
+                ],
+                path: "Sources/Generated/CSharpInterface"
             ),
         ]
     )

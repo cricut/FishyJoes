@@ -112,6 +112,21 @@ extension Collections: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
+                "collectionMapper": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "collectionMapper", expectedArgumentCount: 2) { env in
+                            let result = try OptionalConverter<ArrayConverter<OptionalConverter<Int>>>.toNode(
+                                Collections.collectionMapper(
+                                    collection: try env.argument(at: 0, converter: OptionalConverter<ArrayConverter<OptionalConverter<Int>>>.self),
+                                    try env.argument(at: 1, converter: Function1Converter<OptionalConverter<ArrayConverter<OptionalConverter<Int>>>, OptionalConverter<ArrayConverter<OptionalConverter<Int>>>>.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: true
+                ),
                 "arrayOfInt": (
                     .accessor(
                         getter: { env, info in

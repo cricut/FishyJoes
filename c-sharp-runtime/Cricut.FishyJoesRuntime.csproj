@@ -1,4 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- based in part on https://github.com/jeikabu/nng.NETCore/blob/master/nng.NET/nng.NET.csproj -->
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>library</OutputType>
@@ -6,5 +7,39 @@
     <Nullable>enable</Nullable>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <RepositoryUrl>https://github.com/cricut/FishyJoes.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
   </PropertyGroup>
+
+  <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ContentWithTargetPath Include="runtimes\**\*" >
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <TargetPath>runtimes\%(RecursiveDir)\%(Filename)%(Extension)</TargetPath>
+    </ContentWithTargetPath>
+  </ItemGroup>
+
+  <Target Name="Runtimes" AfterTargets="Build">
+    <ItemGroup>
+      <Content Include="runtimes\**">
+        <PackagePath>runtimes</PackagePath>
+        <Visible>false</Visible>
+      </Content>
+      <Content Include="build\**">
+        <PackagePath>build</PackagePath>
+      </Content>
+    </ItemGroup>
+  </Target>
 </Project>

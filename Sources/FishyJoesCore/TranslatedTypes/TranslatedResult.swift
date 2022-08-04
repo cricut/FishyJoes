@@ -9,6 +9,7 @@ struct TranslatedResult: TranslatedType {
     let containedNamedTypes: [TranslatedType]
     let cSharpType: CSharpClass.CSType = .primitive("TODO")
     let jniType = JNIType.object("com/cricut/fishyjoes/runtime/TypedArray")
+    let definingModule = Module.runtime
 
     init(success: TranslatedType, failure: TranslatedType) {
         self.success = success
@@ -27,5 +28,5 @@ struct TranslatedResult: TranslatedType {
         .generic(base: "ResultConverter", args: [success.converterType, failure.converterType])
     }
 
-    var cSharpSetupParameters: [CSharpSetupParameter] { [] }
+    var isInhabited: Bool { success.isInhabited || failure.isInhabited }
 }

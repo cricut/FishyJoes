@@ -43,6 +43,7 @@ struct TranslatedTuple: TranslatedType {
     }
 
     let cSharpNamespace: String? = nil
+    let definingModule = Module.runtime
 
     init(elements: [Element]) {
         self.elements = elements
@@ -58,5 +59,16 @@ struct TranslatedTuple: TranslatedType {
 
     let jniType: JNIType
 
-    var cSharpSetupParameters: [CSharpSetupParameter] { [] }
+    var isInhabited: Bool { elements.allSatisfy(\.type.isInhabited) }
+
+    func cSharpSetupParameters(in context: FishyJoesContext) -> [CSharpSetupParameter] {
+        elements.map { CSharpSetupParameter.type(typeValue: $0.type.cSharpType.name) } + [
+            .value(
+                name: "typeName",
+                type: "string"
+            ) { fragment in
+                fragment.output("\"\(converterType.name)\",")
+            },
+        ]
+    }
 }

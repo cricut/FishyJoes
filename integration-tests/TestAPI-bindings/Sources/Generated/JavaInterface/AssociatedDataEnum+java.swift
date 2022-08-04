@@ -24,18 +24,18 @@ extension AssociatedDataEnum: JavaConverter {
 
     public static func fromJava(_ value: jobject?, env: Env) throws -> Self {
         if env.IsInstanceOf(value, Self._java_thing) {
-            return .thing(
+            return Self.thing(
                 value: try Int.fromJava(env.GetLongField(value, Self._java_thing_field_value), env: env)
             )
         }
         if env.IsInstanceOf(value, Self._java_other) {
-            return .other(
+            return Self.other(
                 try Swift.String.fromJava(env.GetObjectField(value, Self._java_other_field_0), env: env),
                 try Int.fromJava(env.GetLongField(value, Self._java_other_field_1), env: env)
             )
         }
         if env.IsInstanceOf(value, Self._java_bar) {
-            return .bar(
+            return Self.bar(
                 named: try Swift.String.fromJava(env.GetObjectField(value, Self._java_bar_field_named), env: env),
                 try AssociatedDataEnum.fromJava(env.GetObjectField(value, Self._java_bar_field_1), env: env)
             )

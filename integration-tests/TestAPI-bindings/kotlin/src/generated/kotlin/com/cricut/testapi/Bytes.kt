@@ -7,7 +7,7 @@ class Bytes private constructor(swiftReference: Long): com.cricut.fishyjoes.runt
 
     companion object {
         /**
-         * <!-- FishyJoes.export(bytes) -->
+         * <!-- FishyJoes.export(bytes, cSharp: TheBytes) -->
          */
         val bytes: kotlin.collections.List<UByte>
           get() = __jni_get_bytes()

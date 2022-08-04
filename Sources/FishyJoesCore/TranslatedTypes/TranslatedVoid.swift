@@ -11,7 +11,6 @@ struct TranslatedVoid: TranslatedType {
     let kotlinName = "Unit"
     let kotlinPackage: String? = "kotlin"
     let jniType = JNIType.void
-    var cSharpType: CSharpClass.CSType = .primitive("void")
-
-    var cSharpSetupParameters: [CSharpSetupParameter] { [] }
+    var cSharpType: CSharpClass.CSType = .void
+    let definingModule = Module.runtime
 }
