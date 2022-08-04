@@ -11,7 +11,7 @@ public func TestAPI_EmptyEnum_setup(
 }
 
 extension EmptyEnum: CSharpConverter {
-    public static func fromCSharp(_ value: csObject) throws -> Self {
+    public static func peekCSharp(_ value: csObject) throws -> Self {
         throw UninhabitedTypeCreationError(self)
     }
 

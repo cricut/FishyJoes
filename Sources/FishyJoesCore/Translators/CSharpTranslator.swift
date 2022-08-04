@@ -17,7 +17,7 @@ final class CSharpTranslator: Translator {
             if method.isStatic {
                 selfExpression = containingNamespace
             } else {
-                selfExpression = "\(resolved.converterType.name).fromCSharp(_cSharpThis)"
+                selfExpression = "\(resolved.converterType.name).peekCSharp(_cSharpThis)"
             }
         } else {
             containingNamespace = context.module.name
@@ -71,7 +71,7 @@ final class CSharpTranslator: Translator {
                             fragment.outputMap(method.parameters, separator: ",") { formal in
                                 let resolved = context.resolve(type: formal.type, generics: exportAnnotation.genericOverrides)
                                 return (formal.label.map { "\($0): " } ?? "") +
-                                    "try \(resolved.converterType.name).fromCSharp(\(formal.name))"
+                                    "try \(resolved.converterType.name).peekCSharp(\(formal.name))"
                             }
                         }
                     }
@@ -95,7 +95,7 @@ final class CSharpTranslator: Translator {
             if variable.isStatic {
                 selfExpression = containingNamespace
             } else {
-                selfExpression = "\(containingNamespace).fromCSharp(_cSharpThis)"
+                selfExpression = "\(containingNamespace).peekCSharp(_cSharpThis)"
             }
         } else {
             containingNamespace = context.module.name
@@ -149,10 +149,10 @@ final class CSharpTranslator: Translator {
             fragment.outputBlock(" {") {
                 fragment.outputBlock("FishyJoesCSharpRuntime.Env.catching(to: _exn) {") {
                     if variable.isStatic {
-                        fragment.output("\(selfExpression).\(variable.name) = try \(converterName).fromCSharp(newValue)")
+                        fragment.output("\(selfExpression).\(variable.name) = try \(converterName).peekCSharp(newValue)")
                     } else {
                         fragment.outputBlock("try \(containingNamespace).mutateCSharp(_cSharpThis) { value in", closeWith: "}") {
-                            fragment.output("value.\(variable.name) = try \(converterName).fromCSharp(newValue)")
+                            fragment.output("value.\(variable.name) = try \(converterName).peekCSharp(newValue)")
                         }
                     }
                 }
@@ -192,7 +192,7 @@ final class CSharpTranslator: Translator {
                             for param in setupParams {
                                 fragment.output("\(param.type!) \(param.name!),")
                             }
-                            fragment.output("out IntPtr _exn")
+                            fragment.output("out CreatedRef _exn")
                         }
                         fragment.blankLine()
                     } else if !type.isGeneric {
@@ -209,7 +209,7 @@ final class CSharpTranslator: Translator {
                                 typeArgStr = "<\(typeArguments.joined(separator: ", "))>"
                             }
 
-                            fragment.outputBlock("Utilities.Check((out IntPtr exn) => \(resolved.cSharpSetupName)\(typeArgStr)(", closeWith: "));") {
+                            fragment.outputBlock("Utilities.Check((out CreatedRef exn) => \(resolved.cSharpSetupName)\(typeArgStr)(", closeWith: "));") {
                                 for param in setupParams {
                                     param.valueWriter(fragment)
                                 }

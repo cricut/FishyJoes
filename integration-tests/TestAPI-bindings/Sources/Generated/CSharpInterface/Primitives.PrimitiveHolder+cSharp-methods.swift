@@ -30,6 +30,6 @@ public func __cs_set_Primitives_PrimitiveHolder_StaticMutablePropery(
     _exn: csOutExn
 ) {
     FishyJoesCSharpRuntime.Env.catching(to: _exn) {
-        Primitives.PrimitiveHolder.staticMutablePropery = try ArrayConverter<OptionalConverter<UInt8>>.fromCSharp(newValue)
+        Primitives.PrimitiveHolder.staticMutablePropery = try ArrayConverter<OptionalConverter<UInt8>>.peekCSharp(newValue)
     }
 }

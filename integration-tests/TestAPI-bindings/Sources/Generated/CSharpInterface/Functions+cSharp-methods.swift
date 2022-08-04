@@ -14,7 +14,7 @@ public func __cs_Functions_exercise0(
     FishyJoesCSharpRuntime.Env.catching(to: _exn) {
         return try Swift.String.toCSharp(
             Functions.exercise0(
-                try Function0Converter<Int>.fromCSharp(fn)
+                try Function0Converter<Int>.peekCSharp(fn)
             )
         )
     }
@@ -29,7 +29,7 @@ public func __cs_Functions_exercise1(
     FishyJoesCSharpRuntime.Env.catching(to: _exn) {
         return try Swift.String.toCSharp(
             Functions.exercise1(
-                try Function1Converter<Int, Int>.fromCSharp(fn)
+                try Function1Converter<Int, Int>.peekCSharp(fn)
             )
         )
     }
@@ -44,7 +44,7 @@ public func __cs_Functions_exercise2(
     FishyJoesCSharpRuntime.Env.catching(to: _exn) {
         return try Swift.String.toCSharp(
             Functions.exercise2(
-                try Function2Converter<Function1Converter<Int, Int>, Function1Converter<Int, Int>, Function1Converter<Int, Int>>.fromCSharp(fn)
+                try Function2Converter<Function1Converter<Int, Int>, Function1Converter<Int, Int>, Function1Converter<Int, Int>>.peekCSharp(fn)
             )
         )
     }
@@ -59,7 +59,7 @@ public func __cs_Functions_exercise3(
     FishyJoesCSharpRuntime.Env.catching(to: _exn) {
         return try Swift.String.toCSharp(
             Functions.exercise3(
-                try Function3Converter<Float, Double, Int, Double>.fromCSharp(fn)
+                try Function3Converter<Float, Double, Int, Double>.peekCSharp(fn)
             )
         )
     }
@@ -74,7 +74,7 @@ public func __cs_Functions_exercise4(
     FishyJoesCSharpRuntime.Env.catching(to: _exn) {
         return try Swift.String.toCSharp(
             Functions.exercise4(
-                try Function4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.fromCSharp(fn)
+                try Function4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.peekCSharp(fn)
             )
         )
     }
@@ -89,7 +89,7 @@ public func __cs_Functions_exercise5(
     FishyJoesCSharpRuntime.Env.catching(to: _exn) {
         return try Swift.String.toCSharp(
             Functions.exercise5(
-                try Function5Converter<Swift.String, Int, Double, Swift.String, Function0Converter<Int>, Function0Converter<Int>>.fromCSharp(fn)
+                try Function5Converter<Swift.String, Int, Double, Swift.String, Function0Converter<Int>, Function0Converter<Int>>.peekCSharp(fn)
             )
         )
     }
@@ -104,7 +104,7 @@ public func __cs_Functions_exercise6(
     FishyJoesCSharpRuntime.Env.catching(to: _exn) {
         return try Swift.String.toCSharp(
             Functions.exercise6(
-                try Function6Converter<Swift.String, Int, Double, Swift.String, Function0Converter<Int>, Int, Int>.fromCSharp(fn)
+                try Function6Converter<Swift.String, Int, Double, Swift.String, Function0Converter<Int>, Int, Int>.peekCSharp(fn)
             )
         )
     }

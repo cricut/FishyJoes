@@ -34,15 +34,13 @@ extension Structs.MemberwiseStruct: CSharpMutator {
     ) -> csObject
     fileprivate static var _constructorMethod: _ConstructorMethod!
 
-    public static func fromCSharp(_ value: csObject) throws -> Self {
+    public static func peekCSharp(_ value: csObject) throws -> Self {
         Self(
-            immutable: try Swift.String.fromCSharp(
-                try Env.check { exn in _immutableGetter(value, exn) },
-                consuming: true
+            immutable: try Swift.String.consumeCSharp(
+                try Env.check { exn in _immutableGetter(value, exn) }
             ),
-            mutable: try Swift.String.fromCSharp(
-                try Env.check { exn in _mutableGetter(value, exn) },
-                consuming: true
+            mutable: try Swift.String.consumeCSharp(
+                try Env.check { exn in _mutableGetter(value, exn) }
             )
         )
     }
@@ -58,7 +56,7 @@ extension Structs.MemberwiseStruct: CSharpMutator {
     }
 
     public static func mutateCSharp<R>(_ this: csObject, body: (inout Self) throws -> R) throws -> R {
-        var mutatingSelf = try fromCSharp(this)
+        var mutatingSelf = try peekCSharp(this)
         let result = try body(&mutatingSelf)
         try Env.check { exn in _immutableSetter(
             this,

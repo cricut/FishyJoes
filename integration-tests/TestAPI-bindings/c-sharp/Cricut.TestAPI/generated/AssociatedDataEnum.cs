@@ -30,13 +30,13 @@ namespace Cricut.TestAPI {
         /// </summary>
         public nint GetIntValue() {
             using var thisHandle = new GCRef(this);
-            return Check((out IntPtr exn) => 
+            return Check((out CreatedRef exn) => 
                 __cs_get_AssociatedDataEnum_IntValue(thisHandle.ptr, out exn)
             );
         }
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern nint __cs_get_AssociatedDataEnum_IntValue(IntPtr self, out IntPtr exn);
+        private static extern nint __cs_get_AssociatedDataEnum_IntValue(UnownedRef self, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(plus) -->
@@ -46,16 +46,14 @@ namespace Cricut.TestAPI {
         ) {
             using var _thisHandle = new GCRef(this);
             using var _otherHandle = new GCRef(other);
-            return ConsumeHandle<Cricut.TestAPI.AssociatedDataEnum>(
-                Check((out IntPtr _exn) => __cs_AssociatedDataEnum_plus(_thisHandle.ptr, _otherHandle.ptr, out _exn))
-            );
+            return Check((out CreatedRef _exn) => __cs_AssociatedDataEnum_plus(_thisHandle.ptr, _otherHandle.ptr, out _exn)).Consume<Cricut.TestAPI.AssociatedDataEnum>();
         }
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern IntPtr __cs_AssociatedDataEnum_plus(
-            IntPtr self,
-            IntPtr other,
-            out IntPtr exn
+        private static extern CreatedRef __cs_AssociatedDataEnum_plus(
+            UnownedRef self,
+            UnownedRef other,
+            out CreatedRef exn
         );
 
         static AssociatedDataEnum() { _TypeSetup._ensureLoaded(); }

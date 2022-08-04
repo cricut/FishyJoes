@@ -2,8 +2,8 @@ import FishyJoesCommonRuntime
 import Foundation
 
 extension Box {
-    public static func fromCSharp(_ value: csObject) throws -> Box<T> {
-        try Box(inner: AnyBox.fromCSharp(value))
+    public static func peekCSharp(_ value: csObject) throws -> Box<T> {
+        try Box(inner: AnyBox.peekCSharp(value))
     }
 }
 
@@ -31,7 +31,7 @@ extension AnyBox {
     public typealias RefGetter = @convention(c) (csObject, _ exn: csOutExn) -> UnsafeMutableRawPointer?
     fileprivate static var refGetter: RefGetter!
 
-    public static func fromCSharp(_ value: csObject) throws -> AnyBox {
+    public static func peekCSharp(_ value: csObject) throws -> AnyBox {
         let ref = try Env.check { exn in refGetter(value, exn) }
         return takeUnretainedOpaque(try Env.unwrap(ref))
     }

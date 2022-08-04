@@ -14,8 +14,8 @@ public func __cs_AssociatedDataEnum_plus(
 ) -> AssociatedDataEnum.CType {
     FishyJoesCSharpRuntime.Env.catching(to: _exn) {
         return try AssociatedDataEnum.toCSharp(
-            AssociatedDataEnum.fromCSharp(_cSharpThis).plus(
-                try AssociatedDataEnum.fromCSharp(other)
+            AssociatedDataEnum.peekCSharp(_cSharpThis).plus(
+                try AssociatedDataEnum.peekCSharp(other)
             )
         )
     }
@@ -28,6 +28,6 @@ public func __cs_get_AssociatedDataEnum_IntValue(
     _exn: csOutExn
 ) -> Int.CType {
     FishyJoesCSharpRuntime.Env.catching(to: _exn) {
-        try Int.toCSharp(AssociatedDataEnum.fromCSharp(_cSharpThis).intValue)
+        try Int.toCSharp(AssociatedDataEnum.peekCSharp(_cSharpThis).intValue)
     }
 }

@@ -34,17 +34,13 @@ public func tuple2_cSharp_setup(
 }
 
 extension Tuple2Converter: CSharpConverter where T0: CSharpConverter, T1: CSharpConverter {
-    typealias Get0Method = @convention(c) (csObject, csOutExn) -> csObject
-    typealias Get1Method = @convention(c) (csObject, csOutExn) -> csObject
-    typealias Constructor = @convention(c) (csObject, csObject, csOutExn) -> csObject
-
-    public static func fromCSharp(_ value: csObject) throws -> SwiftType {
+    public static func peekCSharp(_ value: csObject) throws -> SwiftType {
         guard let info = TupleInfo.infos[ObjectIdentifier(Self.self)] else {
             fatalError("Type \(SwiftType.self) improperly set up")
         }
         return try (
-            T0.fromCSharp(object: Env.check { exn in try Env.unwrap(info.getMethods[0])(value, exn) }, consuming: true),
-            T1.fromCSharp(object: Env.check { exn in try Env.unwrap(info.getMethods[1])(value, exn) }, consuming: true)
+            T0.consumeCSharp(object: Env.check { exn in try Env.unwrap(info.getMethods[0])(value, exn) }),
+            T1.consumeCSharp(object: Env.check { exn in try Env.unwrap(info.getMethods[1])(value, exn) })
         )
     }
 
@@ -53,7 +49,9 @@ extension Tuple2Converter: CSharpConverter where T0: CSharpConverter, T1: CSharp
             fatalError("Type \(SwiftType.self) improperly set up")
         }
         let v0 = try T0.toCSharpObject(value.0)
+        defer { Env.deleteRef(v0) }
         let v1 = try T1.toCSharpObject(value.1)
+        defer { Env.deleteRef(v1) }
         return try Env.check { exn in try Env.unwrap(info.constructor)([v0, v1], exn) }
     }
 }
@@ -83,19 +81,14 @@ public func tuple3_cSharp_setup(
 }
 
 extension Tuple3Converter: CSharpConverter where T0: CSharpConverter, T1: CSharpConverter, T2: CSharpConverter {
-    typealias Get0Method = @convention(c) (csObject, csOutExn) -> csObject
-    typealias Get1Method = @convention(c) (csObject, csOutExn) -> csObject
-    typealias Get2Method = @convention(c) (csObject, csOutExn) -> csObject
-    typealias Constructor = @convention(c) (csObject, csObject, csObject, csOutExn) -> csObject
-
-    public static func fromCSharp(_ value: csObject) throws -> SwiftType {
+    public static func peekCSharp(_ value: csObject) throws -> SwiftType {
         guard let info = TupleInfo.infos[ObjectIdentifier(Self.self)] else {
             fatalError("Type \(SwiftType.self) improperly set up")
         }
         return try (
-            T0.fromCSharp(object: Env.check { exn in try Env.unwrap(info.getMethods[0])(value, exn) }, consuming: true),
-            T1.fromCSharp(object: Env.check { exn in try Env.unwrap(info.getMethods[1])(value, exn) }, consuming: true),
-            T2.fromCSharp(object: Env.check { exn in try Env.unwrap(info.getMethods[2])(value, exn) }, consuming: true)
+            T0.consumeCSharp(object: Env.check { exn in try Env.unwrap(info.getMethods[0])(value, exn) }),
+            T1.consumeCSharp(object: Env.check { exn in try Env.unwrap(info.getMethods[1])(value, exn) }),
+            T2.consumeCSharp(object: Env.check { exn in try Env.unwrap(info.getMethods[2])(value, exn) })
         )
     }
 
@@ -104,8 +97,11 @@ extension Tuple3Converter: CSharpConverter where T0: CSharpConverter, T1: CSharp
             fatalError("Type \(SwiftType.self) improperly set up")
         }
         let v0 = try T0.toCSharpObject(value.0)
+        defer { Env.deleteRef(v0) }
         let v1 = try T1.toCSharpObject(value.1)
+        defer { Env.deleteRef(v1) }
         let v2 = try T2.toCSharpObject(value.2)
+        defer { Env.deleteRef(v2) }
         return try Env.check { exn in try Env.unwrap(info.constructor)([v0, v1, v2], exn) }
     }
 }
@@ -137,21 +133,15 @@ public func tuple4_cSharp_setup(
 }
 
 extension Tuple4Converter: CSharpConverter where T0: CSharpConverter, T1: CSharpConverter, T2: CSharpConverter, T3: CSharpConverter {
-    typealias Get0Method = @convention(c) (csObject, csOutExn) -> csObject
-    typealias Get1Method = @convention(c) (csObject, csOutExn) -> csObject
-    typealias Get2Method = @convention(c) (csObject, csOutExn) -> csObject
-    typealias Get3Method = @convention(c) (csObject, csOutExn) -> csObject
-    typealias Constructor = @convention(c) (csObject, csObject, csObject, csObject, csOutExn) -> csObject
-
-    public static func fromCSharp(_ value: csObject) throws -> SwiftType {
+    public static func peekCSharp(_ value: csObject) throws -> SwiftType {
         guard let info = TupleInfo.infos[ObjectIdentifier(Self.self)] else {
             fatalError("Type \(SwiftType.self) improperly set up")
         }
         return try (
-            T0.fromCSharp(object: Env.check { exn in try Env.unwrap(info.getMethods[0])(value, exn) }, consuming: true),
-            T1.fromCSharp(object: Env.check { exn in try Env.unwrap(info.getMethods[1])(value, exn) }, consuming: true),
-            T2.fromCSharp(object: Env.check { exn in try Env.unwrap(info.getMethods[2])(value, exn) }, consuming: true),
-            T3.fromCSharp(object: Env.check { exn in try Env.unwrap(info.getMethods[3])(value, exn) }, consuming: true)
+            T0.consumeCSharp(object: Env.check { exn in try Env.unwrap(info.getMethods[0])(value, exn) }),
+            T1.consumeCSharp(object: Env.check { exn in try Env.unwrap(info.getMethods[1])(value, exn) }),
+            T2.consumeCSharp(object: Env.check { exn in try Env.unwrap(info.getMethods[2])(value, exn) }),
+            T3.consumeCSharp(object: Env.check { exn in try Env.unwrap(info.getMethods[3])(value, exn) })
         )
     }
 
@@ -160,9 +150,13 @@ extension Tuple4Converter: CSharpConverter where T0: CSharpConverter, T1: CSharp
             fatalError("Type \(SwiftType.self) improperly set up")
         }
         let v0 = try T0.toCSharpObject(value.0)
+        defer { Env.deleteRef(v0) }
         let v1 = try T1.toCSharpObject(value.1)
+        defer { Env.deleteRef(v1) }
         let v2 = try T2.toCSharpObject(value.2)
+        defer { Env.deleteRef(v2) }
         let v3 = try T3.toCSharpObject(value.3)
+        defer { Env.deleteRef(v3) }
         return try Env.check { exn in try Env.unwrap(info.constructor)([v0, v1, v2, v3], exn) }
     }
 }
@@ -196,23 +190,16 @@ public func tuple5_cSharp_setup(
 }
 
 extension Tuple5Converter: CSharpConverter where T0: CSharpConverter, T1: CSharpConverter, T2: CSharpConverter, T3: CSharpConverter, T4: CSharpConverter {
-    typealias Get0Method = @convention(c) (csObject, csOutExn) -> csObject
-    typealias Get1Method = @convention(c) (csObject, csOutExn) -> csObject
-    typealias Get2Method = @convention(c) (csObject, csOutExn) -> csObject
-    typealias Get3Method = @convention(c) (csObject, csOutExn) -> csObject
-    typealias Get4Method = @convention(c) (csObject, csOutExn) -> csObject
-    typealias Constructor = @convention(c) (csObject, csObject, csObject, csObject, csObject, csOutExn) -> csObject
-
-    public static func fromCSharp(_ value: csObject) throws -> SwiftType {
+    public static func peekCSharp(_ value: csObject) throws -> SwiftType {
         guard let info = TupleInfo.infos[ObjectIdentifier(Self.self)] else {
             fatalError("Type \(SwiftType.self) improperly set up")
         }
         return try (
-            T0.fromCSharp(object: Env.check { exn in try Env.unwrap(info.getMethods[0])(value, exn) }, consuming: true),
-            T1.fromCSharp(object: Env.check { exn in try Env.unwrap(info.getMethods[1])(value, exn) }, consuming: true),
-            T2.fromCSharp(object: Env.check { exn in try Env.unwrap(info.getMethods[2])(value, exn) }, consuming: true),
-            T3.fromCSharp(object: Env.check { exn in try Env.unwrap(info.getMethods[3])(value, exn) }, consuming: true),
-            T4.fromCSharp(object: Env.check { exn in try Env.unwrap(info.getMethods[4])(value, exn) }, consuming: true)
+            T0.consumeCSharp(object: Env.check { exn in try Env.unwrap(info.getMethods[0])(value, exn) }),
+            T1.consumeCSharp(object: Env.check { exn in try Env.unwrap(info.getMethods[1])(value, exn) }),
+            T2.consumeCSharp(object: Env.check { exn in try Env.unwrap(info.getMethods[2])(value, exn) }),
+            T3.consumeCSharp(object: Env.check { exn in try Env.unwrap(info.getMethods[3])(value, exn) }),
+            T4.consumeCSharp(object: Env.check { exn in try Env.unwrap(info.getMethods[4])(value, exn) })
         )
     }
 
@@ -221,10 +208,15 @@ extension Tuple5Converter: CSharpConverter where T0: CSharpConverter, T1: CSharp
             fatalError("Type \(SwiftType.self) improperly set up")
         }
         let v0 = try T0.toCSharpObject(value.0)
+        defer { Env.deleteRef(v0) }
         let v1 = try T1.toCSharpObject(value.1)
+        defer { Env.deleteRef(v1) }
         let v2 = try T2.toCSharpObject(value.2)
+        defer { Env.deleteRef(v2) }
         let v3 = try T3.toCSharpObject(value.3)
+        defer { Env.deleteRef(v3) }
         let v4 = try T4.toCSharpObject(value.4)
+        defer { Env.deleteRef(v4) }
         return try Env.check { exn in try Env.unwrap(info.constructor)([v0, v1, v2, v3, v4], exn) }
     }
 }
@@ -260,25 +252,17 @@ public func tuple6_cSharp_setup(
 }
 
 extension Tuple6Converter: CSharpConverter where T0: CSharpConverter, T1: CSharpConverter, T2: CSharpConverter, T3: CSharpConverter, T4: CSharpConverter, T5: CSharpConverter {
-    typealias Get0Method = @convention(c) (csObject, csOutExn) -> csObject
-    typealias Get1Method = @convention(c) (csObject, csOutExn) -> csObject
-    typealias Get2Method = @convention(c) (csObject, csOutExn) -> csObject
-    typealias Get3Method = @convention(c) (csObject, csOutExn) -> csObject
-    typealias Get4Method = @convention(c) (csObject, csOutExn) -> csObject
-    typealias Get5Method = @convention(c) (csObject, csOutExn) -> csObject
-    typealias Constructor = @convention(c) (csObject, csObject, csObject, csObject, csObject, csObject, csOutExn) -> csObject
-
-    public static func fromCSharp(_ value: csObject) throws -> SwiftType {
+    public static func peekCSharp(_ value: csObject) throws -> SwiftType {
         guard let info = TupleInfo.infos[ObjectIdentifier(Self.self)] else {
             fatalError("Type \(SwiftType.self) improperly set up")
         }
         return try (
-            T0.fromCSharp(object: Env.check { exn in try Env.unwrap(info.getMethods[0])(value, exn) }, consuming: true),
-            T1.fromCSharp(object: Env.check { exn in try Env.unwrap(info.getMethods[1])(value, exn) }, consuming: true),
-            T2.fromCSharp(object: Env.check { exn in try Env.unwrap(info.getMethods[2])(value, exn) }, consuming: true),
-            T3.fromCSharp(object: Env.check { exn in try Env.unwrap(info.getMethods[3])(value, exn) }, consuming: true),
-            T4.fromCSharp(object: Env.check { exn in try Env.unwrap(info.getMethods[4])(value, exn) }, consuming: true),
-            T5.fromCSharp(object: Env.check { exn in try Env.unwrap(info.getMethods[5])(value, exn) }, consuming: true)
+            T0.consumeCSharp(object: Env.check { exn in try Env.unwrap(info.getMethods[0])(value, exn) }),
+            T1.consumeCSharp(object: Env.check { exn in try Env.unwrap(info.getMethods[1])(value, exn) }),
+            T2.consumeCSharp(object: Env.check { exn in try Env.unwrap(info.getMethods[2])(value, exn) }),
+            T3.consumeCSharp(object: Env.check { exn in try Env.unwrap(info.getMethods[3])(value, exn) }),
+            T4.consumeCSharp(object: Env.check { exn in try Env.unwrap(info.getMethods[4])(value, exn) }),
+            T5.consumeCSharp(object: Env.check { exn in try Env.unwrap(info.getMethods[5])(value, exn) })
         )
     }
 
@@ -287,11 +271,17 @@ extension Tuple6Converter: CSharpConverter where T0: CSharpConverter, T1: CSharp
             fatalError("Type \(SwiftType.self) improperly set up")
         }
         let v0 = try T0.toCSharpObject(value.0)
+        defer { Env.deleteRef(v0) }
         let v1 = try T1.toCSharpObject(value.1)
+        defer { Env.deleteRef(v1) }
         let v2 = try T2.toCSharpObject(value.2)
+        defer { Env.deleteRef(v2) }
         let v3 = try T3.toCSharpObject(value.3)
+        defer { Env.deleteRef(v3) }
         let v4 = try T4.toCSharpObject(value.4)
+        defer { Env.deleteRef(v4) }
         let v5 = try T5.toCSharpObject(value.5)
+        defer { Env.deleteRef(v5) }
         return try Env.check { exn in try Env.unwrap(info.constructor)([v0, v1, v2, v3, v4, v5], exn) }
     }
 }

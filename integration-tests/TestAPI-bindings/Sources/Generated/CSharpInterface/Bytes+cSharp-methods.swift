@@ -14,7 +14,7 @@ public func __cs_Bytes_echoBytes(
     FishyJoesCSharpRuntime.Env.catching(to: _exn) {
         return try ArrayConverter<UInt8>.toCSharp(
             Bytes.echo(
-                bytes: try ArrayConverter<UInt8>.fromCSharp(bytes)
+                bytes: try ArrayConverter<UInt8>.peekCSharp(bytes)
             )
         )
     }
@@ -29,7 +29,7 @@ public func __cs_Bytes_echoData(
     FishyJoesCSharpRuntime.Env.catching(to: _exn) {
         return try Foundation.Data.toCSharp(
             Bytes.echo(
-                data: try Foundation.Data.fromCSharp(data)
+                data: try Foundation.Data.peekCSharp(data)
             )
         )
     }

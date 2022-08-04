@@ -22,13 +22,13 @@ namespace Cricut.TestAPI {
         /// </summary>
         public nint GetHex() {
             using var thisHandle = new GCRef(this);
-            return Check((out IntPtr exn) => 
+            return Check((out CreatedRef exn) => 
                 __cs_get_SimpleEnum_Hex(thisHandle.ptr, out exn)
             );
         }
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern nint __cs_get_SimpleEnum_Hex(IntPtr self, out IntPtr exn);
+        private static extern nint __cs_get_SimpleEnum_Hex(UnownedRef self, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(pickAColor) -->
@@ -36,15 +36,13 @@ namespace Cricut.TestAPI {
         public static Cricut.TestAPI.SimpleEnum? PickAColor(
             nint rawValue
         ) {
-            return ConsumeHandle<Cricut.TestAPI.SimpleEnum?>(
-                Check((out IntPtr _exn) => __cs_SimpleEnum_pickAColor(rawValue, out _exn))
-            );
+            return Check((out CreatedRef _exn) => __cs_SimpleEnum_pickAColor(rawValue, out _exn)).Consume<Cricut.TestAPI.SimpleEnum?>();
         }
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern IntPtr __cs_SimpleEnum_pickAColor(
+        private static extern CreatedRef __cs_SimpleEnum_pickAColor(
             nint rawValue,
-            out IntPtr exn
+            out CreatedRef exn
         );
 
         static SimpleEnum() { _TypeSetup._ensureLoaded(); }

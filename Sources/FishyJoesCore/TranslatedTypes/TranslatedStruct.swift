@@ -317,41 +317,40 @@ struct TranslatedStruct: TranslatedType {
     }
 
     func cSharpSetupDelegates(in context: FishyJoesContext) -> [String] {
-        [
-            "delegate IntPtr _\(converterType.genericBaseName.mangledName)Constructor(",
-        ] + storedVariables.map { storedVar in
+        var lines: [String] = []
+        lines.append("delegate \(cSharpType.pInvokeCreatedName) _\(converterType.genericBaseName.mangledName)Constructor(")
+        for storedVar in storedVariables {
             let resolved = context.resolve(type: storedVar.typeName.better)
-            return "    \(resolved.cSharpType.pInvokeName) \(CSharpClass.deforbidify(storedVar.name)),"
-        } + [
-            "    out IntPtr exn",
-            ");",
-        ] + storedVariables.flatMap { storedVar -> [String] in
+            lines.append("    \(resolved.cSharpType.pInvokeConsumeName) \(CSharpClass.deforbidify(storedVar.name)),")
+        }
+        lines.append("    out CreatedRef exn")
+        lines.append(");")
+        for storedVar in storedVariables {
             let resolved = context.resolve(type: storedVar.typeName.better)
             let commonName = "_\(converterType.genericBaseName.mangledName)_\(storedVar.name)"
-            return [
-                "delegate \(resolved.cSharpType.pInvokeName) \(commonName)Getter(IntPtr obj, out IntPtr exn);",
-                "delegate void \(commonName)Setter(IntPtr obj, \(resolved.cSharpType.pInvokeName) newValue, out IntPtr exn);",
-            ]
+            lines.append("delegate \(resolved.cSharpType.pInvokeCreatedName) \(commonName)Getter(\(cSharpType.pInvokeUnownedName) obj, out CreatedRef exn);")
+            lines.append("delegate void \(commonName)Setter(\(cSharpType.pInvokeUnownedName) obj, \(resolved.cSharpType.pInvokeConsumeName) newValue, out CreatedRef exn);")
         }
+        return lines
     }
 
     func cSharpSetupParameters(in context: FishyJoesContext) -> [CSharpSetupParameter] {
         let constructorType = "_\(converterType.genericBaseName.mangledName)Constructor"
         let constructorArgs = storedVariables.map { storedVar in
             let resolved = context.resolve(type: storedVar.typeName.better)
-            return "\(resolved.cSharpType.pInvokeName) \(CSharpClass.deforbidify(storedVar.name)), "
+            return "\(resolved.cSharpType.pInvokeConsumeName) \(CSharpClass.deforbidify(storedVar.name)), "
         }.joined()
         return [
             .value(
                 name: "constructor",
                 type: constructorType
             ) { fragment in
-                fragment.outputBlock("bag<\(constructorType)>((\(constructorArgs)out IntPtr exn) => Catching(out exn, () => {", closeWith: "})),") {
-                    fragment.outputBlock("return PassOwnership(new \(cSharpType.name)(", closeWith: "));") {
+                fragment.outputBlock("bag<\(constructorType)>((\(constructorArgs)out CreatedRef exn) => Catching(out exn, () => {", closeWith: "})),") {
+                    fragment.outputBlock("return new CreatedRef(new \(cSharpType.name)(", closeWith: "));") {
                         fragment.outputMap(storedVariables, separator: ",") { storedVar in
                             let resolved = context.resolve(type: storedVar.typeName.better)
                             if resolved.cSharpType.isObject {
-                                return "PeekHandle<\(resolved.cSharpType.name)>(\(CSharpClass.deforbidify(storedVar.name)))"
+                                return "\(CSharpClass.deforbidify(storedVar.name)).Consume<\(resolved.cSharpType.name)>()"
                             } else {
                                 return CSharpClass.deforbidify(storedVar.name)
                             }
@@ -370,10 +369,10 @@ struct TranslatedStruct: TranslatedType {
                     name: "get_\(storedVar.name)",
                     type: getType
                 ) { fragment in
-                    fragment.outputBlock("bag<\(getType)>((IntPtr obj, out IntPtr exn) => Catching(out exn, () =>", closeWith: ")),") {
-                        let grab = "PeekHandle<\(cSharpType.name)>(obj).\(CSharpClass.deforbidify(upperCaseFirst(storedVar.name)))"
+                    fragment.outputBlock("bag<\(getType)>((\(cSharpType.pInvokeUnownedName) obj, out CreatedRef exn) => Catching(out exn, () =>", closeWith: ")),") {
+                        let grab = "obj.Peek<\(cSharpType.name)>().\(CSharpClass.deforbidify(upperCaseFirst(storedVar.name)))"
                         if resolved.cSharpType.isObject {
-                            fragment.output("PassOwnership(\(grab))")
+                            fragment.output("new CreatedRef(\(grab))")
                         } else {
                             fragment.output("\(grab)")
                         }
@@ -383,9 +382,9 @@ struct TranslatedStruct: TranslatedType {
                     name: "set_\(storedVar.name)",
                     type: setType
                 ) { fragment in
-                    fragment.outputBlock("bag<\(setType)>((IntPtr obj, \(resolved.cSharpType.pInvokeName) newValue, out IntPtr exn) => Catching(out exn, () => {", closeWith: "})),") {
-                        fragment.output("PeekHandle<\(cSharpType.name)>(obj).\(CSharpClass.deforbidify(upperCaseFirst(storedVar.name))) = ", newLineTerminated: false)
-                        fragment.output(resolved.cSharpType.isObject ? "PeekHandle<\(resolved.cSharpType.name)>(newValue);" : "newValue;")
+                    fragment.outputBlock("bag<\(setType)>((\(cSharpType.pInvokeUnownedName) obj, \(resolved.cSharpType.pInvokeConsumeName) newValue, out CreatedRef exn) => Catching(out exn, () => {", closeWith: "})),") {
+                        fragment.output("obj.Peek<\(cSharpType.name)>().\(CSharpClass.deforbidify(upperCaseFirst(storedVar.name))) = ", newLineTerminated: false)
+                        fragment.output(resolved.cSharpType.isObject ? "newValue.Consume<\(resolved.cSharpType.name)>();" : "newValue;")
                     }
                 },
             ]
@@ -434,14 +433,13 @@ struct TranslatedStruct: TranslatedType {
             fragment.output("fileprivate static var _constructorMethod: _ConstructorMethod!")
             fragment.blankLine()
 
-            fragment.outputBlock("public static func fromCSharp(_ value: csObject) throws -> Self {") {
+            fragment.outputBlock("public static func peekCSharp(_ value: csObject) throws -> Self {") {
                 fragment.outputBlock("Self(") {
                     for (index, storedVar) in storedVariables.enumerated() {
                         let resolved = context.resolve(type: storedVar.typeName.better)
                         let last = index == storedVariables.count - 1
-                        fragment.outputBlock("\(storedVar.name): try \(resolved.converterType.name).fromCSharp(", closeWith: last ? ")" : "),") {
-                            fragment.output("try Env.check { exn in _\(storedVar.name)Getter(value, exn) },")
-                            fragment.output("consuming: true")
+                        fragment.outputBlock("\(storedVar.name): try \(resolved.converterType.name).consumeCSharp(", closeWith: last ? ")" : "),") {
+                            fragment.output("try Env.check { exn in _\(storedVar.name)Getter(value, exn) }")
                         }
                     }
                 }
@@ -462,7 +460,7 @@ struct TranslatedStruct: TranslatedType {
             fragment.blankLine()
 
             fragment.outputBlock("public static func mutateCSharp<R>(_ this: csObject, body: (inout Self) throws -> R) throws -> R {") {
-                fragment.output("var mutatingSelf = try fromCSharp(this)")
+                fragment.output("var mutatingSelf = try peekCSharp(this)")
                 fragment.output("let result = try body(&mutatingSelf)")
                 for storedVar in storedVariables {
                     let resolved = context.resolve(type: storedVar.typeName.better)

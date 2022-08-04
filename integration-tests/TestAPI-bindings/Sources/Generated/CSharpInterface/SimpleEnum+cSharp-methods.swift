@@ -14,7 +14,7 @@ public func __cs_SimpleEnum_pickAColor(
     FishyJoesCSharpRuntime.Env.catching(to: _exn) {
         return try OptionalConverter<SimpleEnum>.toCSharp(
             SimpleEnum.pickAColor(
-                try Int.fromCSharp(rawValue)
+                try Int.peekCSharp(rawValue)
             )
         )
     }
@@ -27,6 +27,6 @@ public func __cs_get_SimpleEnum_Hex(
     _exn: csOutExn
 ) -> Int.CType {
     FishyJoesCSharpRuntime.Env.catching(to: _exn) {
-        try Int.toCSharp(SimpleEnum.fromCSharp(_cSharpThis).hex)
+        try Int.toCSharp(SimpleEnum.peekCSharp(_cSharpThis).hex)
     }
 }

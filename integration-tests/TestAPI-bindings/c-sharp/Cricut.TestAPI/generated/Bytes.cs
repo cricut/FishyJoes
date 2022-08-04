@@ -9,35 +9,35 @@ namespace Cricut.TestAPI {
     /// <!-- FishyJoes.exportReference(Bytes) -->
     /// </summary>
     public class Bytes : SwiftReference {
-        internal Bytes(IntPtr reference): base(reference) {}
+        internal Bytes(ConsumedRef reference): base(reference) {}
 
         /// <summary>
         /// <!-- FishyJoes.export(bytes, cSharp: TheBytes) -->
         /// </summary>
         public static System.Collections.Generic.IList<byte> TheBytes {
             get {
-                return Check((out IntPtr exn) => 
-                    ConsumeHandle<System.Collections.Generic.IList<byte>>(__cs_get_Bytes_TheBytes(out exn))
+                return Check((out CreatedRef exn) => 
+                    __cs_get_Bytes_TheBytes(out exn).Consume<System.Collections.Generic.IList<byte>>()
                 );
             }
         }
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern IntPtr __cs_get_Bytes_TheBytes(out IntPtr exn);
+        private static extern CreatedRef __cs_get_Bytes_TheBytes(out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(data) -->
         /// </summary>
         public static byte[] Data {
             get {
-                return Check((out IntPtr exn) => 
-                    ConsumeHandle<byte[]>(__cs_get_Bytes_Data(out exn))
+                return Check((out CreatedRef exn) => 
+                    __cs_get_Bytes_Data(out exn).Consume<byte[]>()
                 );
             }
         }
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern IntPtr __cs_get_Bytes_Data(out IntPtr exn);
+        private static extern CreatedRef __cs_get_Bytes_Data(out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(echoBytes) -->
@@ -46,15 +46,13 @@ namespace Cricut.TestAPI {
             System.Collections.Generic.IList<byte> bytes
         ) {
             using var _bytesHandle = new GCRef(bytes);
-            return ConsumeHandle<System.Collections.Generic.IList<byte>>(
-                Check((out IntPtr _exn) => __cs_Bytes_echoBytes(_bytesHandle.ptr, out _exn))
-            );
+            return Check((out CreatedRef _exn) => __cs_Bytes_echoBytes(_bytesHandle.ptr, out _exn)).Consume<System.Collections.Generic.IList<byte>>();
         }
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern IntPtr __cs_Bytes_echoBytes(
-            IntPtr bytes,
-            out IntPtr exn
+        private static extern CreatedRef __cs_Bytes_echoBytes(
+            UnownedRef bytes,
+            out CreatedRef exn
         );
 
         /// <summary>
@@ -64,15 +62,13 @@ namespace Cricut.TestAPI {
             byte[] data
         ) {
             using var _dataHandle = new GCRef(data);
-            return ConsumeHandle<byte[]>(
-                Check((out IntPtr _exn) => __cs_Bytes_echoData(_dataHandle.ptr, out _exn))
-            );
+            return Check((out CreatedRef _exn) => __cs_Bytes_echoData(_dataHandle.ptr, out _exn)).Consume<byte[]>();
         }
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern IntPtr __cs_Bytes_echoData(
-            IntPtr data,
-            out IntPtr exn
+        private static extern CreatedRef __cs_Bytes_echoData(
+            UnownedRef data,
+            out CreatedRef exn
         );
 
         static Bytes() { _TypeSetup._ensureLoaded(); }

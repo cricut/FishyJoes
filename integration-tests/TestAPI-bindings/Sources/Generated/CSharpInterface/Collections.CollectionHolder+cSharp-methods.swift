@@ -30,6 +30,6 @@ public func __cs_set_Collections_CollectionHolder_StaticMutablePropery(
     _exn: csOutExn
 ) {
     FishyJoesCSharpRuntime.Env.catching(to: _exn) {
-        Collections.CollectionHolder.staticMutablePropery = try ArrayConverter<OptionalConverter<Int>>.fromCSharp(newValue)
+        Collections.CollectionHolder.staticMutablePropery = try ArrayConverter<OptionalConverter<Int>>.peekCSharp(newValue)
     }
 }

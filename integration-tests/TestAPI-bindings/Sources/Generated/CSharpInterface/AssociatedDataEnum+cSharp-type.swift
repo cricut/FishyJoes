@@ -68,29 +68,36 @@ extension AssociatedDataEnum: CSharpConverter {
     ) -> Void
     fileprivate static var bar_extractor: Bar_extractor!
 
-    public static func fromCSharp(_ value: csObject) throws -> Self {
+    public static func peekCSharp(_ value: csObject) throws -> Self {
         switch try Env.check({ exn in discriminator(value, exn) }) {
         case 0:
             var _value = Int.CType.default
             try Env.check { exn in thing_extractor(value, &_value, exn) }
             return Self.thing(
-                value: try Int.fromCSharp(_value)
+                value: try Int.peekCSharp(_value)
             )
         case 1:
             var _unnamed = Swift.String.CType.default
             var __1 = Int.CType.default
             try Env.check { exn in other_extractor(value, &_unnamed, &__1, exn) }
+            defer {
+                Env.deleteRef(_unnamed)
+            }
             return Self.other(
-                try Swift.String.fromCSharp(_unnamed),
-                try Int.fromCSharp(__1)
+                try Swift.String.peekCSharp(_unnamed),
+                try Int.peekCSharp(__1)
             )
         case 2:
             var _named = Swift.String.CType.default
             var __1 = AssociatedDataEnum.CType.default
             try Env.check { exn in bar_extractor(value, &_named, &__1, exn) }
+            defer {
+                Env.deleteRef(_named)
+                Env.deleteRef(__1)
+            }
             return Self.bar(
-                named: try Swift.String.fromCSharp(_named),
-                try AssociatedDataEnum.fromCSharp(__1)
+                named: try Swift.String.peekCSharp(_named),
+                try AssociatedDataEnum.peekCSharp(__1)
             )
         case let disc:
             fatalError("bad discriminator value \(disc) encountered for type \(self)")

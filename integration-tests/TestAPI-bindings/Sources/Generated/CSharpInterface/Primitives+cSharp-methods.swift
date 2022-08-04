@@ -14,7 +14,7 @@ public func __cs_Primitives_echoBool(
     FishyJoesCSharpRuntime.Env.catching(to: _exn) {
         return try Bool.toCSharp(
             Primitives.echoBool(
-                value: try Bool.fromCSharp(value)
+                value: try Bool.peekCSharp(value)
             )
         )
     }
@@ -29,7 +29,7 @@ public func __cs_Primitives_echoUInt8(
     FishyJoesCSharpRuntime.Env.catching(to: _exn) {
         return try UInt8.toCSharp(
             Primitives.echoUInt8(
-                value: try UInt8.fromCSharp(value)
+                value: try UInt8.peekCSharp(value)
             )
         )
     }
@@ -44,7 +44,7 @@ public func __cs_Primitives_echoUInt16(
     FishyJoesCSharpRuntime.Env.catching(to: _exn) {
         return try UInt16.toCSharp(
             Primitives.echoUInt16(
-                value: try UInt16.fromCSharp(value)
+                value: try UInt16.peekCSharp(value)
             )
         )
     }
@@ -59,7 +59,7 @@ public func __cs_Primitives_echoUInt32(
     FishyJoesCSharpRuntime.Env.catching(to: _exn) {
         return try UInt32.toCSharp(
             Primitives.echoUInt32(
-                value: try UInt32.fromCSharp(value)
+                value: try UInt32.peekCSharp(value)
             )
         )
     }
@@ -74,7 +74,7 @@ public func __cs_Primitives_echoUInt64(
     FishyJoesCSharpRuntime.Env.catching(to: _exn) {
         return try UInt64.toCSharp(
             Primitives.echoUInt64(
-                value: try UInt64.fromCSharp(value)
+                value: try UInt64.peekCSharp(value)
             )
         )
     }
@@ -89,7 +89,7 @@ public func __cs_Primitives_echoInt8(
     FishyJoesCSharpRuntime.Env.catching(to: _exn) {
         return try Int8.toCSharp(
             Primitives.echoInt8(
-                value: try Int8.fromCSharp(value)
+                value: try Int8.peekCSharp(value)
             )
         )
     }
@@ -104,7 +104,7 @@ public func __cs_Primitives_echoInt16(
     FishyJoesCSharpRuntime.Env.catching(to: _exn) {
         return try Int16.toCSharp(
             Primitives.echoInt16(
-                value: try Int16.fromCSharp(value)
+                value: try Int16.peekCSharp(value)
             )
         )
     }
@@ -119,7 +119,7 @@ public func __cs_Primitives_echoInt32(
     FishyJoesCSharpRuntime.Env.catching(to: _exn) {
         return try Int32.toCSharp(
             Primitives.echoInt32(
-                value: try Int32.fromCSharp(value)
+                value: try Int32.peekCSharp(value)
             )
         )
     }
@@ -134,7 +134,7 @@ public func __cs_Primitives_echoInt64(
     FishyJoesCSharpRuntime.Env.catching(to: _exn) {
         return try Int64.toCSharp(
             Primitives.echoInt64(
-                value: try Int64.fromCSharp(value)
+                value: try Int64.peekCSharp(value)
             )
         )
     }
@@ -149,7 +149,7 @@ public func __cs_Primitives_echoFloat(
     FishyJoesCSharpRuntime.Env.catching(to: _exn) {
         return try Float.toCSharp(
             Primitives.echoFloat(
-                value: try Float.fromCSharp(value)
+                value: try Float.peekCSharp(value)
             )
         )
     }
@@ -164,7 +164,7 @@ public func __cs_Primitives_echoDouble(
     FishyJoesCSharpRuntime.Env.catching(to: _exn) {
         return try Double.toCSharp(
             Primitives.echoDouble(
-                value: try Double.fromCSharp(value)
+                value: try Double.peekCSharp(value)
             )
         )
     }
@@ -179,7 +179,7 @@ public func __cs_Primitives_maybeEchoBool(
     FishyJoesCSharpRuntime.Env.catching(to: _exn) {
         return try OptionalConverter<Bool>.toCSharp(
             Primitives.maybeEchoBool(
-                value: try OptionalConverter<Bool>.fromCSharp(value)
+                value: try OptionalConverter<Bool>.peekCSharp(value)
             )
         )
     }
@@ -194,7 +194,7 @@ public func __cs_Primitives_maybeEchoUInt8(
     FishyJoesCSharpRuntime.Env.catching(to: _exn) {
         return try OptionalConverter<UInt8>.toCSharp(
             Primitives.maybeEchoUInt8(
-                value: try OptionalConverter<UInt8>.fromCSharp(value)
+                value: try OptionalConverter<UInt8>.peekCSharp(value)
             )
         )
     }
@@ -209,7 +209,7 @@ public func __cs_Primitives_maybeEchoUInt16(
     FishyJoesCSharpRuntime.Env.catching(to: _exn) {
         return try OptionalConverter<UInt16>.toCSharp(
             Primitives.maybeEchoUInt16(
-                value: try OptionalConverter<UInt16>.fromCSharp(value)
+                value: try OptionalConverter<UInt16>.peekCSharp(value)
             )
         )
     }
@@ -224,7 +224,7 @@ public func __cs_Primitives_maybeEchoUInt32(
     FishyJoesCSharpRuntime.Env.catching(to: _exn) {
         return try OptionalConverter<UInt32>.toCSharp(
             Primitives.maybeEchoUInt32(
-                value: try OptionalConverter<UInt32>.fromCSharp(value)
+                value: try OptionalConverter<UInt32>.peekCSharp(value)
             )
         )
     }
@@ -239,7 +239,7 @@ public func __cs_Primitives_maybeEchoUInt64(
     FishyJoesCSharpRuntime.Env.catching(to: _exn) {
         return try OptionalConverter<UInt64>.toCSharp(
             Primitives.maybeEchoUInt64(
-                value: try OptionalConverter<UInt64>.fromCSharp(value)
+                value: try OptionalConverter<UInt64>.peekCSharp(value)
             )
         )
     }
@@ -254,7 +254,7 @@ public func __cs_Primitives_maybeEchoInt8(
     FishyJoesCSharpRuntime.Env.catching(to: _exn) {
         return try OptionalConverter<Int8>.toCSharp(
             Primitives.maybeEchoInt8(
-                value: try OptionalConverter<Int8>.fromCSharp(value)
+                value: try OptionalConverter<Int8>.peekCSharp(value)
             )
         )
     }
@@ -269,7 +269,7 @@ public func __cs_Primitives_maybeEchoInt16(
     FishyJoesCSharpRuntime.Env.catching(to: _exn) {
         return try OptionalConverter<Int16>.toCSharp(
             Primitives.maybeEchoInt16(
-                value: try OptionalConverter<Int16>.fromCSharp(value)
+                value: try OptionalConverter<Int16>.peekCSharp(value)
             )
         )
     }
@@ -284,7 +284,7 @@ public func __cs_Primitives_maybeEchoInt32(
     FishyJoesCSharpRuntime.Env.catching(to: _exn) {
         return try OptionalConverter<Int32>.toCSharp(
             Primitives.maybeEchoInt32(
-                value: try OptionalConverter<Int32>.fromCSharp(value)
+                value: try OptionalConverter<Int32>.peekCSharp(value)
             )
         )
     }
@@ -299,7 +299,7 @@ public func __cs_Primitives_maybeEchoInt64(
     FishyJoesCSharpRuntime.Env.catching(to: _exn) {
         return try OptionalConverter<Int64>.toCSharp(
             Primitives.maybeEchoInt64(
-                value: try OptionalConverter<Int64>.fromCSharp(value)
+                value: try OptionalConverter<Int64>.peekCSharp(value)
             )
         )
     }
@@ -314,7 +314,7 @@ public func __cs_Primitives_maybeEchoFloat(
     FishyJoesCSharpRuntime.Env.catching(to: _exn) {
         return try OptionalConverter<Float>.toCSharp(
             Primitives.maybeEchoFloat(
-                value: try OptionalConverter<Float>.fromCSharp(value)
+                value: try OptionalConverter<Float>.peekCSharp(value)
             )
         )
     }
@@ -329,7 +329,7 @@ public func __cs_Primitives_maybeEchoDouble(
     FishyJoesCSharpRuntime.Env.catching(to: _exn) {
         return try OptionalConverter<Double>.toCSharp(
             Primitives.maybeEchoDouble(
-                value: try OptionalConverter<Double>.fromCSharp(value)
+                value: try OptionalConverter<Double>.peekCSharp(value)
             )
         )
     }
@@ -345,8 +345,8 @@ public func __cs_Primitives_valueMapper(
     FishyJoesCSharpRuntime.Env.catching(to: _exn) {
         return try OptionalConverter<UInt8>.toCSharp(
             Primitives.valueMapper(
-                value: try OptionalConverter<UInt8>.fromCSharp(value),
-                try Function1Converter<OptionalConverter<UInt8>, OptionalConverter<UInt8>>.fromCSharp(mapper)
+                value: try OptionalConverter<UInt8>.peekCSharp(value),
+                try Function1Converter<OptionalConverter<UInt8>, OptionalConverter<UInt8>>.peekCSharp(mapper)
             )
         )
     }

@@ -17,8 +17,8 @@ public func TestAPI_Bytes_setup(
 extension Bytes: CSharpMutator {
     fileprivate static var _constructorMethod: ((UnsafeMutableRawPointer, _ exn: csOutExn) -> csObject)!
 
-    public static func fromCSharp(_ value: csObject) throws -> Self {
-        try Box<Bytes>.fromCSharp(value).value
+    public static func peekCSharp(_ value: csObject) throws -> Self {
+        try Box<Bytes>.peekCSharp(value).value
     }
 
     public static func toCSharp(_ value: Self) throws -> csObject {
@@ -27,6 +27,6 @@ extension Bytes: CSharpMutator {
     }
 
     public static func mutateCSharp<R>(_ this: csObject, body: (inout Self) throws -> R) throws -> R {
-        try body(&Box<Bytes>.fromCSharp(this).value)
+        try body(&Box<Bytes>.peekCSharp(this).value)
     }
 }

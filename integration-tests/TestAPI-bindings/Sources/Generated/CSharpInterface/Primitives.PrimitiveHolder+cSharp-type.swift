@@ -174,95 +174,73 @@ extension Primitives.PrimitiveHolder: CSharpMutator {
     ) -> csObject
     fileprivate static var _constructorMethod: _ConstructorMethod!
 
-    public static func fromCSharp(_ value: csObject) throws -> Self {
+    public static func peekCSharp(_ value: csObject) throws -> Self {
         Self(
-            b: try Bool.fromCSharp(
-                try Env.check { exn in _bGetter(value, exn) },
-                consuming: true
+            b: try Bool.consumeCSharp(
+                try Env.check { exn in _bGetter(value, exn) }
             ),
-            bq: try OptionalConverter<Bool>.fromCSharp(
-                try Env.check { exn in _bqGetter(value, exn) },
-                consuming: true
+            bq: try OptionalConverter<Bool>.consumeCSharp(
+                try Env.check { exn in _bqGetter(value, exn) }
             ),
-            ui8: try UInt8.fromCSharp(
-                try Env.check { exn in _ui8Getter(value, exn) },
-                consuming: true
+            ui8: try UInt8.consumeCSharp(
+                try Env.check { exn in _ui8Getter(value, exn) }
             ),
-            ui8q: try OptionalConverter<UInt8>.fromCSharp(
-                try Env.check { exn in _ui8qGetter(value, exn) },
-                consuming: true
+            ui8q: try OptionalConverter<UInt8>.consumeCSharp(
+                try Env.check { exn in _ui8qGetter(value, exn) }
             ),
-            ui16: try UInt16.fromCSharp(
-                try Env.check { exn in _ui16Getter(value, exn) },
-                consuming: true
+            ui16: try UInt16.consumeCSharp(
+                try Env.check { exn in _ui16Getter(value, exn) }
             ),
-            ui16q: try OptionalConverter<UInt16>.fromCSharp(
-                try Env.check { exn in _ui16qGetter(value, exn) },
-                consuming: true
+            ui16q: try OptionalConverter<UInt16>.consumeCSharp(
+                try Env.check { exn in _ui16qGetter(value, exn) }
             ),
-            ui32: try UInt32.fromCSharp(
-                try Env.check { exn in _ui32Getter(value, exn) },
-                consuming: true
+            ui32: try UInt32.consumeCSharp(
+                try Env.check { exn in _ui32Getter(value, exn) }
             ),
-            ui32q: try OptionalConverter<UInt32>.fromCSharp(
-                try Env.check { exn in _ui32qGetter(value, exn) },
-                consuming: true
+            ui32q: try OptionalConverter<UInt32>.consumeCSharp(
+                try Env.check { exn in _ui32qGetter(value, exn) }
             ),
-            ui64: try UInt64.fromCSharp(
-                try Env.check { exn in _ui64Getter(value, exn) },
-                consuming: true
+            ui64: try UInt64.consumeCSharp(
+                try Env.check { exn in _ui64Getter(value, exn) }
             ),
-            ui64q: try OptionalConverter<UInt64>.fromCSharp(
-                try Env.check { exn in _ui64qGetter(value, exn) },
-                consuming: true
+            ui64q: try OptionalConverter<UInt64>.consumeCSharp(
+                try Env.check { exn in _ui64qGetter(value, exn) }
             ),
-            i8: try Int8.fromCSharp(
-                try Env.check { exn in _i8Getter(value, exn) },
-                consuming: true
+            i8: try Int8.consumeCSharp(
+                try Env.check { exn in _i8Getter(value, exn) }
             ),
-            i8q: try OptionalConverter<Int8>.fromCSharp(
-                try Env.check { exn in _i8qGetter(value, exn) },
-                consuming: true
+            i8q: try OptionalConverter<Int8>.consumeCSharp(
+                try Env.check { exn in _i8qGetter(value, exn) }
             ),
-            i16: try Int16.fromCSharp(
-                try Env.check { exn in _i16Getter(value, exn) },
-                consuming: true
+            i16: try Int16.consumeCSharp(
+                try Env.check { exn in _i16Getter(value, exn) }
             ),
-            i16q: try OptionalConverter<Int16>.fromCSharp(
-                try Env.check { exn in _i16qGetter(value, exn) },
-                consuming: true
+            i16q: try OptionalConverter<Int16>.consumeCSharp(
+                try Env.check { exn in _i16qGetter(value, exn) }
             ),
-            i32: try Int32.fromCSharp(
-                try Env.check { exn in _i32Getter(value, exn) },
-                consuming: true
+            i32: try Int32.consumeCSharp(
+                try Env.check { exn in _i32Getter(value, exn) }
             ),
-            i32q: try OptionalConverter<Int32>.fromCSharp(
-                try Env.check { exn in _i32qGetter(value, exn) },
-                consuming: true
+            i32q: try OptionalConverter<Int32>.consumeCSharp(
+                try Env.check { exn in _i32qGetter(value, exn) }
             ),
-            i64: try Int64.fromCSharp(
-                try Env.check { exn in _i64Getter(value, exn) },
-                consuming: true
+            i64: try Int64.consumeCSharp(
+                try Env.check { exn in _i64Getter(value, exn) }
             ),
-            i64q: try OptionalConverter<Int64>.fromCSharp(
-                try Env.check { exn in _i64qGetter(value, exn) },
-                consuming: true
+            i64q: try OptionalConverter<Int64>.consumeCSharp(
+                try Env.check { exn in _i64qGetter(value, exn) }
             ),
-            f: try Float.fromCSharp(
-                try Env.check { exn in _fGetter(value, exn) },
-                consuming: true
+            f: try Float.consumeCSharp(
+                try Env.check { exn in _fGetter(value, exn) }
             ),
-            fq: try OptionalConverter<Float>.fromCSharp(
-                try Env.check { exn in _fqGetter(value, exn) },
-                consuming: true
+            fq: try OptionalConverter<Float>.consumeCSharp(
+                try Env.check { exn in _fqGetter(value, exn) }
             ),
-            d: try Double.fromCSharp(
-                try Env.check { exn in _dGetter(value, exn) },
-                consuming: true
+            d: try Double.consumeCSharp(
+                try Env.check { exn in _dGetter(value, exn) }
             ),
-            dq: try OptionalConverter<Double>.fromCSharp(
-                try Env.check { exn in _dqGetter(value, exn) },
-                consuming: true
+            dq: try OptionalConverter<Double>.consumeCSharp(
+                try Env.check { exn in _dqGetter(value, exn) }
             )
         )
     }
@@ -298,7 +276,7 @@ extension Primitives.PrimitiveHolder: CSharpMutator {
     }
 
     public static func mutateCSharp<R>(_ this: csObject, body: (inout Self) throws -> R) throws -> R {
-        var mutatingSelf = try fromCSharp(this)
+        var mutatingSelf = try peekCSharp(this)
         let result = try body(&mutatingSelf)
         try Env.check { exn in _bSetter(
             this,

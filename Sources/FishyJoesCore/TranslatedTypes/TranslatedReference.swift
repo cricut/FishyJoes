@@ -334,8 +334,8 @@ struct TranslatedReference: TranslatedType {
                 name: "constructorMethod",
                 type: "SwiftReference.ConstructorDelegate"
             ) { fragment in
-                fragment.outputBlock("bag<SwiftReference.ConstructorDelegate>((IntPtr ptr, out IntPtr exn) => Catching(out exn, () => {", closeWith: "})),") {
-                    fragment.output("return PassOwnership(new \(cSharpType.name)(ptr));")
+                fragment.outputBlock("bag<SwiftReference.ConstructorDelegate>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {", closeWith: "})),") {
+                    fragment.output("return new CreatedRef(new \(cSharpType.name)(ptr));")
                 }
             },
         ]
@@ -362,8 +362,8 @@ struct TranslatedReference: TranslatedType {
             fragment.output("fileprivate static var _constructorMethod: ((UnsafeMutableRawPointer, _ exn: csOutExn) -> csObject)!")
             fragment.blankLine()
 
-            fragment.outputBlock("public static func fromCSharp(_ value: csObject) throws -> Self {") {
-                fragment.output("try Box<\(sourceType.name)>.fromCSharp(value).value")
+            fragment.outputBlock("public static func peekCSharp(_ value: csObject) throws -> Self {") {
+                fragment.output("try Box<\(sourceType.name)>.peekCSharp(value).value")
             }
             fragment.blankLine()
 
@@ -374,7 +374,7 @@ struct TranslatedReference: TranslatedType {
             fragment.blankLine()
 
             fragment.outputBlock("public static func mutateCSharp<R>(_ this: csObject, body: (inout Self) throws -> R) throws -> R {") {
-                fragment.output("try body(&Box<\(sourceType.name)>.fromCSharp(this).value)")
+                fragment.output("try body(&Box<\(sourceType.name)>.peekCSharp(this).value)")
             }
         }
 
@@ -386,7 +386,7 @@ struct TranslatedReference: TranslatedType {
             fragment.output("@_cdecl(\"__cs_\(sourceType.name.mangled)_equals\")")
             fragment.outputBlock("public func \(sourceType.name.mangled)_cSharpEquals(lhs: csObject, rhs: csObject, exn: csOutExn) -> Bool.CType {") {
                 fragment.outputBlock("Env.catching(to: exn) {") {
-                    fragment.output("return try Bool.toCSharp(\(sourceType.name).fromCSharp(lhs) == \(sourceType.name).fromCSharp(rhs))")
+                    fragment.output("return try Bool.toCSharp(\(sourceType.name).peekCSharp(lhs) == \(sourceType.name).peekCSharp(rhs))")
                 }
             }
         }
@@ -395,30 +395,11 @@ struct TranslatedReference: TranslatedType {
             fragment.outputBlock("public func \(sourceType.name.mangled)_cSharpHash(this: csObject, exn: csOutExn) -> Int32.CType {") {
                 fragment.outputBlock("Env.catching(to: exn) {") {
                     fragment.outputBlock("try Int32.toCSharp(") {
-                        fragment.output("Int32(truncatingIfNeeded: \(sourceType.name).fromCSharp(this).hashValue)")
+                        fragment.output("Int32(truncatingIfNeeded: \(sourceType.name).peekCSharp(this).hashValue)")
                     }
                 }
             }
         }
-
-        // if equatable {
-        //     context.cSharpTranslator.allMethods[sourceType.name, default: []].append(
-        //         (
-        //             cSharpName: "__cs_swiftEquals",
-        //             signature: "(\(jniType.asSignature)\(jniType.asSignature))Z",
-        //             cName: "\(sourceType.name)._cSharpEquals"
-        //         )
-        //     )
-        // }
-        // if hashable {
-        //     context.cSharpTranslator.allMethods[sourceType.name, default: []].append(
-        //         (
-        //             cSharpName: "__cs_hashCode",
-        //             signature: "()I",
-        //             cName: "\(sourceType.name)._cSharpHash"
-        //         )
-        //     )
-        // }
 
         var fieldsAndMethods =
             computedVariables.compactMap { context.cSharp(field: $0, of: self, useNativeName: false) } +
@@ -440,7 +421,7 @@ struct TranslatedReference: TranslatedType {
                         body: [
                             "using var thisHandle = new GCRef(this);",
                             "using var otherHandle = new GCRef(other as \(cSharpType.name));",
-                            "return Check((out IntPtr exn) => __cs_\(sourceType.name.mangled)_equals(thisHandle.ptr, otherHandle.ptr, out exn));",
+                            "return Check((out CreatedRef exn) => __cs_\(sourceType.name.mangled)_equals(thisHandle.ptr, otherHandle.ptr, out exn));",
                         ]
                     )
                 )

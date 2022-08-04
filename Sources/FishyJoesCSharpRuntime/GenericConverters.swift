@@ -4,9 +4,9 @@ import Foundation
 // MARK: - Generics Type Conversions
 public struct CollectionInfo {
     public typealias LengthMethod = @convention(c) (_ array: csObject, _ exn: csOutExn) -> Int32
-    public typealias ValuesMethod = @convention(c) (_ array: csObject, _ outValues: UnsafeMutableRawPointer, _ exn: csOutExn) -> Void
+    public typealias ValuesMethod = @convention(c) (_ array: csObject, _ outValues: UnsafeMutablePointer<csObject>, _ exn: csOutExn) -> Void
     public typealias Constuctor = @convention(c) (
-        _ inValues: UnsafeRawPointer?,
+        _ inValues: UnsafePointer<csObject>?,
         _ length: Int32,
         _ exn: csOutExn
     ) -> csObject
@@ -39,7 +39,7 @@ public func collectionSetup(
 }
 
 extension ArrayConverter: CSharpConverter where ElementConverter: CSharpConverter {
-    public static func fromCSharp(_ value: csObject) throws -> SwiftType {
+    public static func peekCSharp(_ value: csObject) throws -> SwiftType {
         guard let info = CollectionInfo.infos[ObjectIdentifier(Self.self)] else {
             fatalError("Type \(SwiftType.self) improperly set up")
         }
@@ -48,12 +48,16 @@ extension ArrayConverter: CSharpConverter where ElementConverter: CSharpConverte
         let buffer = UnsafeMutablePointer<csObject>.allocate(capacity: length)
         defer { buffer.deallocate() }
         try Env.check { exn in info.valuesMethod(value, buffer, exn) }
+        defer {
+            for index in 0..<length {
+                Env.deleteRef(buffer[index])
+            }
+        }
 
         var result = SwiftType()
         result.reserveCapacity(length)
         for index in 0..<length {
-            // TODO: free things if thrown
-            result.append(try ElementConverter.fromCSharp(object: buffer[index], consuming: true))
+            result.append(try ElementConverter.peekCSharp(object: buffer[index]))
         }
         return result
     }
@@ -63,16 +67,22 @@ extension ArrayConverter: CSharpConverter where ElementConverter: CSharpConverte
             fatalError("Type \(SwiftType.self) improperly set up")
         }
 
-        return try value
-            .map(ElementConverter.toCSharpObject)
-            .withUnsafeBufferPointer { buffer in
-                try Env.check { exn in info.constuctor(buffer.baseAddress, Int32(value.count), exn) }
-            }
+        var cSharpObjects: [csObject] = []
+        cSharpObjects.reserveCapacity(value.count)
+        defer { cSharpObjects.forEach(Env.deleteRef) }
+
+        for element in value {
+            try cSharpObjects.append(ElementConverter.toCSharpObject(element))
+        }
+
+        return try cSharpObjects.withUnsafeBufferPointer { buffer in
+            try Env.check { exn in info.constuctor(buffer.baseAddress, Int32(value.count), exn) }
+        }
     }
 }
 
 extension DictionaryConverter: CSharpConverter where KeyConverter: CSharpConverter, KeyConverter.SwiftType: Hashable, ValueConverter: CSharpConverter {
-    public static func fromCSharp(_ value: csObject) throws -> SwiftType {
+    public static func peekCSharp(_ value: csObject) throws -> SwiftType {
         guard let info = CollectionInfo.infos[ObjectIdentifier(Self.self)] else {
             fatalError("Type \(SwiftType.self) improperly set up")
         }
@@ -81,12 +91,16 @@ extension DictionaryConverter: CSharpConverter where KeyConverter: CSharpConvert
         let buffer = UnsafeMutablePointer<csObject>.allocate(capacity: 2 * length)
         defer { buffer.deallocate() }
         try Env.check { exn in info.valuesMethod(value, buffer, exn) }
+        defer {
+            for index in 0..<2 * length {
+                Env.deleteRef(buffer[index])
+            }
+        }
 
         var result = SwiftType()
         for index in 0..<length {
-            // TODO: free things if thrown
-            let key = try KeyConverter.fromCSharp(object: buffer[2 * index], consuming: true)
-            let value = try ValueConverter.fromCSharp(object: buffer[2 * index + 1], consuming: true)
+            let key = try KeyConverter.peekCSharp(object: buffer[2 * index])
+            let value = try ValueConverter.peekCSharp(object: buffer[2 * index + 1])
             result[key] = value
         }
         return result
@@ -97,16 +111,23 @@ extension DictionaryConverter: CSharpConverter where KeyConverter: CSharpConvert
             fatalError("Type \(SwiftType.self) improperly set up")
         }
 
-        return try value
-            .flatMap { try [KeyConverter.toCSharpObject($0.key), ValueConverter.toCSharpObject($0.value)] }
-            .withUnsafeBufferPointer { buffer in
-                try Env.check { exn in info.constuctor(buffer.baseAddress, Int32(value.count), exn) }
-            }
+        var cSharpObjects: [csObject] = []
+        cSharpObjects.reserveCapacity(value.count * 2)
+        defer { cSharpObjects.forEach(Env.deleteRef) }
+
+        for (key, value) in value {
+            try cSharpObjects.append(KeyConverter.toCSharpObject(key))
+            try cSharpObjects.append(ValueConverter.toCSharpObject(value))
+        }
+
+        return try cSharpObjects.withUnsafeBufferPointer { buffer in
+            try Env.check { exn in info.constuctor(buffer.baseAddress, Int32(value.count), exn) }
+        }
     }
 }
 
 extension SetConverter: CSharpConverter where ElementConverter: CSharpConverter, ElementConverter.SwiftType: Hashable {
-    public static func fromCSharp(_ value: csObject) throws -> SwiftType {
+    public static func peekCSharp(_ value: csObject) throws -> SwiftType {
         guard let info = CollectionInfo.infos[ObjectIdentifier(Self.self)] else {
             fatalError("Type \(SwiftType.self) improperly set up")
         }
@@ -115,11 +136,15 @@ extension SetConverter: CSharpConverter where ElementConverter: CSharpConverter,
         let buffer = UnsafeMutablePointer<csObject>.allocate(capacity: length)
         defer { buffer.deallocate() }
         try Env.check { exn in info.valuesMethod(value, buffer, exn) }
+        defer {
+            for index in 0..<length {
+                Env.deleteRef(buffer[index])
+            }
+        }
 
         var result = SwiftType()
         for index in 0..<length {
-            // TODO: free things if thrown
-            result.insert(try ElementConverter.fromCSharp(object: buffer[index], consuming: true))
+            result.insert(try ElementConverter.peekCSharp(object: buffer[index]))
         }
         return result
     }
@@ -129,22 +154,28 @@ extension SetConverter: CSharpConverter where ElementConverter: CSharpConverter,
             fatalError("Type \(SwiftType.self) improperly set up")
         }
 
-        return try value
-            .map(ElementConverter.toCSharpObject)
-            .withUnsafeBufferPointer { buffer in
-                try Env.check { exn in info.constuctor(buffer.baseAddress, Int32(value.count), exn) }
-            }
+        var cSharpObjects: [csObject] = []
+        cSharpObjects.reserveCapacity(value.count)
+        defer { cSharpObjects.forEach(Env.deleteRef) }
+
+        for element in value {
+            try cSharpObjects.append(ElementConverter.toCSharpObject(element))
+        }
+
+        return try cSharpObjects.withUnsafeBufferPointer { buffer in
+            try Env.check { exn in info.constuctor(buffer.baseAddress, Int32(value.count), exn) }
+        }
     }
 }
 
 // MARK: - Optional Type Conversion
 
 extension OptionalConverter: CSharpConverter where WrappedConverter: CSharpConverter {
-    public static func fromCSharp(_ value: csObject) throws -> SwiftType {
+    public static func peekCSharp(_ value: csObject) throws -> SwiftType {
         if value == nil {
             return nil
         } else {
-            return try WrappedConverter.fromCSharp(object: value)
+            return try WrappedConverter.peekCSharp(object: value)
         }
     }
 

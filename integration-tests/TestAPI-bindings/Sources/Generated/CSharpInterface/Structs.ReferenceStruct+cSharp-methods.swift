@@ -25,7 +25,7 @@ public func __cs_get_Structs_ReferenceStruct_Immutable(
     _exn: csOutExn
 ) -> Swift.String.CType {
     FishyJoesCSharpRuntime.Env.catching(to: _exn) {
-        try Swift.String.toCSharp(Structs.ReferenceStruct.fromCSharp(_cSharpThis).immutable)
+        try Swift.String.toCSharp(Structs.ReferenceStruct.peekCSharp(_cSharpThis).immutable)
     }
 }
 
@@ -36,6 +36,6 @@ public func __cs_get_Structs_ReferenceStruct_Mutable(
     _exn: csOutExn
 ) -> Swift.String.CType {
     FishyJoesCSharpRuntime.Env.catching(to: _exn) {
-        try Swift.String.toCSharp(Structs.ReferenceStruct.fromCSharp(_cSharpThis).mutable)
+        try Swift.String.toCSharp(Structs.ReferenceStruct.peekCSharp(_cSharpThis).mutable)
     }
 }

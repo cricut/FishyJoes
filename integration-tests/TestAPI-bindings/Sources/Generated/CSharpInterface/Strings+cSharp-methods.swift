@@ -14,7 +14,7 @@ public func __cs_Strings_echo(
     FishyJoesCSharpRuntime.Env.catching(to: _exn) {
         return try Swift.String.toCSharp(
             Strings.echo(
-                try Swift.String.fromCSharp(string)
+                try Swift.String.peekCSharp(string)
             )
         )
     }

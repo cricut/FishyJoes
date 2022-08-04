@@ -88,16 +88,16 @@ class CSharpClass: NestedClass {
 
     func output(field: Variable, to fragment: SourceFragment) {
         document(field.documentation, fragment: fragment)
-        let selfFormal = field.isStatic ? "" : "IntPtr self, "
+        let selfFormal = field.isStatic ? "" : "\(CSType.object.pInvokeUnownedName) self, "
         let selfArg = field.isStatic ? "" : "thisHandle.ptr, "
 
         func outputGetterBody() {
             if !field.isStatic {
                 fragment.output("using var thisHandle = new GCRef(this);")
             }
-            fragment.outputBlock("return Check((out IntPtr exn) => ", closeWith: ");") {
+            fragment.outputBlock("return Check((out CreatedRef exn) => ", closeWith: ");") {
                 if field.type.isObject {
-                    fragment.output("ConsumeHandle<\(field.type.name)>(__cs_get_\(field.mangledName)(\(selfArg)out exn))")
+                    fragment.output("__cs_get_\(field.mangledName)(\(selfArg)out exn).Consume<\(field.type.name)>()")
                 } else {
                     fragment.output("__cs_get_\(field.mangledName)(\(selfArg)out exn)")
                 }
@@ -115,7 +115,7 @@ class CSharpClass: NestedClass {
             } else {
                 valueValue = "value"
             }
-            fragment.outputBlock("Check((out IntPtr exn) => ", closeWith: ");") {
+            fragment.outputBlock("Check((out CreatedRef exn) => ", closeWith: ");") {
                 fragment.output("__cs_set_\(field.mangledName)(\(selfArg)\(valueValue), out exn)")
             }
         }
@@ -146,11 +146,11 @@ class CSharpClass: NestedClass {
 
         fragment.blankLine()
         fragment.output(module.dllImportMark)
-        fragment.output("private static extern \(field.type.pInvokeName) __cs_get_\(field.mangledName)(\(selfFormal)out IntPtr exn);")
+        fragment.output("private static extern \(field.type.pInvokeCreatedName) __cs_get_\(field.mangledName)(\(selfFormal)out CreatedRef exn);")
         if !field.readOnly {
             fragment.blankLine()
             fragment.output(module.dllImportMark)
-            fragment.output("private static extern void __cs_set_\(field.mangledName)(\(selfFormal)\(field.type.pInvokeName) value, out IntPtr exn);")
+            fragment.output("private static extern void __cs_set_\(field.mangledName)(\(selfFormal)\(field.type.pInvokeUnownedName) value, out CreatedRef exn);")
         }
         fragment.blankLine()
     }
@@ -184,11 +184,9 @@ class CSharpClass: NestedClass {
                     }
                     paramStrings.append("out _exn")
 
-                    let body = "Check((out IntPtr _exn) => __cs_\(method.mangledName)(\(paramStrings.joined(separator: ", "))))"
+                    let body = "Check((out CreatedRef _exn) => __cs_\(method.mangledName)(\(paramStrings.joined(separator: ", "))))"
                     if method.returnType.isObject {
-                        fragment.outputBlock("return ConsumeHandle<\(method.returnType.name)>(", closeWith: ");") {
-                            fragment.output(body)
-                        }
+                        fragment.output("return \(body).Consume<\(method.returnType.name)>();")
                     } else if method.returnType == .void {
                         fragment.output("\(body);")
                     } else {
@@ -200,14 +198,14 @@ class CSharpClass: NestedClass {
         if method.body == nil {
             fragment.blankLine()
             fragment.output(module.dllImportMark)
-            fragment.outputBlock("private static extern \(method.returnType.pInvokeName) __cs_\(method.mangledName)(", closeWith: ");") {
+            fragment.outputBlock("private static extern \(method.returnType.pInvokeCreatedName) __cs_\(method.mangledName)(", closeWith: ");") {
                 if !method.isStatic {
-                    fragment.output("IntPtr self,")
+                    fragment.output("\(CSType.object.pInvokeUnownedName) self,")
                 }
                 for parameter in method.parameters {
-                    fragment.output("\(parameter.type.pInvokeName) \(CSharpClass.deforbidify(parameter.name)),")
+                    fragment.output("\(parameter.type.pInvokeUnownedName) \(CSharpClass.deforbidify(parameter.name)),")
                 }
-                fragment.output("out IntPtr exn")
+                fragment.output("out CreatedRef exn")
             }
         }
         fragment.blankLine()
@@ -215,6 +213,10 @@ class CSharpClass: NestedClass {
 }
 
 extension CSharpClass.CSType: CustomStringConvertible {
+    static var object: Self {
+        return .named(package: nil, name: "object")
+    }
+
     var description: String {
         "FIXME: You should not use this, you should use one of the representations below. \(name)"
     }
@@ -229,8 +231,17 @@ extension CSharpClass.CSType: CustomStringConvertible {
         }
     }
 
-    var pInvokeName: String {
-        isObject ? "IntPtr" : name
+
+    var pInvokeConsumeName: String {
+        isObject ? "ConsumedRef" : name
+    }
+
+    var pInvokeCreatedName: String {
+        isObject ? "CreatedRef" : name
+    }
+
+    var pInvokeUnownedName: String {
+        isObject ? "UnownedRef" : name
     }
 
     var package: String? {
@@ -300,7 +311,7 @@ class CSharpProductClass: CSharpClass {
         fragment.outputBlock("{") {
             switch constructor {
             case .reference:
-                fragment.output("internal \(unqualifiedName)(IntPtr reference): base(reference) {}")
+                fragment.output("internal \(unqualifiedName)(ConsumedRef reference): base(reference) {}")
             case .public(let fields):
                 for field in fields {
                     fragment.output("public \(field.type.name) \(CSharpClass.deforbidify(field.name));")

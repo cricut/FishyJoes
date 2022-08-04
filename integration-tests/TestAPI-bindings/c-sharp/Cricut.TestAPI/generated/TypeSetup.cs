@@ -11,36 +11,36 @@ namespace Cricut.TestAPI {
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void FishyJoes_TestAPI_registerTypes();
 
-        delegate IntPtr Cricut_TestAPI_AssociatedDataEnum_new_thing(
+        delegate CreatedRef Cricut_TestAPI_AssociatedDataEnum_new_thing(
             nint value,
-            out IntPtr _exn
+            out CreatedRef _exn
         );
         unsafe delegate void Cricut_TestAPI_AssociatedDataEnum_extract_thing(
-            IntPtr obj,
+            UnownedRef obj,
             ref nint value,
-            out IntPtr _exn
+            out CreatedRef _exn
         );
-        delegate IntPtr Cricut_TestAPI_AssociatedDataEnum_new_other(
-            IntPtr unnamed,
+        delegate CreatedRef Cricut_TestAPI_AssociatedDataEnum_new_other(
+            ConsumedRef unnamed,
             nint _1,
-            out IntPtr _exn
+            out CreatedRef _exn
         );
         unsafe delegate void Cricut_TestAPI_AssociatedDataEnum_extract_other(
-            IntPtr obj,
-            ref IntPtr unnamed,
+            UnownedRef obj,
+            ref CreatedRef unnamed,
             ref nint _1,
-            out IntPtr _exn
+            out CreatedRef _exn
         );
-        delegate IntPtr Cricut_TestAPI_AssociatedDataEnum_new_bar(
-            IntPtr named,
-            IntPtr _1,
-            out IntPtr _exn
+        delegate CreatedRef Cricut_TestAPI_AssociatedDataEnum_new_bar(
+            ConsumedRef named,
+            ConsumedRef _1,
+            out CreatedRef _exn
         );
         unsafe delegate void Cricut_TestAPI_AssociatedDataEnum_extract_bar(
-            IntPtr obj,
-            ref IntPtr named,
-            ref IntPtr _1,
-            out IntPtr _exn
+            UnownedRef obj,
+            ref CreatedRef named,
+            ref CreatedRef _1,
+            out CreatedRef _exn
         );
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_AssociatedDataEnum_setup(
@@ -51,51 +51,51 @@ namespace Cricut.TestAPI {
             Cricut_TestAPI_AssociatedDataEnum_extract_other other_extractor,
             Cricut_TestAPI_AssociatedDataEnum_new_bar bar_constructor,
             Cricut_TestAPI_AssociatedDataEnum_extract_bar bar_extractor,
-            out IntPtr _exn
+            out CreatedRef _exn
         );
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_Bytes_setup(
             SwiftReference.ConstructorDelegate constructorMethod,
-            out IntPtr _exn
+            out CreatedRef _exn
         );
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_Collections_setup(
             SwiftReference.ConstructorDelegate constructorMethod,
-            out IntPtr _exn
+            out CreatedRef _exn
         );
 
-        delegate IntPtr _Collections_CollectionHolderConstructor(
-            IntPtr boolArray,
-            IntPtr boolSet,
-            IntPtr boolDictionary,
-            IntPtr integerArray,
-            IntPtr integerSet,
-            IntPtr integerDictionary,
-            IntPtr stringArray,
-            IntPtr stringSet,
-            IntPtr stringDictionary,
-            out IntPtr exn
+        delegate CreatedRef _Collections_CollectionHolderConstructor(
+            ConsumedRef boolArray,
+            ConsumedRef boolSet,
+            ConsumedRef boolDictionary,
+            ConsumedRef integerArray,
+            ConsumedRef integerSet,
+            ConsumedRef integerDictionary,
+            ConsumedRef stringArray,
+            ConsumedRef stringSet,
+            ConsumedRef stringDictionary,
+            out CreatedRef exn
         );
-        delegate IntPtr _Collections_CollectionHolder_boolArrayGetter(IntPtr obj, out IntPtr exn);
-        delegate void _Collections_CollectionHolder_boolArraySetter(IntPtr obj, IntPtr newValue, out IntPtr exn);
-        delegate IntPtr _Collections_CollectionHolder_boolSetGetter(IntPtr obj, out IntPtr exn);
-        delegate void _Collections_CollectionHolder_boolSetSetter(IntPtr obj, IntPtr newValue, out IntPtr exn);
-        delegate IntPtr _Collections_CollectionHolder_boolDictionaryGetter(IntPtr obj, out IntPtr exn);
-        delegate void _Collections_CollectionHolder_boolDictionarySetter(IntPtr obj, IntPtr newValue, out IntPtr exn);
-        delegate IntPtr _Collections_CollectionHolder_integerArrayGetter(IntPtr obj, out IntPtr exn);
-        delegate void _Collections_CollectionHolder_integerArraySetter(IntPtr obj, IntPtr newValue, out IntPtr exn);
-        delegate IntPtr _Collections_CollectionHolder_integerSetGetter(IntPtr obj, out IntPtr exn);
-        delegate void _Collections_CollectionHolder_integerSetSetter(IntPtr obj, IntPtr newValue, out IntPtr exn);
-        delegate IntPtr _Collections_CollectionHolder_integerDictionaryGetter(IntPtr obj, out IntPtr exn);
-        delegate void _Collections_CollectionHolder_integerDictionarySetter(IntPtr obj, IntPtr newValue, out IntPtr exn);
-        delegate IntPtr _Collections_CollectionHolder_stringArrayGetter(IntPtr obj, out IntPtr exn);
-        delegate void _Collections_CollectionHolder_stringArraySetter(IntPtr obj, IntPtr newValue, out IntPtr exn);
-        delegate IntPtr _Collections_CollectionHolder_stringSetGetter(IntPtr obj, out IntPtr exn);
-        delegate void _Collections_CollectionHolder_stringSetSetter(IntPtr obj, IntPtr newValue, out IntPtr exn);
-        delegate IntPtr _Collections_CollectionHolder_stringDictionaryGetter(IntPtr obj, out IntPtr exn);
-        delegate void _Collections_CollectionHolder_stringDictionarySetter(IntPtr obj, IntPtr newValue, out IntPtr exn);
+        delegate CreatedRef _Collections_CollectionHolder_boolArrayGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _Collections_CollectionHolder_boolArraySetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
+        delegate CreatedRef _Collections_CollectionHolder_boolSetGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _Collections_CollectionHolder_boolSetSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
+        delegate CreatedRef _Collections_CollectionHolder_boolDictionaryGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _Collections_CollectionHolder_boolDictionarySetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
+        delegate CreatedRef _Collections_CollectionHolder_integerArrayGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _Collections_CollectionHolder_integerArraySetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
+        delegate CreatedRef _Collections_CollectionHolder_integerSetGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _Collections_CollectionHolder_integerSetSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
+        delegate CreatedRef _Collections_CollectionHolder_integerDictionaryGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _Collections_CollectionHolder_integerDictionarySetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
+        delegate CreatedRef _Collections_CollectionHolder_stringArrayGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _Collections_CollectionHolder_stringArraySetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
+        delegate CreatedRef _Collections_CollectionHolder_stringSetGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _Collections_CollectionHolder_stringSetSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
+        delegate CreatedRef _Collections_CollectionHolder_stringDictionaryGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _Collections_CollectionHolder_stringDictionarySetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_Collections_CollectionHolder_setup(
             _Collections_CollectionHolderConstructor constructor,
@@ -117,101 +117,101 @@ namespace Cricut.TestAPI {
             _Collections_CollectionHolder_stringSetSetter set_stringSet,
             _Collections_CollectionHolder_stringDictionaryGetter get_stringDictionary,
             _Collections_CollectionHolder_stringDictionarySetter set_stringDictionary,
-            out IntPtr _exn
+            out CreatedRef _exn
         );
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_EmptyEnum_setup(
-            out IntPtr _exn
+            out CreatedRef _exn
         );
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_Functions_setup(
             SwiftReference.ConstructorDelegate constructorMethod,
-            out IntPtr _exn
+            out CreatedRef _exn
         );
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_Functions_TheError_setup(
             SwiftReference.ConstructorDelegate constructorMethod,
-            out IntPtr _exn
+            out CreatedRef _exn
         );
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_Primitives_setup(
             SwiftReference.ConstructorDelegate constructorMethod,
-            out IntPtr _exn
+            out CreatedRef _exn
         );
 
-        delegate IntPtr _Primitives_PrimitiveHolderConstructor(
+        delegate CreatedRef _Primitives_PrimitiveHolderConstructor(
             bool b,
-            IntPtr bq,
+            ConsumedRef bq,
             byte ui8,
-            IntPtr ui8q,
+            ConsumedRef ui8q,
             ushort ui16,
-            IntPtr ui16q,
+            ConsumedRef ui16q,
             uint ui32,
-            IntPtr ui32q,
+            ConsumedRef ui32q,
             ulong ui64,
-            IntPtr ui64q,
+            ConsumedRef ui64q,
             sbyte i8,
-            IntPtr i8q,
+            ConsumedRef i8q,
             short i16,
-            IntPtr i16q,
+            ConsumedRef i16q,
             int i32,
-            IntPtr i32q,
+            ConsumedRef i32q,
             long i64,
-            IntPtr i64q,
+            ConsumedRef i64q,
             float f,
-            IntPtr fq,
+            ConsumedRef fq,
             double d,
-            IntPtr dq,
-            out IntPtr exn
+            ConsumedRef dq,
+            out CreatedRef exn
         );
-        delegate bool _Primitives_PrimitiveHolder_bGetter(IntPtr obj, out IntPtr exn);
-        delegate void _Primitives_PrimitiveHolder_bSetter(IntPtr obj, bool newValue, out IntPtr exn);
-        delegate IntPtr _Primitives_PrimitiveHolder_bqGetter(IntPtr obj, out IntPtr exn);
-        delegate void _Primitives_PrimitiveHolder_bqSetter(IntPtr obj, IntPtr newValue, out IntPtr exn);
-        delegate byte _Primitives_PrimitiveHolder_ui8Getter(IntPtr obj, out IntPtr exn);
-        delegate void _Primitives_PrimitiveHolder_ui8Setter(IntPtr obj, byte newValue, out IntPtr exn);
-        delegate IntPtr _Primitives_PrimitiveHolder_ui8qGetter(IntPtr obj, out IntPtr exn);
-        delegate void _Primitives_PrimitiveHolder_ui8qSetter(IntPtr obj, IntPtr newValue, out IntPtr exn);
-        delegate ushort _Primitives_PrimitiveHolder_ui16Getter(IntPtr obj, out IntPtr exn);
-        delegate void _Primitives_PrimitiveHolder_ui16Setter(IntPtr obj, ushort newValue, out IntPtr exn);
-        delegate IntPtr _Primitives_PrimitiveHolder_ui16qGetter(IntPtr obj, out IntPtr exn);
-        delegate void _Primitives_PrimitiveHolder_ui16qSetter(IntPtr obj, IntPtr newValue, out IntPtr exn);
-        delegate uint _Primitives_PrimitiveHolder_ui32Getter(IntPtr obj, out IntPtr exn);
-        delegate void _Primitives_PrimitiveHolder_ui32Setter(IntPtr obj, uint newValue, out IntPtr exn);
-        delegate IntPtr _Primitives_PrimitiveHolder_ui32qGetter(IntPtr obj, out IntPtr exn);
-        delegate void _Primitives_PrimitiveHolder_ui32qSetter(IntPtr obj, IntPtr newValue, out IntPtr exn);
-        delegate ulong _Primitives_PrimitiveHolder_ui64Getter(IntPtr obj, out IntPtr exn);
-        delegate void _Primitives_PrimitiveHolder_ui64Setter(IntPtr obj, ulong newValue, out IntPtr exn);
-        delegate IntPtr _Primitives_PrimitiveHolder_ui64qGetter(IntPtr obj, out IntPtr exn);
-        delegate void _Primitives_PrimitiveHolder_ui64qSetter(IntPtr obj, IntPtr newValue, out IntPtr exn);
-        delegate sbyte _Primitives_PrimitiveHolder_i8Getter(IntPtr obj, out IntPtr exn);
-        delegate void _Primitives_PrimitiveHolder_i8Setter(IntPtr obj, sbyte newValue, out IntPtr exn);
-        delegate IntPtr _Primitives_PrimitiveHolder_i8qGetter(IntPtr obj, out IntPtr exn);
-        delegate void _Primitives_PrimitiveHolder_i8qSetter(IntPtr obj, IntPtr newValue, out IntPtr exn);
-        delegate short _Primitives_PrimitiveHolder_i16Getter(IntPtr obj, out IntPtr exn);
-        delegate void _Primitives_PrimitiveHolder_i16Setter(IntPtr obj, short newValue, out IntPtr exn);
-        delegate IntPtr _Primitives_PrimitiveHolder_i16qGetter(IntPtr obj, out IntPtr exn);
-        delegate void _Primitives_PrimitiveHolder_i16qSetter(IntPtr obj, IntPtr newValue, out IntPtr exn);
-        delegate int _Primitives_PrimitiveHolder_i32Getter(IntPtr obj, out IntPtr exn);
-        delegate void _Primitives_PrimitiveHolder_i32Setter(IntPtr obj, int newValue, out IntPtr exn);
-        delegate IntPtr _Primitives_PrimitiveHolder_i32qGetter(IntPtr obj, out IntPtr exn);
-        delegate void _Primitives_PrimitiveHolder_i32qSetter(IntPtr obj, IntPtr newValue, out IntPtr exn);
-        delegate long _Primitives_PrimitiveHolder_i64Getter(IntPtr obj, out IntPtr exn);
-        delegate void _Primitives_PrimitiveHolder_i64Setter(IntPtr obj, long newValue, out IntPtr exn);
-        delegate IntPtr _Primitives_PrimitiveHolder_i64qGetter(IntPtr obj, out IntPtr exn);
-        delegate void _Primitives_PrimitiveHolder_i64qSetter(IntPtr obj, IntPtr newValue, out IntPtr exn);
-        delegate float _Primitives_PrimitiveHolder_fGetter(IntPtr obj, out IntPtr exn);
-        delegate void _Primitives_PrimitiveHolder_fSetter(IntPtr obj, float newValue, out IntPtr exn);
-        delegate IntPtr _Primitives_PrimitiveHolder_fqGetter(IntPtr obj, out IntPtr exn);
-        delegate void _Primitives_PrimitiveHolder_fqSetter(IntPtr obj, IntPtr newValue, out IntPtr exn);
-        delegate double _Primitives_PrimitiveHolder_dGetter(IntPtr obj, out IntPtr exn);
-        delegate void _Primitives_PrimitiveHolder_dSetter(IntPtr obj, double newValue, out IntPtr exn);
-        delegate IntPtr _Primitives_PrimitiveHolder_dqGetter(IntPtr obj, out IntPtr exn);
-        delegate void _Primitives_PrimitiveHolder_dqSetter(IntPtr obj, IntPtr newValue, out IntPtr exn);
+        delegate bool _Primitives_PrimitiveHolder_bGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _Primitives_PrimitiveHolder_bSetter(UnownedRef obj, bool newValue, out CreatedRef exn);
+        delegate CreatedRef _Primitives_PrimitiveHolder_bqGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _Primitives_PrimitiveHolder_bqSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
+        delegate byte _Primitives_PrimitiveHolder_ui8Getter(UnownedRef obj, out CreatedRef exn);
+        delegate void _Primitives_PrimitiveHolder_ui8Setter(UnownedRef obj, byte newValue, out CreatedRef exn);
+        delegate CreatedRef _Primitives_PrimitiveHolder_ui8qGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _Primitives_PrimitiveHolder_ui8qSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
+        delegate ushort _Primitives_PrimitiveHolder_ui16Getter(UnownedRef obj, out CreatedRef exn);
+        delegate void _Primitives_PrimitiveHolder_ui16Setter(UnownedRef obj, ushort newValue, out CreatedRef exn);
+        delegate CreatedRef _Primitives_PrimitiveHolder_ui16qGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _Primitives_PrimitiveHolder_ui16qSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
+        delegate uint _Primitives_PrimitiveHolder_ui32Getter(UnownedRef obj, out CreatedRef exn);
+        delegate void _Primitives_PrimitiveHolder_ui32Setter(UnownedRef obj, uint newValue, out CreatedRef exn);
+        delegate CreatedRef _Primitives_PrimitiveHolder_ui32qGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _Primitives_PrimitiveHolder_ui32qSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
+        delegate ulong _Primitives_PrimitiveHolder_ui64Getter(UnownedRef obj, out CreatedRef exn);
+        delegate void _Primitives_PrimitiveHolder_ui64Setter(UnownedRef obj, ulong newValue, out CreatedRef exn);
+        delegate CreatedRef _Primitives_PrimitiveHolder_ui64qGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _Primitives_PrimitiveHolder_ui64qSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
+        delegate sbyte _Primitives_PrimitiveHolder_i8Getter(UnownedRef obj, out CreatedRef exn);
+        delegate void _Primitives_PrimitiveHolder_i8Setter(UnownedRef obj, sbyte newValue, out CreatedRef exn);
+        delegate CreatedRef _Primitives_PrimitiveHolder_i8qGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _Primitives_PrimitiveHolder_i8qSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
+        delegate short _Primitives_PrimitiveHolder_i16Getter(UnownedRef obj, out CreatedRef exn);
+        delegate void _Primitives_PrimitiveHolder_i16Setter(UnownedRef obj, short newValue, out CreatedRef exn);
+        delegate CreatedRef _Primitives_PrimitiveHolder_i16qGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _Primitives_PrimitiveHolder_i16qSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
+        delegate int _Primitives_PrimitiveHolder_i32Getter(UnownedRef obj, out CreatedRef exn);
+        delegate void _Primitives_PrimitiveHolder_i32Setter(UnownedRef obj, int newValue, out CreatedRef exn);
+        delegate CreatedRef _Primitives_PrimitiveHolder_i32qGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _Primitives_PrimitiveHolder_i32qSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
+        delegate long _Primitives_PrimitiveHolder_i64Getter(UnownedRef obj, out CreatedRef exn);
+        delegate void _Primitives_PrimitiveHolder_i64Setter(UnownedRef obj, long newValue, out CreatedRef exn);
+        delegate CreatedRef _Primitives_PrimitiveHolder_i64qGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _Primitives_PrimitiveHolder_i64qSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
+        delegate float _Primitives_PrimitiveHolder_fGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _Primitives_PrimitiveHolder_fSetter(UnownedRef obj, float newValue, out CreatedRef exn);
+        delegate CreatedRef _Primitives_PrimitiveHolder_fqGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _Primitives_PrimitiveHolder_fqSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
+        delegate double _Primitives_PrimitiveHolder_dGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _Primitives_PrimitiveHolder_dSetter(UnownedRef obj, double newValue, out CreatedRef exn);
+        delegate CreatedRef _Primitives_PrimitiveHolder_dqGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _Primitives_PrimitiveHolder_dqSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_Primitives_PrimitiveHolder_setup(
             _Primitives_PrimitiveHolderConstructor constructor,
@@ -259,29 +259,29 @@ namespace Cricut.TestAPI {
             _Primitives_PrimitiveHolder_dSetter set_d,
             _Primitives_PrimitiveHolder_dqGetter get_dq,
             _Primitives_PrimitiveHolder_dqSetter set_dq,
-            out IntPtr _exn
+            out CreatedRef _exn
         );
 
-        delegate IntPtr Cricut_TestAPI_SimpleEnum_new_red(
-            out IntPtr _exn
+        delegate CreatedRef Cricut_TestAPI_SimpleEnum_new_red(
+            out CreatedRef _exn
         );
         unsafe delegate void Cricut_TestAPI_SimpleEnum_extract_red(
-            IntPtr obj,
-            out IntPtr _exn
+            UnownedRef obj,
+            out CreatedRef _exn
         );
-        delegate IntPtr Cricut_TestAPI_SimpleEnum_new_green(
-            out IntPtr _exn
+        delegate CreatedRef Cricut_TestAPI_SimpleEnum_new_green(
+            out CreatedRef _exn
         );
         unsafe delegate void Cricut_TestAPI_SimpleEnum_extract_green(
-            IntPtr obj,
-            out IntPtr _exn
+            UnownedRef obj,
+            out CreatedRef _exn
         );
-        delegate IntPtr Cricut_TestAPI_SimpleEnum_new_blue(
-            out IntPtr _exn
+        delegate CreatedRef Cricut_TestAPI_SimpleEnum_new_blue(
+            out CreatedRef _exn
         );
         unsafe delegate void Cricut_TestAPI_SimpleEnum_extract_blue(
-            IntPtr obj,
-            out IntPtr _exn
+            UnownedRef obj,
+            out CreatedRef _exn
         );
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_SimpleEnum_setup(
@@ -292,30 +292,30 @@ namespace Cricut.TestAPI {
             Cricut_TestAPI_SimpleEnum_extract_green green_extractor,
             Cricut_TestAPI_SimpleEnum_new_blue blue_constructor,
             Cricut_TestAPI_SimpleEnum_extract_blue blue_extractor,
-            out IntPtr _exn
+            out CreatedRef _exn
         );
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_Strings_setup(
             SwiftReference.ConstructorDelegate constructorMethod,
-            out IntPtr _exn
+            out CreatedRef _exn
         );
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_Structs_setup(
             SwiftReference.ConstructorDelegate constructorMethod,
-            out IntPtr _exn
+            out CreatedRef _exn
         );
 
-        delegate IntPtr _Structs_MemberwiseStructConstructor(
-            IntPtr immutable,
-            IntPtr mutable,
-            out IntPtr exn
+        delegate CreatedRef _Structs_MemberwiseStructConstructor(
+            ConsumedRef immutable,
+            ConsumedRef mutable,
+            out CreatedRef exn
         );
-        delegate IntPtr _Structs_MemberwiseStruct_immutableGetter(IntPtr obj, out IntPtr exn);
-        delegate void _Structs_MemberwiseStruct_immutableSetter(IntPtr obj, IntPtr newValue, out IntPtr exn);
-        delegate IntPtr _Structs_MemberwiseStruct_mutableGetter(IntPtr obj, out IntPtr exn);
-        delegate void _Structs_MemberwiseStruct_mutableSetter(IntPtr obj, IntPtr newValue, out IntPtr exn);
+        delegate CreatedRef _Structs_MemberwiseStruct_immutableGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _Structs_MemberwiseStruct_immutableSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
+        delegate CreatedRef _Structs_MemberwiseStruct_mutableGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _Structs_MemberwiseStruct_mutableSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_Structs_MemberwiseStruct_setup(
             _Structs_MemberwiseStructConstructor constructor,
@@ -323,18 +323,18 @@ namespace Cricut.TestAPI {
             _Structs_MemberwiseStruct_immutableSetter set_immutable,
             _Structs_MemberwiseStruct_mutableGetter get_mutable,
             _Structs_MemberwiseStruct_mutableSetter set_mutable,
-            out IntPtr _exn
+            out CreatedRef _exn
         );
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_Structs_ReferenceStruct_setup(
             SwiftReference.ConstructorDelegate constructorMethod,
-            out IntPtr _exn
+            out CreatedRef _exn
         );
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_Tuples_setup(
-            out IntPtr _exn
+            out CreatedRef _exn
         );
 
         public static void _ensureLoaded() {}
@@ -346,282 +346,282 @@ namespace Cricut.TestAPI {
 
             Once("setup_Function2Converter<Function1Converter<Int, Int>, Function1Converter<Int, Int>, Function1Converter<Int, Int>>", () => {
                 Console.WriteLine("setting up ((Int) -> Int, (Int) -> Int) -> (Int) -> Int...");
-                Utilities.Check((out IntPtr exn) => FishyJoesRuntime_Function2Converter_setup<System.Func<nint, nint>, System.Func<nint, nint>, System.Func<nint, nint>>(
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_Function2Converter_setup<System.Func<nint, nint>, System.Func<nint, nint>, System.Func<nint, nint>>(
                     "Function2Converter<Function1Converter<Int, Int>, Function1Converter<Int, Int>, Function1Converter<Int, Int>>",
                     out exn
                 ));
             });
             Once("setup_Tuple4Converter<Tuple2Converter<Int, Swift.String>, Tuple3Converter<Swift.String, Double, Swift.String>, Swift.String, Bool>", () => {
                 Console.WriteLine("setting up ((Int, String), (String, Double, String), String, Bool)...");
-                Utilities.Check((out IntPtr exn) => FishyJoesRuntime_Tuple4Converter_setup<System.Tuple<nint, string>, System.Tuple<string, double, string>, string, bool>(
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_Tuple4Converter_setup<System.Tuple<nint, string>, System.Tuple<string, double, string>, string, bool>(
                     "Tuple4Converter<Tuple2Converter<Int, Swift.String>, Tuple3Converter<Swift.String, Double, Swift.String>, Swift.String, Bool>",
                     out exn
                 ));
             });
             Once("setup_Function0Converter<Int>", () => {
                 Console.WriteLine("setting up () -> Int...");
-                Utilities.Check((out IntPtr exn) => FishyJoesRuntime_Function0Converter_setup<nint>(
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_Function0Converter_setup<nint>(
                     "Function0Converter<Int>",
                     out exn
                 ));
             });
             Once("setup_Function3Converter<Float, Double, Int, Double>", () => {
                 Console.WriteLine("setting up (Float, Double, Int) -> Double...");
-                Utilities.Check((out IntPtr exn) => FishyJoesRuntime_Function3Converter_setup<double, float, double, nint>(
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_Function3Converter_setup<double, float, double, nint>(
                     "Function3Converter<Float, Double, Int, Double>",
                     out exn
                 ));
             });
             Once("setup_Function1Converter<Int, Int>", () => {
                 Console.WriteLine("setting up (Int) -> Int...");
-                Utilities.Check((out IntPtr exn) => FishyJoesRuntime_Function1Converter_setup<nint, nint>(
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_Function1Converter_setup<nint, nint>(
                     "Function1Converter<Int, Int>",
                     out exn
                 ));
             });
             Once("setup_Tuple2Converter<Int, Swift.String>", () => {
                 Console.WriteLine("setting up (Int, String)...");
-                Utilities.Check((out IntPtr exn) => FishyJoesRuntime_Tuple2Converter_setup<nint, string>(
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_Tuple2Converter_setup<nint, string>(
                     "Tuple2Converter<Int, Swift.String>",
                     out exn
                 ));
             });
             Once("setup_Function1Converter<OptionalConverter<ArrayConverter<OptionalConverter<Int>>>, OptionalConverter<ArrayConverter<OptionalConverter<Int>>>>", () => {
                 Console.WriteLine("setting up (Optional<Array<Optional<Int>>>) -> Optional<Array<Optional<Int>>>...");
-                Utilities.Check((out IntPtr exn) => FishyJoesRuntime_Function1Converter_setup<System.Collections.Generic.IList<nint?>?, System.Collections.Generic.IList<nint?>?>(
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_Function1Converter_setup<System.Collections.Generic.IList<nint?>?, System.Collections.Generic.IList<nint?>?>(
                     "Function1Converter<OptionalConverter<ArrayConverter<OptionalConverter<Int>>>, OptionalConverter<ArrayConverter<OptionalConverter<Int>>>>",
                     out exn
                 ));
             });
             Once("setup_Function1Converter<OptionalConverter<UInt8>, OptionalConverter<UInt8>>", () => {
                 Console.WriteLine("setting up (Optional<UInt8>) -> Optional<UInt8>...");
-                Utilities.Check((out IntPtr exn) => FishyJoesRuntime_Function1Converter_setup<byte?, byte?>(
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_Function1Converter_setup<byte?, byte?>(
                     "Function1Converter<OptionalConverter<UInt8>, OptionalConverter<UInt8>>",
                     out exn
                 ));
             });
             Once("setup_Tuple3Converter<Swift.String, Double, Swift.String>", () => {
                 Console.WriteLine("setting up (String, Double, String)...");
-                Utilities.Check((out IntPtr exn) => FishyJoesRuntime_Tuple3Converter_setup<string, double, string>(
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_Tuple3Converter_setup<string, double, string>(
                     "Tuple3Converter<Swift.String, Double, Swift.String>",
                     out exn
                 ));
             });
             Once("setup_Tuple6Converter<Swift.String, Int, Double, Tuple4Converter<Tuple2Converter<Int, Swift.String>, Tuple3Converter<Swift.String, Double, Swift.String>, Swift.String, Bool>, Tuple5Converter<Swift.String, UInt8, Tuple4Converter<Tuple2Converter<Int, Swift.String>, Tuple3Converter<Swift.String, Double, Swift.String>, Swift.String, Bool>, Tuple3Converter<Swift.String, Double, Swift.String>, Tuple2Converter<Int, Swift.String>>, Bool>", () => {
                 Console.WriteLine("setting up (String, Int, Double, ((Int, String), (String, Double, String), String, Bool), (String, UInt8, ((Int, String), (String, Double, String), String, Bool), (String, Double, String), (Int, String)), Bool)...");
-                Utilities.Check((out IntPtr exn) => FishyJoesRuntime_Tuple6Converter_setup<string, nint, double, System.Tuple<System.Tuple<nint, string>, System.Tuple<string, double, string>, string, bool>, System.Tuple<string, byte, System.Tuple<System.Tuple<nint, string>, System.Tuple<string, double, string>, string, bool>, System.Tuple<string, double, string>, System.Tuple<nint, string>>, bool>(
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_Tuple6Converter_setup<string, nint, double, System.Tuple<System.Tuple<nint, string>, System.Tuple<string, double, string>, string, bool>, System.Tuple<string, byte, System.Tuple<System.Tuple<nint, string>, System.Tuple<string, double, string>, string, bool>, System.Tuple<string, double, string>, System.Tuple<nint, string>>, bool>(
                     "Tuple6Converter<Swift.String, Int, Double, Tuple4Converter<Tuple2Converter<Int, Swift.String>, Tuple3Converter<Swift.String, Double, Swift.String>, Swift.String, Bool>, Tuple5Converter<Swift.String, UInt8, Tuple4Converter<Tuple2Converter<Int, Swift.String>, Tuple3Converter<Swift.String, Double, Swift.String>, Swift.String, Bool>, Tuple3Converter<Swift.String, Double, Swift.String>, Tuple2Converter<Int, Swift.String>>, Bool>",
                     out exn
                 ));
             });
             Once("setup_Function5Converter<Swift.String, Int, Double, Swift.String, Function0Converter<Int>, Function0Converter<Int>>", () => {
                 Console.WriteLine("setting up (String, Int, Double, String, () -> Int) -> () -> Int...");
-                Utilities.Check((out IntPtr exn) => FishyJoesRuntime_Function5Converter_setup<System.Func<nint>, string, nint, double, string, System.Func<nint>>(
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_Function5Converter_setup<System.Func<nint>, string, nint, double, string, System.Func<nint>>(
                     "Function5Converter<Swift.String, Int, Double, Swift.String, Function0Converter<Int>, Function0Converter<Int>>",
                     out exn
                 ));
             });
             Once("setup_Function6Converter<Swift.String, Int, Double, Swift.String, Function0Converter<Int>, Int, Int>", () => {
                 Console.WriteLine("setting up (String, Int, Double, String, () -> Int, Int) -> Int...");
-                Utilities.Check((out IntPtr exn) => FishyJoesRuntime_Function6Converter_setup<nint, string, nint, double, string, System.Func<nint>, nint>(
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_Function6Converter_setup<nint, string, nint, double, string, System.Func<nint>, nint>(
                     "Function6Converter<Swift.String, Int, Double, Swift.String, Function0Converter<Int>, Int, Int>",
                     out exn
                 ));
             });
             Once("setup_Function4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>", () => {
                 Console.WriteLine("setting up (String, String, String, String) -> Array<String>...");
-                Utilities.Check((out IntPtr exn) => FishyJoesRuntime_Function4Converter_setup<System.Collections.Generic.IList<string>, string, string, string, string>(
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_Function4Converter_setup<System.Collections.Generic.IList<string>, string, string, string, string>(
                     "Function4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>",
                     out exn
                 ));
             });
             Once("setup_Tuple5Converter<Swift.String, UInt8, Tuple4Converter<Tuple2Converter<Int, Swift.String>, Tuple3Converter<Swift.String, Double, Swift.String>, Swift.String, Bool>, Tuple3Converter<Swift.String, Double, Swift.String>, Tuple2Converter<Int, Swift.String>>", () => {
                 Console.WriteLine("setting up (String, UInt8, ((Int, String), (String, Double, String), String, Bool), (String, Double, String), (Int, String))...");
-                Utilities.Check((out IntPtr exn) => FishyJoesRuntime_Tuple5Converter_setup<string, byte, System.Tuple<System.Tuple<nint, string>, System.Tuple<string, double, string>, string, bool>, System.Tuple<string, double, string>, System.Tuple<nint, string>>(
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_Tuple5Converter_setup<string, byte, System.Tuple<System.Tuple<nint, string>, System.Tuple<string, double, string>, string, bool>, System.Tuple<string, double, string>, System.Tuple<nint, string>>(
                     "Tuple5Converter<Swift.String, UInt8, Tuple4Converter<Tuple2Converter<Int, Swift.String>, Tuple3Converter<Swift.String, Double, Swift.String>, Swift.String, Bool>, Tuple3Converter<Swift.String, Double, Swift.String>, Tuple2Converter<Int, Swift.String>>",
                     out exn
                 ));
             });
             Once("setup_ArrayConverter<Bool>", () => {
                 Console.WriteLine("setting up Array<Bool>...");
-                Utilities.Check((out IntPtr exn) => FishyJoesRuntime_ArrayConverter_setup<bool>(
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_ArrayConverter_setup<bool>(
                     "ArrayConverter<Bool>",
                     out exn
                 ));
             });
             Once("setup_ArrayConverter<Double>", () => {
                 Console.WriteLine("setting up Array<Double>...");
-                Utilities.Check((out IntPtr exn) => FishyJoesRuntime_ArrayConverter_setup<double>(
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_ArrayConverter_setup<double>(
                     "ArrayConverter<Double>",
                     out exn
                 ));
             });
             Once("setup_ArrayConverter<Float>", () => {
                 Console.WriteLine("setting up Array<Float>...");
-                Utilities.Check((out IntPtr exn) => FishyJoesRuntime_ArrayConverter_setup<float>(
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_ArrayConverter_setup<float>(
                     "ArrayConverter<Float>",
                     out exn
                 ));
             });
             Once("setup_ArrayConverter<Int16>", () => {
                 Console.WriteLine("setting up Array<Int16>...");
-                Utilities.Check((out IntPtr exn) => FishyJoesRuntime_ArrayConverter_setup<short>(
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_ArrayConverter_setup<short>(
                     "ArrayConverter<Int16>",
                     out exn
                 ));
             });
             Once("setup_ArrayConverter<Int32>", () => {
                 Console.WriteLine("setting up Array<Int32>...");
-                Utilities.Check((out IntPtr exn) => FishyJoesRuntime_ArrayConverter_setup<int>(
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_ArrayConverter_setup<int>(
                     "ArrayConverter<Int32>",
                     out exn
                 ));
             });
             Once("setup_ArrayConverter<Int64>", () => {
                 Console.WriteLine("setting up Array<Int64>...");
-                Utilities.Check((out IntPtr exn) => FishyJoesRuntime_ArrayConverter_setup<long>(
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_ArrayConverter_setup<long>(
                     "ArrayConverter<Int64>",
                     out exn
                 ));
             });
             Once("setup_ArrayConverter<Int8>", () => {
                 Console.WriteLine("setting up Array<Int8>...");
-                Utilities.Check((out IntPtr exn) => FishyJoesRuntime_ArrayConverter_setup<sbyte>(
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_ArrayConverter_setup<sbyte>(
                     "ArrayConverter<Int8>",
                     out exn
                 ));
             });
             Once("setup_ArrayConverter<Int>", () => {
                 Console.WriteLine("setting up Array<Int>...");
-                Utilities.Check((out IntPtr exn) => FishyJoesRuntime_ArrayConverter_setup<nint>(
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_ArrayConverter_setup<nint>(
                     "ArrayConverter<Int>",
                     out exn
                 ));
             });
             Once("setup_ArrayConverter<OptionalConverter<Bool>>", () => {
                 Console.WriteLine("setting up Array<Optional<Bool>>...");
-                Utilities.Check((out IntPtr exn) => FishyJoesRuntime_ArrayConverter_setup<bool?>(
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_ArrayConverter_setup<bool?>(
                     "ArrayConverter<OptionalConverter<Bool>>",
                     out exn
                 ));
             });
             Once("setup_ArrayConverter<OptionalConverter<Double>>", () => {
                 Console.WriteLine("setting up Array<Optional<Double>>...");
-                Utilities.Check((out IntPtr exn) => FishyJoesRuntime_ArrayConverter_setup<double?>(
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_ArrayConverter_setup<double?>(
                     "ArrayConverter<OptionalConverter<Double>>",
                     out exn
                 ));
             });
             Once("setup_ArrayConverter<OptionalConverter<Float>>", () => {
                 Console.WriteLine("setting up Array<Optional<Float>>...");
-                Utilities.Check((out IntPtr exn) => FishyJoesRuntime_ArrayConverter_setup<float?>(
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_ArrayConverter_setup<float?>(
                     "ArrayConverter<OptionalConverter<Float>>",
                     out exn
                 ));
             });
             Once("setup_ArrayConverter<OptionalConverter<Int16>>", () => {
                 Console.WriteLine("setting up Array<Optional<Int16>>...");
-                Utilities.Check((out IntPtr exn) => FishyJoesRuntime_ArrayConverter_setup<short?>(
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_ArrayConverter_setup<short?>(
                     "ArrayConverter<OptionalConverter<Int16>>",
                     out exn
                 ));
             });
             Once("setup_ArrayConverter<OptionalConverter<Int32>>", () => {
                 Console.WriteLine("setting up Array<Optional<Int32>>...");
-                Utilities.Check((out IntPtr exn) => FishyJoesRuntime_ArrayConverter_setup<int?>(
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_ArrayConverter_setup<int?>(
                     "ArrayConverter<OptionalConverter<Int32>>",
                     out exn
                 ));
             });
             Once("setup_ArrayConverter<OptionalConverter<Int64>>", () => {
                 Console.WriteLine("setting up Array<Optional<Int64>>...");
-                Utilities.Check((out IntPtr exn) => FishyJoesRuntime_ArrayConverter_setup<long?>(
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_ArrayConverter_setup<long?>(
                     "ArrayConverter<OptionalConverter<Int64>>",
                     out exn
                 ));
             });
             Once("setup_ArrayConverter<OptionalConverter<Int8>>", () => {
                 Console.WriteLine("setting up Array<Optional<Int8>>...");
-                Utilities.Check((out IntPtr exn) => FishyJoesRuntime_ArrayConverter_setup<sbyte?>(
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_ArrayConverter_setup<sbyte?>(
                     "ArrayConverter<OptionalConverter<Int8>>",
                     out exn
                 ));
             });
             Once("setup_ArrayConverter<OptionalConverter<Int>>", () => {
                 Console.WriteLine("setting up Array<Optional<Int>>...");
-                Utilities.Check((out IntPtr exn) => FishyJoesRuntime_ArrayConverter_setup<nint?>(
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_ArrayConverter_setup<nint?>(
                     "ArrayConverter<OptionalConverter<Int>>",
                     out exn
                 ));
             });
             Once("setup_ArrayConverter<OptionalConverter<UInt16>>", () => {
                 Console.WriteLine("setting up Array<Optional<UInt16>>...");
-                Utilities.Check((out IntPtr exn) => FishyJoesRuntime_ArrayConverter_setup<ushort?>(
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_ArrayConverter_setup<ushort?>(
                     "ArrayConverter<OptionalConverter<UInt16>>",
                     out exn
                 ));
             });
             Once("setup_ArrayConverter<OptionalConverter<UInt32>>", () => {
                 Console.WriteLine("setting up Array<Optional<UInt32>>...");
-                Utilities.Check((out IntPtr exn) => FishyJoesRuntime_ArrayConverter_setup<uint?>(
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_ArrayConverter_setup<uint?>(
                     "ArrayConverter<OptionalConverter<UInt32>>",
                     out exn
                 ));
             });
             Once("setup_ArrayConverter<OptionalConverter<UInt64>>", () => {
                 Console.WriteLine("setting up Array<Optional<UInt64>>...");
-                Utilities.Check((out IntPtr exn) => FishyJoesRuntime_ArrayConverter_setup<ulong?>(
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_ArrayConverter_setup<ulong?>(
                     "ArrayConverter<OptionalConverter<UInt64>>",
                     out exn
                 ));
             });
             Once("setup_ArrayConverter<OptionalConverter<UInt8>>", () => {
                 Console.WriteLine("setting up Array<Optional<UInt8>>...");
-                Utilities.Check((out IntPtr exn) => FishyJoesRuntime_ArrayConverter_setup<byte?>(
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_ArrayConverter_setup<byte?>(
                     "ArrayConverter<OptionalConverter<UInt8>>",
                     out exn
                 ));
             });
             Once("setup_ArrayConverter<Swift.String>", () => {
                 Console.WriteLine("setting up Array<String>...");
-                Utilities.Check((out IntPtr exn) => FishyJoesRuntime_ArrayConverter_setup<string>(
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_ArrayConverter_setup<string>(
                     "ArrayConverter<Swift.String>",
                     out exn
                 ));
             });
             Once("setup_ArrayConverter<UInt16>", () => {
                 Console.WriteLine("setting up Array<UInt16>...");
-                Utilities.Check((out IntPtr exn) => FishyJoesRuntime_ArrayConverter_setup<ushort>(
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_ArrayConverter_setup<ushort>(
                     "ArrayConverter<UInt16>",
                     out exn
                 ));
             });
             Once("setup_ArrayConverter<UInt32>", () => {
                 Console.WriteLine("setting up Array<UInt32>...");
-                Utilities.Check((out IntPtr exn) => FishyJoesRuntime_ArrayConverter_setup<uint>(
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_ArrayConverter_setup<uint>(
                     "ArrayConverter<UInt32>",
                     out exn
                 ));
             });
             Once("setup_ArrayConverter<UInt64>", () => {
                 Console.WriteLine("setting up Array<UInt64>...");
-                Utilities.Check((out IntPtr exn) => FishyJoesRuntime_ArrayConverter_setup<ulong>(
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_ArrayConverter_setup<ulong>(
                     "ArrayConverter<UInt64>",
                     out exn
                 ));
             });
             Once("setup_ArrayConverter<UInt8>", () => {
                 Console.WriteLine("setting up Array<UInt8>...");
-                Utilities.Check((out IntPtr exn) => FishyJoesRuntime_ArrayConverter_setup<byte>(
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_ArrayConverter_setup<byte>(
                     "ArrayConverter<UInt8>",
                     out exn
                 ));
             });
             Once("setup_AssociatedDataEnum", () => {
                 Console.WriteLine("setting up AssociatedDataEnum...");
-                Utilities.Check((out IntPtr exn) => TestAPI_AssociatedDataEnum_setup(
-                    bag<FishyJoesRuntime.EnumDiscriminator>((IntPtr obj, out IntPtr exn) => Catching(out exn, () => {
-                        var enumeration = PeekHandle<Cricut.TestAPI.AssociatedDataEnum>(obj);
+                Utilities.Check((out CreatedRef exn) => TestAPI_AssociatedDataEnum_setup(
+                    bag<FishyJoesRuntime.EnumDiscriminator>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => {
+                        var enumeration = obj.Peek<Cricut.TestAPI.AssociatedDataEnum>();
                         if (enumeration is Cricut.TestAPI.AssociatedDataEnum.Thing) { return (nint)0; }
                         if (enumeration is Cricut.TestAPI.AssociatedDataEnum.Other) { return (nint)1; }
                         if (enumeration is Cricut.TestAPI.AssociatedDataEnum.Bar) { return (nint)2; }
@@ -630,83 +630,83 @@ namespace Cricut.TestAPI {
                     bag<Cricut_TestAPI_AssociatedDataEnum_new_thing>(
                         (
                             nint _value,
-                            out IntPtr exn
+                            out CreatedRef exn
                         ) => Catching(out exn, () => 
-                            PassOwnership(new Cricut.TestAPI.AssociatedDataEnum.Thing(
+                            new CreatedRef(new Cricut.TestAPI.AssociatedDataEnum.Thing(
                                 _value
                             ))
                         )
                     ),
                     bag<Cricut_TestAPI_AssociatedDataEnum_extract_thing>(
                         (
-                            IntPtr obj,
+                            UnownedRef obj,
                             ref nint _value,
-                            out IntPtr exn
+                            out CreatedRef exn
                         ) => {
                             try {
-                                var enumeration = PeekHandle<Cricut.TestAPI.AssociatedDataEnum.Thing>(obj);
+                                var enumeration = obj.Peek<Cricut.TestAPI.AssociatedDataEnum.Thing>();
                                 _value = enumeration.Value;
-                                exn = IntPtr.Zero;
+                                exn = CreatedRef.Null;
                             } catch (Exception e) {
-                                exn = PassOwnership(e);
+                                exn = new CreatedRef(e);
                             }
                         }
                     ),
                     bag<Cricut_TestAPI_AssociatedDataEnum_new_other>(
                         (
-                            IntPtr _unnamed,
+                            ConsumedRef _unnamed,
                             nint __1,
-                            out IntPtr exn
+                            out CreatedRef exn
                         ) => Catching(out exn, () => 
-                            PassOwnership(new Cricut.TestAPI.AssociatedDataEnum.Other(
-                                PeekHandle<string>(_unnamed),
+                            new CreatedRef(new Cricut.TestAPI.AssociatedDataEnum.Other(
+                                _unnamed.Consume<string>(),
                                 __1
                             ))
                         )
                     ),
                     bag<Cricut_TestAPI_AssociatedDataEnum_extract_other>(
                         (
-                            IntPtr obj,
-                            ref IntPtr _unnamed,
+                            UnownedRef obj,
+                            ref CreatedRef _unnamed,
                             ref nint __1,
-                            out IntPtr exn
+                            out CreatedRef exn
                         ) => {
                             try {
-                                var enumeration = PeekHandle<Cricut.TestAPI.AssociatedDataEnum.Other>(obj);
-                                _unnamed = PassOwnership(enumeration.Unnamed);
+                                var enumeration = obj.Peek<Cricut.TestAPI.AssociatedDataEnum.Other>();
+                                _unnamed = new CreatedRef(enumeration.Unnamed);
                                 __1 = enumeration._1;
-                                exn = IntPtr.Zero;
+                                exn = CreatedRef.Null;
                             } catch (Exception e) {
-                                exn = PassOwnership(e);
+                                exn = new CreatedRef(e);
                             }
                         }
                     ),
                     bag<Cricut_TestAPI_AssociatedDataEnum_new_bar>(
                         (
-                            IntPtr _named,
-                            IntPtr __1,
-                            out IntPtr exn
+                            ConsumedRef _named,
+                            ConsumedRef __1,
+                            out CreatedRef exn
                         ) => Catching(out exn, () => 
-                            PassOwnership(new Cricut.TestAPI.AssociatedDataEnum.Bar(
-                                PeekHandle<string>(_named),
-                                PeekHandle<Cricut.TestAPI.AssociatedDataEnum>(__1)
+                            new CreatedRef(new Cricut.TestAPI.AssociatedDataEnum.Bar(
+                                _named.Consume<string>(),
+                                __1.Consume<Cricut.TestAPI.AssociatedDataEnum>()
                             ))
                         )
                     ),
                     bag<Cricut_TestAPI_AssociatedDataEnum_extract_bar>(
                         (
-                            IntPtr obj,
-                            ref IntPtr _named,
-                            ref IntPtr __1,
-                            out IntPtr exn
+                            UnownedRef obj,
+                            ref CreatedRef _named,
+                            ref CreatedRef __1,
+                            out CreatedRef exn
                         ) => {
                             try {
-                                var enumeration = PeekHandle<Cricut.TestAPI.AssociatedDataEnum.Bar>(obj);
-                                _named = PassOwnership(enumeration.Named);
-                                __1 = PassOwnership(enumeration._1);
-                                exn = IntPtr.Zero;
+                                var enumeration = obj.Peek<Cricut.TestAPI.AssociatedDataEnum.Bar>();
+                                _named = new CreatedRef(enumeration.Named);
+                                __1 = new CreatedRef(enumeration._1);
+                                exn = CreatedRef.Null;
                             } catch (Exception e) {
-                                exn = PassOwnership(e);
+                                exn = new CreatedRef(e);
                             }
                         }
                     ),
@@ -715,467 +715,467 @@ namespace Cricut.TestAPI {
             });
             Once("setup_Bytes", () => {
                 Console.WriteLine("setting up Bytes...");
-                Utilities.Check((out IntPtr exn) => TestAPI_Bytes_setup(
-                    bag<SwiftReference.ConstructorDelegate>((IntPtr ptr, out IntPtr exn) => Catching(out exn, () => {
-                        return PassOwnership(new Cricut.TestAPI.Bytes(ptr));
+                Utilities.Check((out CreatedRef exn) => TestAPI_Bytes_setup(
+                    bag<SwiftReference.ConstructorDelegate>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.Bytes(ptr));
                     })),
                     out exn
                 ));
             });
             Once("setup_Collections", () => {
                 Console.WriteLine("setting up Collections...");
-                Utilities.Check((out IntPtr exn) => TestAPI_Collections_setup(
-                    bag<SwiftReference.ConstructorDelegate>((IntPtr ptr, out IntPtr exn) => Catching(out exn, () => {
-                        return PassOwnership(new Cricut.TestAPI.Collections(ptr));
+                Utilities.Check((out CreatedRef exn) => TestAPI_Collections_setup(
+                    bag<SwiftReference.ConstructorDelegate>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.Collections(ptr));
                     })),
                     out exn
                 ));
             });
             Once("setup_Collections.CollectionHolder", () => {
                 Console.WriteLine("setting up Collections.CollectionHolder...");
-                Utilities.Check((out IntPtr exn) => TestAPI_Collections_CollectionHolder_setup(
-                    bag<_Collections_CollectionHolderConstructor>((IntPtr boolArray, IntPtr boolSet, IntPtr boolDictionary, IntPtr integerArray, IntPtr integerSet, IntPtr integerDictionary, IntPtr stringArray, IntPtr stringSet, IntPtr stringDictionary, out IntPtr exn) => Catching(out exn, () => {
-                        return PassOwnership(new Cricut.TestAPI.Collections.CollectionHolder(
-                            PeekHandle<System.Collections.Generic.IList<bool>>(boolArray),
-                            PeekHandle<System.Collections.Generic.ISet<bool>>(boolSet),
-                            PeekHandle<System.Collections.Generic.IDictionary<bool, bool>>(boolDictionary),
-                            PeekHandle<System.Collections.Generic.IList<nint>>(integerArray),
-                            PeekHandle<System.Collections.Generic.ISet<nint>>(integerSet),
-                            PeekHandle<System.Collections.Generic.IDictionary<nint, nint>>(integerDictionary),
-                            PeekHandle<System.Collections.Generic.IList<string>>(stringArray),
-                            PeekHandle<System.Collections.Generic.ISet<string>>(stringSet),
-                            PeekHandle<System.Collections.Generic.IDictionary<string, string>>(stringDictionary)
+                Utilities.Check((out CreatedRef exn) => TestAPI_Collections_CollectionHolder_setup(
+                    bag<_Collections_CollectionHolderConstructor>((ConsumedRef boolArray, ConsumedRef boolSet, ConsumedRef boolDictionary, ConsumedRef integerArray, ConsumedRef integerSet, ConsumedRef integerDictionary, ConsumedRef stringArray, ConsumedRef stringSet, ConsumedRef stringDictionary, out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.Collections.CollectionHolder(
+                            boolArray.Consume<System.Collections.Generic.IList<bool>>(),
+                            boolSet.Consume<System.Collections.Generic.ISet<bool>>(),
+                            boolDictionary.Consume<System.Collections.Generic.IDictionary<bool, bool>>(),
+                            integerArray.Consume<System.Collections.Generic.IList<nint>>(),
+                            integerSet.Consume<System.Collections.Generic.ISet<nint>>(),
+                            integerDictionary.Consume<System.Collections.Generic.IDictionary<nint, nint>>(),
+                            stringArray.Consume<System.Collections.Generic.IList<string>>(),
+                            stringSet.Consume<System.Collections.Generic.ISet<string>>(),
+                            stringDictionary.Consume<System.Collections.Generic.IDictionary<string, string>>()
                         ));
                     })),
-                    bag<_Collections_CollectionHolder_boolArrayGetter>((IntPtr obj, out IntPtr exn) => Catching(out exn, () =>
-                        PassOwnership(PeekHandle<Cricut.TestAPI.Collections.CollectionHolder>(obj).BoolArray)
+                    bag<_Collections_CollectionHolder_boolArrayGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.Collections.CollectionHolder>().BoolArray)
                     )),
-                    bag<_Collections_CollectionHolder_boolArraySetter>((IntPtr obj, IntPtr newValue, out IntPtr exn) => Catching(out exn, () => {
-                        PeekHandle<Cricut.TestAPI.Collections.CollectionHolder>(obj).BoolArray = PeekHandle<System.Collections.Generic.IList<bool>>(newValue);
+                    bag<_Collections_CollectionHolder_boolArraySetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Collections.CollectionHolder>().BoolArray = newValue.Consume<System.Collections.Generic.IList<bool>>();
                     })),
-                    bag<_Collections_CollectionHolder_boolSetGetter>((IntPtr obj, out IntPtr exn) => Catching(out exn, () =>
-                        PassOwnership(PeekHandle<Cricut.TestAPI.Collections.CollectionHolder>(obj).BoolSet)
+                    bag<_Collections_CollectionHolder_boolSetGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.Collections.CollectionHolder>().BoolSet)
                     )),
-                    bag<_Collections_CollectionHolder_boolSetSetter>((IntPtr obj, IntPtr newValue, out IntPtr exn) => Catching(out exn, () => {
-                        PeekHandle<Cricut.TestAPI.Collections.CollectionHolder>(obj).BoolSet = PeekHandle<System.Collections.Generic.ISet<bool>>(newValue);
+                    bag<_Collections_CollectionHolder_boolSetSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Collections.CollectionHolder>().BoolSet = newValue.Consume<System.Collections.Generic.ISet<bool>>();
                     })),
-                    bag<_Collections_CollectionHolder_boolDictionaryGetter>((IntPtr obj, out IntPtr exn) => Catching(out exn, () =>
-                        PassOwnership(PeekHandle<Cricut.TestAPI.Collections.CollectionHolder>(obj).BoolDictionary)
+                    bag<_Collections_CollectionHolder_boolDictionaryGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.Collections.CollectionHolder>().BoolDictionary)
                     )),
-                    bag<_Collections_CollectionHolder_boolDictionarySetter>((IntPtr obj, IntPtr newValue, out IntPtr exn) => Catching(out exn, () => {
-                        PeekHandle<Cricut.TestAPI.Collections.CollectionHolder>(obj).BoolDictionary = PeekHandle<System.Collections.Generic.IDictionary<bool, bool>>(newValue);
+                    bag<_Collections_CollectionHolder_boolDictionarySetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Collections.CollectionHolder>().BoolDictionary = newValue.Consume<System.Collections.Generic.IDictionary<bool, bool>>();
                     })),
-                    bag<_Collections_CollectionHolder_integerArrayGetter>((IntPtr obj, out IntPtr exn) => Catching(out exn, () =>
-                        PassOwnership(PeekHandle<Cricut.TestAPI.Collections.CollectionHolder>(obj).IntegerArray)
+                    bag<_Collections_CollectionHolder_integerArrayGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.Collections.CollectionHolder>().IntegerArray)
                     )),
-                    bag<_Collections_CollectionHolder_integerArraySetter>((IntPtr obj, IntPtr newValue, out IntPtr exn) => Catching(out exn, () => {
-                        PeekHandle<Cricut.TestAPI.Collections.CollectionHolder>(obj).IntegerArray = PeekHandle<System.Collections.Generic.IList<nint>>(newValue);
+                    bag<_Collections_CollectionHolder_integerArraySetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Collections.CollectionHolder>().IntegerArray = newValue.Consume<System.Collections.Generic.IList<nint>>();
                     })),
-                    bag<_Collections_CollectionHolder_integerSetGetter>((IntPtr obj, out IntPtr exn) => Catching(out exn, () =>
-                        PassOwnership(PeekHandle<Cricut.TestAPI.Collections.CollectionHolder>(obj).IntegerSet)
+                    bag<_Collections_CollectionHolder_integerSetGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.Collections.CollectionHolder>().IntegerSet)
                     )),
-                    bag<_Collections_CollectionHolder_integerSetSetter>((IntPtr obj, IntPtr newValue, out IntPtr exn) => Catching(out exn, () => {
-                        PeekHandle<Cricut.TestAPI.Collections.CollectionHolder>(obj).IntegerSet = PeekHandle<System.Collections.Generic.ISet<nint>>(newValue);
+                    bag<_Collections_CollectionHolder_integerSetSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Collections.CollectionHolder>().IntegerSet = newValue.Consume<System.Collections.Generic.ISet<nint>>();
                     })),
-                    bag<_Collections_CollectionHolder_integerDictionaryGetter>((IntPtr obj, out IntPtr exn) => Catching(out exn, () =>
-                        PassOwnership(PeekHandle<Cricut.TestAPI.Collections.CollectionHolder>(obj).IntegerDictionary)
+                    bag<_Collections_CollectionHolder_integerDictionaryGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.Collections.CollectionHolder>().IntegerDictionary)
                     )),
-                    bag<_Collections_CollectionHolder_integerDictionarySetter>((IntPtr obj, IntPtr newValue, out IntPtr exn) => Catching(out exn, () => {
-                        PeekHandle<Cricut.TestAPI.Collections.CollectionHolder>(obj).IntegerDictionary = PeekHandle<System.Collections.Generic.IDictionary<nint, nint>>(newValue);
+                    bag<_Collections_CollectionHolder_integerDictionarySetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Collections.CollectionHolder>().IntegerDictionary = newValue.Consume<System.Collections.Generic.IDictionary<nint, nint>>();
                     })),
-                    bag<_Collections_CollectionHolder_stringArrayGetter>((IntPtr obj, out IntPtr exn) => Catching(out exn, () =>
-                        PassOwnership(PeekHandle<Cricut.TestAPI.Collections.CollectionHolder>(obj).StringArray)
+                    bag<_Collections_CollectionHolder_stringArrayGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.Collections.CollectionHolder>().StringArray)
                     )),
-                    bag<_Collections_CollectionHolder_stringArraySetter>((IntPtr obj, IntPtr newValue, out IntPtr exn) => Catching(out exn, () => {
-                        PeekHandle<Cricut.TestAPI.Collections.CollectionHolder>(obj).StringArray = PeekHandle<System.Collections.Generic.IList<string>>(newValue);
+                    bag<_Collections_CollectionHolder_stringArraySetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Collections.CollectionHolder>().StringArray = newValue.Consume<System.Collections.Generic.IList<string>>();
                     })),
-                    bag<_Collections_CollectionHolder_stringSetGetter>((IntPtr obj, out IntPtr exn) => Catching(out exn, () =>
-                        PassOwnership(PeekHandle<Cricut.TestAPI.Collections.CollectionHolder>(obj).StringSet)
+                    bag<_Collections_CollectionHolder_stringSetGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.Collections.CollectionHolder>().StringSet)
                     )),
-                    bag<_Collections_CollectionHolder_stringSetSetter>((IntPtr obj, IntPtr newValue, out IntPtr exn) => Catching(out exn, () => {
-                        PeekHandle<Cricut.TestAPI.Collections.CollectionHolder>(obj).StringSet = PeekHandle<System.Collections.Generic.ISet<string>>(newValue);
+                    bag<_Collections_CollectionHolder_stringSetSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Collections.CollectionHolder>().StringSet = newValue.Consume<System.Collections.Generic.ISet<string>>();
                     })),
-                    bag<_Collections_CollectionHolder_stringDictionaryGetter>((IntPtr obj, out IntPtr exn) => Catching(out exn, () =>
-                        PassOwnership(PeekHandle<Cricut.TestAPI.Collections.CollectionHolder>(obj).StringDictionary)
+                    bag<_Collections_CollectionHolder_stringDictionaryGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.Collections.CollectionHolder>().StringDictionary)
                     )),
-                    bag<_Collections_CollectionHolder_stringDictionarySetter>((IntPtr obj, IntPtr newValue, out IntPtr exn) => Catching(out exn, () => {
-                        PeekHandle<Cricut.TestAPI.Collections.CollectionHolder>(obj).StringDictionary = PeekHandle<System.Collections.Generic.IDictionary<string, string>>(newValue);
+                    bag<_Collections_CollectionHolder_stringDictionarySetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Collections.CollectionHolder>().StringDictionary = newValue.Consume<System.Collections.Generic.IDictionary<string, string>>();
                     })),
                     out exn
                 ));
             });
             Once("setup_DictionaryConverter<Bool, Bool>", () => {
                 Console.WriteLine("setting up Dictionary<Bool, Bool>...");
-                Utilities.Check((out IntPtr exn) => FishyJoesRuntime_DictionaryConverter_setup<bool, bool>(
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_DictionaryConverter_setup<bool, bool>(
                     "DictionaryConverter<Bool, Bool>",
                     out exn
                 ));
             });
             Once("setup_DictionaryConverter<Int, Int>", () => {
                 Console.WriteLine("setting up Dictionary<Int, Int>...");
-                Utilities.Check((out IntPtr exn) => FishyJoesRuntime_DictionaryConverter_setup<nint, nint>(
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_DictionaryConverter_setup<nint, nint>(
                     "DictionaryConverter<Int, Int>",
                     out exn
                 ));
             });
             Once("setup_DictionaryConverter<Int, OptionalConverter<Int>>", () => {
                 Console.WriteLine("setting up Dictionary<Int, Optional<Int>>...");
-                Utilities.Check((out IntPtr exn) => FishyJoesRuntime_DictionaryConverter_setup<nint, nint?>(
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_DictionaryConverter_setup<nint, nint?>(
                     "DictionaryConverter<Int, OptionalConverter<Int>>",
                     out exn
                 ));
             });
             Once("setup_DictionaryConverter<Swift.String, Swift.String>", () => {
                 Console.WriteLine("setting up Dictionary<String, String>...");
-                Utilities.Check((out IntPtr exn) => FishyJoesRuntime_DictionaryConverter_setup<string, string>(
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_DictionaryConverter_setup<string, string>(
                     "DictionaryConverter<Swift.String, Swift.String>",
                     out exn
                 ));
             });
             Once("setup_EmptyEnum", () => {
                 Console.WriteLine("setting up EmptyEnum...");
-                Utilities.Check((out IntPtr exn) => TestAPI_EmptyEnum_setup(
+                Utilities.Check((out CreatedRef exn) => TestAPI_EmptyEnum_setup(
                     out exn
                 ));
             });
             Once("setup_Functions", () => {
                 Console.WriteLine("setting up Functions...");
-                Utilities.Check((out IntPtr exn) => TestAPI_Functions_setup(
-                    bag<SwiftReference.ConstructorDelegate>((IntPtr ptr, out IntPtr exn) => Catching(out exn, () => {
-                        return PassOwnership(new Cricut.TestAPI.Functions(ptr));
+                Utilities.Check((out CreatedRef exn) => TestAPI_Functions_setup(
+                    bag<SwiftReference.ConstructorDelegate>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.Functions(ptr));
                     })),
                     out exn
                 ));
             });
             Once("setup_Functions.TheError", () => {
                 Console.WriteLine("setting up Functions.TheError...");
-                Utilities.Check((out IntPtr exn) => TestAPI_Functions_TheError_setup(
-                    bag<SwiftReference.ConstructorDelegate>((IntPtr ptr, out IntPtr exn) => Catching(out exn, () => {
-                        return PassOwnership(new Cricut.TestAPI.Functions.TheError(ptr));
+                Utilities.Check((out CreatedRef exn) => TestAPI_Functions_TheError_setup(
+                    bag<SwiftReference.ConstructorDelegate>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.Functions.TheError(ptr));
                     })),
                     out exn
                 ));
             });
             Once("setup_OptionalConverter<ArrayConverter<Int>>", () => {
                 Console.WriteLine("setting up Optional<Array<Int>>...");
-                Utilities.Check((out IntPtr exn) => FishyJoesRuntime_OptionalConverter_setup(
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_OptionalConverter_setup(
                     out exn
                 ));
             });
             Once("setup_OptionalConverter<ArrayConverter<OptionalConverter<Int>>>", () => {
                 Console.WriteLine("setting up Optional<Array<Optional<Int>>>...");
-                Utilities.Check((out IntPtr exn) => FishyJoesRuntime_OptionalConverter_setup(
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_OptionalConverter_setup(
                     out exn
                 ));
             });
             Once("setup_OptionalConverter<Bool>", () => {
                 Console.WriteLine("setting up Optional<Bool>...");
-                Utilities.Check((out IntPtr exn) => FishyJoesRuntime_OptionalConverter_setup(
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_OptionalConverter_setup(
                     out exn
                 ));
             });
             Once("setup_OptionalConverter<DictionaryConverter<Int, Int>>", () => {
                 Console.WriteLine("setting up Optional<Dictionary<Int, Int>>...");
-                Utilities.Check((out IntPtr exn) => FishyJoesRuntime_OptionalConverter_setup(
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_OptionalConverter_setup(
                     out exn
                 ));
             });
             Once("setup_OptionalConverter<DictionaryConverter<Int, OptionalConverter<Int>>>", () => {
                 Console.WriteLine("setting up Optional<Dictionary<Int, Optional<Int>>>...");
-                Utilities.Check((out IntPtr exn) => FishyJoesRuntime_OptionalConverter_setup(
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_OptionalConverter_setup(
                     out exn
                 ));
             });
             Once("setup_OptionalConverter<Double>", () => {
                 Console.WriteLine("setting up Optional<Double>...");
-                Utilities.Check((out IntPtr exn) => FishyJoesRuntime_OptionalConverter_setup(
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_OptionalConverter_setup(
                     out exn
                 ));
             });
             Once("setup_OptionalConverter<Float>", () => {
                 Console.WriteLine("setting up Optional<Float>...");
-                Utilities.Check((out IntPtr exn) => FishyJoesRuntime_OptionalConverter_setup(
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_OptionalConverter_setup(
                     out exn
                 ));
             });
             Once("setup_OptionalConverter<Int16>", () => {
                 Console.WriteLine("setting up Optional<Int16>...");
-                Utilities.Check((out IntPtr exn) => FishyJoesRuntime_OptionalConverter_setup(
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_OptionalConverter_setup(
                     out exn
                 ));
             });
             Once("setup_OptionalConverter<Int32>", () => {
                 Console.WriteLine("setting up Optional<Int32>...");
-                Utilities.Check((out IntPtr exn) => FishyJoesRuntime_OptionalConverter_setup(
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_OptionalConverter_setup(
                     out exn
                 ));
             });
             Once("setup_OptionalConverter<Int64>", () => {
                 Console.WriteLine("setting up Optional<Int64>...");
-                Utilities.Check((out IntPtr exn) => FishyJoesRuntime_OptionalConverter_setup(
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_OptionalConverter_setup(
                     out exn
                 ));
             });
             Once("setup_OptionalConverter<Int8>", () => {
                 Console.WriteLine("setting up Optional<Int8>...");
-                Utilities.Check((out IntPtr exn) => FishyJoesRuntime_OptionalConverter_setup(
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_OptionalConverter_setup(
                     out exn
                 ));
             });
             Once("setup_OptionalConverter<Int>", () => {
                 Console.WriteLine("setting up Optional<Int>...");
-                Utilities.Check((out IntPtr exn) => FishyJoesRuntime_OptionalConverter_setup(
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_OptionalConverter_setup(
                     out exn
                 ));
             });
             Once("setup_OptionalConverter<SetConverter<Int>>", () => {
                 Console.WriteLine("setting up Optional<Set<Int>>...");
-                Utilities.Check((out IntPtr exn) => FishyJoesRuntime_OptionalConverter_setup(
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_OptionalConverter_setup(
                     out exn
                 ));
             });
             Once("setup_OptionalConverter<SetConverter<OptionalConverter<Int>>>", () => {
                 Console.WriteLine("setting up Optional<Set<Optional<Int>>>...");
-                Utilities.Check((out IntPtr exn) => FishyJoesRuntime_OptionalConverter_setup(
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_OptionalConverter_setup(
                     out exn
                 ));
             });
             Once("setup_OptionalConverter<SimpleEnum>", () => {
                 Console.WriteLine("setting up Optional<SimpleEnum>...");
-                Utilities.Check((out IntPtr exn) => FishyJoesRuntime_OptionalConverter_setup(
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_OptionalConverter_setup(
                     out exn
                 ));
             });
             Once("setup_OptionalConverter<UInt16>", () => {
                 Console.WriteLine("setting up Optional<UInt16>...");
-                Utilities.Check((out IntPtr exn) => FishyJoesRuntime_OptionalConverter_setup(
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_OptionalConverter_setup(
                     out exn
                 ));
             });
             Once("setup_OptionalConverter<UInt32>", () => {
                 Console.WriteLine("setting up Optional<UInt32>...");
-                Utilities.Check((out IntPtr exn) => FishyJoesRuntime_OptionalConverter_setup(
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_OptionalConverter_setup(
                     out exn
                 ));
             });
             Once("setup_OptionalConverter<UInt64>", () => {
                 Console.WriteLine("setting up Optional<UInt64>...");
-                Utilities.Check((out IntPtr exn) => FishyJoesRuntime_OptionalConverter_setup(
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_OptionalConverter_setup(
                     out exn
                 ));
             });
             Once("setup_OptionalConverter<UInt8>", () => {
                 Console.WriteLine("setting up Optional<UInt8>...");
-                Utilities.Check((out IntPtr exn) => FishyJoesRuntime_OptionalConverter_setup(
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_OptionalConverter_setup(
                     out exn
                 ));
             });
             Once("setup_Primitives", () => {
                 Console.WriteLine("setting up Primitives...");
-                Utilities.Check((out IntPtr exn) => TestAPI_Primitives_setup(
-                    bag<SwiftReference.ConstructorDelegate>((IntPtr ptr, out IntPtr exn) => Catching(out exn, () => {
-                        return PassOwnership(new Cricut.TestAPI.Primitives(ptr));
+                Utilities.Check((out CreatedRef exn) => TestAPI_Primitives_setup(
+                    bag<SwiftReference.ConstructorDelegate>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.Primitives(ptr));
                     })),
                     out exn
                 ));
             });
             Once("setup_Primitives.PrimitiveHolder", () => {
                 Console.WriteLine("setting up Primitives.PrimitiveHolder...");
-                Utilities.Check((out IntPtr exn) => TestAPI_Primitives_PrimitiveHolder_setup(
-                    bag<_Primitives_PrimitiveHolderConstructor>((bool b, IntPtr bq, byte ui8, IntPtr ui8q, ushort ui16, IntPtr ui16q, uint ui32, IntPtr ui32q, ulong ui64, IntPtr ui64q, sbyte i8, IntPtr i8q, short i16, IntPtr i16q, int i32, IntPtr i32q, long i64, IntPtr i64q, float f, IntPtr fq, double d, IntPtr dq, out IntPtr exn) => Catching(out exn, () => {
-                        return PassOwnership(new Cricut.TestAPI.Primitives.PrimitiveHolder(
+                Utilities.Check((out CreatedRef exn) => TestAPI_Primitives_PrimitiveHolder_setup(
+                    bag<_Primitives_PrimitiveHolderConstructor>((bool b, ConsumedRef bq, byte ui8, ConsumedRef ui8q, ushort ui16, ConsumedRef ui16q, uint ui32, ConsumedRef ui32q, ulong ui64, ConsumedRef ui64q, sbyte i8, ConsumedRef i8q, short i16, ConsumedRef i16q, int i32, ConsumedRef i32q, long i64, ConsumedRef i64q, float f, ConsumedRef fq, double d, ConsumedRef dq, out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.Primitives.PrimitiveHolder(
                             b,
-                            PeekHandle<bool?>(bq),
+                            bq.Consume<bool?>(),
                             ui8,
-                            PeekHandle<byte?>(ui8q),
+                            ui8q.Consume<byte?>(),
                             ui16,
-                            PeekHandle<ushort?>(ui16q),
+                            ui16q.Consume<ushort?>(),
                             ui32,
-                            PeekHandle<uint?>(ui32q),
+                            ui32q.Consume<uint?>(),
                             ui64,
-                            PeekHandle<ulong?>(ui64q),
+                            ui64q.Consume<ulong?>(),
                             i8,
-                            PeekHandle<sbyte?>(i8q),
+                            i8q.Consume<sbyte?>(),
                             i16,
-                            PeekHandle<short?>(i16q),
+                            i16q.Consume<short?>(),
                             i32,
-                            PeekHandle<int?>(i32q),
+                            i32q.Consume<int?>(),
                             i64,
-                            PeekHandle<long?>(i64q),
+                            i64q.Consume<long?>(),
                             f,
-                            PeekHandle<float?>(fq),
+                            fq.Consume<float?>(),
                             d,
-                            PeekHandle<double?>(dq)
+                            dq.Consume<double?>()
                         ));
                     })),
-                    bag<_Primitives_PrimitiveHolder_bGetter>((IntPtr obj, out IntPtr exn) => Catching(out exn, () =>
-                        PeekHandle<Cricut.TestAPI.Primitives.PrimitiveHolder>(obj).B
+                    bag<_Primitives_PrimitiveHolder_bGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().B
                     )),
-                    bag<_Primitives_PrimitiveHolder_bSetter>((IntPtr obj, bool newValue, out IntPtr exn) => Catching(out exn, () => {
-                        PeekHandle<Cricut.TestAPI.Primitives.PrimitiveHolder>(obj).B = newValue;
+                    bag<_Primitives_PrimitiveHolder_bSetter>((UnownedRef obj, bool newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().B = newValue;
                     })),
-                    bag<_Primitives_PrimitiveHolder_bqGetter>((IntPtr obj, out IntPtr exn) => Catching(out exn, () =>
-                        PassOwnership(PeekHandle<Cricut.TestAPI.Primitives.PrimitiveHolder>(obj).Bq)
+                    bag<_Primitives_PrimitiveHolder_bqGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Bq)
                     )),
-                    bag<_Primitives_PrimitiveHolder_bqSetter>((IntPtr obj, IntPtr newValue, out IntPtr exn) => Catching(out exn, () => {
-                        PeekHandle<Cricut.TestAPI.Primitives.PrimitiveHolder>(obj).Bq = PeekHandle<bool?>(newValue);
+                    bag<_Primitives_PrimitiveHolder_bqSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Bq = newValue.Consume<bool?>();
                     })),
-                    bag<_Primitives_PrimitiveHolder_ui8Getter>((IntPtr obj, out IntPtr exn) => Catching(out exn, () =>
-                        PeekHandle<Cricut.TestAPI.Primitives.PrimitiveHolder>(obj).Ui8
+                    bag<_Primitives_PrimitiveHolder_ui8Getter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Ui8
                     )),
-                    bag<_Primitives_PrimitiveHolder_ui8Setter>((IntPtr obj, byte newValue, out IntPtr exn) => Catching(out exn, () => {
-                        PeekHandle<Cricut.TestAPI.Primitives.PrimitiveHolder>(obj).Ui8 = newValue;
+                    bag<_Primitives_PrimitiveHolder_ui8Setter>((UnownedRef obj, byte newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Ui8 = newValue;
                     })),
-                    bag<_Primitives_PrimitiveHolder_ui8qGetter>((IntPtr obj, out IntPtr exn) => Catching(out exn, () =>
-                        PassOwnership(PeekHandle<Cricut.TestAPI.Primitives.PrimitiveHolder>(obj).Ui8q)
+                    bag<_Primitives_PrimitiveHolder_ui8qGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Ui8q)
                     )),
-                    bag<_Primitives_PrimitiveHolder_ui8qSetter>((IntPtr obj, IntPtr newValue, out IntPtr exn) => Catching(out exn, () => {
-                        PeekHandle<Cricut.TestAPI.Primitives.PrimitiveHolder>(obj).Ui8q = PeekHandle<byte?>(newValue);
+                    bag<_Primitives_PrimitiveHolder_ui8qSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Ui8q = newValue.Consume<byte?>();
                     })),
-                    bag<_Primitives_PrimitiveHolder_ui16Getter>((IntPtr obj, out IntPtr exn) => Catching(out exn, () =>
-                        PeekHandle<Cricut.TestAPI.Primitives.PrimitiveHolder>(obj).Ui16
+                    bag<_Primitives_PrimitiveHolder_ui16Getter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Ui16
                     )),
-                    bag<_Primitives_PrimitiveHolder_ui16Setter>((IntPtr obj, ushort newValue, out IntPtr exn) => Catching(out exn, () => {
-                        PeekHandle<Cricut.TestAPI.Primitives.PrimitiveHolder>(obj).Ui16 = newValue;
+                    bag<_Primitives_PrimitiveHolder_ui16Setter>((UnownedRef obj, ushort newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Ui16 = newValue;
                     })),
-                    bag<_Primitives_PrimitiveHolder_ui16qGetter>((IntPtr obj, out IntPtr exn) => Catching(out exn, () =>
-                        PassOwnership(PeekHandle<Cricut.TestAPI.Primitives.PrimitiveHolder>(obj).Ui16q)
+                    bag<_Primitives_PrimitiveHolder_ui16qGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Ui16q)
                     )),
-                    bag<_Primitives_PrimitiveHolder_ui16qSetter>((IntPtr obj, IntPtr newValue, out IntPtr exn) => Catching(out exn, () => {
-                        PeekHandle<Cricut.TestAPI.Primitives.PrimitiveHolder>(obj).Ui16q = PeekHandle<ushort?>(newValue);
+                    bag<_Primitives_PrimitiveHolder_ui16qSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Ui16q = newValue.Consume<ushort?>();
                     })),
-                    bag<_Primitives_PrimitiveHolder_ui32Getter>((IntPtr obj, out IntPtr exn) => Catching(out exn, () =>
-                        PeekHandle<Cricut.TestAPI.Primitives.PrimitiveHolder>(obj).Ui32
+                    bag<_Primitives_PrimitiveHolder_ui32Getter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Ui32
                     )),
-                    bag<_Primitives_PrimitiveHolder_ui32Setter>((IntPtr obj, uint newValue, out IntPtr exn) => Catching(out exn, () => {
-                        PeekHandle<Cricut.TestAPI.Primitives.PrimitiveHolder>(obj).Ui32 = newValue;
+                    bag<_Primitives_PrimitiveHolder_ui32Setter>((UnownedRef obj, uint newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Ui32 = newValue;
                     })),
-                    bag<_Primitives_PrimitiveHolder_ui32qGetter>((IntPtr obj, out IntPtr exn) => Catching(out exn, () =>
-                        PassOwnership(PeekHandle<Cricut.TestAPI.Primitives.PrimitiveHolder>(obj).Ui32q)
+                    bag<_Primitives_PrimitiveHolder_ui32qGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Ui32q)
                     )),
-                    bag<_Primitives_PrimitiveHolder_ui32qSetter>((IntPtr obj, IntPtr newValue, out IntPtr exn) => Catching(out exn, () => {
-                        PeekHandle<Cricut.TestAPI.Primitives.PrimitiveHolder>(obj).Ui32q = PeekHandle<uint?>(newValue);
+                    bag<_Primitives_PrimitiveHolder_ui32qSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Ui32q = newValue.Consume<uint?>();
                     })),
-                    bag<_Primitives_PrimitiveHolder_ui64Getter>((IntPtr obj, out IntPtr exn) => Catching(out exn, () =>
-                        PeekHandle<Cricut.TestAPI.Primitives.PrimitiveHolder>(obj).Ui64
+                    bag<_Primitives_PrimitiveHolder_ui64Getter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Ui64
                     )),
-                    bag<_Primitives_PrimitiveHolder_ui64Setter>((IntPtr obj, ulong newValue, out IntPtr exn) => Catching(out exn, () => {
-                        PeekHandle<Cricut.TestAPI.Primitives.PrimitiveHolder>(obj).Ui64 = newValue;
+                    bag<_Primitives_PrimitiveHolder_ui64Setter>((UnownedRef obj, ulong newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Ui64 = newValue;
                     })),
-                    bag<_Primitives_PrimitiveHolder_ui64qGetter>((IntPtr obj, out IntPtr exn) => Catching(out exn, () =>
-                        PassOwnership(PeekHandle<Cricut.TestAPI.Primitives.PrimitiveHolder>(obj).Ui64q)
+                    bag<_Primitives_PrimitiveHolder_ui64qGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Ui64q)
                     )),
-                    bag<_Primitives_PrimitiveHolder_ui64qSetter>((IntPtr obj, IntPtr newValue, out IntPtr exn) => Catching(out exn, () => {
-                        PeekHandle<Cricut.TestAPI.Primitives.PrimitiveHolder>(obj).Ui64q = PeekHandle<ulong?>(newValue);
+                    bag<_Primitives_PrimitiveHolder_ui64qSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Ui64q = newValue.Consume<ulong?>();
                     })),
-                    bag<_Primitives_PrimitiveHolder_i8Getter>((IntPtr obj, out IntPtr exn) => Catching(out exn, () =>
-                        PeekHandle<Cricut.TestAPI.Primitives.PrimitiveHolder>(obj).I8
+                    bag<_Primitives_PrimitiveHolder_i8Getter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I8
                     )),
-                    bag<_Primitives_PrimitiveHolder_i8Setter>((IntPtr obj, sbyte newValue, out IntPtr exn) => Catching(out exn, () => {
-                        PeekHandle<Cricut.TestAPI.Primitives.PrimitiveHolder>(obj).I8 = newValue;
+                    bag<_Primitives_PrimitiveHolder_i8Setter>((UnownedRef obj, sbyte newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I8 = newValue;
                     })),
-                    bag<_Primitives_PrimitiveHolder_i8qGetter>((IntPtr obj, out IntPtr exn) => Catching(out exn, () =>
-                        PassOwnership(PeekHandle<Cricut.TestAPI.Primitives.PrimitiveHolder>(obj).I8q)
+                    bag<_Primitives_PrimitiveHolder_i8qGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I8q)
                     )),
-                    bag<_Primitives_PrimitiveHolder_i8qSetter>((IntPtr obj, IntPtr newValue, out IntPtr exn) => Catching(out exn, () => {
-                        PeekHandle<Cricut.TestAPI.Primitives.PrimitiveHolder>(obj).I8q = PeekHandle<sbyte?>(newValue);
+                    bag<_Primitives_PrimitiveHolder_i8qSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I8q = newValue.Consume<sbyte?>();
                     })),
-                    bag<_Primitives_PrimitiveHolder_i16Getter>((IntPtr obj, out IntPtr exn) => Catching(out exn, () =>
-                        PeekHandle<Cricut.TestAPI.Primitives.PrimitiveHolder>(obj).I16
+                    bag<_Primitives_PrimitiveHolder_i16Getter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I16
                     )),
-                    bag<_Primitives_PrimitiveHolder_i16Setter>((IntPtr obj, short newValue, out IntPtr exn) => Catching(out exn, () => {
-                        PeekHandle<Cricut.TestAPI.Primitives.PrimitiveHolder>(obj).I16 = newValue;
+                    bag<_Primitives_PrimitiveHolder_i16Setter>((UnownedRef obj, short newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I16 = newValue;
                     })),
-                    bag<_Primitives_PrimitiveHolder_i16qGetter>((IntPtr obj, out IntPtr exn) => Catching(out exn, () =>
-                        PassOwnership(PeekHandle<Cricut.TestAPI.Primitives.PrimitiveHolder>(obj).I16q)
+                    bag<_Primitives_PrimitiveHolder_i16qGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I16q)
                     )),
-                    bag<_Primitives_PrimitiveHolder_i16qSetter>((IntPtr obj, IntPtr newValue, out IntPtr exn) => Catching(out exn, () => {
-                        PeekHandle<Cricut.TestAPI.Primitives.PrimitiveHolder>(obj).I16q = PeekHandle<short?>(newValue);
+                    bag<_Primitives_PrimitiveHolder_i16qSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I16q = newValue.Consume<short?>();
                     })),
-                    bag<_Primitives_PrimitiveHolder_i32Getter>((IntPtr obj, out IntPtr exn) => Catching(out exn, () =>
-                        PeekHandle<Cricut.TestAPI.Primitives.PrimitiveHolder>(obj).I32
+                    bag<_Primitives_PrimitiveHolder_i32Getter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I32
                     )),
-                    bag<_Primitives_PrimitiveHolder_i32Setter>((IntPtr obj, int newValue, out IntPtr exn) => Catching(out exn, () => {
-                        PeekHandle<Cricut.TestAPI.Primitives.PrimitiveHolder>(obj).I32 = newValue;
+                    bag<_Primitives_PrimitiveHolder_i32Setter>((UnownedRef obj, int newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I32 = newValue;
                     })),
-                    bag<_Primitives_PrimitiveHolder_i32qGetter>((IntPtr obj, out IntPtr exn) => Catching(out exn, () =>
-                        PassOwnership(PeekHandle<Cricut.TestAPI.Primitives.PrimitiveHolder>(obj).I32q)
+                    bag<_Primitives_PrimitiveHolder_i32qGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I32q)
                     )),
-                    bag<_Primitives_PrimitiveHolder_i32qSetter>((IntPtr obj, IntPtr newValue, out IntPtr exn) => Catching(out exn, () => {
-                        PeekHandle<Cricut.TestAPI.Primitives.PrimitiveHolder>(obj).I32q = PeekHandle<int?>(newValue);
+                    bag<_Primitives_PrimitiveHolder_i32qSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I32q = newValue.Consume<int?>();
                     })),
-                    bag<_Primitives_PrimitiveHolder_i64Getter>((IntPtr obj, out IntPtr exn) => Catching(out exn, () =>
-                        PeekHandle<Cricut.TestAPI.Primitives.PrimitiveHolder>(obj).I64
+                    bag<_Primitives_PrimitiveHolder_i64Getter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I64
                     )),
-                    bag<_Primitives_PrimitiveHolder_i64Setter>((IntPtr obj, long newValue, out IntPtr exn) => Catching(out exn, () => {
-                        PeekHandle<Cricut.TestAPI.Primitives.PrimitiveHolder>(obj).I64 = newValue;
+                    bag<_Primitives_PrimitiveHolder_i64Setter>((UnownedRef obj, long newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I64 = newValue;
                     })),
-                    bag<_Primitives_PrimitiveHolder_i64qGetter>((IntPtr obj, out IntPtr exn) => Catching(out exn, () =>
-                        PassOwnership(PeekHandle<Cricut.TestAPI.Primitives.PrimitiveHolder>(obj).I64q)
+                    bag<_Primitives_PrimitiveHolder_i64qGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I64q)
                     )),
-                    bag<_Primitives_PrimitiveHolder_i64qSetter>((IntPtr obj, IntPtr newValue, out IntPtr exn) => Catching(out exn, () => {
-                        PeekHandle<Cricut.TestAPI.Primitives.PrimitiveHolder>(obj).I64q = PeekHandle<long?>(newValue);
+                    bag<_Primitives_PrimitiveHolder_i64qSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I64q = newValue.Consume<long?>();
                     })),
-                    bag<_Primitives_PrimitiveHolder_fGetter>((IntPtr obj, out IntPtr exn) => Catching(out exn, () =>
-                        PeekHandle<Cricut.TestAPI.Primitives.PrimitiveHolder>(obj).F
+                    bag<_Primitives_PrimitiveHolder_fGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().F
                     )),
-                    bag<_Primitives_PrimitiveHolder_fSetter>((IntPtr obj, float newValue, out IntPtr exn) => Catching(out exn, () => {
-                        PeekHandle<Cricut.TestAPI.Primitives.PrimitiveHolder>(obj).F = newValue;
+                    bag<_Primitives_PrimitiveHolder_fSetter>((UnownedRef obj, float newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().F = newValue;
                     })),
-                    bag<_Primitives_PrimitiveHolder_fqGetter>((IntPtr obj, out IntPtr exn) => Catching(out exn, () =>
-                        PassOwnership(PeekHandle<Cricut.TestAPI.Primitives.PrimitiveHolder>(obj).Fq)
+                    bag<_Primitives_PrimitiveHolder_fqGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Fq)
                     )),
-                    bag<_Primitives_PrimitiveHolder_fqSetter>((IntPtr obj, IntPtr newValue, out IntPtr exn) => Catching(out exn, () => {
-                        PeekHandle<Cricut.TestAPI.Primitives.PrimitiveHolder>(obj).Fq = PeekHandle<float?>(newValue);
+                    bag<_Primitives_PrimitiveHolder_fqSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Fq = newValue.Consume<float?>();
                     })),
-                    bag<_Primitives_PrimitiveHolder_dGetter>((IntPtr obj, out IntPtr exn) => Catching(out exn, () =>
-                        PeekHandle<Cricut.TestAPI.Primitives.PrimitiveHolder>(obj).D
+                    bag<_Primitives_PrimitiveHolder_dGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().D
                     )),
-                    bag<_Primitives_PrimitiveHolder_dSetter>((IntPtr obj, double newValue, out IntPtr exn) => Catching(out exn, () => {
-                        PeekHandle<Cricut.TestAPI.Primitives.PrimitiveHolder>(obj).D = newValue;
+                    bag<_Primitives_PrimitiveHolder_dSetter>((UnownedRef obj, double newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().D = newValue;
                     })),
-                    bag<_Primitives_PrimitiveHolder_dqGetter>((IntPtr obj, out IntPtr exn) => Catching(out exn, () =>
-                        PassOwnership(PeekHandle<Cricut.TestAPI.Primitives.PrimitiveHolder>(obj).Dq)
+                    bag<_Primitives_PrimitiveHolder_dqGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Dq)
                     )),
-                    bag<_Primitives_PrimitiveHolder_dqSetter>((IntPtr obj, IntPtr newValue, out IntPtr exn) => Catching(out exn, () => {
-                        PeekHandle<Cricut.TestAPI.Primitives.PrimitiveHolder>(obj).Dq = PeekHandle<double?>(newValue);
+                    bag<_Primitives_PrimitiveHolder_dqSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Dq = newValue.Consume<double?>();
                     })),
                     out exn
                 ));
             });
             Once("setup_SetConverter<Bool>", () => {
                 Console.WriteLine("setting up Set<Bool>...");
-                Utilities.Check((out IntPtr exn) => FishyJoesRuntime_SetConverter_setup<bool>(
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_SetConverter_setup<bool>(
                     "SetConverter<Bool>",
                     out exn
                 ));
             });
             Once("setup_SetConverter<Int>", () => {
                 Console.WriteLine("setting up Set<Int>...");
-                Utilities.Check((out IntPtr exn) => FishyJoesRuntime_SetConverter_setup<nint>(
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_SetConverter_setup<nint>(
                     "SetConverter<Int>",
                     out exn
                 ));
             });
             Once("setup_SetConverter<OptionalConverter<Int>>", () => {
                 Console.WriteLine("setting up Set<Optional<Int>>...");
-                Utilities.Check((out IntPtr exn) => FishyJoesRuntime_SetConverter_setup<nint?>(
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_SetConverter_setup<nint?>(
                     "SetConverter<OptionalConverter<Int>>",
                     out exn
                 ));
             });
             Once("setup_SetConverter<Swift.String>", () => {
                 Console.WriteLine("setting up Set<String>...");
-                Utilities.Check((out IntPtr exn) => FishyJoesRuntime_SetConverter_setup<string>(
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_SetConverter_setup<string>(
                     "SetConverter<Swift.String>",
                     out exn
                 ));
             });
             Once("setup_SimpleEnum", () => {
                 Console.WriteLine("setting up SimpleEnum...");
-                Utilities.Check((out IntPtr exn) => TestAPI_SimpleEnum_setup(
-                    bag<FishyJoesRuntime.EnumDiscriminator>((IntPtr obj, out IntPtr exn) => Catching(out exn, () => {
-                        var enumeration = PeekHandle<Cricut.TestAPI.SimpleEnum>(obj);
+                Utilities.Check((out CreatedRef exn) => TestAPI_SimpleEnum_setup(
+                    bag<FishyJoesRuntime.EnumDiscriminator>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => {
+                        var enumeration = obj.Peek<Cricut.TestAPI.SimpleEnum>();
                         if (enumeration is Cricut.TestAPI.SimpleEnum.Red) { return (nint)0; }
                         if (enumeration is Cricut.TestAPI.SimpleEnum.Green) { return (nint)1; }
                         if (enumeration is Cricut.TestAPI.SimpleEnum.Blue) { return (nint)2; }
@@ -1183,64 +1183,64 @@ namespace Cricut.TestAPI {
                     })),
                     bag<Cricut_TestAPI_SimpleEnum_new_red>(
                         (
-                            out IntPtr exn
+                            out CreatedRef exn
                         ) => Catching(out exn, () => 
-                            PassOwnership(new Cricut.TestAPI.SimpleEnum.Red(
+                            new CreatedRef(new Cricut.TestAPI.SimpleEnum.Red(
                             ))
                         )
                     ),
                     bag<Cricut_TestAPI_SimpleEnum_extract_red>(
                         (
-                            IntPtr obj,
-                            out IntPtr exn
+                            UnownedRef obj,
+                            out CreatedRef exn
                         ) => {
                             try {
-                                var enumeration = PeekHandle<Cricut.TestAPI.SimpleEnum.Red>(obj);
-                                exn = IntPtr.Zero;
+                                var enumeration = obj.Peek<Cricut.TestAPI.SimpleEnum.Red>();
+                                exn = CreatedRef.Null;
                             } catch (Exception e) {
-                                exn = PassOwnership(e);
+                                exn = new CreatedRef(e);
                             }
                         }
                     ),
                     bag<Cricut_TestAPI_SimpleEnum_new_green>(
                         (
-                            out IntPtr exn
+                            out CreatedRef exn
                         ) => Catching(out exn, () => 
-                            PassOwnership(new Cricut.TestAPI.SimpleEnum.Green(
+                            new CreatedRef(new Cricut.TestAPI.SimpleEnum.Green(
                             ))
                         )
                     ),
                     bag<Cricut_TestAPI_SimpleEnum_extract_green>(
                         (
-                            IntPtr obj,
-                            out IntPtr exn
+                            UnownedRef obj,
+                            out CreatedRef exn
                         ) => {
                             try {
-                                var enumeration = PeekHandle<Cricut.TestAPI.SimpleEnum.Green>(obj);
-                                exn = IntPtr.Zero;
+                                var enumeration = obj.Peek<Cricut.TestAPI.SimpleEnum.Green>();
+                                exn = CreatedRef.Null;
                             } catch (Exception e) {
-                                exn = PassOwnership(e);
+                                exn = new CreatedRef(e);
                             }
                         }
                     ),
                     bag<Cricut_TestAPI_SimpleEnum_new_blue>(
                         (
-                            out IntPtr exn
+                            out CreatedRef exn
                         ) => Catching(out exn, () => 
-                            PassOwnership(new Cricut.TestAPI.SimpleEnum.Blue(
+                            new CreatedRef(new Cricut.TestAPI.SimpleEnum.Blue(
                             ))
                         )
                     ),
                     bag<Cricut_TestAPI_SimpleEnum_extract_blue>(
                         (
-                            IntPtr obj,
-                            out IntPtr exn
+                            UnownedRef obj,
+                            out CreatedRef exn
                         ) => {
                             try {
-                                var enumeration = PeekHandle<Cricut.TestAPI.SimpleEnum.Blue>(obj);
-                                exn = IntPtr.Zero;
+                                var enumeration = obj.Peek<Cricut.TestAPI.SimpleEnum.Blue>();
+                                exn = CreatedRef.Null;
                             } catch (Exception e) {
-                                exn = PassOwnership(e);
+                                exn = new CreatedRef(e);
                             }
                         }
                     ),
@@ -1249,58 +1249,58 @@ namespace Cricut.TestAPI {
             });
             Once("setup_Strings", () => {
                 Console.WriteLine("setting up Strings...");
-                Utilities.Check((out IntPtr exn) => TestAPI_Strings_setup(
-                    bag<SwiftReference.ConstructorDelegate>((IntPtr ptr, out IntPtr exn) => Catching(out exn, () => {
-                        return PassOwnership(new Cricut.TestAPI.Strings(ptr));
+                Utilities.Check((out CreatedRef exn) => TestAPI_Strings_setup(
+                    bag<SwiftReference.ConstructorDelegate>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.Strings(ptr));
                     })),
                     out exn
                 ));
             });
             Once("setup_Structs", () => {
                 Console.WriteLine("setting up Structs...");
-                Utilities.Check((out IntPtr exn) => TestAPI_Structs_setup(
-                    bag<SwiftReference.ConstructorDelegate>((IntPtr ptr, out IntPtr exn) => Catching(out exn, () => {
-                        return PassOwnership(new Cricut.TestAPI.Structs(ptr));
+                Utilities.Check((out CreatedRef exn) => TestAPI_Structs_setup(
+                    bag<SwiftReference.ConstructorDelegate>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.Structs(ptr));
                     })),
                     out exn
                 ));
             });
             Once("setup_Structs.MemberwiseStruct", () => {
                 Console.WriteLine("setting up Structs.MemberwiseStruct...");
-                Utilities.Check((out IntPtr exn) => TestAPI_Structs_MemberwiseStruct_setup(
-                    bag<_Structs_MemberwiseStructConstructor>((IntPtr immutable, IntPtr mutable, out IntPtr exn) => Catching(out exn, () => {
-                        return PassOwnership(new Cricut.TestAPI.Structs.MemberwiseStruct(
-                            PeekHandle<string>(immutable),
-                            PeekHandle<string>(mutable)
+                Utilities.Check((out CreatedRef exn) => TestAPI_Structs_MemberwiseStruct_setup(
+                    bag<_Structs_MemberwiseStructConstructor>((ConsumedRef immutable, ConsumedRef mutable, out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.Structs.MemberwiseStruct(
+                            immutable.Consume<string>(),
+                            mutable.Consume<string>()
                         ));
                     })),
-                    bag<_Structs_MemberwiseStruct_immutableGetter>((IntPtr obj, out IntPtr exn) => Catching(out exn, () =>
-                        PassOwnership(PeekHandle<Cricut.TestAPI.Structs.MemberwiseStruct>(obj).Immutable)
+                    bag<_Structs_MemberwiseStruct_immutableGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.Structs.MemberwiseStruct>().Immutable)
                     )),
-                    bag<_Structs_MemberwiseStruct_immutableSetter>((IntPtr obj, IntPtr newValue, out IntPtr exn) => Catching(out exn, () => {
-                        PeekHandle<Cricut.TestAPI.Structs.MemberwiseStruct>(obj).Immutable = PeekHandle<string>(newValue);
+                    bag<_Structs_MemberwiseStruct_immutableSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Structs.MemberwiseStruct>().Immutable = newValue.Consume<string>();
                     })),
-                    bag<_Structs_MemberwiseStruct_mutableGetter>((IntPtr obj, out IntPtr exn) => Catching(out exn, () =>
-                        PassOwnership(PeekHandle<Cricut.TestAPI.Structs.MemberwiseStruct>(obj).Mutable)
+                    bag<_Structs_MemberwiseStruct_mutableGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.Structs.MemberwiseStruct>().Mutable)
                     )),
-                    bag<_Structs_MemberwiseStruct_mutableSetter>((IntPtr obj, IntPtr newValue, out IntPtr exn) => Catching(out exn, () => {
-                        PeekHandle<Cricut.TestAPI.Structs.MemberwiseStruct>(obj).Mutable = PeekHandle<string>(newValue);
+                    bag<_Structs_MemberwiseStruct_mutableSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Structs.MemberwiseStruct>().Mutable = newValue.Consume<string>();
                     })),
                     out exn
                 ));
             });
             Once("setup_Structs.ReferenceStruct", () => {
                 Console.WriteLine("setting up Structs.ReferenceStruct...");
-                Utilities.Check((out IntPtr exn) => TestAPI_Structs_ReferenceStruct_setup(
-                    bag<SwiftReference.ConstructorDelegate>((IntPtr ptr, out IntPtr exn) => Catching(out exn, () => {
-                        return PassOwnership(new Cricut.TestAPI.Structs.ReferenceStruct(ptr));
+                Utilities.Check((out CreatedRef exn) => TestAPI_Structs_ReferenceStruct_setup(
+                    bag<SwiftReference.ConstructorDelegate>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.Structs.ReferenceStruct(ptr));
                     })),
                     out exn
                 ));
             });
             Once("setup_Tuples", () => {
                 Console.WriteLine("setting up Tuples...");
-                Utilities.Check((out IntPtr exn) => TestAPI_Tuples_setup(
+                Utilities.Check((out CreatedRef exn) => TestAPI_Tuples_setup(
                     out exn
                 ));
             });

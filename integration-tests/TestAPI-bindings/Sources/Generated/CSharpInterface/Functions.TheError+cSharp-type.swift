@@ -17,8 +17,8 @@ public func TestAPI_Functions_TheError_setup(
 extension Functions.TheError: CSharpMutator {
     fileprivate static var _constructorMethod: ((UnsafeMutableRawPointer, _ exn: csOutExn) -> csObject)!
 
-    public static func fromCSharp(_ value: csObject) throws -> Self {
-        try Box<Functions.TheError>.fromCSharp(value).value
+    public static func peekCSharp(_ value: csObject) throws -> Self {
+        try Box<Functions.TheError>.peekCSharp(value).value
     }
 
     public static func toCSharp(_ value: Self) throws -> csObject {
@@ -27,6 +27,6 @@ extension Functions.TheError: CSharpMutator {
     }
 
     public static func mutateCSharp<R>(_ this: csObject, body: (inout Self) throws -> R) throws -> R {
-        try body(&Box<Functions.TheError>.fromCSharp(this).value)
+        try body(&Box<Functions.TheError>.peekCSharp(this).value)
     }
 }
