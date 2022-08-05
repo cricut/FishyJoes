@@ -8,16 +8,17 @@ export FISHYJOES_COVERAGE_PATH=$PWD/coverage-data
 rm -rf $FISHYJOES_COVERAGE_PATH
 mkdir -p $FISHYJOES_COVERAGE_PATH
 
-libdir=kotlin-runtime/src/generated/resources/mac
+javaLibDir=kotlin-runtime/src/generated/resources/mac
+cSharpLibDir=c-sharp-runtime/runtimes/osx/native
 
-rm -rf $libdir
-mkdir -p $libdir
+rm -rf $javaLibDir $cSharpLibDir
+mkdir -p $javaLibDir $cSharpLibDir
 
 swift build --configuration debug --enable-code-coverage --product FishyJoesJavaRuntime
-cp .build/debug/libFishyJoesJavaRuntime.dylib $libdir
+swift build --configuration debug --enable-code-coverage --product FishyJoesCSharpRuntime
+cp .build/debug/libFishyJoesJavaRuntime.dylib $javaLibDir
+cp .build/debug/libFishyJoesCSharpRuntime.dylib $cSharpLibDir
 (cd kotlin-runtime && ./gradlew publishToMavenLocal)
-
-CONFIGURATION=debug ./scripts/compile-c-sharp-runtime.sh
 
 # Gather coverage from kotlin tests
 (

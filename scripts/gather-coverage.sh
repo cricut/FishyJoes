@@ -14,9 +14,7 @@ binaries=(
     integration-tests/TestAPI-bindings/.build/debug/libTestAPI-java.dylib
     integration-tests/TestAPI-bindings/.build/debug/libTestAPI-node.dylib
     integration-tests/TestAPI-bindings/.build/debug/libTestAPI-c-sharp.dylib
-    integration-tests/TestAPI-bindings/.build/debug/libFishyJoesJavaRuntime.dylib
     integration-tests/TestAPI-bindings/.build/debug/libFishyJoesNodeRuntime.dylib
-    integration-tests/TestAPI-bindings/.build/debug/libFishyJoesCSharpRuntime.dylib
 )
 
 xcrun llvm-profdata merge coverage-data/*.profraw > coverage-data/combined.profdata
