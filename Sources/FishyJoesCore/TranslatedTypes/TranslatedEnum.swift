@@ -479,30 +479,34 @@ struct TranslatedEnum: TranslatedType {
             fragment.blankLine()
 
             fragment.outputBlock("public static func toJava(_ value: Self, env: Env) throws -> jobject? {") {
-                fragment.output("switch value {")
-                for enumCase in cases {
-                    let name = enumCase.name
-                    if enumCase.associatedValues.isEmpty {
-                        fragment.outputBlock("case .\(name):", closeWith: "", newLineTerminated: false) {
-                            fragment.output("return env.GetStaticObjectField(Self.\(enumCase.classVar), Self.\(enumCase.classInstanceVar))")
-                        }
-                    } else {
-                        let joinedNames = enumCase.associatedValues.map(\.bindingName).joined(separator: ", ")
-                        fragment.outputBlock("case let .\(name)(\(joinedNames)):", closeWith: "", newLineTerminated: false) {
-                            fragment.outputBlock("return try env.NewObject(", closeWith: ")") {
-                                fragment.output("Self.\(enumCase.classVar),")
-                                fragment.output("Self.\(enumCase.classInitVar)", newLineTerminated: false)
-                                for value in enumCase.associatedValues {
-                                    let resolved = context.resolve(type: value.type)
-                                    fragment.output(",")
-                                    fragment.output("jvalue(\(resolved.converterType.name).toJava(\(value.bindingName), env: env))", newLineTerminated: false)
+                if cases.isEmpty {
+                    fragment.output("// Uninhabited type")
+                } else {
+                    fragment.output("switch value {")
+                    for enumCase in cases {
+                        let name = enumCase.name
+                        if enumCase.associatedValues.isEmpty {
+                            fragment.outputBlock("case .\(name):", closeWith: "", newLineTerminated: false) {
+                                fragment.output("return env.GetStaticObjectField(Self.\(enumCase.classVar), Self.\(enumCase.classInstanceVar))")
+                            }
+                        } else {
+                            let joinedNames = enumCase.associatedValues.map(\.bindingName).joined(separator: ", ")
+                            fragment.outputBlock("case let .\(name)(\(joinedNames)):", closeWith: "", newLineTerminated: false) {
+                                fragment.outputBlock("return try env.NewObject(", closeWith: ")") {
+                                    fragment.output("Self.\(enumCase.classVar),")
+                                    fragment.output("Self.\(enumCase.classInitVar)", newLineTerminated: false)
+                                    for value in enumCase.associatedValues {
+                                        let resolved = context.resolve(type: value.type)
+                                        fragment.output(",")
+                                        fragment.output("jvalue(\(resolved.converterType.name).toJava(\(value.bindingName), env: env))", newLineTerminated: false)
+                                    }
+                                    fragment.blankLine()
                                 }
-                                fragment.blankLine()
                             }
                         }
                     }
+                    fragment.output("}")
                 }
-                fragment.output("}")
             }
             fragment.blankLine()
 

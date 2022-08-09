@@ -1,5 +1,6 @@
 import Foundation
 import SourceryRuntime
+import System
 
 public class FishyJoesContext {
     let module: Module
@@ -59,6 +60,12 @@ public class FishyJoesContext {
             defaultNamespace: module
         )
         self.dumpDebugRepresentation = argument["debugRepresentation"] as? String == "true"
+        if let stderrFifo = argument["stderrFifo"] as? String {
+            // Re-open the real stderr, and bypass sourcery
+            let errDescriptor = try! FileDescriptor.open(stderrFifo, .writeOnly)
+            precondition(dup2(errDescriptor.rawValue, 2) >= 0)
+            try! errDescriptor.close()
+        }
     }
 
     func swiftFragment(_ name: String, additionalImports: [String] = []) -> SourceFragment {
@@ -234,7 +241,7 @@ public class FishyJoesContext {
         in classes: inout [C],
         separator: Character = ".",
         ignorePrefix: String = ""
-    ) -> [SourceFragment] {
+    ) -> [SourceFragment] where C.InnerClass == C {
         let rootClass = rootClass()
         // sort by length of qualified name so that outer classes are processed before inner ones
         for cClass in classes.sorted(by: { $0.name.utf8.count < $1.name.utf8.count }) {
@@ -443,5 +450,21 @@ public class FishyJoesContext {
 
     func cSharp(field: Variable, of type: TranslatedType, useNativeName: Bool = false) -> CSharpClass.MethodOrVariable? {
         cSharpTranslator.cSharp(field: field, of: type, context: self, useNativeName: useNativeName)
+    }
+
+    // MARK: warnings
+
+    var warningsPrintedOnce: Set<String> = []
+
+    func warn(_ warning: String) {
+        guard !warningsPrintedOnce.contains(warning) else { return }
+        warningsPrintedOnce.insert(warning)
+
+        var errorHandle = FileHandle.standardError
+        print("WARNING: \(warning)", to: &errorHandle)
+    }
+
+    func warnMissingDefault(parameter: SwiftFormal, in method: Method) {
+        warn("can't translate default parameter value `\(parameter.name) = \(parameter.defaultValue!)` in method \(method)")
     }
 }

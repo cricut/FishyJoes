@@ -193,8 +193,12 @@ struct TranslatedReference: TranslatedType {
             }
 
             fragment.outputBlock("public static func toJava(_ value: Self, env: Env) throws -> jobject? {") {
-                fragment.output("let ptr = jvalue(j: jlong(UInt(bitPattern: Box(value).retainedOpaque())))")
-                fragment.output("return try env.NewObject(javaClass, _constructorMethodID, ptr)")
+                if !isInhabited {
+                    fragment.output("// Uninhabited type")
+                } else {
+                    fragment.output("let ptr = jvalue(j: jlong(UInt(bitPattern: Box(value).retainedOpaque())))")
+                    fragment.output("return try env.NewObject(javaClass, _constructorMethodID, ptr)")
+                }
             }
 
             fragment.outputBlock("public static func javaSetup(env: Env) throws {") {
@@ -276,8 +280,8 @@ struct TranslatedReference: TranslatedType {
                         isOverride: false,
                         name: "swiftEquals",
                         parameters: [
-                            (labelComment: nil, name: "lhs", type: kotlinType),
-                            (labelComment: nil, name: "rhs", type: kotlinType),
+                            (labelComment: nil, name: "lhs", type: kotlinType, defaultValue: nil),
+                            (labelComment: nil, name: "rhs", type: kotlinType, defaultValue: nil),
                         ],
                         returnType: .named(package: nil, name: "Boolean"),
                         body: nil
@@ -292,7 +296,7 @@ struct TranslatedReference: TranslatedType {
                         isOverride: true,
                         name: "equals",
                         parameters: [
-                            (labelComment: nil, name: "other", type: .optional(.named(package: nil, name: "Any"))),
+                            (labelComment: nil, name: "other", type: .optional(.named(package: nil, name: "Any")), defaultValue: nil),
                         ],
                         returnType: .named(package: nil, name: "Boolean"),
                         body: "(other is \(kotlinType.kotlinType)) && __jni_swiftEquals(this, other)"

@@ -240,7 +240,7 @@ final class KotlinTranslator: Translator {
     func kotlin(method: Method, context: FishyJoesContext) -> KotlinClass.MethodOrVariable? {
         let exportAnnotation = method.exportAnnotation
         var omitParameters = Set(exportAnnotation.omitParameters)
-        var parameters: [(labelComment: String?, name: String, KotlinClass.KType)] = []
+        var parameters: [(labelComment: String?, name: String, KotlinClass.KType, String?)] = []
         for parameter in method.parameters {
             if omitParameters.contains(parameter.name) {
                 precondition(parameter.defaultValue != nil, "Can't omit non-default parameter")
@@ -252,7 +252,15 @@ final class KotlinTranslator: Translator {
             if let swiftLabel = parameter.label, swiftLabel != parameter.name {
                 label = swiftLabel
             }
-            parameters.append((label, parameter.name, resolved.kotlinType))
+            var defaultValue: String?
+            if let swiftDefaultValue = parameter.defaultValue {
+                if let kotlinDefaultValue = kotlin(value: swiftDefaultValue) {
+                    defaultValue = kotlinDefaultValue
+                } else {
+                    context.warnMissingDefault(parameter: parameter, in: method)
+                }
+            }
+            parameters.append((label, parameter.name, resolved.kotlinType, defaultValue))
         }
 
         return .method(
@@ -308,6 +316,27 @@ final class KotlinTranslator: Translator {
                     type: resolved.kotlinType
                 )
             )
+        }
+    }
+
+    // Very hacky. But values are an entirely separate language to what we process
+    func kotlin(value: String) -> String? {
+        if let int = Int(value) {
+            return "\(int)"
+        } else if let double = Double(value) {
+            return "\(double)"
+        } else if value.first == "." {
+            return nil
+        } else if value == "Double.ulpOfOne.squareRoot()" {
+            return "1.4901161193847656E-8"
+        }
+        switch value {
+        case "nil":
+            return "null"
+        case "true", "false":
+            return value
+        default:
+            return "IDUNNO(\(value))"
         }
     }
 }
