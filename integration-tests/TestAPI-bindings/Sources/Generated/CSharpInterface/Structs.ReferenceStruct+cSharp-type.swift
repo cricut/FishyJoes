@@ -17,8 +17,8 @@ public func TestAPI_Structs_ReferenceStruct_setup(
 extension Structs.ReferenceStruct: CSharpMutator {
     fileprivate static var _constructorMethod: ((UnsafeMutableRawPointer, _ exn: csOutExn) -> csObject)!
 
-    public static func fromCSharp(_ value: csObject) throws -> Self {
-        try Box<Structs.ReferenceStruct>.fromCSharp(value).value
+    public static func peekCSharp(_ value: csObject) throws -> Self {
+        try Box<Structs.ReferenceStruct>.peekCSharp(value).value
     }
 
     public static func toCSharp(_ value: Self) throws -> csObject {
@@ -27,20 +27,20 @@ extension Structs.ReferenceStruct: CSharpMutator {
     }
 
     public static func mutateCSharp<R>(_ this: csObject, body: (inout Self) throws -> R) throws -> R {
-        try body(&Box<Structs.ReferenceStruct>.fromCSharp(this).value)
+        try body(&Box<Structs.ReferenceStruct>.peekCSharp(this).value)
     }
 }
 @_cdecl("__cs_Structs_ReferenceStruct_equals")
 public func Structs_ReferenceStruct_cSharpEquals(lhs: csObject, rhs: csObject, exn: csOutExn) -> Bool.CType {
     Env.catching(to: exn) {
-        return try Bool.toCSharp(Structs.ReferenceStruct.fromCSharp(lhs) == Structs.ReferenceStruct.fromCSharp(rhs))
+        return try Bool.toCSharp(Structs.ReferenceStruct.peekCSharp(lhs) == Structs.ReferenceStruct.peekCSharp(rhs))
     }
 }
 @_cdecl("__cs_Structs_ReferenceStruct_hash")
 public func Structs_ReferenceStruct_cSharpHash(this: csObject, exn: csOutExn) -> Int32.CType {
     Env.catching(to: exn) {
         try Int32.toCSharp(
-            Int32(truncatingIfNeeded: Structs.ReferenceStruct.fromCSharp(this).hashValue)
+            Int32(truncatingIfNeeded: Structs.ReferenceStruct.peekCSharp(this).hashValue)
         )
     }
 }

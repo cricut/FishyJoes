@@ -18,11 +18,11 @@ public func __cs_Tuples_checkTuples(
     FishyJoesCSharpRuntime.Env.catching(to: _exn) {
         return try Bool.toCSharp(
             Tuples.checkTuples(
-                t2: try Tuple2Converter<Int, Swift.String>.fromCSharp(t2),
-                t3: try Tuple3Converter<Swift.String, Double, Swift.String>.fromCSharp(t3),
-                t4: try Tuple4Converter<Tuple2Converter<Int, Swift.String>, Tuple3Converter<Swift.String, Double, Swift.String>, Swift.String, Bool>.fromCSharp(t4),
-                t5: try Tuple5Converter<Swift.String, UInt8, Tuple4Converter<Tuple2Converter<Int, Swift.String>, Tuple3Converter<Swift.String, Double, Swift.String>, Swift.String, Bool>, Tuple3Converter<Swift.String, Double, Swift.String>, Tuple2Converter<Int, Swift.String>>.fromCSharp(t5),
-                t6: try Tuple6Converter<Swift.String, Int, Double, Tuple4Converter<Tuple2Converter<Int, Swift.String>, Tuple3Converter<Swift.String, Double, Swift.String>, Swift.String, Bool>, Tuple5Converter<Swift.String, UInt8, Tuple4Converter<Tuple2Converter<Int, Swift.String>, Tuple3Converter<Swift.String, Double, Swift.String>, Swift.String, Bool>, Tuple3Converter<Swift.String, Double, Swift.String>, Tuple2Converter<Int, Swift.String>>, Bool>.fromCSharp(t6)
+                t2: try Tuple2Converter<Int, Swift.String>.peekCSharp(t2),
+                t3: try Tuple3Converter<Swift.String, Double, Swift.String>.peekCSharp(t3),
+                t4: try Tuple4Converter<Tuple2Converter<Int, Swift.String>, Tuple3Converter<Swift.String, Double, Swift.String>, Swift.String, Bool>.peekCSharp(t4),
+                t5: try Tuple5Converter<Swift.String, UInt8, Tuple4Converter<Tuple2Converter<Int, Swift.String>, Tuple3Converter<Swift.String, Double, Swift.String>, Swift.String, Bool>, Tuple3Converter<Swift.String, Double, Swift.String>, Tuple2Converter<Int, Swift.String>>.peekCSharp(t5),
+                t6: try Tuple6Converter<Swift.String, Int, Double, Tuple4Converter<Tuple2Converter<Int, Swift.String>, Tuple3Converter<Swift.String, Double, Swift.String>, Swift.String, Bool>, Tuple5Converter<Swift.String, UInt8, Tuple4Converter<Tuple2Converter<Int, Swift.String>, Tuple3Converter<Swift.String, Double, Swift.String>, Swift.String, Bool>, Tuple3Converter<Swift.String, Double, Swift.String>, Tuple2Converter<Int, Swift.String>>, Bool>.peekCSharp(t6)
             )
         )
     }

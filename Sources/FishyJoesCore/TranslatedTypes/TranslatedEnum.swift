@@ -600,25 +600,34 @@ struct TranslatedEnum: TranslatedType {
                 fragment.blankLine()
             }
 
-            fragment.outputBlock("public static func fromCSharp(_ value: csObject) throws -> Self {") {
+            fragment.outputBlock("public static func peekCSharp(_ value: csObject) throws -> Self {") {
                 if isInhabited {
                     fragment.output("switch try Env.check({ exn in discriminator(value, exn) }) {")
                     for (index, enumCase) in cases.enumerated() {
                         fragment.outputBlock("case \(index):", closeWith: "", newLineTerminated: false) {
                             var args = "value, "
+                            var cleanup: [String] = []
                             for value in enumCase.associatedValues {
                                 let resolved = context.resolve(type: value.type)
                                 fragment.output("var _\(value.bindingName) = \(resolved.converterType.name).CType.default")
                                 args += "&_\(value.bindingName), "
+                                if resolved.cSharpType.isObject {
+                                    cleanup.append("Env.deleteRef(_\(value.bindingName))")
+                                }
                             }
                             fragment.output("try Env.check { exn in \(enumCase.name)_extractor(\(args)exn) }")
                             if enumCase.associatedValues.isEmpty {
                                 fragment.output("return Self.\(enumCase.name)")
                             } else {
+                                if !cleanup.isEmpty {
+                                    fragment.outputBlock("defer {") {
+                                        cleanup.forEach { fragment.output($0) }
+                                    }
+                                }
                                 fragment.outputBlock("return Self.\(enumCase.name)(") {
                                     fragment.outputMap(enumCase.associatedValues, separator: ",") { value in
                                         let resolved = context.resolve(type: value.type)
-                                        return "\(value.name.map { "\($0): " } ?? "")try \(resolved.converterType.name).fromCSharp(_\(value.bindingName))"
+                                        return "\(value.name.map { "\($0): " } ?? "")try \(resolved.converterType.name).peekCSharp(_\(value.bindingName))"
                                     }
                                 }
                             }
@@ -686,25 +695,25 @@ struct TranslatedEnum: TranslatedType {
     }
 
     func cSharpSetupDelegates(in context: FishyJoesContext) -> [String] {
-        cases.flatMap { enumCase in
-            [
-                "delegate IntPtr \(cSharpType.name.mangled)_new_\(enumCase.name.mangled)(",
-            ] + enumCase.associatedValues.map { value in
+        var lines: [String] = []
+        for enumCase in cases {
+            lines.append("delegate \(cSharpType.pInvokeCreatedName) \(cSharpType.name.mangled)_new_\(enumCase.name.mangled)(")
+            for value in enumCase.associatedValues {
                 let resolved = context.resolve(type: value.type)
-                return "    \(resolved.cSharpType.pInvokeName) \(value.bindingName),"
-            } + [
-                "    out IntPtr _exn",
-                ");",
-                "unsafe delegate void \(cSharpType.name.mangled)_extract_\(enumCase.name.mangled)(",
-                "    IntPtr obj,",
-            ] + enumCase.associatedValues.map { value in
+                lines.append("    \(resolved.cSharpType.pInvokeConsumeName) \(value.bindingName),")
+            }
+            lines.append("    out CreatedRef _exn")
+            lines.append(");")
+            lines.append("unsafe delegate void \(cSharpType.name.mangled)_extract_\(enumCase.name.mangled)(")
+            lines.append("    \(cSharpType.pInvokeUnownedName) obj,")
+            for value in enumCase.associatedValues {
                 let resolved = context.resolve(type: value.type)
-                return "    ref \(resolved.cSharpType.pInvokeName) \(value.bindingName),"
-            } + [
-                "    out IntPtr _exn",
-                ");"
-            ]
+                lines.append("    ref \(resolved.cSharpType.pInvokeCreatedName) \(value.bindingName),")
+            }
+            lines.append("    out CreatedRef _exn")
+            lines.append(");")
         }
+        return lines
     }
 
     func cSharpSetupParameters(in context: FishyJoesContext) -> [CSharpSetupParameter] {
@@ -712,8 +721,8 @@ struct TranslatedEnum: TranslatedType {
         if isInhabited {
             parameters.append(
                 .value(name: "discriminator", type: "FishyJoesRuntime.EnumDiscriminator") { fragment in
-                    fragment.outputBlock("bag<FishyJoesRuntime.EnumDiscriminator>((IntPtr obj, out IntPtr exn) => Catching(out exn, () => {", closeWith: "})),") {
-                        fragment.output("var enumeration = PeekHandle<\(cSharpType.name)>(obj);")
+                    fragment.outputBlock("bag<FishyJoesRuntime.EnumDiscriminator>((\(cSharpType.pInvokeUnownedName) obj, out CreatedRef exn) => Catching(out exn, () => {", closeWith: "})),") {
+                        fragment.output("var enumeration = obj.Peek<\(cSharpType.name)>();")
                         for (index, enumCase) in cases.enumerated() {
                             fragment.output("if (enumeration is \(cSharpType.name).\(upperCaseFirst(enumCase.name))) { return (nint)\(index); }")
                         }
@@ -730,16 +739,16 @@ struct TranslatedEnum: TranslatedType {
                         fragment.outputBlock("(", newLineTerminated: false) {
                             for value in enumCase.associatedValues {
                                 let resolved = context.resolve(type: value.type)
-                                fragment.output("\(resolved.cSharpType.pInvokeName) _\(value.bindingName),")
+                                fragment.output("\(resolved.cSharpType.pInvokeConsumeName) _\(value.bindingName),")
                             }
-                            fragment.output("out IntPtr exn")
+                            fragment.output("out CreatedRef exn")
                         }
                         fragment.outputBlock(" => Catching(out exn, () => ", closeWith: ")") {
-                            fragment.outputBlock("PassOwnership(new \(cSharpType.name).\(upperCaseFirst(enumCase.name))(", closeWith: "))") {
+                            fragment.outputBlock("new CreatedRef(new \(cSharpType.name).\(upperCaseFirst(enumCase.name))(", closeWith: "))") {
                                 fragment.outputMap(enumCase.associatedValues, separator: ",") { value in
                                     let resolved = context.resolve(type: value.type)
                                     if resolved.cSharpType.isObject {
-                                        return "PeekHandle<\(resolved.cSharpType.name)>(_\(value.bindingName))"
+                                        return "_\(value.bindingName).Consume<\(resolved.cSharpType.name)>()"
                                     } else {
                                         return "_\(value.bindingName)"
                                     }
@@ -754,28 +763,28 @@ struct TranslatedEnum: TranslatedType {
                 .value(name: "\(enumCase.name)_extractor", type: extractorDelegate) { fragment in
                     fragment.outputBlock("bag<\(extractorDelegate)>(", closeWith: "),") {
                         fragment.outputBlock("(", newLineTerminated: false) {
-                            fragment.output("IntPtr obj,")
+                            fragment.output("\(cSharpType.pInvokeUnownedName) obj,")
                             for value in enumCase.associatedValues {
                                 let resolved = context.resolve(type: value.type)
-                                fragment.output("ref \(resolved.cSharpType.pInvokeName) _\(value.bindingName),")
+                                fragment.output("ref \(resolved.cSharpType.pInvokeCreatedName) _\(value.bindingName),")
                             }
-                            fragment.output("out IntPtr exn")
+                            fragment.output("out CreatedRef exn")
                         }
                         fragment.outputBlock(" => {") {
                             fragment.outputBlock("try {", newLineTerminated: false) {
-                                fragment.output("var enumeration = PeekHandle<\(cSharpType.name).\(upperCaseFirst(enumCase.name))>(obj);")
+                                fragment.output("var enumeration = obj.Peek<\(cSharpType.name).\(upperCaseFirst(enumCase.name))>();")
                                 for value in enumCase.associatedValues {
                                     let resolved = context.resolve(type: value.type)
                                     if resolved.cSharpType.isObject {
-                                        fragment.output("_\(value.bindingName) = PassOwnership(enumeration.\(upperCaseFirst(value.bindingName)));")
+                                        fragment.output("_\(value.bindingName) = new CreatedRef(enumeration.\(upperCaseFirst(value.bindingName)));")
                                     } else {
                                         fragment.output("_\(value.bindingName) = enumeration.\(upperCaseFirst(value.bindingName));")
                                     }
                                 }
-                                fragment.output("exn = IntPtr.Zero;")
+                                fragment.output("exn = CreatedRef.Null;")
                             }
                             fragment.outputBlock(" catch (Exception e) {") {
-                                fragment.output("exn = PassOwnership(e);")
+                                fragment.output("exn = new CreatedRef(e);")
                             }
                         }
                     }

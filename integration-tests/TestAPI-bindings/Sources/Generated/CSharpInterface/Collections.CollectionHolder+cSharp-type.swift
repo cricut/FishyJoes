@@ -83,43 +83,34 @@ extension Collections.CollectionHolder: CSharpMutator {
     ) -> csObject
     fileprivate static var _constructorMethod: _ConstructorMethod!
 
-    public static func fromCSharp(_ value: csObject) throws -> Self {
+    public static func peekCSharp(_ value: csObject) throws -> Self {
         Self(
-            boolArray: try ArrayConverter<Bool>.fromCSharp(
-                try Env.check { exn in _boolArrayGetter(value, exn) },
-                consuming: true
+            boolArray: try ArrayConverter<Bool>.consumeCSharp(
+                try Env.check { exn in _boolArrayGetter(value, exn) }
             ),
-            boolSet: try SetConverter<Bool>.fromCSharp(
-                try Env.check { exn in _boolSetGetter(value, exn) },
-                consuming: true
+            boolSet: try SetConverter<Bool>.consumeCSharp(
+                try Env.check { exn in _boolSetGetter(value, exn) }
             ),
-            boolDictionary: try DictionaryConverter<Bool, Bool>.fromCSharp(
-                try Env.check { exn in _boolDictionaryGetter(value, exn) },
-                consuming: true
+            boolDictionary: try DictionaryConverter<Bool, Bool>.consumeCSharp(
+                try Env.check { exn in _boolDictionaryGetter(value, exn) }
             ),
-            integerArray: try ArrayConverter<Int>.fromCSharp(
-                try Env.check { exn in _integerArrayGetter(value, exn) },
-                consuming: true
+            integerArray: try ArrayConverter<Int>.consumeCSharp(
+                try Env.check { exn in _integerArrayGetter(value, exn) }
             ),
-            integerSet: try SetConverter<Int>.fromCSharp(
-                try Env.check { exn in _integerSetGetter(value, exn) },
-                consuming: true
+            integerSet: try SetConverter<Int>.consumeCSharp(
+                try Env.check { exn in _integerSetGetter(value, exn) }
             ),
-            integerDictionary: try DictionaryConverter<Int, Int>.fromCSharp(
-                try Env.check { exn in _integerDictionaryGetter(value, exn) },
-                consuming: true
+            integerDictionary: try DictionaryConverter<Int, Int>.consumeCSharp(
+                try Env.check { exn in _integerDictionaryGetter(value, exn) }
             ),
-            stringArray: try ArrayConverter<Swift.String>.fromCSharp(
-                try Env.check { exn in _stringArrayGetter(value, exn) },
-                consuming: true
+            stringArray: try ArrayConverter<Swift.String>.consumeCSharp(
+                try Env.check { exn in _stringArrayGetter(value, exn) }
             ),
-            stringSet: try SetConverter<Swift.String>.fromCSharp(
-                try Env.check { exn in _stringSetGetter(value, exn) },
-                consuming: true
+            stringSet: try SetConverter<Swift.String>.consumeCSharp(
+                try Env.check { exn in _stringSetGetter(value, exn) }
             ),
-            stringDictionary: try DictionaryConverter<Swift.String, Swift.String>.fromCSharp(
-                try Env.check { exn in _stringDictionaryGetter(value, exn) },
-                consuming: true
+            stringDictionary: try DictionaryConverter<Swift.String, Swift.String>.consumeCSharp(
+                try Env.check { exn in _stringDictionaryGetter(value, exn) }
             )
         )
     }
@@ -142,7 +133,7 @@ extension Collections.CollectionHolder: CSharpMutator {
     }
 
     public static func mutateCSharp<R>(_ this: csObject, body: (inout Self) throws -> R) throws -> R {
-        var mutatingSelf = try fromCSharp(this)
+        var mutatingSelf = try peekCSharp(this)
         let result = try body(&mutatingSelf)
         try Env.check { exn in _boolArraySetter(
             this,

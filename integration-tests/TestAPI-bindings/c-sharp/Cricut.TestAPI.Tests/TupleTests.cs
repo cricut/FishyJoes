@@ -4,15 +4,12 @@ using Xunit;
 namespace Cricut.TestAPI.Tests {
     using T2 = Tuple<nint, string>;
     using T3 = Tuple<string, double, string>;
-    // C# is stupid
-    namespace T4
-    {
+    // C# is stupid and won't let you define typealias that refer to other typealiases in the same namespace;
+    namespace T4 {
         using T4 = Tuple<T2, T3, string, bool>;
-        namespace T5
-        {
+        namespace T5 {
             using T5 = Tuple<string, byte, T4, T3, T2>;
-            namespace T6
-            {
+            namespace T6 {
                 using T6 = Tuple<string, nint, double, T4, T5, bool>;
 
                 public class TupleTests {

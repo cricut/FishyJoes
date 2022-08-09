@@ -367,6 +367,13 @@ extension CodeGen {
                     // TODO
                     break
                 case .cSharp:
+                    if !cmd("dotnet-coverage", "--version").runBool() {
+                        print("Couldn't find dotnet-coverage! Install with:")
+                        print()
+                        print("   dotnet tool install --global dotnet-sonarscanner")
+                        print()
+                        print("and ensure that $HOME/.dotnet/tools is in your path")
+                    }
                     try FileManager.default.withCurrentDirectoryPath("c-sharp") {
                         var commandParts = ["dotnet", "test", "Cricut.\(config.module).sln"]
                         if let path = codeCoveragePath {

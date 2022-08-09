@@ -42,7 +42,7 @@ namespace Cricut.TestAPI.Tests {
 
         [Fact]
         void testFunctionsTakingClosuresWithCollectionTypes() {
-            Collections.CollectionMapper( new List<nint?> { 10, 20, 30 }, it => new List<nint?>(it!.Select(it => it * 2)))
+            Collections.CollectionMapper(new List<nint?> { 10, 20, 30 }, it => new List<nint?>(it!.Select(it => it * 2)))
                 .Should().BeEquivalentTo(new List<nint> { 20, 40, 60 });
         }
 

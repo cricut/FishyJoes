@@ -17,8 +17,8 @@ public func TestAPI_Structs_setup(
 extension Structs: CSharpMutator {
     fileprivate static var _constructorMethod: ((UnsafeMutableRawPointer, _ exn: csOutExn) -> csObject)!
 
-    public static func fromCSharp(_ value: csObject) throws -> Self {
-        try Box<Structs>.fromCSharp(value).value
+    public static func peekCSharp(_ value: csObject) throws -> Self {
+        try Box<Structs>.peekCSharp(value).value
     }
 
     public static func toCSharp(_ value: Self) throws -> csObject {
@@ -27,6 +27,6 @@ extension Structs: CSharpMutator {
     }
 
     public static func mutateCSharp<R>(_ this: csObject, body: (inout Self) throws -> R) throws -> R {
-        try body(&Box<Structs>.fromCSharp(this).value)
+        try body(&Box<Structs>.peekCSharp(this).value)
     }
 }

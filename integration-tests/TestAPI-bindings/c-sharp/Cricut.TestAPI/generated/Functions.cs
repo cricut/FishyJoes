@@ -9,105 +9,105 @@ namespace Cricut.TestAPI {
     /// <!-- FishyJoes.exportReference(Functions) -->
     /// </summary>
     public class Functions : SwiftReference {
-        internal Functions(IntPtr reference): base(reference) {}
+        internal Functions(ConsumedRef reference): base(reference) {}
 
         /// <summary>
         /// <!-- FishyJoes.export(const42) -->
         /// </summary>
         public static System.Func<nint> Const42 {
             get {
-                return Check((out IntPtr exn) => 
-                    ConsumeHandle<System.Func<nint>>(__cs_get_Functions_Const42(out exn))
+                return Check((out CreatedRef exn) => 
+                    __cs_get_Functions_Const42(out exn).Consume<System.Func<nint>>()
                 );
             }
         }
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern IntPtr __cs_get_Functions_Const42(out IntPtr exn);
+        private static extern CreatedRef __cs_get_Functions_Const42(out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(abs) -->
         /// </summary>
         public static System.Func<nint, nint> Abs {
             get {
-                return Check((out IntPtr exn) => 
-                    ConsumeHandle<System.Func<nint, nint>>(__cs_get_Functions_Abs(out exn))
+                return Check((out CreatedRef exn) => 
+                    __cs_get_Functions_Abs(out exn).Consume<System.Func<nint, nint>>()
                 );
             }
         }
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern IntPtr __cs_get_Functions_Abs(out IntPtr exn);
+        private static extern CreatedRef __cs_get_Functions_Abs(out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(intCompose) -->
         /// </summary>
         public static System.Func<System.Func<nint, nint>, System.Func<nint, nint>, System.Func<nint, nint>> IntCompose {
             get {
-                return Check((out IntPtr exn) => 
-                    ConsumeHandle<System.Func<System.Func<nint, nint>, System.Func<nint, nint>, System.Func<nint, nint>>>(__cs_get_Functions_IntCompose(out exn))
+                return Check((out CreatedRef exn) => 
+                    __cs_get_Functions_IntCompose(out exn).Consume<System.Func<System.Func<nint, nint>, System.Func<nint, nint>, System.Func<nint, nint>>>()
                 );
             }
         }
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern IntPtr __cs_get_Functions_IntCompose(out IntPtr exn);
+        private static extern CreatedRef __cs_get_Functions_IntCompose(out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(add3Things) -->
         /// </summary>
         public static System.Func<float, double, nint, double> Add3Things {
             get {
-                return Check((out IntPtr exn) => 
-                    ConsumeHandle<System.Func<float, double, nint, double>>(__cs_get_Functions_Add3Things(out exn))
+                return Check((out CreatedRef exn) => 
+                    __cs_get_Functions_Add3Things(out exn).Consume<System.Func<float, double, nint, double>>()
                 );
             }
         }
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern IntPtr __cs_get_Functions_Add3Things(out IntPtr exn);
+        private static extern CreatedRef __cs_get_Functions_Add3Things(out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(makeList) -->
         /// </summary>
         public static System.Func<string, string, string, string, System.Collections.Generic.IList<string>> MakeList {
             get {
-                return Check((out IntPtr exn) => 
-                    ConsumeHandle<System.Func<string, string, string, string, System.Collections.Generic.IList<string>>>(__cs_get_Functions_MakeList(out exn))
+                return Check((out CreatedRef exn) => 
+                    __cs_get_Functions_MakeList(out exn).Consume<System.Func<string, string, string, string, System.Collections.Generic.IList<string>>>()
                 );
             }
         }
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern IntPtr __cs_get_Functions_MakeList(out IntPtr exn);
+        private static extern CreatedRef __cs_get_Functions_MakeList(out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(fifthThing) -->
         /// </summary>
         public static System.Func<string, nint, double, string, System.Func<nint>, System.Func<nint>> FifthThing {
             get {
-                return Check((out IntPtr exn) => 
-                    ConsumeHandle<System.Func<string, nint, double, string, System.Func<nint>, System.Func<nint>>>(__cs_get_Functions_FifthThing(out exn))
+                return Check((out CreatedRef exn) => 
+                    __cs_get_Functions_FifthThing(out exn).Consume<System.Func<string, nint, double, string, System.Func<nint>, System.Func<nint>>>()
                 );
             }
         }
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern IntPtr __cs_get_Functions_FifthThing(out IntPtr exn);
+        private static extern CreatedRef __cs_get_Functions_FifthThing(out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(sixthThing) -->
         /// </summary>
         public static System.Func<string, nint, double, string, System.Func<nint>, nint, nint> SixthThing {
             get {
-                return Check((out IntPtr exn) => 
-                    ConsumeHandle<System.Func<string, nint, double, string, System.Func<nint>, nint, nint>>(__cs_get_Functions_SixthThing(out exn))
+                return Check((out CreatedRef exn) => 
+                    __cs_get_Functions_SixthThing(out exn).Consume<System.Func<string, nint, double, string, System.Func<nint>, nint, nint>>()
                 );
             }
         }
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern IntPtr __cs_get_Functions_SixthThing(out IntPtr exn);
+        private static extern CreatedRef __cs_get_Functions_SixthThing(out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(exercise0) -->
@@ -116,15 +116,13 @@ namespace Cricut.TestAPI {
             System.Func<nint> fn
         ) {
             using var _fnHandle = new GCRef(fn);
-            return ConsumeHandle<string>(
-                Check((out IntPtr _exn) => __cs_Functions_exercise0(_fnHandle.ptr, out _exn))
-            );
+            return Check((out CreatedRef _exn) => __cs_Functions_exercise0(_fnHandle.ptr, out _exn)).Consume<string>();
         }
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern IntPtr __cs_Functions_exercise0(
-            IntPtr fn,
-            out IntPtr exn
+        private static extern CreatedRef __cs_Functions_exercise0(
+            UnownedRef fn,
+            out CreatedRef exn
         );
 
         /// <summary>
@@ -134,15 +132,13 @@ namespace Cricut.TestAPI {
             System.Func<nint, nint> fn
         ) {
             using var _fnHandle = new GCRef(fn);
-            return ConsumeHandle<string>(
-                Check((out IntPtr _exn) => __cs_Functions_exercise1(_fnHandle.ptr, out _exn))
-            );
+            return Check((out CreatedRef _exn) => __cs_Functions_exercise1(_fnHandle.ptr, out _exn)).Consume<string>();
         }
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern IntPtr __cs_Functions_exercise1(
-            IntPtr fn,
-            out IntPtr exn
+        private static extern CreatedRef __cs_Functions_exercise1(
+            UnownedRef fn,
+            out CreatedRef exn
         );
 
         /// <summary>
@@ -152,15 +148,13 @@ namespace Cricut.TestAPI {
             System.Func<System.Func<nint, nint>, System.Func<nint, nint>, System.Func<nint, nint>> fn
         ) {
             using var _fnHandle = new GCRef(fn);
-            return ConsumeHandle<string>(
-                Check((out IntPtr _exn) => __cs_Functions_exercise2(_fnHandle.ptr, out _exn))
-            );
+            return Check((out CreatedRef _exn) => __cs_Functions_exercise2(_fnHandle.ptr, out _exn)).Consume<string>();
         }
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern IntPtr __cs_Functions_exercise2(
-            IntPtr fn,
-            out IntPtr exn
+        private static extern CreatedRef __cs_Functions_exercise2(
+            UnownedRef fn,
+            out CreatedRef exn
         );
 
         /// <summary>
@@ -170,15 +164,13 @@ namespace Cricut.TestAPI {
             System.Func<float, double, nint, double> fn
         ) {
             using var _fnHandle = new GCRef(fn);
-            return ConsumeHandle<string>(
-                Check((out IntPtr _exn) => __cs_Functions_exercise3(_fnHandle.ptr, out _exn))
-            );
+            return Check((out CreatedRef _exn) => __cs_Functions_exercise3(_fnHandle.ptr, out _exn)).Consume<string>();
         }
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern IntPtr __cs_Functions_exercise3(
-            IntPtr fn,
-            out IntPtr exn
+        private static extern CreatedRef __cs_Functions_exercise3(
+            UnownedRef fn,
+            out CreatedRef exn
         );
 
         /// <summary>
@@ -188,15 +180,13 @@ namespace Cricut.TestAPI {
             System.Func<string, string, string, string, System.Collections.Generic.IList<string>> fn
         ) {
             using var _fnHandle = new GCRef(fn);
-            return ConsumeHandle<string>(
-                Check((out IntPtr _exn) => __cs_Functions_exercise4(_fnHandle.ptr, out _exn))
-            );
+            return Check((out CreatedRef _exn) => __cs_Functions_exercise4(_fnHandle.ptr, out _exn)).Consume<string>();
         }
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern IntPtr __cs_Functions_exercise4(
-            IntPtr fn,
-            out IntPtr exn
+        private static extern CreatedRef __cs_Functions_exercise4(
+            UnownedRef fn,
+            out CreatedRef exn
         );
 
         /// <summary>
@@ -206,15 +196,13 @@ namespace Cricut.TestAPI {
             System.Func<string, nint, double, string, System.Func<nint>, System.Func<nint>> fn
         ) {
             using var _fnHandle = new GCRef(fn);
-            return ConsumeHandle<string>(
-                Check((out IntPtr _exn) => __cs_Functions_exercise5(_fnHandle.ptr, out _exn))
-            );
+            return Check((out CreatedRef _exn) => __cs_Functions_exercise5(_fnHandle.ptr, out _exn)).Consume<string>();
         }
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern IntPtr __cs_Functions_exercise5(
-            IntPtr fn,
-            out IntPtr exn
+        private static extern CreatedRef __cs_Functions_exercise5(
+            UnownedRef fn,
+            out CreatedRef exn
         );
 
         /// <summary>
@@ -224,15 +212,13 @@ namespace Cricut.TestAPI {
             System.Func<string, nint, double, string, System.Func<nint>, nint, nint> fn
         ) {
             using var _fnHandle = new GCRef(fn);
-            return ConsumeHandle<string>(
-                Check((out IntPtr _exn) => __cs_Functions_exercise6(_fnHandle.ptr, out _exn))
-            );
+            return Check((out CreatedRef _exn) => __cs_Functions_exercise6(_fnHandle.ptr, out _exn)).Consume<string>();
         }
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern IntPtr __cs_Functions_exercise6(
-            IntPtr fn,
-            out IntPtr exn
+        private static extern CreatedRef __cs_Functions_exercise6(
+            UnownedRef fn,
+            out CreatedRef exn
         );
 
         /// <summary>
@@ -240,21 +226,19 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static string WillThrow(
         ) {
-            return ConsumeHandle<string>(
-                Check((out IntPtr _exn) => __cs_Functions_willThrow(out _exn))
-            );
+            return Check((out CreatedRef _exn) => __cs_Functions_willThrow(out _exn)).Consume<string>();
         }
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern IntPtr __cs_Functions_willThrow(
-            out IntPtr exn
+        private static extern CreatedRef __cs_Functions_willThrow(
+            out CreatedRef exn
         );
 
         /// <summary>
         /// <!-- FishyJoes.exportReference(Functions.TheError) -->
         /// </summary>
         public class TheError : SwiftReference {
-            internal TheError(IntPtr reference): base(reference) {}
+            internal TheError(ConsumedRef reference): base(reference) {}
 
             static TheError() { _TypeSetup._ensureLoaded(); }
         }

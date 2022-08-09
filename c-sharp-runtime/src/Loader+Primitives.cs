@@ -4,34 +4,35 @@ using static Cricut.FishyJoesRuntime.Utilities;
 
 namespace Cricut.FishyJoesRuntime {
     public partial class Loader {
-        delegate byte BoolValueMethod(IntPtr obj, out IntPtr exn);
-        delegate sbyte Int8ValueMethod(IntPtr obj, out IntPtr exn);
-        delegate short Int16ValueMethod(IntPtr obj, out IntPtr exn);
-        delegate int Int32ValueMethod(IntPtr obj, out IntPtr exn);
-        delegate long Int64ValueMethod(IntPtr obj, out IntPtr exn);
-        delegate nint IntValueMethod(IntPtr obj, out IntPtr exn);
-        delegate byte UInt8ValueMethod(IntPtr obj, out IntPtr exn);
-        delegate ushort UInt16ValueMethod(IntPtr obj, out IntPtr exn);
-        delegate uint UInt32ValueMethod(IntPtr obj, out IntPtr exn);
-        delegate ulong UInt64ValueMethod(IntPtr obj, out IntPtr exn);
-        delegate float FloatValueMethod(IntPtr obj, out IntPtr exn);
-        delegate double DoubleValueMethod(IntPtr obj, out IntPtr exn);
-        delegate IntPtr Int8Constructor(sbyte value);
-        delegate IntPtr Int16Constructor(short value);
-        delegate IntPtr Int32Constructor(int value);
-        delegate IntPtr Int64Constructor(long value);
-        delegate IntPtr IntConstructor(nint value);
-        delegate IntPtr UInt8Constructor(byte value);
-        delegate IntPtr UInt16Constructor(ushort value);
-        delegate IntPtr UInt32Constructor(uint value);
-        delegate IntPtr UInt64Constructor(ulong value);
-        delegate IntPtr FloatConstructor(float value);
-        delegate IntPtr DoubleConstructor(double value);
+        delegate byte BoolValueMethod(UnownedRef obj, out CreatedRef exn);
+        delegate sbyte Int8ValueMethod(UnownedRef obj, out CreatedRef exn);
+        delegate short Int16ValueMethod(UnownedRef obj, out CreatedRef exn);
+        delegate int Int32ValueMethod(UnownedRef obj, out CreatedRef exn);
+        delegate long Int64ValueMethod(UnownedRef obj, out CreatedRef exn);
+        delegate nint IntValueMethod(UnownedRef obj, out CreatedRef exn);
+        delegate byte UInt8ValueMethod(UnownedRef obj, out CreatedRef exn);
+        delegate ushort UInt16ValueMethod(UnownedRef obj, out CreatedRef exn);
+        delegate uint UInt32ValueMethod(UnownedRef obj, out CreatedRef exn);
+        delegate ulong UInt64ValueMethod(UnownedRef obj, out CreatedRef exn);
+        delegate float FloatValueMethod(UnownedRef obj, out CreatedRef exn);
+        delegate double DoubleValueMethod(UnownedRef obj, out CreatedRef exn);
+
+        delegate CreatedRef Int8Constructor(sbyte value);
+        delegate CreatedRef Int16Constructor(short value);
+        delegate CreatedRef Int32Constructor(int value);
+        delegate CreatedRef Int64Constructor(long value);
+        delegate CreatedRef IntConstructor(nint value);
+        delegate CreatedRef UInt8Constructor(byte value);
+        delegate CreatedRef UInt16Constructor(ushort value);
+        delegate CreatedRef UInt32Constructor(uint value);
+        delegate CreatedRef UInt64Constructor(ulong value);
+        delegate CreatedRef FloatConstructor(float value);
+        delegate CreatedRef DoubleConstructor(double value);
 
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void FishyJoesRuntime_Bool_setup(
-            IntPtr cSharpTrue,
-            IntPtr cSharpFalse,
+            UnownedRef cSharpTrue,
+            UnownedRef cSharpFalse,
             BoolValueMethod valueMethod
         );
 
@@ -102,73 +103,69 @@ namespace Cricut.FishyJoesRuntime {
         );
 
         private static void setupPrimitives() {
+            using GCRef trueRef = new GCRef(true);
+            using GCRef falseRef = new GCRef(false);
             FishyJoesRuntime_Bool_setup(
-                PassOwnership(true),
-                PassOwnership(false),
-                bag<BoolValueMethod>((IntPtr obj, out IntPtr exn) => Catching(out exn, () => {
-                    return PeekHandle<bool>(obj) ? (byte)1 : (byte)0;
+                trueRef.ptr,
+                falseRef.ptr,
+                bag<BoolValueMethod>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => {
+                    return obj.Peek<bool>() ? (byte)1 : (byte)0;
                 }))
             );
 
             FishyJoesRuntime_Int8_setup(
-                bag<Int8ValueMethod>((IntPtr obj, out IntPtr exn) => Catching(out exn, () => PeekHandle<sbyte>(obj))),
-                bag<Int8Constructor>(value => PassOwnership(value))
+                bag<Int8ValueMethod>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => obj.Peek<sbyte>())),
+                bag<Int8Constructor>(value => new CreatedRef((object)value))
             );
 
             FishyJoesRuntime_Int16_setup(
-                bag<Int16ValueMethod>((IntPtr obj, out IntPtr exn) => Catching(out exn, () => PeekHandle<short>(obj))),
-                bag<Int16Constructor>(value => PassOwnership(value))
+                bag<Int16ValueMethod>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => obj.Peek<short>())),
+                bag<Int16Constructor>(value => new CreatedRef((object)value))
             );
 
             FishyJoesRuntime_Int32_setup(
-                bag<Int32ValueMethod>((IntPtr obj, out IntPtr exn) => Catching(out exn, () => PeekHandle<int>(obj))),
-                bag<Int32Constructor>(value => PassOwnership(value))
+                bag<Int32ValueMethod>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => obj.Peek<int>())),
+                bag<Int32Constructor>(value => new CreatedRef((object)value))
             );
 
             FishyJoesRuntime_Int64_setup(
-                bag<Int64ValueMethod>((IntPtr obj, out IntPtr exn) => Catching(out exn, () => PeekHandle<long>(obj))),
-                bag<Int64Constructor>(value => PassOwnership(value))
+                bag<Int64ValueMethod>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => obj.Peek<long>())),
+                bag<Int64Constructor>(value => new CreatedRef((object)value))
             );
 
             FishyJoesRuntime_UInt8_setup(
-                bag<UInt8ValueMethod>((IntPtr obj, out IntPtr exn) => Catching(out exn, () => PeekHandle<byte>(obj))),
-                bag<UInt8Constructor>(new UInt8Constructor(value => {
-                    // Console.WriteLine($"constructing uint8 {value}");
-                    return PassOwnership(value);
-                }))
+                bag<UInt8ValueMethod>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => obj.Peek<byte>())),
+                bag<UInt8Constructor>(value => new CreatedRef((object)value))
             );
 
             FishyJoesRuntime_UInt16_setup(
-                bag<UInt16ValueMethod>((IntPtr obj, out IntPtr exn) => Catching(out exn, () => PeekHandle<ushort>(obj))),
-                bag<UInt16Constructor>(value => PassOwnership(value))
+                bag<UInt16ValueMethod>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => obj.Peek<ushort>())),
+                bag<UInt16Constructor>(value => new CreatedRef((object)value))
             );
 
             FishyJoesRuntime_UInt32_setup(
-                bag<UInt32ValueMethod>((IntPtr obj, out IntPtr exn) => Catching(out exn, () => PeekHandle<uint>(obj))),
-                bag<UInt32Constructor>(value => PassOwnership(value))
+                bag<UInt32ValueMethod>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => obj.Peek<uint>())),
+                bag<UInt32Constructor>(value => new CreatedRef((object)value))
             );
 
             FishyJoesRuntime_UInt64_setup(
-                bag<UInt64ValueMethod>((IntPtr obj, out IntPtr exn) => Catching(out exn, () => PeekHandle<ulong>(obj))),
-                bag<UInt64Constructor>(value => PassOwnership(value))
+                bag<UInt64ValueMethod>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => obj.Peek<ulong>())),
+                bag<UInt64Constructor>(value => new CreatedRef((object)value))
             );
 
             FishyJoesRuntime_Int_setup(
-                bag<IntValueMethod>((IntPtr obj, out IntPtr exn) => Catching(out exn, () => PeekHandle<nint>(obj))),
-                bag<IntConstructor>(new IntConstructor(value => {
-                    // Console.WriteLine($"constructing int {value}");
-                    return PassOwnership(value);
-                }))
+                bag<IntValueMethod>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => obj.Peek<nint>())),
+                bag<IntConstructor>(value => new CreatedRef((object)value))
             );
 
             FishyJoesRuntime_Float_setup(
-                bag<FloatValueMethod>((IntPtr obj, out IntPtr exn) => Catching(out exn, () => PeekHandle<float>(obj))),
-                bag<FloatConstructor>(value => PassOwnership(value))
+                bag<FloatValueMethod>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => obj.Peek<float>())),
+                bag<FloatConstructor>(value => new CreatedRef((object)value))
             );
 
             FishyJoesRuntime_Double_setup(
-                bag<DoubleValueMethod>((IntPtr obj, out IntPtr exn) => Catching(out exn, () => PeekHandle<double>(obj))),
-                bag<DoubleConstructor>(value => PassOwnership(value))
+                bag<DoubleValueMethod>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => obj.Peek<double>())),
+                bag<DoubleConstructor>(value => new CreatedRef((object)value))
             );
         }
     }

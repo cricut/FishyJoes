@@ -58,7 +58,7 @@ extension SimpleEnum: CSharpConverter {
     ) -> Void
     fileprivate static var blue_extractor: Blue_extractor!
 
-    public static func fromCSharp(_ value: csObject) throws -> Self {
+    public static func peekCSharp(_ value: csObject) throws -> Self {
         switch try Env.check({ exn in discriminator(value, exn) }) {
         case 0:
             try Env.check { exn in red_extractor(value, exn) }

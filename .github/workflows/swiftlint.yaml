@@ -6,7 +6,7 @@ on:
       - created
   pull_request:
 jobs:
-  build:
+  swiftlint:
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/realm/swiftlint:latest
@@ -17,4 +17,6 @@ jobs:
 
     - name: SwiftLint
       run: |
-        swiftlint --reporter github-actions-logging --strict
+        swiftlint --version
+        swiftlint --reporter github-actions-logging --strict ||
+        swiftlint --reporter emoji --strict --quiet

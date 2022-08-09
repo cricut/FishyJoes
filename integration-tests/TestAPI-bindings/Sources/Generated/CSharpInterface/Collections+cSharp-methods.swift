@@ -14,7 +14,7 @@ public func __cs_Collections_echoArrayOfInt(
     FishyJoesCSharpRuntime.Env.catching(to: _exn) {
         return try ArrayConverter<Int>.toCSharp(
             Collections.echo(
-                arrayOfInt: try ArrayConverter<Int>.fromCSharp(arrayOfInt)
+                arrayOfInt: try ArrayConverter<Int>.peekCSharp(arrayOfInt)
             )
         )
     }
@@ -29,7 +29,7 @@ public func __cs_Collections_echoSetOfInt(
     FishyJoesCSharpRuntime.Env.catching(to: _exn) {
         return try SetConverter<Int>.toCSharp(
             Collections.echo(
-                setOfInt: try SetConverter<Int>.fromCSharp(setOfInt)
+                setOfInt: try SetConverter<Int>.peekCSharp(setOfInt)
             )
         )
     }
@@ -44,7 +44,7 @@ public func __cs_Collections_echoDictionaryOfIntToInt(
     FishyJoesCSharpRuntime.Env.catching(to: _exn) {
         return try DictionaryConverter<Int, Int>.toCSharp(
             Collections.echo(
-                dictionaryOfIntToInt: try DictionaryConverter<Int, Int>.fromCSharp(dictionaryOfIntToInt)
+                dictionaryOfIntToInt: try DictionaryConverter<Int, Int>.peekCSharp(dictionaryOfIntToInt)
             )
         )
     }
@@ -59,7 +59,7 @@ public func __cs_Collections_echoMaybeArrayOfMaybeInt(
     FishyJoesCSharpRuntime.Env.catching(to: _exn) {
         return try OptionalConverter<ArrayConverter<OptionalConverter<Int>>>.toCSharp(
             Collections.echo(
-                maybeArrayOfMaybeInt: try OptionalConverter<ArrayConverter<OptionalConverter<Int>>>.fromCSharp(maybeArrayOfMaybeInt)
+                maybeArrayOfMaybeInt: try OptionalConverter<ArrayConverter<OptionalConverter<Int>>>.peekCSharp(maybeArrayOfMaybeInt)
             )
         )
     }
@@ -74,7 +74,7 @@ public func __cs_Collections_echoMaybeSetOfMaybeInt(
     FishyJoesCSharpRuntime.Env.catching(to: _exn) {
         return try OptionalConverter<SetConverter<OptionalConverter<Int>>>.toCSharp(
             Collections.echo(
-                maybeSetOfMaybeInt: try OptionalConverter<SetConverter<OptionalConverter<Int>>>.fromCSharp(maybeSetOfMaybeInt)
+                maybeSetOfMaybeInt: try OptionalConverter<SetConverter<OptionalConverter<Int>>>.peekCSharp(maybeSetOfMaybeInt)
             )
         )
     }
@@ -89,7 +89,7 @@ public func __cs_Collections_echoMaybeDictionaryOfIntToMaybeInt(
     FishyJoesCSharpRuntime.Env.catching(to: _exn) {
         return try OptionalConverter<DictionaryConverter<Int, OptionalConverter<Int>>>.toCSharp(
             Collections.echo(
-                maybeDictionaryOfIntToMaybeInt: try OptionalConverter<DictionaryConverter<Int, OptionalConverter<Int>>>.fromCSharp(maybeDictionaryOfIntToMaybeInt)
+                maybeDictionaryOfIntToMaybeInt: try OptionalConverter<DictionaryConverter<Int, OptionalConverter<Int>>>.peekCSharp(maybeDictionaryOfIntToMaybeInt)
             )
         )
     }
@@ -105,8 +105,8 @@ public func __cs_Collections_collectionMapper(
     FishyJoesCSharpRuntime.Env.catching(to: _exn) {
         return try OptionalConverter<ArrayConverter<OptionalConverter<Int>>>.toCSharp(
             Collections.collectionMapper(
-                collection: try OptionalConverter<ArrayConverter<OptionalConverter<Int>>>.fromCSharp(collection),
-                try Function1Converter<OptionalConverter<ArrayConverter<OptionalConverter<Int>>>, OptionalConverter<ArrayConverter<OptionalConverter<Int>>>>.fromCSharp(mapper)
+                collection: try OptionalConverter<ArrayConverter<OptionalConverter<Int>>>.peekCSharp(collection),
+                try Function1Converter<OptionalConverter<ArrayConverter<OptionalConverter<Int>>>, OptionalConverter<ArrayConverter<OptionalConverter<Int>>>>.peekCSharp(mapper)
             )
         )
     }

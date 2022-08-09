@@ -3,6 +3,7 @@ import Foundation
 
 public enum SwiftFunctionImpl {
     public typealias Constructor = @convention(c) (_ ref: UnsafeMutableRawPointer, _ exn: csOutExn) -> csObject
+    // For invoke methods, C# side is responsible for consuming all arguments except the first one
     public typealias Invoke0 = @convention(c) (_ fn: csObject, _ exn: csOutExn) -> csObject
     public typealias Invoke1 = @convention(c) (_ fn: csObject, csObject, _ exn: csOutExn) -> csObject
     public typealias Invoke2 = @convention(c) (_ fn: csObject, csObject, csObject, _ exn: csOutExn) -> csObject
@@ -214,9 +215,7 @@ public func SwiftFunctionImpl_invoke6(this: UnsafeMutableRawPointer, p0: csObjec
 }
 
 extension Function0Converter: CSharpConverter where R: CSharpConverter {
-    public typealias Invoke = (csObject, csOutExn) -> R.CType
-
-    public static func fromCSharp(_ value: csObject) throws -> SwiftType {
+    public static func peekCSharp(_ value: csObject) throws -> SwiftType {
         let escapingRef = try CSharpReference(value)
         let initThread = Thread.current
         return {
@@ -226,7 +225,7 @@ extension Function0Converter: CSharpConverter where R: CSharpConverter {
             guard let invoke = SwiftFunctionImpl.invoke0s[ObjectIdentifier(Self.self)] else {
                 fatalError("type \(Self.self) not set up properly")
             }
-            return try R.fromCSharp(
+            return try R.consumeCSharp(
                 object: Env.check {exn in
                     invoke(escapingRef.object, exn)
                 }
@@ -249,9 +248,7 @@ extension Function0Converter: CSharpConverter where R: CSharpConverter {
 }
 
 extension Function1Converter: CSharpConverter where R: CSharpConverter, P0: CSharpConverter {
-    public typealias Invoke = (csObject, P0.CType, csOutExn) -> R.CType
-
-    public static func fromCSharp(_ value: csObject) throws -> SwiftType {
+    public static func peekCSharp(_ value: csObject) throws -> SwiftType {
         let escapingRef = try CSharpReference(value)
         let initThread = Thread.current
         return { p0 in
@@ -261,7 +258,7 @@ extension Function1Converter: CSharpConverter where R: CSharpConverter, P0: CSha
             guard let invoke = SwiftFunctionImpl.invoke1s[ObjectIdentifier(Self.self)] else {
                 fatalError("type \(Self.self) not set up properly")
             }
-            return try R.fromCSharp(
+            return try R.consumeCSharp(
                 object: Env.check { exn in
                     invoke(
                         escapingRef.object,
@@ -275,7 +272,7 @@ extension Function1Converter: CSharpConverter where R: CSharpConverter, P0: CSha
 
     public static func toCSharp(_ value: @escaping SwiftType) throws -> csObject {
         let erased = AnyFunction1 { p0 in
-            let v0 = try P0.fromCSharp(object: p0)
+            let v0 = try P0.peekCSharp(object: p0)
             return try R.toCSharpObject(value(v0))
         }
         let ptr = Box(erased).retainedOpaque()
@@ -289,9 +286,7 @@ extension Function1Converter: CSharpConverter where R: CSharpConverter, P0: CSha
 }
 
 extension Function2Converter: CSharpConverter where R: CSharpConverter, P0: CSharpConverter, P1: CSharpConverter {
-    public typealias Invoke = (csObject, P0.CType, P1.CType, csOutExn) -> R.CType
-
-    public static func fromCSharp(_ value: csObject) throws -> SwiftType {
+    public static func peekCSharp(_ value: csObject) throws -> SwiftType {
         let escapingRef = try CSharpReference(value)
         let initThread = Thread.current
         return { p0, p1 in
@@ -301,7 +296,7 @@ extension Function2Converter: CSharpConverter where R: CSharpConverter, P0: CSha
             guard let invoke = SwiftFunctionImpl.invoke2s[ObjectIdentifier(Self.self)] else {
                 fatalError("type \(Self.self) not set up properly")
             }
-            return try R.fromCSharp(
+            return try R.consumeCSharp(
                 object: Env.check { exn in
                     invoke(
                         escapingRef.object,
@@ -316,8 +311,8 @@ extension Function2Converter: CSharpConverter where R: CSharpConverter, P0: CSha
 
     public static func toCSharp(_ value: @escaping SwiftType) throws -> csObject {
         let erased = AnyFunction2 { p0, p1 in
-            let v0 = try P0.fromCSharp(object: p0)
-            let v1 = try P1.fromCSharp(object: p1)
+            let v0 = try P0.peekCSharp(object: p0)
+            let v1 = try P1.peekCSharp(object: p1)
             return try R.toCSharpObject(value(v0, v1))
         }
         let ptr = Box(erased).retainedOpaque()
@@ -331,9 +326,7 @@ extension Function2Converter: CSharpConverter where R: CSharpConverter, P0: CSha
 }
 
 extension Function3Converter: CSharpConverter where R: CSharpConverter, P0: CSharpConverter, P1: CSharpConverter, P2: CSharpConverter {
-    public typealias Invoke = (csObject, P0.CType, P1.CType, P2.CType, csOutExn) -> R.CType
-
-    public static func fromCSharp(_ value: csObject) throws -> SwiftType {
+    public static func peekCSharp(_ value: csObject) throws -> SwiftType {
         let escapingRef = try CSharpReference(value)
         let initThread = Thread.current
         return { p0, p1, p2 in
@@ -343,7 +336,7 @@ extension Function3Converter: CSharpConverter where R: CSharpConverter, P0: CSha
             guard let invoke = SwiftFunctionImpl.invoke3s[ObjectIdentifier(Self.self)] else {
                 fatalError("type \(Self.self) not set up properly")
             }
-            return try R.fromCSharp(
+            return try R.consumeCSharp(
                 object: Env.check { exn in
                     invoke(
                         escapingRef.object,
@@ -359,9 +352,9 @@ extension Function3Converter: CSharpConverter where R: CSharpConverter, P0: CSha
 
     public static func toCSharp(_ value: @escaping SwiftType) throws -> csObject {
         let erased = AnyFunction3 { p0, p1, p2 in
-            let v0 = try P0.fromCSharp(object: p0)
-            let v1 = try P1.fromCSharp(object: p1)
-            let v2 = try P2.fromCSharp(object: p2)
+            let v0 = try P0.peekCSharp(object: p0)
+            let v1 = try P1.peekCSharp(object: p1)
+            let v2 = try P2.peekCSharp(object: p2)
             return try R.toCSharpObject(value(v0, v1, v2))
         }
         let ptr = Box(erased).retainedOpaque()
@@ -375,9 +368,7 @@ extension Function3Converter: CSharpConverter where R: CSharpConverter, P0: CSha
 }
 
 extension Function4Converter: CSharpConverter where R: CSharpConverter, P0: CSharpConverter, P1: CSharpConverter, P2: CSharpConverter, P3: CSharpConverter {
-    public typealias Invoke = (csObject, P0.CType, P1.CType, P2.CType, P3.CType, csOutExn) -> R.CType
-
-    public static func fromCSharp(_ value: csObject) throws -> SwiftType {
+    public static func peekCSharp(_ value: csObject) throws -> SwiftType {
         let escapingRef = try CSharpReference(value)
         let initThread = Thread.current
         return { p0, p1, p2, p3 in
@@ -387,7 +378,7 @@ extension Function4Converter: CSharpConverter where R: CSharpConverter, P0: CSha
             guard let invoke = SwiftFunctionImpl.invoke4s[ObjectIdentifier(Self.self)] else {
                 fatalError("type \(Self.self) not set up properly")
             }
-            return try R.fromCSharp(
+            return try R.consumeCSharp(
                 object: Env.check { exn in
                     invoke(
                         escapingRef.object,
@@ -404,10 +395,10 @@ extension Function4Converter: CSharpConverter where R: CSharpConverter, P0: CSha
 
     public static func toCSharp(_ value: @escaping SwiftType) throws -> csObject {
         let erased = AnyFunction4 { p0, p1, p2, p3 in
-            let v0 = try P0.fromCSharp(object: p0)
-            let v1 = try P1.fromCSharp(object: p1)
-            let v2 = try P2.fromCSharp(object: p2)
-            let v3 = try P3.fromCSharp(object: p3)
+            let v0 = try P0.peekCSharp(object: p0)
+            let v1 = try P1.peekCSharp(object: p1)
+            let v2 = try P2.peekCSharp(object: p2)
+            let v3 = try P3.peekCSharp(object: p3)
             return try R.toCSharpObject(value(v0, v1, v2, v3))
         }
         let ptr = Box(erased).retainedOpaque()
@@ -421,9 +412,7 @@ extension Function4Converter: CSharpConverter where R: CSharpConverter, P0: CSha
 }
 
 extension Function5Converter: CSharpConverter where R: CSharpConverter, P0: CSharpConverter, P1: CSharpConverter, P2: CSharpConverter, P3: CSharpConverter, P4: CSharpConverter {
-    public typealias Invoke = (csObject, P0.CType, P1.CType, P2.CType, P3.CType, P4.CType, csOutExn) -> R.CType
-
-    public static func fromCSharp(_ value: csObject) throws -> SwiftType {
+    public static func peekCSharp(_ value: csObject) throws -> SwiftType {
         let escapingRef = try CSharpReference(value)
         let initThread = Thread.current
         return { p0, p1, p2, p3, p4 in
@@ -433,7 +422,7 @@ extension Function5Converter: CSharpConverter where R: CSharpConverter, P0: CSha
             guard let invoke = SwiftFunctionImpl.invoke5s[ObjectIdentifier(Self.self)] else {
                 fatalError("type \(Self.self) not set up properly")
             }
-            return try R.fromCSharp(
+            return try R.consumeCSharp(
                 object: Env.check { exn in
                     invoke(
                         escapingRef.object,
@@ -451,11 +440,11 @@ extension Function5Converter: CSharpConverter where R: CSharpConverter, P0: CSha
 
     public static func toCSharp(_ value: @escaping SwiftType) throws -> csObject {
         let erased = AnyFunction5 { p0, p1, p2, p3, p4 in
-            let v0 = try P0.fromCSharp(object: p0)
-            let v1 = try P1.fromCSharp(object: p1)
-            let v2 = try P2.fromCSharp(object: p2)
-            let v3 = try P3.fromCSharp(object: p3)
-            let v4 = try P4.fromCSharp(object: p4)
+            let v0 = try P0.peekCSharp(object: p0)
+            let v1 = try P1.peekCSharp(object: p1)
+            let v2 = try P2.peekCSharp(object: p2)
+            let v3 = try P3.peekCSharp(object: p3)
+            let v4 = try P4.peekCSharp(object: p4)
             return try R.toCSharpObject(value(v0, v1, v2, v3, v4))
         }
         let ptr = Box(erased).retainedOpaque()
@@ -469,9 +458,7 @@ extension Function5Converter: CSharpConverter where R: CSharpConverter, P0: CSha
 }
 
 extension Function6Converter: CSharpConverter where R: CSharpConverter, P0: CSharpConverter, P1: CSharpConverter, P2: CSharpConverter, P3: CSharpConverter, P4: CSharpConverter, P5: CSharpConverter {
-    public typealias Invoke = (csObject, P0.CType, P1.CType, P2.CType, P3.CType, P4.CType, P5.CType, csOutExn) -> R.CType
-
-    public static func fromCSharp(_ value: csObject) throws -> SwiftType {
+    public static func peekCSharp(_ value: csObject) throws -> SwiftType {
         let escapingRef = try CSharpReference(value)
         let initThread = Thread.current
         return { p0, p1, p2, p3, p4, p5 in
@@ -481,7 +468,7 @@ extension Function6Converter: CSharpConverter where R: CSharpConverter, P0: CSha
             guard let invoke = SwiftFunctionImpl.invoke6s[ObjectIdentifier(Self.self)] else {
                 fatalError("type \(Self.self) not set up properly")
             }
-            return try R.fromCSharp(
+            return try R.consumeCSharp(
                 object: Env.check { exn in
                     invoke(
                         escapingRef.object,
@@ -500,12 +487,12 @@ extension Function6Converter: CSharpConverter where R: CSharpConverter, P0: CSha
 
     public static func toCSharp(_ value: @escaping SwiftType) throws -> csObject {
         let erased = AnyFunction6 { p0, p1, p2, p3, p4, p5 in
-            let v0 = try P0.fromCSharp(object: p0)
-            let v1 = try P1.fromCSharp(object: p1)
-            let v2 = try P2.fromCSharp(object: p2)
-            let v3 = try P3.fromCSharp(object: p3)
-            let v4 = try P4.fromCSharp(object: p4)
-            let v5 = try P5.fromCSharp(object: p5)
+            let v0 = try P0.peekCSharp(object: p0)
+            let v1 = try P1.peekCSharp(object: p1)
+            let v2 = try P2.peekCSharp(object: p2)
+            let v3 = try P3.peekCSharp(object: p3)
+            let v4 = try P4.peekCSharp(object: p4)
+            let v5 = try P5.peekCSharp(object: p5)
             return try R.toCSharpObject(value(v0, v1, v2, v3, v4, v5))
         }
         let ptr = Box(erased).retainedOpaque()

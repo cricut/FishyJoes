@@ -6,26 +6,26 @@ using static Cricut.FishyJoesRuntime.Utilities;
 namespace Cricut.FishyJoesRuntime {
     public partial class Loader {
 
-        delegate int collection_Length(IntPtr array, out IntPtr exn);
-        delegate void collection_Values(IntPtr arr, IntPtr outValues, out IntPtr exn);
-        delegate IntPtr collection_Constructor(IntPtr objects, int length, out IntPtr exn);
+        delegate int collection_Length(UnownedRef array, out CreatedRef exn);
+        unsafe delegate void collection_Values(UnownedRef arr, CreatedRef* outValues, out CreatedRef exn);
+        unsafe delegate CreatedRef collection_Constructor(UnownedRef* objects, int length, out CreatedRef exn);
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         extern static void FishyJoesRuntime_collection_setup(
             string name,
             collection_Length length,
             collection_Values values,
             collection_Constructor constructor,
-            out IntPtr exn
+            out CreatedRef exn
         );
 
         // TODO: re-enable unboxed arrays?
-        // public static void FishyJoesRuntime_ArrayConverter_setup<T>(string name, /* Overloading hack */ bool isNotAnObject, out IntPtr exn) where T: unmanaged =>
+        // public static void FishyJoesRuntime_ArrayConverter_setup<T>(string name, /* Overloading hack */ bool isNotAnObject, out CreatedRef exn) where T: unmanaged =>
         //     FishyJoesRuntime_collection_setup(
         //         name,
-        //         bag<collection_Length>((IntPtr array, out IntPtr exn) => Catching(out exn, () =>
+        //         bag<collection_Length>((IntPtr array, out CreatedRef exn) => Catching(out exn, () =>
         //             PeekHandle<IList<T>>(array).Count
         //         )),
-        //         bag<collection_Values>((IntPtr arr, IntPtr outValues, out IntPtr exn) => Catching(out exn, () => {
+        //         bag<collection_Values>((IntPtr arr, IntPtr outValues, out CreatedRef exn) => Catching(out exn, () => {
         //             var array = PeekHandle<IList<T>>(arr);
         //             unsafe {
         //                 var typedPtr = (T*)outValues;
@@ -34,7 +34,7 @@ namespace Cricut.FishyJoesRuntime {
         //                 }
         //             }
         //         })),
-        //         bag<collection_Constructor>((IntPtr inValues, int length, out IntPtr exn) => Catching(out exn, () => {
+        //         bag<collection_Constructor>((IntPtr inValues, int length, out CreatedRef exn) => Catching(out exn, () => {
         //             var array = new List<T>(length);
         //             unsafe {
         //                 var typedPtr = (T*)inValues;
@@ -47,95 +47,88 @@ namespace Cricut.FishyJoesRuntime {
         //         out exn
         //     );
 
-        public static void FishyJoesRuntime_ArrayConverter_setup<T>(string name, out IntPtr exn) {
-            FishyJoesRuntime_collection_setup(
-                name,
-                bag<collection_Length>((IntPtr array, out IntPtr exn) => Catching(out exn, () =>
-                    PeekHandle<IList<T>>(array).Count
-                )),
-                bag<collection_Values>((IntPtr arr, IntPtr outValues, out IntPtr exn) => Catching(out exn, () => {
-                    var array = PeekHandle<IList<T>>(arr);
-                    unsafe {
-                        var typedPtr = (IntPtr*)outValues;
+        public static void FishyJoesRuntime_ArrayConverter_setup<T>(string name, out CreatedRef exn) {
+            unsafe {
+                FishyJoesRuntime_collection_setup(
+                    name,
+                    bag<collection_Length>((UnownedRef array, out CreatedRef exn) => Catching(out exn, () =>
+                        array.Peek<IList<T>>().Count
+                    )),
+                    bag<collection_Values>((UnownedRef arr, CreatedRef* outValues, out CreatedRef exn) => Catching(out exn, () => {
+                        var array = arr.Peek<IList<T>>();
                         for (int i = 0; i < array.Count; i++) {
-                            typedPtr[i] = PassOwnership(array[i]);
+                            outValues[i] = new CreatedRef(array[i]);
                         }
-                    }
-                })),
-                bag<collection_Constructor>((IntPtr inValues, int length, out IntPtr exn) => Catching(out exn, () => {
-                    var array = new List<T>(length);
-                    unsafe {
-                        var typedPtr = (IntPtr*)inValues;
-                        for (int i = 0; i < length; i++) {
-                            array.Add(PeekHandle<T>(typedPtr[i]));
+                    })),
+                    bag<collection_Constructor>((UnownedRef *inValues, int length, out CreatedRef exn) => Catching(out exn, () => {
+                        var array = new List<T>(length);
+                        unsafe {
+                            for (int i = 0; i < length; i++) {
+                                array.Add(inValues[i].Peek<T>());
+                            }
                         }
-                    }
-                    return PassOwnership(array);
-                })),
-                out exn
-            );
+                        return new CreatedRef(array);
+                    })),
+                    out exn
+                );
+            }
         }
 
-        public static void FishyJoesRuntime_SetConverter_setup<T>(string name, out IntPtr exn) {
-            FishyJoesRuntime_collection_setup(
-                name,
-                bag<collection_Length>((IntPtr set, out IntPtr exn) => Catching(out exn, () =>
-                    PeekHandle<ISet<T>>(set).Count
-                )),
-                bag<collection_Values>((IntPtr setPtr, IntPtr outValues, out IntPtr exn) => Catching(out exn, () => {
-                    var set = PeekHandle<ISet<T>>(setPtr);
-                    unsafe {
-                        var typedPtr = (IntPtr*)outValues;
+        public static void FishyJoesRuntime_SetConverter_setup<T>(string name, out CreatedRef exn) {
+            unsafe {
+                FishyJoesRuntime_collection_setup(
+                    name,
+                    bag<collection_Length>((UnownedRef set, out CreatedRef exn) => Catching(out exn, () =>
+                        set.Peek<ISet<T>>().Count
+                    )),
+                    bag<collection_Values>((UnownedRef setPtr, CreatedRef* outValues, out CreatedRef exn) => Catching(out exn, () => {
+                        var set = setPtr.Peek<ISet<T>>();
                         foreach (var value in set) {
-                            *typedPtr++ = PassOwnership(value);
+                            *outValues++ = new CreatedRef(value);
                         }
-                    }
-                })),
-                bag<collection_Constructor>((IntPtr inKeysAndValues, int length, out IntPtr exn) => Catching(out exn, () => {
-                    var set = new HashSet<T>(length);
-                    unsafe {
-                        var typedPtr = (IntPtr*)inKeysAndValues;
+                    })),
+                    bag<collection_Constructor>((UnownedRef* inValues, int length, out CreatedRef exn) => Catching(out exn, () => {
+                        var set = new HashSet<T>(length);
                         for (int i = 0; i < length; i++) {
-                            set.Add(PeekHandle<T>(typedPtr[i]));
+                            set.Add(inValues[i].Peek<T>());
                         }
-                    }
-                    return PassOwnership(set);
-                })),
-                out exn
-            );
+                        return new CreatedRef(set);
+                    })),
+                    out exn
+                );
+            }
         }
 
-        public static void FishyJoesRuntime_DictionaryConverter_setup<K, V>(string name, out IntPtr exn) where K: notnull {
-            FishyJoesRuntime_collection_setup(
-                name,
-                bag<collection_Length>((IntPtr set, out IntPtr exn) => Catching(out exn, () =>
-                    PeekHandle<IDictionary<K, V>>(set).Count
-                )),
-                bag<collection_Values>((IntPtr setPtr, IntPtr outValues, out IntPtr exn) => Catching(out exn, () => {
-                    var dict = PeekHandle<IDictionary<K, V>>(setPtr);
-                    unsafe {
-                        var typedPtr = (IntPtr*)outValues;
+        public static void FishyJoesRuntime_DictionaryConverter_setup<K, V>(string name, out CreatedRef exn) where K: notnull {
+            unsafe {
+                FishyJoesRuntime_collection_setup(
+                    name,
+                    bag<collection_Length>((UnownedRef dict, out CreatedRef exn) => Catching(out exn, () =>
+                        dict.Peek<IDictionary<K, V>>().Count
+                    )),
+                    bag<collection_Values>((UnownedRef dictPtr, CreatedRef* outValues, out CreatedRef exn) => Catching(out exn, () => {
+                        var dict = dictPtr.Peek<IDictionary<K, V>>();
                         foreach (var pair in dict) {
-                            *typedPtr++ = PassOwnership(pair.Key);
-                            *typedPtr++ = PassOwnership(pair.Value);
+                            *outValues++ = new CreatedRef(pair.Key);
+                            *outValues++ = new CreatedRef(pair.Value);
                         }
-                    }
-                })),
-                bag<collection_Constructor>((IntPtr inKeysAndValues, int length, out IntPtr exn) => Catching(out exn, () => {
-                    var dict = new Dictionary<K, V>();
-                    unsafe {
-                        var typedPtr = (IntPtr*)inKeysAndValues;
+                    })),
+                    bag<collection_Constructor>((UnownedRef* inKeysAndValues, int length, out CreatedRef exn) => Catching(out exn, () => {
+                        var dict = new Dictionary<K, V>();
                         for (int i = 0; i < length; i++) {
-                            dict.Add(PeekHandle<K>(typedPtr[2 * i]), PeekHandle<V>(typedPtr[2 * i + 1]));
+                            dict.Add(
+                                inKeysAndValues[2 * i + 0].Peek<K>(),
+                                inKeysAndValues[2 * i + 1].Peek<V>()
+                            );
                         }
-                    }
-                    return PassOwnership(dict);
-                })),
-                out exn
-            );
+                        return new CreatedRef(dict);
+                    })),
+                    out exn
+                );
+            }
         }
 
-        public static void FishyJoesRuntime_OptionalConverter_setup(out IntPtr exn) => Catching(out exn, () => {
+        public static void FishyJoesRuntime_OptionalConverter_setup(out CreatedRef exn) => Catching(out exn, () => {
             // Objects need no extra setup
         });
 

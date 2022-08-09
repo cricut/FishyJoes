@@ -6,28 +6,31 @@ import Foundation
 public protocol CSharpConverter: Converter {
     associatedtype CType = csObject
 
-    static func fromCSharp(_ value: CType) throws -> SwiftType
-    static func fromCSharp(object: csObject) throws -> SwiftType
+    static func peekCSharp(_ value: CType) throws -> SwiftType
+    static func peekCSharp(object: csObject) throws -> SwiftType
+
+    static func consumeCSharp(_ value: CType) throws -> SwiftType
+    static func consumeCSharp(object: csObject) throws -> SwiftType
 
     static func toCSharp(_ value: SwiftType) throws -> CType
     static func toCSharpObject(_ value: SwiftType) throws -> csObject
 }
 
 extension CSharpConverter {
-    public static func fromCSharp(_ value: CType, consuming: Bool) throws -> SwiftType where CType == csObject {
-        defer { if consuming { Env.deleteRef(value) } }
-        return try fromCSharp(value)
+    public static func consumeCSharp(_ value: CType) throws -> SwiftType where CType == csObject {
+        defer { Env.deleteRef(value) }
+        return try peekCSharp(value)
     }
 
     @_disfavoredOverload
-    public static func fromCSharp(_ value: CType, consuming: Bool) throws -> SwiftType {
-        defer { if consuming, let value = value as? csObject { Env.deleteRef(value) } }
-        return try fromCSharp(value)
+    public static func consumeCSharp(_ value: CType) throws -> SwiftType {
+        defer { if let value = value as? csObject { Env.deleteRef(value) } }
+        return try peekCSharp(value)
     }
 
-    public static func fromCSharp(object: csObject, consuming: Bool) throws -> SwiftType {
-        defer { if consuming { Env.deleteRef(object) } }
-        return try fromCSharp(object: object)
+    public static func consumeCSharp(object: csObject) throws -> SwiftType {
+        defer { Env.deleteRef(object) }
+        return try peekCSharp(object: object)
     }
 }
 
@@ -43,10 +46,10 @@ protocol PrimitiveCSharpConverter: CSharpConverter {}
 extension PrimitiveCSharpConverter {
     // typealias ValueMethod = @convention(c) (csObject, csOutExn) -> Self
     // typealias Constructor = @convention(c) (Self) -> csObject
-    // public static func fromCSharp(_ value: Self) throws -> Self { value }
+    // public static func peekCSharp(_ value: Self) throws -> Self { value }
     // public static func toCSharp(_ value: Self) throws -> Self { value }
 
-    // public static func fromCSharp(object: csObject) throws -> Self {
+    // public static func peekCSharp(object: csObject) throws -> Self {
     //     try Env.check { exn in valueMethod(object, exn) }
     // }
     // public static func toCSharpObject(_ value: Self) throws -> csObject {
@@ -62,8 +65,8 @@ extension CSharpConverter where CType == csObject {
     public static func toCSharpObject(_ value: SwiftType) throws -> csObject {
         try toCSharp(value)
     }
-    public static func fromCSharp(object: csObject) throws -> SwiftType {
-        try fromCSharp(object)
+    public static func peekCSharp(object: csObject) throws -> SwiftType {
+        try peekCSharp(object)
     }
 }
 
@@ -76,10 +79,10 @@ public protocol CSharpMutator: CSharpConverter {
 extension VoidConverter: CSharpConverter {
     public typealias CType = Void
 
-    public static func fromCSharp(_ value: Void) throws {}
+    public static func peekCSharp(_ value: Void) throws {}
     public static func toCSharp(_ value: Void) throws {}
 
-    public static func fromCSharp(object: csObject) throws {}
+    public static func peekCSharp(object: csObject) throws {}
     public static func toCSharpObject(_ value: Void) throws -> csObject { nil }
 }
 
@@ -93,11 +96,11 @@ extension Bool: CSharpConverter {
     static var cSharpFalse: csObject = nil
     static var valueMethod: ValueMethod?
 
-    public static func fromCSharp(_ value: CType) throws -> Self {
+    public static func peekCSharp(_ value: CType) throws -> Self {
         value != 0
     }
 
-    public static func fromCSharp(object: csObject) throws -> Self {
+    public static func peekCSharp(object: csObject) throws -> Self {
         try Env.check { exn in try Env.unwrap(valueMethod)(object, exn) } != 0
     }
 
@@ -125,10 +128,10 @@ public func Bool_cSharp_setup(
 extension Int8: PrimitiveCSharpConverter {
     public typealias ValueMethod = @convention(c) (csObject, csOutExn) -> Self
     public typealias Constructor = @convention(c) (Self) -> csObject
-    public static func fromCSharp(_ value: Self) throws -> Self { value }
+    public static func peekCSharp(_ value: Self) throws -> Self { value }
     public static func toCSharp(_ value: Self) throws -> Self { value }
 
-    public static func fromCSharp(object: csObject) throws -> Self {
+    public static func peekCSharp(object: csObject) throws -> Self {
         try Env.check { exn in try Env.unwrap(valueMethod)(object, exn) }
     }
     public static func toCSharpObject(_ value: Self) throws -> csObject {
@@ -151,10 +154,10 @@ public func Int8_cSharp_setup(
 extension Int16: PrimitiveCSharpConverter {
     public typealias ValueMethod = @convention(c) (csObject, csOutExn) -> Self
     public typealias Constructor = @convention(c) (Self) -> csObject
-    public static func fromCSharp(_ value: Self) throws -> Self { value }
+    public static func peekCSharp(_ value: Self) throws -> Self { value }
     public static func toCSharp(_ value: Self) throws -> Self { value }
 
-    public static func fromCSharp(object: csObject) throws -> Self {
+    public static func peekCSharp(object: csObject) throws -> Self {
         try Env.check { exn in try Env.unwrap(valueMethod)(object, exn) }
     }
     public static func toCSharpObject(_ value: Self) throws -> csObject {
@@ -177,10 +180,10 @@ public func Int16_cSharp_setup(
 extension Int32: PrimitiveCSharpConverter {
     public typealias ValueMethod = @convention(c) (csObject, csOutExn) -> Self
     public typealias Constructor = @convention(c) (Self) -> csObject
-    public static func fromCSharp(_ value: Self) throws -> Self { value }
+    public static func peekCSharp(_ value: Self) throws -> Self { value }
     public static func toCSharp(_ value: Self) throws -> Self { value }
 
-    public static func fromCSharp(object: csObject) throws -> Self {
+    public static func peekCSharp(object: csObject) throws -> Self {
         try Env.check { exn in try Env.unwrap(valueMethod)(object, exn) }
     }
     public static func toCSharpObject(_ value: Self) throws -> csObject {
@@ -203,10 +206,10 @@ public func Int32_cSharp_setup(
 extension Int64: PrimitiveCSharpConverter {
     public typealias ValueMethod = @convention(c) (csObject, csOutExn) -> Self
     public typealias Constructor = @convention(c) (Self) -> csObject
-    public static func fromCSharp(_ value: Self) throws -> Self { value }
+    public static func peekCSharp(_ value: Self) throws -> Self { value }
     public static func toCSharp(_ value: Self) throws -> Self { value }
 
-    public static func fromCSharp(object: csObject) throws -> Self {
+    public static func peekCSharp(object: csObject) throws -> Self {
         try Env.check { exn in try Env.unwrap(valueMethod)(object, exn) }
     }
     public static func toCSharpObject(_ value: Self) throws -> csObject {
@@ -229,10 +232,10 @@ public func Int64_cSharp_setup(
 extension UInt8: PrimitiveCSharpConverter {
     public typealias ValueMethod = @convention(c) (csObject, csOutExn) -> Self
     public typealias Constructor = @convention(c) (Self) -> csObject
-    public static func fromCSharp(_ value: Self) throws -> Self { value }
+    public static func peekCSharp(_ value: Self) throws -> Self { value }
     public static func toCSharp(_ value: Self) throws -> Self { value }
 
-    public static func fromCSharp(object: csObject) throws -> Self {
+    public static func peekCSharp(object: csObject) throws -> Self {
         try Env.check { exn in try Env.unwrap(valueMethod)(object, exn) }
     }
     public static func toCSharpObject(_ value: Self) throws -> csObject {
@@ -255,10 +258,10 @@ public func UInt8_cSharp_setup(
 extension UInt16: PrimitiveCSharpConverter {
     public typealias ValueMethod = @convention(c) (csObject, csOutExn) -> Self
     public typealias Constructor = @convention(c) (Self) -> csObject
-    public static func fromCSharp(_ value: Self) throws -> Self { value }
+    public static func peekCSharp(_ value: Self) throws -> Self { value }
     public static func toCSharp(_ value: Self) throws -> Self { value }
 
-    public static func fromCSharp(object: csObject) throws -> Self {
+    public static func peekCSharp(object: csObject) throws -> Self {
         try Env.check { exn in try Env.unwrap(valueMethod)(object, exn) }
     }
     public static func toCSharpObject(_ value: Self) throws -> csObject {
@@ -281,10 +284,10 @@ public func UInt16_cSharp_setup(
 extension UInt32: PrimitiveCSharpConverter {
     public typealias ValueMethod = @convention(c) (csObject, csOutExn) -> Self
     public typealias Constructor = @convention(c) (Self) -> csObject
-    public static func fromCSharp(_ value: Self) throws -> Self { value }
+    public static func peekCSharp(_ value: Self) throws -> Self { value }
     public static func toCSharp(_ value: Self) throws -> Self { value }
 
-    public static func fromCSharp(object: csObject) throws -> Self {
+    public static func peekCSharp(object: csObject) throws -> Self {
         try Env.check { exn in try Env.unwrap(valueMethod)(object, exn) }
     }
     public static func toCSharpObject(_ value: Self) throws -> csObject {
@@ -307,10 +310,10 @@ public func UInt32_cSharp_setup(
 extension UInt64: PrimitiveCSharpConverter {
     public typealias ValueMethod = @convention(c) (csObject, csOutExn) -> Self
     public typealias Constructor = @convention(c) (Self) -> csObject
-    public static func fromCSharp(_ value: Self) throws -> Self { value }
+    public static func peekCSharp(_ value: Self) throws -> Self { value }
     public static func toCSharp(_ value: Self) throws -> Self { value }
 
-    public static func fromCSharp(object: csObject) throws -> Self {
+    public static func peekCSharp(object: csObject) throws -> Self {
         try Env.check { exn in try Env.unwrap(valueMethod)(object, exn) }
     }
     public static func toCSharpObject(_ value: Self) throws -> csObject {
@@ -333,10 +336,10 @@ public func UInt64_cSharp_setup(
 extension Int: PrimitiveCSharpConverter {
     public typealias ValueMethod = @convention(c) (csObject, csOutExn) -> Self
     public typealias Constructor = @convention(c) (Self) -> csObject
-    public static func fromCSharp(_ value: Self) throws -> Self { value }
+    public static func peekCSharp(_ value: Self) throws -> Self { value }
     public static func toCSharp(_ value: Self) throws -> Self { value }
 
-    public static func fromCSharp(object: csObject) throws -> Self {
+    public static func peekCSharp(object: csObject) throws -> Self {
         try Env.check { exn in try Env.unwrap(valueMethod)(object, exn) }
     }
     public static func toCSharpObject(_ value: Self) throws -> csObject {
@@ -359,10 +362,10 @@ public func Int_cSharp_setup(
 extension Float: PrimitiveCSharpConverter {
     public typealias ValueMethod = @convention(c) (csObject, csOutExn) -> Self
     public typealias Constructor = @convention(c) (Self) -> csObject
-    public static func fromCSharp(_ value: Self) throws -> Self { value }
+    public static func peekCSharp(_ value: Self) throws -> Self { value }
     public static func toCSharp(_ value: Self) throws -> Self { value }
 
-    public static func fromCSharp(object: csObject) throws -> Self {
+    public static func peekCSharp(object: csObject) throws -> Self {
         try Env.check { exn in try Env.unwrap(valueMethod)(object, exn) }
     }
     public static func toCSharpObject(_ value: Self) throws -> csObject {
@@ -385,10 +388,10 @@ public func Float_cSharp_setup(
 extension Double: PrimitiveCSharpConverter {
     public typealias ValueMethod = @convention(c) (csObject, csOutExn) -> Self
     public typealias Constructor = @convention(c) (Self) -> csObject
-    public static func fromCSharp(_ value: Self) throws -> Self { value }
+    public static func peekCSharp(_ value: Self) throws -> Self { value }
     public static func toCSharp(_ value: Self) throws -> Self { value }
 
-    public static func fromCSharp(object: csObject) throws -> Self {
+    public static func peekCSharp(object: csObject) throws -> Self {
         try Env.check { exn in try Env.unwrap(valueMethod)(object, exn) }
     }
     public static func toCSharpObject(_ value: Self) throws -> csObject {
@@ -429,7 +432,7 @@ extension String: CSharpConverter {
     fileprivate static var getUtf16Method: (@convention(c) (csObject, UnsafeMutablePointer<unichar>, csOutExn) -> Void)?
     fileprivate static var constructor: (@convention(c) (UnsafePointer<unichar>, Int, csOutExn) -> csObject)?
 
-    public static func fromCSharp(_ value: csObject) throws -> Self {
+    public static func peekCSharp(_ value: csObject) throws -> Self {
         let len16 = try Env.check { exn in try Env.unwrap(getLengthMethod)(value, exn) }
         guard let units = UnsafeMutablePointer<unichar>(OpaquePointer(malloc(len16 * 2))) else {
             throw AllocationError()
@@ -470,7 +473,7 @@ extension Data: CSharpConverter {
     fileprivate static var bytesMethod: Data.BytesMethod?
     fileprivate static var constuctor: Data.Constuctor?
 
-    public static func fromCSharp(_ value: csObject) throws -> SwiftType {
+    public static func peekCSharp(_ value: csObject) throws -> SwiftType {
         let length = try Env.check { exn in Int(try Env.unwrap(lengthMethod)(value, exn)) }
         guard let buffer = malloc(length) else {
             throw AllocationError()

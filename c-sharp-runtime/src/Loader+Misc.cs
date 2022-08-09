@@ -7,9 +7,9 @@ namespace Cricut.FishyJoesRuntime {
     public partial class Loader {
 
         // String Conversions
-        delegate nint StringGetLengthMethod(IntPtr obj, out IntPtr exn);
-        unsafe delegate void StringGetUtf16Method(IntPtr obj, char* outUnits, out IntPtr exn);
-        unsafe delegate IntPtr StringConstructor(char* units, int length, out IntPtr exn);
+        delegate nint StringGetLengthMethod(UnownedRef obj, out CreatedRef exn);
+        unsafe delegate void StringGetUtf16Method(UnownedRef obj, char* outUnits, out CreatedRef exn);
+        unsafe delegate CreatedRef StringConstructor(char* units, int length, out CreatedRef exn);
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void FishyJoesRuntime_String_setup(
             StringGetLengthMethod getLength,
@@ -18,9 +18,9 @@ namespace Cricut.FishyJoesRuntime {
         );
 
         // Data Conversions
-        delegate int DataLengthMethod(IntPtr obj, out IntPtr exn);
-        unsafe delegate void DataGetBytesMethod(IntPtr obj, byte* outValues, out IntPtr exn);
-        unsafe delegate IntPtr DataConstructor(byte* bytes, int length, out IntPtr exn);
+        delegate int DataLengthMethod(UnownedRef obj, out CreatedRef exn);
+        unsafe delegate void DataGetBytesMethod(UnownedRef obj, byte* outValues, out CreatedRef exn);
+        unsafe delegate CreatedRef DataConstructor(byte* bytes, int length, out CreatedRef exn);
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void FishyJoesRuntime_Data_setup(
             DataLengthMethod getLength,
@@ -31,41 +31,37 @@ namespace Cricut.FishyJoesRuntime {
         private static void setupMisc() {
             unsafe {
                 FishyJoesRuntime_String_setup(
-                    bag<StringGetLengthMethod>((IntPtr obj, out IntPtr exn) => Catching(out exn, () => {
-                        return PeekHandle<string>(obj).Length;
+                    bag<StringGetLengthMethod>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => {
+                        return obj.Peek<string>().Length;
                     })),
-                    bag<StringGetUtf16Method>((IntPtr obj, Char* outUnits, out IntPtr exn) => Catching(out exn, () => {
-                        var str = PeekHandle<string>(obj);
+                    bag<StringGetUtf16Method>((UnownedRef obj, char* outUnits, out CreatedRef exn) => Catching(out exn, () => {
+                        var str = obj.Peek<string>();
                         for (int i = 0; i < str.Length; i++) {
                             outUnits[i] = str[i];
                         }
                     })),
-                    bag<StringConstructor>((char* units, int byteLength, out IntPtr exn) => Catching(out exn, () => {
+                    bag<StringConstructor>((char* units, int byteLength, out CreatedRef exn) => Catching(out exn, () => {
                         var utf16 = new UnicodeEncoding(bigEndian: !BitConverter.IsLittleEndian, byteOrderMark: false, throwOnInvalidBytes: true);
-                        return PassOwnership(utf16.GetString((byte*)units, byteLength));
+                        return new CreatedRef(utf16.GetString((byte*)units, byteLength));
                     }))
                 );
 
                 FishyJoesRuntime_Data_setup(
-                    bag<DataLengthMethod>((IntPtr obj, out IntPtr exn) => Catching(out exn, () => {
-                        return PeekHandle<byte[]>(obj).Length;
+                    bag<DataLengthMethod>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => {
+                        return obj.Peek<byte[]>().Length;
                     })),
-                    bag<DataGetBytesMethod>((IntPtr obj, byte* outBytes, out IntPtr exn) => Catching(out exn, () => {
-                        var data = PeekHandle<byte[]>(obj);
-                        unsafe {
-                            for (int i = 0; i < data.Length; i++) {
-                                outBytes[i] = data[i];
-                            }
+                    bag<DataGetBytesMethod>((UnownedRef obj, byte* outBytes, out CreatedRef exn) => Catching(out exn, () => {
+                        var data = obj.Peek<byte[]>();
+                        for (int i = 0; i < data.Length; i++) {
+                            outBytes[i] = data[i];
                         }
                     })),
-                    bag<DataConstructor>((byte* bytes, int byteLength, out IntPtr exn) => Catching(out exn, () => {
-                        unsafe {
-                            var data = new byte[byteLength];
-                            for (int i = 0; i < byteLength; i++) {
-                                data[i] = bytes[i];
-                            }
-                            return PassOwnership(data);
+                    bag<DataConstructor>((byte* bytes, int byteLength, out CreatedRef exn) => Catching(out exn, () => {
+                        var data = new byte[byteLength];
+                        for (int i = 0; i < byteLength; i++) {
+                            data[i] = bytes[i];
                         }
+                        return new CreatedRef(data);
                     }))
                 );
             }

@@ -57,9 +57,9 @@ public struct PackageInit: ParsableCommand {
         try FileManager.default.withCurrentDirectoryPath("c-sharp") {
             let module = config.module
             try cmd("dotnet", "new", "sln", "--output", ".", "--name", module, "--force").run()
-            try cmd("dotnet", "new", "classlib", "-f", "net5.0", "--output", module, "--force").run()
+            try cmd("dotnet", "new", "classlib", "-f", "net6.0", "--output", module, "--force").run()
             try cmd("rm", "-f", "\(module)/Class1.cs").run()
-            try cmd("dotnet", "new", "xunit", "-f", "net5.0", "--output", "\(module).Tests", "--force").run()
+            try cmd("dotnet", "new", "xunit", "-f", "net6.0", "--output", "\(module).Tests", "--force").run()
 
             try cmd("dotnet", "sln", "add", "./\(module)/\(module).csproj").run()
             try cmd("dotnet", "sln", "add", "./\(module).Tests/\(module).Tests.csproj").run()

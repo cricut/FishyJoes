@@ -7,18 +7,18 @@ namespace Cricut.FishyJoesRuntime {
     public class SwiftReference : IDisposable {
         protected IntPtr reference;
 
-        internal IntPtr internalReference {
-            get => reference;
+        internal UnownedRef internalReference {
+            get => new UnownedRef(reference);
         }
 
         public override string ToString() {
-            return ConsumeHandle<string>(Check((out IntPtr exn) => FishyJoesRuntime_AnyBox_toString(reference, out exn)));
+            return Check((out CreatedRef exn) => FishyJoesRuntime_AnyBox_toString(new UnownedRef(reference), out exn)).Consume<string>();
         }
 
-        public delegate IntPtr ConstructorDelegate(IntPtr reference, out IntPtr exn);
+        public delegate CreatedRef ConstructorDelegate(ConsumedRef reference, out CreatedRef exn);
 
-        protected SwiftReference(IntPtr reference) {
-            this.reference = reference;
+        protected SwiftReference(ConsumedRef reference) {
+            this.reference = reference.__ptr;
         }
 
         ~SwiftReference() {
@@ -28,28 +28,28 @@ namespace Cricut.FishyJoesRuntime {
         public void Dispose() {
             GC.SuppressFinalize(this);
             if (this.reference != IntPtr.Zero) {
-                Check((out IntPtr exn) => SwiftReference.FishyJoesRuntime_AnyBox_releaseRef(reference, out exn));
+                Check((out CreatedRef exn) => SwiftReference.FishyJoesRuntime_AnyBox_releaseRef(new ConsumedRef(reference), out exn));
             }
             this.reference = IntPtr.Zero;
         }
 
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern void FishyJoesRuntime_AnyBox_releaseRef(IntPtr swiftReference, out IntPtr exn);
+        private static extern void FishyJoesRuntime_AnyBox_releaseRef(ConsumedRef swiftReference, out CreatedRef exn);
 
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern IntPtr FishyJoesRuntime_AnyBox_toString(IntPtr swiftReference, out IntPtr exn);
+        private static extern CreatedRef FishyJoesRuntime_AnyBox_toString(UnownedRef swiftReference, out CreatedRef exn);
 
         internal static void ensureLoaded() {}
     }
 
     public partial class Loader {
-        delegate IntPtr AnyBoxRefGetter(IntPtr obj, out IntPtr exn);
+        delegate UnownedRef AnyBoxRefGetter(UnownedRef obj, out CreatedRef exn);
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void FishyJoesRuntime_AnyBox_setup(AnyBoxRefGetter refGetter);
 
         private static void setupReferences() {
             FishyJoesRuntime_AnyBox_setup(
-                Loader.bag<AnyBoxRefGetter>((IntPtr obj, out IntPtr exn) => Catching(out exn, () => PeekHandle<SwiftReference>(obj).internalReference))
+                Loader.bag<AnyBoxRefGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => obj.Peek<SwiftReference>().internalReference))
             );
         }
     }
