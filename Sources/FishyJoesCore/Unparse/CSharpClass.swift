@@ -17,7 +17,7 @@ class CSharpClass: NestedClass {
         let isOverride: Bool
         let name: String
         let mangledName: String
-        let parameters: [(labelComment: String?, name: String, type: CSType)]
+        let parameters: [(labelComment: String?, name: String, type: CSType, defaultValue: String?)]
         let returnType: CSType
         let body: [String]?
     }
@@ -160,9 +160,15 @@ class CSharpClass: NestedClass {
         if !method.name.hasPrefix("_") {
             fragment.output("public \(method.isOverride ? "override " : "")\(method.isStatic ? "static " : "")", newLineTerminated: false)
             fragment.outputBlock("\(method.returnType.name) \(method.name)(", newLineTerminated: false) {
-                fragment.outputMap(method.parameters, separator: ",") { parameter in
+                // put all optional parameters at the end, or C# gets unhappy
+                let requiredParams = method.parameters.filter { $0.defaultValue == nil }
+                let optionalParams = method.parameters.filter { $0.defaultValue != nil }
+                let parameters = requiredParams + optionalParams
+
+                fragment.outputMap(parameters, separator: ",") { parameter in
                     let labelComment = parameter.labelComment.map { "/* \($0) */ " } ?? ""
-                    return "\(parameter.type.name) \(labelComment)\(CSharpClass.deforbidify(parameter.name))"
+                    let defaultValue = parameter.defaultValue.map { " = \($0)" } ?? ""
+                    return "\(parameter.type.name) \(labelComment)\(CSharpClass.deforbidify(parameter.name))\(defaultValue)"
                 }
             }
             fragment.outputBlock(" {") {
@@ -174,6 +180,7 @@ class CSharpClass: NestedClass {
                         fragment.output("using var _thisHandle = new GCRef(this);")
                         paramStrings.append("_thisHandle.ptr")
                     }
+                    // Keep the parameters in original order here, because the swift-side expects them in that order
                     for param in method.parameters {
                         if param.type.isObject {
                             fragment.output("using var _\(param.name)Handle = new GCRef(\(CSharpClass.deforbidify(param.name)));")

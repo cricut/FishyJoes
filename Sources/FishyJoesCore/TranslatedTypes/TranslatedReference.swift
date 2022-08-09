@@ -372,8 +372,12 @@ struct TranslatedReference: TranslatedType {
             fragment.blankLine()
 
             fragment.outputBlock("public static func toCSharp(_ value: Self) throws -> csObject {") {
-                fragment.output("let ptr = Box(value).retainedOpaque()")
-                fragment.output("return try Env.check { env in _constructorMethod(ptr, env) }")
+                if !isInhabited {
+                    fragment.output("// Uninhabited type")
+                } else {
+                    fragment.output("let ptr = Box(value).retainedOpaque()")
+                    fragment.output("return try Env.check { env in _constructorMethod(ptr, env) }")
+                }
             }
             fragment.blankLine()
 
@@ -419,7 +423,7 @@ struct TranslatedReference: TranslatedType {
                         name: "Equals",
                         mangledName: "",
                         parameters: [
-                            (labelComment: nil, name: "other", type: .optional(.named(package: nil, name: "object"))),
+                            (labelComment: nil, name: "other", type: .optional(.named(package: nil, name: "object")), defaultValue: nil),
                         ],
                         returnType: .primitive("bool"),
                         body: [
@@ -439,8 +443,8 @@ struct TranslatedReference: TranslatedType {
                         name: "_equals",
                         mangledName: "\(sourceType.name.mangled)_equals",
                         parameters: [
-                            (labelComment: nil, name: "lhs", type: cSharpType),
-                            (labelComment: nil, name: "rhs", type: .optional(cSharpType)),
+                            (labelComment: nil, name: "lhs", type: cSharpType, nil),
+                            (labelComment: nil, name: "rhs", type: .optional(cSharpType), nil),
                         ],
                         returnType: .primitive("bool"),
                         body: nil

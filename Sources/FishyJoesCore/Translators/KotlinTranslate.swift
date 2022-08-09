@@ -325,8 +325,6 @@ final class KotlinTranslator: Translator {
             return "\(int)"
         } else if let double = Double(value) {
             return "\(double)"
-        } else if value.first == "." {
-            return nil
         } else if value == "Double.ulpOfOne.squareRoot()" {
             return "1.4901161193847656E-8"
         }
@@ -336,7 +334,7 @@ final class KotlinTranslator: Translator {
         case "true", "false":
             return value
         default:
-            return "IDUNNO(\(value))"
+            return nil
         }
     }
 }

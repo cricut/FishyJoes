@@ -263,7 +263,7 @@ final class CSharpTranslator: Translator {
     func cSharp(method: Method, of type: TranslatedType, context: FishyJoesContext) -> CSharpClass.MethodOrVariable? {
         let exportAnnotation = method.exportAnnotation
         var omitParameters = Set(exportAnnotation.omitParameters)
-        var parameters: [(labelComment: String?, name: String, CSharpClass.CSType)] = []
+        var parameters: [(labelComment: String?, name: String, type: CSharpClass.CSType, defaultValue: String?)] = []
         for parameter in method.parameters {
             if omitParameters.contains(parameter.name) {
                 precondition(parameter.defaultValue != nil, "Can't omit non-default parameter")
@@ -275,7 +275,15 @@ final class CSharpTranslator: Translator {
             if let swiftLabel = parameter.label, swiftLabel != parameter.name {
                 label = swiftLabel
             }
-            parameters.append((label, parameter.name, resolved.cSharpType))
+            var defaultValue: String?
+            if let swiftDefaultValue = parameter.defaultValue {
+                if let cSharpDefaultValue = cSharp(value: swiftDefaultValue) {
+                    defaultValue = cSharpDefaultValue
+                } else {
+                    context.warnMissingDefault(parameter: parameter, in: method)
+                }
+            }
+            parameters.append((label, parameter.name, resolved.cSharpType, defaultValue))
         }
 
         return .method(
@@ -333,7 +341,7 @@ final class CSharpTranslator: Translator {
                 isOverride: true,
                 name: "Equals",
                 mangledName: "",
-                parameters: [(nil, "obj", .optional(.primitive("object")))],
+                parameters: [(nil, "obj", .optional(.primitive("object")), nil)],
                 returnType: .primitive("bool"),
                 body: ["return obj is \(type.name) ? this == (\(type.name))obj : false;"]
             ),
@@ -344,8 +352,8 @@ final class CSharpTranslator: Translator {
                 name: "operator ==",
                 mangledName: "",
                 parameters: [
-                    (nil, "lhs", type),
-                    (nil, "rhs", type),
+                    (nil, "lhs", type, nil),
+                    (nil, "rhs", type, nil),
                 ],
                 returnType: .primitive("bool"),
                 body: members.map { "if (lhs.\($0) != rhs.\($0)) { return false; }" } + ["return true;"]
@@ -357,8 +365,8 @@ final class CSharpTranslator: Translator {
                 name: "operator !=",
                 mangledName: "",
                 parameters: [
-                    (nil, "lhs", type),
-                    (nil, "rhs", type),
+                    (nil, "lhs", type, nil),
+                    (nil, "rhs", type, nil),
                 ],
                 returnType: .primitive("bool"),
                 body: ["return !(lhs == rhs);"]
@@ -374,5 +382,24 @@ final class CSharpTranslator: Translator {
                 body: ["return Cricut.FishyJoesRuntime.Utilities.Hash<object?>(new object?[] {\(members.joined(separator: ", "))});"]
             ),
         ]
+    }
+
+    // Very hacky. But values are an entirely separate language to what we process
+    func cSharp(value: String) -> String? {
+        if let int = Int(value) {
+            return "\(int)"
+        } else if let double = Double(value) {
+            return "\(double)"
+        } else if value == "Double.ulpOfOne.squareRoot()" {
+            return "1.4901161193847656E-8"
+        }
+        switch value {
+        case "nil":
+            return "null"
+        case "true", "false":
+            return value
+        default:
+            return nil
+        }
     }
 }
