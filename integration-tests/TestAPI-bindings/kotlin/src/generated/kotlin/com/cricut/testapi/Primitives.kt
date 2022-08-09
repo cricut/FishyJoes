@@ -797,13 +797,13 @@ class Primitives private constructor(swiftReference: Long): com.cricut.fishyjoes
          */
         fun valueMapper(
             value: UByte?,
-            mapper: (UByte?) -> UByte?
+            mapper: ((UByte?) -> UByte?)
         ): UByte? = __jni_valueMapper(value, mapper)
         @JvmStatic
         @JvmName("__jni_valueMapper")
         private external fun __jni_valueMapper(
             value: UByte?,
-            mapper: (UByte?) -> UByte?
+            mapper: ((UByte?) -> UByte?)
         ): UByte?
 
         init { loadNativeLibs() }

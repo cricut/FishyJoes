@@ -28,6 +28,7 @@ public func registerModuleTestAPI(env: NAPI.Env, exports: NAPI.Value) throws -> 
     try Collections.CollectionHolder.nodeSetup(env: env, module: module)
     try Collections.nodeSetup(env: env, module: module)
     try Data.nodeSetup(env: env, module: module)
+    try DefaultArguments.nodeSetup(env: env, module: module)
     try Double.nodeSetup(env: env, module: module)
     try EmptyEnum.nodeSetup(env: env, module: module)
     try Float.nodeSetup(env: env, module: module)

@@ -37,7 +37,7 @@ extension TestAPI.Structs.MemberwiseStruct: NodeMutator {
             properties: [
                 "create": (
                     .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "create", expectedArgumentCount: 0) { env in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "create", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try Structs.MemberwiseStruct.toNode(
                                 Structs.MemberwiseStruct(
                                 ),

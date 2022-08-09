@@ -127,11 +127,19 @@ struct TranslatedReference: TranslatedType {
                 fragment.output("return try Box<\(sourceType.name)>.takeUnretainedOpaque(nonNilPointer).value")
             }
             fragment.outputBlock("public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {") {
+                guard isInhabited else {
+                    fragment.output("// Uninhabited")
+                    return
+                }
                 fragment.output("let constructor = try FishyJoesNodeRuntime.InstanceData.data(for: env).constructor(for: \"\(nodeName)\", env: env)")
                 fragment.output("let arg = try FishyJoesNodeRuntime.Box(value).retainedExternal(env: env)")
                 fragment.output("return try env.newInstance(constructor, [arg])")
             }
             fragment.outputBlock("public static func mutateNode(_ value: Self, this: NAPI.Value, env: NAPI.Env) throws {") {
+                guard isInhabited else {
+                    fragment.output("// Uninhabited")
+                    return
+                }
                 fragment.outputBlock("guard let pointer = try env.unwrap(this) else {") {
                     fragment.output("throw JSException(message: \"expected \(sourceType.name), got nil\")")
                 }

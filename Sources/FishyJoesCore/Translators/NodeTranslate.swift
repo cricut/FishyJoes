@@ -104,7 +104,9 @@ struct NodeTranslator: Translator {
         let returnType = context.resolve(type: method.returnType, generics: exportAnnotation.genericOverrides)
 
         fragment.outputBlock("{ env, info in", closeWith: "}", newLineTerminated: newLineTerminated) {
-            fragment.outputBlock("FishyJoesNodeRuntime.callbackBody(env, info, name: \"\(nodeName)\", expectedArgumentCount: \(method.parameters.count)) { env in", closeWith: "}") {
+            let hasNamedOptions = method.parameters.contains { $0.defaultValue != nil }
+            let positionalArguments = method.parameters.filter { $0.defaultValue == nil }
+            fragment.outputBlock("FishyJoesNodeRuntime.callbackBody(env, info, name: \"\(nodeName)\", expectedArgumentCount: \(positionalArguments.count), hasNamedOptions: \(hasNamedOptions)) { env in", closeWith: "}") {
                 let callName = method.isInitializer ? "" : ".\(method.callName)"
 
                 if method.isMutating {
@@ -114,10 +116,17 @@ struct NodeTranslator: Translator {
 
                 fragment.outputBlock("let result = try \(returnType.converterType.name).toNode(") {
                     fragment.outputBlock("\(selfExpression)\(callName)(", closeWith: "),") {
-                        fragment.outputMap(method.parameters.enumerated(), separator: ",") {
-                            let (index, formal) = $0
+                        var index = 0
+                        fragment.outputMap(method.parameters, separator: ",") { formal in
                             let resolved = context.resolve(type: formal.type, generics: exportAnnotation.genericOverrides)
-                            let result = (formal.label.map { "\($0): " } ?? "") + "try env.argument(at: \(index), "
+
+                            var result = formal.label.map { "\($0): " } ?? ""
+                            if let defaultValue = formal.defaultValue {
+                                result += "try env.argument(named: \"\(formal.label ?? formal.name)\", default: \(defaultValue), "
+                            } else {
+                                result += "try env.argument(at: \(index), "
+                                index += 1
+                            }
                             return result + "converter: \(resolved.converterType.name).self)"
                         }
                     }
@@ -210,5 +219,62 @@ struct NodeTranslator: Translator {
         }
 
         return [nodeTypeListFragment, exportFragment]
+    }
+
+    func ts(method: Method, context: FishyJoesContext) -> TypeScriptAnnotations.Method? {
+        let exportAnnotation = method.exportAnnotation
+        var omitParameters = Set(exportAnnotation.omitParameters)
+        var parameters: [TypeScriptAnnotations.Method.Parameter] = []
+        for parameter in method.parameters {
+            if omitParameters.contains(parameter.name) {
+                precondition(parameter.defaultValue != nil, "Can't omit non-default parameter")
+                omitParameters.remove(parameter.name)
+                continue
+            }
+            let resolved = context.resolve(type: parameter.type, generics: exportAnnotation.genericOverrides)
+            var label: String?
+            if let swiftLabel = parameter.label, swiftLabel != parameter.name {
+                label = swiftLabel
+            }
+            parameters.append(
+                .init(
+                    labelComment: label,
+                    name: parameter.name,
+                    type: resolved.nodeType,
+                    isOptional: parameter.defaultValue != nil
+                )
+            )
+        }
+
+        return TypeScriptAnnotations.Method(
+            documentation: method.documentation,
+            isStatic: method.isStatic,
+            name: exportAnnotation.name,
+            parameters: parameters,
+            returnType: context.resolve(type: method.returnType, generics: exportAnnotation.genericOverrides).nodeType
+        )
+    }
+
+    func ts(field: Variable, context: FishyJoesContext, useNativeName: Bool) -> TypeScriptAnnotations.Variable? {
+        let name: String
+        if useNativeName {
+            guard field.exportAnnotation == nil else {
+                fatalErr("field \(field.name) should not be annotated, as it's in a type being exported memberwise")
+            }
+            name = field.name
+        } else {
+            guard let exportAnnotation = field.exportAnnotation else {
+                return nil
+            }
+            name = exportAnnotation.name
+        }
+
+        return TypeScriptAnnotations.Variable(
+            documentation: field.documentation,
+            readOnly: !field.isMutable,
+            isStatic: field.isStatic,
+            name: name,
+            type: context.resolve(type: field.typeName.better).nodeType
+        )
     }
 }

@@ -173,13 +173,13 @@ class Collections private constructor(swiftReference: Long): com.cricut.fishyjoe
          */
         fun collectionMapper(
             collection: kotlin.collections.List<Long?>?,
-            mapper: (List<Long?>?) -> List<Long?>?
+            mapper: ((List<Long?>?) -> List<Long?>?)
         ): kotlin.collections.List<Long?>? = __jni_collectionMapper(collection, mapper)
         @JvmStatic
         @JvmName("__jni_collectionMapper")
         private external fun __jni_collectionMapper(
             collection: kotlin.collections.List<Long?>?,
-            mapper: (List<Long?>?) -> List<Long?>?
+            mapper: ((List<Long?>?) -> List<Long?>?)
         ): kotlin.collections.List<Long?>?
 
         init { loadNativeLibs() }

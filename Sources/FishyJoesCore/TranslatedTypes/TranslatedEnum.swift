@@ -283,7 +283,9 @@ struct TranslatedEnum: TranslatedType {
         } else {
             fragment.outputBlock("extension \(sourceType.name): FishyJoesNodeRuntime.NodeConverter {") {
                 fragment.outputBlock("public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {") {
-                    fragment.output("let instanceData = try FishyJoesNodeRuntime.InstanceData.data(for: env)")
+                    if !cases.isEmpty {
+                        fragment.output("let instanceData = try FishyJoesNodeRuntime.InstanceData.data(for: env)")
+                    }
                     for enumCase in cases {
                         let className = "\(nodeName).\(upperCaseFirst(enumCase.name))"
 
@@ -310,31 +312,35 @@ struct TranslatedEnum: TranslatedType {
                 fragment.blankLine()
 
                 fragment.outputBlock("public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {") {
-                    fragment.output("let instanceData = try FishyJoesNodeRuntime.InstanceData.data(for: env)")
-                    fragment.output("switch value {")
-                    for enumCase in cases {
-                        let className = "\(nodeName).\(upperCaseFirst(enumCase.name))"
+                    if cases.isEmpty {
+                        fragment.output("// Uninhabited type")
+                    } else {
+                        fragment.output("let instanceData = try FishyJoesNodeRuntime.InstanceData.data(for: env)")
+                        fragment.output("switch value {")
+                        for enumCase in cases {
+                            let className = "\(nodeName).\(upperCaseFirst(enumCase.name))"
 
-                        let caseStatement: String
-                        if enumCase.associatedValues.isEmpty {
-                            caseStatement = "case .\(enumCase.name):"
-                        } else {
-                            let values = enumCase.associatedValues.map(\.bindingName).joined(separator: ", ")
-                            caseStatement = "case let .\(enumCase.name)(\(values)):"
-                        }
-                        fragment.outputBlock(caseStatement, closeWith: "", newLineTerminated: false) {
-                            fragment.outputBlock("return try env.newInstance(") {
-                                fragment.output("instanceData.constructor(for: \"\(className)\", env: env),")
-                                fragment.outputBlock("[") {
-                                    for value in enumCase.associatedValues {
-                                        let resolved = context.resolve(type: value.type)
-                                        fragment.output("\(resolved.converterType.name).toNode(\(value.bindingName), env: env),")
+                            let caseStatement: String
+                            if enumCase.associatedValues.isEmpty {
+                                caseStatement = "case .\(enumCase.name):"
+                            } else {
+                                let values = enumCase.associatedValues.map(\.bindingName).joined(separator: ", ")
+                                caseStatement = "case let .\(enumCase.name)(\(values)):"
+                            }
+                            fragment.outputBlock(caseStatement, closeWith: "", newLineTerminated: false) {
+                                fragment.outputBlock("return try env.newInstance(") {
+                                    fragment.output("instanceData.constructor(for: \"\(className)\", env: env),")
+                                    fragment.outputBlock("[") {
+                                        for value in enumCase.associatedValues {
+                                            let resolved = context.resolve(type: value.type)
+                                            fragment.output("\(resolved.converterType.name).toNode(\(value.bindingName), env: env),")
+                                        }
                                     }
                                 }
                             }
                         }
+                        fragment.output("}")
                     }
-                    fragment.output("}")
                 }
                 fragment.blankLine()
 

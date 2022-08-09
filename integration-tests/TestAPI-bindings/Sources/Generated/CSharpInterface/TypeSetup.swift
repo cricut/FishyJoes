@@ -52,6 +52,7 @@ public func FishyJoes_TestAPI_registerTypes() {
     Env.registerType(Collections.self, as: "Collections")
     Env.registerType(Collections.CollectionHolder.self, as: "Collections.CollectionHolder")
     Env.registerType(Foundation.Data.self, as: "Foundation.Data")
+    Env.registerType(DefaultArguments.self, as: "DefaultArguments")
     Env.registerType(DictionaryConverter<Bool, Bool>.self, as: "DictionaryConverter<Bool, Bool>")
     Env.registerType(DictionaryConverter<Int, Int>.self, as: "DictionaryConverter<Int, Int>")
     Env.registerType(DictionaryConverter<Int, OptionalConverter<Int>>.self, as: "DictionaryConverter<Int, OptionalConverter<Int>>")

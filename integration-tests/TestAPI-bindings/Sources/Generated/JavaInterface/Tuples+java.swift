@@ -16,8 +16,7 @@ extension Tuples: JavaConverter {
     }
 
     public static func toJava(_ value: Self, env: Env) throws -> jobject? {
-        switch value {
-        }
+        // Uninhabited type
     }
 
     public static func javaSetup(env: Env) throws {

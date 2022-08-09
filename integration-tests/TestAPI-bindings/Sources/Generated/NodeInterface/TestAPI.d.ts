@@ -177,6 +177,25 @@ export declare namespace TestAPI {
     }
 
     /**
+     * <!-- FishyJoes.exportReference(DefaultArguments) -->
+     */
+    export class DefaultArguments {
+        private constructor()
+        private _inhibitStructuralTyping: any
+
+        /**
+         * <!-- FishyJoes.export(echoDefaults, cSharp: TheBytes) -->
+         */
+        static echoDefaults(
+            x: Optional<number>,
+            options?: {
+                "y"?: Optional<number>,
+                "z"?: number,
+            }
+        ): string;
+    }
+
+    /**
      * <!-- FishyJoes.exportReference(Functions) -->
      */
     export class Functions {

@@ -13,15 +13,10 @@ extension Functions: FishyJoesNodeRuntime.NodeConverter {
         return try Box<Functions>.takeUnretainedOpaque(nonNilPointer).value
     }
     public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
-        let constructor = try FishyJoesNodeRuntime.InstanceData.data(for: env).constructor(for: "Functions", env: env)
-        let arg = try FishyJoesNodeRuntime.Box(value).retainedExternal(env: env)
-        return try env.newInstance(constructor, [arg])
+        // Uninhabited
     }
     public static func mutateNode(_ value: Self, this: NAPI.Value, env: NAPI.Env) throws {
-        guard let pointer = try env.unwrap(this) else {
-            throw JSException(message: "expected Functions, got nil")
-        }
-        try Box<Functions>.takeUnretainedOpaque(pointer).value = value
+        // Uninhabited
     }
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let nodeClass = try NodeClass(
@@ -30,7 +25,7 @@ extension Functions: FishyJoesNodeRuntime.NodeConverter {
             properties: [
                 "exercise0": (
                     .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise0", expectedArgumentCount: 1) { env in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise0", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
                                 Functions.exercise0(
                                     try env.argument(at: 0, converter: Function0Converter<Int>.self)
@@ -44,7 +39,7 @@ extension Functions: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 "exercise1": (
                     .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise1", expectedArgumentCount: 1) { env in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise1", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
                                 Functions.exercise1(
                                     try env.argument(at: 0, converter: Function1Converter<Int, Int>.self)
@@ -58,7 +53,7 @@ extension Functions: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 "exercise2": (
                     .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise2", expectedArgumentCount: 1) { env in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise2", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
                                 Functions.exercise2(
                                     try env.argument(at: 0, converter: Function2Converter<Function1Converter<Int, Int>, Function1Converter<Int, Int>, Function1Converter<Int, Int>>.self)
@@ -72,7 +67,7 @@ extension Functions: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 "exercise3": (
                     .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise3", expectedArgumentCount: 1) { env in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise3", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
                                 Functions.exercise3(
                                     try env.argument(at: 0, converter: Function3Converter<Float, Double, Int, Double>.self)
@@ -86,7 +81,7 @@ extension Functions: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 "exercise4": (
                     .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise4", expectedArgumentCount: 1) { env in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise4", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
                                 Functions.exercise4(
                                     try env.argument(at: 0, converter: Function4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.self)
@@ -100,7 +95,7 @@ extension Functions: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 "exercise5": (
                     .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise5", expectedArgumentCount: 1) { env in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise5", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
                                 Functions.exercise5(
                                     try env.argument(at: 0, converter: Function5Converter<Swift.String, Int, Double, Swift.String, Function0Converter<Int>, Function0Converter<Int>>.self)
@@ -114,7 +109,7 @@ extension Functions: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 "exercise6": (
                     .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise6", expectedArgumentCount: 1) { env in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise6", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
                                 Functions.exercise6(
                                     try env.argument(at: 0, converter: Function6Converter<Swift.String, Int, Double, Swift.String, Function0Converter<Int>, Int, Int>.self)
@@ -128,7 +123,7 @@ extension Functions: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 "willThrow": (
                     .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "willThrow", expectedArgumentCount: 0) { env in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "willThrow", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
                                 Functions.willThrow(
                                 ),

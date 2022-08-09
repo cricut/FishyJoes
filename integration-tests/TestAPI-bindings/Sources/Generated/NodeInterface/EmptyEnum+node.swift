@@ -7,14 +7,11 @@ import TestAPI
 
 extension EmptyEnum: FishyJoesNodeRuntime.NodeConverter {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
-        let instanceData = try FishyJoesNodeRuntime.InstanceData.data(for: env)
         fatalError("invalid enum for EmptyEnum")
     }
 
     public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
-        let instanceData = try FishyJoesNodeRuntime.InstanceData.data(for: env)
-        switch value {
-        }
+        // Uninhabited type
     }
 
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {

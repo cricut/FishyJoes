@@ -13,15 +13,10 @@ extension Primitives: FishyJoesNodeRuntime.NodeConverter {
         return try Box<Primitives>.takeUnretainedOpaque(nonNilPointer).value
     }
     public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
-        let constructor = try FishyJoesNodeRuntime.InstanceData.data(for: env).constructor(for: "Primitives", env: env)
-        let arg = try FishyJoesNodeRuntime.Box(value).retainedExternal(env: env)
-        return try env.newInstance(constructor, [arg])
+        // Uninhabited
     }
     public static func mutateNode(_ value: Self, this: NAPI.Value, env: NAPI.Env) throws {
-        guard let pointer = try env.unwrap(this) else {
-            throw JSException(message: "expected Primitives, got nil")
-        }
-        try Box<Primitives>.takeUnretainedOpaque(pointer).value = value
+        // Uninhabited
     }
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let nodeClass = try NodeClass(
@@ -30,7 +25,7 @@ extension Primitives: FishyJoesNodeRuntime.NodeConverter {
             properties: [
                 "echoBool": (
                     .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoBool", expectedArgumentCount: 1) { env in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoBool", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Bool.toNode(
                                 Primitives.echoBool(
                                     value: try env.argument(at: 0, converter: Bool.self)
@@ -44,7 +39,7 @@ extension Primitives: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 "echoUInt8": (
                     .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoUInt8", expectedArgumentCount: 1) { env in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoUInt8", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try UInt8.toNode(
                                 Primitives.echoUInt8(
                                     value: try env.argument(at: 0, converter: UInt8.self)
@@ -58,7 +53,7 @@ extension Primitives: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 "echoUInt16": (
                     .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoUInt16", expectedArgumentCount: 1) { env in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoUInt16", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try UInt16.toNode(
                                 Primitives.echoUInt16(
                                     value: try env.argument(at: 0, converter: UInt16.self)
@@ -72,7 +67,7 @@ extension Primitives: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 "echoUInt32": (
                     .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoUInt32", expectedArgumentCount: 1) { env in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoUInt32", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try UInt32.toNode(
                                 Primitives.echoUInt32(
                                     value: try env.argument(at: 0, converter: UInt32.self)
@@ -86,7 +81,7 @@ extension Primitives: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 "echoUInt64": (
                     .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoUInt64", expectedArgumentCount: 1) { env in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoUInt64", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try UInt64.toNode(
                                 Primitives.echoUInt64(
                                     value: try env.argument(at: 0, converter: UInt64.self)
@@ -100,7 +95,7 @@ extension Primitives: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 "echoInt8": (
                     .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoInt8", expectedArgumentCount: 1) { env in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoInt8", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Int8.toNode(
                                 Primitives.echoInt8(
                                     value: try env.argument(at: 0, converter: Int8.self)
@@ -114,7 +109,7 @@ extension Primitives: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 "echoInt16": (
                     .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoInt16", expectedArgumentCount: 1) { env in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoInt16", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Int16.toNode(
                                 Primitives.echoInt16(
                                     value: try env.argument(at: 0, converter: Int16.self)
@@ -128,7 +123,7 @@ extension Primitives: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 "echoInt32": (
                     .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoInt32", expectedArgumentCount: 1) { env in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoInt32", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Int32.toNode(
                                 Primitives.echoInt32(
                                     value: try env.argument(at: 0, converter: Int32.self)
@@ -142,7 +137,7 @@ extension Primitives: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 "echoInt64": (
                     .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoInt64", expectedArgumentCount: 1) { env in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoInt64", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Int64.toNode(
                                 Primitives.echoInt64(
                                     value: try env.argument(at: 0, converter: Int64.self)
@@ -156,7 +151,7 @@ extension Primitives: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 "echoFloat": (
                     .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoFloat", expectedArgumentCount: 1) { env in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoFloat", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Float.toNode(
                                 Primitives.echoFloat(
                                     value: try env.argument(at: 0, converter: Float.self)
@@ -170,7 +165,7 @@ extension Primitives: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 "echoDouble": (
                     .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoDouble", expectedArgumentCount: 1) { env in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoDouble", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Double.toNode(
                                 Primitives.echoDouble(
                                     value: try env.argument(at: 0, converter: Double.self)
@@ -184,7 +179,7 @@ extension Primitives: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 "maybeEchoBool": (
                     .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeEchoBool", expectedArgumentCount: 1) { env in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeEchoBool", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try OptionalConverter<Bool>.toNode(
                                 Primitives.maybeEchoBool(
                                     value: try env.argument(at: 0, converter: OptionalConverter<Bool>.self)
@@ -198,7 +193,7 @@ extension Primitives: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 "maybeEchoUInt8": (
                     .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeEchoUInt8", expectedArgumentCount: 1) { env in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeEchoUInt8", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try OptionalConverter<UInt8>.toNode(
                                 Primitives.maybeEchoUInt8(
                                     value: try env.argument(at: 0, converter: OptionalConverter<UInt8>.self)
@@ -212,7 +207,7 @@ extension Primitives: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 "maybeEchoUInt16": (
                     .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeEchoUInt16", expectedArgumentCount: 1) { env in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeEchoUInt16", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try OptionalConverter<UInt16>.toNode(
                                 Primitives.maybeEchoUInt16(
                                     value: try env.argument(at: 0, converter: OptionalConverter<UInt16>.self)
@@ -226,7 +221,7 @@ extension Primitives: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 "maybeEchoUInt32": (
                     .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeEchoUInt32", expectedArgumentCount: 1) { env in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeEchoUInt32", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try OptionalConverter<UInt32>.toNode(
                                 Primitives.maybeEchoUInt32(
                                     value: try env.argument(at: 0, converter: OptionalConverter<UInt32>.self)
@@ -240,7 +235,7 @@ extension Primitives: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 "maybeEchoUInt64": (
                     .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeEchoUInt64", expectedArgumentCount: 1) { env in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeEchoUInt64", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try OptionalConverter<UInt64>.toNode(
                                 Primitives.maybeEchoUInt64(
                                     value: try env.argument(at: 0, converter: OptionalConverter<UInt64>.self)
@@ -254,7 +249,7 @@ extension Primitives: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 "maybeEchoInt8": (
                     .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeEchoInt8", expectedArgumentCount: 1) { env in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeEchoInt8", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try OptionalConverter<Int8>.toNode(
                                 Primitives.maybeEchoInt8(
                                     value: try env.argument(at: 0, converter: OptionalConverter<Int8>.self)
@@ -268,7 +263,7 @@ extension Primitives: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 "maybeEchoInt16": (
                     .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeEchoInt16", expectedArgumentCount: 1) { env in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeEchoInt16", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try OptionalConverter<Int16>.toNode(
                                 Primitives.maybeEchoInt16(
                                     value: try env.argument(at: 0, converter: OptionalConverter<Int16>.self)
@@ -282,7 +277,7 @@ extension Primitives: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 "maybeEchoInt32": (
                     .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeEchoInt32", expectedArgumentCount: 1) { env in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeEchoInt32", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try OptionalConverter<Int32>.toNode(
                                 Primitives.maybeEchoInt32(
                                     value: try env.argument(at: 0, converter: OptionalConverter<Int32>.self)
@@ -296,7 +291,7 @@ extension Primitives: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 "maybeEchoInt64": (
                     .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeEchoInt64", expectedArgumentCount: 1) { env in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeEchoInt64", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try OptionalConverter<Int64>.toNode(
                                 Primitives.maybeEchoInt64(
                                     value: try env.argument(at: 0, converter: OptionalConverter<Int64>.self)
@@ -310,7 +305,7 @@ extension Primitives: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 "maybeEchoFloat": (
                     .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeEchoFloat", expectedArgumentCount: 1) { env in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeEchoFloat", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try OptionalConverter<Float>.toNode(
                                 Primitives.maybeEchoFloat(
                                     value: try env.argument(at: 0, converter: OptionalConverter<Float>.self)
@@ -324,7 +319,7 @@ extension Primitives: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 "maybeEchoDouble": (
                     .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeEchoDouble", expectedArgumentCount: 1) { env in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeEchoDouble", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try OptionalConverter<Double>.toNode(
                                 Primitives.maybeEchoDouble(
                                     value: try env.argument(at: 0, converter: OptionalConverter<Double>.self)
@@ -338,7 +333,7 @@ extension Primitives: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 "valueMapper": (
                     .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "valueMapper", expectedArgumentCount: 2) { env in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "valueMapper", expectedArgumentCount: 2, hasNamedOptions: false) { env in
                             let result = try OptionalConverter<UInt8>.toNode(
                                 Primitives.valueMapper(
                                     value: try env.argument(at: 0, converter: OptionalConverter<UInt8>.self),

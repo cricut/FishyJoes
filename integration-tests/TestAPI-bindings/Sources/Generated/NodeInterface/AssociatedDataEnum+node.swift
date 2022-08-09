@@ -72,7 +72,7 @@ extension AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
             properties: [
                 "plus": (
                     .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "plus", expectedArgumentCount: 1) { env in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "plus", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try AssociatedDataEnum.toNode(
                                 env.this(converter: AssociatedDataEnum.self).plus(
                                     try env.argument(at: 0, converter: AssociatedDataEnum.self)
@@ -122,7 +122,7 @@ extension AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
             properties: [
                 "plus": (
                     .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "plus", expectedArgumentCount: 1) { env in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "plus", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try AssociatedDataEnum.toNode(
                                 env.this(converter: AssociatedDataEnum.self).plus(
                                     try env.argument(at: 0, converter: AssociatedDataEnum.self)
@@ -174,7 +174,7 @@ extension AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
             properties: [
                 "plus": (
                     .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "plus", expectedArgumentCount: 1) { env in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "plus", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try AssociatedDataEnum.toNode(
                                 env.this(converter: AssociatedDataEnum.self).plus(
                                     try env.argument(at: 0, converter: AssociatedDataEnum.self)
