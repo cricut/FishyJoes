@@ -9,7 +9,7 @@ namespace Cricut.TestAPI {
     /// <!-- FishyJoes.exportReference(DefaultArguments) -->
     /// </summary>
     public class DefaultArguments : SwiftReference {
-        internal DefaultArguments(IntPtr reference): base(reference) {}
+        internal DefaultArguments(ConsumedRef reference): base(reference) {}
 
         /// <summary>
         /// <!-- FishyJoes.export(echoDefaults, cSharp: TheBytes) -->
@@ -21,17 +21,15 @@ namespace Cricut.TestAPI {
         ) {
             using var _yHandle = new GCRef(y);
             using var _xHandle = new GCRef(x);
-            return ConsumeHandle<string>(
-                Check((out IntPtr _exn) => __cs_DefaultArguments_echoDefaults(_yHandle.ptr, _xHandle.ptr, z, out _exn))
-            );
+            return Check((out CreatedRef _exn) => __cs_DefaultArguments_echoDefaults(_yHandle.ptr, _xHandle.ptr, z, out _exn)).Consume<string>();
         }
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern IntPtr __cs_DefaultArguments_echoDefaults(
-            IntPtr y,
-            IntPtr x,
+        private static extern CreatedRef __cs_DefaultArguments_echoDefaults(
+            UnownedRef y,
+            UnownedRef x,
             double z,
-            out IntPtr exn
+            out CreatedRef exn
         );
 
         static DefaultArguments() { _TypeSetup._ensureLoaded(); }

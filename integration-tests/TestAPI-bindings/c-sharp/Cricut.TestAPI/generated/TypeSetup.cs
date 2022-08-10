@@ -123,7 +123,7 @@ namespace Cricut.TestAPI {
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_DefaultArguments_setup(
             SwiftReference.ConstructorDelegate constructorMethod,
-            out IntPtr _exn
+            out CreatedRef _exn
         );
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
@@ -812,9 +812,9 @@ namespace Cricut.TestAPI {
             });
             Once("setup_DefaultArguments", () => {
                 Console.WriteLine("setting up DefaultArguments...");
-                Utilities.Check((out IntPtr exn) => TestAPI_DefaultArguments_setup(
-                    bag<SwiftReference.ConstructorDelegate>((IntPtr ptr, out IntPtr exn) => Catching(out exn, () => {
-                        return PassOwnership(new Cricut.TestAPI.DefaultArguments(ptr));
+                Utilities.Check((out CreatedRef exn) => TestAPI_DefaultArguments_setup(
+                    bag<SwiftReference.ConstructorDelegate>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.DefaultArguments(ptr));
                     })),
                     out exn
                 ));

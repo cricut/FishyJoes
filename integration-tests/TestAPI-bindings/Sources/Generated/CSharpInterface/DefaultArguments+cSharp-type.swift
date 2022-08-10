@@ -17,8 +17,8 @@ public func TestAPI_DefaultArguments_setup(
 extension DefaultArguments: CSharpMutator {
     fileprivate static var _constructorMethod: ((UnsafeMutableRawPointer, _ exn: csOutExn) -> csObject)!
 
-    public static func fromCSharp(_ value: csObject) throws -> Self {
-        try Box<DefaultArguments>.fromCSharp(value).value
+    public static func peekCSharp(_ value: csObject) throws -> Self {
+        try Box<DefaultArguments>.peekCSharp(value).value
     }
 
     public static func toCSharp(_ value: Self) throws -> csObject {
@@ -26,6 +26,6 @@ extension DefaultArguments: CSharpMutator {
     }
 
     public static func mutateCSharp<R>(_ this: csObject, body: (inout Self) throws -> R) throws -> R {
-        try body(&Box<DefaultArguments>.fromCSharp(this).value)
+        try body(&Box<DefaultArguments>.peekCSharp(this).value)
     }
 }

@@ -16,9 +16,9 @@ public func __cs_DefaultArguments_echoDefaults(
     FishyJoesCSharpRuntime.Env.catching(to: _exn) {
         return try Swift.String.toCSharp(
             DefaultArguments.echoDefaults(
-                y: try OptionalConverter<Int>.fromCSharp(y),
-                x: try OptionalConverter<Int>.fromCSharp(x),
-                z: try Double.fromCSharp(z)
+                y: try OptionalConverter<Int>.peekCSharp(y),
+                x: try OptionalConverter<Int>.peekCSharp(x),
+                z: try Double.peekCSharp(z)
             )
         )
     }
