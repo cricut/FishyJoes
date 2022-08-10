@@ -1,5 +1,6 @@
 import Foundation
 import SourceryRuntime
+import System
 
 public class FishyJoesContext {
     let module: Module
@@ -59,6 +60,12 @@ public class FishyJoesContext {
             defaultNamespace: module
         )
         self.dumpDebugRepresentation = argument["debugRepresentation"] as? String == "true"
+        if let stderrFifo = argument["stderrFifo"] as? String {
+            // Re-open the real stderr, and bypass sourcery
+            let errDescriptor = try! FileDescriptor.open(stderrFifo, .writeOnly)
+            precondition(dup2(errDescriptor.rawValue, 2) >= 0)
+            try! errDescriptor.close()
+        }
     }
 
     func swiftFragment(_ name: String, additionalImports: [String] = []) -> SourceFragment {
@@ -234,7 +241,7 @@ public class FishyJoesContext {
         in classes: inout [C],
         separator: Character = ".",
         ignorePrefix: String = ""
-    ) -> [SourceFragment] {
+    ) -> [SourceFragment] where C.InnerClass == C {
         let rootClass = rootClass()
         // sort by length of qualified name so that outer classes are processed before inner ones
         for cClass in classes.sorted(by: { $0.name.utf8.count < $1.name.utf8.count }) {
@@ -380,53 +387,11 @@ public class FishyJoesContext {
     }
 
     func ts(method: Method) -> TypeScriptAnnotations.Method? {
-        let exportAnnotation = method.exportAnnotation
-        var omitParameters = Set(exportAnnotation.omitParameters)
-        var parameters: [TypeScriptAnnotations.Method.Parameter] = []
-        for parameter in method.parameters {
-            if omitParameters.contains(parameter.name) {
-                precondition(parameter.defaultValue != nil, "Can't omit non-default parameter")
-                omitParameters.remove(parameter.name)
-                continue
-            }
-            let resolved = resolve(type: parameter.type, generics: exportAnnotation.genericOverrides)
-            var label: String?
-            if let swiftLabel = parameter.label, swiftLabel != parameter.name {
-                label = swiftLabel
-            }
-            parameters.append(.init(labelComment: label, name: parameter.name, type: resolved.nodeType))
-        }
-
-        return TypeScriptAnnotations.Method(
-            documentation: method.documentation,
-            isStatic: method.isStatic,
-            name: exportAnnotation.name,
-            parameters: parameters,
-            returnType: resolve(type: method.returnType, generics: exportAnnotation.genericOverrides).nodeType
-        )
+        nodeTranslator.ts(method: method, context: self)
     }
 
     func ts(field: Variable, useNativeName: Bool = false) -> TypeScriptAnnotations.Variable? {
-        let name: String
-        if useNativeName {
-            guard field.exportAnnotation == nil else {
-                fatalErr("field \(field.name) should not be annotated, as it's in a type being exported memberwise")
-            }
-            name = field.name
-        } else {
-            guard let exportAnnotation = field.exportAnnotation else {
-                return nil
-            }
-            name = exportAnnotation.name
-        }
-
-        return TypeScriptAnnotations.Variable(
-            documentation: field.documentation,
-            readOnly: !field.isMutable,
-            isStatic: field.isStatic,
-            name: name,
-            type: resolve(type: field.typeName.better).nodeType
-        )
+        nodeTranslator.ts(field: field, context: self, useNativeName: useNativeName)
     }
 
     func kotlin(method: Method) -> KotlinClass.MethodOrVariable? {
@@ -443,5 +408,21 @@ public class FishyJoesContext {
 
     func cSharp(field: Variable, of type: TranslatedType, useNativeName: Bool = false) -> CSharpClass.MethodOrVariable? {
         cSharpTranslator.cSharp(field: field, of: type, context: self, useNativeName: useNativeName)
+    }
+
+    // MARK: warnings
+
+    var warningsPrintedOnce: Set<String> = []
+
+    func warn(_ warning: String) {
+        guard !warningsPrintedOnce.contains(warning) else { return }
+        warningsPrintedOnce.insert(warning)
+
+        var errorHandle = FileHandle.standardError
+        print("WARNING: \(warning)", to: &errorHandle)
+    }
+
+    func warnMissingDefault(parameter: SwiftFormal, in method: Method) {
+        warn("can't translate default parameter value `\(parameter.name) = \(parameter.defaultValue!)` in method \(method)")
     }
 }

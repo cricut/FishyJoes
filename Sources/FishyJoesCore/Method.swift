@@ -53,7 +53,7 @@ struct Method: Hashable {
         self.definedIn = method.definedInTypeName?.better
         self.isStatic = method.isStatic
         // SourceryMethod.isMutating seems to be a bit buggy...
-        self.isMutating = method.isMutating || method.modifiers.contains(where: { $0.name == "mutating" })
+        self.isMutating = method.isMutating || method.modifiers.contains { $0.name == "mutating" }
         self.isInitializer = method.isInitializer
         self.isThrowing = method.throws || method.rethrows
 
@@ -69,11 +69,20 @@ struct Method: Hashable {
                 SwiftFormal(
                     label: parameter.argumentLabel,
                     name: parameter.name,
-                    type: parameter.typeName.better
+                    type: parameter.typeName.better,
+                    defaultValue: parameter.defaultValue
                 )
             )
         }
         precondition(omitParameters.isEmpty, "Can't find parameters \(omitParameters) to omit")
         self.parameters = parameters
+    }
+}
+
+extension Method: CustomStringConvertible {
+    var description: String {
+        let namespace = definedIn.map { "\($0.name)." } ?? ""
+        let params = parameters.map { ($0.label ?? "_") + ":" }.joined()
+        return "\(namespace)\(callName)(\(params))"
     }
 }

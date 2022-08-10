@@ -286,6 +286,15 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         )
         // print("setting up Foundation.Data...")
         try Foundation.Data.javaSetup(env: env)
+        // print("setting up DefaultArguments...")
+        try DefaultArguments.javaSetup(env: env)
+        try env.RegisterNatives(DefaultArguments.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_echoDefaults"),
+                signature: bag.add("(Ljava/lang/Long;Ljava/lang/Long;D)Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_DefaultArguments_echoDefaults, to: UnsafeMutableRawPointer.self)
+            )
+        )
         // print("setting up Double...")
         try Double.javaSetup(env: env)
         // print("setting up EmptyEnum...")

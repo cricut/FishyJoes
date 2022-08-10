@@ -2,6 +2,7 @@
 #include "AssociatedDataEnum.hpp"
 #include "Bytes.hpp"
 #include "Collections.hpp"
+#include "DefaultArguments.hpp"
 #include "EmptyEnum.hpp"
 #include "Functions.hpp"
 #include "Primitives.hpp"

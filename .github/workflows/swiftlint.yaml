@@ -9,7 +9,7 @@ jobs:
   swiftlint:
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/realm/swiftlint:latest
+      image: ghcr.io/realm/swiftlint:0.48.0
     steps:
     - uses: actions/checkout@v1
       with:
@@ -19,4 +19,4 @@ jobs:
       run: |
         swiftlint --version
         swiftlint --reporter github-actions-logging --strict ||
-        swiftlint --reporter emoji --strict --quiet
+            swiftlint --reporter emoji --strict --quiet

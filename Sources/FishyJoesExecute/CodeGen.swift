@@ -176,6 +176,15 @@ extension CodeGen {
             if let codeCoveragePath = codeCoveragePath {
                 sourceryEnv["LLVM_PROFILE_FILE"] = "\(codeCoveragePath)/fishy-joes-execution-helper-\(UUID()).profraw"
             }
+
+            // Provide access to stderr for the fishy-joes core. This is necessary because sourcery intercepts stderr and fails if it is used at all.
+            // Create a temporary named pipe
+            // https://unix.stackexchange.com/a/29918/5471
+            let errorFifoPath = try cmd("mktemp", "-u").runString()
+            try cmd("mkfifo", errorFifoPath).run()
+            defer { try? cmd("rm", errorFifoPath).run() }
+            let errorReporter = cmd("cat", errorFifoPath).async(stdout: .stderr)
+
             try cmd(
                 ".build/debug/sourcery",
                 arguments: [
@@ -188,10 +197,12 @@ extension CodeGen {
                     "--args", "debugRepresentation=\(debug)",
                     "--args", "requiredModules=\"\(try! JSONEncoder().encode(fishyJoesModuleFiles).base64EncodedString())\"",
                     "--args", "fishyJoesExecutable=.build/debug/🐟☕️",
+                    "--args", "stderrFifo=\(errorFifoPath)",
                     "--output", "Sources/Generated"
                 ].compactMap { $0 },
                 addEnv: sourceryEnv
             ).run()
+            try errorReporter.succeed()
         }
 
         if buildStep.contains(.build) {

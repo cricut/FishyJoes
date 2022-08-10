@@ -58,6 +58,7 @@ namespace TestAPI {
                 void* FJInternalBinding_TestAPI_Collections_CollectionHolder_getStaticPropery();
                 void* FJInternalBinding_TestAPI_Collections_CollectionHolder_getStaticMutablePropery();
                 void* FJInternalBinding_TestAPI_Collections_CollectionHolder_setStaticMutablePropery(void*);
+                void* FJInternalBinding_TestAPI_DefaultArguments_echoDefaults(void*, void*, void*);
                 void* FJInternalBinding_TestAPI_EmptyEnum_notGoingToHappen();
                 void* FJInternalBinding_TestAPI_Functions_exercise0(void*);
                 void* FJInternalBinding_TestAPI_Functions_exercise1(void*);
@@ -188,6 +189,7 @@ namespace TestAPI {
     class AssociatedDataEnum;
     class Bytes;
     class Collections;
+    class DefaultArguments;
     class EmptyEnum;
     class Functions;
     class Primitives;

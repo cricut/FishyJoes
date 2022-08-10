@@ -127,11 +127,19 @@ struct TranslatedReference: TranslatedType {
                 fragment.output("return try Box<\(sourceType.name)>.takeUnretainedOpaque(nonNilPointer).value")
             }
             fragment.outputBlock("public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {") {
+                guard isInhabited else {
+                    fragment.output("// Uninhabited")
+                    return
+                }
                 fragment.output("let constructor = try FishyJoesNodeRuntime.InstanceData.data(for: env).constructor(for: \"\(nodeName)\", env: env)")
                 fragment.output("let arg = try FishyJoesNodeRuntime.Box(value).retainedExternal(env: env)")
                 fragment.output("return try env.newInstance(constructor, [arg])")
             }
             fragment.outputBlock("public static func mutateNode(_ value: Self, this: NAPI.Value, env: NAPI.Env) throws {") {
+                guard isInhabited else {
+                    fragment.output("// Uninhabited")
+                    return
+                }
                 fragment.outputBlock("guard let pointer = try env.unwrap(this) else {") {
                     fragment.output("throw JSException(message: \"expected \(sourceType.name), got nil\")")
                 }
@@ -193,8 +201,12 @@ struct TranslatedReference: TranslatedType {
             }
 
             fragment.outputBlock("public static func toJava(_ value: Self, env: Env) throws -> jobject? {") {
-                fragment.output("let ptr = jvalue(j: jlong(UInt(bitPattern: Box(value).retainedOpaque())))")
-                fragment.output("return try env.NewObject(javaClass, _constructorMethodID, ptr)")
+                if !isInhabited {
+                    fragment.output("// Uninhabited type")
+                } else {
+                    fragment.output("let ptr = jvalue(j: jlong(UInt(bitPattern: Box(value).retainedOpaque())))")
+                    fragment.output("return try env.NewObject(javaClass, _constructorMethodID, ptr)")
+                }
             }
 
             fragment.outputBlock("public static func javaSetup(env: Env) throws {") {
@@ -276,8 +288,8 @@ struct TranslatedReference: TranslatedType {
                         isOverride: false,
                         name: "swiftEquals",
                         parameters: [
-                            (labelComment: nil, name: "lhs", type: kotlinType),
-                            (labelComment: nil, name: "rhs", type: kotlinType),
+                            (labelComment: nil, name: "lhs", type: kotlinType, defaultValue: nil),
+                            (labelComment: nil, name: "rhs", type: kotlinType, defaultValue: nil),
                         ],
                         returnType: .named(package: nil, name: "Boolean"),
                         body: nil
@@ -292,7 +304,7 @@ struct TranslatedReference: TranslatedType {
                         isOverride: true,
                         name: "equals",
                         parameters: [
-                            (labelComment: nil, name: "other", type: .optional(.named(package: nil, name: "Any"))),
+                            (labelComment: nil, name: "other", type: .optional(.named(package: nil, name: "Any")), defaultValue: nil),
                         ],
                         returnType: .named(package: nil, name: "Boolean"),
                         body: "(other is \(kotlinType.kotlinType)) && __jni_swiftEquals(this, other)"
@@ -368,8 +380,12 @@ struct TranslatedReference: TranslatedType {
             fragment.blankLine()
 
             fragment.outputBlock("public static func toCSharp(_ value: Self) throws -> csObject {") {
-                fragment.output("let ptr = Box(value).retainedOpaque()")
-                fragment.output("return try Env.check { env in _constructorMethod(ptr, env) }")
+                if !isInhabited {
+                    fragment.output("// Uninhabited type")
+                } else {
+                    fragment.output("let ptr = Box(value).retainedOpaque()")
+                    fragment.output("return try Env.check { env in _constructorMethod(ptr, env) }")
+                }
             }
             fragment.blankLine()
 
@@ -415,7 +431,7 @@ struct TranslatedReference: TranslatedType {
                         name: "Equals",
                         mangledName: "",
                         parameters: [
-                            (labelComment: nil, name: "other", type: .optional(.named(package: nil, name: "object"))),
+                            (labelComment: nil, name: "other", type: .optional(.named(package: nil, name: "object")), defaultValue: nil),
                         ],
                         returnType: .primitive("bool"),
                         body: [
@@ -435,8 +451,8 @@ struct TranslatedReference: TranslatedType {
                         name: "_equals",
                         mangledName: "\(sourceType.name.mangled)_equals",
                         parameters: [
-                            (labelComment: nil, name: "lhs", type: cSharpType),
-                            (labelComment: nil, name: "rhs", type: .optional(cSharpType)),
+                            (labelComment: nil, name: "lhs", type: cSharpType, nil),
+                            (labelComment: nil, name: "rhs", type: .optional(cSharpType), nil),
                         ],
                         returnType: .primitive("bool"),
                         body: nil

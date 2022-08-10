@@ -17,9 +17,16 @@ public func callbackBody(
     _ info: napi_callback_info!,
     name: String,
     expectedArgumentCount: Int,
+    hasNamedOptions: Bool = false,
     _ body: (_ env: CallbackEnv) throws -> NAPI.Value?
 ) -> napi_value? {
-    let env = CallbackEnv(env: NAPI.Env(ptr: env), napiInfo: .init(ptr: info), name: name, expectedArgumentCount: expectedArgumentCount)
+    let env = CallbackEnv(
+        env: NAPI.Env(ptr: env),
+        napiInfo: .init(ptr: info),
+        name: name,
+        expectedArgumentCount: expectedArgumentCount,
+        hasNamedOptions: hasNamedOptions
+    )
     return rethrowToNode(env: env.env) {
         try body(env)
     }

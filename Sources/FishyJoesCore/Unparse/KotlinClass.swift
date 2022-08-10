@@ -16,7 +16,7 @@ class KotlinClass: NestedClass {
         let isStatic: Bool
         let isOverride: Bool
         let name: String
-        let parameters: [(labelComment: String?, name: String, type: KType)]
+        let parameters: [(labelComment: String?, name: String, type: KType, defaultValue: String?)]
         let returnType: KType
         let body: String?
     }
@@ -115,7 +115,8 @@ class KotlinClass: NestedClass {
             fragment.outputBlock("fun \(method.name)(", newLineTerminated: false) {
                 fragment.outputMap(method.parameters, separator: ",") { parameter in
                     let labelComment = parameter.labelComment.map { "/* \($0) */ " } ?? ""
-                    return "\(labelComment)\(parameter.name): \(parameter.type.kotlinType)"
+                    let defaultValue = parameter.defaultValue.map { " = \($0)" } ?? ""
+                    return "\(labelComment)\(parameter.name): \(parameter.type.kotlinType)\(defaultValue)"
                 }
             }
             if method.returnType != KType.void {

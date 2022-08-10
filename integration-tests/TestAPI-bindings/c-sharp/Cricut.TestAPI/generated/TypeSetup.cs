@@ -121,6 +121,12 @@ namespace Cricut.TestAPI {
         );
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_DefaultArguments_setup(
+            SwiftReference.ConstructorDelegate constructorMethod,
+            out CreatedRef _exn
+        );
+
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_EmptyEnum_setup(
             out CreatedRef _exn
         );
@@ -800,6 +806,15 @@ namespace Cricut.TestAPI {
                     )),
                     bag<_Collections_CollectionHolder_stringDictionarySetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
                         obj.Peek<Cricut.TestAPI.Collections.CollectionHolder>().StringDictionary = newValue.Consume<System.Collections.Generic.IDictionary<string, string>>();
+                    })),
+                    out exn
+                ));
+            });
+            Once("setup_DefaultArguments", () => {
+                Console.WriteLine("setting up DefaultArguments...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_DefaultArguments_setup(
+                    bag<SwiftReference.ConstructorDelegate>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.DefaultArguments(ptr));
                     })),
                     out exn
                 ));

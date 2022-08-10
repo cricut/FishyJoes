@@ -376,6 +376,14 @@ namespace TestAPI {
                 get_t<decltype(TestAPI::Collections::CollectionHolder::boolArray)>(), get_t<decltype(TestAPI::Collections::CollectionHolder::boolSet)>(), get_t<decltype(TestAPI::Collections::CollectionHolder::boolDictionary)>(), get_t<decltype(TestAPI::Collections::CollectionHolder::integerArray)>(), get_t<decltype(TestAPI::Collections::CollectionHolder::integerSet)>(), get_t<decltype(TestAPI::Collections::CollectionHolder::integerDictionary)>(), get_t<decltype(TestAPI::Collections::CollectionHolder::stringArray)>(), get_t<decltype(TestAPI::Collections::CollectionHolder::stringSet)>(), get_t<decltype(TestAPI::Collections::CollectionHolder::stringDictionary)>()
             };
         }
+        inline void put(const TestAPI::DefaultArguments& obj) {
+            put(obj._ref);
+        }
+        inline TestAPI::DefaultArguments get(std::in_place_type_t<TestAPI::DefaultArguments> obj = std::in_place_type_t<TestAPI::DefaultArguments>{}) {
+            return TestAPI::DefaultArguments {
+                get_t<decltype(TestAPI::DefaultArguments::_ref)>()
+            };
+        }
         inline void put(const TestAPI::EmptyEnum& obj) {
             put(obj._variant);
         }

@@ -13,15 +13,10 @@ extension Structs: FishyJoesNodeRuntime.NodeConverter {
         return try Box<Structs>.takeUnretainedOpaque(nonNilPointer).value
     }
     public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
-        let constructor = try FishyJoesNodeRuntime.InstanceData.data(for: env).constructor(for: "Structs", env: env)
-        let arg = try FishyJoesNodeRuntime.Box(value).retainedExternal(env: env)
-        return try env.newInstance(constructor, [arg])
+        // Uninhabited
     }
     public static func mutateNode(_ value: Self, this: NAPI.Value, env: NAPI.Env) throws {
-        guard let pointer = try env.unwrap(this) else {
-            throw JSException(message: "expected Structs, got nil")
-        }
-        try Box<Structs>.takeUnretainedOpaque(pointer).value = value
+        // Uninhabited
     }
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let nodeClass = try NodeClass(

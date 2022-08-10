@@ -22,8 +22,7 @@ extension Bytes: CSharpMutator {
     }
 
     public static func toCSharp(_ value: Self) throws -> csObject {
-        let ptr = Box(value).retainedOpaque()
-        return try Env.check { env in _constructorMethod(ptr, env) }
+        // Uninhabited type
     }
 
     public static func mutateCSharp<R>(_ this: csObject, body: (inout Self) throws -> R) throws -> R {

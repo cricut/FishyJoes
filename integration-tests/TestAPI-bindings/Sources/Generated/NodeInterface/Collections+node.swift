@@ -13,15 +13,10 @@ extension Collections: FishyJoesNodeRuntime.NodeConverter {
         return try Box<Collections>.takeUnretainedOpaque(nonNilPointer).value
     }
     public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
-        let constructor = try FishyJoesNodeRuntime.InstanceData.data(for: env).constructor(for: "Collections", env: env)
-        let arg = try FishyJoesNodeRuntime.Box(value).retainedExternal(env: env)
-        return try env.newInstance(constructor, [arg])
+        // Uninhabited
     }
     public static func mutateNode(_ value: Self, this: NAPI.Value, env: NAPI.Env) throws {
-        guard let pointer = try env.unwrap(this) else {
-            throw JSException(message: "expected Collections, got nil")
-        }
-        try Box<Collections>.takeUnretainedOpaque(pointer).value = value
+        // Uninhabited
     }
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let nodeClass = try NodeClass(
@@ -30,7 +25,7 @@ extension Collections: FishyJoesNodeRuntime.NodeConverter {
             properties: [
                 "echoArrayOfInt": (
                     .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoArrayOfInt", expectedArgumentCount: 1) { env in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoArrayOfInt", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try ArrayConverter<Int>.toNode(
                                 Collections.echo(
                                     arrayOfInt: try env.argument(at: 0, converter: ArrayConverter<Int>.self)
@@ -44,7 +39,7 @@ extension Collections: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 "echoSetOfInt": (
                     .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoSetOfInt", expectedArgumentCount: 1) { env in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoSetOfInt", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try SetConverter<Int>.toNode(
                                 Collections.echo(
                                     setOfInt: try env.argument(at: 0, converter: SetConverter<Int>.self)
@@ -58,7 +53,7 @@ extension Collections: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 "echoDictionaryOfIntToInt": (
                     .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoDictionaryOfIntToInt", expectedArgumentCount: 1) { env in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoDictionaryOfIntToInt", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try DictionaryConverter<Int, Int>.toNode(
                                 Collections.echo(
                                     dictionaryOfIntToInt: try env.argument(at: 0, converter: DictionaryConverter<Int, Int>.self)
@@ -72,7 +67,7 @@ extension Collections: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 "echoMaybeArrayOfMaybeInt": (
                     .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoMaybeArrayOfMaybeInt", expectedArgumentCount: 1) { env in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoMaybeArrayOfMaybeInt", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try OptionalConverter<ArrayConverter<OptionalConverter<Int>>>.toNode(
                                 Collections.echo(
                                     maybeArrayOfMaybeInt: try env.argument(at: 0, converter: OptionalConverter<ArrayConverter<OptionalConverter<Int>>>.self)
@@ -86,7 +81,7 @@ extension Collections: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 "echoMaybeSetOfMaybeInt": (
                     .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoMaybeSetOfMaybeInt", expectedArgumentCount: 1) { env in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoMaybeSetOfMaybeInt", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try OptionalConverter<SetConverter<OptionalConverter<Int>>>.toNode(
                                 Collections.echo(
                                     maybeSetOfMaybeInt: try env.argument(at: 0, converter: OptionalConverter<SetConverter<OptionalConverter<Int>>>.self)
@@ -100,7 +95,7 @@ extension Collections: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 "echoMaybeDictionaryOfIntToMaybeInt": (
                     .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoMaybeDictionaryOfIntToMaybeInt", expectedArgumentCount: 1) { env in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoMaybeDictionaryOfIntToMaybeInt", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try OptionalConverter<DictionaryConverter<Int, OptionalConverter<Int>>>.toNode(
                                 Collections.echo(
                                     maybeDictionaryOfIntToMaybeInt: try env.argument(at: 0, converter: OptionalConverter<DictionaryConverter<Int, OptionalConverter<Int>>>.self)
@@ -114,7 +109,7 @@ extension Collections: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 "collectionMapper": (
                     .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "collectionMapper", expectedArgumentCount: 2) { env in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "collectionMapper", expectedArgumentCount: 2, hasNamedOptions: false) { env in
                             let result = try OptionalConverter<ArrayConverter<OptionalConverter<Int>>>.toNode(
                                 Collections.collectionMapper(
                                     collection: try env.argument(at: 0, converter: OptionalConverter<ArrayConverter<OptionalConverter<Int>>>.self),

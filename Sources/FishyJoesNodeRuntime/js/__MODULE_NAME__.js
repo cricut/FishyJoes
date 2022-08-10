@@ -52,7 +52,7 @@ export const init = async () => {
     wasmPromise = WebAssembly.instantiate(binary, importObject);
   }
   const { instance } = await wasmPromise;
-  console.log(instance);
+  // console.log(instance);
   wasi.start(instance);
   const library = napi.init(instance);
   return library

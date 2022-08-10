@@ -5,22 +5,22 @@ import FishyJoesJavaRuntime
 import Foundation
 import TestAPI
 
-extension EmptyEnum: JavaConverter {
-    public typealias SwiftType = Self
-    public typealias CType = jobject?
-
+extension DefaultArguments: JavaMutator {
     public static var javaClass: jclass?
-
+    private static var _constructorMethodID: jmethodID!
     public static func fromJava(_ value: jobject?, env: Env) throws -> Self {
-        throw JNIError(message: "invalid enum \(try env.javaDescription(value)) for EmptyEnum")
+        try Box<DefaultArguments>.fromJava(value, env: env).value
     }
-
     public static func toJava(_ value: Self, env: Env) throws -> jobject? {
         // Uninhabited type
     }
-
     public static func javaSetup(env: Env) throws {
         guard javaClass == nil else { return }
-        javaClass = try env.globalRef(env.FindClass("com/cricut/testapi/EmptyEnum"))
+        try AnyBox.javaSetup(env: env)
+        javaClass = try env.globalRef(env.FindClass("com/cricut/testapi/DefaultArguments"))
+        _constructorMethodID = try env.GetMethodID(javaClass, "<init>", "(J)V")
+    }
+    public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout Self) throws -> R) throws -> R {
+        try body(&Box<DefaultArguments>.fromJava(this, env: env).value)
     }
 }

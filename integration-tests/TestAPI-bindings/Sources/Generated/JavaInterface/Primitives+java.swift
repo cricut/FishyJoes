@@ -12,8 +12,7 @@ extension Primitives: JavaMutator {
         try Box<Primitives>.fromJava(value, env: env).value
     }
     public static func toJava(_ value: Self, env: Env) throws -> jobject? {
-        let ptr = jvalue(j: jlong(UInt(bitPattern: Box(value).retainedOpaque())))
-        return try env.NewObject(javaClass, _constructorMethodID, ptr)
+        // Uninhabited type
     }
     public static func javaSetup(env: Env) throws {
         guard javaClass == nil else { return }
