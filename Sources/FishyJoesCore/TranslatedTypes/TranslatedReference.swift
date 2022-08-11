@@ -292,6 +292,7 @@ struct TranslatedReference: TranslatedType {
                             (labelComment: nil, name: "rhs", type: kotlinType, defaultValue: nil),
                         ],
                         returnType: .named(package: nil, name: "Boolean"),
+                        deprecation: nil,
                         body: nil
                     )
                 )
@@ -307,6 +308,7 @@ struct TranslatedReference: TranslatedType {
                             (labelComment: nil, name: "other", type: .optional(.named(package: nil, name: "Any")), defaultValue: nil),
                         ],
                         returnType: .named(package: nil, name: "Boolean"),
+                        deprecation: nil,
                         body: "(other is \(kotlinType.kotlinType)) && __jni_swiftEquals(this, other)"
                     )
                 )
@@ -322,6 +324,7 @@ struct TranslatedReference: TranslatedType {
                         name: "hashCode",
                         parameters: [],
                         returnType: .named(package: nil, name: "Int"),
+                        deprecation: nil,
                         body: nil
                     )
                 )
@@ -434,6 +437,7 @@ struct TranslatedReference: TranslatedType {
                             (labelComment: nil, name: "other", type: .optional(.named(package: nil, name: "object")), defaultValue: nil),
                         ],
                         returnType: .primitive("bool"),
+                        deprecation: nil,
                         body: [
                             "using var thisHandle = new GCRef(this);",
                             "using var otherHandle = new GCRef(other as \(cSharpType.name));",
@@ -455,6 +459,7 @@ struct TranslatedReference: TranslatedType {
                             (labelComment: nil, name: "rhs", type: .optional(cSharpType), nil),
                         ],
                         returnType: .primitive("bool"),
+                        deprecation: nil,
                         body: nil
                     )
                 )
@@ -471,6 +476,7 @@ struct TranslatedReference: TranslatedType {
                         mangledName: "\(sourceType.name.mangled)_hash",
                         parameters: [],
                         returnType: .primitive("int"),
+                        deprecation: nil,
                         body: nil
                     )
                 )

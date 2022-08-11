@@ -22,7 +22,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public nint GetHex() {
             using var thisHandle = new GCRef(this);
-            return Check((out CreatedRef exn) => 
+            return Check((out CreatedRef exn) =>
                 __cs_get_SimpleEnum_Hex(thisHandle.ptr, out exn)
             );
         }

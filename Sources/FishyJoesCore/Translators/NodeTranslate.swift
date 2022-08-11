@@ -247,7 +247,7 @@ struct NodeTranslator: Translator {
         }
 
         return TypeScriptAnnotations.Method(
-            documentation: method.documentation,
+            documentation: method.documentation + (method.deprecation.map { ["@deprecated \($0.message)"] } ?? []),
             isStatic: method.isStatic,
             name: exportAnnotation.name,
             parameters: parameters,
@@ -270,7 +270,7 @@ struct NodeTranslator: Translator {
         }
 
         return TypeScriptAnnotations.Variable(
-            documentation: field.documentation,
+            documentation: field.documentation + (field.deprecation.map { ["@deprecated \($0.message)"] } ?? []),
             readOnly: !field.isMutable,
             isStatic: field.isStatic,
             name: name,

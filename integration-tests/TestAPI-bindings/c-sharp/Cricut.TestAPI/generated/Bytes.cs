@@ -16,7 +16,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static System.Collections.Generic.IList<byte> TheBytes {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Bytes_TheBytes(out exn).Consume<System.Collections.Generic.IList<byte>>()
                 );
             }
@@ -30,7 +30,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static byte[] Data {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Bytes_Data(out exn).Consume<byte[]>()
                 );
             }

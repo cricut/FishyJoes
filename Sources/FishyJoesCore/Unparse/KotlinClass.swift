@@ -18,6 +18,7 @@ class KotlinClass: NestedClass {
         let name: String
         let parameters: [(labelComment: String?, name: String, type: KType, defaultValue: String?)]
         let returnType: KType
+        let deprecation: Deprecation?
         let body: String?
     }
 
@@ -28,6 +29,7 @@ class KotlinClass: NestedClass {
         let readOnly: Bool
         let name: String
         let type: KType
+        let deprecation: Deprecation?
     }
 
     let module: Module
@@ -84,6 +86,9 @@ class KotlinClass: NestedClass {
 
     func output(field: Variable, to fragment: SourceFragment) {
         document(field.documentation, fragment: fragment)
+        if let deprecation = field.deprecation {
+            fragment.output("@Deprecated(\"\(deprecation.quotedMessage)\")")
+        }
         fragment.output("\(field.isOverride ? "override " : "")\(field.readOnly ? "val" : "var") \(field.name): \(field.type.kotlinType)")
         fragment.output("  get() = __jni_get_\(field.name)()\(field.type.toKotlinType)")
         if !field.readOnly {
@@ -109,6 +114,9 @@ class KotlinClass: NestedClass {
     func output(method: Method, to fragment: SourceFragment) {
         document(method.documentation, fragment: fragment)
         if !method.name.hasPrefix("_") {
+            if let deprecation = method.deprecation {
+                fragment.output("@Deprecated(\"\(deprecation.quotedMessage)\")")
+            }
             if method.isOverride {
                 fragment.output("override ", newLineTerminated: false)
             }

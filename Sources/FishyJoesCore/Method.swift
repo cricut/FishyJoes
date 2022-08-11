@@ -16,6 +16,7 @@ struct Method: Hashable {
     let isMutating: Bool
     let isInitializer: Bool
     let isThrowing: Bool
+    let deprecation: Deprecation?
 
     init(
         name: String,
@@ -28,7 +29,8 @@ struct Method: Hashable {
         isStatic: Bool = false,
         isMutating: Bool = false,
         isInitializer: Bool = false,
-        isThrowing: Bool = false
+        isThrowing: Bool = false,
+        deprecation: Deprecation? = nil
     ) {
         self.name = name
         self.callName = callName ?? name
@@ -41,6 +43,7 @@ struct Method: Hashable {
         self.isMutating = isMutating
         self.isInitializer = isInitializer
         self.isThrowing = isThrowing
+        self.deprecation = deprecation
     }
 
     init?(_ method: SourceryMethod) {
@@ -56,6 +59,7 @@ struct Method: Hashable {
         self.isMutating = method.isMutating || method.modifiers.contains { $0.name == "mutating" }
         self.isInitializer = method.isInitializer
         self.isThrowing = method.throws || method.rethrows
+        self.deprecation = method.deprecation
 
         var parameters: [SwiftFormal] = []
         var omitParameters = Set(exportAnnotation.omitParameters)

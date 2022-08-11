@@ -16,7 +16,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static System.Tuple<nint, string> Tuple2 {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Tuples_Tuple2(out exn).Consume<System.Tuple<nint, string>>()
                 );
             }
@@ -30,7 +30,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static System.Tuple<string, double, string> Tuple3 {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Tuples_Tuple3(out exn).Consume<System.Tuple<string, double, string>>()
                 );
             }
@@ -44,7 +44,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static System.Tuple<System.Tuple<nint, string>, System.Tuple<string, double, string>, string, bool> Tuple4 {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Tuples_Tuple4(out exn).Consume<System.Tuple<System.Tuple<nint, string>, System.Tuple<string, double, string>, string, bool>>()
                 );
             }
@@ -58,7 +58,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static System.Tuple<string, byte, System.Tuple<System.Tuple<nint, string>, System.Tuple<string, double, string>, string, bool>, System.Tuple<string, double, string>, System.Tuple<nint, string>> Tuple5 {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Tuples_Tuple5(out exn).Consume<System.Tuple<string, byte, System.Tuple<System.Tuple<nint, string>, System.Tuple<string, double, string>, string, bool>, System.Tuple<string, double, string>, System.Tuple<nint, string>>>()
                 );
             }
@@ -72,7 +72,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static System.Tuple<string, nint, double, System.Tuple<System.Tuple<nint, string>, System.Tuple<string, double, string>, string, bool>, System.Tuple<string, byte, System.Tuple<System.Tuple<nint, string>, System.Tuple<string, double, string>, string, bool>, System.Tuple<string, double, string>, System.Tuple<nint, string>>, bool> Tuple6 {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Tuples_Tuple6(out exn).Consume<System.Tuple<string, nint, double, System.Tuple<System.Tuple<nint, string>, System.Tuple<string, double, string>, string, bool>, System.Tuple<string, byte, System.Tuple<System.Tuple<nint, string>, System.Tuple<string, double, string>, string, bool>, System.Tuple<string, double, string>, System.Tuple<nint, string>>, bool>>()
                 );
             }

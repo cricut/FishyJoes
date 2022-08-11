@@ -5,6 +5,7 @@ import FishyJoesJavaRuntime
 import Foundation
 import TestAPI
 
+@available(*, deprecated, message: "Not actually deprecated, but this silences warnings because it may refer to deprecated methods")
 @_cdecl("JNI_OnLoad")
 public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutableRawPointer) -> jint {
     var envRaw: UnsafeMutableRawPointer?
