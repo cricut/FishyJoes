@@ -126,6 +126,8 @@ struct TranslatedReference: TranslatedType {
                 }
                 fragment.output("return try Box<\(sourceType.name)>.takeUnretainedOpaque(nonNilPointer).value")
             }
+            fragment.blankLine()
+
             fragment.outputBlock("public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {") {
                 guard isInhabited else {
                     fragment.output("// Uninhabited")
@@ -135,6 +137,8 @@ struct TranslatedReference: TranslatedType {
                 fragment.output("let arg = try FishyJoesNodeRuntime.Box(value).retainedExternal(env: env)")
                 fragment.output("return try env.newInstance(constructor, [arg])")
             }
+            fragment.blankLine()
+
             fragment.outputBlock("public static func mutateNode(_ value: Self, this: NAPI.Value, env: NAPI.Env) throws {") {
                 guard isInhabited else {
                     fragment.output("// Uninhabited")
@@ -145,6 +149,9 @@ struct TranslatedReference: TranslatedType {
                 }
                 fragment.output("try Box<\(sourceType.name)>.takeUnretainedOpaque(pointer).value = value")
             }
+            fragment.blankLine()
+
+            fragment.output("@available(*, deprecated, message: \"Not actually deprecated, but this silences warnings because it may refer to deprecated methods\")")
             fragment.outputBlock("public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {") {
                 // fragment.output("print(\"setting up \(sourceType.name)\")")
 

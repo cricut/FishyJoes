@@ -159,6 +159,7 @@ struct TranslatedStruct: TranslatedType {
                 }
             }
 
+            fragment.output("@available(*, deprecated, message: \"Not actually deprecated, but this silences warnings because it may refer to deprecated methods\")")
             fragment.outputBlock("public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {") {
                 // fragment.output("print(\"setting up \(globalName)\")")
 
