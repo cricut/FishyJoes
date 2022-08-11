@@ -229,17 +229,17 @@
       "converterType" : {
         "named" : {
           "_0" : {
-            "name" : "Deprecated",
+            "name" : "Deprecations",
             "namespace" : [
 
             ]
           }
         }
       },
-      "cppName" : "Deprecated",
+      "cppName" : "Deprecations",
       "cSharpType" : {
         "named" : {
-          "name" : "Deprecated",
+          "name" : "Deprecations",
           "package" : "Cricut.TestAPI"
         }
       },
@@ -252,17 +252,17 @@
       "isInhabited" : false,
       "jniType" : {
         "object" : {
-          "_0" : "com/cricut/testapi/Deprecated"
+          "_0" : "com/cricut/testapi/Deprecations"
         }
       },
-      "kotlinName" : "Deprecated",
+      "kotlinName" : "Deprecations",
       "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Reference<To=Deprecated>>",
-      "nodeName" : "TestAPI.Deprecated",
+      "neutralName" : "ExternalTranslatedType<of=Reference<To=Deprecations>>",
+      "nodeName" : "TestAPI.Deprecations",
       "sourceType" : {
         "named" : {
           "_0" : {
-            "name" : "Deprecated",
+            "name" : "Deprecations",
             "namespace" : [
 
             ]
@@ -1288,7 +1288,7 @@
           {
             "constructor" : null,
             "documentation" : [
-              "<!-- FishyJoes.exportReference(Deprecated) -->"
+              "<!-- FishyJoes.exportReference(Deprecations) -->"
             ],
             "exported" : true,
             "fields" : [
@@ -1325,7 +1325,7 @@
                 }
               }
             ],
-            "name" : "Deprecated"
+            "name" : "Deprecations"
           },
           {
             "constructor" : null,

@@ -59,8 +59,8 @@ namespace TestAPI {
                 void* FJInternalBinding_TestAPI_Collections_CollectionHolder_getStaticMutablePropery();
                 void* FJInternalBinding_TestAPI_Collections_CollectionHolder_setStaticMutablePropery(void*);
                 void* FJInternalBinding_TestAPI_DefaultArguments_echoDefaults(void*, void*, void*);
-                void* FJInternalBinding_TestAPI_Deprecated_deprecatedMethod();
-                void* FJInternalBinding_TestAPI_Deprecated_getDeprecatedVariable();
+                void* FJInternalBinding_TestAPI_Deprecations_deprecatedMethod();
+                void* FJInternalBinding_TestAPI_Deprecations_getDeprecatedVariable();
                 void* FJInternalBinding_TestAPI_EmptyEnum_notGoingToHappen();
                 void* FJInternalBinding_TestAPI_Functions_exercise0(void*);
                 void* FJInternalBinding_TestAPI_Functions_exercise1(void*);
@@ -192,7 +192,7 @@ namespace TestAPI {
     class Bytes;
     class Collections;
     class DefaultArguments;
-    class Deprecated;
+    class Deprecations;
     class EmptyEnum;
     class Functions;
     class Primitives;

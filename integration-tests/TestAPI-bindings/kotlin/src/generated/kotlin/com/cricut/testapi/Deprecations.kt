@@ -1,9 +1,9 @@
 package com.cricut.testapi
 
 /**
- * <!-- FishyJoes.exportReference(Deprecated) -->
+ * <!-- FishyJoes.exportReference(Deprecations) -->
  */
-class Deprecated private constructor(swiftReference: Long): com.cricut.fishyjoes.runtime.SwiftReference(swiftReference) {
+class Deprecations private constructor(swiftReference: Long): com.cricut.fishyjoes.runtime.SwiftReference(swiftReference) {
 
     companion object {
         /**

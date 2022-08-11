@@ -5,20 +5,20 @@ import FishyJoesCSharpRuntime
 import Foundation
 import TestAPI
 
-@_cdecl("TestAPI_Deprecated_setup")
-public func TestAPI_Deprecated_setup(
+@_cdecl("TestAPI_Deprecations_setup")
+public func TestAPI_Deprecations_setup(
     constructorMethod: @escaping @convention(c) (UnsafeMutableRawPointer, _ exn: csOutExn) -> csObject,
     _ exn: csOutExn
 ) {
-    guard Deprecated._constructorMethod == nil else { return }
-    Deprecated._constructorMethod = constructorMethod
+    guard Deprecations._constructorMethod == nil else { return }
+    Deprecations._constructorMethod = constructorMethod
 }
 
-extension Deprecated: CSharpMutator {
+extension Deprecations: CSharpMutator {
     fileprivate static var _constructorMethod: ((UnsafeMutableRawPointer, _ exn: csOutExn) -> csObject)!
 
     public static func peekCSharp(_ value: csObject) throws -> Self {
-        try Box<Deprecated>.peekCSharp(value).value
+        try Box<Deprecations>.peekCSharp(value).value
     }
 
     public static func toCSharp(_ value: Self) throws -> csObject {
@@ -26,6 +26,6 @@ extension Deprecated: CSharpMutator {
     }
 
     public static func mutateCSharp<R>(_ this: csObject, body: (inout Self) throws -> R) throws -> R {
-        try body(&Box<Deprecated>.peekCSharp(this).value)
+        try body(&Box<Deprecations>.peekCSharp(this).value)
     }
 }

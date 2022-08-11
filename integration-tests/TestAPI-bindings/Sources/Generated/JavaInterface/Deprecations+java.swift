@@ -5,11 +5,11 @@ import FishyJoesJavaRuntime
 import Foundation
 import TestAPI
 
-extension Deprecated: JavaMutator {
+extension Deprecations: JavaMutator {
     public static var javaClass: jclass?
     private static var _constructorMethodID: jmethodID!
     public static func fromJava(_ value: jobject?, env: Env) throws -> Self {
-        try Box<Deprecated>.fromJava(value, env: env).value
+        try Box<Deprecations>.fromJava(value, env: env).value
     }
     public static func toJava(_ value: Self, env: Env) throws -> jobject? {
         // Uninhabited type
@@ -17,10 +17,10 @@ extension Deprecated: JavaMutator {
     public static func javaSetup(env: Env) throws {
         guard javaClass == nil else { return }
         try AnyBox.javaSetup(env: env)
-        javaClass = try env.globalRef(env.FindClass("com/cricut/testapi/Deprecated"))
+        javaClass = try env.globalRef(env.FindClass("com/cricut/testapi/Deprecations"))
         _constructorMethodID = try env.GetMethodID(javaClass, "<init>", "(J)V")
     }
     public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout Self) throws -> R) throws -> R {
-        try body(&Box<Deprecated>.fromJava(this, env: env).value)
+        try body(&Box<Deprecations>.fromJava(this, env: env).value)
     }
 }

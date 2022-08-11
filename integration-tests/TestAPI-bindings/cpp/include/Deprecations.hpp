@@ -2,12 +2,12 @@
 #include "TestAPI_pre.hpp"
 
 namespace TestAPI {
-    /// <!-- FishyJoes.exportReference(Deprecated) -->
-    class Deprecated {
+    /// <!-- FishyJoes.exportReference(Deprecations) -->
+    class Deprecations {
         /*  Complete Constructor  */
         private:
-        /// Create new Deprecated (only to be used by FishyJoes internally. Look for static methods for initialization or other public constructors.)
-        Deprecated(const FishyJoesInternal::SwiftReference &_ref);
+        /// Create new Deprecations (only to be used by FishyJoes internally. Look for static methods for initialization or other public constructors.)
+        Deprecations(const FishyJoesInternal::SwiftReference &_ref);
         
         /*  Methods  */
         public:

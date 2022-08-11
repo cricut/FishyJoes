@@ -196,9 +196,9 @@ export declare namespace TestAPI {
     }
 
     /**
-     * <!-- FishyJoes.exportReference(Deprecated) -->
+     * <!-- FishyJoes.exportReference(Deprecations) -->
      */
-    export class Deprecated {
+    export class Deprecations {
         private constructor()
         private _inhibitStructuralTyping: any
 

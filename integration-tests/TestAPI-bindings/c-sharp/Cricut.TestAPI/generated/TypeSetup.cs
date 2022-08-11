@@ -127,7 +127,7 @@ namespace Cricut.TestAPI {
         );
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern void TestAPI_Deprecated_setup(
+        static extern void TestAPI_Deprecations_setup(
             SwiftReference.ConstructorDelegate constructorMethod,
             out CreatedRef _exn
         );
@@ -825,11 +825,11 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
-            Once("setup_Deprecated", () => {
-                Console.WriteLine("setting up Deprecated...");
-                Utilities.Check((out CreatedRef exn) => TestAPI_Deprecated_setup(
+            Once("setup_Deprecations", () => {
+                Console.WriteLine("setting up Deprecations...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_Deprecations_setup(
                     bag<SwiftReference.ConstructorDelegate>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
-                        return new CreatedRef(new Cricut.TestAPI.Deprecated(ptr));
+                        return new CreatedRef(new Cricut.TestAPI.Deprecations(ptr));
                     })),
                     out exn
                 ));

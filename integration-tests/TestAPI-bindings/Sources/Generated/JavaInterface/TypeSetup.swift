@@ -296,18 +296,18 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_DefaultArguments_echoDefaults, to: UnsafeMutableRawPointer.self)
             )
         )
-        // print("setting up Deprecated...")
-        try Deprecated.javaSetup(env: env)
-        try env.RegisterNatives(Deprecated.javaClass,
+        // print("setting up Deprecations...")
+        try Deprecations.javaSetup(env: env)
+        try env.RegisterNatives(Deprecations.javaClass,
             JNINativeMethod(
                 name: bag.add("__jni_deprecatedMethod"),
                 signature: bag.add("()Ljava/lang/String;"),
-                fnPtr: unsafeBitCast(java_Deprecated_deprecatedMethod, to: UnsafeMutableRawPointer.self)
+                fnPtr: unsafeBitCast(java_Deprecations_deprecatedMethod, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_get_deprecatedVariable"),
                 signature: bag.add("()J"),
-                fnPtr: unsafeBitCast(java_get_Deprecated_deprecatedVariable, to: UnsafeMutableRawPointer.self)
+                fnPtr: unsafeBitCast(java_get_Deprecations_deprecatedVariable, to: UnsafeMutableRawPointer.self)
             )
         )
         // print("setting up Double...")

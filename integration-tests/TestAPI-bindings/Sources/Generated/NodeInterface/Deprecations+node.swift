@@ -5,12 +5,12 @@ import FishyJoesNodeRuntime
 import Foundation
 import TestAPI
 
-extension Deprecated: FishyJoesNodeRuntime.NodeConverter {
+extension Deprecations: FishyJoesNodeRuntime.NodeConverter {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
         guard let nonNilPointer = try env.unwrap(value) else {
-            throw JSException(message: "expected Deprecated, got nil")
+            throw JSException(message: "expected Deprecations, got nil")
         }
-        return try Box<Deprecated>.takeUnretainedOpaque(nonNilPointer).value
+        return try Box<Deprecations>.takeUnretainedOpaque(nonNilPointer).value
     }
 
     public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
@@ -25,13 +25,13 @@ extension Deprecated: FishyJoesNodeRuntime.NodeConverter {
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let nodeClass = try NodeClass(
             env: env,
-            name: "Deprecated",
+            name: "Deprecations",
             properties: [
                 "deprecatedMethod": (
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "deprecatedMethod", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
-                                Deprecated.deprecatedMethod(
+                                Deprecations.deprecatedMethod(
                                 ),
                                 env: env.env
                             )
@@ -44,7 +44,7 @@ extension Deprecated: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "deprecatedVariable", expectedArgumentCount: 0) { env in
-                                try Int.toNode(Deprecated.deprecatedVariable, env: env.env)
+                                try Int.toNode(Deprecations.deprecatedVariable, env: env.env)
                             }
                         },
                         setter: nil
@@ -53,15 +53,15 @@ extension Deprecated: FishyJoesNodeRuntime.NodeConverter {
                 ),
             ],
             constructor: { env, info in
-                FishyJoesNodeRuntime.callbackBody(env, info, name: "Deprecated_constructor", expectedArgumentCount: 1) { env in
-                    try FishyJoesNodeRuntime.Box<Deprecated>.construct(env: env)
+                FishyJoesNodeRuntime.callbackBody(env, info, name: "Deprecations_constructor", expectedArgumentCount: 1) { env in
+                    try FishyJoesNodeRuntime.Box<Deprecations>.construct(env: env)
                 }
             }
         )
         try FishyJoesNodeRuntime.mergeDefinitionInto(
             env: env,
             module: module,
-            path: "Deprecated",
+            path: "Deprecations",
             nodeClass: nodeClass.constructor.value(env: env)
         )
     }
