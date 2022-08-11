@@ -11,7 +11,7 @@ namespace TestAPI {
         
         /*  Methods  */
         public:
-        /// <!-- FishyJoes.export(echoDefaults, cSharp: TheBytes) -->
+        /// <!-- FishyJoes.export(echoDefaults) -->
         static std::string echoDefaults(const std::optional<int> &y = nil, const std::optional<int> &x, const double &z = 3.14);
         
         

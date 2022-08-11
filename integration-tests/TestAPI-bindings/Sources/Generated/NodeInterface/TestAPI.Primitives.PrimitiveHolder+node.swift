@@ -1,6 +1,6 @@
 // Generated using Sourcery 1.8.1 — https://github.com/krzysztofzablocki/Sourcery
 // DO NOT EDIT
-// swiftlint:disable superfluous_disable_command unused_closure_parameter syntactic_sugar
+// swiftlint:disable superfluous_disable_command unused_closure_parameter syntactic_sugar attributes
 import FishyJoesNodeRuntime
 import Foundation
 import TestAPI
@@ -150,6 +150,7 @@ extension TestAPI.Primitives.PrimitiveHolder: NodeMutator {
         try env.setNamedProperty(this, "d", Double.toNode(value.d, env: env))
         try env.setNamedProperty(this, "dq", OptionalConverter<Double>.toNode(value.dq, env: env))
     }
+    @available(*, deprecated, message: "Not actually deprecated, but this silences warnings because it may refer to deprecated methods")
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let nodeClass = try NodeClass(
             env: env,

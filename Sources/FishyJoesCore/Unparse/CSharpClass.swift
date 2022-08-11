@@ -19,6 +19,7 @@ class CSharpClass: NestedClass {
         let mangledName: String
         let parameters: [(labelComment: String?, name: String, type: CSType, defaultValue: String?)]
         let returnType: CSType
+        let deprecation: Deprecation?
         let body: [String]?
     }
 
@@ -31,6 +32,7 @@ class CSharpClass: NestedClass {
         let name: String
         let mangledName: String
         let type: CSType
+        let deprecation: Deprecation?
     }
 
     let module: Module
@@ -95,7 +97,7 @@ class CSharpClass: NestedClass {
             if !field.isStatic {
                 fragment.output("using var thisHandle = new GCRef(this);")
             }
-            fragment.outputBlock("return Check((out CreatedRef exn) => ", closeWith: ");") {
+            fragment.outputBlock("return Check((out CreatedRef exn) =>", closeWith: ");") {
                 if field.type.isObject {
                     fragment.output("__cs_get_\(field.mangledName)(\(selfArg)out exn).Consume<\(field.type.name)>()")
                 } else {
@@ -115,22 +117,31 @@ class CSharpClass: NestedClass {
             } else {
                 valueValue = "value"
             }
-            fragment.outputBlock("Check((out CreatedRef exn) => ", closeWith: ");") {
+            fragment.outputBlock("Check((out CreatedRef exn) =>", closeWith: ");") {
                 fragment.output("__cs_set_\(field.mangledName)(\(selfArg)\(valueValue), out exn)")
             }
         }
 
+        func outputAttributes() {
+            if let deprecation = field.deprecation {
+                fragment.output("[Obsolete(\"\(deprecation.quotedMessage)\")]")
+            }
+        }
+
         if field.asMethod {
+            outputAttributes()
             fragment.output("public \(field.isOverride ? "override " : "")\(field.isStatic ? "static " : "")", newLineTerminated: false)
             fragment.outputBlock("\(field.type.name) Get\(field.name)() {") {
                 outputGetterBody()
             }
             if !field.readOnly {
+                outputAttributes()
                 fragment.outputBlock("void Set\(field.name)(\(field.type.name) value) {") {
                     outputSetterBody()
                 }
             }
         } else {
+            outputAttributes()
             fragment.output("public \(field.isOverride ? "override " : "")\(field.isStatic ? "static " : "")", newLineTerminated: false)
             fragment.outputBlock("\(field.type.name) \(field.name) {") {
                 fragment.outputBlock("get {") {
@@ -156,8 +167,11 @@ class CSharpClass: NestedClass {
     }
 
     func output(method: Method, to fragment: SourceFragment) {
-        document(method.documentation, fragment: fragment)
         if !method.name.hasPrefix("_") {
+            document(method.documentation, fragment: fragment)
+            if let deprecation = method.deprecation {
+                fragment.output("[Obsolete(\"\(deprecation.quotedMessage)\")]")
+            }
             fragment.output("public \(method.isOverride ? "override " : "")\(method.isStatic ? "static " : "")", newLineTerminated: false)
             fragment.outputBlock("\(method.returnType.name) \(method.name)(", newLineTerminated: false) {
                 // put all optional parameters at the end, or C# gets unhappy

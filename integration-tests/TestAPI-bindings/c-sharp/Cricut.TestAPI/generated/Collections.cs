@@ -16,7 +16,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static System.Collections.Generic.IList<nint> ArrayOfInt {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Collections_ArrayOfInt(out exn).Consume<System.Collections.Generic.IList<nint>>()
                 );
             }
@@ -30,7 +30,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static System.Collections.Generic.ISet<nint> SetOfInt {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Collections_SetOfInt(out exn).Consume<System.Collections.Generic.ISet<nint>>()
                 );
             }
@@ -44,7 +44,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static System.Collections.Generic.IDictionary<nint, nint> DictionaryOfIntToInt {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Collections_DictionaryOfIntToInt(out exn).Consume<System.Collections.Generic.IDictionary<nint, nint>>()
                 );
             }
@@ -58,7 +58,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static System.Collections.Generic.IList<nint>? MaybeArrayOfInt {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Collections_MaybeArrayOfInt(out exn).Consume<System.Collections.Generic.IList<nint>?>()
                 );
             }
@@ -72,7 +72,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static System.Collections.Generic.ISet<nint>? MaybeSetOfInt {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Collections_MaybeSetOfInt(out exn).Consume<System.Collections.Generic.ISet<nint>?>()
                 );
             }
@@ -86,7 +86,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static System.Collections.Generic.IDictionary<nint, nint>? MaybeDictionaryOfIntToInt {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Collections_MaybeDictionaryOfIntToInt(out exn).Consume<System.Collections.Generic.IDictionary<nint, nint>?>()
                 );
             }
@@ -100,7 +100,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static System.Collections.Generic.IList<nint?>? MaybeArrayOfMaybeInt {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Collections_MaybeArrayOfMaybeInt(out exn).Consume<System.Collections.Generic.IList<nint?>?>()
                 );
             }
@@ -114,7 +114,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static System.Collections.Generic.ISet<nint?>? MaybeSetOfMaybeInt {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Collections_MaybeSetOfMaybeInt(out exn).Consume<System.Collections.Generic.ISet<nint?>?>()
                 );
             }
@@ -128,7 +128,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static System.Collections.Generic.IDictionary<nint, nint?>? MaybeDictionaryOfIntToMaybeInt {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Collections_MaybeDictionaryOfIntToMaybeInt(out exn).Consume<System.Collections.Generic.IDictionary<nint, nint?>?>()
                 );
             }
@@ -142,7 +142,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static Cricut.TestAPI.Collections.CollectionHolder DefaultCollectionHolder {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Collections_DefaultCollectionHolder(out exn).Consume<Cricut.TestAPI.Collections.CollectionHolder>()
                 );
             }
@@ -307,7 +307,7 @@ namespace Cricut.TestAPI {
             /// </summary>
             public static System.Collections.Generic.IList<nint?> StaticPropery {
                 get {
-                    return Check((out CreatedRef exn) => 
+                    return Check((out CreatedRef exn) =>
                         __cs_get_Collections_CollectionHolder_StaticPropery(out exn).Consume<System.Collections.Generic.IList<nint?>>()
                     );
                 }
@@ -321,13 +321,13 @@ namespace Cricut.TestAPI {
             /// </summary>
             public static System.Collections.Generic.IList<nint?> StaticMutablePropery {
                 get {
-                    return Check((out CreatedRef exn) => 
+                    return Check((out CreatedRef exn) =>
                         __cs_get_Collections_CollectionHolder_StaticMutablePropery(out exn).Consume<System.Collections.Generic.IList<nint?>>()
                     );
                 }
                 set {
                     using var valueHandle = new GCRef(value);
-                    Check((out CreatedRef exn) => 
+                    Check((out CreatedRef exn) =>
                         __cs_set_Collections_CollectionHolder_StaticMutablePropery(valueHandle.ptr, out exn)
                     );
                 }

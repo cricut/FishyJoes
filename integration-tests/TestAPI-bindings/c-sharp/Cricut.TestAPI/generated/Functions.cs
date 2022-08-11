@@ -16,7 +16,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static System.Func<nint> Const42 {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Functions_Const42(out exn).Consume<System.Func<nint>>()
                 );
             }
@@ -30,7 +30,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static System.Func<nint, nint> Abs {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Functions_Abs(out exn).Consume<System.Func<nint, nint>>()
                 );
             }
@@ -44,7 +44,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static System.Func<System.Func<nint, nint>, System.Func<nint, nint>, System.Func<nint, nint>> IntCompose {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Functions_IntCompose(out exn).Consume<System.Func<System.Func<nint, nint>, System.Func<nint, nint>, System.Func<nint, nint>>>()
                 );
             }
@@ -58,7 +58,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static System.Func<float, double, nint, double> Add3Things {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Functions_Add3Things(out exn).Consume<System.Func<float, double, nint, double>>()
                 );
             }
@@ -72,7 +72,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static System.Func<string, string, string, string, System.Collections.Generic.IList<string>> MakeList {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Functions_MakeList(out exn).Consume<System.Func<string, string, string, string, System.Collections.Generic.IList<string>>>()
                 );
             }
@@ -86,7 +86,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static System.Func<string, nint, double, string, System.Func<nint>, System.Func<nint>> FifthThing {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Functions_FifthThing(out exn).Consume<System.Func<string, nint, double, string, System.Func<nint>, System.Func<nint>>>()
                 );
             }
@@ -100,7 +100,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static System.Func<string, nint, double, string, System.Func<nint>, nint, nint> SixthThing {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Functions_SixthThing(out exn).Consume<System.Func<string, nint, double, string, System.Func<nint>, nint, nint>>()
                 );
             }

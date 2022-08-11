@@ -16,7 +16,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static string Simple {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Strings_Simple(out exn).Consume<string>()
                 );
             }
@@ -30,7 +30,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static string Accent {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Strings_Accent(out exn).Consume<string>()
                 );
             }
@@ -44,7 +44,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static string Script {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Strings_Script(out exn).Consume<string>()
                 );
             }
@@ -58,7 +58,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static string Chinese {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Strings_Chinese(out exn).Consume<string>()
                 );
             }
@@ -72,7 +72,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static string ChineseBMP {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Strings_ChineseBMP(out exn).Consume<string>()
                 );
             }
@@ -86,7 +86,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static string ChineseSIP {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Strings_ChineseSIP(out exn).Consume<string>()
                 );
             }
@@ -100,7 +100,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static string Emoji {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Strings_Emoji(out exn).Consume<string>()
                 );
             }
@@ -114,7 +114,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static string EmojiMulti {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Strings_EmojiMulti(out exn).Consume<string>()
                 );
             }

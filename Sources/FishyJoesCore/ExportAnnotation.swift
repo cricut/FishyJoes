@@ -219,7 +219,7 @@ extension Documented {
                           case .token(let generic) = parts[0],
                           case .colon = parts[1]
                     else {
-                        fatalErr("invalid omitParameters in \(docLine). Expected [type: substitute, ...]")
+                        fatalErr("invalid generic in \(docLine). Expected [type: substitute, ...]")
                     }
                     genericOverrides[generic] = parts[2].asType
                 }

@@ -1,6 +1,6 @@
 // Generated using Sourcery 1.8.1 — https://github.com/krzysztofzablocki/Sourcery
 // DO NOT EDIT
-// swiftlint:disable superfluous_disable_command unused_closure_parameter syntactic_sugar
+// swiftlint:disable superfluous_disable_command unused_closure_parameter syntactic_sugar attributes
 import FishyJoesCSharpRuntime
 import Foundation
 import TestAPI

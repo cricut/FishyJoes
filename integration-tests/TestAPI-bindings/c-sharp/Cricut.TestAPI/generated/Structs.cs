@@ -23,14 +23,14 @@ namespace Cricut.TestAPI {
             public string Immutable {
                 get {
                     using var thisHandle = new GCRef(this);
-                    return Check((out CreatedRef exn) => 
+                    return Check((out CreatedRef exn) =>
                         __cs_get_Structs_ReferenceStruct_Immutable(thisHandle.ptr, out exn).Consume<string>()
                     );
                 }
                 set {
                     using var thisHandle = new GCRef(this);
                     using var valueHandle = new GCRef(value);
-                    Check((out CreatedRef exn) => 
+                    Check((out CreatedRef exn) =>
                         __cs_set_Structs_ReferenceStruct_Immutable(thisHandle.ptr, valueHandle.ptr, out exn)
                     );
                 }
@@ -48,14 +48,14 @@ namespace Cricut.TestAPI {
             public string Mutable {
                 get {
                     using var thisHandle = new GCRef(this);
-                    return Check((out CreatedRef exn) => 
+                    return Check((out CreatedRef exn) =>
                         __cs_get_Structs_ReferenceStruct_Mutable(thisHandle.ptr, out exn).Consume<string>()
                     );
                 }
                 set {
                     using var thisHandle = new GCRef(this);
                     using var valueHandle = new GCRef(value);
-                    Check((out CreatedRef exn) => 
+                    Check((out CreatedRef exn) =>
                         __cs_set_Structs_ReferenceStruct_Mutable(thisHandle.ptr, valueHandle.ptr, out exn)
                     );
                 }

@@ -184,7 +184,7 @@ export declare namespace TestAPI {
         private _inhibitStructuralTyping: any
 
         /**
-         * <!-- FishyJoes.export(echoDefaults, cSharp: TheBytes) -->
+         * <!-- FishyJoes.export(echoDefaults) -->
          */
         static echoDefaults(
             x: Optional<number>,
@@ -192,6 +192,27 @@ export declare namespace TestAPI {
                 "y"?: Optional<number>,
                 "z"?: number,
             }
+        ): string;
+    }
+
+    /**
+     * <!-- FishyJoes.exportReference(Deprecations) -->
+     */
+    export class Deprecations {
+        private constructor()
+        private _inhibitStructuralTyping: any
+
+        /**
+         * <!-- FishyJoes.export(deprecatedVariable) -->
+         * @deprecated replace with `deprecatedMethod` ( <-- swift name, sorry )
+         */
+        static readonly deprecatedVariable: number;
+
+        /**
+         * <!-- FishyJoes.export(deprecatedMethod) -->
+         * @deprecated don't use this
+         */
+        static deprecatedMethod(
         ): string;
     }
 

@@ -185,6 +185,7 @@ struct NodeTranslator: Translator {
         // To statically link 2 or more FishyJoes modules together (WASM currently does this) the unique name is needed.
         // Then, the standard name must be redefined to call each of the unique names of the linked modules.
         nodeTypeListFragment.output("#if !os(WASI)")
+        nodeTypeListFragment.output("@available(*, deprecated, message: \"Not actually deprecated, but this silences warnings because it may refer to deprecated methods\")")
         nodeTypeListFragment.output("@_cdecl(\"napi_register_module_v1\")")
         nodeTypeListFragment.outputBlock("public func napi_register_module_v1(env: napi_env, exports: napi_value) -> napi_value? {") {
             nodeTypeListFragment.output("let env = NAPI.Env(ptr: env)")
@@ -196,6 +197,7 @@ struct NodeTranslator: Translator {
         nodeTypeListFragment.output("#endif")
         nodeTypeListFragment.blankLine()
 
+        nodeTypeListFragment.output("@available(*, deprecated, message: \"Not actually deprecated, but this silences warnings because it may refer to deprecated methods\")")
         nodeTypeListFragment.outputBlock("public func registerModule\(context.module)(env: NAPI.Env, exports: NAPI.Value) throws -> NAPI.Value {") {
             nodeTypeListFragment.output("let module = try env.createObject()")
             nodeTypeListFragment.output("try env.setNamedProperty(exports, \"\(context.module)\", module)")
@@ -247,7 +249,7 @@ struct NodeTranslator: Translator {
         }
 
         return TypeScriptAnnotations.Method(
-            documentation: method.documentation,
+            documentation: method.documentation + (method.deprecation.map { ["@deprecated \($0.message)"] } ?? []),
             isStatic: method.isStatic,
             name: exportAnnotation.name,
             parameters: parameters,
@@ -270,7 +272,7 @@ struct NodeTranslator: Translator {
         }
 
         return TypeScriptAnnotations.Variable(
-            documentation: field.documentation,
+            documentation: field.documentation + (field.deprecation.map { ["@deprecated \($0.message)"] } ?? []),
             readOnly: !field.isMutable,
             isStatic: field.isStatic,
             name: name,

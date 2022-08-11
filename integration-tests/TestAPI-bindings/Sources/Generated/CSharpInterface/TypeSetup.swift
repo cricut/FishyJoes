@@ -1,6 +1,6 @@
 // Generated using Sourcery 1.8.1 — https://github.com/krzysztofzablocki/Sourcery
 // DO NOT EDIT
-// swiftlint:disable superfluous_disable_command unused_closure_parameter syntactic_sugar
+// swiftlint:disable superfluous_disable_command unused_closure_parameter syntactic_sugar attributes
 import FishyJoesCSharpRuntime
 import Foundation
 import TestAPI
@@ -53,6 +53,7 @@ public func FishyJoes_TestAPI_registerTypes() {
     Env.registerType(Collections.CollectionHolder.self, as: "Collections.CollectionHolder")
     Env.registerType(Foundation.Data.self, as: "Foundation.Data")
     Env.registerType(DefaultArguments.self, as: "DefaultArguments")
+    Env.registerType(Deprecations.self, as: "Deprecations")
     Env.registerType(DictionaryConverter<Bool, Bool>.self, as: "DictionaryConverter<Bool, Bool>")
     Env.registerType(DictionaryConverter<Int, Int>.self, as: "DictionaryConverter<Int, Int>")
     Env.registerType(DictionaryConverter<Int, OptionalConverter<Int>>.self, as: "DictionaryConverter<Int, OptionalConverter<Int>>")

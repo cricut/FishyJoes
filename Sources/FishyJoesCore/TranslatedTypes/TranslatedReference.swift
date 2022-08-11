@@ -126,6 +126,8 @@ struct TranslatedReference: TranslatedType {
                 }
                 fragment.output("return try Box<\(sourceType.name)>.takeUnretainedOpaque(nonNilPointer).value")
             }
+            fragment.blankLine()
+
             fragment.outputBlock("public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {") {
                 guard isInhabited else {
                     fragment.output("// Uninhabited")
@@ -135,6 +137,8 @@ struct TranslatedReference: TranslatedType {
                 fragment.output("let arg = try FishyJoesNodeRuntime.Box(value).retainedExternal(env: env)")
                 fragment.output("return try env.newInstance(constructor, [arg])")
             }
+            fragment.blankLine()
+
             fragment.outputBlock("public static func mutateNode(_ value: Self, this: NAPI.Value, env: NAPI.Env) throws {") {
                 guard isInhabited else {
                     fragment.output("// Uninhabited")
@@ -145,6 +149,9 @@ struct TranslatedReference: TranslatedType {
                 }
                 fragment.output("try Box<\(sourceType.name)>.takeUnretainedOpaque(pointer).value = value")
             }
+            fragment.blankLine()
+
+            fragment.output("@available(*, deprecated, message: \"Not actually deprecated, but this silences warnings because it may refer to deprecated methods\")")
             fragment.outputBlock("public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {") {
                 // fragment.output("print(\"setting up \(sourceType.name)\")")
 
@@ -292,6 +299,7 @@ struct TranslatedReference: TranslatedType {
                             (labelComment: nil, name: "rhs", type: kotlinType, defaultValue: nil),
                         ],
                         returnType: .named(package: nil, name: "Boolean"),
+                        deprecation: nil,
                         body: nil
                     )
                 )
@@ -307,6 +315,7 @@ struct TranslatedReference: TranslatedType {
                             (labelComment: nil, name: "other", type: .optional(.named(package: nil, name: "Any")), defaultValue: nil),
                         ],
                         returnType: .named(package: nil, name: "Boolean"),
+                        deprecation: nil,
                         body: "(other is \(kotlinType.kotlinType)) && __jni_swiftEquals(this, other)"
                     )
                 )
@@ -322,6 +331,7 @@ struct TranslatedReference: TranslatedType {
                         name: "hashCode",
                         parameters: [],
                         returnType: .named(package: nil, name: "Int"),
+                        deprecation: nil,
                         body: nil
                     )
                 )
@@ -434,6 +444,7 @@ struct TranslatedReference: TranslatedType {
                             (labelComment: nil, name: "other", type: .optional(.named(package: nil, name: "object")), defaultValue: nil),
                         ],
                         returnType: .primitive("bool"),
+                        deprecation: nil,
                         body: [
                             "using var thisHandle = new GCRef(this);",
                             "using var otherHandle = new GCRef(other as \(cSharpType.name));",
@@ -455,6 +466,7 @@ struct TranslatedReference: TranslatedType {
                             (labelComment: nil, name: "rhs", type: .optional(cSharpType), nil),
                         ],
                         returnType: .primitive("bool"),
+                        deprecation: nil,
                         body: nil
                     )
                 )
@@ -471,6 +483,7 @@ struct TranslatedReference: TranslatedType {
                         mangledName: "\(sourceType.name.mangled)_hash",
                         parameters: [],
                         returnType: .primitive("int"),
+                        deprecation: nil,
                         body: nil
                     )
                 )

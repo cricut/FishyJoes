@@ -3,6 +3,7 @@
 #include "Bytes.hpp"
 #include "Collections.hpp"
 #include "DefaultArguments.hpp"
+#include "Deprecations.hpp"
 #include "EmptyEnum.hpp"
 #include "Functions.hpp"
 #include "Primitives.hpp"

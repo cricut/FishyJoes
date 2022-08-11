@@ -16,7 +16,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static bool FalseBool {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Primitives_FalseBool(out exn)
                 );
             }
@@ -30,7 +30,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static bool TrueBool {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Primitives_TrueBool(out exn)
                 );
             }
@@ -44,7 +44,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static byte ZeroUInt8 {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Primitives_ZeroUInt8(out exn)
                 );
             }
@@ -58,7 +58,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static byte MinUInt8 {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Primitives_MinUInt8(out exn)
                 );
             }
@@ -72,7 +72,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static byte MaxUInt8 {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Primitives_MaxUInt8(out exn)
                 );
             }
@@ -86,7 +86,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static ushort ZeroUInt16 {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Primitives_ZeroUInt16(out exn)
                 );
             }
@@ -100,7 +100,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static ushort MinUInt16 {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Primitives_MinUInt16(out exn)
                 );
             }
@@ -114,7 +114,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static ushort MaxUInt16 {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Primitives_MaxUInt16(out exn)
                 );
             }
@@ -128,7 +128,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static uint ZeroUInt32 {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Primitives_ZeroUInt32(out exn)
                 );
             }
@@ -142,7 +142,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static uint MinUInt32 {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Primitives_MinUInt32(out exn)
                 );
             }
@@ -156,7 +156,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static uint MaxUInt32 {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Primitives_MaxUInt32(out exn)
                 );
             }
@@ -170,7 +170,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static ulong ZeroUInt64 {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Primitives_ZeroUInt64(out exn)
                 );
             }
@@ -184,7 +184,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static ulong MinUInt64 {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Primitives_MinUInt64(out exn)
                 );
             }
@@ -198,7 +198,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static ulong MaxUInt64 {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Primitives_MaxUInt64(out exn)
                 );
             }
@@ -212,7 +212,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static sbyte ZeroInt8 {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Primitives_ZeroInt8(out exn)
                 );
             }
@@ -226,7 +226,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static sbyte MinInt8 {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Primitives_MinInt8(out exn)
                 );
             }
@@ -240,7 +240,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static sbyte MaxInt8 {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Primitives_MaxInt8(out exn)
                 );
             }
@@ -254,7 +254,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static short ZeroInt16 {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Primitives_ZeroInt16(out exn)
                 );
             }
@@ -268,7 +268,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static short MinInt16 {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Primitives_MinInt16(out exn)
                 );
             }
@@ -282,7 +282,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static short MaxInt16 {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Primitives_MaxInt16(out exn)
                 );
             }
@@ -296,7 +296,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static int ZeroInt32 {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Primitives_ZeroInt32(out exn)
                 );
             }
@@ -310,7 +310,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static int MinInt32 {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Primitives_MinInt32(out exn)
                 );
             }
@@ -324,7 +324,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static int MaxInt32 {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Primitives_MaxInt32(out exn)
                 );
             }
@@ -338,7 +338,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static long ZeroInt64 {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Primitives_ZeroInt64(out exn)
                 );
             }
@@ -352,7 +352,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static long MinInt64 {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Primitives_MinInt64(out exn)
                 );
             }
@@ -366,7 +366,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static long MaxInt64 {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Primitives_MaxInt64(out exn)
                 );
             }
@@ -380,7 +380,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static nint ZeroInt {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Primitives_ZeroInt(out exn)
                 );
             }
@@ -394,7 +394,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static nint MinInt {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Primitives_MinInt(out exn)
                 );
             }
@@ -408,7 +408,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static nint MaxInt {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Primitives_MaxInt(out exn)
                 );
             }
@@ -422,7 +422,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static float ZeroFloat {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Primitives_ZeroFloat(out exn)
                 );
             }
@@ -436,7 +436,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static float MinFloat {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Primitives_MinFloat(out exn)
                 );
             }
@@ -450,7 +450,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static float MaxFloat {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Primitives_MaxFloat(out exn)
                 );
             }
@@ -464,7 +464,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static double ZeroDouble {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Primitives_ZeroDouble(out exn)
                 );
             }
@@ -478,7 +478,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static double MinDouble {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Primitives_MinDouble(out exn)
                 );
             }
@@ -492,7 +492,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static double MaxDouble {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Primitives_MaxDouble(out exn)
                 );
             }
@@ -506,7 +506,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static System.Collections.Generic.IList<bool> ManyBool {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Primitives_ManyBool(out exn).Consume<System.Collections.Generic.IList<bool>>()
                 );
             }
@@ -520,7 +520,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static System.Collections.Generic.IList<byte> ManyUInt8 {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Primitives_ManyUInt8(out exn).Consume<System.Collections.Generic.IList<byte>>()
                 );
             }
@@ -534,7 +534,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static System.Collections.Generic.IList<ushort> ManyUInt16 {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Primitives_ManyUInt16(out exn).Consume<System.Collections.Generic.IList<ushort>>()
                 );
             }
@@ -548,7 +548,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static System.Collections.Generic.IList<uint> ManyUInt32 {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Primitives_ManyUInt32(out exn).Consume<System.Collections.Generic.IList<uint>>()
                 );
             }
@@ -562,7 +562,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static System.Collections.Generic.IList<ulong> ManyUInt64 {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Primitives_ManyUInt64(out exn).Consume<System.Collections.Generic.IList<ulong>>()
                 );
             }
@@ -576,7 +576,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static System.Collections.Generic.IList<sbyte> ManyInt8 {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Primitives_ManyInt8(out exn).Consume<System.Collections.Generic.IList<sbyte>>()
                 );
             }
@@ -590,7 +590,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static System.Collections.Generic.IList<short> ManyInt16 {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Primitives_ManyInt16(out exn).Consume<System.Collections.Generic.IList<short>>()
                 );
             }
@@ -604,7 +604,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static System.Collections.Generic.IList<int> ManyInt32 {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Primitives_ManyInt32(out exn).Consume<System.Collections.Generic.IList<int>>()
                 );
             }
@@ -618,7 +618,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static System.Collections.Generic.IList<long> ManyInt64 {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Primitives_ManyInt64(out exn).Consume<System.Collections.Generic.IList<long>>()
                 );
             }
@@ -632,7 +632,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static System.Collections.Generic.IList<float> ManyFloat {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Primitives_ManyFloat(out exn).Consume<System.Collections.Generic.IList<float>>()
                 );
             }
@@ -646,7 +646,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static System.Collections.Generic.IList<double> ManyDouble {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Primitives_ManyDouble(out exn).Consume<System.Collections.Generic.IList<double>>()
                 );
             }
@@ -660,7 +660,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static System.Collections.Generic.IList<bool?> ManyMaybeBool {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Primitives_ManyMaybeBool(out exn).Consume<System.Collections.Generic.IList<bool?>>()
                 );
             }
@@ -674,7 +674,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static System.Collections.Generic.IList<byte?> ManyMaybeUInt8 {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Primitives_ManyMaybeUInt8(out exn).Consume<System.Collections.Generic.IList<byte?>>()
                 );
             }
@@ -688,7 +688,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static System.Collections.Generic.IList<ushort?> ManyMaybeUInt16 {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Primitives_ManyMaybeUInt16(out exn).Consume<System.Collections.Generic.IList<ushort?>>()
                 );
             }
@@ -702,7 +702,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static System.Collections.Generic.IList<uint?> ManyMaybeUInt32 {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Primitives_ManyMaybeUInt32(out exn).Consume<System.Collections.Generic.IList<uint?>>()
                 );
             }
@@ -716,7 +716,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static System.Collections.Generic.IList<ulong?> ManyMaybeUInt64 {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Primitives_ManyMaybeUInt64(out exn).Consume<System.Collections.Generic.IList<ulong?>>()
                 );
             }
@@ -730,7 +730,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static System.Collections.Generic.IList<sbyte?> ManyMaybeInt8 {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Primitives_ManyMaybeInt8(out exn).Consume<System.Collections.Generic.IList<sbyte?>>()
                 );
             }
@@ -744,7 +744,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static System.Collections.Generic.IList<short?> ManyMaybeInt16 {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Primitives_ManyMaybeInt16(out exn).Consume<System.Collections.Generic.IList<short?>>()
                 );
             }
@@ -758,7 +758,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static System.Collections.Generic.IList<int?> ManyMaybeInt32 {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Primitives_ManyMaybeInt32(out exn).Consume<System.Collections.Generic.IList<int?>>()
                 );
             }
@@ -772,7 +772,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static System.Collections.Generic.IList<long?> ManyMaybeInt64 {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Primitives_ManyMaybeInt64(out exn).Consume<System.Collections.Generic.IList<long?>>()
                 );
             }
@@ -786,7 +786,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static System.Collections.Generic.IList<float?> ManyMaybeFloat {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Primitives_ManyMaybeFloat(out exn).Consume<System.Collections.Generic.IList<float?>>()
                 );
             }
@@ -800,7 +800,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static System.Collections.Generic.IList<double?> ManyMaybeDouble {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Primitives_ManyMaybeDouble(out exn).Consume<System.Collections.Generic.IList<double?>>()
                 );
             }
@@ -814,7 +814,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static Cricut.TestAPI.Primitives.PrimitiveHolder DefaultPrimitiveHolder {
             get {
-                return Check((out CreatedRef exn) => 
+                return Check((out CreatedRef exn) =>
                     __cs_get_Primitives_DefaultPrimitiveHolder(out exn).Consume<Cricut.TestAPI.Primitives.PrimitiveHolder>()
                 );
             }
@@ -1263,7 +1263,7 @@ namespace Cricut.TestAPI {
             /// </summary>
             public static System.Collections.Generic.IList<byte?> StaticPropery {
                 get {
-                    return Check((out CreatedRef exn) => 
+                    return Check((out CreatedRef exn) =>
                         __cs_get_Primitives_PrimitiveHolder_StaticPropery(out exn).Consume<System.Collections.Generic.IList<byte?>>()
                     );
                 }
@@ -1277,13 +1277,13 @@ namespace Cricut.TestAPI {
             /// </summary>
             public static System.Collections.Generic.IList<byte?> StaticMutablePropery {
                 get {
-                    return Check((out CreatedRef exn) => 
+                    return Check((out CreatedRef exn) =>
                         __cs_get_Primitives_PrimitiveHolder_StaticMutablePropery(out exn).Consume<System.Collections.Generic.IList<byte?>>()
                     );
                 }
                 set {
                     using var valueHandle = new GCRef(value);
-                    Check((out CreatedRef exn) => 
+                    Check((out CreatedRef exn) =>
                         __cs_set_Primitives_PrimitiveHolder_StaticMutablePropery(valueHandle.ptr, out exn)
                     );
                 }

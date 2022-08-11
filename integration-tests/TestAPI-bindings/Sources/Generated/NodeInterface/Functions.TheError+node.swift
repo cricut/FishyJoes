@@ -1,6 +1,6 @@
 // Generated using Sourcery 1.8.1 — https://github.com/krzysztofzablocki/Sourcery
 // DO NOT EDIT
-// swiftlint:disable superfluous_disable_command unused_closure_parameter syntactic_sugar
+// swiftlint:disable superfluous_disable_command unused_closure_parameter syntactic_sugar attributes
 import FishyJoesNodeRuntime
 import Foundation
 import TestAPI
@@ -12,17 +12,21 @@ extension Functions.TheError: FishyJoesNodeRuntime.NodeConverter {
         }
         return try Box<Functions.TheError>.takeUnretainedOpaque(nonNilPointer).value
     }
+
     public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
         let constructor = try FishyJoesNodeRuntime.InstanceData.data(for: env).constructor(for: "Functions.TheError", env: env)
         let arg = try FishyJoesNodeRuntime.Box(value).retainedExternal(env: env)
         return try env.newInstance(constructor, [arg])
     }
+
     public static func mutateNode(_ value: Self, this: NAPI.Value, env: NAPI.Env) throws {
         guard let pointer = try env.unwrap(this) else {
             throw JSException(message: "expected Functions.TheError, got nil")
         }
         try Box<Functions.TheError>.takeUnretainedOpaque(pointer).value = value
     }
+
+    @available(*, deprecated, message: "Not actually deprecated, but this silences warnings because it may refer to deprecated methods")
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let nodeClass = try NodeClass(
             env: env,

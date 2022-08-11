@@ -127,6 +127,12 @@ namespace Cricut.TestAPI {
         );
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_Deprecations_setup(
+            SwiftReference.ConstructorDelegate constructorMethod,
+            out CreatedRef _exn
+        );
+
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_EmptyEnum_setup(
             out CreatedRef _exn
         );
@@ -815,6 +821,15 @@ namespace Cricut.TestAPI {
                 Utilities.Check((out CreatedRef exn) => TestAPI_DefaultArguments_setup(
                     bag<SwiftReference.ConstructorDelegate>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
                         return new CreatedRef(new Cricut.TestAPI.DefaultArguments(ptr));
+                    })),
+                    out exn
+                ));
+            });
+            Once("setup_Deprecations", () => {
+                Console.WriteLine("setting up Deprecations...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_Deprecations_setup(
+                    bag<SwiftReference.ConstructorDelegate>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.Deprecations(ptr));
                     })),
                     out exn
                 ));

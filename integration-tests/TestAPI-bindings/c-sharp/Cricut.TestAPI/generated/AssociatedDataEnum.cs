@@ -30,7 +30,7 @@ namespace Cricut.TestAPI {
         /// </summary>
         public nint GetIntValue() {
             using var thisHandle = new GCRef(this);
-            return Check((out CreatedRef exn) => 
+            return Check((out CreatedRef exn) =>
                 __cs_get_AssociatedDataEnum_IntValue(thisHandle.ptr, out exn)
             );
         }

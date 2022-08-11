@@ -1,10 +1,11 @@
 // Generated using Sourcery 1.8.1 — https://github.com/krzysztofzablocki/Sourcery
 // DO NOT EDIT
-// swiftlint:disable superfluous_disable_command unused_closure_parameter syntactic_sugar
+// swiftlint:disable superfluous_disable_command unused_closure_parameter syntactic_sugar attributes
 import FishyJoesJavaRuntime
 import Foundation
 import TestAPI
 
+@available(*, deprecated, message: "Not actually deprecated, but this silences warnings because it may refer to deprecated methods")
 @_cdecl("JNI_OnLoad")
 public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutableRawPointer) -> jint {
     var envRaw: UnsafeMutableRawPointer?
@@ -293,6 +294,20 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_echoDefaults"),
                 signature: bag.add("(Ljava/lang/Long;Ljava/lang/Long;D)Ljava/lang/String;"),
                 fnPtr: unsafeBitCast(java_DefaultArguments_echoDefaults, to: UnsafeMutableRawPointer.self)
+            )
+        )
+        // print("setting up Deprecations...")
+        try Deprecations.javaSetup(env: env)
+        try env.RegisterNatives(Deprecations.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_deprecatedMethod"),
+                signature: bag.add("()Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_Deprecations_deprecatedMethod, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_deprecatedVariable"),
+                signature: bag.add("()J"),
+                fnPtr: unsafeBitCast(java_get_Deprecations_deprecatedVariable, to: UnsafeMutableRawPointer.self)
             )
         )
         // print("setting up Double...")
