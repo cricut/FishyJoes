@@ -2,8 +2,8 @@ import Foundation
 
 // Not exercised per-language, but this will at test that the generator works
 
-/// <!-- FishyJoes.exportReference(Deprecated) -->
-public enum Deprecated {
+/// <!-- FishyJoes.exportReference(Deprecations) -->
+public enum Deprecations {
     @available(*, deprecated, message: "don't use this")
     /// <!-- FishyJoes.export(deprecatedMethod) -->
     public static func deprecatedMethod() -> String {
