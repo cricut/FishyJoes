@@ -7,7 +7,7 @@ class DefaultArguments private constructor(swiftReference: Long): com.cricut.fis
 
     companion object {
         /**
-         * <!-- FishyJoes.export(echoDefaults, cSharp: TheBytes) -->
+         * <!-- FishyJoes.export(echoDefaults) -->
          */
         fun echoDefaults(
             y: Long? = null,

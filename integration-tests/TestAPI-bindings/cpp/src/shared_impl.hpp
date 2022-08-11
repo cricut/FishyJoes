@@ -384,6 +384,14 @@ namespace TestAPI {
                 get_t<decltype(TestAPI::DefaultArguments::_ref)>()
             };
         }
+        inline void put(const TestAPI::Deprecated& obj) {
+            put(obj._ref);
+        }
+        inline TestAPI::Deprecated get(std::in_place_type_t<TestAPI::Deprecated> obj = std::in_place_type_t<TestAPI::Deprecated>{}) {
+            return TestAPI::Deprecated {
+                get_t<decltype(TestAPI::Deprecated::_ref)>()
+            };
+        }
         inline void put(const TestAPI::EmptyEnum& obj) {
             put(obj._variant);
         }

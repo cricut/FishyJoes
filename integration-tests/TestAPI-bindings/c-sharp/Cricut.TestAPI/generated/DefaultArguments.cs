@@ -12,7 +12,7 @@ namespace Cricut.TestAPI {
         internal DefaultArguments(ConsumedRef reference): base(reference) {}
 
         /// <summary>
-        /// <!-- FishyJoes.export(echoDefaults, cSharp: TheBytes) -->
+        /// <!-- FishyJoes.export(echoDefaults) -->
         /// </summary>
         public static string EchoDefaults(
             nint? x,

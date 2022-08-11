@@ -229,6 +229,51 @@
       "converterType" : {
         "named" : {
           "_0" : {
+            "name" : "Deprecated",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cppName" : "Deprecated",
+      "cSharpType" : {
+        "named" : {
+          "name" : "Deprecated",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : false,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/Deprecated"
+        }
+      },
+      "kotlinName" : "Deprecated",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Reference<To=Deprecated>>",
+      "nodeName" : "TestAPI.Deprecated",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "name" : "Deprecated",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
             "name" : "EmptyEnum",
             "namespace" : [
 
@@ -1190,7 +1235,7 @@
             "methods" : [
               {
                 "documentation" : [
-                  "<!-- FishyJoes.export(echoDefaults, cSharp: TheBytes) -->"
+                  "<!-- FishyJoes.export(echoDefaults) -->"
                 ],
                 "isStatic" : true,
                 "name" : "echoDefaults",
@@ -1239,6 +1284,48 @@
               }
             ],
             "name" : "DefaultArguments"
+          },
+          {
+            "constructor" : null,
+            "documentation" : [
+              "<!-- FishyJoes.exportReference(Deprecated) -->"
+            ],
+            "exported" : true,
+            "fields" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(deprecatedVariable) -->",
+                  "@deprecated replace with `deprecatedMethod` ( <-- swift name, sorry )"
+                ],
+                "isStatic" : true,
+                "name" : "deprecatedVariable",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              }
+            ],
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(deprecatedMethod) -->",
+                  "@deprecated don't use this"
+                ],
+                "isStatic" : true,
+                "name" : "deprecatedMethod",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              }
+            ],
+            "name" : "Deprecated"
           },
           {
             "constructor" : null,
