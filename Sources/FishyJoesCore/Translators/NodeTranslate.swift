@@ -197,7 +197,6 @@ struct NodeTranslator: Translator {
         nodeTypeListFragment.output("#endif")
         nodeTypeListFragment.blankLine()
 
-
         nodeTypeListFragment.output("@available(*, deprecated, message: \"Not actually deprecated, but this silences warnings because it may refer to deprecated methods\")")
         nodeTypeListFragment.outputBlock("public func registerModule\(context.module)(env: NAPI.Env, exports: NAPI.Value) throws -> NAPI.Value {") {
             nodeTypeListFragment.output("let module = try env.createObject()")
