@@ -7,23 +7,16 @@ import TestAPI
 
 extension Deprecations: FishyJoesNodeRuntime.NodeConverter {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
-        guard let nonNilPointer = try env.unwrap(value) else {
-            throw JSException(message: "expected Deprecations, got nil")
-        }
-        return try Box<Deprecations>.takeUnretainedOpaque(nonNilPointer).value
+        fatalError("invalid enum for Deprecations")
     }
 
     public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
-        // Uninhabited
-    }
-
-    public static func mutateNode(_ value: Self, this: NAPI.Value, env: NAPI.Env) throws {
-        // Uninhabited
+        // Uninhabited type
     }
 
     @available(*, deprecated, message: "Not actually deprecated, but this silences warnings because it may refer to deprecated methods")
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
-        let nodeClass = try NodeClass(
+        let superclass = try NodeClass(
             env: env,
             name: "Deprecations",
             properties: [
@@ -53,8 +46,12 @@ extension Deprecations: FishyJoesNodeRuntime.NodeConverter {
                 ),
             ],
             constructor: { env, info in
-                FishyJoesNodeRuntime.callbackBody(env, info, name: "Deprecations_constructor", expectedArgumentCount: 1) { env in
-                    try FishyJoesNodeRuntime.Box<Deprecations>.construct(env: env)
+                FishyJoesNodeRuntime.callbackBody(
+                    env, info,
+                    name: "Deprecations_constructor",
+                    expectedArgumentCount: 0
+                ) { env in
+                    return try env.this()
                 }
             }
         )
@@ -62,7 +59,7 @@ extension Deprecations: FishyJoesNodeRuntime.NodeConverter {
             env: env,
             module: module,
             path: "Deprecations",
-            nodeClass: nodeClass.constructor.value(env: env)
+            nodeClass: superclass.constructor.value(env: env)
         )
     }
 }

@@ -5,7 +5,7 @@
 //  Created by Matt Stoker on 12/16/21.
 //
 
-/// <!-- FishyJoes.exportReference(Strings) -->
+/// <!-- FishyJoes.export(Strings) -->
 public enum Strings {
     /// <!-- FishyJoes.export(simple) -->
     public static let simple = "Hello"

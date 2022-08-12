@@ -31,11 +31,47 @@ template <> struct std::hash<TestAPI::AssociatedDataEnum::thing> {
 namespace TestAPI {
     inline bool operator==(const AssociatedDataEnum::thing& lhs, const AssociatedDataEnum::thing& rhs);
 }
+template <> struct std::hash<TestAPI::Bytes> {
+    size_t operator()(const TestAPI::Bytes &obj) const;
+};
+namespace TestAPI {
+    inline bool operator==(const Bytes& lhs, const Bytes& rhs);
+}
+template <> struct std::hash<TestAPI::Collections> {
+    size_t operator()(const TestAPI::Collections &obj) const;
+};
+namespace TestAPI {
+    inline bool operator==(const Collections& lhs, const Collections& rhs);
+}
+template <> struct std::hash<TestAPI::DefaultArguments> {
+    size_t operator()(const TestAPI::DefaultArguments &obj) const;
+};
+namespace TestAPI {
+    inline bool operator==(const DefaultArguments& lhs, const DefaultArguments& rhs);
+}
+template <> struct std::hash<TestAPI::Deprecations> {
+    size_t operator()(const TestAPI::Deprecations &obj) const;
+};
+namespace TestAPI {
+    inline bool operator==(const Deprecations& lhs, const Deprecations& rhs);
+}
 template <> struct std::hash<TestAPI::EmptyEnum> {
     size_t operator()(const TestAPI::EmptyEnum &obj) const;
 };
 namespace TestAPI {
     inline bool operator==(const EmptyEnum& lhs, const EmptyEnum& rhs);
+}
+template <> struct std::hash<TestAPI::Functions> {
+    size_t operator()(const TestAPI::Functions &obj) const;
+};
+namespace TestAPI {
+    inline bool operator==(const Functions& lhs, const Functions& rhs);
+}
+template <> struct std::hash<TestAPI::Primitives> {
+    size_t operator()(const TestAPI::Primitives &obj) const;
+};
+namespace TestAPI {
+    inline bool operator==(const Primitives& lhs, const Primitives& rhs);
 }
 template <> struct std::hash<TestAPI::Primitives::PrimitiveHolder> {
     size_t operator()(const TestAPI::Primitives::PrimitiveHolder &obj) const;
@@ -66,6 +102,18 @@ template <> struct std::hash<TestAPI::SimpleEnum::red> {
 };
 namespace TestAPI {
     inline bool operator==(const SimpleEnum::red& lhs, const SimpleEnum::red& rhs);
+}
+template <> struct std::hash<TestAPI::Strings> {
+    size_t operator()(const TestAPI::Strings &obj) const;
+};
+namespace TestAPI {
+    inline bool operator==(const Strings& lhs, const Strings& rhs);
+}
+template <> struct std::hash<TestAPI::Structs> {
+    size_t operator()(const TestAPI::Structs &obj) const;
+};
+namespace TestAPI {
+    inline bool operator==(const Structs& lhs, const Structs& rhs);
 }
 template <> struct std::hash<TestAPI::Structs::MemberwiseStruct> {
     size_t operator()(const TestAPI::Structs::MemberwiseStruct &obj) const;
@@ -107,7 +155,37 @@ size_t std::hash<TestAPI::AssociatedDataEnum::thing>::operator()(const TestAPI::
     TestAPI::FishyJoesInternal::hashCombine(ret, obj.value);
     return ret;
 }
+size_t std::hash<TestAPI::Bytes>::operator()(const TestAPI::Bytes &obj) const {
+    size_t ret = 0;
+    TestAPI::FishyJoesInternal::hashCombine(ret, obj._variant);
+    return ret;
+}
+size_t std::hash<TestAPI::Collections>::operator()(const TestAPI::Collections &obj) const {
+    size_t ret = 0;
+    TestAPI::FishyJoesInternal::hashCombine(ret, obj._variant);
+    return ret;
+}
+size_t std::hash<TestAPI::DefaultArguments>::operator()(const TestAPI::DefaultArguments &obj) const {
+    size_t ret = 0;
+    TestAPI::FishyJoesInternal::hashCombine(ret, obj._variant);
+    return ret;
+}
+size_t std::hash<TestAPI::Deprecations>::operator()(const TestAPI::Deprecations &obj) const {
+    size_t ret = 0;
+    TestAPI::FishyJoesInternal::hashCombine(ret, obj._variant);
+    return ret;
+}
 size_t std::hash<TestAPI::EmptyEnum>::operator()(const TestAPI::EmptyEnum &obj) const {
+    size_t ret = 0;
+    TestAPI::FishyJoesInternal::hashCombine(ret, obj._variant);
+    return ret;
+}
+size_t std::hash<TestAPI::Functions>::operator()(const TestAPI::Functions &obj) const {
+    size_t ret = 0;
+    TestAPI::FishyJoesInternal::hashCombine(ret, obj._variant);
+    return ret;
+}
+size_t std::hash<TestAPI::Primitives>::operator()(const TestAPI::Primitives &obj) const {
     size_t ret = 0;
     TestAPI::FishyJoesInternal::hashCombine(ret, obj._variant);
     return ret;
@@ -155,6 +233,16 @@ size_t std::hash<TestAPI::SimpleEnum::red>::operator()(const TestAPI::SimpleEnum
     size_t ret = 0;
     return ret;
 }
+size_t std::hash<TestAPI::Strings>::operator()(const TestAPI::Strings &obj) const {
+    size_t ret = 0;
+    TestAPI::FishyJoesInternal::hashCombine(ret, obj._variant);
+    return ret;
+}
+size_t std::hash<TestAPI::Structs>::operator()(const TestAPI::Structs &obj) const {
+    size_t ret = 0;
+    TestAPI::FishyJoesInternal::hashCombine(ret, obj._variant);
+    return ret;
+}
 size_t std::hash<TestAPI::Structs::MemberwiseStruct>::operator()(const TestAPI::Structs::MemberwiseStruct &obj) const {
     size_t ret = 0;
     TestAPI::FishyJoesInternal::hashCombine(ret, obj.immutable);
@@ -192,7 +280,37 @@ namespace TestAPI {
     }
 }
 namespace TestAPI {
+    inline bool operator==(const Bytes& lhs, const Bytes& rhs) {
+        return std::equal_to<std::decay_t<decltype(lhs)>>()(lhs, rhs);
+    }
+}
+namespace TestAPI {
+    inline bool operator==(const Collections& lhs, const Collections& rhs) {
+        return std::equal_to<std::decay_t<decltype(lhs)>>()(lhs, rhs);
+    }
+}
+namespace TestAPI {
+    inline bool operator==(const DefaultArguments& lhs, const DefaultArguments& rhs) {
+        return std::equal_to<std::decay_t<decltype(lhs)>>()(lhs, rhs);
+    }
+}
+namespace TestAPI {
+    inline bool operator==(const Deprecations& lhs, const Deprecations& rhs) {
+        return std::equal_to<std::decay_t<decltype(lhs)>>()(lhs, rhs);
+    }
+}
+namespace TestAPI {
     inline bool operator==(const EmptyEnum& lhs, const EmptyEnum& rhs) {
+        return std::equal_to<std::decay_t<decltype(lhs)>>()(lhs, rhs);
+    }
+}
+namespace TestAPI {
+    inline bool operator==(const Functions& lhs, const Functions& rhs) {
+        return std::equal_to<std::decay_t<decltype(lhs)>>()(lhs, rhs);
+    }
+}
+namespace TestAPI {
+    inline bool operator==(const Primitives& lhs, const Primitives& rhs) {
         return std::equal_to<std::decay_t<decltype(lhs)>>()(lhs, rhs);
     }
 }
@@ -218,6 +336,16 @@ namespace TestAPI {
 }
 namespace TestAPI {
     inline bool operator==(const SimpleEnum::red& lhs, const SimpleEnum::red& rhs) {
+        return std::equal_to<std::decay_t<decltype(lhs)>>()(lhs, rhs);
+    }
+}
+namespace TestAPI {
+    inline bool operator==(const Strings& lhs, const Strings& rhs) {
+        return std::equal_to<std::decay_t<decltype(lhs)>>()(lhs, rhs);
+    }
+}
+namespace TestAPI {
+    inline bool operator==(const Structs& lhs, const Structs& rhs) {
         return std::equal_to<std::decay_t<decltype(lhs)>>()(lhs, rhs);
     }
 }

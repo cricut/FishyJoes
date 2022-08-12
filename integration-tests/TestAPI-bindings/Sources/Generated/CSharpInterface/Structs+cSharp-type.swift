@@ -7,25 +7,14 @@ import TestAPI
 
 @_cdecl("TestAPI_Structs_setup")
 public func TestAPI_Structs_setup(
-    constructorMethod: @escaping @convention(c) (UnsafeMutableRawPointer, _ exn: csOutExn) -> csObject,
-    _ exn: csOutExn
 ) {
-    guard Structs._constructorMethod == nil else { return }
-    Structs._constructorMethod = constructorMethod
 }
 
-extension Structs: CSharpMutator {
-    fileprivate static var _constructorMethod: ((UnsafeMutableRawPointer, _ exn: csOutExn) -> csObject)!
-
+extension Structs: CSharpConverter {
     public static func peekCSharp(_ value: csObject) throws -> Self {
-        try Box<Structs>.peekCSharp(value).value
+        throw UninhabitedTypeCreationError(self)
     }
 
     public static func toCSharp(_ value: Self) throws -> csObject {
-        // Uninhabited type
-    }
-
-    public static func mutateCSharp<R>(_ this: csObject, body: (inout Self) throws -> R) throws -> R {
-        try body(&Box<Structs>.peekCSharp(this).value)
     }
 }

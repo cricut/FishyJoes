@@ -1,9 +1,9 @@
 package com.cricut.testapi
 
 /**
- * <!-- FishyJoes.exportReference(DefaultArguments) -->
+ * <!-- FishyJoes.export(DefaultArguments) -->
  */
-class DefaultArguments private constructor(swiftReference: Long): com.cricut.fishyjoes.runtime.SwiftReference(swiftReference) {
+sealed class DefaultArguments {
 
     companion object {
         /**

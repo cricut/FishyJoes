@@ -1,9 +1,9 @@
 package com.cricut.testapi
 
 /**
- * <!-- FishyJoes.exportReference(Structs) -->
+ * <!-- FishyJoes.export(Structs) -->
  */
-class Structs private constructor(swiftReference: Long): com.cricut.fishyjoes.runtime.SwiftReference(swiftReference) {
+sealed class Structs {
 
     companion object {
         init { loadNativeLibs() }

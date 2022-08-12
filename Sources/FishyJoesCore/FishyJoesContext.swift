@@ -386,12 +386,16 @@ public class FishyJoesContext {
         return resolved
     }
 
-    func ts(method: Method) -> TypeScriptAnnotations.Method? {
-        nodeTranslator.ts(method: method, context: self)
+    func ts(method: Method, explicitThis: Bool = false) -> TypeScriptAnnotations.Method? {
+        nodeTranslator.ts(method: method, explicitThis: explicitThis, context: self)
     }
 
     func ts(field: Variable, useNativeName: Bool = false) -> TypeScriptAnnotations.Variable? {
         nodeTranslator.ts(field: field, context: self, useNativeName: useNativeName)
+    }
+
+    func ts(fieldAsMethods field: Variable, explicitThis: Bool) -> [TypeScriptAnnotations.Method] {
+        nodeTranslator.ts(fieldAsMethods: field, explicitThis: explicitThis, context: self)
     }
 
     func kotlin(method: Method) -> KotlinClass.MethodOrVariable? {

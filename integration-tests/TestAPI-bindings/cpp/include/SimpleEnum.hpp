@@ -110,8 +110,20 @@ namespace TestAPI {
         /// <!-- FishyJoes.export(pickAColor) -->
         static std::optional<SimpleEnum> pickAColor(const int &rawValue);
         
+        /// <!-- FishyJoes.export(hexMethod) -->
+        std::string hexMethod() const;
+        
+        /// <!-- FishyJoes.export(resetFavoriteColor) -->
+        static void resetFavoriteColor();
+        
         /// <!-- FishyJoes.export(hex) -->
         int getHex() const;
+        
+        /// <!-- FishyJoes.export(favoriteColor) -->
+        static SimpleEnum getFavoriteColor();
+        
+        /// <!-- FishyJoes.export(favoriteColor) -->
+        static void setFavoriteColor(const SimpleEnum &newVal);
         
         
         /*  Data  */

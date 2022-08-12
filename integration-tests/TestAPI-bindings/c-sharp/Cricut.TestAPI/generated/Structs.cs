@@ -6,10 +6,10 @@ using static Cricut.FishyJoesRuntime.Utilities;
 
 namespace Cricut.TestAPI {
     /// <summary>
-    /// <!-- FishyJoes.exportReference(Structs) -->
+    /// <!-- FishyJoes.export(Structs) -->
     /// </summary>
-    public class Structs : SwiftReference {
-        internal Structs(ConsumedRef reference): base(reference) {}
+    public record Structs {
+        private Structs() {}
 
         /// <summary>
         /// <!-- FishyJoes.exportReference(Structs.ReferenceStruct) -->

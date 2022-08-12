@@ -14,9 +14,15 @@ struct Method: Hashable {
     let definedIn: BetterType?
     let isStatic: Bool
     let isMutating: Bool
-    let isInitializer: Bool
     let isThrowing: Bool
     let deprecation: Deprecation?
+
+    enum SourceKind: Hashable {
+        case method, initializer
+        // May be useful in future
+        // case getter, setter
+    }
+    let sourceKind: SourceKind
 
     init(
         name: String,
@@ -26,9 +32,9 @@ struct Method: Hashable {
         returnType: BetterType,
         documentation: [String] = [],
         definedIn: BetterType?,
+        sourceKind: SourceKind = .method,
         isStatic: Bool = false,
         isMutating: Bool = false,
-        isInitializer: Bool = false,
         isThrowing: Bool = false,
         deprecation: Deprecation? = nil
     ) {
@@ -39,9 +45,9 @@ struct Method: Hashable {
         self.returnType = returnType
         self.documentation = documentation
         self.definedIn = definedIn
+        self.sourceKind = sourceKind
         self.isStatic = isStatic
         self.isMutating = isMutating
-        self.isInitializer = isInitializer
         self.isThrowing = isThrowing
         self.deprecation = deprecation
     }
@@ -54,10 +60,10 @@ struct Method: Hashable {
         self.returnType = method.returnTypeName.better
         self.documentation = method.documentation
         self.definedIn = method.definedInTypeName?.better
+        self.sourceKind = method.isInitializer ? .initializer : .method
         self.isStatic = method.isStatic
         // SourceryMethod.isMutating seems to be a bit buggy...
         self.isMutating = method.isMutating || method.modifiers.contains { $0.name == "mutating" }
-        self.isInitializer = method.isInitializer
         self.isThrowing = method.throws || method.rethrows
         self.deprecation = method.deprecation
 

@@ -1,6 +1,6 @@
 #include "shared_impl.hpp"
 namespace TestAPI {
-    Functions::Functions(const FishyJoesInternal::SwiftReference &_ref): _ref(_ref){}
+    Functions::Functions(const std::variant<> &_variant): _variant(_variant){}
     std::string Functions::exercise0(const std::function<int(> &fn) {
         return FishyJoesInternal::Packer::unpack<std::string>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Functions_exercise0(FishyJoesInternal::Packer::pack(fn).ptr()));
     }

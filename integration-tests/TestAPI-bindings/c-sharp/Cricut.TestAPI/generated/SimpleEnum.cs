@@ -31,6 +31,29 @@ namespace Cricut.TestAPI {
         private static extern nint __cs_get_SimpleEnum_Hex(UnownedRef self, out CreatedRef exn);
 
         /// <summary>
+        /// <!-- FishyJoes.export(favoriteColor) -->
+        /// </summary>
+        public static Cricut.TestAPI.SimpleEnum FavoriteColor {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __cs_get_SimpleEnum_FavoriteColor(out exn).Consume<Cricut.TestAPI.SimpleEnum>()
+                );
+            }
+            set {
+                using var valueHandle = new GCRef(value);
+                Check((out CreatedRef exn) =>
+                    __cs_set_SimpleEnum_FavoriteColor(valueHandle.ptr, out exn)
+                );
+            }
+        }
+
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __cs_get_SimpleEnum_FavoriteColor(out CreatedRef exn);
+
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern void __cs_set_SimpleEnum_FavoriteColor(UnownedRef value, out CreatedRef exn);
+
+        /// <summary>
         /// <!-- FishyJoes.export(pickAColor) -->
         /// </summary>
         public static Cricut.TestAPI.SimpleEnum? PickAColor(
@@ -42,6 +65,34 @@ namespace Cricut.TestAPI {
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_SimpleEnum_pickAColor(
             nint rawValue,
+            out CreatedRef exn
+        );
+
+        /// <summary>
+        /// <!-- FishyJoes.export(hexMethod) -->
+        /// </summary>
+        public string HexMethod(
+        ) {
+            using var _thisHandle = new GCRef(this);
+            return Check((out CreatedRef _exn) => __cs_SimpleEnum_hexMethod(_thisHandle.ptr, out _exn)).Consume<string>();
+        }
+
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __cs_SimpleEnum_hexMethod(
+            UnownedRef self,
+            out CreatedRef exn
+        );
+
+        /// <summary>
+        /// <!-- FishyJoes.export(resetFavoriteColor) -->
+        /// </summary>
+        public static void ResetFavoriteColor(
+        ) {
+            Check((out CreatedRef _exn) => __cs_SimpleEnum_resetFavoriteColor(out _exn));
+        }
+
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern void __cs_SimpleEnum_resetFavoriteColor(
             out CreatedRef exn
         );
 

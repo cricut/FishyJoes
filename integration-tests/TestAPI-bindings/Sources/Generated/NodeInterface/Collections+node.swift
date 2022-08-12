@@ -7,23 +7,16 @@ import TestAPI
 
 extension Collections: FishyJoesNodeRuntime.NodeConverter {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
-        guard let nonNilPointer = try env.unwrap(value) else {
-            throw JSException(message: "expected Collections, got nil")
-        }
-        return try Box<Collections>.takeUnretainedOpaque(nonNilPointer).value
+        fatalError("invalid enum for Collections")
     }
 
     public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
-        // Uninhabited
-    }
-
-    public static func mutateNode(_ value: Self, this: NAPI.Value, env: NAPI.Env) throws {
-        // Uninhabited
+        // Uninhabited type
     }
 
     @available(*, deprecated, message: "Not actually deprecated, but this silences warnings because it may refer to deprecated methods")
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
-        let nodeClass = try NodeClass(
+        let superclass = try NodeClass(
             env: env,
             name: "Collections",
             properties: [
@@ -238,8 +231,12 @@ extension Collections: FishyJoesNodeRuntime.NodeConverter {
                 ),
             ],
             constructor: { env, info in
-                FishyJoesNodeRuntime.callbackBody(env, info, name: "Collections_constructor", expectedArgumentCount: 1) { env in
-                    try FishyJoesNodeRuntime.Box<Collections>.construct(env: env)
+                FishyJoesNodeRuntime.callbackBody(
+                    env, info,
+                    name: "Collections_constructor",
+                    expectedArgumentCount: 0
+                ) { env in
+                    return try env.this()
                 }
             }
         )
@@ -247,7 +244,7 @@ extension Collections: FishyJoesNodeRuntime.NodeConverter {
             env: env,
             module: module,
             path: "Collections",
-            nodeClass: nodeClass.constructor.value(env: env)
+            nodeClass: superclass.constructor.value(env: env)
         )
     }
 }

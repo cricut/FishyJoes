@@ -1,9 +1,9 @@
 package com.cricut.testapi
 
 /**
- * <!-- FishyJoes.exportReference(Strings) -->
+ * <!-- FishyJoes.export(Strings) -->
  */
-class Strings private constructor(swiftReference: Long): com.cricut.fishyjoes.runtime.SwiftReference(swiftReference) {
+sealed class Strings {
 
     companion object {
         /**

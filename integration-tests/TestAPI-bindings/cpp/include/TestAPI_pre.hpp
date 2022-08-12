@@ -33,6 +33,7 @@ namespace TestAPI {
         namespace CBindings {
             extern "C" {
                 void* FJInternalBinding_TestAPI_AssociatedDataEnum_plus(void*, void*);
+                void* FJInternalBinding_TestAPI_AssociatedDataEnum_getStaticThing();
                 void* FJInternalBinding_TestAPI_AssociatedDataEnum_getIntValue(void*);
                 void* FJInternalBinding_TestAPI_Bytes_echoBytes(void*);
                 void* FJInternalBinding_TestAPI_Bytes_echoData(void*);
@@ -162,7 +163,11 @@ namespace TestAPI {
                 void* FJInternalBinding_TestAPI_Primitives_PrimitiveHolder_getStaticMutablePropery();
                 void* FJInternalBinding_TestAPI_Primitives_PrimitiveHolder_setStaticMutablePropery(void*);
                 void* FJInternalBinding_TestAPI_SimpleEnum_pickAColor(void*);
+                void* FJInternalBinding_TestAPI_SimpleEnum_hexMethod(void*);
+                void* FJInternalBinding_TestAPI_SimpleEnum_resetFavoriteColor();
                 void* FJInternalBinding_TestAPI_SimpleEnum_getHex(void*);
+                void* FJInternalBinding_TestAPI_SimpleEnum_getFavoriteColor();
+                void* FJInternalBinding_TestAPI_SimpleEnum_setFavoriteColor(void*);
                 void* FJInternalBinding_TestAPI_Strings_echo(void*);
                 void* FJInternalBinding_TestAPI_Strings_getSimple();
                 void* FJInternalBinding_TestAPI_Strings_getAccent();

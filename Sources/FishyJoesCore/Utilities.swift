@@ -31,6 +31,11 @@ extension FileHandle: TextOutputStream {
     }
 }
 
+func debug(file: StaticString = #file, line: UInt = #line, _ msgs: Any? ...) {
+    var errorHandle = FileHandle.standardError
+    print("\(file):\(line): " + msgs.map { "\($0 ?? "<null>")" }.joined(separator: " "), to: &errorHandle)
+}
+
 func snakify<S: StringProtocol>(_ camel: S) -> String {
     camel
         .replacingOccurrences(of: #"(.)([A-Z][a-z]+)"#, with: #"$1_$2"#, options: .regularExpression)

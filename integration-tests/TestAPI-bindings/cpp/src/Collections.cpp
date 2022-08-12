@@ -1,6 +1,6 @@
 #include "shared_impl.hpp"
 namespace TestAPI {
-    Collections::Collections(const FishyJoesInternal::SwiftReference &_ref): _ref(_ref){}
+    Collections::Collections(const std::variant<> &_variant): _variant(_variant){}
     std::vector<int> Collections::echoArrayOfInt(const std::vector<int> &arrayOfInt) {
         return FishyJoesInternal::Packer::unpack<std::vector<int>>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Collections_echoArrayOfInt(FishyJoesInternal::Packer::pack(arrayOfInt).ptr()));
     }

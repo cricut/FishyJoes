@@ -15,7 +15,29 @@ sealed class SimpleEnum {
     @JvmName("__jni_get_hex")
     private external fun __jni_get_hex(): Long
 
+    /**
+     * <!-- FishyJoes.export(hexMethod) -->
+     */
+    fun hexMethod(
+    ): kotlin.String = __jni_hexMethod()
+    @JvmName("__jni_hexMethod")
+    private external fun __jni_hexMethod(
+    ): kotlin.String
+
     companion object {
+        /**
+         * <!-- FishyJoes.export(favoriteColor) -->
+         */
+        var favoriteColor: com.cricut.testapi.SimpleEnum
+          get() = __jni_get_favoriteColor()
+          set(value) { __jni_set_favoriteColor(value) } 
+        @JvmStatic
+        @JvmName("__jni_get_favoriteColor")
+        private external fun __jni_get_favoriteColor(): com.cricut.testapi.SimpleEnum
+        @JvmStatic
+        @JvmName("__jni_set_favoriteColor")
+        private external fun __jni_set_favoriteColor(newValue: com.cricut.testapi.SimpleEnum)
+
         /**
          * <!-- FishyJoes.export(pickAColor) -->
          */
@@ -27,6 +49,16 @@ sealed class SimpleEnum {
         private external fun __jni_pickAColor(
             rawValue: Long
         ): com.cricut.testapi.SimpleEnum?
+
+        /**
+         * <!-- FishyJoes.export(resetFavoriteColor) -->
+         */
+        fun resetFavoriteColor(
+        ): kotlin.Unit = __jni_resetFavoriteColor()
+        @JvmStatic
+        @JvmName("__jni_resetFavoriteColor")
+        private external fun __jni_resetFavoriteColor(
+        ): kotlin.Unit
 
         init { loadNativeLibs() }
     }

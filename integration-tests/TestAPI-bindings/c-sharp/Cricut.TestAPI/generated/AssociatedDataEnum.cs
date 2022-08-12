@@ -26,6 +26,20 @@ namespace Cricut.TestAPI {
         ) : AssociatedDataEnum;
 
         /// <summary>
+        /// <!-- FishyJoes.export(staticThing) -->
+        /// </summary>
+        public static Cricut.TestAPI.AssociatedDataEnum StaticThing {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __cs_get_AssociatedDataEnum_StaticThing(out exn).Consume<Cricut.TestAPI.AssociatedDataEnum>()
+                );
+            }
+        }
+
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __cs_get_AssociatedDataEnum_StaticThing(out CreatedRef exn);
+
+        /// <summary>
         /// <!-- FishyJoes.export(intValue) -->
         /// </summary>
         public nint GetIntValue() {

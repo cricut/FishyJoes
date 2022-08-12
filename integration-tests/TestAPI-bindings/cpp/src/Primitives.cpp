@@ -1,6 +1,6 @@
 #include "shared_impl.hpp"
 namespace TestAPI {
-    Primitives::Primitives(const FishyJoesInternal::SwiftReference &_ref): _ref(_ref){}
+    Primitives::Primitives(const std::variant<> &_variant): _variant(_variant){}
     bool Primitives::echoBool(const bool &value) {
         return FishyJoesInternal::Packer::unpack<bool>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Primitives_echoBool(FishyJoesInternal::Packer::pack(value).ptr()));
     }

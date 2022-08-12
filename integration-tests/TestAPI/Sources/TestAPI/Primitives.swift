@@ -5,7 +5,7 @@
 //  Created by Matt Stoker on 12/9/21.
 //
 
-/// <!-- FishyJoes.exportReference(Primitives) -->
+/// <!-- FishyJoes.export(Primitives) -->
 public enum Primitives {
     // MARK: - Primitive Values
 

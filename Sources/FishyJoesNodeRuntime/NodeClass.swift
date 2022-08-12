@@ -19,16 +19,14 @@ public struct NodeClass {
         case accessor(getter: napi_callback, setter: napi_callback?)
     }
 
-    public init(
-        env: NAPI.Env,
-        name: String,
-        callbackData: UnsafeMutableRawPointer? = nil,
+    public static func descriptorsFor(
         properties: [String: (Property, isStatic: Bool)],
-        constructor: @escaping napi_callback
-    ) throws {
+        callbackData: UnsafeMutableRawPointer? = nil,
+        env: NAPI.Env
+    ) throws -> [napi_property_descriptor] {
         let undefined = try env.getUndefined()
-
         var nodeProperties: [napi_property_descriptor] = []
+
         for (name, (prop, isStatic)) in properties {
             let nodeName = try String.toNode(name, env: env)
             var attributes = isStatic ? napi_static : napi_default
@@ -66,13 +64,39 @@ public struct NodeClass {
                 )
             }
         }
+        return nodeProperties
+    }
 
+    public init(
+        env: NAPI.Env,
+        name: String,
+        superclass: NodeClass? = nil,
+        callbackData: UnsafeMutableRawPointer? = nil,
+        properties: [String: (Property, isStatic: Bool)],
+        constructor: @escaping napi_callback
+    ) throws {
         let nodeConstructor = try env.defineClass(
             name,
             constructor,
             callbackData,
-            nodeProperties
+            Self.descriptorsFor(properties: properties, callbackData: callbackData, env: env)
         )
+
+        // https://github.com/nodejs/node-addon-api/issues/229#issuecomment-383583352
+        if let superclass = superclass {
+            let global = try env.getGlobal()
+            let object = try env.getNamedProperty(global, "Object")
+            let setProto = try env.getNamedProperty(object, "setPrototypeOf")
+
+            let superConstructor = try superclass.constructor.value(env: env)
+
+            let constructorProto = try env.getNamedProperty(nodeConstructor, "prototype")
+            let superConstructorProto = try env.getNamedProperty(superConstructor, "prototype")
+
+            _ = try env.callFunction(global, setProto, [constructorProto, superConstructorProto])
+            _ = try env.callFunction(global, setProto, [nodeConstructor, superConstructor])
+        }
+
         self.constructor = try NodeReference(env: env, value: nodeConstructor)
         try InstanceData.data(for: env).constructors[name] = self.constructor
     }

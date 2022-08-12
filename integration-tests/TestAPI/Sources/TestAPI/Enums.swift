@@ -27,6 +27,19 @@ public enum SimpleEnum: Int, Hashable {
         case .blue: return 0x0000ff
         }
     }
+
+    /// <!-- FishyJoes.export(hexMethod) -->
+    public func hexMethod() -> String {
+        "\(hex)"
+    }
+
+    /// <!-- FishyJoes.export(favoriteColor) -->
+    public static var favoriteColor = SimpleEnum.blue
+
+    /// <!-- FishyJoes.export(resetFavoriteColor) -->
+    public static func resetFavoriteColor() {
+        favoriteColor = .blue
+    }
 }
 
 /// <!-- FishyJoes.export(AssociatedDataEnum) -->
@@ -34,6 +47,9 @@ public enum AssociatedDataEnum: Hashable {
     case thing(value: Int)
     case other(_ unnamed: String, Int)
     indirect case bar(named: String, AssociatedDataEnum)
+
+    /// <!-- FishyJoes.export(staticThing) -->
+    public static let staticThing = AssociatedDataEnum.thing(value: 2)
 
     /// <!-- FishyJoes.export(intValue) -->
     public var intValue: Int {

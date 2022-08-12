@@ -56,7 +56,7 @@ final class CSharpTranslator: Translator {
         }
         fragment.outputBlock(" -> \(returnSignature) {") {
             fragment.outputBlock("FishyJoesCSharpRuntime.Env.catching(to: _exn) {") {
-                let callName = method.isInitializer ? "" : ".\(method.callName)"
+                let callName = method.sourceKind == .initializer ? "" : ".\(method.callName)"
 
                 var mutateBlock: (() -> Void) -> Void = { $0() }
                 if method.isMutating {

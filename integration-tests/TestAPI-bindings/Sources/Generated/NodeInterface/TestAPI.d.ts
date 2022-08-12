@@ -1,144 +1,89 @@
 export type Optional<T> = T | undefined;
 export declare namespace TestAPI {
-    /**
-     * <!-- FishyJoes.exportReference(Bytes) -->
-     */
-    export class Bytes {
-        private constructor()
-        private _inhibitStructuralTyping: any
+    interface AssociatedDataEnum_Common {
+        /**
+         * <!-- FishyJoes.export(intValue) -->
+         */
+        readonly intValue: number;
 
+        /**
+         * <!-- FishyJoes.export(plus) -->
+         */
+        plus(
+            other: AssociatedDataEnum
+        ): AssociatedDataEnum;
+    }
+    export namespace AssociatedDataEnum {
+        interface Thing extends AssociatedDataEnum_Common {}
+        export class Thing {
+            constructor(value: number)
+
+            readonly value: number;
+        }
+
+        interface Other extends AssociatedDataEnum_Common {}
+        export class Other {
+            constructor(unnamed: string, _1: number)
+
+            readonly unnamed: string;
+
+            readonly _1: number;
+        }
+
+        interface Bar extends AssociatedDataEnum_Common {}
+        export class Bar {
+            constructor(named: string, _1: AssociatedDataEnum)
+
+            readonly named: string;
+
+            readonly _1: AssociatedDataEnum;
+        }
+
+        /**
+         * <!-- FishyJoes.export(staticThing) -->
+         */
+        const staticThing: AssociatedDataEnum;
+    }
+
+    export type AssociatedDataEnum = AssociatedDataEnum.Thing | AssociatedDataEnum.Other | AssociatedDataEnum.Bar;
+    export type Bytes = never;
+    export type Collections = never;
+    export type DefaultArguments = never;
+    export type Deprecations = never;
+    export type EmptyEnum = never;
+    export type Functions = never;
+    export type Primitives = never;
+    export type SimpleEnum = "red" | "green" | "blue";
+    export type Strings = never;
+    export type Structs = never;
+    export type Tuples = never;
+
+    export namespace Bytes {
         /**
          * <!-- FishyJoes.export(bytes, cSharp: TheBytes) -->
          */
-        static readonly bytes: number[];
+        const bytes: number[];
 
         /**
          * <!-- FishyJoes.export(data) -->
          */
-        static readonly data: ArrayBuffer;
+        const data: ArrayBuffer;
 
         /**
          * <!-- FishyJoes.export(echoBytes) -->
          */
-        static echoBytes(
+        function echoBytes(
             bytes: number[]
         ): number[];
 
         /**
          * <!-- FishyJoes.export(echoData) -->
          */
-        static echoData(
+        function echoData(
             data: ArrayBuffer
         ): ArrayBuffer;
     }
 
-    /**
-     * <!-- FishyJoes.exportReference(Collections) -->
-     */
-    export class Collections {
-        private constructor()
-        private _inhibitStructuralTyping: any
-
-        /**
-         * <!-- FishyJoes.export(arrayOfInt) -->
-         */
-        static readonly arrayOfInt: number[];
-
-        /**
-         * <!-- FishyJoes.export(setOfInt) -->
-         */
-        static readonly setOfInt: Set<number>;
-
-        /**
-         * <!-- FishyJoes.export(dictionaryOfIntToInt) -->
-         */
-        static readonly dictionaryOfIntToInt: Map<number, number>;
-
-        /**
-         * <!-- FishyJoes.export(maybeArrayOfInt) -->
-         */
-        static readonly maybeArrayOfInt?: number[];
-
-        /**
-         * <!-- FishyJoes.export(maybeSetOfInt) -->
-         */
-        static readonly maybeSetOfInt?: Set<number>;
-
-        /**
-         * <!-- FishyJoes.export(maybeDictionaryOfIntToInt) -->
-         */
-        static readonly maybeDictionaryOfIntToInt?: Map<number, number>;
-
-        /**
-         * <!-- FishyJoes.export(maybeArrayOfMaybeInt) -->
-         */
-        static readonly maybeArrayOfMaybeInt?: number[];
-
-        /**
-         * <!-- FishyJoes.export(maybeSetOfMaybeInt) -->
-         */
-        static readonly maybeSetOfMaybeInt?: Set<number>;
-
-        /**
-         * <!-- FishyJoes.export(maybeDictionaryOfIntToMaybeInt) -->
-         */
-        static readonly maybeDictionaryOfIntToMaybeInt?: Map<number, number>;
-
-        /**
-         * <!-- FishyJoes.export(defaultCollectionHolder) -->
-         */
-        static readonly defaultCollectionHolder: Collections.CollectionHolder;
-
-        /**
-         * <!-- FishyJoes.export(echoArrayOfInt) -->
-         */
-        static echoArrayOfInt(
-            arrayOfInt: number[]
-        ): number[];
-
-        /**
-         * <!-- FishyJoes.export(echoSetOfInt) -->
-         */
-        static echoSetOfInt(
-            setOfInt: Set<number>
-        ): Set<number>;
-
-        /**
-         * <!-- FishyJoes.export(echoDictionaryOfIntToInt) -->
-         */
-        static echoDictionaryOfIntToInt(
-            dictionaryOfIntToInt: Map<number, number>
-        ): Map<number, number>;
-
-        /**
-         * <!-- FishyJoes.export(echoMaybeArrayOfMaybeInt) -->
-         */
-        static echoMaybeArrayOfMaybeInt(
-            maybeArrayOfMaybeInt: Optional<number[]>
-        ): Optional<number[]>;
-
-        /**
-         * <!-- FishyJoes.export(echoMaybeSetOfMaybeInt) -->
-         */
-        static echoMaybeSetOfMaybeInt(
-            maybeSetOfMaybeInt: Optional<Set<number>>
-        ): Optional<Set<number>>;
-
-        /**
-         * <!-- FishyJoes.export(echoMaybeDictionaryOfIntToMaybeInt) -->
-         */
-        static echoMaybeDictionaryOfIntToMaybeInt(
-            maybeDictionaryOfIntToMaybeInt: Optional<Map<number, number>>
-        ): Optional<Map<number, number>>;
-
-        /**
-         * <!-- FishyJoes.export(collectionMapper) -->
-         */
-        static collectionMapper(
-            collection: Optional<number[]>,
-            mapper: (_: number[]) => number[]
-        ): Optional<number[]>;
-    }
     export namespace Collections {
         /**
          * <!-- FishyJoes.export(Collections.CollectionHolder) -->
@@ -174,19 +119,113 @@ export declare namespace TestAPI {
              */
             static staticMutablePropery: number[];
         }
+
+        /**
+         * <!-- FishyJoes.export(arrayOfInt) -->
+         */
+        const arrayOfInt: number[];
+
+        /**
+         * <!-- FishyJoes.export(setOfInt) -->
+         */
+        const setOfInt: Set<number>;
+
+        /**
+         * <!-- FishyJoes.export(dictionaryOfIntToInt) -->
+         */
+        const dictionaryOfIntToInt: Map<number, number>;
+
+        /**
+         * <!-- FishyJoes.export(maybeArrayOfInt) -->
+         */
+        const maybeArrayOfInt: Optional<number[]>;
+
+        /**
+         * <!-- FishyJoes.export(maybeSetOfInt) -->
+         */
+        const maybeSetOfInt: Optional<Set<number>>;
+
+        /**
+         * <!-- FishyJoes.export(maybeDictionaryOfIntToInt) -->
+         */
+        const maybeDictionaryOfIntToInt: Optional<Map<number, number>>;
+
+        /**
+         * <!-- FishyJoes.export(maybeArrayOfMaybeInt) -->
+         */
+        const maybeArrayOfMaybeInt: Optional<number[]>;
+
+        /**
+         * <!-- FishyJoes.export(maybeSetOfMaybeInt) -->
+         */
+        const maybeSetOfMaybeInt: Optional<Set<number>>;
+
+        /**
+         * <!-- FishyJoes.export(maybeDictionaryOfIntToMaybeInt) -->
+         */
+        const maybeDictionaryOfIntToMaybeInt: Optional<Map<number, number>>;
+
+        /**
+         * <!-- FishyJoes.export(defaultCollectionHolder) -->
+         */
+        const defaultCollectionHolder: Collections.CollectionHolder;
+
+        /**
+         * <!-- FishyJoes.export(echoArrayOfInt) -->
+         */
+        function echoArrayOfInt(
+            arrayOfInt: number[]
+        ): number[];
+
+        /**
+         * <!-- FishyJoes.export(echoSetOfInt) -->
+         */
+        function echoSetOfInt(
+            setOfInt: Set<number>
+        ): Set<number>;
+
+        /**
+         * <!-- FishyJoes.export(echoDictionaryOfIntToInt) -->
+         */
+        function echoDictionaryOfIntToInt(
+            dictionaryOfIntToInt: Map<number, number>
+        ): Map<number, number>;
+
+        /**
+         * <!-- FishyJoes.export(echoMaybeArrayOfMaybeInt) -->
+         */
+        function echoMaybeArrayOfMaybeInt(
+            maybeArrayOfMaybeInt: Optional<number[]>
+        ): Optional<number[]>;
+
+        /**
+         * <!-- FishyJoes.export(echoMaybeSetOfMaybeInt) -->
+         */
+        function echoMaybeSetOfMaybeInt(
+            maybeSetOfMaybeInt: Optional<Set<number>>
+        ): Optional<Set<number>>;
+
+        /**
+         * <!-- FishyJoes.export(echoMaybeDictionaryOfIntToMaybeInt) -->
+         */
+        function echoMaybeDictionaryOfIntToMaybeInt(
+            maybeDictionaryOfIntToMaybeInt: Optional<Map<number, number>>
+        ): Optional<Map<number, number>>;
+
+        /**
+         * <!-- FishyJoes.export(collectionMapper) -->
+         */
+        function collectionMapper(
+            collection: Optional<number[]>,
+            mapper: (_0: number[]) => number[]
+        ): Optional<number[]>;
     }
 
-    /**
-     * <!-- FishyJoes.exportReference(DefaultArguments) -->
-     */
-    export class DefaultArguments {
-        private constructor()
-        private _inhibitStructuralTyping: any
-
+    export namespace DefaultArguments {
         /**
          * <!-- FishyJoes.export(echoDefaults) -->
          */
-        static echoDefaults(
+        function echoDefaults(
             x: Optional<number>,
             options?: {
                 "y"?: Optional<number> /* defaults to `nil` */,
@@ -195,124 +234,29 @@ export declare namespace TestAPI {
         ): string;
     }
 
-    /**
-     * <!-- FishyJoes.exportReference(Deprecations) -->
-     */
-    export class Deprecations {
-        private constructor()
-        private _inhibitStructuralTyping: any
-
+    export namespace Deprecations {
         /**
          * <!-- FishyJoes.export(deprecatedVariable) -->
          * @deprecated replace with `deprecatedMethod` ( <-- swift name, sorry )
          */
-        static readonly deprecatedVariable: number;
+        const deprecatedVariable: number;
 
         /**
          * <!-- FishyJoes.export(deprecatedMethod) -->
          * @deprecated don't use this
          */
-        static deprecatedMethod(
+        function deprecatedMethod(
         ): string;
     }
 
-    /**
-     * <!-- FishyJoes.exportReference(Functions) -->
-     */
-    export class Functions {
-        private constructor()
-        private _inhibitStructuralTyping: any
-
+    export namespace EmptyEnum {
         /**
-         * <!-- FishyJoes.export(const42) -->
+         * <!-- FishyJoes.export(notGoingToHappen, noReturn: true) -->
          */
-        static readonly const42: () => number;
-
-        /**
-         * <!-- FishyJoes.export(abs) -->
-         */
-        static readonly abs: (_: number) => number;
-
-        /**
-         * <!-- FishyJoes.export(intCompose) -->
-         */
-        static readonly intCompose: (_: (_: number) => number, _: (_: number) => number) => (_: number) => number;
-
-        /**
-         * <!-- FishyJoes.export(add3Things) -->
-         */
-        static readonly add3Things: (_: number, _: number, _: number) => number;
-
-        /**
-         * <!-- FishyJoes.export(makeList) -->
-         */
-        static readonly makeList: (_: string, _: string, _: string, _: string) => string[];
-
-        /**
-         * <!-- FishyJoes.export(fifthThing) -->
-         */
-        static readonly fifthThing: (_: string, _: number, _: number, _: string, _: () => number) => () => number;
-
-        /**
-         * <!-- FishyJoes.export(sixthThing) -->
-         */
-        static readonly sixthThing: (_: string, _: number, _: number, _: string, _: () => number, _: number) => number;
-
-        /**
-         * <!-- FishyJoes.export(exercise0) -->
-         */
-        static exercise0(
-            fn: () => number
-        ): string;
-
-        /**
-         * <!-- FishyJoes.export(exercise1) -->
-         */
-        static exercise1(
-            fn: (_: number) => number
-        ): string;
-
-        /**
-         * <!-- FishyJoes.export(exercise2) -->
-         */
-        static exercise2(
-            fn: (_: (_: number) => number, _: (_: number) => number) => (_: number) => number
-        ): string;
-
-        /**
-         * <!-- FishyJoes.export(exercise3) -->
-         */
-        static exercise3(
-            fn: (_: number, _: number, _: number) => number
-        ): string;
-
-        /**
-         * <!-- FishyJoes.export(exercise4) -->
-         */
-        static exercise4(
-            fn: (_: string, _: string, _: string, _: string) => string[]
-        ): string;
-
-        /**
-         * <!-- FishyJoes.export(exercise5) -->
-         */
-        static exercise5(
-            fn: (_: string, _: number, _: number, _: string, _: () => number) => () => number
-        ): string;
-
-        /**
-         * <!-- FishyJoes.export(exercise6) -->
-         */
-        static exercise6(
-            fn: (_: string, _: number, _: number, _: string, _: () => number, _: number) => number
-        ): string;
-
-        /**
-         * <!-- FishyJoes.export(willThrow) -->
-         */
-        static willThrow(
-        ): string;
+        function notGoingToHappen(
+        ): EmptyEnum;
     }
+
     export namespace Functions {
         /**
          * <!-- FishyJoes.exportReference(Functions.TheError) -->
@@ -321,467 +265,98 @@ export declare namespace TestAPI {
             private constructor()
             private _inhibitStructuralTyping: any
         }
+
+        /**
+         * <!-- FishyJoes.export(const42) -->
+         */
+        const const42: () => number;
+
+        /**
+         * <!-- FishyJoes.export(abs) -->
+         */
+        const abs: (_0: number) => number;
+
+        /**
+         * <!-- FishyJoes.export(intCompose) -->
+         */
+        const intCompose: (_0: (_0: number) => number, _1: (_0: number) => number) => (_0: number) => number;
+
+        /**
+         * <!-- FishyJoes.export(add3Things) -->
+         */
+        const add3Things: (_0: number, _1: number, _2: number) => number;
+
+        /**
+         * <!-- FishyJoes.export(makeList) -->
+         */
+        const makeList: (_0: string, _1: string, _2: string, _3: string) => string[];
+
+        /**
+         * <!-- FishyJoes.export(fifthThing) -->
+         */
+        const fifthThing: (_0: string, _1: number, _2: number, _3: string, _4: () => number) => () => number;
+
+        /**
+         * <!-- FishyJoes.export(sixthThing) -->
+         */
+        const sixthThing: (_0: string, _1: number, _2: number, _3: string, _4: () => number, _5: number) => number;
+
+        /**
+         * <!-- FishyJoes.export(exercise0) -->
+         */
+        function exercise0(
+            fn: () => number
+        ): string;
+
+        /**
+         * <!-- FishyJoes.export(exercise1) -->
+         */
+        function exercise1(
+            fn: (_0: number) => number
+        ): string;
+
+        /**
+         * <!-- FishyJoes.export(exercise2) -->
+         */
+        function exercise2(
+            fn: (_0: (_0: number) => number, _1: (_0: number) => number) => (_0: number) => number
+        ): string;
+
+        /**
+         * <!-- FishyJoes.export(exercise3) -->
+         */
+        function exercise3(
+            fn: (_0: number, _1: number, _2: number) => number
+        ): string;
+
+        /**
+         * <!-- FishyJoes.export(exercise4) -->
+         */
+        function exercise4(
+            fn: (_0: string, _1: string, _2: string, _3: string) => string[]
+        ): string;
+
+        /**
+         * <!-- FishyJoes.export(exercise5) -->
+         */
+        function exercise5(
+            fn: (_0: string, _1: number, _2: number, _3: string, _4: () => number) => () => number
+        ): string;
+
+        /**
+         * <!-- FishyJoes.export(exercise6) -->
+         */
+        function exercise6(
+            fn: (_0: string, _1: number, _2: number, _3: string, _4: () => number, _5: number) => number
+        ): string;
+
+        /**
+         * <!-- FishyJoes.export(willThrow) -->
+         */
+        function willThrow(
+        ): string;
     }
 
-    /**
-     * <!-- FishyJoes.exportReference(Primitives) -->
-     */
-    export class Primitives {
-        private constructor()
-        private _inhibitStructuralTyping: any
-
-        /**
-         * <!-- FishyJoes.export(falseBool) -->
-         */
-        static readonly falseBool: boolean;
-
-        /**
-         * <!-- FishyJoes.export(trueBool) -->
-         */
-        static readonly trueBool: boolean;
-
-        /**
-         * <!-- FishyJoes.export(zeroUInt8) -->
-         */
-        static readonly zeroUInt8: number;
-
-        /**
-         * <!-- FishyJoes.export(minUInt8) -->
-         */
-        static readonly minUInt8: number;
-
-        /**
-         * <!-- FishyJoes.export(maxUInt8) -->
-         */
-        static readonly maxUInt8: number;
-
-        /**
-         * <!-- FishyJoes.export(zeroUInt16) -->
-         */
-        static readonly zeroUInt16: number;
-
-        /**
-         * <!-- FishyJoes.export(minUInt16) -->
-         */
-        static readonly minUInt16: number;
-
-        /**
-         * <!-- FishyJoes.export(maxUInt16) -->
-         */
-        static readonly maxUInt16: number;
-
-        /**
-         * <!-- FishyJoes.export(zeroUInt32) -->
-         */
-        static readonly zeroUInt32: number;
-
-        /**
-         * <!-- FishyJoes.export(minUInt32) -->
-         */
-        static readonly minUInt32: number;
-
-        /**
-         * <!-- FishyJoes.export(maxUInt32) -->
-         */
-        static readonly maxUInt32: number;
-
-        /**
-         * <!-- FishyJoes.export(zeroUInt64) -->
-         */
-        static readonly zeroUInt64: bigint;
-
-        /**
-         * <!-- FishyJoes.export(minUInt64) -->
-         */
-        static readonly minUInt64: bigint;
-
-        /**
-         * <!-- FishyJoes.export(maxUInt64) -->
-         */
-        static readonly maxUInt64: bigint;
-
-        /**
-         * <!-- FishyJoes.export(zeroInt8) -->
-         */
-        static readonly zeroInt8: number;
-
-        /**
-         * <!-- FishyJoes.export(minInt8) -->
-         */
-        static readonly minInt8: number;
-
-        /**
-         * <!-- FishyJoes.export(maxInt8) -->
-         */
-        static readonly maxInt8: number;
-
-        /**
-         * <!-- FishyJoes.export(zeroInt16) -->
-         */
-        static readonly zeroInt16: number;
-
-        /**
-         * <!-- FishyJoes.export(minInt16) -->
-         */
-        static readonly minInt16: number;
-
-        /**
-         * <!-- FishyJoes.export(maxInt16) -->
-         */
-        static readonly maxInt16: number;
-
-        /**
-         * <!-- FishyJoes.export(zeroInt32) -->
-         */
-        static readonly zeroInt32: number;
-
-        /**
-         * <!-- FishyJoes.export(minInt32) -->
-         */
-        static readonly minInt32: number;
-
-        /**
-         * <!-- FishyJoes.export(maxInt32) -->
-         */
-        static readonly maxInt32: number;
-
-        /**
-         * <!-- FishyJoes.export(zeroInt64) -->
-         */
-        static readonly zeroInt64: bigint;
-
-        /**
-         * <!-- FishyJoes.export(minInt64) -->
-         */
-        static readonly minInt64: bigint;
-
-        /**
-         * <!-- FishyJoes.export(maxInt64) -->
-         */
-        static readonly maxInt64: bigint;
-
-        /**
-         * <!-- FishyJoes.export(zeroInt) -->
-         */
-        static readonly zeroInt: number;
-
-        /**
-         * <!-- FishyJoes.export(minInt) -->
-         */
-        static readonly minInt: number;
-
-        /**
-         * <!-- FishyJoes.export(maxInt) -->
-         */
-        static readonly maxInt: number;
-
-        /**
-         * <!-- FishyJoes.export(zeroFloat) -->
-         */
-        static readonly zeroFloat: number;
-
-        /**
-         * <!-- FishyJoes.export(minFloat) -->
-         */
-        static readonly minFloat: number;
-
-        /**
-         * <!-- FishyJoes.export(maxFloat) -->
-         */
-        static readonly maxFloat: number;
-
-        /**
-         * <!-- FishyJoes.export(zeroDouble) -->
-         */
-        static readonly zeroDouble: number;
-
-        /**
-         * <!-- FishyJoes.export(minDouble) -->
-         */
-        static readonly minDouble: number;
-
-        /**
-         * <!-- FishyJoes.export(maxDouble) -->
-         */
-        static readonly maxDouble: number;
-
-        /**
-         * <!-- FishyJoes.export(manyBool) -->
-         */
-        static readonly manyBool: boolean[];
-
-        /**
-         * <!-- FishyJoes.export(manyUInt8) -->
-         */
-        static readonly manyUInt8: number[];
-
-        /**
-         * <!-- FishyJoes.export(manyUInt16) -->
-         */
-        static readonly manyUInt16: number[];
-
-        /**
-         * <!-- FishyJoes.export(manyUInt32) -->
-         */
-        static readonly manyUInt32: number[];
-
-        /**
-         * <!-- FishyJoes.export(manyUInt64) -->
-         */
-        static readonly manyUInt64: bigint[];
-
-        /**
-         * <!-- FishyJoes.export(manyInt8) -->
-         */
-        static readonly manyInt8: number[];
-
-        /**
-         * <!-- FishyJoes.export(manyInt16) -->
-         */
-        static readonly manyInt16: number[];
-
-        /**
-         * <!-- FishyJoes.export(manyInt32) -->
-         */
-        static readonly manyInt32: number[];
-
-        /**
-         * <!-- FishyJoes.export(manyInt64) -->
-         */
-        static readonly manyInt64: bigint[];
-
-        /**
-         * <!-- FishyJoes.export(manyFloat) -->
-         */
-        static readonly manyFloat: number[];
-
-        /**
-         * <!-- FishyJoes.export(manyDouble) -->
-         */
-        static readonly manyDouble: number[];
-
-        /**
-         * <!-- FishyJoes.export(manyMaybeBool) -->
-         */
-        static readonly manyMaybeBool: boolean[];
-
-        /**
-         * <!-- FishyJoes.export(manyMaybeUInt8) -->
-         */
-        static readonly manyMaybeUInt8: number[];
-
-        /**
-         * <!-- FishyJoes.export(manyMaybeUInt16) -->
-         */
-        static readonly manyMaybeUInt16: number[];
-
-        /**
-         * <!-- FishyJoes.export(manyMaybeUInt32) -->
-         */
-        static readonly manyMaybeUInt32: number[];
-
-        /**
-         * <!-- FishyJoes.export(manyMaybeUInt64) -->
-         */
-        static readonly manyMaybeUInt64: bigint[];
-
-        /**
-         * <!-- FishyJoes.export(manyMaybeInt8) -->
-         */
-        static readonly manyMaybeInt8: number[];
-
-        /**
-         * <!-- FishyJoes.export(manyMaybeInt16) -->
-         */
-        static readonly manyMaybeInt16: number[];
-
-        /**
-         * <!-- FishyJoes.export(manyMaybeInt32) -->
-         */
-        static readonly manyMaybeInt32: number[];
-
-        /**
-         * <!-- FishyJoes.export(manyMaybeInt64) -->
-         */
-        static readonly manyMaybeInt64: bigint[];
-
-        /**
-         * <!-- FishyJoes.export(manyMaybeFloat) -->
-         */
-        static readonly manyMaybeFloat: number[];
-
-        /**
-         * <!-- FishyJoes.export(manyMaybeDouble) -->
-         */
-        static readonly manyMaybeDouble: number[];
-
-        /**
-         * <!-- FishyJoes.export(defaultPrimitiveHolder) -->
-         */
-        static readonly defaultPrimitiveHolder: Primitives.PrimitiveHolder;
-
-        /**
-         * <!-- FishyJoes.export(echoBool) -->
-         */
-        static echoBool(
-            value: boolean
-        ): boolean;
-
-        /**
-         * <!-- FishyJoes.export(echoUInt8) -->
-         */
-        static echoUInt8(
-            value: number
-        ): number;
-
-        /**
-         * <!-- FishyJoes.export(echoUInt16) -->
-         */
-        static echoUInt16(
-            value: number
-        ): number;
-
-        /**
-         * <!-- FishyJoes.export(echoUInt32) -->
-         */
-        static echoUInt32(
-            value: number
-        ): number;
-
-        /**
-         * <!-- FishyJoes.export(echoUInt64) -->
-         */
-        static echoUInt64(
-            value: bigint
-        ): bigint;
-
-        /**
-         * <!-- FishyJoes.export(echoInt8) -->
-         */
-        static echoInt8(
-            value: number
-        ): number;
-
-        /**
-         * <!-- FishyJoes.export(echoInt16) -->
-         */
-        static echoInt16(
-            value: number
-        ): number;
-
-        /**
-         * <!-- FishyJoes.export(echoInt32) -->
-         */
-        static echoInt32(
-            value: number
-        ): number;
-
-        /**
-         * <!-- FishyJoes.export(echoInt64) -->
-         */
-        static echoInt64(
-            value: bigint
-        ): bigint;
-
-        /**
-         * <!-- FishyJoes.export(echoFloat) -->
-         */
-        static echoFloat(
-            value: number
-        ): number;
-
-        /**
-         * <!-- FishyJoes.export(echoDouble) -->
-         */
-        static echoDouble(
-            value: number
-        ): number;
-
-        /**
-         * <!-- FishyJoes.export(maybeEchoBool) -->
-         */
-        static maybeEchoBool(
-            value: Optional<boolean>
-        ): Optional<boolean>;
-
-        /**
-         * <!-- FishyJoes.export(maybeEchoUInt8) -->
-         */
-        static maybeEchoUInt8(
-            value: Optional<number>
-        ): Optional<number>;
-
-        /**
-         * <!-- FishyJoes.export(maybeEchoUInt16) -->
-         */
-        static maybeEchoUInt16(
-            value: Optional<number>
-        ): Optional<number>;
-
-        /**
-         * <!-- FishyJoes.export(maybeEchoUInt32) -->
-         */
-        static maybeEchoUInt32(
-            value: Optional<number>
-        ): Optional<number>;
-
-        /**
-         * <!-- FishyJoes.export(maybeEchoUInt64) -->
-         */
-        static maybeEchoUInt64(
-            value: Optional<bigint>
-        ): Optional<bigint>;
-
-        /**
-         * <!-- FishyJoes.export(maybeEchoInt8) -->
-         */
-        static maybeEchoInt8(
-            value: Optional<number>
-        ): Optional<number>;
-
-        /**
-         * <!-- FishyJoes.export(maybeEchoInt16) -->
-         */
-        static maybeEchoInt16(
-            value: Optional<number>
-        ): Optional<number>;
-
-        /**
-         * <!-- FishyJoes.export(maybeEchoInt32) -->
-         */
-        static maybeEchoInt32(
-            value: Optional<number>
-        ): Optional<number>;
-
-        /**
-         * <!-- FishyJoes.export(maybeEchoInt64) -->
-         */
-        static maybeEchoInt64(
-            value: Optional<bigint>
-        ): Optional<bigint>;
-
-        /**
-         * <!-- FishyJoes.export(maybeEchoFloat) -->
-         */
-        static maybeEchoFloat(
-            value: Optional<number>
-        ): Optional<number>;
-
-        /**
-         * <!-- FishyJoes.export(maybeEchoDouble) -->
-         */
-        static maybeEchoDouble(
-            value: Optional<number>
-        ): Optional<number>;
-
-        /**
-         * <!-- FishyJoes.export(valueMapper) -->
-         */
-        static valueMapper(
-            value: Optional<number>,
-            mapper: (_: number) => number
-        ): Optional<number>;
-    }
     export namespace Primitives {
         /**
          * <!-- FishyJoes.export(Primitives.PrimitiveHolder) -->
@@ -843,70 +418,543 @@ export declare namespace TestAPI {
              */
             static staticMutablePropery: number[];
         }
+
+        /**
+         * <!-- FishyJoes.export(falseBool) -->
+         */
+        const falseBool: boolean;
+
+        /**
+         * <!-- FishyJoes.export(trueBool) -->
+         */
+        const trueBool: boolean;
+
+        /**
+         * <!-- FishyJoes.export(zeroUInt8) -->
+         */
+        const zeroUInt8: number;
+
+        /**
+         * <!-- FishyJoes.export(minUInt8) -->
+         */
+        const minUInt8: number;
+
+        /**
+         * <!-- FishyJoes.export(maxUInt8) -->
+         */
+        const maxUInt8: number;
+
+        /**
+         * <!-- FishyJoes.export(zeroUInt16) -->
+         */
+        const zeroUInt16: number;
+
+        /**
+         * <!-- FishyJoes.export(minUInt16) -->
+         */
+        const minUInt16: number;
+
+        /**
+         * <!-- FishyJoes.export(maxUInt16) -->
+         */
+        const maxUInt16: number;
+
+        /**
+         * <!-- FishyJoes.export(zeroUInt32) -->
+         */
+        const zeroUInt32: number;
+
+        /**
+         * <!-- FishyJoes.export(minUInt32) -->
+         */
+        const minUInt32: number;
+
+        /**
+         * <!-- FishyJoes.export(maxUInt32) -->
+         */
+        const maxUInt32: number;
+
+        /**
+         * <!-- FishyJoes.export(zeroUInt64) -->
+         */
+        const zeroUInt64: bigint;
+
+        /**
+         * <!-- FishyJoes.export(minUInt64) -->
+         */
+        const minUInt64: bigint;
+
+        /**
+         * <!-- FishyJoes.export(maxUInt64) -->
+         */
+        const maxUInt64: bigint;
+
+        /**
+         * <!-- FishyJoes.export(zeroInt8) -->
+         */
+        const zeroInt8: number;
+
+        /**
+         * <!-- FishyJoes.export(minInt8) -->
+         */
+        const minInt8: number;
+
+        /**
+         * <!-- FishyJoes.export(maxInt8) -->
+         */
+        const maxInt8: number;
+
+        /**
+         * <!-- FishyJoes.export(zeroInt16) -->
+         */
+        const zeroInt16: number;
+
+        /**
+         * <!-- FishyJoes.export(minInt16) -->
+         */
+        const minInt16: number;
+
+        /**
+         * <!-- FishyJoes.export(maxInt16) -->
+         */
+        const maxInt16: number;
+
+        /**
+         * <!-- FishyJoes.export(zeroInt32) -->
+         */
+        const zeroInt32: number;
+
+        /**
+         * <!-- FishyJoes.export(minInt32) -->
+         */
+        const minInt32: number;
+
+        /**
+         * <!-- FishyJoes.export(maxInt32) -->
+         */
+        const maxInt32: number;
+
+        /**
+         * <!-- FishyJoes.export(zeroInt64) -->
+         */
+        const zeroInt64: bigint;
+
+        /**
+         * <!-- FishyJoes.export(minInt64) -->
+         */
+        const minInt64: bigint;
+
+        /**
+         * <!-- FishyJoes.export(maxInt64) -->
+         */
+        const maxInt64: bigint;
+
+        /**
+         * <!-- FishyJoes.export(zeroInt) -->
+         */
+        const zeroInt: number;
+
+        /**
+         * <!-- FishyJoes.export(minInt) -->
+         */
+        const minInt: number;
+
+        /**
+         * <!-- FishyJoes.export(maxInt) -->
+         */
+        const maxInt: number;
+
+        /**
+         * <!-- FishyJoes.export(zeroFloat) -->
+         */
+        const zeroFloat: number;
+
+        /**
+         * <!-- FishyJoes.export(minFloat) -->
+         */
+        const minFloat: number;
+
+        /**
+         * <!-- FishyJoes.export(maxFloat) -->
+         */
+        const maxFloat: number;
+
+        /**
+         * <!-- FishyJoes.export(zeroDouble) -->
+         */
+        const zeroDouble: number;
+
+        /**
+         * <!-- FishyJoes.export(minDouble) -->
+         */
+        const minDouble: number;
+
+        /**
+         * <!-- FishyJoes.export(maxDouble) -->
+         */
+        const maxDouble: number;
+
+        /**
+         * <!-- FishyJoes.export(manyBool) -->
+         */
+        const manyBool: boolean[];
+
+        /**
+         * <!-- FishyJoes.export(manyUInt8) -->
+         */
+        const manyUInt8: number[];
+
+        /**
+         * <!-- FishyJoes.export(manyUInt16) -->
+         */
+        const manyUInt16: number[];
+
+        /**
+         * <!-- FishyJoes.export(manyUInt32) -->
+         */
+        const manyUInt32: number[];
+
+        /**
+         * <!-- FishyJoes.export(manyUInt64) -->
+         */
+        const manyUInt64: bigint[];
+
+        /**
+         * <!-- FishyJoes.export(manyInt8) -->
+         */
+        const manyInt8: number[];
+
+        /**
+         * <!-- FishyJoes.export(manyInt16) -->
+         */
+        const manyInt16: number[];
+
+        /**
+         * <!-- FishyJoes.export(manyInt32) -->
+         */
+        const manyInt32: number[];
+
+        /**
+         * <!-- FishyJoes.export(manyInt64) -->
+         */
+        const manyInt64: bigint[];
+
+        /**
+         * <!-- FishyJoes.export(manyFloat) -->
+         */
+        const manyFloat: number[];
+
+        /**
+         * <!-- FishyJoes.export(manyDouble) -->
+         */
+        const manyDouble: number[];
+
+        /**
+         * <!-- FishyJoes.export(manyMaybeBool) -->
+         */
+        const manyMaybeBool: boolean[];
+
+        /**
+         * <!-- FishyJoes.export(manyMaybeUInt8) -->
+         */
+        const manyMaybeUInt8: number[];
+
+        /**
+         * <!-- FishyJoes.export(manyMaybeUInt16) -->
+         */
+        const manyMaybeUInt16: number[];
+
+        /**
+         * <!-- FishyJoes.export(manyMaybeUInt32) -->
+         */
+        const manyMaybeUInt32: number[];
+
+        /**
+         * <!-- FishyJoes.export(manyMaybeUInt64) -->
+         */
+        const manyMaybeUInt64: bigint[];
+
+        /**
+         * <!-- FishyJoes.export(manyMaybeInt8) -->
+         */
+        const manyMaybeInt8: number[];
+
+        /**
+         * <!-- FishyJoes.export(manyMaybeInt16) -->
+         */
+        const manyMaybeInt16: number[];
+
+        /**
+         * <!-- FishyJoes.export(manyMaybeInt32) -->
+         */
+        const manyMaybeInt32: number[];
+
+        /**
+         * <!-- FishyJoes.export(manyMaybeInt64) -->
+         */
+        const manyMaybeInt64: bigint[];
+
+        /**
+         * <!-- FishyJoes.export(manyMaybeFloat) -->
+         */
+        const manyMaybeFloat: number[];
+
+        /**
+         * <!-- FishyJoes.export(manyMaybeDouble) -->
+         */
+        const manyMaybeDouble: number[];
+
+        /**
+         * <!-- FishyJoes.export(defaultPrimitiveHolder) -->
+         */
+        const defaultPrimitiveHolder: Primitives.PrimitiveHolder;
+
+        /**
+         * <!-- FishyJoes.export(echoBool) -->
+         */
+        function echoBool(
+            value: boolean
+        ): boolean;
+
+        /**
+         * <!-- FishyJoes.export(echoUInt8) -->
+         */
+        function echoUInt8(
+            value: number
+        ): number;
+
+        /**
+         * <!-- FishyJoes.export(echoUInt16) -->
+         */
+        function echoUInt16(
+            value: number
+        ): number;
+
+        /**
+         * <!-- FishyJoes.export(echoUInt32) -->
+         */
+        function echoUInt32(
+            value: number
+        ): number;
+
+        /**
+         * <!-- FishyJoes.export(echoUInt64) -->
+         */
+        function echoUInt64(
+            value: bigint
+        ): bigint;
+
+        /**
+         * <!-- FishyJoes.export(echoInt8) -->
+         */
+        function echoInt8(
+            value: number
+        ): number;
+
+        /**
+         * <!-- FishyJoes.export(echoInt16) -->
+         */
+        function echoInt16(
+            value: number
+        ): number;
+
+        /**
+         * <!-- FishyJoes.export(echoInt32) -->
+         */
+        function echoInt32(
+            value: number
+        ): number;
+
+        /**
+         * <!-- FishyJoes.export(echoInt64) -->
+         */
+        function echoInt64(
+            value: bigint
+        ): bigint;
+
+        /**
+         * <!-- FishyJoes.export(echoFloat) -->
+         */
+        function echoFloat(
+            value: number
+        ): number;
+
+        /**
+         * <!-- FishyJoes.export(echoDouble) -->
+         */
+        function echoDouble(
+            value: number
+        ): number;
+
+        /**
+         * <!-- FishyJoes.export(maybeEchoBool) -->
+         */
+        function maybeEchoBool(
+            value: Optional<boolean>
+        ): Optional<boolean>;
+
+        /**
+         * <!-- FishyJoes.export(maybeEchoUInt8) -->
+         */
+        function maybeEchoUInt8(
+            value: Optional<number>
+        ): Optional<number>;
+
+        /**
+         * <!-- FishyJoes.export(maybeEchoUInt16) -->
+         */
+        function maybeEchoUInt16(
+            value: Optional<number>
+        ): Optional<number>;
+
+        /**
+         * <!-- FishyJoes.export(maybeEchoUInt32) -->
+         */
+        function maybeEchoUInt32(
+            value: Optional<number>
+        ): Optional<number>;
+
+        /**
+         * <!-- FishyJoes.export(maybeEchoUInt64) -->
+         */
+        function maybeEchoUInt64(
+            value: Optional<bigint>
+        ): Optional<bigint>;
+
+        /**
+         * <!-- FishyJoes.export(maybeEchoInt8) -->
+         */
+        function maybeEchoInt8(
+            value: Optional<number>
+        ): Optional<number>;
+
+        /**
+         * <!-- FishyJoes.export(maybeEchoInt16) -->
+         */
+        function maybeEchoInt16(
+            value: Optional<number>
+        ): Optional<number>;
+
+        /**
+         * <!-- FishyJoes.export(maybeEchoInt32) -->
+         */
+        function maybeEchoInt32(
+            value: Optional<number>
+        ): Optional<number>;
+
+        /**
+         * <!-- FishyJoes.export(maybeEchoInt64) -->
+         */
+        function maybeEchoInt64(
+            value: Optional<bigint>
+        ): Optional<bigint>;
+
+        /**
+         * <!-- FishyJoes.export(maybeEchoFloat) -->
+         */
+        function maybeEchoFloat(
+            value: Optional<number>
+        ): Optional<number>;
+
+        /**
+         * <!-- FishyJoes.export(maybeEchoDouble) -->
+         */
+        function maybeEchoDouble(
+            value: Optional<number>
+        ): Optional<number>;
+
+        /**
+         * <!-- FishyJoes.export(valueMapper) -->
+         */
+        function valueMapper(
+            value: Optional<number>,
+            mapper: (_0: number) => number
+        ): Optional<number>;
     }
 
-    /**
-     * <!-- FishyJoes.exportReference(Strings) -->
-     */
-    export class Strings {
-        private constructor()
-        private _inhibitStructuralTyping: any
+    export namespace SimpleEnum {
+        /**
+         * <!-- FishyJoes.export(favoriteColor) -->
+         */
+        var favoriteColor: SimpleEnum;
 
+        /**
+         * <!-- FishyJoes.export(pickAColor) -->
+         */
+        function pickAColor(
+            rawValue: number
+        ): Optional<SimpleEnum>;
+
+        /**
+         * <!-- FishyJoes.export(hexMethod) -->
+         */
+        function hexMethod(
+            self: SimpleEnum
+        ): string;
+
+        /**
+         * <!-- FishyJoes.export(resetFavoriteColor) -->
+         */
+        function resetFavoriteColor(
+        ): void;
+
+        /**
+         * <!-- FishyJoes.export(hex) -->
+         */
+        function getHex(
+            self: SimpleEnum
+        ): number;
+    }
+
+    export namespace Strings {
         /**
          * <!-- FishyJoes.export(simple) -->
          */
-        static readonly simple: string;
+        const simple: string;
 
         /**
          * <!-- FishyJoes.export(accent) -->
          */
-        static readonly accent: string;
+        const accent: string;
 
         /**
          * <!-- FishyJoes.export(script) -->
          */
-        static readonly script: string;
+        const script: string;
 
         /**
          * <!-- FishyJoes.export(chinese) -->
          */
-        static readonly chinese: string;
+        const chinese: string;
 
         /**
          * <!-- FishyJoes.export(chineseBMP) -->
          */
-        static readonly chineseBMP: string;
+        const chineseBMP: string;
 
         /**
          * <!-- FishyJoes.export(chineseSIP) -->
          */
-        static readonly chineseSIP: string;
+        const chineseSIP: string;
 
         /**
          * <!-- FishyJoes.export(emoji) -->
          */
-        static readonly emoji: string;
+        const emoji: string;
 
         /**
          * <!-- FishyJoes.export(emojiMulti) -->
          */
-        static readonly emojiMulti: string;
+        const emojiMulti: string;
 
         /**
          * <!-- FishyJoes.export(echo) -->
          */
-        static echo(
+        function echo(
             string: string
         ): string;
     }
 
-    /**
-     * <!-- FishyJoes.exportReference(Structs) -->
-     */
-    export class Structs {
-        private constructor()
-        private _inhibitStructuralTyping: any
-    }
     export namespace Structs {
         /**
          * <!-- FishyJoes.export(Structs.MemberwiseStruct) -->
@@ -950,103 +998,42 @@ export declare namespace TestAPI {
         }
     }
 
-    export type AssociatedDataEnum = AssociatedDataEnum.Thing | AssociatedDataEnum.Other | AssociatedDataEnum.Bar;
-    export type EmptyEnum = never;
-    export type SimpleEnum = "red" | "green" | "blue";
-    export type Tuples = never;
-
-    export namespace AssociatedDataEnum {
-        class _FictionalCommonSuperclass {
-            constructor()
-
-            /**
-             * <!-- FishyJoes.export(intValue) -->
-             */
-            readonly intValue: number;
-
-            /**
-             * <!-- FishyJoes.export(plus) -->
-             */
-            plus(
-                other: AssociatedDataEnum
-            ): AssociatedDataEnum;
-        }
-
-        export class Thing extends _FictionalCommonSuperclass {
-            constructor(value: number)
-
-            readonly value: number;
-        }
-
-        export class Other extends _FictionalCommonSuperclass {
-            constructor(unnamed: string, _1: number)
-
-            readonly unnamed: string;
-
-            readonly _1: number;
-        }
-
-        export class Bar extends _FictionalCommonSuperclass {
-            constructor(named: string, _1: AssociatedDataEnum)
-
-            readonly named: string;
-
-            readonly _1: AssociatedDataEnum;
-        }
-    }
-
-    export namespace EmptyEnum {
-        class _FictionalCommonSuperclass {
-            constructor()
-
-            /**
-             * <!-- FishyJoes.export(notGoingToHappen, noReturn: true) -->
-             */
-            static notGoingToHappen(
-            ): EmptyEnum;
-        }
-    }
-
     export namespace Tuples {
-        class _FictionalCommonSuperclass {
-            constructor()
+        /**
+         * <!-- FishyJoes.export(tuple2) -->
+         */
+        const tuple2: [number, string];
 
-            /**
-             * <!-- FishyJoes.export(tuple2) -->
-             */
-            static readonly tuple2: [number, string];
+        /**
+         * <!-- FishyJoes.export(tuple3) -->
+         */
+        const tuple3: [string, number, string];
 
-            /**
-             * <!-- FishyJoes.export(tuple3) -->
-             */
-            static readonly tuple3: [string, number, string];
+        /**
+         * <!-- FishyJoes.export(tuple4) -->
+         */
+        const tuple4: [[number, string], [string, number, string], string, boolean];
 
-            /**
-             * <!-- FishyJoes.export(tuple4) -->
-             */
-            static readonly tuple4: [[number, string], [string, number, string], string, boolean];
+        /**
+         * <!-- FishyJoes.export(tuple5) -->
+         */
+        const tuple5: [string, number, [[number, string], [string, number, string], string, boolean], [string, number, string], [number, string]];
 
-            /**
-             * <!-- FishyJoes.export(tuple5) -->
-             */
-            static readonly tuple5: [string, number, [[number, string], [string, number, string], string, boolean], [string, number, string], [number, string]];
+        /**
+         * <!-- FishyJoes.export(tuple6) -->
+         */
+        const tuple6: [string, number, number, [[number, string], [string, number, string], string, boolean], [string, number, [[number, string], [string, number, string], string, boolean], [string, number, string], [number, string]], boolean];
 
-            /**
-             * <!-- FishyJoes.export(tuple6) -->
-             */
-            static readonly tuple6: [string, number, number, [[number, string], [string, number, string], string, boolean], [string, number, [[number, string], [string, number, string], string, boolean], [string, number, string], [number, string]], boolean];
-
-            /**
-             * <!-- FishyJoes.export(checkTuples) -->
-             */
-            static checkTuples(
-                t2: [number, string],
-                t3: [string, number, string],
-                t4: [[number, string], [string, number, string], string, boolean],
-                t5: [string, number, [[number, string], [string, number, string], string, boolean], [string, number, string], [number, string]],
-                t6: [string, number, number, [[number, string], [string, number, string], string, boolean], [string, number, [[number, string], [string, number, string], string, boolean], [string, number, string], [number, string]], boolean]
-            ): boolean;
-        }
+        /**
+         * <!-- FishyJoes.export(checkTuples) -->
+         */
+        function checkTuples(
+            t2: [number, string],
+            t3: [string, number, string],
+            t4: [[number, string], [string, number, string], string, boolean],
+            t5: [string, number, [[number, string], [string, number, string], string, boolean], [string, number, string], [number, string]],
+            t6: [string, number, number, [[number, string], [string, number, string], string, boolean], [string, number, [[number, string], [string, number, string], string, boolean], [string, number, string], [number, string]], boolean]
+        ): boolean;
     }
 }
 

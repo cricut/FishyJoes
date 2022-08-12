@@ -1,6 +1,6 @@
 import Foundation
 
-/// <!-- FishyJoes.exportReference(Functions) -->
+/// <!-- FishyJoes.export(Functions) -->
 public enum Functions {
     public typealias Fun0 = () throws -> Int
     public typealias Fun1 = (Int) throws -> Int

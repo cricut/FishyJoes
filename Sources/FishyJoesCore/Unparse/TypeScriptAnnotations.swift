@@ -34,33 +34,50 @@ struct TypeScriptAnnotations: Codable {
         let value: TSType
     }
 
+    struct Interface: Codable {
+        var name: String
+        var forNamespace: String?
+        var fields: [Variable]
+        var methods: [Method]
+
+        init(
+            name: String,
+            forNamespace: String? = nil,
+            fields: [Variable],
+            methods: [Method]
+        ) {
+            self.name = name
+            self.forNamespace = forNamespace
+            self.fields = fields
+            self.methods = methods
+        }
+    }
+
     struct Class: Codable {
         let documentation: [String]
         var name: String
-        let superclass: String?
-        var exported: Bool
+        let extends: [String]
         let constructor: Constructor
         let fields: [Variable]
         let methods: [Method]
 
         enum Constructor {
             case hidden
+            case protectedNever
             case visible([(name: String, type: TSType)])
         }
 
         init(
             documentation: [String] = [],
             name: String,
-            superclass: String? = nil,
-            exported: Bool = true,
+            extends: [String] = [],
             constructor: Constructor,
             fields: [Variable],
             methods: [Method]
         ) {
             self.documentation = documentation
             self.name = name
-            self.superclass = superclass
-            self.exported = exported
+            self.extends = extends
             self.constructor = constructor
             self.fields = fields
             self.methods = methods
@@ -68,16 +85,42 @@ struct TypeScriptAnnotations: Codable {
     }
 
     class Namespace: Codable {
-        let name: String
+        var name: String
         var classes: [Class]
+        var interfaces: [Interface]
         var typealiases: [Typealias]
+        var fields: [Variable]
+        var methods: [Method]
         var namespaces: [String: Namespace]
 
-        init(name: String, classes: [Class] = [], typealiases: [Typealias] = [], namespaces: [String: Namespace] = [:]) {
+        init(
+            name: String,
+            classes: [Class] = [],
+            interfaces: [Interface] = [],
+            typealiases: [Typealias] = [],
+            fields: [Variable] = [],
+            methods: [Method] = [],
+            namespaces: [String: Namespace] = [:]
+        ) {
             self.name = name
             self.classes = classes
+            self.interfaces = interfaces
             self.typealiases = typealiases
+            self.fields = fields
+            self.methods = methods
             self.namespaces = namespaces
+        }
+
+        func merge(_ other: Namespace) {
+            classes += other.classes
+            interfaces += other.interfaces
+            typealiases += other.typealiases
+            fields += other.fields
+            methods += other.methods
+            namespaces.merge(other.namespaces) { left, right in
+                left.merge(right)
+                return left
+            }
         }
     }
 
@@ -106,6 +149,10 @@ extension TypeScriptAnnotations.TSType: CustomStringConvertible {
         default:
             return ": \(description)"
         }
+    }
+
+    static var void: Self {
+        return .named("void")
     }
 }
 
@@ -141,6 +188,23 @@ extension TypeScriptAnnotations {
         namespace.classes.append(newClass)
     }
 
+    func add(interface: Interface) {
+        let (namespace, name) = parseNamespace(for: interface.name)
+        var newInterface = interface
+        newInterface.name = name
+        namespace.interfaces.append(newInterface)
+    }
+
+    func add(namespace: Namespace) {
+        let (containingNamespace, name) = parseNamespace(for: namespace.name)
+        namespace.name = name
+        if let old = containingNamespace.namespaces[name] {
+            old.merge(namespace)
+        } else {
+            containingNamespace.namespaces[name] = namespace
+        }
+    }
+
     var fragment: SourceFragment {
         let fragment = SourceFragment(sourceryDestination: "file:NodeInterface/\(defaultNamespace).d.ts")
 
@@ -155,18 +219,82 @@ extension TypeScriptAnnotations {
             fragment.output(" */")
         }
 
+        func output(method: Method, inClass: Bool) {
+            document(method.documentation)
+            if !inClass {
+                fragment.output("function ", newLineTerminated: false)
+            } else if method.isStatic {
+                fragment.output("static ", newLineTerminated: false)
+            }
+            fragment.outputBlock("\(method.name)(", newLineTerminated: false) {
+                let requiredParams = method.parameters.filter { $0.defaultValue == nil }
+                let optionalParams = method.parameters.filter { $0.defaultValue != nil }
+
+                var isFirst = true
+                func outputComma() {
+                    if !isFirst {
+                        fragment.output(",")
+                    }
+                    isFirst = false
+                }
+
+                for parameter in requiredParams {
+                    outputComma()
+                    let labelComment = parameter.labelComment.map { "/* \($0) */ " } ?? ""
+                    fragment.output("\(labelComment)\(parameter.name): \(parameter.type)", newLineTerminated: false)
+                }
+                if !optionalParams.isEmpty {
+                    outputComma()
+                    fragment.outputBlock("options?: {", newLineTerminated: false) {
+                        for parameter in optionalParams {
+                            let labelComment = parameter.labelComment.map { "/* \($0) */ " } ?? ""
+                            fragment.output("\(labelComment)\"\(parameter.name)\"?: \(parameter.type) /* defaults to `\(parameter.defaultValue!)` */,")
+                        }
+                    }
+                }
+                if !isFirst {
+                    fragment.output()
+                }
+            }
+            fragment.output(": \(method.returnType);")
+            fragment.blankLine()
+        }
+
+        func output(field: Variable, inClass: Bool) {
+            document(field.documentation)
+            if inClass {
+                if field.isStatic {
+                    fragment.output("static ", newLineTerminated: false)
+                }
+                if field.readOnly {
+                    fragment.output("readonly ", newLineTerminated: false)
+                }
+                fragment.output("\(field.name)\(field.type.annotation);")
+                fragment.blankLine()
+            } else {
+                fragment.output("\(field.readOnly ? "const" : "var") \(field.name): \(field.type);")
+                fragment.blankLine()
+            }
+        }
+
         func output(namespace: Namespace, declare: Bool = false) {
             var processedNamespaces: Set<String> = []
             fragment.outputBlock("export \(declare ? "declare " : "")namespace \(namespace.name) {") {
                 for tsClass in namespace.classes {
-                    document(tsClass.documentation)
-                    if tsClass.exported {
-                        fragment.output("export ", newLineTerminated: false)
+                    if !tsClass.extends.isEmpty  {
+                        fragment.output("interface \(tsClass.name) extends \(tsClass.extends.joined(separator: ", ")) {}")
                     }
-                    fragment.outputBlock("class \(tsClass.name) \(tsClass.superclass.map { "extends \($0) " } ?? ""){") {
+
+                    document(tsClass.documentation)
+                    fragment.output("export ", newLineTerminated: false)
+                    fragment.outputBlock("class \(tsClass.name) {") {
                         switch tsClass.constructor {
                         case .hidden:
                             fragment.output("private constructor()")
+                            fragment.output("private _inhibitStructuralTyping: any")
+                            fragment.blankLine()
+                        case .protectedNever:
+                            fragment.output("protected constructor(dontSubclassMe: never)")
                             fragment.output("private _inhibitStructuralTyping: any")
                             fragment.blankLine()
                         case .visible(let parameters):
@@ -175,59 +303,39 @@ extension TypeScriptAnnotations {
                         }
 
                         for field in tsClass.fields {
-                            document(field.documentation)
-                            if field.isStatic {
-                                fragment.output("static ", newLineTerminated: false)
-                            }
-                            if field.readOnly {
-                                fragment.output("readonly ", newLineTerminated: false)
-                            }
-                            fragment.output("\(field.name)\(field.type.annotation);")
-                            fragment.blankLine()
+                            output(field: field, inClass: true)
                         }
-                        for method in tsClass.methods {
-                            document(method.documentation)
-                            fragment.outputBlock("\(method.isStatic ? "static " : "")\(method.name)(", newLineTerminated: false) {
-                                let requiredParams = method.parameters.filter { $0.defaultValue == nil }
-                                let optionalParams = method.parameters.filter { $0.defaultValue != nil }
-
-                                var isFirst = true
-                                func outputComma() {
-                                    if !isFirst {
-                                        fragment.output(",")
-                                    }
-                                    isFirst = false
-                                }
-
-                                for parameter in requiredParams {
-                                    outputComma()
-                                    let labelComment = parameter.labelComment.map { "/* \($0) */ " } ?? ""
-                                    fragment.output("\(labelComment)\(parameter.name): \(parameter.type)", newLineTerminated: false)
-                                }
-                                if !optionalParams.isEmpty {
-                                    outputComma()
-                                    fragment.outputBlock("options?: {", newLineTerminated: false) {
-                                        for parameter in optionalParams {
-                                            let labelComment = parameter.labelComment.map { "/* \($0) */ " } ?? ""
-                                            fragment.output("\(labelComment)\"\(parameter.name)\"?: \(parameter.type) /* defaults to `\(parameter.defaultValue!)` */,")
-                                        }
-                                    }
-                                }
-                                if !isFirst {
-                                    fragment.output()
-                                }
-                            }
-                            fragment.output(": \(method.returnType);")
-                            fragment.blankLine()
+                        for method in tsClass.methods  {
+                            output(method: method, inClass: true)
                         }
-                    }
-                    // Better organized output if extensions are next to definitions
-                    if let matchingNamespace = namespace.namespaces[tsClass.name] {
-                        output(namespace: matchingNamespace)
-                        processedNamespaces.insert(matchingNamespace.name)
                     }
                     fragment.blankLine()
                 }
+
+                for interface in namespace.interfaces {
+                    fragment.outputBlock("interface \(interface.name) {") {
+                        for field in interface.fields {
+                            output(field: field, inClass: true)
+                        }
+                        for method in interface.methods {
+                            output(method: method, inClass: true)
+                        }
+                    }
+
+                    // Better organized output if extensions are next to definitions
+                    if let matchingNamespace = interface.forNamespace.flatMap({ namespace.namespaces[$0] }) {
+                        output(namespace: matchingNamespace)
+                        processedNamespaces.insert(matchingNamespace.name)
+                    }
+                }
+
+                for field in namespace.fields {
+                    output(field: field, inClass: false)
+                }
+                for method in namespace.methods {
+                    output(method: method, inClass: false)
+                }
+
                 for alias in namespace.typealiases {
                     fragment.output("export type \(alias.name) = \(alias.value);")
                 }
@@ -254,26 +362,32 @@ extension TypeScriptAnnotations {
 
 // Tuples aren't codable :(
 extension TypeScriptAnnotations.Class.Constructor: Codable {
-    fileprivate struct NameType: Codable {
-        let name: String
-        let type: TypeScriptAnnotations.TSType
+    fileprivate enum CodingType: Codable {
+        case hidden
+        case protectedNever
+        case visible(names: [String], types: [TypeScriptAnnotations.TSType])
     }
 
     init(from decoder: Decoder) throws {
-        if let args = try [NameType]?.init(from: decoder) {
-            self = .visible(args.map { ($0.name, $0.type) })
-        } else {
+        switch try CodingType.init(from: decoder) {
+        case .hidden:
             self = .hidden
+        case .protectedNever:
+            self = .protectedNever
+        case let .visible(names, types):
+            self = .visible(Array(zip(names, types)))
         }
     }
 
     func encode(to encoder: Encoder) throws {
-        let codable: [NameType]?
+        let codable: CodingType
         switch self {
         case .hidden:
-            codable = nil
+            codable = .hidden
+        case .protectedNever:
+            codable = .protectedNever
         case .visible(let args):
-            codable = args.map { NameType(name: $0.name, type: $0.type) }
+            codable = .visible(names: args.map(\.name), types: args.map(\.type))
         }
         try codable.encode(to: encoder)
     }
