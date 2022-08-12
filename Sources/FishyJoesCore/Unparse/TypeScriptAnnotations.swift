@@ -19,7 +19,7 @@ struct TypeScriptAnnotations: Codable {
             let labelComment: String?
             let name: String
             let type: TSType
-            let isOptional: Bool
+            let defaultValue: String?
         }
         let documentation: [String]
         let isStatic: Bool
@@ -188,8 +188,8 @@ extension TypeScriptAnnotations {
                         for method in tsClass.methods {
                             document(method.documentation)
                             fragment.outputBlock("\(method.isStatic ? "static " : "")\(method.name)(", newLineTerminated: false) {
-                                let requiredParams = method.parameters.filter { !$0.isOptional }
-                                let optionalParams = method.parameters.filter { $0.isOptional }
+                                let requiredParams = method.parameters.filter { $0.defaultValue == nil }
+                                let optionalParams = method.parameters.filter { $0.defaultValue != nil }
 
                                 var isFirst = true
                                 func outputComma() {
@@ -209,7 +209,7 @@ extension TypeScriptAnnotations {
                                     fragment.outputBlock("options?: {", newLineTerminated: false) {
                                         for parameter in optionalParams {
                                             let labelComment = parameter.labelComment.map { "/* \($0) */ " } ?? ""
-                                            fragment.output("\(labelComment)\"\(parameter.name)\"?: \(parameter.type),")
+                                            fragment.output("\(labelComment)\"\(parameter.name)\"?: \(parameter.type) /* defaults to `\(parameter.defaultValue!)` */,")
                                         }
                                     }
                                 }

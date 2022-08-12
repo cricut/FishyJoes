@@ -814,7 +814,6 @@
                 "name" : "echoBytes",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "bytes",
                     "type" : {
                       "named" : {
@@ -837,7 +836,6 @@
                 "name" : "echoData",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "data",
                     "type" : {
                       "named" : {
@@ -1026,7 +1024,6 @@
                 "name" : "echoArrayOfInt",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "arrayOfInt",
                     "type" : {
                       "named" : {
@@ -1049,7 +1046,6 @@
                 "name" : "echoSetOfInt",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "setOfInt",
                     "type" : {
                       "named" : {
@@ -1072,7 +1068,6 @@
                 "name" : "echoDictionaryOfIntToInt",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "dictionaryOfIntToInt",
                     "type" : {
                       "named" : {
@@ -1095,7 +1090,6 @@
                 "name" : "echoMaybeArrayOfMaybeInt",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "maybeArrayOfMaybeInt",
                     "type" : {
                       "optional" : {
@@ -1126,7 +1120,6 @@
                 "name" : "echoMaybeSetOfMaybeInt",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "maybeSetOfMaybeInt",
                     "type" : {
                       "optional" : {
@@ -1157,7 +1150,6 @@
                 "name" : "echoMaybeDictionaryOfIntToMaybeInt",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "maybeDictionaryOfIntToMaybeInt",
                     "type" : {
                       "optional" : {
@@ -1188,7 +1180,6 @@
                 "name" : "collectionMapper",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "collection",
                     "type" : {
                       "optional" : {
@@ -1201,7 +1192,6 @@
                     }
                   },
                   {
-                    "isOptional" : false,
                     "name" : "mapper",
                     "type" : {
                       "named" : {
@@ -1241,7 +1231,7 @@
                 "name" : "echoDefaults",
                 "parameters" : [
                   {
-                    "isOptional" : true,
+                    "defaultValue" : "nil",
                     "name" : "y",
                     "type" : {
                       "optional" : {
@@ -1254,7 +1244,6 @@
                     }
                   },
                   {
-                    "isOptional" : false,
                     "name" : "x",
                     "type" : {
                       "optional" : {
@@ -1267,7 +1256,7 @@
                     }
                   },
                   {
-                    "isOptional" : true,
+                    "defaultValue" : "3.14",
                     "name" : "z",
                     "type" : {
                       "named" : {
@@ -1435,7 +1424,6 @@
                 "name" : "exercise0",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "fn",
                     "type" : {
                       "named" : {
@@ -1458,7 +1446,6 @@
                 "name" : "exercise1",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "fn",
                     "type" : {
                       "named" : {
@@ -1481,7 +1468,6 @@
                 "name" : "exercise2",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "fn",
                     "type" : {
                       "named" : {
@@ -1504,7 +1490,6 @@
                 "name" : "exercise3",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "fn",
                     "type" : {
                       "named" : {
@@ -1527,7 +1512,6 @@
                 "name" : "exercise4",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "fn",
                     "type" : {
                       "named" : {
@@ -1550,7 +1534,6 @@
                 "name" : "exercise5",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "fn",
                     "type" : {
                       "named" : {
@@ -1573,7 +1556,6 @@
                 "name" : "exercise6",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "fn",
                     "type" : {
                       "named" : {
@@ -2377,7 +2359,6 @@
                 "name" : "echoBool",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "value",
                     "type" : {
                       "named" : {
@@ -2400,7 +2381,6 @@
                 "name" : "echoUInt8",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "value",
                     "type" : {
                       "named" : {
@@ -2423,7 +2403,6 @@
                 "name" : "echoUInt16",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "value",
                     "type" : {
                       "named" : {
@@ -2446,7 +2425,6 @@
                 "name" : "echoUInt32",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "value",
                     "type" : {
                       "named" : {
@@ -2469,7 +2447,6 @@
                 "name" : "echoUInt64",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "value",
                     "type" : {
                       "named" : {
@@ -2492,7 +2469,6 @@
                 "name" : "echoInt8",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "value",
                     "type" : {
                       "named" : {
@@ -2515,7 +2491,6 @@
                 "name" : "echoInt16",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "value",
                     "type" : {
                       "named" : {
@@ -2538,7 +2513,6 @@
                 "name" : "echoInt32",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "value",
                     "type" : {
                       "named" : {
@@ -2561,7 +2535,6 @@
                 "name" : "echoInt64",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "value",
                     "type" : {
                       "named" : {
@@ -2584,7 +2557,6 @@
                 "name" : "echoFloat",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "value",
                     "type" : {
                       "named" : {
@@ -2607,7 +2579,6 @@
                 "name" : "echoDouble",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "value",
                     "type" : {
                       "named" : {
@@ -2630,7 +2601,6 @@
                 "name" : "maybeEchoBool",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "value",
                     "type" : {
                       "optional" : {
@@ -2661,7 +2631,6 @@
                 "name" : "maybeEchoUInt8",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "value",
                     "type" : {
                       "optional" : {
@@ -2692,7 +2661,6 @@
                 "name" : "maybeEchoUInt16",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "value",
                     "type" : {
                       "optional" : {
@@ -2723,7 +2691,6 @@
                 "name" : "maybeEchoUInt32",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "value",
                     "type" : {
                       "optional" : {
@@ -2754,7 +2721,6 @@
                 "name" : "maybeEchoUInt64",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "value",
                     "type" : {
                       "optional" : {
@@ -2785,7 +2751,6 @@
                 "name" : "maybeEchoInt8",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "value",
                     "type" : {
                       "optional" : {
@@ -2816,7 +2781,6 @@
                 "name" : "maybeEchoInt16",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "value",
                     "type" : {
                       "optional" : {
@@ -2847,7 +2811,6 @@
                 "name" : "maybeEchoInt32",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "value",
                     "type" : {
                       "optional" : {
@@ -2878,7 +2841,6 @@
                 "name" : "maybeEchoInt64",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "value",
                     "type" : {
                       "optional" : {
@@ -2909,7 +2871,6 @@
                 "name" : "maybeEchoFloat",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "value",
                     "type" : {
                       "optional" : {
@@ -2940,7 +2901,6 @@
                 "name" : "maybeEchoDouble",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "value",
                     "type" : {
                       "optional" : {
@@ -2971,7 +2931,6 @@
                 "name" : "valueMapper",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "value",
                     "type" : {
                       "optional" : {
@@ -2984,7 +2943,6 @@
                     }
                   },
                   {
-                    "isOptional" : false,
                     "name" : "mapper",
                     "type" : {
                       "named" : {
@@ -3127,7 +3085,6 @@
                 "name" : "echo",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "string",
                     "type" : {
                       "named" : {
@@ -3196,7 +3153,6 @@
                     "name" : "plus",
                     "parameters" : [
                       {
-                        "isOptional" : false,
                         "name" : "other",
                         "type" : {
                           "named" : {
@@ -4500,7 +4456,6 @@
                     "name" : "checkTuples",
                     "parameters" : [
                       {
-                        "isOptional" : false,
                         "name" : "t2",
                         "type" : {
                           "named" : {
@@ -4509,7 +4464,6 @@
                         }
                       },
                       {
-                        "isOptional" : false,
                         "name" : "t3",
                         "type" : {
                           "named" : {
@@ -4518,7 +4472,6 @@
                         }
                       },
                       {
-                        "isOptional" : false,
                         "name" : "t4",
                         "type" : {
                           "named" : {
@@ -4527,7 +4480,6 @@
                         }
                       },
                       {
-                        "isOptional" : false,
                         "name" : "t5",
                         "type" : {
                           "named" : {
@@ -4536,7 +4488,6 @@
                         }
                       },
                       {
-                        "isOptional" : false,
                         "name" : "t6",
                         "type" : {
                           "named" : {

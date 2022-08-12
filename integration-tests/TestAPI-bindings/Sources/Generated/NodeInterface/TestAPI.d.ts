@@ -189,8 +189,8 @@ export declare namespace TestAPI {
         static echoDefaults(
             x: Optional<number>,
             options?: {
-                "y"?: Optional<number>,
-                "z"?: number,
+                "y"?: Optional<number> /* defaults to `nil` */,
+                "z"?: number /* defaults to `3.14` */,
             }
         ): string;
     }

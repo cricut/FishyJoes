@@ -243,7 +243,7 @@ struct NodeTranslator: Translator {
                     labelComment: label,
                     name: parameter.name,
                     type: resolved.nodeType,
-                    isOptional: parameter.defaultValue != nil
+                    defaultValue: parameter.defaultValue
                 )
             )
         }
