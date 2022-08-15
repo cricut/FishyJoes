@@ -93,6 +93,57 @@ struct TypeScriptAnnotations: Codable {
         var methods: [Method]
         var namespaces: [String: Namespace]
 
+        // .d.ts file should be grouped in a logical order.
+        // In particular we always want type definitions (typealiases) next to the operations on that type (namespaces)
+        enum AlphabeticalMember {
+            case `typealias`(Typealias)
+            case interface(Interface)
+            case `class`(Class)
+            case namespace(Namespace)
+            case method(Method)
+            case field(Variable)
+
+            var name: String {
+                switch self {
+                case .typealias(let alias):
+                    return alias.name
+                case .interface(let interface):
+                    return interface.name
+                case .class(let tsClass):
+                    return tsClass.name
+                case .namespace(let namespace):
+                    return namespace.name
+                case .method(let method):
+                    return method.name
+                case .field(let field):
+                    return field.name
+                }
+            }
+
+            var tiebreaker: Int {
+                switch self {
+                case .typealias: return 0
+                case .interface: return 1
+                case .class: return 2
+                case .namespace: return 3
+                case .method: return 4
+                case .field: return 5
+                }
+            }
+        }
+
+        var alphabeticalMembers: [AlphabeticalMember] {
+            var members: [AlphabeticalMember] = []
+            members.append(contentsOf: classes.map { AlphabeticalMember.class($0) })
+            members.append(contentsOf: interfaces.map { AlphabeticalMember.interface($0) })
+            members.append(contentsOf: typealiases.map { AlphabeticalMember.typealias($0) })
+            members.append(contentsOf: fields.map { AlphabeticalMember.field($0) })
+            members.append(contentsOf: methods.map { AlphabeticalMember.method($0) })
+            members.append(contentsOf: namespaces.map { AlphabeticalMember.namespace($0.value) })
+            members.sort { ($0.name, $0.tiebreaker) < ($1.name, $1.tiebreaker) }
+            return members
+        }
+
         init(
             name: String,
             classes: [Class] = [],
@@ -278,76 +329,65 @@ extension TypeScriptAnnotations {
         }
 
         func output(namespace: Namespace, declare: Bool = false) {
-            var processedNamespaces: Set<String> = []
             fragment.outputBlock("export \(declare ? "declare " : "")namespace \(namespace.name) {") {
-                for tsClass in namespace.classes {
-                    if !tsClass.extends.isEmpty  {
-                        fragment.output("interface \(tsClass.name) extends \(tsClass.extends.joined(separator: ", ")) {}")
+                var previousName: String? = nil
+                for thing in namespace.alphabeticalMembers {
+                    // blank line between differently named things
+                    if let prev = previousName, prev != thing.name {
+                        fragment.blankLine()
                     }
+                    previousName = thing.name
 
-                    document(tsClass.documentation)
-                    fragment.output("export ", newLineTerminated: false)
-                    fragment.outputBlock("class \(tsClass.name) {") {
-                        switch tsClass.constructor {
-                        case .hidden:
-                            fragment.output("private constructor()")
-                            fragment.output("private _inhibitStructuralTyping: any")
-                            fragment.blankLine()
-                        case .protectedNever:
-                            fragment.output("protected constructor(dontSubclassMe: never)")
-                            fragment.output("private _inhibitStructuralTyping: any")
-                            fragment.blankLine()
-                        case .visible(let parameters):
-                            fragment.output("constructor(\(parameters.map { "\($0.name): \($0.type)" }.joined(separator: ", ")))")
-                            fragment.blankLine()
+                    switch thing {
+                    case .class(let tsClass):
+                        if !tsClass.extends.isEmpty  {
+                            fragment.output("interface \(tsClass.name) extends \(tsClass.extends.joined(separator: ", ")) {}")
                         }
 
-                        for field in tsClass.fields {
-                            output(field: field, inClass: true)
-                        }
-                        for method in tsClass.methods  {
-                            output(method: method, inClass: true)
-                        }
-                    }
-                    fragment.blankLine()
-                }
+                        document(tsClass.documentation)
+                        fragment.output("export ", newLineTerminated: false)
+                        fragment.outputBlock("class \(tsClass.name) {") {
+                            switch tsClass.constructor {
+                            case .hidden:
+                                fragment.output("private constructor()")
+                                fragment.output("private _inhibitStructuralTyping: any")
+                                fragment.blankLine()
+                            case .protectedNever:
+                                fragment.output("protected constructor(dontSubclassMe: never)")
+                                fragment.output("private _inhibitStructuralTyping: any")
+                                fragment.blankLine()
+                            case .visible(let parameters):
+                                fragment.output("constructor(\(parameters.map { "\($0.name): \($0.type)" }.joined(separator: ", ")))")
+                                fragment.blankLine()
+                            }
 
-                for interface in namespace.interfaces {
-                    fragment.outputBlock("interface \(interface.name) {") {
-                        for field in interface.fields {
-                            output(field: field, inClass: true)
+                            for field in tsClass.fields {
+                                output(field: field, inClass: true)
+                            }
+                            for method in tsClass.methods  {
+                                output(method: method, inClass: true)
+                            }
                         }
-                        for method in interface.methods {
-                            output(method: method, inClass: true)
+                    case .interface(let interface):
+                        fragment.outputBlock("interface \(interface.name) {") {
+                            for field in interface.fields {
+                                output(field: field, inClass: true)
+                            }
+                            for method in interface.methods {
+                                output(method: method, inClass: true)
+                            }
                         }
+                    case .field(let field):
+                        output(field: field, inClass: false)
+                    case .method(let method):
+                        output(method: method, inClass: false)
+                    case .typealias(let alias):
+                        fragment.output("export type \(alias.name) = \(alias.value);")
+                    case .namespace(let namespace):
+                        output(namespace: namespace)
                     }
-
-                    // Better organized output if extensions are next to definitions
-                    if let matchingNamespace = interface.forNamespace.flatMap({ namespace.namespaces[$0] }) {
-                        output(namespace: matchingNamespace)
-                        processedNamespaces.insert(matchingNamespace.name)
-                    }
-                }
-
-                for field in namespace.fields {
-                    output(field: field, inClass: false)
-                }
-                for method in namespace.methods {
-                    output(method: method, inClass: false)
-                }
-
-                for alias in namespace.typealiases {
-                    fragment.output("export type \(alias.name) = \(alias.value);")
-                }
-                fragment.blankLine()
-                for namespace in namespace.namespaces.sorted(by: { $0.key < $1.key }).map(\.value) {
-                    if processedNamespaces.contains(namespace.name) {
-                        continue
-                    }
-                    output(namespace: namespace)
                 }
             }
-            fragment.blankLine()
         }
         rootNamespaces.forEach { output(namespace: $0, declare: true) }
         fragment.outputBlock("export declare function init(): Promise<{", closeWith: "}>;") {

@@ -1,5 +1,38 @@
 export type Optional<T> = T | undefined;
 export declare namespace TestAPI {
+    export type AssociatedDataEnum = AssociatedDataEnum.Thing | AssociatedDataEnum.Other | AssociatedDataEnum.Bar;
+    export namespace AssociatedDataEnum {
+        interface Bar extends AssociatedDataEnum_Common {}
+        export class Bar {
+            constructor(named: string, _1: AssociatedDataEnum)
+
+            readonly named: string;
+
+            readonly _1: AssociatedDataEnum;
+        }
+
+        interface Other extends AssociatedDataEnum_Common {}
+        export class Other {
+            constructor(unnamed: string, _1: number)
+
+            readonly unnamed: string;
+
+            readonly _1: number;
+        }
+
+        interface Thing extends AssociatedDataEnum_Common {}
+        export class Thing {
+            constructor(value: number)
+
+            readonly value: number;
+        }
+
+        /**
+         * <!-- FishyJoes.export(staticThing) -->
+         */
+        const staticThing: AssociatedDataEnum;
+    }
+
     interface AssociatedDataEnum_Common {
         /**
          * <!-- FishyJoes.export(intValue) -->
@@ -13,51 +46,8 @@ export declare namespace TestAPI {
             other: AssociatedDataEnum
         ): AssociatedDataEnum;
     }
-    export namespace AssociatedDataEnum {
-        interface Thing extends AssociatedDataEnum_Common {}
-        export class Thing {
-            constructor(value: number)
 
-            readonly value: number;
-        }
-
-        interface Other extends AssociatedDataEnum_Common {}
-        export class Other {
-            constructor(unnamed: string, _1: number)
-
-            readonly unnamed: string;
-
-            readonly _1: number;
-        }
-
-        interface Bar extends AssociatedDataEnum_Common {}
-        export class Bar {
-            constructor(named: string, _1: AssociatedDataEnum)
-
-            readonly named: string;
-
-            readonly _1: AssociatedDataEnum;
-        }
-
-        /**
-         * <!-- FishyJoes.export(staticThing) -->
-         */
-        const staticThing: AssociatedDataEnum;
-    }
-
-    export type AssociatedDataEnum = AssociatedDataEnum.Thing | AssociatedDataEnum.Other | AssociatedDataEnum.Bar;
     export type Bytes = never;
-    export type Collections = never;
-    export type DefaultArguments = never;
-    export type Deprecations = never;
-    export type EmptyEnum = never;
-    export type Functions = never;
-    export type Primitives = never;
-    export type SimpleEnum = "red" | "green" | "blue";
-    export type Strings = never;
-    export type Structs = never;
-    export type Tuples = never;
-
     export namespace Bytes {
         /**
          * <!-- FishyJoes.export(bytes, cSharp: TheBytes) -->
@@ -84,6 +74,7 @@ export declare namespace TestAPI {
         ): ArrayBuffer;
     }
 
+    export type Collections = never;
     export namespace Collections {
         /**
          * <!-- FishyJoes.export(Collections.CollectionHolder) -->
@@ -126,44 +117,12 @@ export declare namespace TestAPI {
         const arrayOfInt: number[];
 
         /**
-         * <!-- FishyJoes.export(setOfInt) -->
+         * <!-- FishyJoes.export(collectionMapper) -->
          */
-        const setOfInt: Set<number>;
-
-        /**
-         * <!-- FishyJoes.export(dictionaryOfIntToInt) -->
-         */
-        const dictionaryOfIntToInt: Map<number, number>;
-
-        /**
-         * <!-- FishyJoes.export(maybeArrayOfInt) -->
-         */
-        const maybeArrayOfInt: Optional<number[]>;
-
-        /**
-         * <!-- FishyJoes.export(maybeSetOfInt) -->
-         */
-        const maybeSetOfInt: Optional<Set<number>>;
-
-        /**
-         * <!-- FishyJoes.export(maybeDictionaryOfIntToInt) -->
-         */
-        const maybeDictionaryOfIntToInt: Optional<Map<number, number>>;
-
-        /**
-         * <!-- FishyJoes.export(maybeArrayOfMaybeInt) -->
-         */
-        const maybeArrayOfMaybeInt: Optional<number[]>;
-
-        /**
-         * <!-- FishyJoes.export(maybeSetOfMaybeInt) -->
-         */
-        const maybeSetOfMaybeInt: Optional<Set<number>>;
-
-        /**
-         * <!-- FishyJoes.export(maybeDictionaryOfIntToMaybeInt) -->
-         */
-        const maybeDictionaryOfIntToMaybeInt: Optional<Map<number, number>>;
+        function collectionMapper(
+            collection: Optional<number[]>,
+            mapper: (_0: number[]) => number[]
+        ): Optional<number[]>;
 
         /**
          * <!-- FishyJoes.export(defaultCollectionHolder) -->
@@ -171,18 +130,16 @@ export declare namespace TestAPI {
         const defaultCollectionHolder: Collections.CollectionHolder;
 
         /**
+         * <!-- FishyJoes.export(dictionaryOfIntToInt) -->
+         */
+        const dictionaryOfIntToInt: Map<number, number>;
+
+        /**
          * <!-- FishyJoes.export(echoArrayOfInt) -->
          */
         function echoArrayOfInt(
             arrayOfInt: number[]
         ): number[];
-
-        /**
-         * <!-- FishyJoes.export(echoSetOfInt) -->
-         */
-        function echoSetOfInt(
-            setOfInt: Set<number>
-        ): Set<number>;
 
         /**
          * <!-- FishyJoes.export(echoDictionaryOfIntToInt) -->
@@ -199,13 +156,6 @@ export declare namespace TestAPI {
         ): Optional<number[]>;
 
         /**
-         * <!-- FishyJoes.export(echoMaybeSetOfMaybeInt) -->
-         */
-        function echoMaybeSetOfMaybeInt(
-            maybeSetOfMaybeInt: Optional<Set<number>>
-        ): Optional<Set<number>>;
-
-        /**
          * <!-- FishyJoes.export(echoMaybeDictionaryOfIntToMaybeInt) -->
          */
         function echoMaybeDictionaryOfIntToMaybeInt(
@@ -213,14 +163,56 @@ export declare namespace TestAPI {
         ): Optional<Map<number, number>>;
 
         /**
-         * <!-- FishyJoes.export(collectionMapper) -->
+         * <!-- FishyJoes.export(echoMaybeSetOfMaybeInt) -->
          */
-        function collectionMapper(
-            collection: Optional<number[]>,
-            mapper: (_0: number[]) => number[]
-        ): Optional<number[]>;
+        function echoMaybeSetOfMaybeInt(
+            maybeSetOfMaybeInt: Optional<Set<number>>
+        ): Optional<Set<number>>;
+
+        /**
+         * <!-- FishyJoes.export(echoSetOfInt) -->
+         */
+        function echoSetOfInt(
+            setOfInt: Set<number>
+        ): Set<number>;
+
+        /**
+         * <!-- FishyJoes.export(maybeArrayOfInt) -->
+         */
+        const maybeArrayOfInt: Optional<number[]>;
+
+        /**
+         * <!-- FishyJoes.export(maybeArrayOfMaybeInt) -->
+         */
+        const maybeArrayOfMaybeInt: Optional<number[]>;
+
+        /**
+         * <!-- FishyJoes.export(maybeDictionaryOfIntToInt) -->
+         */
+        const maybeDictionaryOfIntToInt: Optional<Map<number, number>>;
+
+        /**
+         * <!-- FishyJoes.export(maybeDictionaryOfIntToMaybeInt) -->
+         */
+        const maybeDictionaryOfIntToMaybeInt: Optional<Map<number, number>>;
+
+        /**
+         * <!-- FishyJoes.export(maybeSetOfInt) -->
+         */
+        const maybeSetOfInt: Optional<Set<number>>;
+
+        /**
+         * <!-- FishyJoes.export(maybeSetOfMaybeInt) -->
+         */
+        const maybeSetOfMaybeInt: Optional<Set<number>>;
+
+        /**
+         * <!-- FishyJoes.export(setOfInt) -->
+         */
+        const setOfInt: Set<number>;
     }
 
+    export type DefaultArguments = never;
     export namespace DefaultArguments {
         /**
          * <!-- FishyJoes.export(echoDefaults) -->
@@ -234,21 +226,23 @@ export declare namespace TestAPI {
         ): string;
     }
 
+    export type Deprecations = never;
     export namespace Deprecations {
-        /**
-         * <!-- FishyJoes.export(deprecatedVariable) -->
-         * @deprecated replace with `deprecatedMethod` ( <-- swift name, sorry )
-         */
-        const deprecatedVariable: number;
-
         /**
          * <!-- FishyJoes.export(deprecatedMethod) -->
          * @deprecated don't use this
          */
         function deprecatedMethod(
         ): string;
+
+        /**
+         * <!-- FishyJoes.export(deprecatedVariable) -->
+         * @deprecated replace with `deprecatedMethod` ( <-- swift name, sorry )
+         */
+        const deprecatedVariable: number;
     }
 
+    export type EmptyEnum = never;
     export namespace EmptyEnum {
         /**
          * <!-- FishyJoes.export(notGoingToHappen, noReturn: true) -->
@@ -257,6 +251,7 @@ export declare namespace TestAPI {
         ): EmptyEnum;
     }
 
+    export type Functions = never;
     export namespace Functions {
         /**
          * <!-- FishyJoes.exportReference(Functions.TheError) -->
@@ -267,19 +262,9 @@ export declare namespace TestAPI {
         }
 
         /**
-         * <!-- FishyJoes.export(const42) -->
-         */
-        const const42: () => number;
-
-        /**
          * <!-- FishyJoes.export(abs) -->
          */
         const abs: (_0: number) => number;
-
-        /**
-         * <!-- FishyJoes.export(intCompose) -->
-         */
-        const intCompose: (_0: (_0: number) => number, _1: (_0: number) => number) => (_0: number) => number;
 
         /**
          * <!-- FishyJoes.export(add3Things) -->
@@ -287,19 +272,9 @@ export declare namespace TestAPI {
         const add3Things: (_0: number, _1: number, _2: number) => number;
 
         /**
-         * <!-- FishyJoes.export(makeList) -->
+         * <!-- FishyJoes.export(const42) -->
          */
-        const makeList: (_0: string, _1: string, _2: string, _3: string) => string[];
-
-        /**
-         * <!-- FishyJoes.export(fifthThing) -->
-         */
-        const fifthThing: (_0: string, _1: number, _2: number, _3: string, _4: () => number) => () => number;
-
-        /**
-         * <!-- FishyJoes.export(sixthThing) -->
-         */
-        const sixthThing: (_0: string, _1: number, _2: number, _3: string, _4: () => number, _5: number) => number;
+        const const42: () => number;
 
         /**
          * <!-- FishyJoes.export(exercise0) -->
@@ -351,12 +326,33 @@ export declare namespace TestAPI {
         ): string;
 
         /**
+         * <!-- FishyJoes.export(fifthThing) -->
+         */
+        const fifthThing: (_0: string, _1: number, _2: number, _3: string, _4: () => number) => () => number;
+
+        /**
+         * <!-- FishyJoes.export(intCompose) -->
+         */
+        const intCompose: (_0: (_0: number) => number, _1: (_0: number) => number) => (_0: number) => number;
+
+        /**
+         * <!-- FishyJoes.export(makeList) -->
+         */
+        const makeList: (_0: string, _1: string, _2: string, _3: string) => string[];
+
+        /**
+         * <!-- FishyJoes.export(sixthThing) -->
+         */
+        const sixthThing: (_0: string, _1: number, _2: number, _3: string, _4: () => number, _5: number) => number;
+
+        /**
          * <!-- FishyJoes.export(willThrow) -->
          */
         function willThrow(
         ): string;
     }
 
+    export type Primitives = never;
     export namespace Primitives {
         /**
          * <!-- FishyJoes.export(Primitives.PrimitiveHolder) -->
@@ -420,291 +416,6 @@ export declare namespace TestAPI {
         }
 
         /**
-         * <!-- FishyJoes.export(falseBool) -->
-         */
-        const falseBool: boolean;
-
-        /**
-         * <!-- FishyJoes.export(trueBool) -->
-         */
-        const trueBool: boolean;
-
-        /**
-         * <!-- FishyJoes.export(zeroUInt8) -->
-         */
-        const zeroUInt8: number;
-
-        /**
-         * <!-- FishyJoes.export(minUInt8) -->
-         */
-        const minUInt8: number;
-
-        /**
-         * <!-- FishyJoes.export(maxUInt8) -->
-         */
-        const maxUInt8: number;
-
-        /**
-         * <!-- FishyJoes.export(zeroUInt16) -->
-         */
-        const zeroUInt16: number;
-
-        /**
-         * <!-- FishyJoes.export(minUInt16) -->
-         */
-        const minUInt16: number;
-
-        /**
-         * <!-- FishyJoes.export(maxUInt16) -->
-         */
-        const maxUInt16: number;
-
-        /**
-         * <!-- FishyJoes.export(zeroUInt32) -->
-         */
-        const zeroUInt32: number;
-
-        /**
-         * <!-- FishyJoes.export(minUInt32) -->
-         */
-        const minUInt32: number;
-
-        /**
-         * <!-- FishyJoes.export(maxUInt32) -->
-         */
-        const maxUInt32: number;
-
-        /**
-         * <!-- FishyJoes.export(zeroUInt64) -->
-         */
-        const zeroUInt64: bigint;
-
-        /**
-         * <!-- FishyJoes.export(minUInt64) -->
-         */
-        const minUInt64: bigint;
-
-        /**
-         * <!-- FishyJoes.export(maxUInt64) -->
-         */
-        const maxUInt64: bigint;
-
-        /**
-         * <!-- FishyJoes.export(zeroInt8) -->
-         */
-        const zeroInt8: number;
-
-        /**
-         * <!-- FishyJoes.export(minInt8) -->
-         */
-        const minInt8: number;
-
-        /**
-         * <!-- FishyJoes.export(maxInt8) -->
-         */
-        const maxInt8: number;
-
-        /**
-         * <!-- FishyJoes.export(zeroInt16) -->
-         */
-        const zeroInt16: number;
-
-        /**
-         * <!-- FishyJoes.export(minInt16) -->
-         */
-        const minInt16: number;
-
-        /**
-         * <!-- FishyJoes.export(maxInt16) -->
-         */
-        const maxInt16: number;
-
-        /**
-         * <!-- FishyJoes.export(zeroInt32) -->
-         */
-        const zeroInt32: number;
-
-        /**
-         * <!-- FishyJoes.export(minInt32) -->
-         */
-        const minInt32: number;
-
-        /**
-         * <!-- FishyJoes.export(maxInt32) -->
-         */
-        const maxInt32: number;
-
-        /**
-         * <!-- FishyJoes.export(zeroInt64) -->
-         */
-        const zeroInt64: bigint;
-
-        /**
-         * <!-- FishyJoes.export(minInt64) -->
-         */
-        const minInt64: bigint;
-
-        /**
-         * <!-- FishyJoes.export(maxInt64) -->
-         */
-        const maxInt64: bigint;
-
-        /**
-         * <!-- FishyJoes.export(zeroInt) -->
-         */
-        const zeroInt: number;
-
-        /**
-         * <!-- FishyJoes.export(minInt) -->
-         */
-        const minInt: number;
-
-        /**
-         * <!-- FishyJoes.export(maxInt) -->
-         */
-        const maxInt: number;
-
-        /**
-         * <!-- FishyJoes.export(zeroFloat) -->
-         */
-        const zeroFloat: number;
-
-        /**
-         * <!-- FishyJoes.export(minFloat) -->
-         */
-        const minFloat: number;
-
-        /**
-         * <!-- FishyJoes.export(maxFloat) -->
-         */
-        const maxFloat: number;
-
-        /**
-         * <!-- FishyJoes.export(zeroDouble) -->
-         */
-        const zeroDouble: number;
-
-        /**
-         * <!-- FishyJoes.export(minDouble) -->
-         */
-        const minDouble: number;
-
-        /**
-         * <!-- FishyJoes.export(maxDouble) -->
-         */
-        const maxDouble: number;
-
-        /**
-         * <!-- FishyJoes.export(manyBool) -->
-         */
-        const manyBool: boolean[];
-
-        /**
-         * <!-- FishyJoes.export(manyUInt8) -->
-         */
-        const manyUInt8: number[];
-
-        /**
-         * <!-- FishyJoes.export(manyUInt16) -->
-         */
-        const manyUInt16: number[];
-
-        /**
-         * <!-- FishyJoes.export(manyUInt32) -->
-         */
-        const manyUInt32: number[];
-
-        /**
-         * <!-- FishyJoes.export(manyUInt64) -->
-         */
-        const manyUInt64: bigint[];
-
-        /**
-         * <!-- FishyJoes.export(manyInt8) -->
-         */
-        const manyInt8: number[];
-
-        /**
-         * <!-- FishyJoes.export(manyInt16) -->
-         */
-        const manyInt16: number[];
-
-        /**
-         * <!-- FishyJoes.export(manyInt32) -->
-         */
-        const manyInt32: number[];
-
-        /**
-         * <!-- FishyJoes.export(manyInt64) -->
-         */
-        const manyInt64: bigint[];
-
-        /**
-         * <!-- FishyJoes.export(manyFloat) -->
-         */
-        const manyFloat: number[];
-
-        /**
-         * <!-- FishyJoes.export(manyDouble) -->
-         */
-        const manyDouble: number[];
-
-        /**
-         * <!-- FishyJoes.export(manyMaybeBool) -->
-         */
-        const manyMaybeBool: boolean[];
-
-        /**
-         * <!-- FishyJoes.export(manyMaybeUInt8) -->
-         */
-        const manyMaybeUInt8: number[];
-
-        /**
-         * <!-- FishyJoes.export(manyMaybeUInt16) -->
-         */
-        const manyMaybeUInt16: number[];
-
-        /**
-         * <!-- FishyJoes.export(manyMaybeUInt32) -->
-         */
-        const manyMaybeUInt32: number[];
-
-        /**
-         * <!-- FishyJoes.export(manyMaybeUInt64) -->
-         */
-        const manyMaybeUInt64: bigint[];
-
-        /**
-         * <!-- FishyJoes.export(manyMaybeInt8) -->
-         */
-        const manyMaybeInt8: number[];
-
-        /**
-         * <!-- FishyJoes.export(manyMaybeInt16) -->
-         */
-        const manyMaybeInt16: number[];
-
-        /**
-         * <!-- FishyJoes.export(manyMaybeInt32) -->
-         */
-        const manyMaybeInt32: number[];
-
-        /**
-         * <!-- FishyJoes.export(manyMaybeInt64) -->
-         */
-        const manyMaybeInt64: bigint[];
-
-        /**
-         * <!-- FishyJoes.export(manyMaybeFloat) -->
-         */
-        const manyMaybeFloat: number[];
-
-        /**
-         * <!-- FishyJoes.export(manyMaybeDouble) -->
-         */
-        const manyMaybeDouble: number[];
-
-        /**
          * <!-- FishyJoes.export(defaultPrimitiveHolder) -->
          */
         const defaultPrimitiveHolder: Primitives.PrimitiveHolder;
@@ -717,37 +428,16 @@ export declare namespace TestAPI {
         ): boolean;
 
         /**
-         * <!-- FishyJoes.export(echoUInt8) -->
+         * <!-- FishyJoes.export(echoDouble) -->
          */
-        function echoUInt8(
+        function echoDouble(
             value: number
         ): number;
 
         /**
-         * <!-- FishyJoes.export(echoUInt16) -->
+         * <!-- FishyJoes.export(echoFloat) -->
          */
-        function echoUInt16(
-            value: number
-        ): number;
-
-        /**
-         * <!-- FishyJoes.export(echoUInt32) -->
-         */
-        function echoUInt32(
-            value: number
-        ): number;
-
-        /**
-         * <!-- FishyJoes.export(echoUInt64) -->
-         */
-        function echoUInt64(
-            value: bigint
-        ): bigint;
-
-        /**
-         * <!-- FishyJoes.export(echoInt8) -->
-         */
-        function echoInt8(
+        function echoFloat(
             value: number
         ): number;
 
@@ -773,18 +463,209 @@ export declare namespace TestAPI {
         ): bigint;
 
         /**
-         * <!-- FishyJoes.export(echoFloat) -->
+         * <!-- FishyJoes.export(echoInt8) -->
          */
-        function echoFloat(
+        function echoInt8(
             value: number
         ): number;
 
         /**
-         * <!-- FishyJoes.export(echoDouble) -->
+         * <!-- FishyJoes.export(echoUInt16) -->
          */
-        function echoDouble(
+        function echoUInt16(
             value: number
         ): number;
+
+        /**
+         * <!-- FishyJoes.export(echoUInt32) -->
+         */
+        function echoUInt32(
+            value: number
+        ): number;
+
+        /**
+         * <!-- FishyJoes.export(echoUInt64) -->
+         */
+        function echoUInt64(
+            value: bigint
+        ): bigint;
+
+        /**
+         * <!-- FishyJoes.export(echoUInt8) -->
+         */
+        function echoUInt8(
+            value: number
+        ): number;
+
+        /**
+         * <!-- FishyJoes.export(falseBool) -->
+         */
+        const falseBool: boolean;
+
+        /**
+         * <!-- FishyJoes.export(manyBool) -->
+         */
+        const manyBool: boolean[];
+
+        /**
+         * <!-- FishyJoes.export(manyDouble) -->
+         */
+        const manyDouble: number[];
+
+        /**
+         * <!-- FishyJoes.export(manyFloat) -->
+         */
+        const manyFloat: number[];
+
+        /**
+         * <!-- FishyJoes.export(manyInt16) -->
+         */
+        const manyInt16: number[];
+
+        /**
+         * <!-- FishyJoes.export(manyInt32) -->
+         */
+        const manyInt32: number[];
+
+        /**
+         * <!-- FishyJoes.export(manyInt64) -->
+         */
+        const manyInt64: bigint[];
+
+        /**
+         * <!-- FishyJoes.export(manyInt8) -->
+         */
+        const manyInt8: number[];
+
+        /**
+         * <!-- FishyJoes.export(manyMaybeBool) -->
+         */
+        const manyMaybeBool: boolean[];
+
+        /**
+         * <!-- FishyJoes.export(manyMaybeDouble) -->
+         */
+        const manyMaybeDouble: number[];
+
+        /**
+         * <!-- FishyJoes.export(manyMaybeFloat) -->
+         */
+        const manyMaybeFloat: number[];
+
+        /**
+         * <!-- FishyJoes.export(manyMaybeInt16) -->
+         */
+        const manyMaybeInt16: number[];
+
+        /**
+         * <!-- FishyJoes.export(manyMaybeInt32) -->
+         */
+        const manyMaybeInt32: number[];
+
+        /**
+         * <!-- FishyJoes.export(manyMaybeInt64) -->
+         */
+        const manyMaybeInt64: bigint[];
+
+        /**
+         * <!-- FishyJoes.export(manyMaybeInt8) -->
+         */
+        const manyMaybeInt8: number[];
+
+        /**
+         * <!-- FishyJoes.export(manyMaybeUInt16) -->
+         */
+        const manyMaybeUInt16: number[];
+
+        /**
+         * <!-- FishyJoes.export(manyMaybeUInt32) -->
+         */
+        const manyMaybeUInt32: number[];
+
+        /**
+         * <!-- FishyJoes.export(manyMaybeUInt64) -->
+         */
+        const manyMaybeUInt64: bigint[];
+
+        /**
+         * <!-- FishyJoes.export(manyMaybeUInt8) -->
+         */
+        const manyMaybeUInt8: number[];
+
+        /**
+         * <!-- FishyJoes.export(manyUInt16) -->
+         */
+        const manyUInt16: number[];
+
+        /**
+         * <!-- FishyJoes.export(manyUInt32) -->
+         */
+        const manyUInt32: number[];
+
+        /**
+         * <!-- FishyJoes.export(manyUInt64) -->
+         */
+        const manyUInt64: bigint[];
+
+        /**
+         * <!-- FishyJoes.export(manyUInt8) -->
+         */
+        const manyUInt8: number[];
+
+        /**
+         * <!-- FishyJoes.export(maxDouble) -->
+         */
+        const maxDouble: number;
+
+        /**
+         * <!-- FishyJoes.export(maxFloat) -->
+         */
+        const maxFloat: number;
+
+        /**
+         * <!-- FishyJoes.export(maxInt) -->
+         */
+        const maxInt: number;
+
+        /**
+         * <!-- FishyJoes.export(maxInt16) -->
+         */
+        const maxInt16: number;
+
+        /**
+         * <!-- FishyJoes.export(maxInt32) -->
+         */
+        const maxInt32: number;
+
+        /**
+         * <!-- FishyJoes.export(maxInt64) -->
+         */
+        const maxInt64: bigint;
+
+        /**
+         * <!-- FishyJoes.export(maxInt8) -->
+         */
+        const maxInt8: number;
+
+        /**
+         * <!-- FishyJoes.export(maxUInt16) -->
+         */
+        const maxUInt16: number;
+
+        /**
+         * <!-- FishyJoes.export(maxUInt32) -->
+         */
+        const maxUInt32: number;
+
+        /**
+         * <!-- FishyJoes.export(maxUInt64) -->
+         */
+        const maxUInt64: bigint;
+
+        /**
+         * <!-- FishyJoes.export(maxUInt8) -->
+         */
+        const maxUInt8: number;
 
         /**
          * <!-- FishyJoes.export(maybeEchoBool) -->
@@ -794,37 +675,16 @@ export declare namespace TestAPI {
         ): Optional<boolean>;
 
         /**
-         * <!-- FishyJoes.export(maybeEchoUInt8) -->
+         * <!-- FishyJoes.export(maybeEchoDouble) -->
          */
-        function maybeEchoUInt8(
+        function maybeEchoDouble(
             value: Optional<number>
         ): Optional<number>;
 
         /**
-         * <!-- FishyJoes.export(maybeEchoUInt16) -->
+         * <!-- FishyJoes.export(maybeEchoFloat) -->
          */
-        function maybeEchoUInt16(
-            value: Optional<number>
-        ): Optional<number>;
-
-        /**
-         * <!-- FishyJoes.export(maybeEchoUInt32) -->
-         */
-        function maybeEchoUInt32(
-            value: Optional<number>
-        ): Optional<number>;
-
-        /**
-         * <!-- FishyJoes.export(maybeEchoUInt64) -->
-         */
-        function maybeEchoUInt64(
-            value: Optional<bigint>
-        ): Optional<bigint>;
-
-        /**
-         * <!-- FishyJoes.export(maybeEchoInt8) -->
-         */
-        function maybeEchoInt8(
+        function maybeEchoFloat(
             value: Optional<number>
         ): Optional<number>;
 
@@ -850,18 +710,99 @@ export declare namespace TestAPI {
         ): Optional<bigint>;
 
         /**
-         * <!-- FishyJoes.export(maybeEchoFloat) -->
+         * <!-- FishyJoes.export(maybeEchoInt8) -->
          */
-        function maybeEchoFloat(
+        function maybeEchoInt8(
             value: Optional<number>
         ): Optional<number>;
 
         /**
-         * <!-- FishyJoes.export(maybeEchoDouble) -->
+         * <!-- FishyJoes.export(maybeEchoUInt16) -->
          */
-        function maybeEchoDouble(
+        function maybeEchoUInt16(
             value: Optional<number>
         ): Optional<number>;
+
+        /**
+         * <!-- FishyJoes.export(maybeEchoUInt32) -->
+         */
+        function maybeEchoUInt32(
+            value: Optional<number>
+        ): Optional<number>;
+
+        /**
+         * <!-- FishyJoes.export(maybeEchoUInt64) -->
+         */
+        function maybeEchoUInt64(
+            value: Optional<bigint>
+        ): Optional<bigint>;
+
+        /**
+         * <!-- FishyJoes.export(maybeEchoUInt8) -->
+         */
+        function maybeEchoUInt8(
+            value: Optional<number>
+        ): Optional<number>;
+
+        /**
+         * <!-- FishyJoes.export(minDouble) -->
+         */
+        const minDouble: number;
+
+        /**
+         * <!-- FishyJoes.export(minFloat) -->
+         */
+        const minFloat: number;
+
+        /**
+         * <!-- FishyJoes.export(minInt) -->
+         */
+        const minInt: number;
+
+        /**
+         * <!-- FishyJoes.export(minInt16) -->
+         */
+        const minInt16: number;
+
+        /**
+         * <!-- FishyJoes.export(minInt32) -->
+         */
+        const minInt32: number;
+
+        /**
+         * <!-- FishyJoes.export(minInt64) -->
+         */
+        const minInt64: bigint;
+
+        /**
+         * <!-- FishyJoes.export(minInt8) -->
+         */
+        const minInt8: number;
+
+        /**
+         * <!-- FishyJoes.export(minUInt16) -->
+         */
+        const minUInt16: number;
+
+        /**
+         * <!-- FishyJoes.export(minUInt32) -->
+         */
+        const minUInt32: number;
+
+        /**
+         * <!-- FishyJoes.export(minUInt64) -->
+         */
+        const minUInt64: bigint;
+
+        /**
+         * <!-- FishyJoes.export(minUInt8) -->
+         */
+        const minUInt8: number;
+
+        /**
+         * <!-- FishyJoes.export(trueBool) -->
+         */
+        const trueBool: boolean;
 
         /**
          * <!-- FishyJoes.export(valueMapper) -->
@@ -870,8 +811,64 @@ export declare namespace TestAPI {
             value: Optional<number>,
             mapper: (_0: number) => number
         ): Optional<number>;
+
+        /**
+         * <!-- FishyJoes.export(zeroDouble) -->
+         */
+        const zeroDouble: number;
+
+        /**
+         * <!-- FishyJoes.export(zeroFloat) -->
+         */
+        const zeroFloat: number;
+
+        /**
+         * <!-- FishyJoes.export(zeroInt) -->
+         */
+        const zeroInt: number;
+
+        /**
+         * <!-- FishyJoes.export(zeroInt16) -->
+         */
+        const zeroInt16: number;
+
+        /**
+         * <!-- FishyJoes.export(zeroInt32) -->
+         */
+        const zeroInt32: number;
+
+        /**
+         * <!-- FishyJoes.export(zeroInt64) -->
+         */
+        const zeroInt64: bigint;
+
+        /**
+         * <!-- FishyJoes.export(zeroInt8) -->
+         */
+        const zeroInt8: number;
+
+        /**
+         * <!-- FishyJoes.export(zeroUInt16) -->
+         */
+        const zeroUInt16: number;
+
+        /**
+         * <!-- FishyJoes.export(zeroUInt32) -->
+         */
+        const zeroUInt32: number;
+
+        /**
+         * <!-- FishyJoes.export(zeroUInt64) -->
+         */
+        const zeroUInt64: bigint;
+
+        /**
+         * <!-- FishyJoes.export(zeroUInt8) -->
+         */
+        const zeroUInt8: number;
     }
 
+    export type SimpleEnum = "red" | "green" | "blue";
     export namespace SimpleEnum {
         /**
          * <!-- FishyJoes.export(favoriteColor) -->
@@ -879,11 +876,11 @@ export declare namespace TestAPI {
         var favoriteColor: SimpleEnum;
 
         /**
-         * <!-- FishyJoes.export(pickAColor) -->
+         * <!-- FishyJoes.export(hex) -->
          */
-        function pickAColor(
-            rawValue: number
-        ): Optional<SimpleEnum>;
+        function getHex(
+            self: SimpleEnum
+        ): number;
 
         /**
          * <!-- FishyJoes.export(hexMethod) -->
@@ -893,34 +890,25 @@ export declare namespace TestAPI {
         ): string;
 
         /**
+         * <!-- FishyJoes.export(pickAColor) -->
+         */
+        function pickAColor(
+            rawValue: number
+        ): Optional<SimpleEnum>;
+
+        /**
          * <!-- FishyJoes.export(resetFavoriteColor) -->
          */
         function resetFavoriteColor(
         ): void;
-
-        /**
-         * <!-- FishyJoes.export(hex) -->
-         */
-        function getHex(
-            self: SimpleEnum
-        ): number;
     }
 
+    export type Strings = never;
     export namespace Strings {
-        /**
-         * <!-- FishyJoes.export(simple) -->
-         */
-        const simple: string;
-
         /**
          * <!-- FishyJoes.export(accent) -->
          */
         const accent: string;
-
-        /**
-         * <!-- FishyJoes.export(script) -->
-         */
-        const script: string;
 
         /**
          * <!-- FishyJoes.export(chinese) -->
@@ -938,6 +926,13 @@ export declare namespace TestAPI {
         const chineseSIP: string;
 
         /**
+         * <!-- FishyJoes.export(echo) -->
+         */
+        function echo(
+            string: string
+        ): string;
+
+        /**
          * <!-- FishyJoes.export(emoji) -->
          */
         const emoji: string;
@@ -948,13 +943,17 @@ export declare namespace TestAPI {
         const emojiMulti: string;
 
         /**
-         * <!-- FishyJoes.export(echo) -->
+         * <!-- FishyJoes.export(script) -->
          */
-        function echo(
-            string: string
-        ): string;
+        const script: string;
+
+        /**
+         * <!-- FishyJoes.export(simple) -->
+         */
+        const simple: string;
     }
 
+    export type Structs = never;
     export namespace Structs {
         /**
          * <!-- FishyJoes.export(Structs.MemberwiseStruct) -->
@@ -998,7 +997,19 @@ export declare namespace TestAPI {
         }
     }
 
+    export type Tuples = never;
     export namespace Tuples {
+        /**
+         * <!-- FishyJoes.export(checkTuples) -->
+         */
+        function checkTuples(
+            t2: [number, string],
+            t3: [string, number, string],
+            t4: [[number, string], [string, number, string], string, boolean],
+            t5: [string, number, [[number, string], [string, number, string], string, boolean], [string, number, string], [number, string]],
+            t6: [string, number, number, [[number, string], [string, number, string], string, boolean], [string, number, [[number, string], [string, number, string], string, boolean], [string, number, string], [number, string]], boolean]
+        ): boolean;
+
         /**
          * <!-- FishyJoes.export(tuple2) -->
          */
@@ -1023,20 +1034,8 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(tuple6) -->
          */
         const tuple6: [string, number, number, [[number, string], [string, number, string], string, boolean], [string, number, [[number, string], [string, number, string], string, boolean], [string, number, string], [number, string]], boolean];
-
-        /**
-         * <!-- FishyJoes.export(checkTuples) -->
-         */
-        function checkTuples(
-            t2: [number, string],
-            t3: [string, number, string],
-            t4: [[number, string], [string, number, string], string, boolean],
-            t5: [string, number, [[number, string], [string, number, string], string, boolean], [string, number, string], [number, string]],
-            t6: [string, number, number, [[number, string], [string, number, string], string, boolean], [string, number, [[number, string], [string, number, string], string, boolean], [string, number, string], [number, string]], boolean]
-        ): boolean;
     }
 }
-
 export declare function init(): Promise<{
     TestAPI: typeof TestAPI,
 }>;
