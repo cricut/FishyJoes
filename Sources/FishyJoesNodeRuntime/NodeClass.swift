@@ -75,7 +75,7 @@ public struct NodeClass {
         properties: [String: (Property, isStatic: Bool)],
         constructor: @escaping napi_callback
     ) throws {
-        let nodeConstructor = try env.defineClass(
+        let nodeConstructor = try env.defineFakeClass(
             name,
             constructor,
             callbackData,
@@ -93,11 +93,70 @@ public struct NodeClass {
             let constructorProto = try env.getNamedProperty(nodeConstructor, "prototype")
             let superConstructorProto = try env.getNamedProperty(superConstructor, "prototype")
 
+            // existing instance member inheritance
             _ = try env.callFunction(global, setProto, [constructorProto, superConstructorProto])
+            // additional static inheritance
             _ = try env.callFunction(global, setProto, [nodeConstructor, superConstructor])
         }
 
         self.constructor = try NodeReference(env: env, value: nodeConstructor)
         try InstanceData.data(for: env).constructors[name] = self.constructor
+    }
+}
+
+extension NAPI.Env {
+    // Inheritance doesn't work with napi_create_class: https://github.com/nodejs/node-addon-api/issues/229
+    // adapted from napi_create_class in wasm_napi.js, which doesn't have this issue
+    func defineFakeClass(
+        _ name: String,
+        _ constructor: @escaping NAPI.Callback,
+        _ data: UnsafeMutableRawPointer?,
+        _ properties: [napi_property_descriptor]
+    ) throws -> NAPI.Value {
+        let constructor = try createFunction(name, constructor, data)
+
+        let global = try getGlobal()
+        let object = try getNamedProperty(global, "Object")
+        let defineProperty = try getNamedProperty(object, "defineProperty")
+        let constructorProto = try getNamedProperty(constructor, "prototype")
+
+        for prop in properties {
+            let attributes = try createObject()
+            var isStatic = false
+
+            if (prop.attributes.rawValue & napi_writable.rawValue) != 0, prop.getter == nil, prop.setter == nil {
+                try setNamedProperty(attributes, "writable", getBoolean(true))
+            }
+            if (prop.attributes.rawValue & napi_enumerable.rawValue) != 0 {
+                try setNamedProperty(attributes, "enumerable", getBoolean(true))
+            }
+            if (prop.attributes.rawValue & napi_configurable.rawValue) != 0 {
+                try setNamedProperty(attributes, "configurable", getBoolean(true))
+            }
+            if (prop.attributes.rawValue & napi_static.rawValue) != 0 {
+                try setNamedProperty(attributes, "static", getBoolean(true))
+                isStatic = true
+            }
+
+            let target = isStatic ? constructor : constructorProto
+            let nameValue = NAPI.Value(ptr: prop.name)
+            let name = try String.fromNode(nameValue, env: self)
+
+            if prop.getter != nil || prop.setter != nil {
+                if let getter = prop.getter {
+                    try setNamedProperty(attributes, "get", createFunction("[\(name) getter]", getter, prop.data))
+                }
+                if let setter = prop.setter {
+                    try setNamedProperty(attributes, "set", createFunction("[\(name) setter]", setter, prop.data))
+                }
+            } else if let method = prop.method {
+                try setNamedProperty(attributes, "value", createFunction(name, method, prop.data))
+            } else {
+                try setNamedProperty(attributes, "value", .init(ptr: prop.value))
+            }
+
+            _ = try callFunction(global, defineProperty, [target, nameValue, attributes])
+        }
+        return constructor
     }
 }

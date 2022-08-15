@@ -323,7 +323,7 @@ extension TypeScriptAnnotations {
                 fragment.output("\(field.name)\(field.type.annotation);")
                 fragment.blankLine()
             } else {
-                fragment.output("\(field.readOnly ? "const" : "var") \(field.name): \(field.type);")
+                fragment.output("\(field.readOnly ? "const" : "let") \(field.name): \(field.type);")
                 fragment.blankLine()
             }
         }
