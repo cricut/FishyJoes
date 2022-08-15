@@ -322,7 +322,6 @@ struct TranslatedEnum: TranslatedType {
                         instanceFields.flatMap { context.ts(fieldAsMethods: $0, explicitThis: true) }
                 )
             )
-
         } else {
             fragment.outputBlock("extension \(sourceType.name): FishyJoesNodeRuntime.NodeConverter {") {
                 fragment.outputBlock("public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {") {

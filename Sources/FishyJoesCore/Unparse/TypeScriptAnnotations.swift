@@ -330,7 +330,7 @@ extension TypeScriptAnnotations {
 
         func output(namespace: Namespace, declare: Bool = false) {
             fragment.outputBlock("export \(declare ? "declare " : "")namespace \(namespace.name) {") {
-                var previousName: String? = nil
+                var previousName: String?
                 for thing in namespace.alphabeticalMembers {
                     // blank line between differently named things
                     if let prev = previousName, prev != thing.name {
@@ -340,7 +340,7 @@ extension TypeScriptAnnotations {
 
                     switch thing {
                     case .class(let tsClass):
-                        if !tsClass.extends.isEmpty  {
+                        if !tsClass.extends.isEmpty {
                             fragment.output("interface \(tsClass.name) extends \(tsClass.extends.joined(separator: ", ")) {}")
                         }
 
@@ -364,7 +364,7 @@ extension TypeScriptAnnotations {
                             for field in tsClass.fields {
                                 output(field: field, inClass: true)
                             }
-                            for method in tsClass.methods  {
+                            for method in tsClass.methods {
                                 output(method: method, inClass: true)
                             }
                         }
@@ -409,7 +409,7 @@ extension TypeScriptAnnotations.Class.Constructor: Codable {
     }
 
     init(from decoder: Decoder) throws {
-        switch try CodingType.init(from: decoder) {
+        switch try CodingType(from: decoder) {
         case .hidden:
             self = .hidden
         case .protectedNever:
