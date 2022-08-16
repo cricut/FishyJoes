@@ -13,7 +13,7 @@ struct TranslatedEnum: TranslatedType {
     let cases: [Case]
     let documentation: [String]
     let methods: [Method]
-    let computedVariables: [Variable]
+    let fields: [Variable]
     let isInhabited: Bool
     let definingModule: Module
 
@@ -82,7 +82,7 @@ struct TranslatedEnum: TranslatedType {
         self.jniType = .object(context.kotlinTranslator.javaClassName(nodeName, in: context))
         self.documentation = type.documentation
         self.methods = type.methods.compactMap { Method($0) }
-        self.computedVariables = type.variables.filter { $0.exportAnnotation != nil }
+        self.fields = type.variables.filter { $0.exportAnnotation != nil }
         self.isInhabited = type.isInhabited
         self.definingModule = context.module
     }
@@ -99,7 +99,7 @@ struct TranslatedEnum: TranslatedType {
     func cppDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         var newMethods: [CPPClass.CPPMethod] = []
         newMethods.append(contentsOf: methods.map { context.cppTranslator.translateToHeaderFragment(method: $0, in: context) })
-        for variable in computedVariables {
+        for variable in fields {
             let accessors = context.cppTranslator.translateToHeaderFragment(variable: variable, in: context)
             newMethods.append(accessors.getter)
             if let setter = accessors.setter {
@@ -238,7 +238,7 @@ struct TranslatedEnum: TranslatedType {
                 }
             }
             fragment.outputBlock("Computed Variables {") {
-                for variable in computedVariables {
+                for variable in fields {
                     context.neutralTranslator.output(variable: variable, context: context, fragment: fragment)
                 }
             }
@@ -272,12 +272,54 @@ struct TranslatedEnum: TranslatedType {
                     }
                     fragment.output("}")
                 }
+
+                fragment.outputBlock("public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {") {
+                    fragment.output("let object = try env.createObject()")
+                    fragment.outputBlock("let props = try NodeClass.descriptorsFor(properties: [", closeWith: "], env: env)") {
+                        var hasProperties = false
+                        hasProperties ||= context.nodeTranslator.outputProperties(
+                            methods: methods,
+                            explicitThis: true,
+                            context: context,
+                            fragment: fragment
+                        )
+                        hasProperties ||= context.nodeTranslator.outputProperties(
+                            computedVariables: fields,
+                            explicitThis: true,
+                            context: context,
+                            fragment: fragment
+                        )
+                        if !hasProperties {
+                            fragment.output(":")
+                        }
+                    }
+                    fragment.output("try env.defineProperties(object, properties: props)")
+
+                    fragment.outputBlock("try FishyJoesNodeRuntime.mergeDefinitionInto(") {
+                        fragment.output("env: env,")
+                        fragment.output("module: module,")
+                        fragment.output("path: \"\(nodeName)\",")
+                        fragment.output("nodeClass: object")
+                    }
+                }
             }
             context.tsAnnotations.add(
                 typealias: .init(
                     documentation: documentation,
                     name: nodeName,
                     value: .union(cases.map { .exactString($0.name) })
+                )
+            )
+
+            let staticFields = fields.filter { $0.isStatic }
+            let instanceFields = fields.filter { !$0.isStatic }
+            context.tsAnnotations.add(
+                namespace: .init(
+                    name: nodeName,
+                    fields: staticFields.compactMap { context.ts(field: $0) },
+                    methods:
+                        methods.compactMap { context.ts(method: $0, explicitThis: true) } +
+                        instanceFields.flatMap { context.ts(fieldAsMethods: $0, explicitThis: true) }
                 )
             )
         } else {
@@ -346,6 +388,43 @@ struct TranslatedEnum: TranslatedType {
 
                 fragment.output("@available(*, deprecated, message: \"Not actually deprecated, but this silences warnings because it may refer to deprecated methods\")")
                 fragment.outputBlock("public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {") {
+                    fragment.outputBlock("let superclass = try NodeClass(") {
+                        fragment.output("env: env,")
+                        fragment.output("name: \"\(nodeName)\",")
+                        fragment.outputBlock("properties: [", closeWith: "],") {
+                            var hasProperties = false
+                            hasProperties ||= context.nodeTranslator.outputProperties(
+                                methods: methods,
+                                context: context,
+                                fragment: fragment
+                            )
+                            hasProperties ||= context.nodeTranslator.outputProperties(
+                                computedVariables: fields,
+                                context: context,
+                                fragment: fragment
+                            )
+                            if !hasProperties {
+                                fragment.output(":")
+                            }
+                        }
+                        fragment.outputBlock("constructor: { env, info in", closeWith: "}") {
+                            fragment.outputBlock("FishyJoesNodeRuntime.callbackBody(", newLineTerminated: false) {
+                                fragment.output("env, info,")
+                                fragment.output("name: \"\(nodeName)_constructor\",")
+                                fragment.output("expectedArgumentCount: 0")
+                            }
+                            fragment.outputBlock(" { env in", closeWith: "}") {
+                                fragment.output("return try env.this()")
+                            }
+                        }
+                    }
+                    fragment.outputBlock("try FishyJoesNodeRuntime.mergeDefinitionInto(") {
+                        fragment.output("env: env,")
+                        fragment.output("module: module,")
+                        fragment.output("path: \"\(nodeName)\",")
+                        fragment.output("nodeClass: superclass.constructor.value(env: env)")
+                    }
+
                     for enumCase in cases {
                         let name = upperCaseFirst(enumCase.name)
                         let className = "\(nodeName).\(name)"
@@ -353,17 +432,15 @@ struct TranslatedEnum: TranslatedType {
                         fragment.outputBlock("let \(classVarName) = try NodeClass(") {
                             fragment.output("env: env,")
                             fragment.output("name: \"\(className)\",")
-                            fragment.outputBlock("properties: [", closeWith: "],") {
-                                var hasProperties = false
-                                hasProperties ||= context.nodeTranslator.outputProperties(methods: methods, context: context, fragment: fragment)
-                                hasProperties ||= context.nodeTranslator.outputProperties(computedVariables: computedVariables, context: context, fragment: fragment)
-                                for value in enumCase.associatedValues {
-                                    // Limitation is wasm implementation of napi_create_class doesn't allow constructors to assign to non-mutable property.
-                                    fragment.output("\"\(value.bindingName)\": (.stored(mutable: true), isStatic: false),")
-                                    hasProperties = true
-                                }
-                                if !hasProperties {
-                                    fragment.output(":")
+                            fragment.output("superclass: superclass,")
+                            if enumCase.associatedValues.isEmpty {
+                                fragment.output("properties: [:]")
+                            } else {
+                                fragment.outputBlock("properties: [", closeWith: "],") {
+                                    for value in enumCase.associatedValues {
+                                        // Limitation is wasm implementation of napi_create_class doesn't allow constructors to assign to non-mutable property.
+                                        fragment.output("\"\(value.bindingName)\": (.stored(mutable: true), isStatic: false),")
+                                    }
                                 }
                             }
                             fragment.outputBlock("constructor: { env, info in", closeWith: "}") {
@@ -392,23 +469,35 @@ struct TranslatedEnum: TranslatedType {
                 }
             }
 
-            context.tsAnnotations.add(class:
-                .init(
-                    documentation: [],
-                    name: "\(nodeName)._FictionalCommonSuperclass",
-                    exported: false,
-                    constructor: .visible([]),
-                    fields: computedVariables.compactMap {context.ts(field: $0, useNativeName: false) },
-                    methods: methods.compactMap { context.ts(method: $0) }
+            let commonInterfaceName = "\(nodeName)_Common"
+            if !cases.isEmpty {
+                context.tsAnnotations.add(
+                    interface: .init(
+                        name: commonInterfaceName,
+                        forNamespace: nodeName,
+                        fields: fields.filter { !$0.isStatic }.compactMap { context.ts(field: $0, useNativeName: false) },
+                        methods: methods.filter { !$0.isStatic }.compactMap { context.ts(method: $0) }
+                    )
+                )
+            }
+
+            context.tsAnnotations.add(
+                namespace: .init(
+                    name: nodeName,
+                    fields: fields.filter(\.isStatic).compactMap { context.ts(field: $0) },
+                    methods: methods.filter(\.isStatic).compactMap { context.ts(method: $0) }
                 )
             )
 
+            var tsCases: [TypeScriptAnnotations.TSType] = []
             for enumCase in cases {
-                context.tsAnnotations.add(class:
-                    .init(
+                let className = "\(nodeName).\(upperCaseFirst(enumCase.name))"
+                tsCases.append(.named(className))
+                context.tsAnnotations.add(
+                    class: .init(
                         documentation: enumCase.documentation,
-                        name: "\(nodeName).\(upperCaseFirst(enumCase.name))",
-                        superclass: "_FictionalCommonSuperclass",
+                        name: className,
+                        extends: [commonInterfaceName],
                         constructor: .visible(
                             enumCase.associatedValues.map { value in
                                 (value.bindingName, context.resolve(type: value.type).nodeType)
@@ -428,12 +517,8 @@ struct TranslatedEnum: TranslatedType {
                 )
             }
 
-            context.tsAnnotations.add(typealias:
-                .init(
-                    documentation: documentation,
-                    name: nodeName,
-                    value: .union(cases.map { .named("\(nodeName).\(upperCaseFirst($0.name))") })
-                )
+            context.tsAnnotations.add(
+                typealias: .init(documentation: documentation, name: nodeName, value: .union(tsCases))
             )
         }
         return fragment
@@ -563,7 +648,7 @@ struct TranslatedEnum: TranslatedType {
                     }
                 },
                 fieldsAndMethods:
-                    computedVariables.compactMap { context.kotlin(field: $0, useNativeName: false) } +
+                    fields.compactMap { context.kotlin(field: $0, useNativeName: false) } +
                     methods.compactMap { context.kotlin(method: $0) }
             )
         )
@@ -698,7 +783,7 @@ struct TranslatedEnum: TranslatedType {
                     )
                 },
                 fieldsAndMethods:
-                    computedVariables.compactMap { context.cSharp(field: $0, of: self, useNativeName: false) } +
+                    fields.compactMap { context.cSharp(field: $0, of: self, useNativeName: false) } +
                     methods.compactMap { context.cSharp(method: $0, of: self) }
             )
         )

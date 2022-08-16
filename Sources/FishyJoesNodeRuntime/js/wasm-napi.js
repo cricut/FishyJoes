@@ -1365,7 +1365,7 @@ export class NAPI {
           return this.returnError(NAPI_INVALID_ARG);
         }
         const func = this.createFunction(
-          envPtr, constructorIdx, data, utf8NameLength > 0
+          envPtr, constructorIdx, data, utf8NameLength != 0
             ? this.readString(utf8NamePtr, utf8NameLength)
             : undefined, kFuncConstructor);
         this.readPropertyDescriptors(propertyCount, propertiesPtr)

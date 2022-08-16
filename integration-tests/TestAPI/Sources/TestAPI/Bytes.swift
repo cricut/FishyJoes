@@ -7,7 +7,7 @@
 
 import Foundation
 
-/// <!-- FishyJoes.exportReference(Bytes) -->
+/// <!-- FishyJoes.export(Bytes) -->
 public enum Bytes {
     /// <!-- FishyJoes.export(bytes, cSharp: TheBytes) -->
     public static let bytes: [UInt8] = [0xDE, 0xAD, 0xBE, 0xEF]

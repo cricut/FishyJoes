@@ -2,7 +2,7 @@
 #include "TestAPI_pre.hpp"
 
 namespace TestAPI {
-    /// <!-- FishyJoes.exportReference(Functions) -->
+    /// <!-- FishyJoes.export(Functions) -->
     class Functions {
         /*  Inner Classes  */
         public:
@@ -26,10 +26,57 @@ namespace TestAPI {
             template <typename T> friend struct std::equal_to;
         };
         
+        /* Special */
+        
+        private:
+        using VariantType = std::variant<>;
+        
+        public:
+        template <typename T>
+        Functions(const T& caseObj): _variant(caseObj) {}
+        
+        template <typename T>
+        Functions& operator=(const T& rhs) {
+            _variant = rhs;
+            return *this;
+        }
+        
+        template <typename T>
+        std::invoke_result_t<T, std::variant_alternative_t<0, VariantType>> visit(const T& visitor) {
+            return std::visit(visitor, _variant);
+        }
+        
+        template <typename T>
+        bool isOfType() {
+            std::holds_alternative<T>(_variant);
+        }
+        template <const auto& n>
+        bool isOfType() {
+            return isOfType<std::decay_t<decltype(n)>>();
+        }
+        
+        template <typename T>
+        T* getIfIs() {
+            return std::get_if<T>(&_variant);
+        }
+        template <const auto& n>
+        std::decay_t<decltype(n)>* getIfIs() {
+            return getIfIs<std::decay_t<decltype(n)>>();
+        }
+        
+        template <typename T>
+        T& get() {
+            return std::get<T>(_variant);
+        }
+        template <const auto& n>
+        std::decay_t<decltype(n)>& get() {
+            return get<std::decay_t<decltype(n)>>();
+        }
+        
         /*  Complete Constructor  */
         private:
         /// Create new Functions (only to be used by FishyJoes internally. Look for static methods for initialization or other public constructors.)
-        Functions(const FishyJoesInternal::SwiftReference &_ref);
+        Functions(const std::variant<> &_variant);
         
         /*  Methods  */
         public:
@@ -81,8 +128,8 @@ namespace TestAPI {
         
         /*  Data  */
         private:
-        /// Reference to Swift-managed data
-        FishyJoesInternal::SwiftReference _ref;
+        /// std::variant containing subtypes
+        std::variant<> _variant;
         
         friend struct FishyJoesInternal::Packer;
         template <typename T> friend struct std::hash;

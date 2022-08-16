@@ -77,7 +77,7 @@
       },
       "kotlinName" : "Bytes",
       "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Reference<To=Bytes>>",
+      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=Bytes>>",
       "nodeName" : "TestAPI.Bytes",
       "sourceType" : {
         "named" : {
@@ -122,7 +122,7 @@
       },
       "kotlinName" : "Collections",
       "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Reference<To=Collections>>",
+      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=Collections>>",
       "nodeName" : "TestAPI.Collections",
       "sourceType" : {
         "named" : {
@@ -212,7 +212,7 @@
       },
       "kotlinName" : "DefaultArguments",
       "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Reference<To=DefaultArguments>>",
+      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=DefaultArguments>>",
       "nodeName" : "TestAPI.DefaultArguments",
       "sourceType" : {
         "named" : {
@@ -257,7 +257,7 @@
       },
       "kotlinName" : "Deprecations",
       "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Reference<To=Deprecations>>",
+      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=Deprecations>>",
       "nodeName" : "TestAPI.Deprecations",
       "sourceType" : {
         "named" : {
@@ -347,7 +347,7 @@
       },
       "kotlinName" : "Functions",
       "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Reference<To=Functions>>",
+      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=Functions>>",
       "nodeName" : "TestAPI.Functions",
       "sourceType" : {
         "named" : {
@@ -437,7 +437,7 @@
       },
       "kotlinName" : "Primitives",
       "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Reference<To=Primitives>>",
+      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=Primitives>>",
       "nodeName" : "TestAPI.Primitives",
       "sourceType" : {
         "named" : {
@@ -572,7 +572,7 @@
       },
       "kotlinName" : "Strings",
       "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Reference<To=Strings>>",
+      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=Strings>>",
       "nodeName" : "TestAPI.Strings",
       "sourceType" : {
         "named" : {
@@ -617,7 +617,7 @@
       },
       "kotlinName" : "Structs",
       "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Reference<To=Structs>>",
+      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=Structs>>",
       "nodeName" : "TestAPI.Structs",
       "sourceType" : {
         "named" : {
@@ -771,12 +771,258 @@
     "rootNamespaces" : [
       {
         "classes" : [
+
+        ],
+        "fields" : [
+
+        ],
+        "interfaces" : [
           {
-            "constructor" : null,
-            "documentation" : [
-              "<!-- FishyJoes.exportReference(Bytes) -->"
+            "fields" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(intValue) -->"
+                ],
+                "isStatic" : false,
+                "name" : "intValue",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              }
             ],
-            "exported" : true,
+            "forNamespace" : "AssociatedDataEnum",
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(plus) -->"
+                ],
+                "isStatic" : false,
+                "name" : "plus",
+                "parameters" : [
+                  {
+                    "name" : "other",
+                    "type" : {
+                      "named" : {
+                        "_0" : "AssociatedDataEnum"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "AssociatedDataEnum"
+                  }
+                }
+              }
+            ],
+            "name" : "AssociatedDataEnum_Common"
+          }
+        ],
+        "methods" : [
+
+        ],
+        "name" : "TestAPI",
+        "namespaces" : {
+          "AssociatedDataEnum" : {
+            "classes" : [
+              {
+                "constructor" : {
+                  "visible" : {
+                    "names" : [
+                      "value"
+                    ],
+                    "types" : [
+                      {
+                        "named" : {
+                          "_0" : "number"
+                        }
+                      }
+                    ]
+                  }
+                },
+                "documentation" : [
+
+                ],
+                "extends" : [
+                  "AssociatedDataEnum_Common"
+                ],
+                "fields" : [
+                  {
+                    "documentation" : [
+
+                    ],
+                    "isStatic" : false,
+                    "name" : "value",
+                    "readOnly" : true,
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                ],
+                "methods" : [
+
+                ],
+                "name" : "Thing"
+              },
+              {
+                "constructor" : {
+                  "visible" : {
+                    "names" : [
+                      "unnamed",
+                      "_1"
+                    ],
+                    "types" : [
+                      {
+                        "named" : {
+                          "_0" : "string"
+                        }
+                      },
+                      {
+                        "named" : {
+                          "_0" : "number"
+                        }
+                      }
+                    ]
+                  }
+                },
+                "documentation" : [
+
+                ],
+                "extends" : [
+                  "AssociatedDataEnum_Common"
+                ],
+                "fields" : [
+                  {
+                    "documentation" : [
+
+                    ],
+                    "isStatic" : false,
+                    "name" : "unnamed",
+                    "readOnly" : true,
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "isStatic" : false,
+                    "name" : "_1",
+                    "readOnly" : true,
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                ],
+                "methods" : [
+
+                ],
+                "name" : "Other"
+              },
+              {
+                "constructor" : {
+                  "visible" : {
+                    "names" : [
+                      "named",
+                      "_1"
+                    ],
+                    "types" : [
+                      {
+                        "named" : {
+                          "_0" : "string"
+                        }
+                      },
+                      {
+                        "named" : {
+                          "_0" : "AssociatedDataEnum"
+                        }
+                      }
+                    ]
+                  }
+                },
+                "documentation" : [
+
+                ],
+                "extends" : [
+                  "AssociatedDataEnum_Common"
+                ],
+                "fields" : [
+                  {
+                    "documentation" : [
+
+                    ],
+                    "isStatic" : false,
+                    "name" : "named",
+                    "readOnly" : true,
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "isStatic" : false,
+                    "name" : "_1",
+                    "readOnly" : true,
+                    "type" : {
+                      "named" : {
+                        "_0" : "AssociatedDataEnum"
+                      }
+                    }
+                  }
+                ],
+                "methods" : [
+
+                ],
+                "name" : "Bar"
+              }
+            ],
+            "fields" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(staticThing) -->"
+                ],
+                "isStatic" : true,
+                "name" : "staticThing",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "AssociatedDataEnum"
+                  }
+                }
+              }
+            ],
+            "interfaces" : [
+
+            ],
+            "methods" : [
+
+            ],
+            "name" : "AssociatedDataEnum",
+            "namespaces" : {
+
+            },
+            "typealiases" : [
+
+            ]
+          },
+          "Bytes" : {
+            "classes" : [
+
+            ],
             "fields" : [
               {
                 "documentation" : [
@@ -805,6 +1051,9 @@
                 }
               }
             ],
+            "interfaces" : [
+
+            ],
             "methods" : [
               {
                 "documentation" : [
@@ -814,7 +1063,6 @@
                 "name" : "echoBytes",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "bytes",
                     "type" : {
                       "named" : {
@@ -837,7 +1085,6 @@
                 "name" : "echoData",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "data",
                     "type" : {
                       "named" : {
@@ -853,14 +1100,236 @@
                 }
               }
             ],
-            "name" : "Bytes"
+            "name" : "Bytes",
+            "namespaces" : {
+
+            },
+            "typealiases" : [
+
+            ]
           },
-          {
-            "constructor" : null,
-            "documentation" : [
-              "<!-- FishyJoes.exportReference(Collections) -->"
+          "Collections" : {
+            "classes" : [
+              {
+                "constructor" : {
+                  "visible" : {
+                    "names" : [
+                      "boolArray",
+                      "boolSet",
+                      "boolDictionary",
+                      "integerArray",
+                      "integerSet",
+                      "integerDictionary",
+                      "stringArray",
+                      "stringSet",
+                      "stringDictionary"
+                    ],
+                    "types" : [
+                      {
+                        "named" : {
+                          "_0" : "boolean[]"
+                        }
+                      },
+                      {
+                        "named" : {
+                          "_0" : "Set<boolean>"
+                        }
+                      },
+                      {
+                        "named" : {
+                          "_0" : "Map<boolean, boolean>"
+                        }
+                      },
+                      {
+                        "named" : {
+                          "_0" : "number[]"
+                        }
+                      },
+                      {
+                        "named" : {
+                          "_0" : "Set<number>"
+                        }
+                      },
+                      {
+                        "named" : {
+                          "_0" : "Map<number, number>"
+                        }
+                      },
+                      {
+                        "named" : {
+                          "_0" : "string[]"
+                        }
+                      },
+                      {
+                        "named" : {
+                          "_0" : "Set<string>"
+                        }
+                      },
+                      {
+                        "named" : {
+                          "_0" : "Map<string, string>"
+                        }
+                      }
+                    ]
+                  }
+                },
+                "documentation" : [
+                  "<!-- FishyJoes.export(Collections.CollectionHolder) -->"
+                ],
+                "extends" : [
+
+                ],
+                "fields" : [
+                  {
+                    "documentation" : [
+
+                    ],
+                    "isStatic" : false,
+                    "name" : "boolArray",
+                    "readOnly" : false,
+                    "type" : {
+                      "named" : {
+                        "_0" : "boolean[]"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "isStatic" : false,
+                    "name" : "boolSet",
+                    "readOnly" : false,
+                    "type" : {
+                      "named" : {
+                        "_0" : "Set<boolean>"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "isStatic" : false,
+                    "name" : "boolDictionary",
+                    "readOnly" : false,
+                    "type" : {
+                      "named" : {
+                        "_0" : "Map<boolean, boolean>"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "isStatic" : false,
+                    "name" : "integerArray",
+                    "readOnly" : false,
+                    "type" : {
+                      "named" : {
+                        "_0" : "number[]"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "isStatic" : false,
+                    "name" : "integerSet",
+                    "readOnly" : false,
+                    "type" : {
+                      "named" : {
+                        "_0" : "Set<number>"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "isStatic" : false,
+                    "name" : "integerDictionary",
+                    "readOnly" : false,
+                    "type" : {
+                      "named" : {
+                        "_0" : "Map<number, number>"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "isStatic" : false,
+                    "name" : "stringArray",
+                    "readOnly" : false,
+                    "type" : {
+                      "named" : {
+                        "_0" : "string[]"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "isStatic" : false,
+                    "name" : "stringSet",
+                    "readOnly" : false,
+                    "type" : {
+                      "named" : {
+                        "_0" : "Set<string>"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "isStatic" : false,
+                    "name" : "stringDictionary",
+                    "readOnly" : false,
+                    "type" : {
+                      "named" : {
+                        "_0" : "Map<string, string>"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+                      "<!-- FishyJoes.export(staticPropery) -->"
+                    ],
+                    "isStatic" : true,
+                    "name" : "staticPropery",
+                    "readOnly" : true,
+                    "type" : {
+                      "named" : {
+                        "_0" : "number[]"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+                      "<!-- FishyJoes.export(staticMutablePropery) -->"
+                    ],
+                    "isStatic" : true,
+                    "name" : "staticMutablePropery",
+                    "readOnly" : false,
+                    "type" : {
+                      "named" : {
+                        "_0" : "number[]"
+                      }
+                    }
+                  }
+                ],
+                "methods" : [
+
+                ],
+                "name" : "CollectionHolder"
+              }
             ],
-            "exported" : true,
             "fields" : [
               {
                 "documentation" : [
@@ -1017,6 +1486,9 @@
                 }
               }
             ],
+            "interfaces" : [
+
+            ],
             "methods" : [
               {
                 "documentation" : [
@@ -1026,7 +1498,6 @@
                 "name" : "echoArrayOfInt",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "arrayOfInt",
                     "type" : {
                       "named" : {
@@ -1049,7 +1520,6 @@
                 "name" : "echoSetOfInt",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "setOfInt",
                     "type" : {
                       "named" : {
@@ -1072,7 +1542,6 @@
                 "name" : "echoDictionaryOfIntToInt",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "dictionaryOfIntToInt",
                     "type" : {
                       "named" : {
@@ -1095,7 +1564,6 @@
                 "name" : "echoMaybeArrayOfMaybeInt",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "maybeArrayOfMaybeInt",
                     "type" : {
                       "optional" : {
@@ -1126,7 +1594,6 @@
                 "name" : "echoMaybeSetOfMaybeInt",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "maybeSetOfMaybeInt",
                     "type" : {
                       "optional" : {
@@ -1157,7 +1624,6 @@
                 "name" : "echoMaybeDictionaryOfIntToMaybeInt",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "maybeDictionaryOfIntToMaybeInt",
                     "type" : {
                       "optional" : {
@@ -1188,7 +1654,6 @@
                 "name" : "collectionMapper",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "collection",
                     "type" : {
                       "optional" : {
@@ -1201,11 +1666,10 @@
                     }
                   },
                   {
-                    "isOptional" : false,
                     "name" : "mapper",
                     "type" : {
                       "named" : {
-                        "_0" : "(_: number[]) => number[]"
+                        "_0" : "(_0: number[]) => number[]"
                       }
                     }
                   }
@@ -1221,15 +1685,22 @@
                 }
               }
             ],
-            "name" : "Collections"
+            "name" : "Collections",
+            "namespaces" : {
+
+            },
+            "typealiases" : [
+
+            ]
           },
-          {
-            "constructor" : null,
-            "documentation" : [
-              "<!-- FishyJoes.exportReference(DefaultArguments) -->"
+          "DefaultArguments" : {
+            "classes" : [
+
             ],
-            "exported" : true,
             "fields" : [
+
+            ],
+            "interfaces" : [
 
             ],
             "methods" : [
@@ -1241,7 +1712,7 @@
                 "name" : "echoDefaults",
                 "parameters" : [
                   {
-                    "isOptional" : true,
+                    "defaultValue" : "nil",
                     "name" : "y",
                     "type" : {
                       "optional" : {
@@ -1254,7 +1725,6 @@
                     }
                   },
                   {
-                    "isOptional" : false,
                     "name" : "x",
                     "type" : {
                       "optional" : {
@@ -1267,7 +1737,7 @@
                     }
                   },
                   {
-                    "isOptional" : true,
+                    "defaultValue" : "3.14",
                     "name" : "z",
                     "type" : {
                       "named" : {
@@ -1283,14 +1753,18 @@
                 }
               }
             ],
-            "name" : "DefaultArguments"
+            "name" : "DefaultArguments",
+            "namespaces" : {
+
+            },
+            "typealiases" : [
+
+            ]
           },
-          {
-            "constructor" : null,
-            "documentation" : [
-              "<!-- FishyJoes.exportReference(Deprecations) -->"
+          "Deprecations" : {
+            "classes" : [
+
             ],
-            "exported" : true,
             "fields" : [
               {
                 "documentation" : [
@@ -1306,6 +1780,9 @@
                   }
                 }
               }
+            ],
+            "interfaces" : [
+
             ],
             "methods" : [
               {
@@ -1325,14 +1802,72 @@
                 }
               }
             ],
-            "name" : "Deprecations"
+            "name" : "Deprecations",
+            "namespaces" : {
+
+            },
+            "typealiases" : [
+
+            ]
           },
-          {
-            "constructor" : null,
-            "documentation" : [
-              "<!-- FishyJoes.exportReference(Functions) -->"
+          "EmptyEnum" : {
+            "classes" : [
+
             ],
-            "exported" : true,
+            "fields" : [
+
+            ],
+            "interfaces" : [
+
+            ],
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(notGoingToHappen, noReturn: true) -->"
+                ],
+                "isStatic" : true,
+                "name" : "notGoingToHappen",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "EmptyEnum"
+                  }
+                }
+              }
+            ],
+            "name" : "EmptyEnum",
+            "namespaces" : {
+
+            },
+            "typealiases" : [
+
+            ]
+          },
+          "Functions" : {
+            "classes" : [
+              {
+                "constructor" : {
+                  "hidden" : {
+
+                  }
+                },
+                "documentation" : [
+                  "<!-- FishyJoes.exportReference(Functions.TheError) -->"
+                ],
+                "extends" : [
+
+                ],
+                "fields" : [
+
+                ],
+                "methods" : [
+
+                ],
+                "name" : "TheError"
+              }
+            ],
             "fields" : [
               {
                 "documentation" : [
@@ -1356,7 +1891,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "(_: number) => number"
+                    "_0" : "(_0: number) => number"
                   }
                 }
               },
@@ -1369,7 +1904,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "(_: (_: number) => number, _: (_: number) => number) => (_: number) => number"
+                    "_0" : "(_0: (_0: number) => number, _1: (_0: number) => number) => (_0: number) => number"
                   }
                 }
               },
@@ -1382,7 +1917,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "(_: number, _: number, _: number) => number"
+                    "_0" : "(_0: number, _1: number, _2: number) => number"
                   }
                 }
               },
@@ -1395,7 +1930,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "(_: string, _: string, _: string, _: string) => string[]"
+                    "_0" : "(_0: string, _1: string, _2: string, _3: string) => string[]"
                   }
                 }
               },
@@ -1408,7 +1943,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "(_: string, _: number, _: number, _: string, _: () => number) => () => number"
+                    "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => number) => () => number"
                   }
                 }
               },
@@ -1421,10 +1956,13 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "(_: string, _: number, _: number, _: string, _: () => number, _: number) => number"
+                    "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => number, _5: number) => number"
                   }
                 }
               }
+            ],
+            "interfaces" : [
+
             ],
             "methods" : [
               {
@@ -1435,7 +1973,6 @@
                 "name" : "exercise0",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "fn",
                     "type" : {
                       "named" : {
@@ -1458,11 +1995,10 @@
                 "name" : "exercise1",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "fn",
                     "type" : {
                       "named" : {
-                        "_0" : "(_: number) => number"
+                        "_0" : "(_0: number) => number"
                       }
                     }
                   }
@@ -1481,11 +2017,10 @@
                 "name" : "exercise2",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "fn",
                     "type" : {
                       "named" : {
-                        "_0" : "(_: (_: number) => number, _: (_: number) => number) => (_: number) => number"
+                        "_0" : "(_0: (_0: number) => number, _1: (_0: number) => number) => (_0: number) => number"
                       }
                     }
                   }
@@ -1504,11 +2039,10 @@
                 "name" : "exercise3",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "fn",
                     "type" : {
                       "named" : {
-                        "_0" : "(_: number, _: number, _: number) => number"
+                        "_0" : "(_0: number, _1: number, _2: number) => number"
                       }
                     }
                   }
@@ -1527,11 +2061,10 @@
                 "name" : "exercise4",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "fn",
                     "type" : {
                       "named" : {
-                        "_0" : "(_: string, _: string, _: string, _: string) => string[]"
+                        "_0" : "(_0: string, _1: string, _2: string, _3: string) => string[]"
                       }
                     }
                   }
@@ -1550,11 +2083,10 @@
                 "name" : "exercise5",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "fn",
                     "type" : {
                       "named" : {
-                        "_0" : "(_: string, _: number, _: number, _: string, _: () => number) => () => number"
+                        "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => number) => () => number"
                       }
                     }
                   }
@@ -1573,11 +2105,10 @@
                 "name" : "exercise6",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "fn",
                     "type" : {
                       "named" : {
-                        "_0" : "(_: string, _: number, _: number, _: string, _: () => number, _: number) => number"
+                        "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => number, _5: number) => number"
                       }
                     }
                   }
@@ -1604,14 +2135,571 @@
                 }
               }
             ],
-            "name" : "Functions"
+            "name" : "Functions",
+            "namespaces" : {
+
+            },
+            "typealiases" : [
+
+            ]
           },
-          {
-            "constructor" : null,
-            "documentation" : [
-              "<!-- FishyJoes.exportReference(Primitives) -->"
+          "Primitives" : {
+            "classes" : [
+              {
+                "constructor" : {
+                  "visible" : {
+                    "names" : [
+                      "b",
+                      "bq",
+                      "ui8",
+                      "ui8q",
+                      "ui16",
+                      "ui16q",
+                      "ui32",
+                      "ui32q",
+                      "ui64",
+                      "ui64q",
+                      "i8",
+                      "i8q",
+                      "i16",
+                      "i16q",
+                      "i32",
+                      "i32q",
+                      "i64",
+                      "i64q",
+                      "f",
+                      "fq",
+                      "d",
+                      "dq"
+                    ],
+                    "types" : [
+                      {
+                        "named" : {
+                          "_0" : "boolean"
+                        }
+                      },
+                      {
+                        "optional" : {
+                          "_0" : {
+                            "named" : {
+                              "_0" : "boolean"
+                            }
+                          }
+                        }
+                      },
+                      {
+                        "named" : {
+                          "_0" : "number"
+                        }
+                      },
+                      {
+                        "optional" : {
+                          "_0" : {
+                            "named" : {
+                              "_0" : "number"
+                            }
+                          }
+                        }
+                      },
+                      {
+                        "named" : {
+                          "_0" : "number"
+                        }
+                      },
+                      {
+                        "optional" : {
+                          "_0" : {
+                            "named" : {
+                              "_0" : "number"
+                            }
+                          }
+                        }
+                      },
+                      {
+                        "named" : {
+                          "_0" : "number"
+                        }
+                      },
+                      {
+                        "optional" : {
+                          "_0" : {
+                            "named" : {
+                              "_0" : "number"
+                            }
+                          }
+                        }
+                      },
+                      {
+                        "named" : {
+                          "_0" : "bigint"
+                        }
+                      },
+                      {
+                        "optional" : {
+                          "_0" : {
+                            "named" : {
+                              "_0" : "bigint"
+                            }
+                          }
+                        }
+                      },
+                      {
+                        "named" : {
+                          "_0" : "number"
+                        }
+                      },
+                      {
+                        "optional" : {
+                          "_0" : {
+                            "named" : {
+                              "_0" : "number"
+                            }
+                          }
+                        }
+                      },
+                      {
+                        "named" : {
+                          "_0" : "number"
+                        }
+                      },
+                      {
+                        "optional" : {
+                          "_0" : {
+                            "named" : {
+                              "_0" : "number"
+                            }
+                          }
+                        }
+                      },
+                      {
+                        "named" : {
+                          "_0" : "number"
+                        }
+                      },
+                      {
+                        "optional" : {
+                          "_0" : {
+                            "named" : {
+                              "_0" : "number"
+                            }
+                          }
+                        }
+                      },
+                      {
+                        "named" : {
+                          "_0" : "bigint"
+                        }
+                      },
+                      {
+                        "optional" : {
+                          "_0" : {
+                            "named" : {
+                              "_0" : "bigint"
+                            }
+                          }
+                        }
+                      },
+                      {
+                        "named" : {
+                          "_0" : "number"
+                        }
+                      },
+                      {
+                        "optional" : {
+                          "_0" : {
+                            "named" : {
+                              "_0" : "number"
+                            }
+                          }
+                        }
+                      },
+                      {
+                        "named" : {
+                          "_0" : "number"
+                        }
+                      },
+                      {
+                        "optional" : {
+                          "_0" : {
+                            "named" : {
+                              "_0" : "number"
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                },
+                "documentation" : [
+                  "<!-- FishyJoes.export(Primitives.PrimitiveHolder) -->"
+                ],
+                "extends" : [
+
+                ],
+                "fields" : [
+                  {
+                    "documentation" : [
+
+                    ],
+                    "isStatic" : false,
+                    "name" : "b",
+                    "readOnly" : false,
+                    "type" : {
+                      "named" : {
+                        "_0" : "boolean"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "isStatic" : false,
+                    "name" : "bq",
+                    "readOnly" : false,
+                    "type" : {
+                      "optional" : {
+                        "_0" : {
+                          "named" : {
+                            "_0" : "boolean"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "isStatic" : false,
+                    "name" : "ui8",
+                    "readOnly" : false,
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "isStatic" : false,
+                    "name" : "ui8q",
+                    "readOnly" : false,
+                    "type" : {
+                      "optional" : {
+                        "_0" : {
+                          "named" : {
+                            "_0" : "number"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "isStatic" : false,
+                    "name" : "ui16",
+                    "readOnly" : false,
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "isStatic" : false,
+                    "name" : "ui16q",
+                    "readOnly" : false,
+                    "type" : {
+                      "optional" : {
+                        "_0" : {
+                          "named" : {
+                            "_0" : "number"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "isStatic" : false,
+                    "name" : "ui32",
+                    "readOnly" : false,
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "isStatic" : false,
+                    "name" : "ui32q",
+                    "readOnly" : false,
+                    "type" : {
+                      "optional" : {
+                        "_0" : {
+                          "named" : {
+                            "_0" : "number"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "isStatic" : false,
+                    "name" : "ui64",
+                    "readOnly" : false,
+                    "type" : {
+                      "named" : {
+                        "_0" : "bigint"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "isStatic" : false,
+                    "name" : "ui64q",
+                    "readOnly" : false,
+                    "type" : {
+                      "optional" : {
+                        "_0" : {
+                          "named" : {
+                            "_0" : "bigint"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "isStatic" : false,
+                    "name" : "i8",
+                    "readOnly" : false,
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "isStatic" : false,
+                    "name" : "i8q",
+                    "readOnly" : false,
+                    "type" : {
+                      "optional" : {
+                        "_0" : {
+                          "named" : {
+                            "_0" : "number"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "isStatic" : false,
+                    "name" : "i16",
+                    "readOnly" : false,
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "isStatic" : false,
+                    "name" : "i16q",
+                    "readOnly" : false,
+                    "type" : {
+                      "optional" : {
+                        "_0" : {
+                          "named" : {
+                            "_0" : "number"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "isStatic" : false,
+                    "name" : "i32",
+                    "readOnly" : false,
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "isStatic" : false,
+                    "name" : "i32q",
+                    "readOnly" : false,
+                    "type" : {
+                      "optional" : {
+                        "_0" : {
+                          "named" : {
+                            "_0" : "number"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "isStatic" : false,
+                    "name" : "i64",
+                    "readOnly" : false,
+                    "type" : {
+                      "named" : {
+                        "_0" : "bigint"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "isStatic" : false,
+                    "name" : "i64q",
+                    "readOnly" : false,
+                    "type" : {
+                      "optional" : {
+                        "_0" : {
+                          "named" : {
+                            "_0" : "bigint"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "isStatic" : false,
+                    "name" : "f",
+                    "readOnly" : false,
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "isStatic" : false,
+                    "name" : "fq",
+                    "readOnly" : false,
+                    "type" : {
+                      "optional" : {
+                        "_0" : {
+                          "named" : {
+                            "_0" : "number"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "isStatic" : false,
+                    "name" : "d",
+                    "readOnly" : false,
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "isStatic" : false,
+                    "name" : "dq",
+                    "readOnly" : false,
+                    "type" : {
+                      "optional" : {
+                        "_0" : {
+                          "named" : {
+                            "_0" : "number"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+                      "<!-- FishyJoes.export(staticPropery) -->"
+                    ],
+                    "isStatic" : true,
+                    "name" : "staticPropery",
+                    "readOnly" : true,
+                    "type" : {
+                      "named" : {
+                        "_0" : "number[]"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+                      "<!-- FishyJoes.export(staticMutablePropery) -->"
+                    ],
+                    "isStatic" : true,
+                    "name" : "staticMutablePropery",
+                    "readOnly" : false,
+                    "type" : {
+                      "named" : {
+                        "_0" : "number[]"
+                      }
+                    }
+                  }
+                ],
+                "methods" : [
+
+                ],
+                "name" : "PrimitiveHolder"
+              }
             ],
-            "exported" : true,
             "fields" : [
               {
                 "documentation" : [
@@ -2368,6 +3456,9 @@
                 }
               }
             ],
+            "interfaces" : [
+
+            ],
             "methods" : [
               {
                 "documentation" : [
@@ -2377,7 +3468,6 @@
                 "name" : "echoBool",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "value",
                     "type" : {
                       "named" : {
@@ -2400,7 +3490,6 @@
                 "name" : "echoUInt8",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "value",
                     "type" : {
                       "named" : {
@@ -2423,7 +3512,6 @@
                 "name" : "echoUInt16",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "value",
                     "type" : {
                       "named" : {
@@ -2446,7 +3534,6 @@
                 "name" : "echoUInt32",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "value",
                     "type" : {
                       "named" : {
@@ -2469,7 +3556,6 @@
                 "name" : "echoUInt64",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "value",
                     "type" : {
                       "named" : {
@@ -2492,7 +3578,6 @@
                 "name" : "echoInt8",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "value",
                     "type" : {
                       "named" : {
@@ -2515,7 +3600,6 @@
                 "name" : "echoInt16",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "value",
                     "type" : {
                       "named" : {
@@ -2538,7 +3622,6 @@
                 "name" : "echoInt32",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "value",
                     "type" : {
                       "named" : {
@@ -2561,7 +3644,6 @@
                 "name" : "echoInt64",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "value",
                     "type" : {
                       "named" : {
@@ -2584,7 +3666,6 @@
                 "name" : "echoFloat",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "value",
                     "type" : {
                       "named" : {
@@ -2607,7 +3688,6 @@
                 "name" : "echoDouble",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "value",
                     "type" : {
                       "named" : {
@@ -2630,7 +3710,6 @@
                 "name" : "maybeEchoBool",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "value",
                     "type" : {
                       "optional" : {
@@ -2661,7 +3740,6 @@
                 "name" : "maybeEchoUInt8",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "value",
                     "type" : {
                       "optional" : {
@@ -2692,7 +3770,6 @@
                 "name" : "maybeEchoUInt16",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "value",
                     "type" : {
                       "optional" : {
@@ -2723,7 +3800,6 @@
                 "name" : "maybeEchoUInt32",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "value",
                     "type" : {
                       "optional" : {
@@ -2754,7 +3830,6 @@
                 "name" : "maybeEchoUInt64",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "value",
                     "type" : {
                       "optional" : {
@@ -2785,7 +3860,6 @@
                 "name" : "maybeEchoInt8",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "value",
                     "type" : {
                       "optional" : {
@@ -2816,7 +3890,6 @@
                 "name" : "maybeEchoInt16",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "value",
                     "type" : {
                       "optional" : {
@@ -2847,7 +3920,6 @@
                 "name" : "maybeEchoInt32",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "value",
                     "type" : {
                       "optional" : {
@@ -2878,7 +3950,6 @@
                 "name" : "maybeEchoInt64",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "value",
                     "type" : {
                       "optional" : {
@@ -2909,7 +3980,6 @@
                 "name" : "maybeEchoFloat",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "value",
                     "type" : {
                       "optional" : {
@@ -2940,7 +4010,6 @@
                 "name" : "maybeEchoDouble",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "value",
                     "type" : {
                       "optional" : {
@@ -2971,7 +4040,6 @@
                 "name" : "valueMapper",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "value",
                     "type" : {
                       "optional" : {
@@ -2984,11 +4052,10 @@
                     }
                   },
                   {
-                    "isOptional" : false,
                     "name" : "mapper",
                     "type" : {
                       "named" : {
-                        "_0" : "(_: number) => number"
+                        "_0" : "(_0: number) => number"
                       }
                     }
                   }
@@ -3004,14 +4071,135 @@
                 }
               }
             ],
-            "name" : "Primitives"
+            "name" : "Primitives",
+            "namespaces" : {
+
+            },
+            "typealiases" : [
+
+            ]
           },
-          {
-            "constructor" : null,
-            "documentation" : [
-              "<!-- FishyJoes.exportReference(Strings) -->"
+          "SimpleEnum" : {
+            "classes" : [
+
             ],
-            "exported" : true,
+            "fields" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(favoriteColor) -->"
+                ],
+                "isStatic" : true,
+                "name" : "favoriteColor",
+                "readOnly" : false,
+                "type" : {
+                  "named" : {
+                    "_0" : "SimpleEnum"
+                  }
+                }
+              }
+            ],
+            "interfaces" : [
+
+            ],
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(pickAColor) -->"
+                ],
+                "isStatic" : true,
+                "name" : "pickAColor",
+                "parameters" : [
+                  {
+                    "name" : "rawValue",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "optional" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "SimpleEnum"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(hexMethod) -->"
+                ],
+                "isStatic" : true,
+                "name" : "hexMethod",
+                "parameters" : [
+                  {
+                    "name" : "self",
+                    "type" : {
+                      "named" : {
+                        "_0" : "SimpleEnum"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(resetFavoriteColor) -->"
+                ],
+                "isStatic" : true,
+                "name" : "resetFavoriteColor",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "void"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(hex) -->"
+                ],
+                "isStatic" : true,
+                "name" : "getHex",
+                "parameters" : [
+                  {
+                    "name" : "self",
+                    "type" : {
+                      "named" : {
+                        "_0" : "SimpleEnum"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              }
+            ],
+            "name" : "SimpleEnum",
+            "namespaces" : {
+
+            },
+            "typealiases" : [
+
+            ]
+          },
+          "Strings" : {
+            "classes" : [
+
+            ],
             "fields" : [
               {
                 "documentation" : [
@@ -3118,6 +4306,9 @@
                 }
               }
             ],
+            "interfaces" : [
+
+            ],
             "methods" : [
               {
                 "documentation" : [
@@ -3127,7 +4318,6 @@
                 "name" : "echo",
                 "parameters" : [
                   {
-                    "isOptional" : false,
                     "name" : "string",
                     "type" : {
                       "named" : {
@@ -3143,1136 +4333,7 @@
                 }
               }
             ],
-            "name" : "Strings"
-          },
-          {
-            "constructor" : null,
-            "documentation" : [
-              "<!-- FishyJoes.exportReference(Structs) -->"
-            ],
-            "exported" : true,
-            "fields" : [
-
-            ],
-            "methods" : [
-
-            ],
-            "name" : "Structs"
-          }
-        ],
-        "name" : "TestAPI",
-        "namespaces" : {
-          "AssociatedDataEnum" : {
-            "classes" : [
-              {
-                "constructor" : [
-
-                ],
-                "documentation" : [
-
-                ],
-                "exported" : false,
-                "fields" : [
-                  {
-                    "documentation" : [
-                      "<!-- FishyJoes.export(intValue) -->"
-                    ],
-                    "isStatic" : false,
-                    "name" : "intValue",
-                    "readOnly" : true,
-                    "type" : {
-                      "named" : {
-                        "_0" : "number"
-                      }
-                    }
-                  }
-                ],
-                "methods" : [
-                  {
-                    "documentation" : [
-                      "<!-- FishyJoes.export(plus) -->"
-                    ],
-                    "isStatic" : false,
-                    "name" : "plus",
-                    "parameters" : [
-                      {
-                        "isOptional" : false,
-                        "name" : "other",
-                        "type" : {
-                          "named" : {
-                            "_0" : "AssociatedDataEnum"
-                          }
-                        }
-                      }
-                    ],
-                    "returnType" : {
-                      "named" : {
-                        "_0" : "AssociatedDataEnum"
-                      }
-                    }
-                  }
-                ],
-                "name" : "_FictionalCommonSuperclass"
-              },
-              {
-                "constructor" : [
-                  {
-                    "name" : "value",
-                    "type" : {
-                      "named" : {
-                        "_0" : "number"
-                      }
-                    }
-                  }
-                ],
-                "documentation" : [
-
-                ],
-                "exported" : true,
-                "fields" : [
-                  {
-                    "documentation" : [
-
-                    ],
-                    "isStatic" : false,
-                    "name" : "value",
-                    "readOnly" : true,
-                    "type" : {
-                      "named" : {
-                        "_0" : "number"
-                      }
-                    }
-                  }
-                ],
-                "methods" : [
-
-                ],
-                "name" : "Thing",
-                "superclass" : "_FictionalCommonSuperclass"
-              },
-              {
-                "constructor" : [
-                  {
-                    "name" : "unnamed",
-                    "type" : {
-                      "named" : {
-                        "_0" : "string"
-                      }
-                    }
-                  },
-                  {
-                    "name" : "_1",
-                    "type" : {
-                      "named" : {
-                        "_0" : "number"
-                      }
-                    }
-                  }
-                ],
-                "documentation" : [
-
-                ],
-                "exported" : true,
-                "fields" : [
-                  {
-                    "documentation" : [
-
-                    ],
-                    "isStatic" : false,
-                    "name" : "unnamed",
-                    "readOnly" : true,
-                    "type" : {
-                      "named" : {
-                        "_0" : "string"
-                      }
-                    }
-                  },
-                  {
-                    "documentation" : [
-
-                    ],
-                    "isStatic" : false,
-                    "name" : "_1",
-                    "readOnly" : true,
-                    "type" : {
-                      "named" : {
-                        "_0" : "number"
-                      }
-                    }
-                  }
-                ],
-                "methods" : [
-
-                ],
-                "name" : "Other",
-                "superclass" : "_FictionalCommonSuperclass"
-              },
-              {
-                "constructor" : [
-                  {
-                    "name" : "named",
-                    "type" : {
-                      "named" : {
-                        "_0" : "string"
-                      }
-                    }
-                  },
-                  {
-                    "name" : "_1",
-                    "type" : {
-                      "named" : {
-                        "_0" : "AssociatedDataEnum"
-                      }
-                    }
-                  }
-                ],
-                "documentation" : [
-
-                ],
-                "exported" : true,
-                "fields" : [
-                  {
-                    "documentation" : [
-
-                    ],
-                    "isStatic" : false,
-                    "name" : "named",
-                    "readOnly" : true,
-                    "type" : {
-                      "named" : {
-                        "_0" : "string"
-                      }
-                    }
-                  },
-                  {
-                    "documentation" : [
-
-                    ],
-                    "isStatic" : false,
-                    "name" : "_1",
-                    "readOnly" : true,
-                    "type" : {
-                      "named" : {
-                        "_0" : "AssociatedDataEnum"
-                      }
-                    }
-                  }
-                ],
-                "methods" : [
-
-                ],
-                "name" : "Bar",
-                "superclass" : "_FictionalCommonSuperclass"
-              }
-            ],
-            "name" : "AssociatedDataEnum",
-            "namespaces" : {
-
-            },
-            "typealiases" : [
-
-            ]
-          },
-          "Collections" : {
-            "classes" : [
-              {
-                "constructor" : [
-                  {
-                    "name" : "boolArray",
-                    "type" : {
-                      "named" : {
-                        "_0" : "boolean[]"
-                      }
-                    }
-                  },
-                  {
-                    "name" : "boolSet",
-                    "type" : {
-                      "named" : {
-                        "_0" : "Set<boolean>"
-                      }
-                    }
-                  },
-                  {
-                    "name" : "boolDictionary",
-                    "type" : {
-                      "named" : {
-                        "_0" : "Map<boolean, boolean>"
-                      }
-                    }
-                  },
-                  {
-                    "name" : "integerArray",
-                    "type" : {
-                      "named" : {
-                        "_0" : "number[]"
-                      }
-                    }
-                  },
-                  {
-                    "name" : "integerSet",
-                    "type" : {
-                      "named" : {
-                        "_0" : "Set<number>"
-                      }
-                    }
-                  },
-                  {
-                    "name" : "integerDictionary",
-                    "type" : {
-                      "named" : {
-                        "_0" : "Map<number, number>"
-                      }
-                    }
-                  },
-                  {
-                    "name" : "stringArray",
-                    "type" : {
-                      "named" : {
-                        "_0" : "string[]"
-                      }
-                    }
-                  },
-                  {
-                    "name" : "stringSet",
-                    "type" : {
-                      "named" : {
-                        "_0" : "Set<string>"
-                      }
-                    }
-                  },
-                  {
-                    "name" : "stringDictionary",
-                    "type" : {
-                      "named" : {
-                        "_0" : "Map<string, string>"
-                      }
-                    }
-                  }
-                ],
-                "documentation" : [
-                  "<!-- FishyJoes.export(Collections.CollectionHolder) -->"
-                ],
-                "exported" : true,
-                "fields" : [
-                  {
-                    "documentation" : [
-
-                    ],
-                    "isStatic" : false,
-                    "name" : "boolArray",
-                    "readOnly" : false,
-                    "type" : {
-                      "named" : {
-                        "_0" : "boolean[]"
-                      }
-                    }
-                  },
-                  {
-                    "documentation" : [
-
-                    ],
-                    "isStatic" : false,
-                    "name" : "boolSet",
-                    "readOnly" : false,
-                    "type" : {
-                      "named" : {
-                        "_0" : "Set<boolean>"
-                      }
-                    }
-                  },
-                  {
-                    "documentation" : [
-
-                    ],
-                    "isStatic" : false,
-                    "name" : "boolDictionary",
-                    "readOnly" : false,
-                    "type" : {
-                      "named" : {
-                        "_0" : "Map<boolean, boolean>"
-                      }
-                    }
-                  },
-                  {
-                    "documentation" : [
-
-                    ],
-                    "isStatic" : false,
-                    "name" : "integerArray",
-                    "readOnly" : false,
-                    "type" : {
-                      "named" : {
-                        "_0" : "number[]"
-                      }
-                    }
-                  },
-                  {
-                    "documentation" : [
-
-                    ],
-                    "isStatic" : false,
-                    "name" : "integerSet",
-                    "readOnly" : false,
-                    "type" : {
-                      "named" : {
-                        "_0" : "Set<number>"
-                      }
-                    }
-                  },
-                  {
-                    "documentation" : [
-
-                    ],
-                    "isStatic" : false,
-                    "name" : "integerDictionary",
-                    "readOnly" : false,
-                    "type" : {
-                      "named" : {
-                        "_0" : "Map<number, number>"
-                      }
-                    }
-                  },
-                  {
-                    "documentation" : [
-
-                    ],
-                    "isStatic" : false,
-                    "name" : "stringArray",
-                    "readOnly" : false,
-                    "type" : {
-                      "named" : {
-                        "_0" : "string[]"
-                      }
-                    }
-                  },
-                  {
-                    "documentation" : [
-
-                    ],
-                    "isStatic" : false,
-                    "name" : "stringSet",
-                    "readOnly" : false,
-                    "type" : {
-                      "named" : {
-                        "_0" : "Set<string>"
-                      }
-                    }
-                  },
-                  {
-                    "documentation" : [
-
-                    ],
-                    "isStatic" : false,
-                    "name" : "stringDictionary",
-                    "readOnly" : false,
-                    "type" : {
-                      "named" : {
-                        "_0" : "Map<string, string>"
-                      }
-                    }
-                  },
-                  {
-                    "documentation" : [
-                      "<!-- FishyJoes.export(staticPropery) -->"
-                    ],
-                    "isStatic" : true,
-                    "name" : "staticPropery",
-                    "readOnly" : true,
-                    "type" : {
-                      "named" : {
-                        "_0" : "number[]"
-                      }
-                    }
-                  },
-                  {
-                    "documentation" : [
-                      "<!-- FishyJoes.export(staticMutablePropery) -->"
-                    ],
-                    "isStatic" : true,
-                    "name" : "staticMutablePropery",
-                    "readOnly" : false,
-                    "type" : {
-                      "named" : {
-                        "_0" : "number[]"
-                      }
-                    }
-                  }
-                ],
-                "methods" : [
-
-                ],
-                "name" : "CollectionHolder"
-              }
-            ],
-            "name" : "Collections",
-            "namespaces" : {
-
-            },
-            "typealiases" : [
-
-            ]
-          },
-          "EmptyEnum" : {
-            "classes" : [
-              {
-                "constructor" : [
-
-                ],
-                "documentation" : [
-
-                ],
-                "exported" : false,
-                "fields" : [
-
-                ],
-                "methods" : [
-                  {
-                    "documentation" : [
-                      "<!-- FishyJoes.export(notGoingToHappen, noReturn: true) -->"
-                    ],
-                    "isStatic" : true,
-                    "name" : "notGoingToHappen",
-                    "parameters" : [
-
-                    ],
-                    "returnType" : {
-                      "named" : {
-                        "_0" : "EmptyEnum"
-                      }
-                    }
-                  }
-                ],
-                "name" : "_FictionalCommonSuperclass"
-              }
-            ],
-            "name" : "EmptyEnum",
-            "namespaces" : {
-
-            },
-            "typealiases" : [
-
-            ]
-          },
-          "Functions" : {
-            "classes" : [
-              {
-                "constructor" : null,
-                "documentation" : [
-                  "<!-- FishyJoes.exportReference(Functions.TheError) -->"
-                ],
-                "exported" : true,
-                "fields" : [
-
-                ],
-                "methods" : [
-
-                ],
-                "name" : "TheError"
-              }
-            ],
-            "name" : "Functions",
-            "namespaces" : {
-
-            },
-            "typealiases" : [
-
-            ]
-          },
-          "Primitives" : {
-            "classes" : [
-              {
-                "constructor" : [
-                  {
-                    "name" : "b",
-                    "type" : {
-                      "named" : {
-                        "_0" : "boolean"
-                      }
-                    }
-                  },
-                  {
-                    "name" : "bq",
-                    "type" : {
-                      "optional" : {
-                        "_0" : {
-                          "named" : {
-                            "_0" : "boolean"
-                          }
-                        }
-                      }
-                    }
-                  },
-                  {
-                    "name" : "ui8",
-                    "type" : {
-                      "named" : {
-                        "_0" : "number"
-                      }
-                    }
-                  },
-                  {
-                    "name" : "ui8q",
-                    "type" : {
-                      "optional" : {
-                        "_0" : {
-                          "named" : {
-                            "_0" : "number"
-                          }
-                        }
-                      }
-                    }
-                  },
-                  {
-                    "name" : "ui16",
-                    "type" : {
-                      "named" : {
-                        "_0" : "number"
-                      }
-                    }
-                  },
-                  {
-                    "name" : "ui16q",
-                    "type" : {
-                      "optional" : {
-                        "_0" : {
-                          "named" : {
-                            "_0" : "number"
-                          }
-                        }
-                      }
-                    }
-                  },
-                  {
-                    "name" : "ui32",
-                    "type" : {
-                      "named" : {
-                        "_0" : "number"
-                      }
-                    }
-                  },
-                  {
-                    "name" : "ui32q",
-                    "type" : {
-                      "optional" : {
-                        "_0" : {
-                          "named" : {
-                            "_0" : "number"
-                          }
-                        }
-                      }
-                    }
-                  },
-                  {
-                    "name" : "ui64",
-                    "type" : {
-                      "named" : {
-                        "_0" : "bigint"
-                      }
-                    }
-                  },
-                  {
-                    "name" : "ui64q",
-                    "type" : {
-                      "optional" : {
-                        "_0" : {
-                          "named" : {
-                            "_0" : "bigint"
-                          }
-                        }
-                      }
-                    }
-                  },
-                  {
-                    "name" : "i8",
-                    "type" : {
-                      "named" : {
-                        "_0" : "number"
-                      }
-                    }
-                  },
-                  {
-                    "name" : "i8q",
-                    "type" : {
-                      "optional" : {
-                        "_0" : {
-                          "named" : {
-                            "_0" : "number"
-                          }
-                        }
-                      }
-                    }
-                  },
-                  {
-                    "name" : "i16",
-                    "type" : {
-                      "named" : {
-                        "_0" : "number"
-                      }
-                    }
-                  },
-                  {
-                    "name" : "i16q",
-                    "type" : {
-                      "optional" : {
-                        "_0" : {
-                          "named" : {
-                            "_0" : "number"
-                          }
-                        }
-                      }
-                    }
-                  },
-                  {
-                    "name" : "i32",
-                    "type" : {
-                      "named" : {
-                        "_0" : "number"
-                      }
-                    }
-                  },
-                  {
-                    "name" : "i32q",
-                    "type" : {
-                      "optional" : {
-                        "_0" : {
-                          "named" : {
-                            "_0" : "number"
-                          }
-                        }
-                      }
-                    }
-                  },
-                  {
-                    "name" : "i64",
-                    "type" : {
-                      "named" : {
-                        "_0" : "bigint"
-                      }
-                    }
-                  },
-                  {
-                    "name" : "i64q",
-                    "type" : {
-                      "optional" : {
-                        "_0" : {
-                          "named" : {
-                            "_0" : "bigint"
-                          }
-                        }
-                      }
-                    }
-                  },
-                  {
-                    "name" : "f",
-                    "type" : {
-                      "named" : {
-                        "_0" : "number"
-                      }
-                    }
-                  },
-                  {
-                    "name" : "fq",
-                    "type" : {
-                      "optional" : {
-                        "_0" : {
-                          "named" : {
-                            "_0" : "number"
-                          }
-                        }
-                      }
-                    }
-                  },
-                  {
-                    "name" : "d",
-                    "type" : {
-                      "named" : {
-                        "_0" : "number"
-                      }
-                    }
-                  },
-                  {
-                    "name" : "dq",
-                    "type" : {
-                      "optional" : {
-                        "_0" : {
-                          "named" : {
-                            "_0" : "number"
-                          }
-                        }
-                      }
-                    }
-                  }
-                ],
-                "documentation" : [
-                  "<!-- FishyJoes.export(Primitives.PrimitiveHolder) -->"
-                ],
-                "exported" : true,
-                "fields" : [
-                  {
-                    "documentation" : [
-
-                    ],
-                    "isStatic" : false,
-                    "name" : "b",
-                    "readOnly" : false,
-                    "type" : {
-                      "named" : {
-                        "_0" : "boolean"
-                      }
-                    }
-                  },
-                  {
-                    "documentation" : [
-
-                    ],
-                    "isStatic" : false,
-                    "name" : "bq",
-                    "readOnly" : false,
-                    "type" : {
-                      "optional" : {
-                        "_0" : {
-                          "named" : {
-                            "_0" : "boolean"
-                          }
-                        }
-                      }
-                    }
-                  },
-                  {
-                    "documentation" : [
-
-                    ],
-                    "isStatic" : false,
-                    "name" : "ui8",
-                    "readOnly" : false,
-                    "type" : {
-                      "named" : {
-                        "_0" : "number"
-                      }
-                    }
-                  },
-                  {
-                    "documentation" : [
-
-                    ],
-                    "isStatic" : false,
-                    "name" : "ui8q",
-                    "readOnly" : false,
-                    "type" : {
-                      "optional" : {
-                        "_0" : {
-                          "named" : {
-                            "_0" : "number"
-                          }
-                        }
-                      }
-                    }
-                  },
-                  {
-                    "documentation" : [
-
-                    ],
-                    "isStatic" : false,
-                    "name" : "ui16",
-                    "readOnly" : false,
-                    "type" : {
-                      "named" : {
-                        "_0" : "number"
-                      }
-                    }
-                  },
-                  {
-                    "documentation" : [
-
-                    ],
-                    "isStatic" : false,
-                    "name" : "ui16q",
-                    "readOnly" : false,
-                    "type" : {
-                      "optional" : {
-                        "_0" : {
-                          "named" : {
-                            "_0" : "number"
-                          }
-                        }
-                      }
-                    }
-                  },
-                  {
-                    "documentation" : [
-
-                    ],
-                    "isStatic" : false,
-                    "name" : "ui32",
-                    "readOnly" : false,
-                    "type" : {
-                      "named" : {
-                        "_0" : "number"
-                      }
-                    }
-                  },
-                  {
-                    "documentation" : [
-
-                    ],
-                    "isStatic" : false,
-                    "name" : "ui32q",
-                    "readOnly" : false,
-                    "type" : {
-                      "optional" : {
-                        "_0" : {
-                          "named" : {
-                            "_0" : "number"
-                          }
-                        }
-                      }
-                    }
-                  },
-                  {
-                    "documentation" : [
-
-                    ],
-                    "isStatic" : false,
-                    "name" : "ui64",
-                    "readOnly" : false,
-                    "type" : {
-                      "named" : {
-                        "_0" : "bigint"
-                      }
-                    }
-                  },
-                  {
-                    "documentation" : [
-
-                    ],
-                    "isStatic" : false,
-                    "name" : "ui64q",
-                    "readOnly" : false,
-                    "type" : {
-                      "optional" : {
-                        "_0" : {
-                          "named" : {
-                            "_0" : "bigint"
-                          }
-                        }
-                      }
-                    }
-                  },
-                  {
-                    "documentation" : [
-
-                    ],
-                    "isStatic" : false,
-                    "name" : "i8",
-                    "readOnly" : false,
-                    "type" : {
-                      "named" : {
-                        "_0" : "number"
-                      }
-                    }
-                  },
-                  {
-                    "documentation" : [
-
-                    ],
-                    "isStatic" : false,
-                    "name" : "i8q",
-                    "readOnly" : false,
-                    "type" : {
-                      "optional" : {
-                        "_0" : {
-                          "named" : {
-                            "_0" : "number"
-                          }
-                        }
-                      }
-                    }
-                  },
-                  {
-                    "documentation" : [
-
-                    ],
-                    "isStatic" : false,
-                    "name" : "i16",
-                    "readOnly" : false,
-                    "type" : {
-                      "named" : {
-                        "_0" : "number"
-                      }
-                    }
-                  },
-                  {
-                    "documentation" : [
-
-                    ],
-                    "isStatic" : false,
-                    "name" : "i16q",
-                    "readOnly" : false,
-                    "type" : {
-                      "optional" : {
-                        "_0" : {
-                          "named" : {
-                            "_0" : "number"
-                          }
-                        }
-                      }
-                    }
-                  },
-                  {
-                    "documentation" : [
-
-                    ],
-                    "isStatic" : false,
-                    "name" : "i32",
-                    "readOnly" : false,
-                    "type" : {
-                      "named" : {
-                        "_0" : "number"
-                      }
-                    }
-                  },
-                  {
-                    "documentation" : [
-
-                    ],
-                    "isStatic" : false,
-                    "name" : "i32q",
-                    "readOnly" : false,
-                    "type" : {
-                      "optional" : {
-                        "_0" : {
-                          "named" : {
-                            "_0" : "number"
-                          }
-                        }
-                      }
-                    }
-                  },
-                  {
-                    "documentation" : [
-
-                    ],
-                    "isStatic" : false,
-                    "name" : "i64",
-                    "readOnly" : false,
-                    "type" : {
-                      "named" : {
-                        "_0" : "bigint"
-                      }
-                    }
-                  },
-                  {
-                    "documentation" : [
-
-                    ],
-                    "isStatic" : false,
-                    "name" : "i64q",
-                    "readOnly" : false,
-                    "type" : {
-                      "optional" : {
-                        "_0" : {
-                          "named" : {
-                            "_0" : "bigint"
-                          }
-                        }
-                      }
-                    }
-                  },
-                  {
-                    "documentation" : [
-
-                    ],
-                    "isStatic" : false,
-                    "name" : "f",
-                    "readOnly" : false,
-                    "type" : {
-                      "named" : {
-                        "_0" : "number"
-                      }
-                    }
-                  },
-                  {
-                    "documentation" : [
-
-                    ],
-                    "isStatic" : false,
-                    "name" : "fq",
-                    "readOnly" : false,
-                    "type" : {
-                      "optional" : {
-                        "_0" : {
-                          "named" : {
-                            "_0" : "number"
-                          }
-                        }
-                      }
-                    }
-                  },
-                  {
-                    "documentation" : [
-
-                    ],
-                    "isStatic" : false,
-                    "name" : "d",
-                    "readOnly" : false,
-                    "type" : {
-                      "named" : {
-                        "_0" : "number"
-                      }
-                    }
-                  },
-                  {
-                    "documentation" : [
-
-                    ],
-                    "isStatic" : false,
-                    "name" : "dq",
-                    "readOnly" : false,
-                    "type" : {
-                      "optional" : {
-                        "_0" : {
-                          "named" : {
-                            "_0" : "number"
-                          }
-                        }
-                      }
-                    }
-                  },
-                  {
-                    "documentation" : [
-                      "<!-- FishyJoes.export(staticPropery) -->"
-                    ],
-                    "isStatic" : true,
-                    "name" : "staticPropery",
-                    "readOnly" : true,
-                    "type" : {
-                      "named" : {
-                        "_0" : "number[]"
-                      }
-                    }
-                  },
-                  {
-                    "documentation" : [
-                      "<!-- FishyJoes.export(staticMutablePropery) -->"
-                    ],
-                    "isStatic" : true,
-                    "name" : "staticMutablePropery",
-                    "readOnly" : false,
-                    "type" : {
-                      "named" : {
-                        "_0" : "number[]"
-                      }
-                    }
-                  }
-                ],
-                "methods" : [
-
-                ],
-                "name" : "PrimitiveHolder"
-              }
-            ],
-            "name" : "Primitives",
+            "name" : "Strings",
             "namespaces" : {
 
             },
@@ -4283,28 +4344,32 @@
           "Structs" : {
             "classes" : [
               {
-                "constructor" : [
-                  {
-                    "name" : "immutable",
-                    "type" : {
-                      "named" : {
-                        "_0" : "string"
+                "constructor" : {
+                  "visible" : {
+                    "names" : [
+                      "immutable",
+                      "mutable"
+                    ],
+                    "types" : [
+                      {
+                        "named" : {
+                          "_0" : "string"
+                        }
+                      },
+                      {
+                        "named" : {
+                          "_0" : "string"
+                        }
                       }
-                    }
-                  },
-                  {
-                    "name" : "mutable",
-                    "type" : {
-                      "named" : {
-                        "_0" : "string"
-                      }
-                    }
+                    ]
                   }
-                ],
+                },
                 "documentation" : [
                   "<!-- FishyJoes.export(Structs.MemberwiseStruct) -->"
                 ],
-                "exported" : true,
+                "extends" : [
+
+                ],
                 "fields" : [
                   {
                     "documentation" : [
@@ -4353,11 +4418,17 @@
                 "name" : "MemberwiseStruct"
               },
               {
-                "constructor" : null,
+                "constructor" : {
+                  "hidden" : {
+
+                  }
+                },
                 "documentation" : [
                   "<!-- FishyJoes.exportReference(Structs.ReferenceStruct) -->"
                 ],
-                "exported" : true,
+                "extends" : [
+
+                ],
                 "fields" : [
                   {
                     "documentation" : [
@@ -4406,6 +4477,15 @@
                 "name" : "ReferenceStruct"
               }
             ],
+            "fields" : [
+
+            ],
+            "interfaces" : [
+
+            ],
+            "methods" : [
+
+            ],
             "name" : "Structs",
             "namespaces" : {
 
@@ -4416,22 +4496,88 @@
           },
           "Tuples" : {
             "classes" : [
+
+            ],
+            "fields" : [
               {
-                "constructor" : [
-
-                ],
                 "documentation" : [
-
+                  "<!-- FishyJoes.export(tuple2) -->"
                 ],
-                "exported" : false,
-                "fields" : [
+                "isStatic" : true,
+                "name" : "tuple2",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "[number, string]"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(tuple3) -->"
+                ],
+                "isStatic" : true,
+                "name" : "tuple3",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "[string, number, string]"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(tuple4) -->"
+                ],
+                "isStatic" : true,
+                "name" : "tuple4",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "[[number, string], [string, number, string], string, boolean]"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(tuple5) -->"
+                ],
+                "isStatic" : true,
+                "name" : "tuple5",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "[string, number, [[number, string], [string, number, string], string, boolean], [string, number, string], [number, string]]"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(tuple6) -->"
+                ],
+                "isStatic" : true,
+                "name" : "tuple6",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "[string, number, number, [[number, string], [string, number, string], string, boolean], [string, number, [[number, string], [string, number, string], string, boolean], [string, number, string], [number, string]], boolean]"
+                  }
+                }
+              }
+            ],
+            "interfaces" : [
+
+            ],
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(checkTuples) -->"
+                ],
+                "isStatic" : true,
+                "name" : "checkTuples",
+                "parameters" : [
                   {
-                    "documentation" : [
-                      "<!-- FishyJoes.export(tuple2) -->"
-                    ],
-                    "isStatic" : true,
-                    "name" : "tuple2",
-                    "readOnly" : true,
+                    "name" : "t2",
                     "type" : {
                       "named" : {
                         "_0" : "[number, string]"
@@ -4439,12 +4585,7 @@
                     }
                   },
                   {
-                    "documentation" : [
-                      "<!-- FishyJoes.export(tuple3) -->"
-                    ],
-                    "isStatic" : true,
-                    "name" : "tuple3",
-                    "readOnly" : true,
+                    "name" : "t3",
                     "type" : {
                       "named" : {
                         "_0" : "[string, number, string]"
@@ -4452,12 +4593,7 @@
                     }
                   },
                   {
-                    "documentation" : [
-                      "<!-- FishyJoes.export(tuple4) -->"
-                    ],
-                    "isStatic" : true,
-                    "name" : "tuple4",
-                    "readOnly" : true,
+                    "name" : "t4",
                     "type" : {
                       "named" : {
                         "_0" : "[[number, string], [string, number, string], string, boolean]"
@@ -4465,12 +4601,7 @@
                     }
                   },
                   {
-                    "documentation" : [
-                      "<!-- FishyJoes.export(tuple5) -->"
-                    ],
-                    "isStatic" : true,
-                    "name" : "tuple5",
-                    "readOnly" : true,
+                    "name" : "t5",
                     "type" : {
                       "named" : {
                         "_0" : "[string, number, [[number, string], [string, number, string], string, boolean], [string, number, string], [number, string]]"
@@ -4478,12 +4609,7 @@
                     }
                   },
                   {
-                    "documentation" : [
-                      "<!-- FishyJoes.export(tuple6) -->"
-                    ],
-                    "isStatic" : true,
-                    "name" : "tuple6",
-                    "readOnly" : true,
+                    "name" : "t6",
                     "type" : {
                       "named" : {
                         "_0" : "[string, number, number, [[number, string], [string, number, string], string, boolean], [string, number, [[number, string], [string, number, string], string, boolean], [string, number, string], [number, string]], boolean]"
@@ -4491,68 +4617,11 @@
                     }
                   }
                 ],
-                "methods" : [
-                  {
-                    "documentation" : [
-                      "<!-- FishyJoes.export(checkTuples) -->"
-                    ],
-                    "isStatic" : true,
-                    "name" : "checkTuples",
-                    "parameters" : [
-                      {
-                        "isOptional" : false,
-                        "name" : "t2",
-                        "type" : {
-                          "named" : {
-                            "_0" : "[number, string]"
-                          }
-                        }
-                      },
-                      {
-                        "isOptional" : false,
-                        "name" : "t3",
-                        "type" : {
-                          "named" : {
-                            "_0" : "[string, number, string]"
-                          }
-                        }
-                      },
-                      {
-                        "isOptional" : false,
-                        "name" : "t4",
-                        "type" : {
-                          "named" : {
-                            "_0" : "[[number, string], [string, number, string], string, boolean]"
-                          }
-                        }
-                      },
-                      {
-                        "isOptional" : false,
-                        "name" : "t5",
-                        "type" : {
-                          "named" : {
-                            "_0" : "[string, number, [[number, string], [string, number, string], string, boolean], [string, number, string], [number, string]]"
-                          }
-                        }
-                      },
-                      {
-                        "isOptional" : false,
-                        "name" : "t6",
-                        "type" : {
-                          "named" : {
-                            "_0" : "[string, number, number, [[number, string], [string, number, string], string, boolean], [string, number, [[number, string], [string, number, string], string, boolean], [string, number, string], [number, string]], boolean]"
-                          }
-                        }
-                      }
-                    ],
-                    "returnType" : {
-                      "named" : {
-                        "_0" : "boolean"
-                      }
-                    }
+                "returnType" : {
+                  "named" : {
+                    "_0" : "boolean"
                   }
-                ],
-                "name" : "_FictionalCommonSuperclass"
+                }
               }
             ],
             "name" : "Tuples",
@@ -4594,9 +4663,87 @@
           },
           {
             "documentation" : [
+              "<!-- FishyJoes.export(Bytes) -->"
+            ],
+            "name" : "Bytes",
+            "value" : {
+              "union" : {
+                "_0" : [
+
+                ]
+              }
+            }
+          },
+          {
+            "documentation" : [
+              "<!-- FishyJoes.export(Collections) -->"
+            ],
+            "name" : "Collections",
+            "value" : {
+              "union" : {
+                "_0" : [
+
+                ]
+              }
+            }
+          },
+          {
+            "documentation" : [
+              "<!-- FishyJoes.export(DefaultArguments) -->"
+            ],
+            "name" : "DefaultArguments",
+            "value" : {
+              "union" : {
+                "_0" : [
+
+                ]
+              }
+            }
+          },
+          {
+            "documentation" : [
+              "<!-- FishyJoes.export(Deprecations) -->"
+            ],
+            "name" : "Deprecations",
+            "value" : {
+              "union" : {
+                "_0" : [
+
+                ]
+              }
+            }
+          },
+          {
+            "documentation" : [
               "<!-- FishyJoes.export(EmptyEnum) -->"
             ],
             "name" : "EmptyEnum",
+            "value" : {
+              "union" : {
+                "_0" : [
+
+                ]
+              }
+            }
+          },
+          {
+            "documentation" : [
+              "<!-- FishyJoes.export(Functions) -->"
+            ],
+            "name" : "Functions",
+            "value" : {
+              "union" : {
+                "_0" : [
+
+                ]
+              }
+            }
+          },
+          {
+            "documentation" : [
+              "<!-- FishyJoes.export(Primitives) -->"
+            ],
+            "name" : "Primitives",
             "value" : {
               "union" : {
                 "_0" : [
@@ -4628,6 +4775,32 @@
                       "_0" : "blue"
                     }
                   }
+                ]
+              }
+            }
+          },
+          {
+            "documentation" : [
+              "<!-- FishyJoes.export(Strings) -->"
+            ],
+            "name" : "Strings",
+            "value" : {
+              "union" : {
+                "_0" : [
+
+                ]
+              }
+            }
+          },
+          {
+            "documentation" : [
+              "<!-- FishyJoes.export(Structs) -->"
+            ],
+            "name" : "Structs",
+            "value" : {
+              "union" : {
+                "_0" : [
+
                 ]
               }
             }

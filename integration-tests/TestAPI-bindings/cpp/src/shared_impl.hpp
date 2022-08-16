@@ -345,19 +345,19 @@ namespace TestAPI {
             };
         }
         inline void put(const TestAPI::Bytes& obj) {
-            put(obj._ref);
+            put(obj._variant);
         }
         inline TestAPI::Bytes get(std::in_place_type_t<TestAPI::Bytes> obj = std::in_place_type_t<TestAPI::Bytes>{}) {
             return TestAPI::Bytes {
-                get_t<decltype(TestAPI::Bytes::_ref)>()
+                get_t<decltype(TestAPI::Bytes::_variant)>()
             };
         }
         inline void put(const TestAPI::Collections& obj) {
-            put(obj._ref);
+            put(obj._variant);
         }
         inline TestAPI::Collections get(std::in_place_type_t<TestAPI::Collections> obj = std::in_place_type_t<TestAPI::Collections>{}) {
             return TestAPI::Collections {
-                get_t<decltype(TestAPI::Collections::_ref)>()
+                get_t<decltype(TestAPI::Collections::_variant)>()
             };
         }
         inline void put(const TestAPI::Collections::CollectionHolder& obj) {
@@ -377,19 +377,19 @@ namespace TestAPI {
             };
         }
         inline void put(const TestAPI::DefaultArguments& obj) {
-            put(obj._ref);
+            put(obj._variant);
         }
         inline TestAPI::DefaultArguments get(std::in_place_type_t<TestAPI::DefaultArguments> obj = std::in_place_type_t<TestAPI::DefaultArguments>{}) {
             return TestAPI::DefaultArguments {
-                get_t<decltype(TestAPI::DefaultArguments::_ref)>()
+                get_t<decltype(TestAPI::DefaultArguments::_variant)>()
             };
         }
         inline void put(const TestAPI::Deprecations& obj) {
-            put(obj._ref);
+            put(obj._variant);
         }
         inline TestAPI::Deprecations get(std::in_place_type_t<TestAPI::Deprecations> obj = std::in_place_type_t<TestAPI::Deprecations>{}) {
             return TestAPI::Deprecations {
-                get_t<decltype(TestAPI::Deprecations::_ref)>()
+                get_t<decltype(TestAPI::Deprecations::_variant)>()
             };
         }
         inline void put(const TestAPI::EmptyEnum& obj) {
@@ -401,11 +401,11 @@ namespace TestAPI {
             };
         }
         inline void put(const TestAPI::Functions& obj) {
-            put(obj._ref);
+            put(obj._variant);
         }
         inline TestAPI::Functions get(std::in_place_type_t<TestAPI::Functions> obj = std::in_place_type_t<TestAPI::Functions>{}) {
             return TestAPI::Functions {
-                get_t<decltype(TestAPI::Functions::_ref)>()
+                get_t<decltype(TestAPI::Functions::_variant)>()
             };
         }
         inline void put(const TestAPI::Functions::TheError& obj) {
@@ -417,11 +417,11 @@ namespace TestAPI {
             };
         }
         inline void put(const TestAPI::Primitives& obj) {
-            put(obj._ref);
+            put(obj._variant);
         }
         inline TestAPI::Primitives get(std::in_place_type_t<TestAPI::Primitives> obj = std::in_place_type_t<TestAPI::Primitives>{}) {
             return TestAPI::Primitives {
-                get_t<decltype(TestAPI::Primitives::_ref)>()
+                get_t<decltype(TestAPI::Primitives::_variant)>()
             };
         }
         inline void put(const TestAPI::Primitives::PrimitiveHolder& obj) {
@@ -483,19 +483,19 @@ namespace TestAPI {
             };
         }
         inline void put(const TestAPI::Strings& obj) {
-            put(obj._ref);
+            put(obj._variant);
         }
         inline TestAPI::Strings get(std::in_place_type_t<TestAPI::Strings> obj = std::in_place_type_t<TestAPI::Strings>{}) {
             return TestAPI::Strings {
-                get_t<decltype(TestAPI::Strings::_ref)>()
+                get_t<decltype(TestAPI::Strings::_variant)>()
             };
         }
         inline void put(const TestAPI::Structs& obj) {
-            put(obj._ref);
+            put(obj._variant);
         }
         inline TestAPI::Structs get(std::in_place_type_t<TestAPI::Structs> obj = std::in_place_type_t<TestAPI::Structs>{}) {
             return TestAPI::Structs {
-                get_t<decltype(TestAPI::Structs::_ref)>()
+                get_t<decltype(TestAPI::Structs::_variant)>()
             };
         }
         inline void put(const TestAPI::Structs::MemberwiseStruct& obj) {

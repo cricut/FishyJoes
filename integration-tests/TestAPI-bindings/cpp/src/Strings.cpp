@@ -1,6 +1,6 @@
 #include "shared_impl.hpp"
 namespace TestAPI {
-    Strings::Strings(const FishyJoesInternal::SwiftReference &_ref): _ref(_ref){}
+    Strings::Strings(const std::variant<> &_variant): _variant(_variant){}
     std::string Strings::echo(const std::string &string) {
         return FishyJoesInternal::Packer::unpack<std::string>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Strings_echo(FishyJoesInternal::Packer::pack(string).ptr()));
     }

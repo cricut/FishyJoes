@@ -56,13 +56,11 @@ namespace Cricut.TestAPI {
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_Bytes_setup(
-            SwiftReference.ConstructorDelegate constructorMethod,
             out CreatedRef _exn
         );
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_Collections_setup(
-            SwiftReference.ConstructorDelegate constructorMethod,
             out CreatedRef _exn
         );
 
@@ -122,13 +120,11 @@ namespace Cricut.TestAPI {
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_DefaultArguments_setup(
-            SwiftReference.ConstructorDelegate constructorMethod,
             out CreatedRef _exn
         );
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_Deprecations_setup(
-            SwiftReference.ConstructorDelegate constructorMethod,
             out CreatedRef _exn
         );
 
@@ -139,7 +135,6 @@ namespace Cricut.TestAPI {
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_Functions_setup(
-            SwiftReference.ConstructorDelegate constructorMethod,
             out CreatedRef _exn
         );
 
@@ -151,7 +146,6 @@ namespace Cricut.TestAPI {
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_Primitives_setup(
-            SwiftReference.ConstructorDelegate constructorMethod,
             out CreatedRef _exn
         );
 
@@ -309,13 +303,11 @@ namespace Cricut.TestAPI {
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_Strings_setup(
-            SwiftReference.ConstructorDelegate constructorMethod,
             out CreatedRef _exn
         );
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_Structs_setup(
-            SwiftReference.ConstructorDelegate constructorMethod,
             out CreatedRef _exn
         );
 
@@ -728,18 +720,12 @@ namespace Cricut.TestAPI {
             Once("setup_Bytes", () => {
                 Console.WriteLine("setting up Bytes...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_Bytes_setup(
-                    bag<SwiftReference.ConstructorDelegate>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
-                        return new CreatedRef(new Cricut.TestAPI.Bytes(ptr));
-                    })),
                     out exn
                 ));
             });
             Once("setup_Collections", () => {
                 Console.WriteLine("setting up Collections...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_Collections_setup(
-                    bag<SwiftReference.ConstructorDelegate>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
-                        return new CreatedRef(new Cricut.TestAPI.Collections(ptr));
-                    })),
                     out exn
                 ));
             });
@@ -819,18 +805,12 @@ namespace Cricut.TestAPI {
             Once("setup_DefaultArguments", () => {
                 Console.WriteLine("setting up DefaultArguments...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_DefaultArguments_setup(
-                    bag<SwiftReference.ConstructorDelegate>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
-                        return new CreatedRef(new Cricut.TestAPI.DefaultArguments(ptr));
-                    })),
                     out exn
                 ));
             });
             Once("setup_Deprecations", () => {
                 Console.WriteLine("setting up Deprecations...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_Deprecations_setup(
-                    bag<SwiftReference.ConstructorDelegate>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
-                        return new CreatedRef(new Cricut.TestAPI.Deprecations(ptr));
-                    })),
                     out exn
                 ));
             });
@@ -871,9 +851,6 @@ namespace Cricut.TestAPI {
             Once("setup_Functions", () => {
                 Console.WriteLine("setting up Functions...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_Functions_setup(
-                    bag<SwiftReference.ConstructorDelegate>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
-                        return new CreatedRef(new Cricut.TestAPI.Functions(ptr));
-                    })),
                     out exn
                 ));
             });
@@ -1003,9 +980,6 @@ namespace Cricut.TestAPI {
             Once("setup_Primitives", () => {
                 Console.WriteLine("setting up Primitives...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_Primitives_setup(
-                    bag<SwiftReference.ConstructorDelegate>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
-                        return new CreatedRef(new Cricut.TestAPI.Primitives(ptr));
-                    })),
                     out exn
                 ));
             });
@@ -1280,18 +1254,12 @@ namespace Cricut.TestAPI {
             Once("setup_Strings", () => {
                 Console.WriteLine("setting up Strings...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_Strings_setup(
-                    bag<SwiftReference.ConstructorDelegate>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
-                        return new CreatedRef(new Cricut.TestAPI.Strings(ptr));
-                    })),
                     out exn
                 ));
             });
             Once("setup_Structs", () => {
                 Console.WriteLine("setting up Structs...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_Structs_setup(
-                    bag<SwiftReference.ConstructorDelegate>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
-                        return new CreatedRef(new Cricut.TestAPI.Structs(ptr));
-                    })),
                     out exn
                 ));
             });

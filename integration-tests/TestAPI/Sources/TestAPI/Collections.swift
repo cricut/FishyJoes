@@ -5,7 +5,7 @@
 //  Created by Matt Stoker on 12/20/21.
 //
 
-/// <!-- FishyJoes.exportReference(Collections) -->
+/// <!-- FishyJoes.export(Collections) -->
 public enum Collections {
     // MARK: - Collection Values
 

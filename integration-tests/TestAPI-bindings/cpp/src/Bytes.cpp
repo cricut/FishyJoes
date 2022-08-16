@@ -1,6 +1,6 @@
 #include "shared_impl.hpp"
 namespace TestAPI {
-    Bytes::Bytes(const FishyJoesInternal::SwiftReference &_ref): _ref(_ref){}
+    Bytes::Bytes(const std::variant<> &_variant): _variant(_variant){}
     std::vector<uint8_t> Bytes::echoBytes(const std::vector<uint8_t> &bytes) {
         return FishyJoesInternal::Packer::unpack<std::vector<uint8_t>>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Bytes_echoBytes(FishyJoesInternal::Packer::pack(bytes).ptr()));
     }

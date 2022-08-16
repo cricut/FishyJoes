@@ -1,6 +1,6 @@
 #include "shared_impl.hpp"
 namespace TestAPI {
-    Deprecations::Deprecations(const FishyJoesInternal::SwiftReference &_ref): _ref(_ref){}
+    Deprecations::Deprecations(const std::variant<> &_variant): _variant(_variant){}
     std::string Deprecations::deprecatedMethod() {
         return FishyJoesInternal::Packer::unpack<std::string>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Deprecations_deprecatedMethod());
     }

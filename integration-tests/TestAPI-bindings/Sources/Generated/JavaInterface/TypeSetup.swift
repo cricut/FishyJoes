@@ -146,6 +146,11 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_AssociatedDataEnum_plus, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
+                name: bag.add("__jni_get_staticThing"),
+                signature: bag.add("()Lcom/cricut/testapi/AssociatedDataEnum;"),
+                fnPtr: unsafeBitCast(java_get_AssociatedDataEnum_staticThing, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
                 name: bag.add("__jni_get_intValue"),
                 signature: bag.add("()J"),
                 fnPtr: unsafeBitCast(java_get_AssociatedDataEnum_intValue, to: UnsafeMutableRawPointer.self)
@@ -887,9 +892,29 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_SimpleEnum_pickAColor, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
+                name: bag.add("__jni_hexMethod"),
+                signature: bag.add("()Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_SimpleEnum_hexMethod, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_resetFavoriteColor"),
+                signature: bag.add("()V"),
+                fnPtr: unsafeBitCast(java_SimpleEnum_resetFavoriteColor, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
                 name: bag.add("__jni_get_hex"),
                 signature: bag.add("()J"),
                 fnPtr: unsafeBitCast(java_get_SimpleEnum_hex, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_favoriteColor"),
+                signature: bag.add("()Lcom/cricut/testapi/SimpleEnum;"),
+                fnPtr: unsafeBitCast(java_get_SimpleEnum_favoriteColor, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_set_favoriteColor"),
+                signature: bag.add("(Lcom/cricut/testapi/SimpleEnum;)V"),
+                fnPtr: unsafeBitCast(java_set_SimpleEnum_favoriteColor, to: UnsafeMutableRawPointer.self)
             )
         )
         // print("setting up Swift.String...")

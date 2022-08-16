@@ -61,7 +61,7 @@ final class KotlinTranslator: Translator {
         }
         fragment.outputBlock(" -> \(returnSignature) = { \(formals.map(\.name).joined(separator: ", ")) in", closeWith: "}") {
             fragment.outputBlock("FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in", closeWith: "}") {
-                let callName = method.isInitializer ? "" : ".\(method.callName)"
+                let callName = method.sourceKind == .initializer ? "" : ".\(method.callName)"
 
                 // let isMutating = method.isMutating || method.modifiers.contains(where: { $0.name == "mutating" })
                 var mutateBlock: (() -> Void) -> Void = { $0() }

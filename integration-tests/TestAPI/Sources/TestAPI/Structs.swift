@@ -5,7 +5,7 @@
 //  Created by Matt Stoker on 12/22/21.
 //
 
-/// <!-- FishyJoes.exportReference(Structs) -->
+/// <!-- FishyJoes.export(Structs) -->
 public enum Structs {
     /// <!-- FishyJoes.export(Structs.MemberwiseStruct) -->
     public struct MemberwiseStruct: Hashable {

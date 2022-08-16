@@ -67,9 +67,9 @@ extension AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
 
     @available(*, deprecated, message: "Not actually deprecated, but this silences warnings because it may refer to deprecated methods")
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
-        let thingClass = try NodeClass(
+        let superclass = try NodeClass(
             env: env,
-            name: "AssociatedDataEnum.Thing",
+            name: "AssociatedDataEnum",
             properties: [
                 "plus": (
                     .method { env, info in
@@ -85,6 +85,17 @@ extension AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: false
                 ),
+                "staticThing": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "staticThing", expectedArgumentCount: 0) { env in
+                                try AssociatedDataEnum.toNode(AssociatedDataEnum.staticThing, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: true
+                ),
                 "intValue": (
                     .accessor(
                         getter: { env, info in
@@ -96,6 +107,28 @@ extension AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: false
                 ),
+            ],
+            constructor: { env, info in
+                FishyJoesNodeRuntime.callbackBody(
+                    env, info,
+                    name: "AssociatedDataEnum_constructor",
+                    expectedArgumentCount: 0
+                ) { env in
+                    return try env.this()
+                }
+            }
+        )
+        try FishyJoesNodeRuntime.mergeDefinitionInto(
+            env: env,
+            module: module,
+            path: "AssociatedDataEnum",
+            nodeClass: superclass.constructor.value(env: env)
+        )
+        let thingClass = try NodeClass(
+            env: env,
+            name: "AssociatedDataEnum.Thing",
+            superclass: superclass,
+            properties: [
                 "value": (.stored(mutable: true), isStatic: false),
             ],
             constructor: { env, info in
@@ -120,32 +153,8 @@ extension AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
         let otherClass = try NodeClass(
             env: env,
             name: "AssociatedDataEnum.Other",
+            superclass: superclass,
             properties: [
-                "plus": (
-                    .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "plus", expectedArgumentCount: 1, hasNamedOptions: false) { env in
-                            let result = try AssociatedDataEnum.toNode(
-                                env.this(converter: AssociatedDataEnum.self).plus(
-                                    try env.argument(at: 0, converter: AssociatedDataEnum.self)
-                                ),
-                                env: env.env
-                            )
-                            return result
-                        }
-                    },
-                    isStatic: false
-                ),
-                "intValue": (
-                    .accessor(
-                        getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "intValue", expectedArgumentCount: 0) { env in
-                                try Int.toNode(env.this(converter: AssociatedDataEnum.self).intValue, env: env.env)
-                            }
-                        },
-                        setter: nil
-                    ),
-                    isStatic: false
-                ),
                 "unnamed": (.stored(mutable: true), isStatic: false),
                 "_1": (.stored(mutable: true), isStatic: false),
             ],
@@ -172,32 +181,8 @@ extension AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
         let barClass = try NodeClass(
             env: env,
             name: "AssociatedDataEnum.Bar",
+            superclass: superclass,
             properties: [
-                "plus": (
-                    .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "plus", expectedArgumentCount: 1, hasNamedOptions: false) { env in
-                            let result = try AssociatedDataEnum.toNode(
-                                env.this(converter: AssociatedDataEnum.self).plus(
-                                    try env.argument(at: 0, converter: AssociatedDataEnum.self)
-                                ),
-                                env: env.env
-                            )
-                            return result
-                        }
-                    },
-                    isStatic: false
-                ),
-                "intValue": (
-                    .accessor(
-                        getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "intValue", expectedArgumentCount: 0) { env in
-                                try Int.toNode(env.this(converter: AssociatedDataEnum.self).intValue, env: env.env)
-                            }
-                        },
-                        setter: nil
-                    ),
-                    isStatic: false
-                ),
                 "named": (.stored(mutable: true), isStatic: false),
                 "_1": (.stored(mutable: true), isStatic: false),
             ],

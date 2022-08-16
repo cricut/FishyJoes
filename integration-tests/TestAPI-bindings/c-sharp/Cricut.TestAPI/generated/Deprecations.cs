@@ -6,10 +6,10 @@ using static Cricut.FishyJoesRuntime.Utilities;
 
 namespace Cricut.TestAPI {
     /// <summary>
-    /// <!-- FishyJoes.exportReference(Deprecations) -->
+    /// <!-- FishyJoes.export(Deprecations) -->
     /// </summary>
-    public class Deprecations : SwiftReference {
-        internal Deprecations(ConsumedRef reference): base(reference) {}
+    public record Deprecations {
+        private Deprecations() {}
 
         /// <summary>
         /// <!-- FishyJoes.export(deprecatedVariable) -->

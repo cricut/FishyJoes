@@ -16,5 +16,37 @@ extension EmptyEnum: FishyJoesNodeRuntime.NodeConverter {
 
     @available(*, deprecated, message: "Not actually deprecated, but this silences warnings because it may refer to deprecated methods")
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
+        let superclass = try NodeClass(
+            env: env,
+            name: "EmptyEnum",
+            properties: [
+                "notGoingToHappen": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "notGoingToHappen", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            try (
+                                EmptyEnum.notGoingToHappen(
+                                )
+                            )
+                        }
+                    },
+                    isStatic: true
+                ),
+            ],
+            constructor: { env, info in
+                FishyJoesNodeRuntime.callbackBody(
+                    env, info,
+                    name: "EmptyEnum_constructor",
+                    expectedArgumentCount: 0
+                ) { env in
+                    return try env.this()
+                }
+            }
+        )
+        try FishyJoesNodeRuntime.mergeDefinitionInto(
+            env: env,
+            module: module,
+            path: "EmptyEnum",
+            nodeClass: superclass.constructor.value(env: env)
+        )
     }
 }

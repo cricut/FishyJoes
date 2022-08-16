@@ -118,6 +118,9 @@ namespace TestAPI {
         /// <!-- FishyJoes.export(plus) -->
         AssociatedDataEnum plus(const AssociatedDataEnum &other) const;
         
+        /// <!-- FishyJoes.export(staticThing) -->
+        static AssociatedDataEnum getStaticThing();
+        
         /// <!-- FishyJoes.export(intValue) -->
         int getIntValue() const;
         
