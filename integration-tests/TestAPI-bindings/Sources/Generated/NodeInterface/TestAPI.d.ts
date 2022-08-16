@@ -873,7 +873,7 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(favoriteColor) -->
          */
-        var favoriteColor: SimpleEnum;
+        let favoriteColor: SimpleEnum;
 
         /**
          * <!-- FishyJoes.export(hex) -->

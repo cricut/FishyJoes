@@ -75,7 +75,7 @@ public struct NodeClass {
         properties: [String: (Property, isStatic: Bool)],
         constructor: @escaping napi_callback
     ) throws {
-        let nodeConstructor = try env.defineFakeClass(
+        let nodeConstructor = try env.defineClassViaFunction(
             name,
             constructor,
             callbackData,
@@ -107,7 +107,7 @@ public struct NodeClass {
 extension NAPI.Env {
     // Inheritance doesn't work with napi_create_class: https://github.com/nodejs/node-addon-api/issues/229
     // adapted from napi_create_class in wasm_napi.js, which doesn't have this issue
-    func defineFakeClass(
+    func defineClassViaFunction(
         _ name: String,
         _ constructor: @escaping NAPI.Callback,
         _ data: UnsafeMutableRawPointer?,
