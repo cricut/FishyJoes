@@ -434,7 +434,7 @@ struct TranslatedEnum: TranslatedType {
                             fragment.output("name: \"\(className)\",")
                             fragment.output("superclass: superclass,")
                             if enumCase.associatedValues.isEmpty {
-                                fragment.output("properties: [:]")
+                                fragment.output("properties: [:],")
                             } else {
                                 fragment.outputBlock("properties: [", closeWith: "],") {
                                     for value in enumCase.associatedValues {

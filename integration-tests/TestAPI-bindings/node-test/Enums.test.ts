@@ -39,8 +39,9 @@ test('AssociatedDataEnum', () => {
         expect(switchMe.value).toEqual(0)
     } else if (switchMe instanceof TestAPI.AssociatedDataEnum.Other) {
         expect(true).toBe(false)
-        expect(switchMe.intValue).toEqual(0)
     } else if (switchMe instanceof TestAPI.AssociatedDataEnum.Bar) {
+        expect(true).toBe(false)
+    } else if (switchMe instanceof TestAPI.AssociatedDataEnum.NoValue) {
         expect(true).toBe(false)
     } else {
         const exhaustiveCheck: never = switchMe

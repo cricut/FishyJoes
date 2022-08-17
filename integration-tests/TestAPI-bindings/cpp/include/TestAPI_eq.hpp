@@ -19,6 +19,12 @@ template <> struct std::hash<TestAPI::AssociatedDataEnum::bar> {
 namespace TestAPI {
     inline bool operator==(const AssociatedDataEnum::bar& lhs, const AssociatedDataEnum::bar& rhs);
 }
+template <> struct std::hash<TestAPI::AssociatedDataEnum::noValue> {
+    size_t operator()(const TestAPI::AssociatedDataEnum::noValue &obj) const;
+};
+namespace TestAPI {
+    inline bool operator==(const AssociatedDataEnum::noValue& lhs, const AssociatedDataEnum::noValue& rhs);
+}
 template <> struct std::hash<TestAPI::AssociatedDataEnum::other> {
     size_t operator()(const TestAPI::AssociatedDataEnum::other &obj) const;
 };
@@ -144,6 +150,10 @@ size_t std::hash<TestAPI::AssociatedDataEnum::bar>::operator()(const TestAPI::As
     TestAPI::FishyJoesInternal::hashCombine(ret, obj._1);
     return ret;
 }
+size_t std::hash<TestAPI::AssociatedDataEnum::noValue>::operator()(const TestAPI::AssociatedDataEnum::noValue &obj) const {
+    size_t ret = 0;
+    return ret;
+}
 size_t std::hash<TestAPI::AssociatedDataEnum::other>::operator()(const TestAPI::AssociatedDataEnum::other &obj) const {
     size_t ret = 0;
     TestAPI::FishyJoesInternal::hashCombine(ret, obj.unnamed);
@@ -266,6 +276,11 @@ namespace TestAPI {
 }
 namespace TestAPI {
     inline bool operator==(const AssociatedDataEnum::bar& lhs, const AssociatedDataEnum::bar& rhs) {
+        return std::equal_to<std::decay_t<decltype(lhs)>>()(lhs, rhs);
+    }
+}
+namespace TestAPI {
+    inline bool operator==(const AssociatedDataEnum::noValue& lhs, const AssociatedDataEnum::noValue& rhs) {
         return std::equal_to<std::decay_t<decltype(lhs)>>()(lhs, rhs);
     }
 }

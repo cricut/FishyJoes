@@ -8,6 +8,7 @@ namespace TestAPI {
         /*  Inner Classes  */
         public:
         class bar;
+        class noValue;
         class other;
         class thing;
         class bar {
@@ -22,6 +23,20 @@ namespace TestAPI {
             public:
             std::string named;
             AssociatedDataEnum _1;
+            
+            friend struct FishyJoesInternal::Packer;
+            template <typename T> friend struct std::hash;
+            template <typename T> friend struct std::equal_to;
+        };
+        class noValue {
+            /*  Complete Constructor  */
+            public:
+            /// Create new noValue
+            noValue();
+            
+            /*  Methods  */
+            
+            /*  Data  */
             
             friend struct FishyJoesInternal::Packer;
             template <typename T> friend struct std::hash;
@@ -64,7 +79,7 @@ namespace TestAPI {
         /* Special */
         
         private:
-        using VariantType = std::variant<thing, other, bar>;
+        using VariantType = std::variant<thing, other, bar, noValue>;
         
         public:
         template <typename T>
@@ -111,7 +126,7 @@ namespace TestAPI {
         /*  Complete Constructor  */
         private:
         /// Create new AssociatedDataEnum (only to be used by FishyJoes internally. Look for static methods for initialization or other public constructors.)
-        AssociatedDataEnum(const std::variant<thing,other,bar> &_variant);
+        AssociatedDataEnum(const std::variant<thing,other,bar,noValue> &_variant);
         
         /*  Methods  */
         public:
@@ -128,7 +143,7 @@ namespace TestAPI {
         /*  Data  */
         private:
         /// std::variant containing subtypes
-        std::variant<thing,other,bar> _variant;
+        std::variant<thing,other,bar,noValue> _variant;
         
         friend struct FishyJoesInternal::Packer;
         template <typename T> friend struct std::hash;

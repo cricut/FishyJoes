@@ -33,6 +33,10 @@ extension AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
             )
         }
 
+        if try env.instanceof(value, instanceData.constructor(for: "AssociatedDataEnum.NoValue", env: env)) {
+            return noValue
+        }
+
         fatalError("invalid enum for AssociatedDataEnum")
     }
 
@@ -60,6 +64,12 @@ extension AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
                 [
                     Swift.String.toNode(named, env: env),
                     AssociatedDataEnum.toNode(_1, env: env),
+                ]
+            )
+        case .noValue:
+            return try env.newInstance(
+                instanceData.constructor(for: "AssociatedDataEnum.NoValue", env: env),
+                [
                 ]
             )
         }
@@ -205,6 +215,29 @@ extension AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
             module: module,
             path: "AssociatedDataEnum.Bar",
             nodeClass: barClass.constructor.value(env: env)
+        )
+        let noValueClass = try NodeClass(
+            env: env,
+            name: "AssociatedDataEnum.NoValue",
+            superclass: superclass,
+            properties: [:],
+            constructor: { env, info in
+                FishyJoesNodeRuntime.callbackBody(
+                    env, info,
+                    name: "AssociatedDataEnum.NoValue_constructor",
+                    expectedArgumentCount: 0
+                ) { env in
+                    // TODO: typecheck?
+                    let this = try env.this()
+                    return this
+                }
+            }
+        )
+        try FishyJoesNodeRuntime.mergeDefinitionInto(
+            env: env,
+            module: module,
+            path: "AssociatedDataEnum.NoValue",
+            nodeClass: noValueClass.constructor.value(env: env)
         )
     }
 }

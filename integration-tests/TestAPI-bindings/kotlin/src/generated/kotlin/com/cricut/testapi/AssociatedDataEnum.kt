@@ -15,6 +15,7 @@ sealed class AssociatedDataEnum {
         var named: kotlin.String,
         var _1: com.cricut.testapi.AssociatedDataEnum
     ) : AssociatedDataEnum()
+    object NoValue : AssociatedDataEnum()
     /**
      * <!-- FishyJoes.export(intValue) -->
      */

@@ -25,6 +25,8 @@ namespace Cricut.TestAPI {
             Cricut.TestAPI.AssociatedDataEnum _1
         ) : AssociatedDataEnum;
 
+        public sealed record NoValue : AssociatedDataEnum;
+
         /// <summary>
         /// <!-- FishyJoes.export(staticThing) -->
         /// </summary>
