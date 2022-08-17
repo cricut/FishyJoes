@@ -1,6 +1,6 @@
 export type Optional<T> = T | undefined;
 export declare namespace TestAPI {
-    export type AssociatedDataEnum = AssociatedDataEnum.Thing | AssociatedDataEnum.Other | AssociatedDataEnum.Bar;
+    export type AssociatedDataEnum = AssociatedDataEnum.Thing | AssociatedDataEnum.Other | AssociatedDataEnum.Bar | AssociatedDataEnum.NoValue;
     export namespace AssociatedDataEnum {
         interface Bar extends AssociatedDataEnum_Common {}
         export class Bar {
@@ -9,6 +9,11 @@ export declare namespace TestAPI {
             readonly named: string;
 
             readonly _1: AssociatedDataEnum;
+        }
+
+        interface NoValue extends AssociatedDataEnum_Common {}
+        export class NoValue {
+            constructor()
         }
 
         interface Other extends AssociatedDataEnum_Common {}

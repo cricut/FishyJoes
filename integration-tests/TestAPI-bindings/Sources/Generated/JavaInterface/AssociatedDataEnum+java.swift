@@ -21,6 +21,8 @@ extension AssociatedDataEnum: JavaConverter {
     static var _java_bar_init: jmethodID!
     static var _java_bar_field_named: jfieldID!
     static var _java_bar_field_1: jfieldID!
+    static var _java_noValue: jclass!
+    static var _java_noValue_INSTANCE: jfieldID!
 
     public static func fromJava(_ value: jobject?, env: Env) throws -> Self {
         if env.IsInstanceOf(value, Self._java_thing) {
@@ -39,6 +41,9 @@ extension AssociatedDataEnum: JavaConverter {
                 named: try Swift.String.fromJava(env.GetObjectField(value, Self._java_bar_field_named), env: env),
                 try AssociatedDataEnum.fromJava(env.GetObjectField(value, Self._java_bar_field_1), env: env)
             )
+        }
+        if env.IsInstanceOf(value, Self._java_noValue) {
+            return Self.noValue
         }
         throw JNIError(message: "invalid enum \(try env.javaDescription(value)) for AssociatedDataEnum")
     }
@@ -65,6 +70,8 @@ extension AssociatedDataEnum: JavaConverter {
                 jvalue(Swift.String.toJava(named, env: env)),
                 jvalue(AssociatedDataEnum.toJava(_1, env: env))
             )
+        case .noValue:
+            return env.GetStaticObjectField(Self._java_noValue, Self._java_noValue_INSTANCE)
         }
     }
 
@@ -82,5 +89,7 @@ extension AssociatedDataEnum: JavaConverter {
         _java_bar_init = try env.GetMethodID(_java_bar, "<init>", "(Ljava/lang/String;Lcom/cricut/testapi/AssociatedDataEnum;)V")
         _java_bar_field_named = try env.GetFieldID(_java_bar, "named", "Ljava/lang/String;")
         _java_bar_field_1 = try env.GetFieldID(_java_bar, "_1", "Lcom/cricut/testapi/AssociatedDataEnum;")
+        _java_noValue = try env.globalRef(env.FindClass("com/cricut/testapi/AssociatedDataEnum$NoValue"))
+        _java_noValue_INSTANCE = try env.GetStaticFieldID(_java_noValue, "INSTANCE", "Lcom/cricut/testapi/AssociatedDataEnum$NoValue;")
     }
 }

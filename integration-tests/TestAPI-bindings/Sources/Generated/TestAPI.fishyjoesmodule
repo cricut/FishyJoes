@@ -988,6 +988,31 @@
 
                 ],
                 "name" : "Bar"
+              },
+              {
+                "constructor" : {
+                  "visible" : {
+                    "names" : [
+
+                    ],
+                    "types" : [
+
+                    ]
+                  }
+                },
+                "documentation" : [
+
+                ],
+                "extends" : [
+                  "AssociatedDataEnum_Common"
+                ],
+                "fields" : [
+
+                ],
+                "methods" : [
+
+                ],
+                "name" : "NoValue"
               }
             ],
             "fields" : [
@@ -4655,6 +4680,11 @@
                   {
                     "named" : {
                       "_0" : "AssociatedDataEnum.Bar"
+                    }
+                  },
+                  {
+                    "named" : {
+                      "_0" : "AssociatedDataEnum.NoValue"
                     }
                   }
                 ]

@@ -13,7 +13,9 @@ public func TestAPI_AssociatedDataEnum_setup(
     other_constructor: @escaping AssociatedDataEnum.Other_constructor,
     other_extractor: @escaping AssociatedDataEnum.Other_extractor,
     bar_constructor: @escaping AssociatedDataEnum.Bar_constructor,
-    bar_extractor: @escaping AssociatedDataEnum.Bar_extractor
+    bar_extractor: @escaping AssociatedDataEnum.Bar_extractor,
+    noValue_constructor: @escaping AssociatedDataEnum.NoValue_constructor,
+    noValue_extractor: @escaping AssociatedDataEnum.NoValue_extractor
 ) {
     AssociatedDataEnum.discriminator = discriminator
     AssociatedDataEnum.thing_constructor = thing_constructor
@@ -22,6 +24,8 @@ public func TestAPI_AssociatedDataEnum_setup(
     AssociatedDataEnum.other_extractor = other_extractor
     AssociatedDataEnum.bar_constructor = bar_constructor
     AssociatedDataEnum.bar_extractor = bar_extractor
+    AssociatedDataEnum.noValue_constructor = noValue_constructor
+    AssociatedDataEnum.noValue_extractor = noValue_extractor
 }
 
 extension AssociatedDataEnum: CSharpConverter {
@@ -67,6 +71,15 @@ extension AssociatedDataEnum: CSharpConverter {
         csOutExn
     ) -> Void
     fileprivate static var bar_extractor: Bar_extractor!
+    public typealias NoValue_constructor = @convention(c) (
+        csOutExn
+    ) -> csObject
+    fileprivate static var noValue_constructor: NoValue_constructor!
+    public typealias NoValue_extractor = @convention(c) (
+        csObject,
+        csOutExn
+    ) -> Void
+    fileprivate static var noValue_extractor: NoValue_extractor!
 
     public static func peekCSharp(_ value: csObject) throws -> Self {
         switch try Env.check({ exn in discriminator(value, exn) }) {
@@ -99,6 +112,9 @@ extension AssociatedDataEnum: CSharpConverter {
                 named: try Swift.String.peekCSharp(_named),
                 try AssociatedDataEnum.peekCSharp(__1)
             )
+        case 3:
+            try Env.check { exn in noValue_extractor(value, exn) }
+            return Self.noValue
         case let disc:
             fatalError("bad discriminator value \(disc) encountered for type \(self)")
         }
@@ -126,6 +142,12 @@ extension AssociatedDataEnum: CSharpConverter {
                 return bar_constructor(
                     try Swift.String.toCSharp(named),
                     try AssociatedDataEnum.toCSharp(_1),
+                    exn
+                )
+            }
+        case noValue:
+            return try Env.check { exn in
+                return noValue_constructor(
                     exn
                 )
             }
