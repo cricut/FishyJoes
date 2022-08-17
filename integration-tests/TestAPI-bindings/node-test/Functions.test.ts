@@ -20,8 +20,8 @@ test('PassingFunctionsToSwift', () => {
     expect("25").toEqual(TestAPI.Functions.exercise2((f: (_: number) => number, g: (_: number) => number) => (x: number) => f(g(x))))
     expect("7.4").toEqual(TestAPI.Functions.exercise3((a: number, b: number, c: number) => a + b + c))
     expect('["a", "b", "c", "d"]').toEqual(TestAPI.Functions.exercise4((a: string, b: string, c: string, d: string) => [a, b, c, d]))
-    expect("83").toEqual(TestAPI.Functions.exercise5((a: any, b: any, c: any, d: any, f: any) => f))
-    expect("42").toEqual(TestAPI.Functions.exercise6((a: any, b: any, c: any, d: any, e: any, i: any) => i))
+    expect("83").toEqual(TestAPI.Functions.exercise5((_a: any, _b: any, _c: any, _d: any, f: any) => f))
+    expect("42").toEqual(TestAPI.Functions.exercise6((_a: any, _b: any, _c: any, _d: any, _e: any, i: any) => i))
 });
 
 test('Exceptions', () => {
