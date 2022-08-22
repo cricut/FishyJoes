@@ -67,7 +67,8 @@ extension CallbackEnv {
         assert(hasNamedOptions)
         let info = try getInfo()
         guard info.argv.count > expectedArgumentCount else { return nil }
-        return info.argv[expectedArgumentCount]
+        let options = info.argv[expectedArgumentCount]
+        return try nodeIsUndefiend(options, env: env) ? nil : options
     }
 
     public func argument<T: NodeConverter>(named name: String, default: @autoclosure () -> T.SwiftType, converter type: T.Type) throws -> T.SwiftType {
