@@ -11,7 +11,7 @@ extension Functions.TheError: JavaMutator {
     public static func fromJava(_ value: jobject?, env: Env) throws -> Self {
         try Box<Functions.TheError>.fromJava(value, env: env).value
     }
-    public static func toJava(_ value: Self, env: Env) throws -> jobject? {
+    public static func toJava(_ value: Functions.TheError, env: Env) throws -> jobject? {
         let ptr = jvalue(j: jlong(UInt(bitPattern: Box(value).retainedOpaque())))
         return try env.NewObject(javaClass, _constructorMethodID, ptr)
     }

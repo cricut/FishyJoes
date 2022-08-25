@@ -128,7 +128,7 @@ struct TranslatedReference: TranslatedType {
             }
             fragment.blankLine()
 
-            fragment.outputBlock("public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {") {
+            fragment.outputBlock("public static func toNode(_ value: \(sourceType.name), env: NAPI.Env) throws -> NAPI.Value {") {
                 guard isInhabited else {
                     fragment.output("// Uninhabited")
                     return
@@ -139,7 +139,7 @@ struct TranslatedReference: TranslatedType {
             }
             fragment.blankLine()
 
-            fragment.outputBlock("public static func mutateNode(_ value: Self, this: NAPI.Value, env: NAPI.Env) throws {") {
+            fragment.outputBlock("public static func mutateNode(_ value: \(sourceType.name), this: NAPI.Value, env: NAPI.Env) throws {") {
                 guard isInhabited else {
                     fragment.output("// Uninhabited")
                     return
@@ -207,7 +207,7 @@ struct TranslatedReference: TranslatedType {
                 fragment.output("try Box<\(sourceType.name)>.fromJava(value, env: env).value")
             }
 
-            fragment.outputBlock("public static func toJava(_ value: Self, env: Env) throws -> jobject? {") {
+            fragment.outputBlock("public static func toJava(_ value: \(sourceType.name), env: Env) throws -> jobject? {") {
                 if !isInhabited {
                     fragment.output("// Uninhabited type")
                 } else {

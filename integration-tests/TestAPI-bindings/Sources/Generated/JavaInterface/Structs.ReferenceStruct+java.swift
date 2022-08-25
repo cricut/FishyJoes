@@ -11,7 +11,7 @@ extension Structs.ReferenceStruct: JavaMutator {
     public static func fromJava(_ value: jobject?, env: Env) throws -> Self {
         try Box<Structs.ReferenceStruct>.fromJava(value, env: env).value
     }
-    public static func toJava(_ value: Self, env: Env) throws -> jobject? {
+    public static func toJava(_ value: Structs.ReferenceStruct, env: Env) throws -> jobject? {
         let ptr = jvalue(j: jlong(UInt(bitPattern: Box(value).retainedOpaque())))
         return try env.NewObject(javaClass, _constructorMethodID, ptr)
     }
