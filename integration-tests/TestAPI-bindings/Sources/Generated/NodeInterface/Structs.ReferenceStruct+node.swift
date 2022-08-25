@@ -6,7 +6,7 @@ import Foundation
 import TestAPI
 
 extension Structs.ReferenceStruct: FishyJoesNodeRuntime.NodeConverter {
-    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Structs.ReferenceStruct {
         guard let nonNilPointer = try env.unwrap(value) else {
             throw JSException(message: "expected Structs.ReferenceStruct, got nil")
         }

@@ -8,7 +8,7 @@ import TestAPI
 extension Structs.ReferenceStruct: JavaMutator {
     public static var javaClass: jclass?
     private static var _constructorMethodID: jmethodID!
-    public static func fromJava(_ value: jobject?, env: Env) throws -> Self {
+    public static func fromJava(_ value: jobject?, env: Env) throws -> Structs.ReferenceStruct {
         try Box<Structs.ReferenceStruct>.fromJava(value, env: env).value
     }
     public static func toJava(_ value: Structs.ReferenceStruct, env: Env) throws -> jobject? {
@@ -21,7 +21,7 @@ extension Structs.ReferenceStruct: JavaMutator {
         javaClass = try env.globalRef(env.FindClass("com/cricut/testapi/Structs$ReferenceStruct"))
         _constructorMethodID = try env.GetMethodID(javaClass, "<init>", "(J)V")
     }
-    public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout Self) throws -> R) throws -> R {
+    public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout Structs.ReferenceStruct) throws -> R) throws -> R {
         try body(&Box<Structs.ReferenceStruct>.fromJava(this, env: env).value)
     }
     static let _javaEquals: @convention(c)(

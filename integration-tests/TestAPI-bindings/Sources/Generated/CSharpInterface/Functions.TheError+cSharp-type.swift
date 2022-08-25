@@ -17,16 +17,16 @@ public func TestAPI_Functions_TheError_setup(
 extension Functions.TheError: CSharpMutator {
     fileprivate static var _constructorMethod: ((UnsafeMutableRawPointer, _ exn: csOutExn) -> csObject)!
 
-    public static func peekCSharp(_ value: csObject) throws -> Self {
+    public static func peekCSharp(_ value: csObject) throws -> Functions.TheError {
         try Box<Functions.TheError>.peekCSharp(value).value
     }
 
-    public static func toCSharp(_ value: Self) throws -> csObject {
+    public static func toCSharp(_ value: Functions.TheError) throws -> csObject {
         let ptr = Box(value).retainedOpaque()
         return try Env.check { env in _constructorMethod(ptr, env) }
     }
 
-    public static func mutateCSharp<R>(_ this: csObject, body: (inout Self) throws -> R) throws -> R {
+    public static func mutateCSharp<R>(_ this: csObject, body: (inout Functions.TheError) throws -> R) throws -> R {
         try body(&Box<Functions.TheError>.peekCSharp(this).value)
     }
 }

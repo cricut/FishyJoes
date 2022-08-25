@@ -6,7 +6,7 @@ import Foundation
 import TestAPI
 
 extension Functions.TheError: FishyJoesNodeRuntime.NodeConverter {
-    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Functions.TheError {
         guard let nonNilPointer = try env.unwrap(value) else {
             throw JSException(message: "expected Functions.TheError, got nil")
         }
