@@ -6,20 +6,20 @@ import Foundation
 import TestAPI
 
 extension Functions.TheError: FishyJoesNodeRuntime.NodeConverter {
-    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Functions.TheError {
         guard let nonNilPointer = try env.unwrap(value) else {
             throw JSException(message: "expected Functions.TheError, got nil")
         }
         return try Box<Functions.TheError>.takeUnretainedOpaque(nonNilPointer).value
     }
 
-    public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
+    public static func toNode(_ value: Functions.TheError, env: NAPI.Env) throws -> NAPI.Value {
         let constructor = try FishyJoesNodeRuntime.InstanceData.data(for: env).constructor(for: "Functions.TheError", env: env)
         let arg = try FishyJoesNodeRuntime.Box(value).retainedExternal(env: env)
         return try env.newInstance(constructor, [arg])
     }
 
-    public static func mutateNode(_ value: Self, this: NAPI.Value, env: NAPI.Env) throws {
+    public static func mutateNode(_ value: Functions.TheError, this: NAPI.Value, env: NAPI.Env) throws {
         guard let pointer = try env.unwrap(this) else {
             throw JSException(message: "expected Functions.TheError, got nil")
         }

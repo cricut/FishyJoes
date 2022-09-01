@@ -6,20 +6,20 @@ import Foundation
 import TestAPI
 
 extension Structs.ReferenceStruct: FishyJoesNodeRuntime.NodeConverter {
-    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Structs.ReferenceStruct {
         guard let nonNilPointer = try env.unwrap(value) else {
             throw JSException(message: "expected Structs.ReferenceStruct, got nil")
         }
         return try Box<Structs.ReferenceStruct>.takeUnretainedOpaque(nonNilPointer).value
     }
 
-    public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
+    public static func toNode(_ value: Structs.ReferenceStruct, env: NAPI.Env) throws -> NAPI.Value {
         let constructor = try FishyJoesNodeRuntime.InstanceData.data(for: env).constructor(for: "Structs.ReferenceStruct", env: env)
         let arg = try FishyJoesNodeRuntime.Box(value).retainedExternal(env: env)
         return try env.newInstance(constructor, [arg])
     }
 
-    public static func mutateNode(_ value: Self, this: NAPI.Value, env: NAPI.Env) throws {
+    public static func mutateNode(_ value: Structs.ReferenceStruct, this: NAPI.Value, env: NAPI.Env) throws {
         guard let pointer = try env.unwrap(this) else {
             throw JSException(message: "expected Structs.ReferenceStruct, got nil")
         }

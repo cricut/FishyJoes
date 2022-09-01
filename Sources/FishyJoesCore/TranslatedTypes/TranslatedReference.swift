@@ -120,7 +120,7 @@ struct TranslatedReference: TranslatedType {
             additionalImports: ["Foundation", "FishyJoesNodeRuntime"]
         )
         fragment.outputBlock("extension \(sourceType.name): FishyJoesNodeRuntime.NodeConverter {") {
-            fragment.outputBlock("public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {") {
+            fragment.outputBlock("public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> \(sourceType.name) {") {
                 fragment.outputBlock("guard let nonNilPointer = try env.unwrap(value) else {") {
                     fragment.output("throw JSException(message: \"expected \(sourceType.name), got nil\")")
                 }
@@ -128,7 +128,7 @@ struct TranslatedReference: TranslatedType {
             }
             fragment.blankLine()
 
-            fragment.outputBlock("public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {") {
+            fragment.outputBlock("public static func toNode(_ value: \(sourceType.name), env: NAPI.Env) throws -> NAPI.Value {") {
                 guard isInhabited else {
                     fragment.output("// Uninhabited")
                     return
@@ -139,7 +139,7 @@ struct TranslatedReference: TranslatedType {
             }
             fragment.blankLine()
 
-            fragment.outputBlock("public static func mutateNode(_ value: Self, this: NAPI.Value, env: NAPI.Env) throws {") {
+            fragment.outputBlock("public static func mutateNode(_ value: \(sourceType.name), this: NAPI.Value, env: NAPI.Env) throws {") {
                 guard isInhabited else {
                     fragment.output("// Uninhabited")
                     return
@@ -203,11 +203,11 @@ struct TranslatedReference: TranslatedType {
             fragment.output("public static var javaClass: jclass?")
             fragment.output("private static var _constructorMethodID: jmethodID!")
 
-            fragment.outputBlock("public static func fromJava(_ value: jobject?, env: Env) throws -> Self {") {
+            fragment.outputBlock("public static func fromJava(_ value: jobject?, env: Env) throws -> \(sourceType.name) {") {
                 fragment.output("try Box<\(sourceType.name)>.fromJava(value, env: env).value")
             }
 
-            fragment.outputBlock("public static func toJava(_ value: Self, env: Env) throws -> jobject? {") {
+            fragment.outputBlock("public static func toJava(_ value: \(sourceType.name), env: Env) throws -> jobject? {") {
                 if !isInhabited {
                     fragment.output("// Uninhabited type")
                 } else {
@@ -223,7 +223,7 @@ struct TranslatedReference: TranslatedType {
                 fragment.output("_constructorMethodID = try env.GetMethodID(javaClass, \"<init>\", \"(J)V\")")
             }
 
-            fragment.outputBlock("public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout Self) throws -> R) throws -> R {") {
+            fragment.outputBlock("public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout \(sourceType.name)) throws -> R) throws -> R {") {
                 fragment.output("try body(&Box<\(sourceType.name)>.fromJava(this, env: env).value)")
             }
 
@@ -384,12 +384,12 @@ struct TranslatedReference: TranslatedType {
             fragment.output("fileprivate static var _constructorMethod: ((UnsafeMutableRawPointer, _ exn: csOutExn) -> csObject)!")
             fragment.blankLine()
 
-            fragment.outputBlock("public static func peekCSharp(_ value: csObject) throws -> Self {") {
+            fragment.outputBlock("public static func peekCSharp(_ value: csObject) throws -> \(sourceType.name) {") {
                 fragment.output("try Box<\(sourceType.name)>.peekCSharp(value).value")
             }
             fragment.blankLine()
 
-            fragment.outputBlock("public static func toCSharp(_ value: Self) throws -> csObject {") {
+            fragment.outputBlock("public static func toCSharp(_ value: \(sourceType.name)) throws -> csObject {") {
                 if !isInhabited {
                     fragment.output("// Uninhabited type")
                 } else {
@@ -399,7 +399,7 @@ struct TranslatedReference: TranslatedType {
             }
             fragment.blankLine()
 
-            fragment.outputBlock("public static func mutateCSharp<R>(_ this: csObject, body: (inout Self) throws -> R) throws -> R {") {
+            fragment.outputBlock("public static func mutateCSharp<R>(_ this: csObject, body: (inout \(sourceType.name)) throws -> R) throws -> R {") {
                 fragment.output("try body(&Box<\(sourceType.name)>.peekCSharp(this).value)")
             }
         }

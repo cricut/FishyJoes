@@ -17,16 +17,16 @@ public func TestAPI_Structs_ReferenceStruct_setup(
 extension Structs.ReferenceStruct: CSharpMutator {
     fileprivate static var _constructorMethod: ((UnsafeMutableRawPointer, _ exn: csOutExn) -> csObject)!
 
-    public static func peekCSharp(_ value: csObject) throws -> Self {
+    public static func peekCSharp(_ value: csObject) throws -> Structs.ReferenceStruct {
         try Box<Structs.ReferenceStruct>.peekCSharp(value).value
     }
 
-    public static func toCSharp(_ value: Self) throws -> csObject {
+    public static func toCSharp(_ value: Structs.ReferenceStruct) throws -> csObject {
         let ptr = Box(value).retainedOpaque()
         return try Env.check { env in _constructorMethod(ptr, env) }
     }
 
-    public static func mutateCSharp<R>(_ this: csObject, body: (inout Self) throws -> R) throws -> R {
+    public static func mutateCSharp<R>(_ this: csObject, body: (inout Structs.ReferenceStruct) throws -> R) throws -> R {
         try body(&Box<Structs.ReferenceStruct>.peekCSharp(this).value)
     }
 }
