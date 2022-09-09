@@ -150,8 +150,8 @@ extension CodeGen {
                 fatalError("Couldn't locate FishyJoes in Package.swift")
             }
 
-            let fishyJoesModuleFiles: [String] = dependencyPaths.map {
-                "\($0.value)/Generated/\($0.key).fishyjoesmodule"
+            let fishyJoesModuleFiles: [String] = dependencyPaths.compactMap {
+                $0.key == config.module ? nil : "\($0.value)/Generated/\($0.key).fishyjoesmodule"
             }
 
             // MARK: Generate code
