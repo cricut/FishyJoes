@@ -58,6 +58,10 @@ const init = async () => {
   console.log(instance);
   wasi.start(instance);
   const library = napi.init(instance);
+  ({
+    __MODULE_NAME__,
+    __MODULE_DEPENDENCY__,
+  } = library);
   __MODULE_DEPENDENCY__Extensions.applyExtensions(library);
   __MODULE_NAME__Extensions.applyExtensions(library);
   return library;
