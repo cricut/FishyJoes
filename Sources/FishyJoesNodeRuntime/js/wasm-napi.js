@@ -323,18 +323,7 @@ export class NAPI {
     return {
       setTempRet0: (value) => { tempRet0 = value; },
       getTempRet0: () => tempRet0,
-      mprotect: () => 0,
-      // functions expected by imagemagick
-      pclose: () => 0,
-      getpid: () => 0,
-      fork: () => 0,
-      system: () =>  0,
-      popen: () => 0,
-      execvp: () => 0,
-      waitpid: () => 0,
-      mkstemp: () => 0,
-      fchmod: () => 0,
-      getpwnam_r: () => 0
+      mprotect: () => 0
     };
   }
 
