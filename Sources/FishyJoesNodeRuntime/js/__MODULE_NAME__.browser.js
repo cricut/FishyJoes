@@ -6,8 +6,11 @@
 import { WASI } from "@wasmer/wasi";
 import { WasmFs } from "@wasmer/wasmfs";
 import { NAPI } from "./wasm-napi.js";
+import * as __MODULE_NAME__Extensions from "./__MODULE_NAME__.extensions.js";
+import * as __MODULE_DEPENDENCY__Extensions from "./__MODULE_DEPENDENCY__.extensions.js";
 
-let __MODULE_NAME__ __MODULE_DEPENDENCIES__;
+let __MODULE_NAME__;
+let __MODULE_DEPENDENCY__;
 
 const init = async () => {
   const wasmFs = new WasmFs();
@@ -44,6 +47,8 @@ const init = async () => {
   const importObject = {
     wasi_snapshot_preview1: wasi.wasiImport,
     ...napi.exports,
+    ...__MODULE_DEPENDENCY__Extensions.imports,
+    ...__MODULE_NAME__Extensions.imports,
   };
 
   const response = await fetch("__MODULE_NAME__.wasm");
@@ -53,8 +58,17 @@ const init = async () => {
   console.log(instance);
   wasi.start(instance);
   const library = napi.init(instance);
-  ({ __MODULE_NAME__ __MODULE_DEPENDENCIES__ } = library);
+  ({
+    __MODULE_NAME__,
+    __MODULE_DEPENDENCY__,
+  } = library);
+  __MODULE_DEPENDENCY__Extensions.applyExtensions(library);
+  __MODULE_NAME__Extensions.applyExtensions(library);
   return library;
 };
 
-export { init, __MODULE_NAME__ __MODULE_DEPENDENCIES__};
+export {
+  init,
+  __MODULE_NAME__,
+  __MODULE_DEPENDENCY__,
+};

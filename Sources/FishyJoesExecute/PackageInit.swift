@@ -50,47 +50,15 @@ public struct PackageInit: ParsableCommand {
         if !cmd("dotnet", "--version").runBool() {
             try Interactive.confirmCommand(description: "Install dotnet", cmd("brew", "install", "dotnet"))
         }
-        if !cmd("xq", "--version").runBool() {
-            try Interactive.confirmCommand(description: "Install xq", cmd("brew", "install", "python-yq"))
-        }
         try cmd("mkdir", "-p", "c-sharp").run()
         try FileManager.default.withCurrentDirectoryPath("c-sharp") {
-            let module = config.module
+            let module = "Cricut.\(config.module)"
             try cmd("dotnet", "new", "sln", "--output", ".", "--name", module, "--force").run()
-            try cmd("dotnet", "new", "classlib", "-f", "net6.0", "--output", module, "--force").run()
-            try cmd("rm", "-f", "\(module)/Class1.cs").run()
-            try cmd("dotnet", "new", "xunit", "-f", "net6.0", "--output", "\(module).Tests", "--force").run()
 
             try cmd("dotnet", "sln", "add", "./\(module)/\(module).csproj").run()
             try cmd("dotnet", "sln", "add", "./\(module).Tests/\(module).Tests.csproj").run()
 
             try cmd("dotnet", "add", "./\(module).Tests/\(module).Tests.csproj", "reference", "./\(module)/\(module).csproj").run()
-
-            let projectFix = #"""
-                .Project.PropertyGroup += {
-                    "Nullable": "enable",
-                    "TreatWarningsAsErrors": true,
-                    "AllowUnsafeBlocks": true
-                } |
-                .Project.ItemGroup += {
-                    "Content": {
-                        "@Include": "runtimes\\**\\*",
-                        "@PackagePath": "runtimes\\$(TargetFramework)"
-                    },
-                    "ContentWithTargetPath": {
-                        "@Include": "runtimes\\**\\*",
-                        "CopyToOutputDirectory": "Always",
-                        "TargetPath": "%(Filename)%(Extension)"
-                    }
-                }
-                """#
-            for project in [config.module, "\(config.module).Tests"] {
-                let projectFile = "\(project)/\(project).csproj"
-                try cmd("xq", "-x", projectFix, projectFile)
-                    .output(overwritingFile: "\(projectFile).updated")
-                    .run()
-                try cmd("mv", "\(projectFile).updated", projectFile).run()
-            }
         }
     }
 

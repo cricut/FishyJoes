@@ -118,15 +118,26 @@ extension CodeGen {
     }
 
     public mutating func run() throws {
-        if buildStep.contains(.generate) {
-            let packageJSON = try cmd("swift", "package", "dump-package").runData()
+        let packageJSON = try cmd("swift", "package", "dump-package").runData()
 
-            let packageInfo: SwiftPackage
-            do {
-                packageInfo = try JSONDecoder().decode(SwiftPackage.self, from: packageJSON)
-            } catch let error {
-                fatalError("Couldn't parse swift package: \(error)")
+        let packageInfo: SwiftPackage
+        do {
+            packageInfo = try JSONDecoder().decode(SwiftPackage.self, from: packageJSON)
+        } catch let error {
+            fatalError("Couldn't parse swift package: \(error)")
+        }
+
+        var dependencyPaths: [String: String] = [config.module: "."]
+        for moduleName in config.requiredModules {
+            let bindingModule = "\(moduleName)-bindings"
+            guard let dependencyURL = packageInfo.dependencyMap[bindingModule.lowercased()] else {
+                fatalError("Couldn't locate \(bindingModule) in Package.swift, but it's required by fishyjoes.json")
             }
+            let dependencyPath = (dependencyURL.scheme == nil ? dependencyURL.path : ".build/checkouts/\(bindingModule)") + "/Sources"
+            dependencyPaths[moduleName] = dependencyPath
+        }
+
+        if buildStep.contains(.generate) {
             let translateeSources: String
             if let translateeDependency = packageInfo.dependencyMap[config.module.lowercased()] {
                 translateeSources = (translateeDependency.scheme == nil ? translateeDependency.path : ".build/checkouts/\(config.module)") + "/Sources"
@@ -139,14 +150,8 @@ extension CodeGen {
                 fatalError("Couldn't locate FishyJoes in Package.swift")
             }
 
-            var fishyJoesModuleFiles: [String] = []
-            for moduleName in config.requiredModules {
-                let bindingModule = "\(moduleName)-bindings"
-                guard let dependencyURL = packageInfo.dependencyMap[bindingModule.lowercased()] else {
-                    fatalError("Couldn't locate \(bindingModule) in Package.swift, but it's required by fishyjoes.json")
-                }
-                let dependencyPath = (dependencyURL.scheme == nil ? dependencyURL.path : ".build/checkouts/\(bindingModule)") + "/Sources"
-                fishyJoesModuleFiles.append("\(dependencyPath)/Generated/\(moduleName).fishyjoesmodule")
+            let fishyJoesModuleFiles: [String] = dependencyPaths.compactMap {
+                $0.key == config.module ? nil : "\($0.value)/Generated/\($0.key).fishyjoesmodule"
             }
 
             // MARK: Generate code
@@ -243,25 +248,66 @@ extension CodeGen {
                         }
                         try cmd("cp", "\(platform.buildDir(debug: debug))/DummyMain.wasm", "\(outputDir)/\(config.module).wasm").run()
                     }
-                    try cmd(
-                        "cp",
-                        "\(platform.buildDir(debug: debug))/FishyJoes_FishyJoesNodeRuntime.resources/js/wasm-napi.js",
-                        "Sources/Generated/NodeInterface/\(config.module).d.ts",
-                        outputDir
-                    ).run()
-                    let dependencySplat = config.requiredModules.map { ", \($0)" }.joined()
-                    try cmd(
-                        "sed",
-                        "-e", "s/__MODULE_NAME__/\(config.module)/g",
-                        "-e", "s/__MODULE_DEPENDENCIES__/\(dependencySplat)/g",
-                        "\(platform.buildDir(debug: debug))/FishyJoes_FishyJoesNodeRuntime.resources/js/__MODULE_NAME__.js"
-                    ).output(overwritingFile: "\(outputDir)/\(config.module).js").run()
-                    try cmd(
-                        "sed",
-                        "-e", "s/__MODULE_NAME__/\(config.module)/g",
-                        "-e", "s/__MODULE_DEPENDENCIES__/\(dependencySplat)/g",
-                        "\(platform.buildDir(debug: debug))/FishyJoes_FishyJoesNodeRuntime.resources/js/__MODULE_NAME__.browser.js"
-                    ).output(overwritingFile: "\(outputDir)/\(config.module).browser.js").run()
+                    try cmd("cp", "\(platform.buildDir(debug: debug))/FishyJoes_FishyJoesNodeRuntime.resources/js/wasm-napi.js", outputDir).run()
+
+                    var tsSources = ["Sources/Generated/NodeInterface/\(config.module).d.ts"]
+                    for (moduleName, modulePath) in dependencyPaths {
+                        let path = "\(modulePath)/ts/\(moduleName).extensions.d.ts"
+                        if cmd("test", "-f", path).runBool() {
+                            tsSources.append(path)
+                        }
+                    }
+                    try cmd("cat", arguments: tsSources).output(overwritingFile: "\(outputDir)/\(config.module).d.ts").run()
+
+                    // replace each instance of __MODULE_NAME__ with the name
+                    // replace each line containing __MODULE_DEPENDENCY__ with one line for each dependency
+                    func template(line: String) -> [String] {
+                        let line = line.replacingOccurrences(of: "__MODULE_NAME__", with: config.module)
+                        if line.contains("__MODULE_DEPENDENCY__") {
+                            return config.requiredModules.map {
+                                line.replacingOccurrences(of: "__MODULE_DEPENDENCY__", with: $0)
+                            }
+                        } else {
+                            return [line]
+                        }
+                    }
+
+                    func template(inPath: String, outPath: String) throws {
+                        var lines = try cmd("cat", inPath).runLines()
+                        lines = lines.flatMap(template(line:))
+                        lines.append("") // newline terminate
+                        try cmd("cat", "-")
+                            .input(lines.joined(separator: "\n"))
+                            .output(overwritingFile: outPath)
+                            .run()
+                    }
+
+                    try template(
+                        inPath: "\(platform.buildDir(debug: debug))/FishyJoes_FishyJoesNodeRuntime.resources/js/__MODULE_NAME__.js",
+                        outPath: "\(outputDir)/\(config.module).js"
+                    )
+                    try template(
+                        inPath: "\(platform.buildDir(debug: debug))/FishyJoes_FishyJoesNodeRuntime.resources/js/__MODULE_NAME__.browser.js",
+                        outPath: "\(outputDir)/\(config.module).browser.js"
+                    )
+
+                    for (moduleName, modulePath) in dependencyPaths {
+                        let outPath = "\(outputDir)/\(moduleName).extensions.js"
+                        if !cmd("cp", "\(modulePath)/ts/\(moduleName).extensions.js", outPath).runBool() {
+                            // No extensions found. Generate a no-op extension
+                            try cmd("cat", "-")
+                                .input(
+                                    """
+                                        function applyExtensions() {}
+                                        const imports = {};
+                                        export { applyExtensions, imports };
+                                        """
+                                )
+                                .output(overwritingFile: outPath)
+                                .run()
+                        }
+                    }
+
                 case .node:
                     try cmd("cp", "\(platform.buildDir(debug: debug))/libFishyJoesNodeRuntime.\(dylibExt)", "\(outputDir)/").run()
                     for dependency in config.requiredModules + [config.module] {

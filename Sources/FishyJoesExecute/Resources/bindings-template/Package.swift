@@ -6,7 +6,7 @@ import PackageDescription
 let wasmCompatibleOnly = ProcessInfo.processInfo.environment["WASM_ONLY"] == "1"
 
 // Don't change the format of this line. It's read by gradle in `kotlin/build.gradle.kts`
-let fishyJoesVersion = "1.0.0"
+let fishyJoesVersion = "2.0.1"
 
 let package = Package(
     name: "__MODULE_NAME__-bindings",
