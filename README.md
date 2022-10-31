@@ -95,7 +95,6 @@ public struct Foo {
 7. Publish!
 
 
-<iframe src="https://cricut-my.sharepoint.com/personal/mstoker_cricut_com/_layouts/15/embed.aspx?UniqueId=2f2bf9e2-5cd6-4a78-a74c-55076e389d65&embed=%7B%22ust%22%3Atrue%2C%22hv%22%3A%22CopyEmbedCode%22%7D&referrer=OneUpFileViewer&referrerScenario=EmbedDialog.Create" width="640" height="360" frameborder="0" scrolling="no" allowfullscreen title="Client Enablement Demos-20220505_145944-Meeting Recording.mp4"></iframe>
 
 
 [Tutorial by Matt](https://cricut-my.sharepoint.com/personal/mstoker_cricut_com/_layouts/15/onedrive.aspx?id=%2Fpersonal%2Fmstoker%5Fcricut%5Fcom%2FDocuments%2FRecordings%2FClient%20Enablement%20Demos%2D20220505%5F145944%2DMeeting%20Recording%2Emp4&parent=%2Fpersonal%2Fmstoker%5Fcricut%5Fcom%2FDocuments%2FRecordings&ga=1)
