@@ -18,6 +18,12 @@
           "package" : "Cricut.TestAPI"
         }
       },
+      "dartType" : {
+        "named" : {
+          "name" : "AssociatedDataEnum",
+          "package" : "Test_API"
+        }
+      },
       "definingModule" : {
         "dependencies" : [
 
@@ -61,6 +67,12 @@
         "named" : {
           "name" : "Bytes",
           "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "Bytes",
+          "package" : "Test_API"
         }
       },
       "definingModule" : {
@@ -108,6 +120,12 @@
           "package" : "Cricut.TestAPI"
         }
       },
+      "dartType" : {
+        "named" : {
+          "name" : "Collections",
+          "package" : "Test_API"
+        }
+      },
       "definingModule" : {
         "dependencies" : [
 
@@ -151,6 +169,12 @@
         "named" : {
           "name" : "Collections.CollectionHolder",
           "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "Collections.CollectionHolder",
+          "package" : "Test_API"
         }
       },
       "definingModule" : {
@@ -198,6 +222,12 @@
           "package" : "Cricut.TestAPI"
         }
       },
+      "dartType" : {
+        "named" : {
+          "name" : "DefaultArguments",
+          "package" : "Test_API"
+        }
+      },
       "definingModule" : {
         "dependencies" : [
 
@@ -241,6 +271,12 @@
         "named" : {
           "name" : "Deprecations",
           "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "Deprecations",
+          "package" : "Test_API"
         }
       },
       "definingModule" : {
@@ -288,6 +324,12 @@
           "package" : "Cricut.TestAPI"
         }
       },
+      "dartType" : {
+        "named" : {
+          "name" : "EmptyEnum",
+          "package" : "Test_API"
+        }
+      },
       "definingModule" : {
         "dependencies" : [
 
@@ -331,6 +373,12 @@
         "named" : {
           "name" : "Functions",
           "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "Functions",
+          "package" : "Test_API"
         }
       },
       "definingModule" : {
@@ -378,6 +426,12 @@
           "package" : "Cricut.TestAPI"
         }
       },
+      "dartType" : {
+        "named" : {
+          "name" : "Functions.TheError",
+          "package" : "Test_API"
+        }
+      },
       "definingModule" : {
         "dependencies" : [
 
@@ -421,6 +475,12 @@
         "named" : {
           "name" : "Primitives",
           "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "Primitives",
+          "package" : "Test_API"
         }
       },
       "definingModule" : {
@@ -468,6 +528,12 @@
           "package" : "Cricut.TestAPI"
         }
       },
+      "dartType" : {
+        "named" : {
+          "name" : "Primitives.PrimitiveHolder",
+          "package" : "Test_API"
+        }
+      },
       "definingModule" : {
         "dependencies" : [
 
@@ -511,6 +577,12 @@
         "named" : {
           "name" : "SimpleEnum",
           "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "SimpleEnum",
+          "package" : "Test_API"
         }
       },
       "definingModule" : {
@@ -558,6 +630,12 @@
           "package" : "Cricut.TestAPI"
         }
       },
+      "dartType" : {
+        "named" : {
+          "name" : "Strings",
+          "package" : "Test_API"
+        }
+      },
       "definingModule" : {
         "dependencies" : [
 
@@ -601,6 +679,12 @@
         "named" : {
           "name" : "Structs",
           "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "Structs",
+          "package" : "Test_API"
         }
       },
       "definingModule" : {
@@ -648,6 +732,12 @@
           "package" : "Cricut.TestAPI"
         }
       },
+      "dartType" : {
+        "named" : {
+          "name" : "Structs.MemberwiseStruct",
+          "package" : "Test_API"
+        }
+      },
       "definingModule" : {
         "dependencies" : [
 
@@ -693,6 +783,12 @@
           "package" : "Cricut.TestAPI"
         }
       },
+      "dartType" : {
+        "named" : {
+          "name" : "Structs.ReferenceStruct",
+          "package" : "Test_API"
+        }
+      },
       "definingModule" : {
         "dependencies" : [
 
@@ -736,6 +832,12 @@
         "named" : {
           "name" : "Tuples",
           "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "Tuples",
+          "package" : "Test_API"
         }
       },
       "definingModule" : {

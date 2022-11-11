@@ -11,6 +11,7 @@ struct TranslatedPrimitive: TranslatedType {
     let kotlinPackage: String?
     let jniType: JNIType
     let cSharpType: CSharpClass.CSType
+    let dartType: DartClass.DartType
     let definingModule = Module.runtime
 
     init(
@@ -22,7 +23,8 @@ struct TranslatedPrimitive: TranslatedType {
             c: typeNames.c,
             node: typeNames.ts,
             jni: typeNames.jni,
-            cSharp: typeNames.cSharp
+            cSharp: typeNames.cSharp,
+            dart: typeNames.dart
         )
     }
 
@@ -31,7 +33,8 @@ struct TranslatedPrimitive: TranslatedType {
         c cName: String,
         node nodeName: String,
         jni jniType: JNIType,
-        cSharp cSharpName: String
+        cSharp cSharpName: String,
+        dart dartName: String
     ) {
         self.sourceType = .named(swiftName)
         self.cName = cName
@@ -43,6 +46,7 @@ struct TranslatedPrimitive: TranslatedType {
         self.kotlinPackage = nil
         self.jniType = jniType
         self.cSharpType = .primitive(cSharpName)
+        self.dartType = .primitive(dartName)
     }
 
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] { [] }

@@ -70,20 +70,20 @@ namespace Cricut.FishyJoesRuntime {
             ).Consume<object?>());
         }
 
-        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern CreatedRef FishyJoesRuntime_SwiftFunctionImpl_invoke0(
             UnownedRef self,
             out CreatedRef exn
         );
 
-        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern CreatedRef FishyJoesRuntime_SwiftFunctionImpl_invoke1(
             UnownedRef self,
             UnownedRef p0,
             out CreatedRef exn
         );
 
-        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern CreatedRef FishyJoesRuntime_SwiftFunctionImpl_invoke2(
             UnownedRef self,
             UnownedRef p0,
@@ -91,7 +91,7 @@ namespace Cricut.FishyJoesRuntime {
             out CreatedRef exn
         );
 
-        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern CreatedRef FishyJoesRuntime_SwiftFunctionImpl_invoke3(
             UnownedRef self,
             UnownedRef p0,
@@ -100,7 +100,7 @@ namespace Cricut.FishyJoesRuntime {
             out CreatedRef exn
         );
 
-        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern CreatedRef FishyJoesRuntime_SwiftFunctionImpl_invoke4(
             UnownedRef self,
             UnownedRef p0,
@@ -110,7 +110,7 @@ namespace Cricut.FishyJoesRuntime {
             out CreatedRef exn
         );
 
-        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern CreatedRef FishyJoesRuntime_SwiftFunctionImpl_invoke5(
             UnownedRef self,
             UnownedRef p0,
@@ -121,7 +121,7 @@ namespace Cricut.FishyJoesRuntime {
             out CreatedRef exn
         );
 
-        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern CreatedRef FishyJoesRuntime_SwiftFunctionImpl_invoke6(
             UnownedRef self,
             UnownedRef p0,
@@ -284,25 +284,25 @@ namespace Cricut.FishyJoesRuntime {
         delegate CreatedRef Invoke5(UnownedRef fn, ConsumedRef p0, ConsumedRef p1, ConsumedRef p2, ConsumedRef p3, ConsumedRef p4, out CreatedRef exn);
         delegate CreatedRef Invoke6(UnownedRef fn, ConsumedRef p0, ConsumedRef p1, ConsumedRef p2, ConsumedRef p3, ConsumedRef p4, ConsumedRef p5, out CreatedRef exn);
 
-        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void FishyJoesRuntime_Function0Converter_setup(string typeName, Constructor constructor, Invoke0 invoke, out CreatedRef exn);
 
-        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void FishyJoesRuntime_Function1Converter_setup(string typeName, Constructor constructor, Invoke1 invoke, out CreatedRef exn);
 
-        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void FishyJoesRuntime_Function2Converter_setup(string typeName, Constructor constructor, Invoke2 invoke, out CreatedRef exn);
 
-        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void FishyJoesRuntime_Function3Converter_setup(string typeName, Constructor constructor, Invoke3 invoke, out CreatedRef exn);
 
-        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void FishyJoesRuntime_Function4Converter_setup(string typeName, Constructor constructor, Invoke4 invoke, out CreatedRef exn);
 
-        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void FishyJoesRuntime_Function5Converter_setup(string typeName, Constructor constructor, Invoke5 invoke, out CreatedRef exn);
 
-        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void FishyJoesRuntime_Function6Converter_setup(string typeName, Constructor constructor, Invoke6 invoke, out CreatedRef exn);
 
         // MARK: Actions

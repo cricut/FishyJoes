@@ -26,18 +26,22 @@ public class FishyJoesContext {
 
     let nodeTranslator = NodeTranslator()
     let kotlinTranslator = KotlinTranslator()
-    let cSharpTranslator = CSharpTranslator()
     let cppTranslator = CPPTranslate()
     let neutralTranslator = NeutralTranslate()
+
+    let iotaTranslator = IotaTranslator()
+    let cSharpTranslator = CSharpTranslator()
     let dartTranslator = DartTranslator()
 
     lazy var translators: [Translator] = [
         nodeTranslator,
         kotlinTranslator,
-        cSharpTranslator,
         cppTranslator,
         // neutralTranslator,
+
+        iotaTranslator,
         dartTranslator,
+        cSharpTranslator,
     ]
 
     public init(context: TemplateContext) {
@@ -90,6 +94,12 @@ public class FishyJoesContext {
                 "using \(dependency.lowercased());"
             }
         )
+        return SourceFragment(sourceryDestination: "file:\(fileName)")
+    }
+
+    func dartFragment(_ name: String) -> SourceFragment {
+        let fileName = "../../dart/lib/src/generated/\(name)"
+        fileHeaders[fileName, default: []].formUnion([])
         return SourceFragment(sourceryDestination: "file:\(fileName)")
     }
 
@@ -286,7 +296,7 @@ public class FishyJoesContext {
         }
     }
 
-    typealias TypeNames = (c: String, ts: String, jni: JNIType, cSharp: String)
+    typealias TypeNames = (c: String, ts: String, jni: JNIType, cSharp: String, dart: String)
 
     func resolve(type: BetterType, generics: [String: BetterType] = [:]) -> TranslatedType {
         if let resolved = typeCache[type] {
@@ -294,21 +304,21 @@ public class FishyJoesContext {
         }
 
         let primitiveTypeMap: [String: TypeNames] = [
-            "Bool": (c: "bool", ts: "boolean", jni: JNIType.boolean, cSharp: "bool"),
-            "Int8": (c: "int8_t", ts: "number", jni: JNIType.byte, cSharp: "sbyte"),
-            "Int16": (c: "int16_t", ts: "number", jni: JNIType.short, cSharp: "short"),
-            "Int32": (c: "int32_t", ts: "number", jni: JNIType.int, cSharp: "int"),
-            "Int64": (c: "int64_t", ts: "bigint", jni: JNIType.long, cSharp: "long"),
-            "Int": (c: "int", ts: "number", jni: JNIType.long, cSharp: "nint"),
-            "Float": (c: "float", ts: "number", jni: JNIType.float, cSharp: "float"),
-            "Double": (c: "double", ts: "number", jni: JNIType.double, cSharp: "double"),
+            "Bool": (c: "bool", ts: "boolean", jni: JNIType.boolean, cSharp: "bool", dart: "bool"),
+            "Int8": (c: "int8_t", ts: "number", jni: JNIType.byte, cSharp: "sbyte", dart: "int"),
+            "Int16": (c: "int16_t", ts: "number", jni: JNIType.short, cSharp: "short", dart: "int"),
+            "Int32": (c: "int32_t", ts: "number", jni: JNIType.int, cSharp: "int", dart: "int"),
+            "Int64": (c: "int64_t", ts: "bigint", jni: JNIType.long, cSharp: "long", dart: "int"),
+            "Int": (c: "int", ts: "number", jni: JNIType.long, cSharp: "nint", dart: "int"),
+            "Float": (c: "float", ts: "number", jni: JNIType.float, cSharp: "float", dart: "float"),
+            "Double": (c: "double", ts: "number", jni: JNIType.double, cSharp: "double", dart: "double"),
         ]
 
         let primitiveUnsignedTypeMap: [String: TypeNames] = [
-            "UInt8": (c: "uint8_t", ts: "number", jni: JNIType.byte, cSharp: "byte"),
-            "UInt16": (c: "uint16_t", ts: "number", jni: JNIType.short, cSharp: "ushort"),
-            "UInt32": (c: "uint32_t", ts: "number", jni: JNIType.int, cSharp: "uint"),
-            "UInt64": (c: "uint64_t", ts: "bigint", jni: JNIType.long, cSharp: "ulong"),
+            "UInt8": (c: "uint8_t", ts: "number", jni: JNIType.byte, cSharp: "byte", dart: "int"),
+            "UInt16": (c: "uint16_t", ts: "number", jni: JNIType.short, cSharp: "ushort", dart: "int"),
+            "UInt32": (c: "uint32_t", ts: "number", jni: JNIType.int, cSharp: "uint", dart: "int"),
+            "UInt64": (c: "uint64_t", ts: "bigint", jni: JNIType.long, cSharp: "ulong", dart: "int"),
         ]
 
         var dontCache = false

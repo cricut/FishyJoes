@@ -10,7 +10,7 @@ namespace Cricut.FishyJoesRuntime {
         delegate nint StringGetLengthMethod(UnownedRef obj, out CreatedRef exn);
         unsafe delegate void StringGetUtf16Method(UnownedRef obj, char* outUnits, out CreatedRef exn);
         unsafe delegate CreatedRef StringConstructor(char* units, int length, out CreatedRef exn);
-        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void FishyJoesRuntime_String_setup(
             StringGetLengthMethod getLength,
             StringGetUtf16Method getUtf16,
@@ -21,7 +21,7 @@ namespace Cricut.FishyJoesRuntime {
         delegate int DataLengthMethod(UnownedRef obj, out CreatedRef exn);
         unsafe delegate void DataGetBytesMethod(UnownedRef obj, byte* outValues, out CreatedRef exn);
         unsafe delegate CreatedRef DataConstructor(byte* bytes, int length, out CreatedRef exn);
-        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void FishyJoesRuntime_Data_setup(
             DataLengthMethod getLength,
             DataGetBytesMethod bytesMethod,

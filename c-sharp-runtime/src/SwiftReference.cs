@@ -33,10 +33,10 @@ namespace Cricut.FishyJoesRuntime {
             this.reference = IntPtr.Zero;
         }
 
-        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern void FishyJoesRuntime_AnyBox_releaseRef(ConsumedRef swiftReference, out CreatedRef exn);
 
-        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef FishyJoesRuntime_AnyBox_toString(UnownedRef swiftReference, out CreatedRef exn);
 
         internal static void ensureLoaded() {}
@@ -44,7 +44,7 @@ namespace Cricut.FishyJoesRuntime {
 
     public partial class Loader {
         delegate UnownedRef AnyBoxRefGetter(UnownedRef obj, out CreatedRef exn);
-        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void FishyJoesRuntime_AnyBox_setup(AnyBoxRefGetter refGetter);
 
         private static void setupReferences() {

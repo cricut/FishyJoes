@@ -13,6 +13,7 @@ struct TranslatedSet: TranslatedType {
     let kotlinPackage: String? = "kotlin.collections"
     let jniType = JNIType.object("java/util/Set")
     let cSharpType: CSharpClass.CSType
+    let dartType: DartClass.DartType
     let definingModule = Module.runtime
 
     init(element: TranslatedType) {
@@ -25,9 +26,10 @@ struct TranslatedSet: TranslatedType {
         self.neutralName = "Set<K=\(element.neutralName)>"
         self.containedNamedTypes = element.containedNamedTypes
         self.cSharpType = .named(package: "System.Collections.Generic", name: "ISet<\(element.cSharpType.name)>")
+        self.dartType = .named(package: nil, name: "Set<\(element.dartType.name)>")
     }
 
-    func cSharpSetupParameters(in context: FishyJoesContext) -> [CSharpSetupParameter] {
+    func cSharpSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter] {
         [
             .type(typeValue: elementType.cSharpType.name),
             .value(

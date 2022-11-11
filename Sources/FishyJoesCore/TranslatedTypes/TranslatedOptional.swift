@@ -8,6 +8,7 @@ struct TranslatedOptional: TranslatedType {
     let kotlinPackage: String?
     let jniType: JNIType
     let cSharpType: CSharpClass.CSType
+    let dartType: DartClass.DartType
     let definingModule = Module.runtime
 
     init(wrapped: TranslatedType) {
@@ -20,6 +21,7 @@ struct TranslatedOptional: TranslatedType {
         self.kotlinPackage = wrapped.kotlinPackage
         self.jniType = wrapped.jniObjectType
         self.cSharpType = .optional(wrapped.cSharpType)
+        self.dartType = .optional(wrapped.dartType)
     }
 
     var sourceType: BetterType {

@@ -152,20 +152,18 @@ extension CodeGen {
             // MARK: Generate code
             try cmd("rm", "-rf", "Sources/Generated", "kotlin/src/generated", "DebugGenerated", "cpp").run()
             try cmd("mkdir", "-p",
-                    "Sources/Generated/CSharpInterface",
+                    "Sources/Generated/IotaInterface",
                     "Sources/Generated/NodeInterface",
                     "Sources/Generated/JavaInterface",
                     "Sources/Generated/CPPInterface",
-                    "Sources/Generated/DartInterface",
                     "kotlin/src/generated/kotlin/com/cricut/\(config.module.lowercased())"
             ).run()
             try cmd(
                 "touch",
-                "Sources/Generated/CSharpInterface/EmptyPlaceholder.swift",
+                "Sources/Generated/IotaInterface/EmptyPlaceholder.swift",
                 "Sources/Generated/NodeInterface/EmptyPlaceholder.swift",
                 "Sources/Generated/JavaInterface/EmptyPlaceholder.swift",
-                "Sources/Generated/CPPInterface/EmptyPlaceholder.swift",
-                "Sources/Generated/DartInterface/EmptyPlaceholder.swift"
+                "Sources/Generated/CPPInterface/EmptyPlaceholder.swift"
             ).run()
             try cmd("swift", "build", "--product", "sourcery").run()
             try cmd("swift", arguments: ["build"] + (codeCoveragePath == nil ? [] : ["--enable-code-coverage"]) + ["--product", "🐟☕️"]).run()
@@ -220,10 +218,8 @@ extension CodeGen {
                     try platform.swiftBuild("--product", "\(config.module)-java", configuration: configuration)
                 case .cpp:
                     try platform.swiftBuild("--product", "\(config.module)-cpp", configuration: configuration)
-                case .cSharp:
-                    try platform.swiftBuild("--product", "\(config.module)-c-sharp", configuration: configuration)
-                case .dartSystem:
-                    try platform.swiftBuild("--product", "\(config.module)-dart", configuration: configuration)
+                case .cSharp, .dartSystem:
+                    try platform.swiftBuild("--product", "\(config.module)-iota", configuration: configuration)
                 }
             }
 
@@ -343,11 +339,11 @@ extension CodeGen {
                 case .cSharp:
                     try cmd("mkdir", "-p", outputDir).run()
                     try cmd("cp", platform.dylibPath(for: config.module, configuration: configuration), outputDir).run()
-                    try cmd("cp", platform.dylibPath(for: config.module + "-c-sharp", configuration: configuration), outputDir).run()
+                    try cmd("cp", platform.dylibPath(for: config.module + "-iota", configuration: configuration), outputDir).run()
                 case .dartSystem:
                     try cmd("mkdir", "-p", outputDir).run()
                     try cmd("cp", platform.dylibPath(for: config.module, configuration: configuration), outputDir).run()
-                    try cmd("cp", platform.dylibPath(for: config.module + "-dart", configuration: configuration), outputDir).run()
+                    try cmd("cp", platform.dylibPath(for: config.module + "-iota", configuration: configuration), outputDir).run()
                 }
             }
             if platforms.contains(.kotlinSystem) {
@@ -419,9 +415,13 @@ extension CodeGen {
                         let tasks = ["cleanTest", "test"] + (codeCoveragePath == nil ? [] : ["jacocoTestReport"])
                         try cmd("./gradlew", arguments: tasks, addEnv: env).run()
                     }
-                case .kotlinAndroid, .cpp, .dartSystem:
+                case .kotlinAndroid, .cpp:
                     // TODO
                     break
+                case .dartSystem:
+                    try FileManager.default.withCurrentDirectoryPath("dart") {
+                        try cmd("dart", "test", addEnv: env).run()
+                    }
                 case .cSharp:
                     if !cmd("dotnet-coverage", "--version").runBool() {
                         print("Couldn't find dotnet-coverage! Install with:")

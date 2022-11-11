@@ -37,10 +37,10 @@ let package = Package(
     ] + wasmIncompatible(
         [
             P.library(name: "FishyJoesJavaRuntime", type: .dynamic, targets: ["FishyJoesJavaRuntime"]),
-            P.library(name: "FishyJoesCSharpRuntime", type: .dynamic, targets: ["FishyJoesCSharpRuntime"]),
+            // The "iota" runtime is currently shared between c-sharp and dart
+            P.library(name: "FishyJoesIotaRuntime", type: .dynamic, targets: ["FishyJoesIotaRuntime"]),
             P.library(name: "FishyJoesCPPRuntime", targets: ["FishyJoesCPPRuntime"]),
             P.library(name: "JavaRuntimeTestHarness", type: .dynamic, targets: ["JavaRuntimeTestHarness"]),
-            P.library(name: "FishyJoesDartRuntime", type: .dynamic, targets: ["FishyJoesDartRuntime"]),
             P.executable(name: "fishy-joes", targets: ["FishyJoesExecuteMain"]),
         ]
     ) + generationEnabled(
@@ -93,15 +93,8 @@ let package = Package(
             ]
         ),
         T.target(
-            name: "FishyJoesCSharpRuntime",
+            name: "FishyJoesIotaRuntime",
             dependencies: [
-                .target(name: "FishyJoesCommonRuntime"),
-            ]
-        ),
-        T.target(
-            name: "FishyJoesDartRuntime",
-            dependencies: [
-                .target(name: "DartAPI"),
                 .target(name: "FishyJoesCommonRuntime"),
             ]
         ),

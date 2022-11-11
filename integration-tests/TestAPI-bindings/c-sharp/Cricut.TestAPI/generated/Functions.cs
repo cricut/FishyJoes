@@ -22,7 +22,7 @@ namespace Cricut.TestAPI {
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_get_Functions_Const42(out CreatedRef exn);
 
         /// <summary>
@@ -36,7 +36,7 @@ namespace Cricut.TestAPI {
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_get_Functions_Abs(out CreatedRef exn);
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace Cricut.TestAPI {
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_get_Functions_IntCompose(out CreatedRef exn);
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace Cricut.TestAPI {
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_get_Functions_Add3Things(out CreatedRef exn);
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace Cricut.TestAPI {
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_get_Functions_MakeList(out CreatedRef exn);
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace Cricut.TestAPI {
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_get_Functions_FifthThing(out CreatedRef exn);
 
         /// <summary>
@@ -106,7 +106,7 @@ namespace Cricut.TestAPI {
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_get_Functions_SixthThing(out CreatedRef exn);
 
         /// <summary>
@@ -119,7 +119,7 @@ namespace Cricut.TestAPI {
             return Check((out CreatedRef _exn) => __cs_Functions_exercise0(_fnHandle.ptr, out _exn)).Consume<string>();
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_Functions_exercise0(
             UnownedRef fn,
             out CreatedRef exn
@@ -135,7 +135,7 @@ namespace Cricut.TestAPI {
             return Check((out CreatedRef _exn) => __cs_Functions_exercise1(_fnHandle.ptr, out _exn)).Consume<string>();
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_Functions_exercise1(
             UnownedRef fn,
             out CreatedRef exn
@@ -151,7 +151,7 @@ namespace Cricut.TestAPI {
             return Check((out CreatedRef _exn) => __cs_Functions_exercise2(_fnHandle.ptr, out _exn)).Consume<string>();
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_Functions_exercise2(
             UnownedRef fn,
             out CreatedRef exn
@@ -167,7 +167,7 @@ namespace Cricut.TestAPI {
             return Check((out CreatedRef _exn) => __cs_Functions_exercise3(_fnHandle.ptr, out _exn)).Consume<string>();
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_Functions_exercise3(
             UnownedRef fn,
             out CreatedRef exn
@@ -183,7 +183,7 @@ namespace Cricut.TestAPI {
             return Check((out CreatedRef _exn) => __cs_Functions_exercise4(_fnHandle.ptr, out _exn)).Consume<string>();
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_Functions_exercise4(
             UnownedRef fn,
             out CreatedRef exn
@@ -199,7 +199,7 @@ namespace Cricut.TestAPI {
             return Check((out CreatedRef _exn) => __cs_Functions_exercise5(_fnHandle.ptr, out _exn)).Consume<string>();
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_Functions_exercise5(
             UnownedRef fn,
             out CreatedRef exn
@@ -215,7 +215,7 @@ namespace Cricut.TestAPI {
             return Check((out CreatedRef _exn) => __cs_Functions_exercise6(_fnHandle.ptr, out _exn)).Consume<string>();
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_Functions_exercise6(
             UnownedRef fn,
             out CreatedRef exn
@@ -229,7 +229,7 @@ namespace Cricut.TestAPI {
             return Check((out CreatedRef _exn) => __cs_Functions_willThrow(out _exn)).Consume<string>();
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_Functions_willThrow(
             out CreatedRef exn
         );

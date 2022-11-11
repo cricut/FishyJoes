@@ -11,10 +11,13 @@ protocol TranslatedType {
     var kotlinPackage: String? { get }
     var jniType: JNIType { get }
     var cSharpType: CSharpClass.CSType { get }
+    var dartType: DartClass.DartType { get }
     var definingModule: Module { get }
     var isInhabited: Bool { get }
-    func cSharpSetupParameters(in context: FishyJoesContext) -> [CSharpSetupParameter]
+    func cSharpSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter]
     func cSharpSetupDelegates(in context: FishyJoesContext) -> [String]
+    func dartSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter]
+    func dartSetupDelegates(in context: FishyJoesContext) -> [String]
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment]
 }
 
@@ -71,9 +74,11 @@ extension TranslatedType {
     }
 
     func cSharpSetupDelegates(in context: FishyJoesContext) -> [String] { [] }
-    func cSharpSetupParameters(in context: FishyJoesContext) -> [CSharpSetupParameter] { [] }
+    func cSharpSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter] { [] }
+    func dartSetupDelegates(in context: FishyJoesContext) -> [String] { [] }
+    func dartSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter] { [] }
 
-    var cSharpSetupName: String {
+    var iotaSetupName: String {
         "\(definingModule)_\(converterType.genericBaseName.mangledName)_setup"
     }
 
@@ -128,7 +133,7 @@ extension JNIType {
     }
 }
 
-enum CSharpSetupParameter {
+enum ForeignSetupParameter {
     case type(typeValue: String)
     case value(name: String, type: String, valueWriter: (SourceFragment) -> Void)
 

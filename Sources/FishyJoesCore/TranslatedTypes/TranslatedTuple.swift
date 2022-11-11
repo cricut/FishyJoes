@@ -42,6 +42,10 @@ struct TranslatedTuple: TranslatedType {
         .named(package: "System", name: "Tuple<\(elements.lazy.map(\.type.cSharpType.name).joined(separator: ", "))>")
     }
 
+    var dartType: DartClass.DartType {
+        .named(package: "tuple", name: "Tuple\(elements.count)<\(elements.lazy.map(\.type.dartType.name).joined(separator: ", "))>")
+    }
+
     let cSharpNamespace: String? = nil
     let definingModule = Module.runtime
 
@@ -61,8 +65,8 @@ struct TranslatedTuple: TranslatedType {
 
     var isInhabited: Bool { elements.allSatisfy(\.type.isInhabited) }
 
-    func cSharpSetupParameters(in context: FishyJoesContext) -> [CSharpSetupParameter] {
-        elements.map { CSharpSetupParameter.type(typeValue: $0.type.cSharpType.name) } + [
+    func cSharpSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter] {
+        elements.map { ForeignSetupParameter.type(typeValue: $0.type.cSharpType.name) } + [
             .value(
                 name: "typeName",
                 type: "string"

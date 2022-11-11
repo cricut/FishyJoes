@@ -36,10 +36,10 @@ namespace Cricut.TestAPI {
                 }
             }
 
-            [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern CreatedRef __cs_get_Structs_ReferenceStruct_Immutable(UnownedRef self, out CreatedRef exn);
 
-            [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern void __cs_set_Structs_ReferenceStruct_Immutable(UnownedRef self, UnownedRef value, out CreatedRef exn);
 
             /// <summary>
@@ -61,10 +61,10 @@ namespace Cricut.TestAPI {
                 }
             }
 
-            [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern CreatedRef __cs_get_Structs_ReferenceStruct_Mutable(UnownedRef self, out CreatedRef exn);
 
-            [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern void __cs_set_Structs_ReferenceStruct_Mutable(UnownedRef self, UnownedRef value, out CreatedRef exn);
 
             /// <summary>
@@ -75,7 +75,7 @@ namespace Cricut.TestAPI {
                 return Check((out CreatedRef _exn) => __cs_Structs_ReferenceStruct_create(out _exn)).Consume<Cricut.TestAPI.Structs.ReferenceStruct>();
             }
 
-            [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern CreatedRef __cs_Structs_ReferenceStruct_create(
                 out CreatedRef exn
             );
@@ -88,7 +88,7 @@ namespace Cricut.TestAPI {
                 return Check((out CreatedRef exn) => __cs_Structs_ReferenceStruct_equals(thisHandle.ptr, otherHandle.ptr, out exn));
             }
 
-            [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern bool __cs_Structs_ReferenceStruct_equals(
                 UnownedRef lhs,
                 UnownedRef rhs,
@@ -101,7 +101,7 @@ namespace Cricut.TestAPI {
                 return Check((out CreatedRef _exn) => __cs_Structs_ReferenceStruct_hash(_thisHandle.ptr, out _exn));
             }
 
-            [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern int __cs_Structs_ReferenceStruct_hash(
                 UnownedRef self,
                 out CreatedRef exn
@@ -133,7 +133,7 @@ namespace Cricut.TestAPI {
                 return Check((out CreatedRef _exn) => __cs_Structs_MemberwiseStruct_create(out _exn)).Consume<Cricut.TestAPI.Structs.MemberwiseStruct>();
             }
 
-            [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern CreatedRef __cs_Structs_MemberwiseStruct_create(
                 out CreatedRef exn
             );

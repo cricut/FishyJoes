@@ -22,7 +22,7 @@ namespace Cricut.TestAPI {
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_get_Collections_ArrayOfInt(out CreatedRef exn);
 
         /// <summary>
@@ -36,7 +36,7 @@ namespace Cricut.TestAPI {
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_get_Collections_SetOfInt(out CreatedRef exn);
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace Cricut.TestAPI {
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_get_Collections_DictionaryOfIntToInt(out CreatedRef exn);
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace Cricut.TestAPI {
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_get_Collections_MaybeArrayOfInt(out CreatedRef exn);
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace Cricut.TestAPI {
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_get_Collections_MaybeSetOfInt(out CreatedRef exn);
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace Cricut.TestAPI {
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_get_Collections_MaybeDictionaryOfIntToInt(out CreatedRef exn);
 
         /// <summary>
@@ -106,7 +106,7 @@ namespace Cricut.TestAPI {
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_get_Collections_MaybeArrayOfMaybeInt(out CreatedRef exn);
 
         /// <summary>
@@ -120,7 +120,7 @@ namespace Cricut.TestAPI {
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_get_Collections_MaybeSetOfMaybeInt(out CreatedRef exn);
 
         /// <summary>
@@ -134,7 +134,7 @@ namespace Cricut.TestAPI {
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_get_Collections_MaybeDictionaryOfIntToMaybeInt(out CreatedRef exn);
 
         /// <summary>
@@ -148,7 +148,7 @@ namespace Cricut.TestAPI {
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_get_Collections_DefaultCollectionHolder(out CreatedRef exn);
 
         /// <summary>
@@ -161,7 +161,7 @@ namespace Cricut.TestAPI {
             return Check((out CreatedRef _exn) => __cs_Collections_echoArrayOfInt(_arrayOfIntHandle.ptr, out _exn)).Consume<System.Collections.Generic.IList<nint>>();
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_Collections_echoArrayOfInt(
             UnownedRef arrayOfInt,
             out CreatedRef exn
@@ -177,7 +177,7 @@ namespace Cricut.TestAPI {
             return Check((out CreatedRef _exn) => __cs_Collections_echoSetOfInt(_setOfIntHandle.ptr, out _exn)).Consume<System.Collections.Generic.ISet<nint>>();
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_Collections_echoSetOfInt(
             UnownedRef setOfInt,
             out CreatedRef exn
@@ -193,7 +193,7 @@ namespace Cricut.TestAPI {
             return Check((out CreatedRef _exn) => __cs_Collections_echoDictionaryOfIntToInt(_dictionaryOfIntToIntHandle.ptr, out _exn)).Consume<System.Collections.Generic.IDictionary<nint, nint>>();
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_Collections_echoDictionaryOfIntToInt(
             UnownedRef dictionaryOfIntToInt,
             out CreatedRef exn
@@ -209,7 +209,7 @@ namespace Cricut.TestAPI {
             return Check((out CreatedRef _exn) => __cs_Collections_echoMaybeArrayOfMaybeInt(_maybeArrayOfMaybeIntHandle.ptr, out _exn)).Consume<System.Collections.Generic.IList<nint?>?>();
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_Collections_echoMaybeArrayOfMaybeInt(
             UnownedRef maybeArrayOfMaybeInt,
             out CreatedRef exn
@@ -225,7 +225,7 @@ namespace Cricut.TestAPI {
             return Check((out CreatedRef _exn) => __cs_Collections_echoMaybeSetOfMaybeInt(_maybeSetOfMaybeIntHandle.ptr, out _exn)).Consume<System.Collections.Generic.ISet<nint?>?>();
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_Collections_echoMaybeSetOfMaybeInt(
             UnownedRef maybeSetOfMaybeInt,
             out CreatedRef exn
@@ -241,7 +241,7 @@ namespace Cricut.TestAPI {
             return Check((out CreatedRef _exn) => __cs_Collections_echoMaybeDictionaryOfIntToMaybeInt(_maybeDictionaryOfIntToMaybeIntHandle.ptr, out _exn)).Consume<System.Collections.Generic.IDictionary<nint, nint?>?>();
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_Collections_echoMaybeDictionaryOfIntToMaybeInt(
             UnownedRef maybeDictionaryOfIntToMaybeInt,
             out CreatedRef exn
@@ -259,7 +259,7 @@ namespace Cricut.TestAPI {
             return Check((out CreatedRef _exn) => __cs_Collections_collectionMapper(_collectionHandle.ptr, _mapperHandle.ptr, out _exn)).Consume<System.Collections.Generic.IList<nint?>?>();
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_Collections_collectionMapper(
             UnownedRef collection,
             UnownedRef mapper,
@@ -313,7 +313,7 @@ namespace Cricut.TestAPI {
                 }
             }
 
-            [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern CreatedRef __cs_get_Collections_CollectionHolder_StaticPropery(out CreatedRef exn);
 
             /// <summary>
@@ -333,10 +333,10 @@ namespace Cricut.TestAPI {
                 }
             }
 
-            [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern CreatedRef __cs_get_Collections_CollectionHolder_StaticMutablePropery(out CreatedRef exn);
 
-            [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern void __cs_set_Collections_CollectionHolder_StaticMutablePropery(UnownedRef value, out CreatedRef exn);
 
             static CollectionHolder() { _TypeSetup._ensureLoaded(); }

@@ -38,7 +38,7 @@ namespace Cricut.TestAPI {
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_get_AssociatedDataEnum_StaticThing(out CreatedRef exn);
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace Cricut.TestAPI {
             );
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern nint __cs_get_AssociatedDataEnum_IntValue(UnownedRef self, out CreatedRef exn);
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace Cricut.TestAPI {
             return Check((out CreatedRef _exn) => __cs_AssociatedDataEnum_plus(_thisHandle.ptr, _otherHandle.ptr, out _exn)).Consume<Cricut.TestAPI.AssociatedDataEnum>();
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_AssociatedDataEnum_plus(
             UnownedRef self,
             UnownedRef other,

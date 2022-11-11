@@ -10,5 +10,6 @@ struct TranslatedString: TranslatedType {
     let kotlinPackage: String? = "kotlin"
     let jniType = JNIType.object("java/lang/String")
     let cSharpType: CSharpClass.CSType = .named(package: nil, name: "string")
+    let dartType: DartClass.DartType = .named(package: nil, name: "String")
     let definingModule = Module.runtime
 }

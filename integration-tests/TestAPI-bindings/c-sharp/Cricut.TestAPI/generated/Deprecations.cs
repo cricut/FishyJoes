@@ -23,7 +23,7 @@ namespace Cricut.TestAPI {
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern nint __cs_get_Deprecations_DeprecatedVariable(out CreatedRef exn);
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace Cricut.TestAPI {
             return Check((out CreatedRef _exn) => __cs_Deprecations_deprecatedMethod(out _exn)).Consume<string>();
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_Deprecations_deprecatedMethod(
             out CreatedRef exn
         );

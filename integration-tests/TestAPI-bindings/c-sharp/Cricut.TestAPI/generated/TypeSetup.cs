@@ -8,7 +8,7 @@ using static Cricut.FishyJoesRuntime.Loader;
 
 namespace Cricut.TestAPI {
     public class _TypeSetup {
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void FishyJoes_TestAPI_registerTypes();
 
         delegate CreatedRef Cricut_TestAPI_AssociatedDataEnum_new_thing(
@@ -49,7 +49,7 @@ namespace Cricut.TestAPI {
             UnownedRef obj,
             out CreatedRef _exn
         );
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_AssociatedDataEnum_setup(
             FishyJoesRuntime.EnumDiscriminator discriminator,
             Cricut_TestAPI_AssociatedDataEnum_new_thing thing_constructor,
@@ -63,12 +63,12 @@ namespace Cricut.TestAPI {
             out CreatedRef _exn
         );
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_Bytes_setup(
             out CreatedRef _exn
         );
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_Collections_setup(
             out CreatedRef _exn
         );
@@ -103,7 +103,7 @@ namespace Cricut.TestAPI {
         delegate void _Collections_CollectionHolder_stringSetSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
         delegate CreatedRef _Collections_CollectionHolder_stringDictionaryGetter(UnownedRef obj, out CreatedRef exn);
         delegate void _Collections_CollectionHolder_stringDictionarySetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_Collections_CollectionHolder_setup(
             _Collections_CollectionHolderConstructor constructor,
             _Collections_CollectionHolder_boolArrayGetter get_boolArray,
@@ -127,33 +127,33 @@ namespace Cricut.TestAPI {
             out CreatedRef _exn
         );
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_DefaultArguments_setup(
             out CreatedRef _exn
         );
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_Deprecations_setup(
             out CreatedRef _exn
         );
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_EmptyEnum_setup(
             out CreatedRef _exn
         );
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_Functions_setup(
             out CreatedRef _exn
         );
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_Functions_TheError_setup(
             SwiftReference.ConstructorDelegate constructorMethod,
             out CreatedRef _exn
         );
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_Primitives_setup(
             out CreatedRef _exn
         );
@@ -227,7 +227,7 @@ namespace Cricut.TestAPI {
         delegate void _Primitives_PrimitiveHolder_dSetter(UnownedRef obj, double newValue, out CreatedRef exn);
         delegate CreatedRef _Primitives_PrimitiveHolder_dqGetter(UnownedRef obj, out CreatedRef exn);
         delegate void _Primitives_PrimitiveHolder_dqSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_Primitives_PrimitiveHolder_setup(
             _Primitives_PrimitiveHolderConstructor constructor,
             _Primitives_PrimitiveHolder_bGetter get_b,
@@ -298,7 +298,7 @@ namespace Cricut.TestAPI {
             UnownedRef obj,
             out CreatedRef _exn
         );
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_SimpleEnum_setup(
             FishyJoesRuntime.EnumDiscriminator discriminator,
             Cricut_TestAPI_SimpleEnum_new_red red_constructor,
@@ -310,12 +310,12 @@ namespace Cricut.TestAPI {
             out CreatedRef _exn
         );
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_Strings_setup(
             out CreatedRef _exn
         );
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_Structs_setup(
             out CreatedRef _exn
         );
@@ -329,7 +329,7 @@ namespace Cricut.TestAPI {
         delegate void _Structs_MemberwiseStruct_immutableSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
         delegate CreatedRef _Structs_MemberwiseStruct_mutableGetter(UnownedRef obj, out CreatedRef exn);
         delegate void _Structs_MemberwiseStruct_mutableSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_Structs_MemberwiseStruct_setup(
             _Structs_MemberwiseStructConstructor constructor,
             _Structs_MemberwiseStruct_immutableGetter get_immutable,
@@ -339,13 +339,13 @@ namespace Cricut.TestAPI {
             out CreatedRef _exn
         );
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_Structs_ReferenceStruct_setup(
             SwiftReference.ConstructorDelegate constructorMethod,
             out CreatedRef _exn
         );
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_Tuples_setup(
             out CreatedRef _exn
         );

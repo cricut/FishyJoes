@@ -19,7 +19,7 @@ namespace Cricut.TestAPI {
             return Check((out CreatedRef _exn) => __cs_EmptyEnum_notGoingToHappen(out _exn)).Consume<Cricut.TestAPI.EmptyEnum>();
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_EmptyEnum_notGoingToHappen(
             out CreatedRef exn
         );

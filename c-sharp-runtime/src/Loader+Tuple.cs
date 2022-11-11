@@ -8,14 +8,14 @@ public partial class Loader {
     delegate CreatedRef TupleGetter(UnownedRef obj, out CreatedRef exn);
     unsafe delegate CreatedRef TupleConstructor(UnownedRef* elements, out CreatedRef exn);
 
-    [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+    [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
     static extern void FishyJoesRuntime_Tuple2Converter_setup(
         string name,
         TupleGetter get0,
         TupleGetter get1,
         TupleConstructor constructor
     );
-    [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+    [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
     static extern void FishyJoesRuntime_Tuple3Converter_setup(
         string name,
         TupleGetter get0,
@@ -23,7 +23,7 @@ public partial class Loader {
         TupleGetter get2,
         TupleConstructor constructor
     );
-    [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+    [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
     static extern void FishyJoesRuntime_Tuple4Converter_setup(
         string name,
         TupleGetter get0,
@@ -32,7 +32,7 @@ public partial class Loader {
         TupleGetter get3,
         TupleConstructor constructor
     );
-    [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+    [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
     static extern void FishyJoesRuntime_Tuple5Converter_setup(
         string name,
         TupleGetter get0,
@@ -42,7 +42,7 @@ public partial class Loader {
         TupleGetter get4,
         TupleConstructor constructor
     );
-    [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+    [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
     static extern void FishyJoesRuntime_Tuple6Converter_setup(
         string name,
         TupleGetter get0,

@@ -24,7 +24,7 @@ namespace Cricut.TestAPI {
             return Check((out CreatedRef _exn) => __cs_DefaultArguments_echoDefaults(_yHandle.ptr, _xHandle.ptr, z, out _exn)).Consume<string>();
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_DefaultArguments_echoDefaults(
             UnownedRef y,
             UnownedRef x,

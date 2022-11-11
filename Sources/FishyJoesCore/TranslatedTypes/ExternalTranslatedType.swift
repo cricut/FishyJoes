@@ -7,6 +7,7 @@ struct ExternalTranslatedType: Codable {
     var kotlinName: String
     var kotlinPackage: String?
     var cSharpType: CSharpClass.CSType
+    var dartType: DartClass.DartType
     var jniType: JNIType
     var isInhabited: Bool
     var definingModule: Module
@@ -30,6 +31,7 @@ extension TranslatedType {
             kotlinName: kotlinName,
             kotlinPackage: kotlinPackage,
             cSharpType: cSharpType,
+            dartType: dartType,
             jniType: jniType,
             isInhabited: isInhabited,
             definingModule: definingModule

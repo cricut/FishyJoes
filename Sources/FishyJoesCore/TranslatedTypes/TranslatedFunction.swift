@@ -13,6 +13,7 @@ struct TranslatedFunction: TranslatedType {
     let kotlinPackage: String? = nil
     let jniType: JNIType
     let cSharpType: CSharpClass.CSType
+    let dartType: DartClass.DartType
     let definingModule = Module.runtime
 
     init(parameters: [TranslatedType], returnType: TranslatedType) {
@@ -26,6 +27,7 @@ struct TranslatedFunction: TranslatedType {
         self.cppName = "std::function<\(returnType.cppName)(\(parameters.map(\.cppName).joined(separator: ", "))>"
         self.containedNamedTypes = parameters.map { $0.containedNamedTypes }.joined() + returnType.containedNamedTypes
         self.jniType = .object("kotlin/jvm/functions/Function\(parameters.count)")
+        self.dartType = .function(args: parameters.map(\.dartType), return: returnType.dartType)
         if returnType.sourceType == .void {
             self.cSharpType = .named(
                 package: "System",
@@ -46,7 +48,7 @@ struct TranslatedFunction: TranslatedType {
         )
     }
 
-    func cSharpSetupParameters(in context: FishyJoesContext) -> [CSharpSetupParameter] {
+    func cSharpSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter] {
         return (
             returnType.sourceType == .void ? [] : [
                 .type(typeValue: returnType.cSharpType.name),

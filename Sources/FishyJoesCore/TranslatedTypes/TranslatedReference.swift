@@ -9,6 +9,7 @@ struct TranslatedReference: TranslatedType {
     var containedNamedTypes: [TranslatedType] { [self] }
     let kotlinPackage: String?
     let cSharpType: CSharpClass.CSType
+    let dartType: DartClass.DartType
     let methods: [Method]
     let computedVariables: [Variable]
     let documentation: [String]
@@ -32,6 +33,7 @@ struct TranslatedReference: TranslatedType {
         self.kotlinName = typeName
         self.kotlinPackage = context.module.kotlinPackage
         self.cSharpType = .named(package: context.module.cSharpNamespace, name: exportAnnotation.cSharpName)
+        self.dartType = .named(package: context.module.dartNamespace, name: exportAnnotation.name)
         self.methods = type.methods.compactMap { Method($0) }
         self.computedVariables = type.variables.filter { $0.exportAnnotation != nil }
         self.documentation = type.documentation
@@ -47,7 +49,7 @@ struct TranslatedReference: TranslatedType {
         return [
             nodeDefinitionFragment(in: context),
             jniDefinitionFragment(in: context),
-            cSharpDefinitionFragment(in: context),
+            iotaDefinitionFragment(in: context),
             cppDefinitionFragment(in: context),
         ] + neutralDefinitionFragments(in: context)
     }
@@ -350,7 +352,7 @@ struct TranslatedReference: TranslatedType {
         return fragment
     }
 
-    func cSharpSetupParameters(in context: FishyJoesContext) -> [CSharpSetupParameter] {
+    func cSharpSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter] {
         [
             .value(
                 name: "constructorMethod",
@@ -363,14 +365,14 @@ struct TranslatedReference: TranslatedType {
         ]
     }
 
-    func cSharpDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
+    func iotaDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
-            "CSharpInterface/\(sourceType.name)+cSharp-type.swift",
-            additionalImports: ["Foundation", "FishyJoesCSharpRuntime"]
+            "IotaInterface/\(sourceType.name)+iota-type.swift",
+            additionalImports: ["Foundation", "FishyJoesIotaRuntime"]
         )
 
-        fragment.output("@_cdecl(\"\(cSharpSetupName)\")")
-        fragment.outputBlock("public func \(cSharpSetupName)(", newLineTerminated: false) {
+        fragment.output("@_cdecl(\"\(iotaSetupName)\")")
+        fragment.outputBlock("public func \(iotaSetupName)(", newLineTerminated: false) {
             fragment.output("constructorMethod: @escaping @convention(c) (UnsafeMutableRawPointer, _ exn: csOutExn) -> csObject,")
             fragment.output("_ exn: csOutExn")
         }
@@ -380,16 +382,16 @@ struct TranslatedReference: TranslatedType {
         }
         fragment.blankLine()
 
-        fragment.outputBlock("extension \(converterType.name): CSharpMutator {") {
+        fragment.outputBlock("extension \(converterType.name): IotaMutator {") {
             fragment.output("fileprivate static var _constructorMethod: ((UnsafeMutableRawPointer, _ exn: csOutExn) -> csObject)!")
             fragment.blankLine()
 
-            fragment.outputBlock("public static func peekCSharp(_ value: csObject) throws -> \(sourceType.name) {") {
-                fragment.output("try Box<\(sourceType.name)>.peekCSharp(value).value")
+            fragment.outputBlock("public static func peekIota(_ value: csObject) throws -> \(sourceType.name) {") {
+                fragment.output("try Box<\(sourceType.name)>.peekIota(value).value")
             }
             fragment.blankLine()
 
-            fragment.outputBlock("public static func toCSharp(_ value: \(sourceType.name)) throws -> csObject {") {
+            fragment.outputBlock("public static func toIota(_ value: \(sourceType.name)) throws -> csObject {") {
                 if !isInhabited {
                     fragment.output("// Uninhabited type")
                 } else {
@@ -399,8 +401,8 @@ struct TranslatedReference: TranslatedType {
             }
             fragment.blankLine()
 
-            fragment.outputBlock("public static func mutateCSharp<R>(_ this: csObject, body: (inout \(sourceType.name)) throws -> R) throws -> R {") {
-                fragment.output("try body(&Box<\(sourceType.name)>.peekCSharp(this).value)")
+            fragment.outputBlock("public static func mutateIota<R>(_ this: csObject, body: (inout \(sourceType.name)) throws -> R) throws -> R {") {
+                fragment.output("try body(&Box<\(sourceType.name)>.peekIota(this).value)")
             }
         }
 
@@ -410,18 +412,18 @@ struct TranslatedReference: TranslatedType {
 
         if equatable {
             fragment.output("@_cdecl(\"__cs_\(sourceType.name.mangled)_equals\")")
-            fragment.outputBlock("public func \(sourceType.name.mangled)_cSharpEquals(lhs: csObject, rhs: csObject, exn: csOutExn) -> Bool.CType {") {
+            fragment.outputBlock("public func \(sourceType.name.mangled)_iotaEquals(lhs: csObject, rhs: csObject, exn: csOutExn) -> Bool.CType {") {
                 fragment.outputBlock("Env.catching(to: exn) {") {
-                    fragment.output("return try Bool.toCSharp(\(sourceType.name).peekCSharp(lhs) == \(sourceType.name).peekCSharp(rhs))")
+                    fragment.output("return try Bool.toIota(\(sourceType.name).peekIota(lhs) == \(sourceType.name).peekIota(rhs))")
                 }
             }
         }
         if hashable {
             fragment.output("@_cdecl(\"__cs_\(sourceType.name.mangled)_hash\")")
-            fragment.outputBlock("public func \(sourceType.name.mangled)_cSharpHash(this: csObject, exn: csOutExn) -> Int32.CType {") {
+            fragment.outputBlock("public func \(sourceType.name.mangled)_iotaHash(this: csObject, exn: csOutExn) -> Int32.CType {") {
                 fragment.outputBlock("Env.catching(to: exn) {") {
-                    fragment.outputBlock("try Int32.toCSharp(") {
-                        fragment.output("Int32(truncatingIfNeeded: \(sourceType.name).peekCSharp(this).hashValue)")
+                    fragment.outputBlock("try Int32.toIota(") {
+                        fragment.output("Int32(truncatingIfNeeded: \(sourceType.name).peekIota(this).hashValue)")
                     }
                 }
             }

@@ -6,10 +6,10 @@ set -euo pipefail
 
 CONFIGURATION=${CONFIGURATION:-release}
 
-swift build --configuration $CONFIGURATION --product FishyJoesCSharpRuntime
+swift build --configuration $CONFIGURATION --product FishyJoesIotaRuntime
 
 mkdir -p c-sharp-runtime/runtimes/{osx,win,linux}/native
 
-cp .build/$CONFIGURATION/libFishyJoesCSharpRuntime.dylib c-sharp-runtime/runtimes/osx/native/ ||
-cp .build/$CONFIGURATION/FishyJoesCSharpRuntime.dll c-sharp-runtime/runtimes/win/native/ ||
-cp .build/$CONFIGURATION/libFishyJoesCSharpRuntime.so c-sharp-runtime/runtimes/linux/native/
+cp .build/$CONFIGURATION/libFishyJoesIotaRuntime.dylib c-sharp-runtime/runtimes/osx/native/ ||
+cp .build/$CONFIGURATION/FishyJoesIotaRuntime.dll c-sharp-runtime/runtimes/win/native/ ||
+cp .build/$CONFIGURATION/libFishyJoesIotaRuntime.so c-sharp-runtime/runtimes/linux/native/

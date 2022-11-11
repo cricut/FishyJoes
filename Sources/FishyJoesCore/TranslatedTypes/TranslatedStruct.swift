@@ -9,6 +9,7 @@ struct TranslatedStruct: TranslatedType {
     var containedNamedTypes: [TranslatedType] { [self] }
     let kotlinPackage: String?
     let cSharpType: CSharpClass.CSType
+    let dartType: DartClass.DartType
     let globalName: String
     let storedVariables: [Variable]
     let computedVariables: [Variable]
@@ -31,6 +32,7 @@ struct TranslatedStruct: TranslatedType {
         self.neutralName = "Struct<Named=\(exportAnnotation.name)>"
         self.kotlinPackage = context.module.kotlinPackage
         self.cSharpType = .named(package: context.module.cSharpNamespace, name: exportAnnotation.cSharpName)
+        self.dartType = .named(package: context.module.dartNamespace, name: exportAnnotation.name)
         self.globalName = "\(context.module).\(type.globalName)"
         self.jniType = .object(context.kotlinTranslator.javaClassName(nodeName, in: context))
 
@@ -48,7 +50,7 @@ struct TranslatedStruct: TranslatedType {
         [
             nodeDefinitionFragment(in: context),
             jniDefinitionFragment(in: context),
-            cSharpDefinitionFragment(in: context),
+            iotaDefinitionFragment(in: context),
             cppDefinitionFragment(in: context),
         ] + neutralDefinitionFragments(in: context)
     }
@@ -335,7 +337,7 @@ struct TranslatedStruct: TranslatedType {
         return lines
     }
 
-    func cSharpSetupParameters(in context: FishyJoesContext) -> [CSharpSetupParameter] {
+    func cSharpSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter] {
         let constructorType = "_\(converterType.genericBaseName.mangledName)Constructor"
         let constructorArgs = storedVariables.map { storedVar in
             let resolved = context.resolve(type: storedVar.typeName.better)
@@ -360,7 +362,7 @@ struct TranslatedStruct: TranslatedType {
                 }
             },
             // ("constructorMethod: @escaping \(converterType.name)._ConstructorMethod,")
-        ] + storedVariables.flatMap { storedVar -> [CSharpSetupParameter] in
+        ] + storedVariables.flatMap { storedVar -> [ForeignSetupParameter] in
             let resolved = context.resolve(type: storedVar.typeName.better)
             let commonName = "_\(converterType.genericBaseName.mangledName)_\(storedVar.name)"
             let getType = "\(commonName)Getter"
@@ -392,14 +394,14 @@ struct TranslatedStruct: TranslatedType {
         }
     }
 
-    func cSharpDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
+    func iotaDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
-            "CSharpInterface/\(sourceType.name)+cSharp-type.swift",
-            additionalImports: ["Foundation", "FishyJoesCSharpRuntime"]
+            "IotaInterface/\(sourceType.name)+iota-type.swift",
+            additionalImports: ["Foundation", "FishyJoesIotaRuntime"]
         )
 
-        fragment.output("@_cdecl(\"\(cSharpSetupName)\")")
-        fragment.outputBlock("public func \(cSharpSetupName)(", newLineTerminated: false) {
+        fragment.output("@_cdecl(\"\(iotaSetupName)\")")
+        fragment.outputBlock("public func \(iotaSetupName)(", newLineTerminated: false) {
             fragment.output("constructorMethod: @escaping \(converterType.name)._ConstructorMethod,")
             for storedVar in storedVariables {
                 let resolved = context.resolve(type: storedVar.typeName.better)
@@ -418,7 +420,7 @@ struct TranslatedStruct: TranslatedType {
         }
         fragment.blankLine()
 
-        fragment.outputBlock("extension \(converterType.name): CSharpMutator {") {
+        fragment.outputBlock("extension \(converterType.name): IotaMutator {") {
             for storedVar in storedVariables {
                 let resolved = context.resolve(type: storedVar.typeName.better)
                 fragment.output("fileprivate static var _\(storedVar.name)Getter: (@convention(c) (csObject, _ exn: csOutExn) -> \(resolved.converterType.name).CType)!")
@@ -434,12 +436,12 @@ struct TranslatedStruct: TranslatedType {
             fragment.output("fileprivate static var _constructorMethod: _ConstructorMethod!")
             fragment.blankLine()
 
-            fragment.outputBlock("public static func peekCSharp(_ value: csObject) throws -> Self {") {
+            fragment.outputBlock("public static func peekIota(_ value: csObject) throws -> Self {") {
                 fragment.outputBlock("Self(") {
                     for (index, storedVar) in storedVariables.enumerated() {
                         let resolved = context.resolve(type: storedVar.typeName.better)
                         let last = index == storedVariables.count - 1
-                        fragment.outputBlock("\(storedVar.name): try \(resolved.converterType.name).consumeCSharp(", closeWith: last ? ")" : "),") {
+                        fragment.outputBlock("\(storedVar.name): try \(resolved.converterType.name).consumeIota(", closeWith: last ? ")" : "),") {
                             fragment.output("try Env.check { exn in _\(storedVar.name)Getter(value, exn) }")
                         }
                     }
@@ -447,12 +449,12 @@ struct TranslatedStruct: TranslatedType {
             }
             fragment.blankLine()
 
-            fragment.outputBlock("public static func toCSharp(_ value: Self) throws -> csObject {") {
+            fragment.outputBlock("public static func toIota(_ value: Self) throws -> csObject {") {
                 fragment.outputBlock("try Env.check { exn in", closeWith: "}") {
                     fragment.outputBlock("_constructorMethod(") {
                         for storedVar in storedVariables {
                             let resolved = context.resolve(type: storedVar.typeName.better)
-                            fragment.output("try \(resolved.converterType.name).toCSharp(value.\(storedVar.name)),")
+                            fragment.output("try \(resolved.converterType.name).toIota(value.\(storedVar.name)),")
                         }
                         fragment.output("exn")
                     }
@@ -460,14 +462,14 @@ struct TranslatedStruct: TranslatedType {
             }
             fragment.blankLine()
 
-            fragment.outputBlock("public static func mutateCSharp<R>(_ this: csObject, body: (inout Self) throws -> R) throws -> R {") {
-                fragment.output("var mutatingSelf = try peekCSharp(this)")
+            fragment.outputBlock("public static func mutateIota<R>(_ this: csObject, body: (inout Self) throws -> R) throws -> R {") {
+                fragment.output("var mutatingSelf = try peekIota(this)")
                 fragment.output("let result = try body(&mutatingSelf)")
                 for storedVar in storedVariables {
                     let resolved = context.resolve(type: storedVar.typeName.better)
                     fragment.outputBlock("try Env.check { exn in _\(storedVar.name)Setter(", closeWith: ")}") {
                         fragment.output("this,")
-                        fragment.output("try \(resolved.converterType.name).toCSharp(mutatingSelf.\(storedVar.name)),")
+                        fragment.output("try \(resolved.converterType.name).toIota(mutatingSelf.\(storedVar.name)),")
                         fragment.output("exn")
                     }
                 }

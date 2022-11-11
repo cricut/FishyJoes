@@ -10,6 +10,7 @@ struct TranslatedEnum: TranslatedType {
     let kotlinPackage: String?
     let jniType: JNIType
     let cSharpType: CSharpClass.CSType
+    let dartType: DartClass.DartType
     let cases: [Case]
     let documentation: [String]
     let methods: [Method]
@@ -59,6 +60,7 @@ struct TranslatedEnum: TranslatedType {
         self.kotlinName = name
         self.kotlinPackage = context.module.kotlinPackage
         self.cSharpType = .named(package: context.module.cSharpNamespace, name: exportAnnotation.cSharpName)
+        self.dartType = .named(package: context.module.dartNamespace, name: name)
         self.cases = type.cases.map { enumCase in
             Case(
                 documentation: enumCase.documentation,
@@ -91,7 +93,7 @@ struct TranslatedEnum: TranslatedType {
         return [
             nodeDefinitionFragment(in: context),
             jniDefinitionFragment(in: context),
-            cSharpDefinitionFragment(in: context),
+            iotaDefinitionFragment(in: context),
             cppDefinitionFragment(in: context),
         ] + neutralDefinitionFragments(in: context)
     }
@@ -656,10 +658,10 @@ struct TranslatedEnum: TranslatedType {
         return fragment
     }
 
-    func cSharpDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
+    func iotaDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
-            "CSharpInterface/\(sourceType.name)+cSharp-type.swift",
-            additionalImports: ["Foundation", "FishyJoesCSharpRuntime"]
+            "IotaInterface/\(sourceType.name)+iota-type.swift",
+            additionalImports: ["Foundation", "FishyJoesIotaRuntime"]
         )
 
         var setupMethods = isInhabited ? [(name: "discriminator", args: ["csObject", "csOutExn"], returns: "Int")] : []
@@ -672,8 +674,8 @@ struct TranslatedEnum: TranslatedType {
             setupMethods.append((name: "\(enumCase.name)_extractor", args: ["csObject"] + args.map { "UnsafePointer<\($0)>" } + ["csOutExn"], returns: "Void"))
         }
 
-        fragment.output("@_cdecl(\"\(cSharpSetupName)\")")
-        fragment.outputBlock("public func \(cSharpSetupName)(", newLineTerminated: false) {
+        fragment.output("@_cdecl(\"\(iotaSetupName)\")")
+        fragment.outputBlock("public func \(iotaSetupName)(", newLineTerminated: false) {
             fragment.outputMap(setupMethods, separator: ",") { method in
                 "\(method.name): @escaping \(sourceType.name).\(upperCaseFirst(method.name))"
             }
@@ -685,7 +687,7 @@ struct TranslatedEnum: TranslatedType {
         }
         fragment.blankLine()
 
-        fragment.outputBlock("extension \(sourceType.name): CSharpConverter {") {
+        fragment.outputBlock("extension \(sourceType.name): IotaConverter {") {
             for method in setupMethods {
                 fragment.outputBlock("public typealias \(upperCaseFirst(method.name)) = @convention(c) (", closeWith: ") -> \(method.returns)") {
                     fragment.outputMap(method.args, separator: ",") { $0 }
@@ -696,7 +698,7 @@ struct TranslatedEnum: TranslatedType {
                 fragment.blankLine()
             }
 
-            fragment.outputBlock("public static func peekCSharp(_ value: csObject) throws -> Self {") {
+            fragment.outputBlock("public static func peekIota(_ value: csObject) throws -> Self {") {
                 if isInhabited {
                     fragment.output("switch try Env.check({ exn in discriminator(value, exn) }) {")
                     for (index, enumCase) in cases.enumerated() {
@@ -723,7 +725,7 @@ struct TranslatedEnum: TranslatedType {
                                 fragment.outputBlock("return Self.\(enumCase.name)(") {
                                     fragment.outputMap(enumCase.associatedValues, separator: ",") { value in
                                         let resolved = context.resolve(type: value.type)
-                                        return "\(value.name.map { "\($0): " } ?? "")try \(resolved.converterType.name).peekCSharp(_\(value.bindingName))"
+                                        return "\(value.name.map { "\($0): " } ?? "")try \(resolved.converterType.name).peekIota(_\(value.bindingName))"
                                     }
                                 }
                             }
@@ -739,7 +741,7 @@ struct TranslatedEnum: TranslatedType {
             }
             fragment.blankLine()
 
-            fragment.outputBlock("public static func toCSharp(_ value: Self) throws -> csObject {") {
+            fragment.outputBlock("public static func toIota(_ value: Self) throws -> csObject {") {
                 if isInhabited {
                     fragment.output("switch value {")
                     for enumCase in cases {
@@ -754,7 +756,7 @@ struct TranslatedEnum: TranslatedType {
                                 fragment.outputBlock("return \(enumCase.name)_constructor(") {
                                     for value in enumCase.associatedValues {
                                         let resolved = context.resolve(type: value.type)
-                                        fragment.output("try \(resolved.converterType.name).toCSharp(\(value.bindingName)),")
+                                        fragment.output("try \(resolved.converterType.name).toIota(\(value.bindingName)),")
                                     }
                                     fragment.output("exn")
                                 }
@@ -812,8 +814,8 @@ struct TranslatedEnum: TranslatedType {
         return lines
     }
 
-    func cSharpSetupParameters(in context: FishyJoesContext) -> [CSharpSetupParameter] {
-        var parameters: [CSharpSetupParameter] = []
+    func cSharpSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter] {
+        var parameters: [ForeignSetupParameter] = []
         if isInhabited {
             parameters.append(
                 .value(name: "discriminator", type: "FishyJoesRuntime.EnumDiscriminator") { fragment in

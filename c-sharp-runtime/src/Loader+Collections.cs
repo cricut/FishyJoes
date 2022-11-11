@@ -9,7 +9,7 @@ namespace Cricut.FishyJoesRuntime {
         delegate int collection_Length(UnownedRef array, out CreatedRef exn);
         unsafe delegate void collection_Values(UnownedRef arr, CreatedRef* outValues, out CreatedRef exn);
         unsafe delegate CreatedRef collection_Constructor(UnownedRef* objects, int length, out CreatedRef exn);
-        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         extern static void FishyJoesRuntime_collection_setup(
             string name,
             collection_Length length,

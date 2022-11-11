@@ -27,7 +27,7 @@ namespace Cricut.TestAPI {
             );
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern nint __cs_get_SimpleEnum_Hex(UnownedRef self, out CreatedRef exn);
 
         /// <summary>
@@ -47,10 +47,10 @@ namespace Cricut.TestAPI {
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_get_SimpleEnum_FavoriteColor(out CreatedRef exn);
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern void __cs_set_SimpleEnum_FavoriteColor(UnownedRef value, out CreatedRef exn);
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace Cricut.TestAPI {
             return Check((out CreatedRef _exn) => __cs_SimpleEnum_pickAColor(rawValue, out _exn)).Consume<Cricut.TestAPI.SimpleEnum?>();
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_SimpleEnum_pickAColor(
             nint rawValue,
             out CreatedRef exn
@@ -77,7 +77,7 @@ namespace Cricut.TestAPI {
             return Check((out CreatedRef _exn) => __cs_SimpleEnum_hexMethod(_thisHandle.ptr, out _exn)).Consume<string>();
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_SimpleEnum_hexMethod(
             UnownedRef self,
             out CreatedRef exn
@@ -91,7 +91,7 @@ namespace Cricut.TestAPI {
             Check((out CreatedRef _exn) => __cs_SimpleEnum_resetFavoriteColor(out _exn));
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern void __cs_SimpleEnum_resetFavoriteColor(
             out CreatedRef exn
         );
