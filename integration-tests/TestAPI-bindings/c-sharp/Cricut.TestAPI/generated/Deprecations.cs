@@ -18,13 +18,13 @@ namespace Cricut.TestAPI {
         public static nint DeprecatedVariable {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Deprecations_DeprecatedVariable(out exn)
+                    __iota_get_Deprecations_DeprecatedVariable(out exn)
                 );
             }
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern nint __cs_get_Deprecations_DeprecatedVariable(out CreatedRef exn);
+        private static extern nint __iota_get_Deprecations_DeprecatedVariable(out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(deprecatedMethod) -->
@@ -32,11 +32,11 @@ namespace Cricut.TestAPI {
         [Obsolete("don't use this")]
         public static string DeprecatedMethod(
         ) {
-            return Check((out CreatedRef _exn) => __cs_Deprecations_deprecatedMethod(out _exn)).Consume<string>();
+            return Check((out CreatedRef _exn) => __iota_Deprecations_deprecatedMethod(out _exn)).Consume<string>();
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_Deprecations_deprecatedMethod(
+        private static extern CreatedRef __iota_Deprecations_deprecatedMethod(
             out CreatedRef exn
         );
 

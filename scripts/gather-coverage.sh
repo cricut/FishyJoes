@@ -13,7 +13,7 @@ binaries=(
     integration-tests/TestAPI-bindings/.build/debug/libTestAPI.dylib
     integration-tests/TestAPI-bindings/.build/debug/libTestAPI-java.dylib
     integration-tests/TestAPI-bindings/.build/debug/libTestAPI-node.dylib
-    integration-tests/TestAPI-bindings/.build/debug/libTestAPI-c-sharp.dylib
+    integration-tests/TestAPI-bindings/.build/debug/libTestAPI-iota.dylib
     integration-tests/TestAPI-bindings/.build/debug/libFishyJoesNodeRuntime.dylib
 )
 

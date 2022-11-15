@@ -30,13 +30,13 @@ extension Structs.ReferenceStruct: IotaMutator {
         try body(&Box<Structs.ReferenceStruct>.peekIota(this).value)
     }
 }
-@_cdecl("__cs_Structs_ReferenceStruct_equals")
+@_cdecl("__iota_Structs_ReferenceStruct_equals")
 public func Structs_ReferenceStruct_iotaEquals(lhs: csObject, rhs: csObject, exn: csOutExn) -> Bool.CType {
     Env.catching(to: exn) {
         return try Bool.toIota(Structs.ReferenceStruct.peekIota(lhs) == Structs.ReferenceStruct.peekIota(rhs))
     }
 }
-@_cdecl("__cs_Structs_ReferenceStruct_hash")
+@_cdecl("__iota_Structs_ReferenceStruct_hash")
 public func Structs_ReferenceStruct_iotaHash(this: csObject, exn: csOutExn) -> Int32.CType {
     Env.catching(to: exn) {
         try Int32.toIota(

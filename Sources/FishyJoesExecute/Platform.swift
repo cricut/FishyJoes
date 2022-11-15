@@ -198,7 +198,7 @@ enum Platform: Hashable {
         case .wasm: return ".build/wasm-build/wasm32-unknown-wasi/\(configuration)"
         case .node, .kotlinSystem, .cSharp, .cpp, .dartSystem:
             #if os(macOS)
-            return ".build/x86_64-apple-macosx/\(configuration)"
+            return ".build/arm64-apple-macosx/\(configuration)"
             #elseif os(Linux)
             return ".build/x86_64-unknown-linux-gnu/\(configuration)"
             #else

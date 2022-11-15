@@ -145,12 +145,14 @@ public class FishyJoesContext {
                 seenMethods.insert(method)
                 collectedFragments.append(contentsOf: kotlinTranslator.translate(method: method, context: self))
                 collectedFragments.append(contentsOf: cSharpTranslator.translate(method: method, context: self))
+                collectedFragments.append(contentsOf: iotaTranslator.translate(method: method, context: self))
             }
             for variable in type.rawVariables {
                 resolveDebugContext = "Translating variable \(type.name).\(variable.name)"
                 guard variable.exportAnnotation != nil else { continue }
                 collectedFragments.append(contentsOf: kotlinTranslator.translate(variable: variable, context: self))
                 collectedFragments.append(contentsOf: cSharpTranslator.translate(variable: variable, context: self))
+                collectedFragments.append(contentsOf: iotaTranslator.translate(variable: variable, context: self))
             }
         }
         // Translate any top level functions

@@ -17,13 +17,13 @@ namespace Cricut.TestAPI {
         public static string Simple {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Strings_Simple(out exn).Consume<string>()
+                    __iota_get_Strings_Simple(out exn).Consume<string>()
                 );
             }
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_get_Strings_Simple(out CreatedRef exn);
+        private static extern CreatedRef __iota_get_Strings_Simple(out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(accent) -->
@@ -31,13 +31,13 @@ namespace Cricut.TestAPI {
         public static string Accent {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Strings_Accent(out exn).Consume<string>()
+                    __iota_get_Strings_Accent(out exn).Consume<string>()
                 );
             }
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_get_Strings_Accent(out CreatedRef exn);
+        private static extern CreatedRef __iota_get_Strings_Accent(out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(script) -->
@@ -45,13 +45,13 @@ namespace Cricut.TestAPI {
         public static string Script {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Strings_Script(out exn).Consume<string>()
+                    __iota_get_Strings_Script(out exn).Consume<string>()
                 );
             }
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_get_Strings_Script(out CreatedRef exn);
+        private static extern CreatedRef __iota_get_Strings_Script(out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(chinese) -->
@@ -59,13 +59,13 @@ namespace Cricut.TestAPI {
         public static string Chinese {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Strings_Chinese(out exn).Consume<string>()
+                    __iota_get_Strings_Chinese(out exn).Consume<string>()
                 );
             }
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_get_Strings_Chinese(out CreatedRef exn);
+        private static extern CreatedRef __iota_get_Strings_Chinese(out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(chineseBMP) -->
@@ -73,13 +73,13 @@ namespace Cricut.TestAPI {
         public static string ChineseBMP {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Strings_ChineseBMP(out exn).Consume<string>()
+                    __iota_get_Strings_ChineseBMP(out exn).Consume<string>()
                 );
             }
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_get_Strings_ChineseBMP(out CreatedRef exn);
+        private static extern CreatedRef __iota_get_Strings_ChineseBMP(out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(chineseSIP) -->
@@ -87,13 +87,13 @@ namespace Cricut.TestAPI {
         public static string ChineseSIP {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Strings_ChineseSIP(out exn).Consume<string>()
+                    __iota_get_Strings_ChineseSIP(out exn).Consume<string>()
                 );
             }
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_get_Strings_ChineseSIP(out CreatedRef exn);
+        private static extern CreatedRef __iota_get_Strings_ChineseSIP(out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(emoji) -->
@@ -101,13 +101,13 @@ namespace Cricut.TestAPI {
         public static string Emoji {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Strings_Emoji(out exn).Consume<string>()
+                    __iota_get_Strings_Emoji(out exn).Consume<string>()
                 );
             }
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_get_Strings_Emoji(out CreatedRef exn);
+        private static extern CreatedRef __iota_get_Strings_Emoji(out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(emojiMulti) -->
@@ -115,13 +115,13 @@ namespace Cricut.TestAPI {
         public static string EmojiMulti {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Strings_EmojiMulti(out exn).Consume<string>()
+                    __iota_get_Strings_EmojiMulti(out exn).Consume<string>()
                 );
             }
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_get_Strings_EmojiMulti(out CreatedRef exn);
+        private static extern CreatedRef __iota_get_Strings_EmojiMulti(out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(echo) -->
@@ -130,11 +130,11 @@ namespace Cricut.TestAPI {
             string _string
         ) {
             using var _stringHandle = new GCRef(_string);
-            return Check((out CreatedRef _exn) => __cs_Strings_echo(_stringHandle.ptr, out _exn)).Consume<string>();
+            return Check((out CreatedRef _exn) => __iota_Strings_echo(_stringHandle.ptr, out _exn)).Consume<string>();
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_Strings_echo(
+        private static extern CreatedRef __iota_Strings_echo(
             UnownedRef _string,
             out CreatedRef exn
         );

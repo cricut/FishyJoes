@@ -411,7 +411,7 @@ struct TranslatedReference: TranslatedType {
         }
 
         if equatable {
-            fragment.output("@_cdecl(\"__cs_\(sourceType.name.mangled)_equals\")")
+            fragment.output("@_cdecl(\"__iota_\(sourceType.name.mangled)_equals\")")
             fragment.outputBlock("public func \(sourceType.name.mangled)_iotaEquals(lhs: csObject, rhs: csObject, exn: csOutExn) -> Bool.CType {") {
                 fragment.outputBlock("Env.catching(to: exn) {") {
                     fragment.output("return try Bool.toIota(\(sourceType.name).peekIota(lhs) == \(sourceType.name).peekIota(rhs))")
@@ -419,7 +419,7 @@ struct TranslatedReference: TranslatedType {
             }
         }
         if hashable {
-            fragment.output("@_cdecl(\"__cs_\(sourceType.name.mangled)_hash\")")
+            fragment.output("@_cdecl(\"__iota_\(sourceType.name.mangled)_hash\")")
             fragment.outputBlock("public func \(sourceType.name.mangled)_iotaHash(this: csObject, exn: csOutExn) -> Int32.CType {") {
                 fragment.outputBlock("Env.catching(to: exn) {") {
                     fragment.outputBlock("try Int32.toIota(") {
@@ -450,7 +450,7 @@ struct TranslatedReference: TranslatedType {
                         body: [
                             "using var thisHandle = new GCRef(this);",
                             "using var otherHandle = new GCRef(other as \(cSharpType.name));",
-                            "return Check((out CreatedRef exn) => __cs_\(sourceType.name.mangled)_equals(thisHandle.ptr, otherHandle.ptr, out exn));",
+                            "return Check((out CreatedRef exn) => __iota_\(sourceType.name.mangled)_equals(thisHandle.ptr, otherHandle.ptr, out exn));",
                         ]
                     )
                 )

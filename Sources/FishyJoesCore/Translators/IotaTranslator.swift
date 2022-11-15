@@ -49,7 +49,7 @@ final class IotaTranslator: Translator {
         let returnType = context.resolve(type: method.returnType, generics: exportAnnotation.genericOverrides)
         let returnSignature = "\(returnType.converterType.name).CType"
 
-        let cMethod = "__cs_\(containingNamespace)_\(exportAnnotation.name)".mangled
+        let cMethod = "__iota_\(containingNamespace)_\(exportAnnotation.name)".mangled
         if let deprecation = method.deprecation {
             fragment.output(deprecation.swiftDeprecation)
         }
@@ -111,8 +111,8 @@ final class IotaTranslator: Translator {
         }
 
         let iotaName = upperCaseFirst(exportAnnotation.cSharpName)
-        let iotaGetName = "__cs_\(exportAnnotation.kind == .asMethod ? "" : "get_")\(containingNamespace)_\(iotaName)".mangled
-        let iotaSetName = "__cs_set_\(containingNamespace)_\(iotaName)".mangled
+        let iotaGetName = "__iota_\(exportAnnotation.kind == .asMethod ? "" : "get_")\(containingNamespace)_\(iotaName)".mangled
+        let iotaSetName = "__iota_set_\(containingNamespace)_\(iotaName)".mangled
 
         let fragment = context.swiftFragment(
             "IotaInterface/\(containingNamespace)+iota-methods.swift",

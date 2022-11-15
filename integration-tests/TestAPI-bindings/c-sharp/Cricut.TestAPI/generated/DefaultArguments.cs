@@ -21,11 +21,11 @@ namespace Cricut.TestAPI {
         ) {
             using var _yHandle = new GCRef(y);
             using var _xHandle = new GCRef(x);
-            return Check((out CreatedRef _exn) => __cs_DefaultArguments_echoDefaults(_yHandle.ptr, _xHandle.ptr, z, out _exn)).Consume<string>();
+            return Check((out CreatedRef _exn) => __iota_DefaultArguments_echoDefaults(_yHandle.ptr, _xHandle.ptr, z, out _exn)).Consume<string>();
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_DefaultArguments_echoDefaults(
+        private static extern CreatedRef __iota_DefaultArguments_echoDefaults(
             UnownedRef y,
             UnownedRef x,
             double z,
