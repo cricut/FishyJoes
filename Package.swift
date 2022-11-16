@@ -4,11 +4,10 @@ import PackageDescription
 import Foundation
 
 let env = ProcessInfo.processInfo.environment
-
 let disableGeneration = env["DISABLE_GENERATION"] == "1"
 let wasmCompatibleOnly = env["WASM_ONLY"] == "1"
 let androidCompatibleOnly = env["ANDROID_COMPATIBLE_ONLY"] == "1"
-let javaHome = env["JAVA_HOME_11_X64"] ?? env["JAVA_HOME"] ?? "/usr/local/opt/openjdk@11"
+let javaHome = env["JAVA_HOME_11_X64"] ?? env["JAVA_HOME"]
 
 func generationEnabled<T>(_ things: @autoclosure () -> [T]) -> [T] {
     #if os(macOS)
@@ -71,12 +70,17 @@ let package = Package(
                 .target(name: "JNI"),
                 .target(name: "FishyJoesCommonRuntime"),
             ],
-            swiftSettings: [
-                .unsafeFlags(["-I", "\(javaHome)/include"]),
-                .unsafeFlags(["-I", "\(javaHome)/include/linux"], .when(platforms: [.linux])),
-                .unsafeFlags(["-I", "\(javaHome)/include/darwin"], .when(platforms: [.macOS])),
-                .unsafeFlags(["-I", "\(javaHome)/include/win32"], .when(platforms: [.windows])),
-            ]
+            swiftSettings: {
+                func settings(javaHome: String) -> [SwiftSetting] {
+                    [
+                        .unsafeFlags(["-I", "\(javaHome)/include"]),
+                        .unsafeFlags(["-I", "\(javaHome)/include/linux"], .when(platforms: [.linux])),
+                        .unsafeFlags(["-I", "\(javaHome)/include/darwin"], .when(platforms: [.macOS])),
+                        .unsafeFlags(["-I", "\(javaHome)/include/win32"], .when(platforms: [.windows])),
+                    ]
+                }
+                return javaHome.map(settings(javaHome:)) ?? settings(javaHome: "/opt/homebrew/opt/openjdk@11") + settings(javaHome: "/usr/local/opt/openjdk@11")
+            }()
         ),
         T.target(
             name: "FishyJoesCPPRuntime",

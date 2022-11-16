@@ -1,3 +1,4 @@
+import Foundation
 import swsh
 
 let wasmToolchain = "/Library/Developer/Toolchains/swift-wasm-5.6.0-RELEASE.xctoolchain"
@@ -18,7 +19,8 @@ enum Platform: Hashable {
 
     static let nativeMacSwiftBuild = try! cmd("xcrun", "-f", "swift-build").runString()
 
-    func swiftBuild(arguments: [String], configuration: BuildConfiguration) throws {
+    @discardableResult
+    func swiftBuild(arguments: [String], configuration: BuildConfiguration) throws -> String {
         var args = arguments
         args.append(contentsOf: ["--configuration", configuration.debug ? "debug" : "release"])
         if configuration.codeCoverage {
@@ -79,10 +81,10 @@ enum Platform: Hashable {
             fatalError("unknown host OS")
             #endif
         }
-        try cmd(path, arguments: args, addEnv: env).run()
+        return try cmd(path, arguments: args, addEnv: env).runString()
     }
 
-    func swiftBuild(_ arguments: String..., configuration: BuildConfiguration) throws {
+    func swiftBuild(_ arguments: String..., configuration: BuildConfiguration) throws -> String {
         try swiftBuild(arguments: arguments, configuration: configuration)
     }
 
@@ -158,18 +160,12 @@ enum Platform: Hashable {
         }
     }
 
-    func buildDir(debug: Bool) -> String {
+    func buildDir(debug: Bool) throws -> String {
         let configuration = debug ? "debug" : "release"
         switch self {
         case .wasm: return ".build/wasm-build/wasm32-unknown-wasi/\(configuration)"
         case .node, .kotlinSystem, .cSharp, .cpp:
-            #if os(macOS)
-            return ".build/x86_64-apple-macosx/\(configuration)"
-            #elseif os(Linux)
-            return ".build/x86_64-unknown-linux-gnu/\(configuration)"
-            #else
-            fatalError("unknown host OS")
-            #endif
+            return try swiftBuild("--show-bin-path", configuration: .init(debug: configuration == "debug", codeCoverage: false))
         case .kotlinAndroid(let arch):
             return ".build/android-build/\(arch.triple)/\(configuration)"
         }

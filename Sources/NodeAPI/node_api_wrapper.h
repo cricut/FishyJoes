@@ -1,5 +1,12 @@
 #define NAPI_EXPERIMENTAL
+
+#if __has_include("/opt/homebrew/include/node/node_api.h")
+#include "/opt/homebrew/include/node/node_api.h"
+#elif __has_include("/usr/local/include/node/node_api.h")
 #include "/usr/local/include/node/node_api.h"
+#else
+#include <node/node_api.h>
+#endif
 
 // Use structs instead of opaque pointers so that we get additional type safety in swift
 
