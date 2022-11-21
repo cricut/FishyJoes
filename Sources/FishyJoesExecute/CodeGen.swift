@@ -216,15 +216,15 @@ extension CodeGen {
             for platform in platforms {
                 switch platform {
                 case .wasm:
-                    try platform.swiftBuild(configuration: configuration)
+                    try platform.swiftBuild(configuration: configuration).run()
                 case .node:
-                    try platform.swiftBuild("--product", "\(config.module)-node", configuration: configuration)
+                    try platform.swiftBuild("--product", "\(config.module)-node", configuration: configuration).run()
                 case .kotlinSystem, .kotlinAndroid:
-                    try platform.swiftBuild("--product", "\(config.module)-java", configuration: configuration)
+                    try platform.swiftBuild("--product", "\(config.module)-java", configuration: configuration).run()
                 case .cpp:
-                    try platform.swiftBuild("--product", "\(config.module)-cpp", configuration: configuration)
+                    try platform.swiftBuild("--product", "\(config.module)-cpp", configuration: configuration).run()
                 case .cSharp:
-                    try platform.swiftBuild("--product", "\(config.module)-c-sharp", configuration: configuration)
+                    try platform.swiftBuild("--product", "\(config.module)-c-sharp", configuration: configuration).run()
                 }
             }
 

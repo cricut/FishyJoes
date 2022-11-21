@@ -19,8 +19,7 @@ enum Platform: Hashable {
 
     static let nativeMacSwiftBuild = try! cmd("xcrun", "-f", "swift-build").runString()
 
-    @discardableResult
-    func swiftBuild(arguments: [String], configuration: BuildConfiguration) throws -> String {
+    func swiftBuild(arguments: [String], configuration: BuildConfiguration) -> Command {
         var args = arguments
         args.append(contentsOf: ["--configuration", configuration.debug ? "debug" : "release"])
         if configuration.codeCoverage {
@@ -81,11 +80,11 @@ enum Platform: Hashable {
             fatalError("unknown host OS")
             #endif
         }
-        return try cmd(path, arguments: args, addEnv: env).runString()
+        return cmd(path, arguments: args, addEnv: env)
     }
 
-    func swiftBuild(_ arguments: String..., configuration: BuildConfiguration) throws -> String {
-        try swiftBuild(arguments: arguments, configuration: configuration)
+    func swiftBuild(_ arguments: String..., configuration: BuildConfiguration) -> Command {
+        swiftBuild(arguments: arguments, configuration: configuration)
     }
 
     var platform: String {
@@ -166,6 +165,7 @@ enum Platform: Hashable {
         case .wasm: return ".build/wasm-build/wasm32-unknown-wasi/\(configuration)"
         case .node, .kotlinSystem, .cSharp, .cpp:
             return try swiftBuild("--show-bin-path", configuration: .init(debug: configuration == "debug", codeCoverage: false))
+                .runString()
         case .kotlinAndroid(let arch):
             return ".build/android-build/\(arch.triple)/\(configuration)"
         }
