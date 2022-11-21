@@ -74,13 +74,13 @@ jobs:
           # Otherwise it executes `/usr/bin/clang` which references clang from xcode command line tools.
           export PATH="$ANDROID_NDK_PATH/toolchains/llvm/prebuilt/darwin-x86_64/bin:$PATH"
 
-          swift run -- fishy-joes --kotlin generate build
+          swift run -- fishy-joes --kotlin --fat generate build
 
       - name: Test from gradle
         shell: zsh {0}
         run: |
           set -euxo pipefail
-          swift run -- fishy-joes --kotlin test
+          swift run -- fishy-joes --kotlin --fat test
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v2

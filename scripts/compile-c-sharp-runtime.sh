@@ -6,10 +6,17 @@ set -euo pipefail
 
 CONFIGURATION=${CONFIGURATION:-release}
 
-swift build --configuration $CONFIGURATION --product FishyJoesCSharpRuntime
+ARCH_ARGS=()
+if [[ $(uname -s) == "Darwin" ]]; then
+    ARCH_ARGS+=(--arch arm64 --arch x86_64)
+fi
+
+swift build --configuration $CONFIGURATION $ARCH_ARGS --product FishyJoesCSharpRuntime
+BIN_DIR=$(swift build --configuration $CONFIGURATION $ARCH_ARGS --show-bin-path)
+echo $BIN_DIR
 
 mkdir -p c-sharp-runtime/runtimes/{osx,win,linux}/native
 
-cp .build/$CONFIGURATION/libFishyJoesCSharpRuntime.dylib c-sharp-runtime/runtimes/osx/native/ ||
-cp .build/$CONFIGURATION/FishyJoesCSharpRuntime.dll c-sharp-runtime/runtimes/win/native/ ||
-cp .build/$CONFIGURATION/libFishyJoesCSharpRuntime.so c-sharp-runtime/runtimes/linux/native/
+cp $BIN_DIR/libFishyJoesCSharpRuntime.dylib c-sharp-runtime/runtimes/osx/native/ ||
+cp $BIN_DIR/FishyJoesCSharpRuntime.dll c-sharp-runtime/runtimes/win/native/ ||
+cp $BIN_DIR/libFishyJoesCSharpRuntime.so c-sharp-runtime/runtimes/linux/native/

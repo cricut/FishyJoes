@@ -1,3 +1,4 @@
+import Foundation
 import swsh
 
 let wasmToolchain = "/Library/Developer/Toolchains/swift-wasm-5.6.0-RELEASE.xctoolchain"
@@ -5,6 +6,7 @@ let androidToolchain = "/Library/Developer/Toolchains/swift-android-toolchain"
 
 struct BuildConfiguration {
     let debug: Bool
+    let fat: Bool
     let codeCoverage: Bool
 }
 
@@ -18,7 +20,7 @@ enum Platform: Hashable {
 
     static let nativeMacSwiftBuild = try! cmd("xcrun", "-f", "swift-build").runString()
 
-    func swiftBuild(arguments: [String], configuration: BuildConfiguration) throws {
+    func swiftBuild(arguments: [String], configuration: BuildConfiguration) -> Command {
         var args = arguments
         args.append(contentsOf: ["--configuration", configuration.debug ? "debug" : "release"])
         if configuration.codeCoverage {
@@ -40,6 +42,10 @@ enum Platform: Hashable {
         case .node, .kotlinSystem:
             #if os(macOS)
             path = Platform.nativeMacSwiftBuild
+            args.append(contentsOf: ["-Xlinker", "-rpath", "-Xlinker", "@loader_path"])
+            if configuration.fat {
+                args.append(contentsOf: ["--arch", "arm64", "--arch", "x86_64"])
+            }
             #elseif os(Linux)
             path = "swift"
             args = ["build"] + args
@@ -65,6 +71,11 @@ enum Platform: Hashable {
         case .cSharp:
             #if os(macOS)
             path = Platform.nativeMacSwiftBuild
+            // This seems to be needed because of https://github.com/mono/mono/issues/21049
+            args.append(contentsOf: ["-Xlinker", "-rpath", "-Xlinker", "@loader_path"])
+            if configuration.fat {
+                args.append(contentsOf: ["--arch", "arm64", "--arch", "x86_64"])
+            }
             #elseif os(Linux)
             path = "swift"
             args = ["build"] + args
@@ -72,6 +83,10 @@ enum Platform: Hashable {
         case .cpp:
             #if os(macOS)
             path = Platform.nativeMacSwiftBuild
+            args.append(contentsOf: ["-Xlinker", "-rpath", "-Xlinker", "@loader_path"])
+            if configuration.fat {
+                args.append(contentsOf: ["--arch", "arm64", "--arch", "x86_64"])
+            }
             #elseif os(Linux)
             path = "swift"
             args = ["build", "-Xswiftc", "-static-stdlib"] + args
@@ -79,11 +94,11 @@ enum Platform: Hashable {
             fatalError("unknown host OS")
             #endif
         }
-        try cmd(path, arguments: args, addEnv: env).run()
+        return cmd(path, arguments: args, addEnv: env)
     }
 
-    func swiftBuild(_ arguments: String..., configuration: BuildConfiguration) throws {
-        try swiftBuild(arguments: arguments, configuration: configuration)
+    func swiftBuild(_ arguments: String..., configuration: BuildConfiguration) -> Command {
+        swiftBuild(arguments: arguments, configuration: configuration)
     }
 
     var platform: String {
@@ -158,21 +173,8 @@ enum Platform: Hashable {
         }
     }
 
-    func buildDir(debug: Bool) -> String {
-        let configuration = debug ? "debug" : "release"
-        switch self {
-        case .wasm: return ".build/wasm-build/wasm32-unknown-wasi/\(configuration)"
-        case .node, .kotlinSystem, .cSharp, .cpp:
-            #if os(macOS)
-            return ".build/x86_64-apple-macosx/\(configuration)"
-            #elseif os(Linux)
-            return ".build/x86_64-unknown-linux-gnu/\(configuration)"
-            #else
-            fatalError("unknown host OS")
-            #endif
-        case .kotlinAndroid(let arch):
-            return ".build/android-build/\(arch.triple)/\(configuration)"
-        }
+    func buildDir(_ config: BuildConfiguration) throws -> String {
+        try swiftBuild("--show-bin-path", configuration: config).runString()
     }
 
     var isTs: Bool {

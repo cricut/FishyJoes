@@ -49,14 +49,14 @@ jobs:
           swift package resolve
           sudo xcode-select -s /Applications/Xcode_13.3.1.app
 
-          swift run -- fishy-joes --nodejs generate build
+          swift run -- fishy-joes --nodejs --fat generate build
 
       - name: Test from node
         shell: zsh {0}
         run: |
           set -euxo pipefail
 
-          swift run -- fishy-joes --nodejs test
+          swift run -- fishy-joes --nodejs --fat test
 
       - name: Pack
         shell: zsh {0}
@@ -67,7 +67,7 @@ jobs:
           if [[ ! $VERSION =~ [0-9]+\.[0-9]+\.[0-9]+ ]]; then
               VERSION="0.0.1"
           fi
-          swift run -- fishy-joes --nodejs --version $VERSION pack
+          swift run -- fishy-joes --nodejs --fat --version $VERSION pack
 
       - name: Upload NPM Artifact
         uses: actions/upload-artifact@v2
