@@ -277,6 +277,12 @@ export declare namespace TestAPI {
         const add3Things: (_0: number, _1: number, _2: number) => number;
 
         /**
+         * <!-- FishyJoes.export(async42Func) -->
+         */
+        function async42Func(
+        ): number;
+
+        /**
          * <!-- FishyJoes.export(const42) -->
          */
         const const42: () => number;

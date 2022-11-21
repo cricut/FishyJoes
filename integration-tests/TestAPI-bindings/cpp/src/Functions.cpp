@@ -25,6 +25,9 @@ namespace TestAPI {
     std::string Functions::willThrow() {
         return FishyJoesInternal::Packer::unpack<std::string>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Functions_willThrow());
     }
+    int Functions::async42Func() {
+        return FishyJoesInternal::Packer::unpack<int>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Functions_async42Func());
+    }
     std::function<int(> Functions::getConst42() {
         return FishyJoesInternal::Packer::unpack<std::function<int(>>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Functions_getConst42());
     }

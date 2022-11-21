@@ -369,8 +369,8 @@ public class FishyJoesContext {
                             """
                     )
                 }
-            case .function(let parameters, let returnType):
-                return TranslatedFunction(parameters: parameters.map(recur), returnType: recur(returnType))
+            case .function(let parameters, let returnType, let isAsync):
+                return TranslatedFunction(parameters: parameters.map(recur), returnType: recur(returnType), isAsync: isAsync)
             default:
                 fatalErr(
                     """

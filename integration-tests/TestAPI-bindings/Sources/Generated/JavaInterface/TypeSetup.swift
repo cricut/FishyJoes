@@ -372,6 +372,11 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_Functions_willThrow, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
+                name: bag.add("__jni_async42Func"),
+                signature: bag.add("()J"),
+                fnPtr: unsafeBitCast(java_Functions_async42Func, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
                 name: bag.add("__jni_get_const42"),
                 signature: bag.add("()Lkotlin/jvm/functions/Function0;"),
                 fnPtr: unsafeBitCast(java_get_Functions_const42, to: UnsafeMutableRawPointer.self)

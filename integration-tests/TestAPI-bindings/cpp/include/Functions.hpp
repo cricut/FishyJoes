@@ -104,6 +104,9 @@ namespace TestAPI {
         /// <!-- FishyJoes.export(willThrow) -->
         static std::string willThrow();
         
+        /// <!-- FishyJoes.export(async42Func) -->
+        static int async42Func();
+        
         /// <!-- FishyJoes.export(const42) -->
         static std::function<int(> getConst42();
         

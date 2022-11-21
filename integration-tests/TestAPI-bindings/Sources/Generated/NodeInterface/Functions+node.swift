@@ -131,6 +131,19 @@ extension Functions: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
+                "async42Func": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "async42Func", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            let result = try Int.toNode(
+                                Functions.async42Func(
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: true
+                ),
                 "const42": (
                     .accessor(
                         getter: { env, info in

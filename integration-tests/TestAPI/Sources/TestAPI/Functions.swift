@@ -76,4 +76,9 @@ public enum Functions {
 
     /// <!-- FishyJoes.exportReference(Functions.TheError) -->
     public struct TheError: Error {}
+
+    /// <!-- FishyJoes.export(async42Func) -->
+    public static func async42Func() async throws -> Int {
+        42
+    }
 }

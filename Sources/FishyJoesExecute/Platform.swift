@@ -84,6 +84,7 @@ enum Platform: Hashable {
         return try cmd(path, arguments: args, addEnv: env).runString()
     }
 
+    @discardableResult
     func swiftBuild(_ arguments: String..., configuration: BuildConfiguration) throws -> String {
         try swiftBuild(arguments: arguments, configuration: configuration)
     }

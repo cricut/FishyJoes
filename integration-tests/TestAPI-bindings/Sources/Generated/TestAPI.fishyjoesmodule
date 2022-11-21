@@ -2158,6 +2158,21 @@
                     "_0" : "string"
                   }
                 }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(async42Func) -->"
+                ],
+                "isStatic" : true,
+                "name" : "async42Func",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
               }
             ],
             "name" : "Functions",
