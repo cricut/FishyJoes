@@ -6,6 +6,7 @@ let androidToolchain = "/Library/Developer/Toolchains/swift-android-toolchain"
 
 struct BuildConfiguration {
     let debug: Bool
+    let fat: Bool
     let codeCoverage: Bool
 }
 
@@ -41,6 +42,10 @@ enum Platform: Hashable {
         case .node, .kotlinSystem:
             #if os(macOS)
             path = Platform.nativeMacSwiftBuild
+            args.append(contentsOf: ["-Xlinker", "-rpath", "-Xlinker", "@loader_path"])
+            if configuration.fat {
+                args.append(contentsOf: ["--arch", "arm64", "--arch", "x86_64"])
+            }
             #elseif os(Linux)
             path = "swift"
             args = ["build"] + args
@@ -66,6 +71,11 @@ enum Platform: Hashable {
         case .cSharp:
             #if os(macOS)
             path = Platform.nativeMacSwiftBuild
+            // This seems to be needed because of https://github.com/mono/mono/issues/21049
+            args.append(contentsOf: ["-Xlinker", "-rpath", "-Xlinker", "@loader_path"])
+            if configuration.fat {
+                args.append(contentsOf: ["--arch", "arm64", "--arch", "x86_64"])
+            }
             #elseif os(Linux)
             path = "swift"
             args = ["build"] + args
@@ -73,6 +83,10 @@ enum Platform: Hashable {
         case .cpp:
             #if os(macOS)
             path = Platform.nativeMacSwiftBuild
+            args.append(contentsOf: ["-Xlinker", "-rpath", "-Xlinker", "@loader_path"])
+            if configuration.fat {
+                args.append(contentsOf: ["--arch", "arm64", "--arch", "x86_64"])
+            }
             #elseif os(Linux)
             path = "swift"
             args = ["build", "-Xswiftc", "-static-stdlib"] + args
@@ -159,16 +173,8 @@ enum Platform: Hashable {
         }
     }
 
-    func buildDir(debug: Bool) throws -> String {
-        let configuration = debug ? "debug" : "release"
-        switch self {
-        case .wasm: return ".build/wasm-build/wasm32-unknown-wasi/\(configuration)"
-        case .node, .kotlinSystem, .cSharp, .cpp:
-            return try swiftBuild("--show-bin-path", configuration: .init(debug: configuration == "debug", codeCoverage: false))
-                .runString()
-        case .kotlinAndroid(let arch):
-            return ".build/android-build/\(arch.triple)/\(configuration)"
-        }
+    func buildDir(_ config: BuildConfiguration) throws -> String {
+        try swiftBuild("--show-bin-path", configuration: config).runString()
     }
 
     var isTs: Bool {
