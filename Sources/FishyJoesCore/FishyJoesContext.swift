@@ -102,9 +102,15 @@ public class FishyJoesContext {
             }.mapError { error in
                 fatalErr("error reading fishy joes module file at \(path):\n\(error)")
             }.neverFails
+            let moduleName = ((path as NSString).lastPathComponent as NSString).deletingPathExtension
 
             for translatedType in moduleInfo.types {
                 typeCache[translatedType.sourceType] = translatedType
+                // Allow referring to it both as `SomeType` and `SomeDependency.SomeType`
+                if case .named(var name) = translatedType.sourceType {
+                    name.namespace.insert(moduleName, at: 0)
+                    typeCache[.named(name)] = translatedType
+                }
             }
             tsAnnotations.rootNamespaces.append(contentsOf: moduleInfo.typeScriptAnnotations.rootNamespaces)
         }
