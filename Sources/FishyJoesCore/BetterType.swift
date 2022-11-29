@@ -6,7 +6,7 @@ import SourceryRuntime
 indirect enum BetterType: Codable, Hashable {
     struct Name: Codable, Hashable {
         let name: String
-        let namespace: [String]
+        var namespace: [String]
     }
 
     case named(Name)
