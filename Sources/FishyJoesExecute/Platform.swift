@@ -20,11 +20,17 @@ enum Platform: Hashable {
 
     static let nativeMacSwiftBuild = try! cmd("xcrun", "-f", "swift-build").runString()
 
+    // swift 5.7 no longer recognizes "--enable-code-coverage" outside of the "test" command
+    static let coverageFlags = [
+        "-Xswiftc", "-profile-coverage-mapping",
+        "-Xswiftc", "-profile-generate",
+    ]
+
     func swiftBuild(arguments: [String], configuration: BuildConfiguration) -> Command {
         var args = arguments
         args.append(contentsOf: ["--configuration", configuration.debug ? "debug" : "release"])
         if configuration.codeCoverage {
-            args.append("--enable-code-coverage")
+            args.append(contentsOf: Platform.coverageFlags)
         }
         let path: String
         var env: [String: String] = ["SWIFT_PACKAGE_FORCE_DYNAMIC": "1"]

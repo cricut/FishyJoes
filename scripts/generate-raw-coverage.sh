@@ -14,8 +14,11 @@ cSharpLibDir=c-sharp-runtime/runtimes/osx/native
 rm -rf $javaLibDir $cSharpLibDir
 mkdir -p $javaLibDir $cSharpLibDir
 
-swift build --configuration debug --enable-code-coverage --product FishyJoesJavaRuntime
-swift build --configuration debug --enable-code-coverage --product FishyJoesCSharpRuntime
+# swift 5.7 no longer recognizes "--enable-code-coverage" outside of the "test" command
+COVERAGE_FLAGS=(-Xswiftc -profile-coverage-mapping -Xswiftc -profile-generate)
+
+swift build --configuration debug $COVERAGE_FLAGS --product FishyJoesJavaRuntime
+swift build --configuration debug $COVERAGE_FLAGS --product FishyJoesCSharpRuntime
 cp .build/debug/libFishyJoesJavaRuntime.dylib $javaLibDir
 cp .build/debug/libFishyJoesCSharpRuntime.dylib $cSharpLibDir
 (cd kotlin-runtime && ./gradlew publishToMavenLocal)
@@ -39,25 +42,25 @@ cp .build/debug/libFishyJoesCSharpRuntime.dylib $cSharpLibDir
 (
     cd integration-tests/TestAPI-bindings
     export LLVM_PROFILE_FILE=$FISHYJOES_COVERAGE_PATH/integration-tests-generate-build.profraw
-    swift run --enable-code-coverage -- fishy-joes generate build --kotlin-fast --nodejs --debug
+    swift run $COVERAGE_FLAGS -- fishy-joes generate build --kotlin-fast --nodejs --debug
 )
 
 (
     cd integration-tests/TestAPI-bindings
     export LLVM_PROFILE_FILE=$FISHYJOES_COVERAGE_PATH/integration-tests-node.profraw
-    swift run --enable-code-coverage -- fishy-joes test --nodejs --debug
+    swift run $COVERAGE_FLAGS -- fishy-joes test --nodejs --debug
 )
 
 (
     cd integration-tests/TestAPI-bindings
     export LLVM_PROFILE_FILE=$FISHYJOES_COVERAGE_PATH/integration-tests-kotlin.profraw
-    swift run --enable-code-coverage -- fishy-joes build test --kotlin-fast --debug
+    swift run $COVERAGE_FLAGS -- fishy-joes build test --kotlin-fast --debug
 )
 
 (
     cd integration-tests/TestAPI-bindings
     export LLVM_PROFILE_FILE=$FISHYJOES_COVERAGE_PATH/integration-tests-c-sharp.profraw
-    swift run --enable-code-coverage -- fishy-joes build test --c-sharp --debug
+    swift run $COVERAGE_FLAGS -- fishy-joes build test --c-sharp --debug
 )
 
 # Check that generation didn't change anything
