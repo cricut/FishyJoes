@@ -13,6 +13,13 @@ Client Enablement
 
 Generates bindings for (some) swift library code that can be called from TypeScript and Kotlin.
 
+# FAQ
+1. [What FishyJoes Can and Cannot Do](documentation/cans-and-cannots.md)
+2. Was that a question?
+   **No, but it was frequently asked**
+
+# Overview
+
 ## Pretty pictures
 
 [![Generation process](https://lucid.app/publicSegments/view/eaa9f26a-fbab-4b07-856d-dbcfb5722eec/image.png)](https://lucid.app/lucidchart/cac16522-9201-4b7d-9c23-1ad5bc83c8b5/edit)
