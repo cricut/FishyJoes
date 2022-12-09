@@ -26,6 +26,25 @@ enum Platform: Hashable {
         "-Xswiftc", "-profile-generate",
     ]
 
+    func build(product: String? = nil, configuration: BuildConfiguration) throws {
+        let extraArgs = product.map { ["--product", $0] } ?? []
+        if configuration.fat {
+            precondition(product != nil, "Can't infer products in fat builds")
+            try swiftBuild(arguments: extraArgs + ["--triple", "arm64-apple-macosx"], configuration: configuration).run()
+            try swiftBuild(arguments: extraArgs + ["--triple", "x86_64-apple-macosx"], configuration: configuration).run()
+            let confName = configuration.debug ? "debug" : "release"
+            try cmd(
+                "lipo", "-create",
+                "-output", "\(buildDir(configuration))/lib\(product!).dylib",
+                ".build/arm64-apple-macosx/\(confName)/",
+                ".build/x86_64-apple-macosx/\(confName)/"
+            ).run()
+
+        } else {
+            try swiftBuild(arguments: extraArgs, configuration: configuration).run()
+        }
+    }
+
     func swiftBuild(arguments: [String], configuration: BuildConfiguration) -> Command {
         var args = arguments
         args.append(contentsOf: ["--configuration", configuration.debug ? "debug" : "release"])
@@ -179,8 +198,12 @@ enum Platform: Hashable {
         }
     }
 
-    func buildDir(_ config: BuildConfiguration) throws -> String {
-        try swiftBuild("--show-bin-path", configuration: config).runString()
+    func buildDir(_ configuration: BuildConfiguration) throws -> String {
+        if configuration.fat {
+            return ".build/apple/\(configuration.debug ? "debug" : "release")"
+        } else {
+            return try swiftBuild("--show-bin-path", configuration: configuration).runString()
+        }
     }
 
     var isTs: Bool {
