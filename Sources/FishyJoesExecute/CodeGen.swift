@@ -225,7 +225,7 @@ extension CodeGen {
                     try platform.build(configuration: configuration)
                 case .node:
                     libs.append("FishyJoesNodeRuntime")
-                    try platform.build(products: libs).map { "\($0)-node" }, configuration: configuration)
+                    try platform.build(products: libs.map { "\($0)-node" }, configuration: configuration)
                 case .kotlinSystem, .kotlinAndroid:
                     libs.append("FishyJoesJavaRuntime")
                     try platform.build(products: libs.map { "\($0)-java" }, configuration: configuration)
