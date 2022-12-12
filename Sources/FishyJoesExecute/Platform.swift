@@ -68,9 +68,6 @@ enum Platform: Hashable {
             #if os(macOS)
             path = Platform.nativeMacSwiftBuild
             args.append(contentsOf: ["-Xlinker", "-rpath", "-Xlinker", "@loader_path"])
-            if configuration.fat {
-                args.append(contentsOf: ["--arch", "arm64", "--arch", "x86_64"])
-            }
             #elseif os(Linux)
             path = "swift"
             args = ["build"] + args
