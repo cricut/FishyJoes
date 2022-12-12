@@ -26,24 +26,27 @@ enum Platform: Hashable {
         "-Xswiftc", "-profile-generate",
     ]
 
-    func build(product: String? = nil, configuration: BuildConfiguration) throws {
-        let extraArgs = product.map { ["--product", $0] } ?? []
+    func build(products: [String]? = nil, configuration: BuildConfiguration) throws {
         if configuration.fat {
-            precondition(product != nil, "Can't infer products in fat builds")
-            try swiftBuild(arguments: extraArgs + ["--triple", "arm64-apple-macosx"], configuration: configuration).run()
-            try swiftBuild(arguments: extraArgs + ["--triple", "x86_64-apple-macosx"], configuration: configuration).run()
-            let confName = configuration.debug ? "debug" : "release"
-            let libName = "lib\(product!).dylib"
+            guard let products = products else {
+                fatalError("Can't infer products in fat builds")
+            }
             try cmd("mkdir", "-p", buildDir(configuration)).run()
-            try cmd(
-                "lipo", "-create",
-                "-output", "\(buildDir(configuration))/\(libName)",
-                ".build/arm64-apple-macosx/\(confName)/\(libName)",
-                ".build/x86_64-apple-macosx/\(confName)/\(libName)"
-            ).run()
+            let confName = configuration.debug ? "debug" : "release"
 
+            for product in products {
+                try swiftBuild("--product", product, "--triple", "arm64-apple-macosx", configuration: configuration).run()
+                try swiftBuild("--product", product, "--triple", "x86_64-apple-macosx", configuration: configuration).run()
+                let libName = "lib\(product).dylib"
+                try cmd(
+                    "lipo", "-create",
+                    "-output", "\(buildDir(configuration))/\(libName)",
+                    ".build/arm64-apple-macosx/\(confName)/\(libName)",
+                    ".build/x86_64-apple-macosx/\(confName)/\(libName)"
+                ).run()
+            }
         } else {
-            try swiftBuild(arguments: extraArgs, configuration: configuration).run()
+            try swiftBuild(arguments: products?.flatMap { ["--product", $0] } ?? [], configuration: configuration).run()
         }
     }
 
