@@ -226,25 +226,25 @@ extension CodeGen {
                 case .node:
                     try platform.build(
                         product: "\(config.module)-node",
-                        libs: libs.map { "\($0)Node" } + ["FishyJoesNodeRuntime"],
+                        libs: libs.map { "\($0)-node" } + ["FishyJoesNodeRuntime"],
                         configuration: configuration
                     )
                 case .kotlinSystem, .kotlinAndroid:
                     try platform.build(
                         product: "\(config.module)-java",
-                        libs: libs.map { "\($0)Java" } + ["FishyJoesJavaRuntime"],
+                        libs: libs.map { "\($0)-java" } + ["FishyJoesJavaRuntime"],
                         configuration: configuration
                     )
                 case .cpp:
                     try platform.build(
                         product: "\(config.module)-cpp",
-                        libs: libs.map { "\($0)Cpp" },
+                        libs: libs.map { "\($0)-cpp" },
                         configuration: configuration
                     )
                 case .cSharp:
                     try platform.build(
                         product: "\(config.module)-c-sharp",
-                        libs: libs.map { "\($0)CSharp" } + ["FishyJoesCSharpRuntime"],
+                        libs: libs.map { "\($0)-c-sharp" } + ["FishyJoesCSharpRuntime"],
                         configuration: configuration
                     )
                 }
