@@ -26,18 +26,19 @@ enum Platform: Hashable {
         "-Xswiftc", "-profile-generate",
     ]
 
-    func build(products: [String]? = nil, configuration: BuildConfiguration) throws {
+    func build(product: String? = nil, libs: [String] = [], configuration: BuildConfiguration) throws {
         if configuration.fat {
-            guard let products = products else {
+            guard let product = product else {
                 fatalError("Can't infer products in fat builds")
             }
             try cmd("mkdir", "-p", buildDir(configuration)).run()
             let confName = configuration.debug ? "debug" : "release"
 
-            for product in products {
-                try swiftBuild("--product", product, "--triple", "arm64-apple-macosx", configuration: configuration).run()
-                try swiftBuild("--product", product, "--triple", "x86_64-apple-macosx", configuration: configuration).run()
-                let libName = "lib\(product).dylib"
+            try swiftBuild("--product", product, "--triple", "arm64-apple-macosx", configuration: configuration).run()
+            try swiftBuild("--product", product, "--triple", "x86_64-apple-macosx", configuration: configuration).run()
+
+            for lib in libs {
+                let libName = "lib\(lib).dylib"
                 try cmd(
                     "lipo", "-create",
                     "-output", "\(buildDir(configuration))/\(libName)",
@@ -46,7 +47,7 @@ enum Platform: Hashable {
                 ).run()
             }
         } else {
-            try swiftBuild(arguments: products?.flatMap { ["--product", $0] } ?? [], configuration: configuration).run()
+            try swiftBuild(arguments: product.map { ["--product", $0] } ?? [], configuration: configuration).run()
         }
     }
 

@@ -219,21 +219,34 @@ extension CodeGen {
         if buildStep.contains(.build) {
             // MARK: Build library
             for platform in platforms {
-                var libs = [config.module] + config.requiredModules
+                let libs = [config.module] + config.requiredModules
                 switch platform {
                 case .wasm:
                     try platform.build(configuration: configuration)
                 case .node:
-                    libs.append("FishyJoesNodeRuntime")
-                    try platform.build(products: libs.map { "\($0)-node" }, configuration: configuration)
+                    try platform.build(
+                        product: "\(config.module)-node",
+                        libs: libs.map { "\($0)Node" } + ["FishyJoesNodeRuntime"],
+                        configuration: configuration
+                    )
                 case .kotlinSystem, .kotlinAndroid:
-                    libs.append("FishyJoesJavaRuntime")
-                    try platform.build(products: libs.map { "\($0)-java" }, configuration: configuration)
+                    try platform.build(
+                        product: "\(config.module)-java",
+                        libs: libs.map { "\($0)Java" } + ["FishyJoesJavaRuntime"],
+                        configuration: configuration
+                    )
                 case .cpp:
-                    try platform.build(products: libs.map { "\($0)-cpp" }, configuration: configuration)
+                    try platform.build(
+                        product: "\(config.module)-cpp",
+                        libs: libs.map { "\($0)Cpp" },
+                        configuration: configuration
+                    )
                 case .cSharp:
-                    libs.append("FishyJoesCSharpRuntime")
-                    try platform.build(products: libs.map { "\($0)-c-sharp" }, configuration: configuration)
+                    try platform.build(
+                        product: "\(config.module)-c-sharp",
+                        libs: libs.map { "\($0)CSharp" } + ["FishyJoesCSharpRuntime"],
+                        configuration: configuration
+                    )
                 }
             }
 
