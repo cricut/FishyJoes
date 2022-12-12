@@ -219,17 +219,20 @@ extension CodeGen {
         if buildStep.contains(.build) {
             // MARK: Build library
             for platform in platforms {
-                let libs = [config.module] + config.requiredModules
+                var libs = [config.module] + config.requiredModules
                 switch platform {
                 case .wasm:
                     try platform.build(configuration: configuration)
                 case .node:
-                    try platform.build(products: libs.map { "\($0)-node" }, configuration: configuration)
+                    libs.append("FishyJoesNodeRuntime")
+                    try platform.build(products: libs).map { "\($0)-node" }, configuration: configuration)
                 case .kotlinSystem, .kotlinAndroid:
+                    libs.append("FishyJoesJavaRuntime")
                     try platform.build(products: libs.map { "\($0)-java" }, configuration: configuration)
                 case .cpp:
                     try platform.build(products: libs.map { "\($0)-cpp" }, configuration: configuration)
                 case .cSharp:
+                    libs.append("FishyJoesCSharpRuntime")
                     try platform.build(products: libs.map { "\($0)-c-sharp" }, configuration: configuration)
                 }
             }
