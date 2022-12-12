@@ -33,11 +33,13 @@ enum Platform: Hashable {
             try swiftBuild(arguments: extraArgs + ["--triple", "arm64-apple-macosx"], configuration: configuration).run()
             try swiftBuild(arguments: extraArgs + ["--triple", "x86_64-apple-macosx"], configuration: configuration).run()
             let confName = configuration.debug ? "debug" : "release"
+            let libName = "lib\(product!).dylib"
+            try cmd("mkdir", "-p", buildDir(configuration)).run()
             try cmd(
                 "lipo", "-create",
-                "-output", "\(buildDir(configuration))/lib\(product!).dylib",
-                ".build/arm64-apple-macosx/\(confName)/",
-                ".build/x86_64-apple-macosx/\(confName)/"
+                "-output", "\(buildDir(configuration))/\(libName)",
+                ".build/arm64-apple-macosx/\(confName)/\(libName)",
+                ".build/x86_64-apple-macosx/\(confName)/\(libName)"
             ).run()
 
         } else {
