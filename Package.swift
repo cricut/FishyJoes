@@ -52,10 +52,6 @@ let package = Package(
                 url: "https://github.com/krzysztofzablocki/Sourcery", .branch("1.9.2")
 //                 path: "../Sourcery"
             ),
-
-            // This is needed because someone, somewhere, somehow once depended on a version of this with a broken Package.swift
-            // If all the CI passes after removing this line, please remove it.
-            D.package(url: "https://github.com/Realm/SwiftLint.git", .exact("0.42.0")),
         ]
     ) + wasmIncompatible(
         [
