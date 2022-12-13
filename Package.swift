@@ -49,7 +49,7 @@ let package = Package(
     dependencies: generationEnabled(
         [
             D.package(
-                url: "https://github.com/krzysztofzablocki/Sourcery", .exact("1.8.1")
+                url: "https://github.com/krzysztofzablocki/Sourcery", .branch("1.9.2")
 //                 path: "../Sourcery"
             ),
         ]
