@@ -6,14 +6,18 @@ set -euo pipefail
 
 CONFIGURATION=${CONFIGURATION:-release}
 
-ARCH_ARGS=()
 if [[ $(uname -s) == "Darwin" ]]; then
-    ARCH_ARGS+=(--arch arm64 --arch x86_64)
+    swift build --configuration $CONFIGURATION --product FishyJoesJavaRuntime --arch arm64
+    swift build --configuration $CONFIGURATION --product FishyJoesJavaRuntime --arch x86_64
+    BIN_DIR=.build/apple/$CONFIGURATION
+    mkdir -p $BIN_DIR
+    lipo -create \
+         -output $BIN_DIR/libFishyJoesJavaRuntime.dylib \
+         .build/{arm64,x86_64}-apple-macosx/$CONFIGURATION/libFishyJoesJavaRuntime.dylib
+else
+    swift build --configuration $CONFIGURATION --product FishyJoesJavaRuntime
+    BIN_DIR=$(swift build --configuration $CONFIGURATION --show-bin-path)
 fi
-
-swift build --configuration $CONFIGURATION $ARCH_ARGS --product FishyJoesJavaRuntime
-BIN_DIR=$(swift build --configuration $CONFIGURATION $ARCH_ARGS --show-bin-path)
-echo $BIN_DIR
 
 mkdir -p kotlin-runtime/src/generated/resources/{mac,windows,linux}
 
