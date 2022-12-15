@@ -219,17 +219,34 @@ extension CodeGen {
         if buildStep.contains(.build) {
             // MARK: Build library
             for platform in platforms {
+                let libs = [config.module] + config.requiredModules
                 switch platform {
                 case .wasm:
-                    try platform.swiftBuild(configuration: configuration).run()
+                    try platform.build(configuration: configuration)
                 case .node:
-                    try platform.swiftBuild("--product", "\(config.module)-node", configuration: configuration).run()
+                    try platform.build(
+                        product: "\(config.module)-node",
+                        libs: libs.flatMap { [$0, "\($0)-node"] } + ["FishyJoesNodeRuntime"],
+                        configuration: configuration
+                    )
                 case .kotlinSystem, .kotlinAndroid:
-                    try platform.swiftBuild("--product", "\(config.module)-java", configuration: configuration).run()
+                    try platform.build(
+                        product: "\(config.module)-java",
+                        libs: libs.flatMap { [$0, "\($0)-java"] } + ["FishyJoesJavaRuntime"],
+                        configuration: configuration
+                    )
                 case .cpp:
-                    try platform.swiftBuild("--product", "\(config.module)-cpp", configuration: configuration).run()
+                    try platform.build(
+                        product: "\(config.module)-cpp",
+                        libs: libs.flatMap { [$0, "\($0)-cpp"] },
+                        configuration: configuration
+                    )
                 case .cSharp:
-                    try platform.swiftBuild("--product", "\(config.module)-c-sharp", configuration: configuration).run()
+                    try platform.build(
+                        product: "\(config.module)-c-sharp",
+                        libs: libs.flatMap { [$0, "\($0)-c-sharp"] } + ["FishyJoesCSharpRuntime"],
+                        configuration: configuration
+                    )
                 }
             }
 
@@ -241,6 +258,14 @@ extension CodeGen {
 
             for platform in platforms {
                 let outputDir = platform.outputDir(config)
+
+                func installLibrary(_ name: String, installName: String? = nil) throws {
+                    let src = "\(try platform.buildDir(configuration))/lib\(name).\(dylibExt)"
+                    let installName = installName ?? "lib\(name).\(dylibExt)"
+                    let dest = "\(outputDir)/\(installName)"
+                    try cmd("cp", src, dest).run()
+                }
+
                 switch platform {
                 case .wasm:
                     if wasmOpt, cmd("wasm-opt", "--version").runBool() {
@@ -314,16 +339,17 @@ extension CodeGen {
                     }
 
                 case .node:
-                    try cmd("cp", "\(platform.buildDir(configuration))/libFishyJoesNodeRuntime.\(dylibExt)", "\(outputDir)/").run()
+                    try installLibrary("FishyJoesNodeRuntime")
                     for dependency in config.requiredModules + [config.module] {
-                        try cmd("cp", "\(platform.buildDir(configuration))/lib\(dependency).\(dylibExt)", "\(outputDir)/").run()
+                        try installLibrary(dependency)
 
                         // For node to load a library correctly, the file must be ".cjs.node" and not a symlink
                         // But for the linker to find required libraries, they need their original names.
                         // So we symlink `libModule-node.dylib` -> `module.cjs.node`
                         let compiledLibName = "lib\(dependency)-node.\(dylibExt)"
                         let nodeLibName = "\(dependency).cjs.node"
-                        try cmd("cp", "\(platform.buildDir(configuration))/\(compiledLibName)", "\(outputDir)/\(nodeLibName)").run()
+                        try installLibrary("\(dependency)-node", installName: nodeLibName)
+                        try installLibrary(dependency)
                         try cmd("ln", "-s", nodeLibName, "\(outputDir)/\(compiledLibName)").run()
                     }
                     try cmd(
@@ -340,20 +366,16 @@ extension CodeGen {
                     }
                     moduleDotJS.append("export default \(config.module);")
                     try cmd("echo", moduleDotJS.joined(separator: "\n")).output(overwritingFile: "\(outputDir)/\(config.module).js").run()
-                case .kotlinSystem:
+                case .kotlinSystem, .kotlinAndroid:
                     try cmd("mkdir", "-p", outputDir).run()
-                    try cmd("cp", "\(platform.buildDir(configuration))/lib\(config.module).\(dylibExt)", outputDir).run()
-                    try cmd("cp", "\(platform.buildDir(configuration))/lib\(config.module)-java.\(dylibExt)", outputDir).run()
-                case .kotlinAndroid:
-                    try cmd("mkdir", "-p", outputDir).run()
-                    try cmd("cp", "\(platform.buildDir(configuration))/lib\(config.module).so", outputDir).run()
-                    try cmd("cp", "\(platform.buildDir(configuration))/lib\(config.module)-java.so", outputDir).run()
+                    try installLibrary(config.module)
+                    try installLibrary("\(config.module)-java")
                 case .cpp:
                     try cmd("mkdir", "-p", outputDir).run()
                 case .cSharp:
                     try cmd("mkdir", "-p", outputDir).run()
-                    try cmd("cp", "\(platform.buildDir(configuration))/lib\(config.module).\(dylibExt)", outputDir).run()
-                    try cmd("cp", "\(platform.buildDir(configuration))/lib\(config.module)-c-sharp.\(dylibExt)", outputDir).run()
+                    try installLibrary(config.module)
+                    try installLibrary("\(config.module)-c-sharp")
                 }
             }
             if platforms.contains(.kotlinSystem) {

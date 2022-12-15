@@ -26,6 +26,31 @@ enum Platform: Hashable {
         "-Xswiftc", "-profile-generate",
     ]
 
+    func build(product: String? = nil, libs: [String] = [], configuration: BuildConfiguration) throws {
+        if configuration.fat {
+            guard let product = product else {
+                fatalError("Can't infer products in fat builds")
+            }
+            try cmd("mkdir", "-p", buildDir(configuration)).run()
+            let confName = configuration.debug ? "debug" : "release"
+
+            try swiftBuild("--product", product, "--triple", "arm64-apple-macosx", configuration: configuration).run()
+            try swiftBuild("--product", product, "--triple", "x86_64-apple-macosx", configuration: configuration).run()
+
+            for lib in libs {
+                let libName = "lib\(lib).dylib"
+                try cmd(
+                    "lipo", "-create",
+                    "-output", "\(buildDir(configuration))/\(libName)",
+                    ".build/arm64-apple-macosx/\(confName)/\(libName)",
+                    ".build/x86_64-apple-macosx/\(confName)/\(libName)"
+                ).run()
+            }
+        } else {
+            try swiftBuild(arguments: product.map { ["--product", $0] } ?? [], configuration: configuration).run()
+        }
+    }
+
     func swiftBuild(arguments: [String], configuration: BuildConfiguration) -> Command {
         var args = arguments
         args.append(contentsOf: ["--configuration", configuration.debug ? "debug" : "release"])
@@ -49,9 +74,6 @@ enum Platform: Hashable {
             #if os(macOS)
             path = Platform.nativeMacSwiftBuild
             args.append(contentsOf: ["-Xlinker", "-rpath", "-Xlinker", "@loader_path"])
-            if configuration.fat {
-                args.append(contentsOf: ["--arch", "arm64", "--arch", "x86_64"])
-            }
             #elseif os(Linux)
             path = "swift"
             args = ["build"] + args
@@ -179,8 +201,12 @@ enum Platform: Hashable {
         }
     }
 
-    func buildDir(_ config: BuildConfiguration) throws -> String {
-        try swiftBuild("--show-bin-path", configuration: config).runString()
+    func buildDir(_ configuration: BuildConfiguration) throws -> String {
+        if configuration.fat {
+            return ".build/apple/\(configuration.debug ? "debug" : "release")"
+        } else {
+            return try swiftBuild("--show-bin-path", configuration: configuration).runString()
+        }
     }
 
     var isTs: Bool {
