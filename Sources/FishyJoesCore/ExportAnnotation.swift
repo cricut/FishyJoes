@@ -97,7 +97,7 @@ extension ExportAnnotation.SimpleParse.Reader {
 
     mutating func parseMultiple() -> [ExportAnnotation.SimpleParse]? {
         func isIdentifierCharacter(_ character: Character) -> Bool {
-            character.isLetter || character.isNumber || character == "."
+            character.isLetter || character.isNumber || character == "." || character == "_"
         }
 
         var result: [ExportAnnotation.SimpleParse] = []
