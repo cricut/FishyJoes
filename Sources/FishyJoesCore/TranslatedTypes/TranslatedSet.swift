@@ -20,7 +20,7 @@ struct TranslatedSet: TranslatedType {
         self.sourceType = .generic(base: "Set", args: [element.sourceType])
         self.converterType = .generic(base: "SetConverter", args: [element.converterType])
         self.nodeName = "Set<\(element.nodeName)>"
-        self.kotlinName = "Set<\(element.kotlinName)>"
+        self.kotlinName = "Set<\(element.kotlinPackageQualifiedName)>"
         self.cppName = "std::unordered_set<\(element.cppName)>"
         self.neutralName = "Set<K=\(element.neutralName)>"
         self.containedNamedTypes = element.containedNamedTypes
