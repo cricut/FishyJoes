@@ -18,7 +18,7 @@ struct TranslatedResult: TranslatedType {
         self.nodeName = "TODO"
         self.neutralName = "Result<success=\(success.neutralName), failure=\(failure.neutralName)>"
         self.containedNamedTypes = [success, failure]
-        self.kotlinName = "TypedResult<\(success.kotlinName), \(failure.kotlinName)>"
+        self.kotlinName = "TypedResult<\(success.kotlinPackageQualifiedName), \(failure.kotlinPackageQualifiedName)>"
     }
 
     var sourceType: BetterType {

@@ -21,7 +21,7 @@ struct TranslatedArray: TranslatedType {
         self.sourceType = .array(element.sourceType)
         self.converterType = .generic(base: "ArrayConverter", args: [element.converterType])
         self.nodeName = "\(element.nodeName)[]"
-        self.kotlinName = "List<\(element.kotlinName)>"
+        self.kotlinName = "List<\(element.kotlinPackageQualifiedName)>"
         self.cppName = "std::vector<\(element.cppName)>"
         self.neutralName = "List<V=\(element.neutralName)>"
         self.containedNamedTypes = element.containedNamedTypes
