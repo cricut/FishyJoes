@@ -1397,6 +1397,19 @@
               },
               {
                 "documentation" : [
+                  "<!-- FishyJoes.export(arrayOfBigTuples) -->"
+                ],
+                "isStatic" : true,
+                "name" : "arrayOfBigTuples",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "[number, number, number, bigint][]"
+                  }
+                }
+              },
+              {
+                "documentation" : [
                   "<!-- FishyJoes.export(maybeArrayOfInt) -->"
                 ],
                 "isStatic" : true,

@@ -54,6 +54,20 @@ namespace Cricut.TestAPI {
         private static extern CreatedRef __cs_get_Collections_DictionaryOfIntToInt(out CreatedRef exn);
 
         /// <summary>
+        /// <!-- FishyJoes.export(arrayOfBigTuples) -->
+        /// </summary>
+        public static System.Collections.Generic.IList<System.Tuple<sbyte, short, int, long>> ArrayOfBigTuples {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __cs_get_Collections_ArrayOfBigTuples(out exn).Consume<System.Collections.Generic.IList<System.Tuple<sbyte, short, int, long>>>()
+                );
+            }
+        }
+
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __cs_get_Collections_ArrayOfBigTuples(out CreatedRef exn);
+
+        /// <summary>
         /// <!-- FishyJoes.export(maybeArrayOfInt) -->
         /// </summary>
         public static System.Collections.Generic.IList<nint>? MaybeArrayOfInt {
