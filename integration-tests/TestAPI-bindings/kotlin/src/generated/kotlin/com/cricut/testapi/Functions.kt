@@ -45,29 +45,29 @@ sealed class Functions {
         /**
          * <!-- FishyJoes.export(makeList) -->
          */
-        val makeList: ((String, String, String, String) -> List<String>)
+        val makeList: ((kotlin.String, kotlin.String, kotlin.String, kotlin.String) -> kotlin.collections.List<kotlin.String>)
           get() = __jni_get_makeList()
         @JvmStatic
         @JvmName("__jni_get_makeList")
-        private external fun __jni_get_makeList(): ((String, String, String, String) -> List<String>)
+        private external fun __jni_get_makeList(): ((kotlin.String, kotlin.String, kotlin.String, kotlin.String) -> kotlin.collections.List<kotlin.String>)
 
         /**
          * <!-- FishyJoes.export(fifthThing) -->
          */
-        val fifthThing: ((String, Long, Double, String, (() -> Long)) -> (() -> Long))
+        val fifthThing: ((kotlin.String, Long, Double, kotlin.String, (() -> Long)) -> (() -> Long))
           get() = __jni_get_fifthThing()
         @JvmStatic
         @JvmName("__jni_get_fifthThing")
-        private external fun __jni_get_fifthThing(): ((String, Long, Double, String, (() -> Long)) -> (() -> Long))
+        private external fun __jni_get_fifthThing(): ((kotlin.String, Long, Double, kotlin.String, (() -> Long)) -> (() -> Long))
 
         /**
          * <!-- FishyJoes.export(sixthThing) -->
          */
-        val sixthThing: ((String, Long, Double, String, (() -> Long), Long) -> Long)
+        val sixthThing: ((kotlin.String, Long, Double, kotlin.String, (() -> Long), Long) -> Long)
           get() = __jni_get_sixthThing()
         @JvmStatic
         @JvmName("__jni_get_sixthThing")
-        private external fun __jni_get_sixthThing(): ((String, Long, Double, String, (() -> Long), Long) -> Long)
+        private external fun __jni_get_sixthThing(): ((kotlin.String, Long, Double, kotlin.String, (() -> Long), Long) -> Long)
 
         /**
          * <!-- FishyJoes.export(exercise0) -->
@@ -121,36 +121,36 @@ sealed class Functions {
          * <!-- FishyJoes.export(exercise4) -->
          */
         fun exercise4(
-            fn: ((String, String, String, String) -> List<String>)
+            fn: ((kotlin.String, kotlin.String, kotlin.String, kotlin.String) -> kotlin.collections.List<kotlin.String>)
         ): kotlin.String = __jni_exercise4(fn)
         @JvmStatic
         @JvmName("__jni_exercise4")
         private external fun __jni_exercise4(
-            fn: ((String, String, String, String) -> List<String>)
+            fn: ((kotlin.String, kotlin.String, kotlin.String, kotlin.String) -> kotlin.collections.List<kotlin.String>)
         ): kotlin.String
 
         /**
          * <!-- FishyJoes.export(exercise5) -->
          */
         fun exercise5(
-            fn: ((String, Long, Double, String, (() -> Long)) -> (() -> Long))
+            fn: ((kotlin.String, Long, Double, kotlin.String, (() -> Long)) -> (() -> Long))
         ): kotlin.String = __jni_exercise5(fn)
         @JvmStatic
         @JvmName("__jni_exercise5")
         private external fun __jni_exercise5(
-            fn: ((String, Long, Double, String, (() -> Long)) -> (() -> Long))
+            fn: ((kotlin.String, Long, Double, kotlin.String, (() -> Long)) -> (() -> Long))
         ): kotlin.String
 
         /**
          * <!-- FishyJoes.export(exercise6) -->
          */
         fun exercise6(
-            fn: ((String, Long, Double, String, (() -> Long), Long) -> Long)
+            fn: ((kotlin.String, Long, Double, kotlin.String, (() -> Long), Long) -> Long)
         ): kotlin.String = __jni_exercise6(fn)
         @JvmStatic
         @JvmName("__jni_exercise6")
         private external fun __jni_exercise6(
-            fn: ((String, Long, Double, String, (() -> Long), Long) -> Long)
+            fn: ((kotlin.String, Long, Double, kotlin.String, (() -> Long), Long) -> Long)
         ): kotlin.String
 
         /**

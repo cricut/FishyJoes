@@ -117,6 +117,11 @@ export declare namespace TestAPI {
         }
 
         /**
+         * <!-- FishyJoes.export(arrayOfBigTuples) -->
+         */
+        const arrayOfBigTuples: [number, number, number, bigint][];
+
+        /**
          * <!-- FishyJoes.export(arrayOfInt) -->
          */
         const arrayOfInt: number[];

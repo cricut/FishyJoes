@@ -128,6 +128,9 @@ namespace TestAPI {
         /// <!-- FishyJoes.export(dictionaryOfIntToInt) -->
         static std::unordered_map<int, int> getDictionaryOfIntToInt();
         
+        /// <!-- FishyJoes.export(arrayOfBigTuples) -->
+        static std::vector<std::tuple<int8_t, int16_t, int32_t, int64_t>> getArrayOfBigTuples();
+        
         /// <!-- FishyJoes.export(maybeArrayOfInt) -->
         static std::optional<std::vector<int>> getMaybeArrayOfInt();
         

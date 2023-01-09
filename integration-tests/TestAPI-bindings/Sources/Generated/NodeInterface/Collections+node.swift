@@ -152,6 +152,17 @@ extension Collections: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
+                "arrayOfBigTuples": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "arrayOfBigTuples", expectedArgumentCount: 0) { env in
+                                try ArrayConverter<Tuple4Converter<Int8, Int16, Int32, Int64>>.toNode(Collections.arrayOfBigTuples, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: true
+                ),
                 "maybeArrayOfInt": (
                     .accessor(
                         getter: { env, info in

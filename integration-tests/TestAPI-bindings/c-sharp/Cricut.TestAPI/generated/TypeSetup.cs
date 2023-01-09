@@ -399,6 +399,13 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
+            Once("setup_Tuple4Converter<Int8, Int16, Int32, Int64>", () => {
+                Console.WriteLine("setting up (Int8, Int16, Int32, Int64)...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_Tuple4Converter_setup<sbyte, short, int, long>(
+                    "Tuple4Converter<Int8, Int16, Int32, Int64>",
+                    out exn
+                ));
+            });
             Once("setup_Function1Converter<OptionalConverter<ArrayConverter<OptionalConverter<Int>>>, OptionalConverter<ArrayConverter<OptionalConverter<Int>>>>", () => {
                 Console.WriteLine("setting up (Optional<Array<Optional<Int>>>) -> Optional<Array<Optional<Int>>>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_Function1Converter_setup<System.Collections.Generic.IList<nint?>?, System.Collections.Generic.IList<nint?>?>(
@@ -452,6 +459,13 @@ namespace Cricut.TestAPI {
                 Console.WriteLine("setting up (String, UInt8, ((Int, String), (String, Double, String), String, Bool), (String, Double, String), (Int, String))...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_Tuple5Converter_setup<string, byte, System.Tuple<System.Tuple<nint, string>, System.Tuple<string, double, string>, string, bool>, System.Tuple<string, double, string>, System.Tuple<nint, string>>(
                     "Tuple5Converter<Swift.String, UInt8, Tuple4Converter<Tuple2Converter<Int, Swift.String>, Tuple3Converter<Swift.String, Double, Swift.String>, Swift.String, Bool>, Tuple3Converter<Swift.String, Double, Swift.String>, Tuple2Converter<Int, Swift.String>>",
+                    out exn
+                ));
+            });
+            Once("setup_ArrayConverter<Tuple4Converter<Int8, Int16, Int32, Int64>>", () => {
+                Console.WriteLine("setting up Array<(Int8, Int16, Int32, Int64)>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_ArrayConverter_setup<System.Tuple<sbyte, short, int, long>>(
+                    "ArrayConverter<Tuple4Converter<Int8, Int16, Int32, Int64>>",
                     out exn
                 ));
             });
