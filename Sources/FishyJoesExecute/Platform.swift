@@ -27,7 +27,15 @@ enum Platform: Hashable {
     ]
 
     func build(product: String? = nil, libs: [String] = [], configuration: BuildConfiguration) throws {
-        if configuration.fat {
+        let isNative: Bool
+        switch self {
+        case .wasm, .kotlinAndroid:
+            isNative = false
+        case .node, .cpp, .kotlinSystem, .cSharp:
+            isNative = true
+        }
+
+        if isNative, configuration.fat {
             guard let product = product else {
                 fatalError("Can't infer products in fat builds")
             }
