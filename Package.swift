@@ -65,7 +65,6 @@ let package = Package(
     targets: [
         T.systemLibrary(name: "NodeAPI"),
         T.systemLibrary(name: "JNI"),
-        T.target(name: "DartAPI"),
         T.target(name: "FishyJoesCommonRuntime"),
         T.target(
             name: "FishyJoesJavaRuntime",

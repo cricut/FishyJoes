@@ -33,7 +33,7 @@ public func FishyJoesRuntime_Function0Converter_setup(
         guard let typeID = Env.typeIDsByName[name],
               let identifier = Env.typeIDsByID[typeID]
         else {
-            fatalError("unregistered typeID \(name)")
+            fatalError("unregistered typeID '\(name)'")
         }
         SwiftFunctionImpl.constructors[identifier] = constructor
         SwiftFunctionImpl.invoke0s[identifier] = invoke
@@ -52,7 +52,7 @@ public func FishyJoesRuntime_Function1Converter_setup(
         guard let typeID = Env.typeIDsByName[name],
               let identifier = Env.typeIDsByID[typeID]
         else {
-            fatalError("unregistered typeID \(name)")
+            fatalError("unregistered typeID '\(name)'")
         }
         SwiftFunctionImpl.constructors[identifier] = constructor
         SwiftFunctionImpl.invoke1s[identifier] = invoke
@@ -66,12 +66,14 @@ public func FishyJoesRuntime_Function2Converter_setup(
     invoke: @escaping SwiftFunctionImpl.Invoke2,
     exn: csOutExn
 ) {
+    print("In FishyJoesRuntime_Function2Converter_setup")
     Env.catching(to: exn) {
         let name = String(decodingCString: name, as: Unicode.UTF16.self)
+        print("name = \(name)")
         guard let typeID = Env.typeIDsByName[name],
               let identifier = Env.typeIDsByID[typeID]
         else {
-            fatalError("unregistered typeID \(name)")
+            fatalError("unregistered typeID '\(name)'")
         }
         SwiftFunctionImpl.constructors[identifier] = constructor
         SwiftFunctionImpl.invoke2s[identifier] = invoke
@@ -90,7 +92,7 @@ public func FishyJoesRuntime_Function3Converter_setup(
         guard let typeID = Env.typeIDsByName[name],
               let identifier = Env.typeIDsByID[typeID]
         else {
-            fatalError("unregistered typeID \(name)")
+            fatalError("unregistered typeID '\(name)'")
         }
         SwiftFunctionImpl.constructors[identifier] = constructor
         SwiftFunctionImpl.invoke3s[identifier] = invoke
@@ -109,7 +111,7 @@ public func FishyJoesRuntime_Function4Converter_setup(
         guard let typeID = Env.typeIDsByName[name],
               let identifier = Env.typeIDsByID[typeID]
         else {
-            fatalError("unregistered typeID \(name)")
+            fatalError("unregistered typeID '\(name)'")
         }
         SwiftFunctionImpl.constructors[identifier] = constructor
         SwiftFunctionImpl.invoke4s[identifier] = invoke
@@ -128,7 +130,7 @@ public func FishyJoesRuntime_Function5Converter_setup(
         guard let typeID = Env.typeIDsByName[name],
               let identifier = Env.typeIDsByID[typeID]
         else {
-            fatalError("unregistered typeID \(name)")
+            fatalError("unregistered typeID '\(name)'")
         }
         SwiftFunctionImpl.constructors[identifier] = constructor
         SwiftFunctionImpl.invoke5s[identifier] = invoke
@@ -147,7 +149,7 @@ public func FishyJoesRuntime_Function6Converter_setup(
         guard let typeID = Env.typeIDsByName[name],
               let identifier = Env.typeIDsByID[typeID]
         else {
-            fatalError("unregistered typeID \(name)")
+            fatalError("unregistered typeID '\(name)'")
         }
         SwiftFunctionImpl.constructors[identifier] = constructor
         SwiftFunctionImpl.invoke6s[identifier] = invoke

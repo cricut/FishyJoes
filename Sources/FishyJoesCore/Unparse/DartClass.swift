@@ -1,6 +1,7 @@
 class DartClass: NestedClass {
     enum DartType: Equatable, Codable {
         case void
+        case utf16Pointer
         case primitive(String)
         case named(package: String?, name: String)
         indirect case function(args: [DartType], return: DartType)
@@ -246,11 +247,21 @@ extension DartClass.DartType: CustomStringConvertible {
     var name: String {
         switch self {
         case .void: return "void"
+        case .utf16Pointer: return "ffi.Pointer<package_ffi.Utf16>"
         case let .named(.none, name): return name
         case let .named(.some(package), name): return "\(package).\(name)"
         case let .primitive(name): return name
         case let .function(args, returnType): return "(\(returnType.name) Function(\(args.map(\.name).joined(separator: ", "))))"
         case let .optional(wrapped): return "\(wrapped.name)?"
+        }
+    }
+
+    var ffiName: String {
+        switch self {
+        case .void: return "ffi.Void"
+        case .utf16Pointer: return "ffi.Pointer<package_ffi.Utf16>"
+        case let .primitive(name): return "ffi.\(name)"
+        default: return "ffi.Pointer"
         }
     }
 

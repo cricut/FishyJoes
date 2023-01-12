@@ -65,12 +65,20 @@ struct TranslatedTuple: TranslatedType {
 
     var isInhabited: Bool { elements.allSatisfy(\.type.isInhabited) }
 
-    func cSharpSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter] {
+    func cSharpSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<String>] {
         elements.map { ForeignSetupParameter.type(typeValue: $0.type.cSharpType.name) } + [
             .value(
                 name: "typeName",
                 type: "string"
             ) { fragment in
+                fragment.output("\"\(converterType.name)\",")
+            },
+        ]
+    }
+
+    func dartSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<DartClass.DartType>] {
+        return  [
+            .value(name: "typeName", type: .primitive("String")) { fragment in
                 fragment.output("\"\(converterType.name)\",")
             },
         ]

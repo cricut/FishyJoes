@@ -48,7 +48,7 @@ struct TranslatedFunction: TranslatedType {
         )
     }
 
-    func cSharpSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter] {
+    func cSharpSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<String>] {
         return (
             returnType.sourceType == .void ? [] : [
                 .type(typeValue: returnType.cSharpType.name),
@@ -57,6 +57,14 @@ struct TranslatedFunction: TranslatedType {
             .type(typeValue: param.cSharpType.name)
         } + [
             .value(name: "typeName", type: "string") { fragment in
+                fragment.output("\"\(converterType.name)\",")
+            },
+        ]
+    }
+
+    func dartSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<DartClass.DartType>] {
+        return  [
+            .value(name: "typeName", type: .primitive("String")) { fragment in
                 fragment.output("\"\(converterType.name)\",")
             },
         ]

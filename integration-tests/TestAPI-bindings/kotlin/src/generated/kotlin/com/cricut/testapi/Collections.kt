@@ -173,13 +173,13 @@ sealed class Collections {
          */
         fun collectionMapper(
             collection: kotlin.collections.List<Long?>?,
-            mapper: ((List<Long?>?) -> List<Long?>?)
+            mapper: ((kotlin.collections.List<Long?>?) -> kotlin.collections.List<Long?>?)
         ): kotlin.collections.List<Long?>? = __jni_collectionMapper(collection, mapper)
         @JvmStatic
         @JvmName("__jni_collectionMapper")
         private external fun __jni_collectionMapper(
             collection: kotlin.collections.List<Long?>?,
-            mapper: ((List<Long?>?) -> List<Long?>?)
+            mapper: ((kotlin.collections.List<Long?>?) -> kotlin.collections.List<Long?>?)
         ): kotlin.collections.List<Long?>?
 
         init { loadNativeLibs() }
@@ -195,9 +195,9 @@ sealed class Collections {
         var integerArray: kotlin.collections.List<Long>,
         var integerSet: kotlin.collections.Set<Long>,
         var integerDictionary: kotlin.collections.Map<Long, Long>,
-        var stringArray: kotlin.collections.List<String>,
-        var stringSet: kotlin.collections.Set<String>,
-        var stringDictionary: kotlin.collections.Map<String, String>
+        var stringArray: kotlin.collections.List<kotlin.String>,
+        var stringSet: kotlin.collections.Set<kotlin.String>,
+        var stringDictionary: kotlin.collections.Map<kotlin.String, kotlin.String>
     )
      {
 

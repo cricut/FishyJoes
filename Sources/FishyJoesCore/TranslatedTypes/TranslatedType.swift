@@ -14,9 +14,9 @@ protocol TranslatedType {
     var dartType: DartClass.DartType { get }
     var definingModule: Module { get }
     var isInhabited: Bool { get }
-    func cSharpSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter]
+    func cSharpSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<String>]
     func cSharpSetupDelegates(in context: FishyJoesContext) -> [String]
-    func dartSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter]
+    func dartSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<DartClass.DartType>]
     func dartSetupDelegates(in context: FishyJoesContext) -> [String]
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment]
 }
@@ -74,9 +74,9 @@ extension TranslatedType {
     }
 
     func cSharpSetupDelegates(in context: FishyJoesContext) -> [String] { [] }
-    func cSharpSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter] { [] }
+    func cSharpSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<String>] { [] }
     func dartSetupDelegates(in context: FishyJoesContext) -> [String] { [] }
-    func dartSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter] { [] }
+    func dartSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<DartClass.DartType>] { [] }
 
     var iotaSetupName: String {
         "\(definingModule)_\(converterType.genericBaseName.mangledName)_setup"
@@ -133,9 +133,9 @@ extension JNIType {
     }
 }
 
-enum ForeignSetupParameter {
+enum ForeignSetupParameter<T> {
     case type(typeValue: String)
-    case value(name: String, type: String, valueWriter: (SourceFragment) -> Void)
+    case value(name: String, type: T, valueWriter: (SourceFragment) -> Void)
 
     var name: String? {
         switch self {
@@ -146,7 +146,7 @@ enum ForeignSetupParameter {
         }
     }
 
-    var type: String? {
+    var type: T? {
         switch self {
         case .type:
             return nil

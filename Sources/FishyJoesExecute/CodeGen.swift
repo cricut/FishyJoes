@@ -342,17 +342,25 @@ extension CodeGen {
                     try cmd("cp", platform.dylibPath(for: config.module + "-iota", configuration: configuration), outputDir).run()
                 case .dartSystem:
                     try cmd("mkdir", "-p", outputDir).run()
-                    try cmd("cp", platform.dylibPath(for: config.module, configuration: configuration), outputDir).run()
-                    try cmd("cp", platform.dylibPath(for: config.module + "-iota", configuration: configuration), outputDir).run()
+                    let libs = [
+                        "FishyJoesIotaRuntime",
+                        config.module,
+                        config.module + "-iota",
+                    ]
+                    for lib in libs {
+                        let libPath = platform.dylibPath(for: lib, configuration: configuration)
+                        try cmd("cp", libPath, outputDir).run()
+                        try cmd("codesign", "-s", "i-hate-apple-security", "\(outputDir)/\(platform.dylibName(for: lib))").run()
+                    }
                 }
             }
             if platforms.contains(.kotlinSystem) {
-                try FileManager.default.withCurrentDirectoryPath("kotlin") {
+                try withDirectory("kotlin") {
                     try cmd("./gradlew", "build", "-Dskip.tests").run()
                 }
             }
             if platforms.contains(.cSharp) {
-                try FileManager.default.withCurrentDirectoryPath("c-sharp") {
+                try withDirectory("c-sharp") {
                     try cmd("dotnet", "build", "Cricut.\(config.module).sln").run()
                 }
             }
@@ -405,13 +413,13 @@ extension CodeGen {
                 } ?? [:]
                 switch platform {
                 case .wasm, .node:
-                    try FileManager.default.withCurrentDirectoryPath("node-test") {
+                    try withDirectory("node-test") {
                         try cmd("npm", "install").run()
                         try cmd("npm", "run", "clear-cache").run()
                         try cmd("npm", "run", "test-\(platform.platform)").run()
                     }
                 case .kotlinSystem:
-                    try FileManager.default.withCurrentDirectoryPath("kotlin") {
+                    try withDirectory("kotlin") {
                         let tasks = ["cleanTest", "test"] + (codeCoveragePath == nil ? [] : ["jacocoTestReport"])
                         try cmd("./gradlew", arguments: tasks, addEnv: env).run()
                     }
@@ -419,8 +427,8 @@ extension CodeGen {
                     // TODO
                     break
                 case .dartSystem:
-                    try FileManager.default.withCurrentDirectoryPath("dart") {
-                        try cmd("dart", "test", addEnv: env).run()
+                    try withDirectory("dart") {
+                        try cmd("dart", "test", "--chain-stack-traces", addEnv: env).run()
                     }
                 case .cSharp:
                     if !cmd("dotnet-coverage", "--version").runBool() {
@@ -430,7 +438,7 @@ extension CodeGen {
                         print()
                         print("and ensure that $HOME/.dotnet/tools is in your path")
                     }
-                    try FileManager.default.withCurrentDirectoryPath("c-sharp") {
+                    try withDirectory("c-sharp") {
                         var commandParts = ["dotnet", "test", "Cricut.\(config.module).sln"]
                         if let path = codeCoveragePath {
                             commandParts = ["dotnet-coverage", "collect", "-f", "xml", "-o", "\(path)/integration-tests-c-sharp.xml"] + commandParts
@@ -452,6 +460,18 @@ extension CodeGen {
                     try cmd("cp", "c-sharp/\(name)/bin/Release/\(name).\(version).nupkg", ".").run()
                 }
             }
+        }
+    }
+
+    func withDirectory<R>(_ dirName: String, body: () throws -> R) throws -> R {
+        func printDir() {
+            print("Entering directory `\(FileManager.default.currentDirectoryPath)'")
+            fflush(stdout)
+        }
+        defer { printDir() }
+        return try FileManager.default.withCurrentDirectoryPath(dirName) {
+            printDir()
+            return try body()
         }
     }
 }

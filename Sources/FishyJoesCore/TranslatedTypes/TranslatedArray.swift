@@ -29,10 +29,18 @@ struct TranslatedArray: TranslatedType {
         self.dartType = .named(package: nil, name: "List<\(element.dartType.name)>")
     }
 
-    func cSharpSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter] {
+    func cSharpSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<String>] {
         [
             .type(typeValue: elementType.cSharpType.name),
             .value(name: "typeName", type: "string") { fragment in
+                fragment.output("\"\(converterType.name)\",")
+            },
+        ]
+    }
+
+    func dartSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<DartClass.DartType>] {
+        return  [
+            .value(name: "typeName", type: .primitive("String")) { fragment in
                 fragment.output("\"\(converterType.name)\",")
             },
         ]

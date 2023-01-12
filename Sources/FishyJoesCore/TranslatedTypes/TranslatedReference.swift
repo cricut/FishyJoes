@@ -352,7 +352,7 @@ struct TranslatedReference: TranslatedType {
         return fragment
     }
 
-    func cSharpSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter] {
+    func cSharpSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<String>] {
         [
             .value(
                 name: "constructorMethod",

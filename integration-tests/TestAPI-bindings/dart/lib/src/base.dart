@@ -1,13 +1,14 @@
 import 'dart:ffi' as ffi;
+import 'dart:io' show Platform, Directory;
+import 'package:path/path.dart' as path;
+import 'generated/type_setup.dart' show ensureLoaded;
 
 typedef NativeBinaryOp = ffi.Int32 Function(ffi.Int32, ffi.Int32);
 typedef BinaryOp = int Function(int, int);
 
 class Simple {
   static String get platformVersion {
-    final ex = ffi.DynamicLibrary.executable();
-    final nativeSum = ex.lookupFunction<NativeBinaryOp, BinaryOp>("nativeSum");
-    final result = nativeSum(31, 63);
-    return result.toString();
+    ensureLoaded;
+    return "42";
   }
 }

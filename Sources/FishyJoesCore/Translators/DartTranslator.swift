@@ -161,7 +161,6 @@
 //     }
 
 //     func setupFragments(context: FishyJoesContext, generatedTypes: Set<BetterType>) -> [SourceFragment] {
-//         let dartFragment = SourceFragment(sourceryDestination: "file:../../dart/generated/type_setup.dart")
 
 //         dartFragment.output("import 'dart:ffi' as ffi;")
 //         dartFragment.output("import 'dart:io' show Platform, Directory;")
@@ -369,100 +368,69 @@ final class DartTranslator: Translator {
 
     func setupFragments(context: FishyJoesContext, generatedTypes: Set<BetterType>) -> [SourceFragment] {
         let generatedTypes = generatedTypes.sorted { $0.name < $1.name }
-        let fragment = SourceFragment(sourceryDestination: "file:../../dart/generated/type_setup.dart")
-        fragment.output("using static Cricut.FishyJoesRuntime.Loader;")
+        let fragment = SourceFragment(sourceryDestination: "file:../../dart/lib/src/generated/type_setup.dart")
+
+        fragment.output("import 'dart:ffi' as ffi;")
+        fragment.output("import 'package:ffi/ffi.dart' as package_ffi;")
+        fragment.output("import 'dart:io' show Platform, Directory;")
+        fragment.output("import 'package:path/path.dart' as path;")
+        fragment.output("import 'package:dart_runtime/runtime.dart';")
+        fragment.output("import 'package:dart_runtime/utilities.dart' as utils;")
         fragment.blankLine()
 
         let moduleRegisterTypesFn = context.iotaTranslator.moduleRegisterTypesFn(context: context)
 
-        fragment.outputBlock("namespace Cricut.\(context.module.name) {") {
-            fragment.outputBlock("public class _TypeSetup {") {
-                fragment.output(context.module.dllImportMark)
-                fragment.output("static extern void \(moduleRegisterTypesFn)();")
-                fragment.blankLine()
+        var initializerWriters: [() -> Void] = []
+        for type in generatedTypes {
+            let resolved = context.resolve(type: type)
 
-                var initializerWriters: [() -> Void] = []
-                for type in generatedTypes {
-                    let resolved = context.resolve(type: type)
+            let setupParams = resolved.dartSetupParameters(in: context)
+            let setupDelegates = resolved.dartSetupDelegates(in: context)
 
-                    let setupParams = resolved.dartSetupParameters(in: context)
-                    let setupDelegates = resolved.dartSetupDelegates(in: context)
+            setupDelegates.forEach { fragment.output($0) }
 
-                    setupDelegates.forEach { fragment.output($0) }
+            if resolved.definingModule == context.module {
+                precondition(!setupParams.contains(where: \.isTypeParameter), "unexpected type parameter in \(type.name)")
+                // TODO
+            } else if !type.isGeneric {
+                // non-generic types are sufficiently set up by defining module
+                continue
+            }
 
-                    if resolved.definingModule == context.module {
-                        precondition(!setupParams.contains(where: \.isTypeParameter), "unexpected type parameter in \(type.name)")
-                        fragment.output(resolved.definingModule.dllImportMark)
-                        fragment.outputBlock("static extern void \(resolved.iotaSetupName)(", closeWith: ");") {
+            initializerWriters.append {
+                fragment.outputBlock("Loader.shared.once(\"setup_\(resolved.converterType.name)\", () {", closeWith: "});") {
+                    fragment.output("print(\"setting up \(type.name)...\");")
+
+                    fragment.outputBlock("utils.check<void>((exn) {", closeWith: "});") {
+                        fragment.outputBlock("Loader.shared.\(resolved.iotaSetupName)(", closeWith: ");") {
                             for param in setupParams {
-                                fragment.output("\(param.type!) \(param.name!),")
+                                param.valueWriter(fragment)
                             }
-                            fragment.output("out CreatedRef _exn")
-                        }
-                        fragment.blankLine()
-                    } else if !type.isGeneric {
-                        // non-generic types are sufficiently set up by defining module
-                        continue
-                    }
-
-                    initializerWriters.append {
-                        fragment.outputBlock("Once(\"setup_\(resolved.converterType.name)\", () => {", closeWith: "});") {
-                            fragment.output("Console.WriteLine(\"setting up \(type.name)...\");")
-
-                            var typeArgStr = ""
-                            if case let typeArguments = setupParams.compactMap(\.typeValue), !typeArguments.isEmpty {
-                                typeArgStr = "<\(typeArguments.joined(separator: ", "))>"
-                            }
-
-                            fragment.outputBlock("Utilities.Check((out CreatedRef exn) => \(resolved.iotaSetupName)\(typeArgStr)(", closeWith: "));") {
-                                for param in setupParams {
-                                    param.valueWriter(fragment)
-                                }
-                                fragment.output("out exn")
-                            }
+                            fragment.output("exn")
                         }
                     }
                 }
+            }
+        }
 
-                fragment.output("public static void _ensureLoaded() {}")
+        fragment.outputBlock("final ensureLoaded = (() {", closeWith: "})();") {
+            fragment.output("final libraryPath = path.join(Directory.current.path, 'native', 'lib\(context.module)-iota.dylib');")
+            fragment.output("final dylib = ffi.DynamicLibrary.open(libraryPath);")
+            fragment.output("final arena = package_ffi.Arena();")
+
+            fragment.blankLine()
+            fragment.output("dylib.lookupFunction<ffi.Void Function(), void Function()>('\(moduleRegisterTypesFn)')();")
+
+            fragment.blankLine()
+            for writer in initializerWriters {
+                writer()
                 fragment.blankLine()
-
-                fragment.outputBlock("static _TypeSetup() {") {
-                    fragment.output("// There's no explicit way to call the static constructor, so do this instead")
-                    fragment.output("FishyJoesRuntime.Loader.ensureLoaded();")
-                    for dependency in context.module.dependencies {
-                        fragment.output("\(dependency)._ensureLoaded();")
-                    }
-                    fragment.output("\(moduleRegisterTypesFn)();")
-
-                    fragment.blankLine()
-                    for writer in initializerWriters {
-                        writer()
-                    }
-                }
             }
+
+            fragment.output("arena.releaseAll();")
         }
 
-        let swiftSetupFragment = context.swiftFragment(
-            "DartInterface/TypeSetup.swift",
-            additionalImports: ["Foundation", "FishyJoesDartRuntime"]
-        )
-
-        swiftSetupFragment.output("@_cdecl(\"\(moduleRegisterTypesFn)\")")
-        swiftSetupFragment.outputBlock("public func \(moduleRegisterTypesFn)() {") {
-            for type in generatedTypes {
-                let resolved = context.resolve(type: type)
-                swiftSetupFragment.output("Env.registerType(\(resolved.converterType.name).self, as: \"\(resolved.converterType.name)\")")
-            }
-        }
-
-        let exportFragment = SourceFragment(sourceryDestination: "file:DartInterface/@_exported.swift")
-        exportFragment.output("@_exported import \(context.module.name)")
-        for dependency in context.module.dependencies {
-            exportFragment.output("@_exported import \(dependency)_DartInterface")
-        }
-
-        return [fragment, swiftSetupFragment, exportFragment]
+        return [fragment]
     }
 
     func dart(method: Method, of type: TranslatedType, context: FishyJoesContext) -> DartClass.MethodOrVariable? {

@@ -170,14 +170,7 @@ enum Platform: Hashable {
             fatalError("unknown host OS")
             #endif
         case .cpp: return "cpp/generated/lib/"
-        case .dartSystem:
-            #if os(macOS)
-            return "dart/generated/binaries/mac"
-            #elseif os(Linux)
-            return "dart/generated/binaries/linux"
-            #else
-            fatalError("unknown host OS")
-            #endif
+        case .dartSystem: return "dart/native"
         }
     }
 

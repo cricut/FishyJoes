@@ -814,8 +814,8 @@ struct TranslatedEnum: TranslatedType {
         return lines
     }
 
-    func cSharpSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter] {
-        var parameters: [ForeignSetupParameter] = []
+    func cSharpSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<String>] {
+        var parameters: [ForeignSetupParameter<String>] = []
         if isInhabited {
             parameters.append(
                 .value(name: "discriminator", type: "FishyJoesRuntime.EnumDiscriminator") { fragment in

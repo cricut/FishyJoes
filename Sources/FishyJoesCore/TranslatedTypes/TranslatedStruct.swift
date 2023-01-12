@@ -337,7 +337,7 @@ struct TranslatedStruct: TranslatedType {
         return lines
     }
 
-    func cSharpSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter] {
+    func cSharpSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<String>] {
         let constructorType = "_\(converterType.genericBaseName.mangledName)Constructor"
         let constructorArgs = storedVariables.map { storedVar in
             let resolved = context.resolve(type: storedVar.typeName.better)
@@ -362,7 +362,7 @@ struct TranslatedStruct: TranslatedType {
                 }
             },
             // ("constructorMethod: @escaping \(converterType.name)._ConstructorMethod,")
-        ] + storedVariables.flatMap { storedVar -> [ForeignSetupParameter] in
+        ] + storedVariables.flatMap { storedVar -> [ForeignSetupParameter<String>] in
             let resolved = context.resolve(type: storedVar.typeName.better)
             let commonName = "_\(converterType.genericBaseName.mangledName)_\(storedVar.name)"
             let getType = "\(commonName)Getter"
