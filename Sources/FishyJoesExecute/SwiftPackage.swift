@@ -54,7 +54,7 @@ extension SwiftPackage.Dependency: Decodable {
         } else {
             var localListContainer = try (try? container.nestedUnkeyedContainer(forKey: .local)) ?? container.nestedUnkeyedContainer(forKey: .fileSystem)
             let localContainer = try localListContainer.nestedContainer(keyedBy: LocalCodingKeys.self)
-            //nameForTargetDependencyResolutionOnly appears to show up when filesystem name doesn't match package name
+            // nameForTargetDependencyResolutionOnly appears to show up when filesystem name doesn't match package name
             let name = try (try? localContainer.decode(String.self, forKey: .nameForTargetDependencyResolutionOnly).lowercased())
                 ?? localContainer.decode(String.self, forKey: .identity)
             self = .local(
