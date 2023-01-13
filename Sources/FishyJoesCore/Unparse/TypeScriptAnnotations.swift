@@ -16,7 +16,7 @@ struct TypeScriptAnnotations: Codable {
 
     struct Method: Codable {
         struct Parameter: Codable {
-            let labelComment: String?
+            let label: String?
             let name: String
             let type: TSType
             let defaultValue: String?
@@ -291,15 +291,14 @@ extension TypeScriptAnnotations {
 
                 for parameter in requiredParams {
                     outputComma()
-                    let labelComment = parameter.labelComment.map { "/* \($0) */ " } ?? ""
+                    let labelComment = parameter.label.map { "/* \($0) */ " } ?? ""
                     fragment.output("\(labelComment)\(parameter.name): \(parameter.type)", newLineTerminated: false)
                 }
                 if !optionalParams.isEmpty {
                     outputComma()
                     fragment.outputBlock("options?: {", newLineTerminated: false) {
                         for parameter in optionalParams {
-                            let labelComment = parameter.labelComment.map { "/* \($0) */ " } ?? ""
-                            fragment.output("\(labelComment)\"\(parameter.name)\"?: \(parameter.type) /* defaults to `\(parameter.defaultValue!)` */,")
+                            fragment.output("\"\(parameter.label ?? parameter.name)\"?: \(parameter.type) /* defaults to `\(parameter.defaultValue!)` */,")
                         }
                     }
                 }
