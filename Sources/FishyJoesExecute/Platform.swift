@@ -42,17 +42,15 @@ enum Platform: Hashable {
         case .kotlinAndroid:
             return "so"
         default:
-            if self  {
-                #if os(macOS)
-                return "dylib"
-                #elseif os(Linux)
-                return "so"
-                #elseif os(Windows)
-                return "dll"
-                #else
-                fatalError("unknown host OS")
-                #endif
-            }
+            #if os(macOS)
+            return "dylib"
+            #elseif os(Linux)
+            return "so"
+            #elseif os(Windows)
+            return "dll"
+            #else
+            fatalError("unknown host OS")
+            #endif
         }
     }
 
