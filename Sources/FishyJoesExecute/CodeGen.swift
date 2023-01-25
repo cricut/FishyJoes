@@ -2,18 +2,6 @@ import ArgumentParser
 import Foundation
 import swsh
 
-let dylibExt: String = {
-    #if os(macOS)
-    "dylib"
-    #elseif os(Linux)
-    "so"
-    #elseif os(Windows)
-    "dll"
-    #else
-    fatalError("unknown host OS")
-    #endif
-}()
-
 public struct CodeGen: ParsableCommand {
     @Flag(name: .shortAndLong, help: "suppress verbose output")
     var quiet = false
@@ -260,8 +248,8 @@ extension CodeGen {
                 let outputDir = platform.outputDir(config)
 
                 func installLibrary(_ name: String, installName: String? = nil) throws {
-                    let src = "\(try platform.buildDir(configuration))/lib\(name).\(dylibExt)"
-                    let installName = installName ?? "lib\(name).\(dylibExt)"
+                    let src = "\(try platform.buildDir(configuration))/lib\(name).\(platform.dylibExt)"
+                    let installName = installName ?? "lib\(name).\(platform.dylibExt)"
                     let dest = "\(outputDir)/\(installName)"
                     try cmd("cp", src, dest).run()
                 }
@@ -346,7 +334,7 @@ extension CodeGen {
                         // For node to load a library correctly, the file must be ".cjs.node" and not a symlink
                         // But for the linker to find required libraries, they need their original names.
                         // So we symlink `libModule-node.dylib` -> `module.cjs.node`
-                        let compiledLibName = "lib\(dependency)-node.\(dylibExt)"
+                        let compiledLibName = "lib\(dependency)-node.\(platform.dylibExt)"
                         let nodeLibName = "\(dependency).cjs.node"
                         try installLibrary("\(dependency)-node", installName: nodeLibName)
                         try installLibrary(dependency)
