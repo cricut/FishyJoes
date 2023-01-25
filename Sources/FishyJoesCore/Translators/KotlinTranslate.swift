@@ -48,7 +48,7 @@ final class KotlinTranslator: Translator {
             jniSignature += resolved.jniType.asSignature
         }
         let returnType = context.resolve(type: method.returnType, generics: exportAnnotation.genericOverrides)
-        let returnSignature = "\(returnType.converterType.name).CType"
+        let returnSignature = method.isAsync ? "Void" : "\(returnType.converterType.name).CType"
         jniSignature = "(\(jniSignature))\(returnType.jniType.asSignature)"
 
         let cMethod = "java_\(containingNamespace)_\(exportAnnotation.name)".replacingOccurrences(of: ".", with: "_")
@@ -60,31 +60,46 @@ final class KotlinTranslator: Translator {
             fragment.outputMap(formals, separator: ",", \.type)
         }
         fragment.outputBlock(" -> \(returnSignature) = { \(formals.map(\.name).joined(separator: ", ")) in", closeWith: "}") {
-            fragment.outputBlock("FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in", closeWith: "}") {
-                let callName = method.sourceKind == .initializer ? "" : ".\(method.callName)"
-
-                // let isMutating = method.isMutating || method.modifiers.contains(where: { $0.name == "mutating" })
-                var mutateBlock: (() -> Void) -> Void = { $0() }
-                if method.isMutating {
-                    fragment.output("var mutatingSelf = try \(selfExpression)")
-                    mutateBlock = { body in
-                        fragment.outputBlock("return try \(containingNamespace).mutateJava(_javaThis, env: _javaEnv) { mutatingSelf in", closeWith: "}") {
-                            body()
-                        }
+            var taskBlock: (() -> Void) -> Void = { $0() }
+            if method.isAsync {
+                taskBlock = { body in
+                    fragment.outputBlock("Task {") {
+                        fragment.output("await ", newLineTerminated: false)
+                        body()
                     }
-                    selfExpression = "mutatingSelf"
                 }
+            }
 
-                mutateBlock {
-                    fragment.outputBlock("return try \(returnType.converterType.name).toJava(") {
-                        fragment.outputBlock("\(selfExpression)\(callName)(", closeWith: "),") {
-                            fragment.outputMap(method.parameters, separator: ",") { formal in
-                                let resolved = context.resolve(type: formal.type, generics: exportAnnotation.genericOverrides)
-                                return (formal.label.map { "\($0): " } ?? "") +
-                                    "try \(resolved.converterType.name).fromJava(\(formal.name), env: _javaEnv)"
+            taskBlock {
+                fragment.outputBlock("FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in", closeWith: "}") {
+                    let callName = method.sourceKind == .initializer ? "" : ".\(method.callName)"
+                    
+                    // let isMutating = method.isMutating || method.modifiers.contains(where: { $0.name == "mutating" })
+                    var mutateBlock: (() -> Void) -> Void = { $0() }
+                    if method.isMutating {
+                        fragment.output("var mutatingSelf = try \(selfExpression)")
+                        mutateBlock = { body in
+                            fragment.outputBlock("return try \(containingNamespace).mutateJava(_javaThis, env: _javaEnv) { mutatingSelf in", closeWith: "}") {
+                                body()
                             }
                         }
-                        fragment.output("env: _javaEnv")
+                        selfExpression = "mutatingSelf"
+                    }
+                    
+                    mutateBlock {
+                        fragment.outputBlock("return try \(returnType.converterType.name).toJava(") {
+                            if method.isAsync {
+                                fragment.output("await ", newLineTerminated: false)
+                            }
+                            fragment.outputBlock("\(selfExpression)\(callName)(", closeWith: "),") {
+                                fragment.outputMap(method.parameters, separator: ",") { formal in
+                                    let resolved = context.resolve(type: formal.type, generics: exportAnnotation.genericOverrides)
+                                    return (formal.label.map { "\($0): " } ?? "") +
+                                    "try \(resolved.converterType.name).fromJava(\(formal.name), env: _javaEnv)"
+                                }
+                            }
+                            fragment.output("env: _javaEnv")
+                        }
                     }
                 }
             }
