@@ -1,5 +1,6 @@
 package com.cricut.testapi
 
+import com.cricut.fishyjoes.runtime.Tuple4
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
@@ -9,6 +10,10 @@ internal class CollectionTests {
         assertEquals(Collections.arrayOfInt, arrayListOf(2L,7L,3L,5L,8L))
         assert(Collections.setOfInt.containsAll(setOf(5L,9L,2L,4L,3L)))
         assertEquals(Collections.dictionaryOfIntToInt, mapOf(1L to 10L,2L to 20L,3L to 30L,4L to 40L,5L to 50L))
+        assertEquals(Collections.arrayOfBigTuples, arrayListOf<Tuple4<Byte, Short, Int, Long>>(
+            Tuple4(1, 2, 3, 4),
+            Tuple4(5, 6, 7, 8)
+        ));
     }
 
     @Test

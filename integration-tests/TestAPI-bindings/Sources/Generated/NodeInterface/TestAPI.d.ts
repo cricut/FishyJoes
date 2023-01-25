@@ -117,6 +117,11 @@ export declare namespace TestAPI {
         }
 
         /**
+         * <!-- FishyJoes.export(arrayOfBigTuples) -->
+         */
+        const arrayOfBigTuples: [number, number, number, bigint][];
+
+        /**
          * <!-- FishyJoes.export(arrayOfInt) -->
          */
         const arrayOfInt: number[];
@@ -226,7 +231,7 @@ export declare namespace TestAPI {
             x: Optional<number>,
             options?: {
                 "y"?: Optional<number> /* defaults to `nil` */,
-                "z"?: number /* defaults to `3.14` */,
+                "theLabelForZ"?: number /* defaults to `3.14` */,
             }
         ): string;
     }

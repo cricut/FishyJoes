@@ -1,4 +1,4 @@
-// Generated using Sourcery 1.8.1 — https://github.com/krzysztofzablocki/Sourcery
+// Generated using Sourcery 1.9.2 — https://github.com/krzysztofzablocki/Sourcery
 // DO NOT EDIT
 // swiftlint:disable superfluous_disable_command unused_closure_parameter syntactic_sugar attributes
 import FishyJoesCSharpRuntime
@@ -13,6 +13,7 @@ public func FishyJoes_TestAPI_registerTypes() {
     Env.registerType(Function3Converter<Float, Double, Int, Double>.self, as: "Function3Converter<Float, Double, Int, Double>")
     Env.registerType(Function1Converter<Int, Int>.self, as: "Function1Converter<Int, Int>")
     Env.registerType(Tuple2Converter<Int, Swift.String>.self, as: "Tuple2Converter<Int, Swift.String>")
+    Env.registerType(Tuple4Converter<Int8, Int16, Int32, Int64>.self, as: "Tuple4Converter<Int8, Int16, Int32, Int64>")
     Env.registerType(Function1Converter<OptionalConverter<ArrayConverter<OptionalConverter<Int>>>, OptionalConverter<ArrayConverter<OptionalConverter<Int>>>>.self, as: "Function1Converter<OptionalConverter<ArrayConverter<OptionalConverter<Int>>>, OptionalConverter<ArrayConverter<OptionalConverter<Int>>>>")
     Env.registerType(Function1Converter<OptionalConverter<UInt8>, OptionalConverter<UInt8>>.self, as: "Function1Converter<OptionalConverter<UInt8>, OptionalConverter<UInt8>>")
     Env.registerType(Tuple3Converter<Swift.String, Double, Swift.String>.self, as: "Tuple3Converter<Swift.String, Double, Swift.String>")
@@ -21,6 +22,7 @@ public func FishyJoes_TestAPI_registerTypes() {
     Env.registerType(Function6Converter<Swift.String, Int, Double, Swift.String, Function0Converter<Int>, Int, Int>.self, as: "Function6Converter<Swift.String, Int, Double, Swift.String, Function0Converter<Int>, Int, Int>")
     Env.registerType(Function4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.self, as: "Function4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>")
     Env.registerType(Tuple5Converter<Swift.String, UInt8, Tuple4Converter<Tuple2Converter<Int, Swift.String>, Tuple3Converter<Swift.String, Double, Swift.String>, Swift.String, Bool>, Tuple3Converter<Swift.String, Double, Swift.String>, Tuple2Converter<Int, Swift.String>>.self, as: "Tuple5Converter<Swift.String, UInt8, Tuple4Converter<Tuple2Converter<Int, Swift.String>, Tuple3Converter<Swift.String, Double, Swift.String>, Swift.String, Bool>, Tuple3Converter<Swift.String, Double, Swift.String>, Tuple2Converter<Int, Swift.String>>")
+    Env.registerType(ArrayConverter<Tuple4Converter<Int8, Int16, Int32, Int64>>.self, as: "ArrayConverter<Tuple4Converter<Int8, Int16, Int32, Int64>>")
     Env.registerType(ArrayConverter<Bool>.self, as: "ArrayConverter<Bool>")
     Env.registerType(ArrayConverter<Double>.self, as: "ArrayConverter<Double>")
     Env.registerType(ArrayConverter<Float>.self, as: "ArrayConverter<Float>")

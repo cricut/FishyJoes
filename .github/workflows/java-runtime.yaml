@@ -62,14 +62,7 @@ jobs:
         run: |
           set -euxo pipefail
 
-          libdir=kotlin-runtime/src/generated/resources
-
-          rm -rf $libdir
-          mkdir -p $libdir/mac
-
-          swift build --configuration release --product FishyJoesJavaRuntime
-          cp .build/release/libFishyJoesJavaRuntime.dylib $libdir/mac
-
+          ./scripts/compile-kotlin-native-runtime.sh
           ./scripts/compile-android-runtime.sh
 
       - name: Test FishyJoesJavaRuntime from gradle
@@ -118,14 +111,7 @@ jobs:
         run: |
           set -euxo pipefail
 
-          libdir=kotlin-runtime/src/generated/resources
-
-          rm -rf $libdir
-          mkdir -p $libdir/linux
-
-          swift build --configuration release --product FishyJoesJavaRuntime
-          cp .build/release/libFishyJoesJavaRuntime.so $libdir/linux
-
+          ./scripts/compile-kotlin-native-runtime.sh
       - name: Test FishyJoesJavaRuntime from gradle
         shell: zsh {0}
         run: |

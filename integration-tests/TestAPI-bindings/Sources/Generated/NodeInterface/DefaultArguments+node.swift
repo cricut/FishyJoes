@@ -1,4 +1,4 @@
-// Generated using Sourcery 1.8.1 — https://github.com/krzysztofzablocki/Sourcery
+// Generated using Sourcery 1.9.2 — https://github.com/krzysztofzablocki/Sourcery
 // DO NOT EDIT
 // swiftlint:disable superfluous_disable_command unused_closure_parameter syntactic_sugar attributes
 import FishyJoesNodeRuntime
@@ -27,7 +27,7 @@ extension DefaultArguments: FishyJoesNodeRuntime.NodeConverter {
                                 DefaultArguments.echoDefaults(
                                     y: try env.argument(named: "y", default: nil, converter: OptionalConverter<Int>.self),
                                     x: try env.argument(at: 0, converter: OptionalConverter<Int>.self),
-                                    z: try env.argument(named: "z", default: 3.14, converter: Double.self)
+                                    theLabelForZ: try env.argument(named: "theLabelForZ", default: 3.14, converter: Double.self)
                                 ),
                                 env: env.env
                             )

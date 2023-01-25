@@ -17,7 +17,7 @@ namespace Cricut.TestAPI {
         public static string EchoDefaults(
             nint? x,
             nint? y = null,
-            double z = 3.14
+            double /* theLabelForZ */ z = 3.14
         ) {
             using var _yHandle = new GCRef(y);
             using var _xHandle = new GCRef(x);

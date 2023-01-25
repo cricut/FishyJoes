@@ -276,7 +276,7 @@ struct NodeTranslator: Translator {
             let selfResolved = context.resolve(type: selfType)
             parameters.append(
                 .init(
-                    labelComment: nil,
+                    label: nil,
                     name: "self",
                     type: selfResolved.nodeType,
                     defaultValue: nil
@@ -297,7 +297,7 @@ struct NodeTranslator: Translator {
             }
             parameters.append(
                 .init(
-                    labelComment: label,
+                    label: label,
                     name: parameter.name,
                     type: resolved.nodeType,
                     defaultValue: parameter.defaultValue
@@ -351,7 +351,7 @@ struct NodeTranslator: Translator {
         let selfResolved = context.resolve(type: selfType)
         let parameters = explicitThis ? [
             TypeScriptAnnotations.Method.Parameter(
-                labelComment: nil,
+                label: nil,
                 name: "self",
                 type: selfResolved.nodeType,
                 defaultValue: nil
@@ -375,7 +375,7 @@ struct NodeTranslator: Translator {
                     name: "set\(name)",
                     parameters: parameters + [
                         .init(
-                            labelComment: nil,
+                            label: nil,
                             name: "newValue",
                             type: resolved.nodeType,
                             defaultValue: nil

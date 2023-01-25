@@ -6,6 +6,7 @@ let androidToolchain = "/Library/Developer/Toolchains/swift-android-toolchain"
 
 struct BuildConfiguration {
     let debug: Bool
+    let fat: Bool
     let codeCoverage: Bool
 }
 
@@ -19,12 +20,50 @@ enum Platform: Hashable {
 
     static let nativeMacSwiftBuild = try! cmd("xcrun", "-f", "swift-build").runString()
 
-    @discardableResult
-    func swiftBuild(arguments: [String], configuration: BuildConfiguration) throws -> String {
+    // swift 5.7 no longer recognizes "--enable-code-coverage" outside of the "test" command
+    static let coverageFlags = [
+        "-Xswiftc", "-profile-coverage-mapping",
+        "-Xswiftc", "-profile-generate",
+    ]
+
+    func build(product: String? = nil, libs: [String] = [], configuration: BuildConfiguration) throws {
+        let isNative: Bool
+        switch self {
+        case .wasm, .kotlinAndroid:
+            isNative = false
+        case .node, .cpp, .kotlinSystem, .cSharp:
+            isNative = true
+        }
+
+        if isNative, configuration.fat {
+            guard let product = product else {
+                fatalError("Can't infer products in fat builds")
+            }
+            try cmd("mkdir", "-p", buildDir(configuration)).run()
+            let confName = configuration.debug ? "debug" : "release"
+
+            try swiftBuild("--product", product, "--triple", "arm64-apple-macosx", configuration: configuration).run()
+            try swiftBuild("--product", product, "--triple", "x86_64-apple-macosx", configuration: configuration).run()
+
+            for lib in libs {
+                let libName = "lib\(lib).dylib"
+                try cmd(
+                    "lipo", "-create",
+                    "-output", "\(buildDir(configuration))/\(libName)",
+                    ".build/arm64-apple-macosx/\(confName)/\(libName)",
+                    ".build/x86_64-apple-macosx/\(confName)/\(libName)"
+                ).run()
+            }
+        } else {
+            try swiftBuild(arguments: product.map { ["--product", $0] } ?? [], configuration: configuration).run()
+        }
+    }
+
+    func swiftBuild(arguments: [String], configuration: BuildConfiguration) -> Command {
         var args = arguments
         args.append(contentsOf: ["--configuration", configuration.debug ? "debug" : "release"])
         if configuration.codeCoverage {
-            args.append("--enable-code-coverage")
+            args.append(contentsOf: Platform.coverageFlags)
         }
         let path: String
         var env: [String: String] = ["SWIFT_PACKAGE_FORCE_DYNAMIC": "1"]
@@ -42,6 +81,7 @@ enum Platform: Hashable {
         case .node, .kotlinSystem:
             #if os(macOS)
             path = Platform.nativeMacSwiftBuild
+            args.append(contentsOf: ["-Xlinker", "-rpath", "-Xlinker", "@loader_path"])
             #elseif os(Linux)
             path = "swift"
             args = ["build"] + args
@@ -67,6 +107,11 @@ enum Platform: Hashable {
         case .cSharp:
             #if os(macOS)
             path = Platform.nativeMacSwiftBuild
+            // This seems to be needed because of https://github.com/mono/mono/issues/21049
+            args.append(contentsOf: ["-Xlinker", "-rpath", "-Xlinker", "@loader_path"])
+            if configuration.fat {
+                args.append(contentsOf: ["--arch", "arm64", "--arch", "x86_64"])
+            }
             #elseif os(Linux)
             path = "swift"
             args = ["build"] + args
@@ -74,6 +119,10 @@ enum Platform: Hashable {
         case .cpp:
             #if os(macOS)
             path = Platform.nativeMacSwiftBuild
+            args.append(contentsOf: ["-Xlinker", "-rpath", "-Xlinker", "@loader_path"])
+            if configuration.fat {
+                args.append(contentsOf: ["--arch", "arm64", "--arch", "x86_64"])
+            }
             #elseif os(Linux)
             path = "swift"
             args = ["build", "-Xswiftc", "-static-stdlib"] + args
@@ -81,12 +130,11 @@ enum Platform: Hashable {
             fatalError("unknown host OS")
             #endif
         }
-        return try cmd(path, arguments: args, addEnv: env).runString()
+        return cmd(path, arguments: args, addEnv: env)
     }
 
-    @discardableResult
-    func swiftBuild(_ arguments: String..., configuration: BuildConfiguration) throws -> String {
-        try swiftBuild(arguments: arguments, configuration: configuration)
+    func swiftBuild(_ arguments: String..., configuration: BuildConfiguration) -> Command {
+        swiftBuild(arguments: arguments, configuration: configuration)
     }
 
     var platform: String {
@@ -161,14 +209,11 @@ enum Platform: Hashable {
         }
     }
 
-    func buildDir(debug: Bool) throws -> String {
-        let configuration = debug ? "debug" : "release"
-        switch self {
-        case .wasm: return ".build/wasm-build/wasm32-unknown-wasi/\(configuration)"
-        case .node, .kotlinSystem, .cSharp, .cpp:
-            return try swiftBuild("--show-bin-path", configuration: .init(debug: configuration == "debug", codeCoverage: false))
-        case .kotlinAndroid(let arch):
-            return ".build/android-build/\(arch.triple)/\(configuration)"
+    func buildDir(_ configuration: BuildConfiguration) throws -> String {
+        if configuration.fat {
+            return ".build/apple/\(configuration.debug ? "debug" : "release")"
+        } else {
+            return try swiftBuild("--show-bin-path", configuration: configuration).runString()
         }
     }
 

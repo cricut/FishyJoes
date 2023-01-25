@@ -49,6 +49,7 @@ namespace TestAPI {
                 void* FJInternalBinding_TestAPI_Collections_getArrayOfInt();
                 void* FJInternalBinding_TestAPI_Collections_getSetOfInt();
                 void* FJInternalBinding_TestAPI_Collections_getDictionaryOfIntToInt();
+                void* FJInternalBinding_TestAPI_Collections_getArrayOfBigTuples();
                 void* FJInternalBinding_TestAPI_Collections_getMaybeArrayOfInt();
                 void* FJInternalBinding_TestAPI_Collections_getMaybeSetOfInt();
                 void* FJInternalBinding_TestAPI_Collections_getMaybeDictionaryOfIntToInt();

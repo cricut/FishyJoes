@@ -73,7 +73,13 @@ task<Exec>("buildSwiftTestHarness") {
     if (System.getenv("FISHYJOES_COVERAGE_PATH") == null) {
         commandLine("swift", "build", "--product", "JavaRuntimeTestHarness")
     } else {
-        commandLine("swift", "build", "--enable-code-coverage", "--product", "JavaRuntimeTestHarness")
+        commandLine(
+            "swift", "build",
+            // swift 5.7 no longer recognizes "--enable-code-coverage" outside of the "test" command
+            "-Xswiftc", "-profile-coverage-mapping",
+            "-Xswiftc", "-profile-generate",
+            "--product", "JavaRuntimeTestHarness"
+        )
     }
 }
 

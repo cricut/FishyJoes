@@ -1,4 +1,4 @@
-// Generated using Sourcery 1.8.1 — https://github.com/krzysztofzablocki/Sourcery
+// Generated using Sourcery 1.9.2 — https://github.com/krzysztofzablocki/Sourcery
 // DO NOT EDIT
 // swiftlint:disable superfluous_disable_command unused_closure_parameter syntactic_sugar attributes
 import FishyJoesNodeRuntime
@@ -146,6 +146,17 @@ extension Collections: FishyJoesNodeRuntime.NodeConverter {
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "dictionaryOfIntToInt", expectedArgumentCount: 0) { env in
                                 try DictionaryConverter<Int, Int>.toNode(Collections.dictionaryOfIntToInt, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: true
+                ),
+                "arrayOfBigTuples": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "arrayOfBigTuples", expectedArgumentCount: 0) { env in
+                                try ArrayConverter<Tuple4Converter<Int8, Int16, Int32, Int64>>.toNode(Collections.arrayOfBigTuples, env: env.env)
                             }
                         },
                         setter: nil

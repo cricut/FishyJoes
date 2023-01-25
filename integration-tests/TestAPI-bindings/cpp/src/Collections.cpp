@@ -31,6 +31,9 @@ namespace TestAPI {
     std::unordered_map<int, int> Collections::getDictionaryOfIntToInt() {
         return FishyJoesInternal::Packer::unpack<std::unordered_map<int, int>>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Collections_getDictionaryOfIntToInt());
     }
+    std::vector<std::tuple<int8_t, int16_t, int32_t, int64_t>> Collections::getArrayOfBigTuples() {
+        return FishyJoesInternal::Packer::unpack<std::vector<std::tuple<int8_t, int16_t, int32_t, int64_t>>>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Collections_getArrayOfBigTuples());
+    }
     std::optional<std::vector<int>> Collections::getMaybeArrayOfInt() {
         return FishyJoesInternal::Packer::unpack<std::optional<std::vector<int>>>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Collections_getMaybeArrayOfInt());
     }
