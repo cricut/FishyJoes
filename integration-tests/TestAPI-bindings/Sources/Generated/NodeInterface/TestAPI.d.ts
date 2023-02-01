@@ -1,14 +1,14 @@
 export type Optional<T> = T | undefined;
 export declare namespace TestAPI {
-    export type AssociatedDataEnum = AssociatedDataEnum.Thing | AssociatedDataEnum.Other | AssociatedDataEnum.Bar | AssociatedDataEnum.NoValue;
+    export type AssociatedDataEnum = AssociatedDataEnum.Thing | AssociatedDataEnum.Other | AssociatedDataEnum.Bar | AssociatedDataEnum.NoValue | AssociatedDataEnum.SimpleEnum;
     export namespace AssociatedDataEnum {
         interface Bar extends AssociatedDataEnum_Common {}
         export class Bar {
-            constructor(named: string, _1: AssociatedDataEnum)
+            constructor(named: string, _1: TestAPI.AssociatedDataEnum)
 
             readonly named: string;
 
-            readonly _1: AssociatedDataEnum;
+            readonly _1: TestAPI.AssociatedDataEnum;
         }
 
         interface NoValue extends AssociatedDataEnum_Common {}
@@ -25,6 +25,13 @@ export declare namespace TestAPI {
             readonly _1: number;
         }
 
+        interface SimpleEnum extends AssociatedDataEnum_Common {}
+        export class SimpleEnum {
+            constructor(value: TestAPI.SimpleEnum)
+
+            readonly value: TestAPI.SimpleEnum;
+        }
+
         interface Thing extends AssociatedDataEnum_Common {}
         export class Thing {
             constructor(value: number)
@@ -35,7 +42,7 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(staticThing) -->
          */
-        const staticThing: AssociatedDataEnum;
+        const staticThing: TestAPI.AssociatedDataEnum;
     }
 
     interface AssociatedDataEnum_Common {
@@ -48,8 +55,8 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(plus) -->
          */
         plus(
-            other: AssociatedDataEnum
-        ): AssociatedDataEnum;
+            other: TestAPI.AssociatedDataEnum
+        ): TestAPI.AssociatedDataEnum;
     }
 
     export type Bytes = never;
@@ -108,12 +115,12 @@ export declare namespace TestAPI {
             /**
              * <!-- FishyJoes.export(staticPropery) -->
              */
-            static readonly staticPropery: number[];
+            static readonly staticPropery: Optional<number>[];
 
             /**
              * <!-- FishyJoes.export(staticMutablePropery) -->
              */
-            static staticMutablePropery: number[];
+            static staticMutablePropery: Optional<number>[];
         }
 
         /**
@@ -130,9 +137,9 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(collectionMapper) -->
          */
         function collectionMapper(
-            collection: Optional<number[]>,
-            mapper: (_0: number[]) => number[]
-        ): Optional<number[]>;
+            collection: Optional<Optional<number>[]>,
+            mapper: (_0: Optional<number>[]) => Optional<number>[]
+        ): Optional<Optional<number>[]>;
 
         /**
          * <!-- FishyJoes.export(defaultCollectionHolder) -->
@@ -162,8 +169,8 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(echoMaybeArrayOfMaybeInt) -->
          */
         function echoMaybeArrayOfMaybeInt(
-            maybeArrayOfMaybeInt: Optional<number[]>
-        ): Optional<number[]>;
+            maybeArrayOfMaybeInt: Optional<Optional<number>[]>
+        ): Optional<Optional<number>[]>;
 
         /**
          * <!-- FishyJoes.export(echoMaybeDictionaryOfIntToMaybeInt) -->
@@ -194,7 +201,7 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(maybeArrayOfMaybeInt) -->
          */
-        const maybeArrayOfMaybeInt: Optional<number[]>;
+        const maybeArrayOfMaybeInt: Optional<Optional<number>[]>;
 
         /**
          * <!-- FishyJoes.export(maybeDictionaryOfIntToInt) -->
@@ -258,7 +265,7 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(notGoingToHappen, noReturn: true) -->
          */
         function notGoingToHappen(
-        ): EmptyEnum;
+        ): TestAPI.EmptyEnum;
     }
 
     export type Functions = never;
@@ -417,12 +424,12 @@ export declare namespace TestAPI {
             /**
              * <!-- FishyJoes.export(staticPropery) -->
              */
-            static readonly staticPropery: number[];
+            static readonly staticPropery: Optional<number>[];
 
             /**
              * <!-- FishyJoes.export(staticMutablePropery) -->
              */
-            static staticMutablePropery: number[];
+            static staticMutablePropery: Optional<number>[];
         }
 
         /**
@@ -550,57 +557,57 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(manyMaybeBool) -->
          */
-        const manyMaybeBool: boolean[];
+        const manyMaybeBool: Optional<boolean>[];
 
         /**
          * <!-- FishyJoes.export(manyMaybeDouble) -->
          */
-        const manyMaybeDouble: number[];
+        const manyMaybeDouble: Optional<number>[];
 
         /**
          * <!-- FishyJoes.export(manyMaybeFloat) -->
          */
-        const manyMaybeFloat: number[];
+        const manyMaybeFloat: Optional<number>[];
 
         /**
          * <!-- FishyJoes.export(manyMaybeInt16) -->
          */
-        const manyMaybeInt16: number[];
+        const manyMaybeInt16: Optional<number>[];
 
         /**
          * <!-- FishyJoes.export(manyMaybeInt32) -->
          */
-        const manyMaybeInt32: number[];
+        const manyMaybeInt32: Optional<number>[];
 
         /**
          * <!-- FishyJoes.export(manyMaybeInt64) -->
          */
-        const manyMaybeInt64: bigint[];
+        const manyMaybeInt64: Optional<bigint>[];
 
         /**
          * <!-- FishyJoes.export(manyMaybeInt8) -->
          */
-        const manyMaybeInt8: number[];
+        const manyMaybeInt8: Optional<number>[];
 
         /**
          * <!-- FishyJoes.export(manyMaybeUInt16) -->
          */
-        const manyMaybeUInt16: number[];
+        const manyMaybeUInt16: Optional<number>[];
 
         /**
          * <!-- FishyJoes.export(manyMaybeUInt32) -->
          */
-        const manyMaybeUInt32: number[];
+        const manyMaybeUInt32: Optional<number>[];
 
         /**
          * <!-- FishyJoes.export(manyMaybeUInt64) -->
          */
-        const manyMaybeUInt64: bigint[];
+        const manyMaybeUInt64: Optional<bigint>[];
 
         /**
          * <!-- FishyJoes.export(manyMaybeUInt8) -->
          */
-        const manyMaybeUInt8: number[];
+        const manyMaybeUInt8: Optional<number>[];
 
         /**
          * <!-- FishyJoes.export(manyUInt16) -->
@@ -883,20 +890,20 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(favoriteColor) -->
          */
-        let favoriteColor: SimpleEnum;
+        let favoriteColor: TestAPI.SimpleEnum;
 
         /**
          * <!-- FishyJoes.export(hex) -->
          */
         function getHex(
-            self: SimpleEnum
+            self: TestAPI.SimpleEnum
         ): number;
 
         /**
          * <!-- FishyJoes.export(hexMethod) -->
          */
         function hexMethod(
-            self: SimpleEnum
+            self: TestAPI.SimpleEnum
         ): string;
 
         /**
@@ -904,7 +911,7 @@ export declare namespace TestAPI {
          */
         function pickAColor(
             rawValue: number
-        ): Optional<SimpleEnum>;
+        ): Optional<TestAPI.SimpleEnum>;
 
         /**
          * <!-- FishyJoes.export(resetFavoriteColor) -->
@@ -1003,7 +1010,7 @@ export declare namespace TestAPI {
              * <!-- FishyJoes.export(create) -->
              */
             static create(
-            ): Structs.ReferenceStruct;
+            ): TestAPI.Structs.ReferenceStruct;
         }
     }
 
