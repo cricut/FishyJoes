@@ -62,7 +62,7 @@ public enum AssociatedDataEnum: Hashable {
             return nested.intValue + 3
         case .noValue:
             return 42
-        case .simpleEnum(let _):
+        case .simpleEnum:
             return 1
         }
     }
