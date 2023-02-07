@@ -16,6 +16,9 @@ sealed class AssociatedDataEnum {
         var _1: com.cricut.testapi.AssociatedDataEnum
     ) : AssociatedDataEnum()
     object NoValue : AssociatedDataEnum()
+    data class SimpleEnum(
+        var value: com.cricut.testapi.SimpleEnum
+    ) : AssociatedDataEnum()
     /**
      * <!-- FishyJoes.export(intValue) -->
      */

@@ -12,6 +12,7 @@ protocol TranslatedType {
     var jniType: JNIType { get }
     var cSharpType: CSharpClass.CSType { get }
     var definingModule: Module { get }
+    var definingTSNamespace: String? { get }
     var isInhabited: Bool { get }
     func cSharpSetupParameters(in context: FishyJoesContext) -> [CSharpSetupParameter]
     func cSharpSetupDelegates(in context: FishyJoesContext) -> [String]
@@ -19,6 +20,7 @@ protocol TranslatedType {
 }
 
 extension TranslatedType {
+    var definingTSNamespace: String? { nil }
     var converterType: BetterType {
         sourceType
     }
@@ -29,6 +31,9 @@ extension TranslatedType {
         if let opt = self as? TranslatedOptional {
             return .optional(opt.wrapped.nodeType)
         } else {
+            if let namespace = definingTSNamespace {
+                return .named("\(namespace).\(nodeName)")
+            }
             return .named(nodeName)
         }
     }

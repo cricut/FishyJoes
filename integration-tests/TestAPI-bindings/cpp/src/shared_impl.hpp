@@ -343,6 +343,14 @@ namespace TestAPI {
                 get_t<decltype(TestAPI::AssociatedDataEnum::other::unnamed)>(), get_t<decltype(TestAPI::AssociatedDataEnum::other::_1)>()
             };
         }
+        inline void put(const TestAPI::AssociatedDataEnum::simpleEnum& obj) {
+            put(obj.value);
+        }
+        inline TestAPI::AssociatedDataEnum::simpleEnum get(std::in_place_type_t<TestAPI::AssociatedDataEnum::simpleEnum> obj = std::in_place_type_t<TestAPI::AssociatedDataEnum::simpleEnum>{}) {
+            return TestAPI::AssociatedDataEnum::simpleEnum {
+                get_t<decltype(TestAPI::AssociatedDataEnum::simpleEnum::value)>()
+            };
+        }
         inline void put(const TestAPI::AssociatedDataEnum::thing& obj) {
             put(obj.value);
         }

@@ -48,6 +48,7 @@ public enum AssociatedDataEnum: Hashable {
     case other(_ unnamed: String, Int)
     indirect case bar(named: String, AssociatedDataEnum)
     case noValue
+    case simpleEnum(value: SimpleEnum)
 
     /// <!-- FishyJoes.export(staticThing) -->
     public static let staticThing = AssociatedDataEnum.thing(value: 2)
@@ -61,6 +62,8 @@ public enum AssociatedDataEnum: Hashable {
             return nested.intValue + 3
         case .noValue:
             return 42
+        case .simpleEnum:
+            return 1
         }
     }
 
@@ -75,6 +78,8 @@ public enum AssociatedDataEnum: Hashable {
             return .bar(named: name, nested.plus(other))
         case .noValue:
             return .noValue
+        case .simpleEnum(let value):
+            return .simpleEnum(value: value)
         }
     }
 }

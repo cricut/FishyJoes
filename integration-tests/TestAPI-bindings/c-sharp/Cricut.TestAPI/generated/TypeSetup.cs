@@ -49,6 +49,15 @@ namespace Cricut.TestAPI {
             UnownedRef obj,
             out CreatedRef _exn
         );
+        delegate CreatedRef Cricut_TestAPI_AssociatedDataEnum_new_simpleEnum(
+            ConsumedRef value,
+            out CreatedRef _exn
+        );
+        unsafe delegate void Cricut_TestAPI_AssociatedDataEnum_extract_simpleEnum(
+            UnownedRef obj,
+            ref CreatedRef value,
+            out CreatedRef _exn
+        );
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_AssociatedDataEnum_setup(
             FishyJoesRuntime.EnumDiscriminator discriminator,
@@ -60,6 +69,8 @@ namespace Cricut.TestAPI {
             Cricut_TestAPI_AssociatedDataEnum_extract_bar bar_extractor,
             Cricut_TestAPI_AssociatedDataEnum_new_noValue noValue_constructor,
             Cricut_TestAPI_AssociatedDataEnum_extract_noValue noValue_extractor,
+            Cricut_TestAPI_AssociatedDataEnum_new_simpleEnum simpleEnum_constructor,
+            Cricut_TestAPI_AssociatedDataEnum_extract_simpleEnum simpleEnum_extractor,
             out CreatedRef _exn
         );
 
@@ -653,6 +664,7 @@ namespace Cricut.TestAPI {
                         if (enumeration is Cricut.TestAPI.AssociatedDataEnum.Other) { return (nint)1; }
                         if (enumeration is Cricut.TestAPI.AssociatedDataEnum.Bar) { return (nint)2; }
                         if (enumeration is Cricut.TestAPI.AssociatedDataEnum.NoValue) { return (nint)3; }
+                        if (enumeration is Cricut.TestAPI.AssociatedDataEnum.SimpleEnum) { return (nint)4; }
                         throw new Exception($"Found unexpected subclass of Cricut.TestAPI.AssociatedDataEnum: {enumeration}");
                     })),
                     bag<Cricut_TestAPI_AssociatedDataEnum_new_thing>(
@@ -753,6 +765,31 @@ namespace Cricut.TestAPI {
                         ) => {
                             try {
                                 var enumeration = obj.Peek<Cricut.TestAPI.AssociatedDataEnum.NoValue>();
+                                exn = CreatedRef.Null;
+                            } catch (Exception e) {
+                                exn = new CreatedRef(e);
+                            }
+                        }
+                    ),
+                    bag<Cricut_TestAPI_AssociatedDataEnum_new_simpleEnum>(
+                        (
+                            ConsumedRef _value,
+                            out CreatedRef exn
+                        ) => Catching(out exn, () => 
+                            new CreatedRef(new Cricut.TestAPI.AssociatedDataEnum.SimpleEnum(
+                                _value.Consume<Cricut.TestAPI.SimpleEnum>()
+                            ))
+                        )
+                    ),
+                    bag<Cricut_TestAPI_AssociatedDataEnum_extract_simpleEnum>(
+                        (
+                            UnownedRef obj,
+                            ref CreatedRef _value,
+                            out CreatedRef exn
+                        ) => {
+                            try {
+                                var enumeration = obj.Peek<Cricut.TestAPI.AssociatedDataEnum.SimpleEnum>();
+                                _value = new CreatedRef(enumeration.Value);
                                 exn = CreatedRef.Null;
                             } catch (Exception e) {
                                 exn = new CreatedRef(e);

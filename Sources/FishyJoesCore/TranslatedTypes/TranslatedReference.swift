@@ -3,6 +3,7 @@ import SourceryRuntime
 struct TranslatedReference: TranslatedType {
     let sourceType: BetterType
     let nodeName: String
+    let definingTSNamespace: String?
     let kotlinName: String
     let cppName: String
     let neutralName: String
@@ -27,6 +28,7 @@ struct TranslatedReference: TranslatedType {
 
         self.sourceType = BetterType(named: type)
         self.nodeName = typeName
+        self.definingTSNamespace = context.module.name
         self.cppName = typeName.replacingOccurrences(of: ".", with: "::")
         self.neutralName = "Reference<To=\(typeName)>"
         self.kotlinName = typeName
