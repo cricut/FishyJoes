@@ -37,6 +37,13 @@ extension AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
             return noValue
         }
 
+        if try env.instanceof(value, instanceData.constructor(for: "AssociatedDataEnum.SimpleEnum", env: env)) {
+            let _value = try env.getNamedProperty(value, "value")
+            return Self.simpleEnum(
+                value: try SimpleEnum.fromNode(_value, env: env)
+            )
+        }
+
         fatalError("invalid enum for AssociatedDataEnum")
     }
 
@@ -70,6 +77,13 @@ extension AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
             return try env.newInstance(
                 instanceData.constructor(for: "AssociatedDataEnum.NoValue", env: env),
                 [
+                ]
+            )
+        case let .simpleEnum(value):
+            return try env.newInstance(
+                instanceData.constructor(for: "AssociatedDataEnum.SimpleEnum", env: env),
+                [
+                    SimpleEnum.toNode(value, env: env),
                 ]
             )
         }
@@ -238,6 +252,32 @@ extension AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
             module: module,
             path: "AssociatedDataEnum.NoValue",
             nodeClass: noValueClass.constructor.value(env: env)
+        )
+        let simpleEnumClass = try NodeClass(
+            env: env,
+            name: "AssociatedDataEnum.SimpleEnum",
+            superclass: superclass,
+            properties: [
+                "value": (.stored(mutable: true), isStatic: false),
+            ],
+            constructor: { env, info in
+                FishyJoesNodeRuntime.callbackBody(
+                    env, info,
+                    name: "AssociatedDataEnum.SimpleEnum_constructor",
+                    expectedArgumentCount: 1
+                ) { env in
+                    // TODO: typecheck?
+                    let this = try env.this()
+                    try env.env.setNamedProperty(this, "value", env.argument(at: 0))
+                    return this
+                }
+            }
+        )
+        try FishyJoesNodeRuntime.mergeDefinitionInto(
+            env: env,
+            module: module,
+            path: "AssociatedDataEnum.SimpleEnum",
+            nodeClass: simpleEnumClass.constructor.value(env: env)
         )
     }
 }

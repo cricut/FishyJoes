@@ -23,6 +23,9 @@ extension AssociatedDataEnum: JavaConverter {
     static var _java_bar_field_1: jfieldID!
     static var _java_noValue: jclass!
     static var _java_noValue_INSTANCE: jfieldID!
+    static var _java_simpleEnum: jclass!
+    static var _java_simpleEnum_init: jmethodID!
+    static var _java_simpleEnum_field_value: jfieldID!
 
     public static func fromJava(_ value: jobject?, env: Env) throws -> Self {
         if env.IsInstanceOf(value, Self._java_thing) {
@@ -44,6 +47,11 @@ extension AssociatedDataEnum: JavaConverter {
         }
         if env.IsInstanceOf(value, Self._java_noValue) {
             return Self.noValue
+        }
+        if env.IsInstanceOf(value, Self._java_simpleEnum) {
+            return Self.simpleEnum(
+                value: try SimpleEnum.fromJava(env.GetObjectField(value, Self._java_simpleEnum_field_value), env: env)
+            )
         }
         throw JNIError(message: "invalid enum \(try env.javaDescription(value)) for AssociatedDataEnum")
     }
@@ -72,6 +80,12 @@ extension AssociatedDataEnum: JavaConverter {
             )
         case .noValue:
             return env.GetStaticObjectField(Self._java_noValue, Self._java_noValue_INSTANCE)
+        case let .simpleEnum(value):
+            return try env.NewObject(
+                Self._java_simpleEnum,
+                Self._java_simpleEnum_init,
+                jvalue(SimpleEnum.toJava(value, env: env))
+            )
         }
     }
 
@@ -91,5 +105,8 @@ extension AssociatedDataEnum: JavaConverter {
         _java_bar_field_1 = try env.GetFieldID(_java_bar, "_1", "Lcom/cricut/testapi/AssociatedDataEnum;")
         _java_noValue = try env.globalRef(env.FindClass("com/cricut/testapi/AssociatedDataEnum$NoValue"))
         _java_noValue_INSTANCE = try env.GetStaticFieldID(_java_noValue, "INSTANCE", "Lcom/cricut/testapi/AssociatedDataEnum$NoValue;")
+        _java_simpleEnum = try env.globalRef(env.FindClass("com/cricut/testapi/AssociatedDataEnum$SimpleEnum"))
+        _java_simpleEnum_init = try env.GetMethodID(_java_simpleEnum, "<init>", "(Lcom/cricut/testapi/SimpleEnum;)V")
+        _java_simpleEnum_field_value = try env.GetFieldID(_java_simpleEnum, "value", "Lcom/cricut/testapi/SimpleEnum;")
     }
 }

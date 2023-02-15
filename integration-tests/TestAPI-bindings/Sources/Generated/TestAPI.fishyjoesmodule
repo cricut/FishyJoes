@@ -806,14 +806,14 @@
                     "name" : "other",
                     "type" : {
                       "named" : {
-                        "_0" : "AssociatedDataEnum"
+                        "_0" : "TestAPI.AssociatedDataEnum"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "AssociatedDataEnum"
+                    "_0" : "TestAPI.AssociatedDataEnum"
                   }
                 }
               }
@@ -944,7 +944,7 @@
                       },
                       {
                         "named" : {
-                          "_0" : "AssociatedDataEnum"
+                          "_0" : "TestAPI.AssociatedDataEnum"
                         }
                       }
                     ]
@@ -979,7 +979,7 @@
                     "readOnly" : true,
                     "type" : {
                       "named" : {
-                        "_0" : "AssociatedDataEnum"
+                        "_0" : "TestAPI.AssociatedDataEnum"
                       }
                     }
                   }
@@ -1013,6 +1013,47 @@
 
                 ],
                 "name" : "NoValue"
+              },
+              {
+                "constructor" : {
+                  "visible" : {
+                    "names" : [
+                      "value"
+                    ],
+                    "types" : [
+                      {
+                        "named" : {
+                          "_0" : "TestAPI.SimpleEnum"
+                        }
+                      }
+                    ]
+                  }
+                },
+                "documentation" : [
+
+                ],
+                "extends" : [
+                  "AssociatedDataEnum_Common"
+                ],
+                "fields" : [
+                  {
+                    "documentation" : [
+
+                    ],
+                    "isStatic" : false,
+                    "name" : "value",
+                    "readOnly" : true,
+                    "type" : {
+                      "named" : {
+                        "_0" : "TestAPI.SimpleEnum"
+                      }
+                    }
+                  }
+                ],
+                "methods" : [
+
+                ],
+                "name" : "SimpleEnum"
               }
             ],
             "fields" : [
@@ -1025,7 +1066,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "AssociatedDataEnum"
+                    "_0" : "TestAPI.AssociatedDataEnum"
                   }
                 }
               }
@@ -1331,7 +1372,7 @@
                     "readOnly" : true,
                     "type" : {
                       "named" : {
-                        "_0" : "number[]"
+                        "_0" : "Optional<number>[]"
                       }
                     }
                   },
@@ -1344,7 +1385,7 @@
                     "readOnly" : false,
                     "type" : {
                       "named" : {
-                        "_0" : "number[]"
+                        "_0" : "Optional<number>[]"
                       }
                     }
                   }
@@ -1470,7 +1511,7 @@
                   "optional" : {
                     "_0" : {
                       "named" : {
-                        "_0" : "number[]"
+                        "_0" : "Optional<number>[]"
                       }
                     }
                   }
@@ -1607,7 +1648,7 @@
                       "optional" : {
                         "_0" : {
                           "named" : {
-                            "_0" : "number[]"
+                            "_0" : "Optional<number>[]"
                           }
                         }
                       }
@@ -1618,7 +1659,7 @@
                   "optional" : {
                     "_0" : {
                       "named" : {
-                        "_0" : "number[]"
+                        "_0" : "Optional<number>[]"
                       }
                     }
                   }
@@ -1697,7 +1738,7 @@
                       "optional" : {
                         "_0" : {
                           "named" : {
-                            "_0" : "number[]"
+                            "_0" : "Optional<number>[]"
                           }
                         }
                       }
@@ -1707,7 +1748,7 @@
                     "name" : "mapper",
                     "type" : {
                       "named" : {
-                        "_0" : "(_0: number[]) => number[]"
+                        "_0" : "(_0: Optional<number>[]) => Optional<number>[]"
                       }
                     }
                   }
@@ -1716,7 +1757,7 @@
                   "optional" : {
                     "_0" : {
                       "named" : {
-                        "_0" : "number[]"
+                        "_0" : "Optional<number>[]"
                       }
                     }
                   }
@@ -1871,7 +1912,7 @@
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "EmptyEnum"
+                    "_0" : "TestAPI.EmptyEnum"
                   }
                 }
               }
@@ -2730,7 +2771,7 @@
                     "readOnly" : true,
                     "type" : {
                       "named" : {
-                        "_0" : "number[]"
+                        "_0" : "Optional<number>[]"
                       }
                     }
                   },
@@ -2743,7 +2784,7 @@
                     "readOnly" : false,
                     "type" : {
                       "named" : {
-                        "_0" : "number[]"
+                        "_0" : "Optional<number>[]"
                       }
                     }
                   }
@@ -3362,7 +3403,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "boolean[]"
+                    "_0" : "Optional<boolean>[]"
                   }
                 }
               },
@@ -3375,7 +3416,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "number[]"
+                    "_0" : "Optional<number>[]"
                   }
                 }
               },
@@ -3388,7 +3429,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "number[]"
+                    "_0" : "Optional<number>[]"
                   }
                 }
               },
@@ -3401,7 +3442,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "number[]"
+                    "_0" : "Optional<number>[]"
                   }
                 }
               },
@@ -3414,7 +3455,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "bigint[]"
+                    "_0" : "Optional<bigint>[]"
                   }
                 }
               },
@@ -3427,7 +3468,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "number[]"
+                    "_0" : "Optional<number>[]"
                   }
                 }
               },
@@ -3440,7 +3481,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "number[]"
+                    "_0" : "Optional<number>[]"
                   }
                 }
               },
@@ -3453,7 +3494,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "number[]"
+                    "_0" : "Optional<number>[]"
                   }
                 }
               },
@@ -3466,7 +3507,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "bigint[]"
+                    "_0" : "Optional<bigint>[]"
                   }
                 }
               },
@@ -3479,7 +3520,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "number[]"
+                    "_0" : "Optional<number>[]"
                   }
                 }
               },
@@ -3492,7 +3533,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "number[]"
+                    "_0" : "Optional<number>[]"
                   }
                 }
               },
@@ -4147,7 +4188,7 @@
                 "readOnly" : false,
                 "type" : {
                   "named" : {
-                    "_0" : "SimpleEnum"
+                    "_0" : "TestAPI.SimpleEnum"
                   }
                 }
               }
@@ -4176,7 +4217,7 @@
                   "optional" : {
                     "_0" : {
                       "named" : {
-                        "_0" : "SimpleEnum"
+                        "_0" : "TestAPI.SimpleEnum"
                       }
                     }
                   }
@@ -4193,7 +4234,7 @@
                     "name" : "self",
                     "type" : {
                       "named" : {
-                        "_0" : "SimpleEnum"
+                        "_0" : "TestAPI.SimpleEnum"
                       }
                     }
                   }
@@ -4230,7 +4271,7 @@
                     "name" : "self",
                     "type" : {
                       "named" : {
-                        "_0" : "SimpleEnum"
+                        "_0" : "TestAPI.SimpleEnum"
                       }
                     }
                   }
@@ -4523,7 +4564,7 @@
                     ],
                     "returnType" : {
                       "named" : {
-                        "_0" : "Structs.ReferenceStruct"
+                        "_0" : "TestAPI.Structs.ReferenceStruct"
                       }
                     }
                   }
@@ -4714,6 +4755,11 @@
                   {
                     "named" : {
                       "_0" : "AssociatedDataEnum.NoValue"
+                    }
+                  },
+                  {
+                    "named" : {
+                      "_0" : "AssociatedDataEnum.SimpleEnum"
                     }
                   }
                 ]

@@ -3,6 +3,7 @@ import SourceryRuntime
 struct TranslatedEnum: TranslatedType {
     let sourceType: BetterType
     let nodeName: String
+    let definingTSNamespace: String?
     let kotlinName: String
     let cppName: String
     let neutralName: String
@@ -56,6 +57,7 @@ struct TranslatedEnum: TranslatedType {
         self.neutralName = "Enum<TranslatedFrom=\(name)>"
         self.cppName = name.replacingOccurrences(of: ".", with: "::")
         self.nodeName = name
+        self.definingTSNamespace = context.module.name
         self.kotlinName = name
         self.kotlinPackage = context.module.kotlinPackage
         self.cSharpType = .named(package: context.module.cSharpNamespace, name: exportAnnotation.cSharpName)
