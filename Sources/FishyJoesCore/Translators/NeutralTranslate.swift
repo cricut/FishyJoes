@@ -14,6 +14,7 @@ final class NeutralTranslate: Translator {
             fragment.output("Static: \(method.isStatic)")
             fragment.output("Mutating: \(method.isMutating)")
             fragment.output("Throwing: \(method.isThrowing)")
+            fragment.output("Async: \(method.isAsync)")
             fragment.output("Source Kind: \(method.sourceKind)")
             fragment.outputBlock("Documentation {") {
                 for doc in method.documentation {
