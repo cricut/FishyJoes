@@ -12,6 +12,7 @@ public func FishyJoes_TestAPI_registerTypes() {
     Env.registerType(Function0Converter<Int>.self, as: "Function0Converter<Int>")
     Env.registerType(Function3Converter<Float, Double, Int, Double>.self, as: "Function3Converter<Float, Double, Int, Double>")
     Env.registerType(Function1Converter<Int, Int>.self, as: "Function1Converter<Int, Int>")
+    Env.registerType(Function1Converter<Int, VoidConverter>.self, as: "Function1Converter<Int, VoidConverter>")
     Env.registerType(Tuple2Converter<Int, Swift.String>.self, as: "Tuple2Converter<Int, Swift.String>")
     Env.registerType(Tuple4Converter<Int8, Int16, Int32, Int64>.self, as: "Tuple4Converter<Int8, Int16, Int32, Int64>")
     Env.registerType(Function1Converter<OptionalConverter<ArrayConverter<OptionalConverter<Int>>>, OptionalConverter<ArrayConverter<OptionalConverter<Int>>>>.self, as: "Function1Converter<OptionalConverter<ArrayConverter<OptionalConverter<Int>>>, OptionalConverter<ArrayConverter<OptionalConverter<Int>>>>")

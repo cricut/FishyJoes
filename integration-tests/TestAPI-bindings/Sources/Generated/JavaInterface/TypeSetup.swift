@@ -25,6 +25,8 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try Function3Converter<Float, Double, Int, Double>.javaSetup(env: env)
         // print("setting up Function1Converter<Int, Int>...")
         try Function1Converter<Int, Int>.javaSetup(env: env)
+        // print("setting up Function1Converter<Int, VoidConverter>...")
+        try Function1Converter<Int, VoidConverter>.javaSetup(env: env)
         // print("setting up Function6Converter<Swift.String, Int, Double, Swift.String, Function0Converter<Int>, Int, Int>...")
         try Function6Converter<Swift.String, Int, Double, Swift.String, Function0Converter<Int>, Int, Int>.javaSetup(env: env)
         // print("setting up Function5Converter<Swift.String, Int, Double, Swift.String, Function0Converter<Int>, Function0Converter<Int>>...")

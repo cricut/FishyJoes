@@ -30,13 +30,24 @@ final class KotlinTranslator: Translator {
             selfExpression = context.module.name
         }
 
+        var asyncCallback: TranslatedType?
+
         let formals = [
             (name: "_javaEnv", type: "UnsafeMutablePointer<JNIEnv?>"),
             (name: "_javaThis", type: "jobject"),
         ] + method.parameters.map { parameter in
             let resolved = context.resolve(type: parameter.type, generics: exportAnnotation.genericOverrides)
             return (name: parameter.name, type: resolved.converterType.name + ".CType")
-        }
+        } + {
+            if method.isAsync {
+                asyncCallback = context.resolve(type: BetterType.function([method.returnType], .void, isAsync: false), generics: exportAnnotation.genericOverrides)
+                return [
+                    (name: "_asyncCallback", type: asyncCallback!.converterType.name + ".CType")
+                ]
+            } else {
+                return []
+            }
+        }()
         let fragment = context.swiftFragment(
             "JavaInterface/\(containingNamespace)+javadecl.swift",
             additionalImports: ["Foundation", "FishyJoesJavaRuntime"]
@@ -64,16 +75,15 @@ final class KotlinTranslator: Translator {
             if method.isAsync {
                 taskBlock = { body in
                     fragment.outputBlock("Task {") {
-                        fragment.output("await ", newLineTerminated: false)
                         body()
                     }
                 }
             }
 
-            taskBlock {
-                fragment.outputBlock("FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in", closeWith: "}") {
+            fragment.outputBlock("FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in", closeWith: "}") {
+                taskBlock {
                     let callName = method.sourceKind == .initializer ? "" : ".\(method.callName)"
-                    
+
                     // let isMutating = method.isMutating || method.modifiers.contains(where: { $0.name == "mutating" })
                     var mutateBlock: (() -> Void) -> Void = { $0() }
                     if method.isMutating {
@@ -85,9 +95,9 @@ final class KotlinTranslator: Translator {
                         }
                         selfExpression = "mutatingSelf"
                     }
-                    
+
                     mutateBlock {
-                        fragment.outputBlock("return try \(returnType.converterType.name).toJava(") {
+                        fragment.outputBlock("\(method.isAsync ? "let _asyncReturnValue =" : "return") try \(returnType.converterType.name).toJava(") {
                             if method.isAsync {
                                 fragment.output("await ", newLineTerminated: false)
                             }
@@ -99,6 +109,10 @@ final class KotlinTranslator: Translator {
                                 }
                             }
                             fragment.output("env: _javaEnv")
+                        }
+
+                        if let asyncCallback = asyncCallback {
+                            fragment.output("try \(asyncCallback.converterType.name).fromJava(_asyncCallback, env: _javaEnv)(_asyncReturnValue)")
                         }
                     }
                 }

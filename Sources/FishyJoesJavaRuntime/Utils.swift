@@ -65,54 +65,6 @@ public func callbackBody(
     }
 }
 
-public func callbackBody<Result: Defaultable>(
-    _ env: UnsafeMutablePointer<JNIEnv?>,
-    _ body: (_ env: Env) async throws -> Result
-) async -> Result {
-    let env = Env(env: env)
-    do {
-        return try await body(env)
-    } catch let e {
-        if env.ExceptionCheck() {
-            // no need to generate an exception, one is already pending and is probably the root cause
-            return .default
-        }
-        if let nullError = e as? NullPointerError {
-            guard let errorClass = try? env.FindClass("java/lang/NullPointerException"),
-                  env.ThrowNew(errorClass, nullError.message) else {
-                fatalError("error while throwing an error")
-            }
-            return .default
-        } else {
-            guard let errorClass = try? env.FindClass("java/lang/Error"),
-                  env.ThrowNew(errorClass, "\(e)") else {
-                fatalError("error while throwing an error")
-            }
-            return .default
-        }
-    }
-}
-
-public func callbackBody(
-    _ env: UnsafeMutablePointer<JNIEnv?>,
-    _ body: (_ env: Env) async throws -> Void
-) async {
-    let env = Env(env: env)
-    do {
-        try await body(env)
-    } catch let e {
-        if env.ExceptionCheck() {
-            // no need to generate an exception, one is already pending and is probably the root cause
-            return
-        }
-        print("Caught swift error \(e). Re-throwing to java.")
-        guard let errorClass = try? env.FindClass("java/lang/Error"),
-              env.ThrowNew(errorClass, "\(e)") else {
-            fatalError("error while throwing an error")
-        }
-    }
-}
-
 public struct JavaExceptionPending: Error {}
 public struct NullPointerError: Error {
     public let message: String

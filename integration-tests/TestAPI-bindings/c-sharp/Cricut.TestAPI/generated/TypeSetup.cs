@@ -403,6 +403,13 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
+            Once("setup_Function1Converter<Int, VoidConverter>", () => {
+                Console.WriteLine("setting up (Int) -> Void...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_Function1Converter_setup<nint>(
+                    "Function1Converter<Int, VoidConverter>",
+                    out exn
+                ));
+            });
             Once("setup_Tuple2Converter<Int, Swift.String>", () => {
                 Console.WriteLine("setting up (Int, String)...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_Tuple2Converter_setup<nint, string>(
