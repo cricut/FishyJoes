@@ -24,8 +24,7 @@ struct DockerContext {
         // find longest common prefix
         var commonComponents: [String] = []
         while let component = pathComponents.compactMap(\.first).first,
-              pathComponents.allSatisfy({ $0.first == component })
-        {
+              pathComponents.allSatisfy({ $0.first == component }) {
             commonComponents.append(component)
             pathComponents = pathComponents.map { Array($0.dropFirst()) }
         }
