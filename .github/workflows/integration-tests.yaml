@@ -133,6 +133,16 @@ jobs:
 
           swift run -- fishy-joes --c-sharp build test
 
+      - name: Test from node
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+          cd integration-tests/TestAPI-bindings
+
+          npm install
+
+          swift run -- fishy-joes --nodejs --wasm build test
+
       - name: Test from gradle
         shell: zsh {0}
         run: |
@@ -148,14 +158,15 @@ jobs:
           (cd kotlin-runtime && ./gradlew publishToMavenLocal)
 
           cd integration-tests/TestAPI-bindings
-          swift run -- fishy-joes --kotlin-fast build test
+          swift run -- fishy-joes --kotlin build test
 
-      - name: Test from node
+          cd kotlin
+          ./gradlew publishToMavenLocal
+
+      - name: Test from android
         shell: zsh {0}
         run: |
           set -euxo pipefail
-          cd integration-tests/TestAPI-bindings
 
-          npm install
-
-          swift run -- fishy-joes --nodejs --wasm build test
+          cd integration-tests/android-test-app
+          ./gradlew connectedAndroidTest

@@ -2,28 +2,30 @@
 
 set -euxo pipefail
 
+# Expects to run in android-swift-runtime docker image
+source /VERSIONS
+
 libdir=kotlin-runtime/src/generated/resources
 
 androidsStupidPlatforms=(
-    "aarch64-linux-android aarch64-unknown-linux-android arm64-v8a"
-    "arm-linux-androideabi armv7-unknown-linux-android armeabi-v7a"
-    "i686-linux-android i686-unknown-linux-android x86"
-    "x86_64-linux-android x86_64-unknown-linux-android x86_64"
+    "armv7 armeabi-v7a"
+    "aarch64 arm64-v8a"
+    "x86_64 x86_64"
 )
 export ANDROID_COMPATIBLE_ONLY=1
 
 for platformStr in $androidsStupidPlatforms; do
-    # From https://github.com/flowkey/swift-android-toolchain/pull/15/files
-    NDK_VERSION=$(cat /Library/Developer/Toolchains/swift-android-toolchain/NDK_VERSION || echo 21.3.6528147)
-    ANDROID_NDK_PATH=/usr/local/ndk/$NDK_VERSION
-
-    # Ensure clang from ndk is used when invoking `clang` without specific path.
-    # Otherwise it executes `/usr/bin/clang` which references clang from xcode command line tools.
-    export PATH="$ANDROID_NDK_PATH/toolchains/llvm/prebuilt/darwin-x86_64/bin:$PATH"
-
     platform=(${(z)platformStr})
-    /Library/Developer/Toolchains/swift-android-toolchain/usr/bin/swift-build-${platform[1]} --configuration release --product FishyJoesJavaRuntime
-    installDir=$libdir/lib/${platform[3]}
+    arch=${platform[1]}
+    ndkArch=${platform[2]}
+
+    toolchainPath=/swift-android-$arch
+    swift-build \
+        --configuration release \
+        --product FishyJoesJavaRuntime \
+        --destination $toolchainPath/usr/swiftpm-android-$arch.json \
+        -Xlinker -rpath -Xlinker '$'ORIGIN$toolchainPath/usr/lib/swift/android
+    installDir=$libdir/lib/$ndkArch
     mkdir -p $installDir/
-    cp .build/${platform[2]}/release/libFishyJoesJavaRuntime.so $installDir/
+    cp .build/$arch-unknown-linux-android$androidAPIVersion/release/libFishyJoesJavaRuntime.so $installDir/
 done

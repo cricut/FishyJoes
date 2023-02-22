@@ -33,6 +33,9 @@ public struct CodeGen: ParsableCommand {
     @Flag(name: .long, help: "Build library in debug mode")
     var debug = false
 
+    @Flag(name: .long, inversion: .prefixedNo, help: "Use docker")
+    var useDocker = true
+
     @Option(help: "Used for debugging fishy-joes code generation")
     var sourceryDumpPath: String?
 
@@ -66,6 +69,7 @@ public struct CodeGen: ParsableCommand {
         case kotlinFast
         case cSharp
         case wasmOpt
+        case useDocker
         case sourceryDumpPath
         case version
         case buildStep
@@ -83,11 +87,11 @@ extension CodeGen {
     public mutating func validate() throws {
         ExternalCommand.verbose = !quiet
 
-        config = try FishyJoesConfig.readFromFile()
-
         guard cmd("test", "-f", "Package.swift").runBool() else {
             throw ValidationError("No Package.swift found in current directory. fishy-joes must be run in the root of the bindings package")
         }
+
+        config = try FishyJoesConfig.readFromFile()
 
         if wasm {
             platforms.append(.wasm)
@@ -102,7 +106,7 @@ extension CodeGen {
             platforms.append(.kotlinSystem)
         }
         if kotlin && !kotlinFast {
-            platforms.append(contentsOf: AndroidArchitecture.allCases.map(Platform.kotlinAndroid))
+            platforms.append(contentsOf: Platform.AndroidArchitecture.allCases.map(Platform.kotlinAndroid))
         }
         if cSharp {
             platforms.append(.cSharp)
@@ -129,7 +133,24 @@ extension CodeGen {
             dependencyPaths[moduleName] = dependencyPath
         }
 
-        let configuration = BuildConfiguration(debug: debug, fat: fat, codeCoverage: codeCoveragePath != nil)
+        let localPathsNeeded = packageInfo.dependencyMap.compactMap {
+            let url = $0.value
+            return url.scheme == nil ? url.path : nil
+        }
+
+        let baseDockerContext = useDocker ? DockerContext(withAvailablePaths: localPathsNeeded) : nil
+        if let docker = baseDockerContext {
+            print("found docker binary: \(docker.hostDockerBinary)")
+        } else {
+            print("not using docker")
+        }
+
+        let configuration = BuildConfiguration(
+            debug: debug,
+            fat: fat,
+            codeCoverage: codeCoveragePath != nil,
+            baseDockerContext: baseDockerContext
+        )
 
         if buildStep.contains(.generate) {
             let translateeSources: String

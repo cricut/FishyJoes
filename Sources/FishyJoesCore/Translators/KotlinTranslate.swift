@@ -181,61 +181,71 @@ final class KotlinTranslator: Translator {
     }
 
     func setupFragments(context: FishyJoesContext, generatedTypes: Set<BetterType>) -> [SourceFragment] {
-        let javaTypeListFragment = context.swiftFragment(
+        let typeSetupFragment = context.swiftFragment(
             "JavaInterface/TypeSetup.swift",
             additionalImports: ["Foundation", "FishyJoesJavaRuntime"]
         )
 
-        javaTypeListFragment.output("@available(*, deprecated, message: \"Not actually deprecated, but this silences warnings because it may refer to deprecated methods\")")
-        javaTypeListFragment.output("@_cdecl(\"JNI_OnLoad\")")
-        javaTypeListFragment.outputBlock("public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutableRawPointer) -> jint {") {
-            javaTypeListFragment.output("var envRaw: UnsafeMutableRawPointer?")
-            javaTypeListFragment.outputBlock("guard vm.pointee!.pointee.GetEnv(vm, &envRaw, JNI_VERSION_1_4) == JNI_OK else {") {
-                javaTypeListFragment.output("fatalError(\"Couldn't obtain jvm environment\")")
+        typeSetupFragment.output("@available(*, deprecated, message: \"Not actually deprecated, but this silences warnings because it may refer to deprecated methods\")")
+        typeSetupFragment.output("@_cdecl(\"JNI_OnLoad\")")
+        typeSetupFragment.outputBlock("public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutableRawPointer) -> jint {") {
+            typeSetupFragment.output("var envRaw: UnsafeMutableRawPointer?")
+            typeSetupFragment.outputBlock("guard vm.pointee!.pointee.GetEnv(vm, &envRaw, JNI_VERSION_1_4) == JNI_OK else {") {
+                typeSetupFragment.output("fatalError(\"Couldn't obtain jvm environment\")")
             }
-            javaTypeListFragment.output("let env = UnsafeMutablePointer<JNIEnv?>(OpaquePointer(envRaw))")
-            javaTypeListFragment.outputBlock("return FishyJoesJavaRuntime.callbackBody(env!) { env in", closeWith: "}") {
-                javaTypeListFragment.output("let bag = CStringBag()")
+            typeSetupFragment.output("let env = UnsafeMutablePointer<JNIEnv?>(OpaquePointer(envRaw))")
+            typeSetupFragment.outputBlock("return FishyJoesJavaRuntime.callbackBody(env!) { env in", closeWith: "}") {
+                typeSetupFragment.output("let bag = CStringBag()")
                 for type in generatedTypes.sorted(by: { "\($0)" < "\($1)" }) {
                     guard type != .void else { continue }
                     let resolved = context.resolve(type: type)
-                    javaTypeListFragment.output("// print(\"setting up \(resolved.converterType.name)...\")")
-                    javaTypeListFragment.output("try \(resolved.converterType.name).javaSetup(env: env)")
+                    typeSetupFragment.output("// print(\"setting up \(resolved.converterType.name)...\")")
+                    typeSetupFragment.output("try \(resolved.converterType.name).javaSetup(env: env)")
                     if case .named = type {
                         if let nativeMethods = allMethods[type.name] {
-                            javaTypeListFragment.outputBlock("try env.RegisterNatives(\(resolved.converterType.name).javaClass,", closeWith: ")") {
+                            typeSetupFragment.outputBlock("try env.RegisterNatives(\(resolved.converterType.name).javaClass,", closeWith: ")") {
                                 for (method, signature, cName) in nativeMethods {
                                     let isLast = cName == nativeMethods.last?.cName
-                                    javaTypeListFragment.outputBlock("JNINativeMethod(", closeWith: isLast ? ")" : "),") {
-                                        javaTypeListFragment.output("name: bag.add(\"\(method)\"),")
-                                        javaTypeListFragment.output("signature: bag.add(\"\(signature)\"),")
-                                        javaTypeListFragment.output("fnPtr: unsafeBitCast(\(cName), to: UnsafeMutableRawPointer.self)")
+                                    typeSetupFragment.outputBlock("JNINativeMethod(", closeWith: isLast ? ")" : "),") {
+                                        typeSetupFragment.output("name: bag.add(\"\(method)\"),")
+                                        typeSetupFragment.output("signature: bag.add(\"\(signature)\"),")
+                                        typeSetupFragment.output("fnPtr: unsafeBitCast(\(cName), to: UnsafeMutableRawPointer.self)")
                                     }
                                 }
                             }
                         }
                     }
                 }
-                javaTypeListFragment.output("return JNI_VERSION_1_4")
+                typeSetupFragment.output("return JNI_VERSION_1_4")
             }
         }
 
         let module = context.module
+        let repName = "\(module.name)LoaderRepresentative"
         let ktFragment = SourceFragment(
-            sourceryDestination: "file:../../kotlin/src/generated/kotlin/com/cricut/\(module.name.lowercased())/loadNativeLibs.kt"
+            sourceryDestination: "file:../../kotlin/src/generated/kotlin/com/cricut/\(module.name.lowercased())/\(repName).kt"
         )
         ktFragment.output("package \(module.kotlinPackage)")
         ktFragment.blankLine()
         ktFragment.output("import com.cricut.fishyjoes.runtime.LibraryLoader")
+        ktFragment.output("import com.cricut.fishyjoes.runtime.FishyJoesRuntimeRepresentative")
+
         ktFragment.blankLine()
-        ktFragment.outputBlock("internal fun loadNativeLibs() {") {
-            ktFragment.output("LibraryLoader.ensureLoaded(\"FishyJoesJavaRuntime\")")
-            for dependency in module.dependencies {
-                ktFragment.output("LibraryLoader.ensureLoaded(\"\(dependency)\")")
-                ktFragment.output("LibraryLoader.ensureLoaded(\"\(dependency)-java\")")
+        ktFragment.outputBlock("object \(repName): LibraryLoader.LibraryRepresentative {") {
+            ktFragment.output("override fun ensureLoaded() {}")
+            ktFragment.output("override val nativeLibs = listOf(\"\(module.name)\", \"\(module.name)-java\")")
+            let deps = ["FishyJoesRuntimeRepresentative"] + module.dependencies.map { "\($0)LoaderRepresentative" }
+            ktFragment.outputBlock("override val dependencies: List<LibraryLoader.LibraryRepresentative> = listOf(") {
+                ktFragment.outputMap(deps, separator: ",", { $0 })
             }
-            ktFragment.output("LibraryLoader.ensureLoaded(\"\(module.name)\")")
-            ktFragment.output("LibraryLoader.ensureLoaded(\"\(module.name)-java\")")
+            ktFragment.blankLine()
+            ktFragment.outputBlock("init {") {
+                ktFragment.output("LibraryLoader.loadRepresentative(this)")
+            }
+        }
+
+        ktFragment.outputBlock("internal fun loadNativeLibs() {") {
+            ktFragment.output("\(repName).ensureLoaded()")
         }
 
         let exportFragment = SourceFragment(sourceryDestination: "file:JavaInterface/@_exported.swift")
@@ -244,7 +254,7 @@ final class KotlinTranslator: Translator {
             exportFragment.output("@_exported import \(dependency)_JavaInterface")
         }
 
-        return [javaTypeListFragment, ktFragment, exportFragment]
+        return [typeSetupFragment, ktFragment, exportFragment]
     }
 
     func kotlin(method: Method, context: FishyJoesContext) -> KotlinClass.MethodOrVariable? {
