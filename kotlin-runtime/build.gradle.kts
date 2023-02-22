@@ -111,15 +111,15 @@ jacoco {
 
 tasks {
     compileKotlin {
-        kotlinOptions.jvmTarget = "1.8"
+        kotlinOptions.jvmTarget = "11"
     }
     compileTestKotlin {
-        kotlinOptions.jvmTarget = "1.8"
+        kotlinOptions.jvmTarget = "11"
     }
 }
 
 dependencies {
-    runtimeOnly("com.cricut:android-swift-runtime:0.0.13-alpha11")
+    implementation("com.cricut:android-swift-runtime:0.0.13-alpha11")
     implementation(kotlin("stdlib:1.5.31"))
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.1")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.1")
