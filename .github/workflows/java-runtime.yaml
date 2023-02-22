@@ -102,7 +102,7 @@ jobs:
           password:  ${{ secrets.CRICUT_GPR_TOKEN }}
           registry: ghcr.io
           image: ghcr.io/cricut/android-swift-runtime:0.0.13-alpha11
-          options: -v ${{ github.workspace }}:/work
+          options: -v ${{ github.workspace }}:/work -w /work
           run: /work/scripts/compile-android-runtime.sh
 
       - name: Test FishyJoesJavaRuntime from gradle

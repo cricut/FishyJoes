@@ -23,8 +23,7 @@ for platformStr in $androidsStupidPlatforms; do
     swift-build \
         --configuration release \
         --product FishyJoesJavaRuntime \
-        --destination $toolchainPath/usr/swiftpm-android-$arch.json \
-        -Xlinker -rpath -Xlinker '$'ORIGIN$toolchainPath/usr/lib/swift/android
+        --destination $toolchainPath/usr/swiftpm-android-$arch.json
     installDir=$libdir/lib/$ndkArch
     mkdir -p $installDir/
     cp .build/$arch-unknown-linux-android$androidAPIVersion/release/libFishyJoesJavaRuntime.so $installDir/
