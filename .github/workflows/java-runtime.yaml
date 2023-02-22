@@ -81,8 +81,8 @@ jobs:
       - name: Login to github registry
         uses: docker/login-action@v2
         with:
-          username: ${{ github.actor }}
-          password:  ${{ secrets.GITHUB_TOKEN }}
+          username: cricut-builduser
+          password:  ${{ secrets.CRICUT_GPR_TOKEN }}
           registry: ghcr.io
 
       - name: Setup JDK 1.11
