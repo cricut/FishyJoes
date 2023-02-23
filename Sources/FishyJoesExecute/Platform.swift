@@ -7,7 +7,7 @@ struct BuildConfiguration {
     let debug: Bool
     let fat: Bool
     let codeCoverage: Bool
-    let baseDockerContext: DockerContext?
+    let baseDockerContext: Lazy<DockerContext?>
 }
 
 enum Platform: Hashable {
@@ -140,7 +140,7 @@ enum Platform: Hashable {
             )
             env["ANDROID_COMPATIBLE_ONLY"] = "1"
 
-            guard var dockerContext = configuration.baseDockerContext else {
+            guard var dockerContext = configuration.baseDockerContext.get() else {
                 print("WARNING: building for android without using a docker context is untested")
                 break
             }

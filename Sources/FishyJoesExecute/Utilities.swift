@@ -103,3 +103,34 @@ enum Interactive {
         }
     }
 }
+
+struct Lazy<T> {
+    private let box: Box
+
+    init(_ thunk: @escaping @autoclosure () -> T) {
+        box = Box(.thunk(thunk))
+    }
+
+    private enum Storage {
+        case thunk(() -> T)
+        case computed(T)
+    }
+
+    private class Box {
+        var storage: Storage
+        init(_ storage: Storage) {
+            self.storage = storage
+        }
+    }
+
+    func get() -> T {
+        switch box.storage {
+        case .computed(let value):
+            return value
+        case .thunk(let thunk):
+            let value = thunk()
+            box.storage = .computed(value)
+            return value
+        }
+    }
+}

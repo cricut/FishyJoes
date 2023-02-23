@@ -138,18 +138,21 @@ extension CodeGen {
             return url.scheme == nil ? url.path : nil
         }
 
-        let baseDockerContext = useDocker ? DockerContext(withAvailablePaths: localPathsNeeded) : nil
-        if let docker = baseDockerContext {
-            print("found docker binary: \(docker.hostDockerBinary)")
-        } else {
-            print("not using docker")
-        }
+        let makeDockerContext = useDocker ? {
+            let context = DockerContext(withAvailablePaths: localPathsNeeded)
+            if let context = context {
+                print("found docker binary: \(context.hostDockerBinary)")
+            } else {
+                print("not using docker")
+            }
+            return context
+        } : { nil }
 
         let configuration = BuildConfiguration(
             debug: debug,
             fat: fat,
             codeCoverage: codeCoveragePath != nil,
-            baseDockerContext: baseDockerContext
+            baseDockerContext: Lazy(makeDockerContext())
         )
 
         if buildStep.contains(.generate) {
