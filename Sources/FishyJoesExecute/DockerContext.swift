@@ -49,7 +49,6 @@ struct DockerContext {
             } + [
                 "-w", startDirectory,
                 image,
-                "--",
                 executable
             ] + arguments
         )
