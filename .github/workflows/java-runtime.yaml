@@ -58,8 +58,8 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: mac_generated
-          path: kotlin-runtime/src/generated
+          name: mac_lib
+          path: kotlin-runtime/src/generated/resources/mac/
 
   build-test-kotlin-linux:
     name: "linux: Build and test java runtime"
@@ -116,8 +116,8 @@ jobs:
       - name: Upload library
         uses: actions/upload-artifact@v2
         with:
-          name: ubuntu_lib
-          path: kotlin-runtime/src/generated/resources/linux/libFishyJoesJavaRuntime.so
+          name: ubuntu_generated
+          path: kotlin-runtime/src/generated
 
   build-test-kotlin-windows:
     name: "windows: Build and test kotlin bindings"
@@ -159,7 +159,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: windows_lib
-          path: kotlin-runtime/src/generated/resources/windows/FishyJoesJavaRuntime.dll
+          path: kotlin-runtime/src/generated/resources/windows/
 
   kotlin-publish:
     name: Publish kotlin package
@@ -201,10 +201,10 @@ jobs:
           ls *
 
           rm -rf kotlin-runtime/src/generated
-          mv mac_generated kotlin-runtime/src/generated
-          mkdir -p kotlin-runtime/src/generated/resources/{windows,linux}
-          mv ubuntu_lib/libFishyJoesJavaRuntime.so kotlin-runtime/src/generated/resources/linux/
-          mv windows_lib/FishyJoesJavaRuntime.dll kotlin-runtime/src/generated/resources/windows/
+          mv ubuntu_generated kotlin-runtime/src/generated
+          mkdir -p kotlin-runtime/src/generated/resources/{mac,windows}
+          mv mac_lib/*.dylib kotlin-runtime/src/generated/resources/mac/
+          mv windows_lib/*.dll kotlin-runtime/src/generated/resources/windows/
 
       - name: Test publish
         shell: zsh {0}
