@@ -170,11 +170,11 @@ jobs:
           cd kotlin
           ./gradlew publishToMavenLocal
 
-    - name: Test Android app
-      uses: reactivecircus/android-emulator-runner@v2
-      with:
-        api-level: 29
-        arch: x86_64
-        script: |
-          cd integration-tests/android-test-app
-          ./gradlew connectedCheck
+      - name: Test Android app
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 29
+          arch: x86_64
+          script: |
+            cd integration-tests/android-test-app
+            ./gradlew connectedCheck
