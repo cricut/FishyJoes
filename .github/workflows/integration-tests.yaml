@@ -76,7 +76,16 @@ jobs:
           (cd kotlin-runtime && ./gradlew publishToMavenLocal)
 
           cd integration-tests/TestAPI-bindings
-          swift run -- fishy-joes --kotlin-fast generate build test
+          swift run -- fishy-joes --kotlin generate build test
+
+      - name: Test Android app
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 29
+          arch: x86_64
+          script: |
+            cd integration-tests/android-test-app
+            ./gradlew connectedCheck
 
   integration-tests-linux:
     name: "linux: integration tests"
@@ -165,16 +174,7 @@ jobs:
           (cd kotlin-runtime && ./gradlew publishToMavenLocal)
 
           cd integration-tests/TestAPI-bindings
-          swift run -- fishy-joes --kotlin build test
+          swift run -- fishy-joes --kotlin-fast build test
 
           cd kotlin
           ./gradlew publishToMavenLocal
-
-      - name: Test Android app
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: 29
-          arch: x86_64
-          script: |
-            cd integration-tests/android-test-app
-            ./gradlew connectedCheck
