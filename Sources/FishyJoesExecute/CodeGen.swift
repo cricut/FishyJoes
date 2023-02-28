@@ -230,10 +230,12 @@ extension CodeGen {
 
         if buildStep.contains(.build) {
             // Pre-fetch dependencies for docker... TODO: can this be improved?
-            if let dockerPlatform = platforms.first(where: { $0.needsDocker(configuration: configuration) }) {
-                var tempBuildConfig = configuration
-                tempBuildConfig.baseDockerContext = Lazy(nil)
-                try dockerPlatform.build(product: "FishyJoesJavaRuntime", configuration: tempBuildConfig)
+            if platforms.contains(where: { $0.needsDocker(configuration: configuration) }) {
+                try cmd(
+                    "swift", "build",
+                    "--scratch-path", "./.build/android-build",
+                    "--product","FishyJoesJavaRuntime"
+                ).run()
             }
 
             // MARK: Build library
