@@ -170,27 +170,46 @@ jobs:
           cd kotlin
           ./gradlew publishToMavenLocal
 
-      - name: Build Android test app
-        shell: zsh {0}
-        run: |
-          set -euxo pipefail
-
-          cd integration-tests/android-test-app
-          ./gradlew assembleAndroidTest
-
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: android-test-apk
-          path: integration-tests/android-test-app/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
+          name: maven-local
+          path: ~/.m2/repository
 
   android-tests:
     name: "android: integration tests"
     needs: [integration-tests-linux]
     runs-on: macOS-12
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Git Credentials
+        uses: fusion-engineering/setup-git-credentials@v2.0.1
+        with:
+          credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
+
+      - name: Setup JDK 1.11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.11
+
       - name: Retrieve Artifacts
         uses: actions/download-artifact@v2
+
+      - name: Build Android test app
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+
+          ls -la maven-local
+
+          rm -rf ~/.m2/repository
+          mkdir -p ~/.m2
+          mv maven-local ~/.m2/repository
+
+          cd integration-tests/android-test-app
+          ./gradlew assembleAndroidTest
 
       - name: Test Android app
         uses: reactivecircus/android-emulator-runner@v2
@@ -198,7 +217,7 @@ jobs:
           api-level: 29
           arch: x86_64
           script: |
-            unzip -t android-test-apk/app-debug-androidTest.apk || true
-            adb install android-test-apk/app-debug-androidTest.apk
-            adb shell pm list instrumentation
-            adb shell am instrument -w com.cricut.testapitestapp.test/androidx.test.runner.AndroidJUnitRunner
+            set -euxo pipefail
+
+            cd integration-tests/android-test-app
+            ./gradlew connectedAndroidTest
