@@ -234,7 +234,7 @@ extension CodeGen {
                 try cmd(
                     "swift", "build",
                     "--scratch-path", "./.build/android-build",
-                    "--product","FishyJoesJavaRuntime"
+                    "--product", "FishyJoesJavaRuntime"
                 ).run()
             }
 

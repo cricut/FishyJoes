@@ -182,7 +182,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: android-test-apk
-          path: app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
+          path: integration-tests/android-test-app/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
 
   android-tests:
     name: "android: integration tests"
