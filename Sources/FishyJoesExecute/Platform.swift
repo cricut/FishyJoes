@@ -7,7 +7,7 @@ struct BuildConfiguration {
     let debug: Bool
     let fat: Bool
     let codeCoverage: Bool
-    let baseDockerContext: Lazy<DockerContext?>
+    var baseDockerContext: Lazy<DockerContext?>
 }
 
 enum Platform: Hashable {
@@ -55,6 +55,13 @@ enum Platform: Hashable {
         case .node, .cpp, .kotlinSystem, .cSharp:
             return true
         }
+    }
+
+    func needsDocker(configuration: BuildConfiguration) -> Bool {
+        if case .kotlinAndroid = self {
+            return configuration.baseDockerContext.get() != nil
+        }
+        return false
     }
 
     var dylibExt: String {
@@ -141,7 +148,7 @@ enum Platform: Hashable {
             env["ANDROID_COMPATIBLE_ONLY"] = "1"
 
             guard var dockerContext = configuration.baseDockerContext.get() else {
-                print("WARNING: building for android without using a docker context is untested")
+                print("WARNING: building for android without using a docker context (expecting to already be inside container)")
                 break
             }
             dockerContext.env.merge(env) { $1 }

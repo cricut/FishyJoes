@@ -141,9 +141,9 @@ extension CodeGen {
         let makeDockerContext = useDocker ? {
             let context = DockerContext(withAvailablePaths: localPathsNeeded)
             if let context = context {
-                print("found docker binary: \(context.hostDockerBinary)")
+                printAndFlush("found docker binary: \(context.hostDockerBinary)")
             } else {
-                print("not using docker")
+                printAndFlush("not using docker")
             }
             return context
         } : { nil }
@@ -229,6 +229,13 @@ extension CodeGen {
         }
 
         if buildStep.contains(.build) {
+            // Pre-fetch dependencies for docker... TODO: can this be improved?
+            if let dockerPlatform = platforms.first(where: { $0.needsDocker(configuration: configuration) }) {
+                var tempBuildConfig = configuration
+                tempBuildConfig.baseDockerContext = Lazy(nil)
+                try dockerPlatform.build(product: "FishyJoesJavaRuntime", configuration: tempBuildConfig)
+            }
+
             // MARK: Build library
             for platform in platforms {
                 let libs = [config.module] + config.requiredModules
@@ -284,9 +291,9 @@ extension CodeGen {
                         try cmd("wasm-opt", "\(platform.buildDir(configuration))/DummyMain.wasm", "-O1", "-o", "\(outputDir)/\(config.module).wasm").run()
                     } else {
                         if wasmOpt {
-                            print("WARNING: wasm-opt is not installed, resulting build will be bigger and possibly slower")
+                            printAndFlush("WARNING: wasm-opt is not installed, resulting build will be bigger and possibly slower")
                         } else {
-                            print("skipping wasm-opt")
+                            printAndFlush("skipping wasm-opt")
                         }
                         try cmd("cp", "\(platform.buildDir(configuration))/DummyMain.wasm", "\(outputDir)/\(config.module).wasm").run()
                     }
@@ -464,11 +471,11 @@ extension CodeGen {
                     break
                 case .cSharp:
                     if !cmd("dotnet-coverage", "--version").runBool() {
-                        print("Couldn't find dotnet-coverage! Install with:")
-                        print()
-                        print("   dotnet tool install --global dotnet-sonarscanner")
-                        print()
-                        print("and ensure that $HOME/.dotnet/tools is in your path")
+                        printAndFlush("Couldn't find dotnet-coverage! Install with:")
+                        printAndFlush()
+                        printAndFlush("   dotnet tool install --global dotnet-sonarscanner")
+                        printAndFlush()
+                        printAndFlush("and ensure that $HOME/.dotnet/tools is in your path")
                     }
                     try FileManager.default.withCurrentDirectoryPath("c-sharp") {
                         var commandParts = ["dotnet", "test", "Cricut.\(config.module).sln"]

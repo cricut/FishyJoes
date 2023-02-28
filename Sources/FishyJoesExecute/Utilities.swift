@@ -1,5 +1,11 @@
 import swsh
 
+#if canImport(Darwin)
+import Darwin
+#elseif canImport(Glibc)
+import Glibc
+#endif
+
 // https://stackoverflow.com/a/51944613
 enum AnsiColor: String {
     case reset = "\u{1b}[0m"
@@ -133,4 +139,9 @@ struct Lazy<T> {
             return value
         }
     }
+}
+
+func printAndFlush(_ items: Any..., separator: String = " ", terminator: String = "\n") {
+    print(items.map(String.init(describing:)).joined(separator: separator))
+    fflush(stdout)
 }

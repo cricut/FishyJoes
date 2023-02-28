@@ -76,16 +76,7 @@ jobs:
           (cd kotlin-runtime && ./gradlew publishToMavenLocal)
 
           cd integration-tests/TestAPI-bindings
-          swift run -- fishy-joes --kotlin generate build test
-
-      - name: Test Android app
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: 29
-          arch: x86_64
-          script: |
-            cd integration-tests/android-test-app
-            ./gradlew connectedCheck
+          swift run -- fishy-joes --kotlin-fast generate build test
 
   integration-tests-linux:
     name: "linux: integration tests"
@@ -174,7 +165,38 @@ jobs:
           (cd kotlin-runtime && ./gradlew publishToMavenLocal)
 
           cd integration-tests/TestAPI-bindings
-          swift run -- fishy-joes --kotlin-fast build test
+          swift run -- fishy-joes --kotlin build test
 
           cd kotlin
           ./gradlew publishToMavenLocal
+
+      - name: Build Android test app
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+
+          cd integration-tests/android-test-app
+          ./gradlew assembleAndroidTest
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: android-test-apk
+          path: app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
+
+
+  android-tests:
+    name: "android: integration tests"
+    needs: [integration-tests-linux]
+    runs-on: macOS-12
+      - name: Retrieve Artifacts
+        uses: actions/download-artifact@v2
+
+      - name: Test Android app
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 29
+          arch: x86_64
+          script: |
+            adb install android-test-apk/app-debug-androidTest.apk
+            adb shell am instrument -w com.cricut.testapitestapp.test/androidx.test.runner.AndroidJUnitRunner
