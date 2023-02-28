@@ -184,11 +184,11 @@ jobs:
           name: android-test-apk
           path: app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
 
-
   android-tests:
     name: "android: integration tests"
     needs: [integration-tests-linux]
     runs-on: macOS-12
+    steps:
       - name: Retrieve Artifacts
         uses: actions/download-artifact@v2
 
