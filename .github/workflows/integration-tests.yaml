@@ -198,5 +198,7 @@ jobs:
           api-level: 29
           arch: x86_64
           script: |
+            unzip -t android-test-apk/app-debug-androidTest.apk || true
             adb install android-test-apk/app-debug-androidTest.apk
+            adb shell pm list instrumentation
             adb shell am instrument -w com.cricut.testapitestapp.test/androidx.test.runner.AndroidJUnitRunner
