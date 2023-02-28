@@ -180,6 +180,11 @@ jobs:
     name: "android: integration tests"
     needs: [integration-tests-linux]
     runs-on: macOS-12
+    env:
+      JDK_VERSION: 11
+      GRADLE_OPTS: -Dorg.gradle.daemon=false
+      GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
+      GITHUB_USER: cricut-builduser
     steps:
       - name: Checkout
         uses: actions/checkout@v2
