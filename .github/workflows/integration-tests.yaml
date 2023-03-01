@@ -216,6 +216,12 @@ jobs:
           cd integration-tests/android-test-app
           ./gradlew assembleAndroidTest
 
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: android-test-apk
+          path: integration-tests/android-test-app/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
+
       - name: Test Android app
         uses: reactivecircus/android-emulator-runner@v2
         with:
