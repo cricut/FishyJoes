@@ -221,8 +221,6 @@ jobs:
         with:
           api-level: 29
           arch: x86_64
+          # NOTE: each line of this script is executed in its own shell
           script: |
-            set -euxo pipefail
-
-            cd integration-tests/android-test-app
-            ./gradlew connectedAndroidTest
+            cd integration-tests/android-test-app && ./gradlew connectedAndroidTest
