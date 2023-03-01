@@ -83,6 +83,8 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try ArrayConverter<UInt64>.javaSetup(env: env)
         // print("setting up ArrayConverter<UInt8>...")
         try ArrayConverter<UInt8>.javaSetup(env: env)
+        // print("setting up ArrayConverter<Tuple4Converter<Int8, Int16, Int32, Int64>>...")
+        try ArrayConverter<Tuple4Converter<Int8, Int16, Int32, Int64>>.javaSetup(env: env)
         // print("setting up DictionaryConverter<Bool, Bool>...")
         try DictionaryConverter<Bool, Bool>.javaSetup(env: env)
         // print("setting up DictionaryConverter<Int, OptionalConverter<Int>>...")
@@ -253,6 +255,11 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_get_dictionaryOfIntToInt"),
                 signature: bag.add("()Ljava/util/Map;"),
                 fnPtr: unsafeBitCast(java_get_Collections_dictionaryOfIntToInt, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_arrayOfBigTuples"),
+                signature: bag.add("()Ljava/util/List;"),
+                fnPtr: unsafeBitCast(java_get_Collections_arrayOfBigTuples, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_get_maybeArrayOfInt"),
@@ -1016,6 +1023,8 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try UInt8.javaSetup(env: env)
         // print("setting up Tuple2Converter<Int, Swift.String>...")
         try Tuple2Converter<Int, Swift.String>.javaSetup(env: env)
+        // print("setting up Tuple4Converter<Int8, Int16, Int32, Int64>...")
+        try Tuple4Converter<Int8, Int16, Int32, Int64>.javaSetup(env: env)
         // print("setting up Tuple3Converter<Swift.String, Double, Swift.String>...")
         try Tuple3Converter<Swift.String, Double, Swift.String>.javaSetup(env: env)
         // print("setting up Tuple6Converter<Swift.String, Int, Double, Tuple4Converter<Tuple2Converter<Int, Swift.String>, Tuple3Converter<Swift.String, Double, Swift.String>, Swift.String, Bool>, Tuple5Converter<Swift.String, UInt8, Tuple4Converter<Tuple2Converter<Int, Swift.String>, Tuple3Converter<Swift.String, Double, Swift.String>, Swift.String, Bool>, Tuple3Converter<Swift.String, Double, Swift.String>, Tuple2Converter<Int, Swift.String>>, Bool>...")

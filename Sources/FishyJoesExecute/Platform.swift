@@ -26,8 +26,36 @@ enum Platform: Hashable {
         "-Xswiftc", "-profile-generate",
     ]
 
+    var isNative: Bool {
+        switch self {
+        case .wasm, .kotlinAndroid:
+            return false
+        case .node, .cpp, .kotlinSystem, .cSharp:
+            return true
+        }
+    }
+
+    var dylibExt: String {
+        switch self {
+        case .wasm:
+            return "wasmlib" // not a real thing
+        case .kotlinAndroid:
+            return "so"
+        default:
+            #if os(macOS)
+            return "dylib"
+            #elseif os(Linux)
+            return "so"
+            #elseif os(Windows)
+            return "dll"
+            #else
+            fatalError("unknown host OS")
+            #endif
+        }
+    }
+
     func build(product: String? = nil, libs: [String] = [], configuration: BuildConfiguration) throws {
-        if configuration.fat {
+        if isNative, configuration.fat {
             guard let product = product else {
                 fatalError("Can't infer products in fat builds")
             }
@@ -202,7 +230,7 @@ enum Platform: Hashable {
     }
 
     func buildDir(_ configuration: BuildConfiguration) throws -> String {
-        if configuration.fat {
+        if isNative, configuration.fat {
             return ".build/apple/\(configuration.debug ? "debug" : "release")"
         } else {
             return try swiftBuild("--show-bin-path", configuration: configuration).runString()

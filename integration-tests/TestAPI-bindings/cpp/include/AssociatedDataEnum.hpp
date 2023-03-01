@@ -10,6 +10,7 @@ namespace TestAPI {
         class bar;
         class noValue;
         class other;
+        class simpleEnum;
         class thing;
         class bar {
             /*  Complete Constructor  */
@@ -59,6 +60,22 @@ namespace TestAPI {
             template <typename T> friend struct std::hash;
             template <typename T> friend struct std::equal_to;
         };
+        class simpleEnum {
+            /*  Complete Constructor  */
+            public:
+            /// Create new simpleEnum
+            simpleEnum(const SimpleEnum &value);
+            
+            /*  Methods  */
+            
+            /*  Data  */
+            public:
+            SimpleEnum value;
+            
+            friend struct FishyJoesInternal::Packer;
+            template <typename T> friend struct std::hash;
+            template <typename T> friend struct std::equal_to;
+        };
         class thing {
             /*  Complete Constructor  */
             public:
@@ -79,7 +96,7 @@ namespace TestAPI {
         /* Special */
         
         private:
-        using VariantType = std::variant<thing, other, bar, noValue>;
+        using VariantType = std::variant<thing, other, bar, noValue, simpleEnum>;
         
         public:
         template <typename T>
@@ -126,7 +143,7 @@ namespace TestAPI {
         /*  Complete Constructor  */
         private:
         /// Create new AssociatedDataEnum (only to be used by FishyJoes internally. Look for static methods for initialization or other public constructors.)
-        AssociatedDataEnum(const std::variant<thing,other,bar,noValue> &_variant);
+        AssociatedDataEnum(const std::variant<thing,other,bar,noValue,simpleEnum> &_variant);
         
         /*  Methods  */
         public:
@@ -143,7 +160,7 @@ namespace TestAPI {
         /*  Data  */
         private:
         /// std::variant containing subtypes
-        std::variant<thing,other,bar,noValue> _variant;
+        std::variant<thing,other,bar,noValue,simpleEnum> _variant;
         
         friend struct FishyJoesInternal::Packer;
         template <typename T> friend struct std::hash;

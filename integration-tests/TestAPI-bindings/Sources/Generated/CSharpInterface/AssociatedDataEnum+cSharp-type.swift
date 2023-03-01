@@ -15,7 +15,9 @@ public func TestAPI_AssociatedDataEnum_setup(
     bar_constructor: @escaping AssociatedDataEnum.Bar_constructor,
     bar_extractor: @escaping AssociatedDataEnum.Bar_extractor,
     noValue_constructor: @escaping AssociatedDataEnum.NoValue_constructor,
-    noValue_extractor: @escaping AssociatedDataEnum.NoValue_extractor
+    noValue_extractor: @escaping AssociatedDataEnum.NoValue_extractor,
+    simpleEnum_constructor: @escaping AssociatedDataEnum.SimpleEnum_constructor,
+    simpleEnum_extractor: @escaping AssociatedDataEnum.SimpleEnum_extractor
 ) {
     AssociatedDataEnum.discriminator = discriminator
     AssociatedDataEnum.thing_constructor = thing_constructor
@@ -26,6 +28,8 @@ public func TestAPI_AssociatedDataEnum_setup(
     AssociatedDataEnum.bar_extractor = bar_extractor
     AssociatedDataEnum.noValue_constructor = noValue_constructor
     AssociatedDataEnum.noValue_extractor = noValue_extractor
+    AssociatedDataEnum.simpleEnum_constructor = simpleEnum_constructor
+    AssociatedDataEnum.simpleEnum_extractor = simpleEnum_extractor
 }
 
 extension AssociatedDataEnum: CSharpConverter {
@@ -80,6 +84,17 @@ extension AssociatedDataEnum: CSharpConverter {
         csOutExn
     ) -> Void
     fileprivate static var noValue_extractor: NoValue_extractor!
+    public typealias SimpleEnum_constructor = @convention(c) (
+        SimpleEnum.CType,
+        csOutExn
+    ) -> csObject
+    fileprivate static var simpleEnum_constructor: SimpleEnum_constructor!
+    public typealias SimpleEnum_extractor = @convention(c) (
+        csObject,
+        UnsafePointer<SimpleEnum.CType>,
+        csOutExn
+    ) -> Void
+    fileprivate static var simpleEnum_extractor: SimpleEnum_extractor!
 
     public static func peekCSharp(_ value: csObject) throws -> Self {
         switch try Env.check({ exn in discriminator(value, exn) }) {
@@ -115,6 +130,15 @@ extension AssociatedDataEnum: CSharpConverter {
         case 3:
             try Env.check { exn in noValue_extractor(value, exn) }
             return Self.noValue
+        case 4:
+            var _value = SimpleEnum.CType.default
+            try Env.check { exn in simpleEnum_extractor(value, &_value, exn) }
+            defer {
+                Env.deleteRef(_value)
+            }
+            return Self.simpleEnum(
+                value: try SimpleEnum.peekCSharp(_value)
+            )
         case let disc:
             fatalError("bad discriminator value \(disc) encountered for type \(self)")
         }
@@ -148,6 +172,13 @@ extension AssociatedDataEnum: CSharpConverter {
         case noValue:
             return try Env.check { exn in
                 return noValue_constructor(
+                    exn
+                )
+            }
+        case let simpleEnum(value):
+            return try Env.check { exn in
+                return simpleEnum_constructor(
+                    try SimpleEnum.toCSharp(value),
                     exn
                 )
             }

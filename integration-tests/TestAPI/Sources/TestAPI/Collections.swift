@@ -15,6 +15,8 @@ public enum Collections {
     public static let setOfInt: Set<Int> = [5, 9, 2, 4, 3]
     /// <!-- FishyJoes.export(dictionaryOfIntToInt) -->
     public static let dictionaryOfIntToInt: [Int: Int] = [1: 10, 2: 20, 3: 30, 4: 40, 5: 50]
+    /// <!-- FishyJoes.export(arrayOfBigTuples) -->
+    public static let arrayOfBigTuples: [(Int8, Int16, Int32, Int64)] = [(1, 2, 3, 4), (5, 6, 7, 8)]
 
     // MARK: - Optional Collection Values
 
