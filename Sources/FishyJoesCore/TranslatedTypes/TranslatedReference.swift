@@ -213,7 +213,7 @@ struct TranslatedReference: TranslatedType {
                 if !isInhabited {
                     fragment.output("// Uninhabited type")
                 } else {
-                    fragment.output("let ptr = jvalue(j: jlong(UInt(bitPattern: Box(value).retainedOpaque())))")
+                    fragment.output("javaPointer(Box(value))")
                     fragment.output("return try env.NewObject(javaClass, _constructorMethodID, ptr)")
                 }
             }

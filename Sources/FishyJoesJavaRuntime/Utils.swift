@@ -101,3 +101,7 @@ public class CStringBag {
         strings = []
     }
 }
+
+public func javaPointer<T>(_ box: Box<T>) -> jvalue {
+    jvalue(j: jlong(Int64(bitPattern: UInt64(UInt(bitPattern: box.retainedOpaque())))))
+}

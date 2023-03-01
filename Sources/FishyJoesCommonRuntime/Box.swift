@@ -62,13 +62,13 @@ public final class AnyBox {
 
     public func retainedOpaque() -> UnsafeMutableRawPointer {
         let pointer = Unmanaged<AnyBox>.passRetained(self).toOpaque()
-        // print("retained: \(pointer)")
+        print("retained: \(pointer)")
         return pointer
     }
 
     public static func releaseOpaque(_ pointer: UnsafeMutableRawPointer?) {
         guard let pointer = pointer else { return }
-        // print("releasing: \(pointer)")
+        print("releasing: \(pointer)")
         Unmanaged<AnyBox>.fromOpaque(pointer).release()
     }
 
