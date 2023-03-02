@@ -2,12 +2,12 @@ import Foundation
 import swsh
 
 let wasmToolchain = "/Library/Developer/Toolchains/swift-wasm-5.6.0-RELEASE.xctoolchain"
-let androidToolchain = "/Library/Developer/Toolchains/swift-android-toolchain"
 
 struct BuildConfiguration {
     let debug: Bool
     let fat: Bool
     let codeCoverage: Bool
+    var baseDockerContext: Lazy<DockerContext?>
 }
 
 enum Platform: Hashable {
@@ -17,6 +17,28 @@ enum Platform: Hashable {
     case kotlinSystem
     case kotlinAndroid(AndroidArchitecture)
     case cSharp
+
+    enum AndroidArchitecture: String, Equatable, CaseIterable {
+        case armv7, x86_64, aarch64
+
+        static let apiVersion = 24
+
+        var triple: String {
+            "\(rawValue)-unknown-linux-android\(AndroidArchitecture.apiVersion)"
+        }
+
+        var ndkName: String {
+            switch self {
+            case .armv7: return "armeabi-v7a"
+            case .x86_64: return "x86_64"
+            case .aarch64: return "arm64-v8a"
+            }
+        }
+
+        var toolchainPath: String {
+            "/swift-android-\(self)"
+        }
+    }
 
     static let nativeMacSwiftBuild = try! cmd("xcrun", "-f", "swift-build").runString()
 
@@ -33,6 +55,13 @@ enum Platform: Hashable {
         case .node, .cpp, .kotlinSystem, .cSharp:
             return true
         }
+    }
+
+    func needsDocker(configuration: BuildConfiguration) -> Bool {
+        if case .kotlinAndroid = self {
+            return configuration.baseDockerContext.get() != nil
+        }
+        return false
     }
 
     var dylibExt: String {
@@ -108,22 +137,23 @@ enum Platform: Hashable {
             #else
             fatalError("unknown host OS")
             #endif
-        case .kotlinAndroid(.arm):
-            path = "\(androidToolchain)/usr/bin/swift-build-arm-linux-androideabi"
-            env["ANDROID_COMPATIBLE_ONLY"] = "1"
-            args.append(
-                contentsOf: [
-                    "--build-path", "./.build/android-build",
-                ]
-            )
         case let .kotlinAndroid(arch):
-            path = "\(androidToolchain)/usr/bin/swift-build-\(arch.rawValue)-linux-android"
-            env["ANDROID_COMPATIBLE_ONLY"] = "1"
+            path = "swift-build"
             args.append(
                 contentsOf: [
-                    "--build-path", "./.build/android-build",
+                    "--scratch-path", "./.build/android-build",
+                    "--destination", "\(arch.toolchainPath)/usr/swiftpm-android-\(arch).json",
                 ]
             )
+            env["ANDROID_COMPATIBLE_ONLY"] = "1"
+
+            guard var dockerContext = configuration.baseDockerContext.get() else {
+                print("WARNING: building for android without using a docker context (expecting to already be inside container)")
+                break
+            }
+            dockerContext.env.merge(env) { $1 }
+            return dockerContext.cmd("swift-build", arguments: args)
+
         case .cSharp:
             #if os(macOS)
             path = Platform.nativeMacSwiftBuild
@@ -232,6 +262,8 @@ enum Platform: Hashable {
     func buildDir(_ configuration: BuildConfiguration) throws -> String {
         if isNative, configuration.fat {
             return ".build/apple/\(configuration.debug ? "debug" : "release")"
+        } else if case .kotlinAndroid(let arch) = self {
+            return ".build/android-build/\(arch.triple)/\(configuration.debug ? "debug" : "release")"
         } else {
             return try swiftBuild("--show-bin-path", configuration: configuration).runString()
         }

@@ -1,0 +1,25 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        mavenLocal()
+        maven {
+            name = "GitHubPackagesSwiftRuntime"
+            url = uri("https://maven.pkg.github.com/cricut/android-swift-runtime")
+            credentials {
+                username = (System.env.GITHUB_USER != null && System.env.GITHUB_USER != "") ? System.env.GITHUB_USER : gpr_user
+                password = (System.env.GITHUB_TOKEN != null && System.env.GITHUB_TOKEN != "") ? System.env.GITHUB_TOKEN : gpr_key
+            }
+        }
+        google()
+        mavenCentral()
+    }
+}
+rootProject.name = "TestAPITestApp"
+include ':app'

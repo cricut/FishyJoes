@@ -33,6 +33,9 @@ public struct CodeGen: ParsableCommand {
     @Flag(name: .long, help: "Build library in debug mode")
     var debug = false
 
+    @Flag(name: .long, inversion: .prefixedNo, help: "Use docker")
+    var useDocker = true
+
     @Option(help: "Used for debugging fishy-joes code generation")
     var sourceryDumpPath: String?
 
@@ -66,6 +69,7 @@ public struct CodeGen: ParsableCommand {
         case kotlinFast
         case cSharp
         case wasmOpt
+        case useDocker
         case sourceryDumpPath
         case version
         case buildStep
@@ -83,11 +87,11 @@ extension CodeGen {
     public mutating func validate() throws {
         ExternalCommand.verbose = !quiet
 
-        config = try FishyJoesConfig.readFromFile()
-
         guard cmd("test", "-f", "Package.swift").runBool() else {
             throw ValidationError("No Package.swift found in current directory. fishy-joes must be run in the root of the bindings package")
         }
+
+        config = try FishyJoesConfig.readFromFile()
 
         if wasm {
             platforms.append(.wasm)
@@ -102,7 +106,7 @@ extension CodeGen {
             platforms.append(.kotlinSystem)
         }
         if kotlin && !kotlinFast {
-            platforms.append(contentsOf: AndroidArchitecture.allCases.map(Platform.kotlinAndroid))
+            platforms.append(contentsOf: Platform.AndroidArchitecture.allCases.map(Platform.kotlinAndroid))
         }
         if cSharp {
             platforms.append(.cSharp)
@@ -129,7 +133,27 @@ extension CodeGen {
             dependencyPaths[moduleName] = dependencyPath
         }
 
-        let configuration = BuildConfiguration(debug: debug, fat: fat, codeCoverage: codeCoveragePath != nil)
+        let localPathsNeeded = packageInfo.dependencyMap.compactMap {
+            let url = $0.value
+            return url.scheme == nil ? url.path : nil
+        }
+
+        let makeDockerContext = useDocker ? {
+            let context = DockerContext(withAvailablePaths: localPathsNeeded)
+            if let context = context {
+                printAndFlush("found docker binary: \(context.hostDockerBinary)")
+            } else {
+                printAndFlush("not using docker")
+            }
+            return context
+        } : { nil }
+
+        let configuration = BuildConfiguration(
+            debug: debug,
+            fat: fat,
+            codeCoverage: codeCoveragePath != nil,
+            baseDockerContext: Lazy(makeDockerContext())
+        )
 
         if buildStep.contains(.generate) {
             let translateeSources: String
@@ -205,6 +229,15 @@ extension CodeGen {
         }
 
         if buildStep.contains(.build) {
+            // Pre-fetch dependencies for docker... TODO: can this be improved?
+            if platforms.contains(where: { $0.needsDocker(configuration: configuration) }) {
+                try cmd(
+                    "swift", "build",
+                    "--scratch-path", "./.build/android-build",
+                    "--product", "FishyJoesJavaRuntime"
+                ).run()
+            }
+
             // MARK: Build library
             for platform in platforms {
                 let libs = [config.module] + config.requiredModules
@@ -260,9 +293,9 @@ extension CodeGen {
                         try cmd("wasm-opt", "\(platform.buildDir(configuration))/DummyMain.wasm", "-O1", "-o", "\(outputDir)/\(config.module).wasm").run()
                     } else {
                         if wasmOpt {
-                            print("WARNING: wasm-opt is not installed, resulting build will be bigger and possibly slower")
+                            printAndFlush("WARNING: wasm-opt is not installed, resulting build will be bigger and possibly slower")
                         } else {
-                            print("skipping wasm-opt")
+                            printAndFlush("skipping wasm-opt")
                         }
                         try cmd("cp", "\(platform.buildDir(configuration))/DummyMain.wasm", "\(outputDir)/\(config.module).wasm").run()
                     }
@@ -440,11 +473,11 @@ extension CodeGen {
                     break
                 case .cSharp:
                     if !cmd("dotnet-coverage", "--version").runBool() {
-                        print("Couldn't find dotnet-coverage! Install with:")
-                        print()
-                        print("   dotnet tool install --global dotnet-sonarscanner")
-                        print()
-                        print("and ensure that $HOME/.dotnet/tools is in your path")
+                        printAndFlush("Couldn't find dotnet-coverage! Install with:")
+                        printAndFlush()
+                        printAndFlush("   dotnet tool install --global dotnet-sonarscanner")
+                        printAndFlush()
+                        printAndFlush("and ensure that $HOME/.dotnet/tools is in your path")
                     }
                     try FileManager.default.withCurrentDirectoryPath("c-sharp") {
                         var commandParts = ["dotnet", "test", "Cricut.\(config.module).sln"]

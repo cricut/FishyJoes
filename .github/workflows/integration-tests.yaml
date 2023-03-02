@@ -97,6 +97,13 @@ jobs:
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
+      - name: Login to github registry
+        uses: docker/login-action@v2
+        with:
+          username: cricut-builduser
+          password:  ${{ secrets.CRICUT_GPR_TOKEN }}
+          registry: ghcr.io
+
       - name: Setup Node
         uses: actions/setup-node@v1
         with:
@@ -116,7 +123,7 @@ jobs:
           sudo apt-get install zsh
 
           # Sadly, Ubuntu LTS doesn't have an up-to-date binaryen, so use a wasm version instead
-          npm -g install binaryen
+          npm -g install binaryen@111.0.0
 
           curl -Lo swift-wasm.tgz $SWIFT_WASM_URL
           sudo mkdir -p /Library/Developer/Toolchains/swift-wasm-5.6.0-RELEASE.xctoolchain
@@ -133,23 +140,6 @@ jobs:
 
           swift run -- fishy-joes --c-sharp build test
 
-      - name: Test from gradle
-        shell: zsh {0}
-        run: |
-          set -euxo pipefail
-
-          libdir=kotlin-runtime/src/generated/resources/linux
-
-          rm -rf $libdir
-          mkdir -p $libdir
-
-          swift build --configuration release --product FishyJoesJavaRuntime
-          cp .build/release/libFishyJoesJavaRuntime.so $libdir
-          (cd kotlin-runtime && ./gradlew publishToMavenLocal)
-
-          cd integration-tests/TestAPI-bindings
-          swift run -- fishy-joes --kotlin-fast build test
-
       - name: Test from node
         shell: zsh {0}
         run: |
@@ -159,3 +149,94 @@ jobs:
           npm install
 
           swift run -- fishy-joes --nodejs --wasm build test
+
+      - name: Build linux FishyJoesJavaRuntime
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+
+          libdir=kotlin-runtime/src/generated/resources/linux
+
+          rm -rf $libdir
+          mkdir -p $libdir
+
+          ./scripts/compile-kotlin-native-runtime.sh
+
+
+      - name: Build android FishyJoesJavaRuntime
+        uses: addnab/docker-run-action@4f65fabd2431ebc8d299f8e5a018d79a769ae185
+        with:
+          username: cricut-builduser
+          password:  ${{ secrets.CRICUT_GPR_TOKEN }}
+          registry: ghcr.io
+          image: ghcr.io/cricut/android-swift-runtime:0.1.0
+          options: -v ${{ github.workspace }}:/work -w /work
+          run: /work/scripts/compile-android-runtime.sh
+
+      - name: Test from gradle
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+
+          (cd kotlin-runtime && ./gradlew publishToMavenLocal)
+
+          cd integration-tests/TestAPI-bindings
+          swift run -- fishy-joes --kotlin build test
+
+          cd kotlin
+          ./gradlew publishToMavenLocal
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: maven-local
+          path: ~/.m2/repository
+
+  android-tests:
+    name: "android: integration tests"
+    needs: [integration-tests-linux]
+    runs-on: macOS-12
+    env:
+      JDK_VERSION: 11
+      GRADLE_OPTS: -Dorg.gradle.daemon=false
+      GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
+      GITHUB_USER: cricut-builduser
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Git Credentials
+        uses: fusion-engineering/setup-git-credentials@v2.0.1
+        with:
+          credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
+
+      - name: Setup JDK 1.11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.11
+
+      - name: Retrieve Artifacts
+        uses: actions/download-artifact@v2
+
+      - name: Build Android test app
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+
+          ls -la maven-local
+
+          rm -rf ~/.m2/repository
+          mkdir -p ~/.m2
+          mv maven-local ~/.m2/repository
+
+          cd integration-tests/android-test-app
+          ./gradlew assembleAndroidTest
+
+      - name: Test Android app
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 29
+          arch: x86_64
+          # NOTE: each line of this script is executed in its own shell
+          script: |
+            cd integration-tests/android-test-app && ./gradlew connectedAndroidTest

@@ -42,6 +42,19 @@ gradle.rootProject {
     }
 }
 
+publishing {
+    publications {
+        create<MavenPublication>("mavenJava") {
+            groupId = properties["group"] as? String
+            artifactId = properties["artifact"] as? String
+            version = properties["version"] as? String
+
+            from(components["java"])
+            artifact(sourcesJar.get())
+        }
+    }
+}
+
 sourceSets.main {
     java.srcDir("src/generated/kotlin")
     resources.srcDir("src/generated/resources")
@@ -56,7 +69,7 @@ tasks.test {
     )
     testLogging {
         exceptionFormat = TestExceptionFormat.FULL
-        events("started", "skipped", "passed", "failed")
+        events("started", "skipped", "passed", "failed", "standardOut", "standardError")
         showStandardStreams = true
     }
 }
