@@ -150,6 +150,19 @@ jobs:
 
           swift run -- fishy-joes --nodejs --wasm build test
 
+      - name: Build linux FishyJoesJavaRuntime
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+
+          libdir=kotlin-runtime/src/generated/resources/linux
+
+          rm -rf $libdir
+          mkdir -p $libdir
+
+          ./scripts/compile-kotlin-native-runtime.sh
+
+
       - name: Build android FishyJoesJavaRuntime
         uses: addnab/docker-run-action@4f65fabd2431ebc8d299f8e5a018d79a769ae185
         with:
@@ -165,12 +178,6 @@ jobs:
         run: |
           set -euxo pipefail
 
-          libdir=kotlin-runtime/src/generated/resources/linux
-
-          rm -rf $libdir
-          mkdir -p $libdir
-
-          ./scripts/compile-kotlin-native-runtime.sh
           (cd kotlin-runtime && ./gradlew publishToMavenLocal)
 
           cd integration-tests/TestAPI-bindings
