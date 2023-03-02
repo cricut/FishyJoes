@@ -6,6 +6,7 @@ plugins {
 android {
     namespace 'com.cricut.testapitestapp'
     compileSdk 32
+    ndkVersion "25.1.8937393"
 
     defaultConfig {
         applicationId "com.cricut.testapitestapp"

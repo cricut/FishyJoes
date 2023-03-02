@@ -150,6 +150,16 @@ jobs:
 
           swift run -- fishy-joes --nodejs --wasm build test
 
+      - name: Build android FishyJoesJavaRuntime
+        uses: addnab/docker-run-action@4f65fabd2431ebc8d299f8e5a018d79a769ae185
+        with:
+          username: cricut-builduser
+          password:  ${{ secrets.CRICUT_GPR_TOKEN }}
+          registry: ghcr.io
+          image: ghcr.io/cricut/android-swift-runtime:0.1.0
+          options: -v ${{ github.workspace }}:/work -w /work
+          run: /work/scripts/compile-android-runtime.sh
+
       - name: Test from gradle
         shell: zsh {0}
         run: |
@@ -160,8 +170,7 @@ jobs:
           rm -rf $libdir
           mkdir -p $libdir
 
-          swift build --configuration release --product FishyJoesJavaRuntime
-          cp .build/release/libFishyJoesJavaRuntime.so $libdir
+          ./scripts/compile-kotlin-native-runtime.sh
           (cd kotlin-runtime && ./gradlew publishToMavenLocal)
 
           cd integration-tests/TestAPI-bindings
@@ -215,12 +224,6 @@ jobs:
 
           cd integration-tests/android-test-app
           ./gradlew assembleAndroidTest
-
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: android-test-apk
-          path: integration-tests/android-test-app/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
 
       - name: Test Android app
         uses: reactivecircus/android-emulator-runner@v2
