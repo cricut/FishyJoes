@@ -131,7 +131,7 @@ extension Function0Converter: JavaConverter where R: JavaConverter {
         let erased = AnyFunction0 { env in
             try R.toJavaObject(value(), env: env)
         }
-        let ptr = javaPointer(Box(erased))
+        let ptr = jvalue(pointer: Box(erased).retainedOpaque())
         return try env.NewObject(SwiftFunctionImpl.implClass, SwiftFunctionImpl.constructor, jvalue(i: 0), ptr)
     }
 
@@ -173,7 +173,7 @@ extension Function1Converter: JavaConverter where R: JavaConverter, P0: JavaConv
             let v0 = try P0.fromJava(object: p0, env: env)
             return try R.toJavaObject(value(v0), env: env)
         }
-        let ptr = javaPointer(Box(erased))
+        let ptr = jvalue(pointer: Box(erased).retainedOpaque())
         return try env.NewObject(SwiftFunctionImpl.implClass, SwiftFunctionImpl.constructor, jvalue(i: 1), ptr)
     }
 
@@ -218,7 +218,7 @@ extension Function2Converter: JavaConverter where R: JavaConverter, P0: JavaConv
             let v1 = try P1.fromJava(object: p1, env: env)
             return try R.toJavaObject(value(v0, v1), env: env)
         }
-        let ptr = javaPointer(Box(erased))
+        let ptr = jvalue(pointer: Box(erased).retainedOpaque())
         return try env.NewObject(SwiftFunctionImpl.implClass, SwiftFunctionImpl.constructor, jvalue(i: 2), ptr)
     }
 
@@ -266,7 +266,7 @@ extension Function3Converter: JavaConverter where R: JavaConverter, P0: JavaConv
             let v2 = try P2.fromJava(object: p2, env: env)
             return try R.toJavaObject(value(v0, v1, v2), env: env)
         }
-        let ptr = javaPointer(Box(erased))
+        let ptr = jvalue(pointer: Box(erased).retainedOpaque())
         return try env.NewObject(SwiftFunctionImpl.implClass, SwiftFunctionImpl.constructor, jvalue(i: 3), ptr)
     }
 
@@ -317,7 +317,7 @@ extension Function4Converter: JavaConverter where R: JavaConverter, P0: JavaConv
             let v3 = try P3.fromJava(object: p3, env: env)
             return try R.toJavaObject(value(v0, v1, v2, v3), env: env)
         }
-        let ptr = javaPointer(Box(erased))
+        let ptr = jvalue(pointer: Box(erased).retainedOpaque())
         return try env.NewObject(SwiftFunctionImpl.implClass, SwiftFunctionImpl.constructor, jvalue(i: 4), ptr)
     }
 
@@ -371,7 +371,7 @@ extension Function5Converter: JavaConverter where R: JavaConverter, P0: JavaConv
             let v4 = try P4.fromJava(object: p4, env: env)
             return try R.toJavaObject(value(v0, v1, v2, v3, v4), env: env)
         }
-        let ptr = javaPointer(Box(erased))
+        let ptr = jvalue(pointer: Box(erased).retainedOpaque())
         return try env.NewObject(SwiftFunctionImpl.implClass, SwiftFunctionImpl.constructor, jvalue(i: 5), ptr)
     }
 
@@ -428,7 +428,7 @@ extension Function6Converter: JavaConverter where R: JavaConverter, P0: JavaConv
             let v5 = try P5.fromJava(object: p5, env: env)
             return try R.toJavaObject(value(v0, v1, v2, v3, v4, v5), env: env)
         }
-        let ptr = javaPointer(Box(erased))
+        let ptr = jvalue(pointer: Box(erased).retainedOpaque())
         return try env.NewObject(SwiftFunctionImpl.implClass, SwiftFunctionImpl.constructor, jvalue(i: 6), ptr)
     }
 

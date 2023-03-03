@@ -102,6 +102,20 @@ public class CStringBag {
     }
 }
 
-public func javaPointer<T>(_ box: Box<T>) -> jvalue {
-    jvalue(j: jlong(Int64(bitPattern: UInt64(UInt(bitPattern: box.retainedOpaque())))))
+public extension jlong {
+    init(pointer: UnsafeRawPointer) {
+        self = jlong(Int64(bitPattern: UInt64(UInt(bitPattern: pointer))))
+    }
+}
+
+public extension jvalue {
+    init(pointer: UnsafeRawPointer) {
+        self = jvalue(j: jlong(pointer: pointer))
+    }
+}
+
+public extension UInt {
+    init(pointerValue: jlong) {
+        self = UInt(UInt64(bitPattern: Int64(pointerValue)))
+    }
 }
