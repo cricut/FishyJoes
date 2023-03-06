@@ -12,7 +12,7 @@ extension Structs.ReferenceStruct: JavaMutator {
         try Box<Structs.ReferenceStruct>.fromJava(value, env: env).value
     }
     public static func toJava(_ value: Structs.ReferenceStruct, env: Env) throws -> jobject? {
-        let ptr = jvalue(j: jlong(UInt(bitPattern: Box(value).retainedOpaque())))
+        let ptr = jvalue(pointer: Box(value).retainedOpaque())
         return try env.NewObject(javaClass, _constructorMethodID, ptr)
     }
     public static func javaSetup(env: Env) throws {

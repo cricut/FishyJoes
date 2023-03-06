@@ -12,7 +12,7 @@ extension Functions.TheError: JavaMutator {
         try Box<Functions.TheError>.fromJava(value, env: env).value
     }
     public static func toJava(_ value: Functions.TheError, env: Env) throws -> jobject? {
-        let ptr = jvalue(j: jlong(UInt(bitPattern: Box(value).retainedOpaque())))
+        let ptr = jvalue(pointer: Box(value).retainedOpaque())
         return try env.NewObject(javaClass, _constructorMethodID, ptr)
     }
     public static func javaSetup(env: Env) throws {
