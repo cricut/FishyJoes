@@ -65,12 +65,12 @@ curl -Lo swift-wasm.pkg https://github.com/swiftwasm/swift/releases/download/swi
 sudo installer -pkg swift-wasm.pkg -target /
 ```
 
-Install swift-android toolchain:
-```
-curl -Lo swift-android-toolchain.tar.gz https://github.com/vgorloff/swift-everywhere-toolchain/releases/download/1.0.66/swift-android-toolchain.tar.gz
-sudo mkdir -p /Library/Developer/Toolchains
-sudo tar -xf swift-android-toolchain.tar.gz -C /Library/Developer/Toolchains/
-```
+Install Docker:
+ a. `brew install rancher`
+ b. open "Rancher Desktop.app"
+ c. click "accept"
+ d. enter password to finish install
+ e. Authenticate with your github PAT: `nerdctl login ghcr.io`
 
 1. In a new git repository, named `YourAwesomeLibrary-bindings`:
 ```

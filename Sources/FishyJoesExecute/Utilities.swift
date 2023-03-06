@@ -1,5 +1,11 @@
 import swsh
 
+#if canImport(Darwin)
+import Darwin
+#elseif canImport(Glibc)
+import Glibc
+#endif
+
 // https://stackoverflow.com/a/51944613
 enum AnsiColor: String {
     case reset = "\u{1b}[0m"
@@ -102,4 +108,40 @@ enum Interactive {
             Log.warn("WARNING: \(description) skipped. Further steps may fail.")
         }
     }
+}
+
+struct Lazy<T> {
+    private let box: Box
+
+    init(_ thunk: @escaping @autoclosure () -> T) {
+        box = Box(.thunk(thunk))
+    }
+
+    private enum Storage {
+        case thunk(() -> T)
+        case computed(T)
+    }
+
+    private class Box {
+        var storage: Storage
+        init(_ storage: Storage) {
+            self.storage = storage
+        }
+    }
+
+    func get() -> T {
+        switch box.storage {
+        case .computed(let value):
+            return value
+        case .thunk(let thunk):
+            let value = thunk()
+            box.storage = .computed(value)
+            return value
+        }
+    }
+}
+
+func printAndFlush(_ items: Any..., separator: String = " ", terminator: String = "\n") {
+    print(items.map(String.init(describing:)).joined(separator: separator))
+    fflush(stdout)
 }
