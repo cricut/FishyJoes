@@ -48,6 +48,18 @@ sealed class Bytes {
             data: kotlin.ByteArray
         ): kotlin.ByteArray
 
+        /**
+         * <!-- FishyJoes.export(echoEmpty) -->
+         */
+        fun echoEmpty(
+            data: kotlin.ByteArray
+        ): Boolean = __jni_echoEmpty(data)
+        @JvmStatic
+        @JvmName("__jni_echoEmpty")
+        private external fun __jni_echoEmpty(
+            data: kotlin.ByteArray
+        ): Boolean
+
         init { loadNativeLibs() }
     }
 }

@@ -37,6 +37,7 @@ namespace TestAPI {
                 void* FJInternalBinding_TestAPI_AssociatedDataEnum_getIntValue(void*);
                 void* FJInternalBinding_TestAPI_Bytes_echoBytes(void*);
                 void* FJInternalBinding_TestAPI_Bytes_echoData(void*);
+                void* FJInternalBinding_TestAPI_Bytes_echoEmpty(void*);
                 void* FJInternalBinding_TestAPI_Bytes_getBytes();
                 void* FJInternalBinding_TestAPI_Bytes_getData();
                 void* FJInternalBinding_TestAPI_Collections_echoArrayOfInt(void*);

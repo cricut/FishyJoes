@@ -174,6 +174,11 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_Bytes_echoData, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
+                name: bag.add("__jni_echoEmpty"),
+                signature: bag.add("([B)Z"),
+                fnPtr: unsafeBitCast(java_Bytes_echoEmpty, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
                 name: bag.add("__jni_get_bytes"),
                 signature: bag.add("()Ljava/util/List;"),
                 fnPtr: unsafeBitCast(java_get_Bytes_bytes, to: UnsafeMutableRawPointer.self)

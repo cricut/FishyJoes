@@ -71,6 +71,22 @@ namespace Cricut.TestAPI {
             out CreatedRef exn
         );
 
+        /// <summary>
+        /// <!-- FishyJoes.export(echoEmpty) -->
+        /// </summary>
+        public static bool EchoEmpty(
+            byte[] data
+        ) {
+            using var _dataHandle = new GCRef(data);
+            return Check((out CreatedRef _exn) => __cs_Bytes_echoEmpty(_dataHandle.ptr, out _exn));
+        }
+
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern bool __cs_Bytes_echoEmpty(
+            UnownedRef data,
+            out CreatedRef exn
+        );
+
         static Bytes() { _TypeSetup._ensureLoaded(); }
     }
 }

@@ -48,6 +48,20 @@ extension Bytes: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
+                "echoEmpty": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoEmpty", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                            let result = try Bool.toNode(
+                                Bytes.echoEmpty(
+                                    data: try env.argument(at: 0, converter: Foundation.Data.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: true
+                ),
                 "bytes": (
                     .accessor(
                         getter: { env, info in

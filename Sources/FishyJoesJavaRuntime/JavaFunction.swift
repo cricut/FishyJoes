@@ -17,7 +17,14 @@ private enum SwiftFunctionImpl {
         if invokeMethods[arity] == nil {
             let functionClass = try env.globalRef(env.FindClass("kotlin/jvm/functions/Function\(arity)"))
             let obj = "Ljava/lang/Object;"
-            let invokeSignature = "(\(String(repeating: obj, count: arity)))\(obj)"
+            var invokeSignature = "("
+            for i in 0...arity {
+                if i == arity {
+                    invokeSignature.append(")")
+                }
+                invokeSignature.append(obj)
+            }
+//            let invokeSignature = "(\(String(repeating: obj, count: arity)))\(obj)"
 
             let bag = CStringBag()
             try env.RegisterNatives(

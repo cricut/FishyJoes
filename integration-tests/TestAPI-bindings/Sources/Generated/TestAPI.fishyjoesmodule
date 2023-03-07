@@ -1164,6 +1164,28 @@
                     "_0" : "ArrayBuffer"
                   }
                 }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(echoEmpty) -->"
+                ],
+                "isStatic" : true,
+                "name" : "echoEmpty",
+                "parameters" : [
+                  {
+                    "name" : "data",
+                    "type" : {
+                      "named" : {
+                        "_0" : "ArrayBuffer"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "boolean"
+                  }
+                }
               }
             ],
             "name" : "Bytes",

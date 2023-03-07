@@ -18,4 +18,8 @@ public enum Bytes {
     public static func echo(bytes: [UInt8]) -> [UInt8] { return bytes }
     /// <!-- FishyJoes.export(echoData) -->
     public static func echo(data: Data) -> Data { return data }
+    /// <!-- FishyJoes.export(echoEmpty) -->
+    public static func echoEmpty(data: Data) -> Bool {
+        data.isEmpty
+    }
 }
