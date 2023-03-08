@@ -28,8 +28,9 @@ class ExampleInstrumentedTest {
         val testContext = InstrumentationRegistry.getInstrumentation().context
         var testInput = testContext.getAssets().open("shapes.bmp")
         val bytes = testInput.readBytes()
-        assertTrue("Echoed data != input", Bytes.echoData(bytes).contentEquals(bytes))
+        assertTrue(bytes.isNotEmpty())
         assertEquals("Swift data reports empty", Bytes.echoEmpty(bytes),false)
+        assertTrue("Echoed data != input", Bytes.echoData(bytes).contentEquals(bytes))
     }
 
     @Test

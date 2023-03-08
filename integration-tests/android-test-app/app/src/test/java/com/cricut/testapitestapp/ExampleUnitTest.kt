@@ -21,8 +21,9 @@ class ExampleUnitTest {
     @Test
     fun testLargePayload() {
         val bytes = File("src/test/java/com/cricut/testapitestapp/resources/img.bmp").readBytes()
-        assert(Bytes.echoData(bytes).contentEquals(bytes))
-        assert(Bytes.echoEmpty(bytes) == false)
+        assertTrue(bytes.isNotEmpty())
+        assertTrue(Bytes.echoData(bytes).contentEquals(bytes))
+        assertFalse(Bytes.echoEmpty(bytes))
     }
 
     @Test
