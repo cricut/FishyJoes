@@ -54,4 +54,11 @@ internal class FunctionTests {
     fun testSwiftThrows() {
         assertThrows(Error::class.java) { Functions.willThrow() }
     }
+
+    @Test
+    fun testAsync42Func() {
+        Functions.async42Func { v ->
+            assertEquals(42, v)
+        }
+    }
 }

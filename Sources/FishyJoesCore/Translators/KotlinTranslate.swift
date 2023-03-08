@@ -302,6 +302,11 @@ final class KotlinTranslator: Translator {
             parameters.append((label, parameter.name, resolved.kotlinType, defaultValue))
         }
 
+        if method.isAsync {
+            let asyncCallback = context.resolve(type: .function([method.returnType], .void, isAsync: false), generics: exportAnnotation.genericOverrides)
+            parameters.append((labelComment: nil, name: "_asyncCallback", asyncCallback.kotlinType, nil))
+        }
+
         return .method(
             KotlinClass.Method(
                 documentation: method.documentation,
@@ -309,7 +314,7 @@ final class KotlinTranslator: Translator {
                 isOverride: method.exportAnnotation.isOverride,
                 name: exportAnnotation.name,
                 parameters: parameters,
-                returnType: context.resolve(type: method.returnType, generics: exportAnnotation.genericOverrides).kotlinType,
+                returnType: !method.isAsync ? context.resolve(type: method.returnType, generics: exportAnnotation.genericOverrides).kotlinType : .void,
                 deprecation: method.deprecation,
                 body: nil
             )

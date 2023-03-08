@@ -107,51 +107,74 @@ struct NodeTranslator: Translator {
         }
 
         let returnType = context.resolve(type: method.returnType, generics: exportAnnotation.genericOverrides)
+        
+        var taskBlock: (() -> Void) -> Void = { $0() }
+        if method.isAsync {
+            taskBlock = { body in
+                fragment.outputBlock("Task {") {
+                    body()
+                }
+                // TODO: Figure out how to return void here
+                fragment.output("return nil")
+            }
+        }
 
         fragment.outputBlock("{ env, info in", closeWith: "}", newLineTerminated: newLineTerminated) {
             let hasNamedOptions = method.parameters.contains { $0.defaultValue != nil }
             let positionalArguments = method.parameters.filter { $0.defaultValue == nil }
-            fragment.outputBlock("FishyJoesNodeRuntime.callbackBody(env, info, name: \"\(nodeName)\", expectedArgumentCount: \(argIndex + positionalArguments.count), hasNamedOptions: \(hasNamedOptions)) { env in", closeWith: "}") {
-                let callName = method.sourceKind == .initializer ? "" : ".\(method.callName)"
+            fragment.outputBlock("FishyJoesNodeRuntime.callbackBody(env, info, name: \"\(nodeName)\", expectedArgumentCount: \(argIndex + positionalArguments.count + (method.isAsync ? 1 : 0)), hasNamedOptions: \(hasNamedOptions)) { env in", closeWith: "}") {
+                taskBlock {
+                    let callName = method.sourceKind == .initializer ? "" : ".\(method.callName)"
+                    
+                    if method.isMutating {
+                        fragment.output("var mutatingSelf = try \(selfExpression)")
+                        selfExpression = "mutatingSelf"
+                    }
+                    
+                    if !method.isAsync {
+                        if exportAnnotation.noReturn {
+                            fragment.output("try ", newLineTerminated: false)
+                        } else {
+                            fragment.output("let result = try \(returnType.converterType.name).toNode", newLineTerminated: false)
+                        }
+                    } else {
+                        fragment.output("let result = try ", newLineTerminated: false)
+                    }
 
-                if method.isMutating {
-                    fragment.output("var mutatingSelf = try \(selfExpression)")
-                    selfExpression = "mutatingSelf"
-                }
-
-                if exportAnnotation.noReturn {
-                    fragment.output("try ", newLineTerminated: false)
-                } else {
-                    fragment.output("let result = try \(returnType.converterType.name).toNode", newLineTerminated: false)
-                }
-
-                fragment.outputBlock("(") {
-                    fragment.outputBlock("\(selfExpression)\(callName)(", newLineTerminated: false) {
-                        fragment.outputMap(method.parameters, separator: ",") { formal in
-                            let resolved = context.resolve(type: formal.type, generics: exportAnnotation.genericOverrides)
-
-                            var result = formal.label.map { "\($0): " } ?? ""
-                            if let defaultValue = formal.defaultValue {
-                                result += "try env.argument(named: \"\(formal.label ?? formal.name)\", default: \(defaultValue), "
-                            } else {
-                                result += "try env.argument(at: \(argIndex), "
-                                argIndex += 1
+                    fragment.outputBlock("(") {
+                        fragment.outputBlock("\(method.isAsync ? "await " : "")\(selfExpression)\(callName)(", newLineTerminated: false) {
+                            fragment.outputMap(method.parameters, separator: ",") { formal in
+                                let resolved = context.resolve(type: formal.type, generics: exportAnnotation.genericOverrides)
+                                
+                                var result = formal.label.map { "\($0): " } ?? ""
+                                if let defaultValue = formal.defaultValue {
+                                    result += "try env.argument(named: \"\(formal.label ?? formal.name)\", default: \(defaultValue), "
+                                } else {
+                                    result += "try env.argument(at: \(argIndex), "
+                                    argIndex += 1
+                                }
+                                return result + "converter: \(resolved.converterType.name).self)"
                             }
-                            return result + "converter: \(resolved.converterType.name).self)"
+                        }
+                        if exportAnnotation.noReturn || method.isAsync {
+                            fragment.output()
+                        } else {
+                            fragment.output(",")
+                            fragment.output("env: env.env")
                         }
                     }
-                    if exportAnnotation.noReturn {
-                        fragment.output()
-                    } else {
-                        fragment.output(",")
-                        fragment.output("env: env.env")
+
+                    if !exportAnnotation.noReturn {
+                        if method.isMutating {
+                            fragment.output("try Self.mutateNode(mutatingSelf, this: env.this(), env: env.env)")
+                        }
+                        if method.isAsync {
+                            let asyncCallback = context.resolve(type: BetterType.function([method.returnType], .void, isAsync: false), generics: exportAnnotation.genericOverrides)
+                            fragment.output("try env.argument(at: \(argIndex), converter: \(asyncCallback.converterType.name).self)(result)")
+                        } else {
+                            fragment.output("return result")
+                        }
                     }
-                }
-                if !exportAnnotation.noReturn {
-                    if method.isMutating {
-                        fragment.output("try Self.mutateNode(mutatingSelf, this: env.this(), env: env.env)")
-                    }
-                    fragment.output("return result")
                 }
             }
         }
@@ -305,12 +328,24 @@ struct NodeTranslator: Translator {
             )
         }
 
+        if method.isAsync {
+            let asyncCallback = context.resolve(type: .function([method.returnType], .void, isAsync: false), generics: exportAnnotation.genericOverrides)
+            parameters.append(
+                .init(
+                    label: nil,
+                    name: "_asyncCallback",
+                    type: asyncCallback.nodeType,
+                    defaultValue: nil
+                )
+            )
+        }
+
         return TypeScriptAnnotations.Method(
             documentation: method.documentation + (method.deprecation.map { ["@deprecated \($0.message)"] } ?? []),
             isStatic: isStatic,
             name: exportAnnotation.name,
             parameters: parameters,
-            returnType: context.resolve(type: method.returnType, generics: exportAnnotation.genericOverrides).nodeType
+            returnType: !method.isAsync ? context.resolve(type: method.returnType, generics: exportAnnotation.genericOverrides).nodeType : .void
         )
     }
 

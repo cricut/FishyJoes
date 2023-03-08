@@ -2221,11 +2221,18 @@
                 "isStatic" : true,
                 "name" : "async42Func",
                 "parameters" : [
-
+                  {
+                    "name" : "_asyncCallback",
+                    "type" : {
+                      "named" : {
+                        "_0" : "(_0: number) => void"
+                      }
+                    }
+                  }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "number"
+                    "_0" : "void"
                   }
                 }
               }

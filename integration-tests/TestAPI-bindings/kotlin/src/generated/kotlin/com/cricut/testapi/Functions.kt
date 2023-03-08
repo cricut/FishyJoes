@@ -167,11 +167,13 @@ sealed class Functions {
          * <!-- FishyJoes.export(async42Func) -->
          */
         fun async42Func(
-        ): Long = __jni_async42Func()
+            _asyncCallback: ((Long) -> kotlin.Unit)
+        ) = __jni_async42Func(_asyncCallback)
         @JvmStatic
         @JvmName("__jni_async42Func")
         private external fun __jni_async42Func(
-        ): Long
+            _asyncCallback: ((Long) -> kotlin.Unit)
+        )
 
         init { loadNativeLibs() }
     }

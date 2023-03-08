@@ -79,6 +79,7 @@ public enum Functions {
 
     /// <!-- FishyJoes.export(async42Func) -->
     public static func async42Func() async throws -> Int {
-        42
+        print("Inside \(#function)")
+        return 42
     }
 }
