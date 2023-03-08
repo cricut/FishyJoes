@@ -13,12 +13,6 @@ import java.io.File
  */
 class ExampleUnitTest {
     @Test
-    fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
-        println(Bytes.bytes)
-    }
-
-    @Test
     fun testLargePayload() {
         val bytes = File("src/test/java/com/cricut/testapitestapp/resources/img.bmp").readBytes()
         assertTrue(bytes.isNotEmpty())
