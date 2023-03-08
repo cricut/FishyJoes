@@ -25,7 +25,6 @@ class ExampleInstrumentedTest {
 
     @Test
     fun testLargePayload() {
-        fun List<Byte>.toHexString() = joinToString("") { "%02x".format(it) }
         val testContext = InstrumentationRegistry.getInstrumentation().context
         var testInput = testContext.getAssets().open("shapes.bmp")
         val bytes = testInput.readBytes()
