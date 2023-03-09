@@ -26,19 +26,6 @@ val sourcesJar by tasks.registering(Jar::class) {
     exclude("**/*.so", "**/*.dylib", "**/*.dll")
 }
 
-publishing {
-    publications {
-        create<MavenPublication>("mavenJava") {
-            groupId = properties["group"] as? String
-            artifactId = properties["artifact"] as? String
-            version = properties["version"] as? String
-
-            from(components["java"])
-            artifact(sourcesJar.get())
-        }
-    }
-}
-
 gradle.rootProject {
     tasks.register("updateVersion") {
         if (System.getenv("VERSION") != null) {
