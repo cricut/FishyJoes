@@ -64,9 +64,6 @@ namespace TestAPI {
         /// <!-- FishyJoes.export(echoData) -->
         static std::vector<uint8_t> echoData(const std::vector<uint8_t> &data);
         
-        /// <!-- FishyJoes.export(echoEmpty) -->
-        static bool echoEmpty(const std::vector<uint8_t> &data);
-        
         /// <!-- FishyJoes.export(bytes, cSharp: TheBytes) -->
         static std::vector<uint8_t> getBytes();
         

@@ -7,9 +7,6 @@ namespace TestAPI {
     std::vector<uint8_t> Bytes::echoData(const std::vector<uint8_t> &data) {
         return FishyJoesInternal::Packer::unpack<std::vector<uint8_t>>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Bytes_echoData(FishyJoesInternal::Packer::pack(data).ptr()));
     }
-    bool Bytes::echoEmpty(const std::vector<uint8_t> &data) {
-        return FishyJoesInternal::Packer::unpack<bool>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Bytes_echoEmpty(FishyJoesInternal::Packer::pack(data).ptr()));
-    }
     std::vector<uint8_t> Bytes::getBytes() {
         return FishyJoesInternal::Packer::unpack<std::vector<uint8_t>>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Bytes_getBytes());
     }

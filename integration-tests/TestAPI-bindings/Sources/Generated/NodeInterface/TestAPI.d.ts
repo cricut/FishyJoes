@@ -84,13 +84,6 @@ export declare namespace TestAPI {
         function echoData(
             data: ArrayBuffer
         ): ArrayBuffer;
-
-        /**
-         * <!-- FishyJoes.export(echoEmpty) -->
-         */
-        function echoEmpty(
-            data: ArrayBuffer
-        ): boolean;
     }
 
     export type Collections = never;

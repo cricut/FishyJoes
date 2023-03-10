@@ -29,7 +29,6 @@ class ExampleInstrumentedTest {
         var testInput = testContext.getAssets().open("shapes.bmp")
         val bytes = testInput.readBytes()
         assertTrue(bytes.isNotEmpty())
-        assertEquals("Swift data reports empty", Bytes.echoEmpty(bytes),false)
         assertTrue("Echoed data != input", Bytes.echoData(bytes).contentEquals(bytes))
     }
 
