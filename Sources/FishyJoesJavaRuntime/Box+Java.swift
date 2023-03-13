@@ -19,7 +19,7 @@ extension AnyBox {
 
     private static let finalize: @convention(c) (UnsafeMutablePointer<JNIEnv?>, jobject) -> Void = { env, this in
         callbackBody(env) { env in
-            let longRef = UInt(env.GetLongField(this, refFieldID))
+            let longRef = UInt(pointerValue: env.GetLongField(this, refFieldID))
             releaseOpaque(try javaNonNull(UnsafeMutablePointer(bitPattern: longRef)))
         }
     }
