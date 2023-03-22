@@ -8,7 +8,6 @@ excluded:
     - ./Sources/FishyJoesExecute/Resources
 
 opt_in_rules:
-    - anyobject_protocol
     - array_init
     - attributes
     - contains_over_first_not_nil

@@ -4,25 +4,30 @@ import java.io.BufferedOutputStream
 import java.io.File
 import java.io.FileOutputStream
 import java.nio.file.Files
-import com.cricut.androidswiftruntime.SwiftStdlib
 
 object LibraryLoader {
-    private var startedLoad = mutableSetOf<String>()
-    private var unpackedStdlib = false
+    /// This should only be implemented by singleton objects, who should call `LibraryLoader.loadRepresentative(this)` in their initializer
+    interface LibraryRepresentative {
+        fun ensureLoaded()
+
+        val nativeLibs: List<String>
+        val dependencies: List<LibraryRepresentative>
+    }
+
     private val libDirectory = lazy {
         val path = Files.createTempDirectory("java-libs-")
         path.toFile().deleteOnExit()
         path
     }
 
-    fun ensureLoaded(libraryName: String) {
-        synchronized(this) {
-            if (startedLoad.contains(libraryName)) {
-                return
-            }
-            unpackStdLib()
-            startedLoad.add(libraryName)
-            loadLibrary(libraryName)
+    /// This method must not be called by anyone but the initializer of the representative object.
+    /// It relies on the class loader for synchronization.
+    fun loadRepresentative(representative: LibraryRepresentative) {
+        for (dep in representative.dependencies) {
+            dep.ensureLoaded()
+        }
+        for (nativeLib in representative.nativeLibs) {
+            loadLibrary(nativeLib)
         }
     }
 
@@ -52,7 +57,7 @@ object LibraryLoader {
         return extractLibraryFromJar(javaClass, pathInJar, "$prefix$libraryName.$ext")
     }
 
-    private fun <T> extractLibraryFromJar(relativeClass: Class<T>, pathInJar: String, outFileName: String): File {
+    internal fun <T> extractLibraryFromJar(relativeClass: Class<T>, pathInJar: String, outFileName: String): File {
         // Extract dynamic library from jar to temporary file
         val stream = relativeClass.getResourceAsStream(pathInJar)
             ?: error("couldn't find $pathInJar")
@@ -93,37 +98,5 @@ object LibraryLoader {
         if (osName.contains("Mac")) {
             file.delete()
         }
-    }
-
-    private fun unpackStdLib() {
-        if (unpackedStdlib) { return }
-
-        val osName = System.getProperty("os.name")
-        val vendor = System.getProperty("java.vendor")
-
-        if (!osName.contains("Linux") || vendor.contains("Android")) { return }
-
-        val stdlibLibraries = SwiftStdlib.javaClass.getResource("/linux/stdlib.txt")!!
-            .readText()
-            .split('\n')
-            .filter { it.isNotEmpty() }
-
-        for (lib in stdlibLibraries) {
-            // TODO: put back in this code once we have correct symlinks in place
-//            if (lib.endsWith(".so")) {
-//                // copy file
-            extractLibraryFromJar(SwiftStdlib.javaClass, "/linux/$lib", lib)
-//            }
-        }
-//        for (lib in stdlibLibraries) {
-//            if (!lib.endsWith(".so")) {
-//                // create symlink
-//                val trailingIndex = lib.lastIndexOf(".so") + 3
-//                val linkTarget = libDirectory.value.resolve(lib.removeRange(trailingIndex, lib.length))
-//                val linkLocation = libDirectory.value.resolve(lib)
-//                Files.createLink(linkLocation, linkTarget)
-//            }
-//        }
-        unpackedStdlib = true
     }
 }
