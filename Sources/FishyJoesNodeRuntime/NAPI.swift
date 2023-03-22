@@ -764,7 +764,7 @@ extension NAPI.Env {
         receiveValue: NAPI.ThreadsafeReceiveValueFunction?
     ) throws -> NAPI.ThreadsafeFunction? {
         var napiFunction: napi_value? = nil
-        napi_create_function(
+        var status = napi_create_function(
             ptr,
             nil,
             0,
@@ -772,9 +772,11 @@ extension NAPI.Env {
             functionContext,
             &napiFunction
         )
+        
+        try check(status)
 
         var threadsafeFunction: napi_threadsafe_function? = nil
-        let status = napi_create_threadsafe_function(
+        status = napi_create_threadsafe_function(
             ptr,
             napiFunction,
             asyncResource?.ptr,

@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "npm run test-wasm && npm run test-node-native-macos",
-    "test-wasm": "node --experimental-vm-modules node_modules/jest/bin/jest.js --run-in-band --detect-open-handles --force-exit --debug --no-watchman -c jest.config.wasm.cjs",
+    "test-wasm": "node --inspect --experimental-vm-modules node_modules/jest/bin/jest.js --run-in-band --detect-open-handles --force-exit --debug --no-watchman -c jest.config.wasm.cjs",
     "test-node-native-macos": "node --experimental-vm-modules node_modules/jest/bin/jest.js --run-in-band --detect-open-handles --force-exit --debug --no-watchman -c jest.config.native-macos.cjs",
     "test-node-native-ubuntu": "node --experimental-vm-modules node_modules/jest/bin/jest.js --run-in-band --detect-open-handles --force-exit --debug --no-watchman -c jest.config.native-ubuntu.cjs",
     "clear-cache": "node node_modules/jest/bin/jest.js --clear-cache"
@@ -26,6 +26,7 @@
     "@wasmer/wasi": "^0.12.0",
     "@wasmer/wasmfs": "^0.12.0",
     "buffer": "^5.7.1",
+    "javascript-kit-swift": "file:/Users/braden/.cricut_work/Software/GitHub/JavaScriptKit",
     "process": "^0.11.10",
     "util": "^0.11.1"
   }

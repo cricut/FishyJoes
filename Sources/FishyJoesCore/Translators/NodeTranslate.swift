@@ -238,7 +238,7 @@ struct NodeTranslator: Translator {
     func setupFragments(context: FishyJoesContext, generatedTypes: Set<BetterType>) -> [SourceFragment] {
         let nodeTypeListFragment = context.swiftFragment(
             "NodeInterface/TypeSetup.swift",
-            additionalImports: ["Foundation", "FishyJoesNodeRuntime", "NodeAPI"]
+            additionalImports: ["Foundation", "FishyJoesNodeRuntime", "NodeAPI", "JavaScriptEventLoop"]
         )
 
         // This function is defined under 2 names: the standard "napi_register_module_v1", and a unique, module-qualified name.
@@ -249,6 +249,9 @@ struct NodeTranslator: Translator {
         nodeTypeListFragment.output("@available(*, deprecated, message: \"Not actually deprecated, but this silences warnings because it may refer to deprecated methods\")")
         nodeTypeListFragment.output("@_cdecl(\"napi_register_module_v1\")")
         nodeTypeListFragment.outputBlock("public func napi_register_module_v1(env: napi_env, exports: napi_value) -> napi_value? {") {
+            nodeTypeListFragment.output("#if os(WASI)")
+            nodeTypeListFragment.output("JavaScriptEventLoop.installGlobalExecutor()")
+            nodeTypeListFragment.output("#endif")
             nodeTypeListFragment.output("let env = NAPI.Env(ptr: env)")
             nodeTypeListFragment.output("let exports = NAPI.Value(ptr: exports)")
             nodeTypeListFragment.outputBlock("return FishyJoesNodeRuntime.rethrowToNode(env: env) {") {

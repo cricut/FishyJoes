@@ -134,57 +134,14 @@ extension Functions: FishyJoesNodeRuntime.NodeConverter {
                 "async42Func": (
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "async42Func", expectedArgumentCount: 1, hasNamedOptions: false) { env in
-                            print("looking for function")
-                            guard let f = try env.env.createThreadsafeFunction(
-                                { env, callbackInfo in
-                                    nil
-                                },
-                                functionContext: nil,
-                                asyncResource: nil,
-                                asyncResourceName: nil,
-                                finalize: nil,
-                                finalizeContext: nil,
-                                receiveValue: { env, jsCallback, context, data in
-
-                                }
-                            ) else {
-                                return nil
-                            }
-
-//                            let f = try env.argument(at: 0, converter: Function1Converter<Int, VoidConverter>.self)
-                            print("Have function")
-                            print("Spawning async42Func Task")
                             Task {
-                                print("In async42Func Task")
                                 let result = try (
                                     await Functions.async42Func(
                                     )
-                                    
                                 )
-                                print("Task result:", result)
-                                do {
-                                    print("calling function")
-                                    dump(env)
-//                                    try f(result)
-                                    try NAPI.Env.call(threadsafeFunction: f, context: nil, callMode: .blocking)
-                                    print("Task done")
-                                } catch {
-                                    print("FAILED: \(error)")
-                                    return
-                                }
+                                try env.argument(at: 0, converter: Function1Converter<Int, VoidConverter>.self)(result)
                             }
                             return nil
-                            /*
-                             FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise1", expectedArgumentCount: 1, hasNamedOptions: false) { env in
-                                 let result = try Swift.String.toNode(
-                                     Functions.exercise1(
-                                         try env.argument(at: 0, converter: Function1Converter<Int, Int>.self)
-                                     ),
-                                     env: env.env
-                                 )
-                                 return result
-                             }
-                             */
                         }
                     },
                     isStatic: true

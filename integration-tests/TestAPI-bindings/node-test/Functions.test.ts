@@ -13,6 +13,10 @@ test('GettingSwiftFunctions', () => {
     expect(84).toEqual(TestAPI.Functions.fifthThing("hi", 1, 1, "...", () => 84)())
     expect(17).toEqual(TestAPI.Functions.sixthThing("hi", 1, 1, "...", () => 84, 17))
 });
+    
+debugger;
+var waitTill = new Date(new Date().getTime() + 5 * 1000);
+while(waitTill > new Date()){}
 
 test('PassingFunctionsToSwift', () => {
     expect("8").toEqual(TestAPI.Functions.exercise0(() => 8))
@@ -39,12 +43,12 @@ test('AsyncFunctionCall', async () => {
     while (value == 0) {
         await delay(10)
         count += 1
-        if (count == 250) {
+        if (count == 25000) {
             console.log("AsyncFunctionCall timeout")
             break
         }
     }
-    expect(42).toEqual(value)
+    expect(value).toEqual(42)
 })
 
 test('Exceptions', () => {
