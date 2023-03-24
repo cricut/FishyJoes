@@ -8,7 +8,7 @@ class NAPITests: XCTestCase {
     let LD = "/Library/Developer/Toolchains/swift-wasm-5.7.1-RELEASE.xctoolchain/usr/bin/swiftc"
     let CFLAGS = [
         "-target", "wasm32-unknown-wasi",
-        "--sysroot", "/Library/Developer/Toolchains/swift-wasm-5.6.0-RELEASE.xctoolchain/usr/share/wasi-sysroot",
+        "--sysroot", "/Library/Developer/Toolchains/swift-wasm-5.7.1-RELEASE.xctoolchain/usr/share/wasi-sysroot",
         "-I/opt/homebrew/include/node",
         "-I/usr/local/include/node",
     ]
