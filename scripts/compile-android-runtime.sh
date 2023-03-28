@@ -28,3 +28,5 @@ for platformStr in $androidsStupidPlatforms; do
     mkdir -p $installDir/
     cp .build/$arch-unknown-linux-android$androidAPIVersion/release/libFishyJoesJavaRuntime.so $installDir/
 done
+
+cp /VERSIONS $libdir/FishyJoesAndroidVersions.txt
