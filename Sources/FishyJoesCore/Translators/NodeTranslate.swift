@@ -107,7 +107,7 @@ struct NodeTranslator: Translator {
         }
 
         let returnType = context.resolve(type: method.returnType, generics: exportAnnotation.genericOverrides)
-        
+
         var taskBlock: (() -> Void) -> Void = { $0() }
         if method.isAsync {
             taskBlock = { body in
@@ -125,12 +125,12 @@ struct NodeTranslator: Translator {
             fragment.outputBlock("FishyJoesNodeRuntime.callbackBody(env, info, name: \"\(nodeName)\", expectedArgumentCount: \(argIndex + positionalArguments.count + (method.isAsync ? 1 : 0)), hasNamedOptions: \(hasNamedOptions)) { env in", closeWith: "}") {
                 taskBlock {
                     let callName = method.sourceKind == .initializer ? "" : ".\(method.callName)"
-                    
+
                     if method.isMutating {
                         fragment.output("var mutatingSelf = try \(selfExpression)")
                         selfExpression = "mutatingSelf"
                     }
-                    
+
                     if !method.isAsync {
                         if exportAnnotation.noReturn {
                             fragment.output("try ", newLineTerminated: false)
@@ -145,7 +145,7 @@ struct NodeTranslator: Translator {
                         fragment.outputBlock("\(method.isAsync ? "await " : "")\(selfExpression)\(callName)(", newLineTerminated: false) {
                             fragment.outputMap(method.parameters, separator: ",") { formal in
                                 let resolved = context.resolve(type: formal.type, generics: exportAnnotation.genericOverrides)
-                                
+
                                 var result = formal.label.map { "\($0): " } ?? ""
                                 if let defaultValue = formal.defaultValue {
                                     result += "try env.argument(named: \"\(formal.label ?? formal.name)\", default: \(defaultValue), "

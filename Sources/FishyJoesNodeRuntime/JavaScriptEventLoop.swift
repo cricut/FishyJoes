@@ -40,7 +40,6 @@ JavaScriptEventLoop.installGlobalExecutor()
 ```
 */
 public final class JavaScriptEventLoop: SerialExecutor, @unchecked Sendable {
-
     /// A function that queues a given closure as a microtask into JavaScript event loop.
     /// See also: https://developer.mozilla.org/en-US/docs/Web/API/HTML_DOM_API/Microtask_guide
     public var queueMicrotask: @Sendable (@escaping () -> Void) -> Void
@@ -120,13 +119,13 @@ public final class JavaScriptEventLoop: SerialExecutor, @unchecked Sendable {
         )
 
         typealias swift_task_enqueueGlobal_hook_Fn = @convention(thin) (UnownedJob, swift_task_enqueueGlobal_original) -> Void
-        let swift_task_enqueueGlobal_hook_impl: swift_task_enqueueGlobal_hook_Fn = { job, original in
+        let swift_task_enqueueGlobal_hook_impl: swift_task_enqueueGlobal_hook_Fn = { job, _ in
             JavaScriptEventLoop.shared.enqueue(job)
         }
         swift_task_enqueueGlobal_hook = unsafeBitCast(swift_task_enqueueGlobal_hook_impl, to: UnsafeMutableRawPointer?.self)
 
         typealias swift_task_enqueueGlobalWithDelay_hook_Fn = @convention(thin) (UInt64, UnownedJob, swift_task_enqueueGlobalWithDelay_original) -> Void
-        let swift_task_enqueueGlobalWithDelay_hook_impl: swift_task_enqueueGlobalWithDelay_hook_Fn = { delay, job, original in
+        let swift_task_enqueueGlobalWithDelay_hook_impl: swift_task_enqueueGlobalWithDelay_hook_Fn = { delay, job, _ in
             JavaScriptEventLoop.shared.enqueue(job, withDelay: delay)
         }
         swift_task_enqueueGlobalWithDelay_hook = unsafeBitCast(swift_task_enqueueGlobalWithDelay_hook_impl, to: UnsafeMutableRawPointer?.self)
@@ -138,7 +137,7 @@ public final class JavaScriptEventLoop: SerialExecutor, @unchecked Sendable {
 //        swift_task_enqueueGlobalWithDeadline_hook = unsafeBitCast(swift_task_enqueueGlobalWithDeadline_hook_impl, to: UnsafeMutableRawPointer?.self)
 
         typealias swift_task_enqueueMainExecutor_hook_Fn = @convention(thin) (UnownedJob, swift_task_enqueueMainExecutor_original) -> Void
-        let swift_task_enqueueMainExecutor_hook_impl: swift_task_enqueueMainExecutor_hook_Fn = { job, original in
+        let swift_task_enqueueMainExecutor_hook_impl: swift_task_enqueueMainExecutor_hook_Fn = { job, _ in
             JavaScriptEventLoop.shared.enqueue(job)
         }
         swift_task_enqueueMainExecutor_hook = unsafeBitCast(swift_task_enqueueMainExecutor_hook_impl, to: UnsafeMutableRawPointer?.self)
@@ -183,7 +182,7 @@ extension JavaScriptEventLoop {
     }
 }
 
-//public extension JSPromise {
+// public extension JSPromise {
 //    /// Wait for the promise to complete, returning (or throwing) its result.
 //    var value: JSValue {
 //        get async throws {
@@ -219,6 +218,6 @@ extension JavaScriptEventLoop {
 //            }
 //        }
 //    }
-//}
+// }
 
 #endif

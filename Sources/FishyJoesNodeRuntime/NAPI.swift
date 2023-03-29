@@ -14,11 +14,11 @@ public enum NAPI {
     public typealias Callback = napi_callback
     public typealias ThreadsafeFunction = napi_threadsafe_function
     public typealias ThreadsafeReceiveValueFunction = napi_threadsafe_function_call_js
-    
+
     public enum ThreadsafeFunctionReleaseMode {
         case release
         case abort
-        
+
         var napiValue: napi_threadsafe_function_release_mode {
             switch self {
             case .release:
@@ -32,7 +32,7 @@ public enum NAPI {
     public enum ThreadsafeFunctionCallMode {
         case nonblocking
         case blocking
-        
+
         var napiValue: napi_threadsafe_function_call_mode {
             switch self {
             case .nonblocking:
@@ -47,7 +47,6 @@ public enum NAPI {
 // MARK: napi function wrappers
 extension NAPI.Env {
     private func check(_ status: napi_status, file: StaticString = #file, line: UInt = #line) throws {
-        
         guard status == napi_ok else {
             if try isExceptionPending() {
                 throw JSExceptionPending()
@@ -763,7 +762,7 @@ extension NAPI.Env {
         finalizeContext: UnsafeMutableRawPointer?,
         receiveValue: NAPI.ThreadsafeReceiveValueFunction?
     ) throws -> NAPI.ThreadsafeFunction? {
-        var napiFunction: napi_value? = nil
+        var napiFunction: napi_value?
         var status = napi_create_function(
             ptr,
             nil,
@@ -772,10 +771,10 @@ extension NAPI.Env {
             functionContext,
             &napiFunction
         )
-        
+
         try check(status)
 
-        var threadsafeFunction: napi_threadsafe_function? = nil
+        var threadsafeFunction: napi_threadsafe_function?
         status = napi_create_threadsafe_function(
             ptr,
             napiFunction,
@@ -795,7 +794,7 @@ extension NAPI.Env {
     }
 
     public static func getThreadsafeFunctionContext(_ threadsafeFunction: NAPI.ThreadsafeFunction) throws -> UnsafeMutableRawPointer? {
-        var result: UnsafeMutableRawPointer? = nil
+        var result: UnsafeMutableRawPointer?
         napi_get_threadsafe_function_context(threadsafeFunction, &result)
         return result
     }
@@ -807,7 +806,7 @@ extension NAPI.Env {
     public static func acquire(threadsafeFunction: NAPI.ThreadsafeFunction) throws {
         napi_acquire_threadsafe_function(threadsafeFunction)
     }
-    
+
     public static func release(threadsafeFunction: NAPI.ThreadsafeFunction, mode: NAPI.ThreadsafeFunctionReleaseMode) throws {
         napi_release_threadsafe_function(threadsafeFunction, mode.napiValue)
     }

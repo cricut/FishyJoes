@@ -13,12 +13,11 @@ import NodeAPI
 // using priority queue ideally.
 
 struct QueueState: Sendable {
-    fileprivate var headJob: UnownedJob? = nil
-    fileprivate var isSpinning: Bool = false
+    fileprivate var headJob: UnownedJob?
+    fileprivate var isSpinning = false
 }
 
 extension JavaScriptEventLoop {
-
     func insertJobQueue(job newJob: UnownedJob) {
         withUnsafeMutablePointer(to: &queueState.headJob) { headJobPtr in
             var position: UnsafeMutablePointer<UnownedJob?> = headJobPtr
@@ -79,16 +78,13 @@ fileprivate extension UnownedJob {
             return nextJobPtr
         }
     }
-
 }
 
-fileprivate struct JobFlags {
+private struct JobFlags {
   var bits: UInt32 = 0
 
   var priority: UInt32 {
-    get {
-      (bits & 0xFF00) >> 8
-    }
+    (bits & 0xFF00) >> 8
   }
 }
 
