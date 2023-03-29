@@ -51,8 +51,7 @@ let package = Package(
     dependencies: generationEnabled(
         [
             D.package(
-//                url: "https://github.com/krzysztofzablocki/Sourcery", .branch("1.9.2")
-                url: "https://github.com/krzysztofzablocki/Sourcery", .branch("master")
+                url: "https://github.com/krzysztofzablocki/Sourcery", .branch("1.9.2")
 //                 path: "../Sourcery"
             ),
         ]
@@ -62,7 +61,7 @@ let package = Package(
             D.package(url: "https://github.com/apple/swift-argument-parser", from: "0.4.0"),
         ]
     ) + (androidCompatibleOnly || wasmCompatibleOnly ? [] : [
-        D.package(url: "https://github.com/jpsim/Yams", .upToNextMinor(from: "5.0.0")),
+        D.package(url: "https://github.com/jpsim/Yams", .upToNextMinor(from: "4.0.0")),
     ]),
     targets: [
         T.systemLibrary(name: "NodeAPI"),
