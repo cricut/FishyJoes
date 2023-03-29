@@ -86,7 +86,7 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
       GITHUB_USER: cricut-builduser
       SWIFT_WASM_URL: |-
-        https://github.com/swiftwasm/swift/releases/download/swift-wasm-5.6.0-RELEASE/swift-wasm-5.6.0-RELEASE-ubuntu20.04_x86_64.tar.gz
+        https://github.com/swiftwasm/swift/releases/download/swift-wasm-5.7.1-RELEASE/swift-wasm-5.7.1-RELEASE-ubuntu20.04_x86_64.tar.gz
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -126,8 +126,8 @@ jobs:
           npm -g install binaryen@111.0.0
 
           curl -Lo swift-wasm.tgz $SWIFT_WASM_URL
-          sudo mkdir -p /Library/Developer/Toolchains/swift-wasm-5.6.0-RELEASE.xctoolchain
-          sudo tar -xf swift-wasm.tgz -C /Library/Developer/Toolchains/swift-wasm-5.6.0-RELEASE.xctoolchain --strip-components 1
+          sudo mkdir -p /Library/Developer/Toolchains/swift-wasm-5.7.1-RELEASE.xctoolchain
+          sudo tar -xf swift-wasm.tgz -C /Library/Developer/Toolchains/swift-wasm-5.7.1-RELEASE.xctoolchain --strip-components 1
 
       - name: Test from dotnet
         shell: zsh {0}
