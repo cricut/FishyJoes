@@ -1590,7 +1590,6 @@ export class NAPI {
         }
         return NAPI_OK;
       }),
-
       napi_create_promise: this.wrap((envPtr, deferredPtr, promisePtr) => {
         let resolve;
         let reject;

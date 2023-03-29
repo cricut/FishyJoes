@@ -52,6 +52,10 @@ public struct Box<T> {
     public static func takeUnretainedOpaque(_ pointer: UnsafeMutableRawPointer) throws -> Box<T> {
         try Box(inner: AnyBox.takeUnretainedOpaque(pointer))
     }
+
+    public static func takeRetainedOpaque(_ pointer: UnsafeMutableRawPointer) throws -> Box<T> {
+        try Box(inner: AnyBox.takeRetainedOpaque(pointer))
+    }
 }
 
 public final class AnyBox {

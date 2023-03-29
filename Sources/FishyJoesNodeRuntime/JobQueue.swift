@@ -4,7 +4,7 @@
 // License: MIT
 //
 
-#if os(WASI)
+#if os(WASI) || true
 
 import NodeAPI
 

@@ -238,7 +238,7 @@ struct NodeTranslator: Translator {
     func setupFragments(context: FishyJoesContext, generatedTypes: Set<BetterType>) -> [SourceFragment] {
         let nodeTypeListFragment = context.swiftFragment(
             "NodeInterface/TypeSetup.swift",
-            additionalImports: ["Foundation", "FishyJoesNodeRuntime", "NodeAPI", "JavaScriptEventLoop"]
+            additionalImports: ["Foundation", "FishyJoesNodeRuntime", "NodeAPI"]
         )
 
         // This function is defined under 2 names: the standard "napi_register_module_v1", and a unique, module-qualified name.

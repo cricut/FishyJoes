@@ -4,7 +4,7 @@
 // License: MIT
 //
 
-#if os(WASI)
+#if os(WASI) || true
 
 import NodeAPI
 
@@ -59,31 +59,11 @@ public final class JavaScriptEventLoop: SerialExecutor, @unchecked Sendable {
         self.setTimeout = setTimeout
     }
 
-    /// A singleton instance of the Executor
-    public static let shared: JavaScriptEventLoop = {
-        fatalError()
-//        let promise = JSPromise(resolver: { resolver -> Void in
-//            resolver(.success(.undefined))
-//        })
-//        let setTimeout = JSObject.global.setTimeout.function!
-//        let eventLoop = JavaScriptEventLoop(
-//            queueTask: { job in
-//                // TODO(katei): Should prefer `queueMicrotask` if available?
-//                // We should measure if there is performance advantage.
-//                promise.then { _ in
-//                    job()
-//                    return JSValue.undefined
-//                }
-//            },
-//            setTimeout: { delay, job in
-//                setTimeout(JSOneshotClosure { _ in
-//                    job()
-//                    return JSValue.undefined
-//                }, delay)
-//            }
-//        )
-//        return eventLoop
-    }()
+    /// A singleton instance of the Executor.
+    ///
+    /// - Note: You must call `installGlobalExecutor(env:)` before accessing this property.
+    public static var shared: JavaScriptEventLoop { _shared }
+    private static var _shared: JavaScriptEventLoop!
 
     private static var didInstallGlobalExecutor = false
 
@@ -92,8 +72,52 @@ public final class JavaScriptEventLoop: SerialExecutor, @unchecked Sendable {
     /// This installation step will be unnecessary after custom executor are
     /// introduced officially. See also [a draft proposal for custom
     /// executors](https://github.com/rjmccall/swift-evolution/blob/custom-executors/proposals/0000-custom-executors.md#the-default-global-concurrent-executor)
-    public static func installGlobalExecutor() {
+    public static func installGlobalExecutor(env: NAPI.Env) throws {
         guard !didInstallGlobalExecutor else { return }
+
+        let (resolved, promise) = try env.createPromise()
+        // Make the promise resolve and finish firing off right away.
+        // docs state that promises should run their executor function during construction so you can begin async work so it should be good to trigger right away
+        try env.resolveDeferred(resolved, env.getUndefined())
+
+        let then = try env.getNamedProperty(promise, "then")
+        let setTimeoutFunction = try env.getNamedProperty(env.getGlobal(), "setTimeout")
+
+        _shared = JavaScriptEventLoop(
+            queueTask: { job in
+                let jobBox = Box(job)
+
+                let thenCallback: NAPI.Callback = { env, callbackInfo -> napi_value? in
+                    callbackBody(env, callbackInfo, name: "thenCallback", expectedArgumentCount: 2) { env in
+                        guard let jobBox = try env.data().map(Box<() -> Void>.takeRetainedOpaque(_:)) else {
+                            fatalError("env.data() should never be null for the async task event loop")
+                        }
+                        jobBox.value()
+
+                        return try env.env.getUndefined()
+                    }
+                }
+                let thenCallbackFunction = try! env.createFunction(nil, thenCallback, jobBox.retainedOpaque())
+                _ = try! env.callFunction(promise, then, [thenCallbackFunction])
+            },
+            setTimeout: { delay, job in
+                let jobBox = Box(job)
+
+                let setTimeoutCallback: NAPI.Callback = { env, callbackInfo -> napi_value? in
+                    callbackBody(env, callbackInfo, name: "setTimeoutCallback", expectedArgumentCount: 0) { env in
+                        guard let jobBox = try env.data().map(Box<() -> Void>.takeRetainedOpaque(_:)) else {
+                            fatalError("env.data() should never be null for the async task event loop")
+                        }
+                        jobBox.value()
+
+                        return try env.env.getUndefined()
+                    }
+                }
+
+                let setTimeoutCallbackFunction: NAPI.Value = try! env.createFunction(nil, setTimeoutCallback, jobBox.retainedOpaque())
+                _ = try! env.callFunction(env.getGlobal(), setTimeoutFunction, [setTimeoutCallbackFunction, env.createDouble(delay)])
+            }
+        )
 
         typealias swift_task_enqueueGlobal_hook_Fn = @convention(thin) (UnownedJob, swift_task_enqueueGlobal_original) -> Void
         let swift_task_enqueueGlobal_hook_impl: swift_task_enqueueGlobal_hook_Fn = { job, original in
@@ -107,11 +131,11 @@ public final class JavaScriptEventLoop: SerialExecutor, @unchecked Sendable {
         }
         swift_task_enqueueGlobalWithDelay_hook = unsafeBitCast(swift_task_enqueueGlobalWithDelay_hook_impl, to: UnsafeMutableRawPointer?.self)
 
-        typealias swift_task_enqueueGlobalWithDeadline_hook_Fn = @convention(thin) (Int64, Int64, Int64, Int64, Int32, UnownedJob, swift_task_enqueueGlobalWithDelay_original) -> Void
-        let swift_task_enqueueGlobalWithDeadline_hook_impl: swift_task_enqueueGlobalWithDeadline_hook_Fn = { sec, nsec, tsec, tnsec, clock, job, original in
-            JavaScriptEventLoop.shared.enqueue(job, withDelay: sec, nsec, tsec, tnsec, clock)
-        }
-        swift_task_enqueueGlobalWithDeadline_hook = unsafeBitCast(swift_task_enqueueGlobalWithDeadline_hook_impl, to: UnsafeMutableRawPointer?.self)
+//        typealias swift_task_enqueueGlobalWithDeadline_hook_Fn = @convention(thin) (Int64, Int64, Int64, Int64, Int32, UnownedJob, swift_task_enqueueGlobalWithDelay_original) -> Void
+//        let swift_task_enqueueGlobalWithDeadline_hook_impl: swift_task_enqueueGlobalWithDeadline_hook_Fn = { sec, nsec, tsec, tnsec, clock, job, original in
+//            JavaScriptEventLoop.shared.enqueue(job, withDelay: sec, nsec, tsec, tnsec, clock)
+//        }
+//        swift_task_enqueueGlobalWithDeadline_hook = unsafeBitCast(swift_task_enqueueGlobalWithDeadline_hook_impl, to: UnsafeMutableRawPointer?.self)
 
         typealias swift_task_enqueueMainExecutor_hook_Fn = @convention(thin) (UnownedJob, swift_task_enqueueMainExecutor_original) -> Void
         let swift_task_enqueueMainExecutor_hook_impl: swift_task_enqueueMainExecutor_hook_Fn = { job, original in
