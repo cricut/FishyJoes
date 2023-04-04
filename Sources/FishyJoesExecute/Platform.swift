@@ -115,7 +115,10 @@ enum Platform: Hashable {
             args.append(contentsOf: Platform.coverageFlags)
         }
         let path: String
-        var env: [String: String] = ["SWIFT_PACKAGE_FORCE_DYNAMIC": "1"]
+        var env: [String: String] = [
+            "SWIFT_PACKAGE_FORCE_DYNAMIC": "1",
+            "FISHYJOES_TARGET_PLATFORM": "\(self)",
+        ]
         switch self {
         case .wasm:
             path = "\(wasmToolchain)/usr/bin/swift-build"
