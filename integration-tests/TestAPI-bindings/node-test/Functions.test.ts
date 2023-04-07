@@ -13,10 +13,6 @@ test('GettingSwiftFunctions', () => {
     expect(84).toEqual(TestAPI.Functions.fifthThing("hi", 1, 1, "...", () => 84)())
     expect(17).toEqual(TestAPI.Functions.sixthThing("hi", 1, 1, "...", () => 84, 17))
 });
-    
-debugger;
-var waitTill = new Date(new Date().getTime() + 5 * 1000);
-while(waitTill > new Date()){}
 
 test('PassingFunctionsToSwift', () => {
     expect("8").toEqual(TestAPI.Functions.exercise0(() => 8))
@@ -28,9 +24,36 @@ test('PassingFunctionsToSwift', () => {
     expect("42").toEqual(TestAPI.Functions.exercise6((_a: any, _b: any, _c: any, _d: any, _e: any, i: any) => i))
 });
 
-test('SimpleAsyncFunctionCall', async () => {
-    var value: number = await TestAPI.Functions.async42Func()
+test('AsyncFunctionCall', async () => {
+    const value: number = await TestAPI.Functions.async42Func()
     expect(value).toEqual(42)
+})
+
+test('AsyncYieldingFunctionCall', async () => {
+    const value: number = await TestAPI.Functions.asyncYieldFunc()
+    expect(value).toEqual(42)
+})
+
+test('AsyncSleepingFunctionCall', async () => {
+    const value: number = await TestAPI.Functions.asyncSleepFunc()
+    expect(value).toEqual(42)
+})
+
+test('AsyncVoidFunctionCall', async () => {
+    const value: void = await TestAPI.Functions.asyncVoidFunc()
+})
+
+test('AsyncCallbackFunctionCall', async () => {
+    let value: number = 0
+    await TestAPI.Functions.asyncCallbackFunc(() => {
+        value = 42
+    })
+    expect(value).toEqual(42)
+})
+
+test('AsyncDoubleFunctionCall', async () => {
+    const value = await TestAPI.Functions.asyncDoubleFunc(1.0)
+    expect(value).toEqual(2.0)
 })
 
 test('Exceptions', () => {

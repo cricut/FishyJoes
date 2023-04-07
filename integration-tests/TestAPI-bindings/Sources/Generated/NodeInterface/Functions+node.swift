@@ -133,8 +133,8 @@ extension Functions: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 "async42Func": (
                     .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "async42Func", expectedArgumentCount: 1, hasNamedOptions: false) { env in
-                            let (resolved, promise) = try env.env.createPromise()
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "async42Func", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            let (deferred, promise) = try env.env.createPromise()
                             let thenFunction = try env.env.getNamedProperty(promise, "then")
                             let thenCallback: NAPI.Callback = { env, callbackInfo in
                                 callbackBody(env, callbackInfo, name: "_async42Func_then", expectedArgumentCount: 1) { env in
@@ -145,11 +145,140 @@ extension Functions: FishyJoesNodeRuntime.NodeConverter {
                             _ = try env.env.callFunction(promise, thenFunction, [thenCallbackFunction])
                             let envBox = UncheckedSendableBox(env.env)
                             Task {
-                                let result = try (
+                                let result: Int = try (
                                     await Functions.async42Func(
                                     )
                                 )
-                                try envBox.value.resolveDeferred(resolved, Int.toNode(result, env: envBox.value))
+                                try envBox.value.resolveDeferred(deferred, Int.toNode(result, env: envBox.value))
+                            }
+                            return promise
+                        }
+                    },
+                    isStatic: true
+                ),
+                "asyncYieldFunc": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "asyncYieldFunc", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            let (deferred, promise) = try env.env.createPromise()
+                            let thenFunction = try env.env.getNamedProperty(promise, "then")
+                            let thenCallback: NAPI.Callback = { env, callbackInfo in
+                                callbackBody(env, callbackInfo, name: "_asyncYieldFunc_then", expectedArgumentCount: 1) { env in
+                                    return try env.argument(at: 0)
+                                }
+                            }
+                            let thenCallbackFunction = try env.env.createFunction(nil, thenCallback, nil)
+                            _ = try env.env.callFunction(promise, thenFunction, [thenCallbackFunction])
+                            let envBox = UncheckedSendableBox(env.env)
+                            Task {
+                                let result: Int = try (
+                                    await Functions.asyncYieldFunc(
+                                    )
+                                )
+                                try envBox.value.resolveDeferred(deferred, Int.toNode(result, env: envBox.value))
+                            }
+                            return promise
+                        }
+                    },
+                    isStatic: true
+                ),
+                "asyncSleepFunc": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "asyncSleepFunc", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            let (deferred, promise) = try env.env.createPromise()
+                            let thenFunction = try env.env.getNamedProperty(promise, "then")
+                            let thenCallback: NAPI.Callback = { env, callbackInfo in
+                                callbackBody(env, callbackInfo, name: "_asyncSleepFunc_then", expectedArgumentCount: 1) { env in
+                                    return try env.argument(at: 0)
+                                }
+                            }
+                            let thenCallbackFunction = try env.env.createFunction(nil, thenCallback, nil)
+                            _ = try env.env.callFunction(promise, thenFunction, [thenCallbackFunction])
+                            let envBox = UncheckedSendableBox(env.env)
+                            Task {
+                                let result: Int = try (
+                                    await Functions.asyncSleepFunc(
+                                    )
+                                )
+                                try envBox.value.resolveDeferred(deferred, Int.toNode(result, env: envBox.value))
+                            }
+                            return promise
+                        }
+                    },
+                    isStatic: true
+                ),
+                "asyncVoidFunc": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "asyncVoidFunc", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            let (deferred, promise) = try env.env.createPromise()
+                            let thenFunction = try env.env.getNamedProperty(promise, "then")
+                            let thenCallback: NAPI.Callback = { env, callbackInfo in
+                                callbackBody(env, callbackInfo, name: "_asyncVoidFunc_then", expectedArgumentCount: 1) { env in
+                                    return try env.argument(at: 0)
+                                }
+                            }
+                            let thenCallbackFunction = try env.env.createFunction(nil, thenCallback, nil)
+                            _ = try env.env.callFunction(promise, thenFunction, [thenCallbackFunction])
+                            let envBox = UncheckedSendableBox(env.env)
+                            Task {
+                                let result: Void = try (
+                                    await Functions.asyncVoidFunc(
+                                    )
+                                )
+                                try envBox.value.resolveDeferred(deferred, VoidConverter.toNode(result, env: envBox.value))
+                            }
+                            return promise
+                        }
+                    },
+                    isStatic: true
+                ),
+                "asyncCallbackFunc": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "asyncCallbackFunc", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                            let (deferred, promise) = try env.env.createPromise()
+                            let thenFunction = try env.env.getNamedProperty(promise, "then")
+                            let thenCallback: NAPI.Callback = { env, callbackInfo in
+                                callbackBody(env, callbackInfo, name: "_asyncCallbackFunc_then", expectedArgumentCount: 1) { env in
+                                    return try env.argument(at: 0)
+                                }
+                            }
+                            let thenCallbackFunction = try env.env.createFunction(nil, thenCallback, nil)
+                            _ = try env.env.callFunction(promise, thenFunction, [thenCallbackFunction])
+                            let envBox = UncheckedSendableBox(env.env)
+                            let arg1 = UncheckedSendableBox(try env.argument(at: 0, converter: Function0Converter<VoidConverter>.self))
+                            Task {
+                                let result: Void = try (
+                                    await Functions.asyncCallbackFunc(
+                                        arg1.value
+                                    )
+                                )
+                                try envBox.value.resolveDeferred(deferred, VoidConverter.toNode(result, env: envBox.value))
+                            }
+                            return promise
+                        }
+                    },
+                    isStatic: true
+                ),
+                "asyncDoubleFunc": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "asyncDoubleFunc", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                            let (deferred, promise) = try env.env.createPromise()
+                            let thenFunction = try env.env.getNamedProperty(promise, "then")
+                            let thenCallback: NAPI.Callback = { env, callbackInfo in
+                                callbackBody(env, callbackInfo, name: "_asyncDoubleFunc_then", expectedArgumentCount: 1) { env in
+                                    return try env.argument(at: 0)
+                                }
+                            }
+                            let thenCallbackFunction = try env.env.createFunction(nil, thenCallback, nil)
+                            _ = try env.env.callFunction(promise, thenFunction, [thenCallbackFunction])
+                            let envBox = UncheckedSendableBox(env.env)
+                            let arg1 = UncheckedSendableBox(try env.argument(at: 0, converter: Double.self))
+                            Task {
+                                let result: Double = try (
+                                    await Functions.asyncDoubleFunc(
+                                        arg1.value
+                                    )
+                                )
+                                try envBox.value.resolveDeferred(deferred, Double.toNode(result, env: envBox.value))
                             }
                             return promise
                         }

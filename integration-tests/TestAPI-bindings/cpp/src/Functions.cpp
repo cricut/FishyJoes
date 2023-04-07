@@ -28,6 +28,21 @@ namespace TestAPI {
     int Functions::async42Func() {
         return FishyJoesInternal::Packer::unpack<int>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Functions_async42Func());
     }
+    int Functions::asyncYieldFunc() {
+        return FishyJoesInternal::Packer::unpack<int>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Functions_asyncYieldFunc());
+    }
+    int Functions::asyncSleepFunc() {
+        return FishyJoesInternal::Packer::unpack<int>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Functions_asyncSleepFunc());
+    }
+    void Functions::asyncVoidFunc() {
+        FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Functions_asyncVoidFunc();
+    }
+    void Functions::asyncCallbackFunc(const std::function<void(> &callback) {
+        FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Functions_asyncCallbackFunc(FishyJoesInternal::Packer::pack(callback).ptr());
+    }
+    double Functions::asyncDoubleFunc(const double &d) {
+        return FishyJoesInternal::Packer::unpack<double>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Functions_asyncDoubleFunc(FishyJoesInternal::Packer::pack(d).ptr()));
+    }
     std::function<int(> Functions::getConst42() {
         return FishyJoesInternal::Packer::unpack<std::function<int(>>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Functions_getConst42());
     }

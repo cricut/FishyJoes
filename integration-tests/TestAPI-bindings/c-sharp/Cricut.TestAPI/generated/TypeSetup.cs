@@ -389,6 +389,20 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
+            Once("setup_Function0Converter<VoidConverter>", () => {
+                Console.WriteLine("setting up () -> Void...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_Function0Converter_setup(
+                    "Function0Converter<VoidConverter>",
+                    out exn
+                ));
+            });
+            Once("setup_Function1Converter<Double, VoidConverter>", () => {
+                Console.WriteLine("setting up (Double) -> Void...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_Function1Converter_setup<double>(
+                    "Function1Converter<Double, VoidConverter>",
+                    out exn
+                ));
+            });
             Once("setup_Function3Converter<Float, Double, Int, Double>", () => {
                 Console.WriteLine("setting up (Float, Double, Int) -> Double...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_Function3Converter_setup<double, float, double, nint>(
@@ -477,6 +491,13 @@ namespace Cricut.TestAPI {
                 Console.WriteLine("setting up (String, UInt8, ((Int, String), (String, Double, String), String, Bool), (String, Double, String), (Int, String))...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_Tuple5Converter_setup<string, byte, System.Tuple<System.Tuple<nint, string>, System.Tuple<string, double, string>, string, bool>, System.Tuple<string, double, string>, System.Tuple<nint, string>>(
                     "Tuple5Converter<Swift.String, UInt8, Tuple4Converter<Tuple2Converter<Int, Swift.String>, Tuple3Converter<Swift.String, Double, Swift.String>, Swift.String, Bool>, Tuple3Converter<Swift.String, Double, Swift.String>, Tuple2Converter<Int, Swift.String>>",
+                    out exn
+                ));
+            });
+            Once("setup_Function1Converter<VoidConverter, VoidConverter>", () => {
+                Console.WriteLine("setting up (Void) -> Void...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_Function1Converter_setup<void>(
+                    "Function1Converter<VoidConverter, VoidConverter>",
                     out exn
                 ));
             });

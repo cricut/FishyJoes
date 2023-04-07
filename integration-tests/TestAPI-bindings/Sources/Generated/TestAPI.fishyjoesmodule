@@ -2254,6 +2254,120 @@
                     }
                   }
                 }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(asyncYieldFunc) -->"
+                ],
+                "isAsync" : true,
+                "isStatic" : true,
+                "name" : "asyncYieldFunc",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(asyncSleepFunc) -->"
+                ],
+                "isAsync" : true,
+                "isStatic" : true,
+                "name" : "asyncSleepFunc",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(asyncVoidFunc) -->"
+                ],
+                "isAsync" : true,
+                "isStatic" : true,
+                "name" : "asyncVoidFunc",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "void"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(asyncCallbackFunc) -->"
+                ],
+                "isAsync" : true,
+                "isStatic" : true,
+                "name" : "asyncCallbackFunc",
+                "parameters" : [
+                  {
+                    "name" : "callback",
+                    "type" : {
+                      "named" : {
+                        "_0" : "() => void"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "void"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(asyncDoubleFunc) -->"
+                ],
+                "isAsync" : true,
+                "isStatic" : true,
+                "name" : "asyncDoubleFunc",
+                "parameters" : [
+                  {
+                    "name" : "d",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                }
               }
             ],
             "name" : "Functions",

@@ -21,6 +21,8 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try Function1Converter<OptionalConverter<ArrayConverter<OptionalConverter<Int>>>, OptionalConverter<ArrayConverter<OptionalConverter<Int>>>>.javaSetup(env: env)
         // print("setting up Function1Converter<OptionalConverter<UInt8>, OptionalConverter<UInt8>>...")
         try Function1Converter<OptionalConverter<UInt8>, OptionalConverter<UInt8>>.javaSetup(env: env)
+        // print("setting up Function1Converter<Double, VoidConverter>...")
+        try Function1Converter<Double, VoidConverter>.javaSetup(env: env)
         // print("setting up Function3Converter<Float, Double, Int, Double>...")
         try Function3Converter<Float, Double, Int, Double>.javaSetup(env: env)
         // print("setting up Function1Converter<Int, Int>...")
@@ -33,8 +35,12 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try Function5Converter<Swift.String, Int, Double, Swift.String, Function0Converter<Int>, Function0Converter<Int>>.javaSetup(env: env)
         // print("setting up Function4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>...")
         try Function4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.javaSetup(env: env)
+        // print("setting up Function1Converter<VoidConverter, VoidConverter>...")
+        try Function1Converter<VoidConverter, VoidConverter>.javaSetup(env: env)
         // print("setting up Function0Converter<Int>...")
         try Function0Converter<Int>.javaSetup(env: env)
+        // print("setting up Function0Converter<VoidConverter>...")
+        try Function0Converter<VoidConverter>.javaSetup(env: env)
         // print("setting up ArrayConverter<OptionalConverter<Bool>>...")
         try ArrayConverter<OptionalConverter<Bool>>.javaSetup(env: env)
         // print("setting up ArrayConverter<OptionalConverter<Double>>...")
@@ -384,6 +390,31 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_async42Func"),
                 signature: bag.add("()J"),
                 fnPtr: unsafeBitCast(java_Functions_async42Func, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_asyncYieldFunc"),
+                signature: bag.add("()J"),
+                fnPtr: unsafeBitCast(java_Functions_asyncYieldFunc, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_asyncSleepFunc"),
+                signature: bag.add("()J"),
+                fnPtr: unsafeBitCast(java_Functions_asyncSleepFunc, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_asyncVoidFunc"),
+                signature: bag.add("()V"),
+                fnPtr: unsafeBitCast(java_Functions_asyncVoidFunc, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_asyncCallbackFunc"),
+                signature: bag.add("(Lkotlin/jvm/functions/Function0;)V"),
+                fnPtr: unsafeBitCast(java_Functions_asyncCallbackFunc, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_asyncDoubleFunc"),
+                signature: bag.add("(D)D"),
+                fnPtr: unsafeBitCast(java_Functions_asyncDoubleFunc, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_get_const42"),
