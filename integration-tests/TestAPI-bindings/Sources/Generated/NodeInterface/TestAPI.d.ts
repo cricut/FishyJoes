@@ -292,8 +292,7 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(async42Func) -->
          */
         function async42Func(
-            _asyncCallback: (_0: number) => void
-        ): void;
+        ): Promise<number>;
 
         /**
          * <!-- FishyJoes.export(const42) -->

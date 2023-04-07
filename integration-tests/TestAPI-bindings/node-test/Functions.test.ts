@@ -28,27 +28,10 @@ test('PassingFunctionsToSwift', () => {
     expect("42").toEqual(TestAPI.Functions.exercise6((_a: any, _b: any, _c: any, _d: any, _e: any, i: any) => i))
 });
 
-test('AsyncFunctionCall', async () => {
-    function delay(ms: number) {
-        return new Promise( resolve => setTimeout(resolve, ms) );
-    }
-
+test('SimpleAsyncFunctionCall', async () => {
     var value: number = 0
     var count = 0
-//    value = await TestAPI.Functions.async42Func()
-    TestAPI.Functions.async42Func((a: number) => {
-        value = a
-        console.log(value)
-    })
-
-    while (value == 0) {
-        await delay(10)
-        count += 1
-        if (count == 25000) {
-            console.log("AsyncFunctionCall timeout")
-            break
-        }
-    }
+    value = await TestAPI.Functions.async42Func()
     expect(value).toEqual(42)
 })
 

@@ -152,7 +152,7 @@ public final class JavaScriptEventLoop: SerialExecutor, @unchecked Sendable {
             queueMicrotask: { job in
                 let jobBox = Box(job)
 
-                let thenCallback: NAPI.Callback = { env, callbackInfo -> napi_value? in
+                let thenCallback: NAPI.Callback = { env, callbackInfo in
                     callbackBody(env, callbackInfo, name: "thenCallback", expectedArgumentCount: 1) { env in
                         guard let jobBox = try env.data().map(Box<() -> Void>.takeRetainedOpaque(_:)) else {
                             fatalError("env.data() should never be null for the async task event loop")

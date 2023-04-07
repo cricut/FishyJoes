@@ -4,6 +4,7 @@ struct TypeScriptAnnotations: Codable {
         indirect case optional(TSType)
         case union([TSType])
         case exactString(String)
+        indirect case promise(TSType)
     }
 
     struct Variable: Codable {
@@ -191,6 +192,8 @@ extension TypeScriptAnnotations.TSType: CustomStringConvertible {
             return types.isEmpty ? "never" : types.map(\.description).joined(separator: " | ")
         case let .exactString(string):
             return "\"\(string)\""
+        case let .promise(wrapped):
+            return "Promise<\(wrapped)>"
         }
     }
 

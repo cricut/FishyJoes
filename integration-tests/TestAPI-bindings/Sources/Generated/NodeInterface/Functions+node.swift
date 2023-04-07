@@ -134,15 +134,25 @@ extension Functions: FishyJoesNodeRuntime.NodeConverter {
                 "async42Func": (
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "async42Func", expectedArgumentCount: 1, hasNamedOptions: false) { env in
-                            let callback = UncheckedSendableBox(try env.argument(at: 0, converter: Function1Converter<Int, VoidConverter>.self))
+                            let (resolved, promise) = try env.env.createPromise()
+                            let thenFunction = try env.env.getNamedProperty(promise, "then")
+                            let thenCallback: NAPI.Callback = { env, callbackInfo in
+                                callbackBody(env, callbackInfo, name: "_async42Func_then", expectedArgumentCount: 1) { env in
+                                    return try env.argument(at: 0)
+                                }
+                            }
+                            let thenCallbackFunction = try env.env.createFunction(nil, thenCallback, nil)
+                            _ = try env.env.callFunction(promise, thenFunction, [thenCallbackFunction])
+
                             Task {
                                 let result = try (
                                     await Functions.async42Func(
                                     )
+                                    
                                 )
-                                try callback(result)
+                                try env.env.resolveDeferred(resolved, Int.toNode(result, env: env.env))
                             }
-                            return nil
+                            return promise
                         }
                     },
                     isStatic: true

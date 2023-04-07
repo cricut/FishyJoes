@@ -159,7 +159,7 @@ struct NodeTranslator: Translator {
                         if exportAnnotation.noReturn || method.isAsync {
                             fragment.output()
                         } else {
-                            fragment.output(",")
+                             fragment.output(",")
                             fragment.output("env: env.env")
                         }
                     }
@@ -333,18 +333,8 @@ struct NodeTranslator: Translator {
                 )
             )
         }
-
-        if method.isAsync {
-            let asyncCallback = context.resolve(type: .function([method.returnType], .void, isAsync: false), generics: exportAnnotation.genericOverrides)
-            parameters.append(
-                .init(
-                    label: nil,
-                    name: "_asyncCallback",
-                    type: asyncCallback.nodeType,
-                    defaultValue: nil
-                )
-            )
-        }
+        
+        let returnType = context.resolve(type: method.returnType, generics: exportAnnotation.genericOverrides).nodeType
 
         return TypeScriptAnnotations.Method(
             documentation: method.documentation + (method.deprecation.map { ["@deprecated \($0.message)"] } ?? []),
@@ -352,7 +342,7 @@ struct NodeTranslator: Translator {
             isAsync: method.isAsync,
             name: exportAnnotation.name,
             parameters: parameters,
-            returnType: !method.isAsync ? context.resolve(type: method.returnType, generics: exportAnnotation.genericOverrides).nodeType : .void
+            returnType: method.isAsync ? .promise(returnType) : returnType
         )
     }
 
