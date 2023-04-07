@@ -10,9 +10,6 @@ import TestAPI
 @available(*, deprecated, message: "Not actually deprecated, but this silences warnings because it may refer to deprecated methods")
 @_cdecl("napi_register_module_v1")
 public func napi_register_module_v1(env: napi_env, exports: napi_value) -> napi_value? {
-    #if os(WASI)
-    JavaScriptEventLoop.installGlobalExecutor()
-    #endif
     let env = NAPI.Env(ptr: env)
     let exports = NAPI.Value(ptr: exports)
     return FishyJoesNodeRuntime.rethrowToNode(env: env) {
@@ -23,6 +20,9 @@ public func napi_register_module_v1(env: napi_env, exports: napi_value) -> napi_
 
 @available(*, deprecated, message: "Not actually deprecated, but this silences warnings because it may refer to deprecated methods")
 public func registerModuleTestAPI(env: NAPI.Env, exports: NAPI.Value) throws -> NAPI.Value {
+    #if os(WASI)
+    try JavaScriptEventLoop.installGlobalExecutor(env: env)
+    #endif
     let module = try env.createObject()
     try env.setNamedProperty(exports, "TestAPI", module)
     try env.setNamedProperty(exports, "default", module)
