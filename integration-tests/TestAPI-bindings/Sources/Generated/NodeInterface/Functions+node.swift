@@ -143,14 +143,13 @@ extension Functions: FishyJoesNodeRuntime.NodeConverter {
                             }
                             let thenCallbackFunction = try env.env.createFunction(nil, thenCallback, nil)
                             _ = try env.env.callFunction(promise, thenFunction, [thenCallbackFunction])
-
+                            let envBox = UncheckedSendableBox(env.env)
                             Task {
                                 let result = try (
                                     await Functions.async42Func(
                                     )
-                                    
                                 )
-                                try env.env.resolveDeferred(resolved, Int.toNode(result, env: env.env))
+                                try envBox.value.resolveDeferred(resolved, Int.toNode(result, env: envBox.value))
                             }
                             return promise
                         }

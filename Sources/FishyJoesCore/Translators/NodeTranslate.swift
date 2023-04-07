@@ -111,11 +111,20 @@ struct NodeTranslator: Translator {
         var taskBlock: (() -> Void) -> Void = { $0() }
         if method.isAsync {
             taskBlock = { body in
+                fragment.output("let (resolved, promise) = try env.env.createPromise()")
+                fragment.output(#"let thenFunction = try env.env.getNamedProperty(promise, "then")"#)
+                fragment.outputBlock("let thenCallback: NAPI.Callback = { env, callbackInfo in", closeWith: "}") {
+                    fragment.outputBlock(#"callbackBody(env, callbackInfo, name: "_async42Func_then", expectedArgumentCount: 1) { env in"#, closeWith: "}") {
+                        fragment.output("return try env.argument(at: 0)")
+                    }
+                }
+                fragment.output("let thenCallbackFunction = try env.env.createFunction(nil, thenCallback, nil)")
+                fragment.output("_ = try env.env.callFunction(promise, thenFunction, [thenCallbackFunction])")
+                fragment.output("let envBox = UncheckedSendableBox(env.env)")
                 fragment.outputBlock("Task {") {
                     body()
                 }
-                // TODO: Return the promise
-                fragment.output("return nil")
+                fragment.output("return promise")
             }
         }
 
@@ -170,7 +179,7 @@ struct NodeTranslator: Translator {
                         }
                         if method.isAsync {
                             let asyncCallback = context.resolve(type: BetterType.function([method.returnType], .void, isAsync: false), generics: exportAnnotation.genericOverrides)
-                            fragment.output("try env.argument(at: \(argIndex), converter: \(asyncCallback.converterType.name).self)(result)")
+                            fragment.output("try envBox.value.resolveDeferred(resolved, \(returnType.sourceType.name).toNode(result, env: envBox.value))")
                         } else {
                             fragment.output("return result")
                         }

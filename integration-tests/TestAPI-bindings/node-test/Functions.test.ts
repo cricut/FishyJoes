@@ -29,9 +29,7 @@ test('PassingFunctionsToSwift', () => {
 });
 
 test('SimpleAsyncFunctionCall', async () => {
-    var value: number = 0
-    var count = 0
-    value = await TestAPI.Functions.async42Func()
+    var value: number = await TestAPI.Functions.async42Func()
     expect(value).toEqual(42)
 })
 
