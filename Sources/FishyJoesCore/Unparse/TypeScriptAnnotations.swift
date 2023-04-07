@@ -23,6 +23,7 @@ struct TypeScriptAnnotations: Codable {
         }
         let documentation: [String]
         let isStatic: Bool
+        let isAsync: Bool
         let name: String
         let parameters: [Parameter]
         let returnType: TSType

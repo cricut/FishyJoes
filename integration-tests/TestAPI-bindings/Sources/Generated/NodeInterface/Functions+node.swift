@@ -134,12 +134,13 @@ extension Functions: FishyJoesNodeRuntime.NodeConverter {
                 "async42Func": (
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "async42Func", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                            let callback = UncheckedSendableBox(try env.argument(at: 0, converter: Function1Converter<Int, VoidConverter>.self))
                             Task {
                                 let result = try (
                                     await Functions.async42Func(
                                     )
                                 )
-                                try env.argument(at: 0, converter: Function1Converter<Int, VoidConverter>.self)(result)
+                                try callback(result)
                             }
                             return nil
                         }

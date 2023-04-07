@@ -225,16 +225,7 @@ extension CodeGen {
                 ].compactMap { $0 },
                 addEnv: sourceryEnv
             ).run()
-            
-            try cmd(
-                "rm",
-                "-rf",
-                "Sources/Generated/CSharpInterface/EmptyPlaceholder.swift",
-                "Sources/Generated/NodeInterface/EmptyPlaceholder.swift",
-                "Sources/Generated/JavaInterface/EmptyPlaceholder.swift",
-                "Sources/Generated/CPPInterface/EmptyPlaceholder.swift"
-            ).run()
-            
+
             try errorReporter.succeed()
         }
 

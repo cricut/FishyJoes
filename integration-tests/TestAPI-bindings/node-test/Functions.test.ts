@@ -35,6 +35,7 @@ test('AsyncFunctionCall', async () => {
 
     var value: number = 0
     var count = 0
+//    value = await TestAPI.Functions.async42Func()
     TestAPI.Functions.async42Func((a: number) => {
         value = a
         console.log(value)

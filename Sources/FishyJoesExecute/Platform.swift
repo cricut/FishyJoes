@@ -1,7 +1,7 @@
 import Foundation
 import swsh
 
-let wasmToolchain = "/Library/Developer/Toolchains/swift-wasm-5.7.1-RELEASE.xctoolchain"
+let wasmToolchain = "/Library/Developer/Toolchains/swift-wasm-5.7.3-RELEASE.xctoolchain"
 
 struct BuildConfiguration {
     let debug: Bool

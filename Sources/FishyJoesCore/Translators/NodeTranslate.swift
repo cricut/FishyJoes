@@ -114,7 +114,7 @@ struct NodeTranslator: Translator {
                 fragment.outputBlock("Task {") {
                     body()
                 }
-                // TODO: Figure out how to return void here
+                // TODO: Return the promise
                 fragment.output("return nil")
             }
         }
@@ -346,6 +346,7 @@ struct NodeTranslator: Translator {
         return TypeScriptAnnotations.Method(
             documentation: method.documentation + (method.deprecation.map { ["@deprecated \($0.message)"] } ?? []),
             isStatic: isStatic,
+            isAsync: method.isAsync,
             name: exportAnnotation.name,
             parameters: parameters,
             returnType: !method.isAsync ? context.resolve(type: method.returnType, generics: exportAnnotation.genericOverrides).nodeType : .void
@@ -401,6 +402,7 @@ struct NodeTranslator: Translator {
             TypeScriptAnnotations.Method(
                 documentation: field.documentation + (field.deprecation.map { ["@deprecated \($0.message)"] } ?? []),
                 isStatic: isStatic,
+                isAsync: false,
                 name: "get\(name)",
                 parameters: parameters,
                 returnType: resolved.nodeType
@@ -410,6 +412,7 @@ struct NodeTranslator: Translator {
                 TypeScriptAnnotations.Method(
                     documentation: ["See `get\(name)`"] + (field.deprecation.map { ["@deprecated \($0.message)"] } ?? []),
                     isStatic: isStatic,
+                    isAsync: false,
                     name: "set\(name)",
                     parameters: parameters + [
                         .init(
