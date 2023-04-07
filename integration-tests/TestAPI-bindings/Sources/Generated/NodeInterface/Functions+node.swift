@@ -244,11 +244,11 @@ extension Functions: FishyJoesNodeRuntime.NodeConverter {
                             let thenCallbackFunction = try env.env.createFunction(nil, thenCallback, nil)
                             _ = try env.env.callFunction(promise, thenFunction, [thenCallbackFunction])
                             let envBox = UncheckedSendableBox(env.env)
-                            let arg1 = UncheckedSendableBox(try env.argument(at: 0, converter: Function0Converter<VoidConverter>.self))
+                            let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: Function0Converter<VoidConverter>.self))
                             Task {
                                 let result: Void = try (
                                     await Functions.asyncCallbackFunc(
-                                        arg1.value
+                                        arg0.value
                                     )
                                 )
                                 try envBox.value.resolveDeferred(deferred, VoidConverter.toNode(result, env: envBox.value))
@@ -271,11 +271,11 @@ extension Functions: FishyJoesNodeRuntime.NodeConverter {
                             let thenCallbackFunction = try env.env.createFunction(nil, thenCallback, nil)
                             _ = try env.env.callFunction(promise, thenFunction, [thenCallbackFunction])
                             let envBox = UncheckedSendableBox(env.env)
-                            let arg1 = UncheckedSendableBox(try env.argument(at: 0, converter: Double.self))
+                            let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: Double.self))
                             Task {
                                 let result: Double = try (
                                     await Functions.asyncDoubleFunc(
-                                        arg1.value
+                                        arg0.value
                                     )
                                 )
                                 try envBox.value.resolveDeferred(deferred, Double.toNode(result, env: envBox.value))

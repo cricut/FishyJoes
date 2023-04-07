@@ -7,6 +7,9 @@ let forceDynamic = ProcessInfo.processInfo.environment["SWIFT_PACKAGE_FORCE_DYNA
 
 let package = Package(
     name: "TestAPI",
+    platforms: [
+        .macOS(.v11),
+    ],
     products: [
         .library(
             name: "TestAPI",

@@ -107,20 +107,39 @@ struct NodeTranslator: Translator {
         }
 
         let returnType = context.resolve(type: method.returnType, generics: exportAnnotation.genericOverrides)
+        
+        func convertMethodParameter(formal: SwiftFormal, argIndex: inout Int) -> String {
+            let resolved = context.resolve(type: formal.type, generics: exportAnnotation.genericOverrides)
+
+            var result = formal.label.map { "\($0): " } ?? ""
+            if let defaultValue = formal.defaultValue {
+                result += "try env.argument(named: \"\(formal.label ?? formal.name)\", default: \(defaultValue), "
+            } else {
+                result += "try env.argument(at: \(argIndex), "
+                argIndex += 1
+            }
+            return result + "converter: \(resolved.converterType.name).self)"
+        }
 
         var taskBlock: (() -> Void) -> Void = { $0() }
         if method.isAsync {
             taskBlock = { body in
-                fragment.output("let (resolved, promise) = try env.env.createPromise()")
+                fragment.output("let (deferred, promise) = try env.env.createPromise()")
                 fragment.output(#"let thenFunction = try env.env.getNamedProperty(promise, "then")"#)
                 fragment.outputBlock("let thenCallback: NAPI.Callback = { env, callbackInfo in", closeWith: "}") {
-                    fragment.outputBlock(#"callbackBody(env, callbackInfo, name: "_async42Func_then", expectedArgumentCount: 1) { env in"#, closeWith: "}") {
+                    fragment.outputBlock(#"callbackBody(env, callbackInfo, name: "_\#(method.callName)_then", expectedArgumentCount: 1) { env in"#, closeWith: "}") {
                         fragment.output("return try env.argument(at: 0)")
                     }
                 }
                 fragment.output("let thenCallbackFunction = try env.env.createFunction(nil, thenCallback, nil)")
                 fragment.output("_ = try env.env.callFunction(promise, thenFunction, [thenCallbackFunction])")
                 fragment.output("let envBox = UncheckedSendableBox(env.env)")
+
+                argIndex = 0
+                fragment.outputMap(method.parameters, separator: ",") { formal in
+                    return "let arg\(argIndex) = UncheckedSendableBox(\(convertMethodParameter(formal: formal, argIndex: &argIndex)))"
+                }
+                
                 fragment.outputBlock("Task {") {
                     body()
                 }
@@ -131,7 +150,7 @@ struct NodeTranslator: Translator {
         fragment.outputBlock("{ env, info in", closeWith: "}", newLineTerminated: newLineTerminated) {
             let hasNamedOptions = method.parameters.contains { $0.defaultValue != nil }
             let positionalArguments = method.parameters.filter { $0.defaultValue == nil }
-            fragment.outputBlock("FishyJoesNodeRuntime.callbackBody(env, info, name: \"\(nodeName)\", expectedArgumentCount: \(argIndex + positionalArguments.count + (method.isAsync ? 1 : 0)), hasNamedOptions: \(hasNamedOptions)) { env in", closeWith: "}") {
+            fragment.outputBlock("FishyJoesNodeRuntime.callbackBody(env, info, name: \"\(nodeName)\", expectedArgumentCount: \(argIndex + positionalArguments.count), hasNamedOptions: \(hasNamedOptions)) { env in", closeWith: "}") {
                 taskBlock {
                     let callName = method.sourceKind == .initializer ? "" : ".\(method.callName)"
 
@@ -147,22 +166,18 @@ struct NodeTranslator: Translator {
                             fragment.output("let result = try \(returnType.converterType.name).toNode", newLineTerminated: false)
                         }
                     } else {
-                        fragment.output("let result = try ", newLineTerminated: false)
+                        fragment.output("let result: \(returnType.sourceType.name) = try ", newLineTerminated: false)
                     }
 
                     fragment.outputBlock("(") {
+                        argIndex = 0
                         fragment.outputBlock("\(method.isAsync ? "await " : "")\(selfExpression)\(callName)(", newLineTerminated: false) {
                             fragment.outputMap(method.parameters, separator: ",") { formal in
-                                let resolved = context.resolve(type: formal.type, generics: exportAnnotation.genericOverrides)
-
-                                var result = formal.label.map { "\($0): " } ?? ""
-                                if let defaultValue = formal.defaultValue {
-                                    result += "try env.argument(named: \"\(formal.label ?? formal.name)\", default: \(defaultValue), "
-                                } else {
-                                    result += "try env.argument(at: \(argIndex), "
-                                    argIndex += 1
+                                guard !method.isAsync else {
+                                    defer { argIndex += 1 }
+                                    return "arg\(argIndex).value"
                                 }
-                                return result + "converter: \(resolved.converterType.name).self)"
+                                return convertMethodParameter(formal: formal, argIndex: &argIndex)
                             }
                         }
                         if exportAnnotation.noReturn || method.isAsync {
@@ -179,7 +194,7 @@ struct NodeTranslator: Translator {
                         }
                         if method.isAsync {
                             let asyncCallback = context.resolve(type: BetterType.function([method.returnType], .void, isAsync: false), generics: exportAnnotation.genericOverrides)
-                            fragment.output("try envBox.value.resolveDeferred(resolved, \(returnType.sourceType.name).toNode(result, env: envBox.value))")
+                            fragment.output("try envBox.value.resolveDeferred(deferred, \(returnType.converterType.name).toNode(result, env: envBox.value))")
                         } else {
                             fragment.output("return result")
                         }

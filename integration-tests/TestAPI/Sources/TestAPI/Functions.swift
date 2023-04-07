@@ -79,7 +79,33 @@ public enum Functions {
 
     /// <!-- FishyJoes.export(async42Func) -->
     public static func async42Func() async throws -> Int {
-        print("Inside \(#function)")
-        return 42
+        42
+    }
+
+    /// <!-- FishyJoes.export(asyncYieldFunc) -->
+    public static func asyncYieldFunc() async throws -> Int {
+        await Task.yield()
+        return try await async42Func()
+    }
+    
+    /// <!-- FishyJoes.export(asyncSleepFunc) -->
+    public static func asyncSleepFunc() async throws -> Int {
+        try await Task.sleep(nanoseconds: 100)
+        return try await async42Func()
+    }
+    
+    /// <!-- FishyJoes.export(asyncVoidFunc) -->
+    public static func asyncVoidFunc() async throws {
+    }
+    
+    /// <!-- FishyJoes.export(asyncCallbackFunc) -->
+    public static func asyncCallbackFunc(_ callback: () throws -> Void) async throws {
+        print("in", #function)
+        try callback()
+    }
+    
+    /// <!-- FishyJoes.export(asyncDoubleFunc) -->
+    public static func asyncDoubleFunc(_ d: Double) async throws -> Double {
+        return d * 2
     }
 }
