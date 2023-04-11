@@ -285,6 +285,35 @@ extension Functions: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
+                "asyncThrowingFunc": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "asyncThrowingFunc", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            let (deferred, promise) = try env.env.createPromise()
+                            let thenFunction = try env.env.getNamedProperty(promise, "catch")
+                            let thenCallback: NAPI.Callback = { env, callbackInfo in
+                                callbackBody(env, callbackInfo, name: "_asyncDoubleFunc_then", expectedArgumentCount: 1) { env in
+                                    return try env.argument(at: 0)
+                                }
+                            }
+                            let thenCallbackFunction = try env.env.createFunction(nil, thenCallback, nil)
+                            _ = try env.env.callFunction(promise, thenFunction, [thenCallbackFunction])
+                            let envBox = UncheckedSendableBox(env.env)
+                            Task {
+                                do {
+                                    let result: Void = try (
+                                        await Functions.asyncThrowingFunc(
+                                        )
+                                    )
+                                    try envBox.value.resolveDeferred(deferred, VoidConverter.toNode(result, env: envBox.value))
+                                } catch {
+                                    try envBox.value.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: envBox.value))
+                                }
+                            }
+                            return promise
+                        }
+                    },
+                    isStatic: true
+                ),
                 "const42": (
                     .accessor(
                         getter: { env, info in

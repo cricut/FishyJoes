@@ -56,6 +56,31 @@ test('AsyncDoubleFunctionCall', async () => {
     expect(value).toEqual(2.0)
 })
 
+test('AsyncThrowingFunctionCallThenCatch', async () => {
+    let ranThen: boolean = false
+    let ranCatch: boolean = false
+    const promise = TestAPI.Functions.asyncThrowingFunc()
+    .then((value) => {
+        ranThen = true
+    })
+    .catch((error) => {
+        ranCatch = true
+        expect(() => { throw error }).toThrowError(/TheError/)
+    })
+    await promise
+    expect(ranThen).toEqual(false)
+    expect(ranCatch).toEqual(true)
+})
+
+test('AsyncThrowingFunctionCallTryCatch', async () => {
+    try {
+        await TestAPI.Functions.asyncThrowingFunc()
+        fail("awaited function should have thrown")
+    } catch(error) {
+        expect(() => { throw error }).toThrowError(/TheError/)
+    }
+})
+
 test('Exceptions', () => {
     expect(() => TestAPI.Functions.willThrow()).toThrowError(/TheError/)
 

@@ -122,6 +122,9 @@ namespace TestAPI {
         /// <!-- FishyJoes.export(asyncDoubleFunc) -->
         static double asyncDoubleFunc(const double &d);
         
+        /// <!-- FishyJoes.export(asyncThrowingFunc) -->
+        static void asyncThrowingFunc();
+        
         /// <!-- FishyJoes.export(const42) -->
         static std::function<int(> getConst42();
         

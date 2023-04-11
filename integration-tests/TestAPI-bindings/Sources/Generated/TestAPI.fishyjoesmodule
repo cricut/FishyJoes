@@ -2368,6 +2368,26 @@
                     }
                   }
                 }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(asyncThrowingFunc) -->"
+                ],
+                "isAsync" : true,
+                "isStatic" : true,
+                "name" : "asyncThrowingFunc",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "void"
+                      }
+                    }
+                  }
+                }
               }
             ],
             "name" : "Functions",

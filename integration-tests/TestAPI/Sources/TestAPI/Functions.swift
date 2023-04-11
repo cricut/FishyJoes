@@ -100,12 +100,16 @@ public enum Functions {
     
     /// <!-- FishyJoes.export(asyncCallbackFunc) -->
     public static func asyncCallbackFunc(_ callback: () throws -> Void) async throws {
-        print("in", #function)
         try callback()
     }
     
     /// <!-- FishyJoes.export(asyncDoubleFunc) -->
     public static func asyncDoubleFunc(_ d: Double) async throws -> Double {
         return d * 2
+    }
+    
+    /// <!-- FishyJoes.export(asyncThrowingFunc) -->
+    public static func asyncThrowingFunc() async throws {
+        throw TheError()
     }
 }

@@ -126,13 +126,15 @@ struct NodeTranslator: Translator {
             taskBlock = { body in
                 fragment.output("let (deferred, promise) = try env.env.createPromise()")
                 fragment.output(#"let thenFunction = try env.env.getNamedProperty(promise, "then")"#)
-                fragment.outputBlock("let thenCallback: NAPI.Callback = { env, callbackInfo in", closeWith: "}") {
-                    fragment.outputBlock(#"callbackBody(env, callbackInfo, name: "_\#(method.callName)_then", expectedArgumentCount: 1) { env in"#, closeWith: "}") {
+                fragment.output(#"let catchFunction = try env.env.getNamedProperty(promise, "catch")"#)
+                fragment.outputBlock("let thenCatchCallback: NAPI.Callback = { env, callbackInfo in", closeWith: "}") {
+                    fragment.outputBlock(#"callbackBody(env, callbackInfo, name: "_\#(method.callName)_then_catch_callback", expectedArgumentCount: 1) { env in"#, closeWith: "}") {
                         fragment.output("return try env.argument(at: 0)")
                     }
                 }
-                fragment.output("let thenCallbackFunction = try env.env.createFunction(nil, thenCallback, nil)")
-                fragment.output("_ = try env.env.callFunction(promise, thenFunction, [thenCallbackFunction])")
+                fragment.output("let thenCatchCallbackFunction = try env.env.createFunction(nil, thenCatchCallback, nil)")
+                fragment.output("_ = try env.env.callFunction(promise, thenFunction, [thenCatchCallbackFunction])")
+                fragment.output("_ = try env.env.callFunction(promise, catchFunction, [thenCatchCallbackFunction])")
                 fragment.output("let envBox = UncheckedSendableBox(env.env)")
 
                 argIndex = 0

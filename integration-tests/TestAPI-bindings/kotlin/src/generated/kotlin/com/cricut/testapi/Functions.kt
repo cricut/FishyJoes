@@ -239,6 +239,18 @@ sealed class Functions {
             _asyncCallback: ((Double) -> kotlin.Unit)
         )
 
+        /**
+         * <!-- FishyJoes.export(asyncThrowingFunc) -->
+         */
+        fun asyncThrowingFunc(
+            _asyncCallback: ((kotlin.Unit) -> kotlin.Unit)
+        ) = __jni_asyncThrowingFunc(_asyncCallback)
+        @JvmStatic
+        @JvmName("__jni_asyncThrowingFunc")
+        private external fun __jni_asyncThrowingFunc(
+            _asyncCallback: ((kotlin.Unit) -> kotlin.Unit)
+        )
+
         init { loadNativeLibs() }
     }
 

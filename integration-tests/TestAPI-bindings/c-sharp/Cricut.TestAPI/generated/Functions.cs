@@ -318,6 +318,19 @@ namespace Cricut.TestAPI {
         );
 
         /// <summary>
+        /// <!-- FishyJoes.export(asyncThrowingFunc) -->
+        /// </summary>
+        public static void AsyncThrowingFunc(
+        ) {
+            Check((out CreatedRef _exn) => __cs_Functions_asyncThrowingFunc(out _exn));
+        }
+
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern void __cs_Functions_asyncThrowingFunc(
+            out CreatedRef exn
+        );
+
+        /// <summary>
         /// <!-- FishyJoes.exportReference(Functions.TheError) -->
         /// </summary>
         public class TheError : SwiftReference {
