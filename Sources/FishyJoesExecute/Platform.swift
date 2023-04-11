@@ -10,7 +10,7 @@ struct BuildConfiguration {
     var baseDockerContext: Lazy<DockerContext?>
 }
 
-enum Platform: Hashable {
+enum Platform: CustomStringConvertible, Hashable {
     case wasm
     case node
     case cpp
@@ -37,6 +37,23 @@ enum Platform: Hashable {
 
         var toolchainPath: String {
             "/swift-android-\(self)"
+        }
+    }
+
+    var description: String {
+        switch self {
+        case .wasm:
+            return "wasm"
+        case .node:
+            return "node"
+        case .cpp:
+            return "cpp"
+        case .kotlinSystem:
+            return "kotlinSystem"
+        case let .kotlinAndroid(arch):
+            return "kotlinAndroid(\(arch.rawValue))"
+        case .cSharp:
+            return "cSharp"
         }
     }
 
@@ -115,7 +132,10 @@ enum Platform: Hashable {
             args.append(contentsOf: Platform.coverageFlags)
         }
         let path: String
-        var env: [String: String] = ["SWIFT_PACKAGE_FORCE_DYNAMIC": "1"]
+        var env: [String: String] = [
+            "SWIFT_PACKAGE_FORCE_DYNAMIC": "1",
+            "FISHYJOES_TARGET_PLATFORM": "\(self)",
+        ]
         switch self {
         case .wasm:
             path = "\(wasmToolchain)/usr/bin/swift-build"

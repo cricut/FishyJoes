@@ -258,9 +258,12 @@ final class KotlinTranslator: Translator {
         ktFragment.blankLine()
         ktFragment.output("import com.cricut.fishyjoes.runtime.LibraryLoader")
         ktFragment.output("import com.cricut.fishyjoes.runtime.FishyJoesRuntimeRepresentative")
+        for dependency in module.dependencies {
+            ktFragment.output("import com.cricut.\(dependency.lowercased()).\(dependency)LoaderRepresentative")
+        }
 
         ktFragment.blankLine()
-        ktFragment.outputBlock("object \(repName): LibraryLoader.LibraryRepresentative {") {
+        ktFragment.outputBlock("public object \(repName): LibraryLoader.LibraryRepresentative {") {
             ktFragment.output("override fun ensureLoaded() {}")
             ktFragment.output("override val nativeLibs = listOf(\"\(module.name)\", \"\(module.name)-java\")")
             let deps = ["FishyJoesRuntimeRepresentative"] + module.dependencies.map { "\($0)LoaderRepresentative" }
