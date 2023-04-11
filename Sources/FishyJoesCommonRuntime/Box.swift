@@ -57,7 +57,7 @@ public struct Box<T> {
         try Box(inner: AnyBox.takeRetainedOpaque(pointer))
     }
 
-    public func callAsFunction<Argument, Result>(_ arg: Argument) throws -> Result where T == (Argument) throws -> Result {
+    public func callAsFunction<Argument, Result>(_ arg: Argument) throws -> Result where T == ((Argument) throws -> Result) {
         try value(arg)
     }
 }
@@ -133,7 +133,7 @@ public struct UncheckedSendableBox<T>: @unchecked Sendable {
         try Box(inner: AnyBox.takeRetainedOpaque(pointer))
     }
 
-    public func callAsFunction<Argument, Result>(_ arg: Argument) throws -> Result where T == (Argument) throws -> Result {
+    public func callAsFunction<Argument, Result>(_ arg: Argument) throws -> Result where T == ((Argument) throws -> Result) {
         try value(arg)
     }
 }

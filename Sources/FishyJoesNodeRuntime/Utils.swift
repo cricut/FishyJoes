@@ -87,16 +87,3 @@ public func nodeDescribe(_ value: NAPI.Value?, env: NAPI.Env) throws -> String {
 public func nodeIsUndefiend(_ value: NAPI.Value, env: NAPI.Env) throws -> Bool {
     return try env.typeof(value) == napi_undefined
 }
-
-public func jsprint(env: NAPI.Env, _ items: Any..., separator: String = " ", terminator: String = "\n") throws {
-    var string = ""
-    for item in items {
-        Swift.print(item, terminator: separator, to: &string)
-    }
-    string += terminator
-
-    let jsString = try env.createStringUtf8(string)
-    let console = try env.getNamedProperty(env.getGlobal(), "console")
-    let log = try env.getNamedProperty(console, "log")
-    _ = try env.callFunction(console, log, [jsString])
-}
