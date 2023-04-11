@@ -91,7 +91,7 @@ public final class AnyBox {
 
 public struct UncheckedSendableBox<T>: @unchecked Sendable {
     public let box: Box<T>
-    
+
     public var value: T {
         get {
             box.value
@@ -104,19 +104,19 @@ public struct UncheckedSendableBox<T>: @unchecked Sendable {
             yield &box.value
         }
     }
-    
+
     public init(_ value: T) {
         box = Box(value)
     }
-    
+
     public init(inner box: Box<T>) {
         self.box = box
     }
-    
+
     public init(inner box: AnyBox) throws {
         self.box = try Box(inner: box)
     }
-    
+
     public func retainedOpaque() -> UnsafeMutableRawPointer {
         box.retainedOpaque()
     }

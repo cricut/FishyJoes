@@ -94,7 +94,7 @@ public func jsprint(env: NAPI.Env, _ items: Any..., separator: String = " ", ter
         Swift.print(item, terminator: separator, to: &string)
     }
     string += terminator
-    
+
     let jsString = try env.createStringUtf8(string)
     let console = try env.getNamedProperty(env.getGlobal(), "console")
     let log = try env.getNamedProperty(console, "log")

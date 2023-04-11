@@ -107,7 +107,7 @@ struct NodeTranslator: Translator {
         }
 
         let returnType = context.resolve(type: method.returnType, generics: exportAnnotation.genericOverrides)
-        
+
         func convertMethodParameter(formal: SwiftFormal, argIndex: inout Int) -> String {
             let resolved = context.resolve(type: formal.type, generics: exportAnnotation.genericOverrides)
 
@@ -131,7 +131,7 @@ struct NodeTranslator: Translator {
                 fragment.outputMap(method.parameters, separator: ",") { formal in
                     return "let arg\(argIndex) = UncheckedSendableBox(\(convertMethodParameter(formal: formal, argIndex: &argIndex)))"
                 }
-                
+
                 fragment.outputBlock("Task {") {
                     fragment.outputBlock("do {", closeWith: "}", newLineTerminated: false ) {
                         fragment.outputBlock("try envBox.value.resolveDeferred(", closeWith: ")") {
@@ -354,7 +354,7 @@ struct NodeTranslator: Translator {
                 )
             )
         }
-        
+
         let returnType = context.resolve(type: method.returnType, generics: exportAnnotation.genericOverrides).nodeType
 
         return TypeScriptAnnotations.Method(

@@ -116,7 +116,7 @@ public final class JavaScriptEventLoop: SerialExecutor, @unchecked Sendable {
         #if os(WASI)
         // This doesn't work with Xcode 14.0 so it always requires WASI
         typealias swift_task_enqueueGlobalWithDeadline_hook_Fn = @convention(thin) (Int64, Int64, Int64, Int64, Int32, UnownedJob, swift_task_enqueueGlobalWithDelay_original) -> Void
-        let swift_task_enqueueGlobalWithDeadline_hook_impl: swift_task_enqueueGlobalWithDeadline_hook_Fn = { sec, nsec, tsec, tnsec, clock, job, original in
+        let swift_task_enqueueGlobalWithDeadline_hook_impl: swift_task_enqueueGlobalWithDeadline_hook_Fn = { sec, nsec, tsec, tnsec, clock, job, _ in
             JavaScriptEventLoop.shared.enqueue(job, withDelay: sec, nsec, tsec, tnsec, clock)
         }
         swift_task_enqueueGlobalWithDeadline_hook = unsafeBitCast(swift_task_enqueueGlobalWithDeadline_hook_impl, to: UnsafeMutableRawPointer?.self)
@@ -130,7 +130,7 @@ public final class JavaScriptEventLoop: SerialExecutor, @unchecked Sendable {
 
         didInstallGlobalExecutor = true
     }
-    
+
     static func setupShared(env: NAPI.Env) throws {
         // A promise is used here in order to have the queueTask end firing its actula work as a javascript microtask.
         // A microtask is a piese of code run under special conditions including when promises have their `then` or `catch` functions called.
@@ -165,7 +165,6 @@ public final class JavaScriptEventLoop: SerialExecutor, @unchecked Sendable {
                 do {
                     let thenCallbackFunction = try env.createFunction(nil, thenCallback, jobBox.retainedOpaque())
                     _ = try env.callFunction(promiseRef.value(env: env), thenFunctionRef.value(env: env), [thenCallbackFunction])
-
                 } catch {
                     fatalError("\(error)")
                 }

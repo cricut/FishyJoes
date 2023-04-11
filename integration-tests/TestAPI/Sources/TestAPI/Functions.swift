@@ -87,27 +87,27 @@ public enum Functions {
         await Task.yield()
         return try await async42Func()
     }
-    
+
     /// <!-- FishyJoes.export(asyncSleepFunc) -->
     public static func asyncSleepFunc() async throws -> Int {
         try await Task.sleep(nanoseconds: 100)
         return try await async42Func()
     }
-    
+
     /// <!-- FishyJoes.export(asyncVoidFunc) -->
     public static func asyncVoidFunc() async throws {
     }
-    
+
     /// <!-- FishyJoes.export(asyncCallbackFunc) -->
     public static func asyncCallbackFunc(_ callback: () throws -> Void) async throws {
         try callback()
     }
-    
+
     /// <!-- FishyJoes.export(asyncDoubleFunc) -->
     public static func asyncDoubleFunc(_ d: Double) async throws -> Double {
         return d * 2
     }
-    
+
     /// <!-- FishyJoes.export(asyncThrowingFunc) -->
     public static func asyncThrowingFunc() async throws {
         throw TheError()
