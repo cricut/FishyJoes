@@ -75,7 +75,7 @@ test('AsyncThrowingFunctionCallThenCatch', async () => {
 test('AsyncThrowingFunctionCallTryCatch', async () => {
     try {
         await TestAPI.Functions.asyncThrowingFunc()
-        fail("awaited function should have thrown")
+        throw "Function didn't throw expected error"
     } catch(error) {
         expect(() => { throw error }).toThrowError(/TheError/)
     }

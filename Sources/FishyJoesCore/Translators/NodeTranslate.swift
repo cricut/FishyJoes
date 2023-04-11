@@ -125,16 +125,6 @@ struct NodeTranslator: Translator {
         if method.isAsync {
             taskBlock = { body in
                 fragment.output("let (deferred, promise) = try env.env.createPromise()")
-                fragment.output(#"let thenFunction = try env.env.getNamedProperty(promise, "then")"#)
-                fragment.output(#"let catchFunction = try env.env.getNamedProperty(promise, "catch")"#)
-                fragment.outputBlock("let thenCatchCallback: NAPI.Callback = { env, callbackInfo in", closeWith: "}") {
-                    fragment.outputBlock(#"callbackBody(env, callbackInfo, name: "_\#(method.callName)_then_catch_callback", expectedArgumentCount: 1) { env in"#, closeWith: "}") {
-                        fragment.output("return try env.argument(at: 0)")
-                    }
-                }
-                fragment.output("let thenCatchCallbackFunction = try env.env.createFunction(nil, thenCatchCallback, nil)")
-                fragment.output("_ = try env.env.callFunction(promise, thenFunction, [thenCatchCallbackFunction])")
-                fragment.output("_ = try env.env.callFunction(promise, catchFunction, [thenCatchCallbackFunction])")
                 fragment.output("let envBox = UncheckedSendableBox(env.env)")
 
                 argIndex = 0
@@ -143,7 +133,14 @@ struct NodeTranslator: Translator {
                 }
                 
                 fragment.outputBlock("Task {") {
-                    body()
+                    fragment.outputBlock("do {", closeWith: "}", newLineTerminated: false ) {
+                        fragment.outputBlock("try envBox.value.resolveDeferred(", closeWith: ")") {
+                            body()
+                        }
+                    }
+                    fragment.outputBlock(" catch {", closeWith: "}") {
+                        fragment.output("try envBox.value.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: envBox.value))")
+                    }
                 }
                 fragment.output("return promise")
             }
@@ -168,7 +165,8 @@ struct NodeTranslator: Translator {
                             fragment.output("let result = try \(returnType.converterType.name).toNode", newLineTerminated: false)
                         }
                     } else {
-                        fragment.output("let result: \(returnType.sourceType.name) = try ", newLineTerminated: false)
+                        fragment.output("deferred,")
+                        fragment.output("\(returnType.converterType.name).toNode", newLineTerminated: false)
                     }
 
                     fragment.outputBlock("(") {
@@ -182,8 +180,11 @@ struct NodeTranslator: Translator {
                                 return convertMethodParameter(formal: formal, argIndex: &argIndex)
                             }
                         }
-                        if exportAnnotation.noReturn || method.isAsync {
+                        if exportAnnotation.noReturn {
                             fragment.output()
+                        } else if method.isAsync {
+                            fragment.output(",")
+                            fragment.output("env: envBox.value")
                         } else {
                              fragment.output(",")
                             fragment.output("env: env.env")
@@ -194,10 +195,7 @@ struct NodeTranslator: Translator {
                         if method.isMutating {
                             fragment.output("try Self.mutateNode(mutatingSelf, this: env.this(), env: env.env)")
                         }
-                        if method.isAsync {
-                            let asyncCallback = context.resolve(type: BetterType.function([method.returnType], .void, isAsync: false), generics: exportAnnotation.genericOverrides)
-                            fragment.output("try envBox.value.resolveDeferred(deferred, \(returnType.converterType.name).toNode(result, env: envBox.value))")
-                        } else {
+                        if !method.isAsync {
                             fragment.output("return result")
                         }
                     }
@@ -275,9 +273,6 @@ struct NodeTranslator: Translator {
         nodeTypeListFragment.output("@available(*, deprecated, message: \"Not actually deprecated, but this silences warnings because it may refer to deprecated methods\")")
         nodeTypeListFragment.output("@_cdecl(\"napi_register_module_v1\")")
         nodeTypeListFragment.outputBlock("public func napi_register_module_v1(env: napi_env, exports: napi_value) -> napi_value? {") {
-            nodeTypeListFragment.output("#if os(WASI)")
-            nodeTypeListFragment.output("JavaScriptEventLoop.installGlobalExecutor()")
-            nodeTypeListFragment.output("#endif")
             nodeTypeListFragment.output("let env = NAPI.Env(ptr: env)")
             nodeTypeListFragment.output("let exports = NAPI.Value(ptr: exports)")
             nodeTypeListFragment.outputBlock("return FishyJoesNodeRuntime.rethrowToNode(env: env) {") {
