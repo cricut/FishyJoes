@@ -133,12 +133,12 @@ struct NodeTranslator: Translator {
                 }
 
                 fragment.outputBlock("Task {") {
-                    fragment.outputBlock("do {", closeWith: "}", newLineTerminated: false ) {
+                    fragment.outputBlock("do {", newLineTerminated: false ) {
                         fragment.outputBlock("try envBox.value.resolveDeferred(", closeWith: ")") {
                             body()
                         }
                     }
-                    fragment.outputBlock(" catch {", closeWith: "}") {
+                    fragment.outputBlock(" catch {") {
                         fragment.output("try envBox.value.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: envBox.value))")
                     }
                 }
