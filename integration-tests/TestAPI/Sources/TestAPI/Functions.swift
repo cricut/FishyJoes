@@ -112,4 +112,33 @@ public enum Functions {
     public static func asyncThrowingFunc() async throws {
         throw TheError()
     }
+    
+    func f2(a: @Sendable @escaping (A) -> Void) {
+        
+    }
+    
+    func _f2(a: @escaping (A) -> Void) {
+        f2(a: { a($0) })
+    }
+
+    func f(_ foo: Foo) async {
+    }
+
+    func f2() async {
+        Task.detached { @Sendable in
+            await f(foo)
+            foo = Foo()
+        }
+        await { @Sendable @MainActor in
+            await f(foo)
+        }()
+    }
 }
+
+actor A {}
+
+class Foo {
+    var i = 1
+}
+
+var foo = Foo()

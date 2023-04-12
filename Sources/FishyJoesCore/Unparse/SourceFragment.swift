@@ -49,7 +49,7 @@ class SourceFragment {
     }
 
     func outputBlock<R>(_ openingLine: String, closeWith close: String? = nil, newLineTerminated: Bool = true, semicolonTerminated: Bool = false, _ body: () throws -> R) rethrows -> R {
-        output(openingLine, newLineTerminated: !openingLine.isEmpty)
+        output(openingLine)
         let matchingClose: String
         if let close = close {
             matchingClose = close

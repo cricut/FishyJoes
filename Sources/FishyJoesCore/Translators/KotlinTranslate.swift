@@ -327,7 +327,7 @@ final class KotlinTranslator: Translator {
                 isOverride: method.exportAnnotation.isOverride,
                 name: exportAnnotation.name,
                 parameters: parameters,
-                returnType: !method.isAsync ? context.resolve(type: method.returnType, generics: exportAnnotation.genericOverrides).kotlinType : .void,
+                returnType: method.isAsync ? .void : context.resolve(type: method.returnType, generics: exportAnnotation.genericOverrides).kotlinType,
                 deprecation: method.deprecation,
                 body: nil
             )

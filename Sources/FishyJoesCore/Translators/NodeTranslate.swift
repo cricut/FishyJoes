@@ -127,7 +127,7 @@ struct NodeTranslator: Translator {
                 fragment.output("let (deferred, promise) = try env.env.createPromise()")
                 fragment.output("let envBox = UncheckedSendableBox(env.env)")
 
-                argIndex = 0
+                var argIndex = 0
                 fragment.outputMap(method.parameters, separator: ",") { formal in
                     return "let arg\(argIndex) = UncheckedSendableBox(\(convertMethodParameter(formal: formal, argIndex: &argIndex)))"
                 }
@@ -170,7 +170,6 @@ struct NodeTranslator: Translator {
                     }
 
                     fragment.outputBlock("(") {
-                        argIndex = 0
                         fragment.outputBlock("\(method.isAsync ? "await " : "")\(selfExpression)\(callName)(", newLineTerminated: false) {
                             fragment.outputMap(method.parameters, separator: ",") { formal in
                                 guard !method.isAsync else {
