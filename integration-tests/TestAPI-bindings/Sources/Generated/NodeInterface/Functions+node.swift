@@ -231,21 +231,15 @@ extension Functions: FishyJoesNodeRuntime.NodeConverter {
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "asyncCallbackFunc", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
-                            let envBox = UncheckedSendableBox(env.env)
-                            let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: Function0Converter<VoidConverter>.self))
+                            let arg0 = try NodeReference(env: env.env, value: env.argument(at: 0))
                             Task {
-                                do {
-                                    try envBox.value.resolveDeferred(
-                                        deferred,
-                                        VoidConverter.toNode(
-                                            await Functions.asyncCallbackFunc(
-                                                arg0.value
-                                            ),
-                                            env: envBox.value
-                                        )
-                                    )
-                                } catch {
-                                    try envBox.value.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: envBox.value))
+                                try onMainThread { env in
+                                    do {
+                                        try Function0Converter<VoidConverter>.fromNode(arg0.value(env: env), env: env)()
+                                        try env.resolveDeferred(deferred, env.getUndefined())
+                                    } catch {
+                                        try env.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: env))
+                                    }
                                 }
                             }
                             return promise

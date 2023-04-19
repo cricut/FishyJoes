@@ -87,3 +87,32 @@ public func nodeDescribe(_ value: NAPI.Value?, env: NAPI.Env) throws -> String {
 public func nodeIsUndefiend(_ value: NAPI.Value, env: NAPI.Env) throws -> Bool {
     return try env.typeof(value) == napi_undefined
 }
+
+private var mainThreadFunction: NAPI.ThreadsafeFunction?
+
+public func setupOnMainThreadEntryPoint(env: NAPI.Env) throws {
+    print("setup")
+    guard mainThreadFunction == nil else {
+        return
+    }
+    mainThreadFunction = try env.createThreadsafeFunction(
+        asyncResourceName: String.toNode("_mainThreadFunction", env: env),
+        mainThreadCallback: { env, _, _, data in
+            print("on main thread")
+            let env = NAPI.Env(ptr: env)
+            _ = rethrowToNode(env: env) {
+                let operation = try Box<(NAPI.Env) throws -> Void>.takeRetainedOpaque(data!)
+                try operation(env)
+                return nil
+            }
+        }
+    )
+}
+
+/// Perform a non blocking operation on the main thread.
+/// - Parameter operation: The function to execute on the main thread.
+/// - Parameter env: The main thread NAPI.Env.
+public func onMainThread(blocking callMode: NAPI.ThreadsafeFunction.CallMode = .nonblocking, _ operation: @escaping (_ env: NAPI.Env) throws -> Void) throws {
+    let box = Box(operation)
+    try mainThreadFunction!(data: box.retainedOpaque(), callMode: callMode)
+}

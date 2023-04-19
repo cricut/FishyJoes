@@ -23,6 +23,8 @@ public func registerModuleTestAPI(env: NAPI.Env, exports: NAPI.Value) throws -> 
     #if os(WASI)
     try JavaScriptEventLoop.installGlobalExecutor(env: env)
     #endif
+    try setupOnMainThreadEntryPoint(env: env)
+
     let module = try env.createObject()
     try env.setNamedProperty(exports, "TestAPI", module)
     try env.setNamedProperty(exports, "default", module)

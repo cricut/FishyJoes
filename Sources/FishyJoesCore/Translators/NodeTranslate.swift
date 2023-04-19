@@ -125,7 +125,6 @@ struct NodeTranslator: Translator {
         if method.isAsync {
             taskBlock = { body in
                 fragment.output("let (deferred, promise) = try env.env.createPromise()")
-                fragment.output("let envBox = UncheckedSendableBox(env.env)")
 
                 var argIndex = 0
                 fragment.outputMap(method.parameters, separator: ",") { formal in
@@ -133,8 +132,8 @@ struct NodeTranslator: Translator {
                 }
 
                 fragment.outputBlock("Task {") {
-                    fragment.outputBlock("do {", newLineTerminated: false ) {
-                        fragment.outputBlock("try envBox.value.resolveDeferred(", closeWith: ")") {
+                    fragment.outputBlock("try onMainThread { env in", newLineTerminated: false ) {
+                        fragment.outputBlock("try envBox.value.resolveDeferred({", closeWith: "}())") {
                             body()
                         }
                     }
@@ -286,6 +285,7 @@ struct NodeTranslator: Translator {
             nodeTypeListFragment.output("#if os(WASI)")
             nodeTypeListFragment.output("try JavaScriptEventLoop.installGlobalExecutor(env: env)")
             nodeTypeListFragment.output("#endif")
+            nodeTypeListFragment.output("setupOnMainThreadEntryPoint(env: env)")
             nodeTypeListFragment.output("let module = try env.createObject()")
             nodeTypeListFragment.output("try env.setNamedProperty(exports, \"\(context.module)\", module)")
             nodeTypeListFragment.output("try env.setNamedProperty(exports, \"default\", module)")

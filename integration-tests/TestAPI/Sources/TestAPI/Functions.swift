@@ -100,7 +100,9 @@ public enum Functions {
 
     /// <!-- FishyJoes.export(asyncCallbackFunc) -->
     public static func asyncCallbackFunc(_ callback: () throws -> Void) async throws {
+        print("in asyncCallbackFunc")
         try callback()
+        print("finished asyncCallbackFunc")
     }
 
     /// <!-- FishyJoes.export(asyncDoubleFunc) -->

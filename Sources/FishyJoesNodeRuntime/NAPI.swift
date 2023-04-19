@@ -12,35 +12,10 @@ public enum NAPI {
     public typealias Finalize = napi_finalize
     public typealias CleanupHook = @convention(c) (UnsafeMutableRawPointer?) -> Void
     public typealias Callback = napi_callback
-    public typealias ThreadsafeFunction = napi_threadsafe_function
-    public typealias ThreadsafeReceiveValueFunction = napi_threadsafe_function_call_js
-
-    public enum ThreadsafeFunctionReleaseMode {
-        case release
-        case abort
-
-        var napiValue: napi_threadsafe_function_release_mode {
-            switch self {
-            case .release:
-                return napi_tsfn_release
-            case .abort:
-                return napi_tsfn_abort
-            }
-        }
-    }
-
-    public enum ThreadsafeFunctionCallMode {
-        case nonblocking
-        case blocking
-
-        var napiValue: napi_threadsafe_function_call_mode {
-            switch self {
-            case .nonblocking:
-                return napi_tsfn_nonblocking
-            case .blocking:
-                return napi_tsfn_blocking
-            }
-        }
+    public typealias MainThreadCallback = napi_threadsafe_function_call_js
+    
+    public struct ThreadsafeFunction: @unchecked Sendable {
+        var pointer: napi_threadsafe_function
     }
 }
 
@@ -52,7 +27,11 @@ extension NAPI.Env {
                 throw JSExceptionPending()
             }
             var err: UnsafePointer<napi_extended_error_info>?
-            napi_get_last_error_info(ptr, &err)
+            if let s = .some(napi_get_last_error_info(ptr, &err)), s != napi_ok {
+               print("s:", s)
+            }
+            print("status:", status, status == napi_invalid_arg)
+            print("err:", err?.pointee as Any)
             let message = err.flatMap(\.pointee.error_message).map(String.init(cString:)) ?? "unknown error"
 
             let errorStr = "\(file):\(line): n-api error: \(message)"
@@ -751,66 +730,122 @@ extension NAPI.Env {
 
     // MARK: libuv event loop
     // getUvEventLoop
-
+    
     // MARK: Asynchronous thread-safe public function calls
-//    public func createThreadsafeFunction(
-//        _ function: NAPI.Callback?,
-//        functionContext: UnsafeMutableRawPointer?,
-//        asyncResource: NAPI.Value?,
-//        asyncResourceName: NAPI.Value?,
-//        finalize: NAPI.Finalize?,
-//        finalizeContext: UnsafeMutableRawPointer?,
-//        receiveValue: NAPI.ThreadsafeReceiveValueFunction?
-//    ) throws -> NAPI.ThreadsafeFunction? {
-//        var napiFunction: napi_value?
-//        var status = napi_create_function(
-//            ptr,
-//            nil,
-//            0,
-//            function,
-//            functionContext,
-//            &napiFunction
-//        )
-//
-//        try check(status)
-//
-//        var threadsafeFunction: napi_threadsafe_function?
-//        status = napi_create_threadsafe_function(
-//            ptr,
-//            napiFunction,
-//            asyncResource?.ptr,
-//            asyncResourceName?.ptr,
-//            0,
-//            1,
-//            finalizeContext,
-//            finalize,
-//            functionContext,
-//            receiveValue,
-//            &threadsafeFunction
-//        )
-//        print("status: \(status)")
-//        try check(status)
-//        return threadsafeFunction
-//    }
-//
-//    public static func getThreadsafeFunctionContext(_ threadsafeFunction: NAPI.ThreadsafeFunction) throws -> UnsafeMutableRawPointer? {
-//        var result: UnsafeMutableRawPointer?
-//        napi_get_threadsafe_function_context(threadsafeFunction, &result)
-//        return result
-//    }
-//
-//    public static func call(threadsafeFunction: NAPI.ThreadsafeFunction, context: UnsafeMutableRawPointer?, callMode: NAPI.ThreadsafeFunctionCallMode) throws {
-//        napi_call_threadsafe_function(threadsafeFunction, context, callMode.napiValue)
-//    }
-//
-//    public static func acquire(threadsafeFunction: NAPI.ThreadsafeFunction) throws {
-//        napi_acquire_threadsafe_function(threadsafeFunction)
-//    }
-//
-//    public static func release(threadsafeFunction: NAPI.ThreadsafeFunction, mode: NAPI.ThreadsafeFunctionReleaseMode) throws {
-//        napi_release_threadsafe_function(threadsafeFunction, mode.napiValue)
-//    }
+    /// Creates a threadsafe function.
+    ///
+    /// - Parameters:
+    ///   - function: The function to call from another thread.
+    ///   - asyncResource: An object to associate with the threadsafe function that will be given to the async hooks for init.
+    ///   - asyncResourceName: A name to associate with the threadsafe function that will be given to the async hooks for init.
+    ///   - maxQueueSize: The maximum number of times this function can be queued to be called at the same time.
+    ///   - initialReferenceCount: The reference count to start the object with. Each of these must be balanced with a call to release.
+    ///   - finalizeContext: Data to attach to the finalize function context.
+    ///   - finalize: A function to call when the threadsafe function is being destroyed.
+    ///   - mainThreadCallbackContext: Data to attach to the main thread callback function as its context.
+    ///   - mainThreadCallback: A function called on the main thread and provided the output of `function`.
+    /// - Returns: A new threadsafe function.
+    public func createThreadsafeFunction(
+        _ function: NAPI.Value? = nil,
+        asyncResource: NAPI.Value? = nil,
+        asyncResourceName: NAPI.Value,
+        maxQueueSize: NAPI.ThreadsafeFunction.QueueSize = .noLimit,
+        initialReferenceCount: Int = 1,
+        finalizeContext: UnsafeMutableRawPointer? = nil,
+        finalize: NAPI.Finalize? = nil,
+        mainThreadCallbackContext: UnsafeMutableRawPointer? = nil,
+        mainThreadCallback: NAPI.MainThreadCallback
+    ) throws -> NAPI.ThreadsafeFunction? {
+        try _createThreadsafeFunction(
+            function,
+            asyncResource: asyncResource,
+            asyncResourceName: asyncResourceName,
+            maxQueueSize: maxQueueSize,
+            initialReferenceCount: initialReferenceCount,
+            finalizeContext: finalizeContext,
+            finalize: finalize,
+            mainThreadCallbackContext: mainThreadCallbackContext,
+            mainThreadCallback: mainThreadCallback
+        )
+    }
+    
+    /// Creates a threadsafe function.
+    ///
+    /// - Parameters:
+    ///   - function: The function to call from another thread.
+    ///   - functionContext: Data to attach to the function context.
+    ///   - asyncResource: An object to associate with the threadsafe function that will be given to the async hooks for init.
+    ///   - asyncResourceName: A name to associate with the threadsafe function that will be given to the async hooks for init.
+    ///   - maxQueueSize: The maximum number of times this function can be queued to be called at the same time.
+    ///   - initialReferenceCount: The reference count to start the object with. Each of these must be balanced with a call to release.
+    ///   - finalize: A function to call when the threadsafe function is being destroyed.
+    ///   - finalizeContext: Data to attach to the finalize function context.
+    ///   - mainThreadCallback: A function called on the main thread and provided the output of `function`.
+    /// - Returns: A new threadsafe function.
+    @_disfavoredOverload
+    public func createThreadsafeFunction(
+        _ function: NAPI.Value,
+        asyncResource: NAPI.Value? = nil,
+        asyncResourceName: NAPI.Value,
+        maxQueueSize: NAPI.ThreadsafeFunction.QueueSize = .noLimit,
+        initialReferenceCount: Int = 1,
+        finalizeContext: UnsafeMutableRawPointer? = nil,
+        finalize: NAPI.Finalize? = nil,
+        mainThreadCallbackContext: UnsafeMutableRawPointer? = nil,
+        mainThreadCallback: NAPI.MainThreadCallback? = nil
+    ) throws -> NAPI.ThreadsafeFunction? {
+        try _createThreadsafeFunction(
+            function,
+            asyncResource: asyncResource,
+            asyncResourceName: asyncResourceName,
+            maxQueueSize: maxQueueSize,
+            initialReferenceCount: initialReferenceCount,
+            finalizeContext: finalizeContext,
+            finalize: finalize,
+            mainThreadCallbackContext: mainThreadCallbackContext,
+            mainThreadCallback: mainThreadCallback
+        )
+    }
+    
+    func _createThreadsafeFunction(
+        _ function: NAPI.Value?,
+        asyncResource: NAPI.Value?,
+        asyncResourceName: NAPI.Value,
+        maxQueueSize: NAPI.ThreadsafeFunction.QueueSize,
+        initialReferenceCount: Int,
+        finalizeContext: UnsafeMutableRawPointer?,
+        finalize: NAPI.Finalize?,
+        mainThreadCallbackContext: UnsafeMutableRawPointer?,
+        mainThreadCallback: NAPI.MainThreadCallback?
+    ) throws -> NAPI.ThreadsafeFunction? {
+        var threadsafeFunction: napi_threadsafe_function?
+        print("creating threadsafe")
+        let status = napi_create_threadsafe_function(
+            ptr,
+            function?.ptr,
+            asyncResource?.ptr,
+            asyncResourceName.ptr,
+            maxQueueSize.value,
+            initialReferenceCount,
+            finalizeContext,
+            finalize,
+            mainThreadCallbackContext,
+            mainThreadCallback,
+            &threadsafeFunction
+        )
+        print("created threadsafe \(status)")
+        try check(status)
+        print("passed check")
+        guard let threadsafeFunction else {
+            return nil
+        }
+        return .init(pointer: threadsafeFunction)
+    }
 
+    
+    // These functions make it so the main thread can't exit while a threadsafe function exists.
+    // We probably don't need/want these?
+    //
     // napi_ref_threadsafe_function
     // napi_unref_threadsafe_function
 
@@ -820,4 +855,93 @@ extension NAPI.Env {
     //     try check(node_api_get_module_file_name(ptr, &result))
     //     return result.map(String.init(cString:))
     // }
+}
+
+extension NAPI.ThreadsafeFunction {
+    public enum QueueSize: ExpressibleByIntegerLiteral {
+        case number(Int)
+        case noLimit
+
+        public init(integerLiteral value: IntegerLiteralType) {
+            self = .number(value)
+        }
+        
+        var value: Int {
+            switch self {
+            case let .number(value):
+                return value
+            case .noLimit:
+                return 0
+            }
+        }
+    }
+    
+    public enum ReleaseMode {
+        /// Just release a reference
+        case release
+        /// Close immediately
+        case abort
+
+        var napiValue: napi_threadsafe_function_release_mode {
+            switch self {
+            case .release:
+                return napi_tsfn_release
+            case .abort:
+                return napi_tsfn_abort
+            }
+        }
+    }
+
+    public enum CallMode {
+        /// Do not block if the queue is full and instead return without executing
+        case nonblocking
+        /// Block while the queue is full
+        case blocking
+
+        var napiValue: napi_threadsafe_function_call_mode {
+            switch self {
+            case .nonblocking:
+                return napi_tsfn_nonblocking
+            case .blocking:
+                return napi_tsfn_blocking
+            }
+        }
+    }
+
+    func check(_ status: napi_status) throws {
+        switch status {
+        case napi_ok:
+            break
+        case napi_queue_full:
+            throw JSException(message: "Threadsafe function queue is full")
+        case napi_invalid_arg:
+            throw JSException(message: "Invalid arguments")
+        case napi_closing:
+            throw JSException(message: "Threadsafe function is closing")
+        default:
+            throw JSException(message: "Unknown error with threadsafe function \(status)")
+        }
+    }
+
+    public func getContext() throws -> UnsafeMutableRawPointer? {
+        var result: UnsafeMutableRawPointer?
+        let status = napi_get_threadsafe_function_context(pointer, &result)
+        try check(status)
+        return result
+    }
+
+    public func callAsFunction(data: UnsafeMutableRawPointer?, callMode: CallMode) throws {
+        let status = napi_call_threadsafe_function(pointer, data, callMode.napiValue)
+        try check(status)
+    }
+
+    public func acquire() throws {
+        let status = napi_acquire_threadsafe_function(pointer)
+        try check(status)
+    }
+    
+    public func release(mode: ReleaseMode) throws {
+        let status = napi_release_threadsafe_function(pointer, mode.napiValue)
+        try check(status)
+    }
 }
