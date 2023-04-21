@@ -163,6 +163,8 @@ namespace TestAPI {
                 void* FJInternalBinding_TestAPI_Primitives_PrimitiveHolder_getStaticPropery();
                 void* FJInternalBinding_TestAPI_Primitives_PrimitiveHolder_getStaticMutablePropery();
                 void* FJInternalBinding_TestAPI_Primitives_PrimitiveHolder_setStaticMutablePropery(void*);
+                void* FJInternalBinding_TestAPI_Ranges_echo(void*);
+                void* FJInternalBinding_TestAPI_Ranges_getClosedIntRange();
                 void* FJInternalBinding_TestAPI_SimpleEnum_pickAColor(void*);
                 void* FJInternalBinding_TestAPI_SimpleEnum_hexMethod(void*);
                 void* FJInternalBinding_TestAPI_SimpleEnum_resetFavoriteColor();
@@ -202,6 +204,7 @@ namespace TestAPI {
     class EmptyEnum;
     class Functions;
     class Primitives;
+    class Ranges;
     class SimpleEnum;
     class Strings;
     class Structs;

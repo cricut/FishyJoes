@@ -499,6 +499,51 @@
       "converterType" : {
         "named" : {
           "_0" : {
+            "name" : "Ranges",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cppName" : "Ranges",
+      "cSharpType" : {
+        "named" : {
+          "name" : "Ranges",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : false,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/Ranges"
+        }
+      },
+      "kotlinName" : "Ranges",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=Ranges>>",
+      "nodeName" : "TestAPI.Ranges",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "name" : "Ranges",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
             "name" : "SimpleEnum",
             "namespace" : [
 
@@ -4159,6 +4204,60 @@
 
             ]
           },
+          "Ranges" : {
+            "classes" : [
+
+            ],
+            "fields" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(closedIntRange) -->"
+                ],
+                "isStatic" : true,
+                "name" : "closedIntRange",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "[]"
+                  }
+                }
+              }
+            ],
+            "interfaces" : [
+
+            ],
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(echo) -->"
+                ],
+                "isStatic" : true,
+                "name" : "echo",
+                "parameters" : [
+                  {
+                    "name" : "closedIntRange",
+                    "type" : {
+                      "named" : {
+                        "_0" : "[]"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "[]"
+                  }
+                }
+              }
+            ],
+            "name" : "Ranges",
+            "namespaces" : {
+
+            },
+            "typealiases" : [
+
+            ]
+          },
           "SimpleEnum" : {
             "classes" : [
 
@@ -4834,6 +4933,19 @@
               "<!-- FishyJoes.export(Primitives) -->"
             ],
             "name" : "Primitives",
+            "value" : {
+              "union" : {
+                "_0" : [
+
+                ]
+              }
+            }
+          },
+          {
+            "documentation" : [
+              "<!-- FishyJoes.export(Ranges) -->"
+            ],
+            "name" : "Ranges",
             "value" : {
               "union" : {
                 "_0" : [

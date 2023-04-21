@@ -85,6 +85,8 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try ArrayConverter<UInt8>.javaSetup(env: env)
         // print("setting up ArrayConverter<Tuple4Converter<Int8, Int16, Int32, Int64>>...")
         try ArrayConverter<Tuple4Converter<Int8, Int16, Int32, Int64>>.javaSetup(env: env)
+        // print("setting up ClosedRangeConverter<Int>...")
+        try ClosedRangeConverter<Int>.javaSetup(env: env)
         // print("setting up DictionaryConverter<Bool, Bool>...")
         try DictionaryConverter<Bool, Bool>.javaSetup(env: env)
         // print("setting up DictionaryConverter<Int, OptionalConverter<Int>>...")
@@ -859,6 +861,20 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_get_defaultPrimitiveHolder"),
                 signature: bag.add("()Lcom/cricut/testapi/Primitives$PrimitiveHolder;"),
                 fnPtr: unsafeBitCast(java_get_Primitives_defaultPrimitiveHolder, to: UnsafeMutableRawPointer.self)
+            )
+        )
+        // print("setting up Ranges...")
+        try Ranges.javaSetup(env: env)
+        try env.RegisterNatives(Ranges.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_echo"),
+                signature: bag.add("(Ljava/lang/Long;)Ljava/lang/Long;"),
+                fnPtr: unsafeBitCast(java_Ranges_echo, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_closedIntRange"),
+                signature: bag.add("()Ljava/lang/Long;"),
+                fnPtr: unsafeBitCast(java_get_Ranges_closedIntRange, to: UnsafeMutableRawPointer.self)
             )
         )
         // print("setting up Structs.ReferenceStruct...")

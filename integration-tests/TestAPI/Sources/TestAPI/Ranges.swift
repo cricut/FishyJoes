@@ -7,11 +7,11 @@
 
 /// <!-- FishyJoes.export(Ranges) -->
 public enum Ranges {
-    /// <!-- FishyJoes.export(intRange) -->
-    public static let intClosedRange = -10...20
+    /// <!-- FishyJoes.export(closedIntRange) -->
+    public static let closedIntRange: ClosedRange<Int> = -10...20
 
     /// <!-- FishyJoes.export(echo) -->
-    public static func echo(_ intClosedRange: ClosedRange<Int>) -> ClosedRange<Int> {
-        return intClosedRange
+    public static func echo(_ closedIntRange: ClosedRange<Int>) -> ClosedRange<Int> {
+        return closedIntRange
     }
 }

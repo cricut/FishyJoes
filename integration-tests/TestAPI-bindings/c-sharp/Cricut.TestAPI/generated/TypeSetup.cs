@@ -288,6 +288,11 @@ namespace Cricut.TestAPI {
             out CreatedRef _exn
         );
 
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_Ranges_setup(
+            out CreatedRef _exn
+        );
+
         delegate CreatedRef Cricut_TestAPI_SimpleEnum_new_red(
             out CreatedRef _exn
         );
@@ -805,6 +810,12 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
+            Once("setup_ClosedRangeConverter<Int>", () => {
+                Console.WriteLine("setting up ClosedRange<Int>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_ClosedRangeConverter_setup(
+                    out exn
+                ));
+            });
             Once("setup_Collections", () => {
                 Console.WriteLine("setting up Collections...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_Collections_setup(
@@ -1226,6 +1237,12 @@ namespace Cricut.TestAPI {
                     bag<_Primitives_PrimitiveHolder_dqSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
                         obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Dq = newValue.Consume<double?>();
                     })),
+                    out exn
+                ));
+            });
+            Once("setup_Ranges", () => {
+                Console.WriteLine("setting up Ranges...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_Ranges_setup(
                     out exn
                 ));
             });

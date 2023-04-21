@@ -7,6 +7,7 @@
 #include "EmptyEnum.hpp"
 #include "Functions.hpp"
 #include "Primitives.hpp"
+#include "Ranges.hpp"
 #include "SimpleEnum.hpp"
 #include "Strings.hpp"
 #include "Structs.hpp"

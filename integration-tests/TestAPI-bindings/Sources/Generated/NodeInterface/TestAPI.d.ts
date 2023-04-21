@@ -885,6 +885,21 @@ export declare namespace TestAPI {
         const zeroUInt8: number;
     }
 
+    export type Ranges = never;
+    export namespace Ranges {
+        /**
+         * <!-- FishyJoes.export(closedIntRange) -->
+         */
+        const closedIntRange: [];
+
+        /**
+         * <!-- FishyJoes.export(echo) -->
+         */
+        function echo(
+            closedIntRange: []
+        ): [];
+    }
+
     export type SimpleEnum = "red" | "green" | "blue";
     export namespace SimpleEnum {
         /**
