@@ -725,6 +725,51 @@ extension OptionalConverter: JavaConverter where WrappedConverter: JavaConverter
     }
 }
 
+// MARK: - Range Type Conversion
+
+private enum KotlinClosedRange {
+    static var rangeClass: jclass?
+    static var initMethodID: jmethodID?
+    static var startMethodID: jmethodID?
+    static var endInclusiveMethodID: jmethodID?
+
+    public static func javaSetup(env: Env) throws {
+        guard rangeClass == nil else { return }
+
+        rangeClass = try env.globalRef(env.FindClass("kotlin/ClosedRange"))
+        initMethodID = try env.GetMethodID(rangeClass, "<init>", "(JJ)V")
+        startMethodID = try env.GetMethodID(rangeClass, "start", "()J")
+        endInclusiveMethodID = try env.GetMethodID(rangeClass, "endInclusive", "()J")
+    }
+}
+
+extension ClosedRangeConverter: JavaConverter where BoundConverter: JavaConverter {
+    public static var javaClass: jclass? {
+        KotlinClosedRange.rangeClass
+    }
+
+    public static func fromJava(_ value: jobject?, env: Env) throws -> SwiftType {
+        let start = try env.CallObjectMethod(value, KotlinClosedRange.startMethodID)
+        let end = try env.CallObjectMethod(value, KotlinClosedRange.endInclusiveMethodID)
+        let lower = try BoundConverter.fromJava(object: start, env: env)
+        let upper = try BoundConverter.fromJava(object: end, env: env)
+        return SwiftType(uncheckedBounds: (lower: lower, upper: upper))
+    }
+
+    public static func toJava(_ value: SwiftType, env: Env) throws -> jobject? {
+        return try env.NewObject(
+            KotlinClosedRange.rangeClass,
+            KotlinClosedRange.initMethodID,
+            jvalue(l: BoundConverter.toJavaObject(value.lowerBound, env: env)),
+            jvalue(l: BoundConverter.toJavaObject(value.upperBound, env: env))
+        )
+    }
+
+    public static func javaSetup(env: Env) throws {
+        try KotlinClosedRange.javaSetup(env: env)
+    }
+}
+
 // MARK: - Tuple Type Conversions
 
 private var pairClass: jclass!

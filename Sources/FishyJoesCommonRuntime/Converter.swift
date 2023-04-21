@@ -80,3 +80,7 @@ public enum SetConverter<ElementConverter: Converter>: Converter where ElementCo
 public enum OptionalConverter<WrappedConverter: Converter>: Converter {
     public typealias SwiftType = WrappedConverter.SwiftType?
 }
+
+public enum ClosedRangeConverter<BoundConverter: Converter>: Converter where BoundConverter.SwiftType: Comparable {
+    public typealias SwiftType = ClosedRange<BoundConverter.SwiftType>
+}
