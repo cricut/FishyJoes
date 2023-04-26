@@ -157,6 +157,8 @@ extension CodeGen {
 
         if buildStep.contains(.generate) {
             let translateeSources: String
+            print(config.module.lowercased())
+            print(packageInfo.dependencyMap)
             if let translateeDependency = packageInfo.dependencyMap[config.module.lowercased()] {
                 translateeSources = (translateeDependency.scheme == nil ? translateeDependency.path : ".build/checkouts/\(config.module)") + "/Sources"
             } else if let sourcePath = packageInfo.path(toTarget: config.module) {
@@ -222,7 +224,14 @@ extension CodeGen {
                     "--args", "fishyJoesExecutable=.build/debug/🐟☕️",
                     "--args", "stderrFifo=\(errorFifoPath)",
                     "--output", "Sources/Generated"
-                ].compactMap { $0 },
+                ].compactMap { $0 } + config.excludeSources.flatMap { exclude in
+                    var basePath = translateeSources
+                    if basePath.last != "/" {
+                        basePath += "/"
+                    }
+                    let path = basePath + exclude
+                    return ["--exclude-sources", path]
+                },
                 addEnv: sourceryEnv
             ).run()
             try errorReporter.succeed()

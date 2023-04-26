@@ -168,10 +168,16 @@ public struct PackageInit: ParsableCommand {
             allowEmpty: true
         )
 
+        let excludeSources = try Interactive.prompt(
+            "File or directory paths to exlude from generation, space separated. Default []:",
+            allowEmpty: true
+        )
+
         let config = FishyJoesConfig(
             module: module,
             publishRepository: publishRepository,
-            requiredModules: requiredModules.split(separator: " ").map(String.init)
+            requiredModules: requiredModules.split(separator: " ").map(String.init),
+            excludeSources: excludeSources.split(separator: " ").map(String.init)
         )
 
         let encoder = YAMLEncoder()

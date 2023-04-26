@@ -6,6 +6,7 @@ struct FishyJoesConfig: Codable {
     let module: String
     let publishRepository: String?
     let requiredModules: [String]
+    let excludeSources: [String]
 
     static func readFromFile() throws -> FishyJoesConfig {
         guard let configData = try? cmd("cat", "fishy-joes.yaml").runString() else {
@@ -45,6 +46,12 @@ struct FishyJoesConfig: Codable {
             }
             return list
         }
-        return FishyJoesConfig(module: module, publishRepository: publishRepository, requiredModules: requiredModules ?? [])
+        let excludeSources = try configDictionary["excludeSources"].map { obj -> [String] in
+            guard let list = obj as? [String] else {
+                throw ValidationError("fishy-joes.yaml value for key `excludeSources` is not an array of file or directory paths")
+            }
+            return list
+        }
+        return FishyJoesConfig(module: module, publishRepository: publishRepository, requiredModules: requiredModules ?? [], excludeSources: excludeSources ?? [])
     }
 }
