@@ -4218,7 +4218,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "[]"
+                    "_0" : "TODO:athing"
                   }
                 }
               }
@@ -4238,14 +4238,14 @@
                     "name" : "closedIntRange",
                     "type" : {
                       "named" : {
-                        "_0" : "[]"
+                        "_0" : "TODO:athing"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "[]"
+                    "_0" : "TODO:athing"
                   }
                 }
               }

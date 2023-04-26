@@ -12,14 +12,14 @@ struct TranslatedClosedRange: TranslatedType {
 
     init(bound: TranslatedType) {
         self.bound = bound
-        self.nodeName = "[]"
+        self.nodeName = "TODO:athing"
         self.kotlinName = "ClosedRange<\(bound.kotlinName)>"
         self.cppName = "std::ranges::range<\(bound.cppName)>"
         self.neutralName = "ClosedRange<B=\(bound.neutralName)>"
         self.containedNamedTypes = bound.containedNamedTypes
-        self.kotlinPackage = bound.kotlinPackage
-        self.jniType = bound.jniObjectType
-        self.cSharpType = bound.cSharpType
+        self.kotlinPackage = "kotlin.ranges"
+        self.jniType = .object("kotlin/ranges/ClosedRange")
+        self.cSharpType = .named(package: "TODO", name: "TODO")
     }
 
     var sourceType: BetterType {

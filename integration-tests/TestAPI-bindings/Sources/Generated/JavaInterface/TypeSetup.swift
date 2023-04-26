@@ -868,12 +868,12 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try env.RegisterNatives(Ranges.javaClass,
             JNINativeMethod(
                 name: bag.add("__jni_echo"),
-                signature: bag.add("(Ljava/lang/Long;)Ljava/lang/Long;"),
+                signature: bag.add("(Lkotlin/ranges/ClosedRange;)Lkotlin/ranges/ClosedRange;"),
                 fnPtr: unsafeBitCast(java_Ranges_echo, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_get_closedIntRange"),
-                signature: bag.add("()Ljava/lang/Long;"),
+                signature: bag.add("()Lkotlin/ranges/ClosedRange;"),
                 fnPtr: unsafeBitCast(java_get_Ranges_closedIntRange, to: UnsafeMutableRawPointer.self)
             )
         )

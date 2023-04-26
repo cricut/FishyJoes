@@ -14,29 +14,30 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(closedIntRange) -->
         /// </summary>
-        public static nint ClosedIntRange {
+        public static TODO.TODO ClosedIntRange {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Ranges_ClosedIntRange(out exn)
+                    __cs_get_Ranges_ClosedIntRange(out exn).Consume<TODO.TODO>()
                 );
             }
         }
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern nint __cs_get_Ranges_ClosedIntRange(out CreatedRef exn);
+        private static extern CreatedRef __cs_get_Ranges_ClosedIntRange(out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(echo) -->
         /// </summary>
-        public static nint Echo(
-            nint closedIntRange
+        public static TODO.TODO Echo(
+            TODO.TODO closedIntRange
         ) {
-            return Check((out CreatedRef _exn) => __cs_Ranges_echo(closedIntRange, out _exn));
+            using var _closedIntRangeHandle = new GCRef(closedIntRange);
+            return Check((out CreatedRef _exn) => __cs_Ranges_echo(_closedIntRangeHandle.ptr, out _exn)).Consume<TODO.TODO>();
         }
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern nint __cs_Ranges_echo(
-            nint closedIntRange,
+        private static extern CreatedRef __cs_Ranges_echo(
+            UnownedRef closedIntRange,
             out CreatedRef exn
         );
 

@@ -890,14 +890,14 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(closedIntRange) -->
          */
-        const closedIntRange: [];
+        const closedIntRange: TODO:athing;
 
         /**
          * <!-- FishyJoes.export(echo) -->
          */
         function echo(
-            closedIntRange: []
-        ): [];
+            closedIntRange: TODO:athing
+        ): TODO:athing;
     }
 
     export type SimpleEnum = "red" | "green" | "blue";

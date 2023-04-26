@@ -728,24 +728,163 @@ extension OptionalConverter: JavaConverter where WrappedConverter: JavaConverter
 // MARK: - Range Type Conversion
 
 private enum KotlinClosedRange {
-    static var rangeClass: jclass?
-    static var initMethodID: jmethodID?
+    static var rangeInterface: jclass?
     static var startMethodID: jmethodID?
     static var endInclusiveMethodID: jmethodID?
 
-    public static func javaSetup(env: Env) throws {
-        guard rangeClass == nil else { return }
+    static var rangesKTClass: jclass?
+    static var rangeToComparableMethodID: jmethodID?
+    static var rangeToFloatMethodID: jmethodID?
+    static var rangeToDoubleMethodID: jmethodID?
 
-        rangeClass = try env.globalRef(env.FindClass("kotlin/ClosedRange"))
-        initMethodID = try env.GetMethodID(rangeClass, "<init>", "(JJ)V")
-        startMethodID = try env.GetMethodID(rangeClass, "start", "()J")
-        endInclusiveMethodID = try env.GetMethodID(rangeClass, "endInclusive", "()J")
+    static var charRangeClass: jclass?
+    static var charRangeInitMethodID: jmethodID?
+
+    static var intRangeClass: jclass?
+    static var intRangeInitMethodID: jmethodID?
+
+    static var longRangeClass: jclass?
+    static var longRangeInitMethodID: jmethodID?
+
+    static var uintRangeClass: jclass?
+    static var uintRangeInitMethodID: jmethodID?
+
+    static var ulongRangeClass: jclass?
+    static var ulongRangeInitMethodID: jmethodID?
+
+    public static func javaSetup(env: Env) throws {
+        guard rangeInterface == nil else { return }
+
+        rangeInterface = try env.globalRef(env.FindClass("kotlin/ranges/ClosedRange"))
+        startMethodID = try env.GetMethodID(rangeInterface, "getStart", "()Ljava/lang/Comparable;")
+        endInclusiveMethodID = try env.GetMethodID(rangeInterface, "getEndInclusive", "()Ljava/lang/Comparable;")
+
+        rangesKTClass = try env.globalRef(env.FindClass("kotlin/ranges/RangesKt"))
+        rangeToComparableMethodID = try env.GetStaticMethodID(rangesKTClass, "rangeTo", "(Ljava/lang/Comparable;Ljava/lang/Comparable;)Lkotlin/ranges/ClosedRange;")
+        rangeToFloatMethodID = try env.GetStaticMethodID(rangesKTClass, "rangeTo", "(FF)Lkotlin/ranges/ClosedFloatingPointRange;")
+        rangeToDoubleMethodID = try env.GetStaticMethodID(rangesKTClass, "rangeTo", "(DD)Lkotlin/ranges/ClosedFloatingPointRange;")
+
+        charRangeClass = try env.globalRef(env.FindClass("kotlin/ranges/CharRange"))
+        charRangeInitMethodID = try env.GetMethodID(charRangeClass, "<init>", "(CC)V")
+
+        intRangeClass = try env.globalRef(env.FindClass("kotlin/ranges/IntRange"))
+        intRangeInitMethodID = try env.GetMethodID(intRangeClass, "<init>", "(II)V")
+
+        longRangeClass = try env.globalRef(env.FindClass("kotlin/ranges/LongRange"))
+        longRangeInitMethodID = try env.GetMethodID(longRangeClass, "<init>", "(JJ)V")
+
+        uintRangeClass = try env.globalRef(env.FindClass("kotlin/ranges/UIntRange"))
+        uintRangeInitMethodID = try env.GetMethodID(uintRangeClass, "<init>", "(IILkotlin/jvm/internal/DefaultConstructorMarker;)V")
+
+        ulongRangeClass = try env.globalRef(env.FindClass("kotlin/ranges/ULongRange"))
+        ulongRangeInitMethodID = try env.GetMethodID(ulongRangeClass, "<init>", "(JJLkotlin/jvm/internal/DefaultConstructorMarker;)V")
     }
 }
 
-extension ClosedRangeConverter: JavaConverter where BoundConverter: JavaConverter {
+extension ClosedRangeConverter where BoundConverter: JavaConverter {
     public static var javaClass: jclass? {
-        KotlinClosedRange.rangeClass
+        KotlinClosedRange.rangeInterface
+    }
+
+    public static func toJava(_ value: SwiftType, env: Env) throws -> jobject? {
+        switch value {
+        case let value as ClosedRange<Int8>:
+            return try env.NewObject(
+                KotlinClosedRange.intRangeClass,
+                KotlinClosedRange.intRangeInitMethodID,
+                jvalue(i: jint(value.lowerBound)),
+                jvalue(i: jint(value.upperBound))
+            )
+        case let value as ClosedRange<Int16>:
+            return try env.NewObject(
+                KotlinClosedRange.intRangeClass,
+                KotlinClosedRange.intRangeInitMethodID,
+                jvalue(i: jint(value.lowerBound)),
+                jvalue(i: jint(value.upperBound))
+            )
+        case let value as ClosedRange<Int32>:
+            return try env.NewObject(
+                KotlinClosedRange.intRangeClass,
+                KotlinClosedRange.intRangeInitMethodID,
+                jvalue(i: jint(value.lowerBound)),
+                jvalue(i: jint(value.upperBound))
+            )
+        case let value as ClosedRange<Int64>:
+            return try env.NewObject(
+                KotlinClosedRange.longRangeClass,
+                KotlinClosedRange.longRangeInitMethodID,
+                jvalue(j: jlong(value.lowerBound)),
+                jvalue(j: jlong(value.upperBound))
+            )
+        case let value as ClosedRange<Int>:
+            return try env.NewObject(
+                KotlinClosedRange.longRangeClass,
+                KotlinClosedRange.longRangeInitMethodID,
+                jvalue(j: jlong(value.lowerBound)),
+                jvalue(j: jlong(value.upperBound))
+            )
+        case let value as ClosedRange<UInt8>:
+            return try env.NewObject(
+                KotlinClosedRange.uintRangeClass,
+                KotlinClosedRange.uintRangeInitMethodID,
+                jvalue(i: jint(value.lowerBound)),
+                jvalue(i: jint(value.upperBound)),
+                jvalue(l: nil)
+            )
+        case let value as ClosedRange<UInt16>:
+            return try env.NewObject(
+                KotlinClosedRange.uintRangeClass,
+                KotlinClosedRange.uintRangeInitMethodID,
+                jvalue(i: jint(value.lowerBound)),
+                jvalue(i: jint(value.upperBound)),
+                jvalue(l: nil)
+            )
+        case let value as ClosedRange<UInt32>:
+            return try env.NewObject(
+                KotlinClosedRange.uintRangeClass,
+                KotlinClosedRange.uintRangeInitMethodID,
+                jvalue(i: jint(value.lowerBound)),
+                jvalue(i: jint(value.upperBound)),
+                jvalue(l: nil)
+            )
+        case let value as ClosedRange<UInt64>:
+            return try env.NewObject(
+                KotlinClosedRange.ulongRangeClass,
+                KotlinClosedRange.ulongRangeInitMethodID,
+                jvalue(j: jlong(bitPattern: value.lowerBound)),
+                jvalue(j: jlong(bitPattern: value.upperBound)),
+                jvalue(l: nil)
+            )
+        case let value as ClosedRange<UInt>:
+            return try env.NewObject(
+                KotlinClosedRange.ulongRangeClass,
+                KotlinClosedRange.ulongRangeInitMethodID,
+                jvalue(j: jlong(bitPattern: UInt64(value.lowerBound))),
+                jvalue(j: jlong(bitPattern: UInt64(value.upperBound))),
+                jvalue(l: nil)
+            )
+        case let value as ClosedRange<Float>:
+            return try env.CallStaticObjectMethod(
+                KotlinClosedRange.rangesKTClass,
+                KotlinClosedRange.rangeToFloatMethodID,
+                jvalue(f: value.lowerBound),
+                jvalue(f: value.upperBound)
+            )
+        case let value as ClosedRange<Double>:
+            return try env.CallStaticObjectMethod(
+                KotlinClosedRange.rangesKTClass,
+                KotlinClosedRange.rangeToDoubleMethodID,
+                jvalue(d: value.lowerBound),
+                jvalue(d: value.upperBound)
+            )
+        default:
+            return try env.CallStaticObjectMethod(
+                KotlinClosedRange.rangesKTClass,
+                KotlinClosedRange.rangeToComparableMethodID,
+                jvalue(l: BoundConverter.toJavaObject(value.lowerBound, env: env)),
+                jvalue(l: BoundConverter.toJavaObject(value.upperBound, env: env))
+            )
+        }
     }
 
     public static func fromJava(_ value: jobject?, env: Env) throws -> SwiftType {
@@ -754,15 +893,6 @@ extension ClosedRangeConverter: JavaConverter where BoundConverter: JavaConverte
         let lower = try BoundConverter.fromJava(object: start, env: env)
         let upper = try BoundConverter.fromJava(object: end, env: env)
         return SwiftType(uncheckedBounds: (lower: lower, upper: upper))
-    }
-
-    public static func toJava(_ value: SwiftType, env: Env) throws -> jobject? {
-        return try env.NewObject(
-            KotlinClosedRange.rangeClass,
-            KotlinClosedRange.initMethodID,
-            jvalue(l: BoundConverter.toJavaObject(value.lowerBound, env: env)),
-            jvalue(l: BoundConverter.toJavaObject(value.upperBound, env: env))
-        )
     }
 
     public static func javaSetup(env: Env) throws {
