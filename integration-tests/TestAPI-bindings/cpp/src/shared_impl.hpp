@@ -367,6 +367,14 @@ namespace TestAPI {
                 get_t<decltype(TestAPI::Bytes::_variant)>()
             };
         }
+        inline void put(const TestAPI::ClosedRanges& obj) {
+            put(obj._variant);
+        }
+        inline TestAPI::ClosedRanges get(std::in_place_type_t<TestAPI::ClosedRanges> obj = std::in_place_type_t<TestAPI::ClosedRanges>{}) {
+            return TestAPI::ClosedRanges {
+                get_t<decltype(TestAPI::ClosedRanges::_variant)>()
+            };
+        }
         inline void put(const TestAPI::Collections& obj) {
             put(obj._variant);
         }
@@ -466,14 +474,6 @@ namespace TestAPI {
         inline TestAPI::Primitives::PrimitiveHolder get(std::in_place_type_t<TestAPI::Primitives::PrimitiveHolder> obj = std::in_place_type_t<TestAPI::Primitives::PrimitiveHolder>{}) {
             return TestAPI::Primitives::PrimitiveHolder {
                 get_t<decltype(TestAPI::Primitives::PrimitiveHolder::b)>(), get_t<decltype(TestAPI::Primitives::PrimitiveHolder::bq)>(), get_t<decltype(TestAPI::Primitives::PrimitiveHolder::ui8)>(), get_t<decltype(TestAPI::Primitives::PrimitiveHolder::ui8q)>(), get_t<decltype(TestAPI::Primitives::PrimitiveHolder::ui16)>(), get_t<decltype(TestAPI::Primitives::PrimitiveHolder::ui16q)>(), get_t<decltype(TestAPI::Primitives::PrimitiveHolder::ui32)>(), get_t<decltype(TestAPI::Primitives::PrimitiveHolder::ui32q)>(), get_t<decltype(TestAPI::Primitives::PrimitiveHolder::ui64)>(), get_t<decltype(TestAPI::Primitives::PrimitiveHolder::ui64q)>(), get_t<decltype(TestAPI::Primitives::PrimitiveHolder::i8)>(), get_t<decltype(TestAPI::Primitives::PrimitiveHolder::i8q)>(), get_t<decltype(TestAPI::Primitives::PrimitiveHolder::i16)>(), get_t<decltype(TestAPI::Primitives::PrimitiveHolder::i16q)>(), get_t<decltype(TestAPI::Primitives::PrimitiveHolder::i32)>(), get_t<decltype(TestAPI::Primitives::PrimitiveHolder::i32q)>(), get_t<decltype(TestAPI::Primitives::PrimitiveHolder::i64)>(), get_t<decltype(TestAPI::Primitives::PrimitiveHolder::i64q)>(), get_t<decltype(TestAPI::Primitives::PrimitiveHolder::f)>(), get_t<decltype(TestAPI::Primitives::PrimitiveHolder::fq)>(), get_t<decltype(TestAPI::Primitives::PrimitiveHolder::d)>(), get_t<decltype(TestAPI::Primitives::PrimitiveHolder::dq)>()
-            };
-        }
-        inline void put(const TestAPI::Ranges& obj) {
-            put(obj._variant);
-        }
-        inline TestAPI::Ranges get(std::in_place_type_t<TestAPI::Ranges> obj = std::in_place_type_t<TestAPI::Ranges>{}) {
-            return TestAPI::Ranges {
-                get_t<decltype(TestAPI::Ranges::_variant)>()
             };
         }
         inline void put(const TestAPI::SimpleEnum& obj) {

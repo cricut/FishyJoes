@@ -80,6 +80,11 @@ namespace Cricut.TestAPI {
         );
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_ClosedRanges_setup(
+            out CreatedRef _exn
+        );
+
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_Collections_setup(
             out CreatedRef _exn
         );
@@ -285,11 +290,6 @@ namespace Cricut.TestAPI {
             _Primitives_PrimitiveHolder_dSetter set_d,
             _Primitives_PrimitiveHolder_dqGetter get_dq,
             _Primitives_PrimitiveHolder_dqSetter set_dq,
-            out CreatedRef _exn
-        );
-
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern void TestAPI_Ranges_setup(
             out CreatedRef _exn
         );
 
@@ -810,9 +810,87 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
+            Once("setup_ClosedRangeConverter<Double>", () => {
+                Console.WriteLine("setting up ClosedRange<Double>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_ClosedRangeConverter_setup(
+                    out exn
+                ));
+            });
+            Once("setup_ClosedRangeConverter<Float>", () => {
+                Console.WriteLine("setting up ClosedRange<Float>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_ClosedRangeConverter_setup(
+                    out exn
+                ));
+            });
+            Once("setup_ClosedRangeConverter<Int16>", () => {
+                Console.WriteLine("setting up ClosedRange<Int16>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_ClosedRangeConverter_setup(
+                    out exn
+                ));
+            });
+            Once("setup_ClosedRangeConverter<Int32>", () => {
+                Console.WriteLine("setting up ClosedRange<Int32>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_ClosedRangeConverter_setup(
+                    out exn
+                ));
+            });
+            Once("setup_ClosedRangeConverter<Int64>", () => {
+                Console.WriteLine("setting up ClosedRange<Int64>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_ClosedRangeConverter_setup(
+                    out exn
+                ));
+            });
+            Once("setup_ClosedRangeConverter<Int8>", () => {
+                Console.WriteLine("setting up ClosedRange<Int8>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_ClosedRangeConverter_setup(
+                    out exn
+                ));
+            });
             Once("setup_ClosedRangeConverter<Int>", () => {
                 Console.WriteLine("setting up ClosedRange<Int>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_ClosedRangeConverter_setup(
+                    out exn
+                ));
+            });
+            Once("setup_ClosedRangeConverter<Swift.String>", () => {
+                Console.WriteLine("setting up ClosedRange<String>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_ClosedRangeConverter_setup(
+                    out exn
+                ));
+            });
+            Once("setup_ClosedRangeConverter<UInt16>", () => {
+                Console.WriteLine("setting up ClosedRange<UInt16>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_ClosedRangeConverter_setup(
+                    out exn
+                ));
+            });
+            Once("setup_ClosedRangeConverter<UInt32>", () => {
+                Console.WriteLine("setting up ClosedRange<UInt32>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_ClosedRangeConverter_setup(
+                    out exn
+                ));
+            });
+            Once("setup_ClosedRangeConverter<UInt64>", () => {
+                Console.WriteLine("setting up ClosedRange<UInt64>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_ClosedRangeConverter_setup(
+                    out exn
+                ));
+            });
+            Once("setup_ClosedRangeConverter<UInt8>", () => {
+                Console.WriteLine("setting up ClosedRange<UInt8>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_ClosedRangeConverter_setup(
+                    out exn
+                ));
+            });
+            Once("setup_ClosedRangeConverter<UInt>", () => {
+                Console.WriteLine("setting up ClosedRange<UInt>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_ClosedRangeConverter_setup(
+                    out exn
+                ));
+            });
+            Once("setup_ClosedRanges", () => {
+                Console.WriteLine("setting up ClosedRanges...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_ClosedRanges_setup(
                     out exn
                 ));
             });
@@ -1237,12 +1315,6 @@ namespace Cricut.TestAPI {
                     bag<_Primitives_PrimitiveHolder_dqSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
                         obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Dq = newValue.Consume<double?>();
                     })),
-                    out exn
-                ));
-            });
-            Once("setup_Ranges", () => {
-                Console.WriteLine("setting up Ranges...");
-                Utilities.Check((out CreatedRef exn) => TestAPI_Ranges_setup(
                     out exn
                 ));
             });

@@ -238,6 +238,32 @@ extension UInt64: JavaConverter {
     }
 }
 
+extension UInt: JavaConverter {
+    public typealias CType = UInt64.CType
+
+    public static var javaClass: jclass? { UInt64.javaClass }
+
+    public static func fromJava(_ value: UInt64.CType, env: Env) throws -> Self {
+        try Self(UInt64.fromJava(value, env: env))
+    }
+
+    public static func toJava(_ value: Self, env: Env) throws -> UInt64.CType {
+        UInt64.CType(value)
+    }
+
+    public static func fromJava(object value: jobject?, env: Env) throws -> Self {
+        Self(try UInt64.fromJava(object: value, env: env))
+    }
+
+    public static func toJavaObject(_ value: Self, env: Env) throws -> jobject? {
+        try UInt64.toJavaObject(UInt64(value), env: env)
+    }
+
+    public static func javaSetup(env: Env) throws {
+        try UInt64.javaSetup(env: env)
+    }
+}
+
 extension Int8: JavaConverter {
     public typealias CType = jbyte
 
@@ -737,9 +763,6 @@ private enum KotlinClosedRange {
     static var rangeToFloatMethodID: jmethodID?
     static var rangeToDoubleMethodID: jmethodID?
 
-    static var charRangeClass: jclass?
-    static var charRangeInitMethodID: jmethodID?
-
     static var intRangeClass: jclass?
     static var intRangeInitMethodID: jmethodID?
 
@@ -764,9 +787,6 @@ private enum KotlinClosedRange {
         rangeToFloatMethodID = try env.GetStaticMethodID(rangesKTClass, "rangeTo", "(FF)Lkotlin/ranges/ClosedFloatingPointRange;")
         rangeToDoubleMethodID = try env.GetStaticMethodID(rangesKTClass, "rangeTo", "(DD)Lkotlin/ranges/ClosedFloatingPointRange;")
 
-        charRangeClass = try env.globalRef(env.FindClass("kotlin/ranges/CharRange"))
-        charRangeInitMethodID = try env.GetMethodID(charRangeClass, "<init>", "(CC)V")
-
         intRangeClass = try env.globalRef(env.FindClass("kotlin/ranges/IntRange"))
         intRangeInitMethodID = try env.GetMethodID(intRangeClass, "<init>", "(II)V")
 
@@ -781,7 +801,7 @@ private enum KotlinClosedRange {
     }
 }
 
-extension ClosedRangeConverter where BoundConverter: JavaConverter {
+extension ClosedRangeConverter: JavaConverter where BoundConverter: JavaConverter {
     public static var javaClass: jclass? {
         KotlinClosedRange.rangeInterface
     }
@@ -843,8 +863,8 @@ extension ClosedRangeConverter where BoundConverter: JavaConverter {
             return try env.NewObject(
                 KotlinClosedRange.uintRangeClass,
                 KotlinClosedRange.uintRangeInitMethodID,
-                jvalue(i: jint(value.lowerBound)),
-                jvalue(i: jint(value.upperBound)),
+                jvalue(i: jint(bitPattern: value.lowerBound)),
+                jvalue(i: jint(bitPattern: value.upperBound)),
                 jvalue(l: nil)
             )
         case let value as ClosedRange<UInt64>:

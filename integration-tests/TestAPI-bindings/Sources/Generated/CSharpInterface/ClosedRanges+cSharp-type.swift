@@ -5,12 +5,12 @@ import FishyJoesCSharpRuntime
 import Foundation
 import TestAPI
 
-@_cdecl("TestAPI_Ranges_setup")
-public func TestAPI_Ranges_setup(
+@_cdecl("TestAPI_ClosedRanges_setup")
+public func TestAPI_ClosedRanges_setup(
 ) {
 }
 
-extension Ranges: CSharpConverter {
+extension ClosedRanges: CSharpConverter {
     public static func peekCSharp(_ value: csObject) throws -> Self {
         throw UninhabitedTypeCreationError(self)
     }

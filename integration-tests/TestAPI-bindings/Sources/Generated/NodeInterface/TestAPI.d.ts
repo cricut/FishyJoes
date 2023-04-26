@@ -86,6 +86,165 @@ export declare namespace TestAPI {
         ): ArrayBuffer;
     }
 
+    export type ClosedRanges = never;
+    export namespace ClosedRanges {
+        /**
+         * <!-- FishyJoes.export(doubleRange) -->
+         */
+        const doubleRange: TODO:athing;
+
+        /**
+         * <!-- FishyJoes.export(echoDoubleRange) -->
+         */
+        function echoDoubleRange(
+            range: TODO:athing
+        ): TODO:athing;
+
+        /**
+         * <!-- FishyJoes.export(echoFloatRange) -->
+         */
+        function echoFloatRange(
+            range: TODO:athing
+        ): TODO:athing;
+
+        /**
+         * <!-- FishyJoes.export(echoInt16Range) -->
+         */
+        function echoInt16Range(
+            range: TODO:athing
+        ): TODO:athing;
+
+        /**
+         * <!-- FishyJoes.export(echoInt32Range) -->
+         */
+        function echoInt32Range(
+            range: TODO:athing
+        ): TODO:athing;
+
+        /**
+         * <!-- FishyJoes.export(echoInt64Range) -->
+         */
+        function echoInt64Range(
+            range: TODO:athing
+        ): TODO:athing;
+
+        /**
+         * <!-- FishyJoes.export(echoInt8Range) -->
+         */
+        function echoInt8Range(
+            range: TODO:athing
+        ): TODO:athing;
+
+        /**
+         * <!-- FishyJoes.export(echoIntRange) -->
+         */
+        function echoIntRange(
+            range: TODO:athing
+        ): TODO:athing;
+
+        /**
+         * <!-- FishyJoes.export(echoStringRange) -->
+         */
+        function echoStringRange(
+            range: TODO:athing
+        ): TODO:athing;
+
+        /**
+         * <!-- FishyJoes.export(echoUInt16Range) -->
+         */
+        function echoUInt16Range(
+            range: TODO:athing
+        ): TODO:athing;
+
+        /**
+         * <!-- FishyJoes.export(echoUInt32Range) -->
+         */
+        function echoUInt32Range(
+            range: TODO:athing
+        ): TODO:athing;
+
+        /**
+         * <!-- FishyJoes.export(echoUInt64Range) -->
+         */
+        function echoUInt64Range(
+            range: TODO:athing
+        ): TODO:athing;
+
+        /**
+         * <!-- FishyJoes.export(echoUInt8Range) -->
+         */
+        function echoUInt8Range(
+            range: TODO:athing
+        ): TODO:athing;
+
+        /**
+         * <!-- FishyJoes.export(echoUIntRange) -->
+         */
+        function echoUIntRange(
+            range: TODO:athing
+        ): TODO:athing;
+
+        /**
+         * <!-- FishyJoes.export(floatRange) -->
+         */
+        const floatRange: TODO:athing;
+
+        /**
+         * <!-- FishyJoes.export(int16Range) -->
+         */
+        const int16Range: TODO:athing;
+
+        /**
+         * <!-- FishyJoes.export(int32Range) -->
+         */
+        const int32Range: TODO:athing;
+
+        /**
+         * <!-- FishyJoes.export(int64Range) -->
+         */
+        const int64Range: TODO:athing;
+
+        /**
+         * <!-- FishyJoes.export(int8Range) -->
+         */
+        const int8Range: TODO:athing;
+
+        /**
+         * <!-- FishyJoes.export(intRange) -->
+         */
+        const intRange: TODO:athing;
+
+        /**
+         * <!-- FishyJoes.export(stringRange) -->
+         */
+        const stringRange: TODO:athing;
+
+        /**
+         * <!-- FishyJoes.export(uInt16Range) -->
+         */
+        const uInt16Range: TODO:athing;
+
+        /**
+         * <!-- FishyJoes.export(uInt32Range) -->
+         */
+        const uInt32Range: TODO:athing;
+
+        /**
+         * <!-- FishyJoes.export(uInt64Range) -->
+         */
+        const uInt64Range: TODO:athing;
+
+        /**
+         * <!-- FishyJoes.export(uInt8Range) -->
+         */
+        const uInt8Range: TODO:athing;
+
+        /**
+         * <!-- FishyJoes.export(uIntRange) -->
+         */
+        const uIntRange: TODO:athing;
+    }
+
     export type Collections = never;
     export namespace Collections {
         /**
@@ -883,21 +1042,6 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(zeroUInt8) -->
          */
         const zeroUInt8: number;
-    }
-
-    export type Ranges = never;
-    export namespace Ranges {
-        /**
-         * <!-- FishyJoes.export(closedIntRange) -->
-         */
-        const closedIntRange: TODO:athing;
-
-        /**
-         * <!-- FishyJoes.export(echo) -->
-         */
-        function echo(
-            closedIntRange: TODO:athing
-        ): TODO:athing;
     }
 
     export type SimpleEnum = "red" | "green" | "blue";
