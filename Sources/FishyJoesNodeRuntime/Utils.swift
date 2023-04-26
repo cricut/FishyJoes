@@ -101,8 +101,10 @@ public func setupOnMainThreadEntryPoint(env: NAPI.Env) throws {
             print("on main thread")
             let env = NAPI.Env(ptr: env)
             _ = rethrowToNode(env: env) {
-                let operation = try Box<(NAPI.Env) throws -> Void>.takeRetainedOpaque(data!)
-                try operation(env)
+                Task { @MainActor in
+                    let operation = try Box<(NAPI.Env) throws -> Void>.takeRetainedOpaque(data!)
+                    try operation(env)
+                }
                 return nil
             }
         }

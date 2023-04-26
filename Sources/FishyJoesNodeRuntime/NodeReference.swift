@@ -12,7 +12,7 @@ public final class NodeReference: @unchecked Sendable {
     public func value(env: NAPI.Env) throws -> NAPI.Value {
         try env.getReferenceValue(ref)
     }
-    
+
     public func deallocate(env: NAPI.Env) {
         guard ref.ptr != nil else {
             return

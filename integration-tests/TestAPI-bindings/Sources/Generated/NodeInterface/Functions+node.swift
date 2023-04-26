@@ -231,17 +231,32 @@ extension Functions: FishyJoesNodeRuntime.NodeConverter {
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "asyncCallbackFunc", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
-                            let arg0 = try NodeReference(env: env.env, value: env.argument(at: 0))
-                            Task {
-                                try onMainThread { env in
-                                    do {
-                                        try Function0Converter<VoidConverter>.fromNode(arg0.value(env: env), env: env)()
-                                        try env.resolveDeferred(deferred, env.getUndefined())
-                                    } catch {
-                                        try env.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: env))
-                                    }
-                                }
-                            }
+
+//                            env.argument(at: 0, converter: Function0Converter)
+
+//                            let _arg0 = try NodeReference(env: env.env, value: env.argument(at: 0))
+//                            let arg0: @Sendable () async throws -> Void = {
+//                                print("in shim")
+//                                defer { print("leaving shim") }
+//                                try onMainThread(blocking: .blocking) { env in
+//                                    print("on main thread")
+//                                    try Function0Converter<VoidConverter>.fromNode(_arg0.value(env: env), env: env)()
+//                                    print("done with call")
+//                                }
+//                            }
+//                            Task {
+//                                print("in task")
+//                                try await Functions.asyncCallbackFunc(arg0)
+//                                print("ran function")
+//                                try onMainThread { env in
+//                                    do {
+//                                        try env.resolveDeferred(deferred, env.getUndefined())
+//                                    } catch {
+//                                        try env.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: env))
+//                                    }
+//                                }
+//                            }
+                            try env.env.resolveDeferred(deferred, env.env.getUndefined())
                             return promise
                         }
                     },

@@ -99,10 +99,8 @@ public enum Functions {
     }
 
     /// <!-- FishyJoes.export(asyncCallbackFunc) -->
-    public static func asyncCallbackFunc(_ callback: () throws -> Void) async throws {
-        print("in asyncCallbackFunc")
-        try callback()
-        print("finished asyncCallbackFunc")
+    public static func asyncCallbackFunc(_ callback: () async throws -> Void) async throws {
+        try await callback()
     }
 
     /// <!-- FishyJoes.export(asyncDoubleFunc) -->
@@ -114,11 +112,10 @@ public enum Functions {
     public static func asyncThrowingFunc() async throws {
         throw TheError()
     }
-    
+
     func f2(a: @Sendable @escaping (A) -> Void) {
-        
     }
-    
+
     func _f2(a: @escaping (A) -> Void) {
         f2(a: { a($0) })
     }

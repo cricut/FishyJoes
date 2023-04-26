@@ -13,7 +13,7 @@ public enum NAPI {
     public typealias CleanupHook = @convention(c) (UnsafeMutableRawPointer?) -> Void
     public typealias Callback = napi_callback
     public typealias MainThreadCallback = napi_threadsafe_function_call_js
-    
+
     public struct ThreadsafeFunction: @unchecked Sendable {
         var pointer: napi_threadsafe_function
     }
@@ -730,7 +730,7 @@ extension NAPI.Env {
 
     // MARK: libuv event loop
     // getUvEventLoop
-    
+
     // MARK: Asynchronous thread-safe public function calls
     /// Creates a threadsafe function.
     ///
@@ -768,7 +768,7 @@ extension NAPI.Env {
             mainThreadCallback: mainThreadCallback
         )
     }
-    
+
     /// Creates a threadsafe function.
     ///
     /// - Parameters:
@@ -806,7 +806,7 @@ extension NAPI.Env {
             mainThreadCallback: mainThreadCallback
         )
     }
-    
+
     func _createThreadsafeFunction(
         _ function: NAPI.Value?,
         asyncResource: NAPI.Value?,
@@ -842,7 +842,6 @@ extension NAPI.Env {
         return .init(pointer: threadsafeFunction)
     }
 
-    
     // These functions make it so the main thread can't exit while a threadsafe function exists.
     // We probably don't need/want these?
     //
@@ -858,14 +857,14 @@ extension NAPI.Env {
 }
 
 extension NAPI.ThreadsafeFunction {
-    public enum QueueSize: ExpressibleByIntegerLiteral {
+    public enum QueueSize: Sendable, ExpressibleByIntegerLiteral {
         case number(Int)
         case noLimit
 
         public init(integerLiteral value: IntegerLiteralType) {
             self = .number(value)
         }
-        
+
         var value: Int {
             switch self {
             case let .number(value):
@@ -875,8 +874,8 @@ extension NAPI.ThreadsafeFunction {
             }
         }
     }
-    
-    public enum ReleaseMode {
+
+    public enum ReleaseMode: Sendable {
         /// Just release a reference
         case release
         /// Close immediately
@@ -892,7 +891,7 @@ extension NAPI.ThreadsafeFunction {
         }
     }
 
-    public enum CallMode {
+    public enum CallMode: Sendable {
         /// Do not block if the queue is full and instead return without executing
         case nonblocking
         /// Block while the queue is full
@@ -939,7 +938,7 @@ extension NAPI.ThreadsafeFunction {
         let status = napi_acquire_threadsafe_function(pointer)
         try check(status)
     }
-    
+
     public func release(mode: ReleaseMode) throws {
         let status = napi_release_threadsafe_function(pointer, mode.napiValue)
         try check(status)

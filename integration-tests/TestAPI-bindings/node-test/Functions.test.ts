@@ -47,7 +47,7 @@ test('AsyncCallbackFunctionCall', async () => {
     let value: number = 0
     let threw: boolean = false
     try {
-        await TestAPI.Functions.asyncCallbackFunc(() => {
+        await TestAPI.Functions.asyncCallbackFunc(async () => {
             value = 42
         })
     } catch (e) {
