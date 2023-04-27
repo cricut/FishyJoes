@@ -25,8 +25,13 @@ public enum Ranges {
     public static let uInt32Range: Range<UInt32> = UInt32.min..<UInt32.max
     /// <!-- FishyJoes.export(uInt64Range) -->
     public static let uInt64Range: Range<UInt64> = UInt64.min..<UInt64.max
-    /// <!-- FishyJoes.export(uIntRange) -->
-    public static let uIntRange: Range<UInt> = UInt.min..<UInt.max
+    // TODO: Support for non-integer open-ended ranges
+//    /// <!-- FishyJoes.export(floatRange) -->
+//    public static let floatRange: Range<Float> = -Float.greatestFiniteMagnitude..<Float.greatestFiniteMagnitude
+//    /// <!-- FishyJoes.export(doubleRange) -->
+//    public static let doubleRange: Range<Double> = -Double.greatestFiniteMagnitude..<Double.greatestFiniteMagnitude
+//    /// <!-- FishyJoes.export(stringRange) -->
+//    public static let stringRange: Range<String> = "A"..<"Z"
 
     /// <!-- FishyJoes.export(echoInt8Range) -->
     public static func echoInt8Range(_ range: Range<Int8>) -> Range<Int8> { return range }
@@ -48,6 +53,13 @@ public enum Ranges {
     public static func echoUInt64Range(_ range: Range<UInt64>) -> Range<UInt64> { return range }
     /// <!-- FishyJoes.export(echoUIntRange) -->
     public static func echoUIntRange(_ range: Range<UInt>) -> Range<UInt> { return range }
+    // TODO: Support for non-integer open-ended ranges
+//    /// <!-- FishyJoes.export(echoFloatRange) -->
+//    public static func echoFloatRange(_ range: Range<Float>) -> Range<Float> { return range }
+//    /// <!-- FishyJoes.export(echoDoubleRange) -->
+//    public static func echoDoubleRange(_ range: Range<Double>) -> Range<Double> { return range }
+//    /// <!-- FishyJoes.export(echoStringRange) -->
+//    public static func echoStringRange(_ range: Range<String>) -> Range<String> { return range }
 }
 
 /// <!-- FishyJoes.export(ClosedRanges) -->

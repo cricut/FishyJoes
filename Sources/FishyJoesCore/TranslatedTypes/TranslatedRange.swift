@@ -11,6 +11,11 @@ struct TranslatedRange: TranslatedType {
     let definingModule = Module.runtime
 
     init(bound: TranslatedType) {
+        let allowedTypes = ["UInt8", "UInt16", "UInt32", "UInt64", "UInt", "Int8", "Int16", "Int32", "Int64", "Int"]
+        guard allowedTypes.contains(bound.sourceType.name) else {
+            fatalErr("Bound type \"\(bound.sourceType.name)\" unsupported for Range<Bound>. Use ClosedRange<Bound> instead. Must be one of: \(allowedTypes)")
+        }
+
         self.bound = bound
         self.nodeName = "TODO:athing"
         self.kotlinName = "ClosedRange<\(bound.kotlinName)>"

@@ -830,8 +830,9 @@ extension RangeConverter: JavaConverter where BoundConverter: JavaConverter {
         case let beforeUpper as UInt16: upper = (beforeUpper + 1) as! BoundConverter.SwiftType
         case let beforeUpper as UInt32: upper = (beforeUpper + 1) as! BoundConverter.SwiftType
         case let beforeUpper as UInt64: upper = (beforeUpper + 1) as! BoundConverter.SwiftType
+        case let beforeUpper as UInt: upper = (beforeUpper + 1) as! BoundConverter.SwiftType
         default:
-            throw RangeOutOfBoundsError(invalidRange: "\(lower)...\(beforeUpper)")
+            fatalError("Open ended range with non-integer bound \"\(type(of: beforeUpper.self))\" is unsupported")
         }
 
         guard lower <= upper else {
@@ -965,7 +966,7 @@ extension RangeConverter: JavaConverter where BoundConverter: JavaConverter {
 //                jvalue(l: BoundConverter.toJavaObject(value.lowerBound, env: env)),
 //                jvalue(l: BoundConverter.toJavaObject(value.upperBound, env: env))
 //            )
-            fatalError("Open ended range cannot be constructed with non-integer bound")
+            fatalError("Open ended range with non-integer bound \"\(type(of: value))\" is unsupported")
         }
     }
 }
@@ -985,6 +986,7 @@ extension ClosedRangeConverter: JavaConverter where BoundConverter: JavaConverte
         let lower = try BoundConverter.fromJava(object: start, env: env)
         let upper = try BoundConverter.fromJava(object: endInclusive, env: env)
         guard lower < upper else {
+            // TODO: Empty closed ranges are expressed in Kotlin by having endInclusive < start. Should return an "empty" closed range somehow instead?
             throw RangeOutOfBoundsError(invalidRange: "\(lower)...\(upper)")
         }
         return lower...upper
