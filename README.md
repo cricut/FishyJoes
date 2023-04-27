@@ -67,14 +67,15 @@ sudo installer -pkg swift-wasm.pkg -target /
 
 Install Docker:
  a. `brew install rancher`
- b. open "Rancher Desktop.app"
- c. click "accept"
- d. enter password to finish install
- e. Authenticate with your github PAT: `nerdctl login ghcr.io`
+ b. create missing folder on macOS: `sudo mkdir /private/etc/sudoers.d`
+ c. open "Rancher Desktop.app"
+ d. click "accept"
+ e. enter password to finish install
+ f. authenticate with your github PAT: `nerdctl login ghcr.io`
 
 1. In a new git repository, named `YourAwesomeLibrary-bindings`:
 ```
-mint run --executable fishy-joes cricut/FishyJoes package-init
+GITHUB_USER=... GITHUB_TOKEN=... mint run --executable fishy-joes cricut/FishyJoes package-init
 ```
 Fill in a few details about the swift target and bindings repo when asked
 
