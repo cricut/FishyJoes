@@ -5,6 +5,51 @@
 //  Created by Matt Stoker on 4/21/23.
 //
 
+/// <!-- FishyJoes.export(Ranges) -->
+public enum Ranges {
+    /// <!-- FishyJoes.export(int8Range) -->
+    public static let int8Range: Range<Int8> = Int8.min..<Int8.max
+    /// <!-- FishyJoes.export(int16Range) -->
+    public static let int16Range: Range<Int16> = Int16.min..<Int16.max
+    /// <!-- FishyJoes.export(int32Range) -->
+    public static let int32Range: Range<Int32> = Int32.min..<Int32.max
+    /// <!-- FishyJoes.export(int64Range) -->
+    public static let int64Range: Range<Int64> = Int64.min..<Int64.max
+    /// <!-- FishyJoes.export(intRange) -->
+    public static let intRange: Range<Int> = Int.min..<Int.max
+    /// <!-- FishyJoes.export(uInt8Range) -->
+    public static let uInt8Range: Range<UInt8> = UInt8.min..<UInt8.max
+    /// <!-- FishyJoes.export(uInt16Range) -->
+    public static let uInt16Range: Range<UInt16> = UInt16.min..<UInt16.max
+    /// <!-- FishyJoes.export(uInt32Range) -->
+    public static let uInt32Range: Range<UInt32> = UInt32.min..<UInt32.max
+    /// <!-- FishyJoes.export(uInt64Range) -->
+    public static let uInt64Range: Range<UInt64> = UInt64.min..<UInt64.max
+    /// <!-- FishyJoes.export(uIntRange) -->
+    public static let uIntRange: Range<UInt> = UInt.min..<UInt.max
+
+    /// <!-- FishyJoes.export(echoInt8Range) -->
+    public static func echoInt8Range(_ range: Range<Int8>) -> Range<Int8> { return range }
+    /// <!-- FishyJoes.export(echoInt16Range) -->
+    public static func echoInt16Range(_ range: Range<Int16>) -> Range<Int16> { return range }
+    /// <!-- FishyJoes.export(echoInt32Range) -->
+    public static func echoInt32Range(_ range: Range<Int32>) -> Range<Int32> { return range }
+    /// <!-- FishyJoes.export(echoInt64Range) -->
+    public static func echoInt64Range(_ range: Range<Int64>) -> Range<Int64> { return range }
+    /// <!-- FishyJoes.export(echoIntRange) -->
+    public static func echoIntRange(_ range: Range<Int>) -> Range<Int> { return range }
+    /// <!-- FishyJoes.export(echoUInt8Range) -->
+    public static func echoUInt8Range(_ range: Range<UInt8>) -> Range<UInt8> { return range }
+    /// <!-- FishyJoes.export(echoUInt16Range) -->
+    public static func echoUInt16Range(_ range: Range<UInt16>) -> Range<UInt16> { return range }
+    /// <!-- FishyJoes.export(echoUInt32Range) -->
+    public static func echoUInt32Range(_ range: Range<UInt32>) -> Range<UInt32> { return range }
+    /// <!-- FishyJoes.export(echoUInt64Range) -->
+    public static func echoUInt64Range(_ range: Range<UInt64>) -> Range<UInt64> { return range }
+    /// <!-- FishyJoes.export(echoUIntRange) -->
+    public static func echoUIntRange(_ range: Range<UInt>) -> Range<UInt> { return range }
+}
+
 /// <!-- FishyJoes.export(ClosedRanges) -->
 public enum ClosedRanges {
     /// <!-- FishyJoes.export(int8Range) -->

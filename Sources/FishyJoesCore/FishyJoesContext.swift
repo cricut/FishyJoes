@@ -368,6 +368,8 @@ public class FishyJoesContext {
                     return TranslatedDictionary(key: recur(args[0]), value: recur(args[1]))
                 case ("Result", 2):
                     return TranslatedResult(success: recur(args[0]), failure: recur(args[1]))
+                case ("Range", 1):
+                    return TranslatedRange(bound: recur(args[0]))
                 case ("ClosedRange", 1):
                     return TranslatedClosedRange(bound: recur(args[0]))
                 default:

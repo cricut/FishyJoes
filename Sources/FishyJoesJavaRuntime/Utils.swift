@@ -78,6 +78,14 @@ public struct JNIError: Error {
     }
 }
 
+public struct RangeOutOfBoundsError: Error {
+    public let invalidRange: String
+
+    public init(invalidRange: String) {
+        self.invalidRange = invalidRange
+    }
+}
+
 public class CStringBag {
     private var strings: [UnsafeMutablePointer<CChar>] = []
 

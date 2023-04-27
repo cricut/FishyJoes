@@ -7,6 +7,34 @@ import java.sql.Date
 internal class RangeTests {
     @Test
     fun testRangeValues() {
+        assertEquals(Ranges.int8Range, Byte.MIN_VALUE until Byte.MAX_VALUE)
+        assertEquals(Ranges.int16Range, Short.MIN_VALUE until Short.MAX_VALUE)
+        assertEquals(Ranges.int32Range, Int.MIN_VALUE until Int.MAX_VALUE)
+        assertEquals(Ranges.int64Range, Long.MIN_VALUE until Long.MAX_VALUE)
+        assertEquals(Ranges.intRange, Long.MIN_VALUE until Long.MAX_VALUE)
+        assertEquals(Ranges.uInt8Range, UByte.MIN_VALUE until UByte.MAX_VALUE)
+        assertEquals(Ranges.uInt16Range, UShort.MIN_VALUE until UShort.MAX_VALUE)
+        assertEquals(Ranges.uInt32Range, UInt.MIN_VALUE until UInt.MAX_VALUE)
+        assertEquals(Ranges.uInt64Range, ULong.MIN_VALUE until ULong.MAX_VALUE)
+        assertEquals(Ranges.uIntRange, ULong.MIN_VALUE until ULong.MAX_VALUE)
+    }
+
+    @Test
+    fun testRangeEcho() {
+        assertEquals(Ranges.echoInt8Range(Ranges.int8Range), Ranges.int8Range)
+        assertEquals(Ranges.echoInt16Range(Ranges.int16Range), Ranges.int16Range)
+        assertEquals(Ranges.echoInt32Range(Ranges.int32Range), Ranges.int32Range)
+        assertEquals(Ranges.echoInt64Range(Ranges.int64Range), Ranges.int64Range)
+        assertEquals(Ranges.echoIntRange(Ranges.intRange), Ranges.intRange)
+        assertEquals(Ranges.echoUInt8Range(Ranges.uInt8Range), Ranges.uInt8Range)
+        assertEquals(Ranges.echoUInt16Range(Ranges.uInt16Range), Ranges.uInt16Range)
+        assertEquals(Ranges.echoUInt32Range(Ranges.uInt32Range), Ranges.uInt32Range)
+        assertEquals(Ranges.echoUInt64Range(Ranges.uInt64Range), Ranges.uInt64Range)
+        assertEquals(Ranges.echoUIntRange(Ranges.uIntRange), Ranges.uIntRange)
+    }
+
+    @Test
+    fun testClosedRangeValues() {
         assertEquals(ClosedRanges.int8Range, Byte.MIN_VALUE..Byte.MAX_VALUE)
         assertEquals(ClosedRanges.int16Range, Short.MIN_VALUE..Short.MAX_VALUE)
         assertEquals(ClosedRanges.int32Range, Int.MIN_VALUE..Int.MAX_VALUE)
@@ -23,7 +51,7 @@ internal class RangeTests {
     }
 
     @Test
-    fun testRangeEcho() {
+    fun testClosedRangeEcho() {
         assertEquals(ClosedRanges.echoInt8Range(ClosedRanges.int8Range), ClosedRanges.int8Range)
         assertEquals(ClosedRanges.echoInt16Range(ClosedRanges.int16Range), ClosedRanges.int16Range)
         assertEquals(ClosedRanges.echoInt32Range(ClosedRanges.int32Range), ClosedRanges.int32Range)
@@ -61,5 +89,10 @@ internal class RangeTests {
         assertEquals(ClosedRanges.echoFloatRange(f), f)
         assertEquals(ClosedRanges.echoDoubleRange(d), d)
         assertEquals(ClosedRanges.echoStringRange(l), l)
+
+        // TODO: Empty ranges?
+//        val empty = 0..-1
+//        assert(empty.isEmpty())
+//        assert(ClosedRanges.echoInt32Range(empty).isEmpty())
     }
 }

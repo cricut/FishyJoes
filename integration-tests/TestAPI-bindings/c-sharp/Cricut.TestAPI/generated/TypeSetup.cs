@@ -293,6 +293,11 @@ namespace Cricut.TestAPI {
             out CreatedRef _exn
         );
 
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_Ranges_setup(
+            out CreatedRef _exn
+        );
+
         delegate CreatedRef Cricut_TestAPI_SimpleEnum_new_red(
             out CreatedRef _exn
         );
@@ -1315,6 +1320,72 @@ namespace Cricut.TestAPI {
                     bag<_Primitives_PrimitiveHolder_dqSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
                         obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Dq = newValue.Consume<double?>();
                     })),
+                    out exn
+                ));
+            });
+            Once("setup_RangeConverter<Int16>", () => {
+                Console.WriteLine("setting up Range<Int16>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_RangeConverter_setup(
+                    out exn
+                ));
+            });
+            Once("setup_RangeConverter<Int32>", () => {
+                Console.WriteLine("setting up Range<Int32>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_RangeConverter_setup(
+                    out exn
+                ));
+            });
+            Once("setup_RangeConverter<Int64>", () => {
+                Console.WriteLine("setting up Range<Int64>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_RangeConverter_setup(
+                    out exn
+                ));
+            });
+            Once("setup_RangeConverter<Int8>", () => {
+                Console.WriteLine("setting up Range<Int8>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_RangeConverter_setup(
+                    out exn
+                ));
+            });
+            Once("setup_RangeConverter<Int>", () => {
+                Console.WriteLine("setting up Range<Int>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_RangeConverter_setup(
+                    out exn
+                ));
+            });
+            Once("setup_RangeConverter<UInt16>", () => {
+                Console.WriteLine("setting up Range<UInt16>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_RangeConverter_setup(
+                    out exn
+                ));
+            });
+            Once("setup_RangeConverter<UInt32>", () => {
+                Console.WriteLine("setting up Range<UInt32>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_RangeConverter_setup(
+                    out exn
+                ));
+            });
+            Once("setup_RangeConverter<UInt64>", () => {
+                Console.WriteLine("setting up Range<UInt64>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_RangeConverter_setup(
+                    out exn
+                ));
+            });
+            Once("setup_RangeConverter<UInt8>", () => {
+                Console.WriteLine("setting up Range<UInt8>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_RangeConverter_setup(
+                    out exn
+                ));
+            });
+            Once("setup_RangeConverter<UInt>", () => {
+                Console.WriteLine("setting up Range<UInt>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_RangeConverter_setup(
+                    out exn
+                ));
+            });
+            Once("setup_Ranges", () => {
+                Console.WriteLine("setting up Ranges...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_Ranges_setup(
                     out exn
                 ));
             });

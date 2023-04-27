@@ -544,6 +544,51 @@
       "converterType" : {
         "named" : {
           "_0" : {
+            "name" : "Ranges",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cppName" : "Ranges",
+      "cSharpType" : {
+        "named" : {
+          "name" : "Ranges",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : false,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/Ranges"
+        }
+      },
+      "kotlinName" : "Ranges",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=Ranges>>",
+      "nodeName" : "TestAPI.Ranges",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "name" : "Ranges",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
             "name" : "SimpleEnum",
             "namespace" : [
 
@@ -4678,6 +4723,375 @@
 
             ]
           },
+          "Ranges" : {
+            "classes" : [
+
+            ],
+            "fields" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(int8Range) -->"
+                ],
+                "isStatic" : true,
+                "name" : "int8Range",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "TODO:athing"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(int16Range) -->"
+                ],
+                "isStatic" : true,
+                "name" : "int16Range",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "TODO:athing"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(int32Range) -->"
+                ],
+                "isStatic" : true,
+                "name" : "int32Range",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "TODO:athing"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(int64Range) -->"
+                ],
+                "isStatic" : true,
+                "name" : "int64Range",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "TODO:athing"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(intRange) -->"
+                ],
+                "isStatic" : true,
+                "name" : "intRange",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "TODO:athing"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(uInt8Range) -->"
+                ],
+                "isStatic" : true,
+                "name" : "uInt8Range",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "TODO:athing"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(uInt16Range) -->"
+                ],
+                "isStatic" : true,
+                "name" : "uInt16Range",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "TODO:athing"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(uInt32Range) -->"
+                ],
+                "isStatic" : true,
+                "name" : "uInt32Range",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "TODO:athing"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(uInt64Range) -->"
+                ],
+                "isStatic" : true,
+                "name" : "uInt64Range",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "TODO:athing"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(uIntRange) -->"
+                ],
+                "isStatic" : true,
+                "name" : "uIntRange",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "TODO:athing"
+                  }
+                }
+              }
+            ],
+            "interfaces" : [
+
+            ],
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(echoInt8Range) -->"
+                ],
+                "isStatic" : true,
+                "name" : "echoInt8Range",
+                "parameters" : [
+                  {
+                    "name" : "range",
+                    "type" : {
+                      "named" : {
+                        "_0" : "TODO:athing"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "TODO:athing"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(echoInt16Range) -->"
+                ],
+                "isStatic" : true,
+                "name" : "echoInt16Range",
+                "parameters" : [
+                  {
+                    "name" : "range",
+                    "type" : {
+                      "named" : {
+                        "_0" : "TODO:athing"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "TODO:athing"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(echoInt32Range) -->"
+                ],
+                "isStatic" : true,
+                "name" : "echoInt32Range",
+                "parameters" : [
+                  {
+                    "name" : "range",
+                    "type" : {
+                      "named" : {
+                        "_0" : "TODO:athing"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "TODO:athing"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(echoInt64Range) -->"
+                ],
+                "isStatic" : true,
+                "name" : "echoInt64Range",
+                "parameters" : [
+                  {
+                    "name" : "range",
+                    "type" : {
+                      "named" : {
+                        "_0" : "TODO:athing"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "TODO:athing"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(echoIntRange) -->"
+                ],
+                "isStatic" : true,
+                "name" : "echoIntRange",
+                "parameters" : [
+                  {
+                    "name" : "range",
+                    "type" : {
+                      "named" : {
+                        "_0" : "TODO:athing"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "TODO:athing"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(echoUInt8Range) -->"
+                ],
+                "isStatic" : true,
+                "name" : "echoUInt8Range",
+                "parameters" : [
+                  {
+                    "name" : "range",
+                    "type" : {
+                      "named" : {
+                        "_0" : "TODO:athing"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "TODO:athing"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(echoUInt16Range) -->"
+                ],
+                "isStatic" : true,
+                "name" : "echoUInt16Range",
+                "parameters" : [
+                  {
+                    "name" : "range",
+                    "type" : {
+                      "named" : {
+                        "_0" : "TODO:athing"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "TODO:athing"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(echoUInt32Range) -->"
+                ],
+                "isStatic" : true,
+                "name" : "echoUInt32Range",
+                "parameters" : [
+                  {
+                    "name" : "range",
+                    "type" : {
+                      "named" : {
+                        "_0" : "TODO:athing"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "TODO:athing"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(echoUInt64Range) -->"
+                ],
+                "isStatic" : true,
+                "name" : "echoUInt64Range",
+                "parameters" : [
+                  {
+                    "name" : "range",
+                    "type" : {
+                      "named" : {
+                        "_0" : "TODO:athing"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "TODO:athing"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(echoUIntRange) -->"
+                ],
+                "isStatic" : true,
+                "name" : "echoUIntRange",
+                "parameters" : [
+                  {
+                    "name" : "range",
+                    "type" : {
+                      "named" : {
+                        "_0" : "TODO:athing"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "TODO:athing"
+                  }
+                }
+              }
+            ],
+            "name" : "Ranges",
+            "namespaces" : {
+
+            },
+            "typealiases" : [
+
+            ]
+          },
           "SimpleEnum" : {
             "classes" : [
 
@@ -5366,6 +5780,19 @@
               "<!-- FishyJoes.export(Primitives) -->"
             ],
             "name" : "Primitives",
+            "value" : {
+              "union" : {
+                "_0" : [
+
+                ]
+              }
+            }
+          },
+          {
+            "documentation" : [
+              "<!-- FishyJoes.export(Ranges) -->"
+            ],
+            "name" : "Ranges",
             "value" : {
               "union" : {
                 "_0" : [

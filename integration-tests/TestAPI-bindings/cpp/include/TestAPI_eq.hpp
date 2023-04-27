@@ -97,6 +97,12 @@ template <> struct std::hash<TestAPI::Primitives::PrimitiveHolder> {
 namespace TestAPI {
     inline bool operator==(const Primitives::PrimitiveHolder& lhs, const Primitives::PrimitiveHolder& rhs);
 }
+template <> struct std::hash<TestAPI::Ranges> {
+    size_t operator()(const TestAPI::Ranges &obj) const;
+};
+namespace TestAPI {
+    inline bool operator==(const Ranges& lhs, const Ranges& rhs);
+}
 template <> struct std::hash<TestAPI::SimpleEnum> {
     size_t operator()(const TestAPI::SimpleEnum &obj) const;
 };
@@ -248,6 +254,11 @@ size_t std::hash<TestAPI::Primitives::PrimitiveHolder>::operator()(const TestAPI
     TestAPI::FishyJoesInternal::hashCombine(ret, obj.dq);
     return ret;
 }
+size_t std::hash<TestAPI::Ranges>::operator()(const TestAPI::Ranges &obj) const {
+    size_t ret = 0;
+    TestAPI::FishyJoesInternal::hashCombine(ret, obj._variant);
+    return ret;
+}
 size_t std::hash<TestAPI::SimpleEnum>::operator()(const TestAPI::SimpleEnum &obj) const {
     size_t ret = 0;
     TestAPI::FishyJoesInternal::hashCombine(ret, obj._variant);
@@ -363,6 +374,11 @@ namespace TestAPI {
 }
 namespace TestAPI {
     inline bool operator==(const Primitives::PrimitiveHolder& lhs, const Primitives::PrimitiveHolder& rhs) {
+        return std::equal_to<std::decay_t<decltype(lhs)>>()(lhs, rhs);
+    }
+}
+namespace TestAPI {
+    inline bool operator==(const Ranges& lhs, const Ranges& rhs) {
         return std::equal_to<std::decay_t<decltype(lhs)>>()(lhs, rhs);
     }
 }

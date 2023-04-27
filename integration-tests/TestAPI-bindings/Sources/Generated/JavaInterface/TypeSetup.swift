@@ -157,6 +157,26 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try OptionalConverter<UInt64>.javaSetup(env: env)
         // print("setting up OptionalConverter<UInt8>...")
         try OptionalConverter<UInt8>.javaSetup(env: env)
+        // print("setting up RangeConverter<Int>...")
+        try RangeConverter<Int>.javaSetup(env: env)
+        // print("setting up RangeConverter<Int16>...")
+        try RangeConverter<Int16>.javaSetup(env: env)
+        // print("setting up RangeConverter<Int32>...")
+        try RangeConverter<Int32>.javaSetup(env: env)
+        // print("setting up RangeConverter<Int64>...")
+        try RangeConverter<Int64>.javaSetup(env: env)
+        // print("setting up RangeConverter<Int8>...")
+        try RangeConverter<Int8>.javaSetup(env: env)
+        // print("setting up RangeConverter<UInt>...")
+        try RangeConverter<UInt>.javaSetup(env: env)
+        // print("setting up RangeConverter<UInt16>...")
+        try RangeConverter<UInt16>.javaSetup(env: env)
+        // print("setting up RangeConverter<UInt32>...")
+        try RangeConverter<UInt32>.javaSetup(env: env)
+        // print("setting up RangeConverter<UInt64>...")
+        try RangeConverter<UInt64>.javaSetup(env: env)
+        // print("setting up RangeConverter<UInt8>...")
+        try RangeConverter<UInt8>.javaSetup(env: env)
         // print("setting up SetConverter<OptionalConverter<Int>>...")
         try SetConverter<OptionalConverter<Int>>.javaSetup(env: env)
         // print("setting up SetConverter<Bool>...")
@@ -1019,6 +1039,110 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_get_defaultPrimitiveHolder"),
                 signature: bag.add("()Lcom/cricut/testapi/Primitives$PrimitiveHolder;"),
                 fnPtr: unsafeBitCast(java_get_Primitives_defaultPrimitiveHolder, to: UnsafeMutableRawPointer.self)
+            )
+        )
+        // print("setting up Ranges...")
+        try Ranges.javaSetup(env: env)
+        try env.RegisterNatives(Ranges.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_echoInt8Range"),
+                signature: bag.add("(Lkotlin/ranges/ClosedRange;)Lkotlin/ranges/ClosedRange;"),
+                fnPtr: unsafeBitCast(java_Ranges_echoInt8Range, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_echoInt16Range"),
+                signature: bag.add("(Lkotlin/ranges/ClosedRange;)Lkotlin/ranges/ClosedRange;"),
+                fnPtr: unsafeBitCast(java_Ranges_echoInt16Range, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_echoInt32Range"),
+                signature: bag.add("(Lkotlin/ranges/ClosedRange;)Lkotlin/ranges/ClosedRange;"),
+                fnPtr: unsafeBitCast(java_Ranges_echoInt32Range, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_echoInt64Range"),
+                signature: bag.add("(Lkotlin/ranges/ClosedRange;)Lkotlin/ranges/ClosedRange;"),
+                fnPtr: unsafeBitCast(java_Ranges_echoInt64Range, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_echoIntRange"),
+                signature: bag.add("(Lkotlin/ranges/ClosedRange;)Lkotlin/ranges/ClosedRange;"),
+                fnPtr: unsafeBitCast(java_Ranges_echoIntRange, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_echoUInt8Range"),
+                signature: bag.add("(Lkotlin/ranges/ClosedRange;)Lkotlin/ranges/ClosedRange;"),
+                fnPtr: unsafeBitCast(java_Ranges_echoUInt8Range, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_echoUInt16Range"),
+                signature: bag.add("(Lkotlin/ranges/ClosedRange;)Lkotlin/ranges/ClosedRange;"),
+                fnPtr: unsafeBitCast(java_Ranges_echoUInt16Range, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_echoUInt32Range"),
+                signature: bag.add("(Lkotlin/ranges/ClosedRange;)Lkotlin/ranges/ClosedRange;"),
+                fnPtr: unsafeBitCast(java_Ranges_echoUInt32Range, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_echoUInt64Range"),
+                signature: bag.add("(Lkotlin/ranges/ClosedRange;)Lkotlin/ranges/ClosedRange;"),
+                fnPtr: unsafeBitCast(java_Ranges_echoUInt64Range, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_echoUIntRange"),
+                signature: bag.add("(Lkotlin/ranges/ClosedRange;)Lkotlin/ranges/ClosedRange;"),
+                fnPtr: unsafeBitCast(java_Ranges_echoUIntRange, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_int8Range"),
+                signature: bag.add("()Lkotlin/ranges/ClosedRange;"),
+                fnPtr: unsafeBitCast(java_get_Ranges_int8Range, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_int16Range"),
+                signature: bag.add("()Lkotlin/ranges/ClosedRange;"),
+                fnPtr: unsafeBitCast(java_get_Ranges_int16Range, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_int32Range"),
+                signature: bag.add("()Lkotlin/ranges/ClosedRange;"),
+                fnPtr: unsafeBitCast(java_get_Ranges_int32Range, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_int64Range"),
+                signature: bag.add("()Lkotlin/ranges/ClosedRange;"),
+                fnPtr: unsafeBitCast(java_get_Ranges_int64Range, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_intRange"),
+                signature: bag.add("()Lkotlin/ranges/ClosedRange;"),
+                fnPtr: unsafeBitCast(java_get_Ranges_intRange, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_uInt8Range"),
+                signature: bag.add("()Lkotlin/ranges/ClosedRange;"),
+                fnPtr: unsafeBitCast(java_get_Ranges_uInt8Range, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_uInt16Range"),
+                signature: bag.add("()Lkotlin/ranges/ClosedRange;"),
+                fnPtr: unsafeBitCast(java_get_Ranges_uInt16Range, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_uInt32Range"),
+                signature: bag.add("()Lkotlin/ranges/ClosedRange;"),
+                fnPtr: unsafeBitCast(java_get_Ranges_uInt32Range, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_uInt64Range"),
+                signature: bag.add("()Lkotlin/ranges/ClosedRange;"),
+                fnPtr: unsafeBitCast(java_get_Ranges_uInt64Range, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_uIntRange"),
+                signature: bag.add("()Lkotlin/ranges/ClosedRange;"),
+                fnPtr: unsafeBitCast(java_get_Ranges_uIntRange, to: UnsafeMutableRawPointer.self)
             )
         )
         // print("setting up Structs.ReferenceStruct...")

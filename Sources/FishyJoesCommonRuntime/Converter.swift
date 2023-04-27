@@ -89,6 +89,10 @@ public enum OptionalConverter<WrappedConverter: Converter>: Converter {
     public typealias SwiftType = WrappedConverter.SwiftType?
 }
 
+public enum RangeConverter<BoundConverter: Converter>: Converter where BoundConverter.SwiftType: Comparable {
+    public typealias SwiftType = Range<BoundConverter.SwiftType>
+}
+
 public enum ClosedRangeConverter<BoundConverter: Converter>: Converter where BoundConverter.SwiftType: Comparable {
     public typealias SwiftType = ClosedRange<BoundConverter.SwiftType>
 }
