@@ -78,6 +78,24 @@ extension UInt64: NodeConverter {
     }
 }
 
+extension UInt: NodeConverter {
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> UInt {
+        #if arch(wasm32)
+        return try UInt(UInt32.fromNode(value, env: env))
+        #else
+        return try UInt(UInt64.fromNode(value, env: env))
+        #endif
+    }
+
+    public static func toNode(_ value: UInt, env: NAPI.Env) throws -> NAPI.Value {
+        #if arch(wasm32)
+        return try UInt32.toNode(UInt32(value), env: env)
+        #else
+        return try UInt64.toNode(UInt64(value), env: env)
+        #endif
+    }
+}
+
 extension Int8: NodeConverter {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
         try Int8(env.getValueInt32(value))
@@ -300,5 +318,27 @@ extension OptionalConverter: NodeConverter where WrappedConverter: NodeConverter
         } else {
             return try env.getUndefined()
         }
+    }
+}
+
+// MARK: - Range Type Conversion
+
+extension RangeConverter: NodeConverter where BoundConverter: NodeConverter {
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Range<BoundConverter.SwiftType> {
+        fatalError("Unimplemented")
+    }
+
+    public static func toNode(_ value: Range<BoundConverter.SwiftType>, env: NAPI.Env) throws -> NAPI.Value {
+        fatalError("Unimplemented")
+    }
+}
+
+extension ClosedRangeConverter: NodeConverter where BoundConverter: NodeConverter {
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> ClosedRange<BoundConverter.SwiftType> {
+        fatalError("Unimplemented")
+    }
+
+    public static func toNode(_ value: ClosedRange<BoundConverter.SwiftType>, env: NAPI.Env) throws -> NAPI.Value {
+        fatalError("Unimplemented")
     }
 }

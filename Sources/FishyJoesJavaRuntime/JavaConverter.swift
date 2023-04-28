@@ -243,12 +243,12 @@ extension UInt: JavaConverter {
 
     public static var javaClass: jclass? { UInt64.javaClass }
 
-    public static func fromJava(_ value: UInt64.CType, env: Env) throws -> Self {
+    public static func fromJava(_ value: CType, env: Env) throws -> Self {
         try Self(UInt64.fromJava(value, env: env))
     }
 
-    public static func toJava(_ value: Self, env: Env) throws -> UInt64.CType {
-        UInt64.CType(value)
+    public static func toJava(_ value: Self, env: Env) throws -> CType {
+        try UInt64.toJava(UInt64(value), env: env)
     }
 
     public static func fromJava(object value: jobject?, env: Env) throws -> Self {
@@ -374,12 +374,12 @@ extension Int: JavaConverter {
 
     public static var javaClass: jclass? { Int64.javaClass }
 
-    public static func fromJava(_ value: Int64.CType, env: Env) throws -> Self {
+    public static func fromJava(_ value: CType, env: Env) throws -> Self {
         try Self(Int64.fromJava(value, env: env))
     }
 
-    public static func toJava(_ value: Self, env: Env) throws -> Int64.CType {
-        Int64.CType(value)
+    public static func toJava(_ value: Self, env: Env) throws -> CType {
+        try Int64.toJava(Int64(value), env: env)
     }
 
     public static func fromJava(object value: jobject?, env: Env) throws -> Self {

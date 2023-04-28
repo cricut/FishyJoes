@@ -185,6 +185,8 @@ namespace Cricut.TestAPI {
             ConsumedRef ui32q,
             ulong ui64,
             ConsumedRef ui64q,
+            ulong ui,
+            ConsumedRef uiq,
             sbyte i8,
             ConsumedRef i8q,
             short i16,
@@ -193,6 +195,8 @@ namespace Cricut.TestAPI {
             ConsumedRef i32q,
             long i64,
             ConsumedRef i64q,
+            nint i,
+            ConsumedRef iq,
             float f,
             ConsumedRef fq,
             double d,
@@ -219,6 +223,10 @@ namespace Cricut.TestAPI {
         delegate void _Primitives_PrimitiveHolder_ui64Setter(UnownedRef obj, ulong newValue, out CreatedRef exn);
         delegate CreatedRef _Primitives_PrimitiveHolder_ui64qGetter(UnownedRef obj, out CreatedRef exn);
         delegate void _Primitives_PrimitiveHolder_ui64qSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
+        delegate ulong _Primitives_PrimitiveHolder_uiGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _Primitives_PrimitiveHolder_uiSetter(UnownedRef obj, ulong newValue, out CreatedRef exn);
+        delegate CreatedRef _Primitives_PrimitiveHolder_uiqGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _Primitives_PrimitiveHolder_uiqSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
         delegate sbyte _Primitives_PrimitiveHolder_i8Getter(UnownedRef obj, out CreatedRef exn);
         delegate void _Primitives_PrimitiveHolder_i8Setter(UnownedRef obj, sbyte newValue, out CreatedRef exn);
         delegate CreatedRef _Primitives_PrimitiveHolder_i8qGetter(UnownedRef obj, out CreatedRef exn);
@@ -235,6 +243,10 @@ namespace Cricut.TestAPI {
         delegate void _Primitives_PrimitiveHolder_i64Setter(UnownedRef obj, long newValue, out CreatedRef exn);
         delegate CreatedRef _Primitives_PrimitiveHolder_i64qGetter(UnownedRef obj, out CreatedRef exn);
         delegate void _Primitives_PrimitiveHolder_i64qSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
+        delegate nint _Primitives_PrimitiveHolder_iGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _Primitives_PrimitiveHolder_iSetter(UnownedRef obj, nint newValue, out CreatedRef exn);
+        delegate CreatedRef _Primitives_PrimitiveHolder_iqGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _Primitives_PrimitiveHolder_iqSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
         delegate float _Primitives_PrimitiveHolder_fGetter(UnownedRef obj, out CreatedRef exn);
         delegate void _Primitives_PrimitiveHolder_fSetter(UnownedRef obj, float newValue, out CreatedRef exn);
         delegate CreatedRef _Primitives_PrimitiveHolder_fqGetter(UnownedRef obj, out CreatedRef exn);
@@ -266,6 +278,10 @@ namespace Cricut.TestAPI {
             _Primitives_PrimitiveHolder_ui64Setter set_ui64,
             _Primitives_PrimitiveHolder_ui64qGetter get_ui64q,
             _Primitives_PrimitiveHolder_ui64qSetter set_ui64q,
+            _Primitives_PrimitiveHolder_uiGetter get_ui,
+            _Primitives_PrimitiveHolder_uiSetter set_ui,
+            _Primitives_PrimitiveHolder_uiqGetter get_uiq,
+            _Primitives_PrimitiveHolder_uiqSetter set_uiq,
             _Primitives_PrimitiveHolder_i8Getter get_i8,
             _Primitives_PrimitiveHolder_i8Setter set_i8,
             _Primitives_PrimitiveHolder_i8qGetter get_i8q,
@@ -282,6 +298,10 @@ namespace Cricut.TestAPI {
             _Primitives_PrimitiveHolder_i64Setter set_i64,
             _Primitives_PrimitiveHolder_i64qGetter get_i64q,
             _Primitives_PrimitiveHolder_i64qSetter set_i64q,
+            _Primitives_PrimitiveHolder_iGetter get_i,
+            _Primitives_PrimitiveHolder_iSetter set_i,
+            _Primitives_PrimitiveHolder_iqGetter get_iq,
+            _Primitives_PrimitiveHolder_iqSetter set_iq,
             _Primitives_PrimitiveHolder_fGetter get_f,
             _Primitives_PrimitiveHolder_fSetter set_f,
             _Primitives_PrimitiveHolder_fqGetter get_fq,
@@ -630,6 +650,13 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
+            Once("setup_ArrayConverter<OptionalConverter<UInt>>", () => {
+                Console.WriteLine("setting up Array<Optional<UInt>>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_ArrayConverter_setup<ulong?>(
+                    "ArrayConverter<OptionalConverter<UInt>>",
+                    out exn
+                ));
+            });
             Once("setup_ArrayConverter<Swift.String>", () => {
                 Console.WriteLine("setting up Array<String>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_ArrayConverter_setup<string>(
@@ -662,6 +689,13 @@ namespace Cricut.TestAPI {
                 Console.WriteLine("setting up Array<UInt8>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_ArrayConverter_setup<byte>(
                     "ArrayConverter<UInt8>",
+                    out exn
+                ));
+            });
+            Once("setup_ArrayConverter<UInt>", () => {
+                Console.WriteLine("setting up Array<UInt>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_ArrayConverter_setup<ulong>(
+                    "ArrayConverter<UInt>",
                     out exn
                 ));
             });
@@ -1153,6 +1187,12 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
+            Once("setup_OptionalConverter<UInt>", () => {
+                Console.WriteLine("setting up Optional<UInt>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_OptionalConverter_setup(
+                    out exn
+                ));
+            });
             Once("setup_Primitives", () => {
                 Console.WriteLine("setting up Primitives...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_Primitives_setup(
@@ -1162,7 +1202,7 @@ namespace Cricut.TestAPI {
             Once("setup_Primitives.PrimitiveHolder", () => {
                 Console.WriteLine("setting up Primitives.PrimitiveHolder...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_Primitives_PrimitiveHolder_setup(
-                    bag<_Primitives_PrimitiveHolderConstructor>((bool b, ConsumedRef bq, byte ui8, ConsumedRef ui8q, ushort ui16, ConsumedRef ui16q, uint ui32, ConsumedRef ui32q, ulong ui64, ConsumedRef ui64q, sbyte i8, ConsumedRef i8q, short i16, ConsumedRef i16q, int i32, ConsumedRef i32q, long i64, ConsumedRef i64q, float f, ConsumedRef fq, double d, ConsumedRef dq, out CreatedRef exn) => Catching(out exn, () => {
+                    bag<_Primitives_PrimitiveHolderConstructor>((bool b, ConsumedRef bq, byte ui8, ConsumedRef ui8q, ushort ui16, ConsumedRef ui16q, uint ui32, ConsumedRef ui32q, ulong ui64, ConsumedRef ui64q, ulong ui, ConsumedRef uiq, sbyte i8, ConsumedRef i8q, short i16, ConsumedRef i16q, int i32, ConsumedRef i32q, long i64, ConsumedRef i64q, nint i, ConsumedRef iq, float f, ConsumedRef fq, double d, ConsumedRef dq, out CreatedRef exn) => Catching(out exn, () => {
                         return new CreatedRef(new Cricut.TestAPI.Primitives.PrimitiveHolder(
                             b,
                             bq.Consume<bool?>(),
@@ -1174,6 +1214,8 @@ namespace Cricut.TestAPI {
                             ui32q.Consume<uint?>(),
                             ui64,
                             ui64q.Consume<ulong?>(),
+                            ui,
+                            uiq.Consume<ulong?>(),
                             i8,
                             i8q.Consume<sbyte?>(),
                             i16,
@@ -1182,6 +1224,8 @@ namespace Cricut.TestAPI {
                             i32q.Consume<int?>(),
                             i64,
                             i64q.Consume<long?>(),
+                            i,
+                            iq.Consume<nint?>(),
                             f,
                             fq.Consume<float?>(),
                             d,
@@ -1248,6 +1292,18 @@ namespace Cricut.TestAPI {
                     bag<_Primitives_PrimitiveHolder_ui64qSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
                         obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Ui64q = newValue.Consume<ulong?>();
                     })),
+                    bag<_Primitives_PrimitiveHolder_uiGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Ui
+                    )),
+                    bag<_Primitives_PrimitiveHolder_uiSetter>((UnownedRef obj, ulong newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Ui = newValue;
+                    })),
+                    bag<_Primitives_PrimitiveHolder_uiqGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Uiq)
+                    )),
+                    bag<_Primitives_PrimitiveHolder_uiqSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Uiq = newValue.Consume<ulong?>();
+                    })),
                     bag<_Primitives_PrimitiveHolder_i8Getter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I8
                     )),
@@ -1295,6 +1351,18 @@ namespace Cricut.TestAPI {
                     )),
                     bag<_Primitives_PrimitiveHolder_i64qSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
                         obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I64q = newValue.Consume<long?>();
+                    })),
+                    bag<_Primitives_PrimitiveHolder_iGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I
+                    )),
+                    bag<_Primitives_PrimitiveHolder_iSetter>((UnownedRef obj, nint newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I = newValue;
+                    })),
+                    bag<_Primitives_PrimitiveHolder_iqGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Iq)
+                    )),
+                    bag<_Primitives_PrimitiveHolder_iqSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Iq = newValue.Consume<nint?>();
                     })),
                     bag<_Primitives_PrimitiveHolder_fGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().F

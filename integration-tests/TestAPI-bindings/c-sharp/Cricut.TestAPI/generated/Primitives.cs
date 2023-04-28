@@ -208,6 +208,48 @@ namespace Cricut.TestAPI {
         private static extern ulong __cs_get_Primitives_MaxUInt64(out CreatedRef exn);
 
         /// <summary>
+        /// <!-- FishyJoes.export(zeroUInt) -->
+        /// </summary>
+        public static ulong ZeroUInt {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __cs_get_Primitives_ZeroUInt(out exn)
+                );
+            }
+        }
+
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern ulong __cs_get_Primitives_ZeroUInt(out CreatedRef exn);
+
+        /// <summary>
+        /// <!-- FishyJoes.export(minUInt) -->
+        /// </summary>
+        public static ulong MinUInt {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __cs_get_Primitives_MinUInt(out exn)
+                );
+            }
+        }
+
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern ulong __cs_get_Primitives_MinUInt(out CreatedRef exn);
+
+        /// <summary>
+        /// <!-- FishyJoes.export(maxUInt) -->
+        /// </summary>
+        public static ulong MaxUInt {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __cs_get_Primitives_MaxUInt(out exn)
+                );
+            }
+        }
+
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern ulong __cs_get_Primitives_MaxUInt(out CreatedRef exn);
+
+        /// <summary>
         /// <!-- FishyJoes.export(zeroInt8) -->
         /// </summary>
         public static sbyte ZeroInt8 {
@@ -572,6 +614,20 @@ namespace Cricut.TestAPI {
         private static extern CreatedRef __cs_get_Primitives_ManyUInt64(out CreatedRef exn);
 
         /// <summary>
+        /// <!-- FishyJoes.export(manyUInt) -->
+        /// </summary>
+        public static System.Collections.Generic.IList<ulong> ManyUInt {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __cs_get_Primitives_ManyUInt(out exn).Consume<System.Collections.Generic.IList<ulong>>()
+                );
+            }
+        }
+
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __cs_get_Primitives_ManyUInt(out CreatedRef exn);
+
+        /// <summary>
         /// <!-- FishyJoes.export(manyInt8) -->
         /// </summary>
         public static System.Collections.Generic.IList<sbyte> ManyInt8 {
@@ -626,6 +682,20 @@ namespace Cricut.TestAPI {
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_get_Primitives_ManyInt64(out CreatedRef exn);
+
+        /// <summary>
+        /// <!-- FishyJoes.export(manyInt) -->
+        /// </summary>
+        public static System.Collections.Generic.IList<nint> ManyInt {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __cs_get_Primitives_ManyInt(out exn).Consume<System.Collections.Generic.IList<nint>>()
+                );
+            }
+        }
+
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __cs_get_Primitives_ManyInt(out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(manyFloat) -->
@@ -726,6 +796,20 @@ namespace Cricut.TestAPI {
         private static extern CreatedRef __cs_get_Primitives_ManyMaybeUInt64(out CreatedRef exn);
 
         /// <summary>
+        /// <!-- FishyJoes.export(manyMaybeUInt) -->
+        /// </summary>
+        public static System.Collections.Generic.IList<ulong?> ManyMaybeUInt {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __cs_get_Primitives_ManyMaybeUInt(out exn).Consume<System.Collections.Generic.IList<ulong?>>()
+                );
+            }
+        }
+
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __cs_get_Primitives_ManyMaybeUInt(out CreatedRef exn);
+
+        /// <summary>
         /// <!-- FishyJoes.export(manyMaybeInt8) -->
         /// </summary>
         public static System.Collections.Generic.IList<sbyte?> ManyMaybeInt8 {
@@ -780,6 +864,20 @@ namespace Cricut.TestAPI {
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_get_Primitives_ManyMaybeInt64(out CreatedRef exn);
+
+        /// <summary>
+        /// <!-- FishyJoes.export(manyMaybeInt) -->
+        /// </summary>
+        public static System.Collections.Generic.IList<nint?> ManyMaybeInt {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __cs_get_Primitives_ManyMaybeInt(out exn).Consume<System.Collections.Generic.IList<nint?>>()
+                );
+            }
+        }
+
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __cs_get_Primitives_ManyMaybeInt(out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(manyMaybeFloat) -->
@@ -899,6 +997,21 @@ namespace Cricut.TestAPI {
         );
 
         /// <summary>
+        /// <!-- FishyJoes.export(echoUInt) -->
+        /// </summary>
+        public static ulong EchoUInt(
+            ulong value
+        ) {
+            return Check((out CreatedRef _exn) => __cs_Primitives_echoUInt(value, out _exn));
+        }
+
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern ulong __cs_Primitives_echoUInt(
+            ulong value,
+            out CreatedRef exn
+        );
+
+        /// <summary>
         /// <!-- FishyJoes.export(echoInt8) -->
         /// </summary>
         public static sbyte EchoInt8(
@@ -955,6 +1068,21 @@ namespace Cricut.TestAPI {
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern long __cs_Primitives_echoInt64(
             long value,
+            out CreatedRef exn
+        );
+
+        /// <summary>
+        /// <!-- FishyJoes.export(echoInt) -->
+        /// </summary>
+        public static nint EchoInt(
+            nint value
+        ) {
+            return Check((out CreatedRef _exn) => __cs_Primitives_echoInt(value, out _exn));
+        }
+
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern nint __cs_Primitives_echoInt(
+            nint value,
             out CreatedRef exn
         );
 
@@ -1069,6 +1197,22 @@ namespace Cricut.TestAPI {
         );
 
         /// <summary>
+        /// <!-- FishyJoes.export(maybeEchoUInt) -->
+        /// </summary>
+        public static ulong? MaybeEchoUInt(
+            ulong? value
+        ) {
+            using var _valueHandle = new GCRef(value);
+            return Check((out CreatedRef _exn) => __cs_Primitives_maybeEchoUInt(_valueHandle.ptr, out _exn)).Consume<ulong?>();
+        }
+
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __cs_Primitives_maybeEchoUInt(
+            UnownedRef value,
+            out CreatedRef exn
+        );
+
+        /// <summary>
         /// <!-- FishyJoes.export(maybeEchoInt8) -->
         /// </summary>
         public static sbyte? MaybeEchoInt8(
@@ -1128,6 +1272,22 @@ namespace Cricut.TestAPI {
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_Primitives_maybeEchoInt64(
+            UnownedRef value,
+            out CreatedRef exn
+        );
+
+        /// <summary>
+        /// <!-- FishyJoes.export(maybeEchoInt) -->
+        /// </summary>
+        public static nint? MaybeEchoInt(
+            nint? value
+        ) {
+            using var _valueHandle = new GCRef(value);
+            return Check((out CreatedRef _exn) => __cs_Primitives_maybeEchoInt(_valueHandle.ptr, out _exn)).Consume<nint?>();
+        }
+
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __cs_Primitives_maybeEchoInt(
             UnownedRef value,
             out CreatedRef exn
         );
@@ -1197,6 +1357,8 @@ namespace Cricut.TestAPI {
             public uint? Ui32q;
             public ulong Ui64;
             public ulong? Ui64q;
+            public ulong Ui;
+            public ulong? Uiq;
             public sbyte I8;
             public sbyte? I8q;
             public short I16;
@@ -1205,6 +1367,8 @@ namespace Cricut.TestAPI {
             public int? I32q;
             public long I64;
             public long? I64q;
+            public nint I;
+            public nint? Iq;
             public float F;
             public float? Fq;
             public double D;
@@ -1221,6 +1385,8 @@ namespace Cricut.TestAPI {
                 uint? Ui32q,
                 ulong Ui64,
                 ulong? Ui64q,
+                ulong Ui,
+                ulong? Uiq,
                 sbyte I8,
                 sbyte? I8q,
                 short I16,
@@ -1229,6 +1395,8 @@ namespace Cricut.TestAPI {
                 int? I32q,
                 long I64,
                 long? I64q,
+                nint I,
+                nint? Iq,
                 float F,
                 float? Fq,
                 double D,
@@ -1244,6 +1412,8 @@ namespace Cricut.TestAPI {
                 this.Ui32q = Ui32q;
                 this.Ui64 = Ui64;
                 this.Ui64q = Ui64q;
+                this.Ui = Ui;
+                this.Uiq = Uiq;
                 this.I8 = I8;
                 this.I8q = I8q;
                 this.I16 = I16;
@@ -1252,6 +1422,8 @@ namespace Cricut.TestAPI {
                 this.I32q = I32q;
                 this.I64 = I64;
                 this.I64q = I64q;
+                this.I = I;
+                this.Iq = Iq;
                 this.F = F;
                 this.Fq = Fq;
                 this.D = D;
