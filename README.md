@@ -67,7 +67,7 @@ sudo installer -pkg swift-wasm.pkg -target /
 
 Install Docker:
  a. `brew install rancher`
- b. create missing folder on macOS: `sudo mkdir /private/etc/sudoers.d`
+ b. create missing folder on macOS: `sudo mkdir -p /private/etc/sudoers.d`
  c. open "Rancher Desktop.app"
  d. click "accept"
  e. enter password to finish install
@@ -105,4 +105,4 @@ public struct Foo {
 
 
 
-[Tutorial by Matt](https://cricut-my.sharepoint.com/personal/mstoker_cricut_com/_layouts/15/onedrive.aspx?id=%2Fpersonal%2Fmstoker%5Fcricut%5Fcom%2FDocuments%2FRecordings%2FClient%20Enablement%20Demos%2D20220505%5F145944%2DMeeting%20Recording%2Emp4&parent=%2Fpersonal%2Fmstoker%5Fcricut%5Fcom%2FDocuments%2FRecordings&ga=1)
+[Tutorial by Matt](https://cricut.sharepoint.com/:v:/r/sites/softwareteam/Shared%20Documents/Team-Enablement-Client/Cross-Platform%20Code%20Introduction.mp4?csf=1&web=1&e=vSEVMc)
