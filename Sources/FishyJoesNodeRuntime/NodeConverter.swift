@@ -325,20 +325,46 @@ extension OptionalConverter: NodeConverter where WrappedConverter: NodeConverter
 
 extension RangeConverter: NodeConverter where BoundConverter: NodeConverter {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Range<BoundConverter.SwiftType> {
-        fatalError("Unimplemented")
+        let start = try env.getNamedProperty(value, "start")
+        let endExclusive = try env.getNamedProperty(value, "endExclusive")
+
+        let lowerBound = try BoundConverter.fromNode(start, env: env)
+        let upperBound = try BoundConverter.fromNode(endExclusive, env: env)
+
+        guard lowerBound <= upperBound else { throw RangeOutOfBoundsError(invalidRange: "\(lowerBound)..<\(upperBound)") }
+        return lowerBound..<upperBound
     }
 
     public static func toNode(_ value: Range<BoundConverter.SwiftType>, env: NAPI.Env) throws -> NAPI.Value {
-        fatalError("Unimplemented")
+        let start = try BoundConverter.toNode(value.lowerBound, env: env)
+        let endExclusive = try BoundConverter.toNode(value.upperBound, env: env)
+
+        let range = try env.createObject()
+        try env.setNamedProperty(range, "start", start)
+        try env.setNamedProperty(range, "endExclusive", endExclusive)
+        return range
     }
 }
 
 extension ClosedRangeConverter: NodeConverter where BoundConverter: NodeConverter {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> ClosedRange<BoundConverter.SwiftType> {
-        fatalError("Unimplemented")
+        let start = try env.getNamedProperty(value, "start")
+        let endInclusive = try env.getNamedProperty(value, "endInclusive")
+
+        let lowerBound = try BoundConverter.fromNode(start, env: env)
+        let upperBound = try BoundConverter.fromNode(endInclusive, env: env)
+
+        guard lowerBound <= upperBound else { throw RangeOutOfBoundsError(invalidRange: "\(lowerBound)...\(upperBound)") }
+        return lowerBound...upperBound
     }
 
     public static func toNode(_ value: ClosedRange<BoundConverter.SwiftType>, env: NAPI.Env) throws -> NAPI.Value {
-        fatalError("Unimplemented")
+        let start = try BoundConverter.toNode(value.lowerBound, env: env)
+        let endInclusive = try BoundConverter.toNode(value.upperBound, env: env)
+
+        let range = try env.createObject()
+        try env.setNamedProperty(range, "start", start)
+        try env.setNamedProperty(range, "endInclusive", endInclusive)
+        return range
     }
 }

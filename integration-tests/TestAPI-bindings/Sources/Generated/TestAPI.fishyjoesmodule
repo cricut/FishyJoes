@@ -1278,7 +1278,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "TODO:athing"
+                    "_0" : "{ start: number, endInclusive: number }"
                   }
                 }
               },
@@ -1291,7 +1291,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "TODO:athing"
+                    "_0" : "{ start: number, endInclusive: number }"
                   }
                 }
               },
@@ -1304,7 +1304,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "TODO:athing"
+                    "_0" : "{ start: number, endInclusive: number }"
                   }
                 }
               },
@@ -1317,7 +1317,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "TODO:athing"
+                    "_0" : "{ start: bigint, endInclusive: bigint }"
                   }
                 }
               },
@@ -1330,7 +1330,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "TODO:athing"
+                    "_0" : "{ start: bigint, endInclusive: bigint }"
                   }
                 }
               },
@@ -1343,7 +1343,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "TODO:athing"
+                    "_0" : "{ start: number, endInclusive: number }"
                   }
                 }
               },
@@ -1356,7 +1356,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "TODO:athing"
+                    "_0" : "{ start: number, endInclusive: number }"
                   }
                 }
               },
@@ -1369,7 +1369,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "TODO:athing"
+                    "_0" : "{ start: number, endInclusive: number }"
                   }
                 }
               },
@@ -1382,7 +1382,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "TODO:athing"
+                    "_0" : "{ start: bigint, endInclusive: bigint }"
                   }
                 }
               },
@@ -1395,7 +1395,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "TODO:athing"
+                    "_0" : "{ start: number, endInclusive: number }"
                   }
                 }
               },
@@ -1408,7 +1408,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "TODO:athing"
+                    "_0" : "{ start: number, endInclusive: number }"
                   }
                 }
               },
@@ -1421,7 +1421,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "TODO:athing"
+                    "_0" : "{ start: number, endInclusive: number }"
                   }
                 }
               },
@@ -1434,7 +1434,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "TODO:athing"
+                    "_0" : "{ start: string, endInclusive: string }"
                   }
                 }
               }
@@ -1454,14 +1454,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "TODO:athing"
+                        "_0" : "{ start: number, endInclusive: number }"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "TODO:athing"
+                    "_0" : "{ start: number, endInclusive: number }"
                   }
                 }
               },
@@ -1476,14 +1476,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "TODO:athing"
+                        "_0" : "{ start: number, endInclusive: number }"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "TODO:athing"
+                    "_0" : "{ start: number, endInclusive: number }"
                   }
                 }
               },
@@ -1498,14 +1498,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "TODO:athing"
+                        "_0" : "{ start: number, endInclusive: number }"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "TODO:athing"
+                    "_0" : "{ start: number, endInclusive: number }"
                   }
                 }
               },
@@ -1520,14 +1520,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "TODO:athing"
+                        "_0" : "{ start: bigint, endInclusive: bigint }"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "TODO:athing"
+                    "_0" : "{ start: bigint, endInclusive: bigint }"
                   }
                 }
               },
@@ -1542,14 +1542,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "TODO:athing"
+                        "_0" : "{ start: bigint, endInclusive: bigint }"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "TODO:athing"
+                    "_0" : "{ start: bigint, endInclusive: bigint }"
                   }
                 }
               },
@@ -1564,14 +1564,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "TODO:athing"
+                        "_0" : "{ start: number, endInclusive: number }"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "TODO:athing"
+                    "_0" : "{ start: number, endInclusive: number }"
                   }
                 }
               },
@@ -1586,14 +1586,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "TODO:athing"
+                        "_0" : "{ start: number, endInclusive: number }"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "TODO:athing"
+                    "_0" : "{ start: number, endInclusive: number }"
                   }
                 }
               },
@@ -1608,14 +1608,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "TODO:athing"
+                        "_0" : "{ start: number, endInclusive: number }"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "TODO:athing"
+                    "_0" : "{ start: number, endInclusive: number }"
                   }
                 }
               },
@@ -1630,14 +1630,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "TODO:athing"
+                        "_0" : "{ start: bigint, endInclusive: bigint }"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "TODO:athing"
+                    "_0" : "{ start: bigint, endInclusive: bigint }"
                   }
                 }
               },
@@ -1652,14 +1652,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "TODO:athing"
+                        "_0" : "{ start: number, endInclusive: number }"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "TODO:athing"
+                    "_0" : "{ start: number, endInclusive: number }"
                   }
                 }
               },
@@ -1674,14 +1674,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "TODO:athing"
+                        "_0" : "{ start: number, endInclusive: number }"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "TODO:athing"
+                    "_0" : "{ start: number, endInclusive: number }"
                   }
                 }
               },
@@ -1696,14 +1696,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "TODO:athing"
+                        "_0" : "{ start: number, endInclusive: number }"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "TODO:athing"
+                    "_0" : "{ start: number, endInclusive: number }"
                   }
                 }
               },
@@ -1718,14 +1718,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "TODO:athing"
+                        "_0" : "{ start: string, endInclusive: string }"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "TODO:athing"
+                    "_0" : "{ start: string, endInclusive: string }"
                   }
                 }
               }
@@ -5024,7 +5024,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "TODO:athing"
+                    "_0" : "{ start: number, endInclusive: number }"
                   }
                 }
               },
@@ -5037,7 +5037,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "TODO:athing"
+                    "_0" : "{ start: number, endInclusive: number }"
                   }
                 }
               },
@@ -5050,7 +5050,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "TODO:athing"
+                    "_0" : "{ start: number, endInclusive: number }"
                   }
                 }
               },
@@ -5063,7 +5063,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "TODO:athing"
+                    "_0" : "{ start: bigint, endInclusive: bigint }"
                   }
                 }
               },
@@ -5076,7 +5076,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "TODO:athing"
+                    "_0" : "{ start: bigint, endInclusive: bigint }"
                   }
                 }
               },
@@ -5089,7 +5089,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "TODO:athing"
+                    "_0" : "{ start: number, endInclusive: number }"
                   }
                 }
               },
@@ -5102,7 +5102,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "TODO:athing"
+                    "_0" : "{ start: number, endInclusive: number }"
                   }
                 }
               },
@@ -5115,7 +5115,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "TODO:athing"
+                    "_0" : "{ start: number, endInclusive: number }"
                   }
                 }
               },
@@ -5128,7 +5128,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "TODO:athing"
+                    "_0" : "{ start: bigint, endInclusive: bigint }"
                   }
                 }
               },
@@ -5141,7 +5141,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "TODO:athing"
+                    "_0" : "{ start: number, endInclusive: number }"
                   }
                 }
               }
@@ -5161,14 +5161,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "TODO:athing"
+                        "_0" : "{ start: number, endInclusive: number }"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "TODO:athing"
+                    "_0" : "{ start: number, endInclusive: number }"
                   }
                 }
               },
@@ -5183,14 +5183,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "TODO:athing"
+                        "_0" : "{ start: number, endInclusive: number }"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "TODO:athing"
+                    "_0" : "{ start: number, endInclusive: number }"
                   }
                 }
               },
@@ -5205,14 +5205,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "TODO:athing"
+                        "_0" : "{ start: number, endInclusive: number }"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "TODO:athing"
+                    "_0" : "{ start: number, endInclusive: number }"
                   }
                 }
               },
@@ -5227,14 +5227,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "TODO:athing"
+                        "_0" : "{ start: bigint, endInclusive: bigint }"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "TODO:athing"
+                    "_0" : "{ start: bigint, endInclusive: bigint }"
                   }
                 }
               },
@@ -5249,14 +5249,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "TODO:athing"
+                        "_0" : "{ start: bigint, endInclusive: bigint }"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "TODO:athing"
+                    "_0" : "{ start: bigint, endInclusive: bigint }"
                   }
                 }
               },
@@ -5271,14 +5271,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "TODO:athing"
+                        "_0" : "{ start: number, endInclusive: number }"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "TODO:athing"
+                    "_0" : "{ start: number, endInclusive: number }"
                   }
                 }
               },
@@ -5293,14 +5293,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "TODO:athing"
+                        "_0" : "{ start: number, endInclusive: number }"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "TODO:athing"
+                    "_0" : "{ start: number, endInclusive: number }"
                   }
                 }
               },
@@ -5315,14 +5315,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "TODO:athing"
+                        "_0" : "{ start: number, endInclusive: number }"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "TODO:athing"
+                    "_0" : "{ start: number, endInclusive: number }"
                   }
                 }
               },
@@ -5337,14 +5337,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "TODO:athing"
+                        "_0" : "{ start: bigint, endInclusive: bigint }"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "TODO:athing"
+                    "_0" : "{ start: bigint, endInclusive: bigint }"
                   }
                 }
               },
@@ -5359,14 +5359,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "TODO:athing"
+                        "_0" : "{ start: number, endInclusive: number }"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "TODO:athing"
+                    "_0" : "{ start: number, endInclusive: number }"
                   }
                 }
               }

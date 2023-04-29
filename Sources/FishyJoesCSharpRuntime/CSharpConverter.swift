@@ -229,6 +229,32 @@ public func Int64_cSharp_setup(
     Int64.constructor = constructor
 }
 
+extension Int: PrimitiveCSharpConverter {
+    public typealias ValueMethod = @convention(c) (csObject, csOutExn) -> Self
+    public typealias Constructor = @convention(c) (Self) -> csObject
+    public static func peekCSharp(_ value: Self) throws -> Self { value }
+    public static func toCSharp(_ value: Self) throws -> Self { value }
+
+    public static func peekCSharp(object: csObject) throws -> Self {
+        try Env.check { exn in try Env.unwrap(valueMethod)(object, exn) }
+    }
+    public static func toCSharpObject(_ value: Self) throws -> csObject {
+        try Env.unwrap(constructor)(value)
+    }
+    static var valueMethod: ValueMethod?
+    static var constructor: Constructor?
+}
+
+@_cdecl("FishyJoesRuntime_Int_setup")
+public func Int_cSharp_setup(
+    valueMethod: @escaping Int.ValueMethod,
+    constructor: @escaping Int.Constructor
+) {
+    guard Int.valueMethod == nil else { return }
+    Int.valueMethod = valueMethod
+    Int.constructor = constructor
+}
+
 extension UInt8: PrimitiveCSharpConverter {
     public typealias ValueMethod = @convention(c) (csObject, csOutExn) -> Self
     public typealias Constructor = @convention(c) (Self) -> csObject
@@ -333,7 +359,7 @@ public func UInt64_cSharp_setup(
     UInt64.constructor = constructor
 }
 
-extension Int: PrimitiveCSharpConverter {
+extension UInt: PrimitiveCSharpConverter {
     public typealias ValueMethod = @convention(c) (csObject, csOutExn) -> Self
     public typealias Constructor = @convention(c) (Self) -> csObject
     public static func peekCSharp(_ value: Self) throws -> Self { value }
@@ -349,14 +375,14 @@ extension Int: PrimitiveCSharpConverter {
     static var constructor: Constructor?
 }
 
-@_cdecl("FishyJoesRuntime_Int_setup")
-public func Int_cSharp_setup(
-    valueMethod: @escaping Int.ValueMethod,
-    constructor: @escaping Int.Constructor
+@_cdecl("FishyJoesRuntime_UInt_setup")
+public func UInt_cSharp_setup(
+    valueMethod: @escaping UInt.ValueMethod,
+    constructor: @escaping UInt.Constructor
 ) {
-    guard Int.valueMethod == nil else { return }
-    Int.valueMethod = valueMethod
-    Int.constructor = constructor
+    guard UInt.valueMethod == nil else { return }
+    UInt.valueMethod = valueMethod
+    UInt.constructor = constructor
 }
 
 extension Float: PrimitiveCSharpConverter {

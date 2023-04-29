@@ -91,158 +91,158 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(doubleRange) -->
          */
-        const doubleRange: TODO:athing;
+        const doubleRange: { start: number, endInclusive: number };
 
         /**
          * <!-- FishyJoes.export(echoDoubleRange) -->
          */
         function echoDoubleRange(
-            range: TODO:athing
-        ): TODO:athing;
+            range: { start: number, endInclusive: number }
+        ): { start: number, endInclusive: number };
 
         /**
          * <!-- FishyJoes.export(echoFloatRange) -->
          */
         function echoFloatRange(
-            range: TODO:athing
-        ): TODO:athing;
+            range: { start: number, endInclusive: number }
+        ): { start: number, endInclusive: number };
 
         /**
          * <!-- FishyJoes.export(echoInt16Range) -->
          */
         function echoInt16Range(
-            range: TODO:athing
-        ): TODO:athing;
+            range: { start: number, endInclusive: number }
+        ): { start: number, endInclusive: number };
 
         /**
          * <!-- FishyJoes.export(echoInt32Range) -->
          */
         function echoInt32Range(
-            range: TODO:athing
-        ): TODO:athing;
+            range: { start: number, endInclusive: number }
+        ): { start: number, endInclusive: number };
 
         /**
          * <!-- FishyJoes.export(echoInt64Range) -->
          */
         function echoInt64Range(
-            range: TODO:athing
-        ): TODO:athing;
+            range: { start: bigint, endInclusive: bigint }
+        ): { start: bigint, endInclusive: bigint };
 
         /**
          * <!-- FishyJoes.export(echoInt8Range) -->
          */
         function echoInt8Range(
-            range: TODO:athing
-        ): TODO:athing;
+            range: { start: number, endInclusive: number }
+        ): { start: number, endInclusive: number };
 
         /**
          * <!-- FishyJoes.export(echoIntRange) -->
          */
         function echoIntRange(
-            range: TODO:athing
-        ): TODO:athing;
+            range: { start: number, endInclusive: number }
+        ): { start: number, endInclusive: number };
 
         /**
          * <!-- FishyJoes.export(echoStringRange) -->
          */
         function echoStringRange(
-            range: TODO:athing
-        ): TODO:athing;
+            range: { start: string, endInclusive: string }
+        ): { start: string, endInclusive: string };
 
         /**
          * <!-- FishyJoes.export(echoUInt16Range) -->
          */
         function echoUInt16Range(
-            range: TODO:athing
-        ): TODO:athing;
+            range: { start: number, endInclusive: number }
+        ): { start: number, endInclusive: number };
 
         /**
          * <!-- FishyJoes.export(echoUInt32Range) -->
          */
         function echoUInt32Range(
-            range: TODO:athing
-        ): TODO:athing;
+            range: { start: number, endInclusive: number }
+        ): { start: number, endInclusive: number };
 
         /**
          * <!-- FishyJoes.export(echoUInt64Range) -->
          */
         function echoUInt64Range(
-            range: TODO:athing
-        ): TODO:athing;
+            range: { start: bigint, endInclusive: bigint }
+        ): { start: bigint, endInclusive: bigint };
 
         /**
          * <!-- FishyJoes.export(echoUInt8Range) -->
          */
         function echoUInt8Range(
-            range: TODO:athing
-        ): TODO:athing;
+            range: { start: number, endInclusive: number }
+        ): { start: number, endInclusive: number };
 
         /**
          * <!-- FishyJoes.export(echoUIntRange) -->
          */
         function echoUIntRange(
-            range: TODO:athing
-        ): TODO:athing;
+            range: { start: bigint, endInclusive: bigint }
+        ): { start: bigint, endInclusive: bigint };
 
         /**
          * <!-- FishyJoes.export(floatRange) -->
          */
-        const floatRange: TODO:athing;
+        const floatRange: { start: number, endInclusive: number };
 
         /**
          * <!-- FishyJoes.export(int16Range) -->
          */
-        const int16Range: TODO:athing;
+        const int16Range: { start: number, endInclusive: number };
 
         /**
          * <!-- FishyJoes.export(int32Range) -->
          */
-        const int32Range: TODO:athing;
+        const int32Range: { start: number, endInclusive: number };
 
         /**
          * <!-- FishyJoes.export(int64Range) -->
          */
-        const int64Range: TODO:athing;
+        const int64Range: { start: bigint, endInclusive: bigint };
 
         /**
          * <!-- FishyJoes.export(int8Range) -->
          */
-        const int8Range: TODO:athing;
+        const int8Range: { start: number, endInclusive: number };
 
         /**
          * <!-- FishyJoes.export(intRange) -->
          */
-        const intRange: TODO:athing;
+        const intRange: { start: number, endInclusive: number };
 
         /**
          * <!-- FishyJoes.export(stringRange) -->
          */
-        const stringRange: TODO:athing;
+        const stringRange: { start: string, endInclusive: string };
 
         /**
          * <!-- FishyJoes.export(uInt16Range) -->
          */
-        const uInt16Range: TODO:athing;
+        const uInt16Range: { start: number, endInclusive: number };
 
         /**
          * <!-- FishyJoes.export(uInt32Range) -->
          */
-        const uInt32Range: TODO:athing;
+        const uInt32Range: { start: number, endInclusive: number };
 
         /**
          * <!-- FishyJoes.export(uInt64Range) -->
          */
-        const uInt64Range: TODO:athing;
+        const uInt64Range: { start: bigint, endInclusive: bigint };
 
         /**
          * <!-- FishyJoes.export(uInt8Range) -->
          */
-        const uInt8Range: TODO:athing;
+        const uInt8Range: { start: number, endInclusive: number };
 
         /**
          * <!-- FishyJoes.export(uIntRange) -->
          */
-        const uIntRange: TODO:athing;
+        const uIntRange: { start: bigint, endInclusive: bigint };
     }
 
     export type Collections = never;
@@ -1121,121 +1121,121 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(echoInt16Range) -->
          */
         function echoInt16Range(
-            range: TODO:athing
-        ): TODO:athing;
+            range: { start: number, endInclusive: number }
+        ): { start: number, endInclusive: number };
 
         /**
          * <!-- FishyJoes.export(echoInt32Range) -->
          */
         function echoInt32Range(
-            range: TODO:athing
-        ): TODO:athing;
+            range: { start: number, endInclusive: number }
+        ): { start: number, endInclusive: number };
 
         /**
          * <!-- FishyJoes.export(echoInt64Range) -->
          */
         function echoInt64Range(
-            range: TODO:athing
-        ): TODO:athing;
+            range: { start: bigint, endInclusive: bigint }
+        ): { start: bigint, endInclusive: bigint };
 
         /**
          * <!-- FishyJoes.export(echoInt8Range) -->
          */
         function echoInt8Range(
-            range: TODO:athing
-        ): TODO:athing;
+            range: { start: number, endInclusive: number }
+        ): { start: number, endInclusive: number };
 
         /**
          * <!-- FishyJoes.export(echoIntRange) -->
          */
         function echoIntRange(
-            range: TODO:athing
-        ): TODO:athing;
+            range: { start: number, endInclusive: number }
+        ): { start: number, endInclusive: number };
 
         /**
          * <!-- FishyJoes.export(echoUInt16Range) -->
          */
         function echoUInt16Range(
-            range: TODO:athing
-        ): TODO:athing;
+            range: { start: number, endInclusive: number }
+        ): { start: number, endInclusive: number };
 
         /**
          * <!-- FishyJoes.export(echoUInt32Range) -->
          */
         function echoUInt32Range(
-            range: TODO:athing
-        ): TODO:athing;
+            range: { start: number, endInclusive: number }
+        ): { start: number, endInclusive: number };
 
         /**
          * <!-- FishyJoes.export(echoUInt64Range) -->
          */
         function echoUInt64Range(
-            range: TODO:athing
-        ): TODO:athing;
+            range: { start: bigint, endInclusive: bigint }
+        ): { start: bigint, endInclusive: bigint };
 
         /**
          * <!-- FishyJoes.export(echoUInt8Range) -->
          */
         function echoUInt8Range(
-            range: TODO:athing
-        ): TODO:athing;
+            range: { start: number, endInclusive: number }
+        ): { start: number, endInclusive: number };
 
         /**
          * <!-- FishyJoes.export(echoUIntRange) -->
          */
         function echoUIntRange(
-            range: TODO:athing
-        ): TODO:athing;
+            range: { start: bigint, endInclusive: bigint }
+        ): { start: bigint, endInclusive: bigint };
 
         /**
          * <!-- FishyJoes.export(int16Range) -->
          */
-        const int16Range: TODO:athing;
+        const int16Range: { start: number, endInclusive: number };
 
         /**
          * <!-- FishyJoes.export(int32Range) -->
          */
-        const int32Range: TODO:athing;
+        const int32Range: { start: number, endInclusive: number };
 
         /**
          * <!-- FishyJoes.export(int64Range) -->
          */
-        const int64Range: TODO:athing;
+        const int64Range: { start: bigint, endInclusive: bigint };
 
         /**
          * <!-- FishyJoes.export(int8Range) -->
          */
-        const int8Range: TODO:athing;
+        const int8Range: { start: number, endInclusive: number };
 
         /**
          * <!-- FishyJoes.export(intRange) -->
          */
-        const intRange: TODO:athing;
+        const intRange: { start: number, endInclusive: number };
 
         /**
          * <!-- FishyJoes.export(uInt16Range) -->
          */
-        const uInt16Range: TODO:athing;
+        const uInt16Range: { start: number, endInclusive: number };
 
         /**
          * <!-- FishyJoes.export(uInt32Range) -->
          */
-        const uInt32Range: TODO:athing;
+        const uInt32Range: { start: number, endInclusive: number };
 
         /**
          * <!-- FishyJoes.export(uInt64Range) -->
          */
-        const uInt64Range: TODO:athing;
+        const uInt64Range: { start: bigint, endInclusive: bigint };
 
         /**
          * <!-- FishyJoes.export(uInt8Range) -->
          */
-        const uInt8Range: TODO:athing;
+        const uInt8Range: { start: number, endInclusive: number };
 
         /**
          * <!-- FishyJoes.export(uIntRange) -->
          */
-        const uIntRange: TODO:athing;
+        const uIntRange: { start: bigint, endInclusive: bigint };
     }
 
     export type SimpleEnum = "red" | "green" | "blue";

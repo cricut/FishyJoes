@@ -12,7 +12,7 @@ struct TranslatedClosedRange: TranslatedType {
 
     init(bound: TranslatedType) {
         self.bound = bound
-        self.nodeName = "TODO:athing"
+        self.nodeName = "{ start: \(bound.nodeName), endInclusive: \(bound.nodeName) }"
         self.kotlinName = "ClosedRange<\(bound.kotlinName)>"
         self.cppName = "std::ranges::range<\(bound.cppName)>"
         self.neutralName = "ClosedRange<B=\(bound.neutralName)>"
