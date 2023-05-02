@@ -1121,121 +1121,121 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(echoInt16Range) -->
          */
         function echoInt16Range(
-            range: { start: number, endInclusive: number }
-        ): { start: number, endInclusive: number };
+            range: { start: number, endExclusive: number }
+        ): { start: number, endExclusive: number };
 
         /**
          * <!-- FishyJoes.export(echoInt32Range) -->
          */
         function echoInt32Range(
-            range: { start: number, endInclusive: number }
-        ): { start: number, endInclusive: number };
+            range: { start: number, endExclusive: number }
+        ): { start: number, endExclusive: number };
 
         /**
          * <!-- FishyJoes.export(echoInt64Range) -->
          */
         function echoInt64Range(
-            range: { start: bigint, endInclusive: bigint }
-        ): { start: bigint, endInclusive: bigint };
+            range: { start: bigint, endExclusive: bigint }
+        ): { start: bigint, endExclusive: bigint };
 
         /**
          * <!-- FishyJoes.export(echoInt8Range) -->
          */
         function echoInt8Range(
-            range: { start: number, endInclusive: number }
-        ): { start: number, endInclusive: number };
+            range: { start: number, endExclusive: number }
+        ): { start: number, endExclusive: number };
 
         /**
          * <!-- FishyJoes.export(echoIntRange) -->
          */
         function echoIntRange(
-            range: { start: number, endInclusive: number }
-        ): { start: number, endInclusive: number };
+            range: { start: number, endExclusive: number }
+        ): { start: number, endExclusive: number };
 
         /**
          * <!-- FishyJoes.export(echoUInt16Range) -->
          */
         function echoUInt16Range(
-            range: { start: number, endInclusive: number }
-        ): { start: number, endInclusive: number };
+            range: { start: number, endExclusive: number }
+        ): { start: number, endExclusive: number };
 
         /**
          * <!-- FishyJoes.export(echoUInt32Range) -->
          */
         function echoUInt32Range(
-            range: { start: number, endInclusive: number }
-        ): { start: number, endInclusive: number };
+            range: { start: number, endExclusive: number }
+        ): { start: number, endExclusive: number };
 
         /**
          * <!-- FishyJoes.export(echoUInt64Range) -->
          */
         function echoUInt64Range(
-            range: { start: bigint, endInclusive: bigint }
-        ): { start: bigint, endInclusive: bigint };
+            range: { start: bigint, endExclusive: bigint }
+        ): { start: bigint, endExclusive: bigint };
 
         /**
          * <!-- FishyJoes.export(echoUInt8Range) -->
          */
         function echoUInt8Range(
-            range: { start: number, endInclusive: number }
-        ): { start: number, endInclusive: number };
+            range: { start: number, endExclusive: number }
+        ): { start: number, endExclusive: number };
 
         /**
          * <!-- FishyJoes.export(echoUIntRange) -->
          */
         function echoUIntRange(
-            range: { start: bigint, endInclusive: bigint }
-        ): { start: bigint, endInclusive: bigint };
+            range: { start: bigint, endExclusive: bigint }
+        ): { start: bigint, endExclusive: bigint };
 
         /**
          * <!-- FishyJoes.export(int16Range) -->
          */
-        const int16Range: { start: number, endInclusive: number };
+        const int16Range: { start: number, endExclusive: number };
 
         /**
          * <!-- FishyJoes.export(int32Range) -->
          */
-        const int32Range: { start: number, endInclusive: number };
+        const int32Range: { start: number, endExclusive: number };
 
         /**
          * <!-- FishyJoes.export(int64Range) -->
          */
-        const int64Range: { start: bigint, endInclusive: bigint };
+        const int64Range: { start: bigint, endExclusive: bigint };
 
         /**
          * <!-- FishyJoes.export(int8Range) -->
          */
-        const int8Range: { start: number, endInclusive: number };
+        const int8Range: { start: number, endExclusive: number };
 
         /**
          * <!-- FishyJoes.export(intRange) -->
          */
-        const intRange: { start: number, endInclusive: number };
+        const intRange: { start: number, endExclusive: number };
 
         /**
          * <!-- FishyJoes.export(uInt16Range) -->
          */
-        const uInt16Range: { start: number, endInclusive: number };
+        const uInt16Range: { start: number, endExclusive: number };
 
         /**
          * <!-- FishyJoes.export(uInt32Range) -->
          */
-        const uInt32Range: { start: number, endInclusive: number };
+        const uInt32Range: { start: number, endExclusive: number };
 
         /**
          * <!-- FishyJoes.export(uInt64Range) -->
          */
-        const uInt64Range: { start: bigint, endInclusive: bigint };
+        const uInt64Range: { start: bigint, endExclusive: bigint };
 
         /**
          * <!-- FishyJoes.export(uInt8Range) -->
          */
-        const uInt8Range: { start: number, endInclusive: number };
+        const uInt8Range: { start: number, endExclusive: number };
 
         /**
          * <!-- FishyJoes.export(uIntRange) -->
          */
-        const uIntRange: { start: bigint, endInclusive: bigint };
+        const uIntRange: { start: bigint, endExclusive: bigint };
     }
 
     export type SimpleEnum = "red" | "green" | "blue";

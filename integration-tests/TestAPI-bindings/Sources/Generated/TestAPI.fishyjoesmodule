@@ -5024,7 +5024,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "{ start: number, endInclusive: number }"
+                    "_0" : "{ start: number, endExclusive: number }"
                   }
                 }
               },
@@ -5037,7 +5037,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "{ start: number, endInclusive: number }"
+                    "_0" : "{ start: number, endExclusive: number }"
                   }
                 }
               },
@@ -5050,7 +5050,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "{ start: number, endInclusive: number }"
+                    "_0" : "{ start: number, endExclusive: number }"
                   }
                 }
               },
@@ -5063,7 +5063,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "{ start: bigint, endInclusive: bigint }"
+                    "_0" : "{ start: bigint, endExclusive: bigint }"
                   }
                 }
               },
@@ -5076,7 +5076,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "{ start: bigint, endInclusive: bigint }"
+                    "_0" : "{ start: bigint, endExclusive: bigint }"
                   }
                 }
               },
@@ -5089,7 +5089,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "{ start: number, endInclusive: number }"
+                    "_0" : "{ start: number, endExclusive: number }"
                   }
                 }
               },
@@ -5102,7 +5102,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "{ start: number, endInclusive: number }"
+                    "_0" : "{ start: number, endExclusive: number }"
                   }
                 }
               },
@@ -5115,7 +5115,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "{ start: number, endInclusive: number }"
+                    "_0" : "{ start: number, endExclusive: number }"
                   }
                 }
               },
@@ -5128,7 +5128,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "{ start: bigint, endInclusive: bigint }"
+                    "_0" : "{ start: bigint, endExclusive: bigint }"
                   }
                 }
               },
@@ -5141,7 +5141,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "{ start: number, endInclusive: number }"
+                    "_0" : "{ start: number, endExclusive: number }"
                   }
                 }
               }
@@ -5161,14 +5161,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "{ start: number, endInclusive: number }"
+                        "_0" : "{ start: number, endExclusive: number }"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "{ start: number, endInclusive: number }"
+                    "_0" : "{ start: number, endExclusive: number }"
                   }
                 }
               },
@@ -5183,14 +5183,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "{ start: number, endInclusive: number }"
+                        "_0" : "{ start: number, endExclusive: number }"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "{ start: number, endInclusive: number }"
+                    "_0" : "{ start: number, endExclusive: number }"
                   }
                 }
               },
@@ -5205,14 +5205,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "{ start: number, endInclusive: number }"
+                        "_0" : "{ start: number, endExclusive: number }"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "{ start: number, endInclusive: number }"
+                    "_0" : "{ start: number, endExclusive: number }"
                   }
                 }
               },
@@ -5227,14 +5227,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "{ start: bigint, endInclusive: bigint }"
+                        "_0" : "{ start: bigint, endExclusive: bigint }"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "{ start: bigint, endInclusive: bigint }"
+                    "_0" : "{ start: bigint, endExclusive: bigint }"
                   }
                 }
               },
@@ -5249,14 +5249,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "{ start: bigint, endInclusive: bigint }"
+                        "_0" : "{ start: bigint, endExclusive: bigint }"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "{ start: bigint, endInclusive: bigint }"
+                    "_0" : "{ start: bigint, endExclusive: bigint }"
                   }
                 }
               },
@@ -5271,14 +5271,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "{ start: number, endInclusive: number }"
+                        "_0" : "{ start: number, endExclusive: number }"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "{ start: number, endInclusive: number }"
+                    "_0" : "{ start: number, endExclusive: number }"
                   }
                 }
               },
@@ -5293,14 +5293,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "{ start: number, endInclusive: number }"
+                        "_0" : "{ start: number, endExclusive: number }"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "{ start: number, endInclusive: number }"
+                    "_0" : "{ start: number, endExclusive: number }"
                   }
                 }
               },
@@ -5315,14 +5315,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "{ start: number, endInclusive: number }"
+                        "_0" : "{ start: number, endExclusive: number }"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "{ start: number, endInclusive: number }"
+                    "_0" : "{ start: number, endExclusive: number }"
                   }
                 }
               },
@@ -5337,14 +5337,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "{ start: bigint, endInclusive: bigint }"
+                        "_0" : "{ start: bigint, endExclusive: bigint }"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "{ start: bigint, endInclusive: bigint }"
+                    "_0" : "{ start: bigint, endExclusive: bigint }"
                   }
                 }
               },
@@ -5359,14 +5359,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "{ start: number, endInclusive: number }"
+                        "_0" : "{ start: number, endExclusive: number }"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "{ start: number, endInclusive: number }"
+                    "_0" : "{ start: number, endExclusive: number }"
                   }
                 }
               }

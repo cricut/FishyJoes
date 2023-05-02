@@ -19,7 +19,7 @@ struct TranslatedRange: TranslatedType {
         self.bound = bound
         self.containedNamedTypes = bound.containedNamedTypes
         self.neutralName = "Range<B=\(bound.neutralName)>"
-        self.nodeName = "{ start: \(bound.nodeName), endInclusive: \(bound.nodeName) }"
+        self.nodeName = "{ start: \(bound.nodeName), endExclusive: \(bound.nodeName) }"
         self.kotlinName = "ClosedRange<\(bound.kotlinName)>"
         self.kotlinPackage = "kotlin.ranges"
         self.jniType = .object("kotlin/ranges/ClosedRange")

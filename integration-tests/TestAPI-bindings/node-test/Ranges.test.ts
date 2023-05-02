@@ -1,6 +1,8 @@
 import { TestAPI } from 'TestAPI';
 
 test('RangeValues', () => {
+    expect(TestAPI.Ranges.uInt8Range.start).toEqual(TestAPI.Primitives.minUInt8)
+    expect(TestAPI.Ranges.uInt8Range.endExclusive).toEqual(TestAPI.Primitives.maxUInt8)
     expect(TestAPI.Ranges.uInt8Range).toEqual({ start: TestAPI.Primitives.minUInt8, endExclusive: TestAPI.Primitives.maxUInt8 })
     expect(TestAPI.Ranges.uInt16Range).toEqual({ start: TestAPI.Primitives.minUInt16, endExclusive: TestAPI.Primitives.maxUInt16 })
     expect(TestAPI.Ranges.uInt32Range).toEqual({ start: TestAPI.Primitives.minUInt32, endExclusive: TestAPI.Primitives.maxUInt32 })
@@ -27,6 +29,8 @@ test('RangeEcho', () => {
 });
 
 test('ClosedRangeValues', () => {
+    expect(TestAPI.ClosedRanges.uInt8Range.start).toEqual(TestAPI.Primitives.minUInt8)
+    expect(TestAPI.ClosedRanges.uInt8Range.endInclusive).toEqual(TestAPI.Primitives.maxUInt8)
     expect(TestAPI.ClosedRanges.uInt8Range).toEqual({ start: TestAPI.Primitives.minUInt8, endInclusive: TestAPI.Primitives.maxUInt8 })
     expect(TestAPI.ClosedRanges.uInt16Range).toEqual({ start: TestAPI.Primitives.minUInt16, endInclusive: TestAPI.Primitives.maxUInt16 })
     expect(TestAPI.ClosedRanges.uInt32Range).toEqual({ start: TestAPI.Primitives.minUInt32, endInclusive: TestAPI.Primitives.maxUInt32 })
