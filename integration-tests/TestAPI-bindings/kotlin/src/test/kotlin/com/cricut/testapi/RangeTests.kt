@@ -2,7 +2,6 @@ package com.cricut.testapi
 
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
-import java.sql.Date
 
 internal class RangeTests {
     @Test

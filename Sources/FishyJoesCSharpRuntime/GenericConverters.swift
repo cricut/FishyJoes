@@ -241,7 +241,7 @@ extension RangeConverter: CSharpConverter where BoundConverter: CSharpConverter 
         guard let interface = CSharpOpenRange.interfaces[ObjectIdentifier(Self.self)] else {
             fatalError("Type \(SwiftType.self) improperly set up")
         }
-        
+
         let start = try BoundConverter.toCSharpObject(value.lowerBound)
         defer { Env.deleteRef(start) }
         let endExclusive = try BoundConverter.toCSharpObject(value.upperBound)

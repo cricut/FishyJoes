@@ -30,7 +30,7 @@ struct TranslatedRange: TranslatedType {
     var sourceType: BetterType {
         .generic(base: "Range", args: [bound.converterType])
     }
-    
+
     var converterType: BetterType {
         .generic(base: "RangeConverter", args: [bound.converterType])
     }
