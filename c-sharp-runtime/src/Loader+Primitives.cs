@@ -14,6 +14,7 @@ namespace Cricut.FishyJoesRuntime {
         delegate ushort UInt16ValueMethod(UnownedRef obj, out CreatedRef exn);
         delegate uint UInt32ValueMethod(UnownedRef obj, out CreatedRef exn);
         delegate ulong UInt64ValueMethod(UnownedRef obj, out CreatedRef exn);
+        delegate nuint UIntValueMethod(UnownedRef obj, out CreatedRef exn);
         delegate float FloatValueMethod(UnownedRef obj, out CreatedRef exn);
         delegate double DoubleValueMethod(UnownedRef obj, out CreatedRef exn);
 
@@ -26,6 +27,7 @@ namespace Cricut.FishyJoesRuntime {
         delegate CreatedRef UInt16Constructor(ushort value);
         delegate CreatedRef UInt32Constructor(uint value);
         delegate CreatedRef UInt64Constructor(ulong value);
+        delegate CreatedRef UIntConstructor(nuint value);
         delegate CreatedRef FloatConstructor(float value);
         delegate CreatedRef DoubleConstructor(double value);
 

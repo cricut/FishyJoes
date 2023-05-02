@@ -210,7 +210,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(zeroUInt) -->
         /// </summary>
-        public static ulong ZeroUInt {
+        public static nuint ZeroUInt {
             get {
                 return Check((out CreatedRef exn) =>
                     __cs_get_Primitives_ZeroUInt(out exn)
@@ -219,12 +219,12 @@ namespace Cricut.TestAPI {
         }
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern ulong __cs_get_Primitives_ZeroUInt(out CreatedRef exn);
+        private static extern nuint __cs_get_Primitives_ZeroUInt(out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(minUInt) -->
         /// </summary>
-        public static ulong MinUInt {
+        public static nuint MinUInt {
             get {
                 return Check((out CreatedRef exn) =>
                     __cs_get_Primitives_MinUInt(out exn)
@@ -233,12 +233,12 @@ namespace Cricut.TestAPI {
         }
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern ulong __cs_get_Primitives_MinUInt(out CreatedRef exn);
+        private static extern nuint __cs_get_Primitives_MinUInt(out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(maxUInt) -->
         /// </summary>
-        public static ulong MaxUInt {
+        public static nuint MaxUInt {
             get {
                 return Check((out CreatedRef exn) =>
                     __cs_get_Primitives_MaxUInt(out exn)
@@ -247,7 +247,7 @@ namespace Cricut.TestAPI {
         }
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern ulong __cs_get_Primitives_MaxUInt(out CreatedRef exn);
+        private static extern nuint __cs_get_Primitives_MaxUInt(out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(zeroInt8) -->
@@ -616,10 +616,10 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(manyUInt) -->
         /// </summary>
-        public static System.Collections.Generic.IList<ulong> ManyUInt {
+        public static System.Collections.Generic.IList<nuint> ManyUInt {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Primitives_ManyUInt(out exn).Consume<System.Collections.Generic.IList<ulong>>()
+                    __cs_get_Primitives_ManyUInt(out exn).Consume<System.Collections.Generic.IList<nuint>>()
                 );
             }
         }
@@ -798,10 +798,10 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(manyMaybeUInt) -->
         /// </summary>
-        public static System.Collections.Generic.IList<ulong?> ManyMaybeUInt {
+        public static System.Collections.Generic.IList<nuint?> ManyMaybeUInt {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Primitives_ManyMaybeUInt(out exn).Consume<System.Collections.Generic.IList<ulong?>>()
+                    __cs_get_Primitives_ManyMaybeUInt(out exn).Consume<System.Collections.Generic.IList<nuint?>>()
                 );
             }
         }
@@ -999,15 +999,15 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(echoUInt) -->
         /// </summary>
-        public static ulong EchoUInt(
-            ulong value
+        public static nuint EchoUInt(
+            nuint value
         ) {
             return Check((out CreatedRef _exn) => __cs_Primitives_echoUInt(value, out _exn));
         }
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern ulong __cs_Primitives_echoUInt(
-            ulong value,
+        private static extern nuint __cs_Primitives_echoUInt(
+            nuint value,
             out CreatedRef exn
         );
 
@@ -1199,11 +1199,11 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(maybeEchoUInt) -->
         /// </summary>
-        public static ulong? MaybeEchoUInt(
-            ulong? value
+        public static nuint? MaybeEchoUInt(
+            nuint? value
         ) {
             using var _valueHandle = new GCRef(value);
-            return Check((out CreatedRef _exn) => __cs_Primitives_maybeEchoUInt(_valueHandle.ptr, out _exn)).Consume<ulong?>();
+            return Check((out CreatedRef _exn) => __cs_Primitives_maybeEchoUInt(_valueHandle.ptr, out _exn)).Consume<nuint?>();
         }
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
@@ -1357,8 +1357,8 @@ namespace Cricut.TestAPI {
             public uint? Ui32q;
             public ulong Ui64;
             public ulong? Ui64q;
-            public ulong Ui;
-            public ulong? Uiq;
+            public nuint Ui;
+            public nuint? Uiq;
             public sbyte I8;
             public sbyte? I8q;
             public short I16;
@@ -1385,8 +1385,8 @@ namespace Cricut.TestAPI {
                 uint? Ui32q,
                 ulong Ui64,
                 ulong? Ui64q,
-                ulong Ui,
-                ulong? Uiq,
+                nuint Ui,
+                nuint? Uiq,
                 sbyte I8,
                 sbyte? I8q,
                 short I16,

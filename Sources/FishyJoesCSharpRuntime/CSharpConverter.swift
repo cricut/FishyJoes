@@ -482,22 +482,22 @@ extension String: CSharpConverter {
 public func Data_cSharp_setup(
     lengthMethod: @escaping Data.LengthMethod,
     bytesMethod: @escaping Data.BytesMethod,
-    constructor: @escaping Data.Constuctor
+    constructor: @escaping Data.Constructor
 ) {
     guard Data.lengthMethod == nil else { return }
     Data.lengthMethod = lengthMethod
     Data.bytesMethod = bytesMethod
-    Data.constuctor = constructor
+    Data.constructor = constructor
 }
 
 extension Data: CSharpConverter {
     public typealias LengthMethod = @convention(c) (_ data: csObject, _ exn: csOutExn) -> Int32
     public typealias BytesMethod = @convention(c) (_ data: csObject, _ outValues: UnsafeMutableRawPointer, _ exn: csOutExn) -> Void
-    public typealias Constuctor = @convention(c) (_ bytes: UnsafeRawPointer?, _ length: Int32, _ exn: csOutExn) -> csObject
+    public typealias Constructor = @convention(c) (_ bytes: UnsafeRawPointer?, _ length: Int32, _ exn: csOutExn) -> csObject
 
     fileprivate static var lengthMethod: Data.LengthMethod?
     fileprivate static var bytesMethod: Data.BytesMethod?
-    fileprivate static var constuctor: Data.Constuctor?
+    fileprivate static var constructor: Data.Constructor?
 
     public static func peekCSharp(_ value: csObject) throws -> SwiftType {
         let length = try Env.check { exn in Int(try Env.unwrap(lengthMethod)(value, exn)) }
@@ -515,7 +515,7 @@ extension Data: CSharpConverter {
     public static func toCSharp(_ value: SwiftType) throws -> csObject {
         try value.withUnsafeBytes { (buffer: UnsafeRawBufferPointer) in
             try Env.check { exn in
-                try Env.unwrap(constuctor)(buffer.baseAddress, Int32(value.count), exn)
+                try Env.unwrap(constructor)(buffer.baseAddress, Int32(value.count), exn)
             }
         }
     }
