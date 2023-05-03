@@ -819,21 +819,7 @@ extension RangeConverter: JavaConverter where BoundConverter: JavaConverter {
 //        let upper = try BoundConverter.fromJava(object: endExclusive, env: env)
         let endInclusive = try env.CallObjectMethod(value, KotlinRange.rangeEndInclusiveMethodID)
         let beforeUpper = try BoundConverter.fromJava(object: endInclusive, env: env)
-        let upper: BoundConverter.SwiftType
-        switch beforeUpper {
-        case let beforeUpper as Int8: upper = (beforeUpper + 1) as! BoundConverter.SwiftType
-        case let beforeUpper as Int16: upper = (beforeUpper + 1) as! BoundConverter.SwiftType
-        case let beforeUpper as Int32: upper = (beforeUpper + 1) as! BoundConverter.SwiftType
-        case let beforeUpper as Int64: upper = (beforeUpper + 1) as! BoundConverter.SwiftType
-        case let beforeUpper as Int: upper = (beforeUpper + 1) as! BoundConverter.SwiftType
-        case let beforeUpper as UInt8: upper = (beforeUpper + 1) as! BoundConverter.SwiftType
-        case let beforeUpper as UInt16: upper = (beforeUpper + 1) as! BoundConverter.SwiftType
-        case let beforeUpper as UInt32: upper = (beforeUpper + 1) as! BoundConverter.SwiftType
-        case let beforeUpper as UInt64: upper = (beforeUpper + 1) as! BoundConverter.SwiftType
-        case let beforeUpper as UInt: upper = (beforeUpper + 1) as! BoundConverter.SwiftType
-        default:
-            fatalError("Open ended range with non-integer bound \"\(type(of: beforeUpper.self))\" is unsupported")
-        }
+        let upper = beforeUpper + 1
 
         guard lower <= upper else {
             throw RangeOutOfBoundsError(invalidRange: "\(lower)..<\(upper)")
@@ -842,67 +828,47 @@ extension RangeConverter: JavaConverter where BoundConverter: JavaConverter {
     }
 
     public static func toJava(_ value: SwiftType, env: Env) throws -> jobject? {
-        switch value {
-        case let value as Range<Int8>:
-            let start = value.lowerBound
-            guard let endInclusive = value.upperBound == Int8.min ? nil : value.upperBound - 1 else {
-                throw RangeOutOfBoundsError(invalidRange: "\(value.lowerBound)...(\(value.upperBound) - 1)")
-            }
+        let start = value.lowerBound
+        guard let endInclusive = (value.upperBound &- 1) > value.upperBound ? nil : value.upperBound - 1 else {
+            throw RangeOutOfBoundsError(invalidRange: "\(value.lowerBound)...(\(value.upperBound) - 1)")
+        }
+        switch (start, endInclusive) {
+        case let (start, endInclusive) as (Int8, Int8):
             return try env.NewObject(
                 KotlinRange.intRangeClass,
                 KotlinRange.intRangeInitMethodID,
                 jvalue(i: jint(start)),
                 jvalue(i: jint(endInclusive))
             )
-        case let value as Range<Int16>:
-            let start = value.lowerBound
-            guard let endInclusive = value.upperBound == Int16.min ? nil : value.upperBound - 1 else {
-                throw RangeOutOfBoundsError(invalidRange: "\(value.lowerBound)...(\(value.upperBound) - 1)")
-            }
+        case let (start, endInclusive) as (Int16, Int16):
             return try env.NewObject(
                 KotlinRange.intRangeClass,
                 KotlinRange.intRangeInitMethodID,
                 jvalue(i: jint(start)),
                 jvalue(i: jint(endInclusive))
             )
-        case let value as Range<Int32>:
-            let start = value.lowerBound
-            guard let endInclusive = value.upperBound == Int32.min ? nil : value.upperBound - 1 else {
-                throw RangeOutOfBoundsError(invalidRange: "\(value.lowerBound)...(\(value.upperBound) - 1)")
-            }
+        case let (start, endInclusive) as (Int32, Int32):
             return try env.NewObject(
                 KotlinRange.intRangeClass,
                 KotlinRange.intRangeInitMethodID,
                 jvalue(i: jint(start)),
                 jvalue(i: jint(endInclusive))
             )
-        case let value as Range<Int64>:
-            let start = value.lowerBound
-            guard let endInclusive = value.upperBound == Int64.min ? nil : value.upperBound - 1 else {
-                throw RangeOutOfBoundsError(invalidRange: "\(value.lowerBound)...(\(value.upperBound) - 1)")
-            }
+        case let (start, endInclusive) as (Int64, Int64):
             return try env.NewObject(
                 KotlinRange.longRangeClass,
                 KotlinRange.longRangeInitMethodID,
                 jvalue(j: jlong(start)),
                 jvalue(j: jlong(endInclusive))
             )
-        case let value as Range<Int>:
-            let start = value.lowerBound
-            guard let endInclusive = value.upperBound == Int.min ? nil : value.upperBound - 1 else {
-                throw RangeOutOfBoundsError(invalidRange: "\(value.lowerBound)...(\(value.upperBound) - 1)")
-            }
+        case let (start, endInclusive) as (Int, Int):
             return try env.NewObject(
                 KotlinRange.longRangeClass,
                 KotlinRange.longRangeInitMethodID,
                 jvalue(j: jlong(start)),
                 jvalue(j: jlong(endInclusive))
             )
-        case let value as Range<UInt8>:
-            let start = value.lowerBound
-            guard let endInclusive = value.upperBound == UInt8.min ? nil : value.upperBound - 1 else {
-                throw RangeOutOfBoundsError(invalidRange: "\(value.lowerBound)...(\(value.upperBound) - 1)")
-            }
+        case let (start, endInclusive) as (UInt8, UInt8):
             return try env.NewObject(
                 KotlinRange.uintRangeClass,
                 KotlinRange.uintRangeInitMethodID,
@@ -910,11 +876,7 @@ extension RangeConverter: JavaConverter where BoundConverter: JavaConverter {
                 jvalue(i: jint(endInclusive)),
                 jvalue(l: nil)
             )
-        case let value as Range<UInt16>:
-            let start = value.lowerBound
-            guard let endInclusive = value.upperBound == UInt16.min ? nil : value.upperBound - 1 else {
-                throw RangeOutOfBoundsError(invalidRange: "\(value.lowerBound)...(\(value.upperBound) - 1)")
-            }
+        case let (start, endInclusive) as (UInt16, UInt16):
             return try env.NewObject(
                 KotlinRange.uintRangeClass,
                 KotlinRange.uintRangeInitMethodID,
@@ -922,11 +884,7 @@ extension RangeConverter: JavaConverter where BoundConverter: JavaConverter {
                 jvalue(i: jint(endInclusive)),
                 jvalue(l: nil)
             )
-        case let value as Range<UInt32>:
-            let start = value.lowerBound
-            guard let endInclusive = value.upperBound == UInt32.min ? nil : value.upperBound - 1 else {
-                throw RangeOutOfBoundsError(invalidRange: "\(value.lowerBound)...(\(value.upperBound) - 1)")
-            }
+        case let (start, endInclusive) as (UInt32, UInt32):
             return try env.NewObject(
                 KotlinRange.uintRangeClass,
                 KotlinRange.uintRangeInitMethodID,
@@ -934,11 +892,7 @@ extension RangeConverter: JavaConverter where BoundConverter: JavaConverter {
                 jvalue(i: jint(bitPattern: endInclusive)),
                 jvalue(l: nil)
             )
-        case let value as Range<UInt64>:
-            let start = value.lowerBound
-            guard let endInclusive = value.upperBound == UInt64.min ? nil : value.upperBound - 1 else {
-                throw RangeOutOfBoundsError(invalidRange: "\(value.lowerBound)...(\(value.upperBound) - 1)")
-            }
+        case let (start, endInclusive) as (UInt64, UInt64):
             return try env.NewObject(
                 KotlinRange.ulongRangeClass,
                 KotlinRange.ulongRangeInitMethodID,
@@ -946,11 +900,7 @@ extension RangeConverter: JavaConverter where BoundConverter: JavaConverter {
                 jvalue(j: jlong(bitPattern: endInclusive)),
                 jvalue(l: nil)
             )
-        case let value as Range<UInt>:
-            let start = value.lowerBound
-            guard let endInclusive = value.upperBound == UInt.min ? nil : value.upperBound - 1 else {
-                throw RangeOutOfBoundsError(invalidRange: "\(value.lowerBound)...(\(value.upperBound) - 1)")
-            }
+        case let (start, endInclusive) as (UInt, UInt):
             return try env.NewObject(
                 KotlinRange.ulongRangeClass,
                 KotlinRange.ulongRangeInitMethodID,
@@ -966,7 +916,7 @@ extension RangeConverter: JavaConverter where BoundConverter: JavaConverter {
 //                jvalue(l: BoundConverter.toJavaObject(value.lowerBound, env: env)),
 //                jvalue(l: BoundConverter.toJavaObject(value.upperBound, env: env))
 //            )
-            fatalError("Open ended range with non-integer bound \"\(type(of: value))\" is unsupported")
+            fatalError("Open ended range with non-integer bound \"\(type(of: start))\" is unsupported")
         }
     }
 }
