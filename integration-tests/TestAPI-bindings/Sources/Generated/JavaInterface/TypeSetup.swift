@@ -241,132 +241,132 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try env.RegisterNatives(ClosedRanges.javaClass,
             JNINativeMethod(
                 name: bag.add("__jni_echoUInt8Range"),
-                signature: bag.add("(Lkotlin/ranges/ClosedRange;)Lkotlin/ranges/ClosedRange;"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/ClosedRange;)Lcom/cricut/fishyjoes/runtime/ClosedRange;"),
                 fnPtr: unsafeBitCast(java_ClosedRanges_echoUInt8Range, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_echoUInt16Range"),
-                signature: bag.add("(Lkotlin/ranges/ClosedRange;)Lkotlin/ranges/ClosedRange;"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/ClosedRange;)Lcom/cricut/fishyjoes/runtime/ClosedRange;"),
                 fnPtr: unsafeBitCast(java_ClosedRanges_echoUInt16Range, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_echoUInt32Range"),
-                signature: bag.add("(Lkotlin/ranges/ClosedRange;)Lkotlin/ranges/ClosedRange;"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/ClosedRange;)Lcom/cricut/fishyjoes/runtime/ClosedRange;"),
                 fnPtr: unsafeBitCast(java_ClosedRanges_echoUInt32Range, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_echoUInt64Range"),
-                signature: bag.add("(Lkotlin/ranges/ClosedRange;)Lkotlin/ranges/ClosedRange;"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/ClosedRange;)Lcom/cricut/fishyjoes/runtime/ClosedRange;"),
                 fnPtr: unsafeBitCast(java_ClosedRanges_echoUInt64Range, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_echoUIntRange"),
-                signature: bag.add("(Lkotlin/ranges/ClosedRange;)Lkotlin/ranges/ClosedRange;"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/ClosedRange;)Lcom/cricut/fishyjoes/runtime/ClosedRange;"),
                 fnPtr: unsafeBitCast(java_ClosedRanges_echoUIntRange, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_echoInt8Range"),
-                signature: bag.add("(Lkotlin/ranges/ClosedRange;)Lkotlin/ranges/ClosedRange;"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/ClosedRange;)Lcom/cricut/fishyjoes/runtime/ClosedRange;"),
                 fnPtr: unsafeBitCast(java_ClosedRanges_echoInt8Range, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_echoInt16Range"),
-                signature: bag.add("(Lkotlin/ranges/ClosedRange;)Lkotlin/ranges/ClosedRange;"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/ClosedRange;)Lcom/cricut/fishyjoes/runtime/ClosedRange;"),
                 fnPtr: unsafeBitCast(java_ClosedRanges_echoInt16Range, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_echoInt32Range"),
-                signature: bag.add("(Lkotlin/ranges/ClosedRange;)Lkotlin/ranges/ClosedRange;"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/ClosedRange;)Lcom/cricut/fishyjoes/runtime/ClosedRange;"),
                 fnPtr: unsafeBitCast(java_ClosedRanges_echoInt32Range, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_echoInt64Range"),
-                signature: bag.add("(Lkotlin/ranges/ClosedRange;)Lkotlin/ranges/ClosedRange;"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/ClosedRange;)Lcom/cricut/fishyjoes/runtime/ClosedRange;"),
                 fnPtr: unsafeBitCast(java_ClosedRanges_echoInt64Range, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_echoIntRange"),
-                signature: bag.add("(Lkotlin/ranges/ClosedRange;)Lkotlin/ranges/ClosedRange;"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/ClosedRange;)Lcom/cricut/fishyjoes/runtime/ClosedRange;"),
                 fnPtr: unsafeBitCast(java_ClosedRanges_echoIntRange, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_echoFloatRange"),
-                signature: bag.add("(Lkotlin/ranges/ClosedRange;)Lkotlin/ranges/ClosedRange;"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/ClosedRange;)Lcom/cricut/fishyjoes/runtime/ClosedRange;"),
                 fnPtr: unsafeBitCast(java_ClosedRanges_echoFloatRange, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_echoDoubleRange"),
-                signature: bag.add("(Lkotlin/ranges/ClosedRange;)Lkotlin/ranges/ClosedRange;"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/ClosedRange;)Lcom/cricut/fishyjoes/runtime/ClosedRange;"),
                 fnPtr: unsafeBitCast(java_ClosedRanges_echoDoubleRange, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_echoStringRange"),
-                signature: bag.add("(Lkotlin/ranges/ClosedRange;)Lkotlin/ranges/ClosedRange;"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/ClosedRange;)Lcom/cricut/fishyjoes/runtime/ClosedRange;"),
                 fnPtr: unsafeBitCast(java_ClosedRanges_echoStringRange, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_get_uInt8Range"),
-                signature: bag.add("()Lkotlin/ranges/ClosedRange;"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/ClosedRange;"),
                 fnPtr: unsafeBitCast(java_get_ClosedRanges_uInt8Range, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_get_uInt16Range"),
-                signature: bag.add("()Lkotlin/ranges/ClosedRange;"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/ClosedRange;"),
                 fnPtr: unsafeBitCast(java_get_ClosedRanges_uInt16Range, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_get_uInt32Range"),
-                signature: bag.add("()Lkotlin/ranges/ClosedRange;"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/ClosedRange;"),
                 fnPtr: unsafeBitCast(java_get_ClosedRanges_uInt32Range, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_get_uInt64Range"),
-                signature: bag.add("()Lkotlin/ranges/ClosedRange;"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/ClosedRange;"),
                 fnPtr: unsafeBitCast(java_get_ClosedRanges_uInt64Range, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_get_uIntRange"),
-                signature: bag.add("()Lkotlin/ranges/ClosedRange;"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/ClosedRange;"),
                 fnPtr: unsafeBitCast(java_get_ClosedRanges_uIntRange, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_get_int8Range"),
-                signature: bag.add("()Lkotlin/ranges/ClosedRange;"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/ClosedRange;"),
                 fnPtr: unsafeBitCast(java_get_ClosedRanges_int8Range, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_get_int16Range"),
-                signature: bag.add("()Lkotlin/ranges/ClosedRange;"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/ClosedRange;"),
                 fnPtr: unsafeBitCast(java_get_ClosedRanges_int16Range, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_get_int32Range"),
-                signature: bag.add("()Lkotlin/ranges/ClosedRange;"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/ClosedRange;"),
                 fnPtr: unsafeBitCast(java_get_ClosedRanges_int32Range, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_get_int64Range"),
-                signature: bag.add("()Lkotlin/ranges/ClosedRange;"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/ClosedRange;"),
                 fnPtr: unsafeBitCast(java_get_ClosedRanges_int64Range, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_get_intRange"),
-                signature: bag.add("()Lkotlin/ranges/ClosedRange;"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/ClosedRange;"),
                 fnPtr: unsafeBitCast(java_get_ClosedRanges_intRange, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_get_floatRange"),
-                signature: bag.add("()Lkotlin/ranges/ClosedRange;"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/ClosedRange;"),
                 fnPtr: unsafeBitCast(java_get_ClosedRanges_floatRange, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_get_doubleRange"),
-                signature: bag.add("()Lkotlin/ranges/ClosedRange;"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/ClosedRange;"),
                 fnPtr: unsafeBitCast(java_get_ClosedRanges_doubleRange, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_get_stringRange"),
-                signature: bag.add("()Lkotlin/ranges/ClosedRange;"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/ClosedRange;"),
                 fnPtr: unsafeBitCast(java_get_ClosedRanges_stringRange, to: UnsafeMutableRawPointer.self)
             )
         )
@@ -1107,102 +1107,102 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try env.RegisterNatives(Ranges.javaClass,
             JNINativeMethod(
                 name: bag.add("__jni_echoUInt8Range"),
-                signature: bag.add("(Lkotlin/ranges/ClosedRange;)Lkotlin/ranges/ClosedRange;"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/OpenRange;)Lcom/cricut/fishyjoes/runtime/OpenRange;"),
                 fnPtr: unsafeBitCast(java_Ranges_echoUInt8Range, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_echoUInt16Range"),
-                signature: bag.add("(Lkotlin/ranges/ClosedRange;)Lkotlin/ranges/ClosedRange;"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/OpenRange;)Lcom/cricut/fishyjoes/runtime/OpenRange;"),
                 fnPtr: unsafeBitCast(java_Ranges_echoUInt16Range, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_echoUInt32Range"),
-                signature: bag.add("(Lkotlin/ranges/ClosedRange;)Lkotlin/ranges/ClosedRange;"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/OpenRange;)Lcom/cricut/fishyjoes/runtime/OpenRange;"),
                 fnPtr: unsafeBitCast(java_Ranges_echoUInt32Range, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_echoUInt64Range"),
-                signature: bag.add("(Lkotlin/ranges/ClosedRange;)Lkotlin/ranges/ClosedRange;"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/OpenRange;)Lcom/cricut/fishyjoes/runtime/OpenRange;"),
                 fnPtr: unsafeBitCast(java_Ranges_echoUInt64Range, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_echoUIntRange"),
-                signature: bag.add("(Lkotlin/ranges/ClosedRange;)Lkotlin/ranges/ClosedRange;"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/OpenRange;)Lcom/cricut/fishyjoes/runtime/OpenRange;"),
                 fnPtr: unsafeBitCast(java_Ranges_echoUIntRange, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_echoInt8Range"),
-                signature: bag.add("(Lkotlin/ranges/ClosedRange;)Lkotlin/ranges/ClosedRange;"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/OpenRange;)Lcom/cricut/fishyjoes/runtime/OpenRange;"),
                 fnPtr: unsafeBitCast(java_Ranges_echoInt8Range, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_echoInt16Range"),
-                signature: bag.add("(Lkotlin/ranges/ClosedRange;)Lkotlin/ranges/ClosedRange;"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/OpenRange;)Lcom/cricut/fishyjoes/runtime/OpenRange;"),
                 fnPtr: unsafeBitCast(java_Ranges_echoInt16Range, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_echoInt32Range"),
-                signature: bag.add("(Lkotlin/ranges/ClosedRange;)Lkotlin/ranges/ClosedRange;"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/OpenRange;)Lcom/cricut/fishyjoes/runtime/OpenRange;"),
                 fnPtr: unsafeBitCast(java_Ranges_echoInt32Range, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_echoInt64Range"),
-                signature: bag.add("(Lkotlin/ranges/ClosedRange;)Lkotlin/ranges/ClosedRange;"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/OpenRange;)Lcom/cricut/fishyjoes/runtime/OpenRange;"),
                 fnPtr: unsafeBitCast(java_Ranges_echoInt64Range, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_echoIntRange"),
-                signature: bag.add("(Lkotlin/ranges/ClosedRange;)Lkotlin/ranges/ClosedRange;"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/OpenRange;)Lcom/cricut/fishyjoes/runtime/OpenRange;"),
                 fnPtr: unsafeBitCast(java_Ranges_echoIntRange, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_get_uInt8Range"),
-                signature: bag.add("()Lkotlin/ranges/ClosedRange;"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/OpenRange;"),
                 fnPtr: unsafeBitCast(java_get_Ranges_uInt8Range, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_get_uInt16Range"),
-                signature: bag.add("()Lkotlin/ranges/ClosedRange;"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/OpenRange;"),
                 fnPtr: unsafeBitCast(java_get_Ranges_uInt16Range, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_get_uInt32Range"),
-                signature: bag.add("()Lkotlin/ranges/ClosedRange;"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/OpenRange;"),
                 fnPtr: unsafeBitCast(java_get_Ranges_uInt32Range, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_get_uInt64Range"),
-                signature: bag.add("()Lkotlin/ranges/ClosedRange;"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/OpenRange;"),
                 fnPtr: unsafeBitCast(java_get_Ranges_uInt64Range, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_get_uIntRange"),
-                signature: bag.add("()Lkotlin/ranges/ClosedRange;"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/OpenRange;"),
                 fnPtr: unsafeBitCast(java_get_Ranges_uIntRange, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_get_int8Range"),
-                signature: bag.add("()Lkotlin/ranges/ClosedRange;"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/OpenRange;"),
                 fnPtr: unsafeBitCast(java_get_Ranges_int8Range, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_get_int16Range"),
-                signature: bag.add("()Lkotlin/ranges/ClosedRange;"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/OpenRange;"),
                 fnPtr: unsafeBitCast(java_get_Ranges_int16Range, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_get_int32Range"),
-                signature: bag.add("()Lkotlin/ranges/ClosedRange;"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/OpenRange;"),
                 fnPtr: unsafeBitCast(java_get_Ranges_int32Range, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_get_int64Range"),
-                signature: bag.add("()Lkotlin/ranges/ClosedRange;"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/OpenRange;"),
                 fnPtr: unsafeBitCast(java_get_Ranges_int64Range, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_get_intRange"),
-                signature: bag.add("()Lkotlin/ranges/ClosedRange;"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/OpenRange;"),
                 fnPtr: unsafeBitCast(java_get_Ranges_intRange, to: UnsafeMutableRawPointer.self)
             )
         )

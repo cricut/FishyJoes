@@ -1,21 +1,23 @@
 package com.cricut.testapi
 
+import com.cricut.fishyjoes.runtime.ClosedRange
+import com.cricut.fishyjoes.runtime.OpenRange
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
 internal class RangeTests {
     @Test
     fun testRangeValues() {
-        assertEquals(Ranges.uInt8Range, UByte.MIN_VALUE until UByte.MAX_VALUE)
-        assertEquals(Ranges.uInt16Range, UShort.MIN_VALUE until UShort.MAX_VALUE)
-        assertEquals(Ranges.uInt32Range, UInt.MIN_VALUE until UInt.MAX_VALUE)
-        assertEquals(Ranges.uInt64Range, ULong.MIN_VALUE until ULong.MAX_VALUE)
-        assertEquals(Ranges.uIntRange, ULong.MIN_VALUE until ULong.MAX_VALUE)
-        assertEquals(Ranges.int8Range, Byte.MIN_VALUE until Byte.MAX_VALUE)
-        assertEquals(Ranges.int16Range, Short.MIN_VALUE until Short.MAX_VALUE)
-        assertEquals(Ranges.int32Range, Int.MIN_VALUE until Int.MAX_VALUE)
-        assertEquals(Ranges.int64Range, Long.MIN_VALUE until Long.MAX_VALUE)
-        assertEquals(Ranges.intRange, Long.MIN_VALUE until Long.MAX_VALUE)
+        assertEquals(Ranges.uInt8Range, OpenRange(UByte.MIN_VALUE, UByte.MAX_VALUE))
+        assertEquals(Ranges.uInt16Range, OpenRange(UShort.MIN_VALUE, UShort.MAX_VALUE))
+        assertEquals(Ranges.uInt32Range, OpenRange(UInt.MIN_VALUE, UInt.MAX_VALUE))
+        assertEquals(Ranges.uInt64Range, OpenRange(ULong.MIN_VALUE, ULong.MAX_VALUE))
+        assertEquals(Ranges.uIntRange, OpenRange(ULong.MIN_VALUE, ULong.MAX_VALUE))
+        assertEquals(Ranges.int8Range, OpenRange(Byte.MIN_VALUE, Byte.MAX_VALUE))
+        assertEquals(Ranges.int16Range, OpenRange(Short.MIN_VALUE, Short.MAX_VALUE))
+        assertEquals(Ranges.int32Range, OpenRange(Int.MIN_VALUE, Int.MAX_VALUE))
+        assertEquals(Ranges.int64Range, OpenRange(Long.MIN_VALUE, Long.MAX_VALUE))
+        assertEquals(Ranges.intRange, OpenRange(Long.MIN_VALUE, Long.MAX_VALUE))
     }
 
     @Test
@@ -34,19 +36,19 @@ internal class RangeTests {
 
     @Test
     fun testClosedRangeValues() {
-        assertEquals(ClosedRanges.uInt8Range, UByte.MIN_VALUE..UByte.MAX_VALUE)
-        assertEquals(ClosedRanges.uInt16Range, UShort.MIN_VALUE..UShort.MAX_VALUE)
-        assertEquals(ClosedRanges.uInt32Range, UInt.MIN_VALUE..UInt.MAX_VALUE)
-        assertEquals(ClosedRanges.uInt64Range, ULong.MIN_VALUE..ULong.MAX_VALUE)
-        assertEquals(ClosedRanges.uIntRange, ULong.MIN_VALUE..ULong.MAX_VALUE)
-        assertEquals(ClosedRanges.int8Range, Byte.MIN_VALUE..Byte.MAX_VALUE)
-        assertEquals(ClosedRanges.int16Range, Short.MIN_VALUE..Short.MAX_VALUE)
-        assertEquals(ClosedRanges.int32Range, Int.MIN_VALUE..Int.MAX_VALUE)
-        assertEquals(ClosedRanges.int64Range, Long.MIN_VALUE..Long.MAX_VALUE)
-        assertEquals(ClosedRanges.intRange, Long.MIN_VALUE..Long.MAX_VALUE)
-        assertEquals(ClosedRanges.floatRange, -Float.MAX_VALUE..Float.MAX_VALUE)
-        assertEquals(ClosedRanges.doubleRange, -Double.MAX_VALUE..Double.MAX_VALUE)
-        assertEquals(ClosedRanges.stringRange, "A".."Z")
+        assertEquals(ClosedRanges.uInt8Range, ClosedRange(UByte.MIN_VALUE, UByte.MAX_VALUE))
+        assertEquals(ClosedRanges.uInt16Range, ClosedRange(UShort.MIN_VALUE, UShort.MAX_VALUE))
+        assertEquals(ClosedRanges.uInt32Range, ClosedRange(UInt.MIN_VALUE, UInt.MAX_VALUE))
+        assertEquals(ClosedRanges.uInt64Range, ClosedRange(ULong.MIN_VALUE, ULong.MAX_VALUE))
+        assertEquals(ClosedRanges.uIntRange, ClosedRange(ULong.MIN_VALUE, ULong.MAX_VALUE))
+        assertEquals(ClosedRanges.int8Range, ClosedRange(Byte.MIN_VALUE, Byte.MAX_VALUE))
+        assertEquals(ClosedRanges.int16Range, ClosedRange(Short.MIN_VALUE, Short.MAX_VALUE))
+        assertEquals(ClosedRanges.int32Range, ClosedRange(Int.MIN_VALUE, Int.MAX_VALUE))
+        assertEquals(ClosedRanges.int64Range, ClosedRange(Long.MIN_VALUE, Long.MAX_VALUE))
+        assertEquals(ClosedRanges.intRange, ClosedRange(Long.MIN_VALUE, Long.MAX_VALUE))
+        assertEquals(ClosedRanges.floatRange, ClosedRange(-Float.MAX_VALUE, Float.MAX_VALUE))
+        assertEquals(ClosedRanges.doubleRange, ClosedRange(-Double.MAX_VALUE, Double.MAX_VALUE))
+        assertEquals(ClosedRanges.stringRange, ClosedRange("A", "Z"))
     }
 
     @Test
@@ -64,7 +66,10 @@ internal class RangeTests {
         assertEquals(ClosedRanges.echoFloatRange(ClosedRanges.floatRange), ClosedRanges.floatRange)
         assertEquals(ClosedRanges.echoDoubleRange(ClosedRanges.doubleRange), ClosedRanges.doubleRange)
         assertEquals(ClosedRanges.echoStringRange(ClosedRanges.stringRange), ClosedRanges.stringRange)
+    }
 
+    @Test
+    fun testClosedRangeConversion() {
         val ub = 1.toUByte()..2.toUByte()
         val us = 1.toUShort()..2.toUShort()
         val ui = 1.toUInt()..2.toUInt()
@@ -77,21 +82,16 @@ internal class RangeTests {
         val d = 1.0..2.0
         val l = "A".."Z"
 
-        assertEquals(ClosedRanges.echoUInt32Range(ub), ub)
-        assertEquals(ClosedRanges.echoUInt32Range(us), us)
-        assertEquals(ClosedRanges.echoUInt32Range(ui), ui)
-        assertEquals(ClosedRanges.echoUIntRange(uj), uj)
-        assertEquals(ClosedRanges.echoInt32Range(b), b)
-        assertEquals(ClosedRanges.echoInt32Range(s), s)
-        assertEquals(ClosedRanges.echoInt32Range(i), i)
-        assertEquals(ClosedRanges.echoIntRange(j), j)
-        assertEquals(ClosedRanges.echoFloatRange(f), f)
-        assertEquals(ClosedRanges.echoDoubleRange(d), d)
-        assertEquals(ClosedRanges.echoStringRange(l), l)
-
-        // TODO: Empty ranges?
-//        val empty = 0..-1
-//        assert(empty.isEmpty())
-//        assert(ClosedRanges.echoInt32Range(empty).isEmpty())
+        assertEquals(ClosedRanges.echoUInt32Range(ClosedRange(ub)), ClosedRange(ub))
+        assertEquals(ClosedRanges.echoUInt32Range(ClosedRange(us)), ClosedRange(us))
+        assertEquals(ClosedRanges.echoUInt32Range(ClosedRange(ui)), ClosedRange(ui))
+        assertEquals(ClosedRanges.echoUIntRange(ClosedRange(uj)), ClosedRange(uj))
+        assertEquals(ClosedRanges.echoInt32Range(ClosedRange(b)), ClosedRange(b))
+        assertEquals(ClosedRanges.echoInt32Range(ClosedRange(s)), ClosedRange(s))
+        assertEquals(ClosedRanges.echoInt32Range(ClosedRange(i)), ClosedRange(i))
+        assertEquals(ClosedRanges.echoIntRange(ClosedRange(j)), ClosedRange(j))
+        assertEquals(ClosedRanges.echoFloatRange(ClosedRange(f)), ClosedRange(f))
+        assertEquals(ClosedRanges.echoDoubleRange(ClosedRange(d)), ClosedRange(d))
+        assertEquals(ClosedRanges.echoStringRange(ClosedRange(l)), ClosedRange(l))
     }
 }

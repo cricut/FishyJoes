@@ -15,9 +15,9 @@ struct TranslatedClosedRange: TranslatedType {
         self.containedNamedTypes = bound.containedNamedTypes
         self.neutralName = "ClosedRange<B=\(bound.neutralName)>"
         self.nodeName = "{ start: \(bound.nodeName), endInclusive: \(bound.nodeName) }"
-        self.kotlinPackage = "kotlin.ranges"
+        self.kotlinPackage = "com.cricut.fishyjoes.runtime"
         self.kotlinName = "ClosedRange<\(bound.kotlinName)>"
-        self.jniType = .object("kotlin/ranges/ClosedRange")
+        self.jniType = .object("com/cricut/fishyjoes/runtime/ClosedRange")
         self.cSharpType = .named(package: "Cricut.FishyJoesRuntime", name: "ClosedRange<\(bound.cSharpType.name)>")
         self.cppName = "std::ranges::range<\(bound.cppName)>"
     }
