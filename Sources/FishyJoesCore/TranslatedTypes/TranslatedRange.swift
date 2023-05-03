@@ -20,7 +20,7 @@ struct TranslatedRange: TranslatedType {
         self.containedNamedTypes = bound.containedNamedTypes
         self.neutralName = "Range<B=\(bound.neutralName)>"
         self.nodeName = "{ start: \(bound.nodeName), endExclusive: \(bound.nodeName) }"
-        self.kotlinName = "ClosedRange<\(bound.kotlinName)>"
+        self.kotlinName = "ClosedRange<\(bound.kotlinName)>" // TODO: When OpenEndRange becomes available, use it instead of ClosedRange
         self.kotlinPackage = "kotlin.ranges"
         self.jniType = .object("kotlin/ranges/ClosedRange")
         self.cSharpType = .named(package: "Cricut.FishyJoesRuntime", name: "OpenRange<\(bound.cSharpType.name)>")
@@ -28,7 +28,7 @@ struct TranslatedRange: TranslatedType {
     }
 
     var sourceType: BetterType {
-        .generic(base: "Range", args: [bound.converterType])
+        .generic(base: "Range", args: [bound.sourceType])
     }
 
     var converterType: BetterType {

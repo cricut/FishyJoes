@@ -23,7 +23,7 @@ struct TranslatedClosedRange: TranslatedType {
     }
 
     var sourceType: BetterType {
-        .generic(base: "ClosedRange", args: [bound.converterType])
+        .generic(base: "ClosedRange", args: [bound.sourceType])
     }
 
     var converterType: BetterType {

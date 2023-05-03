@@ -195,11 +195,11 @@ public struct CSharpOpenRange {
     public typealias GetEndExclusiveMethod = @convention(c) (_ range: csObject, _ exn: csOutExn) -> csObject
     public typealias Constructor = @convention(c) (_ start: csObject, _ end: csObject, _ exn: csOutExn) -> csObject
 
-    fileprivate static var interfaces: [ObjectIdentifier: CSharpOpenRange] = [:]
+    static var interfaces: [ObjectIdentifier: CSharpOpenRange] = [:]
 
-    fileprivate var getStartMethod: GetStartMethod?
-    fileprivate var getEndExclusiveMethod: GetEndExclusiveMethod?
-    fileprivate var constructor: Constructor?
+    var getStartMethod: GetStartMethod?
+    var getEndExclusiveMethod: GetEndExclusiveMethod?
+    var constructor: Constructor?
 }
 
 @_cdecl("FishyJoesRuntime_RangeConverter_setup")
@@ -257,11 +257,11 @@ public struct CSharpClosedRange {
     public typealias GetEndInclusiveMethod = @convention(c) (_ range: csObject, _ exn: csOutExn) -> csObject
     public typealias Constructor = @convention(c) (_ start: csObject, _ end: csObject, _ exn: csOutExn) -> csObject
 
-    fileprivate static var interfaces: [ObjectIdentifier: CSharpClosedRange] = [:]
+    static var interfaces: [ObjectIdentifier: CSharpClosedRange] = [:]
 
-    fileprivate var getStartMethod: GetStartMethod?
-    fileprivate var getEndInclusiveMethod: GetEndInclusiveMethod?
-    fileprivate var constructor: Constructor?
+    var getStartMethod: GetStartMethod?
+    var getEndInclusiveMethod: GetEndInclusiveMethod?
+    var constructor: Constructor?
 }
 
 @_cdecl("FishyJoesRuntime_ClosedRangeConverter_setup")

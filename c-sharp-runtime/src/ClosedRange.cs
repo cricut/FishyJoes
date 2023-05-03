@@ -9,8 +9,7 @@ namespace Cricut.FishyJoesRuntime {
         public T start;
         public T endInclusive;
 
-        public ClosedRange(T start, T endInclusive) 
-        {
+        public ClosedRange(T start, T endInclusive) {
             this.start = start;
             this.endInclusive = endInclusive;
         }
