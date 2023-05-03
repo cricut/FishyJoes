@@ -76,4 +76,69 @@ public enum Functions {
 
     /// <!-- FishyJoes.exportReference(Functions.TheError) -->
     public struct TheError: Error {}
+
+    /// <!-- FishyJoes.export(async42Func) -->
+    public static func async42Func() async throws -> Int {
+        42
+    }
+
+    /// <!-- FishyJoes.export(asyncYieldFunc) -->
+    public static func asyncYieldFunc() async throws -> Int {
+        await Task.yield()
+        return try await async42Func()
+    }
+
+    /// <!-- FishyJoes.export(asyncSleepFunc) -->
+    public static func asyncSleepFunc() async throws -> Int {
+        try await Task.sleep(nanoseconds: 100)
+        return try await async42Func()
+    }
+
+    /// <!-- FishyJoes.export(asyncVoidFunc) -->
+    public static func asyncVoidFunc() async throws {
+    }
+
+    /// <!-- FishyJoes.export(asyncCallbackFunc) -->
+    public static func asyncCallbackFunc(_ callback: () throws -> Void) async throws {
+        try callback()
+    }
+
+    /// <!-- FishyJoes.export(asyncDoubleFunc) -->
+    public static func asyncDoubleFunc(_ d: Double) async throws -> Double {
+        return d * 2
+    }
+
+    /// <!-- FishyJoes.export(asyncThrowingFunc) -->
+    public static func asyncThrowingFunc() async throws {
+        throw TheError()
+    }
+    
+    func f2(a: @Sendable @escaping (A) -> Void) {
+        
+    }
+    
+    func _f2(a: @escaping (A) -> Void) {
+        f2(a: { a($0) })
+    }
+
+    func f(_ foo: Foo) async {
+    }
+
+    func f2() async {
+        Task.detached { @Sendable in
+            await f(foo)
+            foo = Foo()
+        }
+        await { @Sendable @MainActor in
+            await f(foo)
+        }()
+    }
 }
+
+actor A {}
+
+class Foo {
+    var i = 1
+}
+
+var foo = Foo()

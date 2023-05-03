@@ -59,8 +59,8 @@
         "package": "Sourcery",
         "repositoryURL": "https://github.com/krzysztofzablocki/Sourcery",
         "state": {
-          "branch": "1.9.2",
-          "revision": "3a9e5f1014ac09b30727c01d2a0e1531dac30948",
+          "branch": "master",
+          "revision": "f873ad4fd6f213397e5a0a613774b2d63c31fd39",
           "version": null
         }
       },
@@ -104,8 +104,8 @@
         "package": "SwiftSyntax",
         "repositoryURL": "https://github.com/apple/swift-syntax.git",
         "state": {
-          "branch": null,
-          "revision": "093e5ee151d206454e2c1950d81333c4d4a4472e",
+          "branch": "0.50800.0-SNAPSHOT-2022-12-29-a",
+          "revision": "edd2d0cdb988ac45e2515e0dd0624e4a6de54a94",
           "version": null
         }
       },
@@ -132,8 +132,8 @@
         "repositoryURL": "https://github.com/jpsim/Yams",
         "state": {
           "branch": null,
-          "revision": "9ff1cc9327586db4e0c8f46f064b6a82ec1566fa",
-          "version": "4.0.6"
+          "revision": "f47ba4838c30dbd59998a4e4c87ab620ff959e8a",
+          "version": "5.0.5"
         }
       }
     ]

@@ -163,6 +163,94 @@ sealed class Functions {
         private external fun __jni_willThrow(
         ): kotlin.String
 
+        /**
+         * <!-- FishyJoes.export(async42Func) -->
+         */
+        fun async42Func(
+            _asyncCallback: ((Long) -> kotlin.Unit)
+        ) = __jni_async42Func(_asyncCallback)
+        @JvmStatic
+        @JvmName("__jni_async42Func")
+        private external fun __jni_async42Func(
+            _asyncCallback: ((Long) -> kotlin.Unit)
+        )
+
+        /**
+         * <!-- FishyJoes.export(asyncYieldFunc) -->
+         */
+        fun asyncYieldFunc(
+            _asyncCallback: ((Long) -> kotlin.Unit)
+        ) = __jni_asyncYieldFunc(_asyncCallback)
+        @JvmStatic
+        @JvmName("__jni_asyncYieldFunc")
+        private external fun __jni_asyncYieldFunc(
+            _asyncCallback: ((Long) -> kotlin.Unit)
+        )
+
+        /**
+         * <!-- FishyJoes.export(asyncSleepFunc) -->
+         */
+        fun asyncSleepFunc(
+            _asyncCallback: ((Long) -> kotlin.Unit)
+        ) = __jni_asyncSleepFunc(_asyncCallback)
+        @JvmStatic
+        @JvmName("__jni_asyncSleepFunc")
+        private external fun __jni_asyncSleepFunc(
+            _asyncCallback: ((Long) -> kotlin.Unit)
+        )
+
+        /**
+         * <!-- FishyJoes.export(asyncVoidFunc) -->
+         */
+        fun asyncVoidFunc(
+            _asyncCallback: ((kotlin.Unit) -> kotlin.Unit)
+        ) = __jni_asyncVoidFunc(_asyncCallback)
+        @JvmStatic
+        @JvmName("__jni_asyncVoidFunc")
+        private external fun __jni_asyncVoidFunc(
+            _asyncCallback: ((kotlin.Unit) -> kotlin.Unit)
+        )
+
+        /**
+         * <!-- FishyJoes.export(asyncCallbackFunc) -->
+         */
+        fun asyncCallbackFunc(
+            callback: (() -> kotlin.Unit),
+            _asyncCallback: ((kotlin.Unit) -> kotlin.Unit)
+        ) = __jni_asyncCallbackFunc(callback, _asyncCallback)
+        @JvmStatic
+        @JvmName("__jni_asyncCallbackFunc")
+        private external fun __jni_asyncCallbackFunc(
+            callback: (() -> kotlin.Unit),
+            _asyncCallback: ((kotlin.Unit) -> kotlin.Unit)
+        )
+
+        /**
+         * <!-- FishyJoes.export(asyncDoubleFunc) -->
+         */
+        fun asyncDoubleFunc(
+            d: Double,
+            _asyncCallback: ((Double) -> kotlin.Unit)
+        ) = __jni_asyncDoubleFunc(d, _asyncCallback)
+        @JvmStatic
+        @JvmName("__jni_asyncDoubleFunc")
+        private external fun __jni_asyncDoubleFunc(
+            d: Double,
+            _asyncCallback: ((Double) -> kotlin.Unit)
+        )
+
+        /**
+         * <!-- FishyJoes.export(asyncThrowingFunc) -->
+         */
+        fun asyncThrowingFunc(
+            _asyncCallback: ((kotlin.Unit) -> kotlin.Unit)
+        ) = __jni_asyncThrowingFunc(_asyncCallback)
+        @JvmStatic
+        @JvmName("__jni_asyncThrowingFunc")
+        private external fun __jni_asyncThrowingFunc(
+            _asyncCallback: ((kotlin.Unit) -> kotlin.Unit)
+        )
+
         init { loadNativeLibs() }
     }
 

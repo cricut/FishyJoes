@@ -24,6 +24,63 @@ test('PassingFunctionsToSwift', () => {
     expect("42").toEqual(TestAPI.Functions.exercise6((_a: any, _b: any, _c: any, _d: any, _e: any, i: any) => i))
 });
 
+test('AsyncFunctionCall', async () => {
+    const value: number = await TestAPI.Functions.async42Func()
+    expect(value).toEqual(42)
+})
+
+test('AsyncYieldingFunctionCall', async () => {
+    const value: number = await TestAPI.Functions.asyncYieldFunc()
+    expect(value).toEqual(42)
+})
+
+test('AsyncSleepingFunctionCall', async () => {
+    const value: number = await TestAPI.Functions.asyncSleepFunc()
+    expect(value).toEqual(42)
+})
+
+test('AsyncVoidFunctionCall', async () => {
+    const value: void = await TestAPI.Functions.asyncVoidFunc()
+})
+
+test('AsyncCallbackFunctionCall', async () => {
+    let value: number = 0
+    await TestAPI.Functions.asyncCallbackFunc(() => {
+        value = 42
+    })
+    expect(value).toEqual(42)
+})
+
+test('AsyncDoubleFunctionCall', async () => {
+    const value = await TestAPI.Functions.asyncDoubleFunc(1.0)
+    expect(value).toEqual(2.0)
+})
+
+test('AsyncThrowingFunctionCallThenCatch', async () => {
+    let ranThen: boolean = false
+    let ranCatch: boolean = false
+    const promise = TestAPI.Functions.asyncThrowingFunc()
+    .then((value) => {
+        ranThen = true
+    })
+    .catch((error) => {
+        ranCatch = true
+        expect(() => { throw error }).toThrowError(/TheError/)
+    })
+    await promise
+    expect(ranThen).toEqual(false)
+    expect(ranCatch).toEqual(true)
+})
+
+test('AsyncThrowingFunctionCallTryCatch', async () => {
+    try {
+        await TestAPI.Functions.asyncThrowingFunc()
+        throw "Function didn't throw expected error"
+    } catch(error) {
+        expect(() => { throw error }).toThrowError(/TheError/)
+    }
+})
+
 test('Exceptions', () => {
     expect(() => TestAPI.Functions.willThrow()).toThrowError(/TheError/)
 

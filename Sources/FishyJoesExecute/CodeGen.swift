@@ -225,6 +225,7 @@ extension CodeGen {
                 ].compactMap { $0 },
                 addEnv: sourceryEnv
             ).run()
+
             try errorReporter.succeed()
         }
 

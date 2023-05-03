@@ -108,50 +108,96 @@ struct NodeTranslator: Translator {
 
         let returnType = context.resolve(type: method.returnType, generics: exportAnnotation.genericOverrides)
 
+        func convertMethodParameter(formal: SwiftFormal, argIndex: inout Int) -> String {
+            let resolved = context.resolve(type: formal.type, generics: exportAnnotation.genericOverrides)
+
+            var result = formal.label.map { "\($0): " } ?? ""
+            if let defaultValue = formal.defaultValue {
+                result += "try env.argument(named: \"\(formal.label ?? formal.name)\", default: \(defaultValue), "
+            } else {
+                result += "try env.argument(at: \(argIndex), "
+                argIndex += 1
+            }
+            return result + "converter: \(resolved.converterType.name).self)"
+        }
+
+        var taskBlock: (() -> Void) -> Void = { $0() }
+        if method.isAsync {
+            taskBlock = { body in
+                fragment.output("let (deferred, promise) = try env.env.createPromise()")
+                fragment.output("let envBox = UncheckedSendableBox(env.env)")
+
+                var argIndex = 0
+                fragment.outputMap(method.parameters, separator: ",") { formal in
+                    return "let arg\(argIndex) = UncheckedSendableBox(\(convertMethodParameter(formal: formal, argIndex: &argIndex)))"
+                }
+
+                fragment.outputBlock("Task {") {
+                    fragment.outputBlock("do {", newLineTerminated: false ) {
+                        fragment.outputBlock("try envBox.value.resolveDeferred(", closeWith: ")") {
+                            body()
+                        }
+                    }
+                    fragment.outputBlock(" catch {") {
+                        fragment.output("try envBox.value.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: envBox.value))")
+                    }
+                }
+                fragment.output("return promise")
+            }
+        }
+
         fragment.outputBlock("{ env, info in", closeWith: "}", newLineTerminated: newLineTerminated) {
             let hasNamedOptions = method.parameters.contains { $0.defaultValue != nil }
             let positionalArguments = method.parameters.filter { $0.defaultValue == nil }
             fragment.outputBlock("FishyJoesNodeRuntime.callbackBody(env, info, name: \"\(nodeName)\", expectedArgumentCount: \(argIndex + positionalArguments.count), hasNamedOptions: \(hasNamedOptions)) { env in", closeWith: "}") {
-                let callName = method.sourceKind == .initializer ? "" : ".\(method.callName)"
+                taskBlock {
+                    let callName = method.sourceKind == .initializer ? "" : ".\(method.callName)"
 
-                if method.isMutating {
-                    fragment.output("var mutatingSelf = try \(selfExpression)")
-                    selfExpression = "mutatingSelf"
-                }
+                    if method.isMutating {
+                        fragment.output("var mutatingSelf = try \(selfExpression)")
+                        selfExpression = "mutatingSelf"
+                    }
 
-                if exportAnnotation.noReturn {
-                    fragment.output("try ", newLineTerminated: false)
-                } else {
-                    fragment.output("let result = try \(returnType.converterType.name).toNode", newLineTerminated: false)
-                }
+                    if !method.isAsync {
+                        if exportAnnotation.noReturn {
+                            fragment.output("try ", newLineTerminated: false)
+                        } else {
+                            fragment.output("let result = try \(returnType.converterType.name).toNode", newLineTerminated: false)
+                        }
+                    } else {
+                        fragment.output("deferred,")
+                        fragment.output("\(returnType.converterType.name).toNode", newLineTerminated: false)
+                    }
 
-                fragment.outputBlock("(") {
-                    fragment.outputBlock("\(selfExpression)\(callName)(", newLineTerminated: false) {
-                        fragment.outputMap(method.parameters, separator: ",") { formal in
-                            let resolved = context.resolve(type: formal.type, generics: exportAnnotation.genericOverrides)
-
-                            var result = formal.label.map { "\($0): " } ?? ""
-                            if let defaultValue = formal.defaultValue {
-                                result += "try env.argument(named: \"\(formal.label ?? formal.name)\", default: \(defaultValue), "
-                            } else {
-                                result += "try env.argument(at: \(argIndex), "
-                                argIndex += 1
+                    fragment.outputBlock("(") {
+                        fragment.outputBlock("\(method.isAsync ? "await " : "")\(selfExpression)\(callName)(", newLineTerminated: false) {
+                            fragment.outputMap(method.parameters, separator: ",") { formal in
+                                guard !method.isAsync else {
+                                    defer { argIndex += 1 }
+                                    return "arg\(argIndex).value"
+                                }
+                                return convertMethodParameter(formal: formal, argIndex: &argIndex)
                             }
-                            return result + "converter: \(resolved.converterType.name).self)"
+                        }
+                        if exportAnnotation.noReturn {
+                            fragment.output()
+                        } else if method.isAsync {
+                            fragment.output(",")
+                            fragment.output("env: envBox.value")
+                        } else {
+                             fragment.output(",")
+                            fragment.output("env: env.env")
                         }
                     }
-                    if exportAnnotation.noReturn {
-                        fragment.output()
-                    } else {
-                        fragment.output(",")
-                        fragment.output("env: env.env")
+
+                    if !exportAnnotation.noReturn {
+                        if method.isMutating {
+                            fragment.output("try Self.mutateNode(mutatingSelf, this: env.this(), env: env.env)")
+                        }
+                        if !method.isAsync {
+                            fragment.output("return result")
+                        }
                     }
-                }
-                if !exportAnnotation.noReturn {
-                    if method.isMutating {
-                        fragment.output("try Self.mutateNode(mutatingSelf, this: env.this(), env: env.env)")
-                    }
-                    fragment.output("return result")
                 }
             }
         }
@@ -237,6 +283,9 @@ struct NodeTranslator: Translator {
 
         nodeTypeListFragment.output("@available(*, deprecated, message: \"Not actually deprecated, but this silences warnings because it may refer to deprecated methods\")")
         nodeTypeListFragment.outputBlock("public func registerModule\(context.module)(env: NAPI.Env, exports: NAPI.Value) throws -> NAPI.Value {") {
+            nodeTypeListFragment.output("#if os(WASI)")
+            nodeTypeListFragment.output("try JavaScriptEventLoop.installGlobalExecutor(env: env)")
+            nodeTypeListFragment.output("#endif")
             nodeTypeListFragment.output("let module = try env.createObject()")
             nodeTypeListFragment.output("try env.setNamedProperty(exports, \"\(context.module)\", module)")
             nodeTypeListFragment.output("try env.setNamedProperty(exports, \"default\", module)")
@@ -305,12 +354,15 @@ struct NodeTranslator: Translator {
             )
         }
 
+        let returnType = context.resolve(type: method.returnType, generics: exportAnnotation.genericOverrides).nodeType
+
         return TypeScriptAnnotations.Method(
             documentation: method.documentation + (method.deprecation.map { ["@deprecated \($0.message)"] } ?? []),
             isStatic: isStatic,
+            isAsync: method.isAsync,
             name: exportAnnotation.name,
             parameters: parameters,
-            returnType: context.resolve(type: method.returnType, generics: exportAnnotation.genericOverrides).nodeType
+            returnType: method.isAsync ? .promise(returnType) : returnType
         )
     }
 
@@ -363,6 +415,7 @@ struct NodeTranslator: Translator {
             TypeScriptAnnotations.Method(
                 documentation: field.documentation + (field.deprecation.map { ["@deprecated \($0.message)"] } ?? []),
                 isStatic: isStatic,
+                isAsync: false,
                 name: "get\(name)",
                 parameters: parameters,
                 returnType: resolved.nodeType
@@ -372,6 +425,7 @@ struct NodeTranslator: Translator {
                 TypeScriptAnnotations.Method(
                     documentation: ["See `get\(name)`"] + (field.deprecation.map { ["@deprecated \($0.message)"] } ?? []),
                     isStatic: isStatic,
+                    isAsync: false,
                     name: "set\(name)",
                     parameters: parameters + [
                         .init(

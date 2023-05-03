@@ -12,6 +12,36 @@ public enum NAPI {
     public typealias Finalize = napi_finalize
     public typealias CleanupHook = @convention(c) (UnsafeMutableRawPointer?) -> Void
     public typealias Callback = napi_callback
+    public typealias ThreadsafeFunction = napi_threadsafe_function
+    public typealias ThreadsafeReceiveValueFunction = napi_threadsafe_function_call_js
+
+    public enum ThreadsafeFunctionReleaseMode {
+        case release
+        case abort
+
+        var napiValue: napi_threadsafe_function_release_mode {
+            switch self {
+            case .release:
+                return napi_tsfn_release
+            case .abort:
+                return napi_tsfn_abort
+            }
+        }
+    }
+
+    public enum ThreadsafeFunctionCallMode {
+        case nonblocking
+        case blocking
+
+        var napiValue: napi_threadsafe_function_call_mode {
+            switch self {
+            case .nonblocking:
+                return napi_tsfn_nonblocking
+            case .blocking:
+                return napi_tsfn_blocking
+            }
+        }
+    }
 }
 
 // MARK: napi function wrappers
@@ -723,13 +753,66 @@ extension NAPI.Env {
     // getUvEventLoop
 
     // MARK: Asynchronous thread-safe public function calls
-    // napi_create_threadsafe_public function
-    // napi_get_threadsafe_public function_context
-    // napi_call_threadsafe_public function
-    // napi_acquire_threadsafe_public function
-    // napi_release_threadsafe_public function
-    // napi_ref_threadsafe_public function
-    // napi_unref_threadsafe_public function
+//    public func createThreadsafeFunction(
+//        _ function: NAPI.Callback?,
+//        functionContext: UnsafeMutableRawPointer?,
+//        asyncResource: NAPI.Value?,
+//        asyncResourceName: NAPI.Value?,
+//        finalize: NAPI.Finalize?,
+//        finalizeContext: UnsafeMutableRawPointer?,
+//        receiveValue: NAPI.ThreadsafeReceiveValueFunction?
+//    ) throws -> NAPI.ThreadsafeFunction? {
+//        var napiFunction: napi_value?
+//        var status = napi_create_function(
+//            ptr,
+//            nil,
+//            0,
+//            function,
+//            functionContext,
+//            &napiFunction
+//        )
+//
+//        try check(status)
+//
+//        var threadsafeFunction: napi_threadsafe_function?
+//        status = napi_create_threadsafe_function(
+//            ptr,
+//            napiFunction,
+//            asyncResource?.ptr,
+//            asyncResourceName?.ptr,
+//            0,
+//            1,
+//            finalizeContext,
+//            finalize,
+//            functionContext,
+//            receiveValue,
+//            &threadsafeFunction
+//        )
+//        print("status: \(status)")
+//        try check(status)
+//        return threadsafeFunction
+//    }
+//
+//    public static func getThreadsafeFunctionContext(_ threadsafeFunction: NAPI.ThreadsafeFunction) throws -> UnsafeMutableRawPointer? {
+//        var result: UnsafeMutableRawPointer?
+//        napi_get_threadsafe_function_context(threadsafeFunction, &result)
+//        return result
+//    }
+//
+//    public static func call(threadsafeFunction: NAPI.ThreadsafeFunction, context: UnsafeMutableRawPointer?, callMode: NAPI.ThreadsafeFunctionCallMode) throws {
+//        napi_call_threadsafe_function(threadsafeFunction, context, callMode.napiValue)
+//    }
+//
+//    public static func acquire(threadsafeFunction: NAPI.ThreadsafeFunction) throws {
+//        napi_acquire_threadsafe_function(threadsafeFunction)
+//    }
+//
+//    public static func release(threadsafeFunction: NAPI.ThreadsafeFunction, mode: NAPI.ThreadsafeFunctionReleaseMode) throws {
+//        napi_release_threadsafe_function(threadsafeFunction, mode.napiValue)
+//    }
+
+    // napi_ref_threadsafe_function
+    // napi_unref_threadsafe_function
 
     // MARK: Miscellaneous utilities
     // public func getModuleFileName() throws -> String? {

@@ -61,7 +61,7 @@ brew install openjdk@11 mint npm
 
 Install swift-wasm toolchain:
 ```
-curl -Lo swift-wasm.pkg https://github.com/swiftwasm/swift/releases/download/swift-wasm-5.7.1-RELEASE/swift-wasm-5.7.1-RELEASE-macos_x86_64.pkg
+curl -Lo swift-wasm.pkg https://github.com/swiftwasm/swift/releases/download/swift-wasm-5.7.3-RELEASE/swift-wasm-5.7.3-RELEASE-macos_x86_64.pkg
 sudo installer -pkg swift-wasm.pkg -target /
 ```
 

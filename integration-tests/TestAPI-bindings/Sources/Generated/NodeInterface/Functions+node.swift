@@ -131,6 +131,178 @@ extension Functions: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
+                "async42Func": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "async42Func", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            let (deferred, promise) = try env.env.createPromise()
+                            let envBox = UncheckedSendableBox(env.env)
+                            Task {
+                                do {
+                                    try envBox.value.resolveDeferred(
+                                        deferred,
+                                        Int.toNode(
+                                            await Functions.async42Func(
+                                            ),
+                                            env: envBox.value
+                                        )
+                                    )
+                                } catch {
+                                    try envBox.value.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: envBox.value))
+                                }
+                            }
+                            return promise
+                        }
+                    },
+                    isStatic: true
+                ),
+                "asyncYieldFunc": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "asyncYieldFunc", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            let (deferred, promise) = try env.env.createPromise()
+                            let envBox = UncheckedSendableBox(env.env)
+                            Task {
+                                do {
+                                    try envBox.value.resolveDeferred(
+                                        deferred,
+                                        Int.toNode(
+                                            await Functions.asyncYieldFunc(
+                                            ),
+                                            env: envBox.value
+                                        )
+                                    )
+                                } catch {
+                                    try envBox.value.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: envBox.value))
+                                }
+                            }
+                            return promise
+                        }
+                    },
+                    isStatic: true
+                ),
+                "asyncSleepFunc": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "asyncSleepFunc", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            let (deferred, promise) = try env.env.createPromise()
+                            let envBox = UncheckedSendableBox(env.env)
+                            Task {
+                                do {
+                                    try envBox.value.resolveDeferred(
+                                        deferred,
+                                        Int.toNode(
+                                            await Functions.asyncSleepFunc(
+                                            ),
+                                            env: envBox.value
+                                        )
+                                    )
+                                } catch {
+                                    try envBox.value.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: envBox.value))
+                                }
+                            }
+                            return promise
+                        }
+                    },
+                    isStatic: true
+                ),
+                "asyncVoidFunc": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "asyncVoidFunc", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            let (deferred, promise) = try env.env.createPromise()
+                            let envBox = UncheckedSendableBox(env.env)
+                            Task {
+                                do {
+                                    try envBox.value.resolveDeferred(
+                                        deferred,
+                                        VoidConverter.toNode(
+                                            await Functions.asyncVoidFunc(
+                                            ),
+                                            env: envBox.value
+                                        )
+                                    )
+                                } catch {
+                                    try envBox.value.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: envBox.value))
+                                }
+                            }
+                            return promise
+                        }
+                    },
+                    isStatic: true
+                ),
+                "asyncCallbackFunc": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "asyncCallbackFunc", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                            let (deferred, promise) = try env.env.createPromise()
+                            let envBox = UncheckedSendableBox(env.env)
+                            let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: Function0Converter<VoidConverter>.self))
+                            Task {
+                                do {
+                                    try envBox.value.resolveDeferred(
+                                        deferred,
+                                        VoidConverter.toNode(
+                                            await Functions.asyncCallbackFunc(
+                                                arg0.value
+                                            ),
+                                            env: envBox.value
+                                        )
+                                    )
+                                } catch {
+                                    try envBox.value.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: envBox.value))
+                                }
+                            }
+                            return promise
+                        }
+                    },
+                    isStatic: true
+                ),
+                "asyncDoubleFunc": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "asyncDoubleFunc", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                            let (deferred, promise) = try env.env.createPromise()
+                            let envBox = UncheckedSendableBox(env.env)
+                            let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: Double.self))
+                            Task {
+                                do {
+                                    try envBox.value.resolveDeferred(
+                                        deferred,
+                                        Double.toNode(
+                                            await Functions.asyncDoubleFunc(
+                                                arg0.value
+                                            ),
+                                            env: envBox.value
+                                        )
+                                    )
+                                } catch {
+                                    try envBox.value.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: envBox.value))
+                                }
+                            }
+                            return promise
+                        }
+                    },
+                    isStatic: true
+                ),
+                "asyncThrowingFunc": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "asyncThrowingFunc", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            let (deferred, promise) = try env.env.createPromise()
+                            let envBox = UncheckedSendableBox(env.env)
+                            Task {
+                                do {
+                                    try envBox.value.resolveDeferred(
+                                        deferred,
+                                        VoidConverter.toNode(
+                                            await Functions.asyncThrowingFunc(
+                                            ),
+                                            env: envBox.value
+                                        )
+                                    )
+                                } catch {
+                                    try envBox.value.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: envBox.value))
+                                }
+                            }
+                            return promise
+                        }
+                    },
+                    isStatic: true
+                ),
                 "const42": (
                     .accessor(
                         getter: { env, info in

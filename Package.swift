@@ -106,6 +106,7 @@ let package = Package(
                     // These symbols must be defined by the node process that loads the N-API addon.
                     // See ld(1) for full details.
                     [
+                        "swift_get_time",
                         "napi_add_env_cleanup_hook",
                         "napi_add_finalizer",
                         "napi_adjust_external_memory",
@@ -133,6 +134,11 @@ let package = Package(
                         "napi_create_external_arraybuffer",
                         "napi_create_external_buffer",
                         "napi_create_function",
+                        "napi_create_threadsafe_function",
+                        "napi_get_threadsafe_function_context",
+                        "napi_call_threadsafe_function",
+                        "napi_acquire_threadsafe_function",
+                        "napi_release_threadsafe_function",
                         "napi_create_int32",
                         "napi_create_int64",
                         "napi_create_object",

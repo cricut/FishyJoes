@@ -15,11 +15,11 @@ struct TranslatedFunction: TranslatedType {
     let cSharpType: CSharpClass.CSType
     let definingModule = Module.runtime
 
-    init(parameters: [TranslatedType], returnType: TranslatedType) {
+    init(parameters: [TranslatedType], returnType: TranslatedType, isAsync: Bool) {
         self.parameters = parameters
         self.returnType = returnType
 
-        self.sourceType = .function(parameters.map(\.sourceType), returnType.sourceType)
+        self.sourceType = .function(parameters.map(\.sourceType), returnType.sourceType, isAsync: isAsync)
         self.neutralName = "Function<ReturnType=\(returnType.neutralName), Params=[\(parameters.map { $0.neutralName }.joined(separator: ", "))]>"
         self.nodeName = "(\(parameters.enumerated().map { "_\($0.offset): \($0.element.nodeName)" }.joined(separator: ", "))) => \(returnType.nodeName)"
         self.kotlinName = "((\(parameters.map(\.kotlinPackageQualifiedName).joined(separator: ", "))) -> \(returnType.kotlinPackageQualifiedName))"

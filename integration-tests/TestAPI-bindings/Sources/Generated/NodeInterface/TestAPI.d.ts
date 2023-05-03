@@ -289,6 +289,50 @@ export declare namespace TestAPI {
         const add3Things: (_0: number, _1: number, _2: number) => number;
 
         /**
+         * <!-- FishyJoes.export(async42Func) -->
+         */
+        function async42Func(
+        ): Promise<number>;
+
+        /**
+         * <!-- FishyJoes.export(asyncCallbackFunc) -->
+         */
+        function asyncCallbackFunc(
+            callback: () => void
+        ): Promise<void>;
+
+        /**
+         * <!-- FishyJoes.export(asyncDoubleFunc) -->
+         */
+        function asyncDoubleFunc(
+            d: number
+        ): Promise<number>;
+
+        /**
+         * <!-- FishyJoes.export(asyncSleepFunc) -->
+         */
+        function asyncSleepFunc(
+        ): Promise<number>;
+
+        /**
+         * <!-- FishyJoes.export(asyncThrowingFunc) -->
+         */
+        function asyncThrowingFunc(
+        ): Promise<void>;
+
+        /**
+         * <!-- FishyJoes.export(asyncVoidFunc) -->
+         */
+        function asyncVoidFunc(
+        ): Promise<void>;
+
+        /**
+         * <!-- FishyJoes.export(asyncYieldFunc) -->
+         */
+        function asyncYieldFunc(
+        ): Promise<number>;
+
+        /**
          * <!-- FishyJoes.export(const42) -->
          */
         const const42: () => number;

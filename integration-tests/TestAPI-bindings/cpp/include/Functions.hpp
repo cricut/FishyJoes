@@ -104,6 +104,27 @@ namespace TestAPI {
         /// <!-- FishyJoes.export(willThrow) -->
         static std::string willThrow();
         
+        /// <!-- FishyJoes.export(async42Func) -->
+        static int async42Func();
+        
+        /// <!-- FishyJoes.export(asyncYieldFunc) -->
+        static int asyncYieldFunc();
+        
+        /// <!-- FishyJoes.export(asyncSleepFunc) -->
+        static int asyncSleepFunc();
+        
+        /// <!-- FishyJoes.export(asyncVoidFunc) -->
+        static void asyncVoidFunc();
+        
+        /// <!-- FishyJoes.export(asyncCallbackFunc) -->
+        static void asyncCallbackFunc(const std::function<void(> &callback);
+        
+        /// <!-- FishyJoes.export(asyncDoubleFunc) -->
+        static double asyncDoubleFunc(const double &d);
+        
+        /// <!-- FishyJoes.export(asyncThrowingFunc) -->
+        static void asyncThrowingFunc();
+        
         /// <!-- FishyJoes.export(const42) -->
         static std::function<int(> getConst42();
         
