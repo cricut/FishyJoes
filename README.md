@@ -73,13 +73,7 @@ Install Docker:
  e. enter password to finish install
  f. authenticate with your github PAT: `nerdctl login ghcr.io`
 
-1. In a new git repository, named `YourAwesomeLibrary-bindings`:
-```
-GITHUB_USER=... GITHUB_TOKEN=... mint run --executable fishy-joes cricut/FishyJoes package-init
-```
-Fill in a few details about the swift target and bindings repo when asked
-
-2. Annotate swift source symbols that you want exported. e.g.
+1. Annotate swift source symbols in YourAwesomeLibrary that you want exported. e.g. 
 ```swift
 /// <!-- FishyJoes.exportReference(Foo) -->
 public struct Foo {
@@ -89,18 +83,38 @@ public struct Foo {
    func baz(from:)
 }
 ```
+2. On GitHub create a token (GITHUB_TOKEN) with next selected scopes:
+- repo (Full control of private repositories)
+- read:packages (Download packages from GitHub Package Registry)
 
-3. Modify/create the test files at `node-test/*.test.ts` to exercise your library in typescript
+3. In the same directory where YourAwesomeLibrary is create new folder YourAwesomeLibrary-bindings
+- YourAwesomeLibrary
+- YourAwesomeLibrary-bindings
 
-4. generate, build and test!
+4. Go to the new folder (YourAwesomeLibrary-bindings) and create a git repository.
+e.g. In terminal: git init
+
+5. In a new git repository, named `YourAwesomeLibrary-bindings`:
+```
+GITHUB_USER=... GITHUB_TOKEN=... mint run --executable fishy-joes cricut/FishyJoes package-init
+```
+Fill in a few details about the swift target and bindings repo when asked
+
+6. Modify/create the test files at `node-test/*.test.ts` to exercise your library in typescript
+
+7. generate, build and test!
 `swift run fishy-joes --wasm --nodejs generate build test`
 
-5. Modify and probably rename the test files in `kotlin/src/test/**/*.kt` to exercise your library in kotlin
+8. Modify and probably rename the test files in `kotlin/src/test/**/*.kt` to exercise your library in kotlin
 
-6. generate, build and test!
+9. Create .gradle/gradle.properties with next key-values
+gpr_user=GITHUB_USER
+gpr_key=GITHUB_TOKEN
+
+10. generate, build and test!
 `swift run fishy-joes --kotlin-fast generate build test`
 
-7. Publish!
+11. Publish!
 
 
 
