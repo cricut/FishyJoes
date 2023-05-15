@@ -14,10 +14,10 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(uInt8Range) -->
         /// </summary>
-        public static Cricut.FishyJoesRuntime.OpenRange<byte> UInt8Range {
+        public static Cricut.FishyJoesRuntime.SwiftRange<byte> UInt8Range {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Ranges_UInt8Range(out exn).Consume<Cricut.FishyJoesRuntime.OpenRange<byte>>()
+                    __cs_get_Ranges_UInt8Range(out exn).Consume<Cricut.FishyJoesRuntime.SwiftRange<byte>>()
                 );
             }
         }
@@ -28,10 +28,10 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(uInt16Range) -->
         /// </summary>
-        public static Cricut.FishyJoesRuntime.OpenRange<ushort> UInt16Range {
+        public static Cricut.FishyJoesRuntime.SwiftRange<ushort> UInt16Range {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Ranges_UInt16Range(out exn).Consume<Cricut.FishyJoesRuntime.OpenRange<ushort>>()
+                    __cs_get_Ranges_UInt16Range(out exn).Consume<Cricut.FishyJoesRuntime.SwiftRange<ushort>>()
                 );
             }
         }
@@ -42,10 +42,10 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(uInt32Range) -->
         /// </summary>
-        public static Cricut.FishyJoesRuntime.OpenRange<uint> UInt32Range {
+        public static Cricut.FishyJoesRuntime.SwiftRange<uint> UInt32Range {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Ranges_UInt32Range(out exn).Consume<Cricut.FishyJoesRuntime.OpenRange<uint>>()
+                    __cs_get_Ranges_UInt32Range(out exn).Consume<Cricut.FishyJoesRuntime.SwiftRange<uint>>()
                 );
             }
         }
@@ -56,10 +56,10 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(uInt64Range) -->
         /// </summary>
-        public static Cricut.FishyJoesRuntime.OpenRange<ulong> UInt64Range {
+        public static Cricut.FishyJoesRuntime.SwiftRange<ulong> UInt64Range {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Ranges_UInt64Range(out exn).Consume<Cricut.FishyJoesRuntime.OpenRange<ulong>>()
+                    __cs_get_Ranges_UInt64Range(out exn).Consume<Cricut.FishyJoesRuntime.SwiftRange<ulong>>()
                 );
             }
         }
@@ -70,10 +70,10 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(uIntRange) -->
         /// </summary>
-        public static Cricut.FishyJoesRuntime.OpenRange<nuint> UIntRange {
+        public static Cricut.FishyJoesRuntime.SwiftRange<nuint> UIntRange {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Ranges_UIntRange(out exn).Consume<Cricut.FishyJoesRuntime.OpenRange<nuint>>()
+                    __cs_get_Ranges_UIntRange(out exn).Consume<Cricut.FishyJoesRuntime.SwiftRange<nuint>>()
                 );
             }
         }
@@ -84,10 +84,10 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(int8Range) -->
         /// </summary>
-        public static Cricut.FishyJoesRuntime.OpenRange<sbyte> Int8Range {
+        public static Cricut.FishyJoesRuntime.SwiftRange<sbyte> Int8Range {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Ranges_Int8Range(out exn).Consume<Cricut.FishyJoesRuntime.OpenRange<sbyte>>()
+                    __cs_get_Ranges_Int8Range(out exn).Consume<Cricut.FishyJoesRuntime.SwiftRange<sbyte>>()
                 );
             }
         }
@@ -98,10 +98,10 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(int16Range) -->
         /// </summary>
-        public static Cricut.FishyJoesRuntime.OpenRange<short> Int16Range {
+        public static Cricut.FishyJoesRuntime.SwiftRange<short> Int16Range {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Ranges_Int16Range(out exn).Consume<Cricut.FishyJoesRuntime.OpenRange<short>>()
+                    __cs_get_Ranges_Int16Range(out exn).Consume<Cricut.FishyJoesRuntime.SwiftRange<short>>()
                 );
             }
         }
@@ -112,10 +112,10 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(int32Range) -->
         /// </summary>
-        public static Cricut.FishyJoesRuntime.OpenRange<int> Int32Range {
+        public static Cricut.FishyJoesRuntime.SwiftRange<int> Int32Range {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Ranges_Int32Range(out exn).Consume<Cricut.FishyJoesRuntime.OpenRange<int>>()
+                    __cs_get_Ranges_Int32Range(out exn).Consume<Cricut.FishyJoesRuntime.SwiftRange<int>>()
                 );
             }
         }
@@ -126,10 +126,10 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(int64Range) -->
         /// </summary>
-        public static Cricut.FishyJoesRuntime.OpenRange<long> Int64Range {
+        public static Cricut.FishyJoesRuntime.SwiftRange<long> Int64Range {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Ranges_Int64Range(out exn).Consume<Cricut.FishyJoesRuntime.OpenRange<long>>()
+                    __cs_get_Ranges_Int64Range(out exn).Consume<Cricut.FishyJoesRuntime.SwiftRange<long>>()
                 );
             }
         }
@@ -140,10 +140,10 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(intRange) -->
         /// </summary>
-        public static Cricut.FishyJoesRuntime.OpenRange<nint> IntRange {
+        public static Cricut.FishyJoesRuntime.SwiftRange<nint> IntRange {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Ranges_IntRange(out exn).Consume<Cricut.FishyJoesRuntime.OpenRange<nint>>()
+                    __cs_get_Ranges_IntRange(out exn).Consume<Cricut.FishyJoesRuntime.SwiftRange<nint>>()
                 );
             }
         }
@@ -154,11 +154,11 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(echoUInt8Range) -->
         /// </summary>
-        public static Cricut.FishyJoesRuntime.OpenRange<byte> EchoUInt8Range(
-            Cricut.FishyJoesRuntime.OpenRange<byte> range
+        public static Cricut.FishyJoesRuntime.SwiftRange<byte> EchoUInt8Range(
+            Cricut.FishyJoesRuntime.SwiftRange<byte> range
         ) {
             using var _rangeHandle = new GCRef(range);
-            return Check((out CreatedRef _exn) => __cs_Ranges_echoUInt8Range(_rangeHandle.ptr, out _exn)).Consume<Cricut.FishyJoesRuntime.OpenRange<byte>>();
+            return Check((out CreatedRef _exn) => __cs_Ranges_echoUInt8Range(_rangeHandle.ptr, out _exn)).Consume<Cricut.FishyJoesRuntime.SwiftRange<byte>>();
         }
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
@@ -170,11 +170,11 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(echoUInt16Range) -->
         /// </summary>
-        public static Cricut.FishyJoesRuntime.OpenRange<ushort> EchoUInt16Range(
-            Cricut.FishyJoesRuntime.OpenRange<ushort> range
+        public static Cricut.FishyJoesRuntime.SwiftRange<ushort> EchoUInt16Range(
+            Cricut.FishyJoesRuntime.SwiftRange<ushort> range
         ) {
             using var _rangeHandle = new GCRef(range);
-            return Check((out CreatedRef _exn) => __cs_Ranges_echoUInt16Range(_rangeHandle.ptr, out _exn)).Consume<Cricut.FishyJoesRuntime.OpenRange<ushort>>();
+            return Check((out CreatedRef _exn) => __cs_Ranges_echoUInt16Range(_rangeHandle.ptr, out _exn)).Consume<Cricut.FishyJoesRuntime.SwiftRange<ushort>>();
         }
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
@@ -186,11 +186,11 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(echoUInt32Range) -->
         /// </summary>
-        public static Cricut.FishyJoesRuntime.OpenRange<uint> EchoUInt32Range(
-            Cricut.FishyJoesRuntime.OpenRange<uint> range
+        public static Cricut.FishyJoesRuntime.SwiftRange<uint> EchoUInt32Range(
+            Cricut.FishyJoesRuntime.SwiftRange<uint> range
         ) {
             using var _rangeHandle = new GCRef(range);
-            return Check((out CreatedRef _exn) => __cs_Ranges_echoUInt32Range(_rangeHandle.ptr, out _exn)).Consume<Cricut.FishyJoesRuntime.OpenRange<uint>>();
+            return Check((out CreatedRef _exn) => __cs_Ranges_echoUInt32Range(_rangeHandle.ptr, out _exn)).Consume<Cricut.FishyJoesRuntime.SwiftRange<uint>>();
         }
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
@@ -202,11 +202,11 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(echoUInt64Range) -->
         /// </summary>
-        public static Cricut.FishyJoesRuntime.OpenRange<ulong> EchoUInt64Range(
-            Cricut.FishyJoesRuntime.OpenRange<ulong> range
+        public static Cricut.FishyJoesRuntime.SwiftRange<ulong> EchoUInt64Range(
+            Cricut.FishyJoesRuntime.SwiftRange<ulong> range
         ) {
             using var _rangeHandle = new GCRef(range);
-            return Check((out CreatedRef _exn) => __cs_Ranges_echoUInt64Range(_rangeHandle.ptr, out _exn)).Consume<Cricut.FishyJoesRuntime.OpenRange<ulong>>();
+            return Check((out CreatedRef _exn) => __cs_Ranges_echoUInt64Range(_rangeHandle.ptr, out _exn)).Consume<Cricut.FishyJoesRuntime.SwiftRange<ulong>>();
         }
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
@@ -218,11 +218,11 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(echoUIntRange) -->
         /// </summary>
-        public static Cricut.FishyJoesRuntime.OpenRange<nuint> EchoUIntRange(
-            Cricut.FishyJoesRuntime.OpenRange<nuint> range
+        public static Cricut.FishyJoesRuntime.SwiftRange<nuint> EchoUIntRange(
+            Cricut.FishyJoesRuntime.SwiftRange<nuint> range
         ) {
             using var _rangeHandle = new GCRef(range);
-            return Check((out CreatedRef _exn) => __cs_Ranges_echoUIntRange(_rangeHandle.ptr, out _exn)).Consume<Cricut.FishyJoesRuntime.OpenRange<nuint>>();
+            return Check((out CreatedRef _exn) => __cs_Ranges_echoUIntRange(_rangeHandle.ptr, out _exn)).Consume<Cricut.FishyJoesRuntime.SwiftRange<nuint>>();
         }
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
@@ -234,11 +234,11 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(echoInt8Range) -->
         /// </summary>
-        public static Cricut.FishyJoesRuntime.OpenRange<sbyte> EchoInt8Range(
-            Cricut.FishyJoesRuntime.OpenRange<sbyte> range
+        public static Cricut.FishyJoesRuntime.SwiftRange<sbyte> EchoInt8Range(
+            Cricut.FishyJoesRuntime.SwiftRange<sbyte> range
         ) {
             using var _rangeHandle = new GCRef(range);
-            return Check((out CreatedRef _exn) => __cs_Ranges_echoInt8Range(_rangeHandle.ptr, out _exn)).Consume<Cricut.FishyJoesRuntime.OpenRange<sbyte>>();
+            return Check((out CreatedRef _exn) => __cs_Ranges_echoInt8Range(_rangeHandle.ptr, out _exn)).Consume<Cricut.FishyJoesRuntime.SwiftRange<sbyte>>();
         }
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
@@ -250,11 +250,11 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(echoInt16Range) -->
         /// </summary>
-        public static Cricut.FishyJoesRuntime.OpenRange<short> EchoInt16Range(
-            Cricut.FishyJoesRuntime.OpenRange<short> range
+        public static Cricut.FishyJoesRuntime.SwiftRange<short> EchoInt16Range(
+            Cricut.FishyJoesRuntime.SwiftRange<short> range
         ) {
             using var _rangeHandle = new GCRef(range);
-            return Check((out CreatedRef _exn) => __cs_Ranges_echoInt16Range(_rangeHandle.ptr, out _exn)).Consume<Cricut.FishyJoesRuntime.OpenRange<short>>();
+            return Check((out CreatedRef _exn) => __cs_Ranges_echoInt16Range(_rangeHandle.ptr, out _exn)).Consume<Cricut.FishyJoesRuntime.SwiftRange<short>>();
         }
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
@@ -266,11 +266,11 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(echoInt32Range) -->
         /// </summary>
-        public static Cricut.FishyJoesRuntime.OpenRange<int> EchoInt32Range(
-            Cricut.FishyJoesRuntime.OpenRange<int> range
+        public static Cricut.FishyJoesRuntime.SwiftRange<int> EchoInt32Range(
+            Cricut.FishyJoesRuntime.SwiftRange<int> range
         ) {
             using var _rangeHandle = new GCRef(range);
-            return Check((out CreatedRef _exn) => __cs_Ranges_echoInt32Range(_rangeHandle.ptr, out _exn)).Consume<Cricut.FishyJoesRuntime.OpenRange<int>>();
+            return Check((out CreatedRef _exn) => __cs_Ranges_echoInt32Range(_rangeHandle.ptr, out _exn)).Consume<Cricut.FishyJoesRuntime.SwiftRange<int>>();
         }
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
@@ -282,11 +282,11 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(echoInt64Range) -->
         /// </summary>
-        public static Cricut.FishyJoesRuntime.OpenRange<long> EchoInt64Range(
-            Cricut.FishyJoesRuntime.OpenRange<long> range
+        public static Cricut.FishyJoesRuntime.SwiftRange<long> EchoInt64Range(
+            Cricut.FishyJoesRuntime.SwiftRange<long> range
         ) {
             using var _rangeHandle = new GCRef(range);
-            return Check((out CreatedRef _exn) => __cs_Ranges_echoInt64Range(_rangeHandle.ptr, out _exn)).Consume<Cricut.FishyJoesRuntime.OpenRange<long>>();
+            return Check((out CreatedRef _exn) => __cs_Ranges_echoInt64Range(_rangeHandle.ptr, out _exn)).Consume<Cricut.FishyJoesRuntime.SwiftRange<long>>();
         }
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
@@ -298,11 +298,11 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(echoIntRange) -->
         /// </summary>
-        public static Cricut.FishyJoesRuntime.OpenRange<nint> EchoIntRange(
-            Cricut.FishyJoesRuntime.OpenRange<nint> range
+        public static Cricut.FishyJoesRuntime.SwiftRange<nint> EchoIntRange(
+            Cricut.FishyJoesRuntime.SwiftRange<nint> range
         ) {
             using var _rangeHandle = new GCRef(range);
-            return Check((out CreatedRef _exn) => __cs_Ranges_echoIntRange(_rangeHandle.ptr, out _exn)).Consume<Cricut.FishyJoesRuntime.OpenRange<nint>>();
+            return Check((out CreatedRef _exn) => __cs_Ranges_echoIntRange(_rangeHandle.ptr, out _exn)).Consume<Cricut.FishyJoesRuntime.SwiftRange<nint>>();
         }
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]

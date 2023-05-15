@@ -1,18 +1,18 @@
 import { TestAPI } from 'TestAPI';
 
 test('RangeValues', () => {
-    expect(TestAPI.Ranges.uInt8Range.start).toEqual(TestAPI.Primitives.minUInt8)
-    expect(TestAPI.Ranges.uInt8Range.endExclusive).toEqual(TestAPI.Primitives.maxUInt8)
-    expect(TestAPI.Ranges.uInt8Range).toEqual({ start: TestAPI.Primitives.minUInt8, endExclusive: TestAPI.Primitives.maxUInt8 })
-    expect(TestAPI.Ranges.uInt16Range).toEqual({ start: TestAPI.Primitives.minUInt16, endExclusive: TestAPI.Primitives.maxUInt16 })
-    expect(TestAPI.Ranges.uInt32Range).toEqual({ start: TestAPI.Primitives.minUInt32, endExclusive: TestAPI.Primitives.maxUInt32 })
-    expect(TestAPI.Ranges.uInt64Range).toEqual({ start: TestAPI.Primitives.minUInt64, endExclusive: TestAPI.Primitives.maxUInt64 })
-    expect(TestAPI.Ranges.uIntRange).toEqual({ start: TestAPI.Primitives.minUInt, endExclusive: TestAPI.Primitives.maxUInt })
-    expect(TestAPI.Ranges.int8Range).toEqual({ start: TestAPI.Primitives.minInt8, endExclusive: TestAPI.Primitives.maxInt8 })
-    expect(TestAPI.Ranges.int16Range).toEqual({ start: TestAPI.Primitives.minInt16, endExclusive: TestAPI.Primitives.maxInt16 })
-    expect(TestAPI.Ranges.int32Range).toEqual({ start: TestAPI.Primitives.minInt32, endExclusive: TestAPI.Primitives.maxInt32 })
-    expect(TestAPI.Ranges.int64Range).toEqual({ start: TestAPI.Primitives.minInt64, endExclusive: TestAPI.Primitives.maxInt64 })
-    expect(TestAPI.Ranges.intRange).toEqual({ start: TestAPI.Primitives.minInt, endExclusive: TestAPI.Primitives.maxInt })
+    expect(TestAPI.Ranges.uInt8Range.lowerBound).toEqual(TestAPI.Primitives.minUInt8)
+    expect(TestAPI.Ranges.uInt8Range.upperBound).toEqual(TestAPI.Primitives.maxUInt8)
+    expect(TestAPI.Ranges.uInt8Range).toEqual({ lowerBound: TestAPI.Primitives.minUInt8, upperBound: TestAPI.Primitives.maxUInt8 })
+    expect(TestAPI.Ranges.uInt16Range).toEqual({ lowerBound: TestAPI.Primitives.minUInt16, upperBound: TestAPI.Primitives.maxUInt16 })
+    expect(TestAPI.Ranges.uInt32Range).toEqual({ lowerBound: TestAPI.Primitives.minUInt32, upperBound: TestAPI.Primitives.maxUInt32 })
+    expect(TestAPI.Ranges.uInt64Range).toEqual({ lowerBound: TestAPI.Primitives.minUInt64, upperBound: TestAPI.Primitives.maxUInt64 })
+    expect(TestAPI.Ranges.uIntRange).toEqual({ lowerBound: TestAPI.Primitives.minUInt, upperBound: TestAPI.Primitives.maxUInt })
+    expect(TestAPI.Ranges.int8Range).toEqual({ lowerBound: TestAPI.Primitives.minInt8, upperBound: TestAPI.Primitives.maxInt8 })
+    expect(TestAPI.Ranges.int16Range).toEqual({ lowerBound: TestAPI.Primitives.minInt16, upperBound: TestAPI.Primitives.maxInt16 })
+    expect(TestAPI.Ranges.int32Range).toEqual({ lowerBound: TestAPI.Primitives.minInt32, upperBound: TestAPI.Primitives.maxInt32 })
+    expect(TestAPI.Ranges.int64Range).toEqual({ lowerBound: TestAPI.Primitives.minInt64, upperBound: TestAPI.Primitives.maxInt64 })
+    expect(TestAPI.Ranges.intRange).toEqual({ lowerBound: TestAPI.Primitives.minInt, upperBound: TestAPI.Primitives.maxInt })
 });
 
 test('RangeEcho', () => {
@@ -29,21 +29,21 @@ test('RangeEcho', () => {
 });
 
 test('ClosedRangeValues', () => {
-    expect(TestAPI.ClosedRanges.uInt8Range.start).toEqual(TestAPI.Primitives.minUInt8)
-    expect(TestAPI.ClosedRanges.uInt8Range.endInclusive).toEqual(TestAPI.Primitives.maxUInt8)
-    expect(TestAPI.ClosedRanges.uInt8Range).toEqual({ start: TestAPI.Primitives.minUInt8, endInclusive: TestAPI.Primitives.maxUInt8 })
-    expect(TestAPI.ClosedRanges.uInt16Range).toEqual({ start: TestAPI.Primitives.minUInt16, endInclusive: TestAPI.Primitives.maxUInt16 })
-    expect(TestAPI.ClosedRanges.uInt32Range).toEqual({ start: TestAPI.Primitives.minUInt32, endInclusive: TestAPI.Primitives.maxUInt32 })
-    expect(TestAPI.ClosedRanges.uInt64Range).toEqual({ start: TestAPI.Primitives.minUInt64, endInclusive: TestAPI.Primitives.maxUInt64 })
-    expect(TestAPI.ClosedRanges.uIntRange).toEqual({ start: TestAPI.Primitives.minUInt, endInclusive: TestAPI.Primitives.maxUInt })
-    expect(TestAPI.ClosedRanges.int8Range).toEqual({ start: TestAPI.Primitives.minInt8, endInclusive: TestAPI.Primitives.maxInt8 })
-    expect(TestAPI.ClosedRanges.int16Range).toEqual({ start: TestAPI.Primitives.minInt16, endInclusive: TestAPI.Primitives.maxInt16 })
-    expect(TestAPI.ClosedRanges.int32Range).toEqual({ start: TestAPI.Primitives.minInt32, endInclusive: TestAPI.Primitives.maxInt32 })
-    expect(TestAPI.ClosedRanges.int64Range).toEqual({ start: TestAPI.Primitives.minInt64, endInclusive: TestAPI.Primitives.maxInt64 })
-    expect(TestAPI.ClosedRanges.intRange).toEqual({ start: TestAPI.Primitives.minInt, endInclusive: TestAPI.Primitives.maxInt })
-    expect(TestAPI.ClosedRanges.floatRange).toEqual({ start: TestAPI.Primitives.minFloat, endInclusive: TestAPI.Primitives.maxFloat })
-    expect(TestAPI.ClosedRanges.doubleRange).toEqual({ start: TestAPI.Primitives.minDouble, endInclusive: TestAPI.Primitives.maxDouble })
-    expect(TestAPI.ClosedRanges.stringRange).toEqual({ start: "A", endInclusive: "Z" })
+    expect(TestAPI.ClosedRanges.uInt8Range.lowerBound).toEqual(TestAPI.Primitives.minUInt8)
+    expect(TestAPI.ClosedRanges.uInt8Range.upperBound).toEqual(TestAPI.Primitives.maxUInt8)
+    expect(TestAPI.ClosedRanges.uInt8Range).toEqual({ lowerBound: TestAPI.Primitives.minUInt8, upperBound: TestAPI.Primitives.maxUInt8 })
+    expect(TestAPI.ClosedRanges.uInt16Range).toEqual({ lowerBound: TestAPI.Primitives.minUInt16, upperBound: TestAPI.Primitives.maxUInt16 })
+    expect(TestAPI.ClosedRanges.uInt32Range).toEqual({ lowerBound: TestAPI.Primitives.minUInt32, upperBound: TestAPI.Primitives.maxUInt32 })
+    expect(TestAPI.ClosedRanges.uInt64Range).toEqual({ lowerBound: TestAPI.Primitives.minUInt64, upperBound: TestAPI.Primitives.maxUInt64 })
+    expect(TestAPI.ClosedRanges.uIntRange).toEqual({ lowerBound: TestAPI.Primitives.minUInt, upperBound: TestAPI.Primitives.maxUInt })
+    expect(TestAPI.ClosedRanges.int8Range).toEqual({ lowerBound: TestAPI.Primitives.minInt8, upperBound: TestAPI.Primitives.maxInt8 })
+    expect(TestAPI.ClosedRanges.int16Range).toEqual({ lowerBound: TestAPI.Primitives.minInt16, upperBound: TestAPI.Primitives.maxInt16 })
+    expect(TestAPI.ClosedRanges.int32Range).toEqual({ lowerBound: TestAPI.Primitives.minInt32, upperBound: TestAPI.Primitives.maxInt32 })
+    expect(TestAPI.ClosedRanges.int64Range).toEqual({ lowerBound: TestAPI.Primitives.minInt64, upperBound: TestAPI.Primitives.maxInt64 })
+    expect(TestAPI.ClosedRanges.intRange).toEqual({ lowerBound: TestAPI.Primitives.minInt, upperBound: TestAPI.Primitives.maxInt })
+    expect(TestAPI.ClosedRanges.floatRange).toEqual({ lowerBound: TestAPI.Primitives.minFloat, upperBound: TestAPI.Primitives.maxFloat })
+    expect(TestAPI.ClosedRanges.doubleRange).toEqual({ lowerBound: TestAPI.Primitives.minDouble, upperBound: TestAPI.Primitives.maxDouble })
+    expect(TestAPI.ClosedRanges.stringRange).toEqual({ lowerBound: "A", upperBound: "Z" })
 });
 
 test('ClosedRangeEcho', () => {

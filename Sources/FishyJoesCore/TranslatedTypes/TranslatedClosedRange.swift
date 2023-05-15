@@ -14,11 +14,11 @@ struct TranslatedClosedRange: TranslatedType {
         self.bound = bound
         self.containedNamedTypes = bound.containedNamedTypes
         self.neutralName = "ClosedRange<B=\(bound.neutralName)>"
-        self.nodeName = "{ start: \(bound.nodeName), endInclusive: \(bound.nodeName) }"
+        self.nodeName = "{ lowerBound: \(bound.nodeName), upperBound: \(bound.nodeName) }"
         self.kotlinPackage = "com.cricut.fishyjoes.runtime"
-        self.kotlinName = "ClosedRange<\(bound.kotlinName)>"
-        self.jniType = .object("com/cricut/fishyjoes/runtime/ClosedRange")
-        self.cSharpType = .named(package: "Cricut.FishyJoesRuntime", name: "ClosedRange<\(bound.cSharpType.name)>")
+        self.kotlinName = "SwiftClosedRange<\(bound.kotlinName)>"
+        self.jniType = .object("com/cricut/fishyjoes/runtime/SwiftClosedRange")
+        self.cSharpType = .named(package: "Cricut.FishyJoesRuntime", name: "SwiftClosedRange<\(bound.cSharpType.name)>")
         self.cppName = "std::ranges::range<\(bound.cppName)>"
     }
 

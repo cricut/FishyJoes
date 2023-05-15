@@ -1,23 +1,23 @@
 package com.cricut.testapi
 
-import com.cricut.fishyjoes.runtime.ClosedRange
-import com.cricut.fishyjoes.runtime.OpenRange
+import com.cricut.fishyjoes.runtime.SwiftClosedRange
+import com.cricut.fishyjoes.runtime.SwiftRange
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
 internal class RangeTests {
     @Test
     fun testRangeValues() {
-        assertEquals(Ranges.uInt8Range, OpenRange(UByte.MIN_VALUE, UByte.MAX_VALUE))
-        assertEquals(Ranges.uInt16Range, OpenRange(UShort.MIN_VALUE, UShort.MAX_VALUE))
-        assertEquals(Ranges.uInt32Range, OpenRange(UInt.MIN_VALUE, UInt.MAX_VALUE))
-        assertEquals(Ranges.uInt64Range, OpenRange(ULong.MIN_VALUE, ULong.MAX_VALUE))
-        assertEquals(Ranges.uIntRange, OpenRange(ULong.MIN_VALUE, ULong.MAX_VALUE))
-        assertEquals(Ranges.int8Range, OpenRange(Byte.MIN_VALUE, Byte.MAX_VALUE))
-        assertEquals(Ranges.int16Range, OpenRange(Short.MIN_VALUE, Short.MAX_VALUE))
-        assertEquals(Ranges.int32Range, OpenRange(Int.MIN_VALUE, Int.MAX_VALUE))
-        assertEquals(Ranges.int64Range, OpenRange(Long.MIN_VALUE, Long.MAX_VALUE))
-        assertEquals(Ranges.intRange, OpenRange(Long.MIN_VALUE, Long.MAX_VALUE))
+        assertEquals(Ranges.uInt8Range, SwiftRange(UByte.MIN_VALUE, UByte.MAX_VALUE))
+        assertEquals(Ranges.uInt16Range, SwiftRange(UShort.MIN_VALUE, UShort.MAX_VALUE))
+        assertEquals(Ranges.uInt32Range, SwiftRange(UInt.MIN_VALUE, UInt.MAX_VALUE))
+        assertEquals(Ranges.uInt64Range, SwiftRange(ULong.MIN_VALUE, ULong.MAX_VALUE))
+        assertEquals(Ranges.uIntRange, SwiftRange(ULong.MIN_VALUE, ULong.MAX_VALUE))
+        assertEquals(Ranges.int8Range, SwiftRange(Byte.MIN_VALUE, Byte.MAX_VALUE))
+        assertEquals(Ranges.int16Range, SwiftRange(Short.MIN_VALUE, Short.MAX_VALUE))
+        assertEquals(Ranges.int32Range, SwiftRange(Int.MIN_VALUE, Int.MAX_VALUE))
+        assertEquals(Ranges.int64Range, SwiftRange(Long.MIN_VALUE, Long.MAX_VALUE))
+        assertEquals(Ranges.intRange, SwiftRange(Long.MIN_VALUE, Long.MAX_VALUE))
     }
 
     @Test
@@ -36,19 +36,19 @@ internal class RangeTests {
 
     @Test
     fun testClosedRangeValues() {
-        assertEquals(ClosedRanges.uInt8Range, ClosedRange(UByte.MIN_VALUE, UByte.MAX_VALUE))
-        assertEquals(ClosedRanges.uInt16Range, ClosedRange(UShort.MIN_VALUE, UShort.MAX_VALUE))
-        assertEquals(ClosedRanges.uInt32Range, ClosedRange(UInt.MIN_VALUE, UInt.MAX_VALUE))
-        assertEquals(ClosedRanges.uInt64Range, ClosedRange(ULong.MIN_VALUE, ULong.MAX_VALUE))
-        assertEquals(ClosedRanges.uIntRange, ClosedRange(ULong.MIN_VALUE, ULong.MAX_VALUE))
-        assertEquals(ClosedRanges.int8Range, ClosedRange(Byte.MIN_VALUE, Byte.MAX_VALUE))
-        assertEquals(ClosedRanges.int16Range, ClosedRange(Short.MIN_VALUE, Short.MAX_VALUE))
-        assertEquals(ClosedRanges.int32Range, ClosedRange(Int.MIN_VALUE, Int.MAX_VALUE))
-        assertEquals(ClosedRanges.int64Range, ClosedRange(Long.MIN_VALUE, Long.MAX_VALUE))
-        assertEquals(ClosedRanges.intRange, ClosedRange(Long.MIN_VALUE, Long.MAX_VALUE))
-        assertEquals(ClosedRanges.floatRange, ClosedRange(-Float.MAX_VALUE, Float.MAX_VALUE))
-        assertEquals(ClosedRanges.doubleRange, ClosedRange(-Double.MAX_VALUE, Double.MAX_VALUE))
-        assertEquals(ClosedRanges.stringRange, ClosedRange("A", "Z"))
+        assertEquals(ClosedRanges.uInt8Range, SwiftClosedRange(UByte.MIN_VALUE, UByte.MAX_VALUE))
+        assertEquals(ClosedRanges.uInt16Range, SwiftClosedRange(UShort.MIN_VALUE, UShort.MAX_VALUE))
+        assertEquals(ClosedRanges.uInt32Range, SwiftClosedRange(UInt.MIN_VALUE, UInt.MAX_VALUE))
+        assertEquals(ClosedRanges.uInt64Range, SwiftClosedRange(ULong.MIN_VALUE, ULong.MAX_VALUE))
+        assertEquals(ClosedRanges.uIntRange, SwiftClosedRange(ULong.MIN_VALUE, ULong.MAX_VALUE))
+        assertEquals(ClosedRanges.int8Range, SwiftClosedRange(Byte.MIN_VALUE, Byte.MAX_VALUE))
+        assertEquals(ClosedRanges.int16Range, SwiftClosedRange(Short.MIN_VALUE, Short.MAX_VALUE))
+        assertEquals(ClosedRanges.int32Range, SwiftClosedRange(Int.MIN_VALUE, Int.MAX_VALUE))
+        assertEquals(ClosedRanges.int64Range, SwiftClosedRange(Long.MIN_VALUE, Long.MAX_VALUE))
+        assertEquals(ClosedRanges.intRange, SwiftClosedRange(Long.MIN_VALUE, Long.MAX_VALUE))
+        assertEquals(ClosedRanges.floatRange, SwiftClosedRange(-Float.MAX_VALUE, Float.MAX_VALUE))
+        assertEquals(ClosedRanges.doubleRange, SwiftClosedRange(-Double.MAX_VALUE, Double.MAX_VALUE))
+        assertEquals(ClosedRanges.stringRange, SwiftClosedRange("A", "Z"))
     }
 
     @Test
@@ -82,16 +82,16 @@ internal class RangeTests {
         val d = 1.0..2.0
         val l = "A".."Z"
 
-        assertEquals(ClosedRanges.echoUInt32Range(ClosedRange(ub)), ClosedRange(ub))
-        assertEquals(ClosedRanges.echoUInt32Range(ClosedRange(us)), ClosedRange(us))
-        assertEquals(ClosedRanges.echoUInt32Range(ClosedRange(ui)), ClosedRange(ui))
-        assertEquals(ClosedRanges.echoUIntRange(ClosedRange(uj)), ClosedRange(uj))
-        assertEquals(ClosedRanges.echoInt32Range(ClosedRange(b)), ClosedRange(b))
-        assertEquals(ClosedRanges.echoInt32Range(ClosedRange(s)), ClosedRange(s))
-        assertEquals(ClosedRanges.echoInt32Range(ClosedRange(i)), ClosedRange(i))
-        assertEquals(ClosedRanges.echoIntRange(ClosedRange(j)), ClosedRange(j))
-        assertEquals(ClosedRanges.echoFloatRange(ClosedRange(f)), ClosedRange(f))
-        assertEquals(ClosedRanges.echoDoubleRange(ClosedRange(d)), ClosedRange(d))
-        assertEquals(ClosedRanges.echoStringRange(ClosedRange(l)), ClosedRange(l))
+        assertEquals(ClosedRanges.echoUInt32Range(SwiftClosedRange(ub)), SwiftClosedRange(ub))
+        assertEquals(ClosedRanges.echoUInt32Range(SwiftClosedRange(us)), SwiftClosedRange(us))
+        assertEquals(ClosedRanges.echoUInt32Range(SwiftClosedRange(ui)), SwiftClosedRange(ui))
+        assertEquals(ClosedRanges.echoUIntRange(SwiftClosedRange(uj)), SwiftClosedRange(uj))
+        assertEquals(ClosedRanges.echoInt32Range(SwiftClosedRange(b)), SwiftClosedRange(b))
+        assertEquals(ClosedRanges.echoInt32Range(SwiftClosedRange(s)), SwiftClosedRange(s))
+        assertEquals(ClosedRanges.echoInt32Range(SwiftClosedRange(i)), SwiftClosedRange(i))
+        assertEquals(ClosedRanges.echoIntRange(SwiftClosedRange(j)), SwiftClosedRange(j))
+        assertEquals(ClosedRanges.echoFloatRange(SwiftClosedRange(f)), SwiftClosedRange(f))
+        assertEquals(ClosedRanges.echoDoubleRange(SwiftClosedRange(d)), SwiftClosedRange(d))
+        assertEquals(ClosedRanges.echoStringRange(SwiftClosedRange(l)), SwiftClosedRange(l))
     }
 }

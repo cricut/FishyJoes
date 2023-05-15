@@ -190,24 +190,24 @@ extension OptionalConverter: CSharpConverter where WrappedConverter: CSharpConve
 
 // MARK: - Range Type Conversion
 
-public struct CSharpOpenRange {
-    public typealias GetStartMethod = @convention(c) (_ range: csObject, _ exn: csOutExn) -> csObject
-    public typealias GetEndExclusiveMethod = @convention(c) (_ range: csObject, _ exn: csOutExn) -> csObject
+public struct CSharpSwiftRange {
+    public typealias GetLowerBoundMethod = @convention(c) (_ range: csObject, _ exn: csOutExn) -> csObject
+    public typealias GetUpperBoundMethod = @convention(c) (_ range: csObject, _ exn: csOutExn) -> csObject
     public typealias Constructor = @convention(c) (_ start: csObject, _ end: csObject, _ exn: csOutExn) -> csObject
 
-    static var interfaces: [ObjectIdentifier: CSharpOpenRange] = [:]
+    static var interfaces: [ObjectIdentifier: CSharpSwiftRange] = [:]
 
-    var getStartMethod: GetStartMethod?
-    var getEndExclusiveMethod: GetEndExclusiveMethod?
+    var getLowerBoundMethod: GetLowerBoundMethod?
+    var getUpperBoundMethod: GetUpperBoundMethod?
     var constructor: Constructor?
 }
 
 @_cdecl("FishyJoesRuntime_RangeConverter_setup")
 public func RangeConverter_cSharp_setup(
     name: UnsafePointer<unichar>,
-    getStartMethod: @escaping CSharpOpenRange.GetStartMethod,
-    getEndExclusiveMethod: @escaping CSharpOpenRange.GetEndExclusiveMethod,
-    constructor: @escaping CSharpOpenRange.Constructor
+    getLowerBoundMethod: @escaping CSharpSwiftRange.GetLowerBoundMethod,
+    getUpperBoundMethod: @escaping CSharpSwiftRange.GetUpperBoundMethod,
+    constructor: @escaping CSharpSwiftRange.Constructor
 ) {
     let name = String(decodingCString: name, as: Unicode.UTF16.self)
     guard let typeID = Env.typeIDsByName[name],
@@ -215,61 +215,58 @@ public func RangeConverter_cSharp_setup(
     else {
         fatalError("unregistered typeID \(name)")
     }
-    CSharpOpenRange.interfaces[identifier] = CSharpOpenRange(
-        getStartMethod: getStartMethod,
-        getEndExclusiveMethod: getEndExclusiveMethod,
+    CSharpSwiftRange.interfaces[identifier] = CSharpSwiftRange(
+        getLowerBoundMethod: getLowerBoundMethod,
+        getUpperBoundMethod: getUpperBoundMethod,
         constructor: constructor
     )
 }
 
 extension RangeConverter: CSharpConverter where BoundConverter: CSharpConverter {
     public static func peekCSharp(_ value: csObject) throws -> SwiftType {
-        guard let interface = CSharpOpenRange.interfaces[ObjectIdentifier(Self.self)] else {
+        guard let interface = CSharpSwiftRange.interfaces[ObjectIdentifier(Self.self)] else {
             fatalError("Type \(SwiftType.self) improperly set up")
         }
 
-        let start = try Env.check { exn in try Env.unwrap(interface.getStartMethod)(value, exn) }
-        let lowerBound = try Env.unwrap(BoundConverter.consumeCSharp(object: start))
-
-        let endExclusive = try Env.check { exn in try Env.unwrap(interface.getEndExclusiveMethod)(value, exn) }
-        let upperBound = try Env.unwrap(BoundConverter.consumeCSharp(object: endExclusive))
+        let lowerBound = try Env.unwrap(BoundConverter.consumeCSharp(object: try Env.check { exn in try Env.unwrap(interface.getLowerBoundMethod)(value, exn) }))
+        let upperBound = try Env.unwrap(BoundConverter.consumeCSharp(object: try Env.check { exn in try Env.unwrap(interface.getUpperBoundMethod)(value, exn) }))
 
         return lowerBound..<upperBound
     }
 
     public static func toCSharp(_ value: SwiftType) throws -> csObject {
-        guard let interface = CSharpOpenRange.interfaces[ObjectIdentifier(Self.self)] else {
+        guard let interface = CSharpSwiftRange.interfaces[ObjectIdentifier(Self.self)] else {
             fatalError("Type \(SwiftType.self) improperly set up")
         }
 
-        let start = try BoundConverter.toCSharpObject(value.lowerBound)
-        defer { Env.deleteRef(start) }
-        let endExclusive = try BoundConverter.toCSharpObject(value.upperBound)
-        defer { Env.deleteRef(endExclusive) }
+        let lowerBound = try BoundConverter.toCSharpObject(value.lowerBound)
+        defer { Env.deleteRef(lowerBound) }
+        let upperBound = try BoundConverter.toCSharpObject(value.upperBound)
+        defer { Env.deleteRef(upperBound) }
 
-        let openRange = try Env.check { exn in try Env.unwrap(interface.constructor)(start, endExclusive, exn) }
-        return openRange
+        let range = try Env.check { exn in try Env.unwrap(interface.constructor)(lowerBound, upperBound, exn) }
+        return range
     }
 }
 
-public struct CSharpClosedRange {
-    public typealias GetStartMethod = @convention(c) (_ range: csObject, _ exn: csOutExn) -> csObject
-    public typealias GetEndInclusiveMethod = @convention(c) (_ range: csObject, _ exn: csOutExn) -> csObject
+public struct CSharpSwiftClosedRange {
+    public typealias GetLowerBoundMethod = @convention(c) (_ range: csObject, _ exn: csOutExn) -> csObject
+    public typealias GetUpperBoundMethod = @convention(c) (_ range: csObject, _ exn: csOutExn) -> csObject
     public typealias Constructor = @convention(c) (_ start: csObject, _ end: csObject, _ exn: csOutExn) -> csObject
 
-    static var interfaces: [ObjectIdentifier: CSharpClosedRange] = [:]
+    static var interfaces: [ObjectIdentifier: CSharpSwiftClosedRange] = [:]
 
-    var getStartMethod: GetStartMethod?
-    var getEndInclusiveMethod: GetEndInclusiveMethod?
+    var getLowerBoundMethod: GetLowerBoundMethod?
+    var getUpperBoundMethod: GetUpperBoundMethod?
     var constructor: Constructor?
 }
 
 @_cdecl("FishyJoesRuntime_ClosedRangeConverter_setup")
 public func ClosedRangeConverter_cSharp_setup(
     name: UnsafePointer<unichar>,
-    getStartMethod: @escaping CSharpClosedRange.GetStartMethod,
-    getEndInclusiveMethod: @escaping CSharpClosedRange.GetEndInclusiveMethod,
-    constructor: @escaping CSharpClosedRange.Constructor
+    getLowerBoundMethod: @escaping CSharpSwiftClosedRange.GetLowerBoundMethod,
+    getUpperBoundMethod: @escaping CSharpSwiftClosedRange.GetUpperBoundMethod,
+    constructor: @escaping CSharpSwiftClosedRange.Constructor
 ) {
     let name = String(decodingCString: name, as: Unicode.UTF16.self)
     guard let typeID = Env.typeIDsByName[name],
@@ -277,39 +274,36 @@ public func ClosedRangeConverter_cSharp_setup(
     else {
         fatalError("unregistered typeID \(name)")
     }
-    CSharpClosedRange.interfaces[identifier] = CSharpClosedRange(
-        getStartMethod: getStartMethod,
-        getEndInclusiveMethod: getEndInclusiveMethod,
+    CSharpSwiftClosedRange.interfaces[identifier] = CSharpSwiftClosedRange(
+        getLowerBoundMethod: getLowerBoundMethod,
+        getUpperBoundMethod: getUpperBoundMethod,
         constructor: constructor
     )
 }
 
 extension ClosedRangeConverter: CSharpConverter where BoundConverter: CSharpConverter {
     public static func peekCSharp(_ value: csObject) throws -> SwiftType {
-        guard let interface = CSharpClosedRange.interfaces[ObjectIdentifier(Self.self)] else {
+        guard let interface = CSharpSwiftClosedRange.interfaces[ObjectIdentifier(Self.self)] else {
             fatalError("Type \(SwiftType.self) improperly set up")
         }
 
-        let start = try Env.check { exn in try Env.unwrap(interface.getStartMethod)(value, exn) }
-        let lowerBound = try Env.unwrap(BoundConverter.consumeCSharp(object: start))
-
-        let endInclusive = try Env.check { exn in try Env.unwrap(interface.getEndInclusiveMethod)(value, exn) }
-        let upperBound = try Env.unwrap(BoundConverter.consumeCSharp(object: endInclusive))
+        let lowerBound = try Env.unwrap(BoundConverter.consumeCSharp(object: try Env.check { exn in try Env.unwrap(interface.getLowerBoundMethod)(value, exn) }))
+        let upperBound = try Env.unwrap(BoundConverter.consumeCSharp(object: try Env.check { exn in try Env.unwrap(interface.getUpperBoundMethod)(value, exn) }))
 
         return lowerBound...upperBound
     }
 
     public static func toCSharp(_ value: SwiftType) throws -> csObject {
-        guard let interface = CSharpClosedRange.interfaces[ObjectIdentifier(Self.self)] else {
+        guard let interface = CSharpSwiftClosedRange.interfaces[ObjectIdentifier(Self.self)] else {
             fatalError("Type \(SwiftType.self) improperly set up")
         }
 
-        let start = try BoundConverter.toCSharpObject(value.lowerBound)
-        defer { Env.deleteRef(start) }
-        let endInclusive = try BoundConverter.toCSharpObject(value.upperBound)
-        defer { Env.deleteRef(endInclusive) }
+        let lowerBound = try BoundConverter.toCSharpObject(value.lowerBound)
+        defer { Env.deleteRef(lowerBound) }
+        let upperBound = try BoundConverter.toCSharpObject(value.upperBound)
+        defer { Env.deleteRef(upperBound) }
 
-        let closedRange = try Env.check { exn in try Env.unwrap(interface.constructor)(start, endInclusive, exn) }
+        let closedRange = try Env.check { exn in try Env.unwrap(interface.constructor)(lowerBound, upperBound, exn) }
         return closedRange
     }
 }
