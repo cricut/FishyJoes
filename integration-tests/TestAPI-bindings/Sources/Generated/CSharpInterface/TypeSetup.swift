@@ -10,7 +10,6 @@ public func FishyJoes_TestAPI_registerTypes() {
     Env.registerType(Function2Converter<Function1Converter<Int, Int>, Function1Converter<Int, Int>, Function1Converter<Int, Int>>.self, as: "Function2Converter<Function1Converter<Int, Int>, Function1Converter<Int, Int>, Function1Converter<Int, Int>>")
     Env.registerType(Tuple4Converter<Tuple2Converter<Int, Swift.String>, Tuple3Converter<Swift.String, Double, Swift.String>, Swift.String, Bool>.self, as: "Tuple4Converter<Tuple2Converter<Int, Swift.String>, Tuple3Converter<Swift.String, Double, Swift.String>, Swift.String, Bool>")
     Env.registerType(Function0Converter<Int>.self, as: "Function0Converter<Int>")
-    Env.registerType(Function0Converter<VoidConverter>.self, as: "Function0Converter<VoidConverter>")
     Env.registerType(Function1Converter<Double, VoidConverter>.self, as: "Function1Converter<Double, VoidConverter>")
     Env.registerType(Function3Converter<Float, Double, Int, Double>.self, as: "Function3Converter<Float, Double, Int, Double>")
     Env.registerType(Function1Converter<Int, Int>.self, as: "Function1Converter<Int, Int>")

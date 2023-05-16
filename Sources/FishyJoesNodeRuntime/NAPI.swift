@@ -819,7 +819,6 @@ extension NAPI.Env {
         mainThreadCallback: NAPI.MainThreadCallback?
     ) throws -> NAPI.ThreadsafeFunction? {
         var threadsafeFunction: napi_threadsafe_function?
-        print("creating threadsafe")
         let status = napi_create_threadsafe_function(
             ptr,
             function?.ptr,
@@ -833,9 +832,7 @@ extension NAPI.Env {
             mainThreadCallback,
             &threadsafeFunction
         )
-        print("created threadsafe \(status)")
         try check(status)
-        print("passed check")
         guard let threadsafeFunction else {
             return nil
         }

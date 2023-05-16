@@ -116,9 +116,6 @@ namespace TestAPI {
         /// <!-- FishyJoes.export(asyncVoidFunc) -->
         static void asyncVoidFunc();
         
-        /// <!-- FishyJoes.export(asyncCallbackFunc) -->
-        static void asyncCallbackFunc(const std::function<void(> &callback);
-        
         /// <!-- FishyJoes.export(asyncDoubleFunc) -->
         static double asyncDoubleFunc(const double &d);
         

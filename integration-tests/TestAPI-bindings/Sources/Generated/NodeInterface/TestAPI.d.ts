@@ -295,13 +295,6 @@ export declare namespace TestAPI {
         ): Promise<number>;
 
         /**
-         * <!-- FishyJoes.export(asyncCallbackFunc) -->
-         */
-        function asyncCallbackFunc(
-            callback: () => Promise<void>
-        ): Promise<void>;
-
-        /**
          * <!-- FishyJoes.export(asyncDoubleFunc) -->
          */
         function asyncDoubleFunc(

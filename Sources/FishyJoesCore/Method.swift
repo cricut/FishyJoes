@@ -79,6 +79,10 @@ struct Method: Hashable {
                 omitParameters.remove(parameter.name)
                 continue
             }
+            if method.isAsync,
+               case .function = parameter.typeName.better {
+                fatalErr("Can't yet take function parameters to async functions")
+            }
             parameters.append(
                 SwiftFormal(
                     label: parameter.argumentLabel,

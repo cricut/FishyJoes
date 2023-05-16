@@ -22,7 +22,8 @@ extension NodeConverter {
 extension VoidConverter: NodeConverter {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws {}
     public static func toNode(_ value: Void, env: NAPI.Env) throws -> NAPI.Value {
-        return .init(ptr: nil)
+        // TODO: Should we cache this?
+        return try env.getUndefined()
     }
 }
 

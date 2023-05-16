@@ -76,7 +76,6 @@ namespace TestAPI {
                 void* FJInternalBinding_TestAPI_Functions_asyncYieldFunc();
                 void* FJInternalBinding_TestAPI_Functions_asyncSleepFunc();
                 void* FJInternalBinding_TestAPI_Functions_asyncVoidFunc();
-                void* FJInternalBinding_TestAPI_Functions_asyncCallbackFunc(void*);
                 void* FJInternalBinding_TestAPI_Functions_asyncDoubleFunc(void*);
                 void* FJInternalBinding_TestAPI_Functions_asyncThrowingFunc();
                 void* FJInternalBinding_TestAPI_Functions_getConst42();

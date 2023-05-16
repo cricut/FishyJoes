@@ -389,13 +389,6 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
-            Once("setup_Function0Converter<VoidConverter>", () => {
-                Console.WriteLine("setting up () -> Void...");
-                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_Function0Converter_setup(
-                    "Function0Converter<VoidConverter>",
-                    out exn
-                ));
-            });
             Once("setup_Function1Converter<Double, VoidConverter>", () => {
                 Console.WriteLine("setting up (Double) -> Void...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_Function1Converter_setup<double>(

@@ -2317,33 +2317,6 @@
               },
               {
                 "documentation" : [
-                  "<!-- FishyJoes.export(asyncCallbackFunc) -->"
-                ],
-                "isAsync" : true,
-                "isStatic" : true,
-                "name" : "asyncCallbackFunc",
-                "parameters" : [
-                  {
-                    "name" : "callback",
-                    "type" : {
-                      "named" : {
-                        "_0" : "() => void"
-                      }
-                    }
-                  }
-                ],
-                "returnType" : {
-                  "promise" : {
-                    "_0" : {
-                      "named" : {
-                        "_0" : "void"
-                      }
-                    }
-                  }
-                }
-              },
-              {
-                "documentation" : [
                   "<!-- FishyJoes.export(asyncDoubleFunc) -->"
                 ],
                 "isAsync" : true,

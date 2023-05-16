@@ -39,8 +39,6 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try Function1Converter<VoidConverter, VoidConverter>.javaSetup(env: env)
         // print("setting up Function0Converter<Int>...")
         try Function0Converter<Int>.javaSetup(env: env)
-        // print("setting up Function0Converter<VoidConverter>...")
-        try Function0Converter<VoidConverter>.javaSetup(env: env)
         // print("setting up ArrayConverter<OptionalConverter<Bool>>...")
         try ArrayConverter<OptionalConverter<Bool>>.javaSetup(env: env)
         // print("setting up ArrayConverter<OptionalConverter<Double>>...")
@@ -405,11 +403,6 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_asyncVoidFunc"),
                 signature: bag.add("()V"),
                 fnPtr: unsafeBitCast(java_Functions_asyncVoidFunc, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_asyncCallbackFunc"),
-                signature: bag.add("(Lkotlin/jvm/functions/Function0;)V"),
-                fnPtr: unsafeBitCast(java_Functions_asyncCallbackFunc, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_asyncDoubleFunc"),

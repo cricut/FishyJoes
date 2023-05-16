@@ -16,6 +16,17 @@ private struct AnyFunction0: AnyFunction {
     }
 }
 
+private struct AnyAsyncFunction0: AnyFunction {
+    let invoke: (CallbackEnv) async throws -> NAPI.Value?
+
+    static let cInvoke: NAPI.Callback = { env, info in
+        callbackBody(env, info, name: "<AsyncFunction0>", expectedArgumentCount: 0) { env in
+            try await Box<Self>.takeUnretainedOpaque(env.data()!).value
+                .invoke(env)
+        }
+    }
+}
+
 private struct AnyFunction1: AnyFunction {
     let invoke: (CallbackEnv, NAPI.Value) throws -> NAPI.Value
 
@@ -106,6 +117,21 @@ extension Function0Converter: NodeConverter where R: NodeConverter {
     public static func toNode(_ value: @escaping SwiftType, env: NAPI.Env) throws -> NAPI.Value {
         try AnyFunction0 { env in
             return try R.toNode(value(), env: env.env)
+        }.toNode(env: env)
+    }
+}
+
+extension AsyncFunction0Converter: NodeConverter where R: NodeConverter {
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
+        let escapingRef = try NodeReference(env: env, value: value)
+        return {
+            try R.fromNode(nodeCall(escapingRef, [], env: env), env: env)
+        }
+    }
+
+    public static func toNode(_ value: @escaping SwiftType, env: NAPI.Env) throws -> NAPI.Value {
+        try AnyAsyncFunction0 { env in
+            return try await R.toNode(value(), env: env.env)
         }.toNode(env: env)
     }
 }

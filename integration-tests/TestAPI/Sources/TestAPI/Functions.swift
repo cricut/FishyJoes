@@ -98,10 +98,15 @@ public enum Functions {
     public static func asyncVoidFunc() async throws {
     }
 
-    /// <!-- FishyJoes.export(asyncCallbackFunc) -->
-    public static func asyncCallbackFunc(_ callback: () async throws -> Void) async throws {
-        try await callback()
-    }
+//    /// <!-- FishyJoes.export(asyncCallbackFuncAsync) -->
+//    public static func asyncCallbackFuncAsync(_ callback: () async throws -> Void) async throws {
+//        try await callback()
+//    }
+//
+//    /// <!-- FishyJoes.export(asyncCallbackFunc) -->
+//    public static func asyncCallbackFunc(_ callback: () throws -> Void) async throws {
+//        try callback()
+//    }
 
     /// <!-- FishyJoes.export(asyncDoubleFunc) -->
     public static func asyncDoubleFunc(_ d: Double) async throws -> Double {
