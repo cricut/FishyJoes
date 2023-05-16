@@ -313,7 +313,7 @@ public class FishyJoesContext {
             "UInt16": (c: "uint16_t", ts: "number", jni: JNIType.short, cSharp: "ushort"),
             "UInt32": (c: "uint32_t", ts: "number", jni: JNIType.int, cSharp: "uint"),
             "UInt64": (c: "uint64_t", ts: "bigint", jni: JNIType.long, cSharp: "ulong"),
-            "UInt": (c: "uint64_t", ts: "bigint", jni: JNIType.long, cSharp: "nuint"),
+            "UInt": (c: "uint64_t", ts: "number", jni: JNIType.long, cSharp: "nuint"),
         ]
 
         var dontCache = false

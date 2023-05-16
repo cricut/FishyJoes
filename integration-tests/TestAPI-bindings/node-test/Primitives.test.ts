@@ -16,13 +16,13 @@ test('PrimitiveValues', () => {
     expect(TestAPI.Primitives.minUInt64).toEqual(BigInt("0x0000000000000000"));
     expect(TestAPI.Primitives.maxUInt64).toEqual(BigInt("0xFFFFFFFFFFFFFFFF"));
     if (TestAPI.Primitives.bitCountUInt < 64) {
-        expect(TestAPI.Primitives.zeroUInt).toEqual(BigInt("0"));
-        expect(TestAPI.Primitives.minUInt).toEqual(BigInt("0x00000000"));
-        expect(TestAPI.Primitives.maxUInt).toEqual(BigInt("0xFFFFFFFF"));
+        expect(TestAPI.Primitives.zeroUInt).toEqual(0);
+        expect(TestAPI.Primitives.minUInt).toEqual(0x00000000);
+        expect(TestAPI.Primitives.maxUInt).toEqual(0xFFFFFFFF);
     } else {
-        expect(TestAPI.Primitives.zeroUInt).toEqual(BigInt("0"));
-        expect(TestAPI.Primitives.minUInt).toEqual(BigInt("0x0000000000000000"));
-        expect(TestAPI.Primitives.maxUInt).toEqual(BigInt("0xFFFFFFFFFFFFFFFF"));
+        expect(TestAPI.Primitives.zeroUInt).toEqual(0);
+        expect(TestAPI.Primitives.minUInt).toEqual(0x0000000000000000);
+        expect(TestAPI.Primitives.maxUInt).toEqual(0xFFFFFFFFFFFFFFFF);
     }
     expect(TestAPI.Primitives.zeroInt8).toEqual(0);
     expect(TestAPI.Primitives.minInt8).toEqual(-0x80);
@@ -60,9 +60,9 @@ test('ArraysOfPrimitiveValues', () => {
     expect(TestAPI.Primitives.manyUInt32).toEqual([0, 0x00000000, 0xFFFFFFFF]);
     expect(TestAPI.Primitives.manyUInt64).toEqual([BigInt("0"), BigInt("0x0000000000000000"), BigInt("0xFFFFFFFFFFFFFFFF")]);
     if (TestAPI.Primitives.bitCountUInt < 64) {
-        expect(TestAPI.Primitives.manyUInt).toEqual([BigInt("0"), BigInt("0x00000000"), BigInt("0xFFFFFFFF")]);
+        expect(TestAPI.Primitives.manyUInt).toEqual([0, 0x00000000, 0xFFFFFFFF]);
     } else {
-        expect(TestAPI.Primitives.manyUInt).toEqual([BigInt("0"), BigInt("0x0000000000000000"), BigInt("0xFFFFFFFFFFFFFFFF")]);
+        expect(TestAPI.Primitives.manyUInt).toEqual([0, 0x0000000000000000, 0xFFFFFFFFFFFFFFFF]);
     }
     expect(TestAPI.Primitives.manyInt8).toEqual([0, -0x80, 0x7F]);
     expect(TestAPI.Primitives.manyInt16).toEqual([0, -0x8000, 0x7FFF]);
@@ -84,9 +84,9 @@ test('ArraysOfOptionalPrimitiveValues', () => {
     expect(TestAPI.Primitives.manyMaybeUInt32).toEqual([undefined, 0, 0x00000000, 0xFFFFFFFF]);
     expect(TestAPI.Primitives.manyMaybeUInt64).toEqual([undefined, BigInt("0"), BigInt("0x0000000000000000"), BigInt("0xFFFFFFFFFFFFFFFF")]);
     if (TestAPI.Primitives.bitCountUInt < 64) {
-        expect(TestAPI.Primitives.manyMaybeUInt).toEqual([undefined, BigInt("0"), BigInt("0x00000000"), BigInt("0xFFFFFFFF")]);
+        expect(TestAPI.Primitives.manyMaybeUInt).toEqual([undefined, 0, 0x00000000, 0xFFFFFFFF]);
     } else {
-        expect(TestAPI.Primitives.manyMaybeUInt).toEqual([undefined, BigInt("0"), BigInt("0x0000000000000000"), BigInt("0xFFFFFFFFFFFFFFFF")]);
+        expect(TestAPI.Primitives.manyMaybeUInt).toEqual([undefined, 0, 0x0000000000000000, 0xFFFFFFFFFFFFFFFF]);
     }
     expect(TestAPI.Primitives.manyMaybeInt8).toEqual([undefined, 0, -0x80, 0x7F]);
     expect(TestAPI.Primitives.manyMaybeInt16).toEqual([undefined, 0, -0x8000, 0x7FFF]);
@@ -117,13 +117,13 @@ test('FunctionsTakingAndReturningPrimitiveTypes', () => {
     expect(TestAPI.Primitives.echoUInt64(BigInt("0x0000000000000000"))).toEqual(BigInt("0x0000000000000000"));
     expect(TestAPI.Primitives.echoUInt64(BigInt("0xFFFFFFFFFFFFFFFF"))).toEqual(BigInt("0xFFFFFFFFFFFFFFFF"));
     if (TestAPI.Primitives.bitCountUInt < 64) {
-        expect(TestAPI.Primitives.echoUInt(BigInt(0))).toEqual(BigInt(0));
-        expect(TestAPI.Primitives.echoUInt(BigInt("0x00000000"))).toEqual(BigInt("0x00000000"));
-        expect(TestAPI.Primitives.echoUInt(BigInt("0xFFFFFFFF"))).toEqual(BigInt("0xFFFFFFFF"));
+        expect(TestAPI.Primitives.echoUInt(0)).toEqual(0);
+        expect(TestAPI.Primitives.echoUInt(0x00000000)).toEqual(0x00000000);
+        expect(TestAPI.Primitives.echoUInt(0xFFFFFFFF)).toEqual(0xFFFFFFFF);
     } else {
-        expect(TestAPI.Primitives.echoUInt(BigInt(0))).toEqual(BigInt(0));
-        expect(TestAPI.Primitives.echoUInt(BigInt("0x0000000000000000"))).toEqual(BigInt("0x0000000000000000"));
-        expect(TestAPI.Primitives.echoUInt(BigInt("0xFFFFFFFFFFFFFFFF"))).toEqual(BigInt("0xFFFFFFFFFFFFFFFF"));
+        expect(TestAPI.Primitives.echoUInt(0)).toEqual(0);
+        expect(TestAPI.Primitives.echoUInt(0x0000000000000000)).toEqual(0x0000000000000000);
+        expect(TestAPI.Primitives.echoUInt(0x7FFFFFFFFFFFFFFF)).toEqual(0x7FFFFFFFFFFFFFFF);
     }
     expect(TestAPI.Primitives.echoInt8(0)).toEqual(0);
     expect(TestAPI.Primitives.echoInt8(-0x80)).toEqual(-0x80);
@@ -175,13 +175,13 @@ test('FunctionsTakingReturningOptionalPrimitiveTypes', () => {
     expect(TestAPI.Primitives.maybeEchoUInt64(BigInt("0x0000000000000000"))).toEqual(BigInt("0x0000000000000000"));
     expect(TestAPI.Primitives.maybeEchoUInt64(BigInt("0xFFFFFFFFFFFFFFFF"))).toEqual(BigInt("0xFFFFFFFFFFFFFFFF"));
     if (TestAPI.Primitives.bitCountUInt < 64) {
-        expect(TestAPI.Primitives.maybeEchoUInt(BigInt(0))).toEqual(BigInt(0));
-        expect(TestAPI.Primitives.maybeEchoUInt(BigInt("0x00000000"))).toEqual(BigInt("0x00000000"));
-        expect(TestAPI.Primitives.maybeEchoUInt(BigInt("0xFFFFFFFF"))).toEqual(BigInt("0xFFFFFFFF"));
+        expect(TestAPI.Primitives.maybeEchoUInt(0)).toEqual(0);
+        expect(TestAPI.Primitives.maybeEchoUInt(0x00000000)).toEqual(0x00000000);
+        expect(TestAPI.Primitives.maybeEchoUInt(0xFFFFFFFF)).toEqual(0xFFFFFFFF);
     } else {
-        expect(TestAPI.Primitives.maybeEchoUInt(BigInt(0))).toEqual(BigInt(0));
-        expect(TestAPI.Primitives.maybeEchoUInt(BigInt("0x0000000000000000"))).toEqual(BigInt("0x0000000000000000"));
-        expect(TestAPI.Primitives.maybeEchoUInt(BigInt("0xFFFFFFFFFFFFFFFF"))).toEqual(BigInt("0xFFFFFFFFFFFFFFFF"));
+        expect(TestAPI.Primitives.maybeEchoUInt(0)).toEqual(0);
+        expect(TestAPI.Primitives.maybeEchoUInt(0x0000000000000000)).toEqual(0x0000000000000000);
+        expect(TestAPI.Primitives.maybeEchoUInt(0x7FFFFFFFFFFFFFFF)).toEqual(0x7FFFFFFFFFFFFFFF);
     }
     expect(TestAPI.Primitives.maybeEchoInt8(undefined)).toEqual(undefined);
     expect(TestAPI.Primitives.maybeEchoInt8(0)).toEqual(0);

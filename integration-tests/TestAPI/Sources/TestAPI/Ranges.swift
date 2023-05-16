@@ -16,7 +16,7 @@ public enum Ranges {
     /// <!-- FishyJoes.export(uInt64Range) -->
     public static let uInt64Range: Range<UInt64> = UInt64.min..<UInt64.max
     /// <!-- FishyJoes.export(uIntRange) -->
-    public static let uIntRange: Range<UInt> = UInt.min..<UInt.max
+    public static let uIntRange: Range<UInt> = UInt(UInt32.min)..<UInt(UInt32.max)
     /// <!-- FishyJoes.export(int8Range) -->
     public static let int8Range: Range<Int8> = Int8.min..<Int8.max
     /// <!-- FishyJoes.export(int16Range) -->
@@ -26,7 +26,7 @@ public enum Ranges {
     /// <!-- FishyJoes.export(int64Range) -->
     public static let int64Range: Range<Int64> = Int64.min..<Int64.max
     /// <!-- FishyJoes.export(intRange) -->
-    public static let intRange: Range<Int> = Int.min..<Int.max
+    public static let intRange: Range<Int> = Int(Int32.min)..<Int(Int32.max)
     // TODO: Support for non-integer open-ended ranges
 //    /// <!-- FishyJoes.export(floatRange) -->
 //    public static let floatRange: Range<Float> = -Float.greatestFiniteMagnitude..<Float.greatestFiniteMagnitude
@@ -75,7 +75,7 @@ public enum ClosedRanges {
     /// <!-- FishyJoes.export(uInt64Range) -->
     public static let uInt64Range: ClosedRange<UInt64> = UInt64.min...UInt64.max
     /// <!-- FishyJoes.export(uIntRange) -->
-    public static let uIntRange: ClosedRange<UInt> = UInt.min...UInt.max
+    public static let uIntRange: ClosedRange<UInt> = UInt(UInt32.min)...UInt(UInt32.max)
     /// <!-- FishyJoes.export(int8Range) -->
     public static let int8Range: ClosedRange<Int8> = Int8.min...Int8.max
     /// <!-- FishyJoes.export(int16Range) -->
@@ -85,7 +85,7 @@ public enum ClosedRanges {
     /// <!-- FishyJoes.export(int64Range) -->
     public static let int64Range: ClosedRange<Int64> = Int64.min...Int64.max
     /// <!-- FishyJoes.export(intRange) -->
-    public static let intRange: ClosedRange<Int> = Int.min...Int.max
+    public static let intRange: ClosedRange<Int> = Int(Int32.min)...Int(Int32.max)
     /// <!-- FishyJoes.export(floatRange) -->
     public static let floatRange: ClosedRange<Float> = -Float.greatestFiniteMagnitude...Float.greatestFiniteMagnitude
     /// <!-- FishyJoes.export(doubleRange) -->

@@ -14,7 +14,7 @@ struct TranslatedRange: TranslatedType {
         self.bound = bound
         self.containedNamedTypes = bound.containedNamedTypes
         self.neutralName = "Range<B=\(bound.neutralName)>"
-        self.nodeName = "{ lowerBound: \(bound.nodeName), upperBound: \(bound.nodeName) }"
+        self.nodeName = "{ lowerBound: \(bound.nodeName), upperBoundExclusive: \(bound.nodeName) }"
         self.kotlinPackage = "com.cricut.fishyjoes.runtime"
         self.kotlinName = "SwiftRange<\(bound.kotlinName)>"
         self.jniType = .object("com/cricut/fishyjoes/runtime/SwiftRange")

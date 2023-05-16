@@ -10,12 +10,12 @@ namespace Cricut.TestAPI.Tests {
             Assert.Equal(Ranges.UInt16Range, new SwiftRange<ushort>(ushort.MinValue, ushort.MaxValue));
             Assert.Equal(Ranges.UInt32Range, new SwiftRange<uint>(uint.MinValue, uint.MaxValue));
             Assert.Equal(Ranges.UInt64Range, new SwiftRange<ulong>(ulong.MinValue, ulong.MaxValue));
-            Assert.Equal(Ranges.UIntRange, new SwiftRange<nuint>(nuint.MinValue, nuint.MaxValue));
+            Assert.Equal(Ranges.UIntRange, new SwiftRange<nuint>(uint.MinValue, uint.MaxValue));
             Assert.Equal(Ranges.Int8Range, new SwiftRange<sbyte>(sbyte.MinValue, sbyte.MaxValue));
             Assert.Equal(Ranges.Int16Range, new SwiftRange<short>(short.MinValue, short.MaxValue));
             Assert.Equal(Ranges.Int32Range, new SwiftRange<int>(int.MinValue, int.MaxValue));
             Assert.Equal(Ranges.Int64Range, new SwiftRange<long>(long.MinValue, long.MaxValue));
-            Assert.Equal(Ranges.IntRange, new SwiftRange<nint>(nint.MinValue, nint.MaxValue));
+            Assert.Equal(Ranges.IntRange, new SwiftRange<nint>(int.MinValue, int.MaxValue));
         }
 
         [Fact]
@@ -38,12 +38,12 @@ namespace Cricut.TestAPI.Tests {
             Assert.Equal(ClosedRanges.UInt16Range, new SwiftClosedRange<ushort>(ushort.MinValue, ushort.MaxValue));
             Assert.Equal(ClosedRanges.UInt32Range, new SwiftClosedRange<uint>(uint.MinValue, uint.MaxValue));
             Assert.Equal(ClosedRanges.UInt64Range, new SwiftClosedRange<ulong>(ulong.MinValue, ulong.MaxValue));
-            Assert.Equal(ClosedRanges.UIntRange, new SwiftClosedRange<nuint>(nuint.MinValue, nuint.MaxValue));
+            Assert.Equal(ClosedRanges.UIntRange, new SwiftClosedRange<nuint>(uint.MinValue, uint.MaxValue));
             Assert.Equal(ClosedRanges.Int8Range, new SwiftClosedRange<sbyte>(sbyte.MinValue, sbyte.MaxValue));
             Assert.Equal(ClosedRanges.Int16Range, new SwiftClosedRange<short>(short.MinValue, short.MaxValue));
             Assert.Equal(ClosedRanges.Int32Range, new SwiftClosedRange<int>(int.MinValue, int.MaxValue));
             Assert.Equal(ClosedRanges.Int64Range, new SwiftClosedRange<long>(long.MinValue, long.MaxValue));
-            Assert.Equal(ClosedRanges.IntRange, new SwiftClosedRange<nint>(nint.MinValue, nint.MaxValue));
+            Assert.Equal(ClosedRanges.IntRange, new SwiftClosedRange<nint>(int.MinValue, int.MaxValue));
             Assert.Equal(ClosedRanges.FloatRange, new SwiftClosedRange<float>(-float.MaxValue, float.MaxValue));
             Assert.Equal(ClosedRanges.DoubleRange, new SwiftClosedRange<double>(-double.MaxValue, double.MaxValue));
             Assert.Equal(ClosedRanges.StringRange, new SwiftClosedRange<string>("A", "Z"));
