@@ -170,6 +170,8 @@ namespace TestAPI {
                 void* FJInternalBinding_TestAPI_Primitives_getZeroDouble();
                 void* FJInternalBinding_TestAPI_Primitives_getMinDouble();
                 void* FJInternalBinding_TestAPI_Primitives_getMaxDouble();
+                void* FJInternalBinding_TestAPI_Primitives_getBitCountUInt();
+                void* FJInternalBinding_TestAPI_Primitives_getBitCountInt();
                 void* FJInternalBinding_TestAPI_Primitives_getManyBool();
                 void* FJInternalBinding_TestAPI_Primitives_getManyUInt8();
                 void* FJInternalBinding_TestAPI_Primitives_getManyUInt16();

@@ -196,6 +196,12 @@ namespace TestAPI {
     double Primitives::getMaxDouble() {
         return FishyJoesInternal::Packer::unpack<double>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Primitives_getMaxDouble());
     }
+    int Primitives::getBitCountUInt() {
+        return FishyJoesInternal::Packer::unpack<int>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Primitives_getBitCountUInt());
+    }
+    int Primitives::getBitCountInt() {
+        return FishyJoesInternal::Packer::unpack<int>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Primitives_getBitCountInt());
+    }
     std::vector<bool> Primitives::getManyBool() {
         return FishyJoesInternal::Packer::unpack<std::vector<bool>>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Primitives_getManyBool());
     }

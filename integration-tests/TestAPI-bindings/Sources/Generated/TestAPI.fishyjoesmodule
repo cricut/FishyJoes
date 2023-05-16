@@ -3933,6 +3933,32 @@
               },
               {
                 "documentation" : [
+                  "<!-- FishyJoes.export(bitCountUInt) -->"
+                ],
+                "isStatic" : true,
+                "name" : "bitCountUInt",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(bitCountInt) -->"
+                ],
+                "isStatic" : true,
+                "name" : "bitCountInt",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
                   "<!-- FishyJoes.export(manyBool) -->"
                 ],
                 "isStatic" : true,

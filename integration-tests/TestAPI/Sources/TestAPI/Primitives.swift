@@ -86,6 +86,14 @@ public enum Primitives {
     /// <!-- FishyJoes.export(maxDouble) -->
     public static let maxDouble: Double = .greatestFiniteMagnitude
 
+    // MARK: - Integer Bit Depths
+
+    /// <!-- FishyJoes.export(bitCountUInt) -->
+    public static let bitCountUInt: Int = UInt.bitWidth
+
+    /// <!-- FishyJoes.export(bitCountInt) -->
+    public static let bitCountInt: Int = Int.bitWidth
+
     // MARK: - Arrays of Primitive Values
 
     /// <!-- FishyJoes.export(manyBool) -->

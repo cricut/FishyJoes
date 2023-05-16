@@ -80,19 +80,13 @@ extension UInt64: NodeConverter {
 
 extension UInt: NodeConverter {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> UInt {
-        #if arch(wasm32)
-        return try UInt(UInt32.fromNode(value, env: env))
-        #else
-        return try UInt(UInt64.fromNode(value, env: env))
-        #endif
+        let (result, lossless) = try env.getValueBigintUint64(value)
+        if !lossless || UInt(exactly: result) == nil { throw JSException(message: "bigint outside range of \(Self.self)") }
+        return .init(result)
     }
 
     public static func toNode(_ value: UInt, env: NAPI.Env) throws -> NAPI.Value {
-        #if arch(wasm32)
-        return try UInt32.toNode(UInt32(value), env: env)
-        #else
-        return try UInt64.toNode(UInt64(value), env: env)
-        #endif
+        try env.createBigintUint64(UInt64(value))
     }
 }
 

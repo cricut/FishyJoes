@@ -544,6 +544,34 @@ namespace Cricut.TestAPI {
         private static extern double __cs_get_Primitives_MaxDouble(out CreatedRef exn);
 
         /// <summary>
+        /// <!-- FishyJoes.export(bitCountUInt) -->
+        /// </summary>
+        public static nint BitCountUInt {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __cs_get_Primitives_BitCountUInt(out exn)
+                );
+            }
+        }
+
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern nint __cs_get_Primitives_BitCountUInt(out CreatedRef exn);
+
+        /// <summary>
+        /// <!-- FishyJoes.export(bitCountInt) -->
+        /// </summary>
+        public static nint BitCountInt {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __cs_get_Primitives_BitCountInt(out exn)
+                );
+            }
+        }
+
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern nint __cs_get_Primitives_BitCountInt(out CreatedRef exn);
+
+        /// <summary>
         /// <!-- FishyJoes.export(manyBool) -->
         /// </summary>
         public static System.Collections.Generic.IList<bool> ManyBool {

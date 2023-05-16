@@ -349,6 +349,24 @@ sealed class Primitives {
         private external fun __jni_get_maxDouble(): Double
 
         /**
+         * <!-- FishyJoes.export(bitCountUInt) -->
+         */
+        val bitCountUInt: Long
+          get() = __jni_get_bitCountUInt()
+        @JvmStatic
+        @JvmName("__jni_get_bitCountUInt")
+        private external fun __jni_get_bitCountUInt(): Long
+
+        /**
+         * <!-- FishyJoes.export(bitCountInt) -->
+         */
+        val bitCountInt: Long
+          get() = __jni_get_bitCountInt()
+        @JvmStatic
+        @JvmName("__jni_get_bitCountInt")
+        private external fun __jni_get_bitCountInt(): Long
+
+        /**
          * <!-- FishyJoes.export(manyBool) -->
          */
         val manyBool: kotlin.collections.List<Boolean>

@@ -817,6 +817,28 @@ extension Primitives: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
+                "bitCountUInt": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "bitCountUInt", expectedArgumentCount: 0) { env in
+                                try Int.toNode(Primitives.bitCountUInt, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: true
+                ),
+                "bitCountInt": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "bitCountInt", expectedArgumentCount: 0) { env in
+                                try Int.toNode(Primitives.bitCountInt, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: true
+                ),
                 "manyBool": (
                     .accessor(
                         getter: { env, info in

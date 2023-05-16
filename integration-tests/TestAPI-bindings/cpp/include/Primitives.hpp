@@ -310,6 +310,12 @@ namespace TestAPI {
         /// <!-- FishyJoes.export(maxDouble) -->
         static double getMaxDouble();
         
+        /// <!-- FishyJoes.export(bitCountUInt) -->
+        static int getBitCountUInt();
+        
+        /// <!-- FishyJoes.export(bitCountInt) -->
+        static int getBitCountInt();
+        
         /// <!-- FishyJoes.export(manyBool) -->
         static std::vector<bool> getManyBool();
         

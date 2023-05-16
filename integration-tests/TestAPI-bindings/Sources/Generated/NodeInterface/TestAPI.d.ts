@@ -600,6 +600,16 @@ export declare namespace TestAPI {
         }
 
         /**
+         * <!-- FishyJoes.export(bitCountInt) -->
+         */
+        const bitCountInt: number;
+
+        /**
+         * <!-- FishyJoes.export(bitCountUInt) -->
+         */
+        const bitCountUInt: number;
+
+        /**
          * <!-- FishyJoes.export(defaultPrimitiveHolder) -->
          */
         const defaultPrimitiveHolder: Primitives.PrimitiveHolder;
