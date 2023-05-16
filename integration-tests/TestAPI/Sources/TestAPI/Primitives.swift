@@ -92,7 +92,7 @@ public enum Primitives {
     public static let bitCountUInt: Int = UInt.bitWidth
 
     /// <!-- FishyJoes.export(bitCountInt) -->
-    public static let bitCountInt: Int = Int.bitWidth
+    public static let bitCountInt = Int.bitWidth
 
     // MARK: - Arrays of Primitive Values
 
