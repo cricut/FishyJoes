@@ -17,7 +17,7 @@ public partial class Loader {
         SwiftRangeConstructor constructor
     );
 
-    public static void FishyJoesRuntime_RangeConverter_setup<T>(string name, out CreatedRef exn) {
+    public static void FishyJoesRuntime_RangeConverter_setup<T>(string name, out CreatedRef exn) where T: IComparable<T> {
         unsafe {
             FishyJoesRuntime_RangeConverter_setup(
                 name,
@@ -50,7 +50,7 @@ public partial class Loader {
         SwiftClosedRangeConstructor constructor
     );
 
-    public static void FishyJoesRuntime_ClosedRangeConverter_setup<T>(string name, out CreatedRef exn) {
+    public static void FishyJoesRuntime_ClosedRangeConverter_setup<T>(string name, out CreatedRef exn) where T: IComparable<T> {
         unsafe {
             FishyJoesRuntime_ClosedRangeConverter_setup(
                 name,

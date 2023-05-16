@@ -12,14 +12,6 @@ public struct JSException: Error {
 // Node has already recorded an exception. Let it propigate.
 public struct JSExceptionPending: Error {}
 
-public struct RangeOutOfBoundsError: Error {
-    public let invalidRange: String
-
-    public init(invalidRange: String) {
-        self.invalidRange = invalidRange
-    }
-}
-
 public func callbackBody(
     _ env: napi_env!,
     _ info: napi_callback_info!,

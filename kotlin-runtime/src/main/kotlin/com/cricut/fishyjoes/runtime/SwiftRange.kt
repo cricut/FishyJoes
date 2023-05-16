@@ -24,7 +24,9 @@ data class SwiftRange<T: Comparable<T>>(
     /*override*/ val endExclusive: T
         get() = upperBound
 
-    constructor(range: kotlin.ranges.ClosedRange<T>): this(range.start, range.endInclusive) {
+    init {
         require(lowerBound <= upperBound) { "Swift ranges require lowerBound <= upperBound" }
     }
+
+//    constructor(range: kotlin.ranges.OpenEndRange<T>): this(range.start, range.endExclusive)
 }

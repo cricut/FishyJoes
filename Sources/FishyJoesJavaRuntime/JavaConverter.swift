@@ -781,7 +781,7 @@ extension RangeConverter: JavaConverter where BoundConverter: JavaConverter {
         let lowerBound = try BoundConverter.fromJava(object: env.CallObjectMethod(value, KotlinSwiftRange.rangeGetLowerBoundMethodID), env: env)
         let upperBound = try BoundConverter.fromJava(object: env.CallObjectMethod(value, KotlinSwiftRange.rangeGetUpperBoundMethodID), env: env)
         guard lowerBound <= upperBound else {
-            throw RangeOutOfBoundsError(invalidRange: "\(lowerBound)..<\(upperBound)")
+            throw InvalidRangeError(message: "\(lowerBound)..<\(upperBound)")
         }
         return lowerBound..<upperBound
     }
@@ -826,7 +826,7 @@ extension ClosedRangeConverter: JavaConverter where BoundConverter: JavaConverte
         let lowerBound = try BoundConverter.fromJava(object: env.CallObjectMethod(value, KotlinSwiftClosedRange.rangeGetLowerBoundMethodID), env: env)
         let upperBound = try BoundConverter.fromJava(object: env.CallObjectMethod(value, KotlinSwiftClosedRange.rangeGetUpperBoundMethodID), env: env)
         guard lowerBound <= upperBound else {
-            throw RangeOutOfBoundsError(invalidRange: "\(lowerBound)...\(upperBound)")
+            throw InvalidRangeError(message: "\(lowerBound)...\(upperBound)")
         }
         return lowerBound...upperBound
     }

@@ -331,7 +331,7 @@ extension RangeConverter: NodeConverter where BoundConverter: NodeConverter {
         let lowerBound = try BoundConverter.fromNode(try env.getNamedProperty(value, "lowerBound"), env: env)
         let upperBound = try BoundConverter.fromNode(try env.getNamedProperty(value, "upperBoundExclusive"), env: env)
 
-        guard lowerBound <= upperBound else { throw RangeOutOfBoundsError(invalidRange: "\(lowerBound)..<\(upperBound)") }
+        guard lowerBound <= upperBound else { throw InvalidRangeError(message: "\(lowerBound)..<\(upperBound)") }
         return lowerBound..<upperBound
     }
 
@@ -351,7 +351,7 @@ extension ClosedRangeConverter: NodeConverter where BoundConverter: NodeConverte
         let lowerBound = try BoundConverter.fromNode(try env.getNamedProperty(value, "lowerBound"), env: env)
         let upperBound = try BoundConverter.fromNode(try env.getNamedProperty(value, "upperBoundInclusive"), env: env)
 
-        guard lowerBound <= upperBound else { throw RangeOutOfBoundsError(invalidRange: "\(lowerBound)...\(upperBound)") }
+        guard lowerBound <= upperBound else { throw InvalidRangeError(message: "\(lowerBound)...\(upperBound)") }
         return lowerBound...upperBound
     }
 
