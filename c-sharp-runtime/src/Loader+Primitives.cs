@@ -14,6 +14,7 @@ namespace Cricut.FishyJoesRuntime {
         delegate ushort UInt16ValueMethod(UnownedRef obj, out CreatedRef exn);
         delegate uint UInt32ValueMethod(UnownedRef obj, out CreatedRef exn);
         delegate ulong UInt64ValueMethod(UnownedRef obj, out CreatedRef exn);
+        delegate nuint UIntValueMethod(UnownedRef obj, out CreatedRef exn);
         delegate float FloatValueMethod(UnownedRef obj, out CreatedRef exn);
         delegate double DoubleValueMethod(UnownedRef obj, out CreatedRef exn);
 
@@ -26,6 +27,7 @@ namespace Cricut.FishyJoesRuntime {
         delegate CreatedRef UInt16Constructor(ushort value);
         delegate CreatedRef UInt32Constructor(uint value);
         delegate CreatedRef UInt64Constructor(ulong value);
+        delegate CreatedRef UIntConstructor(nuint value);
         delegate CreatedRef FloatConstructor(float value);
         delegate CreatedRef DoubleConstructor(double value);
 
@@ -61,6 +63,12 @@ namespace Cricut.FishyJoesRuntime {
         );
 
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void FishyJoesRuntime_Int_setup(
+            IntValueMethod valueMethod,
+            IntConstructor constructor
+        );
+
+        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void FishyJoesRuntime_UInt8_setup(
             UInt8ValueMethod valueMethod,
             UInt8Constructor constructor
@@ -85,9 +93,9 @@ namespace Cricut.FishyJoesRuntime {
         );
 
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern void FishyJoesRuntime_Int_setup(
-            IntValueMethod valueMethod,
-            IntConstructor constructor
+        static extern void FishyJoesRuntime_UInt_setup(
+            UIntValueMethod valueMethod,
+            UIntConstructor constructor
         );
 
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
@@ -133,6 +141,11 @@ namespace Cricut.FishyJoesRuntime {
                 bag<Int64Constructor>(value => new CreatedRef((object)value))
             );
 
+            FishyJoesRuntime_Int_setup(
+                bag<IntValueMethod>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => obj.Peek<nint>())),
+                bag<IntConstructor>(value => new CreatedRef((object)value))
+            );
+
             FishyJoesRuntime_UInt8_setup(
                 bag<UInt8ValueMethod>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => obj.Peek<byte>())),
                 bag<UInt8Constructor>(value => new CreatedRef((object)value))
@@ -153,9 +166,9 @@ namespace Cricut.FishyJoesRuntime {
                 bag<UInt64Constructor>(value => new CreatedRef((object)value))
             );
 
-            FishyJoesRuntime_Int_setup(
-                bag<IntValueMethod>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => obj.Peek<nint>())),
-                bag<IntConstructor>(value => new CreatedRef((object)value))
+            FishyJoesRuntime_UInt_setup(
+                bag<UIntValueMethod>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => obj.Peek<nuint>())),
+                bag<UIntConstructor>(value => new CreatedRef((object)value))
             );
 
             FishyJoesRuntime_Float_setup(

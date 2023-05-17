@@ -313,6 +313,7 @@ public class FishyJoesContext {
             "UInt16": (c: "uint16_t", ts: "number", jni: JNIType.short, cSharp: "ushort"),
             "UInt32": (c: "uint32_t", ts: "number", jni: JNIType.int, cSharp: "uint"),
             "UInt64": (c: "uint64_t", ts: "bigint", jni: JNIType.long, cSharp: "ulong"),
+            "UInt": (c: "uint64_t", ts: "number", jni: JNIType.long, cSharp: "nuint"),
         ]
 
         var dontCache = false
@@ -367,6 +368,10 @@ public class FishyJoesContext {
                     return TranslatedDictionary(key: recur(args[0]), value: recur(args[1]))
                 case ("Result", 2):
                     return TranslatedResult(success: recur(args[0]), failure: recur(args[1]))
+                case ("Range", 1):
+                    return TranslatedRange(bound: recur(args[0]))
+                case ("ClosedRange", 1):
+                    return TranslatedClosedRange(bound: recur(args[0]))
                 default:
                     fatalErr(
                         """

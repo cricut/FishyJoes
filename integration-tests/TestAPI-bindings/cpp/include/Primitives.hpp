@@ -13,7 +13,7 @@ namespace TestAPI {
             /*  Complete Constructor  */
             public:
             /// Create new PrimitiveHolder
-            PrimitiveHolder(const bool &b, const std::optional<bool> &bq, const uint8_t &ui8, const std::optional<uint8_t> &ui8q, const uint16_t &ui16, const std::optional<uint16_t> &ui16q, const uint32_t &ui32, const std::optional<uint32_t> &ui32q, const uint64_t &ui64, const std::optional<uint64_t> &ui64q, const int8_t &i8, const std::optional<int8_t> &i8q, const int16_t &i16, const std::optional<int16_t> &i16q, const int32_t &i32, const std::optional<int32_t> &i32q, const int64_t &i64, const std::optional<int64_t> &i64q, const float &f, const std::optional<float> &fq, const double &d, const std::optional<double> &dq);
+            PrimitiveHolder(const bool &b, const std::optional<bool> &bq, const uint8_t &ui8, const std::optional<uint8_t> &ui8q, const uint16_t &ui16, const std::optional<uint16_t> &ui16q, const uint32_t &ui32, const std::optional<uint32_t> &ui32q, const uint64_t &ui64, const std::optional<uint64_t> &ui64q, const uint64_t &ui, const std::optional<uint64_t> &uiq, const int8_t &i8, const std::optional<int8_t> &i8q, const int16_t &i16, const std::optional<int16_t> &i16q, const int32_t &i32, const std::optional<int32_t> &i32q, const int64_t &i64, const std::optional<int64_t> &i64q, const int &i, const std::optional<int> &iq, const float &f, const std::optional<float> &fq, const double &d, const std::optional<double> &dq);
             
             /*  Methods  */
             public:
@@ -39,6 +39,8 @@ namespace TestAPI {
             std::optional<uint32_t> ui32q;
             uint64_t ui64;
             std::optional<uint64_t> ui64q;
+            uint64_t ui;
+            std::optional<uint64_t> uiq;
             int8_t i8;
             std::optional<int8_t> i8q;
             int16_t i16;
@@ -47,6 +49,8 @@ namespace TestAPI {
             std::optional<int32_t> i32q;
             int64_t i64;
             std::optional<int64_t> i64q;
+            int i;
+            std::optional<int> iq;
             float f;
             std::optional<float> fq;
             double d;
@@ -126,6 +130,9 @@ namespace TestAPI {
         /// <!-- FishyJoes.export(echoUInt64) -->
         static uint64_t echoUInt64(const uint64_t &value);
         
+        /// <!-- FishyJoes.export(echoUInt) -->
+        static uint64_t echoUInt(const uint64_t &value);
+        
         /// <!-- FishyJoes.export(echoInt8) -->
         static int8_t echoInt8(const int8_t &value);
         
@@ -137,6 +144,9 @@ namespace TestAPI {
         
         /// <!-- FishyJoes.export(echoInt64) -->
         static int64_t echoInt64(const int64_t &value);
+        
+        /// <!-- FishyJoes.export(echoInt) -->
+        static int echoInt(const int &value);
         
         /// <!-- FishyJoes.export(echoFloat) -->
         static float echoFloat(const float &value);
@@ -159,6 +169,9 @@ namespace TestAPI {
         /// <!-- FishyJoes.export(maybeEchoUInt64) -->
         static std::optional<uint64_t> maybeEchoUInt64(const std::optional<uint64_t> &value);
         
+        /// <!-- FishyJoes.export(maybeEchoUInt) -->
+        static std::optional<uint64_t> maybeEchoUInt(const std::optional<uint64_t> &value);
+        
         /// <!-- FishyJoes.export(maybeEchoInt8) -->
         static std::optional<int8_t> maybeEchoInt8(const std::optional<int8_t> &value);
         
@@ -170,6 +183,9 @@ namespace TestAPI {
         
         /// <!-- FishyJoes.export(maybeEchoInt64) -->
         static std::optional<int64_t> maybeEchoInt64(const std::optional<int64_t> &value);
+        
+        /// <!-- FishyJoes.export(maybeEchoInt) -->
+        static std::optional<int> maybeEchoInt(const std::optional<int> &value);
         
         /// <!-- FishyJoes.export(maybeEchoFloat) -->
         static std::optional<float> maybeEchoFloat(const std::optional<float> &value);
@@ -221,6 +237,15 @@ namespace TestAPI {
         
         /// <!-- FishyJoes.export(maxUInt64) -->
         static uint64_t getMaxUInt64();
+        
+        /// <!-- FishyJoes.export(zeroUInt) -->
+        static uint64_t getZeroUInt();
+        
+        /// <!-- FishyJoes.export(minUInt) -->
+        static uint64_t getMinUInt();
+        
+        /// <!-- FishyJoes.export(maxUInt) -->
+        static uint64_t getMaxUInt();
         
         /// <!-- FishyJoes.export(zeroInt8) -->
         static int8_t getZeroInt8();
@@ -285,6 +310,12 @@ namespace TestAPI {
         /// <!-- FishyJoes.export(maxDouble) -->
         static double getMaxDouble();
         
+        /// <!-- FishyJoes.export(bitCountUInt) -->
+        static int getBitCountUInt();
+        
+        /// <!-- FishyJoes.export(bitCountInt) -->
+        static int getBitCountInt();
+        
         /// <!-- FishyJoes.export(manyBool) -->
         static std::vector<bool> getManyBool();
         
@@ -300,6 +331,9 @@ namespace TestAPI {
         /// <!-- FishyJoes.export(manyUInt64) -->
         static std::vector<uint64_t> getManyUInt64();
         
+        /// <!-- FishyJoes.export(manyUInt) -->
+        static std::vector<uint64_t> getManyUInt();
+        
         /// <!-- FishyJoes.export(manyInt8) -->
         static std::vector<int8_t> getManyInt8();
         
@@ -311,6 +345,9 @@ namespace TestAPI {
         
         /// <!-- FishyJoes.export(manyInt64) -->
         static std::vector<int64_t> getManyInt64();
+        
+        /// <!-- FishyJoes.export(manyInt) -->
+        static std::vector<int> getManyInt();
         
         /// <!-- FishyJoes.export(manyFloat) -->
         static std::vector<float> getManyFloat();
@@ -333,6 +370,9 @@ namespace TestAPI {
         /// <!-- FishyJoes.export(manyMaybeUInt64) -->
         static std::vector<std::optional<uint64_t>> getManyMaybeUInt64();
         
+        /// <!-- FishyJoes.export(manyMaybeUInt) -->
+        static std::vector<std::optional<uint64_t>> getManyMaybeUInt();
+        
         /// <!-- FishyJoes.export(manyMaybeInt8) -->
         static std::vector<std::optional<int8_t>> getManyMaybeInt8();
         
@@ -344,6 +384,9 @@ namespace TestAPI {
         
         /// <!-- FishyJoes.export(manyMaybeInt64) -->
         static std::vector<std::optional<int64_t>> getManyMaybeInt64();
+        
+        /// <!-- FishyJoes.export(manyMaybeInt) -->
+        static std::vector<std::optional<int>> getManyMaybeInt();
         
         /// <!-- FishyJoes.export(manyMaybeFloat) -->
         static std::vector<std::optional<float>> getManyMaybeFloat();

@@ -71,8 +71,7 @@ jobs:
           rm -rf $libdir
           mkdir -p $libdir
 
-          swift build --configuration release --product FishyJoesJavaRuntime
-          cp .build/release/libFishyJoesJavaRuntime.dylib $libdir
+          ./scripts/compile-kotlin-native-runtime.sh
           (cd kotlin-runtime && ./gradlew publishToMavenLocal)
 
           cd integration-tests/TestAPI-bindings

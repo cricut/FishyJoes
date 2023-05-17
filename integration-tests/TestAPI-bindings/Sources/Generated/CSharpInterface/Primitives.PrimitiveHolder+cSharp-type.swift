@@ -28,6 +28,10 @@ public func TestAPI_Primitives_PrimitiveHolder_setup(
     _ ui64Setter: @escaping @convention(c) (csObject, UInt64.CType, _ exn: csOutExn) -> Void,
     _ ui64qGetter: @escaping @convention(c) (csObject, _ exn: csOutExn) -> OptionalConverter<UInt64>.CType,
     _ ui64qSetter: @escaping @convention(c) (csObject, OptionalConverter<UInt64>.CType, _ exn: csOutExn) -> Void,
+    _ uiGetter: @escaping @convention(c) (csObject, _ exn: csOutExn) -> UInt.CType,
+    _ uiSetter: @escaping @convention(c) (csObject, UInt.CType, _ exn: csOutExn) -> Void,
+    _ uiqGetter: @escaping @convention(c) (csObject, _ exn: csOutExn) -> OptionalConverter<UInt>.CType,
+    _ uiqSetter: @escaping @convention(c) (csObject, OptionalConverter<UInt>.CType, _ exn: csOutExn) -> Void,
     _ i8Getter: @escaping @convention(c) (csObject, _ exn: csOutExn) -> Int8.CType,
     _ i8Setter: @escaping @convention(c) (csObject, Int8.CType, _ exn: csOutExn) -> Void,
     _ i8qGetter: @escaping @convention(c) (csObject, _ exn: csOutExn) -> OptionalConverter<Int8>.CType,
@@ -44,6 +48,10 @@ public func TestAPI_Primitives_PrimitiveHolder_setup(
     _ i64Setter: @escaping @convention(c) (csObject, Int64.CType, _ exn: csOutExn) -> Void,
     _ i64qGetter: @escaping @convention(c) (csObject, _ exn: csOutExn) -> OptionalConverter<Int64>.CType,
     _ i64qSetter: @escaping @convention(c) (csObject, OptionalConverter<Int64>.CType, _ exn: csOutExn) -> Void,
+    _ iGetter: @escaping @convention(c) (csObject, _ exn: csOutExn) -> Int.CType,
+    _ iSetter: @escaping @convention(c) (csObject, Int.CType, _ exn: csOutExn) -> Void,
+    _ iqGetter: @escaping @convention(c) (csObject, _ exn: csOutExn) -> OptionalConverter<Int>.CType,
+    _ iqSetter: @escaping @convention(c) (csObject, OptionalConverter<Int>.CType, _ exn: csOutExn) -> Void,
     _ fGetter: @escaping @convention(c) (csObject, _ exn: csOutExn) -> Float.CType,
     _ fSetter: @escaping @convention(c) (csObject, Float.CType, _ exn: csOutExn) -> Void,
     _ fqGetter: @escaping @convention(c) (csObject, _ exn: csOutExn) -> OptionalConverter<Float>.CType,
@@ -76,6 +84,10 @@ public func TestAPI_Primitives_PrimitiveHolder_setup(
     Primitives.PrimitiveHolder._ui64Setter = ui64Setter
     Primitives.PrimitiveHolder._ui64qGetter = ui64qGetter
     Primitives.PrimitiveHolder._ui64qSetter = ui64qSetter
+    Primitives.PrimitiveHolder._uiGetter = uiGetter
+    Primitives.PrimitiveHolder._uiSetter = uiSetter
+    Primitives.PrimitiveHolder._uiqGetter = uiqGetter
+    Primitives.PrimitiveHolder._uiqSetter = uiqSetter
     Primitives.PrimitiveHolder._i8Getter = i8Getter
     Primitives.PrimitiveHolder._i8Setter = i8Setter
     Primitives.PrimitiveHolder._i8qGetter = i8qGetter
@@ -92,6 +104,10 @@ public func TestAPI_Primitives_PrimitiveHolder_setup(
     Primitives.PrimitiveHolder._i64Setter = i64Setter
     Primitives.PrimitiveHolder._i64qGetter = i64qGetter
     Primitives.PrimitiveHolder._i64qSetter = i64qSetter
+    Primitives.PrimitiveHolder._iGetter = iGetter
+    Primitives.PrimitiveHolder._iSetter = iSetter
+    Primitives.PrimitiveHolder._iqGetter = iqGetter
+    Primitives.PrimitiveHolder._iqSetter = iqSetter
     Primitives.PrimitiveHolder._fGetter = fGetter
     Primitives.PrimitiveHolder._fSetter = fSetter
     Primitives.PrimitiveHolder._fqGetter = fqGetter
@@ -123,6 +139,10 @@ extension Primitives.PrimitiveHolder: CSharpMutator {
     fileprivate static var _ui64Setter: (@convention(c) (csObject, UInt64.CType, _ exn: csOutExn) -> Void)!
     fileprivate static var _ui64qGetter: (@convention(c) (csObject, _ exn: csOutExn) -> OptionalConverter<UInt64>.CType)!
     fileprivate static var _ui64qSetter: (@convention(c) (csObject, OptionalConverter<UInt64>.CType, _ exn: csOutExn) -> Void)!
+    fileprivate static var _uiGetter: (@convention(c) (csObject, _ exn: csOutExn) -> UInt.CType)!
+    fileprivate static var _uiSetter: (@convention(c) (csObject, UInt.CType, _ exn: csOutExn) -> Void)!
+    fileprivate static var _uiqGetter: (@convention(c) (csObject, _ exn: csOutExn) -> OptionalConverter<UInt>.CType)!
+    fileprivate static var _uiqSetter: (@convention(c) (csObject, OptionalConverter<UInt>.CType, _ exn: csOutExn) -> Void)!
     fileprivate static var _i8Getter: (@convention(c) (csObject, _ exn: csOutExn) -> Int8.CType)!
     fileprivate static var _i8Setter: (@convention(c) (csObject, Int8.CType, _ exn: csOutExn) -> Void)!
     fileprivate static var _i8qGetter: (@convention(c) (csObject, _ exn: csOutExn) -> OptionalConverter<Int8>.CType)!
@@ -139,6 +159,10 @@ extension Primitives.PrimitiveHolder: CSharpMutator {
     fileprivate static var _i64Setter: (@convention(c) (csObject, Int64.CType, _ exn: csOutExn) -> Void)!
     fileprivate static var _i64qGetter: (@convention(c) (csObject, _ exn: csOutExn) -> OptionalConverter<Int64>.CType)!
     fileprivate static var _i64qSetter: (@convention(c) (csObject, OptionalConverter<Int64>.CType, _ exn: csOutExn) -> Void)!
+    fileprivate static var _iGetter: (@convention(c) (csObject, _ exn: csOutExn) -> Int.CType)!
+    fileprivate static var _iSetter: (@convention(c) (csObject, Int.CType, _ exn: csOutExn) -> Void)!
+    fileprivate static var _iqGetter: (@convention(c) (csObject, _ exn: csOutExn) -> OptionalConverter<Int>.CType)!
+    fileprivate static var _iqSetter: (@convention(c) (csObject, OptionalConverter<Int>.CType, _ exn: csOutExn) -> Void)!
     fileprivate static var _fGetter: (@convention(c) (csObject, _ exn: csOutExn) -> Float.CType)!
     fileprivate static var _fSetter: (@convention(c) (csObject, Float.CType, _ exn: csOutExn) -> Void)!
     fileprivate static var _fqGetter: (@convention(c) (csObject, _ exn: csOutExn) -> OptionalConverter<Float>.CType)!
@@ -158,6 +182,8 @@ extension Primitives.PrimitiveHolder: CSharpMutator {
         OptionalConverter<UInt32>.CType,
         UInt64.CType,
         OptionalConverter<UInt64>.CType,
+        UInt.CType,
+        OptionalConverter<UInt>.CType,
         Int8.CType,
         OptionalConverter<Int8>.CType,
         Int16.CType,
@@ -166,6 +192,8 @@ extension Primitives.PrimitiveHolder: CSharpMutator {
         OptionalConverter<Int32>.CType,
         Int64.CType,
         OptionalConverter<Int64>.CType,
+        Int.CType,
+        OptionalConverter<Int>.CType,
         Float.CType,
         OptionalConverter<Float>.CType,
         Double.CType,
@@ -206,6 +234,12 @@ extension Primitives.PrimitiveHolder: CSharpMutator {
             ui64q: try OptionalConverter<UInt64>.consumeCSharp(
                 try Env.check { exn in _ui64qGetter(value, exn) }
             ),
+            ui: try UInt.consumeCSharp(
+                try Env.check { exn in _uiGetter(value, exn) }
+            ),
+            uiq: try OptionalConverter<UInt>.consumeCSharp(
+                try Env.check { exn in _uiqGetter(value, exn) }
+            ),
             i8: try Int8.consumeCSharp(
                 try Env.check { exn in _i8Getter(value, exn) }
             ),
@@ -229,6 +263,12 @@ extension Primitives.PrimitiveHolder: CSharpMutator {
             ),
             i64q: try OptionalConverter<Int64>.consumeCSharp(
                 try Env.check { exn in _i64qGetter(value, exn) }
+            ),
+            i: try Int.consumeCSharp(
+                try Env.check { exn in _iGetter(value, exn) }
+            ),
+            iq: try OptionalConverter<Int>.consumeCSharp(
+                try Env.check { exn in _iqGetter(value, exn) }
             ),
             f: try Float.consumeCSharp(
                 try Env.check { exn in _fGetter(value, exn) }
@@ -258,6 +298,8 @@ extension Primitives.PrimitiveHolder: CSharpMutator {
                 try OptionalConverter<UInt32>.toCSharp(value.ui32q),
                 try UInt64.toCSharp(value.ui64),
                 try OptionalConverter<UInt64>.toCSharp(value.ui64q),
+                try UInt.toCSharp(value.ui),
+                try OptionalConverter<UInt>.toCSharp(value.uiq),
                 try Int8.toCSharp(value.i8),
                 try OptionalConverter<Int8>.toCSharp(value.i8q),
                 try Int16.toCSharp(value.i16),
@@ -266,6 +308,8 @@ extension Primitives.PrimitiveHolder: CSharpMutator {
                 try OptionalConverter<Int32>.toCSharp(value.i32q),
                 try Int64.toCSharp(value.i64),
                 try OptionalConverter<Int64>.toCSharp(value.i64q),
+                try Int.toCSharp(value.i),
+                try OptionalConverter<Int>.toCSharp(value.iq),
                 try Float.toCSharp(value.f),
                 try OptionalConverter<Float>.toCSharp(value.fq),
                 try Double.toCSharp(value.d),
@@ -328,6 +372,16 @@ extension Primitives.PrimitiveHolder: CSharpMutator {
             try OptionalConverter<UInt64>.toCSharp(mutatingSelf.ui64q),
             exn
         )}
+        try Env.check { exn in _uiSetter(
+            this,
+            try UInt.toCSharp(mutatingSelf.ui),
+            exn
+        )}
+        try Env.check { exn in _uiqSetter(
+            this,
+            try OptionalConverter<UInt>.toCSharp(mutatingSelf.uiq),
+            exn
+        )}
         try Env.check { exn in _i8Setter(
             this,
             try Int8.toCSharp(mutatingSelf.i8),
@@ -366,6 +420,16 @@ extension Primitives.PrimitiveHolder: CSharpMutator {
         try Env.check { exn in _i64qSetter(
             this,
             try OptionalConverter<Int64>.toCSharp(mutatingSelf.i64q),
+            exn
+        )}
+        try Env.check { exn in _iSetter(
+            this,
+            try Int.toCSharp(mutatingSelf.i),
+            exn
+        )}
+        try Env.check { exn in _iqSetter(
+            this,
+            try OptionalConverter<Int>.toCSharp(mutatingSelf.iq),
             exn
         )}
         try Env.check { exn in _fSetter(

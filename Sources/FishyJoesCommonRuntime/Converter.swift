@@ -3,12 +3,20 @@ public protocol Converter {
     associatedtype SwiftType = Self
 }
 
-// Many concrete types can be their own converterse
+// Many concrete types can be their own converters
 extension Bool: Converter {}
-extension Double: Converter {}
-extension Int64: Converter {}
+extension UInt8: Converter {}
+extension UInt16: Converter {}
+extension UInt32: Converter {}
+extension UInt64: Converter {}
+extension UInt: Converter {}
+extension Int8: Converter {}
+extension Int16: Converter {}
 extension Int32: Converter {}
+extension Int64: Converter {}
 extension Int: Converter {}
+extension Float: Converter {}
+extension Double: Converter {}
 extension String: Converter {}
 
 // Void, tuples, and functions are unextendable; they need separate converters
@@ -79,4 +87,12 @@ public enum SetConverter<ElementConverter: Converter>: Converter where ElementCo
 
 public enum OptionalConverter<WrappedConverter: Converter>: Converter {
     public typealias SwiftType = WrappedConverter.SwiftType?
+}
+
+public enum RangeConverter<BoundConverter: Converter>: Converter where BoundConverter.SwiftType: Comparable {
+    public typealias SwiftType = Range<BoundConverter.SwiftType>
+}
+
+public enum ClosedRangeConverter<BoundConverter: Converter>: Converter where BoundConverter.SwiftType: Comparable {
+    public typealias SwiftType = ClosedRange<BoundConverter.SwiftType>
 }

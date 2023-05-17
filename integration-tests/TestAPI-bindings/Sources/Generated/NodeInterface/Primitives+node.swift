@@ -90,6 +90,20 @@ extension Primitives: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
+                "echoUInt": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoUInt", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                            let result = try UInt.toNode(
+                                Primitives.echoUInt(
+                                    value: try env.argument(at: 0, converter: UInt.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: true
+                ),
                 "echoInt8": (
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoInt8", expectedArgumentCount: 1, hasNamedOptions: false) { env in
@@ -138,6 +152,20 @@ extension Primitives: FishyJoesNodeRuntime.NodeConverter {
                             let result = try Int64.toNode(
                                 Primitives.echoInt64(
                                     value: try env.argument(at: 0, converter: Int64.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: true
+                ),
+                "echoInt": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoInt", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                            let result = try Int.toNode(
+                                Primitives.echoInt(
+                                    value: try env.argument(at: 0, converter: Int.self)
                                 ),
                                 env: env.env
                             )
@@ -244,6 +272,20 @@ extension Primitives: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
+                "maybeEchoUInt": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeEchoUInt", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                            let result = try OptionalConverter<UInt>.toNode(
+                                Primitives.maybeEchoUInt(
+                                    value: try env.argument(at: 0, converter: OptionalConverter<UInt>.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: true
+                ),
                 "maybeEchoInt8": (
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeEchoInt8", expectedArgumentCount: 1, hasNamedOptions: false) { env in
@@ -292,6 +334,20 @@ extension Primitives: FishyJoesNodeRuntime.NodeConverter {
                             let result = try OptionalConverter<Int64>.toNode(
                                 Primitives.maybeEchoInt64(
                                     value: try env.argument(at: 0, converter: OptionalConverter<Int64>.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: true
+                ),
+                "maybeEchoInt": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeEchoInt", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                            let result = try OptionalConverter<Int>.toNode(
+                                Primitives.maybeEchoInt(
+                                    value: try env.argument(at: 0, converter: OptionalConverter<Int>.self)
                                 ),
                                 env: env.env
                             )
@@ -491,6 +547,39 @@ extension Primitives: FishyJoesNodeRuntime.NodeConverter {
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "maxUInt64", expectedArgumentCount: 0) { env in
                                 try UInt64.toNode(Primitives.maxUInt64, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: true
+                ),
+                "zeroUInt": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "zeroUInt", expectedArgumentCount: 0) { env in
+                                try UInt.toNode(Primitives.zeroUInt, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: true
+                ),
+                "minUInt": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "minUInt", expectedArgumentCount: 0) { env in
+                                try UInt.toNode(Primitives.minUInt, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: true
+                ),
+                "maxUInt": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "maxUInt", expectedArgumentCount: 0) { env in
+                                try UInt.toNode(Primitives.maxUInt, env: env.env)
                             }
                         },
                         setter: nil
@@ -728,6 +817,28 @@ extension Primitives: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
+                "bitCountUInt": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "bitCountUInt", expectedArgumentCount: 0) { env in
+                                try Int.toNode(Primitives.bitCountUInt, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: true
+                ),
+                "bitCountInt": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "bitCountInt", expectedArgumentCount: 0) { env in
+                                try Int.toNode(Primitives.bitCountInt, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: true
+                ),
                 "manyBool": (
                     .accessor(
                         getter: { env, info in
@@ -783,6 +894,17 @@ extension Primitives: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
+                "manyUInt": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "manyUInt", expectedArgumentCount: 0) { env in
+                                try ArrayConverter<UInt>.toNode(Primitives.manyUInt, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: true
+                ),
                 "manyInt8": (
                     .accessor(
                         getter: { env, info in
@@ -821,6 +943,17 @@ extension Primitives: FishyJoesNodeRuntime.NodeConverter {
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyInt64", expectedArgumentCount: 0) { env in
                                 try ArrayConverter<Int64>.toNode(Primitives.manyInt64, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: true
+                ),
+                "manyInt": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "manyInt", expectedArgumentCount: 0) { env in
+                                try ArrayConverter<Int>.toNode(Primitives.manyInt, env: env.env)
                             }
                         },
                         setter: nil
@@ -904,6 +1037,17 @@ extension Primitives: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
+                "manyMaybeUInt": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "manyMaybeUInt", expectedArgumentCount: 0) { env in
+                                try ArrayConverter<OptionalConverter<UInt>>.toNode(Primitives.manyMaybeUInt, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: true
+                ),
                 "manyMaybeInt8": (
                     .accessor(
                         getter: { env, info in
@@ -942,6 +1086,17 @@ extension Primitives: FishyJoesNodeRuntime.NodeConverter {
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyMaybeInt64", expectedArgumentCount: 0) { env in
                                 try ArrayConverter<OptionalConverter<Int64>>.toNode(Primitives.manyMaybeInt64, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: true
+                ),
+                "manyMaybeInt": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "manyMaybeInt", expectedArgumentCount: 0) { env in
+                                try ArrayConverter<OptionalConverter<Int>>.toNode(Primitives.manyMaybeInt, env: env.env)
                             }
                         },
                         setter: nil

@@ -94,6 +94,51 @@
       "converterType" : {
         "named" : {
           "_0" : {
+            "name" : "ClosedRanges",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cppName" : "ClosedRanges",
+      "cSharpType" : {
+        "named" : {
+          "name" : "ClosedRanges",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : false,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/ClosedRanges"
+        }
+      },
+      "kotlinName" : "ClosedRanges",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=ClosedRanges>>",
+      "nodeName" : "TestAPI.ClosedRanges",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "name" : "ClosedRanges",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
             "name" : "Collections",
             "namespace" : [
 
@@ -490,6 +535,51 @@
             "name" : "PrimitiveHolder",
             "namespace" : [
               "Primitives"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "name" : "Ranges",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cppName" : "Ranges",
+      "cSharpType" : {
+        "named" : {
+          "name" : "Ranges",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : false,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/Ranges"
+        }
+      },
+      "kotlinName" : "Ranges",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=Ranges>>",
+      "nodeName" : "TestAPI.Ranges",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "name" : "Ranges",
+            "namespace" : [
+
             ]
           }
         }
@@ -1167,6 +1257,480 @@
               }
             ],
             "name" : "Bytes",
+            "namespaces" : {
+
+            },
+            "typealiases" : [
+
+            ]
+          },
+          "ClosedRanges" : {
+            "classes" : [
+
+            ],
+            "fields" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(uInt8Range) -->"
+                ],
+                "isStatic" : true,
+                "name" : "uInt8Range",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "SwiftClosedRange<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(uInt16Range) -->"
+                ],
+                "isStatic" : true,
+                "name" : "uInt16Range",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "SwiftClosedRange<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(uInt32Range) -->"
+                ],
+                "isStatic" : true,
+                "name" : "uInt32Range",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "SwiftClosedRange<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(uInt64Range) -->"
+                ],
+                "isStatic" : true,
+                "name" : "uInt64Range",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "SwiftClosedRange<bigint>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(uIntRange) -->"
+                ],
+                "isStatic" : true,
+                "name" : "uIntRange",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "SwiftClosedRange<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(int8Range) -->"
+                ],
+                "isStatic" : true,
+                "name" : "int8Range",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "SwiftClosedRange<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(int16Range) -->"
+                ],
+                "isStatic" : true,
+                "name" : "int16Range",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "SwiftClosedRange<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(int32Range) -->"
+                ],
+                "isStatic" : true,
+                "name" : "int32Range",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "SwiftClosedRange<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(int64Range) -->"
+                ],
+                "isStatic" : true,
+                "name" : "int64Range",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "SwiftClosedRange<bigint>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(intRange) -->"
+                ],
+                "isStatic" : true,
+                "name" : "intRange",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "SwiftClosedRange<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(floatRange) -->"
+                ],
+                "isStatic" : true,
+                "name" : "floatRange",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "SwiftClosedRange<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(doubleRange) -->"
+                ],
+                "isStatic" : true,
+                "name" : "doubleRange",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "SwiftClosedRange<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(stringRange) -->"
+                ],
+                "isStatic" : true,
+                "name" : "stringRange",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "SwiftClosedRange<string>"
+                  }
+                }
+              }
+            ],
+            "interfaces" : [
+
+            ],
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(echoUInt8Range) -->"
+                ],
+                "isStatic" : true,
+                "name" : "echoUInt8Range",
+                "parameters" : [
+                  {
+                    "name" : "range",
+                    "type" : {
+                      "named" : {
+                        "_0" : "SwiftClosedRange<number>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "SwiftClosedRange<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(echoUInt16Range) -->"
+                ],
+                "isStatic" : true,
+                "name" : "echoUInt16Range",
+                "parameters" : [
+                  {
+                    "name" : "range",
+                    "type" : {
+                      "named" : {
+                        "_0" : "SwiftClosedRange<number>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "SwiftClosedRange<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(echoUInt32Range) -->"
+                ],
+                "isStatic" : true,
+                "name" : "echoUInt32Range",
+                "parameters" : [
+                  {
+                    "name" : "range",
+                    "type" : {
+                      "named" : {
+                        "_0" : "SwiftClosedRange<number>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "SwiftClosedRange<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(echoUInt64Range) -->"
+                ],
+                "isStatic" : true,
+                "name" : "echoUInt64Range",
+                "parameters" : [
+                  {
+                    "name" : "range",
+                    "type" : {
+                      "named" : {
+                        "_0" : "SwiftClosedRange<bigint>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "SwiftClosedRange<bigint>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(echoUIntRange) -->"
+                ],
+                "isStatic" : true,
+                "name" : "echoUIntRange",
+                "parameters" : [
+                  {
+                    "name" : "range",
+                    "type" : {
+                      "named" : {
+                        "_0" : "SwiftClosedRange<number>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "SwiftClosedRange<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(echoInt8Range) -->"
+                ],
+                "isStatic" : true,
+                "name" : "echoInt8Range",
+                "parameters" : [
+                  {
+                    "name" : "range",
+                    "type" : {
+                      "named" : {
+                        "_0" : "SwiftClosedRange<number>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "SwiftClosedRange<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(echoInt16Range) -->"
+                ],
+                "isStatic" : true,
+                "name" : "echoInt16Range",
+                "parameters" : [
+                  {
+                    "name" : "range",
+                    "type" : {
+                      "named" : {
+                        "_0" : "SwiftClosedRange<number>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "SwiftClosedRange<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(echoInt32Range) -->"
+                ],
+                "isStatic" : true,
+                "name" : "echoInt32Range",
+                "parameters" : [
+                  {
+                    "name" : "range",
+                    "type" : {
+                      "named" : {
+                        "_0" : "SwiftClosedRange<number>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "SwiftClosedRange<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(echoInt64Range) -->"
+                ],
+                "isStatic" : true,
+                "name" : "echoInt64Range",
+                "parameters" : [
+                  {
+                    "name" : "range",
+                    "type" : {
+                      "named" : {
+                        "_0" : "SwiftClosedRange<bigint>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "SwiftClosedRange<bigint>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(echoIntRange) -->"
+                ],
+                "isStatic" : true,
+                "name" : "echoIntRange",
+                "parameters" : [
+                  {
+                    "name" : "range",
+                    "type" : {
+                      "named" : {
+                        "_0" : "SwiftClosedRange<number>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "SwiftClosedRange<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(echoFloatRange) -->"
+                ],
+                "isStatic" : true,
+                "name" : "echoFloatRange",
+                "parameters" : [
+                  {
+                    "name" : "range",
+                    "type" : {
+                      "named" : {
+                        "_0" : "SwiftClosedRange<number>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "SwiftClosedRange<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(echoDoubleRange) -->"
+                ],
+                "isStatic" : true,
+                "name" : "echoDoubleRange",
+                "parameters" : [
+                  {
+                    "name" : "range",
+                    "type" : {
+                      "named" : {
+                        "_0" : "SwiftClosedRange<number>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "SwiftClosedRange<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(echoStringRange) -->"
+                ],
+                "isStatic" : true,
+                "name" : "echoStringRange",
+                "parameters" : [
+                  {
+                    "name" : "range",
+                    "type" : {
+                      "named" : {
+                        "_0" : "SwiftClosedRange<string>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "SwiftClosedRange<string>"
+                  }
+                }
+              }
+            ],
+            "name" : "ClosedRanges",
             "namespaces" : {
 
             },
@@ -2239,6 +2803,8 @@
                       "ui32q",
                       "ui64",
                       "ui64q",
+                      "ui",
+                      "uiq",
                       "i8",
                       "i8q",
                       "i16",
@@ -2247,6 +2813,8 @@
                       "i32q",
                       "i64",
                       "i64q",
+                      "i",
+                      "iq",
                       "f",
                       "fq",
                       "d",
@@ -2367,6 +2935,20 @@
                       },
                       {
                         "named" : {
+                          "_0" : "number"
+                        }
+                      },
+                      {
+                        "optional" : {
+                          "_0" : {
+                            "named" : {
+                              "_0" : "number"
+                            }
+                          }
+                        }
+                      },
+                      {
+                        "named" : {
                           "_0" : "bigint"
                         }
                       },
@@ -2375,6 +2957,20 @@
                           "_0" : {
                             "named" : {
                               "_0" : "bigint"
+                            }
+                          }
+                        }
+                      },
+                      {
+                        "named" : {
+                          "_0" : "number"
+                        }
+                      },
+                      {
+                        "optional" : {
+                          "_0" : {
+                            "named" : {
+                              "_0" : "number"
                             }
                           }
                         }
@@ -2572,6 +3168,36 @@
 
                     ],
                     "isStatic" : false,
+                    "name" : "ui",
+                    "readOnly" : false,
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "isStatic" : false,
+                    "name" : "uiq",
+                    "readOnly" : false,
+                    "type" : {
+                      "optional" : {
+                        "_0" : {
+                          "named" : {
+                            "_0" : "number"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "isStatic" : false,
                     "name" : "i8",
                     "readOnly" : false,
                     "type" : {
@@ -2682,6 +3308,36 @@
                         "_0" : {
                           "named" : {
                             "_0" : "bigint"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "isStatic" : false,
+                    "name" : "i",
+                    "readOnly" : false,
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "isStatic" : false,
+                    "name" : "iq",
+                    "readOnly" : false,
+                    "type" : {
+                      "optional" : {
+                        "_0" : {
+                          "named" : {
+                            "_0" : "number"
                           }
                         }
                       }
@@ -2965,6 +3621,45 @@
               },
               {
                 "documentation" : [
+                  "<!-- FishyJoes.export(zeroUInt) -->"
+                ],
+                "isStatic" : true,
+                "name" : "zeroUInt",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(minUInt) -->"
+                ],
+                "isStatic" : true,
+                "name" : "minUInt",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(maxUInt) -->"
+                ],
+                "isStatic" : true,
+                "name" : "maxUInt",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
                   "<!-- FishyJoes.export(zeroInt8) -->"
                 ],
                 "isStatic" : true,
@@ -3238,6 +3933,32 @@
               },
               {
                 "documentation" : [
+                  "<!-- FishyJoes.export(bitCountUInt) -->"
+                ],
+                "isStatic" : true,
+                "name" : "bitCountUInt",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(bitCountInt) -->"
+                ],
+                "isStatic" : true,
+                "name" : "bitCountInt",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
                   "<!-- FishyJoes.export(manyBool) -->"
                 ],
                 "isStatic" : true,
@@ -3303,6 +4024,19 @@
               },
               {
                 "documentation" : [
+                  "<!-- FishyJoes.export(manyUInt) -->"
+                ],
+                "isStatic" : true,
+                "name" : "manyUInt",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number[]"
+                  }
+                }
+              },
+              {
+                "documentation" : [
                   "<!-- FishyJoes.export(manyInt8) -->"
                 ],
                 "isStatic" : true,
@@ -3350,6 +4084,19 @@
                 "type" : {
                   "named" : {
                     "_0" : "bigint[]"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(manyInt) -->"
+                ],
+                "isStatic" : true,
+                "name" : "manyInt",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number[]"
                   }
                 }
               },
@@ -3446,6 +4193,19 @@
               },
               {
                 "documentation" : [
+                  "<!-- FishyJoes.export(manyMaybeUInt) -->"
+                ],
+                "isStatic" : true,
+                "name" : "manyMaybeUInt",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "Optional<number>[]"
+                  }
+                }
+              },
+              {
+                "documentation" : [
                   "<!-- FishyJoes.export(manyMaybeInt8) -->"
                 ],
                 "isStatic" : true,
@@ -3493,6 +4253,19 @@
                 "type" : {
                   "named" : {
                     "_0" : "Optional<bigint>[]"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(manyMaybeInt) -->"
+                ],
+                "isStatic" : true,
+                "name" : "manyMaybeInt",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "Optional<number>[]"
                   }
                 }
               },
@@ -3652,6 +4425,28 @@
               },
               {
                 "documentation" : [
+                  "<!-- FishyJoes.export(echoUInt) -->"
+                ],
+                "isStatic" : true,
+                "name" : "echoUInt",
+                "parameters" : [
+                  {
+                    "name" : "value",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
                   "<!-- FishyJoes.export(echoInt8) -->"
                 ],
                 "isStatic" : true,
@@ -3735,6 +4530,28 @@
                 "returnType" : {
                   "named" : {
                     "_0" : "bigint"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(echoInt) -->"
+                ],
+                "isStatic" : true,
+                "name" : "echoInt",
+                "parameters" : [
+                  {
+                    "name" : "value",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "number"
                   }
                 }
               },
@@ -3934,6 +4751,36 @@
               },
               {
                 "documentation" : [
+                  "<!-- FishyJoes.export(maybeEchoUInt) -->"
+                ],
+                "isStatic" : true,
+                "name" : "maybeEchoUInt",
+                "parameters" : [
+                  {
+                    "name" : "value",
+                    "type" : {
+                      "optional" : {
+                        "_0" : {
+                          "named" : {
+                            "_0" : "number"
+                          }
+                        }
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "optional" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
                   "<!-- FishyJoes.export(maybeEchoInt8) -->"
                 ],
                 "isStatic" : true,
@@ -4054,6 +4901,36 @@
               },
               {
                 "documentation" : [
+                  "<!-- FishyJoes.export(maybeEchoInt) -->"
+                ],
+                "isStatic" : true,
+                "name" : "maybeEchoInt",
+                "parameters" : [
+                  {
+                    "name" : "value",
+                    "type" : {
+                      "optional" : {
+                        "_0" : {
+                          "named" : {
+                            "_0" : "number"
+                          }
+                        }
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "optional" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
                   "<!-- FishyJoes.export(maybeEchoFloat) -->"
                 ],
                 "isStatic" : true,
@@ -4152,6 +5029,375 @@
               }
             ],
             "name" : "Primitives",
+            "namespaces" : {
+
+            },
+            "typealiases" : [
+
+            ]
+          },
+          "Ranges" : {
+            "classes" : [
+
+            ],
+            "fields" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(uInt8Range) -->"
+                ],
+                "isStatic" : true,
+                "name" : "uInt8Range",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "SwiftRange<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(uInt16Range) -->"
+                ],
+                "isStatic" : true,
+                "name" : "uInt16Range",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "SwiftRange<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(uInt32Range) -->"
+                ],
+                "isStatic" : true,
+                "name" : "uInt32Range",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "SwiftRange<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(uInt64Range) -->"
+                ],
+                "isStatic" : true,
+                "name" : "uInt64Range",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "SwiftRange<bigint>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(uIntRange) -->"
+                ],
+                "isStatic" : true,
+                "name" : "uIntRange",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "SwiftRange<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(int8Range) -->"
+                ],
+                "isStatic" : true,
+                "name" : "int8Range",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "SwiftRange<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(int16Range) -->"
+                ],
+                "isStatic" : true,
+                "name" : "int16Range",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "SwiftRange<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(int32Range) -->"
+                ],
+                "isStatic" : true,
+                "name" : "int32Range",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "SwiftRange<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(int64Range) -->"
+                ],
+                "isStatic" : true,
+                "name" : "int64Range",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "SwiftRange<bigint>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(intRange) -->"
+                ],
+                "isStatic" : true,
+                "name" : "intRange",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "SwiftRange<number>"
+                  }
+                }
+              }
+            ],
+            "interfaces" : [
+
+            ],
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(echoUInt8Range) -->"
+                ],
+                "isStatic" : true,
+                "name" : "echoUInt8Range",
+                "parameters" : [
+                  {
+                    "name" : "range",
+                    "type" : {
+                      "named" : {
+                        "_0" : "SwiftRange<number>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "SwiftRange<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(echoUInt16Range) -->"
+                ],
+                "isStatic" : true,
+                "name" : "echoUInt16Range",
+                "parameters" : [
+                  {
+                    "name" : "range",
+                    "type" : {
+                      "named" : {
+                        "_0" : "SwiftRange<number>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "SwiftRange<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(echoUInt32Range) -->"
+                ],
+                "isStatic" : true,
+                "name" : "echoUInt32Range",
+                "parameters" : [
+                  {
+                    "name" : "range",
+                    "type" : {
+                      "named" : {
+                        "_0" : "SwiftRange<number>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "SwiftRange<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(echoUInt64Range) -->"
+                ],
+                "isStatic" : true,
+                "name" : "echoUInt64Range",
+                "parameters" : [
+                  {
+                    "name" : "range",
+                    "type" : {
+                      "named" : {
+                        "_0" : "SwiftRange<bigint>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "SwiftRange<bigint>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(echoUIntRange) -->"
+                ],
+                "isStatic" : true,
+                "name" : "echoUIntRange",
+                "parameters" : [
+                  {
+                    "name" : "range",
+                    "type" : {
+                      "named" : {
+                        "_0" : "SwiftRange<number>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "SwiftRange<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(echoInt8Range) -->"
+                ],
+                "isStatic" : true,
+                "name" : "echoInt8Range",
+                "parameters" : [
+                  {
+                    "name" : "range",
+                    "type" : {
+                      "named" : {
+                        "_0" : "SwiftRange<number>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "SwiftRange<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(echoInt16Range) -->"
+                ],
+                "isStatic" : true,
+                "name" : "echoInt16Range",
+                "parameters" : [
+                  {
+                    "name" : "range",
+                    "type" : {
+                      "named" : {
+                        "_0" : "SwiftRange<number>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "SwiftRange<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(echoInt32Range) -->"
+                ],
+                "isStatic" : true,
+                "name" : "echoInt32Range",
+                "parameters" : [
+                  {
+                    "name" : "range",
+                    "type" : {
+                      "named" : {
+                        "_0" : "SwiftRange<number>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "SwiftRange<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(echoInt64Range) -->"
+                ],
+                "isStatic" : true,
+                "name" : "echoInt64Range",
+                "parameters" : [
+                  {
+                    "name" : "range",
+                    "type" : {
+                      "named" : {
+                        "_0" : "SwiftRange<bigint>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "SwiftRange<bigint>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(echoIntRange) -->"
+                ],
+                "isStatic" : true,
+                "name" : "echoIntRange",
+                "parameters" : [
+                  {
+                    "name" : "range",
+                    "type" : {
+                      "named" : {
+                        "_0" : "SwiftRange<number>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "SwiftRange<number>"
+                  }
+                }
+              }
+            ],
+            "name" : "Ranges",
             "namespaces" : {
 
             },
@@ -4766,6 +6012,19 @@
           },
           {
             "documentation" : [
+              "<!-- FishyJoes.export(ClosedRanges) -->"
+            ],
+            "name" : "ClosedRanges",
+            "value" : {
+              "union" : {
+                "_0" : [
+
+                ]
+              }
+            }
+          },
+          {
+            "documentation" : [
               "<!-- FishyJoes.export(Collections) -->"
             ],
             "name" : "Collections",
@@ -4834,6 +6093,19 @@
               "<!-- FishyJoes.export(Primitives) -->"
             ],
             "name" : "Primitives",
+            "value" : {
+              "union" : {
+                "_0" : [
+
+                ]
+              }
+            }
+          },
+          {
+            "documentation" : [
+              "<!-- FishyJoes.export(Ranges) -->"
+            ],
+            "name" : "Ranges",
             "value" : {
               "union" : {
                 "_0" : [

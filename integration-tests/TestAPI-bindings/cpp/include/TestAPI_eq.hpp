@@ -49,6 +49,12 @@ template <> struct std::hash<TestAPI::Bytes> {
 namespace TestAPI {
     inline bool operator==(const Bytes& lhs, const Bytes& rhs);
 }
+template <> struct std::hash<TestAPI::ClosedRanges> {
+    size_t operator()(const TestAPI::ClosedRanges &obj) const;
+};
+namespace TestAPI {
+    inline bool operator==(const ClosedRanges& lhs, const ClosedRanges& rhs);
+}
 template <> struct std::hash<TestAPI::Collections> {
     size_t operator()(const TestAPI::Collections &obj) const;
 };
@@ -90,6 +96,12 @@ template <> struct std::hash<TestAPI::Primitives::PrimitiveHolder> {
 };
 namespace TestAPI {
     inline bool operator==(const Primitives::PrimitiveHolder& lhs, const Primitives::PrimitiveHolder& rhs);
+}
+template <> struct std::hash<TestAPI::Ranges> {
+    size_t operator()(const TestAPI::Ranges &obj) const;
+};
+namespace TestAPI {
+    inline bool operator==(const Ranges& lhs, const Ranges& rhs);
 }
 template <> struct std::hash<TestAPI::SimpleEnum> {
     size_t operator()(const TestAPI::SimpleEnum &obj) const;
@@ -181,6 +193,11 @@ size_t std::hash<TestAPI::Bytes>::operator()(const TestAPI::Bytes &obj) const {
     TestAPI::FishyJoesInternal::hashCombine(ret, obj._variant);
     return ret;
 }
+size_t std::hash<TestAPI::ClosedRanges>::operator()(const TestAPI::ClosedRanges &obj) const {
+    size_t ret = 0;
+    TestAPI::FishyJoesInternal::hashCombine(ret, obj._variant);
+    return ret;
+}
 size_t std::hash<TestAPI::Collections>::operator()(const TestAPI::Collections &obj) const {
     size_t ret = 0;
     TestAPI::FishyJoesInternal::hashCombine(ret, obj._variant);
@@ -223,6 +240,8 @@ size_t std::hash<TestAPI::Primitives::PrimitiveHolder>::operator()(const TestAPI
     TestAPI::FishyJoesInternal::hashCombine(ret, obj.ui32q);
     TestAPI::FishyJoesInternal::hashCombine(ret, obj.ui64);
     TestAPI::FishyJoesInternal::hashCombine(ret, obj.ui64q);
+    TestAPI::FishyJoesInternal::hashCombine(ret, obj.ui);
+    TestAPI::FishyJoesInternal::hashCombine(ret, obj.uiq);
     TestAPI::FishyJoesInternal::hashCombine(ret, obj.i8);
     TestAPI::FishyJoesInternal::hashCombine(ret, obj.i8q);
     TestAPI::FishyJoesInternal::hashCombine(ret, obj.i16);
@@ -231,10 +250,17 @@ size_t std::hash<TestAPI::Primitives::PrimitiveHolder>::operator()(const TestAPI
     TestAPI::FishyJoesInternal::hashCombine(ret, obj.i32q);
     TestAPI::FishyJoesInternal::hashCombine(ret, obj.i64);
     TestAPI::FishyJoesInternal::hashCombine(ret, obj.i64q);
+    TestAPI::FishyJoesInternal::hashCombine(ret, obj.i);
+    TestAPI::FishyJoesInternal::hashCombine(ret, obj.iq);
     TestAPI::FishyJoesInternal::hashCombine(ret, obj.f);
     TestAPI::FishyJoesInternal::hashCombine(ret, obj.fq);
     TestAPI::FishyJoesInternal::hashCombine(ret, obj.d);
     TestAPI::FishyJoesInternal::hashCombine(ret, obj.dq);
+    return ret;
+}
+size_t std::hash<TestAPI::Ranges>::operator()(const TestAPI::Ranges &obj) const {
+    size_t ret = 0;
+    TestAPI::FishyJoesInternal::hashCombine(ret, obj._variant);
     return ret;
 }
 size_t std::hash<TestAPI::SimpleEnum>::operator()(const TestAPI::SimpleEnum &obj) const {
@@ -316,6 +342,11 @@ namespace TestAPI {
     }
 }
 namespace TestAPI {
+    inline bool operator==(const ClosedRanges& lhs, const ClosedRanges& rhs) {
+        return std::equal_to<std::decay_t<decltype(lhs)>>()(lhs, rhs);
+    }
+}
+namespace TestAPI {
     inline bool operator==(const Collections& lhs, const Collections& rhs) {
         return std::equal_to<std::decay_t<decltype(lhs)>>()(lhs, rhs);
     }
@@ -347,6 +378,11 @@ namespace TestAPI {
 }
 namespace TestAPI {
     inline bool operator==(const Primitives::PrimitiveHolder& lhs, const Primitives::PrimitiveHolder& rhs) {
+        return std::equal_to<std::decay_t<decltype(lhs)>>()(lhs, rhs);
+    }
+}
+namespace TestAPI {
+    inline bool operator==(const Ranges& lhs, const Ranges& rhs) {
         return std::equal_to<std::decay_t<decltype(lhs)>>()(lhs, rhs);
     }
 }

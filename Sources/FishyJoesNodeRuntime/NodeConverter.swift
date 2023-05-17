@@ -78,6 +78,27 @@ extension UInt64: NodeConverter {
     }
 }
 
+extension UInt: NodeConverter {
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> UInt {
+        #if arch(wasm32)
+        UInt(try env.getValueUint32(value))
+        #else
+        guard let result = UInt(exactly: try env.getValueDouble(value)) else {
+            throw JSException(message: "number outside range of \(Self.self)")
+        }
+        return result
+        #endif
+    }
+
+    public static func toNode(_ value: UInt, env: NAPI.Env) throws -> NAPI.Value {
+        #if arch(wasm32)
+        try env.createUint32(UInt32(value))
+        #else
+        try env.createDouble(Double(value))
+        #endif
+    }
+}
+
 extension Int8: NodeConverter {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
         try Int8(env.getValueInt32(value))
@@ -300,5 +321,47 @@ extension OptionalConverter: NodeConverter where WrappedConverter: NodeConverter
         } else {
             return try env.getUndefined()
         }
+    }
+}
+
+// MARK: - Range Type Conversion
+
+extension RangeConverter: NodeConverter where BoundConverter: NodeConverter {
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Range<BoundConverter.SwiftType> {
+        let lowerBound = try BoundConverter.fromNode(try env.getNamedProperty(value, "lowerBound"), env: env)
+        let upperBound = try BoundConverter.fromNode(try env.getNamedProperty(value, "upperBoundExclusive"), env: env)
+
+        guard lowerBound <= upperBound else { throw InvalidRangeError(message: "\(lowerBound)..<\(upperBound)") }
+        return lowerBound..<upperBound
+    }
+
+    public static func toNode(_ value: Range<BoundConverter.SwiftType>, env: NAPI.Env) throws -> NAPI.Value {
+        let lowerBound = try BoundConverter.toNode(value.lowerBound, env: env)
+        let upperBound = try BoundConverter.toNode(value.upperBound, env: env)
+
+        let range = try env.createObject()
+        try env.setNamedProperty(range, "lowerBound", lowerBound)
+        try env.setNamedProperty(range, "upperBoundExclusive", upperBound)
+        return range
+    }
+}
+
+extension ClosedRangeConverter: NodeConverter where BoundConverter: NodeConverter {
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> ClosedRange<BoundConverter.SwiftType> {
+        let lowerBound = try BoundConverter.fromNode(try env.getNamedProperty(value, "lowerBound"), env: env)
+        let upperBound = try BoundConverter.fromNode(try env.getNamedProperty(value, "upperBoundInclusive"), env: env)
+
+        guard lowerBound <= upperBound else { throw InvalidRangeError(message: "\(lowerBound)...\(upperBound)") }
+        return lowerBound...upperBound
+    }
+
+    public static func toNode(_ value: ClosedRange<BoundConverter.SwiftType>, env: NAPI.Env) throws -> NAPI.Value {
+        let lowerBound = try BoundConverter.toNode(value.lowerBound, env: env)
+        let upperBound = try BoundConverter.toNode(value.upperBound, env: env)
+
+        let range = try env.createObject()
+        try env.setNamedProperty(range, "lowerBound", lowerBound)
+        try env.setNamedProperty(range, "upperBoundInclusive", upperBound)
+        return range
     }
 }
