@@ -13,6 +13,12 @@ Client Enablement
 
 Generates bindings for (some) swift library code that can be called from TypeScript and Kotlin.
 
+# Installing Dependencies on MacOS
+
+The recommended way to ensure you have everything you will need for any FishyJoes project is to check that you can generate and build CriGeo-bindings:
+
+[Everything Needed To Generate And Compile (CriGeo-bindings)](EverythingNeededToGenerateAndCompile.md)
+
 # FAQ
 1. [What FishyJoes Can and Cannot Do](documentation/cans-and-cannots.md)
 2. Was that a question?
