@@ -26,7 +26,7 @@ struct TranslatedSet: TranslatedType {
         self.neutralName = "Set<K=\(element.neutralName)>"
         self.containedNamedTypes = element.containedNamedTypes
         self.cSharpType = .named(package: "System.Collections.Generic", name: "ISet<\(element.cSharpType.name)>")
-        self.dartType = .named(package: nil, name: "Set<\(element.dartType.name)>")
+        self.dartType = .named(package: nil, name: "Set", genericArgs: [element.dartType])
     }
 
     func cSharpSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<String>] {
@@ -43,7 +43,7 @@ struct TranslatedSet: TranslatedType {
 
     func dartSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<DartClass.DartType>] {
         return  [
-            .value(name: "typeName", type: .primitive("String")) { fragment in
+            .value(name: "typeName", type: .string) { fragment in
                 fragment.output("\"\(converterType.name)\",")
             },
         ]

@@ -1,13 +1,18 @@
 import 'package:cricut_test_api/cricut_test_api.dart';
 import 'package:test/test.dart';
+import 'dart:isolate';
 
 void main() {
-  group('A group of tests', () {
-    setUp(() {
-    });
+  setUp(() {
+      print("${Isolate.current}, ${Isolate.current.hashCode}, ${Isolate.current.debugName}");
+      print("${Isolate.current}, ${Isolate.current.hashCode}, ${Isolate.current.debugName}");
+      final _ = ensureLoaded;
+  });
 
-    test('First Test', () {
-      expect(Simple.platformVersion, isTrue);
-    });
+  group('A group of tests', () {
+      test('First Test', () {
+          expect(Collections.arrayOfInt, equals([2, 7, 3, 5, 8]));
+          // expect(Collections.defaultCollectionHolder.integerSet, equals(<int>{2, 7}));
+      });
   });
 }

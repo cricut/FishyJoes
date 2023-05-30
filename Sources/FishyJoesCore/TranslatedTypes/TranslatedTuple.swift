@@ -43,7 +43,7 @@ struct TranslatedTuple: TranslatedType {
     }
 
     var dartType: DartClass.DartType {
-        .named(package: "tuple", name: "Tuple\(elements.count)<\(elements.lazy.map(\.type.dartType.name).joined(separator: ", "))>")
+        .named(package: "tuple", name: "Tuple\(elements.count)", genericArgs: elements.map(\.type.dartType))
     }
 
     let cSharpNamespace: String? = nil
@@ -78,7 +78,7 @@ struct TranslatedTuple: TranslatedType {
 
     func dartSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<DartClass.DartType>] {
         return  [
-            .value(name: "typeName", type: .primitive("String")) { fragment in
+            .value(name: "typeName", type: .string) { fragment in
                 fragment.output("\"\(converterType.name)\",")
             },
         ]

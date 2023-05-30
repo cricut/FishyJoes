@@ -3,19 +3,42 @@ import Foundation
 
 // MARK: - Generics Type Conversions
 public struct CollectionInfo {
-    public typealias LengthMethod = @convention(c) (_ array: csObject, _ exn: csOutExn) -> Int32
-    public typealias ValuesMethod = @convention(c) (_ array: csObject, _ outValues: UnsafeMutablePointer<csObject>, _ exn: csOutExn) -> Void
-    public typealias Constuctor = @convention(c) (
-        _ inValues: UnsafePointer<csObject>?,
+    public typealias LengthMethod = @convention(c) (
+        _ context: OpaquePointer,
+        _ array: foreignObject,
+        _ exn: foreignOutExn
+    ) -> Int32
+    public typealias ValuesMethod = @convention(c) (
+        _ context: OpaquePointer,
+        _ array: foreignObject,
+        _ outValues: UnsafeMutablePointer<foreignObject>,
+        _ exn: foreignOutExn
+    ) -> Void
+    public typealias Constructor = @convention(c) (
+        _ context: OpaquePointer,
+        _ inValues: UnsafePointer<foreignObject>?,
         _ length: Int32,
-        _ exn: csOutExn
-    ) -> csObject
+        _ exn: foreignOutExn
+    ) -> foreignObject
 
     var lengthMethod: LengthMethod
     var valuesMethod: ValuesMethod
-    var constuctor: Constuctor
+    var constructor: Constructor
+    var context: OpaquePointer
 
     static var infos: [ObjectIdentifier: CollectionInfo] = [:]
+
+    func length(_ object: foreignObject) throws -> Int {
+        try Env.check { exn in Int(lengthMethod(context, object, exn)) }
+    }
+
+    func values(_ object: foreignObject, outValues: UnsafeMutablePointer<foreignObject>) throws {
+        try Env.check { exn in valuesMethod(context, object, outValues, exn) }
+    }
+
+    func construct(inValues: UnsafePointer<foreignObject>?, length: Int32) throws -> foreignObject {
+        try Env.check { exn in constructor(context, inValues, length, exn) }
+    }
 }
 
 @_cdecl("FishyJoesRuntime_collection_setup")
@@ -23,7 +46,9 @@ public func collectionSetup(
     name: UnsafePointer<unichar>,
     lengthMethod: @escaping CollectionInfo.LengthMethod,
     valuesMethod: @escaping CollectionInfo.ValuesMethod,
-    constructor: @escaping CollectionInfo.Constuctor
+    constructor: @escaping CollectionInfo.Constructor,
+    context: OpaquePointer,
+    exn: foreignOutExn
 ) {
     let name = String(decodingCString: name, as: Unicode.UTF16.self)
     guard let typeID = Env.typeIDsByName[name],
@@ -34,20 +59,21 @@ public func collectionSetup(
     CollectionInfo.infos[identifier] = CollectionInfo(
         lengthMethod: lengthMethod,
         valuesMethod: valuesMethod,
-        constuctor: constructor
+        constructor: constructor,
+        context: context
     )
 }
 
 extension ArrayConverter: IotaConverter where ElementConverter: IotaConverter {
-    public static func peekIota(_ value: csObject) throws -> SwiftType {
+    public static func peekIota(_ value: foreignObject) throws -> SwiftType {
         guard let info = CollectionInfo.infos[ObjectIdentifier(Self.self)] else {
             fatalError("Type \(SwiftType.self) improperly set up")
         }
 
-        let length = try Env.check { exn in Int(info.lengthMethod(value, exn)) }
-        let buffer = UnsafeMutablePointer<csObject>.allocate(capacity: length)
+        let length = try info.length(value)
+        let buffer = UnsafeMutablePointer<foreignObject>.allocate(capacity: length)
         defer { buffer.deallocate() }
-        try Env.check { exn in info.valuesMethod(value, buffer, exn) }
+        try info.values(value, outValues: buffer)
         defer {
             for index in 0..<length {
                 Env.deleteRef(buffer[index])
@@ -62,12 +88,12 @@ extension ArrayConverter: IotaConverter where ElementConverter: IotaConverter {
         return result
     }
 
-    public static func toIota(_ value: SwiftType) throws -> csObject {
+    public static func toIota(_ value: SwiftType) throws -> foreignObject {
         guard let info = CollectionInfo.infos[ObjectIdentifier(Self.self)] else {
             fatalError("Type \(SwiftType.self) improperly set up")
         }
 
-        var iotaObjects: [csObject] = []
+        var iotaObjects: [foreignObject] = []
         iotaObjects.reserveCapacity(value.count)
         defer { iotaObjects.forEach(Env.deleteRef) }
 
@@ -76,21 +102,21 @@ extension ArrayConverter: IotaConverter where ElementConverter: IotaConverter {
         }
 
         return try iotaObjects.withUnsafeBufferPointer { buffer in
-            try Env.check { exn in info.constuctor(buffer.baseAddress, Int32(value.count), exn) }
+            try info.construct(inValues: buffer.baseAddress, length: Int32(value.count))
         }
     }
 }
 
 extension DictionaryConverter: IotaConverter where KeyConverter: IotaConverter, KeyConverter.SwiftType: Hashable, ValueConverter: IotaConverter {
-    public static func peekIota(_ value: csObject) throws -> SwiftType {
+    public static func peekIota(_ value: foreignObject) throws -> SwiftType {
         guard let info = CollectionInfo.infos[ObjectIdentifier(Self.self)] else {
             fatalError("Type \(SwiftType.self) improperly set up")
         }
 
-        let length = try Env.check { exn in Int(info.lengthMethod(value, exn)) }
-        let buffer = UnsafeMutablePointer<csObject>.allocate(capacity: 2 * length)
+        let length = try info.length(value)
+        let buffer = UnsafeMutablePointer<foreignObject>.allocate(capacity: 2 * length)
         defer { buffer.deallocate() }
-        try Env.check { exn in info.valuesMethod(value, buffer, exn) }
+        try info.values(value, outValues: buffer)
         defer {
             for index in 0..<2 * length {
                 Env.deleteRef(buffer[index])
@@ -106,12 +132,12 @@ extension DictionaryConverter: IotaConverter where KeyConverter: IotaConverter, 
         return result
     }
 
-    public static func toIota(_ value: SwiftType) throws -> csObject {
+    public static func toIota(_ value: SwiftType) throws -> foreignObject {
         guard let info = CollectionInfo.infos[ObjectIdentifier(Self.self)] else {
             fatalError("Type \(SwiftType.self) improperly set up")
         }
 
-        var iotaObjects: [csObject] = []
+        var iotaObjects: [foreignObject] = []
         iotaObjects.reserveCapacity(value.count * 2)
         defer { iotaObjects.forEach(Env.deleteRef) }
 
@@ -121,21 +147,21 @@ extension DictionaryConverter: IotaConverter where KeyConverter: IotaConverter, 
         }
 
         return try iotaObjects.withUnsafeBufferPointer { buffer in
-            try Env.check { exn in info.constuctor(buffer.baseAddress, Int32(value.count), exn) }
+            try info.construct(inValues: buffer.baseAddress, length: Int32(value.count))
         }
     }
 }
 
 extension SetConverter: IotaConverter where ElementConverter: IotaConverter, ElementConverter.SwiftType: Hashable {
-    public static func peekIota(_ value: csObject) throws -> SwiftType {
+    public static func peekIota(_ value: foreignObject) throws -> SwiftType {
         guard let info = CollectionInfo.infos[ObjectIdentifier(Self.self)] else {
             fatalError("Type \(SwiftType.self) improperly set up")
         }
 
-        let length = try Env.check { exn in Int(info.lengthMethod(value, exn)) }
-        let buffer = UnsafeMutablePointer<csObject>.allocate(capacity: length)
+        let length = try info.length(value)
+        let buffer = UnsafeMutablePointer<foreignObject>.allocate(capacity: length)
         defer { buffer.deallocate() }
-        try Env.check { exn in info.valuesMethod(value, buffer, exn) }
+        try info.values(value, outValues: buffer)
         defer {
             for index in 0..<length {
                 Env.deleteRef(buffer[index])
@@ -149,12 +175,12 @@ extension SetConverter: IotaConverter where ElementConverter: IotaConverter, Ele
         return result
     }
 
-    public static func toIota(_ value: SwiftType) throws -> csObject {
+    public static func toIota(_ value: SwiftType) throws -> foreignObject {
         guard let info = CollectionInfo.infos[ObjectIdentifier(Self.self)] else {
             fatalError("Type \(SwiftType.self) improperly set up")
         }
 
-        var iotaObjects: [csObject] = []
+        var iotaObjects: [foreignObject] = []
         iotaObjects.reserveCapacity(value.count)
         defer { iotaObjects.forEach(Env.deleteRef) }
 
@@ -163,7 +189,7 @@ extension SetConverter: IotaConverter where ElementConverter: IotaConverter, Ele
         }
 
         return try iotaObjects.withUnsafeBufferPointer { buffer in
-            try Env.check { exn in info.constuctor(buffer.baseAddress, Int32(value.count), exn) }
+            try info.construct(inValues: buffer.baseAddress, length: Int32(value.count))
         }
     }
 }
@@ -171,7 +197,7 @@ extension SetConverter: IotaConverter where ElementConverter: IotaConverter, Ele
 // MARK: - Optional Type Conversion
 
 extension OptionalConverter: IotaConverter where WrappedConverter: IotaConverter {
-    public static func peekIota(_ value: csObject) throws -> SwiftType {
+    public static func peekIota(_ value: foreignObject) throws -> SwiftType {
         if value == nil {
             return nil
         } else {
@@ -179,7 +205,7 @@ extension OptionalConverter: IotaConverter where WrappedConverter: IotaConverter
         }
     }
 
-    public static func toIota(_ value: SwiftType) throws -> csObject {
+    public static func toIota(_ value: SwiftType) throws -> foreignObject {
         if let wrapped = value {
             return try WrappedConverter.toIotaObject(wrapped)
         } else {

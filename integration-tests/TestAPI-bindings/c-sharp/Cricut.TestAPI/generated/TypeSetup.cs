@@ -149,7 +149,6 @@ namespace Cricut.TestAPI {
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_Functions_TheError_setup(
-            SwiftReference.ConstructorDelegate constructorMethod,
             out CreatedRef _exn
         );
 
@@ -341,7 +340,6 @@ namespace Cricut.TestAPI {
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_Structs_ReferenceStruct_setup(
-            SwiftReference.ConstructorDelegate constructorMethod,
             out CreatedRef _exn
         );
 
@@ -888,9 +886,6 @@ namespace Cricut.TestAPI {
             Once("setup_Functions.TheError", () => {
                 Console.WriteLine("setting up Functions.TheError...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_Functions_TheError_setup(
-                    bag<SwiftReference.ConstructorDelegate>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
-                        return new CreatedRef(new Cricut.TestAPI.Functions.TheError(ptr));
-                    })),
                     out exn
                 ));
             });
@@ -1321,9 +1316,6 @@ namespace Cricut.TestAPI {
             Once("setup_Structs.ReferenceStruct", () => {
                 Console.WriteLine("setting up Structs.ReferenceStruct...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_Structs_ReferenceStruct_setup(
-                    bag<SwiftReference.ConstructorDelegate>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
-                        return new CreatedRef(new Cricut.TestAPI.Structs.ReferenceStruct(ptr));
-                    })),
                     out exn
                 ));
             });

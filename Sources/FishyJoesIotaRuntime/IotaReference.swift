@@ -2,13 +2,13 @@ import FishyJoesCommonRuntime
 import Foundation
 
 class IotaReference {
-    let object: csObject
+    let object: foreignObject
 
-    init(_ object: csObject) throws {
+    init(_ object: foreignObject) throws {
         self.object = object.flatMap(Env.newRef)
     }
 
-    init(take object: csObject) {
+    init(take object: foreignObject) {
         self.object = object
     }
 

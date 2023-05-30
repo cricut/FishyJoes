@@ -65,6 +65,7 @@ let package = Package(
     targets: [
         T.systemLibrary(name: "NodeAPI"),
         T.systemLibrary(name: "JNI"),
+        T.systemLibrary(name: "DartSDK"),
         T.target(name: "FishyJoesCommonRuntime"),
         T.target(
             name: "FishyJoesJavaRuntime",

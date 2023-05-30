@@ -14,10 +14,11 @@ public class FishyJoesContext {
     let dumpDebugRepresentation: Bool
 
     var tsAnnotations: TypeScriptAnnotations
-    var kotlinClasses: [KotlinClass] = []
-    var cSharpClasses: [CSharpClass] = []
+    private(set) var kotlinClasses: [KotlinClass] = []
+    private(set) var cSharpClasses: [CSharpClass] = []
+    private(set) var dartClasses: [DartClass] = []
     // qualified name (ie "ContainingClass::ClassName") -> CPPClass
-    var cppClasses: [String: CPPClass] = [:]
+    private(set) var cppClasses: [String: CPPClass] = [:]
     var sortedCppClasses: [CPPClass] {
         cppClasses.sorted { $0.key < $1.key }.map(\.value)
     }
@@ -36,7 +37,7 @@ public class FishyJoesContext {
     lazy var translators: [Translator] = [
         nodeTranslator,
         kotlinTranslator,
-        cppTranslator,
+        // cppTranslator,
         // neutralTranslator,
 
         iotaTranslator,
@@ -97,9 +98,22 @@ public class FishyJoesContext {
         return SourceFragment(sourceryDestination: "file:\(fileName)")
     }
 
-    func dartFragment(_ name: String) -> SourceFragment {
+    func dartFragment(_ name: String, additionalImports: [String] = []) -> SourceFragment {
         let fileName = "../../dart/lib/src/generated/\(name)"
-        fileHeaders[fileName, default: []].formUnion([])
+        fileHeaders[fileName, default: []].formUnion(
+            [
+
+                "import 'dart:ffi' as ffi;",
+                "import 'package:ffi/ffi.dart' as ffi;",
+                "import 'dart:typed_data' as typed_data;",
+                "import 'package:tuple/tuple.dart' as tuple;",
+                "import 'package:freezed_annotation/freezed_annotation.dart';",
+                "import 'package:dart_runtime/runtime.dart';",
+                "import 'package:dart_runtime/utilities.dart' as utils;",
+            ] + dartClasses.map { cls in
+                "import './\(cls.unqualifiedName).dart' as \(module);"
+            } + additionalImports
+        )
         return SourceFragment(sourceryDestination: "file:\(fileName)")
     }
 
@@ -198,16 +212,20 @@ public class FishyJoesContext {
 
         // process all the fragments so that inner classes are inside outer classes
         collectedFragments.append(
-            contentsOf:
-                processInnerClasses(
-                    rootClass: KotlinClass(module: module, documentation: [], name: "__root__"),
-                    in: &kotlinClasses
-                ) +
-                processInnerClasses(
-                    rootClass: CSharpClass(module: module, documentation: [], name: "__root__"),
-                    in: &cSharpClasses,
-                    ignorePrefix: "\(module.cSharpNamespace)."
-                )
+            contentsOf: processInnerClasses(
+                rootClass: KotlinClass(module: module, documentation: [], name: "__root__"),
+                in: &kotlinClasses
+            )
+        )
+        collectedFragments.append(
+            contentsOf: processInnerClasses(
+                rootClass: CSharpClass(module: module, documentation: [], name: "__root__"),
+                in: &cSharpClasses,
+                ignorePrefix: "\(module.cSharpNamespace)."
+            )
+        )
+        collectedFragments.append(
+            contentsOf: dartClasses.map { $0.fragment(context: self) }
         )
 
         // Output moduleInfo for FishyJoes packages that depend on this one
@@ -312,7 +330,7 @@ public class FishyJoesContext {
             "Int32": (c: "int32_t", ts: "number", jni: JNIType.int, cSharp: "int", dart: "int"),
             "Int64": (c: "int64_t", ts: "bigint", jni: JNIType.long, cSharp: "long", dart: "int"),
             "Int": (c: "int", ts: "number", jni: JNIType.long, cSharp: "nint", dart: "int"),
-            "Float": (c: "float", ts: "number", jni: JNIType.float, cSharp: "float", dart: "float"),
+            "Float": (c: "float", ts: "number", jni: JNIType.float, cSharp: "float", dart: "double"),
             "Double": (c: "double", ts: "number", jni: JNIType.double, cSharp: "double", dart: "double"),
         ]
 
@@ -428,6 +446,15 @@ public class FishyJoesContext {
         cSharpTranslator.cSharp(field: field, of: type, context: self, useNativeName: useNativeName)
     }
 
+    func dart(method: Method, of type: TranslatedType) -> DartClass.MethodOrVariable? {
+        dartTranslator.dart(method: method, of: type, context: self)
+    }
+
+    func dart(field: Variable, of type: TranslatedType, useNativeName: Bool = false) -> DartClass.MethodOrVariable? {
+        dartTranslator.dart(field: field, of: type, context: self, useNativeName: useNativeName)
+    }
+
+
     // MARK: warnings
 
     var warningsPrintedOnce: Set<String> = []
@@ -442,5 +469,33 @@ public class FishyJoesContext {
 
     func warnMissingDefault(parameter: SwiftFormal, in method: Method) {
         warn("can't translate default parameter value `\(parameter.name) = \(parameter.defaultValue!)` in method \(method)")
+    }
+
+    // MARK: adding to classes
+
+    func add(kotlinClass: KotlinClass) {
+        kotlinClasses.append(kotlinClass)
+    }
+
+    func add(dartClass: DartClass) {
+        dartClasses.append(dartClass)
+        for (name, (args, returnType)) in dartClass.nativeMethods {
+            dartTranslator.nativeMethods.append(
+                .init(
+                    name: name,
+                    definingDartClass: dartClass.name,
+                    args: args,
+                    returnType: returnType
+                )
+            )
+        }
+    }
+
+    func add(cSharpClass: CSharpClass) {
+        cSharpClasses.append(cSharpClass)
+    }
+
+    func add(cppClass: CPPClass) {
+        cppClasses[cppClass.qualifiedName] = cppClass
     }
 }

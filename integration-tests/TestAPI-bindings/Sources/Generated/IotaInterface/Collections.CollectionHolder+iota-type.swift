@@ -8,25 +8,25 @@ import TestAPI
 @_cdecl("TestAPI_Collections_CollectionHolder_setup")
 public func TestAPI_Collections_CollectionHolder_setup(
     constructorMethod: @escaping Collections.CollectionHolder._ConstructorMethod,
-    _ boolArrayGetter: @escaping @convention(c) (csObject, _ exn: csOutExn) -> ArrayConverter<Bool>.CType,
-    _ boolArraySetter: @escaping @convention(c) (csObject, ArrayConverter<Bool>.CType, _ exn: csOutExn) -> Void,
-    _ boolSetGetter: @escaping @convention(c) (csObject, _ exn: csOutExn) -> SetConverter<Bool>.CType,
-    _ boolSetSetter: @escaping @convention(c) (csObject, SetConverter<Bool>.CType, _ exn: csOutExn) -> Void,
-    _ boolDictionaryGetter: @escaping @convention(c) (csObject, _ exn: csOutExn) -> DictionaryConverter<Bool, Bool>.CType,
-    _ boolDictionarySetter: @escaping @convention(c) (csObject, DictionaryConverter<Bool, Bool>.CType, _ exn: csOutExn) -> Void,
-    _ integerArrayGetter: @escaping @convention(c) (csObject, _ exn: csOutExn) -> ArrayConverter<Int>.CType,
-    _ integerArraySetter: @escaping @convention(c) (csObject, ArrayConverter<Int>.CType, _ exn: csOutExn) -> Void,
-    _ integerSetGetter: @escaping @convention(c) (csObject, _ exn: csOutExn) -> SetConverter<Int>.CType,
-    _ integerSetSetter: @escaping @convention(c) (csObject, SetConverter<Int>.CType, _ exn: csOutExn) -> Void,
-    _ integerDictionaryGetter: @escaping @convention(c) (csObject, _ exn: csOutExn) -> DictionaryConverter<Int, Int>.CType,
-    _ integerDictionarySetter: @escaping @convention(c) (csObject, DictionaryConverter<Int, Int>.CType, _ exn: csOutExn) -> Void,
-    _ stringArrayGetter: @escaping @convention(c) (csObject, _ exn: csOutExn) -> ArrayConverter<Swift.String>.CType,
-    _ stringArraySetter: @escaping @convention(c) (csObject, ArrayConverter<Swift.String>.CType, _ exn: csOutExn) -> Void,
-    _ stringSetGetter: @escaping @convention(c) (csObject, _ exn: csOutExn) -> SetConverter<Swift.String>.CType,
-    _ stringSetSetter: @escaping @convention(c) (csObject, SetConverter<Swift.String>.CType, _ exn: csOutExn) -> Void,
-    _ stringDictionaryGetter: @escaping @convention(c) (csObject, _ exn: csOutExn) -> DictionaryConverter<Swift.String, Swift.String>.CType,
-    _ stringDictionarySetter: @escaping @convention(c) (csObject, DictionaryConverter<Swift.String, Swift.String>.CType, _ exn: csOutExn) -> Void,
-    _ exn: csOutExn
+    _ boolArrayGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> ArrayConverter<Bool>.CType,
+    _ boolArraySetter: @escaping @convention(c) (foreignObject, ArrayConverter<Bool>.CType, _ exn: foreignOutExn) -> Void,
+    _ boolSetGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> SetConverter<Bool>.CType,
+    _ boolSetSetter: @escaping @convention(c) (foreignObject, SetConverter<Bool>.CType, _ exn: foreignOutExn) -> Void,
+    _ boolDictionaryGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> DictionaryConverter<Bool, Bool>.CType,
+    _ boolDictionarySetter: @escaping @convention(c) (foreignObject, DictionaryConverter<Bool, Bool>.CType, _ exn: foreignOutExn) -> Void,
+    _ integerArrayGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> ArrayConverter<Int>.CType,
+    _ integerArraySetter: @escaping @convention(c) (foreignObject, ArrayConverter<Int>.CType, _ exn: foreignOutExn) -> Void,
+    _ integerSetGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> SetConverter<Int>.CType,
+    _ integerSetSetter: @escaping @convention(c) (foreignObject, SetConverter<Int>.CType, _ exn: foreignOutExn) -> Void,
+    _ integerDictionaryGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> DictionaryConverter<Int, Int>.CType,
+    _ integerDictionarySetter: @escaping @convention(c) (foreignObject, DictionaryConverter<Int, Int>.CType, _ exn: foreignOutExn) -> Void,
+    _ stringArrayGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> ArrayConverter<Swift.String>.CType,
+    _ stringArraySetter: @escaping @convention(c) (foreignObject, ArrayConverter<Swift.String>.CType, _ exn: foreignOutExn) -> Void,
+    _ stringSetGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> SetConverter<Swift.String>.CType,
+    _ stringSetSetter: @escaping @convention(c) (foreignObject, SetConverter<Swift.String>.CType, _ exn: foreignOutExn) -> Void,
+    _ stringDictionaryGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> DictionaryConverter<Swift.String, Swift.String>.CType,
+    _ stringDictionarySetter: @escaping @convention(c) (foreignObject, DictionaryConverter<Swift.String, Swift.String>.CType, _ exn: foreignOutExn) -> Void,
+    _ exn: foreignOutExn
 ) {
     guard Collections.CollectionHolder._constructorMethod == nil else { return }
     Collections.CollectionHolder._constructorMethod = constructorMethod
@@ -51,24 +51,24 @@ public func TestAPI_Collections_CollectionHolder_setup(
 }
 
 extension Collections.CollectionHolder: IotaMutator {
-    fileprivate static var _boolArrayGetter: (@convention(c) (csObject, _ exn: csOutExn) -> ArrayConverter<Bool>.CType)!
-    fileprivate static var _boolArraySetter: (@convention(c) (csObject, ArrayConverter<Bool>.CType, _ exn: csOutExn) -> Void)!
-    fileprivate static var _boolSetGetter: (@convention(c) (csObject, _ exn: csOutExn) -> SetConverter<Bool>.CType)!
-    fileprivate static var _boolSetSetter: (@convention(c) (csObject, SetConverter<Bool>.CType, _ exn: csOutExn) -> Void)!
-    fileprivate static var _boolDictionaryGetter: (@convention(c) (csObject, _ exn: csOutExn) -> DictionaryConverter<Bool, Bool>.CType)!
-    fileprivate static var _boolDictionarySetter: (@convention(c) (csObject, DictionaryConverter<Bool, Bool>.CType, _ exn: csOutExn) -> Void)!
-    fileprivate static var _integerArrayGetter: (@convention(c) (csObject, _ exn: csOutExn) -> ArrayConverter<Int>.CType)!
-    fileprivate static var _integerArraySetter: (@convention(c) (csObject, ArrayConverter<Int>.CType, _ exn: csOutExn) -> Void)!
-    fileprivate static var _integerSetGetter: (@convention(c) (csObject, _ exn: csOutExn) -> SetConverter<Int>.CType)!
-    fileprivate static var _integerSetSetter: (@convention(c) (csObject, SetConverter<Int>.CType, _ exn: csOutExn) -> Void)!
-    fileprivate static var _integerDictionaryGetter: (@convention(c) (csObject, _ exn: csOutExn) -> DictionaryConverter<Int, Int>.CType)!
-    fileprivate static var _integerDictionarySetter: (@convention(c) (csObject, DictionaryConverter<Int, Int>.CType, _ exn: csOutExn) -> Void)!
-    fileprivate static var _stringArrayGetter: (@convention(c) (csObject, _ exn: csOutExn) -> ArrayConverter<Swift.String>.CType)!
-    fileprivate static var _stringArraySetter: (@convention(c) (csObject, ArrayConverter<Swift.String>.CType, _ exn: csOutExn) -> Void)!
-    fileprivate static var _stringSetGetter: (@convention(c) (csObject, _ exn: csOutExn) -> SetConverter<Swift.String>.CType)!
-    fileprivate static var _stringSetSetter: (@convention(c) (csObject, SetConverter<Swift.String>.CType, _ exn: csOutExn) -> Void)!
-    fileprivate static var _stringDictionaryGetter: (@convention(c) (csObject, _ exn: csOutExn) -> DictionaryConverter<Swift.String, Swift.String>.CType)!
-    fileprivate static var _stringDictionarySetter: (@convention(c) (csObject, DictionaryConverter<Swift.String, Swift.String>.CType, _ exn: csOutExn) -> Void)!
+    fileprivate static var _boolArrayGetter: (@convention(c) (foreignObject, _ exn: foreignOutExn) -> ArrayConverter<Bool>.CType)!
+    fileprivate static var _boolArraySetter: (@convention(c) (foreignObject, ArrayConverter<Bool>.CType, _ exn: foreignOutExn) -> Void)!
+    fileprivate static var _boolSetGetter: (@convention(c) (foreignObject, _ exn: foreignOutExn) -> SetConverter<Bool>.CType)!
+    fileprivate static var _boolSetSetter: (@convention(c) (foreignObject, SetConverter<Bool>.CType, _ exn: foreignOutExn) -> Void)!
+    fileprivate static var _boolDictionaryGetter: (@convention(c) (foreignObject, _ exn: foreignOutExn) -> DictionaryConverter<Bool, Bool>.CType)!
+    fileprivate static var _boolDictionarySetter: (@convention(c) (foreignObject, DictionaryConverter<Bool, Bool>.CType, _ exn: foreignOutExn) -> Void)!
+    fileprivate static var _integerArrayGetter: (@convention(c) (foreignObject, _ exn: foreignOutExn) -> ArrayConverter<Int>.CType)!
+    fileprivate static var _integerArraySetter: (@convention(c) (foreignObject, ArrayConverter<Int>.CType, _ exn: foreignOutExn) -> Void)!
+    fileprivate static var _integerSetGetter: (@convention(c) (foreignObject, _ exn: foreignOutExn) -> SetConverter<Int>.CType)!
+    fileprivate static var _integerSetSetter: (@convention(c) (foreignObject, SetConverter<Int>.CType, _ exn: foreignOutExn) -> Void)!
+    fileprivate static var _integerDictionaryGetter: (@convention(c) (foreignObject, _ exn: foreignOutExn) -> DictionaryConverter<Int, Int>.CType)!
+    fileprivate static var _integerDictionarySetter: (@convention(c) (foreignObject, DictionaryConverter<Int, Int>.CType, _ exn: foreignOutExn) -> Void)!
+    fileprivate static var _stringArrayGetter: (@convention(c) (foreignObject, _ exn: foreignOutExn) -> ArrayConverter<Swift.String>.CType)!
+    fileprivate static var _stringArraySetter: (@convention(c) (foreignObject, ArrayConverter<Swift.String>.CType, _ exn: foreignOutExn) -> Void)!
+    fileprivate static var _stringSetGetter: (@convention(c) (foreignObject, _ exn: foreignOutExn) -> SetConverter<Swift.String>.CType)!
+    fileprivate static var _stringSetSetter: (@convention(c) (foreignObject, SetConverter<Swift.String>.CType, _ exn: foreignOutExn) -> Void)!
+    fileprivate static var _stringDictionaryGetter: (@convention(c) (foreignObject, _ exn: foreignOutExn) -> DictionaryConverter<Swift.String, Swift.String>.CType)!
+    fileprivate static var _stringDictionarySetter: (@convention(c) (foreignObject, DictionaryConverter<Swift.String, Swift.String>.CType, _ exn: foreignOutExn) -> Void)!
     public typealias _ConstructorMethod = @convention(c) (
         ArrayConverter<Bool>.CType,
         SetConverter<Bool>.CType,
@@ -79,11 +79,11 @@ extension Collections.CollectionHolder: IotaMutator {
         ArrayConverter<Swift.String>.CType,
         SetConverter<Swift.String>.CType,
         DictionaryConverter<Swift.String, Swift.String>.CType,
-        _ exn: csOutExn
-    ) -> csObject
+        _ exn: foreignOutExn
+    ) -> foreignObject
     fileprivate static var _constructorMethod: _ConstructorMethod!
 
-    public static func peekIota(_ value: csObject) throws -> Self {
+    public static func peekIota(_ value: foreignObject) throws -> Self {
         Self(
             boolArray: try ArrayConverter<Bool>.consumeIota(
                 try Env.check { exn in _boolArrayGetter(value, exn) }
@@ -115,7 +115,7 @@ extension Collections.CollectionHolder: IotaMutator {
         )
     }
 
-    public static func toIota(_ value: Self) throws -> csObject {
+    public static func toIota(_ value: Self) throws -> foreignObject {
         try Env.check { exn in
             _constructorMethod(
                 try ArrayConverter<Bool>.toIota(value.boolArray),
@@ -132,7 +132,7 @@ extension Collections.CollectionHolder: IotaMutator {
         }
     }
 
-    public static func mutateIota<R>(_ this: csObject, body: (inout Self) throws -> R) throws -> R {
+    public static func mutateIota<R>(_ this: foreignObject, body: (inout Self) throws -> R) throws -> R {
         var mutatingSelf = try peekIota(this)
         let result = try body(&mutatingSelf)
         try Env.check { exn in _boolArraySetter(

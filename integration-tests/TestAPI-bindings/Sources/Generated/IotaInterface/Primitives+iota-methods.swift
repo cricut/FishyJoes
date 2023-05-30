@@ -9,7 +9,7 @@ import TestAPI
 @_cdecl("__iota_Primitives_echoBool")
 public func __iota_Primitives_echoBool(
     value: Bool.CType,
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> Bool.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         return try Bool.toIota(
@@ -24,7 +24,7 @@ public func __iota_Primitives_echoBool(
 @_cdecl("__iota_Primitives_echoUInt8")
 public func __iota_Primitives_echoUInt8(
     value: UInt8.CType,
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> UInt8.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         return try UInt8.toIota(
@@ -39,7 +39,7 @@ public func __iota_Primitives_echoUInt8(
 @_cdecl("__iota_Primitives_echoUInt16")
 public func __iota_Primitives_echoUInt16(
     value: UInt16.CType,
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> UInt16.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         return try UInt16.toIota(
@@ -54,7 +54,7 @@ public func __iota_Primitives_echoUInt16(
 @_cdecl("__iota_Primitives_echoUInt32")
 public func __iota_Primitives_echoUInt32(
     value: UInt32.CType,
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> UInt32.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         return try UInt32.toIota(
@@ -69,7 +69,7 @@ public func __iota_Primitives_echoUInt32(
 @_cdecl("__iota_Primitives_echoUInt64")
 public func __iota_Primitives_echoUInt64(
     value: UInt64.CType,
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> UInt64.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         return try UInt64.toIota(
@@ -84,7 +84,7 @@ public func __iota_Primitives_echoUInt64(
 @_cdecl("__iota_Primitives_echoInt8")
 public func __iota_Primitives_echoInt8(
     value: Int8.CType,
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> Int8.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         return try Int8.toIota(
@@ -99,7 +99,7 @@ public func __iota_Primitives_echoInt8(
 @_cdecl("__iota_Primitives_echoInt16")
 public func __iota_Primitives_echoInt16(
     value: Int16.CType,
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> Int16.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         return try Int16.toIota(
@@ -114,7 +114,7 @@ public func __iota_Primitives_echoInt16(
 @_cdecl("__iota_Primitives_echoInt32")
 public func __iota_Primitives_echoInt32(
     value: Int32.CType,
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> Int32.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         return try Int32.toIota(
@@ -129,7 +129,7 @@ public func __iota_Primitives_echoInt32(
 @_cdecl("__iota_Primitives_echoInt64")
 public func __iota_Primitives_echoInt64(
     value: Int64.CType,
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> Int64.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         return try Int64.toIota(
@@ -144,7 +144,7 @@ public func __iota_Primitives_echoInt64(
 @_cdecl("__iota_Primitives_echoFloat")
 public func __iota_Primitives_echoFloat(
     value: Float.CType,
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> Float.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         return try Float.toIota(
@@ -159,7 +159,7 @@ public func __iota_Primitives_echoFloat(
 @_cdecl("__iota_Primitives_echoDouble")
 public func __iota_Primitives_echoDouble(
     value: Double.CType,
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> Double.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         return try Double.toIota(
@@ -174,7 +174,7 @@ public func __iota_Primitives_echoDouble(
 @_cdecl("__iota_Primitives_maybeEchoBool")
 public func __iota_Primitives_maybeEchoBool(
     value: OptionalConverter<Bool>.CType,
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> OptionalConverter<Bool>.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         return try OptionalConverter<Bool>.toIota(
@@ -189,7 +189,7 @@ public func __iota_Primitives_maybeEchoBool(
 @_cdecl("__iota_Primitives_maybeEchoUInt8")
 public func __iota_Primitives_maybeEchoUInt8(
     value: OptionalConverter<UInt8>.CType,
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> OptionalConverter<UInt8>.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         return try OptionalConverter<UInt8>.toIota(
@@ -204,7 +204,7 @@ public func __iota_Primitives_maybeEchoUInt8(
 @_cdecl("__iota_Primitives_maybeEchoUInt16")
 public func __iota_Primitives_maybeEchoUInt16(
     value: OptionalConverter<UInt16>.CType,
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> OptionalConverter<UInt16>.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         return try OptionalConverter<UInt16>.toIota(
@@ -219,7 +219,7 @@ public func __iota_Primitives_maybeEchoUInt16(
 @_cdecl("__iota_Primitives_maybeEchoUInt32")
 public func __iota_Primitives_maybeEchoUInt32(
     value: OptionalConverter<UInt32>.CType,
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> OptionalConverter<UInt32>.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         return try OptionalConverter<UInt32>.toIota(
@@ -234,7 +234,7 @@ public func __iota_Primitives_maybeEchoUInt32(
 @_cdecl("__iota_Primitives_maybeEchoUInt64")
 public func __iota_Primitives_maybeEchoUInt64(
     value: OptionalConverter<UInt64>.CType,
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> OptionalConverter<UInt64>.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         return try OptionalConverter<UInt64>.toIota(
@@ -249,7 +249,7 @@ public func __iota_Primitives_maybeEchoUInt64(
 @_cdecl("__iota_Primitives_maybeEchoInt8")
 public func __iota_Primitives_maybeEchoInt8(
     value: OptionalConverter<Int8>.CType,
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> OptionalConverter<Int8>.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         return try OptionalConverter<Int8>.toIota(
@@ -264,7 +264,7 @@ public func __iota_Primitives_maybeEchoInt8(
 @_cdecl("__iota_Primitives_maybeEchoInt16")
 public func __iota_Primitives_maybeEchoInt16(
     value: OptionalConverter<Int16>.CType,
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> OptionalConverter<Int16>.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         return try OptionalConverter<Int16>.toIota(
@@ -279,7 +279,7 @@ public func __iota_Primitives_maybeEchoInt16(
 @_cdecl("__iota_Primitives_maybeEchoInt32")
 public func __iota_Primitives_maybeEchoInt32(
     value: OptionalConverter<Int32>.CType,
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> OptionalConverter<Int32>.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         return try OptionalConverter<Int32>.toIota(
@@ -294,7 +294,7 @@ public func __iota_Primitives_maybeEchoInt32(
 @_cdecl("__iota_Primitives_maybeEchoInt64")
 public func __iota_Primitives_maybeEchoInt64(
     value: OptionalConverter<Int64>.CType,
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> OptionalConverter<Int64>.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         return try OptionalConverter<Int64>.toIota(
@@ -309,7 +309,7 @@ public func __iota_Primitives_maybeEchoInt64(
 @_cdecl("__iota_Primitives_maybeEchoFloat")
 public func __iota_Primitives_maybeEchoFloat(
     value: OptionalConverter<Float>.CType,
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> OptionalConverter<Float>.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         return try OptionalConverter<Float>.toIota(
@@ -324,7 +324,7 @@ public func __iota_Primitives_maybeEchoFloat(
 @_cdecl("__iota_Primitives_maybeEchoDouble")
 public func __iota_Primitives_maybeEchoDouble(
     value: OptionalConverter<Double>.CType,
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> OptionalConverter<Double>.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         return try OptionalConverter<Double>.toIota(
@@ -340,7 +340,7 @@ public func __iota_Primitives_maybeEchoDouble(
 public func __iota_Primitives_valueMapper(
     value: OptionalConverter<UInt8>.CType,
     mapper: Function1Converter<OptionalConverter<UInt8>, OptionalConverter<UInt8>>.CType,
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> OptionalConverter<UInt8>.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         return try OptionalConverter<UInt8>.toIota(
@@ -355,7 +355,7 @@ public func __iota_Primitives_valueMapper(
 // Generated by FishyJoes for `Primitives.falseBool`
 @_cdecl("__iota_get_Primitives_FalseBool")
 public func __iota_get_Primitives_FalseBool(
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> Bool.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         try Bool.toIota(Primitives.falseBool)
@@ -365,7 +365,7 @@ public func __iota_get_Primitives_FalseBool(
 // Generated by FishyJoes for `Primitives.trueBool`
 @_cdecl("__iota_get_Primitives_TrueBool")
 public func __iota_get_Primitives_TrueBool(
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> Bool.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         try Bool.toIota(Primitives.trueBool)
@@ -375,7 +375,7 @@ public func __iota_get_Primitives_TrueBool(
 // Generated by FishyJoes for `Primitives.zeroUInt8`
 @_cdecl("__iota_get_Primitives_ZeroUInt8")
 public func __iota_get_Primitives_ZeroUInt8(
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> UInt8.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         try UInt8.toIota(Primitives.zeroUInt8)
@@ -385,7 +385,7 @@ public func __iota_get_Primitives_ZeroUInt8(
 // Generated by FishyJoes for `Primitives.minUInt8`
 @_cdecl("__iota_get_Primitives_MinUInt8")
 public func __iota_get_Primitives_MinUInt8(
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> UInt8.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         try UInt8.toIota(Primitives.minUInt8)
@@ -395,7 +395,7 @@ public func __iota_get_Primitives_MinUInt8(
 // Generated by FishyJoes for `Primitives.maxUInt8`
 @_cdecl("__iota_get_Primitives_MaxUInt8")
 public func __iota_get_Primitives_MaxUInt8(
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> UInt8.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         try UInt8.toIota(Primitives.maxUInt8)
@@ -405,7 +405,7 @@ public func __iota_get_Primitives_MaxUInt8(
 // Generated by FishyJoes for `Primitives.zeroUInt16`
 @_cdecl("__iota_get_Primitives_ZeroUInt16")
 public func __iota_get_Primitives_ZeroUInt16(
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> UInt16.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         try UInt16.toIota(Primitives.zeroUInt16)
@@ -415,7 +415,7 @@ public func __iota_get_Primitives_ZeroUInt16(
 // Generated by FishyJoes for `Primitives.minUInt16`
 @_cdecl("__iota_get_Primitives_MinUInt16")
 public func __iota_get_Primitives_MinUInt16(
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> UInt16.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         try UInt16.toIota(Primitives.minUInt16)
@@ -425,7 +425,7 @@ public func __iota_get_Primitives_MinUInt16(
 // Generated by FishyJoes for `Primitives.maxUInt16`
 @_cdecl("__iota_get_Primitives_MaxUInt16")
 public func __iota_get_Primitives_MaxUInt16(
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> UInt16.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         try UInt16.toIota(Primitives.maxUInt16)
@@ -435,7 +435,7 @@ public func __iota_get_Primitives_MaxUInt16(
 // Generated by FishyJoes for `Primitives.zeroUInt32`
 @_cdecl("__iota_get_Primitives_ZeroUInt32")
 public func __iota_get_Primitives_ZeroUInt32(
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> UInt32.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         try UInt32.toIota(Primitives.zeroUInt32)
@@ -445,7 +445,7 @@ public func __iota_get_Primitives_ZeroUInt32(
 // Generated by FishyJoes for `Primitives.minUInt32`
 @_cdecl("__iota_get_Primitives_MinUInt32")
 public func __iota_get_Primitives_MinUInt32(
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> UInt32.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         try UInt32.toIota(Primitives.minUInt32)
@@ -455,7 +455,7 @@ public func __iota_get_Primitives_MinUInt32(
 // Generated by FishyJoes for `Primitives.maxUInt32`
 @_cdecl("__iota_get_Primitives_MaxUInt32")
 public func __iota_get_Primitives_MaxUInt32(
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> UInt32.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         try UInt32.toIota(Primitives.maxUInt32)
@@ -465,7 +465,7 @@ public func __iota_get_Primitives_MaxUInt32(
 // Generated by FishyJoes for `Primitives.zeroUInt64`
 @_cdecl("__iota_get_Primitives_ZeroUInt64")
 public func __iota_get_Primitives_ZeroUInt64(
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> UInt64.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         try UInt64.toIota(Primitives.zeroUInt64)
@@ -475,7 +475,7 @@ public func __iota_get_Primitives_ZeroUInt64(
 // Generated by FishyJoes for `Primitives.minUInt64`
 @_cdecl("__iota_get_Primitives_MinUInt64")
 public func __iota_get_Primitives_MinUInt64(
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> UInt64.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         try UInt64.toIota(Primitives.minUInt64)
@@ -485,7 +485,7 @@ public func __iota_get_Primitives_MinUInt64(
 // Generated by FishyJoes for `Primitives.maxUInt64`
 @_cdecl("__iota_get_Primitives_MaxUInt64")
 public func __iota_get_Primitives_MaxUInt64(
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> UInt64.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         try UInt64.toIota(Primitives.maxUInt64)
@@ -495,7 +495,7 @@ public func __iota_get_Primitives_MaxUInt64(
 // Generated by FishyJoes for `Primitives.zeroInt8`
 @_cdecl("__iota_get_Primitives_ZeroInt8")
 public func __iota_get_Primitives_ZeroInt8(
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> Int8.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         try Int8.toIota(Primitives.zeroInt8)
@@ -505,7 +505,7 @@ public func __iota_get_Primitives_ZeroInt8(
 // Generated by FishyJoes for `Primitives.minInt8`
 @_cdecl("__iota_get_Primitives_MinInt8")
 public func __iota_get_Primitives_MinInt8(
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> Int8.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         try Int8.toIota(Primitives.minInt8)
@@ -515,7 +515,7 @@ public func __iota_get_Primitives_MinInt8(
 // Generated by FishyJoes for `Primitives.maxInt8`
 @_cdecl("__iota_get_Primitives_MaxInt8")
 public func __iota_get_Primitives_MaxInt8(
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> Int8.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         try Int8.toIota(Primitives.maxInt8)
@@ -525,7 +525,7 @@ public func __iota_get_Primitives_MaxInt8(
 // Generated by FishyJoes for `Primitives.zeroInt16`
 @_cdecl("__iota_get_Primitives_ZeroInt16")
 public func __iota_get_Primitives_ZeroInt16(
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> Int16.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         try Int16.toIota(Primitives.zeroInt16)
@@ -535,7 +535,7 @@ public func __iota_get_Primitives_ZeroInt16(
 // Generated by FishyJoes for `Primitives.minInt16`
 @_cdecl("__iota_get_Primitives_MinInt16")
 public func __iota_get_Primitives_MinInt16(
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> Int16.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         try Int16.toIota(Primitives.minInt16)
@@ -545,7 +545,7 @@ public func __iota_get_Primitives_MinInt16(
 // Generated by FishyJoes for `Primitives.maxInt16`
 @_cdecl("__iota_get_Primitives_MaxInt16")
 public func __iota_get_Primitives_MaxInt16(
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> Int16.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         try Int16.toIota(Primitives.maxInt16)
@@ -555,7 +555,7 @@ public func __iota_get_Primitives_MaxInt16(
 // Generated by FishyJoes for `Primitives.zeroInt32`
 @_cdecl("__iota_get_Primitives_ZeroInt32")
 public func __iota_get_Primitives_ZeroInt32(
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> Int32.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         try Int32.toIota(Primitives.zeroInt32)
@@ -565,7 +565,7 @@ public func __iota_get_Primitives_ZeroInt32(
 // Generated by FishyJoes for `Primitives.minInt32`
 @_cdecl("__iota_get_Primitives_MinInt32")
 public func __iota_get_Primitives_MinInt32(
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> Int32.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         try Int32.toIota(Primitives.minInt32)
@@ -575,7 +575,7 @@ public func __iota_get_Primitives_MinInt32(
 // Generated by FishyJoes for `Primitives.maxInt32`
 @_cdecl("__iota_get_Primitives_MaxInt32")
 public func __iota_get_Primitives_MaxInt32(
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> Int32.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         try Int32.toIota(Primitives.maxInt32)
@@ -585,7 +585,7 @@ public func __iota_get_Primitives_MaxInt32(
 // Generated by FishyJoes for `Primitives.zeroInt64`
 @_cdecl("__iota_get_Primitives_ZeroInt64")
 public func __iota_get_Primitives_ZeroInt64(
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> Int64.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         try Int64.toIota(Primitives.zeroInt64)
@@ -595,7 +595,7 @@ public func __iota_get_Primitives_ZeroInt64(
 // Generated by FishyJoes for `Primitives.minInt64`
 @_cdecl("__iota_get_Primitives_MinInt64")
 public func __iota_get_Primitives_MinInt64(
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> Int64.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         try Int64.toIota(Primitives.minInt64)
@@ -605,7 +605,7 @@ public func __iota_get_Primitives_MinInt64(
 // Generated by FishyJoes for `Primitives.maxInt64`
 @_cdecl("__iota_get_Primitives_MaxInt64")
 public func __iota_get_Primitives_MaxInt64(
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> Int64.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         try Int64.toIota(Primitives.maxInt64)
@@ -615,7 +615,7 @@ public func __iota_get_Primitives_MaxInt64(
 // Generated by FishyJoes for `Primitives.zeroInt`
 @_cdecl("__iota_get_Primitives_ZeroInt")
 public func __iota_get_Primitives_ZeroInt(
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> Int.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         try Int.toIota(Primitives.zeroInt)
@@ -625,7 +625,7 @@ public func __iota_get_Primitives_ZeroInt(
 // Generated by FishyJoes for `Primitives.minInt`
 @_cdecl("__iota_get_Primitives_MinInt")
 public func __iota_get_Primitives_MinInt(
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> Int.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         try Int.toIota(Primitives.minInt)
@@ -635,7 +635,7 @@ public func __iota_get_Primitives_MinInt(
 // Generated by FishyJoes for `Primitives.maxInt`
 @_cdecl("__iota_get_Primitives_MaxInt")
 public func __iota_get_Primitives_MaxInt(
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> Int.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         try Int.toIota(Primitives.maxInt)
@@ -645,7 +645,7 @@ public func __iota_get_Primitives_MaxInt(
 // Generated by FishyJoes for `Primitives.zeroFloat`
 @_cdecl("__iota_get_Primitives_ZeroFloat")
 public func __iota_get_Primitives_ZeroFloat(
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> Float.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         try Float.toIota(Primitives.zeroFloat)
@@ -655,7 +655,7 @@ public func __iota_get_Primitives_ZeroFloat(
 // Generated by FishyJoes for `Primitives.minFloat`
 @_cdecl("__iota_get_Primitives_MinFloat")
 public func __iota_get_Primitives_MinFloat(
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> Float.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         try Float.toIota(Primitives.minFloat)
@@ -665,7 +665,7 @@ public func __iota_get_Primitives_MinFloat(
 // Generated by FishyJoes for `Primitives.maxFloat`
 @_cdecl("__iota_get_Primitives_MaxFloat")
 public func __iota_get_Primitives_MaxFloat(
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> Float.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         try Float.toIota(Primitives.maxFloat)
@@ -675,7 +675,7 @@ public func __iota_get_Primitives_MaxFloat(
 // Generated by FishyJoes for `Primitives.zeroDouble`
 @_cdecl("__iota_get_Primitives_ZeroDouble")
 public func __iota_get_Primitives_ZeroDouble(
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> Double.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         try Double.toIota(Primitives.zeroDouble)
@@ -685,7 +685,7 @@ public func __iota_get_Primitives_ZeroDouble(
 // Generated by FishyJoes for `Primitives.minDouble`
 @_cdecl("__iota_get_Primitives_MinDouble")
 public func __iota_get_Primitives_MinDouble(
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> Double.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         try Double.toIota(Primitives.minDouble)
@@ -695,7 +695,7 @@ public func __iota_get_Primitives_MinDouble(
 // Generated by FishyJoes for `Primitives.maxDouble`
 @_cdecl("__iota_get_Primitives_MaxDouble")
 public func __iota_get_Primitives_MaxDouble(
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> Double.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         try Double.toIota(Primitives.maxDouble)
@@ -705,7 +705,7 @@ public func __iota_get_Primitives_MaxDouble(
 // Generated by FishyJoes for `Primitives.manyBool`
 @_cdecl("__iota_get_Primitives_ManyBool")
 public func __iota_get_Primitives_ManyBool(
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> ArrayConverter<Bool>.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         try ArrayConverter<Bool>.toIota(Primitives.manyBool)
@@ -715,7 +715,7 @@ public func __iota_get_Primitives_ManyBool(
 // Generated by FishyJoes for `Primitives.manyUInt8`
 @_cdecl("__iota_get_Primitives_ManyUInt8")
 public func __iota_get_Primitives_ManyUInt8(
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> ArrayConverter<UInt8>.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         try ArrayConverter<UInt8>.toIota(Primitives.manyUInt8)
@@ -725,7 +725,7 @@ public func __iota_get_Primitives_ManyUInt8(
 // Generated by FishyJoes for `Primitives.manyUInt16`
 @_cdecl("__iota_get_Primitives_ManyUInt16")
 public func __iota_get_Primitives_ManyUInt16(
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> ArrayConverter<UInt16>.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         try ArrayConverter<UInt16>.toIota(Primitives.manyUInt16)
@@ -735,7 +735,7 @@ public func __iota_get_Primitives_ManyUInt16(
 // Generated by FishyJoes for `Primitives.manyUInt32`
 @_cdecl("__iota_get_Primitives_ManyUInt32")
 public func __iota_get_Primitives_ManyUInt32(
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> ArrayConverter<UInt32>.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         try ArrayConverter<UInt32>.toIota(Primitives.manyUInt32)
@@ -745,7 +745,7 @@ public func __iota_get_Primitives_ManyUInt32(
 // Generated by FishyJoes for `Primitives.manyUInt64`
 @_cdecl("__iota_get_Primitives_ManyUInt64")
 public func __iota_get_Primitives_ManyUInt64(
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> ArrayConverter<UInt64>.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         try ArrayConverter<UInt64>.toIota(Primitives.manyUInt64)
@@ -755,7 +755,7 @@ public func __iota_get_Primitives_ManyUInt64(
 // Generated by FishyJoes for `Primitives.manyInt8`
 @_cdecl("__iota_get_Primitives_ManyInt8")
 public func __iota_get_Primitives_ManyInt8(
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> ArrayConverter<Int8>.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         try ArrayConverter<Int8>.toIota(Primitives.manyInt8)
@@ -765,7 +765,7 @@ public func __iota_get_Primitives_ManyInt8(
 // Generated by FishyJoes for `Primitives.manyInt16`
 @_cdecl("__iota_get_Primitives_ManyInt16")
 public func __iota_get_Primitives_ManyInt16(
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> ArrayConverter<Int16>.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         try ArrayConverter<Int16>.toIota(Primitives.manyInt16)
@@ -775,7 +775,7 @@ public func __iota_get_Primitives_ManyInt16(
 // Generated by FishyJoes for `Primitives.manyInt32`
 @_cdecl("__iota_get_Primitives_ManyInt32")
 public func __iota_get_Primitives_ManyInt32(
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> ArrayConverter<Int32>.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         try ArrayConverter<Int32>.toIota(Primitives.manyInt32)
@@ -785,7 +785,7 @@ public func __iota_get_Primitives_ManyInt32(
 // Generated by FishyJoes for `Primitives.manyInt64`
 @_cdecl("__iota_get_Primitives_ManyInt64")
 public func __iota_get_Primitives_ManyInt64(
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> ArrayConverter<Int64>.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         try ArrayConverter<Int64>.toIota(Primitives.manyInt64)
@@ -795,7 +795,7 @@ public func __iota_get_Primitives_ManyInt64(
 // Generated by FishyJoes for `Primitives.manyFloat`
 @_cdecl("__iota_get_Primitives_ManyFloat")
 public func __iota_get_Primitives_ManyFloat(
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> ArrayConverter<Float>.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         try ArrayConverter<Float>.toIota(Primitives.manyFloat)
@@ -805,7 +805,7 @@ public func __iota_get_Primitives_ManyFloat(
 // Generated by FishyJoes for `Primitives.manyDouble`
 @_cdecl("__iota_get_Primitives_ManyDouble")
 public func __iota_get_Primitives_ManyDouble(
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> ArrayConverter<Double>.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         try ArrayConverter<Double>.toIota(Primitives.manyDouble)
@@ -815,7 +815,7 @@ public func __iota_get_Primitives_ManyDouble(
 // Generated by FishyJoes for `Primitives.manyMaybeBool`
 @_cdecl("__iota_get_Primitives_ManyMaybeBool")
 public func __iota_get_Primitives_ManyMaybeBool(
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> ArrayConverter<OptionalConverter<Bool>>.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         try ArrayConverter<OptionalConverter<Bool>>.toIota(Primitives.manyMaybeBool)
@@ -825,7 +825,7 @@ public func __iota_get_Primitives_ManyMaybeBool(
 // Generated by FishyJoes for `Primitives.manyMaybeUInt8`
 @_cdecl("__iota_get_Primitives_ManyMaybeUInt8")
 public func __iota_get_Primitives_ManyMaybeUInt8(
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> ArrayConverter<OptionalConverter<UInt8>>.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         try ArrayConverter<OptionalConverter<UInt8>>.toIota(Primitives.manyMaybeUInt8)
@@ -835,7 +835,7 @@ public func __iota_get_Primitives_ManyMaybeUInt8(
 // Generated by FishyJoes for `Primitives.manyMaybeUInt16`
 @_cdecl("__iota_get_Primitives_ManyMaybeUInt16")
 public func __iota_get_Primitives_ManyMaybeUInt16(
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> ArrayConverter<OptionalConverter<UInt16>>.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         try ArrayConverter<OptionalConverter<UInt16>>.toIota(Primitives.manyMaybeUInt16)
@@ -845,7 +845,7 @@ public func __iota_get_Primitives_ManyMaybeUInt16(
 // Generated by FishyJoes for `Primitives.manyMaybeUInt32`
 @_cdecl("__iota_get_Primitives_ManyMaybeUInt32")
 public func __iota_get_Primitives_ManyMaybeUInt32(
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> ArrayConverter<OptionalConverter<UInt32>>.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         try ArrayConverter<OptionalConverter<UInt32>>.toIota(Primitives.manyMaybeUInt32)
@@ -855,7 +855,7 @@ public func __iota_get_Primitives_ManyMaybeUInt32(
 // Generated by FishyJoes for `Primitives.manyMaybeUInt64`
 @_cdecl("__iota_get_Primitives_ManyMaybeUInt64")
 public func __iota_get_Primitives_ManyMaybeUInt64(
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> ArrayConverter<OptionalConverter<UInt64>>.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         try ArrayConverter<OptionalConverter<UInt64>>.toIota(Primitives.manyMaybeUInt64)
@@ -865,7 +865,7 @@ public func __iota_get_Primitives_ManyMaybeUInt64(
 // Generated by FishyJoes for `Primitives.manyMaybeInt8`
 @_cdecl("__iota_get_Primitives_ManyMaybeInt8")
 public func __iota_get_Primitives_ManyMaybeInt8(
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> ArrayConverter<OptionalConverter<Int8>>.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         try ArrayConverter<OptionalConverter<Int8>>.toIota(Primitives.manyMaybeInt8)
@@ -875,7 +875,7 @@ public func __iota_get_Primitives_ManyMaybeInt8(
 // Generated by FishyJoes for `Primitives.manyMaybeInt16`
 @_cdecl("__iota_get_Primitives_ManyMaybeInt16")
 public func __iota_get_Primitives_ManyMaybeInt16(
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> ArrayConverter<OptionalConverter<Int16>>.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         try ArrayConverter<OptionalConverter<Int16>>.toIota(Primitives.manyMaybeInt16)
@@ -885,7 +885,7 @@ public func __iota_get_Primitives_ManyMaybeInt16(
 // Generated by FishyJoes for `Primitives.manyMaybeInt32`
 @_cdecl("__iota_get_Primitives_ManyMaybeInt32")
 public func __iota_get_Primitives_ManyMaybeInt32(
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> ArrayConverter<OptionalConverter<Int32>>.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         try ArrayConverter<OptionalConverter<Int32>>.toIota(Primitives.manyMaybeInt32)
@@ -895,7 +895,7 @@ public func __iota_get_Primitives_ManyMaybeInt32(
 // Generated by FishyJoes for `Primitives.manyMaybeInt64`
 @_cdecl("__iota_get_Primitives_ManyMaybeInt64")
 public func __iota_get_Primitives_ManyMaybeInt64(
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> ArrayConverter<OptionalConverter<Int64>>.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         try ArrayConverter<OptionalConverter<Int64>>.toIota(Primitives.manyMaybeInt64)
@@ -905,7 +905,7 @@ public func __iota_get_Primitives_ManyMaybeInt64(
 // Generated by FishyJoes for `Primitives.manyMaybeFloat`
 @_cdecl("__iota_get_Primitives_ManyMaybeFloat")
 public func __iota_get_Primitives_ManyMaybeFloat(
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> ArrayConverter<OptionalConverter<Float>>.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         try ArrayConverter<OptionalConverter<Float>>.toIota(Primitives.manyMaybeFloat)
@@ -915,7 +915,7 @@ public func __iota_get_Primitives_ManyMaybeFloat(
 // Generated by FishyJoes for `Primitives.manyMaybeDouble`
 @_cdecl("__iota_get_Primitives_ManyMaybeDouble")
 public func __iota_get_Primitives_ManyMaybeDouble(
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> ArrayConverter<OptionalConverter<Double>>.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         try ArrayConverter<OptionalConverter<Double>>.toIota(Primitives.manyMaybeDouble)
@@ -925,7 +925,7 @@ public func __iota_get_Primitives_ManyMaybeDouble(
 // Generated by FishyJoes for `Primitives.defaultPrimitiveHolder`
 @_cdecl("__iota_get_Primitives_DefaultPrimitiveHolder")
 public func __iota_get_Primitives_DefaultPrimitiveHolder(
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> Primitives.PrimitiveHolder.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         try Primitives.PrimitiveHolder.toIota(Primitives.defaultPrimitiveHolder)

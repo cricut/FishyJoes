@@ -2,15 +2,15 @@ import FishyJoesCommonRuntime
 import Foundation
 
 public enum SwiftFunctionImpl {
-    public typealias Constructor = @convention(c) (_ ref: UnsafeMutableRawPointer, _ exn: csOutExn) -> csObject
+    public typealias Constructor = @convention(c) (_ ref: UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject
     // For invoke methods, C# side is responsible for consuming all arguments except the first one
-    public typealias Invoke0 = @convention(c) (_ fn: csObject, _ exn: csOutExn) -> csObject
-    public typealias Invoke1 = @convention(c) (_ fn: csObject, csObject, _ exn: csOutExn) -> csObject
-    public typealias Invoke2 = @convention(c) (_ fn: csObject, csObject, csObject, _ exn: csOutExn) -> csObject
-    public typealias Invoke3 = @convention(c) (_ fn: csObject, csObject, csObject, csObject, _ exn: csOutExn) -> csObject
-    public typealias Invoke4 = @convention(c) (_ fn: csObject, csObject, csObject, csObject, csObject, _ exn: csOutExn) -> csObject
-    public typealias Invoke5 = @convention(c) (_ fn: csObject, csObject, csObject, csObject, csObject, csObject, _ exn: csOutExn) -> csObject
-    public typealias Invoke6 = @convention(c) (_ fn: csObject, csObject, csObject, csObject, csObject, csObject, csObject, _ exn: csOutExn) -> csObject
+    public typealias Invoke0 = @convention(c) (_ fn: foreignObject, _ exn: foreignOutExn) -> foreignObject
+    public typealias Invoke1 = @convention(c) (_ fn: foreignObject, foreignObject, _ exn: foreignOutExn) -> foreignObject
+    public typealias Invoke2 = @convention(c) (_ fn: foreignObject, foreignObject, foreignObject, _ exn: foreignOutExn) -> foreignObject
+    public typealias Invoke3 = @convention(c) (_ fn: foreignObject, foreignObject, foreignObject, foreignObject, _ exn: foreignOutExn) -> foreignObject
+    public typealias Invoke4 = @convention(c) (_ fn: foreignObject, foreignObject, foreignObject, foreignObject, foreignObject, _ exn: foreignOutExn) -> foreignObject
+    public typealias Invoke5 = @convention(c) (_ fn: foreignObject, foreignObject, foreignObject, foreignObject, foreignObject, foreignObject, _ exn: foreignOutExn) -> foreignObject
+    public typealias Invoke6 = @convention(c) (_ fn: foreignObject, foreignObject, foreignObject, foreignObject, foreignObject, foreignObject, foreignObject, _ exn: foreignOutExn) -> foreignObject
     static var constructors: [ObjectIdentifier: Constructor] = [:]
     static var invoke0s: [ObjectIdentifier: Invoke0] = [:]
     static var invoke1s: [ObjectIdentifier: Invoke1] = [:]
@@ -26,7 +26,7 @@ public func FishyJoesRuntime_Function0Converter_setup(
     name: UnsafePointer<unichar>,
     constructor: @escaping SwiftFunctionImpl.Constructor,
     invoke: @escaping SwiftFunctionImpl.Invoke0,
-    exn: csOutExn
+    exn: foreignOutExn
 ) {
     Env.catching(to: exn) {
         let name = String(decodingCString: name, as: Unicode.UTF16.self)
@@ -45,7 +45,7 @@ public func FishyJoesRuntime_Function1Converter_setup(
     name: UnsafePointer<unichar>,
     constructor: @escaping SwiftFunctionImpl.Constructor,
     invoke: @escaping SwiftFunctionImpl.Invoke1,
-    exn: csOutExn
+    exn: foreignOutExn
 ) {
     Env.catching(to: exn) {
         let name = String(decodingCString: name, as: Unicode.UTF16.self)
@@ -64,12 +64,10 @@ public func FishyJoesRuntime_Function2Converter_setup(
     name: UnsafePointer<unichar>,
     constructor: @escaping SwiftFunctionImpl.Constructor,
     invoke: @escaping SwiftFunctionImpl.Invoke2,
-    exn: csOutExn
+    exn: foreignOutExn
 ) {
-    print("In FishyJoesRuntime_Function2Converter_setup")
     Env.catching(to: exn) {
         let name = String(decodingCString: name, as: Unicode.UTF16.self)
-        print("name = \(name)")
         guard let typeID = Env.typeIDsByName[name],
               let identifier = Env.typeIDsByID[typeID]
         else {
@@ -85,7 +83,7 @@ public func FishyJoesRuntime_Function3Converter_setup(
     name: UnsafePointer<unichar>,
     constructor: @escaping SwiftFunctionImpl.Constructor,
     invoke: @escaping SwiftFunctionImpl.Invoke3,
-    exn: csOutExn
+    exn: foreignOutExn
 ) {
     Env.catching(to: exn) {
         let name = String(decodingCString: name, as: Unicode.UTF16.self)
@@ -104,7 +102,7 @@ public func FishyJoesRuntime_Function4Converter_setup(
     name: UnsafePointer<unichar>,
     constructor: @escaping SwiftFunctionImpl.Constructor,
     invoke: @escaping SwiftFunctionImpl.Invoke4,
-    exn: csOutExn
+    exn: foreignOutExn
 ) {
     Env.catching(to: exn) {
         let name = String(decodingCString: name, as: Unicode.UTF16.self)
@@ -123,7 +121,7 @@ public func FishyJoesRuntime_Function5Converter_setup(
     name: UnsafePointer<unichar>,
     constructor: @escaping SwiftFunctionImpl.Constructor,
     invoke: @escaping SwiftFunctionImpl.Invoke5,
-    exn: csOutExn
+    exn: foreignOutExn
 ) {
     Env.catching(to: exn) {
         let name = String(decodingCString: name, as: Unicode.UTF16.self)
@@ -142,7 +140,7 @@ public func FishyJoesRuntime_Function6Converter_setup(
     name: UnsafePointer<unichar>,
     constructor: @escaping SwiftFunctionImpl.Constructor,
     invoke: @escaping SwiftFunctionImpl.Invoke6,
-    exn: csOutExn
+    exn: foreignOutExn
 ) {
     Env.catching(to: exn) {
         let name = String(decodingCString: name, as: Unicode.UTF16.self)
@@ -159,65 +157,65 @@ public func FishyJoesRuntime_Function6Converter_setup(
 // This code is really repetitive, but I'm not sure how it could be made better...
 
 private struct AnyFunction0 {
-    let invoke: () throws -> csObject
+    let invoke: () throws -> foreignObject
 }
 @_cdecl("FishyJoesRuntime_SwiftFunctionImpl_invoke0")
-public func SwiftFunctionImpl_invoke0(this: UnsafeMutableRawPointer, exn: csOutExn) -> csObject {
+public func SwiftFunctionImpl_invoke0(this: UnsafeMutableRawPointer, exn: foreignOutExn) -> foreignObject {
     Env.catching(to: exn) {
         return try Box<AnyFunction0>.takeUnretainedOpaque(this).value.invoke()
     }
 }
 
 private struct AnyFunction1 {
-    let invoke: (csObject) throws -> csObject
+    let invoke: (foreignObject) throws -> foreignObject
 }
 @_cdecl("FishyJoesRuntime_SwiftFunctionImpl_invoke1")
-public func SwiftFunctionImpl_invoke1(this: UnsafeMutableRawPointer, p0: csObject, exn: csOutExn) -> csObject {
+public func SwiftFunctionImpl_invoke1(this: UnsafeMutableRawPointer, p0: foreignObject, exn: foreignOutExn) -> foreignObject {
     Env.catching(to: exn) { try Box<AnyFunction1>.takeUnretainedOpaque(this).value.invoke(p0) }
 }
 
 private struct AnyFunction2 {
-    let invoke: (csObject, csObject) throws -> csObject
+    let invoke: (foreignObject, foreignObject) throws -> foreignObject
 }
 @_cdecl("FishyJoesRuntime_SwiftFunctionImpl_invoke2")
-public func SwiftFunctionImpl_invoke2(this: UnsafeMutableRawPointer, p0: csObject, p1: csObject, exn: csOutExn) -> csObject {
+public func SwiftFunctionImpl_invoke2(this: UnsafeMutableRawPointer, p0: foreignObject, p1: foreignObject, exn: foreignOutExn) -> foreignObject {
     Env.catching(to: exn) { try Box<AnyFunction2>.takeUnretainedOpaque(this).value.invoke(p0, p1) }
 }
 
 private struct AnyFunction3 {
-    let invoke: (csObject, csObject, csObject) throws -> csObject
+    let invoke: (foreignObject, foreignObject, foreignObject) throws -> foreignObject
 }
 @_cdecl("FishyJoesRuntime_SwiftFunctionImpl_invoke3")
-public func SwiftFunctionImpl_invoke3(this: UnsafeMutableRawPointer, p0: csObject, p1: csObject, p2: csObject, exn: csOutExn) -> csObject {
+public func SwiftFunctionImpl_invoke3(this: UnsafeMutableRawPointer, p0: foreignObject, p1: foreignObject, p2: foreignObject, exn: foreignOutExn) -> foreignObject {
     Env.catching(to: exn) { try Box<AnyFunction3>.takeUnretainedOpaque(this).value.invoke(p0, p1, p2) }
 }
 
 private struct AnyFunction4 {
-    let invoke: (csObject, csObject, csObject, csObject) throws -> csObject
+    let invoke: (foreignObject, foreignObject, foreignObject, foreignObject) throws -> foreignObject
 }
 @_cdecl("FishyJoesRuntime_SwiftFunctionImpl_invoke4")
-public func SwiftFunctionImpl_invoke4(this: UnsafeMutableRawPointer, p0: csObject, p1: csObject, p2: csObject, p3: csObject, exn: csOutExn) -> csObject {
+public func SwiftFunctionImpl_invoke4(this: UnsafeMutableRawPointer, p0: foreignObject, p1: foreignObject, p2: foreignObject, p3: foreignObject, exn: foreignOutExn) -> foreignObject {
     Env.catching(to: exn) { try Box<AnyFunction4>.takeUnretainedOpaque(this).value.invoke(p0, p1, p2, p3) }
 }
 
 private struct AnyFunction5 {
-    let invoke: (csObject, csObject, csObject, csObject, csObject) throws -> csObject
+    let invoke: (foreignObject, foreignObject, foreignObject, foreignObject, foreignObject) throws -> foreignObject
 }
 @_cdecl("FishyJoesRuntime_SwiftFunctionImpl_invoke5")
-public func SwiftFunctionImpl_invoke5(this: UnsafeMutableRawPointer, p0: csObject, p1: csObject, p2: csObject, p3: csObject, p4: csObject, exn: csOutExn) -> csObject {
+public func SwiftFunctionImpl_invoke5(this: UnsafeMutableRawPointer, p0: foreignObject, p1: foreignObject, p2: foreignObject, p3: foreignObject, p4: foreignObject, exn: foreignOutExn) -> foreignObject {
     Env.catching(to: exn) { try Box<AnyFunction5>.takeUnretainedOpaque(this).value.invoke(p0, p1, p2, p3, p4) }
 }
 
 private struct AnyFunction6 {
-    let invoke: (csObject, csObject, csObject, csObject, csObject, csObject) throws -> csObject
+    let invoke: (foreignObject, foreignObject, foreignObject, foreignObject, foreignObject, foreignObject) throws -> foreignObject
 }
 @_cdecl("FishyJoesRuntime_SwiftFunctionImpl_invoke6")
-public func SwiftFunctionImpl_invoke6(this: UnsafeMutableRawPointer, p0: csObject, p1: csObject, p2: csObject, p3: csObject, p4: csObject, p5: csObject, exn: csOutExn) -> csObject {
+public func SwiftFunctionImpl_invoke6(this: UnsafeMutableRawPointer, p0: foreignObject, p1: foreignObject, p2: foreignObject, p3: foreignObject, p4: foreignObject, p5: foreignObject, exn: foreignOutExn) -> foreignObject {
     Env.catching(to: exn) { try Box<AnyFunction6>.takeUnretainedOpaque(this).value.invoke(p0, p1, p2, p3, p4, p5) }
 }
 
 extension Function0Converter: IotaConverter where R: IotaConverter {
-    public static func peekIota(_ value: csObject) throws -> SwiftType {
+    public static func peekIota(_ value: foreignObject) throws -> SwiftType {
         let escapingRef = try IotaReference(value)
         let initThread = Thread.current
         return {
@@ -235,7 +233,7 @@ extension Function0Converter: IotaConverter where R: IotaConverter {
         }
     }
 
-    public static func toIota(_ value: @escaping SwiftType) throws -> csObject {
+    public static func toIota(_ value: @escaping SwiftType) throws -> foreignObject {
         let erased = AnyFunction0 {
             try R.toIotaObject(value())
         }
@@ -250,7 +248,7 @@ extension Function0Converter: IotaConverter where R: IotaConverter {
 }
 
 extension Function1Converter: IotaConverter where R: IotaConverter, P0: IotaConverter {
-    public static func peekIota(_ value: csObject) throws -> SwiftType {
+    public static func peekIota(_ value: foreignObject) throws -> SwiftType {
         let escapingRef = try IotaReference(value)
         let initThread = Thread.current
         return { p0 in
@@ -272,7 +270,7 @@ extension Function1Converter: IotaConverter where R: IotaConverter, P0: IotaConv
         }
     }
 
-    public static func toIota(_ value: @escaping SwiftType) throws -> csObject {
+    public static func toIota(_ value: @escaping SwiftType) throws -> foreignObject {
         let erased = AnyFunction1 { p0 in
             let v0 = try P0.peekIota(object: p0)
             return try R.toIotaObject(value(v0))
@@ -288,7 +286,7 @@ extension Function1Converter: IotaConverter where R: IotaConverter, P0: IotaConv
 }
 
 extension Function2Converter: IotaConverter where R: IotaConverter, P0: IotaConverter, P1: IotaConverter {
-    public static func peekIota(_ value: csObject) throws -> SwiftType {
+    public static func peekIota(_ value: foreignObject) throws -> SwiftType {
         let escapingRef = try IotaReference(value)
         let initThread = Thread.current
         return { p0, p1 in
@@ -311,7 +309,7 @@ extension Function2Converter: IotaConverter where R: IotaConverter, P0: IotaConv
         }
     }
 
-    public static func toIota(_ value: @escaping SwiftType) throws -> csObject {
+    public static func toIota(_ value: @escaping SwiftType) throws -> foreignObject {
         let erased = AnyFunction2 { p0, p1 in
             let v0 = try P0.peekIota(object: p0)
             let v1 = try P1.peekIota(object: p1)
@@ -328,7 +326,7 @@ extension Function2Converter: IotaConverter where R: IotaConverter, P0: IotaConv
 }
 
 extension Function3Converter: IotaConverter where R: IotaConverter, P0: IotaConverter, P1: IotaConverter, P2: IotaConverter {
-    public static func peekIota(_ value: csObject) throws -> SwiftType {
+    public static func peekIota(_ value: foreignObject) throws -> SwiftType {
         let escapingRef = try IotaReference(value)
         let initThread = Thread.current
         return { p0, p1, p2 in
@@ -352,7 +350,7 @@ extension Function3Converter: IotaConverter where R: IotaConverter, P0: IotaConv
         }
     }
 
-    public static func toIota(_ value: @escaping SwiftType) throws -> csObject {
+    public static func toIota(_ value: @escaping SwiftType) throws -> foreignObject {
         let erased = AnyFunction3 { p0, p1, p2 in
             let v0 = try P0.peekIota(object: p0)
             let v1 = try P1.peekIota(object: p1)
@@ -370,7 +368,7 @@ extension Function3Converter: IotaConverter where R: IotaConverter, P0: IotaConv
 }
 
 extension Function4Converter: IotaConverter where R: IotaConverter, P0: IotaConverter, P1: IotaConverter, P2: IotaConverter, P3: IotaConverter {
-    public static func peekIota(_ value: csObject) throws -> SwiftType {
+    public static func peekIota(_ value: foreignObject) throws -> SwiftType {
         let escapingRef = try IotaReference(value)
         let initThread = Thread.current
         return { p0, p1, p2, p3 in
@@ -395,7 +393,7 @@ extension Function4Converter: IotaConverter where R: IotaConverter, P0: IotaConv
         }
     }
 
-    public static func toIota(_ value: @escaping SwiftType) throws -> csObject {
+    public static func toIota(_ value: @escaping SwiftType) throws -> foreignObject {
         let erased = AnyFunction4 { p0, p1, p2, p3 in
             let v0 = try P0.peekIota(object: p0)
             let v1 = try P1.peekIota(object: p1)
@@ -414,7 +412,7 @@ extension Function4Converter: IotaConverter where R: IotaConverter, P0: IotaConv
 }
 
 extension Function5Converter: IotaConverter where R: IotaConverter, P0: IotaConverter, P1: IotaConverter, P2: IotaConverter, P3: IotaConverter, P4: IotaConverter {
-    public static func peekIota(_ value: csObject) throws -> SwiftType {
+    public static func peekIota(_ value: foreignObject) throws -> SwiftType {
         let escapingRef = try IotaReference(value)
         let initThread = Thread.current
         return { p0, p1, p2, p3, p4 in
@@ -440,7 +438,7 @@ extension Function5Converter: IotaConverter where R: IotaConverter, P0: IotaConv
         }
     }
 
-    public static func toIota(_ value: @escaping SwiftType) throws -> csObject {
+    public static func toIota(_ value: @escaping SwiftType) throws -> foreignObject {
         let erased = AnyFunction5 { p0, p1, p2, p3, p4 in
             let v0 = try P0.peekIota(object: p0)
             let v1 = try P1.peekIota(object: p1)
@@ -460,7 +458,7 @@ extension Function5Converter: IotaConverter where R: IotaConverter, P0: IotaConv
 }
 
 extension Function6Converter: IotaConverter where R: IotaConverter, P0: IotaConverter, P1: IotaConverter, P2: IotaConverter, P3: IotaConverter, P4: IotaConverter, P5: IotaConverter {
-    public static func peekIota(_ value: csObject) throws -> SwiftType {
+    public static func peekIota(_ value: foreignObject) throws -> SwiftType {
         let escapingRef = try IotaReference(value)
         let initThread = Thread.current
         return { p0, p1, p2, p3, p4, p5 in
@@ -487,7 +485,7 @@ extension Function6Converter: IotaConverter where R: IotaConverter, P0: IotaConv
         }
     }
 
-    public static func toIota(_ value: @escaping SwiftType) throws -> csObject {
+    public static func toIota(_ value: @escaping SwiftType) throws -> foreignObject {
         let erased = AnyFunction6 { p0, p1, p2, p3, p4, p5 in
             let v0 = try P0.peekIota(object: p0)
             let v1 = try P1.peekIota(object: p1)

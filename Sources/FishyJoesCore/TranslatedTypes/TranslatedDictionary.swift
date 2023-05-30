@@ -32,7 +32,7 @@ struct TranslatedDictionary: TranslatedType {
             package: "System.Collections.Generic",
             name: "IDictionary<\(key.cSharpType.name), \(value.cSharpType.name)>"
         )
-        self.dartType = .named(package: nil, name: "Map<\(key.dartType.name), \(value.dartType.name)>")
+        self.dartType = .named(package: nil, name: "Map", genericArgs: [key.dartType, value.dartType])
     }
 
     func cSharpSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<String>] {
@@ -50,7 +50,7 @@ struct TranslatedDictionary: TranslatedType {
 
     func dartSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<DartClass.DartType>] {
         return  [
-            .value(name: "typeName", type: .primitive("String")) { fragment in
+            .value(name: "typeName", type: .string) { fragment in
                 fragment.output("\"\(converterType.name)\",")
             },
         ]

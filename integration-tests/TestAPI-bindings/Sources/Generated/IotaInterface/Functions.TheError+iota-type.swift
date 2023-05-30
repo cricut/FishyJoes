@@ -7,26 +7,26 @@ import TestAPI
 
 @_cdecl("TestAPI_Functions_TheError_setup")
 public func TestAPI_Functions_TheError_setup(
-    constructorMethod: @escaping @convention(c) (UnsafeMutableRawPointer, _ exn: csOutExn) -> csObject,
-    _ exn: csOutExn
+    constructorMethod: @escaping @convention(c) (UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject,
+    _ exn: foreignOutExn
 ) {
     guard Functions.TheError._constructorMethod == nil else { return }
     Functions.TheError._constructorMethod = constructorMethod
 }
 
 extension Functions.TheError: IotaMutator {
-    fileprivate static var _constructorMethod: ((UnsafeMutableRawPointer, _ exn: csOutExn) -> csObject)!
+    fileprivate static var _constructorMethod: ((UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject)!
 
-    public static func peekIota(_ value: csObject) throws -> Functions.TheError {
+    public static func peekIota(_ value: foreignObject) throws -> Functions.TheError {
         try Box<Functions.TheError>.peekIota(value).value
     }
 
-    public static func toIota(_ value: Functions.TheError) throws -> csObject {
+    public static func toIota(_ value: Functions.TheError) throws -> foreignObject {
         let ptr = Box(value).retainedOpaque()
         return try Env.check { env in _constructorMethod(ptr, env) }
     }
 
-    public static func mutateIota<R>(_ this: csObject, body: (inout Functions.TheError) throws -> R) throws -> R {
+    public static func mutateIota<R>(_ this: foreignObject, body: (inout Functions.TheError) throws -> R) throws -> R {
         try body(&Box<Functions.TheError>.peekIota(this).value)
     }
 }

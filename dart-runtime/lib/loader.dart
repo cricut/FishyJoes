@@ -48,6 +48,7 @@ class Loader {
         ffi.Pointer.fromFunction<_EnvDeleteRefFn>(_deleteRefFn),
         ffi.Pointer.fromFunction<_EnvNewErrorFn>(_newErrorFn));
 
+    LoaderCollections._setup();
     LoaderPrimitives._setup();
     LoaderTuple._setup();
   })();

@@ -97,7 +97,7 @@ extension LoaderPrimitives on Loader {
   static double _doubleValue(UnownedRef obj, OutCreatedRef exn) => catching(exn, () => peekRef<double>(obj)) ?? 0.0;
   static CreatedRef _doubleConstructor(double value) => createRef(value);
 
-  void _setup() {
+  static void _setup() {
     final trueObj = GCRef(true);
     final falseObj = GCRef(false);
 

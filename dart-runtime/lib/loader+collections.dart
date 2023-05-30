@@ -1,15 +1,44 @@
 part of 'loader.dart';
 
-typedef _CollectionLength = ffi.Int Function(UnownedRef array, OutCreatedRef exn);
-typedef _CollectionValues = ffi.Void Function(UnownedRef arr, OutCreatedRef outValues, OutCreatedRef exn);
-typedef _CollectionConstructor = CreatedRef Function(ffi.Pointer<UnownedRef> objects, ffi.Int length, OutCreatedRef exn);
+typedef _CollectionLength = ffi.Int Function(UnownedRef context, UnownedRef array, OutCreatedRef exn);
+typedef _CollectionValues = ffi.Void Function(UnownedRef context, UnownedRef arr, OutCreatedRef outValues, OutCreatedRef exn);
+typedef _CollectionConstructor = CreatedRef Function(UnownedRef context, ffi.Pointer<UnownedRef> objects, ffi.Int length, OutCreatedRef exn);
 typedef _FishyJoesRuntime_collection_setup<R> = R Function(
   ffi.Pointer<Utf16> name,
   ffi.Pointer<ffi.NativeFunction<_CollectionLength>> length,
   ffi.Pointer<ffi.NativeFunction<_CollectionValues>> values,
   ffi.Pointer<ffi.NativeFunction<_CollectionConstructor>> constructor,
+  ConsumedRef context,
   OutCreatedRef exn
 );
+
+class _CollectionConversions {
+  final int Function(UnownedRef collection) length;
+  final void Function(UnownedRef collection, OutCreatedRef outValues) values;
+  final CreatedRef Function(ffi.Pointer<UnownedRef> inValues, int length) constructor;
+
+  const _CollectionConversions(
+      this.length,
+      this.values,
+      this.constructor,
+  );
+
+  static int _collectionLength(UnownedRef context, UnownedRef collection, OutCreatedRef exn) => catching(exn, () =>
+    peekRef<_CollectionConversions>(context).length(collection)
+  ) ?? 0;
+
+  static void _collectionValues(UnownedRef context, UnownedRef collection, OutCreatedRef outValues, OutCreatedRef exn) => catching(exn, () {
+      peekRef<_CollectionConversions>(context).values(collection, outValues);
+  });
+
+  static CreatedRef _collectionConstructor(UnownedRef context, ffi.Pointer<UnownedRef> inValues, int length, OutCreatedRef exn) => catchingRef(exn, () =>
+      peekRef<_CollectionConversions>(context).constructor(inValues, length)
+  );
+
+  static final ffi.Pointer<ffi.NativeFunction<_CollectionLength>> lengthPtr = ffi.Pointer.fromFunction(_collectionLength, 0);
+  static final ffi.Pointer<ffi.NativeFunction<_CollectionValues>> valuesPtr = ffi.Pointer.fromFunction(_collectionValues);
+  static final ffi.Pointer<ffi.NativeFunction<_CollectionConstructor>> constructorPtr = ffi.Pointer.fromFunction(_collectionConstructor);
+}
 
 extension LoaderCollections on Loader {
   static final _fishyJoesRuntime_collection_setup = Loader._dylib.lookupFunction<
@@ -18,103 +47,100 @@ extension LoaderCollections on Loader {
   >('FishyJoesRuntime_collection_setup');
 
   // Array
-  static int _arrayLength(UnownedRef array, OutCreatedRef exn) => catching(exn, () =>
-    peekRef<List<Object?>>(array).length
-  ) ?? 0;
-
-  static void _arrayValues(UnownedRef arr, OutCreatedRef outValues, OutCreatedRef exn) => catching(exn, () {
-      final array = peekRef<List<Object?>>(arr);
-      for (int i = 0; i < array.length; i++) {
-        outValues[i] = createRef(array[i]);
-      }
-  });
-
-  static CreatedRef _arrayConstructor(ffi.Pointer<UnownedRef> inValues, int length, OutCreatedRef exn) => catchingRef(exn, () {
-      final List<Object?> array = [];
-      for (int i = 0; i < length; i++) {
-        array.add(peekRef<Object?>(inValues[i]));
-      }
-      return createRef(array);
-  });
-
   void FishyJoesRuntime_ArrayConverter_setup<T>(String name, OutCreatedRef exn) {
     final cName = name.toNativeUtf16();
     _fishyJoesRuntime_collection_setup(
       cName,
-      ffi.Pointer.fromFunction<_CollectionLength>(_arrayLength, 0),
-      ffi.Pointer.fromFunction<_CollectionValues>(_arrayValues),
-      ffi.Pointer.fromFunction<_CollectionConstructor>(_arrayConstructor),
+      _CollectionConversions.lengthPtr,
+      _CollectionConversions.valuesPtr,
+      _CollectionConversions.constructorPtr,
+      createConsumedRef(
+        _CollectionConversions(
+          (array) => peekRef<List<T>>(array).length,
+          (arr, outValues) {
+            final array = peekRef<List<T>>(arr);
+            for (int i = 0; i < array.length; i++) {
+              outValues[i] = createRef(array[i]);
+            }
+          },
+          (inValues, length) {
+            final List<T> array = [];
+            for (int i = 0; i < length; i++) {
+              array.add(peekRef<T>(inValues[i]));
+            }
+            return createRef(array);
+          }
+        )
+      ),
       exn
     );
     malloc.free(cName);
   }
 
   // Set
-  static int _setLength(UnownedRef set, OutCreatedRef exn) => catching(exn, () =>
-    peekRef<Set<Object?>>(set).length
-  ) ?? 0;
-
-  static void _setValues(UnownedRef arr, OutCreatedRef outValues, OutCreatedRef exn) => catching(exn, () {
-      final set = peekRef<Set<Object?>>(arr);
-      var i = 0;
-      set.forEach((element) {
-        outValues[i] = createRef(element);
-        i++;
-      });
-  });
-
-  static CreatedRef _setConstructor(ffi.Pointer<UnownedRef> inValues, int length, OutCreatedRef exn) => catchingRef(exn, () {
-      final Set<Object?> set = Set();
-      for (int i = 0; i < length; i++) {
-        set.add(peekRef<Object?>(inValues[i]));
-      }
-      return createRef(set);
-  });
-
   void FishyJoesRuntime_SetConverter_setup<T>(String name, OutCreatedRef exn) {
     final cName = name.toNativeUtf16();
     _fishyJoesRuntime_collection_setup(
       cName,
-      ffi.Pointer.fromFunction<_CollectionLength>(_setLength, 0),
-      ffi.Pointer.fromFunction<_CollectionValues>(_setValues),
-      ffi.Pointer.fromFunction<_CollectionConstructor>(_setConstructor),
+      _CollectionConversions.lengthPtr,
+      _CollectionConversions.valuesPtr,
+      _CollectionConversions.constructorPtr,
+      createConsumedRef(
+        _CollectionConversions(
+          (set) => peekRef<Set<T>>(set).length,
+          (setRef, outValues) {
+            final set = peekRef<Set<T>>(setRef);
+            var i = 0;
+            set.forEach((element) {
+                outValues[i] = createRef(element);
+                i++;
+            });
+          },
+          (inValues, length) {
+            final Set<T> set = Set();
+            for (int i = 0; i < length; i++) {
+              set.add(peekRef<T>(inValues[i]));
+            }
+            return createRef(set);
+          }
+        )
+      ),
       exn
     );
     malloc.free(cName);
   }
 
   // Dictionary
-  static int _mapLength(UnownedRef map, OutCreatedRef exn) => catching(exn, () =>
-    peekRef<Map<Object?, Object?>>(map).length
-  ) ?? 0;
-
-  static void _mapValues(UnownedRef arr, OutCreatedRef outValues, OutCreatedRef exn) => catching(exn, () {
-      final map = peekRef<Map<Object?, Object?>>(arr);
-      var i = 0;
-      map.forEach((key, value) {
-        outValues[2 * i + 0] = createRef(key);
-        outValues[2 * i + 1] = createRef(value);
-        i++;
-      });
-  });
-
-  static CreatedRef _mapConstructor(ffi.Pointer<UnownedRef> inValues, int length, OutCreatedRef exn) => catchingRef(exn, () {
-      final Map<Object?, Object?> map = Map();
-      for (int i = 0; i < length; i++) {
-        final key = peekRef<Object?>(inValues[2 * i + 0]);
-        final val = peekRef<Object?>(inValues[2 * i + 1]);
-        map[key] = val;
-      }
-      return createRef(map);
-  });
-
-  void FishyJoesRuntime_DictionaryConverter_setup<T>(String name, OutCreatedRef exn) {
+  void FishyJoesRuntime_DictionaryConverter_setup<K, V>(String name, OutCreatedRef exn) {
     final cName = name.toNativeUtf16();
     _fishyJoesRuntime_collection_setup(
       cName,
-      ffi.Pointer.fromFunction<_CollectionLength>(_mapLength, 0),
-      ffi.Pointer.fromFunction<_CollectionValues>(_mapValues),
-      ffi.Pointer.fromFunction<_CollectionConstructor>(_mapConstructor),
+      _CollectionConversions.lengthPtr,
+      _CollectionConversions.valuesPtr,
+      _CollectionConversions.constructorPtr,
+      createConsumedRef(
+        _CollectionConversions(
+          (map) => peekRef<Map<K, V>>(map).length,
+          (mapRef, outValues) {
+            final map = peekRef<Map<K, V>>(mapRef);
+            var i = 0;
+            map.forEach((key, value) {
+                outValues[2 * i + 0] = createRef(key);
+                outValues[2 * i + 1] = createRef(value);
+                i++;
+            });
+          },
+          (inValues, length) {
+            final Map<K, V> map = Map();
+            for (int i = 0; i < length; i++) {
+              final key = peekRef<K>(inValues[2 * i + 0]);
+              final val = peekRef<V>(inValues[2 * i + 1]);
+              map[key] = val;
+            }
+            return createRef(map);
+          }
+        )
+      ),
       exn
     );
     malloc.free(cName);
@@ -124,7 +150,7 @@ extension LoaderCollections on Loader {
       // Objects need no extra setup
   });
 
-  void _setup() {
+  static void _setup() {
     // Generic types need to be set up as instantiated types, so nothing to do here.
   }
 }

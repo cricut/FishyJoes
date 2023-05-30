@@ -219,6 +219,6 @@ extension LoaderTuple on Loader {
     malloc.free(cName);
   }
 
-  void _setup() {
+  static void _setup() {
   }
 }

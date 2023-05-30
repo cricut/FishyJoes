@@ -33,7 +33,7 @@ struct TranslatedReference: TranslatedType {
         self.kotlinName = typeName
         self.kotlinPackage = context.module.kotlinPackage
         self.cSharpType = .named(package: context.module.cSharpNamespace, name: exportAnnotation.cSharpName)
-        self.dartType = .named(package: context.module.dartNamespace, name: exportAnnotation.name)
+        self.dartType = .named(package: context.module.dartNamespace, name: fakeDartNamespace(exportAnnotation.name))
         self.methods = type.methods.compactMap { Method($0) }
         self.computedVariables = type.variables.filter { $0.exportAnnotation != nil }
         self.documentation = type.documentation
@@ -50,7 +50,7 @@ struct TranslatedReference: TranslatedType {
             nodeDefinitionFragment(in: context),
             jniDefinitionFragment(in: context),
             iotaDefinitionFragment(in: context),
-            cppDefinitionFragment(in: context),
+            // cppDefinitionFragment(in: context),
         ] + neutralDefinitionFragments(in: context)
     }
 
@@ -84,7 +84,7 @@ struct TranslatedReference: TranslatedType {
             serializedFields: [refField],
             completeConstructorVisible: false
         )
-        context.cppClasses[newClass.qualifiedName] = newClass
+        context.add(cppClass: newClass)
         return fragment
     }
 
@@ -347,16 +347,16 @@ struct TranslatedReference: TranslatedType {
             constructor: .reference,
             fieldsAndMethods: fieldsAndMethods
         )
-        context.kotlinClasses.append(product)
+        context.add(kotlinClass: product)
 
         return fragment
     }
 
-    func cSharpSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<String>] {
+    func cSharpSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<DartClass.DartType>] {
         [
             .value(
                 name: "constructorMethod",
-                type: "SwiftReference.ConstructorDelegate"
+                type: .named(package: "SwiftReference", name: "ConstructorDelegate")
             ) { fragment in
                 fragment.outputBlock("bag<SwiftReference.ConstructorDelegate>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {", closeWith: "})),") {
                     fragment.output("return new CreatedRef(new \(cSharpType.name)(ptr));")
@@ -373,8 +373,8 @@ struct TranslatedReference: TranslatedType {
 
         fragment.output("@_cdecl(\"\(iotaSetupName)\")")
         fragment.outputBlock("public func \(iotaSetupName)(", newLineTerminated: false) {
-            fragment.output("constructorMethod: @escaping @convention(c) (UnsafeMutableRawPointer, _ exn: csOutExn) -> csObject,")
-            fragment.output("_ exn: csOutExn")
+            fragment.output("constructorMethod: @escaping @convention(c) (UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject,")
+            fragment.output("_ exn: foreignOutExn")
         }
         fragment.outputBlock(" {") {
             fragment.output("guard \(converterType.name)._constructorMethod == nil else { return }")
@@ -383,15 +383,15 @@ struct TranslatedReference: TranslatedType {
         fragment.blankLine()
 
         fragment.outputBlock("extension \(converterType.name): IotaMutator {") {
-            fragment.output("fileprivate static var _constructorMethod: ((UnsafeMutableRawPointer, _ exn: csOutExn) -> csObject)!")
+            fragment.output("fileprivate static var _constructorMethod: ((UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject)!")
             fragment.blankLine()
 
-            fragment.outputBlock("public static func peekIota(_ value: csObject) throws -> \(sourceType.name) {") {
+            fragment.outputBlock("public static func peekIota(_ value: foreignObject) throws -> \(sourceType.name) {") {
                 fragment.output("try Box<\(sourceType.name)>.peekIota(value).value")
             }
             fragment.blankLine()
 
-            fragment.outputBlock("public static func toIota(_ value: \(sourceType.name)) throws -> csObject {") {
+            fragment.outputBlock("public static func toIota(_ value: \(sourceType.name)) throws -> foreignObject {") {
                 if !isInhabited {
                     fragment.output("// Uninhabited type")
                 } else {
@@ -401,7 +401,7 @@ struct TranslatedReference: TranslatedType {
             }
             fragment.blankLine()
 
-            fragment.outputBlock("public static func mutateIota<R>(_ this: csObject, body: (inout \(sourceType.name)) throws -> R) throws -> R {") {
+            fragment.outputBlock("public static func mutateIota<R>(_ this: foreignObject, body: (inout \(sourceType.name)) throws -> R) throws -> R {") {
                 fragment.output("try body(&Box<\(sourceType.name)>.peekIota(this).value)")
             }
         }
@@ -412,7 +412,7 @@ struct TranslatedReference: TranslatedType {
 
         if equatable {
             fragment.output("@_cdecl(\"__iota_\(sourceType.name.mangled)_equals\")")
-            fragment.outputBlock("public func \(sourceType.name.mangled)_iotaEquals(lhs: csObject, rhs: csObject, exn: csOutExn) -> Bool.CType {") {
+            fragment.outputBlock("public func \(sourceType.name.mangled)_iotaEquals(lhs: foreignObject, rhs: foreignObject, exn: foreignOutExn) -> Bool.CType {") {
                 fragment.outputBlock("Env.catching(to: exn) {") {
                     fragment.output("return try Bool.toIota(\(sourceType.name).peekIota(lhs) == \(sourceType.name).peekIota(rhs))")
                 }
@@ -420,7 +420,7 @@ struct TranslatedReference: TranslatedType {
         }
         if hashable {
             fragment.output("@_cdecl(\"__iota_\(sourceType.name.mangled)_hash\")")
-            fragment.outputBlock("public func \(sourceType.name.mangled)_iotaHash(this: csObject, exn: csOutExn) -> Int32.CType {") {
+            fragment.outputBlock("public func \(sourceType.name.mangled)_iotaHash(this: foreignObject, exn: foreignOutExn) -> Int32.CType {") {
                 fragment.outputBlock("Env.catching(to: exn) {") {
                     fragment.outputBlock("try Int32.toIota(") {
                         fragment.output("Int32(truncatingIfNeeded: \(sourceType.name).peekIota(this).hashValue)")
@@ -499,7 +499,7 @@ struct TranslatedReference: TranslatedType {
             constructor: .reference,
             fieldsAndMethods: fieldsAndMethods
         )
-        context.cSharpClasses.append(product)
+        context.add(cSharpClass: product)
 
         return fragment
     }

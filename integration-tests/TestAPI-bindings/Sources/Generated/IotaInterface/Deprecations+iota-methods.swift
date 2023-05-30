@@ -9,7 +9,7 @@ import TestAPI
 @available(*, deprecated, message: "don't use this")
 @_cdecl("__iota_Deprecations_deprecatedMethod")
 public func __iota_Deprecations_deprecatedMethod(
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> Swift.String.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         return try Swift.String.toIota(
@@ -23,7 +23,7 @@ public func __iota_Deprecations_deprecatedMethod(
 @available(*, deprecated, renamed: "deprecatedMethod")
 @_cdecl("__iota_get_Deprecations_DeprecatedVariable")
 public func __iota_get_Deprecations_DeprecatedVariable(
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> Int.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         try Int.toIota(Deprecations.deprecatedVariable)

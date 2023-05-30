@@ -1,8 +1,8 @@
 @_exported import FishyJoesCommonRuntime
 import Foundation
 
-public typealias csObject = OpaquePointer?
-public typealias csOutExn = UnsafeMutablePointer<csObject>
+public typealias foreignObject = OpaquePointer?
+public typealias foreignOutExn = UnsafeMutablePointer<foreignObject>
 
 public typealias TypeID = Int
 
@@ -31,9 +31,9 @@ public func Env_getTypeID(name: UnsafePointer<unichar>) -> TypeID {
 }
 
 public enum Env {
-    public typealias NewRefFn = @convention(c) (csObject) -> csObject
-    public typealias DeleteRefFn = @convention(c) (csObject) -> Void
-    public typealias NewErrorFn = @convention(c) (UnsafePointer<UInt16>) -> csObject
+    public typealias NewRefFn = @convention(c) (foreignObject) -> foreignObject
+    public typealias DeleteRefFn = @convention(c) (foreignObject) -> Void
+    public typealias NewErrorFn = @convention(c) (UnsafePointer<UInt16>) -> foreignObject
 
     fileprivate static var newRefFn: NewRefFn?
     fileprivate static var deleteRefFn: DeleteRefFn?
@@ -67,16 +67,16 @@ public enum Env {
         return value
     }
 
-    public static func newRef(_ object: csObject) -> csObject {
+    public static func newRef(_ object: foreignObject) -> foreignObject {
         newRefFn!(object)
     }
 
-    public static func deleteRef(_ object: csObject) {
+    public static func deleteRef(_ object: foreignObject) {
         deleteRefFn!(object)
     }
 
-    public static func check<R>(_ body: (_ exn: csOutExn) throws -> R) throws -> R {
-        var exn: csObject = nil
+    public static func check<R>(_ body: (_ exn: foreignOutExn) throws -> R) throws -> R {
+        var exn: foreignObject = nil
         let result = try body(&exn)
         if let exn = exn {
             throw IotaException(exception: IotaReference(take: exn))
@@ -84,7 +84,7 @@ public enum Env {
         return result
     }
 
-    public static func catching(to pointer: csOutExn, _ body: () throws -> Void) {
+    public static func catching(to pointer: foreignOutExn, _ body: () throws -> Void) {
         do {
             try body()
             pointer.pointee = nil
@@ -97,7 +97,7 @@ public enum Env {
         }
     }
 
-    public static func catching<R: Defaultable>(to pointer: csOutExn, _ body: () throws -> R) -> R {
+    public static func catching<R: Defaultable>(to pointer: foreignOutExn, _ body: () throws -> R) -> R {
         var result: R?
         catching(to: pointer) {
             result = try body()

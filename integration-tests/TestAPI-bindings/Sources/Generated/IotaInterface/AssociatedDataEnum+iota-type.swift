@@ -30,58 +30,58 @@ public func TestAPI_AssociatedDataEnum_setup(
 
 extension AssociatedDataEnum: IotaConverter {
     public typealias Discriminator = @convention(c) (
-        csObject,
-        csOutExn
+        foreignObject,
+        foreignOutExn
     ) -> Int
     fileprivate static var discriminator: Discriminator!
     public typealias Thing_constructor = @convention(c) (
         Int.CType,
-        csOutExn
-    ) -> csObject
+        foreignOutExn
+    ) -> foreignObject
     fileprivate static var thing_constructor: Thing_constructor!
     public typealias Thing_extractor = @convention(c) (
-        csObject,
+        foreignObject,
         UnsafePointer<Int.CType>,
-        csOutExn
+        foreignOutExn
     ) -> Void
     fileprivate static var thing_extractor: Thing_extractor!
     public typealias Other_constructor = @convention(c) (
         Swift.String.CType,
         Int.CType,
-        csOutExn
-    ) -> csObject
+        foreignOutExn
+    ) -> foreignObject
     fileprivate static var other_constructor: Other_constructor!
     public typealias Other_extractor = @convention(c) (
-        csObject,
+        foreignObject,
         UnsafePointer<Swift.String.CType>,
         UnsafePointer<Int.CType>,
-        csOutExn
+        foreignOutExn
     ) -> Void
     fileprivate static var other_extractor: Other_extractor!
     public typealias Bar_constructor = @convention(c) (
         Swift.String.CType,
         AssociatedDataEnum.CType,
-        csOutExn
-    ) -> csObject
+        foreignOutExn
+    ) -> foreignObject
     fileprivate static var bar_constructor: Bar_constructor!
     public typealias Bar_extractor = @convention(c) (
-        csObject,
+        foreignObject,
         UnsafePointer<Swift.String.CType>,
         UnsafePointer<AssociatedDataEnum.CType>,
-        csOutExn
+        foreignOutExn
     ) -> Void
     fileprivate static var bar_extractor: Bar_extractor!
     public typealias NoValue_constructor = @convention(c) (
-        csOutExn
-    ) -> csObject
+        foreignOutExn
+    ) -> foreignObject
     fileprivate static var noValue_constructor: NoValue_constructor!
     public typealias NoValue_extractor = @convention(c) (
-        csObject,
-        csOutExn
+        foreignObject,
+        foreignOutExn
     ) -> Void
     fileprivate static var noValue_extractor: NoValue_extractor!
 
-    public static func peekIota(_ value: csObject) throws -> Self {
+    public static func peekIota(_ value: foreignObject) throws -> Self {
         switch try Env.check({ exn in discriminator(value, exn) }) {
         case 0:
             var _value = Int.CType.default
@@ -120,7 +120,7 @@ extension AssociatedDataEnum: IotaConverter {
         }
     }
 
-    public static func toIota(_ value: Self) throws -> csObject {
+    public static func toIota(_ value: Self) throws -> foreignObject {
         switch value {
         case let thing(value):
             return try Env.check { exn in

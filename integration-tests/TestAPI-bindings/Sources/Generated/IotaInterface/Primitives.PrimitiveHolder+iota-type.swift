@@ -8,51 +8,51 @@ import TestAPI
 @_cdecl("TestAPI_Primitives_PrimitiveHolder_setup")
 public func TestAPI_Primitives_PrimitiveHolder_setup(
     constructorMethod: @escaping Primitives.PrimitiveHolder._ConstructorMethod,
-    _ bGetter: @escaping @convention(c) (csObject, _ exn: csOutExn) -> Bool.CType,
-    _ bSetter: @escaping @convention(c) (csObject, Bool.CType, _ exn: csOutExn) -> Void,
-    _ bqGetter: @escaping @convention(c) (csObject, _ exn: csOutExn) -> OptionalConverter<Bool>.CType,
-    _ bqSetter: @escaping @convention(c) (csObject, OptionalConverter<Bool>.CType, _ exn: csOutExn) -> Void,
-    _ ui8Getter: @escaping @convention(c) (csObject, _ exn: csOutExn) -> UInt8.CType,
-    _ ui8Setter: @escaping @convention(c) (csObject, UInt8.CType, _ exn: csOutExn) -> Void,
-    _ ui8qGetter: @escaping @convention(c) (csObject, _ exn: csOutExn) -> OptionalConverter<UInt8>.CType,
-    _ ui8qSetter: @escaping @convention(c) (csObject, OptionalConverter<UInt8>.CType, _ exn: csOutExn) -> Void,
-    _ ui16Getter: @escaping @convention(c) (csObject, _ exn: csOutExn) -> UInt16.CType,
-    _ ui16Setter: @escaping @convention(c) (csObject, UInt16.CType, _ exn: csOutExn) -> Void,
-    _ ui16qGetter: @escaping @convention(c) (csObject, _ exn: csOutExn) -> OptionalConverter<UInt16>.CType,
-    _ ui16qSetter: @escaping @convention(c) (csObject, OptionalConverter<UInt16>.CType, _ exn: csOutExn) -> Void,
-    _ ui32Getter: @escaping @convention(c) (csObject, _ exn: csOutExn) -> UInt32.CType,
-    _ ui32Setter: @escaping @convention(c) (csObject, UInt32.CType, _ exn: csOutExn) -> Void,
-    _ ui32qGetter: @escaping @convention(c) (csObject, _ exn: csOutExn) -> OptionalConverter<UInt32>.CType,
-    _ ui32qSetter: @escaping @convention(c) (csObject, OptionalConverter<UInt32>.CType, _ exn: csOutExn) -> Void,
-    _ ui64Getter: @escaping @convention(c) (csObject, _ exn: csOutExn) -> UInt64.CType,
-    _ ui64Setter: @escaping @convention(c) (csObject, UInt64.CType, _ exn: csOutExn) -> Void,
-    _ ui64qGetter: @escaping @convention(c) (csObject, _ exn: csOutExn) -> OptionalConverter<UInt64>.CType,
-    _ ui64qSetter: @escaping @convention(c) (csObject, OptionalConverter<UInt64>.CType, _ exn: csOutExn) -> Void,
-    _ i8Getter: @escaping @convention(c) (csObject, _ exn: csOutExn) -> Int8.CType,
-    _ i8Setter: @escaping @convention(c) (csObject, Int8.CType, _ exn: csOutExn) -> Void,
-    _ i8qGetter: @escaping @convention(c) (csObject, _ exn: csOutExn) -> OptionalConverter<Int8>.CType,
-    _ i8qSetter: @escaping @convention(c) (csObject, OptionalConverter<Int8>.CType, _ exn: csOutExn) -> Void,
-    _ i16Getter: @escaping @convention(c) (csObject, _ exn: csOutExn) -> Int16.CType,
-    _ i16Setter: @escaping @convention(c) (csObject, Int16.CType, _ exn: csOutExn) -> Void,
-    _ i16qGetter: @escaping @convention(c) (csObject, _ exn: csOutExn) -> OptionalConverter<Int16>.CType,
-    _ i16qSetter: @escaping @convention(c) (csObject, OptionalConverter<Int16>.CType, _ exn: csOutExn) -> Void,
-    _ i32Getter: @escaping @convention(c) (csObject, _ exn: csOutExn) -> Int32.CType,
-    _ i32Setter: @escaping @convention(c) (csObject, Int32.CType, _ exn: csOutExn) -> Void,
-    _ i32qGetter: @escaping @convention(c) (csObject, _ exn: csOutExn) -> OptionalConverter<Int32>.CType,
-    _ i32qSetter: @escaping @convention(c) (csObject, OptionalConverter<Int32>.CType, _ exn: csOutExn) -> Void,
-    _ i64Getter: @escaping @convention(c) (csObject, _ exn: csOutExn) -> Int64.CType,
-    _ i64Setter: @escaping @convention(c) (csObject, Int64.CType, _ exn: csOutExn) -> Void,
-    _ i64qGetter: @escaping @convention(c) (csObject, _ exn: csOutExn) -> OptionalConverter<Int64>.CType,
-    _ i64qSetter: @escaping @convention(c) (csObject, OptionalConverter<Int64>.CType, _ exn: csOutExn) -> Void,
-    _ fGetter: @escaping @convention(c) (csObject, _ exn: csOutExn) -> Float.CType,
-    _ fSetter: @escaping @convention(c) (csObject, Float.CType, _ exn: csOutExn) -> Void,
-    _ fqGetter: @escaping @convention(c) (csObject, _ exn: csOutExn) -> OptionalConverter<Float>.CType,
-    _ fqSetter: @escaping @convention(c) (csObject, OptionalConverter<Float>.CType, _ exn: csOutExn) -> Void,
-    _ dGetter: @escaping @convention(c) (csObject, _ exn: csOutExn) -> Double.CType,
-    _ dSetter: @escaping @convention(c) (csObject, Double.CType, _ exn: csOutExn) -> Void,
-    _ dqGetter: @escaping @convention(c) (csObject, _ exn: csOutExn) -> OptionalConverter<Double>.CType,
-    _ dqSetter: @escaping @convention(c) (csObject, OptionalConverter<Double>.CType, _ exn: csOutExn) -> Void,
-    _ exn: csOutExn
+    _ bGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Bool.CType,
+    _ bSetter: @escaping @convention(c) (foreignObject, Bool.CType, _ exn: foreignOutExn) -> Void,
+    _ bqGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> OptionalConverter<Bool>.CType,
+    _ bqSetter: @escaping @convention(c) (foreignObject, OptionalConverter<Bool>.CType, _ exn: foreignOutExn) -> Void,
+    _ ui8Getter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> UInt8.CType,
+    _ ui8Setter: @escaping @convention(c) (foreignObject, UInt8.CType, _ exn: foreignOutExn) -> Void,
+    _ ui8qGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> OptionalConverter<UInt8>.CType,
+    _ ui8qSetter: @escaping @convention(c) (foreignObject, OptionalConverter<UInt8>.CType, _ exn: foreignOutExn) -> Void,
+    _ ui16Getter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> UInt16.CType,
+    _ ui16Setter: @escaping @convention(c) (foreignObject, UInt16.CType, _ exn: foreignOutExn) -> Void,
+    _ ui16qGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> OptionalConverter<UInt16>.CType,
+    _ ui16qSetter: @escaping @convention(c) (foreignObject, OptionalConverter<UInt16>.CType, _ exn: foreignOutExn) -> Void,
+    _ ui32Getter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> UInt32.CType,
+    _ ui32Setter: @escaping @convention(c) (foreignObject, UInt32.CType, _ exn: foreignOutExn) -> Void,
+    _ ui32qGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> OptionalConverter<UInt32>.CType,
+    _ ui32qSetter: @escaping @convention(c) (foreignObject, OptionalConverter<UInt32>.CType, _ exn: foreignOutExn) -> Void,
+    _ ui64Getter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> UInt64.CType,
+    _ ui64Setter: @escaping @convention(c) (foreignObject, UInt64.CType, _ exn: foreignOutExn) -> Void,
+    _ ui64qGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> OptionalConverter<UInt64>.CType,
+    _ ui64qSetter: @escaping @convention(c) (foreignObject, OptionalConverter<UInt64>.CType, _ exn: foreignOutExn) -> Void,
+    _ i8Getter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Int8.CType,
+    _ i8Setter: @escaping @convention(c) (foreignObject, Int8.CType, _ exn: foreignOutExn) -> Void,
+    _ i8qGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> OptionalConverter<Int8>.CType,
+    _ i8qSetter: @escaping @convention(c) (foreignObject, OptionalConverter<Int8>.CType, _ exn: foreignOutExn) -> Void,
+    _ i16Getter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Int16.CType,
+    _ i16Setter: @escaping @convention(c) (foreignObject, Int16.CType, _ exn: foreignOutExn) -> Void,
+    _ i16qGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> OptionalConverter<Int16>.CType,
+    _ i16qSetter: @escaping @convention(c) (foreignObject, OptionalConverter<Int16>.CType, _ exn: foreignOutExn) -> Void,
+    _ i32Getter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Int32.CType,
+    _ i32Setter: @escaping @convention(c) (foreignObject, Int32.CType, _ exn: foreignOutExn) -> Void,
+    _ i32qGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> OptionalConverter<Int32>.CType,
+    _ i32qSetter: @escaping @convention(c) (foreignObject, OptionalConverter<Int32>.CType, _ exn: foreignOutExn) -> Void,
+    _ i64Getter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Int64.CType,
+    _ i64Setter: @escaping @convention(c) (foreignObject, Int64.CType, _ exn: foreignOutExn) -> Void,
+    _ i64qGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> OptionalConverter<Int64>.CType,
+    _ i64qSetter: @escaping @convention(c) (foreignObject, OptionalConverter<Int64>.CType, _ exn: foreignOutExn) -> Void,
+    _ fGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Float.CType,
+    _ fSetter: @escaping @convention(c) (foreignObject, Float.CType, _ exn: foreignOutExn) -> Void,
+    _ fqGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> OptionalConverter<Float>.CType,
+    _ fqSetter: @escaping @convention(c) (foreignObject, OptionalConverter<Float>.CType, _ exn: foreignOutExn) -> Void,
+    _ dGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Double.CType,
+    _ dSetter: @escaping @convention(c) (foreignObject, Double.CType, _ exn: foreignOutExn) -> Void,
+    _ dqGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> OptionalConverter<Double>.CType,
+    _ dqSetter: @escaping @convention(c) (foreignObject, OptionalConverter<Double>.CType, _ exn: foreignOutExn) -> Void,
+    _ exn: foreignOutExn
 ) {
     guard Primitives.PrimitiveHolder._constructorMethod == nil else { return }
     Primitives.PrimitiveHolder._constructorMethod = constructorMethod
@@ -103,50 +103,50 @@ public func TestAPI_Primitives_PrimitiveHolder_setup(
 }
 
 extension Primitives.PrimitiveHolder: IotaMutator {
-    fileprivate static var _bGetter: (@convention(c) (csObject, _ exn: csOutExn) -> Bool.CType)!
-    fileprivate static var _bSetter: (@convention(c) (csObject, Bool.CType, _ exn: csOutExn) -> Void)!
-    fileprivate static var _bqGetter: (@convention(c) (csObject, _ exn: csOutExn) -> OptionalConverter<Bool>.CType)!
-    fileprivate static var _bqSetter: (@convention(c) (csObject, OptionalConverter<Bool>.CType, _ exn: csOutExn) -> Void)!
-    fileprivate static var _ui8Getter: (@convention(c) (csObject, _ exn: csOutExn) -> UInt8.CType)!
-    fileprivate static var _ui8Setter: (@convention(c) (csObject, UInt8.CType, _ exn: csOutExn) -> Void)!
-    fileprivate static var _ui8qGetter: (@convention(c) (csObject, _ exn: csOutExn) -> OptionalConverter<UInt8>.CType)!
-    fileprivate static var _ui8qSetter: (@convention(c) (csObject, OptionalConverter<UInt8>.CType, _ exn: csOutExn) -> Void)!
-    fileprivate static var _ui16Getter: (@convention(c) (csObject, _ exn: csOutExn) -> UInt16.CType)!
-    fileprivate static var _ui16Setter: (@convention(c) (csObject, UInt16.CType, _ exn: csOutExn) -> Void)!
-    fileprivate static var _ui16qGetter: (@convention(c) (csObject, _ exn: csOutExn) -> OptionalConverter<UInt16>.CType)!
-    fileprivate static var _ui16qSetter: (@convention(c) (csObject, OptionalConverter<UInt16>.CType, _ exn: csOutExn) -> Void)!
-    fileprivate static var _ui32Getter: (@convention(c) (csObject, _ exn: csOutExn) -> UInt32.CType)!
-    fileprivate static var _ui32Setter: (@convention(c) (csObject, UInt32.CType, _ exn: csOutExn) -> Void)!
-    fileprivate static var _ui32qGetter: (@convention(c) (csObject, _ exn: csOutExn) -> OptionalConverter<UInt32>.CType)!
-    fileprivate static var _ui32qSetter: (@convention(c) (csObject, OptionalConverter<UInt32>.CType, _ exn: csOutExn) -> Void)!
-    fileprivate static var _ui64Getter: (@convention(c) (csObject, _ exn: csOutExn) -> UInt64.CType)!
-    fileprivate static var _ui64Setter: (@convention(c) (csObject, UInt64.CType, _ exn: csOutExn) -> Void)!
-    fileprivate static var _ui64qGetter: (@convention(c) (csObject, _ exn: csOutExn) -> OptionalConverter<UInt64>.CType)!
-    fileprivate static var _ui64qSetter: (@convention(c) (csObject, OptionalConverter<UInt64>.CType, _ exn: csOutExn) -> Void)!
-    fileprivate static var _i8Getter: (@convention(c) (csObject, _ exn: csOutExn) -> Int8.CType)!
-    fileprivate static var _i8Setter: (@convention(c) (csObject, Int8.CType, _ exn: csOutExn) -> Void)!
-    fileprivate static var _i8qGetter: (@convention(c) (csObject, _ exn: csOutExn) -> OptionalConverter<Int8>.CType)!
-    fileprivate static var _i8qSetter: (@convention(c) (csObject, OptionalConverter<Int8>.CType, _ exn: csOutExn) -> Void)!
-    fileprivate static var _i16Getter: (@convention(c) (csObject, _ exn: csOutExn) -> Int16.CType)!
-    fileprivate static var _i16Setter: (@convention(c) (csObject, Int16.CType, _ exn: csOutExn) -> Void)!
-    fileprivate static var _i16qGetter: (@convention(c) (csObject, _ exn: csOutExn) -> OptionalConverter<Int16>.CType)!
-    fileprivate static var _i16qSetter: (@convention(c) (csObject, OptionalConverter<Int16>.CType, _ exn: csOutExn) -> Void)!
-    fileprivate static var _i32Getter: (@convention(c) (csObject, _ exn: csOutExn) -> Int32.CType)!
-    fileprivate static var _i32Setter: (@convention(c) (csObject, Int32.CType, _ exn: csOutExn) -> Void)!
-    fileprivate static var _i32qGetter: (@convention(c) (csObject, _ exn: csOutExn) -> OptionalConverter<Int32>.CType)!
-    fileprivate static var _i32qSetter: (@convention(c) (csObject, OptionalConverter<Int32>.CType, _ exn: csOutExn) -> Void)!
-    fileprivate static var _i64Getter: (@convention(c) (csObject, _ exn: csOutExn) -> Int64.CType)!
-    fileprivate static var _i64Setter: (@convention(c) (csObject, Int64.CType, _ exn: csOutExn) -> Void)!
-    fileprivate static var _i64qGetter: (@convention(c) (csObject, _ exn: csOutExn) -> OptionalConverter<Int64>.CType)!
-    fileprivate static var _i64qSetter: (@convention(c) (csObject, OptionalConverter<Int64>.CType, _ exn: csOutExn) -> Void)!
-    fileprivate static var _fGetter: (@convention(c) (csObject, _ exn: csOutExn) -> Float.CType)!
-    fileprivate static var _fSetter: (@convention(c) (csObject, Float.CType, _ exn: csOutExn) -> Void)!
-    fileprivate static var _fqGetter: (@convention(c) (csObject, _ exn: csOutExn) -> OptionalConverter<Float>.CType)!
-    fileprivate static var _fqSetter: (@convention(c) (csObject, OptionalConverter<Float>.CType, _ exn: csOutExn) -> Void)!
-    fileprivate static var _dGetter: (@convention(c) (csObject, _ exn: csOutExn) -> Double.CType)!
-    fileprivate static var _dSetter: (@convention(c) (csObject, Double.CType, _ exn: csOutExn) -> Void)!
-    fileprivate static var _dqGetter: (@convention(c) (csObject, _ exn: csOutExn) -> OptionalConverter<Double>.CType)!
-    fileprivate static var _dqSetter: (@convention(c) (csObject, OptionalConverter<Double>.CType, _ exn: csOutExn) -> Void)!
+    fileprivate static var _bGetter: (@convention(c) (foreignObject, _ exn: foreignOutExn) -> Bool.CType)!
+    fileprivate static var _bSetter: (@convention(c) (foreignObject, Bool.CType, _ exn: foreignOutExn) -> Void)!
+    fileprivate static var _bqGetter: (@convention(c) (foreignObject, _ exn: foreignOutExn) -> OptionalConverter<Bool>.CType)!
+    fileprivate static var _bqSetter: (@convention(c) (foreignObject, OptionalConverter<Bool>.CType, _ exn: foreignOutExn) -> Void)!
+    fileprivate static var _ui8Getter: (@convention(c) (foreignObject, _ exn: foreignOutExn) -> UInt8.CType)!
+    fileprivate static var _ui8Setter: (@convention(c) (foreignObject, UInt8.CType, _ exn: foreignOutExn) -> Void)!
+    fileprivate static var _ui8qGetter: (@convention(c) (foreignObject, _ exn: foreignOutExn) -> OptionalConverter<UInt8>.CType)!
+    fileprivate static var _ui8qSetter: (@convention(c) (foreignObject, OptionalConverter<UInt8>.CType, _ exn: foreignOutExn) -> Void)!
+    fileprivate static var _ui16Getter: (@convention(c) (foreignObject, _ exn: foreignOutExn) -> UInt16.CType)!
+    fileprivate static var _ui16Setter: (@convention(c) (foreignObject, UInt16.CType, _ exn: foreignOutExn) -> Void)!
+    fileprivate static var _ui16qGetter: (@convention(c) (foreignObject, _ exn: foreignOutExn) -> OptionalConverter<UInt16>.CType)!
+    fileprivate static var _ui16qSetter: (@convention(c) (foreignObject, OptionalConverter<UInt16>.CType, _ exn: foreignOutExn) -> Void)!
+    fileprivate static var _ui32Getter: (@convention(c) (foreignObject, _ exn: foreignOutExn) -> UInt32.CType)!
+    fileprivate static var _ui32Setter: (@convention(c) (foreignObject, UInt32.CType, _ exn: foreignOutExn) -> Void)!
+    fileprivate static var _ui32qGetter: (@convention(c) (foreignObject, _ exn: foreignOutExn) -> OptionalConverter<UInt32>.CType)!
+    fileprivate static var _ui32qSetter: (@convention(c) (foreignObject, OptionalConverter<UInt32>.CType, _ exn: foreignOutExn) -> Void)!
+    fileprivate static var _ui64Getter: (@convention(c) (foreignObject, _ exn: foreignOutExn) -> UInt64.CType)!
+    fileprivate static var _ui64Setter: (@convention(c) (foreignObject, UInt64.CType, _ exn: foreignOutExn) -> Void)!
+    fileprivate static var _ui64qGetter: (@convention(c) (foreignObject, _ exn: foreignOutExn) -> OptionalConverter<UInt64>.CType)!
+    fileprivate static var _ui64qSetter: (@convention(c) (foreignObject, OptionalConverter<UInt64>.CType, _ exn: foreignOutExn) -> Void)!
+    fileprivate static var _i8Getter: (@convention(c) (foreignObject, _ exn: foreignOutExn) -> Int8.CType)!
+    fileprivate static var _i8Setter: (@convention(c) (foreignObject, Int8.CType, _ exn: foreignOutExn) -> Void)!
+    fileprivate static var _i8qGetter: (@convention(c) (foreignObject, _ exn: foreignOutExn) -> OptionalConverter<Int8>.CType)!
+    fileprivate static var _i8qSetter: (@convention(c) (foreignObject, OptionalConverter<Int8>.CType, _ exn: foreignOutExn) -> Void)!
+    fileprivate static var _i16Getter: (@convention(c) (foreignObject, _ exn: foreignOutExn) -> Int16.CType)!
+    fileprivate static var _i16Setter: (@convention(c) (foreignObject, Int16.CType, _ exn: foreignOutExn) -> Void)!
+    fileprivate static var _i16qGetter: (@convention(c) (foreignObject, _ exn: foreignOutExn) -> OptionalConverter<Int16>.CType)!
+    fileprivate static var _i16qSetter: (@convention(c) (foreignObject, OptionalConverter<Int16>.CType, _ exn: foreignOutExn) -> Void)!
+    fileprivate static var _i32Getter: (@convention(c) (foreignObject, _ exn: foreignOutExn) -> Int32.CType)!
+    fileprivate static var _i32Setter: (@convention(c) (foreignObject, Int32.CType, _ exn: foreignOutExn) -> Void)!
+    fileprivate static var _i32qGetter: (@convention(c) (foreignObject, _ exn: foreignOutExn) -> OptionalConverter<Int32>.CType)!
+    fileprivate static var _i32qSetter: (@convention(c) (foreignObject, OptionalConverter<Int32>.CType, _ exn: foreignOutExn) -> Void)!
+    fileprivate static var _i64Getter: (@convention(c) (foreignObject, _ exn: foreignOutExn) -> Int64.CType)!
+    fileprivate static var _i64Setter: (@convention(c) (foreignObject, Int64.CType, _ exn: foreignOutExn) -> Void)!
+    fileprivate static var _i64qGetter: (@convention(c) (foreignObject, _ exn: foreignOutExn) -> OptionalConverter<Int64>.CType)!
+    fileprivate static var _i64qSetter: (@convention(c) (foreignObject, OptionalConverter<Int64>.CType, _ exn: foreignOutExn) -> Void)!
+    fileprivate static var _fGetter: (@convention(c) (foreignObject, _ exn: foreignOutExn) -> Float.CType)!
+    fileprivate static var _fSetter: (@convention(c) (foreignObject, Float.CType, _ exn: foreignOutExn) -> Void)!
+    fileprivate static var _fqGetter: (@convention(c) (foreignObject, _ exn: foreignOutExn) -> OptionalConverter<Float>.CType)!
+    fileprivate static var _fqSetter: (@convention(c) (foreignObject, OptionalConverter<Float>.CType, _ exn: foreignOutExn) -> Void)!
+    fileprivate static var _dGetter: (@convention(c) (foreignObject, _ exn: foreignOutExn) -> Double.CType)!
+    fileprivate static var _dSetter: (@convention(c) (foreignObject, Double.CType, _ exn: foreignOutExn) -> Void)!
+    fileprivate static var _dqGetter: (@convention(c) (foreignObject, _ exn: foreignOutExn) -> OptionalConverter<Double>.CType)!
+    fileprivate static var _dqSetter: (@convention(c) (foreignObject, OptionalConverter<Double>.CType, _ exn: foreignOutExn) -> Void)!
     public typealias _ConstructorMethod = @convention(c) (
         Bool.CType,
         OptionalConverter<Bool>.CType,
@@ -170,11 +170,11 @@ extension Primitives.PrimitiveHolder: IotaMutator {
         OptionalConverter<Float>.CType,
         Double.CType,
         OptionalConverter<Double>.CType,
-        _ exn: csOutExn
-    ) -> csObject
+        _ exn: foreignOutExn
+    ) -> foreignObject
     fileprivate static var _constructorMethod: _ConstructorMethod!
 
-    public static func peekIota(_ value: csObject) throws -> Self {
+    public static func peekIota(_ value: foreignObject) throws -> Self {
         Self(
             b: try Bool.consumeIota(
                 try Env.check { exn in _bGetter(value, exn) }
@@ -245,7 +245,7 @@ extension Primitives.PrimitiveHolder: IotaMutator {
         )
     }
 
-    public static func toIota(_ value: Self) throws -> csObject {
+    public static func toIota(_ value: Self) throws -> foreignObject {
         try Env.check { exn in
             _constructorMethod(
                 try Bool.toIota(value.b),
@@ -275,7 +275,7 @@ extension Primitives.PrimitiveHolder: IotaMutator {
         }
     }
 
-    public static func mutateIota<R>(_ this: csObject, body: (inout Self) throws -> R) throws -> R {
+    public static func mutateIota<R>(_ this: foreignObject, body: (inout Self) throws -> R) throws -> R {
         var mutatingSelf = try peekIota(this)
         let result = try body(&mutatingSelf)
         try Env.check { exn in _bSetter(

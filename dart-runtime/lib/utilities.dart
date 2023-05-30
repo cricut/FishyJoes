@@ -54,7 +54,9 @@ class _GCWhisperer {
   }
 
   static void deletePersistentHandle(GCHandle handle) {
-    _deletePersistentHandle(handle);
+    if (handle.address != 0) {
+      _deletePersistentHandle(handle);
+    }
   }
 }
 
@@ -68,9 +70,7 @@ GCHandle _alloc(Object? obj) {
 }
 
 void _free(GCHandle handle) {
-  if (handle.address != 0) {
-    _GCWhisperer.deletePersistentHandle(handle);
-  }
+  _GCWhisperer.deletePersistentHandle(handle);
 }
 
 R _peekHandle<R>(GCHandle ptr) {
@@ -87,13 +87,16 @@ CreatedRef createRef(Object? obj) {
   return _alloc(obj).cast();
 }
 
-R? consumeCreatedRef<R extends Object>(CreatedRef ref) =>
-    _consumeHandle(ref.cast()) as R;
+ConsumedRef createConsumedRef(Object? obj) {
+  return _alloc(obj).cast();
+}
 
 R peekRef<R>(UnownedRef ref) => _peekHandle<R>(ref.cast());
-
-R consumeRef<R>(ConsumedRef ref) {
-  return _consumeHandle(ref.cast()) as R;
+R consumeRef<R>(ConsumedRef ref) => _consumeHandle(ref.cast()) as R;
+R consumeCreatedRef<R>(CreatedRef ref) {
+  final z = _consumeHandle(ref.cast());
+  // print("$z: ${z.runtimeType} is $R: ${z is R}");
+  return z as R;
 }
 
 R? catching<R>(OutCreatedRef intoExn, R Function() body) {
@@ -112,7 +115,7 @@ ffi.Pointer<R> catchingRef<R extends ffi.NativeType>(OutCreatedRef intoExn, ffi.
 R check<R>(R Function(OutCreatedRef) body) {
   final exnPtr = calloc<CreatedRef>();
   final result = body(exnPtr);
-  final exn = consumeCreatedRef<Object>(exnPtr.value);
+  final exn = consumeCreatedRef<Object?>(exnPtr.value);
   calloc.free(exnPtr);
   if (exn != null) {
     throw exn;
@@ -146,4 +149,16 @@ class GCRef implements ffi.Finalizable {
       _handle = GCHandle.fromAddress(0);
     }
   }
+
+  static R using<R>(Object? obj, R Function(GCRef) body) {
+    final ref = GCRef(obj);
+    try {
+      return body(ref);
+    } finally {
+      ref.dispose();
+    }
+  }
 }
+
+typedef EnumDiscriminator = int Function(UnownedRef obj, OutCreatedRef exn);
+typedef EnumDiscriminatorTag = ffi.Int Function(UnownedRef obj, OutCreatedRef exn);

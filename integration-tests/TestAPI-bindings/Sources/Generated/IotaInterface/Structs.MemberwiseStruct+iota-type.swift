@@ -8,11 +8,11 @@ import TestAPI
 @_cdecl("TestAPI_Structs_MemberwiseStruct_setup")
 public func TestAPI_Structs_MemberwiseStruct_setup(
     constructorMethod: @escaping Structs.MemberwiseStruct._ConstructorMethod,
-    _ immutableGetter: @escaping @convention(c) (csObject, _ exn: csOutExn) -> Swift.String.CType,
-    _ immutableSetter: @escaping @convention(c) (csObject, Swift.String.CType, _ exn: csOutExn) -> Void,
-    _ mutableGetter: @escaping @convention(c) (csObject, _ exn: csOutExn) -> Swift.String.CType,
-    _ mutableSetter: @escaping @convention(c) (csObject, Swift.String.CType, _ exn: csOutExn) -> Void,
-    _ exn: csOutExn
+    _ immutableGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType,
+    _ immutableSetter: @escaping @convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void,
+    _ mutableGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType,
+    _ mutableSetter: @escaping @convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void,
+    _ exn: foreignOutExn
 ) {
     guard Structs.MemberwiseStruct._constructorMethod == nil else { return }
     Structs.MemberwiseStruct._constructorMethod = constructorMethod
@@ -23,18 +23,18 @@ public func TestAPI_Structs_MemberwiseStruct_setup(
 }
 
 extension Structs.MemberwiseStruct: IotaMutator {
-    fileprivate static var _immutableGetter: (@convention(c) (csObject, _ exn: csOutExn) -> Swift.String.CType)!
-    fileprivate static var _immutableSetter: (@convention(c) (csObject, Swift.String.CType, _ exn: csOutExn) -> Void)!
-    fileprivate static var _mutableGetter: (@convention(c) (csObject, _ exn: csOutExn) -> Swift.String.CType)!
-    fileprivate static var _mutableSetter: (@convention(c) (csObject, Swift.String.CType, _ exn: csOutExn) -> Void)!
+    fileprivate static var _immutableGetter: (@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType)!
+    fileprivate static var _immutableSetter: (@convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void)!
+    fileprivate static var _mutableGetter: (@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType)!
+    fileprivate static var _mutableSetter: (@convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void)!
     public typealias _ConstructorMethod = @convention(c) (
         Swift.String.CType,
         Swift.String.CType,
-        _ exn: csOutExn
-    ) -> csObject
+        _ exn: foreignOutExn
+    ) -> foreignObject
     fileprivate static var _constructorMethod: _ConstructorMethod!
 
-    public static func peekIota(_ value: csObject) throws -> Self {
+    public static func peekIota(_ value: foreignObject) throws -> Self {
         Self(
             immutable: try Swift.String.consumeIota(
                 try Env.check { exn in _immutableGetter(value, exn) }
@@ -45,7 +45,7 @@ extension Structs.MemberwiseStruct: IotaMutator {
         )
     }
 
-    public static func toIota(_ value: Self) throws -> csObject {
+    public static func toIota(_ value: Self) throws -> foreignObject {
         try Env.check { exn in
             _constructorMethod(
                 try Swift.String.toIota(value.immutable),
@@ -55,7 +55,7 @@ extension Structs.MemberwiseStruct: IotaMutator {
         }
     }
 
-    public static func mutateIota<R>(_ this: csObject, body: (inout Self) throws -> R) throws -> R {
+    public static func mutateIota<R>(_ this: foreignObject, body: (inout Self) throws -> R) throws -> R {
         var mutatingSelf = try peekIota(this)
         let result = try body(&mutatingSelf)
         try Env.check { exn in _immutableSetter(

@@ -3,6 +3,5 @@
 /// More dartdocs go here.
 library cricut_test_api;
 
-export 'src/base.dart';
-
-// TODO: Export any libraries intended for clients of this package.
+export 'src/generated/type_setup.dart';
+export 'src/generated/Collections.dart';

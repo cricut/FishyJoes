@@ -1,0 +1,69 @@
+import 'package:cricut_test_api/cricut_test_api.dart';
+import 'package:test/test.dart';
+import 'dart:isolate';
+
+void main() {
+  setUp(() {
+      print("${Isolate.current}, ${Isolate.current.hashCode}, ${Isolate.current.debugName}");
+      print("${Isolate.current}, ${Isolate.current.hashCode}, ${Isolate.current.debugName}");
+      final _ = ensureLoaded;
+  });
+
+  group('FunctionTests', () {
+      test('First Test', () {
+          expect(Collections.arrayOfInt, equals([2, 7, 3, 5, 9]));
+          // expect(Collections.defaultCollectionHolder.integerSet, equals(<int>{2, 7}));
+      });
+  });
+}
+
+// internal class FunctionTests {
+//     @Test
+//     fun testConst42() {
+//         assertEquals(42, Functions.const42())
+//     }
+
+//     @Test
+//     fun testAbs() {
+//         assertEquals(3, Functions.abs(-3))
+//     }
+
+//     @Test
+//     fun testIntCompose() {
+//         val composed = Functions.intCompose({ it + 1 }, { it * 3 })
+//         assertEquals(10, composed(3))
+//         assertEquals(7, composed(2))
+//     }
+
+//     object ComposeError: Error()
+
+//     @Test
+//     fun testExceptionInCompose() {
+//         val composed = Functions.intCompose({ throw ComposeError }, { it })
+//         assertThrows<ComposeError> { composed(3) }
+//     }
+
+//     @Test
+//     fun testTheRestOfTheFunctions() {
+//         assertEquals(8.5, Functions.add3Things(3f, 4.5, 1))
+//         assertEquals(listOf("a", "b", "c", "d"), Functions.makeList("a", "b", "c", "d"))
+//         assertEquals(84, Functions.fifthThing("hi", 1, 1.0, "...", { 84 })())
+//         assertEquals(17, Functions.sixthThing("hi", 1, 1.0, "...", { 84 }, 17))
+//     }
+
+//     @Test
+//     fun testPassingFunctionsToSwift() {
+//         assertEquals("8", Functions.exercise0 { 8 })
+//         assertEquals("3", Functions.exercise1 { abs(it) })
+//         assertEquals("25", Functions.exercise2 { f, g -> { f(g(it)) } })
+//         assertEquals("7.4", Functions.exercise3 { a, b, c -> a + b + c })
+//         assertEquals("""["a", "b", "c", "d"]""", Functions.exercise4 { a, b, c, d -> listOf(a, b, c, d) })
+//         assertEquals("83", Functions.exercise5 { _, _, _, _, f -> f })
+//         assertEquals("42", Functions.exercise6 { _, _, _, _, _, i -> i })
+//     }
+
+//     @Test
+//     fun testSwiftThrows() {
+//         assertThrows(Error::class.java) { Functions.willThrow() }
+//     }
+// }

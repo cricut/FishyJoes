@@ -26,39 +26,39 @@ public func TestAPI_SimpleEnum_setup(
 
 extension SimpleEnum: IotaConverter {
     public typealias Discriminator = @convention(c) (
-        csObject,
-        csOutExn
+        foreignObject,
+        foreignOutExn
     ) -> Int
     fileprivate static var discriminator: Discriminator!
     public typealias Red_constructor = @convention(c) (
-        csOutExn
-    ) -> csObject
+        foreignOutExn
+    ) -> foreignObject
     fileprivate static var red_constructor: Red_constructor!
     public typealias Red_extractor = @convention(c) (
-        csObject,
-        csOutExn
+        foreignObject,
+        foreignOutExn
     ) -> Void
     fileprivate static var red_extractor: Red_extractor!
     public typealias Green_constructor = @convention(c) (
-        csOutExn
-    ) -> csObject
+        foreignOutExn
+    ) -> foreignObject
     fileprivate static var green_constructor: Green_constructor!
     public typealias Green_extractor = @convention(c) (
-        csObject,
-        csOutExn
+        foreignObject,
+        foreignOutExn
     ) -> Void
     fileprivate static var green_extractor: Green_extractor!
     public typealias Blue_constructor = @convention(c) (
-        csOutExn
-    ) -> csObject
+        foreignOutExn
+    ) -> foreignObject
     fileprivate static var blue_constructor: Blue_constructor!
     public typealias Blue_extractor = @convention(c) (
-        csObject,
-        csOutExn
+        foreignObject,
+        foreignOutExn
     ) -> Void
     fileprivate static var blue_extractor: Blue_extractor!
 
-    public static func peekIota(_ value: csObject) throws -> Self {
+    public static func peekIota(_ value: foreignObject) throws -> Self {
         switch try Env.check({ exn in discriminator(value, exn) }) {
         case 0:
             try Env.check { exn in red_extractor(value, exn) }
@@ -74,7 +74,7 @@ extension SimpleEnum: IotaConverter {
         }
     }
 
-    public static func toIota(_ value: Self) throws -> csObject {
+    public static func toIota(_ value: Self) throws -> foreignObject {
         switch value {
         case red:
             return try Env.check { exn in

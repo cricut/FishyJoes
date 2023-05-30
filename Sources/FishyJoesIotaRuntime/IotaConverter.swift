@@ -4,31 +4,31 @@ import Foundation
 // MARK: - Iota Type Conversion Protocols
 
 public protocol IotaConverter: Converter {
-    associatedtype CType = csObject
+    associatedtype CType = foreignObject
 
     static func peekIota(_ value: CType) throws -> SwiftType
-    static func peekIota(object: csObject) throws -> SwiftType
+    static func peekIota(object: foreignObject) throws -> SwiftType
 
     static func consumeIota(_ value: CType) throws -> SwiftType
-    static func consumeIota(object: csObject) throws -> SwiftType
+    static func consumeIota(object: foreignObject) throws -> SwiftType
 
     static func toIota(_ value: SwiftType) throws -> CType
-    static func toIotaObject(_ value: SwiftType) throws -> csObject
+    static func toIotaObject(_ value: SwiftType) throws -> foreignObject
 }
 
 extension IotaConverter {
-    public static func consumeIota(_ value: CType) throws -> SwiftType where CType == csObject {
+    public static func consumeIota(_ value: CType) throws -> SwiftType where CType == foreignObject {
         defer { Env.deleteRef(value) }
         return try peekIota(value)
     }
 
     @_disfavoredOverload
     public static func consumeIota(_ value: CType) throws -> SwiftType {
-        defer { if let value = value as? csObject { Env.deleteRef(value) } }
+        defer { if let value = value as? foreignObject { Env.deleteRef(value) } }
         return try peekIota(value)
     }
 
-    public static func consumeIota(object: csObject) throws -> SwiftType {
+    public static func consumeIota(object: foreignObject) throws -> SwiftType {
         defer { Env.deleteRef(object) }
         return try peekIota(object: object)
     }
@@ -36,23 +36,23 @@ extension IotaConverter {
 
 protocol PrimitiveIotaConverter: IotaConverter {}
 //     where SwiftType == Self, CType == Self {
-//     typealias ValueMethod = @convention(c) (csObject, csOutExn) -> Self
-//     typealias Constructor = @convention(c) (Self) -> csObject
+//     typealias ValueMethod = @convention(c) (foreignObject, foreignOutExn) -> Self
+//     typealias Constructor = @convention(c) (Self) -> foreignObject
 
 //     static var valueMethod: ValueMethod? { get }
 //     static var constructor: Constructor? { get }
 // }
 
 extension PrimitiveIotaConverter {
-    // typealias ValueMethod = @convention(c) (csObject, csOutExn) -> Self
-    // typealias Constructor = @convention(c) (Self) -> csObject
+    // typealias ValueMethod = @convention(c) (foreignObject, foreignOutExn) -> Self
+    // typealias Constructor = @convention(c) (Self) -> foreignObject
     // public static func peekIota(_ value: Self) throws -> Self { value }
     // public static func toIota(_ value: Self) throws -> Self { value }
 
-    // public static func peekIota(object: csObject) throws -> Self {
+    // public static func peekIota(object: foreignObject) throws -> Self {
     //     try Env.check { exn in valueMethod(object, exn) }
     // }
-    // public static func toIotaObject(_ value: Self) throws -> csObject {
+    // public static func toIotaObject(_ value: Self) throws -> foreignObject {
     //     print("I am \(value): \(self), starting toIotaObject: constructor =")
     //     dump(constructor)
     //     let res = constructor(value)
@@ -61,11 +61,11 @@ extension PrimitiveIotaConverter {
     // }
 }
 
-extension IotaConverter where CType == csObject {
-    public static func toIotaObject(_ value: SwiftType) throws -> csObject {
+extension IotaConverter where CType == foreignObject {
+    public static func toIotaObject(_ value: SwiftType) throws -> foreignObject {
         try toIota(value)
     }
-    public static func peekIota(object: csObject) throws -> SwiftType {
+    public static func peekIota(object: foreignObject) throws -> SwiftType {
         try peekIota(object)
     }
 }
@@ -82,25 +82,25 @@ extension VoidConverter: IotaConverter {
     public static func peekIota(_ value: Void) throws {}
     public static func toIota(_ value: Void) throws {}
 
-    public static func peekIota(object: csObject) throws {}
-    public static func toIotaObject(_ value: Void) throws -> csObject { nil }
+    public static func peekIota(object: foreignObject) throws {}
+    public static func toIotaObject(_ value: Void) throws -> foreignObject { nil }
 }
 
 extension Bool: IotaConverter {
     // TODO: possible to marshall as 1-byte, but requires weird annotations
     public typealias CType = UInt32
 
-    public typealias ValueMethod = @convention(c) (csObject, csOutExn) -> CType
+    public typealias ValueMethod = @convention(c) (foreignObject, foreignOutExn) -> CType
 
-    static var iotaTrue: csObject = nil
-    static var iotaFalse: csObject = nil
+    static var iotaTrue: foreignObject = nil
+    static var iotaFalse: foreignObject = nil
     static var valueMethod: ValueMethod?
 
     public static func peekIota(_ value: CType) throws -> Self {
         value != 0
     }
 
-    public static func peekIota(object: csObject) throws -> Self {
+    public static func peekIota(object: foreignObject) throws -> Self {
         try Env.check { exn in try Env.unwrap(valueMethod)(object, exn) } != 0
     }
 
@@ -108,15 +108,15 @@ extension Bool: IotaConverter {
         value ? 1 : 0
     }
 
-    public static func toIotaObject(_ value: Self) throws -> csObject {
+    public static func toIotaObject(_ value: Self) throws -> foreignObject {
         Env.newRef(value ? Self.iotaTrue : Self.iotaFalse)
     }
 }
 
 @_cdecl("FishyJoesRuntime_Bool_setup")
 public func Bool_iota_setup(
-    iotaTrue: csObject,
-    iotaFalse: csObject,
+    iotaTrue: foreignObject,
+    iotaFalse: foreignObject,
     valueMethod: @escaping Bool.ValueMethod
 ) {
     guard Bool.iotaTrue == nil else { return }
@@ -126,15 +126,15 @@ public func Bool_iota_setup(
 }
 
 extension Int8: PrimitiveIotaConverter {
-    public typealias ValueMethod = @convention(c) (csObject, csOutExn) -> Self
-    public typealias Constructor = @convention(c) (Self) -> csObject
+    public typealias ValueMethod = @convention(c) (foreignObject, foreignOutExn) -> Self
+    public typealias Constructor = @convention(c) (Self) -> foreignObject
     public static func peekIota(_ value: Self) throws -> Self { value }
     public static func toIota(_ value: Self) throws -> Self { value }
 
-    public static func peekIota(object: csObject) throws -> Self {
+    public static func peekIota(object: foreignObject) throws -> Self {
         try Env.check { exn in try Env.unwrap(valueMethod)(object, exn) }
     }
-    public static func toIotaObject(_ value: Self) throws -> csObject {
+    public static func toIotaObject(_ value: Self) throws -> foreignObject {
         try Env.unwrap(constructor)(value)
     }
     static var valueMethod: ValueMethod?
@@ -152,15 +152,15 @@ public func Int8_iota_setup(
 }
 
 extension Int16: PrimitiveIotaConverter {
-    public typealias ValueMethod = @convention(c) (csObject, csOutExn) -> Self
-    public typealias Constructor = @convention(c) (Self) -> csObject
+    public typealias ValueMethod = @convention(c) (foreignObject, foreignOutExn) -> Self
+    public typealias Constructor = @convention(c) (Self) -> foreignObject
     public static func peekIota(_ value: Self) throws -> Self { value }
     public static func toIota(_ value: Self) throws -> Self { value }
 
-    public static func peekIota(object: csObject) throws -> Self {
+    public static func peekIota(object: foreignObject) throws -> Self {
         try Env.check { exn in try Env.unwrap(valueMethod)(object, exn) }
     }
-    public static func toIotaObject(_ value: Self) throws -> csObject {
+    public static func toIotaObject(_ value: Self) throws -> foreignObject {
         try Env.unwrap(constructor)(value)
     }
     static var valueMethod: ValueMethod?
@@ -178,15 +178,15 @@ public func Int16_iota_setup(
 }
 
 extension Int32: PrimitiveIotaConverter {
-    public typealias ValueMethod = @convention(c) (csObject, csOutExn) -> Self
-    public typealias Constructor = @convention(c) (Self) -> csObject
+    public typealias ValueMethod = @convention(c) (foreignObject, foreignOutExn) -> Self
+    public typealias Constructor = @convention(c) (Self) -> foreignObject
     public static func peekIota(_ value: Self) throws -> Self { value }
     public static func toIota(_ value: Self) throws -> Self { value }
 
-    public static func peekIota(object: csObject) throws -> Self {
+    public static func peekIota(object: foreignObject) throws -> Self {
         try Env.check { exn in try Env.unwrap(valueMethod)(object, exn) }
     }
-    public static func toIotaObject(_ value: Self) throws -> csObject {
+    public static func toIotaObject(_ value: Self) throws -> foreignObject {
         try Env.unwrap(constructor)(value)
     }
     static var valueMethod: ValueMethod?
@@ -204,15 +204,15 @@ public func Int32_iota_setup(
 }
 
 extension Int64: PrimitiveIotaConverter {
-    public typealias ValueMethod = @convention(c) (csObject, csOutExn) -> Self
-    public typealias Constructor = @convention(c) (Self) -> csObject
+    public typealias ValueMethod = @convention(c) (foreignObject, foreignOutExn) -> Self
+    public typealias Constructor = @convention(c) (Self) -> foreignObject
     public static func peekIota(_ value: Self) throws -> Self { value }
     public static func toIota(_ value: Self) throws -> Self { value }
 
-    public static func peekIota(object: csObject) throws -> Self {
+    public static func peekIota(object: foreignObject) throws -> Self {
         try Env.check { exn in try Env.unwrap(valueMethod)(object, exn) }
     }
-    public static func toIotaObject(_ value: Self) throws -> csObject {
+    public static func toIotaObject(_ value: Self) throws -> foreignObject {
         try Env.unwrap(constructor)(value)
     }
     static var valueMethod: ValueMethod?
@@ -230,15 +230,15 @@ public func Int64_iota_setup(
 }
 
 extension UInt8: PrimitiveIotaConverter {
-    public typealias ValueMethod = @convention(c) (csObject, csOutExn) -> Self
-    public typealias Constructor = @convention(c) (Self) -> csObject
+    public typealias ValueMethod = @convention(c) (foreignObject, foreignOutExn) -> Self
+    public typealias Constructor = @convention(c) (Self) -> foreignObject
     public static func peekIota(_ value: Self) throws -> Self { value }
     public static func toIota(_ value: Self) throws -> Self { value }
 
-    public static func peekIota(object: csObject) throws -> Self {
+    public static func peekIota(object: foreignObject) throws -> Self {
         try Env.check { exn in try Env.unwrap(valueMethod)(object, exn) }
     }
-    public static func toIotaObject(_ value: Self) throws -> csObject {
+    public static func toIotaObject(_ value: Self) throws -> foreignObject {
         try Env.unwrap(constructor)(value)
     }
     static var valueMethod: ValueMethod?
@@ -256,15 +256,15 @@ public func UInt8_iota_setup(
 }
 
 extension UInt16: PrimitiveIotaConverter {
-    public typealias ValueMethod = @convention(c) (csObject, csOutExn) -> Self
-    public typealias Constructor = @convention(c) (Self) -> csObject
+    public typealias ValueMethod = @convention(c) (foreignObject, foreignOutExn) -> Self
+    public typealias Constructor = @convention(c) (Self) -> foreignObject
     public static func peekIota(_ value: Self) throws -> Self { value }
     public static func toIota(_ value: Self) throws -> Self { value }
 
-    public static func peekIota(object: csObject) throws -> Self {
+    public static func peekIota(object: foreignObject) throws -> Self {
         try Env.check { exn in try Env.unwrap(valueMethod)(object, exn) }
     }
-    public static func toIotaObject(_ value: Self) throws -> csObject {
+    public static func toIotaObject(_ value: Self) throws -> foreignObject {
         try Env.unwrap(constructor)(value)
     }
     static var valueMethod: ValueMethod?
@@ -282,15 +282,15 @@ public func UInt16_iota_setup(
 }
 
 extension UInt32: PrimitiveIotaConverter {
-    public typealias ValueMethod = @convention(c) (csObject, csOutExn) -> Self
-    public typealias Constructor = @convention(c) (Self) -> csObject
+    public typealias ValueMethod = @convention(c) (foreignObject, foreignOutExn) -> Self
+    public typealias Constructor = @convention(c) (Self) -> foreignObject
     public static func peekIota(_ value: Self) throws -> Self { value }
     public static func toIota(_ value: Self) throws -> Self { value }
 
-    public static func peekIota(object: csObject) throws -> Self {
+    public static func peekIota(object: foreignObject) throws -> Self {
         try Env.check { exn in try Env.unwrap(valueMethod)(object, exn) }
     }
-    public static func toIotaObject(_ value: Self) throws -> csObject {
+    public static func toIotaObject(_ value: Self) throws -> foreignObject {
         try Env.unwrap(constructor)(value)
     }
     static var valueMethod: ValueMethod?
@@ -308,15 +308,15 @@ public func UInt32_iota_setup(
 }
 
 extension UInt64: PrimitiveIotaConverter {
-    public typealias ValueMethod = @convention(c) (csObject, csOutExn) -> Self
-    public typealias Constructor = @convention(c) (Self) -> csObject
+    public typealias ValueMethod = @convention(c) (foreignObject, foreignOutExn) -> Self
+    public typealias Constructor = @convention(c) (Self) -> foreignObject
     public static func peekIota(_ value: Self) throws -> Self { value }
     public static func toIota(_ value: Self) throws -> Self { value }
 
-    public static func peekIota(object: csObject) throws -> Self {
+    public static func peekIota(object: foreignObject) throws -> Self {
         try Env.check { exn in try Env.unwrap(valueMethod)(object, exn) }
     }
-    public static func toIotaObject(_ value: Self) throws -> csObject {
+    public static func toIotaObject(_ value: Self) throws -> foreignObject {
         try Env.unwrap(constructor)(value)
     }
     static var valueMethod: ValueMethod?
@@ -334,15 +334,15 @@ public func UInt64_iota_setup(
 }
 
 extension Int: PrimitiveIotaConverter {
-    public typealias ValueMethod = @convention(c) (csObject, csOutExn) -> Self
-    public typealias Constructor = @convention(c) (Self) -> csObject
+    public typealias ValueMethod = @convention(c) (foreignObject, foreignOutExn) -> Self
+    public typealias Constructor = @convention(c) (Self) -> foreignObject
     public static func peekIota(_ value: Self) throws -> Self { value }
     public static func toIota(_ value: Self) throws -> Self { value }
 
-    public static func peekIota(object: csObject) throws -> Self {
+    public static func peekIota(object: foreignObject) throws -> Self {
         try Env.check { exn in try Env.unwrap(valueMethod)(object, exn) }
     }
-    public static func toIotaObject(_ value: Self) throws -> csObject {
+    public static func toIotaObject(_ value: Self) throws -> foreignObject {
         try Env.unwrap(constructor)(value)
     }
     static var valueMethod: ValueMethod?
@@ -360,15 +360,15 @@ public func Int_iota_setup(
 }
 
 extension Float: PrimitiveIotaConverter {
-    public typealias ValueMethod = @convention(c) (csObject, csOutExn) -> Self
-    public typealias Constructor = @convention(c) (Self) -> csObject
+    public typealias ValueMethod = @convention(c) (foreignObject, foreignOutExn) -> Self
+    public typealias Constructor = @convention(c) (Self) -> foreignObject
     public static func peekIota(_ value: Self) throws -> Self { value }
     public static func toIota(_ value: Self) throws -> Self { value }
 
-    public static func peekIota(object: csObject) throws -> Self {
+    public static func peekIota(object: foreignObject) throws -> Self {
         try Env.check { exn in try Env.unwrap(valueMethod)(object, exn) }
     }
-    public static func toIotaObject(_ value: Self) throws -> csObject {
+    public static func toIotaObject(_ value: Self) throws -> foreignObject {
         try Env.unwrap(constructor)(value)
     }
     static var valueMethod: ValueMethod?
@@ -386,15 +386,15 @@ public func Float_iota_setup(
 }
 
 extension Double: PrimitiveIotaConverter {
-    public typealias ValueMethod = @convention(c) (csObject, csOutExn) -> Self
-    public typealias Constructor = @convention(c) (Self) -> csObject
+    public typealias ValueMethod = @convention(c) (foreignObject, foreignOutExn) -> Self
+    public typealias Constructor = @convention(c) (Self) -> foreignObject
     public static func peekIota(_ value: Self) throws -> Self { value }
     public static func toIota(_ value: Self) throws -> Self { value }
 
-    public static func peekIota(object: csObject) throws -> Self {
+    public static func peekIota(object: foreignObject) throws -> Self {
         try Env.check { exn in try Env.unwrap(valueMethod)(object, exn) }
     }
-    public static func toIotaObject(_ value: Self) throws -> csObject {
+    public static func toIotaObject(_ value: Self) throws -> foreignObject {
         try Env.unwrap(constructor)(value)
     }
     static var valueMethod: ValueMethod?
@@ -415,9 +415,9 @@ public func Double_iota_setup(
 
 @_cdecl("FishyJoesRuntime_String_setup")
 public func String_iota_setup(
-    getLengthMethod: @escaping @convention(c) (csObject, csOutExn) -> Int,
-    getUtf16Method: @escaping @convention(c) (csObject, UnsafeMutablePointer<unichar>, csOutExn) -> Void,
-    constructor: @escaping @convention(c) (UnsafePointer<unichar>, Int, csOutExn) -> csObject
+    getLengthMethod: @escaping @convention(c) (foreignObject, foreignOutExn) -> Int,
+    getUtf16Method: @escaping @convention(c) (foreignObject, UnsafeMutablePointer<unichar>, foreignOutExn) -> Void,
+    constructor: @escaping @convention(c) (UnsafePointer<unichar>, Int, foreignOutExn) -> foreignObject
 ) {
     guard String.getLengthMethod == nil else { return }
     String.getLengthMethod = getLengthMethod
@@ -428,11 +428,11 @@ public func String_iota_setup(
 struct AllocationError: Error {}
 
 extension String: IotaConverter {
-    fileprivate static var getLengthMethod: (@convention(c) (csObject, csOutExn) -> Int)?
-    fileprivate static var getUtf16Method: (@convention(c) (csObject, UnsafeMutablePointer<unichar>, csOutExn) -> Void)?
-    fileprivate static var constructor: (@convention(c) (UnsafePointer<unichar>, Int, csOutExn) -> csObject)?
+    fileprivate static var getLengthMethod: (@convention(c) (foreignObject, foreignOutExn) -> Int)?
+    fileprivate static var getUtf16Method: (@convention(c) (foreignObject, UnsafeMutablePointer<unichar>, foreignOutExn) -> Void)?
+    fileprivate static var constructor: (@convention(c) (UnsafePointer<unichar>, Int, foreignOutExn) -> foreignObject)?
 
-    public static func peekIota(_ value: csObject) throws -> Self {
+    public static func peekIota(_ value: foreignObject) throws -> Self {
         let len16 = try Env.check { exn in try Env.unwrap(getLengthMethod)(value, exn) }
         guard let units = UnsafeMutablePointer<unichar>(OpaquePointer(malloc(len16 * 2))) else {
             throw AllocationError()
@@ -444,7 +444,7 @@ extension String: IotaConverter {
         return String(utf16CodeUnitsNoCopy: units, count: len16, freeWhenDone: true)
     }
 
-    public static func toIota(_ value: Self) throws -> csObject {
+    public static func toIota(_ value: Self) throws -> foreignObject {
         let array = Array(value.utf16)
         return try array.withUnsafeBufferPointer { buffer in
             try Env.check { exn in try Env.unwrap(constructor)(buffer.baseAddress!, array.count * 2, exn) }
@@ -465,15 +465,15 @@ public func Data_iota_setup(
 }
 
 extension Data: IotaConverter {
-    public typealias LengthMethod = @convention(c) (_ data: csObject, _ exn: csOutExn) -> Int32
-    public typealias BytesMethod = @convention(c) (_ data: csObject, _ outValues: UnsafeMutableRawPointer, _ exn: csOutExn) -> Void
-    public typealias Constuctor = @convention(c) (_ bytes: UnsafeRawPointer?, _ length: Int32, _ exn: csOutExn) -> csObject
+    public typealias LengthMethod = @convention(c) (_ data: foreignObject, _ exn: foreignOutExn) -> Int32
+    public typealias BytesMethod = @convention(c) (_ data: foreignObject, _ outValues: UnsafeMutableRawPointer, _ exn: foreignOutExn) -> Void
+    public typealias Constuctor = @convention(c) (_ bytes: UnsafeRawPointer?, _ length: Int32, _ exn: foreignOutExn) -> foreignObject
 
     fileprivate static var lengthMethod: Data.LengthMethod?
     fileprivate static var bytesMethod: Data.BytesMethod?
     fileprivate static var constuctor: Data.Constuctor?
 
-    public static func peekIota(_ value: csObject) throws -> SwiftType {
+    public static func peekIota(_ value: foreignObject) throws -> SwiftType {
         let length = try Env.check { exn in Int(try Env.unwrap(lengthMethod)(value, exn)) }
         guard let buffer = malloc(length) else {
             throw AllocationError()
@@ -486,7 +486,7 @@ extension Data: IotaConverter {
         return Data(bytesNoCopy: buffer, count: length, deallocator: .free)
     }
 
-    public static func toIota(_ value: SwiftType) throws -> csObject {
+    public static func toIota(_ value: SwiftType) throws -> foreignObject {
         try value.withUnsafeBytes { (buffer: UnsafeRawBufferPointer) in
             try Env.check { exn in
                 try Env.unwrap(constuctor)(buffer.baseAddress, Int32(value.count), exn)

@@ -26,7 +26,7 @@ struct TranslatedArray: TranslatedType {
         self.neutralName = "List<V=\(element.neutralName)>"
         self.containedNamedTypes = element.containedNamedTypes
         self.cSharpType = .named(package: "System.Collections.Generic", name: "IList<\(element.cSharpType.name)>")
-        self.dartType = .named(package: nil, name: "List<\(element.dartType.name)>")
+        self.dartType = .named(package: nil, name: "List", genericArgs: [element.dartType])
     }
 
     func cSharpSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<String>] {
@@ -40,7 +40,8 @@ struct TranslatedArray: TranslatedType {
 
     func dartSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<DartClass.DartType>] {
         return  [
-            .value(name: "typeName", type: .primitive("String")) { fragment in
+            .type(typeValue: elementType.dartType),
+            .value(name: "typeName", type: .string) { fragment in
                 fragment.output("\"\(converterType.name)\",")
             },
         ]

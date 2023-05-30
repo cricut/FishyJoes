@@ -1,0 +1,195 @@
+import './AssociatedDataEnum.dart' as TestAPI;
+import './Bytes.dart' as TestAPI;
+import './Collections.dart' as TestAPI;
+import './Collections_CollectionHolder.dart' as TestAPI;
+import './DefaultArguments.dart' as TestAPI;
+import './Deprecations.dart' as TestAPI;
+import './EmptyEnum.dart' as TestAPI;
+import './Functions.dart' as TestAPI;
+import './Primitives.dart' as TestAPI;
+import './Primitives_PrimitiveHolder.dart' as TestAPI;
+import './SimpleEnum.dart' as TestAPI;
+import './Strings.dart' as TestAPI;
+import './Structs.dart' as TestAPI;
+import './Structs_MemberwiseStruct.dart' as TestAPI;
+import './Tuples.dart' as TestAPI;
+import 'dart:ffi' as ffi;
+import 'dart:typed_data' as typed_data;
+import 'package:dart_runtime/runtime.dart';
+import 'package:dart_runtime/utilities.dart' as utils;
+import 'package:ffi/ffi.dart' as ffi;
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:tuple/tuple.dart' as tuple;
+
+/// <!-- FishyJoes.export(Functions) -->
+class Functions {
+    Functions._() {}
+
+    static int enumDiscriminator(UnownedRef obj, OutCreatedRef exn) => check((exn) =>
+        throw UnsupportedError('This class is supposed to be unihabited')
+    );
+
+    /// <!-- FishyJoes.export(const42) -->
+    static int Function() get const42 =>
+        check((exn) =>
+            consumeCreatedRef<int Function()>(f__iota_get_Functions_Const42(exn))
+        )
+    ;
+    /// <!-- FishyJoes.export(abs) -->
+    static int Function(int) get abs =>
+        check((exn) =>
+            consumeCreatedRef<int Function(int)>(f__iota_get_Functions_Abs(exn))
+        )
+    ;
+    /// <!-- FishyJoes.export(intCompose) -->
+    static int Function(int) Function(int Function(int), int Function(int)) get intCompose =>
+        check((exn) =>
+            consumeCreatedRef<int Function(int) Function(int Function(int), int Function(int))>(f__iota_get_Functions_IntCompose(exn))
+        )
+    ;
+    /// <!-- FishyJoes.export(add3Things) -->
+    static double Function(double, double, int) get add3Things =>
+        check((exn) =>
+            consumeCreatedRef<double Function(double, double, int)>(f__iota_get_Functions_Add3Things(exn))
+        )
+    ;
+    /// <!-- FishyJoes.export(makeList) -->
+    static List<String> Function(String, String, String, String) get makeList =>
+        check((exn) =>
+            consumeCreatedRef<List<String> Function(String, String, String, String)>(f__iota_get_Functions_MakeList(exn))
+        )
+    ;
+    /// <!-- FishyJoes.export(fifthThing) -->
+    static int Function() Function(String, int, double, String, int Function()) get fifthThing =>
+        check((exn) =>
+            consumeCreatedRef<int Function() Function(String, int, double, String, int Function())>(f__iota_get_Functions_FifthThing(exn))
+        )
+    ;
+    /// <!-- FishyJoes.export(sixthThing) -->
+    static int Function(String, int, double, String, int Function(), int) get sixthThing =>
+        check((exn) =>
+            consumeCreatedRef<int Function(String, int, double, String, int Function(), int)>(f__iota_get_Functions_SixthThing(exn))
+        )
+    ;
+    /// <!-- FishyJoes.export(exercise0) -->
+    static String exercise0(
+        int Function() fn,
+    ) =>
+        GCRef.using(fn, (_fnHandle) =>
+            consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_Functions_exercise0(_fnHandle.ptr, _exn)))
+        )
+    ;
+
+    /// <!-- FishyJoes.export(exercise1) -->
+    static String exercise1(
+        int Function(int) fn,
+    ) =>
+        GCRef.using(fn, (_fnHandle) =>
+            consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_Functions_exercise1(_fnHandle.ptr, _exn)))
+        )
+    ;
+
+    /// <!-- FishyJoes.export(exercise2) -->
+    static String exercise2(
+        int Function(int) Function(int Function(int), int Function(int)) fn,
+    ) =>
+        GCRef.using(fn, (_fnHandle) =>
+            consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_Functions_exercise2(_fnHandle.ptr, _exn)))
+        )
+    ;
+
+    /// <!-- FishyJoes.export(exercise3) -->
+    static String exercise3(
+        double Function(double, double, int) fn,
+    ) =>
+        GCRef.using(fn, (_fnHandle) =>
+            consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_Functions_exercise3(_fnHandle.ptr, _exn)))
+        )
+    ;
+
+    /// <!-- FishyJoes.export(exercise4) -->
+    static String exercise4(
+        List<String> Function(String, String, String, String) fn,
+    ) =>
+        GCRef.using(fn, (_fnHandle) =>
+            consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_Functions_exercise4(_fnHandle.ptr, _exn)))
+        )
+    ;
+
+    /// <!-- FishyJoes.export(exercise5) -->
+    static String exercise5(
+        int Function() Function(String, int, double, String, int Function()) fn,
+    ) =>
+        GCRef.using(fn, (_fnHandle) =>
+            consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_Functions_exercise5(_fnHandle.ptr, _exn)))
+        )
+    ;
+
+    /// <!-- FishyJoes.export(exercise6) -->
+    static String exercise6(
+        int Function(String, int, double, String, int Function(), int) fn,
+    ) =>
+        GCRef.using(fn, (_fnHandle) =>
+            consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_Functions_exercise6(_fnHandle.ptr, _exn)))
+        )
+    ;
+
+    /// <!-- FishyJoes.export(willThrow) -->
+    static String willThrow(
+    ) =>
+        consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_Functions_willThrow(_exn)))
+    ;
+
+    static late CreatedRef Function(
+        OutCreatedRef _exn
+    ) f__iota_get_Functions_MakeList;
+    static late CreatedRef Function(
+        OutCreatedRef _exn
+    ) f__iota_Functions_willThrow;
+    static late CreatedRef Function(
+        OutCreatedRef _exn
+    ) f__iota_get_Functions_IntCompose;
+    static late CreatedRef Function(
+        OutCreatedRef _exn
+    ) f__iota_get_Functions_SixthThing;
+    static late CreatedRef Function(
+        UnownedRef fn,
+        OutCreatedRef _exn
+    ) f__iota_Functions_exercise4;
+    static late CreatedRef Function(
+        UnownedRef fn,
+        OutCreatedRef _exn
+    ) f__iota_Functions_exercise3;
+    static late CreatedRef Function(
+        UnownedRef fn,
+        OutCreatedRef _exn
+    ) f__iota_Functions_exercise6;
+    static late CreatedRef Function(
+        UnownedRef fn,
+        OutCreatedRef _exn
+    ) f__iota_Functions_exercise5;
+    static late CreatedRef Function(
+        UnownedRef fn,
+        OutCreatedRef _exn
+    ) f__iota_Functions_exercise2;
+    static late CreatedRef Function(
+        OutCreatedRef _exn
+    ) f__iota_get_Functions_Const42;
+    static late CreatedRef Function(
+        OutCreatedRef _exn
+    ) f__iota_get_Functions_Abs;
+    static late CreatedRef Function(
+        OutCreatedRef _exn
+    ) f__iota_get_Functions_Add3Things;
+    static late CreatedRef Function(
+        OutCreatedRef _exn
+    ) f__iota_get_Functions_FifthThing;
+    static late CreatedRef Function(
+        UnownedRef fn,
+        OutCreatedRef _exn
+    ) f__iota_Functions_exercise0;
+    static late CreatedRef Function(
+        UnownedRef fn,
+        OutCreatedRef _exn
+    ) f__iota_Functions_exercise1;
+}

@@ -6,7 +6,7 @@ struct Module: Hashable, CustomStringConvertible, Codable {
 
     var kotlinPackage: String { "com.cricut.\(name.lowercased())" }
     var cSharpNamespace: String { "Cricut.\(name)" }
-    var dartNamespace: String { snakify(name) }
+    var dartNamespace: String { name }
     var description: String { name }
 }
 

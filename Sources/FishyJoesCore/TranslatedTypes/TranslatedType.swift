@@ -133,9 +133,9 @@ extension JNIType {
     }
 }
 
-enum ForeignSetupParameter<T> {
-    case type(typeValue: String)
-    case value(name: String, type: T, valueWriter: (SourceFragment) -> Void)
+enum ForeignSetupParameter<Typ> {
+    case type(typeValue: Typ)
+    case value(name: String, type: Typ, valueWriter: (SourceFragment) -> Void)
 
     var name: String? {
         switch self {
@@ -146,7 +146,7 @@ enum ForeignSetupParameter<T> {
         }
     }
 
-    var type: T? {
+    var type: Typ? {
         switch self {
         case .type:
             return nil
@@ -164,7 +164,7 @@ enum ForeignSetupParameter<T> {
         }
     }
 
-    var typeValue: String? {
+    var typeValue: Typ? {
         switch self {
         case .type(let value):
             return value

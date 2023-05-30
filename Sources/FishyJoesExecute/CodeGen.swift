@@ -364,6 +364,11 @@ extension CodeGen {
                     try cmd("dotnet", "build", "Cricut.\(config.module).sln").run()
                 }
             }
+            if platforms.contains(.dartSystem) {
+                try withDirectory("dart") {
+                    try cmd("dart", "run", "build_runner", "build").run()
+                }
+            }
             if version == nil {
                 // use dummy version to build package
                 version = "0.0.1"

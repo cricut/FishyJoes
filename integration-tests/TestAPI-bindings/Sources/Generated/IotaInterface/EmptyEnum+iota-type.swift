@@ -11,10 +11,10 @@ public func TestAPI_EmptyEnum_setup(
 }
 
 extension EmptyEnum: IotaConverter {
-    public static func peekIota(_ value: csObject) throws -> Self {
+    public static func peekIota(_ value: foreignObject) throws -> Self {
         throw UninhabitedTypeCreationError(self)
     }
 
-    public static func toIota(_ value: Self) throws -> csObject {
+    public static func toIota(_ value: Self) throws -> foreignObject {
     }
 }

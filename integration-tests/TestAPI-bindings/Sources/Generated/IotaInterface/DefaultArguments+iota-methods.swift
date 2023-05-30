@@ -11,7 +11,7 @@ public func __iota_DefaultArguments_echoDefaults(
     y: OptionalConverter<Int>.CType,
     x: OptionalConverter<Int>.CType,
     z: Double.CType,
-    _exn: csOutExn
+    _exn: foreignOutExn
 ) -> Swift.String.CType {
     FishyJoesIotaRuntime.Env.catching(to: _exn) {
         return try Swift.String.toIota(
