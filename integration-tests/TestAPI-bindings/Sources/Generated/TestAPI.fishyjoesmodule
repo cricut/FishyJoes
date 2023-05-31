@@ -2317,6 +2317,33 @@
               },
               {
                 "documentation" : [
+                  "<!-- FishyJoes.export(asyncCallbackFunc1) -->"
+                ],
+                "isAsync" : true,
+                "isStatic" : true,
+                "name" : "asyncCallbackFunc1",
+                "parameters" : [
+                  {
+                    "name" : "callback",
+                    "type" : {
+                      "named" : {
+                        "_0" : "(_0: number) => Promise<number>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
                   "<!-- FishyJoes.export(asyncDoubleFunc) -->"
                 ],
                 "isAsync" : true,

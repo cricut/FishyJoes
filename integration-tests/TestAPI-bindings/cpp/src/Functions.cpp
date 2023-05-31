@@ -37,6 +37,9 @@ namespace TestAPI {
     void Functions::asyncVoidFunc() {
         FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Functions_asyncVoidFunc();
     }
+    int Functions::asyncCallbackFunc1(const std::function<int(int> &callback) {
+        return FishyJoesInternal::Packer::unpack<int>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Functions_asyncCallbackFunc1(FishyJoesInternal::Packer::pack(callback).ptr()));
+    }
     double Functions::asyncDoubleFunc(const double &d) {
         return FishyJoesInternal::Packer::unpack<double>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Functions_asyncDoubleFunc(FishyJoesInternal::Packer::pack(d).ptr()));
     }

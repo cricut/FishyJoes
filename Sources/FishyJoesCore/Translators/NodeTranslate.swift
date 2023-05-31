@@ -125,10 +125,9 @@ struct NodeTranslator: Translator {
             let hasNamedOptions = method.parameters.contains { $0.defaultValue != nil }
             let positionalArguments = method.parameters.filter { $0.defaultValue == nil }
             fragment.outputBlock("FishyJoesNodeRuntime.callbackBody(env, info, name: \"\(nodeName)\", expectedArgumentCount: \(argIndex + positionalArguments.count), hasNamedOptions: \(hasNamedOptions)) { env in", closeWith: "}") {
-                
                 if method.isAsync {
                     let callName = method.sourceKind == .initializer ? "" : ".\(method.callName)"
-                    
+
                     fragment.output("let (deferred, promise) = try env.env.createPromise()")
 
                     var argIndex = 0
@@ -137,10 +136,14 @@ struct NodeTranslator: Translator {
                     }
 
                     fragment.outputBlock("Task {") {
+                        if method.isMutating {
+                            fragment.output("var mutatingSelf = try \(selfExpression)")
+                            selfExpression = "mutatingSelf"
+                        }
                         fragment.outputBlock("do {", newLineTerminated: false) {
                             fragment.outputBlock("let taskResult: \(method.returnType.name) = try await \(selfExpression)\(callName)(") {
                                 var argIndex = 0
-                                fragment.outputMap(method.parameters, separator: ",") { formal in
+                                fragment.outputMap(method.parameters, separator: ",") { _ in
                                     defer { argIndex += 1 }
                                     return "arg\(argIndex).value"
                                 }
@@ -151,9 +154,14 @@ struct NodeTranslator: Translator {
                                     fragment.output("convertedTaskResult = try \(returnType.converterType.name).toNode(taskResult, env: env)")
                                 }
                                 fragment.outputBlock(" catch {") {
-                                    fragment.output("print(#line, error)")
+                                    if method.isMutating {
+                                        fragment.output("try Self.mutateNode(mutatingSelf, this: env.this(), env: env)")
+                                    }
                                     fragment.output("try env.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: env))")
                                     fragment.output("throw error")
+                                }
+                                if method.isMutating {
+                                    fragment.output("try Self.mutateNode(mutatingSelf, this: env.this(), env: env)")
                                 }
                                 fragment.outputBlock("try env.resolveDeferred(") {
                                     fragment.output("deferred,")
@@ -163,6 +171,9 @@ struct NodeTranslator: Translator {
                         }
                         fragment.outputBlock(" catch {") {
                             fragment.outputBlock("try onMainThread { env in", closeWith: "}") {
+                                if method.isMutating {
+                                    fragment.output("try Self.mutateNode(mutatingSelf, this: env.this(), env: env)")
+                                }
                                 fragment.output("try env.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: env))")
                             }
                         }
@@ -348,7 +359,19 @@ struct NodeTranslator: Translator {
                 omitParameters.remove(parameter.name)
                 continue
             }
-            let resolved = context.resolve(type: parameter.type, generics: exportAnnotation.genericOverrides)
+            
+            func makeAsyncIfNeeded(_ parameterType: BetterType) -> BetterType {
+                if case let .function(args, returnType, _) = parameterType {
+                    return .function(args, returnType, isAsync: true)
+                } else {
+                    return parameterType
+                }
+            }
+
+            var resolved = context.resolve(type: method.isAsync ? makeAsyncIfNeeded(parameter.type) : parameter.type, generics: exportAnnotation.genericOverrides)
+//            if method.isAsync, case .function = parameter.type {
+//                fatalErr("\(resolved.nodeType)")
+//            }
             var label: String?
             if let swiftLabel = parameter.label, swiftLabel != parameter.name {
                 label = swiftLabel

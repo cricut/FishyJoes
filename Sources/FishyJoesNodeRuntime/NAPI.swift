@@ -7,7 +7,7 @@ public enum NAPI {
     public typealias Ref = swift_napi_ref
     public typealias HandleScope = swift_napi_handle_scope
     public typealias CallbackInfo = swift_napi_callback_info
-    public typealias Deferred = swift_napi_callback_info
+    public typealias Deferred = swift_napi_deferred
 
     public typealias Finalize = napi_finalize
     public typealias CleanupHook = @convention(c) (UnsafeMutableRawPointer?) -> Void
@@ -27,11 +27,7 @@ extension NAPI.Env {
                 throw JSExceptionPending()
             }
             var err: UnsafePointer<napi_extended_error_info>?
-            if let s = .some(napi_get_last_error_info(ptr, &err)), s != napi_ok {
-               print("s:", s)
-            }
-            print("status:", status, status == napi_invalid_arg)
-            print("err:", err?.pointee as Any)
+            napi_get_last_error_info(ptr, &err)
             let message = err.flatMap(\.pointee.error_message).map(String.init(cString:)) ?? "unknown error"
 
             let errorStr = "\(file):\(line): n-api error: \(message)"

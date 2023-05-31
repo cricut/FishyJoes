@@ -287,6 +287,22 @@ namespace Cricut.TestAPI {
         );
 
         /// <summary>
+        /// <!-- FishyJoes.export(asyncCallbackFunc1) -->
+        /// </summary>
+        public static nint AsyncCallbackFunc1(
+            System.Func<nint, nint> callback
+        ) {
+            using var _callbackHandle = new GCRef(callback);
+            return Check((out CreatedRef _exn) => __cs_Functions_asyncCallbackFunc1(_callbackHandle.ptr, out _exn));
+        }
+
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern nint __cs_Functions_asyncCallbackFunc1(
+            UnownedRef callback,
+            out CreatedRef exn
+        );
+
+        /// <summary>
         /// <!-- FishyJoes.export(asyncDoubleFunc) -->
         /// </summary>
         public static double AsyncDoubleFunc(

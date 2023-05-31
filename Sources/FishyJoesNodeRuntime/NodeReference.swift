@@ -1,11 +1,9 @@
 import Foundation
 
 public final class NodeReference: @unchecked Sendable {
-    private var env: NAPI.Env
     private var ref: NAPI.Ref
 
     public init(env: NAPI.Env, value: NAPI.Value) throws {
-        self.env = env
         self.ref = try env.createReference(value, 1)
     }
 
@@ -21,9 +19,9 @@ public final class NodeReference: @unchecked Sendable {
         ref.ptr = nil
     }
 
-//    deinit {
-//        deallocate(env: env)
-//    }
+    deinit {
+//        precondition(ref.ptr == nil, "Node reference has not been deallocated before going out of scope")
+    }
 }
 
 extension NAPI.Env {

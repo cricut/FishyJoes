@@ -212,6 +212,20 @@ sealed class Functions {
         )
 
         /**
+         * <!-- FishyJoes.export(asyncCallbackFunc1) -->
+         */
+        fun asyncCallbackFunc1(
+            callback: ((Long) -> Long),
+            _asyncCallback: ((Long) -> kotlin.Unit)
+        ) = __jni_asyncCallbackFunc1(callback, _asyncCallback)
+        @JvmStatic
+        @JvmName("__jni_asyncCallbackFunc1")
+        private external fun __jni_asyncCallbackFunc1(
+            callback: ((Long) -> Long),
+            _asyncCallback: ((Long) -> kotlin.Unit)
+        )
+
+        /**
          * <!-- FishyJoes.export(asyncDoubleFunc) -->
          */
         fun asyncDoubleFunc(

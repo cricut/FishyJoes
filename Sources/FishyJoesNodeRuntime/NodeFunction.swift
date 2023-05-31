@@ -5,6 +5,46 @@ protocol AnyFunction {
     static var cInvoke: NAPI.Callback { get }
 }
 
+extension CheckedContinuation {
+    func bindTo<C>(promise: NAPI.Value, env: NAPI.Env, converter _: C.Type, contextName: String) throws where C: NodeConverter, C.SwiftType == T, E == any Error {
+        let continuationBox = Box<(NAPI.Value, NAPI.Env) -> Void> { value, env in
+            self.resume(
+                with: .init(catching:) {
+                    do {
+                        return try C.fromNode(value, env: env)
+                    } catch {
+                        _ = try? env.getAndClearLastException()
+                        throw error
+                    }
+                }
+            )
+        }
+        let thenFunction = try env.getNamedProperty(promise, "then")
+        let thenCallback = try env.createFunction(
+            contextName,
+            { env, info in
+                callbackBody(env, info, name: "CheckedContinuation.bind.CallbackBody", expectedArgumentCount: 1) { env in
+                    guard let data = try env.data() else {
+                        fatalError("TODO throw error")
+                    }
+                    let continuationBox = try Box<(NAPI.Value, NAPI.Env) -> Void>.takeRetainedOpaque(data)
+                    let value = try env.argument(at: 0)
+                    continuationBox.value(value, env.env)
+                    return nil
+                }
+            },
+            continuationBox.retainedOpaque()
+        )
+        _ = try env.callFunction(promise, thenFunction, [thenCallback])
+    }
+}
+
+private enum PromiseConverter<R>: Converter where R: NodeConverter {
+    static func fromNode(value promise: NAPI.Value, env: NAPI.Env, continuation: CheckedContinuation<R.SwiftType, Error>) throws {
+        
+    }
+}
+
 private struct AnyFunction0: AnyFunction {
     let invoke: (CallbackEnv) throws -> NAPI.Value?
 
@@ -16,16 +56,16 @@ private struct AnyFunction0: AnyFunction {
     }
 }
 
-private struct AnyAsyncFunction0: AnyFunction {
-    let invoke: (CallbackEnv) async throws -> NAPI.Value?
+ private struct AnyAsyncFunction0: AnyFunction {
+     let invoke: (CallbackEnv) async throws -> NAPI.Value?
 
-    static let cInvoke: NAPI.Callback = { env, info in
-        callbackBody(env, info, name: "<AsyncFunction0>", expectedArgumentCount: 0) { env in
-            try await Box<Self>.takeUnretainedOpaque(env.data()!).value
-                .invoke(env)
-        }
-    }
-}
+     static let cInvoke: NAPI.Callback = { env, info in
+         callbackBody(env, info, name: "<AsyncFunction0>", expectedArgumentCount: 0) { env in
+             try await Box<Self>.takeUnretainedOpaque(env.data()!).value
+                 .invoke(env)
+         }
+     }
+ }
 
 private struct AnyFunction1: AnyFunction {
     let invoke: (CallbackEnv, NAPI.Value) throws -> NAPI.Value
@@ -114,7 +154,7 @@ extension Function0Converter: NodeConverter where R: NodeConverter {
         }
     }
 
-    public static func toNode(_ value: @escaping SwiftType, env: NAPI.Env) throws -> NAPI.Value {
+    public static func toNode(_ value: @escaping SwiftType, env: NAPI.Env) throws 	-> NAPI.Value {
         try AnyFunction0 { env in
             return try R.toNode(value(), env: env.env)
         }.toNode(env: env)
@@ -125,10 +165,22 @@ extension AsyncFunction0Converter: NodeConverter where R: NodeConverter {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
         let escapingRef = try NodeReference(env: env, value: value)
         return {
-            try R.fromNode(nodeCall(escapingRef, [], env: env), env: env)
+            try await withCheckedThrowingContinuation { continuation in
+                do {
+                    try onMainThread { env in
+                        continuation.resume(
+                            with: .init(catching:) {
+                                try R.fromNode(nodeCall(escapingRef, [], env: env), env: env)
+                            }
+                        )
+                    }
+                } catch {
+                    continuation.resume(throwing: error)
+                }
+            }
         }
     }
-
+    
     public static func toNode(_ value: @escaping SwiftType, env: NAPI.Env) throws -> NAPI.Value {
         try AnyAsyncFunction0 { env in
             return try await R.toNode(value(), env: env.env)
@@ -152,6 +204,68 @@ extension Function1Converter: NodeConverter where R: NodeConverter, P0: NodeConv
             let v0 = try P0.fromNode(p0, env: env.env)
             return try R.toNode(value(v0), env: env.env)
         }.toNode(env: env)
+    }
+}
+
+extension AsyncFunction1Converter: NodeConverter where R: NodeConverter, P0: NodeConverter {
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
+        let escapingRef = try NodeReference(env: env, value: value)
+        return { p0 in
+            try await withCheckedThrowingContinuation { continuation in
+                do {
+                    try onMainThread { env in
+                        do {
+                            let args = try [
+                                P0.toNode(p0, env: env)
+                            ]
+                            let promise = try nodeCall(escapingRef, args, env: env)
+                            try continuation.bindTo(promise: promise, env: env, converter: R.self, contextName: "AsyncFunction1Converter")
+//                            let continuationBox = Box<(NAPI.Value, NAPI.Env) -> Void> { value, env in
+//                                continuation.resume(
+//                                    with: .init(catching:) {
+//                                        do {
+//                                            return try R.fromNode(value, env: env)
+//                                        } catch {
+//                                            _ = try? env.getAndClearLastException()
+//                                            throw error
+//                                        }
+//                                    }
+//                                )
+//                            }
+//                            let thenFunction = try env.getNamedProperty(promise, "then")
+//                            let thenCallback = try env.createFunction(
+//                                "AsyncFunction1ConverterThenCallback",
+//                                { env, info in
+//                                    callbackBody(env, info, name: "AsyncFunction1ConverterThenCallbackBody", expectedArgumentCount: 1) { env in
+//                                        guard let data = try env.data() else {
+//                                            fatalError("TODO throw error")
+//                                        }
+//                                        let continuationBox = try Box<(NAPI.Value, NAPI.Env) -> Void>.takeRetainedOpaque(data)
+//                                        let value = try env.argument(at: 0)
+//                                        continuationBox.value(value, env.env)
+//                                        return nil
+//                                    }
+//                                },
+//                                continuationBox.retainedOpaque()
+//                            )
+//                            _ = try env.callFunction(promise, thenFunction, [thenCallback])
+                        } catch {
+                            _ = try? env.getAndClearLastException()
+                            continuation.resume(throwing: error)
+                        }
+                    }
+                } catch {
+                    continuation.resume(throwing: error)
+                }
+            }
+        }
+    }
+    
+    public static func toNode(_ value: @escaping SwiftType, env: NAPI.Env) throws -> NAPI.Value {
+        fatalError()
+//        try AnyAsyncFunction0 { env in
+//            return try await R.toNode(value(), env: env.env)
+//        }.toNode(env: env)
     }
 }
 

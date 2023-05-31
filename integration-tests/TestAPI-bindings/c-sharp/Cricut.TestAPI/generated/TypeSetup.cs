@@ -417,6 +417,13 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
+            Once("setup_AsyncFunction1Converter<Int, Int>", () => {
+                Console.WriteLine("setting up (Int) async -> Int...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_AsyncFunction1Converter_setup<nint, nint>(
+                    "AsyncFunction1Converter<Int, Int>",
+                    out exn
+                ));
+            });
             Once("setup_Tuple2Converter<Int, Swift.String>", () => {
                 Console.WriteLine("setting up (Int, String)...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_Tuple2Converter_setup<nint, string>(

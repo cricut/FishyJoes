@@ -3,6 +3,7 @@ public protocol Converter {
     associatedtype SwiftType = Self
 }
 
+
 // Many concrete types can be their own converterse
 extension Bool: Converter {}
 extension Double: Converter {}
