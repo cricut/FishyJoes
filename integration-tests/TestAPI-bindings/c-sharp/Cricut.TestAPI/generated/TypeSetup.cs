@@ -389,6 +389,13 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
+            Once("setup_AsyncFunction0Converter<Int>", () => {
+                Console.WriteLine("setting up () async -> Int...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_AsyncFunction0Converter_setup<nint>(
+                    "AsyncFunction0Converter<Int>",
+                    out exn
+                ));
+            });
             Once("setup_Function1Converter<Double, VoidConverter>", () => {
                 Console.WriteLine("setting up (Double) -> Void...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_Function1Converter_setup<double>(
@@ -421,6 +428,41 @@ namespace Cricut.TestAPI {
                 Console.WriteLine("setting up (Int) async -> Int...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_AsyncFunction1Converter_setup<nint, nint>(
                     "AsyncFunction1Converter<Int, Int>",
+                    out exn
+                ));
+            });
+            Once("setup_AsyncFunction2Converter<Int, Int, Int>", () => {
+                Console.WriteLine("setting up (Int, Int) async -> Int...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_AsyncFunction2Converter_setup<nint, nint, nint>(
+                    "AsyncFunction2Converter<Int, Int, Int>",
+                    out exn
+                ));
+            });
+            Once("setup_AsyncFunction3Converter<Int, Int, Int, Int>", () => {
+                Console.WriteLine("setting up (Int, Int, Int) async -> Int...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_AsyncFunction3Converter_setup<nint, nint, nint, nint>(
+                    "AsyncFunction3Converter<Int, Int, Int, Int>",
+                    out exn
+                ));
+            });
+            Once("setup_AsyncFunction4Converter<Int, Int, Int, Int, Int>", () => {
+                Console.WriteLine("setting up (Int, Int, Int, Int) async -> Int...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_AsyncFunction4Converter_setup<nint, nint, nint, nint, nint>(
+                    "AsyncFunction4Converter<Int, Int, Int, Int, Int>",
+                    out exn
+                ));
+            });
+            Once("setup_AsyncFunction5Converter<Int, Int, Int, Int, Int, Int>", () => {
+                Console.WriteLine("setting up (Int, Int, Int, Int, Int) async -> Int...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_AsyncFunction5Converter_setup<nint, nint, nint, nint, nint, nint>(
+                    "AsyncFunction5Converter<Int, Int, Int, Int, Int, Int>",
+                    out exn
+                ));
+            });
+            Once("setup_AsyncFunction6Converter<Int, Int, Int, Int, Int, Int, Int>", () => {
+                Console.WriteLine("setting up (Int, Int, Int, Int, Int, Int) async -> Int...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_AsyncFunction6Converter_setup<nint, nint, nint, nint, nint, nint, nint>(
+                    "AsyncFunction6Converter<Int, Int, Int, Int, Int, Int, Int>",
                     out exn
                 ));
             });

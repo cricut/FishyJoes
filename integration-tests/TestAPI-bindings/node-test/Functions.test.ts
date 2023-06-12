@@ -43,19 +43,22 @@ test('AsyncVoidFunctionCall', async () => {
     const value: void = await TestAPI.Functions.asyncVoidFunc()
 })
 
-//test('AsyncCallbackFunctionCall0', async () => {
-//    let threw: boolean = false
-//    let value: number = 0
-//    try {
-//        await TestAPI.Functions.asyncCallbackFunc0(async () => {
-//            value = 42
-//        })
-//    } catch (e) {
-//        threw = true
-//    }
-//    expect(threw).toEqual(false)
-//    expect(value).toEqual(42)
-//})
+test('AsyncCallbackFunctionCall0', async () => {
+    let threw: boolean = false
+    let value: number = 0
+    let ran: boolean = false
+    try {
+        value = await TestAPI.Functions.asyncCallbackFunc0(async () => {
+            ran = true
+            return 42
+        })
+    } catch (e) {
+        threw = true
+    }
+    expect(threw).toEqual(false)
+    expect(value).toEqual(42)
+    expect(ran).toEqual(true)
+})
 
 test('AsyncCallbackFunctionCall1', async () => {
     let threw: boolean = false
@@ -75,104 +78,124 @@ test('AsyncCallbackFunctionCall1', async () => {
     expect(values).toEqual([1])
 })
 
-//test('AsyncCallbackFunctionCall2', async () => {
+test('AsyncCallbackFunctionCall2', async () => {
+    let threw: boolean = false
+    let value: number = 0
+    let values: number[] = []
+    try {
+        value = await TestAPI.Functions.asyncCallbackFunc2(async (a, b) => {
+            values.push(a)
+            values.push(b)
+            return a + b
+        })
+    } catch (e) {
+        threw = true
+    }
+    expect(threw).toEqual(false)
+    expect(value).toEqual(1 + 2)
+    expect(values).toEqual([1, 2])
+})
+
+test('AsyncCallbackFunctionCall3', async () => {
+    let threw: boolean = false
+    let value: number = 0
+    let values: number[] = []
+    try {
+        value = await TestAPI.Functions.asyncCallbackFunc3(async (a, b, c) => {
+            values.push(a)
+            values.push(b)
+            values.push(c)
+            return a + b + c
+        })
+    } catch (e) {
+        threw = true
+    }
+    expect(threw).toEqual(false)
+    expect(value).toEqual(1 + 2 + 3)
+    expect(values).toEqual([1, 2, 3])
+})
+
+test('AsyncCallbackFunctionCall4', async () => {
+    let threw: boolean = false
+    let value: number = 0
+    let values: number[] = []
+    try {
+        value = await TestAPI.Functions.asyncCallbackFunc4(async (a, b, c, d) => {
+            values.push(a)
+            values.push(b)
+            values.push(c)
+            values.push(d)
+            return a + b + c + d
+        })
+    } catch (e) {
+        threw = true
+    }
+    expect(threw).toEqual(false)
+    expect(value).toEqual(1 + 2 + 3 + 4)
+    expect(values).toEqual([1, 2, 3, 4])
+})
+
+test('AsyncCallbackFunctionCall5', async () => {
+    let threw: boolean = false
+    let value: number = 0
+    let values: number[] = []
+    try {
+        value = await TestAPI.Functions.asyncCallbackFunc5(async (a, b, c, d, e) => {
+            values.push(a)
+            values.push(b)
+            values.push(c)
+            values.push(d)
+            values.push(e)
+            return a + b + c + d + e
+        })
+    } catch (e) {
+        threw = true
+    }
+    expect(threw).toEqual(false)
+    expect(value).toEqual(1 + 2 + 3 + 4 + 5)
+    expect(values).toEqual([1, 2, 3, 4, 5])
+})
+
+test('AsyncCallbackFunctionCall6', async () => {
+    let threw: boolean = false
+    let value: number = 0
+    let values: number[] = []
+    try {
+        value = await TestAPI.Functions.asyncCallbackFunc6(async (a, b, c, d, e, f) => {
+            values.push(a)
+            values.push(b)
+            values.push(c)
+            values.push(d)
+            values.push(e)
+            values.push(f)
+            return a + b + c + d + e + f
+        })
+    } catch (e) {
+        threw = true
+    }
+    expect(threw).toEqual(false)
+    expect(value).toEqual(1 + 2 + 3 + 4 + 5 + 6)
+    expect(values).toEqual([1, 2, 3, 4, 5, 6])
+})
+
+//test('AsyncCallbackFunctionCallThrow', async () => {
 //    let threw: boolean = false
 //    let value: number = 0
-//    let values: number[] = []
+//    let ran: boolean = false
+//    let thrownValue: number = 0
 //    try {
-//        value = await TestAPI.Functions.asyncCallbackFunc2(async (a, b) => {
-//            values.push(a)
-//            values.push(b)
-//            return a + b
+//        value = await TestAPI.Functions.asyncCallbackFunc0(async () => {
+//            ran = true
+//            throw 42
 //        })
 //    } catch (e) {
 //        threw = true
+//        expect(() => { throw e }).toThrowError(/42/)
 //    }
 //    expect(threw).toEqual(false)
-//    expect(value).toEqual(1 + 2)
-//    expect(values).toEqual([1, 2])
-//})
-//
-//test('AsyncCallbackFunctionCall3', async () => {
-//    let threw: boolean = false
-//    let value: number = 0
-//    let values: number[] = []
-//    try {
-//        value = await TestAPI.Functions.asyncCallbackFunc3(async (a, b, c) => {
-//            values.push(a)
-//            values.push(b)
-//            values.push(c)
-//            return a + b + c
-//        })
-//    } catch (e) {
-//        threw = true
-//    }
-//    expect(threw).toEqual(false)
-//    expect(value).toEqual(1 + 2 + 3)
-//    expect(values).toEqual([1, 2, 3])
-//})
-//
-//test('AsyncCallbackFunctionCall4', async () => {
-//    let threw: boolean = false
-//    let value: number = 0
-//    let values: number[] = []
-//    try {
-//        value = await TestAPI.Functions.asyncCallbackFunc4(async (a, b, c, d) => {
-//            values.push(a)
-//            values.push(b)
-//            values.push(c)
-//            values.push(d)
-//            return a + b + c + d
-//        })
-//    } catch (e) {
-//        threw = true
-//    }
-//    expect(threw).toEqual(false)
-//    expect(value).toEqual(1 + 2 + 3 + 4)
-//    expect(values).toEqual([1, 2, 3, 4])
-//})
-//
-//test('AsyncCallbackFunctionCall5', async () => {
-//    let threw: boolean = false
-//    let value: number = 0
-//    let values: number[] = []
-//    try {
-//        value = await TestAPI.Functions.asyncCallbackFunc5(async (a, b, c, d, e) => {
-//            values.push(a)
-//            values.push(b)
-//            values.push(c)
-//            values.push(d)
-//            values.push(e)
-//            return a + b + c + d + e
-//        })
-//    } catch (e) {
-//        threw = true
-//    }
-//    expect(threw).toEqual(false)
-//    expect(value).toEqual(1 + 2 + 3 + 4 + 5)
-//    expect(values).toEqual([1, 2, 3, 4, 5])
-//})
-//
-//test('AsyncCallbackFunctionCall6', async () => {
-//    let threw: boolean = false
-//    let value: number = 0
-//    let values: number[] = []
-//    try {
-//        value = await TestAPI.Functions.asyncCallbackFunc6(async (a, b, c, d, e, f) => {
-//            values.push(a)
-//            values.push(b)
-//            values.push(c)
-//            values.push(d)
-//            values.push(e)
-//            values.push(f)
-//            return a + b + c + d + e + f
-//        })
-//    } catch (e) {
-//        threw = true
-//    }
-//    expect(threw).toEqual(false)
-//    expect(value).toEqual(1 + 2 + 3 + 4 + 5 + 6)
-//    expect(values).toEqual([1, 2, 3, 4, 5, 6])
+//    expect(value).toEqual(0)
+//    expect(ran).toEqual(true)
+////    expect(thrownValue).toEqual(42)
 //})
 
 test('AsyncDoubleFunctionCall', async () => {
