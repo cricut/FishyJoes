@@ -43,79 +43,88 @@ public struct AttributeContainerASDF {
 
 /// <!-- FishyJoes.exportReference(AttributedString) -->
 public struct AttributedStringASDF: CustomStringConvertible, Hashable {
+    /// <!-- FishyJoes.export(createEmpty) -->
+    public init() {}
+    /// <!-- FishyJoes.export(create) -->
+    public init(_ string: String, attributes: AttributeContainerASDF? = nil) {}
+    /// <!-- FishyJoes.export(createFromSubstring) -->
+    public init(_ substring: AttributedSubstringASDF) {}
+
     /// <!-- FishyJoes.export(startIndex) -->
     public var startIndex: Index { return .init() }
     /// <!-- FishyJoes.export(endIndex) -->
     public var endIndex: Index { return .init() }
 
+    /// <!-- FishyJoes.export(unicodeScalars) -->
     public var unicodeScalars: UnicodeScalarView { .init() }
+    /// <!-- FishyJoes.export(characters) -->
     public var characters: CharacterView { .init() }
+    /// <!-- FishyJoes.export(runs) -->
     public var runs: Runs { .init() }
 
+    // TODO: Static or dynamic attributes?
+//    public subscript<K>(_: K.Type) -> K.Value? where K : AttributedStringKey { get { nil } set {} }
+//    public attribute(_ name: String) -> Any {}
+
+    public subscript(_ range: Range<Index>) -> AttributedSubstringASDF { .init() }
+    /// <!-- FishyJoes.export(substringForRange) -->
+    public func substring(for range: Range<Index>) -> AttributedSubstringASDF { self[range] }
+    /// <!-- FishyJoes.export(substring) -->
+    public var substring: AttributedSubstringASDF { .init() }
+
+    /// <!-- FishyJoes.export(append) -->
+    public mutating func append(_ s: Self) {}
+    /// <!-- FishyJoes.export(insert) -->
+    public mutating func insert(_ s: Self, at index: Index) {}
+    /// <!-- FishyJoes.export(removeSubrange) -->
+    public mutating func removeSubrange(_ range: Range<Index>) {}
+    /// <!-- FishyJoes.export(replaceSubrange) -->
+    public mutating func replaceSubrange(_ range: Range<Index>, with s: Self) {}
+
+    /// <!-- FishyJoes.export(setAttributes) -->
     public mutating func setAttributes(_ attributes: AttributeContainerASDF) {}
+    /// <!-- FishyJoes.export(mergeAttributes) -->
     public mutating func mergeAttributes(_ attributes: AttributeContainerASDF, mergePolicy: AttributedStringASDF.AttributeMergePolicy) {}
+    /// <!-- FishyJoes.export(replaceAttributes) -->
     public mutating func replaceAttributes(_ attributes: AttributeContainerASDF, with others: AttributeContainerASDF) {}
 
-//    public subscript<K>(_: K.Type) -> K.Value? where K : AttributedStringKey { get { nil } set {} }
-//    public attributes(at index: Index) -> AttributeContainerASDF
+    public var description: String { "fake" }
+}
+
+public struct AttributedSubstringASDF: CustomStringConvertible, Hashable {
+    public init() {}
+
+    public typealias Index = AttributedStringASDF.Index
+
+    /// <!-- FishyJoes.export(base) -->
+    public var base: AttributedStringASDF { .init() }
+
+    /// <!-- FishyJoes.export(startIndex) -->
+    public var startIndex: Index { return .init() }
+    /// <!-- FishyJoes.export(endIndex) -->
+    public var endIndex: Index { return .init() }
+
+    /// <!-- FishyJoes.export(unicodeScalars) -->
+    public var unicodeScalars: AttributedStringASDF.UnicodeScalarView { .init() }
+    /// <!-- FishyJoes.export(characters) -->
+    public var characters: AttributedStringASDF.CharacterView { .init() }
+    /// <!-- FishyJoes.export(runs) -->
+    public var runs: AttributedStringASDF.Runs { .init() }
+
+    public subscript(_ range: Range<Index>) -> AttributedSubstringASDF { .init() }
+    /// <!-- FishyJoes.export(substringForRange) -->
+    public func substring(for range: Range<Index>) -> AttributedSubstringASDF { self[range] }
+    /// <!-- FishyJoes.export(substring) -->
+    public var substring: AttributedSubstringASDF { .init() }
+
+    /// <!-- FishyJoes.export(setAttributes) -->
+    public mutating func setAttributes(_ attributes: AttributeContainerASDF) {}
+    /// <!-- FishyJoes.export(mergeAttributes) -->
+    public mutating func mergeAttributes(_ attributes: AttributeContainerASDF, mergePolicy: AttributedStringASDF.AttributeMergePolicy) {}
+    /// <!-- FishyJoes.export(replaceAttributes) -->
+    public mutating func replaceAttributes(_ attributes: AttributeContainerASDF, with others: AttributeContainerASDF) {}
 
     public var description: String { "fake" }
-
-
-//    public subscript<K>(_: K.Type) -> K.Value? where K : AttributedStringKey
-//    public subscript<K>(dynamicMember keyPath: KeyPath<AttributeDynamicLookup, K>) -> K.Value? where K : AttributedStringKey
-//    public subscript<S>(dynamicMember keyPath: KeyPath<AttributeScopes, S.Type>) -> ScopedAttributeContainer<S> where S : AttributeScope
-//
-//    public mutating func setAttributes(_ attributes: AttributeContainer)
-//    public mutating func mergeAttributes(_ attributes: AttributeContainer, mergePolicy: AttributedString.AttributeMergePolicy = .keepNew)
-//    public mutating func replaceAttributes(_ attributes: AttributeContainer, with others: AttributeContainer)
-//
-//    public func transformingAttributes<K>(_ k: K.Type, _ c: (inout AttributedString.SingleAttributeTransformer<K>) -> Void) -> AttributedString where K : AttributedStringKey
-//    public func transformingAttributes<K1, K2>(_ k: K1.Type, _ k2: K2.Type, _ c: (inout AttributedString.SingleAttributeTransformer<K1>, inout AttributedString.SingleAttributeTransformer<K2>) -> Void) -> AttributedString where K1 : AttributedStringKey, K2 : AttributedStringKey
-//    public func transformingAttributes<K1, K2, K3>(_ k: K1.Type, _ k2: K2.Type, _ k3: K3.Type, _ c: (inout AttributedString.SingleAttributeTransformer<K1>, inout AttributedString.SingleAttributeTransformer<K2>, inout AttributedString.SingleAttributeTransformer<K3>) -> Void) -> AttributedString where K1 : AttributedStringKey, K2 : AttributedStringKey, K3 : AttributedStringKey
-//    public func transformingAttributes<K1, K2, K3, K4>(_ k: K1.Type, _ k2: K2.Type, _ k3: K3.Type, _ k4: K4.Type, _ c: (inout AttributedString.SingleAttributeTransformer<K1>, inout AttributedString.SingleAttributeTransformer<K2>, inout AttributedString.SingleAttributeTransformer<K3>, inout AttributedString.SingleAttributeTransformer<K4>) -> Void) -> AttributedString where K1 : AttributedStringKey, K2 : AttributedStringKey, K3 : AttributedStringKey, K4 : AttributedStringKey
-//    public func transformingAttributes<K1, K2, K3, K4, K5>(_ k: K1.Type, _ k2: K2.Type, _ k3: K3.Type, _ k4: K4.Type, _ k5: K5.Type, _ c: (inout AttributedString.SingleAttributeTransformer<K1>, inout AttributedString.SingleAttributeTransformer<K2>, inout AttributedString.SingleAttributeTransformer<K3>, inout AttributedString.SingleAttributeTransformer<K4>, inout AttributedString.SingleAttributeTransformer<K5>) -> Void) -> AttributedString where K1 : AttributedStringKey, K2 : AttributedStringKey, K3 : AttributedStringKey, K4 : AttributedStringKey, K5 : AttributedStringKey
-//    public func transformingAttributes<K>(_ k: KeyPath<AttributeDynamicLookup, K>, _ c: (inout AttributedString.SingleAttributeTransformer<K>) -> Void) -> AttributedString where K : AttributedStringKey
-//    public func transformingAttributes<K1, K2>(_ k: KeyPath<AttributeDynamicLookup, K1>, _ k2: KeyPath<AttributeDynamicLookup, K2>, _ c: (inout AttributedString.SingleAttributeTransformer<K1>, inout AttributedString.SingleAttributeTransformer<K2>) -> Void) -> AttributedString where K1 : AttributedStringKey, K2 : AttributedStringKey
-//    public func transformingAttributes<K1, K2, K3>(_ k: KeyPath<AttributeDynamicLookup, K1>, _ k2: KeyPath<AttributeDynamicLookup, K2>, _ k3: KeyPath<AttributeDynamicLookup, K3>, _ c: (inout AttributedString.SingleAttributeTransformer<K1>, inout AttributedString.SingleAttributeTransformer<K2>, inout AttributedString.SingleAttributeTransformer<K3>) -> Void) -> AttributedString where K1 : AttributedStringKey, K2 : AttributedStringKey, K3 : AttributedStringKey
-//    public func transformingAttributes<K1, K2, K3, K4>(_ k: KeyPath<AttributeDynamicLookup, K1>, _ k2: KeyPath<AttributeDynamicLookup, K2>, _ k3: KeyPath<AttributeDynamicLookup, K3>, _ k4: KeyPath<AttributeDynamicLookup, K4>, _ c: (inout AttributedString.SingleAttributeTransformer<K1>, inout AttributedString.SingleAttributeTransformer<K2>, inout AttributedString.SingleAttributeTransformer<K3>, inout AttributedString.SingleAttributeTransformer<K4>) -> Void) -> AttributedString where K1 : AttributedStringKey, K2 : AttributedStringKey, K3 : AttributedStringKey, K4 : AttributedStringKey
-//    public func transformingAttributes<K1, K2, K3, K4, K5>(_ k: KeyPath<AttributeDynamicLookup, K1>, _ k2: KeyPath<AttributeDynamicLookup, K2>, _ k3: KeyPath<AttributeDynamicLookup, K3>, _ k4: KeyPath<AttributeDynamicLookup, K4>, _ k5: KeyPath<AttributeDynamicLookup, K5>, _ c: (inout AttributedString.SingleAttributeTransformer<K1>, inout AttributedString.SingleAttributeTransformer<K2>, inout AttributedString.SingleAttributeTransformer<K3>, inout AttributedString.SingleAttributeTransformer<K4>, inout AttributedString.SingleAttributeTransformer<K5>) -> Void) -> AttributedString where K1 : AttributedStringKey, K2 : AttributedStringKey, K3 : AttributedStringKey, K4 : AttributedStringKey, K5 : AttributedStringKey
-//
-//    public struct Index : Comparable, Sendable {}
-//    public struct Runs : BidirectionalCollection, Equatable, CustomStringConvertible {}
-//    public struct CharacterView : BidirectionalCollection, RangeReplaceableCollection {}
-//    public struct UnicodeScalarView : RangeReplaceableCollection, BidirectionalCollection {}
-//
-//
-//    public var runs: AttributedString.Runs { get }
-//    public var characters: AttributedString.CharacterView
-//    public var unicodeScalars: AttributedString.UnicodeScalarView
-//
-//    public static func == (lhs: AttributedString, rhs: AttributedString) -> Bool
-//
-//    public init()
-//    public init(_ string: String, attributes: AttributeContainer = .init())
-//    public init(_ substring: Substring, attributes: AttributeContainer = .init())
-//    public init<S>(_ elements: S, attributes: AttributeContainer = .init()) where S : Sequence, S.Element == Character
-//    public init(_ substring: AttributedSubstring)
-//    public init<S, T>(_ other: T, including scope: KeyPath<AttributeScopes, S.Type>) where S : AttributeScope, T : AttributedStringProtocol
-//    public init<S, T>(_ other: T, including scope: S.Type) where S : AttributeScope, T : AttributedStringProtocol
-//
-//    public static func + <T>(lhs: AttributedString, rhs: T) -> AttributedString where T : AttributedStringProtocol
-//    public static func += <T>(lhs: inout AttributedString, rhs: T) where T : AttributedStringProtocol
-//    public static func + (lhs: AttributedString, rhs: AttributedString) -> AttributedString
-//    public static func += (lhs: inout AttributedString, rhs: AttributedString)
-//
-//    public subscript<R>(bounds: R) -> AttributedSubstring where R : RangeExpression, R.Bound == AttributedString.Index
-//
-//    public mutating func append<S>(_ s: S) where S : AttributedStringProtocol
-//    public mutating func insert<S>(_ s: S, at index: AttributedString.Index) where S : AttributedStringProtocol
-//    public mutating func removeSubrange<R>(_ range: R) where R : RangeExpression, R.Bound == AttributedString.Index
-//    public mutating func replaceSubrange<R, S>(_ range: R, with s: S) where R : RangeExpression, S : AttributedStringProtocol, R.Bound == AttributedString.Index
-//
-//    public var startIndex: AttributedString.Index { get }
-//    public var endIndex: AttributedString.Index { get }
-//    public var hashValue: Int { get }
 }
 
 extension AttributedStringASDF {
@@ -239,7 +248,6 @@ extension AttributedStringASDF {
         /// <!-- FishyJoes.export(elementAtPosition) -->
         public func element(at index: AttributedStringASDF.Index) -> Element { self[index] }
 
-        public static func == (lhs: Self, rhs: Self) -> Bool { false }
         public var description: String { "fake" }
     }
 }
