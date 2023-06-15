@@ -37,8 +37,21 @@ public struct AttributeScopeASDF {
 
 }
 
-public struct AttributeContainerASDF {
+/// <!-- FishyJoes.exportReference(AttributeContainer) -->
+public struct AttributeContainerASDF: Equatable, CustomStringConvertible {
+    /// <!-- FishyJoes.export(createEmpty) -->
+    public init() {}
 
+    // TODO: Static or dynamic attributes?
+//    public struct TextAttributes {
+//        // TODO: Things
+//        public var misc: [String: String]
+//    }
+//    public subscript<T>(_: T.Type) -> T.Value? where T : AttributedStringKey
+
+    public mutating func merge(_ other: Self, mergePolicy: AttributedStringASDF.AttributeMergePolicy? = nil) {}
+
+    public var description: String { "fake" }
 }
 
 /// <!-- FishyJoes.exportReference(AttributedString) -->
@@ -51,9 +64,9 @@ public struct AttributedStringASDF: CustomStringConvertible, Hashable {
     public init(_ substring: AttributedSubstringASDF) {}
 
     /// <!-- FishyJoes.export(startIndex) -->
-    public var startIndex: Index { return .init() }
+    public var startIndex: Index { .init() }
     /// <!-- FishyJoes.export(endIndex) -->
-    public var endIndex: Index { return .init() }
+    public var endIndex: Index { .init() }
 
     /// <!-- FishyJoes.export(unicodeScalars) -->
     public var unicodeScalars: UnicodeScalarView { .init() }
@@ -84,7 +97,7 @@ public struct AttributedStringASDF: CustomStringConvertible, Hashable {
     /// <!-- FishyJoes.export(setAttributes) -->
     public mutating func setAttributes(_ attributes: AttributeContainerASDF) {}
     /// <!-- FishyJoes.export(mergeAttributes) -->
-    public mutating func mergeAttributes(_ attributes: AttributeContainerASDF, mergePolicy: AttributedStringASDF.AttributeMergePolicy) {}
+    public mutating func mergeAttributes(_ attributes: AttributeContainerASDF, mergePolicy: AttributedStringASDF.AttributeMergePolicy? = nil) {}
     /// <!-- FishyJoes.export(replaceAttributes) -->
     public mutating func replaceAttributes(_ attributes: AttributeContainerASDF, with others: AttributeContainerASDF) {}
 
@@ -92,6 +105,7 @@ public struct AttributedStringASDF: CustomStringConvertible, Hashable {
 }
 
 public struct AttributedSubstringASDF: CustomStringConvertible, Hashable {
+    /// <!-- FishyJoes.export(createEmpty) -->
     public init() {}
 
     public typealias Index = AttributedStringASDF.Index
@@ -100,9 +114,9 @@ public struct AttributedSubstringASDF: CustomStringConvertible, Hashable {
     public var base: AttributedStringASDF { .init() }
 
     /// <!-- FishyJoes.export(startIndex) -->
-    public var startIndex: Index { return .init() }
+    public var startIndex: Index { .init() }
     /// <!-- FishyJoes.export(endIndex) -->
-    public var endIndex: Index { return .init() }
+    public var endIndex: Index { .init() }
 
     /// <!-- FishyJoes.export(unicodeScalars) -->
     public var unicodeScalars: AttributedStringASDF.UnicodeScalarView { .init() }
@@ -120,7 +134,7 @@ public struct AttributedSubstringASDF: CustomStringConvertible, Hashable {
     /// <!-- FishyJoes.export(setAttributes) -->
     public mutating func setAttributes(_ attributes: AttributeContainerASDF) {}
     /// <!-- FishyJoes.export(mergeAttributes) -->
-    public mutating func mergeAttributes(_ attributes: AttributeContainerASDF, mergePolicy: AttributedStringASDF.AttributeMergePolicy) {}
+    public mutating func mergeAttributes(_ attributes: AttributeContainerASDF, mergePolicy: AttributedStringASDF.AttributeMergePolicy? = nil) {}
     /// <!-- FishyJoes.export(replaceAttributes) -->
     public mutating func replaceAttributes(_ attributes: AttributeContainerASDF, with others: AttributeContainerASDF) {}
 
@@ -154,17 +168,17 @@ extension AttributedStringASDF {
         public typealias Index = AttributedStringASDF.Index
 
         /// <!-- FishyJoes.export(startIndex) -->
-        public var startIndex: Index { return .init() }
+        public var startIndex: Index { .init() }
         /// <!-- FishyJoes.export(endIndex) -->
-        public var endIndex: Index { return .init() }
+        public var endIndex: Index { .init() }
         /// <!-- FishyJoes.export(indexBefore) -->
-        public func index(before i: Index) -> Index { return .init() }
+        public func index(before i: Index) -> Index { .init() }
         /// <!-- FishyJoes.export(indexAfter) -->
-        public func index(after i: Index) -> Index { return .init() }
+        public func index(after i: Index) -> Index { .init() }
         /// <!-- FishyJoes.export(indexOffsetByDistance) -->
-        public func index(_ i: Index, offsetBy distance: Int) -> Index { return .init() }
+        public func index(_ i: Index, offsetBy distance: Int) -> Index { .init() }
 
-        public subscript(index: Index) -> Element { return "A" }
+        public subscript(index: Index) -> Element { "A" }
         /// <!-- FishyJoes.export(elementAt) -->
         public func element(at index: Index) -> Element { self[index] }
 
@@ -174,7 +188,7 @@ extension AttributedStringASDF {
 }
 
 extension AttributedStringASDF {
-    /// <!-- FishyJoes.export(AttributedString.CharacterView) -->
+    /// <!-- FishyJoes.exportReference(AttributedString.CharacterView) -->
     public struct CharacterView: BidirectionalCollection, RangeReplaceableCollection {
         public init() {}
 
@@ -185,13 +199,13 @@ extension AttributedStringASDF {
         public typealias Index = AttributedStringASDF.Index
 
         /// <!-- FishyJoes.export(startIndex) -->
-        public var startIndex: Index { return .init() }
+        public var startIndex: Index { .init() }
         /// <!-- FishyJoes.export(endIndex) -->
-        public var endIndex: Index { return .init() }
+        public var endIndex: Index { .init() }
         /// <!-- FishyJoes.export(indexBefore) -->
-        public func index(before i: Index) -> Index { return .init() }
+        public func index(before i: Index) -> Index { .init() }
         /// <!-- FishyJoes.export(indexAfter) -->
-        public func index(after i: Index) -> Index { return .init() }
+        public func index(after i: Index) -> Index { .init() }
 
         public subscript(index: Index) -> Character { "A" }
         /// <!-- FishyJoes.export(elementAt) -->
@@ -203,11 +217,11 @@ extension AttributedStringASDF {
 }
 
 extension AttributedStringASDF {
-    /// <!-- FishyJoes.export(AttributedString.Runs) -->
+    /// <!-- FishyJoes.exportReference(AttributedString.Runs) -->
     public struct Runs: BidirectionalCollection, Equatable, CustomStringConvertible {
         public init() {}
 
-        /// <!-- FishyJoes.export(AttributedString.Runs.Index) -->
+        /// <!-- FishyJoes.exportReference(AttributedString.Runs.Index) -->
         public struct Index: Comparable, Strideable, Sendable {
             public static func < (lhs: Self, rhs: Self) -> Bool { false }
             public func distance(to other: Self) -> Int { 0 }
@@ -215,7 +229,7 @@ extension AttributedStringASDF {
             public typealias Stride = Int
         }
 
-        /// <!-- FishyJoes.export(AttributedString.Runs.Run) -->
+        /// <!-- FishyJoes.exportReference(AttributedString.Runs.Run) -->
         public struct Run: Equatable, CustomStringConvertible {
             /// <!-- FishyJoes.export(range) -->
             public var range: Range<AttributedStringASDF.Index> { AttributedStringASDF.Index()..<AttributedStringASDF.Index() }
@@ -224,21 +238,18 @@ extension AttributedStringASDF {
 
 //            public subscript<K>(_: K.Type) -> K.Value? where K : AttributedStringKey { get }
 
-            public static func == (lhs: Self, rhs: Self) -> Bool { false }
             public var description: String { "fake" }
         }
-
-        /// <!-- FishyJoes.exportReference(AttributedString.Runs.Element) -->
         public typealias Element = Run
 
         /// <!-- FishyJoes.export(startIndex) -->
-        public var startIndex: Index { return .init() }
+        public var startIndex: Index { .init() }
         /// <!-- FishyJoes.export(endIndex) -->
-        public var endIndex: Index { return .init() }
+        public var endIndex: Index { .init() }
         /// <!-- FishyJoes.export(indexBefore) -->
-        public func index(before i: Index) -> Index { return .init() }
+        public func index(before i: Index) -> Index { .init() }
         /// <!-- FishyJoes.export(indexAfter) -->
-        public func index(after i: Index) -> Index { return .init() }
+        public func index(after i: Index) -> Index { .init() }
 
         public subscript(position: Index) -> Run { .init() }
         /// <!-- FishyJoes.export(elementAt) -->
