@@ -97,20 +97,20 @@ class SimpleEnum with _$SimpleEnum {
     int get hex =>
         GCRef.using(this, (_thisHandle) =>
             check((exn) =>
-                f__iota_get_SimpleEnum_Hex(_thisHandle.ptr, exn)
+                f__iota_get_SimpleEnum_hex(_thisHandle.ptr, exn)
             )
         )
     ;
     /// <!-- FishyJoes.export(favoriteColor) -->
     static TestAPI.SimpleEnum get favoriteColor =>
         check((exn) =>
-            consumeCreatedRef<TestAPI.SimpleEnum>(f__iota_get_SimpleEnum_FavoriteColor(exn))
+            consumeCreatedRef<TestAPI.SimpleEnum>(f__iota_get_SimpleEnum_favoriteColor(exn))
         )
     ;
     static void set favoriteColor(TestAPI.SimpleEnum value) {
         GCRef.using(value, (_valueHandle) =>
             check((exn) =>
-                f__iota_set_SimpleEnum_FavoriteColor(_valueHandle.ptr, exn)
+                f__iota_set_SimpleEnum_favoriteColor(_valueHandle.ptr, exn)
             )
         )
         ;
@@ -136,6 +136,17 @@ class SimpleEnum with _$SimpleEnum {
         check((OutCreatedRef _exn) => f__iota_SimpleEnum_resetFavoriteColor(_exn))
     ;
 
+    static late void Function(
+        UnownedRef favoriteColor,
+        OutCreatedRef _exn
+    ) f__iota_set_SimpleEnum_favoriteColor;
+    static late CreatedRef Function(
+        int rawValue,
+        OutCreatedRef _exn
+    ) f__iota_SimpleEnum_pickAColor;
+    static late CreatedRef Function(
+        OutCreatedRef _exn
+    ) f__iota_get_SimpleEnum_favoriteColor;
     static late CreatedRef Function(
         UnownedRef _this,
         OutCreatedRef _exn
@@ -143,19 +154,8 @@ class SimpleEnum with _$SimpleEnum {
     static late void Function(
         OutCreatedRef _exn
     ) f__iota_SimpleEnum_resetFavoriteColor;
-    static late CreatedRef Function(
-        OutCreatedRef _exn
-    ) f__iota_get_SimpleEnum_FavoriteColor;
-    static late CreatedRef Function(
-        int rawValue,
-        OutCreatedRef _exn
-    ) f__iota_SimpleEnum_pickAColor;
-    static late void Function(
-        UnownedRef favoriteColor,
-        OutCreatedRef _exn
-    ) f__iota_set_SimpleEnum_FavoriteColor;
     static late int Function(
         UnownedRef _this,
         OutCreatedRef _exn
-    ) f__iota_get_SimpleEnum_Hex;
+    ) f__iota_get_SimpleEnum_hex;
 }

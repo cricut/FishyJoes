@@ -5,7 +5,6 @@ struct TranslatedUnsignedPrimitive: TranslatedType {
     let cName: String
     let nodeName: String
     let kotlinName: String
-    let cppName: String
     let neutralName: String
     let containedNamedTypes: [TranslatedType]
     let kotlinPackage: String?
@@ -42,7 +41,6 @@ struct TranslatedUnsignedPrimitive: TranslatedType {
         self.cName = cName
         self.nodeName = nodeName
         self.kotlinName = "U" + jniType.valueType
-        self.cppName = cName
         self.neutralName = "UnsignedPrimitive<\(cName)>"
         self.containedNamedTypes = []
         self.kotlinPackage = nil

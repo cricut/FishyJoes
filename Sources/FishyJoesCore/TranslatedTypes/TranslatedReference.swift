@@ -4,7 +4,6 @@ struct TranslatedReference: TranslatedType {
     let sourceType: BetterType
     let nodeName: String
     let kotlinName: String
-    let cppName: String
     let neutralName: String
     var containedNamedTypes: [TranslatedType] { [self] }
     let kotlinPackage: String?
@@ -28,7 +27,6 @@ struct TranslatedReference: TranslatedType {
 
         self.sourceType = BetterType(named: type)
         self.nodeName = typeName
-        self.cppName = typeName.replacingOccurrences(of: ".", with: "::")
         self.neutralName = "Reference<To=\(typeName)>"
         self.kotlinName = typeName
         self.kotlinPackage = context.module.kotlinPackage
@@ -50,42 +48,8 @@ struct TranslatedReference: TranslatedType {
             nodeDefinitionFragment(in: context),
             jniDefinitionFragment(in: context),
             iotaDefinitionFragment(in: context),
-            // cppDefinitionFragment(in: context),
+            dartDefinitionFragment(in: context),
         ] + neutralDefinitionFragments(in: context)
-    }
-
-    func cppDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
-        let fragment = SourceFragment(sourceryDestination: "file:CPPInterface/\(sourceType.name).swift")
-        var newMethods: [CPPClass.CPPMethod] = []
-        newMethods.append(contentsOf: methods.map { context.cppTranslator.translateToHeaderFragment(method: $0, in: context) })
-        for variable in computedVariables {
-            let accessors = context.cppTranslator.translateToHeaderFragment(variable: variable, in: context)
-            newMethods.append(accessors.getter)
-            if let setter = accessors.setter {
-                newMethods.append(setter)
-            }
-        }
-        let refField = CPPClass.CPPField(
-            documentation: [
-                "Reference to Swift-managed data"
-            ],
-            isStatic: false,
-            isPrivate: true,
-            name: "_ref",
-            type: .swiftRef(hashable: hashable && equatable),
-            initializer: nil
-        )
-        let newClass = CPPClass(
-            module: context.module,
-            documentation: documentation,
-            name: sourceType.name,
-            methods: newMethods,
-            fields: [refField],
-            serializedFields: [refField],
-            completeConstructorVisible: false
-        )
-        context.add(cppClass: newClass)
-        return fragment
     }
 
     func neutralDefinitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
@@ -396,7 +360,7 @@ struct TranslatedReference: TranslatedType {
                     fragment.output("// Uninhabited type")
                 } else {
                     fragment.output("let ptr = Box(value).retainedOpaque()")
-                    fragment.output("return try Env.check { env in _constructorMethod(ptr, env) }")
+                    fragment.output("return try Env.check { exn in _constructorMethod(ptr, exn) }")
                 }
             }
             fragment.blankLine()
@@ -451,6 +415,153 @@ struct TranslatedReference: TranslatedType {
                             "using var thisHandle = new GCRef(this);",
                             "using var otherHandle = new GCRef(other as \(cSharpType.name));",
                             "return Check((out CreatedRef exn) => __iota_\(sourceType.name.mangled)_equals(thisHandle.ptr, otherHandle.ptr, out exn));",
+                        ]
+                    )
+                )
+            )
+            fieldsAndMethods.append(
+                .method(
+                    CSharpClass.Method(
+                        documentation: [],
+                        isStatic: true,
+                        isOverride: false,
+                        name: "_equals",
+                        mangledName: "\(sourceType.name.mangled)_equals",
+                        parameters: [
+                            (labelComment: nil, name: "lhs", type: cSharpType, nil),
+                            (labelComment: nil, name: "rhs", type: .optional(cSharpType), nil),
+                        ],
+                        returnType: .primitive("bool"),
+                        deprecation: nil,
+                        body: nil
+                    )
+                )
+            )
+        }
+        if hashable {
+            fieldsAndMethods.append(
+                .method(
+                    CSharpClass.Method(
+                        documentation: [],
+                        isStatic: false,
+                        isOverride: true,
+                        name: "GetHashCode",
+                        mangledName: "\(sourceType.name.mangled)_hash",
+                        parameters: [],
+                        returnType: .primitive("int"),
+                        deprecation: nil,
+                        body: nil
+                    )
+                )
+            )
+        }
+
+        let product = CSharpProductClass(
+            module: context.module,
+            documentation: documentation,
+            name: cSharpType.name,
+            constructor: .reference,
+            fieldsAndMethods: fieldsAndMethods
+        )
+        context.add(cSharpClass: product)
+
+        return fragment
+    }
+
+    func dartDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
+        let fragment = context.swiftFragment(
+            "DartInterface/\(sourceType.name)+dart-type.swift",
+            additionalImports: ["Foundation", "FishyJoesDartRuntime"]
+        )
+
+        fragment.output("@_cdecl(\"\(dartSetupName)\")")
+        fragment.outputBlock("public func \(dartSetupName)(", newLineTerminated: false) {
+            fragment.output("envRef: EnvRef,")
+            fragment.output("constructorMethod: @escaping @convention(c) (UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject,")
+            fragment.output("_ exn: foreignOutExn")
+        }
+        fragment.outputBlock(" {") {
+            fragment.output("let env = Env(envRef)")
+            fragment.output("if \(converterType.name)._constructorMethod.isInitialized(env) { return }")
+            fragment.output("\(converterType.name)._constructorMethod[env] = constructorMethod")
+        }
+        fragment.blankLine()
+
+        fragment.outputBlock("extension \(converterType.name): DartMutator {") {
+            fragment.output("fileprivate static var _constructorMethod = Env.CallbackMap<(UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject>()")
+            fragment.blankLine()
+
+            fragment.outputBlock("public static func peekDart(_ value: foreignObject, env: Env) throws -> \(sourceType.name) {") {
+                fragment.output("try Box<\(sourceType.name)>.peekDart(value, env: env).value")
+            }
+            fragment.blankLine()
+
+            fragment.outputBlock("public static func toDart(_ value: \(sourceType.name), env: Env) throws -> foreignObject {") {
+                if !isInhabited {
+                    fragment.output("// Uninhabited type")
+                } else {
+                    fragment.output("let ptr = Box(value).retainedOpaque()")
+                    fragment.output("return try env.check { exn in _constructorMethod[env](ptr, exn) }")
+                }
+            }
+            fragment.blankLine()
+
+            fragment.outputBlock("public static func mutateDart<R>(_ this: foreignObject, env: Env, body: (inout \(sourceType.name)) throws -> R) throws -> R {") {
+                fragment.output("try body(&Box<\(sourceType.name)>.peekDart(this, env: env).value)")
+            }
+        }
+
+        if equatable != hashable {
+            fatalErr("Type \(sourceType.name) must implement either none or both of Equatable and Hashable")
+        }
+
+        if equatable {
+            fragment.output("@_cdecl(\"__dart_\(sourceType.name.mangled)_equals\")")
+            fragment.outputBlock("public func \(sourceType.name.mangled)_dartEquals(envRef: EnvRef, lhs: foreignObject, rhs: foreignObject, exn: foreignOutExn) -> Bool.CType {") {
+                fragment.output("let env = Env(envRef)")
+                fragment.outputBlock("return env.catching(to: exn) {") {
+                    fragment.outputBlock("try Bool.toDart(") {
+                        fragment.output("\(sourceType.name).peekDart(lhs, env: env) == \(sourceType.name).peekDart(rhs, env: env),")
+                        fragment.output("env: env")
+                    }
+                }
+            }
+        }
+        if hashable {
+            fragment.output("@_cdecl(\"__dart_\(sourceType.name.mangled)_hash\")")
+            fragment.outputBlock("public func \(sourceType.name.mangled)_dartHash(envRef: EnvRef, this: foreignObject, exn: foreignOutExn) -> Int32.CType {") {
+                fragment.output("let env = Env(envRef)")
+                fragment.outputBlock("return env.catching(to: exn) {") {
+                    fragment.outputBlock("try Int32.toDart(") {
+                        fragment.output("Int32(truncatingIfNeeded: \(sourceType.name).peekDart(this, env: env).hashValue),")
+                        fragment.output("env: env")
+                    }
+                }
+            }
+        }
+
+        var fieldsAndMethods =
+            computedVariables.compactMap { context.cSharp(field: $0, of: self, useNativeName: false) } +
+            methods.compactMap { context.cSharp(method: $0, of: self) }
+
+        if equatable {
+            fieldsAndMethods.append(
+                .method(
+                    CSharpClass.Method(
+                        documentation: [],
+                        isStatic: false,
+                        isOverride: true,
+                        name: "Equals",
+                        mangledName: "",
+                        parameters: [
+                            (labelComment: nil, name: "other", type: .optional(.named(package: nil, name: "object")), defaultValue: nil),
+                        ],
+                        returnType: .primitive("bool"),
+                        deprecation: nil,
+                        body: [
+                            "using var thisHandle = new GCRef(this);",
+                            "using var otherHandle = new GCRef(other as \(cSharpType.name));",
+                            "return Check((out CreatedRef exn) => __dart_\(sourceType.name.mangled)_equals(thisHandle.ptr, otherHandle.ptr, out exn));",
                         ]
                     )
                 )

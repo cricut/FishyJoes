@@ -141,14 +141,14 @@ class AssociatedDataEnum with _$AssociatedDataEnum {
     /// <!-- FishyJoes.export(staticThing) -->
     static TestAPI.AssociatedDataEnum get staticThing =>
         check((exn) =>
-            consumeCreatedRef<TestAPI.AssociatedDataEnum>(f__iota_get_AssociatedDataEnum_StaticThing(exn))
+            consumeCreatedRef<TestAPI.AssociatedDataEnum>(f__iota_get_AssociatedDataEnum_staticThing(exn))
         )
     ;
     /// <!-- FishyJoes.export(intValue) -->
     int get intValue =>
         GCRef.using(this, (_thisHandle) =>
             check((exn) =>
-                f__iota_get_AssociatedDataEnum_IntValue(_thisHandle.ptr, exn)
+                f__iota_get_AssociatedDataEnum_intValue(_thisHandle.ptr, exn)
             )
         )
     ;
@@ -163,16 +163,16 @@ class AssociatedDataEnum with _$AssociatedDataEnum {
         )
     ;
 
-    static late int Function(
-        UnownedRef _this,
-        OutCreatedRef _exn
-    ) f__iota_get_AssociatedDataEnum_IntValue;
-    static late CreatedRef Function(
-        OutCreatedRef _exn
-    ) f__iota_get_AssociatedDataEnum_StaticThing;
     static late CreatedRef Function(
         UnownedRef _this,
         UnownedRef other,
         OutCreatedRef _exn
     ) f__iota_AssociatedDataEnum_plus;
+    static late int Function(
+        UnownedRef _this,
+        OutCreatedRef _exn
+    ) f__iota_get_AssociatedDataEnum_intValue;
+    static late CreatedRef Function(
+        OutCreatedRef _exn
+    ) f__iota_get_AssociatedDataEnum_staticThing;
 }

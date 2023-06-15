@@ -176,7 +176,7 @@ final class IotaTranslator: Translator {
         return [fragment]
     }
 
-    func setupFragments(context: FishyJoesContext, generatedTypes: Set<BetterType>) -> [SourceFragment] {
+    func setupFragments(context: FishyJoesContext, generatedTypes: [BetterType]) -> [SourceFragment] {
         let swiftSetupFragment = context.swiftFragment(
             "IotaInterface/TypeSetup.swift",
             additionalImports: ["Foundation", "FishyJoesIotaRuntime"]

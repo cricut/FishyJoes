@@ -16,7 +16,6 @@ struct TranslatedTuple: TranslatedType {
 
     let sourceType: BetterType
     var nodeName: String { "[\(elements.lazy.map(\.type.nodeName).joined(separator: ", "))]" }
-    var cppName: String { "std::tuple<\(elements.lazy.map(\.type.cppName).joined(separator: ", "))>" }
     var neutralName: String { "Tuple<Types=[\(elements.lazy.map(\.type.neutralName).joined(separator: ", "))]>" }
     var containedNamedTypes: [TranslatedType] { Array(elements.lazy.map(\.type.containedNamedTypes).joined()) }
     var kotlinName: String {

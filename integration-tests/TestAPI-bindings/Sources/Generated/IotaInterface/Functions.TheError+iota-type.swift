@@ -23,7 +23,7 @@ extension Functions.TheError: IotaMutator {
 
     public static func toIota(_ value: Functions.TheError) throws -> foreignObject {
         let ptr = Box(value).retainedOpaque()
-        return try Env.check { env in _constructorMethod(ptr, env) }
+        return try Env.check { exn in _constructorMethod(ptr, exn) }
     }
 
     public static func mutateIota<R>(_ this: foreignObject, body: (inout Functions.TheError) throws -> R) throws -> R {

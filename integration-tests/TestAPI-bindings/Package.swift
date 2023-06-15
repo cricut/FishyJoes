@@ -25,11 +25,15 @@ let package = Package(
                 type: .dynamic,
                 targets: ["TestAPI_JavaInterface"]
             ),
-            // The "iota" interface is currently shared between c-sharp and dart
             .library(
                 name: "TestAPI-iota",
                 type: .dynamic,
                 targets: ["TestAPI_IotaInterface"]
+            ),
+            .library(
+                name: "TestAPI-dart",
+                type: .dynamic,
+                targets: ["TestAPI_DartInterface"]
             ),
         ]
     ),
@@ -73,6 +77,14 @@ let package = Package(
                     .product(name: "FishyJoesIotaRuntime", package: "FishyJoes"),
                 ],
                 path: "Sources/Generated/IotaInterface"
+            ),
+            .target(
+                name: "TestAPI_DartInterface",
+                dependencies: [
+                    .product(name: "TestAPI", package: "TestAPI"),
+                    .product(name: "FishyJoesDartRuntime", package: "FishyJoes"),
+                ],
+                path: "Sources/Generated/DartInterface"
             ),
         ]
     )

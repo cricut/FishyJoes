@@ -12,9 +12,6 @@ public struct CodeGen: ParsableCommand {
     @Flag(name: .long, inversion: .prefixedNo, help: "Generate a Web-assembly based node package")
     var wasm = false
 
-    @Flag(name: .long, inversion: .prefixedNo, help: "Generate a C++ package")
-    var cpp = false
-
     @Flag(name: .long, inversion: .prefixedNo, help: "Generate a Kotlin package")
     var kotlin = false
 
@@ -61,7 +58,6 @@ public struct CodeGen: ParsableCommand {
         case quiet
         case nodejs
         case wasm
-        case cpp
         case kotlin
         case kotlinFast
         case cSharp
@@ -94,9 +90,6 @@ extension CodeGen {
         }
         if nodejs {
             platforms.append(.node)
-        }
-        if cpp {
-            platforms.append(.cpp)
         }
         if kotlin || kotlinFast {
             platforms.append(.kotlinSystem)
@@ -150,20 +143,19 @@ extension CodeGen {
             }
 
             // MARK: Generate code
-            try cmd("rm", "-rf", "Sources/Generated", "kotlin/src/generated", "DebugGenerated", "cpp").run()
             try cmd("mkdir", "-p",
                     "Sources/Generated/IotaInterface",
+                    "Sources/Generated/DartInterface",
                     "Sources/Generated/NodeInterface",
                     "Sources/Generated/JavaInterface",
-                    "Sources/Generated/CPPInterface",
                     "kotlin/src/generated/kotlin/com/cricut/\(config.module.lowercased())"
             ).run()
             try cmd(
                 "touch",
                 "Sources/Generated/IotaInterface/EmptyPlaceholder.swift",
+                "Sources/Generated/DartInterface/EmptyPlaceholder.swift",
                 "Sources/Generated/NodeInterface/EmptyPlaceholder.swift",
-                "Sources/Generated/JavaInterface/EmptyPlaceholder.swift",
-                "Sources/Generated/CPPInterface/EmptyPlaceholder.swift"
+                "Sources/Generated/JavaInterface/EmptyPlaceholder.swift"
             ).run()
             try cmd("swift", "build", "--product", "sourcery").run()
             try cmd("swift", arguments: ["build"] + (codeCoveragePath == nil ? [] : ["--enable-code-coverage"]) + ["--product", "🐟☕️"]).run()
@@ -216,10 +208,10 @@ extension CodeGen {
                     try platform.swiftBuild("--product", "\(config.module)-node", configuration: configuration)
                 case .kotlinSystem, .kotlinAndroid:
                     try platform.swiftBuild("--product", "\(config.module)-java", configuration: configuration)
-                case .cpp:
-                    try platform.swiftBuild("--product", "\(config.module)-cpp", configuration: configuration)
-                case .cSharp, .dartSystem:
+                case .cSharp:
                     try platform.swiftBuild("--product", "\(config.module)-iota", configuration: configuration)
+                case .dartSystem:
+                    try platform.swiftBuild("--product", "\(config.module)-dart", configuration: configuration)
                 }
             }
 
@@ -334,8 +326,6 @@ extension CodeGen {
                     try cmd("mkdir", "-p", outputDir).run()
                     try cmd("cp", platform.dylibPath(for: config.module, configuration: configuration), outputDir).run()
                     try cmd("cp", platform.dylibPath(for: config.module + "-java", configuration: configuration), outputDir).run()
-                case .cpp:
-                    try cmd("mkdir", "-p", outputDir).run()
                 case .cSharp:
                     try cmd("mkdir", "-p", outputDir).run()
                     try cmd("cp", platform.dylibPath(for: config.module, configuration: configuration), outputDir).run()
@@ -343,9 +333,9 @@ extension CodeGen {
                 case .dartSystem:
                     try cmd("mkdir", "-p", outputDir).run()
                     let libs = [
-                        "FishyJoesIotaRuntime",
+                        "FishyJoesDartRuntime",
                         config.module,
-                        config.module + "-iota",
+                        config.module + "-dart",
                     ]
                     for lib in libs {
                         let libPath = platform.dylibPath(for: lib, configuration: configuration)
@@ -402,7 +392,7 @@ extension CodeGen {
                         .append(toFile: packageJsonPath)
                         .run()
                 }
-            case .kotlinSystem, .kotlinAndroid, .cpp, .cSharp, .dartSystem:
+            case .kotlinSystem, .kotlinAndroid, .cSharp, .dartSystem:
                 break
             }
         }
@@ -428,7 +418,7 @@ extension CodeGen {
                         let tasks = ["cleanTest", "test"] + (codeCoveragePath == nil ? [] : ["jacocoTestReport"])
                         try cmd("./gradlew", arguments: tasks, addEnv: env).run()
                     }
-                case .kotlinAndroid, .cpp:
+                case .kotlinAndroid:
                     // TODO
                     break
                 case .dartSystem:

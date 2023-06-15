@@ -7,7 +7,6 @@ struct TranslatedSet: TranslatedType {
     let converterType: BetterType
     let nodeName: String
     let kotlinName: String
-    let cppName: String
     let neutralName: String
     let containedNamedTypes: [TranslatedType]
     let kotlinPackage: String? = "kotlin.collections"
@@ -22,7 +21,6 @@ struct TranslatedSet: TranslatedType {
         self.converterType = .generic(base: "SetConverter", args: [element.converterType])
         self.nodeName = "Set<\(element.nodeName)>"
         self.kotlinName = "Set<\(element.kotlinPackageQualifiedName)>"
-        self.cppName = "std::unordered_set<\(element.cppName)>"
         self.neutralName = "Set<K=\(element.neutralName)>"
         self.containedNamedTypes = element.containedNamedTypes
         self.cSharpType = .named(package: "System.Collections.Generic", name: "ISet<\(element.cSharpType.name)>")

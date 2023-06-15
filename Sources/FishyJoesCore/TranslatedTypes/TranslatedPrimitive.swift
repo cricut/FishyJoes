@@ -5,7 +5,6 @@ struct TranslatedPrimitive: TranslatedType {
     let cName: String
     let nodeName: String
     let kotlinName: String
-    let cppName: String
     let neutralName: String
     let containedNamedTypes: [TranslatedType]
     let kotlinPackage: String?
@@ -40,7 +39,6 @@ struct TranslatedPrimitive: TranslatedType {
         self.cName = cName
         self.nodeName = nodeName
         self.kotlinName = jniType.valueType
-        self.cppName = self.cName
         self.neutralName = "Primitive<\(cName)>"
         self.containedNamedTypes = []
         self.kotlinPackage = nil

@@ -32,61 +32,61 @@ class Collections {
     /// <!-- FishyJoes.export(arrayOfInt) -->
     static List<int> get arrayOfInt =>
         check((exn) =>
-            consumeCreatedRef<List<int>>(f__iota_get_Collections_ArrayOfInt(exn))
+            consumeCreatedRef<List<int>>(f__iota_get_Collections_arrayOfInt(exn))
         )
     ;
     /// <!-- FishyJoes.export(setOfInt) -->
     static Set<int> get setOfInt =>
         check((exn) =>
-            consumeCreatedRef<Set<int>>(f__iota_get_Collections_SetOfInt(exn))
+            consumeCreatedRef<Set<int>>(f__iota_get_Collections_setOfInt(exn))
         )
     ;
     /// <!-- FishyJoes.export(dictionaryOfIntToInt) -->
     static Map<int, int> get dictionaryOfIntToInt =>
         check((exn) =>
-            consumeCreatedRef<Map<int, int>>(f__iota_get_Collections_DictionaryOfIntToInt(exn))
+            consumeCreatedRef<Map<int, int>>(f__iota_get_Collections_dictionaryOfIntToInt(exn))
         )
     ;
     /// <!-- FishyJoes.export(maybeArrayOfInt) -->
     static List<int>? get maybeArrayOfInt =>
         check((exn) =>
-            consumeCreatedRef<List<int>?>(f__iota_get_Collections_MaybeArrayOfInt(exn))
+            consumeCreatedRef<List<int>?>(f__iota_get_Collections_maybeArrayOfInt(exn))
         )
     ;
     /// <!-- FishyJoes.export(maybeSetOfInt) -->
     static Set<int>? get maybeSetOfInt =>
         check((exn) =>
-            consumeCreatedRef<Set<int>?>(f__iota_get_Collections_MaybeSetOfInt(exn))
+            consumeCreatedRef<Set<int>?>(f__iota_get_Collections_maybeSetOfInt(exn))
         )
     ;
     /// <!-- FishyJoes.export(maybeDictionaryOfIntToInt) -->
     static Map<int, int>? get maybeDictionaryOfIntToInt =>
         check((exn) =>
-            consumeCreatedRef<Map<int, int>?>(f__iota_get_Collections_MaybeDictionaryOfIntToInt(exn))
+            consumeCreatedRef<Map<int, int>?>(f__iota_get_Collections_maybeDictionaryOfIntToInt(exn))
         )
     ;
     /// <!-- FishyJoes.export(maybeArrayOfMaybeInt) -->
     static List<int?>? get maybeArrayOfMaybeInt =>
         check((exn) =>
-            consumeCreatedRef<List<int?>?>(f__iota_get_Collections_MaybeArrayOfMaybeInt(exn))
+            consumeCreatedRef<List<int?>?>(f__iota_get_Collections_maybeArrayOfMaybeInt(exn))
         )
     ;
     /// <!-- FishyJoes.export(maybeSetOfMaybeInt) -->
     static Set<int?>? get maybeSetOfMaybeInt =>
         check((exn) =>
-            consumeCreatedRef<Set<int?>?>(f__iota_get_Collections_MaybeSetOfMaybeInt(exn))
+            consumeCreatedRef<Set<int?>?>(f__iota_get_Collections_maybeSetOfMaybeInt(exn))
         )
     ;
     /// <!-- FishyJoes.export(maybeDictionaryOfIntToMaybeInt) -->
     static Map<int, int?>? get maybeDictionaryOfIntToMaybeInt =>
         check((exn) =>
-            consumeCreatedRef<Map<int, int?>?>(f__iota_get_Collections_MaybeDictionaryOfIntToMaybeInt(exn))
+            consumeCreatedRef<Map<int, int?>?>(f__iota_get_Collections_maybeDictionaryOfIntToMaybeInt(exn))
         )
     ;
     /// <!-- FishyJoes.export(defaultCollectionHolder) -->
     static TestAPI.Collections_CollectionHolder get defaultCollectionHolder =>
         check((exn) =>
-            consumeCreatedRef<TestAPI.Collections_CollectionHolder>(f__iota_get_Collections_DefaultCollectionHolder(exn))
+            consumeCreatedRef<TestAPI.Collections_CollectionHolder>(f__iota_get_Collections_defaultCollectionHolder(exn))
         )
     ;
     /// <!-- FishyJoes.export(echoArrayOfInt) -->
@@ -161,57 +161,57 @@ class Collections {
         OutCreatedRef _exn
     ) f__iota_Collections_collectionMapper;
     static late CreatedRef Function(
-        UnownedRef maybeArrayOfMaybeInt,
         OutCreatedRef _exn
-    ) f__iota_Collections_echoMaybeArrayOfMaybeInt;
-    static late CreatedRef Function(
-        UnownedRef maybeDictionaryOfIntToMaybeInt,
-        OutCreatedRef _exn
-    ) f__iota_Collections_echoMaybeDictionaryOfIntToMaybeInt;
-    static late CreatedRef Function(
-        UnownedRef arrayOfInt,
-        OutCreatedRef _exn
-    ) f__iota_Collections_echoArrayOfInt;
+    ) f__iota_get_Collections_maybeDictionaryOfIntToMaybeInt;
     static late CreatedRef Function(
         OutCreatedRef _exn
-    ) f__iota_get_Collections_SetOfInt;
-    static late CreatedRef Function(
-        OutCreatedRef _exn
-    ) f__iota_get_Collections_MaybeSetOfMaybeInt;
-    static late CreatedRef Function(
-        OutCreatedRef _exn
-    ) f__iota_get_Collections_DictionaryOfIntToInt;
-    static late CreatedRef Function(
-        UnownedRef dictionaryOfIntToInt,
-        OutCreatedRef _exn
-    ) f__iota_Collections_echoDictionaryOfIntToInt;
-    static late CreatedRef Function(
-        OutCreatedRef _exn
-    ) f__iota_get_Collections_MaybeArrayOfInt;
-    static late CreatedRef Function(
-        OutCreatedRef _exn
-    ) f__iota_get_Collections_DefaultCollectionHolder;
+    ) f__iota_get_Collections_maybeArrayOfMaybeInt;
     static late CreatedRef Function(
         UnownedRef setOfInt,
         OutCreatedRef _exn
     ) f__iota_Collections_echoSetOfInt;
-    static late CreatedRef Function(
-        OutCreatedRef _exn
-    ) f__iota_get_Collections_MaybeDictionaryOfIntToInt;
-    static late CreatedRef Function(
-        OutCreatedRef _exn
-    ) f__iota_get_Collections_MaybeArrayOfMaybeInt;
-    static late CreatedRef Function(
-        OutCreatedRef _exn
-    ) f__iota_get_Collections_ArrayOfInt;
-    static late CreatedRef Function(
-        OutCreatedRef _exn
-    ) f__iota_get_Collections_MaybeSetOfInt;
     static late CreatedRef Function(
         UnownedRef maybeSetOfMaybeInt,
         OutCreatedRef _exn
     ) f__iota_Collections_echoMaybeSetOfMaybeInt;
     static late CreatedRef Function(
         OutCreatedRef _exn
-    ) f__iota_get_Collections_MaybeDictionaryOfIntToMaybeInt;
+    ) f__iota_get_Collections_maybeSetOfMaybeInt;
+    static late CreatedRef Function(
+        UnownedRef maybeDictionaryOfIntToMaybeInt,
+        OutCreatedRef _exn
+    ) f__iota_Collections_echoMaybeDictionaryOfIntToMaybeInt;
+    static late CreatedRef Function(
+        OutCreatedRef _exn
+    ) f__iota_get_Collections_maybeArrayOfInt;
+    static late CreatedRef Function(
+        UnownedRef maybeArrayOfMaybeInt,
+        OutCreatedRef _exn
+    ) f__iota_Collections_echoMaybeArrayOfMaybeInt;
+    static late CreatedRef Function(
+        UnownedRef dictionaryOfIntToInt,
+        OutCreatedRef _exn
+    ) f__iota_Collections_echoDictionaryOfIntToInt;
+    static late CreatedRef Function(
+        OutCreatedRef _exn
+    ) f__iota_get_Collections_defaultCollectionHolder;
+    static late CreatedRef Function(
+        OutCreatedRef _exn
+    ) f__iota_get_Collections_maybeDictionaryOfIntToInt;
+    static late CreatedRef Function(
+        OutCreatedRef _exn
+    ) f__iota_get_Collections_setOfInt;
+    static late CreatedRef Function(
+        OutCreatedRef _exn
+    ) f__iota_get_Collections_arrayOfInt;
+    static late CreatedRef Function(
+        OutCreatedRef _exn
+    ) f__iota_get_Collections_dictionaryOfIntToInt;
+    static late CreatedRef Function(
+        OutCreatedRef _exn
+    ) f__iota_get_Collections_maybeSetOfInt;
+    static late CreatedRef Function(
+        UnownedRef arrayOfInt,
+        OutCreatedRef _exn
+    ) f__iota_Collections_echoArrayOfInt;
 }

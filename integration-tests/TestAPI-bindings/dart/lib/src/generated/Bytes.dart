@@ -32,13 +32,13 @@ class Bytes {
     /// <!-- FishyJoes.export(bytes, cSharp: TheBytes) -->
     static List<int> get bytes =>
         check((exn) =>
-            consumeCreatedRef<List<int>>(f__iota_get_Bytes_TheBytes(exn))
+            consumeCreatedRef<List<int>>(f__iota_get_Bytes_bytes(exn))
         )
     ;
     /// <!-- FishyJoes.export(data) -->
     static typed_data.Uint8List get data =>
         check((exn) =>
-            consumeCreatedRef<typed_data.Uint8List>(f__iota_get_Bytes_Data(exn))
+            consumeCreatedRef<typed_data.Uint8List>(f__iota_get_Bytes_data(exn))
         )
     ;
     /// <!-- FishyJoes.export(echoBytes) -->
@@ -60,17 +60,17 @@ class Bytes {
     ;
 
     static late CreatedRef Function(
+        OutCreatedRef _exn
+    ) f__iota_get_Bytes_bytes;
+    static late CreatedRef Function(
         UnownedRef bytes,
         OutCreatedRef _exn
     ) f__iota_Bytes_echoBytes;
     static late CreatedRef Function(
-        OutCreatedRef _exn
-    ) f__iota_get_Bytes_TheBytes;
-    static late CreatedRef Function(
-        OutCreatedRef _exn
-    ) f__iota_get_Bytes_Data;
-    static late CreatedRef Function(
         UnownedRef data,
         OutCreatedRef _exn
     ) f__iota_Bytes_echoData;
+    static late CreatedRef Function(
+        OutCreatedRef _exn
+    ) f__iota_get_Bytes_data;
 }

@@ -2,7 +2,6 @@ struct ExternalTranslatedType: Codable {
     var sourceType: BetterType
     var converterType: BetterType
     var nodeName: String
-    var cppName: String
     var neutralName: String
     var kotlinName: String
     var kotlinPackage: String?
@@ -26,7 +25,6 @@ extension TranslatedType {
             sourceType: sourceType,
             converterType: converterType,
             nodeName: "\(definingModule.name).\(nodeName)",
-            cppName: cppName,
             neutralName: "ExternalTranslatedType<of=\(neutralName)>",
             kotlinName: kotlinName,
             kotlinPackage: kotlinPackage,

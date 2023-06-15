@@ -212,7 +212,7 @@ struct NodeTranslator: Translator {
         return didOutput
     }
 
-    func setupFragments(context: FishyJoesContext, generatedTypes: Set<BetterType>) -> [SourceFragment] {
+    func setupFragments(context: FishyJoesContext, generatedTypes: [BetterType]) -> [SourceFragment] {
         let nodeTypeListFragment = context.swiftFragment(
             "NodeInterface/TypeSetup.swift",
             additionalImports: ["Foundation", "FishyJoesNodeRuntime", "NodeAPI"]
@@ -241,7 +241,7 @@ struct NodeTranslator: Translator {
             nodeTypeListFragment.output("try env.setNamedProperty(exports, \"\(context.module)\", module)")
             nodeTypeListFragment.output("try env.setNamedProperty(exports, \"default\", module)")
             nodeTypeListFragment.blankLine()
-            for type in generatedTypes.sorted(by: { "\($0)" < "\($1)" }) {
+            for type in generatedTypes {
                 // TODO: better
                 guard case .named = type,
                       !(context.resolve(type: type) is ExternalTranslatedType) else {

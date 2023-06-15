@@ -41,19 +41,19 @@ class Collections_CollectionHolder with _$Collections_CollectionHolder {
     /// <!-- FishyJoes.export(staticPropery) -->
     static List<int?> get staticPropery =>
         check((exn) =>
-            consumeCreatedRef<List<int?>>(f__iota_get_Collections_CollectionHolder_StaticPropery(exn))
+            consumeCreatedRef<List<int?>>(f__iota_get_Collections_CollectionHolder_staticPropery(exn))
         )
     ;
     /// <!-- FishyJoes.export(staticMutablePropery) -->
     static List<int?> get staticMutablePropery =>
         check((exn) =>
-            consumeCreatedRef<List<int?>>(f__iota_get_Collections_CollectionHolder_StaticMutablePropery(exn))
+            consumeCreatedRef<List<int?>>(f__iota_get_Collections_CollectionHolder_staticMutablePropery(exn))
         )
     ;
     static void set staticMutablePropery(List<int?> value) {
         GCRef.using(value, (_valueHandle) =>
             check((exn) =>
-                f__iota_set_Collections_CollectionHolder_StaticMutablePropery(_valueHandle.ptr, exn)
+                f__iota_set_Collections_CollectionHolder_staticMutablePropery(_valueHandle.ptr, exn)
             )
         )
         ;
@@ -61,12 +61,12 @@ class Collections_CollectionHolder with _$Collections_CollectionHolder {
 
     static late CreatedRef Function(
         OutCreatedRef _exn
-    ) f__iota_get_Collections_CollectionHolder_StaticPropery;
+    ) f__iota_get_Collections_CollectionHolder_staticMutablePropery;
     static late CreatedRef Function(
         OutCreatedRef _exn
-    ) f__iota_get_Collections_CollectionHolder_StaticMutablePropery;
+    ) f__iota_get_Collections_CollectionHolder_staticPropery;
     static late void Function(
         UnownedRef staticMutablePropery,
         OutCreatedRef _exn
-    ) f__iota_set_Collections_CollectionHolder_StaticMutablePropery;
+    ) f__iota_set_Collections_CollectionHolder_staticMutablePropery;
 }

@@ -4,7 +4,6 @@ struct TranslatedStruct: TranslatedType {
     let sourceType: BetterType
     let nodeName: String
     let kotlinName: String
-    let cppName: String
     let neutralName: String
     var containedNamedTypes: [TranslatedType] { [self] }
     let kotlinPackage: String?
@@ -28,7 +27,6 @@ struct TranslatedStruct: TranslatedType {
         self.sourceType = BetterType(named: type)
         self.nodeName = exportAnnotation.name
         self.kotlinName = exportAnnotation.name
-        self.cppName = exportAnnotation.name.replacingOccurrences(of: ".", with: "::")
         self.neutralName = "Struct<Named=\(exportAnnotation.name)>"
         self.kotlinPackage = context.module.kotlinPackage
         self.cSharpType = .named(package: context.module.cSharpNamespace, name: exportAnnotation.cSharpName)
@@ -51,43 +49,8 @@ struct TranslatedStruct: TranslatedType {
             nodeDefinitionFragment(in: context),
             jniDefinitionFragment(in: context),
             iotaDefinitionFragment(in: context),
-            // cppDefinitionFragment(in: context),
+            dartDefinitionFragment(in: context),
         ] + neutralDefinitionFragments(in: context)
-    }
-
-    func cppDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
-        let fragment = SourceFragment(sourceryDestination: "file:CPPInterface/\(sourceType.name).swift")
-        var newMethods: [CPPClass.CPPMethod] = []
-        newMethods.append(contentsOf: methods.map { context.cppTranslator.translateToHeaderFragment(method: $0, in: context) })
-        for variable in computedVariables {
-            let accessors = context.cppTranslator.translateToHeaderFragment(variable: variable, in: context)
-            newMethods.append(accessors.getter)
-            if let setter = accessors.setter {
-                newMethods.append(setter)
-            }
-        }
-        let newFields: [CPPClass.CPPField] = storedVariables.map { variable in
-            let fieldType = context.resolve(type: variable.typeName.better)
-            return CPPClass.CPPField(
-                documentation: variable.documentation,
-                isStatic: variable.isStatic,
-                isPrivate: false,
-                name: variable.name,
-                type: .type(fieldType),
-                initializer: nil
-            )
-        }
-        let newClass = CPPClass(
-            module: context.module,
-            documentation: documentation,
-            name: sourceType.name,
-            methods: newMethods,
-            fields: newFields,
-            serializedFields: newFields,
-            completeConstructorVisible: true
-        )
-        context.add(cppClass: newClass)
-        return fragment
     }
 
     func neutralDefinitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
@@ -553,6 +516,96 @@ struct TranslatedStruct: TranslatedType {
         }
 
         registerCSharpClass(context: context)
+
+        return fragment
+    }
+
+    func dartDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
+        let fragment = context.swiftFragment(
+            "DartInterface/\(sourceType.name)+dart-type.swift",
+            additionalImports: ["Foundation", "FishyJoesDartRuntime"]
+        )
+
+        fragment.output("@_cdecl(\"\(dartSetupName)\")")
+        fragment.outputBlock("public func \(dartSetupName)(", newLineTerminated: false) {
+            fragment.output("envRef: EnvRef,")
+            fragment.output("constructorMethod: @escaping \(converterType.name)._ConstructorMethod,")
+            for storedVar in storedVariables {
+                let resolved = context.resolve(type: storedVar.typeName.better)
+                fragment.output("_ \(storedVar.name)Getter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> \(resolved.converterType.name).CType,")
+                fragment.output("_ \(storedVar.name)Setter: @escaping @convention(c) (foreignObject, \(resolved.converterType.name).CType, _ exn: foreignOutExn) -> Void,")
+            }
+            fragment.output("_ exn: foreignOutExn")
+        }
+        fragment.outputBlock(" {") {
+            fragment.output("let env = Env(envRef)")
+            fragment.output("if \(converterType.name)._constructorMethod.isInitialized(env) { return }")
+            fragment.output("\(converterType.name)._constructorMethod[env] = constructorMethod")
+            for storedVar in storedVariables {
+                fragment.output("\(converterType.name)._\(storedVar.name)Getter[env] = \(storedVar.name)Getter")
+                fragment.output("\(converterType.name)._\(storedVar.name)Setter[env] = \(storedVar.name)Setter")
+            }
+        }
+        fragment.blankLine()
+
+        fragment.outputBlock("extension \(converterType.name): DartMutator {") {
+            for storedVar in storedVariables {
+                let resolved = context.resolve(type: storedVar.typeName.better)
+                fragment.output("fileprivate static var _\(storedVar.name)Getter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> \(resolved.converterType.name).CType>()")
+                fragment.output("fileprivate static var _\(storedVar.name)Setter = Env.CallbackMap<@convention(c) (foreignObject, \(resolved.converterType.name).CType, _ exn: foreignOutExn) -> Void>()")
+            }
+            fragment.outputBlock("public typealias _ConstructorMethod = @convention(c) (", closeWith: ") -> foreignObject") {
+                for storedVar in storedVariables {
+                    let resolved = context.resolve(type: storedVar.typeName.better)
+                    fragment.output("\(resolved.converterType.name).CType,")
+                }
+                fragment.output("_ exn: foreignOutExn")
+            }
+            fragment.output("fileprivate static var _constructorMethod = Env.CallbackMap<_ConstructorMethod>()")
+            fragment.blankLine()
+
+            fragment.outputBlock("public static func peekDart(_ value: foreignObject, env: Env) throws -> Self {") {
+                fragment.outputBlock("Self(") {
+                    for (index, storedVar) in storedVariables.enumerated() {
+                        let resolved = context.resolve(type: storedVar.typeName.better)
+                        let last = index == storedVariables.count - 1
+                        fragment.outputBlock("\(storedVar.name): try \(resolved.converterType.name).consumeDart(", closeWith: last ? ")" : "),") {
+                            fragment.output("try env.check { exn in _\(storedVar.name)Getter[env](value, exn) },")
+                            fragment.output("env: env")
+                        }
+                    }
+                }
+            }
+            fragment.blankLine()
+
+            fragment.outputBlock("public static func toDart(_ value: Self, env: Env) throws -> foreignObject {") {
+                fragment.outputBlock("try env.check { exn in", closeWith: "}") {
+                    fragment.outputBlock("_constructorMethod[env](") {
+                        for storedVar in storedVariables {
+                            let resolved = context.resolve(type: storedVar.typeName.better)
+                            fragment.output("try \(resolved.converterType.name).toDart(value.\(storedVar.name), env: env),")
+                        }
+                        fragment.output("exn")
+                    }
+                }
+            }
+            fragment.blankLine()
+
+            fragment.outputBlock("public static func mutateDart<R>(_ this: foreignObject, env: Env, body: (inout Self) throws -> R) throws -> R {") {
+                fragment.output("var mutatingSelf = try peekDart(this, env: env)")
+                fragment.output("let result = try body(&mutatingSelf)")
+                for storedVar in storedVariables {
+                    let resolved = context.resolve(type: storedVar.typeName.better)
+                    fragment.outputBlock("try env.check { exn in _\(storedVar.name)Setter[env](", closeWith: ")}") {
+                        fragment.output("this,")
+                        fragment.output("try \(resolved.converterType.name).toDart(mutatingSelf.\(storedVar.name), env: env),")
+                        fragment.output("exn")
+                    }
+                }
+                fragment.output("return result")
+            }
+        }
+
         registerDartClass(context: context)
 
         return fragment

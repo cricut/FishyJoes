@@ -33,7 +33,7 @@ class Deprecations {
     @Deprecated("replace with `deprecatedMethod` ( <-- swift name, sorry )")
     static int get deprecatedVariable =>
         check((exn) =>
-            f__iota_get_Deprecations_DeprecatedVariable(exn)
+            f__iota_get_Deprecations_deprecatedVariable(exn)
         )
     ;
     /// <!-- FishyJoes.export(deprecatedMethod) -->
@@ -43,10 +43,10 @@ class Deprecations {
         consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_Deprecations_deprecatedMethod(_exn)))
     ;
 
-    static late int Function(
-        OutCreatedRef _exn
-    ) f__iota_get_Deprecations_DeprecatedVariable;
     static late CreatedRef Function(
         OutCreatedRef _exn
     ) f__iota_Deprecations_deprecatedMethod;
+    static late int Function(
+        OutCreatedRef _exn
+    ) f__iota_get_Deprecations_deprecatedVariable;
 }

@@ -11,7 +11,6 @@ struct BuildConfiguration {
 enum Platform: Hashable {
     case wasm
     case node
-    case cpp
     case kotlinSystem
     case kotlinAndroid(AndroidArchitecture)
     case cSharp
@@ -70,15 +69,6 @@ enum Platform: Hashable {
             path = "swift"
             args = ["build"] + args
             #endif
-        case .cpp:
-            #if os(macOS)
-            path = Platform.nativeMacSwiftBuild
-            #elseif os(Linux)
-            path = "swift"
-            args = ["build", "-Xswiftc", "-static-stdlib"] + args
-            #else
-            fatalError("unknown host OS")
-            #endif
         }
         try cmd(path, arguments: args, addEnv: env).run()
     }
@@ -93,7 +83,7 @@ enum Platform: Hashable {
             fatalError("dynamic linking is currently unsupported in wasm")
         case .kotlinAndroid:
             return "lib\(lib).so"
-        case .node, .kotlinSystem, .cSharp, .cpp, .dartSystem:
+        case .node, .kotlinSystem, .cSharp, .dartSystem:
             #if os(macOS)
             return "lib\(lib).dylib"
             #elseif os(Linux)
@@ -140,7 +130,6 @@ enum Platform: Hashable {
             #else
             fatalError("unknown host OS")
             #endif
-        case .cpp: return "cpp"
         case .dartSystem: return "dart"
         }
     }
@@ -169,7 +158,6 @@ enum Platform: Hashable {
             #else
             fatalError("unknown host OS")
             #endif
-        case .cpp: return "cpp/generated/lib/"
         case .dartSystem: return "dart/native"
         }
     }
@@ -178,7 +166,6 @@ enum Platform: Hashable {
         switch self {
         case .wasm: return "\(config.module) packaged as a typescript library using WebAssembly"
         case .node: return "\(platform) <-> node/ts bindings for \(config.module)"
-        case .cpp: return "\(config.module) C++ bingings"
         case .kotlinSystem, .kotlinAndroid: return "A JNI wrapper for \(config.module)"
         case .cSharp: return "A C# wrapper for \(config.module)"
         case .dartSystem: return "A Dart wrapper for \(config.module)"
@@ -189,7 +176,7 @@ enum Platform: Hashable {
         let configuration = debug ? "debug" : "release"
         switch self {
         case .wasm: return ".build/wasm-build/wasm32-unknown-wasi/\(configuration)"
-        case .node, .kotlinSystem, .cSharp, .cpp, .dartSystem:
+        case .node, .kotlinSystem, .cSharp, .dartSystem:
             #if os(macOS)
             return ".build/arm64-apple-macosx/\(configuration)"
             #elseif os(Linux)

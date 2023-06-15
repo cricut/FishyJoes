@@ -51,7 +51,7 @@ final class NeutralTranslate: Translator {
         }
     }
     init() {}
-    func setupFragments(context: FishyJoesContext, generatedTypes: Set<BetterType>) -> [SourceFragment] {
+    func setupFragments(context: FishyJoesContext, generatedTypes: [BetterType]) -> [SourceFragment] {
         return []
     }
 }

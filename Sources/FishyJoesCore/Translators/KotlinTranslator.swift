@@ -180,7 +180,7 @@ final class KotlinTranslator: Translator {
         return [fragment]
     }
 
-    func setupFragments(context: FishyJoesContext, generatedTypes: Set<BetterType>) -> [SourceFragment] {
+    func setupFragments(context: FishyJoesContext, generatedTypes: [BetterType]) -> [SourceFragment] {
         let javaTypeListFragment = context.swiftFragment(
             "JavaInterface/TypeSetup.swift",
             additionalImports: ["Foundation", "FishyJoesJavaRuntime"]
@@ -196,7 +196,7 @@ final class KotlinTranslator: Translator {
             javaTypeListFragment.output("let env = UnsafeMutablePointer<JNIEnv?>(OpaquePointer(envRaw))")
             javaTypeListFragment.outputBlock("return FishyJoesJavaRuntime.callbackBody(env!) { env in", closeWith: "}") {
                 javaTypeListFragment.output("let bag = CStringBag()")
-                for type in generatedTypes.sorted(by: { "\($0)" < "\($1)" }) {
+                for type in generatedTypes {
                     guard type != .void else { continue }
                     let resolved = context.resolve(type: type)
                     javaTypeListFragment.output("// print(\"setting up \(resolved.converterType.name)...\")")

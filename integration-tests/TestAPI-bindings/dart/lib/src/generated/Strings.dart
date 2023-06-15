@@ -32,49 +32,49 @@ class Strings {
     /// <!-- FishyJoes.export(simple) -->
     static String get simple =>
         check((exn) =>
-            consumeCreatedRef<String>(f__iota_get_Strings_Simple(exn))
+            consumeCreatedRef<String>(f__iota_get_Strings_simple(exn))
         )
     ;
     /// <!-- FishyJoes.export(accent) -->
     static String get accent =>
         check((exn) =>
-            consumeCreatedRef<String>(f__iota_get_Strings_Accent(exn))
+            consumeCreatedRef<String>(f__iota_get_Strings_accent(exn))
         )
     ;
     /// <!-- FishyJoes.export(script) -->
     static String get script =>
         check((exn) =>
-            consumeCreatedRef<String>(f__iota_get_Strings_Script(exn))
+            consumeCreatedRef<String>(f__iota_get_Strings_script(exn))
         )
     ;
     /// <!-- FishyJoes.export(chinese) -->
     static String get chinese =>
         check((exn) =>
-            consumeCreatedRef<String>(f__iota_get_Strings_Chinese(exn))
+            consumeCreatedRef<String>(f__iota_get_Strings_chinese(exn))
         )
     ;
     /// <!-- FishyJoes.export(chineseBMP) -->
     static String get chineseBMP =>
         check((exn) =>
-            consumeCreatedRef<String>(f__iota_get_Strings_ChineseBMP(exn))
+            consumeCreatedRef<String>(f__iota_get_Strings_chineseBMP(exn))
         )
     ;
     /// <!-- FishyJoes.export(chineseSIP) -->
     static String get chineseSIP =>
         check((exn) =>
-            consumeCreatedRef<String>(f__iota_get_Strings_ChineseSIP(exn))
+            consumeCreatedRef<String>(f__iota_get_Strings_chineseSIP(exn))
         )
     ;
     /// <!-- FishyJoes.export(emoji) -->
     static String get emoji =>
         check((exn) =>
-            consumeCreatedRef<String>(f__iota_get_Strings_Emoji(exn))
+            consumeCreatedRef<String>(f__iota_get_Strings_emoji(exn))
         )
     ;
     /// <!-- FishyJoes.export(emojiMulti) -->
     static String get emojiMulti =>
         check((exn) =>
-            consumeCreatedRef<String>(f__iota_get_Strings_EmojiMulti(exn))
+            consumeCreatedRef<String>(f__iota_get_Strings_emojiMulti(exn))
         )
     ;
     /// <!-- FishyJoes.export(echo) -->
@@ -88,30 +88,30 @@ class Strings {
 
     static late CreatedRef Function(
         OutCreatedRef _exn
-    ) f__iota_get_Strings_Simple;
+    ) f__iota_get_Strings_emoji;
     static late CreatedRef Function(
         OutCreatedRef _exn
-    ) f__iota_get_Strings_Accent;
+    ) f__iota_get_Strings_accent;
     static late CreatedRef Function(
         OutCreatedRef _exn
-    ) f__iota_get_Strings_ChineseSIP;
+    ) f__iota_get_Strings_chinese;
+    static late CreatedRef Function(
+        OutCreatedRef _exn
+    ) f__iota_get_Strings_chineseSIP;
+    static late CreatedRef Function(
+        OutCreatedRef _exn
+    ) f__iota_get_Strings_chineseBMP;
     static late CreatedRef Function(
         UnownedRef string,
         OutCreatedRef _exn
     ) f__iota_Strings_echo;
     static late CreatedRef Function(
         OutCreatedRef _exn
-    ) f__iota_get_Strings_Script;
+    ) f__iota_get_Strings_emojiMulti;
     static late CreatedRef Function(
         OutCreatedRef _exn
-    ) f__iota_get_Strings_Emoji;
+    ) f__iota_get_Strings_simple;
     static late CreatedRef Function(
         OutCreatedRef _exn
-    ) f__iota_get_Strings_Chinese;
-    static late CreatedRef Function(
-        OutCreatedRef _exn
-    ) f__iota_get_Strings_EmojiMulti;
-    static late CreatedRef Function(
-        OutCreatedRef _exn
-    ) f__iota_get_Strings_ChineseBMP;
+    ) f__iota_get_Strings_script;
 }

@@ -54,19 +54,19 @@ class Primitives_PrimitiveHolder with _$Primitives_PrimitiveHolder {
     /// <!-- FishyJoes.export(staticPropery) -->
     static List<int?> get staticPropery =>
         check((exn) =>
-            consumeCreatedRef<List<int?>>(f__iota_get_Primitives_PrimitiveHolder_StaticPropery(exn))
+            consumeCreatedRef<List<int?>>(f__iota_get_Primitives_PrimitiveHolder_staticPropery(exn))
         )
     ;
     /// <!-- FishyJoes.export(staticMutablePropery) -->
     static List<int?> get staticMutablePropery =>
         check((exn) =>
-            consumeCreatedRef<List<int?>>(f__iota_get_Primitives_PrimitiveHolder_StaticMutablePropery(exn))
+            consumeCreatedRef<List<int?>>(f__iota_get_Primitives_PrimitiveHolder_staticMutablePropery(exn))
         )
     ;
     static void set staticMutablePropery(List<int?> value) {
         GCRef.using(value, (_valueHandle) =>
             check((exn) =>
-                f__iota_set_Primitives_PrimitiveHolder_StaticMutablePropery(_valueHandle.ptr, exn)
+                f__iota_set_Primitives_PrimitiveHolder_staticMutablePropery(_valueHandle.ptr, exn)
             )
         )
         ;
@@ -74,12 +74,12 @@ class Primitives_PrimitiveHolder with _$Primitives_PrimitiveHolder {
 
     static late CreatedRef Function(
         OutCreatedRef _exn
-    ) f__iota_get_Primitives_PrimitiveHolder_StaticPropery;
+    ) f__iota_get_Primitives_PrimitiveHolder_staticMutablePropery;
     static late CreatedRef Function(
         OutCreatedRef _exn
-    ) f__iota_get_Primitives_PrimitiveHolder_StaticMutablePropery;
+    ) f__iota_get_Primitives_PrimitiveHolder_staticPropery;
     static late void Function(
         UnownedRef staticMutablePropery,
         OutCreatedRef _exn
-    ) f__iota_set_Primitives_PrimitiveHolder_StaticMutablePropery;
+    ) f__iota_set_Primitives_PrimitiveHolder_staticMutablePropery;
 }

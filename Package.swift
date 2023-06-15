@@ -37,9 +37,8 @@ let package = Package(
     ] + wasmIncompatible(
         [
             P.library(name: "FishyJoesJavaRuntime", type: .dynamic, targets: ["FishyJoesJavaRuntime"]),
-            // The "iota" runtime is currently shared between c-sharp and dart
             P.library(name: "FishyJoesIotaRuntime", type: .dynamic, targets: ["FishyJoesIotaRuntime"]),
-            P.library(name: "FishyJoesCPPRuntime", targets: ["FishyJoesCPPRuntime"]),
+            P.library(name: "FishyJoesDartRuntime", type: .dynamic, targets: ["FishyJoesDartRuntime"]),
             P.library(name: "JavaRuntimeTestHarness", type: .dynamic, targets: ["JavaRuntimeTestHarness"]),
             P.executable(name: "fishy-joes", targets: ["FishyJoesExecuteMain"]),
         ]
@@ -65,7 +64,7 @@ let package = Package(
     targets: [
         T.systemLibrary(name: "NodeAPI"),
         T.systemLibrary(name: "JNI"),
-        T.systemLibrary(name: "DartSDK"),
+        T.target(name: "DartSDK"),
         T.target(name: "FishyJoesCommonRuntime"),
         T.target(
             name: "FishyJoesJavaRuntime",
@@ -81,12 +80,6 @@ let package = Package(
             ]
         ),
         T.target(
-            name: "FishyJoesCPPRuntime",
-            dependencies: [
-                .target(name: "FishyJoesCommonRuntime")
-            ]
-        ),
-        T.target(
             name: "JavaRuntimeTestHarness",
             dependencies: [
                 .target(name: "FishyJoesJavaRuntime"),
@@ -96,6 +89,13 @@ let package = Package(
             name: "FishyJoesIotaRuntime",
             dependencies: [
                 .target(name: "FishyJoesCommonRuntime"),
+            ]
+        ),
+        T.target(
+            name: "FishyJoesDartRuntime",
+            dependencies: [
+                .target(name: "FishyJoesCommonRuntime"),
+                .target(name: "DartSDK"),
             ]
         ),
         T.target(

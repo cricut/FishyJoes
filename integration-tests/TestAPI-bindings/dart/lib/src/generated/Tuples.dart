@@ -32,31 +32,31 @@ class Tuples {
     /// <!-- FishyJoes.export(tuple2) -->
     static tuple.Tuple2<int, String> get tuple2 =>
         check((exn) =>
-            consumeCreatedRef<tuple.Tuple2<int, String>>(f__iota_get_Tuples_Tuple2(exn))
+            consumeCreatedRef<tuple.Tuple2<int, String>>(f__iota_get_Tuples_tuple2(exn))
         )
     ;
     /// <!-- FishyJoes.export(tuple3) -->
     static tuple.Tuple3<String, double, String> get tuple3 =>
         check((exn) =>
-            consumeCreatedRef<tuple.Tuple3<String, double, String>>(f__iota_get_Tuples_Tuple3(exn))
+            consumeCreatedRef<tuple.Tuple3<String, double, String>>(f__iota_get_Tuples_tuple3(exn))
         )
     ;
     /// <!-- FishyJoes.export(tuple4) -->
     static tuple.Tuple4<tuple.Tuple2<int, String>, tuple.Tuple3<String, double, String>, String, bool> get tuple4 =>
         check((exn) =>
-            consumeCreatedRef<tuple.Tuple4<tuple.Tuple2<int, String>, tuple.Tuple3<String, double, String>, String, bool>>(f__iota_get_Tuples_Tuple4(exn))
+            consumeCreatedRef<tuple.Tuple4<tuple.Tuple2<int, String>, tuple.Tuple3<String, double, String>, String, bool>>(f__iota_get_Tuples_tuple4(exn))
         )
     ;
     /// <!-- FishyJoes.export(tuple5) -->
     static tuple.Tuple5<String, int, tuple.Tuple4<tuple.Tuple2<int, String>, tuple.Tuple3<String, double, String>, String, bool>, tuple.Tuple3<String, double, String>, tuple.Tuple2<int, String>> get tuple5 =>
         check((exn) =>
-            consumeCreatedRef<tuple.Tuple5<String, int, tuple.Tuple4<tuple.Tuple2<int, String>, tuple.Tuple3<String, double, String>, String, bool>, tuple.Tuple3<String, double, String>, tuple.Tuple2<int, String>>>(f__iota_get_Tuples_Tuple5(exn))
+            consumeCreatedRef<tuple.Tuple5<String, int, tuple.Tuple4<tuple.Tuple2<int, String>, tuple.Tuple3<String, double, String>, String, bool>, tuple.Tuple3<String, double, String>, tuple.Tuple2<int, String>>>(f__iota_get_Tuples_tuple5(exn))
         )
     ;
     /// <!-- FishyJoes.export(tuple6) -->
     static tuple.Tuple6<String, int, double, tuple.Tuple4<tuple.Tuple2<int, String>, tuple.Tuple3<String, double, String>, String, bool>, tuple.Tuple5<String, int, tuple.Tuple4<tuple.Tuple2<int, String>, tuple.Tuple3<String, double, String>, String, bool>, tuple.Tuple3<String, double, String>, tuple.Tuple2<int, String>>, bool> get tuple6 =>
         check((exn) =>
-            consumeCreatedRef<tuple.Tuple6<String, int, double, tuple.Tuple4<tuple.Tuple2<int, String>, tuple.Tuple3<String, double, String>, String, bool>, tuple.Tuple5<String, int, tuple.Tuple4<tuple.Tuple2<int, String>, tuple.Tuple3<String, double, String>, String, bool>, tuple.Tuple3<String, double, String>, tuple.Tuple2<int, String>>, bool>>(f__iota_get_Tuples_Tuple6(exn))
+            consumeCreatedRef<tuple.Tuple6<String, int, double, tuple.Tuple4<tuple.Tuple2<int, String>, tuple.Tuple3<String, double, String>, String, bool>, tuple.Tuple5<String, int, tuple.Tuple4<tuple.Tuple2<int, String>, tuple.Tuple3<String, double, String>, String, bool>, tuple.Tuple3<String, double, String>, tuple.Tuple2<int, String>>, bool>>(f__iota_get_Tuples_tuple6(exn))
         )
     ;
     /// <!-- FishyJoes.export(checkTuples) -->
@@ -82,7 +82,7 @@ class Tuples {
 
     static late CreatedRef Function(
         OutCreatedRef _exn
-    ) f__iota_get_Tuples_Tuple3;
+    ) f__iota_get_Tuples_tuple2;
     static late bool Function(
         UnownedRef t2,
         UnownedRef t3,
@@ -93,14 +93,14 @@ class Tuples {
     ) f__iota_Tuples_checkTuples;
     static late CreatedRef Function(
         OutCreatedRef _exn
-    ) f__iota_get_Tuples_Tuple6;
+    ) f__iota_get_Tuples_tuple4;
     static late CreatedRef Function(
         OutCreatedRef _exn
-    ) f__iota_get_Tuples_Tuple4;
+    ) f__iota_get_Tuples_tuple6;
     static late CreatedRef Function(
         OutCreatedRef _exn
-    ) f__iota_get_Tuples_Tuple2;
+    ) f__iota_get_Tuples_tuple5;
     static late CreatedRef Function(
         OutCreatedRef _exn
-    ) f__iota_get_Tuples_Tuple5;
+    ) f__iota_get_Tuples_tuple3;
 }

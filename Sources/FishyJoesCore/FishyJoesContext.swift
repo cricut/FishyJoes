@@ -17,30 +17,19 @@ public class FishyJoesContext {
     private(set) var kotlinClasses: [KotlinClass] = []
     private(set) var cSharpClasses: [CSharpClass] = []
     private(set) var dartClasses: [DartClass] = []
-    // qualified name (ie "ContainingClass::ClassName") -> CPPClass
-    private(set) var cppClasses: [String: CPPClass] = [:]
-    var sortedCppClasses: [CPPClass] {
-        cppClasses.sorted { $0.key < $1.key }.map(\.value)
-    }
-    // [qualifiedName/cppName]
-    var classesNeedingHashSpecialization: [CPPClass] = []
 
     let nodeTranslator = NodeTranslator()
     let kotlinTranslator = KotlinTranslator()
-    let cppTranslator = CPPTranslate()
     let neutralTranslator = NeutralTranslate()
 
-    let iotaTranslator = IotaTranslator()
     let cSharpTranslator = CSharpTranslator()
     let dartTranslator = DartTranslator()
 
     lazy var translators: [Translator] = [
         nodeTranslator,
         kotlinTranslator,
-        // cppTranslator,
         // neutralTranslator,
 
-        iotaTranslator,
         dartTranslator,
         cSharpTranslator,
     ]
@@ -159,14 +148,14 @@ public class FishyJoesContext {
                 seenMethods.insert(method)
                 collectedFragments.append(contentsOf: kotlinTranslator.translate(method: method, context: self))
                 collectedFragments.append(contentsOf: cSharpTranslator.translate(method: method, context: self))
-                collectedFragments.append(contentsOf: iotaTranslator.translate(method: method, context: self))
+                collectedFragments.append(contentsOf: dartTranslator.translate(method: method, context: self))
             }
             for variable in type.rawVariables {
                 resolveDebugContext = "Translating variable \(type.name).\(variable.name)"
                 guard variable.exportAnnotation != nil else { continue }
                 collectedFragments.append(contentsOf: kotlinTranslator.translate(variable: variable, context: self))
                 collectedFragments.append(contentsOf: cSharpTranslator.translate(variable: variable, context: self))
-                collectedFragments.append(contentsOf: iotaTranslator.translate(variable: variable, context: self))
+                collectedFragments.append(contentsOf: dartTranslator.translate(variable: variable, context: self))
             }
         }
         // Translate any top level functions
@@ -184,27 +173,13 @@ public class FishyJoesContext {
             }
         }
 
-        for classObj in sortedCppClasses {
-            if let parent = classObj.parentQualifiedName {
-                guard let parentClass = cppClasses[parent] else {
-                    // TODO: this actually happens in CriText. Should be dealt with properly
-                    continue
-                }
-                parentClass.innerClasses.append(classObj)
-            }
-        }
-
-        for cppClass in sortedCppClasses {
-            if cppClass.parentQualifiedName == nil {
-                collectedFragments.append(cppClass.headerFragment())
-            }
-            collectedFragments.append(cppClass.sourceFragment(in: self))
-        }
-
         collectedFragments.append(
             contentsOf: translators.flatMap { translator -> [SourceFragment] in
                 resolveDebugContext = "generating setup code for \(type(of: translator))"
-                return translator.setupFragments(context: self, generatedTypes: generatedTypes)
+                return translator.setupFragments(
+                    context: self,
+                    generatedTypes: generatedTypes.sorted { "\($0)" < "\($1)" }
+                )
             }
         )
 
@@ -493,9 +468,5 @@ public class FishyJoesContext {
 
     func add(cSharpClass: CSharpClass) {
         cSharpClasses.append(cSharpClass)
-    }
-
-    func add(cppClass: CPPClass) {
-        cppClasses[cppClass.qualifiedName] = cppClass
     }
 }

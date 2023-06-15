@@ -5,7 +5,6 @@ protocol TranslatedType {
     var converterType: BetterType { get }
     var nodeName: String { get }
     var kotlinName: String { get }
-    var cppName: String { get }
     var neutralName: String { get }
     var containedNamedTypes: [TranslatedType] { get }
     var kotlinPackage: String? { get }
@@ -79,6 +78,10 @@ extension TranslatedType {
     func dartSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<DartClass.DartType>] { [] }
 
     var iotaSetupName: String {
+        "\(definingModule)_\(converterType.genericBaseName.mangledName)_setup"
+    }
+
+    var dartSetupName: String {
         "\(definingModule)_\(converterType.genericBaseName.mangledName)_setup"
     }
 
