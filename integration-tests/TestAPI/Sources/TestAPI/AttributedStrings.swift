@@ -10,28 +10,29 @@ import Foundation
 /// <!-- FishyJoes.export(AttributedStrings) -->
 public enum AttributedStrings {
     /// <!-- FishyJoes.export(simple) -->
-    public static let simple = AttributedStringASDF("Hello")
+    public static let simple = AttributedString("Hello")
     /// <!-- FishyJoes.export(accent) -->
-    public static let accent = AttributedStringASDF("Olá")
+    public static let accent = AttributedString("Olá")
     /// <!-- FishyJoes.export(script) -->
-    public static let script = AttributedStringASDF("こんにちは")
+    public static let script = AttributedString("こんにちは")
     /// <!-- FishyJoes.export(chinese) -->
-    public static let chinese = AttributedStringASDF("你好")
+    public static let chinese = AttributedString("你好")
     /// <!-- FishyJoes.export(chineseBMP) -->
-    public static let chineseBMP = AttributedStringASDF("豈更車賈滑")
+    public static let chineseBMP = AttributedString("豈更車賈滑")
     /// <!-- FishyJoes.export(chineseSIP) -->
-    public static let chineseSIP = AttributedStringASDF("\u{20001}\u{20002}\u{20003}\u{20004}")
+    public static let chineseSIP = AttributedString("\u{20001}\u{20002}\u{20003}\u{20004}")
     /// <!-- FishyJoes.export(emoji) -->
-    public static let emoji = AttributedStringASDF("🤯🐶🍓")
+    public static let emoji = AttributedString("🤯🐶🍓")
     /// <!-- FishyJoes.export(emojiMulti) -->
-    public static let emojiMulti = AttributedStringASDF("👨‍👩‍👧‍👦👍🏿🇺🇸")
+    public static let emojiMulti = AttributedString("👨‍👩‍👧‍👦👍🏿🇺🇸")
 
     /// <!-- FishyJoes.export(echo) -->
-    public static func echo(_ string: AttributedStringASDF) -> AttributedStringASDF {
+    public static func echo(_ string: AttributedString) -> AttributedString {
         return string
     }
 }
 
+/*
 /// <!-- FishyJoes.exportReference(AttributeScope) -->
 public struct AttributeScopeASDF {
 
@@ -272,3 +273,4 @@ extension AttributedStringASDF {
         public var description: String { "fake" }
     }
 }
+*/
