@@ -359,7 +359,7 @@ struct NodeTranslator: Translator {
                 omitParameters.remove(parameter.name)
                 continue
             }
-            
+
             func makeAsyncIfNeeded(_ parameterType: BetterType) -> BetterType {
                 if case let .function(args, returnType, _) = parameterType {
                     return .function(args, returnType, isAsync: true)
@@ -368,10 +368,7 @@ struct NodeTranslator: Translator {
                 }
             }
 
-            var resolved = context.resolve(type: method.isAsync ? makeAsyncIfNeeded(parameter.type) : parameter.type, generics: exportAnnotation.genericOverrides)
-//            if method.isAsync, case .function = parameter.type {
-//                fatalErr("\(resolved.nodeType)")
-//            }
+            let resolved = context.resolve(type: method.isAsync ? makeAsyncIfNeeded(parameter.type) : parameter.type, generics: exportAnnotation.genericOverrides)
             var label: String?
             if let swiftLabel = parameter.label, swiftLabel != parameter.name {
                 label = swiftLabel

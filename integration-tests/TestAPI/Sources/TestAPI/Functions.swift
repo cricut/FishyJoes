@@ -80,7 +80,7 @@ public enum Functions {
     /// <!-- FishyJoes.export(async42Func) -->
     public static func async42Func() async throws -> Int {
         42
-    }	
+    }
 
     /// <!-- FishyJoes.export(asyncYieldFunc) -->
     public static func asyncYieldFunc() async throws -> Int {
@@ -102,12 +102,12 @@ public enum Functions {
     public static func asyncCallbackFunc0(_ callback: () async throws -> Int) async throws -> Int {
         try await callback()
     }
-    
+
     /// <!-- FishyJoes.export(asyncCallbackFunc1) -->
     public static func asyncCallbackFunc1(_ callback: (Int) async throws -> Int) async throws -> Int {
         try await callback(1)
     }
-    
+
     /// <!-- FishyJoes.export(asyncCallbackFunc2) -->
     public static func asyncCallbackFunc2(_ callback: (Int, Int) async throws -> Int) async throws -> Int {
         try await callback(1, 2)
