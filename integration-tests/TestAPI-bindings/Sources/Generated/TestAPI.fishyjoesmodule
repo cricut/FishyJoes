@@ -49,6 +49,550 @@
       "converterType" : {
         "named" : {
           "_0" : {
+            "name" : "AttributeContainerASDF",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cppName" : "AttributeContainer",
+      "cSharpType" : {
+        "named" : {
+          "name" : "AttributeContainer",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/AttributeContainer"
+        }
+      },
+      "kotlinName" : "AttributeContainer",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Reference<To=AttributeContainer>>",
+      "nodeName" : "TestAPI.AttributeContainer",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "name" : "AttributeContainerASDF",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "name" : "AttributeScopeASDF",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cppName" : "AttributeScope",
+      "cSharpType" : {
+        "named" : {
+          "name" : "AttributeScope",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/AttributeScope"
+        }
+      },
+      "kotlinName" : "AttributeScope",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Reference<To=AttributeScope>>",
+      "nodeName" : "TestAPI.AttributeScope",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "name" : "AttributeScopeASDF",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "name" : "AttributedStringASDF",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cppName" : "AttributedString",
+      "cSharpType" : {
+        "named" : {
+          "name" : "AttributedString",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/AttributedString"
+        }
+      },
+      "kotlinName" : "AttributedString",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Reference<To=AttributedString>>",
+      "nodeName" : "TestAPI.AttributedString",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "name" : "AttributedStringASDF",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "name" : "AttributeMergePolicy",
+            "namespace" : [
+              "AttributedStringASDF"
+            ]
+          }
+        }
+      },
+      "cppName" : "AttributedString::AttributeMergePolicy",
+      "cSharpType" : {
+        "named" : {
+          "name" : "AttributedString.AttributeMergePolicy",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/AttributedString$AttributeMergePolicy"
+        }
+      },
+      "kotlinName" : "AttributedString.AttributeMergePolicy",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Reference<To=AttributedString.AttributeMergePolicy>>",
+      "nodeName" : "TestAPI.AttributedString.AttributeMergePolicy",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "name" : "AttributeMergePolicy",
+            "namespace" : [
+              "AttributedStringASDF"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "name" : "CharacterView",
+            "namespace" : [
+              "AttributedStringASDF"
+            ]
+          }
+        }
+      },
+      "cppName" : "AttributedString::CharacterView",
+      "cSharpType" : {
+        "named" : {
+          "name" : "AttributedString.CharacterView",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/AttributedString$CharacterView"
+        }
+      },
+      "kotlinName" : "AttributedString.CharacterView",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Reference<To=AttributedString.CharacterView>>",
+      "nodeName" : "TestAPI.AttributedString.CharacterView",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "name" : "CharacterView",
+            "namespace" : [
+              "AttributedStringASDF"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "name" : "Index",
+            "namespace" : [
+              "AttributedStringASDF"
+            ]
+          }
+        }
+      },
+      "cppName" : "AttributedString::Index",
+      "cSharpType" : {
+        "named" : {
+          "name" : "AttributedString.Index",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/AttributedString$Index"
+        }
+      },
+      "kotlinName" : "AttributedString.Index",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Reference<To=AttributedString.Index>>",
+      "nodeName" : "TestAPI.AttributedString.Index",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "name" : "Index",
+            "namespace" : [
+              "AttributedStringASDF"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "name" : "Runs",
+            "namespace" : [
+              "AttributedStringASDF"
+            ]
+          }
+        }
+      },
+      "cppName" : "AttributedString::Runs",
+      "cSharpType" : {
+        "named" : {
+          "name" : "AttributedString.Runs",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/AttributedString$Runs"
+        }
+      },
+      "kotlinName" : "AttributedString.Runs",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Reference<To=AttributedString.Runs>>",
+      "nodeName" : "TestAPI.AttributedString.Runs",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "name" : "Runs",
+            "namespace" : [
+              "AttributedStringASDF"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "name" : "Index",
+            "namespace" : [
+              "AttributedStringASDF",
+              "Runs"
+            ]
+          }
+        }
+      },
+      "cppName" : "AttributedString::Runs::Index",
+      "cSharpType" : {
+        "named" : {
+          "name" : "AttributedString.Runs.Index",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/AttributedString$Runs$Index"
+        }
+      },
+      "kotlinName" : "AttributedString.Runs.Index",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Reference<To=AttributedString.Runs.Index>>",
+      "nodeName" : "TestAPI.AttributedString.Runs.Index",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "name" : "Index",
+            "namespace" : [
+              "AttributedStringASDF",
+              "Runs"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "name" : "Run",
+            "namespace" : [
+              "AttributedStringASDF",
+              "Runs"
+            ]
+          }
+        }
+      },
+      "cppName" : "AttributedString::Runs::Run",
+      "cSharpType" : {
+        "named" : {
+          "name" : "AttributedString.Runs.Run",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/AttributedString$Runs$Run"
+        }
+      },
+      "kotlinName" : "AttributedString.Runs.Run",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Reference<To=AttributedString.Runs.Run>>",
+      "nodeName" : "TestAPI.AttributedString.Runs.Run",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "name" : "Run",
+            "namespace" : [
+              "AttributedStringASDF",
+              "Runs"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "name" : "UnicodeScalarView",
+            "namespace" : [
+              "AttributedStringASDF"
+            ]
+          }
+        }
+      },
+      "cppName" : "AttributedString::UnicodeScalarView",
+      "cSharpType" : {
+        "named" : {
+          "name" : "AttributedString.UnicodeScalarView",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/AttributedString$UnicodeScalarView"
+        }
+      },
+      "kotlinName" : "AttributedString.UnicodeScalarView",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Reference<To=AttributedString.UnicodeScalarView>>",
+      "nodeName" : "TestAPI.AttributedString.UnicodeScalarView",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "name" : "UnicodeScalarView",
+            "namespace" : [
+              "AttributedStringASDF"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "name" : "AttributedStrings",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cppName" : "AttributedStrings",
+      "cSharpType" : {
+        "named" : {
+          "name" : "AttributedStrings",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : false,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/AttributedStrings"
+        }
+      },
+      "kotlinName" : "AttributedStrings",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=AttributedStrings>>",
+      "nodeName" : "TestAPI.AttributedStrings",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "name" : "AttributedStrings",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "name" : "AttributedSubstringASDF",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cppName" : "AttributedSubstring",
+      "cSharpType" : {
+        "named" : {
+          "name" : "AttributedSubstring",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/AttributedSubstring"
+        }
+      },
+      "kotlinName" : "AttributedSubstring",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Reference<To=AttributedSubstring>>",
+      "nodeName" : "TestAPI.AttributedSubstring",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "name" : "AttributedSubstringASDF",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
             "name" : "Bytes",
             "namespace" : [
 
@@ -861,7 +1405,680 @@
     "rootNamespaces" : [
       {
         "classes" : [
+          {
+            "constructor" : {
+              "hidden" : {
 
+              }
+            },
+            "documentation" : [
+              "<!-- FishyJoes.exportReference(AttributeContainer) -->"
+            ],
+            "extends" : [
+
+            ],
+            "fields" : [
+
+            ],
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(createEmpty) -->"
+                ],
+                "isStatic" : true,
+                "name" : "createEmpty",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "TestAPI.AttributeContainer"
+                  }
+                }
+              }
+            ],
+            "name" : "AttributeContainer"
+          },
+          {
+            "constructor" : {
+              "hidden" : {
+
+              }
+            },
+            "documentation" : [
+              "<!-- FishyJoes.exportReference(AttributeScope) -->"
+            ],
+            "extends" : [
+
+            ],
+            "fields" : [
+
+            ],
+            "methods" : [
+
+            ],
+            "name" : "AttributeScope"
+          },
+          {
+            "constructor" : {
+              "hidden" : {
+
+              }
+            },
+            "documentation" : [
+              "<!-- FishyJoes.exportReference(AttributedString) -->"
+            ],
+            "extends" : [
+
+            ],
+            "fields" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(startIndex) -->"
+                ],
+                "isStatic" : false,
+                "name" : "startIndex",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "TestAPI.AttributedString.Index"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(endIndex) -->"
+                ],
+                "isStatic" : false,
+                "name" : "endIndex",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "TestAPI.AttributedString.Index"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(unicodeScalars) -->"
+                ],
+                "isStatic" : false,
+                "name" : "unicodeScalars",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "TestAPI.AttributedString.UnicodeScalarView"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(characters) -->"
+                ],
+                "isStatic" : false,
+                "name" : "characters",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "TestAPI.AttributedString.CharacterView"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(runs) -->"
+                ],
+                "isStatic" : false,
+                "name" : "runs",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "TestAPI.AttributedString.Runs"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(substring) -->"
+                ],
+                "isStatic" : false,
+                "name" : "substring",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "TestAPI.AttributedSubstring"
+                  }
+                }
+              }
+            ],
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(createEmpty) -->"
+                ],
+                "isStatic" : true,
+                "name" : "createEmpty",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "TestAPI.AttributedString"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(create) -->"
+                ],
+                "isStatic" : true,
+                "name" : "create",
+                "parameters" : [
+                  {
+                    "name" : "string",
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  },
+                  {
+                    "defaultValue" : "nil",
+                    "name" : "attributes",
+                    "type" : {
+                      "optional" : {
+                        "_0" : {
+                          "named" : {
+                            "_0" : "TestAPI.AttributeContainer"
+                          }
+                        }
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "TestAPI.AttributedString"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(createFromSubstring) -->"
+                ],
+                "isStatic" : true,
+                "name" : "createFromSubstring",
+                "parameters" : [
+                  {
+                    "name" : "substring",
+                    "type" : {
+                      "named" : {
+                        "_0" : "TestAPI.AttributedSubstring"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "TestAPI.AttributedString"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(substringForRange) -->"
+                ],
+                "isStatic" : false,
+                "name" : "substringForRange",
+                "parameters" : [
+                  {
+                    "label" : "for",
+                    "name" : "range",
+                    "type" : {
+                      "named" : {
+                        "_0" : "SwiftRange<AttributedString.Index>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "TestAPI.AttributedSubstring"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(append) -->"
+                ],
+                "isStatic" : false,
+                "name" : "append",
+                "parameters" : [
+                  {
+                    "name" : "s",
+                    "type" : {
+                      "named" : {
+                        "_0" : "TestAPI.AttributedString"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "void"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(insert) -->"
+                ],
+                "isStatic" : false,
+                "name" : "insert",
+                "parameters" : [
+                  {
+                    "name" : "s",
+                    "type" : {
+                      "named" : {
+                        "_0" : "TestAPI.AttributedString"
+                      }
+                    }
+                  },
+                  {
+                    "label" : "at",
+                    "name" : "index",
+                    "type" : {
+                      "named" : {
+                        "_0" : "TestAPI.AttributedString.Index"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "void"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(removeSubrange) -->"
+                ],
+                "isStatic" : false,
+                "name" : "removeSubrange",
+                "parameters" : [
+                  {
+                    "name" : "range",
+                    "type" : {
+                      "named" : {
+                        "_0" : "SwiftRange<AttributedString.Index>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "void"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(replaceSubrange) -->"
+                ],
+                "isStatic" : false,
+                "name" : "replaceSubrange",
+                "parameters" : [
+                  {
+                    "name" : "range",
+                    "type" : {
+                      "named" : {
+                        "_0" : "SwiftRange<AttributedString.Index>"
+                      }
+                    }
+                  },
+                  {
+                    "label" : "with",
+                    "name" : "s",
+                    "type" : {
+                      "named" : {
+                        "_0" : "TestAPI.AttributedString"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "void"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(setAttributes) -->"
+                ],
+                "isStatic" : false,
+                "name" : "setAttributes",
+                "parameters" : [
+                  {
+                    "name" : "attributes",
+                    "type" : {
+                      "named" : {
+                        "_0" : "TestAPI.AttributeContainer"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "void"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(mergeAttributes) -->"
+                ],
+                "isStatic" : false,
+                "name" : "mergeAttributes",
+                "parameters" : [
+                  {
+                    "name" : "attributes",
+                    "type" : {
+                      "named" : {
+                        "_0" : "TestAPI.AttributeContainer"
+                      }
+                    }
+                  },
+                  {
+                    "defaultValue" : "nil",
+                    "name" : "mergePolicy",
+                    "type" : {
+                      "optional" : {
+                        "_0" : {
+                          "named" : {
+                            "_0" : "TestAPI.AttributedString.AttributeMergePolicy"
+                          }
+                        }
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "void"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(replaceAttributes) -->"
+                ],
+                "isStatic" : false,
+                "name" : "replaceAttributes",
+                "parameters" : [
+                  {
+                    "name" : "attributes",
+                    "type" : {
+                      "named" : {
+                        "_0" : "TestAPI.AttributeContainer"
+                      }
+                    }
+                  },
+                  {
+                    "label" : "with",
+                    "name" : "others",
+                    "type" : {
+                      "named" : {
+                        "_0" : "TestAPI.AttributeContainer"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "void"
+                  }
+                }
+              }
+            ],
+            "name" : "AttributedString"
+          },
+          {
+            "constructor" : {
+              "hidden" : {
+
+              }
+            },
+            "documentation" : [
+              "<!-- FishyJoes.exportReference(AttributedSubstring) -->"
+            ],
+            "extends" : [
+
+            ],
+            "fields" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(base) -->"
+                ],
+                "isStatic" : false,
+                "name" : "base",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "TestAPI.AttributedString"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(startIndex) -->"
+                ],
+                "isStatic" : false,
+                "name" : "startIndex",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "TestAPI.AttributedString.Index"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(endIndex) -->"
+                ],
+                "isStatic" : false,
+                "name" : "endIndex",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "TestAPI.AttributedString.Index"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(unicodeScalars) -->"
+                ],
+                "isStatic" : false,
+                "name" : "unicodeScalars",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "TestAPI.AttributedString.UnicodeScalarView"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(characters) -->"
+                ],
+                "isStatic" : false,
+                "name" : "characters",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "TestAPI.AttributedString.CharacterView"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(runs) -->"
+                ],
+                "isStatic" : false,
+                "name" : "runs",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "TestAPI.AttributedString.Runs"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(substring) -->"
+                ],
+                "isStatic" : false,
+                "name" : "substring",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "TestAPI.AttributedSubstring"
+                  }
+                }
+              }
+            ],
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(createEmpty) -->"
+                ],
+                "isStatic" : true,
+                "name" : "createEmpty",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "TestAPI.AttributedSubstring"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(substringForRange) -->"
+                ],
+                "isStatic" : false,
+                "name" : "substringForRange",
+                "parameters" : [
+                  {
+                    "label" : "for",
+                    "name" : "range",
+                    "type" : {
+                      "named" : {
+                        "_0" : "SwiftRange<AttributedString.Index>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "TestAPI.AttributedSubstring"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(setAttributes) -->"
+                ],
+                "isStatic" : false,
+                "name" : "setAttributes",
+                "parameters" : [
+                  {
+                    "name" : "attributes",
+                    "type" : {
+                      "named" : {
+                        "_0" : "TestAPI.AttributeContainer"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "void"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(mergeAttributes) -->"
+                ],
+                "isStatic" : false,
+                "name" : "mergeAttributes",
+                "parameters" : [
+                  {
+                    "name" : "attributes",
+                    "type" : {
+                      "named" : {
+                        "_0" : "TestAPI.AttributeContainer"
+                      }
+                    }
+                  },
+                  {
+                    "defaultValue" : "nil",
+                    "name" : "mergePolicy",
+                    "type" : {
+                      "optional" : {
+                        "_0" : {
+                          "named" : {
+                            "_0" : "TestAPI.AttributedString.AttributeMergePolicy"
+                          }
+                        }
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "void"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(replaceAttributes) -->"
+                ],
+                "isStatic" : false,
+                "name" : "replaceAttributes",
+                "parameters" : [
+                  {
+                    "name" : "attributes",
+                    "type" : {
+                      "named" : {
+                        "_0" : "TestAPI.AttributeContainer"
+                      }
+                    }
+                  },
+                  {
+                    "label" : "with",
+                    "name" : "others",
+                    "type" : {
+                      "named" : {
+                        "_0" : "TestAPI.AttributeContainer"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "void"
+                  }
+                }
+              }
+            ],
+            "name" : "AttributedSubstring"
+          }
         ],
         "fields" : [
 
@@ -1168,6 +2385,750 @@
 
             ],
             "name" : "AssociatedDataEnum",
+            "namespaces" : {
+
+            },
+            "typealiases" : [
+
+            ]
+          },
+          "AttributedString" : {
+            "classes" : [
+              {
+                "constructor" : {
+                  "hidden" : {
+
+                  }
+                },
+                "documentation" : [
+                  "<!-- FishyJoes.exportReference(AttributedString.AttributeMergePolicy) -->"
+                ],
+                "extends" : [
+
+                ],
+                "fields" : [
+
+                ],
+                "methods" : [
+
+                ],
+                "name" : "AttributeMergePolicy"
+              },
+              {
+                "constructor" : {
+                  "hidden" : {
+
+                  }
+                },
+                "documentation" : [
+                  "<!-- FishyJoes.exportReference(AttributedString.CharacterView) -->"
+                ],
+                "extends" : [
+
+                ],
+                "fields" : [
+                  {
+                    "documentation" : [
+                      "<!-- FishyJoes.export(startIndex) -->"
+                    ],
+                    "isStatic" : false,
+                    "name" : "startIndex",
+                    "readOnly" : true,
+                    "type" : {
+                      "named" : {
+                        "_0" : "TestAPI.AttributedString.Index"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+                      "<!-- FishyJoes.export(endIndex) -->"
+                    ],
+                    "isStatic" : false,
+                    "name" : "endIndex",
+                    "readOnly" : true,
+                    "type" : {
+                      "named" : {
+                        "_0" : "TestAPI.AttributedString.Index"
+                      }
+                    }
+                  }
+                ],
+                "methods" : [
+                  {
+                    "documentation" : [
+                      "<!-- FishyJoes.export(indexBefore) -->"
+                    ],
+                    "isStatic" : false,
+                    "name" : "indexBefore",
+                    "parameters" : [
+                      {
+                        "label" : "before",
+                        "name" : "i",
+                        "type" : {
+                          "named" : {
+                            "_0" : "TestAPI.AttributedString.Index"
+                          }
+                        }
+                      }
+                    ],
+                    "returnType" : {
+                      "named" : {
+                        "_0" : "TestAPI.AttributedString.Index"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+                      "<!-- FishyJoes.export(indexAfter) -->"
+                    ],
+                    "isStatic" : false,
+                    "name" : "indexAfter",
+                    "parameters" : [
+                      {
+                        "label" : "after",
+                        "name" : "i",
+                        "type" : {
+                          "named" : {
+                            "_0" : "TestAPI.AttributedString.Index"
+                          }
+                        }
+                      }
+                    ],
+                    "returnType" : {
+                      "named" : {
+                        "_0" : "TestAPI.AttributedString.Index"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+                      "<!-- FishyJoes.export(elementAt) -->"
+                    ],
+                    "isStatic" : false,
+                    "name" : "elementAt",
+                    "parameters" : [
+                      {
+                        "label" : "at",
+                        "name" : "index",
+                        "type" : {
+                          "named" : {
+                            "_0" : "TestAPI.AttributedString.Index"
+                          }
+                        }
+                      }
+                    ],
+                    "returnType" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+                      "<!-- FishyJoes.export(replaceSubrange, generic: [C: [String]]) -->"
+                    ],
+                    "isStatic" : false,
+                    "name" : "replaceSubrange",
+                    "parameters" : [
+                      {
+                        "name" : "subrange",
+                        "type" : {
+                          "named" : {
+                            "_0" : "SwiftRange<AttributedString.Index>"
+                          }
+                        }
+                      },
+                      {
+                        "label" : "with",
+                        "name" : "newElements",
+                        "type" : {
+                          "named" : {
+                            "_0" : "string[]"
+                          }
+                        }
+                      }
+                    ],
+                    "returnType" : {
+                      "named" : {
+                        "_0" : "void"
+                      }
+                    }
+                  }
+                ],
+                "name" : "CharacterView"
+              },
+              {
+                "constructor" : {
+                  "hidden" : {
+
+                  }
+                },
+                "documentation" : [
+                  "<!-- FishyJoes.exportReference(AttributedString.Index) -->"
+                ],
+                "extends" : [
+
+                ],
+                "fields" : [
+
+                ],
+                "methods" : [
+
+                ],
+                "name" : "Index"
+              },
+              {
+                "constructor" : {
+                  "hidden" : {
+
+                  }
+                },
+                "documentation" : [
+                  "<!-- FishyJoes.exportReference(AttributedString.Runs) -->"
+                ],
+                "extends" : [
+
+                ],
+                "fields" : [
+                  {
+                    "documentation" : [
+                      "<!-- FishyJoes.export(startIndex) -->"
+                    ],
+                    "isStatic" : false,
+                    "name" : "startIndex",
+                    "readOnly" : true,
+                    "type" : {
+                      "named" : {
+                        "_0" : "TestAPI.AttributedString.Runs.Index"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+                      "<!-- FishyJoes.export(endIndex) -->"
+                    ],
+                    "isStatic" : false,
+                    "name" : "endIndex",
+                    "readOnly" : true,
+                    "type" : {
+                      "named" : {
+                        "_0" : "TestAPI.AttributedString.Runs.Index"
+                      }
+                    }
+                  }
+                ],
+                "methods" : [
+                  {
+                    "documentation" : [
+                      "<!-- FishyJoes.export(indexBefore) -->"
+                    ],
+                    "isStatic" : false,
+                    "name" : "indexBefore",
+                    "parameters" : [
+                      {
+                        "label" : "before",
+                        "name" : "i",
+                        "type" : {
+                          "named" : {
+                            "_0" : "TestAPI.AttributedString.Runs.Index"
+                          }
+                        }
+                      }
+                    ],
+                    "returnType" : {
+                      "named" : {
+                        "_0" : "TestAPI.AttributedString.Runs.Index"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+                      "<!-- FishyJoes.export(indexAfter) -->"
+                    ],
+                    "isStatic" : false,
+                    "name" : "indexAfter",
+                    "parameters" : [
+                      {
+                        "label" : "after",
+                        "name" : "i",
+                        "type" : {
+                          "named" : {
+                            "_0" : "TestAPI.AttributedString.Runs.Index"
+                          }
+                        }
+                      }
+                    ],
+                    "returnType" : {
+                      "named" : {
+                        "_0" : "TestAPI.AttributedString.Runs.Index"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+                      "<!-- FishyJoes.export(elementAt) -->"
+                    ],
+                    "isStatic" : false,
+                    "name" : "elementAt",
+                    "parameters" : [
+                      {
+                        "label" : "at",
+                        "name" : "index",
+                        "type" : {
+                          "named" : {
+                            "_0" : "TestAPI.AttributedString.Runs.Index"
+                          }
+                        }
+                      }
+                    ],
+                    "returnType" : {
+                      "named" : {
+                        "_0" : "TestAPI.AttributedString.Runs.Run"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+                      "<!-- FishyJoes.export(elementAtPosition) -->"
+                    ],
+                    "isStatic" : false,
+                    "name" : "elementAtPosition",
+                    "parameters" : [
+                      {
+                        "label" : "at",
+                        "name" : "index",
+                        "type" : {
+                          "named" : {
+                            "_0" : "TestAPI.AttributedString.Index"
+                          }
+                        }
+                      }
+                    ],
+                    "returnType" : {
+                      "named" : {
+                        "_0" : "TestAPI.AttributedString.Runs.Run"
+                      }
+                    }
+                  }
+                ],
+                "name" : "Runs"
+              },
+              {
+                "constructor" : {
+                  "hidden" : {
+
+                  }
+                },
+                "documentation" : [
+                  "<!-- FishyJoes.exportReference(AttributedString.UnicodeScalarView) -->"
+                ],
+                "extends" : [
+
+                ],
+                "fields" : [
+                  {
+                    "documentation" : [
+                      "<!-- FishyJoes.export(startIndex) -->"
+                    ],
+                    "isStatic" : false,
+                    "name" : "startIndex",
+                    "readOnly" : true,
+                    "type" : {
+                      "named" : {
+                        "_0" : "TestAPI.AttributedString.Index"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+                      "<!-- FishyJoes.export(endIndex) -->"
+                    ],
+                    "isStatic" : false,
+                    "name" : "endIndex",
+                    "readOnly" : true,
+                    "type" : {
+                      "named" : {
+                        "_0" : "TestAPI.AttributedString.Index"
+                      }
+                    }
+                  }
+                ],
+                "methods" : [
+                  {
+                    "documentation" : [
+                      "<!-- FishyJoes.export(indexBefore) -->"
+                    ],
+                    "isStatic" : false,
+                    "name" : "indexBefore",
+                    "parameters" : [
+                      {
+                        "label" : "before",
+                        "name" : "i",
+                        "type" : {
+                          "named" : {
+                            "_0" : "TestAPI.AttributedString.Index"
+                          }
+                        }
+                      }
+                    ],
+                    "returnType" : {
+                      "named" : {
+                        "_0" : "TestAPI.AttributedString.Index"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+                      "<!-- FishyJoes.export(indexAfter) -->"
+                    ],
+                    "isStatic" : false,
+                    "name" : "indexAfter",
+                    "parameters" : [
+                      {
+                        "label" : "after",
+                        "name" : "i",
+                        "type" : {
+                          "named" : {
+                            "_0" : "TestAPI.AttributedString.Index"
+                          }
+                        }
+                      }
+                    ],
+                    "returnType" : {
+                      "named" : {
+                        "_0" : "TestAPI.AttributedString.Index"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+                      "<!-- FishyJoes.export(indexOffsetByDistance) -->"
+                    ],
+                    "isStatic" : false,
+                    "name" : "indexOffsetByDistance",
+                    "parameters" : [
+                      {
+                        "name" : "i",
+                        "type" : {
+                          "named" : {
+                            "_0" : "TestAPI.AttributedString.Index"
+                          }
+                        }
+                      },
+                      {
+                        "label" : "offsetBy",
+                        "name" : "distance",
+                        "type" : {
+                          "named" : {
+                            "_0" : "number"
+                          }
+                        }
+                      }
+                    ],
+                    "returnType" : {
+                      "named" : {
+                        "_0" : "TestAPI.AttributedString.Index"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+                      "<!-- FishyJoes.export(elementAt) -->"
+                    ],
+                    "isStatic" : false,
+                    "name" : "elementAt",
+                    "parameters" : [
+                      {
+                        "label" : "at",
+                        "name" : "index",
+                        "type" : {
+                          "named" : {
+                            "_0" : "TestAPI.AttributedString.Index"
+                          }
+                        }
+                      }
+                    ],
+                    "returnType" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+                      "<!-- FishyJoes.export(replaceSubrange, generic: [C: [UInt32]]) -->"
+                    ],
+                    "isStatic" : false,
+                    "name" : "replaceSubrange",
+                    "parameters" : [
+                      {
+                        "name" : "subrange",
+                        "type" : {
+                          "named" : {
+                            "_0" : "SwiftRange<AttributedString.Index>"
+                          }
+                        }
+                      },
+                      {
+                        "label" : "with",
+                        "name" : "newElements",
+                        "type" : {
+                          "named" : {
+                            "_0" : "number[]"
+                          }
+                        }
+                      }
+                    ],
+                    "returnType" : {
+                      "named" : {
+                        "_0" : "void"
+                      }
+                    }
+                  }
+                ],
+                "name" : "UnicodeScalarView"
+              }
+            ],
+            "fields" : [
+
+            ],
+            "interfaces" : [
+
+            ],
+            "methods" : [
+
+            ],
+            "name" : "AttributedString",
+            "namespaces" : {
+              "Runs" : {
+                "classes" : [
+                  {
+                    "constructor" : {
+                      "hidden" : {
+
+                      }
+                    },
+                    "documentation" : [
+                      "<!-- FishyJoes.exportReference(AttributedString.Runs.Index) -->"
+                    ],
+                    "extends" : [
+
+                    ],
+                    "fields" : [
+
+                    ],
+                    "methods" : [
+
+                    ],
+                    "name" : "Index"
+                  },
+                  {
+                    "constructor" : {
+                      "hidden" : {
+
+                      }
+                    },
+                    "documentation" : [
+                      "<!-- FishyJoes.exportReference(AttributedString.Runs.Run) -->"
+                    ],
+                    "extends" : [
+
+                    ],
+                    "fields" : [
+                      {
+                        "documentation" : [
+                          "<!-- FishyJoes.export(range) -->"
+                        ],
+                        "isStatic" : false,
+                        "name" : "range",
+                        "readOnly" : true,
+                        "type" : {
+                          "named" : {
+                            "_0" : "SwiftRange<AttributedString.Index>"
+                          }
+                        }
+                      },
+                      {
+                        "documentation" : [
+                          "<!-- FishyJoes.export(attributes) -->"
+                        ],
+                        "isStatic" : false,
+                        "name" : "attributes",
+                        "readOnly" : true,
+                        "type" : {
+                          "named" : {
+                            "_0" : "TestAPI.AttributeContainer"
+                          }
+                        }
+                      }
+                    ],
+                    "methods" : [
+
+                    ],
+                    "name" : "Run"
+                  }
+                ],
+                "fields" : [
+
+                ],
+                "interfaces" : [
+
+                ],
+                "methods" : [
+
+                ],
+                "name" : "Runs",
+                "namespaces" : {
+
+                },
+                "typealiases" : [
+
+                ]
+              }
+            },
+            "typealiases" : [
+
+            ]
+          },
+          "AttributedStrings" : {
+            "classes" : [
+
+            ],
+            "fields" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(simple) -->"
+                ],
+                "isStatic" : true,
+                "name" : "simple",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "TestAPI.AttributedString"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(accent) -->"
+                ],
+                "isStatic" : true,
+                "name" : "accent",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "TestAPI.AttributedString"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(script) -->"
+                ],
+                "isStatic" : true,
+                "name" : "script",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "TestAPI.AttributedString"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(chinese) -->"
+                ],
+                "isStatic" : true,
+                "name" : "chinese",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "TestAPI.AttributedString"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(chineseBMP) -->"
+                ],
+                "isStatic" : true,
+                "name" : "chineseBMP",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "TestAPI.AttributedString"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(chineseSIP) -->"
+                ],
+                "isStatic" : true,
+                "name" : "chineseSIP",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "TestAPI.AttributedString"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(emoji) -->"
+                ],
+                "isStatic" : true,
+                "name" : "emoji",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "TestAPI.AttributedString"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(emojiMulti) -->"
+                ],
+                "isStatic" : true,
+                "name" : "emojiMulti",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "TestAPI.AttributedString"
+                  }
+                }
+              }
+            ],
+            "interfaces" : [
+
+            ],
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(echo) -->"
+                ],
+                "isStatic" : true,
+                "name" : "echo",
+                "parameters" : [
+                  {
+                    "name" : "string",
+                    "type" : {
+                      "named" : {
+                        "_0" : "TestAPI.AttributedString"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "TestAPI.AttributedString"
+                  }
+                }
+              }
+            ],
+            "name" : "AttributedStrings",
             "namespaces" : {
 
             },
@@ -5993,6 +7954,19 @@
                       "_0" : "AssociatedDataEnum.SimpleEnum"
                     }
                   }
+                ]
+              }
+            }
+          },
+          {
+            "documentation" : [
+              "<!-- FishyJoes.export(AttributedStrings) -->"
+            ],
+            "name" : "AttributedStrings",
+            "value" : {
+              "union" : {
+                "_0" : [
+
                 ]
               }
             }

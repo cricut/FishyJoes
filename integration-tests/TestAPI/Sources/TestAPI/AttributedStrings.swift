@@ -7,27 +7,27 @@
 
 import Foundation
 
-/// <!-- FishyJoes.export(Strings) -->
+/// <!-- FishyJoes.export(AttributedStrings) -->
 public enum AttributedStrings {
     /// <!-- FishyJoes.export(simple) -->
-    public static let simple = AttributedString("Hello")
+    public static let simple = AttributedStringASDF("Hello")
     /// <!-- FishyJoes.export(accent) -->
-    public static let accent = AttributedString("Olá")
+    public static let accent = AttributedStringASDF("Olá")
     /// <!-- FishyJoes.export(script) -->
-    public static let script = AttributedString("こんにちは")
+    public static let script = AttributedStringASDF("こんにちは")
     /// <!-- FishyJoes.export(chinese) -->
-    public static let chinese = AttributedString("你好")
+    public static let chinese = AttributedStringASDF("你好")
     /// <!-- FishyJoes.export(chineseBMP) -->
-    public static let chineseBMP = AttributedString("豈更車賈滑")
+    public static let chineseBMP = AttributedStringASDF("豈更車賈滑")
     /// <!-- FishyJoes.export(chineseSIP) -->
-    public static let chineseSIP = AttributedString("\u{20001}\u{20002}\u{20003}\u{20004}")
+    public static let chineseSIP = AttributedStringASDF("\u{20001}\u{20002}\u{20003}\u{20004}")
     /// <!-- FishyJoes.export(emoji) -->
-    public static let emoji = AttributedString("🤯🐶🍓")
+    public static let emoji = AttributedStringASDF("🤯🐶🍓")
     /// <!-- FishyJoes.export(emojiMulti) -->
-    public static let emojiMulti = AttributedString("👨‍👩‍👧‍👦👍🏿🇺🇸")
+    public static let emojiMulti = AttributedStringASDF("👨‍👩‍👧‍👦👍🏿🇺🇸")
 
     /// <!-- FishyJoes.export(echo) -->
-    public static func echo(_ string: AttributedString) -> AttributedString {
+    public static func echo(_ string: AttributedStringASDF) -> AttributedStringASDF {
         return string
     }
 }
@@ -38,7 +38,7 @@ public struct AttributeScopeASDF {
 }
 
 /// <!-- FishyJoes.exportReference(AttributeContainer) -->
-public struct AttributeContainerASDF: Equatable, CustomStringConvertible {
+public struct AttributeContainerASDF: Hashable/*Equatable*/, CustomStringConvertible {
     /// <!-- FishyJoes.export(createEmpty) -->
     public init() {}
 
@@ -104,6 +104,7 @@ public struct AttributedStringASDF: CustomStringConvertible, Hashable {
     public var description: String { "fake" }
 }
 
+/// <!-- FishyJoes.exportReference(AttributedSubstring) -->
 public struct AttributedSubstringASDF: CustomStringConvertible, Hashable {
     /// <!-- FishyJoes.export(createEmpty) -->
     public init() {}
@@ -144,6 +145,9 @@ public struct AttributedSubstringASDF: CustomStringConvertible, Hashable {
 extension AttributedStringASDF {
     /// <!-- FishyJoes.exportReference(AttributedString.Index) -->
     public struct Index: Comparable, Sendable {
+        public init() { self._data = 0 }
+        public init(_data: UInt64) { self._data = _data }
+        public var _data: UInt64
         public static func < (lhs: Index, rhs: Index) -> Bool { false }
         public static func == (a: Index, b: Index) -> Bool { false }
     }
@@ -163,7 +167,7 @@ extension AttributedStringASDF {
         public init() {}
 
         /// <!-- FishyJoes.exportReference(AttributedString.UnicodeScalarView.Element) -->
-        public typealias Element = UnicodeScalar
+        public typealias Element = UInt32//UnicodeScalar
         /// <!-- FishyJoes.exportReference(AttributedString.UnicodeScalarView.Index) -->
         public typealias Index = AttributedStringASDF.Index
 
@@ -178,12 +182,12 @@ extension AttributedStringASDF {
         /// <!-- FishyJoes.export(indexOffsetByDistance) -->
         public func index(_ i: Index, offsetBy distance: Int) -> Index { .init() }
 
-        public subscript(index: Index) -> Element { "A" }
+        public subscript(index: Index) -> Element { .max }//{ "A" }
         /// <!-- FishyJoes.export(elementAt) -->
         public func element(at index: Index) -> Element { self[index] }
 
-        /// <!-- FishyJoes.export(replaceSubrange, generic: [C: [Element]]) -->
-        public mutating func replaceSubrange<C>(_ subrange: Range<Index>, with newElements: C) where C: Collection, C.Element == Element {}
+        /// <!-- FishyJoes.export(replaceSubrange, generic: [C: [UInt32]]) -->
+        public mutating func replaceSubrange<C>(_ subrange: Range<Index>, with newElements: C) where C: Collection, C.Element == UInt32 {}//Element {}
     }
 }
 
@@ -193,7 +197,7 @@ extension AttributedStringASDF {
         public init() {}
 
         /// <!-- FishyJoes.exportReference(AttributedString.CharacterView.Element) -->
-        public typealias Element = Character
+        public typealias Element = String//Character
 
         /// <!-- FishyJoes.exportReference(AttributedString.CharacterView.Index) -->
         public typealias Index = AttributedStringASDF.Index
@@ -207,22 +211,26 @@ extension AttributedStringASDF {
         /// <!-- FishyJoes.export(indexAfter) -->
         public func index(after i: Index) -> Index { .init() }
 
-        public subscript(index: Index) -> Character { "A" }
+        public subscript(index: Index) -> Element { "A" }
         /// <!-- FishyJoes.export(elementAt) -->
         public func element(at index: Index) -> Element { self[index] }
 
-        /// <!-- FishyJoes.export(replaceSubrange, generic: [C: [Element]]) -->
-        public mutating func replaceSubrange<C>(_ subrange: Range<Index>, with newElements: C) where C: Collection, C.Element == Element {}
+        /// <!-- FishyJoes.export(replaceSubrange, generic: [C: [String]]) -->
+        public mutating func replaceSubrange<C>(_ subrange: Range<Index>, with newElements: C) where C: Collection, C.Element == String {}//Element {}
     }
 }
 
 extension AttributedStringASDF {
     /// <!-- FishyJoes.exportReference(AttributedString.Runs) -->
-    public struct Runs: BidirectionalCollection, Equatable, CustomStringConvertible {
+    public struct Runs: BidirectionalCollection, Hashable/*Equatable*/, CustomStringConvertible {
         public init() {}
 
         /// <!-- FishyJoes.exportReference(AttributedString.Runs.Index) -->
         public struct Index: Comparable, Strideable, Sendable {
+            public init() { self._data = 0 }
+            public init(_data: UInt64) { self._data = _data }
+            public var _data: UInt64
+
             public static func < (lhs: Self, rhs: Self) -> Bool { false }
             public func distance(to other: Self) -> Int { 0 }
             public func advanced(by n: Int) -> Self { .init() }
@@ -230,7 +238,7 @@ extension AttributedStringASDF {
         }
 
         /// <!-- FishyJoes.exportReference(AttributedString.Runs.Run) -->
-        public struct Run: Equatable, CustomStringConvertible {
+        public struct Run: Hashable/*Equatable*/, CustomStringConvertible {
             /// <!-- FishyJoes.export(range) -->
             public var range: Range<AttributedStringASDF.Index> { AttributedStringASDF.Index()..<AttributedStringASDF.Index() }
             /// <!-- FishyJoes.export(attributes) -->
@@ -240,6 +248,8 @@ extension AttributedStringASDF {
 
             public var description: String { "fake" }
         }
+
+        /// <!-- FishyJoes.exportReference(AttributedString.Runs.Element) -->
         public typealias Element = Run
 
         /// <!-- FishyJoes.export(startIndex) -->
