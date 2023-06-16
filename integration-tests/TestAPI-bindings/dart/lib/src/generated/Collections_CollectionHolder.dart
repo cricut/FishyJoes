@@ -41,32 +41,35 @@ class Collections_CollectionHolder with _$Collections_CollectionHolder {
     /// <!-- FishyJoes.export(staticPropery) -->
     static List<int?> get staticPropery =>
         check((exn) =>
-            consumeCreatedRef<List<int?>>(f__iota_get_Collections_CollectionHolder_staticPropery(exn))
+            consumeCreatedRef<List<int?>>(f__dart_get_Collections_CollectionHolder_staticPropery(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(staticMutablePropery) -->
     static List<int?> get staticMutablePropery =>
         check((exn) =>
-            consumeCreatedRef<List<int?>>(f__iota_get_Collections_CollectionHolder_staticMutablePropery(exn))
+            consumeCreatedRef<List<int?>>(f__dart_get_Collections_CollectionHolder_staticMutablePropery(Loader.shared.env, exn))
         )
     ;
     static void set staticMutablePropery(List<int?> value) {
         GCRef.using(value, (_valueHandle) =>
             check((exn) =>
-                f__iota_set_Collections_CollectionHolder_staticMutablePropery(_valueHandle.ptr, exn)
+                f__dart_set_Collections_CollectionHolder_staticMutablePropery(Loader.shared.env, _valueHandle.ptr, exn)
             )
         )
         ;
     }
 
-    static late CreatedRef Function(
-        OutCreatedRef _exn
-    ) f__iota_get_Collections_CollectionHolder_staticMutablePropery;
-    static late CreatedRef Function(
-        OutCreatedRef _exn
-    ) f__iota_get_Collections_CollectionHolder_staticPropery;
     static late void Function(
+        Env env,
         UnownedRef staticMutablePropery,
         OutCreatedRef _exn
-    ) f__iota_set_Collections_CollectionHolder_staticMutablePropery;
+    ) f__dart_set_Collections_CollectionHolder_staticMutablePropery;
+    static late CreatedRef Function(
+        Env env,
+        OutCreatedRef _exn
+    ) f__dart_get_Collections_CollectionHolder_staticPropery;
+    static late CreatedRef Function(
+        Env env,
+        OutCreatedRef _exn
+    ) f__dart_get_Collections_CollectionHolder_staticMutablePropery;
 }

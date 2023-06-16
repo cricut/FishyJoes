@@ -5,7 +5,6 @@ import 'dart:isolate';
 void main() {
   setUp(() {
       print("${Isolate.current}, ${Isolate.current.hashCode}, ${Isolate.current.debugName}");
-      print("${Isolate.current}, ${Isolate.current.hashCode}, ${Isolate.current.debugName}");
       final _ = ensureLoaded;
   });
 

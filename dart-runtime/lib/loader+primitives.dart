@@ -26,62 +26,74 @@ typedef _FloatConstructor = CreatedRef Function(ffi.Float value);
 typedef _DoubleConstructor = CreatedRef Function(ffi.Double value);
 
 typedef _FishyJoesRuntime_Bool_setup<R> = R Function(
-  UnownedRef iotaTrue,
-  UnownedRef iotaFalse,
+  Env env,
+  UnownedRef dartTrue,
+  UnownedRef dartFalse,
   ffi.Pointer<ffi.NativeFunction<_BoolValueMethod>> valueMethod
 );
 
 typedef _FishyJoesRuntime_Int8_setup<R> = R Function(
+  Env env,
   ffi.Pointer<ffi.NativeFunction<_Int8ValueMethod>> valueMethod,
   ffi.Pointer<ffi.NativeFunction<_Int8Constructor>> constructor
 );
 
 typedef _FishyJoesRuntime_Int16_setup<R> = R Function(
+  Env env,
   ffi.Pointer<ffi.NativeFunction<_Int16ValueMethod>> valueMethod,
   ffi.Pointer<ffi.NativeFunction<_Int16Constructor>> constructor
 );
 
 typedef _FishyJoesRuntime_Int32_setup<R> = R Function(
+  Env env,
   ffi.Pointer<ffi.NativeFunction<_Int32ValueMethod>> valueMethod,
   ffi.Pointer<ffi.NativeFunction<_Int32Constructor>> constructor
 );
 
 typedef _FishyJoesRuntime_Int64_setup<R> = R Function(
+  Env env,
   ffi.Pointer<ffi.NativeFunction<_Int64ValueMethod>> valueMethod,
   ffi.Pointer<ffi.NativeFunction<_Int64Constructor>> constructor
 );
 
 typedef _FishyJoesRuntime_UInt8_setup<R> = R Function(
+  Env env,
   ffi.Pointer<ffi.NativeFunction<_UInt8ValueMethod>> valueMethod,
   ffi.Pointer<ffi.NativeFunction<_UInt8Constructor>> constructor
 );
 
 typedef _FishyJoesRuntime_UInt16_setup<R> = R Function(
+  Env env,
   ffi.Pointer<ffi.NativeFunction<_UInt16ValueMethod>> valueMethod,
   ffi.Pointer<ffi.NativeFunction<_UInt16Constructor>> constructor
 );
 
 typedef _FishyJoesRuntime_UInt32_setup<R> = R Function(
+  Env env,
   ffi.Pointer<ffi.NativeFunction<_UInt32ValueMethod>> valueMethod,
   ffi.Pointer<ffi.NativeFunction<_UInt32Constructor>> constructor
 );
 
 typedef _FishyJoesRuntime_UInt64_setup<R> = R Function(
+  Env env,
   ffi.Pointer<ffi.NativeFunction<_UInt64ValueMethod>> valueMethod,
   ffi.Pointer<ffi.NativeFunction<_UInt64Constructor>> constructor
 );
 
 typedef _FishyJoesRuntime_Int_setup<R> = R Function(
+  Env env,
   ffi.Pointer<ffi.NativeFunction<_IntValueMethod>> valueMethod,
   ffi.Pointer<ffi.NativeFunction<_IntConstructor>> constructor
 );
 
 typedef _FishyJoesRuntime_Float_setup<R> = R Function(
+  Env env,
   ffi.Pointer<ffi.NativeFunction<_FloatValueMethod>> valueMethod,
   ffi.Pointer<ffi.NativeFunction<_FloatConstructor>> constructor
 );
 
 typedef _FishyJoesRuntime_Double_setup<R> = R Function(
+  Env env,
   ffi.Pointer<ffi.NativeFunction<_DoubleValueMethod>> valueMethod,
   ffi.Pointer<ffi.NativeFunction<_DoubleConstructor>> constructor
 );
@@ -97,7 +109,7 @@ extension LoaderPrimitives on Loader {
   static double _doubleValue(UnownedRef obj, OutCreatedRef exn) => catching(exn, () => peekRef<double>(obj)) ?? 0.0;
   static CreatedRef _doubleConstructor(double value) => createRef(value);
 
-  static void _setup() {
+  static void _setup(Env env) {
     final trueObj = GCRef(true);
     final falseObj = GCRef(false);
 
@@ -105,6 +117,7 @@ extension LoaderPrimitives on Loader {
     Loader._dylib.lookupFunction<_FishyJoesRuntime_Bool_setup<ffi.Void>, _FishyJoesRuntime_Bool_setup<void>>(
       'FishyJoesRuntime_Bool_setup'
     )(
+      env,
       trueObj.ptr,
       falseObj.ptr,
       ffi.Pointer.fromFunction<_BoolValueMethod>(_intValue, 0)
@@ -116,6 +129,7 @@ extension LoaderPrimitives on Loader {
     Loader._dylib.lookupFunction<_FishyJoesRuntime_Int8_setup<ffi.Void>, _FishyJoesRuntime_Int8_setup<void>>(
       'FishyJoesRuntime_Int8_setup'
     )(
+      env,
       ffi.Pointer.fromFunction<_Int8ValueMethod>(_intValue, 0),
       ffi.Pointer.fromFunction<_Int8Constructor>(_intConstructor)
     );
@@ -123,6 +137,7 @@ extension LoaderPrimitives on Loader {
     Loader._dylib.lookupFunction<_FishyJoesRuntime_Int16_setup<ffi.Void>, _FishyJoesRuntime_Int16_setup<void>>(
       'FishyJoesRuntime_Int16_setup'
     )(
+      env,
       ffi.Pointer.fromFunction<_Int16ValueMethod>(_intValue, 0),
       ffi.Pointer.fromFunction<_Int16Constructor>(_intConstructor)
     );
@@ -130,6 +145,7 @@ extension LoaderPrimitives on Loader {
     Loader._dylib.lookupFunction<_FishyJoesRuntime_Int32_setup<ffi.Void>, _FishyJoesRuntime_Int32_setup<void>>(
       'FishyJoesRuntime_Int32_setup'
     )(
+      env,
       ffi.Pointer.fromFunction<_Int32ValueMethod>(_intValue, 0),
       ffi.Pointer.fromFunction<_Int32Constructor>(_intConstructor)
     );
@@ -137,6 +153,7 @@ extension LoaderPrimitives on Loader {
     Loader._dylib.lookupFunction<_FishyJoesRuntime_Int64_setup<ffi.Void>, _FishyJoesRuntime_Int64_setup<void>>(
       'FishyJoesRuntime_Int64_setup'
     )(
+      env,
       ffi.Pointer.fromFunction<_Int64ValueMethod>(_intValue, 0),
       ffi.Pointer.fromFunction<_Int64Constructor>(_intConstructor)
     );
@@ -145,6 +162,7 @@ extension LoaderPrimitives on Loader {
     Loader._dylib.lookupFunction<_FishyJoesRuntime_UInt8_setup<ffi.Void>, _FishyJoesRuntime_UInt8_setup<void>>(
       'FishyJoesRuntime_UInt8_setup'
     )(
+      env,
       ffi.Pointer.fromFunction<_UInt8ValueMethod>(_intValue, 0),
       ffi.Pointer.fromFunction<_UInt8Constructor>(_uint8Constructor)
     );
@@ -152,6 +170,7 @@ extension LoaderPrimitives on Loader {
     Loader._dylib.lookupFunction<_FishyJoesRuntime_UInt16_setup<ffi.Void>, _FishyJoesRuntime_UInt16_setup<void>>(
       'FishyJoesRuntime_UInt16_setup'
     )(
+      env,
       ffi.Pointer.fromFunction<_UInt16ValueMethod>(_intValue, 0),
       ffi.Pointer.fromFunction<_UInt16Constructor>(_uint16Constructor)
     );
@@ -159,6 +178,7 @@ extension LoaderPrimitives on Loader {
     Loader._dylib.lookupFunction<_FishyJoesRuntime_UInt32_setup<ffi.Void>, _FishyJoesRuntime_UInt32_setup<void>>(
       'FishyJoesRuntime_UInt32_setup'
     )(
+      env,
       ffi.Pointer.fromFunction<_UInt32ValueMethod>(_intValue, 0),
       ffi.Pointer.fromFunction<_UInt32Constructor>(_uint32Constructor)
     );
@@ -166,6 +186,7 @@ extension LoaderPrimitives on Loader {
     Loader._dylib.lookupFunction<_FishyJoesRuntime_UInt64_setup<ffi.Void>, _FishyJoesRuntime_UInt64_setup<void>>(
       'FishyJoesRuntime_UInt64_setup'
     )(
+      env,
       ffi.Pointer.fromFunction<_UInt64ValueMethod>(_intValue, 0),
       ffi.Pointer.fromFunction<_UInt64Constructor>(_uint64Constructor)
     );
@@ -174,6 +195,7 @@ extension LoaderPrimitives on Loader {
     Loader._dylib.lookupFunction<_FishyJoesRuntime_Int_setup<ffi.Void>, _FishyJoesRuntime_Int_setup<void>>(
       'FishyJoesRuntime_Int_setup'
     )(
+      env,
       ffi.Pointer.fromFunction<_IntValueMethod>(_intValue, 0),
       ffi.Pointer.fromFunction<_IntConstructor>(_intConstructor)
     );
@@ -182,6 +204,7 @@ extension LoaderPrimitives on Loader {
     Loader._dylib.lookupFunction<_FishyJoesRuntime_Float_setup<ffi.Void>, _FishyJoesRuntime_Float_setup<void>>(
       'FishyJoesRuntime_Float_setup'
     )(
+      env,
       ffi.Pointer.fromFunction<_FloatValueMethod>(_doubleValue, 0.0),
       ffi.Pointer.fromFunction<_FloatConstructor>(_doubleConstructor)
     );
@@ -189,6 +212,7 @@ extension LoaderPrimitives on Loader {
     Loader._dylib.lookupFunction<_FishyJoesRuntime_Double_setup<ffi.Void>, _FishyJoesRuntime_Double_setup<void>>(
       'FishyJoesRuntime_Double_setup'
     )(
+      env,
       ffi.Pointer.fromFunction<_DoubleValueMethod>(_doubleValue, 0.0),
       ffi.Pointer.fromFunction<_DoubleConstructor>(_doubleConstructor)
     );

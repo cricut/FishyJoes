@@ -3,12 +3,14 @@ part of 'loader.dart';
 typedef _TupleGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TupleConstructor = CreatedRef Function(ffi.Pointer<UnownedRef> elements, OutCreatedRef exn);
 typedef _FishyJoesRuntime_tuple2_setup<R> = R Function(
+  Env env,
   ffi.Pointer<Utf16> name,
   ffi.Pointer<ffi.NativeFunction<_TupleGetter>> get0,
   ffi.Pointer<ffi.NativeFunction<_TupleGetter>> get1,
   ffi.Pointer<ffi.NativeFunction<_TupleConstructor>> constructor
 );
 typedef _FishyJoesRuntime_tuple3_setup<R> = R Function(
+  Env env,
   ffi.Pointer<Utf16> name,
   ffi.Pointer<ffi.NativeFunction<_TupleGetter>> get0,
   ffi.Pointer<ffi.NativeFunction<_TupleGetter>> get1,
@@ -16,6 +18,7 @@ typedef _FishyJoesRuntime_tuple3_setup<R> = R Function(
   ffi.Pointer<ffi.NativeFunction<_TupleConstructor>> constructor
 );
 typedef _FishyJoesRuntime_tuple4_setup<R> = R Function(
+  Env env,
   ffi.Pointer<Utf16> name,
   ffi.Pointer<ffi.NativeFunction<_TupleGetter>> get0,
   ffi.Pointer<ffi.NativeFunction<_TupleGetter>> get1,
@@ -24,6 +27,7 @@ typedef _FishyJoesRuntime_tuple4_setup<R> = R Function(
   ffi.Pointer<ffi.NativeFunction<_TupleConstructor>> constructor
 );
 typedef _FishyJoesRuntime_tuple5_setup<R> = R Function(
+  Env env,
   ffi.Pointer<Utf16> name,
   ffi.Pointer<ffi.NativeFunction<_TupleGetter>> get0,
   ffi.Pointer<ffi.NativeFunction<_TupleGetter>> get1,
@@ -33,6 +37,7 @@ typedef _FishyJoesRuntime_tuple5_setup<R> = R Function(
   ffi.Pointer<ffi.NativeFunction<_TupleConstructor>> constructor
 );
 typedef _FishyJoesRuntime_tuple6_setup<R> = R Function(
+  Env env,
   ffi.Pointer<Utf16> name,
   ffi.Pointer<ffi.NativeFunction<_TupleGetter>> get0,
   ffi.Pointer<ffi.NativeFunction<_TupleGetter>> get1,
@@ -80,9 +85,10 @@ extension LoaderTuple on Loader {
           peekRef<Object?>(elements[1]),
     )));
 
-  void FishyJoesRuntime_Tuple2Converter_setup(String name, OutCreatedRef exn) {
+  void FishyJoesRuntime_Tuple2Converter_setup(Env env, String name, OutCreatedRef exn) {
     final cName = name.toNativeUtf16();
     _fishyJoesRuntime_Tuple2Converter_setup(
+      env,
       cName,
       ffi.Pointer.fromFunction<_TupleGetter>(_tuple2get0),
       ffi.Pointer.fromFunction<_TupleGetter>(_tuple2get1),
@@ -105,9 +111,10 @@ extension LoaderTuple on Loader {
           peekRef<Object?>(elements[2]),
     )));
 
-  void FishyJoesRuntime_Tuple3Converter_setup(String name, OutCreatedRef exn) {
+  void FishyJoesRuntime_Tuple3Converter_setup(Env env, String name, OutCreatedRef exn) {
     final cName = name.toNativeUtf16();
     _fishyJoesRuntime_Tuple3Converter_setup(
+      env,
       cName,
       ffi.Pointer.fromFunction<_TupleGetter>(_tuple3get0),
       ffi.Pointer.fromFunction<_TupleGetter>(_tuple3get1),
@@ -134,9 +141,10 @@ extension LoaderTuple on Loader {
           peekRef<Object?>(elements[3]),
     )));
 
-  void FishyJoesRuntime_Tuple4Converter_setup(String name, OutCreatedRef exn) {
+  void FishyJoesRuntime_Tuple4Converter_setup(Env env, String name, OutCreatedRef exn) {
     final cName = name.toNativeUtf16();
     _fishyJoesRuntime_Tuple4Converter_setup(
+      env,
       cName,
       ffi.Pointer.fromFunction<_TupleGetter>(_tuple4get0),
       ffi.Pointer.fromFunction<_TupleGetter>(_tuple4get1),
@@ -167,9 +175,10 @@ extension LoaderTuple on Loader {
           peekRef<Object?>(elements[4]),
     )));
 
-  void FishyJoesRuntime_Tuple5Converter_setup(String name, OutCreatedRef exn) {
+  void FishyJoesRuntime_Tuple5Converter_setup(Env env, String name, OutCreatedRef exn) {
     final cName = name.toNativeUtf16();
     _fishyJoesRuntime_Tuple5Converter_setup(
+      env,
       cName,
       ffi.Pointer.fromFunction<_TupleGetter>(_tuple5get0),
       ffi.Pointer.fromFunction<_TupleGetter>(_tuple5get1),
@@ -204,9 +213,10 @@ extension LoaderTuple on Loader {
           peekRef<Object?>(elements[5]),
     )));
 
-  void FishyJoesRuntime_Tuple6Converter_setup(String name, OutCreatedRef exn) {
+  void FishyJoesRuntime_Tuple6Converter_setup(Env env, String name, OutCreatedRef exn) {
     final cName = name.toNativeUtf16();
     _fishyJoesRuntime_Tuple6Converter_setup(
+      env,
       cName,
       ffi.Pointer.fromFunction<_TupleGetter>(_tuple6get0),
       ffi.Pointer.fromFunction<_TupleGetter>(_tuple6get1),
@@ -217,8 +227,5 @@ extension LoaderTuple on Loader {
       ffi.Pointer.fromFunction<_TupleConstructor>(_tuple6create),
     );
     malloc.free(cName);
-  }
-
-  static void _setup() {
   }
 }

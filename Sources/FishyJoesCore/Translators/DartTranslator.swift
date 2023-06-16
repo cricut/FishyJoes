@@ -131,7 +131,7 @@ final class DartTranslator: Translator {
             selfExpression = context.module.name
         }
 
-        let dartName = upperCaseFirst(exportAnnotation.cSharpName)
+        let dartName = exportAnnotation.name
         let dartGetName = "__dart_\(exportAnnotation.kind == .asMethod ? "" : "get_")\(containingNamespace)_\(dartName)".mangled
         let dartSetName = "__dart_set_\(containingNamespace)_\(dartName)".mangled
 
@@ -207,12 +207,14 @@ final class DartTranslator: Translator {
         { fragment in
             fragment.outputBlock("final \(symbol) = dylib.lookupFunction<", closeWith: ">('\(symbol)');") {
                 fragment.outputBlock("ffi.Void Function(", closeWith: "),") {
+                    fragment.output("Env env,")
                     for param in params {
                         fragment.output("\(param.type!.name()) \(param.name!),")
                     }
                     fragment.output("OutCreatedRef exn")
                 }
                 fragment.outputBlock("void Function(") {
+                    fragment.output("Env env,")
                     for param in params {
                         fragment.output("\(param.type!.name()) \(param.name!),")
                     }
@@ -293,6 +295,7 @@ final class DartTranslator: Translator {
                         }
 
                         fragment.outputBlock("\(setupName)\(typeArgStr)(", closeWith: ");") {
+                            fragment.output("Loader.shared.env,")
                             for param in setupParams {
                                 param.valueWriter(fragment)
                             }
@@ -307,12 +310,14 @@ final class DartTranslator: Translator {
             externDeclarations.append { fragment in
                 fragment.outputBlock("\(nativeMethod.definingDartClass).f\(nativeMethod.name) = dylib.lookupFunction<", closeWith: ">", newLineTerminated: false) {
                     fragment.outputBlock("\(nativeMethod.returnType.ffiCreatedTag) Function(", closeWith: "),") {
+                        fragment.output("Env env,")
                         for (argName, argType) in nativeMethod.args {
                             fragment.output("\(argType.ffiUnownedTag) \(argName),")
                         }
                         fragment.output("OutCreatedRef _exn")
                     }
                     fragment.outputBlock("\(nativeMethod.returnType.ffiCreatedName) Function(") {
+                        fragment.output("Env env,")
                         for (argName, argType) in nativeMethod.args {
                             fragment.output("\(argType.ffiUnownedName) \(argName),")
                         }

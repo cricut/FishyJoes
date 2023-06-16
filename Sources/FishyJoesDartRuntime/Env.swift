@@ -51,19 +51,25 @@ public struct Env {
 
         public subscript(env: Env) -> T {
             get {
-                guard let callback = callbacks[env.id] else {
-                    fatalError("\(debugLocation) callback of type \(T.self) not registered for Environment \(env.id)")
+                Env.staticLock.withLock {
+                    guard let callback = callbacks[env.id] else {
+                        fatalError("\(debugLocation) callback of type \(T.self) not registered for Environment \(env.id)")
+                    }
+                    return callback
                 }
-                return callback
             }
 
             set {
-                callbacks[env.id] = newValue
+                Env.staticLock.withLock {
+                    callbacks[env.id] = newValue
+                }
             }
         }
 
         public func isInitialized(_ env: Env) -> Bool {
-            callbacks[env.id] != nil
+            Env.staticLock.withLock {
+                callbacks[env.id] != nil
+            }
         }
     }
 
@@ -75,6 +81,8 @@ public struct Env {
     public typealias DeleteRefFn = @convention(c) (foreignObject) -> Void
     public typealias NewErrorFn = @convention(c) (UnsafePointer<UInt16>) -> foreignObject
 
+    public static let staticLock = NSRecursiveLock()
+
     public static var newRefHandle = CallbackMap<NewRefFn>()
     public static var deleteRefHandle = CallbackMap<DeleteRefFn>()
     public static var newErrorHandle = CallbackMap<NewErrorFn>()
@@ -84,6 +92,9 @@ public struct Env {
         deleteRefFn: DeleteRefFn,
         newErrorFn: NewErrorFn
     ) {
+        Env.staticLock.lock()
+        defer { Env.staticLock.unlock() }
+
         id = malloc(1)!
         Env.newRefHandle[self] = newRefFn
         Env.deleteRefHandle[self] = deleteRefFn
@@ -96,17 +107,21 @@ public struct Env {
 
     private static var nextUniqueID: TypeID = 0
     private static func newUniqueID() -> Int {
-        defer { nextUniqueID += 1 }
-        return nextUniqueID
+        staticLock.withLock {
+            defer { nextUniqueID += 1 }
+            return nextUniqueID
+        }
     }
 
     public static func registerType<T>(_ type: T.Type, as name: String) {
-        let objectID = ObjectIdentifier(type)
-        guard typeIDsByObject[objectID] == nil else { return }
         let typeID = newUniqueID()
-        typeIDsByObject[objectID] = typeID
-        typeIDsByID[typeID] = objectID
-        typeIDsByName[name] = typeID
+        staticLock.withLock {
+            let objectID = ObjectIdentifier(type)
+            guard typeIDsByObject[objectID] == nil else { return }
+            typeIDsByObject[objectID] = typeID
+            typeIDsByID[typeID] = objectID
+            typeIDsByName[name] = typeID
+        }
     }
 
     public static func unwrap<R>(_ value: R?, file: StaticString = #file, line: UInt = #line) throws -> R {

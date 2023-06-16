@@ -32,13 +32,13 @@ class Bytes {
     /// <!-- FishyJoes.export(bytes, cSharp: TheBytes) -->
     static List<int> get bytes =>
         check((exn) =>
-            consumeCreatedRef<List<int>>(f__iota_get_Bytes_bytes(exn))
+            consumeCreatedRef<List<int>>(f__dart_get_Bytes_bytes(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(data) -->
     static typed_data.Uint8List get data =>
         check((exn) =>
-            consumeCreatedRef<typed_data.Uint8List>(f__iota_get_Bytes_data(exn))
+            consumeCreatedRef<typed_data.Uint8List>(f__dart_get_Bytes_data(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(echoBytes) -->
@@ -46,7 +46,7 @@ class Bytes {
         List<int> bytes,
     ) =>
         GCRef.using(bytes, (_bytesHandle) =>
-            consumeCreatedRef<List<int>>(check((OutCreatedRef _exn) => f__iota_Bytes_echoBytes(_bytesHandle.ptr, _exn)))
+            consumeCreatedRef<List<int>>(check((OutCreatedRef _exn) => f__dart_Bytes_echoBytes(Loader.shared.env, _bytesHandle.ptr, _exn)))
         )
     ;
 
@@ -55,22 +55,26 @@ class Bytes {
         typed_data.Uint8List data,
     ) =>
         GCRef.using(data, (_dataHandle) =>
-            consumeCreatedRef<typed_data.Uint8List>(check((OutCreatedRef _exn) => f__iota_Bytes_echoData(_dataHandle.ptr, _exn)))
+            consumeCreatedRef<typed_data.Uint8List>(check((OutCreatedRef _exn) => f__dart_Bytes_echoData(Loader.shared.env, _dataHandle.ptr, _exn)))
         )
     ;
 
     static late CreatedRef Function(
-        OutCreatedRef _exn
-    ) f__iota_get_Bytes_bytes;
-    static late CreatedRef Function(
+        Env env,
         UnownedRef bytes,
         OutCreatedRef _exn
-    ) f__iota_Bytes_echoBytes;
+    ) f__dart_Bytes_echoBytes;
     static late CreatedRef Function(
+        Env env,
+        OutCreatedRef _exn
+    ) f__dart_get_Bytes_bytes;
+    static late CreatedRef Function(
+        Env env,
+        OutCreatedRef _exn
+    ) f__dart_get_Bytes_data;
+    static late CreatedRef Function(
+        Env env,
         UnownedRef data,
         OutCreatedRef _exn
-    ) f__iota_Bytes_echoData;
-    static late CreatedRef Function(
-        OutCreatedRef _exn
-    ) f__iota_get_Bytes_data;
+    ) f__dart_Bytes_echoData;
 }

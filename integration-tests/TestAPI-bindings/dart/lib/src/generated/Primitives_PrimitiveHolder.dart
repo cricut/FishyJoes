@@ -54,32 +54,35 @@ class Primitives_PrimitiveHolder with _$Primitives_PrimitiveHolder {
     /// <!-- FishyJoes.export(staticPropery) -->
     static List<int?> get staticPropery =>
         check((exn) =>
-            consumeCreatedRef<List<int?>>(f__iota_get_Primitives_PrimitiveHolder_staticPropery(exn))
+            consumeCreatedRef<List<int?>>(f__dart_get_Primitives_PrimitiveHolder_staticPropery(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(staticMutablePropery) -->
     static List<int?> get staticMutablePropery =>
         check((exn) =>
-            consumeCreatedRef<List<int?>>(f__iota_get_Primitives_PrimitiveHolder_staticMutablePropery(exn))
+            consumeCreatedRef<List<int?>>(f__dart_get_Primitives_PrimitiveHolder_staticMutablePropery(Loader.shared.env, exn))
         )
     ;
     static void set staticMutablePropery(List<int?> value) {
         GCRef.using(value, (_valueHandle) =>
             check((exn) =>
-                f__iota_set_Primitives_PrimitiveHolder_staticMutablePropery(_valueHandle.ptr, exn)
+                f__dart_set_Primitives_PrimitiveHolder_staticMutablePropery(Loader.shared.env, _valueHandle.ptr, exn)
             )
         )
         ;
     }
 
     static late CreatedRef Function(
+        Env env,
         OutCreatedRef _exn
-    ) f__iota_get_Primitives_PrimitiveHolder_staticMutablePropery;
+    ) f__dart_get_Primitives_PrimitiveHolder_staticMutablePropery;
     static late CreatedRef Function(
+        Env env,
         OutCreatedRef _exn
-    ) f__iota_get_Primitives_PrimitiveHolder_staticPropery;
+    ) f__dart_get_Primitives_PrimitiveHolder_staticPropery;
     static late void Function(
+        Env env,
         UnownedRef staticMutablePropery,
         OutCreatedRef _exn
-    ) f__iota_set_Primitives_PrimitiveHolder_staticMutablePropery;
+    ) f__dart_set_Primitives_PrimitiveHolder_staticMutablePropery;
 }

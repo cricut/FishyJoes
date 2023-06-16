@@ -4,6 +4,7 @@ typedef _CollectionLength = ffi.Int Function(UnownedRef context, UnownedRef arra
 typedef _CollectionValues = ffi.Void Function(UnownedRef context, UnownedRef arr, OutCreatedRef outValues, OutCreatedRef exn);
 typedef _CollectionConstructor = CreatedRef Function(UnownedRef context, ffi.Pointer<UnownedRef> objects, ffi.Int length, OutCreatedRef exn);
 typedef _FishyJoesRuntime_collection_setup<R> = R Function(
+  Env env,
   ffi.Pointer<Utf16> name,
   ffi.Pointer<ffi.NativeFunction<_CollectionLength>> length,
   ffi.Pointer<ffi.NativeFunction<_CollectionValues>> values,
@@ -47,9 +48,10 @@ extension LoaderCollections on Loader {
   >('FishyJoesRuntime_collection_setup');
 
   // Array
-  void FishyJoesRuntime_ArrayConverter_setup<T>(String name, OutCreatedRef exn) {
+  void FishyJoesRuntime_ArrayConverter_setup<T>(Env env, String name, OutCreatedRef exn) {
     final cName = name.toNativeUtf16();
     _fishyJoesRuntime_collection_setup(
+      env,
       cName,
       _CollectionConversions.lengthPtr,
       _CollectionConversions.valuesPtr,
@@ -78,9 +80,10 @@ extension LoaderCollections on Loader {
   }
 
   // Set
-  void FishyJoesRuntime_SetConverter_setup<T>(String name, OutCreatedRef exn) {
+  void FishyJoesRuntime_SetConverter_setup<T>(Env env, String name, OutCreatedRef exn) {
     final cName = name.toNativeUtf16();
     _fishyJoesRuntime_collection_setup(
+      env,
       cName,
       _CollectionConversions.lengthPtr,
       _CollectionConversions.valuesPtr,
@@ -111,9 +114,10 @@ extension LoaderCollections on Loader {
   }
 
   // Dictionary
-  void FishyJoesRuntime_DictionaryConverter_setup<K, V>(String name, OutCreatedRef exn) {
+  void FishyJoesRuntime_DictionaryConverter_setup<K, V>(Env env, String name, OutCreatedRef exn) {
     final cName = name.toNativeUtf16();
     _fishyJoesRuntime_collection_setup(
+      env,
       cName,
       _CollectionConversions.lengthPtr,
       _CollectionConversions.valuesPtr,
@@ -146,11 +150,7 @@ extension LoaderCollections on Loader {
     malloc.free(cName);
   }
 
-  void FishyJoesRuntime_OptionalConverter_setup(OutCreatedRef exn) => catching(exn, () {
+  void FishyJoesRuntime_OptionalConverter_setup(Env env, OutCreatedRef exn) => catching(exn, () {
       // Objects need no extra setup
   });
-
-  static void _setup() {
-    // Generic types need to be set up as instantiated types, so nothing to do here.
-  }
 }

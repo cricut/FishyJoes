@@ -32,49 +32,49 @@ class Strings {
     /// <!-- FishyJoes.export(simple) -->
     static String get simple =>
         check((exn) =>
-            consumeCreatedRef<String>(f__iota_get_Strings_simple(exn))
+            consumeCreatedRef<String>(f__dart_get_Strings_simple(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(accent) -->
     static String get accent =>
         check((exn) =>
-            consumeCreatedRef<String>(f__iota_get_Strings_accent(exn))
+            consumeCreatedRef<String>(f__dart_get_Strings_accent(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(script) -->
     static String get script =>
         check((exn) =>
-            consumeCreatedRef<String>(f__iota_get_Strings_script(exn))
+            consumeCreatedRef<String>(f__dart_get_Strings_script(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(chinese) -->
     static String get chinese =>
         check((exn) =>
-            consumeCreatedRef<String>(f__iota_get_Strings_chinese(exn))
+            consumeCreatedRef<String>(f__dart_get_Strings_chinese(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(chineseBMP) -->
     static String get chineseBMP =>
         check((exn) =>
-            consumeCreatedRef<String>(f__iota_get_Strings_chineseBMP(exn))
+            consumeCreatedRef<String>(f__dart_get_Strings_chineseBMP(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(chineseSIP) -->
     static String get chineseSIP =>
         check((exn) =>
-            consumeCreatedRef<String>(f__iota_get_Strings_chineseSIP(exn))
+            consumeCreatedRef<String>(f__dart_get_Strings_chineseSIP(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(emoji) -->
     static String get emoji =>
         check((exn) =>
-            consumeCreatedRef<String>(f__iota_get_Strings_emoji(exn))
+            consumeCreatedRef<String>(f__dart_get_Strings_emoji(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(emojiMulti) -->
     static String get emojiMulti =>
         check((exn) =>
-            consumeCreatedRef<String>(f__iota_get_Strings_emojiMulti(exn))
+            consumeCreatedRef<String>(f__dart_get_Strings_emojiMulti(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(echo) -->
@@ -82,36 +82,45 @@ class Strings {
         String string,
     ) =>
         GCRef.using(string, (_stringHandle) =>
-            consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_Strings_echo(_stringHandle.ptr, _exn)))
+            consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__dart_Strings_echo(Loader.shared.env, _stringHandle.ptr, _exn)))
         )
     ;
 
     static late CreatedRef Function(
+        Env env,
         OutCreatedRef _exn
-    ) f__iota_get_Strings_emoji;
+    ) f__dart_get_Strings_accent;
     static late CreatedRef Function(
+        Env env,
         OutCreatedRef _exn
-    ) f__iota_get_Strings_accent;
+    ) f__dart_get_Strings_chinese;
     static late CreatedRef Function(
+        Env env,
         OutCreatedRef _exn
-    ) f__iota_get_Strings_chinese;
+    ) f__dart_get_Strings_chineseBMP;
     static late CreatedRef Function(
+        Env env,
         OutCreatedRef _exn
-    ) f__iota_get_Strings_chineseSIP;
+    ) f__dart_get_Strings_script;
     static late CreatedRef Function(
-        OutCreatedRef _exn
-    ) f__iota_get_Strings_chineseBMP;
-    static late CreatedRef Function(
+        Env env,
         UnownedRef string,
         OutCreatedRef _exn
-    ) f__iota_Strings_echo;
+    ) f__dart_Strings_echo;
     static late CreatedRef Function(
+        Env env,
         OutCreatedRef _exn
-    ) f__iota_get_Strings_emojiMulti;
+    ) f__dart_get_Strings_chineseSIP;
     static late CreatedRef Function(
+        Env env,
         OutCreatedRef _exn
-    ) f__iota_get_Strings_simple;
+    ) f__dart_get_Strings_simple;
     static late CreatedRef Function(
+        Env env,
         OutCreatedRef _exn
-    ) f__iota_get_Strings_script;
+    ) f__dart_get_Strings_emoji;
+    static late CreatedRef Function(
+        Env env,
+        OutCreatedRef _exn
+    ) f__dart_get_Strings_emojiMulti;
 }

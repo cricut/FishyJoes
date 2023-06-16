@@ -23,6 +23,9 @@ typedef ConsumedRef = ffi.Pointer<_ConsumedRef>;
 
 typedef OutCreatedRef = ffi.Pointer<CreatedRef>;
 
+class _Env extends ffi.Opaque {}
+typedef Env = ffi.Pointer<_Env>;
+
 class _GCWhisperer {
   /// Holds the symbol lookup function.
   static final ffi.Pointer<T> Function<T extends ffi.NativeType>(

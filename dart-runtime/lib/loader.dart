@@ -14,18 +14,25 @@ typedef _EnvNewRefFn = CreatedRef Function(UnownedRef obj);
 typedef _EnvDeleteRefFn = ffi.Void Function(ConsumedRef obj);
 typedef _EnvNewErrorFn = CreatedRef Function(ffi.Pointer<Utf16>);
 
-typedef _FishyJoesRuntime_Env_setup<R> = R Function(
+typedef _FishyJoesRuntime_Env_setup = Env Function(
     ffi.Pointer<ffi.NativeFunction<_EnvNewRefFn>>,
     ffi.Pointer<ffi.NativeFunction<_EnvDeleteRefFn>>,
     ffi.Pointer<ffi.NativeFunction<_EnvNewErrorFn>>);
 
 class Loader {
   static final shared = new Loader._();
+  late final Env env;
 
-  Loader._() {}
+  Loader._() {
+    this.env = _dylib.lookupFunction<_FishyJoesRuntime_Env_setup, _FishyJoesRuntime_Env_setup>('FishyJoesRuntime_Env_setup')(
+      ffi.Pointer.fromFunction<_EnvNewRefFn>(_newRefFn),
+      ffi.Pointer.fromFunction<_EnvDeleteRefFn>(_deleteRefFn),
+      ffi.Pointer.fromFunction<_EnvNewErrorFn>(_newErrorFn));
+    LoaderPrimitives._setup(env);
+  }
 
   static final _dylib = ffi.DynamicLibrary.open(path.join(
-      Directory.current.path, 'native/libFishyJoesIotaRuntime.dylib'));
+      Directory.current.path, 'native/libFishyJoesDartRuntime.dylib'));
   final _onceSet = <String>{};
 
   static CreatedRef _newRefFn(UnownedRef obj) {
@@ -41,17 +48,7 @@ class Loader {
     return createRef(Exception(message));
   }
 
-  void ensureLoaded = (() {
-    _dylib.lookupFunction<_FishyJoesRuntime_Env_setup<ffi.Void>,
-            _FishyJoesRuntime_Env_setup<void>>('FishyJoesRuntime_Env_setup')(
-        ffi.Pointer.fromFunction<_EnvNewRefFn>(_newRefFn),
-        ffi.Pointer.fromFunction<_EnvDeleteRefFn>(_deleteRefFn),
-        ffi.Pointer.fromFunction<_EnvNewErrorFn>(_newErrorFn));
-
-    LoaderCollections._setup();
-    LoaderPrimitives._setup();
-    LoaderTuple._setup();
-  })();
+  void ensureLoaded;
 
   void once(String onceName, void Function() block) {
     if (_onceSet.contains(onceName)) {
