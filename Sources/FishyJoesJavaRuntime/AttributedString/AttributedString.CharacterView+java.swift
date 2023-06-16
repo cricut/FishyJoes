@@ -13,7 +13,7 @@ extension AttributedString.CharacterView: JavaMutator {
     public static func javaSetup(env: Env) throws {
         guard javaClass == nil else { return }
         try AnyBox.javaSetup(env: env)
-        javaClass = try env.globalRef(env.FindClass("com/cricut/testapi/AttributedString$CharacterView"))
+        javaClass = try env.globalRef(env.FindClass("com/cricut/fishyjoes/runtime/AttributedString$CharacterView"))
         _constructorMethodID = try env.GetMethodID(javaClass, "<init>", "(J)V")
     }
     public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout AttributedString.CharacterView) throws -> R) throws -> R {

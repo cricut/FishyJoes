@@ -13,7 +13,7 @@ extension AttributedSubstring: JavaMutator {
     public static func javaSetup(env: Env) throws {
         guard javaClass == nil else { return }
         try AnyBox.javaSetup(env: env)
-        javaClass = try env.globalRef(env.FindClass("com/cricut/testapi/AttributedSubstring"))
+        javaClass = try env.globalRef(env.FindClass("com/cricut/fishyjoes/runtime/AttributedSubstring"))
         _constructorMethodID = try env.GetMethodID(javaClass, "<init>", "(J)V")
     }
     public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout AttributedSubstring) throws -> R) throws -> R {

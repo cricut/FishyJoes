@@ -75,73 +75,7 @@ namespace Cricut.TestAPI {
         );
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern void TestAPI_AttributeContainerASDF_setup(
-            SwiftReference.ConstructorDelegate constructorMethod,
-            out CreatedRef _exn
-        );
-
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern void TestAPI_AttributeScopeASDF_setup(
-            SwiftReference.ConstructorDelegate constructorMethod,
-            out CreatedRef _exn
-        );
-
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern void TestAPI_AttributedStringASDF_setup(
-            SwiftReference.ConstructorDelegate constructorMethod,
-            out CreatedRef _exn
-        );
-
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern void TestAPI_AttributedStringASDF_AttributeMergePolicy_setup(
-            SwiftReference.ConstructorDelegate constructorMethod,
-            out CreatedRef _exn
-        );
-
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern void TestAPI_AttributedStringASDF_CharacterView_setup(
-            SwiftReference.ConstructorDelegate constructorMethod,
-            out CreatedRef _exn
-        );
-
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern void TestAPI_AttributedStringASDF_Index_setup(
-            SwiftReference.ConstructorDelegate constructorMethod,
-            out CreatedRef _exn
-        );
-
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern void TestAPI_AttributedStringASDF_Runs_setup(
-            SwiftReference.ConstructorDelegate constructorMethod,
-            out CreatedRef _exn
-        );
-
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern void TestAPI_AttributedStringASDF_Runs_Index_setup(
-            SwiftReference.ConstructorDelegate constructorMethod,
-            out CreatedRef _exn
-        );
-
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern void TestAPI_AttributedStringASDF_Runs_Run_setup(
-            SwiftReference.ConstructorDelegate constructorMethod,
-            out CreatedRef _exn
-        );
-
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern void TestAPI_AttributedStringASDF_UnicodeScalarView_setup(
-            SwiftReference.ConstructorDelegate constructorMethod,
-            out CreatedRef _exn
-        );
-
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_AttributedStrings_setup(
-            out CreatedRef _exn
-        );
-
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern void TestAPI_AttributedSubstringASDF_setup(
-            SwiftReference.ConstructorDelegate constructorMethod,
             out CreatedRef _exn
         );
 
@@ -914,108 +848,9 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
-            Once("setup_AttributeContainerASDF", () => {
-                Console.WriteLine("setting up AttributeContainerASDF...");
-                Utilities.Check((out CreatedRef exn) => TestAPI_AttributeContainerASDF_setup(
-                    bag<SwiftReference.ConstructorDelegate>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
-                        return new CreatedRef(new Cricut.TestAPI.AttributeContainer(ptr));
-                    })),
-                    out exn
-                ));
-            });
-            Once("setup_AttributeScopeASDF", () => {
-                Console.WriteLine("setting up AttributeScopeASDF...");
-                Utilities.Check((out CreatedRef exn) => TestAPI_AttributeScopeASDF_setup(
-                    bag<SwiftReference.ConstructorDelegate>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
-                        return new CreatedRef(new Cricut.TestAPI.AttributeScope(ptr));
-                    })),
-                    out exn
-                ));
-            });
-            Once("setup_AttributedStringASDF", () => {
-                Console.WriteLine("setting up AttributedStringASDF...");
-                Utilities.Check((out CreatedRef exn) => TestAPI_AttributedStringASDF_setup(
-                    bag<SwiftReference.ConstructorDelegate>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
-                        return new CreatedRef(new Cricut.TestAPI.AttributedString(ptr));
-                    })),
-                    out exn
-                ));
-            });
-            Once("setup_AttributedStringASDF.AttributeMergePolicy", () => {
-                Console.WriteLine("setting up AttributedStringASDF.AttributeMergePolicy...");
-                Utilities.Check((out CreatedRef exn) => TestAPI_AttributedStringASDF_AttributeMergePolicy_setup(
-                    bag<SwiftReference.ConstructorDelegate>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
-                        return new CreatedRef(new Cricut.TestAPI.AttributedString.AttributeMergePolicy(ptr));
-                    })),
-                    out exn
-                ));
-            });
-            Once("setup_AttributedStringASDF.CharacterView", () => {
-                Console.WriteLine("setting up AttributedStringASDF.CharacterView...");
-                Utilities.Check((out CreatedRef exn) => TestAPI_AttributedStringASDF_CharacterView_setup(
-                    bag<SwiftReference.ConstructorDelegate>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
-                        return new CreatedRef(new Cricut.TestAPI.AttributedString.CharacterView(ptr));
-                    })),
-                    out exn
-                ));
-            });
-            Once("setup_AttributedStringASDF.Index", () => {
-                Console.WriteLine("setting up AttributedStringASDF.Index...");
-                Utilities.Check((out CreatedRef exn) => TestAPI_AttributedStringASDF_Index_setup(
-                    bag<SwiftReference.ConstructorDelegate>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
-                        return new CreatedRef(new Cricut.TestAPI.AttributedString.Index(ptr));
-                    })),
-                    out exn
-                ));
-            });
-            Once("setup_AttributedStringASDF.Runs", () => {
-                Console.WriteLine("setting up AttributedStringASDF.Runs...");
-                Utilities.Check((out CreatedRef exn) => TestAPI_AttributedStringASDF_Runs_setup(
-                    bag<SwiftReference.ConstructorDelegate>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
-                        return new CreatedRef(new Cricut.TestAPI.AttributedString.Runs(ptr));
-                    })),
-                    out exn
-                ));
-            });
-            Once("setup_AttributedStringASDF.Runs.Index", () => {
-                Console.WriteLine("setting up AttributedStringASDF.Runs.Index...");
-                Utilities.Check((out CreatedRef exn) => TestAPI_AttributedStringASDF_Runs_Index_setup(
-                    bag<SwiftReference.ConstructorDelegate>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
-                        return new CreatedRef(new Cricut.TestAPI.AttributedString.Runs.Index(ptr));
-                    })),
-                    out exn
-                ));
-            });
-            Once("setup_AttributedStringASDF.Runs.Run", () => {
-                Console.WriteLine("setting up AttributedStringASDF.Runs.Run...");
-                Utilities.Check((out CreatedRef exn) => TestAPI_AttributedStringASDF_Runs_Run_setup(
-                    bag<SwiftReference.ConstructorDelegate>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
-                        return new CreatedRef(new Cricut.TestAPI.AttributedString.Runs.Run(ptr));
-                    })),
-                    out exn
-                ));
-            });
-            Once("setup_AttributedStringASDF.UnicodeScalarView", () => {
-                Console.WriteLine("setting up AttributedStringASDF.UnicodeScalarView...");
-                Utilities.Check((out CreatedRef exn) => TestAPI_AttributedStringASDF_UnicodeScalarView_setup(
-                    bag<SwiftReference.ConstructorDelegate>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
-                        return new CreatedRef(new Cricut.TestAPI.AttributedString.UnicodeScalarView(ptr));
-                    })),
-                    out exn
-                ));
-            });
             Once("setup_AttributedStrings", () => {
                 Console.WriteLine("setting up AttributedStrings...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_AttributedStrings_setup(
-                    out exn
-                ));
-            });
-            Once("setup_AttributedSubstringASDF", () => {
-                Console.WriteLine("setting up AttributedSubstringASDF...");
-                Utilities.Check((out CreatedRef exn) => TestAPI_AttributedSubstringASDF_setup(
-                    bag<SwiftReference.ConstructorDelegate>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
-                        return new CreatedRef(new Cricut.TestAPI.AttributedSubstring(ptr));
-                    })),
                     out exn
                 ));
             });
@@ -1270,18 +1105,6 @@ namespace Cricut.TestAPI {
             });
             Once("setup_OptionalConverter<ArrayConverter<OptionalConverter<Int>>>", () => {
                 Console.WriteLine("setting up Optional<Array<Optional<Int>>>...");
-                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_OptionalConverter_setup(
-                    out exn
-                ));
-            });
-            Once("setup_OptionalConverter<AttributeContainerASDF>", () => {
-                Console.WriteLine("setting up Optional<AttributeContainerASDF>...");
-                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_OptionalConverter_setup(
-                    out exn
-                ));
-            });
-            Once("setup_OptionalConverter<AttributedStringASDF.AttributeMergePolicy>", () => {
-                Console.WriteLine("setting up Optional<AttributedStringASDF.AttributeMergePolicy>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_OptionalConverter_setup(
                     out exn
                 ));
@@ -1589,13 +1412,6 @@ namespace Cricut.TestAPI {
                     bag<_Primitives_PrimitiveHolder_dqSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
                         obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Dq = newValue.Consume<double?>();
                     })),
-                    out exn
-                ));
-            });
-            Once("setup_RangeConverter<AttributedStringASDF.Index>", () => {
-                Console.WriteLine("setting up Range<AttributedStringASDF.Index>...");
-                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_RangeConverter_setup<Cricut.TestAPI.AttributedString.Index>(
-                    "RangeConverter<AttributedStringASDF.Index>",
                     out exn
                 ));
             });

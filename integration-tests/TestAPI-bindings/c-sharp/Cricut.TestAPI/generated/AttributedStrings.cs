@@ -14,10 +14,10 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(simple) -->
         /// </summary>
-        public static Cricut.TestAPI.AttributedString Simple {
+        public static Cricut.FishyJoesRuntime.AttributedString Simple {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_AttributedStrings_Simple(out exn).Consume<Cricut.TestAPI.AttributedString>()
+                    __cs_get_AttributedStrings_Simple(out exn).Consume<Cricut.FishyJoesRuntime.AttributedString>()
                 );
             }
         }
@@ -28,10 +28,10 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(accent) -->
         /// </summary>
-        public static Cricut.TestAPI.AttributedString Accent {
+        public static Cricut.FishyJoesRuntime.AttributedString Accent {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_AttributedStrings_Accent(out exn).Consume<Cricut.TestAPI.AttributedString>()
+                    __cs_get_AttributedStrings_Accent(out exn).Consume<Cricut.FishyJoesRuntime.AttributedString>()
                 );
             }
         }
@@ -42,10 +42,10 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(script) -->
         /// </summary>
-        public static Cricut.TestAPI.AttributedString Script {
+        public static Cricut.FishyJoesRuntime.AttributedString Script {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_AttributedStrings_Script(out exn).Consume<Cricut.TestAPI.AttributedString>()
+                    __cs_get_AttributedStrings_Script(out exn).Consume<Cricut.FishyJoesRuntime.AttributedString>()
                 );
             }
         }
@@ -56,10 +56,10 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(chinese) -->
         /// </summary>
-        public static Cricut.TestAPI.AttributedString Chinese {
+        public static Cricut.FishyJoesRuntime.AttributedString Chinese {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_AttributedStrings_Chinese(out exn).Consume<Cricut.TestAPI.AttributedString>()
+                    __cs_get_AttributedStrings_Chinese(out exn).Consume<Cricut.FishyJoesRuntime.AttributedString>()
                 );
             }
         }
@@ -70,10 +70,10 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(chineseBMP) -->
         /// </summary>
-        public static Cricut.TestAPI.AttributedString ChineseBMP {
+        public static Cricut.FishyJoesRuntime.AttributedString ChineseBMP {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_AttributedStrings_ChineseBMP(out exn).Consume<Cricut.TestAPI.AttributedString>()
+                    __cs_get_AttributedStrings_ChineseBMP(out exn).Consume<Cricut.FishyJoesRuntime.AttributedString>()
                 );
             }
         }
@@ -84,10 +84,10 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(chineseSIP) -->
         /// </summary>
-        public static Cricut.TestAPI.AttributedString ChineseSIP {
+        public static Cricut.FishyJoesRuntime.AttributedString ChineseSIP {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_AttributedStrings_ChineseSIP(out exn).Consume<Cricut.TestAPI.AttributedString>()
+                    __cs_get_AttributedStrings_ChineseSIP(out exn).Consume<Cricut.FishyJoesRuntime.AttributedString>()
                 );
             }
         }
@@ -98,10 +98,10 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(emoji) -->
         /// </summary>
-        public static Cricut.TestAPI.AttributedString Emoji {
+        public static Cricut.FishyJoesRuntime.AttributedString Emoji {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_AttributedStrings_Emoji(out exn).Consume<Cricut.TestAPI.AttributedString>()
+                    __cs_get_AttributedStrings_Emoji(out exn).Consume<Cricut.FishyJoesRuntime.AttributedString>()
                 );
             }
         }
@@ -112,10 +112,10 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(emojiMulti) -->
         /// </summary>
-        public static Cricut.TestAPI.AttributedString EmojiMulti {
+        public static Cricut.FishyJoesRuntime.AttributedString EmojiMulti {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_AttributedStrings_EmojiMulti(out exn).Consume<Cricut.TestAPI.AttributedString>()
+                    __cs_get_AttributedStrings_EmojiMulti(out exn).Consume<Cricut.FishyJoesRuntime.AttributedString>()
                 );
             }
         }
@@ -126,11 +126,11 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(echo) -->
         /// </summary>
-        public static Cricut.TestAPI.AttributedString Echo(
-            Cricut.TestAPI.AttributedString _string
+        public static Cricut.FishyJoesRuntime.AttributedString Echo(
+            Cricut.FishyJoesRuntime.AttributedString _string
         ) {
             using var _stringHandle = new GCRef(_string);
-            return Check((out CreatedRef _exn) => __cs_AttributedStrings_echo(_stringHandle.ptr, out _exn)).Consume<Cricut.TestAPI.AttributedString>();
+            return Check((out CreatedRef _exn) => __cs_AttributedStrings_echo(_stringHandle.ptr, out _exn)).Consume<Cricut.FishyJoesRuntime.AttributedString>();
         }
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]

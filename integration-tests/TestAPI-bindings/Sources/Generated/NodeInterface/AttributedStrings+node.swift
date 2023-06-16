@@ -23,9 +23,9 @@ extension AttributedStrings: FishyJoesNodeRuntime.NodeConverter {
                 "echo": (
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echo", expectedArgumentCount: 1, hasNamedOptions: false) { env in
-                            let result = try AttributedStringASDF.toNode(
+                            let result = try Foundation.AttributedString.toNode(
                                 AttributedStrings.echo(
-                                    try env.argument(at: 0, converter: AttributedStringASDF.self)
+                                    try env.argument(at: 0, converter: Foundation.AttributedString.self)
                                 ),
                                 env: env.env
                             )
@@ -38,7 +38,7 @@ extension AttributedStrings: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "simple", expectedArgumentCount: 0) { env in
-                                try AttributedStringASDF.toNode(AttributedStrings.simple, env: env.env)
+                                try Foundation.AttributedString.toNode(AttributedStrings.simple, env: env.env)
                             }
                         },
                         setter: nil
@@ -49,7 +49,7 @@ extension AttributedStrings: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "accent", expectedArgumentCount: 0) { env in
-                                try AttributedStringASDF.toNode(AttributedStrings.accent, env: env.env)
+                                try Foundation.AttributedString.toNode(AttributedStrings.accent, env: env.env)
                             }
                         },
                         setter: nil
@@ -60,7 +60,7 @@ extension AttributedStrings: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "script", expectedArgumentCount: 0) { env in
-                                try AttributedStringASDF.toNode(AttributedStrings.script, env: env.env)
+                                try Foundation.AttributedString.toNode(AttributedStrings.script, env: env.env)
                             }
                         },
                         setter: nil
@@ -71,7 +71,7 @@ extension AttributedStrings: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "chinese", expectedArgumentCount: 0) { env in
-                                try AttributedStringASDF.toNode(AttributedStrings.chinese, env: env.env)
+                                try Foundation.AttributedString.toNode(AttributedStrings.chinese, env: env.env)
                             }
                         },
                         setter: nil
@@ -82,7 +82,7 @@ extension AttributedStrings: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "chineseBMP", expectedArgumentCount: 0) { env in
-                                try AttributedStringASDF.toNode(AttributedStrings.chineseBMP, env: env.env)
+                                try Foundation.AttributedString.toNode(AttributedStrings.chineseBMP, env: env.env)
                             }
                         },
                         setter: nil
@@ -93,7 +93,7 @@ extension AttributedStrings: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "chineseSIP", expectedArgumentCount: 0) { env in
-                                try AttributedStringASDF.toNode(AttributedStrings.chineseSIP, env: env.env)
+                                try Foundation.AttributedString.toNode(AttributedStrings.chineseSIP, env: env.env)
                             }
                         },
                         setter: nil
@@ -104,7 +104,7 @@ extension AttributedStrings: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "emoji", expectedArgumentCount: 0) { env in
-                                try AttributedStringASDF.toNode(AttributedStrings.emoji, env: env.env)
+                                try Foundation.AttributedString.toNode(AttributedStrings.emoji, env: env.env)
                             }
                         },
                         setter: nil
@@ -115,7 +115,7 @@ extension AttributedStrings: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "emojiMulti", expectedArgumentCount: 0) { env in
-                                try AttributedStringASDF.toNode(AttributedStrings.emojiMulti, env: env.env)
+                                try Foundation.AttributedString.toNode(AttributedStrings.emojiMulti, env: env.env)
                             }
                         },
                         setter: nil

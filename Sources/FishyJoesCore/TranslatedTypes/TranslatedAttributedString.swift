@@ -1,7 +1,7 @@
 import SourceryRuntime
 
 struct TranslatedAttributedString: TranslatedType {
-    let sourceType = BetterType.named(.init(name: "Swift.AttributedString"))
+    let sourceType = BetterType.named(.init(name: "Foundation.AttributedString"))
     let containedNamedTypes: [TranslatedType] = []
     let neutralName = "AttributedString"
     let nodeName = "AttributedString"
@@ -14,7 +14,7 @@ struct TranslatedAttributedString: TranslatedType {
 }
 
 struct TranslatedAttributedSubstring: TranslatedType {
-    let sourceType = BetterType.named(.init(name: "Swift.AttributedSubstring"))
+    let sourceType = BetterType.named(.init(name: "Foundation.AttributedSubstring"))
     let containedNamedTypes: [TranslatedType] = []
     let neutralName = "AttributedSubstring"
     let nodeName = "AttributedSubstring"
@@ -26,8 +26,34 @@ struct TranslatedAttributedSubstring: TranslatedType {
     let definingModule = Module.runtime
 }
 
+struct TranslatedAttributeContainer: TranslatedType {
+    let sourceType = BetterType.named(.init(name: "Foundation.AttributeContainer"))
+    let containedNamedTypes: [TranslatedType] = []
+    let neutralName = "AttributeContainer"
+    let nodeName = "AttributeContainer"
+    let kotlinPackage: String? = "com.cricut.fishyjoes.runtime"
+    let kotlinName = "AttributeContainer"
+    let jniType = JNIType.object("com/cricut/fishyjoes/runtime/AttributeContainer")
+    let cSharpType = CSharpClass.CSType.named(package: "Cricut.FishyJoesRuntime", name: "AttributeContainer")
+    let cppName = "AttributeContainer"
+    let definingModule = Module.runtime
+}
+
+struct TranslatedAttributeScope: TranslatedType {
+    let sourceType = BetterType.named(.init(name: "Foundation.AttributeScope"))
+    let containedNamedTypes: [TranslatedType] = []
+    let neutralName = "AttributeScope"
+    let nodeName = "AttributeScope"
+    let kotlinPackage: String? = "com.cricut.fishyjoes.runtime"
+    let kotlinName = "AttributeScope"
+    let jniType = JNIType.object("com/cricut/fishyjoes/runtime/AttributeScope")
+    let cSharpType = CSharpClass.CSType.named(package: "Cricut.FishyJoesRuntime", name: "AttributeScope")
+    let cppName = "AttributeScope"
+    let definingModule = Module.runtime
+}
+
 struct TranslatedAttributedStringAttributeMergePolicy: TranslatedType {
-    let sourceType = BetterType.named(.init(name: "Swift.AttributedString.AttributeMergePolicy"))
+    let sourceType = BetterType.named(.init(name: "Foundation.AttributedString.AttributeMergePolicy"))
     let containedNamedTypes: [TranslatedType] = []
     let neutralName = "AttributedSubstring.AttributeMergePolicy"
     let nodeName = "AttributedSubstring.AttributeMergePolicy"
@@ -40,7 +66,7 @@ struct TranslatedAttributedStringAttributeMergePolicy: TranslatedType {
 }
 
 struct TranslatedAttributedStringIndex: TranslatedType {
-    let sourceType = BetterType.named(.init(name: "Swift.AttributedString.Index"))
+    let sourceType = BetterType.named(.init(name: "Foundation.AttributedString.Index"))
     let containedNamedTypes: [TranslatedType] = []
     let neutralName = "AttributedSubstring.Index"
     let nodeName = "AttributedSubstring.Index"
@@ -53,7 +79,7 @@ struct TranslatedAttributedStringIndex: TranslatedType {
 }
 
 struct TranslatedAttributedStringUnicodeScalarView: TranslatedType {
-    let sourceType = BetterType.named(.init(name: "Swift.AttributedString.UnicodeScalarView"))
+    let sourceType = BetterType.named(.init(name: "Foundation.AttributedString.UnicodeScalarView"))
     let containedNamedTypes: [TranslatedType] = []
     let neutralName = "AttributedSubstring.UnicodeScalarView"
     let nodeName = "AttributedSubstring.UnicodeScalarView"
@@ -66,7 +92,7 @@ struct TranslatedAttributedStringUnicodeScalarView: TranslatedType {
 }
 
 struct TranslatedAttributedStringCharacterView: TranslatedType {
-    let sourceType = BetterType.named(.init(name: "Swift.AttributedString.CharacterView"))
+    let sourceType = BetterType.named(.init(name: "Foundation.AttributedString.CharacterView"))
     let containedNamedTypes: [TranslatedType] = []
     let neutralName = "AttributedSubstring.CharacterView"
     let nodeName = "AttributedSubstring.CharacterView"
@@ -79,7 +105,7 @@ struct TranslatedAttributedStringCharacterView: TranslatedType {
 }
 
 struct TranslatedAttributedStringRuns: TranslatedType {
-    let sourceType = BetterType.named(.init(name: "Swift.AttributedString.Runs"))
+    let sourceType = BetterType.named(.init(name: "Foundation.AttributedString.Runs"))
     let containedNamedTypes: [TranslatedType] = []
     let neutralName = "AttributedSubstring.Runs"
     let nodeName = "AttributedSubstring.Runs"
@@ -92,7 +118,7 @@ struct TranslatedAttributedStringRuns: TranslatedType {
 }
 
 struct TranslatedAttributedStringRunsIndex: TranslatedType {
-    let sourceType = BetterType.named(.init(name: "Swift.AttributedString.Runs.Index"))
+    let sourceType = BetterType.named(.init(name: "Foundation.AttributedString.Runs.Index"))
     let containedNamedTypes: [TranslatedType] = []
     let neutralName = "AttributedSubstring.Runs.Index"
     let nodeName = "AttributedSubstring.Runs.Index"
@@ -105,7 +131,7 @@ struct TranslatedAttributedStringRunsIndex: TranslatedType {
 }
 
 struct TranslatedAttributedStringRunsRun: TranslatedType {
-    let sourceType = BetterType.named(.init(name: "Swift.AttributedString.Runs.Run"))
+    let sourceType = BetterType.named(.init(name: "Foundation.AttributedString.Runs.Run"))
     let containedNamedTypes: [TranslatedType] = []
     let neutralName = "AttributedSubstring.Runs.Run"
     let nodeName = "AttributedSubstring.Runs.Run"

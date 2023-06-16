@@ -1,6 +1,5 @@
 #pragma once
 #include "TestAPI_pre.hpp"
-#include "AttributedString.hpp"
 
 namespace TestAPI {
     /// <!-- FishyJoes.export(AttributedStrings) -->
