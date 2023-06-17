@@ -15,6 +15,19 @@ extension AttributedString.AttributeMergePolicy: JavaMutator {
         try AnyBox.javaSetup(env: env)
         javaClass = try env.globalRef(env.FindClass("com/cricut/fishyjoes/runtime/AttributedString$AttributeMergePolicy"))
         _constructorMethodID = try env.GetMethodID(javaClass, "<init>", "(J)V")
+        let bag = CStringBag()
+        try env.RegisterNatives(AttributedString.AttributeMergePolicy.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_swiftEquals"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/AttributedString$AttributeMergePolicy;Lcom/cricut/fishyjoes/runtime/AttributedString$AttributeMergePolicy;)Z"),
+                fnPtr: unsafeBitCast(AttributedString.AttributeMergePolicy._javaEquals, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_hashCode"),
+                signature: bag.add("()I"),
+                fnPtr: unsafeBitCast(AttributedString.AttributeMergePolicy._javaHash, to: UnsafeMutableRawPointer.self)
+            )
+        )
     }
     public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout AttributedString.AttributeMergePolicy) throws -> R) throws -> R {
         try body(&Box<AttributedString.AttributeMergePolicy>.fromJava(this, env: env).value)

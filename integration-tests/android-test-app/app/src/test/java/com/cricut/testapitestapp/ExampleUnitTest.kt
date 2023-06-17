@@ -14,7 +14,7 @@ import java.io.File
 class ExampleUnitTest {
     @Test
     fun testLargePayload() {
-        val bytes = File("src/test/java/com/cricut/testapitestapp/resources/img.bmp").readBytes()
+        val bytes = File("src/test/java/com/cricut/fishyjoes/runtimetestapp/resources/img.bmp").readBytes()
         assertTrue(bytes.isNotEmpty())
         assertTrue(Bytes.echoData(bytes).contentEquals(bytes))
         assertFalse(Bytes.echoEmpty(bytes))

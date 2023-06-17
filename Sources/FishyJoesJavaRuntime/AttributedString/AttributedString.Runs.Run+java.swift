@@ -15,6 +15,29 @@ extension AttributedString.Runs.Run: JavaMutator {
         try AnyBox.javaSetup(env: env)
         javaClass = try env.globalRef(env.FindClass("com/cricut/fishyjoes/runtime/AttributedString$Runs$Run"))
         _constructorMethodID = try env.GetMethodID(javaClass, "<init>", "(J)V")
+        let bag = CStringBag()
+        try env.RegisterNatives(AttributedString.Runs.Run.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_get_range"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/SwiftRange;"),
+                fnPtr: unsafeBitCast(java_get_AttributedString_Runs_Run_range, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_attributes"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/AttributeContainer;"),
+                fnPtr: unsafeBitCast(java_get_AttributedString_Runs_Run_attributes, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_swiftEquals"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/AttributedString$Runs$Run;Lcom/cricut/fishyjoes/runtime/AttributedString$Runs$Run;)Z"),
+                fnPtr: unsafeBitCast(AttributedString.Runs.Run._javaEquals, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_hashCode"),
+                signature: bag.add("()I"),
+                fnPtr: unsafeBitCast(AttributedString.Runs.Run._javaHash, to: UnsafeMutableRawPointer.self)
+            )
+        )
     }
     public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout AttributedString.Runs.Run) throws -> R) throws -> R {
         try body(&Box<AttributedString.Runs.Run>.fromJava(this, env: env).value)

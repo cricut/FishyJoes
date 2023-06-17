@@ -15,6 +15,49 @@ extension AttributedString.Runs: JavaMutator {
         try AnyBox.javaSetup(env: env)
         javaClass = try env.globalRef(env.FindClass("com/cricut/fishyjoes/runtime/AttributedString$Runs"))
         _constructorMethodID = try env.GetMethodID(javaClass, "<init>", "(J)V")
+        let bag = CStringBag()
+        try env.RegisterNatives(AttributedString.Runs.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_indexBefore"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/AttributedString$Runs$Index;)Lcom/cricut/fishyjoes/runtime/AttributedString$Runs$Index;"),
+                fnPtr: unsafeBitCast(java_AttributedString_Runs_indexBefore, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_indexAfter"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/AttributedString$Runs$Index;)Lcom/cricut/fishyjoes/runtime/AttributedString$Runs$Index;"),
+                fnPtr: unsafeBitCast(java_AttributedString_Runs_indexAfter, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_elementAt"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/AttributedString$Runs$Index;)Lcom/cricut/fishyjoes/runtime/AttributedString$Runs$Run;"),
+                fnPtr: unsafeBitCast(java_AttributedString_Runs_elementAt, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_elementAtPosition"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/AttributedString$Index;)Lcom/cricut/fishyjoes/runtime/AttributedString$Runs$Run;"),
+                fnPtr: unsafeBitCast(java_AttributedString_Runs_elementAtPosition, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_startIndex"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/AttributedString$Runs$Index;"),
+                fnPtr: unsafeBitCast(java_get_AttributedString_Runs_startIndex, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_endIndex"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/AttributedString$Runs$Index;"),
+                fnPtr: unsafeBitCast(java_get_AttributedString_Runs_endIndex, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_swiftEquals"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/AttributedString$Runs;Lcom/cricut/fishyjoes/runtime/AttributedString$Runs;)Z"),
+                fnPtr: unsafeBitCast(AttributedString.Runs._javaEquals, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_hashCode"),
+                signature: bag.add("()I"),
+                fnPtr: unsafeBitCast(AttributedString.Runs._javaHash, to: UnsafeMutableRawPointer.self)
+            )
+        )
     }
     public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout AttributedString.Runs) throws -> R) throws -> R {
         try body(&Box<AttributedString.Runs>.fromJava(this, env: env).value)

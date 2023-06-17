@@ -15,6 +15,24 @@ extension AttributeContainer: JavaMutator {
         try AnyBox.javaSetup(env: env)
         javaClass = try env.globalRef(env.FindClass("com/cricut/fishyjoes/runtime/AttributeContainer"))
         _constructorMethodID = try env.GetMethodID(javaClass, "<init>", "(J)V")
+        let bag = CStringBag()
+        try env.RegisterNatives(AttributeContainer.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_createEmpty"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/AttributeContainer;"),
+                fnPtr: unsafeBitCast(java_AttributeContainer_createEmpty, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_swiftEquals"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/AttributeContainer;Lcom/cricut/fishyjoes/runtime/AttributeContainer;)Z"),
+                fnPtr: unsafeBitCast(AttributeContainer._javaEquals, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_hashCode"),
+                signature: bag.add("()I"),
+                fnPtr: unsafeBitCast(AttributeContainer._javaHash, to: UnsafeMutableRawPointer.self)
+            )
+        )
     }
     public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout AttributeContainer) throws -> R) throws -> R {
         try body(&Box<AttributeContainer>.fromJava(this, env: env).value)
