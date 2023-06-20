@@ -165,10 +165,6 @@ class AssociatedDataEnum with _$AssociatedDataEnum {
 
     static late CreatedRef Function(
         Env env,
-        OutCreatedRef _exn
-    ) f__dart_get_AssociatedDataEnum_staticThing;
-    static late CreatedRef Function(
-        Env env,
         UnownedRef _this,
         UnownedRef other,
         OutCreatedRef _exn
@@ -178,4 +174,8 @@ class AssociatedDataEnum with _$AssociatedDataEnum {
         UnownedRef _this,
         OutCreatedRef _exn
     ) f__dart_get_AssociatedDataEnum_intValue;
+    static late CreatedRef Function(
+        Env env,
+        OutCreatedRef _exn
+    ) f__dart_get_AssociatedDataEnum_staticThing;
 }

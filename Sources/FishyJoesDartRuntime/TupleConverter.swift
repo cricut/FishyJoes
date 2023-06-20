@@ -8,7 +8,7 @@ public struct TupleInfo {
     let getMethods: [GetMethod]
     let constructor: Constructor
 
-    static var infos: [ObjectIdentifier: Env.CallbackMap<TupleInfo>] = [:]
+    static var infos: Env.SynchronizedDictionary<ObjectIdentifier, Env.CallbackMap<TupleInfo>> = [:]
 }
 
 @_cdecl("FishyJoesRuntime_Tuple2Converter_setup")
@@ -21,8 +21,8 @@ public func tuple2_dart_setup(
 ) {
     let env = Env(envRef)
     let name = String(decodingCString: name, as: Unicode.UTF16.self)
-    guard let typeID = Env.typeIDsByName[name],
-          let identifier = Env.typeIDsByID[typeID]
+    guard let typeID = Env.typeID(name: name),
+          let identifier = Env.objectID(typeID: typeID)
     else {
         fatalError("unregistered typeID \(name)")
     }
@@ -69,8 +69,8 @@ public func tuple3_dart_setup(
 ) {
     let env = Env(envRef)
     let name = String(decodingCString: name, as: Unicode.UTF16.self)
-    guard let typeID = Env.typeIDsByName[name],
-          let identifier = Env.typeIDsByID[typeID]
+    guard let typeID = Env.typeID(name: name),
+          let identifier = Env.objectID(typeID: typeID)
     else {
         fatalError("unregistered typeID \(name)")
     }
@@ -122,8 +122,8 @@ public func tuple4_dart_setup(
 ) {
     let env = Env(envRef)
     let name = String(decodingCString: name, as: Unicode.UTF16.self)
-    guard let typeID = Env.typeIDsByName[name],
-          let identifier = Env.typeIDsByID[typeID]
+    guard let typeID = Env.typeID(name: name),
+          let identifier = Env.objectID(typeID: typeID)
     else {
         fatalError("unregistered typeID \(name)")
     }
@@ -180,8 +180,8 @@ public func tuple5_dart_setup(
 ) {
     let env = Env(envRef)
     let name = String(decodingCString: name, as: Unicode.UTF16.self)
-    guard let typeID = Env.typeIDsByName[name],
-          let identifier = Env.typeIDsByID[typeID]
+    guard let typeID = Env.typeID(name: name),
+          let identifier = Env.objectID(typeID: typeID)
     else {
         fatalError("unregistered typeID \(name)")
     }
@@ -243,8 +243,8 @@ public func tuple6_dart_setup(
 ) {
     let env = Env(envRef)
     let name = String(decodingCString: name, as: Unicode.UTF16.self)
-    guard let typeID = Env.typeIDsByName[name],
-          let identifier = Env.typeIDsByID[typeID]
+    guard let typeID = Env.typeID(name: name),
+          let identifier = Env.objectID(typeID: typeID)
     else {
         fatalError("unregistered typeID \(name)")
     }

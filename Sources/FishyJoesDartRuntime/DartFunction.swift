@@ -11,14 +11,14 @@ public enum SwiftFunctionImpl {
     public typealias Invoke4 = @convention(c) (_ fn: foreignObject, foreignObject, foreignObject, foreignObject, foreignObject, _ exn: foreignOutExn) -> foreignObject
     public typealias Invoke5 = @convention(c) (_ fn: foreignObject, foreignObject, foreignObject, foreignObject, foreignObject, foreignObject, _ exn: foreignOutExn) -> foreignObject
     public typealias Invoke6 = @convention(c) (_ fn: foreignObject, foreignObject, foreignObject, foreignObject, foreignObject, foreignObject, foreignObject, _ exn: foreignOutExn) -> foreignObject
-    static var constructors: [ObjectIdentifier: Env.CallbackMap<Constructor>] = [:]
-    static var invoke0s: [ObjectIdentifier: Env.CallbackMap<Invoke0>] = [:]
-    static var invoke1s: [ObjectIdentifier: Env.CallbackMap<Invoke1>] = [:]
-    static var invoke2s: [ObjectIdentifier: Env.CallbackMap<Invoke2>] = [:]
-    static var invoke3s: [ObjectIdentifier: Env.CallbackMap<Invoke3>] = [:]
-    static var invoke4s: [ObjectIdentifier: Env.CallbackMap<Invoke4>] = [:]
-    static var invoke5s: [ObjectIdentifier: Env.CallbackMap<Invoke5>] = [:]
-    static var invoke6s: [ObjectIdentifier: Env.CallbackMap<Invoke6>] = [:]
+    static var constructors: Env.SynchronizedDictionary<ObjectIdentifier, Env.CallbackMap<Constructor>> = [:]
+    static var invoke0s: Env.SynchronizedDictionary<ObjectIdentifier, Env.CallbackMap<Invoke0>> = [:]
+    static var invoke1s: Env.SynchronizedDictionary<ObjectIdentifier, Env.CallbackMap<Invoke1>> = [:]
+    static var invoke2s: Env.SynchronizedDictionary<ObjectIdentifier, Env.CallbackMap<Invoke2>> = [:]
+    static var invoke3s: Env.SynchronizedDictionary<ObjectIdentifier, Env.CallbackMap<Invoke3>> = [:]
+    static var invoke4s: Env.SynchronizedDictionary<ObjectIdentifier, Env.CallbackMap<Invoke4>> = [:]
+    static var invoke5s: Env.SynchronizedDictionary<ObjectIdentifier, Env.CallbackMap<Invoke5>> = [:]
+    static var invoke6s: Env.SynchronizedDictionary<ObjectIdentifier, Env.CallbackMap<Invoke6>> = [:]
 }
 
 @_cdecl("FishyJoesRuntime_Function0Converter_setup")
@@ -32,8 +32,8 @@ public func FishyJoesRuntime_Function0Converter_setup(
     let env = Env(envRef)
     env.catching(to: exn) {
         let name = String(decodingCString: name, as: Unicode.UTF16.self)
-        guard let typeID = Env.typeIDsByName[name],
-              let identifier = Env.typeIDsByID[typeID]
+        guard let typeID = Env.typeID(name: name),
+              let identifier = Env.objectID(typeID: typeID)
         else {
             fatalError("unregistered typeID '\(name)'")
         }
@@ -53,8 +53,8 @@ public func FishyJoesRuntime_Function1Converter_setup(
     let env = Env(envRef)
     env.catching(to: exn) {
         let name = String(decodingCString: name, as: Unicode.UTF16.self)
-        guard let typeID = Env.typeIDsByName[name],
-              let identifier = Env.typeIDsByID[typeID]
+        guard let typeID = Env.typeID(name: name),
+              let identifier = Env.objectID(typeID: typeID)
         else {
             fatalError("unregistered typeID '\(name)'")
         }
@@ -74,8 +74,8 @@ public func FishyJoesRuntime_Function2Converter_setup(
     let env = Env(envRef)
     env.catching(to: exn) {
         let name = String(decodingCString: name, as: Unicode.UTF16.self)
-        guard let typeID = Env.typeIDsByName[name],
-              let identifier = Env.typeIDsByID[typeID]
+        guard let typeID = Env.typeID(name: name),
+              let identifier = Env.objectID(typeID: typeID)
         else {
             fatalError("unregistered typeID '\(name)'")
         }
@@ -95,8 +95,8 @@ public func FishyJoesRuntime_Function3Converter_setup(
     let env = Env(envRef)
     env.catching(to: exn) {
         let name = String(decodingCString: name, as: Unicode.UTF16.self)
-        guard let typeID = Env.typeIDsByName[name],
-              let identifier = Env.typeIDsByID[typeID]
+        guard let typeID = Env.typeID(name: name),
+              let identifier = Env.objectID(typeID: typeID)
         else {
             fatalError("unregistered typeID '\(name)'")
         }
@@ -116,8 +116,8 @@ public func FishyJoesRuntime_Function4Converter_setup(
     let env = Env(envRef)
     env.catching(to: exn) {
         let name = String(decodingCString: name, as: Unicode.UTF16.self)
-        guard let typeID = Env.typeIDsByName[name],
-              let identifier = Env.typeIDsByID[typeID]
+        guard let typeID = Env.typeID(name: name),
+              let identifier = Env.objectID(typeID: typeID)
         else {
             fatalError("unregistered typeID '\(name)'")
         }
@@ -137,8 +137,8 @@ public func FishyJoesRuntime_Function5Converter_setup(
     let env = Env(envRef)
     env.catching(to: exn) {
         let name = String(decodingCString: name, as: Unicode.UTF16.self)
-        guard let typeID = Env.typeIDsByName[name],
-              let identifier = Env.typeIDsByID[typeID]
+        guard let typeID = Env.typeID(name: name),
+              let identifier = Env.objectID(typeID: typeID)
         else {
             fatalError("unregistered typeID '\(name)'")
         }
@@ -158,8 +158,8 @@ public func FishyJoesRuntime_Function6Converter_setup(
     let env = Env(envRef)
     env.catching(to: exn) {
         let name = String(decodingCString: name, as: Unicode.UTF16.self)
-        guard let typeID = Env.typeIDsByName[name],
-              let identifier = Env.typeIDsByID[typeID]
+        guard let typeID = Env.typeID(name: name),
+              let identifier = Env.objectID(typeID: typeID)
         else {
             fatalError("unregistered typeID '\(name)'")
         }

@@ -157,8 +157,15 @@ class Collections {
 
     static late CreatedRef Function(
         Env env,
+        UnownedRef collection,
+        UnownedRef mapper,
         OutCreatedRef _exn
-    ) f__dart_get_Collections_maybeArrayOfMaybeInt;
+    ) f__dart_Collections_collectionMapper;
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef arrayOfInt,
+        OutCreatedRef _exn
+    ) f__dart_Collections_echoArrayOfInt;
     static late CreatedRef Function(
         Env env,
         UnownedRef dictionaryOfIntToInt,
@@ -166,12 +173,19 @@ class Collections {
     ) f__dart_Collections_echoDictionaryOfIntToInt;
     static late CreatedRef Function(
         Env env,
+        UnownedRef maybeArrayOfMaybeInt,
         OutCreatedRef _exn
-    ) f__dart_get_Collections_maybeSetOfMaybeInt;
+    ) f__dart_Collections_echoMaybeArrayOfMaybeInt;
     static late CreatedRef Function(
         Env env,
+        UnownedRef maybeDictionaryOfIntToMaybeInt,
         OutCreatedRef _exn
-    ) f__dart_get_Collections_maybeSetOfInt;
+    ) f__dart_Collections_echoMaybeDictionaryOfIntToMaybeInt;
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef maybeSetOfMaybeInt,
+        OutCreatedRef _exn
+    ) f__dart_Collections_echoMaybeSetOfMaybeInt;
     static late CreatedRef Function(
         Env env,
         UnownedRef setOfInt,
@@ -179,18 +193,12 @@ class Collections {
     ) f__dart_Collections_echoSetOfInt;
     static late CreatedRef Function(
         Env env,
-        UnownedRef collection,
-        UnownedRef mapper,
         OutCreatedRef _exn
-    ) f__dart_Collections_collectionMapper;
+    ) f__dart_get_Collections_arrayOfInt;
     static late CreatedRef Function(
         Env env,
         OutCreatedRef _exn
-    ) f__dart_get_Collections_maybeDictionaryOfIntToMaybeInt;
-    static late CreatedRef Function(
-        Env env,
-        OutCreatedRef _exn
-    ) f__dart_get_Collections_setOfInt;
+    ) f__dart_get_Collections_defaultCollectionHolder;
     static late CreatedRef Function(
         Env env,
         OutCreatedRef _exn
@@ -202,33 +210,25 @@ class Collections {
     static late CreatedRef Function(
         Env env,
         OutCreatedRef _exn
-    ) f__dart_get_Collections_arrayOfInt;
+    ) f__dart_get_Collections_maybeArrayOfMaybeInt;
     static late CreatedRef Function(
         Env env,
         OutCreatedRef _exn
     ) f__dart_get_Collections_maybeDictionaryOfIntToInt;
     static late CreatedRef Function(
         Env env,
-        UnownedRef maybeArrayOfMaybeInt,
         OutCreatedRef _exn
-    ) f__dart_Collections_echoMaybeArrayOfMaybeInt;
-    static late CreatedRef Function(
-        Env env,
-        UnownedRef maybeSetOfMaybeInt,
-        OutCreatedRef _exn
-    ) f__dart_Collections_echoMaybeSetOfMaybeInt;
-    static late CreatedRef Function(
-        Env env,
-        UnownedRef arrayOfInt,
-        OutCreatedRef _exn
-    ) f__dart_Collections_echoArrayOfInt;
+    ) f__dart_get_Collections_maybeDictionaryOfIntToMaybeInt;
     static late CreatedRef Function(
         Env env,
         OutCreatedRef _exn
-    ) f__dart_get_Collections_defaultCollectionHolder;
+    ) f__dart_get_Collections_maybeSetOfInt;
     static late CreatedRef Function(
         Env env,
-        UnownedRef maybeDictionaryOfIntToMaybeInt,
         OutCreatedRef _exn
-    ) f__dart_Collections_echoMaybeDictionaryOfIntToMaybeInt;
+    ) f__dart_get_Collections_maybeSetOfMaybeInt;
+    static late CreatedRef Function(
+        Env env,
+        OutCreatedRef _exn
+    ) f__dart_get_Collections_setOfInt;
 }

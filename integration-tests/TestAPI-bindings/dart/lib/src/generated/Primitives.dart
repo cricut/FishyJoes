@@ -565,132 +565,61 @@ class Primitives {
         )
     ;
 
-    static late int Function(
-        Env env,
-        OutCreatedRef _exn
-    ) f__dart_get_Primitives_minInt16;
-    static late CreatedRef Function(
-        Env env,
-        OutCreatedRef _exn
-    ) f__dart_get_Primitives_manyMaybeBool;
-    static late int Function(
-        Env env,
-        int value,
-        OutCreatedRef _exn
-    ) f__dart_Primitives_echoUInt16;
     static late bool Function(
         Env env,
         bool value,
         OutCreatedRef _exn
     ) f__dart_Primitives_echoBool;
-    static late int Function(
+    static late double Function(
         Env env,
+        double value,
         OutCreatedRef _exn
-    ) f__dart_get_Primitives_maxInt64;
+    ) f__dart_Primitives_echoDouble;
     static late double Function(
         Env env,
         double value,
         OutCreatedRef _exn
     ) f__dart_Primitives_echoFloat;
-    static late CreatedRef Function(
-        Env env,
-        OutCreatedRef _exn
-    ) f__dart_get_Primitives_manyMaybeInt8;
-    static late double Function(
-        Env env,
-        OutCreatedRef _exn
-    ) f__dart_get_Primitives_minFloat;
-    static late CreatedRef Function(
-        Env env,
-        OutCreatedRef _exn
-    ) f__dart_get_Primitives_manyUInt32;
-    static late CreatedRef Function(
-        Env env,
-        OutCreatedRef _exn
-    ) f__dart_get_Primitives_manyMaybeInt16;
-    static late CreatedRef Function(
-        Env env,
-        UnownedRef value,
-        OutCreatedRef _exn
-    ) f__dart_Primitives_maybeEchoUInt64;
     static late int Function(
         Env env,
+        int value,
         OutCreatedRef _exn
-    ) f__dart_get_Primitives_zeroInt64;
+    ) f__dart_Primitives_echoInt16;
+    static late int Function(
+        Env env,
+        int value,
+        OutCreatedRef _exn
+    ) f__dart_Primitives_echoInt32;
     static late int Function(
         Env env,
         int value,
         OutCreatedRef _exn
     ) f__dart_Primitives_echoInt64;
-    static late CreatedRef Function(
-        Env env,
-        UnownedRef value,
-        OutCreatedRef _exn
-    ) f__dart_Primitives_maybeEchoInt64;
-    static late int Function(
-        Env env,
-        OutCreatedRef _exn
-    ) f__dart_get_Primitives_minUInt8;
-    static late bool Function(
-        Env env,
-        OutCreatedRef _exn
-    ) f__dart_get_Primitives_falseBool;
-    static late CreatedRef Function(
-        Env env,
-        OutCreatedRef _exn
-    ) f__dart_get_Primitives_manyMaybeFloat;
-    static late CreatedRef Function(
-        Env env,
-        UnownedRef value,
-        OutCreatedRef _exn
-    ) f__dart_Primitives_maybeEchoUInt32;
-    static late CreatedRef Function(
-        Env env,
-        OutCreatedRef _exn
-    ) f__dart_get_Primitives_manyMaybeInt32;
-    static late CreatedRef Function(
-        Env env,
-        OutCreatedRef _exn
-    ) f__dart_get_Primitives_manyInt16;
-    static late int Function(
-        Env env,
-        OutCreatedRef _exn
-    ) f__dart_get_Primitives_maxUInt32;
-    static late CreatedRef Function(
-        Env env,
-        UnownedRef value,
-        OutCreatedRef _exn
-    ) f__dart_Primitives_maybeEchoInt16;
-    static late CreatedRef Function(
-        Env env,
-        OutCreatedRef _exn
-    ) f__dart_get_Primitives_manyMaybeUInt64;
-    static late CreatedRef Function(
-        Env env,
-        OutCreatedRef _exn
-    ) f__dart_get_Primitives_manyMaybeDouble;
-    static late int Function(
-        Env env,
-        OutCreatedRef _exn
-    ) f__dart_get_Primitives_maxUInt16;
-    static late CreatedRef Function(
-        Env env,
-        OutCreatedRef _exn
-    ) f__dart_get_Primitives_manyUInt16;
-    static late CreatedRef Function(
-        Env env,
-        OutCreatedRef _exn
-    ) f__dart_get_Primitives_defaultPrimitiveHolder;
     static late int Function(
         Env env,
         int value,
         OutCreatedRef _exn
-    ) f__dart_Primitives_echoUInt8;
+    ) f__dart_Primitives_echoInt8;
+    static late int Function(
+        Env env,
+        int value,
+        OutCreatedRef _exn
+    ) f__dart_Primitives_echoUInt16;
+    static late int Function(
+        Env env,
+        int value,
+        OutCreatedRef _exn
+    ) f__dart_Primitives_echoUInt32;
     static late int Function(
         Env env,
         int value,
         OutCreatedRef _exn
     ) f__dart_Primitives_echoUInt64;
+    static late int Function(
+        Env env,
+        int value,
+        OutCreatedRef _exn
+    ) f__dart_Primitives_echoUInt8;
     static late CreatedRef Function(
         Env env,
         UnownedRef value,
@@ -700,63 +629,146 @@ class Primitives {
         Env env,
         UnownedRef value,
         OutCreatedRef _exn
-    ) f__dart_Primitives_maybeEchoUInt8;
-    static late double Function(
-        Env env,
-        OutCreatedRef _exn
-    ) f__dart_get_Primitives_maxFloat;
-    static late int Function(
-        Env env,
-        OutCreatedRef _exn
-    ) f__dart_get_Primitives_minInt64;
-    static late CreatedRef Function(
-        Env env,
-        OutCreatedRef _exn
-    ) f__dart_get_Primitives_manyInt64;
-    static late CreatedRef Function(
-        Env env,
-        UnownedRef value,
-        OutCreatedRef _exn
     ) f__dart_Primitives_maybeEchoDouble;
-    static late double Function(
-        Env env,
-        OutCreatedRef _exn
-    ) f__dart_get_Primitives_minDouble;
     static late CreatedRef Function(
         Env env,
         UnownedRef value,
         OutCreatedRef _exn
     ) f__dart_Primitives_maybeEchoFloat;
-    static late int Function(
+    static late CreatedRef Function(
         Env env,
+        UnownedRef value,
         OutCreatedRef _exn
-    ) f__dart_get_Primitives_maxUInt8;
-    static late int Function(
+    ) f__dart_Primitives_maybeEchoInt16;
+    static late CreatedRef Function(
         Env env,
+        UnownedRef value,
         OutCreatedRef _exn
-    ) f__dart_get_Primitives_zeroUInt32;
+    ) f__dart_Primitives_maybeEchoInt32;
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef value,
+        OutCreatedRef _exn
+    ) f__dart_Primitives_maybeEchoInt64;
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef value,
+        OutCreatedRef _exn
+    ) f__dart_Primitives_maybeEchoInt8;
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef value,
+        OutCreatedRef _exn
+    ) f__dart_Primitives_maybeEchoUInt16;
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef value,
+        OutCreatedRef _exn
+    ) f__dart_Primitives_maybeEchoUInt32;
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef value,
+        OutCreatedRef _exn
+    ) f__dart_Primitives_maybeEchoUInt64;
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef value,
+        OutCreatedRef _exn
+    ) f__dart_Primitives_maybeEchoUInt8;
     static late CreatedRef Function(
         Env env,
         UnownedRef value,
         UnownedRef mapper,
         OutCreatedRef _exn
     ) f__dart_Primitives_valueMapper;
-    static late int Function(
-        Env env,
-        OutCreatedRef _exn
-    ) f__dart_get_Primitives_zeroUInt8;
-    static late double Function(
-        Env env,
-        OutCreatedRef _exn
-    ) f__dart_get_Primitives_zeroFloat;
-    static late int Function(
-        Env env,
-        OutCreatedRef _exn
-    ) f__dart_get_Primitives_maxInt8;
     static late CreatedRef Function(
         Env env,
         OutCreatedRef _exn
-    ) f__dart_get_Primitives_manyUInt8;
+    ) f__dart_get_Primitives_defaultPrimitiveHolder;
+    static late bool Function(
+        Env env,
+        OutCreatedRef _exn
+    ) f__dart_get_Primitives_falseBool;
+    static late CreatedRef Function(
+        Env env,
+        OutCreatedRef _exn
+    ) f__dart_get_Primitives_manyBool;
+    static late CreatedRef Function(
+        Env env,
+        OutCreatedRef _exn
+    ) f__dart_get_Primitives_manyDouble;
+    static late CreatedRef Function(
+        Env env,
+        OutCreatedRef _exn
+    ) f__dart_get_Primitives_manyFloat;
+    static late CreatedRef Function(
+        Env env,
+        OutCreatedRef _exn
+    ) f__dart_get_Primitives_manyInt16;
+    static late CreatedRef Function(
+        Env env,
+        OutCreatedRef _exn
+    ) f__dart_get_Primitives_manyInt32;
+    static late CreatedRef Function(
+        Env env,
+        OutCreatedRef _exn
+    ) f__dart_get_Primitives_manyInt64;
+    static late CreatedRef Function(
+        Env env,
+        OutCreatedRef _exn
+    ) f__dart_get_Primitives_manyInt8;
+    static late CreatedRef Function(
+        Env env,
+        OutCreatedRef _exn
+    ) f__dart_get_Primitives_manyMaybeBool;
+    static late CreatedRef Function(
+        Env env,
+        OutCreatedRef _exn
+    ) f__dart_get_Primitives_manyMaybeDouble;
+    static late CreatedRef Function(
+        Env env,
+        OutCreatedRef _exn
+    ) f__dart_get_Primitives_manyMaybeFloat;
+    static late CreatedRef Function(
+        Env env,
+        OutCreatedRef _exn
+    ) f__dart_get_Primitives_manyMaybeInt16;
+    static late CreatedRef Function(
+        Env env,
+        OutCreatedRef _exn
+    ) f__dart_get_Primitives_manyMaybeInt32;
+    static late CreatedRef Function(
+        Env env,
+        OutCreatedRef _exn
+    ) f__dart_get_Primitives_manyMaybeInt64;
+    static late CreatedRef Function(
+        Env env,
+        OutCreatedRef _exn
+    ) f__dart_get_Primitives_manyMaybeInt8;
+    static late CreatedRef Function(
+        Env env,
+        OutCreatedRef _exn
+    ) f__dart_get_Primitives_manyMaybeUInt16;
+    static late CreatedRef Function(
+        Env env,
+        OutCreatedRef _exn
+    ) f__dart_get_Primitives_manyMaybeUInt32;
+    static late CreatedRef Function(
+        Env env,
+        OutCreatedRef _exn
+    ) f__dart_get_Primitives_manyMaybeUInt64;
+    static late CreatedRef Function(
+        Env env,
+        OutCreatedRef _exn
+    ) f__dart_get_Primitives_manyMaybeUInt8;
+    static late CreatedRef Function(
+        Env env,
+        OutCreatedRef _exn
+    ) f__dart_get_Primitives_manyUInt16;
+    static late CreatedRef Function(
+        Env env,
+        OutCreatedRef _exn
+    ) f__dart_get_Primitives_manyUInt32;
     static late CreatedRef Function(
         Env env,
         OutCreatedRef _exn
@@ -764,7 +776,15 @@ class Primitives {
     static late CreatedRef Function(
         Env env,
         OutCreatedRef _exn
-    ) f__dart_get_Primitives_manyMaybeUInt32;
+    ) f__dart_get_Primitives_manyUInt8;
+    static late double Function(
+        Env env,
+        OutCreatedRef _exn
+    ) f__dart_get_Primitives_maxDouble;
+    static late double Function(
+        Env env,
+        OutCreatedRef _exn
+    ) f__dart_get_Primitives_maxFloat;
     static late int Function(
         Env env,
         OutCreatedRef _exn
@@ -773,19 +793,42 @@ class Primitives {
         Env env,
         OutCreatedRef _exn
     ) f__dart_get_Primitives_maxInt16;
-    static late CreatedRef Function(
+    static late int Function(
         Env env,
         OutCreatedRef _exn
-    ) f__dart_get_Primitives_manyMaybeUInt16;
+    ) f__dart_get_Primitives_maxInt32;
+    static late int Function(
+        Env env,
+        OutCreatedRef _exn
+    ) f__dart_get_Primitives_maxInt64;
+    static late int Function(
+        Env env,
+        OutCreatedRef _exn
+    ) f__dart_get_Primitives_maxInt8;
+    static late int Function(
+        Env env,
+        OutCreatedRef _exn
+    ) f__dart_get_Primitives_maxUInt16;
+    static late int Function(
+        Env env,
+        OutCreatedRef _exn
+    ) f__dart_get_Primitives_maxUInt32;
+    static late int Function(
+        Env env,
+        OutCreatedRef _exn
+    ) f__dart_get_Primitives_maxUInt64;
+    static late int Function(
+        Env env,
+        OutCreatedRef _exn
+    ) f__dart_get_Primitives_maxUInt8;
     static late double Function(
         Env env,
-        double value,
         OutCreatedRef _exn
-    ) f__dart_Primitives_echoDouble;
-    static late bool Function(
+    ) f__dart_get_Primitives_minDouble;
+    static late double Function(
         Env env,
         OutCreatedRef _exn
-    ) f__dart_get_Primitives_trueBool;
+    ) f__dart_get_Primitives_minFloat;
     static late int Function(
         Env env,
         OutCreatedRef _exn
@@ -793,36 +836,23 @@ class Primitives {
     static late int Function(
         Env env,
         OutCreatedRef _exn
-    ) f__dart_get_Primitives_zeroInt;
-    static late CreatedRef Function(
-        Env env,
-        OutCreatedRef _exn
-    ) f__dart_get_Primitives_manyInt8;
+    ) f__dart_get_Primitives_minInt16;
     static late int Function(
         Env env,
         OutCreatedRef _exn
-    ) f__dart_get_Primitives_zeroUInt16;
+    ) f__dart_get_Primitives_minInt32;
     static late int Function(
         Env env,
         OutCreatedRef _exn
-    ) f__dart_get_Primitives_zeroInt16;
-    static late int Function(
-        Env env,
-        int value,
-        OutCreatedRef _exn
-    ) f__dart_Primitives_echoInt32;
-    static late CreatedRef Function(
-        Env env,
-        OutCreatedRef _exn
-    ) f__dart_get_Primitives_manyMaybeInt64;
+    ) f__dart_get_Primitives_minInt64;
     static late int Function(
         Env env,
         OutCreatedRef _exn
-    ) f__dart_get_Primitives_maxUInt64;
-    static late CreatedRef Function(
+    ) f__dart_get_Primitives_minInt8;
+    static late int Function(
         Env env,
         OutCreatedRef _exn
-    ) f__dart_get_Primitives_manyMaybeUInt8;
+    ) f__dart_get_Primitives_minUInt16;
     static late int Function(
         Env env,
         OutCreatedRef _exn
@@ -834,83 +864,53 @@ class Primitives {
     static late int Function(
         Env env,
         OutCreatedRef _exn
-    ) f__dart_get_Primitives_minInt8;
-    static late CreatedRef Function(
+    ) f__dart_get_Primitives_minUInt8;
+    static late bool Function(
         Env env,
         OutCreatedRef _exn
-    ) f__dart_get_Primitives_manyInt32;
-    static late CreatedRef Function(
-        Env env,
-        OutCreatedRef _exn
-    ) f__dart_get_Primitives_manyFloat;
-    static late int Function(
-        Env env,
-        int value,
-        OutCreatedRef _exn
-    ) f__dart_Primitives_echoInt8;
-    static late CreatedRef Function(
-        Env env,
-        UnownedRef value,
-        OutCreatedRef _exn
-    ) f__dart_Primitives_maybeEchoUInt16;
-    static late CreatedRef Function(
-        Env env,
-        OutCreatedRef _exn
-    ) f__dart_get_Primitives_manyDouble;
-    static late int Function(
-        Env env,
-        int value,
-        OutCreatedRef _exn
-    ) f__dart_Primitives_echoInt16;
-    static late int Function(
-        Env env,
-        int value,
-        OutCreatedRef _exn
-    ) f__dart_Primitives_echoUInt32;
-    static late CreatedRef Function(
-        Env env,
-        UnownedRef value,
-        OutCreatedRef _exn
-    ) f__dart_Primitives_maybeEchoInt8;
-    static late int Function(
-        Env env,
-        OutCreatedRef _exn
-    ) f__dart_get_Primitives_minInt32;
-    static late int Function(
-        Env env,
-        OutCreatedRef _exn
-    ) f__dart_get_Primitives_minUInt16;
-    static late double Function(
-        Env env,
-        OutCreatedRef _exn
-    ) f__dart_get_Primitives_maxDouble;
-    static late int Function(
-        Env env,
-        OutCreatedRef _exn
-    ) f__dart_get_Primitives_maxInt32;
-    static late CreatedRef Function(
-        Env env,
-        OutCreatedRef _exn
-    ) f__dart_get_Primitives_manyBool;
-    static late int Function(
-        Env env,
-        OutCreatedRef _exn
-    ) f__dart_get_Primitives_zeroInt32;
+    ) f__dart_get_Primitives_trueBool;
     static late double Function(
         Env env,
         OutCreatedRef _exn
     ) f__dart_get_Primitives_zeroDouble;
+    static late double Function(
+        Env env,
+        OutCreatedRef _exn
+    ) f__dart_get_Primitives_zeroFloat;
+    static late int Function(
+        Env env,
+        OutCreatedRef _exn
+    ) f__dart_get_Primitives_zeroInt;
+    static late int Function(
+        Env env,
+        OutCreatedRef _exn
+    ) f__dart_get_Primitives_zeroInt16;
+    static late int Function(
+        Env env,
+        OutCreatedRef _exn
+    ) f__dart_get_Primitives_zeroInt32;
+    static late int Function(
+        Env env,
+        OutCreatedRef _exn
+    ) f__dart_get_Primitives_zeroInt64;
     static late int Function(
         Env env,
         OutCreatedRef _exn
     ) f__dart_get_Primitives_zeroInt8;
-    static late CreatedRef Function(
+    static late int Function(
         Env env,
-        UnownedRef value,
         OutCreatedRef _exn
-    ) f__dart_Primitives_maybeEchoInt32;
+    ) f__dart_get_Primitives_zeroUInt16;
+    static late int Function(
+        Env env,
+        OutCreatedRef _exn
+    ) f__dart_get_Primitives_zeroUInt32;
     static late int Function(
         Env env,
         OutCreatedRef _exn
     ) f__dart_get_Primitives_zeroUInt64;
+    static late int Function(
+        Env env,
+        OutCreatedRef _exn
+    ) f__dart_get_Primitives_zeroUInt8;
 }

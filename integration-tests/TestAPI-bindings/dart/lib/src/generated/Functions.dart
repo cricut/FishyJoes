@@ -144,11 +144,7 @@ class Functions {
         Env env,
         UnownedRef fn,
         OutCreatedRef _exn
-    ) f__dart_Functions_exercise2;
-    static late CreatedRef Function(
-        Env env,
-        OutCreatedRef _exn
-    ) f__dart_get_Functions_fifthThing;
+    ) f__dart_Functions_exercise0;
     static late CreatedRef Function(
         Env env,
         UnownedRef fn,
@@ -156,22 +152,14 @@ class Functions {
     ) f__dart_Functions_exercise1;
     static late CreatedRef Function(
         Env env,
+        UnownedRef fn,
         OutCreatedRef _exn
-    ) f__dart_get_Functions_intCompose;
-    static late CreatedRef Function(
-        Env env,
-        OutCreatedRef _exn
-    ) f__dart_Functions_willThrow;
+    ) f__dart_Functions_exercise2;
     static late CreatedRef Function(
         Env env,
         UnownedRef fn,
         OutCreatedRef _exn
-    ) f__dart_Functions_exercise5;
-    static late CreatedRef Function(
-        Env env,
-        UnownedRef fn,
-        OutCreatedRef _exn
-    ) f__dart_Functions_exercise0;
+    ) f__dart_Functions_exercise3;
     static late CreatedRef Function(
         Env env,
         UnownedRef fn,
@@ -181,19 +169,7 @@ class Functions {
         Env env,
         UnownedRef fn,
         OutCreatedRef _exn
-    ) f__dart_Functions_exercise3;
-    static late CreatedRef Function(
-        Env env,
-        OutCreatedRef _exn
-    ) f__dart_get_Functions_makeList;
-    static late CreatedRef Function(
-        Env env,
-        OutCreatedRef _exn
-    ) f__dart_get_Functions_sixthThing;
-    static late CreatedRef Function(
-        Env env,
-        OutCreatedRef _exn
-    ) f__dart_get_Functions_add3Things;
+    ) f__dart_Functions_exercise5;
     static late CreatedRef Function(
         Env env,
         UnownedRef fn,
@@ -202,9 +178,33 @@ class Functions {
     static late CreatedRef Function(
         Env env,
         OutCreatedRef _exn
+    ) f__dart_Functions_willThrow;
+    static late CreatedRef Function(
+        Env env,
+        OutCreatedRef _exn
     ) f__dart_get_Functions_abs;
     static late CreatedRef Function(
         Env env,
         OutCreatedRef _exn
+    ) f__dart_get_Functions_add3Things;
+    static late CreatedRef Function(
+        Env env,
+        OutCreatedRef _exn
     ) f__dart_get_Functions_const42;
+    static late CreatedRef Function(
+        Env env,
+        OutCreatedRef _exn
+    ) f__dart_get_Functions_fifthThing;
+    static late CreatedRef Function(
+        Env env,
+        OutCreatedRef _exn
+    ) f__dart_get_Functions_intCompose;
+    static late CreatedRef Function(
+        Env env,
+        OutCreatedRef _exn
+    ) f__dart_get_Functions_makeList;
+    static late CreatedRef Function(
+        Env env,
+        OutCreatedRef _exn
+    ) f__dart_get_Functions_sixthThing;
 }

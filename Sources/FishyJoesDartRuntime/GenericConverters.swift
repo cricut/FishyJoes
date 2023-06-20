@@ -26,7 +26,7 @@ public struct CollectionInfo {
     var constructor: Constructor
     var context: OpaquePointer
 
-    static var infos: [ObjectIdentifier: Env.CallbackMap<CollectionInfo>] = [:]
+    static var infos: Env.SynchronizedDictionary<ObjectIdentifier, Env.CallbackMap<CollectionInfo>> = [:]
 
     func length(_ object: foreignObject, env: Env) throws -> Int {
         try env.check { exn in Int(lengthMethod(context, object, exn)) }
@@ -53,8 +53,8 @@ public func collectionSetup(
 ) {
     let name = String(decodingCString: name, as: Unicode.UTF16.self)
     let env = Env(envRef)
-    guard let typeID = Env.typeIDsByName[name],
-          let identifier = Env.typeIDsByID[typeID]
+    guard let typeID = Env.typeID(name: name),
+          let identifier = Env.objectID(typeID: typeID)
     else {
         fatalError("unregistered typeID \(name)")
     }

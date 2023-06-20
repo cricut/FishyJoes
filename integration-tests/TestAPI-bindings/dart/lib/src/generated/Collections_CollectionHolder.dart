@@ -59,17 +59,17 @@ class Collections_CollectionHolder with _$Collections_CollectionHolder {
         ;
     }
 
+    static late CreatedRef Function(
+        Env env,
+        OutCreatedRef _exn
+    ) f__dart_get_Collections_CollectionHolder_staticMutablePropery;
+    static late CreatedRef Function(
+        Env env,
+        OutCreatedRef _exn
+    ) f__dart_get_Collections_CollectionHolder_staticPropery;
     static late void Function(
         Env env,
         UnownedRef staticMutablePropery,
         OutCreatedRef _exn
     ) f__dart_set_Collections_CollectionHolder_staticMutablePropery;
-    static late CreatedRef Function(
-        Env env,
-        OutCreatedRef _exn
-    ) f__dart_get_Collections_CollectionHolder_staticPropery;
-    static late CreatedRef Function(
-        Env env,
-        OutCreatedRef _exn
-    ) f__dart_get_Collections_CollectionHolder_staticMutablePropery;
 }

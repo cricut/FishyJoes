@@ -400,18 +400,6 @@ final ensureLoaded = (() {
             OutCreatedRef exn
         )
     >('TestAPI_Tuples_setup');
-    TestAPI.AssociatedDataEnum.f__dart_get_AssociatedDataEnum_intValue = dylib.lookupFunction<
-        ffi.Int Function(
-            Env env,
-            UnownedRef _this,
-            OutCreatedRef _exn
-        ),
-        int Function(
-            Env env,
-            UnownedRef _this,
-            OutCreatedRef _exn
-        )
-    >("__dart_get_AssociatedDataEnum_intValue");
     TestAPI.AssociatedDataEnum.f__dart_AssociatedDataEnum_plus = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -426,6 +414,612 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__dart_AssociatedDataEnum_plus");
+    TestAPI.Bytes.f__dart_Bytes_echoBytes = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef bytes,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef bytes,
+            OutCreatedRef _exn
+        )
+    >("__dart_Bytes_echoBytes");
+    TestAPI.Bytes.f__dart_Bytes_echoData = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef data,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef data,
+            OutCreatedRef _exn
+        )
+    >("__dart_Bytes_echoData");
+    TestAPI.Collections.f__dart_Collections_collectionMapper = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef collection,
+            UnownedRef mapper,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef collection,
+            UnownedRef mapper,
+            OutCreatedRef _exn
+        )
+    >("__dart_Collections_collectionMapper");
+    TestAPI.Collections.f__dart_Collections_echoArrayOfInt = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef arrayOfInt,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef arrayOfInt,
+            OutCreatedRef _exn
+        )
+    >("__dart_Collections_echoArrayOfInt");
+    TestAPI.Collections.f__dart_Collections_echoDictionaryOfIntToInt = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef dictionaryOfIntToInt,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef dictionaryOfIntToInt,
+            OutCreatedRef _exn
+        )
+    >("__dart_Collections_echoDictionaryOfIntToInt");
+    TestAPI.Collections.f__dart_Collections_echoMaybeArrayOfMaybeInt = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef maybeArrayOfMaybeInt,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef maybeArrayOfMaybeInt,
+            OutCreatedRef _exn
+        )
+    >("__dart_Collections_echoMaybeArrayOfMaybeInt");
+    TestAPI.Collections.f__dart_Collections_echoMaybeDictionaryOfIntToMaybeInt = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef maybeDictionaryOfIntToMaybeInt,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef maybeDictionaryOfIntToMaybeInt,
+            OutCreatedRef _exn
+        )
+    >("__dart_Collections_echoMaybeDictionaryOfIntToMaybeInt");
+    TestAPI.Collections.f__dart_Collections_echoMaybeSetOfMaybeInt = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef maybeSetOfMaybeInt,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef maybeSetOfMaybeInt,
+            OutCreatedRef _exn
+        )
+    >("__dart_Collections_echoMaybeSetOfMaybeInt");
+    TestAPI.Collections.f__dart_Collections_echoSetOfInt = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef setOfInt,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef setOfInt,
+            OutCreatedRef _exn
+        )
+    >("__dart_Collections_echoSetOfInt");
+    TestAPI.DefaultArguments.f__dart_DefaultArguments_echoDefaults = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef y,
+            UnownedRef x,
+            ffi.Double z,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef y,
+            UnownedRef x,
+            double z,
+            OutCreatedRef _exn
+        )
+    >("__dart_DefaultArguments_echoDefaults");
+    TestAPI.Deprecations.f__dart_Deprecations_deprecatedMethod = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__dart_Deprecations_deprecatedMethod");
+    TestAPI.EmptyEnum.f__dart_EmptyEnum_notGoingToHappen = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__dart_EmptyEnum_notGoingToHappen");
+    TestAPI.Functions.f__dart_Functions_exercise0 = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef fn,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef fn,
+            OutCreatedRef _exn
+        )
+    >("__dart_Functions_exercise0");
+    TestAPI.Functions.f__dart_Functions_exercise1 = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef fn,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef fn,
+            OutCreatedRef _exn
+        )
+    >("__dart_Functions_exercise1");
+    TestAPI.Functions.f__dart_Functions_exercise2 = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef fn,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef fn,
+            OutCreatedRef _exn
+        )
+    >("__dart_Functions_exercise2");
+    TestAPI.Functions.f__dart_Functions_exercise3 = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef fn,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef fn,
+            OutCreatedRef _exn
+        )
+    >("__dart_Functions_exercise3");
+    TestAPI.Functions.f__dart_Functions_exercise4 = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef fn,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef fn,
+            OutCreatedRef _exn
+        )
+    >("__dart_Functions_exercise4");
+    TestAPI.Functions.f__dart_Functions_exercise5 = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef fn,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef fn,
+            OutCreatedRef _exn
+        )
+    >("__dart_Functions_exercise5");
+    TestAPI.Functions.f__dart_Functions_exercise6 = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef fn,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef fn,
+            OutCreatedRef _exn
+        )
+    >("__dart_Functions_exercise6");
+    TestAPI.Functions.f__dart_Functions_willThrow = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__dart_Functions_willThrow");
+    TestAPI.Primitives.f__dart_Primitives_echoBool = dylib.lookupFunction<
+        ffi.Bool Function(
+            Env env,
+            ffi.Bool value,
+            OutCreatedRef _exn
+        ),
+        bool Function(
+            Env env,
+            bool value,
+            OutCreatedRef _exn
+        )
+    >("__dart_Primitives_echoBool");
+    TestAPI.Primitives.f__dart_Primitives_echoDouble = dylib.lookupFunction<
+        ffi.Double Function(
+            Env env,
+            ffi.Double value,
+            OutCreatedRef _exn
+        ),
+        double Function(
+            Env env,
+            double value,
+            OutCreatedRef _exn
+        )
+    >("__dart_Primitives_echoDouble");
+    TestAPI.Primitives.f__dart_Primitives_echoFloat = dylib.lookupFunction<
+        ffi.Double Function(
+            Env env,
+            ffi.Double value,
+            OutCreatedRef _exn
+        ),
+        double Function(
+            Env env,
+            double value,
+            OutCreatedRef _exn
+        )
+    >("__dart_Primitives_echoFloat");
+    TestAPI.Primitives.f__dart_Primitives_echoInt16 = dylib.lookupFunction<
+        ffi.Int Function(
+            Env env,
+            ffi.Int value,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            int value,
+            OutCreatedRef _exn
+        )
+    >("__dart_Primitives_echoInt16");
+    TestAPI.Primitives.f__dart_Primitives_echoInt32 = dylib.lookupFunction<
+        ffi.Int Function(
+            Env env,
+            ffi.Int value,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            int value,
+            OutCreatedRef _exn
+        )
+    >("__dart_Primitives_echoInt32");
+    TestAPI.Primitives.f__dart_Primitives_echoInt64 = dylib.lookupFunction<
+        ffi.Int Function(
+            Env env,
+            ffi.Int value,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            int value,
+            OutCreatedRef _exn
+        )
+    >("__dart_Primitives_echoInt64");
+    TestAPI.Primitives.f__dart_Primitives_echoInt8 = dylib.lookupFunction<
+        ffi.Int Function(
+            Env env,
+            ffi.Int value,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            int value,
+            OutCreatedRef _exn
+        )
+    >("__dart_Primitives_echoInt8");
+    TestAPI.Primitives.f__dart_Primitives_echoUInt16 = dylib.lookupFunction<
+        ffi.Int Function(
+            Env env,
+            ffi.Int value,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            int value,
+            OutCreatedRef _exn
+        )
+    >("__dart_Primitives_echoUInt16");
+    TestAPI.Primitives.f__dart_Primitives_echoUInt32 = dylib.lookupFunction<
+        ffi.Int Function(
+            Env env,
+            ffi.Int value,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            int value,
+            OutCreatedRef _exn
+        )
+    >("__dart_Primitives_echoUInt32");
+    TestAPI.Primitives.f__dart_Primitives_echoUInt64 = dylib.lookupFunction<
+        ffi.Int Function(
+            Env env,
+            ffi.Int value,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            int value,
+            OutCreatedRef _exn
+        )
+    >("__dart_Primitives_echoUInt64");
+    TestAPI.Primitives.f__dart_Primitives_echoUInt8 = dylib.lookupFunction<
+        ffi.Int Function(
+            Env env,
+            ffi.Int value,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            int value,
+            OutCreatedRef _exn
+        )
+    >("__dart_Primitives_echoUInt8");
+    TestAPI.Primitives.f__dart_Primitives_maybeEchoBool = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef value,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef value,
+            OutCreatedRef _exn
+        )
+    >("__dart_Primitives_maybeEchoBool");
+    TestAPI.Primitives.f__dart_Primitives_maybeEchoDouble = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef value,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef value,
+            OutCreatedRef _exn
+        )
+    >("__dart_Primitives_maybeEchoDouble");
+    TestAPI.Primitives.f__dart_Primitives_maybeEchoFloat = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef value,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef value,
+            OutCreatedRef _exn
+        )
+    >("__dart_Primitives_maybeEchoFloat");
+    TestAPI.Primitives.f__dart_Primitives_maybeEchoInt16 = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef value,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef value,
+            OutCreatedRef _exn
+        )
+    >("__dart_Primitives_maybeEchoInt16");
+    TestAPI.Primitives.f__dart_Primitives_maybeEchoInt32 = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef value,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef value,
+            OutCreatedRef _exn
+        )
+    >("__dart_Primitives_maybeEchoInt32");
+    TestAPI.Primitives.f__dart_Primitives_maybeEchoInt64 = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef value,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef value,
+            OutCreatedRef _exn
+        )
+    >("__dart_Primitives_maybeEchoInt64");
+    TestAPI.Primitives.f__dart_Primitives_maybeEchoInt8 = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef value,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef value,
+            OutCreatedRef _exn
+        )
+    >("__dart_Primitives_maybeEchoInt8");
+    TestAPI.Primitives.f__dart_Primitives_maybeEchoUInt16 = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef value,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef value,
+            OutCreatedRef _exn
+        )
+    >("__dart_Primitives_maybeEchoUInt16");
+    TestAPI.Primitives.f__dart_Primitives_maybeEchoUInt32 = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef value,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef value,
+            OutCreatedRef _exn
+        )
+    >("__dart_Primitives_maybeEchoUInt32");
+    TestAPI.Primitives.f__dart_Primitives_maybeEchoUInt64 = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef value,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef value,
+            OutCreatedRef _exn
+        )
+    >("__dart_Primitives_maybeEchoUInt64");
+    TestAPI.Primitives.f__dart_Primitives_maybeEchoUInt8 = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef value,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef value,
+            OutCreatedRef _exn
+        )
+    >("__dart_Primitives_maybeEchoUInt8");
+    TestAPI.Primitives.f__dart_Primitives_valueMapper = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef value,
+            UnownedRef mapper,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef value,
+            UnownedRef mapper,
+            OutCreatedRef _exn
+        )
+    >("__dart_Primitives_valueMapper");
+    TestAPI.SimpleEnum.f__dart_SimpleEnum_hexMethod = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__dart_SimpleEnum_hexMethod");
+    TestAPI.SimpleEnum.f__dart_SimpleEnum_pickAColor = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            ffi.Int rawValue,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            int rawValue,
+            OutCreatedRef _exn
+        )
+    >("__dart_SimpleEnum_pickAColor");
+    TestAPI.SimpleEnum.f__dart_SimpleEnum_resetFavoriteColor = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        void Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__dart_SimpleEnum_resetFavoriteColor");
+    TestAPI.Strings.f__dart_Strings_echo = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef string,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef string,
+            OutCreatedRef _exn
+        )
+    >("__dart_Strings_echo");
+    TestAPI.Structs_MemberwiseStruct.f__dart_Structs_MemberwiseStruct_create = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__dart_Structs_MemberwiseStruct_create");
+    TestAPI.Tuples.f__dart_Tuples_checkTuples = dylib.lookupFunction<
+        ffi.Bool Function(
+            Env env,
+            UnownedRef t2,
+            UnownedRef t3,
+            UnownedRef t4,
+            UnownedRef t5,
+            UnownedRef t6,
+            OutCreatedRef _exn
+        ),
+        bool Function(
+            Env env,
+            UnownedRef t2,
+            UnownedRef t3,
+            UnownedRef t4,
+            UnownedRef t5,
+            UnownedRef t6,
+            OutCreatedRef _exn
+        )
+    >("__dart_Tuples_checkTuples");
+    TestAPI.AssociatedDataEnum.f__dart_get_AssociatedDataEnum_intValue = dylib.lookupFunction<
+        ffi.Int Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__dart_get_AssociatedDataEnum_intValue");
     TestAPI.AssociatedDataEnum.f__dart_get_AssociatedDataEnum_staticThing = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -456,40 +1050,6 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__dart_get_Bytes_data");
-    TestAPI.Bytes.f__dart_Bytes_echoData = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            UnownedRef data,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            UnownedRef data,
-            OutCreatedRef _exn
-        )
-    >("__dart_Bytes_echoData");
-    TestAPI.Bytes.f__dart_Bytes_echoBytes = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            UnownedRef bytes,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            UnownedRef bytes,
-            OutCreatedRef _exn
-        )
-    >("__dart_Bytes_echoBytes");
-    TestAPI.Collections_CollectionHolder.f__dart_get_Collections_CollectionHolder_staticPropery = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        )
-    >("__dart_get_Collections_CollectionHolder_staticPropery");
     TestAPI.Collections_CollectionHolder.f__dart_get_Collections_CollectionHolder_staticMutablePropery = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -500,42 +1060,26 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__dart_get_Collections_CollectionHolder_staticMutablePropery");
-    TestAPI.Collections_CollectionHolder.f__dart_set_Collections_CollectionHolder_staticMutablePropery = dylib.lookupFunction<
-        ffi.Void Function(
-            Env env,
-            UnownedRef staticMutablePropery,
-            OutCreatedRef _exn
-        ),
-        void Function(
-            Env env,
-            UnownedRef staticMutablePropery,
-            OutCreatedRef _exn
-        )
-    >("__dart_set_Collections_CollectionHolder_staticMutablePropery");
-    TestAPI.Collections.f__dart_Collections_echoMaybeDictionaryOfIntToMaybeInt = dylib.lookupFunction<
+    TestAPI.Collections_CollectionHolder.f__dart_get_Collections_CollectionHolder_staticPropery = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
-            UnownedRef maybeDictionaryOfIntToMaybeInt,
             OutCreatedRef _exn
         ),
         CreatedRef Function(
             Env env,
-            UnownedRef maybeDictionaryOfIntToMaybeInt,
             OutCreatedRef _exn
         )
-    >("__dart_Collections_echoMaybeDictionaryOfIntToMaybeInt");
-    TestAPI.Collections.f__dart_Collections_echoMaybeArrayOfMaybeInt = dylib.lookupFunction<
+    >("__dart_get_Collections_CollectionHolder_staticPropery");
+    TestAPI.Collections.f__dart_get_Collections_arrayOfInt = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
-            UnownedRef maybeArrayOfMaybeInt,
             OutCreatedRef _exn
         ),
         CreatedRef Function(
             Env env,
-            UnownedRef maybeArrayOfMaybeInt,
             OutCreatedRef _exn
         )
-    >("__dart_Collections_echoMaybeArrayOfMaybeInt");
+    >("__dart_get_Collections_arrayOfInt");
     TestAPI.Collections.f__dart_get_Collections_defaultCollectionHolder = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -566,18 +1110,36 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__dart_get_Collections_maybeArrayOfInt");
-    TestAPI.Collections.f__dart_Collections_echoSetOfInt = dylib.lookupFunction<
+    TestAPI.Collections.f__dart_get_Collections_maybeArrayOfMaybeInt = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
-            UnownedRef setOfInt,
             OutCreatedRef _exn
         ),
         CreatedRef Function(
             Env env,
-            UnownedRef setOfInt,
             OutCreatedRef _exn
         )
-    >("__dart_Collections_echoSetOfInt");
+    >("__dart_get_Collections_maybeArrayOfMaybeInt");
+    TestAPI.Collections.f__dart_get_Collections_maybeDictionaryOfIntToInt = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__dart_get_Collections_maybeDictionaryOfIntToInt");
+    TestAPI.Collections.f__dart_get_Collections_maybeDictionaryOfIntToMaybeInt = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__dart_get_Collections_maybeDictionaryOfIntToMaybeInt");
     TestAPI.Collections.f__dart_get_Collections_maybeSetOfInt = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -598,96 +1160,6 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__dart_get_Collections_maybeSetOfMaybeInt");
-    TestAPI.Collections.f__dart_Collections_collectionMapper = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            UnownedRef collection,
-            UnownedRef mapper,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            UnownedRef collection,
-            UnownedRef mapper,
-            OutCreatedRef _exn
-        )
-    >("__dart_Collections_collectionMapper");
-    TestAPI.Collections.f__dart_Collections_echoArrayOfInt = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            UnownedRef arrayOfInt,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            UnownedRef arrayOfInt,
-            OutCreatedRef _exn
-        )
-    >("__dart_Collections_echoArrayOfInt");
-    TestAPI.Collections.f__dart_get_Collections_maybeArrayOfMaybeInt = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        )
-    >("__dart_get_Collections_maybeArrayOfMaybeInt");
-    TestAPI.Collections.f__dart_get_Collections_maybeDictionaryOfIntToMaybeInt = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        )
-    >("__dart_get_Collections_maybeDictionaryOfIntToMaybeInt");
-    TestAPI.Collections.f__dart_get_Collections_arrayOfInt = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        )
-    >("__dart_get_Collections_arrayOfInt");
-    TestAPI.Collections.f__dart_Collections_echoMaybeSetOfMaybeInt = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            UnownedRef maybeSetOfMaybeInt,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            UnownedRef maybeSetOfMaybeInt,
-            OutCreatedRef _exn
-        )
-    >("__dart_Collections_echoMaybeSetOfMaybeInt");
-    TestAPI.Collections.f__dart_get_Collections_maybeDictionaryOfIntToInt = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        )
-    >("__dart_get_Collections_maybeDictionaryOfIntToInt");
-    TestAPI.Collections.f__dart_Collections_echoDictionaryOfIntToInt = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            UnownedRef dictionaryOfIntToInt,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            UnownedRef dictionaryOfIntToInt,
-            OutCreatedRef _exn
-        )
-    >("__dart_Collections_echoDictionaryOfIntToInt");
     TestAPI.Collections.f__dart_get_Collections_setOfInt = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -698,32 +1170,6 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__dart_get_Collections_setOfInt");
-    TestAPI.DefaultArguments.f__dart_DefaultArguments_echoDefaults = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            UnownedRef y,
-            UnownedRef x,
-            ffi.Double z,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            UnownedRef y,
-            UnownedRef x,
-            double z,
-            OutCreatedRef _exn
-        )
-    >("__dart_DefaultArguments_echoDefaults");
-    TestAPI.Deprecations.f__dart_Deprecations_deprecatedMethod = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        )
-    >("__dart_Deprecations_deprecatedMethod");
     TestAPI.Deprecations.f__dart_get_Deprecations_deprecatedVariable = dylib.lookupFunction<
         ffi.Int Function(
             Env env,
@@ -734,28 +1180,6 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__dart_get_Deprecations_deprecatedVariable");
-    TestAPI.EmptyEnum.f__dart_EmptyEnum_notGoingToHappen = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        )
-    >("__dart_EmptyEnum_notGoingToHappen");
-    TestAPI.Functions.f__dart_Functions_exercise1 = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            UnownedRef fn,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            UnownedRef fn,
-            OutCreatedRef _exn
-        )
-    >("__dart_Functions_exercise1");
     TestAPI.Functions.f__dart_get_Functions_abs = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -766,62 +1190,6 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__dart_get_Functions_abs");
-    TestAPI.Functions.f__dart_Functions_exercise5 = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            UnownedRef fn,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            UnownedRef fn,
-            OutCreatedRef _exn
-        )
-    >("__dart_Functions_exercise5");
-    TestAPI.Functions.f__dart_Functions_willThrow = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        )
-    >("__dart_Functions_willThrow");
-    TestAPI.Functions.f__dart_Functions_exercise2 = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            UnownedRef fn,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            UnownedRef fn,
-            OutCreatedRef _exn
-        )
-    >("__dart_Functions_exercise2");
-    TestAPI.Functions.f__dart_Functions_exercise4 = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            UnownedRef fn,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            UnownedRef fn,
-            OutCreatedRef _exn
-        )
-    >("__dart_Functions_exercise4");
-    TestAPI.Functions.f__dart_get_Functions_sixthThing = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        )
-    >("__dart_get_Functions_sixthThing");
     TestAPI.Functions.f__dart_get_Functions_add3Things = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -832,72 +1200,6 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__dart_get_Functions_add3Things");
-    TestAPI.Functions.f__dart_get_Functions_fifthThing = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        )
-    >("__dart_get_Functions_fifthThing");
-    TestAPI.Functions.f__dart_get_Functions_makeList = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        )
-    >("__dart_get_Functions_makeList");
-    TestAPI.Functions.f__dart_get_Functions_intCompose = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        )
-    >("__dart_get_Functions_intCompose");
-    TestAPI.Functions.f__dart_Functions_exercise3 = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            UnownedRef fn,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            UnownedRef fn,
-            OutCreatedRef _exn
-        )
-    >("__dart_Functions_exercise3");
-    TestAPI.Functions.f__dart_Functions_exercise6 = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            UnownedRef fn,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            UnownedRef fn,
-            OutCreatedRef _exn
-        )
-    >("__dart_Functions_exercise6");
-    TestAPI.Functions.f__dart_Functions_exercise0 = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            UnownedRef fn,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            UnownedRef fn,
-            OutCreatedRef _exn
-        )
-    >("__dart_Functions_exercise0");
     TestAPI.Functions.f__dart_get_Functions_const42 = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -908,7 +1210,7 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__dart_get_Functions_const42");
-    TestAPI.Structs_MemberwiseStruct.f__dart_Structs_MemberwiseStruct_create = dylib.lookupFunction<
+    TestAPI.Functions.f__dart_get_Functions_fifthThing = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
             OutCreatedRef _exn
@@ -917,20 +1219,8 @@ final ensureLoaded = (() {
             Env env,
             OutCreatedRef _exn
         )
-    >("__dart_Structs_MemberwiseStruct_create");
-    TestAPI.Primitives_PrimitiveHolder.f__dart_set_Primitives_PrimitiveHolder_staticMutablePropery = dylib.lookupFunction<
-        ffi.Void Function(
-            Env env,
-            UnownedRef staticMutablePropery,
-            OutCreatedRef _exn
-        ),
-        void Function(
-            Env env,
-            UnownedRef staticMutablePropery,
-            OutCreatedRef _exn
-        )
-    >("__dart_set_Primitives_PrimitiveHolder_staticMutablePropery");
-    TestAPI.Primitives_PrimitiveHolder.f__dart_get_Primitives_PrimitiveHolder_staticPropery = dylib.lookupFunction<
+    >("__dart_get_Functions_fifthThing");
+    TestAPI.Functions.f__dart_get_Functions_intCompose = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
             OutCreatedRef _exn
@@ -939,7 +1229,27 @@ final ensureLoaded = (() {
             Env env,
             OutCreatedRef _exn
         )
-    >("__dart_get_Primitives_PrimitiveHolder_staticPropery");
+    >("__dart_get_Functions_intCompose");
+    TestAPI.Functions.f__dart_get_Functions_makeList = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__dart_get_Functions_makeList");
+    TestAPI.Functions.f__dart_get_Functions_sixthThing = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__dart_get_Functions_sixthThing");
     TestAPI.Primitives_PrimitiveHolder.f__dart_get_Primitives_PrimitiveHolder_staticMutablePropery = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -950,17 +1260,7 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__dart_get_Primitives_PrimitiveHolder_staticMutablePropery");
-    TestAPI.Primitives.f__dart_get_Primitives_maxFloat = dylib.lookupFunction<
-        ffi.Double Function(
-            Env env,
-            OutCreatedRef _exn
-        ),
-        double Function(
-            Env env,
-            OutCreatedRef _exn
-        )
-    >("__dart_get_Primitives_maxFloat");
-    TestAPI.Primitives.f__dart_get_Primitives_manyInt8 = dylib.lookupFunction<
+    TestAPI.Primitives_PrimitiveHolder.f__dart_get_Primitives_PrimitiveHolder_staticPropery = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
             OutCreatedRef _exn
@@ -969,365 +1269,7 @@ final ensureLoaded = (() {
             Env env,
             OutCreatedRef _exn
         )
-    >("__dart_get_Primitives_manyInt8");
-    TestAPI.Primitives.f__dart_get_Primitives_maxUInt8 = dylib.lookupFunction<
-        ffi.Int Function(
-            Env env,
-            OutCreatedRef _exn
-        ),
-        int Function(
-            Env env,
-            OutCreatedRef _exn
-        )
-    >("__dart_get_Primitives_maxUInt8");
-    TestAPI.Primitives.f__dart_get_Primitives_minUInt32 = dylib.lookupFunction<
-        ffi.Int Function(
-            Env env,
-            OutCreatedRef _exn
-        ),
-        int Function(
-            Env env,
-            OutCreatedRef _exn
-        )
-    >("__dart_get_Primitives_minUInt32");
-    TestAPI.Primitives.f__dart_get_Primitives_zeroUInt16 = dylib.lookupFunction<
-        ffi.Int Function(
-            Env env,
-            OutCreatedRef _exn
-        ),
-        int Function(
-            Env env,
-            OutCreatedRef _exn
-        )
-    >("__dart_get_Primitives_zeroUInt16");
-    TestAPI.Primitives.f__dart_get_Primitives_manyMaybeInt16 = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        )
-    >("__dart_get_Primitives_manyMaybeInt16");
-    TestAPI.Primitives.f__dart_get_Primitives_manyInt16 = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        )
-    >("__dart_get_Primitives_manyInt16");
-    TestAPI.Primitives.f__dart_get_Primitives_maxInt16 = dylib.lookupFunction<
-        ffi.Int Function(
-            Env env,
-            OutCreatedRef _exn
-        ),
-        int Function(
-            Env env,
-            OutCreatedRef _exn
-        )
-    >("__dart_get_Primitives_maxInt16");
-    TestAPI.Primitives.f__dart_get_Primitives_maxInt = dylib.lookupFunction<
-        ffi.Int Function(
-            Env env,
-            OutCreatedRef _exn
-        ),
-        int Function(
-            Env env,
-            OutCreatedRef _exn
-        )
-    >("__dart_get_Primitives_maxInt");
-    TestAPI.Primitives.f__dart_get_Primitives_minInt64 = dylib.lookupFunction<
-        ffi.Int Function(
-            Env env,
-            OutCreatedRef _exn
-        ),
-        int Function(
-            Env env,
-            OutCreatedRef _exn
-        )
-    >("__dart_get_Primitives_minInt64");
-    TestAPI.Primitives.f__dart_get_Primitives_manyInt64 = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        )
-    >("__dart_get_Primitives_manyInt64");
-    TestAPI.Primitives.f__dart_get_Primitives_zeroDouble = dylib.lookupFunction<
-        ffi.Double Function(
-            Env env,
-            OutCreatedRef _exn
-        ),
-        double Function(
-            Env env,
-            OutCreatedRef _exn
-        )
-    >("__dart_get_Primitives_zeroDouble");
-    TestAPI.Primitives.f__dart_get_Primitives_minUInt8 = dylib.lookupFunction<
-        ffi.Int Function(
-            Env env,
-            OutCreatedRef _exn
-        ),
-        int Function(
-            Env env,
-            OutCreatedRef _exn
-        )
-    >("__dart_get_Primitives_minUInt8");
-    TestAPI.Primitives.f__dart_get_Primitives_manyMaybeUInt32 = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        )
-    >("__dart_get_Primitives_manyMaybeUInt32");
-    TestAPI.Primitives.f__dart_Primitives_echoUInt16 = dylib.lookupFunction<
-        ffi.Int Function(
-            Env env,
-            ffi.Int value,
-            OutCreatedRef _exn
-        ),
-        int Function(
-            Env env,
-            int value,
-            OutCreatedRef _exn
-        )
-    >("__dart_Primitives_echoUInt16");
-    TestAPI.Primitives.f__dart_Primitives_echoUInt64 = dylib.lookupFunction<
-        ffi.Int Function(
-            Env env,
-            ffi.Int value,
-            OutCreatedRef _exn
-        ),
-        int Function(
-            Env env,
-            int value,
-            OutCreatedRef _exn
-        )
-    >("__dart_Primitives_echoUInt64");
-    TestAPI.Primitives.f__dart_get_Primitives_manyMaybeUInt8 = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        )
-    >("__dart_get_Primitives_manyMaybeUInt8");
-    TestAPI.Primitives.f__dart_get_Primitives_manyMaybeBool = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        )
-    >("__dart_get_Primitives_manyMaybeBool");
-    TestAPI.Primitives.f__dart_get_Primitives_minFloat = dylib.lookupFunction<
-        ffi.Double Function(
-            Env env,
-            OutCreatedRef _exn
-        ),
-        double Function(
-            Env env,
-            OutCreatedRef _exn
-        )
-    >("__dart_get_Primitives_minFloat");
-    TestAPI.Primitives.f__dart_Primitives_echoInt16 = dylib.lookupFunction<
-        ffi.Int Function(
-            Env env,
-            ffi.Int value,
-            OutCreatedRef _exn
-        ),
-        int Function(
-            Env env,
-            int value,
-            OutCreatedRef _exn
-        )
-    >("__dart_Primitives_echoInt16");
-    TestAPI.Primitives.f__dart_Primitives_echoUInt8 = dylib.lookupFunction<
-        ffi.Int Function(
-            Env env,
-            ffi.Int value,
-            OutCreatedRef _exn
-        ),
-        int Function(
-            Env env,
-            int value,
-            OutCreatedRef _exn
-        )
-    >("__dart_Primitives_echoUInt8");
-    TestAPI.Primitives.f__dart_Primitives_maybeEchoInt8 = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            UnownedRef value,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            UnownedRef value,
-            OutCreatedRef _exn
-        )
-    >("__dart_Primitives_maybeEchoInt8");
-    TestAPI.Primitives.f__dart_get_Primitives_minInt = dylib.lookupFunction<
-        ffi.Int Function(
-            Env env,
-            OutCreatedRef _exn
-        ),
-        int Function(
-            Env env,
-            OutCreatedRef _exn
-        )
-    >("__dart_get_Primitives_minInt");
-    TestAPI.Primitives.f__dart_Primitives_maybeEchoInt64 = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            UnownedRef value,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            UnownedRef value,
-            OutCreatedRef _exn
-        )
-    >("__dart_Primitives_maybeEchoInt64");
-    TestAPI.Primitives.f__dart_get_Primitives_minDouble = dylib.lookupFunction<
-        ffi.Double Function(
-            Env env,
-            OutCreatedRef _exn
-        ),
-        double Function(
-            Env env,
-            OutCreatedRef _exn
-        )
-    >("__dart_get_Primitives_minDouble");
-    TestAPI.Primitives.f__dart_get_Primitives_zeroInt64 = dylib.lookupFunction<
-        ffi.Int Function(
-            Env env,
-            OutCreatedRef _exn
-        ),
-        int Function(
-            Env env,
-            OutCreatedRef _exn
-        )
-    >("__dart_get_Primitives_zeroInt64");
-    TestAPI.Primitives.f__dart_get_Primitives_manyMaybeUInt64 = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        )
-    >("__dart_get_Primitives_manyMaybeUInt64");
-    TestAPI.Primitives.f__dart_get_Primitives_manyInt32 = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        )
-    >("__dart_get_Primitives_manyInt32");
-    TestAPI.Primitives.f__dart_get_Primitives_manyDouble = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        )
-    >("__dart_get_Primitives_manyDouble");
-    TestAPI.Primitives.f__dart_get_Primitives_manyBool = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        )
-    >("__dart_get_Primitives_manyBool");
-    TestAPI.Primitives.f__dart_get_Primitives_zeroFloat = dylib.lookupFunction<
-        ffi.Double Function(
-            Env env,
-            OutCreatedRef _exn
-        ),
-        double Function(
-            Env env,
-            OutCreatedRef _exn
-        )
-    >("__dart_get_Primitives_zeroFloat");
-    TestAPI.Primitives.f__dart_get_Primitives_manyUInt64 = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        )
-    >("__dart_get_Primitives_manyUInt64");
-    TestAPI.Primitives.f__dart_Primitives_valueMapper = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            UnownedRef value,
-            UnownedRef mapper,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            UnownedRef value,
-            UnownedRef mapper,
-            OutCreatedRef _exn
-        )
-    >("__dart_Primitives_valueMapper");
-    TestAPI.Primitives.f__dart_Primitives_echoBool = dylib.lookupFunction<
-        ffi.Bool Function(
-            Env env,
-            ffi.Bool value,
-            OutCreatedRef _exn
-        ),
-        bool Function(
-            Env env,
-            bool value,
-            OutCreatedRef _exn
-        )
-    >("__dart_Primitives_echoBool");
-    TestAPI.Primitives.f__dart_get_Primitives_minInt8 = dylib.lookupFunction<
-        ffi.Int Function(
-            Env env,
-            OutCreatedRef _exn
-        ),
-        int Function(
-            Env env,
-            OutCreatedRef _exn
-        )
-    >("__dart_get_Primitives_minInt8");
-    TestAPI.Primitives.f__dart_get_Primitives_minUInt64 = dylib.lookupFunction<
-        ffi.Int Function(
-            Env env,
-            OutCreatedRef _exn
-        ),
-        int Function(
-            Env env,
-            OutCreatedRef _exn
-        )
-    >("__dart_get_Primitives_minUInt64");
+    >("__dart_get_Primitives_PrimitiveHolder_staticPropery");
     TestAPI.Primitives.f__dart_get_Primitives_defaultPrimitiveHolder = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -1338,178 +1280,6 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__dart_get_Primitives_defaultPrimitiveHolder");
-    TestAPI.Primitives.f__dart_get_Primitives_manyMaybeUInt16 = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        )
-    >("__dart_get_Primitives_manyMaybeUInt16");
-    TestAPI.Primitives.f__dart_Primitives_echoUInt32 = dylib.lookupFunction<
-        ffi.Int Function(
-            Env env,
-            ffi.Int value,
-            OutCreatedRef _exn
-        ),
-        int Function(
-            Env env,
-            int value,
-            OutCreatedRef _exn
-        )
-    >("__dart_Primitives_echoUInt32");
-    TestAPI.Primitives.f__dart_get_Primitives_maxDouble = dylib.lookupFunction<
-        ffi.Double Function(
-            Env env,
-            OutCreatedRef _exn
-        ),
-        double Function(
-            Env env,
-            OutCreatedRef _exn
-        )
-    >("__dart_get_Primitives_maxDouble");
-    TestAPI.Primitives.f__dart_Primitives_maybeEchoUInt32 = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            UnownedRef value,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            UnownedRef value,
-            OutCreatedRef _exn
-        )
-    >("__dart_Primitives_maybeEchoUInt32");
-    TestAPI.Primitives.f__dart_Primitives_maybeEchoUInt64 = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            UnownedRef value,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            UnownedRef value,
-            OutCreatedRef _exn
-        )
-    >("__dart_Primitives_maybeEchoUInt64");
-    TestAPI.Primitives.f__dart_get_Primitives_manyMaybeInt32 = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        )
-    >("__dart_get_Primitives_manyMaybeInt32");
-    TestAPI.Primitives.f__dart_get_Primitives_manyFloat = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        )
-    >("__dart_get_Primitives_manyFloat");
-    TestAPI.Primitives.f__dart_get_Primitives_zeroInt16 = dylib.lookupFunction<
-        ffi.Int Function(
-            Env env,
-            OutCreatedRef _exn
-        ),
-        int Function(
-            Env env,
-            OutCreatedRef _exn
-        )
-    >("__dart_get_Primitives_zeroInt16");
-    TestAPI.Primitives.f__dart_get_Primitives_manyUInt16 = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        )
-    >("__dart_get_Primitives_manyUInt16");
-    TestAPI.Primitives.f__dart_get_Primitives_zeroUInt64 = dylib.lookupFunction<
-        ffi.Int Function(
-            Env env,
-            OutCreatedRef _exn
-        ),
-        int Function(
-            Env env,
-            OutCreatedRef _exn
-        )
-    >("__dart_get_Primitives_zeroUInt64");
-    TestAPI.Primitives.f__dart_Primitives_echoFloat = dylib.lookupFunction<
-        ffi.Double Function(
-            Env env,
-            ffi.Double value,
-            OutCreatedRef _exn
-        ),
-        double Function(
-            Env env,
-            double value,
-            OutCreatedRef _exn
-        )
-    >("__dart_Primitives_echoFloat");
-    TestAPI.Primitives.f__dart_Primitives_echoDouble = dylib.lookupFunction<
-        ffi.Double Function(
-            Env env,
-            ffi.Double value,
-            OutCreatedRef _exn
-        ),
-        double Function(
-            Env env,
-            double value,
-            OutCreatedRef _exn
-        )
-    >("__dart_Primitives_echoDouble");
-    TestAPI.Primitives.f__dart_get_Primitives_manyMaybeFloat = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        )
-    >("__dart_get_Primitives_manyMaybeFloat");
-    TestAPI.Primitives.f__dart_Primitives_echoInt32 = dylib.lookupFunction<
-        ffi.Int Function(
-            Env env,
-            ffi.Int value,
-            OutCreatedRef _exn
-        ),
-        int Function(
-            Env env,
-            int value,
-            OutCreatedRef _exn
-        )
-    >("__dart_Primitives_echoInt32");
-    TestAPI.Primitives.f__dart_get_Primitives_zeroUInt32 = dylib.lookupFunction<
-        ffi.Int Function(
-            Env env,
-            OutCreatedRef _exn
-        ),
-        int Function(
-            Env env,
-            OutCreatedRef _exn
-        )
-    >("__dart_get_Primitives_zeroUInt32");
-    TestAPI.Primitives.f__dart_get_Primitives_zeroUInt8 = dylib.lookupFunction<
-        ffi.Int Function(
-            Env env,
-            OutCreatedRef _exn
-        ),
-        int Function(
-            Env env,
-            OutCreatedRef _exn
-        )
-    >("__dart_get_Primitives_zeroUInt8");
     TestAPI.Primitives.f__dart_get_Primitives_falseBool = dylib.lookupFunction<
         ffi.Bool Function(
             Env env,
@@ -1520,39 +1290,7 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__dart_get_Primitives_falseBool");
-    TestAPI.Primitives.f__dart_get_Primitives_maxUInt64 = dylib.lookupFunction<
-        ffi.Int Function(
-            Env env,
-            OutCreatedRef _exn
-        ),
-        int Function(
-            Env env,
-            OutCreatedRef _exn
-        )
-    >("__dart_get_Primitives_maxUInt64");
-    TestAPI.Primitives.f__dart_Primitives_maybeEchoInt32 = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            UnownedRef value,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            UnownedRef value,
-            OutCreatedRef _exn
-        )
-    >("__dart_Primitives_maybeEchoInt32");
-    TestAPI.Primitives.f__dart_get_Primitives_maxInt8 = dylib.lookupFunction<
-        ffi.Int Function(
-            Env env,
-            OutCreatedRef _exn
-        ),
-        int Function(
-            Env env,
-            OutCreatedRef _exn
-        )
-    >("__dart_get_Primitives_maxInt8");
-    TestAPI.Primitives.f__dart_get_Primitives_manyMaybeInt8 = dylib.lookupFunction<
+    TestAPI.Primitives.f__dart_get_Primitives_manyBool = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
             OutCreatedRef _exn
@@ -1561,20 +1299,8 @@ final ensureLoaded = (() {
             Env env,
             OutCreatedRef _exn
         )
-    >("__dart_get_Primitives_manyMaybeInt8");
-    TestAPI.Primitives.f__dart_Primitives_maybeEchoBool = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            UnownedRef value,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            UnownedRef value,
-            OutCreatedRef _exn
-        )
-    >("__dart_Primitives_maybeEchoBool");
-    TestAPI.Primitives.f__dart_get_Primitives_manyMaybeInt64 = dylib.lookupFunction<
+    >("__dart_get_Primitives_manyBool");
+    TestAPI.Primitives.f__dart_get_Primitives_manyDouble = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
             OutCreatedRef _exn
@@ -1583,60 +1309,8 @@ final ensureLoaded = (() {
             Env env,
             OutCreatedRef _exn
         )
-    >("__dart_get_Primitives_manyMaybeInt64");
-    TestAPI.Primitives.f__dart_Primitives_maybeEchoUInt8 = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            UnownedRef value,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            UnownedRef value,
-            OutCreatedRef _exn
-        )
-    >("__dart_Primitives_maybeEchoUInt8");
-    TestAPI.Primitives.f__dart_get_Primitives_trueBool = dylib.lookupFunction<
-        ffi.Bool Function(
-            Env env,
-            OutCreatedRef _exn
-        ),
-        bool Function(
-            Env env,
-            OutCreatedRef _exn
-        )
-    >("__dart_get_Primitives_trueBool");
-    TestAPI.Primitives.f__dart_get_Primitives_minUInt16 = dylib.lookupFunction<
-        ffi.Int Function(
-            Env env,
-            OutCreatedRef _exn
-        ),
-        int Function(
-            Env env,
-            OutCreatedRef _exn
-        )
-    >("__dart_get_Primitives_minUInt16");
-    TestAPI.Primitives.f__dart_get_Primitives_minInt32 = dylib.lookupFunction<
-        ffi.Int Function(
-            Env env,
-            OutCreatedRef _exn
-        ),
-        int Function(
-            Env env,
-            OutCreatedRef _exn
-        )
-    >("__dart_get_Primitives_minInt32");
-    TestAPI.Primitives.f__dart_get_Primitives_maxInt64 = dylib.lookupFunction<
-        ffi.Int Function(
-            Env env,
-            OutCreatedRef _exn
-        ),
-        int Function(
-            Env env,
-            OutCreatedRef _exn
-        )
-    >("__dart_get_Primitives_maxInt64");
-    TestAPI.Primitives.f__dart_get_Primitives_manyUInt8 = dylib.lookupFunction<
+    >("__dart_get_Primitives_manyDouble");
+    TestAPI.Primitives.f__dart_get_Primitives_manyFloat = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
             OutCreatedRef _exn
@@ -1645,39 +1319,57 @@ final ensureLoaded = (() {
             Env env,
             OutCreatedRef _exn
         )
-    >("__dart_get_Primitives_manyUInt8");
-    TestAPI.Primitives.f__dart_get_Primitives_zeroInt8 = dylib.lookupFunction<
-        ffi.Int Function(
+    >("__dart_get_Primitives_manyFloat");
+    TestAPI.Primitives.f__dart_get_Primitives_manyInt16 = dylib.lookupFunction<
+        CreatedRef Function(
             Env env,
             OutCreatedRef _exn
         ),
-        int Function(
+        CreatedRef Function(
             Env env,
             OutCreatedRef _exn
         )
-    >("__dart_get_Primitives_zeroInt8");
-    TestAPI.Primitives.f__dart_get_Primitives_maxUInt32 = dylib.lookupFunction<
-        ffi.Int Function(
+    >("__dart_get_Primitives_manyInt16");
+    TestAPI.Primitives.f__dart_get_Primitives_manyInt32 = dylib.lookupFunction<
+        CreatedRef Function(
             Env env,
             OutCreatedRef _exn
         ),
-        int Function(
+        CreatedRef Function(
             Env env,
             OutCreatedRef _exn
         )
-    >("__dart_get_Primitives_maxUInt32");
-    TestAPI.Primitives.f__dart_Primitives_echoInt8 = dylib.lookupFunction<
-        ffi.Int Function(
+    >("__dart_get_Primitives_manyInt32");
+    TestAPI.Primitives.f__dart_get_Primitives_manyInt64 = dylib.lookupFunction<
+        CreatedRef Function(
             Env env,
-            ffi.Int value,
             OutCreatedRef _exn
         ),
-        int Function(
+        CreatedRef Function(
             Env env,
-            int value,
             OutCreatedRef _exn
         )
-    >("__dart_Primitives_echoInt8");
+    >("__dart_get_Primitives_manyInt64");
+    TestAPI.Primitives.f__dart_get_Primitives_manyInt8 = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__dart_get_Primitives_manyInt8");
+    TestAPI.Primitives.f__dart_get_Primitives_manyMaybeBool = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__dart_get_Primitives_manyMaybeBool");
     TestAPI.Primitives.f__dart_get_Primitives_manyMaybeDouble = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -1688,16 +1380,106 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__dart_get_Primitives_manyMaybeDouble");
-    TestAPI.Primitives.f__dart_get_Primitives_maxUInt16 = dylib.lookupFunction<
-        ffi.Int Function(
+    TestAPI.Primitives.f__dart_get_Primitives_manyMaybeFloat = dylib.lookupFunction<
+        CreatedRef Function(
             Env env,
             OutCreatedRef _exn
         ),
-        int Function(
+        CreatedRef Function(
             Env env,
             OutCreatedRef _exn
         )
-    >("__dart_get_Primitives_maxUInt16");
+    >("__dart_get_Primitives_manyMaybeFloat");
+    TestAPI.Primitives.f__dart_get_Primitives_manyMaybeInt16 = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__dart_get_Primitives_manyMaybeInt16");
+    TestAPI.Primitives.f__dart_get_Primitives_manyMaybeInt32 = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__dart_get_Primitives_manyMaybeInt32");
+    TestAPI.Primitives.f__dart_get_Primitives_manyMaybeInt64 = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__dart_get_Primitives_manyMaybeInt64");
+    TestAPI.Primitives.f__dart_get_Primitives_manyMaybeInt8 = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__dart_get_Primitives_manyMaybeInt8");
+    TestAPI.Primitives.f__dart_get_Primitives_manyMaybeUInt16 = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__dart_get_Primitives_manyMaybeUInt16");
+    TestAPI.Primitives.f__dart_get_Primitives_manyMaybeUInt32 = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__dart_get_Primitives_manyMaybeUInt32");
+    TestAPI.Primitives.f__dart_get_Primitives_manyMaybeUInt64 = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__dart_get_Primitives_manyMaybeUInt64");
+    TestAPI.Primitives.f__dart_get_Primitives_manyMaybeUInt8 = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__dart_get_Primitives_manyMaybeUInt8");
+    TestAPI.Primitives.f__dart_get_Primitives_manyUInt16 = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__dart_get_Primitives_manyUInt16");
     TestAPI.Primitives.f__dart_get_Primitives_manyUInt32 = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -1708,7 +1490,47 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__dart_get_Primitives_manyUInt32");
-    TestAPI.Primitives.f__dart_get_Primitives_zeroInt32 = dylib.lookupFunction<
+    TestAPI.Primitives.f__dart_get_Primitives_manyUInt64 = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__dart_get_Primitives_manyUInt64");
+    TestAPI.Primitives.f__dart_get_Primitives_manyUInt8 = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__dart_get_Primitives_manyUInt8");
+    TestAPI.Primitives.f__dart_get_Primitives_maxDouble = dylib.lookupFunction<
+        ffi.Double Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        double Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__dart_get_Primitives_maxDouble");
+    TestAPI.Primitives.f__dart_get_Primitives_maxFloat = dylib.lookupFunction<
+        ffi.Double Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        double Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__dart_get_Primitives_maxFloat");
+    TestAPI.Primitives.f__dart_get_Primitives_maxInt = dylib.lookupFunction<
         ffi.Int Function(
             Env env,
             OutCreatedRef _exn
@@ -1717,7 +1539,17 @@ final ensureLoaded = (() {
             Env env,
             OutCreatedRef _exn
         )
-    >("__dart_get_Primitives_zeroInt32");
+    >("__dart_get_Primitives_maxInt");
+    TestAPI.Primitives.f__dart_get_Primitives_maxInt16 = dylib.lookupFunction<
+        ffi.Int Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__dart_get_Primitives_maxInt16");
     TestAPI.Primitives.f__dart_get_Primitives_maxInt32 = dylib.lookupFunction<
         ffi.Int Function(
             Env env,
@@ -1728,66 +1560,96 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__dart_get_Primitives_maxInt32");
-    TestAPI.Primitives.f__dart_Primitives_maybeEchoDouble = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            UnownedRef value,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            UnownedRef value,
-            OutCreatedRef _exn
-        )
-    >("__dart_Primitives_maybeEchoDouble");
-    TestAPI.Primitives.f__dart_Primitives_echoInt64 = dylib.lookupFunction<
+    TestAPI.Primitives.f__dart_get_Primitives_maxInt64 = dylib.lookupFunction<
         ffi.Int Function(
             Env env,
-            ffi.Int value,
             OutCreatedRef _exn
         ),
         int Function(
             Env env,
-            int value,
             OutCreatedRef _exn
         )
-    >("__dart_Primitives_echoInt64");
-    TestAPI.Primitives.f__dart_Primitives_maybeEchoFloat = dylib.lookupFunction<
-        CreatedRef Function(
+    >("__dart_get_Primitives_maxInt64");
+    TestAPI.Primitives.f__dart_get_Primitives_maxInt8 = dylib.lookupFunction<
+        ffi.Int Function(
             Env env,
-            UnownedRef value,
             OutCreatedRef _exn
         ),
-        CreatedRef Function(
+        int Function(
             Env env,
-            UnownedRef value,
             OutCreatedRef _exn
         )
-    >("__dart_Primitives_maybeEchoFloat");
-    TestAPI.Primitives.f__dart_Primitives_maybeEchoUInt16 = dylib.lookupFunction<
-        CreatedRef Function(
+    >("__dart_get_Primitives_maxInt8");
+    TestAPI.Primitives.f__dart_get_Primitives_maxUInt16 = dylib.lookupFunction<
+        ffi.Int Function(
             Env env,
-            UnownedRef value,
             OutCreatedRef _exn
         ),
-        CreatedRef Function(
+        int Function(
             Env env,
-            UnownedRef value,
             OutCreatedRef _exn
         )
-    >("__dart_Primitives_maybeEchoUInt16");
-    TestAPI.Primitives.f__dart_Primitives_maybeEchoInt16 = dylib.lookupFunction<
-        CreatedRef Function(
+    >("__dart_get_Primitives_maxUInt16");
+    TestAPI.Primitives.f__dart_get_Primitives_maxUInt32 = dylib.lookupFunction<
+        ffi.Int Function(
             Env env,
-            UnownedRef value,
             OutCreatedRef _exn
         ),
-        CreatedRef Function(
+        int Function(
             Env env,
-            UnownedRef value,
             OutCreatedRef _exn
         )
-    >("__dart_Primitives_maybeEchoInt16");
+    >("__dart_get_Primitives_maxUInt32");
+    TestAPI.Primitives.f__dart_get_Primitives_maxUInt64 = dylib.lookupFunction<
+        ffi.Int Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__dart_get_Primitives_maxUInt64");
+    TestAPI.Primitives.f__dart_get_Primitives_maxUInt8 = dylib.lookupFunction<
+        ffi.Int Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__dart_get_Primitives_maxUInt8");
+    TestAPI.Primitives.f__dart_get_Primitives_minDouble = dylib.lookupFunction<
+        ffi.Double Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        double Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__dart_get_Primitives_minDouble");
+    TestAPI.Primitives.f__dart_get_Primitives_minFloat = dylib.lookupFunction<
+        ffi.Double Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        double Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__dart_get_Primitives_minFloat");
+    TestAPI.Primitives.f__dart_get_Primitives_minInt = dylib.lookupFunction<
+        ffi.Int Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__dart_get_Primitives_minInt");
     TestAPI.Primitives.f__dart_get_Primitives_minInt16 = dylib.lookupFunction<
         ffi.Int Function(
             Env env,
@@ -1798,6 +1660,106 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__dart_get_Primitives_minInt16");
+    TestAPI.Primitives.f__dart_get_Primitives_minInt32 = dylib.lookupFunction<
+        ffi.Int Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__dart_get_Primitives_minInt32");
+    TestAPI.Primitives.f__dart_get_Primitives_minInt64 = dylib.lookupFunction<
+        ffi.Int Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__dart_get_Primitives_minInt64");
+    TestAPI.Primitives.f__dart_get_Primitives_minInt8 = dylib.lookupFunction<
+        ffi.Int Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__dart_get_Primitives_minInt8");
+    TestAPI.Primitives.f__dart_get_Primitives_minUInt16 = dylib.lookupFunction<
+        ffi.Int Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__dart_get_Primitives_minUInt16");
+    TestAPI.Primitives.f__dart_get_Primitives_minUInt32 = dylib.lookupFunction<
+        ffi.Int Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__dart_get_Primitives_minUInt32");
+    TestAPI.Primitives.f__dart_get_Primitives_minUInt64 = dylib.lookupFunction<
+        ffi.Int Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__dart_get_Primitives_minUInt64");
+    TestAPI.Primitives.f__dart_get_Primitives_minUInt8 = dylib.lookupFunction<
+        ffi.Int Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__dart_get_Primitives_minUInt8");
+    TestAPI.Primitives.f__dart_get_Primitives_trueBool = dylib.lookupFunction<
+        ffi.Bool Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        bool Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__dart_get_Primitives_trueBool");
+    TestAPI.Primitives.f__dart_get_Primitives_zeroDouble = dylib.lookupFunction<
+        ffi.Double Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        double Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__dart_get_Primitives_zeroDouble");
+    TestAPI.Primitives.f__dart_get_Primitives_zeroFloat = dylib.lookupFunction<
+        ffi.Double Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        double Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__dart_get_Primitives_zeroFloat");
     TestAPI.Primitives.f__dart_get_Primitives_zeroInt = dylib.lookupFunction<
         ffi.Int Function(
             Env env,
@@ -1808,52 +1770,96 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__dart_get_Primitives_zeroInt");
-    TestAPI.SimpleEnum.f__dart_SimpleEnum_hexMethod = dylib.lookupFunction<
+    TestAPI.Primitives.f__dart_get_Primitives_zeroInt16 = dylib.lookupFunction<
+        ffi.Int Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__dart_get_Primitives_zeroInt16");
+    TestAPI.Primitives.f__dart_get_Primitives_zeroInt32 = dylib.lookupFunction<
+        ffi.Int Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__dart_get_Primitives_zeroInt32");
+    TestAPI.Primitives.f__dart_get_Primitives_zeroInt64 = dylib.lookupFunction<
+        ffi.Int Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__dart_get_Primitives_zeroInt64");
+    TestAPI.Primitives.f__dart_get_Primitives_zeroInt8 = dylib.lookupFunction<
+        ffi.Int Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__dart_get_Primitives_zeroInt8");
+    TestAPI.Primitives.f__dart_get_Primitives_zeroUInt16 = dylib.lookupFunction<
+        ffi.Int Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__dart_get_Primitives_zeroUInt16");
+    TestAPI.Primitives.f__dart_get_Primitives_zeroUInt32 = dylib.lookupFunction<
+        ffi.Int Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__dart_get_Primitives_zeroUInt32");
+    TestAPI.Primitives.f__dart_get_Primitives_zeroUInt64 = dylib.lookupFunction<
+        ffi.Int Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__dart_get_Primitives_zeroUInt64");
+    TestAPI.Primitives.f__dart_get_Primitives_zeroUInt8 = dylib.lookupFunction<
+        ffi.Int Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__dart_get_Primitives_zeroUInt8");
+    TestAPI.SimpleEnum.f__dart_get_SimpleEnum_favoriteColor = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
-            UnownedRef _this,
             OutCreatedRef _exn
         ),
         CreatedRef Function(
             Env env,
-            UnownedRef _this,
             OutCreatedRef _exn
         )
-    >("__dart_SimpleEnum_hexMethod");
-    TestAPI.SimpleEnum.f__dart_SimpleEnum_resetFavoriteColor = dylib.lookupFunction<
-        ffi.Void Function(
-            Env env,
-            OutCreatedRef _exn
-        ),
-        void Function(
-            Env env,
-            OutCreatedRef _exn
-        )
-    >("__dart_SimpleEnum_resetFavoriteColor");
-    TestAPI.SimpleEnum.f__dart_SimpleEnum_pickAColor = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            ffi.Int rawValue,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            int rawValue,
-            OutCreatedRef _exn
-        )
-    >("__dart_SimpleEnum_pickAColor");
-    TestAPI.SimpleEnum.f__dart_set_SimpleEnum_favoriteColor = dylib.lookupFunction<
-        ffi.Void Function(
-            Env env,
-            UnownedRef favoriteColor,
-            OutCreatedRef _exn
-        ),
-        void Function(
-            Env env,
-            UnownedRef favoriteColor,
-            OutCreatedRef _exn
-        )
-    >("__dart_set_SimpleEnum_favoriteColor");
+    >("__dart_get_SimpleEnum_favoriteColor");
     TestAPI.SimpleEnum.f__dart_get_SimpleEnum_hex = dylib.lookupFunction<
         ffi.Int Function(
             Env env,
@@ -1866,78 +1872,6 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__dart_get_SimpleEnum_hex");
-    TestAPI.SimpleEnum.f__dart_get_SimpleEnum_favoriteColor = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        )
-    >("__dart_get_SimpleEnum_favoriteColor");
-    TestAPI.Strings.f__dart_get_Strings_chineseSIP = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        )
-    >("__dart_get_Strings_chineseSIP");
-    TestAPI.Strings.f__dart_get_Strings_simple = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        )
-    >("__dart_get_Strings_simple");
-    TestAPI.Strings.f__dart_get_Strings_emojiMulti = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        )
-    >("__dart_get_Strings_emojiMulti");
-    TestAPI.Strings.f__dart_get_Strings_script = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        )
-    >("__dart_get_Strings_script");
-    TestAPI.Strings.f__dart_get_Strings_emoji = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        )
-    >("__dart_get_Strings_emoji");
-    TestAPI.Strings.f__dart_Strings_echo = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            UnownedRef string,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            UnownedRef string,
-            OutCreatedRef _exn
-        )
-    >("__dart_Strings_echo");
     TestAPI.Strings.f__dart_get_Strings_accent = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -1968,7 +1902,7 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__dart_get_Strings_chineseBMP");
-    TestAPI.Tuples.f__dart_get_Tuples_tuple4 = dylib.lookupFunction<
+    TestAPI.Strings.f__dart_get_Strings_chineseSIP = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
             OutCreatedRef _exn
@@ -1977,8 +1911,8 @@ final ensureLoaded = (() {
             Env env,
             OutCreatedRef _exn
         )
-    >("__dart_get_Tuples_tuple4");
-    TestAPI.Tuples.f__dart_get_Tuples_tuple6 = dylib.lookupFunction<
+    >("__dart_get_Strings_chineseSIP");
+    TestAPI.Strings.f__dart_get_Strings_emoji = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
             OutCreatedRef _exn
@@ -1987,8 +1921,8 @@ final ensureLoaded = (() {
             Env env,
             OutCreatedRef _exn
         )
-    >("__dart_get_Tuples_tuple6");
-    TestAPI.Tuples.f__dart_get_Tuples_tuple3 = dylib.lookupFunction<
+    >("__dart_get_Strings_emoji");
+    TestAPI.Strings.f__dart_get_Strings_emojiMulti = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
             OutCreatedRef _exn
@@ -1997,27 +1931,27 @@ final ensureLoaded = (() {
             Env env,
             OutCreatedRef _exn
         )
-    >("__dart_get_Tuples_tuple3");
-    TestAPI.Tuples.f__dart_Tuples_checkTuples = dylib.lookupFunction<
-        ffi.Bool Function(
+    >("__dart_get_Strings_emojiMulti");
+    TestAPI.Strings.f__dart_get_Strings_script = dylib.lookupFunction<
+        CreatedRef Function(
             Env env,
-            UnownedRef t2,
-            UnownedRef t3,
-            UnownedRef t4,
-            UnownedRef t5,
-            UnownedRef t6,
             OutCreatedRef _exn
         ),
-        bool Function(
+        CreatedRef Function(
             Env env,
-            UnownedRef t2,
-            UnownedRef t3,
-            UnownedRef t4,
-            UnownedRef t5,
-            UnownedRef t6,
             OutCreatedRef _exn
         )
-    >("__dart_Tuples_checkTuples");
+    >("__dart_get_Strings_script");
+    TestAPI.Strings.f__dart_get_Strings_simple = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__dart_get_Strings_simple");
     TestAPI.Tuples.f__dart_get_Tuples_tuple2 = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -2028,6 +1962,26 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__dart_get_Tuples_tuple2");
+    TestAPI.Tuples.f__dart_get_Tuples_tuple3 = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__dart_get_Tuples_tuple3");
+    TestAPI.Tuples.f__dart_get_Tuples_tuple4 = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__dart_get_Tuples_tuple4");
     TestAPI.Tuples.f__dart_get_Tuples_tuple5 = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -2038,9 +1992,55 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__dart_get_Tuples_tuple5");
+    TestAPI.Tuples.f__dart_get_Tuples_tuple6 = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__dart_get_Tuples_tuple6");
+    TestAPI.Collections_CollectionHolder.f__dart_set_Collections_CollectionHolder_staticMutablePropery = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            UnownedRef staticMutablePropery,
+            OutCreatedRef _exn
+        ),
+        void Function(
+            Env env,
+            UnownedRef staticMutablePropery,
+            OutCreatedRef _exn
+        )
+    >("__dart_set_Collections_CollectionHolder_staticMutablePropery");
+    TestAPI.Primitives_PrimitiveHolder.f__dart_set_Primitives_PrimitiveHolder_staticMutablePropery = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            UnownedRef staticMutablePropery,
+            OutCreatedRef _exn
+        ),
+        void Function(
+            Env env,
+            UnownedRef staticMutablePropery,
+            OutCreatedRef _exn
+        )
+    >("__dart_set_Primitives_PrimitiveHolder_staticMutablePropery");
+    TestAPI.SimpleEnum.f__dart_set_SimpleEnum_favoriteColor = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            UnownedRef favoriteColor,
+            OutCreatedRef _exn
+        ),
+        void Function(
+            Env env,
+            UnownedRef favoriteColor,
+            OutCreatedRef _exn
+        )
+    >("__dart_set_SimpleEnum_favoriteColor");
 
     Loader.shared.once("setup_Function2Converter<Function1Converter<Int, Int>, Function1Converter<Int, Int>, Function1Converter<Int, Int>>", () {
-        print("setting up ((Int) -> Int, (Int) -> Int) -> (Int) -> Int...");
+        print("setting up ((Int) -> Int, (Int) -> Int) -> (Int) -> Int (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_Function2Converter_setup(
                 Loader.shared.env,
@@ -2051,7 +2051,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Function1Converter<OptionalConverter<ArrayConverter<OptionalConverter<Int>>>, OptionalConverter<ArrayConverter<OptionalConverter<Int>>>>", () {
-        print("setting up (Optional<Array<Optional<Int>>>) -> Optional<Array<Optional<Int>>>...");
+        print("setting up (Optional<Array<Optional<Int>>>) -> Optional<Array<Optional<Int>>> (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_Function1Converter_setup(
                 Loader.shared.env,
@@ -2062,7 +2062,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Function1Converter<OptionalConverter<UInt8>, OptionalConverter<UInt8>>", () {
-        print("setting up (Optional<UInt8>) -> Optional<UInt8>...");
+        print("setting up (Optional<UInt8>) -> Optional<UInt8> (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_Function1Converter_setup(
                 Loader.shared.env,
@@ -2073,7 +2073,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Function3Converter<Float, Double, Int, Double>", () {
-        print("setting up (Float, Double, Int) -> Double...");
+        print("setting up (Float, Double, Int) -> Double (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_Function3Converter_setup(
                 Loader.shared.env,
@@ -2084,7 +2084,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Function1Converter<Int, Int>", () {
-        print("setting up (Int) -> Int...");
+        print("setting up (Int) -> Int (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_Function1Converter_setup(
                 Loader.shared.env,
@@ -2095,7 +2095,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Function6Converter<Swift.String, Int, Double, Swift.String, Function0Converter<Int>, Int, Int>", () {
-        print("setting up (String, Int, Double, String, () -> Int, Int) -> Int...");
+        print("setting up (String, Int, Double, String, () -> Int, Int) -> Int (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_Function6Converter_setup(
                 Loader.shared.env,
@@ -2106,7 +2106,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Function5Converter<Swift.String, Int, Double, Swift.String, Function0Converter<Int>, Function0Converter<Int>>", () {
-        print("setting up (String, Int, Double, String, () -> Int) -> () -> Int...");
+        print("setting up (String, Int, Double, String, () -> Int) -> () -> Int (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_Function5Converter_setup(
                 Loader.shared.env,
@@ -2117,7 +2117,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Function4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>", () {
-        print("setting up (String, String, String, String) -> Array<String>...");
+        print("setting up (String, String, String, String) -> Array<String> (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_Function4Converter_setup(
                 Loader.shared.env,
@@ -2128,7 +2128,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Function0Converter<Int>", () {
-        print("setting up () -> Int...");
+        print("setting up () -> Int (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_Function0Converter_setup(
                 Loader.shared.env,
@@ -2139,7 +2139,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_ArrayConverter<OptionalConverter<Bool>>", () {
-        print("setting up Array<Optional<Bool>>...");
+        print("setting up Array<Optional<Bool>> (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_ArrayConverter_setup<bool?>(
                 Loader.shared.env,
@@ -2150,7 +2150,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_ArrayConverter<OptionalConverter<Double>>", () {
-        print("setting up Array<Optional<Double>>...");
+        print("setting up Array<Optional<Double>> (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_ArrayConverter_setup<double?>(
                 Loader.shared.env,
@@ -2161,7 +2161,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_ArrayConverter<OptionalConverter<Float>>", () {
-        print("setting up Array<Optional<Float>>...");
+        print("setting up Array<Optional<Float>> (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_ArrayConverter_setup<double?>(
                 Loader.shared.env,
@@ -2172,7 +2172,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_ArrayConverter<OptionalConverter<Int>>", () {
-        print("setting up Array<Optional<Int>>...");
+        print("setting up Array<Optional<Int>> (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_ArrayConverter_setup<int?>(
                 Loader.shared.env,
@@ -2183,7 +2183,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_ArrayConverter<OptionalConverter<Int16>>", () {
-        print("setting up Array<Optional<Int16>>...");
+        print("setting up Array<Optional<Int16>> (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_ArrayConverter_setup<int?>(
                 Loader.shared.env,
@@ -2194,7 +2194,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_ArrayConverter<OptionalConverter<Int32>>", () {
-        print("setting up Array<Optional<Int32>>...");
+        print("setting up Array<Optional<Int32>> (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_ArrayConverter_setup<int?>(
                 Loader.shared.env,
@@ -2205,7 +2205,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_ArrayConverter<OptionalConverter<Int64>>", () {
-        print("setting up Array<Optional<Int64>>...");
+        print("setting up Array<Optional<Int64>> (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_ArrayConverter_setup<int?>(
                 Loader.shared.env,
@@ -2216,7 +2216,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_ArrayConverter<OptionalConverter<Int8>>", () {
-        print("setting up Array<Optional<Int8>>...");
+        print("setting up Array<Optional<Int8>> (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_ArrayConverter_setup<int?>(
                 Loader.shared.env,
@@ -2227,7 +2227,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_ArrayConverter<OptionalConverter<UInt16>>", () {
-        print("setting up Array<Optional<UInt16>>...");
+        print("setting up Array<Optional<UInt16>> (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_ArrayConverter_setup<int?>(
                 Loader.shared.env,
@@ -2238,7 +2238,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_ArrayConverter<OptionalConverter<UInt32>>", () {
-        print("setting up Array<Optional<UInt32>>...");
+        print("setting up Array<Optional<UInt32>> (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_ArrayConverter_setup<int?>(
                 Loader.shared.env,
@@ -2249,7 +2249,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_ArrayConverter<OptionalConverter<UInt64>>", () {
-        print("setting up Array<Optional<UInt64>>...");
+        print("setting up Array<Optional<UInt64>> (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_ArrayConverter_setup<int?>(
                 Loader.shared.env,
@@ -2260,7 +2260,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_ArrayConverter<OptionalConverter<UInt8>>", () {
-        print("setting up Array<Optional<UInt8>>...");
+        print("setting up Array<Optional<UInt8>> (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_ArrayConverter_setup<int?>(
                 Loader.shared.env,
@@ -2271,7 +2271,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_ArrayConverter<Bool>", () {
-        print("setting up Array<Bool>...");
+        print("setting up Array<Bool> (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_ArrayConverter_setup<bool>(
                 Loader.shared.env,
@@ -2282,7 +2282,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_ArrayConverter<Double>", () {
-        print("setting up Array<Double>...");
+        print("setting up Array<Double> (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_ArrayConverter_setup<double>(
                 Loader.shared.env,
@@ -2293,7 +2293,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_ArrayConverter<Float>", () {
-        print("setting up Array<Float>...");
+        print("setting up Array<Float> (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_ArrayConverter_setup<double>(
                 Loader.shared.env,
@@ -2304,7 +2304,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_ArrayConverter<Int>", () {
-        print("setting up Array<Int>...");
+        print("setting up Array<Int> (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_ArrayConverter_setup<int>(
                 Loader.shared.env,
@@ -2315,7 +2315,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_ArrayConverter<Int16>", () {
-        print("setting up Array<Int16>...");
+        print("setting up Array<Int16> (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_ArrayConverter_setup<int>(
                 Loader.shared.env,
@@ -2326,7 +2326,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_ArrayConverter<Int32>", () {
-        print("setting up Array<Int32>...");
+        print("setting up Array<Int32> (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_ArrayConverter_setup<int>(
                 Loader.shared.env,
@@ -2337,7 +2337,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_ArrayConverter<Int64>", () {
-        print("setting up Array<Int64>...");
+        print("setting up Array<Int64> (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_ArrayConverter_setup<int>(
                 Loader.shared.env,
@@ -2348,7 +2348,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_ArrayConverter<Int8>", () {
-        print("setting up Array<Int8>...");
+        print("setting up Array<Int8> (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_ArrayConverter_setup<int>(
                 Loader.shared.env,
@@ -2359,7 +2359,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_ArrayConverter<Swift.String>", () {
-        print("setting up Array<String>...");
+        print("setting up Array<String> (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_ArrayConverter_setup<String>(
                 Loader.shared.env,
@@ -2370,7 +2370,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_ArrayConverter<UInt16>", () {
-        print("setting up Array<UInt16>...");
+        print("setting up Array<UInt16> (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_ArrayConverter_setup<int>(
                 Loader.shared.env,
@@ -2381,7 +2381,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_ArrayConverter<UInt32>", () {
-        print("setting up Array<UInt32>...");
+        print("setting up Array<UInt32> (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_ArrayConverter_setup<int>(
                 Loader.shared.env,
@@ -2392,7 +2392,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_ArrayConverter<UInt64>", () {
-        print("setting up Array<UInt64>...");
+        print("setting up Array<UInt64> (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_ArrayConverter_setup<int>(
                 Loader.shared.env,
@@ -2403,7 +2403,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_ArrayConverter<UInt8>", () {
-        print("setting up Array<UInt8>...");
+        print("setting up Array<UInt8> (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_ArrayConverter_setup<int>(
                 Loader.shared.env,
@@ -2414,7 +2414,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_DictionaryConverter<Bool, Bool>", () {
-        print("setting up Dictionary<Bool, Bool>...");
+        print("setting up Dictionary<Bool, Bool> (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_DictionaryConverter_setup(
                 Loader.shared.env,
@@ -2425,7 +2425,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_DictionaryConverter<Int, OptionalConverter<Int>>", () {
-        print("setting up Dictionary<Int, Optional<Int>>...");
+        print("setting up Dictionary<Int, Optional<Int>> (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_DictionaryConverter_setup(
                 Loader.shared.env,
@@ -2436,7 +2436,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_DictionaryConverter<Int, Int>", () {
-        print("setting up Dictionary<Int, Int>...");
+        print("setting up Dictionary<Int, Int> (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_DictionaryConverter_setup(
                 Loader.shared.env,
@@ -2447,7 +2447,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_DictionaryConverter<Swift.String, Swift.String>", () {
-        print("setting up Dictionary<String, String>...");
+        print("setting up Dictionary<String, String> (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_DictionaryConverter_setup(
                 Loader.shared.env,
@@ -2458,7 +2458,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_OptionalConverter<ArrayConverter<OptionalConverter<Int>>>", () {
-        print("setting up Optional<Array<Optional<Int>>>...");
+        print("setting up Optional<Array<Optional<Int>>> (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_OptionalConverter_setup(
                 Loader.shared.env,
@@ -2468,7 +2468,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_OptionalConverter<ArrayConverter<Int>>", () {
-        print("setting up Optional<Array<Int>>...");
+        print("setting up Optional<Array<Int>> (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_OptionalConverter_setup(
                 Loader.shared.env,
@@ -2478,7 +2478,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_OptionalConverter<DictionaryConverter<Int, OptionalConverter<Int>>>", () {
-        print("setting up Optional<Dictionary<Int, Optional<Int>>>...");
+        print("setting up Optional<Dictionary<Int, Optional<Int>>> (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_OptionalConverter_setup(
                 Loader.shared.env,
@@ -2488,7 +2488,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_OptionalConverter<DictionaryConverter<Int, Int>>", () {
-        print("setting up Optional<Dictionary<Int, Int>>...");
+        print("setting up Optional<Dictionary<Int, Int>> (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_OptionalConverter_setup(
                 Loader.shared.env,
@@ -2498,7 +2498,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_OptionalConverter<SetConverter<OptionalConverter<Int>>>", () {
-        print("setting up Optional<Set<Optional<Int>>>...");
+        print("setting up Optional<Set<Optional<Int>>> (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_OptionalConverter_setup(
                 Loader.shared.env,
@@ -2508,7 +2508,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_OptionalConverter<SetConverter<Int>>", () {
-        print("setting up Optional<Set<Int>>...");
+        print("setting up Optional<Set<Int>> (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_OptionalConverter_setup(
                 Loader.shared.env,
@@ -2518,7 +2518,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_OptionalConverter<Bool>", () {
-        print("setting up Optional<Bool>...");
+        print("setting up Optional<Bool> (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_OptionalConverter_setup(
                 Loader.shared.env,
@@ -2528,7 +2528,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_OptionalConverter<Double>", () {
-        print("setting up Optional<Double>...");
+        print("setting up Optional<Double> (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_OptionalConverter_setup(
                 Loader.shared.env,
@@ -2538,7 +2538,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_OptionalConverter<Float>", () {
-        print("setting up Optional<Float>...");
+        print("setting up Optional<Float> (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_OptionalConverter_setup(
                 Loader.shared.env,
@@ -2548,7 +2548,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_OptionalConverter<Int>", () {
-        print("setting up Optional<Int>...");
+        print("setting up Optional<Int> (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_OptionalConverter_setup(
                 Loader.shared.env,
@@ -2558,7 +2558,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_OptionalConverter<Int16>", () {
-        print("setting up Optional<Int16>...");
+        print("setting up Optional<Int16> (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_OptionalConverter_setup(
                 Loader.shared.env,
@@ -2568,7 +2568,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_OptionalConverter<Int32>", () {
-        print("setting up Optional<Int32>...");
+        print("setting up Optional<Int32> (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_OptionalConverter_setup(
                 Loader.shared.env,
@@ -2578,7 +2578,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_OptionalConverter<Int64>", () {
-        print("setting up Optional<Int64>...");
+        print("setting up Optional<Int64> (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_OptionalConverter_setup(
                 Loader.shared.env,
@@ -2588,7 +2588,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_OptionalConverter<Int8>", () {
-        print("setting up Optional<Int8>...");
+        print("setting up Optional<Int8> (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_OptionalConverter_setup(
                 Loader.shared.env,
@@ -2598,7 +2598,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_OptionalConverter<SimpleEnum>", () {
-        print("setting up Optional<SimpleEnum>...");
+        print("setting up Optional<SimpleEnum> (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_OptionalConverter_setup(
                 Loader.shared.env,
@@ -2608,7 +2608,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_OptionalConverter<UInt16>", () {
-        print("setting up Optional<UInt16>...");
+        print("setting up Optional<UInt16> (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_OptionalConverter_setup(
                 Loader.shared.env,
@@ -2618,7 +2618,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_OptionalConverter<UInt32>", () {
-        print("setting up Optional<UInt32>...");
+        print("setting up Optional<UInt32> (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_OptionalConverter_setup(
                 Loader.shared.env,
@@ -2628,7 +2628,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_OptionalConverter<UInt64>", () {
-        print("setting up Optional<UInt64>...");
+        print("setting up Optional<UInt64> (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_OptionalConverter_setup(
                 Loader.shared.env,
@@ -2638,7 +2638,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_OptionalConverter<UInt8>", () {
-        print("setting up Optional<UInt8>...");
+        print("setting up Optional<UInt8> (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_OptionalConverter_setup(
                 Loader.shared.env,
@@ -2648,7 +2648,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_SetConverter<OptionalConverter<Int>>", () {
-        print("setting up Set<Optional<Int>>...");
+        print("setting up Set<Optional<Int>> (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_SetConverter_setup(
                 Loader.shared.env,
@@ -2659,7 +2659,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_SetConverter<Bool>", () {
-        print("setting up Set<Bool>...");
+        print("setting up Set<Bool> (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_SetConverter_setup(
                 Loader.shared.env,
@@ -2670,7 +2670,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_SetConverter<Int>", () {
-        print("setting up Set<Int>...");
+        print("setting up Set<Int> (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_SetConverter_setup(
                 Loader.shared.env,
@@ -2681,7 +2681,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_SetConverter<Swift.String>", () {
-        print("setting up Set<String>...");
+        print("setting up Set<String> (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_SetConverter_setup(
                 Loader.shared.env,
@@ -2692,7 +2692,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_AssociatedDataEnum", () {
-        print("setting up AssociatedDataEnum...");
+        print("setting up AssociatedDataEnum (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             TestAPI_AssociatedDataEnum_setup(
                 Loader.shared.env,
@@ -2711,7 +2711,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Bytes", () {
-        print("setting up Bytes...");
+        print("setting up Bytes (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             TestAPI_Bytes_setup(
                 Loader.shared.env,
@@ -2721,7 +2721,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Collections.CollectionHolder", () {
-        print("setting up Collections.CollectionHolder...");
+        print("setting up Collections.CollectionHolder (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             TestAPI_Collections_CollectionHolder_setup(
                 Loader.shared.env,
@@ -2731,7 +2731,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Collections", () {
-        print("setting up Collections...");
+        print("setting up Collections (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             TestAPI_Collections_setup(
                 Loader.shared.env,
@@ -2741,7 +2741,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_DefaultArguments", () {
-        print("setting up DefaultArguments...");
+        print("setting up DefaultArguments (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             TestAPI_DefaultArguments_setup(
                 Loader.shared.env,
@@ -2751,7 +2751,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Deprecations", () {
-        print("setting up Deprecations...");
+        print("setting up Deprecations (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             TestAPI_Deprecations_setup(
                 Loader.shared.env,
@@ -2761,7 +2761,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_EmptyEnum", () {
-        print("setting up EmptyEnum...");
+        print("setting up EmptyEnum (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             TestAPI_EmptyEnum_setup(
                 Loader.shared.env,
@@ -2771,7 +2771,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Functions", () {
-        print("setting up Functions...");
+        print("setting up Functions (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             TestAPI_Functions_setup(
                 Loader.shared.env,
@@ -2781,7 +2781,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Structs.MemberwiseStruct", () {
-        print("setting up Structs.MemberwiseStruct...");
+        print("setting up Structs.MemberwiseStruct (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             TestAPI_Structs_MemberwiseStruct_setup(
                 Loader.shared.env,
@@ -2791,7 +2791,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Primitives.PrimitiveHolder", () {
-        print("setting up Primitives.PrimitiveHolder...");
+        print("setting up Primitives.PrimitiveHolder (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             TestAPI_Primitives_PrimitiveHolder_setup(
                 Loader.shared.env,
@@ -2801,7 +2801,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Primitives", () {
-        print("setting up Primitives...");
+        print("setting up Primitives (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             TestAPI_Primitives_setup(
                 Loader.shared.env,
@@ -2811,7 +2811,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Structs.ReferenceStruct", () {
-        print("setting up Structs.ReferenceStruct...");
+        print("setting up Structs.ReferenceStruct (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             TestAPI_Structs_ReferenceStruct_setup(
                 Loader.shared.env,
@@ -2821,7 +2821,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_SimpleEnum", () {
-        print("setting up SimpleEnum...");
+        print("setting up SimpleEnum (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             TestAPI_SimpleEnum_setup(
                 Loader.shared.env,
@@ -2838,7 +2838,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Strings", () {
-        print("setting up Strings...");
+        print("setting up Strings (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             TestAPI_Strings_setup(
                 Loader.shared.env,
@@ -2848,7 +2848,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Structs", () {
-        print("setting up Structs...");
+        print("setting up Structs (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             TestAPI_Structs_setup(
                 Loader.shared.env,
@@ -2858,7 +2858,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Functions.TheError", () {
-        print("setting up Functions.TheError...");
+        print("setting up Functions.TheError (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             TestAPI_Functions_TheError_setup(
                 Loader.shared.env,
@@ -2868,7 +2868,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Tuples", () {
-        print("setting up Tuples...");
+        print("setting up Tuples (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             TestAPI_Tuples_setup(
                 Loader.shared.env,
@@ -2878,7 +2878,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Tuple2Converter<Int, Swift.String>", () {
-        print("setting up (Int, String)...");
+        print("setting up (Int, String) (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_Tuple2Converter_setup(
                 Loader.shared.env,
@@ -2889,7 +2889,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Tuple3Converter<Swift.String, Double, Swift.String>", () {
-        print("setting up (String, Double, String)...");
+        print("setting up (String, Double, String) (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_Tuple3Converter_setup(
                 Loader.shared.env,
@@ -2900,7 +2900,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Tuple6Converter<Swift.String, Int, Double, Tuple4Converter<Tuple2Converter<Int, Swift.String>, Tuple3Converter<Swift.String, Double, Swift.String>, Swift.String, Bool>, Tuple5Converter<Swift.String, UInt8, Tuple4Converter<Tuple2Converter<Int, Swift.String>, Tuple3Converter<Swift.String, Double, Swift.String>, Swift.String, Bool>, Tuple3Converter<Swift.String, Double, Swift.String>, Tuple2Converter<Int, Swift.String>>, Bool>", () {
-        print("setting up (String, Int, Double, ((Int, String), (String, Double, String), String, Bool), (String, UInt8, ((Int, String), (String, Double, String), String, Bool), (String, Double, String), (Int, String)), Bool)...");
+        print("setting up (String, Int, Double, ((Int, String), (String, Double, String), String, Bool), (String, UInt8, ((Int, String), (String, Double, String), String, Bool), (String, Double, String), (Int, String)), Bool) (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_Tuple6Converter_setup(
                 Loader.shared.env,
@@ -2911,7 +2911,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Tuple5Converter<Swift.String, UInt8, Tuple4Converter<Tuple2Converter<Int, Swift.String>, Tuple3Converter<Swift.String, Double, Swift.String>, Swift.String, Bool>, Tuple3Converter<Swift.String, Double, Swift.String>, Tuple2Converter<Int, Swift.String>>", () {
-        print("setting up (String, UInt8, ((Int, String), (String, Double, String), String, Bool), (String, Double, String), (Int, String))...");
+        print("setting up (String, UInt8, ((Int, String), (String, Double, String), String, Bool), (String, Double, String), (Int, String)) (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_Tuple5Converter_setup(
                 Loader.shared.env,
@@ -2922,7 +2922,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Tuple4Converter<Tuple2Converter<Int, Swift.String>, Tuple3Converter<Swift.String, Double, Swift.String>, Swift.String, Bool>", () {
-        print("setting up ((Int, String), (String, Double, String), String, Bool)...");
+        print("setting up ((Int, String), (String, Double, String), String, Bool) (env=${Loader.shared.env.address})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_Tuple4Converter_setup(
                 Loader.shared.env,

@@ -31,7 +31,7 @@ public func Env_setupGCPin(
 @_cdecl("FishyJoesRuntime_getTypeID")
 public func Env_getTypeID(name: UnsafePointer<unichar>) -> TypeID {
     let name = String(decodingCString: name, as: Unicode.UTF16.self)
-    guard let typeID = Env.typeIDsByName[name] else {
+    guard let typeID = Env.typeID(name: name) else {
         fatalError("Couldn't find FishyJoes type id for '\(name)'")
     }
     return typeID
@@ -40,38 +40,6 @@ public func Env_getTypeID(name: UnsafePointer<unichar>) -> TypeID {
 public struct Env {
     // A dummy pointer to uniquely identify each Dart isolate
     public let id: EnvRef
-
-    public struct CallbackMap<T> {
-        let debugLocation: String
-        fileprivate var callbacks: [EnvRef: T] = [:]
-
-        public init(file: StaticString = #file, line: UInt = #line) {
-            debugLocation = "\(file):\(line)"
-        }
-
-        public subscript(env: Env) -> T {
-            get {
-                Env.staticLock.withLock {
-                    guard let callback = callbacks[env.id] else {
-                        fatalError("\(debugLocation) callback of type \(T.self) not registered for Environment \(env.id)")
-                    }
-                    return callback
-                }
-            }
-
-            set {
-                Env.staticLock.withLock {
-                    callbacks[env.id] = newValue
-                }
-            }
-        }
-
-        public func isInitialized(_ env: Env) -> Bool {
-            Env.staticLock.withLock {
-                callbacks[env.id] != nil
-            }
-        }
-    }
 
     public init(_ id: EnvRef) {
         self.id = id
@@ -101,9 +69,25 @@ public struct Env {
         Env.newErrorHandle[self] = newErrorFn
     }
 
-    fileprivate static var typeIDsByObject: [ObjectIdentifier: TypeID] = [:]
-    public private(set) static var typeIDsByID: [TypeID: ObjectIdentifier] = [:]
-    public private(set) static var typeIDsByName: [String: TypeID] = [:]
+    private static var _typeIDsByObject: [ObjectIdentifier: TypeID] = [:]
+    private static var _objectIDsByID: [TypeID: ObjectIdentifier] = [:]
+    private static var _typeIDsByName: [String: TypeID] = [:]
+
+    public static func typeID(object: AnyObject) -> TypeID? {
+        staticLock.withLock {
+            _typeIDsByObject[ObjectIdentifier(object)]
+        }
+    }
+    public static func objectID(typeID: TypeID) -> ObjectIdentifier? {
+        staticLock.withLock {
+            _objectIDsByID[typeID]
+        }
+    }
+    public static func typeID(name: String) -> TypeID? {
+        staticLock.withLock {
+            _typeIDsByName[name]
+        }
+    }
 
     private static var nextUniqueID: TypeID = 0
     private static func newUniqueID() -> Int {
@@ -117,10 +101,10 @@ public struct Env {
         let typeID = newUniqueID()
         staticLock.withLock {
             let objectID = ObjectIdentifier(type)
-            guard typeIDsByObject[objectID] == nil else { return }
-            typeIDsByObject[objectID] = typeID
-            typeIDsByID[typeID] = objectID
-            typeIDsByName[name] = typeID
+            guard _typeIDsByObject[objectID] == nil else { return }
+            _typeIDsByObject[objectID] = typeID
+            _objectIDsByID[typeID] = objectID
+            _typeIDsByName[name] = typeID
         }
     }
 
@@ -169,5 +153,69 @@ public struct Env {
             result = try body()
         }
         return result ?? .default
+    }
+}
+
+extension Env {
+    public struct SynchronizedDictionary<Key: Hashable, Value>: ExpressibleByDictionaryLiteral {
+        private var _backing: [Key: Value]
+
+        public init(dictionaryLiteral elements: (Key, Value)...) {
+            _backing = Dictionary(uniqueKeysWithValues: elements)
+        }
+
+        public subscript(key: Key) -> Value? {
+            _read {
+                Env.staticLock.lock()
+                defer { Env.staticLock.unlock() }
+                yield _backing[key]
+            }
+            _modify {
+                Env.staticLock.lock()
+                defer { Env.staticLock.unlock() }
+                yield &_backing[key]
+            }
+        }
+
+        public subscript(key: Key, default defaultValue: @autoclosure () -> Value) -> Value {
+            _read {
+                Env.staticLock.lock()
+                defer { Env.staticLock.unlock() }
+                yield _backing[key, default: defaultValue()]
+            }
+            _modify {
+                Env.staticLock.lock()
+                defer { Env.staticLock.unlock() }
+                yield &_backing[key, default: defaultValue()]
+            }
+        }
+    }
+
+    public struct CallbackMap<T> {
+        let debugLocation: String
+        private var callbacks: Dictionary<EnvRef, T> = [:]
+
+        public init(file: StaticString = #file, line: UInt = #line) {
+            debugLocation = "\(file):\(line)"
+        }
+
+        public subscript(env: Env) -> T! {
+            _read {
+                Env.staticLock.lock()
+                defer { Env.staticLock.unlock() }
+                yield callbacks[env.id]
+            }
+            _modify {
+                Env.staticLock.lock()
+                defer { Env.staticLock.unlock() }
+                yield &callbacks[env.id]
+            }
+        }
+
+        public func isInitialized(_ env: Env) -> Bool {
+            Env.staticLock.lock()
+            defer { Env.staticLock.unlock() }
+            return callbacks[env.id] != nil
+        }
     }
 }

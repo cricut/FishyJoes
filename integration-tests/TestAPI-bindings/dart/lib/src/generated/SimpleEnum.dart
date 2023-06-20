@@ -138,23 +138,18 @@ class SimpleEnum with _$SimpleEnum {
 
     static late CreatedRef Function(
         Env env,
-        int rawValue,
-        OutCreatedRef _exn
-    ) f__dart_SimpleEnum_pickAColor;
-    static late CreatedRef Function(
-        Env env,
         UnownedRef _this,
         OutCreatedRef _exn
     ) f__dart_SimpleEnum_hexMethod;
+    static late CreatedRef Function(
+        Env env,
+        int rawValue,
+        OutCreatedRef _exn
+    ) f__dart_SimpleEnum_pickAColor;
     static late void Function(
         Env env,
         OutCreatedRef _exn
     ) f__dart_SimpleEnum_resetFavoriteColor;
-    static late void Function(
-        Env env,
-        UnownedRef favoriteColor,
-        OutCreatedRef _exn
-    ) f__dart_set_SimpleEnum_favoriteColor;
     static late CreatedRef Function(
         Env env,
         OutCreatedRef _exn
@@ -164,4 +159,9 @@ class SimpleEnum with _$SimpleEnum {
         UnownedRef _this,
         OutCreatedRef _exn
     ) f__dart_get_SimpleEnum_hex;
+    static late void Function(
+        Env env,
+        UnownedRef favoriteColor,
+        OutCreatedRef _exn
+    ) f__dart_set_SimpleEnum_favoriteColor;
 }

@@ -279,7 +279,7 @@ final class DartTranslator: Translator {
 
             initializerWriters.append {
                 fragment.outputBlock("Loader.shared.once(\"setup_\(resolved.converterType.name)\", () {", closeWith: "});") {
-                    fragment.output("print(\"setting up \(type.name)...\");")
+                    fragment.output("print(\"setting up \(type.name) (env=${Loader.shared.env.address})...\");")
 
                     fragment.outputBlock("utils.check<void>((exn) {", closeWith: "});") {
                         let setupName: String
@@ -306,7 +306,7 @@ final class DartTranslator: Translator {
             }
         }
 
-        for nativeMethod in nativeMethods {
+        for nativeMethod in nativeMethods.sorted(by: { $0.name < $1.name }) {
             externDeclarations.append { fragment in
                 fragment.outputBlock("\(nativeMethod.definingDartClass).f\(nativeMethod.name) = dylib.lookupFunction<", closeWith: ">", newLineTerminated: false) {
                     fragment.outputBlock("\(nativeMethod.returnType.ffiCreatedTag) Function(", closeWith: "),") {

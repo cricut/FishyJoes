@@ -80,22 +80,6 @@ class Tuples {
         )
     ;
 
-    static late CreatedRef Function(
-        Env env,
-        OutCreatedRef _exn
-    ) f__dart_get_Tuples_tuple4;
-    static late CreatedRef Function(
-        Env env,
-        OutCreatedRef _exn
-    ) f__dart_get_Tuples_tuple3;
-    static late CreatedRef Function(
-        Env env,
-        OutCreatedRef _exn
-    ) f__dart_get_Tuples_tuple5;
-    static late CreatedRef Function(
-        Env env,
-        OutCreatedRef _exn
-    ) f__dart_get_Tuples_tuple2;
     static late bool Function(
         Env env,
         UnownedRef t2,
@@ -105,6 +89,22 @@ class Tuples {
         UnownedRef t6,
         OutCreatedRef _exn
     ) f__dart_Tuples_checkTuples;
+    static late CreatedRef Function(
+        Env env,
+        OutCreatedRef _exn
+    ) f__dart_get_Tuples_tuple2;
+    static late CreatedRef Function(
+        Env env,
+        OutCreatedRef _exn
+    ) f__dart_get_Tuples_tuple3;
+    static late CreatedRef Function(
+        Env env,
+        OutCreatedRef _exn
+    ) f__dart_get_Tuples_tuple4;
+    static late CreatedRef Function(
+        Env env,
+        OutCreatedRef _exn
+    ) f__dart_get_Tuples_tuple5;
     static late CreatedRef Function(
         Env env,
         OutCreatedRef _exn

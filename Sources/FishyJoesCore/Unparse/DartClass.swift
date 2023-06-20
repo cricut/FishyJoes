@@ -141,7 +141,7 @@ class DartClass {
     }
 
     func outputNativeMethodDeclarations(to fragment: SourceFragment) {
-        for (name, (args, returnType)) in nativeMethods {
+        for (name, (args, returnType)) in nativeMethods.sorted(by: { $0.key < $1.key}) {
             fragment.outputBlock("static late \(returnType.ffiCreatedName) Function(", closeWith: ") f\(name);") {
                 fragment.output("Env env,")
                 for (argName, argType) in args {

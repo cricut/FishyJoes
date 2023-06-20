@@ -66,15 +66,15 @@ class Bytes {
     ) f__dart_Bytes_echoBytes;
     static late CreatedRef Function(
         Env env,
+        UnownedRef data,
+        OutCreatedRef _exn
+    ) f__dart_Bytes_echoData;
+    static late CreatedRef Function(
+        Env env,
         OutCreatedRef _exn
     ) f__dart_get_Bytes_bytes;
     static late CreatedRef Function(
         Env env,
         OutCreatedRef _exn
     ) f__dart_get_Bytes_data;
-    static late CreatedRef Function(
-        Env env,
-        UnownedRef data,
-        OutCreatedRef _exn
-    ) f__dart_Bytes_echoData;
 }

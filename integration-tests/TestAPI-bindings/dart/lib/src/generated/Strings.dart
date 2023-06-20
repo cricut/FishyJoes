@@ -88,6 +88,11 @@ class Strings {
 
     static late CreatedRef Function(
         Env env,
+        UnownedRef string,
+        OutCreatedRef _exn
+    ) f__dart_Strings_echo;
+    static late CreatedRef Function(
+        Env env,
         OutCreatedRef _exn
     ) f__dart_get_Strings_accent;
     static late CreatedRef Function(
@@ -101,20 +106,7 @@ class Strings {
     static late CreatedRef Function(
         Env env,
         OutCreatedRef _exn
-    ) f__dart_get_Strings_script;
-    static late CreatedRef Function(
-        Env env,
-        UnownedRef string,
-        OutCreatedRef _exn
-    ) f__dart_Strings_echo;
-    static late CreatedRef Function(
-        Env env,
-        OutCreatedRef _exn
     ) f__dart_get_Strings_chineseSIP;
-    static late CreatedRef Function(
-        Env env,
-        OutCreatedRef _exn
-    ) f__dart_get_Strings_simple;
     static late CreatedRef Function(
         Env env,
         OutCreatedRef _exn
@@ -123,4 +115,12 @@ class Strings {
         Env env,
         OutCreatedRef _exn
     ) f__dart_get_Strings_emojiMulti;
+    static late CreatedRef Function(
+        Env env,
+        OutCreatedRef _exn
+    ) f__dart_get_Strings_script;
+    static late CreatedRef Function(
+        Env env,
+        OutCreatedRef _exn
+    ) f__dart_get_Strings_simple;
 }
