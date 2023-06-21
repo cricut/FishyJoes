@@ -17,24 +17,28 @@ void main() {
     test('Const42', () {
       expect(Functions.const42(), equals(42));
     });
+
+    test('testAbs', () {
+      expect(Functions.abs(-3), equals(3));
+    });
+
+    test('testIntCompose', () {
+        final composed = Functions.intCompose((it) => it + 1, (it) => it * 3);
+        expect(composed(3), equals(10));
+        expect(composed(2), equals(7));
+    });
+
+    test('testTheRestOfTheFunctions', () {
+        expect(Functions.add3Things(3.0, 4.5, 1), equals(8.5));
+        expect(Functions.makeList("a", "b", "c", "d"), equals(["a", "b", "c", "d"]));
+        expect(Functions.fifthThing("hi", 1, 1.0, "...", () => 84)(), equals(84));
+        expect(Functions.sixthThing("hi", 1, 1.0, "...", () => 84, 17), equals(17));
+    });
+
   });
 }
 
 // internal class FunctionTests {
-//     @Test
-
-//     @Test
-//     fun testAbs() {
-//         assertEquals(3, Functions.abs(-3))
-//     }
-
-//     @Test
-//     fun testIntCompose() {
-//         val composed = Functions.intCompose({ it + 1 }, { it * 3 })
-//         assertEquals(10, composed(3))
-//         assertEquals(7, composed(2))
-//     }
-
 //     object ComposeError: Error()
 
 //     @Test
@@ -44,12 +48,6 @@ void main() {
 //     }
 
 //     @Test
-//     fun testTheRestOfTheFunctions() {
-//         assertEquals(8.5, Functions.add3Things(3f, 4.5, 1))
-//         assertEquals(listOf("a", "b", "c", "d"), Functions.makeList("a", "b", "c", "d"))
-//         assertEquals(84, Functions.fifthThing("hi", 1, 1.0, "...", { 84 })())
-//         assertEquals(17, Functions.sixthThing("hi", 1, 1.0, "...", { 84 }, 17))
-//     }
 
 //     @Test
 //     fun testPassingFunctionsToSwift() {
