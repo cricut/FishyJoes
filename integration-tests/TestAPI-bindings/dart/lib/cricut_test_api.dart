@@ -4,4 +4,4 @@
 library cricut_test_api;
 
 export 'src/generated/type_setup.dart';
-export 'src/generated/Collections.dart';
+export 'src/generated/_exports.dart';

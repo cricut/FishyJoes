@@ -61,7 +61,11 @@ struct TranslatedFunction: TranslatedType {
     }
 
     func dartSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<DartClass.DartType>] {
-        return  [
+        return [
+            .type(typeValue: returnType.dartType)
+        ] + parameters.map { param in
+            .type(typeValue: param.dartType)
+        } + [
             .value(name: "typeName", type: .string) { fragment in
                 fragment.output("\"\(converterType.name)\",")
             },

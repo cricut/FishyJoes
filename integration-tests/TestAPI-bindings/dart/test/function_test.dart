@@ -13,14 +13,15 @@ void main() {
           expect(Collections.arrayOfInt, equals([2, 7, 3, 5, 8]));
           // expect(Collections.defaultCollectionHolder.integerSet, equals(<int>{2, 7}));
       });
+
+    test('Const42', () {
+      expect(Functions.const42(), equals(42));
+    });
   });
 }
 
 // internal class FunctionTests {
 //     @Test
-//     fun testConst42() {
-//         assertEquals(42, Functions.const42())
-//     }
 
 //     @Test
 //     fun testAbs() {

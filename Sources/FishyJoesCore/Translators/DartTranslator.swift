@@ -351,7 +351,12 @@ final class DartTranslator: Translator {
             fragment.output("arena.releaseAll();")
         }
 
-        return [swiftSetupFragment, exportFragment, fragment]
+        let exportsFragment = SourceFragment(sourceryDestination: "file:../../dart/lib/src/generated/_exports.dart")
+        for dartClass in context.dartClasses {
+            exportsFragment.output("export './\(dartClass.unqualifiedName).dart';")
+        }
+
+        return [swiftSetupFragment, exportFragment, fragment, exportsFragment]
     }
 
     func dart(method: Method, of type: TranslatedType, context: FishyJoesContext) -> DartClass.MethodOrVariable? {

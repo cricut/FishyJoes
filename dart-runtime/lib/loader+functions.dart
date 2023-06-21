@@ -132,148 +132,6 @@ extension LoaderFunctions on Loader {
     _FishyJoesRuntime_SwiftFunctionImpl_invoke6
   >('FishyJoesRuntime_SwiftFunctionImpl_invoke6');
 
-  static CreatedRef constructor0(ConsumedRef swiftRef, OutCreatedRef exn) =>
-    catchingRef(exn, () {
-        final impl = new SwiftFunctionImpl(swiftRef);
-        return createRef(() => impl.invoke0());
-    });
-  static CreatedRef constructor1(ConsumedRef swiftRef, OutCreatedRef exn) =>
-    catchingRef(exn, () {
-        final impl = new SwiftFunctionImpl(swiftRef);
-        return createRef((p0) => impl.invoke1(p0));
-    });
-  static CreatedRef constructor2(ConsumedRef swiftRef, OutCreatedRef exn) =>
-    catchingRef(exn, () {
-        final impl = new SwiftFunctionImpl(swiftRef);
-        return createRef((p0, p1) => impl.invoke2(p0, p1));
-    });
-  static CreatedRef constructor3(ConsumedRef swiftRef, OutCreatedRef exn) =>
-    catchingRef(exn, () {
-        final impl = new SwiftFunctionImpl(swiftRef);
-        return createRef((p0, p1, p2) => impl.invoke3(p0, p1, p2));
-    });
-  static CreatedRef constructor4(ConsumedRef swiftRef, OutCreatedRef exn) =>
-    catchingRef(exn, () {
-        final impl = new SwiftFunctionImpl(swiftRef);
-        return createRef((p0, p1, p2, p3) => impl.invoke4(p0, p1, p2, p3));
-    });
-  static CreatedRef constructor5(ConsumedRef swiftRef, OutCreatedRef exn) =>
-    catchingRef(exn, () {
-        final impl = new SwiftFunctionImpl(swiftRef);
-        return createRef((p0, p1, p2, p3, p4) => impl.invoke5(p0, p1, p2, p3, p4));
-    });
-  static CreatedRef constructor6(ConsumedRef swiftRef, OutCreatedRef exn) =>
-    catchingRef(exn, () {
-        final impl = new SwiftFunctionImpl(swiftRef);
-        return createRef((p0, p1, p2, p3, p4, p5) => impl.invoke6(p0, p1, p2, p3, p4, p5));
-    });
-
-  static CreatedRef invoke0(
-    UnownedRef fn,
-    OutCreatedRef exn
-  ) => catchingRef(exn, () {
-      final func = peekRef<Object? Function()>(fn);
-      final result = func(
-      );
-      return createRef(result);
-  });
-  static CreatedRef invoke1(
-    UnownedRef fn,
-    ConsumedRef p0,
-    OutCreatedRef exn
-  ) => catchingRef(exn, () {
-      final func = peekRef<Object? Function(Object?)>(fn);
-      final result = func(
-        consumeRef<Object?>(p0),
-      );
-      return createRef(result);
-  });
-  static CreatedRef invoke2(
-    UnownedRef fn,
-    ConsumedRef p0,
-    ConsumedRef p1,
-    OutCreatedRef exn
-  ) => catchingRef(exn, () {
-      final func = peekRef<Object? Function(Object?, Object?)>(fn);
-      final result = func(
-        consumeRef<Object?>(p0),
-        consumeRef<Object?>(p1),
-      );
-      return createRef(result);
-  });
-  static CreatedRef invoke3(
-    UnownedRef fn,
-    ConsumedRef p0,
-    ConsumedRef p1,
-    ConsumedRef p2,
-    OutCreatedRef exn
-  ) => catchingRef(exn, () {
-      final func = peekRef<Object? Function(Object?, Object?, Object?)>(fn);
-      final result = func(
-        consumeRef<Object?>(p0),
-        consumeRef<Object?>(p1),
-        consumeRef<Object?>(p2),
-      );
-      return createRef(result);
-  });
-  static CreatedRef invoke4(
-    UnownedRef fn,
-    ConsumedRef p0,
-    ConsumedRef p1,
-    ConsumedRef p2,
-    ConsumedRef p3,
-    OutCreatedRef exn
-  ) => catchingRef(exn, () {
-      final func = peekRef<Object? Function(Object?, Object?, Object?, Object?)>(fn);
-      final result = func(
-        consumeRef<Object?>(p0),
-        consumeRef<Object?>(p1),
-        consumeRef<Object?>(p2),
-        consumeRef<Object?>(p3),
-      );
-      return createRef(result);
-  });
-  static CreatedRef invoke5(
-    UnownedRef fn,
-    ConsumedRef p0,
-    ConsumedRef p1,
-    ConsumedRef p2,
-    ConsumedRef p3,
-    ConsumedRef p4,
-    OutCreatedRef exn
-  ) => catchingRef(exn, () {
-      final func = peekRef<Object? Function(Object?, Object?, Object?, Object?, Object?)>(fn);
-      final result = func(
-        consumeRef<Object?>(p0),
-        consumeRef<Object?>(p1),
-        consumeRef<Object?>(p2),
-        consumeRef<Object?>(p3),
-        consumeRef<Object?>(p4),
-      );
-      return createRef(result);
-  });
-  static CreatedRef invoke6(
-    UnownedRef fn,
-    ConsumedRef p0,
-    ConsumedRef p1,
-    ConsumedRef p2,
-    ConsumedRef p3,
-    ConsumedRef p4,
-    ConsumedRef p5,
-    OutCreatedRef exn
-  ) => catchingRef(exn, () {
-      final func = peekRef<Object? Function(Object?, Object?, Object?, Object?, Object?, Object?)>(fn);
-      final result = func(
-        consumeRef<Object?>(p0),
-        consumeRef<Object?>(p1),
-        consumeRef<Object?>(p2),
-        consumeRef<Object?>(p3),
-        consumeRef<Object?>(p4),
-        consumeRef<Object?>(p5),
-      );
-      return createRef(result);
-  });
-
   void FishyJoesRuntime_Function0Converter_setup<R>(Env env, String name, OutCreatedRef exn) {
     final cName = name.toNativeUtf16();
     _fishyJoesRuntime_FunctionConverter_setup(
@@ -285,7 +143,7 @@ extension LoaderFunctions on Loader {
         _FunctionConversions(
           (swiftRef) {
             final impl = new SwiftFunctionImpl(swiftRef);
-            return createRef(impl.invoke0);
+            return createRef(impl.invoke0<R>);
           },
           (fn, args) {
             final func = peekRef<R Function()>(fn);
@@ -310,7 +168,7 @@ extension LoaderFunctions on Loader {
         _FunctionConversions(
           (swiftRef) {
             final impl = new SwiftFunctionImpl(swiftRef);
-            return createRef(impl.invoke1);
+            return createRef(impl.invoke1<R, P0>);
           },
           (fn, args) {
             final func = peekRef<R Function(P0)>(fn);
@@ -336,7 +194,7 @@ extension LoaderFunctions on Loader {
         _FunctionConversions(
           (swiftRef) {
             final impl = new SwiftFunctionImpl(swiftRef);
-            return createRef(impl.invoke2);
+            return createRef(impl.invoke2<R, P0, P1>);
           },
           (fn, args) {
             final func = peekRef<R Function(P0, P1)>(fn);
@@ -363,7 +221,7 @@ extension LoaderFunctions on Loader {
         _FunctionConversions(
           (swiftRef) {
             final impl = new SwiftFunctionImpl(swiftRef);
-            return createRef(impl.invoke3);
+            return createRef(impl.invoke3<R, P0, P1, P2>);
           },
           (fn, args) {
             final func = peekRef<R Function(P0, P1, P2)>(fn);
@@ -391,7 +249,7 @@ extension LoaderFunctions on Loader {
         _FunctionConversions(
           (swiftRef) {
             final impl = new SwiftFunctionImpl(swiftRef);
-            return createRef(impl.invoke4);
+            return createRef(impl.invoke4<R, P0, P1, P2, P3>);
           },
           (fn, args) {
             final func = peekRef<R Function(P0, P1, P2, P3)>(fn);
@@ -420,7 +278,7 @@ extension LoaderFunctions on Loader {
         _FunctionConversions(
           (swiftRef) {
             final impl = new SwiftFunctionImpl(swiftRef);
-            return createRef(impl.invoke5);
+            return createRef(impl.invoke5<R, P0, P1, P2, P3, P4>);
           },
           (fn, args) {
             final func = peekRef<R Function(P0, P1, P2, P3, P4)>(fn);
@@ -450,7 +308,7 @@ extension LoaderFunctions on Loader {
         _FunctionConversions(
           (swiftRef) {
             final impl = new SwiftFunctionImpl(swiftRef);
-            return createRef(impl.invoke6);
+            return createRef(impl.invoke6<R, P0, P1, P2, P3, P4, P5>);
           },
           (fn, args) {
             final func = peekRef<R Function(P0, P1, P2, P3, P4, P5)>(fn);
@@ -473,76 +331,87 @@ extension LoaderFunctions on Loader {
 
 }
 
-class SwiftFunctionImpl extends SwiftReference implements ffi.Finalizable {
+class SwiftFunctionImpl extends SwiftReference {
   SwiftFunctionImpl(ConsumedRef reference): super(reference);
 
-  Object? invoke0() {
+  R invoke0<R>() {
     try {
-      return check((outExn) => LoaderFunctions._fishyJoesRuntime_SwiftFunctionImpl_invoke0(
-          Loader.shared.env,
-          this.reference.ptr,
-          outExn
-      ));
+      return consumeCreatedRef<R>(
+        check((outExn) =>
+          LoaderFunctions._fishyJoesRuntime_SwiftFunctionImpl_invoke0(
+            Loader.shared.env,
+            this.unsafeReference.cast(),
+            outExn
+          )
+        )
+      );
     } finally {
     }
   }
-  Object? invoke1(Object? p0) {
+  R invoke1<R, P0>(P0 p0) {
     final a0 = new GCRef(p0);
     try {
-      return check((outExn) => LoaderFunctions._fishyJoesRuntime_SwiftFunctionImpl_invoke1(
-          Loader.shared.env,
-          this.reference.ptr,
-          a0.ptr,
-          outExn
-      ));
+      return consumeCreatedRef<R>(
+        check((outExn) =>
+          LoaderFunctions._fishyJoesRuntime_SwiftFunctionImpl_invoke1(
+            Loader.shared.env,
+            this.unsafeReference.cast(),
+            a0.ptr,
+            outExn
+          )
+        )
+      );
     } finally {
       a0.dispose();
     }
   }
-  Object? invoke2(Object? p0, Object? p1) {
+  R invoke2<R, P0, P1>(P0 p0, P1 p1) {
     final a0 = new GCRef(p0);
     final a1 = new GCRef(p1);
     try {
-      return check((outExn) => LoaderFunctions._fishyJoesRuntime_SwiftFunctionImpl_invoke2(
-          Loader.shared.env,
-          this.reference.ptr,
-          a0.ptr, a1.ptr,
-          outExn
-      ));
+      return consumeCreatedRef<R>(
+        check((outExn) => LoaderFunctions._fishyJoesRuntime_SwiftFunctionImpl_invoke2(
+            Loader.shared.env,
+            this.unsafeReference.cast(),
+            a0.ptr, a1.ptr,
+            outExn
+      )));
     } finally {
       a0.dispose();
       a1.dispose();
     }
   }
-  Object? invoke3(Object? p0, Object? p1, Object? p2) {
+  R invoke3<R, P0, P1, P2>(P0 p0, P1 p1, P2 p2) {
     final a0 = new GCRef(p0);
     final a1 = new GCRef(p1);
     final a2 = new GCRef(p2);
     try {
-      return check((outExn) => LoaderFunctions._fishyJoesRuntime_SwiftFunctionImpl_invoke3(
-          Loader.shared.env,
-          this.reference.ptr,
-          a0.ptr, a1.ptr, a2.ptr,
-          outExn
-      ));
+      return consumeCreatedRef<R>(
+        check((outExn) => LoaderFunctions._fishyJoesRuntime_SwiftFunctionImpl_invoke3(
+            Loader.shared.env,
+            this.unsafeReference.cast(),
+            a0.ptr, a1.ptr, a2.ptr,
+            outExn
+      )));
     } finally {
       a0.dispose();
       a1.dispose();
       a2.dispose();
     }
   }
-  Object? invoke4(Object? p0, Object? p1, Object? p2, Object? p3) {
+  R invoke4<R, P0, P1, P2, P3>(P0 p0, P1 p1, P2 p2, P3 p3) {
     final a0 = new GCRef(p0);
     final a1 = new GCRef(p1);
     final a2 = new GCRef(p2);
     final a3 = new GCRef(p3);
     try {
-      return check((outExn) => LoaderFunctions._fishyJoesRuntime_SwiftFunctionImpl_invoke4(
-          Loader.shared.env,
-          this.reference.ptr,
-          a0.ptr, a1.ptr, a2.ptr, a3.ptr,
-          outExn
-      ));
+      return consumeCreatedRef<R>(
+        check((outExn) => LoaderFunctions._fishyJoesRuntime_SwiftFunctionImpl_invoke4(
+            Loader.shared.env,
+            this.unsafeReference.cast(),
+            a0.ptr, a1.ptr, a2.ptr, a3.ptr,
+            outExn
+      )));
     } finally {
       a0.dispose();
       a1.dispose();
@@ -550,19 +419,20 @@ class SwiftFunctionImpl extends SwiftReference implements ffi.Finalizable {
       a3.dispose();
     }
   }
-  Object? invoke5(Object? p0, Object? p1, Object? p2, Object? p3, Object? p4) {
+  R invoke5<R, P0, P1, P2, P3, P4>(P0 p0, P1 p1, P2 p2, P3 p3, P4 p4) {
     final a0 = new GCRef(p0);
     final a1 = new GCRef(p1);
     final a2 = new GCRef(p2);
     final a3 = new GCRef(p3);
     final a4 = new GCRef(p4);
     try {
-      return check((outExn) => LoaderFunctions._fishyJoesRuntime_SwiftFunctionImpl_invoke5(
-          Loader.shared.env,
-          this.reference.ptr,
-          a0.ptr, a1.ptr, a2.ptr, a3.ptr, a4.ptr,
-          outExn
-      ));
+      return consumeCreatedRef<R>(
+        check((outExn) => LoaderFunctions._fishyJoesRuntime_SwiftFunctionImpl_invoke5(
+            Loader.shared.env,
+            this.unsafeReference.cast(),
+            a0.ptr, a1.ptr, a2.ptr, a3.ptr, a4.ptr,
+            outExn
+      )));
     } finally {
       a0.dispose();
       a1.dispose();
@@ -571,7 +441,7 @@ class SwiftFunctionImpl extends SwiftReference implements ffi.Finalizable {
       a4.dispose();
     }
   }
-  Object? invoke6(Object? p0, Object? p1, Object? p2, Object? p3, Object? p4, Object? p5) {
+  R invoke6<R, P0, P1, P2, P3, P4, P5>(P0 p0, P1 p1, P2 p2, P3 p3, P4 p4, P5 p5) {
     final a0 = new GCRef(p0);
     final a1 = new GCRef(p1);
     final a2 = new GCRef(p2);
@@ -579,12 +449,13 @@ class SwiftFunctionImpl extends SwiftReference implements ffi.Finalizable {
     final a4 = new GCRef(p4);
     final a5 = new GCRef(p5);
     try {
-      return check((outExn) => LoaderFunctions._fishyJoesRuntime_SwiftFunctionImpl_invoke6(
-          Loader.shared.env,
-          this.reference.ptr,
-          a0.ptr, a1.ptr, a2.ptr, a3.ptr, a4.ptr, a5.ptr,
-          outExn
-      ));
+      return consumeCreatedRef<R>(
+        check((outExn) => LoaderFunctions._fishyJoesRuntime_SwiftFunctionImpl_invoke6(
+            Loader.shared.env,
+            this.unsafeReference.cast(),
+            a0.ptr, a1.ptr, a2.ptr, a3.ptr, a4.ptr, a5.ptr,
+            outExn
+      )));
     } finally {
       a0.dispose();
       a1.dispose();
@@ -593,9 +464,5 @@ class SwiftFunctionImpl extends SwiftReference implements ffi.Finalizable {
       a4.dispose();
       a5.dispose();
     }
-  }
-
-  void dispose() {
-    // TODO: cleanup resources
   }
 }

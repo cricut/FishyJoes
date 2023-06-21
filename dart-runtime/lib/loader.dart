@@ -19,6 +19,16 @@ typedef _FishyJoesRuntime_Env_setup = Env Function(
     ffi.Pointer<ffi.NativeFunction<_EnvDeleteRefFn>>,
     ffi.Pointer<ffi.NativeFunction<_EnvNewErrorFn>>);
 
+typedef _FishyJoesRuntime_AnyBox_releaseRef<R> = R Function(
+  ConsumedRef swiftReference,
+  OutCreatedRef exn,
+);
+typedef _FishyJoesRuntime_AnyBox_toString = CreatedRef Function(
+  Env env,
+  UnownedRef swiftReference,
+  OutCreatedRef exn,
+);
+
 class Loader {
   static final shared = new Loader._();
   late final Env env;
@@ -57,4 +67,13 @@ class Loader {
     _onceSet.add(onceName);
     block();
   }
+  static final fishyJoesRuntime_AnyBox_releaseRef =
+    Loader._dylib.lookupFunction<_FishyJoesRuntime_AnyBox_releaseRef<ffi.Void>, _FishyJoesRuntime_AnyBox_releaseRef<void>>(
+      'FishyJoesRuntime_AnyBox_releaseRef'
+    );
+
+  static final fishyJoesRuntime_AnyBox_toString =
+    Loader._dylib.lookupFunction<_FishyJoesRuntime_AnyBox_toString, _FishyJoesRuntime_AnyBox_toString>(
+      'FishyJoesRuntime_AnyBox_toString'
+    );
 }
