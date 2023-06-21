@@ -8,7 +8,7 @@ public struct TupleInfo {
     let getMethods: [GetMethod]
     let constructor: Constructor
 
-    static var infos: Env.SynchronizedDictionary<ObjectIdentifier, Env.CallbackMap<TupleInfo>> = [:]
+    static var infos = Env.CallbackMap<[ObjectIdentifier: TupleInfo]>()
 }
 
 @_cdecl("FishyJoesRuntime_Tuple2Converter_setup")
@@ -26,7 +26,7 @@ public func tuple2_dart_setup(
     else {
         fatalError("unregistered typeID \(name)")
     }
-    TupleInfo.infos[identifier, default: Env.CallbackMap()][env] = TupleInfo(
+    TupleInfo.infos[env, default: [:]][identifier] = TupleInfo(
         getMethods: [
             get0Method,
             get1Method,
@@ -37,7 +37,7 @@ public func tuple2_dart_setup(
 
 extension Tuple2Converter: DartConverter where T0: DartConverter, T1: DartConverter {
     public static func peekDart(_ value: foreignObject, env: Env) throws -> SwiftType {
-        guard let info = TupleInfo.infos[ObjectIdentifier(Self.self)]?[env] else {
+        guard let info = TupleInfo.infos[env][ObjectIdentifier(Self.self)] else {
             fatalError("Type \(SwiftType.self) improperly set up")
         }
         return try (
@@ -47,7 +47,7 @@ extension Tuple2Converter: DartConverter where T0: DartConverter, T1: DartConver
     }
 
     public static func toDart(_ value: SwiftType, env: Env) throws -> foreignObject {
-        guard let info = TupleInfo.infos[ObjectIdentifier(Self.self)]?[env] else {
+        guard let info = TupleInfo.infos[env][ObjectIdentifier(Self.self)] else {
             fatalError("Type \(SwiftType.self) improperly set up")
         }
         let v0 = try T0.toDartObject(value.0, env: env)
@@ -74,7 +74,7 @@ public func tuple3_dart_setup(
     else {
         fatalError("unregistered typeID \(name)")
     }
-    TupleInfo.infos[identifier, default: Env.CallbackMap()][env] = TupleInfo(
+    TupleInfo.infos[env, default: [:]][identifier] = TupleInfo(
         getMethods: [
             get0Method,
             get1Method,
@@ -86,7 +86,7 @@ public func tuple3_dart_setup(
 
 extension Tuple3Converter: DartConverter where T0: DartConverter, T1: DartConverter, T2: DartConverter {
     public static func peekDart(_ value: foreignObject, env: Env) throws -> SwiftType {
-        guard let info = TupleInfo.infos[ObjectIdentifier(Self.self)]?[env] else {
+        guard let info = TupleInfo.infos[env][ObjectIdentifier(Self.self)] else {
             fatalError("Type \(SwiftType.self) improperly set up")
         }
         return try (
@@ -97,7 +97,7 @@ extension Tuple3Converter: DartConverter where T0: DartConverter, T1: DartConver
     }
 
     public static func toDart(_ value: SwiftType, env: Env) throws -> foreignObject {
-        guard let info = TupleInfo.infos[ObjectIdentifier(Self.self)]?[env] else {
+        guard let info = TupleInfo.infos[env][ObjectIdentifier(Self.self)] else {
             fatalError("Type \(SwiftType.self) improperly set up")
         }
         let v0 = try T0.toDartObject(value.0, env: env)
@@ -127,7 +127,7 @@ public func tuple4_dart_setup(
     else {
         fatalError("unregistered typeID \(name)")
     }
-    TupleInfo.infos[identifier, default: Env.CallbackMap()][env] = TupleInfo(
+    TupleInfo.infos[env, default: [:]][identifier] = TupleInfo(
         getMethods: [
             get0Method,
             get1Method,
@@ -140,7 +140,7 @@ public func tuple4_dart_setup(
 
 extension Tuple4Converter: DartConverter where T0: DartConverter, T1: DartConverter, T2: DartConverter, T3: DartConverter {
     public static func peekDart(_ value: foreignObject, env: Env) throws -> SwiftType {
-        guard let info = TupleInfo.infos[ObjectIdentifier(Self.self)]?[env] else {
+        guard let info = TupleInfo.infos[env][ObjectIdentifier(Self.self)] else {
             fatalError("Type \(SwiftType.self) improperly set up")
         }
         return try (
@@ -152,7 +152,7 @@ extension Tuple4Converter: DartConverter where T0: DartConverter, T1: DartConver
     }
 
     public static func toDart(_ value: SwiftType, env: Env) throws -> foreignObject {
-        guard let info = TupleInfo.infos[ObjectIdentifier(Self.self)]?[env] else {
+        guard let info = TupleInfo.infos[env][ObjectIdentifier(Self.self)] else {
             fatalError("Type \(SwiftType.self) improperly set up")
         }
         let v0 = try T0.toDartObject(value.0, env: env)
@@ -185,7 +185,7 @@ public func tuple5_dart_setup(
     else {
         fatalError("unregistered typeID \(name)")
     }
-    TupleInfo.infos[identifier, default: Env.CallbackMap()][env] = TupleInfo(
+    TupleInfo.infos[env, default: [:]][identifier] = TupleInfo(
         getMethods: [
             get0Method,
             get1Method,
@@ -199,7 +199,7 @@ public func tuple5_dart_setup(
 
 extension Tuple5Converter: DartConverter where T0: DartConverter, T1: DartConverter, T2: DartConverter, T3: DartConverter, T4: DartConverter {
     public static func peekDart(_ value: foreignObject, env: Env) throws -> SwiftType {
-        guard let info = TupleInfo.infos[ObjectIdentifier(Self.self)]?[env] else {
+        guard let info = TupleInfo.infos[env][ObjectIdentifier(Self.self)] else {
             fatalError("Type \(SwiftType.self) improperly set up")
         }
         return try (
@@ -212,7 +212,7 @@ extension Tuple5Converter: DartConverter where T0: DartConverter, T1: DartConver
     }
 
     public static func toDart(_ value: SwiftType, env: Env) throws -> foreignObject {
-        guard let info = TupleInfo.infos[ObjectIdentifier(Self.self)]?[env] else {
+        guard let info = TupleInfo.infos[env][ObjectIdentifier(Self.self)] else {
             fatalError("Type \(SwiftType.self) improperly set up")
         }
         let v0 = try T0.toDartObject(value.0, env: env)
@@ -248,7 +248,7 @@ public func tuple6_dart_setup(
     else {
         fatalError("unregistered typeID \(name)")
     }
-    TupleInfo.infos[identifier, default: Env.CallbackMap()][env] = TupleInfo(
+    TupleInfo.infos[env, default: [:]][identifier] = TupleInfo(
         getMethods: [
             get0Method,
             get1Method,
@@ -263,7 +263,7 @@ public func tuple6_dart_setup(
 
 extension Tuple6Converter: DartConverter where T0: DartConverter, T1: DartConverter, T2: DartConverter, T3: DartConverter, T4: DartConverter, T5: DartConverter {
     public static func peekDart(_ value: foreignObject, env: Env) throws -> SwiftType {
-        guard let info = TupleInfo.infos[ObjectIdentifier(Self.self)]?[env] else {
+        guard let info = TupleInfo.infos[env][ObjectIdentifier(Self.self)] else {
             fatalError("Type \(SwiftType.self) improperly set up")
         }
         return try (
@@ -277,7 +277,7 @@ extension Tuple6Converter: DartConverter where T0: DartConverter, T1: DartConver
     }
 
     public static func toDart(_ value: SwiftType, env: Env) throws -> foreignObject {
-        guard let info = TupleInfo.infos[ObjectIdentifier(Self.self)]?[env] else {
+        guard let info = TupleInfo.infos[env][ObjectIdentifier(Self.self)] else {
             fatalError("Type \(SwiftType.self) improperly set up")
         }
         let v0 = try T0.toDartObject(value.0, env: env)

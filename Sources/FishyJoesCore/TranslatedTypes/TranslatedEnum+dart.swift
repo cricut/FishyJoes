@@ -106,7 +106,7 @@ extension TranslatedEnum {
                 fragment.outputBlock("public typealias \(upperCaseFirst(method.name)) = @convention(c) (", closeWith: ") -> \(method.returns)") {
                     fragment.outputMap(method.args, separator: ",") { $0 }
                 }
-                fragment.output("fileprivate static var \(method.name) = Env.CallbackMap<\(upperCaseFirst(method.name))>()")
+                fragment.output("fileprivate static let \(method.name) = Env.CallbackMap<\(upperCaseFirst(method.name))>()")
             }
             if !setupMethods.isEmpty {
                 fragment.blankLine()

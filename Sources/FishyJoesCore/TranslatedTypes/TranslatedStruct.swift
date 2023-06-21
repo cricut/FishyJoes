@@ -551,8 +551,8 @@ struct TranslatedStruct: TranslatedType {
         fragment.outputBlock("extension \(converterType.name): DartMutator {") {
             for storedVar in storedVariables {
                 let resolved = context.resolve(type: storedVar.typeName.better)
-                fragment.output("fileprivate static var _\(storedVar.name)Getter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> \(resolved.converterType.name).CType>()")
-                fragment.output("fileprivate static var _\(storedVar.name)Setter = Env.CallbackMap<@convention(c) (foreignObject, \(resolved.converterType.name).CType, _ exn: foreignOutExn) -> Void>()")
+                fragment.output("fileprivate static let _\(storedVar.name)Getter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> \(resolved.converterType.name).CType>()")
+                fragment.output("fileprivate static let _\(storedVar.name)Setter = Env.CallbackMap<@convention(c) (foreignObject, \(resolved.converterType.name).CType, _ exn: foreignOutExn) -> Void>()")
             }
             fragment.outputBlock("public typealias _ConstructorMethod = @convention(c) (", closeWith: ") -> foreignObject") {
                 for storedVar in storedVariables {
@@ -561,7 +561,7 @@ struct TranslatedStruct: TranslatedType {
                 }
                 fragment.output("_ exn: foreignOutExn")
             }
-            fragment.output("fileprivate static var _constructorMethod = Env.CallbackMap<_ConstructorMethod>()")
+            fragment.output("fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()")
             fragment.blankLine()
 
             fragment.outputBlock("public static func peekDart(_ value: foreignObject, env: Env) throws -> Self {") {

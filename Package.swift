@@ -97,6 +97,7 @@ let package = Package(
                 .target(name: "FishyJoesCommonRuntime"),
                 .target(name: "DartSDK"),
             ]
+                // ,swiftSettings: [.unsafeFlags(["-sanitize=thread"])], linkerSettings: [.unsafeFlags(["-sanitize=thread"])]
         ),
         T.target(
             name: "FishyJoesNodeRuntime",

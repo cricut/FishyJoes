@@ -53,24 +53,24 @@ public func TestAPI_Collections_CollectionHolder_setup(
 }
 
 extension Collections.CollectionHolder: DartMutator {
-    fileprivate static var _boolArrayGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> ArrayConverter<Bool>.CType>()
-    fileprivate static var _boolArraySetter = Env.CallbackMap<@convention(c) (foreignObject, ArrayConverter<Bool>.CType, _ exn: foreignOutExn) -> Void>()
-    fileprivate static var _boolSetGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> SetConverter<Bool>.CType>()
-    fileprivate static var _boolSetSetter = Env.CallbackMap<@convention(c) (foreignObject, SetConverter<Bool>.CType, _ exn: foreignOutExn) -> Void>()
-    fileprivate static var _boolDictionaryGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> DictionaryConverter<Bool, Bool>.CType>()
-    fileprivate static var _boolDictionarySetter = Env.CallbackMap<@convention(c) (foreignObject, DictionaryConverter<Bool, Bool>.CType, _ exn: foreignOutExn) -> Void>()
-    fileprivate static var _integerArrayGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> ArrayConverter<Int>.CType>()
-    fileprivate static var _integerArraySetter = Env.CallbackMap<@convention(c) (foreignObject, ArrayConverter<Int>.CType, _ exn: foreignOutExn) -> Void>()
-    fileprivate static var _integerSetGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> SetConverter<Int>.CType>()
-    fileprivate static var _integerSetSetter = Env.CallbackMap<@convention(c) (foreignObject, SetConverter<Int>.CType, _ exn: foreignOutExn) -> Void>()
-    fileprivate static var _integerDictionaryGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> DictionaryConverter<Int, Int>.CType>()
-    fileprivate static var _integerDictionarySetter = Env.CallbackMap<@convention(c) (foreignObject, DictionaryConverter<Int, Int>.CType, _ exn: foreignOutExn) -> Void>()
-    fileprivate static var _stringArrayGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> ArrayConverter<Swift.String>.CType>()
-    fileprivate static var _stringArraySetter = Env.CallbackMap<@convention(c) (foreignObject, ArrayConverter<Swift.String>.CType, _ exn: foreignOutExn) -> Void>()
-    fileprivate static var _stringSetGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> SetConverter<Swift.String>.CType>()
-    fileprivate static var _stringSetSetter = Env.CallbackMap<@convention(c) (foreignObject, SetConverter<Swift.String>.CType, _ exn: foreignOutExn) -> Void>()
-    fileprivate static var _stringDictionaryGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> DictionaryConverter<Swift.String, Swift.String>.CType>()
-    fileprivate static var _stringDictionarySetter = Env.CallbackMap<@convention(c) (foreignObject, DictionaryConverter<Swift.String, Swift.String>.CType, _ exn: foreignOutExn) -> Void>()
+    fileprivate static let _boolArrayGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> ArrayConverter<Bool>.CType>()
+    fileprivate static let _boolArraySetter = Env.CallbackMap<@convention(c) (foreignObject, ArrayConverter<Bool>.CType, _ exn: foreignOutExn) -> Void>()
+    fileprivate static let _boolSetGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> SetConverter<Bool>.CType>()
+    fileprivate static let _boolSetSetter = Env.CallbackMap<@convention(c) (foreignObject, SetConverter<Bool>.CType, _ exn: foreignOutExn) -> Void>()
+    fileprivate static let _boolDictionaryGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> DictionaryConverter<Bool, Bool>.CType>()
+    fileprivate static let _boolDictionarySetter = Env.CallbackMap<@convention(c) (foreignObject, DictionaryConverter<Bool, Bool>.CType, _ exn: foreignOutExn) -> Void>()
+    fileprivate static let _integerArrayGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> ArrayConverter<Int>.CType>()
+    fileprivate static let _integerArraySetter = Env.CallbackMap<@convention(c) (foreignObject, ArrayConverter<Int>.CType, _ exn: foreignOutExn) -> Void>()
+    fileprivate static let _integerSetGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> SetConverter<Int>.CType>()
+    fileprivate static let _integerSetSetter = Env.CallbackMap<@convention(c) (foreignObject, SetConverter<Int>.CType, _ exn: foreignOutExn) -> Void>()
+    fileprivate static let _integerDictionaryGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> DictionaryConverter<Int, Int>.CType>()
+    fileprivate static let _integerDictionarySetter = Env.CallbackMap<@convention(c) (foreignObject, DictionaryConverter<Int, Int>.CType, _ exn: foreignOutExn) -> Void>()
+    fileprivate static let _stringArrayGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> ArrayConverter<Swift.String>.CType>()
+    fileprivate static let _stringArraySetter = Env.CallbackMap<@convention(c) (foreignObject, ArrayConverter<Swift.String>.CType, _ exn: foreignOutExn) -> Void>()
+    fileprivate static let _stringSetGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> SetConverter<Swift.String>.CType>()
+    fileprivate static let _stringSetSetter = Env.CallbackMap<@convention(c) (foreignObject, SetConverter<Swift.String>.CType, _ exn: foreignOutExn) -> Void>()
+    fileprivate static let _stringDictionaryGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> DictionaryConverter<Swift.String, Swift.String>.CType>()
+    fileprivate static let _stringDictionarySetter = Env.CallbackMap<@convention(c) (foreignObject, DictionaryConverter<Swift.String, Swift.String>.CType, _ exn: foreignOutExn) -> Void>()
     public typealias _ConstructorMethod = @convention(c) (
         ArrayConverter<Bool>.CType,
         SetConverter<Bool>.CType,
@@ -83,7 +83,7 @@ extension Collections.CollectionHolder: DartMutator {
         DictionaryConverter<Swift.String, Swift.String>.CType,
         _ exn: foreignOutExn
     ) -> foreignObject
-    fileprivate static var _constructorMethod = Env.CallbackMap<_ConstructorMethod>()
+    fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()
 
     public static func peekDart(_ value: foreignObject, env: Env) throws -> Self {
         Self(

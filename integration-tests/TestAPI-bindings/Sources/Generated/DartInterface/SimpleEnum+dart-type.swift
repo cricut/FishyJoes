@@ -31,34 +31,34 @@ extension SimpleEnum: DartConverter {
         foreignObject,
         foreignOutExn
     ) -> Int
-    fileprivate static var discriminator = Env.CallbackMap<Discriminator>()
+    fileprivate static let discriminator = Env.CallbackMap<Discriminator>()
     public typealias Red_constructor = @convention(c) (
         foreignOutExn
     ) -> foreignObject
-    fileprivate static var red_constructor = Env.CallbackMap<Red_constructor>()
+    fileprivate static let red_constructor = Env.CallbackMap<Red_constructor>()
     public typealias Red_extractor = @convention(c) (
         foreignObject,
         foreignOutExn
     ) -> Void
-    fileprivate static var red_extractor = Env.CallbackMap<Red_extractor>()
+    fileprivate static let red_extractor = Env.CallbackMap<Red_extractor>()
     public typealias Green_constructor = @convention(c) (
         foreignOutExn
     ) -> foreignObject
-    fileprivate static var green_constructor = Env.CallbackMap<Green_constructor>()
+    fileprivate static let green_constructor = Env.CallbackMap<Green_constructor>()
     public typealias Green_extractor = @convention(c) (
         foreignObject,
         foreignOutExn
     ) -> Void
-    fileprivate static var green_extractor = Env.CallbackMap<Green_extractor>()
+    fileprivate static let green_extractor = Env.CallbackMap<Green_extractor>()
     public typealias Blue_constructor = @convention(c) (
         foreignOutExn
     ) -> foreignObject
-    fileprivate static var blue_constructor = Env.CallbackMap<Blue_constructor>()
+    fileprivate static let blue_constructor = Env.CallbackMap<Blue_constructor>()
     public typealias Blue_extractor = @convention(c) (
         foreignObject,
         foreignOutExn
     ) -> Void
-    fileprivate static var blue_extractor = Env.CallbackMap<Blue_extractor>()
+    fileprivate static let blue_extractor = Env.CallbackMap<Blue_extractor>()
 
     public static func peekDart(_ value: foreignObject, env: Env) throws -> Self {
         switch try env.check({ exn in discriminator[env](value, exn) }) {

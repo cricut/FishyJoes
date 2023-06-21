@@ -25,16 +25,16 @@ public func TestAPI_Structs_MemberwiseStruct_setup(
 }
 
 extension Structs.MemberwiseStruct: DartMutator {
-    fileprivate static var _immutableGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
-    fileprivate static var _immutableSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void>()
-    fileprivate static var _mutableGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
-    fileprivate static var _mutableSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void>()
+    fileprivate static let _immutableGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
+    fileprivate static let _immutableSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void>()
+    fileprivate static let _mutableGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
+    fileprivate static let _mutableSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void>()
     public typealias _ConstructorMethod = @convention(c) (
         Swift.String.CType,
         Swift.String.CType,
         _ exn: foreignOutExn
     ) -> foreignObject
-    fileprivate static var _constructorMethod = Env.CallbackMap<_ConstructorMethod>()
+    fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()
 
     public static func peekDart(_ value: foreignObject, env: Env) throws -> Self {
         Self(

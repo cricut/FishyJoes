@@ -77,6 +77,7 @@ let package = Package(
                     .product(name: "FishyJoesIotaRuntime", package: "FishyJoes"),
                 ],
                 path: "Sources/Generated/IotaInterface"
+
             ),
             .target(
                 name: "TestAPI_DartInterface",
@@ -85,6 +86,7 @@ let package = Package(
                     .product(name: "FishyJoesDartRuntime", package: "FishyJoes"),
                 ],
                 path: "Sources/Generated/DartInterface"
+                   // ,swiftSettings: [.unsafeFlags(["-sanitize=thread"])], linkerSettings: [.unsafeFlags(["-sanitize=thread"])]
             ),
         ]
     )

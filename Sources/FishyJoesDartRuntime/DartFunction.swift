@@ -1,54 +1,69 @@
 import FishyJoesCommonRuntime
 import Foundation
 
-public enum SwiftFunctionImpl {
-    public typealias Constructor = @convention(c) (_ ref: UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject
-    // For invoke methods, C# side is responsible for consuming all arguments except the first one
-    public typealias Invoke0 = @convention(c) (_ fn: foreignObject, _ exn: foreignOutExn) -> foreignObject
-    public typealias Invoke1 = @convention(c) (_ fn: foreignObject, foreignObject, _ exn: foreignOutExn) -> foreignObject
-    public typealias Invoke2 = @convention(c) (_ fn: foreignObject, foreignObject, foreignObject, _ exn: foreignOutExn) -> foreignObject
-    public typealias Invoke3 = @convention(c) (_ fn: foreignObject, foreignObject, foreignObject, foreignObject, _ exn: foreignOutExn) -> foreignObject
-    public typealias Invoke4 = @convention(c) (_ fn: foreignObject, foreignObject, foreignObject, foreignObject, foreignObject, _ exn: foreignOutExn) -> foreignObject
-    public typealias Invoke5 = @convention(c) (_ fn: foreignObject, foreignObject, foreignObject, foreignObject, foreignObject, foreignObject, _ exn: foreignOutExn) -> foreignObject
-    public typealias Invoke6 = @convention(c) (_ fn: foreignObject, foreignObject, foreignObject, foreignObject, foreignObject, foreignObject, foreignObject, _ exn: foreignOutExn) -> foreignObject
-    static var constructors: Env.SynchronizedDictionary<ObjectIdentifier, Env.CallbackMap<Constructor>> = [:]
-    static var invoke0s: Env.SynchronizedDictionary<ObjectIdentifier, Env.CallbackMap<Invoke0>> = [:]
-    static var invoke1s: Env.SynchronizedDictionary<ObjectIdentifier, Env.CallbackMap<Invoke1>> = [:]
-    static var invoke2s: Env.SynchronizedDictionary<ObjectIdentifier, Env.CallbackMap<Invoke2>> = [:]
-    static var invoke3s: Env.SynchronizedDictionary<ObjectIdentifier, Env.CallbackMap<Invoke3>> = [:]
-    static var invoke4s: Env.SynchronizedDictionary<ObjectIdentifier, Env.CallbackMap<Invoke4>> = [:]
-    static var invoke5s: Env.SynchronizedDictionary<ObjectIdentifier, Env.CallbackMap<Invoke5>> = [:]
-    static var invoke6s: Env.SynchronizedDictionary<ObjectIdentifier, Env.CallbackMap<Invoke6>> = [:]
-}
+public struct FunctionInfo {
+    public typealias Constructor = @convention(c) (
+        _ context: OpaquePointer,
+        _ ref: UnsafeMutableRawPointer,
+        _ exn: foreignOutExn
+    ) -> foreignObject
+    // For invoke methods, Dart side is responsible for consuming args
+    public typealias InvokeMethod = @convention(c) (
+        _ context: OpaquePointer,
+        _ fn: foreignObject,
+        _ args: UnsafePointer<foreignObject>?,
+        _ exn: foreignOutExn
+    ) -> foreignObject
 
-@_cdecl("FishyJoesRuntime_Function0Converter_setup")
-public func FishyJoesRuntime_Function0Converter_setup(
-    envRef: EnvRef,
-    name: UnsafePointer<unichar>,
-    constructor: @escaping SwiftFunctionImpl.Constructor,
-    invoke: @escaping SwiftFunctionImpl.Invoke0,
-    exn: foreignOutExn
-) {
-    let env = Env(envRef)
-    env.catching(to: exn) {
-        let name = String(decodingCString: name, as: Unicode.UTF16.self)
-        guard let typeID = Env.typeID(name: name),
-              let identifier = Env.objectID(typeID: typeID)
-        else {
-            fatalError("unregistered typeID '\(name)'")
+    var invokeMethod: InvokeMethod
+    var constructor: Constructor
+    var context: OpaquePointer
+
+    static let infos = Env.CallbackMap<[ObjectIdentifier: FunctionInfo]>()
+
+    static subscript(env: Env, type: Any.Type) -> FunctionInfo {
+        guard let info = infos[env]?[ObjectIdentifier(type)] else {
+            fatalError("type \(type) not set up properly in this isolate")
         }
-        SwiftFunctionImpl.constructors[identifier, default: Env.CallbackMap()][env] = constructor
-        SwiftFunctionImpl.invoke0s[identifier, default: Env.CallbackMap()][env] = invoke
+        return info
+    }
+
+    func invoke(
+        _ fnObject: foreignObject,
+        _ args: [foreignObject],
+        env: Env
+    ) throws -> foreignObject {
+        try env.check { exn in
+            args.withUnsafeBufferPointer { buffer in
+                invokeMethod(
+                    context,
+                    fnObject,
+                    buffer.baseAddress,
+                    exn
+                )
+            }
+        }
+    }
+
+    func construct(
+        _ ref: UnsafeMutableRawPointer,
+        env: Env
+    ) throws -> foreignObject {
+        try env.check { exn in
+            constructor(context, ref, exn)
+        }
     }
 }
 
-@_cdecl("FishyJoesRuntime_Function1Converter_setup")
-public func FishyJoesRuntime_Function1Converter_setup(
-    envRef: EnvRef,
-    name: UnsafePointer<unichar>,
-    constructor: @escaping SwiftFunctionImpl.Constructor,
-    invoke: @escaping SwiftFunctionImpl.Invoke1,
-    exn: foreignOutExn
+// Shared setup for all 7 function converters
+@_cdecl("FishyJoesRuntime_FunctionConverter_setup")
+func FunctionConverter_setup(
+    _ envRef: EnvRef,
+    _ name: UnsafePointer<unichar>,
+    _ constructor: @escaping FunctionInfo.Constructor,
+    _ invoke: @escaping FunctionInfo.InvokeMethod,
+    _ context: OpaquePointer,
+    _ exn: foreignOutExn
 ) {
     let env = Env(envRef)
     env.catching(to: exn) {
@@ -58,113 +73,11 @@ public func FishyJoesRuntime_Function1Converter_setup(
         else {
             fatalError("unregistered typeID '\(name)'")
         }
-        SwiftFunctionImpl.constructors[identifier, default: Env.CallbackMap()][env] = constructor
-        SwiftFunctionImpl.invoke1s[identifier, default: Env.CallbackMap()][env] = invoke
-    }
-}
-
-@_cdecl("FishyJoesRuntime_Function2Converter_setup")
-public func FishyJoesRuntime_Function2Converter_setup(
-    envRef: EnvRef,
-    name: UnsafePointer<unichar>,
-    constructor: @escaping SwiftFunctionImpl.Constructor,
-    invoke: @escaping SwiftFunctionImpl.Invoke2,
-    exn: foreignOutExn
-) {
-    let env = Env(envRef)
-    env.catching(to: exn) {
-        let name = String(decodingCString: name, as: Unicode.UTF16.self)
-        guard let typeID = Env.typeID(name: name),
-              let identifier = Env.objectID(typeID: typeID)
-        else {
-            fatalError("unregistered typeID '\(name)'")
-        }
-        SwiftFunctionImpl.constructors[identifier, default: Env.CallbackMap()][env] = constructor
-        SwiftFunctionImpl.invoke2s[identifier, default: Env.CallbackMap()][env] = invoke
-    }
-}
-
-@_cdecl("FishyJoesRuntime_Function3Converter_setup")
-public func FishyJoesRuntime_Function3Converter_setup(
-    envRef: EnvRef,
-    name: UnsafePointer<unichar>,
-    constructor: @escaping SwiftFunctionImpl.Constructor,
-    invoke: @escaping SwiftFunctionImpl.Invoke3,
-    exn: foreignOutExn
-) {
-    let env = Env(envRef)
-    env.catching(to: exn) {
-        let name = String(decodingCString: name, as: Unicode.UTF16.self)
-        guard let typeID = Env.typeID(name: name),
-              let identifier = Env.objectID(typeID: typeID)
-        else {
-            fatalError("unregistered typeID '\(name)'")
-        }
-        SwiftFunctionImpl.constructors[identifier, default: Env.CallbackMap()][env] = constructor
-        SwiftFunctionImpl.invoke3s[identifier, default: Env.CallbackMap()][env] = invoke
-    }
-}
-
-@_cdecl("FishyJoesRuntime_Function4Converter_setup")
-public func FishyJoesRuntime_Function4Converter_setup(
-    envRef: EnvRef,
-    name: UnsafePointer<unichar>,
-    constructor: @escaping SwiftFunctionImpl.Constructor,
-    invoke: @escaping SwiftFunctionImpl.Invoke4,
-    exn: foreignOutExn
-) {
-    let env = Env(envRef)
-    env.catching(to: exn) {
-        let name = String(decodingCString: name, as: Unicode.UTF16.self)
-        guard let typeID = Env.typeID(name: name),
-              let identifier = Env.objectID(typeID: typeID)
-        else {
-            fatalError("unregistered typeID '\(name)'")
-        }
-        SwiftFunctionImpl.constructors[identifier, default: Env.CallbackMap()][env] = constructor
-        SwiftFunctionImpl.invoke4s[identifier, default: Env.CallbackMap()][env] = invoke
-    }
-}
-
-@_cdecl("FishyJoesRuntime_Function5Converter_setup")
-public func FishyJoesRuntime_Function5Converter_setup(
-    envRef: EnvRef,
-    name: UnsafePointer<unichar>,
-    constructor: @escaping SwiftFunctionImpl.Constructor,
-    invoke: @escaping SwiftFunctionImpl.Invoke5,
-    exn: foreignOutExn
-) {
-    let env = Env(envRef)
-    env.catching(to: exn) {
-        let name = String(decodingCString: name, as: Unicode.UTF16.self)
-        guard let typeID = Env.typeID(name: name),
-              let identifier = Env.objectID(typeID: typeID)
-        else {
-            fatalError("unregistered typeID '\(name)'")
-        }
-        SwiftFunctionImpl.constructors[identifier, default: Env.CallbackMap()][env] = constructor
-        SwiftFunctionImpl.invoke5s[identifier, default: Env.CallbackMap()][env] = invoke
-    }
-}
-
-@_cdecl("FishyJoesRuntime_Function6Converter_setup")
-public func FishyJoesRuntime_Function6Converter_setup(
-    envRef: EnvRef,
-    name: UnsafePointer<unichar>,
-    constructor: @escaping SwiftFunctionImpl.Constructor,
-    invoke: @escaping SwiftFunctionImpl.Invoke6,
-    exn: foreignOutExn
-) {
-    let env = Env(envRef)
-    env.catching(to: exn) {
-        let name = String(decodingCString: name, as: Unicode.UTF16.self)
-        guard let typeID = Env.typeID(name: name),
-              let identifier = Env.objectID(typeID: typeID)
-        else {
-            fatalError("unregistered typeID '\(name)'")
-        }
-        SwiftFunctionImpl.constructors[identifier, default: Env.CallbackMap()][env] = constructor
-        SwiftFunctionImpl.invoke6s[identifier, default: Env.CallbackMap()][env] = invoke
+        FunctionInfo.infos[env, default: [:]][identifier] = FunctionInfo(
+            invokeMethod: invoke,
+            constructor: constructor,
+            context: context
+        )
     }
 }
 
@@ -292,13 +205,13 @@ extension Function0Converter: DartConverter where R: DartConverter {
             guard initThread == Thread.current else {
                 fatalError("Callback invoked on different thread")
             }
-            guard let invoke = SwiftFunctionImpl.invoke0s[ObjectIdentifier(Self.self)]?[env] else {
-                fatalError("type \(Self.self) not set up properly")
-            }
             return try R.consumeDart(
-                object: env.check { exn in
-                    invoke(escapingRef.object, exn)
-                },
+                object: FunctionInfo[env, Self.self].invoke(
+                    escapingRef.object,
+                    [
+                    ],
+                    env: env
+                ),
                 env: env
             )
         }
@@ -309,12 +222,7 @@ extension Function0Converter: DartConverter where R: DartConverter {
             try R.toDartObject(value(), env: env)
         }
         let ptr = Box(erased).retainedOpaque()
-        return try env.check { exn in
-            guard let constructor = SwiftFunctionImpl.constructors[ObjectIdentifier(Self.self)]?[env] else {
-                fatalError("type \(Self.self) not set up properly")
-            }
-            return constructor(ptr, exn)
-        }
+        return try FunctionInfo[env, self].construct(ptr, env: env)
     }
 }
 
@@ -326,17 +234,15 @@ extension Function1Converter: DartConverter where R: DartConverter, P0: DartConv
             guard initThread == Thread.current else {
                 fatalError("Callback invoked on different thread")
             }
-            guard let invoke = SwiftFunctionImpl.invoke1s[ObjectIdentifier(Self.self)]?[env] else {
-                fatalError("type \(Self.self) not set up properly")
-            }
+
             return try R.consumeDart(
-                object: env.check { exn in
-                    invoke(
-                        escapingRef.object,
-                        try P0.toDartObject(p0, env: env),
-                        exn
-                    )
-                },
+                object: FunctionInfo[env, Self.self].invoke(
+                    escapingRef.object,
+                    [
+                        P0.toDartObject(p0, env: env),
+                    ],
+                    env: env
+                ),
                 env: env
             )
         }
@@ -348,12 +254,7 @@ extension Function1Converter: DartConverter where R: DartConverter, P0: DartConv
             return try R.toDartObject(value(v0), env: env)
         }
         let ptr = Box(erased).retainedOpaque()
-        return try env.check { exn in
-            guard let constructor = SwiftFunctionImpl.constructors[ObjectIdentifier(Self.self)]?[env] else {
-                fatalError("type \(Self.self) not set up properly")
-            }
-            return constructor(ptr, exn)
-        }
+        return try FunctionInfo[env, self].construct(ptr, env: env)
     }
 }
 
@@ -365,18 +266,16 @@ extension Function2Converter: DartConverter where R: DartConverter, P0: DartConv
             guard initThread == Thread.current else {
                 fatalError("Callback invoked on different thread")
             }
-            guard let invoke = SwiftFunctionImpl.invoke2s[ObjectIdentifier(Self.self)]?[env] else {
-                fatalError("type \(Self.self) not set up properly")
-            }
+
             return try R.consumeDart(
-                object: env.check { exn in
-                    invoke(
-                        escapingRef.object,
-                        try P0.toDartObject(p0, env: env),
-                        try P1.toDartObject(p1, env: env),
-                        exn
-                    )
-                },
+                object: FunctionInfo[env, Self.self].invoke(
+                    escapingRef.object,
+                    [
+                        P0.toDartObject(p0, env: env),
+                        P1.toDartObject(p1, env: env),
+                    ],
+                    env: env
+                ),
                 env: env
             )
         }
@@ -389,12 +288,7 @@ extension Function2Converter: DartConverter where R: DartConverter, P0: DartConv
             return try R.toDartObject(value(v0, v1), env: env)
         }
         let ptr = Box(erased).retainedOpaque()
-        return try env.check { exn in
-            guard let constructor = SwiftFunctionImpl.constructors[ObjectIdentifier(Self.self)]?[env] else {
-                fatalError("type \(Self.self) not set up properly")
-            }
-            return constructor(ptr, exn)
-        }
+        return try FunctionInfo[env, self].construct(ptr, env: env)
     }
 }
 
@@ -406,19 +300,17 @@ extension Function3Converter: DartConverter where R: DartConverter, P0: DartConv
             guard initThread == Thread.current else {
                 fatalError("Callback invoked on different thread")
             }
-            guard let invoke = SwiftFunctionImpl.invoke3s[ObjectIdentifier(Self.self)]?[env] else {
-                fatalError("type \(Self.self) not set up properly")
-            }
+
             return try R.consumeDart(
-                object: env.check { exn in
-                    invoke(
-                        escapingRef.object,
-                        try P0.toDartObject(p0, env: env),
-                        try P1.toDartObject(p1, env: env),
-                        try P2.toDartObject(p2, env: env),
-                        exn
-                    )
-                },
+                object: FunctionInfo[env, Self.self].invoke(
+                    escapingRef.object,
+                    [
+                        P0.toDartObject(p0, env: env),
+                        P1.toDartObject(p1, env: env),
+                        P2.toDartObject(p2, env: env),
+                    ],
+                    env: env
+                ),
                 env: env
             )
         }
@@ -432,12 +324,7 @@ extension Function3Converter: DartConverter where R: DartConverter, P0: DartConv
             return try R.toDartObject(value(v0, v1, v2), env: env)
         }
         let ptr = Box(erased).retainedOpaque()
-        return try env.check { exn in
-            guard let constructor = SwiftFunctionImpl.constructors[ObjectIdentifier(Self.self)]?[env] else {
-                fatalError("type \(Self.self) not set up properly")
-            }
-            return constructor(ptr, exn)
-        }
+        return try FunctionInfo[env, self].construct(ptr, env: env)
     }
 }
 
@@ -449,20 +336,18 @@ extension Function4Converter: DartConverter where R: DartConverter, P0: DartConv
             guard initThread == Thread.current else {
                 fatalError("Callback invoked on different thread")
             }
-            guard let invoke = SwiftFunctionImpl.invoke4s[ObjectIdentifier(Self.self)]?[env] else {
-                fatalError("type \(Self.self) not set up properly")
-            }
+
             return try R.consumeDart(
-                object: env.check { exn in
-                    invoke(
-                        escapingRef.object,
-                        try P0.toDartObject(p0, env: env),
-                        try P1.toDartObject(p1, env: env),
-                        try P2.toDartObject(p2, env: env),
-                        try P3.toDartObject(p3, env: env),
-                        exn
-                    )
-                },
+                object: FunctionInfo[env, Self.self].invoke(
+                    escapingRef.object,
+                    [
+                        P0.toDartObject(p0, env: env),
+                        P1.toDartObject(p1, env: env),
+                        P2.toDartObject(p2, env: env),
+                        P3.toDartObject(p3, env: env),
+                    ],
+                    env: env
+                ),
                 env: env
             )
         }
@@ -477,12 +362,7 @@ extension Function4Converter: DartConverter where R: DartConverter, P0: DartConv
             return try R.toDartObject(value(v0, v1, v2, v3), env: env)
         }
         let ptr = Box(erased).retainedOpaque()
-        return try env.check { exn in
-            guard let constructor = SwiftFunctionImpl.constructors[ObjectIdentifier(Self.self)]?[env] else {
-                fatalError("type \(Self.self) not set up properly")
-            }
-            return constructor(ptr, exn)
-        }
+        return try FunctionInfo[env, self].construct(ptr, env: env)
     }
 }
 
@@ -494,21 +374,19 @@ extension Function5Converter: DartConverter where R: DartConverter, P0: DartConv
             guard initThread == Thread.current else {
                 fatalError("Callback invoked on different thread")
             }
-            guard let invoke = SwiftFunctionImpl.invoke5s[ObjectIdentifier(Self.self)]?[env] else {
-                fatalError("type \(Self.self) not set up properly")
-            }
+
             return try R.consumeDart(
-                object: env.check { exn in
-                    invoke(
-                        escapingRef.object,
-                        try P0.toDartObject(p0, env: env),
-                        try P1.toDartObject(p1, env: env),
-                        try P2.toDartObject(p2, env: env),
-                        try P3.toDartObject(p3, env: env),
-                        try P4.toDartObject(p4, env: env),
-                        exn
-                    )
-                },
+                object: FunctionInfo[env, Self.self].invoke(
+                    escapingRef.object,
+                    [
+                        P0.toDartObject(p0, env: env),
+                        P1.toDartObject(p1, env: env),
+                        P2.toDartObject(p2, env: env),
+                        P3.toDartObject(p3, env: env),
+                        P4.toDartObject(p4, env: env),
+                    ],
+                    env: env
+                ),
                 env: env
             )
         }
@@ -524,12 +402,7 @@ extension Function5Converter: DartConverter where R: DartConverter, P0: DartConv
             return try R.toDartObject(value(v0, v1, v2, v3, v4), env: env)
         }
         let ptr = Box(erased).retainedOpaque()
-        return try env.check { exn in
-            guard let constructor = SwiftFunctionImpl.constructors[ObjectIdentifier(Self.self)]?[env] else {
-                fatalError("type \(Self.self) not set up properly")
-            }
-            return constructor(ptr, exn)
-        }
+        return try FunctionInfo[env, self].construct(ptr, env: env)
     }
 }
 
@@ -541,22 +414,19 @@ extension Function6Converter: DartConverter where R: DartConverter, P0: DartConv
             guard initThread == Thread.current else {
                 fatalError("Callback invoked on different thread")
             }
-            guard let invoke = SwiftFunctionImpl.invoke6s[ObjectIdentifier(Self.self)]?[env] else {
-                fatalError("type \(Self.self) not set up properly")
-            }
             return try R.consumeDart(
-                object: env.check { exn in
-                    invoke(
-                        escapingRef.object,
-                        try P0.toDartObject(p0, env: env),
-                        try P1.toDartObject(p1, env: env),
-                        try P2.toDartObject(p2, env: env),
-                        try P3.toDartObject(p3, env: env),
-                        try P4.toDartObject(p4, env: env),
-                        try P5.toDartObject(p5, env: env),
-                        exn
-                    )
-                },
+                object: FunctionInfo[env, Self.self].invoke(
+                    escapingRef.object,
+                    [
+                        P0.toDartObject(p0, env: env),
+                        P1.toDartObject(p1, env: env),
+                        P2.toDartObject(p2, env: env),
+                        P3.toDartObject(p3, env: env),
+                        P4.toDartObject(p4, env: env),
+                        P5.toDartObject(p5, env: env),
+                    ],
+                    env: env
+                ),
                 env: env
             )
         }
@@ -573,11 +443,6 @@ extension Function6Converter: DartConverter where R: DartConverter, P0: DartConv
             return try R.toDartObject(value(v0, v1, v2, v3, v4, v5), env: env)
         }
         let ptr = Box(erased).retainedOpaque()
-        return try env.check { exn in
-            guard let constructor = SwiftFunctionImpl.constructors[ObjectIdentifier(Self.self)]?[env] else {
-                fatalError("type \(Self.self) not set up properly")
-            }
-            return constructor(ptr, exn)
-        }
+        return try FunctionInfo[env, self].construct(ptr, env: env)
     }
 }

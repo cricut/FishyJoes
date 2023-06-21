@@ -35,53 +35,53 @@ extension AssociatedDataEnum: DartConverter {
         foreignObject,
         foreignOutExn
     ) -> Int
-    fileprivate static var discriminator = Env.CallbackMap<Discriminator>()
+    fileprivate static let discriminator = Env.CallbackMap<Discriminator>()
     public typealias Thing_constructor = @convention(c) (
         Int.CType,
         foreignOutExn
     ) -> foreignObject
-    fileprivate static var thing_constructor = Env.CallbackMap<Thing_constructor>()
+    fileprivate static let thing_constructor = Env.CallbackMap<Thing_constructor>()
     public typealias Thing_extractor = @convention(c) (
         foreignObject,
         UnsafePointer<Int.CType>,
         foreignOutExn
     ) -> Void
-    fileprivate static var thing_extractor = Env.CallbackMap<Thing_extractor>()
+    fileprivate static let thing_extractor = Env.CallbackMap<Thing_extractor>()
     public typealias Other_constructor = @convention(c) (
         Swift.String.CType,
         Int.CType,
         foreignOutExn
     ) -> foreignObject
-    fileprivate static var other_constructor = Env.CallbackMap<Other_constructor>()
+    fileprivate static let other_constructor = Env.CallbackMap<Other_constructor>()
     public typealias Other_extractor = @convention(c) (
         foreignObject,
         UnsafePointer<Swift.String.CType>,
         UnsafePointer<Int.CType>,
         foreignOutExn
     ) -> Void
-    fileprivate static var other_extractor = Env.CallbackMap<Other_extractor>()
+    fileprivate static let other_extractor = Env.CallbackMap<Other_extractor>()
     public typealias Bar_constructor = @convention(c) (
         Swift.String.CType,
         AssociatedDataEnum.CType,
         foreignOutExn
     ) -> foreignObject
-    fileprivate static var bar_constructor = Env.CallbackMap<Bar_constructor>()
+    fileprivate static let bar_constructor = Env.CallbackMap<Bar_constructor>()
     public typealias Bar_extractor = @convention(c) (
         foreignObject,
         UnsafePointer<Swift.String.CType>,
         UnsafePointer<AssociatedDataEnum.CType>,
         foreignOutExn
     ) -> Void
-    fileprivate static var bar_extractor = Env.CallbackMap<Bar_extractor>()
+    fileprivate static let bar_extractor = Env.CallbackMap<Bar_extractor>()
     public typealias NoValue_constructor = @convention(c) (
         foreignOutExn
     ) -> foreignObject
-    fileprivate static var noValue_constructor = Env.CallbackMap<NoValue_constructor>()
+    fileprivate static let noValue_constructor = Env.CallbackMap<NoValue_constructor>()
     public typealias NoValue_extractor = @convention(c) (
         foreignObject,
         foreignOutExn
     ) -> Void
-    fileprivate static var noValue_extractor = Env.CallbackMap<NoValue_extractor>()
+    fileprivate static let noValue_extractor = Env.CallbackMap<NoValue_extractor>()
 
     public static func peekDart(_ value: foreignObject, env: Env) throws -> Self {
         switch try env.check({ exn in discriminator[env](value, exn) }) {

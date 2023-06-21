@@ -157,43 +157,9 @@ public struct Env {
 }
 
 extension Env {
-    public struct SynchronizedDictionary<Key: Hashable, Value>: ExpressibleByDictionaryLiteral {
-        private var _backing: [Key: Value]
-
-        public init(dictionaryLiteral elements: (Key, Value)...) {
-            _backing = Dictionary(uniqueKeysWithValues: elements)
-        }
-
-        public subscript(key: Key) -> Value? {
-            _read {
-                Env.staticLock.lock()
-                defer { Env.staticLock.unlock() }
-                yield _backing[key]
-            }
-            _modify {
-                Env.staticLock.lock()
-                defer { Env.staticLock.unlock() }
-                yield &_backing[key]
-            }
-        }
-
-        public subscript(key: Key, default defaultValue: @autoclosure () -> Value) -> Value {
-            _read {
-                Env.staticLock.lock()
-                defer { Env.staticLock.unlock() }
-                yield _backing[key, default: defaultValue()]
-            }
-            _modify {
-                Env.staticLock.lock()
-                defer { Env.staticLock.unlock() }
-                yield &_backing[key, default: defaultValue()]
-            }
-        }
-    }
-
     public struct CallbackMap<T> {
         let debugLocation: String
-        private var callbacks: Dictionary<EnvRef, T> = [:]
+        private let callbacks: Box<[EnvRef: T]> = Box([:])
 
         public init(file: StaticString = #file, line: UInt = #line) {
             debugLocation = "\(file):\(line)"
@@ -203,19 +169,32 @@ extension Env {
             _read {
                 Env.staticLock.lock()
                 defer { Env.staticLock.unlock() }
-                yield callbacks[env.id]
+                yield callbacks.value[env.id]
             }
-            _modify {
+            nonmutating _modify {
                 Env.staticLock.lock()
                 defer { Env.staticLock.unlock() }
-                yield &callbacks[env.id]
+                yield &callbacks.value[env.id]
+            }
+        }
+
+        public subscript(env: Env, default defaultValue: @autoclosure () -> T) -> T {
+            _read {
+                Env.staticLock.lock()
+                defer { Env.staticLock.unlock() }
+                yield callbacks.value[env.id, default: defaultValue()]
+            }
+            nonmutating _modify {
+                Env.staticLock.lock()
+                defer { Env.staticLock.unlock() }
+                yield &callbacks.value[env.id, default: defaultValue()]
             }
         }
 
         public func isInitialized(_ env: Env) -> Bool {
             Env.staticLock.lock()
             defer { Env.staticLock.unlock() }
-            return callbacks[env.id] != nil
+            return callbacks.value[env.id] != nil
         }
     }
 }

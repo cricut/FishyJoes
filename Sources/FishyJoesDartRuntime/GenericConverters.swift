@@ -26,7 +26,7 @@ public struct CollectionInfo {
     var constructor: Constructor
     var context: OpaquePointer
 
-    static var infos: Env.SynchronizedDictionary<ObjectIdentifier, Env.CallbackMap<CollectionInfo>> = [:]
+    static let infos = Env.CallbackMap<[ObjectIdentifier: CollectionInfo]>()
 
     func length(_ object: foreignObject, env: Env) throws -> Int {
         try env.check { exn in Int(lengthMethod(context, object, exn)) }
@@ -58,7 +58,7 @@ public func collectionSetup(
     else {
         fatalError("unregistered typeID \(name)")
     }
-    CollectionInfo.infos[identifier, default: Env.CallbackMap()][env] = CollectionInfo(
+    CollectionInfo.infos[env, default: [:]][identifier] = CollectionInfo(
         lengthMethod: lengthMethod,
         valuesMethod: valuesMethod,
         constructor: constructor,
@@ -68,7 +68,7 @@ public func collectionSetup(
 
 extension ArrayConverter: DartConverter where ElementConverter: DartConverter {
     public static func peekDart(_ value: foreignObject, env: Env) throws -> SwiftType {
-        guard let info = CollectionInfo.infos[ObjectIdentifier(Self.self)]?[env] else {
+        guard let info = CollectionInfo.infos[env][ObjectIdentifier(Self.self)] else {
             fatalError("Type \(SwiftType.self) improperly set up")
         }
 
@@ -91,7 +91,7 @@ extension ArrayConverter: DartConverter where ElementConverter: DartConverter {
     }
 
     public static func toDart(_ value: SwiftType, env: Env) throws -> foreignObject {
-        guard let info = CollectionInfo.infos[ObjectIdentifier(Self.self)]?[env] else {
+        guard let info = CollectionInfo.infos[env][ObjectIdentifier(Self.self)] else {
             fatalError("Type \(SwiftType.self) improperly set up")
         }
 
@@ -111,7 +111,7 @@ extension ArrayConverter: DartConverter where ElementConverter: DartConverter {
 
 extension DictionaryConverter: DartConverter where KeyConverter: DartConverter, KeyConverter.SwiftType: Hashable, ValueConverter: DartConverter {
     public static func peekDart(_ value: foreignObject, env: Env) throws -> SwiftType {
-        guard let info = CollectionInfo.infos[ObjectIdentifier(Self.self)]?[env] else {
+        guard let info = CollectionInfo.infos[env][ObjectIdentifier(Self.self)] else {
             fatalError("Type \(SwiftType.self) improperly set up")
         }
 
@@ -135,7 +135,7 @@ extension DictionaryConverter: DartConverter where KeyConverter: DartConverter, 
     }
 
     public static func toDart(_ value: SwiftType, env: Env) throws -> foreignObject {
-        guard let info = CollectionInfo.infos[ObjectIdentifier(Self.self)]?[env] else {
+        guard let info = CollectionInfo.infos[env][ObjectIdentifier(Self.self)] else {
             fatalError("Type \(SwiftType.self) improperly set up")
         }
 
@@ -156,7 +156,7 @@ extension DictionaryConverter: DartConverter where KeyConverter: DartConverter, 
 
 extension SetConverter: DartConverter where ElementConverter: DartConverter, ElementConverter.SwiftType: Hashable {
     public static func peekDart(_ value: foreignObject, env: Env) throws -> SwiftType {
-        guard let info = CollectionInfo.infos[ObjectIdentifier(Self.self)]?[env] else {
+        guard let info = CollectionInfo.infos[env][ObjectIdentifier(Self.self)] else {
             fatalError("Type \(SwiftType.self) improperly set up")
         }
 
@@ -178,7 +178,7 @@ extension SetConverter: DartConverter where ElementConverter: DartConverter, Ele
     }
 
     public static func toDart(_ value: SwiftType, env: Env) throws -> foreignObject {
-        guard let info = CollectionInfo.infos[ObjectIdentifier(Self.self)]?[env] else {
+        guard let info = CollectionInfo.infos[env][ObjectIdentifier(Self.self)] else {
             fatalError("Type \(SwiftType.self) improperly set up")
         }
 

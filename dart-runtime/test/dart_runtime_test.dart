@@ -1,4 +1,4 @@
-import 'package:dart_runtime/loader.dart';
+import 'package:dart_runtime/runtime.dart';
 import 'package:test/test.dart';
 
 void main() {
