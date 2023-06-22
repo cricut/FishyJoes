@@ -477,39 +477,6 @@ extension String: JavaConverter {
     }
 }
 
-// MARK: - Attributed String Type Conversion
-
-//private enum KotlinAttributedString {
-//    static var attributedStringClass: jclass?
-//    static var constructor: jmethodID?
-//
-//    public static func javaSetup(env: Env) throws {
-//        guard attributedStringClass == nil else { return }
-//        attributedStringClass = try env.globalRef(env.FindClass("com/cricut/fishyjoes/runtime/AttributedString"))
-//        constructor = try env.GetMethodID(attributedStringClass, "<init>", "(Ljava/lang/String)V")
-//    }
-//}
-//
-//extension AttributedString: JavaConverter {
-//    public typealias CType = jstring?
-//
-//    public static var javaClass: jclass? { KotlinAttributedString.attributedStringClass }
-//
-//    public static func javaSetup(env: Env) throws {
-//        try KotlinAttributedString.javaSetup(env: env)
-//    }
-//
-//    public static func fromJava(_ value: jobject?, env: Env) throws -> SwiftType {
-//        // TODO: This
-//        return AttributedString()
-//    }
-//
-//    public static func toJava(_ value: SwiftType, env: Env) throws -> jobject? {
-//        // TODO: This
-//        return nil
-//    }
-//}
-
 // MARK: - Data Type Conversion
 
 extension Data: JavaConverter {

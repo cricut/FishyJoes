@@ -43,42 +43,6 @@ template <> struct std::hash<TestAPI::AssociatedDataEnum::thing> {
 namespace TestAPI {
     inline bool operator==(const AssociatedDataEnum::thing& lhs, const AssociatedDataEnum::thing& rhs);
 }
-template <> struct std::hash<TestAPI::AttributedStringASDF> {
-    size_t operator()(const TestAPI::AttributedStringASDF &obj) const;
-};
-namespace TestAPI {
-    inline bool operator==(const AttributedStringASDF& lhs, const AttributedStringASDF& rhs);
-}
-template <> struct std::hash<TestAPI::AttributedStringASDF::AttributeMergePolicy> {
-    size_t operator()(const TestAPI::AttributedStringASDF::AttributeMergePolicy &obj) const;
-};
-namespace TestAPI {
-    inline bool operator==(const AttributedStringASDF::AttributeMergePolicy& lhs, const AttributedStringASDF::AttributeMergePolicy& rhs);
-}
-template <> struct std::hash<TestAPI::AttributedStringASDF::AttributeMergePolicy::keepCurrent> {
-    size_t operator()(const TestAPI::AttributedStringASDF::AttributeMergePolicy::keepCurrent &obj) const;
-};
-namespace TestAPI {
-    inline bool operator==(const AttributedStringASDF::AttributeMergePolicy::keepCurrent& lhs, const AttributedStringASDF::AttributeMergePolicy::keepCurrent& rhs);
-}
-template <> struct std::hash<TestAPI::AttributedStringASDF::AttributeMergePolicy::keepNew> {
-    size_t operator()(const TestAPI::AttributedStringASDF::AttributeMergePolicy::keepNew &obj) const;
-};
-namespace TestAPI {
-    inline bool operator==(const AttributedStringASDF::AttributeMergePolicy::keepNew& lhs, const AttributedStringASDF::AttributeMergePolicy::keepNew& rhs);
-}
-template <> struct std::hash<TestAPI::AttributedStrings> {
-    size_t operator()(const TestAPI::AttributedStrings &obj) const;
-};
-namespace TestAPI {
-    inline bool operator==(const AttributedStrings& lhs, const AttributedStrings& rhs);
-}
-template <> struct std::hash<TestAPI::AttributedSubstringASDF> {
-    size_t operator()(const TestAPI::AttributedSubstringASDF &obj) const;
-};
-namespace TestAPI {
-    inline bool operator==(const AttributedSubstringASDF& lhs, const AttributedSubstringASDF& rhs);
-}
 template <> struct std::hash<TestAPI::Bytes> {
     size_t operator()(const TestAPI::Bytes &obj) const;
 };
@@ -222,34 +186,6 @@ size_t std::hash<TestAPI::AssociatedDataEnum::simpleEnum>::operator()(const Test
 size_t std::hash<TestAPI::AssociatedDataEnum::thing>::operator()(const TestAPI::AssociatedDataEnum::thing &obj) const {
     size_t ret = 0;
     TestAPI::FishyJoesInternal::hashCombine(ret, obj.value);
-    return ret;
-}
-size_t std::hash<TestAPI::AttributedStringASDF>::operator()(const TestAPI::AttributedStringASDF &obj) const {
-    size_t ret = 0;
-    TestAPI::FishyJoesInternal::hashCombine(ret, obj._ref);
-    return ret;
-}
-size_t std::hash<TestAPI::AttributedStringASDF::AttributeMergePolicy>::operator()(const TestAPI::AttributedStringASDF::AttributeMergePolicy &obj) const {
-    size_t ret = 0;
-    TestAPI::FishyJoesInternal::hashCombine(ret, obj._variant);
-    return ret;
-}
-size_t std::hash<TestAPI::AttributedStringASDF::AttributeMergePolicy::keepCurrent>::operator()(const TestAPI::AttributedStringASDF::AttributeMergePolicy::keepCurrent &obj) const {
-    size_t ret = 0;
-    return ret;
-}
-size_t std::hash<TestAPI::AttributedStringASDF::AttributeMergePolicy::keepNew>::operator()(const TestAPI::AttributedStringASDF::AttributeMergePolicy::keepNew &obj) const {
-    size_t ret = 0;
-    return ret;
-}
-size_t std::hash<TestAPI::AttributedStrings>::operator()(const TestAPI::AttributedStrings &obj) const {
-    size_t ret = 0;
-    TestAPI::FishyJoesInternal::hashCombine(ret, obj._variant);
-    return ret;
-}
-size_t std::hash<TestAPI::AttributedSubstringASDF>::operator()(const TestAPI::AttributedSubstringASDF &obj) const {
-    size_t ret = 0;
-    TestAPI::FishyJoesInternal::hashCombine(ret, obj._ref);
     return ret;
 }
 size_t std::hash<TestAPI::Bytes>::operator()(const TestAPI::Bytes &obj) const {
@@ -397,36 +333,6 @@ namespace TestAPI {
 }
 namespace TestAPI {
     inline bool operator==(const AssociatedDataEnum::thing& lhs, const AssociatedDataEnum::thing& rhs) {
-        return std::equal_to<std::decay_t<decltype(lhs)>>()(lhs, rhs);
-    }
-}
-namespace TestAPI {
-    inline bool operator==(const AttributedStringASDF& lhs, const AttributedStringASDF& rhs) {
-        return std::equal_to<std::decay_t<decltype(lhs)>>()(lhs, rhs);
-    }
-}
-namespace TestAPI {
-    inline bool operator==(const AttributedStringASDF::AttributeMergePolicy& lhs, const AttributedStringASDF::AttributeMergePolicy& rhs) {
-        return std::equal_to<std::decay_t<decltype(lhs)>>()(lhs, rhs);
-    }
-}
-namespace TestAPI {
-    inline bool operator==(const AttributedStringASDF::AttributeMergePolicy::keepCurrent& lhs, const AttributedStringASDF::AttributeMergePolicy::keepCurrent& rhs) {
-        return std::equal_to<std::decay_t<decltype(lhs)>>()(lhs, rhs);
-    }
-}
-namespace TestAPI {
-    inline bool operator==(const AttributedStringASDF::AttributeMergePolicy::keepNew& lhs, const AttributedStringASDF::AttributeMergePolicy::keepNew& rhs) {
-        return std::equal_to<std::decay_t<decltype(lhs)>>()(lhs, rhs);
-    }
-}
-namespace TestAPI {
-    inline bool operator==(const AttributedStrings& lhs, const AttributedStrings& rhs) {
-        return std::equal_to<std::decay_t<decltype(lhs)>>()(lhs, rhs);
-    }
-}
-namespace TestAPI {
-    inline bool operator==(const AttributedSubstringASDF& lhs, const AttributedSubstringASDF& rhs) {
         return std::equal_to<std::decay_t<decltype(lhs)>>()(lhs, rhs);
     }
 }
