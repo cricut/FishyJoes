@@ -1,7 +1,7 @@
 import ArgumentParser
+import Foundation
 import swsh
 import Yams
-import Foundation
 
 struct FishyJoesConfig {
     let module: String
@@ -73,7 +73,7 @@ extension FishyJoesConfig: Codable {
         self.module = try container.decode(String.self, forKey: FishyJoesConfig.CodingKeys.module)
         self.publishRepository = try container.decodeIfPresent(String.self, forKey: FishyJoesConfig.CodingKeys.publishRepository)
         self.requiredModules = try container.decode([String].self, forKey: FishyJoesConfig.CodingKeys.requiredModules)
-        self.typeOverrides = try JSONSerialization.jsonObject(with: container.decode(Data.self, forKey: FishyJoesConfig.CodingKeys.typeOverrides)) as? [String : Any]
+        self.typeOverrides = try JSONSerialization.jsonObject(with: container.decode(Data.self, forKey: FishyJoesConfig.CodingKeys.typeOverrides)) as? [String: Any]
     }
 
     func encode(to encoder: Encoder) throws {
