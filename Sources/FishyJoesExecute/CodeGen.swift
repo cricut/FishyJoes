@@ -219,6 +219,7 @@ extension CodeGen {
                     "--args", "module=\(config.module)",
                     "--args", "debugRepresentation=\(debug)",
                     "--args", "requiredModules=\"\(try! JSONEncoder().encode(fishyJoesModuleFiles).base64EncodedString())\"",
+                    "--args", "typeOverrides=\"\(try! JSONSerialization.data(withJSONObject: config.typeOverrides ?? [:]).base64EncodedString())\"",
                     "--args", "fishyJoesExecutable=.build/debug/🐟☕️",
                     "--args", "stderrFifo=\(errorFifoPath)",
                     "--output", "Sources/Generated"

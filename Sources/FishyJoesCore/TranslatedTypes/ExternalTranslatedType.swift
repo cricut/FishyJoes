@@ -1,4 +1,4 @@
-struct ExternalTranslatedType: Codable {
+struct ExternalTranslatedType: Hashable, Codable {
     var sourceType: BetterType
     var converterType: BetterType
     var nodeName: String

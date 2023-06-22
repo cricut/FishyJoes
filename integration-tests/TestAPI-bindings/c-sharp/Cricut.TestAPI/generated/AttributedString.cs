@@ -90,6 +90,19 @@ namespace Cricut.TestAPI {
         private static extern CreatedRef __cs_get_AttributedStringASDF_Substring(UnownedRef self, out CreatedRef exn);
 
         /// <summary>
+        /// <!-- FishyJoes.export(attributes) -->
+        /// </summary>
+        public System.Collections.Generic.IDictionary<string, string> GetAttributes() {
+            using var thisHandle = new GCRef(this);
+            return Check((out CreatedRef exn) =>
+                __cs_get_AttributedStringASDF_Attributes(thisHandle.ptr, out exn).Consume<System.Collections.Generic.IDictionary<string, string>>()
+            );
+        }
+
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __cs_get_AttributedStringASDF_Attributes(UnownedRef self, out CreatedRef exn);
+
+        /// <summary>
         /// <!-- FishyJoes.export(createEmpty) -->
         /// </summary>
         public static Cricut.TestAPI.AttributedString CreateEmpty(
@@ -152,6 +165,66 @@ namespace Cricut.TestAPI {
         private static extern CreatedRef __cs_AttributedStringASDF_substringForRange(
             UnownedRef self,
             UnownedRef range,
+            out CreatedRef exn
+        );
+
+        /// <summary>
+        /// <!-- FishyJoes.export(setAttributes) -->
+        /// </summary>
+        public void SetAttributes(
+            Cricut.TestAPI.AttributeContainer attributes
+        ) {
+            using var _thisHandle = new GCRef(this);
+            using var _attributesHandle = new GCRef(attributes);
+            Check((out CreatedRef _exn) => __cs_AttributedStringASDF_setAttributes(_thisHandle.ptr, _attributesHandle.ptr, out _exn));
+        }
+
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern void __cs_AttributedStringASDF_setAttributes(
+            UnownedRef self,
+            UnownedRef attributes,
+            out CreatedRef exn
+        );
+
+        /// <summary>
+        /// <!-- FishyJoes.export(mergeAttributes) -->
+        /// </summary>
+        public void MergeAttributes(
+            Cricut.TestAPI.AttributeContainer attributes,
+            Cricut.TestAPI.AttributedString.AttributeMergePolicy? mergePolicy = null
+        ) {
+            using var _thisHandle = new GCRef(this);
+            using var _attributesHandle = new GCRef(attributes);
+            using var _mergePolicyHandle = new GCRef(mergePolicy);
+            Check((out CreatedRef _exn) => __cs_AttributedStringASDF_mergeAttributes(_thisHandle.ptr, _attributesHandle.ptr, _mergePolicyHandle.ptr, out _exn));
+        }
+
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern void __cs_AttributedStringASDF_mergeAttributes(
+            UnownedRef self,
+            UnownedRef attributes,
+            UnownedRef mergePolicy,
+            out CreatedRef exn
+        );
+
+        /// <summary>
+        /// <!-- FishyJoes.export(replaceAttributes) -->
+        /// </summary>
+        public void ReplaceAttributes(
+            Cricut.TestAPI.AttributeContainer attributes,
+            Cricut.TestAPI.AttributeContainer /* with */ others
+        ) {
+            using var _thisHandle = new GCRef(this);
+            using var _attributesHandle = new GCRef(attributes);
+            using var _othersHandle = new GCRef(others);
+            Check((out CreatedRef _exn) => __cs_AttributedStringASDF_replaceAttributes(_thisHandle.ptr, _attributesHandle.ptr, _othersHandle.ptr, out _exn));
+        }
+
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern void __cs_AttributedStringASDF_replaceAttributes(
+            UnownedRef self,
+            UnownedRef attributes,
+            UnownedRef others,
             out CreatedRef exn
         );
 
@@ -230,66 +303,6 @@ namespace Cricut.TestAPI {
             UnownedRef self,
             UnownedRef range,
             UnownedRef s,
-            out CreatedRef exn
-        );
-
-        /// <summary>
-        /// <!-- FishyJoes.export(setAttributes) -->
-        /// </summary>
-        public void SetAttributes(
-            Cricut.TestAPI.AttributeContainer attributes
-        ) {
-            using var _thisHandle = new GCRef(this);
-            using var _attributesHandle = new GCRef(attributes);
-            Check((out CreatedRef _exn) => __cs_AttributedStringASDF_setAttributes(_thisHandle.ptr, _attributesHandle.ptr, out _exn));
-        }
-
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern void __cs_AttributedStringASDF_setAttributes(
-            UnownedRef self,
-            UnownedRef attributes,
-            out CreatedRef exn
-        );
-
-        /// <summary>
-        /// <!-- FishyJoes.export(mergeAttributes) -->
-        /// </summary>
-        public void MergeAttributes(
-            Cricut.TestAPI.AttributeContainer attributes,
-            Cricut.TestAPI.AttributedString.AttributeMergePolicy? mergePolicy = null
-        ) {
-            using var _thisHandle = new GCRef(this);
-            using var _attributesHandle = new GCRef(attributes);
-            using var _mergePolicyHandle = new GCRef(mergePolicy);
-            Check((out CreatedRef _exn) => __cs_AttributedStringASDF_mergeAttributes(_thisHandle.ptr, _attributesHandle.ptr, _mergePolicyHandle.ptr, out _exn));
-        }
-
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern void __cs_AttributedStringASDF_mergeAttributes(
-            UnownedRef self,
-            UnownedRef attributes,
-            UnownedRef mergePolicy,
-            out CreatedRef exn
-        );
-
-        /// <summary>
-        /// <!-- FishyJoes.export(replaceAttributes) -->
-        /// </summary>
-        public void ReplaceAttributes(
-            Cricut.TestAPI.AttributeContainer attributes,
-            Cricut.TestAPI.AttributeContainer /* with */ others
-        ) {
-            using var _thisHandle = new GCRef(this);
-            using var _attributesHandle = new GCRef(attributes);
-            using var _othersHandle = new GCRef(others);
-            Check((out CreatedRef _exn) => __cs_AttributedStringASDF_replaceAttributes(_thisHandle.ptr, _attributesHandle.ptr, _othersHandle.ptr, out _exn));
-        }
-
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern void __cs_AttributedStringASDF_replaceAttributes(
-            UnownedRef self,
-            UnownedRef attributes,
-            UnownedRef others,
             out CreatedRef exn
         );
 
@@ -424,33 +437,6 @@ namespace Cricut.TestAPI {
                 out CreatedRef exn
             );
 
-            public override bool Equals(
-                object? other
-            ) {
-                using var thisHandle = new GCRef(this);
-                using var otherHandle = new GCRef(other as Cricut.TestAPI.AttributedString.Runs);
-                return Check((out CreatedRef exn) => __cs_AttributedStringASDF_Runs_equals(thisHandle.ptr, otherHandle.ptr, out exn));
-            }
-
-            [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-            private static extern bool __cs_AttributedStringASDF_Runs_equals(
-                UnownedRef lhs,
-                UnownedRef rhs,
-                out CreatedRef exn
-            );
-
-            public override int GetHashCode(
-            ) {
-                using var _thisHandle = new GCRef(this);
-                return Check((out CreatedRef _exn) => __cs_AttributedStringASDF_Runs_hash(_thisHandle.ptr, out _exn));
-            }
-
-            [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-            private static extern int __cs_AttributedStringASDF_Runs_hash(
-                UnownedRef self,
-                out CreatedRef exn
-            );
-
             /// <summary>
             /// <!-- FishyJoes.exportReference(AttributedString.Runs.Run) -->
             /// </summary>
@@ -482,33 +468,6 @@ namespace Cricut.TestAPI {
 
                 [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
                 private static extern CreatedRef __cs_get_AttributedStringASDF_Runs_Run_Attributes(UnownedRef self, out CreatedRef exn);
-
-                public override bool Equals(
-                    object? other
-                ) {
-                    using var thisHandle = new GCRef(this);
-                    using var otherHandle = new GCRef(other as Cricut.TestAPI.AttributedString.Runs.Run);
-                    return Check((out CreatedRef exn) => __cs_AttributedStringASDF_Runs_Run_equals(thisHandle.ptr, otherHandle.ptr, out exn));
-                }
-
-                [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-                private static extern bool __cs_AttributedStringASDF_Runs_Run_equals(
-                    UnownedRef lhs,
-                    UnownedRef rhs,
-                    out CreatedRef exn
-                );
-
-                public override int GetHashCode(
-                ) {
-                    using var _thisHandle = new GCRef(this);
-                    return Check((out CreatedRef _exn) => __cs_AttributedStringASDF_Runs_Run_hash(_thisHandle.ptr, out _exn));
-                }
-
-                [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-                private static extern int __cs_AttributedStringASDF_Runs_Run_hash(
-                    UnownedRef self,
-                    out CreatedRef exn
-                );
 
                 static Run() { _TypeSetup._ensureLoaded(); }
             }
@@ -774,37 +733,14 @@ namespace Cricut.TestAPI {
         }
 
         /// <summary>
-        /// <!-- FishyJoes.exportReference(AttributedString.AttributeMergePolicy) -->
+        /// <!-- FishyJoes.export(AttributedString.AttributeMergePolicy) -->
         /// </summary>
-        public class AttributeMergePolicy : SwiftReference {
-            internal AttributeMergePolicy(ConsumedRef reference): base(reference) {}
+        public record AttributeMergePolicy {
+            private AttributeMergePolicy() {}
 
-            public override bool Equals(
-                object? other
-            ) {
-                using var thisHandle = new GCRef(this);
-                using var otherHandle = new GCRef(other as Cricut.TestAPI.AttributedString.AttributeMergePolicy);
-                return Check((out CreatedRef exn) => __cs_AttributedStringASDF_AttributeMergePolicy_equals(thisHandle.ptr, otherHandle.ptr, out exn));
-            }
+            public sealed record KeepNew : AttributeMergePolicy;
 
-            [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-            private static extern bool __cs_AttributedStringASDF_AttributeMergePolicy_equals(
-                UnownedRef lhs,
-                UnownedRef rhs,
-                out CreatedRef exn
-            );
-
-            public override int GetHashCode(
-            ) {
-                using var _thisHandle = new GCRef(this);
-                return Check((out CreatedRef _exn) => __cs_AttributedStringASDF_AttributeMergePolicy_hash(_thisHandle.ptr, out _exn));
-            }
-
-            [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-            private static extern int __cs_AttributedStringASDF_AttributeMergePolicy_hash(
-                UnownedRef self,
-                out CreatedRef exn
-            );
+            public sealed record KeepCurrent : AttributeMergePolicy;
 
             static AttributeMergePolicy() { _TypeSetup._ensureLoaded(); }
         }

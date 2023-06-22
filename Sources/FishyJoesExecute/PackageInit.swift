@@ -171,7 +171,8 @@ public struct PackageInit: ParsableCommand {
         let config = FishyJoesConfig(
             module: module,
             publishRepository: publishRepository,
-            requiredModules: requiredModules.split(separator: " ").map(String.init)
+            requiredModules: requiredModules.split(separator: " ").map(String.init),
+            typeOverrides: [:]
         )
 
         let encoder = YAMLEncoder()

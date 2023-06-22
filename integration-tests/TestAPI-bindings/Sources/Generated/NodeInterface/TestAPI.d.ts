@@ -91,6 +91,359 @@ export declare namespace TestAPI {
         ): TestAPI.AssociatedDataEnum;
     }
 
+    /**
+     * <!-- FishyJoes.exportReference(AttributeContainer) -->
+     */
+    export class AttributeContainer {
+        private constructor()
+        private _inhibitStructuralTyping: any
+
+        /**
+         * <!-- FishyJoes.export(attributes) -->
+         */
+        readonly attributes: Map<string, string>;
+
+        /**
+         * <!-- FishyJoes.export(createEmpty) -->
+         */
+        static createEmpty(
+        ): TestAPI.AttributeContainer;
+
+        /**
+         * <!-- FishyJoes.export(merge) -->
+         */
+        merge(
+            other: TestAPI.AttributeContainer,
+            options?: {
+                "mergePolicy"?: Optional<TestAPI.AttributedString.AttributeMergePolicy> /* defaults to `nil` */,
+            }
+        ): void;
+    }
+
+    /**
+     * <!-- FishyJoes.exportReference(AttributeScope) -->
+     */
+    export class AttributeScope {
+        private constructor()
+        private _inhibitStructuralTyping: any
+    }
+
+    /**
+     * <!-- FishyJoes.exportReference(AttributedString) -->
+     */
+    export class AttributedString {
+        private constructor()
+        private _inhibitStructuralTyping: any
+
+        /**
+         * <!-- FishyJoes.export(startIndex) -->
+         */
+        readonly startIndex: TestAPI.AttributedString.Index;
+
+        /**
+         * <!-- FishyJoes.export(endIndex) -->
+         */
+        readonly endIndex: TestAPI.AttributedString.Index;
+
+        /**
+         * <!-- FishyJoes.export(unicodeScalars) -->
+         */
+        readonly unicodeScalars: TestAPI.AttributedString.UnicodeScalarView;
+
+        /**
+         * <!-- FishyJoes.export(characters) -->
+         */
+        readonly characters: TestAPI.AttributedString.CharacterView;
+
+        /**
+         * <!-- FishyJoes.export(runs) -->
+         */
+        readonly runs: TestAPI.AttributedString.Runs;
+
+        /**
+         * <!-- FishyJoes.export(substring) -->
+         */
+        readonly substring: TestAPI.AttributedSubstring;
+
+        /**
+         * <!-- FishyJoes.export(attributes) -->
+         */
+        readonly attributes: Map<string, string>;
+
+        /**
+         * <!-- FishyJoes.export(createEmpty) -->
+         */
+        static createEmpty(
+        ): TestAPI.AttributedString;
+
+        /**
+         * <!-- FishyJoes.export(create) -->
+         */
+        static create(
+            string: string,
+            options?: {
+                "attributes"?: Optional<TestAPI.AttributeContainer> /* defaults to `nil` */,
+            }
+        ): TestAPI.AttributedString;
+
+        /**
+         * <!-- FishyJoes.export(createFromSubstring) -->
+         */
+        static createFromSubstring(
+            substring: TestAPI.AttributedSubstring
+        ): TestAPI.AttributedString;
+
+        /**
+         * <!-- FishyJoes.export(substringForRange) -->
+         */
+        substringForRange(
+            /* for */ range: SwiftRange<AttributedString.Index>
+        ): TestAPI.AttributedSubstring;
+
+        /**
+         * <!-- FishyJoes.export(setAttributes) -->
+         */
+        setAttributes(
+            attributes: TestAPI.AttributeContainer
+        ): void;
+
+        /**
+         * <!-- FishyJoes.export(mergeAttributes) -->
+         */
+        mergeAttributes(
+            attributes: TestAPI.AttributeContainer,
+            options?: {
+                "mergePolicy"?: Optional<TestAPI.AttributedString.AttributeMergePolicy> /* defaults to `nil` */,
+            }
+        ): void;
+
+        /**
+         * <!-- FishyJoes.export(replaceAttributes) -->
+         */
+        replaceAttributes(
+            attributes: TestAPI.AttributeContainer,
+            /* with */ others: TestAPI.AttributeContainer
+        ): void;
+
+        /**
+         * <!-- FishyJoes.export(append) -->
+         */
+        append(
+            s: TestAPI.AttributedString
+        ): void;
+
+        /**
+         * <!-- FishyJoes.export(insert) -->
+         */
+        insert(
+            s: TestAPI.AttributedString,
+            /* at */ index: TestAPI.AttributedString.Index
+        ): void;
+
+        /**
+         * <!-- FishyJoes.export(removeSubrange) -->
+         */
+        removeSubrange(
+            range: SwiftRange<AttributedString.Index>
+        ): void;
+
+        /**
+         * <!-- FishyJoes.export(replaceSubrange) -->
+         */
+        replaceSubrange(
+            range: SwiftRange<AttributedString.Index>,
+            /* with */ s: TestAPI.AttributedString
+        ): void;
+    }
+    export namespace AttributedString {
+        export type AttributeMergePolicy = "keepNew" | "keepCurrent";
+        export namespace AttributeMergePolicy {
+        }
+
+        /**
+         * <!-- FishyJoes.exportReference(AttributedString.CharacterView) -->
+         */
+        export class CharacterView {
+            private constructor()
+            private _inhibitStructuralTyping: any
+
+            /**
+             * <!-- FishyJoes.export(startIndex) -->
+             */
+            readonly startIndex: TestAPI.AttributedString.Index;
+
+            /**
+             * <!-- FishyJoes.export(endIndex) -->
+             */
+            readonly endIndex: TestAPI.AttributedString.Index;
+
+            /**
+             * <!-- FishyJoes.export(indexBefore) -->
+             */
+            indexBefore(
+                /* before */ i: TestAPI.AttributedString.Index
+            ): TestAPI.AttributedString.Index;
+
+            /**
+             * <!-- FishyJoes.export(indexAfter) -->
+             */
+            indexAfter(
+                /* after */ i: TestAPI.AttributedString.Index
+            ): TestAPI.AttributedString.Index;
+
+            /**
+             * <!-- FishyJoes.export(elementAt) -->
+             */
+            elementAt(
+                /* at */ index: TestAPI.AttributedString.Index
+            ): string;
+
+            /**
+             * <!-- FishyJoes.export(replaceSubrange, generic: [C: [String]]) -->
+             */
+            replaceSubrange(
+                subrange: SwiftRange<AttributedString.Index>,
+                /* with */ newElements: string[]
+            ): void;
+        }
+
+        /**
+         * <!-- FishyJoes.exportReference(AttributedString.Index) -->
+         */
+        export class Index {
+            private constructor()
+            private _inhibitStructuralTyping: any
+        }
+
+        /**
+         * <!-- FishyJoes.exportReference(AttributedString.Runs) -->
+         */
+        export class Runs {
+            private constructor()
+            private _inhibitStructuralTyping: any
+
+            /**
+             * <!-- FishyJoes.export(startIndex) -->
+             */
+            readonly startIndex: TestAPI.AttributedString.Runs.Index;
+
+            /**
+             * <!-- FishyJoes.export(endIndex) -->
+             */
+            readonly endIndex: TestAPI.AttributedString.Runs.Index;
+
+            /**
+             * <!-- FishyJoes.export(indexBefore) -->
+             */
+            indexBefore(
+                /* before */ i: TestAPI.AttributedString.Runs.Index
+            ): TestAPI.AttributedString.Runs.Index;
+
+            /**
+             * <!-- FishyJoes.export(indexAfter) -->
+             */
+            indexAfter(
+                /* after */ i: TestAPI.AttributedString.Runs.Index
+            ): TestAPI.AttributedString.Runs.Index;
+
+            /**
+             * <!-- FishyJoes.export(elementAt) -->
+             */
+            elementAt(
+                /* at */ index: TestAPI.AttributedString.Runs.Index
+            ): TestAPI.AttributedString.Runs.Run;
+
+            /**
+             * <!-- FishyJoes.export(elementAtPosition) -->
+             */
+            elementAtPosition(
+                /* at */ index: TestAPI.AttributedString.Index
+            ): TestAPI.AttributedString.Runs.Run;
+        }
+        export namespace Runs {
+            /**
+             * <!-- FishyJoes.exportReference(AttributedString.Runs.Index) -->
+             */
+            export class Index {
+                private constructor()
+                private _inhibitStructuralTyping: any
+            }
+
+            /**
+             * <!-- FishyJoes.exportReference(AttributedString.Runs.Run) -->
+             */
+            export class Run {
+                private constructor()
+                private _inhibitStructuralTyping: any
+
+                /**
+                 * <!-- FishyJoes.export(range) -->
+                 */
+                readonly range: SwiftRange<AttributedString.Index>;
+
+                /**
+                 * <!-- FishyJoes.export(attributes) -->
+                 */
+                readonly attributes: TestAPI.AttributeContainer;
+            }
+        }
+
+        /**
+         * <!-- FishyJoes.exportReference(AttributedString.UnicodeScalarView) -->
+         */
+        export class UnicodeScalarView {
+            private constructor()
+            private _inhibitStructuralTyping: any
+
+            /**
+             * <!-- FishyJoes.export(startIndex) -->
+             */
+            readonly startIndex: TestAPI.AttributedString.Index;
+
+            /**
+             * <!-- FishyJoes.export(endIndex) -->
+             */
+            readonly endIndex: TestAPI.AttributedString.Index;
+
+            /**
+             * <!-- FishyJoes.export(indexBefore) -->
+             */
+            indexBefore(
+                /* before */ i: TestAPI.AttributedString.Index
+            ): TestAPI.AttributedString.Index;
+
+            /**
+             * <!-- FishyJoes.export(indexAfter) -->
+             */
+            indexAfter(
+                /* after */ i: TestAPI.AttributedString.Index
+            ): TestAPI.AttributedString.Index;
+
+            /**
+             * <!-- FishyJoes.export(indexOffsetByDistance) -->
+             */
+            indexOffsetByDistance(
+                i: TestAPI.AttributedString.Index,
+                /* offsetBy */ distance: number
+            ): TestAPI.AttributedString.Index;
+
+            /**
+             * <!-- FishyJoes.export(elementAt) -->
+             */
+            elementAt(
+                /* at */ index: TestAPI.AttributedString.Index
+            ): number;
+
+            /**
+             * <!-- FishyJoes.export(replaceSubrange, generic: [C: [UInt32]]) -->
+             */
+            replaceSubrange(
+                subrange: SwiftRange<AttributedString.Index>,
+                /* with */ newElements: number[]
+            ): void;
+        }
+    }
+
     export type AttributedStrings = never;
     export namespace AttributedStrings {
         /**
@@ -139,6 +492,92 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(simple) -->
          */
         const simple: AttributedString;
+    }
+
+    /**
+     * <!-- FishyJoes.exportReference(AttributedSubstring) -->
+     */
+    export class AttributedSubstring {
+        private constructor()
+        private _inhibitStructuralTyping: any
+
+        /**
+         * <!-- FishyJoes.export(base) -->
+         */
+        readonly base: TestAPI.AttributedString;
+
+        /**
+         * <!-- FishyJoes.export(startIndex) -->
+         */
+        readonly startIndex: TestAPI.AttributedString.Index;
+
+        /**
+         * <!-- FishyJoes.export(endIndex) -->
+         */
+        readonly endIndex: TestAPI.AttributedString.Index;
+
+        /**
+         * <!-- FishyJoes.export(unicodeScalars) -->
+         */
+        readonly unicodeScalars: TestAPI.AttributedString.UnicodeScalarView;
+
+        /**
+         * <!-- FishyJoes.export(characters) -->
+         */
+        readonly characters: TestAPI.AttributedString.CharacterView;
+
+        /**
+         * <!-- FishyJoes.export(runs) -->
+         */
+        readonly runs: TestAPI.AttributedString.Runs;
+
+        /**
+         * <!-- FishyJoes.export(substring) -->
+         */
+        readonly substring: TestAPI.AttributedSubstring;
+
+        /**
+         * <!-- FishyJoes.export(attributes) -->
+         */
+        readonly attributes: Map<string, string>;
+
+        /**
+         * <!-- FishyJoes.export(createEmpty) -->
+         */
+        static createEmpty(
+        ): TestAPI.AttributedSubstring;
+
+        /**
+         * <!-- FishyJoes.export(substringForRange) -->
+         */
+        substringForRange(
+            /* for */ range: SwiftRange<AttributedString.Index>
+        ): TestAPI.AttributedSubstring;
+
+        /**
+         * <!-- FishyJoes.export(setAttributes) -->
+         */
+        setAttributes(
+            attributes: TestAPI.AttributeContainer
+        ): void;
+
+        /**
+         * <!-- FishyJoes.export(mergeAttributes) -->
+         */
+        mergeAttributes(
+            attributes: TestAPI.AttributeContainer,
+            options?: {
+                "mergePolicy"?: Optional<TestAPI.AttributedString.AttributeMergePolicy> /* defaults to `nil` */,
+            }
+        ): void;
+
+        /**
+         * <!-- FishyJoes.export(replaceAttributes) -->
+         */
+        replaceAttributes(
+            attributes: TestAPI.AttributeContainer,
+            /* with */ others: TestAPI.AttributeContainer
+        ): void;
     }
 
     export type Bytes = never;

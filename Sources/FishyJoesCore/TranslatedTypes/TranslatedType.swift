@@ -85,7 +85,7 @@ extension TranslatedType {
     var isInhabited: Bool { true }
 }
 
-indirect enum JNIType: Codable, Equatable {
+indirect enum JNIType: Codable, Hashable {
     case object(String)
     case array(JNIType)
     case boolean

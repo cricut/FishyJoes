@@ -359,12 +359,114 @@ namespace TestAPI {
                 get_t<decltype(TestAPI::AssociatedDataEnum::thing::value)>()
             };
         }
+        inline void put(const TestAPI::AttributeContainerASDF& obj) {
+            put(obj._ref);
+        }
+        inline TestAPI::AttributeContainerASDF get(std::in_place_type_t<TestAPI::AttributeContainerASDF> obj = std::in_place_type_t<TestAPI::AttributeContainerASDF>{}) {
+            return TestAPI::AttributeContainerASDF {
+                get_t<decltype(TestAPI::AttributeContainerASDF::_ref)>()
+            };
+        }
+        inline void put(const TestAPI::AttributeScopeASDF& obj) {
+            put(obj._ref);
+        }
+        inline TestAPI::AttributeScopeASDF get(std::in_place_type_t<TestAPI::AttributeScopeASDF> obj = std::in_place_type_t<TestAPI::AttributeScopeASDF>{}) {
+            return TestAPI::AttributeScopeASDF {
+                get_t<decltype(TestAPI::AttributeScopeASDF::_ref)>()
+            };
+        }
+        inline void put(const TestAPI::AttributedStringASDF& obj) {
+            put(obj._ref);
+        }
+        inline TestAPI::AttributedStringASDF get(std::in_place_type_t<TestAPI::AttributedStringASDF> obj = std::in_place_type_t<TestAPI::AttributedStringASDF>{}) {
+            return TestAPI::AttributedStringASDF {
+                get_t<decltype(TestAPI::AttributedStringASDF::_ref)>()
+            };
+        }
+        inline void put(const TestAPI::AttributedStringASDF::AttributeMergePolicy& obj) {
+            put(obj._variant);
+        }
+        inline TestAPI::AttributedStringASDF::AttributeMergePolicy get(std::in_place_type_t<TestAPI::AttributedStringASDF::AttributeMergePolicy> obj = std::in_place_type_t<TestAPI::AttributedStringASDF::AttributeMergePolicy>{}) {
+            return TestAPI::AttributedStringASDF::AttributeMergePolicy {
+                get_t<decltype(TestAPI::AttributedStringASDF::AttributeMergePolicy::_variant)>()
+            };
+        }
+        inline void put(const TestAPI::AttributedStringASDF::AttributeMergePolicy::keepCurrent& obj) {
+        }
+        inline TestAPI::AttributedStringASDF::AttributeMergePolicy::keepCurrent get(std::in_place_type_t<TestAPI::AttributedStringASDF::AttributeMergePolicy::keepCurrent> obj = std::in_place_type_t<TestAPI::AttributedStringASDF::AttributeMergePolicy::keepCurrent>{}) {
+            return TestAPI::AttributedStringASDF::AttributeMergePolicy::keepCurrent {
+                
+            };
+        }
+        inline void put(const TestAPI::AttributedStringASDF::AttributeMergePolicy::keepNew& obj) {
+        }
+        inline TestAPI::AttributedStringASDF::AttributeMergePolicy::keepNew get(std::in_place_type_t<TestAPI::AttributedStringASDF::AttributeMergePolicy::keepNew> obj = std::in_place_type_t<TestAPI::AttributedStringASDF::AttributeMergePolicy::keepNew>{}) {
+            return TestAPI::AttributedStringASDF::AttributeMergePolicy::keepNew {
+                
+            };
+        }
+        inline void put(const TestAPI::AttributedStringASDF::CharacterView& obj) {
+            put(obj._ref);
+        }
+        inline TestAPI::AttributedStringASDF::CharacterView get(std::in_place_type_t<TestAPI::AttributedStringASDF::CharacterView> obj = std::in_place_type_t<TestAPI::AttributedStringASDF::CharacterView>{}) {
+            return TestAPI::AttributedStringASDF::CharacterView {
+                get_t<decltype(TestAPI::AttributedStringASDF::CharacterView::_ref)>()
+            };
+        }
+        inline void put(const TestAPI::AttributedStringASDF::Index& obj) {
+            put(obj._ref);
+        }
+        inline TestAPI::AttributedStringASDF::Index get(std::in_place_type_t<TestAPI::AttributedStringASDF::Index> obj = std::in_place_type_t<TestAPI::AttributedStringASDF::Index>{}) {
+            return TestAPI::AttributedStringASDF::Index {
+                get_t<decltype(TestAPI::AttributedStringASDF::Index::_ref)>()
+            };
+        }
+        inline void put(const TestAPI::AttributedStringASDF::Runs& obj) {
+            put(obj._ref);
+        }
+        inline TestAPI::AttributedStringASDF::Runs get(std::in_place_type_t<TestAPI::AttributedStringASDF::Runs> obj = std::in_place_type_t<TestAPI::AttributedStringASDF::Runs>{}) {
+            return TestAPI::AttributedStringASDF::Runs {
+                get_t<decltype(TestAPI::AttributedStringASDF::Runs::_ref)>()
+            };
+        }
+        inline void put(const TestAPI::AttributedStringASDF::Runs::Index& obj) {
+            put(obj._ref);
+        }
+        inline TestAPI::AttributedStringASDF::Runs::Index get(std::in_place_type_t<TestAPI::AttributedStringASDF::Runs::Index> obj = std::in_place_type_t<TestAPI::AttributedStringASDF::Runs::Index>{}) {
+            return TestAPI::AttributedStringASDF::Runs::Index {
+                get_t<decltype(TestAPI::AttributedStringASDF::Runs::Index::_ref)>()
+            };
+        }
+        inline void put(const TestAPI::AttributedStringASDF::Runs::Run& obj) {
+            put(obj._ref);
+        }
+        inline TestAPI::AttributedStringASDF::Runs::Run get(std::in_place_type_t<TestAPI::AttributedStringASDF::Runs::Run> obj = std::in_place_type_t<TestAPI::AttributedStringASDF::Runs::Run>{}) {
+            return TestAPI::AttributedStringASDF::Runs::Run {
+                get_t<decltype(TestAPI::AttributedStringASDF::Runs::Run::_ref)>()
+            };
+        }
+        inline void put(const TestAPI::AttributedStringASDF::UnicodeScalarView& obj) {
+            put(obj._ref);
+        }
+        inline TestAPI::AttributedStringASDF::UnicodeScalarView get(std::in_place_type_t<TestAPI::AttributedStringASDF::UnicodeScalarView> obj = std::in_place_type_t<TestAPI::AttributedStringASDF::UnicodeScalarView>{}) {
+            return TestAPI::AttributedStringASDF::UnicodeScalarView {
+                get_t<decltype(TestAPI::AttributedStringASDF::UnicodeScalarView::_ref)>()
+            };
+        }
         inline void put(const TestAPI::AttributedStrings& obj) {
             put(obj._variant);
         }
         inline TestAPI::AttributedStrings get(std::in_place_type_t<TestAPI::AttributedStrings> obj = std::in_place_type_t<TestAPI::AttributedStrings>{}) {
             return TestAPI::AttributedStrings {
                 get_t<decltype(TestAPI::AttributedStrings::_variant)>()
+            };
+        }
+        inline void put(const TestAPI::AttributedSubstringASDF& obj) {
+            put(obj._ref);
+        }
+        inline TestAPI::AttributedSubstringASDF get(std::in_place_type_t<TestAPI::AttributedSubstringASDF> obj = std::in_place_type_t<TestAPI::AttributedSubstringASDF>{}) {
+            return TestAPI::AttributedSubstringASDF {
+                get_t<decltype(TestAPI::AttributedSubstringASDF::_ref)>()
             };
         }
         inline void put(const TestAPI::Bytes& obj) {

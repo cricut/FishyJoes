@@ -3,6 +3,7 @@ import Foundation
 struct Module: Hashable, CustomStringConvertible, Codable {
     let name: String
     let dependencies: [String]
+    let typeOverrides: [String: ExternalTranslatedType]
 
     var kotlinPackage: String { "com.cricut.\(name.lowercased())" }
     var cSharpNamespace: String { "Cricut.\(name)" }
@@ -20,7 +21,8 @@ extension Module {
     static var runtime: Module {
         Module(
             name: "FishyJoesRuntime",
-            dependencies: []
+            dependencies: [],
+            typeOverrides: [:]
         )
     }
 }

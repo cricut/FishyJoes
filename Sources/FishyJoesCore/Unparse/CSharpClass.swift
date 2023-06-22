@@ -1,5 +1,5 @@
 class CSharpClass: NestedClass {
-    indirect enum CSType: Equatable, Codable {
+    indirect enum CSType: Hashable, Codable {
         case void
         case primitive(String)
         case named(package: String?, name: String)

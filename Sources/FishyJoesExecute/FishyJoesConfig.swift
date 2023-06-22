@@ -1,30 +1,34 @@
 import ArgumentParser
 import swsh
 import Yams
+import Foundation
 
-struct FishyJoesConfig: Codable {
+struct FishyJoesConfig {
     let module: String
     let publishRepository: String?
     let requiredModules: [String]
+    let typeOverrides: [String: Any]?
 
     static func readFromFile() throws -> FishyJoesConfig {
+        let exampleYAML = """
+           ---
+           module: MyModule
+           typeOverrides: [ typeName: ExternalTranslatedType ]
+           requiredModules:
+             - otherModule.fishyjoesmodule
+
+        """
         guard let configData = try? cmd("cat", "fishy-joes.yaml").runString() else {
             throw ValidationError("missing config file fishy-joes.yaml")
         }
         guard let configObject = try? Yams.load(yaml: configData) else {
             print("fishy-joes.yaml is not valid YAML. Should be something like:")
-            print("---")
-            print("module: MyModule")
-            print("required-modules:")
-            print("  - other-module.fishyjoesmodule")
+            print(exampleYAML)
             throw ValidationError("invalid YAML")
         }
         guard let configDictionary = configObject as? [String: Any] else {
             print("fishy-joes.yaml root object must be a dictionary. Should be something like:")
-            print("---")
-            print("module: MyModule")
-            print("requiredModules:")
-            print("  - othermodule.fishyjoesmodule")
+            print(exampleYAML)
             throw ValidationError("invalid YAML")
         }
         guard let moduleObj = configDictionary["module"] else {
@@ -45,6 +49,41 @@ struct FishyJoesConfig: Codable {
             }
             return list
         }
-        return FishyJoesConfig(module: module, publishRepository: publishRepository, requiredModules: requiredModules ?? [])
+        let typeOverrides: [String: Any]? = try configDictionary["typeOverrides"].map { obj -> [String: Any] in
+            guard let map = obj as? [String: Any] else {
+                throw ValidationError("fishy-joes.yaml value for key `typeOverrides` is not a map of String to ExternalTranslatedType")
+            }
+            return map
+        }
+        return FishyJoesConfig(module: module, publishRepository: publishRepository, requiredModules: requiredModules ?? [], typeOverrides: typeOverrides)
+    }
+}
+
+extension FishyJoesConfig: Codable {
+    enum CodingKeys: CodingKey {
+        case module
+        case publishRepository
+        case requiredModules
+        case typeOverrides
+    }
+
+    init(from decoder: Decoder) throws {
+        let container: KeyedDecodingContainer<FishyJoesConfig.CodingKeys> = try decoder.container(keyedBy: FishyJoesConfig.CodingKeys.self)
+
+        self.module = try container.decode(String.self, forKey: FishyJoesConfig.CodingKeys.module)
+        self.publishRepository = try container.decodeIfPresent(String.self, forKey: FishyJoesConfig.CodingKeys.publishRepository)
+        self.requiredModules = try container.decode([String].self, forKey: FishyJoesConfig.CodingKeys.requiredModules)
+        self.typeOverrides = try JSONSerialization.jsonObject(with: container.decode(Data.self, forKey: FishyJoesConfig.CodingKeys.typeOverrides)) as? [String : Any]
+    }
+
+    func encode(to encoder: Encoder) throws {
+        var container: KeyedEncodingContainer<FishyJoesConfig.CodingKeys> = encoder.container(keyedBy: FishyJoesConfig.CodingKeys.self)
+
+        try container.encode(self.module, forKey: FishyJoesConfig.CodingKeys.module)
+        try container.encodeIfPresent(self.publishRepository, forKey: FishyJoesConfig.CodingKeys.publishRepository)
+        try container.encode(self.requiredModules, forKey: FishyJoesConfig.CodingKeys.requiredModules)
+        if let typeOverrides = typeOverrides {
+            try container.encode(JSONSerialization.data(withJSONObject: typeOverrides), forKey: FishyJoesConfig.CodingKeys.typeOverrides)
+        }
     }
 }

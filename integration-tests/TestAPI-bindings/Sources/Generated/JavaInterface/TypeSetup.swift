@@ -135,6 +135,10 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try OptionalConverter<SetConverter<OptionalConverter<Int>>>.javaSetup(env: env)
         // print("setting up OptionalConverter<SetConverter<Int>>...")
         try OptionalConverter<SetConverter<Int>>.javaSetup(env: env)
+        // print("setting up OptionalConverter<AttributeContainerASDF>...")
+        try OptionalConverter<AttributeContainerASDF>.javaSetup(env: env)
+        // print("setting up OptionalConverter<AttributedStringASDF.AttributeMergePolicy>...")
+        try OptionalConverter<AttributedStringASDF.AttributeMergePolicy>.javaSetup(env: env)
         // print("setting up OptionalConverter<Bool>...")
         try OptionalConverter<Bool>.javaSetup(env: env)
         // print("setting up OptionalConverter<Double>...")
@@ -163,6 +167,8 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try OptionalConverter<UInt64>.javaSetup(env: env)
         // print("setting up OptionalConverter<UInt8>...")
         try OptionalConverter<UInt8>.javaSetup(env: env)
+        // print("setting up RangeConverter<AttributedStringASDF.Index>...")
+        try RangeConverter<AttributedStringASDF.Index>.javaSetup(env: env)
         // print("setting up RangeConverter<Int>...")
         try RangeConverter<Int>.javaSetup(env: env)
         // print("setting up RangeConverter<Int16>...")
@@ -210,8 +216,135 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_get_AssociatedDataEnum_intValue, to: UnsafeMutableRawPointer.self)
             )
         )
+        // print("setting up AttributeContainerASDF...")
+        try AttributeContainerASDF.javaSetup(env: env)
+        try env.RegisterNatives(AttributeContainerASDF.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_createEmpty"),
+                signature: bag.add("()Lcom/cricut/testapi/AttributeContainer;"),
+                fnPtr: unsafeBitCast(java_AttributeContainerASDF_createEmpty, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_merge"),
+                signature: bag.add("(Lcom/cricut/testapi/AttributeContainer;Lcom/cricut/testapi/AttributedString$AttributeMergePolicy;)V"),
+                fnPtr: unsafeBitCast(java_AttributeContainerASDF_merge, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_attributes"),
+                signature: bag.add("()Ljava/util/Map;"),
+                fnPtr: unsafeBitCast(java_get_AttributeContainerASDF_attributes, to: UnsafeMutableRawPointer.self)
+            )
+        )
+        // print("setting up AttributedStringASDF.AttributeMergePolicy...")
+        try AttributedStringASDF.AttributeMergePolicy.javaSetup(env: env)
+        // print("setting up AttributeScopeASDF...")
+        try AttributeScopeASDF.javaSetup(env: env)
         // print("setting up Foundation.AttributedString...")
         try Foundation.AttributedString.javaSetup(env: env)
+        // print("setting up AttributedStringASDF...")
+        try AttributedStringASDF.javaSetup(env: env)
+        try env.RegisterNatives(AttributedStringASDF.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_createEmpty"),
+                signature: bag.add("()Lcom/cricut/testapi/AttributedString;"),
+                fnPtr: unsafeBitCast(java_AttributedStringASDF_createEmpty, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_create"),
+                signature: bag.add("(Ljava/lang/String;Lcom/cricut/testapi/AttributeContainer;)Lcom/cricut/testapi/AttributedString;"),
+                fnPtr: unsafeBitCast(java_AttributedStringASDF_create, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_createFromSubstring"),
+                signature: bag.add("(Lcom/cricut/testapi/AttributedSubstring;)Lcom/cricut/testapi/AttributedString;"),
+                fnPtr: unsafeBitCast(java_AttributedStringASDF_createFromSubstring, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_substringForRange"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftRange;)Lcom/cricut/testapi/AttributedSubstring;"),
+                fnPtr: unsafeBitCast(java_AttributedStringASDF_substringForRange, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_setAttributes"),
+                signature: bag.add("(Lcom/cricut/testapi/AttributeContainer;)V"),
+                fnPtr: unsafeBitCast(java_AttributedStringASDF_setAttributes, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_mergeAttributes"),
+                signature: bag.add("(Lcom/cricut/testapi/AttributeContainer;Lcom/cricut/testapi/AttributedString$AttributeMergePolicy;)V"),
+                fnPtr: unsafeBitCast(java_AttributedStringASDF_mergeAttributes, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_replaceAttributes"),
+                signature: bag.add("(Lcom/cricut/testapi/AttributeContainer;Lcom/cricut/testapi/AttributeContainer;)V"),
+                fnPtr: unsafeBitCast(java_AttributedStringASDF_replaceAttributes, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_append"),
+                signature: bag.add("(Lcom/cricut/testapi/AttributedString;)V"),
+                fnPtr: unsafeBitCast(java_AttributedStringASDF_append, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_insert"),
+                signature: bag.add("(Lcom/cricut/testapi/AttributedString;Lcom/cricut/testapi/AttributedString$Index;)V"),
+                fnPtr: unsafeBitCast(java_AttributedStringASDF_insert, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_removeSubrange"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftRange;)V"),
+                fnPtr: unsafeBitCast(java_AttributedStringASDF_removeSubrange, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_replaceSubrange"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftRange;Lcom/cricut/testapi/AttributedString;)V"),
+                fnPtr: unsafeBitCast(java_AttributedStringASDF_replaceSubrange, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_startIndex"),
+                signature: bag.add("()Lcom/cricut/testapi/AttributedString$Index;"),
+                fnPtr: unsafeBitCast(java_get_AttributedStringASDF_startIndex, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_endIndex"),
+                signature: bag.add("()Lcom/cricut/testapi/AttributedString$Index;"),
+                fnPtr: unsafeBitCast(java_get_AttributedStringASDF_endIndex, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_unicodeScalars"),
+                signature: bag.add("()Lcom/cricut/testapi/AttributedString$UnicodeScalarView;"),
+                fnPtr: unsafeBitCast(java_get_AttributedStringASDF_unicodeScalars, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_characters"),
+                signature: bag.add("()Lcom/cricut/testapi/AttributedString$CharacterView;"),
+                fnPtr: unsafeBitCast(java_get_AttributedStringASDF_characters, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_runs"),
+                signature: bag.add("()Lcom/cricut/testapi/AttributedString$Runs;"),
+                fnPtr: unsafeBitCast(java_get_AttributedStringASDF_runs, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_substring"),
+                signature: bag.add("()Lcom/cricut/testapi/AttributedSubstring;"),
+                fnPtr: unsafeBitCast(java_get_AttributedStringASDF_substring, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_attributes"),
+                signature: bag.add("()Ljava/util/Map;"),
+                fnPtr: unsafeBitCast(java_get_AttributedStringASDF_attributes, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_swiftEquals"),
+                signature: bag.add("(Lcom/cricut/testapi/AttributedString;Lcom/cricut/testapi/AttributedString;)Z"),
+                fnPtr: unsafeBitCast(AttributedStringASDF._javaEquals, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_hashCode"),
+                signature: bag.add("()I"),
+                fnPtr: unsafeBitCast(AttributedStringASDF._javaHash, to: UnsafeMutableRawPointer.self)
+            )
+        )
         // print("setting up AttributedStrings...")
         try AttributedStrings.javaSetup(env: env)
         try env.RegisterNatives(AttributedStrings.javaClass,
@@ -261,6 +394,85 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_get_AttributedStrings_emojiMulti, to: UnsafeMutableRawPointer.self)
             )
         )
+        // print("setting up AttributedSubstringASDF...")
+        try AttributedSubstringASDF.javaSetup(env: env)
+        try env.RegisterNatives(AttributedSubstringASDF.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_createEmpty"),
+                signature: bag.add("()Lcom/cricut/testapi/AttributedSubstring;"),
+                fnPtr: unsafeBitCast(java_AttributedSubstringASDF_createEmpty, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_substringForRange"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftRange;)Lcom/cricut/testapi/AttributedSubstring;"),
+                fnPtr: unsafeBitCast(java_AttributedSubstringASDF_substringForRange, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_setAttributes"),
+                signature: bag.add("(Lcom/cricut/testapi/AttributeContainer;)V"),
+                fnPtr: unsafeBitCast(java_AttributedSubstringASDF_setAttributes, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_mergeAttributes"),
+                signature: bag.add("(Lcom/cricut/testapi/AttributeContainer;Lcom/cricut/testapi/AttributedString$AttributeMergePolicy;)V"),
+                fnPtr: unsafeBitCast(java_AttributedSubstringASDF_mergeAttributes, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_replaceAttributes"),
+                signature: bag.add("(Lcom/cricut/testapi/AttributeContainer;Lcom/cricut/testapi/AttributeContainer;)V"),
+                fnPtr: unsafeBitCast(java_AttributedSubstringASDF_replaceAttributes, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_base"),
+                signature: bag.add("()Lcom/cricut/testapi/AttributedString;"),
+                fnPtr: unsafeBitCast(java_get_AttributedSubstringASDF_base, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_startIndex"),
+                signature: bag.add("()Lcom/cricut/testapi/AttributedString$Index;"),
+                fnPtr: unsafeBitCast(java_get_AttributedSubstringASDF_startIndex, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_endIndex"),
+                signature: bag.add("()Lcom/cricut/testapi/AttributedString$Index;"),
+                fnPtr: unsafeBitCast(java_get_AttributedSubstringASDF_endIndex, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_unicodeScalars"),
+                signature: bag.add("()Lcom/cricut/testapi/AttributedString$UnicodeScalarView;"),
+                fnPtr: unsafeBitCast(java_get_AttributedSubstringASDF_unicodeScalars, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_characters"),
+                signature: bag.add("()Lcom/cricut/testapi/AttributedString$CharacterView;"),
+                fnPtr: unsafeBitCast(java_get_AttributedSubstringASDF_characters, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_runs"),
+                signature: bag.add("()Lcom/cricut/testapi/AttributedString$Runs;"),
+                fnPtr: unsafeBitCast(java_get_AttributedSubstringASDF_runs, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_substring"),
+                signature: bag.add("()Lcom/cricut/testapi/AttributedSubstring;"),
+                fnPtr: unsafeBitCast(java_get_AttributedSubstringASDF_substring, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_attributes"),
+                signature: bag.add("()Ljava/util/Map;"),
+                fnPtr: unsafeBitCast(java_get_AttributedSubstringASDF_attributes, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_swiftEquals"),
+                signature: bag.add("(Lcom/cricut/testapi/AttributedSubstring;Lcom/cricut/testapi/AttributedSubstring;)Z"),
+                fnPtr: unsafeBitCast(AttributedSubstringASDF._javaEquals, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_hashCode"),
+                signature: bag.add("()I"),
+                fnPtr: unsafeBitCast(AttributedSubstringASDF._javaHash, to: UnsafeMutableRawPointer.self)
+            )
+        )
         // print("setting up Bool...")
         try Bool.javaSetup(env: env)
         // print("setting up Bytes...")
@@ -285,6 +497,40 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_get_data"),
                 signature: bag.add("()[B"),
                 fnPtr: unsafeBitCast(java_get_Bytes_data, to: UnsafeMutableRawPointer.self)
+            )
+        )
+        // print("setting up AttributedStringASDF.CharacterView...")
+        try AttributedStringASDF.CharacterView.javaSetup(env: env)
+        try env.RegisterNatives(AttributedStringASDF.CharacterView.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_indexBefore"),
+                signature: bag.add("(Lcom/cricut/testapi/AttributedString$Index;)Lcom/cricut/testapi/AttributedString$Index;"),
+                fnPtr: unsafeBitCast(java_AttributedStringASDF_CharacterView_indexBefore, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_indexAfter"),
+                signature: bag.add("(Lcom/cricut/testapi/AttributedString$Index;)Lcom/cricut/testapi/AttributedString$Index;"),
+                fnPtr: unsafeBitCast(java_AttributedStringASDF_CharacterView_indexAfter, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_elementAt"),
+                signature: bag.add("(Lcom/cricut/testapi/AttributedString$Index;)Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_AttributedStringASDF_CharacterView_elementAt, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_replaceSubrange"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftRange;Ljava/util/List;)V"),
+                fnPtr: unsafeBitCast(java_AttributedStringASDF_CharacterView_replaceSubrange, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_startIndex"),
+                signature: bag.add("()Lcom/cricut/testapi/AttributedString$Index;"),
+                fnPtr: unsafeBitCast(java_get_AttributedStringASDF_CharacterView_startIndex, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_endIndex"),
+                signature: bag.add("()Lcom/cricut/testapi/AttributedString$Index;"),
+                fnPtr: unsafeBitCast(java_get_AttributedStringASDF_CharacterView_endIndex, to: UnsafeMutableRawPointer.self)
             )
         )
         // print("setting up ClosedRanges...")
@@ -651,6 +897,10 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_get_Functions_sixthThing, to: UnsafeMutableRawPointer.self)
             )
         )
+        // print("setting up AttributedStringASDF.Runs.Index...")
+        try AttributedStringASDF.Runs.Index.javaSetup(env: env)
+        // print("setting up AttributedStringASDF.Index...")
+        try AttributedStringASDF.Index.javaSetup(env: env)
         // print("setting up Int...")
         try Int.javaSetup(env: env)
         // print("setting up Int16...")
@@ -1296,6 +1546,54 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(Structs.ReferenceStruct._javaHash, to: UnsafeMutableRawPointer.self)
             )
         )
+        // print("setting up AttributedStringASDF.Runs.Run...")
+        try AttributedStringASDF.Runs.Run.javaSetup(env: env)
+        try env.RegisterNatives(AttributedStringASDF.Runs.Run.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_get_range"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/SwiftRange;"),
+                fnPtr: unsafeBitCast(java_get_AttributedStringASDF_Runs_Run_range, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_attributes"),
+                signature: bag.add("()Lcom/cricut/testapi/AttributeContainer;"),
+                fnPtr: unsafeBitCast(java_get_AttributedStringASDF_Runs_Run_attributes, to: UnsafeMutableRawPointer.self)
+            )
+        )
+        // print("setting up AttributedStringASDF.Runs...")
+        try AttributedStringASDF.Runs.javaSetup(env: env)
+        try env.RegisterNatives(AttributedStringASDF.Runs.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_indexBefore"),
+                signature: bag.add("(Lcom/cricut/testapi/AttributedString$Runs$Index;)Lcom/cricut/testapi/AttributedString$Runs$Index;"),
+                fnPtr: unsafeBitCast(java_AttributedStringASDF_Runs_indexBefore, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_indexAfter"),
+                signature: bag.add("(Lcom/cricut/testapi/AttributedString$Runs$Index;)Lcom/cricut/testapi/AttributedString$Runs$Index;"),
+                fnPtr: unsafeBitCast(java_AttributedStringASDF_Runs_indexAfter, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_elementAt"),
+                signature: bag.add("(Lcom/cricut/testapi/AttributedString$Runs$Index;)Lcom/cricut/testapi/AttributedString$Runs$Run;"),
+                fnPtr: unsafeBitCast(java_AttributedStringASDF_Runs_elementAt, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_elementAtPosition"),
+                signature: bag.add("(Lcom/cricut/testapi/AttributedString$Index;)Lcom/cricut/testapi/AttributedString$Runs$Run;"),
+                fnPtr: unsafeBitCast(java_AttributedStringASDF_Runs_elementAtPosition, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_startIndex"),
+                signature: bag.add("()Lcom/cricut/testapi/AttributedString$Runs$Index;"),
+                fnPtr: unsafeBitCast(java_get_AttributedStringASDF_Runs_startIndex, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_endIndex"),
+                signature: bag.add("()Lcom/cricut/testapi/AttributedString$Runs$Index;"),
+                fnPtr: unsafeBitCast(java_get_AttributedStringASDF_Runs_endIndex, to: UnsafeMutableRawPointer.self)
+            )
+        )
         // print("setting up SimpleEnum...")
         try SimpleEnum.javaSetup(env: env)
         try env.RegisterNatives(SimpleEnum.javaClass,
@@ -1429,6 +1727,45 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try UInt64.javaSetup(env: env)
         // print("setting up UInt8...")
         try UInt8.javaSetup(env: env)
+        // print("setting up AttributedStringASDF.UnicodeScalarView...")
+        try AttributedStringASDF.UnicodeScalarView.javaSetup(env: env)
+        try env.RegisterNatives(AttributedStringASDF.UnicodeScalarView.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_indexBefore"),
+                signature: bag.add("(Lcom/cricut/testapi/AttributedString$Index;)Lcom/cricut/testapi/AttributedString$Index;"),
+                fnPtr: unsafeBitCast(java_AttributedStringASDF_UnicodeScalarView_indexBefore, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_indexAfter"),
+                signature: bag.add("(Lcom/cricut/testapi/AttributedString$Index;)Lcom/cricut/testapi/AttributedString$Index;"),
+                fnPtr: unsafeBitCast(java_AttributedStringASDF_UnicodeScalarView_indexAfter, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_indexOffsetByDistance"),
+                signature: bag.add("(Lcom/cricut/testapi/AttributedString$Index;J)Lcom/cricut/testapi/AttributedString$Index;"),
+                fnPtr: unsafeBitCast(java_AttributedStringASDF_UnicodeScalarView_indexOffsetByDistance, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_elementAt"),
+                signature: bag.add("(Lcom/cricut/testapi/AttributedString$Index;)I"),
+                fnPtr: unsafeBitCast(java_AttributedStringASDF_UnicodeScalarView_elementAt, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_replaceSubrange"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftRange;Ljava/util/List;)V"),
+                fnPtr: unsafeBitCast(java_AttributedStringASDF_UnicodeScalarView_replaceSubrange, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_startIndex"),
+                signature: bag.add("()Lcom/cricut/testapi/AttributedString$Index;"),
+                fnPtr: unsafeBitCast(java_get_AttributedStringASDF_UnicodeScalarView_startIndex, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_endIndex"),
+                signature: bag.add("()Lcom/cricut/testapi/AttributedString$Index;"),
+                fnPtr: unsafeBitCast(java_get_AttributedStringASDF_UnicodeScalarView_endIndex, to: UnsafeMutableRawPointer.self)
+            )
+        )
         // print("setting up Tuple2Converter<Int, Swift.String>...")
         try Tuple2Converter<Int, Swift.String>.javaSetup(env: env)
         // print("setting up Tuple4Converter<Int8, Int16, Int32, Int64>...")

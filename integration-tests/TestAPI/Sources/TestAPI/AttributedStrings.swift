@@ -39,17 +39,43 @@ public struct AttributeScopeASDF {
 }
 
 /// <!-- FishyJoes.exportReference(AttributeContainer) -->
-public struct AttributeContainerASDF: Hashable/*Equatable*/, CustomStringConvertible {
+public struct AttributeContainerASDF: /*Equatable, */CustomStringConvertible {
     /// <!-- FishyJoes.export(createEmpty) -->
     public init() {}
 
     // TODO: Static or dynamic attributes?
-//    public struct TextAttributes {
-//        // TODO: Things
-//        public var misc: [String: String]
-//    }
 //    public subscript<T>(_: T.Type) -> T.Value? where T : AttributedStringKey
+    public subscript(_ attributeName: String) -> String? { attributes[attributeName] }
+    /// <!-- FishyJoes.export(attributes) -->
+    public var attributes: [String: String] { [:] }
 
+//    public struct FoundationAttributes {
+//        public let link: AttributeScopes.FoundationAttributes.LinkAttribute
+//        public let morphology: AttributeScopes.FoundationAttributes.MorphologyAttribute
+//        public let inflect: AttributeScopes.FoundationAttributes.InflectionRuleAttribute
+//        public let languageIdentifier: AttributeScopes.FoundationAttributes.LanguageIdentifierAttribute
+//        public let personNameComponent: AttributeScopes.FoundationAttributes.PersonNameComponentAttribute
+//        public let numberFormat: AttributeScopes.FoundationAttributes.NumberFormatAttributes
+//        public let dateField: AttributeScopes.FoundationAttributes.DateFieldAttribute
+//        public let inlinePresentationIntent: AttributeScopes.FoundationAttributes.InlinePresentationIntentAttribute
+//        public let presentationIntent: AttributeScopes.FoundationAttributes.PresentationIntentAttribute
+//        public let alternateDescription: AttributeScopes.FoundationAttributes.AlternateDescriptionAttribute
+//        public let imageURL: AttributeScopes.FoundationAttributes.ImageURLAttribute
+//        public let replacementIndex: AttributeScopes.FoundationAttributes.ReplacementIndexAttribute
+//        public let measurement: AttributeScopes.FoundationAttributes.MeasurementAttribute
+//        public let inflectionAlternative: AttributeScopes.FoundationAttributes.InflectionAlternativeAttribute
+//        public let byteCount: AttributeScopes.FoundationAttributes.ByteCountAttribute
+//    }
+//    public var foundationAttributes: FoundationAttributes
+
+//    public struct CriTextAttributes {
+//        public let font: AttributeScopes.CriTextAttributes.FontAttribute
+//        public let alternateGlyph: AttributeScopes.CriTextAttributes.AlternateGlyphAttribute
+//        public let strokeStyle: AttributeScopes.CriTextAttributes.StrokeStyle
+//    }
+//    public var criTextAttributes: CriTextAttributes
+
+    /// <!-- FishyJoes.export(merge) -->
     public mutating func merge(_ other: Self, mergePolicy: AttributedStringASDF.AttributeMergePolicy? = nil) {}
 
     public var description: String { "fake" }
@@ -76,15 +102,24 @@ public struct AttributedStringASDF: CustomStringConvertible, Hashable {
     /// <!-- FishyJoes.export(runs) -->
     public var runs: Runs { .init() }
 
-    // TODO: Static or dynamic attributes?
-//    public subscript<K>(_: K.Type) -> K.Value? where K : AttributedStringKey { get { nil } set {} }
-//    public attribute(_ name: String) -> Any {}
-
     public subscript(_ range: Range<Index>) -> AttributedSubstringASDF { .init() }
     /// <!-- FishyJoes.export(substringForRange) -->
     public func substring(for range: Range<Index>) -> AttributedSubstringASDF { self[range] }
     /// <!-- FishyJoes.export(substring) -->
     public var substring: AttributedSubstringASDF { .init() }
+
+    // TODO: Static or dynamic attributes?
+//    public subscript<T>(_: T.Type) -> T.Value? where T : AttributedStringKey
+    public subscript(_ attributeName: String) -> String? { attributes[attributeName] }
+    /// <!-- FishyJoes.export(attributes) -->
+    public var attributes: [String: String] { [:] }
+
+    /// <!-- FishyJoes.export(setAttributes) -->
+    public mutating func setAttributes(_ attributes: AttributeContainerASDF) {}
+    /// <!-- FishyJoes.export(mergeAttributes) -->
+    public mutating func mergeAttributes(_ attributes: AttributeContainerASDF, mergePolicy: AttributedStringASDF.AttributeMergePolicy? = nil) {}
+    /// <!-- FishyJoes.export(replaceAttributes) -->
+    public mutating func replaceAttributes(_ attributes: AttributeContainerASDF, with others: AttributeContainerASDF) {}
 
     /// <!-- FishyJoes.export(append) -->
     public mutating func append(_ s: Self) {}
@@ -94,13 +129,6 @@ public struct AttributedStringASDF: CustomStringConvertible, Hashable {
     public mutating func removeSubrange(_ range: Range<Index>) {}
     /// <!-- FishyJoes.export(replaceSubrange) -->
     public mutating func replaceSubrange(_ range: Range<Index>, with s: Self) {}
-
-    /// <!-- FishyJoes.export(setAttributes) -->
-    public mutating func setAttributes(_ attributes: AttributeContainerASDF) {}
-    /// <!-- FishyJoes.export(mergeAttributes) -->
-    public mutating func mergeAttributes(_ attributes: AttributeContainerASDF, mergePolicy: AttributedStringASDF.AttributeMergePolicy? = nil) {}
-    /// <!-- FishyJoes.export(replaceAttributes) -->
-    public mutating func replaceAttributes(_ attributes: AttributeContainerASDF, with others: AttributeContainerASDF) {}
 
     public var description: String { "fake" }
 }
@@ -133,6 +161,12 @@ public struct AttributedSubstringASDF: CustomStringConvertible, Hashable {
     /// <!-- FishyJoes.export(substring) -->
     public var substring: AttributedSubstringASDF { .init() }
 
+    // TODO: Static or dynamic attributes?
+//    public subscript<T>(_: T.Type) -> T.Value? where T : AttributedStringKey
+    public subscript(_ attributeName: String) -> String? { attributes[attributeName] }
+    /// <!-- FishyJoes.export(attributes) -->
+    public var attributes: [String: String] { [:] }
+
     /// <!-- FishyJoes.export(setAttributes) -->
     public mutating func setAttributes(_ attributes: AttributeContainerASDF) {}
     /// <!-- FishyJoes.export(mergeAttributes) -->
@@ -155,7 +189,7 @@ extension AttributedStringASDF {
 }
 
 extension AttributedStringASDF {
-    /// <!-- FishyJoes.exportReference(AttributedString.AttributeMergePolicy) -->
+    /// <!-- FishyJoes.export(AttributedString.AttributeMergePolicy) -->
     public enum AttributeMergePolicy: String, Hashable, Sendable {
         case keepNew
         case keepCurrent
@@ -167,9 +201,7 @@ extension AttributedStringASDF {
     public struct UnicodeScalarView: RangeReplaceableCollection, BidirectionalCollection {
         public init() {}
 
-        /// <!-- FishyJoes.exportReference(AttributedString.UnicodeScalarView.Element) -->
         public typealias Element = UInt32//UnicodeScalar
-        /// <!-- FishyJoes.exportReference(AttributedString.UnicodeScalarView.Index) -->
         public typealias Index = AttributedStringASDF.Index
 
         /// <!-- FishyJoes.export(startIndex) -->
@@ -197,10 +229,7 @@ extension AttributedStringASDF {
     public struct CharacterView: BidirectionalCollection, RangeReplaceableCollection {
         public init() {}
 
-        /// <!-- FishyJoes.exportReference(AttributedString.CharacterView.Element) -->
         public typealias Element = String//Character
-
-        /// <!-- FishyJoes.exportReference(AttributedString.CharacterView.Index) -->
         public typealias Index = AttributedStringASDF.Index
 
         /// <!-- FishyJoes.export(startIndex) -->
@@ -223,7 +252,7 @@ extension AttributedStringASDF {
 
 extension AttributedStringASDF {
     /// <!-- FishyJoes.exportReference(AttributedString.Runs) -->
-    public struct Runs: BidirectionalCollection, Hashable/*Equatable*/, CustomStringConvertible {
+    public struct Runs: BidirectionalCollection, CustomStringConvertible {
         public init() {}
 
         /// <!-- FishyJoes.exportReference(AttributedString.Runs.Index) -->
@@ -239,18 +268,14 @@ extension AttributedStringASDF {
         }
 
         /// <!-- FishyJoes.exportReference(AttributedString.Runs.Run) -->
-        public struct Run: Hashable/*Equatable*/, CustomStringConvertible {
+        public struct Run: /*Equatable, */CustomStringConvertible {
             /// <!-- FishyJoes.export(range) -->
             public var range: Range<AttributedStringASDF.Index> { AttributedStringASDF.Index()..<AttributedStringASDF.Index() }
             /// <!-- FishyJoes.export(attributes) -->
             public var attributes: AttributeContainerASDF { .init() }
 
-//            public subscript<K>(_: K.Type) -> K.Value? where K : AttributedStringKey { get }
-
             public var description: String { "fake" }
         }
-
-        /// <!-- FishyJoes.exportReference(AttributedString.Runs.Element) -->
         public typealias Element = Run
 
         /// <!-- FishyJoes.export(startIndex) -->

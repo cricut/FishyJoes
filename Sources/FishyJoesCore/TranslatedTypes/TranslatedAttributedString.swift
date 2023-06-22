@@ -33,7 +33,7 @@ struct TranslatedAttributeContainer: TranslatedType {
     let nodeName = "AttributeContainer"
     let kotlinPackage: String? = "com.cricut.fishyjoes.runtime"
     let kotlinName = "AttributeContainer"
-    let jniType = JNIType.object("com/cricut/fishyjoes/runtime/AttributeContainer")
+    let jniType = JNIType.object("com/cricut/critext/AttributeContainer")
     let cSharpType = CSharpClass.CSType.named(package: "Cricut.FishyJoesRuntime", name: "AttributeContainer")
     let cppName = "AttributeContainer"
     let definingModule = Module.runtime

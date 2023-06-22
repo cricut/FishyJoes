@@ -49,10 +49,17 @@ public class FishyJoesContext {
         else {
             fatalErr("must provide `requiredModules` as argument to sourcery")
         }
+        guard let typeOverridesBase64 = argument["typeOverrides"] as? String,
+              let typeOverridesJSON = Data(base64Encoded: typeOverridesBase64),
+              let typeOverrides = try? JSONDecoder().decode([String: ExternalTranslatedType].self, from: typeOverridesJSON)
+        else {
+            fatalErr("must provide `typeOverrides` as argument to sourcery")
+        }
         self.templateContext = context
         self.module = Module(
             name: module,
-            dependencies: requiredModulePaths.map { (($0 as NSString).lastPathComponent as NSString).deletingPathExtension }
+            dependencies: requiredModulePaths.map { (($0 as NSString).lastPathComponent as NSString).deletingPathExtension },
+            typeOverrides: typeOverrides
         )
         self.requiredModulePaths = requiredModulePaths
         self.tsAnnotations = TypeScriptAnnotations(
@@ -336,6 +343,8 @@ public class FishyJoesContext {
                 } else if let typeOverride = generics[name.name] {
                     dontCache = true
                     return recur(typeOverride)
+                } else if let override = module.typeOverrides[name.name] {
+                    return override
                 } else if name.name == "String" {
                     return TranslatedString()
                 } else if name.name == "AttributedString" {
