@@ -10,21 +10,21 @@ import Foundation
 /// <!-- FishyJoes.export(AttributedStrings) -->
 public enum AttributedStrings {
     /// <!-- FishyJoes.export(simple) -->
-    public static let simple = AttributedString("Hello")
+    public static let simple = AttributedString("Hello", attributes: .init().languageIdentifier("en"))
     /// <!-- FishyJoes.export(accent) -->
-    public static let accent = AttributedString("Olá")
+    public static let accent = AttributedString("Olá", attributes: .init().languageIdentifier("pt"))
     /// <!-- FishyJoes.export(script) -->
-    public static let script = AttributedString("こんにちは")
+    public static let script = AttributedString("こんにちは", attributes: .init().languageIdentifier("ja"))
     /// <!-- FishyJoes.export(chinese) -->
-    public static let chinese = AttributedString("你好")
+    public static let chinese = AttributedString("你好", attributes: .init().languageIdentifier("zh"))
     /// <!-- FishyJoes.export(chineseBMP) -->
-    public static let chineseBMP = AttributedString("豈更車賈滑")
+    public static let chineseBMP = AttributedString("豈更車賈滑", attributes: .init().languageIdentifier("zh"))
     /// <!-- FishyJoes.export(chineseSIP) -->
-    public static let chineseSIP = AttributedString("\u{20001}\u{20002}\u{20003}\u{20004}")
+    public static let chineseSIP = AttributedString("\u{20001}\u{20002}\u{20003}\u{20004}", attributes: .init().languageIdentifier("zh"))
     /// <!-- FishyJoes.export(emoji) -->
-    public static let emoji = AttributedString("🤯🐶🍓")
+    public static let emoji = AttributedString("🤯🐶🍓", attributes: .init().link(URL(string: "https://home.unicode.org/emoji")!))
     /// <!-- FishyJoes.export(emojiMulti) -->
-    public static let emojiMulti = AttributedString("👨‍👩‍👧‍👦👍🏿🇺🇸")
+    public static let emojiMulti = AttributedString("👨‍👩‍👧‍👦👍🏿🇺🇸", attributes: .init().link(URL(string: "https://home.unicode.org/emoji")!))
 
     /// <!-- FishyJoes.export(echo) -->
     public static func echo(_ string: AttributedString) -> AttributedString {
