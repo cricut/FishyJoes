@@ -25,6 +25,8 @@ public enum AttributedStrings {
     public static let emoji = AttributedString("🤯🐶🍓", attributes: .init().link(URL(string: "https://home.unicode.org/emoji")!))
     /// <!-- FishyJoes.export(emojiMulti) -->
     public static let emojiMulti = AttributedString("👨‍👩‍👧‍👦👍🏿🇺🇸", attributes: .init().link(URL(string: "https://home.unicode.org/emoji/emoji-frequency")!))
+    /// <!-- FishyJoes.export(polyglot) -->
+    public static let polyglot: AttributedString = { Self.simple + " " + Self.accent + " " + Self.script }()
 
     /// <!-- FishyJoes.export(echo) -->
     public static func echo(_ string: AttributedString) -> AttributedString {
@@ -85,6 +87,8 @@ public struct AttributedStringASDF: CustomStringConvertible, Hashable {
     public func substring(for range: Range<Index>) -> AttributedSubstringASDF { self[range] }
     /// <!-- FishyJoes.export(substring) -->
     public var substring: AttributedSubstringASDF { .init() }
+    /// <!-- FishyJoes.export(string) -->
+    public var string: String { .init() }
 
     /// <!-- FishyJoes.export(append) -->
     public mutating func append(_ s: Self) {}
@@ -132,6 +136,8 @@ public struct AttributedSubstringASDF: CustomStringConvertible, Hashable {
     public func substring(for range: Range<Index>) -> AttributedSubstringASDF { self[range] }
     /// <!-- FishyJoes.export(substring) -->
     public var substring: AttributedSubstringASDF { .init() }
+    /// <!-- FishyJoes.export(string) -->
+    public var string: String { .init() }
 
     /// <!-- FishyJoes.export(setAttributes) -->
     public mutating func setAttributes(_ attributes: AttributeContainerASDF) {}
@@ -145,7 +151,7 @@ public struct AttributedSubstringASDF: CustomStringConvertible, Hashable {
 
 extension AttributedStringASDF {
     /// <!-- FishyJoes.exportReference(AttributedString.Index) -->
-    public struct Index: Comparable, Sendable {
+    public struct Index: Comparable, Hashable, Sendable {
         public init() { self._data = 0 }
         public init(_data: UInt64) { self._data = _data }
         public var _data: UInt64
@@ -227,7 +233,7 @@ extension AttributedStringASDF {
         public init() {}
 
         /// <!-- FishyJoes.exportReference(AttributedString.Runs.Index) -->
-        public struct Index: Comparable, Strideable, Sendable {
+        public struct Index: Comparable, Strideable, Hashable, Sendable {
             public init() { self._data = 0 }
             public init(_data: UInt64) { self._data = _data }
             public var _data: UInt64

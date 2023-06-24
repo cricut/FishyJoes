@@ -44,6 +44,7 @@ namespace TestAPI {
                 void* FJInternalBinding_TestAPI_AttributedStrings_getChineseSIP();
                 void* FJInternalBinding_TestAPI_AttributedStrings_getEmoji();
                 void* FJInternalBinding_TestAPI_AttributedStrings_getEmojiMulti();
+                void* FJInternalBinding_TestAPI_AttributedStrings_getPolyglot();
                 void* FJInternalBinding_TestAPI_Bytes_echoBytes(void*);
                 void* FJInternalBinding_TestAPI_Bytes_echoData(void*);
                 void* FJInternalBinding_TestAPI_Bytes_getBytes();

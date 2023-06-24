@@ -122,6 +122,17 @@ extension AttributedStrings: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
+                "polyglot": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "polyglot", expectedArgumentCount: 0) { env in
+                                try Foundation.AttributedString.toNode(AttributedStrings.polyglot, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: true
+                ),
             ],
             constructor: { env, info in
                 FishyJoesNodeRuntime.callbackBody(

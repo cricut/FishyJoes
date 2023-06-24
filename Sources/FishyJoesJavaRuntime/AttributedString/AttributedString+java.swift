@@ -33,11 +33,6 @@ extension AttributedString: JavaMutator {
                 fnPtr: unsafeBitCast(java_AttributedString_createFromSubstring, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_substringForRange"),
-                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftRange;)Lcom/cricut/fishyjoes/runtime/AttributedSubstring;"),
-                fnPtr: unsafeBitCast(java_AttributedString_substringForRange, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
                 name: bag.add("__jni_append"),
                 signature: bag.add("(Lcom/cricut/fishyjoes/runtime/AttributedString;)V"),
                 fnPtr: unsafeBitCast(java_AttributedString_append, to: UnsafeMutableRawPointer.self)
@@ -98,9 +93,19 @@ extension AttributedString: JavaMutator {
                 fnPtr: unsafeBitCast(java_get_AttributedString_runs, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
+                name: bag.add("__jni_substringForRange"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftRange;)Lcom/cricut/fishyjoes/runtime/AttributedSubstring;"),
+                fnPtr: unsafeBitCast(java_AttributedString_substringForRange, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
                 name: bag.add("__jni_get_substring"),
                 signature: bag.add("()Lcom/cricut/fishyjoes/runtime/AttributedSubstring;"),
                 fnPtr: unsafeBitCast(java_get_AttributedString_substring, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_string"),
+                signature: bag.add("()Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_get_AttributedString_string, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_swiftEquals"),
@@ -113,6 +118,7 @@ extension AttributedString: JavaMutator {
                 fnPtr: unsafeBitCast(_javaHash, to: UnsafeMutableRawPointer.self)
             )
         )
+        // TODO: Why don't these javaSetup methods get called?!?
         try AttributedSubstring.javaSetup(env: env)
         try AttributedString.Index.javaSetup(env: env)
         try AttributedString.UnicodeScalarView.javaSetup(env: env)

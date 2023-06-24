@@ -259,6 +259,11 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_get_emojiMulti"),
                 signature: bag.add("()Lcom/cricut/fishyjoes/runtime/AttributedString;"),
                 fnPtr: unsafeBitCast(java_get_AttributedStrings_emojiMulti, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_polyglot"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/AttributedString;"),
+                fnPtr: unsafeBitCast(java_get_AttributedStrings_polyglot, to: UnsafeMutableRawPointer.self)
             )
         )
         // print("setting up Bool...")

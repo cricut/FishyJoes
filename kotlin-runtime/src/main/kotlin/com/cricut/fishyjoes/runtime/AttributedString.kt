@@ -48,7 +48,7 @@ class AttributedString private constructor(swiftReference: Long): com.cricut.fis
      * <!-- FishyJoes.export(substring) -->
      */
     val substring: com.cricut.fishyjoes.runtime.AttributedSubstring
-      get() = __jni_get_substring()
+        get() = __jni_get_substring()
     @JvmName("__jni_get_substring")
     private external fun __jni_get_substring(): com.cricut.fishyjoes.runtime.AttributedSubstring
 
@@ -62,6 +62,14 @@ class AttributedString private constructor(swiftReference: Long): com.cricut.fis
     private external fun __jni_substringForRange(
         range: com.cricut.fishyjoes.runtime.SwiftRange<AttributedString.Index>
     ): com.cricut.fishyjoes.runtime.AttributedSubstring
+
+    /**
+     * <!-- FishyJoes.export(string) -->
+     */
+    val string: kotlin.String
+        get() = __jni_get_string()
+    @JvmName("__jni_get_string")
+    private external fun __jni_get_string(): kotlin.String
 
     /**
      * <!-- FishyJoes.export(append) -->
@@ -348,8 +356,34 @@ class AttributedString private constructor(swiftReference: Long): com.cricut.fis
          * <!-- FishyJoes.exportReference(AttributedString.Runs.Index) -->
          */
         class Index private constructor(swiftReference: Long): com.cricut.fishyjoes.runtime.SwiftReference(swiftReference), Comparable<Index> {
-            override fun compareTo(other: Index) = 0
+            override fun compareTo(other: Index) = __jni_compare(other)
+            @JvmName("__jni_compare")
+            private external fun __jni_compare(
+                other: Index
+            ): Int
+
+            override fun equals(
+                other: Any?
+            ): Boolean = (other is com.cricut.fishyjoes.runtime.AttributedString.Runs.Index) && AttributedString.Runs.Index.__jni_swiftEquals(this, other)
+
+            override fun hashCode(
+            ): Int = __jni_hashCode()
+            @JvmName("__jni_hashCode")
+            private external fun __jni_hashCode(
+            ): Int
+
             companion object {
+                fun swiftEquals(
+                    lhs: com.cricut.fishyjoes.runtime.AttributedString.Runs.Index,
+                    rhs: com.cricut.fishyjoes.runtime.AttributedString.Runs.Index
+                ): Boolean = __jni_swiftEquals(lhs, rhs)
+                @JvmStatic
+                @JvmName("__jni_swiftEquals")
+                private external fun __jni_swiftEquals(
+                    lhs: com.cricut.fishyjoes.runtime.AttributedString.Runs.Index,
+                    rhs: com.cricut.fishyjoes.runtime.AttributedString.Runs.Index
+                ): Boolean
+
                 init { loadNativeLibs() }
             }
         }
@@ -359,8 +393,34 @@ class AttributedString private constructor(swiftReference: Long): com.cricut.fis
      * <!-- FishyJoes.exportReference(AttributedString.Index) -->
      */
     class Index private constructor(swiftReference: Long): com.cricut.fishyjoes.runtime.SwiftReference(swiftReference), Comparable<Index> {
-        override fun compareTo(other: Index) = 0
+        override fun compareTo(other: Index) = __jni_compare(other)
+        @JvmName("__jni_compare")
+        private external fun __jni_compare(
+            other: Index
+        ): Int
+
+        override fun equals(
+            other: Any?
+        ): Boolean = (other is com.cricut.fishyjoes.runtime.AttributedString.Index) && __jni_swiftEquals(this, other)
+
+        override fun hashCode(
+        ): Int = __jni_hashCode()
+        @JvmName("__jni_hashCode")
+        private external fun __jni_hashCode(
+        ): Int
+
         companion object {
+            fun swiftEquals(
+                lhs: com.cricut.fishyjoes.runtime.AttributedString.Index,
+                rhs: com.cricut.fishyjoes.runtime.AttributedString.Index
+            ): Boolean = __jni_swiftEquals(lhs, rhs)
+            @JvmStatic
+            @JvmName("__jni_swiftEquals")
+            private external fun __jni_swiftEquals(
+                lhs: com.cricut.fishyjoes.runtime.AttributedString.Index,
+                rhs: com.cricut.fishyjoes.runtime.AttributedString.Index
+            ): Boolean
+
             init { loadNativeLibs() }
         }
     }

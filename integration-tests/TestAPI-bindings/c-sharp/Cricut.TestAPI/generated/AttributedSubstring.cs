@@ -103,6 +103,19 @@ namespace Cricut.TestAPI {
         private static extern CreatedRef __cs_get_AttributedSubstringASDF_Substring(UnownedRef self, out CreatedRef exn);
 
         /// <summary>
+        /// <!-- FishyJoes.export(string) -->
+        /// </summary>
+        public string GetString() {
+            using var thisHandle = new GCRef(this);
+            return Check((out CreatedRef exn) =>
+                __cs_get_AttributedSubstringASDF_String(thisHandle.ptr, out exn).Consume<string>()
+            );
+        }
+
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __cs_get_AttributedSubstringASDF_String(UnownedRef self, out CreatedRef exn);
+
+        /// <summary>
         /// <!-- FishyJoes.export(createEmpty) -->
         /// </summary>
         public static Cricut.TestAPI.AttributedSubstring CreateEmpty(

@@ -78,6 +78,11 @@ extension AttributedSubstring: JavaMutator {
                 fnPtr: unsafeBitCast(java_get_AttributedSubstring_substring, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
+                name: bag.add("__jni_get_string"),
+                signature: bag.add("()Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_get_AttributedSubstring_string, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
                 name: bag.add("__jni_swiftEquals"),
                 signature: bag.add("(Lcom/cricut/fishyjoes/runtime/AttributedSubstring;Lcom/cricut/fishyjoes/runtime/AttributedSubstring;)Z"),
                 fnPtr: unsafeBitCast(AttributedSubstring._javaEquals, to: UnsafeMutableRawPointer.self)

@@ -90,6 +90,19 @@ namespace Cricut.TestAPI {
         private static extern CreatedRef __cs_get_AttributedStringASDF_Substring(UnownedRef self, out CreatedRef exn);
 
         /// <summary>
+        /// <!-- FishyJoes.export(string) -->
+        /// </summary>
+        public string GetString() {
+            using var thisHandle = new GCRef(this);
+            return Check((out CreatedRef exn) =>
+                __cs_get_AttributedStringASDF_String(thisHandle.ptr, out exn).Consume<string>()
+            );
+        }
+
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __cs_get_AttributedStringASDF_String(UnownedRef self, out CreatedRef exn);
+
+        /// <summary>
         /// <!-- FishyJoes.export(createEmpty) -->
         /// </summary>
         public static Cricut.TestAPI.AttributedString CreateEmpty(
@@ -519,6 +532,33 @@ namespace Cricut.TestAPI {
             public class Index : SwiftReference {
                 internal Index(ConsumedRef reference): base(reference) {}
 
+                public override bool Equals(
+                    object? other
+                ) {
+                    using var thisHandle = new GCRef(this);
+                    using var otherHandle = new GCRef(other as Cricut.TestAPI.AttributedString.Runs.Index);
+                    return Check((out CreatedRef exn) => __cs_AttributedStringASDF_Runs_Index_equals(thisHandle.ptr, otherHandle.ptr, out exn));
+                }
+
+                [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+                private static extern bool __cs_AttributedStringASDF_Runs_Index_equals(
+                    UnownedRef lhs,
+                    UnownedRef rhs,
+                    out CreatedRef exn
+                );
+
+                public override int GetHashCode(
+                ) {
+                    using var _thisHandle = new GCRef(this);
+                    return Check((out CreatedRef _exn) => __cs_AttributedStringASDF_Runs_Index_hash(_thisHandle.ptr, out _exn));
+                }
+
+                [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+                private static extern int __cs_AttributedStringASDF_Runs_Index_hash(
+                    UnownedRef self,
+                    out CreatedRef exn
+                );
+
                 static Index() { _TypeSetup._ensureLoaded(); }
             }
             static Runs() { _TypeSetup._ensureLoaded(); }
@@ -529,6 +569,33 @@ namespace Cricut.TestAPI {
         /// </summary>
         public class Index : SwiftReference {
             internal Index(ConsumedRef reference): base(reference) {}
+
+            public override bool Equals(
+                object? other
+            ) {
+                using var thisHandle = new GCRef(this);
+                using var otherHandle = new GCRef(other as Cricut.TestAPI.AttributedString.Index);
+                return Check((out CreatedRef exn) => __cs_AttributedStringASDF_Index_equals(thisHandle.ptr, otherHandle.ptr, out exn));
+            }
+
+            [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            private static extern bool __cs_AttributedStringASDF_Index_equals(
+                UnownedRef lhs,
+                UnownedRef rhs,
+                out CreatedRef exn
+            );
+
+            public override int GetHashCode(
+            ) {
+                using var _thisHandle = new GCRef(this);
+                return Check((out CreatedRef _exn) => __cs_AttributedStringASDF_Index_hash(_thisHandle.ptr, out _exn));
+            }
+
+            [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            private static extern int __cs_AttributedStringASDF_Index_hash(
+                UnownedRef self,
+                out CreatedRef exn
+            );
 
             static Index() { _TypeSetup._ensureLoaded(); }
         }

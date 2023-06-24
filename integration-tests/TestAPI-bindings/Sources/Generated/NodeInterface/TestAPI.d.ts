@@ -131,6 +131,11 @@ export declare namespace TestAPI {
         const emojiMulti: AttributedString;
 
         /**
+         * <!-- FishyJoes.export(polyglot) -->
+         */
+        const polyglot: AttributedString;
+
+        /**
          * <!-- FishyJoes.export(script) -->
          */
         const script: AttributedString;

@@ -61,6 +61,14 @@ class AttributedSubstring private constructor(swiftReference: Long): com.cricut.
     private external fun __jni_get_substring(): com.cricut.fishyjoes.runtime.AttributedSubstring
 
     /**
+     * <!-- FishyJoes.export(string) -->
+     */
+    val string: kotlin.String
+        get() = __jni_get_string()
+    @JvmName("__jni_get_string")
+    private external fun __jni_get_string(): kotlin.String
+
+    /**
      * <!-- FishyJoes.export(substringForRange) -->
      */
     fun substringForRange(

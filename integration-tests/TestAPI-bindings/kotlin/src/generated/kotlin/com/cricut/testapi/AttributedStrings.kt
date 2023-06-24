@@ -79,6 +79,15 @@ sealed class AttributedStrings {
         private external fun __jni_get_emojiMulti(): com.cricut.fishyjoes.runtime.AttributedString
 
         /**
+         * <!-- FishyJoes.export(polyglot) -->
+         */
+        val polyglot: com.cricut.fishyjoes.runtime.AttributedString
+          get() = __jni_get_polyglot()
+        @JvmStatic
+        @JvmName("__jni_get_polyglot")
+        private external fun __jni_get_polyglot(): com.cricut.fishyjoes.runtime.AttributedString
+
+        /**
          * <!-- FishyJoes.export(echo) -->
          */
         fun echo(

@@ -85,6 +85,9 @@ namespace TestAPI {
         /// <!-- FishyJoes.export(emojiMulti) -->
         static AttributedString getEmojiMulti();
         
+        /// <!-- FishyJoes.export(polyglot) -->
+        static AttributedString getPolyglot();
+        
         
         /*  Data  */
         private:

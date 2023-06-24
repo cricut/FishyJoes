@@ -28,4 +28,7 @@ namespace TestAPI {
     AttributedString AttributedStrings::getEmojiMulti() {
         return FishyJoesInternal::Packer::unpack<AttributedString>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_AttributedStrings_getEmojiMulti());
     }
+    AttributedString AttributedStrings::getPolyglot() {
+        return FishyJoesInternal::Packer::unpack<AttributedString>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_AttributedStrings_getPolyglot());
+    }
 }

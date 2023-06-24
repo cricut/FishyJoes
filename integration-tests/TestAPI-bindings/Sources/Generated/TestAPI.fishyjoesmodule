@@ -1328,6 +1328,19 @@
                     "_0" : "AttributedString"
                   }
                 }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(polyglot) -->"
+                ],
+                "isStatic" : true,
+                "name" : "polyglot",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "AttributedString"
+                  }
+                }
               }
             ],
             "interfaces" : [

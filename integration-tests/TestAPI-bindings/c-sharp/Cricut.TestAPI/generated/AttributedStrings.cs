@@ -124,6 +124,20 @@ namespace Cricut.TestAPI {
         private static extern CreatedRef __cs_get_AttributedStrings_EmojiMulti(out CreatedRef exn);
 
         /// <summary>
+        /// <!-- FishyJoes.export(polyglot) -->
+        /// </summary>
+        public static Cricut.FishyJoesRuntime.AttributedString Polyglot {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __cs_get_AttributedStrings_Polyglot(out exn).Consume<Cricut.FishyJoesRuntime.AttributedString>()
+                );
+            }
+        }
+
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __cs_get_AttributedStrings_Polyglot(out CreatedRef exn);
+
+        /// <summary>
         /// <!-- FishyJoes.export(echo) -->
         /// </summary>
         public static Cricut.FishyJoesRuntime.AttributedString Echo(
