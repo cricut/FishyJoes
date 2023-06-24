@@ -80,9 +80,14 @@ extension AttributedString.Runs: JavaMutator {
         jobject?
     ) -> Int32.CType = { _javaEnv, _javaThis in
         FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
+            let runHashes = try AttributedString.Runs.fromJava(_javaThis, env: _javaEnv)
+                .lazy
+                .map { AttributedString("", attributes: $0.attributes).hashValue }
+            let hashValue = runHashes
+                .reduce(into: Hasher()) { $0.combine($1) }
+                .finalize()
             return try Int32.toJava(
-                // TODO: hashValue
-                0,//Int32(truncatingIfNeeded: AttributedString.Runs.fromJava(_javaThis, env: _javaEnv).hashValue),
+                Int32(truncatingIfNeeded: hashValue),
                 env: _javaEnv
             )
         }

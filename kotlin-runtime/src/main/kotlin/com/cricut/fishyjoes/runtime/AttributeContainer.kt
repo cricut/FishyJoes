@@ -25,6 +25,30 @@ class AttributeContainer private constructor(swiftReference: Long): com.cricut.f
         private external fun __jni_createEmpty(
         ): com.cricut.fishyjoes.runtime.AttributeContainer
 
+        /**
+         * <!-- FishyJoes.export(createWithLanguageIdentifier) -->
+         */
+        fun createWithLanguageIdentifier(
+            languageIdentifier: kotlin.String
+        ): com.cricut.fishyjoes.runtime.AttributeContainer = __jni_createWithLanguageIdentifier(languageIdentifier)
+        @JvmStatic
+        @JvmName("__jni_createWithLanguageIdentifier")
+        private external fun __jni_createWithLanguageIdentifier(
+            string: kotlin.String
+        ): com.cricut.fishyjoes.runtime.AttributeContainer
+
+        /**
+         * <!-- FishyJoes.export(createWithLink) -->
+         */
+        fun createWithLink(
+            link: kotlin.String
+        ): com.cricut.fishyjoes.runtime.AttributeContainer = __jni_createWithLink(link)
+        @JvmStatic
+        @JvmName("__jni_createWithLink")
+        private external fun __jni_createWithLink(
+            string: kotlin.String
+        ): com.cricut.fishyjoes.runtime.AttributeContainer
+
         fun swiftEquals(
             lhs: com.cricut.fishyjoes.runtime.AttributeContainer,
             rhs: com.cricut.fishyjoes.runtime.AttributeContainer

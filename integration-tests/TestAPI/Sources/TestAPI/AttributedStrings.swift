@@ -24,7 +24,7 @@ public enum AttributedStrings {
     /// <!-- FishyJoes.export(emoji) -->
     public static let emoji = AttributedString("🤯🐶🍓", attributes: .init().link(URL(string: "https://home.unicode.org/emoji")!))
     /// <!-- FishyJoes.export(emojiMulti) -->
-    public static let emojiMulti = AttributedString("👨‍👩‍👧‍👦👍🏿🇺🇸", attributes: .init().link(URL(string: "https://home.unicode.org/emoji")!))
+    public static let emojiMulti = AttributedString("👨‍👩‍👧‍👦👍🏿🇺🇸", attributes: .init().link(URL(string: "https://home.unicode.org/emoji/emoji-frequency")!))
 
     /// <!-- FishyJoes.export(echo) -->
     public static func echo(_ string: AttributedString) -> AttributedString {

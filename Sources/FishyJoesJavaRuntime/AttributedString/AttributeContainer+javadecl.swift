@@ -13,3 +13,36 @@ let java_AttributeContainer_createEmpty: @convention(c) (
         )
     }
 }
+
+// TODO: Hand coded for `AttributeContainer.Builder` with language identifier
+let java_AttributeContainer_createWithLanguageIdentifier: @convention(c) (
+    UnsafeMutablePointer<JNIEnv?>,
+    jobject,
+    Swift.String.CType
+) -> AttributeContainer.CType = { _javaEnv, _javaThis, languageIdentifier in
+    FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
+        return try AttributeContainer.toJava(
+            try AttributeContainer().languageIdentifier(Swift.String.fromJava(languageIdentifier, env: _javaEnv)),
+            env: _javaEnv
+        )
+    }
+}
+
+// TODO: Hand coded for `AttributeContainer.Builder` with link
+let java_AttributeContainer_createWithLink: @convention(c) (
+    UnsafeMutablePointer<JNIEnv?>,
+    jobject,
+    Swift.String.CType
+) -> AttributeContainer.CType = { _javaEnv, _javaThis, linkString in
+    FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
+        let linkSwiftString = try Swift.String.fromJava(linkString, env: _javaEnv)
+        guard let link = URL(string: linkSwiftString) else {
+            // TODO: Not a JNI error, but this is just test code
+            throw JNIError(message: "could not convert \"\(linkSwiftString)\" to a valid URL")
+        }
+        return try AttributeContainer.toJava(
+            AttributeContainer().link(link),
+            env: _javaEnv
+        )
+    }
+}

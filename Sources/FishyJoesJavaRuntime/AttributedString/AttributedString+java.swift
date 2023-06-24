@@ -113,6 +113,14 @@ extension AttributedString: JavaMutator {
                 fnPtr: unsafeBitCast(_javaHash, to: UnsafeMutableRawPointer.self)
             )
         )
+        try AttributedSubstring.javaSetup(env: env)
+        try AttributedString.Index.javaSetup(env: env)
+        try AttributedString.UnicodeScalarView.javaSetup(env: env)
+        try AttributedString.CharacterView.javaSetup(env: env)
+        try AttributedString.Runs.javaSetup(env: env)
+        try AttributedString.Runs.Index.javaSetup(env: env)
+        try AttributedString.Runs.Run.javaSetup(env: env)
+        try AttributeContainer.javaSetup(env: env)
     }
     public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout AttributedString) throws -> R) throws -> R {
         try body(&Box<AttributedString>.fromJava(this, env: env).value)

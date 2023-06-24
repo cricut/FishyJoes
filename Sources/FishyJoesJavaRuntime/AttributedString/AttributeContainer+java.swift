@@ -23,6 +23,16 @@ extension AttributeContainer: JavaMutator {
                 fnPtr: unsafeBitCast(java_AttributeContainer_createEmpty, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
+                name: bag.add("__jni_createWithLanguageIdentifier"),
+                signature: bag.add("(Ljava/lang/String;)Lcom/cricut/fishyjoes/runtime/AttributeContainer;"),
+                fnPtr: unsafeBitCast(java_AttributeContainer_createWithLanguageIdentifier, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_createWithLink"),
+                signature: bag.add("(Ljava/lang/String;)Lcom/cricut/fishyjoes/runtime/AttributeContainer;"),
+                fnPtr: unsafeBitCast(java_AttributeContainer_createWithLink, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
                 name: bag.add("__jni_swiftEquals"),
                 signature: bag.add("(Lcom/cricut/fishyjoes/runtime/AttributeContainer;Lcom/cricut/fishyjoes/runtime/AttributeContainer;)Z"),
                 fnPtr: unsafeBitCast(AttributeContainer._javaEquals, to: UnsafeMutableRawPointer.self)
@@ -56,8 +66,7 @@ extension AttributeContainer: JavaMutator {
     ) -> Int32.CType = { _javaEnv, _javaThis in
         FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
             return try Int32.toJava(
-                // TODO: Hash
-                0,//Int32(truncatingIfNeeded: AttributeContainer.fromJava(_javaThis, env: _javaEnv).hashValue),
+                Int32(truncatingIfNeeded: AttributedString("", attributes: AttributeContainer.fromJava(_javaThis, env: _javaEnv)).hashValue),
                 env: _javaEnv
             )
         }
