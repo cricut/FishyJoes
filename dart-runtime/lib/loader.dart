@@ -9,6 +9,7 @@ part 'loader+primitives.dart';
 part 'loader+collections.dart';
 part 'loader+tuple.dart';
 part 'loader+functions.dart';
+part 'loader+misc.dart';
 
 typedef _EnvNewRefFn = CreatedRef Function(UnownedRef obj);
 typedef _EnvDeleteRefFn = ffi.Void Function(ConsumedRef obj);
@@ -39,6 +40,7 @@ class Loader {
       ffi.Pointer.fromFunction<_EnvDeleteRefFn>(_deleteRefFn),
       ffi.Pointer.fromFunction<_EnvNewErrorFn>(_newErrorFn));
     LoaderPrimitives._setup(env);
+    LoaderMisc._setup(env);
   }
 
   static final _dylib = ffi.DynamicLibrary.open(path.join(
