@@ -48,9 +48,6 @@ internal class AttributedStringTests {
 
     @Test
     fun testViewDirectIteration() {
-        // TODO: Why is this needed to resolve unsatisfied link errors?
-        val s = AttributedStrings.polyglot
-
         val mixed = AttributedString.createEmpty()
         mixed.append(AttributedStrings.polyglot)
         mixed.append(AttributedString.create(" "))
@@ -110,9 +107,6 @@ internal class AttributedStringTests {
 
     @Test
     fun testViewIterators() {
-        // TODO: Why is this needed to resolve unsatisfied link errors?
-        val s = AttributedStrings.polyglot
-
         val mixed = AttributedString.createEmpty()
         mixed.append(AttributedStrings.polyglot)
         mixed.append(AttributedString.create(" "))
