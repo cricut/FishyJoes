@@ -48,6 +48,9 @@ extension AttributedString.CharacterView: JavaMutator {
                 fnPtr: unsafeBitCast(java_get_AttributedString_CharacterView_endIndex, to: UnsafeMutableRawPointer.self)
             )
         )
+
+        // Setup other types used by AttributedString.CharacterView
+        try AttributedString.Index.javaSetup(env: env)
     }
     public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout AttributedString.CharacterView) throws -> R) throws -> R {
         try body(&Box<AttributedString.CharacterView>.fromJava(this, env: env).value)

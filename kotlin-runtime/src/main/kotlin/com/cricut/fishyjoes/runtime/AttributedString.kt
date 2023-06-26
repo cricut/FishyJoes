@@ -220,7 +220,7 @@ class AttributedString private constructor(swiftReference: Long): com.cricut.fis
     /**
      * <!-- FishyJoes.exportReference(AttributedString.Runs) -->
      */
-    class Runs private constructor(swiftReference: Long): com.cricut.fishyjoes.runtime.SwiftReference(swiftReference) {
+    class Runs private constructor(swiftReference: Long): com.cricut.fishyjoes.runtime.SwiftReference(swiftReference), Iterable<com.cricut.fishyjoes.runtime.AttributedString.Runs.Run> {
         /**
          * <!-- FishyJoes.export(startIndex) -->
          */
@@ -387,6 +387,20 @@ class AttributedString private constructor(swiftReference: Long): com.cricut.fis
                 init { loadNativeLibs() }
             }
         }
+
+        override fun iterator(): Iterator<Run> = RunIterator(this, startIndex)
+
+        private class RunIterator constructor(
+            private val collection: com.cricut.fishyjoes.runtime.AttributedString.Runs,
+            private var iterationIndex: com.cricut.fishyjoes.runtime.AttributedString.Runs.Index
+        ) : Iterator<com.cricut.fishyjoes.runtime.AttributedString.Runs.Run> {
+            override fun hasNext(): Boolean = iterationIndex >= collection.startIndex && iterationIndex < collection.endIndex
+            override fun next(): Run {
+                val element = collection.elementAt(iterationIndex)
+                iterationIndex = collection.indexAfter(iterationIndex)
+                return element
+            }
+        }
     }
 
     /**
@@ -428,7 +442,7 @@ class AttributedString private constructor(swiftReference: Long): com.cricut.fis
     /**
      * <!-- FishyJoes.exportReference(AttributedString.CharacterView) -->
      */
-    class CharacterView private constructor(swiftReference: Long): com.cricut.fishyjoes.runtime.SwiftReference(swiftReference) {
+    class CharacterView private constructor(swiftReference: Long): com.cricut.fishyjoes.runtime.SwiftReference(swiftReference), Iterable<String> {
         /**
          * <!-- FishyJoes.export(startIndex) -->
          */
@@ -491,6 +505,20 @@ class AttributedString private constructor(swiftReference: Long): com.cricut.fis
             newElements: kotlin.collections.List<kotlin.String>
         ): kotlin.Unit
 
+        override fun iterator(): Iterator<String> = CharacterIterator(this, startIndex)
+
+        private class CharacterIterator constructor(
+            private val collection: com.cricut.fishyjoes.runtime.AttributedString.CharacterView,
+            private var iterationIndex: com.cricut.fishyjoes.runtime.AttributedString.Index
+        ) : Iterator<String> {
+            override fun hasNext(): Boolean = iterationIndex >= collection.startIndex && iterationIndex < collection.endIndex
+            override fun next(): String {
+                val element = collection.elementAt(iterationIndex)
+                iterationIndex = collection.indexAfter(iterationIndex)
+                return element
+            }
+        }
+
         companion object {
             init { loadNativeLibs() }
         }
@@ -499,7 +527,7 @@ class AttributedString private constructor(swiftReference: Long): com.cricut.fis
     /**
      * <!-- FishyJoes.exportReference(AttributedString.UnicodeScalarView) -->
      */
-    class UnicodeScalarView private constructor(swiftReference: Long): com.cricut.fishyjoes.runtime.SwiftReference(swiftReference) {
+    class UnicodeScalarView private constructor(swiftReference: Long): com.cricut.fishyjoes.runtime.SwiftReference(swiftReference), Iterable<UInt> {
         /**
          * <!-- FishyJoes.export(startIndex) -->
          */
@@ -574,6 +602,20 @@ class AttributedString private constructor(swiftReference: Long): com.cricut.fis
             subrange: com.cricut.fishyjoes.runtime.SwiftRange<AttributedString.Index>,
             newElements: kotlin.collections.List<UInt>
         ): kotlin.Unit
+
+        override fun iterator(): Iterator<UInt> = UnicodeScalarIterator(this, startIndex)
+
+        private class UnicodeScalarIterator constructor(
+            private val collection: com.cricut.fishyjoes.runtime.AttributedString.UnicodeScalarView,
+            private var iterationIndex: com.cricut.fishyjoes.runtime.AttributedString.Index
+        ) : Iterator<UInt> {
+            override fun hasNext(): Boolean = iterationIndex >= collection.startIndex && iterationIndex < collection.endIndex
+            override fun next(): UInt {
+                val element = collection.elementAt(iterationIndex)
+                iterationIndex = collection.indexAfter(iterationIndex)
+                return element
+            }
+        }
 
         companion object {
             init { loadNativeLibs() }

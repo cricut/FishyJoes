@@ -53,6 +53,9 @@ extension AttributedString.UnicodeScalarView: JavaMutator {
                 fnPtr: unsafeBitCast(java_get_AttributedString_UnicodeScalarView_endIndex, to: UnsafeMutableRawPointer.self)
             )
         )
+
+        // Setup other types used by AttributedString.UnicodeScalarView
+        try AttributedString.Index.javaSetup(env: env)
     }
     public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout AttributedString.UnicodeScalarView) throws -> R) throws -> R {
         try body(&Box<AttributedString.UnicodeScalarView>.fromJava(this, env: env).value)

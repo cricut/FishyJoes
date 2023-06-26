@@ -47,9 +47,9 @@ internal class AttributedStringTests {
     }
 
     @Test
-    fun testViews() {
-        //TODO: Why does loading need this reference first?
-        val forceLoad = AttributedStrings.simple
+    fun testViewDirectIteration() {
+        // TODO: Why is this needed to resolve unsatisfied link errors?
+        val s = AttributedStrings.polyglot
 
         val mixed = AttributedString.createEmpty()
         mixed.append(AttributedStrings.polyglot)
@@ -97,6 +97,59 @@ internal class AttributedStringTests {
             val characterString = mixed.unicodeScalars.elementAt(scalarIndex)
             unicodeScalars += characterString
             scalarIndex = mixed.unicodeScalars.indexAfter(scalarIndex)
+        }
+        assertArrayEquals(unicodeScalars.map { it.toInt() }.toIntArray(),
+            arrayOf(
+                72, 101, 108, 108, 111, 32,
+                79, 108, 225, 32,
+                12371, 12435, 12395, 12385, 12399, 32,
+                128104, 8205, 128105, 8205, 128103, 8205, 128102, 128077, 127999, 127482, 127480
+            ).toIntArray()
+        )
+    }
+
+    @Test
+    fun testViewIterators() {
+        // TODO: Why is this needed to resolve unsatisfied link errors?
+        val s = AttributedStrings.polyglot
+
+        val mixed = AttributedString.createEmpty()
+        mixed.append(AttributedStrings.polyglot)
+        mixed.append(AttributedString.create(" "))
+        mixed.append(AttributedStrings.emojiMulti)
+
+        var runStrings = emptyArray<String>()
+        for (run in mixed.runs) {
+            runStrings += mixed.substringForRange(run.range).string
+        }
+        assertArrayEquals(runStrings,
+            arrayOf(
+                "Hello",
+                " ",
+                "Olá",
+                " ",
+                "こんにちは",
+                " ",
+                "👨‍👩‍👧‍👦👍🏿🇺🇸"
+            )
+        )
+
+        var characterStrings = emptyArray<String>()
+        for (character in mixed.characters) {
+            characterStrings += character
+        }
+        assertArrayEquals(characterStrings,
+            arrayOf(
+                "H", "e", "l", "l", "o", " ",
+                "O", "l", "á", " ",
+                "こ", "ん", "に", "ち", "は", " ",
+                "👨‍👩‍👧‍👦", "👍🏿", "🇺🇸"
+            )
+        )
+
+        var unicodeScalars = emptyArray<UInt>()
+        for (unicodeScalar in mixed.unicodeScalars) {
+            unicodeScalars += unicodeScalar
         }
         assertArrayEquals(unicodeScalars.map { it.toInt() }.toIntArray(),
             arrayOf(

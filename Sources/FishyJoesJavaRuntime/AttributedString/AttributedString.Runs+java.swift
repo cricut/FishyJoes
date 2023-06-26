@@ -58,6 +58,10 @@ extension AttributedString.Runs: JavaMutator {
                 fnPtr: unsafeBitCast(AttributedString.Runs._javaHash, to: UnsafeMutableRawPointer.self)
             )
         )
+
+        // Setup other types used by AttributedString.Runs
+        try AttributedString.Runs.Index.javaSetup(env: env)
+        try AttributedString.Runs.Run.javaSetup(env: env)
     }
     public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout AttributedString.Runs) throws -> R) throws -> R {
         try body(&Box<AttributedString.Runs>.fromJava(this, env: env).value)
