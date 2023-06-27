@@ -58,7 +58,7 @@ extension AttributedString.CharacterView: JavaMutator {
         try AttributedString.Index.javaSetup(env: env)
     }
 
-    static let _java_indexBefore: @convention(c) (
+    private static let _java_indexBefore: @convention(c) (
         UnsafeMutablePointer<JNIEnv?>,
         jobject,
         AttributedString.Index.CType
@@ -73,7 +73,7 @@ extension AttributedString.CharacterView: JavaMutator {
         }
     }
 
-    static let _java_indexAfter: @convention(c) (
+    private static let _java_indexAfter: @convention(c) (
         UnsafeMutablePointer<JNIEnv?>,
         jobject,
         AttributedString.Index.CType
@@ -88,7 +88,7 @@ extension AttributedString.CharacterView: JavaMutator {
         }
     }
 
-    static let _java_elementAt: @convention(c) (
+    private static let _java_elementAt: @convention(c) (
         UnsafeMutablePointer<JNIEnv?>,
         jobject,
         AttributedString.Index.CType
@@ -105,7 +105,7 @@ extension AttributedString.CharacterView: JavaMutator {
         }
     }
 
-    static let _java_replaceSubrange: @convention(c) (
+    private static let _java_replaceSubrange: @convention(c) (
         UnsafeMutablePointer<JNIEnv?>,
         jobject,
         RangeConverter<AttributedString.Index>.CType,
@@ -125,7 +125,7 @@ extension AttributedString.CharacterView: JavaMutator {
         }
     }
 
-    static let _java_startIndex: @convention(c) (
+    private static let _java_startIndex: @convention(c) (
         UnsafeMutablePointer<JNIEnv?>,
         jobject
     ) -> AttributedString.Index.CType = { _javaEnv, _javaThis in
@@ -134,7 +134,7 @@ extension AttributedString.CharacterView: JavaMutator {
         }
     }
 
-    static let _java_endIndex: @convention(c) (
+    private static let _java_endIndex: @convention(c) (
         UnsafeMutablePointer<JNIEnv?>,
         jobject
     ) -> AttributedString.Index.CType = { _javaEnv, _javaThis in
@@ -142,5 +142,4 @@ extension AttributedString.CharacterView: JavaMutator {
             try AttributedString.Index.toJava(AttributedString.CharacterView.fromJava(_javaThis, env: _javaEnv).endIndex, env: _javaEnv)
         }
     }
-
 }

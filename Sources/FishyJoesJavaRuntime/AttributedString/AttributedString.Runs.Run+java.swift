@@ -48,7 +48,7 @@ extension AttributedString.Runs.Run: JavaMutator {
         try AttributedString.Index.javaSetup(env: env)
     }
 
-    static let _java_equals: @convention(c)(
+    private static let _java_equals: @convention(c)(
         UnsafeMutablePointer<JNIEnv?>,
         jobject?,
         jobject?,
@@ -62,7 +62,7 @@ extension AttributedString.Runs.Run: JavaMutator {
         }
     }
 
-    static let _java_hash: @convention(c)(
+    private static let _java_hash: @convention(c)(
         UnsafeMutablePointer<JNIEnv?>,
         jobject?
     ) -> Int32.CType = { _javaEnv, _javaThis in
@@ -74,7 +74,7 @@ extension AttributedString.Runs.Run: JavaMutator {
         }
     }
 
-    static let _java_range: @convention(c) (
+    private static let _java_range: @convention(c) (
         UnsafeMutablePointer<JNIEnv?>,
         jobject
     ) -> RangeConverter<AttributedString.Index>.CType = { _javaEnv, _javaThis in
@@ -83,7 +83,7 @@ extension AttributedString.Runs.Run: JavaMutator {
         }
     }
 
-    static let _java_attributes: @convention(c) (
+    private static let _java_attributes: @convention(c) (
         UnsafeMutablePointer<JNIEnv?>,
         jobject
     ) -> AttributeContainer.CType = { _javaEnv, _javaThis in

@@ -69,7 +69,7 @@ extension AttributedString.Runs: JavaMutator {
         try AttributedString.Runs.Run.javaSetup(env: env)
     }
 
-    static let _java_equals: @convention(c)(
+    private static let _java_equals: @convention(c)(
         UnsafeMutablePointer<JNIEnv?>,
         jobject?,
         jobject?,
@@ -83,7 +83,7 @@ extension AttributedString.Runs: JavaMutator {
         }
     }
 
-    static let _java_hash: @convention(c)(
+    private static let _java_hash: @convention(c)(
         UnsafeMutablePointer<JNIEnv?>,
         jobject?
     ) -> Int32.CType = { _javaEnv, _javaThis in
@@ -101,7 +101,7 @@ extension AttributedString.Runs: JavaMutator {
         }
     }
 
-    static let _java_indexBefore: @convention(c) (
+    private static let _java_indexBefore: @convention(c) (
         UnsafeMutablePointer<JNIEnv?>,
         jobject,
         AttributedString.Runs.Index.CType
@@ -116,7 +116,7 @@ extension AttributedString.Runs: JavaMutator {
         }
     }
 
-    static let _java_indexAfter: @convention(c) (
+    private static let _java_indexAfter: @convention(c) (
         UnsafeMutablePointer<JNIEnv?>,
         jobject,
         AttributedString.Runs.Index.CType
@@ -131,7 +131,7 @@ extension AttributedString.Runs: JavaMutator {
         }
     }
 
-    static let _java_elementAt: @convention(c) (
+    private static let _java_elementAt: @convention(c) (
         UnsafeMutablePointer<JNIEnv?>,
         jobject,
         AttributedString.Runs.Index.CType
@@ -146,7 +146,7 @@ extension AttributedString.Runs: JavaMutator {
         }
     }
 
-    static let _java_elementAtPosition: @convention(c) (
+    private static let _java_elementAtPosition: @convention(c) (
         UnsafeMutablePointer<JNIEnv?>,
         jobject,
         AttributedString.Index.CType
@@ -161,7 +161,7 @@ extension AttributedString.Runs: JavaMutator {
         }
     }
 
-    static let _java_startIndex: @convention(c) (
+    private static let _java_startIndex: @convention(c) (
         UnsafeMutablePointer<JNIEnv?>,
         jobject
     ) -> AttributedString.Runs.Index.CType = { _javaEnv, _javaThis in
@@ -170,7 +170,7 @@ extension AttributedString.Runs: JavaMutator {
         }
     }
 
-    static let _java_endIndex: @convention(c) (
+    private static let _java_endIndex: @convention(c) (
         UnsafeMutablePointer<JNIEnv?>,
         jobject
     ) -> AttributedString.Runs.Index.CType = { _javaEnv, _javaThis in

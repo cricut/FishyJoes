@@ -148,7 +148,7 @@ extension AttributedString: JavaMutator {
         try AttributeContainer.javaSetup(env: env)
     }
 
-    static let _java_equals: @convention(c)(
+    private static let _java_equals: @convention(c)(
         UnsafeMutablePointer<JNIEnv?>,
         jobject?,
         jobject?,
@@ -162,7 +162,7 @@ extension AttributedString: JavaMutator {
         }
     }
 
-    static let _java_hash: @convention(c)(
+    private static let _java_hash: @convention(c)(
         UnsafeMutablePointer<JNIEnv?>,
         jobject?
     ) -> Int32.CType = { _javaEnv, _javaThis in
@@ -174,7 +174,7 @@ extension AttributedString: JavaMutator {
         }
     }
 
-    static let _java_createEmpty: @convention(c) (
+    private static let _java_createEmpty: @convention(c) (
         UnsafeMutablePointer<JNIEnv?>,
         jobject
     ) -> AttributedString.CType = { _javaEnv, _javaThis in
@@ -187,7 +187,7 @@ extension AttributedString: JavaMutator {
         }
     }
 
-    static let _java_create: @convention(c) (
+    private static let _java_create: @convention(c) (
         UnsafeMutablePointer<JNIEnv?>,
         jobject,
         Swift.String.CType,
@@ -204,7 +204,7 @@ extension AttributedString: JavaMutator {
         }
     }
 
-    static let _java_createFromSubstring: @convention(c) (
+    private static let _java_createFromSubstring: @convention(c) (
         UnsafeMutablePointer<JNIEnv?>,
         jobject,
         AttributedSubstring.CType
@@ -219,7 +219,7 @@ extension AttributedString: JavaMutator {
         }
     }
 
-    static let _java_substringForRange: @convention(c) (
+    private static let _java_substringForRange: @convention(c) (
         UnsafeMutablePointer<JNIEnv?>,
         jobject,
         RangeConverter<AttributedString.Index>.CType
@@ -234,7 +234,7 @@ extension AttributedString: JavaMutator {
         }
     }
 
-    static let _java_append: @convention(c) (
+    private static let _java_append: @convention(c) (
         UnsafeMutablePointer<JNIEnv?>,
         jobject,
         AttributedString.CType
@@ -252,7 +252,7 @@ extension AttributedString: JavaMutator {
         }
     }
 
-    static let _java_appendSubstring: @convention(c) (
+    private static let _java_appendSubstring: @convention(c) (
         UnsafeMutablePointer<JNIEnv?>,
         jobject,
         AttributedSubstring.CType
@@ -270,7 +270,7 @@ extension AttributedString: JavaMutator {
         }
     }
 
-    static let _java_insert: @convention(c) (
+    private static let _java_insert: @convention(c) (
         UnsafeMutablePointer<JNIEnv?>,
         jobject,
         AttributedString.CType,
@@ -290,7 +290,7 @@ extension AttributedString: JavaMutator {
         }
     }
 
-    static let _java_insertSubstring: @convention(c) (
+    private static let _java_insertSubstring: @convention(c) (
         UnsafeMutablePointer<JNIEnv?>,
         jobject,
         AttributedSubstring.CType,
@@ -310,7 +310,7 @@ extension AttributedString: JavaMutator {
         }
     }
 
-    static let _java_removeSubrange: @convention(c) (
+    private static let _java_removeSubrange: @convention(c) (
         UnsafeMutablePointer<JNIEnv?>,
         jobject,
         RangeConverter<AttributedString.Index>.CType
@@ -328,7 +328,7 @@ extension AttributedString: JavaMutator {
         }
     }
 
-    static let _java_replaceSubrange: @convention(c) (
+    private static let _java_replaceSubrange: @convention(c) (
         UnsafeMutablePointer<JNIEnv?>,
         jobject,
         RangeConverter<AttributedString.Index>.CType,
@@ -348,7 +348,7 @@ extension AttributedString: JavaMutator {
         }
     }
 
-    static let _java_replaceSubrangeWithSubstring: @convention(c) (
+    private static let _java_replaceSubrangeWithSubstring: @convention(c) (
         UnsafeMutablePointer<JNIEnv?>,
         jobject,
         RangeConverter<AttributedString.Index>.CType,
@@ -368,7 +368,7 @@ extension AttributedString: JavaMutator {
         }
     }
 
-    static let _java_setAttributes: @convention(c) (
+    private static let _java_setAttributes: @convention(c) (
         UnsafeMutablePointer<JNIEnv?>,
         jobject,
         AttributeContainer.CType
@@ -386,7 +386,7 @@ extension AttributedString: JavaMutator {
         }
     }
 
-    static let _java_mergeAttributes: @convention(c) (
+    private static let _java_mergeAttributes: @convention(c) (
         UnsafeMutablePointer<JNIEnv?>,
         jobject,
         AttributeContainer.CType,
@@ -406,7 +406,7 @@ extension AttributedString: JavaMutator {
         }
     }
 
-    static let _java_replaceAttributes: @convention(c) (
+    private static let _java_replaceAttributes: @convention(c) (
         UnsafeMutablePointer<JNIEnv?>,
         jobject,
         AttributeContainer.CType,
@@ -426,7 +426,7 @@ extension AttributedString: JavaMutator {
         }
     }
 
-    static let _java_startIndex: @convention(c) (
+    private static let _java_startIndex: @convention(c) (
         UnsafeMutablePointer<JNIEnv?>,
         jobject
     ) -> AttributedString.Index.CType = { _javaEnv, _javaThis in
@@ -435,7 +435,7 @@ extension AttributedString: JavaMutator {
         }
     }
 
-    static let _java_endIndex: @convention(c) (
+    private static let _java_endIndex: @convention(c) (
         UnsafeMutablePointer<JNIEnv?>,
         jobject
     ) -> AttributedString.Index.CType = { _javaEnv, _javaThis in
@@ -444,7 +444,7 @@ extension AttributedString: JavaMutator {
         }
     }
 
-    static let _java_unicodeScalars: @convention(c) (
+    private static let _java_unicodeScalars: @convention(c) (
         UnsafeMutablePointer<JNIEnv?>,
         jobject
     ) -> AttributedString.UnicodeScalarView.CType = { _javaEnv, _javaThis in
@@ -453,7 +453,7 @@ extension AttributedString: JavaMutator {
         }
     }
 
-    static let _java_characters: @convention(c) (
+    private static let _java_characters: @convention(c) (
         UnsafeMutablePointer<JNIEnv?>,
         jobject
     ) -> AttributedString.CharacterView.CType = { _javaEnv, _javaThis in
@@ -462,7 +462,7 @@ extension AttributedString: JavaMutator {
         }
     }
 
-    static let _java_runs: @convention(c) (
+    private static let _java_runs: @convention(c) (
         UnsafeMutablePointer<JNIEnv?>,
         jobject
     ) -> AttributedString.Runs.CType = { _javaEnv, _javaThis in
@@ -471,7 +471,7 @@ extension AttributedString: JavaMutator {
         }
     }
 
-    static let _java_substring: @convention(c) (
+    private static let _java_substring: @convention(c) (
         UnsafeMutablePointer<JNIEnv?>,
         jobject
     ) -> AttributedSubstring.CType = { _javaEnv, _javaThis in
@@ -481,7 +481,7 @@ extension AttributedString: JavaMutator {
         }
     }
 
-    static let _java_string: @convention(c) (
+    private static let _java_string: @convention(c) (
         UnsafeMutablePointer<JNIEnv?>,
         jobject
     ) -> String.CType = { _javaEnv, _javaThis in

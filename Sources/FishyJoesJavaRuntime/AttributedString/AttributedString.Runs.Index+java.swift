@@ -42,7 +42,7 @@ extension AttributedString.Runs.Index: JavaMutator {
         )
     }
 
-    static let _java_equals: @convention(c)(
+    private static let _java_equals: @convention(c)(
         UnsafeMutablePointer<JNIEnv?>,
         jobject?,
         jobject?,
@@ -55,7 +55,8 @@ extension AttributedString.Runs.Index: JavaMutator {
             )
         }
     }
-    static let _java_hash: @convention(c)(
+
+    private static let _java_hash: @convention(c)(
         UnsafeMutablePointer<JNIEnv?>,
         jobject?
     ) -> Int32.CType = { _javaEnv, _javaThis in
@@ -67,7 +68,8 @@ extension AttributedString.Runs.Index: JavaMutator {
             )
         }
     }
-    static let _java_compare: @convention(c)(
+
+    private static let _java_compare: @convention(c)(
         UnsafeMutablePointer<JNIEnv?>,
         jobject?,
         jobject?

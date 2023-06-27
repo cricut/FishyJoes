@@ -52,7 +52,7 @@ extension AttributeContainer: JavaMutator {
         )
     }
 
-    static let _java_equals: @convention(c)(
+    private static let _java_equals: @convention(c)(
         UnsafeMutablePointer<JNIEnv?>,
         jobject?,
         jobject?,
@@ -66,7 +66,7 @@ extension AttributeContainer: JavaMutator {
         }
     }
 
-    static let _java_hash: @convention(c)(
+    private static let _java_hash: @convention(c)(
         UnsafeMutablePointer<JNIEnv?>,
         jobject?
     ) -> Int32.CType = { _javaEnv, _javaThis in
@@ -78,7 +78,7 @@ extension AttributeContainer: JavaMutator {
         }
     }
 
-    static let _java_createEmpty: @convention(c) (
+    private static let _java_createEmpty: @convention(c) (
         UnsafeMutablePointer<JNIEnv?>,
         jobject
     ) -> AttributeContainer.CType = { _javaEnv, _javaThis in
@@ -92,7 +92,7 @@ extension AttributeContainer: JavaMutator {
     }
 
     // TODO: Add `AttributeContainer.Builder` with language identifier
-    static let _java_createWithLanguageIdentifier: @convention(c) (
+    private static let _java_createWithLanguageIdentifier: @convention(c) (
         UnsafeMutablePointer<JNIEnv?>,
         jobject,
         Swift.String.CType
@@ -106,7 +106,7 @@ extension AttributeContainer: JavaMutator {
     }
 
     // TODO: Add `AttributeContainer.Builder` with link
-    static let _java_createWithLink: @convention(c) (
+    private static let _java_createWithLink: @convention(c) (
         UnsafeMutablePointer<JNIEnv?>,
         jobject,
         Swift.String.CType
