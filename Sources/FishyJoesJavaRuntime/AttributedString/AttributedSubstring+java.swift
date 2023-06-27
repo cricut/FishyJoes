@@ -28,21 +28,6 @@ extension AttributedSubstring: JavaMutator {
                 fnPtr: unsafeBitCast(java_AttributedSubstring_substringForRange, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_setAttributes"),
-                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/AttributeContainer;)V"),
-                fnPtr: unsafeBitCast(java_AttributedSubstring_setAttributes, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_mergeAttributes"),
-                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/AttributeContainer;Lcom/cricut/fishyjoes/runtime/AttributedString$AttributeMergePolicy;)V"),
-                fnPtr: unsafeBitCast(java_AttributedSubstring_mergeAttributes, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_replaceAttributes"),
-                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/AttributeContainer;Lcom/cricut/fishyjoes/runtime/AttributeContainer;)V"),
-                fnPtr: unsafeBitCast(java_AttributedSubstring_replaceAttributes, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
                 name: bag.add("__jni_get_base"),
                 signature: bag.add("()Lcom/cricut/fishyjoes/runtime/AttributedString;"),
                 fnPtr: unsafeBitCast(java_get_AttributedSubstring_base, to: UnsafeMutableRawPointer.self)

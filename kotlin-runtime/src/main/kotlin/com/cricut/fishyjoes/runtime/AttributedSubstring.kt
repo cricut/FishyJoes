@@ -79,43 +79,6 @@ class AttributedSubstring private constructor(swiftReference: Long): com.cricut.
         range: com.cricut.fishyjoes.runtime.SwiftRange<AttributedString.Index>
     ): com.cricut.fishyjoes.runtime.AttributedSubstring
 
-    /**
-     * <!-- FishyJoes.export(setAttributes) -->
-     */
-    fun setAttributes(
-        attributes: com.cricut.fishyjoes.runtime.AttributeContainer
-    ): kotlin.Unit = __jni_setAttributes(attributes)
-    @JvmName("__jni_setAttributes")
-    private external fun __jni_setAttributes(
-        attributes: com.cricut.fishyjoes.runtime.AttributeContainer
-    ): kotlin.Unit
-
-    /**
-     * <!-- FishyJoes.export(mergeAttributes) -->
-     */
-    fun mergeAttributes(
-        attributes: com.cricut.fishyjoes.runtime.AttributeContainer,
-        mergePolicy: com.cricut.fishyjoes.runtime.AttributedString.AttributeMergePolicy? = null
-    ): kotlin.Unit = __jni_mergeAttributes(attributes, mergePolicy)
-    @JvmName("__jni_mergeAttributes")
-    private external fun __jni_mergeAttributes(
-        attributes: com.cricut.fishyjoes.runtime.AttributeContainer,
-        mergePolicy: com.cricut.fishyjoes.runtime.AttributedString.AttributeMergePolicy?
-    ): kotlin.Unit
-
-    /**
-     * <!-- FishyJoes.export(replaceAttributes) -->
-     */
-    fun replaceAttributes(
-        attributes: com.cricut.fishyjoes.runtime.AttributeContainer,
-        /* with */ others: com.cricut.fishyjoes.runtime.AttributeContainer
-    ): kotlin.Unit = __jni_replaceAttributes(attributes, others)
-    @JvmName("__jni_replaceAttributes")
-    private external fun __jni_replaceAttributes(
-        attributes: com.cricut.fishyjoes.runtime.AttributeContainer,
-        others: com.cricut.fishyjoes.runtime.AttributeContainer
-    ): kotlin.Unit
-
     override fun equals(
         other: Any?
     ): Boolean = (other is com.cricut.fishyjoes.runtime.AttributedSubstring) && __jni_swiftEquals(this, other)

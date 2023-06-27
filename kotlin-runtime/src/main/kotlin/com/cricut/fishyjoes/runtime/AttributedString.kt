@@ -167,7 +167,7 @@ class AttributedString private constructor(swiftReference: Long): com.cricut.fis
     ): Int
 
     public override fun clone(): com.cricut.fishyjoes.runtime.AttributedString {
-        // TODO: Faster!
+        // TODO: Faster! private cloneBox function inside SwiftReference?
         val clone = createEmpty()
         runs.forEach { clone.append(createFromSubstring(substringForRange(it.range))) }
         return clone
@@ -312,6 +312,7 @@ class AttributedString private constructor(swiftReference: Long): com.cricut.fis
 
             init { loadNativeLibs() }
         }
+
 
         /**
          * <!-- FishyJoes.exportReference(AttributedString.Runs.Run) -->
