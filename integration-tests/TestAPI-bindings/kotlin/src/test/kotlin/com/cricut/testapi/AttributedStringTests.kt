@@ -39,14 +39,6 @@ internal class AttributedStringTests {
     }
 
     @Test
-    fun testSubstring() {
-        val polyglot = AttributedStrings.polyglot
-        val range = SwiftRange(polyglot.characters.indexAfter(polyglot.startIndex), polyglot.characters.indexBefore(polyglot.endIndex))
-        val substring = polyglot.substringForRange(range)
-        assertEquals(substring.string, "ello Olá こんにち")
-    }
-
-    @Test
     fun testViewDirectIteration() {
         val mixed = AttributedString.createEmpty()
         mixed.append(AttributedStrings.polyglot)
@@ -153,5 +145,96 @@ internal class AttributedStringTests {
                 128104, 8205, 128105, 8205, 128103, 8205, 128102, 128077, 127999, 127482, 127480
             ).toIntArray()
         )
+    }
+
+    @Test
+    fun testMutability() {
+        // Examine an existing attributed string from the test suite
+        assertEquals(AttributedStrings.polyglot.string, "Hello Olá こんにちは")
+        assertArrayEquals(
+            AttributedStrings.polyglot.runs.map { AttributedStrings.polyglot.substringForRange(it.range).string }.toTypedArray(),
+            arrayOf("Hello", " ", "Olá", " ", "こんにちは")
+        )
+
+        // Attempt to modify the attributed string from the test suite, verify only an (unnamed) clone of it changes, but it does not change
+        AttributedStrings.polyglot.replaceSubrange(SwiftRange(AttributedStrings.polyglot.startIndex, AttributedStrings.polyglot.endIndex), AttributedString.create("H"))
+        assertEquals(AttributedStrings.polyglot.string, "Hello Olá こんにちは")
+
+        // Name the test suite attributed string in a value, creating a clone of it (Swift-to-Java copies the field, which is declared as a 'let' and is immutable)
+        val attributedString = AttributedStrings.polyglot
+        assertEquals(attributedString.string, "Hello Olá こんにちは")
+
+        // Reference the attributed string, which acts as a reference type like a typical Kotlin object, mirroring changes to the referenced attributed string
+        val attributedStringReference = attributedString
+        assertEquals(attributedStringReference.string, "Hello Olá こんにちは")
+
+        // Clone the attributed string, making a copy of its string data and attributes
+        val attributedStringClone = attributedString.clone()
+        assertEquals(attributedStringClone.string, "Hello Olá こんにちは")
+
+        // Obtain a substring of the attributed string
+        val range = SwiftRange(attributedString.characters.indexAfter(attributedString.startIndex), attributedString.characters.indexBefore(attributedString.endIndex))
+        val substring = attributedString.substringForRange(range)
+        assertEquals(substring.string, "ello Olá こんにち")
+        assertEquals(substring.base.string, "Hello Olá こんにちは")
+
+        // Modify the substring's attributes and verify they change, its base string's attributes change, but the attributed string, reference, clone, and original do not
+        assertEquals(substring.runs.count(), 5)
+        assertEquals(substring.base.runs.count(), 5)
+        assertEquals(attributedString.runs.count(), 5)
+        assertEquals(attributedStringReference.runs.count(), 5)
+        assertEquals(attributedStringClone.runs.count(), 5)
+        assertEquals(AttributedStrings.polyglot.runs.count(), 5)
+        substring.setAttributes(AttributeContainer.createEmpty())
+        assertEquals(substring.runs.first().attributes, AttributeContainer.createEmpty())
+        assertEquals(substring.runs.count(), 1)
+        assertEquals(substring.base.runs.count(), 3)
+        assertEquals(attributedString.runs.count(), 5) // Unchanged
+        assertEquals(attributedStringReference.runs.count(), 5) // Unchanged
+        assertEquals(attributedStringClone.runs.count(), 5) // Unchanged
+        assertEquals(AttributedStrings.polyglot.runs.count(), 5) // Unchanged
+
+        // Modify the attributed string's attributes, verify it and the reference change, but the substring, clone, and original do not
+        assertArrayEquals(
+            attributedString.runs.map { attributedString.substringForRange(it.range).string }.toTypedArray(),
+            arrayOf("Hello", " ", "Olá", " ", "こんにちは")
+        )
+        attributedString.replaceSubrange(range, AttributedString.create(attributedString.substringForRange(range).string, AttributeContainer.createEmpty()))
+        assertArrayEquals(
+            attributedString.runs.map { attributedString.substringForRange(it.range).string }.toTypedArray(),
+            arrayOf("H", "ello Olá こんにち", "は")
+        )
+        assertEquals(substring.runs.count(), 1) // Unchanged
+        assertEquals(substring.base.runs.count(), 3) // Unchanged
+        assertEquals(attributedString.runs.count(), 3)
+        assertEquals(attributedStringReference.runs.count(), 3)
+        assertEquals(attributedStringClone.runs.count(), 5) // Unchanged
+        assertEquals(AttributedStrings.polyglot.runs.count(), 5) // Unchanged
+
+        // Modify the attributed string's string data, verify it and the reference change, but the substring, clone, and original do not
+        attributedString.replaceSubrange(range, AttributedString.create("i18n"))
+        assertArrayEquals(
+            attributedString.runs.map { attributedString.substringForRange(it.range).string }.toTypedArray(),
+            arrayOf("H", "i18n", "は")
+        )
+        assertEquals(substring.base.string, "Hello Olá こんにちは") // Unchanged
+        assertEquals(substring.string, "ello Olá こんにち") // Unchanged
+        assertEquals(attributedString.string, "Hi18nは")
+        assertEquals(attributedStringReference.string, "Hi18nは")
+        assertEquals(attributedStringClone.string, "Hello Olá こんにちは") // Unchanged
+        assertEquals(AttributedStrings.polyglot.string, "Hello Olá こんにちは") // Unchanged
+
+        // Modify the clone's string data, verify it changes, but the substring, attributed string, reference, and original do not
+        attributedStringClone.replaceSubrange(range, AttributedString.create("clone"))
+        assertArrayEquals(
+            attributedStringClone.runs.map { attributedStringClone.substringForRange(it.range).string }.toTypedArray(),
+            arrayOf("H", "clone", "は")
+        )
+        assertEquals(substring.base.string, "Hello Olá こんにちは") // Unchanged
+        assertEquals(substring.string, "ello Olá こんにち") // Unchanged
+        assertEquals(attributedString.string, "Hi18nは") // Unchanged
+        assertEquals(attributedStringReference.string, "Hi18nは") // Unchanged
+        assertEquals(attributedStringClone.string, "Hcloneは")
+        assertEquals(AttributedStrings.polyglot.string, "Hello Olá こんにちは") // Unchanged
     }
 }

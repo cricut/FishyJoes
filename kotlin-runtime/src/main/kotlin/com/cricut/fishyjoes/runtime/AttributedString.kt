@@ -3,7 +3,7 @@ package com.cricut.fishyjoes.runtime
 /**
  * <!-- FishyJoes.exportReference(AttributedString) -->
  */
-class AttributedString private constructor(swiftReference: Long): com.cricut.fishyjoes.runtime.SwiftReference(swiftReference) {
+class AttributedString private constructor(swiftReference: Long): com.cricut.fishyjoes.runtime.SwiftReference(swiftReference), Cloneable {
     /**
      * <!-- FishyJoes.export(startIndex) -->
      */
@@ -165,6 +165,13 @@ class AttributedString private constructor(swiftReference: Long): com.cricut.fis
     @JvmName("__jni_hashCode")
     private external fun __jni_hashCode(
     ): Int
+
+    public override fun clone(): com.cricut.fishyjoes.runtime.AttributedString {
+        // TODO: Faster!
+        val clone = createEmpty()
+        runs.forEach { clone.append(createFromSubstring(substringForRange(it.range))) }
+        return clone
+    }
 
     companion object {
         /**
