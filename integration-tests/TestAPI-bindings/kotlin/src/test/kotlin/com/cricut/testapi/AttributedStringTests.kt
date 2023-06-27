@@ -224,11 +224,11 @@ internal class AttributedStringTests {
         assertEquals(attributedStringClone.string, "Hello Olá こんにちは") // Unchanged
         assertEquals(AttributedStrings.polyglot.string, "Hello Olá こんにちは") // Unchanged
 
-        // Modify the clone's string data, verify it changes, but the substring, attributed string, reference, and original do not
-        attributedStringClone.replaceSubrange(range, AttributedString.create("clone"))
+        // Modify the clone's string data, verify it changes (merging the first 2 runs), but the substring, attributed string, reference, and original do not
+        attributedStringClone.replaceSubrange(range, AttributedString.create("clone", attributedStringClone.runs.first().attributes))
         assertArrayEquals(
             attributedStringClone.runs.map { attributedStringClone.substringForRange(it.range).string }.toTypedArray(),
-            arrayOf("H", "clone", "は")
+            arrayOf("Hclone", "は")
         )
         assertEquals(substring.base.string, "Hello Olá こんにちは") // Unchanged
         assertEquals(substring.string, "ello Olá こんにち") // Unchanged
