@@ -224,17 +224,18 @@ internal class AttributedStringTests {
         assertEquals(attributedStringClone.string, "Hello Olá こんにちは") // Unchanged
         assertEquals(AttributedStrings.polyglot.string, "Hello Olá こんにちは") // Unchanged
 
-        // Modify the clone's string data, verify it changes (merging the first 2 runs), but the substring, attributed string, reference, and original do not
-        attributedStringClone.replaceSubrange(range, AttributedString.create("clone", attributedStringClone.runs.first().attributes))
+        // Modify the clone's string data, verify it changes (merging the first 2 but not last 2 runs), but the substring, attributed string, reference, and original do not
+        attributedStringClone.insert(AttributedString.create("clone", attributedStringClone.runs.first().attributes), attributedStringClone.startIndex)
+        attributedStringClone.insert(AttributedString.create("enolc"), attributedStringClone.endIndex)
         assertArrayEquals(
             attributedStringClone.runs.map { attributedStringClone.substringForRange(it.range).string }.toTypedArray(),
-            arrayOf("Hclone", "は")
+            arrayOf("cloneHello", " ", "Olá", " ", "こんにちは", "enolc")
         )
         assertEquals(substring.base.string, "Hello Olá こんにちは") // Unchanged
         assertEquals(substring.string, "ello Olá こんにち") // Unchanged
         assertEquals(attributedString.string, "Hi18nは") // Unchanged
         assertEquals(attributedStringReference.string, "Hi18nは") // Unchanged
-        assertEquals(attributedStringClone.string, "Hcloneは")
+        assertEquals(attributedStringClone.string, "cloneHello Olá こんにちはenolc")
         assertEquals(AttributedStrings.polyglot.string, "Hello Olá こんにちは") // Unchanged
     }
 }
