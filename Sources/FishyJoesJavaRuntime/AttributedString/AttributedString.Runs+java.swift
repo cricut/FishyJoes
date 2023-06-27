@@ -3,13 +3,20 @@ import Foundation
 extension AttributedString.Runs: JavaMutator {
     public static var javaClass: jclass?
     private static var _constructorMethodID: jmethodID!
+
     public static func fromJava(_ value: jobject?, env: Env) throws -> AttributedString.Runs {
         try Box<AttributedString.Runs>.fromJava(value, env: env).value
     }
+
     public static func toJava(_ value: AttributedString.Runs, env: Env) throws -> jobject? {
         let ptr = jvalue(pointer: Box(value).retainedOpaque())
         return try env.NewObject(javaClass, _constructorMethodID, ptr)
     }
+
+    public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout AttributedString.Runs) throws -> R) throws -> R {
+        try body(&Box<AttributedString.Runs>.fromJava(this, env: env).value)
+    }
+
     public static func javaSetup(env: Env) throws {
         guard javaClass == nil else { return }
         try AnyBox.javaSetup(env: env)
@@ -20,53 +27,49 @@ extension AttributedString.Runs: JavaMutator {
             JNINativeMethod(
                 name: bag.add("__jni_indexBefore"),
                 signature: bag.add("(Lcom/cricut/fishyjoes/runtime/AttributedString$Runs$Index;)Lcom/cricut/fishyjoes/runtime/AttributedString$Runs$Index;"),
-                fnPtr: unsafeBitCast(java_AttributedString_Runs_indexBefore, to: UnsafeMutableRawPointer.self)
+                fnPtr: unsafeBitCast(_java_indexBefore, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_indexAfter"),
                 signature: bag.add("(Lcom/cricut/fishyjoes/runtime/AttributedString$Runs$Index;)Lcom/cricut/fishyjoes/runtime/AttributedString$Runs$Index;"),
-                fnPtr: unsafeBitCast(java_AttributedString_Runs_indexAfter, to: UnsafeMutableRawPointer.self)
+                fnPtr: unsafeBitCast(_java_indexAfter, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_elementAt"),
                 signature: bag.add("(Lcom/cricut/fishyjoes/runtime/AttributedString$Runs$Index;)Lcom/cricut/fishyjoes/runtime/AttributedString$Runs$Run;"),
-                fnPtr: unsafeBitCast(java_AttributedString_Runs_elementAt, to: UnsafeMutableRawPointer.self)
+                fnPtr: unsafeBitCast(_java_elementAt, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_elementAtPosition"),
                 signature: bag.add("(Lcom/cricut/fishyjoes/runtime/AttributedString$Index;)Lcom/cricut/fishyjoes/runtime/AttributedString$Runs$Run;"),
-                fnPtr: unsafeBitCast(java_AttributedString_Runs_elementAtPosition, to: UnsafeMutableRawPointer.self)
+                fnPtr: unsafeBitCast(_java_elementAtPosition, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_get_startIndex"),
                 signature: bag.add("()Lcom/cricut/fishyjoes/runtime/AttributedString$Runs$Index;"),
-                fnPtr: unsafeBitCast(java_get_AttributedString_Runs_startIndex, to: UnsafeMutableRawPointer.self)
+                fnPtr: unsafeBitCast(_java_startIndex, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_get_endIndex"),
                 signature: bag.add("()Lcom/cricut/fishyjoes/runtime/AttributedString$Runs$Index;"),
-                fnPtr: unsafeBitCast(java_get_AttributedString_Runs_endIndex, to: UnsafeMutableRawPointer.self)
+                fnPtr: unsafeBitCast(_java_endIndex, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_swiftEquals"),
                 signature: bag.add("(Lcom/cricut/fishyjoes/runtime/AttributedString$Runs;Lcom/cricut/fishyjoes/runtime/AttributedString$Runs;)Z"),
-                fnPtr: unsafeBitCast(AttributedString.Runs._javaEquals, to: UnsafeMutableRawPointer.self)
+                fnPtr: unsafeBitCast(_java_equals, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_hashCode"),
                 signature: bag.add("()I"),
-                fnPtr: unsafeBitCast(AttributedString.Runs._javaHash, to: UnsafeMutableRawPointer.self)
+                fnPtr: unsafeBitCast(_java_hash, to: UnsafeMutableRawPointer.self)
             )
         )
-
-        // Setup other types used by AttributedString.Runs
         try AttributedString.Runs.Index.javaSetup(env: env)
         try AttributedString.Runs.Run.javaSetup(env: env)
     }
-    public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout AttributedString.Runs) throws -> R) throws -> R {
-        try body(&Box<AttributedString.Runs>.fromJava(this, env: env).value)
-    }
-    static let _javaEquals: @convention(c)(
+
+    static let _java_equals: @convention(c)(
         UnsafeMutablePointer<JNIEnv?>,
         jobject?,
         jobject?,
@@ -79,7 +82,8 @@ extension AttributedString.Runs: JavaMutator {
             )
         }
     }
-    static let _javaHash: @convention(c)(
+
+    static let _java_hash: @convention(c)(
         UnsafeMutablePointer<JNIEnv?>,
         jobject?
     ) -> Int32.CType = { _javaEnv, _javaThis in
@@ -96,4 +100,83 @@ extension AttributedString.Runs: JavaMutator {
             )
         }
     }
+
+    static let _java_indexBefore: @convention(c) (
+        UnsafeMutablePointer<JNIEnv?>,
+        jobject,
+        AttributedString.Runs.Index.CType
+    ) -> AttributedString.Runs.Index.CType = { _javaEnv, _javaThis, i in
+        FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
+            return try AttributedString.Runs.Index.toJava(
+                AttributedString.Runs.fromJava(_javaThis, env: _javaEnv).index(
+                    before: try AttributedString.Runs.Index.fromJava(i, env: _javaEnv)
+                ),
+                env: _javaEnv
+            )
+        }
+    }
+
+    static let _java_indexAfter: @convention(c) (
+        UnsafeMutablePointer<JNIEnv?>,
+        jobject,
+        AttributedString.Runs.Index.CType
+    ) -> AttributedString.Runs.Index.CType = { _javaEnv, _javaThis, i in
+        FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
+            return try AttributedString.Runs.Index.toJava(
+                AttributedString.Runs.fromJava(_javaThis, env: _javaEnv).index(
+                    after: try AttributedString.Runs.Index.fromJava(i, env: _javaEnv)
+                ),
+                env: _javaEnv
+            )
+        }
+    }
+
+    static let _java_elementAt: @convention(c) (
+        UnsafeMutablePointer<JNIEnv?>,
+        jobject,
+        AttributedString.Runs.Index.CType
+    ) -> AttributedString.Runs.Run.CType = { _javaEnv, _javaThis, index in
+        FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
+            return try AttributedString.Runs.Run.toJava(
+                AttributedString.Runs.fromJava(_javaThis, env: _javaEnv)[
+                    try AttributedString.Runs.Index.fromJava(index, env: _javaEnv)
+                ],
+                env: _javaEnv
+            )
+        }
+    }
+
+    static let _java_elementAtPosition: @convention(c) (
+        UnsafeMutablePointer<JNIEnv?>,
+        jobject,
+        AttributedString.Index.CType
+    ) -> AttributedString.Runs.Run.CType = { _javaEnv, _javaThis, index in
+        FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
+            return try AttributedString.Runs.Run.toJava(
+                AttributedString.Runs.fromJava(_javaThis, env: _javaEnv)[
+                    try AttributedString.Index.fromJava(index, env: _javaEnv)
+                ],
+                env: _javaEnv
+            )
+        }
+    }
+
+    static let _java_startIndex: @convention(c) (
+        UnsafeMutablePointer<JNIEnv?>,
+        jobject
+    ) -> AttributedString.Runs.Index.CType = { _javaEnv, _javaThis in
+        FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
+            try AttributedString.Runs.Index.toJava(AttributedString.Runs.fromJava(_javaThis, env: _javaEnv).startIndex, env: _javaEnv)
+        }
+    }
+
+    static let _java_endIndex: @convention(c) (
+        UnsafeMutablePointer<JNIEnv?>,
+        jobject
+    ) -> AttributedString.Runs.Index.CType = { _javaEnv, _javaThis in
+        FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
+            try AttributedString.Runs.Index.toJava(AttributedString.Runs.fromJava(_javaThis, env: _javaEnv).endIndex, env: _javaEnv)
+        }
+    }
+
 }

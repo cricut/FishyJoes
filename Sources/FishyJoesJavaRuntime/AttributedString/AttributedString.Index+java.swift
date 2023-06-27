@@ -3,12 +3,18 @@ import Foundation
 extension AttributedString.Index: JavaMutator {
     public static var javaClass: jclass?
     private static var _constructorMethodID: jmethodID!
+
     public static func fromJava(_ value: jobject?, env: Env) throws -> AttributedString.Index {
         try Box<AttributedString.Index>.fromJava(value, env: env).value
     }
+
     public static func toJava(_ value: AttributedString.Index, env: Env) throws -> jobject? {
         let ptr = jvalue(pointer: Box(value).retainedOpaque())
         return try env.NewObject(javaClass, _constructorMethodID, ptr)
+    }
+
+    public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout AttributedString.Index) throws -> R) throws -> R {
+        try body(&Box<AttributedString.Index>.fromJava(this, env: env).value)
     }
     public static func javaSetup(env: Env) throws {
         guard javaClass == nil else { return }
@@ -20,24 +26,22 @@ extension AttributedString.Index: JavaMutator {
             JNINativeMethod(
                 name: bag.add("__jni_swiftEquals"),
                 signature: bag.add("(Lcom/cricut/fishyjoes/runtime/AttributedString$Index;Lcom/cricut/fishyjoes/runtime/AttributedString$Index;)Z"),
-                fnPtr: unsafeBitCast(AttributedString.Index._javaEquals, to: UnsafeMutableRawPointer.self)
+                fnPtr: unsafeBitCast(_java_equals, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_hashCode"),
                 signature: bag.add("()I"),
-                fnPtr: unsafeBitCast(AttributedString.Index._javaHash, to: UnsafeMutableRawPointer.self)
+                fnPtr: unsafeBitCast(_java_hash, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_compare"),
                 signature: bag.add("(Lcom/cricut/fishyjoes/runtime/AttributedString$Index;)I"),
-                fnPtr: unsafeBitCast(AttributedString.Index._javaCompare, to: UnsafeMutableRawPointer.self)
+                fnPtr: unsafeBitCast(_java_compare, to: UnsafeMutableRawPointer.self)
             )
         )
     }
-    public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout AttributedString.Index) throws -> R) throws -> R {
-        try body(&Box<AttributedString.Index>.fromJava(this, env: env).value)
-    }
-    static let _javaEquals: @convention(c)(
+
+    static let _java_equals: @convention(c)(
         UnsafeMutablePointer<JNIEnv?>,
         jobject?,
         jobject?,
@@ -50,7 +54,8 @@ extension AttributedString.Index: JavaMutator {
             )
         }
     }
-    static let _javaHash: @convention(c)(
+
+    static let _java_hash: @convention(c)(
         UnsafeMutablePointer<JNIEnv?>,
         jobject?
     ) -> Int32.CType = { _javaEnv, _javaThis in
@@ -62,7 +67,8 @@ extension AttributedString.Index: JavaMutator {
             )
         }
     }
-    static let _javaCompare: @convention(c)(
+    
+    static let _java_compare: @convention(c)(
         UnsafeMutablePointer<JNIEnv?>,
         jobject?,
         jobject?

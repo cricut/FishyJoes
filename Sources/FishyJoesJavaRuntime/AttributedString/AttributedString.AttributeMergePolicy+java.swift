@@ -3,13 +3,20 @@ import Foundation
 extension AttributedString.AttributeMergePolicy: JavaMutator {
     public static var javaClass: jclass?
     private static var _constructorMethodID: jmethodID!
+
     public static func fromJava(_ value: jobject?, env: Env) throws -> AttributedString.AttributeMergePolicy {
         try Box<AttributedString.AttributeMergePolicy>.fromJava(value, env: env).value
     }
+
     public static func toJava(_ value: AttributedString.AttributeMergePolicy, env: Env) throws -> jobject? {
         let ptr = jvalue(pointer: Box(value).retainedOpaque())
         return try env.NewObject(javaClass, _constructorMethodID, ptr)
     }
+
+    public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout AttributedString.AttributeMergePolicy) throws -> R) throws -> R {
+        try body(&Box<AttributedString.AttributeMergePolicy>.fromJava(this, env: env).value)
+    }
+
     public static func javaSetup(env: Env) throws {
         guard javaClass == nil else { return }
         try AnyBox.javaSetup(env: env)
@@ -20,19 +27,17 @@ extension AttributedString.AttributeMergePolicy: JavaMutator {
             JNINativeMethod(
                 name: bag.add("__jni_swiftEquals"),
                 signature: bag.add("(Lcom/cricut/fishyjoes/runtime/AttributedString$AttributeMergePolicy;Lcom/cricut/fishyjoes/runtime/AttributedString$AttributeMergePolicy;)Z"),
-                fnPtr: unsafeBitCast(AttributedString.AttributeMergePolicy._javaEquals, to: UnsafeMutableRawPointer.self)
+                fnPtr: unsafeBitCast(_java_equals, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_hashCode"),
                 signature: bag.add("()I"),
-                fnPtr: unsafeBitCast(AttributedString.AttributeMergePolicy._javaHash, to: UnsafeMutableRawPointer.self)
+                fnPtr: unsafeBitCast(_java_hash, to: UnsafeMutableRawPointer.self)
             )
         )
     }
-    public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout AttributedString.AttributeMergePolicy) throws -> R) throws -> R {
-        try body(&Box<AttributedString.AttributeMergePolicy>.fromJava(this, env: env).value)
-    }
-    static let _javaEquals: @convention(c)(
+
+    static let _java_equals: @convention(c)(
         UnsafeMutablePointer<JNIEnv?>,
         jobject?,
         jobject?,
@@ -45,7 +50,7 @@ extension AttributedString.AttributeMergePolicy: JavaMutator {
             )
         }
     }
-    static let _javaHash: @convention(c)(
+    static let _java_hash: @convention(c)(
         UnsafeMutablePointer<JNIEnv?>,
         jobject?
     ) -> Int32.CType = { _javaEnv, _javaThis in

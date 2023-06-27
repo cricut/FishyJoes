@@ -3,13 +3,20 @@ import Foundation
 extension AttributedString.Runs.Run: JavaMutator {
     public static var javaClass: jclass?
     private static var _constructorMethodID: jmethodID!
+
     public static func fromJava(_ value: jobject?, env: Env) throws -> AttributedString.Runs.Run {
         try Box<AttributedString.Runs.Run>.fromJava(value, env: env).value
     }
+
     public static func toJava(_ value: AttributedString.Runs.Run, env: Env) throws -> jobject? {
         let ptr = jvalue(pointer: Box(value).retainedOpaque())
         return try env.NewObject(javaClass, _constructorMethodID, ptr)
     }
+
+    public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout AttributedString.Runs.Run) throws -> R) throws -> R {
+        try body(&Box<AttributedString.Runs.Run>.fromJava(this, env: env).value)
+    }
+
     public static func javaSetup(env: Env) throws {
         guard javaClass == nil else { return }
         try AnyBox.javaSetup(env: env)
@@ -20,32 +27,28 @@ extension AttributedString.Runs.Run: JavaMutator {
             JNINativeMethod(
                 name: bag.add("__jni_get_range"),
                 signature: bag.add("()Lcom/cricut/fishyjoes/runtime/SwiftRange;"),
-                fnPtr: unsafeBitCast(java_get_AttributedString_Runs_Run_range, to: UnsafeMutableRawPointer.self)
+                fnPtr: unsafeBitCast(_java_range, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_get_attributes"),
                 signature: bag.add("()Lcom/cricut/fishyjoes/runtime/AttributeContainer;"),
-                fnPtr: unsafeBitCast(java_get_AttributedString_Runs_Run_attributes, to: UnsafeMutableRawPointer.self)
+                fnPtr: unsafeBitCast(_java_attributes, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_swiftEquals"),
                 signature: bag.add("(Lcom/cricut/fishyjoes/runtime/AttributedString$Runs$Run;Lcom/cricut/fishyjoes/runtime/AttributedString$Runs$Run;)Z"),
-                fnPtr: unsafeBitCast(AttributedString.Runs.Run._javaEquals, to: UnsafeMutableRawPointer.self)
+                fnPtr: unsafeBitCast(_java_equals, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_hashCode"),
                 signature: bag.add("()I"),
-                fnPtr: unsafeBitCast(AttributedString.Runs.Run._javaHash, to: UnsafeMutableRawPointer.self)
+                fnPtr: unsafeBitCast(_java_hash, to: UnsafeMutableRawPointer.self)
             )
         )
-
-        // Setup other types used by AttributedString.Runs.Run
         try AttributedString.Index.javaSetup(env: env)
     }
-    public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout AttributedString.Runs.Run) throws -> R) throws -> R {
-        try body(&Box<AttributedString.Runs.Run>.fromJava(this, env: env).value)
-    }
-    static let _javaEquals: @convention(c)(
+
+    static let _java_equals: @convention(c)(
         UnsafeMutablePointer<JNIEnv?>,
         jobject?,
         jobject?,
@@ -58,7 +61,8 @@ extension AttributedString.Runs.Run: JavaMutator {
             )
         }
     }
-    static let _javaHash: @convention(c)(
+
+    static let _java_hash: @convention(c)(
         UnsafeMutablePointer<JNIEnv?>,
         jobject?
     ) -> Int32.CType = { _javaEnv, _javaThis in
@@ -67,6 +71,24 @@ extension AttributedString.Runs.Run: JavaMutator {
                 Int32(truncatingIfNeeded: AttributedString("", attributes: AttributedString.Runs.Run.fromJava(_javaThis, env: _javaEnv).attributes).hashValue),
                 env: _javaEnv
             )
+        }
+    }
+
+    static let _java_range: @convention(c) (
+        UnsafeMutablePointer<JNIEnv?>,
+        jobject
+    ) -> RangeConverter<AttributedString.Index>.CType = { _javaEnv, _javaThis in
+        FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
+            try RangeConverter<AttributedString.Index>.toJava(AttributedString.Runs.Run.fromJava(_javaThis, env: _javaEnv).range, env: _javaEnv)
+        }
+    }
+
+    static let _java_attributes: @convention(c) (
+        UnsafeMutablePointer<JNIEnv?>,
+        jobject
+    ) -> AttributeContainer.CType = { _javaEnv, _javaThis in
+        FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
+            try AttributeContainer.toJava(AttributedString.Runs.Run.fromJava(_javaThis, env: _javaEnv).attributes, env: _javaEnv)
         }
     }
 }

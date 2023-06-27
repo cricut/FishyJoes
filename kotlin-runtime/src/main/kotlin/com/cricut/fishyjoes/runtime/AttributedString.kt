@@ -83,6 +83,17 @@ class AttributedString private constructor(swiftReference: Long): com.cricut.fis
     ): kotlin.Unit
 
     /**
+     * <!-- FishyJoes.export(appendSubstring) -->
+     */
+    fun appendSubstring(
+        s: com.cricut.fishyjoes.runtime.AttributedSubstring
+    ): kotlin.Unit = __jni_appendSubstring(s)
+    @JvmName("__jni_appendSubstring")
+    private external fun __jni_appendSubstring(
+        s: com.cricut.fishyjoes.runtime.AttributedSubstring
+    ): kotlin.Unit
+
+    /**
      * <!-- FishyJoes.export(insert) -->
      */
     fun insert(
@@ -92,6 +103,19 @@ class AttributedString private constructor(swiftReference: Long): com.cricut.fis
     @JvmName("__jni_insert")
     private external fun __jni_insert(
         s: com.cricut.fishyjoes.runtime.AttributedString,
+        index: com.cricut.fishyjoes.runtime.AttributedString.Index
+    ): kotlin.Unit
+
+    /**
+     * <!-- FishyJoes.export(insertSubstring) -->
+     */
+    fun insertSubstring(
+        s: com.cricut.fishyjoes.runtime.AttributedSubstring,
+        /* at */ index: com.cricut.fishyjoes.runtime.AttributedString.Index
+    ): kotlin.Unit = __jni_insertSubstring(s, index)
+    @JvmName("__jni_insertSubstring")
+    private external fun __jni_insertSubstring(
+        s: com.cricut.fishyjoes.runtime.AttributedSubstring,
         index: com.cricut.fishyjoes.runtime.AttributedString.Index
     ): kotlin.Unit
 
@@ -117,6 +141,19 @@ class AttributedString private constructor(swiftReference: Long): com.cricut.fis
     private external fun __jni_replaceSubrange(
         range: com.cricut.fishyjoes.runtime.SwiftRange<AttributedString.Index>,
         s: com.cricut.fishyjoes.runtime.AttributedString
+    ): kotlin.Unit
+
+    /**
+     * <!-- FishyJoes.export(replaceSubrangeWithSubstring) -->
+     */
+    fun replaceSubrangeWithSubstring(
+        range: com.cricut.fishyjoes.runtime.SwiftRange<AttributedString.Index>,
+        /* with */ s: com.cricut.fishyjoes.runtime.AttributedSubstring
+    ): kotlin.Unit = __jni_replaceSubrangeWithSubstring(range, s)
+    @JvmName("__jni_replaceSubrangeWithSubstring")
+    private external fun __jni_replaceSubrangeWithSubstring(
+        range: com.cricut.fishyjoes.runtime.SwiftRange<AttributedString.Index>,
+        s: com.cricut.fishyjoes.runtime.AttributedSubstring
     ): kotlin.Unit
 
     /**
