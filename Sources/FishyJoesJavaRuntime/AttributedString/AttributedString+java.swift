@@ -177,7 +177,7 @@ extension AttributedString: JavaMutator {
     private static let _java_createEmpty: @convention(c) (
         UnsafeMutablePointer<JNIEnv?>,
         jobject
-    ) -> AttributedString.CType = { _javaEnv, _javaThis in
+    ) -> AttributedString.CType = { _javaEnv, _ in
         FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
             return try AttributedString.toJava(
                 AttributedString(
@@ -192,7 +192,7 @@ extension AttributedString: JavaMutator {
         jobject,
         Swift.String.CType,
         OptionalConverter<AttributeContainer>.CType
-    ) -> AttributedString.CType = { _javaEnv, _javaThis, string, attributes in
+    ) -> AttributedString.CType = { _javaEnv, _, string, attributes in
         FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
             return try AttributedString.toJava(
                 AttributedString(
@@ -208,7 +208,7 @@ extension AttributedString: JavaMutator {
         UnsafeMutablePointer<JNIEnv?>,
         jobject,
         AttributedSubstring.CType
-    ) -> AttributedString.CType = { _javaEnv, _javaThis, substring in
+    ) -> AttributedString.CType = { _javaEnv, _, substring in
         FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
             return try AttributedString.toJava(
                 AttributedString(
@@ -490,5 +490,4 @@ extension AttributedString: JavaMutator {
             return try String.toJava(String(s.characters), env: _javaEnv)
         }
     }
-
 }

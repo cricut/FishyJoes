@@ -162,5 +162,4 @@ extension AttributedString.UnicodeScalarView: JavaMutator {
             try AttributedString.Index.toJava(AttributedString.UnicodeScalarView.fromJava(_javaThis, env: _javaEnv).endIndex, env: _javaEnv)
         }
     }
-
 }

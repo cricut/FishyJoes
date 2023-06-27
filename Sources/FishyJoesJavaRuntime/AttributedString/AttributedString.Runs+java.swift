@@ -178,5 +178,4 @@ extension AttributedString.Runs: JavaMutator {
             try AttributedString.Runs.Index.toJava(AttributedString.Runs.fromJava(_javaThis, env: _javaEnv).endIndex, env: _javaEnv)
         }
     }
-
 }

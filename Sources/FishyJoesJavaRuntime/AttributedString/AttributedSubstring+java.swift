@@ -106,7 +106,7 @@ extension AttributedSubstring: JavaMutator {
             )
         }
     }
-    
+
     private static let _java_hash: @convention(c)(
         UnsafeMutablePointer<JNIEnv?>,
         jobject?
@@ -122,7 +122,7 @@ extension AttributedSubstring: JavaMutator {
     private static let _java_createEmpty: @convention(c) (
         UnsafeMutablePointer<JNIEnv?>,
         jobject
-    ) -> AttributedSubstring.CType = { _javaEnv, _javaThis in
+    ) -> AttributedSubstring.CType = { _javaEnv, _ in
         FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
             return try AttributedSubstring.toJava(
                 AttributedSubstring(
@@ -220,5 +220,4 @@ extension AttributedSubstring: JavaMutator {
             return try String.toJava(String(s.characters), env: _javaEnv)
         }
     }
-
 }

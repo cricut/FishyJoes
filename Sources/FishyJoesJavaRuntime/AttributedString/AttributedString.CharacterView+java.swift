@@ -7,7 +7,7 @@ extension AttributedString.CharacterView: JavaMutator {
     public static func fromJava(_ value: jobject?, env: Env) throws -> AttributedString.CharacterView {
         try Box<AttributedString.CharacterView>.fromJava(value, env: env).value
     }
-    
+
     public static func toJava(_ value: AttributedString.CharacterView, env: Env) throws -> jobject? {
         let ptr = jvalue(pointer: Box(value).retainedOpaque())
         return try env.NewObject(javaClass, _constructorMethodID, ptr)

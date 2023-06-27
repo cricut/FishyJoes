@@ -3,7 +3,7 @@ import Foundation
 extension AttributeContainer: JavaMutator {
     public static var javaClass: jclass?
     private static var _constructorMethodID: jmethodID!
-    
+
     public static func fromJava(_ value: jobject?, env: Env) throws -> AttributeContainer {
         try Box<AttributeContainer>.fromJava(value, env: env).value
     }
@@ -81,7 +81,7 @@ extension AttributeContainer: JavaMutator {
     private static let _java_createEmpty: @convention(c) (
         UnsafeMutablePointer<JNIEnv?>,
         jobject
-    ) -> AttributeContainer.CType = { _javaEnv, _javaThis in
+    ) -> AttributeContainer.CType = { _javaEnv, _ in
         FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
             return try AttributeContainer.toJava(
                 AttributeContainer(
@@ -96,7 +96,7 @@ extension AttributeContainer: JavaMutator {
         UnsafeMutablePointer<JNIEnv?>,
         jobject,
         Swift.String.CType
-    ) -> AttributeContainer.CType = { _javaEnv, _javaThis, languageIdentifier in
+    ) -> AttributeContainer.CType = { _javaEnv, _, languageIdentifier in
         FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
             return try AttributeContainer.toJava(
                 try AttributeContainer().languageIdentifier(Swift.String.fromJava(languageIdentifier, env: _javaEnv)),
@@ -110,7 +110,7 @@ extension AttributeContainer: JavaMutator {
         UnsafeMutablePointer<JNIEnv?>,
         jobject,
         Swift.String.CType
-    ) -> AttributeContainer.CType = { _javaEnv, _javaThis, linkString in
+    ) -> AttributeContainer.CType = { _javaEnv, _, linkString in
         FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
             let linkSwiftString = try Swift.String.fromJava(linkString, env: _javaEnv)
             guard let link = URL(string: linkSwiftString) else {

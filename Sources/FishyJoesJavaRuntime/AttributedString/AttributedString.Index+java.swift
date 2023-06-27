@@ -58,16 +58,16 @@ extension AttributedString.Index: JavaMutator {
     private static let _java_hash: @convention(c)(
         UnsafeMutablePointer<JNIEnv?>,
         jobject?
-    ) -> Int32.CType = { _javaEnv, _javaThis in
+    ) -> Int32.CType = { _javaEnv, _ in
         FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
             return try Int32.toJava(
                 // TODO: hashValue
-                0,//Int32(truncatingIfNeeded: AttributedString.Index.fromJava(_javaThis, env: _javaEnv).hashValue),
+                0, // Int32(truncatingIfNeeded: AttributedString.Index.fromJava(_javaThis, env: _javaEnv).hashValue),
                 env: _javaEnv
             )
         }
     }
-    
+
     private static let _java_compare: @convention(c)(
         UnsafeMutablePointer<JNIEnv?>,
         jobject?,
