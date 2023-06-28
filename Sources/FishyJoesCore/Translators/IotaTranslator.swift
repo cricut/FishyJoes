@@ -145,7 +145,7 @@ final class IotaTranslator: Translator {
         }
 
         // Setter
-        if variable.isMutable, variable.accessLevel.write == .public {
+        if variable.isPubliclyWritable {
             let formals = (variable.isStatic ? [] : [(name: "_iotaThis", type: "foreignObject")]) + [
                 (name: "newValue", type: cType),
                 (name: "_exn", type: "foreignOutExn"),

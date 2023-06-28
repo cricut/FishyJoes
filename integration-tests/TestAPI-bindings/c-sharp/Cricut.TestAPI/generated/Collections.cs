@@ -303,41 +303,41 @@ namespace Cricut.TestAPI {
             }
 
             /// <summary>
-            /// <!-- FishyJoes.export(staticPropery) -->
+            /// <!-- FishyJoes.export(staticProperty) -->
             /// </summary>
-            public static System.Collections.Generic.IList<nint?> StaticPropery {
+            public static System.Collections.Generic.IList<nint?> StaticProperty {
                 get {
                     return Check((out CreatedRef exn) =>
-                        __iota_get_Collections_CollectionHolder_StaticPropery(out exn).Consume<System.Collections.Generic.IList<nint?>>()
+                        __iota_get_Collections_CollectionHolder_StaticProperty(out exn).Consume<System.Collections.Generic.IList<nint?>>()
                     );
                 }
             }
 
             [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-            private static extern CreatedRef __iota_get_Collections_CollectionHolder_StaticPropery(out CreatedRef exn);
+            private static extern CreatedRef __iota_get_Collections_CollectionHolder_StaticProperty(out CreatedRef exn);
 
             /// <summary>
-            /// <!-- FishyJoes.export(staticMutablePropery) -->
+            /// <!-- FishyJoes.export(staticMutableProperty) -->
             /// </summary>
-            public static System.Collections.Generic.IList<nint?> StaticMutablePropery {
+            public static System.Collections.Generic.IList<nint?> StaticMutableProperty {
                 get {
                     return Check((out CreatedRef exn) =>
-                        __iota_get_Collections_CollectionHolder_StaticMutablePropery(out exn).Consume<System.Collections.Generic.IList<nint?>>()
+                        __iota_get_Collections_CollectionHolder_StaticMutableProperty(out exn).Consume<System.Collections.Generic.IList<nint?>>()
                     );
                 }
                 set {
                     using var valueHandle = new GCRef(value);
                     Check((out CreatedRef exn) =>
-                        __iota_set_Collections_CollectionHolder_StaticMutablePropery(valueHandle.ptr, out exn)
+                        __iota_set_Collections_CollectionHolder_StaticMutableProperty(valueHandle.ptr, out exn)
                     );
                 }
             }
 
             [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-            private static extern CreatedRef __iota_get_Collections_CollectionHolder_StaticMutablePropery(out CreatedRef exn);
+            private static extern CreatedRef __iota_get_Collections_CollectionHolder_StaticMutableProperty(out CreatedRef exn);
 
             [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-            private static extern void __iota_set_Collections_CollectionHolder_StaticMutablePropery(UnownedRef value, out CreatedRef exn);
+            private static extern void __iota_set_Collections_CollectionHolder_StaticMutableProperty(UnownedRef value, out CreatedRef exn);
 
             static CollectionHolder() { _TypeSetup._ensureLoaded(); }
         }

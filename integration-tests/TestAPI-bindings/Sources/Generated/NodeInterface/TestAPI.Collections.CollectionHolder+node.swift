@@ -78,27 +78,27 @@ extension TestAPI.Collections.CollectionHolder: NodeMutator {
             env: env,
             name: "Collections.CollectionHolder",
             properties: [
-                "staticPropery": (
+                "staticProperty": (
                     .accessor(
                         getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "staticPropery", expectedArgumentCount: 0) { env in
-                                try ArrayConverter<OptionalConverter<Int>>.toNode(Collections.CollectionHolder.staticPropery, env: env.env)
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "staticProperty", expectedArgumentCount: 0) { env in
+                                try ArrayConverter<OptionalConverter<Int>>.toNode(Collections.CollectionHolder.staticProperty, env: env.env)
                             }
                         },
                         setter: nil
                     ),
                     isStatic: true
                 ),
-                "staticMutablePropery": (
+                "staticMutableProperty": (
                     .accessor(
                         getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "staticMutablePropery", expectedArgumentCount: 0) { env in
-                                try ArrayConverter<OptionalConverter<Int>>.toNode(Collections.CollectionHolder.staticMutablePropery, env: env.env)
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "staticMutableProperty", expectedArgumentCount: 0) { env in
+                                try ArrayConverter<OptionalConverter<Int>>.toNode(Collections.CollectionHolder.staticMutableProperty, env: env.env)
                             }
                         },
                         setter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "staticMutablePropery", expectedArgumentCount: 1) { env in
-                                Collections.CollectionHolder.staticMutablePropery = try env.argument(at: 0, converter: ArrayConverter<OptionalConverter<Int>>.self)
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "staticMutableProperty", expectedArgumentCount: 1) { env in
+                                Collections.CollectionHolder.staticMutableProperty = try env.argument(at: 0, converter: ArrayConverter<OptionalConverter<Int>>.self)
                                 return nil
                             }
                         }),

@@ -99,6 +99,7 @@ typedef _FishyJoesRuntime_Double_setup<R> = R Function(
 );
 
 extension LoaderPrimitives on Loader {
+  static int _boolValue(UnownedRef obj, OutCreatedRef exn) => catching(exn, () => peekRef<bool>(obj) ? 1 : 0) ?? 0;
   static int _intValue(UnownedRef obj, OutCreatedRef exn) => catching(exn, () => peekRef<int>(obj)) ?? 0;
   static CreatedRef _intConstructor(int value) => createRef(value);
   static CreatedRef _uint8Constructor(int value) => createRef(value.toUnsigned(8));
@@ -120,7 +121,7 @@ extension LoaderPrimitives on Loader {
       env,
       trueObj.ptr,
       falseObj.ptr,
-      ffi.Pointer.fromFunction<_BoolValueMethod>(_intValue, 0)
+      ffi.Pointer.fromFunction<_BoolValueMethod>(_boolValue, 0)
     );
     trueObj.dispose();
     falseObj.dispose();

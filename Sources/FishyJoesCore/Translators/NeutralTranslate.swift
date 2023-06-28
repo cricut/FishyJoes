@@ -42,7 +42,7 @@ final class NeutralTranslate: Translator {
             }
             fragment.output("Name: \(variable.exportAnnotation?.name ?? "not exported")")
             fragment.output("Type: \(context.resolve(type: variable.typeName.better).neutralName)")
-            fragment.output("Mutable: \(variable.isMutable && variable.accessLevel.write == .public)")
+            fragment.output("Mutable: \(variable.isPubliclyWritable)")
             if let containingType = variable.definedInTypeName?.better {
                 fragment.output("Defined in: \(containingType.name)")
             } else {

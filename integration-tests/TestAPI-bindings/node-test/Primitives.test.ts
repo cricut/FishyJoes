@@ -150,10 +150,10 @@ test('FunctionsTakingClosuresWithPrimitiveTypes', () => {
 });
 
 test('ObjectsWithPrimitiveMembers', () => {
-    expect(TestAPI.Primitives.PrimitiveHolder.staticPropery).toEqual([undefined, 0, 0x00, 0xFF]);
-    expect(TestAPI.Primitives.PrimitiveHolder.staticMutablePropery).toEqual([undefined, 0, 0x00, 0xFF]);
-    TestAPI.Primitives.PrimitiveHolder.staticMutablePropery = [100, 200];
-    expect(TestAPI.Primitives.PrimitiveHolder.staticMutablePropery).toEqual([100, 200]);
+    expect(TestAPI.Primitives.PrimitiveHolder.staticProperty).toEqual([undefined, 0, 0x00, 0xFF]);
+    expect(TestAPI.Primitives.PrimitiveHolder.staticMutableProperty).toEqual([undefined, 0, 0x00, 0xFF]);
+    TestAPI.Primitives.PrimitiveHolder.staticMutableProperty = [100, 200];
+    expect(TestAPI.Primitives.PrimitiveHolder.staticMutableProperty).toEqual([100, 200]);
     let s = TestAPI.Primitives.defaultPrimitiveHolder;
     expect(s).toEqual(TestAPI.Primitives.defaultPrimitiveHolder);
     s.b = !s.b

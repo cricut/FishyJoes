@@ -156,27 +156,27 @@ extension TestAPI.Primitives.PrimitiveHolder: NodeMutator {
             env: env,
             name: "Primitives.PrimitiveHolder",
             properties: [
-                "staticPropery": (
+                "staticProperty": (
                     .accessor(
                         getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "staticPropery", expectedArgumentCount: 0) { env in
-                                try ArrayConverter<OptionalConverter<UInt8>>.toNode(Primitives.PrimitiveHolder.staticPropery, env: env.env)
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "staticProperty", expectedArgumentCount: 0) { env in
+                                try ArrayConverter<OptionalConverter<UInt8>>.toNode(Primitives.PrimitiveHolder.staticProperty, env: env.env)
                             }
                         },
                         setter: nil
                     ),
                     isStatic: true
                 ),
-                "staticMutablePropery": (
+                "staticMutableProperty": (
                     .accessor(
                         getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "staticMutablePropery", expectedArgumentCount: 0) { env in
-                                try ArrayConverter<OptionalConverter<UInt8>>.toNode(Primitives.PrimitiveHolder.staticMutablePropery, env: env.env)
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "staticMutableProperty", expectedArgumentCount: 0) { env in
+                                try ArrayConverter<OptionalConverter<UInt8>>.toNode(Primitives.PrimitiveHolder.staticMutableProperty, env: env.env)
                             }
                         },
                         setter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "staticMutablePropery", expectedArgumentCount: 1) { env in
-                                Primitives.PrimitiveHolder.staticMutablePropery = try env.argument(at: 0, converter: ArrayConverter<OptionalConverter<UInt8>>.self)
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "staticMutableProperty", expectedArgumentCount: 1) { env in
+                                Primitives.PrimitiveHolder.staticMutableProperty = try env.argument(at: 0, converter: ArrayConverter<OptionalConverter<UInt8>>.self)
                                 return nil
                             }
                         }),

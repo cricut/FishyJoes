@@ -118,7 +118,7 @@ struct TranslatedStruct: TranslatedType {
 
             fragment.outputBlock("public static func mutateNode(_ value: Self, this: NAPI.Value, env: NAPI.Env) throws {") {
                 for storedVar in storedVariables {
-                    guard storedVar.isMutable else { continue }
+                    guard storedVar.isPubliclyWritable else { continue }
                     let resolved = context.resolve(type: storedVar.typeName.better)
                     fragment.output("try env.setNamedProperty(this, \"\(storedVar.name)\", \(resolved.converterType.name).toNode(value.\(storedVar.name), env: env))")
                 }
@@ -137,7 +137,7 @@ struct TranslatedStruct: TranslatedType {
                         hasProperties ||= context.nodeTranslator.outputProperties(computedVariables: computedVariables, context: context, fragment: fragment)
                         for storedVar in storedVariables {
                             // Limitation is wasm implementation of napi_create_class doesn't allow constructors to assign to non-mutable property.
-                            // let mutable = storedVar.isMutable
+                            // let mutable = storedVar.isPubliclyWritable
                             let mutable = true
                             fragment.output("\"\(storedVar.name)\": (.stored(mutable: \(mutable)), isStatic: \(storedVar.isStatic)),")
                             hasProperties = true
@@ -343,94 +343,75 @@ struct TranslatedStruct: TranslatedType {
                             fragment.output("\(grab)")
                         }
                     }
-                },
-                .value(
-                    name: "set_\(storedVar.name)",
-                    type: setType
-                ) { fragment in
-                    fragment.outputBlock("bag<\(setType)>((\(cSharpType.pInvokeUnownedName) obj, \(resolved.cSharpType.pInvokeConsumedName) newValue, out CreatedRef exn) => Catching(out exn, () => {", closeWith: "})),") {
-                        fragment.output("obj.Peek<\(cSharpType.name)>().\(CSharpClass.deforbidify(upperCaseFirst(storedVar.name))) = ", newLineTerminated: false)
-                        fragment.output(resolved.cSharpType.isObject ? "newValue.Consume<\(resolved.cSharpType.name)>();" : "newValue;")
-                    }
-                },
-            ]
+                }
+            ] + (
+                !storedVar.isPubliclyWritable ? [] : [
+                    .value(
+                        name: "set_\(storedVar.name)",
+                        type: setType
+                    ) { fragment in
+                        fragment.outputBlock("bag<\(setType)>((\(cSharpType.pInvokeUnownedName) obj, \(resolved.cSharpType.pInvokeConsumedName) newValue, out CreatedRef exn) => Catching(out exn, () => {", closeWith: "})),") {
+                            fragment.output("obj.Peek<\(cSharpType.name)>().\(CSharpClass.deforbidify(upperCaseFirst(storedVar.name))) = ", newLineTerminated: false)
+                            fragment.output(resolved.cSharpType.isObject ? "newValue.Consume<\(resolved.cSharpType.name)>();" : "newValue;")
+                        }
+                    },
+                ]
+            )
         }
     }
 
     func dartSetupDelegates(in context: FishyJoesContext) -> [String] {
         var lines: [String] = []
-        lines.append("typedef _\(converterType.genericBaseName.mangledName)Constructor = \(cSharpType.pInvokeCreatedName) Function(")
+        lines.append("typedef _\(converterType.genericBaseName.mangledName)Constructor = \(dartType.ffiCreatedName) Function(")
         for storedVar in storedVariables {
             let resolved = context.resolve(type: storedVar.typeName.better)
-            lines.append("    \(resolved.dartType.ffiConsumedName) \(storedVar.name),")
+            lines.append("    \(resolved.dartType.ffiConsumedTag) \(storedVar.name),")
         }
         lines.append("    OutCreatedRef exn")
         lines.append(");")
         for storedVar in storedVariables {
             let resolved = context.resolve(type: storedVar.typeName.better)
             let commonName = "_\(converterType.genericBaseName.mangledName)_\(storedVar.name)"
-            lines.append("typedef \(commonName)Getter = \(resolved.dartType.ffiCreatedName) Function(\(dartType.ffiUnownedName) obj, OutCreatedRef exn);")
-            lines.append("typedef \(commonName)Setter = void Function(\(dartType.ffiUnownedName) obj, \(resolved.dartType.ffiConsumedName) newValue, OutCreatedRef exn);")
+            lines.append("typedef \(commonName)Getter = \(resolved.dartType.ffiCreatedTag) Function(\(dartType.ffiUnownedTag) obj, OutCreatedRef exn);")
+            lines.append("typedef \(commonName)Setter = ffi.Void Function(\(dartType.ffiUnownedTag) obj, \(resolved.dartType.ffiConsumedTag) newValue, OutCreatedRef exn);")
         }
         return lines
     }
 
-    // func dartSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter] {
-    //     let constructorType = "_\(converterType.genericBaseName.mangledName)Constructor"
-    //     let constructorArgs = storedVariables.map { storedVar in
-    //         let resolved = context.resolve(type: storedVar.typeName.better)
-    //         return "\(resolved.cSharpType.pInvokeConsumedName) \(CSharpClass.deforbidify(storedVar.name)), "
-    //     }.joined()
-    //     return [
-    //         .value(
-    //             name: "constructor",
-    //             type: constructorType
-    //         ) { fragment in
-    //             fragment.outputBlock("bag<\(constructorType)>((\(constructorArgs)out CreatedRef exn) => Catching(out exn, () => {", closeWith: "})),") {
-    //                 fragment.outputBlock("return new CreatedRef(new \(cSharpType.name)(", closeWith: "));") {
-    //                     fragment.outputMap(storedVariables, separator: ",") { storedVar in
-    //                         let resolved = context.resolve(type: storedVar.typeName.better)
-    //                         if resolved.cSharpType.isObject {
-    //                             return "\(CSharpClass.deforbidify(storedVar.name)).Consume<\(resolved.cSharpType.name)>()"
-    //                         } else {
-    //                             return CSharpClass.deforbidify(storedVar.name)
-    //                         }
-    //                     }
-    //                 }
-    //             }
-    //         },
-    //         // ("constructorMethod: @escaping \(converterType.name)._ConstructorMethod,")
-    //     ] + storedVariables.flatMap { storedVar -> [ForeignSetupParameter] in
-    //         let resolved = context.resolve(type: storedVar.typeName.better)
-    //         let commonName = "_\(converterType.genericBaseName.mangledName)_\(storedVar.name)"
-    //         let getType = "\(commonName)Getter"
-    //         let setType = "\(commonName)Setter"
-    //         return [
-    //             .value(
-    //                 name: "get_\(storedVar.name)",
-    //                 type: getType
-    //             ) { fragment in
-    //                 fragment.outputBlock("bag<\(getType)>((\(cSharpType.pInvokeUnownedName) obj, out CreatedRef exn) => Catching(out exn, () =>", closeWith: ")),") {
-    //                     let grab = "obj.Peek<\(cSharpType.name)>().\(CSharpClass.deforbidify(upperCaseFirst(storedVar.name)))"
-    //                     if resolved.cSharpType.isObject {
-    //                         fragment.output("new CreatedRef(\(grab))")
-    //                     } else {
-    //                         fragment.output("\(grab)")
-    //                     }
-    //                 }
-    //             },
-    //             .value(
-    //                 name: "set_\(storedVar.name)",
-    //                 type: setType
-    //             ) { fragment in
-    //                 fragment.outputBlock("bag<\(setType)>((\(cSharpType.pInvokeUnownedName) obj, \(resolved.cSharpType.pInvokeConsumedName) newValue, out CreatedRef exn) => Catching(out exn, () => {", closeWith: "})),") {
-    //                     fragment.output("obj.Peek<\(cSharpType.name)>().\(CSharpClass.deforbidify(upperCaseFirst(storedVar.name))) = ", newLineTerminated: false)
-    //                     fragment.output(resolved.cSharpType.isObject ? "newValue.Consume<\(resolved.cSharpType.name)>();" : "newValue;")
-    //                 }
-    //             },
-    //         ]
-    //     }
-    // }
+    func dartSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<DartClass.DartType>] {
+        let constructorType = "_\(converterType.genericBaseName.mangledName)Constructor"
+        return [
+            .value(
+                name: "constructor",
+                type: .named(package: nil, name: "ffi.Pointer<ffi.NativeFunction<\(constructorType)>>")
+            ) { fragment in
+                fragment.output("ffi.Pointer.fromFunction(\(dartType.name()).ffi_constructor),")
+            },
+        ] + storedVariables.flatMap { storedVar -> [ForeignSetupParameter<DartClass.DartType>] in
+            let resolved = context.resolve(type: storedVar.typeName.better)
+            let commonName = "_\(converterType.genericBaseName.mangledName)_\(storedVar.name)"
+            let getType = "\(commonName)Getter"
+            let setType = "\(commonName)Setter"
+            return [
+                .value(
+                    name: "get_\(storedVar.name)",
+                    type: .named(package: nil, name: "ffi.Pointer<ffi.NativeFunction<\(getType)>>")
+                ) { fragment in
+                    let defaultValue = resolved.dartType.defaultReturnValue.map { ", \($0)" } ?? ""
+                    fragment.output("ffi.Pointer.fromFunction(\(dartType.name()).ffi_get_\(storedVar.name)\(defaultValue)),")
+                }
+            ] + (
+                !storedVar.isPubliclyWritable ? [] : [
+                    .value(
+                        name: "set_\(storedVar.name)",
+                        type: .named(package: nil, name: "ffi.Pointer<ffi.NativeFunction<\(setType)>>")
+                    ) { fragment in
+                        fragment.output("ffi.Pointer.fromFunction(\(dartType.name()).ffi_set_\(storedVar.name)),")
+                    },
+                ]
+            )
+        }
+    }
 
     func iotaDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(

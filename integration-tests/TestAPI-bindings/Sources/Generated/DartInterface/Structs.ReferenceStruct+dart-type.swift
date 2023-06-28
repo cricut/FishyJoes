@@ -42,7 +42,7 @@ public func Structs_ReferenceStruct_dartEquals(envRef: EnvRef, lhs: foreignObjec
         )
     }
 }
-@_cdecl("__dart_Structs_ReferenceStruct_hash")
+@_cdecl("__dart_get_Structs_ReferenceStruct_hash")
 public func Structs_ReferenceStruct_dartHash(envRef: EnvRef, this: foreignObject, exn: foreignOutExn) -> Int32.CType {
     let env = Env(envRef)
     return env.catching(to: exn) {

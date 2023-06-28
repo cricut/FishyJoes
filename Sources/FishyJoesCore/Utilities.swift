@@ -1,4 +1,5 @@
 import Foundation
+import SourceryRuntime
 
 extension Optional {
     var asArray: [Wrapped] { map { [$0] } ?? [] }
@@ -82,5 +83,11 @@ extension String {
         let digits = CharacterSet(charactersIn: "0"..."9")
         let invalidCharacters = lowercase.union(uppercase).union(digits).inverted
         return components(separatedBy: invalidCharacters).joined(separator: "_")
+    }
+}
+
+extension Variable {
+    var isPubliclyWritable: Bool {
+        isMutable && accessLevel.write == .public
     }
 }

@@ -17,7 +17,6 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$Structs_MemberwiseStruct {
   String get immutable => throw _privateConstructorUsedError;
-  set immutable(String value) => throw _privateConstructorUsedError;
   String get mutable => throw _privateConstructorUsedError;
   set mutable(String value) => throw _privateConstructorUsedError;
 
@@ -111,7 +110,7 @@ class _$_Structs_MemberwiseStruct implements _Structs_MemberwiseStruct {
   _$_Structs_MemberwiseStruct({required this.immutable, required this.mutable});
 
   @override
-  String immutable;
+  final String immutable;
   @override
   String mutable;
 
@@ -119,6 +118,19 @@ class _$_Structs_MemberwiseStruct implements _Structs_MemberwiseStruct {
   String toString() {
     return 'Structs_MemberwiseStruct(immutable: $immutable, mutable: $mutable)';
   }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_Structs_MemberwiseStruct &&
+            (identical(other.immutable, immutable) ||
+                other.immutable == immutable) &&
+            (identical(other.mutable, mutable) || other.mutable == mutable));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, immutable, mutable);
 
   @JsonKey(ignore: true)
   @override
@@ -130,12 +142,11 @@ class _$_Structs_MemberwiseStruct implements _Structs_MemberwiseStruct {
 
 abstract class _Structs_MemberwiseStruct implements Structs_MemberwiseStruct {
   factory _Structs_MemberwiseStruct(
-      {required String immutable,
+      {required final String immutable,
       required String mutable}) = _$_Structs_MemberwiseStruct;
 
   @override
   String get immutable;
-  set immutable(String value);
   @override
   String get mutable;
   set mutable(String value);

@@ -23,11 +23,10 @@ import 'package:ffi/ffi.dart' as ffi;
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:tuple/tuple.dart' as tuple;
 
-/// <!-- FishyJoes.export(Structs) -->
-class Structs {
-    Structs._() {}
-
-    static int enumDiscriminator(UnownedRef obj, OutCreatedRef exn) => check((exn) =>
-        throw UnsupportedError('This class is supposed to be unihabited')
+/// <!-- FishyJoes.exportReference(Functions.TheError) -->
+class Functions_TheError extends SwiftReference {
+    Functions_TheError(ffi.Pointer reference): super(reference) {}
+    static CreatedRef ffi_new(ffi.Pointer ref, OutCreatedRef exn) => check((exn) =>
+        createRef(Functions_TheError(ref))
     );
 }

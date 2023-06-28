@@ -151,7 +151,7 @@ final class KotlinTranslator: Translator {
         }
 
         // Setter
-        if variable.isMutable, variable.accessLevel.write == .public {
+        if variable.isPubliclyWritable {
             let formals = [
                 (name: "_javaEnv", type: "UnsafeMutablePointer<JNIEnv?>"),
                 (name: "_javaThis", type: "jobject"),
@@ -324,7 +324,7 @@ final class KotlinTranslator: Translator {
                     documentation: field.documentation,
                     isStatic: field.isStatic,
                     isOverride: field.exportAnnotation?.isOverride ?? false,
-                    readOnly: !field.isMutable,
+                    readOnly: !field.isPubliclyWritable,
                     name: ktName,
                     type: resolved.kotlinType,
                     deprecation: deprecation

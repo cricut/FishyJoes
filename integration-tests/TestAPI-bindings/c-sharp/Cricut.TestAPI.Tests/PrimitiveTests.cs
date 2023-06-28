@@ -159,10 +159,10 @@ namespace Cricut.TestAPI.Tests {
 
         [Fact]
         void testObjectsWithPrimitiveMembers() {
-            Assert.Equal(Primitives.PrimitiveHolder.StaticPropery, new byte?[] { null, (byte)0, byte.MinValue, byte.MaxValue });
-            Assert.Equal(Primitives.PrimitiveHolder.StaticMutablePropery, new byte?[] { null, (byte)0, byte.MinValue, byte.MaxValue });
-            Primitives.PrimitiveHolder.StaticMutablePropery = new byte?[] { (byte)100, (byte)200 };
-            Assert.Equal(Primitives.PrimitiveHolder.StaticMutablePropery, new byte?[] { (byte)100, (byte)200 });
+            Assert.Equal(Primitives.PrimitiveHolder.StaticProperty, new byte?[] { null, (byte)0, byte.MinValue, byte.MaxValue });
+            Assert.Equal(Primitives.PrimitiveHolder.StaticMutableProperty, new byte?[] { null, (byte)0, byte.MinValue, byte.MaxValue });
+            Primitives.PrimitiveHolder.StaticMutableProperty = new byte?[] { (byte)100, (byte)200 };
+            Assert.Equal(Primitives.PrimitiveHolder.StaticMutableProperty, new byte?[] { (byte)100, (byte)200 });
             var s = Primitives.DefaultPrimitiveHolder;
             Assert.Equal(s, Primitives.DefaultPrimitiveHolder);
             s.B = !s.B;

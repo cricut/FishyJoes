@@ -2,7 +2,7 @@ part of 'loader.dart';
 
 typedef _Constructor = CreatedRef Function(
   UnownedRef context,
-  ConsumedRef reference,
+  ffi.Pointer reference,
   OutCreatedRef exn
 );
 typedef _Invoke = CreatedRef Function(
@@ -80,12 +80,12 @@ typedef _FishyJoesRuntime_SwiftFunctionImpl_invoke6 = CreatedRef Function(
 );
 
 class _FunctionConversions {
-  final CreatedRef Function(ConsumedRef reference) constructor;
+  final CreatedRef Function(ffi.Pointer reference) constructor;
   final CreatedRef Function(UnownedRef fn, ffi.Pointer<ConsumedRef> args) invoke;
 
   const _FunctionConversions(this.constructor, this.invoke);
 
-  static CreatedRef _constructor(UnownedRef context, ConsumedRef reference, OutCreatedRef exn) => catchingRef(exn, () =>
+  static CreatedRef _constructor(UnownedRef context, ffi.Pointer reference, OutCreatedRef exn) => catchingRef(exn, () =>
     peekRef<_FunctionConversions>(context).constructor(reference)
   );
 
@@ -332,7 +332,7 @@ extension LoaderFunctions on Loader {
 }
 
 class SwiftFunctionImpl extends SwiftReference {
-  SwiftFunctionImpl(ConsumedRef reference): super(reference);
+  SwiftFunctionImpl(ffi.Pointer reference): super(reference);
 
   R invoke0<R>() {
     try {

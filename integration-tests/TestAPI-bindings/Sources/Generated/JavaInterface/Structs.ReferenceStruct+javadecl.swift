@@ -38,3 +38,14 @@ let java_get_Structs_ReferenceStruct_mutable: @convention(c) (
         try Swift.String.toJava(Structs.ReferenceStruct.fromJava(_javaThis, env: _javaEnv).mutable, env: _javaEnv)
     }
 }
+let java_set_Structs_ReferenceStruct_mutable: @convention(c) (
+    UnsafeMutablePointer<JNIEnv?>,
+    jobject,
+    Swift.String.CType
+) -> Void = { _javaEnv, _javaThis, newValue in
+    FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
+        try Structs.ReferenceStruct.mutateJava(_javaThis, env: _javaEnv) { value in
+            value.mutable = try Swift.String.fromJava(newValue, env: _javaEnv)
+        }
+    }
+}

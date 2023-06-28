@@ -6,12 +6,14 @@ import './DefaultArguments.dart' as TestAPI;
 import './Deprecations.dart' as TestAPI;
 import './EmptyEnum.dart' as TestAPI;
 import './Functions.dart' as TestAPI;
+import './Functions_TheError.dart' as TestAPI;
 import './Primitives.dart' as TestAPI;
 import './Primitives_PrimitiveHolder.dart' as TestAPI;
 import './SimpleEnum.dart' as TestAPI;
 import './Strings.dart' as TestAPI;
 import './Structs.dart' as TestAPI;
 import './Structs_MemberwiseStruct.dart' as TestAPI;
+import './Structs_ReferenceStruct.dart' as TestAPI;
 import './Tuples.dart' as TestAPI;
 import 'dart:ffi' as ffi;
 import 'dart:typed_data' as typed_data;
@@ -24,12 +26,48 @@ import 'package:tuple/tuple.dart' as tuple;
 part 'Structs_MemberwiseStruct.freezed.dart';
 
 /// <!-- FishyJoes.export(Structs.MemberwiseStruct) -->
-@unfreezed
+@Freezed(addImplicitFinal: false, makeCollectionsUnmodifiable: false)
 class Structs_MemberwiseStruct with _$Structs_MemberwiseStruct {
     factory Structs_MemberwiseStruct({
-        required String immutable,
+        required final String immutable,
         required String mutable
     }) = _Structs_MemberwiseStruct;
+
+    static CreatedRef ffi_constructor(
+        ConsumedRef immutable,
+        ConsumedRef mutable,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(Structs_MemberwiseStruct(
+            immutable: consumeRef(immutable),
+            mutable: consumeRef(mutable),
+        ))
+    );
+
+    static CreatedRef ffi_get_immutable(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<Structs_MemberwiseStruct>(obj).immutable
+        )
+    );
+
+    static CreatedRef ffi_get_mutable(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<Structs_MemberwiseStruct>(obj).mutable
+        )
+    );
+    static void ffi_set_mutable(
+        UnownedRef obj,
+        ConsumedRef newValue,
+        OutCreatedRef exn
+    ) => catching(exn, () {
+        peekRef<Structs_MemberwiseStruct>(obj).mutable = consumeRef<String>(newValue);
+    });
 
     /// <!-- FishyJoes.export(create) -->
     static TestAPI.Structs_MemberwiseStruct create(

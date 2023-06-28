@@ -2,13 +2,13 @@ class DartClass {
     enum DartType: Equatable, Codable {
         case void
         case utf16Pointer
-        case primitive(String)
+        case primitive(String, ffiName: String)
         case named(package: String?, name: String, genericArgs: [DartType]? = nil)
         indirect case function(args: [DartType], return: DartType)
         indirect case optional(DartType)
 
         static var string: DartType {
-            .primitive("string")
+            .primitive("string", ffiName: "STRING_NOT_DIRECTLY_USABLE_FROM_FFI")
         }
     }
 
@@ -125,7 +125,7 @@ class DartClass {
         }
 
         for method in methods {
-            if method.name.hasPrefix("_") { continue }
+            // if method.name.hasPrefix("_") { continue }
             if method.body != nil { continue }
 
             var params = method.isStatic ? [] : [thisArg]
@@ -308,7 +308,7 @@ extension DartClass.DartType: CustomStringConvertible {
                 result.append("<\(genericArgs.map { $0.name(in: dartClass) }.joined(separator: ", "))>")
             }
             return result
-        case let .primitive(name): return name
+        case let .primitive(name, _): return name
         case let .function(args, returnType):
             let argNames = args.map { $0.name(in: dartClass) }
             return "\(returnType.name(in: dartClass)) Function(\(argNames.joined(separator: ", ")))"
@@ -320,12 +320,21 @@ extension DartClass.DartType: CustomStringConvertible {
         switch self {
         case .void: return "ffi.Void"
         case .utf16Pointer: return "ffi.Pointer<package_ffi.Utf16>"
-        case let .primitive(name): return "ffi.\(upperCaseFirst(name))"
+        case let .primitive(_, ffiName): return "ffi.\(ffiName)"
         case let .function(args, returnType):
             return "\(returnType.ffiTag) Function(\(args.map { $0.ffiTag }.joined(separator: ", ")))"
         default:
             debug("what is ffiTag for `\(name())`?")
             return "ffi.Pointer"
+        }
+    }
+
+    var defaultReturnValue: String? {
+        switch self {
+        case .primitive("bool", _): return "false"
+        case .primitive("int", _): return "0"
+        case .primitive("double", _): return "0.0"
+        default: return nil
         }
     }
 
@@ -372,7 +381,7 @@ extension DartClass.DartType: CustomStringConvertible {
 
     var isObject: Bool {
         switch self {
-        case .named, .optional, .primitive("string"), .function: return true
+        case .named, .optional, .primitive("string", _), .function: return true
         default: return false
         }
     }
@@ -412,15 +421,20 @@ class DartProductClass: DartClass {
 
         switch constructor {
         case .reference:
-            fragment.output("class \(unqualifiedName) : SwiftReference ", newLineTerminated: false)
+            fragment.output("class \(unqualifiedName) extends SwiftReference", newLineTerminated: false)
         case .public:
-            fragment.output("@unfreezed")
-            fragment.output("class \(unqualifiedName) with _$\(unqualifiedName) ", newLineTerminated: false)
+            fragment.output("@Freezed(addImplicitFinal: false, makeCollectionsUnmodifiable: false)")
+            fragment.output("class \(unqualifiedName) with _$\(unqualifiedName)", newLineTerminated: false)
         }
-        fragment.outputBlock("{") {
+        fragment.outputBlock(" {") {
             switch constructor {
             case .reference:
-                fragment.output("\(unqualifiedName)(ConsumedRef reference): base(reference) {}")
+                fragment.output("\(unqualifiedName)(ffi.Pointer reference): super(reference) {}")
+
+                fragment.outputBlock("static CreatedRef ffi_new(ffi.Pointer ref, OutCreatedRef exn) => check((exn) =>", closeWith: ");") {
+                    fragment.output("createRef(\(unqualifiedName)(ref))")
+                }
+            fragment.blankLine()
             case .public(let fields):
                 fragment.outputBlock("factory \(unqualifiedName)({", closeWith: "})", newLineTerminated: false) {
                     fragment.outputMap(fields, separator: ",") { field in
@@ -428,7 +442,73 @@ class DartProductClass: DartClass {
                     }
                 }
                 fragment.output(" = _\(unqualifiedName);")
+                fragment.blankLine()
+
+                fragment.outputBlock("static CreatedRef ffi_constructor(", newLineTerminated: false) {
+                    for field in fields {
+                        fragment.output("\(field.type.ffiConsumedName) \(field.name),")
+                    }
+                    fragment.output("OutCreatedRef exn")
+                }
+                fragment.outputBlock(" => catchingRef(exn, () =>", closeWith: ");") {
+                    fragment.outputBlock("createRef(\(unqualifiedName)(", closeWith: "))") {
+                        for field in fields {
+                            if field.type.isObject {
+                                fragment.output("\(field.name): consumeRef(\(field.name)),")
+                            } else {
+                                fragment.output("\(field.name): \(field.name),")
+                            }
+                        }
+                    }
+                }
+
+                for field in fields {
+                    let isObject = field.type.isObject
+                    fragment.blankLine()
+                    fragment.outputBlock("static \(field.type.ffiCreatedName) ffi_get_\(field.name)(", newLineTerminated: false) {
+                        fragment.output("UnownedRef obj,")
+                        fragment.output("OutCreatedRef exn")
+                    }
+                    var wrapper: (() -> Void) -> Void
+                    if isObject {
+                        wrapper = { body in
+                            fragment.outputBlock("catchingRef(exn, () =>", closeWith: ");") {
+                                fragment.outputBlock("createRef(") {
+                                    body()
+                                }
+                            }
+                        }
+                    } else {
+                        wrapper = { body in
+                            let defaultValue = field.type.defaultReturnValue.map { " ?? \($0)" } ?? ""
+                            fragment.outputBlock("catching(exn, () =>", closeWith: ")\(defaultValue);") {
+                                body()
+                            }
+                        }
+                    }
+
+                    fragment.output(" => ", newLineTerminated: false)
+                    wrapper {
+                        fragment.output("peekRef<\(unqualifiedName)>(obj).\(field.name)")
+                    }
+                    if !field.readOnly {
+                        fragment.outputBlock("static void ffi_set_\(field.name)(", newLineTerminated: false) {
+                            fragment.output("UnownedRef obj,")
+                            fragment.output("\(field.type.ffiConsumedName) newValue,")
+                            fragment.output("OutCreatedRef exn")
+                        }
+                        fragment.outputBlock(" => catching(exn, () {", closeWith: "});") {
+                            fragment.output("peekRef<\(unqualifiedName)>(obj).\(field.name) = ", newLineTerminated: false)
+                            if isObject {
+                                fragment.output("consumeRef<\(field.type.name(in: self))>(newValue);")
+                            } else {
+                                fragment.output("newValue;")
+                            }
+                        }
+                    }
+                }
             }
+
             fragment.blankLine()
 
             fields.forEach { output(field: $0, to: fragment) }
@@ -437,6 +517,10 @@ class DartProductClass: DartClass {
             fragment.blankLine()
             outputNativeMethodDeclarations(to: fragment)
         }
+    }
+
+    override var hasFreezedPart: Bool {
+        constructor != .reference
     }
 }
 
@@ -472,7 +556,7 @@ class DartEnumClass: DartClass {
     override func output(to fragment: SourceFragment) {
         document(documentation, fragment: fragment)
         if hasFreezedPart {
-            fragment.output("@unfreezed")
+            fragment.output("@freezed")
             fragment.output("class \(unqualifiedName) with _$\(unqualifiedName)", newLineTerminated: false)
         } else {
             fragment.output("class \(unqualifiedName)", newLineTerminated: false)

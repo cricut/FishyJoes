@@ -189,10 +189,10 @@ public enum Primitives {
 
     /// <!-- FishyJoes.export(Primitives.PrimitiveHolder) -->
     public struct PrimitiveHolder {
-        /// <!-- FishyJoes.export(staticPropery) -->
-        public static let staticPropery: [UInt8?] = [nil, 0, .min, .max]
-        /// <!-- FishyJoes.export(staticMutablePropery) -->
-        public static var staticMutablePropery: [UInt8?] = [nil, 0, .min, .max]
+        /// <!-- FishyJoes.export(staticProperty) -->
+        public static let staticProperty: [UInt8?] = [nil, 0, .min, .max]
+        /// <!-- FishyJoes.export(staticMutableProperty) -->
+        public static var staticMutableProperty: [UInt8?] = [nil, 0, .min, .max]
 
         public var b = false
         public var bq: Bool?

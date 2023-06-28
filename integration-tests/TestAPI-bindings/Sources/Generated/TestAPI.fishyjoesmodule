@@ -1409,10 +1409,10 @@
                   },
                   {
                     "documentation" : [
-                      "<!-- FishyJoes.export(staticPropery) -->"
+                      "<!-- FishyJoes.export(staticProperty) -->"
                     ],
                     "isStatic" : true,
-                    "name" : "staticPropery",
+                    "name" : "staticProperty",
                     "readOnly" : true,
                     "type" : {
                       "named" : {
@@ -1422,10 +1422,10 @@
                   },
                   {
                     "documentation" : [
-                      "<!-- FishyJoes.export(staticMutablePropery) -->"
+                      "<!-- FishyJoes.export(staticMutableProperty) -->"
                     ],
                     "isStatic" : true,
-                    "name" : "staticMutablePropery",
+                    "name" : "staticMutableProperty",
                     "readOnly" : false,
                     "type" : {
                       "named" : {
@@ -2779,10 +2779,10 @@
                   },
                   {
                     "documentation" : [
-                      "<!-- FishyJoes.export(staticPropery) -->"
+                      "<!-- FishyJoes.export(staticProperty) -->"
                     ],
                     "isStatic" : true,
-                    "name" : "staticPropery",
+                    "name" : "staticProperty",
                     "readOnly" : true,
                     "type" : {
                       "named" : {
@@ -2792,10 +2792,10 @@
                   },
                   {
                     "documentation" : [
-                      "<!-- FishyJoes.export(staticMutablePropery) -->"
+                      "<!-- FishyJoes.export(staticMutableProperty) -->"
                     ],
                     "isStatic" : true,
-                    "name" : "staticMutablePropery",
+                    "name" : "staticMutableProperty",
                     "readOnly" : false,
                     "type" : {
                       "named" : {
@@ -4487,7 +4487,7 @@
                     ],
                     "isStatic" : false,
                     "name" : "immutable",
-                    "readOnly" : false,
+                    "readOnly" : true,
                     "type" : {
                       "named" : {
                         "_0" : "string"
@@ -4546,7 +4546,7 @@
                     ],
                     "isStatic" : false,
                     "name" : "immutable",
-                    "readOnly" : false,
+                    "readOnly" : true,
                     "type" : {
                       "named" : {
                         "_0" : "string"

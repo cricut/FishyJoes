@@ -75,7 +75,7 @@ final class DartTranslator: Translator {
                 var mutateBlock: (() -> Void) -> Void = { $0() }
                 if method.isMutating {
                     mutateBlock = { body in
-                        fragment.outputBlock("return try \(containingNamespace).mutateDart(_dartThis) { mutatingSelf in", closeWith: "}") {
+                        fragment.outputBlock("return try \(containingNamespace).mutateDart(_dartThis, env: env) { mutatingSelf in", closeWith: "}") {
                             body()
                         }
                     }
@@ -169,7 +169,7 @@ final class DartTranslator: Translator {
         }
 
         // Setter
-        if variable.isMutable, variable.accessLevel.write == .public {
+        if variable.isPubliclyWritable {
             var formals = [(name: "envRef", type: "EnvRef")]
             if !variable.isStatic {
                 formals.append((name: "_dartThis", type: "foreignObject"))
@@ -192,7 +192,7 @@ final class DartTranslator: Translator {
                     if variable.isStatic {
                         fragment.output("\(selfExpression).\(variable.name) = try \(converterName).peekDart(newValue, env: env)")
                     } else {
-                        fragment.outputBlock("try \(containingNamespace).mutateDart(_dartThis) { value in", closeWith: "}") {
+                        fragment.outputBlock("try \(containingNamespace).mutateDart(_dartThis, env: env) { value in", closeWith: "}") {
                             fragment.output("value.\(variable.name) = try \(converterName).peekDart(newValue, env: env)")
                         }
                     }
@@ -279,7 +279,7 @@ final class DartTranslator: Translator {
 
             initializerWriters.append {
                 fragment.outputBlock("Loader.shared.once(\"setup_\(resolved.converterType.name)\", () {", closeWith: "});") {
-                    fragment.output("print(\"setting up \(type.name) (env=0x${Loader.shared.env.address.toRadixString(16)})...\");")
+                    fragment.output("// print(\"setting up \(type.name) (env=0x${Loader.shared.env.address.toRadixString(16)})...\");")
 
                     fragment.outputBlock("utils.check<void>((exn) {", closeWith: "});") {
                         let setupName: String
@@ -403,8 +403,6 @@ final class DartTranslator: Translator {
         let dartName: String
         var asMethod = false
 
-        let isOverride = field.exportAnnotation?.isOverride ?? false
-
         if useNativeName {
             guard field.exportAnnotation == nil else {
                 fatalErr("field \(field.name) should not be annotated, as it's in a type being exported memberwise")
@@ -414,7 +412,7 @@ final class DartTranslator: Translator {
             guard let exportAnnotation = field.exportAnnotation else {
                 return nil
             }
-            asMethod = exportAnnotation.kind == .asMethod || (field.isComputed && !isOverride)
+            asMethod = exportAnnotation.kind == .asMethod
             dartName = exportAnnotation.name
         }
         let resolved = context.resolve(type: field.typeName.better)
@@ -422,7 +420,7 @@ final class DartTranslator: Translator {
             DartClass.Variable(
                 documentation: field.documentation,
                 isStatic: field.isStatic,
-                readOnly: !field.isMutable,
+                readOnly: !field.isPubliclyWritable,
                 asMethod: asMethod,
                 name: dartName,
                 mangledName: "\(type.mangledName)_\(dartName.mangled)",

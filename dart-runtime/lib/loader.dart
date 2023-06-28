@@ -1,9 +1,11 @@
 import 'dart:ffi' as ffi;
 import 'dart:io' show Platform, Directory;
+import 'dart:typed_data' as typed_data;
 import 'package:path/path.dart' as path;
 import 'package:tuple/tuple.dart';
 import 'utilities.dart';
 import 'SwiftReference.dart';
+
 
 part 'loader+primitives.dart';
 part 'loader+collections.dart';
@@ -30,6 +32,12 @@ typedef _FishyJoesRuntime_AnyBox_toString = CreatedRef Function(
   OutCreatedRef exn,
 );
 
+typedef _AnyBoxRefGetter = ffi.Pointer Function(UnownedRef obj, OutCreatedRef exn);
+typedef _FishyJoesRuntime_AnyBox_setup<R> = R Function(
+  Env env,
+  ffi.Pointer<ffi.NativeFunction<_AnyBoxRefGetter>> refGetter
+);
+
 class Loader {
   static final shared = new Loader._();
   late final Env env;
@@ -39,6 +47,13 @@ class Loader {
       ffi.Pointer.fromFunction<_EnvNewRefFn>(_newRefFn),
       ffi.Pointer.fromFunction<_EnvDeleteRefFn>(_deleteRefFn),
       ffi.Pointer.fromFunction<_EnvNewErrorFn>(_newErrorFn));
+    Loader._dylib.lookupFunction<
+      _FishyJoesRuntime_AnyBox_setup<ffi.Void>,
+      _FishyJoesRuntime_AnyBox_setup<void>
+    >('FishyJoesRuntime_AnyBox_setup')(
+      env,
+      ffi.Pointer.fromFunction(SwiftReference.anyBoxRefGetter)
+    );
     LoaderPrimitives._setup(env);
     LoaderMisc._setup(env);
   }

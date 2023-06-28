@@ -39,3 +39,15 @@ public func __iota_get_Structs_ReferenceStruct_Mutable(
         try Swift.String.toIota(Structs.ReferenceStruct.peekIota(_iotaThis).mutable)
     }
 }
+@_cdecl("__iota_set_Structs_ReferenceStruct_Mutable")
+public func __iota_set_Structs_ReferenceStruct_Mutable(
+    _iotaThis: foreignObject,
+    newValue: Swift.String.CType,
+    _exn: foreignOutExn
+) {
+    FishyJoesIotaRuntime.Env.catching(to: _exn) {
+        try Structs.ReferenceStruct.mutateIota(_iotaThis) { value in
+            value.mutable = try Swift.String.peekIota(newValue)
+        }
+    }
+}

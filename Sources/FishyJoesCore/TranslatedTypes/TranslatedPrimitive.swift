@@ -23,7 +23,8 @@ struct TranslatedPrimitive: TranslatedType {
             node: typeNames.ts,
             jni: typeNames.jni,
             cSharp: typeNames.cSharp,
-            dart: typeNames.dart
+            dart: typeNames.dart,
+            dartFFI: typeNames.dartFFI
         )
     }
 
@@ -33,7 +34,8 @@ struct TranslatedPrimitive: TranslatedType {
         node nodeName: String,
         jni jniType: JNIType,
         cSharp cSharpName: String,
-        dart dartName: String
+        dart dartName: String,
+        dartFFI dartFFIName: String
     ) {
         self.sourceType = .named(swiftName)
         self.cName = cName
@@ -44,7 +46,7 @@ struct TranslatedPrimitive: TranslatedType {
         self.kotlinPackage = nil
         self.jniType = jniType
         self.cSharpType = .primitive(cSharpName)
-        self.dartType = .primitive(dartName)
+        self.dartType = .primitive(dartName, ffiName: dartFFIName)
     }
 
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] { [] }

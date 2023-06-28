@@ -316,11 +316,11 @@ struct TranslatedReference: TranslatedType {
         return fragment
     }
 
-    func cSharpSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<DartClass.DartType>] {
+    func cSharpSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<String>] {
         [
             .value(
                 name: "constructorMethod",
-                type: .named(package: "SwiftReference", name: "ConstructorDelegate")
+                type: "SwiftReference.ConstructorDelegate"
             ) { fragment in
                 fragment.outputBlock("bag<SwiftReference.ConstructorDelegate>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {", closeWith: "})),") {
                     fragment.output("return new CreatedRef(new \(cSharpType.name)(ptr));")
@@ -528,7 +528,7 @@ struct TranslatedReference: TranslatedType {
             }
         }
         if hashable {
-            fragment.output("@_cdecl(\"__dart_\(sourceType.name.mangled)_hash\")")
+            fragment.output("@_cdecl(\"__dart_get_\(sourceType.name.mangled)_hash\")")
             fragment.outputBlock("public func \(sourceType.name.mangled)_dartHash(envRef: EnvRef, this: foreignObject, exn: foreignOutExn) -> Int32.CType {") {
                 fragment.output("let env = Env(envRef)")
                 fragment.outputBlock("return env.catching(to: exn) {") {
@@ -541,44 +541,42 @@ struct TranslatedReference: TranslatedType {
         }
 
         var fieldsAndMethods =
-            computedVariables.compactMap { context.cSharp(field: $0, of: self, useNativeName: false) } +
-            methods.compactMap { context.cSharp(method: $0, of: self) }
+            computedVariables.compactMap { context.dart(field: $0, of: self, useNativeName: false) } +
+            methods.compactMap { context.dart(method: $0, of: self) }
 
         if equatable {
             fieldsAndMethods.append(
                 .method(
-                    CSharpClass.Method(
+                    DartClass.Method(
                         documentation: [],
                         isStatic: false,
-                        isOverride: true,
-                        name: "Equals",
+                        name: "operator ==",
                         mangledName: "",
                         parameters: [
-                            (labelComment: nil, name: "other", type: .optional(.named(package: nil, name: "object")), defaultValue: nil),
+                            (labelComment: nil, name: "other", type: .optional(.named(package: nil, name: "Object")), defaultValue: nil),
                         ],
-                        returnType: .primitive("bool"),
+                        returnType: .primitive("bool", ffiName: "Bool"),
                         deprecation: nil,
                         body: [
-                            "using var thisHandle = new GCRef(this);",
-                            "using var otherHandle = new GCRef(other as \(cSharpType.name));",
-                            "return Check((out CreatedRef exn) => __dart_\(sourceType.name.mangled)_equals(thisHandle.ptr, otherHandle.ptr, out exn));",
+                            "GCRef.using(this, (thisHandle) =>",
+                            "    GCRef.using(other as \(dartType.name()), (otherHandle) =>",
+                            "        check((exn) => f__dart_\(sourceType.name.mangled)_equals(Loader.shared.env, thisHandle.ptr, otherHandle.ptr, exn))))",
                         ]
                     )
                 )
             )
             fieldsAndMethods.append(
                 .method(
-                    CSharpClass.Method(
+                    DartClass.Method(
                         documentation: [],
                         isStatic: true,
-                        isOverride: false,
                         name: "_equals",
                         mangledName: "\(sourceType.name.mangled)_equals",
                         parameters: [
-                            (labelComment: nil, name: "lhs", type: cSharpType, nil),
-                            (labelComment: nil, name: "rhs", type: .optional(cSharpType), nil),
+                            (labelComment: nil, name: "lhs", type: dartType, nil),
+                            (labelComment: nil, name: "rhs", type: .optional(dartType), nil),
                         ],
-                        returnType: .primitive("bool"),
+                        returnType: .primitive("bool", ffiName: "Bool"),
                         deprecation: nil,
                         body: nil
                     )
@@ -587,31 +585,57 @@ struct TranslatedReference: TranslatedType {
         }
         if hashable {
             fieldsAndMethods.append(
-                .method(
-                    CSharpClass.Method(
+                .variable(
+                    DartClass.Variable(
                         documentation: [],
                         isStatic: false,
-                        isOverride: true,
-                        name: "GetHashCode",
+                        readOnly: true,
+                        asMethod: false,
+                        name: "hashCode",
                         mangledName: "\(sourceType.name.mangled)_hash",
-                        parameters: [],
-                        returnType: .primitive("int"),
-                        deprecation: nil,
-                        body: nil
+                        type: .primitive("int", ffiName: "Int"),
+                        deprecation: nil
                     )
                 )
             )
         }
 
-        let product = CSharpProductClass(
+        let product = DartProductClass(
             module: context.module,
             documentation: documentation,
-            name: cSharpType.name,
+            name: dartType.name(),
             constructor: .reference,
             fieldsAndMethods: fieldsAndMethods
         )
-        context.add(cSharpClass: product)
+        context.add(dartClass: product)
 
         return fragment
     }
+
+    func dartSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<DartClass.DartType>] {
+        [
+            .value(
+                name: "constructorMethod",
+                type: .named(
+                    package: "ffi",
+                    name: "Pointer",
+                    genericArgs: [
+                        .named(
+                            package: "ffi",
+                            name: "NativeFunction",
+                            genericArgs: [
+                                .function(
+                                    args: [.named(package: "ffi", name: "Pointer"), .named(package: nil, name: "OutCreatedRef")],
+                                    return: .named(package: nil, name: "CreatedRef")
+                                ),
+                            ]
+                        ),
+                    ]
+                )
+            ) { fragment in
+                fragment.output("ffi.Pointer.fromFunction(\(dartType.name()).ffi_new),")
+            },
+        ]
+    }
+
 }

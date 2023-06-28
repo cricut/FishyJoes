@@ -468,6 +468,62 @@ class _$_Primitives_PrimitiveHolder implements _Primitives_PrimitiveHolder {
     return 'Primitives_PrimitiveHolder(b: $b, bq: $bq, ui8: $ui8, ui8q: $ui8q, ui16: $ui16, ui16q: $ui16q, ui32: $ui32, ui32q: $ui32q, ui64: $ui64, ui64q: $ui64q, i8: $i8, i8q: $i8q, i16: $i16, i16q: $i16q, i32: $i32, i32q: $i32q, i64: $i64, i64q: $i64q, f: $f, fq: $fq, d: $d, dq: $dq)';
   }
 
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_Primitives_PrimitiveHolder &&
+            (identical(other.b, b) || other.b == b) &&
+            (identical(other.bq, bq) || other.bq == bq) &&
+            (identical(other.ui8, ui8) || other.ui8 == ui8) &&
+            (identical(other.ui8q, ui8q) || other.ui8q == ui8q) &&
+            (identical(other.ui16, ui16) || other.ui16 == ui16) &&
+            (identical(other.ui16q, ui16q) || other.ui16q == ui16q) &&
+            (identical(other.ui32, ui32) || other.ui32 == ui32) &&
+            (identical(other.ui32q, ui32q) || other.ui32q == ui32q) &&
+            (identical(other.ui64, ui64) || other.ui64 == ui64) &&
+            (identical(other.ui64q, ui64q) || other.ui64q == ui64q) &&
+            (identical(other.i8, i8) || other.i8 == i8) &&
+            (identical(other.i8q, i8q) || other.i8q == i8q) &&
+            (identical(other.i16, i16) || other.i16 == i16) &&
+            (identical(other.i16q, i16q) || other.i16q == i16q) &&
+            (identical(other.i32, i32) || other.i32 == i32) &&
+            (identical(other.i32q, i32q) || other.i32q == i32q) &&
+            (identical(other.i64, i64) || other.i64 == i64) &&
+            (identical(other.i64q, i64q) || other.i64q == i64q) &&
+            (identical(other.f, f) || other.f == f) &&
+            (identical(other.fq, fq) || other.fq == fq) &&
+            (identical(other.d, d) || other.d == d) &&
+            (identical(other.dq, dq) || other.dq == dq));
+  }
+
+  @override
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        b,
+        bq,
+        ui8,
+        ui8q,
+        ui16,
+        ui16q,
+        ui32,
+        ui32q,
+        ui64,
+        ui64q,
+        i8,
+        i8q,
+        i16,
+        i16q,
+        i32,
+        i32q,
+        i64,
+        i64q,
+        f,
+        fq,
+        d,
+        dq
+      ]);
+
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')

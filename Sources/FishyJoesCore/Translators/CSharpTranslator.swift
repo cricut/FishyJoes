@@ -144,7 +144,7 @@ final class CSharpTranslator: Translator {
         }
 
         // Setter
-        if variable.isMutable, variable.accessLevel.write == .public {
+        if variable.isPubliclyWritable {
             let formals = (variable.isStatic ? [] : [(name: "_iotaThis", type: "foreignObject")]) + [
                 (name: "newValue", type: cType),
                 (name: "_exn", type: "foreignOutExn"),
@@ -336,7 +336,7 @@ final class CSharpTranslator: Translator {
                 documentation: field.documentation,
                 isStatic: field.isStatic,
                 isOverride: isOverride,
-                readOnly: !field.isMutable,
+                readOnly: !field.isPubliclyWritable,
                 asMethod: asMethod,
                 name: csName,
                 mangledName: "\(type.mangledName)_\(csName.mangled)",

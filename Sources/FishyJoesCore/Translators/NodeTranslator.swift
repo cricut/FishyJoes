@@ -44,7 +44,7 @@ struct NodeTranslator: Translator {
         guard let exportAnnotation = variable.exportAnnotation else {
             fatalErr("Variable not annotated for export: \(variable)")
         }
-        guard variable.isMutable, variable.accessLevel.write == .public else {
+        guard variable.isPubliclyWritable else {
             fragment.output("nil")
             return
         }
@@ -330,7 +330,7 @@ struct NodeTranslator: Translator {
 
         return TypeScriptAnnotations.Variable(
             documentation: field.documentation + (field.deprecation.map { ["@deprecated \($0.message)"] } ?? []),
-            readOnly: !field.isMutable,
+            readOnly: !field.isPubliclyWritable,
             isStatic: field.isStatic,
             name: name,
             type: context.resolve(type: field.typeName.better).nodeType
@@ -368,7 +368,7 @@ struct NodeTranslator: Translator {
                 returnType: resolved.nodeType
             )
         ] + (
-            field.isMutable ? [
+            field.isPubliclyWritable ? [
                 TypeScriptAnnotations.Method(
                     documentation: ["See `get\(name)`"] + (field.deprecation.map { ["@deprecated \($0.message)"] } ?? []),
                     isStatic: isStatic,

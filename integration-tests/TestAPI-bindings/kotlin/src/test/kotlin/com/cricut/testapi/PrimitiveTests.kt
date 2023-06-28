@@ -161,10 +161,10 @@ internal class PrimitiveTests {
 
     @Test
     fun testObjectsWithPrimitiveMembers() {
-        assertEquals(Primitives.PrimitiveHolder.staticPropery, arrayListOf(null, 0.toUByte(), UByte.MIN_VALUE, UByte.MAX_VALUE))
-        assertEquals(Primitives.PrimitiveHolder.staticMutablePropery, arrayListOf(null, 0.toUByte(), UByte.MIN_VALUE, UByte.MAX_VALUE))
-        Primitives.PrimitiveHolder.staticMutablePropery = arrayListOf(100.toUByte(), 200.toUByte())
-        assertEquals(Primitives.PrimitiveHolder.staticMutablePropery, arrayListOf(100.toUByte(), 200.toUByte()))
+        assertEquals(Primitives.PrimitiveHolder.staticProperty, arrayListOf(null, 0.toUByte(), UByte.MIN_VALUE, UByte.MAX_VALUE))
+        assertEquals(Primitives.PrimitiveHolder.staticMutableProperty, arrayListOf(null, 0.toUByte(), UByte.MIN_VALUE, UByte.MAX_VALUE))
+        Primitives.PrimitiveHolder.staticMutableProperty = arrayListOf(100.toUByte(), 200.toUByte())
+        assertEquals(Primitives.PrimitiveHolder.staticMutableProperty, arrayListOf(100.toUByte(), 200.toUByte()))
         val s = Primitives.defaultPrimitiveHolder
         assertEquals(s, Primitives.defaultPrimitiveHolder)
         s.b = !s.b

@@ -6,12 +6,14 @@ import './DefaultArguments.dart' as TestAPI;
 import './Deprecations.dart' as TestAPI;
 import './EmptyEnum.dart' as TestAPI;
 import './Functions.dart' as TestAPI;
+import './Functions_TheError.dart' as TestAPI;
 import './Primitives.dart' as TestAPI;
 import './Primitives_PrimitiveHolder.dart' as TestAPI;
 import './SimpleEnum.dart' as TestAPI;
 import './Strings.dart' as TestAPI;
 import './Structs.dart' as TestAPI;
 import './Structs_MemberwiseStruct.dart' as TestAPI;
+import './Structs_ReferenceStruct.dart' as TestAPI;
 import './Tuples.dart' as TestAPI;
 import 'dart:ffi' as ffi;
 import 'dart:typed_data' as typed_data;
@@ -24,7 +26,7 @@ import 'package:tuple/tuple.dart' as tuple;
 part 'SimpleEnum.freezed.dart';
 
 /// <!-- FishyJoes.export(SimpleEnum) -->
-@unfreezed
+@freezed
 class SimpleEnum with _$SimpleEnum {
     factory SimpleEnum.red(
     ) = Red;

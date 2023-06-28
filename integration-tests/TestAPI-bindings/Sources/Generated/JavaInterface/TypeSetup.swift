@@ -186,19 +186,19 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try Collections.CollectionHolder.javaSetup(env: env)
         try env.RegisterNatives(Collections.CollectionHolder.javaClass,
             JNINativeMethod(
-                name: bag.add("__jni_get_staticPropery"),
+                name: bag.add("__jni_get_staticProperty"),
                 signature: bag.add("()Ljava/util/List;"),
-                fnPtr: unsafeBitCast(java_get_Collections_CollectionHolder_staticPropery, to: UnsafeMutableRawPointer.self)
+                fnPtr: unsafeBitCast(java_get_Collections_CollectionHolder_staticProperty, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_get_staticMutablePropery"),
+                name: bag.add("__jni_get_staticMutableProperty"),
                 signature: bag.add("()Ljava/util/List;"),
-                fnPtr: unsafeBitCast(java_get_Collections_CollectionHolder_staticMutablePropery, to: UnsafeMutableRawPointer.self)
+                fnPtr: unsafeBitCast(java_get_Collections_CollectionHolder_staticMutableProperty, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_set_staticMutablePropery"),
+                name: bag.add("__jni_set_staticMutableProperty"),
                 signature: bag.add("(Ljava/util/List;)V"),
-                fnPtr: unsafeBitCast(java_set_Collections_CollectionHolder_staticMutablePropery, to: UnsafeMutableRawPointer.self)
+                fnPtr: unsafeBitCast(java_set_Collections_CollectionHolder_staticMutableProperty, to: UnsafeMutableRawPointer.self)
             )
         )
         // print("setting up Collections...")
@@ -430,19 +430,19 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try Primitives.PrimitiveHolder.javaSetup(env: env)
         try env.RegisterNatives(Primitives.PrimitiveHolder.javaClass,
             JNINativeMethod(
-                name: bag.add("__jni_get_staticPropery"),
+                name: bag.add("__jni_get_staticProperty"),
                 signature: bag.add("()Ljava/util/List;"),
-                fnPtr: unsafeBitCast(java_get_Primitives_PrimitiveHolder_staticPropery, to: UnsafeMutableRawPointer.self)
+                fnPtr: unsafeBitCast(java_get_Primitives_PrimitiveHolder_staticProperty, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_get_staticMutablePropery"),
+                name: bag.add("__jni_get_staticMutableProperty"),
                 signature: bag.add("()Ljava/util/List;"),
-                fnPtr: unsafeBitCast(java_get_Primitives_PrimitiveHolder_staticMutablePropery, to: UnsafeMutableRawPointer.self)
+                fnPtr: unsafeBitCast(java_get_Primitives_PrimitiveHolder_staticMutableProperty, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_set_staticMutablePropery"),
+                name: bag.add("__jni_set_staticMutableProperty"),
                 signature: bag.add("(Ljava/util/List;)V"),
-                fnPtr: unsafeBitCast(java_set_Primitives_PrimitiveHolder_staticMutablePropery, to: UnsafeMutableRawPointer.self)
+                fnPtr: unsafeBitCast(java_set_Primitives_PrimitiveHolder_staticMutableProperty, to: UnsafeMutableRawPointer.self)
             )
         )
         // print("setting up Primitives...")
@@ -871,6 +871,11 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_get_mutable"),
                 signature: bag.add("()Ljava/lang/String;"),
                 fnPtr: unsafeBitCast(java_get_Structs_ReferenceStruct_mutable, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_set_mutable"),
+                signature: bag.add("(Ljava/lang/String;)V"),
+                fnPtr: unsafeBitCast(java_set_Structs_ReferenceStruct_mutable, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_swiftEquals"),

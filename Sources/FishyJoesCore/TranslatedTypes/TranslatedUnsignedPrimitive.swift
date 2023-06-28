@@ -25,7 +25,8 @@ struct TranslatedUnsignedPrimitive: TranslatedType {
             node: typeNames.ts,
             jni: typeNames.jni,
             cSharp: typeNames.cSharp,
-            dart: typeNames.dart
+            dart: typeNames.dart,
+            dartFFI: typeNames.dartFFI
         )
     }
 
@@ -35,7 +36,8 @@ struct TranslatedUnsignedPrimitive: TranslatedType {
         node nodeName: String,
         jni jniType: JNIType,
         cSharp cSharpName: String,
-        dart dartName: String
+        dart dartName: String,
+        dartFFI dartFFIName: String
     ) {
         self.sourceType = .named(swiftName)
         self.cName = cName
@@ -45,7 +47,7 @@ struct TranslatedUnsignedPrimitive: TranslatedType {
         self.containedNamedTypes = []
         self.kotlinPackage = nil
         self.cSharpType = .primitive(cSharpName)
-        self.dartType = .primitive(dartName)
+        self.dartType = .primitive(dartName, ffiName: dartFFIName)
         self.jniType = jniType
     }
 

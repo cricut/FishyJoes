@@ -121,12 +121,23 @@ class _$Thing extends Thing {
   _$Thing(this.value) : super._();
 
   @override
-  int value;
+  final int value;
 
   @override
   String toString() {
     return 'AssociatedDataEnum.thing(value: $value)';
   }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$Thing &&
+            (identical(other.value, value) || other.value == value));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, value);
 
   @JsonKey(ignore: true)
   @override
@@ -210,11 +221,10 @@ class _$Thing extends Thing {
 }
 
 abstract class Thing extends AssociatedDataEnum {
-  factory Thing(int value) = _$Thing;
+  factory Thing(final int value) = _$Thing;
   Thing._() : super._();
 
   int get value;
-  set value(int value);
   @JsonKey(ignore: true)
   _$$ThingCopyWith<_$Thing> get copyWith => throw _privateConstructorUsedError;
 }
@@ -259,14 +269,26 @@ class _$Other extends Other {
   _$Other(this.unnamed, this.m_1) : super._();
 
   @override
-  String unnamed;
+  final String unnamed;
   @override
-  int m_1;
+  final int m_1;
 
   @override
   String toString() {
     return 'AssociatedDataEnum.other(unnamed: $unnamed, m_1: $m_1)';
   }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$Other &&
+            (identical(other.unnamed, unnamed) || other.unnamed == unnamed) &&
+            (identical(other.m_1, m_1) || other.m_1 == m_1));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, unnamed, m_1);
 
   @JsonKey(ignore: true)
   @override
@@ -350,13 +372,11 @@ class _$Other extends Other {
 }
 
 abstract class Other extends AssociatedDataEnum {
-  factory Other(String unnamed, int m_1) = _$Other;
+  factory Other(final String unnamed, final int m_1) = _$Other;
   Other._() : super._();
 
   String get unnamed;
-  set unnamed(String value);
   int get m_1;
-  set m_1(int value);
   @JsonKey(ignore: true)
   _$$OtherCopyWith<_$Other> get copyWith => throw _privateConstructorUsedError;
 }
@@ -411,14 +431,26 @@ class _$Bar extends Bar {
   _$Bar(this.named, this.m_1) : super._();
 
   @override
-  String named;
+  final String named;
   @override
-  TestAPI.AssociatedDataEnum m_1;
+  final TestAPI.AssociatedDataEnum m_1;
 
   @override
   String toString() {
     return 'AssociatedDataEnum.bar(named: $named, m_1: $m_1)';
   }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$Bar &&
+            (identical(other.named, named) || other.named == named) &&
+            (identical(other.m_1, m_1) || other.m_1 == m_1));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, named, m_1);
 
   @JsonKey(ignore: true)
   @override
@@ -502,13 +534,11 @@ class _$Bar extends Bar {
 }
 
 abstract class Bar extends AssociatedDataEnum {
-  factory Bar(String named, TestAPI.AssociatedDataEnum m_1) = _$Bar;
+  factory Bar(final String named, final TestAPI.AssociatedDataEnum m_1) = _$Bar;
   Bar._() : super._();
 
   String get named;
-  set named(String value);
   TestAPI.AssociatedDataEnum get m_1;
-  set m_1(TestAPI.AssociatedDataEnum value);
   @JsonKey(ignore: true)
   _$$BarCopyWith<_$Bar> get copyWith => throw _privateConstructorUsedError;
 }
@@ -536,6 +566,15 @@ class _$NoValue extends NoValue {
   String toString() {
     return 'AssociatedDataEnum.noValue()';
   }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$NoValue);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
 
   @override
   @optionalTypeArgs

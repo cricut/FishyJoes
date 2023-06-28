@@ -63,8 +63,14 @@ extension Structs.ReferenceStruct: FishyJoesNodeRuntime.NodeConverter {
                                 try Swift.String.toNode(env.this(converter: Structs.ReferenceStruct.self).mutable, env: env.env)
                             }
                         },
-                        setter: nil
-                    ),
+                        setter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "mutable", expectedArgumentCount: 1) { env in
+                                var mutatingSelf = try env.this(converter: Structs.ReferenceStruct.self)
+                                mutatingSelf.mutable = try env.argument(at: 0, converter: Swift.String.self)
+                                try Structs.ReferenceStruct.mutateNode(mutatingSelf, this: env.this(), env: env.env)
+                                return nil
+                            }
+                        }),
                     isStatic: false
                 ),
             ],

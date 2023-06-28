@@ -40,7 +40,8 @@ struct TranslatedSet: TranslatedType {
     }
 
     func dartSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<DartClass.DartType>] {
-        return  [
+        return [
+            .type(typeValue: elementType.dartType),
             .value(name: "typeName", type: .string) { fragment in
                 fragment.output("\"\(converterType.name)\",")
             },

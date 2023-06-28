@@ -46,3 +46,17 @@ public func __dart_get_Structs_ReferenceStruct_mutable(
         try Swift.String.toDart(Structs.ReferenceStruct.peekDart(_dartThis, env: env).mutable, env: env)
     }
 }
+@_cdecl("__dart_set_Structs_ReferenceStruct_mutable")
+public func __dart_set_Structs_ReferenceStruct_mutable(
+    envRef: EnvRef,
+    _dartThis: foreignObject,
+    newValue: Swift.String.CType,
+    _exn: foreignOutExn
+) {
+    let env = Env(envRef)
+    env.catching(to: _exn) {
+        try Structs.ReferenceStruct.mutateDart(_dartThis, env: env) { value in
+            value.mutable = try Swift.String.peekDart(newValue, env: env)
+        }
+    }
+}

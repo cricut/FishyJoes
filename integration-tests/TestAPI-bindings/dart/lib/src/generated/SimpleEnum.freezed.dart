@@ -104,6 +104,15 @@ class _$Red extends Red {
   }
 
   @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$Red);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() red,
@@ -202,6 +211,15 @@ class _$Green extends Green {
   }
 
   @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$Green);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() red,
@@ -297,6 +315,15 @@ class _$Blue extends Blue {
   String toString() {
     return 'SimpleEnum.blue()';
   }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$Blue);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
 
   @override
   @optionalTypeArgs

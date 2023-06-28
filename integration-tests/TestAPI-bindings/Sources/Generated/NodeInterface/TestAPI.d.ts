@@ -106,14 +106,14 @@ export declare namespace TestAPI {
             stringDictionary: Map<string, string>;
 
             /**
-             * <!-- FishyJoes.export(staticPropery) -->
+             * <!-- FishyJoes.export(staticProperty) -->
              */
-            static readonly staticPropery: number[];
+            static readonly staticProperty: number[];
 
             /**
-             * <!-- FishyJoes.export(staticMutablePropery) -->
+             * <!-- FishyJoes.export(staticMutableProperty) -->
              */
-            static staticMutablePropery: number[];
+            static staticMutableProperty: number[];
         }
 
         /**
@@ -410,14 +410,14 @@ export declare namespace TestAPI {
             dq?: number;
 
             /**
-             * <!-- FishyJoes.export(staticPropery) -->
+             * <!-- FishyJoes.export(staticProperty) -->
              */
-            static readonly staticPropery: number[];
+            static readonly staticProperty: number[];
 
             /**
-             * <!-- FishyJoes.export(staticMutablePropery) -->
+             * <!-- FishyJoes.export(staticMutableProperty) -->
              */
-            static staticMutablePropery: number[];
+            static staticMutableProperty: number[];
         }
 
         /**
@@ -966,7 +966,7 @@ export declare namespace TestAPI {
         export class MemberwiseStruct {
             constructor(immutable: string, mutable: string)
 
-            immutable: string;
+            readonly immutable: string;
 
             mutable: string;
 
@@ -987,7 +987,7 @@ export declare namespace TestAPI {
             /**
              * <!-- FishyJoes.export(immutable) -->
              */
-            immutable: string;
+            readonly immutable: string;
 
             /**
              * <!-- FishyJoes.export(mutable) -->

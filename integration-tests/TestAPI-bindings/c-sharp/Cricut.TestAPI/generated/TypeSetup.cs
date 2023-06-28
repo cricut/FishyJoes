@@ -160,7 +160,6 @@ namespace Cricut.TestAPI {
         static extern void TestAPI_Structs_MemberwiseStruct_setup(
             _Structs_MemberwiseStructConstructor constructor,
             _Structs_MemberwiseStruct_immutableGetter get_immutable,
-            _Structs_MemberwiseStruct_immutableSetter set_immutable,
             _Structs_MemberwiseStruct_mutableGetter get_mutable,
             _Structs_MemberwiseStruct_mutableSetter set_mutable,
             out CreatedRef _exn
@@ -292,6 +291,7 @@ namespace Cricut.TestAPI {
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_Structs_ReferenceStruct_setup(
+            SwiftReference.ConstructorDelegate constructorMethod,
             out CreatedRef _exn
         );
 
@@ -340,6 +340,7 @@ namespace Cricut.TestAPI {
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_Functions_TheError_setup(
+            SwiftReference.ConstructorDelegate constructorMethod,
             out CreatedRef _exn
         );
 
@@ -1002,9 +1003,6 @@ namespace Cricut.TestAPI {
                     bag<_Structs_MemberwiseStruct_immutableGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.Structs.MemberwiseStruct>().Immutable)
                     )),
-                    bag<_Structs_MemberwiseStruct_immutableSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Structs.MemberwiseStruct>().Immutable = newValue.Consume<string>();
-                    })),
                     bag<_Structs_MemberwiseStruct_mutableGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.Structs.MemberwiseStruct>().Mutable)
                     )),
@@ -1187,6 +1185,9 @@ namespace Cricut.TestAPI {
             Once("setup_Structs.ReferenceStruct", () => {
                 Console.WriteLine("setting up Structs.ReferenceStruct...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_Structs_ReferenceStruct_setup(
+                    bag<SwiftReference.ConstructorDelegate>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.Structs.ReferenceStruct(ptr));
+                    })),
                     out exn
                 ));
             });
@@ -1281,6 +1282,9 @@ namespace Cricut.TestAPI {
             Once("setup_Functions.TheError", () => {
                 Console.WriteLine("setting up Functions.TheError...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_Functions_TheError_setup(
+                    bag<SwiftReference.ConstructorDelegate>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.Functions.TheError(ptr));
+                    })),
                     out exn
                 ));
             });

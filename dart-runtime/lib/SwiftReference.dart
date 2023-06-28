@@ -8,7 +8,7 @@ class SwiftReference {
   static final _finalizer = Finalizer<ffi.Pointer>((reference) =>
     check((exn) => Loader.fishyJoesRuntime_AnyBox_releaseRef(reference.cast(), exn)));
 
-  SwiftReference(ConsumedRef ref) : unsafeReference = ref {
+  SwiftReference(ffi.Pointer ref) : unsafeReference = ref {
     _finalizer.attach(this, ref.cast(), detach: this);
   }
 
@@ -19,4 +19,7 @@ class SwiftReference {
       unsafeReference = ffi.Pointer.fromAddress(0);
     }
   }
+
+  static ffi.Pointer anyBoxRefGetter(UnownedRef obj, OutCreatedRef exn) =>
+    catchingRef(exn, () => peekRef<SwiftReference>(obj).unsafeReference);
 }

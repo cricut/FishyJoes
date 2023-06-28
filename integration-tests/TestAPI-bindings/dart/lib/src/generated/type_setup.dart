@@ -6,12 +6,14 @@ import './DefaultArguments.dart' as TestAPI;
 import './Deprecations.dart' as TestAPI;
 import './EmptyEnum.dart' as TestAPI;
 import './Functions.dart' as TestAPI;
+import './Functions_TheError.dart' as TestAPI;
 import './Primitives.dart' as TestAPI;
 import './Primitives_PrimitiveHolder.dart' as TestAPI;
 import './SimpleEnum.dart' as TestAPI;
 import './Strings.dart' as TestAPI;
 import './Structs.dart' as TestAPI;
 import './Structs_MemberwiseStruct.dart' as TestAPI;
+import './Structs_ReferenceStruct.dart' as TestAPI;
 import './Tuples.dart' as TestAPI;
 import 'dart:ffi' as ffi;
 import 'dart:io' show Platform, Directory;
@@ -74,101 +76,101 @@ typedef _Collections_CollectionHolderConstructor = CreatedRef Function(
     OutCreatedRef exn
 );
 typedef _Collections_CollectionHolder_boolArrayGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
-typedef _Collections_CollectionHolder_boolArraySetter = void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
+typedef _Collections_CollectionHolder_boolArraySetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
 typedef _Collections_CollectionHolder_boolSetGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
-typedef _Collections_CollectionHolder_boolSetSetter = void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
+typedef _Collections_CollectionHolder_boolSetSetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
 typedef _Collections_CollectionHolder_boolDictionaryGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
-typedef _Collections_CollectionHolder_boolDictionarySetter = void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
+typedef _Collections_CollectionHolder_boolDictionarySetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
 typedef _Collections_CollectionHolder_integerArrayGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
-typedef _Collections_CollectionHolder_integerArraySetter = void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
+typedef _Collections_CollectionHolder_integerArraySetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
 typedef _Collections_CollectionHolder_integerSetGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
-typedef _Collections_CollectionHolder_integerSetSetter = void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
+typedef _Collections_CollectionHolder_integerSetSetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
 typedef _Collections_CollectionHolder_integerDictionaryGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
-typedef _Collections_CollectionHolder_integerDictionarySetter = void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
+typedef _Collections_CollectionHolder_integerDictionarySetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
 typedef _Collections_CollectionHolder_stringArrayGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
-typedef _Collections_CollectionHolder_stringArraySetter = void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
+typedef _Collections_CollectionHolder_stringArraySetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
 typedef _Collections_CollectionHolder_stringSetGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
-typedef _Collections_CollectionHolder_stringSetSetter = void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
+typedef _Collections_CollectionHolder_stringSetSetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
 typedef _Collections_CollectionHolder_stringDictionaryGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
-typedef _Collections_CollectionHolder_stringDictionarySetter = void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
+typedef _Collections_CollectionHolder_stringDictionarySetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
 typedef _Structs_MemberwiseStructConstructor = CreatedRef Function(
     ConsumedRef immutable,
     ConsumedRef mutable,
     OutCreatedRef exn
 );
 typedef _Structs_MemberwiseStruct_immutableGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
-typedef _Structs_MemberwiseStruct_immutableSetter = void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
+typedef _Structs_MemberwiseStruct_immutableSetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
 typedef _Structs_MemberwiseStruct_mutableGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
-typedef _Structs_MemberwiseStruct_mutableSetter = void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
+typedef _Structs_MemberwiseStruct_mutableSetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
 typedef _Primitives_PrimitiveHolderConstructor = CreatedRef Function(
-    bool b,
+    ffi.Bool b,
     ConsumedRef bq,
-    int ui8,
+    ffi.Uint8 ui8,
     ConsumedRef ui8q,
-    int ui16,
+    ffi.Uint16 ui16,
     ConsumedRef ui16q,
-    int ui32,
+    ffi.Uint32 ui32,
     ConsumedRef ui32q,
-    int ui64,
+    ffi.Uint64 ui64,
     ConsumedRef ui64q,
-    int i8,
+    ffi.Int8 i8,
     ConsumedRef i8q,
-    int i16,
+    ffi.Int16 i16,
     ConsumedRef i16q,
-    int i32,
+    ffi.Int32 i32,
     ConsumedRef i32q,
-    int i64,
+    ffi.Int64 i64,
     ConsumedRef i64q,
-    double f,
+    ffi.Float f,
     ConsumedRef fq,
-    double d,
+    ffi.Double d,
     ConsumedRef dq,
     OutCreatedRef exn
 );
-typedef _Primitives_PrimitiveHolder_bGetter = bool Function(UnownedRef obj, OutCreatedRef exn);
-typedef _Primitives_PrimitiveHolder_bSetter = void Function(UnownedRef obj, bool newValue, OutCreatedRef exn);
+typedef _Primitives_PrimitiveHolder_bGetter = ffi.Bool Function(UnownedRef obj, OutCreatedRef exn);
+typedef _Primitives_PrimitiveHolder_bSetter = ffi.Void Function(UnownedRef obj, ffi.Bool newValue, OutCreatedRef exn);
 typedef _Primitives_PrimitiveHolder_bqGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
-typedef _Primitives_PrimitiveHolder_bqSetter = void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
-typedef _Primitives_PrimitiveHolder_ui8Getter = int Function(UnownedRef obj, OutCreatedRef exn);
-typedef _Primitives_PrimitiveHolder_ui8Setter = void Function(UnownedRef obj, int newValue, OutCreatedRef exn);
+typedef _Primitives_PrimitiveHolder_bqSetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
+typedef _Primitives_PrimitiveHolder_ui8Getter = ffi.Uint8 Function(UnownedRef obj, OutCreatedRef exn);
+typedef _Primitives_PrimitiveHolder_ui8Setter = ffi.Void Function(UnownedRef obj, ffi.Uint8 newValue, OutCreatedRef exn);
 typedef _Primitives_PrimitiveHolder_ui8qGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
-typedef _Primitives_PrimitiveHolder_ui8qSetter = void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
-typedef _Primitives_PrimitiveHolder_ui16Getter = int Function(UnownedRef obj, OutCreatedRef exn);
-typedef _Primitives_PrimitiveHolder_ui16Setter = void Function(UnownedRef obj, int newValue, OutCreatedRef exn);
+typedef _Primitives_PrimitiveHolder_ui8qSetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
+typedef _Primitives_PrimitiveHolder_ui16Getter = ffi.Uint16 Function(UnownedRef obj, OutCreatedRef exn);
+typedef _Primitives_PrimitiveHolder_ui16Setter = ffi.Void Function(UnownedRef obj, ffi.Uint16 newValue, OutCreatedRef exn);
 typedef _Primitives_PrimitiveHolder_ui16qGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
-typedef _Primitives_PrimitiveHolder_ui16qSetter = void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
-typedef _Primitives_PrimitiveHolder_ui32Getter = int Function(UnownedRef obj, OutCreatedRef exn);
-typedef _Primitives_PrimitiveHolder_ui32Setter = void Function(UnownedRef obj, int newValue, OutCreatedRef exn);
+typedef _Primitives_PrimitiveHolder_ui16qSetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
+typedef _Primitives_PrimitiveHolder_ui32Getter = ffi.Uint32 Function(UnownedRef obj, OutCreatedRef exn);
+typedef _Primitives_PrimitiveHolder_ui32Setter = ffi.Void Function(UnownedRef obj, ffi.Uint32 newValue, OutCreatedRef exn);
 typedef _Primitives_PrimitiveHolder_ui32qGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
-typedef _Primitives_PrimitiveHolder_ui32qSetter = void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
-typedef _Primitives_PrimitiveHolder_ui64Getter = int Function(UnownedRef obj, OutCreatedRef exn);
-typedef _Primitives_PrimitiveHolder_ui64Setter = void Function(UnownedRef obj, int newValue, OutCreatedRef exn);
+typedef _Primitives_PrimitiveHolder_ui32qSetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
+typedef _Primitives_PrimitiveHolder_ui64Getter = ffi.Uint64 Function(UnownedRef obj, OutCreatedRef exn);
+typedef _Primitives_PrimitiveHolder_ui64Setter = ffi.Void Function(UnownedRef obj, ffi.Uint64 newValue, OutCreatedRef exn);
 typedef _Primitives_PrimitiveHolder_ui64qGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
-typedef _Primitives_PrimitiveHolder_ui64qSetter = void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
-typedef _Primitives_PrimitiveHolder_i8Getter = int Function(UnownedRef obj, OutCreatedRef exn);
-typedef _Primitives_PrimitiveHolder_i8Setter = void Function(UnownedRef obj, int newValue, OutCreatedRef exn);
+typedef _Primitives_PrimitiveHolder_ui64qSetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
+typedef _Primitives_PrimitiveHolder_i8Getter = ffi.Int8 Function(UnownedRef obj, OutCreatedRef exn);
+typedef _Primitives_PrimitiveHolder_i8Setter = ffi.Void Function(UnownedRef obj, ffi.Int8 newValue, OutCreatedRef exn);
 typedef _Primitives_PrimitiveHolder_i8qGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
-typedef _Primitives_PrimitiveHolder_i8qSetter = void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
-typedef _Primitives_PrimitiveHolder_i16Getter = int Function(UnownedRef obj, OutCreatedRef exn);
-typedef _Primitives_PrimitiveHolder_i16Setter = void Function(UnownedRef obj, int newValue, OutCreatedRef exn);
+typedef _Primitives_PrimitiveHolder_i8qSetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
+typedef _Primitives_PrimitiveHolder_i16Getter = ffi.Int16 Function(UnownedRef obj, OutCreatedRef exn);
+typedef _Primitives_PrimitiveHolder_i16Setter = ffi.Void Function(UnownedRef obj, ffi.Int16 newValue, OutCreatedRef exn);
 typedef _Primitives_PrimitiveHolder_i16qGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
-typedef _Primitives_PrimitiveHolder_i16qSetter = void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
-typedef _Primitives_PrimitiveHolder_i32Getter = int Function(UnownedRef obj, OutCreatedRef exn);
-typedef _Primitives_PrimitiveHolder_i32Setter = void Function(UnownedRef obj, int newValue, OutCreatedRef exn);
+typedef _Primitives_PrimitiveHolder_i16qSetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
+typedef _Primitives_PrimitiveHolder_i32Getter = ffi.Int32 Function(UnownedRef obj, OutCreatedRef exn);
+typedef _Primitives_PrimitiveHolder_i32Setter = ffi.Void Function(UnownedRef obj, ffi.Int32 newValue, OutCreatedRef exn);
 typedef _Primitives_PrimitiveHolder_i32qGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
-typedef _Primitives_PrimitiveHolder_i32qSetter = void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
-typedef _Primitives_PrimitiveHolder_i64Getter = int Function(UnownedRef obj, OutCreatedRef exn);
-typedef _Primitives_PrimitiveHolder_i64Setter = void Function(UnownedRef obj, int newValue, OutCreatedRef exn);
+typedef _Primitives_PrimitiveHolder_i32qSetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
+typedef _Primitives_PrimitiveHolder_i64Getter = ffi.Int64 Function(UnownedRef obj, OutCreatedRef exn);
+typedef _Primitives_PrimitiveHolder_i64Setter = ffi.Void Function(UnownedRef obj, ffi.Int64 newValue, OutCreatedRef exn);
 typedef _Primitives_PrimitiveHolder_i64qGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
-typedef _Primitives_PrimitiveHolder_i64qSetter = void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
-typedef _Primitives_PrimitiveHolder_fGetter = double Function(UnownedRef obj, OutCreatedRef exn);
-typedef _Primitives_PrimitiveHolder_fSetter = void Function(UnownedRef obj, double newValue, OutCreatedRef exn);
+typedef _Primitives_PrimitiveHolder_i64qSetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
+typedef _Primitives_PrimitiveHolder_fGetter = ffi.Float Function(UnownedRef obj, OutCreatedRef exn);
+typedef _Primitives_PrimitiveHolder_fSetter = ffi.Void Function(UnownedRef obj, ffi.Float newValue, OutCreatedRef exn);
 typedef _Primitives_PrimitiveHolder_fqGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
-typedef _Primitives_PrimitiveHolder_fqSetter = void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
-typedef _Primitives_PrimitiveHolder_dGetter = double Function(UnownedRef obj, OutCreatedRef exn);
-typedef _Primitives_PrimitiveHolder_dSetter = void Function(UnownedRef obj, double newValue, OutCreatedRef exn);
+typedef _Primitives_PrimitiveHolder_fqSetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
+typedef _Primitives_PrimitiveHolder_dGetter = ffi.Double Function(UnownedRef obj, OutCreatedRef exn);
+typedef _Primitives_PrimitiveHolder_dSetter = ffi.Void Function(UnownedRef obj, ffi.Double newValue, OutCreatedRef exn);
 typedef _Primitives_PrimitiveHolder_dqGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
-typedef _Primitives_PrimitiveHolder_dqSetter = void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
+typedef _Primitives_PrimitiveHolder_dqSetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
 typedef TestAPI_SimpleEnum_new_red = CreatedRef Function(
     OutCreatedRef _exn
 );
@@ -239,10 +241,48 @@ final ensureLoaded = (() {
     final TestAPI_Collections_CollectionHolder_setup = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
+            ffi.Pointer<ffi.NativeFunction<_Collections_CollectionHolderConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_Collections_CollectionHolder_boolArrayGetter>> get_boolArray,
+            ffi.Pointer<ffi.NativeFunction<_Collections_CollectionHolder_boolArraySetter>> set_boolArray,
+            ffi.Pointer<ffi.NativeFunction<_Collections_CollectionHolder_boolSetGetter>> get_boolSet,
+            ffi.Pointer<ffi.NativeFunction<_Collections_CollectionHolder_boolSetSetter>> set_boolSet,
+            ffi.Pointer<ffi.NativeFunction<_Collections_CollectionHolder_boolDictionaryGetter>> get_boolDictionary,
+            ffi.Pointer<ffi.NativeFunction<_Collections_CollectionHolder_boolDictionarySetter>> set_boolDictionary,
+            ffi.Pointer<ffi.NativeFunction<_Collections_CollectionHolder_integerArrayGetter>> get_integerArray,
+            ffi.Pointer<ffi.NativeFunction<_Collections_CollectionHolder_integerArraySetter>> set_integerArray,
+            ffi.Pointer<ffi.NativeFunction<_Collections_CollectionHolder_integerSetGetter>> get_integerSet,
+            ffi.Pointer<ffi.NativeFunction<_Collections_CollectionHolder_integerSetSetter>> set_integerSet,
+            ffi.Pointer<ffi.NativeFunction<_Collections_CollectionHolder_integerDictionaryGetter>> get_integerDictionary,
+            ffi.Pointer<ffi.NativeFunction<_Collections_CollectionHolder_integerDictionarySetter>> set_integerDictionary,
+            ffi.Pointer<ffi.NativeFunction<_Collections_CollectionHolder_stringArrayGetter>> get_stringArray,
+            ffi.Pointer<ffi.NativeFunction<_Collections_CollectionHolder_stringArraySetter>> set_stringArray,
+            ffi.Pointer<ffi.NativeFunction<_Collections_CollectionHolder_stringSetGetter>> get_stringSet,
+            ffi.Pointer<ffi.NativeFunction<_Collections_CollectionHolder_stringSetSetter>> set_stringSet,
+            ffi.Pointer<ffi.NativeFunction<_Collections_CollectionHolder_stringDictionaryGetter>> get_stringDictionary,
+            ffi.Pointer<ffi.NativeFunction<_Collections_CollectionHolder_stringDictionarySetter>> set_stringDictionary,
             OutCreatedRef exn
         ),
         void Function(
             Env env,
+            ffi.Pointer<ffi.NativeFunction<_Collections_CollectionHolderConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_Collections_CollectionHolder_boolArrayGetter>> get_boolArray,
+            ffi.Pointer<ffi.NativeFunction<_Collections_CollectionHolder_boolArraySetter>> set_boolArray,
+            ffi.Pointer<ffi.NativeFunction<_Collections_CollectionHolder_boolSetGetter>> get_boolSet,
+            ffi.Pointer<ffi.NativeFunction<_Collections_CollectionHolder_boolSetSetter>> set_boolSet,
+            ffi.Pointer<ffi.NativeFunction<_Collections_CollectionHolder_boolDictionaryGetter>> get_boolDictionary,
+            ffi.Pointer<ffi.NativeFunction<_Collections_CollectionHolder_boolDictionarySetter>> set_boolDictionary,
+            ffi.Pointer<ffi.NativeFunction<_Collections_CollectionHolder_integerArrayGetter>> get_integerArray,
+            ffi.Pointer<ffi.NativeFunction<_Collections_CollectionHolder_integerArraySetter>> set_integerArray,
+            ffi.Pointer<ffi.NativeFunction<_Collections_CollectionHolder_integerSetGetter>> get_integerSet,
+            ffi.Pointer<ffi.NativeFunction<_Collections_CollectionHolder_integerSetSetter>> set_integerSet,
+            ffi.Pointer<ffi.NativeFunction<_Collections_CollectionHolder_integerDictionaryGetter>> get_integerDictionary,
+            ffi.Pointer<ffi.NativeFunction<_Collections_CollectionHolder_integerDictionarySetter>> set_integerDictionary,
+            ffi.Pointer<ffi.NativeFunction<_Collections_CollectionHolder_stringArrayGetter>> get_stringArray,
+            ffi.Pointer<ffi.NativeFunction<_Collections_CollectionHolder_stringArraySetter>> set_stringArray,
+            ffi.Pointer<ffi.NativeFunction<_Collections_CollectionHolder_stringSetGetter>> get_stringSet,
+            ffi.Pointer<ffi.NativeFunction<_Collections_CollectionHolder_stringSetSetter>> set_stringSet,
+            ffi.Pointer<ffi.NativeFunction<_Collections_CollectionHolder_stringDictionaryGetter>> get_stringDictionary,
+            ffi.Pointer<ffi.NativeFunction<_Collections_CollectionHolder_stringDictionarySetter>> set_stringDictionary,
             OutCreatedRef exn
         )
     >('TestAPI_Collections_CollectionHolder_setup');
@@ -299,20 +339,118 @@ final ensureLoaded = (() {
     final TestAPI_Structs_MemberwiseStruct_setup = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
+            ffi.Pointer<ffi.NativeFunction<_Structs_MemberwiseStructConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_Structs_MemberwiseStruct_immutableGetter>> get_immutable,
+            ffi.Pointer<ffi.NativeFunction<_Structs_MemberwiseStruct_mutableGetter>> get_mutable,
+            ffi.Pointer<ffi.NativeFunction<_Structs_MemberwiseStruct_mutableSetter>> set_mutable,
             OutCreatedRef exn
         ),
         void Function(
             Env env,
+            ffi.Pointer<ffi.NativeFunction<_Structs_MemberwiseStructConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_Structs_MemberwiseStruct_immutableGetter>> get_immutable,
+            ffi.Pointer<ffi.NativeFunction<_Structs_MemberwiseStruct_mutableGetter>> get_mutable,
+            ffi.Pointer<ffi.NativeFunction<_Structs_MemberwiseStruct_mutableSetter>> set_mutable,
             OutCreatedRef exn
         )
     >('TestAPI_Structs_MemberwiseStruct_setup');
     final TestAPI_Primitives_PrimitiveHolder_setup = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolderConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_bGetter>> get_b,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_bSetter>> set_b,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_bqGetter>> get_bq,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_bqSetter>> set_bq,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_ui8Getter>> get_ui8,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_ui8Setter>> set_ui8,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_ui8qGetter>> get_ui8q,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_ui8qSetter>> set_ui8q,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_ui16Getter>> get_ui16,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_ui16Setter>> set_ui16,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_ui16qGetter>> get_ui16q,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_ui16qSetter>> set_ui16q,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_ui32Getter>> get_ui32,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_ui32Setter>> set_ui32,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_ui32qGetter>> get_ui32q,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_ui32qSetter>> set_ui32q,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_ui64Getter>> get_ui64,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_ui64Setter>> set_ui64,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_ui64qGetter>> get_ui64q,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_ui64qSetter>> set_ui64q,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_i8Getter>> get_i8,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_i8Setter>> set_i8,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_i8qGetter>> get_i8q,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_i8qSetter>> set_i8q,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_i16Getter>> get_i16,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_i16Setter>> set_i16,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_i16qGetter>> get_i16q,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_i16qSetter>> set_i16q,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_i32Getter>> get_i32,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_i32Setter>> set_i32,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_i32qGetter>> get_i32q,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_i32qSetter>> set_i32q,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_i64Getter>> get_i64,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_i64Setter>> set_i64,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_i64qGetter>> get_i64q,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_i64qSetter>> set_i64q,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_fGetter>> get_f,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_fSetter>> set_f,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_fqGetter>> get_fq,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_fqSetter>> set_fq,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_dGetter>> get_d,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_dSetter>> set_d,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_dqGetter>> get_dq,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_dqSetter>> set_dq,
             OutCreatedRef exn
         ),
         void Function(
             Env env,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolderConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_bGetter>> get_b,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_bSetter>> set_b,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_bqGetter>> get_bq,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_bqSetter>> set_bq,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_ui8Getter>> get_ui8,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_ui8Setter>> set_ui8,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_ui8qGetter>> get_ui8q,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_ui8qSetter>> set_ui8q,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_ui16Getter>> get_ui16,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_ui16Setter>> set_ui16,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_ui16qGetter>> get_ui16q,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_ui16qSetter>> set_ui16q,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_ui32Getter>> get_ui32,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_ui32Setter>> set_ui32,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_ui32qGetter>> get_ui32q,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_ui32qSetter>> set_ui32q,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_ui64Getter>> get_ui64,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_ui64Setter>> set_ui64,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_ui64qGetter>> get_ui64q,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_ui64qSetter>> set_ui64q,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_i8Getter>> get_i8,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_i8Setter>> set_i8,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_i8qGetter>> get_i8q,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_i8qSetter>> set_i8q,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_i16Getter>> get_i16,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_i16Setter>> set_i16,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_i16qGetter>> get_i16q,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_i16qSetter>> set_i16q,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_i32Getter>> get_i32,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_i32Setter>> set_i32,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_i32qGetter>> get_i32q,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_i32qSetter>> set_i32q,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_i64Getter>> get_i64,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_i64Setter>> set_i64,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_i64qGetter>> get_i64q,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_i64qSetter>> set_i64q,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_fGetter>> get_f,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_fSetter>> set_f,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_fqGetter>> get_fq,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_fqSetter>> set_fq,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_dGetter>> get_d,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_dSetter>> set_d,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_dqGetter>> get_dq,
+            ffi.Pointer<ffi.NativeFunction<_Primitives_PrimitiveHolder_dqSetter>> set_dq,
             OutCreatedRef exn
         )
     >('TestAPI_Primitives_PrimitiveHolder_setup');
@@ -329,10 +467,12 @@ final ensureLoaded = (() {
     final TestAPI_Structs_ReferenceStruct_setup = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
+            ffi.Pointer<ffi.NativeFunction<CreatedRef Function(ffi.Pointer, OutCreatedRef)>> constructorMethod,
             OutCreatedRef exn
         ),
         void Function(
             Env env,
+            ffi.Pointer<ffi.NativeFunction<CreatedRef Function(ffi.Pointer, OutCreatedRef)>> constructorMethod,
             OutCreatedRef exn
         )
     >('TestAPI_Structs_ReferenceStruct_setup');
@@ -383,10 +523,12 @@ final ensureLoaded = (() {
     final TestAPI_Functions_TheError_setup = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
+            ffi.Pointer<ffi.NativeFunction<CreatedRef Function(ffi.Pointer, OutCreatedRef)>> constructorMethod,
             OutCreatedRef exn
         ),
         void Function(
             Env env,
+            ffi.Pointer<ffi.NativeFunction<CreatedRef Function(ffi.Pointer, OutCreatedRef)>> constructorMethod,
             OutCreatedRef exn
         )
     >('TestAPI_Functions_TheError_setup');
@@ -679,9 +821,9 @@ final ensureLoaded = (() {
         )
     >("__dart_Primitives_echoDouble");
     TestAPI.Primitives.f__dart_Primitives_echoFloat = dylib.lookupFunction<
-        ffi.Double Function(
+        ffi.Float Function(
             Env env,
-            ffi.Double value,
+            ffi.Float value,
             OutCreatedRef _exn
         ),
         double Function(
@@ -691,9 +833,9 @@ final ensureLoaded = (() {
         )
     >("__dart_Primitives_echoFloat");
     TestAPI.Primitives.f__dart_Primitives_echoInt16 = dylib.lookupFunction<
-        ffi.Int Function(
+        ffi.Int16 Function(
             Env env,
-            ffi.Int value,
+            ffi.Int16 value,
             OutCreatedRef _exn
         ),
         int Function(
@@ -703,9 +845,9 @@ final ensureLoaded = (() {
         )
     >("__dart_Primitives_echoInt16");
     TestAPI.Primitives.f__dart_Primitives_echoInt32 = dylib.lookupFunction<
-        ffi.Int Function(
+        ffi.Int32 Function(
             Env env,
-            ffi.Int value,
+            ffi.Int32 value,
             OutCreatedRef _exn
         ),
         int Function(
@@ -715,9 +857,9 @@ final ensureLoaded = (() {
         )
     >("__dart_Primitives_echoInt32");
     TestAPI.Primitives.f__dart_Primitives_echoInt64 = dylib.lookupFunction<
-        ffi.Int Function(
+        ffi.Int64 Function(
             Env env,
-            ffi.Int value,
+            ffi.Int64 value,
             OutCreatedRef _exn
         ),
         int Function(
@@ -727,9 +869,9 @@ final ensureLoaded = (() {
         )
     >("__dart_Primitives_echoInt64");
     TestAPI.Primitives.f__dart_Primitives_echoInt8 = dylib.lookupFunction<
-        ffi.Int Function(
+        ffi.Int8 Function(
             Env env,
-            ffi.Int value,
+            ffi.Int8 value,
             OutCreatedRef _exn
         ),
         int Function(
@@ -739,9 +881,9 @@ final ensureLoaded = (() {
         )
     >("__dart_Primitives_echoInt8");
     TestAPI.Primitives.f__dart_Primitives_echoUInt16 = dylib.lookupFunction<
-        ffi.Int Function(
+        ffi.Uint16 Function(
             Env env,
-            ffi.Int value,
+            ffi.Uint16 value,
             OutCreatedRef _exn
         ),
         int Function(
@@ -751,9 +893,9 @@ final ensureLoaded = (() {
         )
     >("__dart_Primitives_echoUInt16");
     TestAPI.Primitives.f__dart_Primitives_echoUInt32 = dylib.lookupFunction<
-        ffi.Int Function(
+        ffi.Uint32 Function(
             Env env,
-            ffi.Int value,
+            ffi.Uint32 value,
             OutCreatedRef _exn
         ),
         int Function(
@@ -763,9 +905,9 @@ final ensureLoaded = (() {
         )
     >("__dart_Primitives_echoUInt32");
     TestAPI.Primitives.f__dart_Primitives_echoUInt64 = dylib.lookupFunction<
-        ffi.Int Function(
+        ffi.Uint64 Function(
             Env env,
-            ffi.Int value,
+            ffi.Uint64 value,
             OutCreatedRef _exn
         ),
         int Function(
@@ -775,9 +917,9 @@ final ensureLoaded = (() {
         )
     >("__dart_Primitives_echoUInt64");
     TestAPI.Primitives.f__dart_Primitives_echoUInt8 = dylib.lookupFunction<
-        ffi.Int Function(
+        ffi.Uint8 Function(
             Env env,
-            ffi.Int value,
+            ffi.Uint8 value,
             OutCreatedRef _exn
         ),
         int Function(
@@ -988,6 +1130,30 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__dart_Structs_MemberwiseStruct_create");
+    TestAPI.Structs_ReferenceStruct.f__dart_Structs_ReferenceStruct_create = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__dart_Structs_ReferenceStruct_create");
+    TestAPI.Structs_ReferenceStruct.f__dart_Structs_ReferenceStruct_equals = dylib.lookupFunction<
+        ffi.Bool Function(
+            Env env,
+            UnownedRef lhs,
+            UnownedRef rhs,
+            OutCreatedRef _exn
+        ),
+        bool Function(
+            Env env,
+            UnownedRef lhs,
+            UnownedRef rhs,
+            OutCreatedRef _exn
+        )
+    >("__dart_Structs_ReferenceStruct_equals");
     TestAPI.Tuples.f__dart_Tuples_checkTuples = dylib.lookupFunction<
         ffi.Bool Function(
             Env env,
@@ -1050,7 +1216,7 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__dart_get_Bytes_data");
-    TestAPI.Collections_CollectionHolder.f__dart_get_Collections_CollectionHolder_staticMutablePropery = dylib.lookupFunction<
+    TestAPI.Collections_CollectionHolder.f__dart_get_Collections_CollectionHolder_staticMutableProperty = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
             OutCreatedRef _exn
@@ -1059,8 +1225,8 @@ final ensureLoaded = (() {
             Env env,
             OutCreatedRef _exn
         )
-    >("__dart_get_Collections_CollectionHolder_staticMutablePropery");
-    TestAPI.Collections_CollectionHolder.f__dart_get_Collections_CollectionHolder_staticPropery = dylib.lookupFunction<
+    >("__dart_get_Collections_CollectionHolder_staticMutableProperty");
+    TestAPI.Collections_CollectionHolder.f__dart_get_Collections_CollectionHolder_staticProperty = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
             OutCreatedRef _exn
@@ -1069,7 +1235,7 @@ final ensureLoaded = (() {
             Env env,
             OutCreatedRef _exn
         )
-    >("__dart_get_Collections_CollectionHolder_staticPropery");
+    >("__dart_get_Collections_CollectionHolder_staticProperty");
     TestAPI.Collections.f__dart_get_Collections_arrayOfInt = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -1250,7 +1416,7 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__dart_get_Functions_sixthThing");
-    TestAPI.Primitives_PrimitiveHolder.f__dart_get_Primitives_PrimitiveHolder_staticMutablePropery = dylib.lookupFunction<
+    TestAPI.Primitives_PrimitiveHolder.f__dart_get_Primitives_PrimitiveHolder_staticMutableProperty = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
             OutCreatedRef _exn
@@ -1259,8 +1425,8 @@ final ensureLoaded = (() {
             Env env,
             OutCreatedRef _exn
         )
-    >("__dart_get_Primitives_PrimitiveHolder_staticMutablePropery");
-    TestAPI.Primitives_PrimitiveHolder.f__dart_get_Primitives_PrimitiveHolder_staticPropery = dylib.lookupFunction<
+    >("__dart_get_Primitives_PrimitiveHolder_staticMutableProperty");
+    TestAPI.Primitives_PrimitiveHolder.f__dart_get_Primitives_PrimitiveHolder_staticProperty = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
             OutCreatedRef _exn
@@ -1269,7 +1435,7 @@ final ensureLoaded = (() {
             Env env,
             OutCreatedRef _exn
         )
-    >("__dart_get_Primitives_PrimitiveHolder_staticPropery");
+    >("__dart_get_Primitives_PrimitiveHolder_staticProperty");
     TestAPI.Primitives.f__dart_get_Primitives_defaultPrimitiveHolder = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -1521,7 +1687,7 @@ final ensureLoaded = (() {
         )
     >("__dart_get_Primitives_maxDouble");
     TestAPI.Primitives.f__dart_get_Primitives_maxFloat = dylib.lookupFunction<
-        ffi.Double Function(
+        ffi.Float Function(
             Env env,
             OutCreatedRef _exn
         ),
@@ -1541,7 +1707,7 @@ final ensureLoaded = (() {
         )
     >("__dart_get_Primitives_maxInt");
     TestAPI.Primitives.f__dart_get_Primitives_maxInt16 = dylib.lookupFunction<
-        ffi.Int Function(
+        ffi.Int16 Function(
             Env env,
             OutCreatedRef _exn
         ),
@@ -1551,7 +1717,7 @@ final ensureLoaded = (() {
         )
     >("__dart_get_Primitives_maxInt16");
     TestAPI.Primitives.f__dart_get_Primitives_maxInt32 = dylib.lookupFunction<
-        ffi.Int Function(
+        ffi.Int32 Function(
             Env env,
             OutCreatedRef _exn
         ),
@@ -1561,7 +1727,7 @@ final ensureLoaded = (() {
         )
     >("__dart_get_Primitives_maxInt32");
     TestAPI.Primitives.f__dart_get_Primitives_maxInt64 = dylib.lookupFunction<
-        ffi.Int Function(
+        ffi.Int64 Function(
             Env env,
             OutCreatedRef _exn
         ),
@@ -1571,7 +1737,7 @@ final ensureLoaded = (() {
         )
     >("__dart_get_Primitives_maxInt64");
     TestAPI.Primitives.f__dart_get_Primitives_maxInt8 = dylib.lookupFunction<
-        ffi.Int Function(
+        ffi.Int8 Function(
             Env env,
             OutCreatedRef _exn
         ),
@@ -1581,7 +1747,7 @@ final ensureLoaded = (() {
         )
     >("__dart_get_Primitives_maxInt8");
     TestAPI.Primitives.f__dart_get_Primitives_maxUInt16 = dylib.lookupFunction<
-        ffi.Int Function(
+        ffi.Uint16 Function(
             Env env,
             OutCreatedRef _exn
         ),
@@ -1591,7 +1757,7 @@ final ensureLoaded = (() {
         )
     >("__dart_get_Primitives_maxUInt16");
     TestAPI.Primitives.f__dart_get_Primitives_maxUInt32 = dylib.lookupFunction<
-        ffi.Int Function(
+        ffi.Uint32 Function(
             Env env,
             OutCreatedRef _exn
         ),
@@ -1601,7 +1767,7 @@ final ensureLoaded = (() {
         )
     >("__dart_get_Primitives_maxUInt32");
     TestAPI.Primitives.f__dart_get_Primitives_maxUInt64 = dylib.lookupFunction<
-        ffi.Int Function(
+        ffi.Uint64 Function(
             Env env,
             OutCreatedRef _exn
         ),
@@ -1611,7 +1777,7 @@ final ensureLoaded = (() {
         )
     >("__dart_get_Primitives_maxUInt64");
     TestAPI.Primitives.f__dart_get_Primitives_maxUInt8 = dylib.lookupFunction<
-        ffi.Int Function(
+        ffi.Uint8 Function(
             Env env,
             OutCreatedRef _exn
         ),
@@ -1631,7 +1797,7 @@ final ensureLoaded = (() {
         )
     >("__dart_get_Primitives_minDouble");
     TestAPI.Primitives.f__dart_get_Primitives_minFloat = dylib.lookupFunction<
-        ffi.Double Function(
+        ffi.Float Function(
             Env env,
             OutCreatedRef _exn
         ),
@@ -1651,7 +1817,7 @@ final ensureLoaded = (() {
         )
     >("__dart_get_Primitives_minInt");
     TestAPI.Primitives.f__dart_get_Primitives_minInt16 = dylib.lookupFunction<
-        ffi.Int Function(
+        ffi.Int16 Function(
             Env env,
             OutCreatedRef _exn
         ),
@@ -1661,7 +1827,7 @@ final ensureLoaded = (() {
         )
     >("__dart_get_Primitives_minInt16");
     TestAPI.Primitives.f__dart_get_Primitives_minInt32 = dylib.lookupFunction<
-        ffi.Int Function(
+        ffi.Int32 Function(
             Env env,
             OutCreatedRef _exn
         ),
@@ -1671,7 +1837,7 @@ final ensureLoaded = (() {
         )
     >("__dart_get_Primitives_minInt32");
     TestAPI.Primitives.f__dart_get_Primitives_minInt64 = dylib.lookupFunction<
-        ffi.Int Function(
+        ffi.Int64 Function(
             Env env,
             OutCreatedRef _exn
         ),
@@ -1681,7 +1847,7 @@ final ensureLoaded = (() {
         )
     >("__dart_get_Primitives_minInt64");
     TestAPI.Primitives.f__dart_get_Primitives_minInt8 = dylib.lookupFunction<
-        ffi.Int Function(
+        ffi.Int8 Function(
             Env env,
             OutCreatedRef _exn
         ),
@@ -1691,7 +1857,7 @@ final ensureLoaded = (() {
         )
     >("__dart_get_Primitives_minInt8");
     TestAPI.Primitives.f__dart_get_Primitives_minUInt16 = dylib.lookupFunction<
-        ffi.Int Function(
+        ffi.Uint16 Function(
             Env env,
             OutCreatedRef _exn
         ),
@@ -1701,7 +1867,7 @@ final ensureLoaded = (() {
         )
     >("__dart_get_Primitives_minUInt16");
     TestAPI.Primitives.f__dart_get_Primitives_minUInt32 = dylib.lookupFunction<
-        ffi.Int Function(
+        ffi.Uint32 Function(
             Env env,
             OutCreatedRef _exn
         ),
@@ -1711,7 +1877,7 @@ final ensureLoaded = (() {
         )
     >("__dart_get_Primitives_minUInt32");
     TestAPI.Primitives.f__dart_get_Primitives_minUInt64 = dylib.lookupFunction<
-        ffi.Int Function(
+        ffi.Uint64 Function(
             Env env,
             OutCreatedRef _exn
         ),
@@ -1721,7 +1887,7 @@ final ensureLoaded = (() {
         )
     >("__dart_get_Primitives_minUInt64");
     TestAPI.Primitives.f__dart_get_Primitives_minUInt8 = dylib.lookupFunction<
-        ffi.Int Function(
+        ffi.Uint8 Function(
             Env env,
             OutCreatedRef _exn
         ),
@@ -1751,7 +1917,7 @@ final ensureLoaded = (() {
         )
     >("__dart_get_Primitives_zeroDouble");
     TestAPI.Primitives.f__dart_get_Primitives_zeroFloat = dylib.lookupFunction<
-        ffi.Double Function(
+        ffi.Float Function(
             Env env,
             OutCreatedRef _exn
         ),
@@ -1771,7 +1937,7 @@ final ensureLoaded = (() {
         )
     >("__dart_get_Primitives_zeroInt");
     TestAPI.Primitives.f__dart_get_Primitives_zeroInt16 = dylib.lookupFunction<
-        ffi.Int Function(
+        ffi.Int16 Function(
             Env env,
             OutCreatedRef _exn
         ),
@@ -1781,7 +1947,7 @@ final ensureLoaded = (() {
         )
     >("__dart_get_Primitives_zeroInt16");
     TestAPI.Primitives.f__dart_get_Primitives_zeroInt32 = dylib.lookupFunction<
-        ffi.Int Function(
+        ffi.Int32 Function(
             Env env,
             OutCreatedRef _exn
         ),
@@ -1791,7 +1957,7 @@ final ensureLoaded = (() {
         )
     >("__dart_get_Primitives_zeroInt32");
     TestAPI.Primitives.f__dart_get_Primitives_zeroInt64 = dylib.lookupFunction<
-        ffi.Int Function(
+        ffi.Int64 Function(
             Env env,
             OutCreatedRef _exn
         ),
@@ -1801,7 +1967,7 @@ final ensureLoaded = (() {
         )
     >("__dart_get_Primitives_zeroInt64");
     TestAPI.Primitives.f__dart_get_Primitives_zeroInt8 = dylib.lookupFunction<
-        ffi.Int Function(
+        ffi.Int8 Function(
             Env env,
             OutCreatedRef _exn
         ),
@@ -1811,7 +1977,7 @@ final ensureLoaded = (() {
         )
     >("__dart_get_Primitives_zeroInt8");
     TestAPI.Primitives.f__dart_get_Primitives_zeroUInt16 = dylib.lookupFunction<
-        ffi.Int Function(
+        ffi.Uint16 Function(
             Env env,
             OutCreatedRef _exn
         ),
@@ -1821,7 +1987,7 @@ final ensureLoaded = (() {
         )
     >("__dart_get_Primitives_zeroUInt16");
     TestAPI.Primitives.f__dart_get_Primitives_zeroUInt32 = dylib.lookupFunction<
-        ffi.Int Function(
+        ffi.Uint32 Function(
             Env env,
             OutCreatedRef _exn
         ),
@@ -1831,7 +1997,7 @@ final ensureLoaded = (() {
         )
     >("__dart_get_Primitives_zeroUInt32");
     TestAPI.Primitives.f__dart_get_Primitives_zeroUInt64 = dylib.lookupFunction<
-        ffi.Int Function(
+        ffi.Uint64 Function(
             Env env,
             OutCreatedRef _exn
         ),
@@ -1841,7 +2007,7 @@ final ensureLoaded = (() {
         )
     >("__dart_get_Primitives_zeroUInt64");
     TestAPI.Primitives.f__dart_get_Primitives_zeroUInt8 = dylib.lookupFunction<
-        ffi.Int Function(
+        ffi.Uint8 Function(
             Env env,
             OutCreatedRef _exn
         ),
@@ -1952,6 +2118,42 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__dart_get_Strings_simple");
+    TestAPI.Structs_ReferenceStruct.f__dart_get_Structs_ReferenceStruct_hash = dylib.lookupFunction<
+        ffi.Int Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__dart_get_Structs_ReferenceStruct_hash");
+    TestAPI.Structs_ReferenceStruct.f__dart_get_Structs_ReferenceStruct_immutable = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__dart_get_Structs_ReferenceStruct_immutable");
+    TestAPI.Structs_ReferenceStruct.f__dart_get_Structs_ReferenceStruct_mutable = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__dart_get_Structs_ReferenceStruct_mutable");
     TestAPI.Tuples.f__dart_get_Tuples_tuple2 = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -2002,30 +2204,30 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__dart_get_Tuples_tuple6");
-    TestAPI.Collections_CollectionHolder.f__dart_set_Collections_CollectionHolder_staticMutablePropery = dylib.lookupFunction<
+    TestAPI.Collections_CollectionHolder.f__dart_set_Collections_CollectionHolder_staticMutableProperty = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
-            UnownedRef staticMutablePropery,
+            UnownedRef staticMutableProperty,
             OutCreatedRef _exn
         ),
         void Function(
             Env env,
-            UnownedRef staticMutablePropery,
+            UnownedRef staticMutableProperty,
             OutCreatedRef _exn
         )
-    >("__dart_set_Collections_CollectionHolder_staticMutablePropery");
-    TestAPI.Primitives_PrimitiveHolder.f__dart_set_Primitives_PrimitiveHolder_staticMutablePropery = dylib.lookupFunction<
+    >("__dart_set_Collections_CollectionHolder_staticMutableProperty");
+    TestAPI.Primitives_PrimitiveHolder.f__dart_set_Primitives_PrimitiveHolder_staticMutableProperty = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
-            UnownedRef staticMutablePropery,
+            UnownedRef staticMutableProperty,
             OutCreatedRef _exn
         ),
         void Function(
             Env env,
-            UnownedRef staticMutablePropery,
+            UnownedRef staticMutableProperty,
             OutCreatedRef _exn
         )
-    >("__dart_set_Primitives_PrimitiveHolder_staticMutablePropery");
+    >("__dart_set_Primitives_PrimitiveHolder_staticMutableProperty");
     TestAPI.SimpleEnum.f__dart_set_SimpleEnum_favoriteColor = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
@@ -2038,9 +2240,23 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__dart_set_SimpleEnum_favoriteColor");
+    TestAPI.Structs_ReferenceStruct.f__dart_set_Structs_ReferenceStruct_mutable = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef mutable,
+            OutCreatedRef _exn
+        ),
+        void Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef mutable,
+            OutCreatedRef _exn
+        )
+    >("__dart_set_Structs_ReferenceStruct_mutable");
 
     Loader.shared.once("setup_Function2Converter<Function1Converter<Int, Int>, Function1Converter<Int, Int>, Function1Converter<Int, Int>>", () {
-        print("setting up ((Int) -> Int, (Int) -> Int) -> (Int) -> Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up ((Int) -> Int, (Int) -> Int) -> (Int) -> Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_Function2Converter_setup<int Function(int), int Function(int), int Function(int)>(
                 Loader.shared.env,
@@ -2051,7 +2267,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Function1Converter<OptionalConverter<ArrayConverter<OptionalConverter<Int>>>, OptionalConverter<ArrayConverter<OptionalConverter<Int>>>>", () {
-        print("setting up (Optional<Array<Optional<Int>>>) -> Optional<Array<Optional<Int>>> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up (Optional<Array<Optional<Int>>>) -> Optional<Array<Optional<Int>>> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_Function1Converter_setup<List<int?>?, List<int?>?>(
                 Loader.shared.env,
@@ -2062,7 +2278,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Function1Converter<OptionalConverter<UInt8>, OptionalConverter<UInt8>>", () {
-        print("setting up (Optional<UInt8>) -> Optional<UInt8> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up (Optional<UInt8>) -> Optional<UInt8> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_Function1Converter_setup<int?, int?>(
                 Loader.shared.env,
@@ -2073,7 +2289,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Function3Converter<Float, Double, Int, Double>", () {
-        print("setting up (Float, Double, Int) -> Double (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up (Float, Double, Int) -> Double (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_Function3Converter_setup<double, double, double, int>(
                 Loader.shared.env,
@@ -2084,7 +2300,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Function1Converter<Int, Int>", () {
-        print("setting up (Int) -> Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up (Int) -> Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_Function1Converter_setup<int, int>(
                 Loader.shared.env,
@@ -2095,7 +2311,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Function6Converter<Swift.String, Int, Double, Swift.String, Function0Converter<Int>, Int, Int>", () {
-        print("setting up (String, Int, Double, String, () -> Int, Int) -> Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up (String, Int, Double, String, () -> Int, Int) -> Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_Function6Converter_setup<int, String, int, double, String, int Function(), int>(
                 Loader.shared.env,
@@ -2106,7 +2322,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Function5Converter<Swift.String, Int, Double, Swift.String, Function0Converter<Int>, Function0Converter<Int>>", () {
-        print("setting up (String, Int, Double, String, () -> Int) -> () -> Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up (String, Int, Double, String, () -> Int) -> () -> Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_Function5Converter_setup<int Function(), String, int, double, String, int Function()>(
                 Loader.shared.env,
@@ -2117,7 +2333,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Function4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>", () {
-        print("setting up (String, String, String, String) -> Array<String> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up (String, String, String, String) -> Array<String> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_Function4Converter_setup<List<String>, String, String, String, String>(
                 Loader.shared.env,
@@ -2128,7 +2344,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Function0Converter<Int>", () {
-        print("setting up () -> Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up () -> Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_Function0Converter_setup<int>(
                 Loader.shared.env,
@@ -2139,7 +2355,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_ArrayConverter<OptionalConverter<Bool>>", () {
-        print("setting up Array<Optional<Bool>> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up Array<Optional<Bool>> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_ArrayConverter_setup<bool?>(
                 Loader.shared.env,
@@ -2150,7 +2366,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_ArrayConverter<OptionalConverter<Double>>", () {
-        print("setting up Array<Optional<Double>> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up Array<Optional<Double>> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_ArrayConverter_setup<double?>(
                 Loader.shared.env,
@@ -2161,7 +2377,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_ArrayConverter<OptionalConverter<Float>>", () {
-        print("setting up Array<Optional<Float>> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up Array<Optional<Float>> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_ArrayConverter_setup<double?>(
                 Loader.shared.env,
@@ -2172,7 +2388,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_ArrayConverter<OptionalConverter<Int>>", () {
-        print("setting up Array<Optional<Int>> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up Array<Optional<Int>> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_ArrayConverter_setup<int?>(
                 Loader.shared.env,
@@ -2183,7 +2399,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_ArrayConverter<OptionalConverter<Int16>>", () {
-        print("setting up Array<Optional<Int16>> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up Array<Optional<Int16>> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_ArrayConverter_setup<int?>(
                 Loader.shared.env,
@@ -2194,7 +2410,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_ArrayConverter<OptionalConverter<Int32>>", () {
-        print("setting up Array<Optional<Int32>> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up Array<Optional<Int32>> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_ArrayConverter_setup<int?>(
                 Loader.shared.env,
@@ -2205,7 +2421,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_ArrayConverter<OptionalConverter<Int64>>", () {
-        print("setting up Array<Optional<Int64>> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up Array<Optional<Int64>> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_ArrayConverter_setup<int?>(
                 Loader.shared.env,
@@ -2216,7 +2432,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_ArrayConverter<OptionalConverter<Int8>>", () {
-        print("setting up Array<Optional<Int8>> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up Array<Optional<Int8>> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_ArrayConverter_setup<int?>(
                 Loader.shared.env,
@@ -2227,7 +2443,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_ArrayConverter<OptionalConverter<UInt16>>", () {
-        print("setting up Array<Optional<UInt16>> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up Array<Optional<UInt16>> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_ArrayConverter_setup<int?>(
                 Loader.shared.env,
@@ -2238,7 +2454,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_ArrayConverter<OptionalConverter<UInt32>>", () {
-        print("setting up Array<Optional<UInt32>> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up Array<Optional<UInt32>> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_ArrayConverter_setup<int?>(
                 Loader.shared.env,
@@ -2249,7 +2465,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_ArrayConverter<OptionalConverter<UInt64>>", () {
-        print("setting up Array<Optional<UInt64>> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up Array<Optional<UInt64>> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_ArrayConverter_setup<int?>(
                 Loader.shared.env,
@@ -2260,7 +2476,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_ArrayConverter<OptionalConverter<UInt8>>", () {
-        print("setting up Array<Optional<UInt8>> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up Array<Optional<UInt8>> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_ArrayConverter_setup<int?>(
                 Loader.shared.env,
@@ -2271,7 +2487,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_ArrayConverter<Bool>", () {
-        print("setting up Array<Bool> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up Array<Bool> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_ArrayConverter_setup<bool>(
                 Loader.shared.env,
@@ -2282,7 +2498,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_ArrayConverter<Double>", () {
-        print("setting up Array<Double> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up Array<Double> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_ArrayConverter_setup<double>(
                 Loader.shared.env,
@@ -2293,7 +2509,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_ArrayConverter<Float>", () {
-        print("setting up Array<Float> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up Array<Float> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_ArrayConverter_setup<double>(
                 Loader.shared.env,
@@ -2304,7 +2520,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_ArrayConverter<Int>", () {
-        print("setting up Array<Int> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up Array<Int> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_ArrayConverter_setup<int>(
                 Loader.shared.env,
@@ -2315,7 +2531,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_ArrayConverter<Int16>", () {
-        print("setting up Array<Int16> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up Array<Int16> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_ArrayConverter_setup<int>(
                 Loader.shared.env,
@@ -2326,7 +2542,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_ArrayConverter<Int32>", () {
-        print("setting up Array<Int32> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up Array<Int32> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_ArrayConverter_setup<int>(
                 Loader.shared.env,
@@ -2337,7 +2553,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_ArrayConverter<Int64>", () {
-        print("setting up Array<Int64> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up Array<Int64> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_ArrayConverter_setup<int>(
                 Loader.shared.env,
@@ -2348,7 +2564,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_ArrayConverter<Int8>", () {
-        print("setting up Array<Int8> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up Array<Int8> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_ArrayConverter_setup<int>(
                 Loader.shared.env,
@@ -2359,7 +2575,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_ArrayConverter<Swift.String>", () {
-        print("setting up Array<String> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up Array<String> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_ArrayConverter_setup<String>(
                 Loader.shared.env,
@@ -2370,7 +2586,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_ArrayConverter<UInt16>", () {
-        print("setting up Array<UInt16> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up Array<UInt16> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_ArrayConverter_setup<int>(
                 Loader.shared.env,
@@ -2381,7 +2597,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_ArrayConverter<UInt32>", () {
-        print("setting up Array<UInt32> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up Array<UInt32> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_ArrayConverter_setup<int>(
                 Loader.shared.env,
@@ -2392,7 +2608,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_ArrayConverter<UInt64>", () {
-        print("setting up Array<UInt64> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up Array<UInt64> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_ArrayConverter_setup<int>(
                 Loader.shared.env,
@@ -2403,7 +2619,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_ArrayConverter<UInt8>", () {
-        print("setting up Array<UInt8> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up Array<UInt8> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_ArrayConverter_setup<int>(
                 Loader.shared.env,
@@ -2414,9 +2630,9 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_DictionaryConverter<Bool, Bool>", () {
-        print("setting up Dictionary<Bool, Bool> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up Dictionary<Bool, Bool> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
-            Loader.shared.FishyJoesRuntime_DictionaryConverter_setup(
+            Loader.shared.FishyJoesRuntime_DictionaryConverter_setup<bool, bool>(
                 Loader.shared.env,
                 "DictionaryConverter<Bool, Bool>",
                 exn
@@ -2425,9 +2641,9 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_DictionaryConverter<Int, OptionalConverter<Int>>", () {
-        print("setting up Dictionary<Int, Optional<Int>> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up Dictionary<Int, Optional<Int>> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
-            Loader.shared.FishyJoesRuntime_DictionaryConverter_setup(
+            Loader.shared.FishyJoesRuntime_DictionaryConverter_setup<int, int?>(
                 Loader.shared.env,
                 "DictionaryConverter<Int, OptionalConverter<Int>>",
                 exn
@@ -2436,9 +2652,9 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_DictionaryConverter<Int, Int>", () {
-        print("setting up Dictionary<Int, Int> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up Dictionary<Int, Int> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
-            Loader.shared.FishyJoesRuntime_DictionaryConverter_setup(
+            Loader.shared.FishyJoesRuntime_DictionaryConverter_setup<int, int>(
                 Loader.shared.env,
                 "DictionaryConverter<Int, Int>",
                 exn
@@ -2447,9 +2663,9 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_DictionaryConverter<Swift.String, Swift.String>", () {
-        print("setting up Dictionary<String, String> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up Dictionary<String, String> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
-            Loader.shared.FishyJoesRuntime_DictionaryConverter_setup(
+            Loader.shared.FishyJoesRuntime_DictionaryConverter_setup<String, String>(
                 Loader.shared.env,
                 "DictionaryConverter<Swift.String, Swift.String>",
                 exn
@@ -2458,7 +2674,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_OptionalConverter<ArrayConverter<OptionalConverter<Int>>>", () {
-        print("setting up Optional<Array<Optional<Int>>> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up Optional<Array<Optional<Int>>> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_OptionalConverter_setup(
                 Loader.shared.env,
@@ -2468,7 +2684,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_OptionalConverter<ArrayConverter<Int>>", () {
-        print("setting up Optional<Array<Int>> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up Optional<Array<Int>> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_OptionalConverter_setup(
                 Loader.shared.env,
@@ -2478,7 +2694,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_OptionalConverter<DictionaryConverter<Int, OptionalConverter<Int>>>", () {
-        print("setting up Optional<Dictionary<Int, Optional<Int>>> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up Optional<Dictionary<Int, Optional<Int>>> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_OptionalConverter_setup(
                 Loader.shared.env,
@@ -2488,7 +2704,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_OptionalConverter<DictionaryConverter<Int, Int>>", () {
-        print("setting up Optional<Dictionary<Int, Int>> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up Optional<Dictionary<Int, Int>> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_OptionalConverter_setup(
                 Loader.shared.env,
@@ -2498,7 +2714,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_OptionalConverter<SetConverter<OptionalConverter<Int>>>", () {
-        print("setting up Optional<Set<Optional<Int>>> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up Optional<Set<Optional<Int>>> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_OptionalConverter_setup(
                 Loader.shared.env,
@@ -2508,7 +2724,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_OptionalConverter<SetConverter<Int>>", () {
-        print("setting up Optional<Set<Int>> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up Optional<Set<Int>> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_OptionalConverter_setup(
                 Loader.shared.env,
@@ -2518,7 +2734,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_OptionalConverter<Bool>", () {
-        print("setting up Optional<Bool> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up Optional<Bool> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_OptionalConverter_setup(
                 Loader.shared.env,
@@ -2528,7 +2744,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_OptionalConverter<Double>", () {
-        print("setting up Optional<Double> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up Optional<Double> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_OptionalConverter_setup(
                 Loader.shared.env,
@@ -2538,7 +2754,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_OptionalConverter<Float>", () {
-        print("setting up Optional<Float> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up Optional<Float> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_OptionalConverter_setup(
                 Loader.shared.env,
@@ -2548,7 +2764,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_OptionalConverter<Int>", () {
-        print("setting up Optional<Int> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up Optional<Int> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_OptionalConverter_setup(
                 Loader.shared.env,
@@ -2558,7 +2774,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_OptionalConverter<Int16>", () {
-        print("setting up Optional<Int16> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up Optional<Int16> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_OptionalConverter_setup(
                 Loader.shared.env,
@@ -2568,7 +2784,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_OptionalConverter<Int32>", () {
-        print("setting up Optional<Int32> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up Optional<Int32> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_OptionalConverter_setup(
                 Loader.shared.env,
@@ -2578,7 +2794,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_OptionalConverter<Int64>", () {
-        print("setting up Optional<Int64> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up Optional<Int64> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_OptionalConverter_setup(
                 Loader.shared.env,
@@ -2588,7 +2804,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_OptionalConverter<Int8>", () {
-        print("setting up Optional<Int8> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up Optional<Int8> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_OptionalConverter_setup(
                 Loader.shared.env,
@@ -2598,7 +2814,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_OptionalConverter<SimpleEnum>", () {
-        print("setting up Optional<SimpleEnum> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up Optional<SimpleEnum> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_OptionalConverter_setup(
                 Loader.shared.env,
@@ -2608,7 +2824,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_OptionalConverter<UInt16>", () {
-        print("setting up Optional<UInt16> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up Optional<UInt16> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_OptionalConverter_setup(
                 Loader.shared.env,
@@ -2618,7 +2834,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_OptionalConverter<UInt32>", () {
-        print("setting up Optional<UInt32> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up Optional<UInt32> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_OptionalConverter_setup(
                 Loader.shared.env,
@@ -2628,7 +2844,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_OptionalConverter<UInt64>", () {
-        print("setting up Optional<UInt64> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up Optional<UInt64> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_OptionalConverter_setup(
                 Loader.shared.env,
@@ -2638,7 +2854,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_OptionalConverter<UInt8>", () {
-        print("setting up Optional<UInt8> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up Optional<UInt8> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesRuntime_OptionalConverter_setup(
                 Loader.shared.env,
@@ -2648,9 +2864,9 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_SetConverter<OptionalConverter<Int>>", () {
-        print("setting up Set<Optional<Int>> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up Set<Optional<Int>> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
-            Loader.shared.FishyJoesRuntime_SetConverter_setup(
+            Loader.shared.FishyJoesRuntime_SetConverter_setup<int?>(
                 Loader.shared.env,
                 "SetConverter<OptionalConverter<Int>>",
                 exn
@@ -2659,9 +2875,9 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_SetConverter<Bool>", () {
-        print("setting up Set<Bool> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up Set<Bool> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
-            Loader.shared.FishyJoesRuntime_SetConverter_setup(
+            Loader.shared.FishyJoesRuntime_SetConverter_setup<bool>(
                 Loader.shared.env,
                 "SetConverter<Bool>",
                 exn
@@ -2670,9 +2886,9 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_SetConverter<Int>", () {
-        print("setting up Set<Int> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up Set<Int> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
-            Loader.shared.FishyJoesRuntime_SetConverter_setup(
+            Loader.shared.FishyJoesRuntime_SetConverter_setup<int>(
                 Loader.shared.env,
                 "SetConverter<Int>",
                 exn
@@ -2681,9 +2897,9 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_SetConverter<Swift.String>", () {
-        print("setting up Set<String> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up Set<String> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
-            Loader.shared.FishyJoesRuntime_SetConverter_setup(
+            Loader.shared.FishyJoesRuntime_SetConverter_setup<String>(
                 Loader.shared.env,
                 "SetConverter<Swift.String>",
                 exn
@@ -2692,7 +2908,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_AssociatedDataEnum", () {
-        print("setting up AssociatedDataEnum (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up AssociatedDataEnum (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             TestAPI_AssociatedDataEnum_setup(
                 Loader.shared.env,
@@ -2711,7 +2927,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Bytes", () {
-        print("setting up Bytes (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up Bytes (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             TestAPI_Bytes_setup(
                 Loader.shared.env,
@@ -2721,17 +2937,36 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Collections.CollectionHolder", () {
-        print("setting up Collections.CollectionHolder (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up Collections.CollectionHolder (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             TestAPI_Collections_CollectionHolder_setup(
                 Loader.shared.env,
+                ffi.Pointer.fromFunction(TestAPI.Collections_CollectionHolder.ffi_constructor),
+                ffi.Pointer.fromFunction(TestAPI.Collections_CollectionHolder.ffi_get_boolArray),
+                ffi.Pointer.fromFunction(TestAPI.Collections_CollectionHolder.ffi_set_boolArray),
+                ffi.Pointer.fromFunction(TestAPI.Collections_CollectionHolder.ffi_get_boolSet),
+                ffi.Pointer.fromFunction(TestAPI.Collections_CollectionHolder.ffi_set_boolSet),
+                ffi.Pointer.fromFunction(TestAPI.Collections_CollectionHolder.ffi_get_boolDictionary),
+                ffi.Pointer.fromFunction(TestAPI.Collections_CollectionHolder.ffi_set_boolDictionary),
+                ffi.Pointer.fromFunction(TestAPI.Collections_CollectionHolder.ffi_get_integerArray),
+                ffi.Pointer.fromFunction(TestAPI.Collections_CollectionHolder.ffi_set_integerArray),
+                ffi.Pointer.fromFunction(TestAPI.Collections_CollectionHolder.ffi_get_integerSet),
+                ffi.Pointer.fromFunction(TestAPI.Collections_CollectionHolder.ffi_set_integerSet),
+                ffi.Pointer.fromFunction(TestAPI.Collections_CollectionHolder.ffi_get_integerDictionary),
+                ffi.Pointer.fromFunction(TestAPI.Collections_CollectionHolder.ffi_set_integerDictionary),
+                ffi.Pointer.fromFunction(TestAPI.Collections_CollectionHolder.ffi_get_stringArray),
+                ffi.Pointer.fromFunction(TestAPI.Collections_CollectionHolder.ffi_set_stringArray),
+                ffi.Pointer.fromFunction(TestAPI.Collections_CollectionHolder.ffi_get_stringSet),
+                ffi.Pointer.fromFunction(TestAPI.Collections_CollectionHolder.ffi_set_stringSet),
+                ffi.Pointer.fromFunction(TestAPI.Collections_CollectionHolder.ffi_get_stringDictionary),
+                ffi.Pointer.fromFunction(TestAPI.Collections_CollectionHolder.ffi_set_stringDictionary),
                 exn
             );
         });
     });
 
     Loader.shared.once("setup_Collections", () {
-        print("setting up Collections (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up Collections (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             TestAPI_Collections_setup(
                 Loader.shared.env,
@@ -2741,7 +2976,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_DefaultArguments", () {
-        print("setting up DefaultArguments (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up DefaultArguments (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             TestAPI_DefaultArguments_setup(
                 Loader.shared.env,
@@ -2751,7 +2986,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Deprecations", () {
-        print("setting up Deprecations (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up Deprecations (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             TestAPI_Deprecations_setup(
                 Loader.shared.env,
@@ -2761,7 +2996,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_EmptyEnum", () {
-        print("setting up EmptyEnum (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up EmptyEnum (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             TestAPI_EmptyEnum_setup(
                 Loader.shared.env,
@@ -2771,7 +3006,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Functions", () {
-        print("setting up Functions (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up Functions (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             TestAPI_Functions_setup(
                 Loader.shared.env,
@@ -2781,27 +3016,76 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Structs.MemberwiseStruct", () {
-        print("setting up Structs.MemberwiseStruct (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up Structs.MemberwiseStruct (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             TestAPI_Structs_MemberwiseStruct_setup(
                 Loader.shared.env,
+                ffi.Pointer.fromFunction(TestAPI.Structs_MemberwiseStruct.ffi_constructor),
+                ffi.Pointer.fromFunction(TestAPI.Structs_MemberwiseStruct.ffi_get_immutable),
+                ffi.Pointer.fromFunction(TestAPI.Structs_MemberwiseStruct.ffi_get_mutable),
+                ffi.Pointer.fromFunction(TestAPI.Structs_MemberwiseStruct.ffi_set_mutable),
                 exn
             );
         });
     });
 
     Loader.shared.once("setup_Primitives.PrimitiveHolder", () {
-        print("setting up Primitives.PrimitiveHolder (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up Primitives.PrimitiveHolder (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             TestAPI_Primitives_PrimitiveHolder_setup(
                 Loader.shared.env,
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_constructor),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_get_b, false),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_set_b),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_get_bq),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_set_bq),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_get_ui8, 0),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_set_ui8),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_get_ui8q),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_set_ui8q),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_get_ui16, 0),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_set_ui16),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_get_ui16q),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_set_ui16q),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_get_ui32, 0),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_set_ui32),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_get_ui32q),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_set_ui32q),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_get_ui64, 0),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_set_ui64),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_get_ui64q),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_set_ui64q),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_get_i8, 0),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_set_i8),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_get_i8q),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_set_i8q),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_get_i16, 0),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_set_i16),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_get_i16q),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_set_i16q),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_get_i32, 0),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_set_i32),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_get_i32q),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_set_i32q),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_get_i64, 0),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_set_i64),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_get_i64q),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_set_i64q),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_get_f, 0.0),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_set_f),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_get_fq),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_set_fq),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_get_d, 0.0),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_set_d),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_get_dq),
+                ffi.Pointer.fromFunction(TestAPI.Primitives_PrimitiveHolder.ffi_set_dq),
                 exn
             );
         });
     });
 
     Loader.shared.once("setup_Primitives", () {
-        print("setting up Primitives (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up Primitives (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             TestAPI_Primitives_setup(
                 Loader.shared.env,
@@ -2811,17 +3095,18 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Structs.ReferenceStruct", () {
-        print("setting up Structs.ReferenceStruct (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up Structs.ReferenceStruct (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             TestAPI_Structs_ReferenceStruct_setup(
                 Loader.shared.env,
+                ffi.Pointer.fromFunction(TestAPI.Structs_ReferenceStruct.ffi_new),
                 exn
             );
         });
     });
 
     Loader.shared.once("setup_SimpleEnum", () {
-        print("setting up SimpleEnum (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up SimpleEnum (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             TestAPI_SimpleEnum_setup(
                 Loader.shared.env,
@@ -2838,7 +3123,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Strings", () {
-        print("setting up Strings (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up Strings (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             TestAPI_Strings_setup(
                 Loader.shared.env,
@@ -2848,7 +3133,7 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Structs", () {
-        print("setting up Structs (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up Structs (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             TestAPI_Structs_setup(
                 Loader.shared.env,
@@ -2858,17 +3143,18 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Functions.TheError", () {
-        print("setting up Functions.TheError (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up Functions.TheError (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             TestAPI_Functions_TheError_setup(
                 Loader.shared.env,
+                ffi.Pointer.fromFunction(TestAPI.Functions_TheError.ffi_new),
                 exn
             );
         });
     });
 
     Loader.shared.once("setup_Tuples", () {
-        print("setting up Tuples (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up Tuples (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             TestAPI_Tuples_setup(
                 Loader.shared.env,
@@ -2878,9 +3164,9 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Tuple2Converter<Int, Swift.String>", () {
-        print("setting up (Int, String) (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up (Int, String) (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
-            Loader.shared.FishyJoesRuntime_Tuple2Converter_setup(
+            Loader.shared.FishyJoesRuntime_Tuple2Converter_setup<int, String>(
                 Loader.shared.env,
                 "Tuple2Converter<Int, Swift.String>",
                 exn
@@ -2889,9 +3175,9 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Tuple3Converter<Swift.String, Double, Swift.String>", () {
-        print("setting up (String, Double, String) (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up (String, Double, String) (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
-            Loader.shared.FishyJoesRuntime_Tuple3Converter_setup(
+            Loader.shared.FishyJoesRuntime_Tuple3Converter_setup<String, double, String>(
                 Loader.shared.env,
                 "Tuple3Converter<Swift.String, Double, Swift.String>",
                 exn
@@ -2900,9 +3186,9 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Tuple6Converter<Swift.String, Int, Double, Tuple4Converter<Tuple2Converter<Int, Swift.String>, Tuple3Converter<Swift.String, Double, Swift.String>, Swift.String, Bool>, Tuple5Converter<Swift.String, UInt8, Tuple4Converter<Tuple2Converter<Int, Swift.String>, Tuple3Converter<Swift.String, Double, Swift.String>, Swift.String, Bool>, Tuple3Converter<Swift.String, Double, Swift.String>, Tuple2Converter<Int, Swift.String>>, Bool>", () {
-        print("setting up (String, Int, Double, ((Int, String), (String, Double, String), String, Bool), (String, UInt8, ((Int, String), (String, Double, String), String, Bool), (String, Double, String), (Int, String)), Bool) (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up (String, Int, Double, ((Int, String), (String, Double, String), String, Bool), (String, UInt8, ((Int, String), (String, Double, String), String, Bool), (String, Double, String), (Int, String)), Bool) (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
-            Loader.shared.FishyJoesRuntime_Tuple6Converter_setup(
+            Loader.shared.FishyJoesRuntime_Tuple6Converter_setup<String, int, double, tuple.Tuple4<tuple.Tuple2<int, String>, tuple.Tuple3<String, double, String>, String, bool>, tuple.Tuple5<String, int, tuple.Tuple4<tuple.Tuple2<int, String>, tuple.Tuple3<String, double, String>, String, bool>, tuple.Tuple3<String, double, String>, tuple.Tuple2<int, String>>, bool>(
                 Loader.shared.env,
                 "Tuple6Converter<Swift.String, Int, Double, Tuple4Converter<Tuple2Converter<Int, Swift.String>, Tuple3Converter<Swift.String, Double, Swift.String>, Swift.String, Bool>, Tuple5Converter<Swift.String, UInt8, Tuple4Converter<Tuple2Converter<Int, Swift.String>, Tuple3Converter<Swift.String, Double, Swift.String>, Swift.String, Bool>, Tuple3Converter<Swift.String, Double, Swift.String>, Tuple2Converter<Int, Swift.String>>, Bool>",
                 exn
@@ -2911,9 +3197,9 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Tuple5Converter<Swift.String, UInt8, Tuple4Converter<Tuple2Converter<Int, Swift.String>, Tuple3Converter<Swift.String, Double, Swift.String>, Swift.String, Bool>, Tuple3Converter<Swift.String, Double, Swift.String>, Tuple2Converter<Int, Swift.String>>", () {
-        print("setting up (String, UInt8, ((Int, String), (String, Double, String), String, Bool), (String, Double, String), (Int, String)) (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up (String, UInt8, ((Int, String), (String, Double, String), String, Bool), (String, Double, String), (Int, String)) (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
-            Loader.shared.FishyJoesRuntime_Tuple5Converter_setup(
+            Loader.shared.FishyJoesRuntime_Tuple5Converter_setup<String, int, tuple.Tuple4<tuple.Tuple2<int, String>, tuple.Tuple3<String, double, String>, String, bool>, tuple.Tuple3<String, double, String>, tuple.Tuple2<int, String>>(
                 Loader.shared.env,
                 "Tuple5Converter<Swift.String, UInt8, Tuple4Converter<Tuple2Converter<Int, Swift.String>, Tuple3Converter<Swift.String, Double, Swift.String>, Swift.String, Bool>, Tuple3Converter<Swift.String, Double, Swift.String>, Tuple2Converter<Int, Swift.String>>",
                 exn
@@ -2922,9 +3208,9 @@ final ensureLoaded = (() {
     });
 
     Loader.shared.once("setup_Tuple4Converter<Tuple2Converter<Int, Swift.String>, Tuple3Converter<Swift.String, Double, Swift.String>, Swift.String, Bool>", () {
-        print("setting up ((Int, String), (String, Double, String), String, Bool) (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        // print("setting up ((Int, String), (String, Double, String), String, Bool) (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
-            Loader.shared.FishyJoesRuntime_Tuple4Converter_setup(
+            Loader.shared.FishyJoesRuntime_Tuple4Converter_setup<tuple.Tuple2<int, String>, tuple.Tuple3<String, double, String>, String, bool>(
                 Loader.shared.env,
                 "Tuple4Converter<Tuple2Converter<Int, Swift.String>, Tuple3Converter<Swift.String, Double, Swift.String>, Swift.String, Bool>",
                 exn
