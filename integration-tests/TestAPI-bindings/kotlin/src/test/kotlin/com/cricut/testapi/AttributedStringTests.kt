@@ -9,22 +9,15 @@ import org.junit.jupiter.api.Test
 internal class AttributedStringTests {
     @Test
     fun testStringValues() {
-        assertEquals(AttributedStrings.simple, AttributedString.create("Hello", AttributeContainer.createWithLanguageIdentifier("en")))
-        assertEquals(AttributedStrings.accent, AttributedString.create("Olá", AttributeContainer.createWithLanguageIdentifier("pt")))
-        assertEquals(AttributedStrings.script, AttributedString.create("こんにちは", AttributeContainer.createWithLanguageIdentifier("ja")))
-        assertEquals(AttributedStrings.chinese, AttributedString.create("你好", AttributeContainer.createWithLanguageIdentifier("zh")))
-        assertEquals(AttributedStrings.chineseBMP, AttributedString.create("豈更車賈滑", AttributeContainer.createWithLanguageIdentifier("zh")))
-        assertEquals(AttributedStrings.chineseSIP, AttributedString.create("\uD840\uDC01\uD840\uDC02\uD840\uDC03\uD840\uDC04", AttributeContainer.createWithLanguageIdentifier("zh")))
-        assertEquals(AttributedStrings.emoji, AttributedString.create("🤯🐶🍓", AttributeContainer.createWithLink("https://home.unicode.org/emoji")))
-        assertEquals(AttributedStrings.emojiMulti, AttributedString.create("👨‍👩‍👧‍👦👍🏿🇺🇸", AttributeContainer.createWithLink("https://home.unicode.org/emoji/emoji-frequency")))
-
-        val polyglot = AttributedString.createEmpty()
-        polyglot.append(AttributedStrings.simple)
-        polyglot.append(AttributedString.create(" "))
-        polyglot.append(AttributedStrings.accent)
-        polyglot.append(AttributedString.create(" "))
-        polyglot.append(AttributedStrings.script)
-        assertEquals(AttributedStrings.polyglot, polyglot)
+        assertEquals(AttributedStrings.simple, AttributedString("Hello", AttributeContainer.createWithLanguageIdentifier("en")))
+        assertEquals(AttributedStrings.accent, AttributedString("Olá", AttributeContainer.createWithLanguageIdentifier("pt")))
+        assertEquals(AttributedStrings.script, AttributedString("こんにちは", AttributeContainer.createWithLanguageIdentifier("ja")))
+        assertEquals(AttributedStrings.chinese, AttributedString("你好", AttributeContainer.createWithLanguageIdentifier("zh")))
+        assertEquals(AttributedStrings.chineseBMP, AttributedString("豈更車賈滑", AttributeContainer.createWithLanguageIdentifier("zh")))
+        assertEquals(AttributedStrings.chineseSIP, AttributedString("\uD840\uDC01\uD840\uDC02\uD840\uDC03\uD840\uDC04", AttributeContainer.createWithLanguageIdentifier("zh")))
+        assertEquals(AttributedStrings.emoji, AttributedString("🤯🐶🍓", AttributeContainer.createWithLink("https://home.unicode.org/emoji")))
+        assertEquals(AttributedStrings.emojiMulti, AttributedString("👨‍👩‍👧‍👦👍🏿🇺🇸", AttributeContainer.createWithLink("https://home.unicode.org/emoji/emoji-frequency")))
+        assertEquals(AttributedStrings.polyglot,AttributedStrings.simple + " " + AttributedStrings.accent + " " + AttributedStrings.script)
     }
 
     @Test
@@ -36,24 +29,22 @@ internal class AttributedStringTests {
         assertEquals(AttributedStrings.echo(AttributedStrings.chineseSIP), AttributedStrings.chineseSIP)
         assertEquals(AttributedStrings.echo(AttributedStrings.emoji), AttributedStrings.emoji)
         assertEquals(AttributedStrings.echo(AttributedStrings.emojiMulti), AttributedStrings.emojiMulti)
+        assertEquals(AttributedStrings.echo(AttributedStrings.polyglot), AttributedStrings.polyglot)
     }
 
     @Test
-    fun testViewDirectIteration() {
-        val mixed = AttributedString.createEmpty()
-        mixed.append(AttributedStrings.polyglot)
-        mixed.append(AttributedString.create(" "))
-        mixed.append(AttributedStrings.emojiMulti)
+    fun testViewIterationOverIndices() {
+        val mixed = AttributedStrings.polyglot + " " + AttributedStrings.emojiMulti
 
-        var runStrings = emptyArray<String>()
+        var runStrings = emptyList<String>()
         var runIndex = mixed.runs.startIndex
         while (runIndex != mixed.runs.endIndex) {
             val runSubstring = mixed.substringForRange(mixed.runs.elementAt(runIndex).range)
             runStrings += runSubstring.string
             runIndex = mixed.runs.indexAfter(runIndex)
         }
-        assertArrayEquals(runStrings,
-            arrayOf(
+        assertEquals(runStrings,
+            listOf(
                 "Hello",
                 " ",
                 "Olá",
@@ -64,15 +55,15 @@ internal class AttributedStringTests {
             )
         )
 
-        var characterStrings = emptyArray<String>()
+        var characterStrings = emptyList<String>()
         var characterIndex = mixed.characters.startIndex
         while (characterIndex != mixed.characters.endIndex) {
             val characterString = mixed.characters.elementAt(characterIndex)
             characterStrings += characterString
             characterIndex = mixed.characters.indexAfter(characterIndex)
         }
-        assertArrayEquals(characterStrings,
-            arrayOf(
+        assertEquals(characterStrings,
+            listOf(
                 "H", "e", "l", "l", "o", " ",
                 "O", "l", "á", " ",
                 "こ", "ん", "に", "ち", "は", " ",
@@ -87,29 +78,22 @@ internal class AttributedStringTests {
             unicodeScalars += characterString
             scalarIndex = mixed.unicodeScalars.indexAfter(scalarIndex)
         }
-        assertArrayEquals(unicodeScalars.map { it.toInt() }.toIntArray(),
-            arrayOf(
+        assertEquals(unicodeScalars.map { it.toInt() },
+            listOf(
                 72, 101, 108, 108, 111, 32,
                 79, 108, 225, 32,
                 12371, 12435, 12395, 12385, 12399, 32,
                 128104, 8205, 128105, 8205, 128103, 8205, 128102, 128077, 127999, 127482, 127480
-            ).toIntArray()
+            )
         )
     }
 
     @Test
     fun testViewIterators() {
-        val mixed = AttributedString.createEmpty()
-        mixed.append(AttributedStrings.polyglot)
-        mixed.append(AttributedString.create(" "))
-        mixed.append(AttributedStrings.emojiMulti)
+        val mixed = AttributedStrings.polyglot + " " + AttributedStrings.emojiMulti
 
-        var runStrings = emptyArray<String>()
-        for (run in mixed.runs) {
-            runStrings += mixed.substringForRange(run.range).string
-        }
-        assertArrayEquals(runStrings,
-            arrayOf(
+        assertEquals(mixed.runs.map { mixed[it.range].string },
+            listOf(
                 "Hello",
                 " ",
                 "Olá",
@@ -120,12 +104,8 @@ internal class AttributedStringTests {
             )
         )
 
-        var characterStrings = emptyArray<String>()
-        for (character in mixed.characters) {
-            characterStrings += character
-        }
-        assertArrayEquals(characterStrings,
-            arrayOf(
+        assertEquals(mixed.characters.toList(),
+            listOf(
                 "H", "e", "l", "l", "o", " ",
                 "O", "l", "á", " ",
                 "こ", "ん", "に", "ち", "は", " ",
@@ -133,17 +113,13 @@ internal class AttributedStringTests {
             )
         )
 
-        var unicodeScalars = emptyArray<UInt>()
-        for (unicodeScalar in mixed.unicodeScalars) {
-            unicodeScalars += unicodeScalar
-        }
-        assertArrayEquals(unicodeScalars.map { it.toInt() }.toIntArray(),
-            arrayOf(
+        assertEquals(mixed.unicodeScalars.map { it.toInt() },
+            listOf(
                 72, 101, 108, 108, 111, 32,
                 79, 108, 225, 32,
                 12371, 12435, 12395, 12385, 12399, 32,
                 128104, 8205, 128105, 8205, 128103, 8205, 128102, 128077, 127999, 127482, 127480
-            ).toIntArray()
+            )
         )
     }
 
@@ -156,19 +132,24 @@ internal class AttributedStringTests {
         val substring = attributedString.substringForRange(range)
         assertEquals(substring.string, "ello Olá こんにち")
         assertEquals(substring.base.string, "Hello Olá こんにちは")
+
+        val subRange = SwiftRange(substring.characters.indexAfter(substring.startIndex), substring.characters.indexBefore(substring.endIndex))
+        val subSubstring = substring.substringForRange(subRange)
+        assertEquals(subSubstring.string, "llo Olá こんに")
+        assertEquals(subSubstring.base.string, "Hello Olá こんにちは")
     }
 
     @Test
     fun testMutability() {
         // Examine an existing attributed string from the test suite
         assertEquals(AttributedStrings.polyglot.string, "Hello Olá こんにちは")
-        assertArrayEquals(
-            AttributedStrings.polyglot.runs.map { AttributedStrings.polyglot.substringForRange(it.range).string }.toTypedArray(),
-            arrayOf("Hello", " ", "Olá", " ", "こんにちは")
+        assertEquals(
+            AttributedStrings.polyglot.runs.map { AttributedStrings.polyglot[it.range].string },
+            listOf("Hello", " ", "Olá", " ", "こんにちは")
         )
 
         // Attempt to "modify" the attributed string from the test suite, verify only an (unnamed) clone of it changes, but it does not change
-        AttributedStrings.polyglot.replaceSubrange(SwiftRange(AttributedStrings.polyglot.startIndex, AttributedStrings.polyglot.endIndex), AttributedString.create("H"))
+        AttributedStrings.polyglot[SwiftRange(AttributedStrings.polyglot.startIndex, AttributedStrings.polyglot.endIndex)] = AttributedString("H")
         assertEquals(AttributedStrings.polyglot.string, "Hello Olá こんにちは")
 
         // Name the test suite attributed string in a value, creating a clone of it (Swift-to-Java copies the field, which is declared as a 'let' and is immutable)
@@ -185,14 +166,14 @@ internal class AttributedStringTests {
 
         // Modify the attributed string's attributes, verify it and the reference change, but the clone and original do not
         val range = SwiftRange(attributedString.characters.indexAfter(attributedString.startIndex), attributedString.characters.indexBefore(attributedString.endIndex))
-        assertArrayEquals(
-            attributedString.runs.map { attributedString.substringForRange(it.range).string }.toTypedArray(),
-            arrayOf("Hello", " ", "Olá", " ", "こんにちは")
+        assertEquals(
+            attributedString.runs.map { attributedString[it.range].string },
+            listOf("Hello", " ", "Olá", " ", "こんにちは")
         )
-        attributedString.replaceSubrange(range, AttributedString.create(attributedString.substringForRange(range).string, AttributeContainer.createEmpty()))
-        assertArrayEquals(
-            attributedString.runs.map { attributedString.substringForRange(it.range).string }.toTypedArray(),
-            arrayOf("H", "ello Olá こんにち", "は")
+        attributedString.replaceSubrange(range, AttributedString(attributedString[range].string, AttributeContainer.createEmpty()))
+        assertEquals(
+            attributedString.runs.map { attributedString[it.range].string },
+            listOf("H", "ello Olá こんにち", "は")
         )
         assertEquals(attributedString.runs.count(), 3)
         assertEquals(attributedStringReference.runs.count(), 3)
@@ -200,10 +181,10 @@ internal class AttributedStringTests {
         assertEquals(AttributedStrings.polyglot.runs.count(), 5) // Unchanged
 
         // Modify the attributed string's string data, verify it and the reference change, but the clone and original do not
-        attributedString.replaceSubrange(range, AttributedString.create("i18n"))
-        assertArrayEquals(
-            attributedString.runs.map { attributedString.substringForRange(it.range).string }.toTypedArray(),
-            arrayOf("H", "i18n", "は")
+        attributedString.replaceSubrange(range, AttributedString("i18n"))
+        assertEquals(
+            attributedString.runs.map { attributedString[it.range].string },
+            listOf("H", "i18n", "は")
         )
         assertEquals(attributedString.string, "Hi18nは")
         assertEquals(attributedStringReference.string, "Hi18nは")
@@ -211,11 +192,11 @@ internal class AttributedStringTests {
         assertEquals(AttributedStrings.polyglot.string, "Hello Olá こんにちは") // Unchanged
 
         // Modify the clone's string data, verify it changes (merging the first 2 but not last 2 runs), but the attributed string, reference, and original do not
-        attributedStringClone.insert(AttributedString.create("clone", attributedStringClone.runs.first().attributes), attributedStringClone.startIndex)
-        attributedStringClone.insert(AttributedString.create("enolc"), attributedStringClone.endIndex)
-        assertArrayEquals(
-            attributedStringClone.runs.map { attributedStringClone.substringForRange(it.range).string }.toTypedArray(),
-            arrayOf("cloneHello", " ", "Olá", " ", "こんにちは", "enolc")
+        attributedStringClone.insert(AttributedString("clone", attributedStringClone.runs.first().attributes), attributedStringClone.startIndex)
+        attributedStringClone.insert(AttributedString("enolc"), attributedStringClone.endIndex)
+        assertEquals(
+            attributedStringClone.runs.map { attributedStringClone[it.range].string },
+            listOf("cloneHello", " ", "Olá", " ", "こんにちは", "enolc")
         )
         assertEquals(attributedString.string, "Hi18nは") // Unchanged
         assertEquals(attributedStringReference.string, "Hi18nは") // Unchanged

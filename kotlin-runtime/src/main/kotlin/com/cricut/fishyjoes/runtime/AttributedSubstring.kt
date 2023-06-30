@@ -89,6 +89,30 @@ class AttributedSubstring private constructor(swiftReference: Long): com.cricut.
     private external fun __jni_hashCode(
     ): Int
 
+    //---------------------//
+    //                     //
+    // Kotlin Conveniences //
+    //                     //
+    //---------------------//
+
+    operator fun get(range: SwiftRange<AttributedString.Index>) = substringForRange(range)
+
+    operator fun plus(attributedString: AttributedString): AttributedString {
+        val result = AttributedString.createFromSubstring(this)
+        result.append(attributedString)
+        return result
+    }
+    operator fun plus(substring: AttributedSubstring): AttributedString {
+        val result = AttributedString.createFromSubstring(this)
+        result.appendSubstring(substring)
+        return result
+    }
+    operator fun plus(string: String): AttributedString {
+        val result = AttributedString.createFromSubstring(this)
+        result.append(AttributedString(string))
+        return result
+    }
+
     companion object {
         /**
          * <!-- FishyJoes.export(createEmpty) -->

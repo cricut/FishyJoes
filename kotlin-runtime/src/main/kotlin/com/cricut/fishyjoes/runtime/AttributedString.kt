@@ -203,11 +203,39 @@ class AttributedString private constructor(swiftReference: Long): com.cricut.fis
     private external fun __jni_hashCode(
     ): Int
 
+    //---------------------//
+    //                     //
+    // Kotlin Conveniences //
+    //                     //
+    //---------------------//
+
     public override fun clone(): com.cricut.fishyjoes.runtime.AttributedString {
         // TODO: Faster! private cloneBox function inside SwiftReference?
         val clone = createEmpty()
         runs.forEach { clone.append(createFromSubstring(substringForRange(it.range))) }
         return clone
+    }
+
+    operator fun get(range: SwiftRange<AttributedString.Index>) = substringForRange(range)
+
+    operator fun set(range: SwiftRange<AttributedString.Index>, attributedString: AttributedString) = replaceSubrange(range, attributedString)
+    operator fun set(range: SwiftRange<AttributedString.Index>, substring: AttributedSubstring) = replaceSubrangeWithSubstring(range, substring)
+    operator fun set(range: SwiftRange<AttributedString.Index>, string: String) = replaceSubrange(range, AttributedString(string))
+
+    operator fun plus(attributedString: AttributedString): AttributedString {
+        val result = clone()
+        result.append(attributedString)
+        return result
+    }
+    operator fun plus(attributedSubstring: AttributedSubstring): AttributedString {
+        val result = clone()
+        result.appendSubstring(attributedSubstring)
+        return result
+    }
+    operator fun plus(string: String): AttributedString {
+        val result = clone()
+        result.append(AttributedString(string))
+        return result
     }
 
     companion object {
@@ -257,6 +285,10 @@ class AttributedString private constructor(swiftReference: Long): com.cricut.fis
             lhs: com.cricut.fishyjoes.runtime.AttributedString,
             rhs: com.cricut.fishyjoes.runtime.AttributedString
         ): Boolean
+
+        operator fun invoke(attributedString: AttributedString) = attributedString.clone()
+        operator fun invoke(substring: AttributedSubstring) = AttributedString.createFromSubstring(substring)
+        operator fun invoke(string: String, attributes: AttributeContainer? = null) = AttributedString.create(string, attributes)
 
         init { loadNativeLibs() }
     }
@@ -549,6 +581,12 @@ class AttributedString private constructor(swiftReference: Long): com.cricut.fis
             subrange: com.cricut.fishyjoes.runtime.SwiftRange<AttributedString.Index>,
             newElements: kotlin.collections.List<kotlin.String>
         ): kotlin.Unit
+
+        //---------------------//
+        //                     //
+        // Kotlin Conveniences //
+        //                     //
+        //---------------------//
 
         override fun iterator(): Iterator<String> = CharacterIterator(this, startIndex)
 
