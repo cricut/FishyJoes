@@ -34,14 +34,14 @@ internal class AttributedStringTests {
 
     @Test
     fun testViewIterationOverIndices() {
-        val mixed = AttributedStrings.polyglot + " " + AttributedStrings.emojiMulti
+        val attributedString = AttributedStrings.polyglot + " " + AttributedStrings.emojiMulti
 
         var runStrings = emptyList<String>()
-        var runIndex = mixed.runs.startIndex
-        while (runIndex != mixed.runs.endIndex) {
-            val runSubstring = mixed.substringForRange(mixed.runs.elementAt(runIndex).range)
+        var runIndex = attributedString.runs.startIndex
+        while (runIndex != attributedString.runs.endIndex) {
+            val runSubstring = attributedString.substringForRange(attributedString.runs.elementAt(runIndex).range)
             runStrings += runSubstring.string
-            runIndex = mixed.runs.indexAfter(runIndex)
+            runIndex = attributedString.runs.indexAfter(runIndex)
         }
         assertEquals(runStrings,
             listOf(
@@ -56,11 +56,11 @@ internal class AttributedStringTests {
         )
 
         var characterStrings = emptyList<String>()
-        var characterIndex = mixed.characters.startIndex
-        while (characterIndex != mixed.characters.endIndex) {
-            val characterString = mixed.characters.elementAt(characterIndex)
+        var characterIndex = attributedString.characters.startIndex
+        while (characterIndex != attributedString.characters.endIndex) {
+            val characterString = attributedString.characters.elementAt(characterIndex)
             characterStrings += characterString
-            characterIndex = mixed.characters.indexAfter(characterIndex)
+            characterIndex = attributedString.characters.indexAfter(characterIndex)
         }
         assertEquals(characterStrings,
             listOf(
@@ -72,11 +72,11 @@ internal class AttributedStringTests {
         )
 
         var unicodeScalars = emptyArray<UInt>()
-        var scalarIndex = mixed.unicodeScalars.startIndex
-        while (scalarIndex != mixed.unicodeScalars.endIndex) {
-            val characterString = mixed.unicodeScalars.elementAt(scalarIndex)
+        var scalarIndex = attributedString.unicodeScalars.startIndex
+        while (scalarIndex != attributedString.unicodeScalars.endIndex) {
+            val characterString = attributedString.unicodeScalars.elementAt(scalarIndex)
             unicodeScalars += characterString
-            scalarIndex = mixed.unicodeScalars.indexAfter(scalarIndex)
+            scalarIndex = attributedString.unicodeScalars.indexAfter(scalarIndex)
         }
         assertEquals(unicodeScalars.map { it.toInt() },
             listOf(
@@ -90,9 +90,9 @@ internal class AttributedStringTests {
 
     @Test
     fun testViewIterators() {
-        val mixed = AttributedStrings.polyglot + " " + AttributedStrings.emojiMulti
+        val attributedString = AttributedStrings.polyglot + " " + AttributedStrings.emojiMulti
 
-        assertEquals(mixed.runs.map { mixed[it.range].string },
+        assertEquals(attributedString.runs.map { attributedString[it.range].string },
             listOf(
                 "Hello",
                 " ",
@@ -104,7 +104,7 @@ internal class AttributedStringTests {
             )
         )
 
-        assertEquals(mixed.characters.toList(),
+        assertEquals(attributedString.characters.toList(),
             listOf(
                 "H", "e", "l", "l", "o", " ",
                 "O", "l", "á", " ",
@@ -113,7 +113,7 @@ internal class AttributedStringTests {
             )
         )
 
-        assertEquals(mixed.unicodeScalars.map { it.toInt() },
+        assertEquals(attributedString.unicodeScalars.map { it.toInt() },
             listOf(
                 72, 101, 108, 108, 111, 32,
                 79, 108, 225, 32,
@@ -205,7 +205,49 @@ internal class AttributedStringTests {
     }
 
     @Test
-    fun testFindAndAttributeMergeReplace() {
-        // TODO: This!
+    fun testAttributeMergeReplace() {
+        val empty = AttributeContainer.createEmpty()
+        val en = AttributeContainer.createWithLanguageIdentifier("en")
+        val pt = AttributeContainer.createWithLanguageIdentifier("pt")
+        val ja = AttributeContainer.createWithLanguageIdentifier("ja")
+
+        val attributedString = AttributedStrings.polyglot
+        var runRanges = attributedString.runs.rangeIterator().asSequence().toList()
+        assertEquals(runRanges.count(), 5)
+        assertEquals(attributedString[runRanges[0]], AttributedString("Hello", en).substring)
+        assertEquals(attributedString[runRanges[1]], AttributedString(" ", empty).substring)
+        assertEquals(attributedString[runRanges[2]], AttributedString("Olá", pt).substring)
+        assertEquals(attributedString[runRanges[3]], AttributedString(" ", empty).substring)
+        assertEquals(attributedString[runRanges[4]], AttributedString("こんにちは", ja).substring)
+
+        attributedString[runRanges[1]] = AttributedString(attributedString[runRanges[1]].string, attributedString.runs[runRanges[0].lowerBound].attributes)
+        runRanges = attributedString.runs.rangeIterator().asSequence().toList()
+        assertEquals(runRanges.count(), 4)
+        assertEquals(attributedString[runRanges[0]], AttributedString("Hello ", en).substring)
+        assertEquals(attributedString[runRanges[1]], AttributedString("Olá", pt).substring)
+        assertEquals(attributedString[runRanges[2]], AttributedString(" ", empty).substring)
+        assertEquals(attributedString[runRanges[3]], AttributedString("こんにちは", ja).substring)
+
+        attributedString.setAttributesForRange(runRanges[2], attributedString.runs[runRanges[1].lowerBound].attributes)
+        runRanges = attributedString.runs.rangeIterator().asSequence().toList()
+        assertEquals(runRanges.count(), 3)
+        assertEquals(attributedString[runRanges[0]], AttributedString("Hello ", en).substring)
+        assertEquals(attributedString[runRanges[1]], AttributedString("Olá ", pt).substring)
+        assertEquals(attributedString[runRanges[2]], AttributedString("こんにちは", ja).substring)
+
+        val mangleStartIndex = attributedString.characters.indexAfter(attributedString.startIndex)
+        val mangleEndIndex = attributedString.characters.indexBefore(attributedString.endIndex)
+        val mangleRange = SwiftRange(mangleStartIndex, mangleEndIndex)
+        attributedString.setAttributesForRange(mangleRange, empty)
+        runRanges = attributedString.runs.rangeIterator().asSequence().toList()
+        assertEquals(runRanges.count(), 3)
+        assertEquals(attributedString[runRanges[0]], AttributedString("H", en).substring)
+        assertEquals(attributedString[runRanges[1]], AttributedString("ello Olá こんにち", empty).substring)
+        assertEquals(attributedString[runRanges[2]], AttributedString("は", ja).substring)
+
+        attributedString.setAttributesForRange(attributedString.runs.first().range, empty)
+        attributedString.setAttributesForRange(attributedString.runs.last().range, empty)
+        assertEquals(attributedString.runs.count(), 1)
+        assertEquals(attributedString, AttributedString("Hello Olá こんにちは", empty))
     }
 }

@@ -193,6 +193,49 @@ class AttributedString private constructor(swiftReference: Long): com.cricut.fis
         others: com.cricut.fishyjoes.runtime.AttributeContainer
     ): kotlin.Unit
 
+    /**
+     * <!-- FishyJoes.export(setAttributesForRange) -->
+     */
+    fun setAttributesForRange(
+        range: com.cricut.fishyjoes.runtime.SwiftRange<AttributedString.Index>,
+        attributes: com.cricut.fishyjoes.runtime.AttributeContainer
+    ): kotlin.Unit = __jni_setAttributesForRange(range, attributes)
+    @JvmName("__jni_setAttributesForRange")
+    private external fun __jni_setAttributesForRange(
+        range: com.cricut.fishyjoes.runtime.SwiftRange<AttributedString.Index>,
+        attributes: com.cricut.fishyjoes.runtime.AttributeContainer
+    ): kotlin.Unit
+
+    /**
+     * <!-- FishyJoes.export(mergeAttributesForRange) -->
+     */
+    fun mergeAttributesForRange(
+        range: com.cricut.fishyjoes.runtime.SwiftRange<AttributedString.Index>,
+        attributes: com.cricut.fishyjoes.runtime.AttributeContainer,
+        mergePolicy: com.cricut.fishyjoes.runtime.AttributedString.AttributeMergePolicy? = null
+    ): kotlin.Unit = __jni_mergeAttributesForRange(range, attributes, mergePolicy)
+    @JvmName("__jni_mergeAttributesForRange")
+    private external fun __jni_mergeAttributesForRange(
+        range: com.cricut.fishyjoes.runtime.SwiftRange<AttributedString.Index>,
+        attributes: com.cricut.fishyjoes.runtime.AttributeContainer,
+        mergePolicy: com.cricut.fishyjoes.runtime.AttributedString.AttributeMergePolicy?
+    ): kotlin.Unit
+
+    /**
+     * <!-- FishyJoes.export(replaceAttributesForRange) -->
+     */
+    fun replaceAttributesForRange(
+        range: com.cricut.fishyjoes.runtime.SwiftRange<AttributedString.Index>,
+        attributes: com.cricut.fishyjoes.runtime.AttributeContainer,
+        /* with */ others: com.cricut.fishyjoes.runtime.AttributeContainer
+    ): kotlin.Unit = __jni_replaceAttributesForRange(range, attributes, others)
+    @JvmName("__jni_replaceAttributesForRange")
+    private external fun __jni_replaceAttributesForRange(
+        range: com.cricut.fishyjoes.runtime.SwiftRange<AttributedString.Index>,
+        attributes: com.cricut.fishyjoes.runtime.AttributeContainer,
+        others: com.cricut.fishyjoes.runtime.AttributeContainer
+    ): kotlin.Unit
+
     override fun equals(
         other: Any?
     ): Boolean = (other is com.cricut.fishyjoes.runtime.AttributedString) && __jni_swiftEquals(this, other)
@@ -367,6 +410,15 @@ class AttributedString private constructor(swiftReference: Long): com.cricut.fis
         private external fun __jni_hashCode(
         ): Int
 
+        //---------------------//
+        //                     //
+        // Kotlin Conveniences //
+        //                     //
+        //---------------------//
+
+        operator fun get(index: AttributedString.Runs.Index) = elementAt(index)
+        operator fun get(index: AttributedString.Index) = elementAtPosition(index)
+
         companion object {
             fun swiftEquals(
                 lhs: com.cricut.fishyjoes.runtime.AttributedString.Runs,
@@ -476,6 +528,20 @@ class AttributedString private constructor(swiftReference: Long): com.cricut.fis
                 val element = collection.elementAt(iterationIndex)
                 iterationIndex = collection.indexAfter(iterationIndex)
                 return element
+            }
+        }
+
+        fun rangeIterator(): Iterator<SwiftRange<AttributedString.Index>> = RunRangeIterator(this, startIndex)
+
+        private class RunRangeIterator constructor(
+            private val collection: com.cricut.fishyjoes.runtime.AttributedString.Runs,
+            private var iterationIndex: com.cricut.fishyjoes.runtime.AttributedString.Runs.Index
+        ) : Iterator<SwiftRange<AttributedString.Index>> {
+            override fun hasNext(): Boolean = iterationIndex >= collection.startIndex && iterationIndex < collection.endIndex
+            override fun next(): SwiftRange<AttributedString.Index> {
+                val index = iterationIndex
+                iterationIndex = collection.indexAfter(iterationIndex)
+                return collection.elementAt(index).range
             }
         }
     }
@@ -588,6 +654,8 @@ class AttributedString private constructor(swiftReference: Long): com.cricut.fis
         //                     //
         //---------------------//
 
+        operator fun get(index: AttributedString.Index) = elementAt(index)
+
         override fun iterator(): Iterator<String> = CharacterIterator(this, startIndex)
 
         private class CharacterIterator constructor(
@@ -599,6 +667,20 @@ class AttributedString private constructor(swiftReference: Long): com.cricut.fis
                 val element = collection.elementAt(iterationIndex)
                 iterationIndex = collection.indexAfter(iterationIndex)
                 return element
+            }
+        }
+
+        fun rangeIterator(): Iterator<SwiftRange<AttributedString.Index>> = CharacterRangeIterator(this, startIndex)
+
+        private class CharacterRangeIterator constructor(
+            private val collection: com.cricut.fishyjoes.runtime.AttributedString.CharacterView,
+            private var iterationIndex: com.cricut.fishyjoes.runtime.AttributedString.Index
+        ) : Iterator<SwiftRange<AttributedString.Index>> {
+            override fun hasNext(): Boolean = iterationIndex >= collection.startIndex && iterationIndex < collection.endIndex
+            override fun next(): SwiftRange<AttributedString.Index> {
+                val index = iterationIndex
+                iterationIndex = collection.indexAfter(iterationIndex)
+                return SwiftRange(index, iterationIndex)
             }
         }
 
@@ -686,6 +768,14 @@ class AttributedString private constructor(swiftReference: Long): com.cricut.fis
             newElements: kotlin.collections.List<UInt>
         ): kotlin.Unit
 
+        //---------------------//
+        //                     //
+        // Kotlin Conveniences //
+        //                     //
+        //---------------------//
+
+        operator fun get(index: AttributedString.Index) = elementAt(index)
+
         override fun iterator(): Iterator<UInt> = UnicodeScalarIterator(this, startIndex)
 
         private class UnicodeScalarIterator constructor(
@@ -697,6 +787,20 @@ class AttributedString private constructor(swiftReference: Long): com.cricut.fis
                 val element = collection.elementAt(iterationIndex)
                 iterationIndex = collection.indexAfter(iterationIndex)
                 return element
+            }
+        }
+
+        fun rangeIterator(): Iterator<SwiftRange<AttributedString.Index>> = UnicodeScalarRangeIterator(this, startIndex)
+
+        private class UnicodeScalarRangeIterator constructor(
+            private val collection: com.cricut.fishyjoes.runtime.AttributedString.UnicodeScalarView,
+            private var iterationIndex: com.cricut.fishyjoes.runtime.AttributedString.Index
+        ) : Iterator<SwiftRange<AttributedString.Index>> {
+            override fun hasNext(): Boolean = iterationIndex >= collection.startIndex && iterationIndex < collection.endIndex
+            override fun next(): SwiftRange<AttributedString.Index> {
+                val index = iterationIndex
+                iterationIndex = collection.indexAfter(iterationIndex)
+                return SwiftRange(index, iterationIndex)
             }
         }
 
