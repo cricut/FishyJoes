@@ -51,6 +51,21 @@ namespace Cricut.TestAPI {
                 out CreatedRef exn
             );
 
+            /// <summary>
+            /// <!-- FishyJoes.export(incrementAsync) -->
+            /// </summary>
+            public void IncrementAsync(
+            ) {
+                using var _thisHandle = new GCRef(this);
+                Check((out CreatedRef _exn) => __cs_Structs_MutableStruct_incrementAsync(_thisHandle.ptr, out _exn));
+            }
+
+            [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            private static extern void __cs_Structs_MutableStruct_incrementAsync(
+                UnownedRef self,
+                out CreatedRef exn
+            );
+
             static MutableStruct() { _TypeSetup._ensureLoaded(); }
         }
 

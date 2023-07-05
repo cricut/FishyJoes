@@ -37,6 +37,6 @@ test('StructMutatingFunctions', async () => {
     expect(mutableStruct.i).toEqual(0)
     mutableStruct.increment()
     expect(mutableStruct.i).toEqual(1)
-//    await mutableStruct.incrementAsync()
-//    expect(mutableStruct.i).toEqual(2)
+    await mutableStruct.incrementAsync()
+    expect(mutableStruct.i).toEqual(2)
 });

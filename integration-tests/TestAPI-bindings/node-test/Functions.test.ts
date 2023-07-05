@@ -178,6 +178,7 @@ test('AsyncCallbackFunctionCall6', async () => {
     expect(values).toEqual([1, 2, 3, 4, 5, 6])
 })
 
+// TODO: https://cricut.visualstudio.com/Cricut/_workitems/edit/354651
 //test('AsyncCallbackFunctionCallThrow', async () => {
 //    let threw: boolean = false
 //    let value: number = 0

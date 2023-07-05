@@ -46,6 +46,9 @@ namespace TestAPI {
             /// <!-- FishyJoes.export(increment) -->
             void increment();
             
+            /// <!-- FishyJoes.export(incrementAsync) -->
+            void incrementAsync();
+            
             
             /*  Data  */
             public:

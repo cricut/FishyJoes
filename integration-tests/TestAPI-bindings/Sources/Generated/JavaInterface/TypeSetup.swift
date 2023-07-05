@@ -535,6 +535,11 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_increment"),
                 signature: bag.add("()V"),
                 fnPtr: unsafeBitCast(java_Structs_MutableStruct_increment, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_incrementAsync"),
+                signature: bag.add("()V"),
+                fnPtr: unsafeBitCast(java_Structs_MutableStruct_incrementAsync, to: UnsafeMutableRawPointer.self)
             )
         )
         // print("setting up Primitives.PrimitiveHolder...")

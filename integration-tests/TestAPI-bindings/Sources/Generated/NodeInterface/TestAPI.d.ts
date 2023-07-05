@@ -1102,6 +1102,12 @@ export declare namespace TestAPI {
              */
             increment(
             ): void;
+
+            /**
+             * <!-- FishyJoes.export(incrementAsync) -->
+             */
+            incrementAsync(
+            ): Promise<void>;
         }
 
         /**

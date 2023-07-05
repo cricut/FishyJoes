@@ -134,14 +134,16 @@ struct NodeTranslator: Translator {
                     fragment.outputMap(method.parameters, separator: "") { formal in
                         return "let arg\(argIndex) = UncheckedSendableBox(\(convertMethodParameter(formal: formal, argIndex: &argIndex, includeFormalLabel: false)))"
                     }
+                    
+                    if method.isMutating {
+                        fragment.output("let mutatingSelf = UncheckedSendableBox(try env.this(converter: Structs.MutableStruct.self))")
+                        fragment.output("let jsThis = try env.env.reference(env.this())")
+                        selfExpression = "mutatingSelf.value"
+                    }
 
                     fragment.outputBlock("Task {") {
-                        if method.isMutating {
-                            fragment.output("var mutatingSelf = try \(selfExpression)")
-                            selfExpression = "mutatingSelf"
-                        }
                         fragment.outputBlock("do {", newLineTerminated: false) {
-                            fragment.outputBlock("let taskResult: \(method.returnType.name) = try await \(selfExpression)\(callName)(") {
+                            fragment.outputBlock("let taskResult: \(method.returnType.name) = \(method.isThrowing ? "try " : "")await \(selfExpression)\(callName)(") {
                                 var argIndex = 0
                                 fragment.outputMap(method.parameters, separator: ",") { formal in
                                     defer { argIndex += 1 }
@@ -160,13 +162,13 @@ struct NodeTranslator: Translator {
                                 }
                                 fragment.outputBlock(" catch {") {
                                     if method.isMutating {
-                                        fragment.output("try Self.mutateNode(mutatingSelf, this: env.this(), env: env)")
+                                        fragment.output("try Self.mutateNode(mutatingSelf.value, this: jsThis.value(env: env), env: env)")
                                     }
                                     fragment.output("try env.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: env))")
                                     fragment.output("return")
                                 }
                                 if method.isMutating {
-                                    fragment.output("try Self.mutateNode(mutatingSelf, this: env.this(), env: env)")
+                                    fragment.output("try Self.mutateNode(mutatingSelf.value, this: jsThis.value(env: env), env: env)")
                                 }
                                 fragment.output("try env.resolveDeferred(deferred, convertedTaskResult)")
                             }
@@ -174,7 +176,7 @@ struct NodeTranslator: Translator {
                         fragment.outputBlock(" catch {") {
                             fragment.outputBlock("try onMainThread { env in", closeWith: "}") {
                                 if method.isMutating {
-                                    fragment.output("try Self.mutateNode(mutatingSelf, this: env.this(), env: env)")
+                                    fragment.output("try Self.mutateNode(mutatingSelf.value, this: jsThis.value(env: env), env: env)")
                                 }
                                 fragment.output("try env.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: env))")
                             }

@@ -25,6 +25,17 @@ sealed class Structs {
         private external fun __jni_increment(
         ): kotlin.Unit
 
+        /**
+         * <!-- FishyJoes.export(incrementAsync) -->
+         */
+        fun incrementAsync(
+            _asyncCallback: ((kotlin.Unit) -> kotlin.Unit)
+        ) = __jni_incrementAsync(_asyncCallback)
+        @JvmName("__jni_incrementAsync")
+        private external fun __jni_incrementAsync(
+            _asyncCallback: ((kotlin.Unit) -> kotlin.Unit)
+        )
+
         companion object {
             /**
              * <!-- FishyJoes.export(create) -->
