@@ -271,6 +271,12 @@ internal class AttributedStringTests {
         assertEquals(attributedString[runRanges[1]], AttributedString("ello Olá こんにち", empty).substring)
         assertEquals(attributedString[runRanges[2]], AttributedString("は", ja).substring)
 
+        val attributes = AttributeContainerFoundationAttributes(attributedString.runs.first().attributes)
+        assertEquals(attributes.link, URL("https://www.google.com"))
+        assertEquals(attributes.languageIdentifier, "ja")
+        assertNull(attributes.alternateDescription)
+        assertNull(attributes.imageURL)
+
         attributedString.setAttributesForRange(attributedString.runs.first().range, empty)
         attributedString.setAttributesForRange(attributedString.runs.last().range, empty)
         assertEquals(attributedString.runs.count(), 1)

@@ -75,6 +75,18 @@ class AttributeContainerFoundationAttributes private constructor(swiftReference:
         private external fun __jni_createEmpty(
         ): com.cricut.fishyjoes.runtime.AttributeContainerFoundationAttributes
 
+        /**
+         * <!-- FishyJoes.export(createFromContainer) -->
+         */
+        fun createFromContainer(
+            container: com.cricut.fishyjoes.runtime.AttributeContainer
+        ): com.cricut.fishyjoes.runtime.AttributeContainerFoundationAttributes = __jni_createFromContainer(container)
+        @JvmStatic
+        @JvmName("__jni_createFromContainer")
+        private external fun __jni_createFromContainer(
+            container: com.cricut.fishyjoes.runtime.AttributeContainer
+        ): com.cricut.fishyjoes.runtime.AttributeContainerFoundationAttributes
+
         fun swiftEquals(
             lhs: com.cricut.fishyjoes.runtime.AttributeContainerFoundationAttributes,
             rhs: com.cricut.fishyjoes.runtime.AttributeContainerFoundationAttributes
@@ -87,6 +99,7 @@ class AttributeContainerFoundationAttributes private constructor(swiftReference:
         ): Boolean
 
         operator fun invoke() = com.cricut.fishyjoes.runtime.AttributeContainerFoundationAttributes.createEmpty()
+        operator fun invoke(container: com.cricut.fishyjoes.runtime.AttributeContainer) = com.cricut.fishyjoes.runtime.AttributeContainerFoundationAttributes.createFromContainer(container)
 
         init { loadNativeLibs() }
     }

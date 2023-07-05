@@ -86,6 +86,11 @@ extension AttributeContainer.FoundationAttributes: JavaMutator {
                 fnPtr: unsafeBitCast(_java_createEmpty, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
+                name: bag.add("__jni_createFromContainer"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/AttributeContainer;)Lcom/cricut/fishyjoes/runtime/AttributeContainerFoundationAttributes;"),
+                fnPtr: unsafeBitCast(_java_createFromContainer, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
                 name: bag.add("__jni_asContainer"),
                 signature: bag.add("()Lcom/cricut/fishyjoes/runtime/AttributeContainer;"),
                 fnPtr: unsafeBitCast(_java_asContainer, to: UnsafeMutableRawPointer.self)
@@ -169,27 +174,6 @@ extension AttributeContainer.FoundationAttributes: JavaMutator {
         }
     }
 
-    private static let _java_create: @convention(c) (
-        UnsafeMutablePointer<JNIEnv?>,
-        jobject,
-        jobject,
-        jobject,
-        jobject,
-        jobject
-    ) -> AttributeContainer.FoundationAttributes.CType = { _javaEnv, _, link, languageIdentifier, alternateDescription, imageURL in
-        FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
-            return try AttributeContainer.FoundationAttributes.toJava(
-                AttributeContainer.FoundationAttributes(
-                    link: try Foundation.URL.fromJava(link, env: _javaEnv),
-                    languageIdentifier: try Swift.String.fromJava(languageIdentifier, env: _javaEnv),
-                    alternateDescription: try Swift.String.fromJava(alternateDescription, env: _javaEnv),
-                    imageURL: try Foundation.URL.fromJava(imageURL, env: _javaEnv)
-                ),
-                env: _javaEnv
-            )
-        }
-    }
-
     private static let _java_createEmpty: @convention(c) (
         UnsafeMutablePointer<JNIEnv?>,
         jobject
@@ -197,6 +181,21 @@ extension AttributeContainer.FoundationAttributes: JavaMutator {
         FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
             return try AttributeContainer.FoundationAttributes.toJava(
                 AttributeContainer.FoundationAttributes(
+                ),
+                env: _javaEnv
+            )
+        }
+    }
+
+    private static let _java_createFromContainer: @convention(c) (
+        UnsafeMutablePointer<JNIEnv?>,
+        jobject,
+        jobject
+    ) -> AttributeContainer.FoundationAttributes.CType = { _javaEnv, _, container in
+        FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
+            return try AttributeContainer.FoundationAttributes.toJava(
+                AttributeContainer.FoundationAttributes(
+                    AttributeContainer.fromJava(container, env: _javaEnv)
                 ),
                 env: _javaEnv
             )
