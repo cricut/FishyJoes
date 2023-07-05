@@ -12,10 +12,9 @@ public enum NAPI {
     public typealias Finalize = napi_finalize
     public typealias CleanupHook = @convention(c) (UnsafeMutableRawPointer?) -> Void
     public typealias Callback = napi_callback
+    public typealias CallJavascriptCallback = napi_threadsafe_function_call_js
 
     public struct ThreadsafeFunction: @unchecked Sendable {
-        public typealias MainThreadCallback = napi_threadsafe_function_call_js
-
         var pointer: napi_threadsafe_function
     }
 }
@@ -750,8 +749,8 @@ extension NAPI.Env {
         initialReferenceCount: Int = 1,
         finalizeContext: UnsafeMutableRawPointer? = nil,
         finalize: NAPI.Finalize? = nil,
-        mainThreadCallbackContext: UnsafeMutableRawPointer? = nil,
-        mainThreadCallback: NAPI.ThreadsafeFunction.MainThreadCallback
+        callJavascriptCallbackContext: UnsafeMutableRawPointer? = nil,
+        callJavascriptCallback: NAPI.CallJavascriptCallback
     ) throws -> NAPI.ThreadsafeFunction? {
         try _createThreadsafeFunction(
             function,
@@ -761,8 +760,8 @@ extension NAPI.Env {
             initialReferenceCount: initialReferenceCount,
             finalizeContext: finalizeContext,
             finalize: finalize,
-            mainThreadCallbackContext: mainThreadCallbackContext,
-            mainThreadCallback: mainThreadCallback
+            callJavascriptCallbackContext: callJavascriptCallbackContext,
+            callJavascriptCallback: callJavascriptCallback
         )
     }
 
@@ -788,8 +787,8 @@ extension NAPI.Env {
         initialReferenceCount: Int = 1,
         finalizeContext: UnsafeMutableRawPointer? = nil,
         finalize: NAPI.Finalize? = nil,
-        mainThreadCallbackContext: UnsafeMutableRawPointer? = nil,
-        mainThreadCallback: NAPI.ThreadsafeFunction.MainThreadCallback? = nil
+        callJavascriptCallbackContext: UnsafeMutableRawPointer? = nil,
+        callJavascriptCallback: NAPI.CallJavascriptCallback? = nil
     ) throws -> NAPI.ThreadsafeFunction? {
         try _createThreadsafeFunction(
             function,
@@ -799,8 +798,8 @@ extension NAPI.Env {
             initialReferenceCount: initialReferenceCount,
             finalizeContext: finalizeContext,
             finalize: finalize,
-            mainThreadCallbackContext: mainThreadCallbackContext,
-            mainThreadCallback: mainThreadCallback
+            callJavascriptCallbackContext: callJavascriptCallbackContext,
+            callJavascriptCallback: callJavascriptCallback
         )
     }
 
@@ -812,8 +811,8 @@ extension NAPI.Env {
         initialReferenceCount: Int,
         finalizeContext: UnsafeMutableRawPointer?,
         finalize: NAPI.Finalize?,
-        mainThreadCallbackContext: UnsafeMutableRawPointer?,
-        mainThreadCallback: NAPI.ThreadsafeFunction.MainThreadCallback?
+        callJavascriptCallbackContext: UnsafeMutableRawPointer?,
+        callJavascriptCallback: NAPI.CallJavascriptCallback?
     ) throws -> NAPI.ThreadsafeFunction? {
         var threadsafeFunction: napi_threadsafe_function?
         let status = napi_create_threadsafe_function(
@@ -825,8 +824,8 @@ extension NAPI.Env {
             initialReferenceCount,
             finalizeContext,
             finalize,
-            mainThreadCallbackContext,
-            mainThreadCallback,
+            callJavascriptCallbackContext,
+            callJavascriptCallback,
             &threadsafeFunction
         )
         try check(status)

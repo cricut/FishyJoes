@@ -147,7 +147,7 @@ public func setupOnMainThreadEntryPoint(env: NAPI.Env) throws {
     }
     mainThreadFunction = try env.createThreadsafeFunction(
         asyncResourceName: String.toNode("_mainThreadFunction", env: env),
-        mainThreadCallback: { env, _, _, data in
+        callJavascriptCallback: { env, _, _, data in
             let env = NAPI.Env(ptr: env)
             _ = rethrowToNode(env: env) {
                 let operation = try Box<(NAPI.Env) throws -> Void>.takeRetainedOpaque(data!)

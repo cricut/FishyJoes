@@ -2596,7 +2596,7 @@
                     "name" : "j",
                     "type" : {
                       "named" : {
-                        "_0" : "() => Promise<number>"
+                        "_0" : "() => number"
                       }
                     }
                   }

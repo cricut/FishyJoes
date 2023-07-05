@@ -1335,9 +1335,9 @@ export class NAPI {
         delete this.references[refIdx];
         return NAPI_OK;
       },
-      napi_create_threadsafe_function: this.wrap((envPtr, funcIdx, asyncResourceIdx, asyncResourceNameIdx, maxQueueSize, initialThreadCount, finalizeData, finalizeCallback, callJavascriptMainThreadCallbackContext, callJavascriptMainThreadCallback, resultPtr) => {
+      napi_create_threadsafe_function: this.wrap((envPtr, funcIdx, asyncResourceIdx, asyncResourceNameIdx, maxQueueSize, initialThreadCount, finalizeData, finalizeCallback, callJavascriptCallbackContext, callJavascriptCallback, resultPtr) => {
           debugger;
-       if (funcIdx === null && callJavascriptMainThreadCallback === null) {
+       if (funcIdx === null && callJavascriptCallback === null) {
          return NAPI_INVALID_ARG;
        }
        const threadsafeFunction = {
@@ -1349,8 +1349,8 @@ export class NAPI {
          "threadCount": initialThreadCount >>> 0,
          finalizeData,
          "finalizeCallback": this.indirectFunctionTable.get(finalizeCallback),
-         callJavascriptMainThreadCallbackContext,
-         "callJavascriptMainThreadCallback": this.indirectFunctionTable.get(callJavascriptMainThreadCallback),
+         callJavascriptCallbackContext,
+         "callJavascriptCallback": this.indirectFunctionTable.get(callJavascriptCallback),
          "env": envPtr,
          isCancelled: false
        };
@@ -1359,7 +1359,7 @@ export class NAPI {
       }),
       napi_get_threadsafe_function_context: this.wrap((threadsafeFunctionIdx, resultPtr) => {
        const threadsafeFunction = this.references[threadsafeFunctionIdx].value;
-       this.writeU32(resultPtr, threadsafeFunction.callJavascriptMainThreadCallbackContext);
+       this.writeU32(resultPtr, threadsafeFunction.callJavascriptCallbackContext);
         return NAPI_OK;
       }),
       napi_call_threadsafe_function: this.wrap((threadsafeFunctionIdx, data, mode) => {
@@ -1383,12 +1383,12 @@ export class NAPI {
            }
        }
 
-       if (threadsafeFunction.callJavascriptMainThreadCallback !== null) {
+       if (threadsafeFunction.callJavascriptCallback !== null) {
            // TODO: If/when this is ever multithraded, ensure this is called on the main thread
            const env = threadsafeFunction.env
            const funcIdx = this.store(threadsafeFunction.func);
-           const context = threadsafeFunction.callJavascriptMainThreadCallbackContext;
-           const callback = threadsafeFunction.callJavascriptMainThreadCallback
+           const context = threadsafeFunction.callJavascriptCallbackContext;
+           const callback = threadsafeFunction.callJavascriptCallback
            callback(env, funcIdx, context, data);
        } else if (threadsafeFunction.func !== null) {
              const args = [];

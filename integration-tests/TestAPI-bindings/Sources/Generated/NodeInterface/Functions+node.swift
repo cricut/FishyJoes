@@ -145,7 +145,7 @@ extension Functions: FishyJoesNodeRuntime.NodeConverter {
                                             convertedTaskResult = try Int.toNode(taskResult, env: env)
                                         } catch {
                                             try env.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: env))
-                                            throw error
+                                            return
                                         }
                                         try env.resolveDeferred(deferred, convertedTaskResult)
                                     }
@@ -174,7 +174,7 @@ extension Functions: FishyJoesNodeRuntime.NodeConverter {
                                             convertedTaskResult = try Int.toNode(taskResult, env: env)
                                         } catch {
                                             try env.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: env))
-                                            throw error
+                                            return
                                         }
                                         try env.resolveDeferred(deferred, convertedTaskResult)
                                     }
@@ -203,7 +203,7 @@ extension Functions: FishyJoesNodeRuntime.NodeConverter {
                                             convertedTaskResult = try Int.toNode(taskResult, env: env)
                                         } catch {
                                             try env.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: env))
-                                            throw error
+                                            return
                                         }
                                         try env.resolveDeferred(deferred, convertedTaskResult)
                                     }
@@ -232,7 +232,7 @@ extension Functions: FishyJoesNodeRuntime.NodeConverter {
                                             convertedTaskResult = try VoidConverter.toNode(taskResult, env: env)
                                         } catch {
                                             try env.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: env))
-                                            throw error
+                                            return
                                         }
                                         try env.resolveDeferred(deferred, convertedTaskResult)
                                     }
@@ -263,7 +263,7 @@ extension Functions: FishyJoesNodeRuntime.NodeConverter {
                                             convertedTaskResult = try Int.toNode(taskResult, env: env)
                                         } catch {
                                             try env.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: env))
-                                            throw error
+                                            return
                                         }
                                         try env.resolveDeferred(deferred, convertedTaskResult)
                                     }
@@ -294,7 +294,7 @@ extension Functions: FishyJoesNodeRuntime.NodeConverter {
                                             convertedTaskResult = try Int.toNode(taskResult, env: env)
                                         } catch {
                                             try env.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: env))
-                                            throw error
+                                            return
                                         }
                                         try env.resolveDeferred(deferred, convertedTaskResult)
                                     }
@@ -325,7 +325,7 @@ extension Functions: FishyJoesNodeRuntime.NodeConverter {
                                             convertedTaskResult = try Int.toNode(taskResult, env: env)
                                         } catch {
                                             try env.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: env))
-                                            throw error
+                                            return
                                         }
                                         try env.resolveDeferred(deferred, convertedTaskResult)
                                     }
@@ -356,7 +356,7 @@ extension Functions: FishyJoesNodeRuntime.NodeConverter {
                                             convertedTaskResult = try Int.toNode(taskResult, env: env)
                                         } catch {
                                             try env.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: env))
-                                            throw error
+                                            return
                                         }
                                         try env.resolveDeferred(deferred, convertedTaskResult)
                                     }
@@ -387,7 +387,7 @@ extension Functions: FishyJoesNodeRuntime.NodeConverter {
                                             convertedTaskResult = try Int.toNode(taskResult, env: env)
                                         } catch {
                                             try env.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: env))
-                                            throw error
+                                            return
                                         }
                                         try env.resolveDeferred(deferred, convertedTaskResult)
                                     }
@@ -418,7 +418,7 @@ extension Functions: FishyJoesNodeRuntime.NodeConverter {
                                             convertedTaskResult = try Int.toNode(taskResult, env: env)
                                         } catch {
                                             try env.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: env))
-                                            throw error
+                                            return
                                         }
                                         try env.resolveDeferred(deferred, convertedTaskResult)
                                     }
@@ -449,7 +449,7 @@ extension Functions: FishyJoesNodeRuntime.NodeConverter {
                                             convertedTaskResult = try Int.toNode(taskResult, env: env)
                                         } catch {
                                             try env.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: env))
-                                            throw error
+                                            return
                                         }
                                         try env.resolveDeferred(deferred, convertedTaskResult)
                                     }
@@ -480,7 +480,7 @@ extension Functions: FishyJoesNodeRuntime.NodeConverter {
                                             convertedTaskResult = try Double.toNode(taskResult, env: env)
                                         } catch {
                                             try env.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: env))
-                                            throw error
+                                            return
                                         }
                                         try env.resolveDeferred(deferred, convertedTaskResult)
                                     }
@@ -500,7 +500,7 @@ extension Functions: FishyJoesNodeRuntime.NodeConverter {
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "asyncMultipleArgs", expectedArgumentCount: 2, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
                             let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: Int.self))
-                            let arg1 = UncheckedSendableBox(try env.argument(at: 1, converter: AsyncFunction0Converter<Int>.self))
+                            let arg1 = UncheckedSendableBox(try env.argument(at: 1, converter: Function0Converter<Int>.self))
                             Task {
                                 do {
                                     let taskResult: Int = try await Functions.asyncMultipleArgs(
@@ -513,7 +513,7 @@ extension Functions: FishyJoesNodeRuntime.NodeConverter {
                                             convertedTaskResult = try Int.toNode(taskResult, env: env)
                                         } catch {
                                             try env.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: env))
-                                            throw error
+                                            return
                                         }
                                         try env.resolveDeferred(deferred, convertedTaskResult)
                                     }
@@ -542,7 +542,7 @@ extension Functions: FishyJoesNodeRuntime.NodeConverter {
                                             convertedTaskResult = try VoidConverter.toNode(taskResult, env: env)
                                         } catch {
                                             try env.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: env))
-                                            throw error
+                                            return
                                         }
                                         try env.resolveDeferred(deferred, convertedTaskResult)
                                     }

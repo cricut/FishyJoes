@@ -163,7 +163,7 @@ struct NodeTranslator: Translator {
                                         fragment.output("try Self.mutateNode(mutatingSelf, this: env.this(), env: env)")
                                     }
                                     fragment.output("try env.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: env))")
-                                    fragment.output("throw error")
+                                    fragment.output("return")
                                 }
                                 if method.isMutating {
                                     fragment.output("try Self.mutateNode(mutatingSelf, this: env.this(), env: env)")
@@ -362,15 +362,7 @@ struct NodeTranslator: Translator {
                 continue
             }
 
-            func makeAsyncIfNeeded(_ parameterType: BetterType) -> BetterType {
-                if case let .function(args, returnType, _) = parameterType {
-                    return .function(args, returnType, isAsync: true)
-                } else {
-                    return parameterType
-                }
-            }
-
-            let resolved = context.resolve(type: method.isAsync ? makeAsyncIfNeeded(parameter.type) : parameter.type, generics: exportAnnotation.genericOverrides)
+            let resolved = context.resolve(type: parameter.type, generics: exportAnnotation.genericOverrides)
             var label: String?
             if let swiftLabel = parameter.label, swiftLabel != parameter.name {
                 label = swiftLabel

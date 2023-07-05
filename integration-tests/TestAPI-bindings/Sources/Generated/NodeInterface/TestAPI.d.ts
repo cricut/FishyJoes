@@ -355,7 +355,7 @@ export declare namespace TestAPI {
          */
         function asyncMultipleArgs(
             i: number,
-            j: () => Promise<number>
+            j: () => number
         ): Promise<number>;
 
         /**

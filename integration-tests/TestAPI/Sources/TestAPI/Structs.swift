@@ -48,7 +48,7 @@ public enum Structs {
         public mutating func increment() {
             i += 1
         }
-
+//
 //        /// <!-- FishyJoes.export(incrementAsync) -->
 //        public mutating func incrementAsync() async {
 //            i += 1
