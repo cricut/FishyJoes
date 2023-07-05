@@ -255,19 +255,19 @@ internal class AttributedStringTests {
         assertEquals(attributedString[runRanges[2]], AttributedString("は", ja).substring)
 
         val linkAttribute = AttributeContainerFoundationAttributes().apply { link = URL("https://www.google.com") }
-        val enLinkAttribute = linkAttribute.apply { languageIdentifier = "en" }
+        val enLink = linkAttribute.apply { languageIdentifier = "en" }.asContainer()
         attributedString.mergeAttributesForRange(runRanges[0], linkAttribute.asContainer())
         runRanges = attributedString.runs.rangeIterator().asSequence().toList()
         assertEquals(runRanges.count(), 3)
-        assertEquals(attributedString[runRanges[0]], AttributedString("H", enLinkAttribute.asContainer()).substring)
+        assertEquals(attributedString[runRanges[0]], AttributedString("H", enLink).substring)
         assertEquals(attributedString[runRanges[1]], AttributedString("ello Olá こんにち", empty).substring)
         assertEquals(attributedString[runRanges[2]], AttributedString("は", ja).substring)
 
-        val jaLinkAttribute = linkAttribute.apply { languageIdentifier = "ja" }
+        val jaLink = linkAttribute.apply { languageIdentifier = "ja" }.asContainer()
         attributedString.replaceAttributesForRange(runRanges[0], en, ja)
         runRanges = attributedString.runs.rangeIterator().asSequence().toList()
         assertEquals(runRanges.count(), 3)
-        assertEquals(attributedString[runRanges[0]], AttributedString("H", jaLinkAttribute.asContainer()).substring)
+        assertEquals(attributedString[runRanges[0]], AttributedString("H", jaLink).substring)
         assertEquals(attributedString[runRanges[1]], AttributedString("ello Olá こんにち", empty).substring)
         assertEquals(attributedString[runRanges[2]], AttributedString("は", ja).substring)
 
