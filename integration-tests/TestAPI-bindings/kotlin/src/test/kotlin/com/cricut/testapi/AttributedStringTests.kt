@@ -11,25 +11,12 @@ import java.net.URL
 internal class AttributedStringTests {
     @Test
     fun testStringValues() {
-        val empty = AttributeContainer()
-        var enAttributes = AttributeContainerFoundationAttributes()
-        enAttributes.languageIdentifier = "en"
-        var en = enAttributes.asContainer()
-        var ptAttributes = AttributeContainerFoundationAttributes()
-        ptAttributes.languageIdentifier = "pt"
-        var pt = ptAttributes.asContainer()
-        var jaAttributes = AttributeContainerFoundationAttributes()
-        jaAttributes.languageIdentifier = "ja"
-        var ja = jaAttributes.asContainer()
-        var zhAttributes = AttributeContainerFoundationAttributes()
-        zhAttributes.languageIdentifier = "zh"
-        var zh = zhAttributes.asContainer()
-        var eAttributes = AttributeContainerFoundationAttributes()
-        eAttributes.link = URL("https://home.unicode.org/emoji")
-        var e = eAttributes.asContainer()
-        var efAttributes = AttributeContainerFoundationAttributes()
-        efAttributes.link = URL("https://home.unicode.org/emoji/emoji-frequency")
-        var ef = efAttributes.asContainer()
+        val en = AttributeContainerFoundationAttributes().apply { languageIdentifier = "en" }.asContainer()
+        val pt = AttributeContainerFoundationAttributes().apply { languageIdentifier = "pt" }.asContainer()
+        val ja = AttributeContainerFoundationAttributes().apply { languageIdentifier = "ja" }.asContainer()
+        val zh = AttributeContainerFoundationAttributes().apply { languageIdentifier = "zh" }.asContainer()
+        val ea = AttributeContainerFoundationAttributes().apply { link = URL("https://home.unicode.org/emoji") }.asContainer()
+        val ef = AttributeContainerFoundationAttributes().apply { link = URL("https://home.unicode.org/emoji/emoji-frequency") }.asContainer()
 
         assertEquals(AttributedStrings.simple, AttributedString("Hello", en))
         assertEquals(AttributedStrings.accent, AttributedString("Olá", pt))
@@ -37,7 +24,7 @@ internal class AttributedStringTests {
         assertEquals(AttributedStrings.chinese, AttributedString("你好", zh))
         assertEquals(AttributedStrings.chineseBMP, AttributedString("豈更車賈滑", zh))
         assertEquals(AttributedStrings.chineseSIP, AttributedString("\uD840\uDC01\uD840\uDC02\uD840\uDC03\uD840\uDC04", zh))
-        assertEquals(AttributedStrings.emoji, AttributedString("🤯🐶🍓", e))
+        assertEquals(AttributedStrings.emoji, AttributedString("🤯🐶🍓", ea))
         assertEquals(AttributedStrings.emojiMulti, AttributedString("👨‍👩‍👧‍👦👍🏿🇺🇸", ef))
         assertEquals(AttributedStrings.polyglot,AttributedStrings.simple + " " + AttributedStrings.accent + " " + AttributedStrings.script)
     }
@@ -229,15 +216,9 @@ internal class AttributedStringTests {
     @Test
     fun testAttributeMergeReplace() {
         val empty = AttributeContainer()
-        var enAttributes = AttributeContainerFoundationAttributes()
-        enAttributes.languageIdentifier = "en"
-        var en = enAttributes.asContainer()
-        var ptAttributes = AttributeContainerFoundationAttributes()
-        ptAttributes.languageIdentifier = "pt"
-        var pt = ptAttributes.asContainer()
-        var jaAttributes = AttributeContainerFoundationAttributes()
-        jaAttributes.languageIdentifier = "ja"
-        var ja = jaAttributes.asContainer()
+        val en = AttributeContainerFoundationAttributes().apply { languageIdentifier = "en" }.asContainer()
+        val pt = AttributeContainerFoundationAttributes().apply { languageIdentifier = "pt" }.asContainer()
+        val ja = AttributeContainerFoundationAttributes().apply { languageIdentifier = "ja" }.asContainer()
 
         val attributedString = AttributedStrings.polyglot
         var runRanges = attributedString.runs.rangeIterator().asSequence().toList()
