@@ -1,8 +1,8 @@
 import Foundation
 
 // TODO: When protocol support comes to FJ...
-//extension AttributeScope: JavaConverter {
-//}
+// extension AttributeScope: JavaConverter {
+// }
 
 extension AttributeContainer {
     public struct FoundationAttributes: Hashable, Sendable {
