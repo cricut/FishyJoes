@@ -23,46 +23,46 @@ class AttributeContainerFoundationAttributes private constructor(swiftReference:
     /**
      * <!-- FishyJoes.export(link) -->
      */
-    var link: java.net.URL
+    var link: java.net.URL?
         get() = __jni_get_link()
-        set(link: java.net.URL) = __jni_set_link(link)
+        set(link: java.net.URL?) = __jni_set_link(link)
     @JvmName("__jni_get_link")
-    private external fun __jni_get_link(): java.net.URL
+    private external fun __jni_get_link(): java.net.URL?
     @JvmName("__jni_set_link")
-    private external fun __jni_set_link(link: java.net.URL)
+    private external fun __jni_set_link(link: java.net.URL?)
 
     /**
      * <!-- FishyJoes.export(languageIdentifier) -->
      */
-    var languageIdentifier: String
+    var languageIdentifier: String?
         get() = __jni_get_languageIdentifier()
-        set(languageIdentifier: String) = __jni_set_languageIdentifier(languageIdentifier)
+        set(languageIdentifier: String?) = __jni_set_languageIdentifier(languageIdentifier)
     @JvmName("__jni_get_languageIdentifier")
-    private external fun __jni_get_languageIdentifier(): String
+    private external fun __jni_get_languageIdentifier(): String?
     @JvmName("__jni_set_languageIdentifier")
-    private external fun __jni_set_languageIdentifier(languageIdentifier: String)
+    private external fun __jni_set_languageIdentifier(languageIdentifier: String?)
 
     /**
      * <!-- FishyJoes.export(alternateDescription) -->
      */
-    var alternateDescription: String
+    var alternateDescription: String?
         get() = __jni_get_alternateDescription()
-        set(alternateDescription: String) = __jni_set_alternateDescription(alternateDescription)
+        set(alternateDescription: String?) = __jni_set_alternateDescription(alternateDescription)
     @JvmName("__jni_get_alternateDescription")
-    private external fun __jni_get_alternateDescription(): String
+    private external fun __jni_get_alternateDescription(): String?
     @JvmName("__jni_set_alternateDescription")
-    private external fun __jni_set_alternateDescription(alternateDescription: String)
+    private external fun __jni_set_alternateDescription(alternateDescription: String?)
 
     /**
      * <!-- FishyJoes.export(imageURL) -->
      */
-    var imageURL: java.net.URL
+    var imageURL: java.net.URL?
         get() = __jni_get_imageURL()
-        set(link: java.net.URL) = __jni_set_imageURL(link)
+        set(link: java.net.URL?) = __jni_set_imageURL(link)
     @JvmName("__jni_get_imageURL")
-    private external fun __jni_get_imageURL(): java.net.URL
+    private external fun __jni_get_imageURL(): java.net.URL?
     @JvmName("__jni_set_imageURL")
-    private external fun __jni_set_imageURL(link: java.net.URL)
+    private external fun __jni_set_imageURL(link: java.net.URL?)
 
     companion object {
         /**
