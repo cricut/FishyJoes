@@ -18,6 +18,14 @@ internal class AttributedStringTests {
         val ea = AttributeContainerFoundationAttributes().apply { link = URL("https://home.unicode.org/emoji") }.asContainer()
         val ef = AttributeContainerFoundationAttributes().apply { link = URL("https://home.unicode.org/emoji/emoji-frequency") }.asContainer()
 
+        val enAttributes = AttributeContainerFoundationAttributes(en)
+        assertEquals(enAttributes.languageIdentifier, "en")
+        assertNull(enAttributes.link)
+
+        val eaAttributes = AttributeContainerFoundationAttributes(ea)
+        assertNull(eaAttributes.languageIdentifier)
+        assertEquals(eaAttributes.link, URL("https://home.unicode.org/emoji"))
+
         assertEquals(AttributedStrings.simple, AttributedString("Hello", en))
         assertEquals(AttributedStrings.accent, AttributedString("Olá", pt))
         assertEquals(AttributedStrings.script, AttributedString("こんにちは", ja))
@@ -270,12 +278,6 @@ internal class AttributedStringTests {
         assertEquals(attributedString[runRanges[0]], AttributedString("H", jaLink).substring)
         assertEquals(attributedString[runRanges[1]], AttributedString("ello Olá こんにち", empty).substring)
         assertEquals(attributedString[runRanges[2]], AttributedString("は", ja).substring)
-
-        val attributes = AttributeContainerFoundationAttributes(attributedString.runs.first().attributes)
-        assertEquals(attributes.link, URL("https://www.google.com"))
-        assertEquals(attributes.languageIdentifier, "ja")
-        assertNull(attributes.alternateDescription)
-        assertNull(attributes.imageURL)
 
         attributedString.setAttributesForRange(attributedString.runs.first().range, empty)
         attributedString.setAttributesForRange(attributedString.runs.last().range, empty)

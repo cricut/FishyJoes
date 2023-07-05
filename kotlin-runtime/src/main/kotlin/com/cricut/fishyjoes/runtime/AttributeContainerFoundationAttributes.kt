@@ -42,28 +42,6 @@ class AttributeContainerFoundationAttributes private constructor(swiftReference:
     @JvmName("__jni_set_languageIdentifier")
     private external fun __jni_set_languageIdentifier(languageIdentifier: String?)
 
-    /**
-     * <!-- FishyJoes.export(alternateDescription) -->
-     */
-    var alternateDescription: String?
-        get() = __jni_get_alternateDescription()
-        set(alternateDescription: String?) = __jni_set_alternateDescription(alternateDescription)
-    @JvmName("__jni_get_alternateDescription")
-    private external fun __jni_get_alternateDescription(): String?
-    @JvmName("__jni_set_alternateDescription")
-    private external fun __jni_set_alternateDescription(alternateDescription: String?)
-
-    /**
-     * <!-- FishyJoes.export(imageURL) -->
-     */
-    var imageURL: java.net.URL?
-        get() = __jni_get_imageURL()
-        set(link: java.net.URL?) = __jni_set_imageURL(link)
-    @JvmName("__jni_get_imageURL")
-    private external fun __jni_get_imageURL(): java.net.URL?
-    @JvmName("__jni_set_imageURL")
-    private external fun __jni_set_imageURL(link: java.net.URL?)
-
     companion object {
         /**
          * <!-- FishyJoes.export(createEmpty) -->
