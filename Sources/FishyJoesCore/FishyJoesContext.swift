@@ -344,6 +344,8 @@ public class FishyJoesContext {
                     return TranslatedAttributedSubstring()
                 } else if name.name == "AttributeContainer" {
                     return TranslatedAttributeContainer()
+                } else if name.name == "AttributeContainer.FoundationAttributes" {
+                    return TranslatedAttributeContainerFoundationAttributes()
                 } else if name.name == "AttributeScope" {
                     return TranslatedAttributeScope()
                 } else if name.name == "AttributedString.AttributeMergePolicy" {
@@ -362,6 +364,8 @@ public class FishyJoesContext {
                     return TranslatedAttributedStringRunsRun()
                 } else if name.name == "Data" {
                     return TranslatedData()
+                } else if name.name == "URL" {
+                    return TranslatedURL()
                 } else if name.name == "Index", name.namespace.last?.hasPrefix("Array<") == true {
                     // It's a hack.
                     return TranslatedPrimitive(swift: "Int", typeNames: primitiveTypeMap["Int"]!)

@@ -899,6 +899,51 @@
           }
         }
       }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "name" : "URLs",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cppName" : "URLs",
+      "cSharpType" : {
+        "named" : {
+          "name" : "URLs",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : false,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/URLs"
+        }
+      },
+      "kotlinName" : "URLs",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=URLs>>",
+      "nodeName" : "TestAPI.URLs",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "name" : "URLs",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
     }
   ],
   "typeScriptAnnotations" : {
@@ -6160,6 +6205,86 @@
             "typealiases" : [
 
             ]
+          },
+          "URLs" : {
+            "classes" : [
+
+            ],
+            "fields" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(simple) -->"
+                ],
+                "isStatic" : true,
+                "name" : "simple",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "URL"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(remoteFile) -->"
+                ],
+                "isStatic" : true,
+                "name" : "remoteFile",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "URL"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(localFile) -->"
+                ],
+                "isStatic" : true,
+                "name" : "localFile",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "URL"
+                  }
+                }
+              }
+            ],
+            "interfaces" : [
+
+            ],
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(echo) -->"
+                ],
+                "isStatic" : true,
+                "name" : "echo",
+                "parameters" : [
+                  {
+                    "name" : "url",
+                    "type" : {
+                      "named" : {
+                        "_0" : "URL"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "URL"
+                  }
+                }
+              }
+            ],
+            "name" : "URLs",
+            "namespaces" : {
+
+            },
+            "typealiases" : [
+
+            ]
           }
         },
         "typealiases" : [
@@ -6388,6 +6513,19 @@
               "<!-- FishyJoes.export(Tuples) -->"
             ],
             "name" : "Tuples",
+            "value" : {
+              "union" : {
+                "_0" : [
+
+                ]
+              }
+            }
+          },
+          {
+            "documentation" : [
+              "<!-- FishyJoes.export(URLs) -->"
+            ],
+            "name" : "URLs",
             "value" : {
               "union" : {
                 "_0" : [

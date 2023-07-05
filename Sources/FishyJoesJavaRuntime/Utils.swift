@@ -78,6 +78,14 @@ public struct JNIError: Error {
     }
 }
 
+public struct MalformedURLError: Error {
+    public let message: String
+
+    public init(message: String) {
+        self.message = message
+    }
+}
+
 public class CStringBag {
     private var strings: [UnsafeMutablePointer<CChar>] = []
 

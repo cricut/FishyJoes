@@ -396,6 +396,11 @@ namespace Cricut.TestAPI {
             out CreatedRef _exn
         );
 
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_URLs_setup(
+            out CreatedRef _exn
+        );
+
         public static void _ensureLoaded() {}
 
         static _TypeSetup() {
@@ -1643,6 +1648,12 @@ namespace Cricut.TestAPI {
             Once("setup_Tuples", () => {
                 Console.WriteLine("setting up Tuples...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_Tuples_setup(
+                    out exn
+                ));
+            });
+            Once("setup_URLs", () => {
+                Console.WriteLine("setting up URLs...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_URLs_setup(
                     out exn
                 ));
             });

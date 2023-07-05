@@ -1434,6 +1434,32 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try UInt64.javaSetup(env: env)
         // print("setting up UInt8...")
         try UInt8.javaSetup(env: env)
+        // print("setting up Foundation.URL...")
+        try Foundation.URL.javaSetup(env: env)
+        // print("setting up URLs...")
+        try URLs.javaSetup(env: env)
+        try env.RegisterNatives(URLs.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_echo"),
+                signature: bag.add("(Ljava/net/URL;)Ljava/net/URL;"),
+                fnPtr: unsafeBitCast(java_URLs_echo, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_simple"),
+                signature: bag.add("()Ljava/net/URL;"),
+                fnPtr: unsafeBitCast(java_get_URLs_simple, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_remoteFile"),
+                signature: bag.add("()Ljava/net/URL;"),
+                fnPtr: unsafeBitCast(java_get_URLs_remoteFile, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_localFile"),
+                signature: bag.add("()Ljava/net/URL;"),
+                fnPtr: unsafeBitCast(java_get_URLs_localFile, to: UnsafeMutableRawPointer.self)
+            )
+        )
         // print("setting up Tuple2Converter<Int, Swift.String>...")
         try Tuple2Converter<Int, Swift.String>.javaSetup(env: env)
         // print("setting up Tuple4Converter<Int8, Int16, Int32, Int64>...")

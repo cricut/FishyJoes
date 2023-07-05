@@ -137,5 +137,7 @@ public func FishyJoes_TestAPI_registerTypes() {
     Env.registerType(UInt32.self, as: "UInt32")
     Env.registerType(UInt64.self, as: "UInt64")
     Env.registerType(UInt8.self, as: "UInt8")
+    Env.registerType(Foundation.URL.self, as: "Foundation.URL")
+    Env.registerType(URLs.self, as: "URLs")
     Env.registerType(VoidConverter.self, as: "VoidConverter")
 }

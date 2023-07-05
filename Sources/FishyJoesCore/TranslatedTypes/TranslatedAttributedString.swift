@@ -39,6 +39,19 @@ struct TranslatedAttributeContainer: TranslatedType {
     let definingModule = Module.runtime
 }
 
+struct TranslatedAttributeContainerFoundationAttributes: TranslatedType {
+    let sourceType = BetterType.named(.init(name: "Foundation.AttributeContainer.FoundationAttributes"))
+    let containedNamedTypes: [TranslatedType] = []
+    let neutralName = "AttributeContainer.FoundationAttributes"
+    let nodeName = "AttributeContainer.FoundationAttributes"
+    let kotlinPackage: String? = "com.cricut.fishyjoes.runtime"
+    let kotlinName = "AttributeContainerFoundationAttributes"
+    let jniType = JNIType.object("com/cricut/fishyjoes/runtime/AttributeContainerFoundationAttributes")
+    let cSharpType = CSharpClass.CSType.named(package: "Cricut.FishyJoesRuntime", name: "AttributeContainerFoundationAttributes")
+    let cppName = "AttributeContainerFoundationAttributes"
+    let definingModule = Module.runtime
+}
+
 struct TranslatedAttributeScope: TranslatedType {
     let sourceType = BetterType.named(.init(name: "Foundation.AttributeScope"))
     let containedNamedTypes: [TranslatedType] = []

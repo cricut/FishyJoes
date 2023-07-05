@@ -566,5 +566,13 @@ namespace TestAPI {
                 get_t<decltype(TestAPI::Tuples::_variant)>()
             };
         }
+        inline void put(const TestAPI::URLs& obj) {
+            put(obj._variant);
+        }
+        inline TestAPI::URLs get(std::in_place_type_t<TestAPI::URLs> obj = std::in_place_type_t<TestAPI::URLs>{}) {
+            return TestAPI::URLs {
+                get_t<decltype(TestAPI::URLs::_variant)>()
+            };
+        }
     };
 }

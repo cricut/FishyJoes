@@ -521,6 +521,34 @@ extension Data: JavaConverter {
     }
 }
 
+// MARK: - URL Type Conversion
+
+extension URL: JavaConverter {
+    public static var javaClass: jclass?
+    private static var _constructorMethodID: jmethodID!
+    private static var toExternalFormMethodID: jmethodID!
+
+    public static func fromJava(_ value: jobject?, env: Env) throws -> Self {
+        let externalForm = try env.CallObjectMethod(value, toExternalFormMethodID)
+        let urlString = try String.fromJava(object: externalForm, env: env)
+        guard let url = URL(string: urlString) else { throw MalformedURLError(message: "Not a valid URL: \(urlString)") }
+        return url
+    }
+
+    public static func toJava(_ value: Self, env: Env) throws -> jobject? {
+        let urlString = value.absoluteString
+        let externalForm = try String.toJava(urlString, env: env)
+        return try env.NewObject(Self.javaClass, Self._constructorMethodID, jvalue(l: externalForm))
+    }
+
+    public static func javaSetup(env: Env) throws {
+        guard javaClass == nil else { return }
+        javaClass = try env.globalRef(env.FindClass("java/net/URL"))
+        _constructorMethodID = try env.GetMethodID(javaClass, "<init>", "(Ljava/lang/String;)V")
+        toExternalFormMethodID = try env.GetMethodID(javaClass, "toExternalForm", "()Ljava/lang/String;")
+    }
+}
+
 // MARK: - Generics Type Conversions
 
 private enum JavaIterator {

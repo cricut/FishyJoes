@@ -60,5 +60,7 @@ public func registerModuleTestAPI(env: NAPI.Env, exports: NAPI.Value) throws -> 
     try UInt32.nodeSetup(env: env, module: module)
     try UInt64.nodeSetup(env: env, module: module)
     try UInt8.nodeSetup(env: env, module: module)
+    try URL.nodeSetup(env: env, module: module)
+    try URLs.nodeSetup(env: env, module: module)
     return exports
 }

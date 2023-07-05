@@ -259,6 +259,10 @@ namespace TestAPI {
                 void* FJInternalBinding_TestAPI_Tuples_getTuple4();
                 void* FJInternalBinding_TestAPI_Tuples_getTuple5();
                 void* FJInternalBinding_TestAPI_Tuples_getTuple6();
+                void* FJInternalBinding_TestAPI_URLs_echo(void*);
+                void* FJInternalBinding_TestAPI_URLs_getSimple();
+                void* FJInternalBinding_TestAPI_URLs_getRemoteFile();
+                void* FJInternalBinding_TestAPI_URLs_getLocalFile();
             }
         }
     }
@@ -278,4 +282,5 @@ namespace TestAPI {
     class Strings;
     class Structs;
     class Tuples;
+    class URLs;
 }

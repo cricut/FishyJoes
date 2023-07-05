@@ -1502,6 +1502,31 @@ export declare namespace TestAPI {
          */
         const tuple6: [string, number, number, [[number, string], [string, number, string], string, boolean], [string, number, [[number, string], [string, number, string], string, boolean], [string, number, string], [number, string]], boolean];
     }
+
+    export type URLs = never;
+    export namespace URLs {
+        /**
+         * <!-- FishyJoes.export(echo) -->
+         */
+        function echo(
+            url: URL
+        ): URL;
+
+        /**
+         * <!-- FishyJoes.export(localFile) -->
+         */
+        const localFile: URL;
+
+        /**
+         * <!-- FishyJoes.export(remoteFile) -->
+         */
+        const remoteFile: URL;
+
+        /**
+         * <!-- FishyJoes.export(simple) -->
+         */
+        const simple: URL;
+    }
 }
 export declare function init(): Promise<{
     TestAPI: typeof TestAPI,

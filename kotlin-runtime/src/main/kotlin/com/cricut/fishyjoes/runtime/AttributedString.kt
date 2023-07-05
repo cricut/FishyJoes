@@ -332,6 +332,7 @@ class AttributedString private constructor(swiftReference: Long): com.cricut.fis
         operator fun invoke(attributedString: AttributedString) = attributedString.clone()
         operator fun invoke(substring: AttributedSubstring) = AttributedString.createFromSubstring(substring)
         operator fun invoke(string: String, attributes: AttributeContainer? = null) = AttributedString.create(string, attributes)
+        operator fun invoke() = AttributedString.createEmpty()
 
         init { loadNativeLibs() }
     }

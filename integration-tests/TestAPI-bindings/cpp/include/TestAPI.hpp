@@ -14,4 +14,5 @@
 #include "Strings.hpp"
 #include "Structs.hpp"
 #include "Tuples.hpp"
+#include "URLs.hpp"
 #include "TestAPI_eq.hpp"
