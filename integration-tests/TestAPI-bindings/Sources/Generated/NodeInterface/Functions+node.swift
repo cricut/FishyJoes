@@ -133,7 +133,7 @@ extension Functions: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 "async42Func": (
                     .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "async42Func", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                        return FishyJoesNodeRuntime.callbackBody(env, info, name: "async42Func", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
                             Task {
                                 do {
@@ -147,10 +147,7 @@ extension Functions: FishyJoesNodeRuntime.NodeConverter {
                                             try env.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: env))
                                             throw error
                                         }
-                                        try env.resolveDeferred(
-                                            deferred,
-                                            convertedTaskResult
-                                        )
+                                        try env.resolveDeferred(deferred, convertedTaskResult)
                                     }
                                 } catch {
                                     try onMainThread { env in
@@ -179,10 +176,7 @@ extension Functions: FishyJoesNodeRuntime.NodeConverter {
                                             try env.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: env))
                                             throw error
                                         }
-                                        try env.resolveDeferred(
-                                            deferred,
-                                            convertedTaskResult
-                                        )
+                                        try env.resolveDeferred(deferred, convertedTaskResult)
                                     }
                                 } catch {
                                     try onMainThread { env in
@@ -211,10 +205,7 @@ extension Functions: FishyJoesNodeRuntime.NodeConverter {
                                             try env.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: env))
                                             throw error
                                         }
-                                        try env.resolveDeferred(
-                                            deferred,
-                                            convertedTaskResult
-                                        )
+                                        try env.resolveDeferred(deferred, convertedTaskResult)
                                     }
                                 } catch {
                                     try onMainThread { env in
@@ -243,10 +234,7 @@ extension Functions: FishyJoesNodeRuntime.NodeConverter {
                                             try env.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: env))
                                             throw error
                                         }
-                                        try env.resolveDeferred(
-                                            deferred,
-                                            convertedTaskResult
-                                        )
+                                        try env.resolveDeferred(deferred, convertedTaskResult)
                                     }
                                 } catch {
                                     try onMainThread { env in
@@ -277,10 +265,7 @@ extension Functions: FishyJoesNodeRuntime.NodeConverter {
                                             try env.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: env))
                                             throw error
                                         }
-                                        try env.resolveDeferred(
-                                            deferred,
-                                            convertedTaskResult
-                                        )
+                                        try env.resolveDeferred(deferred, convertedTaskResult)
                                     }
                                 } catch {
                                     try onMainThread { env in
@@ -311,10 +296,7 @@ extension Functions: FishyJoesNodeRuntime.NodeConverter {
                                             try env.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: env))
                                             throw error
                                         }
-                                        try env.resolveDeferred(
-                                            deferred,
-                                            convertedTaskResult
-                                        )
+                                        try env.resolveDeferred(deferred, convertedTaskResult)
                                     }
                                 } catch {
                                     try onMainThread { env in
@@ -345,10 +327,7 @@ extension Functions: FishyJoesNodeRuntime.NodeConverter {
                                             try env.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: env))
                                             throw error
                                         }
-                                        try env.resolveDeferred(
-                                            deferred,
-                                            convertedTaskResult
-                                        )
+                                        try env.resolveDeferred(deferred, convertedTaskResult)
                                     }
                                 } catch {
                                     try onMainThread { env in
@@ -379,10 +358,7 @@ extension Functions: FishyJoesNodeRuntime.NodeConverter {
                                             try env.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: env))
                                             throw error
                                         }
-                                        try env.resolveDeferred(
-                                            deferred,
-                                            convertedTaskResult
-                                        )
+                                        try env.resolveDeferred(deferred, convertedTaskResult)
                                     }
                                 } catch {
                                     try onMainThread { env in
@@ -413,10 +389,7 @@ extension Functions: FishyJoesNodeRuntime.NodeConverter {
                                             try env.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: env))
                                             throw error
                                         }
-                                        try env.resolveDeferred(
-                                            deferred,
-                                            convertedTaskResult
-                                        )
+                                        try env.resolveDeferred(deferred, convertedTaskResult)
                                     }
                                 } catch {
                                     try onMainThread { env in
@@ -447,10 +420,7 @@ extension Functions: FishyJoesNodeRuntime.NodeConverter {
                                             try env.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: env))
                                             throw error
                                         }
-                                        try env.resolveDeferred(
-                                            deferred,
-                                            convertedTaskResult
-                                        )
+                                        try env.resolveDeferred(deferred, convertedTaskResult)
                                     }
                                 } catch {
                                     try onMainThread { env in
@@ -481,10 +451,7 @@ extension Functions: FishyJoesNodeRuntime.NodeConverter {
                                             try env.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: env))
                                             throw error
                                         }
-                                        try env.resolveDeferred(
-                                            deferred,
-                                            convertedTaskResult
-                                        )
+                                        try env.resolveDeferred(deferred, convertedTaskResult)
                                     }
                                 } catch {
                                     try onMainThread { env in
@@ -515,10 +482,7 @@ extension Functions: FishyJoesNodeRuntime.NodeConverter {
                                             try env.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: env))
                                             throw error
                                         }
-                                        try env.resolveDeferred(
-                                            deferred,
-                                            convertedTaskResult
-                                        )
+                                        try env.resolveDeferred(deferred, convertedTaskResult)
                                     }
                                 } catch {
                                     try onMainThread { env in
@@ -547,10 +511,7 @@ extension Functions: FishyJoesNodeRuntime.NodeConverter {
                                             try env.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: env))
                                             throw error
                                         }
-                                        try env.resolveDeferred(
-                                            deferred,
-                                            convertedTaskResult
-                                        )
+                                        try env.resolveDeferred(deferred, convertedTaskResult)
                                     }
                                 } catch {
                                     try onMainThread { env in

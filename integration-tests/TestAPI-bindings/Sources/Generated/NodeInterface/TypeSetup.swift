@@ -21,6 +21,7 @@ public func napi_register_module_v1(env: napi_env, exports: napi_value) -> napi_
 @available(*, deprecated, message: "Not actually deprecated, but this silences warnings because it may refer to deprecated methods")
 public func registerModuleTestAPI(env: NAPI.Env, exports: NAPI.Value) throws -> NAPI.Value {
     #if os(WASI)
+    print("SETUP EXECUTOR")
     try JavaScriptEventLoop.installGlobalExecutor(env: env)
     #endif
     try setupOnMainThreadEntryPoint(env: env)
@@ -46,6 +47,7 @@ public func registerModuleTestAPI(env: NAPI.Env, exports: NAPI.Value) throws -> 
     try Int64.nodeSetup(env: env, module: module)
     try Int8.nodeSetup(env: env, module: module)
     try Structs.MemberwiseStruct.nodeSetup(env: env, module: module)
+    try Structs.MutableStruct.nodeSetup(env: env, module: module)
     try Primitives.PrimitiveHolder.nodeSetup(env: env, module: module)
     try Primitives.nodeSetup(env: env, module: module)
     try Structs.ReferenceStruct.nodeSetup(env: env, module: module)

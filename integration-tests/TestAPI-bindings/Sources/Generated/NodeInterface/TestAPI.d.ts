@@ -1076,6 +1076,27 @@ export declare namespace TestAPI {
         }
 
         /**
+         * <!-- FishyJoes.export(Structs.MutableStruct) -->
+         */
+        export class MutableStruct {
+            constructor(i: number)
+
+            i: number;
+
+            /**
+             * <!-- FishyJoes.export(create) -->
+             */
+            static create(
+            ): Structs.MutableStruct;
+
+            /**
+             * <!-- FishyJoes.export(increment) -->
+             */
+            increment(
+            ): void;
+        }
+
+        /**
          * <!-- FishyJoes.exportReference(Structs.ReferenceStruct) -->
          */
         export class ReferenceStruct {

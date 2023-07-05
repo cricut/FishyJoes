@@ -1,0 +1,79 @@
+// Generated using Sourcery 1.9.2 — https://github.com/krzysztofzablocki/Sourcery
+// DO NOT EDIT
+// swiftlint:disable superfluous_disable_command unused_closure_parameter syntactic_sugar attributes
+import FishyJoesNodeRuntime
+import Foundation
+import TestAPI
+
+extension TestAPI.Structs.MutableStruct: NodeMutator {
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
+        Self(
+            i: try { () -> Int in
+                let fieldValue = try env.getNamedProperty(value, "i")
+                return try Int.fromNode(fieldValue, env: env)
+            }()
+        )
+    }
+    public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
+        let constructor = try InstanceData.data(for: env).constructor(for: "Structs.MutableStruct", env: env)
+        let args: [NAPI.Value] = [
+            try Int.toNode(value.i, env: env),
+        ]
+        return try env.newInstance(constructor, args)
+    }
+    public static func mutateNode(_ value: Self, this: NAPI.Value, env: NAPI.Env) throws {
+        try env.setNamedProperty(this, "i", Int.toNode(value.i, env: env))
+    }
+    @available(*, deprecated, message: "Not actually deprecated, but this silences warnings because it may refer to deprecated methods")
+    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
+        let nodeClass = try NodeClass(
+            env: env,
+            name: "Structs.MutableStruct",
+            properties: [
+                "create": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "create", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            let result = try Structs.MutableStruct.toNode(
+                                Structs.MutableStruct(
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: true
+                ),
+                "increment": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "increment", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            var mutatingSelf = try env.this(converter: Structs.MutableStruct.self)
+                            let result = try VoidConverter.toNode(
+                                mutatingSelf.increment(
+                                ),
+                                env: env.env
+                            )
+                            try Self.mutateNode(mutatingSelf, this: env.this(), env: env.env)
+                            return result
+                        }
+                    },
+                    isStatic: false
+                ),
+                "i": (.stored(mutable: true), isStatic: false),
+            ],
+            constructor: { env, info in
+                callbackBody(env, info, name: "Structs.MutableStruct_constructor", expectedArgumentCount: 1) { env in
+                    // TODO: typecheck?
+                    let this = try env.this()
+                    try env.env.setNamedProperty(this, "i", env.argument(at: 0))
+                    return this
+                }
+            }
+        )
+        try mergeDefinitionInto(
+            env: env,
+            module: module,
+            path: "Structs.MutableStruct",
+            nodeClass: nodeClass.constructor.value(env: env)
+        )
+    }
+}

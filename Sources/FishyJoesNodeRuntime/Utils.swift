@@ -32,7 +32,7 @@ public func callbackBody(
     }
 }
 
- public func callbackBody(
+ public func asyncCallbackBody(
     _ env: napi_env!,
     _ info: napi_callback_info!,
     name: String,
@@ -47,7 +47,7 @@ public func callbackBody(
         expectedArgumentCount: expectedArgumentCount,
         hasNamedOptions: hasNamedOptions
     )
-    return rethrowToNode(env: env.env) {
+    return asyncRethrowToNode(env: env.env) {
         try await body(env)
     }
  }
@@ -65,7 +65,7 @@ public func rethrowToNode(env: NAPI.Env, _ body: () throws -> NAPI.Value?) -> na
     }
 }
 
- public func rethrowToNode(env: NAPI.Env, _ body: @escaping () async throws -> NAPI.Value?) -> napi_value? {
+ public func asyncRethrowToNode(env: NAPI.Env, _ body: @escaping () async throws -> NAPI.Value?) -> napi_value? {
     do {
         let (deferred, promise) = try env.createPromise()
         Task {

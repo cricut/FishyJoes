@@ -135,7 +135,7 @@ let java_Functions_willThrow: @convention(c) (
 let java_Functions_async42Func: @convention(c) (
     UnsafeMutablePointer<JNIEnv?>,
     jobject,
-    Function1Converter<Int, VoidConverter>.CType
+    ASYNC_NOT_YET_SUPPORTED_FOR_KOLIN_Function1Converter<Int, VoidConverter>.CType
 ) -> Void = { _javaEnv, _javaThis, _asyncCallback in
     FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
         Task {
@@ -153,7 +153,7 @@ let java_Functions_async42Func: @convention(c) (
 let java_Functions_asyncYieldFunc: @convention(c) (
     UnsafeMutablePointer<JNIEnv?>,
     jobject,
-    Function1Converter<Int, VoidConverter>.CType
+    ASYNC_NOT_YET_SUPPORTED_FOR_KOLIN_Function1Converter<Int, VoidConverter>.CType
 ) -> Void = { _javaEnv, _javaThis, _asyncCallback in
     FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
         Task {
@@ -171,7 +171,7 @@ let java_Functions_asyncYieldFunc: @convention(c) (
 let java_Functions_asyncSleepFunc: @convention(c) (
     UnsafeMutablePointer<JNIEnv?>,
     jobject,
-    Function1Converter<Int, VoidConverter>.CType
+    ASYNC_NOT_YET_SUPPORTED_FOR_KOLIN_Function1Converter<Int, VoidConverter>.CType
 ) -> Void = { _javaEnv, _javaThis, _asyncCallback in
     FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
         Task {
@@ -189,7 +189,7 @@ let java_Functions_asyncSleepFunc: @convention(c) (
 let java_Functions_asyncVoidFunc: @convention(c) (
     UnsafeMutablePointer<JNIEnv?>,
     jobject,
-    Function1Converter<VoidConverter, VoidConverter>.CType
+    ASYNC_NOT_YET_SUPPORTED_FOR_KOLIN_Function1Converter<VoidConverter, VoidConverter>.CType
 ) -> Void = { _javaEnv, _javaThis, _asyncCallback in
     FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
         Task {
@@ -208,7 +208,7 @@ let java_Functions_asyncCallbackFunc0: @convention(c) (
     UnsafeMutablePointer<JNIEnv?>,
     jobject,
     AsyncFunction0Converter<Int>.CType,
-    Function1Converter<Int, VoidConverter>.CType
+    ASYNC_NOT_YET_SUPPORTED_FOR_KOLIN_Function1Converter<Int, VoidConverter>.CType
 ) -> Void = { _javaEnv, _javaThis, callback, _asyncCallback in
     FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
         Task {
@@ -228,7 +228,7 @@ let java_Functions_asyncCallbackFunc1: @convention(c) (
     UnsafeMutablePointer<JNIEnv?>,
     jobject,
     AsyncFunction1Converter<Int, Int>.CType,
-    Function1Converter<Int, VoidConverter>.CType
+    ASYNC_NOT_YET_SUPPORTED_FOR_KOLIN_Function1Converter<Int, VoidConverter>.CType
 ) -> Void = { _javaEnv, _javaThis, callback, _asyncCallback in
     FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
         Task {
@@ -248,7 +248,7 @@ let java_Functions_asyncCallbackFunc2: @convention(c) (
     UnsafeMutablePointer<JNIEnv?>,
     jobject,
     AsyncFunction2Converter<Int, Int, Int>.CType,
-    Function1Converter<Int, VoidConverter>.CType
+    ASYNC_NOT_YET_SUPPORTED_FOR_KOLIN_Function1Converter<Int, VoidConverter>.CType
 ) -> Void = { _javaEnv, _javaThis, callback, _asyncCallback in
     FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
         Task {
@@ -268,7 +268,7 @@ let java_Functions_asyncCallbackFunc3: @convention(c) (
     UnsafeMutablePointer<JNIEnv?>,
     jobject,
     AsyncFunction3Converter<Int, Int, Int, Int>.CType,
-    Function1Converter<Int, VoidConverter>.CType
+    ASYNC_NOT_YET_SUPPORTED_FOR_KOLIN_Function1Converter<Int, VoidConverter>.CType
 ) -> Void = { _javaEnv, _javaThis, callback, _asyncCallback in
     FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
         Task {
@@ -288,7 +288,7 @@ let java_Functions_asyncCallbackFunc4: @convention(c) (
     UnsafeMutablePointer<JNIEnv?>,
     jobject,
     AsyncFunction4Converter<Int, Int, Int, Int, Int>.CType,
-    Function1Converter<Int, VoidConverter>.CType
+    ASYNC_NOT_YET_SUPPORTED_FOR_KOLIN_Function1Converter<Int, VoidConverter>.CType
 ) -> Void = { _javaEnv, _javaThis, callback, _asyncCallback in
     FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
         Task {
@@ -308,7 +308,7 @@ let java_Functions_asyncCallbackFunc5: @convention(c) (
     UnsafeMutablePointer<JNIEnv?>,
     jobject,
     AsyncFunction5Converter<Int, Int, Int, Int, Int, Int>.CType,
-    Function1Converter<Int, VoidConverter>.CType
+    ASYNC_NOT_YET_SUPPORTED_FOR_KOLIN_Function1Converter<Int, VoidConverter>.CType
 ) -> Void = { _javaEnv, _javaThis, callback, _asyncCallback in
     FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
         Task {
@@ -328,7 +328,7 @@ let java_Functions_asyncCallbackFunc6: @convention(c) (
     UnsafeMutablePointer<JNIEnv?>,
     jobject,
     AsyncFunction6Converter<Int, Int, Int, Int, Int, Int, Int>.CType,
-    Function1Converter<Int, VoidConverter>.CType
+    ASYNC_NOT_YET_SUPPORTED_FOR_KOLIN_Function1Converter<Int, VoidConverter>.CType
 ) -> Void = { _javaEnv, _javaThis, callback, _asyncCallback in
     FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
         Task {
@@ -348,7 +348,7 @@ let java_Functions_asyncDoubleFunc: @convention(c) (
     UnsafeMutablePointer<JNIEnv?>,
     jobject,
     Double.CType,
-    Function1Converter<Double, VoidConverter>.CType
+    ASYNC_NOT_YET_SUPPORTED_FOR_KOLIN_Function1Converter<Double, VoidConverter>.CType
 ) -> Void = { _javaEnv, _javaThis, d, _asyncCallback in
     FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
         Task {
@@ -367,7 +367,7 @@ let java_Functions_asyncDoubleFunc: @convention(c) (
 let java_Functions_asyncThrowingFunc: @convention(c) (
     UnsafeMutablePointer<JNIEnv?>,
     jobject,
-    Function1Converter<VoidConverter, VoidConverter>.CType
+    ASYNC_NOT_YET_SUPPORTED_FOR_KOLIN_Function1Converter<VoidConverter, VoidConverter>.CType
 ) -> Void = { _javaEnv, _javaThis, _asyncCallback in
     FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
         Task {

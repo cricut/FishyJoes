@@ -518,6 +518,20 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_Structs_MemberwiseStruct_create, to: UnsafeMutableRawPointer.self)
             )
         )
+        // print("setting up Structs.MutableStruct...")
+        try Structs.MutableStruct.javaSetup(env: env)
+        try env.RegisterNatives(Structs.MutableStruct.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_create"),
+                signature: bag.add("()Lcom/cricut/testapi/Structs$MutableStruct;"),
+                fnPtr: unsafeBitCast(java_Structs_MutableStruct_create, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_increment"),
+                signature: bag.add("()V"),
+                fnPtr: unsafeBitCast(java_Structs_MutableStruct_increment, to: UnsafeMutableRawPointer.self)
+            )
+        )
         // print("setting up Primitives.PrimitiveHolder...")
         try Primitives.PrimitiveHolder.javaSetup(env: env)
         try env.RegisterNatives(Primitives.PrimitiveHolder.javaClass,

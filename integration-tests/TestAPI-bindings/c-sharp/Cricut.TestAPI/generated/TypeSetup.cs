@@ -350,6 +350,20 @@ namespace Cricut.TestAPI {
             out CreatedRef _exn
         );
 
+        delegate CreatedRef _Structs_MutableStructConstructor(
+            nint i,
+            out CreatedRef exn
+        );
+        delegate nint _Structs_MutableStruct_iGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _Structs_MutableStruct_iSetter(UnownedRef obj, nint newValue, out CreatedRef exn);
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_Structs_MutableStruct_setup(
+            _Structs_MutableStructConstructor constructor,
+            _Structs_MutableStruct_iGetter get_i,
+            _Structs_MutableStruct_iSetter set_i,
+            out CreatedRef _exn
+        );
+
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_Structs_ReferenceStruct_setup(
             SwiftReference.ConstructorDelegate constructorMethod,
@@ -1435,6 +1449,23 @@ namespace Cricut.TestAPI {
                     )),
                     bag<_Structs_MemberwiseStruct_mutableSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
                         obj.Peek<Cricut.TestAPI.Structs.MemberwiseStruct>().Mutable = newValue.Consume<string>();
+                    })),
+                    out exn
+                ));
+            });
+            Once("setup_Structs.MutableStruct", () => {
+                Console.WriteLine("setting up Structs.MutableStruct...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_Structs_MutableStruct_setup(
+                    bag<_Structs_MutableStructConstructor>((nint i, out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.Structs.MutableStruct(
+                            i
+                        ));
+                    })),
+                    bag<_Structs_MutableStruct_iGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        obj.Peek<Cricut.TestAPI.Structs.MutableStruct>().I
+                    )),
+                    bag<_Structs_MutableStruct_iSetter>((UnownedRef obj, nint newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Structs.MutableStruct>().I = newValue;
                     })),
                     out exn
                 ));

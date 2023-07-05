@@ -80,11 +80,6 @@ extension CheckedContinuation {
     }
 }
 
-private enum PromiseConverter<R>: Converter where R: NodeConverter {
-    static func fromNode(value promise: NAPI.Value, env: NAPI.Env, continuation: CheckedContinuation<R.SwiftType, Error>) throws {
-    }
-}
-
 private struct AnyFunction0: AnyFunction {
     let invoke: (CallbackEnv) throws -> NAPI.Value?
 
@@ -100,7 +95,7 @@ private struct AnyFunction0: AnyFunction {
      let invoke: (CallbackEnv) async throws -> NAPI.Value?
 
      static let cInvoke: NAPI.Callback = { env, info in
-         callbackBody(env, info, name: "<AsyncFunction0>", expectedArgumentCount: 0) { env in
+         asyncCallbackBody(env, info, name: "<AsyncFunction0>", expectedArgumentCount: 0) { env in
              try await Box<Self>.takeUnretainedOpaque(env.data()!).value
                  .invoke(env)
          }
@@ -122,7 +117,7 @@ private struct AnyAsyncFunction1: AnyFunction {
     let invoke: (CallbackEnv, NAPI.Value) async throws -> NAPI.Value?
 
     static let cInvoke: NAPI.Callback = { env, info in
-        callbackBody(env, info, name: "<AsyncFunction1>", expectedArgumentCount: 1) { env in
+        asyncCallbackBody(env, info, name: "<AsyncFunction1>", expectedArgumentCount: 1) { env in
             try await Box<Self>.takeUnretainedOpaque(env.data()!).value
                 .invoke(env, env.argument(at: 0))
         }
@@ -144,7 +139,7 @@ private struct AnyAsyncFunction2: AnyFunction {
     let invoke: (CallbackEnv, NAPI.Value, NAPI.Value) async throws -> NAPI.Value?
 
     static let cInvoke: NAPI.Callback = { env, info in
-        callbackBody(env, info, name: "<AsyncFunction2>", expectedArgumentCount: 2) { env in
+        asyncCallbackBody(env, info, name: "<AsyncFunction2>", expectedArgumentCount: 2) { env in
             try await Box<Self>.takeUnretainedOpaque(env.data()!).value
                 .invoke(env, env.argument(at: 0), env.argument(at: 1))
         }
@@ -166,7 +161,7 @@ private struct AnyAsyncFunction3: AnyFunction {
     let invoke: (CallbackEnv, NAPI.Value, NAPI.Value, NAPI.Value) async throws -> NAPI.Value?
 
     static let cInvoke: NAPI.Callback = { env, info in
-        callbackBody(env, info, name: "<AsyncFunction3>", expectedArgumentCount: 3) { env in
+        asyncCallbackBody(env, info, name: "<AsyncFunction3>", expectedArgumentCount: 3) { env in
             try await Box<Self>.takeUnretainedOpaque(env.data()!).value
                 .invoke(env, env.argument(at: 0), env.argument(at: 1), env.argument(at: 2))
         }
@@ -188,7 +183,7 @@ private struct AnyAsyncFunction4: AnyFunction {
     let invoke: (CallbackEnv, NAPI.Value, NAPI.Value, NAPI.Value, NAPI.Value) async throws -> NAPI.Value?
 
     static let cInvoke: NAPI.Callback = { env, info in
-        callbackBody(env, info, name: "<AsyncFunction4>", expectedArgumentCount: 4) { env in
+        asyncCallbackBody(env, info, name: "<AsyncFunction4>", expectedArgumentCount: 4) { env in
             try await Box<Self>.takeUnretainedOpaque(env.data()!).value
                 .invoke(env, env.argument(at: 0), env.argument(at: 1), env.argument(at: 2), env.argument(at: 3))
         }
@@ -210,7 +205,7 @@ private struct AnyAsyncFunction5: AnyFunction {
     let invoke: (CallbackEnv, NAPI.Value, NAPI.Value, NAPI.Value, NAPI.Value, NAPI.Value) async throws -> NAPI.Value?
 
     static let cInvoke: NAPI.Callback = { env, info in
-        callbackBody(env, info, name: "<AsyncFunction5>", expectedArgumentCount: 5) { env in
+        asyncCallbackBody(env, info, name: "<AsyncFunction5>", expectedArgumentCount: 5) { env in
             try await Box<Self>.takeUnretainedOpaque(env.data()!).value
                 .invoke(env, env.argument(at: 0), env.argument(at: 1), env.argument(at: 2), env.argument(at: 3), env.argument(at: 4))
         }
@@ -232,7 +227,7 @@ private struct AnyAsyncFunction6: AnyFunction {
     let invoke: (CallbackEnv, NAPI.Value, NAPI.Value, NAPI.Value, NAPI.Value, NAPI.Value, NAPI.Value) async throws -> NAPI.Value?
 
     static let cInvoke: NAPI.Callback = { env, info in
-        callbackBody(env, info, name: "<AsyncFunction6>", expectedArgumentCount: 6) { env in
+        asyncCallbackBody(env, info, name: "<AsyncFunction6>", expectedArgumentCount: 6) { env in
             try await Box<Self>.takeUnretainedOpaque(env.data()!).value
                 .invoke(env, env.argument(at: 0), env.argument(at: 1), env.argument(at: 2), env.argument(at: 3), env.argument(at: 4), env.argument(at: 5))
         }
@@ -260,7 +255,7 @@ extension Function0Converter: NodeConverter where R: NodeConverter {
         }
     }
 
-    public static func toNode(_ value: @escaping SwiftType, env: NAPI.Env) throws 	-> NAPI.Value {
+    public static func toNode(_ value: @escaping SwiftType, env: NAPI.Env) throws -> NAPI.Value {
         try AnyFunction0 { env in
             return try R.toNode(value(), env: env.env)
         }.toNode(env: env)

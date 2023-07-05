@@ -163,10 +163,7 @@ struct NodeTranslator: Translator {
                                 if method.isMutating {
                                     fragment.output("try Self.mutateNode(mutatingSelf, this: env.this(), env: env)")
                                 }
-                                fragment.outputBlock("try env.resolveDeferred(") {
-                                    fragment.output("deferred,")
-                                    fragment.output("convertedTaskResult")
-                                }
+                                fragment.output("try env.resolveDeferred(deferred, convertedTaskResult)")
                             }
                         }
                         fragment.outputBlock(" catch {") {

@@ -20,7 +20,9 @@ public final class NodeReference: @unchecked Sendable {
     }
 
     deinit {
-//        precondition(ref.ptr == nil, "Node reference has not been deallocated before going out of scope")
+        try? onMainThread { [ref] env in
+            try? env.deleteReference(ref)
+        }
     }
 }
 

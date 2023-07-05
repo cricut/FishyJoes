@@ -192,6 +192,8 @@ namespace TestAPI {
                 void* FJInternalBinding_TestAPI_Strings_getEmoji();
                 void* FJInternalBinding_TestAPI_Strings_getEmojiMulti();
                 void* FJInternalBinding_TestAPI_Structs_MemberwiseStruct_create();
+                void* FJInternalBinding_TestAPI_Structs_MutableStruct_create();
+                void* FJInternalBinding_TestAPI_Structs_MutableStruct_increment(void*);
                 void* FJInternalBinding_TestAPI_Structs_ReferenceStruct_create();
                 void* FJInternalBinding_TestAPI_Structs_ReferenceStruct_getImmutable(void*);
                 void* FJInternalBinding_TestAPI_Structs_ReferenceStruct_setImmutable(void*, void*);

@@ -143,11 +143,3 @@ public enum Functions {
         throw TheError()
     }
 }
-
-actor A {}
-
-class Foo {
-    var i = 1
-}
-
-var foo = Foo()

@@ -522,6 +522,14 @@ namespace TestAPI {
                 get_t<decltype(TestAPI::Structs::MemberwiseStruct::immutable)>(), get_t<decltype(TestAPI::Structs::MemberwiseStruct::mutable)>()
             };
         }
+        inline void put(const TestAPI::Structs::MutableStruct& obj) {
+            put(obj.i);
+        }
+        inline TestAPI::Structs::MutableStruct get(std::in_place_type_t<TestAPI::Structs::MutableStruct> obj = std::in_place_type_t<TestAPI::Structs::MutableStruct>{}) {
+            return TestAPI::Structs::MutableStruct {
+                get_t<decltype(TestAPI::Structs::MutableStruct::i)>()
+            };
+        }
         inline void put(const TestAPI::Structs::ReferenceStruct& obj) {
             put(obj._ref);
         }

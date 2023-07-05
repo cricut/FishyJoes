@@ -679,6 +679,51 @@
       "converterType" : {
         "named" : {
           "_0" : {
+            "name" : "MutableStruct",
+            "namespace" : [
+              "Structs"
+            ]
+          }
+        }
+      },
+      "cppName" : "Structs::MutableStruct",
+      "cSharpType" : {
+        "named" : {
+          "name" : "Structs.MutableStruct",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/Structs$MutableStruct"
+        }
+      },
+      "kotlinName" : "Structs.MutableStruct",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Struct<Named=Structs.MutableStruct>>",
+      "nodeName" : "TestAPI.Structs.MutableStruct",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "name" : "MutableStruct",
+            "namespace" : [
+              "Structs"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
             "name" : "ReferenceStruct",
             "namespace" : [
               "Structs"
@@ -4862,6 +4907,78 @@
                   }
                 ],
                 "name" : "MemberwiseStruct"
+              },
+              {
+                "constructor" : {
+                  "visible" : {
+                    "names" : [
+                      "i"
+                    ],
+                    "types" : [
+                      {
+                        "named" : {
+                          "_0" : "number"
+                        }
+                      }
+                    ]
+                  }
+                },
+                "documentation" : [
+                  "<!-- FishyJoes.export(Structs.MutableStruct) -->"
+                ],
+                "extends" : [
+
+                ],
+                "fields" : [
+                  {
+                    "documentation" : [
+
+                    ],
+                    "isStatic" : false,
+                    "name" : "i",
+                    "readOnly" : false,
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                ],
+                "methods" : [
+                  {
+                    "documentation" : [
+                      "<!-- FishyJoes.export(create) -->"
+                    ],
+                    "isAsync" : false,
+                    "isStatic" : true,
+                    "name" : "create",
+                    "parameters" : [
+
+                    ],
+                    "returnType" : {
+                      "named" : {
+                        "_0" : "Structs.MutableStruct"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+                      "<!-- FishyJoes.export(increment) -->"
+                    ],
+                    "isAsync" : false,
+                    "isStatic" : false,
+                    "name" : "increment",
+                    "parameters" : [
+
+                    ],
+                    "returnType" : {
+                      "named" : {
+                        "_0" : "void"
+                      }
+                    }
+                  }
+                ],
+                "name" : "MutableStruct"
               },
               {
                 "constructor" : {

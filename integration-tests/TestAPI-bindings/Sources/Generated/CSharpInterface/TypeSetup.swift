@@ -110,6 +110,7 @@ public func FishyJoes_TestAPI_registerTypes() {
     Env.registerType(Strings.self, as: "Strings")
     Env.registerType(Structs.self, as: "Structs")
     Env.registerType(Structs.MemberwiseStruct.self, as: "Structs.MemberwiseStruct")
+    Env.registerType(Structs.MutableStruct.self, as: "Structs.MutableStruct")
     Env.registerType(Structs.ReferenceStruct.self, as: "Structs.ReferenceStruct")
     Env.registerType(Tuples.self, as: "Tuples")
     Env.registerType(UInt16.self, as: "UInt16")
