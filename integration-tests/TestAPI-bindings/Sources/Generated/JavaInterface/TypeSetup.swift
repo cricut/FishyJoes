@@ -459,6 +459,11 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_Functions_asyncDoubleFunc, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
+                name: bag.add("__jni_asyncMultipleArgs"),
+                signature: bag.add("(JLkotlin/jvm/functions/Function0;)J"),
+                fnPtr: unsafeBitCast(java_Functions_asyncMultipleArgs, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
                 name: bag.add("__jni_asyncThrowingFunc"),
                 signature: bag.add("()V"),
                 fnPtr: unsafeBitCast(java_Functions_asyncThrowingFunc, to: UnsafeMutableRawPointer.self)

@@ -414,6 +414,24 @@ namespace Cricut.TestAPI {
         );
 
         /// <summary>
+        /// <!-- FishyJoes.export(asyncMultipleArgs) -->
+        /// </summary>
+        public static nint AsyncMultipleArgs(
+            nint i,
+            System.Func<nint> j
+        ) {
+            using var _jHandle = new GCRef(j);
+            return Check((out CreatedRef _exn) => __cs_Functions_asyncMultipleArgs(i, _jHandle.ptr, out _exn));
+        }
+
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern nint __cs_Functions_asyncMultipleArgs(
+            nint i,
+            UnownedRef j,
+            out CreatedRef exn
+        );
+
+        /// <summary>
         /// <!-- FishyJoes.export(asyncThrowingFunc) -->
         /// </summary>
         public static void AsyncThrowingFunc(

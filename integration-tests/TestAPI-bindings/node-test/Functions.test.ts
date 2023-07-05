@@ -203,6 +203,11 @@ test('AsyncDoubleFunctionCall', async () => {
     expect(value).toEqual(2.0)
 })
 
+test('AsyncMultipleArgsFunctionCall', async () => {
+    const value = await TestAPI.Functions.asyncMultipleArgs(1, async () => { return 2 })
+    expect(value).toEqual(3)
+})
+
 test('AsyncThrowingFunctionCallThenCatch', async () => {
     let ranThen: boolean = false
     let ranCatch: boolean = false

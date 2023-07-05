@@ -32,26 +32,6 @@ public func callbackBody(
     }
 }
 
- public func asyncCallbackBody(
-    _ env: napi_env!,
-    _ info: napi_callback_info!,
-    name: String,
-    expectedArgumentCount: Int,
-    hasNamedOptions: Bool = false,
-    _ body: @escaping (_ env: CallbackEnv) async throws -> NAPI.Value?
- ) -> napi_value? {
-    let env = CallbackEnv(
-        env: NAPI.Env(ptr: env),
-        napiInfo: .init(ptr: info),
-        name: name,
-        expectedArgumentCount: expectedArgumentCount,
-        hasNamedOptions: hasNamedOptions
-    )
-    return asyncRethrowToNode(env: env.env) {
-        try await body(env)
-    }
- }
-
 public func rethrowToNode(env: NAPI.Env, _ body: () throws -> NAPI.Value?) -> napi_value? {
     do {
         return try body()?.ptr
@@ -65,7 +45,31 @@ public func rethrowToNode(env: NAPI.Env, _ body: () throws -> NAPI.Value?) -> na
     }
 }
 
- public func asyncRethrowToNode(env: NAPI.Env, _ body: @escaping () async throws -> NAPI.Value?) -> napi_value? {
+/// Forward a callback through swift and javascript async/await.
+///
+/// - Important: This is for forwarding of callbacks and shouldn't be directly called in an async function body because it then cannot capture arguments before being invoked.
+/// Instead ``callbackBody(_:_:name:expectedArgumentCount:hasNamedOptions:_:)`` should be used in main function bodies.
+public func asyncCallbackBody(
+    _ env: napi_env!,
+    _ info: napi_callback_info!,
+    name: String,
+    expectedArgumentCount: Int,
+    hasNamedOptions: Bool = false,
+    _ body: @escaping (_ env: CallbackEnv) async throws -> NAPI.Value?
+) -> napi_value? {
+    let env = CallbackEnv(
+        env: NAPI.Env(ptr: env),
+        napiInfo: .init(ptr: info),
+        name: name,
+        expectedArgumentCount: expectedArgumentCount,
+        hasNamedOptions: hasNamedOptions
+    )
+    return asyncRethrowToNode(env: env.env) {
+        try await body(env)
+    }
+}
+
+public func asyncRethrowToNode(env: NAPI.Env, _ body: @escaping () async throws -> NAPI.Value?) -> napi_value? {
     do {
         let (deferred, promise) = try env.createPromise()
         Task {
@@ -89,7 +93,7 @@ public func rethrowToNode(env: NAPI.Env, _ body: () throws -> NAPI.Value?) -> na
         try? env.throw(String.toNode(error.localizedDescription, env: env))
         return nil
     }
- }
+}
 
 public func mergeDefinitionInto(env: NAPI.Env, module: NAPI.Value, path: String, nodeClass: NAPI.Value) throws {
     var namespace = path.split(separator: ".").map(String.init)

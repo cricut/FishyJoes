@@ -108,10 +108,10 @@ struct NodeTranslator: Translator {
 
         let returnType = context.resolve(type: method.returnType, generics: exportAnnotation.genericOverrides)
 
-        func convertMethodParameter(formal: SwiftFormal, argIndex: inout Int) -> String {
+        func convertMethodParameter(formal: SwiftFormal, argIndex: inout Int, includeFormalLabel: Bool = true) -> String {
             let resolved = context.resolve(type: formal.type, generics: exportAnnotation.genericOverrides)
 
-            var result = formal.label.map { "\($0): " } ?? ""
+            var result = includeFormalLabel ? (formal.label.map { "\($0): " } ?? "") : ""
             if let defaultValue = formal.defaultValue {
                 result += "try env.argument(named: \"\(formal.label ?? formal.name)\", default: \(defaultValue), "
             } else {
@@ -131,8 +131,8 @@ struct NodeTranslator: Translator {
                     fragment.output("let (deferred, promise) = try env.env.createPromise()")
 
                     var argIndex = 0
-                    fragment.outputMap(method.parameters, separator: ",") { formal in
-                        return "let arg\(argIndex) = UncheckedSendableBox(\(convertMethodParameter(formal: formal, argIndex: &argIndex)))"
+                    fragment.outputMap(method.parameters, separator: "") { formal in
+                        return "let arg\(argIndex) = UncheckedSendableBox(\(convertMethodParameter(formal: formal, argIndex: &argIndex, includeFormalLabel: false)))"
                     }
 
                     fragment.outputBlock("Task {") {
@@ -143,9 +143,14 @@ struct NodeTranslator: Translator {
                         fragment.outputBlock("do {", newLineTerminated: false) {
                             fragment.outputBlock("let taskResult: \(method.returnType.name) = try await \(selfExpression)\(callName)(") {
                                 var argIndex = 0
-                                fragment.outputMap(method.parameters, separator: ",") { _ in
+                                fragment.outputMap(method.parameters, separator: ",") { formal in
                                     defer { argIndex += 1 }
-                                    return "arg\(argIndex).value"
+                                    var argument = ""
+                                    if let label = formal.label {
+                                        argument += "\(label): "
+                                    }
+                                    argument += "arg\(argIndex).value"
+                                    return argument
                                 }
                             }
                             fragment.outputBlock("try onMainThread { env in", closeWith: "}") {

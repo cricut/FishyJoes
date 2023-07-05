@@ -351,6 +351,14 @@ export declare namespace TestAPI {
         ): Promise<number>;
 
         /**
+         * <!-- FishyJoes.export(asyncMultipleArgs) -->
+         */
+        function asyncMultipleArgs(
+            i: number,
+            j: () => Promise<number>
+        ): Promise<number>;
+
+        /**
          * <!-- FishyJoes.export(asyncSleepFunc) -->
          */
         function asyncSleepFunc(

@@ -324,6 +324,22 @@ sealed class Functions {
         )
 
         /**
+         * <!-- FishyJoes.export(asyncMultipleArgs) -->
+         */
+        fun asyncMultipleArgs(
+            i: Long,
+            j: (() -> Long),
+            _asyncCallback: ((Long) -> kotlin.Unit)
+        ) = __jni_asyncMultipleArgs(i, j, _asyncCallback)
+        @JvmStatic
+        @JvmName("__jni_asyncMultipleArgs")
+        private external fun __jni_asyncMultipleArgs(
+            i: Long,
+            j: (() -> Long),
+            _asyncCallback: ((Long) -> kotlin.Unit)
+        )
+
+        /**
          * <!-- FishyJoes.export(asyncThrowingFunc) -->
          */
         fun asyncThrowingFunc(
