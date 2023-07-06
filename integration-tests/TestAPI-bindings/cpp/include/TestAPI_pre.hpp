@@ -35,6 +35,16 @@ namespace TestAPI {
                 void* FJInternalBinding_TestAPI_AssociatedDataEnum_plus(void*, void*);
                 void* FJInternalBinding_TestAPI_AssociatedDataEnum_getStaticThing();
                 void* FJInternalBinding_TestAPI_AssociatedDataEnum_getIntValue(void*);
+                void* FJInternalBinding_TestAPI_AttributedStrings_echo(void*);
+                void* FJInternalBinding_TestAPI_AttributedStrings_getSimple();
+                void* FJInternalBinding_TestAPI_AttributedStrings_getAccent();
+                void* FJInternalBinding_TestAPI_AttributedStrings_getScript();
+                void* FJInternalBinding_TestAPI_AttributedStrings_getChinese();
+                void* FJInternalBinding_TestAPI_AttributedStrings_getChineseBMP();
+                void* FJInternalBinding_TestAPI_AttributedStrings_getChineseSIP();
+                void* FJInternalBinding_TestAPI_AttributedStrings_getEmoji();
+                void* FJInternalBinding_TestAPI_AttributedStrings_getEmojiMulti();
+                void* FJInternalBinding_TestAPI_AttributedStrings_getPolyglot();
                 void* FJInternalBinding_TestAPI_Bytes_echoBytes(void*);
                 void* FJInternalBinding_TestAPI_Bytes_echoData(void*);
                 void* FJInternalBinding_TestAPI_Bytes_getBytes();
@@ -249,11 +259,16 @@ namespace TestAPI {
                 void* FJInternalBinding_TestAPI_Tuples_getTuple4();
                 void* FJInternalBinding_TestAPI_Tuples_getTuple5();
                 void* FJInternalBinding_TestAPI_Tuples_getTuple6();
+                void* FJInternalBinding_TestAPI_URLs_echo(void*);
+                void* FJInternalBinding_TestAPI_URLs_getSimple();
+                void* FJInternalBinding_TestAPI_URLs_getRemoteFile();
+                void* FJInternalBinding_TestAPI_URLs_getLocalFile();
             }
         }
     }
     
     class AssociatedDataEnum;
+    class AttributedStrings;
     class Bytes;
     class ClosedRanges;
     class Collections;
@@ -267,4 +282,5 @@ namespace TestAPI {
     class Strings;
     class Structs;
     class Tuples;
+    class URLs;
 }

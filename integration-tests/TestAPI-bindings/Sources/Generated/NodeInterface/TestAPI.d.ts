@@ -91,6 +91,61 @@ export declare namespace TestAPI {
         ): TestAPI.AssociatedDataEnum;
     }
 
+    export type AttributedStrings = never;
+    export namespace AttributedStrings {
+        /**
+         * <!-- FishyJoes.export(accent) -->
+         */
+        const accent: AttributedString;
+
+        /**
+         * <!-- FishyJoes.export(chinese) -->
+         */
+        const chinese: AttributedString;
+
+        /**
+         * <!-- FishyJoes.export(chineseBMP) -->
+         */
+        const chineseBMP: AttributedString;
+
+        /**
+         * <!-- FishyJoes.export(chineseSIP) -->
+         */
+        const chineseSIP: AttributedString;
+
+        /**
+         * <!-- FishyJoes.export(echo) -->
+         */
+        function echo(
+            string: AttributedString
+        ): AttributedString;
+
+        /**
+         * <!-- FishyJoes.export(emoji) -->
+         */
+        const emoji: AttributedString;
+
+        /**
+         * <!-- FishyJoes.export(emojiMulti) -->
+         */
+        const emojiMulti: AttributedString;
+
+        /**
+         * <!-- FishyJoes.export(polyglot) -->
+         */
+        const polyglot: AttributedString;
+
+        /**
+         * <!-- FishyJoes.export(script) -->
+         */
+        const script: AttributedString;
+
+        /**
+         * <!-- FishyJoes.export(simple) -->
+         */
+        const simple: AttributedString;
+    }
+
     export type Bytes = never;
     export namespace Bytes {
         /**
@@ -1446,6 +1501,31 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(tuple6) -->
          */
         const tuple6: [string, number, number, [[number, string], [string, number, string], string, boolean], [string, number, [[number, string], [string, number, string], string, boolean], [string, number, string], [number, string]], boolean];
+    }
+
+    export type URLs = never;
+    export namespace URLs {
+        /**
+         * <!-- FishyJoes.export(echo) -->
+         */
+        function echo(
+            url: URL
+        ): URL;
+
+        /**
+         * <!-- FishyJoes.export(localFile) -->
+         */
+        const localFile: URL;
+
+        /**
+         * <!-- FishyJoes.export(remoteFile) -->
+         */
+        const remoteFile: URL;
+
+        /**
+         * <!-- FishyJoes.export(simple) -->
+         */
+        const simple: URL;
     }
 }
 export declare function init(): Promise<{

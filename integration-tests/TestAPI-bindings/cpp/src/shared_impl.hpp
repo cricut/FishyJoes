@@ -359,6 +359,14 @@ namespace TestAPI {
                 get_t<decltype(TestAPI::AssociatedDataEnum::thing::value)>()
             };
         }
+        inline void put(const TestAPI::AttributedStrings& obj) {
+            put(obj._variant);
+        }
+        inline TestAPI::AttributedStrings get(std::in_place_type_t<TestAPI::AttributedStrings> obj = std::in_place_type_t<TestAPI::AttributedStrings>{}) {
+            return TestAPI::AttributedStrings {
+                get_t<decltype(TestAPI::AttributedStrings::_variant)>()
+            };
+        }
         inline void put(const TestAPI::Bytes& obj) {
             put(obj._variant);
         }
@@ -556,6 +564,14 @@ namespace TestAPI {
         inline TestAPI::Tuples get(std::in_place_type_t<TestAPI::Tuples> obj = std::in_place_type_t<TestAPI::Tuples>{}) {
             return TestAPI::Tuples {
                 get_t<decltype(TestAPI::Tuples::_variant)>()
+            };
+        }
+        inline void put(const TestAPI::URLs& obj) {
+            put(obj._variant);
+        }
+        inline TestAPI::URLs get(std::in_place_type_t<TestAPI::URLs> obj = std::in_place_type_t<TestAPI::URLs>{}) {
+            return TestAPI::URLs {
+                get_t<decltype(TestAPI::URLs::_variant)>()
             };
         }
     };

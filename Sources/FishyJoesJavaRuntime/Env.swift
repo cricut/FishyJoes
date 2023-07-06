@@ -42,7 +42,7 @@ public struct Env {
         // change to true to debug UnsatisfiedLinkErrors
         #if false
         for method in methods {
-            print("registering \(String(cString: method.name, encoding: .utf8)!)")
+            print("registering to class at \(String(describing: clazz)): \(String(cString: method.name, encoding: .utf8)!)")
             try javaOk(RegisterNatives(clazz, methods: [method]))
         }
         #else

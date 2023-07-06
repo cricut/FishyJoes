@@ -43,6 +43,12 @@ template <> struct std::hash<TestAPI::AssociatedDataEnum::thing> {
 namespace TestAPI {
     inline bool operator==(const AssociatedDataEnum::thing& lhs, const AssociatedDataEnum::thing& rhs);
 }
+template <> struct std::hash<TestAPI::AttributedStrings> {
+    size_t operator()(const TestAPI::AttributedStrings &obj) const;
+};
+namespace TestAPI {
+    inline bool operator==(const AttributedStrings& lhs, const AttributedStrings& rhs);
+}
 template <> struct std::hash<TestAPI::Bytes> {
     size_t operator()(const TestAPI::Bytes &obj) const;
 };
@@ -157,6 +163,12 @@ template <> struct std::hash<TestAPI::Tuples> {
 namespace TestAPI {
     inline bool operator==(const Tuples& lhs, const Tuples& rhs);
 }
+template <> struct std::hash<TestAPI::URLs> {
+    size_t operator()(const TestAPI::URLs &obj) const;
+};
+namespace TestAPI {
+    inline bool operator==(const URLs& lhs, const URLs& rhs);
+}
 size_t std::hash<TestAPI::AssociatedDataEnum>::operator()(const TestAPI::AssociatedDataEnum &obj) const {
     size_t ret = 0;
     TestAPI::FishyJoesInternal::hashCombine(ret, obj._variant);
@@ -186,6 +198,11 @@ size_t std::hash<TestAPI::AssociatedDataEnum::simpleEnum>::operator()(const Test
 size_t std::hash<TestAPI::AssociatedDataEnum::thing>::operator()(const TestAPI::AssociatedDataEnum::thing &obj) const {
     size_t ret = 0;
     TestAPI::FishyJoesInternal::hashCombine(ret, obj.value);
+    return ret;
+}
+size_t std::hash<TestAPI::AttributedStrings>::operator()(const TestAPI::AttributedStrings &obj) const {
+    size_t ret = 0;
+    TestAPI::FishyJoesInternal::hashCombine(ret, obj._variant);
     return ret;
 }
 size_t std::hash<TestAPI::Bytes>::operator()(const TestAPI::Bytes &obj) const {
@@ -306,6 +323,11 @@ size_t std::hash<TestAPI::Tuples>::operator()(const TestAPI::Tuples &obj) const 
     TestAPI::FishyJoesInternal::hashCombine(ret, obj._variant);
     return ret;
 }
+size_t std::hash<TestAPI::URLs>::operator()(const TestAPI::URLs &obj) const {
+    size_t ret = 0;
+    TestAPI::FishyJoesInternal::hashCombine(ret, obj._variant);
+    return ret;
+}
 namespace TestAPI {
     inline bool operator==(const AssociatedDataEnum& lhs, const AssociatedDataEnum& rhs) {
         return std::equal_to<std::decay_t<decltype(lhs)>>()(lhs, rhs);
@@ -333,6 +355,11 @@ namespace TestAPI {
 }
 namespace TestAPI {
     inline bool operator==(const AssociatedDataEnum::thing& lhs, const AssociatedDataEnum::thing& rhs) {
+        return std::equal_to<std::decay_t<decltype(lhs)>>()(lhs, rhs);
+    }
+}
+namespace TestAPI {
+    inline bool operator==(const AttributedStrings& lhs, const AttributedStrings& rhs) {
         return std::equal_to<std::decay_t<decltype(lhs)>>()(lhs, rhs);
     }
 }
@@ -428,6 +455,11 @@ namespace TestAPI {
 }
 namespace TestAPI {
     inline bool operator==(const Tuples& lhs, const Tuples& rhs) {
+        return std::equal_to<std::decay_t<decltype(lhs)>>()(lhs, rhs);
+    }
+}
+namespace TestAPI {
+    inline bool operator==(const URLs& lhs, const URLs& rhs) {
         return std::equal_to<std::decay_t<decltype(lhs)>>()(lhs, rhs);
     }
 }

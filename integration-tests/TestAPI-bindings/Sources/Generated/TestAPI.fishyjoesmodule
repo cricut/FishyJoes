@@ -49,6 +49,51 @@
       "converterType" : {
         "named" : {
           "_0" : {
+            "name" : "AttributedStrings",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cppName" : "AttributedStrings",
+      "cSharpType" : {
+        "named" : {
+          "name" : "AttributedStrings",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : false,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/AttributedStrings"
+        }
+      },
+      "kotlinName" : "AttributedStrings",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=AttributedStrings>>",
+      "nodeName" : "TestAPI.AttributedStrings",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "name" : "AttributedStrings",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
             "name" : "Bytes",
             "namespace" : [
 
@@ -854,6 +899,51 @@
           }
         }
       }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "name" : "URLs",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cppName" : "URLs",
+      "cSharpType" : {
+        "named" : {
+          "name" : "URLs",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : false,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/URLs"
+        }
+      },
+      "kotlinName" : "URLs",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=URLs>>",
+      "nodeName" : "TestAPI.URLs",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "name" : "URLs",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
     }
   ],
   "typeScriptAnnotations" : {
@@ -1168,6 +1258,164 @@
 
             ],
             "name" : "AssociatedDataEnum",
+            "namespaces" : {
+
+            },
+            "typealiases" : [
+
+            ]
+          },
+          "AttributedStrings" : {
+            "classes" : [
+
+            ],
+            "fields" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(simple) -->"
+                ],
+                "isStatic" : true,
+                "name" : "simple",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "AttributedString"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(accent) -->"
+                ],
+                "isStatic" : true,
+                "name" : "accent",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "AttributedString"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(script) -->"
+                ],
+                "isStatic" : true,
+                "name" : "script",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "AttributedString"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(chinese) -->"
+                ],
+                "isStatic" : true,
+                "name" : "chinese",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "AttributedString"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(chineseBMP) -->"
+                ],
+                "isStatic" : true,
+                "name" : "chineseBMP",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "AttributedString"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(chineseSIP) -->"
+                ],
+                "isStatic" : true,
+                "name" : "chineseSIP",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "AttributedString"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(emoji) -->"
+                ],
+                "isStatic" : true,
+                "name" : "emoji",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "AttributedString"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(emojiMulti) -->"
+                ],
+                "isStatic" : true,
+                "name" : "emojiMulti",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "AttributedString"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(polyglot) -->"
+                ],
+                "isStatic" : true,
+                "name" : "polyglot",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "AttributedString"
+                  }
+                }
+              }
+            ],
+            "interfaces" : [
+
+            ],
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(echo) -->"
+                ],
+                "isStatic" : true,
+                "name" : "echo",
+                "parameters" : [
+                  {
+                    "name" : "string",
+                    "type" : {
+                      "named" : {
+                        "_0" : "AttributedString"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "AttributedString"
+                  }
+                }
+              }
+            ],
+            "name" : "AttributedStrings",
             "namespaces" : {
 
             },
@@ -5957,6 +6205,86 @@
             "typealiases" : [
 
             ]
+          },
+          "URLs" : {
+            "classes" : [
+
+            ],
+            "fields" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(simple) -->"
+                ],
+                "isStatic" : true,
+                "name" : "simple",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "URL"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(remoteFile) -->"
+                ],
+                "isStatic" : true,
+                "name" : "remoteFile",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "URL"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(localFile) -->"
+                ],
+                "isStatic" : true,
+                "name" : "localFile",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "URL"
+                  }
+                }
+              }
+            ],
+            "interfaces" : [
+
+            ],
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(echo) -->"
+                ],
+                "isStatic" : true,
+                "name" : "echo",
+                "parameters" : [
+                  {
+                    "name" : "url",
+                    "type" : {
+                      "named" : {
+                        "_0" : "URL"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "URL"
+                  }
+                }
+              }
+            ],
+            "name" : "URLs",
+            "namespaces" : {
+
+            },
+            "typealiases" : [
+
+            ]
           }
         },
         "typealiases" : [
@@ -5993,6 +6321,19 @@
                       "_0" : "AssociatedDataEnum.SimpleEnum"
                     }
                   }
+                ]
+              }
+            }
+          },
+          {
+            "documentation" : [
+              "<!-- FishyJoes.export(AttributedStrings) -->"
+            ],
+            "name" : "AttributedStrings",
+            "value" : {
+              "union" : {
+                "_0" : [
+
                 ]
               }
             }
@@ -6172,6 +6513,19 @@
               "<!-- FishyJoes.export(Tuples) -->"
             ],
             "name" : "Tuples",
+            "value" : {
+              "union" : {
+                "_0" : [
+
+                ]
+              }
+            }
+          },
+          {
+            "documentation" : [
+              "<!-- FishyJoes.export(URLs) -->"
+            ],
+            "name" : "URLs",
             "value" : {
               "union" : {
                 "_0" : [

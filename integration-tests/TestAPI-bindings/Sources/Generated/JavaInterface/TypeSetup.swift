@@ -210,6 +210,62 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_get_AssociatedDataEnum_intValue, to: UnsafeMutableRawPointer.self)
             )
         )
+        // print("setting up Foundation.AttributedString...")
+        try Foundation.AttributedString.javaSetup(env: env)
+        // print("setting up AttributedStrings...")
+        try AttributedStrings.javaSetup(env: env)
+        try env.RegisterNatives(AttributedStrings.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_echo"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/AttributedString;)Lcom/cricut/fishyjoes/runtime/AttributedString;"),
+                fnPtr: unsafeBitCast(java_AttributedStrings_echo, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_simple"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/AttributedString;"),
+                fnPtr: unsafeBitCast(java_get_AttributedStrings_simple, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_accent"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/AttributedString;"),
+                fnPtr: unsafeBitCast(java_get_AttributedStrings_accent, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_script"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/AttributedString;"),
+                fnPtr: unsafeBitCast(java_get_AttributedStrings_script, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_chinese"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/AttributedString;"),
+                fnPtr: unsafeBitCast(java_get_AttributedStrings_chinese, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_chineseBMP"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/AttributedString;"),
+                fnPtr: unsafeBitCast(java_get_AttributedStrings_chineseBMP, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_chineseSIP"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/AttributedString;"),
+                fnPtr: unsafeBitCast(java_get_AttributedStrings_chineseSIP, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_emoji"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/AttributedString;"),
+                fnPtr: unsafeBitCast(java_get_AttributedStrings_emoji, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_emojiMulti"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/AttributedString;"),
+                fnPtr: unsafeBitCast(java_get_AttributedStrings_emojiMulti, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_polyglot"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/AttributedString;"),
+                fnPtr: unsafeBitCast(java_get_AttributedStrings_polyglot, to: UnsafeMutableRawPointer.self)
+            )
+        )
         // print("setting up Bool...")
         try Bool.javaSetup(env: env)
         // print("setting up Bytes...")
@@ -1378,6 +1434,32 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try UInt64.javaSetup(env: env)
         // print("setting up UInt8...")
         try UInt8.javaSetup(env: env)
+        // print("setting up Foundation.URL...")
+        try Foundation.URL.javaSetup(env: env)
+        // print("setting up URLs...")
+        try URLs.javaSetup(env: env)
+        try env.RegisterNatives(URLs.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_echo"),
+                signature: bag.add("(Ljava/net/URL;)Ljava/net/URL;"),
+                fnPtr: unsafeBitCast(java_URLs_echo, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_simple"),
+                signature: bag.add("()Ljava/net/URL;"),
+                fnPtr: unsafeBitCast(java_get_URLs_simple, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_remoteFile"),
+                signature: bag.add("()Ljava/net/URL;"),
+                fnPtr: unsafeBitCast(java_get_URLs_remoteFile, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_localFile"),
+                signature: bag.add("()Ljava/net/URL;"),
+                fnPtr: unsafeBitCast(java_get_URLs_localFile, to: UnsafeMutableRawPointer.self)
+            )
+        )
         // print("setting up Tuple2Converter<Int, Swift.String>...")
         try Tuple2Converter<Int, Swift.String>.javaSetup(env: env)
         // print("setting up Tuple4Converter<Int8, Int16, Int32, Int64>...")

@@ -75,6 +75,11 @@ namespace Cricut.TestAPI {
         );
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_AttributedStrings_setup(
+            out CreatedRef _exn
+        );
+
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_Bytes_setup(
             out CreatedRef _exn
         );
@@ -388,6 +393,11 @@ namespace Cricut.TestAPI {
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_Tuples_setup(
+            out CreatedRef _exn
+        );
+
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_URLs_setup(
             out CreatedRef _exn
         );
 
@@ -840,6 +850,12 @@ namespace Cricut.TestAPI {
                             }
                         }
                     ),
+                    out exn
+                ));
+            });
+            Once("setup_AttributedStrings", () => {
+                Console.WriteLine("setting up AttributedStrings...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_AttributedStrings_setup(
                     out exn
                 ));
             });
@@ -1632,6 +1648,12 @@ namespace Cricut.TestAPI {
             Once("setup_Tuples", () => {
                 Console.WriteLine("setting up Tuples...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_Tuples_setup(
+                    out exn
+                ));
+            });
+            Once("setup_URLs", () => {
+                Console.WriteLine("setting up URLs...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_URLs_setup(
                     out exn
                 ));
             });

@@ -1,5 +1,6 @@
 #include "TestAPI_pre.hpp"
 #include "AssociatedDataEnum.hpp"
+#include "AttributedStrings.hpp"
 #include "Bytes.hpp"
 #include "ClosedRanges.hpp"
 #include "Collections.hpp"
@@ -13,4 +14,5 @@
 #include "Strings.hpp"
 #include "Structs.hpp"
 #include "Tuples.hpp"
+#include "URLs.hpp"
 #include "TestAPI_eq.hpp"

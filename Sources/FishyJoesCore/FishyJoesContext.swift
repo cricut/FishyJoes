@@ -338,8 +338,34 @@ public class FishyJoesContext {
                     return recur(typeOverride)
                 } else if name.name == "String" {
                     return TranslatedString()
+                } else if name.name == "AttributedString" {
+                    return TranslatedAttributedString()
+                } else if name.name == "AttributedSubstring" {
+                    return TranslatedAttributedSubstring()
+                } else if name.name == "AttributeContainer" {
+                    return TranslatedAttributeContainer()
+                } else if name.name == "AttributeContainer.FoundationAttributes" {
+                    return TranslatedAttributeContainerFoundationAttributes()
+                } else if name.name == "AttributeScope" {
+                    return TranslatedAttributeScope()
+                } else if name.name == "AttributedString.AttributeMergePolicy" {
+                    return TranslatedAttributedStringAttributeMergePolicy()
+                } else if name.name == "AttributedString.Index" {
+                    return TranslatedAttributedStringIndex()
+                } else if name.name == "AttributedString.UnicodeScalarView" {
+                    return TranslatedAttributedStringUnicodeScalarView()
+                } else if name.name == "AttributedString.CharacterView" {
+                    return TranslatedAttributedStringCharacterView()
+                } else if name.name == "AttributedString.Runs" {
+                    return TranslatedAttributedStringRuns()
+                } else if name.name == "AttributedString.Runs.Index" {
+                    return TranslatedAttributedStringRunsIndex()
+                } else if name.name == "AttributedString.Runs.Run" {
+                    return TranslatedAttributedStringRunsRun()
                 } else if name.name == "Data" {
                     return TranslatedData()
+                } else if name.name == "URL" {
+                    return TranslatedURL()
                 } else if name.name == "Index", name.namespace.last?.hasPrefix("Array<") == true {
                     // It's a hack.
                     return TranslatedPrimitive(swift: "Int", typeNames: primitiveTypeMap["Int"]!)

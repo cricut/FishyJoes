@@ -1,4 +1,4 @@
-// swift-tools-version:5.3
+// swift-tools-version:5.5
 
 import PackageDescription
 import Foundation
@@ -26,7 +26,7 @@ func wasmIncompatible<T>(_ things: @autoclosure () -> [T]) -> [T] {
 
 let package = Package(
     name: "FishyJoes",
-    platforms: [.macOS(.v11)],
+    platforms: [.macOS(.v12), .iOS(.v15)],
     products: [
         P.library(
             name: "FishyJoesNodeRuntime",

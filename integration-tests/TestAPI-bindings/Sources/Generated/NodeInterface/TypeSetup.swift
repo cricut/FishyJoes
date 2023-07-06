@@ -25,6 +25,8 @@ public func registerModuleTestAPI(env: NAPI.Env, exports: NAPI.Value) throws -> 
     try env.setNamedProperty(exports, "default", module)
 
     try AssociatedDataEnum.nodeSetup(env: env, module: module)
+    try AttributedString.nodeSetup(env: env, module: module)
+    try AttributedStrings.nodeSetup(env: env, module: module)
     try Bool.nodeSetup(env: env, module: module)
     try Bytes.nodeSetup(env: env, module: module)
     try ClosedRanges.nodeSetup(env: env, module: module)
@@ -58,5 +60,7 @@ public func registerModuleTestAPI(env: NAPI.Env, exports: NAPI.Value) throws -> 
     try UInt32.nodeSetup(env: env, module: module)
     try UInt64.nodeSetup(env: env, module: module)
     try UInt8.nodeSetup(env: env, module: module)
+    try URL.nodeSetup(env: env, module: module)
+    try URLs.nodeSetup(env: env, module: module)
     return exports
 }

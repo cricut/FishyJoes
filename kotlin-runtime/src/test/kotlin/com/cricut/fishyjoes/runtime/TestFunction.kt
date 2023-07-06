@@ -36,10 +36,14 @@ internal class TestFunction {
     private external fun makeReference(): TestReference
 
     companion object {
+        @JvmStatic
+        external fun setup()
+
         @BeforeAll
         @JvmStatic
         fun loadLib() {
             System.loadLibrary("JavaRuntimeTestHarness")
+            setup()
         }
     }
 }
