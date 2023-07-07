@@ -16,6 +16,9 @@ namespace TestAPI {
     uint64_t Primitives::echoUInt64(const uint64_t &value) {
         return FishyJoesInternal::Packer::unpack<uint64_t>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Primitives_echoUInt64(FishyJoesInternal::Packer::pack(value).ptr()));
     }
+    uint64_t Primitives::echoUInt(const uint64_t &value) {
+        return FishyJoesInternal::Packer::unpack<uint64_t>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Primitives_echoUInt(FishyJoesInternal::Packer::pack(value).ptr()));
+    }
     int8_t Primitives::echoInt8(const int8_t &value) {
         return FishyJoesInternal::Packer::unpack<int8_t>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Primitives_echoInt8(FishyJoesInternal::Packer::pack(value).ptr()));
     }
@@ -27,6 +30,9 @@ namespace TestAPI {
     }
     int64_t Primitives::echoInt64(const int64_t &value) {
         return FishyJoesInternal::Packer::unpack<int64_t>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Primitives_echoInt64(FishyJoesInternal::Packer::pack(value).ptr()));
+    }
+    int Primitives::echoInt(const int &value) {
+        return FishyJoesInternal::Packer::unpack<int>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Primitives_echoInt(FishyJoesInternal::Packer::pack(value).ptr()));
     }
     float Primitives::echoFloat(const float &value) {
         return FishyJoesInternal::Packer::unpack<float>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Primitives_echoFloat(FishyJoesInternal::Packer::pack(value).ptr()));
@@ -49,6 +55,9 @@ namespace TestAPI {
     std::optional<uint64_t> Primitives::maybeEchoUInt64(const std::optional<uint64_t> &value) {
         return FishyJoesInternal::Packer::unpack<std::optional<uint64_t>>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Primitives_maybeEchoUInt64(FishyJoesInternal::Packer::pack(value).ptr()));
     }
+    std::optional<uint64_t> Primitives::maybeEchoUInt(const std::optional<uint64_t> &value) {
+        return FishyJoesInternal::Packer::unpack<std::optional<uint64_t>>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Primitives_maybeEchoUInt(FishyJoesInternal::Packer::pack(value).ptr()));
+    }
     std::optional<int8_t> Primitives::maybeEchoInt8(const std::optional<int8_t> &value) {
         return FishyJoesInternal::Packer::unpack<std::optional<int8_t>>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Primitives_maybeEchoInt8(FishyJoesInternal::Packer::pack(value).ptr()));
     }
@@ -60,6 +69,9 @@ namespace TestAPI {
     }
     std::optional<int64_t> Primitives::maybeEchoInt64(const std::optional<int64_t> &value) {
         return FishyJoesInternal::Packer::unpack<std::optional<int64_t>>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Primitives_maybeEchoInt64(FishyJoesInternal::Packer::pack(value).ptr()));
+    }
+    std::optional<int> Primitives::maybeEchoInt(const std::optional<int> &value) {
+        return FishyJoesInternal::Packer::unpack<std::optional<int>>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Primitives_maybeEchoInt(FishyJoesInternal::Packer::pack(value).ptr()));
     }
     std::optional<float> Primitives::maybeEchoFloat(const std::optional<float> &value) {
         return FishyJoesInternal::Packer::unpack<std::optional<float>>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Primitives_maybeEchoFloat(FishyJoesInternal::Packer::pack(value).ptr()));
@@ -111,6 +123,15 @@ namespace TestAPI {
     }
     uint64_t Primitives::getMaxUInt64() {
         return FishyJoesInternal::Packer::unpack<uint64_t>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Primitives_getMaxUInt64());
+    }
+    uint64_t Primitives::getZeroUInt() {
+        return FishyJoesInternal::Packer::unpack<uint64_t>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Primitives_getZeroUInt());
+    }
+    uint64_t Primitives::getMinUInt() {
+        return FishyJoesInternal::Packer::unpack<uint64_t>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Primitives_getMinUInt());
+    }
+    uint64_t Primitives::getMaxUInt() {
+        return FishyJoesInternal::Packer::unpack<uint64_t>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Primitives_getMaxUInt());
     }
     int8_t Primitives::getZeroInt8() {
         return FishyJoesInternal::Packer::unpack<int8_t>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Primitives_getZeroInt8());
@@ -175,6 +196,12 @@ namespace TestAPI {
     double Primitives::getMaxDouble() {
         return FishyJoesInternal::Packer::unpack<double>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Primitives_getMaxDouble());
     }
+    int Primitives::getBitCountUInt() {
+        return FishyJoesInternal::Packer::unpack<int>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Primitives_getBitCountUInt());
+    }
+    int Primitives::getBitCountInt() {
+        return FishyJoesInternal::Packer::unpack<int>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Primitives_getBitCountInt());
+    }
     std::vector<bool> Primitives::getManyBool() {
         return FishyJoesInternal::Packer::unpack<std::vector<bool>>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Primitives_getManyBool());
     }
@@ -190,6 +217,9 @@ namespace TestAPI {
     std::vector<uint64_t> Primitives::getManyUInt64() {
         return FishyJoesInternal::Packer::unpack<std::vector<uint64_t>>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Primitives_getManyUInt64());
     }
+    std::vector<uint64_t> Primitives::getManyUInt() {
+        return FishyJoesInternal::Packer::unpack<std::vector<uint64_t>>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Primitives_getManyUInt());
+    }
     std::vector<int8_t> Primitives::getManyInt8() {
         return FishyJoesInternal::Packer::unpack<std::vector<int8_t>>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Primitives_getManyInt8());
     }
@@ -201,6 +231,9 @@ namespace TestAPI {
     }
     std::vector<int64_t> Primitives::getManyInt64() {
         return FishyJoesInternal::Packer::unpack<std::vector<int64_t>>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Primitives_getManyInt64());
+    }
+    std::vector<int> Primitives::getManyInt() {
+        return FishyJoesInternal::Packer::unpack<std::vector<int>>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Primitives_getManyInt());
     }
     std::vector<float> Primitives::getManyFloat() {
         return FishyJoesInternal::Packer::unpack<std::vector<float>>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Primitives_getManyFloat());
@@ -223,6 +256,9 @@ namespace TestAPI {
     std::vector<std::optional<uint64_t>> Primitives::getManyMaybeUInt64() {
         return FishyJoesInternal::Packer::unpack<std::vector<std::optional<uint64_t>>>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Primitives_getManyMaybeUInt64());
     }
+    std::vector<std::optional<uint64_t>> Primitives::getManyMaybeUInt() {
+        return FishyJoesInternal::Packer::unpack<std::vector<std::optional<uint64_t>>>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Primitives_getManyMaybeUInt());
+    }
     std::vector<std::optional<int8_t>> Primitives::getManyMaybeInt8() {
         return FishyJoesInternal::Packer::unpack<std::vector<std::optional<int8_t>>>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Primitives_getManyMaybeInt8());
     }
@@ -234,6 +270,9 @@ namespace TestAPI {
     }
     std::vector<std::optional<int64_t>> Primitives::getManyMaybeInt64() {
         return FishyJoesInternal::Packer::unpack<std::vector<std::optional<int64_t>>>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Primitives_getManyMaybeInt64());
+    }
+    std::vector<std::optional<int>> Primitives::getManyMaybeInt() {
+        return FishyJoesInternal::Packer::unpack<std::vector<std::optional<int>>>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Primitives_getManyMaybeInt());
     }
     std::vector<std::optional<float>> Primitives::getManyMaybeFloat() {
         return FishyJoesInternal::Packer::unpack<std::vector<std::optional<float>>>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Primitives_getManyMaybeFloat());

@@ -69,6 +69,8 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try ArrayConverter<OptionalConverter<Int64>>.javaSetup(env: env)
         // print("setting up ArrayConverter<OptionalConverter<Int8>>...")
         try ArrayConverter<OptionalConverter<Int8>>.javaSetup(env: env)
+        // print("setting up ArrayConverter<OptionalConverter<UInt>>...")
+        try ArrayConverter<OptionalConverter<UInt>>.javaSetup(env: env)
         // print("setting up ArrayConverter<OptionalConverter<UInt16>>...")
         try ArrayConverter<OptionalConverter<UInt16>>.javaSetup(env: env)
         // print("setting up ArrayConverter<OptionalConverter<UInt32>>...")
@@ -95,6 +97,8 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try ArrayConverter<Int8>.javaSetup(env: env)
         // print("setting up ArrayConverter<Swift.String>...")
         try ArrayConverter<Swift.String>.javaSetup(env: env)
+        // print("setting up ArrayConverter<UInt>...")
+        try ArrayConverter<UInt>.javaSetup(env: env)
         // print("setting up ArrayConverter<UInt16>...")
         try ArrayConverter<UInt16>.javaSetup(env: env)
         // print("setting up ArrayConverter<UInt32>...")
@@ -105,6 +109,32 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try ArrayConverter<UInt8>.javaSetup(env: env)
         // print("setting up ArrayConverter<Tuple4Converter<Int8, Int16, Int32, Int64>>...")
         try ArrayConverter<Tuple4Converter<Int8, Int16, Int32, Int64>>.javaSetup(env: env)
+        // print("setting up ClosedRangeConverter<Double>...")
+        try ClosedRangeConverter<Double>.javaSetup(env: env)
+        // print("setting up ClosedRangeConverter<Float>...")
+        try ClosedRangeConverter<Float>.javaSetup(env: env)
+        // print("setting up ClosedRangeConverter<Int>...")
+        try ClosedRangeConverter<Int>.javaSetup(env: env)
+        // print("setting up ClosedRangeConverter<Int16>...")
+        try ClosedRangeConverter<Int16>.javaSetup(env: env)
+        // print("setting up ClosedRangeConverter<Int32>...")
+        try ClosedRangeConverter<Int32>.javaSetup(env: env)
+        // print("setting up ClosedRangeConverter<Int64>...")
+        try ClosedRangeConverter<Int64>.javaSetup(env: env)
+        // print("setting up ClosedRangeConverter<Int8>...")
+        try ClosedRangeConverter<Int8>.javaSetup(env: env)
+        // print("setting up ClosedRangeConverter<Swift.String>...")
+        try ClosedRangeConverter<Swift.String>.javaSetup(env: env)
+        // print("setting up ClosedRangeConverter<UInt>...")
+        try ClosedRangeConverter<UInt>.javaSetup(env: env)
+        // print("setting up ClosedRangeConverter<UInt16>...")
+        try ClosedRangeConverter<UInt16>.javaSetup(env: env)
+        // print("setting up ClosedRangeConverter<UInt32>...")
+        try ClosedRangeConverter<UInt32>.javaSetup(env: env)
+        // print("setting up ClosedRangeConverter<UInt64>...")
+        try ClosedRangeConverter<UInt64>.javaSetup(env: env)
+        // print("setting up ClosedRangeConverter<UInt8>...")
+        try ClosedRangeConverter<UInt8>.javaSetup(env: env)
         // print("setting up DictionaryConverter<Bool, Bool>...")
         try DictionaryConverter<Bool, Bool>.javaSetup(env: env)
         // print("setting up DictionaryConverter<Int, OptionalConverter<Int>>...")
@@ -143,6 +173,8 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try OptionalConverter<Int8>.javaSetup(env: env)
         // print("setting up OptionalConverter<SimpleEnum>...")
         try OptionalConverter<SimpleEnum>.javaSetup(env: env)
+        // print("setting up OptionalConverter<UInt>...")
+        try OptionalConverter<UInt>.javaSetup(env: env)
         // print("setting up OptionalConverter<UInt16>...")
         try OptionalConverter<UInt16>.javaSetup(env: env)
         // print("setting up OptionalConverter<UInt32>...")
@@ -151,6 +183,26 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try OptionalConverter<UInt64>.javaSetup(env: env)
         // print("setting up OptionalConverter<UInt8>...")
         try OptionalConverter<UInt8>.javaSetup(env: env)
+        // print("setting up RangeConverter<Int>...")
+        try RangeConverter<Int>.javaSetup(env: env)
+        // print("setting up RangeConverter<Int16>...")
+        try RangeConverter<Int16>.javaSetup(env: env)
+        // print("setting up RangeConverter<Int32>...")
+        try RangeConverter<Int32>.javaSetup(env: env)
+        // print("setting up RangeConverter<Int64>...")
+        try RangeConverter<Int64>.javaSetup(env: env)
+        // print("setting up RangeConverter<Int8>...")
+        try RangeConverter<Int8>.javaSetup(env: env)
+        // print("setting up RangeConverter<UInt>...")
+        try RangeConverter<UInt>.javaSetup(env: env)
+        // print("setting up RangeConverter<UInt16>...")
+        try RangeConverter<UInt16>.javaSetup(env: env)
+        // print("setting up RangeConverter<UInt32>...")
+        try RangeConverter<UInt32>.javaSetup(env: env)
+        // print("setting up RangeConverter<UInt64>...")
+        try RangeConverter<UInt64>.javaSetup(env: env)
+        // print("setting up RangeConverter<UInt8>...")
+        try RangeConverter<UInt8>.javaSetup(env: env)
         // print("setting up SetConverter<OptionalConverter<Int>>...")
         try SetConverter<OptionalConverter<Int>>.javaSetup(env: env)
         // print("setting up SetConverter<Bool>...")
@@ -202,6 +254,140 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_get_data"),
                 signature: bag.add("()[B"),
                 fnPtr: unsafeBitCast(java_get_Bytes_data, to: UnsafeMutableRawPointer.self)
+            )
+        )
+        // print("setting up ClosedRanges...")
+        try ClosedRanges.javaSetup(env: env)
+        try env.RegisterNatives(ClosedRanges.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_echoUInt8Range"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;)Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;"),
+                fnPtr: unsafeBitCast(java_ClosedRanges_echoUInt8Range, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_echoUInt16Range"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;)Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;"),
+                fnPtr: unsafeBitCast(java_ClosedRanges_echoUInt16Range, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_echoUInt32Range"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;)Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;"),
+                fnPtr: unsafeBitCast(java_ClosedRanges_echoUInt32Range, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_echoUInt64Range"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;)Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;"),
+                fnPtr: unsafeBitCast(java_ClosedRanges_echoUInt64Range, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_echoUIntRange"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;)Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;"),
+                fnPtr: unsafeBitCast(java_ClosedRanges_echoUIntRange, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_echoInt8Range"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;)Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;"),
+                fnPtr: unsafeBitCast(java_ClosedRanges_echoInt8Range, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_echoInt16Range"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;)Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;"),
+                fnPtr: unsafeBitCast(java_ClosedRanges_echoInt16Range, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_echoInt32Range"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;)Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;"),
+                fnPtr: unsafeBitCast(java_ClosedRanges_echoInt32Range, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_echoInt64Range"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;)Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;"),
+                fnPtr: unsafeBitCast(java_ClosedRanges_echoInt64Range, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_echoIntRange"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;)Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;"),
+                fnPtr: unsafeBitCast(java_ClosedRanges_echoIntRange, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_echoFloatRange"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;)Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;"),
+                fnPtr: unsafeBitCast(java_ClosedRanges_echoFloatRange, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_echoDoubleRange"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;)Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;"),
+                fnPtr: unsafeBitCast(java_ClosedRanges_echoDoubleRange, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_echoStringRange"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;)Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;"),
+                fnPtr: unsafeBitCast(java_ClosedRanges_echoStringRange, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_uInt8Range"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;"),
+                fnPtr: unsafeBitCast(java_get_ClosedRanges_uInt8Range, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_uInt16Range"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;"),
+                fnPtr: unsafeBitCast(java_get_ClosedRanges_uInt16Range, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_uInt32Range"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;"),
+                fnPtr: unsafeBitCast(java_get_ClosedRanges_uInt32Range, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_uInt64Range"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;"),
+                fnPtr: unsafeBitCast(java_get_ClosedRanges_uInt64Range, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_uIntRange"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;"),
+                fnPtr: unsafeBitCast(java_get_ClosedRanges_uIntRange, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_int8Range"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;"),
+                fnPtr: unsafeBitCast(java_get_ClosedRanges_int8Range, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_int16Range"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;"),
+                fnPtr: unsafeBitCast(java_get_ClosedRanges_int16Range, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_int32Range"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;"),
+                fnPtr: unsafeBitCast(java_get_ClosedRanges_int32Range, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_int64Range"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;"),
+                fnPtr: unsafeBitCast(java_get_ClosedRanges_int64Range, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_intRange"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;"),
+                fnPtr: unsafeBitCast(java_get_ClosedRanges_intRange, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_floatRange"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;"),
+                fnPtr: unsafeBitCast(java_get_ClosedRanges_floatRange, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_doubleRange"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;"),
+                fnPtr: unsafeBitCast(java_get_ClosedRanges_doubleRange, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_stringRange"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/SwiftClosedRange;"),
+                fnPtr: unsafeBitCast(java_get_ClosedRanges_stringRange, to: UnsafeMutableRawPointer.self)
             )
         )
         // print("setting up Collections.CollectionHolder...")
@@ -590,6 +776,11 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_Primitives_echoUInt64, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
+                name: bag.add("__jni_echoUInt"),
+                signature: bag.add("(J)J"),
+                fnPtr: unsafeBitCast(java_Primitives_echoUInt, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
                 name: bag.add("__jni_echoInt8"),
                 signature: bag.add("(B)B"),
                 fnPtr: unsafeBitCast(java_Primitives_echoInt8, to: UnsafeMutableRawPointer.self)
@@ -608,6 +799,11 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_echoInt64"),
                 signature: bag.add("(J)J"),
                 fnPtr: unsafeBitCast(java_Primitives_echoInt64, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_echoInt"),
+                signature: bag.add("(J)J"),
+                fnPtr: unsafeBitCast(java_Primitives_echoInt, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_echoFloat"),
@@ -645,6 +841,11 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_Primitives_maybeEchoUInt64, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
+                name: bag.add("__jni_maybeEchoUInt"),
+                signature: bag.add("(Lkotlin/ULong;)Lkotlin/ULong;"),
+                fnPtr: unsafeBitCast(java_Primitives_maybeEchoUInt, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
                 name: bag.add("__jni_maybeEchoInt8"),
                 signature: bag.add("(Ljava/lang/Byte;)Ljava/lang/Byte;"),
                 fnPtr: unsafeBitCast(java_Primitives_maybeEchoInt8, to: UnsafeMutableRawPointer.self)
@@ -663,6 +864,11 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_maybeEchoInt64"),
                 signature: bag.add("(Ljava/lang/Long;)Ljava/lang/Long;"),
                 fnPtr: unsafeBitCast(java_Primitives_maybeEchoInt64, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_maybeEchoInt"),
+                signature: bag.add("(Ljava/lang/Long;)Ljava/lang/Long;"),
+                fnPtr: unsafeBitCast(java_Primitives_maybeEchoInt, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_maybeEchoFloat"),
@@ -748,6 +954,21 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_get_maxUInt64"),
                 signature: bag.add("()J"),
                 fnPtr: unsafeBitCast(java_get_Primitives_maxUInt64, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_zeroUInt"),
+                signature: bag.add("()J"),
+                fnPtr: unsafeBitCast(java_get_Primitives_zeroUInt, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_minUInt"),
+                signature: bag.add("()J"),
+                fnPtr: unsafeBitCast(java_get_Primitives_minUInt, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_maxUInt"),
+                signature: bag.add("()J"),
+                fnPtr: unsafeBitCast(java_get_Primitives_maxUInt, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_get_zeroInt8"),
@@ -855,6 +1076,16 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_get_Primitives_maxDouble, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
+                name: bag.add("__jni_get_bitCountUInt"),
+                signature: bag.add("()J"),
+                fnPtr: unsafeBitCast(java_get_Primitives_bitCountUInt, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_bitCountInt"),
+                signature: bag.add("()J"),
+                fnPtr: unsafeBitCast(java_get_Primitives_bitCountInt, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
                 name: bag.add("__jni_get_manyBool"),
                 signature: bag.add("()Ljava/util/List;"),
                 fnPtr: unsafeBitCast(java_get_Primitives_manyBool, to: UnsafeMutableRawPointer.self)
@@ -880,6 +1111,11 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_get_Primitives_manyUInt64, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
+                name: bag.add("__jni_get_manyUInt"),
+                signature: bag.add("()Ljava/util/List;"),
+                fnPtr: unsafeBitCast(java_get_Primitives_manyUInt, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
                 name: bag.add("__jni_get_manyInt8"),
                 signature: bag.add("()Ljava/util/List;"),
                 fnPtr: unsafeBitCast(java_get_Primitives_manyInt8, to: UnsafeMutableRawPointer.self)
@@ -898,6 +1134,11 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_get_manyInt64"),
                 signature: bag.add("()Ljava/util/List;"),
                 fnPtr: unsafeBitCast(java_get_Primitives_manyInt64, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_manyInt"),
+                signature: bag.add("()Ljava/util/List;"),
+                fnPtr: unsafeBitCast(java_get_Primitives_manyInt, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_get_manyFloat"),
@@ -935,6 +1176,11 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_get_Primitives_manyMaybeUInt64, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
+                name: bag.add("__jni_get_manyMaybeUInt"),
+                signature: bag.add("()Ljava/util/List;"),
+                fnPtr: unsafeBitCast(java_get_Primitives_manyMaybeUInt, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
                 name: bag.add("__jni_get_manyMaybeInt8"),
                 signature: bag.add("()Ljava/util/List;"),
                 fnPtr: unsafeBitCast(java_get_Primitives_manyMaybeInt8, to: UnsafeMutableRawPointer.self)
@@ -955,6 +1201,11 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_get_Primitives_manyMaybeInt64, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
+                name: bag.add("__jni_get_manyMaybeInt"),
+                signature: bag.add("()Ljava/util/List;"),
+                fnPtr: unsafeBitCast(java_get_Primitives_manyMaybeInt, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
                 name: bag.add("__jni_get_manyMaybeFloat"),
                 signature: bag.add("()Ljava/util/List;"),
                 fnPtr: unsafeBitCast(java_get_Primitives_manyMaybeFloat, to: UnsafeMutableRawPointer.self)
@@ -968,6 +1219,110 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_get_defaultPrimitiveHolder"),
                 signature: bag.add("()Lcom/cricut/testapi/Primitives$PrimitiveHolder;"),
                 fnPtr: unsafeBitCast(java_get_Primitives_defaultPrimitiveHolder, to: UnsafeMutableRawPointer.self)
+            )
+        )
+        // print("setting up Ranges...")
+        try Ranges.javaSetup(env: env)
+        try env.RegisterNatives(Ranges.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_echoUInt8Range"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftRange;)Lcom/cricut/fishyjoes/runtime/SwiftRange;"),
+                fnPtr: unsafeBitCast(java_Ranges_echoUInt8Range, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_echoUInt16Range"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftRange;)Lcom/cricut/fishyjoes/runtime/SwiftRange;"),
+                fnPtr: unsafeBitCast(java_Ranges_echoUInt16Range, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_echoUInt32Range"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftRange;)Lcom/cricut/fishyjoes/runtime/SwiftRange;"),
+                fnPtr: unsafeBitCast(java_Ranges_echoUInt32Range, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_echoUInt64Range"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftRange;)Lcom/cricut/fishyjoes/runtime/SwiftRange;"),
+                fnPtr: unsafeBitCast(java_Ranges_echoUInt64Range, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_echoUIntRange"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftRange;)Lcom/cricut/fishyjoes/runtime/SwiftRange;"),
+                fnPtr: unsafeBitCast(java_Ranges_echoUIntRange, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_echoInt8Range"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftRange;)Lcom/cricut/fishyjoes/runtime/SwiftRange;"),
+                fnPtr: unsafeBitCast(java_Ranges_echoInt8Range, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_echoInt16Range"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftRange;)Lcom/cricut/fishyjoes/runtime/SwiftRange;"),
+                fnPtr: unsafeBitCast(java_Ranges_echoInt16Range, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_echoInt32Range"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftRange;)Lcom/cricut/fishyjoes/runtime/SwiftRange;"),
+                fnPtr: unsafeBitCast(java_Ranges_echoInt32Range, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_echoInt64Range"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftRange;)Lcom/cricut/fishyjoes/runtime/SwiftRange;"),
+                fnPtr: unsafeBitCast(java_Ranges_echoInt64Range, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_echoIntRange"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftRange;)Lcom/cricut/fishyjoes/runtime/SwiftRange;"),
+                fnPtr: unsafeBitCast(java_Ranges_echoIntRange, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_uInt8Range"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/SwiftRange;"),
+                fnPtr: unsafeBitCast(java_get_Ranges_uInt8Range, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_uInt16Range"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/SwiftRange;"),
+                fnPtr: unsafeBitCast(java_get_Ranges_uInt16Range, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_uInt32Range"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/SwiftRange;"),
+                fnPtr: unsafeBitCast(java_get_Ranges_uInt32Range, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_uInt64Range"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/SwiftRange;"),
+                fnPtr: unsafeBitCast(java_get_Ranges_uInt64Range, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_uIntRange"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/SwiftRange;"),
+                fnPtr: unsafeBitCast(java_get_Ranges_uIntRange, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_int8Range"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/SwiftRange;"),
+                fnPtr: unsafeBitCast(java_get_Ranges_int8Range, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_int16Range"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/SwiftRange;"),
+                fnPtr: unsafeBitCast(java_get_Ranges_int16Range, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_int32Range"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/SwiftRange;"),
+                fnPtr: unsafeBitCast(java_get_Ranges_int32Range, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_int64Range"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/SwiftRange;"),
+                fnPtr: unsafeBitCast(java_get_Ranges_int64Range, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_intRange"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/SwiftRange;"),
+                fnPtr: unsafeBitCast(java_get_Ranges_intRange, to: UnsafeMutableRawPointer.self)
             )
         )
         // print("setting up Structs.ReferenceStruct...")
@@ -1122,6 +1477,8 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_get_Tuples_tuple6, to: UnsafeMutableRawPointer.self)
             )
         )
+        // print("setting up UInt...")
+        try UInt.javaSetup(env: env)
         // print("setting up UInt16...")
         try UInt16.javaSetup(env: env)
         // print("setting up UInt32...")

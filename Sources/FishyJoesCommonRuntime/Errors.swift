@@ -9,3 +9,11 @@ public struct UninhabitedTypeCreationError: CustomStringConvertible, Error {
 
     public var localizedDescription: String { description }
 }
+
+public struct InvalidRangeError: Error {
+    public let message: String
+
+    public init(message: String) {
+        self.message = message
+    }
+}

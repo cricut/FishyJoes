@@ -20,6 +20,8 @@ extension Primitives.PrimitiveHolder: JavaMutator {
     private static var _java_ui32q_id: jfieldID!
     private static var _java_ui64_id: jfieldID!
     private static var _java_ui64q_id: jfieldID!
+    private static var _java_ui_id: jfieldID!
+    private static var _java_uiq_id: jfieldID!
     private static var _java_i8_id: jfieldID!
     private static var _java_i8q_id: jfieldID!
     private static var _java_i16_id: jfieldID!
@@ -28,6 +30,8 @@ extension Primitives.PrimitiveHolder: JavaMutator {
     private static var _java_i32q_id: jfieldID!
     private static var _java_i64_id: jfieldID!
     private static var _java_i64q_id: jfieldID!
+    private static var _java_i_id: jfieldID!
+    private static var _java_iq_id: jfieldID!
     private static var _java_f_id: jfieldID!
     private static var _java_fq_id: jfieldID!
     private static var _java_d_id: jfieldID!
@@ -75,6 +79,14 @@ extension Primitives.PrimitiveHolder: JavaMutator {
                 env.GetObjectField(value, Self._java_ui64q_id),
                 env: env
             ),
+            ui: try UInt.fromJava(
+                env.GetLongField(value, Self._java_ui_id),
+                env: env
+            ),
+            uiq: try OptionalConverter<UInt>.fromJava(
+                env.GetObjectField(value, Self._java_uiq_id),
+                env: env
+            ),
             i8: try Int8.fromJava(
                 env.GetByteField(value, Self._java_i8_id),
                 env: env
@@ -105,6 +117,14 @@ extension Primitives.PrimitiveHolder: JavaMutator {
             ),
             i64q: try OptionalConverter<Int64>.fromJava(
                 env.GetObjectField(value, Self._java_i64q_id),
+                env: env
+            ),
+            i: try Int.fromJava(
+                env.GetLongField(value, Self._java_i_id),
+                env: env
+            ),
+            iq: try OptionalConverter<Int>.fromJava(
+                env.GetObjectField(value, Self._java_iq_id),
                 env: env
             ),
             f: try Float.fromJava(
@@ -139,6 +159,8 @@ extension Primitives.PrimitiveHolder: JavaMutator {
             jvalue(OptionalConverter<UInt32>.toJava(value.ui32q, env: env)),
             jvalue(UInt64.toJava(value.ui64, env: env)),
             jvalue(OptionalConverter<UInt64>.toJava(value.ui64q, env: env)),
+            jvalue(UInt.toJava(value.ui, env: env)),
+            jvalue(OptionalConverter<UInt>.toJava(value.uiq, env: env)),
             jvalue(Int8.toJava(value.i8, env: env)),
             jvalue(OptionalConverter<Int8>.toJava(value.i8q, env: env)),
             jvalue(Int16.toJava(value.i16, env: env)),
@@ -147,6 +169,8 @@ extension Primitives.PrimitiveHolder: JavaMutator {
             jvalue(OptionalConverter<Int32>.toJava(value.i32q, env: env)),
             jvalue(Int64.toJava(value.i64, env: env)),
             jvalue(OptionalConverter<Int64>.toJava(value.i64q, env: env)),
+            jvalue(Int.toJava(value.i, env: env)),
+            jvalue(OptionalConverter<Int>.toJava(value.iq, env: env)),
             jvalue(Float.toJava(value.f, env: env)),
             jvalue(OptionalConverter<Float>.toJava(value.fq, env: env)),
             jvalue(Double.toJava(value.d, env: env)),
@@ -166,6 +190,8 @@ extension Primitives.PrimitiveHolder: JavaMutator {
         _java_ui32q_id = try env.GetFieldID(javaClass, "ui32q", "Lkotlin/UInt;")
         _java_ui64_id = try env.GetFieldID(javaClass, "ui64", "J")
         _java_ui64q_id = try env.GetFieldID(javaClass, "ui64q", "Lkotlin/ULong;")
+        _java_ui_id = try env.GetFieldID(javaClass, "ui", "J")
+        _java_uiq_id = try env.GetFieldID(javaClass, "uiq", "Lkotlin/ULong;")
         _java_i8_id = try env.GetFieldID(javaClass, "i8", "B")
         _java_i8q_id = try env.GetFieldID(javaClass, "i8q", "Ljava/lang/Byte;")
         _java_i16_id = try env.GetFieldID(javaClass, "i16", "S")
@@ -174,11 +200,13 @@ extension Primitives.PrimitiveHolder: JavaMutator {
         _java_i32q_id = try env.GetFieldID(javaClass, "i32q", "Ljava/lang/Integer;")
         _java_i64_id = try env.GetFieldID(javaClass, "i64", "J")
         _java_i64q_id = try env.GetFieldID(javaClass, "i64q", "Ljava/lang/Long;")
+        _java_i_id = try env.GetFieldID(javaClass, "i", "J")
+        _java_iq_id = try env.GetFieldID(javaClass, "iq", "Ljava/lang/Long;")
         _java_f_id = try env.GetFieldID(javaClass, "f", "F")
         _java_fq_id = try env.GetFieldID(javaClass, "fq", "Ljava/lang/Float;")
         _java_d_id = try env.GetFieldID(javaClass, "d", "D")
         _java_dq_id = try env.GetFieldID(javaClass, "dq", "Ljava/lang/Double;")
-        _constructorMethodID = try env.GetMethodID(javaClass, "<init>", "(ZLjava/lang/Boolean;BLkotlin/UByte;SLkotlin/UShort;ILkotlin/UInt;JLkotlin/ULong;BLjava/lang/Byte;SLjava/lang/Short;ILjava/lang/Integer;JLjava/lang/Long;FLjava/lang/Float;DLjava/lang/Double;)V")
+        _constructorMethodID = try env.GetMethodID(javaClass, "<init>", "(ZLjava/lang/Boolean;BLkotlin/UByte;SLkotlin/UShort;ILkotlin/UInt;JLkotlin/ULong;JLkotlin/ULong;BLjava/lang/Byte;SLjava/lang/Short;ILjava/lang/Integer;JLjava/lang/Long;JLjava/lang/Long;FLjava/lang/Float;DLjava/lang/Double;)V")
     }
     public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout Self) throws -> R) throws -> R {
         var mutatingSelf = try fromJava(this, env: env)
@@ -223,6 +251,14 @@ extension Primitives.PrimitiveHolder: JavaMutator {
             this, Self._java_ui64q_id,
             OptionalConverter<UInt64>.toJava(mutatingSelf.ui64q, env: env)
         )
+        try env.SetLongField(
+            this, Self._java_ui_id,
+            UInt.toJava(mutatingSelf.ui, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_uiq_id,
+            OptionalConverter<UInt>.toJava(mutatingSelf.uiq, env: env)
+        )
         try env.SetByteField(
             this, Self._java_i8_id,
             Int8.toJava(mutatingSelf.i8, env: env)
@@ -254,6 +290,14 @@ extension Primitives.PrimitiveHolder: JavaMutator {
         try env.SetObjectField(
             this, Self._java_i64q_id,
             OptionalConverter<Int64>.toJava(mutatingSelf.i64q, env: env)
+        )
+        try env.SetLongField(
+            this, Self._java_i_id,
+            Int.toJava(mutatingSelf.i, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_iq_id,
+            OptionalConverter<Int>.toJava(mutatingSelf.iq, env: env)
         )
         try env.SetFloatField(
             this, Self._java_f_id,
