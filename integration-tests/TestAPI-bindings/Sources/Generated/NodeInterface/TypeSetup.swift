@@ -23,6 +23,7 @@ public func registerModuleTestAPI(env: NAPI.Env, exports: NAPI.Value) throws -> 
     #if os(WASI)
     try JavaScriptEventLoop.installGlobalExecutor(env: env)
     #endif
+    try setupOnMainThreadEntryPoint(env: env)
     let module = try env.createObject()
     try env.setNamedProperty(exports, "TestAPI", module)
     try env.setNamedProperty(exports, "default", module)
@@ -45,6 +46,7 @@ public func registerModuleTestAPI(env: NAPI.Env, exports: NAPI.Value) throws -> 
     try Int64.nodeSetup(env: env, module: module)
     try Int8.nodeSetup(env: env, module: module)
     try Structs.MemberwiseStruct.nodeSetup(env: env, module: module)
+    try Structs.MutableStruct.nodeSetup(env: env, module: module)
     try Primitives.PrimitiveHolder.nodeSetup(env: env, module: module)
     try Primitives.nodeSetup(env: env, module: module)
     try Structs.ReferenceStruct.nodeSetup(env: env, module: module)

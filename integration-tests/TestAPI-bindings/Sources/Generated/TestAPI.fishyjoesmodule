@@ -679,6 +679,51 @@
       "converterType" : {
         "named" : {
           "_0" : {
+            "name" : "MutableStruct",
+            "namespace" : [
+              "Structs"
+            ]
+          }
+        }
+      },
+      "cppName" : "Structs::MutableStruct",
+      "cSharpType" : {
+        "named" : {
+          "name" : "Structs.MutableStruct",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/Structs$MutableStruct"
+        }
+      },
+      "kotlinName" : "Structs.MutableStruct",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Struct<Named=Structs.MutableStruct>>",
+      "nodeName" : "TestAPI.Structs.MutableStruct",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "name" : "MutableStruct",
+            "namespace" : [
+              "Structs"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
             "name" : "ReferenceStruct",
             "namespace" : [
               "Structs"
@@ -2317,17 +2362,17 @@
               },
               {
                 "documentation" : [
-                  "<!-- FishyJoes.export(asyncCallbackFunc) -->"
+                  "<!-- FishyJoes.export(asyncCallbackFunc0) -->"
                 ],
                 "isAsync" : true,
                 "isStatic" : true,
-                "name" : "asyncCallbackFunc",
+                "name" : "asyncCallbackFunc0",
                 "parameters" : [
                   {
                     "name" : "callback",
                     "type" : {
                       "named" : {
-                        "_0" : "() => void"
+                        "_0" : "() => Promise<number>"
                       }
                     }
                   }
@@ -2336,7 +2381,169 @@
                   "promise" : {
                     "_0" : {
                       "named" : {
-                        "_0" : "void"
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(asyncCallbackFunc1) -->"
+                ],
+                "isAsync" : true,
+                "isStatic" : true,
+                "name" : "asyncCallbackFunc1",
+                "parameters" : [
+                  {
+                    "name" : "callback",
+                    "type" : {
+                      "named" : {
+                        "_0" : "(_0: number) => Promise<number>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(asyncCallbackFunc2) -->"
+                ],
+                "isAsync" : true,
+                "isStatic" : true,
+                "name" : "asyncCallbackFunc2",
+                "parameters" : [
+                  {
+                    "name" : "callback",
+                    "type" : {
+                      "named" : {
+                        "_0" : "(_0: number, _1: number) => Promise<number>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(asyncCallbackFunc3) -->"
+                ],
+                "isAsync" : true,
+                "isStatic" : true,
+                "name" : "asyncCallbackFunc3",
+                "parameters" : [
+                  {
+                    "name" : "callback",
+                    "type" : {
+                      "named" : {
+                        "_0" : "(_0: number, _1: number, _2: number) => Promise<number>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(asyncCallbackFunc4) -->"
+                ],
+                "isAsync" : true,
+                "isStatic" : true,
+                "name" : "asyncCallbackFunc4",
+                "parameters" : [
+                  {
+                    "name" : "callback",
+                    "type" : {
+                      "named" : {
+                        "_0" : "(_0: number, _1: number, _2: number, _3: number) => Promise<number>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(asyncCallbackFunc5) -->"
+                ],
+                "isAsync" : true,
+                "isStatic" : true,
+                "name" : "asyncCallbackFunc5",
+                "parameters" : [
+                  {
+                    "name" : "callback",
+                    "type" : {
+                      "named" : {
+                        "_0" : "(_0: number, _1: number, _2: number, _3: number, _4: number) => Promise<number>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(asyncCallbackFunc6) -->"
+                ],
+                "isAsync" : true,
+                "isStatic" : true,
+                "name" : "asyncCallbackFunc6",
+                "parameters" : [
+                  {
+                    "name" : "callback",
+                    "type" : {
+                      "named" : {
+                        "_0" : "(_0: number, _1: number, _2: number, _3: number, _4: number, _5: number) => Promise<number>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "number"
                       }
                     }
                   }
@@ -2355,6 +2562,41 @@
                     "type" : {
                       "named" : {
                         "_0" : "number"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(asyncMultipleArgs) -->"
+                ],
+                "isAsync" : true,
+                "isStatic" : true,
+                "name" : "asyncMultipleArgs",
+                "parameters" : [
+                  {
+                    "name" : "i",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  },
+                  {
+                    "name" : "j",
+                    "type" : {
+                      "named" : {
+                        "_0" : "() => number"
                       }
                     }
                   }
@@ -4700,6 +4942,98 @@
                   }
                 ],
                 "name" : "MemberwiseStruct"
+              },
+              {
+                "constructor" : {
+                  "visible" : {
+                    "names" : [
+                      "i"
+                    ],
+                    "types" : [
+                      {
+                        "named" : {
+                          "_0" : "number"
+                        }
+                      }
+                    ]
+                  }
+                },
+                "documentation" : [
+                  "<!-- FishyJoes.export(Structs.MutableStruct) -->"
+                ],
+                "extends" : [
+
+                ],
+                "fields" : [
+                  {
+                    "documentation" : [
+
+                    ],
+                    "isStatic" : false,
+                    "name" : "i",
+                    "readOnly" : false,
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                ],
+                "methods" : [
+                  {
+                    "documentation" : [
+                      "<!-- FishyJoes.export(create) -->"
+                    ],
+                    "isAsync" : false,
+                    "isStatic" : true,
+                    "name" : "create",
+                    "parameters" : [
+
+                    ],
+                    "returnType" : {
+                      "named" : {
+                        "_0" : "Structs.MutableStruct"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+                      "<!-- FishyJoes.export(increment) -->"
+                    ],
+                    "isAsync" : false,
+                    "isStatic" : false,
+                    "name" : "increment",
+                    "parameters" : [
+
+                    ],
+                    "returnType" : {
+                      "named" : {
+                        "_0" : "void"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+                      "<!-- FishyJoes.export(incrementAsync) -->"
+                    ],
+                    "isAsync" : true,
+                    "isStatic" : false,
+                    "name" : "incrementAsync",
+                    "parameters" : [
+
+                    ],
+                    "returnType" : {
+                      "promise" : {
+                        "_0" : {
+                          "named" : {
+                            "_0" : "void"
+                          }
+                        }
+                      }
+                    }
+                  }
+                ],
+                "name" : "MutableStruct"
               },
               {
                 "constructor" : {

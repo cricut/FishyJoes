@@ -1335,22 +1335,22 @@ export class NAPI {
         delete this.references[refIdx];
         return NAPI_OK;
       },
-      napi_create_threadsafe_function: this.wrap((envPtr, func, asyncResourceIdx, asyncResourceNameIdx, maxQueueSize, initialThreadCount, finalizeData, finalizeCallback, context, callJavascriptCallback, resultPtr) => {
+      napi_create_threadsafe_function: this.wrap((envPtr, funcIdx, asyncResourceIdx, asyncResourceNameIdx, maxQueueSize, initialThreadCount, finalizeData, finalizeCallback, callJavascriptCallbackContext, callJavascriptCallback, resultPtr) => {
           debugger;
-       if (func === null && callJavascriptCallback === null) {
+       if (funcIdx === null && callJavascriptCallback === null) {
          return NAPI_INVALID_ARG;
        }
        const threadsafeFunction = {
-         func,
+         "func": this.load(funcIdx),
          "asyncResource": this.load(asyncResourceIdx),
          "asyncResourceName": this.load(asyncResourceNameIdx),
          "maxQueueSize": maxQueueSize >>> 0,
          "queueSize": 0,
          "threadCount": initialThreadCount >>> 0,
          finalizeData,
-         finalizeCallback,
-         context,
-         callJavascriptCallback,
+         "finalizeCallback": this.indirectFunctionTable.get(finalizeCallback),
+         callJavascriptCallbackContext,
+         "callJavascriptCallback": this.indirectFunctionTable.get(callJavascriptCallback),
          "env": envPtr,
          isCancelled: false
        };
@@ -1359,7 +1359,7 @@ export class NAPI {
       }),
       napi_get_threadsafe_function_context: this.wrap((threadsafeFunctionIdx, resultPtr) => {
        const threadsafeFunction = this.references[threadsafeFunctionIdx].value;
-       this.writeU32(resultPtr, threadsafeFunction.context);
+       this.writeU32(resultPtr, threadsafeFunction.callJavascriptCallbackContext);
         return NAPI_OK;
       }),
       napi_call_threadsafe_function: this.wrap((threadsafeFunctionIdx, data, mode) => {
@@ -1374,7 +1374,7 @@ export class NAPI {
                threadsafeFunction.queueSize += 1;
            } else {
                if (mode === NAPI_THREADSAFE_FUNCTION_CALL_MODE_BLOCKING) {
-                   // TODO: If/when this is ever multithraded, block until this can execute
+                   // TODO: If/when this is ever multithreaded, block until this can execute
                } else if (mode === NAPI_THREADSAFE_FUNCTION_CALL_MODE_NONBLOCKING) {
                    return NAPI_QUEUE_FULL;
                } else {
@@ -1383,26 +1383,23 @@ export class NAPI {
            }
        }
 
-       let result;
-       if (threadsafeFunction.func !== null) {
-         const args = [];
-         args.push(threadsafeFunction.env);
-         // createFunction() uses the same index for both the function and the context
-         const callbackInfo = threadsafeFunction.func;
-         args.push(callbackInfo);
-         const func = this.load(threadsafeFunction.func);
-         result = Reflect.apply(func, undefined, args);
-       }
-
        if (threadsafeFunction.callJavascriptCallback !== null) {
-         const args = [];
-         args.push(threadsafeFunction.env);
-         args.push(null);
-         args.push(threadsafeFunction.context);
-         args.push(typeof result !== 'undefined' ? result : null);
-         const func = this.load(threadsafeFunction.callJavascriptCallback);
-         // TODO: If/when this is ever multithraded, ensure this is called on the main thread
-         Reflect.apply(func, undefined, args);
+           // TODO: If/when this is ever multithraded, ensure this is called on the main thread
+           const env = threadsafeFunction.env
+           const funcIdx = this.store(threadsafeFunction.func);
+           const context = threadsafeFunction.callJavascriptCallbackContext;
+           const callback = threadsafeFunction.callJavascriptCallback
+           callback(env, funcIdx, context, data);
+       } else if (threadsafeFunction.func !== null) {
+             const args = [];
+             args.push(threadsafeFunction.env);
+             // createFunction() uses the same index for both the function and the context
+             const callbackInfo = threadsafeFunction.func;
+             args.push(callbackInfo);
+             const func = this.load(threadsafeFunction.func);
+             result = Reflect.apply(func, undefined, args);
+       } else {
+           return NAPI_INVALID_ARG;
        }
 
        if (threadsafeFunction.maxQueueSize !== 0) {

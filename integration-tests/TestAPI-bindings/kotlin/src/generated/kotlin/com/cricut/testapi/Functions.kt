@@ -212,17 +212,101 @@ sealed class Functions {
         )
 
         /**
-         * <!-- FishyJoes.export(asyncCallbackFunc) -->
+         * <!-- FishyJoes.export(asyncCallbackFunc0) -->
          */
-        fun asyncCallbackFunc(
-            callback: (() -> kotlin.Unit),
-            _asyncCallback: ((kotlin.Unit) -> kotlin.Unit)
-        ) = __jni_asyncCallbackFunc(callback, _asyncCallback)
+        fun asyncCallbackFunc0(
+            callback: (() -> Long),
+            _asyncCallback: ((Long) -> kotlin.Unit)
+        ) = __jni_asyncCallbackFunc0(callback, _asyncCallback)
         @JvmStatic
-        @JvmName("__jni_asyncCallbackFunc")
-        private external fun __jni_asyncCallbackFunc(
-            callback: (() -> kotlin.Unit),
-            _asyncCallback: ((kotlin.Unit) -> kotlin.Unit)
+        @JvmName("__jni_asyncCallbackFunc0")
+        private external fun __jni_asyncCallbackFunc0(
+            callback: (() -> Long),
+            _asyncCallback: ((Long) -> kotlin.Unit)
+        )
+
+        /**
+         * <!-- FishyJoes.export(asyncCallbackFunc1) -->
+         */
+        fun asyncCallbackFunc1(
+            callback: ((Long) -> Long),
+            _asyncCallback: ((Long) -> kotlin.Unit)
+        ) = __jni_asyncCallbackFunc1(callback, _asyncCallback)
+        @JvmStatic
+        @JvmName("__jni_asyncCallbackFunc1")
+        private external fun __jni_asyncCallbackFunc1(
+            callback: ((Long) -> Long),
+            _asyncCallback: ((Long) -> kotlin.Unit)
+        )
+
+        /**
+         * <!-- FishyJoes.export(asyncCallbackFunc2) -->
+         */
+        fun asyncCallbackFunc2(
+            callback: ((Long, Long) -> Long),
+            _asyncCallback: ((Long) -> kotlin.Unit)
+        ) = __jni_asyncCallbackFunc2(callback, _asyncCallback)
+        @JvmStatic
+        @JvmName("__jni_asyncCallbackFunc2")
+        private external fun __jni_asyncCallbackFunc2(
+            callback: ((Long, Long) -> Long),
+            _asyncCallback: ((Long) -> kotlin.Unit)
+        )
+
+        /**
+         * <!-- FishyJoes.export(asyncCallbackFunc3) -->
+         */
+        fun asyncCallbackFunc3(
+            callback: ((Long, Long, Long) -> Long),
+            _asyncCallback: ((Long) -> kotlin.Unit)
+        ) = __jni_asyncCallbackFunc3(callback, _asyncCallback)
+        @JvmStatic
+        @JvmName("__jni_asyncCallbackFunc3")
+        private external fun __jni_asyncCallbackFunc3(
+            callback: ((Long, Long, Long) -> Long),
+            _asyncCallback: ((Long) -> kotlin.Unit)
+        )
+
+        /**
+         * <!-- FishyJoes.export(asyncCallbackFunc4) -->
+         */
+        fun asyncCallbackFunc4(
+            callback: ((Long, Long, Long, Long) -> Long),
+            _asyncCallback: ((Long) -> kotlin.Unit)
+        ) = __jni_asyncCallbackFunc4(callback, _asyncCallback)
+        @JvmStatic
+        @JvmName("__jni_asyncCallbackFunc4")
+        private external fun __jni_asyncCallbackFunc4(
+            callback: ((Long, Long, Long, Long) -> Long),
+            _asyncCallback: ((Long) -> kotlin.Unit)
+        )
+
+        /**
+         * <!-- FishyJoes.export(asyncCallbackFunc5) -->
+         */
+        fun asyncCallbackFunc5(
+            callback: ((Long, Long, Long, Long, Long) -> Long),
+            _asyncCallback: ((Long) -> kotlin.Unit)
+        ) = __jni_asyncCallbackFunc5(callback, _asyncCallback)
+        @JvmStatic
+        @JvmName("__jni_asyncCallbackFunc5")
+        private external fun __jni_asyncCallbackFunc5(
+            callback: ((Long, Long, Long, Long, Long) -> Long),
+            _asyncCallback: ((Long) -> kotlin.Unit)
+        )
+
+        /**
+         * <!-- FishyJoes.export(asyncCallbackFunc6) -->
+         */
+        fun asyncCallbackFunc6(
+            callback: ((Long, Long, Long, Long, Long, Long) -> Long),
+            _asyncCallback: ((Long) -> kotlin.Unit)
+        ) = __jni_asyncCallbackFunc6(callback, _asyncCallback)
+        @JvmStatic
+        @JvmName("__jni_asyncCallbackFunc6")
+        private external fun __jni_asyncCallbackFunc6(
+            callback: ((Long, Long, Long, Long, Long, Long) -> Long),
+            _asyncCallback: ((Long) -> kotlin.Unit)
         )
 
         /**
@@ -237,6 +321,22 @@ sealed class Functions {
         private external fun __jni_asyncDoubleFunc(
             d: Double,
             _asyncCallback: ((Double) -> kotlin.Unit)
+        )
+
+        /**
+         * <!-- FishyJoes.export(asyncMultipleArgs) -->
+         */
+        fun asyncMultipleArgs(
+            i: Long,
+            j: (() -> Long),
+            _asyncCallback: ((Long) -> kotlin.Unit)
+        ) = __jni_asyncMultipleArgs(i, j, _asyncCallback)
+        @JvmStatic
+        @JvmName("__jni_asyncMultipleArgs")
+        private external fun __jni_asyncMultipleArgs(
+            i: Long,
+            j: (() -> Long),
+            _asyncCallback: ((Long) -> kotlin.Unit)
         )
 
         /**

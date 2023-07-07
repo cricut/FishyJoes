@@ -37,11 +37,32 @@ namespace TestAPI {
     void Functions::asyncVoidFunc() {
         FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Functions_asyncVoidFunc();
     }
-    void Functions::asyncCallbackFunc(const std::function<void(> &callback) {
-        FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Functions_asyncCallbackFunc(FishyJoesInternal::Packer::pack(callback).ptr());
+    int Functions::asyncCallbackFunc0(const std::function<int(> &callback) {
+        return FishyJoesInternal::Packer::unpack<int>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Functions_asyncCallbackFunc0(FishyJoesInternal::Packer::pack(callback).ptr()));
+    }
+    int Functions::asyncCallbackFunc1(const std::function<int(int> &callback) {
+        return FishyJoesInternal::Packer::unpack<int>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Functions_asyncCallbackFunc1(FishyJoesInternal::Packer::pack(callback).ptr()));
+    }
+    int Functions::asyncCallbackFunc2(const std::function<int(int, int> &callback) {
+        return FishyJoesInternal::Packer::unpack<int>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Functions_asyncCallbackFunc2(FishyJoesInternal::Packer::pack(callback).ptr()));
+    }
+    int Functions::asyncCallbackFunc3(const std::function<int(int, int, int> &callback) {
+        return FishyJoesInternal::Packer::unpack<int>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Functions_asyncCallbackFunc3(FishyJoesInternal::Packer::pack(callback).ptr()));
+    }
+    int Functions::asyncCallbackFunc4(const std::function<int(int, int, int, int> &callback) {
+        return FishyJoesInternal::Packer::unpack<int>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Functions_asyncCallbackFunc4(FishyJoesInternal::Packer::pack(callback).ptr()));
+    }
+    int Functions::asyncCallbackFunc5(const std::function<int(int, int, int, int, int> &callback) {
+        return FishyJoesInternal::Packer::unpack<int>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Functions_asyncCallbackFunc5(FishyJoesInternal::Packer::pack(callback).ptr()));
+    }
+    int Functions::asyncCallbackFunc6(const std::function<int(int, int, int, int, int, int> &callback) {
+        return FishyJoesInternal::Packer::unpack<int>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Functions_asyncCallbackFunc6(FishyJoesInternal::Packer::pack(callback).ptr()));
     }
     double Functions::asyncDoubleFunc(const double &d) {
         return FishyJoesInternal::Packer::unpack<double>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Functions_asyncDoubleFunc(FishyJoesInternal::Packer::pack(d).ptr()));
+    }
+    int Functions::asyncMultipleArgs(const int &i, const std::function<int(> &j) {
+        return FishyJoesInternal::Packer::unpack<int>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Functions_asyncMultipleArgs(FishyJoesInternal::Packer::pack(i).ptr(), FishyJoesInternal::Packer::pack(j).ptr()));
     }
     void Functions::asyncThrowingFunc() {
         FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Functions_asyncThrowingFunc();

@@ -60,6 +60,10 @@ public struct Box<T> {
     public func callAsFunction<Argument, Result>(_ arg: Argument) throws -> Result where T == ((Argument) throws -> Result) {
         try value(arg)
     }
+
+    public func callAsFunction<Argument, Result>(_ arg: Argument) async throws -> Result where T == ((Argument) async throws -> Result) {
+        try await value(arg)
+    }
 }
 
 public final class AnyBox {

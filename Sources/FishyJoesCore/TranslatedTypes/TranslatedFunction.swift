@@ -3,6 +3,7 @@ import SourceryRuntime
 struct TranslatedFunction: TranslatedType {
     let parameters: [TranslatedType]
     let returnType: TranslatedType
+    let isAsync: Bool
 
     let sourceType: BetterType
     let nodeName: String
@@ -18,10 +19,11 @@ struct TranslatedFunction: TranslatedType {
     init(parameters: [TranslatedType], returnType: TranslatedType, isAsync: Bool) {
         self.parameters = parameters
         self.returnType = returnType
+        self.isAsync = isAsync
 
         self.sourceType = .function(parameters.map(\.sourceType), returnType.sourceType, isAsync: isAsync)
         self.neutralName = "Function<ReturnType=\(returnType.neutralName), Params=[\(parameters.map { $0.neutralName }.joined(separator: ", "))]>"
-        self.nodeName = "(\(parameters.enumerated().map { "_\($0.offset): \($0.element.nodeName)" }.joined(separator: ", "))) => \(returnType.nodeName)"
+        self.nodeName = "(\(parameters.enumerated().map { "_\($0.offset): \($0.element.nodeName)" }.joined(separator: ", "))) => \(isAsync ? "Promise<" : "")\(returnType.nodeName)\(isAsync ? ">" : "")"
         self.kotlinName = "((\(parameters.map(\.kotlinPackageQualifiedName).joined(separator: ", "))) -> \(returnType.kotlinPackageQualifiedName))"
         self.cppName = "std::function<\(returnType.cppName)(\(parameters.map(\.cppName).joined(separator: ", "))>"
         self.containedNamedTypes = parameters.map { $0.containedNamedTypes }.joined() + returnType.containedNamedTypes
@@ -41,7 +43,7 @@ struct TranslatedFunction: TranslatedType {
 
     var converterType: BetterType {
         .generic(
-            base: .init(stringLiteral: "Function\(parameters.count)Converter"),
+            base: .init(stringLiteral: "\(isAsync ? "Async" : "")Function\(parameters.count)Converter"),
             args: (parameters + [returnType]).map(\.converterType)
         )
     }

@@ -133,6 +133,12 @@ template <> struct std::hash<TestAPI::Structs::MemberwiseStruct> {
 namespace TestAPI {
     inline bool operator==(const Structs::MemberwiseStruct& lhs, const Structs::MemberwiseStruct& rhs);
 }
+template <> struct std::hash<TestAPI::Structs::MutableStruct> {
+    size_t operator()(const TestAPI::Structs::MutableStruct &obj) const;
+};
+namespace TestAPI {
+    inline bool operator==(const Structs::MutableStruct& lhs, const Structs::MutableStruct& rhs);
+}
 template <> struct std::hash<TestAPI::Structs::ReferenceStruct> {
     size_t operator()(const TestAPI::Structs::ReferenceStruct &obj) const;
 };
@@ -270,6 +276,11 @@ size_t std::hash<TestAPI::Structs::MemberwiseStruct>::operator()(const TestAPI::
     TestAPI::FishyJoesInternal::hashCombine(ret, obj.mutable);
     return ret;
 }
+size_t std::hash<TestAPI::Structs::MutableStruct>::operator()(const TestAPI::Structs::MutableStruct &obj) const {
+    size_t ret = 0;
+    TestAPI::FishyJoesInternal::hashCombine(ret, obj.i);
+    return ret;
+}
 size_t std::hash<TestAPI::Structs::ReferenceStruct>::operator()(const TestAPI::Structs::ReferenceStruct &obj) const {
     size_t ret = 0;
     TestAPI::FishyJoesInternal::hashCombine(ret, obj._ref);
@@ -382,6 +393,11 @@ namespace TestAPI {
 }
 namespace TestAPI {
     inline bool operator==(const Structs::MemberwiseStruct& lhs, const Structs::MemberwiseStruct& rhs) {
+        return std::equal_to<std::decay_t<decltype(lhs)>>()(lhs, rhs);
+    }
+}
+namespace TestAPI {
+    inline bool operator==(const Structs::MutableStruct& lhs, const Structs::MutableStruct& rhs) {
         return std::equal_to<std::decay_t<decltype(lhs)>>()(lhs, rhs);
     }
 }

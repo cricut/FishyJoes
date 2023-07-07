@@ -10,6 +10,48 @@ sealed class Structs {
     }
 
     /**
+     * <!-- FishyJoes.export(Structs.MutableStruct) -->
+     */
+    data class MutableStruct(
+        var i: Long
+    )
+     {
+        /**
+         * <!-- FishyJoes.export(increment) -->
+         */
+        fun increment(
+        ): kotlin.Unit = __jni_increment()
+        @JvmName("__jni_increment")
+        private external fun __jni_increment(
+        ): kotlin.Unit
+
+        /**
+         * <!-- FishyJoes.export(incrementAsync) -->
+         */
+        fun incrementAsync(
+            _asyncCallback: ((kotlin.Unit) -> kotlin.Unit)
+        ) = __jni_incrementAsync(_asyncCallback)
+        @JvmName("__jni_incrementAsync")
+        private external fun __jni_incrementAsync(
+            _asyncCallback: ((kotlin.Unit) -> kotlin.Unit)
+        )
+
+        companion object {
+            /**
+             * <!-- FishyJoes.export(create) -->
+             */
+            fun create(
+            ): com.cricut.testapi.Structs.MutableStruct = __jni_create()
+            @JvmStatic
+            @JvmName("__jni_create")
+            private external fun __jni_create(
+            ): com.cricut.testapi.Structs.MutableStruct
+
+            init { loadNativeLibs() }
+        }
+    }
+
+    /**
      * <!-- FishyJoes.exportReference(Structs.ReferenceStruct) -->
      */
     class ReferenceStruct private constructor(swiftReference: Long): com.cricut.fishyjoes.runtime.SwiftReference(swiftReference) {

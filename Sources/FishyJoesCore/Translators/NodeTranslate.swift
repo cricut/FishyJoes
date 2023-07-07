@@ -108,10 +108,10 @@ struct NodeTranslator: Translator {
 
         let returnType = context.resolve(type: method.returnType, generics: exportAnnotation.genericOverrides)
 
-        func convertMethodParameter(formal: SwiftFormal, argIndex: inout Int) -> String {
+        func convertMethodParameter(formal: SwiftFormal, argIndex: inout Int, includeFormalLabel: Bool = true) -> String {
             let resolved = context.resolve(type: formal.type, generics: exportAnnotation.genericOverrides)
 
-            var result = formal.label.map { "\($0): " } ?? ""
+            var result = includeFormalLabel ? (formal.label.map { "\($0): " } ?? "") : ""
             if let defaultValue = formal.defaultValue {
                 result += "try env.argument(named: \"\(formal.label ?? formal.name)\", default: \(defaultValue), "
             } else {
@@ -121,36 +121,69 @@ struct NodeTranslator: Translator {
             return result + "converter: \(resolved.converterType.name).self)"
         }
 
-        var taskBlock: (() -> Void) -> Void = { $0() }
-        if method.isAsync {
-            taskBlock = { body in
-                fragment.output("let (deferred, promise) = try env.env.createPromise()")
-                fragment.output("let envBox = UncheckedSendableBox(env.env)")
-
-                var argIndex = 0
-                fragment.outputMap(method.parameters, separator: ",") { formal in
-                    return "let arg\(argIndex) = UncheckedSendableBox(\(convertMethodParameter(formal: formal, argIndex: &argIndex)))"
-                }
-
-                fragment.outputBlock("Task {") {
-                    fragment.outputBlock("do {", newLineTerminated: false ) {
-                        fragment.outputBlock("try envBox.value.resolveDeferred(", closeWith: ")") {
-                            body()
-                        }
-                    }
-                    fragment.outputBlock(" catch {") {
-                        fragment.output("try envBox.value.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: envBox.value))")
-                    }
-                }
-                fragment.output("return promise")
-            }
-        }
-
         fragment.outputBlock("{ env, info in", closeWith: "}", newLineTerminated: newLineTerminated) {
             let hasNamedOptions = method.parameters.contains { $0.defaultValue != nil }
             let positionalArguments = method.parameters.filter { $0.defaultValue == nil }
             fragment.outputBlock("FishyJoesNodeRuntime.callbackBody(env, info, name: \"\(nodeName)\", expectedArgumentCount: \(argIndex + positionalArguments.count), hasNamedOptions: \(hasNamedOptions)) { env in", closeWith: "}") {
-                taskBlock {
+                if method.isAsync {
+                    let callName = method.sourceKind == .initializer ? "" : ".\(method.callName)"
+
+                    fragment.output("let (deferred, promise) = try env.env.createPromise()")
+
+                    var argIndex = 0
+                    fragment.outputMap(method.parameters, separator: "") { formal in
+                        return "let arg\(argIndex) = UncheckedSendableBox(\(convertMethodParameter(formal: formal, argIndex: &argIndex, includeFormalLabel: false)))"
+                    }
+
+                    if method.isMutating {
+                        fragment.output("let mutatingSelf = UncheckedSendableBox(try env.this(converter: Structs.MutableStruct.self))")
+                        fragment.output("let jsThis = try env.env.reference(env.this())")
+                        selfExpression = "mutatingSelf.value"
+                    }
+
+                    fragment.outputBlock("Task {") {
+                        fragment.outputBlock("do {", newLineTerminated: false) {
+                            fragment.outputBlock("let taskResult: \(method.returnType.name) = \(method.isThrowing ? "try " : "")await \(selfExpression)\(callName)(") {
+                                var argIndex = 0
+                                fragment.outputMap(method.parameters, separator: ",") { formal in
+                                    defer { argIndex += 1 }
+                                    var argument = ""
+                                    if let label = formal.label {
+                                        argument += "\(label): "
+                                    }
+                                    argument += "arg\(argIndex).value"
+                                    return argument
+                                }
+                            }
+                            fragment.outputBlock("try onMainThread { env in", closeWith: "}") {
+                                fragment.output("let convertedTaskResult: NAPI.Value")
+                                fragment.outputBlock("do {", newLineTerminated: false) {
+                                    fragment.output("convertedTaskResult = try \(returnType.converterType.name).toNode(taskResult, env: env)")
+                                }
+                                fragment.outputBlock(" catch {") {
+                                    if method.isMutating {
+                                        fragment.output("try Self.mutateNode(mutatingSelf.value, this: jsThis.value(env: env), env: env)")
+                                    }
+                                    fragment.output("try env.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: env))")
+                                    fragment.output("return")
+                                }
+                                if method.isMutating {
+                                    fragment.output("try Self.mutateNode(mutatingSelf.value, this: jsThis.value(env: env), env: env)")
+                                }
+                                fragment.output("try env.resolveDeferred(deferred, convertedTaskResult)")
+                            }
+                        }
+                        fragment.outputBlock(" catch {") {
+                            fragment.outputBlock("try onMainThread { env in", closeWith: "}") {
+                                if method.isMutating {
+                                    fragment.output("try Self.mutateNode(mutatingSelf.value, this: jsThis.value(env: env), env: env)")
+                                }
+                                fragment.output("try env.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: env))")
+                            }
+                        }
+                    }
+                    fragment.output("return promise")
+                } else {
                     let callName = method.sourceKind == .initializer ? "" : ".\(method.callName)"
 
                     if method.isMutating {
@@ -158,19 +191,14 @@ struct NodeTranslator: Translator {
                         selfExpression = "mutatingSelf"
                     }
 
-                    if !method.isAsync {
-                        if exportAnnotation.noReturn {
-                            fragment.output("try ", newLineTerminated: false)
-                        } else {
-                            fragment.output("let result = try \(returnType.converterType.name).toNode", newLineTerminated: false)
-                        }
+                    if exportAnnotation.noReturn {
+                        fragment.output("try ", newLineTerminated: false)
                     } else {
-                        fragment.output("deferred,")
-                        fragment.output("\(returnType.converterType.name).toNode", newLineTerminated: false)
+                        fragment.output("let result = try \(returnType.converterType.name).toNode", newLineTerminated: false)
                     }
 
                     fragment.outputBlock("(") {
-                        fragment.outputBlock("\(method.isAsync ? "await " : "")\(selfExpression)\(callName)(", newLineTerminated: false) {
+                        fragment.outputBlock("\(selfExpression)\(callName)(", newLineTerminated: false) {
                             fragment.outputMap(method.parameters, separator: ",") { formal in
                                 guard !method.isAsync else {
                                     defer { argIndex += 1 }
@@ -181,9 +209,6 @@ struct NodeTranslator: Translator {
                         }
                         if exportAnnotation.noReturn {
                             fragment.output()
-                        } else if method.isAsync {
-                            fragment.output(",")
-                            fragment.output("env: envBox.value")
                         } else {
                              fragment.output(",")
                             fragment.output("env: env.env")
@@ -194,9 +219,7 @@ struct NodeTranslator: Translator {
                         if method.isMutating {
                             fragment.output("try Self.mutateNode(mutatingSelf, this: env.this(), env: env.env)")
                         }
-                        if !method.isAsync {
-                            fragment.output("return result")
-                        }
+                        fragment.output("return result")
                     }
                 }
             }
@@ -286,6 +309,7 @@ struct NodeTranslator: Translator {
             nodeTypeListFragment.output("#if os(WASI)")
             nodeTypeListFragment.output("try JavaScriptEventLoop.installGlobalExecutor(env: env)")
             nodeTypeListFragment.output("#endif")
+            nodeTypeListFragment.output("try setupOnMainThreadEntryPoint(env: env)")
             nodeTypeListFragment.output("let module = try env.createObject()")
             nodeTypeListFragment.output("try env.setNamedProperty(exports, \"\(context.module)\", module)")
             nodeTypeListFragment.output("try env.setNamedProperty(exports, \"default\", module)")
@@ -339,6 +363,7 @@ struct NodeTranslator: Translator {
                 omitParameters.remove(parameter.name)
                 continue
             }
+
             let resolved = context.resolve(type: parameter.type, generics: exportAnnotation.genericOverrides)
             var label: String?
             if let swiftLabel = parameter.label, swiftLabel != parameter.name {

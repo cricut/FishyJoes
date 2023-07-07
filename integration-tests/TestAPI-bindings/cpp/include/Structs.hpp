@@ -7,6 +7,7 @@ namespace TestAPI {
         /*  Inner Classes  */
         public:
         class MemberwiseStruct;
+        class MutableStruct;
         class ReferenceStruct;
         /// <!-- FishyJoes.export(Structs.MemberwiseStruct) -->
         class MemberwiseStruct {
@@ -25,6 +26,33 @@ namespace TestAPI {
             public:
             std::string immutable;
             std::string mutable;
+            
+            friend struct FishyJoesInternal::Packer;
+            template <typename T> friend struct std::hash;
+            template <typename T> friend struct std::equal_to;
+        };
+        /// <!-- FishyJoes.export(Structs.MutableStruct) -->
+        class MutableStruct {
+            /*  Complete Constructor  */
+            public:
+            /// Create new MutableStruct
+            MutableStruct(const int &i);
+            
+            /*  Methods  */
+            public:
+            /// <!-- FishyJoes.export(create) -->
+            static Structs::MutableStruct create();
+            
+            /// <!-- FishyJoes.export(increment) -->
+            void increment();
+            
+            /// <!-- FishyJoes.export(incrementAsync) -->
+            void incrementAsync();
+            
+            
+            /*  Data  */
+            public:
+            int i;
             
             friend struct FishyJoesInternal::Packer;
             template <typename T> friend struct std::hash;

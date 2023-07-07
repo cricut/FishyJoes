@@ -12,6 +12,64 @@ namespace Cricut.TestAPI {
         private Structs() {}
 
         /// <summary>
+        /// <!-- FishyJoes.export(Structs.MutableStruct) -->
+        /// </summary>
+        public record MutableStruct {
+            public nint I;
+
+            public MutableStruct(
+                nint I
+            ) {
+                this.I = I;
+            }
+
+            /// <summary>
+            /// <!-- FishyJoes.export(create) -->
+            /// </summary>
+            public static Cricut.TestAPI.Structs.MutableStruct Create(
+            ) {
+                return Check((out CreatedRef _exn) => __cs_Structs_MutableStruct_create(out _exn)).Consume<Cricut.TestAPI.Structs.MutableStruct>();
+            }
+
+            [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            private static extern CreatedRef __cs_Structs_MutableStruct_create(
+                out CreatedRef exn
+            );
+
+            /// <summary>
+            /// <!-- FishyJoes.export(increment) -->
+            /// </summary>
+            public void Increment(
+            ) {
+                using var _thisHandle = new GCRef(this);
+                Check((out CreatedRef _exn) => __cs_Structs_MutableStruct_increment(_thisHandle.ptr, out _exn));
+            }
+
+            [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            private static extern void __cs_Structs_MutableStruct_increment(
+                UnownedRef self,
+                out CreatedRef exn
+            );
+
+            /// <summary>
+            /// <!-- FishyJoes.export(incrementAsync) -->
+            /// </summary>
+            public void IncrementAsync(
+            ) {
+                using var _thisHandle = new GCRef(this);
+                Check((out CreatedRef _exn) => __cs_Structs_MutableStruct_incrementAsync(_thisHandle.ptr, out _exn));
+            }
+
+            [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            private static extern void __cs_Structs_MutableStruct_incrementAsync(
+                UnownedRef self,
+                out CreatedRef exn
+            );
+
+            static MutableStruct() { _TypeSetup._ensureLoaded(); }
+        }
+
+        /// <summary>
         /// <!-- FishyJoes.exportReference(Structs.ReferenceStruct) -->
         /// </summary>
         public class ReferenceStruct : SwiftReference {

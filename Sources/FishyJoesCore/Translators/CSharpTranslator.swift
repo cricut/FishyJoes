@@ -35,6 +35,9 @@ final class CSharpTranslator: Translator {
             }
         )
         formals.append((name: "_exn", type: "csOutExn"))
+        if method.isAsync {
+            formals.append((name: "asyncCallback", type: "ASYNC_NOT_YET_SUPPORTED_FOR_C_SHARP"))
+        }
 
         let fragment = context.swiftFragment(
             "CSharpInterface/\(containingNamespace)+cSharp-methods.swift",

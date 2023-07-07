@@ -40,28 +40,56 @@ public enum Function0Converter<R: Converter>: Converter {
     public typealias SwiftType = () throws -> R.SwiftType
 }
 
+public enum AsyncFunction0Converter<R: Converter>: Converter {
+    public typealias SwiftType = () async throws -> R.SwiftType
+}
+
 public enum Function1Converter<P0: Converter, R: Converter>: Converter {
     public typealias SwiftType = (P0.SwiftType) throws -> R.SwiftType
+}
+
+public enum AsyncFunction1Converter<P0: Converter, R: Converter>: Converter {
+    public typealias SwiftType = (P0.SwiftType) async throws -> R.SwiftType
 }
 
 public enum Function2Converter<P0: Converter, P1: Converter, R: Converter>: Converter {
     public typealias SwiftType = (P0.SwiftType, P1.SwiftType) throws -> R.SwiftType
 }
 
+public enum AsyncFunction2Converter<P0: Converter, P1: Converter, R: Converter>: Converter {
+    public typealias SwiftType = (P0.SwiftType, P1.SwiftType) async throws -> R.SwiftType
+}
+
 public enum Function3Converter<P0: Converter, P1: Converter, P2: Converter, R: Converter>: Converter {
     public typealias SwiftType = (P0.SwiftType, P1.SwiftType, P2.SwiftType) throws -> R.SwiftType
+}
+
+public enum AsyncFunction3Converter<P0: Converter, P1: Converter, P2: Converter, R: Converter>: Converter {
+    public typealias SwiftType = (P0.SwiftType, P1.SwiftType, P2.SwiftType) async throws -> R.SwiftType
 }
 
 public enum Function4Converter<P0: Converter, P1: Converter, P2: Converter, P3: Converter, R: Converter>: Converter {
     public typealias SwiftType = (P0.SwiftType, P1.SwiftType, P2.SwiftType, P3.SwiftType) throws -> R.SwiftType
 }
 
+public enum AsyncFunction4Converter<P0: Converter, P1: Converter, P2: Converter, P3: Converter, R: Converter>: Converter {
+    public typealias SwiftType = (P0.SwiftType, P1.SwiftType, P2.SwiftType, P3.SwiftType) async throws -> R.SwiftType
+}
+
 public enum Function5Converter<P0: Converter, P1: Converter, P2: Converter, P3: Converter, P4: Converter, R: Converter>: Converter {
     public typealias SwiftType = (P0.SwiftType, P1.SwiftType, P2.SwiftType, P3.SwiftType, P4.SwiftType) throws -> R.SwiftType
 }
 
+public enum AsyncFunction5Converter<P0: Converter, P1: Converter, P2: Converter, P3: Converter, P4: Converter, R: Converter>: Converter {
+    public typealias SwiftType = (P0.SwiftType, P1.SwiftType, P2.SwiftType, P3.SwiftType, P4.SwiftType) async throws -> R.SwiftType
+}
+
 public enum Function6Converter<P0: Converter, P1: Converter, P2: Converter, P3: Converter, P4: Converter, P5: Converter, R: Converter>: Converter {
     public typealias SwiftType = (P0.SwiftType, P1.SwiftType, P2.SwiftType, P3.SwiftType, P4.SwiftType, P5.SwiftType) throws -> R.SwiftType
+}
+
+public enum AsyncFunction6Converter<P0: Converter, P1: Converter, P2: Converter, P3: Converter, P4: Converter, P5: Converter, R: Converter>: Converter {
+    public typealias SwiftType = (P0.SwiftType, P1.SwiftType, P2.SwiftType, P3.SwiftType, P4.SwiftType, P5.SwiftType) async throws -> R.SwiftType
 }
 
 // Anything generic should have a separate converter

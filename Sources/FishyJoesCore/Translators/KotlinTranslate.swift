@@ -42,7 +42,7 @@ final class KotlinTranslator: Translator {
             if method.isAsync {
                 asyncCallback = context.resolve(type: BetterType.function([method.returnType], .void, isAsync: false), generics: exportAnnotation.genericOverrides)
                 return [
-                    (name: "_asyncCallback", type: asyncCallback!.converterType.name + ".CType")
+                    (name: "_asyncCallback", type: "ASYNC_NOT_YET_SUPPORTED_FOR_KOLIN_" + asyncCallback!.converterType.name + ".CType")
                 ]
             } else {
                 return []

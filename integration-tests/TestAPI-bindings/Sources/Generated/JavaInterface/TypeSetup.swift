@@ -25,8 +25,20 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try Function1Converter<Double, VoidConverter>.javaSetup(env: env)
         // print("setting up Function3Converter<Float, Double, Int, Double>...")
         try Function3Converter<Float, Double, Int, Double>.javaSetup(env: env)
+        // print("setting up AsyncFunction6Converter<Int, Int, Int, Int, Int, Int, Int>...")
+        try AsyncFunction6Converter<Int, Int, Int, Int, Int, Int, Int>.javaSetup(env: env)
+        // print("setting up AsyncFunction5Converter<Int, Int, Int, Int, Int, Int>...")
+        try AsyncFunction5Converter<Int, Int, Int, Int, Int, Int>.javaSetup(env: env)
+        // print("setting up AsyncFunction4Converter<Int, Int, Int, Int, Int>...")
+        try AsyncFunction4Converter<Int, Int, Int, Int, Int>.javaSetup(env: env)
+        // print("setting up AsyncFunction3Converter<Int, Int, Int, Int>...")
+        try AsyncFunction3Converter<Int, Int, Int, Int>.javaSetup(env: env)
+        // print("setting up AsyncFunction2Converter<Int, Int, Int>...")
+        try AsyncFunction2Converter<Int, Int, Int>.javaSetup(env: env)
         // print("setting up Function1Converter<Int, Int>...")
         try Function1Converter<Int, Int>.javaSetup(env: env)
+        // print("setting up AsyncFunction1Converter<Int, Int>...")
+        try AsyncFunction1Converter<Int, Int>.javaSetup(env: env)
         // print("setting up Function1Converter<Int, VoidConverter>...")
         try Function1Converter<Int, VoidConverter>.javaSetup(env: env)
         // print("setting up Function6Converter<Swift.String, Int, Double, Swift.String, Function0Converter<Int>, Int, Int>...")
@@ -39,8 +51,8 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try Function1Converter<VoidConverter, VoidConverter>.javaSetup(env: env)
         // print("setting up Function0Converter<Int>...")
         try Function0Converter<Int>.javaSetup(env: env)
-        // print("setting up Function0Converter<VoidConverter>...")
-        try Function0Converter<VoidConverter>.javaSetup(env: env)
+        // print("setting up AsyncFunction0Converter<Int>...")
+        try AsyncFunction0Converter<Int>.javaSetup(env: env)
         // print("setting up ArrayConverter<OptionalConverter<Bool>>...")
         try ArrayConverter<OptionalConverter<Bool>>.javaSetup(env: env)
         // print("setting up ArrayConverter<OptionalConverter<Double>>...")
@@ -407,14 +419,49 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_Functions_asyncVoidFunc, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_asyncCallbackFunc"),
-                signature: bag.add("(Lkotlin/jvm/functions/Function0;)V"),
-                fnPtr: unsafeBitCast(java_Functions_asyncCallbackFunc, to: UnsafeMutableRawPointer.self)
+                name: bag.add("__jni_asyncCallbackFunc0"),
+                signature: bag.add("(Lkotlin/jvm/functions/Function0;)J"),
+                fnPtr: unsafeBitCast(java_Functions_asyncCallbackFunc0, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_asyncCallbackFunc1"),
+                signature: bag.add("(Lkotlin/jvm/functions/Function1;)J"),
+                fnPtr: unsafeBitCast(java_Functions_asyncCallbackFunc1, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_asyncCallbackFunc2"),
+                signature: bag.add("(Lkotlin/jvm/functions/Function2;)J"),
+                fnPtr: unsafeBitCast(java_Functions_asyncCallbackFunc2, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_asyncCallbackFunc3"),
+                signature: bag.add("(Lkotlin/jvm/functions/Function3;)J"),
+                fnPtr: unsafeBitCast(java_Functions_asyncCallbackFunc3, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_asyncCallbackFunc4"),
+                signature: bag.add("(Lkotlin/jvm/functions/Function4;)J"),
+                fnPtr: unsafeBitCast(java_Functions_asyncCallbackFunc4, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_asyncCallbackFunc5"),
+                signature: bag.add("(Lkotlin/jvm/functions/Function5;)J"),
+                fnPtr: unsafeBitCast(java_Functions_asyncCallbackFunc5, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_asyncCallbackFunc6"),
+                signature: bag.add("(Lkotlin/jvm/functions/Function6;)J"),
+                fnPtr: unsafeBitCast(java_Functions_asyncCallbackFunc6, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_asyncDoubleFunc"),
                 signature: bag.add("(D)D"),
                 fnPtr: unsafeBitCast(java_Functions_asyncDoubleFunc, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_asyncMultipleArgs"),
+                signature: bag.add("(JLkotlin/jvm/functions/Function0;)J"),
+                fnPtr: unsafeBitCast(java_Functions_asyncMultipleArgs, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_asyncThrowingFunc"),
@@ -474,6 +521,25 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_create"),
                 signature: bag.add("()Lcom/cricut/testapi/Structs$MemberwiseStruct;"),
                 fnPtr: unsafeBitCast(java_Structs_MemberwiseStruct_create, to: UnsafeMutableRawPointer.self)
+            )
+        )
+        // print("setting up Structs.MutableStruct...")
+        try Structs.MutableStruct.javaSetup(env: env)
+        try env.RegisterNatives(Structs.MutableStruct.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_create"),
+                signature: bag.add("()Lcom/cricut/testapi/Structs$MutableStruct;"),
+                fnPtr: unsafeBitCast(java_Structs_MutableStruct_create, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_increment"),
+                signature: bag.add("()V"),
+                fnPtr: unsafeBitCast(java_Structs_MutableStruct_increment, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_incrementAsync"),
+                signature: bag.add("()V"),
+                fnPtr: unsafeBitCast(java_Structs_MutableStruct_incrementAsync, to: UnsafeMutableRawPointer.self)
             )
         )
         // print("setting up Primitives.PrimitiveHolder...")

@@ -98,9 +98,39 @@ public enum Functions {
     public static func asyncVoidFunc() async throws {
     }
 
-    /// <!-- FishyJoes.export(asyncCallbackFunc) -->
-    public static func asyncCallbackFunc(_ callback: () throws -> Void) async throws {
-        try callback()
+    /// <!-- FishyJoes.export(asyncCallbackFunc0) -->
+    public static func asyncCallbackFunc0(_ callback: () async throws -> Int) async throws -> Int {
+        try await callback()
+    }
+
+    /// <!-- FishyJoes.export(asyncCallbackFunc1) -->
+    public static func asyncCallbackFunc1(_ callback: (Int) async throws -> Int) async throws -> Int {
+        try await callback(1)
+    }
+
+    /// <!-- FishyJoes.export(asyncCallbackFunc2) -->
+    public static func asyncCallbackFunc2(_ callback: (Int, Int) async throws -> Int) async throws -> Int {
+        try await callback(1, 2)
+    }
+
+    /// <!-- FishyJoes.export(asyncCallbackFunc3) -->
+    public static func asyncCallbackFunc3(_ callback: (Int, Int, Int) async throws -> Int) async throws -> Int {
+        try await callback(1, 2, 3)
+    }
+
+    /// <!-- FishyJoes.export(asyncCallbackFunc4) -->
+    public static func asyncCallbackFunc4(_ callback: (Int, Int, Int, Int) async throws -> Int) async throws -> Int {
+        try await callback(1, 2, 3, 4)
+    }
+
+    /// <!-- FishyJoes.export(asyncCallbackFunc5) -->
+    public static func asyncCallbackFunc5(_ callback: (Int, Int, Int, Int, Int) async throws -> Int) async throws -> Int {
+        try await callback(1, 2, 3, 4, 5)
+    }
+
+    /// <!-- FishyJoes.export(asyncCallbackFunc6) -->
+    public static func asyncCallbackFunc6(_ callback: (Int, Int, Int, Int, Int, Int) async throws -> Int) async throws -> Int {
+        try await callback(1, 2, 3, 4, 5, 6)
     }
 
     /// <!-- FishyJoes.export(asyncDoubleFunc) -->
@@ -108,37 +138,13 @@ public enum Functions {
         return d * 2
     }
 
+    /// <!-- FishyJoes.export(asyncMultipleArgs) -->
+    public static func asyncMultipleArgs(_ i: Int, j: () throws -> Int) async throws -> Int {
+        try i + j()
+    }
+
     /// <!-- FishyJoes.export(asyncThrowingFunc) -->
     public static func asyncThrowingFunc() async throws {
         throw TheError()
     }
-    
-    func f2(a: @Sendable @escaping (A) -> Void) {
-        
-    }
-    
-    func _f2(a: @escaping (A) -> Void) {
-        f2(a: { a($0) })
-    }
-
-    func f(_ foo: Foo) async {
-    }
-
-    func f2() async {
-        Task.detached { @Sendable in
-            await f(foo)
-            foo = Foo()
-        }
-        await { @Sendable @MainActor in
-            await f(foo)
-        }()
-    }
 }
-
-actor A {}
-
-class Foo {
-    var i = 1
-}
-
-var foo = Foo()

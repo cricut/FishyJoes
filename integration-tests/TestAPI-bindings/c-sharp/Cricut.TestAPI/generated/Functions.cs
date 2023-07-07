@@ -287,17 +287,113 @@ namespace Cricut.TestAPI {
         );
 
         /// <summary>
-        /// <!-- FishyJoes.export(asyncCallbackFunc) -->
+        /// <!-- FishyJoes.export(asyncCallbackFunc0) -->
         /// </summary>
-        public static void AsyncCallbackFunc(
-            System.Action<> callback
+        public static nint AsyncCallbackFunc0(
+            System.Func<nint> callback
         ) {
             using var _callbackHandle = new GCRef(callback);
-            Check((out CreatedRef _exn) => __cs_Functions_asyncCallbackFunc(_callbackHandle.ptr, out _exn));
+            return Check((out CreatedRef _exn) => __cs_Functions_asyncCallbackFunc0(_callbackHandle.ptr, out _exn));
         }
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern void __cs_Functions_asyncCallbackFunc(
+        private static extern nint __cs_Functions_asyncCallbackFunc0(
+            UnownedRef callback,
+            out CreatedRef exn
+        );
+
+        /// <summary>
+        /// <!-- FishyJoes.export(asyncCallbackFunc1) -->
+        /// </summary>
+        public static nint AsyncCallbackFunc1(
+            System.Func<nint, nint> callback
+        ) {
+            using var _callbackHandle = new GCRef(callback);
+            return Check((out CreatedRef _exn) => __cs_Functions_asyncCallbackFunc1(_callbackHandle.ptr, out _exn));
+        }
+
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern nint __cs_Functions_asyncCallbackFunc1(
+            UnownedRef callback,
+            out CreatedRef exn
+        );
+
+        /// <summary>
+        /// <!-- FishyJoes.export(asyncCallbackFunc2) -->
+        /// </summary>
+        public static nint AsyncCallbackFunc2(
+            System.Func<nint, nint, nint> callback
+        ) {
+            using var _callbackHandle = new GCRef(callback);
+            return Check((out CreatedRef _exn) => __cs_Functions_asyncCallbackFunc2(_callbackHandle.ptr, out _exn));
+        }
+
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern nint __cs_Functions_asyncCallbackFunc2(
+            UnownedRef callback,
+            out CreatedRef exn
+        );
+
+        /// <summary>
+        /// <!-- FishyJoes.export(asyncCallbackFunc3) -->
+        /// </summary>
+        public static nint AsyncCallbackFunc3(
+            System.Func<nint, nint, nint, nint> callback
+        ) {
+            using var _callbackHandle = new GCRef(callback);
+            return Check((out CreatedRef _exn) => __cs_Functions_asyncCallbackFunc3(_callbackHandle.ptr, out _exn));
+        }
+
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern nint __cs_Functions_asyncCallbackFunc3(
+            UnownedRef callback,
+            out CreatedRef exn
+        );
+
+        /// <summary>
+        /// <!-- FishyJoes.export(asyncCallbackFunc4) -->
+        /// </summary>
+        public static nint AsyncCallbackFunc4(
+            System.Func<nint, nint, nint, nint, nint> callback
+        ) {
+            using var _callbackHandle = new GCRef(callback);
+            return Check((out CreatedRef _exn) => __cs_Functions_asyncCallbackFunc4(_callbackHandle.ptr, out _exn));
+        }
+
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern nint __cs_Functions_asyncCallbackFunc4(
+            UnownedRef callback,
+            out CreatedRef exn
+        );
+
+        /// <summary>
+        /// <!-- FishyJoes.export(asyncCallbackFunc5) -->
+        /// </summary>
+        public static nint AsyncCallbackFunc5(
+            System.Func<nint, nint, nint, nint, nint, nint> callback
+        ) {
+            using var _callbackHandle = new GCRef(callback);
+            return Check((out CreatedRef _exn) => __cs_Functions_asyncCallbackFunc5(_callbackHandle.ptr, out _exn));
+        }
+
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern nint __cs_Functions_asyncCallbackFunc5(
+            UnownedRef callback,
+            out CreatedRef exn
+        );
+
+        /// <summary>
+        /// <!-- FishyJoes.export(asyncCallbackFunc6) -->
+        /// </summary>
+        public static nint AsyncCallbackFunc6(
+            System.Func<nint, nint, nint, nint, nint, nint, nint> callback
+        ) {
+            using var _callbackHandle = new GCRef(callback);
+            return Check((out CreatedRef _exn) => __cs_Functions_asyncCallbackFunc6(_callbackHandle.ptr, out _exn));
+        }
+
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern nint __cs_Functions_asyncCallbackFunc6(
             UnownedRef callback,
             out CreatedRef exn
         );
@@ -314,6 +410,24 @@ namespace Cricut.TestAPI {
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern double __cs_Functions_asyncDoubleFunc(
             double d,
+            out CreatedRef exn
+        );
+
+        /// <summary>
+        /// <!-- FishyJoes.export(asyncMultipleArgs) -->
+        /// </summary>
+        public static nint AsyncMultipleArgs(
+            nint i,
+            System.Func<nint> j
+        ) {
+            using var _jHandle = new GCRef(j);
+            return Check((out CreatedRef _exn) => __cs_Functions_asyncMultipleArgs(i, _jHandle.ptr, out _exn));
+        }
+
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern nint __cs_Functions_asyncMultipleArgs(
+            nint i,
+            UnownedRef j,
             out CreatedRef exn
         );
 
