@@ -39,6 +39,7 @@ namespace Cricut.FishyJoesRuntime {
             setupPrimitives();
             setupCollections();
             setupTuples();
+            setupRanges();
             setupReferences();
             setupFunctions();
             setupMisc();

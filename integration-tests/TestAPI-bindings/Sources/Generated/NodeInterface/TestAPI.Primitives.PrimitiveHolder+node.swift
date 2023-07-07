@@ -48,6 +48,14 @@ extension TestAPI.Primitives.PrimitiveHolder: NodeMutator {
                 let fieldValue = try env.getNamedProperty(value, "ui64q")
                 return try OptionalConverter<UInt64>.fromNode(fieldValue, env: env)
             }(),
+            ui: try { () -> UInt in
+                let fieldValue = try env.getNamedProperty(value, "ui")
+                return try UInt.fromNode(fieldValue, env: env)
+            }(),
+            uiq: try { () -> Optional<UInt> in
+                let fieldValue = try env.getNamedProperty(value, "uiq")
+                return try OptionalConverter<UInt>.fromNode(fieldValue, env: env)
+            }(),
             i8: try { () -> Int8 in
                 let fieldValue = try env.getNamedProperty(value, "i8")
                 return try Int8.fromNode(fieldValue, env: env)
@@ -80,6 +88,14 @@ extension TestAPI.Primitives.PrimitiveHolder: NodeMutator {
                 let fieldValue = try env.getNamedProperty(value, "i64q")
                 return try OptionalConverter<Int64>.fromNode(fieldValue, env: env)
             }(),
+            i: try { () -> Int in
+                let fieldValue = try env.getNamedProperty(value, "i")
+                return try Int.fromNode(fieldValue, env: env)
+            }(),
+            iq: try { () -> Optional<Int> in
+                let fieldValue = try env.getNamedProperty(value, "iq")
+                return try OptionalConverter<Int>.fromNode(fieldValue, env: env)
+            }(),
             f: try { () -> Float in
                 let fieldValue = try env.getNamedProperty(value, "f")
                 return try Float.fromNode(fieldValue, env: env)
@@ -111,6 +127,8 @@ extension TestAPI.Primitives.PrimitiveHolder: NodeMutator {
             try OptionalConverter<UInt32>.toNode(value.ui32q, env: env),
             try UInt64.toNode(value.ui64, env: env),
             try OptionalConverter<UInt64>.toNode(value.ui64q, env: env),
+            try UInt.toNode(value.ui, env: env),
+            try OptionalConverter<UInt>.toNode(value.uiq, env: env),
             try Int8.toNode(value.i8, env: env),
             try OptionalConverter<Int8>.toNode(value.i8q, env: env),
             try Int16.toNode(value.i16, env: env),
@@ -119,6 +137,8 @@ extension TestAPI.Primitives.PrimitiveHolder: NodeMutator {
             try OptionalConverter<Int32>.toNode(value.i32q, env: env),
             try Int64.toNode(value.i64, env: env),
             try OptionalConverter<Int64>.toNode(value.i64q, env: env),
+            try Int.toNode(value.i, env: env),
+            try OptionalConverter<Int>.toNode(value.iq, env: env),
             try Float.toNode(value.f, env: env),
             try OptionalConverter<Float>.toNode(value.fq, env: env),
             try Double.toNode(value.d, env: env),
@@ -137,6 +157,8 @@ extension TestAPI.Primitives.PrimitiveHolder: NodeMutator {
         try env.setNamedProperty(this, "ui32q", OptionalConverter<UInt32>.toNode(value.ui32q, env: env))
         try env.setNamedProperty(this, "ui64", UInt64.toNode(value.ui64, env: env))
         try env.setNamedProperty(this, "ui64q", OptionalConverter<UInt64>.toNode(value.ui64q, env: env))
+        try env.setNamedProperty(this, "ui", UInt.toNode(value.ui, env: env))
+        try env.setNamedProperty(this, "uiq", OptionalConverter<UInt>.toNode(value.uiq, env: env))
         try env.setNamedProperty(this, "i8", Int8.toNode(value.i8, env: env))
         try env.setNamedProperty(this, "i8q", OptionalConverter<Int8>.toNode(value.i8q, env: env))
         try env.setNamedProperty(this, "i16", Int16.toNode(value.i16, env: env))
@@ -145,6 +167,8 @@ extension TestAPI.Primitives.PrimitiveHolder: NodeMutator {
         try env.setNamedProperty(this, "i32q", OptionalConverter<Int32>.toNode(value.i32q, env: env))
         try env.setNamedProperty(this, "i64", Int64.toNode(value.i64, env: env))
         try env.setNamedProperty(this, "i64q", OptionalConverter<Int64>.toNode(value.i64q, env: env))
+        try env.setNamedProperty(this, "i", Int.toNode(value.i, env: env))
+        try env.setNamedProperty(this, "iq", OptionalConverter<Int>.toNode(value.iq, env: env))
         try env.setNamedProperty(this, "f", Float.toNode(value.f, env: env))
         try env.setNamedProperty(this, "fq", OptionalConverter<Float>.toNode(value.fq, env: env))
         try env.setNamedProperty(this, "d", Double.toNode(value.d, env: env))
@@ -192,6 +216,8 @@ extension TestAPI.Primitives.PrimitiveHolder: NodeMutator {
                 "ui32q": (.stored(mutable: true), isStatic: false),
                 "ui64": (.stored(mutable: true), isStatic: false),
                 "ui64q": (.stored(mutable: true), isStatic: false),
+                "ui": (.stored(mutable: true), isStatic: false),
+                "uiq": (.stored(mutable: true), isStatic: false),
                 "i8": (.stored(mutable: true), isStatic: false),
                 "i8q": (.stored(mutable: true), isStatic: false),
                 "i16": (.stored(mutable: true), isStatic: false),
@@ -200,13 +226,15 @@ extension TestAPI.Primitives.PrimitiveHolder: NodeMutator {
                 "i32q": (.stored(mutable: true), isStatic: false),
                 "i64": (.stored(mutable: true), isStatic: false),
                 "i64q": (.stored(mutable: true), isStatic: false),
+                "i": (.stored(mutable: true), isStatic: false),
+                "iq": (.stored(mutable: true), isStatic: false),
                 "f": (.stored(mutable: true), isStatic: false),
                 "fq": (.stored(mutable: true), isStatic: false),
                 "d": (.stored(mutable: true), isStatic: false),
                 "dq": (.stored(mutable: true), isStatic: false),
             ],
             constructor: { env, info in
-                callbackBody(env, info, name: "Primitives.PrimitiveHolder_constructor", expectedArgumentCount: 22) { env in
+                callbackBody(env, info, name: "Primitives.PrimitiveHolder_constructor", expectedArgumentCount: 26) { env in
                     // TODO: typecheck?
                     let this = try env.this()
                     try env.env.setNamedProperty(this, "b", env.argument(at: 0))
@@ -219,18 +247,22 @@ extension TestAPI.Primitives.PrimitiveHolder: NodeMutator {
                     try env.env.setNamedProperty(this, "ui32q", env.argument(at: 7))
                     try env.env.setNamedProperty(this, "ui64", env.argument(at: 8))
                     try env.env.setNamedProperty(this, "ui64q", env.argument(at: 9))
-                    try env.env.setNamedProperty(this, "i8", env.argument(at: 10))
-                    try env.env.setNamedProperty(this, "i8q", env.argument(at: 11))
-                    try env.env.setNamedProperty(this, "i16", env.argument(at: 12))
-                    try env.env.setNamedProperty(this, "i16q", env.argument(at: 13))
-                    try env.env.setNamedProperty(this, "i32", env.argument(at: 14))
-                    try env.env.setNamedProperty(this, "i32q", env.argument(at: 15))
-                    try env.env.setNamedProperty(this, "i64", env.argument(at: 16))
-                    try env.env.setNamedProperty(this, "i64q", env.argument(at: 17))
-                    try env.env.setNamedProperty(this, "f", env.argument(at: 18))
-                    try env.env.setNamedProperty(this, "fq", env.argument(at: 19))
-                    try env.env.setNamedProperty(this, "d", env.argument(at: 20))
-                    try env.env.setNamedProperty(this, "dq", env.argument(at: 21))
+                    try env.env.setNamedProperty(this, "ui", env.argument(at: 10))
+                    try env.env.setNamedProperty(this, "uiq", env.argument(at: 11))
+                    try env.env.setNamedProperty(this, "i8", env.argument(at: 12))
+                    try env.env.setNamedProperty(this, "i8q", env.argument(at: 13))
+                    try env.env.setNamedProperty(this, "i16", env.argument(at: 14))
+                    try env.env.setNamedProperty(this, "i16q", env.argument(at: 15))
+                    try env.env.setNamedProperty(this, "i32", env.argument(at: 16))
+                    try env.env.setNamedProperty(this, "i32q", env.argument(at: 17))
+                    try env.env.setNamedProperty(this, "i64", env.argument(at: 18))
+                    try env.env.setNamedProperty(this, "i64q", env.argument(at: 19))
+                    try env.env.setNamedProperty(this, "i", env.argument(at: 20))
+                    try env.env.setNamedProperty(this, "iq", env.argument(at: 21))
+                    try env.env.setNamedProperty(this, "f", env.argument(at: 22))
+                    try env.env.setNamedProperty(this, "fq", env.argument(at: 23))
+                    try env.env.setNamedProperty(this, "d", env.argument(at: 24))
+                    try env.env.setNamedProperty(this, "dq", env.argument(at: 25))
                     return this
                 }
             }

@@ -229,6 +229,32 @@ public func Int64_cSharp_setup(
     Int64.constructor = constructor
 }
 
+extension Int: PrimitiveCSharpConverter {
+    public typealias ValueMethod = @convention(c) (csObject, csOutExn) -> Self
+    public typealias Constructor = @convention(c) (Self) -> csObject
+    public static func peekCSharp(_ value: Self) throws -> Self { value }
+    public static func toCSharp(_ value: Self) throws -> Self { value }
+
+    public static func peekCSharp(object: csObject) throws -> Self {
+        try Env.check { exn in try Env.unwrap(valueMethod)(object, exn) }
+    }
+    public static func toCSharpObject(_ value: Self) throws -> csObject {
+        try Env.unwrap(constructor)(value)
+    }
+    static var valueMethod: ValueMethod?
+    static var constructor: Constructor?
+}
+
+@_cdecl("FishyJoesRuntime_Int_setup")
+public func Int_cSharp_setup(
+    valueMethod: @escaping Int.ValueMethod,
+    constructor: @escaping Int.Constructor
+) {
+    guard Int.valueMethod == nil else { return }
+    Int.valueMethod = valueMethod
+    Int.constructor = constructor
+}
+
 extension UInt8: PrimitiveCSharpConverter {
     public typealias ValueMethod = @convention(c) (csObject, csOutExn) -> Self
     public typealias Constructor = @convention(c) (Self) -> csObject
@@ -333,7 +359,7 @@ public func UInt64_cSharp_setup(
     UInt64.constructor = constructor
 }
 
-extension Int: PrimitiveCSharpConverter {
+extension UInt: PrimitiveCSharpConverter {
     public typealias ValueMethod = @convention(c) (csObject, csOutExn) -> Self
     public typealias Constructor = @convention(c) (Self) -> csObject
     public static func peekCSharp(_ value: Self) throws -> Self { value }
@@ -349,14 +375,14 @@ extension Int: PrimitiveCSharpConverter {
     static var constructor: Constructor?
 }
 
-@_cdecl("FishyJoesRuntime_Int_setup")
-public func Int_cSharp_setup(
-    valueMethod: @escaping Int.ValueMethod,
-    constructor: @escaping Int.Constructor
+@_cdecl("FishyJoesRuntime_UInt_setup")
+public func UInt_cSharp_setup(
+    valueMethod: @escaping UInt.ValueMethod,
+    constructor: @escaping UInt.Constructor
 ) {
-    guard Int.valueMethod == nil else { return }
-    Int.valueMethod = valueMethod
-    Int.constructor = constructor
+    guard UInt.valueMethod == nil else { return }
+    UInt.valueMethod = valueMethod
+    UInt.constructor = constructor
 }
 
 extension Float: PrimitiveCSharpConverter {
@@ -456,22 +482,22 @@ extension String: CSharpConverter {
 public func Data_cSharp_setup(
     lengthMethod: @escaping Data.LengthMethod,
     bytesMethod: @escaping Data.BytesMethod,
-    constructor: @escaping Data.Constuctor
+    constructor: @escaping Data.Constructor
 ) {
     guard Data.lengthMethod == nil else { return }
     Data.lengthMethod = lengthMethod
     Data.bytesMethod = bytesMethod
-    Data.constuctor = constructor
+    Data.constructor = constructor
 }
 
 extension Data: CSharpConverter {
     public typealias LengthMethod = @convention(c) (_ data: csObject, _ exn: csOutExn) -> Int32
     public typealias BytesMethod = @convention(c) (_ data: csObject, _ outValues: UnsafeMutableRawPointer, _ exn: csOutExn) -> Void
-    public typealias Constuctor = @convention(c) (_ bytes: UnsafeRawPointer?, _ length: Int32, _ exn: csOutExn) -> csObject
+    public typealias Constructor = @convention(c) (_ bytes: UnsafeRawPointer?, _ length: Int32, _ exn: csOutExn) -> csObject
 
     fileprivate static var lengthMethod: Data.LengthMethod?
     fileprivate static var bytesMethod: Data.BytesMethod?
-    fileprivate static var constuctor: Data.Constuctor?
+    fileprivate static var constructor: Data.Constructor?
 
     public static func peekCSharp(_ value: csObject) throws -> SwiftType {
         let length = try Env.check { exn in Int(try Env.unwrap(lengthMethod)(value, exn)) }
@@ -489,7 +515,7 @@ extension Data: CSharpConverter {
     public static func toCSharp(_ value: SwiftType) throws -> csObject {
         try value.withUnsafeBytes { (buffer: UnsafeRawBufferPointer) in
             try Env.check { exn in
-                try Env.unwrap(constuctor)(buffer.baseAddress, Int32(value.count), exn)
+                try Env.unwrap(constructor)(buffer.baseAddress, Int32(value.count), exn)
             }
         }
     }
