@@ -137,7 +137,7 @@ public enum Functions {
     public static func asyncDoubleFunc(_ d: Double) async throws -> Double {
         return d * 2
     }
-    
+
     /// <!-- FishyJoes.export(asyncMultipleArgs) -->
     public static func asyncMultipleArgs(_ i: Int, j: () throws -> Int) async throws -> Int {
         try i + j()

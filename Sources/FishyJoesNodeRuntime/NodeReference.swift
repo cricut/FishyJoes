@@ -20,8 +20,10 @@ public final class NodeReference: @unchecked Sendable {
     }
 
     deinit {
-        try? onMainThread { [ref] env in
-            try? env.deleteReference(ref)
+        if ref.ptr != nil {
+            try? onMainThread { [ref] env in
+                try? env.deleteReference(ref)
+            }
         }
     }
 }

@@ -134,7 +134,7 @@ struct NodeTranslator: Translator {
                     fragment.outputMap(method.parameters, separator: "") { formal in
                         return "let arg\(argIndex) = UncheckedSendableBox(\(convertMethodParameter(formal: formal, argIndex: &argIndex, includeFormalLabel: false)))"
                     }
-                    
+
                     if method.isMutating {
                         fragment.output("let mutatingSelf = UncheckedSendableBox(try env.this(converter: Structs.MutableStruct.self))")
                         fragment.output("let jsThis = try env.env.reference(env.this())")
