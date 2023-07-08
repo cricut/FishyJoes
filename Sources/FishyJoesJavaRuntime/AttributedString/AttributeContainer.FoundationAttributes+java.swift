@@ -77,21 +77,6 @@ extension AttributeContainer.FoundationAttributes: JavaMutator {
         try env.RegisterNatives(
             javaClass,
             JNINativeMethod(
-                name: bag.add("__jni_createEmpty"),
-                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/AttributeContainerFoundationAttributes;"),
-                fnPtr: unsafeBitCast(_java_createEmpty, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_createFromContainer"),
-                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/AttributeContainer;)Lcom/cricut/fishyjoes/runtime/AttributeContainerFoundationAttributes;"),
-                fnPtr: unsafeBitCast(_java_createFromContainer, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_asContainer"),
-                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/AttributeContainer;"),
-                fnPtr: unsafeBitCast(_java_asContainer, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
                 name: bag.add("__jni_get_link"),
                 signature: bag.add("()Ljava/net/URL;"),
                 fnPtr: unsafeBitCast(_java_get_link, to: UnsafeMutableRawPointer.self)
@@ -120,8 +105,71 @@ extension AttributeContainer.FoundationAttributes: JavaMutator {
                 name: bag.add("__jni_hashCode"),
                 signature: bag.add("()I"),
                 fnPtr: unsafeBitCast(_java_hash, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_createEmpty"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/AttributeContainerFoundationAttributes;"),
+                fnPtr: unsafeBitCast(_java_createEmpty, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_createFromContainer"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/AttributeContainer;)Lcom/cricut/fishyjoes/runtime/AttributeContainerFoundationAttributes;"),
+                fnPtr: unsafeBitCast(_java_createFromContainer, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_asContainer"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/AttributeContainer;"),
+                fnPtr: unsafeBitCast(_java_asContainer, to: UnsafeMutableRawPointer.self)
             )
         )
+    }
+
+    private static let _java_get_link: @convention(c) (
+        UnsafeMutablePointer<JNIEnv?>,
+        jobject
+    ) -> OptionalConverter<URL>.CType = { _javaEnv, _javaThis in
+        FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
+            try OptionalConverter<URL>.toJava(
+                AttributeContainer.FoundationAttributes.fromJava(_javaThis, env: _javaEnv).link,
+                env: _javaEnv
+            )
+        }
+    }
+
+    private static let _java_set_link: @convention(c) (
+        UnsafeMutablePointer<JNIEnv?>,
+        jobject,
+        jobject
+    ) -> VoidConverter.CType = { _javaEnv, _javaThis, link in
+        FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
+            try AttributeContainer.FoundationAttributes.mutateJava(_javaThis, env: _javaEnv) {
+                $0.link = try OptionalConverter<URL>.fromJava(link, env: _javaEnv)
+            }
+        }
+    }
+
+    private static let _java_get_languageIdentifier: @convention(c) (
+        UnsafeMutablePointer<JNIEnv?>,
+        jobject
+    ) -> OptionalConverter<String>.CType = { _javaEnv, _javaThis in
+        FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
+            try OptionalConverter<String>.toJava(
+                AttributeContainer.FoundationAttributes.fromJava(_javaThis, env: _javaEnv).languageIdentifier,
+                env: _javaEnv
+            )
+        }
+    }
+
+    private static let _java_set_languageIdentifier: @convention(c) (
+        UnsafeMutablePointer<JNIEnv?>,
+        jobject,
+        jobject
+    ) -> VoidConverter.CType = { _javaEnv, _javaThis, languageIdentifier in
+        FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
+            try AttributeContainer.FoundationAttributes.mutateJava(_javaThis, env: _javaEnv) {
+                $0.languageIdentifier = try OptionalConverter<String>.fromJava(languageIdentifier, env: _javaEnv)
+            }
+        }
     }
 
     private static let _java_equals: @convention(c)(
@@ -187,54 +235,6 @@ extension AttributeContainer.FoundationAttributes: JavaMutator {
                 AttributeContainer(AttributeContainer.FoundationAttributes.fromJava(_javaThis, env: _javaEnv)),
                 env: _javaEnv
             )
-        }
-    }
-
-    private static let _java_get_link: @convention(c) (
-        UnsafeMutablePointer<JNIEnv?>,
-        jobject
-    ) -> OptionalConverter<URL>.CType = { _javaEnv, _javaThis in
-        FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
-            try OptionalConverter<URL>.toJava(
-                AttributeContainer.FoundationAttributes.fromJava(_javaThis, env: _javaEnv).link,
-                env: _javaEnv
-            )
-        }
-    }
-
-    private static let _java_set_link: @convention(c) (
-        UnsafeMutablePointer<JNIEnv?>,
-        jobject,
-        jobject
-    ) -> VoidConverter.CType = { _javaEnv, _javaThis, link in
-        FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
-            try AttributeContainer.FoundationAttributes.mutateJava(_javaThis, env: _javaEnv) {
-                $0.link = try OptionalConverter<URL>.fromJava(link, env: _javaEnv)
-            }
-        }
-    }
-
-    private static let _java_get_languageIdentifier: @convention(c) (
-        UnsafeMutablePointer<JNIEnv?>,
-        jobject
-    ) -> OptionalConverter<String>.CType = { _javaEnv, _javaThis in
-        FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
-            try OptionalConverter<String>.toJava(
-                AttributeContainer.FoundationAttributes.fromJava(_javaThis, env: _javaEnv).languageIdentifier,
-                env: _javaEnv
-            )
-        }
-    }
-
-    private static let _java_set_languageIdentifier: @convention(c) (
-        UnsafeMutablePointer<JNIEnv?>,
-        jobject,
-        jobject
-    ) -> VoidConverter.CType = { _javaEnv, _javaThis, languageIdentifier in
-        FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
-            try AttributeContainer.FoundationAttributes.mutateJava(_javaThis, env: _javaEnv) {
-                $0.languageIdentifier = try OptionalConverter<String>.fromJava(languageIdentifier, env: _javaEnv)
-            }
         }
     }
 }
