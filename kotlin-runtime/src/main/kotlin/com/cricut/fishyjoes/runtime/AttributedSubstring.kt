@@ -3,65 +3,22 @@ package com.cricut.fishyjoes.runtime
 /**
  * <!-- FishyJoes.exportReference(AttributedSubstring) -->
  */
-class AttributedSubstring private constructor(swiftReference: Long): com.cricut.fishyjoes.runtime.SwiftReference(swiftReference) {
+class AttributedSubstring private constructor(swiftReference: Long): SwiftReference(swiftReference) {
     /**
-     * <!-- FishyJoes.export(base) -->
+     * The attributed string that this substring references.
+     *
+     * The `startIndex` and `endIndex` of this substring are comparable to `base.startIndex` and `base.endIndex` and are guaranteed to be bounded by them.
+     * As such, the portion of the base string represented by the substring is the range from `startIndex` inclusive to `endIndex` exclusive.
      */
-    val base: com.cricut.fishyjoes.runtime.AttributedString
-      get() = __jni_get_base()
+    val base: AttributedString
+        get() = __jni_get_base()
     @JvmName("__jni_get_base")
-    private external fun __jni_get_base(): com.cricut.fishyjoes.runtime.AttributedString
+    private external fun __jni_get_base(): AttributedString
 
     /**
-     * <!-- FishyJoes.export(startIndex) -->
-     */
-    val startIndex: com.cricut.fishyjoes.runtime.AttributedString.Index
-      get() = __jni_get_startIndex()
-    @JvmName("__jni_get_startIndex")
-    private external fun __jni_get_startIndex(): com.cricut.fishyjoes.runtime.AttributedString.Index
-
-    /**
-     * <!-- FishyJoes.export(endIndex) -->
-     */
-    val endIndex: com.cricut.fishyjoes.runtime.AttributedString.Index
-      get() = __jni_get_endIndex()
-    @JvmName("__jni_get_endIndex")
-    private external fun __jni_get_endIndex(): com.cricut.fishyjoes.runtime.AttributedString.Index
-
-    /**
-     * <!-- FishyJoes.export(unicodeScalars) -->
-     */
-    val unicodeScalars: com.cricut.fishyjoes.runtime.AttributedString.UnicodeScalarView
-      get() = __jni_get_unicodeScalars()
-    @JvmName("__jni_get_unicodeScalars")
-    private external fun __jni_get_unicodeScalars(): com.cricut.fishyjoes.runtime.AttributedString.UnicodeScalarView
-
-    /**
-     * <!-- FishyJoes.export(characters) -->
-     */
-    val characters: com.cricut.fishyjoes.runtime.AttributedString.CharacterView
-      get() = __jni_get_characters()
-    @JvmName("__jni_get_characters")
-    private external fun __jni_get_characters(): com.cricut.fishyjoes.runtime.AttributedString.CharacterView
-
-    /**
-     * <!-- FishyJoes.export(runs) -->
-     */
-    val runs: com.cricut.fishyjoes.runtime.AttributedString.Runs
-      get() = __jni_get_runs()
-    @JvmName("__jni_get_runs")
-    private external fun __jni_get_runs(): com.cricut.fishyjoes.runtime.AttributedString.Runs
-
-    /**
-     * <!-- FishyJoes.export(substring) -->
-     */
-    val substring: com.cricut.fishyjoes.runtime.AttributedSubstring
-      get() = __jni_get_substring()
-    @JvmName("__jni_get_substring")
-    private external fun __jni_get_substring(): com.cricut.fishyjoes.runtime.AttributedSubstring
-
-    /**
-     * <!-- FishyJoes.export(string) -->
+     * Text represented by the attributed substring.
+     *
+     * See `runs` for the attribute information associated with the attributed substring's text.
      */
     val string: kotlin.String
         get() = __jni_get_string()
@@ -69,19 +26,81 @@ class AttributedSubstring private constructor(swiftReference: Long): com.cricut.
     private external fun __jni_get_string(): kotlin.String
 
     /**
-     * <!-- FishyJoes.export(substringForRange) -->
+     * The attributed runs of the attributed substring, as a view into the underlying string.
+     *
+     * This view provides access to the attribute information associated with the attributed substring.
+     *
+     * See `runs.elementAtPosition()` or its `get()` operator for a way to access the attributes that
+     * are associated with a particular position in the attributed substring.
+     *
+     * For example, `s.runs.first().attributes` yields the attributes in the first run of `s`
+     * and `s.runs[index].attributes` yields the attributes associated with the position `index` in `s`.
+     */
+    val runs: AttributedString.Runs
+        get() = __jni_get_runs()
+    @JvmName("__jni_get_runs")
+    private external fun __jni_get_runs(): AttributedString.Runs
+
+    /**
+     * The characters of the attributed substring, as a view into the underlying string.
+     */
+    val characters: AttributedString.CharacterView
+        get() = __jni_get_characters()
+    @JvmName("__jni_get_characters")
+    private external fun __jni_get_characters(): AttributedString.CharacterView
+
+    /**
+     * The Unicode scalars of the attributed substring, as a view into the underlying string.
+     */
+    val unicodeScalars: AttributedString.UnicodeScalarView
+        get() = __jni_get_unicodeScalars()
+    @JvmName("__jni_get_unicodeScalars")
+    private external fun __jni_get_unicodeScalars(): AttributedString.UnicodeScalarView
+
+    /**
+     * The position of the first character in a nonempty attributed substring.
+     *
+     * See `runs`, `characters`, and `unicodeScalars` for ways to obtain other indices within the attributed substring.
+     */
+    val startIndex: AttributedString.Index
+      get() = __jni_get_startIndex()
+    @JvmName("__jni_get_startIndex")
+    private external fun __jni_get_startIndex(): AttributedString.Index
+
+    /**
+     * An attributed substring’s past-the-end position — the position one greater than the last valid subscript argument.
+     *
+     * See `runs`, `characters`, and `unicodeScalars` for ways to obtain other indices within the attributed substring.
+     */
+    val endIndex: AttributedString.Index
+      get() = __jni_get_endIndex()
+    @JvmName("__jni_get_endIndex")
+    private external fun __jni_get_endIndex(): AttributedString.Index
+
+    /**
+     * An attributed substring representing the full content of the attributed substring.
+     */
+    val substring: AttributedSubstring
+      get() = __jni_get_substring()
+    @JvmName("__jni_get_substring")
+    private external fun __jni_get_substring(): AttributedSubstring
+
+    /**
+     * Obtains an attributed substring representing part of the attributed substring.
+     *
+     * @param range The portion of the attributed substring to be represented by the substring, bounded by `startIndex` and `endIndex`.
      */
     fun substringForRange(
-        /* for */ range: com.cricut.fishyjoes.runtime.SwiftRange<AttributedString.Index>
-    ): com.cricut.fishyjoes.runtime.AttributedSubstring = __jni_substringForRange(range)
+        /* for */ range: SwiftRange<AttributedString.Index>
+    ): AttributedSubstring = __jni_substringForRange(range)
     @JvmName("__jni_substringForRange")
     private external fun __jni_substringForRange(
-        range: com.cricut.fishyjoes.runtime.SwiftRange<AttributedString.Index>
-    ): com.cricut.fishyjoes.runtime.AttributedSubstring
+        range: SwiftRange<AttributedString.Index>
+    ): AttributedSubstring
 
     override fun equals(
         other: Any?
-    ): Boolean = (other is com.cricut.fishyjoes.runtime.AttributedSubstring) && __jni_swiftEquals(this, other)
+    ): Boolean = (other is AttributedSubstring) && __jni_swiftEquals(this, other)
 
     override fun hashCode(
     ): Int = __jni_hashCode()
@@ -115,24 +134,24 @@ class AttributedSubstring private constructor(swiftReference: Long): com.cricut.
 
     companion object {
         /**
-         * <!-- FishyJoes.export(createEmpty) -->
+         * Creates an attributed substring with an empty base attributed string.
          */
         fun createEmpty(
-        ): com.cricut.fishyjoes.runtime.AttributedSubstring = __jni_createEmpty()
+        ): AttributedSubstring = __jni_createEmpty()
         @JvmStatic
         @JvmName("__jni_createEmpty")
         private external fun __jni_createEmpty(
-        ): com.cricut.fishyjoes.runtime.AttributedSubstring
+        ): AttributedSubstring
 
         fun swiftEquals(
-            lhs: com.cricut.fishyjoes.runtime.AttributedSubstring,
-            rhs: com.cricut.fishyjoes.runtime.AttributedSubstring
+            lhs: AttributedSubstring,
+            rhs: AttributedSubstring
         ): Boolean = __jni_swiftEquals(lhs, rhs)
         @JvmStatic
         @JvmName("__jni_swiftEquals")
         private external fun __jni_swiftEquals(
-            lhs: com.cricut.fishyjoes.runtime.AttributedSubstring,
-            rhs: com.cricut.fishyjoes.runtime.AttributedSubstring
+            lhs: AttributedSubstring,
+            rhs: AttributedSubstring
         ): Boolean
 
         init { loadNativeLibs() }

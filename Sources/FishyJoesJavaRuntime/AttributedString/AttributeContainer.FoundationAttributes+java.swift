@@ -75,7 +75,7 @@ extension AttributeContainer.FoundationAttributes: JavaMutator {
         _constructorMethodID = try env.GetMethodID(javaClass, "<init>", "(J)V")
         let bag = CStringBag()
         try env.RegisterNatives(
-            AttributeContainer.FoundationAttributes.javaClass,
+            javaClass,
             JNINativeMethod(
                 name: bag.add("__jni_createEmpty"),
                 signature: bag.add("()Lcom/cricut/fishyjoes/runtime/AttributeContainerFoundationAttributes;"),

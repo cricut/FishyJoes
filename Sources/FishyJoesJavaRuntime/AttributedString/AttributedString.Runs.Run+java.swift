@@ -23,7 +23,8 @@ extension AttributedString.Runs.Run: JavaMutator {
         javaClass = try env.globalRef(env.FindClass("com/cricut/fishyjoes/runtime/AttributedString$Runs$Run"))
         _constructorMethodID = try env.GetMethodID(javaClass, "<init>", "(J)V")
         let bag = CStringBag()
-        try env.RegisterNatives(AttributedString.Runs.Run.javaClass,
+        try env.RegisterNatives(
+            javaClass,
             JNINativeMethod(
                 name: bag.add("__jni_get_range"),
                 signature: bag.add("()Lcom/cricut/fishyjoes/runtime/SwiftRange;"),

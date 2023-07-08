@@ -16,13 +16,15 @@ extension AttributedString.Index: JavaMutator {
     public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout AttributedString.Index) throws -> R) throws -> R {
         try body(&Box<AttributedString.Index>.fromJava(this, env: env).value)
     }
+    
     public static func javaSetup(env: Env) throws {
         guard javaClass == nil else { return }
         try AnyBox.javaSetup(env: env)
         javaClass = try env.globalRef(env.FindClass("com/cricut/fishyjoes/runtime/AttributedString$Index"))
         _constructorMethodID = try env.GetMethodID(javaClass, "<init>", "(J)V")
         let bag = CStringBag()
-        try env.RegisterNatives(javaClass,
+        try env.RegisterNatives(
+            javaClass,
             JNINativeMethod(
                 name: bag.add("__jni_swiftEquals"),
                 signature: bag.add("(Lcom/cricut/fishyjoes/runtime/AttributedString$Index;Lcom/cricut/fishyjoes/runtime/AttributedString$Index;)Z"),
