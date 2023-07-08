@@ -40,11 +40,6 @@ extension AttributedString.CharacterView: JavaMutator {
                 fnPtr: unsafeBitCast(_java_elementAt, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_replaceSubrange"),
-                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftRange;Ljava/util/List;)V"),
-                fnPtr: unsafeBitCast(_java_replaceSubrange, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
                 name: bag.add("__jni_get_startIndex"),
                 signature: bag.add("()Lcom/cricut/fishyjoes/runtime/AttributedString$Index;"),
                 fnPtr: unsafeBitCast(_java_startIndex, to: UnsafeMutableRawPointer.self)
@@ -102,26 +97,6 @@ extension AttributedString.CharacterView: JavaMutator {
                 ),
                 env: _javaEnv
             )
-        }
-    }
-
-    private static let _java_replaceSubrange: @convention(c) (
-        UnsafeMutablePointer<JNIEnv?>,
-        jobject,
-        RangeConverter<AttributedString.Index>.CType,
-        ArrayConverter<Swift.String>.CType
-    ) -> VoidConverter.CType = { _javaEnv, _javaThis, subrange, newElements in
-        FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
-            var mutatingSelf = try AttributedString.CharacterView.fromJava(_javaThis, env: _javaEnv)
-            return try AttributedString.CharacterView.mutateJava(_javaThis, env: _javaEnv) { mutatingSelf in
-                return try VoidConverter.toJava(
-                    mutatingSelf.replaceSubrange(
-                        try RangeConverter<AttributedString.Index>.fromJava(subrange, env: _javaEnv),
-                        with: try ArrayConverter<Swift.String>.fromJava(newElements, env: _javaEnv).compactMap { Character($0) }
-                    ),
-                    env: _javaEnv
-                )
-            }
         }
     }
 

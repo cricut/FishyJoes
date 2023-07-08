@@ -81,7 +81,7 @@ extension AttributedString: JavaMutator {
             ),
             JNINativeMethod(
                 name: bag.add("__jni_mergeAttributes"),
-                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/AttributeContainer;Lcom/cricut/fishyjoes/runtime/AttributedString$AttributeMergePolicy;)V"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/AttributeContainer;Z)V"),
                 fnPtr: unsafeBitCast(_java_mergeAttributes, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
@@ -96,7 +96,7 @@ extension AttributedString: JavaMutator {
             ),
             JNINativeMethod(
                 name: bag.add("__jni_mergeAttributesForRange"),
-                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftRange;Lcom/cricut/fishyjoes/runtime/AttributeContainer;Lcom/cricut/fishyjoes/runtime/AttributedString$AttributeMergePolicy;)V"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftRange;Lcom/cricut/fishyjoes/runtime/AttributeContainer;Z)V"),
                 fnPtr: unsafeBitCast(_java_mergeAttributesForRange, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
@@ -405,15 +405,15 @@ extension AttributedString: JavaMutator {
         UnsafeMutablePointer<JNIEnv?>,
         jobject,
         AttributeContainer.CType,
-        OptionalConverter<AttributedString.AttributeMergePolicy>.CType
-    ) -> VoidConverter.CType = { _javaEnv, _javaThis, attributes, mergePolicy in
+        jboolean
+    ) -> VoidConverter.CType = { _javaEnv, _javaThis, attributes, keepCurrent in
         FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
             var mutatingSelf = try AttributedString.fromJava(_javaThis, env: _javaEnv)
             return try AttributedString.mutateJava(_javaThis, env: _javaEnv) { mutatingSelf in
                 return try VoidConverter.toJava(
                     mutatingSelf.mergeAttributes(
                         try AttributeContainer.fromJava(attributes, env: _javaEnv),
-                        mergePolicy: try OptionalConverter<AttributedString.AttributeMergePolicy>.fromJava(mergePolicy, env: _javaEnv) ?? .keepNew
+                        mergePolicy: keepCurrent == jboolean(JNI_FALSE) ? .keepNew : .keepCurrent
                     ),
                     env: _javaEnv
                 )
@@ -465,15 +465,15 @@ extension AttributedString: JavaMutator {
         jobject,
         jobject,
         AttributeContainer.CType,
-        OptionalConverter<AttributedString.AttributeMergePolicy>.CType
-    ) -> VoidConverter.CType = { _javaEnv, _javaThis, range, attributes, mergePolicy in
+        jboolean
+    ) -> VoidConverter.CType = { _javaEnv, _javaThis, range, attributes, keepCurrent in
         FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
             var mutatingSelf = try AttributedString.fromJava(_javaThis, env: _javaEnv)
             return try AttributedString.mutateJava(_javaThis, env: _javaEnv) { mutatingSelf in
                 return try VoidConverter.toJava(
                     mutatingSelf[try RangeConverter<AttributedString.Index>.fromJava(range, env: _javaEnv)].mergeAttributes(
                         try AttributeContainer.fromJava(attributes, env: _javaEnv),
-                        mergePolicy: try OptionalConverter<AttributedString.AttributeMergePolicy>.fromJava(mergePolicy, env: _javaEnv) ?? .keepNew
+                        mergePolicy: keepCurrent == jboolean(JNI_FALSE) ? .keepNew : .keepCurrent
                     ),
                     env: _javaEnv
                 )

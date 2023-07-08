@@ -340,16 +340,6 @@ public class FishyJoesContext {
                     return TranslatedString()
                 } else if name.name == "AttributedString" {
                     return TranslatedAttributedString()
-                } else if name.name == "AttributedSubstring" {
-                    return TranslatedAttributedSubstring()
-                } else if name.name == "AttributeContainer" {
-                    return TranslatedAttributeContainer()
-                } else if name.name == "AttributeContainer.FoundationAttributes" {
-                    return TranslatedAttributeContainerFoundationAttributes()
-                } else if name.name == "AttributeScope" {
-                    return TranslatedAttributeScope()
-                } else if name.name == "AttributedString.AttributeMergePolicy" {
-                    return TranslatedAttributedStringAttributeMergePolicy()
                 } else if name.name == "AttributedString.Index" {
                     return TranslatedAttributedStringIndex()
                 } else if name.name == "AttributedString.UnicodeScalarView" {
@@ -362,6 +352,12 @@ public class FishyJoesContext {
                     return TranslatedAttributedStringRunsIndex()
                 } else if name.name == "AttributedString.Runs.Run" {
                     return TranslatedAttributedStringRunsRun()
+                } else if name.name == "AttributedSubstring" {
+                    return TranslatedAttributedSubstring()
+                } else if name.name == "AttributeContainer" {
+                    return TranslatedAttributeContainer()
+                } else if name.name == "AttributeContainer.FoundationAttributes" {
+                    return TranslatedAttributeContainerFoundationAttributes()
                 } else if name.name == "Data" {
                     return TranslatedData()
                 } else if name.name == "URL" {
