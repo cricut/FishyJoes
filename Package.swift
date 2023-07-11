@@ -64,7 +64,6 @@ let package = Package(
     targets: [
         T.systemLibrary(name: "NodeAPI"),
         T.systemLibrary(name: "JNI"),
-        T.target(name: "DartSDK"),
         T.target(name: "FishyJoesCommonRuntime"),
         T.target(
             name: "FishyJoesJavaRuntime",
@@ -95,7 +94,6 @@ let package = Package(
             name: "FishyJoesDartRuntime",
             dependencies: [
                 .target(name: "FishyJoesCommonRuntime"),
-                .target(name: "DartSDK"),
             ]
                 // ,swiftSettings: [.unsafeFlags(["-sanitize=thread"])], linkerSettings: [.unsafeFlags(["-sanitize=thread"])]
         ),

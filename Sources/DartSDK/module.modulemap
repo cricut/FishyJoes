@@ -1,4 +1,0 @@
-module JNI [system] {
-    header "dart_api_dl.h"
-    export *
-}
