@@ -3,25 +3,31 @@ import "dart:convert" as convert;
 import 'package:path/path.dart' as path;
 import 'package:yaml/yaml.dart' as yaml;
 
-B? optionalMap<A, B>(A? x, B Function (A) f) => x == null ? null : f(x);
-B? optionalFlatMap<A, B>(A? x, B? Function (A) f) => x == null ? null : f(x);
-
 class Download {
-  String name;
+  String repoName;
   String version;
-  String url;
+  String assetName;
 
-  Download(this.name, this.version, this.url);
+  Download(this.repoName, this.version, this.assetName);
 
   @override
   String toString() {
-    return "Download(name = '$name', version = '$version', url = '$url')";
+    return "Download(repoName = '$repoName', version = '$version', assetName = '$assetName')";
   }
 }
 
 void main() async {
+  final pubDepsResult = await io.Process.run('dart', ['pub', 'deps', '--json']);
+  io.stderr.write(pubDepsResult.stderr);
+  if (pubDepsResult.exitCode != 0) {
+    io.stderr.write("Failed to get dart dependencies (dart pub deps)");
+    io.exit(pubDepsResult.exitCode);
+  }
+  final deps = convert.json.decode(pubDepsResult.stdout)['packages'];
+
+  dynamic pubspecLock;
   try {
-    final pubspecLock = yaml.loadYaml(io.File('pubspec.lock').readAsStringSync());
+     pubspecLock = yaml.loadYaml(io.File('pubspec.lock').readAsStringSync());
   } catch (_) {
     io.stderr.writeln("");
     io.stderr.writeln("Failed to read pubspec.lock in current directory.");
@@ -29,7 +35,7 @@ void main() async {
     io.stderr.writeln("");
     io.exit(1);
   }
-  final deps = convert.json.decode(result.stdout)['packages'];
+
   List<Download> downloads = [];
   for (final dep in deps) {
     String name = dep['name'];
@@ -39,16 +45,24 @@ void main() async {
 
     // Download binaries for any remote package that is fishyjoes_dart or depends directly on it
     bool needsDownload =
-        source == 'git' &&
+        // source == 'git' &&
         (name == 'fishyjoes_dart' || directDeps.contains('fishyjoes_dart'));
     if (needsDownload) {
-      print(dep);
-      downloads.add(Download(name, version, "https://api.github.com/cricut/$name/releases/tags/$version"));
+      final depLock = pubspecLock["packages"][name];
+      if (depLock == null) {
+        io.stderr.writeln("No lock information for $name. Skipping binary download");
+      } else {
+        final url = Uri.parse(depLock["description"]["url"]);
+        String ref = depLock["description"]["ref"];
+        final pathMatch = RegExp(r'cricut/(.*?)(.git)?$').firstMatch(url.path);
+        if (pathMatch == null) {
+          io.stderr.writeln("Couldn't determing github repo of $name");
+          io.exit(1);
+        }
+        final repoName = pathMatch[1]!;
+        downloads.add(Download(repoName, ref, "dart-binaries.tgz"));
+      }
     }
-  }
-
-  for (final download in downloads) {
-    print(download);
   }
 
   Credentials? githubCreds =
@@ -59,28 +73,46 @@ void main() async {
   if (githubCreds == null) {
     io.stderr.writeln("");
     io.stderr.writeln("Failed to find github credentials.");
-    io.stderr.writeln("  Either set credentials for 'github.com' in ~/.netrc");
+    io.stderr.writeln("  Either set credentials for 'api.github.com' in ~/.netrc");
     io.stderr.writeln("  or set environment variables GITHUB_USER and GITHUB_TOKEN");
     io.stderr.writeln("");
     io.exit(1);
   }
   print("using $githubCreds");
 
-  final releaseURL = "https://api.github.com/repos/cricut/CTextFreestack/releases/tags/3.0.1";
-  final release = await callGithubAPI(Uri.parse(releaseURL), githubCreds);
-  final neededAssetName = "CTextFreestack-binaries.txz";
+  await io.Directory('native/download-cache/').create(recursive: true);
+  for (final download in downloads) {
+    final archivePath = "native/download-cache/${pathSafe(download.repoName)}-${pathSafe(download.version)}-${download.assetName}";
 
-  final asset = release['assets'].firstWhere((asset) => asset['name'] == neededAssetName);
-  if (asset == null) {
-    io.stderr.writeln("Couldn't find asset named '$neededAssetName' in release $releaseURL");
-    io.exit(1);
+    if (await io.File(archivePath).exists()) {
+      print("using cached binary for '${download.repoName}:${download.version}' at $archivePath");
+      continue;
+    }
+
+    final releaseURL = "https://api.github.com/repos/cricut/${download.repoName}/releases/tags/${download.version}";
+    dynamic release;
+    try {
+      release = await callGithubAPI(Uri.parse(releaseURL), githubCreds);
+    } catch (e) {
+      io.stderr.writeln("");
+      io.stderr.writeln("$e");
+      io.stderr.writeln("");
+      io.stderr.writeln("Failed to find github release '${download.version}' in");
+      io.stderr.writeln("  https://github.com/cricut/${download.repoName}/releases");
+      io.stderr.writeln("Check that release exists and used token has permissions to read it");
+      io.stderr.writeln("");
+      io.exit(1);
+    }
+    final asset = release['assets'].firstWhere((asset) => asset['name'] == download.assetName);
+    if (asset == null) {
+      io.stderr.writeln("Couldn't find asset named '${download.assetName}' in release");
+      io.stderr.writeln("  https://github.com/cricut/${download.repoName}/releases/tag/${download.version}");
+      io.stderr.writeln("Maybe CI/CD failed to generate the asset");
+      io.exit(1);
+    }
+    print("downloading $releaseURL => $archivePath");
+    await downloadGithubBinary(archivePath, Uri.parse(releaseURL), githubCreds);
   }
-
-  print(asset['url']);
-  // await downloadGithubBinary('foo.txz', Uri.parse(asset['url']), githubCreds);
-
-  // Not sure why this is needed, but things hang otherwise
-  io.exit(0);
 }
 
 Future<dynamic> callGithubAPI(Uri url, Credentials creds) async {
@@ -89,8 +121,7 @@ Future<dynamic> callGithubAPI(Uri url, Credentials creds) async {
   request.headers.add('Authorization', creds.basicAuth());
   final response = await request.close();
   if (response.statusCode != 200) {
-    io.stderr.writeln("GET $url failed(?) with status code ${response.statusCode}");
-    io.exit(1);
+    throw Exception("GET $url failed(?) with status code ${response.statusCode}");
   }
   final stringBody = await response.transform(convert.utf8.decoder).join();
   return convert.json.decode(stringBody);
@@ -102,10 +133,11 @@ Future<void> downloadGithubBinary(String destination, Uri url, Credentials creds
   request.headers.add('Authorization', creds.basicAuth());
   final response = await request.close();
   if (response.statusCode != 200) {
-    io.stderr.writeln("GET $url failed(?) with status code ${response.statusCode}");
-    io.exit(1);
+    throw Exception("GET $url failed(?) with status code ${response.statusCode}");
   }
-  response.pipe(io.File(destination).openWrite());
+  final tempFile = io.File(destination + ".tmp");
+  await response.pipe(tempFile.openWrite());
+  await tempFile.rename(destination);
 }
 
 // Utilities
@@ -333,3 +365,10 @@ class CredentialStore {
     return hosts[host] ?? hosts['default'];
   }
 }
+
+// Utilities
+
+String pathSafe(String input) => input.replaceAll(RegExp(r'[^-A-Za-z0-9_.]'), '-');
+
+B? optionalMap<A, B>(A? x, B Function (A) f) => x == null ? null : f(x);
+B? optionalFlatMap<A, B>(A? x, B? Function (A) f) => x == null ? null : f(x);

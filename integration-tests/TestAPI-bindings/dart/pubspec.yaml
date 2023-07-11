@@ -10,8 +10,8 @@ dependencies:
   fishyjoes_dart:
     # path: ../../../dart-runtime
     git:
-      url: https://github.com/cricut/FishyJoes.git
-      ref: cobbal/dart
+      url: https://github.com/cricut/FishyJoes
+      ref: cobbal/testing-nonsense
       path: dart-runtime
   freezed_annotation: ^2.2.0
 
