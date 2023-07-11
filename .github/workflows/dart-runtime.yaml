@@ -164,7 +164,7 @@ jobs:
           mv ubuntu_lib/libFishyJoesDartRuntime.so dart-runtime/native/linux/
           mv windows_lib/FishyJoesDartRuntime.dll dart-runtime/native/windows/
 
-          tar -cvzf dart-binaries.tgz --cd dart-runtime native
+          tar -cvzf dart-binaries.tgz -C dart-runtime native
 
       - name: Publish
         shell: zsh {0}

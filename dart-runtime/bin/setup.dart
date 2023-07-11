@@ -103,13 +103,15 @@ void main() async {
       io.stderr.writeln("");
       io.exit(1);
     }
-    final asset = release['assets'].firstWhere((asset) => asset['name'] == download.assetName);
-    if (asset == null) {
-      io.stderr.writeln("Couldn't find asset named '${download.assetName}' in release");
-      io.stderr.writeln("  https://github.com/cricut/${download.repoName}/releases/tag/${download.version}");
-      io.stderr.writeln("Maybe CI/CD failed to generate the asset");
-      io.exit(1);
-    }
+    final asset = release['assets'].firstWhere(
+      (asset) => asset['name'] == download.assetName,
+      orElse: () {
+        io.stderr.writeln("Couldn't find asset named '${download.assetName}' in release");
+        io.stderr.writeln("  https://github.com/cricut/${download.repoName}/releases/tag/${download.version}");
+        io.stderr.writeln("Maybe CI/CD failed to generate the asset");
+        io.exit(1);
+      }
+    );
     print("downloading $releaseURL => $archivePath");
     await downloadGithubBinary(archivePath, Uri.parse(releaseURL), githubCreds);
   }
