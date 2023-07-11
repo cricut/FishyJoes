@@ -18,9 +18,9 @@ import './Tuples.dart' as TestAPI;
 import 'dart:ffi' as ffi;
 import 'dart:io' show Platform, Directory;
 import 'dart:typed_data' as typed_data;
-import 'package:dart_runtime/runtime.dart';
-import 'package:dart_runtime/utilities.dart' as utils;
 import 'package:ffi/ffi.dart' as ffi;
+import 'package:fishyjoes_dart/runtime.dart';
+import 'package:fishyjoes_dart/utilities.dart' as utils;
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:path/path.dart' as path;
 import 'package:tuple/tuple.dart' as tuple;
@@ -194,8 +194,7 @@ typedef TestAPI_SimpleEnum_extract_blue = ffi.Void Function(
 );
 
 final ensureLoaded = (() {
-    final libraryPath = path.join(Directory.current.path, 'native', 'libTestAPI-dart.dylib');
-    final dylib = ffi.DynamicLibrary.open(libraryPath);
+    final dylib = Loader.openLibrary('TestAPI-dart');
     final arena = ffi.Arena();
 
     dylib.lookupFunction<ffi.Void Function(), void Function()>('FishyJoes_TestAPI_registerTypes')();

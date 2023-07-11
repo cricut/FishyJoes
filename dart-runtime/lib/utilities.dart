@@ -1,6 +1,5 @@
 import 'dart:ffi' as ffi;
-import 'package:ffi/ffi.dart';
-export 'package:ffi/ffi.dart';
+import 'package:ffi/ffi.dart' as ffi;
 
 class _PersistentHandleStruct extends ffi.Opaque {}
 
@@ -116,10 +115,10 @@ ffi.Pointer<R> catchingRef<R extends ffi.NativeType>(OutCreatedRef intoExn, ffi.
 }
 
 R check<R>(R Function(OutCreatedRef) body) {
-  final exnPtr = calloc<CreatedRef>();
+  final exnPtr = ffi.calloc<CreatedRef>();
   final result = body(exnPtr);
   final exn = consumeCreatedRef<Object?>(exnPtr.value);
-  calloc.free(exnPtr);
+  ffi.calloc.free(exnPtr);
   if (exn != null) {
     throw exn;
   }

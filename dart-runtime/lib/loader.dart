@@ -1,11 +1,16 @@
 import 'dart:ffi' as ffi;
+import 'package:ffi/ffi.dart' as ffi;
 import 'dart:io' show Platform, Directory;
 import 'dart:typed_data' as typed_data;
 import 'package:path/path.dart' as path;
 import 'package:tuple/tuple.dart';
 import 'utilities.dart';
 import 'SwiftReference.dart';
-
+import 'platform_impl/locator_stub.dart'
+    if (dart.library.ui) 'platform_impl/locator_flutter.dart'
+    if (dart.library.io) 'platform_impl/locator_dart.dart'
+    as locator
+    ;
 
 part 'loader+primitives.dart';
 part 'loader+collections.dart';
@@ -15,7 +20,7 @@ part 'loader+misc.dart';
 
 typedef _EnvNewRefFn = CreatedRef Function(UnownedRef obj);
 typedef _EnvDeleteRefFn = ffi.Void Function(ConsumedRef obj);
-typedef _EnvNewErrorFn = CreatedRef Function(ffi.Pointer<Utf16>);
+typedef _EnvNewErrorFn = CreatedRef Function(ffi.Pointer<ffi.Utf16>);
 
 typedef _FishyJoesRuntime_Env_setup = Env Function(
     ffi.Pointer<ffi.NativeFunction<_EnvNewRefFn>>,
@@ -58,8 +63,9 @@ class Loader {
     LoaderMisc._setup(env);
   }
 
-  static final _dylib = ffi.DynamicLibrary.open(path.join(
-      Directory.current.path, 'native/libFishyJoesDartRuntime.dylib'));
+  static ffi.DynamicLibrary openLibrary(String baseName) => locator.openLibrary(baseName);
+
+  static final _dylib = openLibrary('FishyJoesDartRuntime');
   final _onceSet = <String>{};
 
   static CreatedRef _newRefFn(UnownedRef obj) {
@@ -70,7 +76,7 @@ class Loader {
     consumeRef(obj);
   }
 
-  static CreatedRef _newErrorFn(ffi.Pointer<Utf16> ptr) {
+  static CreatedRef _newErrorFn(ffi.Pointer<ffi.Utf16> ptr) {
     final message = ptr.toDartString();
     return createRef(Exception(message));
   }

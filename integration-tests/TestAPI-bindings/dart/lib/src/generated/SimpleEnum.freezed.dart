@@ -40,23 +40,23 @@ mixin _$SimpleEnum {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(Red value) red,
-    required TResult Function(Green value) green,
-    required TResult Function(Blue value) blue,
+    required TResult Function(SimpleEnum_Red value) red,
+    required TResult Function(SimpleEnum_Green value) green,
+    required TResult Function(SimpleEnum_Blue value) blue,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(Red value)? red,
-    TResult? Function(Green value)? green,
-    TResult? Function(Blue value)? blue,
+    TResult? Function(SimpleEnum_Red value)? red,
+    TResult? Function(SimpleEnum_Green value)? green,
+    TResult? Function(SimpleEnum_Blue value)? blue,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(Red value)? red,
-    TResult Function(Green value)? green,
-    TResult Function(Blue value)? blue,
+    TResult Function(SimpleEnum_Red value)? red,
+    TResult Function(SimpleEnum_Green value)? green,
+    TResult Function(SimpleEnum_Blue value)? blue,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -81,22 +81,25 @@ class _$SimpleEnumCopyWithImpl<$Res, $Val extends SimpleEnum>
 }
 
 /// @nodoc
-abstract class _$$RedCopyWith<$Res> {
-  factory _$$RedCopyWith(_$Red value, $Res Function(_$Red) then) =
-      __$$RedCopyWithImpl<$Res>;
+abstract class _$$SimpleEnum_RedCopyWith<$Res> {
+  factory _$$SimpleEnum_RedCopyWith(
+          _$SimpleEnum_Red value, $Res Function(_$SimpleEnum_Red) then) =
+      __$$SimpleEnum_RedCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$RedCopyWithImpl<$Res> extends _$SimpleEnumCopyWithImpl<$Res, _$Red>
-    implements _$$RedCopyWith<$Res> {
-  __$$RedCopyWithImpl(_$Red _value, $Res Function(_$Red) _then)
+class __$$SimpleEnum_RedCopyWithImpl<$Res>
+    extends _$SimpleEnumCopyWithImpl<$Res, _$SimpleEnum_Red>
+    implements _$$SimpleEnum_RedCopyWith<$Res> {
+  __$$SimpleEnum_RedCopyWithImpl(
+      _$SimpleEnum_Red _value, $Res Function(_$SimpleEnum_Red) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$Red extends Red {
-  _$Red() : super._();
+class _$SimpleEnum_Red extends SimpleEnum_Red {
+  _$SimpleEnum_Red() : super._();
 
   @override
   String toString() {
@@ -106,7 +109,7 @@ class _$Red extends Red {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$Red);
+        (other.runtimeType == runtimeType && other is _$SimpleEnum_Red);
   }
 
   @override
@@ -149,9 +152,9 @@ class _$Red extends Red {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(Red value) red,
-    required TResult Function(Green value) green,
-    required TResult Function(Blue value) blue,
+    required TResult Function(SimpleEnum_Red value) red,
+    required TResult Function(SimpleEnum_Green value) green,
+    required TResult Function(SimpleEnum_Blue value) blue,
   }) {
     return red(this);
   }
@@ -159,9 +162,9 @@ class _$Red extends Red {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(Red value)? red,
-    TResult? Function(Green value)? green,
-    TResult? Function(Blue value)? blue,
+    TResult? Function(SimpleEnum_Red value)? red,
+    TResult? Function(SimpleEnum_Green value)? green,
+    TResult? Function(SimpleEnum_Blue value)? blue,
   }) {
     return red?.call(this);
   }
@@ -169,9 +172,9 @@ class _$Red extends Red {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(Red value)? red,
-    TResult Function(Green value)? green,
-    TResult Function(Blue value)? blue,
+    TResult Function(SimpleEnum_Red value)? red,
+    TResult Function(SimpleEnum_Green value)? green,
+    TResult Function(SimpleEnum_Blue value)? blue,
     required TResult orElse(),
   }) {
     if (red != null) {
@@ -181,29 +184,31 @@ class _$Red extends Red {
   }
 }
 
-abstract class Red extends SimpleEnum {
-  factory Red() = _$Red;
-  Red._() : super._();
+abstract class SimpleEnum_Red extends SimpleEnum {
+  factory SimpleEnum_Red() = _$SimpleEnum_Red;
+  SimpleEnum_Red._() : super._();
 }
 
 /// @nodoc
-abstract class _$$GreenCopyWith<$Res> {
-  factory _$$GreenCopyWith(_$Green value, $Res Function(_$Green) then) =
-      __$$GreenCopyWithImpl<$Res>;
+abstract class _$$SimpleEnum_GreenCopyWith<$Res> {
+  factory _$$SimpleEnum_GreenCopyWith(
+          _$SimpleEnum_Green value, $Res Function(_$SimpleEnum_Green) then) =
+      __$$SimpleEnum_GreenCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$GreenCopyWithImpl<$Res>
-    extends _$SimpleEnumCopyWithImpl<$Res, _$Green>
-    implements _$$GreenCopyWith<$Res> {
-  __$$GreenCopyWithImpl(_$Green _value, $Res Function(_$Green) _then)
+class __$$SimpleEnum_GreenCopyWithImpl<$Res>
+    extends _$SimpleEnumCopyWithImpl<$Res, _$SimpleEnum_Green>
+    implements _$$SimpleEnum_GreenCopyWith<$Res> {
+  __$$SimpleEnum_GreenCopyWithImpl(
+      _$SimpleEnum_Green _value, $Res Function(_$SimpleEnum_Green) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$Green extends Green {
-  _$Green() : super._();
+class _$SimpleEnum_Green extends SimpleEnum_Green {
+  _$SimpleEnum_Green() : super._();
 
   @override
   String toString() {
@@ -213,7 +218,7 @@ class _$Green extends Green {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$Green);
+        (other.runtimeType == runtimeType && other is _$SimpleEnum_Green);
   }
 
   @override
@@ -256,9 +261,9 @@ class _$Green extends Green {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(Red value) red,
-    required TResult Function(Green value) green,
-    required TResult Function(Blue value) blue,
+    required TResult Function(SimpleEnum_Red value) red,
+    required TResult Function(SimpleEnum_Green value) green,
+    required TResult Function(SimpleEnum_Blue value) blue,
   }) {
     return green(this);
   }
@@ -266,9 +271,9 @@ class _$Green extends Green {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(Red value)? red,
-    TResult? Function(Green value)? green,
-    TResult? Function(Blue value)? blue,
+    TResult? Function(SimpleEnum_Red value)? red,
+    TResult? Function(SimpleEnum_Green value)? green,
+    TResult? Function(SimpleEnum_Blue value)? blue,
   }) {
     return green?.call(this);
   }
@@ -276,9 +281,9 @@ class _$Green extends Green {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(Red value)? red,
-    TResult Function(Green value)? green,
-    TResult Function(Blue value)? blue,
+    TResult Function(SimpleEnum_Red value)? red,
+    TResult Function(SimpleEnum_Green value)? green,
+    TResult Function(SimpleEnum_Blue value)? blue,
     required TResult orElse(),
   }) {
     if (green != null) {
@@ -288,28 +293,31 @@ class _$Green extends Green {
   }
 }
 
-abstract class Green extends SimpleEnum {
-  factory Green() = _$Green;
-  Green._() : super._();
+abstract class SimpleEnum_Green extends SimpleEnum {
+  factory SimpleEnum_Green() = _$SimpleEnum_Green;
+  SimpleEnum_Green._() : super._();
 }
 
 /// @nodoc
-abstract class _$$BlueCopyWith<$Res> {
-  factory _$$BlueCopyWith(_$Blue value, $Res Function(_$Blue) then) =
-      __$$BlueCopyWithImpl<$Res>;
+abstract class _$$SimpleEnum_BlueCopyWith<$Res> {
+  factory _$$SimpleEnum_BlueCopyWith(
+          _$SimpleEnum_Blue value, $Res Function(_$SimpleEnum_Blue) then) =
+      __$$SimpleEnum_BlueCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$BlueCopyWithImpl<$Res> extends _$SimpleEnumCopyWithImpl<$Res, _$Blue>
-    implements _$$BlueCopyWith<$Res> {
-  __$$BlueCopyWithImpl(_$Blue _value, $Res Function(_$Blue) _then)
+class __$$SimpleEnum_BlueCopyWithImpl<$Res>
+    extends _$SimpleEnumCopyWithImpl<$Res, _$SimpleEnum_Blue>
+    implements _$$SimpleEnum_BlueCopyWith<$Res> {
+  __$$SimpleEnum_BlueCopyWithImpl(
+      _$SimpleEnum_Blue _value, $Res Function(_$SimpleEnum_Blue) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$Blue extends Blue {
-  _$Blue() : super._();
+class _$SimpleEnum_Blue extends SimpleEnum_Blue {
+  _$SimpleEnum_Blue() : super._();
 
   @override
   String toString() {
@@ -319,7 +327,7 @@ class _$Blue extends Blue {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$Blue);
+        (other.runtimeType == runtimeType && other is _$SimpleEnum_Blue);
   }
 
   @override
@@ -362,9 +370,9 @@ class _$Blue extends Blue {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(Red value) red,
-    required TResult Function(Green value) green,
-    required TResult Function(Blue value) blue,
+    required TResult Function(SimpleEnum_Red value) red,
+    required TResult Function(SimpleEnum_Green value) green,
+    required TResult Function(SimpleEnum_Blue value) blue,
   }) {
     return blue(this);
   }
@@ -372,9 +380,9 @@ class _$Blue extends Blue {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(Red value)? red,
-    TResult? Function(Green value)? green,
-    TResult? Function(Blue value)? blue,
+    TResult? Function(SimpleEnum_Red value)? red,
+    TResult? Function(SimpleEnum_Green value)? green,
+    TResult? Function(SimpleEnum_Blue value)? blue,
   }) {
     return blue?.call(this);
   }
@@ -382,9 +390,9 @@ class _$Blue extends Blue {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(Red value)? red,
-    TResult Function(Green value)? green,
-    TResult Function(Blue value)? blue,
+    TResult Function(SimpleEnum_Red value)? red,
+    TResult Function(SimpleEnum_Green value)? green,
+    TResult Function(SimpleEnum_Blue value)? blue,
     required TResult orElse(),
   }) {
     if (blue != null) {
@@ -394,7 +402,7 @@ class _$Blue extends Blue {
   }
 }
 
-abstract class Blue extends SimpleEnum {
-  factory Blue() = _$Blue;
-  Blue._() : super._();
+abstract class SimpleEnum_Blue extends SimpleEnum {
+  factory SimpleEnum_Blue() = _$SimpleEnum_Blue;
+  SimpleEnum_Blue._() : super._();
 }

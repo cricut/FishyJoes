@@ -17,9 +17,9 @@ import './Structs_ReferenceStruct.dart' as TestAPI;
 import './Tuples.dart' as TestAPI;
 import 'dart:ffi' as ffi;
 import 'dart:typed_data' as typed_data;
-import 'package:dart_runtime/runtime.dart';
-import 'package:dart_runtime/utilities.dart' as utils;
 import 'package:ffi/ffi.dart' as ffi;
+import 'package:fishyjoes_dart/runtime.dart';
+import 'package:fishyjoes_dart/utilities.dart' as utils;
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:tuple/tuple.dart' as tuple;
 
@@ -29,13 +29,13 @@ part 'SimpleEnum.freezed.dart';
 @freezed
 class SimpleEnum with _$SimpleEnum {
     factory SimpleEnum.red(
-    ) = Red;
+    ) = SimpleEnum_Red;
 
     factory SimpleEnum.green(
-    ) = Green;
+    ) = SimpleEnum_Green;
 
     factory SimpleEnum.blue(
-    ) = Blue;
+    ) = SimpleEnum_Blue;
 
     SimpleEnum._() {}
 
@@ -50,7 +50,7 @@ class SimpleEnum with _$SimpleEnum {
     static CreatedRef newRed(
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
-        createRef(Red(
+        createRef(SimpleEnum_Red(
         ))
     );
 
@@ -59,14 +59,14 @@ class SimpleEnum with _$SimpleEnum {
         OutCreatedRef exn
     ) {
         catching(exn, () {
-            final _self = peekRef<Red>(obj);
+            final _self = peekRef<SimpleEnum_Red>(obj);
         });
     }
 
     static CreatedRef newGreen(
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
-        createRef(Green(
+        createRef(SimpleEnum_Green(
         ))
     );
 
@@ -75,14 +75,14 @@ class SimpleEnum with _$SimpleEnum {
         OutCreatedRef exn
     ) {
         catching(exn, () {
-            final _self = peekRef<Green>(obj);
+            final _self = peekRef<SimpleEnum_Green>(obj);
         });
     }
 
     static CreatedRef newBlue(
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
-        createRef(Blue(
+        createRef(SimpleEnum_Blue(
         ))
     );
 
@@ -91,7 +91,7 @@ class SimpleEnum with _$SimpleEnum {
         OutCreatedRef exn
     ) {
         catching(exn, () {
-            final _self = peekRef<Blue>(obj);
+            final _self = peekRef<SimpleEnum_Blue>(obj);
         });
     }
 

@@ -216,7 +216,7 @@ class __$$_Collections_CollectionHolderCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_Collections_CollectionHolder implements _Collections_CollectionHolder {
+class _$_Collections_CollectionHolder extends _Collections_CollectionHolder {
   _$_Collections_CollectionHolder(
       {required this.boolArray,
       required this.boolSet,
@@ -226,7 +226,8 @@ class _$_Collections_CollectionHolder implements _Collections_CollectionHolder {
       required this.integerDictionary,
       required this.stringArray,
       required this.stringSet,
-      required this.stringDictionary});
+      required this.stringDictionary})
+      : super._();
 
   @override
   List<bool> boolArray;
@@ -296,7 +297,7 @@ class _$_Collections_CollectionHolder implements _Collections_CollectionHolder {
 }
 
 abstract class _Collections_CollectionHolder
-    implements Collections_CollectionHolder {
+    extends Collections_CollectionHolder {
   factory _Collections_CollectionHolder(
           {required List<bool> boolArray,
           required Set<bool> boolSet,
@@ -308,6 +309,7 @@ abstract class _Collections_CollectionHolder
           required Set<String> stringSet,
           required Map<String, String> stringDictionary}) =
       _$_Collections_CollectionHolder;
+  _Collections_CollectionHolder._() : super._();
 
   @override
   List<bool> get boolArray;

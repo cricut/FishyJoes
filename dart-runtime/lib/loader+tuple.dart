@@ -7,7 +7,7 @@ typedef _TupleConstructor = CreatedRef Function(
 
 typedef _FishyJoesRuntime_tuple_setup<R> = R Function(
   Env env,
-  ffi.Pointer<Utf16> name,
+  ffi.Pointer<ffi.Utf16> name,
   ffi.Pointer<ffi.NativeFunction<_TupleGetter>>? get0,
   ffi.Pointer<ffi.NativeFunction<_TupleGetter>>? get1,
   ffi.Pointer<ffi.NativeFunction<_TupleGetter>>? get2,
@@ -97,7 +97,7 @@ extension LoaderTuple on Loader {
       _TupleConversions.constructorPtr,
       createConsumedRef(context),
     );
-    malloc.free(cName);
+    ffi.malloc.free(cName);
   }
 
   void FishyJoesRuntime_Tuple2Converter_setup<T0, T1>(

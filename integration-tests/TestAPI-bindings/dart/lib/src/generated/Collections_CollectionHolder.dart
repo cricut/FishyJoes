@@ -17,9 +17,9 @@ import './Structs_ReferenceStruct.dart' as TestAPI;
 import './Tuples.dart' as TestAPI;
 import 'dart:ffi' as ffi;
 import 'dart:typed_data' as typed_data;
-import 'package:dart_runtime/runtime.dart';
-import 'package:dart_runtime/utilities.dart' as utils;
 import 'package:ffi/ffi.dart' as ffi;
+import 'package:fishyjoes_dart/runtime.dart';
+import 'package:fishyjoes_dart/utilities.dart' as utils;
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:tuple/tuple.dart' as tuple;
 
@@ -40,6 +40,7 @@ class Collections_CollectionHolder with _$Collections_CollectionHolder {
         required Map<String, String> stringDictionary
     }) = _Collections_CollectionHolder;
 
+    Collections_CollectionHolder._();
     static CreatedRef ffi_constructor(
         ConsumedRef boolArray,
         ConsumedRef boolSet,

@@ -106,8 +106,9 @@ class __$$_Structs_MemberwiseStructCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_Structs_MemberwiseStruct implements _Structs_MemberwiseStruct {
-  _$_Structs_MemberwiseStruct({required this.immutable, required this.mutable});
+class _$_Structs_MemberwiseStruct extends _Structs_MemberwiseStruct {
+  _$_Structs_MemberwiseStruct({required this.immutable, required this.mutable})
+      : super._();
 
   @override
   final String immutable;
@@ -140,10 +141,11 @@ class _$_Structs_MemberwiseStruct implements _Structs_MemberwiseStruct {
           _$_Structs_MemberwiseStruct>(this, _$identity);
 }
 
-abstract class _Structs_MemberwiseStruct implements Structs_MemberwiseStruct {
+abstract class _Structs_MemberwiseStruct extends Structs_MemberwiseStruct {
   factory _Structs_MemberwiseStruct(
       {required final String immutable,
       required String mutable}) = _$_Structs_MemberwiseStruct;
+  _Structs_MemberwiseStruct._() : super._();
 
   @override
   String get immutable;

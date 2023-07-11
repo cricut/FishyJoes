@@ -14,7 +14,7 @@ typedef _Invoke = CreatedRef Function(
 
 typedef _FishyJoesRuntime_FunctionConverter_setup<R> = R Function(
   Env env,
-  ffi.Pointer<Utf16> typeName,
+  ffi.Pointer<ffi.Utf16> typeName,
   ffi.Pointer<ffi.NativeFunction<_Constructor>> constructor,
   ffi.Pointer<ffi.NativeFunction<_Invoke>> invoke,
   ConsumedRef context,
@@ -155,7 +155,7 @@ extension LoaderFunctions on Loader {
       ),
       exn
     );
-    malloc.free(cName);
+    ffi.malloc.free(cName);
   }
   void FishyJoesRuntime_Function1Converter_setup<R, P0>(Env env, String name, OutCreatedRef exn) {
     final cName = name.toNativeUtf16();
@@ -181,7 +181,7 @@ extension LoaderFunctions on Loader {
       ),
       exn
     );
-    malloc.free(cName);
+    ffi.malloc.free(cName);
   }
   void FishyJoesRuntime_Function2Converter_setup<R, P0, P1>(Env env, String name, OutCreatedRef exn) {
     final cName = name.toNativeUtf16();
@@ -208,7 +208,7 @@ extension LoaderFunctions on Loader {
       ),
       exn
     );
-    malloc.free(cName);
+    ffi.malloc.free(cName);
   }
   void FishyJoesRuntime_Function3Converter_setup<R, P0, P1, P2>(Env env, String name, OutCreatedRef exn) {
     final cName = name.toNativeUtf16();
@@ -236,7 +236,7 @@ extension LoaderFunctions on Loader {
       ),
       exn
     );
-    malloc.free(cName);
+    ffi.malloc.free(cName);
   }
   void FishyJoesRuntime_Function4Converter_setup<R, P0, P1, P2, P3>(Env env, String name, OutCreatedRef exn) {
     final cName = name.toNativeUtf16();
@@ -265,7 +265,7 @@ extension LoaderFunctions on Loader {
       ),
       exn
     );
-    malloc.free(cName);
+    ffi.malloc.free(cName);
   }
   void FishyJoesRuntime_Function5Converter_setup<R, P0, P1, P2, P3, P4>(Env env, String name, OutCreatedRef exn) {
     final cName = name.toNativeUtf16();
@@ -295,7 +295,7 @@ extension LoaderFunctions on Loader {
       ),
       exn
     );
-    malloc.free(cName);
+    ffi.malloc.free(cName);
   }
   void FishyJoesRuntime_Function6Converter_setup<R, P0, P1, P2, P3, P4, P5>(Env env, String name, OutCreatedRef exn) {
     final cName = name.toNativeUtf16();
@@ -326,7 +326,7 @@ extension LoaderFunctions on Loader {
       ),
       exn
     );
-    malloc.free(cName);
+    ffi.malloc.free(cName);
   }
 
 }

@@ -50,7 +50,7 @@ let package = Package(
     dependencies: generationEnabled(
         [
             D.package(
-                url: "https://github.com/krzysztofzablocki/Sourcery", .exact("1.8.1")
+                url: "https://github.com/krzysztofzablocki/Sourcery", .branch("2.0.2")
 //                 path: "../Sourcery"
             ),
         ]
@@ -58,7 +58,7 @@ let package = Package(
         [
             D.package(url: "https://github.com/cobbal/swsh", .exact("3.0.0")),
             D.package(url: "https://github.com/apple/swift-argument-parser", from: "0.4.0"),
-            D.package(url: "https://github.com/jpsim/Yams", .upToNextMinor(from: "4.0.0")),
+            D.package(url: "https://github.com/jpsim/Yams", .upToNextMajor(from: "5.0.3")),
         ]
     ),
     targets: [

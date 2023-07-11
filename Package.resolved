@@ -59,9 +59,9 @@
         "package": "Sourcery",
         "repositoryURL": "https://github.com/krzysztofzablocki/Sourcery",
         "state": {
-          "branch": null,
-          "revision": "9616fade78c7a79f257c7b9b401a71820b501101",
-          "version": "1.8.1"
+          "branch": "2.0.2",
+          "revision": "d441f56ba972d04014c6de0f48ac17861ce629f3",
+          "version": null
         }
       },
       {
@@ -87,8 +87,8 @@
         "repositoryURL": "https://github.com/SwiftGen/StencilSwiftKit.git",
         "state": {
           "branch": null,
-          "revision": "54cbedcdbb4334e03930adcff7343ffaf317bf0f",
-          "version": "2.8.0"
+          "revision": "20e2de5322c83df005939d9d9300fab130b49f97",
+          "version": "2.10.1"
         }
       },
       {
@@ -105,8 +105,8 @@
         "repositoryURL": "https://github.com/apple/swift-syntax.git",
         "state": {
           "branch": null,
-          "revision": "0b6c22b97f8e9320bca62e82cdbee601cf37ad3f",
-          "version": "0.50600.1"
+          "revision": "2c49d66d34dfd6f8130afdba889de77504b58ec0",
+          "version": "508.0.1"
         }
       },
       {
@@ -132,8 +132,8 @@
         "repositoryURL": "https://github.com/jpsim/Yams",
         "state": {
           "branch": null,
-          "revision": "9ff1cc9327586db4e0c8f46f064b6a82ec1566fa",
-          "version": "4.0.6"
+          "revision": "0d9ee7ea8c4ebd4a489ad7a73d5c6cad55d6fed3",
+          "version": "5.0.6"
         }
       }
     ]

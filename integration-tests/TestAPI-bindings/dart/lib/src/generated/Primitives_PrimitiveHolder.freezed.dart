@@ -393,7 +393,7 @@ class __$$_Primitives_PrimitiveHolderCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_Primitives_PrimitiveHolder implements _Primitives_PrimitiveHolder {
+class _$_Primitives_PrimitiveHolder extends _Primitives_PrimitiveHolder {
   _$_Primitives_PrimitiveHolder(
       {required this.b,
       required this.bq,
@@ -416,7 +416,8 @@ class _$_Primitives_PrimitiveHolder implements _Primitives_PrimitiveHolder {
       required this.f,
       required this.fq,
       required this.d,
-      required this.dq});
+      required this.dq})
+      : super._();
 
   @override
   bool b;
@@ -532,8 +533,7 @@ class _$_Primitives_PrimitiveHolder implements _Primitives_PrimitiveHolder {
           _$_Primitives_PrimitiveHolder>(this, _$identity);
 }
 
-abstract class _Primitives_PrimitiveHolder
-    implements Primitives_PrimitiveHolder {
+abstract class _Primitives_PrimitiveHolder extends Primitives_PrimitiveHolder {
   factory _Primitives_PrimitiveHolder(
       {required bool b,
       required bool? bq,
@@ -557,6 +557,7 @@ abstract class _Primitives_PrimitiveHolder
       required double? fq,
       required double d,
       required double? dq}) = _$_Primitives_PrimitiveHolder;
+  _Primitives_PrimitiveHolder._() : super._();
 
   @override
   bool get b;

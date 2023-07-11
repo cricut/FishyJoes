@@ -21,8 +21,8 @@ void main() {
       });
 
       test('testAssociatedDataEnum', () {
-          final shape1 = (int x) => AssociatedDataEnum.thing(x);
-          final shape2 = (String x, String y, int z) => AssociatedDataEnum.bar(x, AssociatedDataEnum.other(y, z));
+          shape1(int x) => AssociatedDataEnum.thing(x);
+          shape2(String x, String y, int z) => AssociatedDataEnum.bar(x, AssociatedDataEnum.other(y, z));
 
           expect(shape1(4).intValue, equals(4));
           expect(shape2("hello", "world", 8).intValue, equals(11));

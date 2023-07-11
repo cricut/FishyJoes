@@ -330,8 +330,7 @@ final class DartTranslator: Translator {
 
         fragment.blankLine()
         fragment.outputBlock("final ensureLoaded = (() {", closeWith: "})();") {
-            fragment.output("final libraryPath = path.join(Directory.current.path, 'native', 'lib\(context.module)-dart.dylib');")
-            fragment.output("final dylib = ffi.DynamicLibrary.open(libraryPath);")
+            fragment.output("final dylib = Loader.openLibrary('\(context.module)-dart');")
             fragment.output("final arena = ffi.Arena();")
 
             fragment.blankLine()

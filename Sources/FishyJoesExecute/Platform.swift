@@ -158,7 +158,16 @@ enum Platform: Hashable {
             #else
             fatalError("unknown host OS")
             #endif
-        case .dartSystem: return "dart/native"
+        case .dartSystem:
+            #if os(macOS)
+            return "dart/native/macos"
+            #elseif os(Linux)
+            return "dart/native/linux"
+            #elseif os(Windows)
+            return "dart/native/windows"
+            #else
+            fatalError("unknown host OS")
+            #endif
         }
     }
 

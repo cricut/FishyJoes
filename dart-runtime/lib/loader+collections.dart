@@ -5,7 +5,7 @@ typedef _CollectionValues = ffi.Void Function(UnownedRef context, UnownedRef arr
 typedef _CollectionConstructor = CreatedRef Function(UnownedRef context, ffi.Pointer<UnownedRef> objects, ffi.Int length, OutCreatedRef exn);
 typedef _FishyJoesRuntime_collection_setup<R> = R Function(
   Env env,
-  ffi.Pointer<Utf16> name,
+  ffi.Pointer<ffi.Utf16> name,
   ffi.Pointer<ffi.NativeFunction<_CollectionLength>> length,
   ffi.Pointer<ffi.NativeFunction<_CollectionValues>> values,
   ffi.Pointer<ffi.NativeFunction<_CollectionConstructor>> constructor,
@@ -76,7 +76,7 @@ extension LoaderCollections on Loader {
       ),
       exn
     );
-    malloc.free(cName);
+    ffi.malloc.free(cName);
   }
 
   // Set
@@ -110,7 +110,7 @@ extension LoaderCollections on Loader {
       ),
       exn
     );
-    malloc.free(cName);
+    ffi.malloc.free(cName);
   }
 
   // Dictionary
@@ -147,7 +147,7 @@ extension LoaderCollections on Loader {
       ),
       exn
     );
-    malloc.free(cName);
+    ffi.malloc.free(cName);
   }
 
   void FishyJoesRuntime_OptionalConverter_setup(Env env, OutCreatedRef exn) => catching(exn, () {

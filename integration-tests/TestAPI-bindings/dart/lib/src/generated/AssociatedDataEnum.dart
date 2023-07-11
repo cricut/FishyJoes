@@ -17,9 +17,9 @@ import './Structs_ReferenceStruct.dart' as TestAPI;
 import './Tuples.dart' as TestAPI;
 import 'dart:ffi' as ffi;
 import 'dart:typed_data' as typed_data;
-import 'package:dart_runtime/runtime.dart';
-import 'package:dart_runtime/utilities.dart' as utils;
 import 'package:ffi/ffi.dart' as ffi;
+import 'package:fishyjoes_dart/runtime.dart';
+import 'package:fishyjoes_dart/utilities.dart' as utils;
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:tuple/tuple.dart' as tuple;
 
@@ -30,20 +30,20 @@ part 'AssociatedDataEnum.freezed.dart';
 class AssociatedDataEnum with _$AssociatedDataEnum {
     factory AssociatedDataEnum.thing(
         int value
-    ) = Thing;
+    ) = AssociatedDataEnum_Thing;
 
     factory AssociatedDataEnum.other(
         String unnamed,
         int m_1
-    ) = Other;
+    ) = AssociatedDataEnum_Other;
 
     factory AssociatedDataEnum.bar(
         String named,
         TestAPI.AssociatedDataEnum m_1
-    ) = Bar;
+    ) = AssociatedDataEnum_Bar;
 
     factory AssociatedDataEnum.noValue(
-    ) = NoValue;
+    ) = AssociatedDataEnum_NoValue;
 
     AssociatedDataEnum._() {}
 
@@ -60,7 +60,7 @@ class AssociatedDataEnum with _$AssociatedDataEnum {
         int _value,
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
-        createRef(Thing(
+        createRef(AssociatedDataEnum_Thing(
             _value
         ))
     );
@@ -71,7 +71,7 @@ class AssociatedDataEnum with _$AssociatedDataEnum {
         OutCreatedRef exn
     ) {
         catching(exn, () {
-            final _self = peekRef<Thing>(obj);
+            final _self = peekRef<AssociatedDataEnum_Thing>(obj);
             _value.value = _self.value;
         });
     }
@@ -81,7 +81,7 @@ class AssociatedDataEnum with _$AssociatedDataEnum {
         int __1,
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
-        createRef(Other(
+        createRef(AssociatedDataEnum_Other(
             consumeRef<String>(_unnamed),
             __1
         ))
@@ -94,7 +94,7 @@ class AssociatedDataEnum with _$AssociatedDataEnum {
         OutCreatedRef exn
     ) {
         catching(exn, () {
-            final _self = peekRef<Other>(obj);
+            final _self = peekRef<AssociatedDataEnum_Other>(obj);
             _unnamed.value = createRef(_self.unnamed);
             __1.value = _self.m_1;
         });
@@ -105,7 +105,7 @@ class AssociatedDataEnum with _$AssociatedDataEnum {
         ConsumedRef __1,
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
-        createRef(Bar(
+        createRef(AssociatedDataEnum_Bar(
             consumeRef<String>(_named),
             consumeRef<TestAPI.AssociatedDataEnum>(__1),
         ))
@@ -118,7 +118,7 @@ class AssociatedDataEnum with _$AssociatedDataEnum {
         OutCreatedRef exn
     ) {
         catching(exn, () {
-            final _self = peekRef<Bar>(obj);
+            final _self = peekRef<AssociatedDataEnum_Bar>(obj);
             _named.value = createRef(_self.named);
             __1.value = createRef(_self.m_1);
         });
@@ -127,7 +127,7 @@ class AssociatedDataEnum with _$AssociatedDataEnum {
     static CreatedRef newNoValue(
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
-        createRef(NoValue(
+        createRef(AssociatedDataEnum_NoValue(
         ))
     );
 
@@ -136,7 +136,7 @@ class AssociatedDataEnum with _$AssociatedDataEnum {
         OutCreatedRef exn
     ) {
         catching(exn, () {
-            final _self = peekRef<NoValue>(obj);
+            final _self = peekRef<AssociatedDataEnum_NoValue>(obj);
         });
     }
 

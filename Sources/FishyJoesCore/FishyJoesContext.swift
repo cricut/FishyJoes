@@ -91,14 +91,13 @@ public class FishyJoesContext {
         let fileName = "../../dart/lib/src/generated/\(name)"
         fileHeaders[fileName, default: []].formUnion(
             [
-
                 "import 'dart:ffi' as ffi;",
                 "import 'package:ffi/ffi.dart' as ffi;",
                 "import 'dart:typed_data' as typed_data;",
                 "import 'package:tuple/tuple.dart' as tuple;",
                 "import 'package:freezed_annotation/freezed_annotation.dart';",
-                "import 'package:dart_runtime/runtime.dart';",
-                "import 'package:dart_runtime/utilities.dart' as utils;",
+                "import 'package:fishyjoes_dart/runtime.dart';",
+                "import 'package:fishyjoes_dart/utilities.dart' as utils;",
             ] + dartClasses.map { cls in
                 "import './\(cls.unqualifiedName).dart' as \(module);"
             } + additionalImports

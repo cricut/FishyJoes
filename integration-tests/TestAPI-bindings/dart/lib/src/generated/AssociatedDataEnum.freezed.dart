@@ -43,26 +43,26 @@ mixin _$AssociatedDataEnum {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(Thing value) thing,
-    required TResult Function(Other value) other,
-    required TResult Function(Bar value) bar,
-    required TResult Function(NoValue value) noValue,
+    required TResult Function(AssociatedDataEnum_Thing value) thing,
+    required TResult Function(AssociatedDataEnum_Other value) other,
+    required TResult Function(AssociatedDataEnum_Bar value) bar,
+    required TResult Function(AssociatedDataEnum_NoValue value) noValue,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(Thing value)? thing,
-    TResult? Function(Other value)? other,
-    TResult? Function(Bar value)? bar,
-    TResult? Function(NoValue value)? noValue,
+    TResult? Function(AssociatedDataEnum_Thing value)? thing,
+    TResult? Function(AssociatedDataEnum_Other value)? other,
+    TResult? Function(AssociatedDataEnum_Bar value)? bar,
+    TResult? Function(AssociatedDataEnum_NoValue value)? noValue,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(Thing value)? thing,
-    TResult Function(Other value)? other,
-    TResult Function(Bar value)? bar,
-    TResult Function(NoValue value)? noValue,
+    TResult Function(AssociatedDataEnum_Thing value)? thing,
+    TResult Function(AssociatedDataEnum_Other value)? other,
+    TResult Function(AssociatedDataEnum_Bar value)? bar,
+    TResult Function(AssociatedDataEnum_NoValue value)? noValue,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -87,18 +87,20 @@ class _$AssociatedDataEnumCopyWithImpl<$Res, $Val extends AssociatedDataEnum>
 }
 
 /// @nodoc
-abstract class _$$ThingCopyWith<$Res> {
-  factory _$$ThingCopyWith(_$Thing value, $Res Function(_$Thing) then) =
-      __$$ThingCopyWithImpl<$Res>;
+abstract class _$$AssociatedDataEnum_ThingCopyWith<$Res> {
+  factory _$$AssociatedDataEnum_ThingCopyWith(_$AssociatedDataEnum_Thing value,
+          $Res Function(_$AssociatedDataEnum_Thing) then) =
+      __$$AssociatedDataEnum_ThingCopyWithImpl<$Res>;
   @useResult
   $Res call({int value});
 }
 
 /// @nodoc
-class __$$ThingCopyWithImpl<$Res>
-    extends _$AssociatedDataEnumCopyWithImpl<$Res, _$Thing>
-    implements _$$ThingCopyWith<$Res> {
-  __$$ThingCopyWithImpl(_$Thing _value, $Res Function(_$Thing) _then)
+class __$$AssociatedDataEnum_ThingCopyWithImpl<$Res>
+    extends _$AssociatedDataEnumCopyWithImpl<$Res, _$AssociatedDataEnum_Thing>
+    implements _$$AssociatedDataEnum_ThingCopyWith<$Res> {
+  __$$AssociatedDataEnum_ThingCopyWithImpl(_$AssociatedDataEnum_Thing _value,
+      $Res Function(_$AssociatedDataEnum_Thing) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -106,7 +108,7 @@ class __$$ThingCopyWithImpl<$Res>
   $Res call({
     Object? value = null,
   }) {
-    return _then(_$Thing(
+    return _then(_$AssociatedDataEnum_Thing(
       null == value
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
@@ -117,8 +119,8 @@ class __$$ThingCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$Thing extends Thing {
-  _$Thing(this.value) : super._();
+class _$AssociatedDataEnum_Thing extends AssociatedDataEnum_Thing {
+  _$AssociatedDataEnum_Thing(this.value) : super._();
 
   @override
   final int value;
@@ -132,7 +134,7 @@ class _$Thing extends Thing {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$Thing &&
+            other is _$AssociatedDataEnum_Thing &&
             (identical(other.value, value) || other.value == value));
   }
 
@@ -142,8 +144,10 @@ class _$Thing extends Thing {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$ThingCopyWith<_$Thing> get copyWith =>
-      __$$ThingCopyWithImpl<_$Thing>(this, _$identity);
+  _$$AssociatedDataEnum_ThingCopyWith<_$AssociatedDataEnum_Thing>
+      get copyWith =>
+          __$$AssociatedDataEnum_ThingCopyWithImpl<_$AssociatedDataEnum_Thing>(
+              this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -185,10 +189,10 @@ class _$Thing extends Thing {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(Thing value) thing,
-    required TResult Function(Other value) other,
-    required TResult Function(Bar value) bar,
-    required TResult Function(NoValue value) noValue,
+    required TResult Function(AssociatedDataEnum_Thing value) thing,
+    required TResult Function(AssociatedDataEnum_Other value) other,
+    required TResult Function(AssociatedDataEnum_Bar value) bar,
+    required TResult Function(AssociatedDataEnum_NoValue value) noValue,
   }) {
     return thing(this);
   }
@@ -196,10 +200,10 @@ class _$Thing extends Thing {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(Thing value)? thing,
-    TResult? Function(Other value)? other,
-    TResult? Function(Bar value)? bar,
-    TResult? Function(NoValue value)? noValue,
+    TResult? Function(AssociatedDataEnum_Thing value)? thing,
+    TResult? Function(AssociatedDataEnum_Other value)? other,
+    TResult? Function(AssociatedDataEnum_Bar value)? bar,
+    TResult? Function(AssociatedDataEnum_NoValue value)? noValue,
   }) {
     return thing?.call(this);
   }
@@ -207,10 +211,10 @@ class _$Thing extends Thing {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(Thing value)? thing,
-    TResult Function(Other value)? other,
-    TResult Function(Bar value)? bar,
-    TResult Function(NoValue value)? noValue,
+    TResult Function(AssociatedDataEnum_Thing value)? thing,
+    TResult Function(AssociatedDataEnum_Other value)? other,
+    TResult Function(AssociatedDataEnum_Bar value)? bar,
+    TResult Function(AssociatedDataEnum_NoValue value)? noValue,
     required TResult orElse(),
   }) {
     if (thing != null) {
@@ -220,28 +224,32 @@ class _$Thing extends Thing {
   }
 }
 
-abstract class Thing extends AssociatedDataEnum {
-  factory Thing(final int value) = _$Thing;
-  Thing._() : super._();
+abstract class AssociatedDataEnum_Thing extends AssociatedDataEnum {
+  factory AssociatedDataEnum_Thing(final int value) =
+      _$AssociatedDataEnum_Thing;
+  AssociatedDataEnum_Thing._() : super._();
 
   int get value;
   @JsonKey(ignore: true)
-  _$$ThingCopyWith<_$Thing> get copyWith => throw _privateConstructorUsedError;
+  _$$AssociatedDataEnum_ThingCopyWith<_$AssociatedDataEnum_Thing>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$OtherCopyWith<$Res> {
-  factory _$$OtherCopyWith(_$Other value, $Res Function(_$Other) then) =
-      __$$OtherCopyWithImpl<$Res>;
+abstract class _$$AssociatedDataEnum_OtherCopyWith<$Res> {
+  factory _$$AssociatedDataEnum_OtherCopyWith(_$AssociatedDataEnum_Other value,
+          $Res Function(_$AssociatedDataEnum_Other) then) =
+      __$$AssociatedDataEnum_OtherCopyWithImpl<$Res>;
   @useResult
   $Res call({String unnamed, int m_1});
 }
 
 /// @nodoc
-class __$$OtherCopyWithImpl<$Res>
-    extends _$AssociatedDataEnumCopyWithImpl<$Res, _$Other>
-    implements _$$OtherCopyWith<$Res> {
-  __$$OtherCopyWithImpl(_$Other _value, $Res Function(_$Other) _then)
+class __$$AssociatedDataEnum_OtherCopyWithImpl<$Res>
+    extends _$AssociatedDataEnumCopyWithImpl<$Res, _$AssociatedDataEnum_Other>
+    implements _$$AssociatedDataEnum_OtherCopyWith<$Res> {
+  __$$AssociatedDataEnum_OtherCopyWithImpl(_$AssociatedDataEnum_Other _value,
+      $Res Function(_$AssociatedDataEnum_Other) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -250,7 +258,7 @@ class __$$OtherCopyWithImpl<$Res>
     Object? unnamed = null,
     Object? m_1 = null,
   }) {
-    return _then(_$Other(
+    return _then(_$AssociatedDataEnum_Other(
       null == unnamed
           ? _value.unnamed
           : unnamed // ignore: cast_nullable_to_non_nullable
@@ -265,8 +273,8 @@ class __$$OtherCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$Other extends Other {
-  _$Other(this.unnamed, this.m_1) : super._();
+class _$AssociatedDataEnum_Other extends AssociatedDataEnum_Other {
+  _$AssociatedDataEnum_Other(this.unnamed, this.m_1) : super._();
 
   @override
   final String unnamed;
@@ -282,7 +290,7 @@ class _$Other extends Other {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$Other &&
+            other is _$AssociatedDataEnum_Other &&
             (identical(other.unnamed, unnamed) || other.unnamed == unnamed) &&
             (identical(other.m_1, m_1) || other.m_1 == m_1));
   }
@@ -293,8 +301,10 @@ class _$Other extends Other {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$OtherCopyWith<_$Other> get copyWith =>
-      __$$OtherCopyWithImpl<_$Other>(this, _$identity);
+  _$$AssociatedDataEnum_OtherCopyWith<_$AssociatedDataEnum_Other>
+      get copyWith =>
+          __$$AssociatedDataEnum_OtherCopyWithImpl<_$AssociatedDataEnum_Other>(
+              this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -336,10 +346,10 @@ class _$Other extends Other {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(Thing value) thing,
-    required TResult Function(Other value) other,
-    required TResult Function(Bar value) bar,
-    required TResult Function(NoValue value) noValue,
+    required TResult Function(AssociatedDataEnum_Thing value) thing,
+    required TResult Function(AssociatedDataEnum_Other value) other,
+    required TResult Function(AssociatedDataEnum_Bar value) bar,
+    required TResult Function(AssociatedDataEnum_NoValue value) noValue,
   }) {
     return other(this);
   }
@@ -347,10 +357,10 @@ class _$Other extends Other {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(Thing value)? thing,
-    TResult? Function(Other value)? other,
-    TResult? Function(Bar value)? bar,
-    TResult? Function(NoValue value)? noValue,
+    TResult? Function(AssociatedDataEnum_Thing value)? thing,
+    TResult? Function(AssociatedDataEnum_Other value)? other,
+    TResult? Function(AssociatedDataEnum_Bar value)? bar,
+    TResult? Function(AssociatedDataEnum_NoValue value)? noValue,
   }) {
     return other?.call(this);
   }
@@ -358,10 +368,10 @@ class _$Other extends Other {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(Thing value)? thing,
-    TResult Function(Other value)? other,
-    TResult Function(Bar value)? bar,
-    TResult Function(NoValue value)? noValue,
+    TResult Function(AssociatedDataEnum_Thing value)? thing,
+    TResult Function(AssociatedDataEnum_Other value)? other,
+    TResult Function(AssociatedDataEnum_Bar value)? bar,
+    TResult Function(AssociatedDataEnum_NoValue value)? noValue,
     required TResult orElse(),
   }) {
     if (other != null) {
@@ -371,20 +381,23 @@ class _$Other extends Other {
   }
 }
 
-abstract class Other extends AssociatedDataEnum {
-  factory Other(final String unnamed, final int m_1) = _$Other;
-  Other._() : super._();
+abstract class AssociatedDataEnum_Other extends AssociatedDataEnum {
+  factory AssociatedDataEnum_Other(final String unnamed, final int m_1) =
+      _$AssociatedDataEnum_Other;
+  AssociatedDataEnum_Other._() : super._();
 
   String get unnamed;
   int get m_1;
   @JsonKey(ignore: true)
-  _$$OtherCopyWith<_$Other> get copyWith => throw _privateConstructorUsedError;
+  _$$AssociatedDataEnum_OtherCopyWith<_$AssociatedDataEnum_Other>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$BarCopyWith<$Res> {
-  factory _$$BarCopyWith(_$Bar value, $Res Function(_$Bar) then) =
-      __$$BarCopyWithImpl<$Res>;
+abstract class _$$AssociatedDataEnum_BarCopyWith<$Res> {
+  factory _$$AssociatedDataEnum_BarCopyWith(_$AssociatedDataEnum_Bar value,
+          $Res Function(_$AssociatedDataEnum_Bar) then) =
+      __$$AssociatedDataEnum_BarCopyWithImpl<$Res>;
   @useResult
   $Res call({String named, TestAPI.AssociatedDataEnum m_1});
 
@@ -392,10 +405,11 @@ abstract class _$$BarCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$BarCopyWithImpl<$Res>
-    extends _$AssociatedDataEnumCopyWithImpl<$Res, _$Bar>
-    implements _$$BarCopyWith<$Res> {
-  __$$BarCopyWithImpl(_$Bar _value, $Res Function(_$Bar) _then)
+class __$$AssociatedDataEnum_BarCopyWithImpl<$Res>
+    extends _$AssociatedDataEnumCopyWithImpl<$Res, _$AssociatedDataEnum_Bar>
+    implements _$$AssociatedDataEnum_BarCopyWith<$Res> {
+  __$$AssociatedDataEnum_BarCopyWithImpl(_$AssociatedDataEnum_Bar _value,
+      $Res Function(_$AssociatedDataEnum_Bar) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -404,7 +418,7 @@ class __$$BarCopyWithImpl<$Res>
     Object? named = null,
     Object? m_1 = null,
   }) {
-    return _then(_$Bar(
+    return _then(_$AssociatedDataEnum_Bar(
       null == named
           ? _value.named
           : named // ignore: cast_nullable_to_non_nullable
@@ -427,8 +441,8 @@ class __$$BarCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$Bar extends Bar {
-  _$Bar(this.named, this.m_1) : super._();
+class _$AssociatedDataEnum_Bar extends AssociatedDataEnum_Bar {
+  _$AssociatedDataEnum_Bar(this.named, this.m_1) : super._();
 
   @override
   final String named;
@@ -444,7 +458,7 @@ class _$Bar extends Bar {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$Bar &&
+            other is _$AssociatedDataEnum_Bar &&
             (identical(other.named, named) || other.named == named) &&
             (identical(other.m_1, m_1) || other.m_1 == m_1));
   }
@@ -455,8 +469,9 @@ class _$Bar extends Bar {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$BarCopyWith<_$Bar> get copyWith =>
-      __$$BarCopyWithImpl<_$Bar>(this, _$identity);
+  _$$AssociatedDataEnum_BarCopyWith<_$AssociatedDataEnum_Bar> get copyWith =>
+      __$$AssociatedDataEnum_BarCopyWithImpl<_$AssociatedDataEnum_Bar>(
+          this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -498,10 +513,10 @@ class _$Bar extends Bar {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(Thing value) thing,
-    required TResult Function(Other value) other,
-    required TResult Function(Bar value) bar,
-    required TResult Function(NoValue value) noValue,
+    required TResult Function(AssociatedDataEnum_Thing value) thing,
+    required TResult Function(AssociatedDataEnum_Other value) other,
+    required TResult Function(AssociatedDataEnum_Bar value) bar,
+    required TResult Function(AssociatedDataEnum_NoValue value) noValue,
   }) {
     return bar(this);
   }
@@ -509,10 +524,10 @@ class _$Bar extends Bar {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(Thing value)? thing,
-    TResult? Function(Other value)? other,
-    TResult? Function(Bar value)? bar,
-    TResult? Function(NoValue value)? noValue,
+    TResult? Function(AssociatedDataEnum_Thing value)? thing,
+    TResult? Function(AssociatedDataEnum_Other value)? other,
+    TResult? Function(AssociatedDataEnum_Bar value)? bar,
+    TResult? Function(AssociatedDataEnum_NoValue value)? noValue,
   }) {
     return bar?.call(this);
   }
@@ -520,10 +535,10 @@ class _$Bar extends Bar {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(Thing value)? thing,
-    TResult Function(Other value)? other,
-    TResult Function(Bar value)? bar,
-    TResult Function(NoValue value)? noValue,
+    TResult Function(AssociatedDataEnum_Thing value)? thing,
+    TResult Function(AssociatedDataEnum_Other value)? other,
+    TResult Function(AssociatedDataEnum_Bar value)? bar,
+    TResult Function(AssociatedDataEnum_NoValue value)? noValue,
     required TResult orElse(),
   }) {
     if (bar != null) {
@@ -533,34 +548,41 @@ class _$Bar extends Bar {
   }
 }
 
-abstract class Bar extends AssociatedDataEnum {
-  factory Bar(final String named, final TestAPI.AssociatedDataEnum m_1) = _$Bar;
-  Bar._() : super._();
+abstract class AssociatedDataEnum_Bar extends AssociatedDataEnum {
+  factory AssociatedDataEnum_Bar(
+          final String named, final TestAPI.AssociatedDataEnum m_1) =
+      _$AssociatedDataEnum_Bar;
+  AssociatedDataEnum_Bar._() : super._();
 
   String get named;
   TestAPI.AssociatedDataEnum get m_1;
   @JsonKey(ignore: true)
-  _$$BarCopyWith<_$Bar> get copyWith => throw _privateConstructorUsedError;
+  _$$AssociatedDataEnum_BarCopyWith<_$AssociatedDataEnum_Bar> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$NoValueCopyWith<$Res> {
-  factory _$$NoValueCopyWith(_$NoValue value, $Res Function(_$NoValue) then) =
-      __$$NoValueCopyWithImpl<$Res>;
+abstract class _$$AssociatedDataEnum_NoValueCopyWith<$Res> {
+  factory _$$AssociatedDataEnum_NoValueCopyWith(
+          _$AssociatedDataEnum_NoValue value,
+          $Res Function(_$AssociatedDataEnum_NoValue) then) =
+      __$$AssociatedDataEnum_NoValueCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$NoValueCopyWithImpl<$Res>
-    extends _$AssociatedDataEnumCopyWithImpl<$Res, _$NoValue>
-    implements _$$NoValueCopyWith<$Res> {
-  __$$NoValueCopyWithImpl(_$NoValue _value, $Res Function(_$NoValue) _then)
+class __$$AssociatedDataEnum_NoValueCopyWithImpl<$Res>
+    extends _$AssociatedDataEnumCopyWithImpl<$Res, _$AssociatedDataEnum_NoValue>
+    implements _$$AssociatedDataEnum_NoValueCopyWith<$Res> {
+  __$$AssociatedDataEnum_NoValueCopyWithImpl(
+      _$AssociatedDataEnum_NoValue _value,
+      $Res Function(_$AssociatedDataEnum_NoValue) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$NoValue extends NoValue {
-  _$NoValue() : super._();
+class _$AssociatedDataEnum_NoValue extends AssociatedDataEnum_NoValue {
+  _$AssociatedDataEnum_NoValue() : super._();
 
   @override
   String toString() {
@@ -570,7 +592,8 @@ class _$NoValue extends NoValue {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$NoValue);
+        (other.runtimeType == runtimeType &&
+            other is _$AssociatedDataEnum_NoValue);
   }
 
   @override
@@ -616,10 +639,10 @@ class _$NoValue extends NoValue {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(Thing value) thing,
-    required TResult Function(Other value) other,
-    required TResult Function(Bar value) bar,
-    required TResult Function(NoValue value) noValue,
+    required TResult Function(AssociatedDataEnum_Thing value) thing,
+    required TResult Function(AssociatedDataEnum_Other value) other,
+    required TResult Function(AssociatedDataEnum_Bar value) bar,
+    required TResult Function(AssociatedDataEnum_NoValue value) noValue,
   }) {
     return noValue(this);
   }
@@ -627,10 +650,10 @@ class _$NoValue extends NoValue {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(Thing value)? thing,
-    TResult? Function(Other value)? other,
-    TResult? Function(Bar value)? bar,
-    TResult? Function(NoValue value)? noValue,
+    TResult? Function(AssociatedDataEnum_Thing value)? thing,
+    TResult? Function(AssociatedDataEnum_Other value)? other,
+    TResult? Function(AssociatedDataEnum_Bar value)? bar,
+    TResult? Function(AssociatedDataEnum_NoValue value)? noValue,
   }) {
     return noValue?.call(this);
   }
@@ -638,10 +661,10 @@ class _$NoValue extends NoValue {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(Thing value)? thing,
-    TResult Function(Other value)? other,
-    TResult Function(Bar value)? bar,
-    TResult Function(NoValue value)? noValue,
+    TResult Function(AssociatedDataEnum_Thing value)? thing,
+    TResult Function(AssociatedDataEnum_Other value)? other,
+    TResult Function(AssociatedDataEnum_Bar value)? bar,
+    TResult Function(AssociatedDataEnum_NoValue value)? noValue,
     required TResult orElse(),
   }) {
     if (noValue != null) {
@@ -651,7 +674,7 @@ class _$NoValue extends NoValue {
   }
 }
 
-abstract class NoValue extends AssociatedDataEnum {
-  factory NoValue() = _$NoValue;
-  NoValue._() : super._();
+abstract class AssociatedDataEnum_NoValue extends AssociatedDataEnum {
+  factory AssociatedDataEnum_NoValue() = _$AssociatedDataEnum_NoValue;
+  AssociatedDataEnum_NoValue._() : super._();
 }

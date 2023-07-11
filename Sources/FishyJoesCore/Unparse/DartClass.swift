@@ -444,6 +444,9 @@ class DartProductClass: DartClass {
                 fragment.output(" = _\(unqualifiedName);")
                 fragment.blankLine()
 
+                // Not sure why this is necessary, but freezed throws a "Getters require a MyClass._() constructor" sometimes
+                fragment.output("\(unqualifiedName)._();")
+
                 fragment.outputBlock("static CreatedRef ffi_constructor(", newLineTerminated: false) {
                     for field in fields {
                         fragment.output("\(field.type.ffiConsumedName) \(field.name),")
@@ -570,7 +573,7 @@ class DartEnumClass: DartClass {
                         return "\(value.type.name(in: self)) \(DartClass.deforbidify(value.name))"
                     }
                 }
-                fragment.output(" = \(upperCaseFirst(enumCase.name));")
+                fragment.output(" = \(unqualifiedName)_\(upperCaseFirst(enumCase.name));")
                 fragment.blankLine()
             }
 
@@ -602,7 +605,7 @@ class DartEnumClass: DartClass {
                     fragment.output("OutCreatedRef exn")
                 }
                 fragment.outputBlock(" => catchingRef(exn, () =>", closeWith: ");") {
-                    fragment.outputBlock("createRef(\(caseName)(", closeWith: "))") {
+                    fragment.outputBlock("createRef(\(unqualifiedName)_\(caseName)(", closeWith: "))") {
                         for value in enumCase.values {
                             if value.type.isObject {
                                 fragment.output("consumeRef<\(value.type.name(in: self))>(_\(value.name)),")
@@ -624,7 +627,7 @@ class DartEnumClass: DartClass {
                 }
                 fragment.outputBlock(" {") {
                     fragment.outputBlock("catching(exn, () {", closeWith: "});") {
-                        fragment.output("final _self = peekRef<\(caseName)>(obj);")
+                        fragment.output("final _self = peekRef<\(unqualifiedName)_\(caseName)>(obj);")
                         for value in enumCase.values {
                             let memberName = DartClass.deforbidify(value.name)
                             if value.type.isObject {
@@ -637,32 +640,6 @@ class DartEnumClass: DartClass {
                 }
                 fragment.blankLine()
             }
-
-            // parameters.append(
-            //     .value(name: "\(enumCase.name)_extractor", type: extractorDelegate) { fragment in
-            //         fragment.outputBlock("bag<\(extractorDelegate)>(", closeWith: "),") {
-            //             fragment.outputBlock("(", newLineTerminated: false) {
-            //             }
-            //             fragment.outputBlock(" => {") {
-            //                 fragment.outputBlock("try {", newLineTerminated: false) {
-            //                     fragment.output("var enumeration = obj.Peek<\(dartType.name).\(upperCaseFirst(enumCase.name))>();")
-            //                     for value in enumCase.associatedValues {
-            //                         let resolved = context.resolve(type: value.type)
-            //                         if resolved.dartType.isObject {
-            //                             fragment.output("_\(value.bindingName) = new CreatedRef(enumeration.\(upperCaseFirst(value.bindingName)));")
-            //                         } else {
-            //                             fragment.output("_\(value.bindingName) = enumeration.\(upperCaseFirst(value.bindingName));")
-            //                         }
-            //                     }
-            //                     fragment.output("exn = CreatedRef.Null;")
-            //                 }
-            //                 fragment.outputBlock(" catch (Exception e) {") {
-            //                     fragment.output("exn = new CreatedRef(e);")
-            //                 }
-            //             }
-            //         }
-            //     }
-            // )
 
             fields.forEach { output(field: $0, to: fragment) }
             methods.forEach { output(method: $0, to: fragment) }
