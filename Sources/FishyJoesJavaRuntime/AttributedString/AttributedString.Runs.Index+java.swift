@@ -23,7 +23,8 @@ extension AttributedString.Runs.Index: JavaMutator {
         javaClass = try env.globalRef(env.FindClass("com/cricut/fishyjoes/runtime/AttributedString$Runs$Index"))
         _constructorMethodID = try env.GetMethodID(javaClass, "<init>", "(J)V")
         let bag = CStringBag()
-        try env.RegisterNatives(javaClass,
+        try env.RegisterNatives(
+            javaClass,
             JNINativeMethod(
                 name: bag.add("__jni_swiftEquals"),
                 signature: bag.add("(Lcom/cricut/fishyjoes/runtime/AttributedString$Runs$Index;Lcom/cricut/fishyjoes/runtime/AttributedString$Runs$Index;)Z"),

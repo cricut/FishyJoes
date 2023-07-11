@@ -1,12 +1,24 @@
 package com.cricut.fishyjoes.runtime
 
 /**
- * <!-- FishyJoes.exportReference(AttributeContainer) -->
+ * A type that provides a way to store attributes and their values outside of an attributed string.
+ *
+ * Use this type to initialize an instance of AttributedString with preset attributes,
+ * and to set, merge, or replace attributes in existing attributed strings.
+ *
+ * Libraries that depend on `AttributeContainer` are free to define their own attributes to be associated with attributed strings.
+ * As a result of this flexibility, the actual values of attributes can only be obtained using types defined in those libraries.
+ *
+ * The runtime itself defines one such type, `AttributeContainerFoundationAttributes`.
+ * To obtain the values of attributes from that type, such as the `link` attribute or `languageIdentifier` attribute,
+ * one must construct an instance passing the container:
+ *
+ * `val link = `AttributeContainerFoundationAttributes(someContainer).link`
  */
-class AttributeContainer private constructor(swiftReference: Long): com.cricut.fishyjoes.runtime.SwiftReference(swiftReference) {
+class AttributeContainer private constructor(swiftReference: Long): SwiftReference(swiftReference) {
     override fun equals(
         other: Any?
-    ): Boolean = (other is com.cricut.fishyjoes.runtime.AttributeContainer) && __jni_swiftEquals(this, other)
+    ): Boolean = (other is AttributeContainer) && __jni_swiftEquals(this, other)
 
     override fun hashCode(
     ): Int = __jni_hashCode()
@@ -16,27 +28,27 @@ class AttributeContainer private constructor(swiftReference: Long): com.cricut.f
 
     companion object {
         /**
-         * <!-- FishyJoes.export(createEmpty) -->
+         * Creates an attribute container having no attribute values.
          */
         fun createEmpty(
-        ): com.cricut.fishyjoes.runtime.AttributeContainer = __jni_createEmpty()
+        ): AttributeContainer = __jni_createEmpty()
         @JvmStatic
         @JvmName("__jni_createEmpty")
         private external fun __jni_createEmpty(
-        ): com.cricut.fishyjoes.runtime.AttributeContainer
+        ): AttributeContainer
 
         fun swiftEquals(
-            lhs: com.cricut.fishyjoes.runtime.AttributeContainer,
-            rhs: com.cricut.fishyjoes.runtime.AttributeContainer
+            lhs: AttributeContainer,
+            rhs: AttributeContainer
         ): Boolean = __jni_swiftEquals(lhs, rhs)
         @JvmStatic
         @JvmName("__jni_swiftEquals")
         private external fun __jni_swiftEquals(
-            lhs: com.cricut.fishyjoes.runtime.AttributeContainer,
-            rhs: com.cricut.fishyjoes.runtime.AttributeContainer
+            lhs: AttributeContainer,
+            rhs: AttributeContainer
         ): Boolean
 
-        operator fun invoke() = com.cricut.fishyjoes.runtime.AttributeContainer.createEmpty()
+        operator fun invoke() = AttributeContainer.createEmpty()
 
         init { loadNativeLibs() }
     }

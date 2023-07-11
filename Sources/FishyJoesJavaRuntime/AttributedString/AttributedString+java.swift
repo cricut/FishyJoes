@@ -23,21 +23,47 @@ extension AttributedString: JavaMutator {
         javaClass = try env.globalRef(env.FindClass("com/cricut/fishyjoes/runtime/AttributedString"))
         _constructorMethodID = try env.GetMethodID(javaClass, "<init>", "(J)V")
         let bag = CStringBag()
-        try env.RegisterNatives(javaClass,
+        try env.RegisterNatives(
+            javaClass,
             JNINativeMethod(
-                name: bag.add("__jni_createEmpty"),
-                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/AttributedString;"),
-                fnPtr: unsafeBitCast(_java_createEmpty, to: UnsafeMutableRawPointer.self)
+                name: bag.add("__jni_get_string"),
+                signature: bag.add("()Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(_java_string, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_create"),
-                signature: bag.add("(Ljava/lang/String;Lcom/cricut/fishyjoes/runtime/AttributeContainer;)Lcom/cricut/fishyjoes/runtime/AttributedString;"),
-                fnPtr: unsafeBitCast(_java_create, to: UnsafeMutableRawPointer.self)
+                name: bag.add("__jni_get_runs"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/AttributedString$Runs;"),
+                fnPtr: unsafeBitCast(_java_runs, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_createFromSubstring"),
-                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/AttributedSubstring;)Lcom/cricut/fishyjoes/runtime/AttributedString;"),
-                fnPtr: unsafeBitCast(_java_createFromSubstring, to: UnsafeMutableRawPointer.self)
+                name: bag.add("__jni_get_characters"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/AttributedString$CharacterView;"),
+                fnPtr: unsafeBitCast(_java_characters, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_unicodeScalars"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/AttributedString$UnicodeScalarView;"),
+                fnPtr: unsafeBitCast(_java_unicodeScalars, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_substring"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/AttributedSubstring;"),
+                fnPtr: unsafeBitCast(_java_substring, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_substringForRange"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftRange;)Lcom/cricut/fishyjoes/runtime/AttributedSubstring;"),
+                fnPtr: unsafeBitCast(_java_substringForRange, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_startIndex"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/AttributedString$Index;"),
+                fnPtr: unsafeBitCast(_java_startIndex, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_endIndex"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/AttributedString$Index;"),
+                fnPtr: unsafeBitCast(_java_endIndex, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_append"),
@@ -80,9 +106,19 @@ extension AttributedString: JavaMutator {
                 fnPtr: unsafeBitCast(_java_setAttributes, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
+                name: bag.add("__jni_setAttributesForRange"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftRange;Lcom/cricut/fishyjoes/runtime/AttributeContainer;)V"),
+                fnPtr: unsafeBitCast(_java_setAttributesForRange, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
                 name: bag.add("__jni_mergeAttributes"),
-                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/AttributeContainer;Lcom/cricut/fishyjoes/runtime/AttributedString$AttributeMergePolicy;)V"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/AttributeContainer;Z)V"),
                 fnPtr: unsafeBitCast(_java_mergeAttributes, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_mergeAttributesForRange"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftRange;Lcom/cricut/fishyjoes/runtime/AttributeContainer;Z)V"),
+                fnPtr: unsafeBitCast(_java_mergeAttributesForRange, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_replaceAttributes"),
@@ -90,59 +126,9 @@ extension AttributedString: JavaMutator {
                 fnPtr: unsafeBitCast(_java_replaceAttributes, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_setAttributesForRange"),
-                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftRange;Lcom/cricut/fishyjoes/runtime/AttributeContainer;)V"),
-                fnPtr: unsafeBitCast(_java_setAttributesForRange, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_mergeAttributesForRange"),
-                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftRange;Lcom/cricut/fishyjoes/runtime/AttributeContainer;Lcom/cricut/fishyjoes/runtime/AttributedString$AttributeMergePolicy;)V"),
-                fnPtr: unsafeBitCast(_java_mergeAttributesForRange, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
                 name: bag.add("__jni_replaceAttributesForRange"),
                 signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftRange;Lcom/cricut/fishyjoes/runtime/AttributeContainer;Lcom/cricut/fishyjoes/runtime/AttributeContainer;)V"),
                 fnPtr: unsafeBitCast(_java_replaceAttributesForRange, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_startIndex"),
-                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/AttributedString$Index;"),
-                fnPtr: unsafeBitCast(_java_startIndex, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_endIndex"),
-                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/AttributedString$Index;"),
-                fnPtr: unsafeBitCast(_java_endIndex, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_unicodeScalars"),
-                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/AttributedString$UnicodeScalarView;"),
-                fnPtr: unsafeBitCast(_java_unicodeScalars, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_characters"),
-                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/AttributedString$CharacterView;"),
-                fnPtr: unsafeBitCast(_java_characters, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_runs"),
-                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/AttributedString$Runs;"),
-                fnPtr: unsafeBitCast(_java_runs, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_substringForRange"),
-                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftRange;)Lcom/cricut/fishyjoes/runtime/AttributedSubstring;"),
-                fnPtr: unsafeBitCast(_java_substringForRange, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_substring"),
-                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/AttributedSubstring;"),
-                fnPtr: unsafeBitCast(_java_substring, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_string"),
-                signature: bag.add("()Ljava/lang/String;"),
-                fnPtr: unsafeBitCast(_java_string, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_swiftEquals"),
@@ -153,6 +139,21 @@ extension AttributedString: JavaMutator {
                 name: bag.add("__jni_hashCode"),
                 signature: bag.add("()I"),
                 fnPtr: unsafeBitCast(_java_hash, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_createEmpty"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/AttributedString;"),
+                fnPtr: unsafeBitCast(_java_createEmpty, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_create"),
+                signature: bag.add("(Ljava/lang/String;Lcom/cricut/fishyjoes/runtime/AttributeContainer;)Lcom/cricut/fishyjoes/runtime/AttributedString;"),
+                fnPtr: unsafeBitCast(_java_create, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_createFromSubstring"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/AttributedSubstring;)Lcom/cricut/fishyjoes/runtime/AttributedString;"),
+                fnPtr: unsafeBitCast(_java_createFromSubstring, to: UnsafeMutableRawPointer.self)
             )
         )
         try AttributedSubstring.javaSetup(env: env)
@@ -163,74 +164,50 @@ extension AttributedString: JavaMutator {
         try AttributeContainer.javaSetup(env: env)
     }
 
-    private static let _java_equals: @convention(c)(
-        UnsafeMutablePointer<JNIEnv?>,
-        jobject?,
-        jobject?,
-        jobject?
-    ) -> Bool.CType = { _javaEnv, _, lhs, rhs in
-        FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
-            return try Bool.toJava(
-                AttributedString.fromJava(lhs, env: _javaEnv) == AttributedString.fromJava(rhs, env: _javaEnv),
-                env: _javaEnv
-            )
-        }
-    }
-
-    private static let _java_hash: @convention(c)(
-        UnsafeMutablePointer<JNIEnv?>,
-        jobject?
-    ) -> Int32.CType = { _javaEnv, _javaThis in
-        FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
-            return try Int32.toJava(
-                Int32(truncatingIfNeeded: AttributedString.fromJava(_javaThis, env: _javaEnv).hashValue),
-                env: _javaEnv
-            )
-        }
-    }
-
-    private static let _java_createEmpty: @convention(c) (
+    private static let _java_string: @convention(c) (
         UnsafeMutablePointer<JNIEnv?>,
         jobject
-    ) -> AttributedString.CType = { _javaEnv, _ in
+    ) -> String.CType = { _javaEnv, _javaThis in
         FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
-            return try AttributedString.toJava(
-                AttributedString(
-                ),
-                env: _javaEnv
-            )
+            let s = try AttributedString.fromJava(_javaThis, env: _javaEnv)
+            return try String.toJava(String(s.characters), env: _javaEnv)
         }
     }
 
-    private static let _java_create: @convention(c) (
+    private static let _java_runs: @convention(c) (
         UnsafeMutablePointer<JNIEnv?>,
-        jobject,
-        Swift.String.CType,
-        OptionalConverter<AttributeContainer>.CType
-    ) -> AttributedString.CType = { _javaEnv, _, string, attributes in
+        jobject
+    ) -> AttributedString.Runs.CType = { _javaEnv, _javaThis in
         FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
-            return try AttributedString.toJava(
-                AttributedString(
-                    try Swift.String.fromJava(string, env: _javaEnv),
-                    attributes: try OptionalConverter<AttributeContainer>.fromJava(attributes, env: _javaEnv) ?? .init()
-                ),
-                env: _javaEnv
-            )
+            try AttributedString.Runs.toJava(AttributedString.fromJava(_javaThis, env: _javaEnv).runs, env: _javaEnv)
         }
     }
 
-    private static let _java_createFromSubstring: @convention(c) (
+    private static let _java_characters: @convention(c) (
         UnsafeMutablePointer<JNIEnv?>,
-        jobject,
-        AttributedSubstring.CType
-    ) -> AttributedString.CType = { _javaEnv, _, substring in
+        jobject
+    ) -> AttributedString.CharacterView.CType = { _javaEnv, _javaThis in
         FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
-            return try AttributedString.toJava(
-                AttributedString(
-                    try AttributedSubstring.fromJava(substring, env: _javaEnv)
-                ),
-                env: _javaEnv
-            )
+            try AttributedString.CharacterView.toJava(AttributedString.fromJava(_javaThis, env: _javaEnv).characters, env: _javaEnv)
+        }
+    }
+
+    private static let _java_unicodeScalars: @convention(c) (
+        UnsafeMutablePointer<JNIEnv?>,
+        jobject
+    ) -> AttributedString.UnicodeScalarView.CType = { _javaEnv, _javaThis in
+        FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
+            try AttributedString.UnicodeScalarView.toJava(AttributedString.fromJava(_javaThis, env: _javaEnv).unicodeScalars, env: _javaEnv)
+        }
+    }
+
+    private static let _java_substring: @convention(c) (
+        UnsafeMutablePointer<JNIEnv?>,
+        jobject
+    ) -> AttributedSubstring.CType = { _javaEnv, _javaThis in
+        FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
+            let s = try AttributedString.fromJava(_javaThis, env: _javaEnv)
+            return try AttributedSubstring.toJava(s[s.startIndex..<s.endIndex], env: _javaEnv)
         }
     }
 
@@ -246,6 +223,24 @@ extension AttributedString: JavaMutator {
                 ],
                 env: _javaEnv
             )
+        }
+    }
+
+    private static let _java_startIndex: @convention(c) (
+        UnsafeMutablePointer<JNIEnv?>,
+        jobject
+    ) -> AttributedString.Index.CType = { _javaEnv, _javaThis in
+        FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
+            try AttributedString.Index.toJava(AttributedString.fromJava(_javaThis, env: _javaEnv).startIndex, env: _javaEnv)
+        }
+    }
+
+    private static let _java_endIndex: @convention(c) (
+        UnsafeMutablePointer<JNIEnv?>,
+        jobject
+    ) -> AttributedString.Index.CType = { _javaEnv, _javaThis in
+        FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
+            try AttributedString.Index.toJava(AttributedString.fromJava(_javaThis, env: _javaEnv).endIndex, env: _javaEnv)
         }
     }
 
@@ -401,19 +396,59 @@ extension AttributedString: JavaMutator {
         }
     }
 
+    private static let _java_setAttributesForRange: @convention(c) (
+        UnsafeMutablePointer<JNIEnv?>,
+        jobject,
+        jobject,
+        AttributeContainer.CType
+    ) -> VoidConverter.CType = { _javaEnv, _javaThis, range, attributes in
+        FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
+            var mutatingSelf = try AttributedString.fromJava(_javaThis, env: _javaEnv)
+            return try AttributedString.mutateJava(_javaThis, env: _javaEnv) { mutatingSelf in
+                return try VoidConverter.toJava(
+                    mutatingSelf[try RangeConverter<AttributedString.Index>.fromJava(range, env: _javaEnv)].setAttributes(
+                        try AttributeContainer.fromJava(attributes, env: _javaEnv)
+                    ),
+                    env: _javaEnv
+                )
+            }
+        }
+    }
+
     private static let _java_mergeAttributes: @convention(c) (
         UnsafeMutablePointer<JNIEnv?>,
         jobject,
         AttributeContainer.CType,
-        OptionalConverter<AttributedString.AttributeMergePolicy>.CType
-    ) -> VoidConverter.CType = { _javaEnv, _javaThis, attributes, mergePolicy in
+        jboolean
+    ) -> VoidConverter.CType = { _javaEnv, _javaThis, attributes, keepCurrent in
         FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
             var mutatingSelf = try AttributedString.fromJava(_javaThis, env: _javaEnv)
             return try AttributedString.mutateJava(_javaThis, env: _javaEnv) { mutatingSelf in
                 return try VoidConverter.toJava(
                     mutatingSelf.mergeAttributes(
                         try AttributeContainer.fromJava(attributes, env: _javaEnv),
-                        mergePolicy: try OptionalConverter<AttributedString.AttributeMergePolicy>.fromJava(mergePolicy, env: _javaEnv) ?? .keepNew
+                        mergePolicy: keepCurrent == jboolean(JNI_FALSE) ? .keepNew : .keepCurrent
+                    ),
+                    env: _javaEnv
+                )
+            }
+        }
+    }
+
+    private static let _java_mergeAttributesForRange: @convention(c) (
+        UnsafeMutablePointer<JNIEnv?>,
+        jobject,
+        jobject,
+        AttributeContainer.CType,
+        jboolean
+    ) -> VoidConverter.CType = { _javaEnv, _javaThis, range, attributes, keepCurrent in
+        FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
+            var mutatingSelf = try AttributedString.fromJava(_javaThis, env: _javaEnv)
+            return try AttributedString.mutateJava(_javaThis, env: _javaEnv) { mutatingSelf in
+                return try VoidConverter.toJava(
+                    mutatingSelf[try RangeConverter<AttributedString.Index>.fromJava(range, env: _javaEnv)].mergeAttributes(
+                        try AttributeContainer.fromJava(attributes, env: _javaEnv),
+                        mergePolicy: keepCurrent == jboolean(JNI_FALSE) ? .keepNew : .keepCurrent
                     ),
                     env: _javaEnv
                 )
@@ -434,46 +469,6 @@ extension AttributedString: JavaMutator {
                     mutatingSelf.replaceAttributes(
                         try AttributeContainer.fromJava(attributes, env: _javaEnv),
                         with: try AttributeContainer.fromJava(others, env: _javaEnv)
-                    ),
-                    env: _javaEnv
-                )
-            }
-        }
-    }
-
-    private static let _java_setAttributesForRange: @convention(c) (
-        UnsafeMutablePointer<JNIEnv?>,
-        jobject,
-        jobject,
-        AttributeContainer.CType
-    ) -> VoidConverter.CType = { _javaEnv, _javaThis, range, attributes in
-        FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
-            var mutatingSelf = try AttributedString.fromJava(_javaThis, env: _javaEnv)
-            return try AttributedString.mutateJava(_javaThis, env: _javaEnv) { mutatingSelf in
-                return try VoidConverter.toJava(
-                    mutatingSelf[try RangeConverter<AttributedString.Index>.fromJava(range, env: _javaEnv)].setAttributes(
-                        try AttributeContainer.fromJava(attributes, env: _javaEnv)
-                    ),
-                    env: _javaEnv
-                )
-            }
-        }
-    }
-
-    private static let _java_mergeAttributesForRange: @convention(c) (
-        UnsafeMutablePointer<JNIEnv?>,
-        jobject,
-        jobject,
-        AttributeContainer.CType,
-        OptionalConverter<AttributedString.AttributeMergePolicy>.CType
-    ) -> VoidConverter.CType = { _javaEnv, _javaThis, range, attributes, mergePolicy in
-        FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
-            var mutatingSelf = try AttributedString.fromJava(_javaThis, env: _javaEnv)
-            return try AttributedString.mutateJava(_javaThis, env: _javaEnv) { mutatingSelf in
-                return try VoidConverter.toJava(
-                    mutatingSelf[try RangeConverter<AttributedString.Index>.fromJava(range, env: _javaEnv)].mergeAttributes(
-                        try AttributeContainer.fromJava(attributes, env: _javaEnv),
-                        mergePolicy: try OptionalConverter<AttributedString.AttributeMergePolicy>.fromJava(mergePolicy, env: _javaEnv) ?? .keepNew
                     ),
                     env: _javaEnv
                 )
@@ -502,68 +497,74 @@ extension AttributedString: JavaMutator {
         }
     }
 
-    private static let _java_startIndex: @convention(c) (
+    private static let _java_equals: @convention(c)(
         UnsafeMutablePointer<JNIEnv?>,
-        jobject
-    ) -> AttributedString.Index.CType = { _javaEnv, _javaThis in
+        jobject?,
+        jobject?,
+        jobject?
+    ) -> Bool.CType = { _javaEnv, _, lhs, rhs in
         FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
-            try AttributedString.Index.toJava(AttributedString.fromJava(_javaThis, env: _javaEnv).startIndex, env: _javaEnv)
+            return try Bool.toJava(
+                AttributedString.fromJava(lhs, env: _javaEnv) == AttributedString.fromJava(rhs, env: _javaEnv),
+                env: _javaEnv
+            )
         }
     }
 
-    private static let _java_endIndex: @convention(c) (
+    private static let _java_hash: @convention(c)(
         UnsafeMutablePointer<JNIEnv?>,
-        jobject
-    ) -> AttributedString.Index.CType = { _javaEnv, _javaThis in
+        jobject?
+    ) -> Int32.CType = { _javaEnv, _javaThis in
         FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
-            try AttributedString.Index.toJava(AttributedString.fromJava(_javaThis, env: _javaEnv).endIndex, env: _javaEnv)
+            return try Int32.toJava(
+                Int32(truncatingIfNeeded: AttributedString.fromJava(_javaThis, env: _javaEnv).hashValue),
+                env: _javaEnv
+            )
         }
     }
 
-    private static let _java_unicodeScalars: @convention(c) (
+    private static let _java_createEmpty: @convention(c) (
         UnsafeMutablePointer<JNIEnv?>,
         jobject
-    ) -> AttributedString.UnicodeScalarView.CType = { _javaEnv, _javaThis in
+    ) -> AttributedString.CType = { _javaEnv, _ in
         FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
-            try AttributedString.UnicodeScalarView.toJava(AttributedString.fromJava(_javaThis, env: _javaEnv).unicodeScalars, env: _javaEnv)
+            return try AttributedString.toJava(
+                AttributedString(
+                ),
+                env: _javaEnv
+            )
         }
     }
 
-    private static let _java_characters: @convention(c) (
+    private static let _java_create: @convention(c) (
         UnsafeMutablePointer<JNIEnv?>,
-        jobject
-    ) -> AttributedString.CharacterView.CType = { _javaEnv, _javaThis in
+        jobject,
+        Swift.String.CType,
+        OptionalConverter<AttributeContainer>.CType
+    ) -> AttributedString.CType = { _javaEnv, _, string, attributes in
         FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
-            try AttributedString.CharacterView.toJava(AttributedString.fromJava(_javaThis, env: _javaEnv).characters, env: _javaEnv)
+            return try AttributedString.toJava(
+                AttributedString(
+                    try Swift.String.fromJava(string, env: _javaEnv),
+                    attributes: try OptionalConverter<AttributeContainer>.fromJava(attributes, env: _javaEnv) ?? .init()
+                ),
+                env: _javaEnv
+            )
         }
     }
 
-    private static let _java_runs: @convention(c) (
+    private static let _java_createFromSubstring: @convention(c) (
         UnsafeMutablePointer<JNIEnv?>,
-        jobject
-    ) -> AttributedString.Runs.CType = { _javaEnv, _javaThis in
+        jobject,
+        AttributedSubstring.CType
+    ) -> AttributedString.CType = { _javaEnv, _, substring in
         FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
-            try AttributedString.Runs.toJava(AttributedString.fromJava(_javaThis, env: _javaEnv).runs, env: _javaEnv)
-        }
-    }
-
-    private static let _java_substring: @convention(c) (
-        UnsafeMutablePointer<JNIEnv?>,
-        jobject
-    ) -> AttributedSubstring.CType = { _javaEnv, _javaThis in
-        FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
-            let s = try AttributedString.fromJava(_javaThis, env: _javaEnv)
-            return try AttributedSubstring.toJava(s[s.startIndex..<s.endIndex], env: _javaEnv)
-        }
-    }
-
-    private static let _java_string: @convention(c) (
-        UnsafeMutablePointer<JNIEnv?>,
-        jobject
-    ) -> String.CType = { _javaEnv, _javaThis in
-        FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
-            let s = try AttributedString.fromJava(_javaThis, env: _javaEnv)
-            return try String.toJava(String(s.characters), env: _javaEnv)
+            return try AttributedString.toJava(
+                AttributedString(
+                    try AttributedSubstring.fromJava(substring, env: _javaEnv)
+                ),
+                env: _javaEnv
+            )
         }
     }
 }

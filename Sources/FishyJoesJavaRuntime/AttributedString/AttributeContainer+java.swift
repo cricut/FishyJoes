@@ -23,7 +23,8 @@ extension AttributeContainer: JavaMutator {
         javaClass = try env.globalRef(env.FindClass("com/cricut/fishyjoes/runtime/AttributeContainer"))
         _constructorMethodID = try env.GetMethodID(javaClass, "<init>", "(J)V")
         let bag = CStringBag()
-        try env.RegisterNatives(AttributeContainer.javaClass,
+        try env.RegisterNatives(
+            javaClass,
             JNINativeMethod(
                 name: bag.add("__jni_createEmpty"),
                 signature: bag.add("()Lcom/cricut/fishyjoes/runtime/AttributeContainer;"),

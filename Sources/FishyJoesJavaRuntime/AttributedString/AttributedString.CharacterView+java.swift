@@ -23,7 +23,18 @@ extension AttributedString.CharacterView: JavaMutator {
         javaClass = try env.globalRef(env.FindClass("com/cricut/fishyjoes/runtime/AttributedString$CharacterView"))
         _constructorMethodID = try env.GetMethodID(javaClass, "<init>", "(J)V")
         let bag = CStringBag()
-        try env.RegisterNatives(AttributedString.CharacterView.javaClass,
+        try env.RegisterNatives(
+            javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_get_startIndex"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/AttributedString$Index;"),
+                fnPtr: unsafeBitCast(_java_startIndex, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_endIndex"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/AttributedString$Index;"),
+                fnPtr: unsafeBitCast(_java_endIndex, to: UnsafeMutableRawPointer.self)
+            ),
             JNINativeMethod(
                 name: bag.add("__jni_indexBefore"),
                 signature: bag.add("(Lcom/cricut/fishyjoes/runtime/AttributedString$Index;)Lcom/cricut/fishyjoes/runtime/AttributedString$Index;"),
@@ -38,24 +49,27 @@ extension AttributedString.CharacterView: JavaMutator {
                 name: bag.add("__jni_elementAt"),
                 signature: bag.add("(Lcom/cricut/fishyjoes/runtime/AttributedString$Index;)Ljava/lang/String;"),
                 fnPtr: unsafeBitCast(_java_elementAt, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_replaceSubrange"),
-                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftRange;Ljava/util/List;)V"),
-                fnPtr: unsafeBitCast(_java_replaceSubrange, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_startIndex"),
-                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/AttributedString$Index;"),
-                fnPtr: unsafeBitCast(_java_startIndex, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_endIndex"),
-                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/AttributedString$Index;"),
-                fnPtr: unsafeBitCast(_java_endIndex, to: UnsafeMutableRawPointer.self)
             )
         )
         try AttributedString.Index.javaSetup(env: env)
+    }
+
+    private static let _java_startIndex: @convention(c) (
+        UnsafeMutablePointer<JNIEnv?>,
+        jobject
+    ) -> AttributedString.Index.CType = { _javaEnv, _javaThis in
+        FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
+            try AttributedString.Index.toJava(AttributedString.CharacterView.fromJava(_javaThis, env: _javaEnv).startIndex, env: _javaEnv)
+        }
+    }
+
+    private static let _java_endIndex: @convention(c) (
+        UnsafeMutablePointer<JNIEnv?>,
+        jobject
+    ) -> AttributedString.Index.CType = { _javaEnv, _javaThis in
+        FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
+            try AttributedString.Index.toJava(AttributedString.CharacterView.fromJava(_javaThis, env: _javaEnv).endIndex, env: _javaEnv)
+        }
     }
 
     private static let _java_indexBefore: @convention(c) (
@@ -102,44 +116,6 @@ extension AttributedString.CharacterView: JavaMutator {
                 ),
                 env: _javaEnv
             )
-        }
-    }
-
-    private static let _java_replaceSubrange: @convention(c) (
-        UnsafeMutablePointer<JNIEnv?>,
-        jobject,
-        RangeConverter<AttributedString.Index>.CType,
-        ArrayConverter<Swift.String>.CType
-    ) -> VoidConverter.CType = { _javaEnv, _javaThis, subrange, newElements in
-        FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
-            var mutatingSelf = try AttributedString.CharacterView.fromJava(_javaThis, env: _javaEnv)
-            return try AttributedString.CharacterView.mutateJava(_javaThis, env: _javaEnv) { mutatingSelf in
-                return try VoidConverter.toJava(
-                    mutatingSelf.replaceSubrange(
-                        try RangeConverter<AttributedString.Index>.fromJava(subrange, env: _javaEnv),
-                        with: try ArrayConverter<Swift.String>.fromJava(newElements, env: _javaEnv).compactMap { Character($0) }
-                    ),
-                    env: _javaEnv
-                )
-            }
-        }
-    }
-
-    private static let _java_startIndex: @convention(c) (
-        UnsafeMutablePointer<JNIEnv?>,
-        jobject
-    ) -> AttributedString.Index.CType = { _javaEnv, _javaThis in
-        FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
-            try AttributedString.Index.toJava(AttributedString.CharacterView.fromJava(_javaThis, env: _javaEnv).startIndex, env: _javaEnv)
-        }
-    }
-
-    private static let _java_endIndex: @convention(c) (
-        UnsafeMutablePointer<JNIEnv?>,
-        jobject
-    ) -> AttributedString.Index.CType = { _javaEnv, _javaThis in
-        FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
-            try AttributedString.Index.toJava(AttributedString.CharacterView.fromJava(_javaThis, env: _javaEnv).endIndex, env: _javaEnv)
         }
     }
 }

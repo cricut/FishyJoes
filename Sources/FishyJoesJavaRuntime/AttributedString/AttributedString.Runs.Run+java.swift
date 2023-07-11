@@ -23,7 +23,8 @@ extension AttributedString.Runs.Run: JavaMutator {
         javaClass = try env.globalRef(env.FindClass("com/cricut/fishyjoes/runtime/AttributedString$Runs$Run"))
         _constructorMethodID = try env.GetMethodID(javaClass, "<init>", "(J)V")
         let bag = CStringBag()
-        try env.RegisterNatives(AttributedString.Runs.Run.javaClass,
+        try env.RegisterNatives(
+            javaClass,
             JNINativeMethod(
                 name: bag.add("__jni_get_range"),
                 signature: bag.add("()Lcom/cricut/fishyjoes/runtime/SwiftRange;"),
@@ -46,6 +47,24 @@ extension AttributedString.Runs.Run: JavaMutator {
             )
         )
         try AttributedString.Index.javaSetup(env: env)
+    }
+
+    private static let _java_range: @convention(c) (
+        UnsafeMutablePointer<JNIEnv?>,
+        jobject
+    ) -> RangeConverter<AttributedString.Index>.CType = { _javaEnv, _javaThis in
+        FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
+            try RangeConverter<AttributedString.Index>.toJava(AttributedString.Runs.Run.fromJava(_javaThis, env: _javaEnv).range, env: _javaEnv)
+        }
+    }
+
+    private static let _java_attributes: @convention(c) (
+        UnsafeMutablePointer<JNIEnv?>,
+        jobject
+    ) -> AttributeContainer.CType = { _javaEnv, _javaThis in
+        FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
+            try AttributeContainer.toJava(AttributedString.Runs.Run.fromJava(_javaThis, env: _javaEnv).attributes, env: _javaEnv)
+        }
     }
 
     private static let _java_equals: @convention(c)(
@@ -71,24 +90,6 @@ extension AttributedString.Runs.Run: JavaMutator {
                 Int32(truncatingIfNeeded: AttributedString("", attributes: AttributedString.Runs.Run.fromJava(_javaThis, env: _javaEnv).attributes).hashValue),
                 env: _javaEnv
             )
-        }
-    }
-
-    private static let _java_range: @convention(c) (
-        UnsafeMutablePointer<JNIEnv?>,
-        jobject
-    ) -> RangeConverter<AttributedString.Index>.CType = { _javaEnv, _javaThis in
-        FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
-            try RangeConverter<AttributedString.Index>.toJava(AttributedString.Runs.Run.fromJava(_javaThis, env: _javaEnv).range, env: _javaEnv)
-        }
-    }
-
-    private static let _java_attributes: @convention(c) (
-        UnsafeMutablePointer<JNIEnv?>,
-        jobject
-    ) -> AttributeContainer.CType = { _javaEnv, _javaThis in
-        FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
-            try AttributeContainer.toJava(AttributedString.Runs.Run.fromJava(_javaThis, env: _javaEnv).attributes, env: _javaEnv)
         }
     }
 }

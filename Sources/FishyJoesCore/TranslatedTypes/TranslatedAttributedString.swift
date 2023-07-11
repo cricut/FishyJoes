@@ -52,32 +52,6 @@ struct TranslatedAttributeContainerFoundationAttributes: TranslatedType {
     let definingModule = Module.runtime
 }
 
-struct TranslatedAttributeScope: TranslatedType {
-    let sourceType = BetterType.named(.init(name: "Foundation.AttributeScope"))
-    let containedNamedTypes: [TranslatedType] = []
-    let neutralName = "AttributeScope"
-    let nodeName = "AttributeScope"
-    let kotlinPackage: String? = "com.cricut.fishyjoes.runtime"
-    let kotlinName = "AttributeScope"
-    let jniType = JNIType.object("com/cricut/fishyjoes/runtime/AttributeScope")
-    let cSharpType = CSharpClass.CSType.named(package: "Cricut.FishyJoesRuntime", name: "AttributeScope")
-    let cppName = "AttributeScope"
-    let definingModule = Module.runtime
-}
-
-struct TranslatedAttributedStringAttributeMergePolicy: TranslatedType {
-    let sourceType = BetterType.named(.init(name: "Foundation.AttributedString.AttributeMergePolicy"))
-    let containedNamedTypes: [TranslatedType] = []
-    let neutralName = "AttributedSubstring.AttributeMergePolicy"
-    let nodeName = "AttributedSubstring.AttributeMergePolicy"
-    let kotlinPackage: String? = "com.cricut.fishyjoes.runtime"
-    let kotlinName = "AttributedSubstring.AttributeMergePolicy"
-    let jniType = JNIType.object("com/cricut/fishyjoes/runtime/AttributedString$AttributeMergePolicy")
-    let cSharpType = CSharpClass.CSType.named(package: "Cricut.FishyJoesRuntime", name: "AttributedString.AttributeMergePolicy")
-    let cppName = "AttributedString::AttributeMergePolicy"
-    let definingModule = Module.runtime
-}
-
 struct TranslatedAttributedStringIndex: TranslatedType {
     let sourceType = BetterType.named(.init(name: "Foundation.AttributedString.Index"))
     let containedNamedTypes: [TranslatedType] = []
