@@ -336,11 +336,16 @@ extension CodeGen {
                         "FishyJoesDartRuntime",
                         config.module,
                         config.module + "-dart",
-                    ]
+                    ] + config.requiredModules.flatMap { module in
+                        [
+                            module,
+                            module + "-dart",
+                        ]
+                    }
                     for lib in libs {
                         let libPath = platform.dylibPath(for: lib, configuration: configuration)
                         try cmd("cp", libPath, outputDir).run()
-                        try cmd("codesign", "-s", "i-hate-apple-security", "\(outputDir)/\(platform.dylibName(for: lib))").run()
+                        try cmd("codesign", "-s", "-", "\(outputDir)/\(platform.dylibName(for: lib))").run()
                     }
                 }
             }

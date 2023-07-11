@@ -20,7 +20,7 @@ void main() async {
   final pubDepsResult = await io.Process.run('dart', ['pub', 'deps', '--json']);
   io.stderr.write(pubDepsResult.stderr);
   if (pubDepsResult.exitCode != 0) {
-    io.stderr.write("Failed to get dart dependencies (dart pub deps)");
+    io.stderr.writeln("Failed to get dart dependencies (dart pub deps)");
     io.exit(pubDepsResult.exitCode);
   }
   final deps = convert.json.decode(pubDepsResult.stdout)['packages'];
@@ -86,35 +86,48 @@ void main() async {
 
     if (await io.File(archivePath).exists()) {
       print("using cached binary for '${download.repoName}:${download.version}' at $archivePath");
-      continue;
-    }
-
-    final releaseURL = "https://api.github.com/repos/cricut/${download.repoName}/releases/tags/${download.version}";
-    dynamic release;
-    try {
-      release = await callGithubAPI(Uri.parse(releaseURL), githubCreds);
-    } catch (e) {
-      io.stderr.writeln("");
-      io.stderr.writeln("$e");
-      io.stderr.writeln("");
-      io.stderr.writeln("Failed to find github release '${download.version}' in");
-      io.stderr.writeln("  https://github.com/cricut/${download.repoName}/releases");
-      io.stderr.writeln("Check that release exists and used token has permissions to read it");
-      io.stderr.writeln("");
-      io.exit(1);
-    }
-    final asset = release['assets'].firstWhere(
-      (asset) => asset['name'] == download.assetName,
-      orElse: () {
-        io.stderr.writeln("Couldn't find asset named '${download.assetName}' in release");
-        io.stderr.writeln("  https://github.com/cricut/${download.repoName}/releases/tag/${download.version}");
-        io.stderr.writeln("Maybe CI/CD failed to generate the asset");
+    } else {
+      // Download binaries
+      final releaseURL = "https://api.github.com/repos/cricut/${download.repoName}/releases/tags/${download.version}";
+      dynamic release;
+      try {
+        release = await callGithubAPI(Uri.parse(releaseURL), githubCreds);
+      } catch (e) {
+        io.stderr.writeln("");
+        io.stderr.writeln("$e");
+        io.stderr.writeln("");
+        io.stderr.writeln("Failed to find github release '${download.version}' in");
+        io.stderr.writeln("  https://github.com/cricut/${download.repoName}/releases");
+        io.stderr.writeln("Check that release exists and used token has permissions to read it");
+        io.stderr.writeln("");
         io.exit(1);
       }
-    );
-    print("downloading $releaseURL => $archivePath");
-    await downloadGithubBinary(archivePath, Uri.parse(releaseURL), githubCreds);
+      final asset = release['assets'].firstWhere(
+        (asset) => asset['name'] == download.assetName,
+        orElse: () {
+          io.stderr.writeln("Couldn't find asset named '${download.assetName}' in release");
+          io.stderr.writeln("  https://github.com/cricut/${download.repoName}/releases/tag/${download.version}");
+          io.stderr.writeln("Maybe CI/CD failed to generate the asset");
+          io.exit(1);
+        }
+      );
+      print("downloading $releaseURL => $archivePath");
+      await downloadGithubBinary(archivePath, Uri.parse(asset['url']), githubCreds);
+    }
+
+    // Extract binaries
+    final tarResult = await io.Process.run('tar', ['-xvzf', archivePath]);
+    io.stdout.write(tarResult.stdout);
+    io.stderr.write(tarResult.stderr);
+    if (tarResult.exitCode != 0) {
+      io.stderr.writeln("Failed to extract archive:");
+      io.stderr.writeln("  tar -xvzf $archivePath");
+      io.exit(tarResult.exitCode);
+    }
   }
+
+  // process hangs for a long time if we don't do this
+  io.exit(0);
 }
 
 Future<dynamic> callGithubAPI(Uri url, Credentials creds) async {

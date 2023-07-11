@@ -45,6 +45,7 @@ jobs:
 
           swift build --configuration release --product FishyJoesDartRuntime
           cp .build/release/libFishyJoesDartRuntime.dylib $libdir/macos
+          codesign -s - $libdir/macos/libFishyJoesDartRuntime.dylib
 
       - name: Upload library
         uses: actions/upload-artifact@v2
