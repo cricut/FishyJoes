@@ -38,14 +38,7 @@ jobs:
         run: |
           set -euxo pipefail
 
-          libdir=dart-runtime/native
-
-          rm -rf $libdir
-          mkdir -p $libdir/macos
-
-          swift build --configuration release --product FishyJoesDartRuntime
-          cp .build/release/libFishyJoesDartRuntime.dylib $libdir/macos
-          codesign -s - $libdir/macos/libFishyJoesDartRuntime.dylib
+          ./scripts/compile-dart-runtime.sh
 
       - name: Upload library
         uses: actions/upload-artifact@v2
@@ -78,13 +71,7 @@ jobs:
         run: |
           set -euxo pipefail
 
-          libdir=dart-runtime/native
-
-          rm -rf $libdir
-          mkdir -p $libdir/linux
-
-          swift build --configuration release --product FishyJoesDartRuntime
-          cp .build/release/libFishyJoesDartRuntime.so $libdir/linux
+          ./scripts/compile-dart-runtime.sh
 
       - name: Upload library
         uses: actions/upload-artifact@v2
