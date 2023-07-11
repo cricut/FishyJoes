@@ -1,6 +1,5 @@
 import FishyJoesCommonRuntime
 import Foundation
-import DartSDK
 
 class DartReference {
     let object: foreignObject

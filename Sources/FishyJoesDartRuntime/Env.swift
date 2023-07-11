@@ -1,9 +1,5 @@
 @_exported import FishyJoesCommonRuntime
 import Foundation
-import DartSDK
-
-@_exported import FishyJoesCommonRuntime
-import Foundation
 
 public typealias foreignObject = OpaquePointer?
 public typealias foreignOutExn = UnsafeMutablePointer<foreignObject>
