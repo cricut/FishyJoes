@@ -55,10 +55,16 @@ public struct Env {
     public static var deleteRefHandle = CallbackMap<DeleteRefFn>()
     public static var newErrorHandle = CallbackMap<NewErrorFn>()
 
+    public static func withLock<R>(_ body: () throws -> R) rethrows -> R {
+        staticLock.lock()
+        defer { staticLock.unlock() }
+        return try body()
+    }
+
     fileprivate init(
-        newRefFn: NewRefFn,
-        deleteRefFn: DeleteRefFn,
-        newErrorFn: NewErrorFn
+        newRefFn: @escaping NewRefFn,
+        deleteRefFn: @escaping DeleteRefFn,
+        newErrorFn: @escaping NewErrorFn
     ) {
         Env.staticLock.lock()
         defer { Env.staticLock.unlock() }
@@ -74,24 +80,24 @@ public struct Env {
     private static var _typeIDsByName: [String: TypeID] = [:]
 
     public static func typeID(object: AnyObject) -> TypeID? {
-        staticLock.withLock {
+        withLock {
             _typeIDsByObject[ObjectIdentifier(object)]
         }
     }
     public static func objectID(typeID: TypeID) -> ObjectIdentifier? {
-        staticLock.withLock {
+        withLock {
             _objectIDsByID[typeID]
         }
     }
     public static func typeID(name: String) -> TypeID? {
-        staticLock.withLock {
+        withLock {
             _typeIDsByName[name]
         }
     }
 
     private static var nextUniqueID: TypeID = 0
     private static func newUniqueID() -> Int {
-        staticLock.withLock {
+        withLock {
             defer { nextUniqueID += 1 }
             return nextUniqueID
         }
@@ -99,7 +105,7 @@ public struct Env {
 
     public static func registerType<T>(_ type: T.Type, as name: String) {
         let typeID = newUniqueID()
-        staticLock.withLock {
+        withLock {
             let objectID = ObjectIdentifier(type)
             guard _typeIDsByObject[objectID] == nil else { return }
             _typeIDsByObject[objectID] = typeID
