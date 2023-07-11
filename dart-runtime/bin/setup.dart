@@ -1,6 +1,7 @@
 import "dart:io" as io;
 import "dart:convert" as convert;
 import 'package:path/path.dart' as path;
+import 'package:yaml/yaml.dart' as yaml;
 
 B? optionalMap<A, B>(A? x, B Function (A) f) => x == null ? null : f(x);
 B? optionalFlatMap<A, B>(A? x, B? Function (A) f) => x == null ? null : f(x);
@@ -19,10 +20,14 @@ class Download {
 }
 
 void main() async {
-  final result = await io.Process.run('dart', ['pub', 'deps', '--json']);
-  io.stderr.write(result.stderr);
-  if (result.exitCode != 0) {
-    io.exit(result.exitCode);
+  try {
+    final pubspecLock = yaml.loadYaml(io.File('pubspec.lock').readAsStringSync());
+  } catch (_) {
+    io.stderr.writeln("");
+    io.stderr.writeln("Failed to read pubspec.lock in current directory.");
+    io.stderr.writeln("Needed to determine versions of binaries to download.");
+    io.stderr.writeln("");
+    io.exit(1);
   }
   final deps = convert.json.decode(result.stdout)['packages'];
   List<Download> downloads = [];
@@ -34,9 +39,10 @@ void main() async {
 
     // Download binaries for any remote package that is fishyjoes_dart or depends directly on it
     bool needsDownload =
-        // source == 'git' &&
+        source == 'git' &&
         (name == 'fishyjoes_dart' || directDeps.contains('fishyjoes_dart'));
     if (needsDownload) {
+      print(dep);
       downloads.add(Download(name, version, "https://api.github.com/cricut/$name/releases/tags/$version"));
     }
   }
