@@ -11,7 +11,7 @@ dependencies:
     # path: ../../../dart-runtime
     git:
       url: https://github.com/cricut/FishyJoes
-      ref: 3.0.3-alpha5
+      ref: 3.0.3-alpha6
       path: dart-runtime
   freezed_annotation: ^2.2.0
 

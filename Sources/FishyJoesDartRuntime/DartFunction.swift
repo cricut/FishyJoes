@@ -57,7 +57,7 @@ public struct FunctionInfo {
 
 // Shared setup for all 7 function converters
 @_cdecl("FishyJoesRuntime_FunctionConverter_setup")
-func FunctionConverter_setup(
+public func FunctionConverter_setup(
     _ envRef: EnvRef,
     _ name: UnsafePointer<unichar>,
     _ constructor: @escaping FunctionInfo.Constructor,
