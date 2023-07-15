@@ -9,6 +9,14 @@ public struct JSException: Error {
     }
 }
 
+public struct MalformedURLError: Error {
+    public let message: String
+
+    public init(message: String) {
+        self.message = message
+    }
+}
+
 // Node has already recorded an exception. Let it propigate.
 public struct JSExceptionPending: Error {}
 

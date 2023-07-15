@@ -247,7 +247,7 @@ extension CodeGen {
                 case .node:
                     try platform.build(
                         product: "\(config.module)-node",
-                        libs: libs.flatMap { [$0, "\($0)-node"] } + ["FishyJoesNodeRuntime"],
+                        libs: libs.flatMap { [$0, "\($0)-node"] },
                         configuration: configuration
                     )
                 case .kotlinSystem, .kotlinAndroid:
@@ -360,7 +360,6 @@ extension CodeGen {
                     }
 
                 case .node:
-                    try installLibrary("FishyJoesNodeRuntime")
                     for dependency in config.requiredModules + [config.module] {
                         try installLibrary(dependency)
 

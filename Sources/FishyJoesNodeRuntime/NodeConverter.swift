@@ -179,7 +179,7 @@ extension Double: NodeConverter {
     }
 }
 
-// MARK: - Less-Primitive Type Conversions
+// MARK: - String Type Conversion
 
 extension String: NodeConverter {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> String {
@@ -190,6 +190,8 @@ extension String: NodeConverter {
         try env.createStringUtf8(value)
     }
 }
+
+// MARK: - Data Type Conversion
 
 extension Data: NodeConverter {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Data {
@@ -232,6 +234,24 @@ extension Data: NodeConverter {
         }
 
         return arrayBuffer
+    }
+}
+
+// MARK: - URL Type Conversion
+
+extension URL: NodeConverter {
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> URL {
+        let urlString = try env.getValueStringUtf8(value) ?? ""
+        guard let url = URL(string: urlString) else { throw MalformedURLError(message: "Not a valid URL: \(urlString)") }
+
+        return url
+    }
+
+    public static func toNode(_ value: URL, env: NAPI.Env) throws -> NAPI.Value {
+        let urlString = value.absoluteString
+        let urlObject = try env.createStringUtf8(urlString)
+
+        return urlObject
     }
 }
 

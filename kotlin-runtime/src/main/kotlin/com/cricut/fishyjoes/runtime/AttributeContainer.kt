@@ -16,6 +16,24 @@ package com.cricut.fishyjoes.runtime
  * `val link = `AttributeContainerFoundationAttributes(someContainer).link`
  */
 class AttributeContainer private constructor(swiftReference: Long): SwiftReference(swiftReference) {
+    /**
+     * Merges the attributes of another attribute container with those of this container.
+     *
+     * @param other The other attribute container whose attributes should be merged into this container.
+     * @param keepCurrent For attributes in `other` that already have a value in this container,
+     *                    passing `true` retains the current value of the attribute,
+     *                    passing `false` replaces the value of the attribute with the one in `other`.
+     */
+    fun mergeAttributes(
+        other: AttributeContainer,
+        keepCurrent: Boolean = false
+    ): kotlin.Unit = __jni_merge(other, keepCurrent)
+    @JvmName("__jni_merge")
+    private external fun __jni_merge(
+        other: AttributeContainer,
+        keepCurrent: Boolean
+    ): kotlin.Unit
+
     override fun equals(
         other: Any?
     ): Boolean = (other is AttributeContainer) && __jni_swiftEquals(this, other)

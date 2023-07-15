@@ -86,11 +86,6 @@ extension AttributedString: JavaMutator {
                 fnPtr: unsafeBitCast(_java_insertSubstring, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_removeSubrange"),
-                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftRange;)V"),
-                fnPtr: unsafeBitCast(_java_removeSubrange, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
                 name: bag.add("__jni_replaceSubrange"),
                 signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftRange;Lcom/cricut/fishyjoes/runtime/AttributedString;)V"),
                 fnPtr: unsafeBitCast(_java_replaceSubrange, to: UnsafeMutableRawPointer.self)
@@ -99,6 +94,11 @@ extension AttributedString: JavaMutator {
                 name: bag.add("__jni_replaceSubrangeWithSubstring"),
                 signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftRange;Lcom/cricut/fishyjoes/runtime/AttributedSubstring;)V"),
                 fnPtr: unsafeBitCast(_java_replaceSubrangeWithSubstring, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_removeSubrange"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/SwiftRange;)V"),
+                fnPtr: unsafeBitCast(_java_removeSubrange, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_setAttributes"),
@@ -320,24 +320,6 @@ extension AttributedString: JavaMutator {
         }
     }
 
-    private static let _java_removeSubrange: @convention(c) (
-        UnsafeMutablePointer<JNIEnv?>,
-        jobject,
-        RangeConverter<AttributedString.Index>.CType
-    ) -> VoidConverter.CType = { _javaEnv, _javaThis, range in
-        FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
-            var mutatingSelf = try AttributedString.fromJava(_javaThis, env: _javaEnv)
-            return try AttributedString.mutateJava(_javaThis, env: _javaEnv) { mutatingSelf in
-                return try VoidConverter.toJava(
-                    mutatingSelf.removeSubrange(
-                        try RangeConverter<AttributedString.Index>.fromJava(range, env: _javaEnv)
-                    ),
-                    env: _javaEnv
-                )
-            }
-        }
-    }
-
     private static let _java_replaceSubrange: @convention(c) (
         UnsafeMutablePointer<JNIEnv?>,
         jobject,
@@ -371,6 +353,24 @@ extension AttributedString: JavaMutator {
                     mutatingSelf.replaceSubrange(
                         try RangeConverter<AttributedString.Index>.fromJava(range, env: _javaEnv),
                         with: try AttributedSubstring.fromJava(s, env: _javaEnv)
+                    ),
+                    env: _javaEnv
+                )
+            }
+        }
+    }
+
+    private static let _java_removeSubrange: @convention(c) (
+        UnsafeMutablePointer<JNIEnv?>,
+        jobject,
+        RangeConverter<AttributedString.Index>.CType
+    ) -> VoidConverter.CType = { _javaEnv, _javaThis, range in
+        FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
+            var mutatingSelf = try AttributedString.fromJava(_javaThis, env: _javaEnv)
+            return try AttributedString.mutateJava(_javaThis, env: _javaEnv) { mutatingSelf in
+                return try VoidConverter.toJava(
+                    mutatingSelf.removeSubrange(
+                        try RangeConverter<AttributedString.Index>.fromJava(range, env: _javaEnv)
                     ),
                     env: _javaEnv
                 )

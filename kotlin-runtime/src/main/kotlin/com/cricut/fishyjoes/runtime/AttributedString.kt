@@ -151,19 +151,6 @@ class AttributedString private constructor(swiftReference: Long): SwiftReference
     ): kotlin.Unit
 
     /**
-     * Removes a portion of the text and associated attributes from the attributed string.
-     *
-     * @param range The portion of the attributed string to remove, bounded by `startIndex` and `endIndex`.
-     */
-    fun removeSubrange(
-        range: SwiftRange<AttributedString.Index>
-    ): kotlin.Unit = __jni_removeSubrange(range)
-    @JvmName("__jni_removeSubrange")
-    private external fun __jni_removeSubrange(
-        range: SwiftRange<AttributedString.Index>
-    ): kotlin.Unit
-
-    /**
      * Replaces a portion of the text and associated attributes of the attributed string with content from another one.
      *
      * @param range The portion of the attributed string to be replaced, bounded by `startIndex` and `endIndex`.
@@ -193,6 +180,19 @@ class AttributedString private constructor(swiftReference: Long): SwiftReference
     private external fun __jni_replaceSubrangeWithSubstring(
         range: SwiftRange<AttributedString.Index>,
         substring: AttributedSubstring
+    ): kotlin.Unit
+
+    /**
+     * Removes a portion of the text and associated attributes from the attributed string.
+     *
+     * @param range The portion of the attributed string to remove, bounded by `startIndex` and `endIndex`.
+     */
+    fun removeSubrange(
+        range: SwiftRange<AttributedString.Index>
+    ): kotlin.Unit = __jni_removeSubrange(range)
+    @JvmName("__jni_removeSubrange")
+    private external fun __jni_removeSubrange(
+        range: SwiftRange<AttributedString.Index>
     ): kotlin.Unit
 
     /**
