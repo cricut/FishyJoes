@@ -80,6 +80,12 @@ extension TestAPI.Structs.MutableStruct: NodeMutator {
                                         try Self.mutateNode(mutatingSelf.value, this: jsThis.value(env: env), env: env)
                                         try env.resolveDeferred(deferred, convertedTaskResult)
                                     }
+                                } catch let error as JSException {
+                                    try onMainThread { env in
+                                        try Self.mutateNode(mutatingSelf.value, this: jsThis.value(env: env), env: env)
+                                        let error = try env.createError(NAPI.Value(ptr: nil), String.toNode(error.message, env: env))
+                                        try env.rejectDeferred(deferred, error)
+                                    }
                                 } catch {
                                     try onMainThread { env in
                                         try Self.mutateNode(mutatingSelf.value, this: jsThis.value(env: env), env: env)

@@ -173,6 +173,15 @@ struct NodeTranslator: Translator {
                                 fragment.output("try env.resolveDeferred(deferred, convertedTaskResult)")
                             }
                         }
+                        fragment.outputBlock(" catch let error as JSException {", newLineTerminated: false) {
+                            fragment.outputBlock("try onMainThread { env in", closeWith: "}") {
+                                if method.isMutating {
+                                    fragment.output("try Self.mutateNode(mutatingSelf.value, this: jsThis.value(env: env), env: env)")
+                                }
+                                fragment.output("let error = try env.createError(NAPI.Value(ptr: nil), String.toNode(error.message, env: env))")
+                                fragment.output("try env.rejectDeferred(deferred, error)")
+                            }
+                        }
                         fragment.outputBlock(" catch {") {
                             fragment.outputBlock("try onMainThread { env in", closeWith: "}") {
                                 if method.isMutating {

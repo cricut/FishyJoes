@@ -1495,6 +1495,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoUInt8Range) -->"
                 ],
+                "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoUInt8Range",
                 "parameters" : [
@@ -1517,6 +1518,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoUInt16Range) -->"
                 ],
+                "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoUInt16Range",
                 "parameters" : [
@@ -1539,6 +1541,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoUInt32Range) -->"
                 ],
+                "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoUInt32Range",
                 "parameters" : [
@@ -1561,6 +1564,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoUInt64Range) -->"
                 ],
+                "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoUInt64Range",
                 "parameters" : [
@@ -1583,6 +1587,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoUIntRange) -->"
                 ],
+                "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoUIntRange",
                 "parameters" : [
@@ -1605,6 +1610,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoInt8Range) -->"
                 ],
+                "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoInt8Range",
                 "parameters" : [
@@ -1627,6 +1633,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoInt16Range) -->"
                 ],
+                "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoInt16Range",
                 "parameters" : [
@@ -1649,6 +1656,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoInt32Range) -->"
                 ],
+                "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoInt32Range",
                 "parameters" : [
@@ -1671,6 +1679,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoInt64Range) -->"
                 ],
+                "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoInt64Range",
                 "parameters" : [
@@ -1693,6 +1702,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoIntRange) -->"
                 ],
+                "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoIntRange",
                 "parameters" : [
@@ -1715,6 +1725,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoFloatRange) -->"
                 ],
+                "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoFloatRange",
                 "parameters" : [
@@ -1737,6 +1748,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoDoubleRange) -->"
                 ],
+                "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoDoubleRange",
                 "parameters" : [
@@ -1759,6 +1771,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoStringRange) -->"
                 ],
+                "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoStringRange",
                 "parameters" : [
@@ -4849,6 +4862,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoUInt) -->"
                 ],
+                "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoUInt",
                 "parameters" : [
@@ -4963,6 +4977,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoInt) -->"
                 ],
+                "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoInt",
                 "parameters" : [
@@ -5186,6 +5201,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(maybeEchoUInt) -->"
                 ],
+                "isAsync" : false,
                 "isStatic" : true,
                 "name" : "maybeEchoUInt",
                 "parameters" : [
@@ -5340,6 +5356,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(maybeEchoInt) -->"
                 ],
+                "isAsync" : false,
                 "isStatic" : true,
                 "name" : "maybeEchoInt",
                 "parameters" : [
@@ -5620,6 +5637,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoUInt8Range) -->"
                 ],
+                "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoUInt8Range",
                 "parameters" : [
@@ -5642,6 +5660,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoUInt16Range) -->"
                 ],
+                "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoUInt16Range",
                 "parameters" : [
@@ -5664,6 +5683,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoUInt32Range) -->"
                 ],
+                "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoUInt32Range",
                 "parameters" : [
@@ -5686,6 +5706,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoUInt64Range) -->"
                 ],
+                "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoUInt64Range",
                 "parameters" : [
@@ -5708,6 +5729,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoUIntRange) -->"
                 ],
+                "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoUIntRange",
                 "parameters" : [
@@ -5730,6 +5752,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoInt8Range) -->"
                 ],
+                "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoInt8Range",
                 "parameters" : [
@@ -5752,6 +5775,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoInt16Range) -->"
                 ],
+                "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoInt16Range",
                 "parameters" : [
@@ -5774,6 +5798,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoInt32Range) -->"
                 ],
+                "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoInt32Range",
                 "parameters" : [
@@ -5796,6 +5821,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoInt64Range) -->"
                 ],
+                "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoInt64Range",
                 "parameters" : [
@@ -5818,6 +5844,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echoIntRange) -->"
                 ],
+                "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echoIntRange",
                 "parameters" : [
