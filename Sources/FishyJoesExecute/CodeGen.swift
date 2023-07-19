@@ -303,7 +303,7 @@ extension CodeGen {
 
                     var tsSources = ["Sources/Generated/NodeInterface/\(config.module).d.ts"]
                     for (moduleName, modulePath) in dependencyPaths {
-                        let path = "\(modulePath.dropLast("/Sources".count))/ts/\(moduleName).extensions.d.ts"
+                        let path = "\(modulePath)/../ts/\(moduleName).extensions.d.ts"
                         if cmd("test", "-f", path).runBool() {
                             tsSources.append(path)
                         }
@@ -344,7 +344,7 @@ extension CodeGen {
 
                     for (moduleName, modulePath) in dependencyPaths {
                         let outPath = "\(outputDir)/\(moduleName).extensions.js"
-                        let extensionPath = "\(modulePath.dropLast("/Sources".count))/ts/\(moduleName).extensions.js"
+                        let extensionPath = "\(modulePath)/../ts/\(moduleName).extensions.js"
                         if !cmd("cp", extensionPath, outPath).runBool() {
                             // No extensions found. Generate a no-op extension
                             try cmd("cat", "-")
