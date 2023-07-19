@@ -17,7 +17,7 @@ Generates bindings for (some) swift library code that can be called from TypeScr
 
 The recommended way to ensure you have everything you will need for any FishyJoes project is to check that you can generate and build CriGeo-bindings:
 
-[Everything Needed To Generate And Compile (CriGeo-bindings)](EverythingNeededToGenerateAndCompile.md)
+[Everything Needed To Generate And Compile (CriGeo-bindings)](https://github.com/cricut/CriGeo-bindings/blob/main/EverythingNeededToGenerateAndCompile.md)
 
 # FAQ
 1. [What FishyJoes Can and Cannot Do](documentation/cans-and-cannots.md)
