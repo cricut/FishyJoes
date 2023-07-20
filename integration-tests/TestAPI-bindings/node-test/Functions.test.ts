@@ -178,26 +178,24 @@ test('AsyncCallbackFunctionCall6', async () => {
     expect(values).toEqual([1, 2, 3, 4, 5, 6])
 })
 
-// TODO: https://cricut.visualstudio.com/Cricut/_workitems/edit/354651
-//test('AsyncCallbackFunctionCallThrow', async () => {
-//    let threw: boolean = false
-//    let value: number = 0
-//    let ran: boolean = false
-//    let thrownValue: number = 0
-//    try {
-//        value = await TestAPI.Functions.asyncCallbackFunc0(async () => {
-//            ran = true
-//            throw 42
-//        })
-//    } catch (e) {
-//        threw = true
-//        expect(() => { throw e }).toThrowError(/42/)
-//    }
-//    expect(threw).toEqual(false)
-//    expect(value).toEqual(0)
-//    expect(ran).toEqual(true)
-////    expect(thrownValue).toEqual(42)
-//})
+test('AsyncCallbackFunctionCallThrow', async () => {
+    let threw: boolean = false
+    let value: number = 0
+    let ran: boolean = false
+    let thrownValue: number = 0
+    try {
+        value = await TestAPI.Functions.asyncCallbackFunc0(async () => {
+            ran = true
+            throw 42
+        })
+    } catch (e) {
+        threw = true
+        expect(() => { throw e }).toThrowError(/42/)
+    }
+    expect(threw).toEqual(true)
+    expect(value).toEqual(0)
+    expect(ran).toEqual(true)
+})
 
 test('AsyncDoubleFunctionCall', async () => {
     const value = await TestAPI.Functions.asyncDoubleFunc(1.0)
