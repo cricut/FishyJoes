@@ -44,12 +44,21 @@ const init = async () => {
     }
   });
   let napi = new NAPI();
-  const importObject = {
-    wasi_snapshot_preview1: wasi.wasiImport,
-    ...napi.exports,
-    ...__MODULE_DEPENDENCY__Extensions.imports,
-    ...__MODULE_NAME__Extensions.imports,
-  };
+  const importObject = {};
+  const importsToMerge = [
+    { wasi_snapshot_preview1: wasi.wasiImport },
+    napi.exports,
+    __MODULE_DEPENDENCY__Extensions.imports,
+    __MODULE_NAME__Extensions.imports,
+  ];
+  for (const imports of importsToMerge) {
+    for (const [namespace, functions] of Object.entries(imports)) {
+      importObject[namespace] = {
+        ...importObject[namespace],
+        ...functions
+      }
+    }
+  }
 
   const response = await fetch("__MODULE_NAME__.wasm");
   const wasmPromise = WebAssembly.instantiateStreaming(response, importObject);
