@@ -129,7 +129,7 @@ extension CodeGen {
             guard let dependencyURL = packageInfo.dependencyMap[bindingModule.lowercased()] else {
                 fatalError("Couldn't locate \(bindingModule) in Package.swift, but it's required by fishyjoes.json")
             }
-            let dependencyPath = (dependencyURL.scheme == nil ? dependencyURL.path : ".build/checkouts/\(bindingModule)") + "/Sources"
+            let dependencyPath = dependencyURL.scheme == nil ? dependencyURL.path : ".build/checkouts/\(bindingModule)"
             dependencyPaths[moduleName] = dependencyPath
         }
 
@@ -169,7 +169,7 @@ extension CodeGen {
             }
 
             let fishyJoesModuleFiles: [String] = dependencyPaths.compactMap {
-                $0.key == config.module ? nil : "\($0.value)/Generated/\($0.key).fishyjoesmodule"
+                $0.key == config.module ? nil : "\($0.value)/Sources/Generated/\($0.key).fishyjoesmodule"
             }
 
             // MARK: Generate code
@@ -303,7 +303,7 @@ extension CodeGen {
 
                     var tsSources = ["Sources/Generated/NodeInterface/\(config.module).d.ts"]
                     for (moduleName, modulePath) in dependencyPaths {
-                        let path = "\(modulePath)/../ts/\(moduleName).extensions.d.ts"
+                        let path = "\(modulePath)/ts/\(moduleName).extensions.d.ts"
                         if cmd("test", "-f", path).runBool() {
                             tsSources.append(path)
                         }
@@ -344,7 +344,7 @@ extension CodeGen {
 
                     for (moduleName, modulePath) in dependencyPaths {
                         let outPath = "\(outputDir)/\(moduleName).extensions.js"
-                        let extensionPath = "\(modulePath)/../ts/\(moduleName).extensions.js"
+                        let extensionPath = "\(modulePath)/ts/\(moduleName).extensions.js"
                         if !cmd("cp", extensionPath, outPath).runBool() {
                             // No extensions found. Generate a no-op extension
                             try cmd("cat", "-")
