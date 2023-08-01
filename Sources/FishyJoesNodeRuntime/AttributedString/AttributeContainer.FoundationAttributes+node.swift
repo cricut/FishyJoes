@@ -21,7 +21,6 @@ extension AttributeContainer.FoundationAttributes: FishyJoesNodeRuntime.NodeConv
         try Box<AttributeContainer.FoundationAttributes>.takeUnretainedOpaque(pointer).value = value
     }
 
-    @available(*, deprecated, message: "Not actually deprecated, but this silences warnings because it may refer to deprecated methods")
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let nodeClass = try NodeClass(
             env: env,
