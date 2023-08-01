@@ -11,9 +11,11 @@ import TestAPI
 @_cdecl("napi_register_module_v1")
 public func napi_register_module_v1(env: napi_env, exports: napi_value) -> napi_value? {
     let env = NAPI.Env(ptr: env)
-    let exports = NAPI.Value(ptr: exports)
+    var exports = NAPI.Value(ptr: exports)
     return FishyJoesNodeRuntime.rethrowToNode(env: env) {
-        try registerModuleTestAPI(env: env, exports: exports)
+//        exports = try registerModuleRuntime(env: env, exports: exports)
+        exports = try registerModuleTestAPI(env: env, exports: exports)
+        return exports
     }
 }
 #endif
