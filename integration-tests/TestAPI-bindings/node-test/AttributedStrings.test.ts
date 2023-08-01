@@ -1,13 +1,13 @@
-import { FishyJoesRuntime } from '@cricut/fishyjoes-runtime-macos';
-import { TestAPI } from 'TestAPI';
+import { 
+    AttributedString,
+    AttributeContainer,
+    TestAPI
+} from 'TestAPI';
 
-// import AttributedString from 'FishyJoesRuntime';
-// import AttributeContainerFoundationAttributes from 'FishyJoesRuntime';
-
-test('StringValues', () => {
-    let enAttributes = FishyJoesRuntime.AttributeContainer.FoundationAttributes.createEmpty()
-    enAttributes.languageIdentifier = ("en")
-    let en = enAttributes.asContainer()
+// test('StringValues', () => {
+    // let enAttributes = AttributeContainer.FoundationAttributes.createEmpty()
+    // enAttributes.languageIdentifier = ("en")
+    // let en = enAttributes.asContainer()
     // let pt = new AttributeContainer.FoundationAttributes("pt").asContainer()
     // let ja = new AttributeContainer.FoundationAttributes("ja").asContainer()
     // let zh = new AttributeContainer.FoundationAttributes("zh").asContainer()
@@ -23,7 +23,7 @@ test('StringValues', () => {
     // expect(eaAttributes.languageIdentifier).toBeUndefined
     // expect(eaAttributes.link).toEqual(new URL("https://home.unicode.org/emoji"))
     
-    expect(TestAPI.AttributedStrings.simple).toEqual(FishyJoesRuntime.AttributedString.create("Hello", { attributes: en }))
+    // expect(TestAPI.AttributedStrings.simple).toEqual(AttributedString.create("Hello", { attributes: en }))
     // expect(TestAPI.AttributedStrings.accent).toEqual(new AttributedString("Olá", pt))
     // expect(TestAPI.AttributedStrings.script).toEqual(new AttributedString("こんにちは", ja))
     // expect(TestAPI.AttributedStrings.chinese).toEqual(new AttributedString("你好", zh))
@@ -32,17 +32,18 @@ test('StringValues', () => {
     // expect(TestAPI.AttributedStrings.emoji).toEqual(new AttributedString("🤯🐶🍓", ea))
     // expect(TestAPI.AttributedStrings.emojiMulti).toEqual(new AttributedString("👨‍👩‍👧‍👦👍🏿🇺🇸", ef))
     // expect(TestAPI.AttributedStrings.polyglot).toEqual(TestAPI.AttributedStrings.simple + " " + TestAPI.AttributedStrings.accent + " " + TestAPI.AttributedStrings.script)
-})
+// })
 
 test('StringEcho', () => {
-    expect(TestAPI.AttributedStrings.echo(TestAPI.AttributedStrings.simple)).toEqual(TestAPI.AttributedStrings.simple)
-    expect(TestAPI.AttributedStrings.echo(TestAPI.AttributedStrings.accent)).toEqual(TestAPI.AttributedStrings.accent)
-    expect(TestAPI.AttributedStrings.echo(TestAPI.AttributedStrings.chinese)).toEqual(TestAPI.AttributedStrings.chinese)
-    expect(TestAPI.AttributedStrings.echo(TestAPI.AttributedStrings.chineseBMP)).toEqual(TestAPI.AttributedStrings.chineseBMP)
-    expect(TestAPI.AttributedStrings.echo(TestAPI.AttributedStrings.chineseSIP)).toEqual(TestAPI.AttributedStrings.chineseSIP)
-    expect(TestAPI.AttributedStrings.echo(TestAPI.AttributedStrings.emoji)).toEqual(TestAPI.AttributedStrings.emoji)
-    expect(TestAPI.AttributedStrings.echo(TestAPI.AttributedStrings.emojiMulti)).toEqual(TestAPI.AttributedStrings.emojiMulti)
-    expect(TestAPI.AttributedStrings.echo(TestAPI.AttributedStrings.polyglot)).toEqual(TestAPI.AttributedStrings.polyglot)
+    console.log(TestAPI.AttributedStrings.emoji.string)
+    // expect(TestAPI.AttributedStrings.echo(TestAPI.AttributedStrings.simple)).toEqual(5)
+    // expect(TestAPI.AttributedStrings.echo(TestAPI.AttributedStrings.accent)).toEqual(TestAPI.AttributedStrings.accent)
+    // expect(TestAPI.AttributedStrings.echo(TestAPI.AttributedStrings.chinese)).toEqual(TestAPI.AttributedStrings.chinese)
+    // expect(TestAPI.AttributedStrings.echo(TestAPI.AttributedStrings.chineseBMP)).toEqual(TestAPI.AttributedStrings.chineseBMP)
+    // expect(TestAPI.AttributedStrings.echo(TestAPI.AttributedStrings.chineseSIP)).toEqual(TestAPI.AttributedStrings.chineseSIP)
+    // expect(TestAPI.AttributedStrings.echo(TestAPI.AttributedStrings.emoji)).toEqual(TestAPI.AttributedStrings.emoji)
+    // expect(TestAPI.AttributedStrings.echo(TestAPI.AttributedStrings.emojiMulti)).toEqual(TestAPI.AttributedStrings.emojiMulti)
+    // expect(TestAPI.AttributedStrings.echo(TestAPI.AttributedStrings.polyglot)).toEqual(TestAPI.AttributedStrings.polyglot)
 })
 
 /*

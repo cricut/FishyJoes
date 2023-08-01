@@ -5,8 +5,14 @@
     "strict": true,
     "target": "es2017",
     "paths": {
-      "TestAPI": ["../Sources/Generated/NodeInterface/TestAPI.d.ts"],
-      "@cricut/fishyjoes-runtime-macos": ["../../../node-runtimes/fishyjoes-runtime-macos/index.d.ts"]
+      "TestAPI": [
+        "../output/node-native-macos/TestAPI.d.ts",
+        "../output/wasm/TestAPI.d.ts",
+      ],
+      "@cricut/fishyjoes-runtime": [
+        "../../../node-runtimes/fishyjoes-runtime-macos/index.d.ts",
+        "../../../node-runtimes/fishyjoes-runtime-wasm/index.d.ts",
+      ]
     }
   }
 }
