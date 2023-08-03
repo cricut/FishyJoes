@@ -26,6 +26,28 @@ extension AttributedString.Runs: FishyJoesNodeRuntime.NodeConverter {
             env: env,
             name: "AttributedString.Runs",
             properties: [
+                "startIndex": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "startIndex", expectedArgumentCount: 0) { env in
+                                try AttributedString.Runs.Index.toNode(env.this(converter: AttributedString.Runs.self).startIndex, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: false
+                ),
+                "endIndex": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "endIndex", expectedArgumentCount: 0) { env in
+                                try AttributedString.Runs.Index.toNode(env.this(converter: AttributedString.Runs.self).endIndex, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: false
+                ),
                 "indexBefore": (
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "indexBefore", expectedArgumentCount: 1, hasNamedOptions: false) { env in
@@ -82,26 +104,31 @@ extension AttributedString.Runs: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: false
                 ),
-                "startIndex": (
-                    .accessor(
-                        getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "startIndex", expectedArgumentCount: 0) { env in
-                                try AttributedString.Runs.Index.toNode(env.this(converter: AttributedString.Runs.self).startIndex, env: env.env)
+                "equals": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "equals", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                            guard let lhs = try? env.this(converter: AttributedString.Runs.self),
+                                  let rhs = try? env.argument(at: 0, converter: AttributedString.Runs.self) else {
+                                return try Bool.toNode(false, env: env.env)
                             }
-                        },
-                        setter: nil
-                    ),
+                            let equal = lhs == rhs
+                            return try Bool.toNode(equal, env: env.env)
+                        }
+                    },
                     isStatic: false
                 ),
-                "endIndex": (
-                    .accessor(
-                        getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "endIndex", expectedArgumentCount: 0) { env in
-                                try AttributedString.Runs.Index.toNode(env.this(converter: AttributedString.Runs.self).endIndex, env: env.env)
-                            }
-                        },
-                        setter: nil
-                    ),
+                "hashCode": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "hashCode", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            let runHashes = try env.this(converter: AttributedString.Runs.self)
+                                .lazy
+                                .map { AttributedString("", attributes: $0.attributes).hashValue }
+                            let hashValue = runHashes
+                                .reduce(into: Hasher()) { $0.combine($1) }
+                                .finalize()
+                            return try Int32.toNode(Int32(truncatingIfNeeded: hashValue), env: env.env)
+                        }
+                    },
                     isStatic: false
                 ),
             ],

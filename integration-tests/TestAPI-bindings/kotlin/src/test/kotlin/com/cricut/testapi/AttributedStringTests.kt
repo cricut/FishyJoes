@@ -35,6 +35,10 @@ internal class AttributedStringTests {
         assertEquals(AttributedStrings.emoji, AttributedString("🤯🐶🍓", ea))
         assertEquals(AttributedStrings.emojiMulti, AttributedString("👨‍👩‍👧‍👦👍🏿🇺🇸", ef))
         assertEquals(AttributedStrings.polyglot,AttributedStrings.simple + " " + AttributedStrings.accent + " " + AttributedStrings.script)
+
+        assertEquals(AttributedStrings.simple, AttributedStrings.simple)
+        assertNotEquals(AttributedStrings.simple, AttributedStrings.accent)
+        assertNotEquals(AttributedStrings.simple, AttributedString(AttributedStrings.simple.string, null))
     }
 
     @Test

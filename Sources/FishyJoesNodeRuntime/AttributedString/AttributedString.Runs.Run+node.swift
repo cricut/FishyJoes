@@ -48,6 +48,28 @@ extension AttributedString.Runs.Run: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: false
                 ),
+                "equals": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "equals", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                            guard let lhs = try? env.this(converter: AttributedString.Runs.Run.self),
+                                  let rhs = try? env.argument(at: 0, converter: AttributedString.Runs.Run.self) else {
+                                return try Bool.toNode(false, env: env.env)
+                            }
+                            let equal = lhs == rhs
+                            return try Bool.toNode(equal, env: env.env)
+                        }
+                    },
+                    isStatic: false
+                ),
+                "hashCode": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "hashCode", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            let hashValue = AttributedString("", attributes: try env.this(converter: AttributedString.Runs.Run.self).attributes).hashValue
+                            return try Int32.toNode(Int32(truncatingIfNeeded: hashValue), env: env.env)
+                        }
+                    },
+                    isStatic: false
+                ),
             ],
             constructor: { env, info in
                 FishyJoesNodeRuntime.callbackBody(env, info, name: "AttributedString.Runs.Run_constructor", expectedArgumentCount: 1) { env in

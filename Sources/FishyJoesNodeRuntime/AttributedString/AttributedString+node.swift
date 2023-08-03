@@ -26,6 +26,62 @@ extension AttributedString: FishyJoesNodeRuntime.NodeConverter {
             env: env,
             name: "AttributedString",
             properties: [
+                "string": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "string", expectedArgumentCount: 0) { env in
+                                try Swift.String.toNode(String(env.this(converter: AttributedString.self).characters), env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: false
+                ),
+                "runs": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "runs", expectedArgumentCount: 0) { env in
+                                try AttributedString.Runs.toNode(env.this(converter: AttributedString.self).runs, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: false
+                ),
+                "characters": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "characters", expectedArgumentCount: 0) { env in
+                                try AttributedString.CharacterView.toNode(env.this(converter: AttributedString.self).characters, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: false
+                ),
+                "unicodeScalars": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "unicodeScalars", expectedArgumentCount: 0) { env in
+                                try AttributedString.UnicodeScalarView.toNode(env.this(converter: AttributedString.self).unicodeScalars, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: false
+                ),
+                "substring": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "substring", expectedArgumentCount: 0) { env in
+                                let attributedString = try env.this(converter: AttributedString.self)
+                                return try AttributedSubstring.toNode(attributedString[attributedString.startIndex..<attributedString.endIndex], env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: false
+                ),
                 "substringForRange": (
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "substringForRange", expectedArgumentCount: 1, hasNamedOptions: false) { env in
@@ -38,6 +94,28 @@ extension AttributedString: FishyJoesNodeRuntime.NodeConverter {
                             return result
                         }
                     },
+                    isStatic: false
+                ),
+                "startIndex": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "startIndex", expectedArgumentCount: 0) { env in
+                                try AttributedString.Index.toNode(env.this(converter: AttributedString.self).startIndex, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: false
+                ),
+                "endIndex": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "endIndex", expectedArgumentCount: 0) { env in
+                                try AttributedString.Index.toNode(env.this(converter: AttributedString.self).endIndex, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
                     isStatic: false
                 ),
                 "append": (
@@ -261,6 +339,28 @@ extension AttributedString: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: false
                 ),
+                "equals": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "equals", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                            guard let lhs = try? env.this(converter: AttributedString.self),
+                                  let rhs = try? env.argument(at: 0, converter: AttributedString.self) else {
+                                return try Bool.toNode(false, env: env.env)
+                            }
+                            let equal = lhs == rhs
+                            return try Bool.toNode(equal, env: env.env)
+                        }
+                    },
+                    isStatic: false
+                ),
+                "hashCode": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "hashCode", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            let hash = Int32(truncatingIfNeeded: try env.this(converter: AttributedString.self).hashValue)
+                            return try Int32.toNode(hash, env: env.env)
+                        }
+                    },
+                    isStatic: false
+                ),
                 "createEmpty": (
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "createEmpty", expectedArgumentCount: 0, hasNamedOptions: false) { env in
@@ -302,84 +402,6 @@ extension AttributedString: FishyJoesNodeRuntime.NodeConverter {
                         }
                     },
                     isStatic: true
-                ),
-                "string": (
-                    .accessor(
-                        getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "string", expectedArgumentCount: 0) { env in
-                                try Swift.String.toNode(String(env.this(converter: AttributedString.self).characters), env: env.env)
-                            }
-                        },
-                        setter: nil
-                    ),
-                    isStatic: false
-                ),
-                "runs": (
-                    .accessor(
-                        getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "runs", expectedArgumentCount: 0) { env in
-                                try AttributedString.Runs.toNode(env.this(converter: AttributedString.self).runs, env: env.env)
-                            }
-                        },
-                        setter: nil
-                    ),
-                    isStatic: false
-                ),
-                "characters": (
-                    .accessor(
-                        getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "characters", expectedArgumentCount: 0) { env in
-                                try AttributedString.CharacterView.toNode(env.this(converter: AttributedString.self).characters, env: env.env)
-                            }
-                        },
-                        setter: nil
-                    ),
-                    isStatic: false
-                ),
-                "unicodeScalars": (
-                    .accessor(
-                        getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "unicodeScalars", expectedArgumentCount: 0) { env in
-                                try AttributedString.UnicodeScalarView.toNode(env.this(converter: AttributedString.self).unicodeScalars, env: env.env)
-                            }
-                        },
-                        setter: nil
-                    ),
-                    isStatic: false
-                ),
-                "substring": (
-                    .accessor(
-                        getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "substring", expectedArgumentCount: 0) { env in
-                                let attributedString = try env.this(converter: AttributedString.self)
-                                return try AttributedSubstring.toNode(attributedString[attributedString.startIndex..<attributedString.endIndex], env: env.env)
-                            }
-                        },
-                        setter: nil
-                    ),
-                    isStatic: false
-                ),
-                "startIndex": (
-                    .accessor(
-                        getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "startIndex", expectedArgumentCount: 0) { env in
-                                try AttributedString.Index.toNode(env.this(converter: AttributedString.self).startIndex, env: env.env)
-                            }
-                        },
-                        setter: nil
-                    ),
-                    isStatic: false
-                ),
-                "endIndex": (
-                    .accessor(
-                        getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "endIndex", expectedArgumentCount: 0) { env in
-                                try AttributedString.Index.toNode(env.this(converter: AttributedString.self).endIndex, env: env.env)
-                            }
-                        },
-                        setter: nil
-                    ),
-                    isStatic: false
                 ),
             ],
             constructor: { env, info in

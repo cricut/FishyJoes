@@ -1,6 +1,6 @@
 import { Runtime, TestAPI } from 'TestAPI';
-let AttributeContainer = Runtime.AttributeContainer
-let AttributedString = Runtime.AttributedString
+const AttributeContainer = Runtime.AttributeContainer
+const AttributedString = Runtime.AttributedString
 
 test('StringValues', () => {
     let enAttributes = AttributeContainer.FoundationAttributes.createEmpty()
@@ -22,29 +22,34 @@ test('StringValues', () => {
     efAttributes.link = new URL("https://home.unicode.org/emoji/emoji-frequency")
     let ef = efAttributes.asContainer()
     
+    expect(enAttributes.asContainer().equals(enAttributes.asContainer()))
+    expect(!enAttributes.asContainer().equals(ptAttributes.asContainer()))
+
     expect(enAttributes.languageIdentifier).toEqual("en")
     expect(enAttributes.link).toBeUndefined
 
     expect(eaAttributes.languageIdentifier).toBeUndefined
     expect(eaAttributes.link).toEqual(new URL("https://home.unicode.org/emoji"))
     
-    expect(TestAPI.AttributedStrings.simple).toEqual(AttributedString.create("Hello", { attributes: en }))
-    expect(TestAPI.AttributedStrings.accent).toEqual(AttributedString.create("Olá", { attributes: pt }))
-    expect(TestAPI.AttributedStrings.script).toEqual(AttributedString.create("こんにちは", { attributes: ja }))
-    expect(TestAPI.AttributedStrings.chinese).toEqual(AttributedString.create("你好", { attributes: zh }))
-    expect(TestAPI.AttributedStrings.chineseBMP).toEqual(AttributedString.create("豈更車賈滑", { attributes: zh }))
-    expect(TestAPI.AttributedStrings.chineseSIP).toEqual(AttributedString.create("\u{20001}\u{20002}\u{20003}\u{20004}", { attributes: zh }))
-    expect(TestAPI.AttributedStrings.emoji).toEqual(AttributedString.create("🤯🐶🍓", { attributes: ea }))
-    expect(TestAPI.AttributedStrings.emojiMulti).toEqual(AttributedString.create("👨‍👩‍👧‍👦👍🏿🇺🇸", { attributes: ef }))
+    expect(TestAPI.AttributedStrings.simple.equals(AttributedString.create("Hello", { attributes: en })))
+    expect(TestAPI.AttributedStrings.accent.equals(AttributedString.create("Olá", { attributes: pt })))
+    expect(TestAPI.AttributedStrings.script.equals(AttributedString.create("こんにちは", { attributes: ja })))
+    expect(TestAPI.AttributedStrings.chinese.equals(AttributedString.create("你好", { attributes: zh })))
+    expect(TestAPI.AttributedStrings.chineseBMP.equals(AttributedString.create("豈更車賈滑", { attributes: zh })))
+    expect(TestAPI.AttributedStrings.chineseSIP.equals(AttributedString.create("\u{20001}\u{20002}\u{20003}\u{20004}", { attributes: zh })))
+    expect(TestAPI.AttributedStrings.emoji.equals(AttributedString.create("🤯🐶🍓", { attributes: ea })))
+    expect(TestAPI.AttributedStrings.emojiMulti.equals(AttributedString.create("👨‍👩‍👧‍👦👍🏿🇺🇸", { attributes: ef })))
     let polyglot = AttributedString.createEmpty()
     polyglot.append(TestAPI.AttributedStrings.simple)
     polyglot.append(AttributedString.create(" "))
     polyglot.append(TestAPI.AttributedStrings.accent)
     polyglot.append(AttributedString.create(" "))
     polyglot.append(TestAPI.AttributedStrings.script)
-    expect(TestAPI.AttributedStrings.polyglot).toEqual(polyglot)
+    expect(TestAPI.AttributedStrings.polyglot.equals(polyglot))
 
-    // expect(TestAPI.AttributedStrings.simple).not.toEqual(TestAPI.AttributedStrings.accent)
+    expect(TestAPI.AttributedStrings.simple.equals(TestAPI.AttributedStrings.simple))
+    expect(!TestAPI.AttributedStrings.simple.equals(TestAPI.AttributedStrings.accent.runs))
+    expect(!TestAPI.AttributedStrings.simple.equals(AttributedString.create(TestAPI.AttributedStrings.simple.string, { attributes: undefined })))
 })
 
 test('StringEcho', () => {

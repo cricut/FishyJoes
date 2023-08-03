@@ -26,33 +26,6 @@ extension AttributeContainer.FoundationAttributes: FishyJoesNodeRuntime.NodeConv
             env: env,
             name: "AttributeContainer.FoundationAttributes",
             properties: [
-                "createEmpty": (
-                    .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "createEmpty", expectedArgumentCount: 0, hasNamedOptions: false) { env in
-                            let result = try AttributeContainer.FoundationAttributes.toNode(
-                                AttributeContainer.FoundationAttributes(
-                                ),
-                                env: env.env
-                            )
-                            return result
-                        }
-                    },
-                    isStatic: true
-                ),
-                "createFromContainer": (
-                    .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "createFromContainer", expectedArgumentCount: 1, hasNamedOptions: false) { env in
-                            let result = try AttributeContainer.FoundationAttributes.toNode(
-                                AttributeContainer.FoundationAttributes(
-                                    try env.argument(at: 0, converter: Foundation.AttributeContainer.self)
-                                ),
-                                env: env.env
-                            )
-                            return result
-                        }
-                    },
-                    isStatic: true
-                ),
                 "link": (
                     .accessor(
                         getter: { env, info in
@@ -86,6 +59,55 @@ extension AttributeContainer.FoundationAttributes: FishyJoesNodeRuntime.NodeConv
                             }
                         }),
                     isStatic: false
+                ),
+                "equals": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "equals", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                            guard let lhs = try? env.this(converter: AttributeContainer.FoundationAttributes.self),
+                                  let rhs = try? env.argument(at: 0, converter: AttributeContainer.FoundationAttributes.self) else {
+                                return try Bool.toNode(false, env: env.env)
+                            }
+                            let equal = lhs == rhs
+                            return try Bool.toNode(equal, env: env.env)
+                        }
+                    },
+                    isStatic: false
+                ),
+                "hashCode": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "hashCode", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            let hashValue = try env.this(converter: AttributeContainer.FoundationAttributes.self).hashValue
+                            return try Int32.toNode(Int32(truncatingIfNeeded: hashValue), env: env.env)
+                        }
+                    },
+                    isStatic: false
+                ),
+                "createEmpty": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "createEmpty", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            let result = try AttributeContainer.FoundationAttributes.toNode(
+                                AttributeContainer.FoundationAttributes(
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: true
+                ),
+                "createFromContainer": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "createFromContainer", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                            let result = try AttributeContainer.FoundationAttributes.toNode(
+                                AttributeContainer.FoundationAttributes(
+                                    try env.argument(at: 0, converter: Foundation.AttributeContainer.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: true
                 ),
                 "asContainer": (
                     .method { env, info in

@@ -79,7 +79,7 @@ extension AttributedString.Runs.Index: JavaMutator {
             let thisComparable = try AttributedString.Runs.Index.fromJava(_javaThis, env: _javaEnv)
             let otherComparable = try AttributedString.Runs.Index.fromJava(other, env: _javaEnv)
             return try Int32.toJava(
-                thisComparable == otherComparable ? 0 : thisComparable < otherComparable ? -1 : 1,
+                thisComparable < otherComparable ? -1 : thisComparable > otherComparable ? 1 : 0,
                 env: _javaEnv
             )
         }

@@ -44,6 +44,28 @@ extension AttributeContainer: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: false
                 ),
+                "equals": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "equals", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                            guard let lhs = try? env.this(converter: AttributeContainer.self),
+                                  let rhs = try? env.argument(at: 0, converter: AttributeContainer.self) else {
+                                return try Bool.toNode(false, env: env.env)
+                            }
+                            let equal = lhs == rhs
+                            return try Bool.toNode(equal, env: env.env)
+                        }
+                    },
+                    isStatic: false
+                ),
+                "hashCode": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "hashCode", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            let hashValue = AttributedString("", attributes: try env.this(converter: AttributeContainer.self)).hashValue
+                            return try Int32.toNode(Int32(truncatingIfNeeded: hashValue), env: env.env)
+                        }
+                    },
+                    isStatic: false
+                ),
                 "createEmpty": (
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "createEmpty", expectedArgumentCount: 0, hasNamedOptions: false) { env in

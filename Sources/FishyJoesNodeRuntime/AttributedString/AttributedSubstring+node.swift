@@ -26,33 +26,6 @@ extension AttributedSubstring: FishyJoesNodeRuntime.NodeConverter {
             env: env,
             name: "AttributedSubstring",
             properties: [
-                "substringForRange": (
-                    .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "substringForRange", expectedArgumentCount: 1, hasNamedOptions: false) { env in
-                            let result = try AttributedSubstring.toNode(
-                                env.this(converter: AttributedSubstring.self)[
-                                    try env.argument(at: 0, converter: RangeConverter<AttributedString.Index>.self)
-                                ],
-                                env: env.env
-                            )
-                            return result
-                        }
-                    },
-                    isStatic: false
-                ),
-                "createEmpty": (
-                    .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "createEmpty", expectedArgumentCount: 0, hasNamedOptions: false) { env in
-                            let result = try AttributedSubstring.toNode(
-                                AttributedSubstring(
-                                ),
-                                env: env.env
-                            )
-                            return result
-                        }
-                    },
-                    isStatic: true
-                ),
                 "base": (
                     .accessor(
                         getter: { env, info in
@@ -140,6 +113,55 @@ extension AttributedSubstring: FishyJoesNodeRuntime.NodeConverter {
                         setter: nil
                     ),
                     isStatic: false
+                ),
+                "substringForRange": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "substringForRange", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                            let result = try AttributedSubstring.toNode(
+                                env.this(converter: AttributedSubstring.self)[
+                                    try env.argument(at: 0, converter: RangeConverter<AttributedString.Index>.self)
+                                ],
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: false
+                ),
+                "equals": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "equals", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                            guard let lhs = try? env.this(converter: AttributedSubstring.self),
+                                  let rhs = try? env.argument(at: 0, converter: AttributedSubstring.self) else {
+                                return try Bool.toNode(false, env: env.env)
+                            }
+                            let equal = lhs == rhs
+                            return try Bool.toNode(equal, env: env.env)
+                        }
+                    },
+                    isStatic: false
+                ),
+                "hashCode": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "hashCode", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            let hash = Int32(truncatingIfNeeded: try env.this(converter: AttributedSubstring.self).hashValue)
+                            return try Int32.toNode(hash, env: env.env)
+                        }
+                    },
+                    isStatic: false
+                ),
+                "createEmpty": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "createEmpty", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            let result = try AttributedSubstring.toNode(
+                                AttributedSubstring(
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: true
                 ),
             ],
             constructor: { env, info in

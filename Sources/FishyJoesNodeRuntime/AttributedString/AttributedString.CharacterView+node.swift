@@ -26,6 +26,28 @@ extension AttributedString.CharacterView: FishyJoesNodeRuntime.NodeConverter {
             env: env,
             name: "AttributedString.CharacterView",
             properties: [
+                "startIndex": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "startIndex", expectedArgumentCount: 0) { env in
+                                try AttributedString.Index.toNode(env.this(converter: AttributedString.CharacterView.self).startIndex, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: false
+                ),
+                "endIndex": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "endIndex", expectedArgumentCount: 0) { env in
+                                try AttributedString.Index.toNode(env.this(converter: AttributedString.CharacterView.self).endIndex, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: false
+                ),
                 "indexBefore": (
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "indexBefore", expectedArgumentCount: 1, hasNamedOptions: false) { env in
@@ -68,28 +90,6 @@ extension AttributedString.CharacterView: FishyJoesNodeRuntime.NodeConverter {
                             return result
                         }
                     },
-                    isStatic: false
-                ),
-                "startIndex": (
-                    .accessor(
-                        getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "startIndex", expectedArgumentCount: 0) { env in
-                                try AttributedString.Index.toNode(env.this(converter: AttributedString.CharacterView.self).startIndex, env: env.env)
-                            }
-                        },
-                        setter: nil
-                    ),
-                    isStatic: false
-                ),
-                "endIndex": (
-                    .accessor(
-                        getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "endIndex", expectedArgumentCount: 0) { env in
-                                try AttributedString.Index.toNode(env.this(converter: AttributedString.CharacterView.self).endIndex, env: env.env)
-                            }
-                        },
-                        setter: nil
-                    ),
                     isStatic: false
                 ),
             ],

@@ -70,6 +70,13 @@ export declare namespace Runtime {
             }
         ): void;
 
+        equals(
+            other: AttributeContainer
+        ): boolean;
+
+        hashCode(
+        ): number;
+
         /**
          * Creates an attribute container having no attribute values.
          * <!-- FishyJoes.export(createEmpty) -->
@@ -108,11 +115,12 @@ export declare namespace Runtime {
              */
             languageIdentifier?: string;
 
-            /**
-             * Obtains an attribute container which contains the attributes from this type.
-             * <!-- FishyJoes.export(asContainer) -->
-             */
-            asContainer(): AttributeContainer;
+            equals(
+                other: AttributeContainer.FoundationAttributes
+            ): boolean;
+    
+            hashCode(
+            ): number;
 
             /**
              * Creates a Foundation attribute container having no attribute values.
@@ -128,6 +136,12 @@ export declare namespace Runtime {
             static createFromContainer(
                 container: AttributeContainer
             ): AttributeContainer.FoundationAttributes;
+
+            /**
+             * Obtains an attribute container which contains the attributes from this type.
+             * <!-- FishyJoes.export(asContainer) -->
+             */
+            asContainer(): AttributeContainer;
         }
     }
 
@@ -389,6 +403,13 @@ export declare namespace Runtime {
             /* with */ others: AttributeContainer
         ): void;
 
+        equals(
+            other: AttributedString
+        ): boolean;
+
+        hashCode(
+        ): number;
+
         /**
          * Creates an attributed string containing the empty string as its text with no associated attributes.
          * <!-- FishyJoes.export(createEmpty) -->
@@ -493,6 +514,17 @@ export declare namespace Runtime {
         export class Index {
             private constructor()
             private _inhibitStructuralTyping: any
+
+            equals(
+                other: AttributedString.Index
+            ): boolean;
+    
+            hashCode(
+            ): number;
+
+            compare(
+                other: AttributedString.Index
+            ): number;
         }
 
         /**
@@ -571,6 +603,13 @@ export declare namespace Runtime {
             elementAtPosition(
                 /* at */ index: AttributedString.Index
             ): AttributedString.Runs.Run;
+
+            equals(
+                other: AttributedString.Runs
+            ): boolean;
+    
+            hashCode(
+            ): number;
         }
         export namespace Runs {
             /**
@@ -580,6 +619,17 @@ export declare namespace Runtime {
             export class Index {
                 private constructor()
                 private _inhibitStructuralTyping: any
+
+                equals(
+                    other: AttributedString.Runs.Index
+                ): boolean;
+        
+                hashCode(
+                ): number;
+    
+                compare(
+                    other: AttributedString.Runs.Index
+                ): number;
             }
 
             /**
@@ -601,6 +651,13 @@ export declare namespace Runtime {
                  * <!-- FishyJoes.export(attributes) -->
                  */
                 readonly attributes: AttributeContainer;
+
+                equals(
+                    other: AttributedString.Runs.Run
+                ): boolean;
+        
+                hashCode(
+                ): number;    
             }
         }
 
@@ -665,62 +722,14 @@ export declare namespace Runtime {
             elementAt(
                 /* at */ index: AttributedString.Index
             ): number;
+
+            equals(
+                other: UnicodeScalarView
+            ): boolean;
+    
+            hashCode(
+            ): number;
         }
-    }
-
-    export type AttributedStrings = never;
-    export namespace AttributedStrings {
-        /**
-         * <!-- FishyJoes.export(accent) -->
-         */
-        const accent: AttributedString;
-
-        /**
-         * <!-- FishyJoes.export(chinese) -->
-         */
-        const chinese: AttributedString;
-
-        /**
-         * <!-- FishyJoes.export(chineseBMP) -->
-         */
-        const chineseBMP: AttributedString;
-
-        /**
-         * <!-- FishyJoes.export(chineseSIP) -->
-         */
-        const chineseSIP: AttributedString;
-
-        /**
-         * <!-- FishyJoes.export(echo) -->
-         */
-        function echo(
-            string: AttributedString
-        ): AttributedString;
-
-        /**
-         * <!-- FishyJoes.export(emoji) -->
-         */
-        const emoji: AttributedString;
-
-        /**
-         * <!-- FishyJoes.export(emojiMulti) -->
-         */
-        const emojiMulti: AttributedString;
-
-        /**
-         * <!-- FishyJoes.export(polyglot) -->
-         */
-        const polyglot: AttributedString;
-
-        /**
-         * <!-- FishyJoes.export(script) -->
-         */
-        const script: AttributedString;
-
-        /**
-         * <!-- FishyJoes.export(simple) -->
-         */
-        const simple: AttributedString;
     }
 
     /**
@@ -817,6 +826,13 @@ export declare namespace Runtime {
         substringForRange(
             /* for */ range: SwiftRange<AttributedString.Index>
         ): AttributedSubstring;
+
+        equals(
+            other: AttributedSubstring
+        ): boolean;
+
+        hashCode(
+        ): number;
 
         /**
          * Creates an attributed substring with an empty base attributed string.

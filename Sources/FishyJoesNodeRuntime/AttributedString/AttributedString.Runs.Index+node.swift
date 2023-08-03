@@ -26,7 +26,42 @@ extension AttributedString.Runs.Index: FishyJoesNodeRuntime.NodeConverter {
             env: env,
             name: "AttributedString.Runs.Index",
             properties: [
-                :
+                "equals": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "equals", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                            guard let lhs = try? env.this(converter: AttributedString.Runs.Index.self),
+                                  let rhs = try? env.argument(at: 0, converter: AttributedString.Runs.Index.self) else {
+                                return try Bool.toNode(false, env: env.env)
+                            }
+                            let equal = lhs == rhs
+                            return try Bool.toNode(equal, env: env.env)
+                        }
+                    },
+                    isStatic: false
+                ),
+                "hashCode": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "hashCode", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            // TODO: hashValue
+                            let hashValue = 0//try env.this(converter: AttributedString.Runs.Index.self).hashValue
+                            return try Int32.toNode(Int32(truncatingIfNeeded: hashValue), env: env.env)
+                        }
+                    },
+                    isStatic: false
+                ),
+                "compare": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "compare", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                            guard let lhs = try? env.this(converter: AttributedString.Runs.Index.self),
+                                  let rhs = try? env.argument(at: 0, converter: AttributedString.Runs.Index.self) else {
+                                return try Bool.toNode(false, env: env.env)
+                            }
+                            let comparison = lhs < rhs ? -1 : lhs > rhs ? 1 : 0
+                            return try Int.toNode(comparison, env: env.env)
+                        }
+                    },
+                    isStatic: false
+                ),
             ],
             constructor: { env, info in
                 FishyJoesNodeRuntime.callbackBody(env, info, name: "AttributedString.Runs.Index_constructor", expectedArgumentCount: 1) { env in
