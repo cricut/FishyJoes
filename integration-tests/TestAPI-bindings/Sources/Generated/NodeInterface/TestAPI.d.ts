@@ -1,13 +1,6 @@
-import {
-    Optional,
-    SwiftRange,
-    SwiftClosedRange,
-    AttributeContainer,
-    AttributeContainerFoundationAttributes,
-    AttributedString,
-    AttributedSubstring,
-}
-from '@cricut/fishyjoes-runtime';
+export type Optional<T> = T | undefined;
+
+import { Runtime } from '@cricut/fishyjoes-runtime';
 export * from '@cricut/fishyjoes-runtime';
 
 export declare namespace TestAPI {

@@ -53,15 +53,15 @@ extension AttributeContainer.FoundationAttributes: FishyJoesNodeRuntime.NodeConv
                     },
                     isStatic: true
                 ),
-                "merge": (
+                "link": (
                     .accessor(
                         getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "merge", expectedArgumentCount: 0) { env in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "link", expectedArgumentCount: 0) { env in
                                 try OptionalConverter<Foundation.URL>.toNode(env.this(converter: AttributeContainer.FoundationAttributes.self).link, env: env.env)
                             }
                         },
                         setter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "merge", expectedArgumentCount: 1) { env in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "link", expectedArgumentCount: 1) { env in
                                 var mutatingSelf = try env.this(converter: AttributeContainer.FoundationAttributes.self)
                                 mutatingSelf.link = try env.argument(at: 0, converter: OptionalConverter<Foundation.URL>.self)
                                 try AttributeContainer.FoundationAttributes.mutateNode(mutatingSelf, this: env.this(), env: env.env)
@@ -70,15 +70,15 @@ extension AttributeContainer.FoundationAttributes: FishyJoesNodeRuntime.NodeConv
                         }),
                     isStatic: false
                 ),
-                "merge": (
+                "languageIdentifier": (
                     .accessor(
                         getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "merge", expectedArgumentCount: 0) { env in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "languageIdentifier", expectedArgumentCount: 0) { env in
                                 try OptionalConverter<Swift.String>.toNode(env.this(converter: AttributeContainer.FoundationAttributes.self).languageIdentifier, env: env.env)
                             }
                         },
                         setter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "merge", expectedArgumentCount: 1) { env in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "languageIdentifier", expectedArgumentCount: 1) { env in
                                 var mutatingSelf = try env.this(converter: AttributeContainer.FoundationAttributes.self)
                                 mutatingSelf.languageIdentifier = try env.argument(at: 0, converter: OptionalConverter<Swift.String>.self)
                                 try AttributeContainer.FoundationAttributes.mutateNode(mutatingSelf, this: env.this(), env: env.env)

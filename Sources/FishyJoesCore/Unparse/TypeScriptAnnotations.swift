@@ -259,8 +259,8 @@ extension TypeScriptAnnotations {
     var fragment: SourceFragment {
         let fragment = SourceFragment(sourceryDestination: "file:NodeInterface/\(defaultNamespace).d.ts")
 
-//        fragment.output("export type Optional<T> = T | undefined;")
-//        fragment.blankLine()
+        fragment.output("export type Optional<T> = T | undefined;")
+        fragment.blankLine()
 //
 //        fragment.output("/**")
 //        fragment.output(" * A half-open interval from a lower bound up to, but not including, an upper bound.")
@@ -295,16 +295,7 @@ extension TypeScriptAnnotations {
 //        fragment.output("export type SwiftClosedRange<T> = { lowerBound: T, upperBoundInclusive: T };")
 //        fragment.blankLine()
 
-        fragment.outputBlock("import {") {
-            fragment.output("Optional,")
-            fragment.output("SwiftRange,")
-            fragment.output("SwiftClosedRange,")
-            fragment.output("AttributeContainer,")
-            fragment.output("AttributeContainerFoundationAttributes,")
-            fragment.output("AttributedString,")
-            fragment.output("AttributedSubstring,")
-        }
-        fragment.output("from '@cricut/fishyjoes-runtime';")
+        fragment.output("import { Runtime } from '@cricut/fishyjoes-runtime';")
         fragment.output("export * from '@cricut/fishyjoes-runtime';")
         fragment.blankLine()
 

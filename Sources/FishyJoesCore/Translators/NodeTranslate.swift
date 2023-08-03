@@ -227,9 +227,11 @@ struct NodeTranslator: Translator {
         nodeTypeListFragment.output("@_cdecl(\"napi_register_module_v1\")")
         nodeTypeListFragment.outputBlock("public func napi_register_module_v1(env: napi_env, exports: napi_value) -> napi_value? {") {
             nodeTypeListFragment.output("let env = NAPI.Env(ptr: env)")
-            nodeTypeListFragment.output("let exports = NAPI.Value(ptr: exports)")
+            nodeTypeListFragment.output("var exports = NAPI.Value(ptr: exports)")
             nodeTypeListFragment.outputBlock("return FishyJoesNodeRuntime.rethrowToNode(env: env) {") {
-                nodeTypeListFragment.output("try registerModule\(context.module)(env: env, exports: exports)")
+                nodeTypeListFragment.output("exports = try registerModuleRuntime(env: env, exports: exports)")
+                nodeTypeListFragment.output("exports = try registerModule\(context.module)(env: env, exports: exports)")
+                nodeTypeListFragment.output("return exports")
             }
         }
         nodeTypeListFragment.output("#endif")

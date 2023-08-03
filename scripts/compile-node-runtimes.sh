@@ -21,5 +21,5 @@ fi
 
 mkdir -p node-runtimes/fishyjoes-runtime-macos
 
-cp $BIN_DIR/libFishyJoesNodeRuntime.dylib node-runtimes/fishyjoes-runtime-macos/FishyJoesRuntime.cjs.node
+cp $BIN_DIR/libFishyJoesNodeRuntime.dylib node-runtimes/fishyjoes-runtime-macos/Runtime.cjs.node
 

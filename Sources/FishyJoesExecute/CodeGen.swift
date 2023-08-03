@@ -382,7 +382,7 @@ extension CodeGen {
                         "const require = createRequire(import.meta.url);",
                     ]
                     for module in config.requiredModules + [config.module] {
-                        moduleDotJS.append("export const { \(module) } = require('./\(module).cjs');")
+                        moduleDotJS.append("export const { Runtime, \(module) } = require('./\(module).cjs');")
                     }
                     moduleDotJS.append("export default \(config.module);")
                     try cmd("echo", moduleDotJS.joined(separator: "\n")).output(overwritingFile: "\(outputDir)/\(config.module).js").run()

@@ -1,49 +1,43 @@
-import { 
-    // AttributedString,
-    // AttributeContainer,
-    TestAPI
-} from 'TestAPI';
+import { Runtime, TestAPI } from 'TestAPI';
+let AttributeContainer = Runtime.AttributeContainer
+let AttributedString = Runtime.AttributedString
 
 // test('StringValues', () => {
-    // let enAttributes = AttributeContainer.FoundationAttributes.createEmpty()
-    // enAttributes.languageIdentifier = ("en")
-    // let en = enAttributes.asContainer()
-    // let pt = new AttributeContainer.FoundationAttributes("pt").asContainer()
-    // let ja = new AttributeContainer.FoundationAttributes("ja").asContainer()
-    // let zh = new AttributeContainer.FoundationAttributes("zh").asContainer()
-    // let ea = new AttributeContainer.FoundationAttributes(undefined, new URL("https://home.unicode.org/emoji")).asContainer()
-    // let ef = new AttributeContainer.FoundationAttributes(undefined, new URL("https://home.unicode.org/emoji/emoji-frequency")).asContainer()
-    // let f = new AttributeContainer.CriTextAttributes("Helvetica").asContainer()
+//     let en = new AttributeContainer.FoundationAttributes("en").asContainer()
+//     let pt = new AttributeContainer.FoundationAttributes("pt").asContainer()
+//     let ja = new AttributeContainer.FoundationAttributes("ja").asContainer()
+//     let zh = new AttributeContainer.FoundationAttributes("zh").asContainer()
+//     let ea = new AttributeContainer.FoundationAttributes(undefined, new URL("https://home.unicode.org/emoji")).asContainer()
+//     let ef = new AttributeContainer.FoundationAttributes(undefined, new URL("https://home.unicode.org/emoji/emoji-frequency")).asContainer()
 
-    // let enAttributes = AttributeContainer.FoundationAttributes.fromContainer(en)
-    // expect(enAttributes.languageIdentifier).toEqual("en")
-    // expect(enAttributes.link).toBeUndefined
+//     let enAttributes = AttributeContainer.FoundationAttributes.fromContainer(en)
+//     expect(enAttributes.languageIdentifier).toEqual("en")
+//     expect(enAttributes.link).toBeUndefined
 
-    // let eaAttributes = AttributeContainer.FoundationAttributes.fromContainer(ea)
-    // expect(eaAttributes.languageIdentifier).toBeUndefined
-    // expect(eaAttributes.link).toEqual(new URL("https://home.unicode.org/emoji"))
+//     let eaAttributes = AttributeContainer.FoundationAttributes.fromContainer(ea)
+//     expect(eaAttributes.languageIdentifier).toBeUndefined
+//     expect(eaAttributes.link).toEqual(new URL("https://home.unicode.org/emoji"))
     
-    // expect(TestAPI.AttributedStrings.simple).toEqual(AttributedString.create("Hello", { attributes: en }))
-    // expect(TestAPI.AttributedStrings.accent).toEqual(new AttributedString("Olá", pt))
-    // expect(TestAPI.AttributedStrings.script).toEqual(new AttributedString("こんにちは", ja))
-    // expect(TestAPI.AttributedStrings.chinese).toEqual(new AttributedString("你好", zh))
-    // expect(TestAPI.AttributedStrings.chineseBMP).toEqual(new AttributedString("豈更車賈滑", zh))
-    // expect(TestAPI.AttributedStrings.chineseSIP).toEqual(new AttributedString("\u{20001}\u{20002}\u{20003}\u{20004}", zh))
-    // expect(TestAPI.AttributedStrings.emoji).toEqual(new AttributedString("🤯🐶🍓", ea))
-    // expect(TestAPI.AttributedStrings.emojiMulti).toEqual(new AttributedString("👨‍👩‍👧‍👦👍🏿🇺🇸", ef))
-    // expect(TestAPI.AttributedStrings.polyglot).toEqual(TestAPI.AttributedStrings.simple + " " + TestAPI.AttributedStrings.accent + " " + TestAPI.AttributedStrings.script)
+//     expect(TestAPI.AttributedStrings.simple).toEqual(AttributedString.create("Hello", { attributes: en }))
+//     expect(TestAPI.AttributedStrings.accent).toEqual(new AttributedString("Olá", pt))
+//     expect(TestAPI.AttributedStrings.script).toEqual(new AttributedString("こんにちは", ja))
+//     expect(TestAPI.AttributedStrings.chinese).toEqual(new AttributedString("你好", zh))
+//     expect(TestAPI.AttributedStrings.chineseBMP).toEqual(new AttributedString("豈更車賈滑", zh))
+//     expect(TestAPI.AttributedStrings.chineseSIP).toEqual(new AttributedString("\u{20001}\u{20002}\u{20003}\u{20004}", zh))
+//     expect(TestAPI.AttributedStrings.emoji).toEqual(new AttributedString("🤯🐶🍓", ea))
+//     expect(TestAPI.AttributedStrings.emojiMulti).toEqual(new AttributedString("👨‍👩‍👧‍👦👍🏿🇺🇸", ef))
+//     expect(TestAPI.AttributedStrings.polyglot).toEqual(TestAPI.AttributedStrings.simple + " " + TestAPI.AttributedStrings.accent + " " + TestAPI.AttributedStrings.script)
 // })
 
 test('StringEcho', () => {
-    console.log(TestAPI.AttributedStrings.emoji.string)
-    // expect(TestAPI.AttributedStrings.echo(TestAPI.AttributedStrings.simple)).toEqual(5)
-    // expect(TestAPI.AttributedStrings.echo(TestAPI.AttributedStrings.accent)).toEqual(TestAPI.AttributedStrings.accent)
-    // expect(TestAPI.AttributedStrings.echo(TestAPI.AttributedStrings.chinese)).toEqual(TestAPI.AttributedStrings.chinese)
-    // expect(TestAPI.AttributedStrings.echo(TestAPI.AttributedStrings.chineseBMP)).toEqual(TestAPI.AttributedStrings.chineseBMP)
-    // expect(TestAPI.AttributedStrings.echo(TestAPI.AttributedStrings.chineseSIP)).toEqual(TestAPI.AttributedStrings.chineseSIP)
-    // expect(TestAPI.AttributedStrings.echo(TestAPI.AttributedStrings.emoji)).toEqual(TestAPI.AttributedStrings.emoji)
-    // expect(TestAPI.AttributedStrings.echo(TestAPI.AttributedStrings.emojiMulti)).toEqual(TestAPI.AttributedStrings.emojiMulti)
-    // expect(TestAPI.AttributedStrings.echo(TestAPI.AttributedStrings.polyglot)).toEqual(TestAPI.AttributedStrings.polyglot)
+    expect(TestAPI.AttributedStrings.echo(TestAPI.AttributedStrings.simple)).toEqual(TestAPI.AttributedStrings.simple)
+    expect(TestAPI.AttributedStrings.echo(TestAPI.AttributedStrings.accent)).toEqual(TestAPI.AttributedStrings.accent)
+    expect(TestAPI.AttributedStrings.echo(TestAPI.AttributedStrings.chinese)).toEqual(TestAPI.AttributedStrings.chinese)
+    expect(TestAPI.AttributedStrings.echo(TestAPI.AttributedStrings.chineseBMP)).toEqual(TestAPI.AttributedStrings.chineseBMP)
+    expect(TestAPI.AttributedStrings.echo(TestAPI.AttributedStrings.chineseSIP)).toEqual(TestAPI.AttributedStrings.chineseSIP)
+    expect(TestAPI.AttributedStrings.echo(TestAPI.AttributedStrings.emoji)).toEqual(TestAPI.AttributedStrings.emoji)
+    expect(TestAPI.AttributedStrings.echo(TestAPI.AttributedStrings.emojiMulti)).toEqual(TestAPI.AttributedStrings.emojiMulti)
+    expect(TestAPI.AttributedStrings.echo(TestAPI.AttributedStrings.polyglot)).toEqual(TestAPI.AttributedStrings.polyglot)
 })
 
 /*
