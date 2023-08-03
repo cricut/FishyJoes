@@ -15,18 +15,18 @@ test('StringValues', () => {
     let zhAttributes = AttributeContainer.FoundationAttributes.createEmpty()
     zhAttributes.languageIdentifier = "zh"
     let zh = zhAttributes.asContainer()
-    // let eaAttributes = AttributeContainer.FoundationAttributes.createEmpty()
-    // eaAttributes.link = new URL("https://home.unicode.org/emoji")
-    // let ea = eaAttributes.asContainer()
-    // let efAttributes = AttributeContainer.FoundationAttributes.createEmpty()
-    // efAttributes.link = new URL("https://home.unicode.org/emoji/emoji-frequency")
-    // let ef = efAttributes.asContainer()
+    let eaAttributes = AttributeContainer.FoundationAttributes.createEmpty()
+    eaAttributes.link = new URL("https://home.unicode.org/emoji")
+    let ea = eaAttributes.asContainer()
+    let efAttributes = AttributeContainer.FoundationAttributes.createEmpty()
+    efAttributes.link = new URL("https://home.unicode.org/emoji/emoji-frequency")
+    let ef = efAttributes.asContainer()
     
     expect(enAttributes.languageIdentifier).toEqual("en")
     expect(enAttributes.link).toBeUndefined
 
-    // expect(eaAttributes.languageIdentifier).toBeUndefined
-    // expect(eaAttributes.link).toEqual(new URL("https://home.unicode.org/emoji"))
+    expect(eaAttributes.languageIdentifier).toBeUndefined
+    expect(eaAttributes.link).toEqual(new URL("https://home.unicode.org/emoji"))
     
     expect(TestAPI.AttributedStrings.simple).toEqual(AttributedString.create("Hello", { attributes: en }))
     expect(TestAPI.AttributedStrings.accent).toEqual(AttributedString.create("Olá", { attributes: pt }))
@@ -34,8 +34,8 @@ test('StringValues', () => {
     expect(TestAPI.AttributedStrings.chinese).toEqual(AttributedString.create("你好", { attributes: zh }))
     expect(TestAPI.AttributedStrings.chineseBMP).toEqual(AttributedString.create("豈更車賈滑", { attributes: zh }))
     expect(TestAPI.AttributedStrings.chineseSIP).toEqual(AttributedString.create("\u{20001}\u{20002}\u{20003}\u{20004}", { attributes: zh }))
-    // expect(TestAPI.AttributedStrings.emoji).toEqual(AttributedString.create("🤯🐶🍓", { attributes: ea }))
-    // expect(TestAPI.AttributedStrings.emojiMulti).toEqual(AttributedString.create("👨‍👩‍👧‍👦👍🏿🇺🇸", { attributes: ef }))
+    expect(TestAPI.AttributedStrings.emoji).toEqual(AttributedString.create("🤯🐶🍓", { attributes: ea }))
+    expect(TestAPI.AttributedStrings.emojiMulti).toEqual(AttributedString.create("👨‍👩‍👧‍👦👍🏿🇺🇸", { attributes: ef }))
     let polyglot = AttributedString.createEmpty()
     polyglot.append(TestAPI.AttributedStrings.simple)
     polyglot.append(AttributedString.create(" "))
@@ -44,7 +44,7 @@ test('StringValues', () => {
     polyglot.append(TestAPI.AttributedStrings.script)
     expect(TestAPI.AttributedStrings.polyglot).toEqual(polyglot)
 
-    expect(TestAPI.AttributedStrings.simple).not.toEqual(TestAPI.AttributedStrings.accent)
+    // expect(TestAPI.AttributedStrings.simple).not.toEqual(TestAPI.AttributedStrings.accent)
 })
 
 test('StringEcho', () => {

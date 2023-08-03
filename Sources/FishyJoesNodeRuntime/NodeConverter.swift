@@ -241,17 +241,17 @@ extension Data: NodeConverter {
 
 extension URL: NodeConverter {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> URL {
-        let urlString = try env.getValueStringUtf8(value) ?? ""
+        let urlStringObject = try env.getNamedProperty(value, "href")
+        let urlString = try env.getValueStringUtf8(urlStringObject) ?? "<null>"
         guard let url = URL(string: urlString) else { throw MalformedURLError(message: "Not a valid URL: \(urlString)") }
-
         return url
     }
 
     public static func toNode(_ value: URL, env: NAPI.Env) throws -> NAPI.Value {
         let urlString = value.absoluteString
-        let urlObject = try env.createStringUtf8(urlString)
-
-        return urlObject
+        let urlStringObject = try env.createStringUtf8(urlString)
+        let urlConstructor = try env.getNamedProperty(env.getGlobal(), "URL")
+        return try env.newInstance(urlConstructor, [urlStringObject])
     }
 }
 
