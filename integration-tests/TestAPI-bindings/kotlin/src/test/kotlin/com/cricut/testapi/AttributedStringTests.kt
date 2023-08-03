@@ -95,8 +95,8 @@ internal class AttributedStringTests {
         var unicodeScalars = emptyList<UInt>()
         var scalarIndex = attributedString.unicodeScalars.startIndex
         while (scalarIndex != attributedString.unicodeScalars.endIndex) {
-            val characterString = attributedString.unicodeScalars.elementAt(scalarIndex)
-            unicodeScalars += characterString
+            val characterScalar = attributedString.unicodeScalars.elementAt(scalarIndex)
+            unicodeScalars += characterScalar
             scalarIndex = attributedString.unicodeScalars.indexAfter(scalarIndex)
         }
         assertEquals(unicodeScalars.map { it.toInt() },
