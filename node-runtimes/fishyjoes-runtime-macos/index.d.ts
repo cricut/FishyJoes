@@ -445,69 +445,6 @@ export declare namespace Runtime {
     }
     export namespace AttributedString {
         /**
-         * A view into the underlying storage of an attributed string or substring, as Unicode characters.
-         * <!-- FishyJoes.exportReference(AttributedString.CharacterView) -->
-         */
-        export class CharacterView {
-            private constructor()
-            private _inhibitStructuralTyping: any
-
-            /**
-             * The position of the first character in a nonempty attributed string or substring.
-             * <!-- FishyJoes.export(startIndex) -->
-             */
-            readonly startIndex: AttributedString.Index;
-
-            /**
-             * The past-the-end position — the position one greater than the last valid subscript argument.
-             * <!-- FishyJoes.export(endIndex) -->
-             */
-            readonly endIndex: AttributedString.Index;
-
-            /**
-             * Obtains the index of the character before the character referenced by another index in the view's attributed string or substring.
-             *
-             * - Parameter index The index serving as the starting position, between `startIndex` exclusive and `endIndex` inclusive.
-             * - Returns The index of the character before the one referenced by `index`.
-             *     If `index` is `startIndex` an exception is thrown.
-             *     If `index` is `endIndex`, the index to the last character in the view's attributed string or substring is returned.
-             *
-             * <!-- FishyJoes.export(indexBefore) -->
-             */
-            indexBefore(
-                /* before */ i: AttributedString.Index
-            ): AttributedString.Index;
-
-            /**
-             * Obtains the index of the character after the character referenced by another index in the view's attributed string or substring.
-             *
-             * - Parameter index The index serving as the starting position, between `startIndex` inclusive and `endIndex` exclusive.
-             * - Returns The index of the character before the one referenced by `index`.
-             *     If `index` is `endIndex` an exception is thrown.
-             *     If `index` is `startIndex`, the index to the first character in the view's attributed string or substring is returned.
-             *
-             * <!-- FishyJoes.export(indexAfter) -->
-             */
-            indexAfter(
-                /* after */ i: AttributedString.Index
-            ): AttributedString.Index;
-
-            /**
-             * Obtains the character associated with an attributed string index.
-             *
-             * - Parameter index The index of the desired character, between `startIndex` inclusive and `endIndex` exclusive.
-             * - Returns The character associated with `index`.
-             *     If `index` is `endIndex`, an exception is thrown.
-             *     If `index` is `startIndex`, the first character in the view's attributed string or substring is returned.
-             *
-             * <!-- FishyJoes.export(elementAt) -->
-             */
-            elementAt(
-                /* at */ index: AttributedString.Index
-            ): string;
-        }
-
-        /**
          * A type that represents the position of a character or code unit within an attributed string.
          * <!-- FishyJoes.exportReference(AttributedString.Index) -->
          */
@@ -610,6 +547,10 @@ export declare namespace Runtime {
     
             hashCode(
             ): number;
+
+            [Symbol.iterator](): RunsIterator {
+                return new RunsIterator(this)
+            }
         }
         export namespace Runs {
             /**
@@ -658,6 +599,131 @@ export declare namespace Runtime {
         
                 hashCode(
                 ): number;    
+            }
+        }
+
+        export class RunsIterator implements Iterator<Runtime.AttributedString.Runs.Run> {
+            private index: Runtime.AttributedString.Runs.Index
+            private done: boolean
+            constructor(private runs: Runtime.AttributedString.Runs) {
+                this.index = runs.startIndex
+                this.done = false
+            }
+            next(): IteratorResult<Runtime.AttributedString.Runs.Run> {
+                if(this.done)
+                    return {
+                        done: this.done,
+                        value: undefined
+                    }
+                if(this.index.equals(this.runs.endIndex)) {
+                    this.done = true
+                    return {
+                        done: this.done,
+                        value: this.index
+                    }
+                }
+                const value = this.runs.elementAt(this.index)
+                this.index = this.runs.indexAfter(this.index)
+                return {
+                    done: this.done,
+                    value
+                }
+            }
+        }
+
+        /**
+         * A view into the underlying storage of an attributed string or substring, as Unicode characters.
+         * <!-- FishyJoes.exportReference(AttributedString.CharacterView) -->
+         */
+        export class CharacterView {
+            private constructor()
+            private _inhibitStructuralTyping: any
+
+            /**
+             * The position of the first character in a nonempty attributed string or substring.
+             * <!-- FishyJoes.export(startIndex) -->
+             */
+            readonly startIndex: AttributedString.Index;
+
+            /**
+             * The past-the-end position — the position one greater than the last valid subscript argument.
+             * <!-- FishyJoes.export(endIndex) -->
+             */
+            readonly endIndex: AttributedString.Index;
+
+            /**
+             * Obtains the index of the character before the character referenced by another index in the view's attributed string or substring.
+             *
+             * - Parameter index The index serving as the starting position, between `startIndex` exclusive and `endIndex` inclusive.
+             * - Returns The index of the character before the one referenced by `index`.
+             *     If `index` is `startIndex` an exception is thrown.
+             *     If `index` is `endIndex`, the index to the last character in the view's attributed string or substring is returned.
+             *
+             * <!-- FishyJoes.export(indexBefore) -->
+             */
+            indexBefore(
+                /* before */ i: AttributedString.Index
+            ): AttributedString.Index;
+
+            /**
+             * Obtains the index of the character after the character referenced by another index in the view's attributed string or substring.
+             *
+             * - Parameter index The index serving as the starting position, between `startIndex` inclusive and `endIndex` exclusive.
+             * - Returns The index of the character before the one referenced by `index`.
+             *     If `index` is `endIndex` an exception is thrown.
+             *     If `index` is `startIndex`, the index to the first character in the view's attributed string or substring is returned.
+             *
+             * <!-- FishyJoes.export(indexAfter) -->
+             */
+            indexAfter(
+                /* after */ i: AttributedString.Index
+            ): AttributedString.Index;
+
+            /**
+             * Obtains the character associated with an attributed string index.
+             *
+             * - Parameter index The index of the desired character, between `startIndex` inclusive and `endIndex` exclusive.
+             * - Returns The character associated with `index`.
+             *     If `index` is `endIndex`, an exception is thrown.
+             *     If `index` is `startIndex`, the first character in the view's attributed string or substring is returned.
+             *
+             * <!-- FishyJoes.export(elementAt) -->
+             */
+            elementAt(
+                /* at */ index: AttributedString.Index
+            ): string;
+
+            [Symbol.iterator](): CharacterViewIterator {
+                return new CharacterViewIterator(this)
+            }
+        }
+
+        export class CharacterViewIterator implements Iterator<string> {
+            private index: Runtime.AttributedString.Index
+            private done: boolean
+            constructor(private characterView: Runtime.AttributedString.CharacterView) {
+                this.index = characterView.startIndex
+                this.done = false
+            }
+            next(): IteratorResult<number> {
+                if(this.done)
+                    return {
+                        done: this.done,
+                        value: undefined
+                    }
+                if(this.index.equals(this.runs.endIndex)) {
+                    this.done = true
+                    return {
+                        done: this.done,
+                        value: this.index
+                    }
+                }
+                const value = this.characterView.elementAt(this.index)
+                this.index = this.characterView.indexAfter(this.index)
+                return {
+                    done: this.done,
+                    value
+                }
             }
         }
 
@@ -723,12 +789,38 @@ export declare namespace Runtime {
                 /* at */ index: AttributedString.Index
             ): number;
 
-            equals(
-                other: UnicodeScalarView
-            ): boolean;
-    
-            hashCode(
-            ): number;
+            [Symbol.iterator](): UnicodeScalarViewIterator {
+                return new UnicodeScalarViewIterator(this)
+            }
+        }
+
+        export class UnicodeScalarViewIterator implements Iterator<number> {
+            private index: Runtime.AttributedString.Index
+            private done: boolean
+            constructor(private unicodeScalarView: Runtime.AttributedString.UnicodeScalarView) {
+                this.index = unicodeScalarView.startIndex
+                this.done = false
+            }
+            next(): IteratorResult<number> {
+                if(this.done)
+                    return {
+                        done: this.done,
+                        value: undefined
+                    }
+                if(this.index.equals(this.runs.endIndex)) {
+                    this.done = true
+                    return {
+                        done: this.done,
+                        value: this.index
+                    }
+                }
+                const value = this.unicodeScalarView.elementAt(this.index)
+                this.index = this.unicodeScalarView.indexAfter(this.index)
+                return {
+                    done: this.done,
+                    value
+                }
+            }
         }
     }
 

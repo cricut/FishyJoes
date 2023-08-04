@@ -122,6 +122,43 @@ test('ViewIterationOverIndices', () => {
     )
 })
 
+test('ViewIterators', () => {
+    const attributedString = AttributedString.createEmpty()
+    attributedString.append(AttributedStrings.polyglot)
+    attributedString.append(AttributedString.create(" "))
+    attributedString.append(AttributedStrings.emojiMulti)
+    
+    expect([...attributedString.runs].map((it) => attributedString.substringForRange(it.range).string)).toEqual(
+        [
+            "Hello",
+            " ",
+            "Olá",
+            " ",
+            "こんにちは",
+            " ",
+            "👨‍👩‍👧‍👦👍🏿🇺🇸"
+        ]
+    )
+
+    expect([...attributedString.characters]).toEqual(
+        [
+            "H", "e", "l", "l", "o", " ",
+            "O", "l", "á", " ",
+            "こ", "ん", "に", "ち", "は", " ",
+            "👨‍👩‍👧‍👦", "👍🏿", "🇺🇸"
+        ]
+    )
+
+    expect([...attributedString.unicodeScalars]).toEqual(
+        [
+            72, 101, 108, 108, 111, 32,
+            79, 108, 225, 32,
+            12371, 12435, 12395, 12385, 12399, 32,
+            128104, 8205, 128105, 8205, 128103, 8205, 128102, 128077, 127999, 127482, 127480
+        ]
+    )
+})
+
 /*
 internal class AttributedStringTests {
     @Test
