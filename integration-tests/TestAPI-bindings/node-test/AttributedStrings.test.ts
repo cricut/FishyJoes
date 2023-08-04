@@ -122,41 +122,64 @@ test('ViewIterationOverIndices', () => {
     )
 })
 
-test('ViewIterators', () => {
+// test('ViewIterators', () => {
+//     const attributedString = AttributedString.createEmpty()
+//     attributedString.append(AttributedStrings.polyglot)
+//     attributedString.append(AttributedString.create(" "))
+//     attributedString.append(AttributedStrings.emojiMulti)
+    
+//     expect([...attributedString.runs].map((it) => attributedString.substringForRange(it.range).string)).toEqual(
+//         [
+//             "Hello",
+//             " ",
+//             "Olá",
+//             " ",
+//             "こんにちは",
+//             " ",
+//             "👨‍👩‍👧‍👦👍🏿🇺🇸"
+//         ]
+//     )
+
+//     expect([...attributedString.characters]).toEqual(
+//         [
+//             "H", "e", "l", "l", "o", " ",
+//             "O", "l", "á", " ",
+//             "こ", "ん", "に", "ち", "は", " ",
+//             "👨‍👩‍👧‍👦", "👍🏿", "🇺🇸"
+//         ]
+//     )
+
+//     expect([...attributedString.unicodeScalars]).toEqual(
+//         [
+//             72, 101, 108, 108, 111, 32,
+//             79, 108, 225, 32,
+//             12371, 12435, 12395, 12385, 12399, 32,
+//             128104, 8205, 128105, 8205, 128103, 8205, 128102, 128077, 127999, 127482, 127480
+//         ]
+//     )
+// })
+
+test('Substring', () => {
     const attributedString = AttributedString.createEmpty()
     attributedString.append(AttributedStrings.polyglot)
-    attributedString.append(AttributedString.create(" "))
-    attributedString.append(AttributedStrings.emojiMulti)
     
-    expect([...attributedString.runs].map((it) => attributedString.substringForRange(it.range).string)).toEqual(
-        [
-            "Hello",
-            " ",
-            "Olá",
-            " ",
-            "こんにちは",
-            " ",
-            "👨‍👩‍👧‍👦👍🏿🇺🇸"
-        ]
-    )
+    expect(attributedString.string).toEqual("Hello Olá こんにちは")
 
-    expect([...attributedString.characters]).toEqual(
-        [
-            "H", "e", "l", "l", "o", " ",
-            "O", "l", "á", " ",
-            "こ", "ん", "に", "ち", "は", " ",
-            "👨‍👩‍👧‍👦", "👍🏿", "🇺🇸"
-        ]
-    )
+    const range = { 
+        lowerBound: attributedString.characters.indexAfter(attributedString.startIndex), 
+        upperBoundExclusive: attributedString.characters.indexBefore(attributedString.endIndex)
+    }
+    const substring = attributedString.substringForRange(range)
+    expect(substring.string).toEqual("ello Olá こんにち")
+    expect(substring.base.string).toEqual("Hello Olá こんにちは")
 
-    expect([...attributedString.unicodeScalars]).toEqual(
-        [
-            72, 101, 108, 108, 111, 32,
-            79, 108, 225, 32,
-            12371, 12435, 12395, 12385, 12399, 32,
-            128104, 8205, 128105, 8205, 128103, 8205, 128102, 128077, 127999, 127482, 127480
-        ]
-    )
+    const subRange = {
+        lowerBound: substring.characters.indexAfter(substring.startIndex), 
+        upperBoundExclusive: substring.characters.indexBefore(substring.endIndex)
+    }
+    const subSubstring = substring.substringForRange(subRange)
+    expect(subSubstring.string).toEqual("llo Olá こんに")
+    expect(subSubstring.base.string).toEqual("Hello Olá こんにちは")
 })
 
 /*

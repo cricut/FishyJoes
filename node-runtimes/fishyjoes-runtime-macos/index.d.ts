@@ -14,7 +14,7 @@ export declare namespace Runtime {
      * @param lowerBound - The lower value of the range, inclusive.
      * @param upperBound - The upper value of the range, exclusive.
      */
-    type SwiftRange<T> = { lowerBound: T, upperBoundExclusive: T };
+    export type SwiftRange<T> = { lowerBound: T, upperBoundExclusive: T };
 
     /**
      * An interval from a lower bound up to, and including, an upper bound.
