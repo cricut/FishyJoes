@@ -548,9 +548,8 @@ export declare namespace Runtime {
             hashCode(
             ): number;
 
-            [Symbol.iterator](): RunsIterator {
-                return new RunsIterator(this)
-            }
+            [Symbol.iterator](
+            ): RunIterator;
         }
         export namespace Runs {
             /**
@@ -602,33 +601,12 @@ export declare namespace Runtime {
             }
         }
 
-        export class RunsIterator implements Iterator<Runtime.AttributedString.Runs.Run> {
-            private index: Runtime.AttributedString.Runs.Index
-            private done: boolean
-            constructor(private runs: Runtime.AttributedString.Runs) {
-                this.index = runs.startIndex
-                this.done = false
-            }
-            next(): IteratorResult<Runtime.AttributedString.Runs.Run> {
-                if(this.done)
-                    return {
-                        done: this.done,
-                        value: undefined
-                    }
-                if(this.index.equals(this.runs.endIndex)) {
-                    this.done = true
-                    return {
-                        done: this.done,
-                        value: this.index
-                    }
-                }
-                const value = this.runs.elementAt(this.index)
-                this.index = this.runs.indexAfter(this.index)
-                return {
-                    done: this.done,
-                    value
-                }
-            }
+        export class RunIterator implements Iterator<Runtime.AttributedString.Runs.Run> {
+            private constructor()
+            private _inhibitStructuralTyping: any
+
+            next(
+            ): IteratorResult<Runtime.AttributedString.Runs.Run>;
         }
 
         /**
@@ -693,38 +671,17 @@ export declare namespace Runtime {
                 /* at */ index: AttributedString.Index
             ): string;
 
-            [Symbol.iterator](): CharacterViewIterator {
-                return new CharacterViewIterator(this)
+            [Symbol.iterator](): CharacterIterator {
+                return new CharacterIterator(this)
             }
         }
 
-        export class CharacterViewIterator implements Iterator<string> {
-            private index: Runtime.AttributedString.Index
-            private done: boolean
-            constructor(private characterView: Runtime.AttributedString.CharacterView) {
-                this.index = characterView.startIndex
-                this.done = false
-            }
-            next(): IteratorResult<number> {
-                if(this.done)
-                    return {
-                        done: this.done,
-                        value: undefined
-                    }
-                if(this.index.equals(this.runs.endIndex)) {
-                    this.done = true
-                    return {
-                        done: this.done,
-                        value: this.index
-                    }
-                }
-                const value = this.characterView.elementAt(this.index)
-                this.index = this.characterView.indexAfter(this.index)
-                return {
-                    done: this.done,
-                    value
-                }
-            }
+        export class CharacterIterator implements Iterator<string> {
+            private constructor()
+            private _inhibitStructuralTyping: any
+
+            next(
+            ): IteratorResult<string>;
         }
 
         /**
@@ -789,38 +746,17 @@ export declare namespace Runtime {
                 /* at */ index: AttributedString.Index
             ): number;
 
-            [Symbol.iterator](): UnicodeScalarViewIterator {
-                return new UnicodeScalarViewIterator(this)
+            [Symbol.iterator](): UnicodeScalarIterator {
+                return new UnicodeScalarIterator(this)
             }
         }
 
-        export class UnicodeScalarViewIterator implements Iterator<number> {
-            private index: Runtime.AttributedString.Index
-            private done: boolean
-            constructor(private unicodeScalarView: Runtime.AttributedString.UnicodeScalarView) {
-                this.index = unicodeScalarView.startIndex
-                this.done = false
-            }
-            next(): IteratorResult<number> {
-                if(this.done)
-                    return {
-                        done: this.done,
-                        value: undefined
-                    }
-                if(this.index.equals(this.runs.endIndex)) {
-                    this.done = true
-                    return {
-                        done: this.done,
-                        value: this.index
-                    }
-                }
-                const value = this.unicodeScalarView.elementAt(this.index)
-                this.index = this.unicodeScalarView.indexAfter(this.index)
-                return {
-                    done: this.done,
-                    value
-                }
-            }
+        export class UnicodeScalarIterator implements Iterator<number> {
+            private constructor()
+            private _inhibitStructuralTyping: any
+
+            next(
+            ): IteratorResult<number>;
         }
     }
 

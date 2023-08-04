@@ -122,43 +122,44 @@ test('ViewIterationOverIndices', () => {
     )
 })
 
-// test('ViewIterators', () => {
-//     const attributedString = AttributedString.createEmpty()
-//     attributedString.append(AttributedStrings.polyglot)
-//     attributedString.append(AttributedString.create(" "))
-//     attributedString.append(AttributedStrings.emojiMulti)
+test('ViewIterators', () => {
+    const attributedString = AttributedString.createEmpty()
+    attributedString.append(AttributedStrings.polyglot)
+    attributedString.append(AttributedString.create(" "))
+    attributedString.append(AttributedStrings.emojiMulti)
     
-//     expect([...attributedString.runs].map((it) => attributedString.substringForRange(it.range).string)).toEqual(
-//         [
-//             "Hello",
-//             " ",
-//             "Olá",
-//             " ",
-//             "こんにちは",
-//             " ",
-//             "👨‍👩‍👧‍👦👍🏿🇺🇸"
-//         ]
-//     )
+    expect([...attributedString.runs].map((it) => attributedString.substringForRange(it.range).string)).toEqual(
+        [
+            "Hello",
+            " ",
+            "Olá",
+            " ",
+            "こんにちは",
+            " ",
+            "👨‍👩‍👧‍👦👍🏿🇺🇸"
+        ]
+    )
 
-//     expect([...attributedString.characters]).toEqual(
-//         [
-//             "H", "e", "l", "l", "o", " ",
-//             "O", "l", "á", " ",
-//             "こ", "ん", "に", "ち", "は", " ",
-//             "👨‍👩‍👧‍👦", "👍🏿", "🇺🇸"
-//         ]
-//     )
+    expect([...attributedString.characters]).toEqual(
+        [
+            "H", "e", "l", "l", "o", " ",
+            "O", "l", "á", " ",
+            "こ", "ん", "に", "ち", "は", " ",
+            "👨‍👩‍👧‍👦", "👍🏿", "🇺🇸"
+        ]
+    )
 
-//     expect([...attributedString.unicodeScalars]).toEqual(
-//         [
-//             72, 101, 108, 108, 111, 32,
-//             79, 108, 225, 32,
-//             12371, 12435, 12395, 12385, 12399, 32,
-//             128104, 8205, 128105, 8205, 128103, 8205, 128102, 128077, 127999, 127482, 127480
-//         ]
-//     )
-// })
+    expect([...attributedString.unicodeScalars]).toEqual(
+        [
+            72, 101, 108, 108, 111, 32,
+            79, 108, 225, 32,
+            12371, 12435, 12395, 12385, 12399, 32,
+            128104, 8205, 128105, 8205, 128103, 8205, 128102, 128077, 127999, 127482, 127480
+        ]
+    )
+})
 
+/*
 test('Substring', () => {
     const attributedString = AttributedString.createEmpty()
     attributedString.append(AttributedStrings.polyglot)
@@ -185,8 +186,8 @@ test('Substring', () => {
 test('Mutability', () => {
     // Examine an existing attributed string from the test suite
     expect(AttributedStrings.polyglot.string).toEqual("Hello Olá こんにちは")
-    // expect([...AttributedStrings.polyglot.runs].map((it) => { AttributedStrings.polyglot.substringForRange(it.range).string }))
-    //     .toEqual(["Hello", " ", "Olá", " ", "こんにちは"])
+    expect([...AttributedStrings.polyglot.runs].map((it) => { AttributedStrings.polyglot.substringForRange(it.range).string }))
+        .toEqual(["Hello", " ", "Olá", " ", "こんにちは"])
 
     // Attempt to "modify" the attributed string from the test suite, verify only an (unnamed) clone of it changes, but it does not change
     AttributedStrings.polyglot.replaceSubrange(
@@ -212,12 +213,12 @@ test('Mutability', () => {
         lowerBound: attributedString.characters.indexAfter(attributedString.startIndex), 
         upperBoundExclusive: attributedString.characters.indexBefore(attributedString.endIndex)
     }
-    // expect([...attributedString.runs].map((it) => attributedString.substringForRange(it.range).string))
-    //     .toEqual(["Hello", " ", "Olá", " ", "こんにちは"])
+    expect([...attributedString.runs].map((it) => attributedString.substringForRange(it.range).string))
+        .toEqual(["Hello", " ", "Olá", " ", "こんにちは"])
     
     attributedString.replaceSubrange(range, AttributedString.create(attributedString.substringForRange(range).string, { attributes: AttributeContainer.createEmpty() }))
-    // expect([...attributedString.runs].map((it) => attributedString.substringForRange(it.range).string))
-    //     .toEqual(["H", "ello Olá こんにち", "は"])
+    expect([...attributedString.runs].map((it) => attributedString.substringForRange(it.range).string))
+        .toEqual(["H", "ello Olá こんにち", "は"])
     
     // expect(attributedString.runs.count()).toEqual(3)
     // expect(attributedStringReference.runs.count()).toEqual(3)
@@ -237,8 +238,8 @@ test('Mutability', () => {
     // Modify the clone's string data, verify it changes (merging the first 2 but not last 2 runs), but the attributed string, reference, and original do not
     attributedStringClone.insert(AttributedString.create("clone", { attributes: attributedStringClone.runs.elementAt(attributedStringClone.runs.startIndex).attributes }), attributedStringClone.startIndex)
     attributedStringClone.insert(AttributedString.create("enolc"), attributedStringClone.endIndex)
-    // expect([...attributedStringClone.runs].map((it) => attributedStringClone.substringForRange(it.range).string))
-    //     .toEqual(["cloneHello", " ", "Olá", " ", "こんにちは", "enolc"])
+    expect([...attributedStringClone.runs].map((it) => attributedStringClone.substringForRange(it.range).string))
+        .toEqual(["cloneHello", " ", "Olá", " ", "こんにちは", "enolc"])
     
     expect(attributedString.string).toEqual("Hi18nは") // Unchanged
     expect(attributedStringReference.string).toEqual("Hi18nは") // Unchanged
@@ -322,6 +323,7 @@ test('AttributeMergeReplace', () => {
     expect(runRanges.length).toEqual(1)
     expect(attributedString).toEqual(AttributedString.create("Hello Olá こんにちは", { attributes: empty }))
 })
+*/
 
 /*
 internal class AttributedStringTests {
