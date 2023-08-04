@@ -159,7 +159,6 @@ test('ViewIterators', () => {
     )
 })
 
-/*
 test('Substring', () => {
     const attributedString = AttributedString.createEmpty()
     attributedString.append(AttributedStrings.polyglot)
@@ -182,7 +181,7 @@ test('Substring', () => {
     expect(subSubstring.string).toEqual("llo Olá こんに")
     expect(subSubstring.base.string).toEqual("Hello Olá こんにちは")
 })
-
+/*
 test('Mutability', () => {
     // Examine an existing attributed string from the test suite
     expect(AttributedStrings.polyglot.string).toEqual("Hello Olá こんにちは")
@@ -220,15 +219,15 @@ test('Mutability', () => {
     expect([...attributedString.runs].map((it) => attributedString.substringForRange(it.range).string))
         .toEqual(["H", "ello Olá こんにち", "は"])
     
-    // expect(attributedString.runs.count()).toEqual(3)
-    // expect(attributedStringReference.runs.count()).toEqual(3)
-    // expect(attributedStringClone.runs.count()).toEqual(5) // Unchanged
-    // expect(AttributedStrings.polyglot.runs.count()).toEqual(5) // Unchanged
+    expect([...attributedString.runs].length).toEqual(3)
+    expect([...attributedStringReference.runs].length).toEqual(3)
+    expect([...attributedStringClone.runs].length).toEqual(5) // Unchanged
+    expect([...AttributedStrings.polyglot.runs].length).toEqual(5) // Unchanged
 
     // Modify the attributed string's string data, verify it and the reference change, but the clone and original do not
     attributedString.replaceSubrange(range, AttributedString.create("i18n"))
-    // expect([...attributedString.runs].map((it) => attributedString.substringForRange(it.range).string))
-    //     .toEqual(["H", "i18n", "は"])
+    expect([...attributedString.runs].map((it) => attributedString.substringForRange(it.range).string))
+        .toEqual(["H", "i18n", "は"])
     
     expect(attributedString.string).toEqual("Hi18nは")
     expect(attributedStringReference.string).toEqual("Hi18nは")
@@ -246,7 +245,7 @@ test('Mutability', () => {
     expect(attributedStringClone.string).toEqual("cloneHello Olá こんにちはenolc")
     expect(AttributedStrings.polyglot.string).toEqual("Hello Olá こんにちは") // Unchanged
 })
-
+*/
 test('AttributeMergeReplace', () => {
     const empty = AttributeContainer.createEmpty()
     const enAttributes = AttributeContainer.FoundationAttributes.createEmpty()
@@ -262,26 +261,26 @@ test('AttributeMergeReplace', () => {
     const attributedString = AttributedStrings.polyglot
     let runRanges = [...attributedString.runs].map((it) => it.range)
     expect(runRanges.length).toEqual(5)
-    expect(attributedString.substringForRange(runRanges[0])).toEqual(AttributedString.create("Hello", { attributes: en }).substring)
-    expect(attributedString.substringForRange(runRanges[1])).toEqual(AttributedString.create(" ", { attributes: empty }).substring)
-    expect(attributedString.substringForRange(runRanges[2])).toEqual(AttributedString.create("Olá", { attributes: pt }).substring)
-    expect(attributedString.substringForRange(runRanges[3])).toEqual(AttributedString.create(" ", { attributes: empty }).substring)
-    expect(attributedString.substringForRange(runRanges[4])).toEqual(AttributedString.create("こんにちは", { attributes: ja}).substring)
+    expect(attributedString.substringForRange(runRanges[0]).equals(AttributedString.create("Hello", { attributes: en }).substring))
+    expect(attributedString.substringForRange(runRanges[1]).equals(AttributedString.create(" ", { attributes: empty }).substring))
+    expect(attributedString.substringForRange(runRanges[2]).equals(AttributedString.create("Olá", { attributes: pt }).substring))
+    expect(attributedString.substringForRange(runRanges[3]).equals(AttributedString.create(" ", { attributes: empty }).substring))
+    expect(attributedString.substringForRange(runRanges[4]).equals(AttributedString.create("こんにちは", { attributes: ja}).substring))
 
     attributedString.replaceSubrange(runRanges[1], AttributedString.create(attributedString.substringForRange(runRanges[1]).string, { attributes: attributedString.runs.elementAtPosition(runRanges[0].lowerBound).attributes }))
     runRanges = [...attributedString.runs].map((it) => it.range)
     expect(runRanges.length).toEqual(4)
-    expect(attributedString.substringForRange(runRanges[0])).toEqual(AttributedString.create("Hello ", { attributes: en }).substring)
-    expect(attributedString.substringForRange(runRanges[1])).toEqual(AttributedString.create("Olá", { attributes: pt }).substring)
-    expect(attributedString.substringForRange(runRanges[2])).toEqual(AttributedString.create(" ", { attributes: empty }).substring)
-    expect(attributedString.substringForRange(runRanges[3])).toEqual(AttributedString.create("こんにちは", { attributes: ja }).substring)
+    expect(attributedString.substringForRange(runRanges[0]).equals(AttributedString.create("Hello ", { attributes: en }).substring))
+    expect(attributedString.substringForRange(runRanges[1]).equals(AttributedString.create("Olá", { attributes: pt }).substring))
+    expect(attributedString.substringForRange(runRanges[2]).equals(AttributedString.create(" ", { attributes: empty }).substring))
+    expect(attributedString.substringForRange(runRanges[3]).equals(AttributedString.create("こんにちは", { attributes: ja }).substring))
 
     attributedString.setAttributesForRange(runRanges[2], attributedString.runs.elementAtPosition(runRanges[1].lowerBound).attributes)
     runRanges = [...attributedString.runs].map((it) => it.range)
     expect(runRanges.length).toEqual(3)
-    expect(attributedString.substringForRange(runRanges[0])).toEqual(AttributedString.create("Hello ", { attributes: en }).substring)
-    expect(attributedString.substringForRange(runRanges[1])).toEqual(AttributedString.create("Olá ", { attributes: pt }).substring)
-    expect(attributedString.substringForRange(runRanges[2])).toEqual(AttributedString.create("こんにちは", { attributes: ja }).substring)
+    expect(attributedString.substringForRange(runRanges[0]).equals(AttributedString.create("Hello ", { attributes: en }).substring))
+    expect(attributedString.substringForRange(runRanges[1]).equals(AttributedString.create("Olá ", { attributes: pt }).substring))
+    expect(attributedString.substringForRange(runRanges[2]).equals(AttributedString.create("こんにちは", { attributes: ja }).substring))
 
     const mangleStartIndex = attributedString.characters.indexAfter(attributedString.startIndex)
     const mangleEndIndex = attributedString.characters.indexBefore(attributedString.endIndex)
@@ -289,9 +288,9 @@ test('AttributeMergeReplace', () => {
     attributedString.setAttributesForRange(mangleRange, empty)
     runRanges = [...attributedString.runs].map((it) => it.range)
     expect(runRanges.length).toEqual(3)
-    expect(attributedString.substringForRange(runRanges[0])).toEqual(AttributedString.create("H", { attributes: en }).substring)
-    expect(attributedString.substringForRange(runRanges[1])).toEqual(AttributedString.create("ello Olá こんにち", { attributes: empty }).substring)
-    expect(attributedString.substringForRange(runRanges[2])).toEqual(AttributedString.create("は", { attributes: ja }).substring)
+    expect(attributedString.substringForRange(runRanges[0]).equals(AttributedString.create("H", { attributes: en }).substring))
+    expect(attributedString.substringForRange(runRanges[1]).equals(AttributedString.create("ello Olá こんにち", { attributes: empty }).substring))
+    expect(attributedString.substringForRange(runRanges[2]).equals(AttributedString.create("は", { attributes: ja }).substring))
 
     const linkAttributes = AttributeContainer.FoundationAttributes.createEmpty()
     linkAttributes.link = new URL("https://www.google.com")
@@ -302,9 +301,9 @@ test('AttributeMergeReplace', () => {
     attributedString.mergeAttributesForRange(runRanges[0], linkAttributes.asContainer())
     runRanges = [...attributedString.runs].map((it) => it.range)
     expect(runRanges.length).toEqual(3)
-    expect(attributedString.substringForRange(runRanges[0])).toEqual(AttributedString.create("H", { attributes: enLink }).substring)
-    expect(attributedString.substringForRange(runRanges[1])).toEqual(AttributedString.create("ello Olá こんにち", { attributes: empty }).substring)
-    expect(attributedString.substringForRange(runRanges[2])).toEqual(AttributedString.create("は", { attributes: ja }).substring)
+    expect(attributedString.substringForRange(runRanges[0]).equals(AttributedString.create("H", { attributes: enLink }).substring))
+    expect(attributedString.substringForRange(runRanges[1]).equals(AttributedString.create("ello Olá こんにち", { attributes: empty }).substring))
+    expect(attributedString.substringForRange(runRanges[2]).equals(AttributedString.create("は", { attributes: ja }).substring))
 
     const jaLinkAttributes = AttributeContainer.FoundationAttributes.createEmpty()
     jaLinkAttributes.link = linkAttributes.link
@@ -313,17 +312,16 @@ test('AttributeMergeReplace', () => {
     attributedString.replaceAttributesForRange(runRanges[0], en, ja)
     runRanges = [...attributedString.runs].map((it) => it.range)
     expect(runRanges.length).toEqual(3)
-    expect(attributedString.substringForRange(runRanges[0])).toEqual(AttributedString.create("H", { attributes: jaLink }).substring)
-    expect(attributedString.substringForRange(runRanges[1])).toEqual(AttributedString.create("ello Olá こんにち", { attributes: empty }).substring)
-    expect(attributedString.substringForRange(runRanges[2])).toEqual(AttributedString.create("は", { attributes: ja }).substring)
+    expect(attributedString.substringForRange(runRanges[0]).equals(AttributedString.create("H", { attributes: jaLink }).substring))
+    expect(attributedString.substringForRange(runRanges[1]).equals(AttributedString.create("ello Olá こんにち", { attributes: empty }).substring))
+    expect(attributedString.substringForRange(runRanges[2]).equals(AttributedString.create("は", { attributes: ja }).substring))
 
     attributedString.setAttributesForRange(attributedString.runs.elementAt(attributedString.runs.startIndex).range, empty)
     attributedString.setAttributesForRange(attributedString.runs.elementAt(attributedString.runs.indexBefore(attributedString.runs.endIndex)).range, empty)
     runRanges = [...attributedString.runs].map((it) => it.range)
     expect(runRanges.length).toEqual(1)
-    expect(attributedString).toEqual(AttributedString.create("Hello Olá こんにちは", { attributes: empty }))
+    expect(attributedString.equals(AttributedString.create("Hello Olá こんにちは", { attributes: empty })))
 })
-*/
 
 /*
 internal class AttributedStringTests {
