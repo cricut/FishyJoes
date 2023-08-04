@@ -321,7 +321,7 @@ test('AttributeMergeReplace', () => {
     runRanges = [...attributedString.runs].map((it) => it.range)
     expect(runRanges.length).toEqual(1)
     expect(attributedString).toEqual(AttributedString.create("Hello Olá こんにちは", { attributes: empty }))
-}
+})
 
 /*
 internal class AttributedStringTests {
