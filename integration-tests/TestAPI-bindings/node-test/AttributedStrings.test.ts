@@ -182,6 +182,70 @@ test('Substring', () => {
     expect(subSubstring.base.string).toEqual("Hello Olá こんにちは")
 })
 
+test('Mutability', () => {
+    // Examine an existing attributed string from the test suite
+    expect(AttributedStrings.polyglot.string).toEqual("Hello Olá こんにちは")
+    // expect([...AttributedStrings.polyglot.runs].map((it) => { AttributedStrings.polyglot.substringForRange(it.range).string }))
+    //     .toEqual(["Hello", " ", "Olá", " ", "こんにちは"])
+
+    // Attempt to "modify" the attributed string from the test suite, verify only an (unnamed) clone of it changes, but it does not change
+    AttributedStrings.polyglot.replaceSubrange(
+        { lowerBound: AttributedStrings.polyglot.startIndex, upperBoundExclusive: AttributedStrings.polyglot.endIndex },
+        AttributedString.create("H")
+    )
+    expect(AttributedStrings.polyglot.string).toEqual("Hello Olá こんにちは")
+
+    // Name the test suite attributed string in a value, creating a clone of it (Swift-to-Java copies the field, which is declared as a 'let' and is immutable)
+    const attributedString = AttributedStrings.polyglot
+    expect(attributedString.string).toEqual("Hello Olá こんにちは")
+
+    // Reference the attributed string, which acts as a reference type like a typical Kotlin object, mirroring changes to the referenced attributed string
+    const attributedStringReference = attributedString
+    expect(attributedStringReference.string).toEqual("Hello Olá こんにちは")
+
+    // Clone the attributed string, making a copy of its string data and attributes
+    const attributedStringClone = AttributedString.createFromSubstring(attributedString.substring)
+    expect(attributedStringClone.string).toEqual("Hello Olá こんにちは")
+
+    // Modify the attributed string's attributes, verify it and the reference change, but the clone and original do not
+    const range = { 
+        lowerBound: attributedString.characters.indexAfter(attributedString.startIndex), 
+        upperBoundExclusive: attributedString.characters.indexBefore(attributedString.endIndex)
+    }
+    // expect([...attributedString.runs].map((it) => attributedString.substringForRange(it.range).string))
+    //     .toEqual(["Hello", " ", "Olá", " ", "こんにちは"])
+    
+    attributedString.replaceSubrange(range, AttributedString.create(attributedString.substringForRange(range).string, { attributes: AttributeContainer.createEmpty() }))
+    // expect([...attributedString.runs].map((it) => attributedString.substringForRange(it.range).string))
+    //     .toEqual(["H", "ello Olá こんにち", "は"])
+    
+    // expect(attributedString.runs.count()).toEqual(3)
+    // expect(attributedStringReference.runs.count()).toEqual(3)
+    // expect(attributedStringClone.runs.count()).toEqual(5) // Unchanged
+    // expect(AttributedStrings.polyglot.runs.count()).toEqual(5) // Unchanged
+
+    // Modify the attributed string's string data, verify it and the reference change, but the clone and original do not
+    attributedString.replaceSubrange(range, AttributedString.create("i18n"))
+    // expect([...attributedString.runs].map((it) => attributedString.substringForRange(it.range).string))
+    //     .toEqual(["H", "i18n", "は"])
+    
+    expect(attributedString.string).toEqual("Hi18nは")
+    expect(attributedStringReference.string).toEqual("Hi18nは")
+    expect(attributedStringClone.string).toEqual("Hello Olá こんにちは") // Unchanged
+    expect(AttributedStrings.polyglot.string).toEqual("Hello Olá こんにちは") // Unchanged
+
+    // Modify the clone's string data, verify it changes (merging the first 2 but not last 2 runs), but the attributed string, reference, and original do not
+    attributedStringClone.insert(AttributedString.create("clone", { attributes: attributedStringClone.runs.elementAt(attributedStringClone.runs.startIndex).attributes }), attributedStringClone.startIndex)
+    attributedStringClone.insert(AttributedString.create("enolc"), attributedStringClone.endIndex)
+    // expect([...attributedStringClone.runs].map((it) => attributedStringClone.substringForRange(it.range).string))
+    //     .toEqual(["cloneHello", " ", "Olá", " ", "こんにちは", "enolc"])
+    
+    expect(attributedString.string).toEqual("Hi18nは") // Unchanged
+    expect(attributedStringReference.string).toEqual("Hi18nは") // Unchanged
+    expect(attributedStringClone.string).toEqual("cloneHello Olá こんにちはenolc")
+    expect(AttributedStrings.polyglot.string).toEqual("Hello Olá こんにちは") // Unchanged
+})
+
 /*
 internal class AttributedStringTests {
     @Test
