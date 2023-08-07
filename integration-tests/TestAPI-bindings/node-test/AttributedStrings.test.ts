@@ -181,11 +181,11 @@ test('Substring', () => {
     expect(subSubstring.string).toEqual("llo Olá こんに")
     expect(subSubstring.base.string).toEqual("Hello Olá こんにちは")
 })
-/*
+
 test('Mutability', () => {
     // Examine an existing attributed string from the test suite
     expect(AttributedStrings.polyglot.string).toEqual("Hello Olá こんにちは")
-    expect([...AttributedStrings.polyglot.runs].map((it) => { AttributedStrings.polyglot.substringForRange(it.range).string }))
+    expect([...AttributedStrings.polyglot.runs].map((it) => AttributedStrings.polyglot.substringForRange(it.range).string))
         .toEqual(["Hello", " ", "Olá", " ", "こんにちは"])
 
     // Attempt to "modify" the attributed string from the test suite, verify only an (unnamed) clone of it changes, but it does not change
@@ -245,7 +245,7 @@ test('Mutability', () => {
     expect(attributedStringClone.string).toEqual("cloneHello Olá こんにちはenolc")
     expect(AttributedStrings.polyglot.string).toEqual("Hello Olá こんにちは") // Unchanged
 })
-*/
+
 test('AttributeMergeReplace', () => {
     const empty = AttributeContainer.createEmpty()
     const enAttributes = AttributeContainer.FoundationAttributes.createEmpty()
