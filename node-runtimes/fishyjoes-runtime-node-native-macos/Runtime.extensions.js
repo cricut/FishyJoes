@@ -22,23 +22,41 @@ function applyExtensions(library) {
         return joined;
     }
 
-//    library.AttributedString.Runs.forEach = function(body) {
-//        let index = this.startIndex;
-//        while (!index.equals(this.endIndex)) {
-//            const element = this.elementAt(index);
-//            body(element);
-//            index = this.indexAfter(index);
-//        }
-//    }
-//
-//    library.AttributedString.Runs[Symbol.iterator] = function* () {
-//        const iterator = library.AttributedString.RunIterator(this);
-//        let element = iterator.next();
-//        while (!element.done) {
-//            yield element.value;
-//            element = iterator.next();
-//        }
-//    }
+    library.AttributedString.Runs.prototype[Symbol.iterator] = function* () {
+        let index = this.startIndex;
+        while (!index.equals(this.endIndex)) {
+            yield this.elementAt(index)
+            index = this.indexAfter(index)
+        }
+    }
+
+    library.AttributedString.Runs.prototype.forEach = function(body) {
+        [...this].forEach(body)
+    }
+
+    library.AttributedString.CharacterView.prototype[Symbol.iterator] = function* () {
+        let index = this.startIndex;
+        while (!index.equals(this.endIndex)) {
+            yield this.elementAt(index)
+            index = this.indexAfter(index)
+        }
+    }
+
+    library.AttributedString.CharacterView.prototype.forEach = function(body) {
+        [...this].forEach(body)
+    }
+
+    library.AttributedString.UnicodeScalarView.prototype[Symbol.iterator] = function* () {
+        let index = this.startIndex;
+        while (!index.equals(this.endIndex)) {
+            yield this.elementAt(index)
+            index = this.indexAfter(index)
+        }
+    }
+
+    library.AttributedString.UnicodeScalarView.prototype.forEach = function(body) {
+        [...this].forEach(body)
+    }
 }
 const imports = {};
 export { applyExtensions, imports };

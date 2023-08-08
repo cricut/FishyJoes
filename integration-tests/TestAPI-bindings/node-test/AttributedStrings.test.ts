@@ -148,6 +148,10 @@ test('ViewIterators', () => {
             128104, 8205, 128105, 8205, 128103, 8205, 128102, 128077, 127999, 127482, 127480
         ]
     )
+
+    attributedString.runs.forEach(it => console.log(it.range))
+    attributedString.characters.forEach(it => console.log(it))
+    attributedString.unicodeScalars.forEach(it => console.log(it))
 })
 
 test('Substring', () => {

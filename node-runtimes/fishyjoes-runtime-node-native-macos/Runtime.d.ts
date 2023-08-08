@@ -548,6 +548,10 @@ export declare namespace Runtime {
             hashCode(
             ): number;
 
+            forEach(
+                body: function(Runs.Run)
+            );
+            
             [Symbol.iterator](
             ): RunIterator;
         }
@@ -671,6 +675,10 @@ export declare namespace Runtime {
                 /* at */ index: AttributedString.Index
             ): string;
 
+            forEach(
+                body: function(string)
+            );
+
             [Symbol.iterator](): CharacterIterator {
                 return new CharacterIterator(this)
             }
@@ -745,6 +753,10 @@ export declare namespace Runtime {
             elementAt(
                 /* at */ index: AttributedString.Index
             ): number;
+
+            forEach(
+                body: function(number)
+            );
 
             [Symbol.iterator](): UnicodeScalarIterator {
                 return new UnicodeScalarIterator(this)
