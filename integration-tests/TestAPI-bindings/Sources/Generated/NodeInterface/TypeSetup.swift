@@ -26,7 +26,6 @@ public func registerModuleTestAPI(env: NAPI.Env, exports: NAPI.Value) throws -> 
     try env.setNamedProperty(exports, "default", module)
 
     try AssociatedDataEnum.nodeSetup(env: env, module: module)
-    try AttributedString.nodeSetup(env: env, module: module)
     try AttributedStrings.nodeSetup(env: env, module: module)
     try Bool.nodeSetup(env: env, module: module)
     try Bytes.nodeSetup(env: env, module: module)

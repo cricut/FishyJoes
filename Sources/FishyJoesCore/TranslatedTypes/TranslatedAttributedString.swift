@@ -1,131 +1,141 @@
 import SourceryRuntime
 
-struct TranslatedAttributedString: TranslatedType {
-    let sourceType = BetterType.named(.init(name: "Foundation.AttributedString"))
-    let containedNamedTypes: [TranslatedType] = []
-    let neutralName = "AttributedString"
-    let nodeName = "AttributedString"
-    let kotlinPackage: String? = "com.cricut.fishyjoes.runtime"
-    let kotlinName = "AttributedString"
-    let jniType = JNIType.object("com/cricut/fishyjoes/runtime/AttributedString")
-    let cSharpType = CSharpClass.CSType.named(package: "Cricut.FishyJoesRuntime", name: "AttributedString")
-    let cppName = "AttributedString"
-    let definingModule = Module.runtime
-}
+var TranslatedAttributedString = ExternalTranslatedType(
+    sourceType: BetterType.named(.init(name: "Foundation.AttributedString")),
+    converterType: nil,
+    neutralName: "AttributedString",
+    nodeName: "Runtime.AttributedString",
+    kotlinPackage: "com.cricut.fishyjoes.runtime",
+    kotlinName: "AttributedString",
+    jniType: JNIType.object("com/cricut/fishyjoes/runtime/AttributedString"),
+    cSharpType: CSharpClass.CSType.named(package: "Cricut.FishyJoesRuntime", name: "AttributedString"),
+    cppName: "AttributedString",
+    isInhabited: true,
+    definingModule: Module.runtime
+)
 
-struct TranslatedAttributedSubstring: TranslatedType {
-    let sourceType = BetterType.named(.init(name: "Foundation.AttributedSubstring"))
-    let containedNamedTypes: [TranslatedType] = []
-    let neutralName = "AttributedSubstring"
-    let nodeName = "AttributedSubstring"
-    let kotlinPackage: String? = "com.cricut.fishyjoes.runtime"
-    let kotlinName = "AttributedSubstring"
-    let jniType = JNIType.object("com/cricut/fishyjoes/runtime/AttributedSubstring")
-    let cSharpType = CSharpClass.CSType.named(package: "Cricut.FishyJoesRuntime", name: "AttributedString")
-    let cppName = "AttributedString"
-    let definingModule = Module.runtime
-}
+var TranslatedAttributedSubstring = ExternalTranslatedType(
+    sourceType: BetterType.named(.init(name: "Foundation.AttributedSubstring")),
+    converterType: nil,
+    neutralName: "AttributedSubstring",
+    nodeName: "Runtime.AttributedSubstring",
+    kotlinPackage: "com.cricut.fishyjoes.runtime",
+    kotlinName: "AttributedSubstring",
+    jniType: JNIType.object("com/cricut/fishyjoes/runtime/AttributedSubstring"),
+    cSharpType: CSharpClass.CSType.named(package: "Cricut.FishyJoesRuntime", name: "AttributedString"),
+    cppName: "AttributedString",
+    isInhabited: true,
+    definingModule: Module.runtime
+)
 
-struct TranslatedAttributeContainer: TranslatedType {
-    let sourceType = BetterType.named(.init(name: "Foundation.AttributeContainer"))
-    let containedNamedTypes: [TranslatedType] = []
-    let neutralName = "AttributeContainer"
-    let nodeName = "AttributeContainer"
-    let kotlinPackage: String? = "com.cricut.fishyjoes.runtime"
-    let kotlinName = "AttributeContainer"
-    let jniType = JNIType.object("com/cricut/fishyjoes/runtime/AttributeContainer")
-    let cSharpType = CSharpClass.CSType.named(package: "Cricut.FishyJoesRuntime", name: "AttributeContainer")
-    let cppName = "AttributeContainer"
-    let definingModule = Module.runtime
-}
+var TranslatedAttributeContainer = ExternalTranslatedType(
+    sourceType: BetterType.named(.init(name: "Foundation.AttributeContainer")),
+    converterType: nil,
+    neutralName: "AttributeContainer",
+    nodeName: "Runtime.AttributeContainer",
+    kotlinPackage: "com.cricut.fishyjoes.runtime",
+    kotlinName: "AttributeContainer",
+    jniType: JNIType.object("com/cricut/fishyjoes/runtime/AttributeContainer"),
+    cSharpType: CSharpClass.CSType.named(package: "Cricut.FishyJoesRuntime", name: "AttributeContainer"),
+    cppName: "AttributeContainer",
+    isInhabited: true,
+    definingModule: Module.runtime
+)
 
-struct TranslatedAttributeContainerFoundationAttributes: TranslatedType {
-    let sourceType = BetterType.named(.init(name: "Foundation.AttributeContainer.FoundationAttributes"))
-    let containedNamedTypes: [TranslatedType] = []
-    let neutralName = "AttributeContainer.FoundationAttributes"
-    let nodeName = "AttributeContainer.FoundationAttributes"
-    let kotlinPackage: String? = "com.cricut.fishyjoes.runtime"
-    let kotlinName = "AttributeContainerFoundationAttributes"
-    let jniType = JNIType.object("com/cricut/fishyjoes/runtime/AttributeContainerFoundationAttributes")
-    let cSharpType = CSharpClass.CSType.named(package: "Cricut.FishyJoesRuntime", name: "AttributeContainerFoundationAttributes")
-    let cppName = "AttributeContainerFoundationAttributes"
-    let definingModule = Module.runtime
-}
+var TranslatedAttributeContainerFoundationAttributes = ExternalTranslatedType(
+    sourceType: BetterType.named(.init(name: "Foundation.AttributeContainer.FoundationAttributes")),
+    converterType: nil,
+    neutralName: "AttributeContainer.FoundationAttributes",
+    nodeName: "Runtime.AttributeContainer.FoundationAttributes",
+    kotlinPackage: "com.cricut.fishyjoes.runtime",
+    kotlinName: "AttributeContainerFoundationAttributes",
+    jniType: JNIType.object("com/cricut/fishyjoes/runtime/AttributeContainerFoundationAttributes"),
+    cSharpType: CSharpClass.CSType.named(package: "Cricut.FishyJoesRuntime", name: "AttributeContainerFoundationAttributes"),
+    cppName: "AttributeContainerFoundationAttributes",
+    isInhabited: true,
+    definingModule: Module.runtime
+)
 
-struct TranslatedAttributedStringIndex: TranslatedType {
-    let sourceType = BetterType.named(.init(name: "Foundation.AttributedString.Index"))
-    let containedNamedTypes: [TranslatedType] = []
-    let neutralName = "AttributedSubstring.Index"
-    let nodeName = "AttributedSubstring.Index"
-    let kotlinPackage: String? = "com.cricut.fishyjoes.runtime"
-    let kotlinName = "AttributedSubstring.Index"
-    let jniType = JNIType.object("com/cricut/fishyjoes/runtime/AttributedString$Index")
-    let cSharpType = CSharpClass.CSType.named(package: "Cricut.FishyJoesRuntime", name: "AttributedString.Index")
-    let cppName = "AttributedString::Index"
-    let definingModule = Module.runtime
-}
+var TranslatedAttributedStringIndex = ExternalTranslatedType(
+    sourceType: BetterType.named(.init(name: "Foundation.AttributedString.Index")),
+    converterType: nil,
+    neutralName: "AttributedSubstring.Index",
+    nodeName: "Runtime.AttributedSubstring.Index",
+    kotlinPackage: "com.cricut.fishyjoes.runtime",
+    kotlinName: "AttributedSubstring.Index",
+    jniType: JNIType.object("com/cricut/fishyjoes/runtime/AttributedString$Index"),
+    cSharpType: CSharpClass.CSType.named(package: "Cricut.FishyJoesRuntime", name: "AttributedString.Index"),
+    cppName: "AttributedString::Index",
+    isInhabited: true,
+    definingModule: Module.runtime
+)
 
-struct TranslatedAttributedStringUnicodeScalarView: TranslatedType {
-    let sourceType = BetterType.named(.init(name: "Foundation.AttributedString.UnicodeScalarView"))
-    let containedNamedTypes: [TranslatedType] = []
-    let neutralName = "AttributedSubstring.UnicodeScalarView"
-    let nodeName = "AttributedSubstring.UnicodeScalarView"
-    let kotlinPackage: String? = "com.cricut.fishyjoes.runtime"
-    let kotlinName = "AttributedSubstring.UnicodeScalarView"
-    let jniType = JNIType.object("com/cricut/fishyjoes/runtime/AttributedString$UnicodeScalarView")
-    let cSharpType = CSharpClass.CSType.named(package: "Cricut.FishyJoesRuntime", name: "AttributedString.UnicodeScalarView")
-    let cppName = "AttributedString::UnicodeScalarView"
-    let definingModule = Module.runtime
-}
+var TranslatedAttributedStringUnicodeScalarView = ExternalTranslatedType(
+    sourceType: BetterType.named(.init(name: "Foundation.AttributedString.UnicodeScalarView")),
+    converterType: nil,
+    neutralName: "AttributedSubstring.UnicodeScalarView",
+    nodeName: "Runtime.AttributedSubstring.UnicodeScalarView",
+    kotlinPackage: "com.cricut.fishyjoes.runtime",
+    kotlinName: "AttributedSubstring.UnicodeScalarView",
+    jniType: JNIType.object("com/cricut/fishyjoes/runtime/AttributedString$UnicodeScalarView"),
+    cSharpType: CSharpClass.CSType.named(package: "Cricut.FishyJoesRuntime", name: "AttributedString.UnicodeScalarView"),
+    cppName: "AttributedString::UnicodeScalarView",
+    isInhabited: true,
+    definingModule: Module.runtime
+)
 
-struct TranslatedAttributedStringCharacterView: TranslatedType {
-    let sourceType = BetterType.named(.init(name: "Foundation.AttributedString.CharacterView"))
-    let containedNamedTypes: [TranslatedType] = []
-    let neutralName = "AttributedSubstring.CharacterView"
-    let nodeName = "AttributedSubstring.CharacterView"
-    let kotlinPackage: String? = "com.cricut.fishyjoes.runtime"
-    let kotlinName = "AttributedSubstring.CharacterView"
-    let jniType = JNIType.object("com/cricut/fishyjoes/runtime/AttributedString$CharacterView")
-    let cSharpType = CSharpClass.CSType.named(package: "Cricut.FishyJoesRuntime", name: "AttributedString.CharacterView")
-    let cppName = "AttributedString::CharacterView"
-    let definingModule = Module.runtime
-}
+var TranslatedAttributedStringCharacterView = ExternalTranslatedType(
+    sourceType: BetterType.named(.init(name: "Foundation.AttributedString.CharacterView")),
+    converterType: nil,
+    neutralName: "AttributedSubstring.CharacterView",
+    nodeName: "Runtime.AttributedSubstring.CharacterView",
+    kotlinPackage: "com.cricut.fishyjoes.runtime",
+    kotlinName: "AttributedSubstring.CharacterView",
+    jniType: JNIType.object("com/cricut/fishyjoes/runtime/AttributedString$CharacterView"),
+    cSharpType: CSharpClass.CSType.named(package: "Cricut.FishyJoesRuntime", name: "AttributedString.CharacterView"),
+    cppName: "AttributedString::CharacterView",
+    isInhabited: true,
+    definingModule: Module.runtime
+)
 
-struct TranslatedAttributedStringRuns: TranslatedType {
-    let sourceType = BetterType.named(.init(name: "Foundation.AttributedString.Runs"))
-    let containedNamedTypes: [TranslatedType] = []
-    let neutralName = "AttributedSubstring.Runs"
-    let nodeName = "AttributedSubstring.Runs"
-    let kotlinPackage: String? = "com.cricut.fishyjoes.runtime"
-    let kotlinName = "AttributedSubstring.Runs"
-    let jniType = JNIType.object("com/cricut/fishyjoes/runtime/AttributedString$Runs")
-    let cSharpType = CSharpClass.CSType.named(package: "Cricut.FishyJoesRuntime", name: "AttributedString.Runs")
-    let cppName = "AttributedString::Runs"
-    let definingModule = Module.runtime
-}
+var TranslatedAttributedStringRuns = ExternalTranslatedType(
+    sourceType: BetterType.named(.init(name: "Foundation.AttributedString.Runs")),
+    converterType: nil,
+    neutralName: "AttributedSubstring.Runs",
+    nodeName: "Runtime.AttributedSubstring.Runs",
+    kotlinPackage: "com.cricut.fishyjoes.runtime",
+    kotlinName: "AttributedSubstring.Runs",
+    jniType: JNIType.object("com/cricut/fishyjoes/runtime/AttributedString$Runs"),
+    cSharpType: CSharpClass.CSType.named(package: "Cricut.FishyJoesRuntime", name: "AttributedString.Runs"),
+    cppName: "AttributedString::Runs",
+    isInhabited: true,
+    definingModule: Module.runtime
+)
 
-struct TranslatedAttributedStringRunsIndex: TranslatedType {
-    let sourceType = BetterType.named(.init(name: "Foundation.AttributedString.Runs.Index"))
-    let containedNamedTypes: [TranslatedType] = []
-    let neutralName = "AttributedSubstring.Runs.Index"
-    let nodeName = "AttributedSubstring.Runs.Index"
-    let kotlinPackage: String? = "com.cricut.fishyjoes.runtime"
-    let kotlinName = "AttributedSubstring.Runs.Index"
-    let jniType = JNIType.object("com/cricut/fishyjoes/runtime/AttributedString$Runs$Index")
-    let cSharpType = CSharpClass.CSType.named(package: "Cricut.FishyJoesRuntime", name: "AttributedString.Runs.Index")
-    let cppName = "AttributedString::Runs::Index"
-    let definingModule = Module.runtime
-}
+var TranslatedAttributedStringRunsIndex = ExternalTranslatedType(
+    sourceType: BetterType.named(.init(name: "Foundation.AttributedString.Runs.Index")),
+    converterType: nil,
+    neutralName: "AttributedSubstring.Runs.Index",
+    nodeName: "Runtime.AttributedSubstring.Runs.Index",
+    kotlinPackage: "com.cricut.fishyjoes.runtime",
+    kotlinName: "AttributedSubstring.Runs.Index",
+    jniType: JNIType.object("com/cricut/fishyjoes/runtime/AttributedString$Runs$Index"),
+    cSharpType: CSharpClass.CSType.named(package: "Cricut.FishyJoesRuntime", name: "AttributedString.Runs.Index"),
+    cppName: "AttributedString::Runs::Index",
+    isInhabited: true,
+    definingModule: Module.runtime
+)
 
-struct TranslatedAttributedStringRunsRun: TranslatedType {
-    let sourceType = BetterType.named(.init(name: "Foundation.AttributedString.Runs.Run"))
-    let containedNamedTypes: [TranslatedType] = []
-    let neutralName = "AttributedSubstring.Runs.Run"
-    let nodeName = "AttributedSubstring.Runs.Run"
-    let kotlinPackage: String? = "com.cricut.fishyjoes.runtime"
-    let kotlinName = "AttributedSubstring.Runs.Run"
-    let jniType = JNIType.object("com/cricut/fishyjoes/runtime/AttributedString$Runs$Run")
-    let cSharpType = CSharpClass.CSType.named(package: "Cricut.FishyJoesRuntime", name: "AttributedString.Runs.Run")
-    let cppName = "AttributedString::Runs::Run"
-    let definingModule = Module.runtime
-}
+var TranslatedAttributedStringRunsRun = ExternalTranslatedType(
+    sourceType: BetterType.named(.init(name: "Foundation.AttributedString.Runs.Run")),
+    converterType: nil,
+    neutralName: "AttributedSubstring.Runs.Run",
+    nodeName: "Runtime.AttributedSubstring.Runs.Run",
+    kotlinPackage: "com.cricut.fishyjoes.runtime",
+    kotlinName: "AttributedSubstring.Runs.Run",
+    jniType: JNIType.object("com/cricut/fishyjoes/runtime/AttributedString$Runs$Run"),
+    cSharpType: CSharpClass.CSType.named(package: "Cricut.FishyJoesRuntime", name: "AttributedString.Runs.Run"),
+    cppName: "AttributedString::Runs::Run",
+    isInhabited: true,
+    definingModule: Module.runtime
+)

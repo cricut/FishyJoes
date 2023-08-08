@@ -339,25 +339,25 @@ public class FishyJoesContext {
                 } else if name.name == "String" {
                     return TranslatedString()
                 } else if name.name == "AttributedString" {
-                    return TranslatedAttributedString()
+                    return TranslatedAttributedString
                 } else if name.name == "AttributedString.Index" {
-                    return TranslatedAttributedStringIndex()
+                    return TranslatedAttributedStringIndex
                 } else if name.name == "AttributedString.UnicodeScalarView" {
-                    return TranslatedAttributedStringUnicodeScalarView()
+                    return TranslatedAttributedStringUnicodeScalarView
                 } else if name.name == "AttributedString.CharacterView" {
-                    return TranslatedAttributedStringCharacterView()
+                    return TranslatedAttributedStringCharacterView
                 } else if name.name == "AttributedString.Runs" {
-                    return TranslatedAttributedStringRuns()
+                    return TranslatedAttributedStringRuns
                 } else if name.name == "AttributedString.Runs.Index" {
-                    return TranslatedAttributedStringRunsIndex()
+                    return TranslatedAttributedStringRunsIndex
                 } else if name.name == "AttributedString.Runs.Run" {
-                    return TranslatedAttributedStringRunsRun()
+                    return TranslatedAttributedStringRunsRun
                 } else if name.name == "AttributedSubstring" {
-                    return TranslatedAttributedSubstring()
+                    return TranslatedAttributedSubstring
                 } else if name.name == "AttributeContainer" {
-                    return TranslatedAttributeContainer()
+                    return TranslatedAttributeContainer
                 } else if name.name == "AttributeContainer.FoundationAttributes" {
-                    return TranslatedAttributeContainerFoundationAttributes()
+                    return TranslatedAttributeContainerFoundationAttributes
                 } else if name.name == "Data" {
                     return TranslatedData()
                 } else if name.name == "URL" {

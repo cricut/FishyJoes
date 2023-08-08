@@ -40,7 +40,7 @@ test('StringValues', () => {
     expect(AttributedStrings.polyglot.equals(polyglot))
 
     expect(AttributedStrings.simple.equals(AttributedStrings.simple))
-    expect(!AttributedStrings.simple.equals(AttributedStrings.accent.runs))
+    expect(!AttributedStrings.simple.equals(AttributedStrings.accent))
     expect(!AttributedStrings.simple.equals(AttributedString.create(AttributedStrings.simple.string, { attributes: undefined })))
 })
 

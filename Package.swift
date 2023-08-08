@@ -259,7 +259,7 @@ let package = Package(
                     .product(name: "SourceryRuntime", package: "Sourcery"),
                 ]
             ),
-            T.target(
+            T.executableTarget(
                 name: "FishyJoesExecutionHelper",
                 dependencies: [
                     .target(name: "FishyJoesCore"),
@@ -285,7 +285,7 @@ let package = Package(
             ),
         ]
     ) + (androidCompatibleOnly || wasmCompatibleOnly ? [] : [
-        T.target(
+        T.executableTarget(
             name: "FishyJoesExecuteMain",
             dependencies: ["FishyJoesExecute"]
         ),
