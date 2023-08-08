@@ -9,7 +9,7 @@ extension AttributedString.UnicodeScalarView: FishyJoesNodeRuntime.NodeConverter
     }
 
     public static func toNode(_ value: AttributedString.UnicodeScalarView, env: NAPI.Env) throws -> NAPI.Value {
-        let constructor = try FishyJoesNodeRuntime.InstanceData.data(for: env).constructor(for: "AttributedString.UnicodeScalarView", env: env)
+        let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "AttributedString.UnicodeScalarView", env: env)
         let arg = try FishyJoesNodeRuntime.Box(value).retainedExternal(env: env)
         return try env.newInstance(constructor, [arg])
     }
@@ -151,7 +151,7 @@ extension AttributedString.UnicodeScalarView.UnicodeScalarIterator: NodeConverte
     }
 
     public static func toNode(_ value: AttributedString.UnicodeScalarView.UnicodeScalarIterator, env: NAPI.Env) throws -> NAPI.Value {
-        let constructor = try FishyJoesNodeRuntime.InstanceData.data(for: env).constructor(for: "AttributedString.UnicodeScalarView.UnicodeScalarIterator", env: env)
+        let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "AttributedString.UnicodeScalarView.UnicodeScalarIterator", env: env)
         let arg = try FishyJoesNodeRuntime.Box(value).retainedExternal(env: env)
         return try env.newInstance(constructor, [arg])
     }

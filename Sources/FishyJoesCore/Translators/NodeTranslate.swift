@@ -229,7 +229,6 @@ struct NodeTranslator: Translator {
             nodeTypeListFragment.output("let env = NAPI.Env(ptr: env)")
             nodeTypeListFragment.output("var exports = NAPI.Value(ptr: exports)")
             nodeTypeListFragment.outputBlock("return FishyJoesNodeRuntime.rethrowToNode(env: env) {") {
-                nodeTypeListFragment.output("exports = try registerModuleRuntime(env: env, exports: exports)")
                 nodeTypeListFragment.output("exports = try registerModule\(context.module)(env: env, exports: exports)")
                 nodeTypeListFragment.output("return exports")
             }

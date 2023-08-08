@@ -378,14 +378,37 @@ extension CodeGen {
                         outputDir
                     ).run()
                     var moduleDotJS = [
+                        "export { Runtime } from '@cricut/fishyjoes-runtime-\(platform.platform)'",
                         "import { createRequire } from 'module';",
                         "const require = createRequire(import.meta.url);",
                     ]
                     for module in config.requiredModules + [config.module] {
-                        moduleDotJS.append("export const { Runtime, \(module) } = require('./\(module).cjs');")
+                        moduleDotJS.append("export const { \(module) } = require('./\(module).cjs');")
                     }
                     moduleDotJS.append("export default \(config.module);")
                     try cmd("echo", moduleDotJS.joined(separator: "\n")).output(overwritingFile: "\(outputDir)/\(config.module).js").run()
+
+                    var tsSources = ["Sources/Generated/NodeInterface/\(config.module).d.ts"]
+                    let path = "ts/\(config.module).extensions.d.ts"
+                    if cmd("test", "-f", path).runBool() {
+                        tsSources.append(path)
+                    }
+                    try cmd("cat", arguments: tsSources).output(overwritingFile: "\(outputDir)/\(config.module).d.ts").run()
+
+                    let outPath = "\(outputDir)/\(config.module).extensions.js"
+                    if !cmd("cp", "ts/\(config.module).extensions.js", outPath).runBool() {
+                        // No extensions found. Generate a no-op extension
+                        try cmd("cat", "-")
+                            .input(
+                                """
+                                    function applyExtensions() {}
+                                    const imports = {};
+                                    export { applyExtensions, imports };
+                                    """
+                            )
+                            .output(overwritingFile: outPath)
+                            .run()
+                    }
                 case .kotlinSystem, .kotlinAndroid:
                     try cmd("mkdir", "-p", outputDir).run()
                     try installLibrary(config.module)

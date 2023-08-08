@@ -1,16 +1,16 @@
 {
-  "name": "@cricut/fishyjoes-runtime-macos",
+  "name": "@cricut/fishyjoes-runtime-node-native-macos",
   "version": "1.0.0",
   "publishConfig" : {
     "registry" : "https://npm.pkg.github.com/"
   },
-  "description": "FishyJoes Runtime for macOS",
-  "main": "index.js",
+  "description": "FishyJoes Runtime for Node.js on macOS",
+  "main": "Runtime.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Cricut Inc.",
-  "types" : "index.d.ts",
+  "types" : "Runtime.d.ts",
   "type" : "module",
   "dependencies" : {
     "process" : "^0.11.10",

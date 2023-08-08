@@ -10,8 +10,8 @@
         "../output/wasm/TestAPI.d.ts",
       ],
       "@cricut/fishyjoes-runtime": [
-        "../../../node-runtimes/fishyjoes-runtime-macos/index.d.ts",
-        "../../../node-runtimes/fishyjoes-runtime-wasm/index.d.ts",
+        "../../../node-runtimes/fishyjoes-runtime-node-native-macos/Runtime.d.ts",
+        "../../../node-runtimes/fishyjoes-runtime-wasm/Runtime.d.ts",
       ]
     }
   }

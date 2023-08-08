@@ -14,7 +14,7 @@ extension Structs.ReferenceStruct: FishyJoesNodeRuntime.NodeConverter {
     }
 
     public static func toNode(_ value: Structs.ReferenceStruct, env: NAPI.Env) throws -> NAPI.Value {
-        let constructor = try FishyJoesNodeRuntime.InstanceData.data(for: env).constructor(for: "Structs.ReferenceStruct", env: env)
+        let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "Structs.ReferenceStruct", env: env)
         let arg = try FishyJoesNodeRuntime.Box(value).retainedExternal(env: env)
         return try env.newInstance(constructor, [arg])
     }

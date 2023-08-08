@@ -9,7 +9,7 @@ extension AttributedString.CharacterView: FishyJoesNodeRuntime.NodeConverter {
     }
 
     public static func toNode(_ value: AttributedString.CharacterView, env: NAPI.Env) throws -> NAPI.Value {
-        let constructor = try FishyJoesNodeRuntime.InstanceData.data(for: env).constructor(for: "AttributedString.CharacterView", env: env)
+        let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "AttributedString.CharacterView", env: env)
         let arg = try FishyJoesNodeRuntime.Box(value).retainedExternal(env: env)
         return try env.newInstance(constructor, [arg])
     }
@@ -153,7 +153,7 @@ extension AttributedString.CharacterView.CharacterIterator: NodeConverter {
     }
 
     public static func toNode(_ value: AttributedString.CharacterView.CharacterIterator, env: NAPI.Env) throws -> NAPI.Value {
-        let constructor = try FishyJoesNodeRuntime.InstanceData.data(for: env).constructor(for: "AttributedString.CharacterView.CharacterIterator", env: env)
+        let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "AttributedString.CharacterView.CharacterIterator", env: env)
         let arg = try FishyJoesNodeRuntime.Box(value).retainedExternal(env: env)
         return try env.newInstance(constructor, [arg])
     }

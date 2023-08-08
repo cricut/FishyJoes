@@ -7,7 +7,7 @@
     "buffer": "^5.7.1",
     "process": "^0.11.10",
     "util": "^0.11.1",
-    "@cricut/fishyjoes-runtime-macos": "file:../../../../node-runtimes/fishyjoes-runtime-macos"
+    "@cricut/fishyjoes-runtime-node-native-macos": "file:../../../../node-runtimes/fishyjoes-runtime-node-native-macos"
   },
   "devDependencies": {
     "@types/node": "^14.14.31",
@@ -18,6 +18,6 @@
   },
   "scripts": {
     "compile-test": "tsc -m esnext output/test/test.ts",
-    "postinstall": "cp ../fishyjoes-runtime-macos/FishyJoesRuntime.cjs.node ./libFishyJoesNodeRuntime.dylib"
+    "postinstall": "cp ../fishyjoes-runtime-node-native-macos/Runtime.cjs.node ./libFishyJoesNodeRuntime.dylib"
   }
 }

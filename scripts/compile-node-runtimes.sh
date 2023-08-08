@@ -19,7 +19,7 @@ else
     BIN_DIR=$(swift build --configuration $CONFIGURATION --show-bin-path)
 fi
 
-mkdir -p node-runtimes/fishyjoes-runtime-macos
+mkdir -p node-runtimes/fishyjoes-runtime-node-native-macos
 
-cp $BIN_DIR/libFishyJoesNodeRuntime.dylib node-runtimes/fishyjoes-runtime-macos/Runtime.cjs.node
+cp $BIN_DIR/libFishyJoesNodeRuntime.dylib node-runtimes/fishyjoes-runtime-node-native-macos/Runtime.cjs.node
 

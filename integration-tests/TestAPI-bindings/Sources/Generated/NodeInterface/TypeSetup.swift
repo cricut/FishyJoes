@@ -13,7 +13,6 @@ public func napi_register_module_v1(env: napi_env, exports: napi_value) -> napi_
     let env = NAPI.Env(ptr: env)
     var exports = NAPI.Value(ptr: exports)
     return FishyJoesNodeRuntime.rethrowToNode(env: env) {
-        exports = try registerModuleRuntime(env: env, exports: exports)
         exports = try registerModuleTestAPI(env: env, exports: exports)
         return exports
     }

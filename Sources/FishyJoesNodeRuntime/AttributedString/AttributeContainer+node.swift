@@ -9,7 +9,7 @@ extension AttributeContainer: FishyJoesNodeRuntime.NodeConverter {
     }
 
     public static func toNode(_ value: AttributeContainer, env: NAPI.Env) throws -> NAPI.Value {
-        let constructor = try FishyJoesNodeRuntime.InstanceData.data(for: env).constructor(for: "AttributeContainer", env: env)
+        let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "AttributeContainer", env: env)
         let arg = try FishyJoesNodeRuntime.Box(value).retainedExternal(env: env)
         return try env.newInstance(constructor, [arg])
     }

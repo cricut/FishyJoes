@@ -141,7 +141,7 @@ struct TranslatedStruct: TranslatedType {
             }
 
             fragment.outputBlock("public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {") {
-                fragment.output("let constructor = try InstanceData.data(for: env).constructor(for: \"\(nodeName)\", env: env)")
+                fragment.output("let constructor = try NodeClass.constructor(for: \"\(nodeName)\", env: env)")
                 fragment.outputBlock("let args: [NAPI.Value] = [") {
                     for storedVar in storedVariables {
                         let resolved = context.resolve(type: storedVar.typeName.better)
