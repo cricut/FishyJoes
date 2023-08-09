@@ -8,8 +8,9 @@ struct NPMPackage: Codable {
     var browser: String?
     var author: String?
     var repository: Repository?
-    var publishConfig: PublishConfig? = PublishConfig()
+    var publishConfig: PublishConfig?
     var dependencies: [String: String]?
+    var scripts: [String: String]?
 
     init(config: FishyJoesConfig, platform: Platform, version: String, dependencies: [String: String]?) {
         self.name = "@cricut/\(config.module.lowercased())-\(platform.platform)"
@@ -20,8 +21,15 @@ struct NPMPackage: Codable {
         self.type = "module"
         self.types = "\(config.module).d.ts"
         self.browser = "\(config.module).browser.js"
+        self.publishConfig = PublishConfig(registry: "https://npm.pkg.github.com/")
         self.repository = config.publishRepository.map {
             Repository(type: "git", url: "ssh://git@\($0).git", directory: "packages")
+        }
+        switch platform.platform {
+        case "ubuntu":
+            self.scripts = ["postinstall": "ln -s `cd ..; cd fishyjoes-runtime-node-native-ubuntu; realpath .` libFishyJoesNodeRuntime.so"]
+        default:
+            self.scripts = nil
         }
     }
 
@@ -32,6 +40,6 @@ struct NPMPackage: Codable {
     }
 
     struct PublishConfig: Codable {
-        var registry: String = "https://npm.pkg.github.com/"
+        var registry: String
     }
 }
