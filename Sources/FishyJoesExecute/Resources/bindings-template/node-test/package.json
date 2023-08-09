@@ -6,8 +6,8 @@
   "scripts": {
     "test": "npm run test-wasm && npm run test-node-native-macos",
     "test-wasm": "node --experimental-vm-modules node_modules/jest/bin/jest.js --run-in-band --detect-open-handles --force-exit --debug --no-watchman -c jest.config.wasm.cjs",
-    "test-node-native-macos": "node --experimental-vm-modules node_modules/jest/bin/jest.js --run-in-band --detect-open-handles --force-exit --debug --no-watchman -c jest.config.native-macos.cjs",
-    "test-node-native-ubuntu": "node --experimental-vm-modules node_modules/jest/bin/jest.js --run-in-band --detect-open-handles --force-exit --debug --no-watchman -c jest.config.native-ubuntu.cjs",
+    "test-node-native-macos": "node --experimental-vm-modules node_modules/jest/bin/jest.js --run-in-band --detect-open-handles --force-exit --debug --no-watchman -c jest.config.node-native-macos.cjs",
+    "test-node-native-ubuntu": "node --experimental-vm-modules node_modules/jest/bin/jest.js --run-in-band --detect-open-handles --force-exit --debug --no-watchman -c jest.config.node-native-ubuntu.cjs",
     "clear-cache": "node node_modules/jest/bin/jest.js --clear-cache"
   },
   "devDependencies": {
@@ -19,8 +19,8 @@
   "type": "module",
   "optionalDependencies": {
     "@cricut/__LOWERCASE_MODULE_NAME__-wasm": "file:../output/wasm",
-    "@cricut/__LOWERCASE_MODULE_NAME__-native-macos": "file:../output/node-native-macos",
-    "@cricut/__LOWERCASE_MODULE_NAME__-native-ubuntu": "file:../output/node-native-ubuntu"
+    "@cricut/__LOWERCASE_MODULE_NAME__-node-native-macos": "file:../output/node-native-macos",
+    "@cricut/__LOWERCASE_MODULE_NAME__-node-native-ubuntu": "file:../output/node-native-ubuntu"
   },
   "dependencies": {
     "@wasmer/wasi": "^0.12.0",

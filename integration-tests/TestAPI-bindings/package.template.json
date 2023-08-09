@@ -17,7 +17,6 @@
     "typescript": "^4.3.5"
   },
   "scripts": {
-    "compile-test": "tsc -m esnext output/test/test.ts",
-    "postinstall": "cp ../fishyjoes-runtime-node-native-macos/Runtime.cjs.node ./libFishyJoesNodeRuntime.dylib"
+    "compile-test": "tsc -m esnext output/test/test.ts"
   }
 }
