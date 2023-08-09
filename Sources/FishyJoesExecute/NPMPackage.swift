@@ -12,7 +12,7 @@ struct NPMPackage: Codable {
     var dependencies: [String: String]?
 
     init(config: FishyJoesConfig, platform: Platform, version: String, dependencies: [String: String]?) {
-        self.name = "@cricut/\(config.module.lowercased())-\(platform.platform.replacingOccurrences(of: "node-", with: ""))"
+        self.name = "@cricut/\(config.module.lowercased())-\(platform.platform)"
         self.version = version
         self.description = platform.packageDescription(config: config)
         self.dependencies = dependencies
