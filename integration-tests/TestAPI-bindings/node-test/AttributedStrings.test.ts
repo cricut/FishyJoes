@@ -56,11 +56,12 @@ test('StringEcho', () => {
 })
 
 test('ViewIterationOverIndices', () => {
-    const attributedString = AttributedString.createEmpty()
-    attributedString.append(AttributedStrings.polyglot)
-    attributedString.append(AttributedString.create(" "))
-    attributedString.append(AttributedStrings.emojiMulti)
-    
+    const attributedString = AttributedString.createJoining([
+        AttributedStrings.polyglot,
+        AttributedString.create(" "),
+        AttributedStrings.emojiMulti
+    ])
+
     const runStrings: string[] = []
     let runIndex = attributedString.runs.startIndex
     while (!runIndex.equals(attributedString.runs.endIndex)) {
@@ -114,11 +115,12 @@ test('ViewIterationOverIndices', () => {
 })
 
 test('ViewIterators', () => {
-    const attributedString = AttributedString.createEmpty()
-    attributedString.append(AttributedStrings.polyglot)
-    attributedString.append(AttributedString.create(" "))
-    attributedString.append(AttributedStrings.emojiMulti)
-    
+    const attributedString = AttributedString.createJoining([
+        AttributedStrings.polyglot,
+        AttributedString.create(" "),
+        AttributedStrings.emojiMulti
+    ])
+
     expect([...attributedString.runs].map((it) => attributedString.substringForRange(it.range).string)).toEqual(
         [
             "Hello",
@@ -155,9 +157,7 @@ test('ViewIterators', () => {
 })
 
 test('Substring', () => {
-    const attributedString = AttributedString.createEmpty()
-    attributedString.append(AttributedStrings.polyglot)
-    
+    const attributedString = AttributedStrings.polyglot
     expect(attributedString.string).toEqual("Hello Olá こんにちは")
 
     const range = { 
@@ -229,8 +229,10 @@ test('Mutability', () => {
     expect(attributedStringClone.string).toEqual("Hello Olá こんにちは") // Unchanged
     expect(AttributedStrings.polyglot.string).toEqual("Hello Olá こんにちは") // Unchanged
 
-    // Modify the clone's string data, verify it changes (merging the first 2 but not last 2 runs), but the attributed string, reference, and original do not
-    attributedStringClone.insert(AttributedString.create("clone", { attributes: attributedStringClone.runs.elementAt(attributedStringClone.runs.startIndex).attributes }), attributedStringClone.startIndex)
+    // Modify the clone's string data, verify it changes (merging the first 2 but not last 2 runs), 
+    // but the attributed string, reference, and original do not
+    const cloneFirstRunAttributes = { attributes: attributedStringClone.runs.elementAt(attributedStringClone.runs.startIndex).attributes }
+    attributedStringClone.insert(AttributedString.create("clone", cloneFirstRunAttributes), attributedStringClone.startIndex)
     attributedStringClone.insert(AttributedString.create("enolc"), attributedStringClone.endIndex)
     expect([...attributedStringClone.runs].map((it) => attributedStringClone.substringForRange(it.range).string))
         .toEqual(["cloneHello", " ", "Olá", " ", "こんにちは", "enolc"])
@@ -243,15 +245,9 @@ test('Mutability', () => {
 
 test('AttributeMergeReplace', () => {
     const empty = AttributeContainer.createEmpty()
-    const enAttributes = AttributeContainer.FoundationAttributes.createEmpty()
-    enAttributes.languageIdentifier = "en"
-    const en = enAttributes.asContainer()
-    const ptAttributes = AttributeContainer.FoundationAttributes.createEmpty()
-    ptAttributes.languageIdentifier = "pt"
-    const pt = ptAttributes.asContainer()
-    const jaAttributes = AttributeContainer.FoundationAttributes.createEmpty()
-    jaAttributes.languageIdentifier = "ja"
-    const ja = jaAttributes.asContainer()
+    const en = AttributeContainer.FoundationAttributes.create({ languageIdentifier: "en"}).asContainer()
+    const pt = AttributeContainer.FoundationAttributes.create({ languageIdentifier: "pt"}).asContainer()
+    const ja = AttributeContainer.FoundationAttributes.create({ languageIdentifier: "ja"}).asContainer()
     
     const attributedString = AttributedStrings.polyglot
     let runRanges = [...attributedString.runs].map((it) => it.range)
@@ -262,7 +258,10 @@ test('AttributeMergeReplace', () => {
     expect(attributedString.substringForRange(runRanges[3]).equals(AttributedString.create(" ", { attributes: empty }).substring))
     expect(attributedString.substringForRange(runRanges[4]).equals(AttributedString.create("こんにちは", { attributes: ja}).substring))
 
-    attributedString.replaceSubrange(runRanges[1], AttributedString.create(attributedString.substringForRange(runRanges[1]).string, { attributes: attributedString.runs.elementAtPosition(runRanges[0].lowerBound).attributes }))
+    attributedString.replaceSubrange(runRanges[1], AttributedString.create(
+        attributedString.substringForRange(runRanges[1]).string, 
+        { attributes: attributedString.runs.elementAtPosition(runRanges[0].lowerBound).attributes }
+    ))
     runRanges = [...attributedString.runs].map((it) => it.range)
     expect(runRanges.length).toEqual(4)
     expect(attributedString.substringForRange(runRanges[0]).equals(AttributedString.create("Hello ", { attributes: en }).substring))
@@ -287,12 +286,8 @@ test('AttributeMergeReplace', () => {
     expect(attributedString.substringForRange(runRanges[1]).equals(AttributedString.create("ello Olá こんにち", { attributes: empty }).substring))
     expect(attributedString.substringForRange(runRanges[2]).equals(AttributedString.create("は", { attributes: ja }).substring))
 
-    const linkAttributes = AttributeContainer.FoundationAttributes.createEmpty()
-    linkAttributes.link = new URL("https://www.google.com")
-    const enLinkAttributes = AttributeContainer.FoundationAttributes.createEmpty()
-    enLinkAttributes.link = linkAttributes.link
-    enLinkAttributes.languageIdentifier = "en"
-    const enLink = enLinkAttributes.asContainer()
+    const linkAttributes = AttributeContainer.FoundationAttributes.create({ link: new URL("https://www.google.com") })
+    const enLink = AttributeContainer.FoundationAttributes.create({ link: linkAttributes.link, languageIdentifier: "en" }).asContainer()
     attributedString.mergeAttributesForRange(runRanges[0], linkAttributes.asContainer())
     runRanges = [...attributedString.runs].map((it) => it.range)
     expect(runRanges.length).toEqual(3)
@@ -300,10 +295,7 @@ test('AttributeMergeReplace', () => {
     expect(attributedString.substringForRange(runRanges[1]).equals(AttributedString.create("ello Olá こんにち", { attributes: empty }).substring))
     expect(attributedString.substringForRange(runRanges[2]).equals(AttributedString.create("は", { attributes: ja }).substring))
 
-    const jaLinkAttributes = AttributeContainer.FoundationAttributes.createEmpty()
-    jaLinkAttributes.link = linkAttributes.link
-    jaLinkAttributes.languageIdentifier = "ja"
-    const jaLink = jaLinkAttributes.asContainer()
+    const jaLink = AttributeContainer.FoundationAttributes.create({ link: linkAttributes.link, languageIdentifier: "ja" }).asContainer()
     attributedString.replaceAttributesForRange(runRanges[0], en, ja)
     runRanges = [...attributedString.runs].map((it) => it.range)
     expect(runRanges.length).toEqual(3)
