@@ -109,7 +109,7 @@ jobs:
           username: cricut-builduser
           password:  ${{ secrets.CRICUT_GPR_TOKEN }}
           registry: ghcr.io
-          image: ghcr.io/cricut/android-swift-runtime:0.1.1-alpha2
+          image: ghcr.io/cricut/android-swift-runtime:0.1.1-alpha3
           options: -v ${{ github.workspace }}:/work -w /work
           run: /work/scripts/compile-android-runtime.sh
 
