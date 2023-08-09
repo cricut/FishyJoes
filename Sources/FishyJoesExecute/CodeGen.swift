@@ -448,7 +448,9 @@ extension CodeGen {
                         .prettyPrinted,
                         .withoutEscapingSlashes
                     ]
-                    let templatePackage = try cmd("cat", "package.template.json").runJSON(NPMPackage.self)
+                    var templatePackage = try cmd("cat", "package.template.json").runJSON(NPMPackage.self)
+                    templatePackage.dependencies = templatePackage.dependencies ?? [:]
+                    templatePackage.dependencies?["@cricut/fishyjoes-runtime-\(platform.platform)"] = "file:../../../../node-runtimes/fishyjoes-runtime-\(platform.platform)"
                     let package = NPMPackage(
                         config: config,
                         platform: platform,

@@ -6,8 +6,7 @@
     "@wasmer/wasmfs": "^0.12.0",
     "buffer": "^5.7.1",
     "process": "^0.11.10",
-    "util": "^0.11.1",
-    "@cricut/fishyjoes-runtime-node-native-macos": "file:../../../../node-runtimes/fishyjoes-runtime-node-native-macos"
+    "util": "^0.11.1"
   },
   "devDependencies": {
     "@types/node": "^14.14.31",
