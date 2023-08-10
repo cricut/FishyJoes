@@ -60,13 +60,17 @@ extension AttributedString.Index: JavaMutator {
     private static let _java_hash: @convention(c)(
         UnsafeMutablePointer<JNIEnv?>,
         jobject?
-    ) -> Int32.CType = { _javaEnv, _ in
+    ) -> Int32.CType = { _javaEnv, _javaThis in
         FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
-            return try Int32.toJava(
-                // TODO: hashValue
-                0, // Int32(truncatingIfNeeded: AttributedString.Index.fromJava(_javaThis, env: _javaEnv).hashValue),
-                env: _javaEnv
-            )
+            var index = try AttributedString.Index.fromJava(_javaThis, env: _javaEnv)
+            // TODO: Switch to using hashValue when available, as Comparable should be, but is not guaranteed to be, compatable with this hash value
+            // let hashValue = index.hashValue
+            let hashValue = withUnsafeBytes(of: &index) { bytes in
+                var hasher = Hasher()
+                hasher.combine(bytes: bytes)
+                return hasher.finalize()
+            }
+            return try Int32.toJava(Int32(truncatingIfNeeded: hashValue), env: _javaEnv)
         }
     }
 

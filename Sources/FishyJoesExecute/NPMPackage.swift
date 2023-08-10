@@ -26,8 +26,8 @@ struct NPMPackage: Codable {
             Repository(type: "git", url: "ssh://git@\($0).git", directory: "packages")
         }
         switch platform.platform {
-        case "node-native-ubuntu":
-            self.scripts = ["postinstall": "ln -s `cd ..; cd fishyjoes-runtime-node-native-ubuntu; realpath Runtime.cjs.node` libFishyJoesNodeRuntime.so"]
+        case "node-native-ubuntu": // TODO: Find something that works for this
+            self.scripts = nil//["postinstall": "ln -s `cd ..; cd fishyjoes-runtime-node-native-ubuntu; realpath Runtime.cjs.node` libFishyJoesNodeRuntime.so"]
         default:
             self.scripts = nil
         }

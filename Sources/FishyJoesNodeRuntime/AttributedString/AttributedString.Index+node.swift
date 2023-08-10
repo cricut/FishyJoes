@@ -42,8 +42,14 @@ extension AttributedString.Index: FishyJoesNodeRuntime.NodeConverter {
                 "hashCode": (
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "hashCode", expectedArgumentCount: 0, hasNamedOptions: false) { env in
-                            // TODO: hashValue
-                            let hashValue = 0//try env.this(converter: AttributedString.Index.self).hashValue
+                            var index = try env.this(converter: AttributedString.Index.self)
+                            // TODO: Switch to using hashValue when available, as Comparable should be, but is not guaranteed to be, compatable with this hash value
+                            // let hashValue = index.hashValue
+                            let hashValue = withUnsafeBytes(of: &index) { bytes in
+                                var hasher = Hasher()
+                                hasher.combine(bytes: bytes)
+                                return hasher.finalize()
+                            }
                             return try Int32.toNode(Int32(truncatingIfNeeded: hashValue), env: env.env)
                         }
                     },

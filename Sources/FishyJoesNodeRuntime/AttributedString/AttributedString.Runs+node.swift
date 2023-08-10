@@ -122,7 +122,7 @@ extension AttributedString.Runs: FishyJoesNodeRuntime.NodeConverter {
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "hashCode", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let runHashes = try env.this(converter: AttributedString.Runs.self)
                                 .lazy
-                                .map { AttributedString("", attributes: $0.attributes).hashValue }
+                                .map { AttributedString("HASH", attributes: $0.attributes).hashValue }
                             let hashValue = runHashes
                                 .reduce(into: Hasher()) { $0.combine($1) }
                                 .finalize()

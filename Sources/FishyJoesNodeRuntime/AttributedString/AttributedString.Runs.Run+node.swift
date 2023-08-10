@@ -64,7 +64,7 @@ extension AttributedString.Runs.Run: FishyJoesNodeRuntime.NodeConverter {
                 "hashCode": (
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "hashCode", expectedArgumentCount: 0, hasNamedOptions: false) { env in
-                            let hashValue = AttributedString("", attributes: try env.this(converter: AttributedString.Runs.Run.self).attributes).hashValue
+                            let hashValue = AttributedString("HASH", attributes: try env.this(converter: AttributedString.Runs.Run.self).attributes).hashValue
                             return try Int32.toNode(Int32(truncatingIfNeeded: hashValue), env: env.env)
                         }
                     },

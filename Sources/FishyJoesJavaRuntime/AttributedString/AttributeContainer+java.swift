@@ -89,7 +89,7 @@ extension AttributeContainer: JavaMutator {
     ) -> Int32.CType = { _javaEnv, _javaThis in
         FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
             return try Int32.toJava(
-                Int32(truncatingIfNeeded: AttributedString("", attributes: AttributeContainer.fromJava(_javaThis, env: _javaEnv)).hashValue),
+                Int32(truncatingIfNeeded: AttributedString("HASH", attributes: AttributeContainer.fromJava(_javaThis, env: _javaEnv)).hashValue),
                 env: _javaEnv
             )
         }

@@ -1,6 +1,6 @@
 import SourceryRuntime
 
-var TranslatedAttributedString = ExternalTranslatedType(
+var translatedAttributedString = ExternalTranslatedType(
     sourceType: BetterType.named(.init(name: "Foundation.AttributedString")),
     converterType: nil,
     neutralName: "AttributedString",
@@ -14,7 +14,7 @@ var TranslatedAttributedString = ExternalTranslatedType(
     definingModule: Module.runtime
 )
 
-var TranslatedAttributedSubstring = ExternalTranslatedType(
+var translatedAttributedSubstring = ExternalTranslatedType(
     sourceType: BetterType.named(.init(name: "Foundation.AttributedSubstring")),
     converterType: nil,
     neutralName: "AttributedSubstring",
@@ -28,7 +28,7 @@ var TranslatedAttributedSubstring = ExternalTranslatedType(
     definingModule: Module.runtime
 )
 
-var TranslatedAttributeContainer = ExternalTranslatedType(
+var translatedAttributeContainer = ExternalTranslatedType(
     sourceType: BetterType.named(.init(name: "Foundation.AttributeContainer")),
     converterType: nil,
     neutralName: "AttributeContainer",
@@ -42,7 +42,7 @@ var TranslatedAttributeContainer = ExternalTranslatedType(
     definingModule: Module.runtime
 )
 
-var TranslatedAttributeContainerFoundationAttributes = ExternalTranslatedType(
+var translatedAttributeContainerFoundationAttributes = ExternalTranslatedType(
     sourceType: BetterType.named(.init(name: "Foundation.AttributeContainer.FoundationAttributes")),
     converterType: nil,
     neutralName: "AttributeContainer.FoundationAttributes",
@@ -56,7 +56,7 @@ var TranslatedAttributeContainerFoundationAttributes = ExternalTranslatedType(
     definingModule: Module.runtime
 )
 
-var TranslatedAttributedStringIndex = ExternalTranslatedType(
+var translatedAttributedStringIndex = ExternalTranslatedType(
     sourceType: BetterType.named(.init(name: "Foundation.AttributedString.Index")),
     converterType: nil,
     neutralName: "AttributedSubstring.Index",
@@ -70,7 +70,7 @@ var TranslatedAttributedStringIndex = ExternalTranslatedType(
     definingModule: Module.runtime
 )
 
-var TranslatedAttributedStringUnicodeScalarView = ExternalTranslatedType(
+var translatedAttributedStringUnicodeScalarView = ExternalTranslatedType(
     sourceType: BetterType.named(.init(name: "Foundation.AttributedString.UnicodeScalarView")),
     converterType: nil,
     neutralName: "AttributedSubstring.UnicodeScalarView",
@@ -84,7 +84,7 @@ var TranslatedAttributedStringUnicodeScalarView = ExternalTranslatedType(
     definingModule: Module.runtime
 )
 
-var TranslatedAttributedStringCharacterView = ExternalTranslatedType(
+var translatedAttributedStringCharacterView = ExternalTranslatedType(
     sourceType: BetterType.named(.init(name: "Foundation.AttributedString.CharacterView")),
     converterType: nil,
     neutralName: "AttributedSubstring.CharacterView",
@@ -98,7 +98,7 @@ var TranslatedAttributedStringCharacterView = ExternalTranslatedType(
     definingModule: Module.runtime
 )
 
-var TranslatedAttributedStringRuns = ExternalTranslatedType(
+var translatedAttributedStringRuns = ExternalTranslatedType(
     sourceType: BetterType.named(.init(name: "Foundation.AttributedString.Runs")),
     converterType: nil,
     neutralName: "AttributedSubstring.Runs",
@@ -112,7 +112,7 @@ var TranslatedAttributedStringRuns = ExternalTranslatedType(
     definingModule: Module.runtime
 )
 
-var TranslatedAttributedStringRunsIndex = ExternalTranslatedType(
+var translatedAttributedStringRunsIndex = ExternalTranslatedType(
     sourceType: BetterType.named(.init(name: "Foundation.AttributedString.Runs.Index")),
     converterType: nil,
     neutralName: "AttributedSubstring.Runs.Index",
@@ -126,7 +126,7 @@ var TranslatedAttributedStringRunsIndex = ExternalTranslatedType(
     definingModule: Module.runtime
 )
 
-var TranslatedAttributedStringRunsRun = ExternalTranslatedType(
+var translatedAttributedStringRunsRun = ExternalTranslatedType(
     sourceType: BetterType.named(.init(name: "Foundation.AttributedString.Runs.Run")),
     converterType: nil,
     neutralName: "AttributedSubstring.Runs.Run",
