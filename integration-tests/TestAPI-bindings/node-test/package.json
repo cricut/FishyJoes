@@ -6,6 +6,7 @@
   "scripts": {
     "test": "npm run test-wasm && npm run test-node-native-macos",
     "test-wasm": "node --experimental-vm-modules node_modules/jest/bin/jest.js --run-in-band --detect-open-handles --force-exit --debug --no-watchman -c jest.config.wasm.cjs",
+    "test-node-native-windows": "node --experimental-vm-modules node_modules/jest/bin/jest.js --run-in-band --detect-open-handles --force-exit --debug --no-watchman -c jest.config.node-native-windows.cjs",
     "test-node-native-macos": "node --experimental-vm-modules node_modules/jest/bin/jest.js --run-in-band --detect-open-handles --force-exit --debug --no-watchman -c jest.config.node-native-macos.cjs",
     "test-node-native-ubuntu": "node --experimental-vm-modules node_modules/jest/bin/jest.js --run-in-band --detect-open-handles --force-exit --debug --no-watchman -c jest.config.node-native-ubuntu.cjs",
     "clear-cache": "node node_modules/jest/bin/jest.js --clear-cache"
@@ -18,14 +19,15 @@
   },
   "type": "module",
   "optionalDependencies": {
-    "@cricut/testapi-wasm": "file:../output/wasm",
+    "@cricut/testapi-node-native-windows": "file:../output/node-native-windows",
     "@cricut/testapi-node-native-macos": "file:../output/node-native-macos",
-    "@cricut/testapi-node-native-ubuntu": "file:../output/node-native-ubuntu"
+    "@cricut/testapi-node-native-ubuntu": "file:../output/node-native-ubuntu",
+    "@cricut/testapi-wasm": "file:../output/wasm"
   },
   "dependencies": {
     "@wasmer/wasi": "^0.12.0",
     "@wasmer/wasmfs": "^0.12.0",
-    "@cricut/fishyjoes-runtime-node-native-macos": "file:../../../node-runtimes/fishyjoes-runtime-node-native-macos",
+    "@cricut/fishyjoes-runtime-node-native-ubuntu": "file:../../../node-runtimes/fishyjoes-runtime-node-native-ubuntu",
     "buffer": "^5.7.1",
     "process": "^0.11.10",
     "util": "^0.11.1"
