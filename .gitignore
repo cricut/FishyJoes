@@ -14,3 +14,4 @@ default.profraw
 *.dll
 *.so
 *.dylib
+*.cjs.node
