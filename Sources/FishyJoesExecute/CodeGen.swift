@@ -378,7 +378,7 @@ extension CodeGen {
                         outputDir
                     ).run()
                     var moduleDotJS = [
-                        "export { Runtime } from '@cricut/fishyjoes-runtime-\(platform.platform)'",
+                        "export { Runtime } from '@cricut/fishyjoes-runtime-\(platform.executionEnvironment)'",
                         "import { createRequire } from 'module';",
                         "const require = createRequire(import.meta.url);",
                     ]
@@ -448,9 +448,7 @@ extension CodeGen {
                         .prettyPrinted,
                         .withoutEscapingSlashes
                     ]
-                    var templatePackage = try cmd("cat", "package.template.json").runJSON(NPMPackage.self)
-                    templatePackage.dependencies = templatePackage.dependencies ?? [:]
-                    templatePackage.dependencies?["@cricut/fishyjoes-runtime-\(platform.platform)"] = "file:../../../../node-runtimes/fishyjoes-runtime-\(platform.platform)"
+                    let templatePackage = try cmd("cat", "package.template.json").runJSON(NPMPackage.self)
                     let package = NPMPackage(
                         config: config,
                         platform: platform,
@@ -485,7 +483,7 @@ extension CodeGen {
                     try FileManager.default.withCurrentDirectoryPath("node-test") {
                         try cmd("npm", "install").run()
                         try cmd("npm", "run", "clear-cache").run()
-                        try cmd("npm", "run", "test-\(platform.platform)").run()
+                        try cmd("npm", "run", "test-\(platform.executionEnvironment)").run()
                     }
                 case .kotlinSystem:
                     try FileManager.default.withCurrentDirectoryPath("kotlin") {

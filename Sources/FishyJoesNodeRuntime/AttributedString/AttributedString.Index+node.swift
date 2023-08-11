@@ -43,7 +43,7 @@ extension AttributedString.Index: FishyJoesNodeRuntime.NodeConverter {
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "hashCode", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             var index = try env.this(converter: AttributedString.Index.self)
-                            // TODO: Switch to using hashValue when available, as Comparable should be, but is not guaranteed to be, compatable with this hash value
+                            // TODO: Switch to using hashValue when available, as Comparable should be, but is not guaranteed to be, compatible with this hash value
                             // let hashValue = index.hashValue
                             let hashValue = withUnsafeBytes(of: &index) { bytes in
                                 var hasher = Hasher()

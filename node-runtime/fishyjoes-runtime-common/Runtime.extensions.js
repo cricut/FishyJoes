@@ -30,10 +30,6 @@ function applyExtensions(library) {
         }
     }
 
-    library.AttributedString.Runs.prototype.forEach = function(body) {
-        [...this].forEach(body)
-    }
-
     library.AttributedString.CharacterView.prototype[Symbol.iterator] = function* () {
         let index = this.startIndex;
         while (!index.equals(this.endIndex)) {
@@ -42,20 +38,12 @@ function applyExtensions(library) {
         }
     }
 
-    library.AttributedString.CharacterView.prototype.forEach = function(body) {
-        [...this].forEach(body)
-    }
-
     library.AttributedString.UnicodeScalarView.prototype[Symbol.iterator] = function* () {
         let index = this.startIndex;
         while (!index.equals(this.endIndex)) {
             yield this.elementAt(index)
             index = this.indexAfter(index)
         }
-    }
-
-    library.AttributedString.UnicodeScalarView.prototype.forEach = function(body) {
-        [...this].forEach(body)
     }
 }
 const imports = {};

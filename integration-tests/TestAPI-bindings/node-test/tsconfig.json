@@ -12,10 +12,10 @@
         "../output/wasm/TestAPI.d.ts",
       ],
       "@cricut/fishyjoes-runtime": [
-        "../../../node-runtimes/fishyjoes-runtime-node-native-windows/Runtime.d.ts",
-        "../../../node-runtimes/fishyjoes-runtime-node-native-macos/Runtime.d.ts",
-        "../../../node-runtimes/fishyjoes-runtime-node-native-ubuntu/Runtime.d.ts",
-        "../../../node-runtimes/fishyjoes-runtime-wasm/Runtime.d.ts",
+        "../../../node-runtime/fishyjoes-runtime-native-windows/Runtime.d.ts",
+        "../../../node-runtime/fishyjoes-runtime-native-macos/Runtime.d.ts",
+        "../../../node-runtime/fishyjoes-runtime-native-ubuntu/Runtime.d.ts",
+        "../../../node-runtime/fishyjoes-runtime-wasm/Runtime.d.ts",
       ]
     }
   }

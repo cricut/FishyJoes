@@ -5,7 +5,7 @@ module.exports = {
     ...common,
     moduleNameMapper: {
         ...common.moduleNameMapper,
-        "^TestAPI$": "@cricut/testapi-node-native-ubuntu",
-        "^@cricut/fishyjoes-runtime$": "@cricut/fishyjoes-runtime-node-native-ubuntu",
+        "^TestAPI$": "@cricut/testapi-native-macos",
+        "^@cricut/fishyjoes-runtime$": "@cricut/fishyjoes-runtime-native-macos",
     }
 }

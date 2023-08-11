@@ -13,10 +13,11 @@ struct NPMPackage: Codable {
     var scripts: [String: String]?
 
     init(config: FishyJoesConfig, platform: Platform, version: String, dependencies: [String: String]?) {
-        self.name = "@cricut/\(config.module.lowercased())-\(platform.platform)"
+        self.name = "@cricut/\(config.module.lowercased())-\(platform.executionEnvironment)"
         self.version = version
         self.description = platform.packageDescription(config: config)
-        self.dependencies = dependencies
+        self.dependencies = dependencies ?? [:]
+        self.dependencies?["@cricut/fishyjoes-runtime-\(platform.executionEnvironment)"] = "file:../../../../node-runtime/fishyjoes-runtime-\(platform.executionEnvironment)"
         self.main = "\(config.module).js"
         self.type = "module"
         self.types = "\(config.module).d.ts"
@@ -27,7 +28,7 @@ struct NPMPackage: Codable {
         }
         switch platform.platform {
         case "node-native-ubuntu": // TODO: Find something that works for this
-            self.scripts = nil//["postinstall": "ln -s `cd ..; cd fishyjoes-runtime-node-native-ubuntu; realpath Runtime.cjs.node` libFishyJoesNodeRuntime.so"]
+            self.scripts = nil//["postinstall": "ln -s `cd ..; cd fishyjoes-runtime-\(platform.executionEnvironment); realpath Runtime.cjs.node` libFishyJoesNodeRuntime.so"]
         default:
             self.scripts = nil
         }

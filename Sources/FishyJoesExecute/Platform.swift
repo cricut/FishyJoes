@@ -241,6 +241,13 @@ enum Platform: CustomStringConvertible, Hashable {
         }
     }
 
+    var executionEnvironment: String {
+        return platform
+            .replacingOccurrences(of: "node-native-", with: "native-")
+            .replacingOccurrences(of: "jni-", with: "native-")
+            .replacingOccurrences(of: "c-sharp-", with: "native-")
+    }
+
     func outputDir(_ config: FishyJoesConfig) -> String {
         switch self {
         case .wasm, .node: return "output/\(platform)"
