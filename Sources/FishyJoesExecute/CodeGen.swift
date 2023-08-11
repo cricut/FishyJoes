@@ -481,10 +481,25 @@ extension CodeGen {
                 switch platform {
                 case .wasm, .node:
                     try FileManager.default.withCurrentDirectoryPath("node-test") {
+                        // Install the test package and its dependencies
                         try cmd("npm", "install").run()
-                        try FileManager.default.withCurrentDirectoryPath("node_modules/\(NPMPackage.name(config: config, platform: platform))") {
-                            try cmd("npm", "install").run()
+
+                        // Perform execution-environment-specific fixups to allow execution to succeed despite use of file-relative packages
+                        switch platform.executionEnvironment {
+                        case "native-macos":
+                            try FileManager.default.withCurrentDirectoryPath("node_modules/\(NPMPackage.name(config: config, platform: platform))") {
+                                try cmd("npm", "install").run()
+                            }
+                        case "native-ubuntu":
+                            try FileManager.default.withCurrentDirectoryPath("node_modules/\(NPMPackage.name(config: config, platform: platform))") {
+                                try cmd("npm", "install").run()
+                                try cmd("ln", "-s", "node_modules/@cricut/fishyjoes-runtime-native-ubuntu/libFishyJoesNodeRuntime.so").run()
+                            }
+                        default:
+                            break
                         }
+
+                        // Use NPM to execute the test suite
                         try cmd("npm", "run", "clear-cache").run()
                         try cmd("npm", "run", "test-\(platform.executionEnvironment)").run()
                     }
