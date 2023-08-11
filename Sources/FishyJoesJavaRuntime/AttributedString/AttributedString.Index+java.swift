@@ -16,7 +16,7 @@ extension AttributedString.Index: JavaMutator {
     public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout AttributedString.Index) throws -> R) throws -> R {
         try body(&Box<AttributedString.Index>.fromJava(this, env: env).value)
     }
-    
+
     public static func javaSetup(env: Env) throws {
         guard javaClass == nil else { return }
         try AnyBox.javaSetup(env: env)
