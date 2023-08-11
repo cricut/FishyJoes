@@ -17,6 +17,7 @@ struct NPMPackage: Codable {
         self.version = version
         self.description = platform.packageDescription(config: config)
         self.dependencies = dependencies ?? [:]
+        // TODO: This needs to reference a real package once it is published
         self.dependencies?["@cricut/fishyjoes-runtime-\(platform.executionEnvironment)"] = "file:../../../../node-runtime/fishyjoes-runtime-\(platform.executionEnvironment)"
         self.main = "\(config.module).js"
         self.type = "module"
