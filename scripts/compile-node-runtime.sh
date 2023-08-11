@@ -19,11 +19,34 @@ else
     BIN_DIR=$(swift build --configuration $CONFIGURATION --show-bin-path)
 fi
 
-mkdir -p node-runtime/fishyjoes-runtime-native-windows
-mkdir -p node-runtime/fishyjoes-runtime-native-macos
-mkdir -p node-runtime/fishyjoes-runtime-native-ubuntu
+if [ -e "$BIN_DIR/libFishyJoesNodeRuntime.dll" ]; then
+    mkdir -p node-runtime/fishyjoes-runtime-native-windows
+    cp $BIN_DIR/libFishyJoesNodeRuntime.dll node-runtime/fishyjoes-runtime-native-windows/Runtime.cjs.node
+    if [ ! -e node-runtime/fishyjoes-runtime-native-windows/libFishyJoesNodeRuntime.dll ]; then
+        ln -s Runtime.cjs.node libFishyJoesNodeRuntime.dll
+        popd
+    fi
+    echo "Copied libFishyJoesNodeRuntime.dll to node-runtime/fishyjoes-runtime-native-windows/Runtime.cjs.node"
+fi
 
-cp $BIN_DIR/libFishyJoesNodeRuntime.dll node-runtime/fishyjoes-runtime-native-windows/Runtime.cjs.node ||
-cp $BIN_DIR/libFishyJoesNodeRuntime.dylib node-runtime/fishyjoes-runtime-native-macos/Runtime.cjs.node ||
-cp $BIN_DIR/libFishyJoesNodeRuntime.so node-runtime/fishyjoes-runtime-native-ubuntu/Runtime.cjs.node
+if [ -e "$BIN_DIR/libFishyJoesNodeRuntime.dylib" ]; then
+    mkdir -p node-runtime/fishyjoes-runtime-native-macos
+    cp $BIN_DIR/libFishyJoesNodeRuntime.dylib node-runtime/fishyjoes-runtime-native-macos/Runtime.cjs.node
+    if [ ! -e node-runtime/fishyjoes-runtime-native-macos/libFishyJoesNodeRuntime.dylib ]; then
+        pushd node-runtime/fishyjoes-runtime-native-macos
+        ln -s Runtime.cjs.node libFishyJoesNodeRuntime.dylib
+        popd
+    fi
+    echo "Copied libFishyJoesNodeRuntime.dylib to node-runtime/fishyjoes-runtime-native-macos/Runtime.cjs.node"
+fi
 
+if [ -e "$BIN_DIR/libFishyJoesNodeRuntime.so" ]; then
+    mkdir -p node-runtime/fishyjoes-runtime-native-ubuntu
+    cp $BIN_DIR/libFishyJoesNodeRuntime.so node-runtime/fishyjoes-runtime-native-ubuntu/Runtime.cjs.node
+    if [ ! -e node-runtime/fishyjoes-runtime-native-ubuntu/libFishyJoesNodeRuntime.so ]; then
+        pushd node-runtime/fishyjoes-runtime-native-ubuntu
+        ln -s Runtime.cjs.node libFishyJoesNodeRuntime.so
+        popd
+    fi
+    echo "Copied libFishyJoesNodeRuntime.so to node-runtime/fishyjoes-runtime-native-ubuntu/Runtime.cjs.node"
+fi

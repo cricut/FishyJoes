@@ -482,6 +482,9 @@ extension CodeGen {
                 case .wasm, .node:
                     try FileManager.default.withCurrentDirectoryPath("node-test") {
                         try cmd("npm", "install").run()
+                        try FileManager.default.withCurrentDirectoryPath("node_modules/\(NPMPackage.name(config: config, platform: platform))") {
+                            try cmd("npm", "install").run()
+                        }
                         try cmd("npm", "run", "clear-cache").run()
                         try cmd("npm", "run", "test-\(platform.executionEnvironment)").run()
                     }
