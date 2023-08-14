@@ -20,33 +20,31 @@ else
 fi
 
 if [ -e "$BIN_DIR/libFishyJoesNodeRuntime.dll" ]; then
-    mkdir -p node-runtime/fishyjoes-runtime-native-windows
-    cp $BIN_DIR/libFishyJoesNodeRuntime.dll node-runtime/fishyjoes-runtime-native-windows/Runtime.cjs.node
-    if [ ! -e node-runtime/fishyjoes-runtime-native-windows/libFishyJoesNodeRuntime.dll ]; then
-        ln -s Runtime.cjs.node libFishyJoesNodeRuntime.dll
-        popd
+    LIB_DIR=node-runtime/fishyjoes-runtime-native-windows
+    mkdir -p $LIB_DIR
+    cp $BIN_DIR/libFishyJoesNodeRuntime.dll $LIB_DIR/Runtime.cjs.node
+    if [ ! -e $LIB_DIR/libFishyJoesNodeRuntime.dll ]; then
+        ln -s Runtime.cjs.node $LIB_DIR/libFishyJoesNodeRuntime.dll
     fi
-    echo "Copied libFishyJoesNodeRuntime.dll to node-runtime/fishyjoes-runtime-native-windows/Runtime.cjs.node"
+    echo "Copied and symlinked libFishyJoesNodeRuntime.dll to $LIB_DIR/Runtime.cjs.node"
 fi
 
 if [ -e "$BIN_DIR/libFishyJoesNodeRuntime.dylib" ]; then
-    mkdir -p node-runtime/fishyjoes-runtime-native-macos
-    cp $BIN_DIR/libFishyJoesNodeRuntime.dylib node-runtime/fishyjoes-runtime-native-macos/Runtime.cjs.node
-    if [ ! -e node-runtime/fishyjoes-runtime-native-macos/libFishyJoesNodeRuntime.dylib ]; then
-        pushd node-runtime/fishyjoes-runtime-native-macos
-        ln -s Runtime.cjs.node libFishyJoesNodeRuntime.dylib
-        popd
+    LIB_DIR=node-runtime/fishyjoes-runtime-native-macos
+    mkdir -p $LIB_DIR
+    cp $BIN_DIR/libFishyJoesNodeRuntime.dylib $LIB_DIR/Runtime.cjs.node
+    if [ ! -e $LIB_DIR/libFishyJoesNodeRuntime.dylib ]; then
+        ln -s Runtime.cjs.node $LIB_DIR/libFishyJoesNodeRuntime.dylib
     fi
-    echo "Copied libFishyJoesNodeRuntime.dylib to node-runtime/fishyjoes-runtime-native-macos/Runtime.cjs.node"
+    echo "Copied and symlinked libFishyJoesNodeRuntime.dylib to $LIB_DIR/Runtime.cjs.node"
 fi
 
 if [ -e "$BIN_DIR/libFishyJoesNodeRuntime.so" ]; then
-    mkdir -p node-runtime/fishyjoes-runtime-native-ubuntu
-    cp $BIN_DIR/libFishyJoesNodeRuntime.so node-runtime/fishyjoes-runtime-native-ubuntu/Runtime.cjs.node
-    if [ ! -e node-runtime/fishyjoes-runtime-native-ubuntu/libFishyJoesNodeRuntime.so ]; then
-        pushd node-runtime/fishyjoes-runtime-native-ubuntu
-        ln -s Runtime.cjs.node libFishyJoesNodeRuntime.so
-        popd
+    LIB_DIR=node-runtime/fishyjoes-runtime-native-macos
+    mkdir -p $LIB_DIR
+    cp $BIN_DIR/libFishyJoesNodeRuntime.so $LIB_DIR/Runtime.cjs.node
+    if [ ! -e $LIB_DIR/libFishyJoesNodeRuntime.so ]; then
+        ln -s Runtime.cjs.node $LIB_DIR/libFishyJoesNodeRuntime.so
     fi
-    echo "Copied libFishyJoesNodeRuntime.so to node-runtime/fishyjoes-runtime-native-ubuntu/Runtime.cjs.node"
+    echo "Copied and symlinked libFishyJoesNodeRuntime.so to $LIB_DIR/Runtime.cjs.node"
 fi

@@ -1,5 +1,5 @@
 struct NPMPackage: Codable {
-    static func name(config: FishyJoesConfig, platform: Platform) -> String {
+    static func nameFor(config: FishyJoesConfig, platform: Platform) -> String {
         "@cricut/\(config.module.lowercased())-\(platform.executionEnvironment)"
     }
 
@@ -17,7 +17,7 @@ struct NPMPackage: Codable {
     var scripts: [String: String]?
 
     init(config: FishyJoesConfig, platform: Platform, version: String, dependencies: [String: String]?) {
-        self.name = Self.name(config: config, platform: platform)
+        self.name = Self.nameFor(config: config, platform: platform)
         self.version = version
         self.description = platform.packageDescription(config: config)
         self.dependencies = dependencies ?? [:]

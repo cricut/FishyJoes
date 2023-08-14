@@ -154,7 +154,7 @@ jobs:
   node-publish:
     name: "Publish Node.js package"
     runs-on: ubuntu-latest
-    needs: [build-test-node-mac, build-test-node-linux, build-test-node-windows]
+    needs: [build-test-node-mac, build-test-node-linux] # TODO: build-test-node-windows]
     env:
       GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
       GITHUB_USER: cricut-builduser

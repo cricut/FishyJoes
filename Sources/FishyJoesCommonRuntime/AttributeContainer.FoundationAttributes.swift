@@ -9,7 +9,7 @@ extension AttributeContainer {
     /// This structure can be asked to fill in an attribute container using `AttributeContainer/init(_ foundationAttributes: FoundationAttributes`).
     ///
     /// Combining these calls with ``AttributedString/setAttributes(_:)`` and ``AttributedString/mergeAttributes(_:)`` allows expansion of attributed strings with new attributes in other languages analogously to how it is done in ``AttributeScopes`` using dynamic member lookup.
-    public struct FoundationAttributes: Hashable, Sendable {
+    public struct FoundationAttributes: Hashable {
         public var link: AttributeScopes.FoundationAttributes.LinkAttribute.Value?
         //    public var morphology: AttributeScopes.FoundationAttributes.MorphologyAttribute.Value?
         //    public var inflect: AttributeScopes.FoundationAttributes.InflectionRuleAttribute.Value?
