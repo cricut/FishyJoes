@@ -26,7 +26,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup Git Credentials
         uses: fusion-engineering/setup-git-credentials@v2.0.1
@@ -41,7 +41,7 @@ jobs:
           ./scripts/compile-node-runtime.sh
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: mac_generated
           path: node-runtime
@@ -57,7 +57,7 @@ jobs:
       LIB_DIR: node-runtime/fishyjoes-runtime-native-ubuntu
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup Git Credentials
         uses: fusion-engineering/setup-git-credentials@v2.0.1
@@ -103,7 +103,7 @@ jobs:
           done
 
       - name: Upload library
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: ubuntu_generated
           path: node-runtime
@@ -116,7 +116,7 @@ jobs:
       GITHUB_USER: cricut-builduser
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup Git Credentials
         uses: fusion-engineering/setup-git-credentials@v2.0.1
@@ -146,7 +146,7 @@ jobs:
           cp -R /c/Library/Swift-development/bin/*.dll $LIB_DIR
 
       - name: Upload library
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: windows_generated
           path: node-runtime
@@ -161,17 +161,12 @@ jobs:
       GITHUB_PUBLISH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup Git Credentials
         uses: fusion-engineering/setup-git-credentials@v2.0.1
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
-
-      - name: Setup dotnet
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: '6.0.x'
 
       - name: Configure build environment
         run: |
@@ -179,7 +174,7 @@ jobs:
           sudo apt-get install zsh
 
       - name: Retrieve Artifacts
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
 
       - name: Install Artifacts
         shell: zsh {0}
@@ -192,7 +187,8 @@ jobs:
           mkdir -p node-runtime
           mv mac_generated/fishyjoes-runtime-native-macos node-runtime/
           mv ubuntu_generated/fishyjoes-runtime-native-ubuntu node-runtime/
-          mv windows_generated/fishyjoes-runtime-native-windows node-runtime/
+          # TODO: Windows
+          # mv windows_generated/fishyjoes-runtime-native-windows node-runtime/
 
           ls -R node-runtime/
 
@@ -208,27 +204,83 @@ jobs:
           echo "Detected Version is '$VERSION'"
           echo VERSION=$VERSION >> $GITHUB_ENV
 
-      - name: Pack
-        shell: zsh {0}
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+          registry-url: 'https://npm.pkg.github.com/'
+          scope: '@cricut'
+
+      - name: NPM Pack macOS
+        shell: bash
         run: |
           set -euxo pipefail
 
-          cd node-runtime
-          dotnet pack -c Release -o out /p:PackageVersion="${{ env.VERSION }}"
+          NPM_PACKAGE_VERSION=`if [[ "${{ env.VERSION }}" =~ [0-9]+\.[0-9]+\.[0-9]+ ]]; then echo "${{ env.VERSION }}"; else echo "0.0.1"; fi`
+          LIB_DIR=node-runtime/fishyjoes-runtime-native-macos
+          sed "s:0.0.1:${NPM_PACKAGE_VERSION}:g"${LIB_DIR}/package.json > ${LIB_DIR}/package.json.upd
+          mv ${LIB_DIR}/package.json.upd ${LIB_DIR}/package.json
+          cd ${LIB_DIR}
+          ls -la
+          npm pack
+          echo MAC_LIB_DIR=${LIB_DIR} >> $GITHUB_ENV
 
-      - name: Upload result
+      - name: Upload NPM macOS Artifact
         uses: actions/upload-artifact@v2
         with:
-          name: nuget-package
-          path: node-runtime/out/*.*nupkg
+          name: mac_npm_package
+          path: ${{ env.MAC_LIB_DIR }}/*.tgz
 
-      - name: Publish
-        shell: zsh {0}
-        if: github.event_name == 'release'
+      - name: NPM Pack Ubuntu
+        shell: bash
         run: |
           set -euxo pipefail
 
-          dotnet nuget push ./node-runtime/out/*.*nupkg \
-            --source https://nuget.pkg.github.com/cricut \
-            --api-key ${{ github.token }} \
-            --skip-duplicate
+          NPM_PACKAGE_VERSION=`if [[ "${{ env.VERSION }}" =~ [0-9]+\.[0-9]+\.[0-9]+ ]]; then echo "${{ env.VERSION }}"; else echo "0.0.1"; fi`
+          LIB_DIR=node-runtime/fishyjoes-runtime-native-ubuntu
+          sed "s:0.0.1:${NPM_PACKAGE_VERSION}:g"${LIB_DIR}/package.json > ${LIB_DIR}/package.json.upd
+          mv ${LIB_DIR}/package.json.upd ${LIB_DIR}/package.json
+          cd ${LIB_DIR}
+          ls -la
+          npm pack
+          echo UBUNTU_LIB_DIR=${LIB_DIR} >> $GITHUB_ENV
+
+      - name: Upload NPM Ubuntu Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: ubuntu_npm_package
+          path: ${{ env.UBUNTU_LIB_DIR }}/*.tgz
+
+# TODO: Windows
+#      - name: NPM Pack Windows
+#        shell: bash
+#        run: |
+#          set -euxo pipefail
+#
+#          NPM_PACKAGE_VERSION=`if [[ "${{ env.VERSION }}" =~ [0-9]+\.[0-9]+\.[0-9]+ ]]; then echo "${{ env.VERSION }}"; else echo "0.0.1"; fi`
+#          LIB_DIR=node-runtime/fishyjoes-runtime-native-windows
+#          sed "s:0.0.1:${NPM_PACKAGE_VERSION}:g"${LIB_DIR}/package.json > ${LIB_DIR}/package.json.upd
+#          mv ${LIB_DIR}/package.json.upd ${LIB_DIR}/package.json
+#          cd ${LIB_DIR}
+#          ls -la
+#          npm pack
+#          echo WINDOWS_LIB_DIR=${LIB_DIR} >> $GITHUB_ENV
+#
+#      - name: Upload NPM Windows Artifact
+#        uses: actions/upload-artifact@v2
+#        with:
+#          name: windows_npm_package
+#          path: ${{ env.WINDOWS_LIB_DIR }}/*.tgz
+
+     - name: Publish NPM Package
+        env:
+            NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euxo pipefail
+          cd ${{ env.MAC_LIB_DIR }}
+          npm publish *.tgz
+          cd ${{ env.UBUNTU_LIB_DIR }}
+          npm publish *.tgz
+# TODO: Windows
+#          cd ${{ env.WINDOWS_LIB_DIR }}
+#          npm publish *.tgz
