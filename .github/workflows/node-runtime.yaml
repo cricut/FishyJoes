@@ -175,81 +175,81 @@ jobs:
 
       - name: Retrieve Artifacts
         uses: actions/download-artifact@v3
-
-      - name: Install Artifacts
-        shell: zsh {0}
-        run: |
-          set -euxo pipefail
-
-          ls *
-
-          rm -rf node-runtime
-          mkdir -p node-runtime
-          mv mac_generated/fishyjoes-runtime-native-macos node-runtime/
-          mv ubuntu_generated/fishyjoes-runtime-native-ubuntu node-runtime/
-          # TODO: Windows
-          # mv windows_generated/fishyjoes-runtime-native-windows node-runtime/
-
-          ls -R node-runtime/
-
-      - name: Determine version
-        shell: zsh {0}
-        run: |
-          set -euxo pipefail
-
-          VERSION=${GITHUB_REF#refs/*/}
-          if [[ ! $VERSION =~ [0-9]+\.[0-9]+\.[0-9]+ ]]; then
-              VERSION="0.0.1-$(git rev-parse --short HEAD)"
-          fi
-          echo "Detected Version is '$VERSION'"
-          echo VERSION=$VERSION >> $GITHUB_ENV
-
-      - name: Setup Node
-        uses: actions/setup-node@v1
-        with:
-          node-version: '12.x'
-          registry-url: 'https://npm.pkg.github.com/'
-          scope: '@cricut'
-
-      - name: NPM Pack macOS
-        shell: zsh {0}
-        run: |
-          set -euxo pipefail
-
-          NPM_PACKAGE_VERSION=`if [[ "${{ env.VERSION }}" =~ [0-9]+\.[0-9]+\.[0-9]+ ]]; then echo "${{ env.VERSION }}"; else echo "0.0.1"; fi`
-          LIB_DIR=node-runtime/fishyjoes-runtime-native-macos
-          sed "s:0.0.1:${NPM_PACKAGE_VERSION}:g"${LIB_DIR}/package.json > ${LIB_DIR}/package.json.upd
-          mv ${LIB_DIR}/package.json.upd ${LIB_DIR}/package.json
-          cd ${LIB_DIR}
-          ls -la
-          npm pack
-          echo MAC_LIB_DIR=${LIB_DIR} >> $GITHUB_ENV
-
-      - name: Upload NPM macOS Artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: mac_npm_package
-          path: ${{ env.MAC_LIB_DIR }}/*.tgz
-
-      - name: NPM Pack Ubuntu
-        shell: bash
-        run: |
-          set -euxo pipefail
-
-          NPM_PACKAGE_VERSION=`if [[ "${{ env.VERSION }}" =~ [0-9]+\.[0-9]+\.[0-9]+ ]]; then echo "${{ env.VERSION }}"; else echo "0.0.1"; fi`
-          LIB_DIR=node-runtime/fishyjoes-runtime-native-ubuntu
-          sed "s:0.0.1:${NPM_PACKAGE_VERSION}:g"${LIB_DIR}/package.json > ${LIB_DIR}/package.json.upd
-          mv ${LIB_DIR}/package.json.upd ${LIB_DIR}/package.json
-          cd ${LIB_DIR}
-          ls -la
-          npm pack
-          echo UBUNTU_LIB_DIR=${LIB_DIR} >> $GITHUB_ENV
-
-      - name: Upload NPM Ubuntu Artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: ubuntu_npm_package
-          path: ${{ env.UBUNTU_LIB_DIR }}/*.tgz
+#
+#      - name: Install Artifacts
+#        shell: zsh {0}
+#        run: |
+#          set -euxo pipefail
+#
+#          ls *
+#
+#          rm -rf node-runtime
+#          mkdir -p node-runtime
+#          mv mac_generated/fishyjoes-runtime-native-macos node-runtime/
+#          mv ubuntu_generated/fishyjoes-runtime-native-ubuntu node-runtime/
+#          # TODO: Windows
+#          # mv windows_generated/fishyjoes-runtime-native-windows node-runtime/
+#
+#          ls -R node-runtime/
+#
+#      - name: Determine version
+#        shell: zsh {0}
+#        run: |
+#          set -euxo pipefail
+#
+#          VERSION=${GITHUB_REF#refs/*/}
+#          if [[ ! $VERSION =~ [0-9]+\.[0-9]+\.[0-9]+ ]]; then
+#              VERSION="0.0.1-$(git rev-parse --short HEAD)"
+#          fi
+#          echo "Detected Version is '$VERSION'"
+#          echo VERSION=$VERSION >> $GITHUB_ENV
+#
+#      - name: Setup Node
+#        uses: actions/setup-node@v1
+#        with:
+#          node-version: '12.x'
+#          registry-url: 'https://npm.pkg.github.com/'
+#          scope: '@cricut'
+#
+#      - name: NPM Pack macOS
+#        shell: zsh {0}
+#        run: |
+#          set -euxo pipefail
+#
+#          NPM_PACKAGE_VERSION=`if [[ "${{ env.VERSION }}" =~ [0-9]+\.[0-9]+\.[0-9]+ ]]; then echo "${{ env.VERSION }}"; else echo "0.0.1"; fi`
+#          LIB_DIR=node-runtime/fishyjoes-runtime-native-macos
+#          sed "s:0.0.1:${NPM_PACKAGE_VERSION}:g"${LIB_DIR}/package.json > ${LIB_DIR}/package.json.upd
+#          mv ${LIB_DIR}/package.json.upd ${LIB_DIR}/package.json
+#          cd ${LIB_DIR}
+#          ls -la
+#          npm pack
+#          echo MAC_LIB_DIR=${LIB_DIR} >> $GITHUB_ENV
+#
+#      - name: Upload NPM macOS Artifact
+#        uses: actions/upload-artifact@v2
+#        with:
+#          name: mac_npm_package
+#          path: ${{ env.MAC_LIB_DIR }}/*.tgz
+#
+#      - name: NPM Pack Ubuntu
+#        shell: bash
+#        run: |
+#          set -euxo pipefail
+#
+#          NPM_PACKAGE_VERSION=`if [[ "${{ env.VERSION }}" =~ [0-9]+\.[0-9]+\.[0-9]+ ]]; then echo "${{ env.VERSION }}"; else echo "0.0.1"; fi`
+#          LIB_DIR=node-runtime/fishyjoes-runtime-native-ubuntu
+#          sed "s:0.0.1:${NPM_PACKAGE_VERSION}:g"${LIB_DIR}/package.json > ${LIB_DIR}/package.json.upd
+#          mv ${LIB_DIR}/package.json.upd ${LIB_DIR}/package.json
+#          cd ${LIB_DIR}
+#          ls -la
+#          npm pack
+#          echo UBUNTU_LIB_DIR=${LIB_DIR} >> $GITHUB_ENV
+#
+#      - name: Upload NPM Ubuntu Artifact
+#        uses: actions/upload-artifact@v2
+#        with:
+#          name: ubuntu_npm_package
+#          path: ${{ env.UBUNTU_LIB_DIR }}/*.tgz
 
 # TODO: Windows
 #      - name: NPM Pack Windows
@@ -271,16 +271,16 @@ jobs:
 #        with:
 #          name: windows_npm_package
 #          path: ${{ env.WINDOWS_LIB_DIR }}/*.tgz
-
-     - name: Publish NPM Packages
-        env:
-            NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          set -euxo pipefail
-          cd ${{ env.MAC_LIB_DIR }}
-          npm publish *.tgz
-          cd ${{ env.UBUNTU_LIB_DIR }}
-          npm publish *.tgz
+#
+#     - name: Publish NPM Packages
+#        env:
+#            NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#        run: |
+#          set -euxo pipefail
+#          cd ${{ env.MAC_LIB_DIR }}
+#          npm publish *.tgz
+#          cd ${{ env.UBUNTU_LIB_DIR }}
+#          npm publish *.tgz
 # TODO: Windows
 #          cd ${{ env.WINDOWS_LIB_DIR }}
 #          npm publish *.tgz
