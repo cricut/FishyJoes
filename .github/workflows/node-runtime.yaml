@@ -151,7 +151,7 @@ jobs:
           name: windows_generated
           path: node-runtime
 
-  node-publish:
+  node-publish-isithename:
     name: "Publish Node.js package"
     runs-on: ubuntu-latest
     needs: [build-test-node-mac, build-test-node-linux]
@@ -212,7 +212,7 @@ jobs:
           scope: '@cricut'
 
       - name: NPM Pack macOS
-        shell: bash
+        shell: zsh {0}
         run: |
           set -euxo pipefail
 
@@ -272,7 +272,7 @@ jobs:
 #          name: windows_npm_package
 #          path: ${{ env.WINDOWS_LIB_DIR }}/*.tgz
 
-     - name: Publish NPM Package
+     - name: Publish NPM Packages
         env:
             NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
