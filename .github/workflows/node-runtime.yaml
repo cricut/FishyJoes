@@ -203,6 +203,9 @@ jobs:
           fi
           echo "Detected Version is '$VERSION'"
           echo VERSION=$VERSION >> $GITHUB_ENV
+          NPM_PACKAGE_VERSION=`if [[ "${{ env.VERSION }}" =~ [0-9]+\.[0-9]+\.[0-9]+ ]]; then echo "${{ env.VERSION }}"; else echo "0.0.1"; fi`
+          echo "Detected NPM Package Compatible Version is '$NPM_PACKAGE_VERSION'"
+          echo NPM_PACKAGE_VERSION=$NPM_PACKAGE_VERSION >> $GITHUB_ENV
 
       - name: Setup Node
         uses: actions/setup-node@v1
@@ -216,9 +219,8 @@ jobs:
         run: |
           set -euxo pipefail
 
-          NPM_PACKAGE_VERSION=`if [[ "${{ env.VERSION }}" =~ [0-9]+\.[0-9]+\.[0-9]+ ]]; then echo "${{ env.VERSION }}"; else echo "0.0.1"; fi`
           LIB_DIR=node-runtime/fishyjoes-runtime-native-macos
-          sed "s:0.0.1:${NPM_PACKAGE_VERSION}:g"${LIB_DIR}/package.json > ${LIB_DIR}/package.json.upd
+          sed "s:0.0.1:${{ env.NPM_PACKAGE_VERSION }}:g" ${LIB_DIR}/package.json > ${LIB_DIR}/package.json.upd
           mv ${LIB_DIR}/package.json.upd ${LIB_DIR}/package.json
           cd ${LIB_DIR}
           ls -la
@@ -236,9 +238,8 @@ jobs:
         run: |
           set -euxo pipefail
 
-          NPM_PACKAGE_VERSION=`if [[ "${{ env.VERSION }}" =~ [0-9]+\.[0-9]+\.[0-9]+ ]]; then echo "${{ env.VERSION }}"; else echo "0.0.1"; fi`
           LIB_DIR=node-runtime/fishyjoes-runtime-native-ubuntu
-          sed "s:0.0.1:${NPM_PACKAGE_VERSION}:g"${LIB_DIR}/package.json > ${LIB_DIR}/package.json.upd
+          sed "s:0.0.1:${{ env.NPM_PACKAGE_VERSION }}:g" ${LIB_DIR}/package.json > ${LIB_DIR}/package.json.upd
           mv ${LIB_DIR}/package.json.upd ${LIB_DIR}/package.json
           cd ${LIB_DIR}
           ls -la
@@ -250,6 +251,21 @@ jobs:
         with:
           name: ubuntu_npm_package
           path: ${{ env.UBUNTU_LIB_DIR }}/*.tgz
+
+      - name: Publish NPM Packages
+        env:
+            NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euxo pipefail
+
+          cd ${{ env.MAC_LIB_DIR }}
+          npm publish *.tgz
+          cd ${{ env.UBUNTU_LIB_DIR }}
+          npm publish *.tgz
+          # TODO: Windows
+          # cd ${{ env.WINDOWS_LIB_DIR }}
+          # npm publish *.tgz
+
 #
 # TODO: Windows
 #      - name: NPM Pack Windows
@@ -257,9 +273,8 @@ jobs:
 #        run: |
 #          set -euxo pipefail
 #
-#          NPM_PACKAGE_VERSION=`if [[ "${{ env.VERSION }}" =~ [0-9]+\.[0-9]+\.[0-9]+ ]]; then echo "${{ env.VERSION }}"; else echo "0.0.1"; fi`
 #          LIB_DIR=node-runtime/fishyjoes-runtime-native-windows
-#          sed "s:0.0.1:${NPM_PACKAGE_VERSION}:g"${LIB_DIR}/package.json > ${LIB_DIR}/package.json.upd
+#          sed "s:0.0.1:${{ env.NPM_PACKAGE_VERSION }}:g" ${LIB_DIR}/package.json > ${LIB_DIR}/package.json.upd
 #          mv ${LIB_DIR}/package.json.upd ${LIB_DIR}/package.json
 #          cd ${LIB_DIR}
 #          ls -la
@@ -272,15 +287,3 @@ jobs:
 #          name: windows_npm_package
 #          path: ${{ env.WINDOWS_LIB_DIR }}/*.tgz
 #
-#     - name: Publish NPM Packages
-#        env:
-#            NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#        run: |
-#          set -euxo pipefail
-#          cd ${{ env.MAC_LIB_DIR }}
-#          npm publish *.tgz
-#          cd ${{ env.UBUNTU_LIB_DIR }}
-#          npm publish *.tgz
-# TODO: Windows
-#          cd ${{ env.WINDOWS_LIB_DIR }}
-#          npm publish *.tgz
