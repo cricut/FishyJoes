@@ -26,9 +26,9 @@ extension AttributeContainer: JavaMutator {
         try env.RegisterNatives(
             javaClass,
             JNINativeMethod(
-                name: bag.add("__jni_createEmpty"),
-                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/AttributeContainer;"),
-                fnPtr: unsafeBitCast(_java_createEmpty, to: UnsafeMutableRawPointer.self)
+                name: bag.add("__jni_merge"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/AttributeContainer;)V"),
+                fnPtr: unsafeBitCast(_java_merge, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_swiftEquals"),
@@ -39,9 +39,34 @@ extension AttributeContainer: JavaMutator {
                 name: bag.add("__jni_hashCode"),
                 signature: bag.add("()I"),
                 fnPtr: unsafeBitCast(_java_hash, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_createEmpty"),
+                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/AttributeContainer;"),
+                fnPtr: unsafeBitCast(_java_createEmpty, to: UnsafeMutableRawPointer.self)
             )
         )
         try AttributeContainer.FoundationAttributes.javaSetup(env: env)
+    }
+
+    private static let _java_merge: @convention(c)(
+        UnsafeMutablePointer<JNIEnv?>,
+        jobject?,
+        jobject?,
+        jboolean
+    ) -> VoidConverter.CType = { _javaEnv, _javaThis, other, keepCurrent in
+        FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
+            var mutatingSelf = try AttributedString.fromJava(_javaThis, env: _javaEnv)
+            return try AttributeContainer.mutateJava(_javaThis, env: _javaEnv) { mutatingSelf in
+                return try VoidConverter.toJava(
+                    mutatingSelf.merge(
+                        try AttributeContainer.fromJava(other, env: _javaEnv),
+                        mergePolicy: keepCurrent == jboolean(JNI_FALSE) ? .keepNew : .keepCurrent
+                    ),
+                    env: _javaEnv
+                )
+            }
+        }
     }
 
     private static let _java_equals: @convention(c)(
@@ -64,7 +89,7 @@ extension AttributeContainer: JavaMutator {
     ) -> Int32.CType = { _javaEnv, _javaThis in
         FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
             return try Int32.toJava(
-                Int32(truncatingIfNeeded: AttributedString("", attributes: AttributeContainer.fromJava(_javaThis, env: _javaEnv)).hashValue),
+                Int32(truncatingIfNeeded: AttributedString("HASH", attributes: AttributeContainer.fromJava(_javaThis, env: _javaEnv)).hashValue),
                 env: _javaEnv
             )
         }

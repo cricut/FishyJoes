@@ -169,7 +169,7 @@ extension AttributedString.Runs: JavaMutator {
         FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
             let runHashes = try AttributedString.Runs.fromJava(_javaThis, env: _javaEnv)
                 .lazy
-                .map { AttributedString("", attributes: $0.attributes).hashValue }
+                .map { AttributedString("HASH", attributes: $0.attributes).hashValue }
             let hashValue = runHashes
                 .reduce(into: Hasher()) { $0.combine($1) }
                 .finalize()

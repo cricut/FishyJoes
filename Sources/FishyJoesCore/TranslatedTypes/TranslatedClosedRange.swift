@@ -14,7 +14,7 @@ struct TranslatedClosedRange: TranslatedType {
         self.bound = bound
         self.containedNamedTypes = bound.containedNamedTypes
         self.neutralName = "ClosedRange<B=\(bound.neutralName)>"
-        self.nodeName = "SwiftClosedRange<\(bound.nodeName)>"
+        self.nodeName = "Runtime.SwiftClosedRange<\(bound.nodeName)>"
         self.kotlinPackage = "com.cricut.fishyjoes.runtime"
         self.kotlinName = "SwiftClosedRange<\(bound.kotlinName)>"
         self.jniType = .object("com/cricut/fishyjoes/runtime/SwiftClosedRange")

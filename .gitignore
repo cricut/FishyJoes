@@ -10,7 +10,9 @@ DerivedData/
 kotlin-runtime/src/generated/resources/
 coverage-data
 default.profraw
+package-lock.json
 
 *.dll
 *.so
 *.dylib
+*.cjs.node

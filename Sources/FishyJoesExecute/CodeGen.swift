@@ -247,7 +247,7 @@ extension CodeGen {
                 case .node:
                     try platform.build(
                         product: "\(config.module)-node",
-                        libs: libs.flatMap { [$0, "\($0)-node"] } + ["FishyJoesNodeRuntime"],
+                        libs: libs.flatMap { [$0, "\($0)-node"] },
                         configuration: configuration
                     )
                 case .kotlinSystem, .kotlinAndroid:
@@ -360,7 +360,6 @@ extension CodeGen {
                     }
 
                 case .node:
-                    try installLibrary("FishyJoesNodeRuntime")
                     for dependency in config.requiredModules + [config.module] {
                         try installLibrary(dependency)
 
@@ -379,6 +378,7 @@ extension CodeGen {
                         outputDir
                     ).run()
                     var moduleDotJS = [
+                        "export { Runtime } from '@cricut/fishyjoes-runtime-\(platform.executionEnvironment)'",
                         "import { createRequire } from 'module';",
                         "const require = createRequire(import.meta.url);",
                     ]
@@ -387,6 +387,28 @@ extension CodeGen {
                     }
                     moduleDotJS.append("export default \(config.module);")
                     try cmd("echo", moduleDotJS.joined(separator: "\n")).output(overwritingFile: "\(outputDir)/\(config.module).js").run()
+
+                    var tsSources = ["Sources/Generated/NodeInterface/\(config.module).d.ts"]
+                    let path = "ts/\(config.module).extensions.d.ts"
+                    if cmd("test", "-f", path).runBool() {
+                        tsSources.append(path)
+                    }
+                    try cmd("cat", arguments: tsSources).output(overwritingFile: "\(outputDir)/\(config.module).d.ts").run()
+
+                    let outPath = "\(outputDir)/\(config.module).extensions.js"
+                    if !cmd("cp", "ts/\(config.module).extensions.js", outPath).runBool() {
+                        // No extensions found. Generate a no-op extension
+                        try cmd("cat", "-")
+                            .input(
+                                """
+                                    function applyExtensions() {}
+                                    const imports = {};
+                                    export { applyExtensions, imports };
+                                    """
+                            )
+                            .output(overwritingFile: outPath)
+                            .run()
+                    }
                 case .kotlinSystem, .kotlinAndroid:
                     try cmd("mkdir", "-p", outputDir).run()
                     try installLibrary(config.module)
@@ -459,9 +481,27 @@ extension CodeGen {
                 switch platform {
                 case .wasm, .node:
                     try FileManager.default.withCurrentDirectoryPath("node-test") {
+                        // Install the test package and its dependencies
                         try cmd("npm", "install").run()
+
+                        // Perform execution-environment-specific fixups to allow execution to succeed despite use of file-relative packages
+                        switch platform.executionEnvironment {
+                        case "native-macos":
+                            try FileManager.default.withCurrentDirectoryPath("node_modules/\(NPMPackage.nameFor(config: config, platform: platform))") {
+                                try cmd("npm", "install").run()
+                            }
+                        case "native-ubuntu":
+                            try FileManager.default.withCurrentDirectoryPath("node_modules/\(NPMPackage.nameFor(config: config, platform: platform))") {
+                                try cmd("npm", "install").run()
+                                try cmd("ln", "-s", "node_modules/@cricut/fishyjoes-runtime-native-ubuntu/libFishyJoesNodeRuntime.so").run()
+                            }
+                        default:
+                            break
+                        }
+
+                        // Use NPM to execute the test suite
                         try cmd("npm", "run", "clear-cache").run()
-                        try cmd("npm", "run", "test-\(platform.platform)").run()
+                        try cmd("npm", "run", "test-\(platform.executionEnvironment)").run()
                     }
                 case .kotlinSystem:
                     try FileManager.default.withCurrentDirectoryPath("kotlin") {

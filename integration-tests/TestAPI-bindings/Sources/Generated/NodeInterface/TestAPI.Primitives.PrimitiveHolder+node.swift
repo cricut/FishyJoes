@@ -115,7 +115,7 @@ extension TestAPI.Primitives.PrimitiveHolder: NodeMutator {
         )
     }
     public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
-        let constructor = try InstanceData.data(for: env).constructor(for: "Primitives.PrimitiveHolder", env: env)
+        let constructor = try NodeClass.constructor(for: "Primitives.PrimitiveHolder", env: env)
         let args: [NAPI.Value] = [
             try Bool.toNode(value.b, env: env),
             try OptionalConverter<Bool>.toNode(value.bq, env: env),

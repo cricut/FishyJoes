@@ -1,7 +1,11 @@
 package com.cricut.fishyjoes.runtime
 
 /**
- * <!-- FishyJoes.exportReference(AttributedSubstring) -->
+ * A type that represents a portion of an attributed string.
+ *
+ * The attributed string for which the type represents a sub-portion can be accessed in the `base` property.
+ * The indices offered in `startIndex` and `endIndex` are in the same index space as those in `base`,
+ * so they can be used to find what part of `base` the substring represents.
  */
 class AttributedSubstring private constructor(swiftReference: Long): SwiftReference(swiftReference) {
     /**

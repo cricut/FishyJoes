@@ -60,13 +60,17 @@ extension AttributedString.Runs.Index: JavaMutator {
     private static let _java_hash: @convention(c)(
         UnsafeMutablePointer<JNIEnv?>,
         jobject?
-    ) -> Int32.CType = { _javaEnv, _ in
+    ) -> Int32.CType = { _javaEnv, _javaThis in
         FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
-            return try Int32.toJava(
-                // TODO: hashValue
-                0, // Int32(truncatingIfNeeded: AttributedString.Runs.Index.fromJava(_javaThis, env: _javaEnv).hashValue),
-                env: _javaEnv
-            )
+            var index = try AttributedString.Runs.Index.fromJava(_javaThis, env: _javaEnv)
+            // TODO: Switch to using hashValue when available, as Comparable should be, but is not guaranteed to be, compatible with this hash value
+            // let hashValue = index.hashValue
+            let hashValue = withUnsafeBytes(of: &index) { (bytes: UnsafeRawBufferPointer) -> Int in
+                var hasher = Hasher()
+                hasher.combine(bytes: bytes)
+                return hasher.finalize()
+            }
+            return try Int32.toJava(Int32(truncatingIfNeeded: hashValue), env: _javaEnv)
         }
     }
 
@@ -79,7 +83,7 @@ extension AttributedString.Runs.Index: JavaMutator {
             let thisComparable = try AttributedString.Runs.Index.fromJava(_javaThis, env: _javaEnv)
             let otherComparable = try AttributedString.Runs.Index.fromJava(other, env: _javaEnv)
             return try Int32.toJava(
-                thisComparable == otherComparable ? 0 : thisComparable < otherComparable ? -1 : 1,
+                thisComparable < otherComparable ? -1 : thisComparable > otherComparable ? 1 : 0,
                 env: _javaEnv
             )
         }

@@ -3,17 +3,19 @@ import SourceryRuntime
 protocol TranslatedType {
     var sourceType: BetterType { get }
     var converterType: BetterType { get }
-    var nodeName: String { get }
-    var kotlinName: String { get }
-    var cppName: String { get }
     var neutralName: String { get }
-    var containedNamedTypes: [TranslatedType] { get }
+    var nodeName: String { get }
     var kotlinPackage: String? { get }
+    var kotlinName: String { get }
     var jniType: JNIType { get }
     var cSharpType: CSharpClass.CSType { get }
+    var cppName: String { get }
+    var isInhabited: Bool { get }
+
     var definingModule: Module { get }
     var definingTSNamespace: String? { get }
-    var isInhabited: Bool { get }
+    var containedNamedTypes: [TranslatedType] { get }
+
     func cSharpSetupParameters(in context: FishyJoesContext) -> [CSharpSetupParameter]
     func cSharpSetupDelegates(in context: FishyJoesContext) -> [String]
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment]

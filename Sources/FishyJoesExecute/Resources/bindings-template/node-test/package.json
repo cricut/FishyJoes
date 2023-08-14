@@ -4,10 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "npm run test-wasm && npm run test-node-native-macos",
+    "test": "npm run test-wasm && npm run test-native-macos",
     "test-wasm": "node --experimental-vm-modules node_modules/jest/bin/jest.js --run-in-band --detect-open-handles --force-exit --debug --no-watchman -c jest.config.wasm.cjs",
-    "test-node-native-macos": "node --experimental-vm-modules node_modules/jest/bin/jest.js --run-in-band --detect-open-handles --force-exit --debug --no-watchman -c jest.config.native-macos.cjs",
-    "test-node-native-ubuntu": "node --experimental-vm-modules node_modules/jest/bin/jest.js --run-in-band --detect-open-handles --force-exit --debug --no-watchman -c jest.config.native-ubuntu.cjs",
+    "test-native-windows": "node --experimental-vm-modules node_modules/jest/bin/jest.js --run-in-band --detect-open-handles --force-exit --debug --no-watchman -c jest.config.native-windows.cjs",
+    "test-native-macos": "node --experimental-vm-modules node_modules/jest/bin/jest.js --run-in-band --detect-open-handles --force-exit --debug --no-watchman -c jest.config.native-macos.cjs",
+    "test-native-ubuntu": "node --experimental-vm-modules node_modules/jest/bin/jest.js --run-in-band --detect-open-handles --force-exit --debug --no-watchman -c jest.config.native-ubuntu.cjs",
     "clear-cache": "node node_modules/jest/bin/jest.js --clear-cache"
   },
   "devDependencies": {
@@ -19,6 +20,7 @@
   "type": "module",
   "optionalDependencies": {
     "@cricut/__LOWERCASE_MODULE_NAME__-wasm": "file:../output/wasm",
+    "@cricut/__LOWERCASE_MODULE_NAME__-native-windows": "file:../output/node-native-windows",
     "@cricut/__LOWERCASE_MODULE_NAME__-native-macos": "file:../output/node-native-macos",
     "@cricut/__LOWERCASE_MODULE_NAME__-native-ubuntu": "file:../output/node-native-ubuntu"
   },

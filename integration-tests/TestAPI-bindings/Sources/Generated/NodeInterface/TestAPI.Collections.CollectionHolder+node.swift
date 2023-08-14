@@ -47,7 +47,7 @@ extension TestAPI.Collections.CollectionHolder: NodeMutator {
         )
     }
     public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
-        let constructor = try InstanceData.data(for: env).constructor(for: "Collections.CollectionHolder", env: env)
+        let constructor = try NodeClass.constructor(for: "Collections.CollectionHolder", env: env)
         let args: [NAPI.Value] = [
             try ArrayConverter<Bool>.toNode(value.boolArray, env: env),
             try SetConverter<Bool>.toNode(value.boolSet, env: env),

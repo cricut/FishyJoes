@@ -35,6 +35,10 @@ internal class AttributedStringTests {
         assertEquals(AttributedStrings.emoji, AttributedString("🤯🐶🍓", ea))
         assertEquals(AttributedStrings.emojiMulti, AttributedString("👨‍👩‍👧‍👦👍🏿🇺🇸", ef))
         assertEquals(AttributedStrings.polyglot,AttributedStrings.simple + " " + AttributedStrings.accent + " " + AttributedStrings.script)
+
+        assertEquals(AttributedStrings.simple, AttributedStrings.simple)
+        assertNotEquals(AttributedStrings.simple, AttributedStrings.accent)
+        assertNotEquals(AttributedStrings.simple, AttributedString(AttributedStrings.simple.string, null))
     }
 
     @Test
@@ -91,8 +95,8 @@ internal class AttributedStringTests {
         var unicodeScalars = emptyList<UInt>()
         var scalarIndex = attributedString.unicodeScalars.startIndex
         while (scalarIndex != attributedString.unicodeScalars.endIndex) {
-            val characterString = attributedString.unicodeScalars.elementAt(scalarIndex)
-            unicodeScalars += characterString
+            val characterScalar = attributedString.unicodeScalars.elementAt(scalarIndex)
+            unicodeScalars += characterScalar
             scalarIndex = attributedString.unicodeScalars.indexAfter(scalarIndex)
         }
         assertEquals(unicodeScalars.map { it.toInt() },

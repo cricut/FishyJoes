@@ -327,13 +327,10 @@ struct TranslatedEnum: TranslatedType {
         } else {
             fragment.outputBlock("extension \(sourceType.name): FishyJoesNodeRuntime.NodeConverter {") {
                 fragment.outputBlock("public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {") {
-                    if !cases.isEmpty {
-                        fragment.output("let instanceData = try FishyJoesNodeRuntime.InstanceData.data(for: env)")
-                    }
                     for enumCase in cases {
                         let className = "\(nodeName).\(upperCaseFirst(enumCase.name))"
 
-                        fragment.outputBlock("if try env.instanceof(value, instanceData.constructor(for: \"\(className)\", env: env)) {") {
+                        fragment.outputBlock("if try env.instanceof(value, NodeClass.constructor(for: \"\(className)\", env: env)) {") {
                             func variable(for value: Value) -> String { return "_\(value.bindingName)" }
                             for value in enumCase.associatedValues {
                                 fragment.output("let \(variable(for: value)) = try env.getNamedProperty(value, \"\(value.bindingName)\")")
@@ -359,7 +356,6 @@ struct TranslatedEnum: TranslatedType {
                     if cases.isEmpty {
                         fragment.output("// Uninhabited type")
                     } else {
-                        fragment.output("let instanceData = try FishyJoesNodeRuntime.InstanceData.data(for: env)")
                         fragment.output("switch value {")
                         for enumCase in cases {
                             let className = "\(nodeName).\(upperCaseFirst(enumCase.name))"
@@ -373,7 +369,7 @@ struct TranslatedEnum: TranslatedType {
                             }
                             fragment.outputBlock(caseStatement, closeWith: "", newLineTerminated: false) {
                                 fragment.outputBlock("return try env.newInstance(") {
-                                    fragment.output("instanceData.constructor(for: \"\(className)\", env: env),")
+                                    fragment.output("NodeClass.constructor(for: \"\(className)\", env: env),")
                                     fragment.outputBlock("[") {
                                         for value in enumCase.associatedValues {
                                             let resolved = context.resolve(type: value.type)
