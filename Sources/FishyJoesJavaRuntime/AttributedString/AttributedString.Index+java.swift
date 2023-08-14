@@ -65,7 +65,7 @@ extension AttributedString.Index: JavaMutator {
             var index = try AttributedString.Index.fromJava(_javaThis, env: _javaEnv)
             // TODO: Switch to using hashValue when available, as Comparable should be, but is not guaranteed to be, compatible with this hash value
             // let hashValue = index.hashValue
-            let hashValue = withUnsafeBytes(of: &index) { bytes in
+            let hashValue = withUnsafeBytes(of: &index) { (bytes: UnsafeRawBufferPointer) -> Int in
                 var hasher = Hasher()
                 hasher.combine(bytes: bytes)
                 return hasher.finalize()
