@@ -194,13 +194,6 @@ jobs:
           echo "Detected NPM Package Compatible Version is '$NPM_PACKAGE_VERSION'"
           echo NPM_PACKAGE_VERSION=$NPM_PACKAGE_VERSION >> $GITHUB_ENV
 
-      - name: Setup Node
-        uses: actions/setup-node@v1
-        with:
-          node-version: '12.x'
-          registry-url: 'https://npm.pkg.github.com/'
-          scope: '@cricut'
-
       - name: NPM Pack macOS
         shell: zsh {0}
         run: |
@@ -248,6 +241,13 @@ jobs:
         uses: fusion-engineering/setup-git-credentials@v2.0.1
         with:
           credentials: https://${{ env.GITHUB_USER }}:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
+
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+          registry-url: 'https://npm.pkg.github.com/'
+          scope: '@cricut'
 
       - name: Retrieve Artifacts
         uses: actions/download-artifact@v3
