@@ -18,7 +18,7 @@ concurrency:
 
 jobs:
   build-test-kotlin-mac:
-    name: "mac: Build and Test Kotlin Runtime"
+    name: "macOS: Build and Test Kotlin Runtime"
     runs-on: macOS-12
     env:
       JDK_VERSION: 11
@@ -40,14 +40,14 @@ jobs:
         with:
           java-version: 1.11
 
-      - name: Build FishyJoesJavaRuntime
+      - name: Build Native FishyJoesJavaRuntime
         shell: zsh {0}
         run: |
           set -euxo pipefail
 
-          ./scripts/compile-kotlin-native-runtime.sh
+          CONFIGURATION=debug ./scripts/compile-kotlin-native-runtime.sh
 
-      - name: Test FishyJoesJavaRuntime from gradle
+      - name: Test Native FishyJoesJavaRuntime
         shell: zsh {0}
         run: |
           set -euxo pipefail
@@ -61,8 +61,8 @@ jobs:
           name: mac_lib
           path: kotlin-runtime/src/generated/resources/mac/
 
-  build-test-kotlin-linux:
-    name: "linux: Build and Test Kotlin Runtime"
+  build-test-kotlin-ubuntu:
+    name: "Ubuntu: Build and Test Kotlin Runtime"
     runs-on: ubuntu-latest
     env:
       JDK_VERSION: 11
@@ -86,16 +86,17 @@ jobs:
       - name: Configure build environment
         run: |
           set -euxo pipefail
+
           sudo apt-get install zsh
 
-      - name: Build native FishyJoesJavaRuntime
+      - name: Build Native FishyJoesJavaRuntime
         shell: zsh {0}
         run: |
           set -euxo pipefail
 
           ./scripts/compile-kotlin-native-runtime.sh
 
-      - name: Build android FishyJoesJavaRuntime
+      - name: Build Android FishyJoesJavaRuntime
         uses: addnab/docker-run-action@4f65fabd2431ebc8d299f8e5a018d79a769ae185
         with:
           username: cricut-builduser
@@ -105,7 +106,7 @@ jobs:
           options: -v ${{ github.workspace }}:/work -w /work
           run: /work/scripts/compile-android-runtime.sh
 
-      - name: Test FishyJoesJavaRuntime from gradle
+      - name: Test FishyJoesJavaRuntime
         shell: zsh {0}
         run: |
           set -euxo pipefail
@@ -120,7 +121,7 @@ jobs:
           path: kotlin-runtime/src/generated
 
   build-test-kotlin-windows:
-    name: "windows: Build and Test Kotlin Runtime"
+    name: "Windows: Build and Test Kotlin Runtime"
     runs-on: windows-2019
     env:
       JDK_VERSION: 11
@@ -163,7 +164,7 @@ jobs:
   kotlin-publish:
     name: Publish kotlin package
     runs-on: ubuntu-latest
-    needs: [build-test-kotlin-mac, build-test-kotlin-linux, build-test-kotlin-windows]
+    needs: [build-test-kotlin-mac, build-test-kotlin-ubuntu, build-test-kotlin-windows]
     env:
       JDK_VERSION: 11
       GRADLE_OPTS: -Dorg.gradle.daemon=false
@@ -187,6 +188,7 @@ jobs:
       - name: Configure build environment
         run: |
           set -euxo pipefail
+
           sudo apt-get install zsh
 
       - name: Retrieve Artifacts

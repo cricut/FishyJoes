@@ -47,8 +47,6 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try String.javaSetup(env: env)
         // print("setting up Data...")
         try Data.javaSetup(env: env)
-        // print("setting up AttributeContainer...")
-        try AttributeContainer.javaSetup(env: env)
         // print("setting up AttributedString...")
         try AttributedString.javaSetup(env: env)
         return JNI_VERSION_1_4

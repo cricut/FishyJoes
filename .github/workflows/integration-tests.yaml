@@ -15,7 +15,7 @@ concurrency:
 
 jobs:
   integration-tests-mac:
-    name: "mac: Integration Tests"
+    name: "macOS: Integration Tests"
     runs-on: macOS-12
     env:
       JDK_VERSION: 11
@@ -51,7 +51,7 @@ jobs:
 
           swift run -- fishy-joes generate
 
-      - name: Build Linux FishyJoesNodeRuntime
+      - name: Build Ubuntu FishyJoesNodeRuntime
         shell: zsh {0}
         run: |
           set -euxo pipefail
@@ -70,7 +70,7 @@ jobs:
           npm install
           swift run -- fishy-joes --nodejs --wasm generate build test
 
-      - name: Build Linux FishyJoesJavaRuntime
+      - name: Build Ubuntu FishyJoesJavaRuntime
         shell: zsh {0}
         run: |
           set -euxo pipefail
@@ -89,8 +89,8 @@ jobs:
           cd integration-tests/TestAPI-bindings
           swift run -- fishy-joes --kotlin-fast generate build test
 
-  integration-tests-linux:
-    name: "linux: Integration Tests"
+  integration-tests-ubuntu:
+    name: "Ubuntu: Integration Tests"
     env:
       JDK_VERSION: 11
       GRADLE_OPTS: -Dorg.gradle.daemon=false
@@ -149,7 +149,7 @@ jobs:
           cd integration-tests/TestAPI-bindings
           swift run -- fishy-joes --c-sharp build test
 
-      - name: Build Linux FishyJoesNodeRuntime
+      - name: Build Ubuntu FishyJoesNodeRuntime
         shell: zsh {0}
         run: |
           set -euxo pipefail
@@ -168,7 +168,7 @@ jobs:
           npm install
           swift run -- fishy-joes --nodejs --wasm build test
 
-      - name: Build Linux FishyJoesJavaRuntime
+      - name: Build Ubuntu FishyJoesJavaRuntime
         shell: zsh {0}
         run: |
           set -euxo pipefail
@@ -197,8 +197,8 @@ jobs:
           path: ~/.m2/repository
 
   integration-tests-android:
-    name: "android: Integration Tests"
-    needs: [integration-tests-linux]
+    name: "Android: Integration Tests"
+    needs: [integration-tests-ubuntu]
     runs-on: macOS-12
     env:
       JDK_VERSION: 11
