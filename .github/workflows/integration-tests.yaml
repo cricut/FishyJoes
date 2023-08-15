@@ -15,7 +15,7 @@ concurrency:
 
 jobs:
   integration-tests-mac:
-    name: "mac: integration tests"
+    name: "mac: Integration Tests"
     runs-on: macOS-12
     env:
       JDK_VERSION: 11
@@ -51,34 +51,46 @@ jobs:
 
           swift run -- fishy-joes generate
 
-      - name: Test from node
-        shell: zsh {0}
-        run: |
-          set -euxo pipefail
-          cd integration-tests/TestAPI-bindings
-
-          npm install
-
-          swift run -- fishy-joes --nodejs generate build test
-
-      - name: Build library
+      - name: Build Linux FishyJoesNodeRuntime
         shell: zsh {0}
         run: |
           set -euxo pipefail
 
-          libdir=kotlin-runtime/src/generated/resources/mac
-
+          libdir=node-runtime/fishyjoes-runtime-native-macos
           rm -rf $libdir
           mkdir -p $libdir
+          ./scripts/compile-node-runtime.sh
 
+      - name: Test Node & Wasm
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+
+          cd integration-tests/TestAPI-bindings
+          npm install
+          swift run -- fishy-joes --nodejs --wasm generate build test
+
+      - name: Build Linux FishyJoesJavaRuntime
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+
+          libdir=kotlin-runtime/src/generated/resources/linux
+          rm -rf $libdir
+          mkdir -p $libdir
           ./scripts/compile-kotlin-native-runtime.sh
           (cd kotlin-runtime && ./gradlew publishToMavenLocal)
+
+      - name: Test Kotlin
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
 
           cd integration-tests/TestAPI-bindings
           swift run -- fishy-joes --kotlin-fast generate build test
 
   integration-tests-linux:
-    name: "linux: integration tests"
+    name: "linux: Integration Tests"
     env:
       JDK_VERSION: 11
       GRADLE_OPTS: -Dorg.gradle.daemon=false
@@ -128,59 +140,52 @@ jobs:
           sudo mkdir -p /Library/Developer/Toolchains/swift-wasm-5.7.1-RELEASE.xctoolchain
           sudo tar -xf swift-wasm.tgz -C /Library/Developer/Toolchains/swift-wasm-5.7.1-RELEASE.xctoolchain --strip-components 1
 
-      - name: Test from dotnet
+      - name: Test .NET
         shell: zsh {0}
         run: |
           set -euxo pipefail
 
           ./scripts/compile-c-sharp-runtime.sh
-
           cd integration-tests/TestAPI-bindings
-
           swift run -- fishy-joes --c-sharp build test
 
-      - name: Test from node
+      - name: Build Linux FishyJoesNodeRuntime
         shell: zsh {0}
         run: |
           set -euxo pipefail
+
+          libdir=node-runtime/fishyjoes-runtime-native-ubuntu
+          rm -rf $libdir
+          mkdir -p $libdir
+          ./scripts/compile-node-runtime.sh
+
+      - name: Test Node & Wasm
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+
           cd integration-tests/TestAPI-bindings
-
           npm install
-
           swift run -- fishy-joes --nodejs --wasm build test
 
-      - name: Build linux FishyJoesJavaRuntime
+      - name: Build Linux FishyJoesJavaRuntime
         shell: zsh {0}
         run: |
           set -euxo pipefail
 
           libdir=kotlin-runtime/src/generated/resources/linux
-
           rm -rf $libdir
           mkdir -p $libdir
-
           ./scripts/compile-kotlin-native-runtime.sh
+          (cd kotlin-runtime && ./gradlew publishToMavenLocal)
 
-
-      - name: Build android FishyJoesJavaRuntime
-        uses: addnab/docker-run-action@4f65fabd2431ebc8d299f8e5a018d79a769ae185
-        with:
-          username: cricut-builduser
-          password:  ${{ secrets.CRICUT_GPR_TOKEN }}
-          registry: ghcr.io
-          image: ghcr.io/cricut/android-swift-runtime:0.1.0
-          options: -v ${{ github.workspace }}:/work -w /work
-          run: /work/scripts/compile-android-runtime.sh
-
-      - name: Test from gradle
+      - name: Test Kotlin
         shell: zsh {0}
         run: |
           set -euxo pipefail
 
-          (cd kotlin-runtime && ./gradlew publishToMavenLocal)
-
           cd integration-tests/TestAPI-bindings
-          swift run -- fishy-joes --kotlin build test
+          swift run -- fishy-joes --kotlin-fast build test
 
           cd kotlin
           ./gradlew publishToMavenLocal
@@ -191,8 +196,8 @@ jobs:
           name: maven-local
           path: ~/.m2/repository
 
-  android-tests:
-    name: "android: integration tests"
+  integration-tests-android:
+    name: "android: Integration Tests"
     needs: [integration-tests-linux]
     runs-on: macOS-12
     env:
@@ -217,7 +222,17 @@ jobs:
       - name: Retrieve Artifacts
         uses: actions/download-artifact@v2
 
-      - name: Build Android test app
+      - name: Build Android FishyJoesJavaRuntime
+        uses: addnab/docker-run-action@4f65fabd2431ebc8d299f8e5a018d79a769ae185
+        with:
+          username: cricut-builduser
+          password:  ${{ secrets.CRICUT_GPR_TOKEN }}
+          registry: ghcr.io
+          image: ghcr.io/cricut/android-swift-runtime:0.1.0
+          options: -v ${{ github.workspace }}:/work -w /work
+          run: /work/scripts/compile-android-runtime.sh
+
+      - name: Build Android Test App
         shell: zsh {0}
         run: |
           set -euxo pipefail
@@ -231,7 +246,7 @@ jobs:
           cd integration-tests/android-test-app
           ./gradlew assembleAndroidTest
 
-      - name: Test Android app
+      - name: Test Android
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 29

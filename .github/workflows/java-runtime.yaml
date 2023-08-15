@@ -18,7 +18,7 @@ concurrency:
 
 jobs:
   build-test-kotlin-mac:
-    name: "mac: Build and test java runtime"
+    name: "mac: Build and Test Kotlin Runtime"
     runs-on: macOS-12
     env:
       JDK_VERSION: 11
@@ -62,7 +62,7 @@ jobs:
           path: kotlin-runtime/src/generated/resources/mac/
 
   build-test-kotlin-linux:
-    name: "linux: Build and test java runtime"
+    name: "linux: Build and Test Kotlin Runtime"
     runs-on: ubuntu-latest
     env:
       JDK_VERSION: 11
@@ -120,7 +120,7 @@ jobs:
           path: kotlin-runtime/src/generated
 
   build-test-kotlin-windows:
-    name: "windows: Build and test kotlin bindings"
+    name: "windows: Build and Test Kotlin Runtime"
     runs-on: windows-2019
     env:
       JDK_VERSION: 11
@@ -141,11 +141,10 @@ jobs:
         with:
           java-version: 1.11
 
-      - uses: MaxDesiatov/swift-windows-action@v1
+      - uses: compnerd/gha-setup-swift@main
         with:
-          shell-action: |
-            swift build --product FishyJoesJavaRuntime --configuration release --build-path ./.build/windows-build
-          swift-version: "5.4.2"
+          branch: swift-5.6.2-release
+          tag: 5.6.2-RELEASE
 
       - name: Copy resource
         shell: bash
