@@ -110,7 +110,7 @@ jobs:
 
   build-test-c-sharp-windows:
     name: "Windows: Build and Test C# Runtime"
-    runs-on: windows-2019
+    runs-on: windows-latest
     env:
       GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
       GITHUB_USER: cricut-builduser
