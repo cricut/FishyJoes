@@ -437,7 +437,7 @@ public func Double_cSharp_setup(
     Double.constructor = constructor
 }
 
-// MARK: - Less-Primitive Type Conversions
+// MARK: - String Type Conversion
 
 @_cdecl("FishyJoesRuntime_String_setup")
 public func String_cSharp_setup(
@@ -478,6 +478,8 @@ extension String: CSharpConverter {
     }
 }
 
+// MARK: - Data Type Conversion
+
 @_cdecl("FishyJoesRuntime_Data_setup")
 public func Data_cSharp_setup(
     lengthMethod: @escaping Data.LengthMethod,
@@ -517,6 +519,39 @@ extension Data: CSharpConverter {
             try Env.check { exn in
                 try Env.unwrap(constructor)(buffer.baseAddress, Int32(value.count), exn)
             }
+        }
+    }
+}
+
+// MARK: - URL Type Conversion
+
+@_cdecl("FishyJoesRuntime_URL_setup")
+public func URL_cSharp_setup(
+    absoluteURIMethod: @escaping URL.AbsoluteURIMethod,
+    constructor: @escaping URL.Constructor
+) {
+    guard URL.absoluteURIMethod == nil else { return }
+    URL.absoluteURIMethod = absoluteURIMethod
+    URL.constructor = constructor
+}
+
+extension URL: CSharpConverter {
+    public typealias AbsoluteURIMethod = @convention(c) (_ uri: csObject, _ exn: csOutExn) -> csObject
+    public typealias Constructor = @convention(c) (_ string: csObject, _ exn: csOutExn) -> csObject
+
+    fileprivate static var absoluteURIMethod: URL.AbsoluteURIMethod?
+    fileprivate static var constructor: URL.Constructor?
+
+    public static func peekCSharp(_ value: csObject) throws -> SwiftType {
+        let urlString = try Env.check { exn in try String.peekCSharp(Env.unwrap(absoluteURIMethod)(value, exn)) }
+        guard let url = URL(string: urlString) else { throw MalformedURLError(message: "Not a valid URL: \(urlString)") }
+        return url
+    }
+
+    public static func toCSharp(_ value: SwiftType) throws -> csObject {
+        let urlString = value.absoluteString
+        return try Env.check { exn in
+            try Env.unwrap(constructor)(String.toCSharp(urlString), exn)
         }
     }
 }

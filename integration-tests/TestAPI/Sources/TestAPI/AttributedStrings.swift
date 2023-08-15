@@ -428,7 +428,7 @@ extension AttributedStringASDF {
         ///     If `index` is `endIndex`, the last valid index is returned.
         ///
         /// <!-- FishyJoes.export(indexBefore) -->
-        public func index(before i: Index) -> Index { .init() }
+        public func index(before index: Index) -> Index { .init() }
 
         /// Obtains the run index after another index.
         ///
@@ -438,7 +438,7 @@ extension AttributedStringASDF {
         ///     If `index` is `startIndex`, the first valid index is returned.
         ///
         /// <!-- FishyJoes.export(indexAfter) -->
-        public func index(after i: Index) -> Index { .init() }
+        public func index(after index: Index) -> Index { .init() }
 
         /// Obtains the run descriptor at a run index.
         ///
@@ -492,7 +492,7 @@ extension AttributedStringASDF {
         ///     If `index` is `endIndex`, the index to the last character in the view's attributed string or substring is returned.
         ///
         /// <!-- FishyJoes.export(indexBefore) -->
-        public func index(before i: Index) -> Index { .init() }
+        public func index(before index: Index) -> Index { .init() }
 
         /// Obtains the index of the character after the character referenced by another index in the view's attributed string or substring.
         ///
@@ -502,7 +502,7 @@ extension AttributedStringASDF {
         ///     If `index` is `startIndex`, the index to the first character in the view's attributed string or substring is returned.
         ///
         /// <!-- FishyJoes.export(indexAfter) -->
-        public func index(after i: Index) -> Index { .init() }
+        public func index(after index: Index) -> Index { .init() }
 
         /// Obtains the character associated with an attributed string index.
         ///
@@ -544,7 +544,7 @@ extension AttributedStringASDF {
         ///     If `index` is `endIndex`, the index to the last Unicode scalar in the view's attributed string or substring is returned.
         ///
         /// <!-- FishyJoes.export(indexBefore) -->
-        public func index(before i: Index) -> Index { .init() }
+        public func index(before index: Index) -> Index { .init() }
 
         /// Obtains the index of the Unicode scalar after the scalar referenced by another index in the view's attributed string or substring.
         ///
@@ -554,7 +554,7 @@ extension AttributedStringASDF {
         ///     If `index` is `startIndex`, the index to the first Unicode scalar in the view's attributed string or substring is returned.
         ///
         /// <!-- FishyJoes.export(indexAfter) -->
-        public func index(after i: Index) -> Index { .init() }
+        public func index(after index: Index) -> Index { .init() }
 
         /// Obtains the Unicode scalar associated with an attributed string index.
         ///
