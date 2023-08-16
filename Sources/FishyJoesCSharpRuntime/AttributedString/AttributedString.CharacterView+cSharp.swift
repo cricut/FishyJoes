@@ -17,8 +17,8 @@ extension AttributedString.CharacterView: CSharpMutator {
     }
 }
 
-@_cdecl("TestAPI_AttributedString_CharacterView_setup")
-public func TestAPI_AttributedString_CharacterView_setup(
+@_cdecl("FishyJoesCSharpRuntime_AttributedString_CharacterView_setup")
+public func FishyJoesCSharpRuntime_AttributedString_CharacterView_setup(
     constructorMethod: @escaping @convention(c) (UnsafeMutableRawPointer, _ exn: csOutExn) -> csObject,
     _ exn: csOutExn
 ) {

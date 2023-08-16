@@ -204,11 +204,11 @@ namespace Cricut.FishyJoesRuntime {
             public Cricut.FishyJoesRuntime.AttributeContainer AsContainer(
             ) {
                 using var _thisHandle = new GCRef(this);
-                return Check((out CreatedRef _exn) => __cs_AttributeContainer_FoundationAttributes_asContainer(_thisHandle.ptr, out _exn));
+                return Check((out CreatedRef _exn) => __cs_AttributeContainer_FoundationAttributes_asContainer(_thisHandle.ptr, out _exn)).Consume<Cricut.FishyJoesRuntime.AttributeContainer>();
             }
 
             [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-            private static extern Cricut.FishyJoesRuntime.AttributeContainer __cs_AttributeContainer_FoundationAttributes_asContainer(
+            private static extern CreatedRef __cs_AttributeContainer_FoundationAttributes_asContainer(
                 UnownedRef self,
                 out CreatedRef exn
             );

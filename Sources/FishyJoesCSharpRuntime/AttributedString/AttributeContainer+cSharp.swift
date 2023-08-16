@@ -17,8 +17,8 @@ extension AttributeContainer: CSharpMutator {
     }
 }
 
-@_cdecl("TestAPI_AttributeContainer_setup")
-public func TestAPI_AttributeContainer_setup(
+@_cdecl("FishyJoesCSharpRuntime_AttributeContainer_setup")
+public func FishyJoesCSharpRuntime_AttributeContainer_setup(
     constructorMethod: @escaping @convention(c) (UnsafeMutableRawPointer, _ exn: csOutExn) -> csObject,
     _ exn: csOutExn
 ) {

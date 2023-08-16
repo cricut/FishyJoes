@@ -17,8 +17,8 @@ extension AttributedString.UnicodeScalarView: CSharpMutator {
     }
 }
 
-@_cdecl("TestAPI_AttributedString_UnicodeScalarView_setup")
-public func TestAPI_AttributedString_UnicodeScalarView_setup(
+@_cdecl("FishyJoesCSharpRuntime_AttributedString_UnicodeScalarView_setup")
+public func FishyJoesCSharpRuntime_AttributedString_UnicodeScalarView_setup(
     constructorMethod: @escaping @convention(c) (UnsafeMutableRawPointer, _ exn: csOutExn) -> csObject,
     _ exn: csOutExn
 ) {
