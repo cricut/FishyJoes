@@ -34,41 +34,23 @@ namespace Cricut.TestAPI.Tests {
             Assert.NotEqual(AttributedStrings.Simple, AttributedStrings.Accent);
             Assert.NotEqual(AttributedStrings.Simple, new AttributedString(AttributedStrings.Simple.GetString(), null));
         }
+
+        [Fact]
+        void testStringEcho() {
+            Assert.Equal(AttributedStrings.Echo(AttributedStrings.Simple), AttributedStrings.Simple);
+            Assert.Equal(AttributedStrings.Echo(AttributedStrings.Accent), AttributedStrings.Accent);
+            Assert.Equal(AttributedStrings.Echo(AttributedStrings.Chinese), AttributedStrings.Chinese);
+            Assert.Equal(AttributedStrings.Echo(AttributedStrings.ChineseBMP), AttributedStrings.ChineseBMP);
+            Assert.Equal(AttributedStrings.Echo(AttributedStrings.ChineseSIP), AttributedStrings.ChineseSIP);
+            Assert.Equal(AttributedStrings.Echo(AttributedStrings.Emoji), AttributedStrings.Emoji);
+            Assert.Equal(AttributedStrings.Echo(AttributedStrings.EmojiMulti), AttributedStrings.EmojiMulti);
+            Assert.Equal(AttributedStrings.Echo(AttributedStrings.Polyglot), AttributedStrings.Polyglot);
+        }
     }
 }
 
 /*
-    @Test
-    fun testStringValues() {
-        val en = AttributeContainerFoundationAttributes().apply { languageIdentifier = "en" }.asContainer()
-        val pt = AttributeContainerFoundationAttributes().apply { languageIdentifier = "pt" }.asContainer()
-        val ja = AttributeContainerFoundationAttributes().apply { languageIdentifier = "ja" }.asContainer()
-        val zh = AttributeContainerFoundationAttributes().apply { languageIdentifier = "zh" }.asContainer()
-        val ea = AttributeContainerFoundationAttributes().apply { link = URL("https://home.unicode.org/emoji") }.asContainer()
-        val ef = AttributeContainerFoundationAttributes().apply { link = URL("https://home.unicode.org/emoji/emoji-frequency") }.asContainer()
-
-        val enAttributes = AttributeContainerFoundationAttributes(en)
-        assertEquals(enAttributes.languageIdentifier, "en")
-        assertNull(enAttributes.link)
-
-        val eaAttributes = AttributeContainerFoundationAttributes(ea)
-        assertNull(eaAttributes.languageIdentifier)
-        assertEquals(eaAttributes.link, URL("https://home.unicode.org/emoji"))
-
-        assertEquals(AttributedStrings.simple, AttributedString("Hello", en))
-        assertEquals(AttributedStrings.accent, AttributedString("Olá", pt))
-        assertEquals(AttributedStrings.script, AttributedString("こんにちは", ja))
-        assertEquals(AttributedStrings.chinese, AttributedString("你好", zh))
-        assertEquals(AttributedStrings.chineseBMP, AttributedString("豈更車賈滑", zh))
-        assertEquals(AttributedStrings.chineseSIP, AttributedString("\uD840\uDC01\uD840\uDC02\uD840\uDC03\uD840\uDC04", zh))
-        assertEquals(AttributedStrings.emoji, AttributedString("🤯🐶🍓", ea))
-        assertEquals(AttributedStrings.emojiMulti, AttributedString("👨‍👩‍👧‍👦👍🏿🇺🇸", ef))
-        assertEquals(AttributedStrings.polyglot,AttributedStrings.simple + " " + AttributedStrings.accent + " " + AttributedStrings.script)
-
-        assertEquals(AttributedStrings.simple, AttributedStrings.simple)
-        assertNotEquals(AttributedStrings.simple, AttributedStrings.accent)
-        assertNotEquals(AttributedStrings.simple, AttributedString(AttributedStrings.simple.string, null))
-    }
+    
 
     @Test
     fun testStringEcho() {
