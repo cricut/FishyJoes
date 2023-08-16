@@ -112,3 +112,12 @@ public func __cs_AttributeContainer_FoundationAttributes_createFromContainer(
         )
     }
 }
+
+@_cdecl("__cs_AttributeContainer_FoundationAttributes_asContainer")
+public func __cs_AttributeContainer_FoundationAttributes_asContainer(this: csObject, exn: csOutExn) -> AttributeContainer.CType {
+    Env.catching(to: exn) {
+        try AttributeContainer.toCSharp(
+            AttributeContainer(AttributeContainer.FoundationAttributes.peekCSharp(this))
+        )
+    }
+}

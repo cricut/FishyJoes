@@ -30,7 +30,7 @@ namespace Cricut.FishyJoesRuntime {
             );
         }
 
-        [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_get_AttributedString_String(UnownedRef self, out CreatedRef exn);
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace Cricut.FishyJoesRuntime {
             );
         }
 
-        [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_get_AttributedString_Runs(UnownedRef self, out CreatedRef exn);
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace Cricut.FishyJoesRuntime {
             );
         }
 
-        [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_get_AttributedString_Characters(UnownedRef self, out CreatedRef exn);
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace Cricut.FishyJoesRuntime {
             );
         }
 
-        [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_get_AttributedString_UnicodeScalars(UnownedRef self, out CreatedRef exn);
 
         /// <summary>
@@ -95,7 +95,7 @@ namespace Cricut.FishyJoesRuntime {
             );
         }
 
-        [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_get_AttributedString_Substring(UnownedRef self, out CreatedRef exn);
 
         /// <summary>
@@ -112,7 +112,7 @@ namespace Cricut.FishyJoesRuntime {
             );
         }
 
-        [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_get_AttributedString_StartIndex(UnownedRef self, out CreatedRef exn);
 
         /// <summary>
@@ -129,7 +129,7 @@ namespace Cricut.FishyJoesRuntime {
             );
         }
 
-        [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_get_AttributedString_EndIndex(UnownedRef self, out CreatedRef exn);
 
         /// <summary>
@@ -145,7 +145,7 @@ namespace Cricut.FishyJoesRuntime {
             return Check((out CreatedRef _exn) => __cs_AttributedString_substringForRange(_thisHandle.ptr, _rangeHandle.ptr, out _exn)).Consume<Cricut.FishyJoesRuntime.AttributedSubstring>();
         }
 
-        [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_AttributedString_substringForRange(
             UnownedRef self,
             UnownedRef range,
@@ -165,7 +165,7 @@ namespace Cricut.FishyJoesRuntime {
             Check((out CreatedRef _exn) => __cs_AttributedString_append(_thisHandle.ptr, _attributedStringHandle.ptr, out _exn));
         }
 
-        [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern void __cs_AttributedString_append(
             UnownedRef self,
             UnownedRef attributedString,
@@ -185,7 +185,7 @@ namespace Cricut.FishyJoesRuntime {
             Check((out CreatedRef _exn) => __cs_AttributedString_appendSubstring(_thisHandle.ptr, _substringHandle.ptr, out _exn));
         }
 
-        [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern void __cs_AttributedString_appendSubstring(
             UnownedRef self,
             UnownedRef substring,
@@ -212,7 +212,7 @@ namespace Cricut.FishyJoesRuntime {
             Check((out CreatedRef _exn) => __cs_AttributedString_insert(_thisHandle.ptr, _attributedStringHandle.ptr, _indexHandle.ptr, out _exn));
         }
 
-        [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern void __cs_AttributedString_insert(
             UnownedRef self,
             UnownedRef attributedString,
@@ -240,7 +240,7 @@ namespace Cricut.FishyJoesRuntime {
             Check((out CreatedRef _exn) => __cs_AttributedString_insertSubstring(_thisHandle.ptr, _substringHandle.ptr, _indexHandle.ptr, out _exn));
         }
 
-        [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern void __cs_AttributedString_insertSubstring(
             UnownedRef self,
             UnownedRef substring,
@@ -264,7 +264,7 @@ namespace Cricut.FishyJoesRuntime {
             Check((out CreatedRef _exn) => __cs_AttributedString_replaceSubrange(_thisHandle.ptr, _rangeHandle.ptr, _attributedStringHandle.ptr, out _exn));
         }
 
-        [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern void __cs_AttributedString_replaceSubrange(
             UnownedRef self,
             UnownedRef range,
@@ -288,7 +288,7 @@ namespace Cricut.FishyJoesRuntime {
             Check((out CreatedRef _exn) => __cs_AttributedString_replaceSubrangeWithSubstring(_thisHandle.ptr, _rangeHandle.ptr, _substringHandle.ptr, out _exn));
         }
 
-        [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern void __cs_AttributedString_replaceSubrangeWithSubstring(
             UnownedRef self,
             UnownedRef range,
@@ -309,7 +309,7 @@ namespace Cricut.FishyJoesRuntime {
             Check((out CreatedRef _exn) => __cs_AttributedString_removeSubrange(_thisHandle.ptr, _rangeHandle.ptr, out _exn));
         }
 
-        [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern void __cs_AttributedString_removeSubrange(
             UnownedRef self,
             UnownedRef range,
@@ -329,7 +329,7 @@ namespace Cricut.FishyJoesRuntime {
             Check((out CreatedRef _exn) => __cs_AttributedString_setAttributes(_thisHandle.ptr, _attributesHandle.ptr, out _exn));
         }
 
-        [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern void __cs_AttributedString_setAttributes(
             UnownedRef self,
             UnownedRef attributes,
@@ -352,7 +352,7 @@ namespace Cricut.FishyJoesRuntime {
             Check((out CreatedRef _exn) => __cs_AttributedString_setAttributesForRange(_thisHandle.ptr, _rangeHandle.ptr, _attributesHandle.ptr, out _exn));
         }
 
-        [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern void __cs_AttributedString_setAttributesForRange(
             UnownedRef self,
             UnownedRef range,
@@ -379,7 +379,7 @@ namespace Cricut.FishyJoesRuntime {
             Check((out CreatedRef _exn) => __cs_AttributedString_mergeAttributes(_thisHandle.ptr, _attributesHandle.ptr, keepCurrent, out _exn));
         }
 
-        [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern void __cs_AttributedString_mergeAttributes(
             UnownedRef self,
             UnownedRef attributes,
@@ -409,7 +409,7 @@ namespace Cricut.FishyJoesRuntime {
             Check((out CreatedRef _exn) => __cs_AttributedString_mergeAttributesForRange(_thisHandle.ptr, _rangeHandle.ptr, _attributesHandle.ptr, keepCurrent, out _exn));
         }
 
-        [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern void __cs_AttributedString_mergeAttributesForRange(
             UnownedRef self,
             UnownedRef range,
@@ -434,7 +434,7 @@ namespace Cricut.FishyJoesRuntime {
             Check((out CreatedRef _exn) => __cs_AttributedString_replaceAttributes(_thisHandle.ptr, _attributesHandle.ptr, _othersHandle.ptr, out _exn));
         }
 
-        [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern void __cs_AttributedString_replaceAttributes(
             UnownedRef self,
             UnownedRef attributes,
@@ -461,12 +461,39 @@ namespace Cricut.FishyJoesRuntime {
             Check((out CreatedRef _exn) => __cs_AttributedString_replaceAttributesForRange(_thisHandle.ptr, _rangeHandle.ptr, _attributesHandle.ptr, _othersHandle.ptr, out _exn));
         }
 
-        [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern void __cs_AttributedString_replaceAttributesForRange(
             UnownedRef self,
             UnownedRef range,
             UnownedRef attributes,
             UnownedRef others,
+            out CreatedRef exn
+        );
+
+        public override bool Equals(
+            object? other
+        ) {
+            using var thisHandle = new GCRef(this);
+            using var otherHandle = new GCRef(other as Cricut.FishyJoesRuntime.AttributedString);
+            return Check((out CreatedRef exn) => __cs_AttributedString_equals(thisHandle.ptr, otherHandle.ptr, out exn));
+        }
+
+        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern bool __cs_AttributedString_equals(
+            UnownedRef lhs,
+            UnownedRef rhs,
+            out CreatedRef exn
+        );
+
+        public override int GetHashCode(
+        ) {
+            using var _thisHandle = new GCRef(this);
+            return Check((out CreatedRef _exn) => __cs_AttributedString_hash(_thisHandle.ptr, out _exn));
+        }
+
+        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern int __cs_AttributedString_hash(
+            UnownedRef self,
             out CreatedRef exn
         );
 
@@ -479,7 +506,7 @@ namespace Cricut.FishyJoesRuntime {
             return Check((out CreatedRef _exn) => __cs_AttributedString_createEmpty(out _exn)).Consume<Cricut.FishyJoesRuntime.AttributedString>();
         }
 
-        [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_AttributedString_createEmpty(
             out CreatedRef exn
         );
@@ -499,7 +526,7 @@ namespace Cricut.FishyJoesRuntime {
             return Check((out CreatedRef _exn) => __cs_AttributedString_create(_stringHandle.ptr, _attributesHandle.ptr, out _exn)).Consume<Cricut.FishyJoesRuntime.AttributedString>();
         }
 
-        [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_AttributedString_create(
             UnownedRef _string,
             UnownedRef attributes,
@@ -518,38 +545,83 @@ namespace Cricut.FishyJoesRuntime {
             return Check((out CreatedRef _exn) => __cs_AttributedString_createFromSubstring(_substringHandle.ptr, out _exn)).Consume<Cricut.FishyJoesRuntime.AttributedString>();
         }
 
-        [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_AttributedString_createFromSubstring(
             UnownedRef substring,
             out CreatedRef exn
         );
 
-        public override bool Equals(
-            object? other
-        ) {
-            using var thisHandle = new GCRef(this);
-            using var otherHandle = new GCRef(other as Cricut.FishyJoesRuntime.AttributedString);
-            return Check((out CreatedRef exn) => __cs_AttributedString_equals(thisHandle.ptr, otherHandle.ptr, out exn));
+        #region Conveniences
+
+        /// <summary>
+        /// Synonym for `AttributedString.CreateEmpty()`.
+        /// </summary>
+        public AttributedString(): base(new ConsumedRef(IntPtr.Zero)) { 
+            var temp = AttributedString.CreateEmpty();
+            reference = temp.reference;
+            temp.reference = IntPtr.Zero;
         }
 
-        [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern bool __cs_AttributedString_equals(
-            UnownedRef lhs,
-            UnownedRef rhs,
-            out CreatedRef exn
-        );
-
-        public override int GetHashCode(
-        ) {
-            using var _thisHandle = new GCRef(this);
-            return Check((out CreatedRef _exn) => __cs_AttributedString_hash(_thisHandle.ptr, out _exn));
+        /// <summary>
+        /// Synonym for `AttributedString.Create()`.
+        /// </summary>
+        public AttributedString(string _string, AttributeContainer? attributes = null): base(new ConsumedRef(IntPtr.Zero)) { 
+            var temp = AttributedString.Create(_string, attributes);
+            reference = temp.reference;
+            temp.reference = IntPtr.Zero;
         }
 
-        [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern int __cs_AttributedString_hash(
-            UnownedRef self,
-            out CreatedRef exn
-        );
+        /// <summary>
+        /// Synonym for `AttributedString.CreateFromSubstring()`.
+        /// </summary>
+        public AttributedString(AttributedSubstring substring): base(new ConsumedRef(IntPtr.Zero)) { 
+            var temp = AttributedString.CreateFromSubstring(substring);
+            reference = temp.reference;
+            temp.reference = IntPtr.Zero;
+        }
+
+        public static explicit operator AttributedString(AttributedSubstring substring) => AttributedString.CreateFromSubstring(substring);
+        public static explicit operator AttributedSubstring(AttributedString attributedString) => attributedString.GetSubstring();
+
+        public static explicit operator string(AttributedString attributedString) => attributedString.GetString();
+        public static explicit operator AttributedString(string _string) => AttributedString.Create(_string);
+
+        public static AttributedString operator +(AttributedString a, AttributedString b) {
+            var s = new AttributedString();
+            s.Append(a);
+            s.Append(b);
+            return s;
+        }
+
+        public static AttributedString operator +(AttributedString a, AttributedSubstring b) {
+            var s = new AttributedString();
+            s.Append(a);
+            s.AppendSubstring(b);
+            return s;
+        }
+
+        public static AttributedString operator +(AttributedSubstring a, AttributedString b) {
+            var s = new AttributedString();
+            s.AppendSubstring(a);
+            s.Append(b);
+            return s;
+        }
+
+        public static AttributedString operator +(string a, AttributedString b) {
+            var s = new AttributedString();
+            s.Append(new AttributedString(a));
+            s.Append(b);
+            return s;
+        }
+
+        public static AttributedString operator +(AttributedString a, string b) {
+            var s = new AttributedString();
+            s.Append(a);
+            s.Append(new AttributedString(b));
+            return s;
+        }
+
+        #endregion
 
         /// <summary>
         /// An iterable view into segments of the attributed string or substring, each of which indicates where a run of identical attributes begins or ends.
@@ -569,7 +641,7 @@ namespace Cricut.FishyJoesRuntime {
                 );
             }
 
-            [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern CreatedRef __cs_get_AttributedString_Runs_StartIndex(UnownedRef self, out CreatedRef exn);
 
             /// <summary>
@@ -583,7 +655,7 @@ namespace Cricut.FishyJoesRuntime {
                 );
             }
 
-            [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern CreatedRef __cs_get_AttributedString_Runs_EndIndex(UnownedRef self, out CreatedRef exn);
 
             /// <summary>
@@ -604,7 +676,7 @@ namespace Cricut.FishyJoesRuntime {
                 return Check((out CreatedRef _exn) => __cs_AttributedString_Runs_indexBefore(_thisHandle.ptr, _indexHandle.ptr, out _exn)).Consume<Cricut.FishyJoesRuntime.AttributedString.Runs.Index>();
             }
 
-            [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern CreatedRef __cs_AttributedString_Runs_indexBefore(
                 UnownedRef self,
                 UnownedRef index,
@@ -629,7 +701,7 @@ namespace Cricut.FishyJoesRuntime {
                 return Check((out CreatedRef _exn) => __cs_AttributedString_Runs_indexAfter(_thisHandle.ptr, _indexHandle.ptr, out _exn)).Consume<Cricut.FishyJoesRuntime.AttributedString.Runs.Index>();
             }
 
-            [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern CreatedRef __cs_AttributedString_Runs_indexAfter(
                 UnownedRef self,
                 UnownedRef index,
@@ -654,7 +726,7 @@ namespace Cricut.FishyJoesRuntime {
                 return Check((out CreatedRef _exn) => __cs_AttributedString_Runs_elementAt(_thisHandle.ptr, _indexHandle.ptr, out _exn)).Consume<Cricut.FishyJoesRuntime.AttributedString.Runs.Run>();
             }
 
-            [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern CreatedRef __cs_AttributedString_Runs_elementAt(
                 UnownedRef self,
                 UnownedRef index,
@@ -682,7 +754,7 @@ namespace Cricut.FishyJoesRuntime {
                 return Check((out CreatedRef _exn) => __cs_AttributedString_Runs_elementAtPosition(_thisHandle.ptr, _indexHandle.ptr, out _exn)).Consume<Cricut.FishyJoesRuntime.AttributedString.Runs.Run>();
             }
 
-            [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern CreatedRef __cs_AttributedString_Runs_elementAtPosition(
                 UnownedRef self,
                 UnownedRef index,
@@ -697,7 +769,7 @@ namespace Cricut.FishyJoesRuntime {
                 return Check((out CreatedRef exn) => __cs_AttributedString_Runs_equals(thisHandle.ptr, otherHandle.ptr, out exn));
             }
 
-            [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern bool __cs_AttributedString_Runs_equals(
                 UnownedRef lhs,
                 UnownedRef rhs,
@@ -710,7 +782,7 @@ namespace Cricut.FishyJoesRuntime {
                 return Check((out CreatedRef _exn) => __cs_AttributedString_Runs_hash(_thisHandle.ptr, out _exn));
             }
 
-            [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern int __cs_AttributedString_Runs_hash(
                 UnownedRef self,
                 out CreatedRef exn
@@ -734,7 +806,7 @@ namespace Cricut.FishyJoesRuntime {
                     );
                 }
 
-                [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+                [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
                 private static extern CreatedRef __cs_get_AttributedString_Runs_Run_Range(UnownedRef self, out CreatedRef exn);
 
                 /// <summary>
@@ -748,7 +820,7 @@ namespace Cricut.FishyJoesRuntime {
                     );
                 }
 
-                [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+                [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
                 private static extern CreatedRef __cs_get_AttributedString_Runs_Run_Attributes(UnownedRef self, out CreatedRef exn);
 
                 public override bool Equals(
@@ -759,7 +831,7 @@ namespace Cricut.FishyJoesRuntime {
                     return Check((out CreatedRef exn) => __cs_AttributedString_Runs_Run_equals(thisHandle.ptr, otherHandle.ptr, out exn));
                 }
 
-                [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+                [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
                 private static extern bool __cs_AttributedString_Runs_Run_equals(
                     UnownedRef lhs,
                     UnownedRef rhs,
@@ -772,7 +844,7 @@ namespace Cricut.FishyJoesRuntime {
                     return Check((out CreatedRef _exn) => __cs_AttributedString_Runs_Run_hash(_thisHandle.ptr, out _exn));
                 }
 
-                [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+                [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
                 private static extern int __cs_AttributedString_Runs_Run_hash(
                     UnownedRef self,
                     out CreatedRef exn
@@ -796,7 +868,7 @@ namespace Cricut.FishyJoesRuntime {
                     return Check((out CreatedRef exn) => __cs_AttributedString_Runs_Index_equals(thisHandle.ptr, otherHandle.ptr, out exn));
                 }
 
-                [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+                [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
                 private static extern bool __cs_AttributedString_Runs_Index_equals(
                     UnownedRef lhs,
                     UnownedRef rhs,
@@ -809,7 +881,7 @@ namespace Cricut.FishyJoesRuntime {
                     return Check((out CreatedRef _exn) => __cs_AttributedString_Runs_Index_hash(_thisHandle.ptr, out _exn));
                 }
 
-                [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+                [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
                 private static extern int __cs_AttributedString_Runs_Index_hash(
                     UnownedRef self,
                     out CreatedRef exn
@@ -823,7 +895,7 @@ namespace Cricut.FishyJoesRuntime {
                     return Check((out CreatedRef _exn) => __cs_AttributedString_Runs_Index_compare(_thisHandle.ptr, otherHandle.ptr, out _exn));
                 }
                 
-                [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+                [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
                 private static extern int __cs_AttributedString_Runs_Index_compare(
                     UnownedRef lhs,
                     UnownedRef rhs,
@@ -850,7 +922,7 @@ namespace Cricut.FishyJoesRuntime {
                 return Check((out CreatedRef exn) => __cs_AttributedString_Index_equals(thisHandle.ptr, otherHandle.ptr, out exn));
             }
 
-            [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern bool __cs_AttributedString_Index_equals(
                 UnownedRef lhs,
                 UnownedRef rhs,
@@ -863,7 +935,7 @@ namespace Cricut.FishyJoesRuntime {
                 return Check((out CreatedRef _exn) => __cs_AttributedString_Index_hash(_thisHandle.ptr, out _exn));
             }
 
-            [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern int __cs_AttributedString_Index_hash(
                 UnownedRef self,
                 out CreatedRef exn
@@ -877,7 +949,7 @@ namespace Cricut.FishyJoesRuntime {
                 return Check((out CreatedRef _exn) => __cs_AttributedString_Index_compare(_thisHandle.ptr, otherHandle.ptr, out _exn));
             }
             
-            [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern int __cs_AttributedString_Index_compare(
                 UnownedRef lhs,
                 UnownedRef rhs,
@@ -905,7 +977,7 @@ namespace Cricut.FishyJoesRuntime {
                 );
             }
 
-            [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern CreatedRef __cs_get_AttributedString_CharacterView_StartIndex(UnownedRef self, out CreatedRef exn);
 
             /// <summary>
@@ -919,7 +991,7 @@ namespace Cricut.FishyJoesRuntime {
                 );
             }
 
-            [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern CreatedRef __cs_get_AttributedString_CharacterView_EndIndex(UnownedRef self, out CreatedRef exn);
 
             /// <summary>
@@ -940,7 +1012,7 @@ namespace Cricut.FishyJoesRuntime {
                 return Check((out CreatedRef _exn) => __cs_AttributedString_CharacterView_indexBefore(_thisHandle.ptr, _indexHandle.ptr, out _exn)).Consume<Cricut.FishyJoesRuntime.AttributedString.Index>();
             }
 
-            [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern CreatedRef __cs_AttributedString_CharacterView_indexBefore(
                 UnownedRef self,
                 UnownedRef index,
@@ -965,7 +1037,7 @@ namespace Cricut.FishyJoesRuntime {
                 return Check((out CreatedRef _exn) => __cs_AttributedString_CharacterView_indexAfter(_thisHandle.ptr, _indexHandle.ptr, out _exn)).Consume<Cricut.FishyJoesRuntime.AttributedString.Index>();
             }
 
-            [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern CreatedRef __cs_AttributedString_CharacterView_indexAfter(
                 UnownedRef self,
                 UnownedRef index,
@@ -990,7 +1062,7 @@ namespace Cricut.FishyJoesRuntime {
                 return Check((out CreatedRef _exn) => __cs_AttributedString_CharacterView_elementAt(_thisHandle.ptr, _indexHandle.ptr, out _exn)).Consume<string>();
             }
 
-            [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern CreatedRef __cs_AttributedString_CharacterView_elementAt(
                 UnownedRef self,
                 UnownedRef index,
@@ -1018,7 +1090,7 @@ namespace Cricut.FishyJoesRuntime {
                 );
             }
 
-            [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern CreatedRef __cs_get_AttributedString_UnicodeScalarView_StartIndex(UnownedRef self, out CreatedRef exn);
 
             /// <summary>
@@ -1032,7 +1104,7 @@ namespace Cricut.FishyJoesRuntime {
                 );
             }
 
-            [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern CreatedRef __cs_get_AttributedString_UnicodeScalarView_EndIndex(UnownedRef self, out CreatedRef exn);
 
             /// <summary>
@@ -1053,7 +1125,7 @@ namespace Cricut.FishyJoesRuntime {
                 return Check((out CreatedRef _exn) => __cs_AttributedString_UnicodeScalarView_indexBefore(_thisHandle.ptr, _indexHandle.ptr, out _exn)).Consume<Cricut.FishyJoesRuntime.AttributedString.Index>();
             }
 
-            [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern CreatedRef __cs_AttributedString_UnicodeScalarView_indexBefore(
                 UnownedRef self,
                 UnownedRef index,
@@ -1078,7 +1150,7 @@ namespace Cricut.FishyJoesRuntime {
                 return Check((out CreatedRef _exn) => __cs_AttributedString_UnicodeScalarView_indexAfter(_thisHandle.ptr, _indexHandle.ptr, out _exn)).Consume<Cricut.FishyJoesRuntime.AttributedString.Index>();
             }
 
-            [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern CreatedRef __cs_AttributedString_UnicodeScalarView_indexAfter(
                 UnownedRef self,
                 UnownedRef index,
@@ -1103,7 +1175,7 @@ namespace Cricut.FishyJoesRuntime {
                 return Check((out CreatedRef _exn) => __cs_AttributedString_UnicodeScalarView_elementAt(_thisHandle.ptr, _indexHandle.ptr, out _exn));
             }
 
-            [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern uint __cs_AttributedString_UnicodeScalarView_elementAt(
                 UnownedRef self,
                 UnownedRef index,

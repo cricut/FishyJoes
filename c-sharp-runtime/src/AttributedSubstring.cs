@@ -32,7 +32,7 @@ namespace Cricut.FishyJoesRuntime {
             );
         }
 
-        [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_get_AttributedSubstring_Base(UnownedRef self, out CreatedRef exn);
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace Cricut.FishyJoesRuntime {
             );
         }
 
-        [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_get_AttributedSubstring_String(UnownedRef self, out CreatedRef exn);
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace Cricut.FishyJoesRuntime {
             );
         }
 
-        [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_get_AttributedSubstring_Runs(UnownedRef self, out CreatedRef exn);
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace Cricut.FishyJoesRuntime {
             );
         }
 
-        [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_get_AttributedSubstring_Characters(UnownedRef self, out CreatedRef exn);
 
         /// <summary>
@@ -100,7 +100,7 @@ namespace Cricut.FishyJoesRuntime {
             );
         }
 
-        [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_get_AttributedSubstring_UnicodeScalars(UnownedRef self, out CreatedRef exn);
 
         /// <summary>
@@ -117,7 +117,7 @@ namespace Cricut.FishyJoesRuntime {
             );
         }
 
-        [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_get_AttributedSubstring_StartIndex(UnownedRef self, out CreatedRef exn);
 
         /// <summary>
@@ -134,7 +134,7 @@ namespace Cricut.FishyJoesRuntime {
             );
         }
 
-        [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_get_AttributedSubstring_EndIndex(UnownedRef self, out CreatedRef exn);
 
         /// <summary>
@@ -148,7 +148,7 @@ namespace Cricut.FishyJoesRuntime {
             );
         }
 
-        [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_get_AttributedSubstring_Substring(UnownedRef self, out CreatedRef exn);
 
         /// <summary>
@@ -165,24 +165,10 @@ namespace Cricut.FishyJoesRuntime {
             return Check((out CreatedRef _exn) => __cs_AttributedSubstring_substringForRange(_thisHandle.ptr, _rangeHandle.ptr, out _exn)).Consume<Cricut.FishyJoesRuntime.AttributedSubstring>();
         }
 
-        [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_AttributedSubstring_substringForRange(
             UnownedRef self,
             UnownedRef range,
-            out CreatedRef exn
-        );
-
-        /// <summary>
-        /// Creates an attributed substring with an empty base attributed string.
-        /// </summary>
-        /// <!-- FishyJoes.export(createEmpty) -->
-        public static Cricut.FishyJoesRuntime.AttributedSubstring CreateEmpty(
-        ) {
-            return Check((out CreatedRef _exn) => __cs_AttributedSubstring_createEmpty(out _exn)).Consume<Cricut.FishyJoesRuntime.AttributedSubstring>();
-        }
-
-        [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_AttributedSubstring_createEmpty(
             out CreatedRef exn
         );
 
@@ -194,7 +180,7 @@ namespace Cricut.FishyJoesRuntime {
             return Check((out CreatedRef exn) => __cs_AttributedSubstring_equals(thisHandle.ptr, otherHandle.ptr, out exn));
         }
 
-        [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern bool __cs_AttributedSubstring_equals(
             UnownedRef lhs,
             UnownedRef rhs,
@@ -207,11 +193,62 @@ namespace Cricut.FishyJoesRuntime {
             return Check((out CreatedRef _exn) => __cs_AttributedSubstring_hash(_thisHandle.ptr, out _exn));
         }
 
-        [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern int __cs_AttributedSubstring_hash(
             UnownedRef self,
             out CreatedRef exn
         );
+
+        /// <summary>
+        /// Creates an attributed substring with an empty base attributed string.
+        /// </summary>
+        /// <!-- FishyJoes.export(createEmpty) -->
+        public static Cricut.FishyJoesRuntime.AttributedSubstring CreateEmpty(
+        ) {
+            return Check((out CreatedRef _exn) => __cs_AttributedSubstring_createEmpty(out _exn)).Consume<Cricut.FishyJoesRuntime.AttributedSubstring>();
+        }
+
+        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __cs_AttributedSubstring_createEmpty(
+            out CreatedRef exn
+        );
+        
+        #region Conveniences
+
+        /// <summary>
+        /// Synonym for `AttributedSubstring.CreateEmpty()`.
+        /// </summary>
+        public AttributedSubstring(): base(new ConsumedRef(IntPtr.Zero)) { 
+            var temp = AttributedSubstring.CreateEmpty();
+            reference = temp.reference;
+            temp.reference = IntPtr.Zero;
+        }
+
+        public static explicit operator string(AttributedSubstring substring) => substring.GetString();
+        public static explicit operator AttributedSubstring(string _string) => AttributedString.Create(_string).GetSubstring();
+
+        public static AttributedString operator +(AttributedSubstring a, AttributedSubstring b) {
+            var s = new AttributedString();
+            s.AppendSubstring(a);
+            s.AppendSubstring(b);
+            return s;
+        }
+
+        public static AttributedString operator +(string a, AttributedSubstring b) {
+            var s = new AttributedString();
+            s.Append(new AttributedString(a));
+            s.AppendSubstring(b);
+            return s;
+        }
+
+        public static AttributedString operator +(AttributedSubstring a, string b) {
+            var s = new AttributedString();
+            s.AppendSubstring(a);
+            s.Append(new AttributedString(b));
+            return s;
+        }
+
+        #endregion
 
         static AttributedSubstring() { Loader.ensureLoaded(); }
     }

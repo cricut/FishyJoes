@@ -43,7 +43,7 @@ namespace Cricut.FishyJoesRuntime {
             Check((out CreatedRef _exn) => __cs_AttributeContainer_merge(_thisHandle.ptr, _otherHandle.ptr, keepCurrent, out _exn));
         }
 
-        [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern void __cs_AttributeContainer_merge(
             UnownedRef self,
             UnownedRef other,
@@ -59,7 +59,7 @@ namespace Cricut.FishyJoesRuntime {
             return Check((out CreatedRef exn) => __cs_AttributeContainer_equals(thisHandle.ptr, otherHandle.ptr, out exn));
         }
 
-        [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern bool __cs_AttributeContainer_equals(
             UnownedRef lhs,
             UnownedRef rhs,
@@ -72,7 +72,7 @@ namespace Cricut.FishyJoesRuntime {
             return Check((out CreatedRef _exn) => __cs_AttributeContainer_hash(_thisHandle.ptr, out _exn));
         }
 
-        [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern int __cs_AttributeContainer_hash(
             UnownedRef self,
             out CreatedRef exn
@@ -87,10 +87,23 @@ namespace Cricut.FishyJoesRuntime {
             return Check((out CreatedRef _exn) => __cs_AttributeContainer_createEmpty(out _exn)).Consume<Cricut.FishyJoesRuntime.AttributeContainer>();
         }
 
-        [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_AttributeContainer_createEmpty(
             out CreatedRef exn
         );
+
+        #region Conveniences
+
+        /// <summary>
+        /// Synonym for `AttributeContainer.CreateEmpty()`.
+        /// </summary>
+        public AttributeContainer(): base(new ConsumedRef(IntPtr.Zero)) { 
+            var empty = AttributeContainer.CreateEmpty();
+            reference = empty.reference;
+            empty.reference = IntPtr.Zero;
+        }
+
+        #endregion
 
         /// <summary>
         /// Attributes defined by the Swift Foundation library in ``AttributeScopes``, packaged as a static type.
@@ -129,10 +142,10 @@ namespace Cricut.FishyJoesRuntime {
                 }
             }
 
-            [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern CreatedRef __cs_get_AttributeContainer_FoundationAttributes_Link(UnownedRef self, out CreatedRef exn);
 
-            [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern void __cs_set_AttributeContainer_FoundationAttributes_Link(UnownedRef self, UnownedRef value, out CreatedRef exn);
 
             /// <summary>
@@ -155,11 +168,50 @@ namespace Cricut.FishyJoesRuntime {
                 }
             }
 
-            [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern CreatedRef __cs_get_AttributeContainer_FoundationAttributes_LanguageIdentifier(UnownedRef self, out CreatedRef exn);
 
-            [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern void __cs_set_AttributeContainer_FoundationAttributes_LanguageIdentifier(UnownedRef self, UnownedRef value, out CreatedRef exn);
+
+            public override bool Equals(
+                object? other
+            ) {
+                using var thisHandle = new GCRef(this);
+                using var otherHandle = new GCRef(other as Cricut.FishyJoesRuntime.AttributeContainer.FoundationAttributes);
+                return Check((out CreatedRef exn) => __cs_AttributeContainer_FoundationAttributes_equals(thisHandle.ptr, otherHandle.ptr, out exn));
+            }
+
+            [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            private static extern bool __cs_AttributeContainer_FoundationAttributes_equals(
+                UnownedRef lhs,
+                UnownedRef rhs,
+                out CreatedRef exn
+            );
+
+            public override int GetHashCode(
+            ) {
+                using var _thisHandle = new GCRef(this);
+                return Check((out CreatedRef _exn) => __cs_AttributeContainer_FoundationAttributes_hash(_thisHandle.ptr, out _exn));
+            }
+
+            [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            private static extern int __cs_AttributeContainer_FoundationAttributes_hash(
+                UnownedRef self,
+                out CreatedRef exn
+            );
+
+            public Cricut.FishyJoesRuntime.AttributeContainer AsContainer(
+            ) {
+                using var _thisHandle = new GCRef(this);
+                return Check((out CreatedRef _exn) => __cs_AttributeContainer_FoundationAttributes_asContainer(_thisHandle.ptr, out _exn));
+            }
+
+            [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            private static extern Cricut.FishyJoesRuntime.AttributeContainer __cs_AttributeContainer_FoundationAttributes_asContainer(
+                UnownedRef self,
+                out CreatedRef exn
+            );
 
             /// <summary>
             /// Creates a Foundation attribute container having no attribute values.
@@ -170,7 +222,7 @@ namespace Cricut.FishyJoesRuntime {
                 return Check((out CreatedRef _exn) => __cs_AttributeContainer_FoundationAttributes_createEmpty(out _exn)).Consume<Cricut.FishyJoesRuntime.AttributeContainer.FoundationAttributes>();
             }
 
-            [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern CreatedRef __cs_AttributeContainer_FoundationAttributes_createEmpty(
                 out CreatedRef exn
             );
@@ -186,38 +238,39 @@ namespace Cricut.FishyJoesRuntime {
                 return Check((out CreatedRef _exn) => __cs_AttributeContainer_FoundationAttributes_createFromContainer(_containerHandle.ptr, out _exn)).Consume<Cricut.FishyJoesRuntime.AttributeContainer.FoundationAttributes>();
             }
 
-            [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern CreatedRef __cs_AttributeContainer_FoundationAttributes_createFromContainer(
                 UnownedRef container,
                 out CreatedRef exn
             );
 
-            public override bool Equals(
-                object? other
-            ) {
-                using var thisHandle = new GCRef(this);
-                using var otherHandle = new GCRef(other as Cricut.FishyJoesRuntime.AttributeContainer.FoundationAttributes);
-                return Check((out CreatedRef exn) => __cs_AttributeContainer_FoundationAttributes_equals(thisHandle.ptr, otherHandle.ptr, out exn));
+            #region Conveniences
+
+            /// <summary>
+            /// Creates attributes with the provided attribute fields populated.
+            /// </summary>
+            public FoundationAttributes(Uri? link = null, string? languageIdentifier = null): base(new ConsumedRef(IntPtr.Zero)) { 
+                var temp = FoundationAttributes.CreateEmpty();
+                reference = temp.reference;
+                temp.reference = IntPtr.Zero;
+
+                this.Link = link;
+                this.LanguageIdentifier = languageIdentifier;
             }
 
-            [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-            private static extern bool __cs_AttributeContainer_FoundationAttributes_equals(
-                UnownedRef lhs,
-                UnownedRef rhs,
-                out CreatedRef exn
-            );
-
-            public override int GetHashCode(
-            ) {
-                using var _thisHandle = new GCRef(this);
-                return Check((out CreatedRef _exn) => __cs_AttributeContainer_FoundationAttributes_hash(_thisHandle.ptr, out _exn));
+            /// <summary>
+            /// Synonym for `FoundationAttributes.CreateFromContainer()`.
+            /// </summary>
+            public FoundationAttributes(AttributeContainer container): base(new ConsumedRef(IntPtr.Zero)) { 
+                var temp = FoundationAttributes.CreateFromContainer(container);
+                reference = temp.reference;
+                temp.reference = IntPtr.Zero;
             }
 
-            [DllImport("FishyJoesRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-            private static extern int __cs_AttributeContainer_FoundationAttributes_hash(
-                UnownedRef self,
-                out CreatedRef exn
-            );
+            public static implicit operator AttributeContainer(FoundationAttributes attributes) => attributes.AsContainer();
+            public static implicit operator FoundationAttributes(AttributeContainer container) => FoundationAttributes.CreateFromContainer(container);
+
+            #endregion
 
             static FoundationAttributes() { Loader.ensureLoaded(); }
         }
