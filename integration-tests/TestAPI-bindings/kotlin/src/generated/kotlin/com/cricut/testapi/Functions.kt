@@ -172,18 +172,11 @@ sealed class Functions {
         suspend fun async42Func(
         ): Long {
             return coroutineScope {
-                println("in coroutineScope")
                 async {
-                    println("in async")
                     suspendCancellableCoroutine { continuation: CancellableContinuation<Long> ->
-                        println("in suspendCancellableCoroutine")
-//                        continuation.resume(42, null)
-                        __jni_async42Func({ value ->
-                            println("forward to continuation")
+                        __jni_async42Func { value ->
                             continuation.resume(value, null)
-                        }) /*{
-                            println(it)
-                        }*/
+                        }
                     }
                 }.await()
             }
@@ -192,8 +185,7 @@ sealed class Functions {
         @JvmStatic
         @JvmName("__jni_async42Func")
         private external fun __jni_async42Func(
-                result: (Long) -> Unit//,
-                //print: (String) -> Unit
+                result: (Long) -> Unit
         )
 
         init { loadNativeLibs() }
