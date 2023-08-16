@@ -7,7 +7,4 @@ namespace TestAPI {
     void Structs::MutableStruct::increment() {
         FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Structs_MutableStruct_increment(FishyJoesInternal::Packer::pack(*this).ptr());
     }
-    void Structs::MutableStruct::incrementAsync() {
-        FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_Structs_MutableStruct_incrementAsync(FishyJoesInternal::Packer::pack(*this).ptr());
-    }
 }

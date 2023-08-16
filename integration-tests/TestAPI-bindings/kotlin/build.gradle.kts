@@ -3,7 +3,7 @@ import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 
 plugins {
     `maven-publish`
-    kotlin("jvm") version "1.6.21"
+    kotlin("jvm") version "1.8.20"
     jacoco
 }
 
@@ -64,7 +64,7 @@ tasks.test {
     useJUnitPlatform()
 
     jvmArgs(
-//        "-Xcheck:jni",
+        "-Xcheck:jni",
         "-XX:+SuppressFatalErrorMessage",
     )
     testLogging {
@@ -95,8 +95,10 @@ tasks {
 }
 
 dependencies {
-    implementation(kotlin("stdlib:1.6.21"))
+    implementation(kotlin("stdlib:1.8.20"))
     api("com.cricut.fishyjoes:runtime:local")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.2")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
 }

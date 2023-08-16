@@ -448,7 +448,6 @@ extension Double: JavaConverter {
 }
 
 // MARK: - Less-Primitive Type Conversions
-
 extension String: JavaConverter {
     public typealias CType = jstring?
 

@@ -1,4 +1,5 @@
 import FishyJoesCommonRuntime
+import Foundation
 import JNI
 
 public struct Env {
@@ -11,7 +12,9 @@ public struct Env {
     }
 
     public func globalRef(_ local: jobject?) throws -> jobject {
-        defer { DeleteLocalRef(local) }
+        defer {
+            DeleteLocalRef(local)
+        }
         return try javaNonNull(NewGlobalRef(local))
     }
 
@@ -48,6 +51,75 @@ public struct Env {
         #else
         try javaOk(RegisterNatives(clazz, methods: methods))
         #endif
+    }
+}
+
+extension Env {
+    static let jvmAttachCountKey = "fishyjoes_JVMAttachCount"
+
+    /// Calls the given body while ensuring that the body closure is attached to the JVM.
+    ///
+    /// - Important: When a suspending function is called part of the state that must be protected by calling ``Env.relenquishJVMThread(on:)`` immediately before and ``Env.aquireJVMThread(on:)`` immediately after.
+    ///
+    /// - Important: body **must** be in a balanced aquire/relenquish state before it throws.
+    public func swiftTask(_ body: @escaping @Sendable (Env, UnsafeMutablePointer<JavaVM?>) async throws -> Void) throws {
+        guard let jvm = try GetJavaVM() else {
+            fatalError("Unable to get JVM")
+        }
+        Task.detached {
+            let javaEnv = try Env.aquireJVMThread(on: jvm)
+            defer {
+                try? Env.relenquishJVMThread(on: jvm)
+            }
+
+            do {
+                try await body(javaEnv, jvm)
+            } catch {
+                // TODO: Throw into java env
+            }
+        }
+    }
+
+    public static func aquireJVMThread(on jvm: UnsafeMutablePointer<JavaVM?>?) throws -> Env {
+        var rawJavaEnvPointer: UnsafeMutableRawPointer?
+        guard let jvmInvoke = jvm?.pointee?.pointee else {
+            throw JNIError(message: "Invalid JVM pointer")
+        }
+        // This is the only way to determine if the current thread is already attached.
+        let getEnvStatus = jvmInvoke.GetEnv(jvm, &rawJavaEnvPointer, JNI_VERSION_1_4)
+        switch getEnvStatus {
+        case JNI_OK:
+            let jvmAttachCount = Thread.current.threadDictionary.value(forKey: Env.jvmAttachCountKey) as? Int ?? 1
+            Thread.current.threadDictionary.setValue(jvmAttachCount + 1, forKey: Env.jvmAttachCountKey)
+            return rawJavaEnvPointer
+                .map(OpaquePointer.init)
+                .map(UnsafeMutablePointer.init)
+                .map(Env.init(env:))!
+        case JNI_EDETACHED:
+            Thread.current.threadDictionary.setValue(1, forKey: Env.jvmAttachCountKey)
+            var javaEnv: UnsafeMutablePointer<JNIEnv?>?
+            let attachStatus = jvmInvoke.AttachCurrentThread(jvm, &javaEnv, nil)
+            guard attachStatus == JNI_OK else {
+                throw JNIError(message: "Failed to attach thread to JVM: \(attachStatus)")
+            }
+            return javaEnv.map(Env.init(env:))!
+        default:
+            throw JNIError(message: "JavaVM GetEnv failed with error: \(getEnvStatus)")
+        }
+    }
+
+    public static func relenquishJVMThread(on jvm: UnsafeMutablePointer<JavaVM?>?) throws {
+        guard let jvmInvoke = jvm?.pointee?.pointee,
+              let jvmAttachCount = Thread.current.threadDictionary.value(forKey: Env.jvmAttachCountKey) as? Int else {
+            return
+        }
+        if jvmAttachCount == 1 {
+            let detachStatus = jvmInvoke.DetachCurrentThread(jvm)
+            guard detachStatus == JNI_OK else {
+                throw JNIError(message: "Failed to detach current thread from JVM \(detachStatus)")
+            }
+        }
+        Thread.current.threadDictionary.setValue(jvmAttachCount - 1, forKey: Env.jvmAttachCountKey)
     }
 }
 
@@ -121,6 +193,7 @@ extension Env {
         fns.DeleteGlobalRef(env, gref)
     }
     public func DeleteLocalRef(_ obj: jobject?) {
+//        print(Thread.callStackSymbols.joined(separator: "\n"))
         fns.DeleteLocalRef(env, obj)
     }
     public func IsSameObject(_ obj1: jobject?, _ obj2: jobject?) -> Bool {

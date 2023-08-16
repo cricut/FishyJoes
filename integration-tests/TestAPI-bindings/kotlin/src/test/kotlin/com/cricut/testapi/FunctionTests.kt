@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import kotlin.math.abs
+import kotlinx.coroutines.*
 
 internal class FunctionTests {
     @Test
@@ -56,9 +57,17 @@ internal class FunctionTests {
     }
 
     @Test
-    fun testAsync42Func() {
-        Functions.async42Func { v ->
-            assertEquals(42, v)
+    fun testAsyncFunctionCall() {
+        kotlinx.coroutines.runBlocking {
+            val value: Long = Functions.async42Func()
+            assertEquals(42, value)
         }
     }
+
+    /*
+    @Test
+    fun testAsyncYieldingFunctionCall() {
+        Functions.asyncYieldFunc()
+    }
+    */
 }

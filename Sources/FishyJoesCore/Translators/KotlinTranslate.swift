@@ -30,24 +30,13 @@ final class KotlinTranslator: Translator {
             selfExpression = context.module.name
         }
 
-        var asyncCallback: TranslatedType?
-
         let formals = [
             (name: "_javaEnv", type: "UnsafeMutablePointer<JNIEnv?>"),
             (name: "_javaThis", type: "jobject"),
         ] + method.parameters.map { parameter in
             let resolved = context.resolve(type: parameter.type, generics: exportAnnotation.genericOverrides)
             return (name: parameter.name, type: resolved.converterType.name + ".CType")
-        } + {
-            if method.isAsync {
-                asyncCallback = context.resolve(type: BetterType.function([method.returnType], .void, isAsync: false), generics: exportAnnotation.genericOverrides)
-                return [
-                    (name: "_asyncCallback", type: "ASYNC_NOT_YET_SUPPORTED_FOR_KOLIN_" + asyncCallback!.converterType.name + ".CType")
-                ]
-            } else {
-                return []
-            }
-        }()
+        }
         let fragment = context.swiftFragment(
             "JavaInterface/\(containingNamespace)+javadecl.swift",
             additionalImports: ["Foundation", "FishyJoesJavaRuntime"]
@@ -97,10 +86,7 @@ final class KotlinTranslator: Translator {
                     }
 
                     mutateBlock {
-                        fragment.outputBlock("\(method.isAsync ? "let _asyncReturnValue =" : "return") try \(returnType.converterType.name).toJava(") {
-                            if method.isAsync {
-                                fragment.output("await ", newLineTerminated: false)
-                            }
+                        fragment.outputBlock("return try \(returnType.converterType.name).toJava(") {
                             fragment.outputBlock("\(selfExpression)\(callName)(", closeWith: "),") {
                                 fragment.outputMap(method.parameters, separator: ",") { formal in
                                     let resolved = context.resolve(type: formal.type, generics: exportAnnotation.genericOverrides)
@@ -109,10 +95,6 @@ final class KotlinTranslator: Translator {
                                 }
                             }
                             fragment.output("env: _javaEnv")
-                        }
-
-                        if let asyncCallback = asyncCallback {
-                            fragment.output("try \(asyncCallback.converterType.name).fromJava(_asyncCallback, env: _javaEnv)(_asyncReturnValue)")
                         }
                     }
                 }
@@ -313,11 +295,6 @@ final class KotlinTranslator: Translator {
                 }
             }
             parameters.append((label, parameter.name, resolved.kotlinType, defaultValue))
-        }
-
-        if method.isAsync {
-            let asyncCallback = context.resolve(type: .function([method.returnType], .void, isAsync: false), generics: exportAnnotation.genericOverrides)
-            parameters.append((labelComment: nil, name: "_asyncCallback", asyncCallback.kotlinType, nil))
         }
 
         return .method(
