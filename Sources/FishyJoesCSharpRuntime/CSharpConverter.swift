@@ -543,7 +543,7 @@ extension URL: CSharpConverter {
     fileprivate static var constructor: URL.Constructor?
 
     public static func peekCSharp(_ value: csObject) throws -> SwiftType {
-        let urlString = try Env.check { exn in try String.peekCSharp(Env.unwrap(absoluteURIMethod)(value, exn)) }
+        let urlString = try Env.check { exn in try String.consumeCSharp(Env.unwrap(absoluteURIMethod)(value, exn)) }
         guard let url = URL(string: urlString) else { throw MalformedURLError(message: "Not a valid URL: \(urlString)") }
         return url
     }

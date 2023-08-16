@@ -11,14 +11,14 @@ namespace Cricut.TestAPI.Tests {
             var pt = new AttributeContainer.FoundationAttributes(languageIdentifier: "pt");
             var ja = new AttributeContainer.FoundationAttributes(languageIdentifier: "ja");
             var zh = new AttributeContainer.FoundationAttributes(languageIdentifier: "zh");
-            // var ea = new AttributeContainer.FoundationAttributes(link: new Uri("https://home.unicode.org/emoji"));
-            // var ef = new AttributeContainer.FoundationAttributes(link: new Uri("https://home.unicode.org/emoji/emoji-frequency"));
+            var ea = new AttributeContainer.FoundationAttributes(link: new Uri("https://home.unicode.org/emoji"));
+            var ef = new AttributeContainer.FoundationAttributes(link: new Uri("https://home.unicode.org/emoji/emoji-frequency"));
 
-            // Assert.Equal(en.LanguageIdentifier, "en");
-            // Assert.Null(en.Link);
+            Assert.Equal("en", en.LanguageIdentifier);
+            Assert.Null(en.Link);
 
-            // Assert.Null(ea.LanguageIdentifier);
-            // Assert.Equal(ea.Link, new Uri("https://home.unicode.org/emoji"));
+            Assert.Null(ea.LanguageIdentifier);
+            Assert.Equal(ea.Link, new Uri("https://home.unicode.org/emoji"));
 
             Assert.Equal(AttributedStrings.Simple, new AttributedString("Hello", en));
             Assert.Equal(AttributedStrings.Accent, new AttributedString("Olá", pt));
@@ -26,8 +26,8 @@ namespace Cricut.TestAPI.Tests {
             Assert.Equal(AttributedStrings.Chinese, new AttributedString("你好", zh));
             Assert.Equal(AttributedStrings.ChineseBMP, new AttributedString("豈更車賈滑", zh));
             Assert.Equal(AttributedStrings.ChineseSIP, new AttributedString("\uD840\uDC01\uD840\uDC02\uD840\uDC03\uD840\uDC04", zh));
-            // Assert.Equal(AttributedStrings.Emoji, new AttributedString("🤯🐶🍓", ea));
-            // Assert.Equal(AttributedStrings.EmojiMulti, new AttributedString("👨‍👩‍👧‍👦👍🏿🇺🇸", ef));
+            Assert.Equal(AttributedStrings.Emoji, new AttributedString("🤯🐶🍓", ea));
+            Assert.Equal(AttributedStrings.EmojiMulti, new AttributedString("👨‍👩‍👧‍👦👍🏿🇺🇸", ef));
             Assert.Equal(AttributedStrings.Polyglot, AttributedStrings.Simple + " " + AttributedStrings.Accent + " " + AttributedStrings.Script);
 
             Assert.Equal(AttributedStrings.Simple, AttributedStrings.Simple);
