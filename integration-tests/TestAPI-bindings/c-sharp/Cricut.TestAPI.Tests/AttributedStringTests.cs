@@ -71,37 +71,37 @@ namespace Cricut.TestAPI.Tests {
                 }
             );
 
-            // var characterStrings = emptyList<String>()
-            // var characterIndex = attributedString.characters.startIndex
-            // while (characterIndex != attributedString.characters.endIndex) {
-            //     val characterString = attributedString.characters.elementAt(characterIndex)
-            //     characterStrings += characterString
-            //     characterIndex = attributedString.characters.indexAfter(characterIndex)
-            // }
-            // assertEquals(characterStrings,
-            //     listOf(
-            //         "H", "e", "l", "l", "o", " ",
-            //         "O", "l", "á", " ",
-            //         "こ", "ん", "に", "ち", "は", " ",
-            //         "👨‍👩‍👧‍👦", "👍🏿", "🇺🇸"
-            //     )
-            // )
+            var characterStrings = new List<string>();
+            var characterIndex = attributedString.GetCharacters().GetStartIndex();
+            while (characterIndex != attributedString.GetCharacters().GetEndIndex()) {
+                var characterString = attributedString.GetCharacters().ElementAt(characterIndex);
+                characterStrings.Add(characterString);
+                characterIndex = attributedString.GetCharacters().IndexAfter(characterIndex);
+            }
+            Assert.Equal(characterStrings, new string[]
+                {
+                    "H", "e", "l", "l", "o", " ",
+                    "O", "l", "á", " ",
+                    "こ", "ん", "に", "ち", "は", " ",
+                    "👨‍👩‍👧‍👦", "👍🏿", "🇺🇸"
+                }
+            );
 
-            // var unicodeScalars = emptyList<UInt>()
-            // var scalarIndex = attributedString.unicodeScalars.startIndex
-            // while (scalarIndex != attributedString.unicodeScalars.endIndex) {
-            //     val characterScalar = attributedString.unicodeScalars.elementAt(scalarIndex)
-            //     unicodeScalars += characterScalar
-            //     scalarIndex = attributedString.unicodeScalars.indexAfter(scalarIndex)
-            // }
-            // assertEquals(unicodeScalars.map { it.toInt() },
-            //     listOf(
-            //         72, 101, 108, 108, 111, 32,
-            //         79, 108, 225, 32,
-            //         12371, 12435, 12395, 12385, 12399, 32,
-            //         128104, 8205, 128105, 8205, 128103, 8205, 128102, 128077, 127999, 127482, 127480
-            //     )
-            // )
+            var unicodeScalars = new List<uint>();
+            var scalarIndex = attributedString.GetUnicodeScalars().GetStartIndex();
+            while (scalarIndex != attributedString.GetUnicodeScalars().GetEndIndex()) {
+                var characterScalar = attributedString.GetUnicodeScalars().ElementAt(scalarIndex);
+                unicodeScalars.Add(characterScalar);
+                scalarIndex = attributedString.GetUnicodeScalars().IndexAfter(scalarIndex);
+            }
+            Assert.Equal(unicodeScalars, new uint[]
+                {
+                    72, 101, 108, 108, 111, 32,
+                    79, 108, 225, 32,
+                    12371, 12435, 12395, 12385, 12399, 32,
+                    128104, 8205, 128105, 8205, 128103, 8205, 128102, 128077, 127999, 127482, 127480
+                }
+            );
         }
     }
 }
