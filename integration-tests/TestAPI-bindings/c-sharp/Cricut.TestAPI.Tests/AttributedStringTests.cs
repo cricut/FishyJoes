@@ -166,6 +166,82 @@ namespace Cricut.TestAPI.Tests {
             Assert.Equal("llo Olá こんに", subSubstring.GetString());
             Assert.Equal("Hello Olá こんにちは", subSubstring.GetBase().GetString());
         }
+
+        [Fact]
+        void testAttributeMergeReplace() {
+            var empty = new AttributeContainer();
+            var en = new AttributeContainer.FoundationAttributes(languageIdentifier: "en");
+            var pt = new AttributeContainer.FoundationAttributes(languageIdentifier: "pt");
+            var ja = new AttributeContainer.FoundationAttributes(languageIdentifier: "ja");
+
+            var attributedString = AttributedStrings.Polyglot;
+            var runRanges = attributedString.GetRuns().Select(it => it.GetRange()).ToList();
+            Assert.Equal(5, runRanges.Count);
+            Assert.Equal(new AttributedString("Hello", en).GetSubstring(), attributedString.SubstringForRange(runRanges[0]));
+            Assert.Equal(new AttributedString(" ", empty).GetSubstring(), attributedString.SubstringForRange(runRanges[1]));
+            Assert.Equal(new AttributedString("Olá", pt).GetSubstring(), attributedString.SubstringForRange(runRanges[2]));
+            Assert.Equal(new AttributedString(" ", empty).GetSubstring(), attributedString.SubstringForRange(runRanges[3]));
+            Assert.Equal(new AttributedString("こんにちは", ja).GetSubstring(), attributedString.SubstringForRange(runRanges[4]));
+
+            attributedString.ReplaceSubrange(
+                runRanges[1], 
+                new AttributedString(
+                    attributedString.SubstringForRange(runRanges[1]).GetString(), 
+                    attributedString.GetRuns().ElementAtPosition(runRanges[0].lowerBound).GetAttributes()
+                )
+            );
+            runRanges = attributedString.GetRuns().Select(it => it.GetRange()).ToList();
+            Assert.Equal(4, runRanges.Count);
+            Assert.Equal(new AttributedString("Hello ", en).GetSubstring(), attributedString.SubstringForRange(runRanges[0]));
+            Assert.Equal(new AttributedString("Olá", pt).GetSubstring(), attributedString.SubstringForRange(runRanges[1]));
+            Assert.Equal(new AttributedString(" ", empty).GetSubstring(), attributedString.SubstringForRange(runRanges[2]));
+            Assert.Equal(new AttributedString("こんにちは", ja).GetSubstring(), attributedString.SubstringForRange(runRanges[3]));
+
+            attributedString.SetAttributesForRange(
+                runRanges[2], 
+                attributedString.GetRuns().ElementAtPosition(runRanges[1].lowerBound).GetAttributes()
+            );
+            runRanges = attributedString.GetRuns().Select(it => it.GetRange()).ToList();
+            Assert.Equal(3, runRanges.Count);
+            Assert.Equal(new AttributedString("Hello ", en).GetSubstring(), attributedString.SubstringForRange(runRanges[0]));
+            Assert.Equal(new AttributedString("Olá ", pt).GetSubstring(), attributedString.SubstringForRange(runRanges[1]));
+            Assert.Equal(new AttributedString("こんにちは", ja).GetSubstring(), attributedString.SubstringForRange(runRanges[2]));
+
+            var mangleStartIndex = attributedString.GetCharacters().IndexAfter(attributedString.GetStartIndex());
+            var mangleEndIndex = attributedString.GetCharacters().IndexBefore(attributedString.GetEndIndex());
+            var mangleRange = new SwiftRange<AttributedString.Index>(mangleStartIndex, mangleEndIndex);
+            attributedString.SetAttributesForRange(mangleRange, empty);
+            runRanges = attributedString.GetRuns().Select(it => it.GetRange()).ToList();
+            Assert.Equal(3, runRanges.Count);
+            Assert.Equal(new AttributedString("H", en).GetSubstring(), attributedString.SubstringForRange(runRanges[0]));
+            Assert.Equal(new AttributedString("ello Olá こんにち", empty).GetSubstring(), attributedString.SubstringForRange(runRanges[1]));
+            Assert.Equal(new AttributedString("は", ja).GetSubstring(), attributedString.SubstringForRange(runRanges[2]));
+
+            var linkAttribute = new AttributeContainer.FoundationAttributes(link: new Uri("https://www.google.com"));
+            var enLink = linkAttribute;
+            enLink.LanguageIdentifier = "en";
+            attributedString.MergeAttributesForRange(runRanges[0], linkAttribute);
+            runRanges = attributedString.GetRuns().Select(it => it.GetRange()).ToList();
+            Assert.Equal(3, runRanges.Count);
+            Assert.Equal(new AttributedString("H", enLink).GetSubstring(), attributedString.SubstringForRange(runRanges[0]));
+            Assert.Equal(new AttributedString("ello Olá こんにち", empty).GetSubstring(), attributedString.SubstringForRange(runRanges[1]));
+            Assert.Equal(new AttributedString("は", ja).GetSubstring(), attributedString.SubstringForRange(runRanges[2]));
+
+            var jaLink = linkAttribute;
+            jaLink.LanguageIdentifier = "ja";
+            attributedString.ReplaceAttributesForRange(runRanges[0], en, ja);
+            runRanges = attributedString.GetRuns().Select(it => it.GetRange()).ToList();
+            Assert.Equal(3, runRanges.Count);
+            Assert.Equal(new AttributedString("H", jaLink).GetSubstring(), attributedString.SubstringForRange(runRanges[0]));
+            Assert.Equal(new AttributedString("ello Olá こんにち", empty).GetSubstring(), attributedString.SubstringForRange(runRanges[1]));
+            Assert.Equal(new AttributedString("は", ja).GetSubstring(), attributedString.SubstringForRange(runRanges[2]));
+
+            attributedString.SetAttributesForRange(attributedString.GetRuns().First().GetRange(), empty);
+            attributedString.SetAttributesForRange(attributedString.GetRuns().Last().GetRange(), empty);
+            runRanges = attributedString.GetRuns().Select(it => it.GetRange()).ToList();
+            Assert.NotEmpty(runRanges);
+            Assert.Equal(new AttributedString("Hello Olá こんにちは", empty), attributedString);
+        }
     }
 }
 
@@ -233,69 +309,5 @@ namespace Cricut.TestAPI.Tests {
         assertEquals(attributedStringReference.string, "Hi18nは") // Unchanged
         assertEquals(attributedStringClone.string, "cloneHello Olá こんにちはenolc")
         assertEquals(AttributedStrings.polyglot.string, "Hello Olá こんにちは") // Unchanged
-    }
-
-    @Test
-    fun testAttributeMergeReplace() {
-        val empty = AttributeContainer()
-        val en = AttributeContainerFoundationAttributes().apply { languageIdentifier = "en" }.asContainer()
-        val pt = AttributeContainerFoundationAttributes().apply { languageIdentifier = "pt" }.asContainer()
-        val ja = AttributeContainerFoundationAttributes().apply { languageIdentifier = "ja" }.asContainer()
-
-        val attributedString = AttributedStrings.polyglot
-        var runRanges = attributedString.runs.rangeIterator().asSequence().toList()
-        assertEquals(runRanges.count(), 5)
-        assertEquals(attributedString[runRanges[0]], AttributedString("Hello", en).substring)
-        assertEquals(attributedString[runRanges[1]], AttributedString(" ", empty).substring)
-        assertEquals(attributedString[runRanges[2]], AttributedString("Olá", pt).substring)
-        assertEquals(attributedString[runRanges[3]], AttributedString(" ", empty).substring)
-        assertEquals(attributedString[runRanges[4]], AttributedString("こんにちは", ja).substring)
-
-        attributedString[runRanges[1]] = AttributedString(attributedString[runRanges[1]].string, attributedString.runs[runRanges[0].lowerBound].attributes)
-        runRanges = attributedString.runs.rangeIterator().asSequence().toList()
-        assertEquals(runRanges.count(), 4)
-        assertEquals(attributedString[runRanges[0]], AttributedString("Hello ", en).substring)
-        assertEquals(attributedString[runRanges[1]], AttributedString("Olá", pt).substring)
-        assertEquals(attributedString[runRanges[2]], AttributedString(" ", empty).substring)
-        assertEquals(attributedString[runRanges[3]], AttributedString("こんにちは", ja).substring)
-
-        attributedString.setAttributesForRange(runRanges[2], attributedString.runs[runRanges[1].lowerBound].attributes)
-        runRanges = attributedString.runs.rangeIterator().asSequence().toList()
-        assertEquals(runRanges.count(), 3)
-        assertEquals(attributedString[runRanges[0]], AttributedString("Hello ", en).substring)
-        assertEquals(attributedString[runRanges[1]], AttributedString("Olá ", pt).substring)
-        assertEquals(attributedString[runRanges[2]], AttributedString("こんにちは", ja).substring)
-
-        val mangleStartIndex = attributedString.characters.indexAfter(attributedString.startIndex)
-        val mangleEndIndex = attributedString.characters.indexBefore(attributedString.endIndex)
-        val mangleRange = SwiftRange(mangleStartIndex, mangleEndIndex)
-        attributedString.setAttributesForRange(mangleRange, empty)
-        runRanges = attributedString.runs.rangeIterator().asSequence().toList()
-        assertEquals(runRanges.count(), 3)
-        assertEquals(attributedString[runRanges[0]], AttributedString("H", en).substring)
-        assertEquals(attributedString[runRanges[1]], AttributedString("ello Olá こんにち", empty).substring)
-        assertEquals(attributedString[runRanges[2]], AttributedString("は", ja).substring)
-
-        val linkAttribute = AttributeContainerFoundationAttributes().apply { link = URL("https://www.google.com") }
-        val enLink = linkAttribute.apply { languageIdentifier = "en" }.asContainer()
-        attributedString.mergeAttributesForRange(runRanges[0], linkAttribute.asContainer())
-        runRanges = attributedString.runs.rangeIterator().asSequence().toList()
-        assertEquals(runRanges.count(), 3)
-        assertEquals(attributedString[runRanges[0]], AttributedString("H", enLink).substring)
-        assertEquals(attributedString[runRanges[1]], AttributedString("ello Olá こんにち", empty).substring)
-        assertEquals(attributedString[runRanges[2]], AttributedString("は", ja).substring)
-
-        val jaLink = linkAttribute.apply { languageIdentifier = "ja" }.asContainer()
-        attributedString.replaceAttributesForRange(runRanges[0], en, ja)
-        runRanges = attributedString.runs.rangeIterator().asSequence().toList()
-        assertEquals(runRanges.count(), 3)
-        assertEquals(attributedString[runRanges[0]], AttributedString("H", jaLink).substring)
-        assertEquals(attributedString[runRanges[1]], AttributedString("ello Olá こんにち", empty).substring)
-        assertEquals(attributedString[runRanges[2]], AttributedString("は", ja).substring)
-
-        attributedString.setAttributesForRange(attributedString.runs.first().range, empty)
-        attributedString.setAttributesForRange(attributedString.runs.last().range, empty)
-        assertEquals(attributedString.runs.count(), 1)
-        assertEquals(attributedString, AttributedString("Hello Olá こんにちは", empty))
     }
 */
