@@ -19,33 +19,33 @@ namespace Cricut.TestAPI.Tests {
             Assert.Null(en.Link);
 
             Assert.Null(ea.LanguageIdentifier);
-            Assert.Equal(ea.Link, new Uri("https://home.unicode.org/emoji"));
+            Assert.Equal(new Uri("https://home.unicode.org/emoji"), ea.Link);
 
-            Assert.Equal(AttributedStrings.Simple, new AttributedString("Hello", en));
-            Assert.Equal(AttributedStrings.Accent, new AttributedString("Olá", pt));
-            Assert.Equal(AttributedStrings.Script, new AttributedString("こんにちは", ja));
-            Assert.Equal(AttributedStrings.Chinese, new AttributedString("你好", zh));
-            Assert.Equal(AttributedStrings.ChineseBMP, new AttributedString("豈更車賈滑", zh));
-            Assert.Equal(AttributedStrings.ChineseSIP, new AttributedString("\uD840\uDC01\uD840\uDC02\uD840\uDC03\uD840\uDC04", zh));
-            Assert.Equal(AttributedStrings.Emoji, new AttributedString("🤯🐶🍓", ea));
-            Assert.Equal(AttributedStrings.EmojiMulti, new AttributedString("👨‍👩‍👧‍👦👍🏿🇺🇸", ef));
-            Assert.Equal(AttributedStrings.Polyglot, AttributedStrings.Simple + " " + AttributedStrings.Accent + " " + AttributedStrings.Script);
+            Assert.Equal(new AttributedString("Hello", en), AttributedStrings.Simple);
+            Assert.Equal(new AttributedString("Olá", pt), AttributedStrings.Accent);
+            Assert.Equal(new AttributedString("こんにちは", ja), AttributedStrings.Script);
+            Assert.Equal(new AttributedString("你好", zh), AttributedStrings.Chinese);
+            Assert.Equal(new AttributedString("豈更車賈滑", zh), AttributedStrings.ChineseBMP);
+            Assert.Equal(new AttributedString("\uD840\uDC01\uD840\uDC02\uD840\uDC03\uD840\uDC04", zh), AttributedStrings.ChineseSIP);
+            Assert.Equal(new AttributedString("🤯🐶🍓", ea), AttributedStrings.Emoji);
+            Assert.Equal(new AttributedString("👨‍👩‍👧‍👦👍🏿🇺🇸", ef), AttributedStrings.EmojiMulti);
+            Assert.Equal(AttributedStrings.Simple + " " + AttributedStrings.Accent + " " + AttributedStrings.Script, AttributedStrings.Polyglot);
 
             Assert.Equal(AttributedStrings.Simple, AttributedStrings.Simple);
-            Assert.NotEqual(AttributedStrings.Simple, AttributedStrings.Accent);
-            Assert.NotEqual(AttributedStrings.Simple, new AttributedString(AttributedStrings.Simple.GetString(), null));
+            Assert.NotEqual(AttributedStrings.Accent, AttributedStrings.Simple);
+            Assert.NotEqual(new AttributedString(AttributedStrings.Simple.GetString(), null), AttributedStrings.Simple);
         }
 
         [Fact]
         void testStringEcho() {
-            Assert.Equal(AttributedStrings.Echo(AttributedStrings.Simple), AttributedStrings.Simple);
-            Assert.Equal(AttributedStrings.Echo(AttributedStrings.Accent), AttributedStrings.Accent);
-            Assert.Equal(AttributedStrings.Echo(AttributedStrings.Chinese), AttributedStrings.Chinese);
-            Assert.Equal(AttributedStrings.Echo(AttributedStrings.ChineseBMP), AttributedStrings.ChineseBMP);
-            Assert.Equal(AttributedStrings.Echo(AttributedStrings.ChineseSIP), AttributedStrings.ChineseSIP);
-            Assert.Equal(AttributedStrings.Echo(AttributedStrings.Emoji), AttributedStrings.Emoji);
-            Assert.Equal(AttributedStrings.Echo(AttributedStrings.EmojiMulti), AttributedStrings.EmojiMulti);
-            Assert.Equal(AttributedStrings.Echo(AttributedStrings.Polyglot), AttributedStrings.Polyglot);
+            Assert.Equal(AttributedStrings.Simple, AttributedStrings.Echo(AttributedStrings.Simple));
+            Assert.Equal(AttributedStrings.Accent, AttributedStrings.Echo(AttributedStrings.Accent));
+            Assert.Equal(AttributedStrings.Chinese, AttributedStrings.Echo(AttributedStrings.Chinese));
+            Assert.Equal(AttributedStrings.ChineseBMP, AttributedStrings.Echo(AttributedStrings.ChineseBMP));
+            Assert.Equal(AttributedStrings.ChineseSIP, AttributedStrings.Echo(AttributedStrings.ChineseSIP));
+            Assert.Equal(AttributedStrings.Emoji, AttributedStrings.Echo(AttributedStrings.Emoji));
+            Assert.Equal(AttributedStrings.EmojiMulti, AttributedStrings.Echo(AttributedStrings.EmojiMulti));
+            Assert.Equal(AttributedStrings.Polyglot, AttributedStrings.Echo(AttributedStrings.Polyglot));
         }
 
         [Fact]
@@ -59,7 +59,7 @@ namespace Cricut.TestAPI.Tests {
                 runStrings.Add(runSubstring.GetString());
                 runIndex = attributedString.GetRuns().IndexAfter(runIndex);
             }
-            Assert.Equal(runStrings, new string[]
+            Assert.Equal(new string[]
                 {
                     "Hello",
                     " ",
@@ -68,7 +68,8 @@ namespace Cricut.TestAPI.Tests {
                     "こんにちは",
                     " ",
                     "👨‍👩‍👧‍👦👍🏿🇺🇸"
-                }
+                },
+                runStrings
             );
 
             var characterStrings = new List<string>();
@@ -78,13 +79,14 @@ namespace Cricut.TestAPI.Tests {
                 characterStrings.Add(characterString);
                 characterIndex = attributedString.GetCharacters().IndexAfter(characterIndex);
             }
-            Assert.Equal(characterStrings, new string[]
+            Assert.Equal(new string[]
                 {
                     "H", "e", "l", "l", "o", " ",
                     "O", "l", "á", " ",
                     "こ", "ん", "に", "ち", "は", " ",
                     "👨‍👩‍👧‍👦", "👍🏿", "🇺🇸"
-                }
+                },
+                characterStrings
             );
 
             var unicodeScalars = new List<uint>();
@@ -94,13 +96,14 @@ namespace Cricut.TestAPI.Tests {
                 unicodeScalars.Add(characterScalar);
                 scalarIndex = attributedString.GetUnicodeScalars().IndexAfter(scalarIndex);
             }
-            Assert.Equal(unicodeScalars, new uint[]
+            Assert.Equal(new uint[]
                 {
                     72, 101, 108, 108, 111, 32,
                     79, 108, 225, 32,
                     12371, 12435, 12395, 12385, 12399, 32,
                     128104, 8205, 128105, 8205, 128103, 8205, 128102, 128077, 127999, 127482, 127480
-                }
+                },
+                unicodeScalars
             );
         }
 
@@ -108,7 +111,7 @@ namespace Cricut.TestAPI.Tests {
         void testViewIterators() {
             var attributedString = AttributedStrings.Polyglot + " " + AttributedStrings.EmojiMulti;
 
-            Assert.Equal(attributedString.GetRuns().Select(run => attributedString.SubstringForRange(run.GetRange()).GetString()), new string[]
+            Assert.Equal(new string[]
                 {
                     "Hello",
                     " ",
@@ -117,47 +120,56 @@ namespace Cricut.TestAPI.Tests {
                     "こんにちは",
                     " ",
                     "👨‍👩‍👧‍👦👍🏿🇺🇸"
-                }
+                },
+                attributedString.GetRuns().Select(run => attributedString.SubstringForRange(run.GetRange()).GetString())
             );
 
-            Assert.Equal(attributedString.GetCharacters(), new string[]
+            Assert.Equal(new string[]
                 {
                     "H", "e", "l", "l", "o", " ",
                     "O", "l", "á", " ",
                     "こ", "ん", "に", "ち", "は", " ",
                     "👨‍👩‍👧‍👦", "👍🏿", "🇺🇸"
-                }
+                },
+                attributedString.GetCharacters()
             );
 
-            Assert.Equal(attributedString.GetUnicodeScalars(), new uint[]
+            Assert.Equal(new uint[]
                 {
                     72, 101, 108, 108, 111, 32,
                     79, 108, 225, 32,
                     12371, 12435, 12395, 12385, 12399, 32,
                     128104, 8205, 128105, 8205, 128103, 8205, 128102, 128077, 127999, 127482, 127480
-                }
+                },
+                attributedString.GetUnicodeScalars()
             );
+        }
+
+        [Fact]
+        void testSubstring() {
+            var attributedString = AttributedStrings.Polyglot;
+            Assert.Equal("Hello Olá こんにちは", attributedString.GetString());
+
+            var range = new SwiftRange<AttributedString.Index>(
+                attributedString.GetCharacters().IndexAfter(attributedString.GetStartIndex()), 
+                attributedString.GetCharacters().IndexBefore(attributedString.GetEndIndex())
+            );
+            var substring = attributedString.SubstringForRange(range);
+            Assert.Equal("ello Olá こんにち", substring.GetString());
+            Assert.Equal("Hello Olá こんにちは", substring.GetBase().GetString());
+
+            var subRange = new SwiftRange<AttributedString.Index>(
+                substring.GetCharacters().IndexAfter(substring.GetStartIndex()), 
+                substring.GetCharacters().IndexBefore(substring.GetEndIndex())
+            );
+            var subSubstring = substring.SubstringForRange(subRange);
+            Assert.Equal("llo Olá こんに", subSubstring.GetString());
+            Assert.Equal("Hello Olá こんにちは", subSubstring.GetBase().GetString());
         }
     }
 }
 
 /*
-    @Test
-    fun testSubstring() {
-        val attributedString = AttributedStrings.polyglot
-        assertEquals(attributedString.string, "Hello Olá こんにちは")
-
-        val range = SwiftRange(attributedString.characters.indexAfter(attributedString.startIndex), attributedString.characters.indexBefore(attributedString.endIndex))
-        val substring = attributedString.substringForRange(range)
-        assertEquals(substring.string, "ello Olá こんにち")
-        assertEquals(substring.base.string, "Hello Olá こんにちは")
-
-        val subRange = SwiftRange(substring.characters.indexAfter(substring.startIndex), substring.characters.indexBefore(substring.endIndex))
-        val subSubstring = substring.substringForRange(subRange)
-        assertEquals(subSubstring.string, "llo Olá こんに")
-        assertEquals(subSubstring.base.string, "Hello Olá こんにちは")
-    }
-
     @Test
     fun testMutability() {
         // Examine an existing attributed string from the test suite
