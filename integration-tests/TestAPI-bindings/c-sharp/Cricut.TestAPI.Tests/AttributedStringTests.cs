@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using Xunit;
 using Cricut.FishyJoesRuntime;
@@ -46,80 +47,66 @@ namespace Cricut.TestAPI.Tests {
             Assert.Equal(AttributedStrings.Echo(AttributedStrings.EmojiMulti), AttributedStrings.EmojiMulti);
             Assert.Equal(AttributedStrings.Echo(AttributedStrings.Polyglot), AttributedStrings.Polyglot);
         }
+
+        [Fact]
+        void testViewIterationOverIndices() {
+            var attributedString = AttributedStrings.Polyglot + " " + AttributedStrings.EmojiMulti;
+
+            var runStrings = new List<string>();
+            var runIndex = attributedString.GetRuns().GetStartIndex();
+            while (runIndex != attributedString.GetRuns().GetEndIndex()) {
+                var runSubstring = attributedString.SubstringForRange(attributedString.GetRuns().ElementAt(runIndex).GetRange());
+                runStrings.Add(runSubstring.GetString());
+                runIndex = attributedString.GetRuns().IndexAfter(runIndex);
+            }
+            Assert.Equal(runStrings, new string[]
+                {
+                    "Hello",
+                    " ",
+                    "Olá",
+                    " ",
+                    "こんにちは",
+                    " ",
+                    "👨‍👩‍👧‍👦👍🏿🇺🇸"
+                }
+            );
+
+            // var characterStrings = emptyList<String>()
+            // var characterIndex = attributedString.characters.startIndex
+            // while (characterIndex != attributedString.characters.endIndex) {
+            //     val characterString = attributedString.characters.elementAt(characterIndex)
+            //     characterStrings += characterString
+            //     characterIndex = attributedString.characters.indexAfter(characterIndex)
+            // }
+            // assertEquals(characterStrings,
+            //     listOf(
+            //         "H", "e", "l", "l", "o", " ",
+            //         "O", "l", "á", " ",
+            //         "こ", "ん", "に", "ち", "は", " ",
+            //         "👨‍👩‍👧‍👦", "👍🏿", "🇺🇸"
+            //     )
+            // )
+
+            // var unicodeScalars = emptyList<UInt>()
+            // var scalarIndex = attributedString.unicodeScalars.startIndex
+            // while (scalarIndex != attributedString.unicodeScalars.endIndex) {
+            //     val characterScalar = attributedString.unicodeScalars.elementAt(scalarIndex)
+            //     unicodeScalars += characterScalar
+            //     scalarIndex = attributedString.unicodeScalars.indexAfter(scalarIndex)
+            // }
+            // assertEquals(unicodeScalars.map { it.toInt() },
+            //     listOf(
+            //         72, 101, 108, 108, 111, 32,
+            //         79, 108, 225, 32,
+            //         12371, 12435, 12395, 12385, 12399, 32,
+            //         128104, 8205, 128105, 8205, 128103, 8205, 128102, 128077, 127999, 127482, 127480
+            //     )
+            // )
+        }
     }
 }
 
 /*
-    
-
-    @Test
-    fun testStringEcho() {
-        assertEquals(AttributedStrings.echo(AttributedStrings.simple), AttributedStrings.simple)
-        assertEquals(AttributedStrings.echo(AttributedStrings.accent), AttributedStrings.accent)
-        assertEquals(AttributedStrings.echo(AttributedStrings.chinese), AttributedStrings.chinese)
-        assertEquals(AttributedStrings.echo(AttributedStrings.chineseBMP), AttributedStrings.chineseBMP)
-        assertEquals(AttributedStrings.echo(AttributedStrings.chineseSIP), AttributedStrings.chineseSIP)
-        assertEquals(AttributedStrings.echo(AttributedStrings.emoji), AttributedStrings.emoji)
-        assertEquals(AttributedStrings.echo(AttributedStrings.emojiMulti), AttributedStrings.emojiMulti)
-        assertEquals(AttributedStrings.echo(AttributedStrings.polyglot), AttributedStrings.polyglot)
-    }
-
-    @Test
-    fun testViewIterationOverIndices() {
-        val attributedString = AttributedStrings.polyglot + " " + AttributedStrings.emojiMulti
-
-        var runStrings = emptyList<String>()
-        var runIndex = attributedString.runs.startIndex
-        while (runIndex != attributedString.runs.endIndex) {
-            val runSubstring = attributedString.substringForRange(attributedString.runs.elementAt(runIndex).range)
-            runStrings += runSubstring.string
-            runIndex = attributedString.runs.indexAfter(runIndex)
-        }
-        assertEquals(runStrings,
-            listOf(
-                "Hello",
-                " ",
-                "Olá",
-                " ",
-                "こんにちは",
-                " ",
-                "👨‍👩‍👧‍👦👍🏿🇺🇸"
-            )
-        )
-
-        var characterStrings = emptyList<String>()
-        var characterIndex = attributedString.characters.startIndex
-        while (characterIndex != attributedString.characters.endIndex) {
-            val characterString = attributedString.characters.elementAt(characterIndex)
-            characterStrings += characterString
-            characterIndex = attributedString.characters.indexAfter(characterIndex)
-        }
-        assertEquals(characterStrings,
-            listOf(
-                "H", "e", "l", "l", "o", " ",
-                "O", "l", "á", " ",
-                "こ", "ん", "に", "ち", "は", " ",
-                "👨‍👩‍👧‍👦", "👍🏿", "🇺🇸"
-            )
-        )
-
-        var unicodeScalars = emptyList<UInt>()
-        var scalarIndex = attributedString.unicodeScalars.startIndex
-        while (scalarIndex != attributedString.unicodeScalars.endIndex) {
-            val characterScalar = attributedString.unicodeScalars.elementAt(scalarIndex)
-            unicodeScalars += characterScalar
-            scalarIndex = attributedString.unicodeScalars.indexAfter(scalarIndex)
-        }
-        assertEquals(unicodeScalars.map { it.toInt() },
-            listOf(
-                72, 101, 108, 108, 111, 32,
-                79, 108, 225, 32,
-                12371, 12435, 12395, 12385, 12399, 32,
-                128104, 8205, 128105, 8205, 128103, 8205, 128102, 128077, 127999, 127482, 127480
-            )
-        )
-    }
-
     @Test
     fun testViewIterators() {
         val attributedString = AttributedStrings.polyglot + " " + AttributedStrings.emojiMulti

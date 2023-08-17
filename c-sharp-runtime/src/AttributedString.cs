@@ -857,16 +857,18 @@ namespace Cricut.FishyJoesRuntime {
             /// A type that represents the position of a descriptor for a run within an attributed string's view of runs.
             /// </summary>
             /// <!-- FishyJoes.exportReference(AttributedString.Runs.Index) -->
-            public class Index : SwiftReference, IComparable<Index> {
+            public class Index : SwiftReference, IComparable<Index>, IEquatable<Index> {
                 internal Index(ConsumedRef reference): base(reference) {}
 
-                public override bool Equals(
-                    object? other
+                public bool Equals(
+                    Index? other
                 ) {
                     using var thisHandle = new GCRef(this);
-                    using var otherHandle = new GCRef(other as Cricut.FishyJoesRuntime.AttributedString.Runs.Index);
+                    using var otherHandle = new GCRef(other);
                     return Check((out CreatedRef exn) => __cs_AttributedString_Runs_Index_equals(thisHandle.ptr, otherHandle.ptr, out exn));
                 }
+
+                public override bool Equals(object? other) => Equals(other as Index);
 
                 [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
                 private static extern bool __cs_AttributedString_Runs_Index_equals(
@@ -902,6 +904,17 @@ namespace Cricut.FishyJoesRuntime {
                     out CreatedRef exn
                 );
 
+                #region Convenience
+
+                public static bool operator > (Index lhs, Index rhs) => lhs.CompareTo(rhs) > 0;
+                public static bool operator < (Index lhs, Index rhs) => lhs.CompareTo(rhs) < 0;
+                public static bool operator >= (Index lhs, Index rhs) => lhs.CompareTo(rhs) >= 0;
+                public static bool operator <= (Index lhs, Index rhs) => lhs.CompareTo(rhs) <= 0;
+                public static bool operator == (Index lhs, Index rhs) => lhs.CompareTo(rhs) == 0;
+                public static bool operator != (Index lhs, Index rhs) => !(lhs == rhs);
+
+                #endregion
+
                 static Index() { Loader.ensureLoaded(); }
             }
             static Runs() { Loader.ensureLoaded(); }
@@ -911,16 +924,18 @@ namespace Cricut.FishyJoesRuntime {
         /// A type that represents the position of a character or code unit within an attributed string.
         /// </summary>
         /// <!-- FishyJoes.exportReference(AttributedString.Index) -->
-        public class Index : SwiftReference, IComparable<Index> {
+        public class Index : SwiftReference, IComparable<Index>, IEquatable<Index> {
             internal Index(ConsumedRef reference): base(reference) {}
 
-            public override bool Equals(
-                object? other
+            public bool Equals(
+                Index? other
             ) {
                 using var thisHandle = new GCRef(this);
-                using var otherHandle = new GCRef(other as Cricut.FishyJoesRuntime.AttributedString.Index);
+                using var otherHandle = new GCRef(other);
                 return Check((out CreatedRef exn) => __cs_AttributedString_Index_equals(thisHandle.ptr, otherHandle.ptr, out exn));
             }
+
+            public override bool Equals(object? other) => Equals(other as Index);
 
             [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern bool __cs_AttributedString_Index_equals(
@@ -955,6 +970,17 @@ namespace Cricut.FishyJoesRuntime {
                 UnownedRef rhs,
                 out CreatedRef exn
             );
+
+            #region Convenience
+
+            public static bool operator > (Index lhs, Index rhs) => lhs.CompareTo(rhs) > 0;
+            public static bool operator < (Index lhs, Index rhs) => lhs.CompareTo(rhs) < 0;
+            public static bool operator >= (Index lhs, Index rhs) => lhs.CompareTo(rhs) >= 0;
+            public static bool operator <= (Index lhs, Index rhs) => lhs.CompareTo(rhs) <= 0;
+            public static bool operator == (Index lhs, Index rhs) => lhs.CompareTo(rhs) == 0;
+            public static bool operator != (Index lhs, Index rhs) => !(lhs == rhs);
+
+            #endregion
 
             static Index() { Loader.ensureLoaded(); }
         }
