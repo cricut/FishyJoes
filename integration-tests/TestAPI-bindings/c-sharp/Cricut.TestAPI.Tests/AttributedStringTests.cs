@@ -1,6 +1,6 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
-using System.Threading;
 using Xunit;
 using Cricut.FishyJoesRuntime;
 
@@ -108,20 +108,17 @@ namespace Cricut.TestAPI.Tests {
         void testViewIterators() {
             var attributedString = AttributedStrings.Polyglot + " " + AttributedStrings.EmojiMulti;
 
-            foreach (var run in attributedString.GetRuns()) { System.Console.WriteLine(run); }
-
-            // IEnumerable<AttributedString.Runs.Run> e = attributedString.GetRuns().Select((AttributedString.Runs.Run it) => attributedString[it.Range].GetString());
-            // Assert.Equal(e, new string[]
-            //     {
-            //         "Hello",
-            //         " ",
-            //         "Olá",
-            //         " ",
-            //         "こんにちは",
-            //         " ",
-            //         "👨‍👩‍👧‍👦👍🏿🇺🇸"
-            //     }
-            // );
+            Assert.Equal(attributedString.GetRuns().Select(run => attributedString.SubstringForRange(run.GetRange()).GetString()), new string[]
+                {
+                    "Hello",
+                    " ",
+                    "Olá",
+                    " ",
+                    "こんにちは",
+                    " ",
+                    "👨‍👩‍👧‍👦👍🏿🇺🇸"
+                }
+            );
 
             Assert.Equal(attributedString.GetCharacters(), new string[]
                 {
