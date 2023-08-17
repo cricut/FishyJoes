@@ -1,5 +1,6 @@
 using Cricut.FishyJoesRuntime;
 using System.Collections.Generic;
+using System.Collections;
 using System.Runtime.InteropServices;
 using System;
 using static Cricut.FishyJoesRuntime.Utilities;
@@ -627,7 +628,7 @@ namespace Cricut.FishyJoesRuntime {
         /// An iterable view into segments of the attributed string or substring, each of which indicates where a run of identical attributes begins or ends.
         /// </summary>
         /// <!-- FishyJoes.exportReference(AttributedString.Runs) -->
-        public class Runs : SwiftReference {
+        public class Runs : SwiftReference, IEnumerable<Runs.Run> {
             internal Runs(ConsumedRef reference): base(reference) {}
 
             /// <summary>
@@ -787,6 +788,19 @@ namespace Cricut.FishyJoesRuntime {
                 UnownedRef self,
                 out CreatedRef exn
             );
+
+            #region Convenience
+
+            public IEnumerator<Runs.Run> GetEnumerator(
+            ) {
+                for (var index = GetStartIndex(); index < GetEndIndex(); index = IndexAfter(index)) {
+                    yield return ElementAt(index);
+                }
+            }
+
+            IEnumerator IEnumerable.GetEnumerator() => (IEnumerator)GetEnumerator();
+
+            #endregion
 
             /// <summary>
             /// Description of a run of attributes within an attributed string or substring.
@@ -989,7 +1003,7 @@ namespace Cricut.FishyJoesRuntime {
         /// A view into the underlying storage of an attributed string or substring, as Unicode characters.
         /// </summary>
         /// <!-- FishyJoes.exportReference(AttributedString.CharacterView) -->
-        public class CharacterView : SwiftReference {
+        public class CharacterView : SwiftReference, IEnumerable<string> {
             internal CharacterView(ConsumedRef reference): base(reference) {}
 
             /// <summary>
@@ -1095,6 +1109,19 @@ namespace Cricut.FishyJoesRuntime {
                 out CreatedRef exn
             );
 
+            #region Convenience
+
+            public IEnumerator<string> GetEnumerator(
+            ) {
+                for (var index = GetStartIndex(); index < GetEndIndex(); index = IndexAfter(index)) {
+                    yield return ElementAt(index);
+                }
+            }
+
+            IEnumerator IEnumerable.GetEnumerator() => (IEnumerator)GetEnumerator();
+
+            #endregion
+
             static CharacterView() { Loader.ensureLoaded(); }
         }
 
@@ -1102,7 +1129,7 @@ namespace Cricut.FishyJoesRuntime {
         /// A view into the underlying storage of the attributed string, as Unicode scalars.
         /// </summary>
         /// <!-- FishyJoes.exportReference(AttributedString.UnicodeScalarView) -->
-        public class UnicodeScalarView : SwiftReference {
+        public class UnicodeScalarView : SwiftReference, IEnumerable<UInt32> {
             internal UnicodeScalarView(ConsumedRef reference): base(reference) {}
 
             /// <summary>
@@ -1207,6 +1234,19 @@ namespace Cricut.FishyJoesRuntime {
                 UnownedRef index,
                 out CreatedRef exn
             );
+
+            #region Convenience
+
+            public IEnumerator<UInt32> GetEnumerator(
+            ) {
+                for (var index = GetStartIndex(); index < GetEndIndex(); index = IndexAfter(index)) {
+                    yield return ElementAt(index);
+                }
+            }
+
+            IEnumerator IEnumerable.GetEnumerator() => (IEnumerator)GetEnumerator();
+
+            #endregion
 
             static UnicodeScalarView() { Loader.ensureLoaded(); }
         }

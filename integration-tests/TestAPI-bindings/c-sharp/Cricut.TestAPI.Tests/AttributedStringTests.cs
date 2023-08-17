@@ -103,45 +103,48 @@ namespace Cricut.TestAPI.Tests {
                 }
             );
         }
+
+        [Fact]
+        void testViewIterators() {
+            var attributedString = AttributedStrings.Polyglot + " " + AttributedStrings.EmojiMulti;
+
+            foreach (var run in attributedString.GetRuns()) { System.Console.WriteLine(run); }
+
+            // IEnumerable<AttributedString.Runs.Run> e = attributedString.GetRuns().Select((AttributedString.Runs.Run it) => attributedString[it.Range].GetString());
+            // Assert.Equal(e, new string[]
+            //     {
+            //         "Hello",
+            //         " ",
+            //         "Olá",
+            //         " ",
+            //         "こんにちは",
+            //         " ",
+            //         "👨‍👩‍👧‍👦👍🏿🇺🇸"
+            //     }
+            // );
+
+            Assert.Equal(attributedString.GetCharacters(), new string[]
+                {
+                    "H", "e", "l", "l", "o", " ",
+                    "O", "l", "á", " ",
+                    "こ", "ん", "に", "ち", "は", " ",
+                    "👨‍👩‍👧‍👦", "👍🏿", "🇺🇸"
+                }
+            );
+
+            Assert.Equal(attributedString.GetUnicodeScalars(), new uint[]
+                {
+                    72, 101, 108, 108, 111, 32,
+                    79, 108, 225, 32,
+                    12371, 12435, 12395, 12385, 12399, 32,
+                    128104, 8205, 128105, 8205, 128103, 8205, 128102, 128077, 127999, 127482, 127480
+                }
+            );
+        }
     }
 }
 
 /*
-    @Test
-    fun testViewIterators() {
-        val attributedString = AttributedStrings.polyglot + " " + AttributedStrings.emojiMulti
-
-        assertEquals(attributedString.runs.map { attributedString[it.range].string },
-            listOf(
-                "Hello",
-                " ",
-                "Olá",
-                " ",
-                "こんにちは",
-                " ",
-                "👨‍👩‍👧‍👦👍🏿🇺🇸"
-            )
-        )
-
-        assertEquals(attributedString.characters.toList(),
-            listOf(
-                "H", "e", "l", "l", "o", " ",
-                "O", "l", "á", " ",
-                "こ", "ん", "に", "ち", "は", " ",
-                "👨‍👩‍👧‍👦", "👍🏿", "🇺🇸"
-            )
-        )
-
-        assertEquals(attributedString.unicodeScalars.map { it.toInt() },
-            listOf(
-                72, 101, 108, 108, 111, 32,
-                79, 108, 225, 32,
-                12371, 12435, 12395, 12385, 12399, 32,
-                128104, 8205, 128105, 8205, 128103, 8205, 128102, 128077, 127999, 127482, 127480
-            )
-        )
-    }
-
     @Test
     fun testSubstring() {
         val attributedString = AttributedStrings.polyglot
