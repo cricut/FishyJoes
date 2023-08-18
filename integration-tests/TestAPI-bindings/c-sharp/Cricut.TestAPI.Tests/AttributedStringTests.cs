@@ -89,14 +89,14 @@ namespace Cricut.TestAPI.Tests {
                 characterStrings
             );
 
-            var unicodeScalars = new List<uint>();
+            var unicodeScalars = new List<UInt32>();
             var scalarIndex = attributedString.UnicodeScalars.StartIndex;
             while (scalarIndex != attributedString.UnicodeScalars.EndIndex) {
                 var characterScalar = attributedString.UnicodeScalars[scalarIndex];
                 unicodeScalars.Add(characterScalar);
                 scalarIndex = attributedString.UnicodeScalars.IndexAfter(scalarIndex);
             }
-            Assert.Equal(new uint[]
+            Assert.Equal(new UInt32[]
                 {
                     72, 101, 108, 108, 111, 32,
                     79, 108, 225, 32,
@@ -134,7 +134,7 @@ namespace Cricut.TestAPI.Tests {
                 attributedString.Characters
             );
 
-            Assert.Equal(new uint[]
+            Assert.Equal(new UInt32[]
                 {
                     72, 101, 108, 108, 111, 32,
                     79, 108, 225, 32,
