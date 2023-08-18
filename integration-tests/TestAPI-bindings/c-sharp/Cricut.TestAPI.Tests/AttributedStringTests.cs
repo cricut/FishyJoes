@@ -55,7 +55,7 @@ namespace Cricut.TestAPI.Tests {
             var runStrings = new List<string>();
             var runIndex = attributedString.Runs.StartIndex;
             while (runIndex != attributedString.Runs.EndIndex) {
-                var runSubstring = attributedString.SubstringForRange(attributedString.Runs[runIndex].Range);
+                var runSubstring = attributedString[attributedString.Runs[runIndex].Range];
                 runStrings.Add(runSubstring.String);
                 runIndex = attributedString.Runs.IndexAfter(runIndex);
             }
@@ -121,7 +121,7 @@ namespace Cricut.TestAPI.Tests {
                     " ",
                     "👨‍👩‍👧‍👦👍🏿🇺🇸"
                 },
-                attributedString.Runs.Select(run => attributedString.SubstringForRange(run.Range).String)
+                attributedString.Runs.Select(run => attributedString[run.Range].String)
             );
 
             Assert.Equal(new string[]
@@ -154,7 +154,7 @@ namespace Cricut.TestAPI.Tests {
                 attributedString.Characters.IndexAfter(attributedString.StartIndex), 
                 attributedString.Characters.IndexBefore(attributedString.EndIndex)
             );
-            var substring = attributedString.SubstringForRange(range);
+            var substring = attributedString[range];
             Assert.Equal("ello Olá こんにち", substring.String);
             Assert.Equal("Hello Olá こんにちは", substring.Base.String);
 
@@ -162,7 +162,7 @@ namespace Cricut.TestAPI.Tests {
                 substring.Characters.IndexAfter(substring.StartIndex), 
                 substring.Characters.IndexBefore(substring.EndIndex)
             );
-            var subSubstring = substring.SubstringForRange(subRange);
+            var subSubstring = substring[subRange];
             Assert.Equal("llo Olá こんに", subSubstring.String);
             Assert.Equal("Hello Olá こんにちは", subSubstring.Base.String);
         }
@@ -173,7 +173,7 @@ namespace Cricut.TestAPI.Tests {
             Assert.Equal("Hello Olá こんにちは", AttributedStrings.Polyglot.String);
             Assert.Equal(
                 new string[] { "Hello", " ", "Olá", " ", "こんにちは" },
-                AttributedStrings.Polyglot.Runs.Select(run => AttributedStrings.Polyglot.SubstringForRange(run.Range).String)
+                AttributedStrings.Polyglot.Runs.Select(run => AttributedStrings.Polyglot[run.Range].String)
             );
 
             // Attempt to "modify" the attributed string from the test suite, verify only an (unnamed) clone of it changes, but it does not change
@@ -202,15 +202,15 @@ namespace Cricut.TestAPI.Tests {
             );
             Assert.Equal(
                 new string[] { "Hello", " ", "Olá", " ", "こんにちは" },
-                attributedString.Runs.Select(run => attributedString.SubstringForRange(run.Range).String)
+                attributedString.Runs.Select(run => attributedString[run.Range].String)
             );
             attributedString.ReplaceSubrange(
                 range, 
-                new AttributedString(attributedString.SubstringForRange(range).String, new AttributeContainer())
+                new AttributedString(attributedString[range].String, new AttributeContainer())
             );
             Assert.Equal(
                 new string[] { "H", "ello Olá こんにち", "は" },
-                attributedString.Runs.Select(run => attributedString.SubstringForRange(run.Range).String)
+                attributedString.Runs.Select(run => attributedString[run.Range].String)
             );
             Assert.Equal(3, attributedString.Runs.ToList().Count);
             Assert.Equal(3, attributedStringReference.Runs.ToList().Count);
@@ -221,7 +221,7 @@ namespace Cricut.TestAPI.Tests {
             attributedString.ReplaceSubrange(range, new AttributedString("i18n"));
             Assert.Equal(
                 new string[] { "H", "i18n", "は" },
-                attributedString.Runs.Select(run => attributedString.SubstringForRange(run.Range).String)
+                attributedString.Runs.Select(run => attributedString[run.Range].String)
             );
             Assert.Equal("Hi18nは", attributedString.String);
             Assert.Equal("Hi18nは", attributedStringReference.String);
@@ -233,7 +233,7 @@ namespace Cricut.TestAPI.Tests {
             attributedStringClone.Insert(new AttributedString("enolc"), attributedStringClone.EndIndex);
             Assert.Equal(
                 new string[] { "cloneHello", " ", "Olá", " ", "こんにちは", "enolc" },
-                attributedStringClone.Runs.Select(run => attributedStringClone.SubstringForRange(run.Range).String)
+                attributedStringClone.Runs.Select(run => attributedStringClone[run.Range].String)
             );
             Assert.Equal("Hi18nは", attributedString.String); // Unchanged
             Assert.Equal("Hi18nは", attributedStringReference.String); // Unchanged
@@ -251,35 +251,32 @@ namespace Cricut.TestAPI.Tests {
             var attributedString = AttributedStrings.Polyglot;
             var runRanges = attributedString.Runs.Select(run => run.Range).ToList();
             Assert.Equal(5, runRanges.Count);
-            Assert.Equal(new AttributedString("Hello", en).Substring, attributedString.SubstringForRange(runRanges[0]));
-            Assert.Equal(new AttributedString(" ", empty).Substring, attributedString.SubstringForRange(runRanges[1]));
-            Assert.Equal(new AttributedString("Olá", pt).Substring, attributedString.SubstringForRange(runRanges[2]));
-            Assert.Equal(new AttributedString(" ", empty).Substring, attributedString.SubstringForRange(runRanges[3]));
-            Assert.Equal(new AttributedString("こんにちは", ja).Substring, attributedString.SubstringForRange(runRanges[4]));
+            Assert.Equal(new AttributedString("Hello", en).Substring, attributedString[runRanges[0]]);
+            Assert.Equal(new AttributedString(" ", empty).Substring, attributedString[runRanges[1]]);
+            Assert.Equal(new AttributedString("Olá", pt).Substring, attributedString[runRanges[2]]);
+            Assert.Equal(new AttributedString(" ", empty).Substring, attributedString[runRanges[3]]);
+            Assert.Equal(new AttributedString("こんにちは", ja).Substring, attributedString[runRanges[4]]);
 
             attributedString.ReplaceSubrange(
                 runRanges[1], 
                 new AttributedString(
-                    attributedString.SubstringForRange(runRanges[1]).String, 
+                    attributedString[runRanges[1]].String, 
                     attributedString.Runs[runRanges[0].lowerBound].Attributes
                 )
             );
             runRanges = attributedString.Runs.Select(run => run.Range).ToList();
             Assert.Equal(4, runRanges.Count);
-            Assert.Equal(new AttributedString("Hello ", en).Substring, attributedString.SubstringForRange(runRanges[0]));
-            Assert.Equal(new AttributedString("Olá", pt).Substring, attributedString.SubstringForRange(runRanges[1]));
-            Assert.Equal(new AttributedString(" ", empty).Substring, attributedString.SubstringForRange(runRanges[2]));
-            Assert.Equal(new AttributedString("こんにちは", ja).Substring, attributedString.SubstringForRange(runRanges[3]));
+            Assert.Equal(new AttributedString("Hello ", en).Substring, attributedString[runRanges[0]]);
+            Assert.Equal(new AttributedString("Olá", pt).Substring, attributedString[runRanges[1]]);
+            Assert.Equal(new AttributedString(" ", empty).Substring, attributedString[runRanges[2]]);
+            Assert.Equal(new AttributedString("こんにちは", ja).Substring, attributedString[runRanges[3]]);
 
-            attributedString.SetAttributesForRange(
-                runRanges[2], 
-                attributedString.Runs[runRanges[1].lowerBound].Attributes
-            );
+            attributedString.SetAttributesForRange(runRanges[2], attributedString.Runs[runRanges[1].lowerBound].Attributes);
             runRanges = attributedString.Runs.Select(run => run.Range).ToList();
             Assert.Equal(3, runRanges.Count);
-            Assert.Equal(new AttributedString("Hello ", en).Substring, attributedString.SubstringForRange(runRanges[0]));
-            Assert.Equal(new AttributedString("Olá ", pt).Substring, attributedString.SubstringForRange(runRanges[1]));
-            Assert.Equal(new AttributedString("こんにちは", ja).Substring, attributedString.SubstringForRange(runRanges[2]));
+            Assert.Equal(new AttributedString("Hello ", en).Substring, attributedString[runRanges[0]]);
+            Assert.Equal(new AttributedString("Olá ", pt).Substring, attributedString[runRanges[1]]);
+            Assert.Equal(new AttributedString("こんにちは", ja).Substring, attributedString[runRanges[2]]);
 
             var mangleStartIndex = attributedString.Characters.IndexAfter(attributedString.StartIndex);
             var mangleEndIndex = attributedString.Characters.IndexBefore(attributedString.EndIndex);
@@ -287,9 +284,9 @@ namespace Cricut.TestAPI.Tests {
             attributedString.SetAttributesForRange(mangleRange, empty);
             runRanges = attributedString.Runs.Select(run => run.Range).ToList();
             Assert.Equal(3, runRanges.Count);
-            Assert.Equal(new AttributedString("H", en).Substring, attributedString.SubstringForRange(runRanges[0]));
-            Assert.Equal(new AttributedString("ello Olá こんにち", empty).Substring, attributedString.SubstringForRange(runRanges[1]));
-            Assert.Equal(new AttributedString("は", ja).Substring, attributedString.SubstringForRange(runRanges[2]));
+            Assert.Equal(new AttributedString("H", en).Substring, attributedString[runRanges[0]]);
+            Assert.Equal(new AttributedString("ello Olá こんにち", empty).Substring, attributedString[runRanges[1]]);
+            Assert.Equal(new AttributedString("は", ja).Substring, attributedString[runRanges[2]]);
 
             var linkAttribute = new AttributeContainer.FoundationAttributes(link: new Uri("https://www.google.com"));
             var enLink = linkAttribute;
@@ -297,18 +294,18 @@ namespace Cricut.TestAPI.Tests {
             attributedString.MergeAttributesForRange(runRanges[0], linkAttribute);
             runRanges = attributedString.Runs.Select(run => run.Range).ToList();
             Assert.Equal(3, runRanges.Count);
-            Assert.Equal(new AttributedString("H", enLink).Substring, attributedString.SubstringForRange(runRanges[0]));
-            Assert.Equal(new AttributedString("ello Olá こんにち", empty).Substring, attributedString.SubstringForRange(runRanges[1]));
-            Assert.Equal(new AttributedString("は", ja).Substring, attributedString.SubstringForRange(runRanges[2]));
+            Assert.Equal(new AttributedString("H", enLink).Substring, attributedString[runRanges[0]]);
+            Assert.Equal(new AttributedString("ello Olá こんにち", empty).Substring, attributedString[runRanges[1]]);
+            Assert.Equal(new AttributedString("は", ja).Substring, attributedString[runRanges[2]]);
 
             var jaLink = linkAttribute;
             jaLink.LanguageIdentifier = "ja";
             attributedString.ReplaceAttributesForRange(runRanges[0], en, ja);
             runRanges = attributedString.Runs.Select(run => run.Range).ToList();
             Assert.Equal(3, runRanges.Count);
-            Assert.Equal(new AttributedString("H", jaLink).Substring, attributedString.SubstringForRange(runRanges[0]));
-            Assert.Equal(new AttributedString("ello Olá こんにち", empty).Substring, attributedString.SubstringForRange(runRanges[1]));
-            Assert.Equal(new AttributedString("は", ja).Substring, attributedString.SubstringForRange(runRanges[2]));
+            Assert.Equal(new AttributedString("H", jaLink).Substring, attributedString[runRanges[0]]);
+            Assert.Equal(new AttributedString("ello Olá こんにち", empty).Substring, attributedString[runRanges[1]]);
+            Assert.Equal(new AttributedString("は", ja).Substring, attributedString[runRanges[2]]);
 
             attributedString.SetAttributesForRange(attributedString.Runs.First().Range, empty);
             attributedString.SetAttributesForRange(attributedString.Runs.Last().Range, empty);

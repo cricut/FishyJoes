@@ -560,6 +560,8 @@ namespace Cricut.FishyJoesRuntime {
         public static explicit operator string(AttributedString attributedString) => attributedString.String;
         public static explicit operator AttributedString(string _string) => AttributedString.Create(_string);
 
+        public AttributedSubstring this[SwiftRange<AttributedString.Index> range] { get => SubstringForRange(range); }
+
         public static AttributedString operator +(AttributedString a, AttributedString b) {
             var s = new AttributedString();
             s.Append(a);
