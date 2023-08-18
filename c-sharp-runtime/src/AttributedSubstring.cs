@@ -5,24 +5,21 @@ using System;
 using static Cricut.FishyJoesRuntime.Utilities;
 
 namespace Cricut.FishyJoesRuntime {
-    /// <summary>
-    /// A type that represents a portion of an attributed string.
-    /// </summary>
+    /// <summary>A type that represents a portion of an attributed string.</summary>
     /// <remarks>
-    /// The attributed string for which the type represents a sub-portion can be accessed in the `base` property.
-    /// The indices offered in `startIndex` and `endIndex` are in the same index space as those in `base`,
-    /// so they can be used to find what part of `base` the substring represents.
+    ///     The attributed string for which the type represents a sub-portion can be accessed in the `base` property.
+    ///     The indices offered in `startIndex` and `endIndex` are in the same index space as those in `base`,
+    ///     so they can be used to find what part of `base` the substring represents.
     /// </remarks>
     /// <!-- FishyJoes.exportReference(AttributedSubstring) -->
     public class AttributedSubstring : SwiftReference {
+        static AttributedSubstring() { Loader.ensureLoaded(); }
         internal AttributedSubstring(ConsumedRef reference): base(reference) {}
 
-        /// <summary>
-        /// The attributed string that this substring references.
-        /// </summary>
+        /// <summary>The attributed string that this substring references.</summary>
         /// <remarks>
-        /// The `startIndex` and `endIndex` of this substring are comparable to `base.startIndex` and `base.endIndex` and are guaranteed to be bounded by them.
-        /// As such, the portion of the base string represented by the substring is the range from `startIndex` inclusive to `endIndex` exclusive.
+        ///     The `startIndex` and `endIndex` of this substring are comparable to `base.startIndex` and `base.endIndex` and are guaranteed to be bounded by them.
+        ///     As such, the portion of the base string represented by the substring is the range from `startIndex` inclusive to `endIndex` exclusive.
         /// </remarks>
         /// <!-- FishyJoes.export(base) -->
         public Cricut.FishyJoesRuntime.AttributedString GetBase() {
@@ -35,11 +32,9 @@ namespace Cricut.FishyJoesRuntime {
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_get_AttributedSubstring_Base(UnownedRef self, out CreatedRef exn);
 
-        /// <summary>
-        /// Text represented by the attributed substring.
-        /// </summary>
+        /// <summary>Text represented by the attributed substring.</summary>
         /// <remarks>
-        /// See `runs` for the attribute information associated with the attributed substring's text.
+        ///     See `runs` for the attribute information associated with the attributed substring's text.
         /// </remarks>
         /// <!-- FishyJoes.export(string) -->
         public string GetString() {
@@ -52,17 +47,15 @@ namespace Cricut.FishyJoesRuntime {
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_get_AttributedSubstring_String(UnownedRef self, out CreatedRef exn);
 
-        /// <summary>
-        /// The attributed runs of the attributed substring, as a view into the underlying string.
-        /// </summary>
+        /// <summary>The attributed runs of the attributed substring, as a view into the underlying string.</summary>
         /// <remarks>
-        /// This view provides access to the attribute information associated with the attributed substring.
+        ///     This view provides access to the attribute information associated with the attributed substring.
         /// 
-        /// See `runs.elementAtPosition()` or its `get()` operator for a way to access the attributes that
-        /// are associated with a particular position in the attributed substring.
+        ///     See `runs.elementAtPosition()` or its `get()` operator for a way to access the attributes that
+        ///     are associated with a particular position in the attributed substring.
         /// 
-        /// For example, `s.runs.first().attributes` yields the attributes in the first run of `s`
-        /// and `s.runs[index].attributes` yields the attributes associated with the position `index` in `s`.
+        ///     For example, `s.runs.first().attributes` yields the attributes in the first run of `s`
+        ///     and `s.runs[index].attributes` yields the attributes associated with the position `index` in `s`.
         /// </remarks>
         /// <!-- FishyJoes.export(runs) -->
         public Cricut.FishyJoesRuntime.AttributedString.Runs GetRuns() {
@@ -75,9 +68,7 @@ namespace Cricut.FishyJoesRuntime {
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_get_AttributedSubstring_Runs(UnownedRef self, out CreatedRef exn);
 
-        /// <summary>
-        /// The characters of the attributed substring, as a view into the underlying string.
-        /// </summary>
+        /// <summary>The characters of the attributed substring, as a view into the underlying string.</summary>
         /// <!-- FishyJoes.export(characters) -->
         public Cricut.FishyJoesRuntime.AttributedString.CharacterView GetCharacters() {
             using var thisHandle = new GCRef(this);
@@ -89,9 +80,7 @@ namespace Cricut.FishyJoesRuntime {
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_get_AttributedSubstring_Characters(UnownedRef self, out CreatedRef exn);
 
-        /// <summary>
-        /// The Unicode scalars of the attributed substring, as a view into the underlying string.
-        /// </summary>
+        /// <summary>The Unicode scalars of the attributed substring, as a view into the underlying string.</summary>
         /// <!-- FishyJoes.export(unicodeScalars) -->
         public Cricut.FishyJoesRuntime.AttributedString.UnicodeScalarView GetUnicodeScalars() {
             using var thisHandle = new GCRef(this);
@@ -103,11 +92,9 @@ namespace Cricut.FishyJoesRuntime {
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_get_AttributedSubstring_UnicodeScalars(UnownedRef self, out CreatedRef exn);
 
-        /// <summary>
-        /// The position of the first character in a nonempty attributed substring.
-        /// </summary>
+        /// <summary>The position of the first character in a nonempty attributed substring.</summary>
         /// <remarks>
-        /// See `runs`, `characters`, and `unicodeScalars` for ways to obtain other indices within the attributed substring.
+        ///     See `runs`, `characters`, and `unicodeScalars` for ways to obtain other indices within the attributed substring.
         /// </remarks>
         /// <!-- FishyJoes.export(startIndex) -->
         public Cricut.FishyJoesRuntime.AttributedString.Index GetStartIndex() {
@@ -120,11 +107,9 @@ namespace Cricut.FishyJoesRuntime {
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_get_AttributedSubstring_StartIndex(UnownedRef self, out CreatedRef exn);
 
-        /// <summary>
-        /// An attributed substring’s past-the-end position — the position one greater than the last valid subscript argument.
-        /// </summary>
+        /// <summary>An attributed substring’s past-the-end position — the position one greater than the last valid subscript argument.</summary>
         /// <remarks>
-        /// See `runs`, `characters`, and `unicodeScalars` for ways to obtain other indices within the attributed substring.
+        ///     See `runs`, `characters`, and `unicodeScalars` for ways to obtain other indices within the attributed substring.
         /// </remarks>
         /// <!-- FishyJoes.export(endIndex) -->
         public Cricut.FishyJoesRuntime.AttributedString.Index GetEndIndex() {
@@ -137,9 +122,7 @@ namespace Cricut.FishyJoesRuntime {
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_get_AttributedSubstring_EndIndex(UnownedRef self, out CreatedRef exn);
 
-        /// <summary>
-        /// An attributed substring representing the full content of the attributed substring.
-        /// </summary>
+        /// <summary>An attributed substring representing the full content of the attributed substring.</summary>
         /// <!-- FishyJoes.export(substring) -->
         public Cricut.FishyJoesRuntime.AttributedSubstring GetSubstring() {
             using var thisHandle = new GCRef(this);
@@ -151,9 +134,7 @@ namespace Cricut.FishyJoesRuntime {
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_get_AttributedSubstring_Substring(UnownedRef self, out CreatedRef exn);
 
-        /// <summary>
-        /// Obtains an attributed substring representing part of the attributed substring.
-        /// </summary>
+        /// <summary>Obtains an attributed substring representing part of the attributed substring.</summary>
         /// <param name="range">The portion of the attributed substring to be represented by the substring, bounded by `startIndex` and `endIndex`.</param>
         /// <returns>A substring of `base` over `range`.</returns>
         /// <!-- FishyJoes.export(substringForRange) -->
@@ -199,9 +180,7 @@ namespace Cricut.FishyJoesRuntime {
             out CreatedRef exn
         );
 
-        /// <summary>
-        /// Creates an attributed substring with an empty base attributed string.
-        /// </summary>
+        /// <summary>Creates an attributed substring with an empty base attributed string.</summary>
         /// <!-- FishyJoes.export(createEmpty) -->
         public static Cricut.FishyJoesRuntime.AttributedSubstring CreateEmpty(
         ) {
@@ -215,9 +194,7 @@ namespace Cricut.FishyJoesRuntime {
         
         #region Conveniences
 
-        /// <summary>
-        /// Synonym for `AttributedSubstring.CreateEmpty()`.
-        /// </summary>
+        /// <summary>Synonym for `AttributedSubstring.CreateEmpty()`.</summary>
         public AttributedSubstring(): base(new ConsumedRef(IntPtr.Zero)) { 
             var temp = AttributedSubstring.CreateEmpty();
             reference = temp.reference;
@@ -249,7 +226,5 @@ namespace Cricut.FishyJoesRuntime {
         }
 
         #endregion
-
-        static AttributedSubstring() { Loader.ensureLoaded(); }
     }
 }

@@ -233,7 +233,7 @@ namespace Cricut.TestAPI.Tests {
             attributedStringClone.Insert(new AttributedString("enolc"), attributedStringClone.GetEndIndex());
             Assert.Equal(
                 new string[] { "cloneHello", " ", "Olá", " ", "こんにちは", "enolc" },
-                attributedStringClone.GetRuns().Select(run => attributedString.SubstringForRange(run.GetRange()).GetString())
+                attributedStringClone.GetRuns().Select(run => attributedStringClone.SubstringForRange(run.GetRange()).GetString())
             );
             Assert.Equal("Hi18nは", attributedString.GetString()); // Unchanged
             Assert.Equal("Hi18nは", attributedStringReference.GetString()); // Unchanged

@@ -4,29 +4,26 @@ using System;
 using static Cricut.FishyJoesRuntime.Utilities;
 
 namespace Cricut.FishyJoesRuntime {
-    /// <summary>
-    /// A type that provides a way to store attributes and their values outside of an attributed string.
-    /// </summary>
+    /// <summary>A type that provides a way to store attributes and their values outside of an attributed string.</summary>
     /// <remarks>
-    /// Use this type to initialize an instance of AttributedString with preset attributes,
-    /// and to set, merge, or replace attributes in existing attributed strings.
+    ///     Use this type to initialize an instance of AttributedString with preset attributes,
+    ///     and to set, merge, or replace attributes in existing attributed strings.
     /// 
-    /// Libraries that depend on `AttributeContainer` are free to define their own attributes to be associated with attributed strings.
-    /// As a result of this flexibility, the actual values of attributes can only be obtained using types defined in those libraries.
+    ///     Libraries that depend on `AttributeContainer` are free to define their own attributes to be associated with attributed strings.
+    ///     As a result of this flexibility, the actual values of attributes can only be obtained using types defined in those libraries.
     /// 
-    /// The runtime itself defines one such type, `AttributeContainer.FoundationAttributes`.
-    /// To obtain the values of attributes from that type, such as the `link` attribute or `languageIdentifier` attribute,
-    /// one must construct an instance passing the container:
+    ///     The runtime itself defines one such type, `AttributeContainer.FoundationAttributes`.
+    ///     To obtain the values of attributes from that type, such as the `link` attribute or `languageIdentifier` attribute,
+    ///     one must construct an instance passing the container:
     /// 
-    /// `link = AttributeContainer.FoundationAttributes(someContainer).link`
+    ///     `link = AttributeContainer.FoundationAttributes(someContainer).link`
     /// </remarks>
     /// <!-- FishyJoes.exportReference(AttributeContainer) -->
     public class AttributeContainer : SwiftReference {
+        static AttributeContainer() { Loader.ensureLoaded(); }
         internal AttributeContainer(ConsumedRef reference): base(reference) {}
 
-        /// <summary>
-        /// Merges the attributes of another attribute container with those of this container.
-        /// </summary>
+        /// <summary>Merges the attributes of another attribute container with those of this container.</summary>
         /// <param name="other">The other attribute container whose attributes should be merged into this container.</param>
         /// <param name="keepCurrent">
         ///     For attributes in `other` that already have a value in this container
@@ -78,9 +75,7 @@ namespace Cricut.FishyJoesRuntime {
             out CreatedRef exn
         );
 
-        /// <summary>
-        /// Creates an attribute container having no attribute values.
-        /// </summary>
+        /// <summary>Creates an attribute container having no attribute values.</summary>
         /// <!-- FishyJoes.export(createEmpty) -->
         public static Cricut.FishyJoesRuntime.AttributeContainer CreateEmpty(
         ) {
@@ -94,9 +89,7 @@ namespace Cricut.FishyJoesRuntime {
 
         #region Conveniences
 
-        /// <summary>
-        /// Synonym for `AttributeContainer.CreateEmpty()`.
-        /// </summary>
+        /// <summary>Synonym for `AttributeContainer.CreateEmpty()`.</summary>
         public AttributeContainer(): base(new ConsumedRef(IntPtr.Zero)) { 
             var empty = AttributeContainer.CreateEmpty();
             reference = empty.reference;
@@ -105,26 +98,23 @@ namespace Cricut.FishyJoesRuntime {
 
         #endregion
 
-        /// <summary>
-        /// Attributes defined by the Swift Foundation library in ``AttributeScopes``, packaged as a static type.
-        /// </summary>
+        /// <summary>Attributes defined by the Swift Foundation library in ``AttributeScopes``, packaged as a static type.</summary>
         /// <remarks>
-        /// This type (and the ones like it defined in other libraries) allow features similar to those
-        /// offered by Swift dynamic member lookup in ``AttributeScope`` to be exported to other languages.
+        ///     This type (and the ones like it defined in other libraries) allow features similar to those
+        ///     offered by Swift dynamic member lookup in ``AttributeScope`` to be exported to other languages.
         /// 
-        /// An attribute container can be asked to fill in the fields defined by this structure using `AttributeContainerFoundationAttributes(AttributeContainer)`.
-        /// This type can be asked to fill in an attribute container using `AttributeContainer(FoundationAttributes)`.
+        ///     An attribute container can be asked to fill in the fields defined by this structure using `AttributeContainerFoundationAttributes(AttributeContainer)`.
+        ///     This type can be asked to fill in an attribute container using `AttributeContainer(FoundationAttributes)`.
         /// 
-        /// Combining these calls with `AttributedString.setAttributes(_:)` and `AttributedString.mergeAttributes(_:)` allows expansion
-        /// of attributed strings with new attributes in other languages analogously to how it is done in ``AttributeScopes`` using Swift dynamic member lookup.
+        ///     Combining these calls with `AttributedString.setAttributes(_:)` and `AttributedString.mergeAttributes(_:)` allows expansion
+        ///     of attributed strings with new attributes in other languages analogously to how it is done in ``AttributeScopes`` using Swift dynamic member lookup.
         /// </remarks>
         /// <!-- FishyJoes.exportReference(AttributeContainer.FoundationAttributes) -->
         public class FoundationAttributes : SwiftReference {
+            static FoundationAttributes() { Loader.ensureLoaded(); }
             internal FoundationAttributes(ConsumedRef reference): base(reference) {}
 
-            /// <summary>
-            /// A link attribute.
-            /// </summary>
+            /// <summary>A link attribute.</summary>
             /// <!-- FishyJoes.export(link) -->
             public System.Uri? Link {
                 get {
@@ -148,9 +138,7 @@ namespace Cricut.FishyJoesRuntime {
             [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern void __cs_set_AttributeContainer_FoundationAttributes_Link(UnownedRef self, UnownedRef value, out CreatedRef exn);
 
-            /// <summary>
-            /// A language identifier attribute.
-            /// </summary>
+            /// <summary>A language identifier attribute.</summary>
             /// <!-- FishyJoes.export(languageIdentifier) -->
             public string? LanguageIdentifier {
                 get {
@@ -213,9 +201,7 @@ namespace Cricut.FishyJoesRuntime {
                 out CreatedRef exn
             );
 
-            /// <summary>
-            /// Creates a Foundation attribute container having no attribute values.
-            /// </summary>
+            /// <summary>Creates a Foundation attribute container having no attribute values.</summary>
             /// <!-- FishyJoes.export(createEmpty) -->
             public static Cricut.FishyJoesRuntime.AttributeContainer.FoundationAttributes CreateEmpty(
             ) {
@@ -227,9 +213,7 @@ namespace Cricut.FishyJoesRuntime {
                 out CreatedRef exn
             );
 
-            /// <summary>
-            /// Extracts the Foundation attributes from an attribute container and makes them available as statically typed properties.
-            /// </summary>
+            /// <summary>Extracts the Foundation attributes from an attribute container and makes them available as statically typed properties.</summary>
             /// <!-- FishyJoes.export(createFromContainer) -->
             public static Cricut.FishyJoesRuntime.AttributeContainer.FoundationAttributes CreateFromContainer(
                 Cricut.FishyJoesRuntime.AttributeContainer container
@@ -246,9 +230,7 @@ namespace Cricut.FishyJoesRuntime {
 
             #region Conveniences
 
-            /// <summary>
-            /// Creates attributes with the provided attribute fields populated.
-            /// </summary>
+            /// <summary>Creates attributes with the provided attribute fields populated.</summary>
             public FoundationAttributes(Uri? link = null, string? languageIdentifier = null): base(new ConsumedRef(IntPtr.Zero)) { 
                 var temp = FoundationAttributes.CreateEmpty();
                 reference = temp.reference;
@@ -258,9 +240,7 @@ namespace Cricut.FishyJoesRuntime {
                 this.LanguageIdentifier = languageIdentifier;
             }
 
-            /// <summary>
-            /// Synonym for `FoundationAttributes.CreateFromContainer()`.
-            /// </summary>
+            /// <summary>Synonym for `FoundationAttributes.CreateFromContainer()`.</summary>
             public FoundationAttributes(AttributeContainer container): base(new ConsumedRef(IntPtr.Zero)) { 
                 var temp = FoundationAttributes.CreateFromContainer(container);
                 reference = temp.reference;
@@ -271,9 +251,6 @@ namespace Cricut.FishyJoesRuntime {
             public static implicit operator FoundationAttributes(AttributeContainer container) => FoundationAttributes.CreateFromContainer(container);
 
             #endregion
-
-            static FoundationAttributes() { Loader.ensureLoaded(); }
         }
-        static AttributeContainer() { Loader.ensureLoaded(); }
     }
 }

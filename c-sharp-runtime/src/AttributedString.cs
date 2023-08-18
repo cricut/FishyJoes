@@ -6,22 +6,20 @@ using System;
 using static Cricut.FishyJoesRuntime.Utilities;
 
 namespace Cricut.FishyJoesRuntime {
-    /// <summary>
-    /// A string with associated attributes for portions of its text.
-    /// </summary>
+    /// <summary>A string with associated attributes for portions of its text.</summary>
     /// <remarks>
-    /// See `text` or `characters` for access to the text of an attributed string.
-    /// See `runs` for access to the attribute information associated with the attributed string's text.
+    ///     See `text` or `characters` for access to the text of an attributed string.
+    ///     See `runs` for access to the attribute information associated with the attributed string's text.
     /// </remarks>
     /// <!-- FishyJoes.exportReference(AttributedString) -->
-    public class AttributedString : SwiftReference, ICloneable {
+    public partial class AttributedString : SwiftReference {
+        static AttributedString() { Loader.ensureLoaded(); }
+    
         internal AttributedString(ConsumedRef reference): base(reference) {}
 
-        /// <summary>
-        /// Text represented by the attributed string.
-        /// </summary>
+        /// <summary>Text represented by the attributed string.</summary>
         /// <remarks>
-        /// See `runs` for the attribute information associated with the attributed string's text.
+        ///     See `runs` for the attribute information associated with the attributed string's text.
         /// </remarks>
         /// <!-- FishyJoes.export(string) -->
         public string GetString() {
@@ -34,17 +32,15 @@ namespace Cricut.FishyJoesRuntime {
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_get_AttributedString_String(UnownedRef self, out CreatedRef exn);
 
-        /// <summary>
-        /// The attributed runs of the attributed string, as a view into the underlying string.
-        /// </summary>
+        /// <summary>The attributed runs of the attributed string, as a view into the underlying string.</summary>
         /// <remarks>
-        /// This view provides access to the attribute information associated with the attributed string.
+        ///     This view provides access to the attribute information associated with the attributed string.
         /// 
-        /// See `runs.elementAtPosition()` or its `get()` operator for a way to access the attributes that
-        /// are associated with a particular position in the attributed string.
+        ///     See `runs.elementAtPosition()` or its `get()` operator for a way to access the attributes that
+        ///     are associated with a particular position in the attributed string.
         /// 
-        /// For example, `s.runs.first().attributes` yields the attributes in the first run of `s`
-        /// and `s.runs[index].attributes` yields the attributes associated with the position `index` in `s`.
+        ///     For example, `s.runs.first().attributes` yields the attributes in the first run of `s`
+        ///     and `s.runs[index].attributes` yields the attributes associated with the position `index` in `s`.
         /// </remarks>
         /// <!-- FishyJoes.export(runs) -->
         public Cricut.FishyJoesRuntime.AttributedString.Runs GetRuns() {
@@ -57,9 +53,7 @@ namespace Cricut.FishyJoesRuntime {
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_get_AttributedString_Runs(UnownedRef self, out CreatedRef exn);
 
-        /// <summary>
-        /// The characters of the attributed string, as a view into the underlying string.
-        /// </summary>
+        /// <summary>The characters of the attributed string, as a view into the underlying string.</summary>
         /// <!-- FishyJoes.export(characters) -->
         public Cricut.FishyJoesRuntime.AttributedString.CharacterView GetCharacters() {
             using var thisHandle = new GCRef(this);
@@ -71,9 +65,7 @@ namespace Cricut.FishyJoesRuntime {
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_get_AttributedString_Characters(UnownedRef self, out CreatedRef exn);
 
-        /// <summary>
-        /// The Unicode scalars of the attributed string, as a view into the underlying string.
-        /// </summary>
+        /// <summary>The Unicode scalars of the attributed string, as a view into the underlying string.</summary>
         /// <!-- FishyJoes.export(unicodeScalars) -->
         public Cricut.FishyJoesRuntime.AttributedString.UnicodeScalarView GetUnicodeScalars() {
             using var thisHandle = new GCRef(this);
@@ -85,9 +77,7 @@ namespace Cricut.FishyJoesRuntime {
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_get_AttributedString_UnicodeScalars(UnownedRef self, out CreatedRef exn);
 
-        /// <summary>
-        /// An attributed substring representing the full content of the attributed string.
-        /// </summary>
+        /// <summary>An attributed substring representing the full content of the attributed string.</summary>
         /// <!-- FishyJoes.export(substring) -->
         public Cricut.FishyJoesRuntime.AttributedSubstring GetSubstring() {
             using var thisHandle = new GCRef(this);
@@ -99,11 +89,9 @@ namespace Cricut.FishyJoesRuntime {
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_get_AttributedString_Substring(UnownedRef self, out CreatedRef exn);
 
-        /// <summary>
-        /// The position of the first character in a nonempty attributed string.
-        /// </summary>
+        /// <summary>The position of the first character in a nonempty attributed string.</summary>
         /// <remarks>
-        /// See `runs`, `characters`, and `unicodeScalars` for ways to obtain other indices within the attributed string.
+        ///     See `runs`, `characters`, and `unicodeScalars` for ways to obtain other indices within the attributed string.
         /// </remarks>
         /// <!-- FishyJoes.export(startIndex) -->
         public Cricut.FishyJoesRuntime.AttributedString.Index GetStartIndex() {
@@ -116,11 +104,9 @@ namespace Cricut.FishyJoesRuntime {
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_get_AttributedString_StartIndex(UnownedRef self, out CreatedRef exn);
 
-        /// <summary>
-        /// An attributed string’s past-the-end position — the position one greater than the last valid subscript argument.
-        /// </summary>
+        /// <summary>An attributed string’s past-the-end position — the position one greater than the last valid subscript argument.</summary>
         /// <remarks>
-        /// See `runs`, `characters`, and `unicodeScalars` for ways to obtain other indices within the attributed string.
+        ///     See `runs`, `characters`, and `unicodeScalars` for ways to obtain other indices within the attributed string.
         /// </remarks>
         /// <!-- FishyJoes.export(endIndex) -->
         public Cricut.FishyJoesRuntime.AttributedString.Index GetEndIndex() {
@@ -133,9 +119,7 @@ namespace Cricut.FishyJoesRuntime {
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __cs_get_AttributedString_EndIndex(UnownedRef self, out CreatedRef exn);
 
-        /// <summary>
-        /// Obtains an attributed substring representing part of the attributed string.
-        /// </summary>
+        /// <summary>Obtains an attributed substring representing part of the attributed string.</summary>
         /// <param name="range">The portion of the attributed string to be represented by the substring, bounded by `startIndex` and `endIndex`.</param>
         /// <!-- FishyJoes.export(substringForRange) -->
         public Cricut.FishyJoesRuntime.AttributedSubstring SubstringForRange(
@@ -153,9 +137,7 @@ namespace Cricut.FishyJoesRuntime {
             out CreatedRef exn
         );
 
-        /// <summary>
-        /// Appends the text and any associated attributes of another attributed string to the end of this one.
-        /// </summary>
+        /// <summary>Appends the text and any associated attributes of another attributed string to the end of this one.</summary>
         /// <param name="attributedString">The attributed string containing the text and attributes to append.</param>
         /// <!-- FishyJoes.export(append) -->
         public void Append(
@@ -173,9 +155,7 @@ namespace Cricut.FishyJoesRuntime {
             out CreatedRef exn
         );
 
-        /// <summary>
-        /// Appends the text and any associated attributes of the portion of an attributed string represented by a substring to the end of this one.
-        /// </summary>
+        /// <summary>Appends the text and any associated attributes of the portion of an attributed string represented by a substring to the end of this one.</summary>
         /// <param name="substring">The substring containing the text and attributes to append.</param>
         /// <!-- FishyJoes.export(appendSubstring) -->
         public void AppendSubstring(
@@ -193,9 +173,7 @@ namespace Cricut.FishyJoesRuntime {
             out CreatedRef exn
         );
 
-        /// <summary>
-        /// Inserts the text and any associated attributes of another attributed string into this one at the specified position.
-        /// </summary>
+        /// <summary>Inserts the text and any associated attributes of another attributed string into this one at the specified position.</summary>
         /// <param name="attributedString">The attributed string containing the text and attributes to insert.</param>
         /// <param name="index">
         ///     Position at which the content of `attributedString` should be inserted, bounded by `startIndex` and `endIndex`.
@@ -221,9 +199,7 @@ namespace Cricut.FishyJoesRuntime {
             out CreatedRef exn
         );
 
-        /// <summary>
-        /// Inserts the text and any associated attributes of a substring of an attributed string into this one at the specified position.
-        /// </summary>
+        /// <summary>Inserts the text and any associated attributes of a substring of an attributed string into this one at the specified position.</summary>
         /// <param name="substring">The substring of an attributed string containing the text and attributes to insert.</param>
         /// <param name="index">
         ///     Position at which the content of `substring` should be inserted, bounded by `startIndex` and `endIndex`.
@@ -249,9 +225,7 @@ namespace Cricut.FishyJoesRuntime {
             out CreatedRef exn
         );
 
-        /// <summary>
-        /// Replaces a portion of the text and associated attributes of the attributed string with content from another one.
-        /// </summary>
+        /// <summary>Replaces a portion of the text and associated attributes of the attributed string with content from another one.</summary>
         /// <param name="range"> The portion of the attributed string to be replaced, bounded by `startIndex` and `endIndex`.</param>
         /// <param name="attributedString"> The attributed string containing the text and attributes that replaces the content in `range`.</param>
         /// <!-- FishyJoes.export(replaceSubrange) -->
@@ -273,9 +247,7 @@ namespace Cricut.FishyJoesRuntime {
             out CreatedRef exn
         );
 
-        /// <summary>
-        /// Replaces a portion of the text and associated attributes of the attributed string with content from a substring of another one.
-        /// </summary>
+        /// <summary>Replaces a portion of the text and associated attributes of the attributed string with content from a substring of another one.</summary>
         /// <param name="range">The portion of the attributed string to be replaced, bounded by `startIndex` and `endIndex`.</param>
         /// <param name="substring">The substring of an attributed string containing the text and attributes that replaces the content in `range`.</param>
         /// <!-- FishyJoes.export(replaceSubrangeWithSubstring) -->
@@ -297,9 +269,7 @@ namespace Cricut.FishyJoesRuntime {
             out CreatedRef exn
         );
 
-        /// <summary>
-        /// Removes a portion of the text and associated attributes from the attributed string.
-        /// </summary>
+        /// <summary>Removes a portion of the text and associated attributes from the attributed string.</summary>
         /// <param name="range">The portion of the attributed string to remove, bounded by `startIndex` and `endIndex`.</param>
         /// <!-- FishyJoes.export(removeSubrange) -->
         public void RemoveSubrange(
@@ -317,9 +287,7 @@ namespace Cricut.FishyJoesRuntime {
             out CreatedRef exn
         );
 
-        /// <summary>
-        /// Associates attributes with the content of the entire attributed string, replacing any existing attribute information.
-        /// </summary>
+        /// <summary>Associates attributes with the content of the entire attributed string, replacing any existing attribute information.</summary>
         /// <param name="attributes">The attributes which will subsequently apply to all text in the attributed string.</param>
         /// <!-- FishyJoes.export(setAttributes) -->
         public void SetAttributes(
@@ -337,9 +305,7 @@ namespace Cricut.FishyJoesRuntime {
             out CreatedRef exn
         );
 
-        /// <summary>
-        /// Associates attributes with the content of a portion of the attributed string, replacing any existing attribute information.
-        /// </summary>
+        /// <summary>Associates attributes with the content of a portion of the attributed string, replacing any existing attribute information.</summary>
         /// <param name="range">The portion of the attributed string whose attributes are to be replaced, bounded by `startIndex` and `endIndex`.</param>
         /// <param name="attributes">The attributes which will subsequently apply to the text in `range`.</param>
         /// <!-- FishyJoes.export(setAttributesForRange) -->
@@ -361,9 +327,7 @@ namespace Cricut.FishyJoesRuntime {
             out CreatedRef exn
         );
 
-        /// <summary>
-        /// Associates attributes with the content of the entire attributed string, merging with any existing attribute information.
-        /// </summary>
+        /// <summary>Associates attributes with the content of the entire attributed string, merging with any existing attribute information.</summary>
         /// <param name="attributes">The attributes which will subsequently apply to all text in the attributed string.</param>
         /// <param name="keepCurrent">
         ///     For attributes in `attributes` that already have a value in the attributed string,
@@ -388,9 +352,7 @@ namespace Cricut.FishyJoesRuntime {
             out CreatedRef exn
         );
 
-        /// <summary>
-        /// Associates attributes with the content of a portion of the attributed string, merging with any existing attribute information.
-        /// </summary>
+        /// <summary>Associates attributes with the content of a portion of the attributed string, merging with any existing attribute information.</summary>
         /// <param name="range">The portion of the attributed string whose attributes are to be modified, bounded by `startIndex` and `endIndex`.</param>
         /// <param name="attributes">The attributes which will subsequently apply to the text in `range`.</param>
         /// <param name="keepCurrent">
@@ -419,9 +381,7 @@ namespace Cricut.FishyJoesRuntime {
             out CreatedRef exn
         );
 
-        /// <summary>
-        /// Replaces occurrences of attributes in one attribute container with those in another attribute container.
-        /// </summary>
+        /// <summary>Replaces occurrences of attributes in one attribute container with those in another attribute container.</summary>
         /// <param name="attributes">The existing attributes to replace.</param>
         /// <param name="others">The new attributes to apply.</param>
         /// <!-- FishyJoes.export(replaceAttributes) -->
@@ -443,9 +403,7 @@ namespace Cricut.FishyJoesRuntime {
             out CreatedRef exn
         );
 
-        /// <summary>
-        /// Replaces occurrences of attributes in one attribute container with those in another attribute container.
-        /// </summary>
+        /// <summary>Replaces occurrences of attributes in one attribute container with those in another attribute container.</summary>
         /// <param name="range">The portion of the attributed string whose attributes are to be modified, bounded by `startIndex` and `endIndex`.</param>
         /// <param name="attributes">The existing attributes to replace.</param>
         /// <param name="others">The new attributes to apply.</param>
@@ -498,9 +456,7 @@ namespace Cricut.FishyJoesRuntime {
             out CreatedRef exn
         );
 
-        /// <summary>
-        /// Creates an attributed string containing the empty string as its text with no associated attributes.
-        /// </summary>
+        /// <summary>Creates an attributed string containing the empty string as its text with no associated attributes.</summary>
         /// <!-- FishyJoes.export(createEmpty) -->
         public static Cricut.FishyJoesRuntime.AttributedString CreateEmpty(
         ) {
@@ -512,9 +468,7 @@ namespace Cricut.FishyJoesRuntime {
             out CreatedRef exn
         );
 
-        /// <summary>
-        /// Creates an attributed string containing a string as its text, all associated with the specified attributes.
-        /// </summary>
+        /// <summary>Creates an attributed string containing a string as its text, all associated with the specified attributes.</summary>
         /// <param name="_string">A string containing the text to serve as the content of the attributed string.</param>
         /// <param name="attributes">Attributes to associate with the full range of the attributed string.</param>
         /// <!-- FishyJoes.export(create) -->
@@ -534,9 +488,7 @@ namespace Cricut.FishyJoesRuntime {
             out CreatedRef exn
         );
 
-        /// <summary>
-        /// Creates an attributed string drawing its the text and attributes from a substring of another attributed string.
-        /// </summary>
+        /// <summary>Creates an attributed string drawing its the text and attributes from a substring of another attributed string.</summary>
         /// <param name="substring">A substring of another attributed string whose content is used for the created attributed string.</param>
         /// <!-- FishyJoes.export(createFromSubstring) -->
         public static Cricut.FishyJoesRuntime.AttributedString CreateFromSubstring(
@@ -551,36 +503,32 @@ namespace Cricut.FishyJoesRuntime {
             UnownedRef substring,
             out CreatedRef exn
         );
+    }
 
-        #region Conveniences
-
-        /// <summary>
-        /// Synonym for `AttributedString.CreateEmpty()`.
-        /// </summary>
+    // Convenience Interface
+    public partial class AttributedString : ICloneable {
+        /// <summary>Synonym for `AttributedString.CreateEmpty()`.</summary>
         public AttributedString(): base(new ConsumedRef(IntPtr.Zero)) { 
             var temp = AttributedString.CreateEmpty();
             reference = temp.reference;
             temp.reference = IntPtr.Zero;
         }
 
-        /// <summary>
-        /// Synonym for `AttributedString.Create()`.
-        /// </summary>
+        /// <summary>Synonym for `AttributedString.Create()`.</summary>
         public AttributedString(string _string, AttributeContainer? attributes = null): base(new ConsumedRef(IntPtr.Zero)) { 
             var temp = AttributedString.Create(_string, attributes);
             reference = temp.reference;
             temp.reference = IntPtr.Zero;
         }
 
-        /// <summary>
-        /// Synonym for `AttributedString.CreateFromSubstring()`.
-        /// </summary>
+        /// <summary>Synonym for `AttributedString.CreateFromSubstring()`.</summary>
         public AttributedString(AttributedSubstring substring): base(new ConsumedRef(IntPtr.Zero)) { 
             var temp = AttributedString.CreateFromSubstring(substring);
             reference = temp.reference;
             temp.reference = IntPtr.Zero;
         }
 
+        /// <summary>Creates a deep clone of an attributed string.</summary>
         public AttributedString(AttributedString attributedString): base(new ConsumedRef(IntPtr.Zero)) {
             // TODO: Faster! private cloneBox function inside SwiftReference?
             var clone = AttributedString.CreateEmpty();
@@ -591,9 +539,7 @@ namespace Cricut.FishyJoesRuntime {
             clone.reference = IntPtr.Zero;
         }
 
-        public object Clone() {
-            return new AttributedString(this);
-        }
+        public object Clone() => new AttributedString(this);
 
         public static explicit operator AttributedString(AttributedSubstring substring) => AttributedString.CreateFromSubstring(substring);
         public static explicit operator AttributedSubstring(AttributedString attributedString) => attributedString.GetSubstring();
@@ -635,19 +581,81 @@ namespace Cricut.FishyJoesRuntime {
             s.Append(new AttributedString(b));
             return s;
         }
+    }
 
-        #endregion
+    public partial class AttributedString {
+        /// <summary>A type that represents the position of a character or code unit within an attributed string.</summary>
+        /// <!-- FishyJoes.exportReference(AttributedString.Index) -->
+        public partial class Index : SwiftReference, IComparable<Index>, IEquatable<Index> {
+            static Index() { Loader.ensureLoaded(); }
+            internal Index(ConsumedRef reference): base(reference) {}
 
-        /// <summary>
-        /// An iterable view into segments of the attributed string or substring, each of which indicates where a run of identical attributes begins or ends.
-        /// </summary>
+            public bool Equals(
+                Index? other
+            ) {
+                using var thisHandle = new GCRef(this);
+                using var otherHandle = new GCRef(other);
+                return Check((out CreatedRef exn) => __cs_AttributedString_Index_equals(thisHandle.ptr, otherHandle.ptr, out exn));
+            }
+
+            public override bool Equals(object? other) => Equals(other as Index);
+
+            [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            private static extern bool __cs_AttributedString_Index_equals(
+                UnownedRef lhs,
+                UnownedRef rhs,
+                out CreatedRef exn
+            );
+
+            public override int GetHashCode(
+            ) {
+                using var _thisHandle = new GCRef(this);
+                return Check((out CreatedRef _exn) => __cs_AttributedString_Index_hash(_thisHandle.ptr, out _exn));
+            }
+
+            [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            private static extern int __cs_AttributedString_Index_hash(
+                UnownedRef self,
+                out CreatedRef exn
+            );
+
+            public int CompareTo(
+                Index? other
+            ) {
+                using var _thisHandle = new GCRef(this);
+                using var otherHandle = new GCRef(other as Cricut.FishyJoesRuntime.AttributedString.Index);
+                return Check((out CreatedRef _exn) => __cs_AttributedString_Index_compare(_thisHandle.ptr, otherHandle.ptr, out _exn));
+            }
+            
+            [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            private static extern int __cs_AttributedString_Index_compare(
+                UnownedRef lhs,
+                UnownedRef rhs,
+                out CreatedRef exn
+            );
+        }
+    }
+
+    public partial class AttributedString {
+        // Convenience Interface
+        public partial class Index {
+            public static bool operator > (Index lhs, Index rhs) => lhs.CompareTo(rhs) > 0;
+            public static bool operator < (Index lhs, Index rhs) => lhs.CompareTo(rhs) < 0;
+            public static bool operator >= (Index lhs, Index rhs) => lhs.CompareTo(rhs) >= 0;
+            public static bool operator <= (Index lhs, Index rhs) => lhs.CompareTo(rhs) <= 0;
+            public static bool operator == (Index lhs, Index rhs) => lhs.CompareTo(rhs) == 0;
+            public static bool operator != (Index lhs, Index rhs) => !(lhs == rhs);
+        }
+    }
+    
+    public partial class AttributedString {
+        /// <summary>An iterable view into segments of the attributed string or substring, each of which indicates where a run of identical attributes begins or ends.</summary>
         /// <!-- FishyJoes.exportReference(AttributedString.Runs) -->
-        public class Runs : SwiftReference, IEnumerable<Runs.Run> {
+        public partial class Runs : SwiftReference {
+            static Runs() { Loader.ensureLoaded(); }
             internal Runs(ConsumedRef reference): base(reference) {}
 
-            /// <summary>
-            /// The position of the first run in a nonempty attributed string or substring.
-            /// </summary>
+            /// <summary>The position of the first run in a nonempty attributed string or substring.</summary>
             /// <!-- FishyJoes.export(startIndex) -->
             public Cricut.FishyJoesRuntime.AttributedString.Runs.Index GetStartIndex() {
                 using var thisHandle = new GCRef(this);
@@ -659,9 +667,7 @@ namespace Cricut.FishyJoesRuntime {
             [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern CreatedRef __cs_get_AttributedString_Runs_StartIndex(UnownedRef self, out CreatedRef exn);
 
-            /// <summary>
-            /// The past-the-end position — the position one greater than the last valid subscript argument.
-            /// </summary>
+            /// <summary>The past-the-end position — the position one greater than the last valid subscript argument.</summary>
             /// <!-- FishyJoes.export(endIndex) -->
             public Cricut.FishyJoesRuntime.AttributedString.Runs.Index GetEndIndex() {
                 using var thisHandle = new GCRef(this);
@@ -673,9 +679,7 @@ namespace Cricut.FishyJoesRuntime {
             [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern CreatedRef __cs_get_AttributedString_Runs_EndIndex(UnownedRef self, out CreatedRef exn);
 
-            /// <summary>
-            /// Obtains the run index before another index.
-            /// </summary>
+            /// <summary>Obtains the run index before another index.</summary>
             /// <param name="index">The index serving as the starting position, between `startIndex` exclusive and `endIndex` inclusive.</param>
             /// <returns>
             ///     The index of the run before `index`.
@@ -698,9 +702,7 @@ namespace Cricut.FishyJoesRuntime {
                 out CreatedRef exn
             );
 
-            /// <summary>
-            /// Obtains the run index after another index.
-            /// </summary>
+            /// <summary>Obtains the run index after another index.</summary>
             /// <param name="index">The index serving as the starting position, between `startIndex` inclusive and `endIndex` exclusive.</param>
             /// <returns>
             ///     The index of the run after `index`.
@@ -723,9 +725,7 @@ namespace Cricut.FishyJoesRuntime {
                 out CreatedRef exn
             );
 
-            /// <summary>
-            /// Obtains the run descriptor at a run index.
-            /// </summary>
+            /// <summary>Obtains the run descriptor at a run index.</summary>
             /// <param name="index">The index of the desired run, between `startIndex` inclusive and `endIndex` exclusive.</param>
             /// <returns>
             ///     The descriptor for the run at `index`.
@@ -748,9 +748,7 @@ namespace Cricut.FishyJoesRuntime {
                 out CreatedRef exn
             );
 
-            /// <summary>
-            /// Obtains the run descriptor associated with an attributed string index.
-            /// </summary>
+            /// <summary>Obtains the run descriptor associated with an attributed string index.</summary>
             /// <param name="index">
             ///     The index of the desired position in the attributed string or substring that this object is a view for,
             ///     between its `startIndex` inclusive and `endIndex` exclusive.
@@ -802,9 +800,12 @@ namespace Cricut.FishyJoesRuntime {
                 UnownedRef self,
                 out CreatedRef exn
             );
+        }
+    }
 
-            #region Convenience
-
+    public partial class AttributedString {
+        // Convenience Interface
+        public partial class Runs : IEnumerable<Runs.Run> {
             public IEnumerator<Runs.Run> GetEnumerator(
             ) {
                 for (var index = GetStartIndex(); index < GetEndIndex(); index = IndexAfter(index)) {
@@ -813,79 +814,15 @@ namespace Cricut.FishyJoesRuntime {
             }
 
             IEnumerator IEnumerable.GetEnumerator() => (IEnumerator)GetEnumerator();
+        }
+    }
 
-            #endregion
-
-            /// <summary>
-            /// Description of a run of attributes within an attributed string or substring.
-            /// </summary>
-            /// <!-- FishyJoes.exportReference(AttributedString.Runs.Run) -->
-            public class Run : SwiftReference {
-                internal Run(ConsumedRef reference): base(reference) {}
-
-                /// <summary>
-                /// The range of the portion of the attributed string that this run description represents.
-                /// </summary>
-                /// <!-- FishyJoes.export(range) -->
-                public Cricut.FishyJoesRuntime.SwiftRange<Cricut.FishyJoesRuntime.AttributedString.Index> GetRange() {
-                    using var thisHandle = new GCRef(this);
-                    return Check((out CreatedRef exn) =>
-                        __cs_get_AttributedString_Runs_Run_Range(thisHandle.ptr, out exn).Consume<Cricut.FishyJoesRuntime.SwiftRange<Cricut.FishyJoesRuntime.AttributedString.Index>>()
-                    );
-                }
-
-                [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-                private static extern CreatedRef __cs_get_AttributedString_Runs_Run_Range(UnownedRef self, out CreatedRef exn);
-
-                /// <summary>
-                /// The attributes associated with of the portion of the attributed string that this run description represents.
-                /// </summary>
-                /// <!-- FishyJoes.export(attributes) -->
-                public Cricut.FishyJoesRuntime.AttributeContainer GetAttributes() {
-                    using var thisHandle = new GCRef(this);
-                    return Check((out CreatedRef exn) =>
-                        __cs_get_AttributedString_Runs_Run_Attributes(thisHandle.ptr, out exn).Consume<Cricut.FishyJoesRuntime.AttributeContainer>()
-                    );
-                }
-
-                [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-                private static extern CreatedRef __cs_get_AttributedString_Runs_Run_Attributes(UnownedRef self, out CreatedRef exn);
-
-                public override bool Equals(
-                    object? other
-                ) {
-                    using var thisHandle = new GCRef(this);
-                    using var otherHandle = new GCRef(other as Cricut.FishyJoesRuntime.AttributedString.Runs.Run);
-                    return Check((out CreatedRef exn) => __cs_AttributedString_Runs_Run_equals(thisHandle.ptr, otherHandle.ptr, out exn));
-                }
-
-                [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-                private static extern bool __cs_AttributedString_Runs_Run_equals(
-                    UnownedRef lhs,
-                    UnownedRef rhs,
-                    out CreatedRef exn
-                );
-
-                public override int GetHashCode(
-                ) {
-                    using var _thisHandle = new GCRef(this);
-                    return Check((out CreatedRef _exn) => __cs_AttributedString_Runs_Run_hash(_thisHandle.ptr, out _exn));
-                }
-
-                [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-                private static extern int __cs_AttributedString_Runs_Run_hash(
-                    UnownedRef self,
-                    out CreatedRef exn
-                );
-
-                static Run() { Loader.ensureLoaded(); }
-            }
-
-            /// <summary>
-            /// A type that represents the position of a descriptor for a run within an attributed string's view of runs.
-            /// </summary>
+    public partial class AttributedString {
+        public partial class Runs {
+            /// <summary>A type that represents the position of a descriptor for a run within an attributed string's view of runs.</summary>
             /// <!-- FishyJoes.exportReference(AttributedString.Runs.Index) -->
             public class Index : SwiftReference, IComparable<Index>, IEquatable<Index> {
+                static Index() { Loader.ensureLoaded(); }
                 internal Index(ConsumedRef reference): base(reference) {}
 
                 public bool Equals(
@@ -942,87 +879,80 @@ namespace Cricut.FishyJoesRuntime {
                 public static bool operator != (Index lhs, Index rhs) => !(lhs == rhs);
 
                 #endregion
-
-                static Index() { Loader.ensureLoaded(); }
             }
-            static Runs() { Loader.ensureLoaded(); }
         }
+    }
 
-        /// <summary>
-        /// A type that represents the position of a character or code unit within an attributed string.
-        /// </summary>
-        /// <!-- FishyJoes.exportReference(AttributedString.Index) -->
-        public class Index : SwiftReference, IComparable<Index>, IEquatable<Index> {
-            internal Index(ConsumedRef reference): base(reference) {}
+    public partial class AttributedString {
+        public partial class Runs {
+            /// <summary>Description of a run of attributes within an attributed string or substring.</summary>
+            /// <!-- FishyJoes.exportReference(AttributedString.Runs.Run) -->
+            public class Run : SwiftReference {
+                static Run() { Loader.ensureLoaded(); }
+                internal Run(ConsumedRef reference): base(reference) {}
 
-            public bool Equals(
-                Index? other
-            ) {
-                using var thisHandle = new GCRef(this);
-                using var otherHandle = new GCRef(other);
-                return Check((out CreatedRef exn) => __cs_AttributedString_Index_equals(thisHandle.ptr, otherHandle.ptr, out exn));
+                /// <summary>The range of the portion of the attributed string that this run description represents.</summary>
+                /// <!-- FishyJoes.export(range) -->
+                public Cricut.FishyJoesRuntime.SwiftRange<Cricut.FishyJoesRuntime.AttributedString.Index> GetRange() {
+                    using var thisHandle = new GCRef(this);
+                    return Check((out CreatedRef exn) =>
+                        __cs_get_AttributedString_Runs_Run_Range(thisHandle.ptr, out exn).Consume<Cricut.FishyJoesRuntime.SwiftRange<Cricut.FishyJoesRuntime.AttributedString.Index>>()
+                    );
+                }
+
+                [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+                private static extern CreatedRef __cs_get_AttributedString_Runs_Run_Range(UnownedRef self, out CreatedRef exn);
+
+                /// <summary>The attributes associated with of the portion of the attributed string that this run description represents.</summary>
+                /// <!-- FishyJoes.export(attributes) -->
+                public Cricut.FishyJoesRuntime.AttributeContainer GetAttributes() {
+                    using var thisHandle = new GCRef(this);
+                    return Check((out CreatedRef exn) =>
+                        __cs_get_AttributedString_Runs_Run_Attributes(thisHandle.ptr, out exn).Consume<Cricut.FishyJoesRuntime.AttributeContainer>()
+                    );
+                }
+
+                [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+                private static extern CreatedRef __cs_get_AttributedString_Runs_Run_Attributes(UnownedRef self, out CreatedRef exn);
+
+                public override bool Equals(
+                    object? other
+                ) {
+                    using var thisHandle = new GCRef(this);
+                    using var otherHandle = new GCRef(other as Cricut.FishyJoesRuntime.AttributedString.Runs.Run);
+                    return Check((out CreatedRef exn) => __cs_AttributedString_Runs_Run_equals(thisHandle.ptr, otherHandle.ptr, out exn));
+                }
+
+                [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+                private static extern bool __cs_AttributedString_Runs_Run_equals(
+                    UnownedRef lhs,
+                    UnownedRef rhs,
+                    out CreatedRef exn
+                );
+
+                public override int GetHashCode(
+                ) {
+                    using var _thisHandle = new GCRef(this);
+                    return Check((out CreatedRef _exn) => __cs_AttributedString_Runs_Run_hash(_thisHandle.ptr, out _exn));
+                }
+
+                [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+                private static extern int __cs_AttributedString_Runs_Run_hash(
+                    UnownedRef self,
+                    out CreatedRef exn
+                );
             }
-
-            public override bool Equals(object? other) => Equals(other as Index);
-
-            [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-            private static extern bool __cs_AttributedString_Index_equals(
-                UnownedRef lhs,
-                UnownedRef rhs,
-                out CreatedRef exn
-            );
-
-            public override int GetHashCode(
-            ) {
-                using var _thisHandle = new GCRef(this);
-                return Check((out CreatedRef _exn) => __cs_AttributedString_Index_hash(_thisHandle.ptr, out _exn));
-            }
-
-            [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-            private static extern int __cs_AttributedString_Index_hash(
-                UnownedRef self,
-                out CreatedRef exn
-            );
-
-            public int CompareTo(
-                Index? other
-            ) {
-                using var _thisHandle = new GCRef(this);
-                using var otherHandle = new GCRef(other as Cricut.FishyJoesRuntime.AttributedString.Index);
-                return Check((out CreatedRef _exn) => __cs_AttributedString_Index_compare(_thisHandle.ptr, otherHandle.ptr, out _exn));
-            }
-            
-            [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-            private static extern int __cs_AttributedString_Index_compare(
-                UnownedRef lhs,
-                UnownedRef rhs,
-                out CreatedRef exn
-            );
-
-            #region Convenience
-
-            public static bool operator > (Index lhs, Index rhs) => lhs.CompareTo(rhs) > 0;
-            public static bool operator < (Index lhs, Index rhs) => lhs.CompareTo(rhs) < 0;
-            public static bool operator >= (Index lhs, Index rhs) => lhs.CompareTo(rhs) >= 0;
-            public static bool operator <= (Index lhs, Index rhs) => lhs.CompareTo(rhs) <= 0;
-            public static bool operator == (Index lhs, Index rhs) => lhs.CompareTo(rhs) == 0;
-            public static bool operator != (Index lhs, Index rhs) => !(lhs == rhs);
-
-            #endregion
-
-            static Index() { Loader.ensureLoaded(); }
         }
+    }
 
-        /// <summary>
-        /// A view into the underlying storage of an attributed string or substring, as Unicode characters.
-        /// </summary>
+    public partial class AttributedString {
+        /// <summary>A view into the underlying storage of an attributed string or substring, as Unicode characters.</summary>
         /// <!-- FishyJoes.exportReference(AttributedString.CharacterView) -->
-        public class CharacterView : SwiftReference, IEnumerable<string> {
+        public partial class CharacterView : SwiftReference {
+            static CharacterView() { Loader.ensureLoaded(); }
             internal CharacterView(ConsumedRef reference): base(reference) {}
 
-            /// <summary>
-            /// The position of the first character in a nonempty attributed string or substring.
-            /// </summary>
+            /// <summary>The position of the first character in a nonempty attributed string or substring.</summary>
             /// <!-- FishyJoes.export(startIndex) -->
             public Cricut.FishyJoesRuntime.AttributedString.Index GetStartIndex() {
                 using var thisHandle = new GCRef(this);
@@ -1034,9 +964,7 @@ namespace Cricut.FishyJoesRuntime {
             [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern CreatedRef __cs_get_AttributedString_CharacterView_StartIndex(UnownedRef self, out CreatedRef exn);
 
-            /// <summary>
-            /// The past-the-end position — the position one greater than the last valid subscript argument.
-            /// </summary>
+            /// <summary>The past-the-end position — the position one greater than the last valid subscript argument.</summary>
             /// <!-- FishyJoes.export(endIndex) -->
             public Cricut.FishyJoesRuntime.AttributedString.Index GetEndIndex() {
                 using var thisHandle = new GCRef(this);
@@ -1048,9 +976,7 @@ namespace Cricut.FishyJoesRuntime {
             [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern CreatedRef __cs_get_AttributedString_CharacterView_EndIndex(UnownedRef self, out CreatedRef exn);
 
-            /// <summary>
-            /// Obtains the index of the character before the character referenced by another index in the view's attributed string or substring.
-            /// </summary>
+            /// <summary>Obtains the index of the character before the character referenced by another index in the view's attributed string or substring.</summary>
             /// <param name="index">The index serving as the starting position, between `startIndex` exclusive and `endIndex` inclusive.</param>
             /// <returns>
             ///     The index of the character before the one referenced by `index`.
@@ -1073,9 +999,7 @@ namespace Cricut.FishyJoesRuntime {
                 out CreatedRef exn
             );
 
-            /// <summary>
-            /// Obtains the index of the character after the character referenced by another index in the view's attributed string or substring.
-            /// </summary>
+            /// <summary>Obtains the index of the character after the character referenced by another index in the view's attributed string or substring.</summary>
             /// <param name="index">The index serving as the starting position, between `startIndex` inclusive and `endIndex` exclusive.</param>
             /// <returns>
             ///     The index of the character before the one referenced by `index`.
@@ -1098,9 +1022,7 @@ namespace Cricut.FishyJoesRuntime {
                 out CreatedRef exn
             );
 
-            /// <summary>
-            /// Obtains the character associated with an attributed string index.
-            /// </summary>
+            /// <summary>Obtains the character associated with an attributed string index.</summary>
             /// <param name="index">The index of the desired character, between `startIndex` inclusive and `endIndex` exclusive.</param>
             /// <returns>
             ///     The character associated with `index`.
@@ -1122,9 +1044,12 @@ namespace Cricut.FishyJoesRuntime {
                 UnownedRef index,
                 out CreatedRef exn
             );
+        }
+    }
 
-            #region Convenience
-
+    public partial class AttributedString {
+        // Convenience Interface
+        public partial class CharacterView : IEnumerable<string> {
             public IEnumerator<string> GetEnumerator(
             ) {
                 for (var index = GetStartIndex(); index < GetEndIndex(); index = IndexAfter(index)) {
@@ -1133,22 +1058,17 @@ namespace Cricut.FishyJoesRuntime {
             }
 
             IEnumerator IEnumerable.GetEnumerator() => (IEnumerator)GetEnumerator();
-
-            #endregion
-
-            static CharacterView() { Loader.ensureLoaded(); }
         }
+    }
 
-        /// <summary>
-        /// A view into the underlying storage of the attributed string, as Unicode scalars.
-        /// </summary>
+    public partial class AttributedString {
+        /// <summary>A view into the underlying storage of the attributed string, as Unicode scalars.</summary>
         /// <!-- FishyJoes.exportReference(AttributedString.UnicodeScalarView) -->
-        public class UnicodeScalarView : SwiftReference, IEnumerable<UInt32> {
+        public partial class UnicodeScalarView : SwiftReference {
+            static UnicodeScalarView() { Loader.ensureLoaded(); }
             internal UnicodeScalarView(ConsumedRef reference): base(reference) {}
 
-            /// <summary>
-            /// The position of the first Unicode scalar in a nonempty attributed string or substring.
-            /// </summary>
+            /// <summary>The position of the first Unicode scalar in a nonempty attributed string or substring.</summary>
             /// <!-- FishyJoes.export(startIndex) -->
             public Cricut.FishyJoesRuntime.AttributedString.Index GetStartIndex() {
                 using var thisHandle = new GCRef(this);
@@ -1160,9 +1080,7 @@ namespace Cricut.FishyJoesRuntime {
             [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern CreatedRef __cs_get_AttributedString_UnicodeScalarView_StartIndex(UnownedRef self, out CreatedRef exn);
 
-            /// <summary>
-            /// The past-the-end position — the position one greater than the last valid subscript argument.
-            /// </summary>
+            /// <summary>The past-the-end position — the position one greater than the last valid subscript argument.</summary>
             /// <!-- FishyJoes.export(endIndex) -->
             public Cricut.FishyJoesRuntime.AttributedString.Index GetEndIndex() {
                 using var thisHandle = new GCRef(this);
@@ -1174,9 +1092,7 @@ namespace Cricut.FishyJoesRuntime {
             [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern CreatedRef __cs_get_AttributedString_UnicodeScalarView_EndIndex(UnownedRef self, out CreatedRef exn);
 
-            /// <summary>
-            /// Obtains the index of the Unicode scalar before the scalar referenced by another index in the view's attributed string or substring.
-            /// </summary>
+            /// <summary>Obtains the index of the Unicode scalar before the scalar referenced by another index in the view's attributed string or substring.</summary>
             /// <param name="index">The index serving as the starting position, between `startIndex` exclusive and `endIndex` inclusive.</param>
             /// <returns>
             ///     The index of the Unicode scalar before the one referenced by `index`.
@@ -1199,9 +1115,7 @@ namespace Cricut.FishyJoesRuntime {
                 out CreatedRef exn
             );
 
-            /// <summary>
-            /// Obtains the index of the Unicode scalar after the scalar referenced by another index in the view's attributed string or substring.
-            /// </summary>
+            /// <summary>Obtains the index of the Unicode scalar after the scalar referenced by another index in the view's attributed string or substring.</summary>
             /// <param name="index">The index serving as the starting position, between `startIndex` inclusive and `endIndex` exclusive.</param>
             /// <returns>
             ///     The index of the Unicode scalar before the one referenced by `index`.
@@ -1224,9 +1138,7 @@ namespace Cricut.FishyJoesRuntime {
                 out CreatedRef exn
             );
 
-            /// <summary>
-            /// Obtains the Unicode scalar associated with an attributed string index.
-            /// </summary>
+            /// <summary>Obtains the Unicode scalar associated with an attributed string index.</summary>
             /// <param name="index">The index of the desired Unicode scalar, between `startIndex` inclusive and `endIndex` exclusive.</param>
             /// <returns>
             ///     The Unicode scalar associated with `index`.
@@ -1248,9 +1160,13 @@ namespace Cricut.FishyJoesRuntime {
                 UnownedRef index,
                 out CreatedRef exn
             );
+        }
+    }
 
-            #region Convenience
-
+    
+    public partial class AttributedString {
+        // Convenience Interface
+        public partial class UnicodeScalarView : IEnumerable<UInt32> {
             public IEnumerator<UInt32> GetEnumerator(
             ) {
                 for (var index = GetStartIndex(); index < GetEndIndex(); index = IndexAfter(index)) {
@@ -1259,11 +1175,6 @@ namespace Cricut.FishyJoesRuntime {
             }
 
             IEnumerator IEnumerable.GetEnumerator() => (IEnumerator)GetEnumerator();
-
-            #endregion
-
-            static UnicodeScalarView() { Loader.ensureLoaded(); }
         }
-        static AttributedString() { Loader.ensureLoaded(); }
     }
 }
