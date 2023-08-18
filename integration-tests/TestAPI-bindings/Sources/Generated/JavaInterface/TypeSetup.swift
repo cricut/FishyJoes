@@ -567,8 +567,7 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
             ),
             JNINativeMethod(
                 name: bag.add("__jni_async42Func"),
-                signature: bag.add("(Lkotlin/jvm/functions/Function1;)V"),
-//                signature: bag.add("(Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)V"),
+                signature: bag.add("(Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)V"),
                 fnPtr: unsafeBitCast(java_Functions_async42Func, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(

@@ -62,21 +62,14 @@ extension Env {
     /// - Important: When a suspending function is called part of the state that must be protected by calling ``Env.relenquishJVMThread(on:)`` immediately before and ``Env.aquireJVMThread(on:)`` immediately after.
     ///
     /// - Important: body **must** be in a balanced aquire/relenquish state before it throws.
-    public func swiftTask(_ body: @escaping @Sendable (Env, UnsafeMutablePointer<JavaVM?>) async throws -> Void) throws {
+    public func swiftTask(_ body: @escaping @Sendable (Env, UnsafeMutablePointer<JavaVM?>) async -> Void) throws {
         guard let jvm = try GetJavaVM() else {
             fatalError("Unable to get JVM")
         }
         Task.detached {
-            let javaEnv = try Env.aquireJVMThread(on: jvm)
-            defer {
-                try? Env.relenquishJVMThread(on: jvm)
-            }
-
-            do {
-                try await body(javaEnv, jvm)
-            } catch {
-                // TODO: Throw into java env
-            }
+            let javaEnv = try! Env.aquireJVMThread(on: jvm)
+            await body(javaEnv, jvm)
+            try! Env.relenquishJVMThread(on: jvm)
         }
     }
 

@@ -135,25 +135,44 @@ let java_Functions_willThrow: @convention(c) (
 let java_Functions_async42Func: @convention(c) (
     UnsafeMutablePointer<JNIEnv?>,
     jobject,
-    Function1Converter<Int64, VoidConverter>.CType
-) -> VoidConverter.CType = { _javaEnv, _javaThis, _continuation in
+    Function1Converter<Int64, VoidConverter>.CType,
+    Function1Converter<String, VoidConverter>.CType
+) -> VoidConverter.CType = { _javaEnv, _javaThis, _successContinuation, _failureContinuation in
     FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
-        let _continuationRef = try JavaReference(local: _continuation, env: _javaEnv)
+        let _successContinuationRef = try JavaReference(local: _successContinuation, env: _javaEnv)
+        let _failureContinuationRef = try JavaReference(local: _failureContinuation, env: _javaEnv)
 
         try _javaEnv.swiftTask { _javaEnv, _vm in
             defer {
-                try? _continuationRef.destory()
+                try? _successContinuationRef.destory()
+                try? _failureContinuationRef.destory()
             }
-            // Java to Swift Conversions
-            try Env.relenquishJVMThread(on: _vm)
-            let value: Result<Int, any Error>
+
             do {
-                value = .success(try await Functions.async42Func())
+                // Java to Swift Conversions
+                try! Env.relenquishJVMThread(on: _vm)
+                
+                let value: Result<Int, any Error>
+                do {
+                    value = .success(
+                        try await Functions.async42Func()
+                    )
+                } catch {
+                    value = .failure(error)
+                }
+                
+                let _javaEnv = try! Env.aquireJVMThread(on: _vm)
+                
+                try Function1Converter<Int64, VoidConverter>.fromJava(
+                    _successContinuationRef.createLocalRef(env: _javaEnv)
+                    , env: _javaEnv
+                )(Int64(value.get()))
             } catch {
-                value = .failure(error)
+                try! Function1Converter<String, VoidConverter>.fromJava(
+                    _failureContinuationRef.createLocalRef(env: _javaEnv),
+                    env: _javaEnv
+                )("\(error)")
             }
-            let _javaEnv = try Env.aquireJVMThread(on: _vm)
-            try Function1Converter<Int64, VoidConverter>.fromJava(_continuationRef.createLocalRef(env: _javaEnv), env: _javaEnv)(Int64(value.get()))
         }
     }
 }
