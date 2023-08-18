@@ -12,7 +12,7 @@ namespace Cricut.FishyJoesRuntime {
     ///     so they can be used to find what part of `base` the substring represents.
     /// </remarks>
     /// <!-- FishyJoes.exportReference(AttributedSubstring) -->
-    public class AttributedSubstring : SwiftReference {
+    public partial class AttributedSubstring : SwiftReference {
         static AttributedSubstring() { Loader.ensureLoaded(); }
         internal AttributedSubstring(ConsumedRef reference): base(reference) {}
 
@@ -22,11 +22,13 @@ namespace Cricut.FishyJoesRuntime {
         ///     As such, the portion of the base string represented by the substring is the range from `startIndex` inclusive to `endIndex` exclusive.
         /// </remarks>
         /// <!-- FishyJoes.export(base) -->
-        public Cricut.FishyJoesRuntime.AttributedString GetBase() {
-            using var thisHandle = new GCRef(this);
-            return Check((out CreatedRef exn) =>
-                __cs_get_AttributedSubstring_Base(thisHandle.ptr, out exn).Consume<Cricut.FishyJoesRuntime.AttributedString>()
-            );
+        public Cricut.FishyJoesRuntime.AttributedString Base { 
+            get {
+                using var thisHandle = new GCRef(this);
+                return Check((out CreatedRef exn) =>
+                    __cs_get_AttributedSubstring_Base(thisHandle.ptr, out exn).Consume<Cricut.FishyJoesRuntime.AttributedString>()
+                );
+            }
         }
 
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
@@ -37,11 +39,13 @@ namespace Cricut.FishyJoesRuntime {
         ///     See `runs` for the attribute information associated with the attributed substring's text.
         /// </remarks>
         /// <!-- FishyJoes.export(string) -->
-        public string GetString() {
-            using var thisHandle = new GCRef(this);
-            return Check((out CreatedRef exn) =>
-                __cs_get_AttributedSubstring_String(thisHandle.ptr, out exn).Consume<string>()
-            );
+        public string String {
+            get {
+                using var thisHandle = new GCRef(this);
+                return Check((out CreatedRef exn) =>
+                    __cs_get_AttributedSubstring_String(thisHandle.ptr, out exn).Consume<string>()
+                );
+            }
         }
 
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
@@ -58,11 +62,13 @@ namespace Cricut.FishyJoesRuntime {
         ///     and `s.runs[index].attributes` yields the attributes associated with the position `index` in `s`.
         /// </remarks>
         /// <!-- FishyJoes.export(runs) -->
-        public Cricut.FishyJoesRuntime.AttributedString.Runs GetRuns() {
-            using var thisHandle = new GCRef(this);
-            return Check((out CreatedRef exn) =>
-                __cs_get_AttributedSubstring_Runs(thisHandle.ptr, out exn).Consume<Cricut.FishyJoesRuntime.AttributedString.Runs>()
-            );
+        public Cricut.FishyJoesRuntime.AttributedString.RunsView Runs {
+            get {
+                using var thisHandle = new GCRef(this);
+                return Check((out CreatedRef exn) =>
+                    __cs_get_AttributedSubstring_Runs(thisHandle.ptr, out exn).Consume<Cricut.FishyJoesRuntime.AttributedString.RunsView>()
+                );
+            }
         }
 
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
@@ -70,11 +76,13 @@ namespace Cricut.FishyJoesRuntime {
 
         /// <summary>The characters of the attributed substring, as a view into the underlying string.</summary>
         /// <!-- FishyJoes.export(characters) -->
-        public Cricut.FishyJoesRuntime.AttributedString.CharacterView GetCharacters() {
-            using var thisHandle = new GCRef(this);
-            return Check((out CreatedRef exn) =>
-                __cs_get_AttributedSubstring_Characters(thisHandle.ptr, out exn).Consume<Cricut.FishyJoesRuntime.AttributedString.CharacterView>()
-            );
+        public Cricut.FishyJoesRuntime.AttributedString.CharacterView Characters {
+            get {
+                using var thisHandle = new GCRef(this);
+                return Check((out CreatedRef exn) =>
+                    __cs_get_AttributedSubstring_Characters(thisHandle.ptr, out exn).Consume<Cricut.FishyJoesRuntime.AttributedString.CharacterView>()
+                );
+            }
         }
 
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
@@ -82,11 +90,13 @@ namespace Cricut.FishyJoesRuntime {
 
         /// <summary>The Unicode scalars of the attributed substring, as a view into the underlying string.</summary>
         /// <!-- FishyJoes.export(unicodeScalars) -->
-        public Cricut.FishyJoesRuntime.AttributedString.UnicodeScalarView GetUnicodeScalars() {
-            using var thisHandle = new GCRef(this);
-            return Check((out CreatedRef exn) =>
-                __cs_get_AttributedSubstring_UnicodeScalars(thisHandle.ptr, out exn).Consume<Cricut.FishyJoesRuntime.AttributedString.UnicodeScalarView>()
-            );
+        public Cricut.FishyJoesRuntime.AttributedString.UnicodeScalarView UnicodeScalars {
+            get {
+                using var thisHandle = new GCRef(this);
+                return Check((out CreatedRef exn) =>
+                    __cs_get_AttributedSubstring_UnicodeScalars(thisHandle.ptr, out exn).Consume<Cricut.FishyJoesRuntime.AttributedString.UnicodeScalarView>()
+                );
+            }
         }
 
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
@@ -97,11 +107,13 @@ namespace Cricut.FishyJoesRuntime {
         ///     See `runs`, `characters`, and `unicodeScalars` for ways to obtain other indices within the attributed substring.
         /// </remarks>
         /// <!-- FishyJoes.export(startIndex) -->
-        public Cricut.FishyJoesRuntime.AttributedString.Index GetStartIndex() {
-            using var thisHandle = new GCRef(this);
-            return Check((out CreatedRef exn) =>
-                __cs_get_AttributedSubstring_StartIndex(thisHandle.ptr, out exn).Consume<Cricut.FishyJoesRuntime.AttributedString.Index>()
-            );
+        public Cricut.FishyJoesRuntime.AttributedString.Index StartIndex {
+            get {
+                using var thisHandle = new GCRef(this);
+                return Check((out CreatedRef exn) =>
+                    __cs_get_AttributedSubstring_StartIndex(thisHandle.ptr, out exn).Consume<Cricut.FishyJoesRuntime.AttributedString.Index>()
+                );
+            }
         }
 
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
@@ -112,11 +124,13 @@ namespace Cricut.FishyJoesRuntime {
         ///     See `runs`, `characters`, and `unicodeScalars` for ways to obtain other indices within the attributed substring.
         /// </remarks>
         /// <!-- FishyJoes.export(endIndex) -->
-        public Cricut.FishyJoesRuntime.AttributedString.Index GetEndIndex() {
-            using var thisHandle = new GCRef(this);
-            return Check((out CreatedRef exn) =>
-                __cs_get_AttributedSubstring_EndIndex(thisHandle.ptr, out exn).Consume<Cricut.FishyJoesRuntime.AttributedString.Index>()
-            );
+        public Cricut.FishyJoesRuntime.AttributedString.Index EndIndex {
+            get {
+                using var thisHandle = new GCRef(this);
+                return Check((out CreatedRef exn) =>
+                    __cs_get_AttributedSubstring_EndIndex(thisHandle.ptr, out exn).Consume<Cricut.FishyJoesRuntime.AttributedString.Index>()
+                );
+            }
         }
 
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
@@ -124,11 +138,13 @@ namespace Cricut.FishyJoesRuntime {
 
         /// <summary>An attributed substring representing the full content of the attributed substring.</summary>
         /// <!-- FishyJoes.export(substring) -->
-        public Cricut.FishyJoesRuntime.AttributedSubstring GetSubstring() {
-            using var thisHandle = new GCRef(this);
-            return Check((out CreatedRef exn) =>
-                __cs_get_AttributedSubstring_Substring(thisHandle.ptr, out exn).Consume<Cricut.FishyJoesRuntime.AttributedSubstring>()
-            );
+        public Cricut.FishyJoesRuntime.AttributedSubstring Substring {
+            get {
+                using var thisHandle = new GCRef(this);
+                return Check((out CreatedRef exn) =>
+                    __cs_get_AttributedSubstring_Substring(thisHandle.ptr, out exn).Consume<Cricut.FishyJoesRuntime.AttributedSubstring>()
+                );
+            }
         }
 
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
@@ -191,9 +207,10 @@ namespace Cricut.FishyJoesRuntime {
         private static extern CreatedRef __cs_AttributedSubstring_createEmpty(
             out CreatedRef exn
         );
-        
-        #region Conveniences
+    }
 
+    // Convenience Interface
+    public partial class AttributedSubstring {
         /// <summary>Synonym for `AttributedSubstring.CreateEmpty()`.</summary>
         public AttributedSubstring(): base(new ConsumedRef(IntPtr.Zero)) { 
             var temp = AttributedSubstring.CreateEmpty();
@@ -201,8 +218,8 @@ namespace Cricut.FishyJoesRuntime {
             temp.reference = IntPtr.Zero;
         }
 
-        public static explicit operator string(AttributedSubstring substring) => substring.GetString();
-        public static explicit operator AttributedSubstring(string _string) => AttributedString.Create(_string).GetSubstring();
+        public static explicit operator string(AttributedSubstring substring) => substring.String;
+        public static explicit operator AttributedSubstring(string _string) => AttributedString.Create(_string).Substring;
 
         public static AttributedString operator +(AttributedSubstring a, AttributedSubstring b) {
             var s = new AttributedString();
@@ -224,7 +241,5 @@ namespace Cricut.FishyJoesRuntime {
             s.Append(new AttributedString(b));
             return s;
         }
-
-        #endregion
     }
 }

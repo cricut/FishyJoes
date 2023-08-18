@@ -114,7 +114,7 @@ namespace Cricut.FishyJoesRuntime {
                 Console.WriteLine("setting up AttributedString.Runs...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCSharpRuntime_AttributedString_Runs_setup(
                     bag<SwiftReference.ConstructorDelegate>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
-                        return new CreatedRef(new Cricut.FishyJoesRuntime.AttributedString.Runs(ptr));
+                        return new CreatedRef(new Cricut.FishyJoesRuntime.AttributedString.RunsView(ptr));
                     })),
                     out exn
                 ));
@@ -123,7 +123,7 @@ namespace Cricut.FishyJoesRuntime {
                 Console.WriteLine("setting up AttributedString.Runs.Index...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCSharpRuntime_AttributedString_Runs_Index_setup(
                     bag<SwiftReference.ConstructorDelegate>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
-                        return new CreatedRef(new Cricut.FishyJoesRuntime.AttributedString.Runs.Index(ptr));
+                        return new CreatedRef(new Cricut.FishyJoesRuntime.AttributedString.RunsView.Index(ptr));
                     })),
                     out exn
                 ));
@@ -132,7 +132,7 @@ namespace Cricut.FishyJoesRuntime {
                 Console.WriteLine("setting up AttributedString.Runs.Run...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCSharpRuntime_AttributedString_Runs_Run_setup(
                     bag<SwiftReference.ConstructorDelegate>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
-                        return new CreatedRef(new Cricut.FishyJoesRuntime.AttributedString.Runs.Run(ptr));
+                        return new CreatedRef(new Cricut.FishyJoesRuntime.AttributedString.RunsView.Run(ptr));
                     })),
                     out exn
                 ));
@@ -164,7 +164,7 @@ namespace Cricut.FishyJoesRuntime {
             });
             Once("setup_RangeConverter<FishyJoesCSharpRuntime.AttributedString.Runs.Index>", () => {
                 Console.WriteLine("setting up Range<Runs.Index>...");
-                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_RangeConverter_setup<Cricut.FishyJoesRuntime.AttributedString.Runs.Index>(
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_RangeConverter_setup<Cricut.FishyJoesRuntime.AttributedString.RunsView.Index>(
                     "RangeConverter<FishyJoesCSharpRuntime.AttributedString.Runs.Index>",
                     out exn
                 ));
@@ -178,7 +178,7 @@ namespace Cricut.FishyJoesRuntime {
             });
             Once("setup_ClosedRangeConverter<FishyJoesCSharpRuntime.AttributedString.Runs.Index>", () => {
                 Console.WriteLine("setting up ClosedRange<Runs.Index>...");
-                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_ClosedRangeConverter_setup<Cricut.FishyJoesRuntime.AttributedString.Runs.Index>(
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_ClosedRangeConverter_setup<Cricut.FishyJoesRuntime.AttributedString.RunsView.Index>(
                     "ClosedRangeConverter<FishyJoesCSharpRuntime.AttributedString.Runs.Index>",
                     out exn
                 ));

@@ -19,7 +19,7 @@ namespace Cricut.FishyJoesRuntime {
     ///     `link = AttributeContainer.FoundationAttributes(someContainer).link`
     /// </remarks>
     /// <!-- FishyJoes.exportReference(AttributeContainer) -->
-    public class AttributeContainer : SwiftReference {
+    public partial class AttributeContainer : SwiftReference {
         static AttributeContainer() { Loader.ensureLoaded(); }
         internal AttributeContainer(ConsumedRef reference): base(reference) {}
 
@@ -86,18 +86,19 @@ namespace Cricut.FishyJoesRuntime {
         private static extern CreatedRef __cs_AttributeContainer_createEmpty(
             out CreatedRef exn
         );
+    }
 
-        #region Conveniences
-
+    // Convenience Interface
+    public partial class AttributeContainer {
         /// <summary>Synonym for `AttributeContainer.CreateEmpty()`.</summary>
         public AttributeContainer(): base(new ConsumedRef(IntPtr.Zero)) { 
             var empty = AttributeContainer.CreateEmpty();
             reference = empty.reference;
             empty.reference = IntPtr.Zero;
         }
+    }
 
-        #endregion
-
+    public partial class AttributeContainer {
         /// <summary>Attributes defined by the Swift Foundation library in ``AttributeScopes``, packaged as a static type.</summary>
         /// <remarks>
         ///     This type (and the ones like it defined in other libraries) allow features similar to those
@@ -110,7 +111,7 @@ namespace Cricut.FishyJoesRuntime {
         ///     of attributed strings with new attributes in other languages analogously to how it is done in ``AttributeScopes`` using Swift dynamic member lookup.
         /// </remarks>
         /// <!-- FishyJoes.exportReference(AttributeContainer.FoundationAttributes) -->
-        public class FoundationAttributes : SwiftReference {
+        public partial class FoundationAttributes : SwiftReference {
             static FoundationAttributes() { Loader.ensureLoaded(); }
             internal FoundationAttributes(ConsumedRef reference): base(reference) {}
 
@@ -227,9 +228,12 @@ namespace Cricut.FishyJoesRuntime {
                 UnownedRef container,
                 out CreatedRef exn
             );
+        }
+    }
 
-            #region Conveniences
-
+    public partial class AttributeContainer {
+        // Convenience Interface
+        public partial class FoundationAttributes {
             /// <summary>Creates attributes with the provided attribute fields populated.</summary>
             public FoundationAttributes(Uri? link = null, string? languageIdentifier = null): base(new ConsumedRef(IntPtr.Zero)) { 
                 var temp = FoundationAttributes.CreateEmpty();
@@ -249,8 +253,6 @@ namespace Cricut.FishyJoesRuntime {
 
             public static implicit operator AttributeContainer(FoundationAttributes attributes) => attributes.AsContainer();
             public static implicit operator FoundationAttributes(AttributeContainer container) => FoundationAttributes.CreateFromContainer(container);
-
-            #endregion
         }
     }
 }
