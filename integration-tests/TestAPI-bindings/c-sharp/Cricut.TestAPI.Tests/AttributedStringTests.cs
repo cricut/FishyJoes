@@ -55,7 +55,7 @@ namespace Cricut.TestAPI.Tests {
             var runStrings = new List<string>();
             var runIndex = attributedString.Runs.StartIndex;
             while (runIndex != attributedString.Runs.EndIndex) {
-                var runSubstring = attributedString.SubstringForRange(attributedString.Runs.ElementAt(runIndex).Range);
+                var runSubstring = attributedString.SubstringForRange(attributedString.Runs[runIndex].Range);
                 runStrings.Add(runSubstring.String);
                 runIndex = attributedString.Runs.IndexAfter(runIndex);
             }
@@ -75,7 +75,7 @@ namespace Cricut.TestAPI.Tests {
             var characterStrings = new List<string>();
             var characterIndex = attributedString.Characters.StartIndex;
             while (characterIndex != attributedString.Characters.EndIndex) {
-                var characterString = attributedString.Characters.ElementAt(characterIndex);
+                var characterString = attributedString.Characters[characterIndex];
                 characterStrings.Add(characterString);
                 characterIndex = attributedString.Characters.IndexAfter(characterIndex);
             }
@@ -92,7 +92,7 @@ namespace Cricut.TestAPI.Tests {
             var unicodeScalars = new List<uint>();
             var scalarIndex = attributedString.UnicodeScalars.StartIndex;
             while (scalarIndex != attributedString.UnicodeScalars.EndIndex) {
-                var characterScalar = attributedString.UnicodeScalars.ElementAt(scalarIndex);
+                var characterScalar = attributedString.UnicodeScalars[scalarIndex];
                 unicodeScalars.Add(characterScalar);
                 scalarIndex = attributedString.UnicodeScalars.IndexAfter(scalarIndex);
             }
@@ -261,7 +261,7 @@ namespace Cricut.TestAPI.Tests {
                 runRanges[1], 
                 new AttributedString(
                     attributedString.SubstringForRange(runRanges[1]).String, 
-                    attributedString.Runs.ElementAtPosition(runRanges[0].lowerBound).Attributes
+                    attributedString.Runs[runRanges[0].lowerBound].Attributes
                 )
             );
             runRanges = attributedString.Runs.Select(run => run.Range).ToList();
@@ -273,7 +273,7 @@ namespace Cricut.TestAPI.Tests {
 
             attributedString.SetAttributesForRange(
                 runRanges[2], 
-                attributedString.Runs.ElementAtPosition(runRanges[1].lowerBound).Attributes
+                attributedString.Runs[runRanges[1].lowerBound].Attributes
             );
             runRanges = attributedString.Runs.Select(run => run.Range).ToList();
             Assert.Equal(3, runRanges.Count);

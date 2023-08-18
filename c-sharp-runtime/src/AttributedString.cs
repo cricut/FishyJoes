@@ -831,6 +831,9 @@ namespace Cricut.FishyJoesRuntime {
             }
 
             IEnumerator IEnumerable.GetEnumerator() => (IEnumerator)GetEnumerator();
+
+            public RunsView.Run this[AttributedString.RunsView.Index index] { get => ElementAt(index); }
+            public RunsView.Run this[AttributedString.Index index] { get => ElementAtPosition(index); }
         }
     }
 
@@ -1083,6 +1086,8 @@ namespace Cricut.FishyJoesRuntime {
             }
 
             IEnumerator IEnumerable.GetEnumerator() => (IEnumerator)GetEnumerator();
+
+            public string this[AttributedString.Index index] { get => ElementAt(index); }
         }
     }
 
@@ -1204,6 +1209,8 @@ namespace Cricut.FishyJoesRuntime {
             }
 
             IEnumerator IEnumerable.GetEnumerator() => (IEnumerator)GetEnumerator();
+
+            public UInt32 this[AttributedString.Index index] { get => ElementAt(index); }
         }
     }
 }
