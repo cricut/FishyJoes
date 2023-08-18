@@ -14,7 +14,7 @@ namespace Cricut.FishyJoesRuntime {
     /// See `runs` for access to the attribute information associated with the attributed string's text.
     /// </remarks>
     /// <!-- FishyJoes.exportReference(AttributedString) -->
-    public class AttributedString : SwiftReference {
+    public class AttributedString : SwiftReference, ICloneable {
         internal AttributedString(ConsumedRef reference): base(reference) {}
 
         /// <summary>
@@ -579,6 +579,20 @@ namespace Cricut.FishyJoesRuntime {
             var temp = AttributedString.CreateFromSubstring(substring);
             reference = temp.reference;
             temp.reference = IntPtr.Zero;
+        }
+
+        public AttributedString(AttributedString attributedString): base(new ConsumedRef(IntPtr.Zero)) {
+            // TODO: Faster! private cloneBox function inside SwiftReference?
+            var clone = AttributedString.CreateEmpty();
+            foreach (var run in attributedString.GetRuns()) { 
+                clone.Append(AttributedString.CreateFromSubstring(attributedString.SubstringForRange(run.GetRange())));
+            }
+            reference = clone.reference;
+            clone.reference = IntPtr.Zero;
+        }
+
+        public object Clone() {
+            return new AttributedString(this);
         }
 
         public static explicit operator AttributedString(AttributedSubstring substring) => AttributedString.CreateFromSubstring(substring);
