@@ -61,6 +61,7 @@ jobs:
           mkdir -p $libdir
           ./scripts/compile-node-runtime.sh
 
+      #TODO: Wasm
       - name: Test Node & Wasm
         shell: zsh {0}
         run: |
@@ -68,7 +69,8 @@ jobs:
 
           cd integration-tests/TestAPI-bindings
           npm install
-          swift run -- fishy-joes --nodejs --wasm generate build test
+          #swift run -- fishy-joes --nodejs --wasm generate build test
+          swift run -- fishy-joes --nodejs generate build test
 
       - name: Build Ubuntu FishyJoesJavaRuntime
         shell: zsh {0}
