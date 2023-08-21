@@ -151,8 +151,8 @@ jobs:
           name: windows_generated
           path: c-sharp-runtime/runtimes
 
-  c-sharp-pack:
-    name: "Pack C# Package"
+  c-sharp-publish:
+    name: "Publish C# Package"
     runs-on: ubuntu-latest
     needs: [build-test-c-sharp-mac, build-test-c-sharp-ubuntu, build-test-c-sharp-windows]
     env:

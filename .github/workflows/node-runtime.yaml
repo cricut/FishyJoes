@@ -142,8 +142,8 @@ jobs:
           name: windows_generated
           path: node-runtime
 
-  node-pack:
-    name: "Pack NPM Packages"
+  node-publish:
+    name: "Publish NPM Packages"
     runs-on: ubuntu-latest
     needs: [build-test-node-mac, build-test-node-ubuntu]
     steps:
