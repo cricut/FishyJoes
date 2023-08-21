@@ -148,14 +148,14 @@ jobs:
           tag: 5.6.2-RELEASE
 
       - name: Build Native FishyJoesJavaRuntime
-        shell: zsh {0}
+        shell: bash
         run: |
           set -euxo pipefail
 
-          CONFIGURATION=debug ./scripts/compile-kotlin-native-runtime.sh
+          ./scripts/compile-kotlin-native-runtime.sh
 
       - name: Test FishyJoesJavaRuntime
-        shell: zsh {0}
+        shell: bash
         run: |
           set -euxo pipefail
 

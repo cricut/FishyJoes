@@ -487,11 +487,11 @@ extension CodeGen {
                         // Perform execution-environment-specific fixups to allow execution to succeed despite use of file-relative packages
                         switch platform.executionEnvironment {
                         case "native-macos":
-                            try FileManager.default.withCurrentDirectoryPath("node_modules/@cricut/\(NPMPackage.nameFor(config: config, platform: platform))") {
+                            try FileManager.default.withCurrentDirectoryPath("node_modules/\(NPMPackage.nameFor(config: config, platform: platform))") {
                                 try cmd("npm", "install").run()
                             }
                         case "native-ubuntu":
-                            try FileManager.default.withCurrentDirectoryPath("node_modules/@cricut/\(NPMPackage.nameFor(config: config, platform: platform))") {
+                            try FileManager.default.withCurrentDirectoryPath("node_modules/\(NPMPackage.nameFor(config: config, platform: platform))") {
                                 try cmd("npm", "install").run()
                                 try cmd("ln", "-s", "node_modules/@cricut/fishyjoes-runtime-native-ubuntu/libFishyJoesNodeRuntime.so").run()
                             }
