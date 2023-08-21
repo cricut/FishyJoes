@@ -143,32 +143,20 @@ jobs:
         with:
           java-version: 1.11
 
-      - name: Configure build environment
+      - name: Build FishyJoesJavaRuntime
+        uses: compnerd/gha-setup-swift@main
+          branch: swift-5.6.2-release
+          tag: 5.6.2-RELEASE
+        run: |
+          swift build --product FishyJoesJavaRuntime --configuration release --build-path ./.build/windows-build
+
+      - name: Copy resource
         shell: bash
         run: |
           set -euxo pipefail
 
-          sudo apt-get install zsh
-
-      - uses: compnerd/gha-setup-swift@main
-        with:
-          branch: swift-5.6.2-release
-          tag: 5.6.2-RELEASE
-
-      - name: Build Native FishyJoesJavaRuntime
-        shell: zsh {0}
-        run: |
-          set -euxo pipefail
-
-          ./scripts/compile-kotlin-native-runtime.sh
-
-      - name: Test FishyJoesJavaRuntime
-        shell: zsh {0}
-        run: |
-          set -euxo pipefail
-
-          cd kotlin-runtime
-          ./gradlew test
+          mkdir -p kotlin-runtime/src/generated/resources/windows
+          cp .build/windows-build/x86_64-unknown-windows-msvc/release/FishyJoesJavaRuntime.dll kotlin-runtime/src/generated/resources/windows
 
       - name: Upload library
         uses: actions/upload-artifact@v2

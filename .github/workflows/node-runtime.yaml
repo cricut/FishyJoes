@@ -114,27 +114,16 @@ jobs:
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
-      - name: Configure build environment
-        shell: bash
-        run: |
-          set -euxo pipefail
-
-          sudo apt-get install zsh
-
-      - uses: compnerd/gha-setup-swift@main
+      - name: Build FishyJoesNodeRuntime
+        uses: compnerd/gha-setup-swift@main
         with:
           branch: swift-5.6.2-release
           tag: 5.6.2-RELEASE
-
-      - name: Compile swift
-        shell: zsh {0}
         run: |
-          set -euxo pipefail
-
           swift build --product FishyJoesNodeRuntime --configuration release --build-path ./.build/windows-build
 
       - name: Copy resources
-        shell: zsh {0}
+        shell: bash
         run: |
           set -euxo pipefail
 
