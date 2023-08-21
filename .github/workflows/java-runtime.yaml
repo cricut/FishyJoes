@@ -45,7 +45,7 @@ jobs:
         run: |
           set -euxo pipefail
 
-          CONFIGURATION=debug ./scripts/compile-kotlin-native-runtime.sh
+          ./scripts/compile-kotlin-native-runtime.sh
 
       - name: Test Native FishyJoesJavaRuntime
         shell: zsh {0}
