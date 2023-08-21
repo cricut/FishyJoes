@@ -123,6 +123,13 @@ jobs:
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
+      - name: Configure build environment
+        shell: bash
+        run: |
+          set -euxo pipefail
+
+          sudo apt-get install zsh
+
       - uses: compnerd/gha-setup-swift@main
         with:
           branch: swift-5.6.2-release
