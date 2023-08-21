@@ -19,26 +19,23 @@ else
     BIN_DIR=$(swift build --configuration $CONFIGURATION --show-bin-path)
 fi
 
-NODE_LIB_NAME="Runtime.cjs.node"
 function install-lib () {
+    LIB_NAME="$1"
+    LIB_DIR="$2"
+    NODE_LIB_NAME="Runtime.cjs.node"
     if [ -e "$BIN_DIR/$LIB_NAME" ]; then
         mkdir -p $LIB_DIR
-        cp $BIN_DIR/$LIB_NAME $LIB_DIR/$NODE_LIB_NAME
+                cp $BIN_DIR/$LIB_NAME $LIB_DIR/$NODE_LIB_NAME
         if [ ! -e $LIB_DIR/$LIB_NAME ]; then
             ln -s $NODE_LIB_NAME $LIB_DIR/$LIB_NAME
         fi
         echo "Copied and symlinked $LIB_NAME to $LIB_DIR/$NODE_LIB_NAME"
+        return 0
+    else
+        return -1
     fi
 }
 
-LIB_NAME="FishyJoesNodeRuntime.dll"
-LIB_DIR=node-runtime/fishyjoes-runtime-native-windows
-install-lib
-
-LIB_NAME="libFishyJoesNodeRuntime.dylib"
-LIB_DIR=node-runtime/fishyjoes-runtime-native-macos
-install-lib
-
-LIB_NAME="libFishyJoesNodeRuntime.so"
-LIB_DIR=node-runtime/fishyjoes-runtime-native-ubuntu
-install-lib
+install-lib "FishyJoesNodeRuntime.dll" "node-runtime/fishyjoes-runtime-native-windows" ||
+install-lib "libFishyJoesNodeRuntime.dylib" "node-runtime/fishyjoes-runtime-native-macos" ||
+install-lib "libFishyJoesNodeRuntime.so" "runtime/fishyjoes-runtime-native-ubuntu"

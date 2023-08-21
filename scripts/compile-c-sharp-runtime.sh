@@ -20,21 +20,18 @@ else
 fi
 
 function install-lib () {
+    LIB_NAME="$1"
+    LIB_DIR="$2"
     if [ -e "$BIN_DIR/$LIB_NAME" ]; then
         mkdir -p $LIB_DIR
         cp $BIN_DIR/$LIB_NAME $LIB_DIR
         echo "Copied $LIB_NAME to $LIB_DIR"
+        return 0
+    else
+        return -1
     fi
 }
 
-LIB_NAME="FishyJoesCSharpRuntime.dll"
-LIB_DIR=c-sharp-runtime/runtimes/win/native
-install-lib
-
-LIB_NAME="libFishyJoesCSharpRuntime.dylib"
-LIB_DIR=c-sharp-runtime/runtimes/osx/native
-install-lib
-
-LIB_NAME="libFishyJoesCSharpRuntime.so"
-LIB_DIR=c-sharp-runtime/runtimes/linux/native
-install-lib
+install-lib "FishyJoesCSharpRuntime.dll" "c-sharp-runtime/runtimes/win/native" ||
+install-lib "libFishyJoesCSharpRuntime.dylib" "c-sharp-runtime/runtimes/osx/native" ||
+install-lib "libFishyJoesCSharpRuntime.so" "c-sharp-runtime/runtimes/linux/native"

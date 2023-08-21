@@ -20,21 +20,18 @@ else
 fi
 
 function install-lib () {
+    LIB_NAME="$1"
+    LIB_DIR="$2"
     if [ -e "$BIN_DIR/$LIB_NAME" ]; then
         mkdir -p $LIB_DIR
         cp $BIN_DIR/$LIB_NAME $LIB_DIR
         echo "Copied $LIB_NAME to $LIB_DIR"
+        return 0
+    else
+        return -1
     fi
 }
 
-LIB_NAME="FishyJoesJavaRuntime.dll"
-LIB_DIR=node-runtime/fishyjoes-runtime-native-windows
-install-lib
-
-LIB_NAME="libFishyJoesJavaRuntime.dylib"
-LIB_DIR=node-runtime/fishyjoes-runtime-native-macos
-install-lib
-
-LIB_NAME="libFishyJoesJavaRuntime.so"
-LIB_DIR=node-runtime/fishyjoes-runtime-native-ubuntu
-install-lib
+install-lib "FishyJoesJavaRuntime.dll" "kotlin-runtime/src/generated/resources/windows" ||
+install-lib "libFishyJoesJavaRuntime.dylib" "kotlin-runtime/src/generated/resources/mac" ||
+install-lib "libFishyJoesJavaRuntime.so" "kotlin-runtime/src/generated/resources/linux"
