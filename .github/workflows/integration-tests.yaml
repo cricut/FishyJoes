@@ -51,7 +51,7 @@ jobs:
 
           swift run -- fishy-joes generate
 
-      - name: Build Ubuntu FishyJoesNodeRuntime
+      - name: Build FishyJoesNodeRuntime
         shell: zsh {0}
         run: |
           set -euxo pipefail
@@ -68,11 +68,11 @@ jobs:
           set -euxo pipefail
 
           cd integration-tests/TestAPI-bindings
-          npm install
-          #swift run -- fishy-joes --nodejs --wasm generate build test
-          swift run -- fishy-joes --nodejs generate build test
 
-      - name: Build Ubuntu FishyJoesJavaRuntime
+          #swift run -- fishy-joes --nodejs --wasm build test
+          swift run -- fishy-joes --nodejs build test
+
+      - name: Build FishyJoesJavaRuntime
         shell: zsh {0}
         run: |
           set -euxo pipefail
@@ -89,10 +89,11 @@ jobs:
           set -euxo pipefail
 
           cd integration-tests/TestAPI-bindings
-          swift run -- fishy-joes --kotlin-fast generate build test
+          swift run -- fishy-joes --kotlin-fast build test
 
   integration-tests-ubuntu:
     name: "Ubuntu: Integration Tests"
+    needs: [integration-tests-mac]
     env:
       JDK_VERSION: 11
       GRADLE_OPTS: -Dorg.gradle.daemon=false
@@ -151,7 +152,7 @@ jobs:
           cd integration-tests/TestAPI-bindings
           swift run -- fishy-joes --c-sharp build test
 
-      - name: Build Ubuntu FishyJoesNodeRuntime
+      - name: Build FishyJoesNodeRuntime
         shell: zsh {0}
         run: |
           set -euxo pipefail
@@ -172,7 +173,7 @@ jobs:
           #swift run -- fishy-joes --nodejs --wasm build test
           swift run -- fishy-joes --nodejs build test
 
-      - name: Build Ubuntu FishyJoesJavaRuntime
+      - name: Build FishyJoesJavaRuntime
         shell: zsh {0}
         run: |
           set -euxo pipefail

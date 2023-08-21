@@ -225,7 +225,7 @@ let package = Package(
                         "node_api_get_module_file_name",
                         "node_api_symbol_for",
                     ].flatMap {
-                        #if os(Linux)
+                        #if os(Linux) || os(Windows)
                         return ["-Xlinker", "-u", "-Xlinker", "_\($0)"]
                         #else
                         return ["-Xlinker", "-U", "-Xlinker", "_\($0)"]
