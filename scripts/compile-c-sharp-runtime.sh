@@ -19,8 +19,22 @@ else
     BIN_DIR=$(swift build --configuration $CONFIGURATION --show-bin-path)
 fi
 
-mkdir -p c-sharp-runtime/runtimes/{osx,win,linux}/native
+function install-lib () {
+    if [ -e "$BIN_DIR/$LIB_NAME" ]; then
+        mkdir -p $LIB_DIR
+        cp $BIN_DIR/$LIB_NAME $LIB_DIR
+        echo "Copied $LIB_NAME to $LIB_DIR"
+    fi
+}
 
-cp $BIN_DIR/libFishyJoesCSharpRuntime.dylib c-sharp-runtime/runtimes/osx/native/ ||
-cp $BIN_DIR/FishyJoesCSharpRuntime.dll c-sharp-runtime/runtimes/win/native/ ||
-cp $BIN_DIR/libFishyJoesCSharpRuntime.so c-sharp-runtime/runtimes/linux/native/
+LIB_NAME="FishyJoesCSharpRuntime.dll"
+LIB_DIR=c-sharp-runtime/runtimes/win/native
+install-lib
+
+LIB_NAME="libFishyJoesCSharpRuntime.dylib"
+LIB_DIR=c-sharp-runtime/runtimes/osx/native
+install-lib
+
+LIB_NAME="libFishyJoesCSharpRuntime.so"
+LIB_DIR=c-sharp-runtime/runtimes/linux/native
+install-lib

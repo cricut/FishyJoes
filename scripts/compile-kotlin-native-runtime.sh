@@ -19,8 +19,22 @@ else
     BIN_DIR=$(swift build --configuration $CONFIGURATION --show-bin-path)
 fi
 
-mkdir -p kotlin-runtime/src/generated/resources/{mac,windows,linux}
+function install-lib () {
+    if [ -e "$BIN_DIR/$LIB_NAME" ]; then
+        mkdir -p $LIB_DIR
+        cp $BIN_DIR/$LIB_NAME $LIB_DIR
+        echo "Copied $LIB_NAME to $LIB_DIR"
+    fi
+}
 
-cp $BIN_DIR/libFishyJoesJavaRuntime.dylib kotlin-runtime/src/generated/resources/mac/ ||
-cp $BIN_DIR/FishyJoesJavaRuntime.dll kotlin-runtime/src/generated/resources/windows/ ||
-cp $BIN_DIR/libFishyJoesJavaRuntime.so kotlin-runtime/src/generated/resources/linux/
+LIB_NAME="FishyJoesJavaRuntime.dll"
+LIB_DIR=node-runtime/fishyjoes-runtime-native-windows
+install-lib
+
+LIB_NAME="libFishyJoesJavaRuntime.dylib"
+LIB_DIR=node-runtime/fishyjoes-runtime-native-macos
+install-lib
+
+LIB_NAME="libFishyJoesJavaRuntime.so"
+LIB_DIR=node-runtime/fishyjoes-runtime-native-ubuntu
+install-lib

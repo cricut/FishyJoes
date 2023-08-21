@@ -19,32 +19,26 @@ else
     BIN_DIR=$(swift build --configuration $CONFIGURATION --show-bin-path)
 fi
 
-if [ -e "$BIN_DIR/libFishyJoesNodeRuntime.dll" ]; then
-    LIB_DIR=node-runtime/fishyjoes-runtime-native-windows
-    mkdir -p $LIB_DIR
-    cp $BIN_DIR/libFishyJoesNodeRuntime.dll $LIB_DIR/Runtime.cjs.node
-    if [ ! -e $LIB_DIR/libFishyJoesNodeRuntime.dll ]; then
-        ln -s Runtime.cjs.node $LIB_DIR/libFishyJoesNodeRuntime.dll
+NODE_LIB_NAME="Runtime.cjs.node"
+function install-lib () {
+    if [ -e "$BIN_DIR/$LIB_NAME" ]; then
+        mkdir -p $LIB_DIR
+        cp $BIN_DIR/$LIB_NAME $LIB_DIR/$NODE_LIB_NAME
+        if [ ! -e $LIB_DIR/$LIB_NAME ]; then
+            ln -s $NODE_LIB_NAME $LIB_DIR/$LIB_NAME
+        fi
+        echo "Copied and symlinked $LIB_NAME to $LIB_DIR/$NODE_LIB_NAME"
     fi
-    echo "Copied and symlinked libFishyJoesNodeRuntime.dll to $LIB_DIR/Runtime.cjs.node"
-fi
+}
 
-if [ -e "$BIN_DIR/libFishyJoesNodeRuntime.dylib" ]; then
-    LIB_DIR=node-runtime/fishyjoes-runtime-native-macos
-    mkdir -p $LIB_DIR
-    cp $BIN_DIR/libFishyJoesNodeRuntime.dylib $LIB_DIR/Runtime.cjs.node
-    if [ ! -e $LIB_DIR/libFishyJoesNodeRuntime.dylib ]; then
-        ln -s Runtime.cjs.node $LIB_DIR/libFishyJoesNodeRuntime.dylib
-    fi
-    echo "Copied and symlinked libFishyJoesNodeRuntime.dylib to $LIB_DIR/Runtime.cjs.node"
-fi
+LIB_NAME="FishyJoesNodeRuntime.dll"
+LIB_DIR=node-runtime/fishyjoes-runtime-native-windows
+install-lib
 
-if [ -e "$BIN_DIR/libFishyJoesNodeRuntime.so" ]; then
-    LIB_DIR=node-runtime/fishyjoes-runtime-native-macos
-    mkdir -p $LIB_DIR
-    cp $BIN_DIR/libFishyJoesNodeRuntime.so $LIB_DIR/Runtime.cjs.node
-    if [ ! -e $LIB_DIR/libFishyJoesNodeRuntime.so ]; then
-        ln -s Runtime.cjs.node $LIB_DIR/libFishyJoesNodeRuntime.so
-    fi
-    echo "Copied and symlinked libFishyJoesNodeRuntime.so to $LIB_DIR/Runtime.cjs.node"
-fi
+LIB_NAME="libFishyJoesNodeRuntime.dylib"
+LIB_DIR=node-runtime/fishyjoes-runtime-native-macos
+install-lib
+
+LIB_NAME="libFishyJoesNodeRuntime.so"
+LIB_DIR=node-runtime/fishyjoes-runtime-native-ubuntu
+install-lib
