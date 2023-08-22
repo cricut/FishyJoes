@@ -18,13 +18,13 @@ concurrency:
 
 jobs:
   build-test-node-mac:
-    name: "macOS: Build and Test Node.js Runtime"
+    name: macOS: Build and test node runtime
     runs-on: macOS-12
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Setup Git Credentials
+      - name: Setup git credentials
         uses: de-vri-es/setup-git-credentials@v2
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
@@ -43,7 +43,7 @@ jobs:
           path: node-runtime
 
   build-test-node-ubuntu:
-    name: "Ubuntu: Build and Test Node.js Runtime"
+    name: Ubuntu: Build and test node runtime
     runs-on: ubuntu-latest
     container:
       image: swift
@@ -53,7 +53,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Setup Git Credentials
+      - name: Setup git credentials
         uses: de-vri-es/setup-git-credentials@v2
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/

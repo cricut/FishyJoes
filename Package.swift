@@ -228,7 +228,8 @@ let package = Package(
                         #if os(Linux)
                         return ["-Xlinker", "-u", "-Xlinker", "_\($0)"]
                         #elseif os(Windows)
-                        return ["-Xlinker", "/include:\($0)"]
+                        //return ["-Xlinker", "/include:\($0)"]
+                        return []
                         #else
                         return ["-Xlinker", "-U", "-Xlinker", "_\($0)"]
                         #endif

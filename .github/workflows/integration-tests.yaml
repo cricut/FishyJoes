@@ -15,7 +15,7 @@ concurrency:
 
 jobs:
   integration-tests-mac:
-    name: "macOS: Integration Tests"
+    name: "macOS: Integration tests"
     runs-on: macOS-12
     env:
       JDK_VERSION: 11
@@ -26,7 +26,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Setup Git Credentials
+      - name: Setup git credentials
         uses: de-vri-es/setup-git-credentials@v2
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
@@ -34,22 +34,31 @@ jobs:
       - name: Setup JDK 1.11
         uses: actions/setup-java@v3
         with:
-          java-version: 1.11
+          distribution: zulu
+          java-version: 17
 
-      - name: Setup Node
+      - name: Setup node
         uses: actions/setup-node@v1
         with:
           node-version: '16.x'
           registry-url: 'https://npm.pkg.github.com/'
           scope: '@cricut'
 
-      - name: Generate Interfaces for All Languages
+      - name: Ensure re-generating does not change committed generated code
         shell: zsh {0}
         run: |
           set -euxo pipefail
+          
           cd integration-tests/TestAPI-bindings
 
           swift run -- fishy-joes generate
+
+          if [ ! -z "$(cd integration-tests/TestAPI-Bindings; git status --porcelain .)" ]; then
+            echo '::error:: generation modified sources'
+            echo '::error::   run `swift run fishy-joes generate` from integration-tests/TestAPI-Bindings and re-commit'
+            git status
+            exit 1
+          fi
 
       - name: Build FishyJoesNodeRuntime
         shell: zsh {0}
@@ -59,7 +68,7 @@ jobs:
           ./scripts/compile-node-runtime.sh
 
       #TODO: Wasm
-      - name: Test TypeScript from npm via FishyJoes
+      - name: Test TypeScript from npm via fishy-joes
         shell: zsh {0}
         run: |
           set -euxo pipefail
@@ -69,7 +78,7 @@ jobs:
           #swift run -- fishy-joes --nodejs --wasm build test
           swift run -- fishy-joes --nodejs build test
 
-      - name: Build Native FishyJoesJavaRuntime
+      - name: Build native FishyJoesJavaRuntime
         shell: zsh {0}
         run: |
           set -euxo pipefail
@@ -80,7 +89,7 @@ jobs:
           ./scripts/compile-kotlin-native-runtime.sh
           (cd kotlin-runtime && ./gradlew publishToMavenLocal)
 
-      - name: Test Kotlin from gradle via FishyJoes
+      - name: Test kotlin from gradle via fishy-joes
         shell: zsh {0}
         run: |
           set -euxo pipefail
@@ -89,8 +98,7 @@ jobs:
           swift run -- fishy-joes --kotlin-fast build test
 
   integration-tests-ubuntu:
-    name: "Ubuntu: Integration Tests"
-    needs: [integration-tests-mac]
+    name: "Ubuntu: Integration tests"
     env:
       JDK_VERSION: 11
       GRADLE_OPTS: -Dorg.gradle.daemon=false
@@ -103,7 +111,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Setup Git Credentials
+      - name: Setup git credentials
         uses: de-vri-es/setup-git-credentials@v2
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
@@ -115,7 +123,7 @@ jobs:
           password:  ${{ secrets.CRICUT_GPR_TOKEN }}
           registry: ghcr.io
 
-      - name: Setup Node
+      - name: Setup node
         uses: actions/setup-node@v1
         with:
           node-version: '16.x'
@@ -125,7 +133,8 @@ jobs:
       - name: Setup JDK 1.11
         uses: actions/setup-java@v3
         with:
-          java-version: 1.11
+          distribution: zulu
+          java-version: 17
 
       - name: Configure build environment
         run: |
@@ -140,7 +149,7 @@ jobs:
           sudo mkdir -p /Library/Developer/Toolchains/swift-wasm-5.7.1-RELEASE.xctoolchain
           sudo tar -xf swift-wasm.tgz -C /Library/Developer/Toolchains/swift-wasm-5.7.1-RELEASE.xctoolchain --strip-components 1
 
-      - name: "Test C# from dotnet via FishyJoes"
+      - name: Test C♯ from dotnet via fishy-joes
         shell: zsh {0}
         run: |
           set -euxo pipefail
@@ -177,7 +186,7 @@ jobs:
           ./scripts/compile-kotlin-native-runtime.sh
           (cd kotlin-runtime && ./gradlew publishToMavenLocal)
 
-      - name: Build Android FishyJoesJavaRuntime
+      - name: Build android FishyJoesJavaRuntime
         uses: addnab/docker-run-action@4f65fabd2431ebc8d299f8e5a018d79a769ae185
         with:
           username: cricut-builduser
@@ -187,7 +196,7 @@ jobs:
           options: -v ${{ github.workspace }}:/work -w /work
           run: /work/scripts/compile-android-runtime.sh
           
-      - name: Test Kotlin from gradle via FishyJoes
+      - name: Test kotlin from gradle via fishy-joes
         shell: zsh {0}
         run: |
           set -euxo pipefail
@@ -217,7 +226,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Setup Git Credentials
+      - name: Setup git credentials
         uses: de-vri-es/setup-git-credentials@v2
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
@@ -225,12 +234,13 @@ jobs:
       - name: Setup JDK 1.11
         uses: actions/setup-java@v3
         with:
-          java-version: 1.11
+          distribution: zulu
+          java-version: 17
 
-      - name: Retrieve Artifacts
+      - name: Retrieve artifacts
         uses: actions/download-artifact@v3
 
-      - name: Build Android Test App
+      - name: Build android test app
         shell: zsh {0}
         run: |
           set -euxo pipefail
@@ -244,7 +254,7 @@ jobs:
           cd integration-tests/android-test-app
           ./gradlew assembleAndroidTest
 
-      - name: Test Android Test App
+      - name: Test android test app
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 29
