@@ -123,11 +123,12 @@ jobs:
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
-      - name: Build FishyJoesCSharpRuntime
-        uses: compnerd/gha-setup-swift@main
+      - uses: compnerd/gha-setup-swift@main
         with:
           branch: swift-5.6.2-release
           tag: 5.6.2-RELEASE
+
+      - name: Build FishyJoesCSharpRuntime
         run: |
           swift build --product FishyJoesCSharpRuntime --configuration release --build-path ./.build/windows-build
 
