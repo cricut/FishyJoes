@@ -26,7 +26,7 @@ function install-lib () {
     if [ -e "$BIN_DIR/$LIB_NAME" ]; then
         mkdir -p $LIB_DIR
         cp $BIN_DIR/$LIB_NAME $LIB_DIR/$NODE_LIB_NAME
-        cp node-runtime/fishyjoes-runtime-native-common/{Runtime.d.ts,Runtime.extensions.ts} $LIB_DIR
+        cp node-runtime/fishyjoes-runtime-common/{Runtime.d.ts,Runtime.extensions.ts} $LIB_DIR
         if [ ! -e $LIB_DIR/$LIB_NAME ]; then
             ln -s $NODE_LIB_NAME $LIB_DIR/$LIB_NAME
         fi

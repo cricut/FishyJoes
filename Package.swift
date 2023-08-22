@@ -227,18 +227,15 @@ let package = Package(
                     ].flatMap {
                         #if os(Linux)
                         return ["-Xlinker", "-u", "-Xlinker", "_\($0)"]
-                        #elseif os(Windows)
-                        //return ["-Xlinker", "/include:\($0)"]
-                        return []
                         #else
                         return ["-Xlinker", "-U", "-Xlinker", "_\($0)"]
                         #endif
                     },
                     .when(
                         platforms: [
-                            // all but .wasi
+                            // all but .wasi and .windows
                             .iOS, .macOS, .tvOS, .watchOS,
-                            .android, .linux, .windows,
+                            .android, .linux,
                         ]
                     )
                 ),
@@ -251,6 +248,12 @@ let package = Package(
                         "-Xlinker", "--export=free",
                     ],
                     .when(platforms: [.wasi])
+                ),
+                .unsafeFlags(
+                    [
+                        "-Xlinker", "/force:unresolved",
+                    ],
+                    .when(platforms: [.windows])
                 ),
             ]
         ),
