@@ -56,9 +56,6 @@ jobs:
         run: |
           set -euxo pipefail
 
-          libdir=node-runtime/fishyjoes-runtime-native-macos
-          rm -rf $libdir
-          mkdir -p $libdir
           ./scripts/compile-node-runtime.sh
 
       #TODO: Wasm
@@ -77,7 +74,7 @@ jobs:
         run: |
           set -euxo pipefail
 
-          libdir=kotlin-runtime/src/generated/resources/linux
+          libdir=kotlin-runtime/src/generated/resources/mac
           rm -rf $libdir
           mkdir -p $libdir
           ./scripts/compile-kotlin-native-runtime.sh
@@ -157,9 +154,6 @@ jobs:
         run: |
           set -euxo pipefail
 
-          libdir=node-runtime/fishyjoes-runtime-native-ubuntu
-          rm -rf $libdir
-          mkdir -p $libdir
           ./scripts/compile-node-runtime.sh
 
       #TODO: Wasm
@@ -184,7 +178,17 @@ jobs:
           ./scripts/compile-kotlin-native-runtime.sh
           (cd kotlin-runtime && ./gradlew publishToMavenLocal)
 
-      - name: Test Kotlin
+      - name: Build Android FishyJoesJavaRuntime
+        uses: addnab/docker-run-action@4f65fabd2431ebc8d299f8e5a018d79a769ae185
+        with:
+          username: cricut-builduser
+          password:  ${{ secrets.CRICUT_GPR_TOKEN }}
+          registry: ghcr.io
+          image: ghcr.io/cricut/android-swift-runtime:0.1.0
+          options: -v ${{ github.workspace }}:/work -w /work
+          run: /work/scripts/compile-android-runtime.sh
+          
+      - name: Test Kotlin from gradle
         shell: zsh {0}
         run: |
           set -euxo pipefail
@@ -251,7 +255,7 @@ jobs:
           cd integration-tests/android-test-app
           ./gradlew assembleAndroidTest
 
-      - name: Test Android
+      - name: Test Android Test App
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 29
