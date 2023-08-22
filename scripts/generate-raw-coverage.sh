@@ -2,29 +2,23 @@
 
 set -euxo pipefail
 
+if [[ ! -d integration-tests ]]; then
+    echo "Not in root of FishyJoes"
+    exit 1
+fi
+
 export GRADLE_OPTS=-Dorg.gradle.daemon=false
 
 export FISHYJOES_COVERAGE_PATH=$PWD/coverage-data
 rm -rf $FISHYJOES_COVERAGE_PATH
 mkdir -p $FISHYJOES_COVERAGE_PATH
 
-nodeLibDir=node-runtime/fishyjoes-runtime-native-macos
-javaLibDir=kotlin-runtime/src/generated/resources/mac
-cSharpLibDir=c-sharp-runtime/runtimes/osx/native
-
-rm -rf $javaLibDir $cSharpLibDir
-mkdir -p $javaLibDir $cSharpLibDir
-
 # swift 5.7 no longer recognizes "--enable-code-coverage" outside of the "test" command
 COVERAGE_FLAGS=(-Xswiftc -profile-coverage-mapping -Xswiftc -profile-generate)
 
-swift build --configuration debug $COVERAGE_FLAGS --product FishyJoesNodeRuntime
-swift build --configuration debug $COVERAGE_FLAGS --product FishyJoesJavaRuntime
-swift build --configuration debug $COVERAGE_FLAGS --product FishyJoesCSharpRuntime
-
-cp .build/debug/libFishyJoesNodeRuntime.dylib $nodeLibDir
-cp .build/debug/libFishyJoesJavaRuntime.dylib $javaLibDir
-cp .build/debug/libFishyJoesCSharpRuntime.dylib $cSharpLibDir
+CONFIGURATION=debug ./scripts/compile-node-runtime.sh $COVERAGE_FLAGS
+CONFIGURATION=debug ./scripts/compile-kotlin-native-runtime.sh $COVERAGE_FLAGS
+CONFIGURATION=debug ./scripts/compile-c-sharp-runtime.sh $COVERAGE_FLAGS
 
 (cd kotlin-runtime && ./gradlew publishToMavenLocal)
 
