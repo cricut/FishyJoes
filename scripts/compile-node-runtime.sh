@@ -19,14 +19,14 @@ else
     BIN_DIR=$(swift build --configuration $CONFIGURATION --show-bin-path)
 fi
 
-function install-lib () {
+function install-lib {
     LIB_NAME="$1"
     LIB_DIR="$2"
     NODE_LIB_NAME="Runtime.cjs.node"
     if [ -e "$BIN_DIR/$LIB_NAME" ]; then
         mkdir -p $LIB_DIR
         cp $BIN_DIR/$LIB_NAME $LIB_DIR/$NODE_LIB_NAME
-        cp node-runtime/fishyjoes-runtime-common/{Runtime.d.ts,Runtime.extensions.ts} $LIB_DIR
+        cp node-runtime/fishyjoes-runtime-common/Runtime.{d.ts,extensions.js} $LIB_DIR
         if [ ! -e $LIB_DIR/$LIB_NAME ]; then
             ln -s $NODE_LIB_NAME $LIB_DIR/$LIB_NAME
         fi
@@ -38,5 +38,5 @@ function install-lib () {
 }
 
 install-lib "FishyJoesNodeRuntime.dll" "node-runtime/fishyjoes-runtime-native-windows" ||
-install-lib "libFishyJoesNodeRuntime.dylib" "node-runtime/fishyjoes-runtime-native-macos" ||
-install-lib "libFishyJoesNodeRuntime.so" "node-runtime/fishyjoes-runtime-native-ubuntu"
+    install-lib "libFishyJoesNodeRuntime.dylib" "node-runtime/fishyjoes-runtime-native-macos" ||
+    install-lib "libFishyJoesNodeRuntime.so" "node-runtime/fishyjoes-runtime-native-ubuntu"

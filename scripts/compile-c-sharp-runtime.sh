@@ -19,7 +19,7 @@ else
     BIN_DIR=$(swift build --configuration $CONFIGURATION --show-bin-path)
 fi
 
-function install-lib () {
+function install-lib {
     LIB_NAME="$1"
     LIB_DIR="$2"
     if [ -e "$BIN_DIR/$LIB_NAME" ]; then
@@ -33,5 +33,5 @@ function install-lib () {
 }
 
 install-lib "FishyJoesCSharpRuntime.dll" "c-sharp-runtime/runtimes/win/native" ||
-install-lib "libFishyJoesCSharpRuntime.dylib" "c-sharp-runtime/runtimes/osx/native" ||
-install-lib "libFishyJoesCSharpRuntime.so" "c-sharp-runtime/runtimes/linux/native"
+    install-lib "libFishyJoesCSharpRuntime.dylib" "c-sharp-runtime/runtimes/osx/native" ||
+    install-lib "libFishyJoesCSharpRuntime.so" "c-sharp-runtime/runtimes/linux/native"

@@ -19,7 +19,7 @@ else
     BIN_DIR=$(swift build --configuration $CONFIGURATION --show-bin-path)
 fi
 
-function install-lib () {
+function install-lib {
     LIB_NAME="$1"
     LIB_DIR="$2"
     if [ -e "$BIN_DIR/$LIB_NAME" ]; then
@@ -33,5 +33,5 @@ function install-lib () {
 }
 
 install-lib "FishyJoesJavaRuntime.dll" "kotlin-runtime/src/generated/resources/windows" ||
-install-lib "libFishyJoesJavaRuntime.dylib" "kotlin-runtime/src/generated/resources/mac" ||
-install-lib "libFishyJoesJavaRuntime.so" "kotlin-runtime/src/generated/resources/linux"
+    install-lib "libFishyJoesJavaRuntime.dylib" "kotlin-runtime/src/generated/resources/mac" ||
+    install-lib "libFishyJoesJavaRuntime.so" "kotlin-runtime/src/generated/resources/linux"
