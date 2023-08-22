@@ -149,7 +149,7 @@ jobs:
           branch: swift-5.6.2-release
           tag: 5.6.2-RELEASE
 
-      - name: Build FishyJoesJavaRuntime
+      - name: Build Native FishyJoesJavaRuntime
         run: |
           swift build --product FishyJoesJavaRuntime --configuration release --build-path ./.build/windows-build
 
@@ -213,7 +213,7 @@ jobs:
           mv mac_lib/*.dylib kotlin-runtime/src/generated/resources/mac/
           mv windows_lib/*.dll kotlin-runtime/src/generated/resources/windows/
 
-      - name: Test publish
+      - name: Test Publish
         shell: zsh {0}
         run: |
           set -euxo pipefail

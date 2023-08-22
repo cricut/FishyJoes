@@ -71,7 +71,7 @@ sourceSets.main {
 
 task<Exec>("buildSwiftTestHarness") {
     if (System.getenv("FISHYJOES_COVERAGE_PATH") == null) {
-        commandLine("swift", "build", "--product", "JavaRuntimeTestHarness")
+        commandLine("swift", "build", "-c", "release", "--product", "JavaRuntimeTestHarness")
     } else {
         commandLine(
             "swift", "build",
@@ -85,7 +85,7 @@ task<Exec>("buildSwiftTestHarness") {
 
 tasks.test {
     dependsOn(":buildSwiftTestHarness")
-    systemProperty("java.library.path", "../.build/debug")
+    systemProperty("java.library.path", "../.build/release")
     useJUnitPlatform()
     jvmArgs("-Xcheck:jni", "-XX:+SuppressFatalErrorMessage")
 
