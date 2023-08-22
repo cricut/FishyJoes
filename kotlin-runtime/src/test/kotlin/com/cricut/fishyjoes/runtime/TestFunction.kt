@@ -42,7 +42,6 @@ internal class TestFunction {
         @BeforeAll
         @JvmStatic
         fun loadLib() {
-            System.loadLibrary("FishyJoesJavaRuntime")
             System.loadLibrary("JavaRuntimeTestHarness")
             setup()
         }
