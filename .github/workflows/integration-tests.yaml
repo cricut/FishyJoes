@@ -24,7 +24,7 @@ jobs:
       GITHUB_USER: cricut-builduser
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup Git Credentials
         uses: fusion-engineering/setup-git-credentials@v2.0.1
@@ -43,7 +43,7 @@ jobs:
           registry-url: 'https://npm.pkg.github.com/'
           scope: '@cricut'
 
-      - name: Generate
+      - name: Generate Interfaces for All Languages
         shell: zsh {0}
         run: |
           set -euxo pipefail
@@ -59,7 +59,7 @@ jobs:
           ./scripts/compile-node-runtime.sh
 
       #TODO: Wasm
-      - name: Test Node & Wasm
+      - name: Test TypeScript from npm via FishyJoes
         shell: zsh {0}
         run: |
           set -euxo pipefail
@@ -69,7 +69,7 @@ jobs:
           #swift run -- fishy-joes --nodejs --wasm build test
           swift run -- fishy-joes --nodejs build test
 
-      - name: Build FishyJoesJavaRuntime
+      - name: Build Native FishyJoesJavaRuntime
         shell: zsh {0}
         run: |
           set -euxo pipefail
@@ -80,7 +80,7 @@ jobs:
           ./scripts/compile-kotlin-native-runtime.sh
           (cd kotlin-runtime && ./gradlew publishToMavenLocal)
 
-      - name: Test Kotlin
+      - name: Test Kotlin from gradle via FishyJoes
         shell: zsh {0}
         run: |
           set -euxo pipefail
@@ -101,7 +101,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup Git Credentials
         uses: fusion-engineering/setup-git-credentials@v2.0.1
@@ -140,7 +140,7 @@ jobs:
           sudo mkdir -p /Library/Developer/Toolchains/swift-wasm-5.7.1-RELEASE.xctoolchain
           sudo tar -xf swift-wasm.tgz -C /Library/Developer/Toolchains/swift-wasm-5.7.1-RELEASE.xctoolchain --strip-components 1
 
-      - name: Test .NET
+      - name: "Test C# from dotnet via FishyJoes"
         shell: zsh {0}
         run: |
           set -euxo pipefail
@@ -157,13 +157,12 @@ jobs:
           ./scripts/compile-node-runtime.sh
 
       #TODO: Wasm
-      - name: Test Node & Wasm
+      - name: Test TypeScript from npm via FishyJoes
         shell: zsh {0}
         run: |
           set -euxo pipefail
 
           cd integration-tests/TestAPI-bindings
-          npm install
           #swift run -- fishy-joes --nodejs --wasm build test
           swift run -- fishy-joes --nodejs build test
 
@@ -188,7 +187,7 @@ jobs:
           options: -v ${{ github.workspace }}:/work -w /work
           run: /work/scripts/compile-android-runtime.sh
           
-      - name: Test Kotlin from gradle
+      - name: Test Kotlin from gradle via FishyJoes
         shell: zsh {0}
         run: |
           set -euxo pipefail
@@ -200,7 +199,7 @@ jobs:
           ./gradlew publishToMavenLocal
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: maven-local
           path: ~/.m2/repository
@@ -216,7 +215,7 @@ jobs:
       GITHUB_USER: cricut-builduser
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup Git Credentials
         uses: fusion-engineering/setup-git-credentials@v2.0.1
@@ -229,7 +228,7 @@ jobs:
           java-version: 1.11
 
       - name: Retrieve Artifacts
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
 
       - name: Build Android FishyJoesJavaRuntime
         uses: addnab/docker-run-action@4f65fabd2431ebc8d299f8e5a018d79a769ae185

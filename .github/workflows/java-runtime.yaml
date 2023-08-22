@@ -28,7 +28,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup Git Credentials
         uses: fusion-engineering/setup-git-credentials@v2.0.1
@@ -57,7 +57,7 @@ jobs:
           ./gradlew test
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: mac_lib
           path: kotlin-runtime/src/generated/resources/mac/
@@ -72,7 +72,7 @@ jobs:
       GITHUB_USER: cricut-builduser
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup Git Credentials
         uses: fusion-engineering/setup-git-credentials@v2.0.1
@@ -117,7 +117,7 @@ jobs:
           ./gradlew test
 
       - name: Upload library
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: ubuntu_generated
           path: kotlin-runtime/src/generated
@@ -132,7 +132,7 @@ jobs:
       GITHUB_USER: cricut-builduser
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup Git Credentials
         uses: fusion-engineering/setup-git-credentials@v2.0.1
@@ -161,8 +161,16 @@ jobs:
           mkdir -p kotlin-runtime/src/generated/resources/windows
           cp .build/windows-build/x86_64-unknown-windows-msvc/release/FishyJoesJavaRuntime.dll kotlin-runtime/src/generated/resources/windows
 
+      - name: Test FishyJoesJavaRuntime from gradle
+        shell: bash
+        run: |
+          set -euxo pipefail
+
+          cd kotlin-runtime
+          ./gradlew test
+
       - name: Upload library
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: windows_lib
           path: kotlin-runtime/src/generated/resources/windows/
@@ -179,7 +187,7 @@ jobs:
       GITHUB_PUBLISH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup Git Credentials
         uses: fusion-engineering/setup-git-credentials@v2.0.1
@@ -198,7 +206,7 @@ jobs:
           sudo apt-get install zsh
 
       - name: Retrieve Artifacts
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
 
       - name: Install Artifacts
         shell: zsh {0}

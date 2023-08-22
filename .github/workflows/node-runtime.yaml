@@ -215,7 +215,7 @@ jobs:
           echo MAC_LIB_DIR=${LIB_DIR} >> $GITHUB_ENV
 
       - name: Upload NPM macOS Artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: mac_npm_package
           path: ${{ env.MAC_LIB_DIR }}/*.tgz
@@ -234,7 +234,7 @@ jobs:
           echo UBUNTU_LIB_DIR=${LIB_DIR} >> $GITHUB_ENV
 
       - name: Upload NPM Ubuntu Artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: ubuntu_npm_package
           path: ${{ env.UBUNTU_LIB_DIR }}/*.tgz
@@ -267,7 +267,7 @@ jobs:
 #          echo WINDOWS_LIB_DIR=${LIB_DIR} >> $GITHUB_ENV
 #
 #      - name: Upload NPM Windows Artifact
-#        uses: actions/upload-artifact@v2
+#        uses: actions/upload-artifact@v3
 #        with:
 #          name: windows_npm_package
 #          path: ${{ env.WINDOWS_LIB_DIR }}/*.tgz

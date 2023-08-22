@@ -38,4 +38,4 @@ function install-lib () {
 
 install-lib "FishyJoesNodeRuntime.dll" "node-runtime/fishyjoes-runtime-native-windows" ||
 install-lib "libFishyJoesNodeRuntime.dylib" "node-runtime/fishyjoes-runtime-native-macos" ||
-install-lib "libFishyJoesNodeRuntime.so" "runtime/fishyjoes-runtime-native-ubuntu"
+install-lib "libFishyJoesNodeRuntime.so" "node-runtime/fishyjoes-runtime-native-ubuntu"
