@@ -66,10 +66,10 @@ public enum Env {
 
     public static func unwrap<R>(_ value: R?, file: StaticString = #file, line: UInt = #line) throws -> R {
         guard let value = value else {
-            let message = ["\(file):\(line): Unexpected null"]
+            let message = "\(file):\(line): Unexpected null"
             print(message)
             Thread.callStackSymbols.forEach { print($0) }
-            throw NullPointerError(message: message.joined(separator: "\n"))
+            throw NullPointerError(message: message)
         }
         return value
     }
