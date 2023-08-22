@@ -18,7 +18,7 @@ concurrency:
 
 jobs:
   build-test-kotlin-mac:
-    name: macOS: Build and test kotlin runtime
+    name: "macOS: Build and test kotlin runtime"
     runs-on: macOS-12
     env:
       JDK_VERSION: 11
@@ -64,7 +64,7 @@ jobs:
           path: kotlin-runtime/src/generated/resources/mac/
 
   build-test-kotlin-ubuntu:
-    name: "Ubuntu: Build and Test Kotlin Runtime"
+    name: "Ubuntu: Build and test kotlin runtime"
     runs-on: ubuntu-latest
     env:
       JDK_VERSION: 11
@@ -125,7 +125,7 @@ jobs:
           path: kotlin-runtime/src/generated
 
   build-test-kotlin-windows:
-    name: "Windows: Build and Test Kotlin Runtime"
+    name: "Windows: Build and test kotlin runtime"
     runs-on: windows-latest
     env:
       JDK_VERSION: 11
