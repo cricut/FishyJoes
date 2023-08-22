@@ -1,4 +1,4 @@
-name: "C# runtime"
+name: "C# Runtime"
 
 on:
   workflow_dispatch:
@@ -133,7 +133,7 @@ jobs:
           swift build --product FishyJoesCSharpRuntime --configuration release --build-path ./.build/windows-build
 
       - name: Copy resources
-        shell: zsh {0}
+        shell: bash
         run: |
           set -euxo pipefail
 

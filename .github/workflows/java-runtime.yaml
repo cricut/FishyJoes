@@ -1,4 +1,4 @@
-name: java-runtime
+name: Java Runtime
 
 on:
   workflow_dispatch:

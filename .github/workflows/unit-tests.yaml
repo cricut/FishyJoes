@@ -1,4 +1,4 @@
-name: Build & test
+name: Build & Test
 
 on:
   workflow_dispatch:
@@ -18,7 +18,7 @@ concurrency:
 
 jobs:
   test:
-    name: Build & test
+    name: Build & Test
     env:
       SWIFT_WASM_URL: |-
         https://github.com/swiftwasm/swift/releases/download/swift-wasm-5.7.1-RELEASE/swift-wasm-5.7.1-RELEASE-macos_x86_64.pkg

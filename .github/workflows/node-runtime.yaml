@@ -1,4 +1,4 @@
-name: node-runtime
+name: Node Runtime
 
 on:
   workflow_dispatch:
