@@ -175,7 +175,7 @@ jobs:
           #swift run -- fishy-joes --nodejs --wasm build test
           swift run -- fishy-joes --nodejs build test
 
-      - name: Build FishyJoesJavaRuntime
+      - name: Build native FishyJoesJavaRuntime
         shell: zsh {0}
         run: |
           set -euxo pipefail
@@ -184,18 +184,7 @@ jobs:
           rm -rf $libdir
           mkdir -p $libdir
           ./scripts/compile-kotlin-native-runtime.sh
-          (cd kotlin-runtime && ./gradlew publishToMavenLocal)
 
-      - name: Build android FishyJoesJavaRuntime
-        uses: addnab/docker-run-action@4f65fabd2431ebc8d299f8e5a018d79a769ae185
-        with:
-          username: cricut-builduser
-          password:  ${{ secrets.CRICUT_GPR_TOKEN }}
-          registry: ghcr.io
-          image: ghcr.io/cricut/android-swift-runtime:0.1.0
-          options: -v ${{ github.workspace }}:/work -w /work
-          run: /work/scripts/compile-android-runtime.sh
-          
       - name: Test kotlin from gradle via fishy-joes
         shell: zsh {0}
         run: |
@@ -206,6 +195,23 @@ jobs:
 
           cd kotlin
           ./gradlew publishToMavenLocal
+
+      - name: Build android FishyJoesJavaRuntime
+        uses: addnab/docker-run-action@4f65fabd2431ebc8d299f8e5a018d79a769ae185
+        with:
+          username: cricut-builduser
+          password:  ${{ secrets.CRICUT_GPR_TOKEN }}
+          registry: ghcr.io
+          image: ghcr.io/cricut/android-swift-runtime:0.1.0
+          options: -v ${{ github.workspace }}:/work -w /work
+          run: /work/scripts/compile-android-runtime.sh
+
+      - name: Locally publish kotlin native & android runtimes
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+
+          (cd kotlin-runtime && ./gradlew publishToMavenLocal)
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v3

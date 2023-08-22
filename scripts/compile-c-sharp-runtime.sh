@@ -28,7 +28,7 @@ function install-lib {
         echo "Copied $LIB_NAME to $LIB_DIR"
         return 0
     else
-        return -1
+        return 1
     fi
 }
 

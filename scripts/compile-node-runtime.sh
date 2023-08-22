@@ -33,7 +33,7 @@ function install-lib {
         echo "Copied and symlinked $LIB_NAME to $LIB_DIR/$NODE_LIB_NAME"
         return 0
     else
-        return -1
+        return 1
     fi
 }
 
