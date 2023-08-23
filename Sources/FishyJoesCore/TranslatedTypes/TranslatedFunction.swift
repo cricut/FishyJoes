@@ -7,7 +7,6 @@ struct TranslatedFunction: TranslatedType {
     let sourceType: BetterType
     let nodeName: String
     let kotlinName: String
-    let cppName: String
     let neutralName: String
     let containedNamedTypes: [TranslatedType]
     let kotlinPackage: String? = nil
@@ -23,7 +22,6 @@ struct TranslatedFunction: TranslatedType {
         self.neutralName = "Function<ReturnType=\(returnType.neutralName), Params=[\(parameters.map { $0.neutralName }.joined(separator: ", "))]>"
         self.nodeName = "(\(parameters.enumerated().map { "_\($0.offset): \($0.element.nodeName)" }.joined(separator: ", "))) => \(returnType.nodeName)"
         self.kotlinName = "((\(parameters.map(\.kotlinPackageQualifiedName).joined(separator: ", "))) -> \(returnType.kotlinPackageQualifiedName))"
-        self.cppName = "std::function<\(returnType.cppName)(\(parameters.map(\.cppName).joined(separator: ", "))>"
         self.containedNamedTypes = parameters.map { $0.containedNamedTypes }.joined() + returnType.containedNamedTypes
         self.jniType = .object("kotlin/jvm/functions/Function\(parameters.count)")
         if returnType.sourceType == .void {

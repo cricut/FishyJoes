@@ -11,7 +11,6 @@
           }
         }
       },
-      "cppName" : "AssociatedDataEnum",
       "cSharpType" : {
         "named" : {
           "name" : "AssociatedDataEnum",
@@ -56,7 +55,6 @@
           }
         }
       },
-      "cppName" : "Bytes",
       "cSharpType" : {
         "named" : {
           "name" : "Bytes",
@@ -101,7 +99,6 @@
           }
         }
       },
-      "cppName" : "ClosedRanges",
       "cSharpType" : {
         "named" : {
           "name" : "ClosedRanges",
@@ -146,7 +143,6 @@
           }
         }
       },
-      "cppName" : "Collections",
       "cSharpType" : {
         "named" : {
           "name" : "Collections",
@@ -191,7 +187,6 @@
           }
         }
       },
-      "cppName" : "Collections::CollectionHolder",
       "cSharpType" : {
         "named" : {
           "name" : "Collections.CollectionHolder",
@@ -236,7 +231,6 @@
           }
         }
       },
-      "cppName" : "DefaultArguments",
       "cSharpType" : {
         "named" : {
           "name" : "DefaultArguments",
@@ -281,7 +275,6 @@
           }
         }
       },
-      "cppName" : "Deprecations",
       "cSharpType" : {
         "named" : {
           "name" : "Deprecations",
@@ -326,7 +319,6 @@
           }
         }
       },
-      "cppName" : "EmptyEnum",
       "cSharpType" : {
         "named" : {
           "name" : "EmptyEnum",
@@ -371,7 +363,6 @@
           }
         }
       },
-      "cppName" : "Functions",
       "cSharpType" : {
         "named" : {
           "name" : "Functions",
@@ -416,7 +407,6 @@
           }
         }
       },
-      "cppName" : "Functions::TheError",
       "cSharpType" : {
         "named" : {
           "name" : "Functions.TheError",
@@ -461,7 +451,6 @@
           }
         }
       },
-      "cppName" : "Primitives",
       "cSharpType" : {
         "named" : {
           "name" : "Primitives",
@@ -506,7 +495,6 @@
           }
         }
       },
-      "cppName" : "Primitives::PrimitiveHolder",
       "cSharpType" : {
         "named" : {
           "name" : "Primitives.PrimitiveHolder",
@@ -551,7 +539,6 @@
           }
         }
       },
-      "cppName" : "Ranges",
       "cSharpType" : {
         "named" : {
           "name" : "Ranges",
@@ -596,7 +583,6 @@
           }
         }
       },
-      "cppName" : "SimpleEnum",
       "cSharpType" : {
         "named" : {
           "name" : "SimpleEnum",
@@ -641,7 +627,6 @@
           }
         }
       },
-      "cppName" : "Strings",
       "cSharpType" : {
         "named" : {
           "name" : "Strings",
@@ -686,7 +671,6 @@
           }
         }
       },
-      "cppName" : "Structs",
       "cSharpType" : {
         "named" : {
           "name" : "Structs",
@@ -731,7 +715,6 @@
           }
         }
       },
-      "cppName" : "Structs::MemberwiseStruct",
       "cSharpType" : {
         "named" : {
           "name" : "Structs.MemberwiseStruct",
@@ -776,7 +759,6 @@
           }
         }
       },
-      "cppName" : "Structs::ReferenceStruct",
       "cSharpType" : {
         "named" : {
           "name" : "Structs.ReferenceStruct",
@@ -821,7 +803,6 @@
           }
         }
       },
-      "cppName" : "Tuples",
       "cSharpType" : {
         "named" : {
           "name" : "Tuples",

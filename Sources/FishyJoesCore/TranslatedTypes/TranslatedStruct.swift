@@ -4,7 +4,6 @@ struct TranslatedStruct: TranslatedType {
     let sourceType: BetterType
     let nodeName: String
     let kotlinName: String
-    let cppName: String
     let neutralName: String
     var containedNamedTypes: [TranslatedType] { [self] }
     let kotlinPackage: String?
@@ -27,7 +26,6 @@ struct TranslatedStruct: TranslatedType {
         self.sourceType = BetterType(named: type)
         self.nodeName = exportAnnotation.name
         self.kotlinName = exportAnnotation.name
-        self.cppName = exportAnnotation.name.replacingOccurrences(of: ".", with: "::")
         self.neutralName = "Struct<Named=\(exportAnnotation.name)>"
         self.kotlinPackage = context.module.kotlinPackage
         self.cSharpType = .named(package: context.module.cSharpNamespace, name: exportAnnotation.cSharpName)
@@ -49,43 +47,7 @@ struct TranslatedStruct: TranslatedType {
             nodeDefinitionFragment(in: context),
             jniDefinitionFragment(in: context),
             cSharpDefinitionFragment(in: context),
-            cppDefinitionFragment(in: context),
         ] + neutralDefinitionFragments(in: context)
-    }
-
-    func cppDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
-        let fragment = SourceFragment(sourceryDestination: "file:CPPInterface/\(sourceType.name).swift")
-        var newMethods: [CPPClass.CPPMethod] = []
-        newMethods.append(contentsOf: methods.map { context.cppTranslator.translateToHeaderFragment(method: $0, in: context) })
-        for variable in computedVariables {
-            let accessors = context.cppTranslator.translateToHeaderFragment(variable: variable, in: context)
-            newMethods.append(accessors.getter)
-            if let setter = accessors.setter {
-                newMethods.append(setter)
-            }
-        }
-        let newFields: [CPPClass.CPPField] = storedVariables.map { variable in
-            let fieldType = context.resolve(type: variable.typeName.better)
-            return CPPClass.CPPField(
-                documentation: variable.documentation,
-                isStatic: variable.isStatic,
-                isPrivate: false,
-                name: variable.name,
-                type: .type(fieldType),
-                initializer: nil
-            )
-        }
-        let newClass = CPPClass(
-            module: context.module,
-            documentation: documentation,
-            name: sourceType.name,
-            methods: newMethods,
-            fields: newFields,
-            serializedFields: newFields,
-            completeConstructorVisible: true
-        )
-        context.cppClasses[newClass.qualifiedName] = newClass
-        return fragment
     }
 
     func neutralDefinitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
