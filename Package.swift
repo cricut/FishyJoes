@@ -37,7 +37,6 @@ let package = Package(
         [
             P.library(name: "FishyJoesJavaRuntime", type: .dynamic, targets: ["FishyJoesJavaRuntime"]),
             P.library(name: "FishyJoesCSharpRuntime", type: .dynamic, targets: ["FishyJoesCSharpRuntime"]),
-            P.library(name: "FishyJoesCPPRuntime", targets: ["FishyJoesCPPRuntime"]),
             P.library(name: "JavaRuntimeTestHarness", type: .dynamic, targets: ["JavaRuntimeTestHarness"]),
         ]
     ) + (androidCompatibleOnly || wasmCompatibleOnly ? [] : [
@@ -72,12 +71,6 @@ let package = Package(
             dependencies: [
                 .target(name: "JNI"),
                 .target(name: "FishyJoesCommonRuntime"),
-            ]
-        ),
-        T.target(
-            name: "FishyJoesCPPRuntime",
-            dependencies: [
-                .target(name: "FishyJoesCommonRuntime")
             ]
         ),
         T.target(

@@ -4,7 +4,6 @@ struct TranslatedResult: TranslatedType {
     let nodeName: String
     let kotlinName: String
     let kotlinPackage: String? = "com.cricut.fishyjoes.runtime"
-    let cppName: String = "TODO"
     let neutralName: String
     let containedNamedTypes: [TranslatedType]
     let cSharpType: CSharpClass.CSType = .primitive("TODO")

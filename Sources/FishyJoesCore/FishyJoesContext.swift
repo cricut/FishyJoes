@@ -16,25 +16,16 @@ public class FishyJoesContext {
     var tsAnnotations: TypeScriptAnnotations
     var kotlinClasses: [KotlinClass] = []
     var cSharpClasses: [CSharpClass] = []
-    // qualified name (ie "ContainingClass::ClassName") -> CPPClass
-    var cppClasses: [String: CPPClass] = [:]
-    var sortedCppClasses: [CPPClass] {
-        cppClasses.sorted { $0.key < $1.key }.map(\.value)
-    }
-    // [qualifiedName/cppName]
-    var classesNeedingHashSpecialization: [CPPClass] = []
 
     let nodeTranslator = NodeTranslator()
     let kotlinTranslator = KotlinTranslator()
     let cSharpTranslator = CSharpTranslator()
-    let cppTranslator = CPPTranslate()
     let neutralTranslator = NeutralTranslate()
 
     lazy var translators: [Translator] = [
         nodeTranslator,
         kotlinTranslator,
         cSharpTranslator,
-        cppTranslator,
         // neutralTranslator,
     ]
 
@@ -160,23 +151,6 @@ public class FishyJoesContext {
                 collectedFragments.append(contentsOf: type.value.definitionFragments(in: self))
                 generatedTypes.insert(type.key)
             }
-        }
-
-        for classObj in sortedCppClasses {
-            if let parent = classObj.parentQualifiedName {
-                guard let parentClass = cppClasses[parent] else {
-                    // TODO: this actually happens in CriText. Should be dealt with properly
-                    continue
-                }
-                parentClass.innerClasses.append(classObj)
-            }
-        }
-
-        for cppClass in sortedCppClasses {
-            if cppClass.parentQualifiedName == nil {
-                collectedFragments.append(cppClass.headerFragment())
-            }
-            collectedFragments.append(cppClass.sourceFragment(in: self))
         }
 
         collectedFragments.append(

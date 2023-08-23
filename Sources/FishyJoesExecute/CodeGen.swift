@@ -12,9 +12,6 @@ public struct CodeGen: ParsableCommand {
     @Flag(name: .long, inversion: .prefixedNo, help: "Generate a Web-assembly based node package")
     var wasm = false
 
-    @Flag(name: .long, inversion: .prefixedNo, help: "Generate a C++ package")
-    var cpp = false
-
     @Flag(name: .long, inversion: .prefixedNo, help: "Generate a Kotlin package")
     var kotlin = false
 
@@ -64,7 +61,6 @@ public struct CodeGen: ParsableCommand {
         case quiet
         case nodejs
         case wasm
-        case cpp
         case kotlin
         case kotlinFast
         case cSharp
@@ -98,9 +94,6 @@ extension CodeGen {
         }
         if nodejs {
             platforms.append(.node)
-        }
-        if cpp {
-            platforms.append(.cpp)
         }
         if kotlin || kotlinFast {
             platforms.append(.kotlinSystem)
@@ -178,15 +171,13 @@ extension CodeGen {
                     "Sources/Generated/CSharpInterface",
                     "Sources/Generated/NodeInterface",
                     "Sources/Generated/JavaInterface",
-                    "Sources/Generated/CPPInterface",
                     "kotlin/src/generated/kotlin/com/cricut/\(config.module.lowercased())"
             ).run()
             try cmd(
                 "touch",
                 "Sources/Generated/CSharpInterface/EmptyPlaceholder.swift",
                 "Sources/Generated/NodeInterface/EmptyPlaceholder.swift",
-                "Sources/Generated/JavaInterface/EmptyPlaceholder.swift",
-                "Sources/Generated/CPPInterface/EmptyPlaceholder.swift"
+                "Sources/Generated/JavaInterface/EmptyPlaceholder.swift"
             ).run()
             try cmd("swift", "build", "--product", "sourcery").run()
             try cmd("swift", arguments: ["build"] + (codeCoveragePath == nil ? [] : Platform.coverageFlags) + ["--product", "🐟☕️"]).run()
@@ -254,12 +245,6 @@ extension CodeGen {
                     try platform.build(
                         product: "\(config.module)-java",
                         libs: libs.flatMap { [$0, "\($0)-java"] } + ["FishyJoesJavaRuntime"],
-                        configuration: configuration
-                    )
-                case .cpp:
-                    try platform.build(
-                        product: "\(config.module)-cpp",
-                        libs: libs.flatMap { [$0, "\($0)-cpp"] },
                         configuration: configuration
                     )
                 case .cSharp:
@@ -392,8 +377,6 @@ extension CodeGen {
                     try cmd("mkdir", "-p", outputDir).run()
                     try installLibrary(config.module)
                     try installLibrary("\(config.module)-java")
-                case .cpp:
-                    try cmd("mkdir", "-p", outputDir).run()
                 case .cSharp:
                     try cmd("mkdir", "-p", outputDir).run()
                     try installLibrary(config.module)
@@ -443,7 +426,7 @@ extension CodeGen {
                         .append(toFile: packageJsonPath)
                         .run()
                 }
-            case .kotlinSystem, .kotlinAndroid, .cpp, .cSharp:
+            case .kotlinSystem, .kotlinAndroid, .cSharp:
                 break
             }
         }
@@ -469,7 +452,7 @@ extension CodeGen {
                         let tasks = ["cleanTest", "test"] + (codeCoveragePath == nil ? [] : ["jacocoTestReport"])
                         try cmd("./gradlew", arguments: tasks, addEnv: env).run()
                     }
-                case .kotlinAndroid, .cpp:
+                case .kotlinAndroid:
                     // TODO
                     break
                 case .cSharp:

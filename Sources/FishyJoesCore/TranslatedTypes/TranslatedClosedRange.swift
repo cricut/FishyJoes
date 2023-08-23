@@ -7,7 +7,6 @@ struct TranslatedClosedRange: TranslatedType {
     let kotlinName: String
     let jniType: JNIType
     let cSharpType: CSharpClass.CSType
-    let cppName: String
     let definingModule = Module.runtime
 
     init(bound: TranslatedType) {
@@ -19,7 +18,6 @@ struct TranslatedClosedRange: TranslatedType {
         self.kotlinName = "SwiftClosedRange<\(bound.kotlinName)>"
         self.jniType = .object("com/cricut/fishyjoes/runtime/SwiftClosedRange")
         self.cSharpType = .named(package: "Cricut.FishyJoesRuntime", name: "SwiftClosedRange<\(bound.cSharpType.name)>")
-        self.cppName = "std::ranges::range<\(bound.cppName)>"
     }
 
     var sourceType: BetterType {

@@ -13,7 +13,6 @@ struct BuildConfiguration {
 enum Platform: CustomStringConvertible, Hashable {
     case wasm
     case node
-    case cpp
     case kotlinSystem
     case kotlinAndroid(AndroidArchitecture)
     case cSharp
@@ -46,8 +45,6 @@ enum Platform: CustomStringConvertible, Hashable {
             return "wasm"
         case .node:
             return "node"
-        case .cpp:
-            return "cpp"
         case .kotlinSystem:
             return "kotlinSystem"
         case let .kotlinAndroid(arch):
@@ -69,7 +66,7 @@ enum Platform: CustomStringConvertible, Hashable {
         switch self {
         case .wasm, .kotlinAndroid:
             return false
-        case .node, .cpp, .kotlinSystem, .cSharp:
+        case .node, .kotlinSystem, .cSharp:
             return true
         }
     }
@@ -186,19 +183,6 @@ enum Platform: CustomStringConvertible, Hashable {
             path = "swift"
             args = ["build"] + args
             #endif
-        case .cpp:
-            #if os(macOS)
-            path = Platform.nativeMacSwiftBuild
-            args.append(contentsOf: ["-Xlinker", "-rpath", "-Xlinker", "@loader_path"])
-            if configuration.fat {
-                args.append(contentsOf: ["--arch", "arm64", "--arch", "x86_64"])
-            }
-            #elseif os(Linux)
-            path = "swift"
-            args = ["build", "-Xswiftc", "-static-stdlib"] + args
-            #else
-            fatalError("unknown host OS")
-            #endif
         }
         return cmd(path, arguments: args, addEnv: env)
     }
@@ -237,7 +221,6 @@ enum Platform: CustomStringConvertible, Hashable {
             #else
             fatalError("unknown host OS")
             #endif
-        case .cpp: return "cpp"
         }
     }
 
@@ -265,7 +248,6 @@ enum Platform: CustomStringConvertible, Hashable {
             #else
             fatalError("unknown host OS")
             #endif
-        case .cpp: return "cpp/generated/lib/"
         }
     }
 
@@ -273,7 +255,6 @@ enum Platform: CustomStringConvertible, Hashable {
         switch self {
         case .wasm: return "\(config.module) packaged as a typescript library using WebAssembly"
         case .node: return "\(platform) <-> node/ts bindings for \(config.module)"
-        case .cpp: return "\(config.module) C++ bingings"
         case .kotlinSystem, .kotlinAndroid: return "A JNI wrapper for \(config.module)"
         case .cSharp: return "A C# wrapper for \(config.module)"
         }

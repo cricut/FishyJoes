@@ -5,7 +5,6 @@ struct TranslatedReference: TranslatedType {
     let nodeName: String
     let definingTSNamespace: String?
     let kotlinName: String
-    let cppName: String
     let neutralName: String
     var containedNamedTypes: [TranslatedType] { [self] }
     let kotlinPackage: String?
@@ -29,7 +28,6 @@ struct TranslatedReference: TranslatedType {
         self.sourceType = BetterType(named: type)
         self.nodeName = typeName
         self.definingTSNamespace = context.module.name
-        self.cppName = typeName.replacingOccurrences(of: ".", with: "::")
         self.neutralName = "Reference<To=\(typeName)>"
         self.kotlinName = typeName
         self.kotlinPackage = context.module.kotlinPackage
@@ -50,42 +48,7 @@ struct TranslatedReference: TranslatedType {
             nodeDefinitionFragment(in: context),
             jniDefinitionFragment(in: context),
             cSharpDefinitionFragment(in: context),
-            cppDefinitionFragment(in: context),
         ] + neutralDefinitionFragments(in: context)
-    }
-
-    func cppDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
-        let fragment = SourceFragment(sourceryDestination: "file:CPPInterface/\(sourceType.name).swift")
-        var newMethods: [CPPClass.CPPMethod] = []
-        newMethods.append(contentsOf: methods.map { context.cppTranslator.translateToHeaderFragment(method: $0, in: context) })
-        for variable in computedVariables {
-            let accessors = context.cppTranslator.translateToHeaderFragment(variable: variable, in: context)
-            newMethods.append(accessors.getter)
-            if let setter = accessors.setter {
-                newMethods.append(setter)
-            }
-        }
-        let refField = CPPClass.CPPField(
-            documentation: [
-                "Reference to Swift-managed data"
-            ],
-            isStatic: false,
-            isPrivate: true,
-            name: "_ref",
-            type: .swiftRef(hashable: hashable && equatable),
-            initializer: nil
-        )
-        let newClass = CPPClass(
-            module: context.module,
-            documentation: documentation,
-            name: sourceType.name,
-            methods: newMethods,
-            fields: [refField],
-            serializedFields: [refField],
-            completeConstructorVisible: false
-        )
-        context.cppClasses[newClass.qualifiedName] = newClass
-        return fragment
     }
 
     func neutralDefinitionFragments(in context: FishyJoesContext) -> [SourceFragment] {

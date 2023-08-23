@@ -2,7 +2,6 @@ struct TranslatedOptional: TranslatedType {
     let wrapped: TranslatedType
     let nodeName: String
     let kotlinName: String
-    let cppName: String
     let neutralName: String
     let containedNamedTypes: [TranslatedType]
     let kotlinPackage: String?
@@ -14,7 +13,6 @@ struct TranslatedOptional: TranslatedType {
         self.wrapped = wrapped
         self.nodeName = wrapped.nodeName
         self.kotlinName = wrapped.kotlinName + "?"
-        self.cppName = "std::optional<\(wrapped.cppName)>"
         self.neutralName = "Optional<\(wrapped.neutralName)>"
         self.containedNamedTypes = wrapped.containedNamedTypes
         self.kotlinPackage = wrapped.kotlinPackage
