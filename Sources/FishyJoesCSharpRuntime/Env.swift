@@ -10,7 +10,7 @@ public struct CSharpException: Error {
     var exception: CSharpReference
 }
 
-@_cdecl("FishyJoesRuntime_Env_setup")
+@_cdecl("FishyJoesCommonRuntime_Env_setup")
 public func Env_setupGCPin(
     newRefFn: @escaping Env.NewRefFn,
     deleteRefFn: @escaping Env.DeleteRefFn,
@@ -21,7 +21,7 @@ public func Env_setupGCPin(
     Env.newErrorFn = newErrorFn
 }
 
-@_cdecl("FishyJoesRuntime_getTypeID")
+@_cdecl("FishyJoesCommonRuntime_getTypeID")
 public func Env_getTypeID(name: UnsafePointer<unichar>) -> TypeID {
     let name = String(decodingCString: name, as: Unicode.UTF16.self)
     guard let typeID = Env.typeIDsByName[name] else {

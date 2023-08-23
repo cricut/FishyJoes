@@ -10,7 +10,8 @@ struct Module: Hashable, CustomStringConvertible, Codable {
 }
 
 extension Module {
-    var dllImportMark: String {"[DllImport(\"\(cSharpLibName)\", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]"
+    var dllImportMark: String {
+        "[DllImport(\"\(cSharpLibName)\", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]"
     }
 
     var cSharpLibName: String {

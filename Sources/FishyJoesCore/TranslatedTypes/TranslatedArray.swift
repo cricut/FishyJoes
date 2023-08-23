@@ -18,7 +18,7 @@ struct TranslatedArray: TranslatedType {
     init(element: TranslatedType) {
         self.elementType = element
         self.sourceType = .array(element.sourceType)
-        self.converterType = .generic(base: "ArrayConverter", args: [element.converterType])
+        self.converterType = .generic(base: .runtime("ArrayConverter"), args: [element.converterType])
         self.nodeName = "\(element.nodeType)[]"
         self.kotlinName = "List<\(element.kotlinPackageQualifiedName)>"
         self.neutralName = "List<V=\(element.neutralName)>"

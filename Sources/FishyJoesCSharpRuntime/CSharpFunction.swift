@@ -21,8 +21,8 @@ public enum SwiftFunctionImpl {
     static var invoke6s: [ObjectIdentifier: Invoke6] = [:]
 }
 
-@_cdecl("FishyJoesRuntime_Function0Converter_setup")
-public func FishyJoesRuntime_Function0Converter_setup(
+@_cdecl("FishyJoesCommonRuntime_Function0Converter_setup")
+public func FishyJoesCommonRuntime_Function0Converter_setup(
     name: UnsafePointer<unichar>,
     constructor: @escaping SwiftFunctionImpl.Constructor,
     invoke: @escaping SwiftFunctionImpl.Invoke0,
@@ -40,8 +40,8 @@ public func FishyJoesRuntime_Function0Converter_setup(
     }
 }
 
-@_cdecl("FishyJoesRuntime_Function1Converter_setup")
-public func FishyJoesRuntime_Function1Converter_setup(
+@_cdecl("FishyJoesCommonRuntime_Function1Converter_setup")
+public func FishyJoesCommonRuntime_Function1Converter_setup(
     name: UnsafePointer<unichar>,
     constructor: @escaping SwiftFunctionImpl.Constructor,
     invoke: @escaping SwiftFunctionImpl.Invoke1,
@@ -59,8 +59,8 @@ public func FishyJoesRuntime_Function1Converter_setup(
     }
 }
 
-@_cdecl("FishyJoesRuntime_Function2Converter_setup")
-public func FishyJoesRuntime_Function2Converter_setup(
+@_cdecl("FishyJoesCommonRuntime_Function2Converter_setup")
+public func FishyJoesCommonRuntime_Function2Converter_setup(
     name: UnsafePointer<unichar>,
     constructor: @escaping SwiftFunctionImpl.Constructor,
     invoke: @escaping SwiftFunctionImpl.Invoke2,
@@ -78,8 +78,8 @@ public func FishyJoesRuntime_Function2Converter_setup(
     }
 }
 
-@_cdecl("FishyJoesRuntime_Function3Converter_setup")
-public func FishyJoesRuntime_Function3Converter_setup(
+@_cdecl("FishyJoesCommonRuntime_Function3Converter_setup")
+public func FishyJoesCommonRuntime_Function3Converter_setup(
     name: UnsafePointer<unichar>,
     constructor: @escaping SwiftFunctionImpl.Constructor,
     invoke: @escaping SwiftFunctionImpl.Invoke3,
@@ -97,8 +97,8 @@ public func FishyJoesRuntime_Function3Converter_setup(
     }
 }
 
-@_cdecl("FishyJoesRuntime_Function4Converter_setup")
-public func FishyJoesRuntime_Function4Converter_setup(
+@_cdecl("FishyJoesCommonRuntime_Function4Converter_setup")
+public func FishyJoesCommonRuntime_Function4Converter_setup(
     name: UnsafePointer<unichar>,
     constructor: @escaping SwiftFunctionImpl.Constructor,
     invoke: @escaping SwiftFunctionImpl.Invoke4,
@@ -116,8 +116,8 @@ public func FishyJoesRuntime_Function4Converter_setup(
     }
 }
 
-@_cdecl("FishyJoesRuntime_Function5Converter_setup")
-public func FishyJoesRuntime_Function5Converter_setup(
+@_cdecl("FishyJoesCommonRuntime_Function5Converter_setup")
+public func FishyJoesCommonRuntime_Function5Converter_setup(
     name: UnsafePointer<unichar>,
     constructor: @escaping SwiftFunctionImpl.Constructor,
     invoke: @escaping SwiftFunctionImpl.Invoke5,
@@ -135,8 +135,8 @@ public func FishyJoesRuntime_Function5Converter_setup(
     }
 }
 
-@_cdecl("FishyJoesRuntime_Function6Converter_setup")
-public func FishyJoesRuntime_Function6Converter_setup(
+@_cdecl("FishyJoesCommonRuntime_Function6Converter_setup")
+public func FishyJoesCommonRuntime_Function6Converter_setup(
     name: UnsafePointer<unichar>,
     constructor: @escaping SwiftFunctionImpl.Constructor,
     invoke: @escaping SwiftFunctionImpl.Invoke6,
@@ -159,7 +159,7 @@ public func FishyJoesRuntime_Function6Converter_setup(
 private struct AnyFunction0 {
     let invoke: () throws -> csObject
 }
-@_cdecl("FishyJoesRuntime_SwiftFunctionImpl_invoke0")
+@_cdecl("FishyJoesCommonRuntime_SwiftFunctionImpl_invoke0")
 public func SwiftFunctionImpl_invoke0(this: UnsafeMutableRawPointer, exn: csOutExn) -> csObject {
     Env.catching(to: exn) {
         return try Box<AnyFunction0>.takeUnretainedOpaque(this).value.invoke()
@@ -169,7 +169,7 @@ public func SwiftFunctionImpl_invoke0(this: UnsafeMutableRawPointer, exn: csOutE
 private struct AnyFunction1 {
     let invoke: (csObject) throws -> csObject
 }
-@_cdecl("FishyJoesRuntime_SwiftFunctionImpl_invoke1")
+@_cdecl("FishyJoesCommonRuntime_SwiftFunctionImpl_invoke1")
 public func SwiftFunctionImpl_invoke1(this: UnsafeMutableRawPointer, p0: csObject, exn: csOutExn) -> csObject {
     Env.catching(to: exn) { try Box<AnyFunction1>.takeUnretainedOpaque(this).value.invoke(p0) }
 }
@@ -177,7 +177,7 @@ public func SwiftFunctionImpl_invoke1(this: UnsafeMutableRawPointer, p0: csObjec
 private struct AnyFunction2 {
     let invoke: (csObject, csObject) throws -> csObject
 }
-@_cdecl("FishyJoesRuntime_SwiftFunctionImpl_invoke2")
+@_cdecl("FishyJoesCommonRuntime_SwiftFunctionImpl_invoke2")
 public func SwiftFunctionImpl_invoke2(this: UnsafeMutableRawPointer, p0: csObject, p1: csObject, exn: csOutExn) -> csObject {
     Env.catching(to: exn) { try Box<AnyFunction2>.takeUnretainedOpaque(this).value.invoke(p0, p1) }
 }
@@ -185,7 +185,7 @@ public func SwiftFunctionImpl_invoke2(this: UnsafeMutableRawPointer, p0: csObjec
 private struct AnyFunction3 {
     let invoke: (csObject, csObject, csObject) throws -> csObject
 }
-@_cdecl("FishyJoesRuntime_SwiftFunctionImpl_invoke3")
+@_cdecl("FishyJoesCommonRuntime_SwiftFunctionImpl_invoke3")
 public func SwiftFunctionImpl_invoke3(this: UnsafeMutableRawPointer, p0: csObject, p1: csObject, p2: csObject, exn: csOutExn) -> csObject {
     Env.catching(to: exn) { try Box<AnyFunction3>.takeUnretainedOpaque(this).value.invoke(p0, p1, p2) }
 }
@@ -193,7 +193,7 @@ public func SwiftFunctionImpl_invoke3(this: UnsafeMutableRawPointer, p0: csObjec
 private struct AnyFunction4 {
     let invoke: (csObject, csObject, csObject, csObject) throws -> csObject
 }
-@_cdecl("FishyJoesRuntime_SwiftFunctionImpl_invoke4")
+@_cdecl("FishyJoesCommonRuntime_SwiftFunctionImpl_invoke4")
 public func SwiftFunctionImpl_invoke4(this: UnsafeMutableRawPointer, p0: csObject, p1: csObject, p2: csObject, p3: csObject, exn: csOutExn) -> csObject {
     Env.catching(to: exn) { try Box<AnyFunction4>.takeUnretainedOpaque(this).value.invoke(p0, p1, p2, p3) }
 }
@@ -201,7 +201,7 @@ public func SwiftFunctionImpl_invoke4(this: UnsafeMutableRawPointer, p0: csObjec
 private struct AnyFunction5 {
     let invoke: (csObject, csObject, csObject, csObject, csObject) throws -> csObject
 }
-@_cdecl("FishyJoesRuntime_SwiftFunctionImpl_invoke5")
+@_cdecl("FishyJoesCommonRuntime_SwiftFunctionImpl_invoke5")
 public func SwiftFunctionImpl_invoke5(this: UnsafeMutableRawPointer, p0: csObject, p1: csObject, p2: csObject, p3: csObject, p4: csObject, exn: csOutExn) -> csObject {
     Env.catching(to: exn) { try Box<AnyFunction5>.takeUnretainedOpaque(this).value.invoke(p0, p1, p2, p3, p4) }
 }
@@ -209,7 +209,7 @@ public func SwiftFunctionImpl_invoke5(this: UnsafeMutableRawPointer, p0: csObjec
 private struct AnyFunction6 {
     let invoke: (csObject, csObject, csObject, csObject, csObject, csObject) throws -> csObject
 }
-@_cdecl("FishyJoesRuntime_SwiftFunctionImpl_invoke6")
+@_cdecl("FishyJoesCommonRuntime_SwiftFunctionImpl_invoke6")
 public func SwiftFunctionImpl_invoke6(this: UnsafeMutableRawPointer, p0: csObject, p1: csObject, p2: csObject, p3: csObject, p4: csObject, p5: csObject, exn: csOutExn) -> csObject {
     Env.catching(to: exn) { try Box<AnyFunction6>.takeUnretainedOpaque(this).value.invoke(p0, p1, p2, p3, p4, p5) }
 }

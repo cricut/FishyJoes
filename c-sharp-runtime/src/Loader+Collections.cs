@@ -10,7 +10,7 @@ namespace Cricut.FishyJoesRuntime {
         unsafe delegate void collection_Values(UnownedRef arr, CreatedRef* outValues, out CreatedRef exn);
         unsafe delegate CreatedRef collection_Constructor(UnownedRef* objects, int length, out CreatedRef exn);
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        extern static void FishyJoesRuntime_collection_setup(
+        extern static void FishyJoesCommonRuntime_collection_setup(
             string name,
             collection_Length length,
             collection_Values values,
@@ -19,8 +19,8 @@ namespace Cricut.FishyJoesRuntime {
         );
 
         // TODO: re-enable unboxed arrays?
-        // public static void FishyJoesRuntime_ArrayConverter_setup<T>(string name, /* Overloading hack */ bool isNotAnObject, out CreatedRef exn) where T: unmanaged =>
-        //     FishyJoesRuntime_collection_setup(
+        // public static void FishyJoesCommonRuntime_ArrayConverter_setup<T>(string name, /* Overloading hack */ bool isNotAnObject, out CreatedRef exn) where T: unmanaged =>
+        //     FishyJoesCommonRuntime_collection_setup(
         //         name,
         //         bag<collection_Length>((IntPtr array, out CreatedRef exn) => Catching(out exn, () =>
         //             PeekHandle<IList<T>>(array).Count
@@ -47,9 +47,9 @@ namespace Cricut.FishyJoesRuntime {
         //         out exn
         //     );
 
-        public static void FishyJoesRuntime_ArrayConverter_setup<T>(string name, out CreatedRef exn) {
+        public static void FishyJoesCommonRuntime_ArrayConverter_setup<T>(string name, out CreatedRef exn) {
             unsafe {
-                FishyJoesRuntime_collection_setup(
+                FishyJoesCommonRuntime_collection_setup(
                     name,
                     bag<collection_Length>((UnownedRef array, out CreatedRef exn) => Catching(out exn, () =>
                         array.Peek<IList<T>>().Count
@@ -74,9 +74,9 @@ namespace Cricut.FishyJoesRuntime {
             }
         }
 
-        public static void FishyJoesRuntime_SetConverter_setup<T>(string name, out CreatedRef exn) {
+        public static void FishyJoesCommonRuntime_SetConverter_setup<T>(string name, out CreatedRef exn) {
             unsafe {
-                FishyJoesRuntime_collection_setup(
+                FishyJoesCommonRuntime_collection_setup(
                     name,
                     bag<collection_Length>((UnownedRef set, out CreatedRef exn) => Catching(out exn, () =>
                         set.Peek<ISet<T>>().Count
@@ -99,9 +99,9 @@ namespace Cricut.FishyJoesRuntime {
             }
         }
 
-        public static void FishyJoesRuntime_DictionaryConverter_setup<K, V>(string name, out CreatedRef exn) where K: notnull {
+        public static void FishyJoesCommonRuntime_DictionaryConverter_setup<K, V>(string name, out CreatedRef exn) where K: notnull {
             unsafe {
-                FishyJoesRuntime_collection_setup(
+                FishyJoesCommonRuntime_collection_setup(
                     name,
                     bag<collection_Length>((UnownedRef dict, out CreatedRef exn) => Catching(out exn, () =>
                         dict.Peek<IDictionary<K, V>>().Count
@@ -128,7 +128,7 @@ namespace Cricut.FishyJoesRuntime {
             }
         }
 
-        public static void FishyJoesRuntime_OptionalConverter_setup(out CreatedRef exn) => Catching(out exn, () => {
+        public static void FishyJoesCommonRuntime_OptionalConverter_setup(out CreatedRef exn) => Catching(out exn, () => {
             // Objects need no extra setup
         });
 

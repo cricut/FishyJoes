@@ -21,11 +21,11 @@ struct TranslatedClosedRange: TranslatedType {
     }
 
     var sourceType: BetterType {
-        .generic(base: "ClosedRange", args: [bound.sourceType])
+        .generic(base: .swift("ClosedRange"), args: [bound.sourceType])
     }
 
     var converterType: BetterType {
-        .generic(base: "ClosedRangeConverter", args: [bound.converterType])
+        .generic(base: .runtime("ClosedRangeConverter"), args: [bound.converterType])
     }
 
     func cSharpSetupParameters(in context: FishyJoesContext) -> [CSharpSetupParameter] {

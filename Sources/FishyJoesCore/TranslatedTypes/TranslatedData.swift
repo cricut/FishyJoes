@@ -1,7 +1,7 @@
 import SourceryRuntime
 
 struct TranslatedData: TranslatedType {
-    let sourceType = BetterType.named(.init(name: "Foundation.Data"))
+    let sourceType = BetterType.named(.foundation("Data"))
     let nodeName = "ArrayBuffer"
     let kotlinName = "ByteArray"
     let neutralName = "Data"

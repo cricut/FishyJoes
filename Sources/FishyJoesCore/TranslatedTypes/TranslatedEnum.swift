@@ -52,7 +52,7 @@ struct TranslatedEnum: TranslatedType {
         guard let exportAnnotation = type.exportAnnotation else { fatalErr("export symbol not specified") }
         let name = exportAnnotation.name
 
-        self.sourceType = BetterType(named: type)
+        self.sourceType = BetterType(named: type, module: context.module.name)
         self.neutralName = "Enum<TranslatedFrom=\(name)>"
         self.nodeName = name
         self.definingTSNamespace = context.module.name

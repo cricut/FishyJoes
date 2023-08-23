@@ -13,7 +13,7 @@ struct TranslatedPrimitive: TranslatedType {
     let definingModule = Module.runtime
 
     init(
-        swift swiftName: BetterType.Name,
+        swift swiftName: String,
         typeNames: FishyJoesContext.TypeNames
     ) {
         self.init(
@@ -26,13 +26,13 @@ struct TranslatedPrimitive: TranslatedType {
     }
 
     init(
-        swift swiftName: BetterType.Name,
+        swift swiftName: String,
         c cName: String,
         node nodeName: String,
         jni jniType: JNIType,
         cSharp cSharpName: String
     ) {
-        self.sourceType = .named(swiftName)
+        self.sourceType = .named(.swift(swiftName))
         self.cName = cName
         self.nodeName = nodeName
         self.kotlinName = jniType.valueType

@@ -21,11 +21,11 @@ struct TranslatedRange: TranslatedType {
     }
 
     var sourceType: BetterType {
-        .generic(base: "Range", args: [bound.sourceType])
+        .generic(base: .swift("Range"), args: [bound.sourceType])
     }
 
     var converterType: BetterType {
-        .generic(base: "RangeConverter", args: [bound.converterType])
+        .generic(base: .runtime("RangeConverter"), args: [bound.converterType])
     }
 
     func cSharpSetupParameters(in context: FishyJoesContext) -> [CSharpSetupParameter] {

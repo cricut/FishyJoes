@@ -5,8 +5,9 @@ import SourceryRuntime
 // An Optional<Int> isn't a Int that happens to be optional, it's an Optional that may contain an Int!
 indirect enum BetterType: Codable, Hashable {
     struct Name: Codable, Hashable {
-        let name: String
+        var module: String?
         var namespace: [String]
+        let name: String
     }
 
     case named(Name)
@@ -24,23 +25,23 @@ indirect enum BetterType: Codable, Hashable {
 
 extension BetterType {
     static func `optional`(_ wrapped: BetterType) -> BetterType {
-        .generic(base: "Optional", args: [wrapped])
+        .generic(base: .swift("Optional"), args: [wrapped])
     }
 
     static func array(_ element: BetterType) -> BetterType {
-        .generic(base: "Array", args: [element])
+        .generic(base: .swift("Array"), args: [element])
     }
 
     static func dictionary(_ key: BetterType, _ value: BetterType) -> BetterType {
-        .generic(base: "Dictionary", args: [key, value])
+        .generic(base: .swift("Dictionary"), args: [key, value])
     }
 
     static func `set`(_ element: BetterType) -> BetterType {
-        .generic(base: "Set", args: [element])
+        .generic(base: .swift("Set"), args: [element])
     }
 
     static func result(_ success: BetterType, _ failure: BetterType) -> BetterType {
-        .generic(base: "Result", args: [success, failure])
+        .generic(base: .swift("Result"), args: [success, failure])
     }
 }
 
@@ -78,9 +79,10 @@ extension TypeName {
         } else if name.unwrappedTypeName == "Self" {
             better = .selfType
         } else if let generic = name.generic {
-            better = .generic(base: .init(name: generic.name), args: generic.typeParameters.map(\.typeName.better))
+            better = .generic(base: .init(name: generic.name, module: nil), args: generic.typeParameters.map(\.typeName.better))
         } else {
-            better = .named(.init(name: name.unwrappedTypeName))
+            // TODO: is there a way to know what the module is?
+            better = .named(.init(name: name.unwrappedTypeName, module: nil))
         }
 
         if name.isOptional || name.isImplicitlyUnwrappedOptional {
@@ -91,19 +93,32 @@ extension TypeName {
     }
 }
 
-extension BetterType.Name: ExpressibleByStringLiteral {
-    init(stringLiteral value: String) {
-        self.init(name: value)
+extension BetterType.Name {
+    // init(stringLiteral value: String) {
+    //     self.init(name: value)
+    // }
+
+    init(name: String, module: String?) {
+        let parts = name.split(separator: ".").map(String.init)
+        self.module = module
+        self.namespace = Array(parts.dropLast())
+        self.name = parts.last!
     }
 
-    init(name: String) {
-        let parts = name.split(separator: ".").map(String.init)
-        self.name = parts.last!
-        self.namespace = Array(parts.dropLast())
+    static func swift(_ name: String) -> BetterType.Name {
+        BetterType.Name(name: name, module: "Swift")
+    }
+
+    static func foundation(_ name: String) -> BetterType.Name {
+        BetterType.Name(name: name, module: "Foundation")
+    }
+
+    static func runtime(_ name: String) -> BetterType.Name {
+        BetterType.Name(name: name, module: "FishyJoesCommonRuntime")
     }
 
     var globalName: String {
-        (namespace + [name]).joined(separator: ".")
+        (module.asArray + namespace + [name]).joined(separator: ".")
     }
 
     var mangledName: String {
@@ -112,14 +127,14 @@ extension BetterType.Name: ExpressibleByStringLiteral {
 }
 
 extension BetterType {
-    init(named type: SourceryRuntime.`Type`) {
-        self = .named(.init(name: type.globalName))
+    init(named type: SourceryRuntime.`Type`, module: String?) {
+        self = .named(Name(name: type.globalName, module: module))
     }
 
     var name: String {
         switch self {
         case let .named(name):
-            return (name.namespace + [name.name]).joined(separator: ".")
+            return name.globalName
         case .tuple(let elements):
             return "(" + elements.map {
                 if Int($0.label) == nil {
@@ -142,9 +157,9 @@ extension BetterType {
     var namespace: [String] {
         switch self {
         case let .named(name):
-            return name.namespace
+            return name.module.asArray + name.namespace
         case let .generic(name, _):
-            return name.namespace
+            return name.module.asArray + name.namespace
         default:
             return []
         }
@@ -157,7 +172,7 @@ extension BetterType {
         case let .named(name):
             return name
         default:
-            return Name(name: name, namespace: [])
+            return Name(module: nil, namespace: [], name: name)
         }
     }
 
@@ -168,5 +183,16 @@ extension BetterType {
         default:
             return false
         }
+    }
+
+    var withoutModule: BetterType {
+        guard case .named(var name) = self else {
+            fatalErr("Internal error: withoutModule is expected to be used on named types only. Got \(self)")
+        }
+        guard name.module != nil else {
+            fatalErr("Internal error: withoutModule called on \(self.name), which already is without module (probably a bug?)")
+        }
+        name.module = nil
+        return .named(name)
     }
 }

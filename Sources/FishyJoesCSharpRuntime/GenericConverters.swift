@@ -18,7 +18,7 @@ public struct CollectionInfo {
     static var infos: [ObjectIdentifier: CollectionInfo] = [:]
 }
 
-@_cdecl("FishyJoesRuntime_collection_setup")
+@_cdecl("FishyJoesCommonRuntime_collection_setup")
 public func collectionSetup(
     name: UnsafePointer<unichar>,
     lengthMethod: @escaping CollectionInfo.LengthMethod,
@@ -202,7 +202,7 @@ public struct CSharpSwiftRange {
     var constructor: Constructor?
 }
 
-@_cdecl("FishyJoesRuntime_RangeConverter_setup")
+@_cdecl("FishyJoesCommonRuntime_RangeConverter_setup")
 public func RangeConverter_cSharp_setup(
     name: UnsafePointer<unichar>,
     getLowerBoundMethod: @escaping CSharpSwiftRange.GetLowerBoundMethod,
@@ -261,7 +261,7 @@ public struct CSharpSwiftClosedRange {
     var constructor: Constructor?
 }
 
-@_cdecl("FishyJoesRuntime_ClosedRangeConverter_setup")
+@_cdecl("FishyJoesCommonRuntime_ClosedRangeConverter_setup")
 public func ClosedRangeConverter_cSharp_setup(
     name: UnsafePointer<unichar>,
     getLowerBoundMethod: @escaping CSharpSwiftClosedRange.GetLowerBoundMethod,
