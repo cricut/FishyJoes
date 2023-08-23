@@ -155,8 +155,8 @@ jobs:
         run: |
           # Should perform the same actions as scripts/compile-kotlin-native-runtime.sh, but must be done in powershell for swift-build to work
           swift build --product FishyJoesJavaRuntime --configuration release --build-path ./.build/windows-build
-          New-Item -ItemType Directory -Force -Path $env:LIB_DIR
-          Copy-Item .build\windows-build\x86_64-unknown-windows-msvc\release\FishyJoesJavaRuntime.dll -Destination $Env:LIB_DIR
+          New-Item -ItemType Directory -Force -Path '$env:LIB_DIR'
+          Copy-Item .build\windows-build\x86_64-unknown-windows-msvc\release\FishyJoesJavaRuntime.dll -Destination '$env:LIB_DIR'
 
       - name: Test FishyJoesJavaRuntime from gradle
         shell: bash
