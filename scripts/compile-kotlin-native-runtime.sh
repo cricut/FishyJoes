@@ -10,7 +10,7 @@ fi
 CONFIGURATION="${CONFIGURATION:-release}"
 SKIP_LIPO="${SKIP_LIPO:-0}"
 
-if [[ $(uname -s) == "Darwin" && $SKIP_LIPO != "1" ]]; then
+if [[ $(uname -s) == "Darwin" && $SKIP_LIPO == "0" ]]; then
     swift build "$@" --configuration "$CONFIGURATION" --product FishyJoesJavaRuntime --arch arm64
     swift build "$@" --configuration "$CONFIGURATION" --product FishyJoesJavaRuntime --arch x86_64
     BIN_DIR=".build/apple/$CONFIGURATION"
@@ -19,7 +19,7 @@ if [[ $(uname -s) == "Darwin" && $SKIP_LIPO != "1" ]]; then
          -output "$BIN_DIR/libFishyJoesJavaRuntime.dylib" \
          .build/{arm64,x86_64}-apple-macosx/"$CONFIGURATION"/libFishyJoesJavaRuntime.dylib
 else
-    swift build --configuration "$CONFIGURATION" --product FishyJoesJavaRuntime
+    swift build "$@" --configuration "$CONFIGURATION" --product FishyJoesJavaRuntime
     BIN_DIR="$(swift build --configuration "$CONFIGURATION" --show-bin-path)"
 fi
 
