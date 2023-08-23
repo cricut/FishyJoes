@@ -114,6 +114,7 @@ jobs:
     env:
       GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
       GITHUB_USER: cricut-builduser
+      LIB_DIR=c-sharp-runtime/runtimes/win/native
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -129,18 +130,28 @@ jobs:
           tag: 5.6.2-RELEASE
 
       - name: Build FishyJoesCSharpRuntime
-        shell: bash
+        shell: pwsh
         run: |
-          source ./scripts/compile-c-sharp-runtime.sh --build-path ./.build/windows-build
+          # Should perform the same actions as scripts/compile-c-sharp-runtime.sh, but must be done in powershell for swift-build to work
+          swift build --product FishyJoesCSharpRuntime --configuration release --build-path ./.build/windows-build
+          Copy-Item .build\windows-build\x86_64-unknown-windows-msvc\release\FishyJoesCSharpRuntime.dll -Destination $Env:LIB_DIR
 
       - name: Copy swift runtime DLLs
         shell: bash
         run: |
           set -euxo pipefail
 
-          LIB_DIR=c-sharp-runtime/runtimes/win/native/
           cp -R /c/Library/icu-*/usr/bin/*.dll $LIB_DIR
           cp -R /c/Library/Swift-development/bin/*.dll $LIB_DIR
+
+      # TODO: Unit test C# runtime instead of relying on integration tests
+#      - name: Test FishyJoesCSharpRuntime from dotnet
+#        shell: bash
+#        run: |
+#          set -euxo pipefail
+#
+#          cd c-sharp-runtime
+#          dotnet test Cricut.\(config.module).sln
 
       - name: Upload library
         uses: actions/upload-artifact@v3

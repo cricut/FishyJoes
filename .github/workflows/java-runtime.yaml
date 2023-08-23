@@ -129,6 +129,7 @@ jobs:
       GRADLE_OPTS: -Dorg.gradle.daemon=false
       GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
       GITHUB_USER: cricut-builduser
+      LIB_DIR: kotlin-runtime/src/generated/resources/windows
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -149,26 +150,26 @@ jobs:
           branch: swift-5.6.2-release
           tag: 5.6.2-RELEASE
 
-      - name: Build native FishyJoesJavaRuntime
+      - name: Build FishyJoesJavaRuntime
+        shell: pwsh
+        run: |
+          # Should perform the same actions as scripts/compile-kotlin-native-runtime.sh, but must be done in powershell for swift-build to work
+          swift build --product FishyJoesJavaRuntime --configuration release --build-path ./.build/windows-build
+          Copy-Item .build\windows-build\x86_64-unknown-windows-msvc\release\FishyJoesJavaRuntime.dll -Destination $Env:LIB_DIR
+
+      - name: Test FishyJoesJavaRuntime from gradle
         shell: bash
         run: |
-          source ./scripts/compile-kotlin-native-runtime.sh --build-path ./.build/windows-build
+          set -euxo pipefail
 
-      # TODO: Test on Windows
-      # Currently fails with: 'fishyjoes': error: invalidManifestFormat("Missing or empty JSON output from manifest compilation for fishyjoes", diagnosticFile: nil)
-#      - name: Test FishyJoesJavaRuntime from gradle
-#        shell: bash
-#        run: |
-#          set -euxo pipefail
-#
-#          cd kotlin-runtime
-#          ./gradlew test
+          cd kotlin-runtime
+          ./gradlew test
 
       - name: Upload library
         uses: actions/upload-artifact@v3
         with:
           name: windows_lib
-          path: kotlin-runtime/src/generated/resources/windows/
+          path: kotlin-runtime/src/generated/resources/windows
 
   kotlin-publish:
     name: Publish kotlin package

@@ -105,6 +105,8 @@ jobs:
   build-test-node-windows:
     name: "Windows: Build and Test Node.js Runtime"
     runs-on: windows-latest
+    env:
+      LIB_DIR=node-runtime/fishyjoes-runtime-native-windows
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -120,19 +122,28 @@ jobs:
           tag: 5.6.2-RELEASE
 
       - name: Build FishyJoesNodeRuntime
-        shell: bash
+        shell: pwsh
         run: |
-          source ./scripts/compile-node-runtime.sh --build-path ./.build/windows-build
+          # Should perform the same actions as scripts/compile-node-runtime.sh, but must be done in powershell for swift-build to work
+          swift build --product FishyJoesNodeRuntime --configuration release --build-path ./.build/windows-build
+          Copy-Item .build\windows-build\x86_64-unknown-windows-msvc\release\FishyJoesNodeRuntime.dll -Destination $Env:LIB_DIR
 
       - name: Copy swift runtime DLLs
         shell: bash
         run: |
           set -euxo pipefail
 
-          LIB_DIR=node-runtime/fishyjoes-runtime-native-windows/
-
           cp -R /c/Library/icu-*/usr/bin/*.dll $LIB_DIR
           cp -R /c/Library/Swift-development/bin/*.dll $LIB_DIR
+
+      # TODO: Unit test node runtime instead of relying on integration tests
+#      - name: Test FishyJoesNodeRuntime from npm
+#        shell: bash
+#        run: |
+#          set -euxo pipefail
+#
+#          cd node-runtime
+#          npm test
 
       - name: Upload library
         uses: actions/upload-artifact@v3
