@@ -21,7 +21,6 @@ jobs:
     name: "macOS: Build and test kotlin runtime"
     runs-on: macOS-12
     env:
-      JDK_VERSION: 11
       GRADLE_OPTS: -Dorg.gradle.daemon=false
       GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
       GITHUB_USER: cricut-builduser
@@ -35,7 +34,7 @@ jobs:
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
-      - name: Setup JDK 1.11
+      - name: Setup JDK
         uses: actions/setup-java@v3
         with:
           distribution: zulu
@@ -67,7 +66,6 @@ jobs:
     name: "Ubuntu: Build and test kotlin runtime"
     runs-on: ubuntu-latest
     env:
-      JDK_VERSION: 11
       GRADLE_OPTS: -Dorg.gradle.daemon=false
       GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
       GITHUB_USER: cricut-builduser
@@ -80,7 +78,7 @@ jobs:
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
-      - name: Setup JDK 1.11
+      - name: Setup JDK
         uses: actions/setup-java@v3
         with:
           distribution: zulu
@@ -128,7 +126,6 @@ jobs:
     name: "Windows: Build and test kotlin runtime"
     runs-on: windows-latest
     env:
-      JDK_VERSION: 11
       GRADLE_OPTS: -Dorg.gradle.daemon=false
       GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
       GITHUB_USER: cricut-builduser
@@ -141,7 +138,7 @@ jobs:
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
-      - name: Setup JDK 1.11
+      - name: Setup JDK
         uses: actions/setup-java@v3
         with:
           distribution: zulu
@@ -153,16 +150,9 @@ jobs:
           tag: 5.6.2-RELEASE
 
       - name: Build native FishyJoesJavaRuntime
-        run: |
-          swift build --product FishyJoesJavaRuntime --configuration release --build-path ./.build/windows-build
-
-      - name: Copy resource
         shell: bash
         run: |
-          set -euxo pipefail
-
-          mkdir -p kotlin-runtime/src/generated/resources/windows
-          cp .build/windows-build/x86_64-unknown-windows-msvc/release/FishyJoesJavaRuntime.dll kotlin-runtime/src/generated/resources/windows
+          source ./scripts/compile-kotlin-native-runtime.sh
 
       # TODO: Test on Windows
       # Currently fails with: 'fishyjoes': error: invalidManifestFormat("Missing or empty JSON output from manifest compilation for fishyjoes", diagnosticFile: nil)
@@ -185,7 +175,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: [build-test-kotlin-mac, build-test-kotlin-ubuntu, build-test-kotlin-windows]
     env:
-      JDK_VERSION: 11
       GRADLE_OPTS: -Dorg.gradle.daemon=false
       GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
       GITHUB_USER: cricut-builduser
@@ -199,7 +188,7 @@ jobs:
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
-      - name: Setup JDK 1.11
+      - name: Setup JDK
         uses: actions/setup-java@v3
         with:
           distribution: zulu

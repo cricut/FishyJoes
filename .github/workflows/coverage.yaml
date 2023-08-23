@@ -17,7 +17,6 @@ jobs:
   coverage:
     runs-on: macOS-12
     env:
-      JDK_VERSION: 11
       GRADLE_OPTS: -Dorg.gradle.daemon=false
       GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
       GITHUB_USER: cricut-builduser
@@ -33,7 +32,7 @@ jobs:
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
-      - name: Setup JDK 1.11
+      - name: Setup JDK
         uses: actions/setup-java@v3
         with:
           distribution: zulu

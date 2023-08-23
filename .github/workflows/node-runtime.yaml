@@ -71,7 +71,7 @@ jobs:
 
           ./scripts/compile-node-runtime.sh
 
-      - name: Copy system swift runtime SOs
+      - name: Copy swift runtime SOs
         shell: zsh {0}
         run: |
           set -euxo pipefail
@@ -120,18 +120,16 @@ jobs:
           tag: 5.6.2-RELEASE
 
       - name: Build FishyJoesNodeRuntime
+        shell: bash
         run: |
-          swift build --product FishyJoesNodeRuntime --configuration release --build-path ./.build/windows-build
+          source ./scripts/compile-node-runtime.sh
 
-      - name: Copy resources
+      - name: Copy swift runtime DLLs
         shell: bash
         run: |
           set -euxo pipefail
 
           LIB_DIR=node-runtime/fishyjoes-runtime-native-windows/
-
-          mkdir -p $LIB_DIR
-          cp .build/windows-build/x86_64-unknown-windows-msvc/release/FishyJoesNodeRuntime.dll $LIB_DIR
 
           cp -R /c/Library/icu-*/usr/bin/*.dll $LIB_DIR
           cp -R /c/Library/Swift-development/bin/*.dll $LIB_DIR

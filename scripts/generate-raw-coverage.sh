@@ -16,9 +16,9 @@ mkdir -p $FISHYJOES_COVERAGE_PATH
 # swift 5.7 no longer recognizes "--enable-code-coverage" outside of the "test" command
 COVERAGE_FLAGS=(-Xswiftc -profile-coverage-mapping -Xswiftc -profile-generate)
 
-CONFIGURATION=debug ./scripts/compile-node-runtime.sh $COVERAGE_FLAGS
-CONFIGURATION=debug ./scripts/compile-kotlin-native-runtime.sh $COVERAGE_FLAGS
-CONFIGURATION=debug ./scripts/compile-c-sharp-runtime.sh $COVERAGE_FLAGS
+CONFIGURATION=debug SKIP_LIPO=1 ./scripts/compile-node-runtime.sh $COVERAGE_FLAGS
+CONFIGURATION=debug SKIP_LIPO=1 ./scripts/compile-kotlin-native-runtime.sh $COVERAGE_FLAGS
+CONFIGURATION=debug SKIP_LIPO=1 ./scripts/compile-c-sharp-runtime.sh $COVERAGE_FLAGS
 
 (cd kotlin-runtime && ./gradlew publishToMavenLocal)
 
