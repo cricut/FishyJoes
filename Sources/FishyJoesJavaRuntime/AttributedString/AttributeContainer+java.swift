@@ -27,7 +27,7 @@ extension AttributeContainer: JavaMutator {
             javaClass,
             JNINativeMethod(
                 name: bag.add("__jni_merge"),
-                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/AttributeContainer;)V"),
+                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/AttributeContainer;Z)V"),
                 fnPtr: unsafeBitCast(_java_merge, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(

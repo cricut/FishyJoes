@@ -104,11 +104,11 @@ class AttributedString private constructor(swiftReference: Long): SwiftReference
 
     /**
      * Appends the text and any associated attributes of the portion of an attributed string represented by a substring to the end of this one.
-     * @param subtring The substring containing the text and attributes to append.
+     * @param substring The substring containing the text and attributes to append.
      */
     fun appendSubstring(
-        subtring: AttributedSubstring
-    ): kotlin.Unit = __jni_appendSubstring(subtring)
+        substring: AttributedSubstring
+    ): kotlin.Unit = __jni_appendSubstring(substring)
     @JvmName("__jni_appendSubstring")
     private external fun __jni_appendSubstring(
         attributedString: AttributedSubstring

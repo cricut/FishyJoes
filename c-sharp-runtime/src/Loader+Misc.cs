@@ -28,6 +28,15 @@ namespace Cricut.FishyJoesRuntime {
             DataConstructor constructor
         );
 
+        // URL Conversions
+        delegate CreatedRef URLAbsoluteURIMethod(UnownedRef obj, out CreatedRef exn);
+        delegate CreatedRef URLConstructor(ConsumedRef urlString, out CreatedRef exn);
+        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void FishyJoesRuntime_URL_setup(
+            URLAbsoluteURIMethod absoluteURIMethod,
+            URLConstructor constructor
+        );
+
         private static void setupMisc() {
             unsafe {
                 FishyJoesRuntime_String_setup(
@@ -62,6 +71,16 @@ namespace Cricut.FishyJoesRuntime {
                             data[i] = bytes[i];
                         }
                         return new CreatedRef(data);
+                    }))
+                );
+
+                FishyJoesRuntime_URL_setup(
+                    bag<URLAbsoluteURIMethod>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(obj.Peek<Uri>().AbsoluteUri);
+                    })),
+                    bag<URLConstructor>((ConsumedRef urlString, out CreatedRef exn) => Catching(out exn, () => {
+                        Uri uri = new Uri(urlString.Consume<string>());
+                        return new CreatedRef(uri);
                     }))
                 );
             }

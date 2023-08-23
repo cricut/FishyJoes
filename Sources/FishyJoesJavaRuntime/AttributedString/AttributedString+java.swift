@@ -156,12 +156,12 @@ extension AttributedString: JavaMutator {
                 fnPtr: unsafeBitCast(_java_createFromSubstring, to: UnsafeMutableRawPointer.self)
             )
         )
+        try AttributeContainer.javaSetup(env: env)
         try AttributedSubstring.javaSetup(env: env)
         try AttributedString.Index.javaSetup(env: env)
         try AttributedString.UnicodeScalarView.javaSetup(env: env)
         try AttributedString.CharacterView.javaSetup(env: env)
         try AttributedString.Runs.javaSetup(env: env)
-        try AttributeContainer.javaSetup(env: env)
     }
 
     private static let _java_string: @convention(c) (

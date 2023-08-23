@@ -1,4 +1,4 @@
-name: "C# runtime"
+name: "C# Runtime"
 
 on:
   workflow_dispatch:
@@ -18,7 +18,7 @@ concurrency:
 
 jobs:
   build-test-c-sharp-mac:
-    name: "mac: Build and test C# runtime"
+    name: "macOS: Build and Test C# Runtime"
     runs-on: macOS-12
     env:
       GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
@@ -26,10 +26,10 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup Git Credentials
-        uses: fusion-engineering/setup-git-credentials@v2.0.1
+        uses: de-vri-es/setup-git-credentials@v2
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
@@ -41,13 +41,13 @@ jobs:
           ./scripts/compile-c-sharp-runtime.sh
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: mac_generated
           path: c-sharp-runtime/runtimes
 
-  build-test-c-sharp-linux:
-    name: "linux: Build and test C# runtime"
+  build-test-c-sharp-ubuntu:
+    name: "Ubuntu: Build and Test C# Runtime"
     runs-on: ubuntu-latest
     container:
       image: swift
@@ -57,10 +57,10 @@ jobs:
       LIB_DIR: c-sharp-runtime/runtimes/linux/native
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup Git Credentials
-        uses: fusion-engineering/setup-git-credentials@v2.0.1
+        uses: de-vri-es/setup-git-credentials@v2
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
@@ -77,7 +77,7 @@ jobs:
 
           ./scripts/compile-c-sharp-runtime.sh
 
-      - name: Copy system swift runtime SOs
+      - name: Copy swift runtime SOs
         shell: zsh {0}
         run: |
           set -euxo pipefail
@@ -103,23 +103,24 @@ jobs:
           done
 
       - name: Upload library
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: ubuntu_generated
           path: c-sharp-runtime/runtimes
 
   build-test-c-sharp-windows:
-    name: "windows: Build and test C# bindings"
-    runs-on: windows-2019
+    name: "Windows: Build and Test C# Runtime"
+    runs-on: windows-latest
     env:
       GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
       GITHUB_USER: cricut-builduser
+      LIB_DIR: c-sharp-runtime/runtimes/win/native
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup Git Credentials
-        uses: fusion-engineering/setup-git-credentials@v2.0.1
+        uses: de-vri-es/setup-git-credentials@v2
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
@@ -128,43 +129,51 @@ jobs:
           branch: swift-5.6.2-release
           tag: 5.6.2-RELEASE
 
-      - name: Compile swift
+      - name: Build FishyJoesCSharpRuntime
+        shell: pwsh
         run: |
+          # Should perform the same actions as scripts/compile-c-sharp-runtime.sh, but must be done in powershell for swift-build to work
           swift build --product FishyJoesCSharpRuntime --configuration release --build-path ./.build/windows-build
+          New-Item -ItemType Directory -Force -Path $env:LIB_DIR
+          Copy-Item .build\windows-build\x86_64-unknown-windows-msvc\release\FishyJoesCSharpRuntime.dll -Destination $env:LIB_DIR
 
-      - name: Copy resources
+      - name: Copy swift runtime DLLs
         shell: bash
         run: |
           set -euxo pipefail
 
-          LIB_DIR=c-sharp-runtime/runtimes/win/native/
-
-          mkdir -p $LIB_DIR
-          cp .build/windows-build/x86_64-unknown-windows-msvc/release/FishyJoesCSharpRuntime.dll $LIB_DIR
-
           cp -R /c/Library/icu-*/usr/bin/*.dll $LIB_DIR
           cp -R /c/Library/Swift-development/bin/*.dll $LIB_DIR
 
+      # TODO: Unit test C# runtime instead of relying on integration tests
+#      - name: Test FishyJoesCSharpRuntime from dotnet
+#        shell: bash
+#        run: |
+#          set -euxo pipefail
+#
+#          cd c-sharp-runtime
+#          dotnet test Cricut.\(config.module).sln
+
       - name: Upload library
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: windows_generated
           path: c-sharp-runtime/runtimes
 
   c-sharp-publish:
-    name: "Publish C# package"
+    name: "Publish C# Package"
     runs-on: ubuntu-latest
-    needs: [build-test-c-sharp-mac, build-test-c-sharp-linux, build-test-c-sharp-windows]
+    needs: [build-test-c-sharp-mac, build-test-c-sharp-ubuntu, build-test-c-sharp-windows]
     env:
       GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
       GITHUB_USER: cricut-builduser
       GITHUB_PUBLISH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup Git Credentials
-        uses: fusion-engineering/setup-git-credentials@v2.0.1
+        uses: de-vri-es/setup-git-credentials@v2
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
@@ -179,7 +188,7 @@ jobs:
           sudo apt-get install zsh
 
       - name: Retrieve Artifacts
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
 
       - name: Install Artifacts
         shell: zsh {0}
@@ -217,7 +226,7 @@ jobs:
           dotnet pack -c Release -o out /p:PackageVersion="${{ env.VERSION }}"
 
       - name: Upload result
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: nuget-package
           path: c-sharp-runtime/out/*.*nupkg

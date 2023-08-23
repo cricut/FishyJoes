@@ -19,6 +19,12 @@ public func Env_setupGCPin(
     Env.newRefFn = newRefFn
     Env.deleteRefFn = deleteRefFn
     Env.newErrorFn = newErrorFn
+
+    // Register generic types that the runtime makes use of
+    Env.registerType(RangeConverter<AttributedString.Index>.self, as: "RangeConverter<FishyJoesCSharpRuntime.AttributedString.Index>")
+    Env.registerType(RangeConverter<AttributedString.Runs.Index>.self, as: "RangeConverter<FishyJoesCSharpRuntime.AttributedString.Runs.Index>")
+    Env.registerType(ClosedRangeConverter<AttributedString.Index>.self, as: "ClosedRangeConverter<FishyJoesCSharpRuntime.AttributedString.Index>")
+    Env.registerType(ClosedRangeConverter<AttributedString.Runs.Index>.self, as: "ClosedRangeConverter<FishyJoesCSharpRuntime.AttributedString.Runs.Index>")
 }
 
 @_cdecl("FishyJoesRuntime_getTypeID")
@@ -60,9 +66,10 @@ public enum Env {
 
     public static func unwrap<R>(_ value: R?, file: StaticString = #file, line: UInt = #line) throws -> R {
         guard let value = value else {
-            var message = ["\(file):\(line): Unexpected null"]
-            Thread.callStackSymbols.forEach { message.append($0) }
-            throw NullPointerError(message: message.joined(separator: "\n"))
+            let message = "\(file):\(line): Unexpected null"
+            print(message)
+            Thread.callStackSymbols.forEach { print($0) }
+            throw NullPointerError(message: message)
         }
         return value
     }

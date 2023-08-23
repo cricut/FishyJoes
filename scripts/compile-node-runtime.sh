@@ -1,50 +1,46 @@
-#!/bin/zsh
+#!/bin/bash
 
 set -euo pipefail
 
-[[ -d node-runtime ]] || { echo "Not in root of FishyJoes"; exit 1 }
+if [[ ! -d node-runtime ]]; then
+    echo "Not in root of FishyJoes"
+    exit 1
+fi
 
-CONFIGURATION=${CONFIGURATION:-release}
+CONFIGURATION="${CONFIGURATION:-release}"
+SKIP_LIPO="${SKIP_LIPO:-0}"
 
-if [[ $(uname -s) == "Darwin" ]]; then
-    swift build --configuration $CONFIGURATION --product FishyJoesNodeRuntime --arch arm64
-    swift build --configuration $CONFIGURATION --product FishyJoesNodeRuntime --arch x86_64
-    BIN_DIR=.build/apple/$CONFIGURATION
-    mkdir -p $BIN_DIR
+if [[ $(uname -s) == "Darwin" && $SKIP_LIPO == "0" ]]; then
+    swift build "$@" --configuration "$CONFIGURATION" --product FishyJoesNodeRuntime --arch arm64
+    swift build "$@" --configuration "$CONFIGURATION" --product FishyJoesNodeRuntime --arch x86_64
+    BIN_DIR=".build/apple/$CONFIGURATION"
+    mkdir -p "$BIN_DIR"
     lipo -create \
-         -output $BIN_DIR/libFishyJoesNodeRuntime.dylib \
-         .build/{arm64,x86_64}-apple-macosx/$CONFIGURATION/libFishyJoesNodeRuntime.dylib
+         -output "$BIN_DIR/libFishyJoesNodeRuntime.dylib" \
+         .build/{arm64,x86_64}-apple-macosx/"$CONFIGURATION"/libFishyJoesNodeRuntime.dylib
 else
-    swift build --configuration $CONFIGURATION --product FishyJoesNodeRuntime
-    BIN_DIR=$(swift build --configuration $CONFIGURATION --show-bin-path)
+    swift build "$@" --configuration "$CONFIGURATION" --product FishyJoesNodeRuntime
+    BIN_DIR="$(swift build --configuration "$CONFIGURATION" --show-bin-path)"
 fi
 
-if [ -e "$BIN_DIR/libFishyJoesNodeRuntime.dll" ]; then
-    LIB_DIR=node-runtime/fishyjoes-runtime-native-windows
-    mkdir -p $LIB_DIR
-    cp $BIN_DIR/libFishyJoesNodeRuntime.dll $LIB_DIR/Runtime.cjs.node
-    if [ ! -e $LIB_DIR/libFishyJoesNodeRuntime.dll ]; then
-        ln -s Runtime.cjs.node $LIB_DIR/libFishyJoesNodeRuntime.dll
+function install-lib {
+    LIB_NAME="$1"
+    LIB_DIR="$2"
+    NODE_LIB_NAME="Runtime.cjs.node"
+    if [ -e "$BIN_DIR/$LIB_NAME" ]; then
+        mkdir -p "$LIB_DIR"
+        cp "$BIN_DIR/$LIB_NAME" "$LIB_DIR/$NODE_LIB_NAME"
+        cp node-runtime/fishyjoes-runtime-common/Runtime.{d.ts,extensions.js} "$LIB_DIR"
+        if [ ! -e "$LIB_DIR/$LIB_NAME" ]; then
+            ln -s "$NODE_LIB_NAME" "$LIB_DIR/$LIB_NAME"
+        fi
+        echo "Copied and symlinked $LIB_NAME to $LIB_DIR/$NODE_LIB_NAME"
+        return 0
+    else
+        return 1
     fi
-    echo "Copied and symlinked libFishyJoesNodeRuntime.dll to $LIB_DIR/Runtime.cjs.node"
-fi
+}
 
-if [ -e "$BIN_DIR/libFishyJoesNodeRuntime.dylib" ]; then
-    LIB_DIR=node-runtime/fishyjoes-runtime-native-macos
-    mkdir -p $LIB_DIR
-    cp $BIN_DIR/libFishyJoesNodeRuntime.dylib $LIB_DIR/Runtime.cjs.node
-    if [ ! -e $LIB_DIR/libFishyJoesNodeRuntime.dylib ]; then
-        ln -s Runtime.cjs.node $LIB_DIR/libFishyJoesNodeRuntime.dylib
-    fi
-    echo "Copied and symlinked libFishyJoesNodeRuntime.dylib to $LIB_DIR/Runtime.cjs.node"
-fi
-
-if [ -e "$BIN_DIR/libFishyJoesNodeRuntime.so" ]; then
-    LIB_DIR=node-runtime/fishyjoes-runtime-native-macos
-    mkdir -p $LIB_DIR
-    cp $BIN_DIR/libFishyJoesNodeRuntime.so $LIB_DIR/Runtime.cjs.node
-    if [ ! -e $LIB_DIR/libFishyJoesNodeRuntime.so ]; then
-        ln -s Runtime.cjs.node $LIB_DIR/libFishyJoesNodeRuntime.so
-    fi
-    echo "Copied and symlinked libFishyJoesNodeRuntime.so to $LIB_DIR/Runtime.cjs.node"
-fi
+install-lib "FishyJoesNodeRuntime.dll" "node-runtime/fishyjoes-runtime-native-windows" ||
+    install-lib "libFishyJoesNodeRuntime.dylib" "node-runtime/fishyjoes-runtime-native-macos" ||
+    install-lib "libFishyJoesNodeRuntime.so" "node-runtime/fishyjoes-runtime-native-ubuntu"

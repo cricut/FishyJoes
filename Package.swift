@@ -233,9 +233,9 @@ let package = Package(
                     },
                     .when(
                         platforms: [
-                            // all but .wasi
+                            // all but .wasi and .windows
                             .iOS, .macOS, .tvOS, .watchOS,
-                            .android, .linux, .windows,
+                            .android, .linux,
                         ]
                     )
                 ),
@@ -248,6 +248,12 @@ let package = Package(
                         "-Xlinker", "--export=free",
                     ],
                     .when(platforms: [.wasi])
+                ),
+                .unsafeFlags(
+                    [
+                        "-Xlinker", "/force:unresolved",
+                    ],
+                    .when(platforms: [.windows])
                 ),
             ]
         ),
