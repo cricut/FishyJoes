@@ -106,7 +106,7 @@ jobs:
     name: "Windows: Build and Test Node.js Runtime"
     runs-on: windows-latest
     env:
-      LIB_DIR=node-runtime/fishyjoes-runtime-native-windows
+      LIB_DIR: node-runtime/fishyjoes-runtime-native-windows
     steps:
       - name: Checkout
         uses: actions/checkout@v3
