@@ -122,7 +122,7 @@ jobs:
       - name: Build FishyJoesNodeRuntime
         shell: bash
         run: |
-          source ./scripts/compile-node-runtime.sh
+          source ./scripts/compile-node-runtime.sh --build-path ./.build/windows-build
 
       - name: Copy swift runtime DLLs
         shell: bash

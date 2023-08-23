@@ -152,7 +152,7 @@ jobs:
       - name: Build native FishyJoesJavaRuntime
         shell: bash
         run: |
-          source ./scripts/compile-kotlin-native-runtime.sh
+          source ./scripts/compile-kotlin-native-runtime.sh --build-path ./.build/windows-build
 
       # TODO: Test on Windows
       # Currently fails with: 'fishyjoes': error: invalidManifestFormat("Missing or empty JSON output from manifest compilation for fishyjoes", diagnosticFile: nil)

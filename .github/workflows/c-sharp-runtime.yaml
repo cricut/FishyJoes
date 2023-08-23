@@ -131,7 +131,7 @@ jobs:
       - name: Build FishyJoesCSharpRuntime
         shell: bash
         run: |
-          source ./scripts/compile-c-sharp-runtime.sh
+          source ./scripts/compile-c-sharp-runtime.sh --build-path ./.build/windows-build
 
       - name: Copy swift runtime DLLs
         shell: bash
