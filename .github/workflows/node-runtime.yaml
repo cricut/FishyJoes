@@ -126,6 +126,7 @@ jobs:
         run: |
           # Should perform the same actions as scripts/compile-node-runtime.sh, but must be done in powershell for swift-build to work
           swift build --product FishyJoesNodeRuntime --configuration release --build-path ./.build/windows-build
+          New-Item -ItemType Directory -Force -Path '$Env:LIB_DIR'
           Copy-Item .build\windows-build\x86_64-unknown-windows-msvc\release\FishyJoesNodeRuntime.dll -Destination $Env:LIB_DIR
 
       - name: Copy swift runtime DLLs
