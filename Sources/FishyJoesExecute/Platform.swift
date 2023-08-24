@@ -295,8 +295,4 @@ enum Platform: CustomStringConvertible, Hashable {
             return try swiftBuild("--show-bin-path", configuration: configuration).runString()
         }
     }
-
-    var isTs: Bool {
-        self == .wasm || self == .node
-    }
 }
