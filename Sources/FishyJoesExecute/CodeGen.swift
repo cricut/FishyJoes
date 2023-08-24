@@ -312,7 +312,7 @@ extension CodeGen {
                     }
                     try cmd("cp", "\(platform.buildDir(configuration))/FishyJoes_FishyJoesNodeRuntime.resources/js/wasm-napi.js", outputDir).run()
 
-                    // Collect the TypeScript definition files for the module and dependency modules then concatenate them together into one file
+                    // Collect the TypeScript definitions for the module and extensions for dependency modules then concatenate them together into one file
                     var tsSources = ["Sources/Generated/NodeInterface/\(config.module).d.ts"]
                     for (moduleName, modulePath) in dependencyPaths {
                         let path = "\(modulePath)/ts/\(moduleName).extensions.d.ts"
@@ -371,6 +371,7 @@ extension CodeGen {
                         }
                     }
                 case .node:
+                    // Install the module library
                     for dependency in config.requiredModules + [config.module] {
                         try installLibrary(dependency)
 
@@ -383,11 +384,15 @@ extension CodeGen {
                         try installLibrary(dependency)
                         try cmd("ln", "-s", nodeLibName, "\(outputDir)/\(compiledLibName)").run()
                     }
+
+                    // Install the module TypeScript definitions
                     try cmd(
                         "cp",
                         "Sources/Generated/NodeInterface/\(config.module).d.ts",
                         outputDir
                     ).run()
+
+                    // Create the required Javascript files for loading the module's native library from node
                     var moduleDotJS = [
                         "export { Runtime } from '@cricut/fishyjoes-runtime-\(platform.executionEnvironment)'",
                         "import { createRequire } from 'module';",
@@ -399,6 +404,7 @@ extension CodeGen {
                     moduleDotJS.append("export default \(config.module);")
                     try cmd("echo", moduleDotJS.joined(separator: "\n")).output(overwritingFile: "\(outputDir)/\(config.module).js").run()
 
+                    // Collect the TypeScript definitions for the module and its extensions then concatenate them together into one file
                     var tsSources = ["Sources/Generated/NodeInterface/\(config.module).d.ts"]
                     let path = "ts/\(config.module).extensions.d.ts"
                     if cmd("test", "-f", path).runBool() {
@@ -406,9 +412,10 @@ extension CodeGen {
                     }
                     try cmd("cat", arguments: tsSources).output(overwritingFile: "\(outputDir)/\(config.module).d.ts").run()
 
+                    // Configure loading of Javascript extensions when the module is loaded by node, if provided
                     let outPath = "\(outputDir)/\(config.module).extensions.js"
                     if !cmd("cp", "ts/\(config.module).extensions.js", outPath).runBool() {
-                        // No extensions found. Generate a no-op extension
+                        // No extensions found. Generate a no-op extension file for the module
                         try cmd("cat", "-")
                             .input(
                                 """
@@ -421,15 +428,19 @@ extension CodeGen {
                             .run()
                     }
                 case .kotlinSystem, .kotlinAndroid:
+                    // Install the module library and interfacing JNI library
                     try installLibrary(config.module)
                     try installLibrary("\(config.module)-java")
                 case .cSharp:
+                    // Install the module library and interfacing library
                     try installLibrary(config.module)
                     try installLibrary("\(config.module)-c-sharp")
                 case .cpp:
                     break
                 }
             }
+
+            // Compile generated interfacing source code files for platforms that require it (e.g. not node-native or wasm)
             if platforms.contains(.kotlinSystem) {
                 try FileManager.default.withCurrentDirectoryPath("kotlin") {
                     try cmd("./gradlew", "build", "-Dskip.tests").run()
