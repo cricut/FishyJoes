@@ -11,7 +11,7 @@ public struct TupleInfo {
     static var infos: [ObjectIdentifier: TupleInfo] = [:]
 }
 
-@_cdecl("FishyJoesRuntime_Tuple2Converter_setup")
+@_cdecl("FishyJoesCommonRuntime_Tuple2Converter_setup")
 public func tuple2_cSharp_setup(
     name: UnsafePointer<unichar>,
     get0Method: @escaping TupleInfo.GetMethod,
@@ -56,7 +56,7 @@ extension Tuple2Converter: CSharpConverter where T0: CSharpConverter, T1: CSharp
     }
 }
 
-@_cdecl("FishyJoesRuntime_Tuple3Converter_setup")
+@_cdecl("FishyJoesCommonRuntime_Tuple3Converter_setup")
 public func tuple3_cSharp_setup(
     name: UnsafePointer<unichar>,
     get0Method: @escaping TupleInfo.GetMethod,
@@ -106,7 +106,7 @@ extension Tuple3Converter: CSharpConverter where T0: CSharpConverter, T1: CSharp
     }
 }
 
-@_cdecl("FishyJoesRuntime_Tuple4Converter_setup")
+@_cdecl("FishyJoesCommonRuntime_Tuple4Converter_setup")
 public func tuple4_cSharp_setup(
     name: UnsafePointer<unichar>,
     get0Method: @escaping TupleInfo.GetMethod,
@@ -161,7 +161,7 @@ extension Tuple4Converter: CSharpConverter where T0: CSharpConverter, T1: CSharp
     }
 }
 
-@_cdecl("FishyJoesRuntime_Tuple5Converter_setup")
+@_cdecl("FishyJoesCommonRuntime_Tuple5Converter_setup")
 public func tuple5_cSharp_setup(
     name: UnsafePointer<unichar>,
     get0Method: @escaping TupleInfo.GetMethod,
@@ -221,7 +221,7 @@ extension Tuple5Converter: CSharpConverter where T0: CSharpConverter, T1: CSharp
     }
 }
 
-@_cdecl("FishyJoesRuntime_Tuple6Converter_setup")
+@_cdecl("FishyJoesCommonRuntime_Tuple6Converter_setup")
 public func tuple6_cSharp_setup(
     name: UnsafePointer<unichar>,
     get0Method: @escaping TupleInfo.GetMethod,

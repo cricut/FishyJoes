@@ -10,16 +10,16 @@ public partial class Loader {
     unsafe delegate CreatedRef SwiftRangeConstructor(UnownedRef lowerBound, UnownedRef upperBound, out CreatedRef exn);
 
     [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-    static extern void FishyJoesRuntime_RangeConverter_setup(
+    static extern void FishyJoesCommonRuntime_RangeConverter_setup(
         string name,
         SwiftRangeLowerBoundGetter getLowerBound,
         SwiftRangeUpperBoundGetter getUpperBound,
         SwiftRangeConstructor constructor
     );
 
-    public static void FishyJoesRuntime_RangeConverter_setup<T>(string name, out CreatedRef exn) where T: IComparable<T> {
+    public static void FishyJoesCommonRuntime_RangeConverter_setup<T>(string name, out CreatedRef exn) where T: IComparable<T> {
         unsafe {
-            FishyJoesRuntime_RangeConverter_setup(
+            FishyJoesCommonRuntime_RangeConverter_setup(
                 name,
                 bag<SwiftRangeLowerBoundGetter>((UnownedRef range, out CreatedRef exn) => Catching(out exn, () =>
                     new CreatedRef(range.Peek<SwiftRange<T>>().lowerBound)
@@ -43,16 +43,16 @@ public partial class Loader {
     unsafe delegate CreatedRef SwiftClosedRangeConstructor(UnownedRef lowerBound, UnownedRef upperBound, out CreatedRef exn);
 
     [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-    static extern void FishyJoesRuntime_ClosedRangeConverter_setup(
+    static extern void FishyJoesCommonRuntime_ClosedRangeConverter_setup(
         string name,
         SwiftClosedRangeLowerBoundGetter getLowerBound,
         SwiftClosedRangeUpperBoundGetter getEndInclusive,
         SwiftClosedRangeConstructor constructor
     );
 
-    public static void FishyJoesRuntime_ClosedRangeConverter_setup<T>(string name, out CreatedRef exn) where T: IComparable<T> {
+    public static void FishyJoesCommonRuntime_ClosedRangeConverter_setup<T>(string name, out CreatedRef exn) where T: IComparable<T> {
         unsafe {
-            FishyJoesRuntime_ClosedRangeConverter_setup(
+            FishyJoesCommonRuntime_ClosedRangeConverter_setup(
                 name,
                 bag<SwiftClosedRangeLowerBoundGetter>((UnownedRef range, out CreatedRef exn) => Catching(out exn, () =>
                     new CreatedRef(range.Peek<SwiftClosedRange<T>>().lowerBound)

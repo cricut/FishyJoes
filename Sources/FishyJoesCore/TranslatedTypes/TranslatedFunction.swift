@@ -39,7 +39,7 @@ struct TranslatedFunction: TranslatedType {
 
     var converterType: BetterType {
         .generic(
-            base: .init(stringLiteral: "Function\(parameters.count)Converter"),
+            base: .runtime("Function\(parameters.count)Converter"),
             args: (parameters + [returnType]).map(\.converterType)
         )
     }

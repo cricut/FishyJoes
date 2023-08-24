@@ -17,13 +17,13 @@ namespace Cricut.TestAPI {
         public static System.Collections.Generic.IList<nint> ArrayOfInt {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Collections_ArrayOfInt(out exn).Consume<System.Collections.Generic.IList<nint>>()
+                    __cs_get_TestAPI_Collections_ArrayOfInt(out exn).Consume<System.Collections.Generic.IList<nint>>()
                 );
             }
         }
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_get_Collections_ArrayOfInt(out CreatedRef exn);
+        private static extern CreatedRef __cs_get_TestAPI_Collections_ArrayOfInt(out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(setOfInt) -->
@@ -31,13 +31,13 @@ namespace Cricut.TestAPI {
         public static System.Collections.Generic.ISet<nint> SetOfInt {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Collections_SetOfInt(out exn).Consume<System.Collections.Generic.ISet<nint>>()
+                    __cs_get_TestAPI_Collections_SetOfInt(out exn).Consume<System.Collections.Generic.ISet<nint>>()
                 );
             }
         }
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_get_Collections_SetOfInt(out CreatedRef exn);
+        private static extern CreatedRef __cs_get_TestAPI_Collections_SetOfInt(out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(dictionaryOfIntToInt) -->
@@ -45,13 +45,13 @@ namespace Cricut.TestAPI {
         public static System.Collections.Generic.IDictionary<nint, nint> DictionaryOfIntToInt {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Collections_DictionaryOfIntToInt(out exn).Consume<System.Collections.Generic.IDictionary<nint, nint>>()
+                    __cs_get_TestAPI_Collections_DictionaryOfIntToInt(out exn).Consume<System.Collections.Generic.IDictionary<nint, nint>>()
                 );
             }
         }
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_get_Collections_DictionaryOfIntToInt(out CreatedRef exn);
+        private static extern CreatedRef __cs_get_TestAPI_Collections_DictionaryOfIntToInt(out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(arrayOfBigTuples) -->
@@ -59,13 +59,13 @@ namespace Cricut.TestAPI {
         public static System.Collections.Generic.IList<System.Tuple<sbyte, short, int, long>> ArrayOfBigTuples {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Collections_ArrayOfBigTuples(out exn).Consume<System.Collections.Generic.IList<System.Tuple<sbyte, short, int, long>>>()
+                    __cs_get_TestAPI_Collections_ArrayOfBigTuples(out exn).Consume<System.Collections.Generic.IList<System.Tuple<sbyte, short, int, long>>>()
                 );
             }
         }
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_get_Collections_ArrayOfBigTuples(out CreatedRef exn);
+        private static extern CreatedRef __cs_get_TestAPI_Collections_ArrayOfBigTuples(out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(maybeArrayOfInt) -->
@@ -73,13 +73,13 @@ namespace Cricut.TestAPI {
         public static System.Collections.Generic.IList<nint>? MaybeArrayOfInt {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Collections_MaybeArrayOfInt(out exn).Consume<System.Collections.Generic.IList<nint>?>()
+                    __cs_get_TestAPI_Collections_MaybeArrayOfInt(out exn).Consume<System.Collections.Generic.IList<nint>?>()
                 );
             }
         }
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_get_Collections_MaybeArrayOfInt(out CreatedRef exn);
+        private static extern CreatedRef __cs_get_TestAPI_Collections_MaybeArrayOfInt(out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(maybeSetOfInt) -->
@@ -87,13 +87,13 @@ namespace Cricut.TestAPI {
         public static System.Collections.Generic.ISet<nint>? MaybeSetOfInt {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Collections_MaybeSetOfInt(out exn).Consume<System.Collections.Generic.ISet<nint>?>()
+                    __cs_get_TestAPI_Collections_MaybeSetOfInt(out exn).Consume<System.Collections.Generic.ISet<nint>?>()
                 );
             }
         }
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_get_Collections_MaybeSetOfInt(out CreatedRef exn);
+        private static extern CreatedRef __cs_get_TestAPI_Collections_MaybeSetOfInt(out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(maybeDictionaryOfIntToInt) -->
@@ -101,13 +101,13 @@ namespace Cricut.TestAPI {
         public static System.Collections.Generic.IDictionary<nint, nint>? MaybeDictionaryOfIntToInt {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Collections_MaybeDictionaryOfIntToInt(out exn).Consume<System.Collections.Generic.IDictionary<nint, nint>?>()
+                    __cs_get_TestAPI_Collections_MaybeDictionaryOfIntToInt(out exn).Consume<System.Collections.Generic.IDictionary<nint, nint>?>()
                 );
             }
         }
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_get_Collections_MaybeDictionaryOfIntToInt(out CreatedRef exn);
+        private static extern CreatedRef __cs_get_TestAPI_Collections_MaybeDictionaryOfIntToInt(out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(maybeArrayOfMaybeInt) -->
@@ -115,13 +115,13 @@ namespace Cricut.TestAPI {
         public static System.Collections.Generic.IList<nint?>? MaybeArrayOfMaybeInt {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Collections_MaybeArrayOfMaybeInt(out exn).Consume<System.Collections.Generic.IList<nint?>?>()
+                    __cs_get_TestAPI_Collections_MaybeArrayOfMaybeInt(out exn).Consume<System.Collections.Generic.IList<nint?>?>()
                 );
             }
         }
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_get_Collections_MaybeArrayOfMaybeInt(out CreatedRef exn);
+        private static extern CreatedRef __cs_get_TestAPI_Collections_MaybeArrayOfMaybeInt(out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(maybeSetOfMaybeInt) -->
@@ -129,13 +129,13 @@ namespace Cricut.TestAPI {
         public static System.Collections.Generic.ISet<nint?>? MaybeSetOfMaybeInt {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Collections_MaybeSetOfMaybeInt(out exn).Consume<System.Collections.Generic.ISet<nint?>?>()
+                    __cs_get_TestAPI_Collections_MaybeSetOfMaybeInt(out exn).Consume<System.Collections.Generic.ISet<nint?>?>()
                 );
             }
         }
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_get_Collections_MaybeSetOfMaybeInt(out CreatedRef exn);
+        private static extern CreatedRef __cs_get_TestAPI_Collections_MaybeSetOfMaybeInt(out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(maybeDictionaryOfIntToMaybeInt) -->
@@ -143,13 +143,13 @@ namespace Cricut.TestAPI {
         public static System.Collections.Generic.IDictionary<nint, nint?>? MaybeDictionaryOfIntToMaybeInt {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Collections_MaybeDictionaryOfIntToMaybeInt(out exn).Consume<System.Collections.Generic.IDictionary<nint, nint?>?>()
+                    __cs_get_TestAPI_Collections_MaybeDictionaryOfIntToMaybeInt(out exn).Consume<System.Collections.Generic.IDictionary<nint, nint?>?>()
                 );
             }
         }
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_get_Collections_MaybeDictionaryOfIntToMaybeInt(out CreatedRef exn);
+        private static extern CreatedRef __cs_get_TestAPI_Collections_MaybeDictionaryOfIntToMaybeInt(out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(defaultCollectionHolder) -->
@@ -157,13 +157,13 @@ namespace Cricut.TestAPI {
         public static Cricut.TestAPI.Collections.CollectionHolder DefaultCollectionHolder {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Collections_DefaultCollectionHolder(out exn).Consume<Cricut.TestAPI.Collections.CollectionHolder>()
+                    __cs_get_TestAPI_Collections_DefaultCollectionHolder(out exn).Consume<Cricut.TestAPI.Collections.CollectionHolder>()
                 );
             }
         }
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_get_Collections_DefaultCollectionHolder(out CreatedRef exn);
+        private static extern CreatedRef __cs_get_TestAPI_Collections_DefaultCollectionHolder(out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(echoArrayOfInt) -->
@@ -172,11 +172,11 @@ namespace Cricut.TestAPI {
             System.Collections.Generic.IList<nint> arrayOfInt
         ) {
             using var _arrayOfIntHandle = new GCRef(arrayOfInt);
-            return Check((out CreatedRef _exn) => __cs_Collections_echoArrayOfInt(_arrayOfIntHandle.ptr, out _exn)).Consume<System.Collections.Generic.IList<nint>>();
+            return Check((out CreatedRef _exn) => __cs_TestAPI_Collections_echoArrayOfInt(_arrayOfIntHandle.ptr, out _exn)).Consume<System.Collections.Generic.IList<nint>>();
         }
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_Collections_echoArrayOfInt(
+        private static extern CreatedRef __cs_TestAPI_Collections_echoArrayOfInt(
             UnownedRef arrayOfInt,
             out CreatedRef exn
         );
@@ -188,11 +188,11 @@ namespace Cricut.TestAPI {
             System.Collections.Generic.ISet<nint> setOfInt
         ) {
             using var _setOfIntHandle = new GCRef(setOfInt);
-            return Check((out CreatedRef _exn) => __cs_Collections_echoSetOfInt(_setOfIntHandle.ptr, out _exn)).Consume<System.Collections.Generic.ISet<nint>>();
+            return Check((out CreatedRef _exn) => __cs_TestAPI_Collections_echoSetOfInt(_setOfIntHandle.ptr, out _exn)).Consume<System.Collections.Generic.ISet<nint>>();
         }
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_Collections_echoSetOfInt(
+        private static extern CreatedRef __cs_TestAPI_Collections_echoSetOfInt(
             UnownedRef setOfInt,
             out CreatedRef exn
         );
@@ -204,11 +204,11 @@ namespace Cricut.TestAPI {
             System.Collections.Generic.IDictionary<nint, nint> dictionaryOfIntToInt
         ) {
             using var _dictionaryOfIntToIntHandle = new GCRef(dictionaryOfIntToInt);
-            return Check((out CreatedRef _exn) => __cs_Collections_echoDictionaryOfIntToInt(_dictionaryOfIntToIntHandle.ptr, out _exn)).Consume<System.Collections.Generic.IDictionary<nint, nint>>();
+            return Check((out CreatedRef _exn) => __cs_TestAPI_Collections_echoDictionaryOfIntToInt(_dictionaryOfIntToIntHandle.ptr, out _exn)).Consume<System.Collections.Generic.IDictionary<nint, nint>>();
         }
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_Collections_echoDictionaryOfIntToInt(
+        private static extern CreatedRef __cs_TestAPI_Collections_echoDictionaryOfIntToInt(
             UnownedRef dictionaryOfIntToInt,
             out CreatedRef exn
         );
@@ -220,11 +220,11 @@ namespace Cricut.TestAPI {
             System.Collections.Generic.IList<nint?>? maybeArrayOfMaybeInt
         ) {
             using var _maybeArrayOfMaybeIntHandle = new GCRef(maybeArrayOfMaybeInt);
-            return Check((out CreatedRef _exn) => __cs_Collections_echoMaybeArrayOfMaybeInt(_maybeArrayOfMaybeIntHandle.ptr, out _exn)).Consume<System.Collections.Generic.IList<nint?>?>();
+            return Check((out CreatedRef _exn) => __cs_TestAPI_Collections_echoMaybeArrayOfMaybeInt(_maybeArrayOfMaybeIntHandle.ptr, out _exn)).Consume<System.Collections.Generic.IList<nint?>?>();
         }
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_Collections_echoMaybeArrayOfMaybeInt(
+        private static extern CreatedRef __cs_TestAPI_Collections_echoMaybeArrayOfMaybeInt(
             UnownedRef maybeArrayOfMaybeInt,
             out CreatedRef exn
         );
@@ -236,11 +236,11 @@ namespace Cricut.TestAPI {
             System.Collections.Generic.ISet<nint?>? maybeSetOfMaybeInt
         ) {
             using var _maybeSetOfMaybeIntHandle = new GCRef(maybeSetOfMaybeInt);
-            return Check((out CreatedRef _exn) => __cs_Collections_echoMaybeSetOfMaybeInt(_maybeSetOfMaybeIntHandle.ptr, out _exn)).Consume<System.Collections.Generic.ISet<nint?>?>();
+            return Check((out CreatedRef _exn) => __cs_TestAPI_Collections_echoMaybeSetOfMaybeInt(_maybeSetOfMaybeIntHandle.ptr, out _exn)).Consume<System.Collections.Generic.ISet<nint?>?>();
         }
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_Collections_echoMaybeSetOfMaybeInt(
+        private static extern CreatedRef __cs_TestAPI_Collections_echoMaybeSetOfMaybeInt(
             UnownedRef maybeSetOfMaybeInt,
             out CreatedRef exn
         );
@@ -252,11 +252,11 @@ namespace Cricut.TestAPI {
             System.Collections.Generic.IDictionary<nint, nint?>? maybeDictionaryOfIntToMaybeInt
         ) {
             using var _maybeDictionaryOfIntToMaybeIntHandle = new GCRef(maybeDictionaryOfIntToMaybeInt);
-            return Check((out CreatedRef _exn) => __cs_Collections_echoMaybeDictionaryOfIntToMaybeInt(_maybeDictionaryOfIntToMaybeIntHandle.ptr, out _exn)).Consume<System.Collections.Generic.IDictionary<nint, nint?>?>();
+            return Check((out CreatedRef _exn) => __cs_TestAPI_Collections_echoMaybeDictionaryOfIntToMaybeInt(_maybeDictionaryOfIntToMaybeIntHandle.ptr, out _exn)).Consume<System.Collections.Generic.IDictionary<nint, nint?>?>();
         }
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_Collections_echoMaybeDictionaryOfIntToMaybeInt(
+        private static extern CreatedRef __cs_TestAPI_Collections_echoMaybeDictionaryOfIntToMaybeInt(
             UnownedRef maybeDictionaryOfIntToMaybeInt,
             out CreatedRef exn
         );
@@ -270,11 +270,11 @@ namespace Cricut.TestAPI {
         ) {
             using var _collectionHandle = new GCRef(collection);
             using var _mapperHandle = new GCRef(mapper);
-            return Check((out CreatedRef _exn) => __cs_Collections_collectionMapper(_collectionHandle.ptr, _mapperHandle.ptr, out _exn)).Consume<System.Collections.Generic.IList<nint?>?>();
+            return Check((out CreatedRef _exn) => __cs_TestAPI_Collections_collectionMapper(_collectionHandle.ptr, _mapperHandle.ptr, out _exn)).Consume<System.Collections.Generic.IList<nint?>?>();
         }
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_Collections_collectionMapper(
+        private static extern CreatedRef __cs_TestAPI_Collections_collectionMapper(
             UnownedRef collection,
             UnownedRef mapper,
             out CreatedRef exn
@@ -322,13 +322,13 @@ namespace Cricut.TestAPI {
             public static System.Collections.Generic.IList<nint?> StaticPropery {
                 get {
                     return Check((out CreatedRef exn) =>
-                        __cs_get_Collections_CollectionHolder_StaticPropery(out exn).Consume<System.Collections.Generic.IList<nint?>>()
+                        __cs_get_TestAPI_Collections_CollectionHolder_StaticPropery(out exn).Consume<System.Collections.Generic.IList<nint?>>()
                     );
                 }
             }
 
             [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-            private static extern CreatedRef __cs_get_Collections_CollectionHolder_StaticPropery(out CreatedRef exn);
+            private static extern CreatedRef __cs_get_TestAPI_Collections_CollectionHolder_StaticPropery(out CreatedRef exn);
 
             /// <summary>
             /// <!-- FishyJoes.export(staticMutablePropery) -->
@@ -336,22 +336,22 @@ namespace Cricut.TestAPI {
             public static System.Collections.Generic.IList<nint?> StaticMutablePropery {
                 get {
                     return Check((out CreatedRef exn) =>
-                        __cs_get_Collections_CollectionHolder_StaticMutablePropery(out exn).Consume<System.Collections.Generic.IList<nint?>>()
+                        __cs_get_TestAPI_Collections_CollectionHolder_StaticMutablePropery(out exn).Consume<System.Collections.Generic.IList<nint?>>()
                     );
                 }
                 set {
                     using var valueHandle = new GCRef(value);
                     Check((out CreatedRef exn) =>
-                        __cs_set_Collections_CollectionHolder_StaticMutablePropery(valueHandle.ptr, out exn)
+                        __cs_set_TestAPI_Collections_CollectionHolder_StaticMutablePropery(valueHandle.ptr, out exn)
                     );
                 }
             }
 
             [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-            private static extern CreatedRef __cs_get_Collections_CollectionHolder_StaticMutablePropery(out CreatedRef exn);
+            private static extern CreatedRef __cs_get_TestAPI_Collections_CollectionHolder_StaticMutablePropery(out CreatedRef exn);
 
             [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-            private static extern void __cs_set_Collections_CollectionHolder_StaticMutablePropery(UnownedRef value, out CreatedRef exn);
+            private static extern void __cs_set_TestAPI_Collections_CollectionHolder_StaticMutablePropery(UnownedRef value, out CreatedRef exn);
 
             static CollectionHolder() { _TypeSetup._ensureLoaded(); }
         }

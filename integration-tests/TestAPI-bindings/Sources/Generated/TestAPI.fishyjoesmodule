@@ -4,6 +4,7 @@
       "converterType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "AssociatedDataEnum",
             "namespace" : [
 
@@ -36,6 +37,7 @@
       "sourceType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "AssociatedDataEnum",
             "namespace" : [
 
@@ -48,6 +50,7 @@
       "converterType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "Bytes",
             "namespace" : [
 
@@ -80,6 +83,7 @@
       "sourceType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "Bytes",
             "namespace" : [
 
@@ -92,6 +96,7 @@
       "converterType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "ClosedRanges",
             "namespace" : [
 
@@ -124,6 +129,7 @@
       "sourceType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "ClosedRanges",
             "namespace" : [
 
@@ -136,6 +142,7 @@
       "converterType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "Collections",
             "namespace" : [
 
@@ -168,6 +175,7 @@
       "sourceType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "Collections",
             "namespace" : [
 
@@ -180,6 +188,7 @@
       "converterType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "CollectionHolder",
             "namespace" : [
               "Collections"
@@ -212,6 +221,7 @@
       "sourceType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "CollectionHolder",
             "namespace" : [
               "Collections"
@@ -224,6 +234,7 @@
       "converterType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "DefaultArguments",
             "namespace" : [
 
@@ -256,6 +267,7 @@
       "sourceType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "DefaultArguments",
             "namespace" : [
 
@@ -268,6 +280,7 @@
       "converterType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "Deprecations",
             "namespace" : [
 
@@ -300,6 +313,7 @@
       "sourceType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "Deprecations",
             "namespace" : [
 
@@ -312,6 +326,7 @@
       "converterType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "EmptyEnum",
             "namespace" : [
 
@@ -344,6 +359,7 @@
       "sourceType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "EmptyEnum",
             "namespace" : [
 
@@ -356,6 +372,7 @@
       "converterType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "Functions",
             "namespace" : [
 
@@ -388,6 +405,7 @@
       "sourceType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "Functions",
             "namespace" : [
 
@@ -400,6 +418,7 @@
       "converterType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "TheError",
             "namespace" : [
               "Functions"
@@ -432,6 +451,7 @@
       "sourceType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "TheError",
             "namespace" : [
               "Functions"
@@ -444,6 +464,7 @@
       "converterType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "Primitives",
             "namespace" : [
 
@@ -476,6 +497,7 @@
       "sourceType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "Primitives",
             "namespace" : [
 
@@ -488,6 +510,7 @@
       "converterType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "PrimitiveHolder",
             "namespace" : [
               "Primitives"
@@ -520,6 +543,7 @@
       "sourceType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "PrimitiveHolder",
             "namespace" : [
               "Primitives"
@@ -532,6 +556,7 @@
       "converterType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "Ranges",
             "namespace" : [
 
@@ -564,6 +589,7 @@
       "sourceType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "Ranges",
             "namespace" : [
 
@@ -576,6 +602,7 @@
       "converterType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "SimpleEnum",
             "namespace" : [
 
@@ -608,6 +635,7 @@
       "sourceType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "SimpleEnum",
             "namespace" : [
 
@@ -620,6 +648,7 @@
       "converterType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "Strings",
             "namespace" : [
 
@@ -652,6 +681,7 @@
       "sourceType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "Strings",
             "namespace" : [
 
@@ -664,6 +694,7 @@
       "converterType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "Structs",
             "namespace" : [
 
@@ -696,6 +727,7 @@
       "sourceType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "Structs",
             "namespace" : [
 
@@ -708,6 +740,7 @@
       "converterType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "MemberwiseStruct",
             "namespace" : [
               "Structs"
@@ -740,6 +773,7 @@
       "sourceType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "MemberwiseStruct",
             "namespace" : [
               "Structs"
@@ -752,6 +786,7 @@
       "converterType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "ReferenceStruct",
             "namespace" : [
               "Structs"
@@ -784,6 +819,7 @@
       "sourceType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "ReferenceStruct",
             "namespace" : [
               "Structs"
@@ -796,6 +832,7 @@
       "converterType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "Tuples",
             "namespace" : [
 
@@ -828,6 +865,7 @@
       "sourceType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "Tuples",
             "namespace" : [
 

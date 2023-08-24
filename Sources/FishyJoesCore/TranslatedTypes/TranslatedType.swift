@@ -78,7 +78,7 @@ extension TranslatedType {
     func cSharpSetupParameters(in context: FishyJoesContext) -> [CSharpSetupParameter] { [] }
 
     var cSharpSetupName: String {
-        "\(definingModule)_\(converterType.genericBaseName.mangledName)_setup"
+        "\(converterType.genericBaseName.mangledName)_setup"
     }
 
     var isInhabited: Bool { true }

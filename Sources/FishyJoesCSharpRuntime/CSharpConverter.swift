@@ -113,7 +113,7 @@ extension Bool: CSharpConverter {
     }
 }
 
-@_cdecl("FishyJoesRuntime_Bool_setup")
+@_cdecl("Swift_Bool_setup")
 public func Bool_cSharp_setup(
     cSharpTrue: csObject,
     cSharpFalse: csObject,
@@ -141,7 +141,7 @@ extension Int8: PrimitiveCSharpConverter {
     static var constructor: Constructor?
 }
 
-@_cdecl("FishyJoesRuntime_Int8_setup")
+@_cdecl("Swift_Int8_setup")
 public func Int8_cSharp_setup(
     valueMethod: @escaping Int8.ValueMethod,
     constructor: @escaping Int8.Constructor
@@ -167,7 +167,7 @@ extension Int16: PrimitiveCSharpConverter {
     static var constructor: Constructor?
 }
 
-@_cdecl("FishyJoesRuntime_Int16_setup")
+@_cdecl("Swift_Int16_setup")
 public func Int16_cSharp_setup(
     valueMethod: @escaping Int16.ValueMethod,
     constructor: @escaping Int16.Constructor
@@ -193,7 +193,7 @@ extension Int32: PrimitiveCSharpConverter {
     static var constructor: Constructor?
 }
 
-@_cdecl("FishyJoesRuntime_Int32_setup")
+@_cdecl("Swift_Int32_setup")
 public func Int32_cSharp_setup(
     valueMethod: @escaping Int32.ValueMethod,
     constructor: @escaping Int32.Constructor
@@ -219,7 +219,7 @@ extension Int64: PrimitiveCSharpConverter {
     static var constructor: Constructor?
 }
 
-@_cdecl("FishyJoesRuntime_Int64_setup")
+@_cdecl("Swift_Int64_setup")
 public func Int64_cSharp_setup(
     valueMethod: @escaping Int64.ValueMethod,
     constructor: @escaping Int64.Constructor
@@ -245,7 +245,7 @@ extension Int: PrimitiveCSharpConverter {
     static var constructor: Constructor?
 }
 
-@_cdecl("FishyJoesRuntime_Int_setup")
+@_cdecl("Swift_Int_setup")
 public func Int_cSharp_setup(
     valueMethod: @escaping Int.ValueMethod,
     constructor: @escaping Int.Constructor
@@ -271,7 +271,7 @@ extension UInt8: PrimitiveCSharpConverter {
     static var constructor: Constructor?
 }
 
-@_cdecl("FishyJoesRuntime_UInt8_setup")
+@_cdecl("Swift_UInt8_setup")
 public func UInt8_cSharp_setup(
     valueMethod: @escaping UInt8.ValueMethod,
     constructor: @escaping UInt8.Constructor
@@ -297,7 +297,7 @@ extension UInt16: PrimitiveCSharpConverter {
     static var constructor: Constructor?
 }
 
-@_cdecl("FishyJoesRuntime_UInt16_setup")
+@_cdecl("Swift_UInt16_setup")
 public func UInt16_cSharp_setup(
     valueMethod: @escaping UInt16.ValueMethod,
     constructor: @escaping UInt16.Constructor
@@ -323,7 +323,7 @@ extension UInt32: PrimitiveCSharpConverter {
     static var constructor: Constructor?
 }
 
-@_cdecl("FishyJoesRuntime_UInt32_setup")
+@_cdecl("Swift_UInt32_setup")
 public func UInt32_cSharp_setup(
     valueMethod: @escaping UInt32.ValueMethod,
     constructor: @escaping UInt32.Constructor
@@ -349,7 +349,7 @@ extension UInt64: PrimitiveCSharpConverter {
     static var constructor: Constructor?
 }
 
-@_cdecl("FishyJoesRuntime_UInt64_setup")
+@_cdecl("Swift_UInt64_setup")
 public func UInt64_cSharp_setup(
     valueMethod: @escaping UInt64.ValueMethod,
     constructor: @escaping UInt64.Constructor
@@ -375,7 +375,7 @@ extension UInt: PrimitiveCSharpConverter {
     static var constructor: Constructor?
 }
 
-@_cdecl("FishyJoesRuntime_UInt_setup")
+@_cdecl("Swift_UInt_setup")
 public func UInt_cSharp_setup(
     valueMethod: @escaping UInt.ValueMethod,
     constructor: @escaping UInt.Constructor
@@ -401,7 +401,7 @@ extension Float: PrimitiveCSharpConverter {
     static var constructor: Constructor?
 }
 
-@_cdecl("FishyJoesRuntime_Float_setup")
+@_cdecl("Swift_Float_setup")
 public func Float_cSharp_setup(
     valueMethod: @escaping Float.ValueMethod,
     constructor: @escaping Float.Constructor
@@ -427,7 +427,7 @@ extension Double: PrimitiveCSharpConverter {
     static var constructor: Constructor?
 }
 
-@_cdecl("FishyJoesRuntime_Double_setup")
+@_cdecl("Swift_Double_setup")
 public func Double_cSharp_setup(
     valueMethod: @escaping Double.ValueMethod,
     constructor: @escaping Double.Constructor
@@ -439,7 +439,7 @@ public func Double_cSharp_setup(
 
 // MARK: - Less-Primitive Type Conversions
 
-@_cdecl("FishyJoesRuntime_String_setup")
+@_cdecl("Swift_String_setup")
 public func String_cSharp_setup(
     getLengthMethod: @escaping @convention(c) (csObject, csOutExn) -> Int,
     getUtf16Method: @escaping @convention(c) (csObject, UnsafeMutablePointer<unichar>, csOutExn) -> Void,
@@ -478,7 +478,7 @@ extension String: CSharpConverter {
     }
 }
 
-@_cdecl("FishyJoesRuntime_Data_setup")
+@_cdecl("Foundation_Data_setup")
 public func Data_cSharp_setup(
     lengthMethod: @escaping Data.LengthMethod,
     bytesMethod: @escaping Data.BytesMethod,

@@ -11,7 +11,7 @@ namespace Cricut.FishyJoesRuntime {
         unsafe delegate void StringGetUtf16Method(UnownedRef obj, char* outUnits, out CreatedRef exn);
         unsafe delegate CreatedRef StringConstructor(char* units, int length, out CreatedRef exn);
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern void FishyJoesRuntime_String_setup(
+        static extern void Swift_String_setup(
             StringGetLengthMethod getLength,
             StringGetUtf16Method getUtf16,
             StringConstructor constructor
@@ -22,7 +22,7 @@ namespace Cricut.FishyJoesRuntime {
         unsafe delegate void DataGetBytesMethod(UnownedRef obj, byte* outValues, out CreatedRef exn);
         unsafe delegate CreatedRef DataConstructor(byte* bytes, int length, out CreatedRef exn);
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern void FishyJoesRuntime_Data_setup(
+        static extern void Foundation_Data_setup(
             DataLengthMethod getLength,
             DataGetBytesMethod bytesMethod,
             DataConstructor constructor
@@ -30,7 +30,7 @@ namespace Cricut.FishyJoesRuntime {
 
         private static void setupMisc() {
             unsafe {
-                FishyJoesRuntime_String_setup(
+                Swift_String_setup(
                     bag<StringGetLengthMethod>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => {
                         return obj.Peek<string>().Length;
                     })),
@@ -46,7 +46,7 @@ namespace Cricut.FishyJoesRuntime {
                     }))
                 );
 
-                FishyJoesRuntime_Data_setup(
+                Foundation_Data_setup(
                     bag<DataLengthMethod>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => {
                         return obj.Peek<byte[]>().Length;
                     })),

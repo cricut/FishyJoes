@@ -8,14 +8,14 @@ namespace Cricut.FishyJoesRuntime {
         internal SwiftFunctionImpl(ConsumedRef reference) : base(reference) {}
 
         internal object? invoke0() {
-            return Check((out CreatedRef exn) => FishyJoesRuntime_SwiftFunctionImpl_invoke0(
+            return Check((out CreatedRef exn) => FishyJoesCommonRuntime_SwiftFunctionImpl_invoke0(
                 this.internalReference, out exn
             ).Consume<object?>());
         }
 
         internal object? invoke1(object? p0) {
             using var a0 = new GCRef(p0);
-            return Check((out CreatedRef exn) => FishyJoesRuntime_SwiftFunctionImpl_invoke1(
+            return Check((out CreatedRef exn) => FishyJoesCommonRuntime_SwiftFunctionImpl_invoke1(
                 this.internalReference, a0.ptr, out exn
             ).Consume<object?>());
         }
@@ -23,7 +23,7 @@ namespace Cricut.FishyJoesRuntime {
         internal object? invoke2(object? p0, object? p1) {
             using var a0 = new GCRef(p0);
             using var a1 = new GCRef(p1);
-            return Check((out CreatedRef exn) => FishyJoesRuntime_SwiftFunctionImpl_invoke2(
+            return Check((out CreatedRef exn) => FishyJoesCommonRuntime_SwiftFunctionImpl_invoke2(
                 this.internalReference, a0.ptr, a1.ptr, out exn
             ).Consume<object?>());
         }
@@ -32,7 +32,7 @@ namespace Cricut.FishyJoesRuntime {
             using var a0 = new GCRef(p0);
             using var a1 = new GCRef(p1);
             using var a2 = new GCRef(p2);
-            return Check((out CreatedRef exn) => FishyJoesRuntime_SwiftFunctionImpl_invoke3(
+            return Check((out CreatedRef exn) => FishyJoesCommonRuntime_SwiftFunctionImpl_invoke3(
                 this.internalReference, a0.ptr, a1.ptr, a2.ptr, out exn
             ).Consume<object?>());
         }
@@ -42,7 +42,7 @@ namespace Cricut.FishyJoesRuntime {
             using var a1 = new GCRef(p1);
             using var a2 = new GCRef(p2);
             using var a3 = new GCRef(p3);
-            return Check((out CreatedRef exn) => FishyJoesRuntime_SwiftFunctionImpl_invoke4(
+            return Check((out CreatedRef exn) => FishyJoesCommonRuntime_SwiftFunctionImpl_invoke4(
                 this.internalReference, a0.ptr, a1.ptr, a2.ptr, a3.ptr, out exn
             ).Consume<object?>());
         }
@@ -53,7 +53,7 @@ namespace Cricut.FishyJoesRuntime {
             using var a2 = new GCRef(p2);
             using var a3 = new GCRef(p3);
             using var a4 = new GCRef(p4);
-            return Check((out CreatedRef exn) => FishyJoesRuntime_SwiftFunctionImpl_invoke5(
+            return Check((out CreatedRef exn) => FishyJoesCommonRuntime_SwiftFunctionImpl_invoke5(
                 this.internalReference, a0.ptr, a1.ptr, a2.ptr, a3.ptr, a4.ptr, out exn
             ).Consume<object?>());
         }
@@ -65,26 +65,26 @@ namespace Cricut.FishyJoesRuntime {
             using var a3 = new GCRef(p3);
             using var a4 = new GCRef(p4);
             using var a5 = new GCRef(p5);
-            return Check((out CreatedRef exn) => FishyJoesRuntime_SwiftFunctionImpl_invoke6(
+            return Check((out CreatedRef exn) => FishyJoesCommonRuntime_SwiftFunctionImpl_invoke6(
                 this.internalReference, a0.ptr, a1.ptr, a2.ptr, a3.ptr, a4.ptr, a5.ptr, out exn
             ).Consume<object?>());
         }
 
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern CreatedRef FishyJoesRuntime_SwiftFunctionImpl_invoke0(
+        static extern CreatedRef FishyJoesCommonRuntime_SwiftFunctionImpl_invoke0(
             UnownedRef self,
             out CreatedRef exn
         );
 
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern CreatedRef FishyJoesRuntime_SwiftFunctionImpl_invoke1(
+        static extern CreatedRef FishyJoesCommonRuntime_SwiftFunctionImpl_invoke1(
             UnownedRef self,
             UnownedRef p0,
             out CreatedRef exn
         );
 
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern CreatedRef FishyJoesRuntime_SwiftFunctionImpl_invoke2(
+        static extern CreatedRef FishyJoesCommonRuntime_SwiftFunctionImpl_invoke2(
             UnownedRef self,
             UnownedRef p0,
             UnownedRef p1,
@@ -92,7 +92,7 @@ namespace Cricut.FishyJoesRuntime {
         );
 
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern CreatedRef FishyJoesRuntime_SwiftFunctionImpl_invoke3(
+        static extern CreatedRef FishyJoesCommonRuntime_SwiftFunctionImpl_invoke3(
             UnownedRef self,
             UnownedRef p0,
             UnownedRef p1,
@@ -101,7 +101,7 @@ namespace Cricut.FishyJoesRuntime {
         );
 
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern CreatedRef FishyJoesRuntime_SwiftFunctionImpl_invoke4(
+        static extern CreatedRef FishyJoesCommonRuntime_SwiftFunctionImpl_invoke4(
             UnownedRef self,
             UnownedRef p0,
             UnownedRef p1,
@@ -111,7 +111,7 @@ namespace Cricut.FishyJoesRuntime {
         );
 
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern CreatedRef FishyJoesRuntime_SwiftFunctionImpl_invoke5(
+        static extern CreatedRef FishyJoesCommonRuntime_SwiftFunctionImpl_invoke5(
             UnownedRef self,
             UnownedRef p0,
             UnownedRef p1,
@@ -122,7 +122,7 @@ namespace Cricut.FishyJoesRuntime {
         );
 
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern CreatedRef FishyJoesRuntime_SwiftFunctionImpl_invoke6(
+        static extern CreatedRef FishyJoesCommonRuntime_SwiftFunctionImpl_invoke6(
             UnownedRef self,
             UnownedRef p0,
             UnownedRef p1,
@@ -135,8 +135,8 @@ namespace Cricut.FishyJoesRuntime {
     }
 
     public partial class Loader {
-        public static void FishyJoesRuntime_Function0Converter_setup<R>(string name, out CreatedRef exn) {
-            FishyJoesRuntime_Function0Converter_setup(
+        public static void FishyJoesCommonRuntime_Function0Converter_setup<R>(string name, out CreatedRef exn) {
+            FishyJoesCommonRuntime_Function0Converter_setup(
                 name,
                 bag<Constructor>((ConsumedRef swiftRef, out CreatedRef innerExn) => Catching(out innerExn, () => {
                     var impl = new SwiftFunctionImpl(swiftRef);
@@ -152,8 +152,8 @@ namespace Cricut.FishyJoesRuntime {
             );
         }
 
-        public static void FishyJoesRuntime_Function1Converter_setup<R, P0>(string name, out CreatedRef exn) {
-            FishyJoesRuntime_Function1Converter_setup(
+        public static void FishyJoesCommonRuntime_Function1Converter_setup<R, P0>(string name, out CreatedRef exn) {
+            FishyJoesCommonRuntime_Function1Converter_setup(
                 name,
                 bag<Constructor>((ConsumedRef swiftRef, out CreatedRef innerExn) => Catching(out innerExn, () => {
                     var impl = new SwiftFunctionImpl(swiftRef);
@@ -170,8 +170,8 @@ namespace Cricut.FishyJoesRuntime {
             );
         }
 
-        public static void FishyJoesRuntime_Function2Converter_setup<R, P0, P1>(string name, out CreatedRef exn) {
-            FishyJoesRuntime_Function2Converter_setup(
+        public static void FishyJoesCommonRuntime_Function2Converter_setup<R, P0, P1>(string name, out CreatedRef exn) {
+            FishyJoesCommonRuntime_Function2Converter_setup(
                 name,
                 bag<Constructor>((ConsumedRef swiftRef, out CreatedRef innerExn) => Catching(out innerExn, () => {
                     var impl = new SwiftFunctionImpl(swiftRef);
@@ -189,8 +189,8 @@ namespace Cricut.FishyJoesRuntime {
             );
         }
 
-        public static void FishyJoesRuntime_Function3Converter_setup<R, P0, P1, P2>(string name, out CreatedRef exn) {
-            FishyJoesRuntime_Function3Converter_setup(
+        public static void FishyJoesCommonRuntime_Function3Converter_setup<R, P0, P1, P2>(string name, out CreatedRef exn) {
+            FishyJoesCommonRuntime_Function3Converter_setup(
                 name,
                 bag<Constructor>((ConsumedRef swiftRef, out CreatedRef innerExn) => Catching(out innerExn, () => {
                     var impl = new SwiftFunctionImpl(swiftRef);
@@ -209,8 +209,8 @@ namespace Cricut.FishyJoesRuntime {
             );
         }
 
-        public static void FishyJoesRuntime_Function4Converter_setup<R, P0, P1, P2, P3>(string name, out CreatedRef exn) {
-            FishyJoesRuntime_Function4Converter_setup(
+        public static void FishyJoesCommonRuntime_Function4Converter_setup<R, P0, P1, P2, P3>(string name, out CreatedRef exn) {
+            FishyJoesCommonRuntime_Function4Converter_setup(
                 name,
                 bag<Constructor>((ConsumedRef swiftRef, out CreatedRef innerExn) => Catching(out innerExn, () => {
                     var impl = new SwiftFunctionImpl(swiftRef);
@@ -230,8 +230,8 @@ namespace Cricut.FishyJoesRuntime {
             );
         }
 
-        public static void FishyJoesRuntime_Function5Converter_setup<R, P0, P1, P2, P3, P4>(string name, out CreatedRef exn) {
-            FishyJoesRuntime_Function5Converter_setup(
+        public static void FishyJoesCommonRuntime_Function5Converter_setup<R, P0, P1, P2, P3, P4>(string name, out CreatedRef exn) {
+            FishyJoesCommonRuntime_Function5Converter_setup(
                 name,
                 bag<Constructor>((ConsumedRef swiftRef, out CreatedRef innerExn) => Catching(out innerExn, () => {
                     var impl = new SwiftFunctionImpl(swiftRef);
@@ -252,8 +252,8 @@ namespace Cricut.FishyJoesRuntime {
             );
         }
 
-        public static void FishyJoesRuntime_Function6Converter_setup<R, P0, P1, P2, P3, P4, P5>(string name, out CreatedRef exn) {
-            FishyJoesRuntime_Function6Converter_setup(
+        public static void FishyJoesCommonRuntime_Function6Converter_setup<R, P0, P1, P2, P3, P4, P5>(string name, out CreatedRef exn) {
+            FishyJoesCommonRuntime_Function6Converter_setup(
                 name,
                 bag<Constructor>((ConsumedRef swiftRef, out CreatedRef innerExn) => Catching(out innerExn, () => {
                     var impl = new SwiftFunctionImpl(swiftRef);
@@ -285,29 +285,29 @@ namespace Cricut.FishyJoesRuntime {
         delegate CreatedRef Invoke6(UnownedRef fn, ConsumedRef p0, ConsumedRef p1, ConsumedRef p2, ConsumedRef p3, ConsumedRef p4, ConsumedRef p5, out CreatedRef exn);
 
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern void FishyJoesRuntime_Function0Converter_setup(string typeName, Constructor constructor, Invoke0 invoke, out CreatedRef exn);
+        static extern void FishyJoesCommonRuntime_Function0Converter_setup(string typeName, Constructor constructor, Invoke0 invoke, out CreatedRef exn);
 
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern void FishyJoesRuntime_Function1Converter_setup(string typeName, Constructor constructor, Invoke1 invoke, out CreatedRef exn);
+        static extern void FishyJoesCommonRuntime_Function1Converter_setup(string typeName, Constructor constructor, Invoke1 invoke, out CreatedRef exn);
 
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern void FishyJoesRuntime_Function2Converter_setup(string typeName, Constructor constructor, Invoke2 invoke, out CreatedRef exn);
+        static extern void FishyJoesCommonRuntime_Function2Converter_setup(string typeName, Constructor constructor, Invoke2 invoke, out CreatedRef exn);
 
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern void FishyJoesRuntime_Function3Converter_setup(string typeName, Constructor constructor, Invoke3 invoke, out CreatedRef exn);
+        static extern void FishyJoesCommonRuntime_Function3Converter_setup(string typeName, Constructor constructor, Invoke3 invoke, out CreatedRef exn);
 
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern void FishyJoesRuntime_Function4Converter_setup(string typeName, Constructor constructor, Invoke4 invoke, out CreatedRef exn);
+        static extern void FishyJoesCommonRuntime_Function4Converter_setup(string typeName, Constructor constructor, Invoke4 invoke, out CreatedRef exn);
 
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern void FishyJoesRuntime_Function5Converter_setup(string typeName, Constructor constructor, Invoke5 invoke, out CreatedRef exn);
+        static extern void FishyJoesCommonRuntime_Function5Converter_setup(string typeName, Constructor constructor, Invoke5 invoke, out CreatedRef exn);
 
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern void FishyJoesRuntime_Function6Converter_setup(string typeName, Constructor constructor, Invoke6 invoke, out CreatedRef exn);
+        static extern void FishyJoesCommonRuntime_Function6Converter_setup(string typeName, Constructor constructor, Invoke6 invoke, out CreatedRef exn);
 
         // MARK: Actions
-        public static void FishyJoesRuntime_Function0Converter_setup(string name, out CreatedRef exn) {
-            FishyJoesRuntime_Function0Converter_setup(
+        public static void FishyJoesCommonRuntime_Function0Converter_setup(string name, out CreatedRef exn) {
+            FishyJoesCommonRuntime_Function0Converter_setup(
                 name,
                 bag<Constructor>((ConsumedRef swiftRef, out CreatedRef innerExn) => Catching(out innerExn, () => {
                     var impl = new SwiftFunctionImpl(swiftRef);
@@ -324,8 +324,8 @@ namespace Cricut.FishyJoesRuntime {
             );
         }
 
-        public static void FishyJoesRuntime_Function1Converter_setup<P0>(string name, out CreatedRef exn) {
-            FishyJoesRuntime_Function1Converter_setup(
+        public static void FishyJoesCommonRuntime_Function1Converter_setup<P0>(string name, out CreatedRef exn) {
+            FishyJoesCommonRuntime_Function1Converter_setup(
                 name,
                 bag<Constructor>((ConsumedRef swiftRef, out CreatedRef innerExn) => Catching(out innerExn, () => {
                     var impl = new SwiftFunctionImpl(swiftRef);
@@ -343,8 +343,8 @@ namespace Cricut.FishyJoesRuntime {
             );
         }
 
-        public static void FishyJoesRuntime_Function2Converter_setup<P0, P1>(string name, out CreatedRef exn) {
-            FishyJoesRuntime_Function2Converter_setup(
+        public static void FishyJoesCommonRuntime_Function2Converter_setup<P0, P1>(string name, out CreatedRef exn) {
+            FishyJoesCommonRuntime_Function2Converter_setup(
                 name,
                 bag<Constructor>((ConsumedRef swiftRef, out CreatedRef innerExn) => Catching(out innerExn, () => {
                     var impl = new SwiftFunctionImpl(swiftRef);
@@ -364,8 +364,8 @@ namespace Cricut.FishyJoesRuntime {
         }
 
 
-        public static void FishyJoesRuntime_Function3Converter_setup<P0, P1, P2>(string name, out CreatedRef exn) {
-            FishyJoesRuntime_Function3Converter_setup(
+        public static void FishyJoesCommonRuntime_Function3Converter_setup<P0, P1, P2>(string name, out CreatedRef exn) {
+            FishyJoesCommonRuntime_Function3Converter_setup(
                 name,
                 bag<Constructor>((ConsumedRef swiftRef, out CreatedRef innerExn) => Catching(out innerExn, () => {
                     var impl = new SwiftFunctionImpl(swiftRef);
@@ -385,8 +385,8 @@ namespace Cricut.FishyJoesRuntime {
             );
         }
 
-        public static void FishyJoesRuntime_Function4Converter_setup<P0, P1, P2, P3>(string name, out CreatedRef exn) {
-            FishyJoesRuntime_Function4Converter_setup(
+        public static void FishyJoesCommonRuntime_Function4Converter_setup<P0, P1, P2, P3>(string name, out CreatedRef exn) {
+            FishyJoesCommonRuntime_Function4Converter_setup(
                 name,
                 bag<Constructor>((ConsumedRef swiftRef, out CreatedRef innerExn) => Catching(out innerExn, () => {
                     var impl = new SwiftFunctionImpl(swiftRef);
@@ -407,8 +407,8 @@ namespace Cricut.FishyJoesRuntime {
             );
         }
 
-        public static void FishyJoesRuntime_Function5Converter_setup<P0, P1, P2, P3, P4>(string name, out CreatedRef exn) {
-            FishyJoesRuntime_Function5Converter_setup(
+        public static void FishyJoesCommonRuntime_Function5Converter_setup<P0, P1, P2, P3, P4>(string name, out CreatedRef exn) {
+            FishyJoesCommonRuntime_Function5Converter_setup(
                 name,
                 bag<Constructor>((ConsumedRef swiftRef, out CreatedRef innerExn) => Catching(out innerExn, () => {
                     var impl = new SwiftFunctionImpl(swiftRef);
@@ -430,8 +430,8 @@ namespace Cricut.FishyJoesRuntime {
             );
         }
 
-        public static void FishyJoesRuntime_Function6Converter_setup<P0, P1, P2, P3, P4, P5>(string name, out CreatedRef exn) {
-            FishyJoesRuntime_Function6Converter_setup(
+        public static void FishyJoesCommonRuntime_Function6Converter_setup<P0, P1, P2, P3, P4, P5>(string name, out CreatedRef exn) {
+            FishyJoesCommonRuntime_Function6Converter_setup(
                 name,
                 bag<Constructor>((ConsumedRef swiftRef, out CreatedRef innerExn) => Catching(out innerExn, () => {
                     var impl = new SwiftFunctionImpl(swiftRef);
