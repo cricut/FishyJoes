@@ -312,8 +312,17 @@ extension CodeGen {
                     }
                     try cmd("cp", "\(platform.buildDir(configuration))/FishyJoes_FishyJoesNodeRuntime.resources/js/wasm-napi.js", outputDir).run()
 
+                    // Find the path to the runtime
+                    let runtimeDirectorySearchLocations = [".build/checkouts/FishyJoes/node-runtime", "../../node-runtime"]
+                    guard let runtimePath = runtimeDirectorySearchLocations.first(where: { cmd("test", "-d", $0).runBool() }) else {
+                        fatalError("Could not locate runtime at any of: \(runtimeDirectorySearchLocations)")
+                    }
+
                     // Collect the TypeScript definitions for the module and extensions for dependency modules then concatenate them together into one file
-                    var tsSources = ["Sources/Generated/NodeInterface/\(config.module).d.ts"]
+                    var tsSources = [
+                        "Sources/Generated/NodeInterface/\(config.module).d.ts",
+                        "\(runtimePath)/fishyjoes-runtime-common/Runtime.d.ts",
+                    ]
                     for (moduleName, modulePath) in dependencyPaths {
                         let path = "\(modulePath)/ts/\(moduleName).extensions.d.ts"
                         if cmd("test", "-f", path).runBool() {
@@ -328,7 +337,7 @@ extension CodeGen {
                     func template(line: String) -> [String] {
                         let line = line.replacingOccurrences(of: "__MODULE_NAME__", with: config.module)
                         if line.contains("__MODULE_DEPENDENCY__") {
-                            return config.requiredModules.map {
+                            return (config.requiredModules + ["Runtime"]).map {
                                 line.replacingOccurrences(of: "__MODULE_DEPENDENCY__", with: $0)
                             }
                         } else {
@@ -354,6 +363,7 @@ extension CodeGen {
                     )
 
                     // Configure loading of Javascript extensions when the Wasm bundle is loaded, if provided by dependency modules
+                    try cmd("cp", "\(runtimePath)/fishyjoes-runtime-common/Runtime.extensions.js", "\(outputDir)/Runtime.extensions.js").run()
                     for (moduleName, modulePath) in dependencyPaths {
                         let outPath = "\(outputDir)/\(moduleName).extensions.js"
                         if !cmd("cp", "\(modulePath)/ts/\(moduleName).extensions.js", outPath).runBool() {

@@ -23,6 +23,18 @@ else
     BIN_DIR="$(swift build --configuration "$CONFIGURATION" --show-bin-path)"
 fi
 
+function install-runtime-common {
+    LIB_DIR="$1"
+    RUNTIME_COMMON_DIR="node-runtime/fishyjoes-runtime-common"
+    cp "$RUNTIME_COMMON_DIR"/Runtime.{d.ts,extensions.js} "$LIB_DIR"
+    echo "Copied runtime common files in $RUNTIME_COMMON_DIR to $LIB_DIR"
+}
+
+install-runtime-common "node-runtime/fishyjoes-runtime-native-windows"
+install-runtime-common "node-runtime/fishyjoes-runtime-native-macos"
+install-runtime-common "node-runtime/fishyjoes-runtime-native-ubuntu"
+install-runtime-common "node-runtime/fishyjoes-runtime-wasm"
+
 function install-lib {
     LIB_NAME="$1"
     LIB_DIR="$2"
@@ -30,7 +42,6 @@ function install-lib {
     if [ -e "$BIN_DIR/$LIB_NAME" ]; then
         mkdir -p "$LIB_DIR"
         cp "$BIN_DIR/$LIB_NAME" "$LIB_DIR/$NODE_LIB_NAME"
-        cp node-runtime/fishyjoes-runtime-common/Runtime.{d.ts,extensions.js} "$LIB_DIR"
         if [ ! -e "$LIB_DIR/$LIB_NAME" ]; then
             ln -s "$NODE_LIB_NAME" "$LIB_DIR/$LIB_NAME"
         fi
