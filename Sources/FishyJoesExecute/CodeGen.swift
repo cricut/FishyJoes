@@ -440,18 +440,6 @@ extension CodeGen {
                 }
             }
 
-            // Compile generated interfacing source code files for platforms that require it (e.g. not node-native or wasm)
-            if platforms.contains(.kotlinSystem) {
-                try FileManager.default.withCurrentDirectoryPath("kotlin") {
-                    try cmd("./gradlew", "build", "-Dskip.tests").run()
-                }
-            }
-            if platforms.contains(.cSharp) {
-                try FileManager.default.withCurrentDirectoryPath("c-sharp") {
-                    try cmd("dotnet", "build", "Cricut.\(config.module).sln").run()
-                }
-            }
-
             // Generate files whose creation requires use of template files
             if version == nil {
                 // No version provided, use dummy version to build package
@@ -486,6 +474,27 @@ extension CodeGen {
                             .run()
                     }
                 case .kotlinSystem, .kotlinAndroid, .cpp, .cSharp:
+                    break
+                }
+            }
+
+            // Compile generated interfacing source code files for platforms that require it (e.g. not node-native or wasm)
+            for platform in platforms {
+                switch platform {
+                case .wasm, .node:
+                    break
+                case .kotlinSystem:
+                    try FileManager.default.withCurrentDirectoryPath("kotlin") {
+                        try cmd("./gradlew", "build", "-Dskip.tests").run()
+                    }
+                case .kotlinAndroid:
+                    // TODO: Compile using Android Studio
+                    break
+                case .cSharp:
+                    try FileManager.default.withCurrentDirectoryPath("c-sharp") {
+                        try cmd("dotnet", "build", "Cricut.\(config.module).sln").run()
+                    }
+                case .cpp:
                     break
                 }
             }
