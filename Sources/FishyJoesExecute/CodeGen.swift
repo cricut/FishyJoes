@@ -122,6 +122,9 @@ extension CodeGen {
         } catch let error {
             fatalError("Couldn't parse swift package: \(error)")
         }
+        guard let fishyJoesPath = packageInfo.dependencyMap["fishyjoes"] else {
+            fatalError("Couldn't locate FishyJoes in Package.swift")
+        }
 
         // Locate dependency bindings modules required by this bindings module
         var dependencyPaths: [String: String] = [config.module: "."]
@@ -149,16 +152,13 @@ extension CodeGen {
             } else {
                 fatalError("Couldn't locate module for translation '\(config.module)' in Package.swift")
             }
-            guard packageInfo.dependencyMap["fishyjoes"] != nil else {
-                fatalError("Couldn't locate FishyJoes in Package.swift")
-            }
 
             // Locate dependency module configuration files
             let fishyJoesModuleFiles: [String] = dependencyPaths.compactMap {
                 $0.key == config.module ? nil : "\($0.value)/Generated/\($0.key).fishyjoesmodule"
             }
 
-            // Prepare destination directories for the Swift-side interface files for the translated foreign languages
+            // Create / clean directories used by Sourcery to generate Swift and foreign language code files for the translated foreign languages
             try cmd("rm", "-rf", "Sources/Generated", "kotlin/src/generated", "DebugGenerated", "cpp").run()
             try cmd("mkdir", "-p",
                     "Sources/Generated/CSharpInterface",
@@ -281,13 +281,15 @@ extension CodeGen {
                 }
             }
 
-            // Install libraries to platform-specific output directories
+            // Create / clean platform-specific output directories
             for platform in platforms {
                 // Prepare output directory
-                let outputDir = platform.outputDir(config)
-                try cmd("rm", "-rf", outputDir).run()
-                try cmd("mkdir", "-p", outputDir).run()
+                try cmd("rm", "-rf", platform.outputDir(config)).run()
+                try cmd("mkdir", "-p", platform.outputDir(config)).run()
+            }
 
+            // Install libraries to platform-specific output directories
+            for platform in platforms {
                 // Define a function to install library files to the output directory
                 func installLibrary(_ name: String, installName: String? = nil) throws {
                     let src = "\(try platform.buildDir(configuration))/lib\(name).\(platform.dylibExt)"
@@ -297,9 +299,10 @@ extension CodeGen {
                 }
 
                 // Perform library installation and platform-specific customization
+                let outputDir = platform.outputDir(config)
                 switch platform {
                 case .wasm:
-                    // Configure wasm-opt to optimize Wasm bundles
+                    // Install Wasm bundle to the output directory, using wasm-opt to optimize Wasm bundles if available
                     if wasmOpt, cmd("wasm-opt", "--version").runBool() {
                         try cmd("wasm-opt", "\(platform.buildDir(configuration))/DummyMain.wasm", "-O1", "-o", "\(outputDir)/\(config.module).wasm").run()
                     } else {
@@ -313,9 +316,9 @@ extension CodeGen {
                     try cmd("cp", "\(platform.buildDir(configuration))/FishyJoes_FishyJoesNodeRuntime.resources/js/wasm-napi.js", outputDir).run()
 
                     // Find the path to the runtime
-                    let runtimeDirectorySearchLocations = [".build/checkouts/FishyJoes/node-runtime", "../../node-runtime"]
-                    guard let runtimePath = runtimeDirectorySearchLocations.first(where: { cmd("test", "-d", $0).runBool() }) else {
-                        fatalError("Could not locate runtime at any of: \(runtimeDirectorySearchLocations)")
+                    let runtimePath = "\(fishyJoesPath)/node-runtime"
+                    guard cmd("test", "-d", runtimePath).runBool() else {
+                        fatalError("Could not find node runtime at: \(runtimePath)")
                     }
 
                     // Collect the TypeScript definitions for the module and extensions for dependency modules then concatenate them together into one file
@@ -331,7 +334,7 @@ extension CodeGen {
                     }
                     try cmd("cat", arguments: tsSources).output(overwritingFile: "\(outputDir)/\(config.module).d.ts").run()
 
-                    // Create the required Javascript files for loading the module's Wasm bundle from a web browser
+                    // Create the required Javascript files for loading the module's Wasm bundle
                     // Replace each instance of __MODULE_NAME__ with the name of the module
                     // Replace each line containing __MODULE_DEPENDENCY__ with one line for each dependency module
                     func template(line: String) -> [String] {
@@ -362,7 +365,7 @@ extension CodeGen {
                         outPath: "\(outputDir)/\(config.module).browser.js"
                     )
 
-                    // Configure loading of Javascript extensions when the Wasm bundle is loaded, if provided by dependency modules
+                    // Install Javascript extensions for dependencies so they are loaded when the Wasm bundle is loaded, if provided
                     try cmd("cp", "\(runtimePath)/fishyjoes-runtime-common/Runtime.extensions.js", "\(outputDir)/Runtime.extensions.js").run()
                     for (moduleName, modulePath) in dependencyPaths {
                         let outPath = "\(outputDir)/\(moduleName).extensions.js"
@@ -498,7 +501,7 @@ extension CodeGen {
                         try cmd("./gradlew", "build", "-Dskip.tests").run()
                     }
                 case .kotlinAndroid:
-                    // TODO: Compile using Android Studio
+                    // Compiled along with .kotlinSystem
                     break
                 case .cSharp:
                     try FileManager.default.withCurrentDirectoryPath("c-sharp") {
@@ -513,7 +516,7 @@ extension CodeGen {
         // MARK: - Test Step
         if buildStep.contains(.test) {
             for platform in platforms {
-                // Gather environment information to pass on for code-coverage purposes
+                // Gather environment variables to pass on for code-coverage purposes
                 let env = codeCoveragePath.map {
                     [
                         "LLVM_PROFILE_FILE": "\($0)/fishy-joes-test-\(platform)-\(UUID()).profraw",
@@ -587,7 +590,7 @@ extension CodeGen {
                     // Pack using npm
                     try cmd("npm", "pack", "./\(platform.outputDir(config))").run()
                 case .kotlinSystem, .kotlinAndroid:
-                    // TODO: Pack using maven
+                    // Pack happens as part of publish step in gradle
                     break
                 case .cSharp:
                     // Pack using dotnet
