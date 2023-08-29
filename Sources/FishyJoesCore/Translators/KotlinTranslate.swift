@@ -70,54 +70,59 @@ final class KotlinTranslator: Translator {
         }
         fragment.outputBlock(" -> \(returnSignature) = { \(formals.map(\.name).joined(separator: ", ")) in", closeWith: "}") {
             fragment.outputBlock("FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in", closeWith: "}") {
-                var taskBlock: (() -> Void) -> Void = { $0() }
                 if method.isAsync {
-                    taskBlock = { body in
-                        // TODO: Bind other parameters
-                        fragment.output("let _successContinuationRef = try JavaReference(local: _successContinuation, env: _javaEnv)")
-                        fragment.output("let _failureContinuationRef = try JavaReference(local: _failureContinuation, env: _javaEnv)")
-                        
-                        fragment.outputBlock("try _javaEnv.swiftTask { _javaEnv, _vm in", closeWith: "}") {
-                            fragment.outputBlock("defer {") {
-                                fragment.output("try? _successContinuationRef.destory()")
-                                fragment.output("try? _failureContinuationRef.destory()")
+                    fragment.outputMap(method.parameters, separator: "\n") { parameter in
+                        "let \(parameter.name)Ref = try JavaReference(local: \(parameter.name), env: _javaEnv)"
+                    }
+                    fragment.output("let _successContinuationRef = try JavaReference(local: _successContinuation, env: _javaEnv)")
+                    fragment.output("let _failureContinuationRef = try JavaReference(local: _failureContinuation, env: _javaEnv)")
+                    
+                    fragment.outputBlock("try _javaEnv.swiftTask { _javaEnv, _vm in", closeWith: "}") {
+                        fragment.outputBlock("defer {") {
+                            fragment.outputMap(method.parameters, separator: "\n") { parameter in
+                                "try? \(parameter.name)Ref.destroy()"
                             }
-                            fragment.outputBlock("do {", closeWith: "}", newLineTerminated: false) {
-                                // TODO: Convert other params
-                                fragment.output("try! Env.relenquishJVMThread(on: _vm)")
-                                fragment.output("let value: Result<Int, any Error>")
-                                fragment.outputBlock("do {", newLineTerminated: false) {
-                                    body()
-                                }
-                                fragment.outputBlock(" catch {") {
-                                    fragment.output("value = .failure(error)")
-                                }
-                                fragment.output("let _javaEnv = try! Env.aquireJVMThread(on: _vm)")
-                                fragment.outputBlock("try Function1Converter<Int64, VoidConverter>.fromJava(", closeWith: ")", newLineTerminated: false) {
-                                    fragment.output("_successContinuationRef.createLocalRef(env: _javaEnv),")
-                                    fragment.output("env: _javaEnv")
-                                }
-                                fragment.outputBlock("(", closeWith: ")") {
-                                    fragment.outputBlock("\(returnType.converterType.name).toJava(", closeWith: ")") {
-                                        fragment.output("value.get(),")
-                                        fragment.output("env: _javaEnv")
-                                    }
+                            fragment.output("try? _successContinuationRef.destory()")
+                            fragment.output("try? _failureContinuationRef.destory()")
+                        }
+                        fragment.outputBlock("do {", closeWith: "}", newLineTerminated: false) {
+                            fragment.outputMap(method.parameters, separator: "\n") { parameter in
+                                let resolved = context.resolve(type: parameter.type, generics: exportAnnotation.genericOverrides)
+                                return "let \(parameter.name) = try \(resolved.converterType.name).fromJava(\(parameter.name)Ref.createLocalRef(env: _javaEnv), env: _javaEnv)"
+                            }
+                            fragment.output("try! Env.relenquishJVMThread(on: _vm)")
+                            fragment.output("let value: Result<Int, any Error>")
+                            fragment.outputBlock("do {", newLineTerminated: false) {
+                                fragment.outputBlock("value = .success(", closeWith: ")") {
+                                    // TODO: Call the function
                                 }
                             }
-                            fragment.outputBlock(" catch {", closeWith: "}") {
-                                fragment.outputBlock("try! Function1Converter<String, VoidConverter>.fromJava(", closeWith: ")", newLineTerminated: false) {
-                                    fragment.output("_failureContinuationRef.createLocalRef(env: _javaEnv),")
+                            fragment.outputBlock(" catch {") {
+                                fragment.output("value = .failure(error)")
+                            }
+                            fragment.output("let _javaEnv = try! Env.aquireJVMThread(on: _vm)")
+                            fragment.outputBlock("try Function1Converter<Int64, VoidConverter>.fromJava(", closeWith: ")", newLineTerminated: false) {
+                                fragment.output("_successContinuationRef.createLocalRef(env: _javaEnv),")
+                                fragment.output("env: _javaEnv")
+                            }
+                            fragment.outputBlock("(", closeWith: ")") {
+                                fragment.outputBlock("\(returnType.converterType.name).toJava(", closeWith: ")") {
+                                    fragment.output("value.get(),")
                                     fragment.output("env: _javaEnv")
                                 }
-                                fragment.output(#"("\(error)")"#)
                             }
                         }
+                        fragment.outputBlock(" catch {", closeWith: "}") {
+                            fragment.outputBlock("try! Function1Converter<String, VoidConverter>.fromJava(", closeWith: ")", newLineTerminated: false) {
+                                fragment.output("_failureContinuationRef.createLocalRef(env: _javaEnv),")
+                                fragment.output("env: _javaEnv")
+                            }
+                            fragment.output(#"("\(error)")"#)
+                        }
                     }
-                }
-
-                taskBlock {
+                } else {
                     let callName = method.sourceKind == .initializer ? "" : ".\(method.callName)"
-
+                    
                     // let isMutating = method.isMutating || method.modifiers.contains(where: { $0.name == "mutating" })
                     var mutateBlock: (() -> Void) -> Void = { $0() }
                     if method.isMutating {
@@ -129,7 +134,7 @@ final class KotlinTranslator: Translator {
                         }
                         selfExpression = "mutatingSelf"
                     }
-
+                    
                     mutateBlock {
                         fragment.outputBlock("return try \(returnType.converterType.name).toJava(") {
                             fragment.outputBlock("\(selfExpression)\(callName)(", closeWith: "),") {

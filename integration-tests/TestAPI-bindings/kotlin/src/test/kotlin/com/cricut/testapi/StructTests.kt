@@ -1,5 +1,6 @@
 package com.cricut.testapi
 
+import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
@@ -39,5 +40,17 @@ internal class StructTests {
         assertEquals(Structs.MemberwiseStruct.create(), Structs.MemberwiseStruct.create())
         assertEquals(Structs.ReferenceStruct.create(), Structs.ReferenceStruct.create())
         assertNotEquals(Structs.MemberwiseStruct.create(), Structs.ReferenceStruct.create())
+    }
+
+    @Test
+    fun testMutatingFunctions() {
+        val struct = Structs.MutableStruct.create()
+        assertEquals(0, struct.i)
+        struct.increment()
+        assertEquals(1, struct.i)
+        runBlocking {
+//            struct.incrementAsync()
+            assertEquals(2, struct.i)
+        }
     }
 }
