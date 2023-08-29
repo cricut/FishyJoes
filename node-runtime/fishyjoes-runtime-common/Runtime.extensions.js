@@ -1,6 +1,6 @@
 function applyExtensions(library) {
-    library.AttributeContainer.FoundationAttributes.create = function(attributes) {
-        const container = library.AttributeContainer.FoundationAttributes.createEmpty();
+    library.Runtime.AttributeContainer.FoundationAttributes.create = function(attributes) {
+        const container = library.Runtime.AttributeContainer.FoundationAttributes.createEmpty();
         if (attributes.languageIdentifier) {
             container.languageIdentifier = attributes.languageIdentifier;
         }
@@ -10,19 +10,19 @@ function applyExtensions(library) {
         return container;
     }
 
-    library.AttributedString.createJoining = function(attributedStrings) {
-        const joined = library.AttributedString.createEmpty();
+    library.Runtime.AttributedString.createJoining = function(attributedStrings) {
+        const joined = library.Runtime.AttributedString.createEmpty();
         attributedStrings.forEach(attributedString => joined.append(attributedString));
         return joined;
     }
 
-    library.AttributedString.createJoiningSubstrings = function(attributedSubstrings) {
-        const joined = library.AttributedString.createEmpty();
+    library.Runtime.AttributedString.createJoiningSubstrings = function(attributedSubstrings) {
+        const joined = library.Runtime.AttributedString.createEmpty();
         attributedSubstrings.forEach(attributedString => joined.appendSubstring(attributedString));
         return joined;
     }
 
-    library.AttributedString.Runs.prototype[Symbol.iterator] = function* () {
+    library.Runtime.AttributedString.Runs.prototype[Symbol.iterator] = function* () {
         let index = this.startIndex;
         while (!index.equals(this.endIndex)) {
             yield this.elementAt(index)
@@ -30,7 +30,7 @@ function applyExtensions(library) {
         }
     }
 
-    library.AttributedString.CharacterView.prototype[Symbol.iterator] = function* () {
+    library.Runtime.AttributedString.CharacterView.prototype[Symbol.iterator] = function* () {
         let index = this.startIndex;
         while (!index.equals(this.endIndex)) {
             yield this.elementAt(index)
@@ -38,7 +38,7 @@ function applyExtensions(library) {
         }
     }
 
-    library.AttributedString.UnicodeScalarView.prototype[Symbol.iterator] = function* () {
+    library.Runtime.AttributedString.UnicodeScalarView.prototype[Symbol.iterator] = function* () {
         let index = this.startIndex;
         while (!index.equals(this.endIndex)) {
             yield this.elementAt(index)

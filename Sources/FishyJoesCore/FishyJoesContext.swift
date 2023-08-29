@@ -69,7 +69,7 @@ public class FishyJoesContext {
     }
 
     func swiftFragment(_ name: String, additionalImports: [String] = []) -> SourceFragment {
-        var headerLines = (module.dependencies + [module] + additionalImports).map { "import \($0)" }
+        var headerLines = (module.dependencies + [module.description] + additionalImports).map { "import \($0)" }
         headerLines.append("// swiftlint:disable superfluous_disable_command unused_closure_parameter syntactic_sugar attributes")
         fileHeaders[name, default: []].formUnion(headerLines)
         return SourceFragment(sourceryDestination: "file:\(name)")
