@@ -465,6 +465,52 @@
         "named" : {
           "_0" : {
             "module" : "TestAPI",
+            "name" : "Methods",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "Methods",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/Methods"
+        }
+      },
+      "kotlinName" : "Methods",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Reference<To=Methods>>",
+      "nodeName" : "TestAPI.Methods",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "Methods",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
             "name" : "Primitives",
             "namespace" : [
 
@@ -880,7 +926,143 @@
     "rootNamespaces" : [
       {
         "classes" : [
+          {
+            "constructor" : {
+              "hidden" : {
 
+              }
+            },
+            "documentation" : [
+              "<!-- FishyJoes.exportReference(Methods) -->"
+            ],
+            "extends" : [
+
+            ],
+            "fields" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(staticGet) -->"
+                ],
+                "isStatic" : true,
+                "name" : "staticGet",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.exportAsMethod(staticGetMethod) -->"
+                ],
+                "isStatic" : true,
+                "name" : "staticGetMethod",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(staticModifiable) -->"
+                ],
+                "isStatic" : true,
+                "name" : "staticModifiable",
+                "readOnly" : false,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(staticStored) -->"
+                ],
+                "isStatic" : true,
+                "name" : "staticStored",
+                "readOnly" : false,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(instanceGet) -->"
+                ],
+                "isStatic" : false,
+                "name" : "instanceGet",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.exportAsMethod(instanceGetMethod) -->"
+                ],
+                "isStatic" : false,
+                "name" : "instanceGetMethod",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(instanceModifiable) -->"
+                ],
+                "isStatic" : false,
+                "name" : "instanceModifiable",
+                "readOnly" : false,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(instanceStored) -->"
+                ],
+                "isStatic" : false,
+                "name" : "instanceStored",
+                "readOnly" : false,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              }
+            ],
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(create) -->"
+                ],
+                "isStatic" : true,
+                "name" : "create",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "TestAPI.Methods"
+                  }
+                }
+              }
+            ],
+            "name" : "Methods"
+          }
         ],
         "fields" : [
 

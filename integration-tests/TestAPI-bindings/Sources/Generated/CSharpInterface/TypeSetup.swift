@@ -121,6 +121,7 @@ public func FishyJoes_TestAPI_registerTypes() {
     Env.registerType(TestAPI.EmptyEnum.self, as: "TestAPI.EmptyEnum")
     Env.registerType(TestAPI.Functions.self, as: "TestAPI.Functions")
     Env.registerType(TestAPI.Functions.TheError.self, as: "TestAPI.Functions.TheError")
+    Env.registerType(TestAPI.Methods.self, as: "TestAPI.Methods")
     Env.registerType(TestAPI.Primitives.self, as: "TestAPI.Primitives")
     Env.registerType(TestAPI.Primitives.PrimitiveHolder.self, as: "TestAPI.Primitives.PrimitiveHolder")
     Env.registerType(TestAPI.Ranges.self, as: "TestAPI.Ranges")
