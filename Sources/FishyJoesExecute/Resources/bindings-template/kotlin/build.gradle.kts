@@ -91,7 +91,7 @@ tasks {
 // Read what version of the fishy joes runtime to use directly out of the swift definition, so we don't get out of sync
 fun readFishyJoesVersion(): String {
     val packageText = rootProject.file("../Package.swift").readText()
-    val pattern = Regex("^\\s*let\\s+fishyJoesVersion\\s*=\\s*\"([.0-9]*)\"\\s*$", RegexOption.MULTILINE)
+    val pattern = Regex("^\\s*let\\s+fishyJoesVersion\\s*=\\s*\"([.0-9]*(-[^\"]*)?)\"\\s*$", RegexOption.MULTILINE)
     val match = pattern.find(packageText)
     val version = match?.groups?.get(1)?.value
     if (version == null) {
