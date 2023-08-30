@@ -29,6 +29,7 @@ extension JavaConverter where CType == jobject? {
 
 public protocol JavaMutator: JavaConverter {
     static func mutateJava<R>(_ this: CType, env: Env, body: (inout SwiftType) throws -> R) throws -> R
+    static func mutateJava<R>(_ this: CType, env: Env, body: (inout SwiftType) async throws -> R) async throws -> R
 }
 
 // MARK: - Java Value Convenience

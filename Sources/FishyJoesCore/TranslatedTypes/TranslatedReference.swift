@@ -228,6 +228,10 @@ struct TranslatedReference: TranslatedType {
             fragment.outputBlock("public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout \(sourceType.name)) throws -> R) throws -> R {") {
                 fragment.output("try body(&Box<\(sourceType.name)>.fromJava(this, env: env).value)")
             }
+            
+            fragment.outputBlock("public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout \(sourceType.name)) async throws -> R) async throws -> R {") {
+                fragment.output("try await body(&Box<\(sourceType.name)>.fromJava(this, env: env).value)")
+            }
 
             if equatable != hashable {
                 fatalErr("Type \(sourceType.name) must implement either none or both of Equatable and Hashable")
