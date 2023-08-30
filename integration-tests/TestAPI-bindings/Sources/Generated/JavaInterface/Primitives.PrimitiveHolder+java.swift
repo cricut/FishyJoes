@@ -317,4 +317,113 @@ extension Primitives.PrimitiveHolder: JavaMutator {
         )
         return result
     }
+    public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout Self) async throws -> R) async throws -> R {
+        var mutatingSelf = try fromJava(this, env: env)
+        let result = try await body(&mutatingSelf)
+        try env.SetBooleanField(
+            this, Self._java_b_id,
+            Bool.toJava(mutatingSelf.b, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_bq_id,
+            OptionalConverter<Bool>.toJava(mutatingSelf.bq, env: env)
+        )
+        try env.SetByteField(
+            this, Self._java_ui8_id,
+            UInt8.toJava(mutatingSelf.ui8, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_ui8q_id,
+            OptionalConverter<UInt8>.toJava(mutatingSelf.ui8q, env: env)
+        )
+        try env.SetShortField(
+            this, Self._java_ui16_id,
+            UInt16.toJava(mutatingSelf.ui16, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_ui16q_id,
+            OptionalConverter<UInt16>.toJava(mutatingSelf.ui16q, env: env)
+        )
+        try env.SetIntField(
+            this, Self._java_ui32_id,
+            UInt32.toJava(mutatingSelf.ui32, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_ui32q_id,
+            OptionalConverter<UInt32>.toJava(mutatingSelf.ui32q, env: env)
+        )
+        try env.SetLongField(
+            this, Self._java_ui64_id,
+            UInt64.toJava(mutatingSelf.ui64, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_ui64q_id,
+            OptionalConverter<UInt64>.toJava(mutatingSelf.ui64q, env: env)
+        )
+        try env.SetLongField(
+            this, Self._java_ui_id,
+            UInt.toJava(mutatingSelf.ui, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_uiq_id,
+            OptionalConverter<UInt>.toJava(mutatingSelf.uiq, env: env)
+        )
+        try env.SetByteField(
+            this, Self._java_i8_id,
+            Int8.toJava(mutatingSelf.i8, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_i8q_id,
+            OptionalConverter<Int8>.toJava(mutatingSelf.i8q, env: env)
+        )
+        try env.SetShortField(
+            this, Self._java_i16_id,
+            Int16.toJava(mutatingSelf.i16, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_i16q_id,
+            OptionalConverter<Int16>.toJava(mutatingSelf.i16q, env: env)
+        )
+        try env.SetIntField(
+            this, Self._java_i32_id,
+            Int32.toJava(mutatingSelf.i32, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_i32q_id,
+            OptionalConverter<Int32>.toJava(mutatingSelf.i32q, env: env)
+        )
+        try env.SetLongField(
+            this, Self._java_i64_id,
+            Int64.toJava(mutatingSelf.i64, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_i64q_id,
+            OptionalConverter<Int64>.toJava(mutatingSelf.i64q, env: env)
+        )
+        try env.SetLongField(
+            this, Self._java_i_id,
+            Int.toJava(mutatingSelf.i, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_iq_id,
+            OptionalConverter<Int>.toJava(mutatingSelf.iq, env: env)
+        )
+        try env.SetFloatField(
+            this, Self._java_f_id,
+            Float.toJava(mutatingSelf.f, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_fq_id,
+            OptionalConverter<Float>.toJava(mutatingSelf.fq, env: env)
+        )
+        try env.SetDoubleField(
+            this, Self._java_d_id,
+            Double.toJava(mutatingSelf.d, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_dq_id,
+            OptionalConverter<Double>.toJava(mutatingSelf.dq, env: env)
+        )
+        return result
+    }
 }
