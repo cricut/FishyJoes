@@ -80,9 +80,7 @@ public class FishyJoesContext {
                 "using System.Collections.Generic;",
                 "using Cricut.FishyJoesRuntime;",
                 "using static Cricut.FishyJoesRuntime.Utilities;",
-            ] + module.dependencies.map { dependency in
-                "using \(dependency.lowercased());"
-            }
+            ]
         )
         return SourceFragment(sourceryDestination: "file:\(fileName)")
     }
@@ -276,7 +274,20 @@ public class FishyJoesContext {
     typealias TypeNames = (c: String, ts: String, jni: JNIType, cSharp: String)
 
     func resolve(type: BetterType, generics: [String: BetterType] = [:]) -> TranslatedType {
-        switch typeCache[type] {
+        var typeNameAsModuleQualified: BetterType?
+
+        if
+            case .named(var name) = type,
+            name.module == nil,
+            let module = name.namespace.first
+        {
+            name.module = module
+            name.namespace.removeFirst()
+            typeNameAsModuleQualified = BetterType.named(name)
+        }
+
+        // Sourcery doesn't report the difference between modules and namespaces, so I think trying both is the best we can do
+        switch typeCache[type] ?? typeNameAsModuleQualified.flatMap({ typeCache[$0] }) {
         case let .type(resolved):
             return resolved
         case let .alias(name):
