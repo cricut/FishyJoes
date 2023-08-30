@@ -122,31 +122,42 @@ extension CodeGen {
         } catch let error {
             fatalError("Couldn't parse swift package: \(error)")
         }
-        guard let fishyJoesPath = packageInfo.dependencyMap["fishyjoes"] else {
-            fatalError("Couldn't locate FishyJoes in Package.swift")
+        func dependencyForModule(_ moduleIdentifier: String) -> (url: URL, version: String?)? {
+            return packageInfo.dependencyMap[moduleIdentifier.lowercased()]
+        }
+        func dependencyIsFileRelative(_ dependency: (url: URL, version: String?)) -> Bool {
+            return dependency.url.scheme == nil
+        }
+        func localPath(toModule moduleIdentifier: String) -> String? {
+            return dependencyForModule(moduleIdentifier).map { localPath(toDependency: $0) } ?? nil
+        }
+        func localPath(toDependency dependency: (url: URL, version: String?)) -> String? {
+            return dependencyIsFileRelative(dependency) ? dependency.url.path : ".build/checkouts/\(dependency.url.lastPathComponent)"
+        }
+        guard let fishyJoesDependency = dependencyForModule("FishyJoes") else {
+            fatalError("Couldn't locate FishyJoes dependency in Package.swift")
+        }
+        guard let fishyJoesLocalPath = localPath(toModule: "FishyJoes") else {
+            fatalError("Couldn't locate local file path for FishyJoes dependency in Package.swift: \(fishyJoesDependency)")
         }
 
         // Locate dependency bindings modules required by this bindings module
-        var dependencyPaths: [String: String] = [config.module: "."]
+        var dependencySourcePaths: [String: String] = [config.module: "."]
         for moduleName in config.requiredModules {
             let bindingModule = "\(moduleName)-bindings"
-            guard let dependencyURL = packageInfo.dependencyMap[bindingModule.lowercased()] else {
+            guard let dependencyPath = localPath(toModule: bindingModule) else {
                 fatalError("Couldn't locate \(bindingModule) in Package.swift, but it's required by fishyjoes.json")
             }
-            let dependencyPath = (dependencyURL.scheme == nil ? dependencyURL.path : ".build/checkouts/\(bindingModule)") + "/Sources"
-            dependencyPaths[moduleName] = dependencyPath
-        }
-        let localPathsNeeded = packageInfo.dependencyMap.compactMap {
-            let url = $0.value
-            return url.scheme == nil ? url.path : nil
+            let dependencySourcesPath = dependencyPath + "/Sources"
+            dependencySourcePaths[moduleName] = dependencySourcesPath
         }
 
         // MARK: - Generate Step
         if buildStep.contains(.generate) {
             // Locate sources to translate
             let translateeSources: String
-            if let translateeDependency = packageInfo.dependencyMap[config.module.lowercased()] {
-                translateeSources = (translateeDependency.scheme == nil ? translateeDependency.path : ".build/checkouts/\(config.module)") + "/Sources"
+            if let translateeLocalPath = localPath(toModule: config.module) {
+                translateeSources = translateeLocalPath + "/Sources"
             } else if let sourcePath = packageInfo.path(toTarget: config.module) {
                 translateeSources = sourcePath
             } else {
@@ -154,7 +165,7 @@ extension CodeGen {
             }
 
             // Locate dependency module configuration files
-            let fishyJoesModuleFiles: [String] = dependencyPaths.compactMap {
+            let fishyJoesModuleFiles: [String] = dependencySourcePaths.compactMap {
                 $0.key == config.module ? nil : "\($0.value)/Generated/\($0.key).fishyjoesmodule"
             }
 
@@ -223,6 +234,7 @@ extension CodeGen {
         // MARK: - Build Step
         if buildStep.contains(.build) {
             // Assemble a build configuration from passed arguments
+            let localPathsNeeded = packageInfo.dependencyMap.values.compactMap { localPath(toDependency: $0) }
             let makeDockerContext = useDocker ? {
                 let context = DockerContext(withAvailablePaths: localPathsNeeded)
                 if let context = context {
@@ -316,7 +328,7 @@ extension CodeGen {
                     try cmd("cp", "\(platform.buildDir(configuration))/FishyJoes_FishyJoesNodeRuntime.resources/js/wasm-napi.js", outputDir).run()
 
                     // Find the path to the runtime
-                    let runtimePath = "\(fishyJoesPath)/node-runtime"
+                    let runtimePath = "\(fishyJoesLocalPath)/node-runtime"
                     guard cmd("test", "-d", runtimePath).runBool() else {
                         fatalError("Could not find node runtime at: \(runtimePath)")
                     }
@@ -326,7 +338,7 @@ extension CodeGen {
                         "Sources/Generated/NodeInterface/\(config.module).d.ts",
                         "\(runtimePath)/fishyjoes-runtime-common/Runtime.d.ts",
                     ]
-                    for (moduleName, modulePath) in dependencyPaths {
+                    for (moduleName, modulePath) in dependencySourcePaths {
                         let path = "\(modulePath)/ts/\(moduleName).extensions.d.ts"
                         if cmd("test", "-f", path).runBool() {
                             tsSources.append(path)
@@ -367,7 +379,7 @@ extension CodeGen {
 
                     // Install Javascript extensions for dependencies so they are loaded when the Wasm bundle is loaded, if provided
                     try cmd("cp", "\(runtimePath)/fishyjoes-runtime-common/Runtime.extensions.js", "\(outputDir)/Runtime.extensions.js").run()
-                    for (moduleName, modulePath) in dependencyPaths {
+                    for (moduleName, modulePath) in dependencySourcePaths {
                         let outPath = "\(outputDir)/\(moduleName).extensions.js"
                         if !cmd("cp", "\(modulePath)/ts/\(moduleName).extensions.js", outPath).runBool() {
                             // No extensions found. Generate a no-op extension file for the module
@@ -454,38 +466,35 @@ extension CodeGen {
             }
 
             // Generate files whose creation requires use of template files
-            if version == nil {
-                // No version provided, use dummy version to build package
-                version = "0.0.1"
-            }
             for platform in platforms {
                 switch platform {
                 case .wasm, .node:
-                    if let version = version {
-                        // Generate package.json from template
-                        let packageJsonPath = "\(platform.outputDir(config))/package.json"
-                        let prettyEncoder = JSONEncoder()
-                        prettyEncoder.outputFormatting = [
-                            .prettyPrinted,
-                            .withoutEscapingSlashes
-                        ]
-                        let templatePackage = try cmd("cat", "package.template.json").runJSON(NPMPackage.self)
-                        let package = NPMPackage(
-                            config: config,
-                            platform: platform,
-                            version: version,
-                            dependencies: templatePackage.dependencies
-                        )
-                        try cmd("cat")
-                            .inputJSON(from: package, encoder: prettyEncoder)
-                            .output(overwritingFile: packageJsonPath)
-                            .run()
+                    // Generate package.json from template
+                    let packageVersion = version ?? "0.0.1" // If no version is provided, use a dummy version to build the package
+                    let runtimeVersion = fishyJoesDependency.version ?? "file:\(fishyJoesLocalPath)/node-runtime/fishyjoes-runtime-\(platform.executionEnvironment)" // If fishy-joes is file-local, use a file-local runtime too
+                    let templatePackage = try cmd("cat", "package.template.json").runJSON(NPMPackage.self)
+                    let package = NPMPackage(
+                        config: config,
+                        platform: platform,
+                        version: packageVersion,
+                        runtimeVersion: runtimeVersion,
+                        dependencies: templatePackage.dependencies
+                    )
+                    let packageJsonPath = "\(platform.outputDir(config))/package.json"
+                    let prettyEncoder = JSONEncoder()
+                    prettyEncoder.outputFormatting = [
+                        .prettyPrinted,
+                        .withoutEscapingSlashes
+                    ]
+                    try cmd("cat")
+                        .inputJSON(from: package, encoder: prettyEncoder)
+                        .output(overwritingFile: packageJsonPath)
+                        .run()
 
-                        // Be a good unix citizen and terminate with a newline
-                        try cmd("echo")
-                            .append(toFile: packageJsonPath)
-                            .run()
-                    }
+                    // Be a good unix citizen and terminate with a newline
+                    try cmd("echo")
+                        .append(toFile: packageJsonPath)
+                        .run()
                 case .kotlinSystem, .kotlinAndroid, .cpp, .cSharp:
                     break
                 }
@@ -583,7 +592,6 @@ extension CodeGen {
 
         // MARK: - Pack Step
         if buildStep.contains(.pack) {
-            let version = version ?? "0.0.1-unknown"
             for platform in platforms {
                 switch platform {
                 case .wasm, .node:
@@ -595,6 +603,7 @@ extension CodeGen {
                 case .cSharp:
                     // Pack using dotnet
                     let name = "Cricut.\(config.module)"
+                    let version = version ?? "0.0.1-unknown"
                     try cmd("dotnet", "pack", "-c", "Release", "c-sharp/\(name)/\(name).csproj", "/p:Version=\(version)").run()
                     try cmd("cp", "c-sharp/\(name)/bin/Release/\(name).\(version).nupkg", ".").run()
                 case .cpp:

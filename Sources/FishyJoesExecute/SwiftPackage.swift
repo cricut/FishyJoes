@@ -1,79 +1,77 @@
 import Foundation
 
-struct SwiftPackage: Decodable {
-    enum Dependency {
-        case scm(identity: String, location: URL)
-        case local(identity: String, path: String)
+struct SwiftPackage: Codable {
+    struct Dependency: Codable {
+        let fileSystem: [FileSystem]?
+        let sourceControl: [SourceControl]?
     }
-    struct Target: Decodable {
+
+    struct FileSystem: Codable {
+        let identity: String
+        let path: String
+    }
+
+    struct SourceControl: Codable {
+        let identity: String
+        let location: Location
+        let requirement: Requirement
+    }
+
+    struct Location: Codable {
+        let remote: [URL]?
+    }
+
+    struct Requirement: Codable {
+        let branch: [String]?
+        let upToNextMajor: [String]?
+        let upToNextMinor: [String]?
+        let exact: [String]?
+    }
+
+    struct Target: Codable {
         let name: String
         let path: String?
     }
+
     let dependencies: [Dependency]
     let targets: [Target]
 }
 
-extension SwiftPackage.Dependency: Decodable {
-    enum CodingKeys: String, CodingKey {
-        // Swift 5.5
-        case scm, local
-
-        // Swift 5.6
-        case sourceControl, fileSystem
-    }
-
-    // Swift 5.6
-    private enum LocationCodingKeys: String, CodingKey {
-        case remote
-    }
-
-    private enum SCMCodingKeys: String, CodingKey {
-        case identity, location
-    }
-
-    private enum LocalCodingKeys: String, CodingKey {
-        case identity, path, nameForTargetDependencyResolutionOnly
-    }
-
-    init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-
-        if var scmListContainer = try? container.nestedUnkeyedContainer(forKey: .sourceControl) {
-            let scmContainer = try scmListContainer.nestedContainer(keyedBy: SCMCodingKeys.self)
-            let identity = try scmContainer.decode(String.self, forKey: .identity)
-
-            let locationContainer = try scmContainer.nestedContainer(keyedBy: LocationCodingKeys.self, forKey: .location)
-            var remoteContainer = try locationContainer.nestedUnkeyedContainer(forKey: .remote)
-            let location = try remoteContainer.decode(URL.self)
-            self = .scm(identity: identity, location: location)
-        } else if var scmListContainer = try? container.nestedUnkeyedContainer(forKey: .scm) {
-            let scmContainer = try scmListContainer.nestedContainer(keyedBy: SCMCodingKeys.self)
-            let identity = try scmContainer.decode(String.self, forKey: .identity)
-            let location = try scmContainer.decode(URL.self, forKey: .location)
-            self = .scm(identity: identity, location: location)
-        } else {
-            var localListContainer = try (try? container.nestedUnkeyedContainer(forKey: .local)) ?? container.nestedUnkeyedContainer(forKey: .fileSystem)
-            let localContainer = try localListContainer.nestedContainer(keyedBy: LocalCodingKeys.self)
-            // nameForTargetDependencyResolutionOnly appears to show up when filesystem name doesn't match package name
-            let name = try (try? localContainer.decode(String.self, forKey: .nameForTargetDependencyResolutionOnly).lowercased())
-                ?? localContainer.decode(String.self, forKey: .identity)
-            self = .local(
-                identity: name,
-                path: try localContainer.decode(String.self, forKey: .path)
-            )
-        }
-    }
-}
-
 extension SwiftPackage {
-    var dependencyMap: [String: URL] {
+    var dependencyMap: [String: (url: URL, version: String?)] {
         Dictionary(
             uniqueKeysWithValues: dependencies.map { dependency in
-                switch dependency {
-                case .local(let identity, let path):
-                    return (identity, URL(string: path)!)
-                case .scm(let identity, let location):
-                    return (identity, location)
+                switch (dependency.fileSystem, dependency.sourceControl) {
+                case (let fileSystems, nil):
+                    precondition(fileSystems?.count == 1, "")
+                    let fileSystem = fileSystems!.first!
+                    let identity = fileSystem.identity
+                    let path = fileSystem.path
+                    return (identity, (url: URL(string: path)!, version: nil))
+                case (nil, let sourceControls):
+                    precondition(sourceControls?.count == 1, "Dependency expected one source control entry, got \(sourceControls ?? [])")
+                    let sourceControl = sourceControls!.first!
+                    let identity = sourceControl.identity
+                    let url: URL
+                    switch (sourceControl.location.remote) {
+                    case (let remoteURLs):
+                        precondition(remoteURLs?.count == 1, "Package \(identity) expected one remote url, got \(remoteURLs ?? [])")
+                        url = remoteURLs!.first!
+                    }
+                    let version: String
+                    switch (sourceControl.requirement.branch, sourceControl.requirement.exact) {
+                    case (let branchNames, nil):
+                        precondition(branchNames?.count == 1, "Package \(identity) expected one branch name, got \(branchNames ?? [])")
+                        version = "branch:\(branchNames!.first!)"
+                    case (nil, let versions):
+                        precondition(versions?.count == 1, "Package \(identity) expected one version, got \(versions ?? [])")
+                        version = "\(versions!.first!)"
+                    default:
+                        fatalError("Package \(identity) at \(url) must use 'branch' or 'exact' requirements, got \(sourceControl.requirement)")
+                    }
+                    return (identity, (url: url, version: version))
+                default:
+                    fatalError("Dependency must have 'fileSystem' or 'sourceControl', got \(dependency)")
                 }
             }
         )

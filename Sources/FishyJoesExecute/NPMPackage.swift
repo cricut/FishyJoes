@@ -16,13 +16,14 @@ struct NPMPackage: Codable {
     var dependencies: [String: String]?
     var scripts: [String: String]?
 
-    init(config: FishyJoesConfig, platform: Platform, version: String, dependencies: [String: String]?) {
+    init(config: FishyJoesConfig, platform: Platform, version: String, runtimeVersion: String?, dependencies: [String: String]?) {
         self.name = Self.nameFor(config: config, platform: platform)
         self.version = version
         self.description = platform.packageDescription(config: config)
         self.dependencies = dependencies ?? [:]
-        // TODO: This needs to reference a real package once it is published
-        self.dependencies?["@cricut/fishyjoes-runtime-\(platform.executionEnvironment)"] = "file:../../../../node-runtime/fishyjoes-runtime-\(platform.executionEnvironment)"
+        if let runtimeVersion = runtimeVersion {
+            self.dependencies?["@cricut/fishyjoes-runtime-\(platform.executionEnvironment)"] = runtimeVersion
+        }
         self.main = "\(config.module).js"
         self.type = "module"
         self.types = "\(config.module).d.ts"

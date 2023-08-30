@@ -1,4 +1,4 @@
-// swift-tools-version:5.5
+// swift-tools-version:5.6
 
 import PackageDescription
 import Foundation
@@ -51,13 +51,13 @@ let package = Package(
     dependencies: generationEnabled(
         [
             D.package(
-                url: "https://github.com/krzysztofzablocki/Sourcery", .branch("1.9.2")
+                url: "https://github.com/krzysztofzablocki/Sourcery", branch: "1.9.2"
 //                 path: "../Sourcery"
             ),
         ]
     ) + wasmIncompatible(
         [
-            D.package(url: "https://github.com/cobbal/swsh", .exact("3.0.0")),
+            D.package(url: "https://github.com/cobbal/swsh", exact: "3.0.0"),
             D.package(url: "https://github.com/apple/swift-argument-parser", from: "0.4.0"),
         ]
     ) + (androidCompatibleOnly || wasmCompatibleOnly ? [] : [
