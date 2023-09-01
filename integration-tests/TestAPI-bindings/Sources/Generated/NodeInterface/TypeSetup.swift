@@ -37,6 +37,7 @@ public func registerModuleTestAPI(env: NAPI.Env, exports: NAPI.Value) throws -> 
     try TestAPI.Deprecations.nodeSetup(env: env, module: module)
     try TestAPI.EmptyEnum.nodeSetup(env: env, module: module)
     try TestAPI.Functions.nodeSetup(env: env, module: module)
+    try TestAPI.Methods.nodeSetup(env: env, module: module)
     try TestAPI.Primitives.nodeSetup(env: env, module: module)
     try TestAPI.Ranges.nodeSetup(env: env, module: module)
     try TestAPI.SimpleEnum.nodeSetup(env: env, module: module)

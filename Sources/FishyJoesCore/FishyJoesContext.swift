@@ -9,7 +9,7 @@ public class FishyJoesContext {
     var typeCache: [BetterType: TranslatedTypeOrAlias] = [:]
     var fileHeaders: [String: Set<String>] = [:]
     var fileFooters: [String: Set<String>] = [:]
-    var resolveDebugContext = ""
+    var debugContext = ""
 
     let dumpDebugRepresentation: Bool
 
@@ -109,7 +109,7 @@ public class FishyJoesContext {
         // Collect type information before starting translation
         // This collects the named types possible for use later in resolve().
         let translatedTypes = templateContext.types.all.compactMap { type -> TranslatedType? in
-            resolveDebugContext = "Translating type \(type.name)"
+            debugContext = "Translating type \(type.name)"
             return translate(typeDefinition: type)
         }
         for translatedType in translatedTypes {
@@ -127,13 +127,13 @@ public class FishyJoesContext {
                 if seenMethods.contains(method) {
                     continue
                 }
-                resolveDebugContext = "Translating method \(type.name).\(method.name)"
+                debugContext = "Translating method \(type.name).\(method.name)"
                 seenMethods.insert(method)
                 collectedFragments.append(contentsOf: kotlinTranslator.translate(method: method, context: self))
                 collectedFragments.append(contentsOf: cSharpTranslator.translate(method: method, context: self))
             }
             for variable in type.rawVariables {
-                resolveDebugContext = "Translating variable \(type.name).\(variable.name)"
+                debugContext = "Translating variable \(type.name).\(variable.name)"
                 guard variable.exportAnnotation != nil else { continue }
                 collectedFragments.append(contentsOf: kotlinTranslator.translate(variable: variable, context: self))
                 collectedFragments.append(contentsOf: cSharpTranslator.translate(variable: variable, context: self))
@@ -148,7 +148,7 @@ public class FishyJoesContext {
         var processedTypes = Set<BetterType>()
         while processedTypes != Set(typeCache.keys) {
             for type in typeCache.sorted(by: { "\($0.key)" < "\($1.key)" }) {
-                resolveDebugContext = "generating definition code for \(type.key.name)"
+                debugContext = "generating definition code for \(type.key.name)"
                 processedTypes.insert(type.key)
                 guard !generatedTypes.contains(type.key),
                       case let .type(translatedType) = type.value
@@ -162,7 +162,7 @@ public class FishyJoesContext {
 
         collectedFragments.append(
             contentsOf: translators.flatMap { translator -> [SourceFragment] in
-                resolveDebugContext = "generating setup code for \(type(of: translator))"
+                debugContext = "generating setup code for \(type(of: translator))"
                 return translator.setupFragments(context: self, generatedTypes: generatedTypes)
             }
         )
@@ -347,7 +347,7 @@ public class FishyJoesContext {
                         """
                             Don't know how to translate type `\(name.globalName)`.
                             Maybe annotate it with `sourcery:export(...)`?
-                            context: \(resolveDebugContext)
+                            context: \(debugContext)
                             """
                     )
                 }
@@ -375,7 +375,7 @@ public class FishyJoesContext {
                     fatalErr(
                         """
                             TODO: resolve(type: \(type))
-                            context: \(resolveDebugContext)
+                            context: \(debugContext)
                             """
                     )
                 }
@@ -385,7 +385,7 @@ public class FishyJoesContext {
                 fatalErr(
                     """
                         TODO: resolve(type: \(type))
-                        context: \(resolveDebugContext)
+                        context: \(debugContext)
                         """
                 )
             }

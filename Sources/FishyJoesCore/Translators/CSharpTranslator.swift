@@ -106,7 +106,7 @@ final class CSharpTranslator: Translator {
         }
 
         let cSharpName = upperCaseFirst(exportAnnotation.cSharpName)
-        let cSharpGetName = "__cs_\(exportAnnotation.kind == .asMethod ? "" : "get_")\(containingNamespace)_\(cSharpName)".mangled
+        let cSharpGetName = "__cs_get_\(containingNamespace)_\(cSharpName)".mangled
         let cSharpSetName = "__cs_set_\(containingNamespace)_\(cSharpName)".mangled
 
         let fragment = context.swiftFragment(
