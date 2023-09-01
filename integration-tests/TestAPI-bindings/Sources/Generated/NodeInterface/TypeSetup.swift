@@ -42,6 +42,7 @@ public func registerModuleTestAPI(env: NAPI.Env, exports: NAPI.Value) throws -> 
     try Int64.nodeSetup(env: env, module: module)
     try Int8.nodeSetup(env: env, module: module)
     try Structs.MemberwiseStruct.nodeSetup(env: env, module: module)
+    try Methods.nodeSetup(env: env, module: module)
     try Primitives.PrimitiveHolder.nodeSetup(env: env, module: module)
     try Primitives.nodeSetup(env: env, module: module)
     try Structs.ReferenceStruct.nodeSetup(env: env, module: module)

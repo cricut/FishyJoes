@@ -110,7 +110,7 @@ final class CSharpTranslator: Translator {
         }
 
         let iotaName = upperCaseFirst(exportAnnotation.cSharpName)
-        let iotaGetName = "__iota_\(exportAnnotation.kind == .asMethod ? "" : "get_")\(containingNamespace)_\(iotaName)".mangled
+        let iotaGetName = "__iota_get_\(containingNamespace)_\(iotaName)".mangled
         let iotaSetName = "__iota_set_\(containingNamespace)_\(iotaName)".mangled
 
         let fragment = context.swiftFragment(

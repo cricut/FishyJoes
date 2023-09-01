@@ -306,6 +306,7 @@ final class KotlinTranslator: Translator {
         let resolved = context.resolve(type: field.typeName.better)
         let deprecation = Deprecation(from: field.attributes)
         if asMethod {
+            precondition(!field.isMutable, "\(context.debugContext): Can't export mutable fields as methods: \(field.name)")
             return .method(
                 KotlinClass.Method(
                     documentation: field.documentation,

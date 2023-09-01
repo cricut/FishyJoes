@@ -357,6 +357,60 @@ export declare namespace TestAPI {
         ): string;
     }
 
+    /**
+     * <!-- FishyJoes.exportReference(Methods) -->
+     */
+    export class Methods {
+        private constructor()
+        private _inhibitStructuralTyping: any
+
+        /**
+         * <!-- FishyJoes.export(staticGet) -->
+         */
+        static readonly staticGet: number;
+
+        /**
+         * <!-- FishyJoes.exportAsMethod(staticGetMethod) -->
+         */
+        static readonly staticGetMethod: number;
+
+        /**
+         * <!-- FishyJoes.export(staticModifiable) -->
+         */
+        static staticModifiable: number;
+
+        /**
+         * <!-- FishyJoes.export(staticStored) -->
+         */
+        static staticStored: number;
+
+        /**
+         * <!-- FishyJoes.export(instanceGet) -->
+         */
+        readonly instanceGet: number;
+
+        /**
+         * <!-- FishyJoes.exportAsMethod(instanceGetMethod) -->
+         */
+        readonly instanceGetMethod: number;
+
+        /**
+         * <!-- FishyJoes.export(instanceModifiable) -->
+         */
+        instanceModifiable: number;
+
+        /**
+         * <!-- FishyJoes.export(instanceStored) -->
+         */
+        instanceStored: number;
+
+        /**
+         * <!-- FishyJoes.export(create) -->
+         */
+        static create(
+        ): Methods;
+    }
+
     export type Primitives = never;
     export namespace Primitives {
         /**

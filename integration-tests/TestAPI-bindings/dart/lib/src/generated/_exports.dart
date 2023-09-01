@@ -7,6 +7,7 @@ export './Deprecations.dart';
 export './EmptyEnum.dart';
 export './Functions.dart';
 export './Structs_MemberwiseStruct.dart';
+export './Methods.dart';
 export './Primitives_PrimitiveHolder.dart';
 export './Primitives.dart';
 export './Structs_ReferenceStruct.dart';

@@ -86,6 +86,7 @@ public func FishyJoes_TestAPI_registerTypes() {
     Env.registerType(Int64.self, as: "Int64")
     Env.registerType(Int8.self, as: "Int8")
     Env.registerType(Structs.MemberwiseStruct.self, as: "Structs.MemberwiseStruct")
+    Env.registerType(Methods.self, as: "Methods")
     Env.registerType(Primitives.PrimitiveHolder.self, as: "Primitives.PrimitiveHolder")
     Env.registerType(Primitives.self, as: "Primitives")
     Env.registerType(Structs.ReferenceStruct.self, as: "Structs.ReferenceStruct")

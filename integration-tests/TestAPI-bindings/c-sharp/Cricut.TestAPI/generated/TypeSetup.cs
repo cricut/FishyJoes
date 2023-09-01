@@ -165,6 +165,12 @@ namespace Cricut.TestAPI {
             out CreatedRef _exn
         );
 
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_Methods_setup(
+            SwiftReference.ConstructorDelegate constructorMethod,
+            out CreatedRef _exn
+        );
+
         delegate CreatedRef _Primitives_PrimitiveHolderConstructor(
             bool b,
             ConsumedRef bq,
@@ -1008,6 +1014,15 @@ namespace Cricut.TestAPI {
                     )),
                     bag<_Structs_MemberwiseStruct_mutableSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
                         obj.Peek<Cricut.TestAPI.Structs.MemberwiseStruct>().Mutable = newValue.Consume<string>();
+                    })),
+                    out exn
+                ));
+            });
+            Once("setup_Methods", () => {
+                Console.WriteLine("setting up Methods...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_Methods_setup(
+                    bag<SwiftReference.ConstructorDelegate>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.Methods(ptr));
                     })),
                     out exn
                 ));

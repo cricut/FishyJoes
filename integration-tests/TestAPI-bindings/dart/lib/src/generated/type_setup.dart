@@ -1,20 +1,39 @@
 import './AssociatedDataEnum.dart' as TestAPI;
+import './AssociatedDataEnum.dart';
 import './Bytes.dart' as TestAPI;
+import './Bytes.dart';
 import './Collections.dart' as TestAPI;
+import './Collections.dart';
 import './Collections_CollectionHolder.dart' as TestAPI;
+import './Collections_CollectionHolder.dart';
 import './DefaultArguments.dart' as TestAPI;
+import './DefaultArguments.dart';
 import './Deprecations.dart' as TestAPI;
+import './Deprecations.dart';
 import './EmptyEnum.dart' as TestAPI;
+import './EmptyEnum.dart';
 import './Functions.dart' as TestAPI;
+import './Functions.dart';
 import './Functions_TheError.dart' as TestAPI;
+import './Functions_TheError.dart';
+import './Methods.dart' as TestAPI;
+import './Methods.dart';
 import './Primitives.dart' as TestAPI;
+import './Primitives.dart';
 import './Primitives_PrimitiveHolder.dart' as TestAPI;
+import './Primitives_PrimitiveHolder.dart';
 import './SimpleEnum.dart' as TestAPI;
+import './SimpleEnum.dart';
 import './Strings.dart' as TestAPI;
+import './Strings.dart';
 import './Structs.dart' as TestAPI;
+import './Structs.dart';
 import './Structs_MemberwiseStruct.dart' as TestAPI;
+import './Structs_MemberwiseStruct.dart';
 import './Structs_ReferenceStruct.dart' as TestAPI;
+import './Structs_ReferenceStruct.dart';
 import './Tuples.dart' as TestAPI;
+import './Tuples.dart';
 import 'dart:ffi' as ffi;
 import 'dart:io' show Platform, Directory;
 import 'dart:typed_data' as typed_data;
@@ -353,6 +372,18 @@ final ensureLoaded = (() {
             OutCreatedRef exn
         )
     >('TestAPI_Structs_MemberwiseStruct_setup');
+    final TestAPI_Methods_setup = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<CreatedRef Function(ffi.Pointer, OutCreatedRef)>> constructorMethod,
+            OutCreatedRef exn
+        ),
+        void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<CreatedRef Function(ffi.Pointer, OutCreatedRef)>> constructorMethod,
+            OutCreatedRef exn
+        )
+    >('TestAPI_Methods_setup');
     final TestAPI_Primitives_PrimitiveHolder_setup = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
@@ -795,6 +826,16 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__dart_Functions_willThrow");
+    TestAPI.Methods.f__dart_Methods_create = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__dart_Methods_create");
     TestAPI.Primitives.f__dart_Primitives_echoBool = dylib.lookupFunction<
         ffi.Bool Function(
             Env env,
@@ -1415,6 +1456,94 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__dart_get_Functions_sixthThing");
+    TestAPI.Methods.f__dart_get_Methods_instanceGet = dylib.lookupFunction<
+        ffi.Int Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__dart_get_Methods_instanceGet");
+    TestAPI.Methods.f__dart_get_Methods_instanceGetMethod = dylib.lookupFunction<
+        ffi.Int Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__dart_get_Methods_instanceGetMethod");
+    TestAPI.Methods.f__dart_get_Methods_instanceModifiable = dylib.lookupFunction<
+        ffi.Int Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__dart_get_Methods_instanceModifiable");
+    TestAPI.Methods.f__dart_get_Methods_instanceStored = dylib.lookupFunction<
+        ffi.Int Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__dart_get_Methods_instanceStored");
+    TestAPI.Methods.f__dart_get_Methods_staticGet = dylib.lookupFunction<
+        ffi.Int Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__dart_get_Methods_staticGet");
+    TestAPI.Methods.f__dart_get_Methods_staticGetMethod = dylib.lookupFunction<
+        ffi.Int Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__dart_get_Methods_staticGetMethod");
+    TestAPI.Methods.f__dart_get_Methods_staticModifiable = dylib.lookupFunction<
+        ffi.Int Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__dart_get_Methods_staticModifiable");
+    TestAPI.Methods.f__dart_get_Methods_staticStored = dylib.lookupFunction<
+        ffi.Int Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__dart_get_Methods_staticStored");
     TestAPI.Primitives_PrimitiveHolder.f__dart_get_Primitives_PrimitiveHolder_staticMutableProperty = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -2215,6 +2344,58 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__dart_set_Collections_CollectionHolder_staticMutableProperty");
+    TestAPI.Methods.f__dart_set_Methods_instanceModifiable = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            UnownedRef _this,
+            ffi.Int instanceModifiable,
+            OutCreatedRef _exn
+        ),
+        void Function(
+            Env env,
+            UnownedRef _this,
+            int instanceModifiable,
+            OutCreatedRef _exn
+        )
+    >("__dart_set_Methods_instanceModifiable");
+    TestAPI.Methods.f__dart_set_Methods_instanceStored = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            UnownedRef _this,
+            ffi.Int instanceStored,
+            OutCreatedRef _exn
+        ),
+        void Function(
+            Env env,
+            UnownedRef _this,
+            int instanceStored,
+            OutCreatedRef _exn
+        )
+    >("__dart_set_Methods_instanceStored");
+    TestAPI.Methods.f__dart_set_Methods_staticModifiable = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            ffi.Int staticModifiable,
+            OutCreatedRef _exn
+        ),
+        void Function(
+            Env env,
+            int staticModifiable,
+            OutCreatedRef _exn
+        )
+    >("__dart_set_Methods_staticModifiable");
+    TestAPI.Methods.f__dart_set_Methods_staticStored = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            ffi.Int staticStored,
+            OutCreatedRef _exn
+        ),
+        void Function(
+            Env env,
+            int staticStored,
+            OutCreatedRef _exn
+        )
+    >("__dart_set_Methods_staticStored");
     TestAPI.Primitives_PrimitiveHolder.f__dart_set_Primitives_PrimitiveHolder_staticMutableProperty = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
@@ -3023,6 +3204,17 @@ final ensureLoaded = (() {
                 ffi.Pointer.fromFunction(TestAPI.Structs_MemberwiseStruct.ffi_get_immutable),
                 ffi.Pointer.fromFunction(TestAPI.Structs_MemberwiseStruct.ffi_get_mutable),
                 ffi.Pointer.fromFunction(TestAPI.Structs_MemberwiseStruct.ffi_set_mutable),
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_Methods", () {
+        // print("setting up Methods (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            TestAPI_Methods_setup(
+                Loader.shared.env,
+                ffi.Pointer.fromFunction(TestAPI.Methods.ffi_new),
                 exn
             );
         });

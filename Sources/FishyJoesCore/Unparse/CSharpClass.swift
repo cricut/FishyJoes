@@ -136,6 +136,7 @@ class CSharpClass: NestedClass {
             }
             if !field.readOnly {
                 outputAttributes()
+                fragment.output("public \(field.isOverride ? "override " : "")\(field.isStatic ? "static " : "")", newLineTerminated: false)
                 fragment.outputBlock("void Set\(field.name)(\(field.type.name) value) {") {
                     outputSetterBody()
                 }
