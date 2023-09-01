@@ -32,6 +32,36 @@ public enum AttributedStrings {
     public static func echo(_ string: AttributedString) -> AttributedString {
         return string
     }
+
+    /// <!-- FishyJoes.export(firstIndex) -->
+    public static func firstIndex(of string: AttributedString) -> AttributedString.Index {
+        return string.characters.indices.first!
+    }
+
+    /// <!-- FishyJoes.export(lastIndex) -->
+    public static func lastIndex(of string: AttributedString) -> AttributedString.Index {
+        return string.characters.indices.last!
+    }
+
+    /// <!-- FishyJoes.export(fullRange) -->
+    public static func fullRange(of string: AttributedString) -> Range<AttributedString.Index> {
+        return string.startIndex..<string.endIndex
+    }
+
+    /// <!-- FishyJoes.export(attributedCharacters) -->
+    public static func attributedCharacters(of string: AttributedString) -> [AttributedSubstring] {
+        return zip(string.characters.indices, string.characters.indices.dropFirst() + [string.endIndex]).map { string[$0..<$1] }
+    }
+
+    /// <!-- FishyJoes.export(attributesPreferringDuplicatesNearerStart) -->
+    public static func attributesPreferringDuplicatesNearerStart(of string: AttributedString) -> AttributeContainer {
+        return string.runs.reduce(AttributeContainer()) { $0.merging($1.attributes, mergePolicy: .keepCurrent) }
+    }
+
+    /// <!-- FishyJoes.export(emptyAttributeRuns) -->
+    public static func emptyAttributeRuns(of string: AttributedString) -> [AttributedString.Runs.Run] {
+        return string.runs.filter { $0.attributes == AttributeContainer() }
+    }
 }
 
 /*

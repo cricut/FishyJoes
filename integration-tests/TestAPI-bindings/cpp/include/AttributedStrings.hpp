@@ -61,6 +61,24 @@ namespace TestAPI {
         /// <!-- FishyJoes.export(echo) -->
         static AttributedString echo(const AttributedString &string);
         
+        /// <!-- FishyJoes.export(firstIndex) -->
+        static AttributedString::Index firstIndex(const AttributedString /* of */ &string);
+        
+        /// <!-- FishyJoes.export(lastIndex) -->
+        static AttributedString::Index lastIndex(const AttributedString /* of */ &string);
+        
+        /// <!-- FishyJoes.export(fullRange) -->
+        static std::ranges::range<AttributedString::Index> fullRange(const AttributedString /* of */ &string);
+        
+        /// <!-- FishyJoes.export(attributedCharacters) -->
+        static std::vector<AttributedString> attributedCharacters(const AttributedString /* of */ &string);
+        
+        /// <!-- FishyJoes.export(attributesPreferringDuplicatesNearerStart) -->
+        static AttributeContainer attributesPreferringDuplicatesNearerStart(const AttributedString /* of */ &string);
+        
+        /// <!-- FishyJoes.export(emptyAttributeRuns) -->
+        static std::vector<AttributedString::Runs::Run> emptyAttributeRuns(const AttributedString /* of */ &string);
+        
         /// <!-- FishyJoes.export(simple) -->
         static AttributedString getSimple();
         

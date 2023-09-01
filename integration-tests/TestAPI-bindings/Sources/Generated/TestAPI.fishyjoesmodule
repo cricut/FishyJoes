@@ -1413,6 +1413,144 @@
                     "_0" : "Runtime.AttributedString"
                   }
                 }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(firstIndex) -->"
+                ],
+                "isStatic" : true,
+                "name" : "firstIndex",
+                "parameters" : [
+                  {
+                    "label" : "of",
+                    "name" : "string",
+                    "type" : {
+                      "named" : {
+                        "_0" : "Runtime.AttributedString"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "Runtime.AttributedString.Index"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(lastIndex) -->"
+                ],
+                "isStatic" : true,
+                "name" : "lastIndex",
+                "parameters" : [
+                  {
+                    "label" : "of",
+                    "name" : "string",
+                    "type" : {
+                      "named" : {
+                        "_0" : "Runtime.AttributedString"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "Runtime.AttributedString.Index"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(fullRange) -->"
+                ],
+                "isStatic" : true,
+                "name" : "fullRange",
+                "parameters" : [
+                  {
+                    "label" : "of",
+                    "name" : "string",
+                    "type" : {
+                      "named" : {
+                        "_0" : "Runtime.AttributedString"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "Runtime.SwiftRange<Runtime.AttributedString.Index>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(attributedCharacters) -->"
+                ],
+                "isStatic" : true,
+                "name" : "attributedCharacters",
+                "parameters" : [
+                  {
+                    "label" : "of",
+                    "name" : "string",
+                    "type" : {
+                      "named" : {
+                        "_0" : "Runtime.AttributedString"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "Runtime.AttributedSubstring[]"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(attributesPreferringDuplicatesNearerStart) -->"
+                ],
+                "isStatic" : true,
+                "name" : "attributesPreferringDuplicatesNearerStart",
+                "parameters" : [
+                  {
+                    "label" : "of",
+                    "name" : "string",
+                    "type" : {
+                      "named" : {
+                        "_0" : "Runtime.AttributedString"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "Runtime.AttributeContainer"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(emptyAttributeRuns) -->"
+                ],
+                "isStatic" : true,
+                "name" : "emptyAttributeRuns",
+                "parameters" : [
+                  {
+                    "label" : "of",
+                    "name" : "string",
+                    "type" : {
+                      "named" : {
+                        "_0" : "Runtime.AttributedString"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "Runtime.AttributedString.Runs.Run[]"
+                  }
+                }
               }
             ],
             "name" : "AttributedStrings",

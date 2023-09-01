@@ -36,6 +36,12 @@ namespace TestAPI {
                 void* FJInternalBinding_TestAPI_AssociatedDataEnum_getStaticThing();
                 void* FJInternalBinding_TestAPI_AssociatedDataEnum_getIntValue(void*);
                 void* FJInternalBinding_TestAPI_AttributedStrings_echo(void*);
+                void* FJInternalBinding_TestAPI_AttributedStrings_firstIndex(void*);
+                void* FJInternalBinding_TestAPI_AttributedStrings_lastIndex(void*);
+                void* FJInternalBinding_TestAPI_AttributedStrings_fullRange(void*);
+                void* FJInternalBinding_TestAPI_AttributedStrings_attributedCharacters(void*);
+                void* FJInternalBinding_TestAPI_AttributedStrings_attributesPreferringDuplicatesNearerStart(void*);
+                void* FJInternalBinding_TestAPI_AttributedStrings_emptyAttributeRuns(void*);
                 void* FJInternalBinding_TestAPI_AttributedStrings_getSimple();
                 void* FJInternalBinding_TestAPI_AttributedStrings_getAccent();
                 void* FJInternalBinding_TestAPI_AttributedStrings_getScript();

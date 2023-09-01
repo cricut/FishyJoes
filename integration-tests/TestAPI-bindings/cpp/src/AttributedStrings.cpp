@@ -4,6 +4,24 @@ namespace TestAPI {
     AttributedString AttributedStrings::echo(const AttributedString &string) {
         return FishyJoesInternal::Packer::unpack<AttributedString>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_AttributedStrings_echo(FishyJoesInternal::Packer::pack(string).ptr()));
     }
+    AttributedString::Index AttributedStrings::firstIndex(const AttributedString /* of */ &string) {
+        return FishyJoesInternal::Packer::unpack<AttributedString::Index>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_AttributedStrings_firstIndex(FishyJoesInternal::Packer::pack(string).ptr()));
+    }
+    AttributedString::Index AttributedStrings::lastIndex(const AttributedString /* of */ &string) {
+        return FishyJoesInternal::Packer::unpack<AttributedString::Index>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_AttributedStrings_lastIndex(FishyJoesInternal::Packer::pack(string).ptr()));
+    }
+    std::ranges::range<AttributedString::Index> AttributedStrings::fullRange(const AttributedString /* of */ &string) {
+        return FishyJoesInternal::Packer::unpack<std::ranges::range<AttributedString::Index>>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_AttributedStrings_fullRange(FishyJoesInternal::Packer::pack(string).ptr()));
+    }
+    std::vector<AttributedString> AttributedStrings::attributedCharacters(const AttributedString /* of */ &string) {
+        return FishyJoesInternal::Packer::unpack<std::vector<AttributedString>>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_AttributedStrings_attributedCharacters(FishyJoesInternal::Packer::pack(string).ptr()));
+    }
+    AttributeContainer AttributedStrings::attributesPreferringDuplicatesNearerStart(const AttributedString /* of */ &string) {
+        return FishyJoesInternal::Packer::unpack<AttributeContainer>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_AttributedStrings_attributesPreferringDuplicatesNearerStart(FishyJoesInternal::Packer::pack(string).ptr()));
+    }
+    std::vector<AttributedString::Runs::Run> AttributedStrings::emptyAttributeRuns(const AttributedString /* of */ &string) {
+        return FishyJoesInternal::Packer::unpack<std::vector<AttributedString::Runs::Run>>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_AttributedStrings_emptyAttributeRuns(FishyJoesInternal::Packer::pack(string).ptr()));
+    }
     AttributedString AttributedStrings::getSimple() {
         return FishyJoesInternal::Packer::unpack<AttributedString>(FishyJoesInternal::CBindings::FJInternalBinding_TestAPI_AttributedStrings_getSimple());
     }

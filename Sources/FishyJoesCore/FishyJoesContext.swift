@@ -336,31 +336,31 @@ public class FishyJoesContext {
                 } else if let typeOverride = generics[name.name] {
                     dontCache = true
                     return recur(typeOverride)
-                } else if name.name == "String" {
+                } else if name.globalName == "String" {
                     return TranslatedString()
-                } else if name.name == "AttributedString" {
+                } else if name.globalName == "AttributedString" {
                     return translatedAttributedString
-                } else if name.name == "AttributedString.Index" {
+                } else if name.globalName == "AttributedString.Index" {
                     return translatedAttributedStringIndex
-                } else if name.name == "AttributedString.UnicodeScalarView" {
+                } else if name.globalName == "AttributedString.UnicodeScalarView" {
                     return translatedAttributedStringUnicodeScalarView
-                } else if name.name == "AttributedString.CharacterView" {
+                } else if name.globalName == "AttributedString.CharacterView" {
                     return translatedAttributedStringCharacterView
-                } else if name.name == "AttributedString.Runs" {
+                } else if name.globalName == "AttributedString.Runs" {
                     return translatedAttributedStringRuns
-                } else if name.name == "AttributedString.Runs.Index" {
+                } else if name.globalName == "AttributedString.Runs.Index" {
                     return translatedAttributedStringRunsIndex
-                } else if name.name == "AttributedString.Runs.Run" {
+                } else if name.globalName == "AttributedString.Runs.Run" {
                     return translatedAttributedStringRunsRun
-                } else if name.name == "AttributedSubstring" {
+                } else if name.globalName == "AttributedSubstring" {
                     return translatedAttributedSubstring
-                } else if name.name == "AttributeContainer" {
+                } else if name.globalName == "AttributeContainer" {
                     return translatedAttributeContainer
-                } else if name.name == "AttributeContainer.FoundationAttributes" {
+                } else if name.globalName == "AttributeContainer.FoundationAttributes" {
                     return translatedAttributeContainerFoundationAttributes
-                } else if name.name == "Data" {
+                } else if name.globalName == "Data" {
                     return TranslatedData()
-                } else if name.name == "URL" {
+                } else if name.globalName == "URL" {
                     return TranslatedURL()
                 } else if name.name == "Index", name.namespace.last?.hasPrefix("Array<") == true {
                     // It's a hack.

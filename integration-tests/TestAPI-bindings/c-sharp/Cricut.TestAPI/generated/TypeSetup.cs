@@ -520,6 +520,20 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
+            Once("setup_ArrayConverter<Foundation.AttributedString.Runs.Run>", () => {
+                Console.WriteLine("setting up Array<AttributedString.Runs.Run>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_ArrayConverter_setup<Cricut.FishyJoesRuntime.AttributedString.Runs.Run>(
+                    "ArrayConverter<Foundation.AttributedString.Runs.Run>",
+                    out exn
+                ));
+            });
+            Once("setup_ArrayConverter<Foundation.AttributedSubstring>", () => {
+                Console.WriteLine("setting up Array<AttributedSubstring>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_ArrayConverter_setup<Cricut.FishyJoesRuntime.AttributedString>(
+                    "ArrayConverter<Foundation.AttributedSubstring>",
+                    out exn
+                ));
+            });
             Once("setup_ArrayConverter<Bool>", () => {
                 Console.WriteLine("setting up Array<Bool>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_ArrayConverter_setup<bool>(
@@ -1417,6 +1431,13 @@ namespace Cricut.TestAPI {
                     bag<_Primitives_PrimitiveHolder_dqSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
                         obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Dq = newValue.Consume<double?>();
                     })),
+                    out exn
+                ));
+            });
+            Once("setup_RangeConverter<Foundation.AttributedString.Index>", () => {
+                Console.WriteLine("setting up Range<AttributedString.Index>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_RangeConverter_setup<Cricut.FishyJoesRuntime.AttributedString.Index>(
+                    "RangeConverter<Foundation.AttributedString.Index>",
                     out exn
                 ));
             });

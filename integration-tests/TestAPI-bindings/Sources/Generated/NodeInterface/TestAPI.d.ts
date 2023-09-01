@@ -71,6 +71,20 @@ export declare namespace TestAPI {
         const accent: Runtime.AttributedString;
 
         /**
+         * <!-- FishyJoes.export(attributedCharacters) -->
+         */
+        function attributedCharacters(
+            /* of */ string: Runtime.AttributedString
+        ): Runtime.AttributedSubstring[];
+
+        /**
+         * <!-- FishyJoes.export(attributesPreferringDuplicatesNearerStart) -->
+         */
+        function attributesPreferringDuplicatesNearerStart(
+            /* of */ string: Runtime.AttributedString
+        ): Runtime.AttributeContainer;
+
+        /**
          * <!-- FishyJoes.export(chinese) -->
          */
         const chinese: Runtime.AttributedString;
@@ -101,6 +115,34 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(emojiMulti) -->
          */
         const emojiMulti: Runtime.AttributedString;
+
+        /**
+         * <!-- FishyJoes.export(emptyAttributeRuns) -->
+         */
+        function emptyAttributeRuns(
+            /* of */ string: Runtime.AttributedString
+        ): Runtime.AttributedString.Runs.Run[];
+
+        /**
+         * <!-- FishyJoes.export(firstIndex) -->
+         */
+        function firstIndex(
+            /* of */ string: Runtime.AttributedString
+        ): Runtime.AttributedString.Index;
+
+        /**
+         * <!-- FishyJoes.export(fullRange) -->
+         */
+        function fullRange(
+            /* of */ string: Runtime.AttributedString
+        ): Runtime.SwiftRange<Runtime.AttributedString.Index>;
+
+        /**
+         * <!-- FishyJoes.export(lastIndex) -->
+         */
+        function lastIndex(
+            /* of */ string: Runtime.AttributedString
+        ): Runtime.AttributedString.Index;
 
         /**
          * <!-- FishyJoes.export(polyglot) -->

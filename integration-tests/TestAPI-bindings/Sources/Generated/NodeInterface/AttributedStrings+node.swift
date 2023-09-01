@@ -34,6 +34,90 @@ extension AttributedStrings: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
+                "firstIndex": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "firstIndex", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                            let result = try Foundation.AttributedString.Index.toNode(
+                                AttributedStrings.firstIndex(
+                                    of: try env.argument(at: 0, converter: Foundation.AttributedString.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: true
+                ),
+                "lastIndex": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "lastIndex", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                            let result = try Foundation.AttributedString.Index.toNode(
+                                AttributedStrings.lastIndex(
+                                    of: try env.argument(at: 0, converter: Foundation.AttributedString.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: true
+                ),
+                "fullRange": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "fullRange", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                            let result = try RangeConverter<Foundation.AttributedString.Index>.toNode(
+                                AttributedStrings.fullRange(
+                                    of: try env.argument(at: 0, converter: Foundation.AttributedString.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: true
+                ),
+                "attributedCharacters": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "attributedCharacters", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                            let result = try ArrayConverter<Foundation.AttributedSubstring>.toNode(
+                                AttributedStrings.attributedCharacters(
+                                    of: try env.argument(at: 0, converter: Foundation.AttributedString.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: true
+                ),
+                "attributesPreferringDuplicatesNearerStart": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "attributesPreferringDuplicatesNearerStart", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                            let result = try Foundation.AttributeContainer.toNode(
+                                AttributedStrings.attributesPreferringDuplicatesNearerStart(
+                                    of: try env.argument(at: 0, converter: Foundation.AttributedString.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: true
+                ),
+                "emptyAttributeRuns": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "emptyAttributeRuns", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                            let result = try ArrayConverter<Foundation.AttributedString.Runs.Run>.toNode(
+                                AttributedStrings.emptyAttributeRuns(
+                                    of: try env.argument(at: 0, converter: Foundation.AttributedString.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: true
+                ),
                 "simple": (
                     .accessor(
                         getter: { env, info in
