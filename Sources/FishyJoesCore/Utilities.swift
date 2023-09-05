@@ -48,7 +48,7 @@ func upperCaseFirst<S: StringProtocol>(_ camel: S) -> String {
 }
 
 func fakeDartNamespace<S: StringProtocol>(_ name: S) -> String {
-    name.replacingOccurrences(of: ".", with: "_")
+    String(name.replacingOccurrences(of: ".", with: "_").drop { $0 == "_" })
 }
 
 extension Array {

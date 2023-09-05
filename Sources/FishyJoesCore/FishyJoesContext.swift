@@ -98,8 +98,11 @@ public class FishyJoesContext {
                 "import 'package:freezed_annotation/freezed_annotation.dart';",
                 "import 'package:fishyjoes_dart/runtime.dart';",
                 "import 'package:fishyjoes_dart/utilities.dart' as utils;",
-            ] + dartClasses.map { cls in
-                "import './\(cls.unqualifiedName).dart' as \(module);"
+            ] + dartClasses.flatMap { cls in
+                [
+                    "import './\(cls.unqualifiedName).dart' as \(module);",
+                    "import './\(cls.unqualifiedName).dart';", // Import unqualified too or freezed gets confused"
+                ]
             } + additionalImports
         )
         return SourceFragment(sourceryDestination: "file:\(fileName)")
