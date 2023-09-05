@@ -132,7 +132,7 @@ final class DartTranslator: Translator {
         }
 
         let dartName = exportAnnotation.name
-        let dartGetName = "__dart_\(exportAnnotation.kind == .asMethod ? "" : "get_")\(containingNamespace)_\(dartName)".mangled
+        let dartGetName = "__dart_get_\(containingNamespace)_\(dartName)".mangled
         let dartSetName = "__dart_set_\(containingNamespace)_\(dartName)".mangled
 
         let fragment = context.swiftFragment(
