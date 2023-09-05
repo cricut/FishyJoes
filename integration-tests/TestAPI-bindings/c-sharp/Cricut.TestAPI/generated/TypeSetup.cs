@@ -11,6 +11,35 @@ namespace Cricut.TestAPI {
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void FishyJoes_TestAPI_registerTypes();
 
+        delegate CreatedRef _Swift_String_PuttingTypesIntoQuestionablePlacesConstructor(
+            ConsumedRef x,
+            out CreatedRef exn
+        );
+        delegate CreatedRef _Swift_String_PuttingTypesIntoQuestionablePlaces_xGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _Swift_String_PuttingTypesIntoQuestionablePlaces_xSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void Swift_String_PuttingTypesIntoQuestionablePlaces_setup(
+            _Swift_String_PuttingTypesIntoQuestionablePlacesConstructor constructor,
+            _Swift_String_PuttingTypesIntoQuestionablePlaces_xGetter get_x,
+            _Swift_String_PuttingTypesIntoQuestionablePlaces_xSetter set_x,
+            out CreatedRef _exn
+        );
+
+        delegate CreatedRef Cricut_TestAPI_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_new_thing(
+            out CreatedRef _exn
+        );
+        unsafe delegate void Cricut_TestAPI_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_extract_thing(
+            UnownedRef obj,
+            out CreatedRef _exn
+        );
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void Swift_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_setup(
+            FishyJoesRuntime.EnumDiscriminator discriminator,
+            Cricut_TestAPI_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_new_thing thing_constructor,
+            Cricut_TestAPI_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_extract_thing thing_extractor,
+            out CreatedRef _exn
+        );
+
         delegate CreatedRef Cricut_TestAPI_AssociatedDataEnum_new_thing(
             nint value,
             out CreatedRef _exn
@@ -383,6 +412,12 @@ namespace Cricut.TestAPI {
             _TestAPI_Structs_MemberwiseStruct_immutableSetter set_immutable,
             _TestAPI_Structs_MemberwiseStruct_mutableGetter get_mutable,
             _TestAPI_Structs_MemberwiseStruct_mutableSetter set_mutable,
+            out CreatedRef _exn
+        );
+
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_Structs_PuttingTypesIntoQuestionablePlaces_setup(
+            SwiftReference.ConstructorDelegate constructorMethod,
             out CreatedRef _exn
         );
 
@@ -1042,6 +1077,55 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
+            Once("setup_Swift.String.PuttingTypesIntoQuestionablePlaces", () => {
+                Console.WriteLine("setting up Swift.String.PuttingTypesIntoQuestionablePlaces...");
+                Utilities.Check((out CreatedRef exn) => Swift_String_PuttingTypesIntoQuestionablePlaces_setup(
+                    bag<_Swift_String_PuttingTypesIntoQuestionablePlacesConstructor>((ConsumedRef x, out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.String_PuttingTypesIntoQuestionablePlaces(
+                            x.Consume<string>()
+                        ));
+                    })),
+                    bag<_Swift_String_PuttingTypesIntoQuestionablePlaces_xGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.String_PuttingTypesIntoQuestionablePlaces>().X)
+                    )),
+                    bag<_Swift_String_PuttingTypesIntoQuestionablePlaces_xSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.String_PuttingTypesIntoQuestionablePlaces>().X = newValue.Consume<string>();
+                    })),
+                    out exn
+                ));
+            });
+            Once("setup_Swift.UnicodeScalar.PuttingTypesIntoQuestionablePlaces", () => {
+                Console.WriteLine("setting up Swift.UnicodeScalar.PuttingTypesIntoQuestionablePlaces...");
+                Utilities.Check((out CreatedRef exn) => Swift_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_setup(
+                    bag<FishyJoesRuntime.EnumDiscriminator>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => {
+                        var enumeration = obj.Peek<Cricut.TestAPI.UnicodeScalar_PuttingTypesIntoQuestionablePlaces>();
+                        if (enumeration is Cricut.TestAPI.UnicodeScalar_PuttingTypesIntoQuestionablePlaces.Thing) { return (nint)0; }
+                        throw new Exception($"Found unexpected subclass of Cricut.TestAPI.UnicodeScalar_PuttingTypesIntoQuestionablePlaces: {enumeration}");
+                    })),
+                    bag<Cricut_TestAPI_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_new_thing>(
+                        (
+                            out CreatedRef exn
+                        ) => Catching(out exn, () => 
+                            new CreatedRef(new Cricut.TestAPI.UnicodeScalar_PuttingTypesIntoQuestionablePlaces.Thing(
+                            ))
+                        )
+                    ),
+                    bag<Cricut_TestAPI_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_extract_thing>(
+                        (
+                            UnownedRef obj,
+                            out CreatedRef exn
+                        ) => {
+                            try {
+                                var enumeration = obj.Peek<Cricut.TestAPI.UnicodeScalar_PuttingTypesIntoQuestionablePlaces.Thing>();
+                                exn = CreatedRef.Null;
+                            } catch (Exception e) {
+                                exn = new CreatedRef(e);
+                            }
+                        }
+                    ),
+                    out exn
+                ));
+            });
             Once("setup_TestAPI.AssociatedDataEnum", () => {
                 Console.WriteLine("setting up TestAPI.AssociatedDataEnum...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_AssociatedDataEnum_setup(
@@ -1631,6 +1715,15 @@ namespace Cricut.TestAPI {
                     )),
                     bag<_TestAPI_Structs_MemberwiseStruct_mutableSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
                         obj.Peek<Cricut.TestAPI.Structs.MemberwiseStruct>().Mutable = newValue.Consume<string>();
+                    })),
+                    out exn
+                ));
+            });
+            Once("setup_TestAPI.Structs.PuttingTypesIntoQuestionablePlaces", () => {
+                Console.WriteLine("setting up TestAPI.Structs.PuttingTypesIntoQuestionablePlaces...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_Structs_PuttingTypesIntoQuestionablePlaces_setup(
+                    bag<SwiftReference.ConstructorDelegate>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.Structs_PuttingTypesIntoQuestionablePlaces(ptr));
                     })),
                     out exn
                 ));

@@ -11,19 +11,6 @@ public func fatalErr(_ message: String = "", file: StaticString = #file, line: U
     fatalError("\n\(file):\(line): \(message)\n\(Thread.callStackSymbols.joined(separator: "\n"))\n")
 }
 
-public func extLog(_ message: String) {
-    let data = (message + "\n").data(using: String.Encoding.utf8)!
-    if let fileHandle = FileHandle(forWritingAtPath: ".sourcery-log") {
-        defer {
-            fileHandle.closeFile()
-        }
-        fileHandle.seekToEndOfFile()
-        fileHandle.write(data)
-    } else {
-        try! data.write(to: URL(fileURLWithPath: ".sourcery-log"), options: .atomic)
-    }
-}
-
 extension FileHandle: TextOutputStream {
     public func write(_ string: String) {
         let data = Data(string.utf8)

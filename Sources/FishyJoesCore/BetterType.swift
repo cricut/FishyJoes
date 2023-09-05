@@ -127,6 +127,35 @@ extension BetterType.Name {
 }
 
 extension BetterType {
+    init(named type: SourceryRuntime.`Type`, context: FishyJoesContext) {
+        // All this extra logic is to handle the case where an extension to some other library's type contains an exported type
+        // (Looking at you, UnicodeScalar.Script)
+        let parts = type.globalName.split(separator: ".").map(String.init)
+        let defaultModule = context.module.name
+        // UnicodeScalar is not actually a FishyJoes type, so we need extra special logic here
+        if parts.first == "UnicodeScalar" {
+            self = .init(named: type, module: "Swift")
+        } else if
+            parts.count > 1,
+            case let .named(baseName) = try? context.tryResolve(type: .named(.init(name: parts[0], module: nil))).sourceType
+        {
+            self = .init(named: type, module: baseName.module)
+        } else if
+            parts.count > 2,
+            case let .named(baseName) = try? context.tryResolve(type: .named(.init(name: parts[1], module: parts[0]))).sourceType
+        {
+            self = .named(
+                .init(
+                    module: baseName.module,
+                    namespace: baseName.namespace + [baseName.name] + parts.dropFirst(2).dropLast(),
+                    name: parts.last!
+                )
+            )
+        } else {
+            self = .init(named: type, module: defaultModule)
+        }
+    }
+
     init(named type: SourceryRuntime.`Type`, module: String?) {
         self = .named(Name(name: type.globalName, module: module))
     }
