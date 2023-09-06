@@ -49,7 +49,6 @@ struct TranslatedStruct: TranslatedType {
             nodeDefinitionFragment(in: context),
             jniDefinitionFragment(in: context),
             iotaDefinitionFragment(in: context),
-            dartDefinitionFragment(in: context),
         ] + neutralDefinitionFragments(in: context)
     }
 
@@ -421,94 +420,6 @@ struct TranslatedStruct: TranslatedType {
 
         fragment.output("@_cdecl(\"\(iotaSetupName)\")")
         fragment.outputBlock("public func \(iotaSetupName)(", newLineTerminated: false) {
-            fragment.output("constructorMethod: @escaping \(converterType.name)._ConstructorMethod,")
-            for storedVar in storedVariables {
-                let resolved = context.resolve(type: storedVar.typeName.better)
-                fragment.output("_ \(storedVar.name)Getter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> \(resolved.converterType.name).CType,")
-                fragment.output("_ \(storedVar.name)Setter: @escaping @convention(c) (foreignObject, \(resolved.converterType.name).CType, _ exn: foreignOutExn) -> Void,")
-            }
-            fragment.output("_ exn: foreignOutExn")
-        }
-        fragment.outputBlock(" {") {
-            fragment.output("guard \(converterType.name)._constructorMethod == nil else { return }")
-            fragment.output("\(converterType.name)._constructorMethod = constructorMethod")
-            for storedVar in storedVariables {
-                fragment.output("\(converterType.name)._\(storedVar.name)Getter = \(storedVar.name)Getter")
-                fragment.output("\(converterType.name)._\(storedVar.name)Setter = \(storedVar.name)Setter")
-            }
-        }
-        fragment.blankLine()
-
-        fragment.outputBlock("extension \(converterType.name): IotaMutator {") {
-            for storedVar in storedVariables {
-                let resolved = context.resolve(type: storedVar.typeName.better)
-                fragment.output("fileprivate static var _\(storedVar.name)Getter: (@convention(c) (foreignObject, _ exn: foreignOutExn) -> \(resolved.converterType.name).CType)!")
-                fragment.output("fileprivate static var _\(storedVar.name)Setter: (@convention(c) (foreignObject, \(resolved.converterType.name).CType, _ exn: foreignOutExn) -> Void)!")
-            }
-            fragment.outputBlock("public typealias _ConstructorMethod = @convention(c) (", closeWith: ") -> foreignObject") {
-                for storedVar in storedVariables {
-                    let resolved = context.resolve(type: storedVar.typeName.better)
-                    fragment.output("\(resolved.converterType.name).CType,")
-                }
-                fragment.output("_ exn: foreignOutExn")
-            }
-            fragment.output("fileprivate static var _constructorMethod: _ConstructorMethod!")
-            fragment.blankLine()
-
-            fragment.outputBlock("public static func peekIota(_ value: foreignObject) throws -> Self {") {
-                fragment.outputBlock("Self(") {
-                    for (index, storedVar) in storedVariables.enumerated() {
-                        let resolved = context.resolve(type: storedVar.typeName.better)
-                        let last = index == storedVariables.count - 1
-                        fragment.outputBlock("\(storedVar.name): try \(resolved.converterType.name).consumeIota(", closeWith: last ? ")" : "),") {
-                            fragment.output("try Env.check { exn in _\(storedVar.name)Getter(value, exn) }")
-                        }
-                    }
-                }
-            }
-            fragment.blankLine()
-
-            fragment.outputBlock("public static func toIota(_ value: Self) throws -> foreignObject {") {
-                fragment.outputBlock("try Env.check { exn in", closeWith: "}") {
-                    fragment.outputBlock("_constructorMethod(") {
-                        for storedVar in storedVariables {
-                            let resolved = context.resolve(type: storedVar.typeName.better)
-                            fragment.output("try \(resolved.converterType.name).toIota(value.\(storedVar.name)),")
-                        }
-                        fragment.output("exn")
-                    }
-                }
-            }
-            fragment.blankLine()
-
-            fragment.outputBlock("public static func mutateIota<R>(_ this: foreignObject, body: (inout Self) throws -> R) throws -> R {") {
-                fragment.output("var mutatingSelf = try peekIota(this)")
-                fragment.output("let result = try body(&mutatingSelf)")
-                for storedVar in storedVariables {
-                    let resolved = context.resolve(type: storedVar.typeName.better)
-                    fragment.outputBlock("try Env.check { exn in _\(storedVar.name)Setter(", closeWith: ")}") {
-                        fragment.output("this,")
-                        fragment.output("try \(resolved.converterType.name).toIota(mutatingSelf.\(storedVar.name)),")
-                        fragment.output("exn")
-                    }
-                }
-                fragment.output("return result")
-            }
-        }
-
-        registerCSharpClass(context: context)
-
-        return fragment
-    }
-
-    func dartDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
-        let fragment = context.swiftFragment(
-            "DartInterface/\(sourceType.name)+dart-type.swift",
-            additionalImports: ["Foundation", "FishyJoesDartRuntime"]
-        )
-
-        fragment.output("@_cdecl(\"\(dartSetupName)\")")
-        fragment.outputBlock("public func \(dartSetupName)(", newLineTerminated: false) {
             fragment.output("envRef: EnvRef,")
             fragment.output("constructorMethod: @escaping \(converterType.name)._ConstructorMethod,")
             for storedVar in storedVariables {
@@ -529,7 +440,7 @@ struct TranslatedStruct: TranslatedType {
         }
         fragment.blankLine()
 
-        fragment.outputBlock("extension \(converterType.name): DartMutator {") {
+        fragment.outputBlock("extension \(converterType.name): IotaMutator {") {
             for storedVar in storedVariables {
                 let resolved = context.resolve(type: storedVar.typeName.better)
                 fragment.output("fileprivate static let _\(storedVar.name)Getter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> \(resolved.converterType.name).CType>()")
@@ -545,12 +456,12 @@ struct TranslatedStruct: TranslatedType {
             fragment.output("fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()")
             fragment.blankLine()
 
-            fragment.outputBlock("public static func peekDart(_ value: foreignObject, env: Env) throws -> Self {") {
+            fragment.outputBlock("public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {") {
                 fragment.outputBlock("Self(") {
                     for (index, storedVar) in storedVariables.enumerated() {
                         let resolved = context.resolve(type: storedVar.typeName.better)
                         let last = index == storedVariables.count - 1
-                        fragment.outputBlock("\(storedVar.name): try \(resolved.converterType.name).consumeDart(", closeWith: last ? ")" : "),") {
+                        fragment.outputBlock("\(storedVar.name): try \(resolved.converterType.name).consumeIota(", closeWith: last ? ")" : "),") {
                             fragment.output("try env.check { exn in _\(storedVar.name)Getter[env](value, exn) },")
                             fragment.output("env: env")
                         }
@@ -559,12 +470,12 @@ struct TranslatedStruct: TranslatedType {
             }
             fragment.blankLine()
 
-            fragment.outputBlock("public static func toDart(_ value: Self, env: Env) throws -> foreignObject {") {
+            fragment.outputBlock("public static func toIota(_ value: Self, env: Env) throws -> foreignObject {") {
                 fragment.outputBlock("try env.check { exn in", closeWith: "}") {
                     fragment.outputBlock("_constructorMethod[env](") {
                         for storedVar in storedVariables {
                             let resolved = context.resolve(type: storedVar.typeName.better)
-                            fragment.output("try \(resolved.converterType.name).toDart(value.\(storedVar.name), env: env),")
+                            fragment.output("try \(resolved.converterType.name).toIota(value.\(storedVar.name), env: env),")
                         }
                         fragment.output("exn")
                     }
@@ -572,14 +483,14 @@ struct TranslatedStruct: TranslatedType {
             }
             fragment.blankLine()
 
-            fragment.outputBlock("public static func mutateDart<R>(_ this: foreignObject, env: Env, body: (inout Self) throws -> R) throws -> R {") {
-                fragment.output("var mutatingSelf = try peekDart(this, env: env)")
+            fragment.outputBlock("public static func mutateIota<R>(_ this: foreignObject, env: Env, body: (inout Self) throws -> R) throws -> R {") {
+                fragment.output("var mutatingSelf = try peekIota(this, env: env)")
                 fragment.output("let result = try body(&mutatingSelf)")
                 for storedVar in storedVariables {
                     let resolved = context.resolve(type: storedVar.typeName.better)
                     fragment.outputBlock("try env.check { exn in _\(storedVar.name)Setter[env](", closeWith: ")}") {
                         fragment.output("this,")
-                        fragment.output("try \(resolved.converterType.name).toDart(mutatingSelf.\(storedVar.name), env: env),")
+                        fragment.output("try \(resolved.converterType.name).toIota(mutatingSelf.\(storedVar.name), env: env),")
                         fragment.output("exn")
                     }
                 }
@@ -587,6 +498,7 @@ struct TranslatedStruct: TranslatedType {
             }
         }
 
+        registerCSharpClass(context: context)
         registerDartClass(context: context)
 
         return fragment

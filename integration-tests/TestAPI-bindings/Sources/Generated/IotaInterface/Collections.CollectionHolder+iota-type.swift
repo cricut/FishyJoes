@@ -7,6 +7,7 @@ import TestAPI
 
 @_cdecl("TestAPI_Collections_CollectionHolder_setup")
 public func TestAPI_Collections_CollectionHolder_setup(
+    envRef: EnvRef,
     constructorMethod: @escaping Collections.CollectionHolder._ConstructorMethod,
     _ boolArrayGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> ArrayConverter<Bool>.CType,
     _ boolArraySetter: @escaping @convention(c) (foreignObject, ArrayConverter<Bool>.CType, _ exn: foreignOutExn) -> Void,
@@ -28,47 +29,48 @@ public func TestAPI_Collections_CollectionHolder_setup(
     _ stringDictionarySetter: @escaping @convention(c) (foreignObject, DictionaryConverter<Swift.String, Swift.String>.CType, _ exn: foreignOutExn) -> Void,
     _ exn: foreignOutExn
 ) {
-    guard Collections.CollectionHolder._constructorMethod == nil else { return }
-    Collections.CollectionHolder._constructorMethod = constructorMethod
-    Collections.CollectionHolder._boolArrayGetter = boolArrayGetter
-    Collections.CollectionHolder._boolArraySetter = boolArraySetter
-    Collections.CollectionHolder._boolSetGetter = boolSetGetter
-    Collections.CollectionHolder._boolSetSetter = boolSetSetter
-    Collections.CollectionHolder._boolDictionaryGetter = boolDictionaryGetter
-    Collections.CollectionHolder._boolDictionarySetter = boolDictionarySetter
-    Collections.CollectionHolder._integerArrayGetter = integerArrayGetter
-    Collections.CollectionHolder._integerArraySetter = integerArraySetter
-    Collections.CollectionHolder._integerSetGetter = integerSetGetter
-    Collections.CollectionHolder._integerSetSetter = integerSetSetter
-    Collections.CollectionHolder._integerDictionaryGetter = integerDictionaryGetter
-    Collections.CollectionHolder._integerDictionarySetter = integerDictionarySetter
-    Collections.CollectionHolder._stringArrayGetter = stringArrayGetter
-    Collections.CollectionHolder._stringArraySetter = stringArraySetter
-    Collections.CollectionHolder._stringSetGetter = stringSetGetter
-    Collections.CollectionHolder._stringSetSetter = stringSetSetter
-    Collections.CollectionHolder._stringDictionaryGetter = stringDictionaryGetter
-    Collections.CollectionHolder._stringDictionarySetter = stringDictionarySetter
+    let env = Env(envRef)
+    if Collections.CollectionHolder._constructorMethod.isInitialized(env) { return }
+    Collections.CollectionHolder._constructorMethod[env] = constructorMethod
+    Collections.CollectionHolder._boolArrayGetter[env] = boolArrayGetter
+    Collections.CollectionHolder._boolArraySetter[env] = boolArraySetter
+    Collections.CollectionHolder._boolSetGetter[env] = boolSetGetter
+    Collections.CollectionHolder._boolSetSetter[env] = boolSetSetter
+    Collections.CollectionHolder._boolDictionaryGetter[env] = boolDictionaryGetter
+    Collections.CollectionHolder._boolDictionarySetter[env] = boolDictionarySetter
+    Collections.CollectionHolder._integerArrayGetter[env] = integerArrayGetter
+    Collections.CollectionHolder._integerArraySetter[env] = integerArraySetter
+    Collections.CollectionHolder._integerSetGetter[env] = integerSetGetter
+    Collections.CollectionHolder._integerSetSetter[env] = integerSetSetter
+    Collections.CollectionHolder._integerDictionaryGetter[env] = integerDictionaryGetter
+    Collections.CollectionHolder._integerDictionarySetter[env] = integerDictionarySetter
+    Collections.CollectionHolder._stringArrayGetter[env] = stringArrayGetter
+    Collections.CollectionHolder._stringArraySetter[env] = stringArraySetter
+    Collections.CollectionHolder._stringSetGetter[env] = stringSetGetter
+    Collections.CollectionHolder._stringSetSetter[env] = stringSetSetter
+    Collections.CollectionHolder._stringDictionaryGetter[env] = stringDictionaryGetter
+    Collections.CollectionHolder._stringDictionarySetter[env] = stringDictionarySetter
 }
 
 extension Collections.CollectionHolder: IotaMutator {
-    fileprivate static var _boolArrayGetter: (@convention(c) (foreignObject, _ exn: foreignOutExn) -> ArrayConverter<Bool>.CType)!
-    fileprivate static var _boolArraySetter: (@convention(c) (foreignObject, ArrayConverter<Bool>.CType, _ exn: foreignOutExn) -> Void)!
-    fileprivate static var _boolSetGetter: (@convention(c) (foreignObject, _ exn: foreignOutExn) -> SetConverter<Bool>.CType)!
-    fileprivate static var _boolSetSetter: (@convention(c) (foreignObject, SetConverter<Bool>.CType, _ exn: foreignOutExn) -> Void)!
-    fileprivate static var _boolDictionaryGetter: (@convention(c) (foreignObject, _ exn: foreignOutExn) -> DictionaryConverter<Bool, Bool>.CType)!
-    fileprivate static var _boolDictionarySetter: (@convention(c) (foreignObject, DictionaryConverter<Bool, Bool>.CType, _ exn: foreignOutExn) -> Void)!
-    fileprivate static var _integerArrayGetter: (@convention(c) (foreignObject, _ exn: foreignOutExn) -> ArrayConverter<Int>.CType)!
-    fileprivate static var _integerArraySetter: (@convention(c) (foreignObject, ArrayConverter<Int>.CType, _ exn: foreignOutExn) -> Void)!
-    fileprivate static var _integerSetGetter: (@convention(c) (foreignObject, _ exn: foreignOutExn) -> SetConverter<Int>.CType)!
-    fileprivate static var _integerSetSetter: (@convention(c) (foreignObject, SetConverter<Int>.CType, _ exn: foreignOutExn) -> Void)!
-    fileprivate static var _integerDictionaryGetter: (@convention(c) (foreignObject, _ exn: foreignOutExn) -> DictionaryConverter<Int, Int>.CType)!
-    fileprivate static var _integerDictionarySetter: (@convention(c) (foreignObject, DictionaryConverter<Int, Int>.CType, _ exn: foreignOutExn) -> Void)!
-    fileprivate static var _stringArrayGetter: (@convention(c) (foreignObject, _ exn: foreignOutExn) -> ArrayConverter<Swift.String>.CType)!
-    fileprivate static var _stringArraySetter: (@convention(c) (foreignObject, ArrayConverter<Swift.String>.CType, _ exn: foreignOutExn) -> Void)!
-    fileprivate static var _stringSetGetter: (@convention(c) (foreignObject, _ exn: foreignOutExn) -> SetConverter<Swift.String>.CType)!
-    fileprivate static var _stringSetSetter: (@convention(c) (foreignObject, SetConverter<Swift.String>.CType, _ exn: foreignOutExn) -> Void)!
-    fileprivate static var _stringDictionaryGetter: (@convention(c) (foreignObject, _ exn: foreignOutExn) -> DictionaryConverter<Swift.String, Swift.String>.CType)!
-    fileprivate static var _stringDictionarySetter: (@convention(c) (foreignObject, DictionaryConverter<Swift.String, Swift.String>.CType, _ exn: foreignOutExn) -> Void)!
+    fileprivate static let _boolArrayGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> ArrayConverter<Bool>.CType>()
+    fileprivate static let _boolArraySetter = Env.CallbackMap<@convention(c) (foreignObject, ArrayConverter<Bool>.CType, _ exn: foreignOutExn) -> Void>()
+    fileprivate static let _boolSetGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> SetConverter<Bool>.CType>()
+    fileprivate static let _boolSetSetter = Env.CallbackMap<@convention(c) (foreignObject, SetConverter<Bool>.CType, _ exn: foreignOutExn) -> Void>()
+    fileprivate static let _boolDictionaryGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> DictionaryConverter<Bool, Bool>.CType>()
+    fileprivate static let _boolDictionarySetter = Env.CallbackMap<@convention(c) (foreignObject, DictionaryConverter<Bool, Bool>.CType, _ exn: foreignOutExn) -> Void>()
+    fileprivate static let _integerArrayGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> ArrayConverter<Int>.CType>()
+    fileprivate static let _integerArraySetter = Env.CallbackMap<@convention(c) (foreignObject, ArrayConverter<Int>.CType, _ exn: foreignOutExn) -> Void>()
+    fileprivate static let _integerSetGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> SetConverter<Int>.CType>()
+    fileprivate static let _integerSetSetter = Env.CallbackMap<@convention(c) (foreignObject, SetConverter<Int>.CType, _ exn: foreignOutExn) -> Void>()
+    fileprivate static let _integerDictionaryGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> DictionaryConverter<Int, Int>.CType>()
+    fileprivate static let _integerDictionarySetter = Env.CallbackMap<@convention(c) (foreignObject, DictionaryConverter<Int, Int>.CType, _ exn: foreignOutExn) -> Void>()
+    fileprivate static let _stringArrayGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> ArrayConverter<Swift.String>.CType>()
+    fileprivate static let _stringArraySetter = Env.CallbackMap<@convention(c) (foreignObject, ArrayConverter<Swift.String>.CType, _ exn: foreignOutExn) -> Void>()
+    fileprivate static let _stringSetGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> SetConverter<Swift.String>.CType>()
+    fileprivate static let _stringSetSetter = Env.CallbackMap<@convention(c) (foreignObject, SetConverter<Swift.String>.CType, _ exn: foreignOutExn) -> Void>()
+    fileprivate static let _stringDictionaryGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> DictionaryConverter<Swift.String, Swift.String>.CType>()
+    fileprivate static let _stringDictionarySetter = Env.CallbackMap<@convention(c) (foreignObject, DictionaryConverter<Swift.String, Swift.String>.CType, _ exn: foreignOutExn) -> Void>()
     public typealias _ConstructorMethod = @convention(c) (
         ArrayConverter<Bool>.CType,
         SetConverter<Bool>.CType,
@@ -81,103 +83,112 @@ extension Collections.CollectionHolder: IotaMutator {
         DictionaryConverter<Swift.String, Swift.String>.CType,
         _ exn: foreignOutExn
     ) -> foreignObject
-    fileprivate static var _constructorMethod: _ConstructorMethod!
+    fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()
 
-    public static func peekIota(_ value: foreignObject) throws -> Self {
+    public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
         Self(
             boolArray: try ArrayConverter<Bool>.consumeIota(
-                try Env.check { exn in _boolArrayGetter(value, exn) }
+                try env.check { exn in _boolArrayGetter[env](value, exn) },
+                env: env
             ),
             boolSet: try SetConverter<Bool>.consumeIota(
-                try Env.check { exn in _boolSetGetter(value, exn) }
+                try env.check { exn in _boolSetGetter[env](value, exn) },
+                env: env
             ),
             boolDictionary: try DictionaryConverter<Bool, Bool>.consumeIota(
-                try Env.check { exn in _boolDictionaryGetter(value, exn) }
+                try env.check { exn in _boolDictionaryGetter[env](value, exn) },
+                env: env
             ),
             integerArray: try ArrayConverter<Int>.consumeIota(
-                try Env.check { exn in _integerArrayGetter(value, exn) }
+                try env.check { exn in _integerArrayGetter[env](value, exn) },
+                env: env
             ),
             integerSet: try SetConverter<Int>.consumeIota(
-                try Env.check { exn in _integerSetGetter(value, exn) }
+                try env.check { exn in _integerSetGetter[env](value, exn) },
+                env: env
             ),
             integerDictionary: try DictionaryConverter<Int, Int>.consumeIota(
-                try Env.check { exn in _integerDictionaryGetter(value, exn) }
+                try env.check { exn in _integerDictionaryGetter[env](value, exn) },
+                env: env
             ),
             stringArray: try ArrayConverter<Swift.String>.consumeIota(
-                try Env.check { exn in _stringArrayGetter(value, exn) }
+                try env.check { exn in _stringArrayGetter[env](value, exn) },
+                env: env
             ),
             stringSet: try SetConverter<Swift.String>.consumeIota(
-                try Env.check { exn in _stringSetGetter(value, exn) }
+                try env.check { exn in _stringSetGetter[env](value, exn) },
+                env: env
             ),
             stringDictionary: try DictionaryConverter<Swift.String, Swift.String>.consumeIota(
-                try Env.check { exn in _stringDictionaryGetter(value, exn) }
+                try env.check { exn in _stringDictionaryGetter[env](value, exn) },
+                env: env
             )
         )
     }
 
-    public static func toIota(_ value: Self) throws -> foreignObject {
-        try Env.check { exn in
-            _constructorMethod(
-                try ArrayConverter<Bool>.toIota(value.boolArray),
-                try SetConverter<Bool>.toIota(value.boolSet),
-                try DictionaryConverter<Bool, Bool>.toIota(value.boolDictionary),
-                try ArrayConverter<Int>.toIota(value.integerArray),
-                try SetConverter<Int>.toIota(value.integerSet),
-                try DictionaryConverter<Int, Int>.toIota(value.integerDictionary),
-                try ArrayConverter<Swift.String>.toIota(value.stringArray),
-                try SetConverter<Swift.String>.toIota(value.stringSet),
-                try DictionaryConverter<Swift.String, Swift.String>.toIota(value.stringDictionary),
+    public static func toIota(_ value: Self, env: Env) throws -> foreignObject {
+        try env.check { exn in
+            _constructorMethod[env](
+                try ArrayConverter<Bool>.toIota(value.boolArray, env: env),
+                try SetConverter<Bool>.toIota(value.boolSet, env: env),
+                try DictionaryConverter<Bool, Bool>.toIota(value.boolDictionary, env: env),
+                try ArrayConverter<Int>.toIota(value.integerArray, env: env),
+                try SetConverter<Int>.toIota(value.integerSet, env: env),
+                try DictionaryConverter<Int, Int>.toIota(value.integerDictionary, env: env),
+                try ArrayConverter<Swift.String>.toIota(value.stringArray, env: env),
+                try SetConverter<Swift.String>.toIota(value.stringSet, env: env),
+                try DictionaryConverter<Swift.String, Swift.String>.toIota(value.stringDictionary, env: env),
                 exn
             )
         }
     }
 
-    public static func mutateIota<R>(_ this: foreignObject, body: (inout Self) throws -> R) throws -> R {
-        var mutatingSelf = try peekIota(this)
+    public static func mutateIota<R>(_ this: foreignObject, env: Env, body: (inout Self) throws -> R) throws -> R {
+        var mutatingSelf = try peekIota(this, env: env)
         let result = try body(&mutatingSelf)
-        try Env.check { exn in _boolArraySetter(
+        try env.check { exn in _boolArraySetter[env](
             this,
-            try ArrayConverter<Bool>.toIota(mutatingSelf.boolArray),
+            try ArrayConverter<Bool>.toIota(mutatingSelf.boolArray, env: env),
             exn
         )}
-        try Env.check { exn in _boolSetSetter(
+        try env.check { exn in _boolSetSetter[env](
             this,
-            try SetConverter<Bool>.toIota(mutatingSelf.boolSet),
+            try SetConverter<Bool>.toIota(mutatingSelf.boolSet, env: env),
             exn
         )}
-        try Env.check { exn in _boolDictionarySetter(
+        try env.check { exn in _boolDictionarySetter[env](
             this,
-            try DictionaryConverter<Bool, Bool>.toIota(mutatingSelf.boolDictionary),
+            try DictionaryConverter<Bool, Bool>.toIota(mutatingSelf.boolDictionary, env: env),
             exn
         )}
-        try Env.check { exn in _integerArraySetter(
+        try env.check { exn in _integerArraySetter[env](
             this,
-            try ArrayConverter<Int>.toIota(mutatingSelf.integerArray),
+            try ArrayConverter<Int>.toIota(mutatingSelf.integerArray, env: env),
             exn
         )}
-        try Env.check { exn in _integerSetSetter(
+        try env.check { exn in _integerSetSetter[env](
             this,
-            try SetConverter<Int>.toIota(mutatingSelf.integerSet),
+            try SetConverter<Int>.toIota(mutatingSelf.integerSet, env: env),
             exn
         )}
-        try Env.check { exn in _integerDictionarySetter(
+        try env.check { exn in _integerDictionarySetter[env](
             this,
-            try DictionaryConverter<Int, Int>.toIota(mutatingSelf.integerDictionary),
+            try DictionaryConverter<Int, Int>.toIota(mutatingSelf.integerDictionary, env: env),
             exn
         )}
-        try Env.check { exn in _stringArraySetter(
+        try env.check { exn in _stringArraySetter[env](
             this,
-            try ArrayConverter<Swift.String>.toIota(mutatingSelf.stringArray),
+            try ArrayConverter<Swift.String>.toIota(mutatingSelf.stringArray, env: env),
             exn
         )}
-        try Env.check { exn in _stringSetSetter(
+        try env.check { exn in _stringSetSetter[env](
             this,
-            try SetConverter<Swift.String>.toIota(mutatingSelf.stringSet),
+            try SetConverter<Swift.String>.toIota(mutatingSelf.stringSet, env: env),
             exn
         )}
-        try Env.check { exn in _stringDictionarySetter(
+        try env.check { exn in _stringDictionarySetter[env](
             this,
-            try DictionaryConverter<Swift.String, Swift.String>.toIota(mutatingSelf.stringDictionary),
+            try DictionaryConverter<Swift.String, Swift.String>.toIota(mutatingSelf.stringDictionary, env: env),
             exn
         )}
         return result

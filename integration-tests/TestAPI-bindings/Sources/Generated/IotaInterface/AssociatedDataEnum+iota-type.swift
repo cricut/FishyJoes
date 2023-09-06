@@ -7,6 +7,7 @@ import TestAPI
 
 @_cdecl("TestAPI_AssociatedDataEnum_setup")
 public func TestAPI_AssociatedDataEnum_setup(
+    envRef: EnvRef,
     discriminator: @escaping AssociatedDataEnum.Discriminator,
     thing_constructor: @escaping AssociatedDataEnum.Thing_constructor,
     thing_extractor: @escaping AssociatedDataEnum.Thing_extractor,
@@ -17,15 +18,16 @@ public func TestAPI_AssociatedDataEnum_setup(
     noValue_constructor: @escaping AssociatedDataEnum.NoValue_constructor,
     noValue_extractor: @escaping AssociatedDataEnum.NoValue_extractor
 ) {
-    AssociatedDataEnum.discriminator = discriminator
-    AssociatedDataEnum.thing_constructor = thing_constructor
-    AssociatedDataEnum.thing_extractor = thing_extractor
-    AssociatedDataEnum.other_constructor = other_constructor
-    AssociatedDataEnum.other_extractor = other_extractor
-    AssociatedDataEnum.bar_constructor = bar_constructor
-    AssociatedDataEnum.bar_extractor = bar_extractor
-    AssociatedDataEnum.noValue_constructor = noValue_constructor
-    AssociatedDataEnum.noValue_extractor = noValue_extractor
+    let env = Env(envRef)
+    AssociatedDataEnum.discriminator[env] = discriminator
+    AssociatedDataEnum.thing_constructor[env] = thing_constructor
+    AssociatedDataEnum.thing_extractor[env] = thing_extractor
+    AssociatedDataEnum.other_constructor[env] = other_constructor
+    AssociatedDataEnum.other_extractor[env] = other_extractor
+    AssociatedDataEnum.bar_constructor[env] = bar_constructor
+    AssociatedDataEnum.bar_extractor[env] = bar_extractor
+    AssociatedDataEnum.noValue_constructor[env] = noValue_constructor
+    AssociatedDataEnum.noValue_extractor[env] = noValue_extractor
 }
 
 extension AssociatedDataEnum: IotaConverter {
@@ -33,121 +35,121 @@ extension AssociatedDataEnum: IotaConverter {
         foreignObject,
         foreignOutExn
     ) -> Int
-    fileprivate static var discriminator: Discriminator!
+    fileprivate static let discriminator = Env.CallbackMap<Discriminator>()
     public typealias Thing_constructor = @convention(c) (
         Int.CType,
         foreignOutExn
     ) -> foreignObject
-    fileprivate static var thing_constructor: Thing_constructor!
+    fileprivate static let thing_constructor = Env.CallbackMap<Thing_constructor>()
     public typealias Thing_extractor = @convention(c) (
         foreignObject,
         UnsafePointer<Int.CType>,
         foreignOutExn
     ) -> Void
-    fileprivate static var thing_extractor: Thing_extractor!
+    fileprivate static let thing_extractor = Env.CallbackMap<Thing_extractor>()
     public typealias Other_constructor = @convention(c) (
         Swift.String.CType,
         Int.CType,
         foreignOutExn
     ) -> foreignObject
-    fileprivate static var other_constructor: Other_constructor!
+    fileprivate static let other_constructor = Env.CallbackMap<Other_constructor>()
     public typealias Other_extractor = @convention(c) (
         foreignObject,
         UnsafePointer<Swift.String.CType>,
         UnsafePointer<Int.CType>,
         foreignOutExn
     ) -> Void
-    fileprivate static var other_extractor: Other_extractor!
+    fileprivate static let other_extractor = Env.CallbackMap<Other_extractor>()
     public typealias Bar_constructor = @convention(c) (
         Swift.String.CType,
         AssociatedDataEnum.CType,
         foreignOutExn
     ) -> foreignObject
-    fileprivate static var bar_constructor: Bar_constructor!
+    fileprivate static let bar_constructor = Env.CallbackMap<Bar_constructor>()
     public typealias Bar_extractor = @convention(c) (
         foreignObject,
         UnsafePointer<Swift.String.CType>,
         UnsafePointer<AssociatedDataEnum.CType>,
         foreignOutExn
     ) -> Void
-    fileprivate static var bar_extractor: Bar_extractor!
+    fileprivate static let bar_extractor = Env.CallbackMap<Bar_extractor>()
     public typealias NoValue_constructor = @convention(c) (
         foreignOutExn
     ) -> foreignObject
-    fileprivate static var noValue_constructor: NoValue_constructor!
+    fileprivate static let noValue_constructor = Env.CallbackMap<NoValue_constructor>()
     public typealias NoValue_extractor = @convention(c) (
         foreignObject,
         foreignOutExn
     ) -> Void
-    fileprivate static var noValue_extractor: NoValue_extractor!
+    fileprivate static let noValue_extractor = Env.CallbackMap<NoValue_extractor>()
 
-    public static func peekIota(_ value: foreignObject) throws -> Self {
-        switch try Env.check({ exn in discriminator(value, exn) }) {
+    public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
+        switch try env.check({ exn in discriminator[env](value, exn) }) {
         case 0:
             var _value = Int.CType.default
-            try Env.check { exn in thing_extractor(value, &_value, exn) }
+            try env.check { exn in thing_extractor[env](value, &_value, exn) }
             return Self.thing(
-                value: try Int.peekIota(_value)
+                value: try Int.peekIota(_value, env: env)
             )
         case 1:
             var _unnamed = Swift.String.CType.default
             var __1 = Int.CType.default
-            try Env.check { exn in other_extractor(value, &_unnamed, &__1, exn) }
+            try env.check { exn in other_extractor[env](value, &_unnamed, &__1, exn) }
             defer {
-                Env.deleteRef(_unnamed)
+                env.deleteRef(_unnamed)
             }
             return Self.other(
-                try Swift.String.peekIota(_unnamed),
-                try Int.peekIota(__1)
+                try Swift.String.peekIota(_unnamed, env: env),
+                try Int.peekIota(__1, env: env)
             )
         case 2:
             var _named = Swift.String.CType.default
             var __1 = AssociatedDataEnum.CType.default
-            try Env.check { exn in bar_extractor(value, &_named, &__1, exn) }
+            try env.check { exn in bar_extractor[env](value, &_named, &__1, exn) }
             defer {
-                Env.deleteRef(_named)
-                Env.deleteRef(__1)
+                env.deleteRef(_named)
+                env.deleteRef(__1)
             }
             return Self.bar(
-                named: try Swift.String.peekIota(_named),
-                try AssociatedDataEnum.peekIota(__1)
+                named: try Swift.String.peekIota(_named, env: env),
+                try AssociatedDataEnum.peekIota(__1, env: env)
             )
         case 3:
-            try Env.check { exn in noValue_extractor(value, exn) }
+            try env.check { exn in noValue_extractor[env](value, exn) }
             return Self.noValue
         case let disc:
             fatalError("bad discriminator value \(disc) encountered for type \(self)")
         }
     }
 
-    public static func toIota(_ value: Self) throws -> foreignObject {
+    public static func toIota(_ value: Self, env: Env) throws -> foreignObject {
         switch value {
         case let thing(value):
-            return try Env.check { exn in
-                return thing_constructor(
-                    try Int.toIota(value),
+            return try env.check { exn in
+                return thing_constructor[env](
+                    try Int.toIota(value, env: env),
                     exn
                 )
             }
         case let other(unnamed, _1):
-            return try Env.check { exn in
-                return other_constructor(
-                    try Swift.String.toIota(unnamed),
-                    try Int.toIota(_1),
+            return try env.check { exn in
+                return other_constructor[env](
+                    try Swift.String.toIota(unnamed, env: env),
+                    try Int.toIota(_1, env: env),
                     exn
                 )
             }
         case let bar(named, _1):
-            return try Env.check { exn in
-                return bar_constructor(
-                    try Swift.String.toIota(named),
-                    try AssociatedDataEnum.toIota(_1),
+            return try env.check { exn in
+                return bar_constructor[env](
+                    try Swift.String.toIota(named, env: env),
+                    try AssociatedDataEnum.toIota(_1, env: env),
                     exn
                 )
             }
         case noValue:
-            return try Env.check { exn in
-                return noValue_constructor(
+            return try env.check { exn in
+                return noValue_constructor[env](
                     exn
                 )
             }

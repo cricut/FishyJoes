@@ -12,6 +12,7 @@ namespace Cricut.FishyJoesRuntime {
         unsafe delegate CreatedRef StringConstructor(char* units, int length, out CreatedRef exn);
         [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void FishyJoesRuntime_String_setup(
+            IntPtr envRef,
             StringGetLengthMethod getLength,
             StringGetUtf16Method getUtf16,
             StringConstructor constructor
@@ -23,6 +24,7 @@ namespace Cricut.FishyJoesRuntime {
         unsafe delegate CreatedRef DataConstructor(byte* bytes, int length, out CreatedRef exn);
         [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void FishyJoesRuntime_Data_setup(
+            IntPtr envRef,
             DataLengthMethod getLength,
             DataGetBytesMethod bytesMethod,
             DataConstructor constructor
@@ -31,6 +33,7 @@ namespace Cricut.FishyJoesRuntime {
         private static void setupMisc() {
             unsafe {
                 FishyJoesRuntime_String_setup(
+                    env,
                     bag<StringGetLengthMethod>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => {
                         return obj.Peek<string>().Length;
                     })),
@@ -47,6 +50,7 @@ namespace Cricut.FishyJoesRuntime {
                 );
 
                 FishyJoesRuntime_Data_setup(
+                    env,
                     bag<DataLengthMethod>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => {
                         return obj.Peek<byte[]>().Length;
                     })),

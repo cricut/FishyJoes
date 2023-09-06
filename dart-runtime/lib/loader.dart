@@ -65,7 +65,7 @@ class Loader {
 
   static ffi.DynamicLibrary openLibrary(String baseName) => locator.openLibrary(baseName);
 
-  static final _dylib = openLibrary('FishyJoesDartRuntime');
+  static final _dylib = openLibrary('FishyJoesIotaRuntime');
   final _onceSet = <String>{};
 
   static CreatedRef _newRefFn(UnownedRef obj) {

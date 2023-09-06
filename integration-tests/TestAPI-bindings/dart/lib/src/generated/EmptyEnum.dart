@@ -53,11 +53,11 @@ class EmptyEnum {
     /// <!-- FishyJoes.export(notGoingToHappen, noReturn: true) -->
     static TestAPI.EmptyEnum notGoingToHappen(
     ) =>
-        consumeCreatedRef<TestAPI.EmptyEnum>(check((OutCreatedRef _exn) => f__dart_EmptyEnum_notGoingToHappen(Loader.shared.env, _exn)))
+        consumeCreatedRef<TestAPI.EmptyEnum>(check((OutCreatedRef _exn) => f__iota_EmptyEnum_notGoingToHappen(Loader.shared.env, _exn)))
     ;
 
     static late CreatedRef Function(
         Env env,
         OutCreatedRef _exn
-    ) f__dart_EmptyEnum_notGoingToHappen;
+    ) f__iota_EmptyEnum_notGoingToHappen;
 }

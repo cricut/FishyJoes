@@ -7,26 +7,28 @@ import TestAPI
 
 @_cdecl("TestAPI_Methods_setup")
 public func TestAPI_Methods_setup(
+    envRef: EnvRef,
     constructorMethod: @escaping @convention(c) (UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject,
     _ exn: foreignOutExn
 ) {
-    guard Methods._constructorMethod == nil else { return }
-    Methods._constructorMethod = constructorMethod
+    let env = Env(envRef)
+    if Methods._constructorMethod.isInitialized(env) { return }
+    Methods._constructorMethod[env] = constructorMethod
 }
 
 extension Methods: IotaMutator {
-    fileprivate static var _constructorMethod: ((UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject)!
+    fileprivate static var _constructorMethod = Env.CallbackMap<(UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject>()
 
-    public static func peekIota(_ value: foreignObject) throws -> Methods {
-        try Box<Methods>.peekIota(value).value
+    public static func peekIota(_ value: foreignObject, env: Env) throws -> Methods {
+        try Box<Methods>.peekIota(value, env: env).value
     }
 
-    public static func toIota(_ value: Methods) throws -> foreignObject {
+    public static func toIota(_ value: Methods, env: Env) throws -> foreignObject {
         let ptr = Box(value).retainedOpaque()
-        return try Env.check { exn in _constructorMethod(ptr, exn) }
+        return try env.check { exn in _constructorMethod[env](ptr, exn) }
     }
 
-    public static func mutateIota<R>(_ this: foreignObject, body: (inout Methods) throws -> R) throws -> R {
-        try body(&Box<Methods>.peekIota(this).value)
+    public static func mutateIota<R>(_ this: foreignObject, env: Env, body: (inout Methods) throws -> R) throws -> R {
+        try body(&Box<Methods>.peekIota(this, env: env).value)
     }
 }

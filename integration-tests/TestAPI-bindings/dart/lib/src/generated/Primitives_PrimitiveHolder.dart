@@ -457,19 +457,19 @@ class Primitives_PrimitiveHolder with _$Primitives_PrimitiveHolder {
     /// <!-- FishyJoes.export(staticProperty) -->
     static List<int?> get staticProperty =>
         check((exn) =>
-            consumeCreatedRef<List<int?>>(f__dart_get_Primitives_PrimitiveHolder_staticProperty(Loader.shared.env, exn))
+            consumeCreatedRef<List<int?>>(f__iota_get_Primitives_PrimitiveHolder_staticProperty(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(staticMutableProperty) -->
     static List<int?> get staticMutableProperty =>
         check((exn) =>
-            consumeCreatedRef<List<int?>>(f__dart_get_Primitives_PrimitiveHolder_staticMutableProperty(Loader.shared.env, exn))
+            consumeCreatedRef<List<int?>>(f__iota_get_Primitives_PrimitiveHolder_staticMutableProperty(Loader.shared.env, exn))
         )
     ;
     static void set staticMutableProperty(List<int?> value) {
         GCRef.using(value, (_valueHandle) =>
             check((exn) =>
-                f__dart_set_Primitives_PrimitiveHolder_staticMutableProperty(Loader.shared.env, _valueHandle.ptr, exn)
+                f__iota_set_Primitives_PrimitiveHolder_staticMutableProperty(Loader.shared.env, _valueHandle.ptr, exn)
             )
         )
         ;
@@ -478,14 +478,14 @@ class Primitives_PrimitiveHolder with _$Primitives_PrimitiveHolder {
     static late CreatedRef Function(
         Env env,
         OutCreatedRef _exn
-    ) f__dart_get_Primitives_PrimitiveHolder_staticMutableProperty;
+    ) f__iota_get_Primitives_PrimitiveHolder_staticMutableProperty;
     static late CreatedRef Function(
         Env env,
         OutCreatedRef _exn
-    ) f__dart_get_Primitives_PrimitiveHolder_staticProperty;
+    ) f__iota_get_Primitives_PrimitiveHolder_staticProperty;
     static late void Function(
         Env env,
         UnownedRef staticMutableProperty,
         OutCreatedRef _exn
-    ) f__dart_set_Primitives_PrimitiveHolder_staticMutableProperty;
+    ) f__iota_set_Primitives_PrimitiveHolder_staticMutableProperty;
 }

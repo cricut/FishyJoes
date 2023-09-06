@@ -118,20 +118,20 @@ class SimpleEnum with _$SimpleEnum {
     int get hex =>
         GCRef.using(this, (_thisHandle) =>
             check((exn) =>
-                f__dart_get_SimpleEnum_hex(Loader.shared.env, _thisHandle.ptr, exn)
+                f__iota_get_SimpleEnum_hex(Loader.shared.env, _thisHandle.ptr, exn)
             )
         )
     ;
     /// <!-- FishyJoes.export(favoriteColor) -->
     static TestAPI.SimpleEnum get favoriteColor =>
         check((exn) =>
-            consumeCreatedRef<TestAPI.SimpleEnum>(f__dart_get_SimpleEnum_favoriteColor(Loader.shared.env, exn))
+            consumeCreatedRef<TestAPI.SimpleEnum>(f__iota_get_SimpleEnum_favoriteColor(Loader.shared.env, exn))
         )
     ;
     static void set favoriteColor(TestAPI.SimpleEnum value) {
         GCRef.using(value, (_valueHandle) =>
             check((exn) =>
-                f__dart_set_SimpleEnum_favoriteColor(Loader.shared.env, _valueHandle.ptr, exn)
+                f__iota_set_SimpleEnum_favoriteColor(Loader.shared.env, _valueHandle.ptr, exn)
             )
         )
         ;
@@ -140,49 +140,49 @@ class SimpleEnum with _$SimpleEnum {
     static TestAPI.SimpleEnum? pickAColor(
         int rawValue,
     ) =>
-        consumeCreatedRef<TestAPI.SimpleEnum?>(check((OutCreatedRef _exn) => f__dart_SimpleEnum_pickAColor(Loader.shared.env, rawValue, _exn)))
+        consumeCreatedRef<TestAPI.SimpleEnum?>(check((OutCreatedRef _exn) => f__iota_SimpleEnum_pickAColor(Loader.shared.env, rawValue, _exn)))
     ;
 
     /// <!-- FishyJoes.export(hexMethod) -->
     String hexMethod(
     ) =>
         GCRef.using(this, (_thisHandle) =>
-            consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__dart_SimpleEnum_hexMethod(Loader.shared.env, _thisHandle.ptr, _exn)))
+            consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_SimpleEnum_hexMethod(Loader.shared.env, _thisHandle.ptr, _exn)))
         )
     ;
 
     /// <!-- FishyJoes.export(resetFavoriteColor) -->
     static void resetFavoriteColor(
     ) =>
-        check((OutCreatedRef _exn) => f__dart_SimpleEnum_resetFavoriteColor(Loader.shared.env, _exn))
+        check((OutCreatedRef _exn) => f__iota_SimpleEnum_resetFavoriteColor(Loader.shared.env, _exn))
     ;
 
     static late CreatedRef Function(
         Env env,
         UnownedRef _this,
         OutCreatedRef _exn
-    ) f__dart_SimpleEnum_hexMethod;
+    ) f__iota_SimpleEnum_hexMethod;
     static late CreatedRef Function(
         Env env,
         int rawValue,
         OutCreatedRef _exn
-    ) f__dart_SimpleEnum_pickAColor;
+    ) f__iota_SimpleEnum_pickAColor;
     static late void Function(
         Env env,
         OutCreatedRef _exn
-    ) f__dart_SimpleEnum_resetFavoriteColor;
+    ) f__iota_SimpleEnum_resetFavoriteColor;
     static late CreatedRef Function(
         Env env,
         OutCreatedRef _exn
-    ) f__dart_get_SimpleEnum_favoriteColor;
+    ) f__iota_get_SimpleEnum_favoriteColor;
     static late int Function(
         Env env,
         UnownedRef _this,
         OutCreatedRef _exn
-    ) f__dart_get_SimpleEnum_hex;
+    ) f__iota_get_SimpleEnum_hex;
     static late void Function(
         Env env,
         UnownedRef favoriteColor,
         OutCreatedRef _exn
-    ) f__dart_set_SimpleEnum_favoriteColor;
+    ) f__iota_set_SimpleEnum_favoriteColor;
 }

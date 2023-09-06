@@ -3,18 +3,21 @@ import Foundation
 
 class IotaReference {
     let object: foreignObject
+    private let env: Env
 
-    init(_ object: foreignObject) throws {
-        self.object = object.flatMap(Env.newRef)
+    init(_ object: foreignObject, env: Env) throws {
+        self.env = env
+        self.object = object.flatMap(env.newRef)
     }
 
-    init(take object: foreignObject) {
+    init(take object: foreignObject, env: Env) {
+        self.env = env
         self.object = object
     }
 
     deinit {
         if let object = object {
-            Env.deleteRef(object)
+            env.deleteRef(object)
         }
     }
 }

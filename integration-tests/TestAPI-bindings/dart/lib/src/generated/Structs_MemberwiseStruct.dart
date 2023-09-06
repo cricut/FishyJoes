@@ -92,11 +92,11 @@ class Structs_MemberwiseStruct with _$Structs_MemberwiseStruct {
     /// <!-- FishyJoes.export(create) -->
     static TestAPI.Structs_MemberwiseStruct create(
     ) =>
-        consumeCreatedRef<TestAPI.Structs_MemberwiseStruct>(check((OutCreatedRef _exn) => f__dart_Structs_MemberwiseStruct_create(Loader.shared.env, _exn)))
+        consumeCreatedRef<TestAPI.Structs_MemberwiseStruct>(check((OutCreatedRef _exn) => f__iota_Structs_MemberwiseStruct_create(Loader.shared.env, _exn)))
     ;
 
     static late CreatedRef Function(
         Env env,
         OutCreatedRef _exn
-    ) f__dart_Structs_MemberwiseStruct_create;
+    ) f__iota_Structs_MemberwiseStruct_create;
 }

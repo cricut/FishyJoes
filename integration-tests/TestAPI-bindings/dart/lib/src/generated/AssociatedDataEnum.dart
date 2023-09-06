@@ -162,14 +162,14 @@ class AssociatedDataEnum with _$AssociatedDataEnum {
     /// <!-- FishyJoes.export(staticThing) -->
     static TestAPI.AssociatedDataEnum get staticThing =>
         check((exn) =>
-            consumeCreatedRef<TestAPI.AssociatedDataEnum>(f__dart_get_AssociatedDataEnum_staticThing(Loader.shared.env, exn))
+            consumeCreatedRef<TestAPI.AssociatedDataEnum>(f__iota_get_AssociatedDataEnum_staticThing(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(intValue) -->
     int get intValue =>
         GCRef.using(this, (_thisHandle) =>
             check((exn) =>
-                f__dart_get_AssociatedDataEnum_intValue(Loader.shared.env, _thisHandle.ptr, exn)
+                f__iota_get_AssociatedDataEnum_intValue(Loader.shared.env, _thisHandle.ptr, exn)
             )
         )
     ;
@@ -179,7 +179,7 @@ class AssociatedDataEnum with _$AssociatedDataEnum {
     ) =>
         GCRef.using(this, (_thisHandle) =>
             GCRef.using(other, (_otherHandle) =>
-                consumeCreatedRef<TestAPI.AssociatedDataEnum>(check((OutCreatedRef _exn) => f__dart_AssociatedDataEnum_plus(Loader.shared.env, _thisHandle.ptr, _otherHandle.ptr, _exn)))
+                consumeCreatedRef<TestAPI.AssociatedDataEnum>(check((OutCreatedRef _exn) => f__iota_AssociatedDataEnum_plus(Loader.shared.env, _thisHandle.ptr, _otherHandle.ptr, _exn)))
             )
         )
     ;
@@ -189,14 +189,14 @@ class AssociatedDataEnum with _$AssociatedDataEnum {
         UnownedRef _this,
         UnownedRef other,
         OutCreatedRef _exn
-    ) f__dart_AssociatedDataEnum_plus;
+    ) f__iota_AssociatedDataEnum_plus;
     static late int Function(
         Env env,
         UnownedRef _this,
         OutCreatedRef _exn
-    ) f__dart_get_AssociatedDataEnum_intValue;
+    ) f__iota_get_AssociatedDataEnum_intValue;
     static late CreatedRef Function(
         Env env,
         OutCreatedRef _exn
-    ) f__dart_get_AssociatedDataEnum_staticThing;
+    ) f__iota_get_AssociatedDataEnum_staticThing;
 }

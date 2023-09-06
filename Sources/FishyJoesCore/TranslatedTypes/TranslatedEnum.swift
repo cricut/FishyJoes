@@ -92,7 +92,6 @@ struct TranslatedEnum: TranslatedType {
             nodeDefinitionFragment(in: context),
             jniDefinitionFragment(in: context),
             iotaDefinitionFragment(in: context),
-            dartDefinitionFragment(in: context),
         ] + neutralDefinitionFragments(in: context)
     }
 

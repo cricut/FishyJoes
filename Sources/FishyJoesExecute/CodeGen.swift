@@ -143,17 +143,19 @@ extension CodeGen {
             }
 
             // MARK: Generate code
-            try cmd("mkdir", "-p",
-                    "Sources/Generated/IotaInterface",
-                    "Sources/Generated/DartInterface",
-                    "Sources/Generated/NodeInterface",
-                    "Sources/Generated/JavaInterface",
-                    "kotlin/src/generated/kotlin/com/cricut/\(config.module.lowercased())"
-            ).run()
+            let sourceLocations = [
+                "Sources/Generated/IotaInterface",
+                "Sources/Generated/NodeInterface",
+                "Sources/Generated/JavaInterface",
+                "kotlin/src/generated/kotlin/com/cricut/\(config.module.lowercased())",
+                "c-sharp/Cricut.\(config.module.lowercased())/generated",
+                "dart/lib/src/generated",
+            ]
+            try cmd("rm", arguments: ["-rf"] + sourceLocations).run()
+            try cmd("mkdir", arguments: ["-p"] + sourceLocations).run()
             try cmd(
                 "touch",
                 "Sources/Generated/IotaInterface/EmptyPlaceholder.swift",
-                "Sources/Generated/DartInterface/EmptyPlaceholder.swift",
                 "Sources/Generated/NodeInterface/EmptyPlaceholder.swift",
                 "Sources/Generated/JavaInterface/EmptyPlaceholder.swift"
             ).run()
@@ -208,10 +210,8 @@ extension CodeGen {
                     try platform.swiftBuild("--product", "\(config.module)-node", configuration: configuration)
                 case .kotlinSystem, .kotlinAndroid:
                     try platform.swiftBuild("--product", "\(config.module)-java", configuration: configuration)
-                case .cSharp:
+                case .cSharp, .dartSystem:
                     try platform.swiftBuild("--product", "\(config.module)-iota", configuration: configuration)
-                case .dartSystem:
-                    try platform.swiftBuild("--product", "\(config.module)-dart", configuration: configuration)
                 }
             }
 
@@ -333,13 +333,13 @@ extension CodeGen {
                 case .dartSystem:
                     try cmd("mkdir", "-p", outputDir).run()
                     let libs = [
-                        "FishyJoesDartRuntime",
+                        "FishyJoesIotaRuntime",
                         config.module,
-                        config.module + "-dart",
+                        config.module + "-iota",
                     ] + config.requiredModules.flatMap { module in
                         [
                             module,
-                            module + "-dart",
+                            module + "-iota",
                         ]
                     }
                     for lib in libs {

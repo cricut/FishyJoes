@@ -7,14 +7,15 @@ import TestAPI
 
 @_cdecl("TestAPI_Strings_setup")
 public func TestAPI_Strings_setup(
+    envRef: EnvRef
 ) {
 }
 
 extension Strings: IotaConverter {
-    public static func peekIota(_ value: foreignObject) throws -> Self {
+    public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
         throw UninhabitedTypeCreationError(self)
     }
 
-    public static func toIota(_ value: Self) throws -> foreignObject {
+    public static func toIota(_ value: Self, env: Env) throws -> foreignObject {
     }
 }

@@ -232,19 +232,19 @@ class Collections_CollectionHolder with _$Collections_CollectionHolder {
     /// <!-- FishyJoes.export(staticProperty) -->
     static List<int?> get staticProperty =>
         check((exn) =>
-            consumeCreatedRef<List<int?>>(f__dart_get_Collections_CollectionHolder_staticProperty(Loader.shared.env, exn))
+            consumeCreatedRef<List<int?>>(f__iota_get_Collections_CollectionHolder_staticProperty(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(staticMutableProperty) -->
     static List<int?> get staticMutableProperty =>
         check((exn) =>
-            consumeCreatedRef<List<int?>>(f__dart_get_Collections_CollectionHolder_staticMutableProperty(Loader.shared.env, exn))
+            consumeCreatedRef<List<int?>>(f__iota_get_Collections_CollectionHolder_staticMutableProperty(Loader.shared.env, exn))
         )
     ;
     static void set staticMutableProperty(List<int?> value) {
         GCRef.using(value, (_valueHandle) =>
             check((exn) =>
-                f__dart_set_Collections_CollectionHolder_staticMutableProperty(Loader.shared.env, _valueHandle.ptr, exn)
+                f__iota_set_Collections_CollectionHolder_staticMutableProperty(Loader.shared.env, _valueHandle.ptr, exn)
             )
         )
         ;
@@ -253,14 +253,14 @@ class Collections_CollectionHolder with _$Collections_CollectionHolder {
     static late CreatedRef Function(
         Env env,
         OutCreatedRef _exn
-    ) f__dart_get_Collections_CollectionHolder_staticMutableProperty;
+    ) f__iota_get_Collections_CollectionHolder_staticMutableProperty;
     static late CreatedRef Function(
         Env env,
         OutCreatedRef _exn
-    ) f__dart_get_Collections_CollectionHolder_staticProperty;
+    ) f__iota_get_Collections_CollectionHolder_staticProperty;
     static late void Function(
         Env env,
         UnownedRef staticMutableProperty,
         OutCreatedRef _exn
-    ) f__dart_set_Collections_CollectionHolder_staticMutableProperty;
+    ) f__iota_set_Collections_CollectionHolder_staticMutableProperty;
 }

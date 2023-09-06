@@ -81,10 +81,6 @@ extension TranslatedType {
         "\(definingModule)_\(converterType.genericBaseName.mangledName)_setup"
     }
 
-    var dartSetupName: String {
-        "\(definingModule)_\(converterType.genericBaseName.mangledName)_setup"
-    }
-
     var isInhabited: Bool { true }
 }
 

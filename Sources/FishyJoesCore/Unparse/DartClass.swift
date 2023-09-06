@@ -118,9 +118,9 @@ class DartClass {
 
         for field in fields {
             let baseArgs = field.isStatic ? [] : [thisArg]
-            result["__dart_get_\(field.mangledName)"] = (args: baseArgs, return: field.type)
+            result["__iota_get_\(field.mangledName)"] = (args: baseArgs, return: field.type)
             if !field.readOnly {
-                result["__dart_set_\(field.mangledName)"] = (args: baseArgs + [(field.name, field.type)], return: .void)
+                result["__iota_set_\(field.mangledName)"] = (args: baseArgs + [(field.name, field.type)], return: .void)
             }
         }
 
@@ -134,7 +134,7 @@ class DartClass {
             for param in method.parameters {
                 params.append((param.name, param.type))
             }
-            result["__dart_\(method.mangledName)"] = (args: params, return: method.returnType)
+            result["__iota_\(method.mangledName)"] = (args: params, return: method.returnType)
         }
 
         return result
@@ -167,9 +167,9 @@ class DartClass {
             wrap {
                 fragment.outputBlock("check((exn) =>", closeWith: ")") {
                     if field.type.isObject {
-                        fragment.output("consumeCreatedRef<\(field.type.name(in: self))>(f__dart_get_\(field.mangledName)(Loader.shared.env, \(selfArg)exn))")
+                        fragment.output("consumeCreatedRef<\(field.type.name(in: self))>(f__iota_get_\(field.mangledName)(Loader.shared.env, \(selfArg)exn))")
                     } else {
-                        fragment.output("f__dart_get_\(field.mangledName)(Loader.shared.env, \(selfArg)exn)")
+                        fragment.output("f__iota_get_\(field.mangledName)(Loader.shared.env, \(selfArg)exn)")
                     }
                 }
             }
@@ -191,7 +191,7 @@ class DartClass {
             }
             wrap {
                 fragment.outputBlock("check((exn) =>", closeWith: ")") {
-                    fragment.output("f__dart_set_\(field.mangledName)(Loader.shared.env, \(selfArg)\(valueValue), exn)")
+                    fragment.output("f__iota_set_\(field.mangledName)(Loader.shared.env, \(selfArg)\(valueValue), exn)")
                 }
             }
         }
@@ -270,7 +270,7 @@ class DartClass {
                     }
                     paramStrings.append("_exn")
 
-                    let body = "check((OutCreatedRef _exn) => f__dart_\(method.mangledName)(Loader.shared.env, \(paramStrings.joined(separator: ", "))))"
+                    let body = "check((OutCreatedRef _exn) => f__iota_\(method.mangledName)(Loader.shared.env, \(paramStrings.joined(separator: ", "))))"
                     wrap {
                         if method.returnType.isObject {
                             fragment.output("consumeCreatedRef<\(method.returnType.name(in: self))>(\(body))")

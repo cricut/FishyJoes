@@ -5,6 +5,7 @@ using static Cricut.FishyJoesRuntime.Utilities;
 
 namespace Cricut.FishyJoesRuntime {
     public partial class Loader {
+        public static IntPtr env;
 
         // MARK: - Memory management
 
@@ -21,7 +22,7 @@ namespace Cricut.FishyJoesRuntime {
         delegate void EnvDeleteRefFn(ConsumedRef obj);
         delegate CreatedRef EnvNewErrorFn(string message);
         [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern void FishyJoesRuntime_Env_setup(
+        static extern IntPtr FishyJoesRuntime_Env_setup(
             EnvNewRefFn newRefFn,
             EnvDeleteRefFn deleteRefFn,
             EnvNewErrorFn newErrorFn
@@ -30,7 +31,7 @@ namespace Cricut.FishyJoesRuntime {
         public static void ensureLoaded() { }
         static Loader() {
             // Must setup Env first!
-            FishyJoesRuntime_Env_setup(
+            env = FishyJoesRuntime_Env_setup(
                 bag<EnvNewRefFn>(obj => new CreatedRef(obj.Peek<object?>())),
                 bag<EnvDeleteRefFn>(obj => { obj.Consume<object?>(); }),
                 bag<EnvNewErrorFn>(message => new CreatedRef(new Exception(message)))

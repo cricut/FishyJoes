@@ -7,14 +7,15 @@ import TestAPI
 
 @_cdecl("TestAPI_DefaultArguments_setup")
 public func TestAPI_DefaultArguments_setup(
+    envRef: EnvRef
 ) {
 }
 
 extension DefaultArguments: IotaConverter {
-    public static func peekIota(_ value: foreignObject) throws -> Self {
+    public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
         throw UninhabitedTypeCreationError(self)
     }
 
-    public static func toIota(_ value: Self) throws -> foreignObject {
+    public static func toIota(_ value: Self, env: Env) throws -> foreignObject {
     }
 }

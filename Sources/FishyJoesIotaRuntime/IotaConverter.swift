@@ -6,72 +6,45 @@ import Foundation
 public protocol IotaConverter: Converter {
     associatedtype CType = foreignObject
 
-    static func peekIota(_ value: CType) throws -> SwiftType
-    static func peekIota(object: foreignObject) throws -> SwiftType
+    static func peekIota(_ value: CType, env: Env) throws -> SwiftType
+    static func peekIota(object: foreignObject, env: Env) throws -> SwiftType
 
-    static func consumeIota(_ value: CType) throws -> SwiftType
-    static func consumeIota(object: foreignObject) throws -> SwiftType
+    static func consumeIota(_ value: CType, env: Env) throws -> SwiftType
+    static func consumeIota(object: foreignObject, env: Env) throws -> SwiftType
 
-    static func toIota(_ value: SwiftType) throws -> CType
-    static func toIotaObject(_ value: SwiftType) throws -> foreignObject
+    static func toIota(_ value: SwiftType, env: Env) throws -> CType
+    static func toIotaObject(_ value: SwiftType, env: Env) throws -> foreignObject
 }
 
 extension IotaConverter {
-    public static func consumeIota(_ value: CType) throws -> SwiftType where CType == foreignObject {
-        defer { Env.deleteRef(value) }
-        return try peekIota(value)
+    public static func consumeIota(_ value: CType, env: Env) throws -> SwiftType where CType == foreignObject {
+        defer { env.deleteRef(value) }
+        return try peekIota(value, env: env)
     }
 
     @_disfavoredOverload
-    public static func consumeIota(_ value: CType) throws -> SwiftType {
-        defer { if let value = value as? foreignObject { Env.deleteRef(value) } }
-        return try peekIota(value)
+    public static func consumeIota(_ value: CType, env: Env) throws -> SwiftType {
+        defer { if let value = value as? foreignObject { env.deleteRef(value) } }
+        return try peekIota(value, env: env)
     }
 
-    public static func consumeIota(object: foreignObject) throws -> SwiftType {
-        defer { Env.deleteRef(object) }
-        return try peekIota(object: object)
+    public static func consumeIota(object: foreignObject, env: Env) throws -> SwiftType {
+        defer { env.deleteRef(object) }
+        return try peekIota(object: object, env: env)
     }
-}
-
-protocol PrimitiveIotaConverter: IotaConverter {}
-//     where SwiftType == Self, CType == Self {
-//     typealias ValueMethod = @convention(c) (foreignObject, foreignOutExn) -> Self
-//     typealias Constructor = @convention(c) (Self) -> foreignObject
-
-//     static var valueMethod: ValueMethod? { get }
-//     static var constructor: Constructor? { get }
-// }
-
-extension PrimitiveIotaConverter {
-    // typealias ValueMethod = @convention(c) (foreignObject, foreignOutExn) -> Self
-    // typealias Constructor = @convention(c) (Self) -> foreignObject
-    // public static func peekIota(_ value: Self) throws -> Self { value }
-    // public static func toIota(_ value: Self) throws -> Self { value }
-
-    // public static func peekIota(object: foreignObject) throws -> Self {
-    //     try Env.check { exn in valueMethod(object, exn) }
-    // }
-    // public static func toIotaObject(_ value: Self) throws -> foreignObject {
-    //     print("I am \(value): \(self), starting toIotaObject: constructor =")
-    //     dump(constructor)
-    //     let res = constructor(value)
-    //     print("I am \(value): \(self), I have triumphed")
-    //     return res
-    // }
 }
 
 extension IotaConverter where CType == foreignObject {
-    public static func toIotaObject(_ value: SwiftType) throws -> foreignObject {
-        try toIota(value)
+    public static func toIotaObject(_ value: SwiftType, env: Env) throws -> foreignObject {
+        try toIota(value, env: env)
     }
-    public static func peekIota(object: foreignObject) throws -> SwiftType {
-        try peekIota(object)
+    public static func peekIota(object: foreignObject, env: Env) throws -> SwiftType {
+        try peekIota(object, env: env)
     }
 }
 
 public protocol IotaMutator: IotaConverter {
-    static func mutateIota<R>(_ this: CType, body: (inout SwiftType) throws -> R) throws -> R
+    static func mutateIota<R>(_ this: CType, env: Env, body: (inout SwiftType) throws -> R) throws -> R
 }
 
 // MARK: - Primitive Type Conversions
@@ -79,11 +52,11 @@ public protocol IotaMutator: IotaConverter {
 extension VoidConverter: IotaConverter {
     public typealias CType = Void
 
-    public static func peekIota(_ value: Void) throws {}
-    public static func toIota(_ value: Void) throws {}
+    public static func peekIota(_ value: Void, env: Env) throws {}
+    public static func toIota(_ value: Void, env: Env) throws {}
 
-    public static func peekIota(object: foreignObject) throws {}
-    public static func toIotaObject(_ value: Void) throws -> foreignObject { nil }
+    public static func peekIota(object: foreignObject, env: Env) throws {}
+    public static func toIotaObject(_ value: Void, env: Env) throws -> foreignObject { nil }
 }
 
 extension Bool: IotaConverter {
@@ -92,376 +65,404 @@ extension Bool: IotaConverter {
 
     public typealias ValueMethod = @convention(c) (foreignObject, foreignOutExn) -> CType
 
-    static var iotaTrue: foreignObject = nil
-    static var iotaFalse: foreignObject = nil
-    static var valueMethod: ValueMethod?
+    static var iotaTrue = Env.CallbackMap<foreignObject>()
+    static var iotaFalse = Env.CallbackMap<foreignObject>()
+    static var valueMethod = Env.CallbackMap<ValueMethod>()
 
-    public static func peekIota(_ value: CType) throws -> Self {
+    public static func peekIota(_ value: CType, env: Env) throws -> Self {
         value != 0
     }
 
-    public static func peekIota(object: foreignObject) throws -> Self {
-        try Env.check { exn in try Env.unwrap(valueMethod)(object, exn) } != 0
+    public static func peekIota(object: foreignObject, env: Env) throws -> Self {
+        try env.check { exn in valueMethod[env](object, exn) } != 0
     }
 
-    public static func toIota(_ value: Self) throws -> CType {
+    public static func toIota(_ value: Self, env: Env) throws -> CType {
         value ? 1 : 0
     }
 
-    public static func toIotaObject(_ value: Self) throws -> foreignObject {
-        Env.newRef(value ? Self.iotaTrue : Self.iotaFalse)
+    public static func toIotaObject(_ value: Self, env: Env) throws -> foreignObject {
+        env.newRef(value ? Self.iotaTrue[env] : Self.iotaFalse[env])
     }
 }
 
 @_cdecl("FishyJoesRuntime_Bool_setup")
 public func Bool_iota_setup(
+    envRef: EnvRef,
     iotaTrue: foreignObject,
     iotaFalse: foreignObject,
     valueMethod: @escaping Bool.ValueMethod
 ) {
-    guard Bool.iotaTrue == nil else { return }
-    Bool.iotaTrue = Env.newRef(iotaTrue)
-    Bool.iotaFalse = Env.newRef(iotaFalse)
-    Bool.valueMethod = valueMethod
+    let env = Env(envRef)
+    if Bool.iotaTrue.isInitialized(env) { return }
+    Bool.iotaTrue[env] = env.newRef(iotaTrue)
+    Bool.iotaFalse[env] = env.newRef(iotaFalse)
+    Bool.valueMethod[env] = valueMethod
 }
 
-extension Int8: PrimitiveIotaConverter {
+extension Int8: IotaConverter {
     public typealias ValueMethod = @convention(c) (foreignObject, foreignOutExn) -> Self
     public typealias Constructor = @convention(c) (Self) -> foreignObject
-    public static func peekIota(_ value: Self) throws -> Self { value }
-    public static func toIota(_ value: Self) throws -> Self { value }
+    public static func peekIota(_ value: Self, env: Env) throws -> Self { value }
+    public static func toIota(_ value: Self, env: Env) throws -> Self { value }
 
-    public static func peekIota(object: foreignObject) throws -> Self {
-        try Env.check { exn in try Env.unwrap(valueMethod)(object, exn) }
+    public static func peekIota(object: foreignObject, env: Env) throws -> Self {
+        try env.check { exn in valueMethod[env](object, exn) }
     }
-    public static func toIotaObject(_ value: Self) throws -> foreignObject {
-        try Env.unwrap(constructor)(value)
+    public static func toIotaObject(_ value: Self, env: Env) throws -> foreignObject {
+        constructor[env](value)
     }
-    static var valueMethod: ValueMethod?
-    static var constructor: Constructor?
+    static var valueMethod = Env.CallbackMap<ValueMethod>()
+    static var constructor = Env.CallbackMap<Constructor>()
 }
 
 @_cdecl("FishyJoesRuntime_Int8_setup")
 public func Int8_iota_setup(
+    envRef: EnvRef,
     valueMethod: @escaping Int8.ValueMethod,
     constructor: @escaping Int8.Constructor
 ) {
-    guard Int8.valueMethod == nil else { return }
-    Int8.valueMethod = valueMethod
-    Int8.constructor = constructor
+    let env = Env(envRef)
+    if Int8.valueMethod.isInitialized(env) { return }
+    Int8.valueMethod[env] = valueMethod
+    Int8.constructor[env] = constructor
 }
 
-extension Int16: PrimitiveIotaConverter {
+extension Int16: IotaConverter {
     public typealias ValueMethod = @convention(c) (foreignObject, foreignOutExn) -> Self
     public typealias Constructor = @convention(c) (Self) -> foreignObject
-    public static func peekIota(_ value: Self) throws -> Self { value }
-    public static func toIota(_ value: Self) throws -> Self { value }
+    public static func peekIota(_ value: Self, env: Env) throws -> Self { value }
+    public static func toIota(_ value: Self, env: Env) throws -> Self { value }
 
-    public static func peekIota(object: foreignObject) throws -> Self {
-        try Env.check { exn in try Env.unwrap(valueMethod)(object, exn) }
+    public static func peekIota(object: foreignObject, env: Env) throws -> Self {
+        try env.check { exn in valueMethod[env](object, exn) }
     }
-    public static func toIotaObject(_ value: Self) throws -> foreignObject {
-        try Env.unwrap(constructor)(value)
+    public static func toIotaObject(_ value: Self, env: Env) throws -> foreignObject {
+        constructor[env](value)
     }
-    static var valueMethod: ValueMethod?
-    static var constructor: Constructor?
+    static var valueMethod = Env.CallbackMap<ValueMethod>()
+    static var constructor = Env.CallbackMap<Constructor>()
 }
 
 @_cdecl("FishyJoesRuntime_Int16_setup")
 public func Int16_iota_setup(
+    envRef: EnvRef,
     valueMethod: @escaping Int16.ValueMethod,
     constructor: @escaping Int16.Constructor
 ) {
-    guard Int16.valueMethod == nil else { return }
-    Int16.valueMethod = valueMethod
-    Int16.constructor = constructor
+    let env = Env(envRef)
+    if Int16.valueMethod.isInitialized(env) { return }
+    Int16.valueMethod[env] = valueMethod
+    Int16.constructor[env] = constructor
 }
 
-extension Int32: PrimitiveIotaConverter {
+extension Int32: IotaConverter {
     public typealias ValueMethod = @convention(c) (foreignObject, foreignOutExn) -> Self
     public typealias Constructor = @convention(c) (Self) -> foreignObject
-    public static func peekIota(_ value: Self) throws -> Self { value }
-    public static func toIota(_ value: Self) throws -> Self { value }
+    public static func peekIota(_ value: Self, env: Env) throws -> Self { value }
+    public static func toIota(_ value: Self, env: Env) throws -> Self { value }
 
-    public static func peekIota(object: foreignObject) throws -> Self {
-        try Env.check { exn in try Env.unwrap(valueMethod)(object, exn) }
+    public static func peekIota(object: foreignObject, env: Env) throws -> Self {
+        try env.check { exn in valueMethod[env](object, exn) }
     }
-    public static func toIotaObject(_ value: Self) throws -> foreignObject {
-        try Env.unwrap(constructor)(value)
+    public static func toIotaObject(_ value: Self, env: Env) throws -> foreignObject {
+        constructor[env](value)
     }
-    static var valueMethod: ValueMethod?
-    static var constructor: Constructor?
+    static var valueMethod = Env.CallbackMap<ValueMethod>()
+    static var constructor = Env.CallbackMap<Constructor>()
 }
 
 @_cdecl("FishyJoesRuntime_Int32_setup")
 public func Int32_iota_setup(
+    envRef: EnvRef,
     valueMethod: @escaping Int32.ValueMethod,
     constructor: @escaping Int32.Constructor
 ) {
-    guard Int32.valueMethod == nil else { return }
-    Int32.valueMethod = valueMethod
-    Int32.constructor = constructor
+    let env = Env(envRef)
+    if Int32.valueMethod.isInitialized(env) { return }
+    Int32.valueMethod[env] = valueMethod
+    Int32.constructor[env] = constructor
 }
 
-extension Int64: PrimitiveIotaConverter {
+extension Int64: IotaConverter {
     public typealias ValueMethod = @convention(c) (foreignObject, foreignOutExn) -> Self
     public typealias Constructor = @convention(c) (Self) -> foreignObject
-    public static func peekIota(_ value: Self) throws -> Self { value }
-    public static func toIota(_ value: Self) throws -> Self { value }
+    public static func peekIota(_ value: Self, env: Env) throws -> Self { value }
+    public static func toIota(_ value: Self, env: Env) throws -> Self { value }
 
-    public static func peekIota(object: foreignObject) throws -> Self {
-        try Env.check { exn in try Env.unwrap(valueMethod)(object, exn) }
+    public static func peekIota(object: foreignObject, env: Env) throws -> Self {
+        try env.check { exn in valueMethod[env](object, exn) }
     }
-    public static func toIotaObject(_ value: Self) throws -> foreignObject {
-        try Env.unwrap(constructor)(value)
+    public static func toIotaObject(_ value: Self, env: Env) throws -> foreignObject {
+        constructor[env](value)
     }
-    static var valueMethod: ValueMethod?
-    static var constructor: Constructor?
+    static var valueMethod = Env.CallbackMap<ValueMethod>()
+    static var constructor = Env.CallbackMap<Constructor>()
 }
 
 @_cdecl("FishyJoesRuntime_Int64_setup")
 public func Int64_iota_setup(
+    envRef: EnvRef,
     valueMethod: @escaping Int64.ValueMethod,
     constructor: @escaping Int64.Constructor
 ) {
-    guard Int64.valueMethod == nil else { return }
-    Int64.valueMethod = valueMethod
-    Int64.constructor = constructor
+    let env = Env(envRef)
+    if Int64.valueMethod.isInitialized(env) { return }
+    Int64.valueMethod[env] = valueMethod
+    Int64.constructor[env] = constructor
 }
 
-extension UInt8: PrimitiveIotaConverter {
+extension UInt8: IotaConverter {
     public typealias ValueMethod = @convention(c) (foreignObject, foreignOutExn) -> Self
     public typealias Constructor = @convention(c) (Self) -> foreignObject
-    public static func peekIota(_ value: Self) throws -> Self { value }
-    public static func toIota(_ value: Self) throws -> Self { value }
+    public static func peekIota(_ value: Self, env: Env) throws -> Self { value }
+    public static func toIota(_ value: Self, env: Env) throws -> Self { value }
 
-    public static func peekIota(object: foreignObject) throws -> Self {
-        try Env.check { exn in try Env.unwrap(valueMethod)(object, exn) }
+    public static func peekIota(object: foreignObject, env: Env) throws -> Self {
+        try env.check { exn in valueMethod[env](object, exn) }
     }
-    public static func toIotaObject(_ value: Self) throws -> foreignObject {
-        try Env.unwrap(constructor)(value)
+    public static func toIotaObject(_ value: Self, env: Env) throws -> foreignObject {
+        constructor[env](value)
     }
-    static var valueMethod: ValueMethod?
-    static var constructor: Constructor?
+    static var valueMethod = Env.CallbackMap<ValueMethod>()
+    static var constructor = Env.CallbackMap<Constructor>()
 }
 
 @_cdecl("FishyJoesRuntime_UInt8_setup")
 public func UInt8_iota_setup(
+    envRef: EnvRef,
     valueMethod: @escaping UInt8.ValueMethod,
     constructor: @escaping UInt8.Constructor
 ) {
-    guard UInt8.valueMethod == nil else { return }
-    UInt8.valueMethod = valueMethod
-    UInt8.constructor = constructor
+    let env = Env(envRef)
+    if UInt8.valueMethod.isInitialized(env) { return }
+    UInt8.valueMethod[env] = valueMethod
+    UInt8.constructor[env] = constructor
 }
 
-extension UInt16: PrimitiveIotaConverter {
+extension UInt16: IotaConverter {
     public typealias ValueMethod = @convention(c) (foreignObject, foreignOutExn) -> Self
     public typealias Constructor = @convention(c) (Self) -> foreignObject
-    public static func peekIota(_ value: Self) throws -> Self { value }
-    public static func toIota(_ value: Self) throws -> Self { value }
+    public static func peekIota(_ value: Self, env: Env) throws -> Self { value }
+    public static func toIota(_ value: Self, env: Env) throws -> Self { value }
 
-    public static func peekIota(object: foreignObject) throws -> Self {
-        try Env.check { exn in try Env.unwrap(valueMethod)(object, exn) }
+    public static func peekIota(object: foreignObject, env: Env) throws -> Self {
+        try env.check { exn in valueMethod[env](object, exn) }
     }
-    public static func toIotaObject(_ value: Self) throws -> foreignObject {
-        try Env.unwrap(constructor)(value)
+    public static func toIotaObject(_ value: Self, env: Env) throws -> foreignObject {
+        constructor[env](value)
     }
-    static var valueMethod: ValueMethod?
-    static var constructor: Constructor?
+    static var valueMethod = Env.CallbackMap<ValueMethod>()
+    static var constructor = Env.CallbackMap<Constructor>()
 }
 
 @_cdecl("FishyJoesRuntime_UInt16_setup")
 public func UInt16_iota_setup(
+    envRef: EnvRef,
     valueMethod: @escaping UInt16.ValueMethod,
     constructor: @escaping UInt16.Constructor
 ) {
-    guard UInt16.valueMethod == nil else { return }
-    UInt16.valueMethod = valueMethod
-    UInt16.constructor = constructor
+    let env = Env(envRef)
+    if UInt16.valueMethod.isInitialized(env) { return }
+    UInt16.valueMethod[env] = valueMethod
+    UInt16.constructor[env] = constructor
 }
 
-extension UInt32: PrimitiveIotaConverter {
+extension UInt32: IotaConverter {
     public typealias ValueMethod = @convention(c) (foreignObject, foreignOutExn) -> Self
     public typealias Constructor = @convention(c) (Self) -> foreignObject
-    public static func peekIota(_ value: Self) throws -> Self { value }
-    public static func toIota(_ value: Self) throws -> Self { value }
+    public static func peekIota(_ value: Self, env: Env) throws -> Self { value }
+    public static func toIota(_ value: Self, env: Env) throws -> Self { value }
 
-    public static func peekIota(object: foreignObject) throws -> Self {
-        try Env.check { exn in try Env.unwrap(valueMethod)(object, exn) }
+    public static func peekIota(object: foreignObject, env: Env) throws -> Self {
+        try env.check { exn in valueMethod[env](object, exn) }
     }
-    public static func toIotaObject(_ value: Self) throws -> foreignObject {
-        try Env.unwrap(constructor)(value)
+    public static func toIotaObject(_ value: Self, env: Env) throws -> foreignObject {
+        constructor[env](value)
     }
-    static var valueMethod: ValueMethod?
-    static var constructor: Constructor?
+    static var valueMethod = Env.CallbackMap<ValueMethod>()
+    static var constructor = Env.CallbackMap<Constructor>()
 }
 
 @_cdecl("FishyJoesRuntime_UInt32_setup")
 public func UInt32_iota_setup(
+    envRef: EnvRef,
     valueMethod: @escaping UInt32.ValueMethod,
     constructor: @escaping UInt32.Constructor
 ) {
-    guard UInt32.valueMethod == nil else { return }
-    UInt32.valueMethod = valueMethod
-    UInt32.constructor = constructor
+    let env = Env(envRef)
+    if UInt32.valueMethod.isInitialized(env) { return }
+    UInt32.valueMethod[env] = valueMethod
+    UInt32.constructor[env] = constructor
 }
 
-extension UInt64: PrimitiveIotaConverter {
+extension UInt64: IotaConverter {
     public typealias ValueMethod = @convention(c) (foreignObject, foreignOutExn) -> Self
     public typealias Constructor = @convention(c) (Self) -> foreignObject
-    public static func peekIota(_ value: Self) throws -> Self { value }
-    public static func toIota(_ value: Self) throws -> Self { value }
+    public static func peekIota(_ value: Self, env: Env) throws -> Self { value }
+    public static func toIota(_ value: Self, env: Env) throws -> Self { value }
 
-    public static func peekIota(object: foreignObject) throws -> Self {
-        try Env.check { exn in try Env.unwrap(valueMethod)(object, exn) }
+    public static func peekIota(object: foreignObject, env: Env) throws -> Self {
+        try env.check { exn in valueMethod[env](object, exn) }
     }
-    public static func toIotaObject(_ value: Self) throws -> foreignObject {
-        try Env.unwrap(constructor)(value)
+    public static func toIotaObject(_ value: Self, env: Env) throws -> foreignObject {
+        constructor[env](value)
     }
-    static var valueMethod: ValueMethod?
-    static var constructor: Constructor?
+    static var valueMethod = Env.CallbackMap<ValueMethod>()
+    static var constructor = Env.CallbackMap<Constructor>()
 }
 
 @_cdecl("FishyJoesRuntime_UInt64_setup")
 public func UInt64_iota_setup(
+    envRef: EnvRef,
     valueMethod: @escaping UInt64.ValueMethod,
     constructor: @escaping UInt64.Constructor
 ) {
-    guard UInt64.valueMethod == nil else { return }
-    UInt64.valueMethod = valueMethod
-    UInt64.constructor = constructor
+    let env = Env(envRef)
+    if UInt64.valueMethod.isInitialized(env) { return }
+    UInt64.valueMethod[env] = valueMethod
+    UInt64.constructor[env] = constructor
 }
 
-extension Int: PrimitiveIotaConverter {
+extension Int: IotaConverter {
     public typealias ValueMethod = @convention(c) (foreignObject, foreignOutExn) -> Self
     public typealias Constructor = @convention(c) (Self) -> foreignObject
-    public static func peekIota(_ value: Self) throws -> Self { value }
-    public static func toIota(_ value: Self) throws -> Self { value }
+    public static func peekIota(_ value: Self, env: Env) throws -> Self { value }
+    public static func toIota(_ value: Self, env: Env) throws -> Self { value }
 
-    public static func peekIota(object: foreignObject) throws -> Self {
-        try Env.check { exn in try Env.unwrap(valueMethod)(object, exn) }
+    public static func peekIota(object: foreignObject, env: Env) throws -> Self {
+        try env.check { exn in valueMethod[env](object, exn) }
     }
-    public static func toIotaObject(_ value: Self) throws -> foreignObject {
-        try Env.unwrap(constructor)(value)
+    public static func toIotaObject(_ value: Self, env: Env) throws -> foreignObject {
+        constructor[env](value)
     }
-    static var valueMethod: ValueMethod?
-    static var constructor: Constructor?
+    static var valueMethod = Env.CallbackMap<ValueMethod>()
+    static var constructor = Env.CallbackMap<Constructor>()
 }
 
 @_cdecl("FishyJoesRuntime_Int_setup")
 public func Int_iota_setup(
+    envRef: EnvRef,
     valueMethod: @escaping Int.ValueMethod,
     constructor: @escaping Int.Constructor
 ) {
-    guard Int.valueMethod == nil else { return }
-    Int.valueMethod = valueMethod
-    Int.constructor = constructor
+    let env = Env(envRef)
+    if Int.valueMethod.isInitialized(env) { return }
+    Int.valueMethod[env] = valueMethod
+    Int.constructor[env] = constructor
 }
 
-extension Float: PrimitiveIotaConverter {
+extension Float: IotaConverter {
     public typealias ValueMethod = @convention(c) (foreignObject, foreignOutExn) -> Self
     public typealias Constructor = @convention(c) (Self) -> foreignObject
-    public static func peekIota(_ value: Self) throws -> Self { value }
-    public static func toIota(_ value: Self) throws -> Self { value }
+    public static func peekIota(_ value: Self, env: Env) throws -> Self { value }
+    public static func toIota(_ value: Self, env: Env) throws -> Self { value }
 
-    public static func peekIota(object: foreignObject) throws -> Self {
-        try Env.check { exn in try Env.unwrap(valueMethod)(object, exn) }
+    public static func peekIota(object: foreignObject, env: Env) throws -> Self {
+        try env.check { exn in valueMethod[env](object, exn) }
     }
-    public static func toIotaObject(_ value: Self) throws -> foreignObject {
-        try Env.unwrap(constructor)(value)
+    public static func toIotaObject(_ value: Self, env: Env) throws -> foreignObject {
+        constructor[env](value)
     }
-    static var valueMethod: ValueMethod?
-    static var constructor: Constructor?
+    static var valueMethod = Env.CallbackMap<ValueMethod>()
+    static var constructor = Env.CallbackMap<Constructor>()
 }
 
 @_cdecl("FishyJoesRuntime_Float_setup")
 public func Float_iota_setup(
+    envRef: EnvRef,
     valueMethod: @escaping Float.ValueMethod,
     constructor: @escaping Float.Constructor
 ) {
-    guard Float.valueMethod == nil else { return }
-    Float.valueMethod = valueMethod
-    Float.constructor = constructor
+    let env = Env(envRef)
+    if Float.valueMethod.isInitialized(env) { return }
+    Float.valueMethod[env] = valueMethod
+    Float.constructor[env] = constructor
 }
 
-extension Double: PrimitiveIotaConverter {
+extension Double: IotaConverter {
     public typealias ValueMethod = @convention(c) (foreignObject, foreignOutExn) -> Self
     public typealias Constructor = @convention(c) (Self) -> foreignObject
-    public static func peekIota(_ value: Self) throws -> Self { value }
-    public static func toIota(_ value: Self) throws -> Self { value }
+    public static func peekIota(_ value: Self, env: Env) throws -> Self { value }
+    public static func toIota(_ value: Self, env: Env) throws -> Self { value }
 
-    public static func peekIota(object: foreignObject) throws -> Self {
-        try Env.check { exn in try Env.unwrap(valueMethod)(object, exn) }
+    public static func peekIota(object: foreignObject, env: Env) throws -> Self {
+        try env.check { exn in valueMethod[env](object, exn) }
     }
-    public static func toIotaObject(_ value: Self) throws -> foreignObject {
-        try Env.unwrap(constructor)(value)
+    public static func toIotaObject(_ value: Self, env: Env) throws -> foreignObject {
+        constructor[env](value)
     }
-    static var valueMethod: ValueMethod?
-    static var constructor: Constructor?
+    static var valueMethod = Env.CallbackMap<ValueMethod>()
+    static var constructor = Env.CallbackMap<Constructor>()
 }
 
 @_cdecl("FishyJoesRuntime_Double_setup")
 public func Double_iota_setup(
+    envRef: EnvRef,
     valueMethod: @escaping Double.ValueMethod,
     constructor: @escaping Double.Constructor
 ) {
-    guard Double.valueMethod == nil else { return }
-    Double.valueMethod = valueMethod
-    Double.constructor = constructor
+    let env = Env(envRef)
+    if Double.valueMethod.isInitialized(env) { return }
+    Double.valueMethod[env] = valueMethod
+    Double.constructor[env] = constructor
 }
 
 // MARK: - Less-Primitive Type Conversions
 
 @_cdecl("FishyJoesRuntime_String_setup")
 public func String_iota_setup(
+    envRef: EnvRef,
     getLengthMethod: @escaping @convention(c) (foreignObject, foreignOutExn) -> Int,
     getUtf16Method: @escaping @convention(c) (foreignObject, UnsafeMutablePointer<unichar>, foreignOutExn) -> Void,
     constructor: @escaping @convention(c) (UnsafePointer<unichar>, Int, foreignOutExn) -> foreignObject
 ) {
-    guard String.getLengthMethod == nil else { return }
-    String.getLengthMethod = getLengthMethod
-    String.getUtf16Method = getUtf16Method
-    String.constructor = constructor
+    let env = Env(envRef)
+    if String.getLengthMethod.isInitialized(env) { return }
+    String.getLengthMethod[env] = getLengthMethod
+    String.getUtf16Method[env] = getUtf16Method
+    String.constructor[env] = constructor
 }
 
 struct AllocationError: Error {}
 
 extension String: IotaConverter {
-    fileprivate static var getLengthMethod: (@convention(c) (foreignObject, foreignOutExn) -> Int)?
-    fileprivate static var getUtf16Method: (@convention(c) (foreignObject, UnsafeMutablePointer<unichar>, foreignOutExn) -> Void)?
-    fileprivate static var constructor: (@convention(c) (UnsafePointer<unichar>, Int, foreignOutExn) -> foreignObject)?
+    fileprivate static var getLengthMethod = Env.CallbackMap<(@convention(c) (foreignObject, foreignOutExn) -> Int)>()
+    fileprivate static var getUtf16Method = Env.CallbackMap<(@convention(c) (foreignObject, UnsafeMutablePointer<unichar>, foreignOutExn) -> Void)>()
+    fileprivate static var constructor = Env.CallbackMap<(@convention(c) (UnsafePointer<unichar>, Int, foreignOutExn) -> foreignObject)>()
 
-    public static func peekIota(_ value: foreignObject) throws -> Self {
-        let len16 = try Env.check { exn in try Env.unwrap(getLengthMethod)(value, exn) }
+    public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
+        let len16 = try env.check { exn in getLengthMethod[env](value, exn) }
         guard let units = UnsafeMutablePointer<unichar>(OpaquePointer(malloc(len16 * 2))) else {
             throw AllocationError()
         }
         var deferred: (() -> Void)? = { free(units) }
         defer { deferred?() }
-        try Env.check { exn in try Env.unwrap(getUtf16Method)(value, units, exn) }
+        try env.check { exn in getUtf16Method[env](value, units, exn) }
         deferred = nil
         return String(utf16CodeUnitsNoCopy: units, count: len16, freeWhenDone: true)
     }
 
-    public static func toIota(_ value: Self) throws -> foreignObject {
+    public static func toIota(_ value: Self, env: Env) throws -> foreignObject {
         let array = Array(value.utf16)
         return try array.withUnsafeBufferPointer { buffer in
-            try Env.check { exn in try Env.unwrap(constructor)(buffer.baseAddress!, array.count * 2, exn) }
+            try env.check { exn in constructor[env](buffer.baseAddress!, array.count * 2, exn) }
         }
     }
 }
 
 @_cdecl("FishyJoesRuntime_Data_setup")
 public func Data_iota_setup(
+    envRef: EnvRef,
     lengthMethod: @escaping Data.LengthMethod,
     bytesMethod: @escaping Data.BytesMethod,
     constructor: @escaping Data.Constuctor
 ) {
-    guard Data.lengthMethod == nil else { return }
-    Data.lengthMethod = lengthMethod
-    Data.bytesMethod = bytesMethod
-    Data.constuctor = constructor
+    let env = Env(envRef)
+    if Data.lengthMethod.isInitialized(env) { return }
+    Data.lengthMethod[env] = lengthMethod
+    Data.bytesMethod[env] = bytesMethod
+    Data.constuctor[env] = constructor
 }
 
 extension Data: IotaConverter {
@@ -469,27 +470,27 @@ extension Data: IotaConverter {
     public typealias BytesMethod = @convention(c) (_ data: foreignObject, _ outValues: UnsafeMutableRawPointer, _ exn: foreignOutExn) -> Void
     public typealias Constuctor = @convention(c) (_ bytes: UnsafeRawPointer?, _ length: Int32, _ exn: foreignOutExn) -> foreignObject
 
-    fileprivate static var lengthMethod: Data.LengthMethod?
-    fileprivate static var bytesMethod: Data.BytesMethod?
-    fileprivate static var constuctor: Data.Constuctor?
+    fileprivate static var lengthMethod = Env.CallbackMap<Data.LengthMethod>()
+    fileprivate static var bytesMethod = Env.CallbackMap<Data.BytesMethod>()
+    fileprivate static var constuctor = Env.CallbackMap<Data.Constuctor>()
 
-    public static func peekIota(_ value: foreignObject) throws -> SwiftType {
-        let length = try Env.check { exn in Int(try Env.unwrap(lengthMethod)(value, exn)) }
+    public static func peekIota(_ value: foreignObject, env: Env) throws -> SwiftType {
+        let length = try env.check { exn in Int(lengthMethod[env](value, exn)) }
         guard let buffer = malloc(length) else {
             throw AllocationError()
         }
         var deferred: (() -> Void)? = { free(buffer) }
         defer { deferred?() }
-        try Env.check { exn in try Env.unwrap(bytesMethod)(value, buffer, exn) }
+        try env.check { exn in bytesMethod[env](value, buffer, exn) }
         deferred = nil
 
         return Data(bytesNoCopy: buffer, count: length, deallocator: .free)
     }
 
-    public static func toIota(_ value: SwiftType) throws -> foreignObject {
+    public static func toIota(_ value: SwiftType, env: Env) throws -> foreignObject {
         try value.withUnsafeBytes { (buffer: UnsafeRawBufferPointer) in
-            try Env.check { exn in
-                try Env.unwrap(constuctor)(buffer.baseAddress, Int32(value.count), exn)
+            try env.check { exn in
+                constuctor[env](buffer.baseAddress, Int32(value.count), exn)
             }
         }
     }

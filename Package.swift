@@ -38,7 +38,6 @@ let package = Package(
         [
             P.library(name: "FishyJoesJavaRuntime", type: .dynamic, targets: ["FishyJoesJavaRuntime"]),
             P.library(name: "FishyJoesIotaRuntime", type: .dynamic, targets: ["FishyJoesIotaRuntime"]),
-            P.library(name: "FishyJoesDartRuntime", type: .dynamic, targets: ["FishyJoesDartRuntime"]),
             P.library(name: "JavaRuntimeTestHarness", type: .dynamic, targets: ["JavaRuntimeTestHarness"]),
             P.executable(name: "fishy-joes", targets: ["FishyJoesExecuteMain"]),
         ]
@@ -89,13 +88,6 @@ let package = Package(
             dependencies: [
                 .target(name: "FishyJoesCommonRuntime"),
             ]
-        ),
-        T.target(
-            name: "FishyJoesDartRuntime",
-            dependencies: [
-                .target(name: "FishyJoesCommonRuntime"),
-            ]
-                // ,swiftSettings: [.unsafeFlags(["-sanitize=thread"])], linkerSettings: [.unsafeFlags(["-sanitize=thread"])]
         ),
         T.target(
             name: "FishyJoesNodeRuntime",

@@ -22,6 +22,7 @@ public class FishyJoesContext {
     let kotlinTranslator = KotlinTranslator()
     let neutralTranslator = NeutralTranslate()
 
+    let iotaTranslator = IotaTranslator()
     let cSharpTranslator = CSharpTranslator()
     let dartTranslator = DartTranslator()
 
@@ -30,8 +31,9 @@ public class FishyJoesContext {
         kotlinTranslator,
         // neutralTranslator,
 
-        dartTranslator,
+        iotaTranslator,
         cSharpTranslator,
+        dartTranslator,
     ]
 
     public init(context: TemplateContext) {
@@ -149,15 +151,13 @@ public class FishyJoesContext {
                 debugContext = "Translating method \(type.name).\(method.name)"
                 seenMethods.insert(method)
                 collectedFragments.append(contentsOf: kotlinTranslator.translate(method: method, context: self))
-                collectedFragments.append(contentsOf: cSharpTranslator.translate(method: method, context: self))
-                collectedFragments.append(contentsOf: dartTranslator.translate(method: method, context: self))
+                collectedFragments.append(contentsOf: iotaTranslator.translate(method: method, context: self))
             }
             for variable in type.rawVariables {
                 debugContext = "Translating variable \(type.name).\(variable.name)"
                 guard variable.exportAnnotation != nil else { continue }
                 collectedFragments.append(contentsOf: kotlinTranslator.translate(variable: variable, context: self))
-                collectedFragments.append(contentsOf: cSharpTranslator.translate(variable: variable, context: self))
-                collectedFragments.append(contentsOf: dartTranslator.translate(variable: variable, context: self))
+                collectedFragments.append(contentsOf: iotaTranslator.translate(variable: variable, context: self))
             }
         }
         // Translate any top level functions

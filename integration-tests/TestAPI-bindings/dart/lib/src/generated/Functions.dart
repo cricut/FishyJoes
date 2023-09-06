@@ -53,43 +53,43 @@ class Functions {
     /// <!-- FishyJoes.export(const42) -->
     static int Function() get const42 =>
         check((exn) =>
-            consumeCreatedRef<int Function()>(f__dart_get_Functions_const42(Loader.shared.env, exn))
+            consumeCreatedRef<int Function()>(f__iota_get_Functions_const42(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(abs) -->
     static int Function(int) get abs =>
         check((exn) =>
-            consumeCreatedRef<int Function(int)>(f__dart_get_Functions_abs(Loader.shared.env, exn))
+            consumeCreatedRef<int Function(int)>(f__iota_get_Functions_abs(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(intCompose) -->
     static int Function(int) Function(int Function(int), int Function(int)) get intCompose =>
         check((exn) =>
-            consumeCreatedRef<int Function(int) Function(int Function(int), int Function(int))>(f__dart_get_Functions_intCompose(Loader.shared.env, exn))
+            consumeCreatedRef<int Function(int) Function(int Function(int), int Function(int))>(f__iota_get_Functions_intCompose(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(add3Things) -->
     static double Function(double, double, int) get add3Things =>
         check((exn) =>
-            consumeCreatedRef<double Function(double, double, int)>(f__dart_get_Functions_add3Things(Loader.shared.env, exn))
+            consumeCreatedRef<double Function(double, double, int)>(f__iota_get_Functions_add3Things(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(makeList) -->
     static List<String> Function(String, String, String, String) get makeList =>
         check((exn) =>
-            consumeCreatedRef<List<String> Function(String, String, String, String)>(f__dart_get_Functions_makeList(Loader.shared.env, exn))
+            consumeCreatedRef<List<String> Function(String, String, String, String)>(f__iota_get_Functions_makeList(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(fifthThing) -->
     static int Function() Function(String, int, double, String, int Function()) get fifthThing =>
         check((exn) =>
-            consumeCreatedRef<int Function() Function(String, int, double, String, int Function())>(f__dart_get_Functions_fifthThing(Loader.shared.env, exn))
+            consumeCreatedRef<int Function() Function(String, int, double, String, int Function())>(f__iota_get_Functions_fifthThing(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(sixthThing) -->
     static int Function(String, int, double, String, int Function(), int) get sixthThing =>
         check((exn) =>
-            consumeCreatedRef<int Function(String, int, double, String, int Function(), int)>(f__dart_get_Functions_sixthThing(Loader.shared.env, exn))
+            consumeCreatedRef<int Function(String, int, double, String, int Function(), int)>(f__iota_get_Functions_sixthThing(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(exercise0) -->
@@ -97,7 +97,7 @@ class Functions {
         int Function() fn,
     ) =>
         GCRef.using(fn, (_fnHandle) =>
-            consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__dart_Functions_exercise0(Loader.shared.env, _fnHandle.ptr, _exn)))
+            consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_Functions_exercise0(Loader.shared.env, _fnHandle.ptr, _exn)))
         )
     ;
 
@@ -106,7 +106,7 @@ class Functions {
         int Function(int) fn,
     ) =>
         GCRef.using(fn, (_fnHandle) =>
-            consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__dart_Functions_exercise1(Loader.shared.env, _fnHandle.ptr, _exn)))
+            consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_Functions_exercise1(Loader.shared.env, _fnHandle.ptr, _exn)))
         )
     ;
 
@@ -115,7 +115,7 @@ class Functions {
         int Function(int) Function(int Function(int), int Function(int)) fn,
     ) =>
         GCRef.using(fn, (_fnHandle) =>
-            consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__dart_Functions_exercise2(Loader.shared.env, _fnHandle.ptr, _exn)))
+            consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_Functions_exercise2(Loader.shared.env, _fnHandle.ptr, _exn)))
         )
     ;
 
@@ -124,7 +124,7 @@ class Functions {
         double Function(double, double, int) fn,
     ) =>
         GCRef.using(fn, (_fnHandle) =>
-            consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__dart_Functions_exercise3(Loader.shared.env, _fnHandle.ptr, _exn)))
+            consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_Functions_exercise3(Loader.shared.env, _fnHandle.ptr, _exn)))
         )
     ;
 
@@ -133,7 +133,7 @@ class Functions {
         List<String> Function(String, String, String, String) fn,
     ) =>
         GCRef.using(fn, (_fnHandle) =>
-            consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__dart_Functions_exercise4(Loader.shared.env, _fnHandle.ptr, _exn)))
+            consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_Functions_exercise4(Loader.shared.env, _fnHandle.ptr, _exn)))
         )
     ;
 
@@ -142,7 +142,7 @@ class Functions {
         int Function() Function(String, int, double, String, int Function()) fn,
     ) =>
         GCRef.using(fn, (_fnHandle) =>
-            consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__dart_Functions_exercise5(Loader.shared.env, _fnHandle.ptr, _exn)))
+            consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_Functions_exercise5(Loader.shared.env, _fnHandle.ptr, _exn)))
         )
     ;
 
@@ -151,81 +151,81 @@ class Functions {
         int Function(String, int, double, String, int Function(), int) fn,
     ) =>
         GCRef.using(fn, (_fnHandle) =>
-            consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__dart_Functions_exercise6(Loader.shared.env, _fnHandle.ptr, _exn)))
+            consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_Functions_exercise6(Loader.shared.env, _fnHandle.ptr, _exn)))
         )
     ;
 
     /// <!-- FishyJoes.export(willThrow) -->
     static String willThrow(
     ) =>
-        consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__dart_Functions_willThrow(Loader.shared.env, _exn)))
+        consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_Functions_willThrow(Loader.shared.env, _exn)))
     ;
 
     static late CreatedRef Function(
         Env env,
         UnownedRef fn,
         OutCreatedRef _exn
-    ) f__dart_Functions_exercise0;
+    ) f__iota_Functions_exercise0;
     static late CreatedRef Function(
         Env env,
         UnownedRef fn,
         OutCreatedRef _exn
-    ) f__dart_Functions_exercise1;
+    ) f__iota_Functions_exercise1;
     static late CreatedRef Function(
         Env env,
         UnownedRef fn,
         OutCreatedRef _exn
-    ) f__dart_Functions_exercise2;
+    ) f__iota_Functions_exercise2;
     static late CreatedRef Function(
         Env env,
         UnownedRef fn,
         OutCreatedRef _exn
-    ) f__dart_Functions_exercise3;
+    ) f__iota_Functions_exercise3;
     static late CreatedRef Function(
         Env env,
         UnownedRef fn,
         OutCreatedRef _exn
-    ) f__dart_Functions_exercise4;
+    ) f__iota_Functions_exercise4;
     static late CreatedRef Function(
         Env env,
         UnownedRef fn,
         OutCreatedRef _exn
-    ) f__dart_Functions_exercise5;
+    ) f__iota_Functions_exercise5;
     static late CreatedRef Function(
         Env env,
         UnownedRef fn,
         OutCreatedRef _exn
-    ) f__dart_Functions_exercise6;
+    ) f__iota_Functions_exercise6;
     static late CreatedRef Function(
         Env env,
         OutCreatedRef _exn
-    ) f__dart_Functions_willThrow;
+    ) f__iota_Functions_willThrow;
     static late CreatedRef Function(
         Env env,
         OutCreatedRef _exn
-    ) f__dart_get_Functions_abs;
+    ) f__iota_get_Functions_abs;
     static late CreatedRef Function(
         Env env,
         OutCreatedRef _exn
-    ) f__dart_get_Functions_add3Things;
+    ) f__iota_get_Functions_add3Things;
     static late CreatedRef Function(
         Env env,
         OutCreatedRef _exn
-    ) f__dart_get_Functions_const42;
+    ) f__iota_get_Functions_const42;
     static late CreatedRef Function(
         Env env,
         OutCreatedRef _exn
-    ) f__dart_get_Functions_fifthThing;
+    ) f__iota_get_Functions_fifthThing;
     static late CreatedRef Function(
         Env env,
         OutCreatedRef _exn
-    ) f__dart_get_Functions_intCompose;
+    ) f__iota_get_Functions_intCompose;
     static late CreatedRef Function(
         Env env,
         OutCreatedRef _exn
-    ) f__dart_get_Functions_makeList;
+    ) f__iota_get_Functions_makeList;
     static late CreatedRef Function(
         Env env,
         OutCreatedRef _exn
-    ) f__dart_get_Functions_sixthThing;
+    ) f__iota_get_Functions_sixthThing;
 }

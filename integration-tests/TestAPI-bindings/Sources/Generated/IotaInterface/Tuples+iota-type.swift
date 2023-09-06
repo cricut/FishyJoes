@@ -7,14 +7,15 @@ import TestAPI
 
 @_cdecl("TestAPI_Tuples_setup")
 public func TestAPI_Tuples_setup(
+    envRef: EnvRef
 ) {
 }
 
 extension Tuples: IotaConverter {
-    public static func peekIota(_ value: foreignObject) throws -> Self {
+    public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
         throw UninhabitedTypeCreationError(self)
     }
 
-    public static func toIota(_ value: Self) throws -> foreignObject {
+    public static func toIota(_ value: Self, env: Env) throws -> foreignObject {
     }
 }

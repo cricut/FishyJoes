@@ -54,22 +54,22 @@ class Deprecations {
     @Deprecated("replace with `deprecatedMethod` ( <-- swift name, sorry )")
     static int get deprecatedVariable =>
         check((exn) =>
-            f__dart_get_Deprecations_deprecatedVariable(Loader.shared.env, exn)
+            f__iota_get_Deprecations_deprecatedVariable(Loader.shared.env, exn)
         )
     ;
     /// <!-- FishyJoes.export(deprecatedMethod) -->
     @Deprecated("don't use this")
     static String deprecatedMethod(
     ) =>
-        consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__dart_Deprecations_deprecatedMethod(Loader.shared.env, _exn)))
+        consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_Deprecations_deprecatedMethod(Loader.shared.env, _exn)))
     ;
 
     static late CreatedRef Function(
         Env env,
         OutCreatedRef _exn
-    ) f__dart_Deprecations_deprecatedMethod;
+    ) f__iota_Deprecations_deprecatedMethod;
     static late int Function(
         Env env,
         OutCreatedRef _exn
-    ) f__dart_get_Deprecations_deprecatedVariable;
+    ) f__iota_get_Deprecations_deprecatedVariable;
 }

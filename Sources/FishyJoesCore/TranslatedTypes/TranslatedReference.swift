@@ -48,7 +48,6 @@ struct TranslatedReference: TranslatedType {
             nodeDefinitionFragment(in: context),
             jniDefinitionFragment(in: context),
             iotaDefinitionFragment(in: context),
-            dartDefinitionFragment(in: context),
         ] + neutralDefinitionFragments(in: context)
     }
 
@@ -337,36 +336,38 @@ struct TranslatedReference: TranslatedType {
 
         fragment.output("@_cdecl(\"\(iotaSetupName)\")")
         fragment.outputBlock("public func \(iotaSetupName)(", newLineTerminated: false) {
+            fragment.output("envRef: EnvRef,")
             fragment.output("constructorMethod: @escaping @convention(c) (UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject,")
             fragment.output("_ exn: foreignOutExn")
         }
         fragment.outputBlock(" {") {
-            fragment.output("guard \(converterType.name)._constructorMethod == nil else { return }")
-            fragment.output("\(converterType.name)._constructorMethod = constructorMethod")
+            fragment.output("let env = Env(envRef)")
+            fragment.output("if \(converterType.name)._constructorMethod.isInitialized(env) { return }")
+            fragment.output("\(converterType.name)._constructorMethod[env] = constructorMethod")
         }
         fragment.blankLine()
 
         fragment.outputBlock("extension \(converterType.name): IotaMutator {") {
-            fragment.output("fileprivate static var _constructorMethod: ((UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject)!")
+            fragment.output("fileprivate static var _constructorMethod = Env.CallbackMap<(UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject>()")
             fragment.blankLine()
 
-            fragment.outputBlock("public static func peekIota(_ value: foreignObject) throws -> \(sourceType.name) {") {
-                fragment.output("try Box<\(sourceType.name)>.peekIota(value).value")
+            fragment.outputBlock("public static func peekIota(_ value: foreignObject, env: Env) throws -> \(sourceType.name) {") {
+                fragment.output("try Box<\(sourceType.name)>.peekIota(value, env: env).value")
             }
             fragment.blankLine()
 
-            fragment.outputBlock("public static func toIota(_ value: \(sourceType.name)) throws -> foreignObject {") {
+            fragment.outputBlock("public static func toIota(_ value: \(sourceType.name), env: Env) throws -> foreignObject {") {
                 if !isInhabited {
                     fragment.output("// Uninhabited type")
                 } else {
                     fragment.output("let ptr = Box(value).retainedOpaque()")
-                    fragment.output("return try Env.check { exn in _constructorMethod(ptr, exn) }")
+                    fragment.output("return try env.check { exn in _constructorMethod[env](ptr, exn) }")
                 }
             }
             fragment.blankLine()
 
-            fragment.outputBlock("public static func mutateIota<R>(_ this: foreignObject, body: (inout \(sourceType.name)) throws -> R) throws -> R {") {
-                fragment.output("try body(&Box<\(sourceType.name)>.peekIota(this).value)")
+            fragment.outputBlock("public static func mutateIota<R>(_ this: foreignObject, env: Env, body: (inout \(sourceType.name)) throws -> R) throws -> R {") {
+                fragment.output("try body(&Box<\(sourceType.name)>.peekIota(this, env: env).value)")
             }
         }
 
@@ -376,23 +377,36 @@ struct TranslatedReference: TranslatedType {
 
         if equatable {
             fragment.output("@_cdecl(\"__iota_\(sourceType.name.mangled)_equals\")")
-            fragment.outputBlock("public func \(sourceType.name.mangled)_iotaEquals(lhs: foreignObject, rhs: foreignObject, exn: foreignOutExn) -> Bool.CType {") {
-                fragment.outputBlock("Env.catching(to: exn) {") {
-                    fragment.output("return try Bool.toIota(\(sourceType.name).peekIota(lhs) == \(sourceType.name).peekIota(rhs))")
+            fragment.outputBlock("public func \(sourceType.name.mangled)_iotaEquals(envRef: EnvRef, lhs: foreignObject, rhs: foreignObject, exn: foreignOutExn) -> Bool.CType {") {
+                fragment.output("let env = Env(envRef)")
+                fragment.outputBlock("return env.catching(to: exn) {") {
+                    fragment.outputBlock("try Bool.toIota(") {
+                        fragment.output("\(sourceType.name).peekIota(lhs, env: env) == \(sourceType.name).peekIota(rhs, env: env),")
+                        fragment.output("env: env")
+                    }
                 }
             }
         }
         if hashable {
-            fragment.output("@_cdecl(\"__iota_\(sourceType.name.mangled)_hash\")")
-            fragment.outputBlock("public func \(sourceType.name.mangled)_iotaHash(this: foreignObject, exn: foreignOutExn) -> Int32.CType {") {
-                fragment.outputBlock("Env.catching(to: exn) {") {
+            fragment.output("@_cdecl(\"__iota_get_\(sourceType.name.mangled)_hash\")")
+            fragment.outputBlock("public func \(sourceType.name.mangled)_iotaHash(envRef: EnvRef, this: foreignObject, exn: foreignOutExn) -> Int32.CType {") {
+                fragment.output("let env = Env(envRef)")
+                fragment.outputBlock("return env.catching(to: exn) {") {
                     fragment.outputBlock("try Int32.toIota(") {
-                        fragment.output("Int32(truncatingIfNeeded: \(sourceType.name).peekIota(this).hashValue)")
+                        fragment.output("Int32(truncatingIfNeeded: \(sourceType.name).peekIota(this, env: env).hashValue),")
+                        fragment.output("env: env")
                     }
                 }
             }
         }
 
+        registerCSharpClass(in: context)
+        registerDartClass(in: context)
+
+        return fragment
+    }
+
+    func registerCSharpClass(in context: FishyJoesContext) {
         var fieldsAndMethods =
             computedVariables.compactMap { context.cSharp(field: $0, of: self, useNativeName: false) } +
             methods.compactMap { context.cSharp(method: $0, of: self) }
@@ -414,7 +428,7 @@ struct TranslatedReference: TranslatedType {
                         body: [
                             "using var thisHandle = new GCRef(this);",
                             "using var otherHandle = new GCRef(other as \(cSharpType.name));",
-                            "return Check((out CreatedRef exn) => __iota_\(sourceType.name.mangled)_equals(thisHandle.ptr, otherHandle.ptr, out exn));",
+                            "return Check((out CreatedRef exn) => __iota_\(sourceType.name.mangled)_equals(Loader.env, thisHandle.ptr, otherHandle.ptr, out exn));",
                         ]
                     )
                 )
@@ -464,82 +478,9 @@ struct TranslatedReference: TranslatedType {
             fieldsAndMethods: fieldsAndMethods
         )
         context.add(cSharpClass: product)
-
-        return fragment
     }
 
-    func dartDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
-        let fragment = context.swiftFragment(
-            "DartInterface/\(sourceType.name)+dart-type.swift",
-            additionalImports: ["Foundation", "FishyJoesDartRuntime"]
-        )
-
-        fragment.output("@_cdecl(\"\(dartSetupName)\")")
-        fragment.outputBlock("public func \(dartSetupName)(", newLineTerminated: false) {
-            fragment.output("envRef: EnvRef,")
-            fragment.output("constructorMethod: @escaping @convention(c) (UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject,")
-            fragment.output("_ exn: foreignOutExn")
-        }
-        fragment.outputBlock(" {") {
-            fragment.output("let env = Env(envRef)")
-            fragment.output("if \(converterType.name)._constructorMethod.isInitialized(env) { return }")
-            fragment.output("\(converterType.name)._constructorMethod[env] = constructorMethod")
-        }
-        fragment.blankLine()
-
-        fragment.outputBlock("extension \(converterType.name): DartMutator {") {
-            fragment.output("fileprivate static var _constructorMethod = Env.CallbackMap<(UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject>()")
-            fragment.blankLine()
-
-            fragment.outputBlock("public static func peekDart(_ value: foreignObject, env: Env) throws -> \(sourceType.name) {") {
-                fragment.output("try Box<\(sourceType.name)>.peekDart(value, env: env).value")
-            }
-            fragment.blankLine()
-
-            fragment.outputBlock("public static func toDart(_ value: \(sourceType.name), env: Env) throws -> foreignObject {") {
-                if !isInhabited {
-                    fragment.output("// Uninhabited type")
-                } else {
-                    fragment.output("let ptr = Box(value).retainedOpaque()")
-                    fragment.output("return try env.check { exn in _constructorMethod[env](ptr, exn) }")
-                }
-            }
-            fragment.blankLine()
-
-            fragment.outputBlock("public static func mutateDart<R>(_ this: foreignObject, env: Env, body: (inout \(sourceType.name)) throws -> R) throws -> R {") {
-                fragment.output("try body(&Box<\(sourceType.name)>.peekDart(this, env: env).value)")
-            }
-        }
-
-        if equatable != hashable {
-            fatalErr("Type \(sourceType.name) must implement either none or both of Equatable and Hashable")
-        }
-
-        if equatable {
-            fragment.output("@_cdecl(\"__dart_\(sourceType.name.mangled)_equals\")")
-            fragment.outputBlock("public func \(sourceType.name.mangled)_dartEquals(envRef: EnvRef, lhs: foreignObject, rhs: foreignObject, exn: foreignOutExn) -> Bool.CType {") {
-                fragment.output("let env = Env(envRef)")
-                fragment.outputBlock("return env.catching(to: exn) {") {
-                    fragment.outputBlock("try Bool.toDart(") {
-                        fragment.output("\(sourceType.name).peekDart(lhs, env: env) == \(sourceType.name).peekDart(rhs, env: env),")
-                        fragment.output("env: env")
-                    }
-                }
-            }
-        }
-        if hashable {
-            fragment.output("@_cdecl(\"__dart_get_\(sourceType.name.mangled)_hash\")")
-            fragment.outputBlock("public func \(sourceType.name.mangled)_dartHash(envRef: EnvRef, this: foreignObject, exn: foreignOutExn) -> Int32.CType {") {
-                fragment.output("let env = Env(envRef)")
-                fragment.outputBlock("return env.catching(to: exn) {") {
-                    fragment.outputBlock("try Int32.toDart(") {
-                        fragment.output("Int32(truncatingIfNeeded: \(sourceType.name).peekDart(this, env: env).hashValue),")
-                        fragment.output("env: env")
-                    }
-                }
-            }
-        }
-
+    func registerDartClass(in context: FishyJoesContext) {
         var fieldsAndMethods =
             computedVariables.compactMap { context.dart(field: $0, of: self, useNativeName: false) } +
             methods.compactMap { context.dart(method: $0, of: self) }
@@ -560,7 +501,7 @@ struct TranslatedReference: TranslatedType {
                         body: [
                             "GCRef.using(this, (thisHandle) =>",
                             "    GCRef.using(other as \(dartType.name()), (otherHandle) =>",
-                            "        check((exn) => f__dart_\(sourceType.name.mangled)_equals(Loader.shared.env, thisHandle.ptr, otherHandle.ptr, exn))))",
+                            "        check((exn) => f__iota_\(sourceType.name.mangled)_equals(Loader.shared.env, thisHandle.ptr, otherHandle.ptr, exn))))",
                         ]
                     )
                 )
@@ -600,16 +541,14 @@ struct TranslatedReference: TranslatedType {
             )
         }
 
-        let product = DartProductClass(
+        let dartProduct = DartProductClass(
             module: context.module,
             documentation: documentation,
             name: dartType.name(),
             constructor: .reference,
             fieldsAndMethods: fieldsAndMethods
         )
-        context.add(dartClass: product)
-
-        return fragment
+        context.add(dartClass: dartProduct)
     }
 
     func dartSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<DartClass.DartType>] {

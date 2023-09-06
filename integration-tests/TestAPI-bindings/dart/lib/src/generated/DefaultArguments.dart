@@ -60,7 +60,7 @@ class DefaultArguments {
     ) =>
         GCRef.using(y, (_yHandle) =>
             GCRef.using(x, (_xHandle) =>
-                consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__dart_DefaultArguments_echoDefaults(Loader.shared.env, _yHandle.ptr, _xHandle.ptr, z, _exn)))
+                consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_DefaultArguments_echoDefaults(Loader.shared.env, _yHandle.ptr, _xHandle.ptr, z, _exn)))
             )
         )
     ;
@@ -71,5 +71,5 @@ class DefaultArguments {
         UnownedRef x,
         double z,
         OutCreatedRef _exn
-    ) f__dart_DefaultArguments_echoDefaults;
+    ) f__iota_DefaultArguments_echoDefaults;
 }

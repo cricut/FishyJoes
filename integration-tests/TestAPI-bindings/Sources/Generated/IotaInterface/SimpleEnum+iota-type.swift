@@ -7,6 +7,7 @@ import TestAPI
 
 @_cdecl("TestAPI_SimpleEnum_setup")
 public func TestAPI_SimpleEnum_setup(
+    envRef: EnvRef,
     discriminator: @escaping SimpleEnum.Discriminator,
     red_constructor: @escaping SimpleEnum.Red_constructor,
     red_extractor: @escaping SimpleEnum.Red_extractor,
@@ -15,13 +16,14 @@ public func TestAPI_SimpleEnum_setup(
     blue_constructor: @escaping SimpleEnum.Blue_constructor,
     blue_extractor: @escaping SimpleEnum.Blue_extractor
 ) {
-    SimpleEnum.discriminator = discriminator
-    SimpleEnum.red_constructor = red_constructor
-    SimpleEnum.red_extractor = red_extractor
-    SimpleEnum.green_constructor = green_constructor
-    SimpleEnum.green_extractor = green_extractor
-    SimpleEnum.blue_constructor = blue_constructor
-    SimpleEnum.blue_extractor = blue_extractor
+    let env = Env(envRef)
+    SimpleEnum.discriminator[env] = discriminator
+    SimpleEnum.red_constructor[env] = red_constructor
+    SimpleEnum.red_extractor[env] = red_extractor
+    SimpleEnum.green_constructor[env] = green_constructor
+    SimpleEnum.green_extractor[env] = green_extractor
+    SimpleEnum.blue_constructor[env] = blue_constructor
+    SimpleEnum.blue_extractor[env] = blue_extractor
 }
 
 extension SimpleEnum: IotaConverter {
@@ -29,68 +31,68 @@ extension SimpleEnum: IotaConverter {
         foreignObject,
         foreignOutExn
     ) -> Int
-    fileprivate static var discriminator: Discriminator!
+    fileprivate static let discriminator = Env.CallbackMap<Discriminator>()
     public typealias Red_constructor = @convention(c) (
         foreignOutExn
     ) -> foreignObject
-    fileprivate static var red_constructor: Red_constructor!
+    fileprivate static let red_constructor = Env.CallbackMap<Red_constructor>()
     public typealias Red_extractor = @convention(c) (
         foreignObject,
         foreignOutExn
     ) -> Void
-    fileprivate static var red_extractor: Red_extractor!
+    fileprivate static let red_extractor = Env.CallbackMap<Red_extractor>()
     public typealias Green_constructor = @convention(c) (
         foreignOutExn
     ) -> foreignObject
-    fileprivate static var green_constructor: Green_constructor!
+    fileprivate static let green_constructor = Env.CallbackMap<Green_constructor>()
     public typealias Green_extractor = @convention(c) (
         foreignObject,
         foreignOutExn
     ) -> Void
-    fileprivate static var green_extractor: Green_extractor!
+    fileprivate static let green_extractor = Env.CallbackMap<Green_extractor>()
     public typealias Blue_constructor = @convention(c) (
         foreignOutExn
     ) -> foreignObject
-    fileprivate static var blue_constructor: Blue_constructor!
+    fileprivate static let blue_constructor = Env.CallbackMap<Blue_constructor>()
     public typealias Blue_extractor = @convention(c) (
         foreignObject,
         foreignOutExn
     ) -> Void
-    fileprivate static var blue_extractor: Blue_extractor!
+    fileprivate static let blue_extractor = Env.CallbackMap<Blue_extractor>()
 
-    public static func peekIota(_ value: foreignObject) throws -> Self {
-        switch try Env.check({ exn in discriminator(value, exn) }) {
+    public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
+        switch try env.check({ exn in discriminator[env](value, exn) }) {
         case 0:
-            try Env.check { exn in red_extractor(value, exn) }
+            try env.check { exn in red_extractor[env](value, exn) }
             return Self.red
         case 1:
-            try Env.check { exn in green_extractor(value, exn) }
+            try env.check { exn in green_extractor[env](value, exn) }
             return Self.green
         case 2:
-            try Env.check { exn in blue_extractor(value, exn) }
+            try env.check { exn in blue_extractor[env](value, exn) }
             return Self.blue
         case let disc:
             fatalError("bad discriminator value \(disc) encountered for type \(self)")
         }
     }
 
-    public static func toIota(_ value: Self) throws -> foreignObject {
+    public static func toIota(_ value: Self, env: Env) throws -> foreignObject {
         switch value {
         case red:
-            return try Env.check { exn in
-                return red_constructor(
+            return try env.check { exn in
+                return red_constructor[env](
                     exn
                 )
             }
         case green:
-            return try Env.check { exn in
-                return green_constructor(
+            return try env.check { exn in
+                return green_constructor[env](
                     exn
                 )
             }
         case blue:
-            return try Env.check { exn in
-                return blue_constructor(
+            return try env.check { exn in
+                return blue_constructor[env](
                     exn
                 )
             }
