@@ -23,7 +23,7 @@ struct TranslatedStruct: TranslatedType {
         }
         guard type.kind == "struct" else { fatalErr("not a struct") }
 
-        self.sourceType = BetterType(named: type, module: context.module.name)
+        self.sourceType = BetterType(named: type, context: context)
         self.nodeName = exportAnnotation.name
         self.kotlinName = exportAnnotation.name
         self.neutralName = "Struct<Named=\(exportAnnotation.name)>"

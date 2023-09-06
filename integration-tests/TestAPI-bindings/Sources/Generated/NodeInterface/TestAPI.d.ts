@@ -1369,6 +1369,21 @@ export declare namespace TestAPI {
         ): void;
     }
 
+    /**
+     * <!-- FishyJoes.export(String_PuttingTypesIntoQuestionablePlaces) -->
+     */
+    export class String_PuttingTypesIntoQuestionablePlaces {
+        constructor(x: string)
+
+        readonly x: string;
+
+        /**
+         * <!-- FishyJoes.export(testCall) -->
+         */
+        testCall(
+        ): number;
+    }
+
     export type Strings = never;
     export namespace Strings {
         /**
@@ -1463,6 +1478,26 @@ export declare namespace TestAPI {
         }
     }
 
+    /**
+     * <!-- FishyJoes.exportReference(Structs_PuttingTypesIntoQuestionablePlaces) -->
+     */
+    export class Structs_PuttingTypesIntoQuestionablePlaces {
+        private constructor()
+        private _inhibitStructuralTyping: any
+
+        /**
+         * <!-- FishyJoes.export(create) -->
+         */
+        static create(
+        ): TestAPI.Structs_PuttingTypesIntoQuestionablePlaces;
+
+        /**
+         * <!-- FishyJoes.export(testCall) -->
+         */
+        testCall(
+        ): number;
+    }
+
     export type Tuples = never;
     export namespace Tuples {
         /**
@@ -1500,6 +1535,16 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(tuple6) -->
          */
         const tuple6: [string, number, number, [[number, string], [string, number, string], string, boolean], [string, number, [[number, string], [string, number, string], string, boolean], [string, number, string], [number, string]], boolean];
+    }
+
+    export type UnicodeScalar_PuttingTypesIntoQuestionablePlaces = "thing";
+    export namespace UnicodeScalar_PuttingTypesIntoQuestionablePlaces {
+        /**
+         * <!-- FishyJoes.export(testCall) -->
+         */
+        function testCall(
+            self: TestAPI.UnicodeScalar_PuttingTypesIntoQuestionablePlaces
+        ): number;
     }
 }
 export declare function init(): Promise<{

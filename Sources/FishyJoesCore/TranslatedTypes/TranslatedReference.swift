@@ -26,7 +26,7 @@ struct TranslatedReference: TranslatedType {
         }
         let typeName = exportAnnotation.name
 
-        self.sourceType = BetterType(named: type, module: context.module.name)
+        self.sourceType = BetterType(named: type, context: context)
         self.nodeName = typeName
         self.definingTSNamespace = context.module.name
         self.neutralName = "Reference<To=\(typeName)>"

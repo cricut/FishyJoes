@@ -41,6 +41,10 @@ public class FishyJoesContext {
         case alias(BetterType)
     }
 
+    struct ResolveError: Error {
+        let message: String
+    }
+
     public init(context: TemplateContext) {
         let argument = context.argument
         guard let module = argument["module"] as? String else {
@@ -309,6 +313,16 @@ public class FishyJoesContext {
     typealias TypeNames = (c: String, ts: String, jni: JNIType, cSharp: String, dart: String, dartFFI: String)
 
     func resolve(type: BetterType, generics: [String: BetterType] = [:]) -> TranslatedType {
+        do {
+            return try tryResolve(type: type, generics: generics)
+        } catch let error as ResolveError {
+            fatalErr(error.message)
+        } catch {
+            fatalErr("\(error)")
+        }
+    }
+
+    func tryResolve(type: BetterType, generics: [String: BetterType] = [:]) throws -> TranslatedType {
         var typeNameAsModuleQualified: BetterType?
 
         if
@@ -351,9 +365,9 @@ public class FishyJoesContext {
         ]
 
         var dontCache = false
-        let resolved = { () -> TranslatedType in
-            func recur(_ type: BetterType) -> TranslatedType {
-                resolve(type: type, generics: generics)
+        let resolved = try { () throws -> TranslatedType in
+            func recur(_ type: BetterType) throws -> TranslatedType {
+                try tryResolve(type: type, generics: generics)
             }
             switch type {
             case let .named(name):
@@ -369,7 +383,7 @@ public class FishyJoesContext {
                     )
                 } else if let typeOverride = generics[name.name] {
                     dontCache = true
-                    return recur(typeOverride)
+                    return try recur(typeOverride)
                 } else if name.name == "String" {
                     return TranslatedString()
                 } else if name.name == "Data" {
@@ -378,8 +392,8 @@ public class FishyJoesContext {
                     // It's a hack.
                     return TranslatedPrimitive(swift: "Int", typeNames: primitiveTypeMap["Int"]!)
                 } else {
-                    fatalErr(
-                        """
+                    throw ResolveError(
+                        message: """
                             Don't know how to translate type `\(name.globalName)`.
                             Maybe annotate it with `sourcery:export(...)`?
                             context: \(debugContext)
@@ -389,36 +403,36 @@ public class FishyJoesContext {
             case .void:
                 return TranslatedVoid()
             case .tuple(let elements):
-                return TranslatedTuple(elements: elements.map { .init(label: $0.label, type: recur($0.type)) })
+                return try TranslatedTuple(elements: elements.map { .init(label: $0.label, type: try recur($0.type)) })
             case .generic(let base, let args):
                 switch (base.module ?? "Swift", base.namespace, base.name, args.count) {
                 case ("Swift", [], "Optional", 1):
-                    return TranslatedOptional(wrapped: recur(args[0]))
+                    return try TranslatedOptional(wrapped: recur(args[0]))
                 case ("Swift", [], "Array", 1):
-                    return TranslatedArray(element: recur(args[0]))
+                    return try TranslatedArray(element: recur(args[0]))
                 case ("Swift", [], "Set", 1):
-                    return TranslatedSet(element: recur(args[0]))
+                    return try TranslatedSet(element: recur(args[0]))
                 case ("Swift", [], "Dictionary", 2):
-                    return TranslatedDictionary(key: recur(args[0]), value: recur(args[1]))
+                    return try TranslatedDictionary(key: recur(args[0]), value: recur(args[1]))
                 case ("Swift", [], "Result", 2):
-                    return TranslatedResult(success: recur(args[0]), failure: recur(args[1]))
+                    return try TranslatedResult(success: recur(args[0]), failure: recur(args[1]))
                 case ("Swift", [], "Range", 1):
-                    return TranslatedRange(bound: recur(args[0]))
+                    return try TranslatedRange(bound: recur(args[0]))
                 case ("Swift", [], "ClosedRange", 1):
-                    return TranslatedClosedRange(bound: recur(args[0]))
+                    return try TranslatedClosedRange(bound: recur(args[0]))
                 default:
-                    fatalErr(
-                        """
+                    throw ResolveError(
+                        message: """
                             TODO: resolve(type: \(type))
                             context: \(debugContext)
                             """
                     )
                 }
             case .function(let parameters, let returnType):
-                return TranslatedFunction(parameters: parameters.map(recur), returnType: recur(returnType))
+                return try TranslatedFunction(parameters: parameters.map(recur), returnType: recur(returnType))
             default:
-                fatalErr(
-                    """
+                throw ResolveError(
+                    message: """
                         TODO: resolve(type: \(type))
                         context: \(debugContext)
                         """
