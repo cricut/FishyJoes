@@ -34,6 +34,15 @@ sealed class Collections {
         private external fun __jni_get_dictionaryOfIntToInt(): kotlin.collections.Map<Long, Long>
 
         /**
+         * <!-- FishyJoes.export(arrayOfBigTuples) -->
+         */
+        val arrayOfBigTuples: kotlin.collections.List<com.cricut.fishyjoes.runtime.Tuple4<Byte, Short, Int, Long>>
+          get() = __jni_get_arrayOfBigTuples()
+        @JvmStatic
+        @JvmName("__jni_get_arrayOfBigTuples")
+        private external fun __jni_get_arrayOfBigTuples(): kotlin.collections.List<com.cricut.fishyjoes.runtime.Tuple4<Byte, Short, Int, Long>>
+
+        /**
          * <!-- FishyJoes.export(maybeArrayOfInt) -->
          */
         val maybeArrayOfInt: kotlin.collections.List<Long>?

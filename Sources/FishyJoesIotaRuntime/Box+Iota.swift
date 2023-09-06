@@ -7,14 +7,14 @@ extension Box {
     }
 }
 
-@_cdecl("FishyJoesRuntime_AnyBox_setup")
+@_cdecl("FishyJoesCommonRuntime_AnyBox_setup")
 public func AnyBoxSetup(envRef: EnvRef, refGetter: @escaping AnyBox.RefGetter) {
     let env = Env(envRef)
     if AnyBox.refGetter.isInitialized(env) { return }
     AnyBox.refGetter[env] = refGetter
 }
 
-@_cdecl("FishyJoesRuntime_AnyBox_releaseRef")
+@_cdecl("FishyJoesCommonRuntime_AnyBox_releaseRef")
 public func AnyBoxRelease(envRef: EnvRef, ptr: UnsafeMutableRawPointer?, _ exn: foreignOutExn) {
     let env = Env(envRef)
     env.catching(to: exn) {
@@ -22,7 +22,7 @@ public func AnyBoxRelease(envRef: EnvRef, ptr: UnsafeMutableRawPointer?, _ exn: 
     }
 }
 
-@_cdecl("FishyJoesRuntime_AnyBox_toString")
+@_cdecl("FishyJoesCommonRuntime_AnyBox_toString")
 public func toString(envRef: EnvRef, ptr: UnsafeMutableRawPointer?, _ exn: foreignOutExn) -> foreignObject {
     let env = Env(envRef)
     return env.catching(to: exn) {

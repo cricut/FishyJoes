@@ -11,7 +11,8 @@ struct Module: Hashable, CustomStringConvertible, Codable {
 }
 
 extension Module {
-    var dllImportMark: String {"[DllImport(\"\(iotaLibName)\", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]"
+    var dllImportMark: String {
+        "[DllImport(\"\(iotaLibName)\", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]"
     }
 
     var iotaLibName: String {

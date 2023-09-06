@@ -12,6 +12,7 @@ protocol TranslatedType {
     var cSharpType: CSharpClass.CSType { get }
     var dartType: DartClass.DartType { get }
     var definingModule: Module { get }
+    var definingTSNamespace: String? { get }
     var isInhabited: Bool { get }
     func cSharpSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<String>]
     func cSharpSetupDelegates(in context: FishyJoesContext) -> [String]
@@ -21,6 +22,7 @@ protocol TranslatedType {
 }
 
 extension TranslatedType {
+    var definingTSNamespace: String? { nil }
     var converterType: BetterType {
         sourceType
     }
@@ -31,6 +33,9 @@ extension TranslatedType {
         if let opt = self as? TranslatedOptional {
             return .optional(opt.wrapped.nodeType)
         } else {
+            if let namespace = definingTSNamespace {
+                return .named("\(namespace).\(nodeName)")
+            }
             return .named(nodeName)
         }
     }
@@ -78,7 +83,7 @@ extension TranslatedType {
     func dartSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<DartClass.DartType>] { [] }
 
     var iotaSetupName: String {
-        "\(definingModule)_\(converterType.genericBaseName.mangledName)_setup"
+        "\(converterType.genericBaseName.mangledName)_setup"
     }
 
     var isInhabited: Bool { true }

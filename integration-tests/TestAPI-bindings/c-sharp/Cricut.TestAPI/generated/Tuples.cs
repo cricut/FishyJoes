@@ -17,13 +17,13 @@ namespace Cricut.TestAPI {
         public static System.Tuple<nint, string> Tuple2 {
             get {
                 return Check((out CreatedRef exn) =>
-                    __iota_get_Tuples_tuple2(Loader.env, out exn).Consume<System.Tuple<nint, string>>()
+                    __iota_get_TestAPI_Tuples_tuple2(Loader.env, out exn).Consume<System.Tuple<nint, string>>()
                 );
             }
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_get_Tuples_tuple2(IntPtr envRef, out CreatedRef exn);
+        private static extern CreatedRef __iota_get_TestAPI_Tuples_tuple2(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(tuple3) -->
@@ -31,13 +31,13 @@ namespace Cricut.TestAPI {
         public static System.Tuple<string, double, string> Tuple3 {
             get {
                 return Check((out CreatedRef exn) =>
-                    __iota_get_Tuples_tuple3(Loader.env, out exn).Consume<System.Tuple<string, double, string>>()
+                    __iota_get_TestAPI_Tuples_tuple3(Loader.env, out exn).Consume<System.Tuple<string, double, string>>()
                 );
             }
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_get_Tuples_tuple3(IntPtr envRef, out CreatedRef exn);
+        private static extern CreatedRef __iota_get_TestAPI_Tuples_tuple3(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(tuple4) -->
@@ -45,13 +45,13 @@ namespace Cricut.TestAPI {
         public static System.Tuple<System.Tuple<nint, string>, System.Tuple<string, double, string>, string, bool> Tuple4 {
             get {
                 return Check((out CreatedRef exn) =>
-                    __iota_get_Tuples_tuple4(Loader.env, out exn).Consume<System.Tuple<System.Tuple<nint, string>, System.Tuple<string, double, string>, string, bool>>()
+                    __iota_get_TestAPI_Tuples_tuple4(Loader.env, out exn).Consume<System.Tuple<System.Tuple<nint, string>, System.Tuple<string, double, string>, string, bool>>()
                 );
             }
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_get_Tuples_tuple4(IntPtr envRef, out CreatedRef exn);
+        private static extern CreatedRef __iota_get_TestAPI_Tuples_tuple4(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(tuple5) -->
@@ -59,13 +59,13 @@ namespace Cricut.TestAPI {
         public static System.Tuple<string, byte, System.Tuple<System.Tuple<nint, string>, System.Tuple<string, double, string>, string, bool>, System.Tuple<string, double, string>, System.Tuple<nint, string>> Tuple5 {
             get {
                 return Check((out CreatedRef exn) =>
-                    __iota_get_Tuples_tuple5(Loader.env, out exn).Consume<System.Tuple<string, byte, System.Tuple<System.Tuple<nint, string>, System.Tuple<string, double, string>, string, bool>, System.Tuple<string, double, string>, System.Tuple<nint, string>>>()
+                    __iota_get_TestAPI_Tuples_tuple5(Loader.env, out exn).Consume<System.Tuple<string, byte, System.Tuple<System.Tuple<nint, string>, System.Tuple<string, double, string>, string, bool>, System.Tuple<string, double, string>, System.Tuple<nint, string>>>()
                 );
             }
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_get_Tuples_tuple5(IntPtr envRef, out CreatedRef exn);
+        private static extern CreatedRef __iota_get_TestAPI_Tuples_tuple5(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(tuple6) -->
@@ -73,13 +73,13 @@ namespace Cricut.TestAPI {
         public static System.Tuple<string, nint, double, System.Tuple<System.Tuple<nint, string>, System.Tuple<string, double, string>, string, bool>, System.Tuple<string, byte, System.Tuple<System.Tuple<nint, string>, System.Tuple<string, double, string>, string, bool>, System.Tuple<string, double, string>, System.Tuple<nint, string>>, bool> Tuple6 {
             get {
                 return Check((out CreatedRef exn) =>
-                    __iota_get_Tuples_tuple6(Loader.env, out exn).Consume<System.Tuple<string, nint, double, System.Tuple<System.Tuple<nint, string>, System.Tuple<string, double, string>, string, bool>, System.Tuple<string, byte, System.Tuple<System.Tuple<nint, string>, System.Tuple<string, double, string>, string, bool>, System.Tuple<string, double, string>, System.Tuple<nint, string>>, bool>>()
+                    __iota_get_TestAPI_Tuples_tuple6(Loader.env, out exn).Consume<System.Tuple<string, nint, double, System.Tuple<System.Tuple<nint, string>, System.Tuple<string, double, string>, string, bool>, System.Tuple<string, byte, System.Tuple<System.Tuple<nint, string>, System.Tuple<string, double, string>, string, bool>, System.Tuple<string, double, string>, System.Tuple<nint, string>>, bool>>()
                 );
             }
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_get_Tuples_tuple6(IntPtr envRef, out CreatedRef exn);
+        private static extern CreatedRef __iota_get_TestAPI_Tuples_tuple6(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(checkTuples) -->
@@ -96,11 +96,11 @@ namespace Cricut.TestAPI {
             using var _t4Handle = new GCRef(t4);
             using var _t5Handle = new GCRef(t5);
             using var _t6Handle = new GCRef(t6);
-            return Check((out CreatedRef _exn) => __iota_Tuples_checkTuples(Loader.env, _t2Handle.ptr, _t3Handle.ptr, _t4Handle.ptr, _t5Handle.ptr, _t6Handle.ptr, out _exn));
+            return Check((out CreatedRef _exn) => __iota_TestAPI_Tuples_checkTuples(Loader.env, _t2Handle.ptr, _t3Handle.ptr, _t4Handle.ptr, _t5Handle.ptr, _t6Handle.ptr, out _exn));
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern bool __iota_Tuples_checkTuples(
+        private static extern bool __iota_TestAPI_Tuples_checkTuples(
             IntPtr envRef,
             UnownedRef t2,
             UnownedRef t3,

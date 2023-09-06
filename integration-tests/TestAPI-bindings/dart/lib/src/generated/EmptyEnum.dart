@@ -2,6 +2,8 @@ import './AssociatedDataEnum.dart' as TestAPI;
 import './AssociatedDataEnum.dart';
 import './Bytes.dart' as TestAPI;
 import './Bytes.dart';
+import './ClosedRanges.dart' as TestAPI;
+import './ClosedRanges.dart';
 import './Collections.dart' as TestAPI;
 import './Collections.dart';
 import './Collections_CollectionHolder.dart' as TestAPI;
@@ -22,6 +24,8 @@ import './Primitives.dart' as TestAPI;
 import './Primitives.dart';
 import './Primitives_PrimitiveHolder.dart' as TestAPI;
 import './Primitives_PrimitiveHolder.dart';
+import './Ranges.dart' as TestAPI;
+import './Ranges.dart';
 import './SimpleEnum.dart' as TestAPI;
 import './SimpleEnum.dart';
 import './Strings.dart' as TestAPI;
@@ -53,11 +57,11 @@ class EmptyEnum {
     /// <!-- FishyJoes.export(notGoingToHappen, noReturn: true) -->
     static TestAPI.EmptyEnum notGoingToHappen(
     ) =>
-        consumeCreatedRef<TestAPI.EmptyEnum>(check((OutCreatedRef _exn) => f__iota_EmptyEnum_notGoingToHappen(Loader.shared.env, _exn)))
+        consumeCreatedRef<TestAPI.EmptyEnum>(check((OutCreatedRef _exn) => f__iota_TestAPI_EmptyEnum_notGoingToHappen(Loader.shared.env, _exn)))
     ;
 
     static late CreatedRef Function(
         Env env,
         OutCreatedRef _exn
-    ) f__iota_EmptyEnum_notGoingToHappen;
+    ) f__iota_TestAPI_EmptyEnum_notGoingToHappen;
 }

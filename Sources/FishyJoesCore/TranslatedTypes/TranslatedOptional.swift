@@ -26,6 +26,6 @@ struct TranslatedOptional: TranslatedType {
         .optional(wrapped.sourceType)
     }
     var converterType: BetterType {
-        .generic(base: "OptionalConverter", args: [wrapped.converterType])
+        .generic(base: .runtime("OptionalConverter"), args: [wrapped.converterType])
     }
 }

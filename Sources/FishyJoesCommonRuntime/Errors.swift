@@ -17,3 +17,11 @@ public struct NullPointerError: Error {
         self.message = message
     }
 }
+
+public struct InvalidRangeError: Error {
+    public let message: String
+
+    public init(message: String) {
+        self.message = message
+    }
+}

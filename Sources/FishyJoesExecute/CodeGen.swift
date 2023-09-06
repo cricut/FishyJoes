@@ -27,8 +27,14 @@ public struct CodeGen: ParsableCommand {
     @Flag(name: .long, inversion: .prefixedNo, help: "Additional wasm optimizations (takes some time)")
     var wasmOpt = true
 
+    @Flag(name: .long, help: "build macOS libraries for both x64_64 and arm64")
+    var fat = false
+
     @Flag(name: .long, help: "Build library in debug mode")
     var debug = false
+
+    @Flag(name: .long, inversion: .prefixedNo, help: "Use docker")
+    var useDocker = true
 
     @Option(help: "Used for debugging fishy-joes code generation")
     var sourceryDumpPath: String?
@@ -63,10 +69,12 @@ public struct CodeGen: ParsableCommand {
         case cSharp
         case dart
         case wasmOpt
+        case useDocker
         case sourceryDumpPath
         case version
         case buildStep
         case debug
+        case fat
     }
 
     var config: FishyJoesConfig!
@@ -79,11 +87,11 @@ extension CodeGen {
     public mutating func validate() throws {
         ExternalCommand.verbose = !quiet
 
-        config = try FishyJoesConfig.readFromFile()
-
         guard cmd("test", "-f", "Package.swift").runBool() else {
             throw ValidationError("No Package.swift found in current directory. fishy-joes must be run in the root of the bindings package")
         }
+
+        config = try FishyJoesConfig.readFromFile()
 
         if wasm {
             platforms.append(.wasm)
@@ -95,7 +103,7 @@ extension CodeGen {
             platforms.append(.kotlinSystem)
         }
         if kotlin && !kotlinFast {
-            platforms.append(contentsOf: AndroidArchitecture.allCases.map(Platform.kotlinAndroid))
+            platforms.append(contentsOf: Platform.AndroidArchitecture.allCases.map(Platform.kotlinAndroid))
         }
         if cSharp {
             platforms.append(.cSharp)
@@ -121,9 +129,31 @@ extension CodeGen {
             guard let dependencyURL = packageInfo.dependencyMap[bindingModule.lowercased()] else {
                 fatalError("Couldn't locate \(bindingModule) in Package.swift, but it's required by fishyjoes.json")
             }
-            let dependencyPath = (dependencyURL.scheme == nil ? dependencyURL.path : ".build/checkouts/\(bindingModule)") + "/Sources"
+            let dependencyPath = dependencyURL.scheme == nil ? dependencyURL.path : ".build/checkouts/\(bindingModule)"
             dependencyPaths[moduleName] = dependencyPath
         }
+
+        let localPathsNeeded = packageInfo.dependencyMap.compactMap {
+            let url = $0.value
+            return url.scheme == nil ? url.path : nil
+        }
+
+        let makeDockerContext = useDocker ? {
+            let context = DockerContext(withAvailablePaths: localPathsNeeded)
+            if let context = context {
+                printAndFlush("found docker binary: \(context.hostDockerBinary)")
+            } else {
+                printAndFlush("not using docker")
+            }
+            return context
+        } : { nil }
+
+        let configuration = BuildConfiguration(
+            debug: debug,
+            fat: fat,
+            codeCoverage: codeCoveragePath != nil,
+            baseDockerContext: Lazy(makeDockerContext())
+        )
 
         if buildStep.contains(.generate) {
             let translateeSources: String
@@ -139,7 +169,7 @@ extension CodeGen {
             }
 
             let fishyJoesModuleFiles: [String] = dependencyPaths.compactMap {
-                $0.key == config.module ? nil : "\($0.value)/Generated/\($0.key).fishyjoesmodule"
+                $0.key == config.module ? nil : "\($0.value)/Sources/Generated/\($0.key).fishyjoesmodule"
             }
 
             // MARK: Generate code
@@ -160,7 +190,7 @@ extension CodeGen {
                 "Sources/Generated/JavaInterface/EmptyPlaceholder.swift"
             ).run()
             try cmd("swift", "build", "--product", "sourcery").run()
-            try cmd("swift", arguments: ["build"] + (codeCoveragePath == nil ? [] : ["--enable-code-coverage"]) + ["--product", "🐟☕️"]).run()
+            try cmd("swift", arguments: ["build"] + (codeCoveragePath == nil ? [] : Platform.coverageFlags) + ["--product", "🐟☕️"]).run()
 
             // Trampoline into fishy-joes-execution-helper via Sourcery
             var sourceryEnv: [String: String] = [:]
@@ -200,18 +230,39 @@ extension CodeGen {
         }
 
         if buildStep.contains(.build) {
+            // Pre-fetch dependencies for docker... TODO: can this be improved?
+            if platforms.contains(where: { $0.needsDocker(configuration: configuration) }) {
+                try cmd(
+                    "swift", "build",
+                    "--scratch-path", "./.build/android-build",
+                    "--product", "FishyJoesJavaRuntime"
+                ).run()
+            }
+
             // MARK: Build library
-            let configuration = BuildConfiguration(debug: debug, codeCoverage: codeCoveragePath != nil)
             for platform in platforms {
+                let libs = [config.module] + config.requiredModules
                 switch platform {
                 case .wasm:
-                    try platform.swiftBuild(configuration: configuration)
+                    try platform.build(configuration: configuration)
                 case .node:
-                    try platform.swiftBuild("--product", "\(config.module)-node", configuration: configuration)
+                    try platform.build(
+                        product: "\(config.module)-node",
+                        libs: libs.flatMap { [$0, "\($0)-node"] } + ["FishyJoesNodeRuntime"],
+                        configuration: configuration
+                    )
                 case .kotlinSystem, .kotlinAndroid:
-                    try platform.swiftBuild("--product", "\(config.module)-java", configuration: configuration)
+                    try platform.build(
+                        product: "\(config.module)-java",
+                        libs: libs.flatMap { [$0, "\($0)-java"] } + ["FishyJoesJavaRuntime"],
+                        configuration: configuration
+                    )
                 case .cSharp, .dartSystem:
-                    try platform.swiftBuild("--product", "\(config.module)-iota", configuration: configuration)
+                    try platform.build(
+                        product: "\(config.module)-iota",
+                        libs: libs.flatMap { [$0, "\($0)-iota"] } + ["FishyJoesIotaRuntime"],
+                        configuration: configuration
+                    )
                 }
             }
 
@@ -223,19 +274,30 @@ extension CodeGen {
 
             for platform in platforms {
                 let outputDir = platform.outputDir(config)
+
+                func installLibrary(_ name: String, installName: String? = nil, sign: Bool = false) throws {
+                    let src = "\(try platform.buildDir(configuration))/lib\(name).\(platform.dylibExt)"
+                    let installName = installName ?? "lib\(name).\(platform.dylibExt)"
+                    let dest = "\(outputDir)/\(installName)"
+                    try cmd("cp", src, dest).run()
+                    if sign {
+                        try cmd("codesign", "-s", "-", dest).run()
+                    }
+                }
+
                 switch platform {
                 case .wasm:
                     if wasmOpt, cmd("wasm-opt", "--version").runBool() {
-                        try cmd("wasm-opt", "\(platform.buildDir(debug: debug))/DummyMain.wasm", "-O1", "-o", "\(outputDir)/\(config.module).wasm").run()
+                        try cmd("wasm-opt", "\(platform.buildDir(configuration))/DummyMain.wasm", "-O1", "-o", "\(outputDir)/\(config.module).wasm").run()
                     } else {
                         if wasmOpt {
-                            print("WARNING: wasm-opt is not installed, resulting build will be bigger and possibly slower")
+                            printAndFlush("WARNING: wasm-opt is not installed, resulting build will be bigger and possibly slower")
                         } else {
-                            print("skipping wasm-opt")
+                            printAndFlush("skipping wasm-opt")
                         }
-                        try cmd("cp", "\(platform.buildDir(debug: debug))/DummyMain.wasm", "\(outputDir)/\(config.module).wasm").run()
+                        try cmd("cp", "\(platform.buildDir(configuration))/DummyMain.wasm", "\(outputDir)/\(config.module).wasm").run()
                     }
-                    try cmd("cp", "\(platform.buildDir(debug: debug))/FishyJoes_FishyJoesNodeRuntime.resources/js/wasm-napi.js", outputDir).run()
+                    try cmd("cp", "\(platform.buildDir(configuration))/FishyJoes_FishyJoesNodeRuntime.resources/js/wasm-napi.js", outputDir).run()
 
                     var tsSources = ["Sources/Generated/NodeInterface/\(config.module).d.ts"]
                     for (moduleName, modulePath) in dependencyPaths {
@@ -270,17 +332,18 @@ extension CodeGen {
                     }
 
                     try template(
-                        inPath: "\(platform.buildDir(debug: debug))/FishyJoes_FishyJoesNodeRuntime.resources/js/__MODULE_NAME__.js",
+                        inPath: "\(platform.buildDir(configuration))/FishyJoes_FishyJoesNodeRuntime.resources/js/__MODULE_NAME__.js",
                         outPath: "\(outputDir)/\(config.module).js"
                     )
                     try template(
-                        inPath: "\(platform.buildDir(debug: debug))/FishyJoes_FishyJoesNodeRuntime.resources/js/__MODULE_NAME__.browser.js",
+                        inPath: "\(platform.buildDir(configuration))/FishyJoes_FishyJoesNodeRuntime.resources/js/__MODULE_NAME__.browser.js",
                         outPath: "\(outputDir)/\(config.module).browser.js"
                     )
 
                     for (moduleName, modulePath) in dependencyPaths {
                         let outPath = "\(outputDir)/\(moduleName).extensions.js"
-                        if !cmd("cp", "\(modulePath)/ts/\(moduleName).extensions.js", outPath).runBool() {
+                        let extensionPath = "\(modulePath)/ts/\(moduleName).extensions.js"
+                        if !cmd("cp", extensionPath, outPath).runBool() {
                             // No extensions found. Generate a no-op extension
                             try cmd("cat", "-")
                                 .input(
@@ -296,16 +359,17 @@ extension CodeGen {
                     }
 
                 case .node:
-                    try cmd("cp", "\(platform.buildDir(debug: debug))/\(platform.dylibName(for: "FishyJoesNodeRuntime"))", "\(outputDir)/").run()
+                    try installLibrary("FishyJoesNodeRuntime")
                     for dependency in config.requiredModules + [config.module] {
-                        try cmd("cp", "\(platform.buildDir(debug: debug))/\(platform.dylibName(for: dependency))", "\(outputDir)/").run()
+                        try installLibrary(dependency)
 
                         // For node to load a library correctly, the file must be ".cjs.node" and not a symlink
                         // But for the linker to find required libraries, they need their original names.
                         // So we symlink `libModule-node.dylib` -> `module.cjs.node`
-                        let compiledLibName = platform.dylibName(for: "\(dependency)-node")
+                        let compiledLibName = "lib\(dependency)-node.\(platform.dylibExt)"
                         let nodeLibName = "\(dependency).cjs.node"
-                        try cmd("cp", "\(platform.buildDir(debug: debug))/\(compiledLibName)", "\(outputDir)/\(nodeLibName)").run()
+                        try installLibrary("\(dependency)-node", installName: nodeLibName)
+                        try installLibrary(dependency)
                         try cmd("ln", "-s", nodeLibName, "\(outputDir)/\(compiledLibName)").run()
                     }
                     try cmd(
@@ -324,12 +388,12 @@ extension CodeGen {
                     try cmd("echo", moduleDotJS.joined(separator: "\n")).output(overwritingFile: "\(outputDir)/\(config.module).js").run()
                 case .kotlinSystem, .kotlinAndroid:
                     try cmd("mkdir", "-p", outputDir).run()
-                    try cmd("cp", platform.dylibPath(for: config.module, configuration: configuration), outputDir).run()
-                    try cmd("cp", platform.dylibPath(for: config.module + "-java", configuration: configuration), outputDir).run()
+                    try installLibrary(config.module)
+                    try installLibrary("\(config.module)-java")
                 case .cSharp:
                     try cmd("mkdir", "-p", outputDir).run()
-                    try cmd("cp", platform.dylibPath(for: config.module, configuration: configuration), outputDir).run()
-                    try cmd("cp", platform.dylibPath(for: config.module + "-iota", configuration: configuration), outputDir).run()
+                    try installLibrary(config.module)
+                    try installLibrary("\(config.module)-iota")
                 case .dartSystem:
                     try cmd("mkdir", "-p", outputDir).run()
                     let libs = [
@@ -343,9 +407,7 @@ extension CodeGen {
                         ]
                     }
                     for lib in libs {
-                        let libPath = platform.dylibPath(for: lib, configuration: configuration)
-                        try cmd("cp", libPath, outputDir).run()
-                        try cmd("codesign", "-s", "-", "\(outputDir)/\(platform.dylibName(for: lib))").run()
+                        try installLibrary(lib, sign: true)
                     }
                 }
             }
@@ -432,11 +494,11 @@ extension CodeGen {
                     }
                 case .cSharp:
                     if !cmd("dotnet-coverage", "--version").runBool() {
-                        print("Couldn't find dotnet-coverage! Install with:")
-                        print()
-                        print("   dotnet tool install --global dotnet-sonarscanner")
-                        print()
-                        print("and ensure that $HOME/.dotnet/tools is in your path")
+                        printAndFlush("Couldn't find dotnet-coverage! Install with:")
+                        printAndFlush()
+                        printAndFlush("   dotnet tool install --global dotnet-sonarscanner")
+                        printAndFlush()
+                        printAndFlush("and ensure that $HOME/.dotnet/tools is in your path")
                     }
                     try withDirectory("c-sharp") {
                         var commandParts = ["dotnet", "test", "Cricut.\(config.module).sln"]

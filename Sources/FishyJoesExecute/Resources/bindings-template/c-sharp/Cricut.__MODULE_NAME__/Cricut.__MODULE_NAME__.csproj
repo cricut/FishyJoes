@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
-    <PackageReference Include="Cricut.FishyJoesRuntime" Version="2.0.1" />
+    <PackageReference Include="Cricut.FishyJoesRuntime" Version="(replace this string with latest fishyjoes version)" />
   </ItemGroup>
 
   <PropertyGroup>
@@ -15,7 +15,7 @@
 
   <PropertyGroup>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
     <NoWarn>$(NoWarn);1591</NoWarn>
   </PropertyGroup>
 

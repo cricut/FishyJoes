@@ -25,9 +25,6 @@ jobs:
   build-test-kotlin-mac:
     name: "mac: Build and test kotlin bindings"
     runs-on: macOS-12
-    env:
-      SWIFT_ANDROID_URL: |-
-        https://github.com/vgorloff/swift-everywhere-toolchain/releases/download/1.0.78/swift-android-toolchain.tar.gz
 
     steps:
       - name: Checkout
@@ -37,25 +34,6 @@ jobs:
         uses: fusion-engineering/setup-git-credentials@v2.0.1
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
-
-      - name: Configure build environment
-        shell: zsh {0}
-        run: |
-          set -euxo pipefail
-
-          # Hack. Xcode 13.3 hangs on a gui prompt while resolving
-          sudo xcode-select -s /Applications/Xcode_13.2.1.app
-          swift package resolve
-          sudo xcode-select -s /Applications/Xcode_13.3.1.app
-
-          curl -Lo swift-android-toolchain.tar.gz $SWIFT_ANDROID_URL
-          sudo mkdir -p /Library/Developer/Toolchains
-          sudo tar -xf swift-android-toolchain.tar.gz -C /Library/Developer/Toolchains/
-
-          NDK_VERSION=$(cat /Library/Developer/Toolchains/swift-android-toolchain/NDK_VERSION)
-          ~/Library/Android/sdk/tools/bin/sdkmanager "ndk;$NDK_VERSION" >/dev/null 2>&1
-          sudo mkdir -p /usr/local/ndk
-          sudo ln -s ~/Library/Android/sdk/ndk/$NDK_VERSION /usr/local/ndk/$NDK_VERSION
 
       - name: Setup JDK 1.11
         uses: actions/setup-java@v1
@@ -67,30 +45,28 @@ jobs:
         run: |
           set -euxo pipefail
 
-          # From https://github.com/flowkey/swift-android-toolchain/pull/15/files
-          NDK_VERSION=$(cat /Library/Developer/Toolchains/swift-android-toolchain/NDK_VERSION)
-          ANDROID_NDK_PATH=/usr/local/ndk/$NDK_VERSION
-          # Ensure clang from ndk is used when invoking `clang` without specific path.
-          # Otherwise it executes `/usr/bin/clang` which references clang from xcode command line tools.
-          export PATH="$ANDROID_NDK_PATH/toolchains/llvm/prebuilt/darwin-x86_64/bin:$PATH"
-
-          swift run -- fishy-joes --kotlin generate build
+          swift run -- fishy-joes --kotlin-fast --fat generate build
 
       - name: Test from gradle
         shell: zsh {0}
         run: |
           set -euxo pipefail
-          swift run -- fishy-joes --kotlin test
+          swift run -- fishy-joes --kotlin-fast --fat test
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: mac_generated
-          path: kotlin/src/generated
+          name: mac_lib
+          path: kotlin/src/generated/resources/mac/
 
   build-test-kotlin-linux:
     name: "linux: Build and test kotlin bindings"
     runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/cricut/android-swift-runtime:1.0.0
+      credentials:
+        username: cricut-builduser
+        password: ${{ secrets.CRICUT_GPR_TOKEN }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -105,28 +81,24 @@ jobs:
         with:
           java-version: 1.11
 
-      - name: Configure build environment
-        run: |
-          set -euxo pipefail
-          sudo apt-get install zsh
-
       - name: Build library
         shell: zsh {0}
         run: |
           set -euxo pipefail
-          swift run -- fishy-joes --kotlin-fast build
+
+          swift run -- fishy-joes --kotlin build --no-use-docker
 
       - name: Test from gradle
         shell: zsh {0}
         run: |
           set -euxo pipefail
-          swift run -- fishy-joes --kotlin-fast test
+          swift run -- fishy-joes --kotlin test --no-use-docker
 
       - name: Upload library
         uses: actions/upload-artifact@v2
         with:
-          name: ubuntu_lib
-          path: kotlin/src/generated/resources/linux/
+          name: ubuntu_generated
+          path: kotlin/src/generated
 
   build-test-kotlin-windows:
     name: "windows: Build and test kotlin bindings"
@@ -210,9 +182,9 @@ jobs:
           ls *
 
           rm -rf kotlin/src/generated
-          mv mac_generated kotlin/src/generated
-          mkdir -p kotlin/src/generated/resources/{windows,linux}
-          mv ubuntu_lib/lib*.so kotlin/src/generated/resources/linux/
+          mv ubuntu_generated kotlin/src/generated
+          mkdir -p kotlin/src/generated/resources/{mac,windows}
+          mv mac_lib/lib*.dylib kotlin/src/generated/resources/mac/
           mv windows_lib/*.dll kotlin/src/generated/resources/windows/
 
       - name: Test publish

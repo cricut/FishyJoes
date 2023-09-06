@@ -2,6 +2,8 @@ import './AssociatedDataEnum.dart' as TestAPI;
 import './AssociatedDataEnum.dart';
 import './Bytes.dart' as TestAPI;
 import './Bytes.dart';
+import './ClosedRanges.dart' as TestAPI;
+import './ClosedRanges.dart';
 import './Collections.dart' as TestAPI;
 import './Collections.dart';
 import './Collections_CollectionHolder.dart' as TestAPI;
@@ -22,6 +24,8 @@ import './Primitives.dart' as TestAPI;
 import './Primitives.dart';
 import './Primitives_PrimitiveHolder.dart' as TestAPI;
 import './Primitives_PrimitiveHolder.dart';
+import './Ranges.dart' as TestAPI;
+import './Ranges.dart';
 import './SimpleEnum.dart' as TestAPI;
 import './SimpleEnum.dart';
 import './Strings.dart' as TestAPI;
@@ -53,49 +57,49 @@ class Strings {
     /// <!-- FishyJoes.export(simple) -->
     static String get simple =>
         check((exn) =>
-            consumeCreatedRef<String>(f__iota_get_Strings_simple(Loader.shared.env, exn))
+            consumeCreatedRef<String>(f__iota_get_TestAPI_Strings_simple(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(accent) -->
     static String get accent =>
         check((exn) =>
-            consumeCreatedRef<String>(f__iota_get_Strings_accent(Loader.shared.env, exn))
+            consumeCreatedRef<String>(f__iota_get_TestAPI_Strings_accent(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(script) -->
     static String get script =>
         check((exn) =>
-            consumeCreatedRef<String>(f__iota_get_Strings_script(Loader.shared.env, exn))
+            consumeCreatedRef<String>(f__iota_get_TestAPI_Strings_script(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(chinese) -->
     static String get chinese =>
         check((exn) =>
-            consumeCreatedRef<String>(f__iota_get_Strings_chinese(Loader.shared.env, exn))
+            consumeCreatedRef<String>(f__iota_get_TestAPI_Strings_chinese(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(chineseBMP) -->
     static String get chineseBMP =>
         check((exn) =>
-            consumeCreatedRef<String>(f__iota_get_Strings_chineseBMP(Loader.shared.env, exn))
+            consumeCreatedRef<String>(f__iota_get_TestAPI_Strings_chineseBMP(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(chineseSIP) -->
     static String get chineseSIP =>
         check((exn) =>
-            consumeCreatedRef<String>(f__iota_get_Strings_chineseSIP(Loader.shared.env, exn))
+            consumeCreatedRef<String>(f__iota_get_TestAPI_Strings_chineseSIP(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(emoji) -->
     static String get emoji =>
         check((exn) =>
-            consumeCreatedRef<String>(f__iota_get_Strings_emoji(Loader.shared.env, exn))
+            consumeCreatedRef<String>(f__iota_get_TestAPI_Strings_emoji(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(emojiMulti) -->
     static String get emojiMulti =>
         check((exn) =>
-            consumeCreatedRef<String>(f__iota_get_Strings_emojiMulti(Loader.shared.env, exn))
+            consumeCreatedRef<String>(f__iota_get_TestAPI_Strings_emojiMulti(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(echo) -->
@@ -103,7 +107,7 @@ class Strings {
         String string,
     ) =>
         GCRef.using(string, (_stringHandle) =>
-            consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_Strings_echo(Loader.shared.env, _stringHandle.ptr, _exn)))
+            consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_TestAPI_Strings_echo(Loader.shared.env, _stringHandle.ptr, _exn)))
         )
     ;
 
@@ -111,37 +115,37 @@ class Strings {
         Env env,
         UnownedRef string,
         OutCreatedRef _exn
-    ) f__iota_Strings_echo;
+    ) f__iota_TestAPI_Strings_echo;
     static late CreatedRef Function(
         Env env,
         OutCreatedRef _exn
-    ) f__iota_get_Strings_accent;
+    ) f__iota_get_TestAPI_Strings_accent;
     static late CreatedRef Function(
         Env env,
         OutCreatedRef _exn
-    ) f__iota_get_Strings_chinese;
+    ) f__iota_get_TestAPI_Strings_chinese;
     static late CreatedRef Function(
         Env env,
         OutCreatedRef _exn
-    ) f__iota_get_Strings_chineseBMP;
+    ) f__iota_get_TestAPI_Strings_chineseBMP;
     static late CreatedRef Function(
         Env env,
         OutCreatedRef _exn
-    ) f__iota_get_Strings_chineseSIP;
+    ) f__iota_get_TestAPI_Strings_chineseSIP;
     static late CreatedRef Function(
         Env env,
         OutCreatedRef _exn
-    ) f__iota_get_Strings_emoji;
+    ) f__iota_get_TestAPI_Strings_emoji;
     static late CreatedRef Function(
         Env env,
         OutCreatedRef _exn
-    ) f__iota_get_Strings_emojiMulti;
+    ) f__iota_get_TestAPI_Strings_emojiMulti;
     static late CreatedRef Function(
         Env env,
         OutCreatedRef _exn
-    ) f__iota_get_Strings_script;
+    ) f__iota_get_TestAPI_Strings_script;
     static late CreatedRef Function(
         Env env,
         OutCreatedRef _exn
-    ) f__iota_get_Strings_simple;
+    ) f__iota_get_TestAPI_Strings_simple;
 }

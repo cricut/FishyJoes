@@ -2,6 +2,8 @@ import './AssociatedDataEnum.dart' as TestAPI;
 import './AssociatedDataEnum.dart';
 import './Bytes.dart' as TestAPI;
 import './Bytes.dart';
+import './ClosedRanges.dart' as TestAPI;
+import './ClosedRanges.dart';
 import './Collections.dart' as TestAPI;
 import './Collections.dart';
 import './Collections_CollectionHolder.dart' as TestAPI;
@@ -22,6 +24,8 @@ import './Primitives.dart' as TestAPI;
 import './Primitives.dart';
 import './Primitives_PrimitiveHolder.dart' as TestAPI;
 import './Primitives_PrimitiveHolder.dart';
+import './Ranges.dart' as TestAPI;
+import './Ranges.dart';
 import './SimpleEnum.dart' as TestAPI;
 import './SimpleEnum.dart';
 import './Strings.dart' as TestAPI;
@@ -53,7 +57,7 @@ class Structs_ReferenceStruct extends SwiftReference {
     String get immutable =>
         GCRef.using(this, (_thisHandle) =>
             check((exn) =>
-                consumeCreatedRef<String>(f__iota_get_Structs_ReferenceStruct_immutable(Loader.shared.env, _thisHandle.ptr, exn))
+                consumeCreatedRef<String>(f__iota_get_TestAPI_Structs_ReferenceStruct_immutable(Loader.shared.env, _thisHandle.ptr, exn))
             )
         )
     ;
@@ -61,7 +65,7 @@ class Structs_ReferenceStruct extends SwiftReference {
     String get mutable =>
         GCRef.using(this, (_thisHandle) =>
             check((exn) =>
-                consumeCreatedRef<String>(f__iota_get_Structs_ReferenceStruct_mutable(Loader.shared.env, _thisHandle.ptr, exn))
+                consumeCreatedRef<String>(f__iota_get_TestAPI_Structs_ReferenceStruct_mutable(Loader.shared.env, _thisHandle.ptr, exn))
             )
         )
     ;
@@ -69,7 +73,7 @@ class Structs_ReferenceStruct extends SwiftReference {
         GCRef.using(this, (_thisHandle) =>
             GCRef.using(value, (_valueHandle) =>
                 check((exn) =>
-                    f__iota_set_Structs_ReferenceStruct_mutable(Loader.shared.env, _thisHandle.ptr, _valueHandle.ptr, exn)
+                    f__iota_set_TestAPI_Structs_ReferenceStruct_mutable(Loader.shared.env, _thisHandle.ptr, _valueHandle.ptr, exn)
                 )
             )
         )
@@ -78,14 +82,14 @@ class Structs_ReferenceStruct extends SwiftReference {
     int get hashCode =>
         GCRef.using(this, (_thisHandle) =>
             check((exn) =>
-                f__iota_get_Structs_ReferenceStruct_hash(Loader.shared.env, _thisHandle.ptr, exn)
+                f__iota_get_TestAPI_Structs_ReferenceStruct_hash(Loader.shared.env, _thisHandle.ptr, exn)
             )
         )
     ;
     /// <!-- FishyJoes.export(create) -->
     static TestAPI.Structs_ReferenceStruct create(
     ) =>
-        consumeCreatedRef<TestAPI.Structs_ReferenceStruct>(check((OutCreatedRef _exn) => f__iota_Structs_ReferenceStruct_create(Loader.shared.env, _exn)))
+        consumeCreatedRef<TestAPI.Structs_ReferenceStruct>(check((OutCreatedRef _exn) => f__iota_TestAPI_Structs_ReferenceStruct_create(Loader.shared.env, _exn)))
     ;
 
     bool operator ==(
@@ -93,38 +97,38 @@ class Structs_ReferenceStruct extends SwiftReference {
     ) =>
         GCRef.using(this, (thisHandle) =>
             GCRef.using(other as TestAPI.Structs_ReferenceStruct, (otherHandle) =>
-                check((exn) => f__iota_Structs_ReferenceStruct_equals(Loader.shared.env, thisHandle.ptr, otherHandle.ptr, exn))))
+                check((exn) => f__iota_TestAPI_Structs_ReferenceStruct_equals(Loader.shared.env, thisHandle.ptr, otherHandle.ptr, exn))))
     ;
 
     static late CreatedRef Function(
         Env env,
         OutCreatedRef _exn
-    ) f__iota_Structs_ReferenceStruct_create;
+    ) f__iota_TestAPI_Structs_ReferenceStruct_create;
     static late bool Function(
         Env env,
         UnownedRef lhs,
         UnownedRef rhs,
         OutCreatedRef _exn
-    ) f__iota_Structs_ReferenceStruct_equals;
+    ) f__iota_TestAPI_Structs_ReferenceStruct_equals;
     static late int Function(
         Env env,
         UnownedRef _this,
         OutCreatedRef _exn
-    ) f__iota_get_Structs_ReferenceStruct_hash;
+    ) f__iota_get_TestAPI_Structs_ReferenceStruct_hash;
     static late CreatedRef Function(
         Env env,
         UnownedRef _this,
         OutCreatedRef _exn
-    ) f__iota_get_Structs_ReferenceStruct_immutable;
+    ) f__iota_get_TestAPI_Structs_ReferenceStruct_immutable;
     static late CreatedRef Function(
         Env env,
         UnownedRef _this,
         OutCreatedRef _exn
-    ) f__iota_get_Structs_ReferenceStruct_mutable;
+    ) f__iota_get_TestAPI_Structs_ReferenceStruct_mutable;
     static late void Function(
         Env env,
         UnownedRef _this,
         UnownedRef mutable,
         OutCreatedRef _exn
-    ) f__iota_set_Structs_ReferenceStruct_mutable;
+    ) f__iota_set_TestAPI_Structs_ReferenceStruct_mutable;
 }

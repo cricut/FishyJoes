@@ -16,11 +16,11 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static Cricut.TestAPI.EmptyEnum NotGoingToHappen(
         ) {
-            return Check((out CreatedRef _exn) => __iota_EmptyEnum_notGoingToHappen(Loader.env, out _exn)).Consume<Cricut.TestAPI.EmptyEnum>();
+            return Check((out CreatedRef _exn) => __iota_TestAPI_EmptyEnum_notGoingToHappen(Loader.env, out _exn)).Consume<Cricut.TestAPI.EmptyEnum>();
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_EmptyEnum_notGoingToHappen(
+        private static extern CreatedRef __iota_TestAPI_EmptyEnum_notGoingToHappen(
             IntPtr envRef,
             out CreatedRef exn
         );

@@ -2,6 +2,8 @@ import './AssociatedDataEnum.dart' as TestAPI;
 import './AssociatedDataEnum.dart';
 import './Bytes.dart' as TestAPI;
 import './Bytes.dart';
+import './ClosedRanges.dart' as TestAPI;
+import './ClosedRanges.dart';
 import './Collections.dart' as TestAPI;
 import './Collections.dart';
 import './Collections_CollectionHolder.dart' as TestAPI;
@@ -22,6 +24,8 @@ import './Primitives.dart' as TestAPI;
 import './Primitives.dart';
 import './Primitives_PrimitiveHolder.dart' as TestAPI;
 import './Primitives_PrimitiveHolder.dart';
+import './Ranges.dart' as TestAPI;
+import './Ranges.dart';
 import './SimpleEnum.dart' as TestAPI;
 import './SimpleEnum.dart';
 import './Strings.dart' as TestAPI;
@@ -55,12 +59,12 @@ class DefaultArguments {
         int? x,
         {
             int? y = null,
-            double z = 3.14,
+            double /* theLabelForZ */ z = 3.14,
         }
     ) =>
         GCRef.using(y, (_yHandle) =>
             GCRef.using(x, (_xHandle) =>
-                consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_DefaultArguments_echoDefaults(Loader.shared.env, _yHandle.ptr, _xHandle.ptr, z, _exn)))
+                consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_TestAPI_DefaultArguments_echoDefaults(Loader.shared.env, _yHandle.ptr, _xHandle.ptr, z, _exn)))
             )
         )
     ;
@@ -71,5 +75,5 @@ class DefaultArguments {
         UnownedRef x,
         double z,
         OutCreatedRef _exn
-    ) f__iota_DefaultArguments_echoDefaults;
+    ) f__iota_TestAPI_DefaultArguments_echoDefaults;
 }

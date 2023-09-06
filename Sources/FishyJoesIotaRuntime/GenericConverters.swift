@@ -41,7 +41,7 @@ public struct CollectionInfo {
     }
 }
 
-@_cdecl("FishyJoesRuntime_collection_setup")
+@_cdecl("FishyJoesCommonRuntime_collection_setup")
 public func collectionSetup(
     envRef: EnvRef,
     name: UnsafePointer<unichar>,
@@ -213,5 +213,108 @@ extension OptionalConverter: IotaConverter where WrappedConverter: IotaConverter
         } else {
             return nil
         }
+    }
+}
+
+// MARK: - Range Type Conversion
+
+public struct IotaSwiftRange {
+    public typealias GetLowerBoundMethod = @convention(c) (_ context: OpaquePointer, _ range: foreignObject, _ exn: foreignOutExn) -> foreignObject
+    public typealias GetUpperBoundMethod = @convention(c) (_ context: OpaquePointer, _ range: foreignObject, _ exn: foreignOutExn) -> foreignObject
+    public typealias Constructor = @convention(c) (_ context: OpaquePointer, _ start: foreignObject, _ end: foreignObject, _ exn: foreignOutExn) -> foreignObject
+
+    static var interfaces = Env.CallbackMap<[ObjectIdentifier: IotaSwiftRange]>()
+
+    var getLowerBoundMethod: GetLowerBoundMethod
+    var getUpperBoundMethod: GetUpperBoundMethod
+    var constructor: Constructor
+    var context: OpaquePointer
+
+    func lowerBound(_ object: foreignObject, env: Env) throws -> foreignObject {
+        try env.check { exn in getLowerBoundMethod(context, object, exn) }
+    }
+
+    func upperBound(_ object: foreignObject, env: Env) throws -> foreignObject {
+        try env.check { exn in getUpperBoundMethod(context, object, exn) }
+    }
+
+    func construct(lowerBound: foreignObject, upperBound: foreignObject, env: Env) throws -> foreignObject {
+        try env.check { exn in constructor(context, lowerBound, upperBound, exn) }
+    }
+}
+
+@_cdecl("FishyJoesCommonRuntime_RangeConverter_setup")
+public func RangeConverter_iota_setup(
+    envRef: EnvRef,
+    name: UnsafePointer<unichar>,
+    getLowerBoundMethod: @escaping IotaSwiftRange.GetLowerBoundMethod,
+    getUpperBoundMethod: @escaping IotaSwiftRange.GetUpperBoundMethod,
+    constructor: @escaping IotaSwiftRange.Constructor,
+    context: OpaquePointer
+) {
+    let env = Env(envRef)
+    let name = String(decodingCString: name, as: Unicode.UTF16.self)
+    guard let typeID = Env.typeID(name: name),
+          let identifier = Env.objectID(typeID: typeID)
+    else {
+        fatalError("unregistered typeID \(name)")
+    }
+    IotaSwiftRange.interfaces[env, default: [:]][identifier] = IotaSwiftRange(
+        getLowerBoundMethod: getLowerBoundMethod,
+        getUpperBoundMethod: getUpperBoundMethod,
+        constructor: constructor,
+        context: context
+    )
+}
+
+extension RangeConverter: IotaConverter where BoundConverter: IotaConverter {
+    public static func peekIota(_ value: foreignObject, env: Env) throws -> SwiftType {
+        guard let interface = IotaSwiftRange.interfaces[env][ObjectIdentifier(Self.self)] else {
+            fatalError("Type \(SwiftType.self) improperly set up")
+        }
+
+        let lowerBound = try BoundConverter.consumeIota(object: interface.lowerBound(value, env: env), env: env)
+        let upperBound = try BoundConverter.consumeIota(object: interface.upperBound(value, env: env), env: env)
+
+        return lowerBound..<upperBound
+    }
+
+    public static func toIota(_ value: SwiftType, env: Env) throws -> foreignObject {
+        guard let interface = IotaSwiftRange.interfaces[env][ObjectIdentifier(Self.self)] else {
+            fatalError("Type \(SwiftType.self) improperly set up")
+        }
+
+        let lowerBound = try BoundConverter.toIotaObject(value.lowerBound, env: env)
+        defer { env.deleteRef(lowerBound) }
+        let upperBound = try BoundConverter.toIotaObject(value.upperBound, env: env)
+        defer { env.deleteRef(upperBound) }
+
+        return try interface.construct(lowerBound: lowerBound, upperBound: upperBound, env: env)
+    }
+}
+
+extension ClosedRangeConverter: IotaConverter where BoundConverter: IotaConverter {
+    public static func peekIota(_ value: foreignObject, env: Env) throws -> SwiftType {
+        guard let interface = IotaSwiftRange.interfaces[env][ObjectIdentifier(Self.self)] else {
+            fatalError("Type \(SwiftType.self) improperly set up")
+        }
+
+        let lowerBound = try BoundConverter.consumeIota(object: interface.lowerBound(value, env: env), env: env)
+        let upperBound = try BoundConverter.consumeIota(object: interface.upperBound(value, env: env), env: env)
+
+        return lowerBound...upperBound
+    }
+
+    public static func toIota(_ value: SwiftType, env: Env) throws -> foreignObject {
+        guard let interface = IotaSwiftRange.interfaces[env][ObjectIdentifier(Self.self)] else {
+            fatalError("Type \(SwiftType.self) improperly set up")
+        }
+
+        let lowerBound = try BoundConverter.toIotaObject(value.lowerBound, env: env)
+        defer { env.deleteRef(lowerBound) }
+        let upperBound = try BoundConverter.toIotaObject(value.upperBound, env: env)
+        defer { env.deleteRef(upperBound) }
+
+        return try interface.construct(lowerBound: lowerBound, upperBound: upperBound, env: env)
     }
 }

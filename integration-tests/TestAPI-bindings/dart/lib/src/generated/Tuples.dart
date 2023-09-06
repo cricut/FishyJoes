@@ -2,6 +2,8 @@ import './AssociatedDataEnum.dart' as TestAPI;
 import './AssociatedDataEnum.dart';
 import './Bytes.dart' as TestAPI;
 import './Bytes.dart';
+import './ClosedRanges.dart' as TestAPI;
+import './ClosedRanges.dart';
 import './Collections.dart' as TestAPI;
 import './Collections.dart';
 import './Collections_CollectionHolder.dart' as TestAPI;
@@ -22,6 +24,8 @@ import './Primitives.dart' as TestAPI;
 import './Primitives.dart';
 import './Primitives_PrimitiveHolder.dart' as TestAPI;
 import './Primitives_PrimitiveHolder.dart';
+import './Ranges.dart' as TestAPI;
+import './Ranges.dart';
 import './SimpleEnum.dart' as TestAPI;
 import './SimpleEnum.dart';
 import './Strings.dart' as TestAPI;
@@ -53,31 +57,31 @@ class Tuples {
     /// <!-- FishyJoes.export(tuple2) -->
     static tuple.Tuple2<int, String> get tuple2 =>
         check((exn) =>
-            consumeCreatedRef<tuple.Tuple2<int, String>>(f__iota_get_Tuples_tuple2(Loader.shared.env, exn))
+            consumeCreatedRef<tuple.Tuple2<int, String>>(f__iota_get_TestAPI_Tuples_tuple2(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(tuple3) -->
     static tuple.Tuple3<String, double, String> get tuple3 =>
         check((exn) =>
-            consumeCreatedRef<tuple.Tuple3<String, double, String>>(f__iota_get_Tuples_tuple3(Loader.shared.env, exn))
+            consumeCreatedRef<tuple.Tuple3<String, double, String>>(f__iota_get_TestAPI_Tuples_tuple3(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(tuple4) -->
     static tuple.Tuple4<tuple.Tuple2<int, String>, tuple.Tuple3<String, double, String>, String, bool> get tuple4 =>
         check((exn) =>
-            consumeCreatedRef<tuple.Tuple4<tuple.Tuple2<int, String>, tuple.Tuple3<String, double, String>, String, bool>>(f__iota_get_Tuples_tuple4(Loader.shared.env, exn))
+            consumeCreatedRef<tuple.Tuple4<tuple.Tuple2<int, String>, tuple.Tuple3<String, double, String>, String, bool>>(f__iota_get_TestAPI_Tuples_tuple4(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(tuple5) -->
     static tuple.Tuple5<String, int, tuple.Tuple4<tuple.Tuple2<int, String>, tuple.Tuple3<String, double, String>, String, bool>, tuple.Tuple3<String, double, String>, tuple.Tuple2<int, String>> get tuple5 =>
         check((exn) =>
-            consumeCreatedRef<tuple.Tuple5<String, int, tuple.Tuple4<tuple.Tuple2<int, String>, tuple.Tuple3<String, double, String>, String, bool>, tuple.Tuple3<String, double, String>, tuple.Tuple2<int, String>>>(f__iota_get_Tuples_tuple5(Loader.shared.env, exn))
+            consumeCreatedRef<tuple.Tuple5<String, int, tuple.Tuple4<tuple.Tuple2<int, String>, tuple.Tuple3<String, double, String>, String, bool>, tuple.Tuple3<String, double, String>, tuple.Tuple2<int, String>>>(f__iota_get_TestAPI_Tuples_tuple5(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(tuple6) -->
     static tuple.Tuple6<String, int, double, tuple.Tuple4<tuple.Tuple2<int, String>, tuple.Tuple3<String, double, String>, String, bool>, tuple.Tuple5<String, int, tuple.Tuple4<tuple.Tuple2<int, String>, tuple.Tuple3<String, double, String>, String, bool>, tuple.Tuple3<String, double, String>, tuple.Tuple2<int, String>>, bool> get tuple6 =>
         check((exn) =>
-            consumeCreatedRef<tuple.Tuple6<String, int, double, tuple.Tuple4<tuple.Tuple2<int, String>, tuple.Tuple3<String, double, String>, String, bool>, tuple.Tuple5<String, int, tuple.Tuple4<tuple.Tuple2<int, String>, tuple.Tuple3<String, double, String>, String, bool>, tuple.Tuple3<String, double, String>, tuple.Tuple2<int, String>>, bool>>(f__iota_get_Tuples_tuple6(Loader.shared.env, exn))
+            consumeCreatedRef<tuple.Tuple6<String, int, double, tuple.Tuple4<tuple.Tuple2<int, String>, tuple.Tuple3<String, double, String>, String, bool>, tuple.Tuple5<String, int, tuple.Tuple4<tuple.Tuple2<int, String>, tuple.Tuple3<String, double, String>, String, bool>, tuple.Tuple3<String, double, String>, tuple.Tuple2<int, String>>, bool>>(f__iota_get_TestAPI_Tuples_tuple6(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(checkTuples) -->
@@ -93,7 +97,7 @@ class Tuples {
                 GCRef.using(t4, (_t4Handle) =>
                     GCRef.using(t5, (_t5Handle) =>
                         GCRef.using(t6, (_t6Handle) =>
-                            check((OutCreatedRef _exn) => f__iota_Tuples_checkTuples(Loader.shared.env, _t2Handle.ptr, _t3Handle.ptr, _t4Handle.ptr, _t5Handle.ptr, _t6Handle.ptr, _exn))
+                            check((OutCreatedRef _exn) => f__iota_TestAPI_Tuples_checkTuples(Loader.shared.env, _t2Handle.ptr, _t3Handle.ptr, _t4Handle.ptr, _t5Handle.ptr, _t6Handle.ptr, _exn))
                         )
                     )
                 )
@@ -109,25 +113,25 @@ class Tuples {
         UnownedRef t5,
         UnownedRef t6,
         OutCreatedRef _exn
-    ) f__iota_Tuples_checkTuples;
+    ) f__iota_TestAPI_Tuples_checkTuples;
     static late CreatedRef Function(
         Env env,
         OutCreatedRef _exn
-    ) f__iota_get_Tuples_tuple2;
+    ) f__iota_get_TestAPI_Tuples_tuple2;
     static late CreatedRef Function(
         Env env,
         OutCreatedRef _exn
-    ) f__iota_get_Tuples_tuple3;
+    ) f__iota_get_TestAPI_Tuples_tuple3;
     static late CreatedRef Function(
         Env env,
         OutCreatedRef _exn
-    ) f__iota_get_Tuples_tuple4;
+    ) f__iota_get_TestAPI_Tuples_tuple4;
     static late CreatedRef Function(
         Env env,
         OutCreatedRef _exn
-    ) f__iota_get_Tuples_tuple5;
+    ) f__iota_get_TestAPI_Tuples_tuple5;
     static late CreatedRef Function(
         Env env,
         OutCreatedRef _exn
-    ) f__iota_get_Tuples_tuple6;
+    ) f__iota_get_TestAPI_Tuples_tuple6;
 }

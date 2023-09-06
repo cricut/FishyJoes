@@ -17,15 +17,15 @@ namespace Cricut.TestAPI {
         public static string EchoDefaults(
             nint? x,
             nint? y = null,
-            double z = 3.14
+            double /* theLabelForZ */ z = 3.14
         ) {
             using var _yHandle = new GCRef(y);
             using var _xHandle = new GCRef(x);
-            return Check((out CreatedRef _exn) => __iota_DefaultArguments_echoDefaults(Loader.env, _yHandle.ptr, _xHandle.ptr, z, out _exn)).Consume<string>();
+            return Check((out CreatedRef _exn) => __iota_TestAPI_DefaultArguments_echoDefaults(Loader.env, _yHandle.ptr, _xHandle.ptr, z, out _exn)).Consume<string>();
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_DefaultArguments_echoDefaults(
+        private static extern CreatedRef __iota_TestAPI_DefaultArguments_echoDefaults(
             IntPtr envRef,
             UnownedRef y,
             UnownedRef x,

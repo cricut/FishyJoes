@@ -238,6 +238,32 @@ extension UInt64: JavaConverter {
     }
 }
 
+extension UInt: JavaConverter {
+    public typealias CType = UInt64.CType
+
+    public static var javaClass: jclass? { UInt64.javaClass }
+
+    public static func fromJava(_ value: CType, env: Env) throws -> Self {
+        try Self(UInt64.fromJava(value, env: env))
+    }
+
+    public static func toJava(_ value: Self, env: Env) throws -> CType {
+        try UInt64.toJava(UInt64(value), env: env)
+    }
+
+    public static func fromJava(object value: jobject?, env: Env) throws -> Self {
+        Self(try UInt64.fromJava(object: value, env: env))
+    }
+
+    public static func toJavaObject(_ value: Self, env: Env) throws -> jobject? {
+        try UInt64.toJavaObject(UInt64(value), env: env)
+    }
+
+    public static func javaSetup(env: Env) throws {
+        try UInt64.javaSetup(env: env)
+    }
+}
+
 extension Int8: JavaConverter {
     public typealias CType = jbyte
 
@@ -348,12 +374,12 @@ extension Int: JavaConverter {
 
     public static var javaClass: jclass? { Int64.javaClass }
 
-    public static func fromJava(_ value: Int64.CType, env: Env) throws -> Self {
+    public static func fromJava(_ value: CType, env: Env) throws -> Self {
         try Self(Int64.fromJava(value, env: env))
     }
 
-    public static func toJava(_ value: Self, env: Env) throws -> Int64.CType {
-        Int64.CType(value)
+    public static func toJava(_ value: Self, env: Env) throws -> CType {
+        try Int64.toJava(Int64(value), env: env)
     }
 
     public static func fromJava(object value: jobject?, env: Env) throws -> Self {
@@ -722,6 +748,98 @@ extension OptionalConverter: JavaConverter where WrappedConverter: JavaConverter
 
     public static func javaSetup(env: Env) throws {
         try WrappedConverter.javaSetup(env: env)
+    }
+}
+
+// MARK: - Range Type Conversion
+
+private enum KotlinSwiftRange {
+    static var rangeClass: jclass?
+    static var rangeConstructor: jmethodID?
+    static var rangeGetLowerBoundMethodID: jmethodID?
+    static var rangeGetUpperBoundMethodID: jmethodID?
+
+    public static func javaSetup(env: Env) throws {
+        guard rangeClass == nil else { return }
+        rangeClass = try env.globalRef(env.FindClass("com/cricut/fishyjoes/runtime/SwiftRange"))
+        rangeConstructor = try env.GetMethodID(rangeClass, "<init>", "(Ljava/lang/Comparable;Ljava/lang/Comparable;)V")
+        rangeGetLowerBoundMethodID = try env.GetMethodID(rangeClass, "getLowerBound", "()Ljava/lang/Comparable;")
+        rangeGetUpperBoundMethodID = try env.GetMethodID(rangeClass, "getUpperBound", "()Ljava/lang/Comparable;")
+    }
+}
+
+extension RangeConverter: JavaConverter where BoundConverter: JavaConverter {
+    public static var javaClass: jclass? {
+        KotlinSwiftRange.rangeClass
+    }
+
+    public static func javaSetup(env: Env) throws {
+        try KotlinSwiftRange.javaSetup(env: env)
+    }
+
+    public static func fromJava(_ value: jobject?, env: Env) throws -> SwiftType {
+        let lowerBound = try BoundConverter.fromJava(object: env.CallObjectMethod(value, KotlinSwiftRange.rangeGetLowerBoundMethodID), env: env)
+        let upperBound = try BoundConverter.fromJava(object: env.CallObjectMethod(value, KotlinSwiftRange.rangeGetUpperBoundMethodID), env: env)
+        guard lowerBound <= upperBound else {
+            throw InvalidRangeError(message: "\(lowerBound)..<\(upperBound)")
+        }
+        return lowerBound..<upperBound
+    }
+
+    public static func toJava(_ value: SwiftType, env: Env) throws -> jobject? {
+        let lowerBound = value.lowerBound
+        let upperBound = value.upperBound
+        return try env.NewObject(
+            KotlinSwiftRange.rangeClass,
+            KotlinSwiftRange.rangeConstructor,
+            jvalue(l: BoundConverter.toJavaObject(lowerBound, env: env)),
+            jvalue(l: BoundConverter.toJavaObject(upperBound, env: env))
+        )
+    }
+}
+
+private enum KotlinSwiftClosedRange {
+    static var rangeClass: jclass?
+    static var rangeConstructor: jmethodID?
+    static var rangeGetLowerBoundMethodID: jmethodID?
+    static var rangeGetUpperBoundMethodID: jmethodID?
+
+    public static func javaSetup(env: Env) throws {
+        guard rangeClass == nil else { return }
+        rangeClass = try env.globalRef(env.FindClass("com/cricut/fishyjoes/runtime/SwiftClosedRange"))
+        rangeConstructor = try env.GetMethodID(rangeClass, "<init>", "(Ljava/lang/Comparable;Ljava/lang/Comparable;)V")
+        rangeGetLowerBoundMethodID = try env.GetMethodID(rangeClass, "getLowerBound", "()Ljava/lang/Comparable;")
+        rangeGetUpperBoundMethodID = try env.GetMethodID(rangeClass, "getUpperBound", "()Ljava/lang/Comparable;")
+    }
+}
+
+extension ClosedRangeConverter: JavaConverter where BoundConverter: JavaConverter {
+    public static var javaClass: jclass? {
+        KotlinSwiftClosedRange.rangeClass
+    }
+
+    public static func javaSetup(env: Env) throws {
+        try KotlinSwiftClosedRange.javaSetup(env: env)
+    }
+
+    public static func fromJava(_ value: jobject?, env: Env) throws -> SwiftType {
+        let lowerBound = try BoundConverter.fromJava(object: env.CallObjectMethod(value, KotlinSwiftClosedRange.rangeGetLowerBoundMethodID), env: env)
+        let upperBound = try BoundConverter.fromJava(object: env.CallObjectMethod(value, KotlinSwiftClosedRange.rangeGetUpperBoundMethodID), env: env)
+        guard lowerBound <= upperBound else {
+            throw InvalidRangeError(message: "\(lowerBound)...\(upperBound)")
+        }
+        return lowerBound...upperBound
+    }
+
+    public static func toJava(_ value: SwiftType, env: Env) throws -> jobject? {
+        let lowerBound = value.lowerBound
+        let upperBound = value.upperBound
+        return try env.NewObject(
+            KotlinSwiftClosedRange.rangeClass,
+            KotlinSwiftClosedRange.rangeConstructor,
+            jvalue(l: BoundConverter.toJavaObject(lowerBound, env: env)),
+            jvalue(l: BoundConverter.toJavaObject(upperBound, env: env))
+        )
     }
 }
 

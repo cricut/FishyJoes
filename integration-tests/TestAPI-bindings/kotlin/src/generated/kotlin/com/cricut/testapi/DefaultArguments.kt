@@ -12,7 +12,7 @@ sealed class DefaultArguments {
         fun echoDefaults(
             y: Long? = null,
             x: Long?,
-            z: Double = 3.14
+            /* theLabelForZ */ z: Double = 3.14
         ): kotlin.String = __jni_echoDefaults(y, x, z)
         @JvmStatic
         @JvmName("__jni_echoDefaults")

@@ -1,7 +1,7 @@
 import SourceryRuntime
 
 struct TranslatedString: TranslatedType {
-    let sourceType = BetterType.named(.init(name: "Swift.String"))
+    let sourceType = BetterType.named(.swift("String"))
     let nodeName = "string"
     let kotlinName = "String"
     let neutralName = "String"

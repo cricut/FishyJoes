@@ -2,6 +2,8 @@ import './AssociatedDataEnum.dart' as TestAPI;
 import './AssociatedDataEnum.dart';
 import './Bytes.dart' as TestAPI;
 import './Bytes.dart';
+import './ClosedRanges.dart' as TestAPI;
+import './ClosedRanges.dart';
 import './Collections.dart' as TestAPI;
 import './Collections.dart';
 import './Collections_CollectionHolder.dart' as TestAPI;
@@ -22,6 +24,8 @@ import './Primitives.dart' as TestAPI;
 import './Primitives.dart';
 import './Primitives_PrimitiveHolder.dart' as TestAPI;
 import './Primitives_PrimitiveHolder.dart';
+import './Ranges.dart' as TestAPI;
+import './Ranges.dart';
 import './SimpleEnum.dart' as TestAPI;
 import './SimpleEnum.dart';
 import './Strings.dart' as TestAPI;
@@ -58,6 +62,8 @@ class Primitives_PrimitiveHolder with _$Primitives_PrimitiveHolder {
         required int? ui32q,
         required int ui64,
         required int? ui64q,
+        required int ui,
+        required int? uiq,
         required int i8,
         required int? i8q,
         required int i16,
@@ -66,6 +72,8 @@ class Primitives_PrimitiveHolder with _$Primitives_PrimitiveHolder {
         required int? i32q,
         required int i64,
         required int? i64q,
+        required int i,
+        required int? iq,
         required double f,
         required double? fq,
         required double d,
@@ -84,6 +92,8 @@ class Primitives_PrimitiveHolder with _$Primitives_PrimitiveHolder {
         ConsumedRef ui32q,
         int ui64,
         ConsumedRef ui64q,
+        int ui,
+        ConsumedRef uiq,
         int i8,
         ConsumedRef i8q,
         int i16,
@@ -92,6 +102,8 @@ class Primitives_PrimitiveHolder with _$Primitives_PrimitiveHolder {
         ConsumedRef i32q,
         int i64,
         ConsumedRef i64q,
+        int i,
+        ConsumedRef iq,
         double f,
         ConsumedRef fq,
         double d,
@@ -109,6 +121,8 @@ class Primitives_PrimitiveHolder with _$Primitives_PrimitiveHolder {
             ui32q: consumeRef(ui32q),
             ui64: ui64,
             ui64q: consumeRef(ui64q),
+            ui: ui,
+            uiq: consumeRef(uiq),
             i8: i8,
             i8q: consumeRef(i8q),
             i16: i16,
@@ -117,6 +131,8 @@ class Primitives_PrimitiveHolder with _$Primitives_PrimitiveHolder {
             i32q: consumeRef(i32q),
             i64: i64,
             i64q: consumeRef(i64q),
+            i: i,
+            iq: consumeRef(iq),
             f: f,
             fq: consumeRef(fq),
             d: d,
@@ -274,6 +290,36 @@ class Primitives_PrimitiveHolder with _$Primitives_PrimitiveHolder {
         peekRef<Primitives_PrimitiveHolder>(obj).ui64q = consumeRef<int?>(newValue);
     });
 
+    static int ffi_get_ui(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catching(exn, () =>
+        peekRef<Primitives_PrimitiveHolder>(obj).ui
+    ) ?? 0;
+    static void ffi_set_ui(
+        UnownedRef obj,
+        int newValue,
+        OutCreatedRef exn
+    ) => catching(exn, () {
+        peekRef<Primitives_PrimitiveHolder>(obj).ui = newValue;
+    });
+
+    static CreatedRef ffi_get_uiq(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<Primitives_PrimitiveHolder>(obj).uiq
+        )
+    );
+    static void ffi_set_uiq(
+        UnownedRef obj,
+        ConsumedRef newValue,
+        OutCreatedRef exn
+    ) => catching(exn, () {
+        peekRef<Primitives_PrimitiveHolder>(obj).uiq = consumeRef<int?>(newValue);
+    });
+
     static int ffi_get_i8(
         UnownedRef obj,
         OutCreatedRef exn
@@ -394,6 +440,36 @@ class Primitives_PrimitiveHolder with _$Primitives_PrimitiveHolder {
         peekRef<Primitives_PrimitiveHolder>(obj).i64q = consumeRef<int?>(newValue);
     });
 
+    static int ffi_get_i(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catching(exn, () =>
+        peekRef<Primitives_PrimitiveHolder>(obj).i
+    ) ?? 0;
+    static void ffi_set_i(
+        UnownedRef obj,
+        int newValue,
+        OutCreatedRef exn
+    ) => catching(exn, () {
+        peekRef<Primitives_PrimitiveHolder>(obj).i = newValue;
+    });
+
+    static CreatedRef ffi_get_iq(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<Primitives_PrimitiveHolder>(obj).iq
+        )
+    );
+    static void ffi_set_iq(
+        UnownedRef obj,
+        ConsumedRef newValue,
+        OutCreatedRef exn
+    ) => catching(exn, () {
+        peekRef<Primitives_PrimitiveHolder>(obj).iq = consumeRef<int?>(newValue);
+    });
+
     static double ffi_get_f(
         UnownedRef obj,
         OutCreatedRef exn
@@ -457,19 +533,19 @@ class Primitives_PrimitiveHolder with _$Primitives_PrimitiveHolder {
     /// <!-- FishyJoes.export(staticProperty) -->
     static List<int?> get staticProperty =>
         check((exn) =>
-            consumeCreatedRef<List<int?>>(f__iota_get_Primitives_PrimitiveHolder_staticProperty(Loader.shared.env, exn))
+            consumeCreatedRef<List<int?>>(f__iota_get_TestAPI_Primitives_PrimitiveHolder_staticProperty(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(staticMutableProperty) -->
     static List<int?> get staticMutableProperty =>
         check((exn) =>
-            consumeCreatedRef<List<int?>>(f__iota_get_Primitives_PrimitiveHolder_staticMutableProperty(Loader.shared.env, exn))
+            consumeCreatedRef<List<int?>>(f__iota_get_TestAPI_Primitives_PrimitiveHolder_staticMutableProperty(Loader.shared.env, exn))
         )
     ;
     static void set staticMutableProperty(List<int?> value) {
         GCRef.using(value, (_valueHandle) =>
             check((exn) =>
-                f__iota_set_Primitives_PrimitiveHolder_staticMutableProperty(Loader.shared.env, _valueHandle.ptr, exn)
+                f__iota_set_TestAPI_Primitives_PrimitiveHolder_staticMutableProperty(Loader.shared.env, _valueHandle.ptr, exn)
             )
         )
         ;
@@ -478,14 +554,14 @@ class Primitives_PrimitiveHolder with _$Primitives_PrimitiveHolder {
     static late CreatedRef Function(
         Env env,
         OutCreatedRef _exn
-    ) f__iota_get_Primitives_PrimitiveHolder_staticMutableProperty;
+    ) f__iota_get_TestAPI_Primitives_PrimitiveHolder_staticMutableProperty;
     static late CreatedRef Function(
         Env env,
         OutCreatedRef _exn
-    ) f__iota_get_Primitives_PrimitiveHolder_staticProperty;
+    ) f__iota_get_TestAPI_Primitives_PrimitiveHolder_staticProperty;
     static late void Function(
         Env env,
         UnownedRef staticMutableProperty,
         OutCreatedRef _exn
-    ) f__iota_set_Primitives_PrimitiveHolder_staticMutableProperty;
+    ) f__iota_set_TestAPI_Primitives_PrimitiveHolder_staticMutableProperty;
 }

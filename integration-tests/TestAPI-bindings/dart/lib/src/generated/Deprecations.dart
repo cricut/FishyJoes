@@ -2,6 +2,8 @@ import './AssociatedDataEnum.dart' as TestAPI;
 import './AssociatedDataEnum.dart';
 import './Bytes.dart' as TestAPI;
 import './Bytes.dart';
+import './ClosedRanges.dart' as TestAPI;
+import './ClosedRanges.dart';
 import './Collections.dart' as TestAPI;
 import './Collections.dart';
 import './Collections_CollectionHolder.dart' as TestAPI;
@@ -22,6 +24,8 @@ import './Primitives.dart' as TestAPI;
 import './Primitives.dart';
 import './Primitives_PrimitiveHolder.dart' as TestAPI;
 import './Primitives_PrimitiveHolder.dart';
+import './Ranges.dart' as TestAPI;
+import './Ranges.dart';
 import './SimpleEnum.dart' as TestAPI;
 import './SimpleEnum.dart';
 import './Strings.dart' as TestAPI;
@@ -54,22 +58,22 @@ class Deprecations {
     @Deprecated("replace with `deprecatedMethod` ( <-- swift name, sorry )")
     static int get deprecatedVariable =>
         check((exn) =>
-            f__iota_get_Deprecations_deprecatedVariable(Loader.shared.env, exn)
+            f__iota_get_TestAPI_Deprecations_deprecatedVariable(Loader.shared.env, exn)
         )
     ;
     /// <!-- FishyJoes.export(deprecatedMethod) -->
     @Deprecated("don't use this")
     static String deprecatedMethod(
     ) =>
-        consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_Deprecations_deprecatedMethod(Loader.shared.env, _exn)))
+        consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_TestAPI_Deprecations_deprecatedMethod(Loader.shared.env, _exn)))
     ;
 
     static late CreatedRef Function(
         Env env,
         OutCreatedRef _exn
-    ) f__iota_Deprecations_deprecatedMethod;
+    ) f__iota_TestAPI_Deprecations_deprecatedMethod;
     static late int Function(
         Env env,
         OutCreatedRef _exn
-    ) f__iota_get_Deprecations_deprecatedVariable;
+    ) f__iota_get_TestAPI_Deprecations_deprecatedVariable;
 }

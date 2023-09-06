@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import java.util.*
 
-internal class DefaultArgumentsTest {
+internal class DefaultArgumentsTests {
     @Test
     fun testDefaultArguments() {
         assertEquals("42 52 3.14", DefaultArguments.echoDefaults(x = null));

@@ -9,7 +9,7 @@ public partial class Loader {
     unsafe delegate CreatedRef TupleConstructor(IntPtr context, UnownedRef* elements, out CreatedRef exn);
 
     [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-    static extern void FishyJoesRuntime_TupleConverter_setup(
+    static extern void FishyJoesCommonRuntime_TupleConverter_setup(
         IntPtr envRef,
         string name,
         TupleGetter? get0,
@@ -22,9 +22,9 @@ public partial class Loader {
         IntPtr context
     );
 
-    public static void FishyJoesRuntime_Tuple2Converter_setup<T0, T1>(IntPtr envRef, string name, out CreatedRef exn) {
+    public static void FishyJoesCommonRuntime_Tuple2Converter_setup<T0, T1>(IntPtr envRef, string name, out CreatedRef exn) {
         unsafe {
-            FishyJoesRuntime_TupleConverter_setup(
+            FishyJoesCommonRuntime_TupleConverter_setup(
                 envRef,
                 name,
                 bag<TupleGetter>((IntPtr context, UnownedRef tuple, out CreatedRef exn) => Catching(out exn, () =>
@@ -49,9 +49,9 @@ public partial class Loader {
         }
     }
 
-    public static void FishyJoesRuntime_Tuple3Converter_setup<T0, T1, T2>(IntPtr envRef, string name, out CreatedRef exn) {
+    public static void FishyJoesCommonRuntime_Tuple3Converter_setup<T0, T1, T2>(IntPtr envRef, string name, out CreatedRef exn) {
         unsafe {
-            FishyJoesRuntime_TupleConverter_setup(
+            FishyJoesCommonRuntime_TupleConverter_setup(
                 envRef,
                 name,
                 bag<TupleGetter>((IntPtr context, UnownedRef tuple, out CreatedRef exn) => Catching(out exn, () =>
@@ -79,9 +79,9 @@ public partial class Loader {
         }
     }
 
-    public static void FishyJoesRuntime_Tuple4Converter_setup<T0, T1, T2, T3>(IntPtr envRef, string name, out CreatedRef exn) {
+    public static void FishyJoesCommonRuntime_Tuple4Converter_setup<T0, T1, T2, T3>(IntPtr envRef, string name, out CreatedRef exn) {
         unsafe {
-            FishyJoesRuntime_TupleConverter_setup(
+            FishyJoesCommonRuntime_TupleConverter_setup(
                 envRef,
                 name,
                 bag<TupleGetter>((IntPtr context, UnownedRef tuple, out CreatedRef exn) => Catching(out exn, () =>
@@ -112,9 +112,9 @@ public partial class Loader {
         }
     }
 
-    public static void FishyJoesRuntime_Tuple5Converter_setup<T0, T1, T2, T3, T4>(IntPtr envRef, string name, out CreatedRef exn) {
+    public static void FishyJoesCommonRuntime_Tuple5Converter_setup<T0, T1, T2, T3, T4>(IntPtr envRef, string name, out CreatedRef exn) {
         unsafe {
-            FishyJoesRuntime_TupleConverter_setup(
+            FishyJoesCommonRuntime_TupleConverter_setup(
                 envRef,
                 name,
                 bag<TupleGetter>((IntPtr context, UnownedRef tuple, out CreatedRef exn) => Catching(out exn, () =>
@@ -148,9 +148,9 @@ public partial class Loader {
         }
     }
 
-    public static void FishyJoesRuntime_Tuple6Converter_setup<T0, T1, T2, T3, T4, T5>(IntPtr envRef, string name, out CreatedRef exn) {
+    public static void FishyJoesCommonRuntime_Tuple6Converter_setup<T0, T1, T2, T3, T4, T5>(IntPtr envRef, string name, out CreatedRef exn) {
         unsafe {
-            FishyJoesRuntime_TupleConverter_setup(
+            FishyJoesCommonRuntime_TupleConverter_setup(
                 envRef,
                 name,
                 bag<TupleGetter>((IntPtr context, UnownedRef tuple, out CreatedRef exn) => Catching(out exn, () =>

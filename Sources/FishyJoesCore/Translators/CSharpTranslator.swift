@@ -69,7 +69,7 @@ final class CSharpTranslator: Translator {
                     fragment.output("// There's no explicit way to call the static constructor, so do this instead")
                     fragment.output("FishyJoesRuntime.Loader.ensureLoaded();")
                     for dependency in context.module.dependencies {
-                        fragment.output("\(dependency)._ensureLoaded();")
+                        fragment.output("Cricut.\(dependency)._TypeSetup._ensureLoaded();")
                     }
                     fragment.output("\(moduleRegisterTypesFn)();")
 

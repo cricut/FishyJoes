@@ -9,7 +9,6 @@ struct TranslatedStruct: TranslatedType {
     let kotlinPackage: String?
     let cSharpType: CSharpClass.CSType
     let dartType: DartClass.DartType
-    let globalName: String
     let storedVariables: [Variable]
     let computedVariables: [Variable]
     let methods: [Method]
@@ -24,14 +23,13 @@ struct TranslatedStruct: TranslatedType {
         }
         guard type.kind == "struct" else { fatalErr("not a struct") }
 
-        self.sourceType = BetterType(named: type)
+        self.sourceType = BetterType(named: type, module: context.module.name)
         self.nodeName = exportAnnotation.name
         self.kotlinName = exportAnnotation.name
         self.neutralName = "Struct<Named=\(exportAnnotation.name)>"
         self.kotlinPackage = context.module.kotlinPackage
         self.cSharpType = .named(package: context.module.cSharpNamespace, name: exportAnnotation.cSharpName)
         self.dartType = .named(package: context.module.dartNamespace, name: fakeDartNamespace(exportAnnotation.name))
-        self.globalName = "\(context.module).\(type.globalName)"
         self.jniType = .object(context.kotlinTranslator.javaClassName(nodeName, in: context))
 
         self.storedVariables = type.storedVariables
@@ -85,11 +83,11 @@ struct TranslatedStruct: TranslatedType {
 
     func nodeDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
-            "NodeInterface/\(globalName)+node.swift",
+            "NodeInterface/\(sourceType.name)+node.swift",
             additionalImports: ["Foundation", "FishyJoesNodeRuntime"]
         )
 
-        fragment.outputBlock("extension \(globalName): NodeMutator {") {
+        fragment.outputBlock("extension \(sourceType.name): NodeMutator {") {
             fragment.outputBlock("public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {") {
                 // TODO: type check
                 fragment.outputBlock("Self(") {
@@ -125,7 +123,7 @@ struct TranslatedStruct: TranslatedType {
 
             fragment.output("@available(*, deprecated, message: \"Not actually deprecated, but this silences warnings because it may refer to deprecated methods\")")
             fragment.outputBlock("public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {") {
-                // fragment.output("print(\"setting up \(globalName)\")")
+                // fragment.output("print(\"setting up \(sourceType.name)\")")
 
                 fragment.outputBlock("let nodeClass = try NodeClass(") {
                     fragment.output("env: env,")

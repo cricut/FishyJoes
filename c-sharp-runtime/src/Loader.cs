@@ -22,7 +22,7 @@ namespace Cricut.FishyJoesRuntime {
         delegate void EnvDeleteRefFn(ConsumedRef obj);
         delegate CreatedRef EnvNewErrorFn(string message);
         [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern IntPtr FishyJoesRuntime_Env_setup(
+        static extern IntPtr FishyJoesCommonRuntime_Env_setup(
             EnvNewRefFn newRefFn,
             EnvDeleteRefFn deleteRefFn,
             EnvNewErrorFn newErrorFn
@@ -31,7 +31,7 @@ namespace Cricut.FishyJoesRuntime {
         public static void ensureLoaded() { }
         static Loader() {
             // Must setup Env first!
-            env = FishyJoesRuntime_Env_setup(
+            env = FishyJoesCommonRuntime_Env_setup(
                 bag<EnvNewRefFn>(obj => new CreatedRef(obj.Peek<object?>())),
                 bag<EnvDeleteRefFn>(obj => { obj.Consume<object?>(); }),
                 bag<EnvNewErrorFn>(message => new CreatedRef(new Exception(message)))
@@ -40,6 +40,7 @@ namespace Cricut.FishyJoesRuntime {
             setupPrimitives();
             setupCollections();
             setupTuples();
+            setupRanges();
             setupReferences();
             setupFunctions();
             setupMisc();

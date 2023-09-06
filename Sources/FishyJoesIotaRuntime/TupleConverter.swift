@@ -20,7 +20,7 @@ public struct TupleInfo {
     }
 }
 
-@_cdecl("FishyJoesRuntime_TupleConverter_setup")
+@_cdecl("FishyJoesCommonRuntime_TupleConverter_setup")
 public func tuple_iota_setup(
     envRef: EnvRef,
     name: UnsafePointer<unichar>,

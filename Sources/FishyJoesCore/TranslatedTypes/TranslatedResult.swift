@@ -25,7 +25,7 @@ struct TranslatedResult: TranslatedType {
     }
 
     var converterType: BetterType {
-        .generic(base: "ResultConverter", args: [success.converterType, failure.converterType])
+        .generic(base: .runtime("ResultConverter"), args: [success.converterType, failure.converterType])
     }
 
     var isInhabited: Bool { success.isInhabited || failure.isInhabited }

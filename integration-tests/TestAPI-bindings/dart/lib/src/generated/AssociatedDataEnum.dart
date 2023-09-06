@@ -2,6 +2,8 @@ import './AssociatedDataEnum.dart' as TestAPI;
 import './AssociatedDataEnum.dart';
 import './Bytes.dart' as TestAPI;
 import './Bytes.dart';
+import './ClosedRanges.dart' as TestAPI;
+import './ClosedRanges.dart';
 import './Collections.dart' as TestAPI;
 import './Collections.dart';
 import './Collections_CollectionHolder.dart' as TestAPI;
@@ -22,6 +24,8 @@ import './Primitives.dart' as TestAPI;
 import './Primitives.dart';
 import './Primitives_PrimitiveHolder.dart' as TestAPI;
 import './Primitives_PrimitiveHolder.dart';
+import './Ranges.dart' as TestAPI;
+import './Ranges.dart';
 import './SimpleEnum.dart' as TestAPI;
 import './SimpleEnum.dart';
 import './Strings.dart' as TestAPI;
@@ -64,6 +68,10 @@ class AssociatedDataEnum with _$AssociatedDataEnum {
     factory AssociatedDataEnum.noValue(
     ) = AssociatedDataEnum_NoValue;
 
+    factory AssociatedDataEnum.simpleEnum(
+        TestAPI.SimpleEnum value
+    ) = AssociatedDataEnum_SimpleEnum;
+
     AssociatedDataEnum._() {}
 
     static int enumDiscriminator(UnownedRef obj, OutCreatedRef exn) => check((exn) =>
@@ -72,6 +80,7 @@ class AssociatedDataEnum with _$AssociatedDataEnum {
             other: (_) => 1,
             bar: (_) => 2,
             noValue: (_) => 3,
+            simpleEnum: (_) => 4,
         )
     );
 
@@ -159,17 +168,37 @@ class AssociatedDataEnum with _$AssociatedDataEnum {
         });
     }
 
+    static CreatedRef newSimpleEnum(
+        ConsumedRef _value,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(AssociatedDataEnum_SimpleEnum(
+            consumeRef<TestAPI.SimpleEnum>(_value),
+        ))
+    );
+
+    static void extractSimpleEnum(
+        UnownedRef obj,
+        OutCreatedRef _value,
+        OutCreatedRef exn
+    ) {
+        catching(exn, () {
+            final _self = peekRef<AssociatedDataEnum_SimpleEnum>(obj);
+            _value.value = createRef(_self.value);
+        });
+    }
+
     /// <!-- FishyJoes.export(staticThing) -->
     static TestAPI.AssociatedDataEnum get staticThing =>
         check((exn) =>
-            consumeCreatedRef<TestAPI.AssociatedDataEnum>(f__iota_get_AssociatedDataEnum_staticThing(Loader.shared.env, exn))
+            consumeCreatedRef<TestAPI.AssociatedDataEnum>(f__iota_get_TestAPI_AssociatedDataEnum_staticThing(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(intValue) -->
     int get intValue =>
         GCRef.using(this, (_thisHandle) =>
             check((exn) =>
-                f__iota_get_AssociatedDataEnum_intValue(Loader.shared.env, _thisHandle.ptr, exn)
+                f__iota_get_TestAPI_AssociatedDataEnum_intValue(Loader.shared.env, _thisHandle.ptr, exn)
             )
         )
     ;
@@ -179,7 +208,7 @@ class AssociatedDataEnum with _$AssociatedDataEnum {
     ) =>
         GCRef.using(this, (_thisHandle) =>
             GCRef.using(other, (_otherHandle) =>
-                consumeCreatedRef<TestAPI.AssociatedDataEnum>(check((OutCreatedRef _exn) => f__iota_AssociatedDataEnum_plus(Loader.shared.env, _thisHandle.ptr, _otherHandle.ptr, _exn)))
+                consumeCreatedRef<TestAPI.AssociatedDataEnum>(check((OutCreatedRef _exn) => f__iota_TestAPI_AssociatedDataEnum_plus(Loader.shared.env, _thisHandle.ptr, _otherHandle.ptr, _exn)))
             )
         )
     ;
@@ -189,14 +218,14 @@ class AssociatedDataEnum with _$AssociatedDataEnum {
         UnownedRef _this,
         UnownedRef other,
         OutCreatedRef _exn
-    ) f__iota_AssociatedDataEnum_plus;
+    ) f__iota_TestAPI_AssociatedDataEnum_plus;
     static late int Function(
         Env env,
         UnownedRef _this,
         OutCreatedRef _exn
-    ) f__iota_get_AssociatedDataEnum_intValue;
+    ) f__iota_get_TestAPI_AssociatedDataEnum_intValue;
     static late CreatedRef Function(
         Env env,
         OutCreatedRef _exn
-    ) f__iota_get_AssociatedDataEnum_staticThing;
+    ) f__iota_get_TestAPI_AssociatedDataEnum_staticThing;
 }

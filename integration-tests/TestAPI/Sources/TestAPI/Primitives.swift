@@ -37,6 +37,12 @@ public enum Primitives {
     public static let minUInt64: UInt64 = .min
     /// <!-- FishyJoes.export(maxUInt64) -->
     public static let maxUInt64: UInt64 = .max
+    /// <!-- FishyJoes.export(zeroUInt) -->
+    public static let zeroUInt: UInt = 0
+    /// <!-- FishyJoes.export(minUInt) -->
+    public static let minUInt: UInt = .min
+    /// <!-- FishyJoes.export(maxUInt) -->
+    public static let maxUInt: UInt = .max
     /// <!-- FishyJoes.export(zeroInt8) -->
     public static let zeroInt8: Int8 = 0
     /// <!-- FishyJoes.export(minInt8) -->
@@ -80,6 +86,14 @@ public enum Primitives {
     /// <!-- FishyJoes.export(maxDouble) -->
     public static let maxDouble: Double = .greatestFiniteMagnitude
 
+    // MARK: - Integer Bit Depths
+
+    /// <!-- FishyJoes.export(bitCountUInt) -->
+    public static let bitCountUInt: Int = UInt.bitWidth
+
+    /// <!-- FishyJoes.export(bitCountInt) -->
+    public static let bitCountInt = Int.bitWidth
+
     // MARK: - Arrays of Primitive Values
 
     /// <!-- FishyJoes.export(manyBool) -->
@@ -92,6 +106,8 @@ public enum Primitives {
     public static let manyUInt32: [UInt32] = [0, .min, .max]
     /// <!-- FishyJoes.export(manyUInt64) -->
     public static let manyUInt64: [UInt64] = [0, .min, .max]
+    /// <!-- FishyJoes.export(manyUInt) -->
+    public static let manyUInt: [UInt] = [0, .min, .max]
     /// <!-- FishyJoes.export(manyInt8) -->
     public static let manyInt8: [Int8] = [0, .min, .max]
     /// <!-- FishyJoes.export(manyInt16) -->
@@ -100,6 +116,8 @@ public enum Primitives {
     public static let manyInt32: [Int32] = [0, .min, .max]
     /// <!-- FishyJoes.export(manyInt64) -->
     public static let manyInt64: [Int64] = [0, .min, .max]
+    /// <!-- FishyJoes.export(manyInt) -->
+    public static let manyInt: [Int] = [0, .min, .max]
     /// <!-- FishyJoes.export(manyFloat) -->
     public static let manyFloat: [Float] = [0, -.greatestFiniteMagnitude, .greatestFiniteMagnitude]
     /// <!-- FishyJoes.export(manyDouble) -->
@@ -117,6 +135,8 @@ public enum Primitives {
     public static let manyMaybeUInt32: [UInt32?] = [nil, 0, .min, .max]
     /// <!-- FishyJoes.export(manyMaybeUInt64) -->
     public static let manyMaybeUInt64: [UInt64?] = [nil, 0, .min, .max]
+    /// <!-- FishyJoes.export(manyMaybeUInt) -->
+    public static let manyMaybeUInt: [UInt?] = [nil, 0, .min, .max]
     /// <!-- FishyJoes.export(manyMaybeInt8) -->
     public static let manyMaybeInt8: [Int8?] = [nil, 0, .min, .max]
     /// <!-- FishyJoes.export(manyMaybeInt16) -->
@@ -125,6 +145,8 @@ public enum Primitives {
     public static let manyMaybeInt32: [Int32?] = [nil, 0, .min, .max]
     /// <!-- FishyJoes.export(manyMaybeInt64) -->
     public static let manyMaybeInt64: [Int64?] = [nil, 0, .min, .max]
+    /// <!-- FishyJoes.export(manyMaybeInt) -->
+    public static let manyMaybeInt: [Int?] = [nil, 0, .min, .max]
     /// <!-- FishyJoes.export(manyMaybeFloat) -->
     public static let manyMaybeFloat: [Float?] = [nil, 0, -.greatestFiniteMagnitude, .greatestFiniteMagnitude]
     /// <!-- FishyJoes.export(manyMaybeDouble) -->
@@ -142,6 +164,8 @@ public enum Primitives {
     public static func echoUInt32(value: UInt32) -> UInt32 { return value }
     /// <!-- FishyJoes.export(echoUInt64) -->
     public static func echoUInt64(value: UInt64) -> UInt64 { return value }
+    /// <!-- FishyJoes.export(echoUInt) -->
+    public static func echoUInt(value: UInt) -> UInt { return value }
     /// <!-- FishyJoes.export(echoInt8) -->
     public static func echoInt8(value: Int8) -> Int8 { return value }
     /// <!-- FishyJoes.export(echoInt16) -->
@@ -150,6 +174,8 @@ public enum Primitives {
     public static func echoInt32(value: Int32) -> Int32 { return value }
     /// <!-- FishyJoes.export(echoInt64) -->
     public static func echoInt64(value: Int64) -> Int64 { return value }
+    /// <!-- FishyJoes.export(echoInt) -->
+    public static func echoInt(value: Int) -> Int { return value }
     /// <!-- FishyJoes.export(echoFloat) -->
     public static func echoFloat(value: Float) -> Float { return value }
     /// <!-- FishyJoes.export(echoDouble) -->
@@ -167,6 +193,8 @@ public enum Primitives {
     public static func maybeEchoUInt32(value: UInt32?) -> UInt32? { return value }
     /// <!-- FishyJoes.export(maybeEchoUInt64) -->
     public static func maybeEchoUInt64(value: UInt64?) -> UInt64? { return value }
+    /// <!-- FishyJoes.export(maybeEchoUInt) -->
+    public static func maybeEchoUInt(value: UInt?) -> UInt? { return value }
     /// <!-- FishyJoes.export(maybeEchoInt8) -->
     public static func maybeEchoInt8(value: Int8?) -> Int8? { return value }
     /// <!-- FishyJoes.export(maybeEchoInt16) -->
@@ -175,6 +203,8 @@ public enum Primitives {
     public static func maybeEchoInt32(value: Int32?) -> Int32? { return value }
     /// <!-- FishyJoes.export(maybeEchoInt64) -->
     public static func maybeEchoInt64(value: Int64?) -> Int64? { return value }
+    /// <!-- FishyJoes.export(maybeEchoInt) -->
+    public static func maybeEchoInt(value: Int?) -> Int? { return value }
     /// <!-- FishyJoes.export(maybeEchoFloat) -->
     public static func maybeEchoFloat(value: Float?) -> Float? { return value }
     /// <!-- FishyJoes.export(maybeEchoDouble) -->
@@ -204,6 +234,8 @@ public enum Primitives {
         public var ui32q: UInt32?
         public var ui64: UInt64 = .min
         public var ui64q: UInt64?
+        public var ui: UInt = .min
+        public var uiq: UInt?
         public var i8: Int8 = .min
         public var i8q: Int8?
         public var i16: Int16 = .min
@@ -212,12 +244,41 @@ public enum Primitives {
         public var i32q: Int32?
         public var i64: Int64 = .min
         public var i64q: Int64?
+        public var i: Int = .min
+        public var iq: Int?
         public var f: Float = -.greatestFiniteMagnitude
         public var fq: Float?
         public var d: Double = -.greatestFiniteMagnitude
         public var dq: Double?
 
-        public init(b: Bool = false, bq: Bool? = nil, ui8: UInt8 = .min, ui8q: UInt8? = nil, ui16: UInt16 = .min, ui16q: UInt16? = nil, ui32: UInt32 = .min, ui32q: UInt32? = nil, ui64: UInt64 = .min, ui64q: UInt64? = nil, i8: Int8 = .min, i8q: Int8? = nil, i16: Int16 = .min, i16q: Int16? = nil, i32: Int32 = .min, i32q: Int32? = nil, i64: Int64 = .min, i64q: Int64? = nil, f: Float = -.greatestFiniteMagnitude, fq: Float? = nil, d: Double = -.greatestFiniteMagnitude, dq: Double? = nil) {
+        public init(
+            b: Bool = false,
+            bq: Bool? = nil,
+            ui8: UInt8 = .min,
+            ui8q: UInt8? = nil,
+            ui16: UInt16 = .min,
+            ui16q: UInt16? = nil,
+            ui32: UInt32 = .min,
+            ui32q: UInt32? = nil,
+            ui64: UInt64 = .min,
+            ui64q: UInt64? = nil,
+            ui: UInt = .min,
+            uiq: UInt? = nil,
+            i8: Int8 = .min,
+            i8q: Int8? = nil,
+            i16: Int16 = .min,
+            i16q: Int16? = nil,
+            i32: Int32 = .min,
+            i32q: Int32? = nil,
+            i64: Int64 = .min,
+            i64q: Int64? = nil,
+            i: Int = .min,
+            iq: Int? = nil,
+            f: Float = -.greatestFiniteMagnitude,
+            fq: Float? = nil,
+            d: Double = -.greatestFiniteMagnitude,
+            dq: Double? = nil
+        ) {
             self.b = b
             self.bq = bq
             self.ui8 = ui8
@@ -228,6 +289,8 @@ public enum Primitives {
             self.ui32q = ui32q
             self.ui64 = ui64
             self.ui64q = ui64q
+            self.ui = ui
+            self.uiq = uiq
             self.i8 = i8
             self.i8q = i8q
             self.i16 = i16
@@ -236,6 +299,8 @@ public enum Primitives {
             self.i32q = i32q
             self.i64 = i64
             self.i64q = i64q
+            self.i = i
+            self.iq = iq
             self.f = f
             self.fq = fq
             self.d = d

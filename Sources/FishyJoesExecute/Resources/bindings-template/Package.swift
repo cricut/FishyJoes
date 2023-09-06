@@ -6,7 +6,8 @@ import PackageDescription
 let wasmCompatibleOnly = ProcessInfo.processInfo.environment["WASM_ONLY"] == "1"
 
 // Don't change the format of this line. It's read by gradle in `kotlin/build.gradle.kts`
-let fishyJoesVersion = "2.0.1"
+// when updating, also update ./c-sharp/Cricut.__MODULE_NAME__/Cricut.__MODULE_NAME__.csproj
+let fishyJoesVersion = "(replace this string with latest fishyjoes version)"
 
 let package = Package(
     name: "__MODULE_NAME__-bindings",

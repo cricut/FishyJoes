@@ -13,13 +13,26 @@ Client Enablement
 
 Generates bindings for (some) swift library code that can be called from TypeScript and Kotlin.
 
+# Installing Dependencies on MacOS
+
+The recommended way to ensure you have everything you will need for any FishyJoes project is to check that you can generate and build CriGeo-bindings:
+
+[Everything Needed To Generate And Compile (CriGeo-bindings)](https://github.com/cricut/CriGeo-bindings/blob/main/EverythingNeededToGenerateAndCompile.md)
+
+# FAQ
+1. [What FishyJoes Can and Cannot Do](documentation/cans-and-cannots.md)
+2. Was that a question?
+   **No, but it was frequently asked**
+
+# Overview
+
 ## Pretty pictures
 
 [![Generation process](https://lucid.app/publicSegments/view/eaa9f26a-fbab-4b07-856d-dbcfb5722eec/image.png)](https://lucid.app/lucidchart/cac16522-9201-4b7d-9c23-1ad5bc83c8b5/edit)
 
 [![FishyJoesCore](https://lucid.app/publicSegments/view/8d45425b-0134-4142-adb0-ac1bf4c0d50f/image.png)](https://lucid.app/lucidchart/cac16522-9201-4b7d-9c23-1ad5bc83c8b5/edit)
 
-## Updating fishyjoes
+## Updating fishyjoes in a bindings repo
 
 Update `fishyJoesVersion` in Package.swift.
 
@@ -47,31 +60,26 @@ swift run fishy-joes build test --wasm --nodejs --kotlin-fast
 
 0. prerequesites (macOS):
 
-Install openjdk, mint, and npm:
-```
-brew install openjdk@11 mint npm
-```
+   (See section "Installing Dependencies on MacOS" above)
 
-Install swift-wasm toolchain:
-```
-curl -Lo swift-wasm.pkg https://github.com/swiftwasm/swift/releases/download/swift-wasm-5.6.0-RELEASE/swift-wasm-5.6.0-RELEASE-macos_x86_64.pkg
-sudo installer -pkg swift-wasm.pkg -target /
-```
+   Install mint: `brew install mint`
 
-Install swift-android toolchain:
-```
-curl -Lo swift-android-toolchain.tar.gz https://github.com/vgorloff/swift-everywhere-toolchain/releases/download/1.0.66/swift-android-toolchain.tar.gz
-sudo mkdir -p /Library/Developer/Toolchains
-sudo tar -xf swift-android-toolchain.tar.gz -C /Library/Developer/Toolchains/
-```
+1. Optional, if need to test on android emulators/devices) Install Docker:
 
-1. In a new git repository, named `YourAwesomeLibrary-bindings`:
+   1. `brew install rancher`
+   2. create missing folder on macOS: `sudo mkdir -p /private/etc/sudoers.d`
+   3. open "Rancher Desktop.app"
+   4. click "accept"
+   5. enter password to finish install
+   6. authenticate with your github PAT: `nerdctl login ghcr.io`
+
+2. In a new git repository, named `YourAwesomeLibrary-bindings`:
 ```
 mint run --executable fishy-joes cricut/FishyJoes package-init
 ```
 Fill in a few details about the swift target and bindings repo when asked
 
-2. Annotate swift source symbols that you want exported. e.g.
+3. Annotate swift source symbols that you want exported. e.g.
 ```swift
 /// <!-- FishyJoes.exportReference(Foo) -->
 public struct Foo {
@@ -82,19 +90,19 @@ public struct Foo {
 }
 ```
 
-3. Modify/create the test files at `node-test/*.test.ts` to exercise your library in typescript
+4. Modify/create the test files at `node-test/*.test.ts` to exercise your library in typescript
 
-4. generate, build and test!
+5. generate, build and test!
 `swift run fishy-joes --wasm --nodejs generate build test`
 
-5. Modify and probably rename the test files in `kotlin/src/test/**/*.kt` to exercise your library in kotlin
+6. Modify and probably rename the test files in `kotlin/src/test/**/*.kt` to exercise your library in kotlin
 
-6. generate, build and test!
+7. generate, build and test!
 `swift run fishy-joes --kotlin-fast generate build test`
 
-7. Publish!
+8. Publish!
 
 
 
 
-[Tutorial by Matt](https://cricut-my.sharepoint.com/personal/mstoker_cricut_com/_layouts/15/onedrive.aspx?id=%2Fpersonal%2Fmstoker%5Fcricut%5Fcom%2FDocuments%2FRecordings%2FClient%20Enablement%20Demos%2D20220505%5F145944%2DMeeting%20Recording%2Emp4&parent=%2Fpersonal%2Fmstoker%5Fcricut%5Fcom%2FDocuments%2FRecordings&ga=1)
+[Tutorial by Matt](https://cricut.sharepoint.com/:v:/r/sites/softwareteam/Shared%20Documents/Team-Enablement-Client/Cross-Platform%20Code%20Introduction.mp4?csf=1&web=1&e=vSEVMc)

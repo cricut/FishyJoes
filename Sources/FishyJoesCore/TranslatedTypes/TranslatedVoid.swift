@@ -2,7 +2,7 @@ import SourceryRuntime
 
 struct TranslatedVoid: TranslatedType {
     let sourceType = BetterType.void
-    let converterType = BetterType.named("VoidConverter")
+    let converterType = BetterType.named(.runtime("VoidConverter"))
     let cName = "void"
     let nodeName = "void"
     let neutralName = "Void"

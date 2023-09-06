@@ -86,7 +86,7 @@ extension Bool: IotaConverter {
     }
 }
 
-@_cdecl("FishyJoesRuntime_Bool_setup")
+@_cdecl("Swift_Bool_setup")
 public func Bool_iota_setup(
     envRef: EnvRef,
     iotaTrue: foreignObject,
@@ -116,7 +116,7 @@ extension Int8: IotaConverter {
     static var constructor = Env.CallbackMap<Constructor>()
 }
 
-@_cdecl("FishyJoesRuntime_Int8_setup")
+@_cdecl("Swift_Int8_setup")
 public func Int8_iota_setup(
     envRef: EnvRef,
     valueMethod: @escaping Int8.ValueMethod,
@@ -144,7 +144,7 @@ extension Int16: IotaConverter {
     static var constructor = Env.CallbackMap<Constructor>()
 }
 
-@_cdecl("FishyJoesRuntime_Int16_setup")
+@_cdecl("Swift_Int16_setup")
 public func Int16_iota_setup(
     envRef: EnvRef,
     valueMethod: @escaping Int16.ValueMethod,
@@ -172,7 +172,7 @@ extension Int32: IotaConverter {
     static var constructor = Env.CallbackMap<Constructor>()
 }
 
-@_cdecl("FishyJoesRuntime_Int32_setup")
+@_cdecl("Swift_Int32_setup")
 public func Int32_iota_setup(
     envRef: EnvRef,
     valueMethod: @escaping Int32.ValueMethod,
@@ -200,7 +200,7 @@ extension Int64: IotaConverter {
     static var constructor = Env.CallbackMap<Constructor>()
 }
 
-@_cdecl("FishyJoesRuntime_Int64_setup")
+@_cdecl("Swift_Int64_setup")
 public func Int64_iota_setup(
     envRef: EnvRef,
     valueMethod: @escaping Int64.ValueMethod,
@@ -210,6 +210,34 @@ public func Int64_iota_setup(
     if Int64.valueMethod.isInitialized(env) { return }
     Int64.valueMethod[env] = valueMethod
     Int64.constructor[env] = constructor
+}
+
+extension Int: IotaConverter {
+    public typealias ValueMethod = @convention(c) (foreignObject, foreignOutExn) -> Self
+    public typealias Constructor = @convention(c) (Self) -> foreignObject
+    public static func peekIota(_ value: Self, env: Env) throws -> Self { value }
+    public static func toIota(_ value: Self, env: Env) throws -> Self { value }
+
+    public static func peekIota(object: foreignObject, env: Env) throws -> Self {
+        try env.check { exn in valueMethod[env](object, exn) }
+    }
+    public static func toIotaObject(_ value: Self, env: Env) throws -> foreignObject {
+        constructor[env](value)
+    }
+    static var valueMethod = Env.CallbackMap<ValueMethod>()
+    static var constructor = Env.CallbackMap<Constructor>()
+}
+
+@_cdecl("Swift_Int_setup")
+public func Int_cSharp_setup(
+    envRef: EnvRef,
+    valueMethod: @escaping Int.ValueMethod,
+    constructor: @escaping Int.Constructor
+) {
+    let env = Env(envRef)
+    guard Int.valueMethod.isInitialized(env) else { return }
+    Int.valueMethod[env] = valueMethod
+    Int.constructor[env] = constructor
 }
 
 extension UInt8: IotaConverter {
@@ -228,7 +256,7 @@ extension UInt8: IotaConverter {
     static var constructor = Env.CallbackMap<Constructor>()
 }
 
-@_cdecl("FishyJoesRuntime_UInt8_setup")
+@_cdecl("Swift_UInt8_setup")
 public func UInt8_iota_setup(
     envRef: EnvRef,
     valueMethod: @escaping UInt8.ValueMethod,
@@ -256,7 +284,7 @@ extension UInt16: IotaConverter {
     static var constructor = Env.CallbackMap<Constructor>()
 }
 
-@_cdecl("FishyJoesRuntime_UInt16_setup")
+@_cdecl("Swift_UInt16_setup")
 public func UInt16_iota_setup(
     envRef: EnvRef,
     valueMethod: @escaping UInt16.ValueMethod,
@@ -284,7 +312,7 @@ extension UInt32: IotaConverter {
     static var constructor = Env.CallbackMap<Constructor>()
 }
 
-@_cdecl("FishyJoesRuntime_UInt32_setup")
+@_cdecl("Swift_UInt32_setup")
 public func UInt32_iota_setup(
     envRef: EnvRef,
     valueMethod: @escaping UInt32.ValueMethod,
@@ -312,7 +340,7 @@ extension UInt64: IotaConverter {
     static var constructor = Env.CallbackMap<Constructor>()
 }
 
-@_cdecl("FishyJoesRuntime_UInt64_setup")
+@_cdecl("Swift_UInt64_setup")
 public func UInt64_iota_setup(
     envRef: EnvRef,
     valueMethod: @escaping UInt64.ValueMethod,
@@ -324,7 +352,7 @@ public func UInt64_iota_setup(
     UInt64.constructor[env] = constructor
 }
 
-extension Int: IotaConverter {
+extension UInt: IotaConverter {
     public typealias ValueMethod = @convention(c) (foreignObject, foreignOutExn) -> Self
     public typealias Constructor = @convention(c) (Self) -> foreignObject
     public static func peekIota(_ value: Self, env: Env) throws -> Self { value }
@@ -340,16 +368,16 @@ extension Int: IotaConverter {
     static var constructor = Env.CallbackMap<Constructor>()
 }
 
-@_cdecl("FishyJoesRuntime_Int_setup")
-public func Int_iota_setup(
+@_cdecl("Swift_UInt_setup")
+public func UInt_iota_setup(
     envRef: EnvRef,
-    valueMethod: @escaping Int.ValueMethod,
-    constructor: @escaping Int.Constructor
+    valueMethod: @escaping UInt.ValueMethod,
+    constructor: @escaping UInt.Constructor
 ) {
     let env = Env(envRef)
-    if Int.valueMethod.isInitialized(env) { return }
-    Int.valueMethod[env] = valueMethod
-    Int.constructor[env] = constructor
+    if UInt.valueMethod.isInitialized(env) { return }
+    UInt.valueMethod[env] = valueMethod
+    UInt.constructor[env] = constructor
 }
 
 extension Float: IotaConverter {
@@ -368,7 +396,7 @@ extension Float: IotaConverter {
     static var constructor = Env.CallbackMap<Constructor>()
 }
 
-@_cdecl("FishyJoesRuntime_Float_setup")
+@_cdecl("Swift_Float_setup")
 public func Float_iota_setup(
     envRef: EnvRef,
     valueMethod: @escaping Float.ValueMethod,
@@ -396,7 +424,7 @@ extension Double: IotaConverter {
     static var constructor = Env.CallbackMap<Constructor>()
 }
 
-@_cdecl("FishyJoesRuntime_Double_setup")
+@_cdecl("Swift_Double_setup")
 public func Double_iota_setup(
     envRef: EnvRef,
     valueMethod: @escaping Double.ValueMethod,
@@ -410,7 +438,7 @@ public func Double_iota_setup(
 
 // MARK: - Less-Primitive Type Conversions
 
-@_cdecl("FishyJoesRuntime_String_setup")
+@_cdecl("Swift_String_setup")
 public func String_iota_setup(
     envRef: EnvRef,
     getLengthMethod: @escaping @convention(c) (foreignObject, foreignOutExn) -> Int,
@@ -451,28 +479,28 @@ extension String: IotaConverter {
     }
 }
 
-@_cdecl("FishyJoesRuntime_Data_setup")
+@_cdecl("Foundation_Data_setup")
 public func Data_iota_setup(
     envRef: EnvRef,
     lengthMethod: @escaping Data.LengthMethod,
     bytesMethod: @escaping Data.BytesMethod,
-    constructor: @escaping Data.Constuctor
+    constructor: @escaping Data.Constructor
 ) {
     let env = Env(envRef)
     if Data.lengthMethod.isInitialized(env) { return }
     Data.lengthMethod[env] = lengthMethod
     Data.bytesMethod[env] = bytesMethod
-    Data.constuctor[env] = constructor
+    Data.constructor[env] = constructor
 }
 
 extension Data: IotaConverter {
     public typealias LengthMethod = @convention(c) (_ data: foreignObject, _ exn: foreignOutExn) -> Int32
     public typealias BytesMethod = @convention(c) (_ data: foreignObject, _ outValues: UnsafeMutableRawPointer, _ exn: foreignOutExn) -> Void
-    public typealias Constuctor = @convention(c) (_ bytes: UnsafeRawPointer?, _ length: Int32, _ exn: foreignOutExn) -> foreignObject
+    public typealias Constructor = @convention(c) (_ bytes: UnsafeRawPointer?, _ length: Int32, _ exn: foreignOutExn) -> foreignObject
 
     fileprivate static var lengthMethod = Env.CallbackMap<Data.LengthMethod>()
     fileprivate static var bytesMethod = Env.CallbackMap<Data.BytesMethod>()
-    fileprivate static var constuctor = Env.CallbackMap<Data.Constuctor>()
+    fileprivate static var constructor = Env.CallbackMap<Data.Constructor>()
 
     public static func peekIota(_ value: foreignObject, env: Env) throws -> SwiftType {
         let length = try env.check { exn in Int(lengthMethod[env](value, exn)) }
@@ -490,7 +518,7 @@ extension Data: IotaConverter {
     public static func toIota(_ value: SwiftType, env: Env) throws -> foreignObject {
         try value.withUnsafeBytes { (buffer: UnsafeRawBufferPointer) in
             try env.check { exn in
-                constuctor[env](buffer.baseAddress, Int32(value.count), exn)
+                constructor[env](buffer.baseAddress, Int32(value.count), exn)
             }
         }
     }

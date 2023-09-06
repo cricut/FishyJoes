@@ -13,13 +13,13 @@ extension AnyBox {
     static var refFieldID: jfieldID?
 
     public static func fromJava(_ value: jobject?, env: Env) throws -> AnyBox {
-        let longRef = UInt(env.GetLongField(value, refFieldID))
+        let longRef = UInt(pointerValue: env.GetLongField(value, refFieldID))
         return try takeUnretainedOpaque(javaNonNull(UnsafeMutablePointer(bitPattern: longRef)))
     }
 
     private static let finalize: @convention(c) (UnsafeMutablePointer<JNIEnv?>, jobject) -> Void = { env, this in
         callbackBody(env) { env in
-            let longRef = UInt(env.GetLongField(this, refFieldID))
+            let longRef = UInt(pointerValue: env.GetLongField(this, refFieldID))
             releaseOpaque(try javaNonNull(UnsafeMutablePointer(bitPattern: longRef)))
         }
     }

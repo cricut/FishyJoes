@@ -9,7 +9,7 @@ struct TranslatedTuple: TranslatedType {
 
     var converterType: BetterType {
         .generic(
-            base: .init(stringLiteral: "Tuple\(elements.count)Converter"),
+            base: .runtime("Tuple\(elements.count)Converter"),
             args: elements.map { $0.type.converterType }
         )
     }

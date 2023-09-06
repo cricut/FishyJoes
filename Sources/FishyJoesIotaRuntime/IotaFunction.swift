@@ -56,7 +56,7 @@ public struct FunctionInfo {
 }
 
 // Shared setup for all 7 function converters
-@_cdecl("FishyJoesRuntime_FunctionConverter_setup")
+@_cdecl("FishyJoesCommonRuntime_FunctionConverter_setup")
 public func FunctionConverter_setup(
     _ envRef: EnvRef,
     _ name: UnsafePointer<unichar>,
@@ -86,7 +86,7 @@ public func FunctionConverter_setup(
 private struct AnyFunction0 {
     let invoke: (Env) throws -> foreignObject
 }
-@_cdecl("FishyJoesRuntime_SwiftFunctionImpl_invoke0")
+@_cdecl("FishyJoesCommonRuntime_SwiftFunctionImpl_invoke0")
 public func SwiftFunctionImpl_invoke0(
     envRef: EnvRef,
     this: UnsafeMutableRawPointer,
@@ -101,7 +101,7 @@ public func SwiftFunctionImpl_invoke0(
 private struct AnyFunction1 {
     let invoke: (foreignObject, Env) throws -> foreignObject
 }
-@_cdecl("FishyJoesRuntime_SwiftFunctionImpl_invoke1")
+@_cdecl("FishyJoesCommonRuntime_SwiftFunctionImpl_invoke1")
 public func SwiftFunctionImpl_invoke1(
     envRef: EnvRef,
     this: UnsafeMutableRawPointer,
@@ -115,7 +115,7 @@ public func SwiftFunctionImpl_invoke1(
 private struct AnyFunction2 {
     let invoke: (foreignObject, foreignObject, Env) throws -> foreignObject
 }
-@_cdecl("FishyJoesRuntime_SwiftFunctionImpl_invoke2")
+@_cdecl("FishyJoesCommonRuntime_SwiftFunctionImpl_invoke2")
 public func SwiftFunctionImpl_invoke2(
     envRef: EnvRef,
     this: UnsafeMutableRawPointer,
@@ -130,7 +130,7 @@ public func SwiftFunctionImpl_invoke2(
 private struct AnyFunction3 {
     let invoke: (foreignObject, foreignObject, foreignObject, Env) throws -> foreignObject
 }
-@_cdecl("FishyJoesRuntime_SwiftFunctionImpl_invoke3")
+@_cdecl("FishyJoesCommonRuntime_SwiftFunctionImpl_invoke3")
 public func SwiftFunctionImpl_invoke3(
     envRef: EnvRef,
     this: UnsafeMutableRawPointer,
@@ -146,7 +146,7 @@ public func SwiftFunctionImpl_invoke3(
 private struct AnyFunction4 {
     let invoke: (foreignObject, foreignObject, foreignObject, foreignObject, Env) throws -> foreignObject
 }
-@_cdecl("FishyJoesRuntime_SwiftFunctionImpl_invoke4")
+@_cdecl("FishyJoesCommonRuntime_SwiftFunctionImpl_invoke4")
 public func SwiftFunctionImpl_invoke4(
     envRef: EnvRef,
     this: UnsafeMutableRawPointer,
@@ -163,7 +163,7 @@ public func SwiftFunctionImpl_invoke4(
 private struct AnyFunction5 {
     let invoke: (foreignObject, foreignObject, foreignObject, foreignObject, foreignObject, Env) throws -> foreignObject
 }
-@_cdecl("FishyJoesRuntime_SwiftFunctionImpl_invoke5")
+@_cdecl("FishyJoesCommonRuntime_SwiftFunctionImpl_invoke5")
 public func SwiftFunctionImpl_invoke5(
     envRef: EnvRef,
     this: UnsafeMutableRawPointer,
@@ -181,7 +181,7 @@ public func SwiftFunctionImpl_invoke5(
 private struct AnyFunction6 {
     let invoke: (foreignObject, foreignObject, foreignObject, foreignObject, foreignObject, foreignObject, Env) throws -> foreignObject
 }
-@_cdecl("FishyJoesRuntime_SwiftFunctionImpl_invoke6")
+@_cdecl("FishyJoesCommonRuntime_SwiftFunctionImpl_invoke6")
 public func SwiftFunctionImpl_invoke6(
     envRef: EnvRef,
     this: UnsafeMutableRawPointer,

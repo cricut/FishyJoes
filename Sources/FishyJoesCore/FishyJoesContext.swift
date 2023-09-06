@@ -6,7 +6,7 @@ public class FishyJoesContext {
     let module: Module
     let requiredModulePaths: [String]
     let templateContext: TemplateContext
-    var typeCache: [BetterType: TranslatedType] = [:]
+    var typeCache: [BetterType: TranslatedTypeOrAlias] = [:]
     var fileHeaders: [String: Set<String>] = [:]
     var fileFooters: [String: Set<String>] = [:]
     var debugContext = ""
@@ -35,6 +35,11 @@ public class FishyJoesContext {
         cSharpTranslator,
         dartTranslator,
     ]
+
+    enum TranslatedTypeOrAlias {
+        case type(TranslatedType)
+        case alias(BetterType)
+    }
 
     public init(context: TemplateContext) {
         let argument = context.argument
@@ -82,9 +87,7 @@ public class FishyJoesContext {
                 "using System.Collections.Generic;",
                 "using Cricut.FishyJoesRuntime;",
                 "using static Cricut.FishyJoesRuntime.Utilities;",
-            ] + module.dependencies.map { dependency in
-                "using \(dependency.lowercased());"
-            }
+            ]
         )
         return SourceFragment(sourceryDestination: "file:\(fileName)")
     }
@@ -123,7 +126,10 @@ public class FishyJoesContext {
             }.neverFails
 
             for translatedType in moduleInfo.types {
-                typeCache[translatedType.sourceType] = translatedType
+                let name = translatedType.sourceType
+                typeCache[name] = .type(translatedType)
+                // Allow referring to it both as `SomeType` and `SomeDependency.SomeType`
+                typeCache[name.withoutModule] = .alias(name)
             }
             tsAnnotations.rootNamespaces.append(contentsOf: moduleInfo.typeScriptAnnotations.rootNamespaces)
         }
@@ -137,7 +143,8 @@ public class FishyJoesContext {
         for translatedType in translatedTypes {
             let name = translatedType.sourceType
             precondition(typeCache[name] == nil, "duplicate definitions found for \(name)")
-            typeCache[name] = translatedType
+            typeCache[name] = .type(translatedType)
+            typeCache[name.withoutModule] = .alias(name)
             moduleDefinedTypes.append(translatedType.asExternal)
         }
 
@@ -166,11 +173,17 @@ public class FishyJoesContext {
         }
 
         var generatedTypes = Set<BetterType>()
-        while generatedTypes != Set(typeCache.keys) {
+        var processedTypes = Set<BetterType>()
+        while processedTypes != Set(typeCache.keys) {
             for type in typeCache.sorted(by: { "\($0.key)" < "\($1.key)" }) {
                 debugContext = "generating definition code for \(type.key.name)"
-                guard !generatedTypes.contains(type.key) else { continue }
-                collectedFragments.append(contentsOf: type.value.definitionFragments(in: self))
+                processedTypes.insert(type.key)
+                guard !generatedTypes.contains(type.key),
+                      case let .type(translatedType) = type.value
+                else {
+                    continue
+                }
+                collectedFragments.append(contentsOf: translatedType.definitionFragments(in: self))
                 generatedTypes.insert(type.key)
             }
         }
@@ -296,8 +309,26 @@ public class FishyJoesContext {
     typealias TypeNames = (c: String, ts: String, jni: JNIType, cSharp: String, dart: String, dartFFI: String)
 
     func resolve(type: BetterType, generics: [String: BetterType] = [:]) -> TranslatedType {
-        if let resolved = typeCache[type] {
+        var typeNameAsModuleQualified: BetterType?
+
+        if
+            case .named(var name) = type,
+            name.module == nil,
+            let module = name.namespace.first
+        {
+            name.module = module
+            name.namespace.removeFirst()
+            typeNameAsModuleQualified = BetterType.named(name)
+        }
+
+        // Sourcery doesn't report the difference between modules and namespaces, so I think trying both is the best we can do
+        switch typeCache[type] ?? typeNameAsModuleQualified.flatMap({ typeCache[$0] }) {
+        case let .type(resolved):
             return resolved
+        case let .alias(name):
+            precondition(name != type, "infinite loop")
+            return resolve(type: name, generics: generics)
+        case nil: ()
         }
 
         let primitiveTypeMap: [String: TypeNames] = [
@@ -316,6 +347,7 @@ public class FishyJoesContext {
             "UInt16": (c: "uint16_t", ts: "number", jni: JNIType.short, cSharp: "ushort", dart: "int", dartFFI: "Uint16"),
             "UInt32": (c: "uint32_t", ts: "number", jni: JNIType.int, cSharp: "uint", dart: "int", dartFFI: "Uint32"),
             "UInt64": (c: "uint64_t", ts: "bigint", jni: JNIType.long, cSharp: "ulong", dart: "int", dartFFI: "Uint64"),
+            "UInt": (c: "uint64_t", ts: "number", jni: JNIType.long, cSharp: "nuint", dart: "int", dartFFI: "UInt"),
         ]
 
         var dontCache = false
@@ -327,12 +359,12 @@ public class FishyJoesContext {
             case let .named(name):
                 if let names = primitiveTypeMap[name.globalName] {
                     return TranslatedPrimitive(
-                        swift: name,
+                        swift: name.name,
                         typeNames: names
                     )
                 } else if let names = primitiveUnsignedTypeMap[name.globalName] {
                     return TranslatedUnsignedPrimitive(
-                        swift: name,
+                        swift: name.name,
                         typeNames: names
                     )
                 } else if let typeOverride = generics[name.name] {
@@ -348,7 +380,7 @@ public class FishyJoesContext {
                 } else {
                     fatalErr(
                         """
-                            Don't know how to translate type `\(name)`.
+                            Don't know how to translate type `\(name.globalName)`.
                             Maybe annotate it with `sourcery:export(...)`?
                             context: \(debugContext)
                             """
@@ -359,17 +391,21 @@ public class FishyJoesContext {
             case .tuple(let elements):
                 return TranslatedTuple(elements: elements.map { .init(label: $0.label, type: recur($0.type)) })
             case .generic(let base, let args):
-                switch (base.globalName, args.count) {
-                case ("Optional", 1):
+                switch (base.module ?? "Swift", base.namespace, base.name, args.count) {
+                case ("Swift", [], "Optional", 1):
                     return TranslatedOptional(wrapped: recur(args[0]))
-                case ("Array", 1):
+                case ("Swift", [], "Array", 1):
                     return TranslatedArray(element: recur(args[0]))
-                case ("Set", 1):
+                case ("Swift", [], "Set", 1):
                     return TranslatedSet(element: recur(args[0]))
-                case ("Dictionary", 2):
+                case ("Swift", [], "Dictionary", 2):
                     return TranslatedDictionary(key: recur(args[0]), value: recur(args[1]))
-                case ("Result", 2):
+                case ("Swift", [], "Result", 2):
                     return TranslatedResult(success: recur(args[0]), failure: recur(args[1]))
+                case ("Swift", [], "Range", 1):
+                    return TranslatedRange(bound: recur(args[0]))
+                case ("Swift", [], "ClosedRange", 1):
+                    return TranslatedClosedRange(bound: recur(args[0]))
                 default:
                     fatalErr(
                         """
@@ -390,7 +426,7 @@ public class FishyJoesContext {
             }
         }()
         if !dontCache {
-            typeCache[type] = resolved
+            typeCache[type] = .type(resolved)
         }
         return resolved
     }

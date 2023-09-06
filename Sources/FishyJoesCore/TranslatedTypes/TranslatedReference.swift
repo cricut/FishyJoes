@@ -3,6 +3,7 @@ import SourceryRuntime
 struct TranslatedReference: TranslatedType {
     let sourceType: BetterType
     let nodeName: String
+    let definingTSNamespace: String?
     let kotlinName: String
     let neutralName: String
     var containedNamedTypes: [TranslatedType] { [self] }
@@ -25,8 +26,9 @@ struct TranslatedReference: TranslatedType {
         }
         let typeName = exportAnnotation.name
 
-        self.sourceType = BetterType(named: type)
+        self.sourceType = BetterType(named: type, module: context.module.name)
         self.nodeName = typeName
+        self.definingTSNamespace = context.module.name
         self.neutralName = "Reference<To=\(typeName)>"
         self.kotlinName = typeName
         self.kotlinPackage = context.module.kotlinPackage
@@ -176,7 +178,7 @@ struct TranslatedReference: TranslatedType {
                 if !isInhabited {
                     fragment.output("// Uninhabited type")
                 } else {
-                    fragment.output("let ptr = jvalue(j: jlong(UInt(bitPattern: Box(value).retainedOpaque())))")
+                    fragment.output("let ptr = jvalue(pointer: Box(value).retainedOpaque())")
                     fragment.output("return try env.NewObject(javaClass, _constructorMethodID, ptr)")
                 }
             }

@@ -1,14 +1,16 @@
+import Foundation
 import swsh
 
-let wasmToolchain = "/Library/Developer/Toolchains/swift-wasm-5.6.0-RELEASE.xctoolchain"
-let androidToolchain = "/Library/Developer/Toolchains/swift-android-toolchain"
+let wasmToolchain = "/Library/Developer/Toolchains/swift-wasm-5.7.1-RELEASE.xctoolchain"
 
-struct BuildConfiguration {
+struct BuildConfiguration: Hashable {
     let debug: Bool
+    let fat: Bool
     let codeCoverage: Bool
+    var baseDockerContext: Lazy<DockerContext?>
 }
 
-enum Platform: Hashable {
+enum Platform: CustomStringConvertible, Hashable {
     case wasm
     case node
     case kotlinSystem
@@ -16,16 +18,124 @@ enum Platform: Hashable {
     case cSharp
     case dartSystem
 
+    enum AndroidArchitecture: String, Equatable, CaseIterable {
+        case armv7, x86_64, aarch64
+
+        static let apiVersion = 24
+
+        var triple: String {
+            "\(rawValue)-unknown-linux-android\(AndroidArchitecture.apiVersion)"
+        }
+
+        var ndkName: String {
+            switch self {
+            case .armv7: return "armeabi-v7a"
+            case .x86_64: return "x86_64"
+            case .aarch64: return "arm64-v8a"
+            }
+        }
+
+        var toolchainPath: String {
+            "/swift-android-\(self)"
+        }
+    }
+
+    var description: String {
+        switch self {
+        case .wasm:
+            return "wasm"
+        case .node:
+            return "node"
+        case .kotlinSystem:
+            return "kotlinSystem"
+        case let .kotlinAndroid(arch):
+            return "kotlinAndroid(\(arch.rawValue))"
+        case .cSharp:
+            return "cSharp"
+        case .dartSystem:
+            return "dart"
+        }
+    }
+
     static let nativeMacSwiftBuild = try! cmd("xcrun", "-f", "swift-build").runString()
 
-    func swiftBuild(arguments: [String], configuration: BuildConfiguration) throws {
+    // swift 5.7 no longer recognizes "--enable-code-coverage" outside of the "test" command
+    static let coverageFlags = [
+        "-Xswiftc", "-profile-coverage-mapping",
+        "-Xswiftc", "-profile-generate",
+    ]
+
+    var isNative: Bool {
+        switch self {
+        case .wasm, .kotlinAndroid:
+            return false
+        case .node, .kotlinSystem, .cSharp, .dartSystem:
+            return true
+        }
+    }
+
+    func needsDocker(configuration: BuildConfiguration) -> Bool {
+        if case .kotlinAndroid = self {
+            return configuration.baseDockerContext.get() != nil
+        }
+        return false
+    }
+
+    var dylibExt: String {
+        switch self {
+        case .wasm:
+            return "wasmlib" // not a real thing
+        case .kotlinAndroid:
+            return "so"
+        default:
+            #if os(macOS)
+            return "dylib"
+            #elseif os(Linux)
+            return "so"
+            #elseif os(Windows)
+            return "dll"
+            #else
+            fatalError("unknown host OS")
+            #endif
+        }
+    }
+
+    func build(product: String? = nil, libs: [String] = [], configuration: BuildConfiguration) throws {
+        if isNative, configuration.fat {
+            guard let product = product else {
+                fatalError("Can't infer products in fat builds")
+            }
+            try cmd("mkdir", "-p", buildDir(configuration)).run()
+            let confName = configuration.debug ? "debug" : "release"
+
+            try swiftBuild("--product", product, "--triple", "arm64-apple-macosx", configuration: configuration).run()
+            try swiftBuild("--product", product, "--triple", "x86_64-apple-macosx", configuration: configuration).run()
+
+            for lib in libs {
+                let libName = "lib\(lib).dylib"
+                try cmd(
+                    "lipo", "-create",
+                    "-output", "\(buildDir(configuration))/\(libName)",
+                    ".build/arm64-apple-macosx/\(confName)/\(libName)",
+                    ".build/x86_64-apple-macosx/\(confName)/\(libName)"
+                ).run()
+            }
+        } else {
+            try swiftBuild(arguments: product.map { ["--product", $0] } ?? [], configuration: configuration).run()
+        }
+    }
+
+    func swiftBuild(arguments: [String], configuration: BuildConfiguration) -> Command {
         var args = arguments
         args.append(contentsOf: ["--configuration", configuration.debug ? "debug" : "release"])
         if configuration.codeCoverage {
-            args.append("--enable-code-coverage")
+            args.append(contentsOf: Platform.coverageFlags)
         }
         let path: String
-        var env: [String: String] = ["SWIFT_PACKAGE_FORCE_DYNAMIC": "1"]
+        var env: [String: String] = [
+            "SWIFT_PACKAGE_FORCE_DYNAMIC": "1",
+            "FISHYJOES_TARGET_PLATFORM": "\(self)",
+        ]
         switch self {
         case .wasm:
             path = "\(wasmToolchain)/usr/bin/swift-build"
@@ -40,41 +150,45 @@ enum Platform: Hashable {
         case .node, .kotlinSystem, .dartSystem:
             #if os(macOS)
             path = Platform.nativeMacSwiftBuild
+            args.append(contentsOf: ["-Xlinker", "-rpath", "-Xlinker", "@loader_path"])
             #elseif os(Linux)
             path = "swift"
             args = ["build"] + args
             #else
             fatalError("unknown host OS")
             #endif
-        case .kotlinAndroid(.arm):
-            path = "\(androidToolchain)/usr/bin/swift-build-arm-linux-androideabi"
-            env["ANDROID_COMPATIBLE_ONLY"] = "1"
-            args.append(
-                contentsOf: [
-                    "--build-path", "./.build/android-build",
-                ]
-            )
         case let .kotlinAndroid(arch):
-            path = "\(androidToolchain)/usr/bin/swift-build-\(arch.rawValue)-linux-android"
-            env["ANDROID_COMPATIBLE_ONLY"] = "1"
+            path = "swift-build"
             args.append(
                 contentsOf: [
-                    "--build-path", "./.build/android-build",
+                    "--scratch-path", "./.build/android-build",
+                    "--destination", "\(arch.toolchainPath)/usr/swiftpm-android-\(arch).json",
                 ]
             )
+            env["ANDROID_COMPATIBLE_ONLY"] = "1"
+
+            guard var dockerContext = configuration.baseDockerContext.get() else {
+                print("WARNING: building for android without using a docker context (expecting to already be inside container)")
+                break
+            }
+            dockerContext.env.merge(env) { $1 }
+            return dockerContext.cmd("swift-build", arguments: args)
+
         case .cSharp:
             #if os(macOS)
             path = Platform.nativeMacSwiftBuild
+            // This seems to be needed because of https://github.com/mono/mono/issues/21049
+            args.append(contentsOf: ["-Xlinker", "-rpath", "-Xlinker", "@loader_path"])
             #elseif os(Linux)
             path = "swift"
             args = ["build"] + args
             #endif
         }
-        try cmd(path, arguments: args, addEnv: env).run()
+        return cmd(path, arguments: args, addEnv: env)
     }
 
-    func swiftBuild(_ arguments: String..., configuration: BuildConfiguration) throws {
-        try swiftBuild(arguments: arguments, configuration: configuration)
+    func swiftBuild(_ arguments: String..., configuration: BuildConfiguration) -> Command {
+        swiftBuild(arguments: arguments, configuration: configuration)
     }
 
     func dylibName(for lib: String) -> String {
@@ -96,8 +210,8 @@ enum Platform: Hashable {
         }
     }
 
-    func dylibPath(for lib: String, configuration: BuildConfiguration) -> String {
-        buildDir(debug: configuration.debug) + "/" + dylibName(for: lib)
+    func dylibPath(for lib: String, configuration: BuildConfiguration) throws -> String {
+        try buildDir(configuration) + "/" + dylibName(for: lib)
     }
 
     var platform: String {
@@ -181,21 +295,21 @@ enum Platform: Hashable {
         }
     }
 
-    func buildDir(debug: Bool) -> String {
-        let configuration = debug ? "debug" : "release"
-        switch self {
-        case .wasm: return ".build/wasm-build/wasm32-unknown-wasi/\(configuration)"
-        case .node, .kotlinSystem, .cSharp, .dartSystem:
-            #if os(macOS)
-            return ".build/arm64-apple-macosx/\(configuration)"
-            #elseif os(Linux)
-            return ".build/x86_64-unknown-linux-gnu/\(configuration)"
-            #else
-            fatalError("unknown host OS")
-            #endif
-        case .kotlinAndroid(let arch):
-            return ".build/android-build/\(arch.triple)/\(configuration)"
+    private static var buildDirCache: [BuildConfiguration: [Platform: String]] = [:]
+    func buildDir(_ configuration: BuildConfiguration) throws -> String {
+        if let cached = Platform.buildDirCache[configuration]?[self] {
+            return cached
         }
+        let directory: String
+        if isNative, configuration.fat {
+            directory = ".build/apple/\(configuration.debug ? "debug" : "release")"
+        } else if case .kotlinAndroid(let arch) = self {
+            directory = ".build/android-build/\(arch.triple)/\(configuration.debug ? "debug" : "release")"
+        } else {
+            directory = try swiftBuild("--show-bin-path", configuration: configuration).runString()
+        }
+        Platform.buildDirCache[configuration, default: [:]][self] = directory
+        return directory
     }
 
     var isTs: Bool {
