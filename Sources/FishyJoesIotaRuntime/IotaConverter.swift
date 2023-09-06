@@ -229,13 +229,13 @@ extension Int: IotaConverter {
 }
 
 @_cdecl("Swift_Int_setup")
-public func Int_cSharp_setup(
+public func Int_iota_setup(
     envRef: EnvRef,
     valueMethod: @escaping Int.ValueMethod,
     constructor: @escaping Int.Constructor
 ) {
     let env = Env(envRef)
-    guard Int.valueMethod.isInitialized(env) else { return }
+    if Int.valueMethod.isInitialized(env) { return }
     Int.valueMethod[env] = valueMethod
     Int.constructor[env] = constructor
 }
