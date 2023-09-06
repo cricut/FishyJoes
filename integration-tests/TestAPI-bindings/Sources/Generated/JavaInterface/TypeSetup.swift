@@ -191,6 +191,26 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try SetConverter<Swift.Int>.javaSetup(env: env)
         // print("setting up SetConverter<Swift.String>...")
         try SetConverter<Swift.String>.javaSetup(env: env)
+        // print("setting up Swift.String.PuttingTypesIntoQuestionablePlaces...")
+        try Swift.String.PuttingTypesIntoQuestionablePlaces.javaSetup(env: env)
+        try env.RegisterNatives(Swift.String.PuttingTypesIntoQuestionablePlaces.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_testCall"),
+                signature: bag.add("()J"),
+                fnPtr: unsafeBitCast(java_Swift_String_PuttingTypesIntoQuestionablePlaces_testCall, to: UnsafeMutableRawPointer.self)
+            )
+        )
+        // print("setting up Swift.UnicodeScalar.PuttingTypesIntoQuestionablePlaces...")
+        try Swift.UnicodeScalar.PuttingTypesIntoQuestionablePlaces.javaSetup(env: env)
+        try env.RegisterNatives(Swift.UnicodeScalar.PuttingTypesIntoQuestionablePlaces.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_testCall"),
+                signature: bag.add("()J"),
+                fnPtr: unsafeBitCast(java_Swift_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_testCall, to: UnsafeMutableRawPointer.self)
+            )
+        )
+        // print("setting up Swift.String...")
+        try Swift.String.javaSetup(env: env)
         // print("setting up TestAPI.Collections.CollectionHolder...")
         try TestAPI.Collections.CollectionHolder.javaSetup(env: env)
         try env.RegisterNatives(TestAPI.Collections.CollectionHolder.javaClass,
@@ -238,6 +258,20 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_create"),
                 signature: bag.add("()Lcom/cricut/testapi/Structs$MemberwiseStruct;"),
                 fnPtr: unsafeBitCast(java_TestAPI_Structs_MemberwiseStruct_create, to: UnsafeMutableRawPointer.self)
+            )
+        )
+        // print("setting up TestAPI.Structs.PuttingTypesIntoQuestionablePlaces...")
+        try TestAPI.Structs.PuttingTypesIntoQuestionablePlaces.javaSetup(env: env)
+        try env.RegisterNatives(TestAPI.Structs.PuttingTypesIntoQuestionablePlaces.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_create"),
+                signature: bag.add("()Lcom/cricut/testapi/Structs_PuttingTypesIntoQuestionablePlaces;"),
+                fnPtr: unsafeBitCast(java_TestAPI_Structs_PuttingTypesIntoQuestionablePlaces_create, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_testCall"),
+                signature: bag.add("()J"),
+                fnPtr: unsafeBitCast(java_TestAPI_Structs_PuttingTypesIntoQuestionablePlaces_testCall, to: UnsafeMutableRawPointer.self)
             )
         )
         // print("setting up TestAPI.Structs.ReferenceStruct...")

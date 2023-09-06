@@ -833,6 +833,52 @@
         "named" : {
           "_0" : {
             "module" : "TestAPI",
+            "name" : "PuttingTypesIntoQuestionablePlaces",
+            "namespace" : [
+              "Structs"
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "Structs_PuttingTypesIntoQuestionablePlaces",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/Structs_PuttingTypesIntoQuestionablePlaces"
+        }
+      },
+      "kotlinName" : "Structs_PuttingTypesIntoQuestionablePlaces",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Reference<To=Structs_PuttingTypesIntoQuestionablePlaces>>",
+      "nodeName" : "TestAPI.Structs_PuttingTypesIntoQuestionablePlaces",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "PuttingTypesIntoQuestionablePlaces",
+            "namespace" : [
+              "Structs"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
             "name" : "ReferenceStruct",
             "namespace" : [
               "Structs"
@@ -869,6 +915,52 @@
             "name" : "ReferenceStruct",
             "namespace" : [
               "Structs"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "Swift",
+            "name" : "PuttingTypesIntoQuestionablePlaces",
+            "namespace" : [
+              "String"
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "String_PuttingTypesIntoQuestionablePlaces",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/String_PuttingTypesIntoQuestionablePlaces"
+        }
+      },
+      "kotlinName" : "String_PuttingTypesIntoQuestionablePlaces",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Struct<Named=String_PuttingTypesIntoQuestionablePlaces>>",
+      "nodeName" : "TestAPI.String_PuttingTypesIntoQuestionablePlaces",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "Swift",
+            "name" : "PuttingTypesIntoQuestionablePlaces",
+            "namespace" : [
+              "String"
             ]
           }
         }
@@ -919,6 +1011,52 @@
           }
         }
       }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "Swift",
+            "name" : "PuttingTypesIntoQuestionablePlaces",
+            "namespace" : [
+              "UnicodeScalar"
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "UnicodeScalar_PuttingTypesIntoQuestionablePlaces",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/UnicodeScalar_PuttingTypesIntoQuestionablePlaces"
+        }
+      },
+      "kotlinName" : "UnicodeScalar_PuttingTypesIntoQuestionablePlaces",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=UnicodeScalar_PuttingTypesIntoQuestionablePlaces>>",
+      "nodeName" : "TestAPI.UnicodeScalar_PuttingTypesIntoQuestionablePlaces",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "Swift",
+            "name" : "PuttingTypesIntoQuestionablePlaces",
+            "namespace" : [
+              "UnicodeScalar"
+            ]
+          }
+        }
+      }
     }
   ],
   "typeScriptAnnotations" : {
@@ -926,6 +1064,110 @@
     "rootNamespaces" : [
       {
         "classes" : [
+          {
+            "constructor" : {
+              "visible" : {
+                "names" : [
+                  "x"
+                ],
+                "types" : [
+                  {
+                    "named" : {
+                      "_0" : "string"
+                    }
+                  }
+                ]
+              }
+            },
+            "documentation" : [
+              "<!-- FishyJoes.export(String_PuttingTypesIntoQuestionablePlaces) -->"
+            ],
+            "extends" : [
+
+            ],
+            "fields" : [
+              {
+                "documentation" : [
+
+                ],
+                "isStatic" : false,
+                "name" : "x",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              }
+            ],
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(testCall) -->"
+                ],
+                "isStatic" : false,
+                "name" : "testCall",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              }
+            ],
+            "name" : "String_PuttingTypesIntoQuestionablePlaces"
+          },
+          {
+            "constructor" : {
+              "hidden" : {
+
+              }
+            },
+            "documentation" : [
+              "<!-- FishyJoes.exportReference(Structs_PuttingTypesIntoQuestionablePlaces) -->"
+            ],
+            "extends" : [
+
+            ],
+            "fields" : [
+
+            ],
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(create) -->"
+                ],
+                "isStatic" : true,
+                "name" : "create",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "TestAPI.Structs_PuttingTypesIntoQuestionablePlaces"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(testCall) -->"
+                ],
+                "isStatic" : false,
+                "name" : "testCall",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              }
+            ],
+            "name" : "Structs_PuttingTypesIntoQuestionablePlaces"
+          },
           {
             "constructor" : {
               "hidden" : {
@@ -6158,9 +6400,68 @@
             "typealiases" : [
 
             ]
+          },
+          "UnicodeScalar_PuttingTypesIntoQuestionablePlaces" : {
+            "classes" : [
+
+            ],
+            "fields" : [
+
+            ],
+            "interfaces" : [
+
+            ],
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(testCall) -->"
+                ],
+                "isStatic" : true,
+                "name" : "testCall",
+                "parameters" : [
+                  {
+                    "name" : "self",
+                    "type" : {
+                      "named" : {
+                        "_0" : "TestAPI.UnicodeScalar_PuttingTypesIntoQuestionablePlaces"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              }
+            ],
+            "name" : "UnicodeScalar_PuttingTypesIntoQuestionablePlaces",
+            "namespaces" : {
+
+            },
+            "typealiases" : [
+
+            ]
           }
         },
         "typealiases" : [
+          {
+            "documentation" : [
+              "<!-- FishyJoes.export(UnicodeScalar_PuttingTypesIntoQuestionablePlaces) -->"
+            ],
+            "name" : "UnicodeScalar_PuttingTypesIntoQuestionablePlaces",
+            "value" : {
+              "union" : {
+                "_0" : [
+                  {
+                    "exactString" : {
+                      "_0" : "thing"
+                    }
+                  }
+                ]
+              }
+            }
+          },
           {
             "documentation" : [
               "<!-- FishyJoes.export(AssociatedDataEnum) -->"
