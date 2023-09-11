@@ -17,8 +17,8 @@ extension AttributedString: CSharpMutator {
     }
 }
 
-@_cdecl("FishyJoesCSharpRuntime_AttributedString_setup")
-public func FishyJoesCSharpRuntime_AttributedString_setup(
+@_cdecl("FishyJoesRuntime_AttributedString_setup")
+public func FishyJoesRuntime_cSharp_AttributedString_setup(
     constructorMethod: @escaping @convention(c) (UnsafeMutableRawPointer, _ exn: csOutExn) -> csObject,
     _ exn: csOutExn
 ) {

@@ -106,7 +106,7 @@ var translatedAttributedStringRuns = ExternalTranslatedType(
     kotlinPackage: "com.cricut.fishyjoes.runtime",
     kotlinName: "AttributedString.Runs",
     jniType: JNIType.object("com/cricut/fishyjoes/runtime/AttributedString$Runs"),
-    cSharpType: CSharpClass.CSType.named(package: "Cricut.FishyJoesRuntime", name: "AttributedString.Runs"),
+    cSharpType: CSharpClass.CSType.named(package: "Cricut.FishyJoesRuntime", name: "AttributedString.RunsView"),
     cppName: "AttributedString::Runs",
     isInhabited: true,
     definingModule: Module.runtime
@@ -120,7 +120,7 @@ var translatedAttributedStringRunsIndex = ExternalTranslatedType(
     kotlinPackage: "com.cricut.fishyjoes.runtime",
     kotlinName: "AttributedString.Runs.Index",
     jniType: JNIType.object("com/cricut/fishyjoes/runtime/AttributedString$Runs$Index"),
-    cSharpType: CSharpClass.CSType.named(package: "Cricut.FishyJoesRuntime", name: "AttributedString.Runs.Index"),
+    cSharpType: CSharpClass.CSType.named(package: "Cricut.FishyJoesRuntime", name: "AttributedString.RunsView.Index"),
     cppName: "AttributedString::Runs::Index",
     isInhabited: true,
     definingModule: Module.runtime
@@ -134,7 +134,7 @@ var translatedAttributedStringRunsRun = ExternalTranslatedType(
     kotlinPackage: "com.cricut.fishyjoes.runtime",
     kotlinName: "AttributedString.Runs.Run",
     jniType: JNIType.object("com/cricut/fishyjoes/runtime/AttributedString$Runs$Run"),
-    cSharpType: CSharpClass.CSType.named(package: "Cricut.FishyJoesRuntime", name: "AttributedString.Runs.Run"),
+    cSharpType: CSharpClass.CSType.named(package: "Cricut.FishyJoesRuntime", name: "AttributedString.RunsView.Run"),
     cppName: "AttributedString::Runs::Run",
     isInhabited: true,
     definingModule: Module.runtime

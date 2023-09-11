@@ -522,7 +522,7 @@ namespace Cricut.TestAPI {
             });
             Once("setup_ArrayConverter<Foundation.AttributedString.Runs.Run>", () => {
                 Console.WriteLine("setting up Array<AttributedString.Runs.Run>...");
-                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_ArrayConverter_setup<Cricut.FishyJoesRuntime.AttributedString.Runs.Run>(
+                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_ArrayConverter_setup<Cricut.FishyJoesRuntime.AttributedString.RunsView.Run>(
                     "ArrayConverter<Foundation.AttributedString.Runs.Run>",
                     out exn
                 ));

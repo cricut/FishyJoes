@@ -236,11 +236,11 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(emptyAttributeRuns) -->
         /// </summary>
-        public static System.Collections.Generic.IList<Cricut.FishyJoesRuntime.AttributedString.Runs.Run> EmptyAttributeRuns(
+        public static System.Collections.Generic.IList<Cricut.FishyJoesRuntime.AttributedString.RunsView.Run> EmptyAttributeRuns(
             Cricut.FishyJoesRuntime.AttributedString /* of */ _string
         ) {
             using var _stringHandle = new GCRef(_string);
-            return Check((out CreatedRef _exn) => __cs_AttributedStrings_emptyAttributeRuns(_stringHandle.ptr, out _exn)).Consume<System.Collections.Generic.IList<Cricut.FishyJoesRuntime.AttributedString.Runs.Run>>();
+            return Check((out CreatedRef _exn) => __cs_AttributedStrings_emptyAttributeRuns(_stringHandle.ptr, out _exn)).Consume<System.Collections.Generic.IList<Cricut.FishyJoesRuntime.AttributedString.RunsView.Run>>();
         }
 
         [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]

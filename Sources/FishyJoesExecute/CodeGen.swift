@@ -111,6 +111,13 @@ extension CodeGen {
         if cSharp {
             platforms.append(.cSharp)
         }
+
+        // When no platforms are provided, use as default the platforms that can execute natively on the build machine
+        if platforms.isEmpty {
+            platforms.append(.node)
+            platforms.append(.kotlinSystem)
+            platforms.append(.cSharp)
+        }
     }
 
     public mutating func run() throws {

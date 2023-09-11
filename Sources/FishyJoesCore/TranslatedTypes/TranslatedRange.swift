@@ -16,7 +16,7 @@ struct TranslatedRange: TranslatedType {
         self.neutralName = "Range<B=\(bound.neutralName)>"
         self.nodeName = "Runtime.SwiftRange<\(bound.nodeName)>"
         self.kotlinPackage = "com.cricut.fishyjoes.runtime"
-        self.kotlinName = "SwiftRange<\(bound.kotlinName)>"
+        self.kotlinName = "SwiftRange<\(bound.kotlinPackageQualifiedName)>"
         self.jniType = .object("com/cricut/fishyjoes/runtime/SwiftRange")
         self.cSharpType = .named(package: "Cricut.FishyJoesRuntime", name: "SwiftRange<\(bound.cSharpType.name)>")
         self.cppName = "std::ranges::range<\(bound.cppName)>"

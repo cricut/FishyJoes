@@ -128,12 +128,12 @@ sealed class AttributedStrings {
          */
         fun fullRange(
             /* of */ string: com.cricut.fishyjoes.runtime.AttributedString
-        ): com.cricut.fishyjoes.runtime.SwiftRange<AttributedString.Index> = __jni_fullRange(string)
+        ): com.cricut.fishyjoes.runtime.SwiftRange<com.cricut.fishyjoes.runtime.AttributedString.Index> = __jni_fullRange(string)
         @JvmStatic
         @JvmName("__jni_fullRange")
         private external fun __jni_fullRange(
             string: com.cricut.fishyjoes.runtime.AttributedString
-        ): com.cricut.fishyjoes.runtime.SwiftRange<AttributedString.Index>
+        ): com.cricut.fishyjoes.runtime.SwiftRange<com.cricut.fishyjoes.runtime.AttributedString.Index>
 
         /**
          * <!-- FishyJoes.export(attributedCharacters) -->

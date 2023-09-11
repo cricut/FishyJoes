@@ -21,10 +21,10 @@ public func Env_setupGCPin(
     Env.newErrorFn = newErrorFn
 
     // Register generic types that the runtime makes use of
-    Env.registerType(RangeConverter<AttributedString.Index>.self, as: "RangeConverter<FishyJoesCSharpRuntime.AttributedString.Index>")
-    Env.registerType(RangeConverter<AttributedString.Runs.Index>.self, as: "RangeConverter<FishyJoesCSharpRuntime.AttributedString.Runs.Index>")
-    Env.registerType(ClosedRangeConverter<AttributedString.Index>.self, as: "ClosedRangeConverter<FishyJoesCSharpRuntime.AttributedString.Index>")
-    Env.registerType(ClosedRangeConverter<AttributedString.Runs.Index>.self, as: "ClosedRangeConverter<FishyJoesCSharpRuntime.AttributedString.Runs.Index>")
+    Env.registerType(RangeConverter<AttributedString.Index>.self, as: "RangeConverter<Foundation.AttributedString.Index>")
+    Env.registerType(RangeConverter<AttributedString.Runs.Index>.self, as: "RangeConverter<Foundation.AttributedString.Runs.Index>")
+    Env.registerType(ClosedRangeConverter<AttributedString.Index>.self, as: "ClosedRangeConverter<Foundation.AttributedString.Index>")
+    Env.registerType(ClosedRangeConverter<AttributedString.Runs.Index>.self, as: "ClosedRangeConverter<Foundation.AttributedString.Runs.Index>")
 }
 
 @_cdecl("FishyJoesRuntime_getTypeID")
