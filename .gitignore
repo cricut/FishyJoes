@@ -19,6 +19,7 @@ node-runtime/fishyjoes-runtime-native-ubuntu/Runtime.d.ts
 node-runtime/fishyjoes-runtime-native-ubuntu/Runtime.extensions.js
 node-runtime/fishyjoes-runtime-wasm/Runtime.d.ts
 node-runtime/fishyjoes-runtime-wasm/Runtime.extensions.js
+c-sharp-runtime/c-sharp-runtime.sln
 *.dll
 *.so
 *.dylib
