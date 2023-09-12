@@ -578,5 +578,4 @@ struct TranslatedReference: TranslatedType {
             },
         ]
     }
-
 }

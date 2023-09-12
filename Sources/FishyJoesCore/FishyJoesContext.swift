@@ -482,7 +482,6 @@ public class FishyJoesContext {
         dartTranslator.dart(field: field, of: type, context: self, useNativeName: useNativeName)
     }
 
-
     // MARK: warnings
 
     var warningsPrintedOnce: Set<String> = []

@@ -67,5 +67,4 @@ extension TranslatedEnum {
                 methods.compactMap { context.dart(method: $0, of: self) }
         )
     }
-
 }
