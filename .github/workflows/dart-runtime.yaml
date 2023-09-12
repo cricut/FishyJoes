@@ -33,18 +33,18 @@ jobs:
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
-      - name: Build FishyJoesDartRuntime
+      - name: Build FishyJoesIotaRuntime
         shell: zsh {0}
         run: |
           set -euxo pipefail
 
-          ./scripts/compile-dart-runtime.sh
+          ./scripts/compile-iota-runtime.sh
 
       - name: Upload library
         uses: actions/upload-artifact@v2
         with:
           name: mac_lib
-          path: dart-runtime/native/macos/libFishyJoesDartRuntime.dylib
+          path: dart-runtime/native/macos/libFishyJoesIotaRuntime.dylib
 
   build-test-dart-linux:
     name: "linux: Build and test dart runtime"
@@ -66,18 +66,18 @@ jobs:
           set -euxo pipefail
           sudo apt-get install zsh
 
-      - name: Build FishyJoesDartRuntime
+      - name: Build FishyJoesIotaRuntime
         shell: zsh {0}
         run: |
           set -euxo pipefail
 
-          ./scripts/compile-dart-runtime.sh
+          ./scripts/compile-iota-runtime.sh
 
       - name: Upload library
         uses: actions/upload-artifact@v2
         with:
           name: ubuntu_lib
-          path: dart-runtime/native/linux/libFishyJoesDartRuntime.so
+          path: dart-runtime/native/linux/libFishyJoesIotaRuntime.so
 
   build-test-dart-windows:
     name: "windows: Build and test dart bindings"
@@ -97,7 +97,7 @@ jobs:
       - uses: MaxDesiatov/swift-windows-action@v1
         with:
           shell-action: |
-            swift build --product FishyJoesDartRuntime --configuration release --build-path ./.build/windows-build
+            swift build --product FishyJoesIotaRuntime --configuration release --build-path ./.build/windows-build
           swift-version: "5.4.2"
 
       - name: Copy resource
@@ -106,13 +106,13 @@ jobs:
           set -euxo pipefail
 
           mkdir -p dart-runtime/native/windows
-          cp .build/windows-build/x86_64-unknown-windows-msvc/release/FishyJoesDartRuntime.dll dart-runtime/native/windows
+          cp .build/windows-build/x86_64-unknown-windows-msvc/release/FishyJoesIotaRuntime.dll dart-runtime/native/windows
 
       - name: Upload library
         uses: actions/upload-artifact@v2
         with:
           name: windows_lib
-          path: dart-runtime/native/windows/FishyJoesDartRuntime.dll
+          path: dart-runtime/native/windows/FishyJoesIotaRuntime.dll
 
   dart-publish:
     name: Publish dart package
@@ -148,9 +148,9 @@ jobs:
 
           rm -rf dart-runtime/native
           mkdir -p dart-runtime/native/{macos,linux,windows}
-          mv mac_lib/libFishyJoesDartRuntime.dylib dart-runtime/native/macos/
-          mv ubuntu_lib/libFishyJoesDartRuntime.so dart-runtime/native/linux/
-          mv windows_lib/FishyJoesDartRuntime.dll dart-runtime/native/windows/
+          mv mac_lib/libFishyJoesIotaRuntime.dylib dart-runtime/native/macos/
+          mv ubuntu_lib/libFishyJoesIotaRuntime.so dart-runtime/native/linux/
+          mv windows_lib/FishyJoesIotaRuntime.dll dart-runtime/native/windows/
 
           tar -cvzf dart-binaries.tgz -C dart-runtime native
 
