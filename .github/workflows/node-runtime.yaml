@@ -205,7 +205,7 @@ jobs:
           echo NPM_PACKAGE_VERSION=$NPM_PACKAGE_VERSION >> $GITHUB_ENV
 
       - name: Setup Node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: '12.x'
           registry-url: 'https://npm.pkg.github.com/'
