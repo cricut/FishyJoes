@@ -282,11 +282,11 @@ class CredentialStore {
 
   CredentialStore();
 
-  static CredentialStore? tryReadNetRC({ String? file = null }) {
-    try { return CredentialStore.readNetRC(file: file); } catch(_) {}
+  static CredentialStore? tryReadNetRC({ String? file }) {
+    try { return CredentialStore.readNetRC(file: file); } catch(_) { return null; }
   }
 
-  CredentialStore.readNetRC({ String? file = null }) {
+  CredentialStore.readNetRC({ String? file }) {
     if (file == null) {
       String? home;
       // https://stackoverflow.com/a/22320366/73681

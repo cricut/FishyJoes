@@ -1,44 +1,44 @@
 import 'dart:ffi' as ffi;
 import 'package:ffi/ffi.dart' as ffi;
-import 'dart:io' show Platform, Directory;
 import 'dart:typed_data' as typed_data;
-import 'package:path/path.dart' as path;
 import 'package:tuple/tuple.dart';
 import 'utilities.dart';
-import 'SwiftReference.dart';
+import 'swift_reference.dart';
+import 'swift_range.dart';
 import 'platform_impl/locator_stub.dart'
     if (dart.library.ui) 'platform_impl/locator_flutter.dart'
     if (dart.library.io) 'platform_impl/locator_dart.dart'
     as locator
     ;
 
-part 'loader+primitives.dart';
-part 'loader+collections.dart';
-part 'loader+tuple.dart';
-part 'loader+functions.dart';
-part 'loader+misc.dart';
+part 'loader_primitives.dart';
+part 'loader_collections.dart';
+part 'loader_tuple.dart';
+part 'loader_functions.dart';
+part 'loader_misc.dart';
+part 'loader_ranges.dart';
 
 typedef _EnvNewRefFn = CreatedRef Function(UnownedRef obj);
 typedef _EnvDeleteRefFn = ffi.Void Function(ConsumedRef obj);
 typedef _EnvNewErrorFn = CreatedRef Function(ffi.Pointer<ffi.Utf16>);
 
-typedef _FishyJoesRuntime_Env_setup = Env Function(
+typedef _FishyJoesCommonRuntime_Env_setup = Env Function(
     ffi.Pointer<ffi.NativeFunction<_EnvNewRefFn>>,
     ffi.Pointer<ffi.NativeFunction<_EnvDeleteRefFn>>,
     ffi.Pointer<ffi.NativeFunction<_EnvNewErrorFn>>);
 
-typedef _FishyJoesRuntime_AnyBox_releaseRef<R> = R Function(
+typedef _FishyJoesCommonRuntime_AnyBox_releaseRef<R> = R Function(
   ConsumedRef swiftReference,
   OutCreatedRef exn,
 );
-typedef _FishyJoesRuntime_AnyBox_toString = CreatedRef Function(
+typedef _FishyJoesCommonRuntime_AnyBox_toString = CreatedRef Function(
   Env env,
   UnownedRef swiftReference,
   OutCreatedRef exn,
 );
 
 typedef _AnyBoxRefGetter = ffi.Pointer Function(UnownedRef obj, OutCreatedRef exn);
-typedef _FishyJoesRuntime_AnyBox_setup<R> = R Function(
+typedef _FishyJoesCommonRuntime_AnyBox_setup<R> = R Function(
   Env env,
   ffi.Pointer<ffi.NativeFunction<_AnyBoxRefGetter>> refGetter
 );
@@ -48,14 +48,14 @@ class Loader {
   late final Env env;
 
   Loader._() {
-    this.env = _dylib.lookupFunction<_FishyJoesRuntime_Env_setup, _FishyJoesRuntime_Env_setup>('FishyJoesRuntime_Env_setup')(
+    this.env = _dylib.lookupFunction<_FishyJoesCommonRuntime_Env_setup, _FishyJoesCommonRuntime_Env_setup>('FishyJoesCommonRuntime_Env_setup')(
       ffi.Pointer.fromFunction<_EnvNewRefFn>(_newRefFn),
       ffi.Pointer.fromFunction<_EnvDeleteRefFn>(_deleteRefFn),
       ffi.Pointer.fromFunction<_EnvNewErrorFn>(_newErrorFn));
     Loader._dylib.lookupFunction<
-      _FishyJoesRuntime_AnyBox_setup<ffi.Void>,
-      _FishyJoesRuntime_AnyBox_setup<void>
-    >('FishyJoesRuntime_AnyBox_setup')(
+      _FishyJoesCommonRuntime_AnyBox_setup<ffi.Void>,
+      _FishyJoesCommonRuntime_AnyBox_setup<void>
+    >('FishyJoesCommonRuntime_AnyBox_setup')(
       env,
       ffi.Pointer.fromFunction(SwiftReference.anyBoxRefGetter)
     );
@@ -90,13 +90,13 @@ class Loader {
     _onceSet.add(onceName);
     block();
   }
-  static final fishyJoesRuntime_AnyBox_releaseRef =
-    Loader._dylib.lookupFunction<_FishyJoesRuntime_AnyBox_releaseRef<ffi.Void>, _FishyJoesRuntime_AnyBox_releaseRef<void>>(
-      'FishyJoesRuntime_AnyBox_releaseRef'
+  static final fishyJoesCommonRuntime_AnyBox_releaseRef =
+    Loader._dylib.lookupFunction<_FishyJoesCommonRuntime_AnyBox_releaseRef<ffi.Void>, _FishyJoesCommonRuntime_AnyBox_releaseRef<void>>(
+      'FishyJoesCommonRuntime_AnyBox_releaseRef'
     );
 
-  static final fishyJoesRuntime_AnyBox_toString =
-    Loader._dylib.lookupFunction<_FishyJoesRuntime_AnyBox_toString, _FishyJoesRuntime_AnyBox_toString>(
-      'FishyJoesRuntime_AnyBox_toString'
+  static final fishyJoesCommonRuntime_AnyBox_toString =
+    Loader._dylib.lookupFunction<_FishyJoesCommonRuntime_AnyBox_toString, _FishyJoesCommonRuntime_AnyBox_toString>(
+      'FishyJoesCommonRuntime_AnyBox_toString'
     );
 }

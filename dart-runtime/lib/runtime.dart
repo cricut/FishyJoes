@@ -1,3 +1,4 @@
 export 'utilities.dart';
 export 'loader.dart';
-export 'SwiftReference.dart';
+export 'swift_reference.dart';
+export 'swift_range.dart';

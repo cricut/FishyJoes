@@ -47,6 +47,7 @@ import './UnicodeScalar_PuttingTypesIntoQuestionablePlaces.dart';
 import 'dart:ffi' as ffi;
 import 'dart:typed_data' as typed_data;
 import 'package:ffi/ffi.dart' as ffi;
+import 'package:fishyjoes_dart/runtime.dart' as FishyJoesRuntime;
 import 'package:fishyjoes_dart/runtime.dart';
 import 'package:fishyjoes_dart/utilities.dart' as utils;
 import 'package:freezed_annotation/freezed_annotation.dart';

@@ -3,7 +3,7 @@ part of 'loader.dart';
 typedef _CollectionLength = ffi.Int Function(UnownedRef context, UnownedRef array, OutCreatedRef exn);
 typedef _CollectionValues = ffi.Void Function(UnownedRef context, UnownedRef arr, OutCreatedRef outValues, OutCreatedRef exn);
 typedef _CollectionConstructor = CreatedRef Function(UnownedRef context, ffi.Pointer<UnownedRef> objects, ffi.Int length, OutCreatedRef exn);
-typedef _FishyJoesRuntime_collection_setup<R> = R Function(
+typedef _FishyJoesCommonRuntime_collection_setup<R> = R Function(
   Env env,
   ffi.Pointer<ffi.Utf16> name,
   ffi.Pointer<ffi.NativeFunction<_CollectionLength>> length,
@@ -42,15 +42,15 @@ class _CollectionConversions {
 }
 
 extension LoaderCollections on Loader {
-  static final _fishyJoesRuntime_collection_setup = Loader._dylib.lookupFunction<
-    _FishyJoesRuntime_collection_setup<ffi.Void>,
-    _FishyJoesRuntime_collection_setup<void>
-  >('FishyJoesRuntime_collection_setup');
+  static final _fishyJoesCommonRuntime_collection_setup = Loader._dylib.lookupFunction<
+    _FishyJoesCommonRuntime_collection_setup<ffi.Void>,
+    _FishyJoesCommonRuntime_collection_setup<void>
+  >('FishyJoesCommonRuntime_collection_setup');
 
   // Array
-  void FishyJoesRuntime_ArrayConverter_setup<T>(Env env, String name, OutCreatedRef exn) {
+  void FishyJoesCommonRuntime_ArrayConverter_setup<T>(Env env, String name, OutCreatedRef exn) {
     final cName = name.toNativeUtf16();
-    _fishyJoesRuntime_collection_setup(
+    _fishyJoesCommonRuntime_collection_setup(
       env,
       cName,
       _CollectionConversions.lengthPtr,
@@ -80,9 +80,9 @@ extension LoaderCollections on Loader {
   }
 
   // Set
-  void FishyJoesRuntime_SetConverter_setup<T>(Env env, String name, OutCreatedRef exn) {
+  void FishyJoesCommonRuntime_SetConverter_setup<T>(Env env, String name, OutCreatedRef exn) {
     final cName = name.toNativeUtf16();
-    _fishyJoesRuntime_collection_setup(
+    _fishyJoesCommonRuntime_collection_setup(
       env,
       cName,
       _CollectionConversions.lengthPtr,
@@ -114,9 +114,9 @@ extension LoaderCollections on Loader {
   }
 
   // Dictionary
-  void FishyJoesRuntime_DictionaryConverter_setup<K, V>(Env env, String name, OutCreatedRef exn) {
+  void FishyJoesCommonRuntime_DictionaryConverter_setup<K, V>(Env env, String name, OutCreatedRef exn) {
     final cName = name.toNativeUtf16();
-    _fishyJoesRuntime_collection_setup(
+    _fishyJoesCommonRuntime_collection_setup(
       env,
       cName,
       _CollectionConversions.lengthPtr,
@@ -150,7 +150,7 @@ extension LoaderCollections on Loader {
     ffi.malloc.free(cName);
   }
 
-  void FishyJoesRuntime_OptionalConverter_setup(Env env, OutCreatedRef exn) => catching(exn, () {
+  void FishyJoesCommonRuntime_OptionalConverter_setup(Env env, OutCreatedRef exn) => catching(exn, () {
       // Objects need no extra setup
   });
 }

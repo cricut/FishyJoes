@@ -5,7 +5,7 @@ typedef _TupleGetter = CreatedRef Function(
 typedef _TupleConstructor = CreatedRef Function(
     UnownedRef context, ffi.Pointer<UnownedRef> elements, OutCreatedRef exn);
 
-typedef _FishyJoesRuntime_tuple_setup<R> = R Function(
+typedef _FishyJoesCommonRuntime_tuple_setup<R> = R Function(
   Env env,
   ffi.Pointer<ffi.Utf16> name,
   ffi.Pointer<ffi.NativeFunction<_TupleGetter>>? get0,
@@ -78,14 +78,14 @@ class _TupleConversions {
 }
 
 extension LoaderTuple on Loader {
-  static final _fishyJoesRuntime_TupleConverter_setup = Loader._dylib
-      .lookupFunction<_FishyJoesRuntime_tuple_setup<ffi.Void>,
-              _FishyJoesRuntime_tuple_setup<void>>(
-          'FishyJoesRuntime_TupleConverter_setup');
+  static final _fishyJoesCommonRuntime_TupleConverter_setup = Loader._dylib
+      .lookupFunction<_FishyJoesCommonRuntime_tuple_setup<ffi.Void>,
+              _FishyJoesCommonRuntime_tuple_setup<void>>(
+          'FishyJoesCommonRuntime_TupleConverter_setup');
 
   void _tupleConverterSetup(String name, _TupleConversions context) {
     final cName = name.toNativeUtf16();
-    _fishyJoesRuntime_TupleConverter_setup(
+    _fishyJoesCommonRuntime_TupleConverter_setup(
       Loader.shared.env,
       cName,
       _TupleConversions.get0Ptr,
@@ -100,7 +100,7 @@ extension LoaderTuple on Loader {
     ffi.malloc.free(cName);
   }
 
-  void FishyJoesRuntime_Tuple2Converter_setup<T0, T1>(
+  void FishyJoesCommonRuntime_Tuple2Converter_setup<T0, T1>(
       Env env, String name, OutCreatedRef exn) {
     _tupleConverterSetup(
         name,
@@ -114,7 +114,7 @@ extension LoaderTuple on Loader {
         ));
   }
 
-  void FishyJoesRuntime_Tuple3Converter_setup<T0, T1, T2>(
+  void FishyJoesCommonRuntime_Tuple3Converter_setup<T0, T1, T2>(
       Env env, String name, OutCreatedRef exn) {
     _tupleConverterSetup(
         name,
@@ -130,7 +130,7 @@ extension LoaderTuple on Loader {
         ));
   }
 
-  void FishyJoesRuntime_Tuple4Converter_setup<T0, T1, T2, T3>(
+  void FishyJoesCommonRuntime_Tuple4Converter_setup<T0, T1, T2, T3>(
       Env env, String name, OutCreatedRef exn) {
     _tupleConverterSetup(
         name,
@@ -148,7 +148,7 @@ extension LoaderTuple on Loader {
         ));
   }
 
-  void FishyJoesRuntime_Tuple5Converter_setup<T0, T1, T2, T3, T4>(
+  void FishyJoesCommonRuntime_Tuple5Converter_setup<T0, T1, T2, T3, T4>(
       Env env, String name, OutCreatedRef exn) {
     _tupleConverterSetup(
         name,
@@ -168,7 +168,7 @@ extension LoaderTuple on Loader {
         ));
   }
 
-  void FishyJoesRuntime_Tuple6Converter_setup<T0, T1, T2, T3, T4, T5>(
+  void FishyJoesCommonRuntime_Tuple6Converter_setup<T0, T1, T2, T3, T4, T5>(
       Env env, String name, OutCreatedRef exn) {
     _tupleConverterSetup(
         name,

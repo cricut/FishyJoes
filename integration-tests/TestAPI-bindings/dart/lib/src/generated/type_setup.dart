@@ -48,6 +48,7 @@ import 'dart:ffi' as ffi;
 import 'dart:io' show Platform, Directory;
 import 'dart:typed_data' as typed_data;
 import 'package:ffi/ffi.dart' as ffi;
+import 'package:fishyjoes_dart/runtime.dart' as FishyJoesRuntime;
 import 'package:fishyjoes_dart/runtime.dart';
 import 'package:fishyjoes_dart/utilities.dart' as utils;
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -108,7 +109,7 @@ typedef _TestAPI_Primitives_PrimitiveHolderConstructor = CreatedRef Function(
     ConsumedRef ui32q,
     ffi.Uint64 ui64,
     ConsumedRef ui64q,
-    ffi.UInt ui,
+    ffi.UnsignedInt ui,
     ConsumedRef uiq,
     ffi.Int8 i8,
     ConsumedRef i8q,
@@ -146,8 +147,8 @@ typedef _TestAPI_Primitives_PrimitiveHolder_ui64Getter = ffi.Uint64 Function(Uno
 typedef _TestAPI_Primitives_PrimitiveHolder_ui64Setter = ffi.Void Function(UnownedRef obj, ffi.Uint64 newValue, OutCreatedRef exn);
 typedef _TestAPI_Primitives_PrimitiveHolder_ui64qGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_Primitives_PrimitiveHolder_ui64qSetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
-typedef _TestAPI_Primitives_PrimitiveHolder_uiGetter = ffi.UInt Function(UnownedRef obj, OutCreatedRef exn);
-typedef _TestAPI_Primitives_PrimitiveHolder_uiSetter = ffi.Void Function(UnownedRef obj, ffi.UInt newValue, OutCreatedRef exn);
+typedef _TestAPI_Primitives_PrimitiveHolder_uiGetter = ffi.UnsignedInt Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_Primitives_PrimitiveHolder_uiSetter = ffi.Void Function(UnownedRef obj, ffi.UnsignedInt newValue, OutCreatedRef exn);
 typedef _TestAPI_Primitives_PrimitiveHolder_uiqGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_Primitives_PrimitiveHolder_uiqSetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
 typedef _TestAPI_Primitives_PrimitiveHolder_i8Getter = ffi.Int8 Function(UnownedRef obj, OutCreatedRef exn);
@@ -1239,9 +1240,9 @@ final ensureLoaded = (() {
         )
     >("__iota_TestAPI_Primitives_echoInt8");
     TestAPI.Primitives.f__iota_TestAPI_Primitives_echoUInt = dylib.lookupFunction<
-        ffi.UInt Function(
+        ffi.UnsignedInt Function(
             Env env,
-            ffi.UInt value,
+            ffi.UnsignedInt value,
             OutCreatedRef _exn
         ),
         int Function(
@@ -2571,7 +2572,7 @@ final ensureLoaded = (() {
         )
     >("__iota_get_TestAPI_Primitives_maxInt8");
     TestAPI.Primitives.f__iota_get_TestAPI_Primitives_maxUInt = dylib.lookupFunction<
-        ffi.UInt Function(
+        ffi.UnsignedInt Function(
             Env env,
             OutCreatedRef _exn
         ),
@@ -2691,7 +2692,7 @@ final ensureLoaded = (() {
         )
     >("__iota_get_TestAPI_Primitives_minInt8");
     TestAPI.Primitives.f__iota_get_TestAPI_Primitives_minUInt = dylib.lookupFunction<
-        ffi.UInt Function(
+        ffi.UnsignedInt Function(
             Env env,
             OutCreatedRef _exn
         ),
@@ -2821,7 +2822,7 @@ final ensureLoaded = (() {
         )
     >("__iota_get_TestAPI_Primitives_zeroInt8");
     TestAPI.Primitives.f__iota_get_TestAPI_Primitives_zeroUInt = dylib.lookupFunction<
-        ffi.UInt Function(
+        ffi.UnsignedInt Function(
             Env env,
             OutCreatedRef _exn
         ),
@@ -3915,8 +3916,9 @@ final ensureLoaded = (() {
     Loader.shared.once("setup_ClosedRangeConverter<Swift.Double>", () {
         // print("setting up ClosedRange<Double> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
-            Loader.shared.FishyJoesCommonRuntime_ClosedRangeConverter_setup(
+            Loader.shared.FishyJoesCommonRuntime_ClosedRangeConverter_setup<double>(
                 Loader.shared.env,
+                "ClosedRangeConverter<Swift.Double>",
                 exn
             );
         });
@@ -3925,8 +3927,9 @@ final ensureLoaded = (() {
     Loader.shared.once("setup_ClosedRangeConverter<Swift.Float>", () {
         // print("setting up ClosedRange<Float> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
-            Loader.shared.FishyJoesCommonRuntime_ClosedRangeConverter_setup(
+            Loader.shared.FishyJoesCommonRuntime_ClosedRangeConverter_setup<double>(
                 Loader.shared.env,
+                "ClosedRangeConverter<Swift.Float>",
                 exn
             );
         });
@@ -3935,8 +3938,9 @@ final ensureLoaded = (() {
     Loader.shared.once("setup_ClosedRangeConverter<Swift.Int>", () {
         // print("setting up ClosedRange<Int> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
-            Loader.shared.FishyJoesCommonRuntime_ClosedRangeConverter_setup(
+            Loader.shared.FishyJoesCommonRuntime_ClosedRangeConverter_setup<int>(
                 Loader.shared.env,
+                "ClosedRangeConverter<Swift.Int>",
                 exn
             );
         });
@@ -3945,8 +3949,9 @@ final ensureLoaded = (() {
     Loader.shared.once("setup_ClosedRangeConverter<Swift.Int16>", () {
         // print("setting up ClosedRange<Int16> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
-            Loader.shared.FishyJoesCommonRuntime_ClosedRangeConverter_setup(
+            Loader.shared.FishyJoesCommonRuntime_ClosedRangeConverter_setup<int>(
                 Loader.shared.env,
+                "ClosedRangeConverter<Swift.Int16>",
                 exn
             );
         });
@@ -3955,8 +3960,9 @@ final ensureLoaded = (() {
     Loader.shared.once("setup_ClosedRangeConverter<Swift.Int32>", () {
         // print("setting up ClosedRange<Int32> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
-            Loader.shared.FishyJoesCommonRuntime_ClosedRangeConverter_setup(
+            Loader.shared.FishyJoesCommonRuntime_ClosedRangeConverter_setup<int>(
                 Loader.shared.env,
+                "ClosedRangeConverter<Swift.Int32>",
                 exn
             );
         });
@@ -3965,8 +3971,9 @@ final ensureLoaded = (() {
     Loader.shared.once("setup_ClosedRangeConverter<Swift.Int64>", () {
         // print("setting up ClosedRange<Int64> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
-            Loader.shared.FishyJoesCommonRuntime_ClosedRangeConverter_setup(
+            Loader.shared.FishyJoesCommonRuntime_ClosedRangeConverter_setup<int>(
                 Loader.shared.env,
+                "ClosedRangeConverter<Swift.Int64>",
                 exn
             );
         });
@@ -3975,8 +3982,9 @@ final ensureLoaded = (() {
     Loader.shared.once("setup_ClosedRangeConverter<Swift.Int8>", () {
         // print("setting up ClosedRange<Int8> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
-            Loader.shared.FishyJoesCommonRuntime_ClosedRangeConverter_setup(
+            Loader.shared.FishyJoesCommonRuntime_ClosedRangeConverter_setup<int>(
                 Loader.shared.env,
+                "ClosedRangeConverter<Swift.Int8>",
                 exn
             );
         });
@@ -3985,8 +3993,9 @@ final ensureLoaded = (() {
     Loader.shared.once("setup_ClosedRangeConverter<Swift.String>", () {
         // print("setting up ClosedRange<String> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
-            Loader.shared.FishyJoesCommonRuntime_ClosedRangeConverter_setup(
+            Loader.shared.FishyJoesCommonRuntime_ClosedRangeConverter_setup<String>(
                 Loader.shared.env,
+                "ClosedRangeConverter<Swift.String>",
                 exn
             );
         });
@@ -3995,8 +4004,9 @@ final ensureLoaded = (() {
     Loader.shared.once("setup_ClosedRangeConverter<Swift.UInt>", () {
         // print("setting up ClosedRange<UInt> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
-            Loader.shared.FishyJoesCommonRuntime_ClosedRangeConverter_setup(
+            Loader.shared.FishyJoesCommonRuntime_ClosedRangeConverter_setup<int>(
                 Loader.shared.env,
+                "ClosedRangeConverter<Swift.UInt>",
                 exn
             );
         });
@@ -4005,8 +4015,9 @@ final ensureLoaded = (() {
     Loader.shared.once("setup_ClosedRangeConverter<Swift.UInt16>", () {
         // print("setting up ClosedRange<UInt16> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
-            Loader.shared.FishyJoesCommonRuntime_ClosedRangeConverter_setup(
+            Loader.shared.FishyJoesCommonRuntime_ClosedRangeConverter_setup<int>(
                 Loader.shared.env,
+                "ClosedRangeConverter<Swift.UInt16>",
                 exn
             );
         });
@@ -4015,8 +4026,9 @@ final ensureLoaded = (() {
     Loader.shared.once("setup_ClosedRangeConverter<Swift.UInt32>", () {
         // print("setting up ClosedRange<UInt32> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
-            Loader.shared.FishyJoesCommonRuntime_ClosedRangeConverter_setup(
+            Loader.shared.FishyJoesCommonRuntime_ClosedRangeConverter_setup<int>(
                 Loader.shared.env,
+                "ClosedRangeConverter<Swift.UInt32>",
                 exn
             );
         });
@@ -4025,8 +4037,9 @@ final ensureLoaded = (() {
     Loader.shared.once("setup_ClosedRangeConverter<Swift.UInt64>", () {
         // print("setting up ClosedRange<UInt64> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
-            Loader.shared.FishyJoesCommonRuntime_ClosedRangeConverter_setup(
+            Loader.shared.FishyJoesCommonRuntime_ClosedRangeConverter_setup<int>(
                 Loader.shared.env,
+                "ClosedRangeConverter<Swift.UInt64>",
                 exn
             );
         });
@@ -4035,8 +4048,9 @@ final ensureLoaded = (() {
     Loader.shared.once("setup_ClosedRangeConverter<Swift.UInt8>", () {
         // print("setting up ClosedRange<UInt8> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
-            Loader.shared.FishyJoesCommonRuntime_ClosedRangeConverter_setup(
+            Loader.shared.FishyJoesCommonRuntime_ClosedRangeConverter_setup<int>(
                 Loader.shared.env,
+                "ClosedRangeConverter<Swift.UInt8>",
                 exn
             );
         });
@@ -4045,8 +4059,9 @@ final ensureLoaded = (() {
     Loader.shared.once("setup_RangeConverter<Swift.Int>", () {
         // print("setting up Range<Int> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
-            Loader.shared.FishyJoesCommonRuntime_RangeConverter_setup(
+            Loader.shared.FishyJoesCommonRuntime_RangeConverter_setup<int>(
                 Loader.shared.env,
+                "RangeConverter<Swift.Int>",
                 exn
             );
         });
@@ -4055,8 +4070,9 @@ final ensureLoaded = (() {
     Loader.shared.once("setup_RangeConverter<Swift.Int16>", () {
         // print("setting up Range<Int16> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
-            Loader.shared.FishyJoesCommonRuntime_RangeConverter_setup(
+            Loader.shared.FishyJoesCommonRuntime_RangeConverter_setup<int>(
                 Loader.shared.env,
+                "RangeConverter<Swift.Int16>",
                 exn
             );
         });
@@ -4065,8 +4081,9 @@ final ensureLoaded = (() {
     Loader.shared.once("setup_RangeConverter<Swift.Int32>", () {
         // print("setting up Range<Int32> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
-            Loader.shared.FishyJoesCommonRuntime_RangeConverter_setup(
+            Loader.shared.FishyJoesCommonRuntime_RangeConverter_setup<int>(
                 Loader.shared.env,
+                "RangeConverter<Swift.Int32>",
                 exn
             );
         });
@@ -4075,8 +4092,9 @@ final ensureLoaded = (() {
     Loader.shared.once("setup_RangeConverter<Swift.Int64>", () {
         // print("setting up Range<Int64> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
-            Loader.shared.FishyJoesCommonRuntime_RangeConverter_setup(
+            Loader.shared.FishyJoesCommonRuntime_RangeConverter_setup<int>(
                 Loader.shared.env,
+                "RangeConverter<Swift.Int64>",
                 exn
             );
         });
@@ -4085,8 +4103,9 @@ final ensureLoaded = (() {
     Loader.shared.once("setup_RangeConverter<Swift.Int8>", () {
         // print("setting up Range<Int8> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
-            Loader.shared.FishyJoesCommonRuntime_RangeConverter_setup(
+            Loader.shared.FishyJoesCommonRuntime_RangeConverter_setup<int>(
                 Loader.shared.env,
+                "RangeConverter<Swift.Int8>",
                 exn
             );
         });
@@ -4095,8 +4114,9 @@ final ensureLoaded = (() {
     Loader.shared.once("setup_RangeConverter<Swift.UInt>", () {
         // print("setting up Range<UInt> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
-            Loader.shared.FishyJoesCommonRuntime_RangeConverter_setup(
+            Loader.shared.FishyJoesCommonRuntime_RangeConverter_setup<int>(
                 Loader.shared.env,
+                "RangeConverter<Swift.UInt>",
                 exn
             );
         });
@@ -4105,8 +4125,9 @@ final ensureLoaded = (() {
     Loader.shared.once("setup_RangeConverter<Swift.UInt16>", () {
         // print("setting up Range<UInt16> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
-            Loader.shared.FishyJoesCommonRuntime_RangeConverter_setup(
+            Loader.shared.FishyJoesCommonRuntime_RangeConverter_setup<int>(
                 Loader.shared.env,
+                "RangeConverter<Swift.UInt16>",
                 exn
             );
         });
@@ -4115,8 +4136,9 @@ final ensureLoaded = (() {
     Loader.shared.once("setup_RangeConverter<Swift.UInt32>", () {
         // print("setting up Range<UInt32> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
-            Loader.shared.FishyJoesCommonRuntime_RangeConverter_setup(
+            Loader.shared.FishyJoesCommonRuntime_RangeConverter_setup<int>(
                 Loader.shared.env,
+                "RangeConverter<Swift.UInt32>",
                 exn
             );
         });
@@ -4125,8 +4147,9 @@ final ensureLoaded = (() {
     Loader.shared.once("setup_RangeConverter<Swift.UInt64>", () {
         // print("setting up Range<UInt64> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
-            Loader.shared.FishyJoesCommonRuntime_RangeConverter_setup(
+            Loader.shared.FishyJoesCommonRuntime_RangeConverter_setup<int>(
                 Loader.shared.env,
+                "RangeConverter<Swift.UInt64>",
                 exn
             );
         });
@@ -4135,8 +4158,9 @@ final ensureLoaded = (() {
     Loader.shared.once("setup_RangeConverter<Swift.UInt8>", () {
         // print("setting up Range<UInt8> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
-            Loader.shared.FishyJoesCommonRuntime_RangeConverter_setup(
+            Loader.shared.FishyJoesCommonRuntime_RangeConverter_setup<int>(
                 Loader.shared.env,
+                "RangeConverter<Swift.UInt8>",
                 exn
             );
         });

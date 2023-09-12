@@ -3,7 +3,7 @@ part of 'loader.dart';
 typedef _StringGetLengthMethod = ffi.Int Function(UnownedRef obj, OutCreatedRef exn);
 typedef _StringGetUtf16Method = ffi.Void Function(UnownedRef obj, ffi.Pointer<ffi.Uint16>, OutCreatedRef exn);
 typedef _StringConstructor = CreatedRef Function(ffi.Pointer<ffi.Uint16>, ffi.Int, OutCreatedRef exn);
-typedef _FishyJoesRuntime_String_setup<R> = R Function(
+typedef _Swift_String_setup<R> = R Function(
   Env env,
   ffi.Pointer<ffi.NativeFunction<_StringGetLengthMethod>> getLengthMethod,
   ffi.Pointer<ffi.NativeFunction<_StringGetUtf16Method>> getUtf16Method,
@@ -13,7 +13,7 @@ typedef _FishyJoesRuntime_String_setup<R> = R Function(
 typedef _DataGetLengthMethod = ffi.Int32 Function(UnownedRef obj, OutCreatedRef exn);
 typedef _DataGetBytesMethod = ffi.Void Function(UnownedRef obj, ffi.Pointer<ffi.Uint8> outBytes, OutCreatedRef exn);
 typedef _DataConstructor = CreatedRef Function(ffi.Pointer<ffi.Uint8> bytes, ffi.Int32 length, OutCreatedRef exn);
-typedef _FishyJoesRuntime_Data_setup<R> = R Function(
+typedef _Foundation_Data_setup<R> = R Function(
   Env env,
   ffi.Pointer<ffi.NativeFunction<_DataGetLengthMethod>> getLengthMethod,
   ffi.Pointer<ffi.NativeFunction<_DataGetBytesMethod>> getBytesMethod,
@@ -53,18 +53,18 @@ extension LoaderMisc on Loader {
 
   static void _setup(Env env) {
     Loader._dylib.lookupFunction<
-      _FishyJoesRuntime_String_setup<ffi.Void>,
-      _FishyJoesRuntime_String_setup<void>
-    >('FishyJoesRuntime_String_setup')(
+      _Swift_String_setup<ffi.Void>,
+      _Swift_String_setup<void>
+    >('Swift_String_setup')(
       env,
       ffi.Pointer.fromFunction<_StringGetLengthMethod>(_stringGetLengthMethod, 0),
       ffi.Pointer.fromFunction<_StringGetUtf16Method>(_stringGetUtf16Method),
       ffi.Pointer.fromFunction<_StringConstructor>(_stringConstructor),
     );
     Loader._dylib.lookupFunction<
-      _FishyJoesRuntime_Data_setup<ffi.Void>,
-      _FishyJoesRuntime_Data_setup<void>
-    >('FishyJoesRuntime_Data_setup')(
+      _Foundation_Data_setup<ffi.Void>,
+      _Foundation_Data_setup<void>
+    >('Foundation_Data_setup')(
       env,
       ffi.Pointer.fromFunction<_DataGetLengthMethod>(_dataGetLengthMethod, 0),
       ffi.Pointer.fromFunction<_DataGetBytesMethod>(_dataGetBytesMethod),

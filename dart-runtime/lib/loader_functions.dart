@@ -12,7 +12,7 @@ typedef _Invoke = CreatedRef Function(
   OutCreatedRef exn
 );
 
-typedef _FishyJoesRuntime_FunctionConverter_setup<R> = R Function(
+typedef _FishyJoesCommonRuntime_FunctionConverter_setup<R> = R Function(
   Env env,
   ffi.Pointer<ffi.Utf16> typeName,
   ffi.Pointer<ffi.NativeFunction<_Constructor>> constructor,
@@ -22,25 +22,25 @@ typedef _FishyJoesRuntime_FunctionConverter_setup<R> = R Function(
 );
 
 // Mark invokes
-typedef _FishyJoesRuntime_SwiftFunctionImpl_invoke0 = CreatedRef Function(
+typedef _FishyJoesCommonRuntime_SwiftFunctionImpl_invoke0 = CreatedRef Function(
   Env env,
   UnownedRef self,
   OutCreatedRef exn
 );
-typedef _FishyJoesRuntime_SwiftFunctionImpl_invoke1 = CreatedRef Function(
+typedef _FishyJoesCommonRuntime_SwiftFunctionImpl_invoke1 = CreatedRef Function(
   Env env,
   UnownedRef self,
   UnownedRef p0,
   OutCreatedRef exn
 );
-typedef _FishyJoesRuntime_SwiftFunctionImpl_invoke2 = CreatedRef Function(
+typedef _FishyJoesCommonRuntime_SwiftFunctionImpl_invoke2 = CreatedRef Function(
   Env env,
   UnownedRef self,
   UnownedRef p0,
   UnownedRef p1,
   OutCreatedRef exn
 );
-typedef _FishyJoesRuntime_SwiftFunctionImpl_invoke3 = CreatedRef Function(
+typedef _FishyJoesCommonRuntime_SwiftFunctionImpl_invoke3 = CreatedRef Function(
   Env env,
   UnownedRef self,
   UnownedRef p0,
@@ -48,7 +48,7 @@ typedef _FishyJoesRuntime_SwiftFunctionImpl_invoke3 = CreatedRef Function(
   UnownedRef p2,
   OutCreatedRef exn
 );
-typedef _FishyJoesRuntime_SwiftFunctionImpl_invoke4 = CreatedRef Function(
+typedef _FishyJoesCommonRuntime_SwiftFunctionImpl_invoke4 = CreatedRef Function(
   Env env,
   UnownedRef self,
   UnownedRef p0,
@@ -57,7 +57,7 @@ typedef _FishyJoesRuntime_SwiftFunctionImpl_invoke4 = CreatedRef Function(
   UnownedRef p3,
   OutCreatedRef exn
 );
-typedef _FishyJoesRuntime_SwiftFunctionImpl_invoke5 = CreatedRef Function(
+typedef _FishyJoesCommonRuntime_SwiftFunctionImpl_invoke5 = CreatedRef Function(
   Env env,
   UnownedRef self,
   UnownedRef p0,
@@ -67,7 +67,7 @@ typedef _FishyJoesRuntime_SwiftFunctionImpl_invoke5 = CreatedRef Function(
   UnownedRef p4,
   OutCreatedRef exn
 );
-typedef _FishyJoesRuntime_SwiftFunctionImpl_invoke6 = CreatedRef Function(
+typedef _FishyJoesCommonRuntime_SwiftFunctionImpl_invoke6 = CreatedRef Function(
   Env env,
   UnownedRef self,
   UnownedRef p0,
@@ -98,43 +98,43 @@ class _FunctionConversions {
 }
 
 extension LoaderFunctions on Loader {
-  static final _fishyJoesRuntime_FunctionConverter_setup = Loader._dylib.lookupFunction<
-    _FishyJoesRuntime_FunctionConverter_setup<ffi.Void>,
-    _FishyJoesRuntime_FunctionConverter_setup<void>
-  >('FishyJoesRuntime_FunctionConverter_setup');
+  static final _fishyJoesCommonRuntime_FunctionConverter_setup = Loader._dylib.lookupFunction<
+    _FishyJoesCommonRuntime_FunctionConverter_setup<ffi.Void>,
+    _FishyJoesCommonRuntime_FunctionConverter_setup<void>
+  >('FishyJoesCommonRuntime_FunctionConverter_setup');
 
-  static final _fishyJoesRuntime_SwiftFunctionImpl_invoke0 = Loader._dylib.lookupFunction<
-    _FishyJoesRuntime_SwiftFunctionImpl_invoke0,
-    _FishyJoesRuntime_SwiftFunctionImpl_invoke0
-  >('FishyJoesRuntime_SwiftFunctionImpl_invoke0');
-  static final _fishyJoesRuntime_SwiftFunctionImpl_invoke1 = Loader._dylib.lookupFunction<
-    _FishyJoesRuntime_SwiftFunctionImpl_invoke1,
-    _FishyJoesRuntime_SwiftFunctionImpl_invoke1
-  >('FishyJoesRuntime_SwiftFunctionImpl_invoke1');
-  static final _fishyJoesRuntime_SwiftFunctionImpl_invoke2 = Loader._dylib.lookupFunction<
-    _FishyJoesRuntime_SwiftFunctionImpl_invoke2,
-    _FishyJoesRuntime_SwiftFunctionImpl_invoke2
-  >('FishyJoesRuntime_SwiftFunctionImpl_invoke2');
-  static final _fishyJoesRuntime_SwiftFunctionImpl_invoke3 = Loader._dylib.lookupFunction<
-    _FishyJoesRuntime_SwiftFunctionImpl_invoke3,
-    _FishyJoesRuntime_SwiftFunctionImpl_invoke3
-  >('FishyJoesRuntime_SwiftFunctionImpl_invoke3');
-  static final _fishyJoesRuntime_SwiftFunctionImpl_invoke4 = Loader._dylib.lookupFunction<
-    _FishyJoesRuntime_SwiftFunctionImpl_invoke4,
-    _FishyJoesRuntime_SwiftFunctionImpl_invoke4
-  >('FishyJoesRuntime_SwiftFunctionImpl_invoke4');
-  static final _fishyJoesRuntime_SwiftFunctionImpl_invoke5 = Loader._dylib.lookupFunction<
-    _FishyJoesRuntime_SwiftFunctionImpl_invoke5,
-    _FishyJoesRuntime_SwiftFunctionImpl_invoke5
-  >('FishyJoesRuntime_SwiftFunctionImpl_invoke5');
-  static final _fishyJoesRuntime_SwiftFunctionImpl_invoke6 = Loader._dylib.lookupFunction<
-    _FishyJoesRuntime_SwiftFunctionImpl_invoke6,
-    _FishyJoesRuntime_SwiftFunctionImpl_invoke6
-  >('FishyJoesRuntime_SwiftFunctionImpl_invoke6');
+  static final _fishyJoesCommonRuntime_SwiftFunctionImpl_invoke0 = Loader._dylib.lookupFunction<
+    _FishyJoesCommonRuntime_SwiftFunctionImpl_invoke0,
+    _FishyJoesCommonRuntime_SwiftFunctionImpl_invoke0
+  >('FishyJoesCommonRuntime_SwiftFunctionImpl_invoke0');
+  static final _fishyJoesCommonRuntime_SwiftFunctionImpl_invoke1 = Loader._dylib.lookupFunction<
+    _FishyJoesCommonRuntime_SwiftFunctionImpl_invoke1,
+    _FishyJoesCommonRuntime_SwiftFunctionImpl_invoke1
+  >('FishyJoesCommonRuntime_SwiftFunctionImpl_invoke1');
+  static final _fishyJoesCommonRuntime_SwiftFunctionImpl_invoke2 = Loader._dylib.lookupFunction<
+    _FishyJoesCommonRuntime_SwiftFunctionImpl_invoke2,
+    _FishyJoesCommonRuntime_SwiftFunctionImpl_invoke2
+  >('FishyJoesCommonRuntime_SwiftFunctionImpl_invoke2');
+  static final _fishyJoesCommonRuntime_SwiftFunctionImpl_invoke3 = Loader._dylib.lookupFunction<
+    _FishyJoesCommonRuntime_SwiftFunctionImpl_invoke3,
+    _FishyJoesCommonRuntime_SwiftFunctionImpl_invoke3
+  >('FishyJoesCommonRuntime_SwiftFunctionImpl_invoke3');
+  static final _fishyJoesCommonRuntime_SwiftFunctionImpl_invoke4 = Loader._dylib.lookupFunction<
+    _FishyJoesCommonRuntime_SwiftFunctionImpl_invoke4,
+    _FishyJoesCommonRuntime_SwiftFunctionImpl_invoke4
+  >('FishyJoesCommonRuntime_SwiftFunctionImpl_invoke4');
+  static final _fishyJoesCommonRuntime_SwiftFunctionImpl_invoke5 = Loader._dylib.lookupFunction<
+    _FishyJoesCommonRuntime_SwiftFunctionImpl_invoke5,
+    _FishyJoesCommonRuntime_SwiftFunctionImpl_invoke5
+  >('FishyJoesCommonRuntime_SwiftFunctionImpl_invoke5');
+  static final _fishyJoesCommonRuntime_SwiftFunctionImpl_invoke6 = Loader._dylib.lookupFunction<
+    _FishyJoesCommonRuntime_SwiftFunctionImpl_invoke6,
+    _FishyJoesCommonRuntime_SwiftFunctionImpl_invoke6
+  >('FishyJoesCommonRuntime_SwiftFunctionImpl_invoke6');
 
-  void FishyJoesRuntime_Function0Converter_setup<R>(Env env, String name, OutCreatedRef exn) {
+  void FishyJoesCommonRuntime_Function0Converter_setup<R>(Env env, String name, OutCreatedRef exn) {
     final cName = name.toNativeUtf16();
-    _fishyJoesRuntime_FunctionConverter_setup(
+    _fishyJoesCommonRuntime_FunctionConverter_setup(
       env,
       cName,
       _FunctionConversions.constructorPtr,
@@ -157,9 +157,9 @@ extension LoaderFunctions on Loader {
     );
     ffi.malloc.free(cName);
   }
-  void FishyJoesRuntime_Function1Converter_setup<R, P0>(Env env, String name, OutCreatedRef exn) {
+  void FishyJoesCommonRuntime_Function1Converter_setup<R, P0>(Env env, String name, OutCreatedRef exn) {
     final cName = name.toNativeUtf16();
-    _fishyJoesRuntime_FunctionConverter_setup(
+    _fishyJoesCommonRuntime_FunctionConverter_setup(
       env,
       cName,
       _FunctionConversions.constructorPtr,
@@ -183,9 +183,9 @@ extension LoaderFunctions on Loader {
     );
     ffi.malloc.free(cName);
   }
-  void FishyJoesRuntime_Function2Converter_setup<R, P0, P1>(Env env, String name, OutCreatedRef exn) {
+  void FishyJoesCommonRuntime_Function2Converter_setup<R, P0, P1>(Env env, String name, OutCreatedRef exn) {
     final cName = name.toNativeUtf16();
-    _fishyJoesRuntime_FunctionConverter_setup(
+    _fishyJoesCommonRuntime_FunctionConverter_setup(
       env,
       cName,
       _FunctionConversions.constructorPtr,
@@ -210,9 +210,9 @@ extension LoaderFunctions on Loader {
     );
     ffi.malloc.free(cName);
   }
-  void FishyJoesRuntime_Function3Converter_setup<R, P0, P1, P2>(Env env, String name, OutCreatedRef exn) {
+  void FishyJoesCommonRuntime_Function3Converter_setup<R, P0, P1, P2>(Env env, String name, OutCreatedRef exn) {
     final cName = name.toNativeUtf16();
-    _fishyJoesRuntime_FunctionConverter_setup(
+    _fishyJoesCommonRuntime_FunctionConverter_setup(
       env,
       cName,
       _FunctionConversions.constructorPtr,
@@ -238,9 +238,9 @@ extension LoaderFunctions on Loader {
     );
     ffi.malloc.free(cName);
   }
-  void FishyJoesRuntime_Function4Converter_setup<R, P0, P1, P2, P3>(Env env, String name, OutCreatedRef exn) {
+  void FishyJoesCommonRuntime_Function4Converter_setup<R, P0, P1, P2, P3>(Env env, String name, OutCreatedRef exn) {
     final cName = name.toNativeUtf16();
-    _fishyJoesRuntime_FunctionConverter_setup(
+    _fishyJoesCommonRuntime_FunctionConverter_setup(
       env,
       cName,
       _FunctionConversions.constructorPtr,
@@ -267,9 +267,9 @@ extension LoaderFunctions on Loader {
     );
     ffi.malloc.free(cName);
   }
-  void FishyJoesRuntime_Function5Converter_setup<R, P0, P1, P2, P3, P4>(Env env, String name, OutCreatedRef exn) {
+  void FishyJoesCommonRuntime_Function5Converter_setup<R, P0, P1, P2, P3, P4>(Env env, String name, OutCreatedRef exn) {
     final cName = name.toNativeUtf16();
-    _fishyJoesRuntime_FunctionConverter_setup(
+    _fishyJoesCommonRuntime_FunctionConverter_setup(
       env,
       cName,
       _FunctionConversions.constructorPtr,
@@ -297,9 +297,9 @@ extension LoaderFunctions on Loader {
     );
     ffi.malloc.free(cName);
   }
-  void FishyJoesRuntime_Function6Converter_setup<R, P0, P1, P2, P3, P4, P5>(Env env, String name, OutCreatedRef exn) {
+  void FishyJoesCommonRuntime_Function6Converter_setup<R, P0, P1, P2, P3, P4, P5>(Env env, String name, OutCreatedRef exn) {
     final cName = name.toNativeUtf16();
-    _fishyJoesRuntime_FunctionConverter_setup(
+    _fishyJoesCommonRuntime_FunctionConverter_setup(
       env,
       cName,
       _FunctionConversions.constructorPtr,
@@ -338,7 +338,7 @@ class SwiftFunctionImpl extends SwiftReference {
     try {
       return consumeCreatedRef<R>(
         check((outExn) =>
-          LoaderFunctions._fishyJoesRuntime_SwiftFunctionImpl_invoke0(
+          LoaderFunctions._fishyJoesCommonRuntime_SwiftFunctionImpl_invoke0(
             Loader.shared.env,
             this.unsafeReference.cast(),
             outExn
@@ -353,7 +353,7 @@ class SwiftFunctionImpl extends SwiftReference {
     try {
       return consumeCreatedRef<R>(
         check((outExn) =>
-          LoaderFunctions._fishyJoesRuntime_SwiftFunctionImpl_invoke1(
+          LoaderFunctions._fishyJoesCommonRuntime_SwiftFunctionImpl_invoke1(
             Loader.shared.env,
             this.unsafeReference.cast(),
             a0.ptr,
@@ -370,7 +370,7 @@ class SwiftFunctionImpl extends SwiftReference {
     final a1 = new GCRef(p1);
     try {
       return consumeCreatedRef<R>(
-        check((outExn) => LoaderFunctions._fishyJoesRuntime_SwiftFunctionImpl_invoke2(
+        check((outExn) => LoaderFunctions._fishyJoesCommonRuntime_SwiftFunctionImpl_invoke2(
             Loader.shared.env,
             this.unsafeReference.cast(),
             a0.ptr, a1.ptr,
@@ -387,7 +387,7 @@ class SwiftFunctionImpl extends SwiftReference {
     final a2 = new GCRef(p2);
     try {
       return consumeCreatedRef<R>(
-        check((outExn) => LoaderFunctions._fishyJoesRuntime_SwiftFunctionImpl_invoke3(
+        check((outExn) => LoaderFunctions._fishyJoesCommonRuntime_SwiftFunctionImpl_invoke3(
             Loader.shared.env,
             this.unsafeReference.cast(),
             a0.ptr, a1.ptr, a2.ptr,
@@ -406,7 +406,7 @@ class SwiftFunctionImpl extends SwiftReference {
     final a3 = new GCRef(p3);
     try {
       return consumeCreatedRef<R>(
-        check((outExn) => LoaderFunctions._fishyJoesRuntime_SwiftFunctionImpl_invoke4(
+        check((outExn) => LoaderFunctions._fishyJoesCommonRuntime_SwiftFunctionImpl_invoke4(
             Loader.shared.env,
             this.unsafeReference.cast(),
             a0.ptr, a1.ptr, a2.ptr, a3.ptr,
@@ -427,7 +427,7 @@ class SwiftFunctionImpl extends SwiftReference {
     final a4 = new GCRef(p4);
     try {
       return consumeCreatedRef<R>(
-        check((outExn) => LoaderFunctions._fishyJoesRuntime_SwiftFunctionImpl_invoke5(
+        check((outExn) => LoaderFunctions._fishyJoesCommonRuntime_SwiftFunctionImpl_invoke5(
             Loader.shared.env,
             this.unsafeReference.cast(),
             a0.ptr, a1.ptr, a2.ptr, a3.ptr, a4.ptr,
@@ -450,7 +450,7 @@ class SwiftFunctionImpl extends SwiftReference {
     final a5 = new GCRef(p5);
     try {
       return consumeCreatedRef<R>(
-        check((outExn) => LoaderFunctions._fishyJoesRuntime_SwiftFunctionImpl_invoke6(
+        check((outExn) => LoaderFunctions._fishyJoesCommonRuntime_SwiftFunctionImpl_invoke6(
             Loader.shared.env,
             this.unsafeReference.cast(),
             a0.ptr, a1.ptr, a2.ptr, a3.ptr, a4.ptr, a5.ptr,

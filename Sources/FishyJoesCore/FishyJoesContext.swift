@@ -105,6 +105,7 @@ public class FishyJoesContext {
                 "import 'dart:typed_data' as typed_data;",
                 "import 'package:tuple/tuple.dart' as tuple;",
                 "import 'package:freezed_annotation/freezed_annotation.dart';",
+                "import 'package:fishyjoes_dart/runtime.dart' as FishyJoesRuntime;",
                 "import 'package:fishyjoes_dart/runtime.dart';",
                 "import 'package:fishyjoes_dart/utilities.dart' as utils;",
             ] + dartClasses.flatMap { cls in
@@ -361,7 +362,7 @@ public class FishyJoesContext {
             "UInt16": (c: "uint16_t", ts: "number", jni: JNIType.short, cSharp: "ushort", dart: "int", dartFFI: "Uint16"),
             "UInt32": (c: "uint32_t", ts: "number", jni: JNIType.int, cSharp: "uint", dart: "int", dartFFI: "Uint32"),
             "UInt64": (c: "uint64_t", ts: "bigint", jni: JNIType.long, cSharp: "ulong", dart: "int", dartFFI: "Uint64"),
-            "UInt": (c: "uint64_t", ts: "number", jni: JNIType.long, cSharp: "nuint", dart: "int", dartFFI: "UInt"),
+            "UInt": (c: "uint64_t", ts: "number", jni: JNIType.long, cSharp: "nuint", dart: "int", dartFFI: "UnsignedInt" /* Seriously, dart? */),
         ]
 
         var dontCache = false
@@ -417,9 +418,9 @@ public class FishyJoesContext {
                 case ("Swift", [], "Result", 2):
                     return try TranslatedResult(success: recur(args[0]), failure: recur(args[1]))
                 case ("Swift", [], "Range", 1):
-                    return try TranslatedRange(bound: recur(args[0]))
+                    return try TranslatedRange(bound: recur(args[0]), isClosedRange: false)
                 case ("Swift", [], "ClosedRange", 1):
-                    return try TranslatedClosedRange(bound: recur(args[0]))
+                    return try TranslatedRange(bound: recur(args[0]), isClosedRange: true)
                 default:
                     throw ResolveError(
                         message: """
