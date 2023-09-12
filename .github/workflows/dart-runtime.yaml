@@ -160,13 +160,14 @@ jobs:
         env:
           OWNER: ${{ github.repository_owner }}
           REPO: ${{ github.event.repository.name }}
+          TAG_NAME: ${{ github.event.release.tag_name }}
         run: |
           set -euxo pipefail
 
           releaseID=$(
               gh api \
               -H "Accept: application/vnd.github.v3+json" \
-              "/repos/$OWNER/$REPO/releases/tags/$GITHUB_REF_NAME" \
+              "/repos/$OWNER/$REPO/releases/tags/$TAG_NAME" \
               -q .id
           )
 
