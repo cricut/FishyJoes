@@ -53,7 +53,7 @@ extension SwiftPackage {
                     let sourceControl = sourceControls!.first!
                     let identity = sourceControl.identity
                     let url: URL
-                    switch (sourceControl.location.remote) {
+                    switch sourceControl.location.remote {
                     case (let remoteURLs):
                         precondition(remoteURLs?.count == 1, "Package \(identity) expected one remote url, got \(remoteURLs ?? [])")
                         url = remoteURLs!.first!
