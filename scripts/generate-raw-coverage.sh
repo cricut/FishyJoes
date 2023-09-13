@@ -24,9 +24,9 @@ products=(
     JavaRuntimeTestHarness
     fishy-joes
     $'\U1f41f\U2615\Ufe0f'
+    FishyJoesPackageTests
 )
 swift build --configuration debug $COVERAGE_FLAGS --product=$^products
-swift build --configuration debug $COVERAGE_FLAGS --build-tests
 
 cp .build/debug/libFishyJoesJavaRuntime.dylib $javaLibDir
 cp .build/debug/libFishyJoesIotaRuntime.dylib $cSharpLibDir
