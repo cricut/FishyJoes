@@ -17,7 +17,17 @@ mkdir -p $javaLibDir $cSharpLibDir
 # swift 5.7 no longer recognizes "--enable-code-coverage" outside of the "test" command
 COVERAGE_FLAGS=(-Xswiftc -profile-coverage-mapping -Xswiftc -profile-generate)
 
+products=(
+    FishyJoesNodeRuntime
+    FishyJoesJavaRuntime
+    FishyJoesIotaRuntime
+    JavaRuntimeTestHarness
+    fishy-joes
+    $'\U1f41f\U2615\Ufe0f'
+)
+swift build --configuration debug $COVERAGE_FLAGS --product=$^products
 swift build --configuration debug $COVERAGE_FLAGS --build-tests
+
 cp .build/debug/libFishyJoesJavaRuntime.dylib $javaLibDir
 cp .build/debug/libFishyJoesIotaRuntime.dylib $cSharpLibDir
 (cd kotlin-runtime && ./gradlew publishToMavenLocal)
