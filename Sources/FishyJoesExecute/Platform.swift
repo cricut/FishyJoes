@@ -16,7 +16,7 @@ enum Platform: CustomStringConvertible, Hashable {
     case kotlinSystem
     case kotlinAndroid(AndroidArchitecture)
     case cSharp
-    case dartSystem
+    case dart
 
     enum AndroidArchitecture: String, Equatable, CaseIterable {
         case armv7, x86_64, aarch64
@@ -52,7 +52,7 @@ enum Platform: CustomStringConvertible, Hashable {
             return "kotlinAndroid(\(arch.rawValue))"
         case .cSharp:
             return "cSharp"
-        case .dartSystem:
+        case .dart:
             return "dart"
         }
     }
@@ -69,7 +69,7 @@ enum Platform: CustomStringConvertible, Hashable {
         switch self {
         case .wasm, .kotlinAndroid:
             return false
-        case .node, .kotlinSystem, .cSharp, .dartSystem:
+        case .node, .kotlinSystem, .cSharp, .dart:
             return true
         }
     }
@@ -147,7 +147,7 @@ enum Platform: CustomStringConvertible, Hashable {
             // args.append(contentsOf: ["-Xswiftc", "-Xclang-linker", "-Xswiftc", "-mexec-model=reactor"])
 
             env = ["WASM_ONLY": "1"]
-        case .node, .kotlinSystem, .dartSystem:
+        case .node, .kotlinSystem, .dart:
             #if os(macOS)
             path = Platform.nativeMacSwiftBuild
             args.append(contentsOf: ["-Xlinker", "-rpath", "-Xlinker", "@loader_path"])
@@ -197,7 +197,7 @@ enum Platform: CustomStringConvertible, Hashable {
             fatalError("dynamic linking is currently unsupported in wasm")
         case .kotlinAndroid:
             return "lib\(lib).so"
-        case .node, .kotlinSystem, .cSharp, .dartSystem:
+        case .node, .kotlinSystem, .cSharp, .dart:
             #if os(macOS)
             return "lib\(lib).dylib"
             #elseif os(Linux)
@@ -244,7 +244,7 @@ enum Platform: CustomStringConvertible, Hashable {
             #else
             fatalError("unknown host OS")
             #endif
-        case .dartSystem: return "dart"
+        case .dart: return "dart"
         }
     }
 
@@ -272,7 +272,7 @@ enum Platform: CustomStringConvertible, Hashable {
             #else
             fatalError("unknown host OS")
             #endif
-        case .dartSystem:
+        case .dart:
             #if os(macOS)
             return "dart/native/macos"
             #elseif os(Linux)
@@ -291,7 +291,7 @@ enum Platform: CustomStringConvertible, Hashable {
         case .node: return "\(platform) <-> node/ts bindings for \(config.module)"
         case .kotlinSystem, .kotlinAndroid: return "A JNI wrapper for \(config.module)"
         case .cSharp: return "A C# wrapper for \(config.module)"
-        case .dartSystem: return "A Dart wrapper for \(config.module)"
+        case .dart: return "A Dart wrapper for \(config.module)"
         }
     }
 

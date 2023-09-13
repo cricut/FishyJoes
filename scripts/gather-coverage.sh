@@ -8,7 +8,7 @@ binaries=(
     .build/debug/FishyJoesPackageTests.xctest/Contents/MacOS/FishyJoesPackageTests
     .build/debug/libJavaRuntimeTestHarness.dylib
     .build/debug/libFishyJoesJavaRuntime.dylib
-    .build/debug/libFishyJoesCSharpRuntime.dylib
+    .build/debug/libFishyJoesIotaRuntime.dylib
     .build/debug/$'\U1f41f\U2615\Ufe0f'
     integration-tests/TestAPI-bindings/.build/debug/libTestAPI.dylib
     integration-tests/TestAPI-bindings/.build/debug/libTestAPI-java.dylib
@@ -19,6 +19,12 @@ binaries=(
 
 xcrun llvm-profdata merge coverage-data/*.profraw > coverage-data/combined.profdata
 
-xcrun llvm-cov export -object=$^binaries -instr-profile=coverage-data/combined.profdata -format=lcov > coverage-data/lcov.info
+xcrun llvm-cov export \
+      -object=$^binaries \
+      -instr-profile=coverage-data/combined.profdata \
+      -format=lcov \
+      > coverage-data/lcov.info
 
-./scripts/lcov-to-xml.sh <coverage-data/lcov.info >coverage-data/coverage.xml
+./scripts/lcov-to-xml.sh \
+    < coverage-data/lcov.info \
+    > coverage-data/coverage.xml

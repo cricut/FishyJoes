@@ -60,7 +60,7 @@ struct TranslatedEnum: TranslatedType {
         self.kotlinName = name
         self.kotlinPackage = context.module.kotlinPackage
         self.cSharpType = .named(package: context.module.cSharpNamespace, name: exportAnnotation.cSharpName)
-        self.dartType = .named(package: context.module.dartNamespace, name: fakeDartNamespace(name))
+        self.dartType = .named(package: context.module.dartNamespace, name: context.dartTranslator.fakeNamespace(name))
         self.cases = type.cases.map { enumCase in
             Case(
                 documentation: enumCase.documentation,

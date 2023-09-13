@@ -18,9 +18,9 @@ mkdir -p $javaLibDir $cSharpLibDir
 COVERAGE_FLAGS=(-Xswiftc -profile-coverage-mapping -Xswiftc -profile-generate)
 
 swift build --configuration debug $COVERAGE_FLAGS --product FishyJoesJavaRuntime
-swift build --configuration debug $COVERAGE_FLAGS --product FishyJoesCSharpRuntime
+swift build --configuration debug $COVERAGE_FLAGS --product FishyJoesIotaRuntime
 cp .build/debug/libFishyJoesJavaRuntime.dylib $javaLibDir
-cp .build/debug/libFishyJoesCSharpRuntime.dylib $cSharpLibDir
+cp .build/debug/libFishyJoesIotaRuntime.dylib $cSharpLibDir
 (cd kotlin-runtime && ./gradlew publishToMavenLocal)
 
 # Gather coverage from kotlin tests

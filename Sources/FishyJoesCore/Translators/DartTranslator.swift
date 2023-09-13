@@ -4,6 +4,10 @@ import SourceryRuntime
 final class DartTranslator: Translator {
     required init() {}
 
+    func fakeNamespace<S: StringProtocol>(_ name: S) -> String {
+        String(name.replacingOccurrences(of: ".", with: "_").drop { $0 == "_" })
+    }
+
     func moduleRegisterTypesFn(context: FishyJoesContext) -> String {
         "FishyJoes_\(context.module.name.mangled)_registerTypes"
     }

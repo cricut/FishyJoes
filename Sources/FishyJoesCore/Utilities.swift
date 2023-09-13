@@ -34,10 +34,6 @@ func upperCaseFirst<S: StringProtocol>(_ camel: S) -> String {
     (camel.first?.uppercased() ?? "") + camel.dropFirst()
 }
 
-func fakeDartNamespace<S: StringProtocol>(_ name: S) -> String {
-    String(name.replacingOccurrences(of: ".", with: "_").drop { $0 == "_" })
-}
-
 extension Array {
     subscript(safe index: Index) -> Element? {
         startIndex <= index && index < endIndex ? self[index] : nil

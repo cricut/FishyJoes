@@ -33,7 +33,7 @@ struct TranslatedReference: TranslatedType {
         self.kotlinName = typeName
         self.kotlinPackage = context.module.kotlinPackage
         self.cSharpType = .named(package: context.module.cSharpNamespace, name: exportAnnotation.cSharpName)
-        self.dartType = .named(package: context.module.dartNamespace, name: fakeDartNamespace(exportAnnotation.name))
+        self.dartType = .named(package: context.module.dartNamespace, name: context.dartTranslator.fakeNamespace(exportAnnotation.name))
         self.methods = type.methods.compactMap { Method($0) }
         self.computedVariables = type.variables.filter { $0.exportAnnotation != nil }
         self.documentation = type.documentation

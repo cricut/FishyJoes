@@ -133,7 +133,7 @@ jobs:
         run: |
           set -euxo pipefail
 
-          ./scripts/compile-c-sharp-runtime.sh
+          ./scripts/compile-iota-runtime.sh
 
           cd integration-tests/TestAPI-bindings
 

@@ -294,10 +294,6 @@ extension DartClass.DartType: CustomStringConvertible {
         "FIXME: You should not use this, you should use one of the representations below. \(name())"
     }
 
-    // static func pretendDartHasNamespaces(name: String) -> String {
-    //     name.replacingOccurrences(of: ".", with: "_")
-    // }
-
     func name(in dartClass: DartClass? = nil) -> String {
         switch self {
         case .void: return "void"
@@ -655,6 +651,7 @@ extension DartClass {
 
     static func deforbidify(_ name: String) -> String {
         var name = forbiddenVarNames.contains(name) ? "_\(name)" : name
+        // leading underscores have semantic meaning in dart, avoid them.
         if name.hasPrefix("_") {
             name = "m\(name)" // This is far from ideal...
         }

@@ -109,7 +109,7 @@ extension CodeGen {
             platforms.append(.cSharp)
         }
         if dart {
-            platforms.append(.dartSystem)
+            platforms.append(.dart)
         }
     }
 
@@ -257,7 +257,7 @@ extension CodeGen {
                         libs: libs.flatMap { [$0, "\($0)-java"] } + ["FishyJoesJavaRuntime"],
                         configuration: configuration
                     )
-                case .cSharp, .dartSystem:
+                case .cSharp, .dart:
                     try platform.build(
                         product: "\(config.module)-iota",
                         libs: libs.flatMap { [$0, "\($0)-iota"] } + ["FishyJoesIotaRuntime"],
@@ -394,7 +394,7 @@ extension CodeGen {
                     try cmd("mkdir", "-p", outputDir).run()
                     try installLibrary(config.module)
                     try installLibrary("\(config.module)-iota")
-                case .dartSystem:
+                case .dart:
                     try cmd("mkdir", "-p", outputDir).run()
                     let libs = [
                         "FishyJoesIotaRuntime",
@@ -421,7 +421,7 @@ extension CodeGen {
                     try cmd("dotnet", "build", "Cricut.\(config.module).sln").run()
                 }
             }
-            if platforms.contains(.dartSystem) {
+            if platforms.contains(.dart) {
                 try withDirectory("dart") {
                     try cmd("dart", "run", "build_runner", "build").run()
                 }
@@ -459,7 +459,7 @@ extension CodeGen {
                         .append(toFile: packageJsonPath)
                         .run()
                 }
-            case .kotlinSystem, .kotlinAndroid, .cSharp, .dartSystem:
+            case .kotlinSystem, .kotlinAndroid, .cSharp, .dart:
                 break
             }
         }
@@ -488,7 +488,7 @@ extension CodeGen {
                 case .kotlinAndroid:
                     // TODO
                     break
-                case .dartSystem:
+                case .dart:
                     try withDirectory("dart") {
                         try cmd("dart", "test", "--chain-stack-traces", addEnv: env).run()
                     }
