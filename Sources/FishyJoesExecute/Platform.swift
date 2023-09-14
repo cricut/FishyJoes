@@ -179,9 +179,6 @@ enum Platform: CustomStringConvertible, Hashable {
             path = Platform.nativeMacSwiftBuild
             // This seems to be needed because of https://github.com/mono/mono/issues/21049
             args.append(contentsOf: ["-Xlinker", "-rpath", "-Xlinker", "@loader_path"])
-            if configuration.fat {
-                args.append(contentsOf: ["--arch", "arm64", "--arch", "x86_64"])
-            }
             #elseif os(Linux)
             path = "swift"
             args = ["build"] + args
