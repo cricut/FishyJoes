@@ -38,7 +38,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: zulu
-          java-version: 17
+          java-version: 11
 
       - name: Build native FishyJoesJavaRuntime
         shell: zsh {0}
@@ -82,7 +82,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: zulu
-          java-version: 17
+          java-version: 11
 
       - name: Configure build environment
         run: |
@@ -143,7 +143,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: zulu
-          java-version: 17
+          java-version: 11
 
       - uses: compnerd/gha-setup-swift@main
         with:
@@ -195,7 +195,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: zulu
-          java-version: 17
+          java-version: 11
 
       - name: Configure build environment
         run: |

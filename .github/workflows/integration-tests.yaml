@@ -34,7 +34,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: zulu
-          java-version: 17
+          java-version: 11
 
       - name: Setup node
         uses: actions/setup-node@v3
@@ -132,7 +132,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: zulu
-          java-version: 17
+          java-version: 11
 
       - name: Configure build environment
         run: |
@@ -237,7 +237,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: zulu
-          java-version: 17
+          java-version: 11
 
       - name: Retrieve artifacts
         uses: actions/download-artifact@v3
