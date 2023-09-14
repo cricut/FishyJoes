@@ -256,10 +256,10 @@ jobs:
         run: |
           set -euxo pipefail
 
-          $(cd mac_npm_package/${{ env.MAC_LIB_DIR }}; npm publish *.tgz)
-          $(cd ubuntu_npm_package/${{ env.UBUNTU_LIB_DIR }}; npm publish *.tgz)
+          $(cd mac_npm_package; npm publish *.tgz)
+          $(cd ubuntu_npm_package; npm publish *.tgz)
           # TODO: Windows
-          # $(cd windows_npm_package/${{ env.WINDOWS_LIB_DIR }}; npm publish *.tgz)
+          # $(cd windows_npm_package; npm publish *.tgz)
 
 #
 # TODO: Windows

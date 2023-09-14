@@ -25,15 +25,15 @@ jobs:
     runs-on: macOS-12
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup Git Credentials
-        uses: fusion-engineering/setup-git-credentials@v2.0.1
+        uses: de-vri-es/setup-git-credentials@v2
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
       - name: Setup Node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ env.NODE_VERSION }}
           registry-url: 'https://npm.pkg.github.com/'
@@ -70,7 +70,7 @@ jobs:
           swift run -- fishy-joes --nodejs --fat --version $VERSION pack
 
       - name: Upload NPM Artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: npm_mac_packages
           path: cricut-*.tgz
@@ -80,15 +80,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup Git Credentials
-        uses: fusion-engineering/setup-git-credentials@v2.0.1
+        uses: de-vri-es/setup-git-credentials@v2
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
       - name: Setup Node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ env.NODE_VERSION }}
           registry-url: 'https://npm.pkg.github.com/'
@@ -130,7 +130,7 @@ jobs:
           swift run -- fishy-joes --nodejs --wasm --version $VERSION pack
 
       - name: Upload NPM Artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: npm_linux_packages
           path: cricut-*.tgz
@@ -144,14 +144,14 @@ jobs:
     if: success() && github.event_name == 'release'
     steps:
       - name: Setup Node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ env.NODE_VERSION }}
           registry-url: 'https://npm.pkg.github.com/'
           scope: '@cricut'
 
       - name: Retrieve NPM Package Artifact
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
 
       - name: Install zsh
         run: |
