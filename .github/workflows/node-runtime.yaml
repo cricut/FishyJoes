@@ -257,8 +257,8 @@ jobs:
         run: |
           set -euxo pipefail
 
-          $(cd ${{ env.MAC_LIB_DIR }}; npm publish *.tgz)
-          $(cd ${{ env.UBUNTU_LIB_DIR }}; npm publish *.tgz)
+          ( cd ${{ env.MAC_LIB_DIR }}; npm publish *.tgz )
+          ( cd ${{ env.UBUNTU_LIB_DIR }}; npm publish *.tgz )
 
 #
 # TODO: Windows
