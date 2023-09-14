@@ -42,6 +42,6 @@ class SwiftPackageTests: XCTestCase {
         XCTAssertEqual(parsed.dependencyMap["fishyjoes"]?.url, URL(string: "/Users/mstoker/.cricut/FishyJoes"))
         XCTAssertNil(parsed.dependencyMap["fishyjoes"]?.version)
         XCTAssertEqual(parsed.dependencyMap["crigeo"]?.url, URL(string: "https://github.com/cricut/CriGeo"))
-        XCTAssertEqual(parsed.dependencyMap["crigeo"]?.version, "branch:fishy-joes-annotations")
+        XCTAssertEqual(parsed.dependencyMap["crigeo"]?.version, "fishy-joes-annotations")
     }
 }

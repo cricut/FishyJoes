@@ -62,7 +62,7 @@ extension SwiftPackage {
                     switch (sourceControl.requirement.branch, sourceControl.requirement.exact) {
                     case (let branchNames, nil):
                         precondition(branchNames?.count == 1, "Package \(identity) expected one branch name, got \(branchNames ?? [])")
-                        version = "branch:\(branchNames!.first!)"
+                        version = "\(branchNames!.first!)"
                     case (nil, let versions):
                         precondition(versions?.count == 1, "Package \(identity) expected one version, got \(versions ?? [])")
                         version = "\(versions!.first!)"
