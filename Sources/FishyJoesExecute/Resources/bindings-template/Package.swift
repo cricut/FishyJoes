@@ -6,7 +6,9 @@ import PackageDescription
 let wasmCompatibleOnly = ProcessInfo.processInfo.environment["WASM_ONLY"] == "1"
 
 // Don't change the format of this line. It's read by gradle in `kotlin/build.gradle.kts`
-// when updating, also update ./c-sharp/Cricut.__MODULE_NAME__/Cricut.__MODULE_NAME__.csproj
+// when updating, also update:
+//   ./c-sharp/Cricut.__MODULE_NAME__/Cricut.__MODULE_NAME__.csproj
+//   ./dart/pubspec.yaml
 let fishyJoesVersion = "(replace this string with latest fishyjoes version)"
 
 let package = Package(
@@ -80,7 +82,7 @@ let package = Package(
                 name: "__MODULE_NAME___IotaInterface",
                 dependencies: [
                     .product(name: "__MODULE_NAME__", package: "__MODULE_NAME__"),
-                    .product(name: "FishyJoesIotaRuntime", package: "FishyJoes"),__JAVA_TARGET_DEPENDENCIES__
+                    .product(name: "FishyJoesIotaRuntime", package: "FishyJoes"),__IOTA_TARGET_DEPENDENCIES__
                 ],
                 path: "Sources/Generated/IotaInterface"
             ),

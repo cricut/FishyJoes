@@ -44,6 +44,8 @@ jobs:
         shell: zsh {0}
         run: |
           set -euxo pipefail
+
+          (cd dart; dart run fishyjoes_dart:setup)
           swift run -- fishy-joes --dart --fat test
 
       - name: Upload artifacts
@@ -95,6 +97,7 @@ jobs:
         shell: zsh {0}
         run: |
           set -euxo pipefail
+          (cd dart; dart run fishyjoes_dart:setup)
           swift run -- fishy-joes --dart test
 
       - name: Upload library
@@ -141,6 +144,8 @@ jobs:
         shell: pwsh
         run: |
           cd dart
+
+          dart run fishyjoes_dart:setup
           dart test
 
       - name: Upload library
