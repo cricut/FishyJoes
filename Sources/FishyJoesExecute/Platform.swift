@@ -3,7 +3,7 @@ import swsh
 
 let wasmToolchain = "/Library/Developer/Toolchains/swift-wasm-5.7.1-RELEASE.xctoolchain"
 
-struct BuildConfiguration {
+struct BuildConfiguration: Hashable {
     let debug: Bool
     let fat: Bool
     let codeCoverage: Bool
@@ -16,6 +16,7 @@ enum Platform: CustomStringConvertible, Hashable {
     case kotlinSystem
     case kotlinAndroid(AndroidArchitecture)
     case cSharp
+    case dart
 
     enum AndroidArchitecture: String, Equatable, CaseIterable {
         case armv7, x86_64, aarch64
@@ -51,6 +52,8 @@ enum Platform: CustomStringConvertible, Hashable {
             return "kotlinAndroid(\(arch.rawValue))"
         case .cSharp:
             return "cSharp"
+        case .dart:
+            return "dart"
         }
     }
 
@@ -66,7 +69,7 @@ enum Platform: CustomStringConvertible, Hashable {
         switch self {
         case .wasm, .kotlinAndroid:
             return false
-        case .node, .kotlinSystem, .cSharp:
+        case .node, .kotlinSystem, .cSharp, .dart:
             return true
         }
     }
@@ -144,7 +147,7 @@ enum Platform: CustomStringConvertible, Hashable {
             // args.append(contentsOf: ["-Xswiftc", "-Xclang-linker", "-Xswiftc", "-mexec-model=reactor"])
 
             env = ["WASM_ONLY": "1"]
-        case .node, .kotlinSystem:
+        case .node, .kotlinSystem, .dart:
             #if os(macOS)
             path = Platform.nativeMacSwiftBuild
             args.append(contentsOf: ["-Xlinker", "-rpath", "-Xlinker", "@loader_path"])
@@ -188,6 +191,29 @@ enum Platform: CustomStringConvertible, Hashable {
         swiftBuild(arguments: arguments, configuration: configuration)
     }
 
+    func dylibName(for lib: String) -> String {
+        switch self {
+        case .wasm:
+            fatalError("dynamic linking is currently unsupported in wasm")
+        case .kotlinAndroid:
+            return "lib\(lib).so"
+        case .node, .kotlinSystem, .cSharp, .dart:
+            #if os(macOS)
+            return "lib\(lib).dylib"
+            #elseif os(Linux)
+            return "lib\(lib).so"
+            #elseif os(Windows)
+            return "\(lib).dll"
+            #else
+            fatalError("unknown host OS")
+            #endif
+        }
+    }
+
+    func dylibPath(for lib: String, configuration: BuildConfiguration) throws -> String {
+        try buildDir(configuration) + "/" + dylibName(for: lib)
+    }
+
     var platform: String {
         switch self {
         case .wasm: return "wasm"
@@ -218,6 +244,7 @@ enum Platform: CustomStringConvertible, Hashable {
             #else
             fatalError("unknown host OS")
             #endif
+        case .dart: return "dart"
         }
     }
 
@@ -245,6 +272,16 @@ enum Platform: CustomStringConvertible, Hashable {
             #else
             fatalError("unknown host OS")
             #endif
+        case .dart:
+            #if os(macOS)
+            return "dart/native/macos"
+            #elseif os(Linux)
+            return "dart/native/linux"
+            #elseif os(Windows)
+            return "dart/native/windows"
+            #else
+            fatalError("unknown host OS")
+            #endif
         }
     }
 
@@ -254,17 +291,25 @@ enum Platform: CustomStringConvertible, Hashable {
         case .node: return "\(platform) <-> node/ts bindings for \(config.module)"
         case .kotlinSystem, .kotlinAndroid: return "A JNI wrapper for \(config.module)"
         case .cSharp: return "A C# wrapper for \(config.module)"
+        case .dart: return "A Dart wrapper for \(config.module)"
         }
     }
 
+    private static var buildDirCache: [BuildConfiguration: [Platform: String]] = [:]
     func buildDir(_ configuration: BuildConfiguration) throws -> String {
-        if isNative, configuration.fat {
-            return ".build/apple/\(configuration.debug ? "debug" : "release")"
-        } else if case .kotlinAndroid(let arch) = self {
-            return ".build/android-build/\(arch.triple)/\(configuration.debug ? "debug" : "release")"
-        } else {
-            return try swiftBuild("--show-bin-path", configuration: configuration).runString()
+        if let cached = Platform.buildDirCache[configuration]?[self] {
+            return cached
         }
+        let directory: String
+        if isNative, configuration.fat {
+            directory = ".build/apple/\(configuration.debug ? "debug" : "release")"
+        } else if case .kotlinAndroid(let arch) = self {
+            directory = ".build/android-build/\(arch.triple)/\(configuration.debug ? "debug" : "release")"
+        } else {
+            directory = try swiftBuild("--show-bin-path", configuration: configuration).runString()
+        }
+        Platform.buildDirCache[configuration, default: [:]][self] = directory
+        return directory
     }
 
     var isTs: Bool {

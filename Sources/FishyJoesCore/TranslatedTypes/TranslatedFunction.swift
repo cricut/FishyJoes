@@ -12,6 +12,7 @@ struct TranslatedFunction: TranslatedType {
     let kotlinPackage: String? = nil
     let jniType: JNIType
     let cSharpType: CSharpClass.CSType
+    let dartType: DartClass.DartType
     let definingModule = Module.runtime
 
     init(parameters: [TranslatedType], returnType: TranslatedType) {
@@ -24,6 +25,7 @@ struct TranslatedFunction: TranslatedType {
         self.kotlinName = "((\(parameters.map(\.kotlinPackageQualifiedName).joined(separator: ", "))) -> \(returnType.kotlinPackageQualifiedName))"
         self.containedNamedTypes = parameters.map { $0.containedNamedTypes }.joined() + returnType.containedNamedTypes
         self.jniType = .object("kotlin/jvm/functions/Function\(parameters.count)")
+        self.dartType = .function(args: parameters.map(\.dartType), return: returnType.dartType)
         if returnType.sourceType == .void {
             self.cSharpType = .named(
                 package: "System",
@@ -44,7 +46,7 @@ struct TranslatedFunction: TranslatedType {
         )
     }
 
-    func cSharpSetupParameters(in context: FishyJoesContext) -> [CSharpSetupParameter] {
+    func cSharpSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<String>] {
         return (
             returnType.sourceType == .void ? [] : [
                 .type(typeValue: returnType.cSharpType.name),
@@ -53,6 +55,18 @@ struct TranslatedFunction: TranslatedType {
             .type(typeValue: param.cSharpType.name)
         } + [
             .value(name: "typeName", type: "string") { fragment in
+                fragment.output("\"\(converterType.name)\",")
+            },
+        ]
+    }
+
+    func dartSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<DartClass.DartType>] {
+        return [
+            .type(typeValue: returnType.dartType)
+        ] + parameters.map { param in
+            .type(typeValue: param.dartType)
+        } + [
+            .value(name: "typeName", type: .string) { fragment in
                 fragment.output("\"\(converterType.name)\",")
             },
         ]

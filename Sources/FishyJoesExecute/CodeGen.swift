@@ -21,6 +21,9 @@ public struct CodeGen: ParsableCommand {
     @Flag(name: [.long, .customLong("C🗡️")], inversion: .prefixedNo, help: "Generate a C# Package")
     var cSharp = false
 
+    @Flag(name: .long, inversion: .prefixedNo, help: "Generate a Dart package")
+    var dart = false
+
     @Flag(name: .long, inversion: .prefixedNo, help: "Additional wasm optimizations (takes some time)")
     var wasmOpt = true
 
@@ -64,6 +67,7 @@ public struct CodeGen: ParsableCommand {
         case kotlin
         case kotlinFast
         case cSharp
+        case dart
         case wasmOpt
         case useDocker
         case sourceryDumpPath
@@ -103,6 +107,9 @@ extension CodeGen {
         }
         if cSharp {
             platforms.append(.cSharp)
+        }
+        if dart {
+            platforms.append(.dart)
         }
     }
 
@@ -166,16 +173,19 @@ extension CodeGen {
             }
 
             // MARK: Generate code
-            try cmd("rm", "-rf", "Sources/Generated", "kotlin/src/generated", "DebugGenerated", "cpp").run()
-            try cmd("mkdir", "-p",
-                    "Sources/Generated/CSharpInterface",
-                    "Sources/Generated/NodeInterface",
-                    "Sources/Generated/JavaInterface",
-                    "kotlin/src/generated/kotlin/com/cricut/\(config.module.lowercased())"
-            ).run()
+            let sourceLocations = [
+                "Sources/Generated/IotaInterface",
+                "Sources/Generated/NodeInterface",
+                "Sources/Generated/JavaInterface",
+                "kotlin/src/generated/kotlin/com/cricut/\(config.module.lowercased())",
+                "c-sharp/Cricut.\(config.module.lowercased())/generated",
+                "dart/lib/src/generated",
+            ]
+            try cmd("rm", arguments: ["-rf"] + sourceLocations).run()
+            try cmd("mkdir", arguments: ["-p"] + sourceLocations).run()
             try cmd(
                 "touch",
-                "Sources/Generated/CSharpInterface/EmptyPlaceholder.swift",
+                "Sources/Generated/IotaInterface/EmptyPlaceholder.swift",
                 "Sources/Generated/NodeInterface/EmptyPlaceholder.swift",
                 "Sources/Generated/JavaInterface/EmptyPlaceholder.swift"
             ).run()
@@ -247,10 +257,10 @@ extension CodeGen {
                         libs: libs.flatMap { [$0, "\($0)-java"] } + ["FishyJoesJavaRuntime"],
                         configuration: configuration
                     )
-                case .cSharp:
+                case .cSharp, .dart:
                     try platform.build(
-                        product: "\(config.module)-c-sharp",
-                        libs: libs.flatMap { [$0, "\($0)-c-sharp"] } + ["FishyJoesCSharpRuntime"],
+                        product: "\(config.module)-iota",
+                        libs: libs.flatMap { [$0, "\($0)-iota"] } + ["FishyJoesIotaRuntime"],
                         configuration: configuration
                     )
                 }
@@ -265,11 +275,14 @@ extension CodeGen {
             for platform in platforms {
                 let outputDir = platform.outputDir(config)
 
-                func installLibrary(_ name: String, installName: String? = nil) throws {
+                func installLibrary(_ name: String, installName: String? = nil, sign: Bool = false) throws {
                     let src = "\(try platform.buildDir(configuration))/lib\(name).\(platform.dylibExt)"
                     let installName = installName ?? "lib\(name).\(platform.dylibExt)"
                     let dest = "\(outputDir)/\(installName)"
                     try cmd("cp", src, dest).run()
+                    if sign {
+                        try cmd("codesign", "-s", "-", dest).run()
+                    }
                 }
 
                 switch platform {
@@ -380,17 +393,37 @@ extension CodeGen {
                 case .cSharp:
                     try cmd("mkdir", "-p", outputDir).run()
                     try installLibrary(config.module)
-                    try installLibrary("\(config.module)-c-sharp")
+                    try installLibrary("\(config.module)-iota")
+                case .dart:
+                    try cmd("mkdir", "-p", outputDir).run()
+                    let libs = [
+                        "FishyJoesIotaRuntime",
+                        config.module,
+                        config.module + "-iota",
+                    ] + config.requiredModules.flatMap { module in
+                        [
+                            module,
+                            module + "-iota",
+                        ]
+                    }
+                    for lib in libs {
+                        try installLibrary(lib, sign: true)
+                    }
                 }
             }
             if platforms.contains(.kotlinSystem) {
-                try FileManager.default.withCurrentDirectoryPath("kotlin") {
+                try withDirectory("kotlin") {
                     try cmd("./gradlew", "build", "-Dskip.tests").run()
                 }
             }
             if platforms.contains(.cSharp) {
-                try FileManager.default.withCurrentDirectoryPath("c-sharp") {
+                try withDirectory("c-sharp") {
                     try cmd("dotnet", "build", "Cricut.\(config.module).sln").run()
+                }
+            }
+            if platforms.contains(.dart) {
+                try withDirectory("dart") {
+                    try cmd("dart", "run", "build_runner", "build").run()
                 }
             }
             if version == nil {
@@ -426,7 +459,7 @@ extension CodeGen {
                         .append(toFile: packageJsonPath)
                         .run()
                 }
-            case .kotlinSystem, .kotlinAndroid, .cSharp:
+            case .kotlinSystem, .kotlinAndroid, .cSharp, .dart:
                 break
             }
         }
@@ -442,19 +475,23 @@ extension CodeGen {
                 } ?? [:]
                 switch platform {
                 case .wasm, .node:
-                    try FileManager.default.withCurrentDirectoryPath("node-test") {
+                    try withDirectory("node-test") {
                         try cmd("npm", "install").run()
                         try cmd("npm", "run", "clear-cache").run()
                         try cmd("npm", "run", "test-\(platform.platform)").run()
                     }
                 case .kotlinSystem:
-                    try FileManager.default.withCurrentDirectoryPath("kotlin") {
+                    try withDirectory("kotlin") {
                         let tasks = ["cleanTest", "test"] + (codeCoveragePath == nil ? [] : ["jacocoTestReport"])
                         try cmd("./gradlew", arguments: tasks, addEnv: env).run()
                     }
                 case .kotlinAndroid:
                     // TODO
                     break
+                case .dart:
+                    try withDirectory("dart") {
+                        try cmd("dart", "test", "--chain-stack-traces", addEnv: env).run()
+                    }
                 case .cSharp:
                     if !cmd("dotnet-coverage", "--version").runBool() {
                         printAndFlush("Couldn't find dotnet-coverage! Install with:")
@@ -463,7 +500,7 @@ extension CodeGen {
                         printAndFlush()
                         printAndFlush("and ensure that $HOME/.dotnet/tools is in your path")
                     }
-                    try FileManager.default.withCurrentDirectoryPath("c-sharp") {
+                    try withDirectory("c-sharp") {
                         var commandParts = ["dotnet", "test", "Cricut.\(config.module).sln"]
                         if let path = codeCoveragePath {
                             commandParts = ["dotnet-coverage", "collect", "-f", "xml", "-o", "\(path)/integration-tests-c-sharp.xml"] + commandParts
@@ -485,6 +522,18 @@ extension CodeGen {
                     try cmd("cp", "c-sharp/\(name)/bin/Release/\(name).\(version).nupkg", ".").run()
                 }
             }
+        }
+    }
+
+    func withDirectory<R>(_ dirName: String, body: () throws -> R) throws -> R {
+        func printDir() {
+            print("Entering directory `\(FileManager.default.currentDirectoryPath)'")
+            fflush(stdout)
+        }
+        defer { printDir() }
+        return try FileManager.default.withCurrentDirectoryPath(dirName) {
+            printDir()
+            return try body()
         }
     }
 }

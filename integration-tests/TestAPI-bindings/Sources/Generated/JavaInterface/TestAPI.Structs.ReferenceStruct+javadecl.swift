@@ -1,4 +1,4 @@
-// Generated using Sourcery 1.9.2 — https://github.com/krzysztofzablocki/Sourcery
+// Generated using Sourcery 2.0.2 — https://github.com/krzysztofzablocki/Sourcery
 // DO NOT EDIT
 // swiftlint:disable superfluous_disable_command unused_closure_parameter syntactic_sugar attributes
 import FishyJoesJavaRuntime
@@ -36,5 +36,16 @@ let java_get_TestAPI_Structs_ReferenceStruct_mutable: @convention(c) (
 ) -> Swift.String.CType = { _javaEnv, _javaThis in
     FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
         try Swift.String.toJava(TestAPI.Structs.ReferenceStruct.fromJava(_javaThis, env: _javaEnv).mutable, env: _javaEnv)
+    }
+}
+let java_set_TestAPI_Structs_ReferenceStruct_mutable: @convention(c) (
+    UnsafeMutablePointer<JNIEnv?>,
+    jobject,
+    Swift.String.CType
+) -> Void = { _javaEnv, _javaThis, newValue in
+    FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
+        try TestAPI.Structs.ReferenceStruct.mutateJava(_javaThis, env: _javaEnv) { value in
+            value.mutable = try Swift.String.fromJava(newValue, env: _javaEnv)
+        }
     }
 }

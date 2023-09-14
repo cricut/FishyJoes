@@ -1,4 +1,4 @@
-// Generated using Sourcery 1.9.2 — https://github.com/krzysztofzablocki/Sourcery
+// Generated using Sourcery 2.0.2 — https://github.com/krzysztofzablocki/Sourcery
 // DO NOT EDIT
 // swiftlint:disable superfluous_disable_command unused_closure_parameter syntactic_sugar attributes
 import FishyJoesNodeRuntime
@@ -63,8 +63,14 @@ extension TestAPI.Structs.ReferenceStruct: FishyJoesNodeRuntime.NodeConverter {
                                 try Swift.String.toNode(env.this(converter: TestAPI.Structs.ReferenceStruct.self).mutable, env: env.env)
                             }
                         },
-                        setter: nil
-                    ),
+                        setter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "mutable", expectedArgumentCount: 1) { env in
+                                var mutatingSelf = try env.this(converter: TestAPI.Structs.ReferenceStruct.self)
+                                mutatingSelf.mutable = try env.argument(at: 0, converter: Swift.String.self)
+                                try TestAPI.Structs.ReferenceStruct.mutateNode(mutatingSelf, this: env.this(), env: env.env)
+                                return nil
+                            }
+                        }),
                     isStatic: false
                 ),
             ],

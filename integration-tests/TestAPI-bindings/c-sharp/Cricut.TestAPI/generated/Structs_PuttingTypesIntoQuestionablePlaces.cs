@@ -16,11 +16,12 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static Cricut.TestAPI.Structs_PuttingTypesIntoQuestionablePlaces Create(
         ) {
-            return Check((out CreatedRef _exn) => __cs_TestAPI_Structs_PuttingTypesIntoQuestionablePlaces_create(out _exn)).Consume<Cricut.TestAPI.Structs_PuttingTypesIntoQuestionablePlaces>();
+            return Check((out CreatedRef _exn) => __iota_TestAPI_Structs_PuttingTypesIntoQuestionablePlaces_create(Loader.env, out _exn)).Consume<Cricut.TestAPI.Structs_PuttingTypesIntoQuestionablePlaces>();
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_TestAPI_Structs_PuttingTypesIntoQuestionablePlaces_create(
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_TestAPI_Structs_PuttingTypesIntoQuestionablePlaces_create(
+            IntPtr envRef,
             out CreatedRef exn
         );
 
@@ -30,11 +31,12 @@ namespace Cricut.TestAPI {
         public nint TestCall(
         ) {
             using var _thisHandle = new GCRef(this);
-            return Check((out CreatedRef _exn) => __cs_TestAPI_Structs_PuttingTypesIntoQuestionablePlaces_testCall(_thisHandle.ptr, out _exn));
+            return Check((out CreatedRef _exn) => __iota_TestAPI_Structs_PuttingTypesIntoQuestionablePlaces_testCall(Loader.env, _thisHandle.ptr, out _exn));
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern nint __cs_TestAPI_Structs_PuttingTypesIntoQuestionablePlaces_testCall(
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern nint __iota_TestAPI_Structs_PuttingTypesIntoQuestionablePlaces_testCall(
+            IntPtr envRef,
             UnownedRef self,
             out CreatedRef exn
         );

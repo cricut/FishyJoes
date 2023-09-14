@@ -30,9 +30,9 @@ let package = Package(
                 targets: ["__MODULE_NAME___JavaInterface"]
             ),
             .library(
-                name: "__MODULE_NAME__-c-sharp",
+                name: "__MODULE_NAME__-iota",
                 type: .dynamic,
-                targets: ["__MODULE_NAME___CSharpInterface"]
+                targets: ["__MODULE_NAME___IotaInterface"]
             ),
         ]
     ),
@@ -77,12 +77,12 @@ let package = Package(
                 path: "Sources/Generated/JavaInterface"
             ),
             .target(
-                name: "__MODULE_NAME___CSharpInterface",
+                name: "__MODULE_NAME___IotaInterface",
                 dependencies: [
                     .product(name: "__MODULE_NAME__", package: "__MODULE_NAME__"),
-                    .product(name: "FishyJoesCSharpRuntime", package: "FishyJoes"),__JAVA_TARGET_DEPENDENCIES__
+                    .product(name: "FishyJoesIotaRuntime", package: "FishyJoes"),__JAVA_TARGET_DEPENDENCIES__
                 ],
-                path: "Sources/Generated/CSharpInterface"
+                path: "Sources/Generated/IotaInterface"
             ),
         ]
     )

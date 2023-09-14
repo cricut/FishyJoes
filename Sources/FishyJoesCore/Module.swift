@@ -6,16 +6,17 @@ struct Module: Hashable, CustomStringConvertible, Codable {
 
     var kotlinPackage: String { "com.cricut.\(name.lowercased())" }
     var cSharpNamespace: String { "Cricut.\(name)" }
+    var dartNamespace: String { name }
     var description: String { name }
 }
 
 extension Module {
     var dllImportMark: String {
-        "[DllImport(\"\(cSharpLibName)\", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]"
+        "[DllImport(\"\(iotaLibName)\", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]"
     }
 
-    var cSharpLibName: String {
-        name == "FishyJoesRuntime" ? "FishyJoesCSharpRuntime" : "\(name)-c-sharp"
+    var iotaLibName: String {
+        name == "FishyJoesRuntime" ? "FishyJoesIotaRuntime" : "\(name)-iota"
     }
 
     static var runtime: Module {

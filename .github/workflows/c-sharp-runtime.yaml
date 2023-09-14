@@ -33,12 +33,12 @@ jobs:
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
-      - name: Build FishyJoesCSharpRuntime
+      - name: Build FishyJoesIotaRuntime
         shell: zsh {0}
         run: |
           set -euxo pipefail
 
-          ./scripts/compile-c-sharp-runtime.sh
+          ./scripts/compile-iota-runtime.sh
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
@@ -70,12 +70,12 @@ jobs:
           apt-get -y update
           apt-get -y install zsh patchelf
 
-      - name: Build FishyJoesCSharpRuntime
+      - name: Build FishyJoesIotaRuntime
         shell: zsh {0}
         run: |
           set -euxo pipefail
 
-          ./scripts/compile-c-sharp-runtime.sh
+          ./scripts/compile-iota-runtime.sh
 
       - name: Copy system swift runtime SOs
         shell: zsh {0}
@@ -130,7 +130,7 @@ jobs:
 
       - name: Compile swift
         run: |
-          swift build --product FishyJoesCSharpRuntime --configuration release --build-path ./.build/windows-build
+          swift build --product FishyJoesIotaRuntime --configuration release --build-path ./.build/windows-build
 
       - name: Copy resources
         shell: bash
@@ -140,7 +140,7 @@ jobs:
           LIB_DIR=c-sharp-runtime/runtimes/win/native/
 
           mkdir -p $LIB_DIR
-          cp .build/windows-build/x86_64-unknown-windows-msvc/release/FishyJoesCSharpRuntime.dll $LIB_DIR
+          cp .build/windows-build/x86_64-unknown-windows-msvc/release/FishyJoesIotaRuntime.dll $LIB_DIR
 
           cp -R /c/Library/icu-*/usr/bin/*.dll $LIB_DIR
           cp -R /c/Library/Swift-development/bin/*.dll $LIB_DIR

@@ -1,4 +1,4 @@
-// Generated using Sourcery 1.9.2 — https://github.com/krzysztofzablocki/Sourcery
+// Generated using Sourcery 2.0.2 — https://github.com/krzysztofzablocki/Sourcery
 // DO NOT EDIT
 // swiftlint:disable superfluous_disable_command unused_closure_parameter syntactic_sugar attributes
 import FishyJoesNodeRuntime
@@ -180,27 +180,27 @@ extension TestAPI.Primitives.PrimitiveHolder: NodeMutator {
             env: env,
             name: "Primitives.PrimitiveHolder",
             properties: [
-                "staticPropery": (
+                "staticProperty": (
                     .accessor(
                         getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "staticPropery", expectedArgumentCount: 0) { env in
-                                try ArrayConverter<OptionalConverter<Swift.UInt8>>.toNode(TestAPI.Primitives.PrimitiveHolder.staticPropery, env: env.env)
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "staticProperty", expectedArgumentCount: 0) { env in
+                                try ArrayConverter<OptionalConverter<Swift.UInt8>>.toNode(TestAPI.Primitives.PrimitiveHolder.staticProperty, env: env.env)
                             }
                         },
                         setter: nil
                     ),
                     isStatic: true
                 ),
-                "staticMutablePropery": (
+                "staticMutableProperty": (
                     .accessor(
                         getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "staticMutablePropery", expectedArgumentCount: 0) { env in
-                                try ArrayConverter<OptionalConverter<Swift.UInt8>>.toNode(TestAPI.Primitives.PrimitiveHolder.staticMutablePropery, env: env.env)
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "staticMutableProperty", expectedArgumentCount: 0) { env in
+                                try ArrayConverter<OptionalConverter<Swift.UInt8>>.toNode(TestAPI.Primitives.PrimitiveHolder.staticMutableProperty, env: env.env)
                             }
                         },
                         setter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "staticMutablePropery", expectedArgumentCount: 1) { env in
-                                TestAPI.Primitives.PrimitiveHolder.staticMutablePropery = try env.argument(at: 0, converter: ArrayConverter<OptionalConverter<Swift.UInt8>>.self)
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "staticMutableProperty", expectedArgumentCount: 1) { env in
+                                TestAPI.Primitives.PrimitiveHolder.staticMutableProperty = try env.argument(at: 0, converter: ArrayConverter<OptionalConverter<Swift.UInt8>>.self)
                                 return nil
                             }
                         }),

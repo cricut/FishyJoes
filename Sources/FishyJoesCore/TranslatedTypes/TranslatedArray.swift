@@ -12,6 +12,7 @@ struct TranslatedArray: TranslatedType {
     let kotlinPackage: String? = "kotlin.collections"
     let jniType = JNIType.object("java/util/List")
     var cSharpType: CSharpClass.CSType
+    var dartType: DartClass.DartType
     let definingModule = Module.runtime
     let definingTSNamespace: String? = nil
 
@@ -24,12 +25,22 @@ struct TranslatedArray: TranslatedType {
         self.neutralName = "List<V=\(element.neutralName)>"
         self.containedNamedTypes = element.containedNamedTypes
         self.cSharpType = .named(package: "System.Collections.Generic", name: "IList<\(element.cSharpType.name)>")
+        self.dartType = .named(package: nil, name: "List", genericArgs: [element.dartType])
     }
 
-    func cSharpSetupParameters(in context: FishyJoesContext) -> [CSharpSetupParameter] {
+    func cSharpSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<String>] {
         [
             .type(typeValue: elementType.cSharpType.name),
             .value(name: "typeName", type: "string") { fragment in
+                fragment.output("\"\(converterType.name)\",")
+            },
+        ]
+    }
+
+    func dartSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<DartClass.DartType>] {
+        return [
+            .type(typeValue: elementType.dartType),
+            .value(name: "typeName", type: .string) { fragment in
                 fragment.output("\"\(converterType.name)\",")
             },
         ]

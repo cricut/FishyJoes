@@ -18,6 +18,12 @@
           "package" : "Cricut.TestAPI"
         }
       },
+      "dartType" : {
+        "named" : {
+          "name" : "AssociatedDataEnum",
+          "package" : "TestAPI"
+        }
+      },
       "definingModule" : {
         "dependencies" : [
 
@@ -62,6 +68,12 @@
         "named" : {
           "name" : "Bytes",
           "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "Bytes",
+          "package" : "TestAPI"
         }
       },
       "definingModule" : {
@@ -110,6 +122,12 @@
           "package" : "Cricut.TestAPI"
         }
       },
+      "dartType" : {
+        "named" : {
+          "name" : "ClosedRanges",
+          "package" : "TestAPI"
+        }
+      },
       "definingModule" : {
         "dependencies" : [
 
@@ -154,6 +172,12 @@
         "named" : {
           "name" : "Collections",
           "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "Collections",
+          "package" : "TestAPI"
         }
       },
       "definingModule" : {
@@ -202,6 +226,12 @@
           "package" : "Cricut.TestAPI"
         }
       },
+      "dartType" : {
+        "named" : {
+          "name" : "Collections_CollectionHolder",
+          "package" : "TestAPI"
+        }
+      },
       "definingModule" : {
         "dependencies" : [
 
@@ -246,6 +276,12 @@
         "named" : {
           "name" : "DefaultArguments",
           "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "DefaultArguments",
+          "package" : "TestAPI"
         }
       },
       "definingModule" : {
@@ -294,6 +330,12 @@
           "package" : "Cricut.TestAPI"
         }
       },
+      "dartType" : {
+        "named" : {
+          "name" : "Deprecations",
+          "package" : "TestAPI"
+        }
+      },
       "definingModule" : {
         "dependencies" : [
 
@@ -338,6 +380,12 @@
         "named" : {
           "name" : "EmptyEnum",
           "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "EmptyEnum",
+          "package" : "TestAPI"
         }
       },
       "definingModule" : {
@@ -386,6 +434,12 @@
           "package" : "Cricut.TestAPI"
         }
       },
+      "dartType" : {
+        "named" : {
+          "name" : "Functions",
+          "package" : "TestAPI"
+        }
+      },
       "definingModule" : {
         "dependencies" : [
 
@@ -430,6 +484,12 @@
         "named" : {
           "name" : "Functions.TheError",
           "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "Functions_TheError",
+          "package" : "TestAPI"
         }
       },
       "definingModule" : {
@@ -478,6 +538,12 @@
           "package" : "Cricut.TestAPI"
         }
       },
+      "dartType" : {
+        "named" : {
+          "name" : "Methods",
+          "package" : "TestAPI"
+        }
+      },
       "definingModule" : {
         "dependencies" : [
 
@@ -522,6 +588,12 @@
         "named" : {
           "name" : "Primitives",
           "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "Primitives",
+          "package" : "TestAPI"
         }
       },
       "definingModule" : {
@@ -570,6 +642,12 @@
           "package" : "Cricut.TestAPI"
         }
       },
+      "dartType" : {
+        "named" : {
+          "name" : "Primitives_PrimitiveHolder",
+          "package" : "TestAPI"
+        }
+      },
       "definingModule" : {
         "dependencies" : [
 
@@ -614,6 +692,12 @@
         "named" : {
           "name" : "Ranges",
           "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "Ranges",
+          "package" : "TestAPI"
         }
       },
       "definingModule" : {
@@ -662,6 +746,12 @@
           "package" : "Cricut.TestAPI"
         }
       },
+      "dartType" : {
+        "named" : {
+          "name" : "SimpleEnum",
+          "package" : "TestAPI"
+        }
+      },
       "definingModule" : {
         "dependencies" : [
 
@@ -706,6 +796,12 @@
         "named" : {
           "name" : "Strings",
           "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "Strings",
+          "package" : "TestAPI"
         }
       },
       "definingModule" : {
@@ -754,6 +850,12 @@
           "package" : "Cricut.TestAPI"
         }
       },
+      "dartType" : {
+        "named" : {
+          "name" : "Structs",
+          "package" : "TestAPI"
+        }
+      },
       "definingModule" : {
         "dependencies" : [
 
@@ -798,6 +900,12 @@
         "named" : {
           "name" : "Structs.MemberwiseStruct",
           "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "Structs_MemberwiseStruct",
+          "package" : "TestAPI"
         }
       },
       "definingModule" : {
@@ -846,6 +954,12 @@
           "package" : "Cricut.TestAPI"
         }
       },
+      "dartType" : {
+        "named" : {
+          "name" : "Structs_PuttingTypesIntoQuestionablePlaces",
+          "package" : "TestAPI"
+        }
+      },
       "definingModule" : {
         "dependencies" : [
 
@@ -890,6 +1004,12 @@
         "named" : {
           "name" : "Structs.ReferenceStruct",
           "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "Structs_ReferenceStruct",
+          "package" : "TestAPI"
         }
       },
       "definingModule" : {
@@ -938,6 +1058,12 @@
           "package" : "Cricut.TestAPI"
         }
       },
+      "dartType" : {
+        "named" : {
+          "name" : "String_PuttingTypesIntoQuestionablePlaces",
+          "package" : "TestAPI"
+        }
+      },
       "definingModule" : {
         "dependencies" : [
 
@@ -984,6 +1110,12 @@
           "package" : "Cricut.TestAPI"
         }
       },
+      "dartType" : {
+        "named" : {
+          "name" : "Tuples",
+          "package" : "TestAPI"
+        }
+      },
       "definingModule" : {
         "dependencies" : [
 
@@ -1028,6 +1160,12 @@
         "named" : {
           "name" : "UnicodeScalar_PuttingTypesIntoQuestionablePlaces",
           "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "UnicodeScalar_PuttingTypesIntoQuestionablePlaces",
+          "package" : "TestAPI"
         }
       },
       "definingModule" : {
@@ -2372,10 +2510,10 @@
                   },
                   {
                     "documentation" : [
-                      "<!-- FishyJoes.export(staticPropery) -->"
+                      "<!-- FishyJoes.export(staticProperty) -->"
                     ],
                     "isStatic" : true,
-                    "name" : "staticPropery",
+                    "name" : "staticProperty",
                     "readOnly" : true,
                     "type" : {
                       "named" : {
@@ -2385,10 +2523,10 @@
                   },
                   {
                     "documentation" : [
-                      "<!-- FishyJoes.export(staticMutablePropery) -->"
+                      "<!-- FishyJoes.export(staticMutableProperty) -->"
                     ],
                     "isStatic" : true,
-                    "name" : "staticMutablePropery",
+                    "name" : "staticMutableProperty",
                     "readOnly" : false,
                     "type" : {
                       "named" : {
@@ -3848,10 +3986,10 @@
                   },
                   {
                     "documentation" : [
-                      "<!-- FishyJoes.export(staticPropery) -->"
+                      "<!-- FishyJoes.export(staticProperty) -->"
                     ],
                     "isStatic" : true,
-                    "name" : "staticPropery",
+                    "name" : "staticProperty",
                     "readOnly" : true,
                     "type" : {
                       "named" : {
@@ -3861,10 +3999,10 @@
                   },
                   {
                     "documentation" : [
-                      "<!-- FishyJoes.export(staticMutablePropery) -->"
+                      "<!-- FishyJoes.export(staticMutableProperty) -->"
                     ],
                     "isStatic" : true,
-                    "name" : "staticMutablePropery",
+                    "name" : "staticMutableProperty",
                     "readOnly" : false,
                     "type" : {
                       "named" : {
@@ -6146,7 +6284,7 @@
                     ],
                     "isStatic" : false,
                     "name" : "immutable",
-                    "readOnly" : false,
+                    "readOnly" : true,
                     "type" : {
                       "named" : {
                         "_0" : "string"
@@ -6205,7 +6343,7 @@
                     ],
                     "isStatic" : false,
                     "name" : "immutable",
-                    "readOnly" : false,
+                    "readOnly" : true,
                     "type" : {
                       "named" : {
                         "_0" : "string"

@@ -13,6 +13,7 @@ struct TranslatedDictionary: TranslatedType {
     let kotlinPackage: String? = "kotlin.collections"
     let jniType = JNIType.object("java/util/Map")
     let cSharpType: CSharpClass.CSType
+    let dartType: DartClass.DartType
     let definingModule = Module.runtime
 
     init(key: TranslatedType, value: TranslatedType) {
@@ -29,9 +30,10 @@ struct TranslatedDictionary: TranslatedType {
             package: "System.Collections.Generic",
             name: "IDictionary<\(key.cSharpType.name), \(value.cSharpType.name)>"
         )
+        self.dartType = .named(package: nil, name: "Map", genericArgs: [key.dartType, value.dartType])
     }
 
-    func cSharpSetupParameters(in context: FishyJoesContext) -> [CSharpSetupParameter] {
+    func cSharpSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<String>] {
         [
             .type(typeValue: keyType.cSharpType.name),
             .type(typeValue: valueType.cSharpType.name),
@@ -39,6 +41,16 @@ struct TranslatedDictionary: TranslatedType {
                 name: "typeName",
                 type: "string"
             ) { fragment in
+                fragment.output("\"\(converterType.name)\",")
+            },
+        ]
+    }
+
+    func dartSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<DartClass.DartType>] {
+        return [
+            .type(typeValue: keyType.dartType),
+            .type(typeValue: valueType.dartType),
+            .value(name: "typeName", type: .string) { fragment in
                 fragment.output("\"\(converterType.name)\",")
             },
         ]

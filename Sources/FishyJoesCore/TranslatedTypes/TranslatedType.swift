@@ -10,11 +10,14 @@ protocol TranslatedType {
     var kotlinPackage: String? { get }
     var jniType: JNIType { get }
     var cSharpType: CSharpClass.CSType { get }
+    var dartType: DartClass.DartType { get }
     var definingModule: Module { get }
     var definingTSNamespace: String? { get }
     var isInhabited: Bool { get }
-    func cSharpSetupParameters(in context: FishyJoesContext) -> [CSharpSetupParameter]
+    func cSharpSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<String>]
     func cSharpSetupDelegates(in context: FishyJoesContext) -> [String]
+    func dartSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<DartClass.DartType>]
+    func dartSetupDelegates(in context: FishyJoesContext) -> [String]
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment]
 }
 
@@ -75,9 +78,11 @@ extension TranslatedType {
     }
 
     func cSharpSetupDelegates(in context: FishyJoesContext) -> [String] { [] }
-    func cSharpSetupParameters(in context: FishyJoesContext) -> [CSharpSetupParameter] { [] }
+    func cSharpSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<String>] { [] }
+    func dartSetupDelegates(in context: FishyJoesContext) -> [String] { [] }
+    func dartSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<DartClass.DartType>] { [] }
 
-    var cSharpSetupName: String {
+    var iotaSetupName: String {
         "\(converterType.genericBaseName.mangledName)_setup"
     }
 
@@ -132,9 +137,9 @@ extension JNIType {
     }
 }
 
-enum CSharpSetupParameter {
-    case type(typeValue: String)
-    case value(name: String, type: String, valueWriter: (SourceFragment) -> Void)
+enum ForeignSetupParameter<Typ> {
+    case type(typeValue: Typ)
+    case value(name: String, type: Typ, valueWriter: (SourceFragment) -> Void)
 
     var name: String? {
         switch self {
@@ -145,7 +150,7 @@ enum CSharpSetupParameter {
         }
     }
 
-    var type: String? {
+    var type: Typ? {
         switch self {
         case .type:
             return nil
@@ -163,7 +168,7 @@ enum CSharpSetupParameter {
         }
     }
 
-    var typeValue: String? {
+    var typeValue: Typ? {
         switch self {
         case .type(let value):
             return value
