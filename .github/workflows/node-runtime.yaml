@@ -259,8 +259,6 @@ jobs:
 
           $(cd ${{ env.MAC_LIB_DIR }}; npm publish *.tgz)
           $(cd ${{ env.UBUNTU_LIB_DIR }}; npm publish *.tgz)
-          # TODO: Windows
-          # $(cd ${{ env.WINDOWS_LIB_DIR }}; npm publish *.tgz)
 
 #
 # TODO: Windows
