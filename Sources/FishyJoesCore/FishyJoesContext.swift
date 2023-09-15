@@ -85,7 +85,7 @@ public class FishyJoesContext {
                 "using Cricut.FishyJoesRuntime;",
                 "using static Cricut.FishyJoesRuntime.Utilities;",
             ] + module.dependencies.map { dependency in
-                "using \(dependency.lowercased());"
+                "using Cricut.\(dependency);"
             }
         )
         return SourceFragment(sourceryDestination: "file:\(fileName)")
