@@ -1,8 +1,11 @@
 package com.cricut.testapi
 
+import kotlinx.coroutines.*
+
 /**
  * <!-- FishyJoes.export(EmptyEnum) -->
  */
+@OptIn(ExperimentalCoroutinesApi::class)
 sealed class EmptyEnum {
 
     companion object {

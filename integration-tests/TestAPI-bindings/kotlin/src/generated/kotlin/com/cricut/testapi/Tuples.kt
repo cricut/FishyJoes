@@ -1,8 +1,11 @@
 package com.cricut.testapi
 
+import kotlinx.coroutines.*
+
 /**
  * <!-- FishyJoes.export(Tuples) -->
  */
+@OptIn(ExperimentalCoroutinesApi::class)
 sealed class Tuples {
 
     companion object {

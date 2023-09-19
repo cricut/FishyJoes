@@ -1,8 +1,11 @@
 package com.cricut.testapi
 
+import kotlinx.coroutines.*
+
 /**
  * <!-- FishyJoes.export(Primitives) -->
  */
+@OptIn(ExperimentalCoroutinesApi::class)
 sealed class Primitives {
 
     companion object {

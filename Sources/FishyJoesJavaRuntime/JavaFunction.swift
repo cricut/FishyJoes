@@ -45,12 +45,32 @@ private struct AnyFunction0 {
     }
 }
 
+private struct AnyAsyncFunction0 {
+    let invoke: (Env) async throws -> jobject?
+
+    static let cInvoke: @convention(c) (UnsafeMutablePointer<JNIEnv?>, jobject) -> jobject? = { env, this in
+        asyncCallbackBody(env) { env in
+            try await Box<Self>.fromJava(this, env: env).value.invoke(env)
+        }
+    }
+}
+
 private struct AnyFunction1 {
     let invoke: (Env, jobject?) throws -> jobject?
 
     static let cInvoke: @convention(c) (UnsafeMutablePointer<JNIEnv?>, jobject, jobject?) -> jobject? = { env, this, p0 in
         callbackBody(env) { env in
             try Box<Self>.fromJava(this, env: env).value.invoke(env, p0)
+        }
+    }
+}
+
+private struct AnyAsyncFunction1 {
+    let invoke: (Env, jobject?) async throws -> jobject?
+
+    static let cInvoke: @convention(c) (UnsafeMutablePointer<JNIEnv?>, jobject, jobject) -> jobject? = { env, this, p0 in
+        asyncCallbackBody(env) { env in
+            try await Box<Self>.fromJava(this, env: env).value.invoke(env, p0)
         }
     }
 }
@@ -65,12 +85,32 @@ private struct AnyFunction2 {
     }
 }
 
+private struct AnyAsyncFunction2 {
+    let invoke: (Env, jobject?, jobject?) async throws -> jobject?
+
+    static let cInvoke: @convention(c) (UnsafeMutablePointer<JNIEnv?>, jobject, jobject, jobject) -> jobject? = { env, this, p0, p1 in
+        asyncCallbackBody(env) { env in
+            try await Box<Self>.fromJava(this, env: env).value.invoke(env, p0, p1)
+        }
+    }
+}
+
 private struct AnyFunction3 {
     let invoke: (Env, jobject?, jobject?, jobject?) throws -> jobject?
 
     static let cInvoke: @convention(c) (UnsafeMutablePointer<JNIEnv?>, jobject, jobject?, jobject?, jobject?) -> jobject? = { env, this, p0, p1, p2 in
         callbackBody(env) { env in
             try Box<Self>.fromJava(this, env: env).value.invoke(env, p0, p1, p2)
+        }
+    }
+}
+
+private struct AnyAsyncFunction3 {
+    let invoke: (Env, jobject?, jobject?, jobject?) async throws -> jobject?
+
+    static let cInvoke: @convention(c) (UnsafeMutablePointer<JNIEnv?>, jobject, jobject, jobject, jobject) -> jobject? = { env, this, p0, p1, p2 in
+        asyncCallbackBody(env) { env in
+            try await Box<Self>.fromJava(this, env: env).value.invoke(env, p0, p1, p2)
         }
     }
 }
@@ -85,6 +125,16 @@ private struct AnyFunction4 {
     }
 }
 
+private struct AnyAsyncFunction4 {
+    let invoke: (Env, jobject?, jobject?, jobject?, jobject?) async throws -> jobject?
+
+    static let cInvoke: @convention(c) (UnsafeMutablePointer<JNIEnv?>, jobject, jobject, jobject, jobject, jobject) -> jobject? = { env, this, p0, p1, p2, p3 in
+        asyncCallbackBody(env) { env in
+            try await Box<Self>.fromJava(this, env: env).value.invoke(env, p0, p1, p2, p3)
+        }
+    }
+}
+
 private struct AnyFunction5 {
     let invoke: (Env, jobject?, jobject?, jobject?, jobject?, jobject?) throws -> jobject?
 
@@ -95,12 +145,32 @@ private struct AnyFunction5 {
     }
 }
 
+private struct AnyAsyncFunction5 {
+    let invoke: (Env, jobject?, jobject?, jobject?, jobject?, jobject?) async throws -> jobject?
+
+    static let cInvoke: @convention(c) (UnsafeMutablePointer<JNIEnv?>, jobject, jobject, jobject, jobject, jobject, jobject) -> jobject? = { env, this, p0, p1, p2, p3, p4 in
+        asyncCallbackBody(env) { env in
+            try await Box<Self>.fromJava(this, env: env).value.invoke(env, p0, p1, p2, p3, p4)
+        }
+    }
+}
+
 private struct AnyFunction6 {
     let invoke: (Env, jobject?, jobject?, jobject?, jobject?, jobject?, jobject?) throws -> jobject?
 
     static let cInvoke: @convention(c) (UnsafeMutablePointer<JNIEnv?>, jobject, jobject?, jobject?, jobject?, jobject?, jobject?, jobject?) -> jobject? = { env, this, p0, p1, p2, p3, p4, p5 in
         callbackBody(env) { env in
             try Box<Self>.fromJava(this, env: env).value.invoke(env, p0, p1, p2, p3, p4, p5)
+        }
+    }
+}
+
+private struct AnyAsyncFunction6 {
+    let invoke: (Env, jobject?, jobject?, jobject?, jobject?, jobject?, jobject?) async throws -> jobject?
+
+    static let cInvoke: @convention(c) (UnsafeMutablePointer<JNIEnv?>, jobject, jobject, jobject, jobject, jobject, jobject, jobject) -> jobject? = { env, this, p0, p1, p2, p3, p4, p5 in
+        asyncCallbackBody(env) { env in
+            try await Box<Self>.fromJava(this, env: env).value.invoke(env, p0, p1, p2, p3, p4, p5)
         }
     }
 }
@@ -140,6 +210,54 @@ extension Function0Converter: JavaConverter where R: JavaConverter {
         try SwiftFunctionImpl.javaSetup(
             arity: 0,
             invokePointer: unsafeBitCast(AnyFunction0.cInvoke, to: UnsafeMutableRawPointer.self),
+            env: env
+        )
+    }
+}
+
+extension AsyncFunction0Converter: JavaConverter where R: JavaConverter {
+    public static var javaClass: jclass? {
+        SwiftFunctionImpl.implClass
+    }
+
+    public static func fromJava(_ value: jobject?, env: Env) throws -> SwiftType {
+        let escapingRef = try JavaReference(local: value, env: env)
+        let vm = try env.GetJavaVM()
+        return {
+            try await withCheckedThrowingContinuation { continuation in
+                do {
+                    let env = try Env.aquireJVMThread(on: vm)
+                    do {
+                        let value = try env.CallObjectMethod(
+                            escapingRef.object,
+                            SwiftFunctionImpl.invokeMethods[0]
+                        )
+                        continuation.resume(returning: try R.fromJava(object: value, env: env))
+                    } catch {
+                        try! Env.relenquishJVMThread(on: vm)
+                        continuation.resume(throwing: error)
+                    }
+                    try Env.relenquishJVMThread(on: vm)
+                } catch {
+                    continuation.resume(throwing: error)
+                }
+            }
+        }
+    }
+    
+    public static func toJava(_ value: @escaping SwiftType, env: Env) throws -> jobject? {
+        let erased = AnyAsyncFunction0 { env in
+            try await R.toJavaObject(value(), env: env)
+        }
+        let ptr = jvalue(pointer: Box(erased).retainedOpaque())
+        return try env.NewObject(SwiftFunctionImpl.implClass, SwiftFunctionImpl.constructor, jvalue(i: 0), ptr)
+    }
+    
+    public static func javaSetup(env: Env) throws {
+        try R.javaSetup(env: env)
+        try SwiftFunctionImpl.javaSetup(
+            arity: 0,
+            invokePointer: unsafeBitCast(AnyAsyncFunction0.cInvoke, to: UnsafeMutableRawPointer.self),
             env: env
         )
     }
@@ -188,6 +306,56 @@ extension Function1Converter: JavaConverter where R: JavaConverter, P0: JavaConv
     }
 }
 
+extension AsyncFunction1Converter: JavaConverter where R: JavaConverter, P0: JavaConverter {
+    public static var javaClass: jclass? {
+        SwiftFunctionImpl.implClass
+    }
+
+    public static func fromJava(_ value: jobject?, env: Env) throws -> SwiftType {
+        let escapingRef = try JavaReference(local: value, env: env)
+        let vm = try env.GetJavaVM()
+        return { p0 in
+            try await withCheckedThrowingContinuation { continuation in
+                do {
+                    let env = try Env.aquireJVMThread(on: vm)
+                    do {
+                        let value = try env.CallObjectMethod(
+                            escapingRef.object,
+                            SwiftFunctionImpl.invokeMethods[1],
+                            jvalue(l: P0.toJavaObject(p0, env: env))
+                        )
+                        continuation.resume(returning: try R.fromJava(object: value, env: env))
+                    } catch {
+                        try! Env.relenquishJVMThread(on: vm)
+                        continuation.resume(throwing: error)
+                    }
+                    try Env.relenquishJVMThread(on: vm)
+                } catch {
+                    continuation.resume(throwing: error)
+                }
+            }
+        }
+    }
+    
+    public static func toJava(_ value: @escaping SwiftType, env: Env) throws -> jobject? {
+        let erased = AnyAsyncFunction1 { env, p0 in
+            let v0 = try P0.fromJava(object: p0, env: env)
+            return try await R.toJavaObject(value(v0), env: env)
+        }
+        let ptr = jvalue(pointer: Box(erased).retainedOpaque())
+        return try env.NewObject(SwiftFunctionImpl.implClass, SwiftFunctionImpl.constructor, jvalue(i: 0), ptr)
+    }
+    
+    public static func javaSetup(env: Env) throws {
+        try R.javaSetup(env: env)
+        try SwiftFunctionImpl.javaSetup(
+            arity: 1,
+            invokePointer: unsafeBitCast(AnyAsyncFunction1.cInvoke, to: UnsafeMutableRawPointer.self),
+            env: env
+        )
+    }
+}
+
 extension Function2Converter: JavaConverter where R: JavaConverter, P0: JavaConverter, P1: JavaConverter {
     public static var javaClass: jclass? {
         SwiftFunctionImpl.implClass
@@ -229,6 +397,58 @@ extension Function2Converter: JavaConverter where R: JavaConverter, P0: JavaConv
         try SwiftFunctionImpl.javaSetup(
             arity: 2,
             invokePointer: unsafeBitCast(AnyFunction2.cInvoke, to: UnsafeMutableRawPointer.self),
+            env: env
+        )
+    }
+}
+
+extension AsyncFunction2Converter: JavaConverter where R: JavaConverter, P0: JavaConverter, P1: JavaConverter {
+    public static var javaClass: jclass? {
+        SwiftFunctionImpl.implClass
+    }
+
+    public static func fromJava(_ value: jobject?, env: Env) throws -> SwiftType {
+        let escapingRef = try JavaReference(local: value, env: env)
+        let vm = try env.GetJavaVM()
+        return { p0, p1 in
+            try await withCheckedThrowingContinuation { continuation in
+                do {
+                    let env = try Env.aquireJVMThread(on: vm)
+                    do {
+                        let value = try env.CallObjectMethod(
+                            escapingRef.object,
+                            SwiftFunctionImpl.invokeMethods[2],
+                            jvalue(l: P0.toJavaObject(p0, env: env)),
+                            jvalue(l: P1.toJavaObject(p1, env: env))
+                        )
+                        continuation.resume(returning: try R.fromJava(object: value, env: env))
+                    } catch {
+                        try! Env.relenquishJVMThread(on: vm)
+                        continuation.resume(throwing: error)
+                    }
+                    try Env.relenquishJVMThread(on: vm)
+                } catch {
+                    continuation.resume(throwing: error)
+                }
+            }
+        }
+    }
+    
+    public static func toJava(_ value: @escaping SwiftType, env: Env) throws -> jobject? {
+        let erased = AnyAsyncFunction2 { env, p0, p1 in
+            let v0 = try P0.fromJava(object: p0, env: env)
+            let v1 = try P1.fromJava(object: p1, env: env)
+            return try await R.toJavaObject(value(v0, v1), env: env)
+        }
+        let ptr = jvalue(pointer: Box(erased).retainedOpaque())
+        return try env.NewObject(SwiftFunctionImpl.implClass, SwiftFunctionImpl.constructor, jvalue(i: 0), ptr)
+    }
+    
+    public static func javaSetup(env: Env) throws {
+        try R.javaSetup(env: env)
+        try SwiftFunctionImpl.javaSetup(
+            arity: 2,
+            invokePointer: unsafeBitCast(AnyAsyncFunction2.cInvoke, to: UnsafeMutableRawPointer.self),
             env: env
         )
     }

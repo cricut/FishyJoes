@@ -64,10 +64,24 @@ internal class FunctionTests {
         }
     }
 
-    /*
     @Test
     fun testAsyncYieldingFunctionCall() {
-        Functions.asyncYieldFunc()
+        kotlinx.coroutines.runBlocking {
+            Functions.asyncYieldFunc()
+        }
     }
-    */
+
+    @Test
+    fun testAsyncSleepFunctionCal() {
+        kotlinx.coroutines.runBlocking {
+            Functions.asyncSleepFunc()
+        }
+    }
+
+    @Test
+    fun testAsyncVoidFunctionCall() {
+        kotlinx.coroutines.runBlocking {
+            Functions.asyncVoidFunc()
+        }
+    }
 }

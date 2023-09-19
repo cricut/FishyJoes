@@ -24,8 +24,8 @@ extension Structs.ReferenceStruct: JavaMutator {
     public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout Structs.ReferenceStruct) throws -> R) throws -> R {
         try body(&Box<Structs.ReferenceStruct>.fromJava(this, env: env).value)
     }
-    public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout Structs.ReferenceStruct) async throws -> R) async throws -> R {
-        try await body(&Box<Structs.ReferenceStruct>.fromJava(this, env: env).value)
+    public static func mutateJava<R>(_ this: jobject?, env: inout Env, body: (inout Structs.ReferenceStruct, inout Env) async throws -> R) async throws -> R {
+        try await body(&Box<Structs.ReferenceStruct>.fromJava(this, env: env).value, &env)
     }
     static let _javaEquals: @convention(c)(
         UnsafeMutablePointer<JNIEnv?>,

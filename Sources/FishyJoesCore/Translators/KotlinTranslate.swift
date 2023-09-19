@@ -23,7 +23,7 @@ final class KotlinTranslator: Translator {
             if method.isStatic {
                 selfExpression = containingNamespace
             } else if method.isAsync && method.isMutating {
-                selfExpression = "\(resolved.converterType.name).mutateJava(_javaThis, env: _javaEnv)"
+                selfExpression = "\(resolved.converterType.name).mutateJava(_javaThis, env: &_javaEnv)"
             } else {
                 selfExpression = "\(resolved.converterType.name).fromJava(_javaThis, env: _javaEnv)"
             }
@@ -58,9 +58,12 @@ final class KotlinTranslator: Translator {
             let resolved = context.resolve(type: parameter.type, generics: exportAnnotation.genericOverrides)
             jniSignature += resolved.jniType.asSignature
         }
+        if method.isAsync {
+            jniSignature += "Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;"
+        }
         let returnType = context.resolve(type: method.returnType, generics: exportAnnotation.genericOverrides)
         let returnSignature = method.isAsync ? "Void" : "\(returnType.converterType.name).CType"
-        jniSignature = "(\(jniSignature))\(returnType.jniType.asSignature)"
+        jniSignature = "(\(jniSignature))\(method.isAsync ? "V" : returnType.jniType.asSignature)"
 
         let cMethod = "java_\(containingNamespace)_\(exportAnnotation.name)".replacingOccurrences(of: ".", with: "_")
         allMethods[containingNamespace, default: []].append(("__jni_\(exportAnnotation.name)", jniSignature, cMethod))
@@ -95,12 +98,13 @@ final class KotlinTranslator: Translator {
                                 return "let \(parameter.name) = try \(resolved.converterType.name).fromJava(\(parameter.name)Ref.createLocalRef(env: _javaEnv), env: _javaEnv)"
                             }
                             fragment.output("\(method.isMutating ? "var" : "let") value: Result<\(method.returnType.name), any Error>\(method.isMutating ? "!" : "")")
+                            fragment.output("var _javaEnv: Env!")
                             fragment.outputBlock("do {", newLineTerminated: false) {
                                 var mutateBlock: (() -> Void) -> Void = { $0() }
                                 if method.isMutating {
                                     let _selfExpression = selfExpression
                                     mutateBlock = { body in
-                                        fragment.outputBlock("try await \(_selfExpression) { mutatingSelf in", closeWith: "}") {
+                                        fragment.outputBlock("try await \(_selfExpression) { mutatingSelf, _javaEnv in", closeWith: "}") {
                                             body()
                                         }
                                     }
@@ -109,6 +113,7 @@ final class KotlinTranslator: Translator {
 
                                 mutateBlock {
                                     fragment.output("try! Env.relenquishJVMThread(on: _vm)")
+                                    fragment.output("defer { _javaEnv = try! Env.aquireJVMThread(on: _vm) }")
                                     fragment.outputBlock("value = .success(", closeWith: ")") {
                                         fragment.outputBlock("\(method.isThrowing ? "try " : "")await \(selfExpression)\(callName)(", closeWith: ")") {
                                             fragment.outputMap(method.parameters, separator: ",") { formal in
@@ -121,7 +126,6 @@ final class KotlinTranslator: Translator {
                             fragment.outputBlock(" catch {") {
                                 fragment.output("value = .failure(error)")
                             }
-                            fragment.output("let _javaEnv = try! Env.aquireJVMThread(on: _vm)")
                             fragment.outputBlock("try Function1Converter<\(returnType.converterType.name)\(returnType.converterType.name.hasSuffix("Converter") ? "" : ".CType"), VoidConverter>.fromJava(", closeWith: ")", newLineTerminated: false) {
                                 fragment.output("_successContinuationRef.createLocalRef(env: _javaEnv),")
                                 fragment.output("env: _javaEnv")
@@ -369,10 +373,11 @@ final class KotlinTranslator: Translator {
             KotlinClass.Method(
                 documentation: method.documentation,
                 isStatic: method.isStatic,
+                isSuspend: method.isAsync,
                 isOverride: method.exportAnnotation.isOverride,
                 name: exportAnnotation.name,
                 parameters: parameters,
-                returnType: method.isAsync ? .void : context.resolve(type: method.returnType, generics: exportAnnotation.genericOverrides).kotlinType,
+                returnType: context.resolve(type: method.returnType, generics: exportAnnotation.genericOverrides).kotlinType,
                 deprecation: method.deprecation,
                 body: nil
             )
@@ -402,6 +407,7 @@ final class KotlinTranslator: Translator {
                 KotlinClass.Method(
                     documentation: field.documentation,
                     isStatic: field.isStatic,
+                    isSuspend: field.isAsync,
                     isOverride: field.exportAnnotation?.isOverride ?? false,
                     name: ktName,
                     parameters: [],

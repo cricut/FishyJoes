@@ -248,6 +248,45 @@ namespace Cricut.TestAPI {
         );
 
         /// <summary>
+        /// <!-- FishyJoes.export(asyncYieldFunc) -->
+        /// </summary>
+        public static nint AsyncYieldFunc(
+        ) {
+            return Check((out CreatedRef _exn) => __cs_Functions_asyncYieldFunc(out _exn));
+        }
+
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern nint __cs_Functions_asyncYieldFunc(
+            out CreatedRef exn
+        );
+
+        /// <summary>
+        /// <!-- FishyJoes.export(asyncSleepFunc) -->
+        /// </summary>
+        public static nint AsyncSleepFunc(
+        ) {
+            return Check((out CreatedRef _exn) => __cs_Functions_asyncSleepFunc(out _exn));
+        }
+
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern nint __cs_Functions_asyncSleepFunc(
+            out CreatedRef exn
+        );
+
+        /// <summary>
+        /// <!-- FishyJoes.export(asyncVoidFunc) -->
+        /// </summary>
+        public static void AsyncVoidFunc(
+        ) {
+            Check((out CreatedRef _exn) => __cs_Functions_asyncVoidFunc(out _exn));
+        }
+
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern void __cs_Functions_asyncVoidFunc(
+            out CreatedRef exn
+        );
+
+        /// <summary>
         /// <!-- FishyJoes.exportReference(Functions.TheError) -->
         /// </summary>
         public class TheError : SwiftReference {

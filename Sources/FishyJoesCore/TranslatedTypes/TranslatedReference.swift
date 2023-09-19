@@ -229,8 +229,8 @@ struct TranslatedReference: TranslatedType {
                 fragment.output("try body(&Box<\(sourceType.name)>.fromJava(this, env: env).value)")
             }
             
-            fragment.outputBlock("public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout \(sourceType.name)) async throws -> R) async throws -> R {") {
-                fragment.output("try await body(&Box<\(sourceType.name)>.fromJava(this, env: env).value)")
+            fragment.outputBlock("public static func mutateJava<R>(_ this: jobject?, env: inout Env, body: (inout \(sourceType.name), inout Env) async throws -> R) async throws -> R {") {
+                fragment.output("try await body(&Box<\(sourceType.name)>.fromJava(this, env: env).value, &env)")
             }
 
             if equatable != hashable {
@@ -298,6 +298,7 @@ struct TranslatedReference: TranslatedType {
                     KotlinClass.Method(
                         documentation: [],
                         isStatic: true,
+                        isSuspend: false,
                         isOverride: false,
                         name: "swiftEquals",
                         parameters: [
@@ -315,6 +316,7 @@ struct TranslatedReference: TranslatedType {
                     KotlinClass.Method(
                         documentation: [],
                         isStatic: false,
+                        isSuspend: false,
                         isOverride: true,
                         name: "equals",
                         parameters: [
@@ -333,6 +335,7 @@ struct TranslatedReference: TranslatedType {
                     KotlinClass.Method(
                         documentation: [],
                         isStatic: false,
+                        isSuspend: false,
                         isOverride: true,
                         name: "hashCode",
                         parameters: [],

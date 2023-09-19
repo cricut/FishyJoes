@@ -1,5 +1,5 @@
 package com.cricut.testapi
-import com.sun.jdi.VoidValue
+
 import kotlinx.coroutines.*
 
 /**
@@ -174,21 +174,100 @@ sealed class Functions {
             return coroutineScope {
                 async {
                     suspendCancellableCoroutine { continuation: CancellableContinuation<Long> ->
-                        __jni_async42Func({ value ->
-                            continuation.resume(value, null)
-                        }) { message ->
+                        __jni_async42Func(
+                            { value ->
+                                continuation.resume(value, null)
+                            }
+                        ) { message ->
                             continuation.cancel(Error(message))
                         }
                     }
                 }.await()
             }
         }
-
         @JvmStatic
         @JvmName("__jni_async42Func")
         private external fun __jni_async42Func(
-                successContinuation: (Long) -> Unit,
-                failureContinuation: (String) -> Unit
+            successContinuation: (Long) -> Unit,
+            failureContinuation: (String) -> Unit
+        )
+
+        /**
+         * <!-- FishyJoes.export(asyncYieldFunc) -->
+         */
+        suspend fun asyncYieldFunc(
+        ): Long {
+            return coroutineScope {
+                async {
+                    suspendCancellableCoroutine { continuation: CancellableContinuation<Long> ->
+                        __jni_asyncYieldFunc(
+                            { value ->
+                                continuation.resume(value, null)
+                            }
+                        ) { message ->
+                            continuation.cancel(Error(message))
+                        }
+                    }
+                }.await()
+            }
+        }
+        @JvmStatic
+        @JvmName("__jni_asyncYieldFunc")
+        private external fun __jni_asyncYieldFunc(
+            successContinuation: (Long) -> Unit,
+            failureContinuation: (String) -> Unit
+        )
+
+        /**
+         * <!-- FishyJoes.export(asyncSleepFunc) -->
+         */
+        suspend fun asyncSleepFunc(
+        ): Long {
+            return coroutineScope {
+                async {
+                    suspendCancellableCoroutine { continuation: CancellableContinuation<Long> ->
+                        __jni_asyncSleepFunc(
+                            { value ->
+                                continuation.resume(value, null)
+                            }
+                        ) { message ->
+                            continuation.cancel(Error(message))
+                        }
+                    }
+                }.await()
+            }
+        }
+        @JvmStatic
+        @JvmName("__jni_asyncSleepFunc")
+        private external fun __jni_asyncSleepFunc(
+            successContinuation: (Long) -> Unit,
+            failureContinuation: (String) -> Unit
+        )
+
+        /**
+         * <!-- FishyJoes.export(asyncVoidFunc) -->
+         */
+        suspend fun asyncVoidFunc(
+        ): kotlin.Unit {
+            return coroutineScope {
+                async {
+                    suspendCancellableCoroutine { continuation: CancellableContinuation<Long> ->
+                        __jni_asyncVoidFunc(
+                            { value ->
+                                continuation.resume(value, null)
+                            }
+                        ) { message ->
+                            continuation.cancel(Error(message))
+                        }
+                    }
+                }.await()
+            }
+        }
+        @JvmStatic
+        @JvmName("__jni_asyncVoidFunc")
+        private external fun __jni_asyncVoidFunc(
+            successContinuation: (Long) -> Unit,
+            failureContinuation: (String) -> Unit
         )
 
         init { loadNativeLibs() }

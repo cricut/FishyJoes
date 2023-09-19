@@ -317,9 +317,9 @@ extension Primitives.PrimitiveHolder: JavaMutator {
         )
         return result
     }
-    public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout Self) async throws -> R) async throws -> R {
+    public static func mutateJava<R>(_ this: jobject?, env: inout Env, body: (inout Self, inout Env) async throws -> R) async throws -> R {
         var mutatingSelf = try fromJava(this, env: env)
-        let result = try await body(&mutatingSelf)
+        let result = try await body(&mutatingSelf, &env)
         try env.SetBooleanField(
             this, Self._java_b_id,
             Bool.toJava(mutatingSelf.b, env: env)

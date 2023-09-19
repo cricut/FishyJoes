@@ -14,6 +14,7 @@ class KotlinClass: NestedClass {
     struct Method {
         let documentation: [String]
         let isStatic: Bool
+        let isSuspend: Bool
         let isOverride: Bool
         let name: String
         let parameters: [(labelComment: String?, name: String, type: KType, defaultValue: String?)]
@@ -59,9 +60,11 @@ class KotlinClass: NestedClass {
 
         fragment.output("package \(module.kotlinPackage)")
         fragment.blankLine()
+        fragment.output("import kotlinx.coroutines.*")
         for dependency in module.dependencies {
             fragment.output("import com.cricut.\(dependency.lowercased()).*")
         }
+
         fragment.blankLine()
         output(to: fragment)
         return fragment
@@ -120,7 +123,7 @@ class KotlinClass: NestedClass {
             if method.isOverride {
                 fragment.output("override ", newLineTerminated: false)
             }
-            fragment.outputBlock("fun \(method.name)(", newLineTerminated: false) {
+            fragment.outputBlock("\(method.isSuspend ? "suspend " : "")fun \(method.name)(", newLineTerminated: false) {
                 fragment.outputMap(method.parameters, separator: ",") { parameter in
                     let labelComment = parameter.labelComment.map { "/* \($0) */ " } ?? ""
                     let defaultValue = parameter.defaultValue.map { " = \($0)" } ?? ""
@@ -132,6 +135,27 @@ class KotlinClass: NestedClass {
             }
             if let body = method.body {
                 fragment.output(" = \(body)\(method.returnType.toKotlinType)")
+            } else if method.isSuspend {
+                fragment.outputBlock(" {") {
+                    fragment.outputBlock("return coroutineScope {") {
+                        fragment.outputBlock("async {", newLineTerminated: false) {
+                            fragment.outputBlock("suspendCancellableCoroutine { continuation: CancellableContinuation<\(method.returnType.kotlinType)> ->", closeWith: "}") {
+                                fragment.outputBlock("__jni_\(method.name)(", closeWith: ")", newLineTerminated: false) {
+                                    fragment.outputMap(method.parameters, separator: "") { parameter in
+                                        parameter.name + ","
+                                    }
+                                    fragment.outputBlock("{ value ->", closeWith: "}") {
+                                        fragment.output("continuation.resume(value, null)")
+                                    }
+                                }
+                                fragment.outputBlock(" { message ->", closeWith: "}") {
+                                    fragment.output("continuation.cancel(Error(message))")
+                                }
+                            }
+                        }
+                        fragment.output(".await()")
+                    }
+                }
             } else {
                 fragment.output(" = __jni_\(method.name)(\(method.parameters.map({ "\($0.name)\($0.type.toJVMType)" }).joined(separator: ", ")))\(method.returnType.toKotlinType)")
             }
@@ -142,11 +166,22 @@ class KotlinClass: NestedClass {
             }
             fragment.output("@JvmName(\"__jni_\(method.name)\")")
             fragment.outputBlock("private external fun __jni_\(method.name)(", newLineTerminated: false) {
-                fragment.outputMap(method.parameters, separator: ",") { parameter in
+                fragment.outputMap(
+                    method.parameters + {
+                        guard method.isSuspend else {
+                            return []
+                        }
+                        return [
+                            (labelComment: nil, name: "successContinuation", type: .named(package: nil, name: "(\(method.returnType.kotlinType)) -> Unit") , defaultValue: nil),
+                            (labelComment: nil, name: "failureContinuation", type: .named(package: nil, name: "(String) -> Unit") , defaultValue: nil)
+                        ]
+                    }(),
+                    separator: ","
+                ) { parameter in
                     return "\(parameter.name): \(parameter.type.jvmType)"
                 }
             }
-            if method.returnType != KType.void {
+            if method.returnType != KType.void && !method.isSuspend {
                 fragment.output(": \(method.returnType.jvmType)", newLineTerminated: false)
             }
             fragment.output()
@@ -293,6 +328,7 @@ class KotlinEnumClass: KotlinClass {
 
     override func output(to fragment: SourceFragment) {
         document(documentation, fragment: fragment)
+        fragment.output("@OptIn(ExperimentalCoroutinesApi::class)")
         fragment.outputBlock("sealed class \(unqualifiedName) {") {
             for enumCase in cases {
                 switch enumCase {

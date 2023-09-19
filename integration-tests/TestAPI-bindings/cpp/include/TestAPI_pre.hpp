@@ -99,6 +99,9 @@ namespace TestAPI {
                 void* FJInternalBinding_TestAPI_Functions_exercise6(void*);
                 void* FJInternalBinding_TestAPI_Functions_willThrow();
                 void* FJInternalBinding_TestAPI_Functions_async42Func();
+                void* FJInternalBinding_TestAPI_Functions_asyncYieldFunc();
+                void* FJInternalBinding_TestAPI_Functions_asyncSleepFunc();
+                void* FJInternalBinding_TestAPI_Functions_asyncVoidFunc();
                 void* FJInternalBinding_TestAPI_Functions_getConst42();
                 void* FJInternalBinding_TestAPI_Functions_getIabs();
                 void* FJInternalBinding_TestAPI_Functions_getIntCompose();
@@ -241,6 +244,7 @@ namespace TestAPI {
                 void* FJInternalBinding_TestAPI_Structs_MemberwiseStruct_create();
                 void* FJInternalBinding_TestAPI_Structs_MutableStruct_create();
                 void* FJInternalBinding_TestAPI_Structs_MutableStruct_increment(void*);
+                void* FJInternalBinding_TestAPI_Structs_MutableStruct_incrementAsync(void*);
                 void* FJInternalBinding_TestAPI_Structs_ReferenceStruct_create();
                 void* FJInternalBinding_TestAPI_Structs_ReferenceStruct_getImmutable(void*);
                 void* FJInternalBinding_TestAPI_Structs_ReferenceStruct_setImmutable(void*, void*);

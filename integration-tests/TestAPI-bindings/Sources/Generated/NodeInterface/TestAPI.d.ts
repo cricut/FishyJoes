@@ -486,6 +486,24 @@ export declare namespace TestAPI {
         ): Promise<number>;
 
         /**
+         * <!-- FishyJoes.export(asyncSleepFunc) -->
+         */
+        function asyncSleepFunc(
+        ): Promise<number>;
+
+        /**
+         * <!-- FishyJoes.export(asyncVoidFunc) -->
+         */
+        function asyncVoidFunc(
+        ): Promise<void>;
+
+        /**
+         * <!-- FishyJoes.export(asyncYieldFunc) -->
+         */
+        function asyncYieldFunc(
+        ): Promise<number>;
+
+        /**
          * <!-- FishyJoes.export(const42) -->
          */
         const const42: () => number;
@@ -1409,6 +1427,12 @@ export declare namespace TestAPI {
              */
             increment(
             ): void;
+
+            /**
+             * <!-- FishyJoes.export(incrementAsync) -->
+             */
+            incrementAsync(
+            ): Promise<void>;
         }
 
         /**

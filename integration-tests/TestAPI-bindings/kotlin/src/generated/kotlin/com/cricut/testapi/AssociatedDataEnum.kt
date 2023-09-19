@@ -1,8 +1,11 @@
 package com.cricut.testapi
 
+import kotlinx.coroutines.*
+
 /**
  * <!-- FishyJoes.export(AssociatedDataEnum) -->
  */
+@OptIn(ExperimentalCoroutinesApi::class)
 sealed class AssociatedDataEnum {
     data class Thing(
         var value: Long

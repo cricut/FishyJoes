@@ -1,8 +1,11 @@
 package com.cricut.testapi
 
+import kotlinx.coroutines.*
+
 /**
  * <!-- FishyJoes.export(Ranges) -->
  */
+@OptIn(ExperimentalCoroutinesApi::class)
 sealed class Ranges {
 
     companion object {

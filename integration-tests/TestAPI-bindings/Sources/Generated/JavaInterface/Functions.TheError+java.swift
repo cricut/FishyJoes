@@ -24,8 +24,7 @@ extension Functions.TheError: JavaMutator {
     public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout Functions.TheError) throws -> R) throws -> R {
         try body(&Box<Functions.TheError>.fromJava(this, env: env).value)
     }
-    
-    public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout Functions.TheError) async throws -> R) async throws -> R {
-        try await body(&Box<Functions.TheError>.fromJava(this, env: env).value)
+    public static func mutateJava<R>(_ this: jobject?, env: inout Env, body: (inout Functions.TheError, inout Env) async throws -> R) async throws -> R {
+        try await body(&Box<Functions.TheError>.fromJava(this, env: env).value, &env)
     }
 }

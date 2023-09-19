@@ -65,6 +65,91 @@ public func callbackBody(
     }
 }
 
+public func asyncCallbackBody<R: Defaultable>(
+    _ env: UnsafeMutablePointer<JNIEnv?>,
+    _ body: @escaping (_ env: Env) async throws -> R
+) -> R {
+    let env = Env(env: env)
+    let condition = NSCondition()
+    let resultBox: UncheckedSendableBox<Result<R, any Error>> = .init(.success(.default))
+    
+    Task {
+        defer {
+            condition.lock()
+            condition.signal()
+            condition.unlock()
+        }
+        do {
+            let value = try await body(env)
+            resultBox.value = .success(value)
+        } catch {
+            resultBox.value = .failure(error)
+        }
+    }
+    // TODO: See if there is a way to do this with Kotlin concurrency that exposes better ways to wait for values than swift...
+    condition.lock()
+    condition.wait()
+    condition.unlock()
+    do {
+        return try resultBox.value.get()
+    } catch {
+        if env.ExceptionCheck() {
+            return .default
+        } else if let nullError = error as? NullPointerError {
+            guard let errorClass = try? env.FindClass("java/lang/NullPointerException"),
+                  env.ThrowNew(errorClass, nullError.message) else {
+                fatalError("error while throwing an error")
+            }
+            return .default
+        } else {
+            guard let errorClass = try? env.FindClass("java/lang/Error"),
+                  env.ThrowNew(errorClass, "\(error)") else {
+                fatalError("error while throwing an error")
+            }
+            return .default
+        }
+    }
+}
+
+public func asyncCallbackBody(
+    _ env: UnsafeMutablePointer<JNIEnv?>,
+    _ body: @escaping (_ env: Env) async throws -> Void
+) {
+    let env = Env(env: env)
+    let condition = NSCondition()
+    let resultBox: UncheckedSendableBox<Result<Void, any Error>> = .init(.success(Void()))
+    
+    Task {
+        defer {
+            condition.lock()
+            condition.signal()
+            condition.unlock()
+        }
+        do {
+            try await body(env)
+            resultBox.value = .success(Void())
+        } catch {
+            resultBox.value = .failure(error)
+        }
+    }
+    // TODO: See if there is a way to do this with Kotlin concurrency that exposes better ways to wait for values than swift...
+    condition.lock()
+    condition.wait()
+    condition.unlock()
+    do {
+        return try resultBox.value.get()
+    } catch {
+        if env.ExceptionCheck() {
+            return
+        }
+        guard let errorClass = try? env.FindClass("java/lang/Error"),
+              env.ThrowNew(errorClass, "\(error)") else {
+            fatalError("error while throwing an error")
+        }
+        return
+    }
+}
+
 public struct JavaExceptionPending: Error {}
 public struct NullPointerError: Error {
     public let message: String

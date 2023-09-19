@@ -1,8 +1,11 @@
 package com.cricut.testapi
 
+import kotlinx.coroutines.*
+
 /**
  * <!-- FishyJoes.export(Deprecations) -->
  */
+@OptIn(ExperimentalCoroutinesApi::class)
 sealed class Deprecations {
 
     companion object {
