@@ -14,7 +14,6 @@ struct SwiftPackage: Decodable {
     }
     let dependencies: [Dependency]
     let targets: [Target]
-
 }
 
 extension SwiftPackage.Dependency: Decodable {
