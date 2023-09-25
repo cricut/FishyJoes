@@ -223,7 +223,14 @@ extension CodeGen {
                     "--args", "fishyJoesExecutable=.build/debug/🐟☕️",
                     "--args", "stderrFifo=\(errorFifoPath)",
                     "--output", "Sources/Generated"
-                ].compactMap { $0 },
+                ].compactMap { $0 } + config.excludeSources.flatMap { exclude in
+                    var basePath = translateeSources
+                    if basePath.last != "/" {
+                        basePath += "/"
+                    }
+                    let path = basePath + exclude
+                    return ["--exclude-sources", path]
+                },
                 addEnv: sourceryEnv
             ).run()
             try errorReporter.succeed()
