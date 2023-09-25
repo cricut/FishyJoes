@@ -76,12 +76,13 @@ private struct AnyFunction0 {
     }
 }
 
+// kotlin.coroutines.Continuation
 private struct AnyAsyncFunction0 {
     let invoke: (Env, jobject?) async throws -> jobject?
 
-    static let cInvoke: @convention(c) (UnsafeMutablePointer<JNIEnv?>, jobject, jobject?) -> jobject? = { env, this, suspendContext in
+    static let cInvoke: @convention(c) (UnsafeMutablePointer<JNIEnv?>, jobject, jobject?) -> jobject? = { env, this, continuation in
         asyncCallbackBody(env) { env in
-            try await Box<Self>.fromJava(this, env: env).value.invoke(env, suspendContext)
+            try await Box<Self>.fromJava(this, env: env).value.invoke(env, continuation)
         }
     }
 }
@@ -99,9 +100,9 @@ private struct AnyFunction1 {
 private struct AnyAsyncFunction1 {
     let invoke: (Env, jobject?, jobject?) async throws -> jobject?
 
-    static let cInvoke: @convention(c) (UnsafeMutablePointer<JNIEnv?>, jobject?, jobject?, jobject?) -> jobject? = { env, this, suspendContext, p0 in
+    static let cInvoke: @convention(c) (UnsafeMutablePointer<JNIEnv?>, jobject?, jobject?, jobject?) -> jobject? = { env, this, p0, continuation in
         asyncCallbackBody(env) { env in
-            try await Box<Self>.fromJava(this, env: env).value.invoke(env, suspendContext, p0)
+            try await Box<Self>.fromJava(this, env: env).value.invoke(env, p0, continuation)
         }
     }
 }
@@ -119,9 +120,9 @@ private struct AnyFunction2 {
 private struct AnyAsyncFunction2 {
     let invoke: (Env, jobject?, jobject?, jobject?) async throws -> jobject?
 
-    static let cInvoke: @convention(c) (UnsafeMutablePointer<JNIEnv?>, jobject, jobject?, jobject?, jobject?) -> jobject? = { env, this, suspendContext, p0, p1 in
+    static let cInvoke: @convention(c) (UnsafeMutablePointer<JNIEnv?>, jobject, jobject?, jobject?, jobject?) -> jobject? = { env, this, p0, p1, continuation in
         asyncCallbackBody(env) { env in
-            try await Box<Self>.fromJava(this, env: env).value.invoke(env, suspendContext, p0, p1)
+            try await Box<Self>.fromJava(this, env: env).value.invoke(env, p0, p1, continuation)
         }
     }
 }
@@ -139,9 +140,9 @@ private struct AnyFunction3 {
 private struct AnyAsyncFunction3 {
     let invoke: (Env, jobject?, jobject?, jobject?, jobject?) async throws -> jobject?
 
-    static let cInvoke: @convention(c) (UnsafeMutablePointer<JNIEnv?>, jobject, jobject?, jobject?, jobject?, jobject?) -> jobject? = { env, this, suspendContext, p0, p1, p2 in
+    static let cInvoke: @convention(c) (UnsafeMutablePointer<JNIEnv?>, jobject, jobject?, jobject?, jobject?, jobject?) -> jobject? = { env, this, p0, p1, p2, continuation in
         asyncCallbackBody(env) { env in
-            try await Box<Self>.fromJava(this, env: env).value.invoke(env, suspendContext, p0, p1, p2)
+            try await Box<Self>.fromJava(this, env: env).value.invoke(env, p0, p1, p2, continuation)
         }
     }
 }
@@ -159,9 +160,9 @@ private struct AnyFunction4 {
 private struct AnyAsyncFunction4 {
     let invoke: (Env, jobject?, jobject?, jobject?, jobject?, jobject?) async throws -> jobject?
 
-    static let cInvoke: @convention(c) (UnsafeMutablePointer<JNIEnv?>, jobject, jobject?, jobject?, jobject?, jobject?, jobject?) -> jobject? = { env, this, suspendContext, p0, p1, p2, p3 in
+    static let cInvoke: @convention(c) (UnsafeMutablePointer<JNIEnv?>, jobject, jobject?, jobject?, jobject?, jobject?, jobject?) -> jobject? = { env, this, p0, p1, p2, p3, continuation in
         asyncCallbackBody(env) { env in
-            try await Box<Self>.fromJava(this, env: env).value.invoke(env, suspendContext, p0, p1, p2, p3)
+            try await Box<Self>.fromJava(this, env: env).value.invoke(env, p0, p1, p2, p3, continuation)
         }
     }
 }
@@ -179,9 +180,9 @@ private struct AnyFunction5 {
 private struct AnyAsyncFunction5 {
     let invoke: (Env, jobject?, jobject?, jobject?, jobject?, jobject?, jobject?) async throws -> jobject?
 
-    static let cInvoke: @convention(c) (UnsafeMutablePointer<JNIEnv?>, jobject, jobject?, jobject?, jobject?, jobject?, jobject?, jobject?) -> jobject? = { env, this, suspendContext, p0, p1, p2, p3, p4 in
+    static let cInvoke: @convention(c) (UnsafeMutablePointer<JNIEnv?>, jobject, jobject?, jobject?, jobject?, jobject?, jobject?, jobject?) -> jobject? = { env, this, p0, p1, p2, p3, p4, continuation in
         asyncCallbackBody(env) { env in
-            try await Box<Self>.fromJava(this, env: env).value.invoke(env, suspendContext, p0, p1, p2, p3, p4)
+            try await Box<Self>.fromJava(this, env: env).value.invoke(env, p0, p1, p2, p3, p4, continuation)
         }
     }
 }
@@ -199,9 +200,9 @@ private struct AnyFunction6 {
 private struct AnyAsyncFunction6 {
     let invoke: (Env, jobject?, jobject?, jobject?, jobject?, jobject?, jobject?, jobject?) async throws -> jobject?
 
-    static let cInvoke: @convention(c) (UnsafeMutablePointer<JNIEnv?>, jobject, jobject?, jobject?, jobject?, jobject?, jobject?, jobject?, jobject?) -> jobject? = { env, this, suspendContext, p0, p1, p2, p3, p4, p5 in
+    static let cInvoke: @convention(c) (UnsafeMutablePointer<JNIEnv?>, jobject, jobject?, jobject?, jobject?, jobject?, jobject?, jobject?, jobject?) -> jobject? = { env, this, p0, p1, p2, p3, p4, p5, continuation in
         asyncCallbackBody(env) { env in
-            try await Box<Self>.fromJava(this, env: env).value.invoke(env, suspendContext, p0, p1, p2, p3, p4, p5)
+            try await Box<Self>.fromJava(this, env: env).value.invoke(env, p0, p1, p2, p3, p4, p5, continuation)
         }
     }
 }

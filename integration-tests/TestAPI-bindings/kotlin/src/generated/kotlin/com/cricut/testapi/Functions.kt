@@ -270,6 +270,12 @@ sealed class Functions {
             failureContinuation: (String) -> Unit
         )
 
+        fun foo(
+            f: (suspend (Long, String) -> String)
+        ) {
+
+        }
+
         /**
          * <!-- FishyJoes.export(asyncCallbackFunc0) -->
          */
