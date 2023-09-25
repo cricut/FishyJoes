@@ -287,7 +287,7 @@ extension CodeGen {
                     let installName = installName ?? "lib\(name).\(platform.dylibExt)"
                     let dest = "\(outputDir)/\(installName)"
                     try cmd("cp", src, dest).run()
-                    if sign {
+                    if sign, platform.dylibExt == "dylib" {
                         try cmd("codesign", "-s", "-", dest).run()
                     }
                 }

@@ -4,6 +4,9 @@ struct SwiftPackage: Decodable {
     enum Dependency {
         case scm(identity: String, location: URL)
         case local(identity: String, path: String)
+        struct Remote: Decodable {
+            let urlString: URL
+        }
     }
     struct Target: Decodable {
         let name: String
@@ -44,7 +47,7 @@ extension SwiftPackage.Dependency: Decodable {
 
             let locationContainer = try scmContainer.nestedContainer(keyedBy: LocationCodingKeys.self, forKey: .location)
             var remoteContainer = try locationContainer.nestedUnkeyedContainer(forKey: .remote)
-            let location = try remoteContainer.decode(URL.self)
+            let location = try (try? remoteContainer.decode(URL.self)) ?? remoteContainer.decode(Remote.self).urlString
             self = .scm(identity: identity, location: location)
         } else if var scmListContainer = try? container.nestedUnkeyedContainer(forKey: .scm) {
             let scmContainer = try scmListContainer.nestedContainer(keyedBy: SCMCodingKeys.self)
