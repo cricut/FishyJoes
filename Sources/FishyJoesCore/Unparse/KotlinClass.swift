@@ -139,7 +139,7 @@ class KotlinClass: NestedClass {
                 fragment.outputBlock(" {") {
                     fragment.outputBlock("return coroutineScope {") {
                         fragment.outputBlock("async {", newLineTerminated: false) {
-                            fragment.outputBlock("suspendCancellableCoroutine { continuation: CancellableContinuation<\(method.returnType.kotlinType)> ->", closeWith: "}") {
+                            fragment.outputBlock("suspendCancellableCoroutine { continuation: CancellableContinuation<\(method.returnType.kotlinType)\(method.returnType.kotlinType == "kotlin.Unit" ? "?" : "")> ->", closeWith: "}") {
                                 fragment.outputBlock("__jni_\(method.name)(", closeWith: ")", newLineTerminated: false) {
                                     fragment.outputMap(method.parameters, separator: "") { parameter in
                                         parameter.name + ","
@@ -172,7 +172,7 @@ class KotlinClass: NestedClass {
                             return []
                         }
                         return [
-                            (labelComment: nil, name: "successContinuation", type: .named(package: nil, name: "(\(method.returnType.kotlinType)) -> Unit") , defaultValue: nil),
+                            (labelComment: nil, name: "successContinuation", type: .named(package: nil, name: "(\(method.returnType.kotlinType)\(method.returnType.kotlinType == "kotlin.Unit" ? "?" : "")) -> Unit") , defaultValue: nil),
                             (labelComment: nil, name: "failureContinuation", type: .named(package: nil, name: "(String) -> Unit") , defaultValue: nil)
                         ]
                     }(),

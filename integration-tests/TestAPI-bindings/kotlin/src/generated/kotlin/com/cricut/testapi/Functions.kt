@@ -251,7 +251,7 @@ sealed class Functions {
         ): kotlin.Unit {
             return coroutineScope {
                 async {
-                    suspendCancellableCoroutine { continuation: CancellableContinuation<Long> ->
+                    suspendCancellableCoroutine { continuation: CancellableContinuation<kotlin.Unit?> ->
                         __jni_asyncVoidFunc(
                             { value ->
                                 continuation.resume(value, null)
@@ -266,6 +266,209 @@ sealed class Functions {
         @JvmStatic
         @JvmName("__jni_asyncVoidFunc")
         private external fun __jni_asyncVoidFunc(
+            successContinuation: (kotlin.Unit?) -> Unit,
+            failureContinuation: (String) -> Unit
+        )
+
+        /**
+         * <!-- FishyJoes.export(asyncCallbackFunc0) -->
+         */
+        suspend fun asyncCallbackFunc0(
+            callback: (() -> Long)
+        ): Long {
+            return coroutineScope {
+                async {
+                    suspendCancellableCoroutine { continuation: CancellableContinuation<Long> ->
+                        __jni_asyncCallbackFunc0(
+                            callback,
+                            { value ->
+                                continuation.resume(value, null)
+                            }
+                        ) { message ->
+                            continuation.cancel(Error(message))
+                        }
+                    }
+                }.await()
+            }
+        }
+        @JvmStatic
+        @JvmName("__jni_asyncCallbackFunc0")
+        private external fun __jni_asyncCallbackFunc0(
+            callback: (() -> Long),
+            successContinuation: (Long) -> Unit,
+            failureContinuation: (String) -> Unit
+        )
+
+        /**
+         * <!-- FishyJoes.export(asyncCallbackFunc1) -->
+         */
+        suspend fun asyncCallbackFunc1(
+            callback: ((Long) -> Long)
+        ): Long {
+            return coroutineScope {
+                async {
+                    suspendCancellableCoroutine { continuation: CancellableContinuation<Long> ->
+                        __jni_asyncCallbackFunc1(
+                            callback,
+                            { value ->
+                                continuation.resume(value, null)
+                            }
+                        ) { message ->
+                            continuation.cancel(Error(message))
+                        }
+                    }
+                }.await()
+            }
+        }
+        @JvmStatic
+        @JvmName("__jni_asyncCallbackFunc1")
+        private external fun __jni_asyncCallbackFunc1(
+            callback: ((Long) -> Long),
+            successContinuation: (Long) -> Unit,
+            failureContinuation: (String) -> Unit
+        )
+
+        /**
+         * <!-- FishyJoes.export(asyncCallbackFunc2) -->
+         */
+        suspend fun asyncCallbackFunc2(
+            callback: ((Long, Long) -> Long)
+        ): Long {
+            return coroutineScope {
+                async {
+                    suspendCancellableCoroutine { continuation: CancellableContinuation<Long> ->
+                        __jni_asyncCallbackFunc2(
+                            callback,
+                            { value ->
+                                continuation.resume(value, null)
+                            }
+                        ) { message ->
+                            continuation.cancel(Error(message))
+                        }
+                    }
+                }.await()
+            }
+        }
+        @JvmStatic
+        @JvmName("__jni_asyncCallbackFunc2")
+        private external fun __jni_asyncCallbackFunc2(
+            callback: ((Long, Long) -> Long),
+            successContinuation: (Long) -> Unit,
+            failureContinuation: (String) -> Unit
+        )
+
+        /**
+         * <!-- FishyJoes.export(asyncCallbackFunc3) -->
+         */
+        suspend fun asyncCallbackFunc3(
+            callback: ((Long, Long, Long) -> Long)
+        ): Long {
+            return coroutineScope {
+                async {
+                    suspendCancellableCoroutine { continuation: CancellableContinuation<Long> ->
+                        __jni_asyncCallbackFunc3(
+                            callback,
+                            { value ->
+                                continuation.resume(value, null)
+                            }
+                        ) { message ->
+                            continuation.cancel(Error(message))
+                        }
+                    }
+                }.await()
+            }
+        }
+        @JvmStatic
+        @JvmName("__jni_asyncCallbackFunc3")
+        private external fun __jni_asyncCallbackFunc3(
+            callback: ((Long, Long, Long) -> Long),
+            successContinuation: (Long) -> Unit,
+            failureContinuation: (String) -> Unit
+        )
+
+        /**
+         * <!-- FishyJoes.export(asyncCallbackFunc4) -->
+         */
+        suspend fun asyncCallbackFunc4(
+            callback: ((Long, Long, Long, Long) -> Long)
+        ): Long {
+            return coroutineScope {
+                async {
+                    suspendCancellableCoroutine { continuation: CancellableContinuation<Long> ->
+                        __jni_asyncCallbackFunc4(
+                            callback,
+                            { value ->
+                                continuation.resume(value, null)
+                            }
+                        ) { message ->
+                            continuation.cancel(Error(message))
+                        }
+                    }
+                }.await()
+            }
+        }
+        @JvmStatic
+        @JvmName("__jni_asyncCallbackFunc4")
+        private external fun __jni_asyncCallbackFunc4(
+            callback: ((Long, Long, Long, Long) -> Long),
+            successContinuation: (Long) -> Unit,
+            failureContinuation: (String) -> Unit
+        )
+
+        /**
+         * <!-- FishyJoes.export(asyncCallbackFunc5) -->
+         */
+        suspend fun asyncCallbackFunc5(
+            callback: ((Long, Long, Long, Long, Long) -> Long)
+        ): Long {
+            return coroutineScope {
+                async {
+                    suspendCancellableCoroutine { continuation: CancellableContinuation<Long> ->
+                        __jni_asyncCallbackFunc5(
+                            callback,
+                            { value ->
+                                continuation.resume(value, null)
+                            }
+                        ) { message ->
+                            continuation.cancel(Error(message))
+                        }
+                    }
+                }.await()
+            }
+        }
+        @JvmStatic
+        @JvmName("__jni_asyncCallbackFunc5")
+        private external fun __jni_asyncCallbackFunc5(
+            callback: ((Long, Long, Long, Long, Long) -> Long),
+            successContinuation: (Long) -> Unit,
+            failureContinuation: (String) -> Unit
+        )
+
+        /**
+         * <!-- FishyJoes.export(asyncCallbackFunc6) -->
+         */
+        suspend fun asyncCallbackFunc6(
+            callback: ((Long, Long, Long, Long, Long, Long) -> Long)
+        ): Long {
+            return coroutineScope {
+                async {
+                    suspendCancellableCoroutine { continuation: CancellableContinuation<Long> ->
+                        __jni_asyncCallbackFunc6(
+                            callback,
+                            { value ->
+                                continuation.resume(value, null)
+                            }
+                        ) { message ->
+                            continuation.cancel(Error(message))
+                        }
+                    }
+                }.await()
+            }
+        }
+        @JvmStatic
+        @JvmName("__jni_asyncCallbackFunc6")
+        private external fun __jni_asyncCallbackFunc6(
+            callback: ((Long, Long, Long, Long, Long, Long) -> Long),
             successContinuation: (Long) -> Unit,
             failureContinuation: (String) -> Unit
         )

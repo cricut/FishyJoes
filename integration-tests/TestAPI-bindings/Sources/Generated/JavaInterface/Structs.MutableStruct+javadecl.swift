@@ -48,8 +48,8 @@ let java_Structs_MutableStruct_incrementAsync: @convention(c) (
         let _failureContinuationRef = try JavaReference(local: _failureContinuation, env: _javaEnv)
         try _javaEnv.swiftTask { _javaEnv, _vm in
             defer {
-                try? _successContinuationRef.destory()
-                try? _failureContinuationRef.destory()
+                try? _successContinuationRef.destroy()
+                try? _failureContinuationRef.destroy()
             }
             do {
                 var value: Result<Void, any Error>!
@@ -76,6 +76,9 @@ let java_Structs_MutableStruct_incrementAsync: @convention(c) (
                     )
                 )
             } catch {
+                if _javaEnv.ExceptionCheck() {
+                    return
+                }
                 try! Function1Converter<String, VoidConverter>.fromJava(
                     _failureContinuationRef.createLocalRef(env: _javaEnv),
                     env: _javaEnv

@@ -70,22 +70,39 @@ public func asyncCallbackBody<R: Defaultable>(
     _ body: @escaping (_ env: Env) async throws -> R
 ) -> R {
     let env = Env(env: env)
+    guard let vm = try? env.GetJavaVM() else {
+        guard let errorClass = try? env.FindClass("java/lang/Error"),
+              env.ThrowNew(errorClass, "Unable to get JavaVM for environment") else {
+            fatalError("error while throwing an error")
+        }
+        return .default
+    }
     let condition = NSCondition()
     let resultBox: UncheckedSendableBox<Result<R, any Error>> = .init(.success(.default))
-    
+    let origin = Thread.callStackSymbols
     Task {
         defer {
             condition.lock()
             condition.signal()
             condition.unlock()
         }
+        
         do {
-            let value = try await body(env)
-            resultBox.value = .success(value)
+            let env = try Env.aquireJVMThread(on: vm)
+            print(origin.joined(separator: "\n"))
+            do {
+                let value = try await body(env)
+                resultBox.value = .success(value)
+                try Env.relenquishJVMThread(on: vm)
+            } catch {
+                try! Env.relenquishJVMThread(on: vm)
+                throw error
+            }
         } catch {
             resultBox.value = .failure(error)
         }
     }
+
     // TODO: See if there is a way to do this with Kotlin concurrency that exposes better ways to wait for values than swift...
     condition.lock()
     condition.wait()
@@ -116,6 +133,13 @@ public func asyncCallbackBody(
     _ body: @escaping (_ env: Env) async throws -> Void
 ) {
     let env = Env(env: env)
+    guard let vm = try? env.GetJavaVM() else {
+        guard let errorClass = try? env.FindClass("java/lang/Error"),
+              env.ThrowNew(errorClass, "Unable to get JavaVM for environment") else {
+            fatalError("error while throwing an error")
+        }
+        return
+    }
     let condition = NSCondition()
     let resultBox: UncheckedSendableBox<Result<Void, any Error>> = .init(.success(Void()))
     
@@ -126,8 +150,15 @@ public func asyncCallbackBody(
             condition.unlock()
         }
         do {
-            try await body(env)
-            resultBox.value = .success(Void())
+            let env = try Env.aquireJVMThread(on: vm)
+            do {
+                try await body(env)
+                resultBox.value = .success(Void())
+                try Env.relenquishJVMThread(on: vm)
+            } catch {
+                try! Env.relenquishJVMThread(on: vm)
+                throw error
+            }
         } catch {
             resultBox.value = .failure(error)
         }

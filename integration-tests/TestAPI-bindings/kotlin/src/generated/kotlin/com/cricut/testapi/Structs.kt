@@ -35,7 +35,7 @@ sealed class Structs {
         ): kotlin.Unit {
             return coroutineScope {
                 async {
-                    suspendCancellableCoroutine { continuation: CancellableContinuation<kotlin.Unit> ->
+                    suspendCancellableCoroutine { continuation: CancellableContinuation<kotlin.Unit?> ->
                         __jni_incrementAsync(
                             { value ->
                                 continuation.resume(value, null)
@@ -49,7 +49,7 @@ sealed class Structs {
         }
         @JvmName("__jni_incrementAsync")
         private external fun __jni_incrementAsync(
-            successContinuation: (kotlin.Unit) -> Unit,
+            successContinuation: (kotlin.Unit?) -> Unit,
             failureContinuation: (String) -> Unit
         )
 

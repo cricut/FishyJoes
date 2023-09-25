@@ -89,8 +89,8 @@ final class KotlinTranslator: Translator {
                             fragment.outputMap(method.parameters, separator: "\n") { parameter in
                                 "try? \(parameter.name)Ref.destroy()"
                             }
-                            fragment.output("try? _successContinuationRef.destory()")
-                            fragment.output("try? _failureContinuationRef.destory()")
+                            fragment.output("try? _successContinuationRef.destroy()")
+                            fragment.output("try? _failureContinuationRef.destroy()")
                         }
                         fragment.outputBlock("do {", closeWith: "}", newLineTerminated: false) {
                             fragment.outputMap(method.parameters, separator: "\n") { parameter in
@@ -138,6 +138,9 @@ final class KotlinTranslator: Translator {
                             }
                         }
                         fragment.outputBlock(" catch {", closeWith: "}") {
+                            fragment.outputBlock("if _javaEnv.ExceptionCheck() {") {
+                                fragment.output("return")
+                            }
                             fragment.outputBlock("try! Function1Converter<String, VoidConverter>.fromJava(", closeWith: ")", newLineTerminated: false) {
                                 fragment.output("_failureContinuationRef.createLocalRef(env: _javaEnv),")
                                 fragment.output("env: _javaEnv")

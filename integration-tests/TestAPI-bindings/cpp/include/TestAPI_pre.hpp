@@ -102,6 +102,13 @@ namespace TestAPI {
                 void* FJInternalBinding_TestAPI_Functions_asyncYieldFunc();
                 void* FJInternalBinding_TestAPI_Functions_asyncSleepFunc();
                 void* FJInternalBinding_TestAPI_Functions_asyncVoidFunc();
+                void* FJInternalBinding_TestAPI_Functions_asyncCallbackFunc0(void*);
+                void* FJInternalBinding_TestAPI_Functions_asyncCallbackFunc1(void*);
+                void* FJInternalBinding_TestAPI_Functions_asyncCallbackFunc2(void*);
+                void* FJInternalBinding_TestAPI_Functions_asyncCallbackFunc3(void*);
+                void* FJInternalBinding_TestAPI_Functions_asyncCallbackFunc4(void*);
+                void* FJInternalBinding_TestAPI_Functions_asyncCallbackFunc5(void*);
+                void* FJInternalBinding_TestAPI_Functions_asyncCallbackFunc6(void*);
                 void* FJInternalBinding_TestAPI_Functions_getConst42();
                 void* FJInternalBinding_TestAPI_Functions_getIabs();
                 void* FJInternalBinding_TestAPI_Functions_getIntCompose();

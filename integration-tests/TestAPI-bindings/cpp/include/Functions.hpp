@@ -116,6 +116,27 @@ namespace TestAPI {
         /// <!-- FishyJoes.export(asyncVoidFunc) -->
         static void asyncVoidFunc();
         
+        /// <!-- FishyJoes.export(asyncCallbackFunc0) -->
+        static int asyncCallbackFunc0(const std::function<int(> &callback);
+        
+        /// <!-- FishyJoes.export(asyncCallbackFunc1) -->
+        static int asyncCallbackFunc1(const std::function<int(int> &callback);
+        
+        /// <!-- FishyJoes.export(asyncCallbackFunc2) -->
+        static int asyncCallbackFunc2(const std::function<int(int, int> &callback);
+        
+        /// <!-- FishyJoes.export(asyncCallbackFunc3) -->
+        static int asyncCallbackFunc3(const std::function<int(int, int, int> &callback);
+        
+        /// <!-- FishyJoes.export(asyncCallbackFunc4) -->
+        static int asyncCallbackFunc4(const std::function<int(int, int, int, int> &callback);
+        
+        /// <!-- FishyJoes.export(asyncCallbackFunc5) -->
+        static int asyncCallbackFunc5(const std::function<int(int, int, int, int, int> &callback);
+        
+        /// <!-- FishyJoes.export(asyncCallbackFunc6) -->
+        static int asyncCallbackFunc6(const std::function<int(int, int, int, int, int, int> &callback);
+        
         /// <!-- FishyJoes.export(const42) -->
         static std::function<int(> getConst42();
         

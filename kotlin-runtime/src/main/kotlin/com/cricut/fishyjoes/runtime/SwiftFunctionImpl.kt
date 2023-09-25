@@ -18,3 +18,21 @@ class SwiftFunctionImpl private constructor(val arity: Int, swiftReference: Long
     external override fun invoke(p1: Any?, p2: Any?, p3: Any?, p4: Any?, p5: Any?): Any?
     external override fun invoke(p1: Any?, p2: Any?, p3: Any?, p4: Any?, p5: Any?, p6: Any?): Any?
 }
+
+class SwiftAsyncFunctionImpl private constructor(val arity: Int, swiftReference: Long): SwiftReference(swiftReference),
+    Function1<Any?, Any?>,
+    Function2<Any?, Any?, Any?>,
+    Function3<Any?, Any?, Any?, Any?>,
+    Function4<Any?, Any?, Any?, Any?, Any?>,
+    Function5<Any?, Any?, Any?, Any?, Any?, Any?>,
+    Function6<Any?, Any?, Any?, Any?, Any?, Any?, Any?>,
+    Function7<Any?, Any?, Any?, Any?, Any?, Any?, Any?, Any?>
+{
+    external override fun invoke(p1: Any?): Any?
+    external override fun invoke(p1: Any?, p2: Any?): Any?
+    external override fun invoke(p1: Any?, p2: Any?, p3: Any?): Any?
+    external override fun invoke(p1: Any?, p2: Any?, p3: Any?, p4: Any?): Any?
+    external override fun invoke(p1: Any?, p2: Any?, p3: Any?, p4: Any?, p5: Any?): Any?
+    external override fun invoke(p1: Any?, p2: Any?, p3: Any?, p4: Any?, p5: Any?, p6: Any?): Any?
+        external override fun invoke(p1: Any?, p2: Any?, p3: Any?, p4: Any?, p5: Any?, p6: Any?, p7: Any?): Any?
+}

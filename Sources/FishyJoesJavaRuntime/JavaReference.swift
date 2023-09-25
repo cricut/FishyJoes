@@ -12,14 +12,14 @@ public class JavaReference {
     }
 
     deinit {
-        try? destory()
+        try? destroy()
     }
     
     public func createLocalRef(env: Env) -> jobject? {
         env.NewLocalRef(object)
     }
 
-    public func destory() throws {
+    public func destroy() throws {
         if let object = object {
             let javaEnv = try Env.aquireJVMThread(on: vm)
             defer {

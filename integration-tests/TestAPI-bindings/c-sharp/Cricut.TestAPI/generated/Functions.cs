@@ -287,6 +287,118 @@ namespace Cricut.TestAPI {
         );
 
         /// <summary>
+        /// <!-- FishyJoes.export(asyncCallbackFunc0) -->
+        /// </summary>
+        public static nint AsyncCallbackFunc0(
+            System.Func<nint> callback
+        ) {
+            using var _callbackHandle = new GCRef(callback);
+            return Check((out CreatedRef _exn) => __cs_Functions_asyncCallbackFunc0(_callbackHandle.ptr, out _exn));
+        }
+
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern nint __cs_Functions_asyncCallbackFunc0(
+            UnownedRef callback,
+            out CreatedRef exn
+        );
+
+        /// <summary>
+        /// <!-- FishyJoes.export(asyncCallbackFunc1) -->
+        /// </summary>
+        public static nint AsyncCallbackFunc1(
+            System.Func<nint, nint> callback
+        ) {
+            using var _callbackHandle = new GCRef(callback);
+            return Check((out CreatedRef _exn) => __cs_Functions_asyncCallbackFunc1(_callbackHandle.ptr, out _exn));
+        }
+
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern nint __cs_Functions_asyncCallbackFunc1(
+            UnownedRef callback,
+            out CreatedRef exn
+        );
+
+        /// <summary>
+        /// <!-- FishyJoes.export(asyncCallbackFunc2) -->
+        /// </summary>
+        public static nint AsyncCallbackFunc2(
+            System.Func<nint, nint, nint> callback
+        ) {
+            using var _callbackHandle = new GCRef(callback);
+            return Check((out CreatedRef _exn) => __cs_Functions_asyncCallbackFunc2(_callbackHandle.ptr, out _exn));
+        }
+
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern nint __cs_Functions_asyncCallbackFunc2(
+            UnownedRef callback,
+            out CreatedRef exn
+        );
+
+        /// <summary>
+        /// <!-- FishyJoes.export(asyncCallbackFunc3) -->
+        /// </summary>
+        public static nint AsyncCallbackFunc3(
+            System.Func<nint, nint, nint, nint> callback
+        ) {
+            using var _callbackHandle = new GCRef(callback);
+            return Check((out CreatedRef _exn) => __cs_Functions_asyncCallbackFunc3(_callbackHandle.ptr, out _exn));
+        }
+
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern nint __cs_Functions_asyncCallbackFunc3(
+            UnownedRef callback,
+            out CreatedRef exn
+        );
+
+        /// <summary>
+        /// <!-- FishyJoes.export(asyncCallbackFunc4) -->
+        /// </summary>
+        public static nint AsyncCallbackFunc4(
+            System.Func<nint, nint, nint, nint, nint> callback
+        ) {
+            using var _callbackHandle = new GCRef(callback);
+            return Check((out CreatedRef _exn) => __cs_Functions_asyncCallbackFunc4(_callbackHandle.ptr, out _exn));
+        }
+
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern nint __cs_Functions_asyncCallbackFunc4(
+            UnownedRef callback,
+            out CreatedRef exn
+        );
+
+        /// <summary>
+        /// <!-- FishyJoes.export(asyncCallbackFunc5) -->
+        /// </summary>
+        public static nint AsyncCallbackFunc5(
+            System.Func<nint, nint, nint, nint, nint, nint> callback
+        ) {
+            using var _callbackHandle = new GCRef(callback);
+            return Check((out CreatedRef _exn) => __cs_Functions_asyncCallbackFunc5(_callbackHandle.ptr, out _exn));
+        }
+
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern nint __cs_Functions_asyncCallbackFunc5(
+            UnownedRef callback,
+            out CreatedRef exn
+        );
+
+        /// <summary>
+        /// <!-- FishyJoes.export(asyncCallbackFunc6) -->
+        /// </summary>
+        public static nint AsyncCallbackFunc6(
+            System.Func<nint, nint, nint, nint, nint, nint, nint> callback
+        ) {
+            using var _callbackHandle = new GCRef(callback);
+            return Check((out CreatedRef _exn) => __cs_Functions_asyncCallbackFunc6(_callbackHandle.ptr, out _exn));
+        }
+
+        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern nint __cs_Functions_asyncCallbackFunc6(
+            UnownedRef callback,
+            out CreatedRef exn
+        );
+
+        /// <summary>
         /// <!-- FishyJoes.exportReference(Functions.TheError) -->
         /// </summary>
         public class TheError : SwiftReference {
