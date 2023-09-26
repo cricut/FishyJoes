@@ -16,13 +16,10 @@ sealed class Structs {
         /**
          * <!-- FishyJoes.export(immutable) -->
          */
-        var immutable: kotlin.String
+        val immutable: kotlin.String
           get() = __jni_get_immutable()
-          set(value) { __jni_set_immutable(value) } 
         @JvmName("__jni_get_immutable")
         private external fun __jni_get_immutable(): kotlin.String
-        @JvmName("__jni_set_immutable")
-        private external fun __jni_set_immutable(newValue: kotlin.String)
 
         /**
          * <!-- FishyJoes.export(mutable) -->
@@ -75,7 +72,7 @@ sealed class Structs {
      * <!-- FishyJoes.export(Structs.MemberwiseStruct) -->
      */
     data class MemberwiseStruct(
-        var immutable: kotlin.String,
+        val immutable: kotlin.String,
         var mutable: kotlin.String
     )
      {

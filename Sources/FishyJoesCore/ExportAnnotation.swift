@@ -73,7 +73,7 @@ extension ExportAnnotation.SimpleParse {
 
     var asType: BetterType {
         switch self {
-        case .token(let str): return .named(.init(name: str))
+        case .token(let str): return .named(.init(name: str, module: nil))
         case .squareBracketed(let parts) where parts.count == 1:
             return .array(parts[0].asType)
         case .squareBracketed(let parts) where parts.count == 3 && parts[1] == .colon:

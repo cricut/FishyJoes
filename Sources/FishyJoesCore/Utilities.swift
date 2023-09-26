@@ -1,7 +1,13 @@
 import Foundation
+import SourceryRuntime
 
 extension Optional {
     var asArray: [Wrapped] { map { [$0] } ?? [] }
+}
+
+func debug(file: StaticString = #file, line: UInt = #line, _ msgs: Any? ...) {
+    let message = "\(file):\(line): " + msgs.map { "\($0 ?? "<null>")" }.joined(separator: " ") + "\n"
+    _ = message.withCString { fputs($0, stderr) }
 }
 
 infix operator ||=
@@ -11,29 +17,11 @@ public func fatalErr(_ message: String = "", file: StaticString = #file, line: U
     fatalError("\n\(file):\(line): \(message)\n\(Thread.callStackSymbols.joined(separator: "\n"))\n")
 }
 
-public func extLog(_ message: String) {
-    let data = (message + "\n").data(using: String.Encoding.utf8)!
-    if let fileHandle = FileHandle(forWritingAtPath: ".sourcery-log") {
-        defer {
-            fileHandle.closeFile()
-        }
-        fileHandle.seekToEndOfFile()
-        fileHandle.write(data)
-    } else {
-        try! data.write(to: URL(fileURLWithPath: ".sourcery-log"), options: .atomic)
-    }
-}
-
 extension FileHandle: TextOutputStream {
     public func write(_ string: String) {
         let data = Data(string.utf8)
         self.write(data)
     }
-}
-
-func debug(file: StaticString = #file, line: UInt = #line, _ msgs: Any? ...) {
-    var errorHandle = FileHandle.standardError
-    print("\(file):\(line): " + msgs.map { "\($0 ?? "<null>")" }.joined(separator: " "), to: &errorHandle)
 }
 
 func snakify<S: StringProtocol>(_ camel: S) -> String {
@@ -78,5 +66,11 @@ extension String {
         let digits = CharacterSet(charactersIn: "0"..."9")
         let invalidCharacters = lowercase.union(uppercase).union(digits).inverted
         return components(separatedBy: invalidCharacters).joined(separator: "_")
+    }
+}
+
+extension Variable {
+    var isPubliclyWritable: Bool {
+        isMutable && accessLevel.write == .public
     }
 }

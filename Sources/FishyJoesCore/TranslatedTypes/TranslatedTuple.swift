@@ -9,14 +9,13 @@ struct TranslatedTuple: TranslatedType {
 
     var converterType: BetterType {
         .generic(
-            base: .init(stringLiteral: "Tuple\(elements.count)Converter"),
+            base: .runtime("Tuple\(elements.count)Converter"),
             args: elements.map { $0.type.converterType }
         )
     }
 
     let sourceType: BetterType
     var nodeName: String { "[\(elements.lazy.map(\.type.nodeName).joined(separator: ", "))]" }
-    var cppName: String { "std::tuple<\(elements.lazy.map(\.type.cppName).joined(separator: ", "))>" }
     var neutralName: String { "Tuple<Types=[\(elements.lazy.map(\.type.neutralName).joined(separator: ", "))]>" }
     var containedNamedTypes: [TranslatedType] { Array(elements.lazy.map(\.type.containedNamedTypes).joined()) }
     var kotlinName: String {
@@ -42,6 +41,10 @@ struct TranslatedTuple: TranslatedType {
         .named(package: "System", name: "Tuple<\(elements.lazy.map(\.type.cSharpType.name).joined(separator: ", "))>")
     }
 
+    var dartType: DartClass.DartType {
+        .named(package: "tuple", name: "Tuple\(elements.count)", genericArgs: elements.map(\.type.dartType))
+    }
+
     let cSharpNamespace: String? = nil
     let definingModule = Module.runtime
 
@@ -61,12 +64,20 @@ struct TranslatedTuple: TranslatedType {
 
     var isInhabited: Bool { elements.allSatisfy(\.type.isInhabited) }
 
-    func cSharpSetupParameters(in context: FishyJoesContext) -> [CSharpSetupParameter] {
-        elements.map { CSharpSetupParameter.type(typeValue: $0.type.cSharpType.name) } + [
+    func cSharpSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<String>] {
+        elements.map { ForeignSetupParameter.type(typeValue: $0.type.cSharpType.name) } + [
             .value(
                 name: "typeName",
                 type: "string"
             ) { fragment in
+                fragment.output("\"\(converterType.name)\",")
+            },
+        ]
+    }
+
+    func dartSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<DartClass.DartType>] {
+        elements.map { ForeignSetupParameter.type(typeValue: $0.type.dartType) } + [
+            .value(name: "typeName", type: .string) { fragment in
                 fragment.output("\"\(converterType.name)\",")
             },
         ]

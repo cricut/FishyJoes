@@ -17,13 +17,13 @@ namespace Cricut.TestAPI {
         public static System.Uri Simple {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_URLs_Simple(out exn).Consume<System.Uri>()
+                    __iota_get_TestAPI_URLs_simple(Loader.env, out exn).Consume<System.Uri>()
                 );
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_get_URLs_Simple(out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_get_TestAPI_URLs_simple(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(remoteFile) -->
@@ -31,13 +31,13 @@ namespace Cricut.TestAPI {
         public static System.Uri RemoteFile {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_URLs_RemoteFile(out exn).Consume<System.Uri>()
+                    __iota_get_TestAPI_URLs_remoteFile(Loader.env, out exn).Consume<System.Uri>()
                 );
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_get_URLs_RemoteFile(out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_get_TestAPI_URLs_remoteFile(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(localFile) -->
@@ -45,13 +45,13 @@ namespace Cricut.TestAPI {
         public static System.Uri LocalFile {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_URLs_LocalFile(out exn).Consume<System.Uri>()
+                    __iota_get_TestAPI_URLs_localFile(Loader.env, out exn).Consume<System.Uri>()
                 );
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_get_URLs_LocalFile(out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_get_TestAPI_URLs_localFile(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(echo) -->
@@ -60,11 +60,12 @@ namespace Cricut.TestAPI {
             System.Uri url
         ) {
             using var _urlHandle = new GCRef(url);
-            return Check((out CreatedRef _exn) => __cs_URLs_echo(_urlHandle.ptr, out _exn)).Consume<System.Uri>();
+            return Check((out CreatedRef _exn) => __iota_TestAPI_URLs_echo(Loader.env, _urlHandle.ptr, out _exn)).Consume<System.Uri>();
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_URLs_echo(
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_TestAPI_URLs_echo(
+            IntPtr envRef,
             UnownedRef url,
             out CreatedRef exn
         );

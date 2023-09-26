@@ -5,67 +5,61 @@ using static Cricut.FishyJoesRuntime.Utilities;
 namespace Cricut.FishyJoesRuntime;
 
 public partial class Loader {
-    delegate CreatedRef SwiftRangeLowerBoundGetter(UnownedRef obj, out CreatedRef exn);
-    delegate CreatedRef SwiftRangeUpperBoundGetter(UnownedRef obj, out CreatedRef exn);
-    unsafe delegate CreatedRef SwiftRangeConstructor(UnownedRef lowerBound, UnownedRef upperBound, out CreatedRef exn);
+    delegate CreatedRef SwiftRangeLowerBoundGetter(IntPtr context, UnownedRef obj, out CreatedRef exn);
+    delegate CreatedRef SwiftRangeUpperBoundGetter(IntPtr context,UnownedRef obj, out CreatedRef exn);
+    delegate CreatedRef SwiftRangeConstructor(IntPtr context, UnownedRef lowerBound, UnownedRef upperBound, out CreatedRef exn);
 
-    [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-    static extern void FishyJoesRuntime_RangeConverter_setup(
+    [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+    static extern void FishyJoesCommonRuntime_RangeConverter_setup(
+        IntPtr envRef,
         string name,
         SwiftRangeLowerBoundGetter getLowerBound,
         SwiftRangeUpperBoundGetter getUpperBound,
-        SwiftRangeConstructor constructor
+        SwiftRangeConstructor constructor,
+        IntPtr context
     );
 
-    public static void FishyJoesRuntime_RangeConverter_setup<T>(string name, out CreatedRef exn) where T: IComparable<T> {
+    public static void FishyJoesCommonRuntime_RangeConverter_setup<T>(IntPtr envRef, string name, out CreatedRef exn) where T: IComparable<T> {
         unsafe {
-            FishyJoesRuntime_RangeConverter_setup(
+            FishyJoesCommonRuntime_RangeConverter_setup(
+                envRef,
                 name,
-                bag<SwiftRangeLowerBoundGetter>((UnownedRef range, out CreatedRef exn) => Catching(out exn, () =>
+                bag<SwiftRangeLowerBoundGetter>((IntPtr context, UnownedRef range, out CreatedRef exn) => Catching(out exn, () =>
                     new CreatedRef(range.Peek<SwiftRange<T>>().lowerBound)
                 )),
-                bag<SwiftRangeUpperBoundGetter>((UnownedRef range, out CreatedRef exn) => Catching(out exn, () =>
+                bag<SwiftRangeUpperBoundGetter>((IntPtr context, UnownedRef range, out CreatedRef exn) => Catching(out exn, () =>
                     new CreatedRef(range.Peek<SwiftRange<T>>().upperBound)
                 )),
-                bag<SwiftRangeConstructor>((UnownedRef lowerBound, UnownedRef upperBound, out CreatedRef exn) => Catching(out exn, () =>
+                bag<SwiftRangeConstructor>((IntPtr context, UnownedRef lowerBound, UnownedRef upperBound, out CreatedRef exn) => Catching(out exn, () =>
                     new CreatedRef(new SwiftRange<T>(
                         lowerBound.Peek<T>(),
                         upperBound.Peek<T>()
                     ))
-                ))
+                )),
+                IntPtr.Zero
             );
             exn = CreatedRef.Null;
         }
     }
 
-    delegate CreatedRef SwiftClosedRangeLowerBoundGetter(UnownedRef obj, out CreatedRef exn);
-    delegate CreatedRef SwiftClosedRangeUpperBoundGetter(UnownedRef obj, out CreatedRef exn);
-    unsafe delegate CreatedRef SwiftClosedRangeConstructor(UnownedRef lowerBound, UnownedRef upperBound, out CreatedRef exn);
-
-    [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-    static extern void FishyJoesRuntime_ClosedRangeConverter_setup(
-        string name,
-        SwiftClosedRangeLowerBoundGetter getLowerBound,
-        SwiftClosedRangeUpperBoundGetter getEndInclusive,
-        SwiftClosedRangeConstructor constructor
-    );
-
-    public static void FishyJoesRuntime_ClosedRangeConverter_setup<T>(string name, out CreatedRef exn) where T: IComparable<T> {
+    public static void FishyJoesCommonRuntime_ClosedRangeConverter_setup<T>(IntPtr envRef, string name, out CreatedRef exn) where T: IComparable<T> {
         unsafe {
-            FishyJoesRuntime_ClosedRangeConverter_setup(
+            FishyJoesCommonRuntime_RangeConverter_setup(
+                envRef,
                 name,
-                bag<SwiftClosedRangeLowerBoundGetter>((UnownedRef range, out CreatedRef exn) => Catching(out exn, () =>
+                bag<SwiftRangeLowerBoundGetter>((IntPtr context, UnownedRef range, out CreatedRef exn) => Catching(out exn, () =>
                     new CreatedRef(range.Peek<SwiftClosedRange<T>>().lowerBound)
                 )),
-                bag<SwiftClosedRangeUpperBoundGetter>((UnownedRef range, out CreatedRef exn) => Catching(out exn, () =>
+                bag<SwiftRangeUpperBoundGetter>((IntPtr context, UnownedRef range, out CreatedRef exn) => Catching(out exn, () =>
                     new CreatedRef(range.Peek<SwiftClosedRange<T>>().upperBound)
                 )),
-                bag<SwiftClosedRangeConstructor>((UnownedRef lowerBound, UnownedRef upperBound, out CreatedRef exn) => Catching(out exn, () =>
+                bag<SwiftRangeConstructor>((IntPtr context, UnownedRef lowerBound, UnownedRef upperBound, out CreatedRef exn) => Catching(out exn, () =>
                     new CreatedRef(new SwiftClosedRange<T>(
                         lowerBound.Peek<T>(),
                         upperBound.Peek<T>()
                     ))
-                ))
+                )),
+                IntPtr.Zero
             );
             exn = CreatedRef.Null;
         }

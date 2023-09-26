@@ -4,6 +4,7 @@
       "converterType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "AssociatedDataEnum",
             "namespace" : [
 
@@ -11,11 +12,16 @@
           }
         }
       },
-      "cppName" : "AssociatedDataEnum",
       "cSharpType" : {
         "named" : {
           "name" : "AssociatedDataEnum",
           "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "AssociatedDataEnum",
+          "package" : "TestAPI"
         }
       },
       "definingModule" : {
@@ -37,6 +43,7 @@
       "sourceType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "AssociatedDataEnum",
             "namespace" : [
 
@@ -49,6 +56,7 @@
       "converterType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "AttributedStrings",
             "namespace" : [
 
@@ -56,11 +64,16 @@
           }
         }
       },
-      "cppName" : "AttributedStrings",
       "cSharpType" : {
         "named" : {
           "name" : "AttributedStrings",
           "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "AttributedStrings",
+          "package" : "TestAPI"
         }
       },
       "definingModule" : {
@@ -82,6 +95,7 @@
       "sourceType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "AttributedStrings",
             "namespace" : [
 
@@ -94,6 +108,7 @@
       "converterType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "Bytes",
             "namespace" : [
 
@@ -101,11 +116,16 @@
           }
         }
       },
-      "cppName" : "Bytes",
       "cSharpType" : {
         "named" : {
           "name" : "Bytes",
           "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "Bytes",
+          "package" : "TestAPI"
         }
       },
       "definingModule" : {
@@ -127,6 +147,7 @@
       "sourceType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "Bytes",
             "namespace" : [
 
@@ -139,6 +160,7 @@
       "converterType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "ClosedRanges",
             "namespace" : [
 
@@ -146,11 +168,16 @@
           }
         }
       },
-      "cppName" : "ClosedRanges",
       "cSharpType" : {
         "named" : {
           "name" : "ClosedRanges",
           "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "ClosedRanges",
+          "package" : "TestAPI"
         }
       },
       "definingModule" : {
@@ -172,6 +199,7 @@
       "sourceType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "ClosedRanges",
             "namespace" : [
 
@@ -184,6 +212,7 @@
       "converterType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "Collections",
             "namespace" : [
 
@@ -191,11 +220,16 @@
           }
         }
       },
-      "cppName" : "Collections",
       "cSharpType" : {
         "named" : {
           "name" : "Collections",
           "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "Collections",
+          "package" : "TestAPI"
         }
       },
       "definingModule" : {
@@ -217,6 +251,7 @@
       "sourceType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "Collections",
             "namespace" : [
 
@@ -229,6 +264,7 @@
       "converterType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "CollectionHolder",
             "namespace" : [
               "Collections"
@@ -236,11 +272,16 @@
           }
         }
       },
-      "cppName" : "Collections::CollectionHolder",
       "cSharpType" : {
         "named" : {
           "name" : "Collections.CollectionHolder",
           "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "Collections_CollectionHolder",
+          "package" : "TestAPI"
         }
       },
       "definingModule" : {
@@ -262,6 +303,7 @@
       "sourceType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "CollectionHolder",
             "namespace" : [
               "Collections"
@@ -274,6 +316,7 @@
       "converterType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "DefaultArguments",
             "namespace" : [
 
@@ -281,11 +324,16 @@
           }
         }
       },
-      "cppName" : "DefaultArguments",
       "cSharpType" : {
         "named" : {
           "name" : "DefaultArguments",
           "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "DefaultArguments",
+          "package" : "TestAPI"
         }
       },
       "definingModule" : {
@@ -307,6 +355,7 @@
       "sourceType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "DefaultArguments",
             "namespace" : [
 
@@ -319,6 +368,7 @@
       "converterType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "Deprecations",
             "namespace" : [
 
@@ -326,11 +376,16 @@
           }
         }
       },
-      "cppName" : "Deprecations",
       "cSharpType" : {
         "named" : {
           "name" : "Deprecations",
           "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "Deprecations",
+          "package" : "TestAPI"
         }
       },
       "definingModule" : {
@@ -352,6 +407,7 @@
       "sourceType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "Deprecations",
             "namespace" : [
 
@@ -364,6 +420,7 @@
       "converterType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "EmptyEnum",
             "namespace" : [
 
@@ -371,11 +428,16 @@
           }
         }
       },
-      "cppName" : "EmptyEnum",
       "cSharpType" : {
         "named" : {
           "name" : "EmptyEnum",
           "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "EmptyEnum",
+          "package" : "TestAPI"
         }
       },
       "definingModule" : {
@@ -397,6 +459,7 @@
       "sourceType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "EmptyEnum",
             "namespace" : [
 
@@ -409,6 +472,7 @@
       "converterType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "Functions",
             "namespace" : [
 
@@ -416,11 +480,16 @@
           }
         }
       },
-      "cppName" : "Functions",
       "cSharpType" : {
         "named" : {
           "name" : "Functions",
           "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "Functions",
+          "package" : "TestAPI"
         }
       },
       "definingModule" : {
@@ -442,6 +511,7 @@
       "sourceType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "Functions",
             "namespace" : [
 
@@ -454,6 +524,7 @@
       "converterType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "TheError",
             "namespace" : [
               "Functions"
@@ -461,11 +532,16 @@
           }
         }
       },
-      "cppName" : "Functions::TheError",
       "cSharpType" : {
         "named" : {
           "name" : "Functions.TheError",
           "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "Functions_TheError",
+          "package" : "TestAPI"
         }
       },
       "definingModule" : {
@@ -487,6 +563,7 @@
       "sourceType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "TheError",
             "namespace" : [
               "Functions"
@@ -499,6 +576,59 @@
       "converterType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
+            "name" : "Methods",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "Methods",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "Methods",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/Methods"
+        }
+      },
+      "kotlinName" : "Methods",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Reference<To=Methods>>",
+      "nodeName" : "TestAPI.Methods",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "Methods",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
             "name" : "Primitives",
             "namespace" : [
 
@@ -506,11 +636,16 @@
           }
         }
       },
-      "cppName" : "Primitives",
       "cSharpType" : {
         "named" : {
           "name" : "Primitives",
           "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "Primitives",
+          "package" : "TestAPI"
         }
       },
       "definingModule" : {
@@ -532,6 +667,7 @@
       "sourceType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "Primitives",
             "namespace" : [
 
@@ -544,6 +680,7 @@
       "converterType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "PrimitiveHolder",
             "namespace" : [
               "Primitives"
@@ -551,11 +688,16 @@
           }
         }
       },
-      "cppName" : "Primitives::PrimitiveHolder",
       "cSharpType" : {
         "named" : {
           "name" : "Primitives.PrimitiveHolder",
           "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "Primitives_PrimitiveHolder",
+          "package" : "TestAPI"
         }
       },
       "definingModule" : {
@@ -577,6 +719,7 @@
       "sourceType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "PrimitiveHolder",
             "namespace" : [
               "Primitives"
@@ -589,6 +732,7 @@
       "converterType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "Ranges",
             "namespace" : [
 
@@ -596,11 +740,16 @@
           }
         }
       },
-      "cppName" : "Ranges",
       "cSharpType" : {
         "named" : {
           "name" : "Ranges",
           "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "Ranges",
+          "package" : "TestAPI"
         }
       },
       "definingModule" : {
@@ -622,6 +771,7 @@
       "sourceType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "Ranges",
             "namespace" : [
 
@@ -634,6 +784,7 @@
       "converterType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "SimpleEnum",
             "namespace" : [
 
@@ -641,11 +792,16 @@
           }
         }
       },
-      "cppName" : "SimpleEnum",
       "cSharpType" : {
         "named" : {
           "name" : "SimpleEnum",
           "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "SimpleEnum",
+          "package" : "TestAPI"
         }
       },
       "definingModule" : {
@@ -667,6 +823,7 @@
       "sourceType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "SimpleEnum",
             "namespace" : [
 
@@ -679,6 +836,7 @@
       "converterType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "Strings",
             "namespace" : [
 
@@ -686,11 +844,16 @@
           }
         }
       },
-      "cppName" : "Strings",
       "cSharpType" : {
         "named" : {
           "name" : "Strings",
           "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "Strings",
+          "package" : "TestAPI"
         }
       },
       "definingModule" : {
@@ -712,6 +875,7 @@
       "sourceType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "Strings",
             "namespace" : [
 
@@ -724,6 +888,7 @@
       "converterType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "Structs",
             "namespace" : [
 
@@ -731,11 +896,16 @@
           }
         }
       },
-      "cppName" : "Structs",
       "cSharpType" : {
         "named" : {
           "name" : "Structs",
           "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "Structs",
+          "package" : "TestAPI"
         }
       },
       "definingModule" : {
@@ -757,6 +927,7 @@
       "sourceType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "Structs",
             "namespace" : [
 
@@ -769,6 +940,7 @@
       "converterType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "MemberwiseStruct",
             "namespace" : [
               "Structs"
@@ -776,11 +948,16 @@
           }
         }
       },
-      "cppName" : "Structs::MemberwiseStruct",
       "cSharpType" : {
         "named" : {
           "name" : "Structs.MemberwiseStruct",
           "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "Structs_MemberwiseStruct",
+          "package" : "TestAPI"
         }
       },
       "definingModule" : {
@@ -802,6 +979,7 @@
       "sourceType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "MemberwiseStruct",
             "namespace" : [
               "Structs"
@@ -814,6 +992,59 @@
       "converterType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
+            "name" : "PuttingTypesIntoQuestionablePlaces",
+            "namespace" : [
+              "Structs"
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "Structs_PuttingTypesIntoQuestionablePlaces",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "Structs_PuttingTypesIntoQuestionablePlaces",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/Structs_PuttingTypesIntoQuestionablePlaces"
+        }
+      },
+      "kotlinName" : "Structs_PuttingTypesIntoQuestionablePlaces",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Reference<To=Structs_PuttingTypesIntoQuestionablePlaces>>",
+      "nodeName" : "TestAPI.Structs_PuttingTypesIntoQuestionablePlaces",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "PuttingTypesIntoQuestionablePlaces",
+            "namespace" : [
+              "Structs"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
             "name" : "ReferenceStruct",
             "namespace" : [
               "Structs"
@@ -821,11 +1052,16 @@
           }
         }
       },
-      "cppName" : "Structs::ReferenceStruct",
       "cSharpType" : {
         "named" : {
           "name" : "Structs.ReferenceStruct",
           "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "Structs_ReferenceStruct",
+          "package" : "TestAPI"
         }
       },
       "definingModule" : {
@@ -847,6 +1083,7 @@
       "sourceType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "ReferenceStruct",
             "namespace" : [
               "Structs"
@@ -859,6 +1096,61 @@
       "converterType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
+            "name" : "PuttingTypesIntoQuestionablePlaces",
+            "namespace" : [
+              "Swift",
+              "String"
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "String_PuttingTypesIntoQuestionablePlaces",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "String_PuttingTypesIntoQuestionablePlaces",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/String_PuttingTypesIntoQuestionablePlaces"
+        }
+      },
+      "kotlinName" : "String_PuttingTypesIntoQuestionablePlaces",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Struct<Named=String_PuttingTypesIntoQuestionablePlaces>>",
+      "nodeName" : "TestAPI.String_PuttingTypesIntoQuestionablePlaces",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "PuttingTypesIntoQuestionablePlaces",
+            "namespace" : [
+              "Swift",
+              "String"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
             "name" : "Tuples",
             "namespace" : [
 
@@ -866,11 +1158,16 @@
           }
         }
       },
-      "cppName" : "Tuples",
       "cSharpType" : {
         "named" : {
           "name" : "Tuples",
           "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "Tuples",
+          "package" : "TestAPI"
         }
       },
       "definingModule" : {
@@ -892,6 +1189,7 @@
       "sourceType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "Tuples",
             "namespace" : [
 
@@ -904,6 +1202,7 @@
       "converterType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "URLs",
             "namespace" : [
 
@@ -911,11 +1210,16 @@
           }
         }
       },
-      "cppName" : "URLs",
       "cSharpType" : {
         "named" : {
           "name" : "URLs",
           "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "URLs",
+          "package" : "TestAPI"
         }
       },
       "definingModule" : {
@@ -937,9 +1241,62 @@
       "sourceType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
             "name" : "URLs",
             "namespace" : [
 
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "Swift",
+            "name" : "PuttingTypesIntoQuestionablePlaces",
+            "namespace" : [
+              "UnicodeScalar"
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "UnicodeScalar_PuttingTypesIntoQuestionablePlaces",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "UnicodeScalar_PuttingTypesIntoQuestionablePlaces",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/UnicodeScalar_PuttingTypesIntoQuestionablePlaces"
+        }
+      },
+      "kotlinName" : "UnicodeScalar_PuttingTypesIntoQuestionablePlaces",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=UnicodeScalar_PuttingTypesIntoQuestionablePlaces>>",
+      "nodeName" : "TestAPI.UnicodeScalar_PuttingTypesIntoQuestionablePlaces",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "Swift",
+            "name" : "PuttingTypesIntoQuestionablePlaces",
+            "namespace" : [
+              "UnicodeScalar"
             ]
           }
         }
@@ -951,7 +1308,247 @@
     "rootNamespaces" : [
       {
         "classes" : [
+          {
+            "constructor" : {
+              "hidden" : {
 
+              }
+            },
+            "documentation" : [
+              "<!-- FishyJoes.exportReference(Structs_PuttingTypesIntoQuestionablePlaces) -->"
+            ],
+            "extends" : [
+
+            ],
+            "fields" : [
+
+            ],
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(create) -->"
+                ],
+                "isStatic" : true,
+                "name" : "create",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "TestAPI.Structs_PuttingTypesIntoQuestionablePlaces"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(testCall) -->"
+                ],
+                "isStatic" : false,
+                "name" : "testCall",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              }
+            ],
+            "name" : "Structs_PuttingTypesIntoQuestionablePlaces"
+          },
+          {
+            "constructor" : {
+              "visible" : {
+                "names" : [
+                  "x"
+                ],
+                "types" : [
+                  {
+                    "named" : {
+                      "_0" : "string"
+                    }
+                  }
+                ]
+              }
+            },
+            "documentation" : [
+              "<!-- FishyJoes.export(String_PuttingTypesIntoQuestionablePlaces) -->"
+            ],
+            "extends" : [
+
+            ],
+            "fields" : [
+              {
+                "documentation" : [
+
+                ],
+                "isStatic" : false,
+                "name" : "x",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              }
+            ],
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(testCall) -->"
+                ],
+                "isStatic" : false,
+                "name" : "testCall",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              }
+            ],
+            "name" : "String_PuttingTypesIntoQuestionablePlaces"
+          },
+          {
+            "constructor" : {
+              "hidden" : {
+
+              }
+            },
+            "documentation" : [
+              "<!-- FishyJoes.exportReference(Methods) -->"
+            ],
+            "extends" : [
+
+            ],
+            "fields" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(staticGet) -->"
+                ],
+                "isStatic" : true,
+                "name" : "staticGet",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.exportAsMethod(staticGetMethod) -->"
+                ],
+                "isStatic" : true,
+                "name" : "staticGetMethod",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(staticModifiable) -->"
+                ],
+                "isStatic" : true,
+                "name" : "staticModifiable",
+                "readOnly" : false,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(staticStored) -->"
+                ],
+                "isStatic" : true,
+                "name" : "staticStored",
+                "readOnly" : false,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(instanceGet) -->"
+                ],
+                "isStatic" : false,
+                "name" : "instanceGet",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.exportAsMethod(instanceGetMethod) -->"
+                ],
+                "isStatic" : false,
+                "name" : "instanceGetMethod",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(instanceModifiable) -->"
+                ],
+                "isStatic" : false,
+                "name" : "instanceModifiable",
+                "readOnly" : false,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(instanceStored) -->"
+                ],
+                "isStatic" : false,
+                "name" : "instanceStored",
+                "readOnly" : false,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              }
+            ],
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(create) -->"
+                ],
+                "isStatic" : true,
+                "name" : "create",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "TestAPI.Methods"
+                  }
+                }
+              }
+            ],
+            "name" : "Methods"
+          }
         ],
         "fields" : [
 
@@ -1479,7 +2076,7 @@
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "Runtime.SwiftRange<Runtime.AttributedString.Index>"
+                    "_0" : "SwiftRange<Runtime.AttributedString.Index>"
                   }
                 }
               },
@@ -1664,7 +2261,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "Runtime.SwiftClosedRange<number>"
+                    "_0" : "SwiftClosedRange<number>"
                   }
                 }
               },
@@ -1677,7 +2274,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "Runtime.SwiftClosedRange<number>"
+                    "_0" : "SwiftClosedRange<number>"
                   }
                 }
               },
@@ -1690,7 +2287,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "Runtime.SwiftClosedRange<number>"
+                    "_0" : "SwiftClosedRange<number>"
                   }
                 }
               },
@@ -1703,7 +2300,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "Runtime.SwiftClosedRange<bigint>"
+                    "_0" : "SwiftClosedRange<bigint>"
                   }
                 }
               },
@@ -1716,7 +2313,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "Runtime.SwiftClosedRange<number>"
+                    "_0" : "SwiftClosedRange<number>"
                   }
                 }
               },
@@ -1729,7 +2326,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "Runtime.SwiftClosedRange<number>"
+                    "_0" : "SwiftClosedRange<number>"
                   }
                 }
               },
@@ -1742,7 +2339,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "Runtime.SwiftClosedRange<number>"
+                    "_0" : "SwiftClosedRange<number>"
                   }
                 }
               },
@@ -1755,7 +2352,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "Runtime.SwiftClosedRange<number>"
+                    "_0" : "SwiftClosedRange<number>"
                   }
                 }
               },
@@ -1768,7 +2365,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "Runtime.SwiftClosedRange<bigint>"
+                    "_0" : "SwiftClosedRange<bigint>"
                   }
                 }
               },
@@ -1781,7 +2378,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "Runtime.SwiftClosedRange<number>"
+                    "_0" : "SwiftClosedRange<number>"
                   }
                 }
               },
@@ -1794,7 +2391,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "Runtime.SwiftClosedRange<number>"
+                    "_0" : "SwiftClosedRange<number>"
                   }
                 }
               },
@@ -1807,7 +2404,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "Runtime.SwiftClosedRange<number>"
+                    "_0" : "SwiftClosedRange<number>"
                   }
                 }
               },
@@ -1820,7 +2417,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "Runtime.SwiftClosedRange<string>"
+                    "_0" : "SwiftClosedRange<string>"
                   }
                 }
               }
@@ -1840,14 +2437,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "Runtime.SwiftClosedRange<number>"
+                        "_0" : "SwiftClosedRange<number>"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "Runtime.SwiftClosedRange<number>"
+                    "_0" : "SwiftClosedRange<number>"
                   }
                 }
               },
@@ -1862,14 +2459,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "Runtime.SwiftClosedRange<number>"
+                        "_0" : "SwiftClosedRange<number>"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "Runtime.SwiftClosedRange<number>"
+                    "_0" : "SwiftClosedRange<number>"
                   }
                 }
               },
@@ -1884,14 +2481,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "Runtime.SwiftClosedRange<number>"
+                        "_0" : "SwiftClosedRange<number>"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "Runtime.SwiftClosedRange<number>"
+                    "_0" : "SwiftClosedRange<number>"
                   }
                 }
               },
@@ -1906,14 +2503,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "Runtime.SwiftClosedRange<bigint>"
+                        "_0" : "SwiftClosedRange<bigint>"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "Runtime.SwiftClosedRange<bigint>"
+                    "_0" : "SwiftClosedRange<bigint>"
                   }
                 }
               },
@@ -1928,14 +2525,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "Runtime.SwiftClosedRange<number>"
+                        "_0" : "SwiftClosedRange<number>"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "Runtime.SwiftClosedRange<number>"
+                    "_0" : "SwiftClosedRange<number>"
                   }
                 }
               },
@@ -1950,14 +2547,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "Runtime.SwiftClosedRange<number>"
+                        "_0" : "SwiftClosedRange<number>"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "Runtime.SwiftClosedRange<number>"
+                    "_0" : "SwiftClosedRange<number>"
                   }
                 }
               },
@@ -1972,14 +2569,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "Runtime.SwiftClosedRange<number>"
+                        "_0" : "SwiftClosedRange<number>"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "Runtime.SwiftClosedRange<number>"
+                    "_0" : "SwiftClosedRange<number>"
                   }
                 }
               },
@@ -1994,14 +2591,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "Runtime.SwiftClosedRange<number>"
+                        "_0" : "SwiftClosedRange<number>"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "Runtime.SwiftClosedRange<number>"
+                    "_0" : "SwiftClosedRange<number>"
                   }
                 }
               },
@@ -2016,14 +2613,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "Runtime.SwiftClosedRange<bigint>"
+                        "_0" : "SwiftClosedRange<bigint>"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "Runtime.SwiftClosedRange<bigint>"
+                    "_0" : "SwiftClosedRange<bigint>"
                   }
                 }
               },
@@ -2038,14 +2635,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "Runtime.SwiftClosedRange<number>"
+                        "_0" : "SwiftClosedRange<number>"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "Runtime.SwiftClosedRange<number>"
+                    "_0" : "SwiftClosedRange<number>"
                   }
                 }
               },
@@ -2060,14 +2657,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "Runtime.SwiftClosedRange<number>"
+                        "_0" : "SwiftClosedRange<number>"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "Runtime.SwiftClosedRange<number>"
+                    "_0" : "SwiftClosedRange<number>"
                   }
                 }
               },
@@ -2082,14 +2679,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "Runtime.SwiftClosedRange<number>"
+                        "_0" : "SwiftClosedRange<number>"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "Runtime.SwiftClosedRange<number>"
+                    "_0" : "SwiftClosedRange<number>"
                   }
                 }
               },
@@ -2104,14 +2701,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "Runtime.SwiftClosedRange<string>"
+                        "_0" : "SwiftClosedRange<string>"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "Runtime.SwiftClosedRange<string>"
+                    "_0" : "SwiftClosedRange<string>"
                   }
                 }
               }
@@ -2315,10 +2912,10 @@
                   },
                   {
                     "documentation" : [
-                      "<!-- FishyJoes.export(staticPropery) -->"
+                      "<!-- FishyJoes.export(staticProperty) -->"
                     ],
                     "isStatic" : true,
-                    "name" : "staticPropery",
+                    "name" : "staticProperty",
                     "readOnly" : true,
                     "type" : {
                       "named" : {
@@ -2328,10 +2925,10 @@
                   },
                   {
                     "documentation" : [
-                      "<!-- FishyJoes.export(staticMutablePropery) -->"
+                      "<!-- FishyJoes.export(staticMutableProperty) -->"
                     ],
                     "isStatic" : true,
-                    "name" : "staticMutablePropery",
+                    "name" : "staticMutableProperty",
                     "readOnly" : false,
                     "type" : {
                       "named" : {
@@ -3791,10 +4388,10 @@
                   },
                   {
                     "documentation" : [
-                      "<!-- FishyJoes.export(staticPropery) -->"
+                      "<!-- FishyJoes.export(staticProperty) -->"
                     ],
                     "isStatic" : true,
-                    "name" : "staticPropery",
+                    "name" : "staticProperty",
                     "readOnly" : true,
                     "type" : {
                       "named" : {
@@ -3804,10 +4401,10 @@
                   },
                   {
                     "documentation" : [
-                      "<!-- FishyJoes.export(staticMutablePropery) -->"
+                      "<!-- FishyJoes.export(staticMutableProperty) -->"
                     ],
                     "isStatic" : true,
-                    "name" : "staticMutablePropery",
+                    "name" : "staticMutableProperty",
                     "readOnly" : false,
                     "type" : {
                       "named" : {
@@ -5436,7 +6033,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "Runtime.SwiftRange<number>"
+                    "_0" : "SwiftRange<number>"
                   }
                 }
               },
@@ -5449,7 +6046,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "Runtime.SwiftRange<number>"
+                    "_0" : "SwiftRange<number>"
                   }
                 }
               },
@@ -5462,7 +6059,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "Runtime.SwiftRange<number>"
+                    "_0" : "SwiftRange<number>"
                   }
                 }
               },
@@ -5475,7 +6072,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "Runtime.SwiftRange<bigint>"
+                    "_0" : "SwiftRange<bigint>"
                   }
                 }
               },
@@ -5488,7 +6085,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "Runtime.SwiftRange<number>"
+                    "_0" : "SwiftRange<number>"
                   }
                 }
               },
@@ -5501,7 +6098,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "Runtime.SwiftRange<number>"
+                    "_0" : "SwiftRange<number>"
                   }
                 }
               },
@@ -5514,7 +6111,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "Runtime.SwiftRange<number>"
+                    "_0" : "SwiftRange<number>"
                   }
                 }
               },
@@ -5527,7 +6124,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "Runtime.SwiftRange<number>"
+                    "_0" : "SwiftRange<number>"
                   }
                 }
               },
@@ -5540,7 +6137,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "Runtime.SwiftRange<bigint>"
+                    "_0" : "SwiftRange<bigint>"
                   }
                 }
               },
@@ -5553,7 +6150,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "Runtime.SwiftRange<number>"
+                    "_0" : "SwiftRange<number>"
                   }
                 }
               }
@@ -5573,14 +6170,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "Runtime.SwiftRange<number>"
+                        "_0" : "SwiftRange<number>"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "Runtime.SwiftRange<number>"
+                    "_0" : "SwiftRange<number>"
                   }
                 }
               },
@@ -5595,14 +6192,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "Runtime.SwiftRange<number>"
+                        "_0" : "SwiftRange<number>"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "Runtime.SwiftRange<number>"
+                    "_0" : "SwiftRange<number>"
                   }
                 }
               },
@@ -5617,14 +6214,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "Runtime.SwiftRange<number>"
+                        "_0" : "SwiftRange<number>"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "Runtime.SwiftRange<number>"
+                    "_0" : "SwiftRange<number>"
                   }
                 }
               },
@@ -5639,14 +6236,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "Runtime.SwiftRange<bigint>"
+                        "_0" : "SwiftRange<bigint>"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "Runtime.SwiftRange<bigint>"
+                    "_0" : "SwiftRange<bigint>"
                   }
                 }
               },
@@ -5661,14 +6258,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "Runtime.SwiftRange<number>"
+                        "_0" : "SwiftRange<number>"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "Runtime.SwiftRange<number>"
+                    "_0" : "SwiftRange<number>"
                   }
                 }
               },
@@ -5683,14 +6280,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "Runtime.SwiftRange<number>"
+                        "_0" : "SwiftRange<number>"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "Runtime.SwiftRange<number>"
+                    "_0" : "SwiftRange<number>"
                   }
                 }
               },
@@ -5705,14 +6302,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "Runtime.SwiftRange<number>"
+                        "_0" : "SwiftRange<number>"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "Runtime.SwiftRange<number>"
+                    "_0" : "SwiftRange<number>"
                   }
                 }
               },
@@ -5727,14 +6324,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "Runtime.SwiftRange<number>"
+                        "_0" : "SwiftRange<number>"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "Runtime.SwiftRange<number>"
+                    "_0" : "SwiftRange<number>"
                   }
                 }
               },
@@ -5749,14 +6346,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "Runtime.SwiftRange<bigint>"
+                        "_0" : "SwiftRange<bigint>"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "Runtime.SwiftRange<bigint>"
+                    "_0" : "SwiftRange<bigint>"
                   }
                 }
               },
@@ -5771,14 +6368,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "Runtime.SwiftRange<number>"
+                        "_0" : "SwiftRange<number>"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "Runtime.SwiftRange<number>"
+                    "_0" : "SwiftRange<number>"
                   }
                 }
               }
@@ -6089,7 +6686,7 @@
                     ],
                     "isStatic" : false,
                     "name" : "immutable",
-                    "readOnly" : false,
+                    "readOnly" : true,
                     "type" : {
                       "named" : {
                         "_0" : "string"
@@ -6148,7 +6745,7 @@
                     ],
                     "isStatic" : false,
                     "name" : "immutable",
-                    "readOnly" : false,
+                    "readOnly" : true,
                     "type" : {
                       "named" : {
                         "_0" : "string"
@@ -6344,6 +6941,48 @@
 
             ]
           },
+          "UnicodeScalar_PuttingTypesIntoQuestionablePlaces" : {
+            "classes" : [
+
+            ],
+            "fields" : [
+
+            ],
+            "interfaces" : [
+
+            ],
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(testCall) -->"
+                ],
+                "isStatic" : true,
+                "name" : "testCall",
+                "parameters" : [
+                  {
+                    "name" : "self",
+                    "type" : {
+                      "named" : {
+                        "_0" : "TestAPI.UnicodeScalar_PuttingTypesIntoQuestionablePlaces"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              }
+            ],
+            "name" : "UnicodeScalar_PuttingTypesIntoQuestionablePlaces",
+            "namespaces" : {
+
+            },
+            "typealiases" : [
+
+            ]
+          },
           "URLs" : {
             "classes" : [
 
@@ -6426,6 +7065,23 @@
           }
         },
         "typealiases" : [
+          {
+            "documentation" : [
+              "<!-- FishyJoes.export(UnicodeScalar_PuttingTypesIntoQuestionablePlaces) -->"
+            ],
+            "name" : "UnicodeScalar_PuttingTypesIntoQuestionablePlaces",
+            "value" : {
+              "union" : {
+                "_0" : [
+                  {
+                    "exactString" : {
+                      "_0" : "thing"
+                    }
+                  }
+                ]
+              }
+            }
+          },
           {
             "documentation" : [
               "<!-- FishyJoes.export(AssociatedDataEnum) -->"

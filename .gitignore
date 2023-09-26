@@ -5,6 +5,7 @@
 xcuserdata/
 DerivedData/
 .swiftpm
+Package.resolved
 .gradle
 .vscode
 kotlin-runtime/src/generated/resources/

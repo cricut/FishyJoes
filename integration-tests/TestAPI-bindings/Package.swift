@@ -26,9 +26,9 @@ let package = Package(
                 targets: ["TestAPI_JavaInterface"]
             ),
             .library(
-                name: "TestAPI-c-sharp",
+                name: "TestAPI-iota",
                 type: .dynamic,
-                targets: ["TestAPI_CSharpInterface"]
+                targets: ["TestAPI_IotaInterface"]
             ),
         ]
     ),
@@ -66,12 +66,12 @@ let package = Package(
                 path: "Sources/Generated/JavaInterface"
             ),
             .target(
-                name: "TestAPI_CSharpInterface",
+                name: "TestAPI_IotaInterface",
                 dependencies: [
                     .product(name: "TestAPI", package: "TestAPI"),
-                    .product(name: "FishyJoesCSharpRuntime", package: "FishyJoes"),
+                    .product(name: "FishyJoesIotaRuntime", package: "FishyJoes"),
                 ],
-                path: "Sources/Generated/CSharpInterface"
+                path: "Sources/Generated/IotaInterface"
             ),
         ]
     )

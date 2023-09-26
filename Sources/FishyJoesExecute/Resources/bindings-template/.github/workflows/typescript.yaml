@@ -44,11 +44,6 @@ jobs:
         run: |
           set -euxo pipefail
 
-          # Hack. Xcode 13.3 hangs on a gui prompt while resolving
-          sudo xcode-select -s /Applications/Xcode_13.2.1.app
-          swift package resolve
-          sudo xcode-select -s /Applications/Xcode_13.3.1.app
-
           swift run -- fishy-joes --nodejs --fat generate build
 
       - name: Test from node

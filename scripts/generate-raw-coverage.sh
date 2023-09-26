@@ -20,6 +20,11 @@ CONFIGURATION=debug SKIP_LIPO=1 ./scripts/compile-node-runtime.sh $COVERAGE_FLAG
 CONFIGURATION=debug SKIP_LIPO=1 ./scripts/compile-kotlin-native-runtime.sh $COVERAGE_FLAGS
 CONFIGURATION=debug SKIP_LIPO=1 ./scripts/compile-c-sharp-runtime.sh $COVERAGE_FLAGS
 
+swift build --configuration debug $COVERAGE_FLAGS --build-tests
+ls .build/debug/*(.x)
+
+cp .build/debug/libFishyJoesJavaRuntime.dylib $javaLibDir
+cp .build/debug/libFishyJoesIotaRuntime.dylib $cSharpLibDir
 (cd kotlin-runtime && ./gradlew publishToMavenLocal)
 
 # Gather coverage from kotlin tests
@@ -33,7 +38,7 @@ CONFIGURATION=debug SKIP_LIPO=1 ./scripts/compile-c-sharp-runtime.sh $COVERAGE_F
 # Gather coverage for unit tests
 (
     rm -rf .build/debug/codecov/
-    swift test --enable-code-coverage
+    swift test --skip-build --enable-code-coverage
     cp .build/debug/codecov/*.profraw $FISHYJOES_COVERAGE_PATH
 )
 
@@ -41,25 +46,25 @@ CONFIGURATION=debug SKIP_LIPO=1 ./scripts/compile-c-sharp-runtime.sh $COVERAGE_F
 (
     cd integration-tests/TestAPI-bindings
     export LLVM_PROFILE_FILE=$FISHYJOES_COVERAGE_PATH/integration-tests-generate-build.profraw
-    swift run $COVERAGE_FLAGS -- fishy-joes generate build --kotlin-fast --nodejs --c-sharp --debug
+    ../../.build/debug/fishy-joes generate build --kotlin-fast --nodejs --debug
 )
 
 (
     cd integration-tests/TestAPI-bindings
     export LLVM_PROFILE_FILE=$FISHYJOES_COVERAGE_PATH/integration-tests-node.profraw
-    swift run $COVERAGE_FLAGS -- fishy-joes test --nodejs --debug
+    ../../.build/debug/fishy-joes test --nodejs --debug
 )
 
 (
     cd integration-tests/TestAPI-bindings
     export LLVM_PROFILE_FILE=$FISHYJOES_COVERAGE_PATH/integration-tests-kotlin.profraw
-    swift run $COVERAGE_FLAGS -- fishy-joes test --kotlin-fast --debug
+    ../../.build/debug/fishy-joes build test --kotlin-fast --debug
 )
 
 (
     cd integration-tests/TestAPI-bindings
     export LLVM_PROFILE_FILE=$FISHYJOES_COVERAGE_PATH/integration-tests-c-sharp.profraw
-    swift run $COVERAGE_FLAGS -- fishy-joes test --c-sharp --debug
+    ../../.build/debug/fishy-joes build test --c-sharp --debug
 )
 
 # Check that generation didn't change anything

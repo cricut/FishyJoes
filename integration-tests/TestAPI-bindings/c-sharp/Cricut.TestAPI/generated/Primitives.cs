@@ -17,13 +17,13 @@ namespace Cricut.TestAPI {
         public static bool FalseBool {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Primitives_FalseBool(out exn)
+                    __iota_get_TestAPI_Primitives_falseBool(Loader.env, out exn)
                 );
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern bool __cs_get_Primitives_FalseBool(out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern bool __iota_get_TestAPI_Primitives_falseBool(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(trueBool) -->
@@ -31,13 +31,13 @@ namespace Cricut.TestAPI {
         public static bool TrueBool {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Primitives_TrueBool(out exn)
+                    __iota_get_TestAPI_Primitives_trueBool(Loader.env, out exn)
                 );
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern bool __cs_get_Primitives_TrueBool(out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern bool __iota_get_TestAPI_Primitives_trueBool(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(zeroUInt8) -->
@@ -45,13 +45,13 @@ namespace Cricut.TestAPI {
         public static byte ZeroUInt8 {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Primitives_ZeroUInt8(out exn)
+                    __iota_get_TestAPI_Primitives_zeroUInt8(Loader.env, out exn)
                 );
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern byte __cs_get_Primitives_ZeroUInt8(out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern byte __iota_get_TestAPI_Primitives_zeroUInt8(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(minUInt8) -->
@@ -59,13 +59,13 @@ namespace Cricut.TestAPI {
         public static byte MinUInt8 {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Primitives_MinUInt8(out exn)
+                    __iota_get_TestAPI_Primitives_minUInt8(Loader.env, out exn)
                 );
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern byte __cs_get_Primitives_MinUInt8(out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern byte __iota_get_TestAPI_Primitives_minUInt8(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(maxUInt8) -->
@@ -73,13 +73,13 @@ namespace Cricut.TestAPI {
         public static byte MaxUInt8 {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Primitives_MaxUInt8(out exn)
+                    __iota_get_TestAPI_Primitives_maxUInt8(Loader.env, out exn)
                 );
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern byte __cs_get_Primitives_MaxUInt8(out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern byte __iota_get_TestAPI_Primitives_maxUInt8(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(zeroUInt16) -->
@@ -87,13 +87,13 @@ namespace Cricut.TestAPI {
         public static ushort ZeroUInt16 {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Primitives_ZeroUInt16(out exn)
+                    __iota_get_TestAPI_Primitives_zeroUInt16(Loader.env, out exn)
                 );
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern ushort __cs_get_Primitives_ZeroUInt16(out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern ushort __iota_get_TestAPI_Primitives_zeroUInt16(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(minUInt16) -->
@@ -101,13 +101,13 @@ namespace Cricut.TestAPI {
         public static ushort MinUInt16 {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Primitives_MinUInt16(out exn)
+                    __iota_get_TestAPI_Primitives_minUInt16(Loader.env, out exn)
                 );
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern ushort __cs_get_Primitives_MinUInt16(out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern ushort __iota_get_TestAPI_Primitives_minUInt16(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(maxUInt16) -->
@@ -115,13 +115,13 @@ namespace Cricut.TestAPI {
         public static ushort MaxUInt16 {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Primitives_MaxUInt16(out exn)
+                    __iota_get_TestAPI_Primitives_maxUInt16(Loader.env, out exn)
                 );
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern ushort __cs_get_Primitives_MaxUInt16(out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern ushort __iota_get_TestAPI_Primitives_maxUInt16(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(zeroUInt32) -->
@@ -129,13 +129,13 @@ namespace Cricut.TestAPI {
         public static uint ZeroUInt32 {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Primitives_ZeroUInt32(out exn)
+                    __iota_get_TestAPI_Primitives_zeroUInt32(Loader.env, out exn)
                 );
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern uint __cs_get_Primitives_ZeroUInt32(out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern uint __iota_get_TestAPI_Primitives_zeroUInt32(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(minUInt32) -->
@@ -143,13 +143,13 @@ namespace Cricut.TestAPI {
         public static uint MinUInt32 {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Primitives_MinUInt32(out exn)
+                    __iota_get_TestAPI_Primitives_minUInt32(Loader.env, out exn)
                 );
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern uint __cs_get_Primitives_MinUInt32(out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern uint __iota_get_TestAPI_Primitives_minUInt32(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(maxUInt32) -->
@@ -157,13 +157,13 @@ namespace Cricut.TestAPI {
         public static uint MaxUInt32 {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Primitives_MaxUInt32(out exn)
+                    __iota_get_TestAPI_Primitives_maxUInt32(Loader.env, out exn)
                 );
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern uint __cs_get_Primitives_MaxUInt32(out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern uint __iota_get_TestAPI_Primitives_maxUInt32(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(zeroUInt64) -->
@@ -171,13 +171,13 @@ namespace Cricut.TestAPI {
         public static ulong ZeroUInt64 {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Primitives_ZeroUInt64(out exn)
+                    __iota_get_TestAPI_Primitives_zeroUInt64(Loader.env, out exn)
                 );
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern ulong __cs_get_Primitives_ZeroUInt64(out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern ulong __iota_get_TestAPI_Primitives_zeroUInt64(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(minUInt64) -->
@@ -185,13 +185,13 @@ namespace Cricut.TestAPI {
         public static ulong MinUInt64 {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Primitives_MinUInt64(out exn)
+                    __iota_get_TestAPI_Primitives_minUInt64(Loader.env, out exn)
                 );
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern ulong __cs_get_Primitives_MinUInt64(out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern ulong __iota_get_TestAPI_Primitives_minUInt64(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(maxUInt64) -->
@@ -199,13 +199,13 @@ namespace Cricut.TestAPI {
         public static ulong MaxUInt64 {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Primitives_MaxUInt64(out exn)
+                    __iota_get_TestAPI_Primitives_maxUInt64(Loader.env, out exn)
                 );
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern ulong __cs_get_Primitives_MaxUInt64(out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern ulong __iota_get_TestAPI_Primitives_maxUInt64(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(zeroUInt) -->
@@ -213,13 +213,13 @@ namespace Cricut.TestAPI {
         public static nuint ZeroUInt {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Primitives_ZeroUInt(out exn)
+                    __iota_get_TestAPI_Primitives_zeroUInt(Loader.env, out exn)
                 );
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern nuint __cs_get_Primitives_ZeroUInt(out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern nuint __iota_get_TestAPI_Primitives_zeroUInt(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(minUInt) -->
@@ -227,13 +227,13 @@ namespace Cricut.TestAPI {
         public static nuint MinUInt {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Primitives_MinUInt(out exn)
+                    __iota_get_TestAPI_Primitives_minUInt(Loader.env, out exn)
                 );
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern nuint __cs_get_Primitives_MinUInt(out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern nuint __iota_get_TestAPI_Primitives_minUInt(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(maxUInt) -->
@@ -241,13 +241,13 @@ namespace Cricut.TestAPI {
         public static nuint MaxUInt {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Primitives_MaxUInt(out exn)
+                    __iota_get_TestAPI_Primitives_maxUInt(Loader.env, out exn)
                 );
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern nuint __cs_get_Primitives_MaxUInt(out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern nuint __iota_get_TestAPI_Primitives_maxUInt(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(zeroInt8) -->
@@ -255,13 +255,13 @@ namespace Cricut.TestAPI {
         public static sbyte ZeroInt8 {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Primitives_ZeroInt8(out exn)
+                    __iota_get_TestAPI_Primitives_zeroInt8(Loader.env, out exn)
                 );
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern sbyte __cs_get_Primitives_ZeroInt8(out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern sbyte __iota_get_TestAPI_Primitives_zeroInt8(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(minInt8) -->
@@ -269,13 +269,13 @@ namespace Cricut.TestAPI {
         public static sbyte MinInt8 {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Primitives_MinInt8(out exn)
+                    __iota_get_TestAPI_Primitives_minInt8(Loader.env, out exn)
                 );
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern sbyte __cs_get_Primitives_MinInt8(out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern sbyte __iota_get_TestAPI_Primitives_minInt8(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(maxInt8) -->
@@ -283,13 +283,13 @@ namespace Cricut.TestAPI {
         public static sbyte MaxInt8 {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Primitives_MaxInt8(out exn)
+                    __iota_get_TestAPI_Primitives_maxInt8(Loader.env, out exn)
                 );
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern sbyte __cs_get_Primitives_MaxInt8(out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern sbyte __iota_get_TestAPI_Primitives_maxInt8(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(zeroInt16) -->
@@ -297,13 +297,13 @@ namespace Cricut.TestAPI {
         public static short ZeroInt16 {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Primitives_ZeroInt16(out exn)
+                    __iota_get_TestAPI_Primitives_zeroInt16(Loader.env, out exn)
                 );
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern short __cs_get_Primitives_ZeroInt16(out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern short __iota_get_TestAPI_Primitives_zeroInt16(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(minInt16) -->
@@ -311,13 +311,13 @@ namespace Cricut.TestAPI {
         public static short MinInt16 {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Primitives_MinInt16(out exn)
+                    __iota_get_TestAPI_Primitives_minInt16(Loader.env, out exn)
                 );
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern short __cs_get_Primitives_MinInt16(out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern short __iota_get_TestAPI_Primitives_minInt16(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(maxInt16) -->
@@ -325,13 +325,13 @@ namespace Cricut.TestAPI {
         public static short MaxInt16 {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Primitives_MaxInt16(out exn)
+                    __iota_get_TestAPI_Primitives_maxInt16(Loader.env, out exn)
                 );
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern short __cs_get_Primitives_MaxInt16(out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern short __iota_get_TestAPI_Primitives_maxInt16(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(zeroInt32) -->
@@ -339,13 +339,13 @@ namespace Cricut.TestAPI {
         public static int ZeroInt32 {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Primitives_ZeroInt32(out exn)
+                    __iota_get_TestAPI_Primitives_zeroInt32(Loader.env, out exn)
                 );
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern int __cs_get_Primitives_ZeroInt32(out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern int __iota_get_TestAPI_Primitives_zeroInt32(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(minInt32) -->
@@ -353,13 +353,13 @@ namespace Cricut.TestAPI {
         public static int MinInt32 {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Primitives_MinInt32(out exn)
+                    __iota_get_TestAPI_Primitives_minInt32(Loader.env, out exn)
                 );
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern int __cs_get_Primitives_MinInt32(out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern int __iota_get_TestAPI_Primitives_minInt32(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(maxInt32) -->
@@ -367,13 +367,13 @@ namespace Cricut.TestAPI {
         public static int MaxInt32 {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Primitives_MaxInt32(out exn)
+                    __iota_get_TestAPI_Primitives_maxInt32(Loader.env, out exn)
                 );
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern int __cs_get_Primitives_MaxInt32(out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern int __iota_get_TestAPI_Primitives_maxInt32(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(zeroInt64) -->
@@ -381,13 +381,13 @@ namespace Cricut.TestAPI {
         public static long ZeroInt64 {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Primitives_ZeroInt64(out exn)
+                    __iota_get_TestAPI_Primitives_zeroInt64(Loader.env, out exn)
                 );
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern long __cs_get_Primitives_ZeroInt64(out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern long __iota_get_TestAPI_Primitives_zeroInt64(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(minInt64) -->
@@ -395,13 +395,13 @@ namespace Cricut.TestAPI {
         public static long MinInt64 {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Primitives_MinInt64(out exn)
+                    __iota_get_TestAPI_Primitives_minInt64(Loader.env, out exn)
                 );
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern long __cs_get_Primitives_MinInt64(out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern long __iota_get_TestAPI_Primitives_minInt64(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(maxInt64) -->
@@ -409,13 +409,13 @@ namespace Cricut.TestAPI {
         public static long MaxInt64 {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Primitives_MaxInt64(out exn)
+                    __iota_get_TestAPI_Primitives_maxInt64(Loader.env, out exn)
                 );
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern long __cs_get_Primitives_MaxInt64(out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern long __iota_get_TestAPI_Primitives_maxInt64(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(zeroInt) -->
@@ -423,13 +423,13 @@ namespace Cricut.TestAPI {
         public static nint ZeroInt {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Primitives_ZeroInt(out exn)
+                    __iota_get_TestAPI_Primitives_zeroInt(Loader.env, out exn)
                 );
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern nint __cs_get_Primitives_ZeroInt(out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern nint __iota_get_TestAPI_Primitives_zeroInt(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(minInt) -->
@@ -437,13 +437,13 @@ namespace Cricut.TestAPI {
         public static nint MinInt {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Primitives_MinInt(out exn)
+                    __iota_get_TestAPI_Primitives_minInt(Loader.env, out exn)
                 );
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern nint __cs_get_Primitives_MinInt(out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern nint __iota_get_TestAPI_Primitives_minInt(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(maxInt) -->
@@ -451,13 +451,13 @@ namespace Cricut.TestAPI {
         public static nint MaxInt {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Primitives_MaxInt(out exn)
+                    __iota_get_TestAPI_Primitives_maxInt(Loader.env, out exn)
                 );
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern nint __cs_get_Primitives_MaxInt(out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern nint __iota_get_TestAPI_Primitives_maxInt(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(zeroFloat) -->
@@ -465,13 +465,13 @@ namespace Cricut.TestAPI {
         public static float ZeroFloat {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Primitives_ZeroFloat(out exn)
+                    __iota_get_TestAPI_Primitives_zeroFloat(Loader.env, out exn)
                 );
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern float __cs_get_Primitives_ZeroFloat(out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern float __iota_get_TestAPI_Primitives_zeroFloat(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(minFloat) -->
@@ -479,13 +479,13 @@ namespace Cricut.TestAPI {
         public static float MinFloat {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Primitives_MinFloat(out exn)
+                    __iota_get_TestAPI_Primitives_minFloat(Loader.env, out exn)
                 );
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern float __cs_get_Primitives_MinFloat(out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern float __iota_get_TestAPI_Primitives_minFloat(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(maxFloat) -->
@@ -493,13 +493,13 @@ namespace Cricut.TestAPI {
         public static float MaxFloat {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Primitives_MaxFloat(out exn)
+                    __iota_get_TestAPI_Primitives_maxFloat(Loader.env, out exn)
                 );
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern float __cs_get_Primitives_MaxFloat(out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern float __iota_get_TestAPI_Primitives_maxFloat(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(zeroDouble) -->
@@ -507,13 +507,13 @@ namespace Cricut.TestAPI {
         public static double ZeroDouble {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Primitives_ZeroDouble(out exn)
+                    __iota_get_TestAPI_Primitives_zeroDouble(Loader.env, out exn)
                 );
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern double __cs_get_Primitives_ZeroDouble(out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern double __iota_get_TestAPI_Primitives_zeroDouble(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(minDouble) -->
@@ -521,13 +521,13 @@ namespace Cricut.TestAPI {
         public static double MinDouble {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Primitives_MinDouble(out exn)
+                    __iota_get_TestAPI_Primitives_minDouble(Loader.env, out exn)
                 );
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern double __cs_get_Primitives_MinDouble(out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern double __iota_get_TestAPI_Primitives_minDouble(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(maxDouble) -->
@@ -535,13 +535,13 @@ namespace Cricut.TestAPI {
         public static double MaxDouble {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Primitives_MaxDouble(out exn)
+                    __iota_get_TestAPI_Primitives_maxDouble(Loader.env, out exn)
                 );
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern double __cs_get_Primitives_MaxDouble(out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern double __iota_get_TestAPI_Primitives_maxDouble(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(bitCountUInt) -->
@@ -549,13 +549,13 @@ namespace Cricut.TestAPI {
         public static nint BitCountUInt {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Primitives_BitCountUInt(out exn)
+                    __iota_get_TestAPI_Primitives_bitCountUInt(Loader.env, out exn)
                 );
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern nint __cs_get_Primitives_BitCountUInt(out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern nint __iota_get_TestAPI_Primitives_bitCountUInt(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(bitCountInt) -->
@@ -563,13 +563,13 @@ namespace Cricut.TestAPI {
         public static nint BitCountInt {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Primitives_BitCountInt(out exn)
+                    __iota_get_TestAPI_Primitives_bitCountInt(Loader.env, out exn)
                 );
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern nint __cs_get_Primitives_BitCountInt(out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern nint __iota_get_TestAPI_Primitives_bitCountInt(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(manyBool) -->
@@ -577,13 +577,13 @@ namespace Cricut.TestAPI {
         public static System.Collections.Generic.IList<bool> ManyBool {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Primitives_ManyBool(out exn).Consume<System.Collections.Generic.IList<bool>>()
+                    __iota_get_TestAPI_Primitives_manyBool(Loader.env, out exn).Consume<System.Collections.Generic.IList<bool>>()
                 );
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_get_Primitives_ManyBool(out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_get_TestAPI_Primitives_manyBool(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(manyUInt8) -->
@@ -591,13 +591,13 @@ namespace Cricut.TestAPI {
         public static System.Collections.Generic.IList<byte> ManyUInt8 {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Primitives_ManyUInt8(out exn).Consume<System.Collections.Generic.IList<byte>>()
+                    __iota_get_TestAPI_Primitives_manyUInt8(Loader.env, out exn).Consume<System.Collections.Generic.IList<byte>>()
                 );
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_get_Primitives_ManyUInt8(out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_get_TestAPI_Primitives_manyUInt8(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(manyUInt16) -->
@@ -605,13 +605,13 @@ namespace Cricut.TestAPI {
         public static System.Collections.Generic.IList<ushort> ManyUInt16 {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Primitives_ManyUInt16(out exn).Consume<System.Collections.Generic.IList<ushort>>()
+                    __iota_get_TestAPI_Primitives_manyUInt16(Loader.env, out exn).Consume<System.Collections.Generic.IList<ushort>>()
                 );
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_get_Primitives_ManyUInt16(out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_get_TestAPI_Primitives_manyUInt16(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(manyUInt32) -->
@@ -619,13 +619,13 @@ namespace Cricut.TestAPI {
         public static System.Collections.Generic.IList<uint> ManyUInt32 {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Primitives_ManyUInt32(out exn).Consume<System.Collections.Generic.IList<uint>>()
+                    __iota_get_TestAPI_Primitives_manyUInt32(Loader.env, out exn).Consume<System.Collections.Generic.IList<uint>>()
                 );
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_get_Primitives_ManyUInt32(out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_get_TestAPI_Primitives_manyUInt32(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(manyUInt64) -->
@@ -633,13 +633,13 @@ namespace Cricut.TestAPI {
         public static System.Collections.Generic.IList<ulong> ManyUInt64 {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Primitives_ManyUInt64(out exn).Consume<System.Collections.Generic.IList<ulong>>()
+                    __iota_get_TestAPI_Primitives_manyUInt64(Loader.env, out exn).Consume<System.Collections.Generic.IList<ulong>>()
                 );
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_get_Primitives_ManyUInt64(out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_get_TestAPI_Primitives_manyUInt64(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(manyUInt) -->
@@ -647,13 +647,13 @@ namespace Cricut.TestAPI {
         public static System.Collections.Generic.IList<nuint> ManyUInt {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Primitives_ManyUInt(out exn).Consume<System.Collections.Generic.IList<nuint>>()
+                    __iota_get_TestAPI_Primitives_manyUInt(Loader.env, out exn).Consume<System.Collections.Generic.IList<nuint>>()
                 );
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_get_Primitives_ManyUInt(out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_get_TestAPI_Primitives_manyUInt(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(manyInt8) -->
@@ -661,13 +661,13 @@ namespace Cricut.TestAPI {
         public static System.Collections.Generic.IList<sbyte> ManyInt8 {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Primitives_ManyInt8(out exn).Consume<System.Collections.Generic.IList<sbyte>>()
+                    __iota_get_TestAPI_Primitives_manyInt8(Loader.env, out exn).Consume<System.Collections.Generic.IList<sbyte>>()
                 );
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_get_Primitives_ManyInt8(out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_get_TestAPI_Primitives_manyInt8(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(manyInt16) -->
@@ -675,13 +675,13 @@ namespace Cricut.TestAPI {
         public static System.Collections.Generic.IList<short> ManyInt16 {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Primitives_ManyInt16(out exn).Consume<System.Collections.Generic.IList<short>>()
+                    __iota_get_TestAPI_Primitives_manyInt16(Loader.env, out exn).Consume<System.Collections.Generic.IList<short>>()
                 );
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_get_Primitives_ManyInt16(out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_get_TestAPI_Primitives_manyInt16(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(manyInt32) -->
@@ -689,13 +689,13 @@ namespace Cricut.TestAPI {
         public static System.Collections.Generic.IList<int> ManyInt32 {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Primitives_ManyInt32(out exn).Consume<System.Collections.Generic.IList<int>>()
+                    __iota_get_TestAPI_Primitives_manyInt32(Loader.env, out exn).Consume<System.Collections.Generic.IList<int>>()
                 );
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_get_Primitives_ManyInt32(out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_get_TestAPI_Primitives_manyInt32(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(manyInt64) -->
@@ -703,13 +703,13 @@ namespace Cricut.TestAPI {
         public static System.Collections.Generic.IList<long> ManyInt64 {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Primitives_ManyInt64(out exn).Consume<System.Collections.Generic.IList<long>>()
+                    __iota_get_TestAPI_Primitives_manyInt64(Loader.env, out exn).Consume<System.Collections.Generic.IList<long>>()
                 );
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_get_Primitives_ManyInt64(out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_get_TestAPI_Primitives_manyInt64(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(manyInt) -->
@@ -717,13 +717,13 @@ namespace Cricut.TestAPI {
         public static System.Collections.Generic.IList<nint> ManyInt {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Primitives_ManyInt(out exn).Consume<System.Collections.Generic.IList<nint>>()
+                    __iota_get_TestAPI_Primitives_manyInt(Loader.env, out exn).Consume<System.Collections.Generic.IList<nint>>()
                 );
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_get_Primitives_ManyInt(out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_get_TestAPI_Primitives_manyInt(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(manyFloat) -->
@@ -731,13 +731,13 @@ namespace Cricut.TestAPI {
         public static System.Collections.Generic.IList<float> ManyFloat {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Primitives_ManyFloat(out exn).Consume<System.Collections.Generic.IList<float>>()
+                    __iota_get_TestAPI_Primitives_manyFloat(Loader.env, out exn).Consume<System.Collections.Generic.IList<float>>()
                 );
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_get_Primitives_ManyFloat(out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_get_TestAPI_Primitives_manyFloat(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(manyDouble) -->
@@ -745,13 +745,13 @@ namespace Cricut.TestAPI {
         public static System.Collections.Generic.IList<double> ManyDouble {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Primitives_ManyDouble(out exn).Consume<System.Collections.Generic.IList<double>>()
+                    __iota_get_TestAPI_Primitives_manyDouble(Loader.env, out exn).Consume<System.Collections.Generic.IList<double>>()
                 );
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_get_Primitives_ManyDouble(out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_get_TestAPI_Primitives_manyDouble(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(manyMaybeBool) -->
@@ -759,13 +759,13 @@ namespace Cricut.TestAPI {
         public static System.Collections.Generic.IList<bool?> ManyMaybeBool {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Primitives_ManyMaybeBool(out exn).Consume<System.Collections.Generic.IList<bool?>>()
+                    __iota_get_TestAPI_Primitives_manyMaybeBool(Loader.env, out exn).Consume<System.Collections.Generic.IList<bool?>>()
                 );
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_get_Primitives_ManyMaybeBool(out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_get_TestAPI_Primitives_manyMaybeBool(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(manyMaybeUInt8) -->
@@ -773,13 +773,13 @@ namespace Cricut.TestAPI {
         public static System.Collections.Generic.IList<byte?> ManyMaybeUInt8 {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Primitives_ManyMaybeUInt8(out exn).Consume<System.Collections.Generic.IList<byte?>>()
+                    __iota_get_TestAPI_Primitives_manyMaybeUInt8(Loader.env, out exn).Consume<System.Collections.Generic.IList<byte?>>()
                 );
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_get_Primitives_ManyMaybeUInt8(out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_get_TestAPI_Primitives_manyMaybeUInt8(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(manyMaybeUInt16) -->
@@ -787,13 +787,13 @@ namespace Cricut.TestAPI {
         public static System.Collections.Generic.IList<ushort?> ManyMaybeUInt16 {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Primitives_ManyMaybeUInt16(out exn).Consume<System.Collections.Generic.IList<ushort?>>()
+                    __iota_get_TestAPI_Primitives_manyMaybeUInt16(Loader.env, out exn).Consume<System.Collections.Generic.IList<ushort?>>()
                 );
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_get_Primitives_ManyMaybeUInt16(out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_get_TestAPI_Primitives_manyMaybeUInt16(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(manyMaybeUInt32) -->
@@ -801,13 +801,13 @@ namespace Cricut.TestAPI {
         public static System.Collections.Generic.IList<uint?> ManyMaybeUInt32 {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Primitives_ManyMaybeUInt32(out exn).Consume<System.Collections.Generic.IList<uint?>>()
+                    __iota_get_TestAPI_Primitives_manyMaybeUInt32(Loader.env, out exn).Consume<System.Collections.Generic.IList<uint?>>()
                 );
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_get_Primitives_ManyMaybeUInt32(out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_get_TestAPI_Primitives_manyMaybeUInt32(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(manyMaybeUInt64) -->
@@ -815,13 +815,13 @@ namespace Cricut.TestAPI {
         public static System.Collections.Generic.IList<ulong?> ManyMaybeUInt64 {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Primitives_ManyMaybeUInt64(out exn).Consume<System.Collections.Generic.IList<ulong?>>()
+                    __iota_get_TestAPI_Primitives_manyMaybeUInt64(Loader.env, out exn).Consume<System.Collections.Generic.IList<ulong?>>()
                 );
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_get_Primitives_ManyMaybeUInt64(out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_get_TestAPI_Primitives_manyMaybeUInt64(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(manyMaybeUInt) -->
@@ -829,13 +829,13 @@ namespace Cricut.TestAPI {
         public static System.Collections.Generic.IList<nuint?> ManyMaybeUInt {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Primitives_ManyMaybeUInt(out exn).Consume<System.Collections.Generic.IList<nuint?>>()
+                    __iota_get_TestAPI_Primitives_manyMaybeUInt(Loader.env, out exn).Consume<System.Collections.Generic.IList<nuint?>>()
                 );
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_get_Primitives_ManyMaybeUInt(out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_get_TestAPI_Primitives_manyMaybeUInt(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(manyMaybeInt8) -->
@@ -843,13 +843,13 @@ namespace Cricut.TestAPI {
         public static System.Collections.Generic.IList<sbyte?> ManyMaybeInt8 {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Primitives_ManyMaybeInt8(out exn).Consume<System.Collections.Generic.IList<sbyte?>>()
+                    __iota_get_TestAPI_Primitives_manyMaybeInt8(Loader.env, out exn).Consume<System.Collections.Generic.IList<sbyte?>>()
                 );
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_get_Primitives_ManyMaybeInt8(out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_get_TestAPI_Primitives_manyMaybeInt8(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(manyMaybeInt16) -->
@@ -857,13 +857,13 @@ namespace Cricut.TestAPI {
         public static System.Collections.Generic.IList<short?> ManyMaybeInt16 {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Primitives_ManyMaybeInt16(out exn).Consume<System.Collections.Generic.IList<short?>>()
+                    __iota_get_TestAPI_Primitives_manyMaybeInt16(Loader.env, out exn).Consume<System.Collections.Generic.IList<short?>>()
                 );
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_get_Primitives_ManyMaybeInt16(out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_get_TestAPI_Primitives_manyMaybeInt16(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(manyMaybeInt32) -->
@@ -871,13 +871,13 @@ namespace Cricut.TestAPI {
         public static System.Collections.Generic.IList<int?> ManyMaybeInt32 {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Primitives_ManyMaybeInt32(out exn).Consume<System.Collections.Generic.IList<int?>>()
+                    __iota_get_TestAPI_Primitives_manyMaybeInt32(Loader.env, out exn).Consume<System.Collections.Generic.IList<int?>>()
                 );
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_get_Primitives_ManyMaybeInt32(out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_get_TestAPI_Primitives_manyMaybeInt32(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(manyMaybeInt64) -->
@@ -885,13 +885,13 @@ namespace Cricut.TestAPI {
         public static System.Collections.Generic.IList<long?> ManyMaybeInt64 {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Primitives_ManyMaybeInt64(out exn).Consume<System.Collections.Generic.IList<long?>>()
+                    __iota_get_TestAPI_Primitives_manyMaybeInt64(Loader.env, out exn).Consume<System.Collections.Generic.IList<long?>>()
                 );
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_get_Primitives_ManyMaybeInt64(out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_get_TestAPI_Primitives_manyMaybeInt64(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(manyMaybeInt) -->
@@ -899,13 +899,13 @@ namespace Cricut.TestAPI {
         public static System.Collections.Generic.IList<nint?> ManyMaybeInt {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Primitives_ManyMaybeInt(out exn).Consume<System.Collections.Generic.IList<nint?>>()
+                    __iota_get_TestAPI_Primitives_manyMaybeInt(Loader.env, out exn).Consume<System.Collections.Generic.IList<nint?>>()
                 );
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_get_Primitives_ManyMaybeInt(out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_get_TestAPI_Primitives_manyMaybeInt(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(manyMaybeFloat) -->
@@ -913,13 +913,13 @@ namespace Cricut.TestAPI {
         public static System.Collections.Generic.IList<float?> ManyMaybeFloat {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Primitives_ManyMaybeFloat(out exn).Consume<System.Collections.Generic.IList<float?>>()
+                    __iota_get_TestAPI_Primitives_manyMaybeFloat(Loader.env, out exn).Consume<System.Collections.Generic.IList<float?>>()
                 );
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_get_Primitives_ManyMaybeFloat(out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_get_TestAPI_Primitives_manyMaybeFloat(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(manyMaybeDouble) -->
@@ -927,13 +927,13 @@ namespace Cricut.TestAPI {
         public static System.Collections.Generic.IList<double?> ManyMaybeDouble {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Primitives_ManyMaybeDouble(out exn).Consume<System.Collections.Generic.IList<double?>>()
+                    __iota_get_TestAPI_Primitives_manyMaybeDouble(Loader.env, out exn).Consume<System.Collections.Generic.IList<double?>>()
                 );
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_get_Primitives_ManyMaybeDouble(out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_get_TestAPI_Primitives_manyMaybeDouble(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(defaultPrimitiveHolder) -->
@@ -941,13 +941,13 @@ namespace Cricut.TestAPI {
         public static Cricut.TestAPI.Primitives.PrimitiveHolder DefaultPrimitiveHolder {
             get {
                 return Check((out CreatedRef exn) =>
-                    __cs_get_Primitives_DefaultPrimitiveHolder(out exn).Consume<Cricut.TestAPI.Primitives.PrimitiveHolder>()
+                    __iota_get_TestAPI_Primitives_defaultPrimitiveHolder(Loader.env, out exn).Consume<Cricut.TestAPI.Primitives.PrimitiveHolder>()
                 );
             }
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_get_Primitives_DefaultPrimitiveHolder(out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_get_TestAPI_Primitives_defaultPrimitiveHolder(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(echoBool) -->
@@ -955,11 +955,12 @@ namespace Cricut.TestAPI {
         public static bool EchoBool(
             bool value
         ) {
-            return Check((out CreatedRef _exn) => __cs_Primitives_echoBool(value, out _exn));
+            return Check((out CreatedRef _exn) => __iota_TestAPI_Primitives_echoBool(Loader.env, value, out _exn));
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern bool __cs_Primitives_echoBool(
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern bool __iota_TestAPI_Primitives_echoBool(
+            IntPtr envRef,
             bool value,
             out CreatedRef exn
         );
@@ -970,11 +971,12 @@ namespace Cricut.TestAPI {
         public static byte EchoUInt8(
             byte value
         ) {
-            return Check((out CreatedRef _exn) => __cs_Primitives_echoUInt8(value, out _exn));
+            return Check((out CreatedRef _exn) => __iota_TestAPI_Primitives_echoUInt8(Loader.env, value, out _exn));
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern byte __cs_Primitives_echoUInt8(
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern byte __iota_TestAPI_Primitives_echoUInt8(
+            IntPtr envRef,
             byte value,
             out CreatedRef exn
         );
@@ -985,11 +987,12 @@ namespace Cricut.TestAPI {
         public static ushort EchoUInt16(
             ushort value
         ) {
-            return Check((out CreatedRef _exn) => __cs_Primitives_echoUInt16(value, out _exn));
+            return Check((out CreatedRef _exn) => __iota_TestAPI_Primitives_echoUInt16(Loader.env, value, out _exn));
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern ushort __cs_Primitives_echoUInt16(
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern ushort __iota_TestAPI_Primitives_echoUInt16(
+            IntPtr envRef,
             ushort value,
             out CreatedRef exn
         );
@@ -1000,11 +1003,12 @@ namespace Cricut.TestAPI {
         public static uint EchoUInt32(
             uint value
         ) {
-            return Check((out CreatedRef _exn) => __cs_Primitives_echoUInt32(value, out _exn));
+            return Check((out CreatedRef _exn) => __iota_TestAPI_Primitives_echoUInt32(Loader.env, value, out _exn));
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern uint __cs_Primitives_echoUInt32(
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern uint __iota_TestAPI_Primitives_echoUInt32(
+            IntPtr envRef,
             uint value,
             out CreatedRef exn
         );
@@ -1015,11 +1019,12 @@ namespace Cricut.TestAPI {
         public static ulong EchoUInt64(
             ulong value
         ) {
-            return Check((out CreatedRef _exn) => __cs_Primitives_echoUInt64(value, out _exn));
+            return Check((out CreatedRef _exn) => __iota_TestAPI_Primitives_echoUInt64(Loader.env, value, out _exn));
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern ulong __cs_Primitives_echoUInt64(
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern ulong __iota_TestAPI_Primitives_echoUInt64(
+            IntPtr envRef,
             ulong value,
             out CreatedRef exn
         );
@@ -1030,11 +1035,12 @@ namespace Cricut.TestAPI {
         public static nuint EchoUInt(
             nuint value
         ) {
-            return Check((out CreatedRef _exn) => __cs_Primitives_echoUInt(value, out _exn));
+            return Check((out CreatedRef _exn) => __iota_TestAPI_Primitives_echoUInt(Loader.env, value, out _exn));
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern nuint __cs_Primitives_echoUInt(
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern nuint __iota_TestAPI_Primitives_echoUInt(
+            IntPtr envRef,
             nuint value,
             out CreatedRef exn
         );
@@ -1045,11 +1051,12 @@ namespace Cricut.TestAPI {
         public static sbyte EchoInt8(
             sbyte value
         ) {
-            return Check((out CreatedRef _exn) => __cs_Primitives_echoInt8(value, out _exn));
+            return Check((out CreatedRef _exn) => __iota_TestAPI_Primitives_echoInt8(Loader.env, value, out _exn));
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern sbyte __cs_Primitives_echoInt8(
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern sbyte __iota_TestAPI_Primitives_echoInt8(
+            IntPtr envRef,
             sbyte value,
             out CreatedRef exn
         );
@@ -1060,11 +1067,12 @@ namespace Cricut.TestAPI {
         public static short EchoInt16(
             short value
         ) {
-            return Check((out CreatedRef _exn) => __cs_Primitives_echoInt16(value, out _exn));
+            return Check((out CreatedRef _exn) => __iota_TestAPI_Primitives_echoInt16(Loader.env, value, out _exn));
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern short __cs_Primitives_echoInt16(
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern short __iota_TestAPI_Primitives_echoInt16(
+            IntPtr envRef,
             short value,
             out CreatedRef exn
         );
@@ -1075,11 +1083,12 @@ namespace Cricut.TestAPI {
         public static int EchoInt32(
             int value
         ) {
-            return Check((out CreatedRef _exn) => __cs_Primitives_echoInt32(value, out _exn));
+            return Check((out CreatedRef _exn) => __iota_TestAPI_Primitives_echoInt32(Loader.env, value, out _exn));
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern int __cs_Primitives_echoInt32(
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern int __iota_TestAPI_Primitives_echoInt32(
+            IntPtr envRef,
             int value,
             out CreatedRef exn
         );
@@ -1090,11 +1099,12 @@ namespace Cricut.TestAPI {
         public static long EchoInt64(
             long value
         ) {
-            return Check((out CreatedRef _exn) => __cs_Primitives_echoInt64(value, out _exn));
+            return Check((out CreatedRef _exn) => __iota_TestAPI_Primitives_echoInt64(Loader.env, value, out _exn));
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern long __cs_Primitives_echoInt64(
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern long __iota_TestAPI_Primitives_echoInt64(
+            IntPtr envRef,
             long value,
             out CreatedRef exn
         );
@@ -1105,11 +1115,12 @@ namespace Cricut.TestAPI {
         public static nint EchoInt(
             nint value
         ) {
-            return Check((out CreatedRef _exn) => __cs_Primitives_echoInt(value, out _exn));
+            return Check((out CreatedRef _exn) => __iota_TestAPI_Primitives_echoInt(Loader.env, value, out _exn));
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern nint __cs_Primitives_echoInt(
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern nint __iota_TestAPI_Primitives_echoInt(
+            IntPtr envRef,
             nint value,
             out CreatedRef exn
         );
@@ -1120,11 +1131,12 @@ namespace Cricut.TestAPI {
         public static float EchoFloat(
             float value
         ) {
-            return Check((out CreatedRef _exn) => __cs_Primitives_echoFloat(value, out _exn));
+            return Check((out CreatedRef _exn) => __iota_TestAPI_Primitives_echoFloat(Loader.env, value, out _exn));
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern float __cs_Primitives_echoFloat(
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern float __iota_TestAPI_Primitives_echoFloat(
+            IntPtr envRef,
             float value,
             out CreatedRef exn
         );
@@ -1135,11 +1147,12 @@ namespace Cricut.TestAPI {
         public static double EchoDouble(
             double value
         ) {
-            return Check((out CreatedRef _exn) => __cs_Primitives_echoDouble(value, out _exn));
+            return Check((out CreatedRef _exn) => __iota_TestAPI_Primitives_echoDouble(Loader.env, value, out _exn));
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern double __cs_Primitives_echoDouble(
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern double __iota_TestAPI_Primitives_echoDouble(
+            IntPtr envRef,
             double value,
             out CreatedRef exn
         );
@@ -1151,11 +1164,12 @@ namespace Cricut.TestAPI {
             bool? value
         ) {
             using var _valueHandle = new GCRef(value);
-            return Check((out CreatedRef _exn) => __cs_Primitives_maybeEchoBool(_valueHandle.ptr, out _exn)).Consume<bool?>();
+            return Check((out CreatedRef _exn) => __iota_TestAPI_Primitives_maybeEchoBool(Loader.env, _valueHandle.ptr, out _exn)).Consume<bool?>();
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_Primitives_maybeEchoBool(
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_TestAPI_Primitives_maybeEchoBool(
+            IntPtr envRef,
             UnownedRef value,
             out CreatedRef exn
         );
@@ -1167,11 +1181,12 @@ namespace Cricut.TestAPI {
             byte? value
         ) {
             using var _valueHandle = new GCRef(value);
-            return Check((out CreatedRef _exn) => __cs_Primitives_maybeEchoUInt8(_valueHandle.ptr, out _exn)).Consume<byte?>();
+            return Check((out CreatedRef _exn) => __iota_TestAPI_Primitives_maybeEchoUInt8(Loader.env, _valueHandle.ptr, out _exn)).Consume<byte?>();
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_Primitives_maybeEchoUInt8(
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_TestAPI_Primitives_maybeEchoUInt8(
+            IntPtr envRef,
             UnownedRef value,
             out CreatedRef exn
         );
@@ -1183,11 +1198,12 @@ namespace Cricut.TestAPI {
             ushort? value
         ) {
             using var _valueHandle = new GCRef(value);
-            return Check((out CreatedRef _exn) => __cs_Primitives_maybeEchoUInt16(_valueHandle.ptr, out _exn)).Consume<ushort?>();
+            return Check((out CreatedRef _exn) => __iota_TestAPI_Primitives_maybeEchoUInt16(Loader.env, _valueHandle.ptr, out _exn)).Consume<ushort?>();
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_Primitives_maybeEchoUInt16(
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_TestAPI_Primitives_maybeEchoUInt16(
+            IntPtr envRef,
             UnownedRef value,
             out CreatedRef exn
         );
@@ -1199,11 +1215,12 @@ namespace Cricut.TestAPI {
             uint? value
         ) {
             using var _valueHandle = new GCRef(value);
-            return Check((out CreatedRef _exn) => __cs_Primitives_maybeEchoUInt32(_valueHandle.ptr, out _exn)).Consume<uint?>();
+            return Check((out CreatedRef _exn) => __iota_TestAPI_Primitives_maybeEchoUInt32(Loader.env, _valueHandle.ptr, out _exn)).Consume<uint?>();
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_Primitives_maybeEchoUInt32(
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_TestAPI_Primitives_maybeEchoUInt32(
+            IntPtr envRef,
             UnownedRef value,
             out CreatedRef exn
         );
@@ -1215,11 +1232,12 @@ namespace Cricut.TestAPI {
             ulong? value
         ) {
             using var _valueHandle = new GCRef(value);
-            return Check((out CreatedRef _exn) => __cs_Primitives_maybeEchoUInt64(_valueHandle.ptr, out _exn)).Consume<ulong?>();
+            return Check((out CreatedRef _exn) => __iota_TestAPI_Primitives_maybeEchoUInt64(Loader.env, _valueHandle.ptr, out _exn)).Consume<ulong?>();
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_Primitives_maybeEchoUInt64(
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_TestAPI_Primitives_maybeEchoUInt64(
+            IntPtr envRef,
             UnownedRef value,
             out CreatedRef exn
         );
@@ -1231,11 +1249,12 @@ namespace Cricut.TestAPI {
             nuint? value
         ) {
             using var _valueHandle = new GCRef(value);
-            return Check((out CreatedRef _exn) => __cs_Primitives_maybeEchoUInt(_valueHandle.ptr, out _exn)).Consume<nuint?>();
+            return Check((out CreatedRef _exn) => __iota_TestAPI_Primitives_maybeEchoUInt(Loader.env, _valueHandle.ptr, out _exn)).Consume<nuint?>();
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_Primitives_maybeEchoUInt(
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_TestAPI_Primitives_maybeEchoUInt(
+            IntPtr envRef,
             UnownedRef value,
             out CreatedRef exn
         );
@@ -1247,11 +1266,12 @@ namespace Cricut.TestAPI {
             sbyte? value
         ) {
             using var _valueHandle = new GCRef(value);
-            return Check((out CreatedRef _exn) => __cs_Primitives_maybeEchoInt8(_valueHandle.ptr, out _exn)).Consume<sbyte?>();
+            return Check((out CreatedRef _exn) => __iota_TestAPI_Primitives_maybeEchoInt8(Loader.env, _valueHandle.ptr, out _exn)).Consume<sbyte?>();
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_Primitives_maybeEchoInt8(
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_TestAPI_Primitives_maybeEchoInt8(
+            IntPtr envRef,
             UnownedRef value,
             out CreatedRef exn
         );
@@ -1263,11 +1283,12 @@ namespace Cricut.TestAPI {
             short? value
         ) {
             using var _valueHandle = new GCRef(value);
-            return Check((out CreatedRef _exn) => __cs_Primitives_maybeEchoInt16(_valueHandle.ptr, out _exn)).Consume<short?>();
+            return Check((out CreatedRef _exn) => __iota_TestAPI_Primitives_maybeEchoInt16(Loader.env, _valueHandle.ptr, out _exn)).Consume<short?>();
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_Primitives_maybeEchoInt16(
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_TestAPI_Primitives_maybeEchoInt16(
+            IntPtr envRef,
             UnownedRef value,
             out CreatedRef exn
         );
@@ -1279,11 +1300,12 @@ namespace Cricut.TestAPI {
             int? value
         ) {
             using var _valueHandle = new GCRef(value);
-            return Check((out CreatedRef _exn) => __cs_Primitives_maybeEchoInt32(_valueHandle.ptr, out _exn)).Consume<int?>();
+            return Check((out CreatedRef _exn) => __iota_TestAPI_Primitives_maybeEchoInt32(Loader.env, _valueHandle.ptr, out _exn)).Consume<int?>();
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_Primitives_maybeEchoInt32(
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_TestAPI_Primitives_maybeEchoInt32(
+            IntPtr envRef,
             UnownedRef value,
             out CreatedRef exn
         );
@@ -1295,11 +1317,12 @@ namespace Cricut.TestAPI {
             long? value
         ) {
             using var _valueHandle = new GCRef(value);
-            return Check((out CreatedRef _exn) => __cs_Primitives_maybeEchoInt64(_valueHandle.ptr, out _exn)).Consume<long?>();
+            return Check((out CreatedRef _exn) => __iota_TestAPI_Primitives_maybeEchoInt64(Loader.env, _valueHandle.ptr, out _exn)).Consume<long?>();
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_Primitives_maybeEchoInt64(
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_TestAPI_Primitives_maybeEchoInt64(
+            IntPtr envRef,
             UnownedRef value,
             out CreatedRef exn
         );
@@ -1311,11 +1334,12 @@ namespace Cricut.TestAPI {
             nint? value
         ) {
             using var _valueHandle = new GCRef(value);
-            return Check((out CreatedRef _exn) => __cs_Primitives_maybeEchoInt(_valueHandle.ptr, out _exn)).Consume<nint?>();
+            return Check((out CreatedRef _exn) => __iota_TestAPI_Primitives_maybeEchoInt(Loader.env, _valueHandle.ptr, out _exn)).Consume<nint?>();
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_Primitives_maybeEchoInt(
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_TestAPI_Primitives_maybeEchoInt(
+            IntPtr envRef,
             UnownedRef value,
             out CreatedRef exn
         );
@@ -1327,11 +1351,12 @@ namespace Cricut.TestAPI {
             float? value
         ) {
             using var _valueHandle = new GCRef(value);
-            return Check((out CreatedRef _exn) => __cs_Primitives_maybeEchoFloat(_valueHandle.ptr, out _exn)).Consume<float?>();
+            return Check((out CreatedRef _exn) => __iota_TestAPI_Primitives_maybeEchoFloat(Loader.env, _valueHandle.ptr, out _exn)).Consume<float?>();
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_Primitives_maybeEchoFloat(
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_TestAPI_Primitives_maybeEchoFloat(
+            IntPtr envRef,
             UnownedRef value,
             out CreatedRef exn
         );
@@ -1343,11 +1368,12 @@ namespace Cricut.TestAPI {
             double? value
         ) {
             using var _valueHandle = new GCRef(value);
-            return Check((out CreatedRef _exn) => __cs_Primitives_maybeEchoDouble(_valueHandle.ptr, out _exn)).Consume<double?>();
+            return Check((out CreatedRef _exn) => __iota_TestAPI_Primitives_maybeEchoDouble(Loader.env, _valueHandle.ptr, out _exn)).Consume<double?>();
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_Primitives_maybeEchoDouble(
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_TestAPI_Primitives_maybeEchoDouble(
+            IntPtr envRef,
             UnownedRef value,
             out CreatedRef exn
         );
@@ -1361,11 +1387,12 @@ namespace Cricut.TestAPI {
         ) {
             using var _valueHandle = new GCRef(value);
             using var _mapperHandle = new GCRef(mapper);
-            return Check((out CreatedRef _exn) => __cs_Primitives_valueMapper(_valueHandle.ptr, _mapperHandle.ptr, out _exn)).Consume<byte?>();
+            return Check((out CreatedRef _exn) => __iota_TestAPI_Primitives_valueMapper(Loader.env, _valueHandle.ptr, _mapperHandle.ptr, out _exn)).Consume<byte?>();
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_Primitives_valueMapper(
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_TestAPI_Primitives_valueMapper(
+            IntPtr envRef,
             UnownedRef value,
             UnownedRef mapper,
             out CreatedRef exn
@@ -1459,41 +1486,41 @@ namespace Cricut.TestAPI {
             }
 
             /// <summary>
-            /// <!-- FishyJoes.export(staticPropery) -->
+            /// <!-- FishyJoes.export(staticProperty) -->
             /// </summary>
-            public static System.Collections.Generic.IList<byte?> StaticPropery {
+            public static System.Collections.Generic.IList<byte?> StaticProperty {
                 get {
                     return Check((out CreatedRef exn) =>
-                        __cs_get_Primitives_PrimitiveHolder_StaticPropery(out exn).Consume<System.Collections.Generic.IList<byte?>>()
+                        __iota_get_TestAPI_Primitives_PrimitiveHolder_staticProperty(Loader.env, out exn).Consume<System.Collections.Generic.IList<byte?>>()
                     );
                 }
             }
 
-            [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-            private static extern CreatedRef __cs_get_Primitives_PrimitiveHolder_StaticPropery(out CreatedRef exn);
+            [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            private static extern CreatedRef __iota_get_TestAPI_Primitives_PrimitiveHolder_staticProperty(IntPtr envRef, out CreatedRef exn);
 
             /// <summary>
-            /// <!-- FishyJoes.export(staticMutablePropery) -->
+            /// <!-- FishyJoes.export(staticMutableProperty) -->
             /// </summary>
-            public static System.Collections.Generic.IList<byte?> StaticMutablePropery {
+            public static System.Collections.Generic.IList<byte?> StaticMutableProperty {
                 get {
                     return Check((out CreatedRef exn) =>
-                        __cs_get_Primitives_PrimitiveHolder_StaticMutablePropery(out exn).Consume<System.Collections.Generic.IList<byte?>>()
+                        __iota_get_TestAPI_Primitives_PrimitiveHolder_staticMutableProperty(Loader.env, out exn).Consume<System.Collections.Generic.IList<byte?>>()
                     );
                 }
                 set {
                     using var valueHandle = new GCRef(value);
                     Check((out CreatedRef exn) =>
-                        __cs_set_Primitives_PrimitiveHolder_StaticMutablePropery(valueHandle.ptr, out exn)
+                        __iota_set_TestAPI_Primitives_PrimitiveHolder_staticMutableProperty(Loader.env, valueHandle.ptr, out exn)
                     );
                 }
             }
 
-            [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-            private static extern CreatedRef __cs_get_Primitives_PrimitiveHolder_StaticMutablePropery(out CreatedRef exn);
+            [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            private static extern CreatedRef __iota_get_TestAPI_Primitives_PrimitiveHolder_staticMutableProperty(IntPtr envRef, out CreatedRef exn);
 
-            [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-            private static extern void __cs_set_Primitives_PrimitiveHolder_StaticMutablePropery(UnownedRef value, out CreatedRef exn);
+            [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            private static extern void __iota_set_TestAPI_Primitives_PrimitiveHolder_staticMutableProperty(IntPtr envRef, UnownedRef value, out CreatedRef exn);
 
             static PrimitiveHolder() { _TypeSetup._ensureLoaded(); }
         }
