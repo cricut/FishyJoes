@@ -77,18 +77,11 @@ jobs:
           #swift run -- fishy-joes --nodejs --wasm build test
           swift run -- fishy-joes --nodejs build test
 
-<<<<<<< HEAD
       - name: Build native FishyJoesJavaRuntime
-=======
-          swift run -- fishy-joes --nodejs build test
-
-      - name: Test from kotlin
->>>>>>> main
         shell: zsh {0}
         run: |
           set -euxo pipefail
 
-<<<<<<< HEAD
           libdir=kotlin-runtime/src/generated/resources/mac
           rm -rf $libdir
           mkdir -p $libdir
@@ -99,13 +92,6 @@ jobs:
         shell: zsh {0}
         run: |
           set -euxo pipefail
-=======
-          ./scripts/compile-kotlin-native-runtime.sh
-          (cd kotlin-runtime && ./gradlew publishToMavenLocal)
-
-          cd integration-tests/TestAPI-bindings
-          swift run -- fishy-joes --kotlin-fast build test
->>>>>>> main
 
           cd integration-tests/TestAPI-bindings
           swift run -- fishy-joes --kotlin-fast build test
@@ -168,12 +154,8 @@ jobs:
         run: |
           set -euxo pipefail
 
-<<<<<<< HEAD
-          ./scripts/compile-c-sharp-runtime.sh
-=======
           ./scripts/compile-iota-runtime.sh
 
->>>>>>> main
           cd integration-tests/TestAPI-bindings
           swift run -- fishy-joes --c-sharp build test
 
@@ -194,9 +176,6 @@ jobs:
           #swift run -- fishy-joes --nodejs --wasm build test
           swift run -- fishy-joes --nodejs build test
 
-<<<<<<< HEAD
-      - name: Build native FishyJoesJavaRuntime
-=======
           npm install
 
           swift run -- fishy-joes --nodejs --wasm build test
@@ -210,7 +189,6 @@ jobs:
           swift run -- fishy-joes --dart build test
 
       - name: Build linux FishyJoesJavaRuntime
->>>>>>> main
         shell: zsh {0}
         run: |
           set -euxo pipefail
@@ -219,10 +197,6 @@ jobs:
           rm -rf $libdir
           mkdir -p $libdir
           ./scripts/compile-kotlin-native-runtime.sh
-<<<<<<< HEAD
-          (cd kotlin-runtime && ./gradlew publishToMavenLocal)
-=======
->>>>>>> main
 
       - name: Build android FishyJoesJavaRuntime
         uses: addnab/docker-run-action@4f65fabd2431ebc8d299f8e5a018d79a769ae185

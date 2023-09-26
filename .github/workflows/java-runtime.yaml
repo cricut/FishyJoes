@@ -98,11 +98,7 @@ jobs:
           ./scripts/compile-kotlin-native-runtime.sh
           (cd kotlin-runtime && ./gradlew publishToMavenLocal)
 
-<<<<<<< HEAD
       - name: Test native FishyJoesJavaRuntime from gradle
-=======
-      - name: Test FishyJoesJavaRuntime from gradle
->>>>>>> main
         shell: zsh {0}
         run: |
           set -euxo pipefail
@@ -114,15 +110,9 @@ jobs:
         uses: addnab/docker-run-action@4f65fabd2431ebc8d299f8e5a018d79a769ae185
         with:
           username: cricut-builduser
-<<<<<<< HEAD
-          password: ${{ secrets.CRICUT_GPR_TOKEN }}
-          registry: ghcr.io
-          image: ghcr.io/cricut/android-swift-runtime:0.1.0
-=======
           password:  ${{ secrets.CRICUT_GPR_TOKEN }}
           registry: ghcr.io
           image: ghcr.io/cricut/android-swift-runtime:1.0.0
->>>>>>> main
           options: -v ${{ github.workspace }}:/work -w /work
           run: /work/scripts/compile-android-runtime.sh
 
@@ -149,27 +139,12 @@ jobs:
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
-<<<<<<< HEAD
       - name: Setup JDK
         uses: actions/setup-java@v3
-=======
-      - uses: compnerd/gha-setup-swift@main
-        with:
-          branch: swift-5.6.2-release
-          tag: 5.6.2-RELEASE
-
-      - name: Compile swift
-        run: |
-          swift build --product FishyJoesJavaRuntime --configuration release --build-path ./.build/windows-build
-
-      - name: Setup JDK 1.11
-        uses: actions/setup-java@v1
->>>>>>> main
         with:
           distribution: zulu
           java-version: 11
 
-<<<<<<< HEAD
       - uses: compnerd/gha-setup-swift@main
         with:
           branch: swift-5.6.2-release
@@ -177,10 +152,6 @@ jobs:
 
       - name: Build FishyJoesJavaRuntime
         shell: pwsh
-=======
-      - name: Copy resource
-        shell: bash
->>>>>>> main
         run: |
           # Should perform the same actions as scripts/compile-kotlin-native-runtime.sh, but must be done in powershell for swift-build to work
           swift build --product FishyJoesJavaRuntime --configuration release --build-path ./.build/windows-build
