@@ -158,6 +158,9 @@ jobs:
 
           dart run fishyjoes_dart:setup
           dart run build_runner build
+
+          # Someone who understands windows better than I do is welcome to fix this in a better way
+          $env:PATH = "$pwd\native\windows;$env:PATH"
           dart test
 
       - name: Upload library
