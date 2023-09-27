@@ -157,7 +157,7 @@ jobs:
           path: .build/windows-iota-libs
 
   c-sharp-publish:
-    name: "Publish C# package"
+    name: "Publish C# package and dart binaries"
     runs-on: ubuntu-latest
     needs: [build-c-sharp-mac, build-c-sharp-linux, build-c-sharp-windows]
     env:
@@ -204,8 +204,8 @@ jobs:
           rm -rf dart-runtime/native
           mkdir -p dart-runtime/native/{macos,linux,windows}
           cp -dv mac_generated/* dart-runtime/native/macos/
-          cp -dv ubuntu_generated/* c-sharp-runtime/runtimes/linux/
-          cp -dv windows_generated/* c-sharp-runtime/runtimes/windows/
+          cp -dv ubuntu_generated/* dart-runtime/runtimes/linux/
+          cp -dv windows_generated/* dart-runtime/runtimes/windows/
 
           ls -R dart-runtime
 
