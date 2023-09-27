@@ -59,6 +59,12 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:path/path.dart' as path;
 import 'package:tuple/tuple.dart' as tuple;
 
+typedef _Swift_String_PuttingTypesIntoQuestionablePlacesConstructor = CreatedRef Function(
+    ConsumedRef x,
+    OutCreatedRef exn
+);
+typedef _Swift_String_PuttingTypesIntoQuestionablePlaces_xGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef _Swift_String_PuttingTypesIntoQuestionablePlaces_xSetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
 typedef TestAPI_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_new_thing = CreatedRef Function(
     OutCreatedRef _exn
 );
@@ -186,12 +192,6 @@ typedef _TestAPI_Structs_MemberwiseStruct_immutableGetter = CreatedRef Function(
 typedef _TestAPI_Structs_MemberwiseStruct_immutableSetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
 typedef _TestAPI_Structs_MemberwiseStruct_mutableGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_Structs_MemberwiseStruct_mutableSetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
-typedef _TestAPI_Swift_String_PuttingTypesIntoQuestionablePlacesConstructor = CreatedRef Function(
-    ConsumedRef x,
-    OutCreatedRef exn
-);
-typedef _TestAPI_Swift_String_PuttingTypesIntoQuestionablePlaces_xGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
-typedef _TestAPI_Swift_String_PuttingTypesIntoQuestionablePlaces_xSetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
 typedef TestAPI_AssociatedDataEnum_new_thing = CreatedRef Function(
     ffi.Int value,
     OutCreatedRef _exn
@@ -269,6 +269,20 @@ final ensureLoaded = (() {
 
     dylib.lookupFunction<ffi.Void Function(), void Function()>('FishyJoes_TestAPI_registerTypes')();
 
+    final Swift_String_PuttingTypesIntoQuestionablePlaces_setup = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<_Swift_String_PuttingTypesIntoQuestionablePlacesConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_Swift_String_PuttingTypesIntoQuestionablePlaces_xGetter>> get_x,
+            OutCreatedRef exn
+        ),
+        void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<_Swift_String_PuttingTypesIntoQuestionablePlacesConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_Swift_String_PuttingTypesIntoQuestionablePlaces_xGetter>> get_x,
+            OutCreatedRef exn
+        )
+    >('Swift_String_PuttingTypesIntoQuestionablePlaces_setup');
     final Swift_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_setup = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
@@ -503,20 +517,6 @@ final ensureLoaded = (() {
             OutCreatedRef exn
         )
     >('TestAPI_Structs_ReferenceStruct_setup');
-    final TestAPI_Swift_String_PuttingTypesIntoQuestionablePlaces_setup = dylib.lookupFunction<
-        ffi.Void Function(
-            Env env,
-            ffi.Pointer<ffi.NativeFunction<_TestAPI_Swift_String_PuttingTypesIntoQuestionablePlacesConstructor>> constructor,
-            ffi.Pointer<ffi.NativeFunction<_TestAPI_Swift_String_PuttingTypesIntoQuestionablePlaces_xGetter>> get_x,
-            OutCreatedRef exn
-        ),
-        void Function(
-            Env env,
-            ffi.Pointer<ffi.NativeFunction<_TestAPI_Swift_String_PuttingTypesIntoQuestionablePlacesConstructor>> constructor,
-            ffi.Pointer<ffi.NativeFunction<_TestAPI_Swift_String_PuttingTypesIntoQuestionablePlaces_xGetter>> get_x,
-            OutCreatedRef exn
-        )
-    >('TestAPI_Swift_String_PuttingTypesIntoQuestionablePlaces_setup');
     final TestAPI_AssociatedDataEnum_setup = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
@@ -725,6 +725,18 @@ final ensureLoaded = (() {
             OutCreatedRef exn
         )
     >('TestAPI_URLs_setup');
+    TestAPI.String_PuttingTypesIntoQuestionablePlaces.f__iota_Swift_String_PuttingTypesIntoQuestionablePlaces_testCall = dylib.lookupFunction<
+        ffi.Int Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_Swift_String_PuttingTypesIntoQuestionablePlaces_testCall");
     TestAPI.UnicodeScalar_PuttingTypesIntoQuestionablePlaces.f__iota_Swift_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_testCall = dylib.lookupFunction<
         ffi.Int Function(
             Env env,
@@ -1789,18 +1801,6 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_Structs_ReferenceStruct_equals");
-    TestAPI.String_PuttingTypesIntoQuestionablePlaces.f__iota_TestAPI_Swift_String_PuttingTypesIntoQuestionablePlaces_testCall = dylib.lookupFunction<
-        ffi.Int Function(
-            Env env,
-            UnownedRef _this,
-            OutCreatedRef _exn
-        ),
-        int Function(
-            Env env,
-            UnownedRef _this,
-            OutCreatedRef _exn
-        )
-    >("__iota_TestAPI_Swift_String_PuttingTypesIntoQuestionablePlaces_testCall");
     TestAPI.Tuples.f__iota_TestAPI_Tuples_checkTuples = dylib.lookupFunction<
         ffi.Bool Function(
             Env env,
@@ -4485,6 +4485,18 @@ final ensureLoaded = (() {
         });
     });
 
+    Loader.shared.once("setup_Swift.String.PuttingTypesIntoQuestionablePlaces", () {
+        // print("setting up Swift.String.PuttingTypesIntoQuestionablePlaces (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            Swift_String_PuttingTypesIntoQuestionablePlaces_setup(
+                Loader.shared.env,
+                ffi.Pointer.fromFunction(TestAPI.String_PuttingTypesIntoQuestionablePlaces.ffi_constructor),
+                ffi.Pointer.fromFunction(TestAPI.String_PuttingTypesIntoQuestionablePlaces.ffi_get_x),
+                exn
+            );
+        });
+    });
+
     Loader.shared.once("setup_Swift.UnicodeScalar.PuttingTypesIntoQuestionablePlaces", () {
         // print("setting up Swift.UnicodeScalar.PuttingTypesIntoQuestionablePlaces (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
@@ -4632,18 +4644,6 @@ final ensureLoaded = (() {
             TestAPI_Structs_ReferenceStruct_setup(
                 Loader.shared.env,
                 ffi.Pointer.fromFunction(TestAPI.Structs_ReferenceStruct.ffi_new),
-                exn
-            );
-        });
-    });
-
-    Loader.shared.once("setup_TestAPI.Swift.String.PuttingTypesIntoQuestionablePlaces", () {
-        // print("setting up TestAPI.Swift.String.PuttingTypesIntoQuestionablePlaces (env=0x${Loader.shared.env.address.toRadixString(16)})...");
-        utils.check<void>((exn) {
-            TestAPI_Swift_String_PuttingTypesIntoQuestionablePlaces_setup(
-                Loader.shared.env,
-                ffi.Pointer.fromFunction(TestAPI.String_PuttingTypesIntoQuestionablePlaces.ffi_constructor),
-                ffi.Pointer.fromFunction(TestAPI.String_PuttingTypesIntoQuestionablePlaces.ffi_get_x),
                 exn
             );
         });

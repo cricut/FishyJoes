@@ -1096,10 +1096,9 @@
       "converterType" : {
         "named" : {
           "_0" : {
-            "module" : "TestAPI",
+            "module" : "Swift",
             "name" : "PuttingTypesIntoQuestionablePlaces",
             "namespace" : [
-              "Swift",
               "String"
             ]
           }
@@ -1136,10 +1135,9 @@
       "sourceType" : {
         "named" : {
           "_0" : {
-            "module" : "TestAPI",
+            "module" : "Swift",
             "name" : "PuttingTypesIntoQuestionablePlaces",
             "namespace" : [
-              "Swift",
               "String"
             ]
           }
@@ -1310,55 +1308,6 @@
         "classes" : [
           {
             "constructor" : {
-              "hidden" : {
-
-              }
-            },
-            "documentation" : [
-              "<!-- FishyJoes.exportReference(Structs_PuttingTypesIntoQuestionablePlaces) -->"
-            ],
-            "extends" : [
-
-            ],
-            "fields" : [
-
-            ],
-            "methods" : [
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(create) -->"
-                ],
-                "isStatic" : true,
-                "name" : "create",
-                "parameters" : [
-
-                ],
-                "returnType" : {
-                  "named" : {
-                    "_0" : "TestAPI.Structs_PuttingTypesIntoQuestionablePlaces"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(testCall) -->"
-                ],
-                "isStatic" : false,
-                "name" : "testCall",
-                "parameters" : [
-
-                ],
-                "returnType" : {
-                  "named" : {
-                    "_0" : "number"
-                  }
-                }
-              }
-            ],
-            "name" : "Structs_PuttingTypesIntoQuestionablePlaces"
-          },
-          {
-            "constructor" : {
               "visible" : {
                 "names" : [
                   "x"
@@ -1411,6 +1360,55 @@
               }
             ],
             "name" : "String_PuttingTypesIntoQuestionablePlaces"
+          },
+          {
+            "constructor" : {
+              "hidden" : {
+
+              }
+            },
+            "documentation" : [
+              "<!-- FishyJoes.exportReference(Structs_PuttingTypesIntoQuestionablePlaces) -->"
+            ],
+            "extends" : [
+
+            ],
+            "fields" : [
+
+            ],
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(create) -->"
+                ],
+                "isStatic" : true,
+                "name" : "create",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "TestAPI.Structs_PuttingTypesIntoQuestionablePlaces"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(testCall) -->"
+                ],
+                "isStatic" : false,
+                "name" : "testCall",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              }
+            ],
+            "name" : "Structs_PuttingTypesIntoQuestionablePlaces"
           },
           {
             "constructor" : {

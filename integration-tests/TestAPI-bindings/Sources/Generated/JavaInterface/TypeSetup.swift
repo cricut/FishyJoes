@@ -197,6 +197,15 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try SetConverter<Swift.Int>.javaSetup(env: env)
         // print("setting up SetConverter<Swift.String>...")
         try SetConverter<Swift.String>.javaSetup(env: env)
+        // print("setting up Swift.String.PuttingTypesIntoQuestionablePlaces...")
+        try Swift.String.PuttingTypesIntoQuestionablePlaces.javaSetup(env: env)
+        try env.RegisterNatives(Swift.String.PuttingTypesIntoQuestionablePlaces.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_testCall"),
+                signature: bag.add("()J"),
+                fnPtr: unsafeBitCast(java_Swift_String_PuttingTypesIntoQuestionablePlaces_testCall, to: UnsafeMutableRawPointer.self)
+            )
+        )
         // print("setting up Swift.UnicodeScalar.PuttingTypesIntoQuestionablePlaces...")
         try Swift.UnicodeScalar.PuttingTypesIntoQuestionablePlaces.javaSetup(env: env)
         try env.RegisterNatives(Swift.UnicodeScalar.PuttingTypesIntoQuestionablePlaces.javaClass,
@@ -301,15 +310,6 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_hashCode"),
                 signature: bag.add("()I"),
                 fnPtr: unsafeBitCast(TestAPI.Structs.ReferenceStruct._javaHash, to: UnsafeMutableRawPointer.self)
-            )
-        )
-        // print("setting up TestAPI.Swift.String.PuttingTypesIntoQuestionablePlaces...")
-        try TestAPI.Swift.String.PuttingTypesIntoQuestionablePlaces.javaSetup(env: env)
-        try env.RegisterNatives(TestAPI.Swift.String.PuttingTypesIntoQuestionablePlaces.javaClass,
-            JNINativeMethod(
-                name: bag.add("__jni_testCall"),
-                signature: bag.add("()J"),
-                fnPtr: unsafeBitCast(java_TestAPI_Swift_String_PuttingTypesIntoQuestionablePlaces_testCall, to: UnsafeMutableRawPointer.self)
             )
         )
         // print("setting up TestAPI.AssociatedDataEnum...")

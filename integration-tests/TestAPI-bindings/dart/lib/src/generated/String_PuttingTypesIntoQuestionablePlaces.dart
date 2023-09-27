@@ -89,7 +89,7 @@ class String_PuttingTypesIntoQuestionablePlaces with _$String_PuttingTypesIntoQu
     int testCall(
     ) =>
         GCRef.using(this, (_thisHandle) =>
-            check((OutCreatedRef _exn) => f__iota_TestAPI_Swift_String_PuttingTypesIntoQuestionablePlaces_testCall(Loader.shared.env, _thisHandle.ptr, _exn))
+            check((OutCreatedRef _exn) => f__iota_Swift_String_PuttingTypesIntoQuestionablePlaces_testCall(Loader.shared.env, _thisHandle.ptr, _exn))
         )
     ;
 
@@ -97,5 +97,5 @@ class String_PuttingTypesIntoQuestionablePlaces with _$String_PuttingTypesIntoQu
         Env env,
         UnownedRef _this,
         OutCreatedRef _exn
-    ) f__iota_TestAPI_Swift_String_PuttingTypesIntoQuestionablePlaces_testCall;
+    ) f__iota_Swift_String_PuttingTypesIntoQuestionablePlaces_testCall;
 }

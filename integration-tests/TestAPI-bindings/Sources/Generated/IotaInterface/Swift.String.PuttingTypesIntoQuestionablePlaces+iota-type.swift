@@ -5,22 +5,22 @@ import FishyJoesIotaRuntime
 import Foundation
 import TestAPI
 
-@_cdecl("TestAPI_Swift_String_PuttingTypesIntoQuestionablePlaces_setup")
-public func TestAPI_Swift_String_PuttingTypesIntoQuestionablePlaces_setup(
+@_cdecl("Swift_String_PuttingTypesIntoQuestionablePlaces_setup")
+public func Swift_String_PuttingTypesIntoQuestionablePlaces_setup(
     envRef: EnvRef,
-    constructorMethod: @escaping TestAPI.Swift.String.PuttingTypesIntoQuestionablePlaces._ConstructorMethod,
+    constructorMethod: @escaping Swift.String.PuttingTypesIntoQuestionablePlaces._ConstructorMethod,
     _ xGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType,
     _ xSetter: @escaping @convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void,
     _ exn: foreignOutExn
 ) {
     let env = Env(envRef)
-    if TestAPI.Swift.String.PuttingTypesIntoQuestionablePlaces._constructorMethod.isInitialized(env) { return }
-    TestAPI.Swift.String.PuttingTypesIntoQuestionablePlaces._constructorMethod[env] = constructorMethod
-    TestAPI.Swift.String.PuttingTypesIntoQuestionablePlaces._xGetter[env] = xGetter
-    TestAPI.Swift.String.PuttingTypesIntoQuestionablePlaces._xSetter[env] = xSetter
+    if Swift.String.PuttingTypesIntoQuestionablePlaces._constructorMethod.isInitialized(env) { return }
+    Swift.String.PuttingTypesIntoQuestionablePlaces._constructorMethod[env] = constructorMethod
+    Swift.String.PuttingTypesIntoQuestionablePlaces._xGetter[env] = xGetter
+    Swift.String.PuttingTypesIntoQuestionablePlaces._xSetter[env] = xSetter
 }
 
-extension TestAPI.Swift.String.PuttingTypesIntoQuestionablePlaces: IotaMutator {
+extension Swift.String.PuttingTypesIntoQuestionablePlaces: IotaMutator {
     fileprivate static let _xGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
     fileprivate static let _xSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void>()
     public typealias _ConstructorMethod = @convention(c) (

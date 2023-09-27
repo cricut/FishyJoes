@@ -5,7 +5,7 @@ import FishyJoesNodeRuntime
 import Foundation
 import TestAPI
 
-extension TestAPI.Swift.String.PuttingTypesIntoQuestionablePlaces: NodeMutator {
+extension Swift.String.PuttingTypesIntoQuestionablePlaces: NodeMutator {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
         Self(
             x: try { () -> Swift.String in
@@ -33,7 +33,7 @@ extension TestAPI.Swift.String.PuttingTypesIntoQuestionablePlaces: NodeMutator {
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "testCall", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try Swift.Int.toNode(
-                                env.this(converter: TestAPI.Swift.String.PuttingTypesIntoQuestionablePlaces.self).testCall(
+                                env.this(converter: Swift.String.PuttingTypesIntoQuestionablePlaces.self).testCall(
                                 ),
                                 env: env.env
                             )
