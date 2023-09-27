@@ -131,7 +131,7 @@ final class DartTranslator: Translator {
         fragment.outputBlock("final ensureLoaded = (() {", closeWith: "})();") {
             fragment.output("FishyJoesRuntime.Loader.shared.ensureLoaded;")
             for dependency in context.module.dependencies {
-                fragment.output("\(dependency).ensureLoaded;");
+                fragment.output("\(dependency).ensureLoaded;")
             }
             fragment.blankLine()
 
