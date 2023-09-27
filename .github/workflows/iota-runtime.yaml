@@ -204,8 +204,8 @@ jobs:
           rm -rf dart-runtime/native
           mkdir -p dart-runtime/native/{macos,linux,windows}
           cp -dv mac_generated/* dart-runtime/native/macos/
-          cp -dv ubuntu_generated/* dart-runtime/runtimes/linux/
-          cp -dv windows_generated/* dart-runtime/runtimes/windows/
+          cp -dv ubuntu_generated/* dart-runtime/native/linux/
+          cp -dv windows_generated/* dart-runtime/native/windows/
 
           ls -R dart-runtime
 
