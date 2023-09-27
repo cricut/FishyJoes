@@ -59,34 +59,45 @@ import 'package:fishyjoes_dart/utilities.dart' as utils;
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:tuple/tuple.dart' as tuple;
 
-/// <!-- FishyJoes.export(Deprecations) -->
-class Deprecations {
-    Deprecations._() {}
+part 'AttributedString_PuttingTypesIntoQuestionablePlaces.freezed.dart';
 
-    static int enumDiscriminator(UnownedRef obj, OutCreatedRef exn) => check((exn) =>
-        throw UnsupportedError('This class is supposed to be unihabited')
+/// <!-- FishyJoes.export(AttributedString_PuttingTypesIntoQuestionablePlaces) -->
+@Freezed(addImplicitFinal: false, makeCollectionsUnmodifiable: false)
+class AttributedString_PuttingTypesIntoQuestionablePlaces with _$AttributedString_PuttingTypesIntoQuestionablePlaces {
+    factory AttributedString_PuttingTypesIntoQuestionablePlaces({
+        required final String x
+    }) = _AttributedString_PuttingTypesIntoQuestionablePlaces;
+
+    AttributedString_PuttingTypesIntoQuestionablePlaces._();
+    static CreatedRef ffi_constructor(
+        ConsumedRef x,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(AttributedString_PuttingTypesIntoQuestionablePlaces(
+            x: consumeRef(x),
+        ))
     );
 
-    /// <!-- FishyJoes.export(deprecatedVariable) -->
-    @Deprecated("replace with `deprecatedMethod` ( <-- swift name, sorry )")
-    static int get deprecatedVariable =>
-        check((exn) =>
-            f__iota_get_TestAPI_Deprecations_deprecatedVariable(Loader.shared.env, exn)
+    static CreatedRef ffi_get_x(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(
+            peekRef<AttributedString_PuttingTypesIntoQuestionablePlaces>(obj).x
+        )
+    );
+
+    /// <!-- FishyJoes.export(testCall) -->
+    int testCall(
+    ) =>
+        GCRef.using(this, (_thisHandle) =>
+            check((OutCreatedRef _exn) => f__iota_Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_testCall(Loader.shared.env, _thisHandle.ptr, _exn))
         )
     ;
-    /// <!-- FishyJoes.export(deprecatedMethod) -->
-    @Deprecated("don't use this")
-    static String deprecatedMethod(
-    ) =>
-        consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_TestAPI_Deprecations_deprecatedMethod(Loader.shared.env, _exn)))
-    ;
 
-    static late CreatedRef Function(
-        Env env,
-        OutCreatedRef _exn
-    ) f__iota_TestAPI_Deprecations_deprecatedMethod;
     static late int Function(
         Env env,
+        UnownedRef _this,
         OutCreatedRef _exn
-    ) f__iota_get_TestAPI_Deprecations_deprecatedVariable;
+    ) f__iota_Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_testCall;
 }

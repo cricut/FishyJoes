@@ -25,6 +25,7 @@ public func registerModuleTestAPI(env: NAPI.Env, exports: NAPI.Value) throws -> 
     try env.setNamedProperty(exports, "TestAPI", module)
     try env.setNamedProperty(exports, "default", module)
 
+    try Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces.nodeSetup(env: env, module: module)
     try Swift.String.PuttingTypesIntoQuestionablePlaces.nodeSetup(env: env, module: module)
     try Swift.UnicodeScalar.PuttingTypesIntoQuestionablePlaces.nodeSetup(env: env, module: module)
     try TestAPI.Collections.CollectionHolder.nodeSetup(env: env, module: module)

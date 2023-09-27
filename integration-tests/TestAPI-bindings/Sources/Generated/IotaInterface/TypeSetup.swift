@@ -98,6 +98,7 @@ public func FishyJoes_TestAPI_registerTypes() {
     Env.registerType(SetConverter<Swift.Bool>.self, as: "SetConverter<Swift.Bool>")
     Env.registerType(SetConverter<Swift.Int>.self, as: "SetConverter<Swift.Int>")
     Env.registerType(SetConverter<Swift.String>.self, as: "SetConverter<Swift.String>")
+    Env.registerType(Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces.self, as: "Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces")
     Env.registerType(Swift.String.PuttingTypesIntoQuestionablePlaces.self, as: "Swift.String.PuttingTypesIntoQuestionablePlaces")
     Env.registerType(Swift.UnicodeScalar.PuttingTypesIntoQuestionablePlaces.self, as: "Swift.UnicodeScalar.PuttingTypesIntoQuestionablePlaces")
     Env.registerType(TestAPI.Collections.CollectionHolder.self, as: "TestAPI.Collections.CollectionHolder")

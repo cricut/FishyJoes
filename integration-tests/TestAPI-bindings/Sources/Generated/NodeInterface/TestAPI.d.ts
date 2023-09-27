@@ -63,6 +63,21 @@ export declare namespace TestAPI {
         ): TestAPI.AssociatedDataEnum;
     }
 
+    /**
+     * <!-- FishyJoes.export(AttributedString_PuttingTypesIntoQuestionablePlaces) -->
+     */
+    export class AttributedString_PuttingTypesIntoQuestionablePlaces {
+        constructor(x: string)
+
+        readonly x: string;
+
+        /**
+         * <!-- FishyJoes.export(testCall) -->
+         */
+        testCall(
+        ): number;
+    }
+
     export type AttributedStrings = never;
     export namespace AttributedStrings {
         /**

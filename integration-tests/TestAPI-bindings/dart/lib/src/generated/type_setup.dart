@@ -1,5 +1,7 @@
 import './AssociatedDataEnum.dart' as TestAPI;
 import './AssociatedDataEnum.dart';
+import './AttributedString_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
+import './AttributedString_PuttingTypesIntoQuestionablePlaces.dart';
 import './AttributedStrings.dart' as TestAPI;
 import './AttributedStrings.dart';
 import './Bytes.dart' as TestAPI;
@@ -59,6 +61,12 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:path/path.dart' as path;
 import 'package:tuple/tuple.dart' as tuple;
 
+typedef _Foundation_AttributedString_PuttingTypesIntoQuestionablePlacesConstructor = CreatedRef Function(
+    ConsumedRef x,
+    OutCreatedRef exn
+);
+typedef _Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_xGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef _Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_xSetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
 typedef _Swift_String_PuttingTypesIntoQuestionablePlacesConstructor = CreatedRef Function(
     ConsumedRef x,
     OutCreatedRef exn
@@ -269,6 +277,20 @@ final ensureLoaded = (() {
 
     dylib.lookupFunction<ffi.Void Function(), void Function()>('FishyJoes_TestAPI_registerTypes')();
 
+    final Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_setup = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<_Foundation_AttributedString_PuttingTypesIntoQuestionablePlacesConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_xGetter>> get_x,
+            OutCreatedRef exn
+        ),
+        void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<_Foundation_AttributedString_PuttingTypesIntoQuestionablePlacesConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_xGetter>> get_x,
+            OutCreatedRef exn
+        )
+    >('Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_setup');
     final Swift_String_PuttingTypesIntoQuestionablePlaces_setup = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
@@ -725,6 +747,18 @@ final ensureLoaded = (() {
             OutCreatedRef exn
         )
     >('TestAPI_URLs_setup');
+    TestAPI.AttributedString_PuttingTypesIntoQuestionablePlaces.f__iota_Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_testCall = dylib.lookupFunction<
+        ffi.Int Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_testCall");
     TestAPI.String_PuttingTypesIntoQuestionablePlaces.f__iota_Swift_String_PuttingTypesIntoQuestionablePlaces_testCall = dylib.lookupFunction<
         ffi.Int Function(
             Env env,
@@ -4480,6 +4514,18 @@ final ensureLoaded = (() {
             Loader.shared.FishyJoesCommonRuntime_SetConverter_setup<String>(
                 Loader.shared.env,
                 "SetConverter<Swift.String>",
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces", () {
+        // print("setting up Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_setup(
+                Loader.shared.env,
+                ffi.Pointer.fromFunction(TestAPI.AttributedString_PuttingTypesIntoQuestionablePlaces.ffi_constructor),
+                ffi.Pointer.fromFunction(TestAPI.AttributedString_PuttingTypesIntoQuestionablePlaces.ffi_get_x),
                 exn
             );
         });

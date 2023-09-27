@@ -1,5 +1,7 @@
 import './AssociatedDataEnum.dart' as TestAPI;
 import './AssociatedDataEnum.dart';
+import './AttributedString_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
+import './AttributedString_PuttingTypesIntoQuestionablePlaces.dart';
 import './AttributedStrings.dart' as TestAPI;
 import './AttributedStrings.dart';
 import './Bytes.dart' as TestAPI;

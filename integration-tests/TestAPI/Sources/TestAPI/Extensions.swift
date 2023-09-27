@@ -1,5 +1,20 @@
+import Foundation
+
 extension Swift.String {
     /// <!-- FishyJoes.export(String_PuttingTypesIntoQuestionablePlaces) -->
+    public struct PuttingTypesIntoQuestionablePlaces {
+        public let x: String
+        public init(x: String) {
+            self.x = x
+        }
+
+        /// <!-- FishyJoes.export(testCall) -->
+        public func testCall() -> Int { 42 }
+    }
+}
+
+extension Foundation.AttributedString {
+    /// <!-- FishyJoes.export(AttributedString_PuttingTypesIntoQuestionablePlaces) -->
     public struct PuttingTypesIntoQuestionablePlaces {
         public let x: String
         public init(x: String) {

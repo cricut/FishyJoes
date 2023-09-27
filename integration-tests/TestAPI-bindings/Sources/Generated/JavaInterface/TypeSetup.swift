@@ -197,6 +197,15 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try SetConverter<Swift.Int>.javaSetup(env: env)
         // print("setting up SetConverter<Swift.String>...")
         try SetConverter<Swift.String>.javaSetup(env: env)
+        // print("setting up Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces...")
+        try Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces.javaSetup(env: env)
+        try env.RegisterNatives(Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_testCall"),
+                signature: bag.add("()J"),
+                fnPtr: unsafeBitCast(java_Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_testCall, to: UnsafeMutableRawPointer.self)
+            )
+        )
         // print("setting up Swift.String.PuttingTypesIntoQuestionablePlaces...")
         try Swift.String.PuttingTypesIntoQuestionablePlaces.javaSetup(env: env)
         try env.RegisterNatives(Swift.String.PuttingTypesIntoQuestionablePlaces.javaClass,

@@ -1,3 +1,4 @@
+export './AttributedString_PuttingTypesIntoQuestionablePlaces.dart';
 export './String_PuttingTypesIntoQuestionablePlaces.dart';
 export './UnicodeScalar_PuttingTypesIntoQuestionablePlaces.dart';
 export './Collections_CollectionHolder.dart';

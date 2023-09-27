@@ -11,6 +11,20 @@ namespace Cricut.TestAPI {
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void FishyJoes_TestAPI_registerTypes();
 
+        delegate CreatedRef _Foundation_AttributedString_PuttingTypesIntoQuestionablePlacesConstructor(
+            ConsumedRef x,
+            out CreatedRef exn
+        );
+        delegate CreatedRef _Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_xGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_xSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_setup(
+            IntPtr envRef,
+            _Foundation_AttributedString_PuttingTypesIntoQuestionablePlacesConstructor constructor,
+            _Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_xGetter get_x,
+            out CreatedRef _exn
+        );
+
         delegate CreatedRef _Swift_String_PuttingTypesIntoQuestionablePlacesConstructor(
             ConsumedRef x,
             out CreatedRef exn
@@ -1177,6 +1191,21 @@ namespace Cricut.TestAPI {
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_SetConverter_setup<string>(
                     Loader.env,
                     "SetConverter<Swift.String>",
+                    out exn
+                ));
+            });
+            Once("setup_Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces", () => {
+                Console.WriteLine("setting up Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces...");
+                Utilities.Check((out CreatedRef exn) => Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_setup(
+                    Loader.env,
+                    bag<_Foundation_AttributedString_PuttingTypesIntoQuestionablePlacesConstructor>((ConsumedRef x, out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.AttributedString_PuttingTypesIntoQuestionablePlaces(
+                            x.Consume<string>()
+                        ));
+                    })),
+                    bag<_Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_xGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.AttributedString_PuttingTypesIntoQuestionablePlaces>().X)
+                    )),
                     out exn
                 ));
             });
