@@ -194,10 +194,10 @@ jobs:
           ls *
 
           rm -rf c-sharp-runtime/runtimes
-          mkdir -p c-sharp-runtime/runtimes/{osx,linux,win}
-          cp -dv mac_generated/* c-sharp-runtime/runtimes/osx/
-          cp -dv ubuntu_generated/* c-sharp-runtime/runtimes/linux/
-          cp -dv windows_generated/* c-sharp-runtime/runtimes/win/
+          mkdir -p c-sharp-runtime/runtimes/{osx,linux,win}/native
+          cp -dv mac_generated/* c-sharp-runtime/runtimes/osx/native/
+          cp -dv ubuntu_generated/* c-sharp-runtime/runtimes/linux/native/
+          cp -dv windows_generated/* c-sharp-runtime/runtimes/win/native/
 
           ls -R c-sharp-runtime/
 
