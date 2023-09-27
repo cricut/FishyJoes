@@ -194,18 +194,18 @@ jobs:
           ls *
 
           rm -rf c-sharp-runtime/runtimes
-          mkdir -p c-sharp-runtime/runtimes/{osx,linux,windows}
-          cp -dv mac_generated/*.dylib c-sharp-runtime/runtimes/osx/
-          cp -dv ubuntu_generated/*.so c-sharp-runtime/runtimes/linux/
-          cp -dv windows_generated/*.dll c-sharp-runtime/runtimes/win/
+          mkdir -p c-sharp-runtime/runtimes/{osx,linux,win}
+          cp -dv mac_generated/* c-sharp-runtime/runtimes/osx/
+          cp -dv ubuntu_generated/* c-sharp-runtime/runtimes/linux/
+          cp -dv windows_generated/* c-sharp-runtime/runtimes/win/
 
           ls -R c-sharp-runtime/
 
           rm -rf dart-runtime/native
           mkdir -p dart-runtime/native/{macos,linux,windows}
-          cp -dv mac_generated/*.dylib dart-runtime/native/macos/
-          cp -dv ubuntu_generated/*.so c-sharp-runtime/runtimes/linux/
-          cp -dv windows_generated/*.dll c-sharp-runtime/runtimes/windows/
+          cp -dv mac_generated/* dart-runtime/native/macos/
+          cp -dv ubuntu_generated/* c-sharp-runtime/runtimes/linux/
+          cp -dv windows_generated/* c-sharp-runtime/runtimes/windows/
 
           ls -R dart-runtime
 
