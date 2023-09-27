@@ -1,4 +1,4 @@
-name: "C# runtime"
+name: "Iota runtime"
 
 on:
   workflow_dispatch:
@@ -17,8 +17,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build-test-c-sharp-mac:
-    name: "mac: Build and test C# runtime"
+  build-c-sharp-mac:
+    name: "mac: Build iota runtime"
     runs-on: macOS-12
     env:
       GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
@@ -44,17 +44,17 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: mac_generated
-          path: c-sharp-runtime/runtimes
+          path: .build/apple/release/libFishyJoesIotaRuntime.dylib
 
-  build-test-c-sharp-linux:
-    name: "linux: Build and test C# runtime"
+  build-c-sharp-linux:
+    name: "linux: Build iota runtime"
     runs-on: ubuntu-latest
     container:
       image: swift
     env:
       GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
       GITHUB_USER: cricut-builduser
-      LIB_DIR: c-sharp-runtime/runtimes/linux/native
+      LIB_DIR: .build/linux-iota-libs
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -67,6 +67,7 @@ jobs:
       - name: Configure build environment
         run: |
           set -eux
+
           apt-get -y update
           apt-get -y install zsh patchelf
 
@@ -81,6 +82,11 @@ jobs:
         shell: zsh {0}
         run: |
           set -euxo pipefail
+
+          mkdir -p $LIB_DIR
+
+          binPath="$(swift build --configuration release --show-bin-path)"
+          cp -dv $binPath/libFishyJoesIotaRuntime.so $LIB_DIR
 
           cp -dv /usr/lib/swift/linux/libswift*.so* $LIB_DIR
           cp -dv /usr/lib/swift/linux/libicu*.so* $LIB_DIR
@@ -106,10 +112,10 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: ubuntu_generated
-          path: c-sharp-runtime/runtimes
+          path: .build/linux-iota-libs
 
-  build-test-c-sharp-windows:
-    name: "windows: Build and test C# bindings"
+  build-c-sharp-windows:
+    name: "windows: Build iota runtime"
     runs-on: windows-2019
     env:
       GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
@@ -136,8 +142,7 @@ jobs:
         shell: bash
         run: |
           set -euxo pipefail
-
-          LIB_DIR=c-sharp-runtime/runtimes/win/native/
+          LIB_DIR=.build/windows-iota-libs
 
           mkdir -p $LIB_DIR
           cp .build/windows-build/x86_64-unknown-windows-msvc/release/FishyJoesIotaRuntime.dll $LIB_DIR
@@ -149,12 +154,12 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: windows_generated
-          path: c-sharp-runtime/runtimes
+          path: .build/windows-iota-libs
 
   c-sharp-publish:
-    name: "Publish C# package"
+    name: "Publish C# package and dart binaries"
     runs-on: ubuntu-latest
-    needs: [build-test-c-sharp-mac, build-test-c-sharp-linux, build-test-c-sharp-windows]
+    needs: [build-c-sharp-mac, build-c-sharp-linux, build-c-sharp-windows]
     env:
       GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
       GITHUB_USER: cricut-builduser
@@ -189,12 +194,20 @@ jobs:
           ls *
 
           rm -rf c-sharp-runtime/runtimes
-          mkdir -p c-sharp-runtime/runtimes
-          mv mac_generated/osx c-sharp-runtime/runtimes/
-          mv ubuntu_generated/linux c-sharp-runtime/runtimes/
-          mv windows_generated/win c-sharp-runtime/runtimes/
+          mkdir -p c-sharp-runtime/runtimes/{osx,linux,win}
+          cp -dv mac_generated/* c-sharp-runtime/runtimes/osx/
+          cp -dv ubuntu_generated/* c-sharp-runtime/runtimes/linux/
+          cp -dv windows_generated/* c-sharp-runtime/runtimes/win/
 
           ls -R c-sharp-runtime/
+
+          rm -rf dart-runtime/native
+          mkdir -p dart-runtime/native/{macos,linux,windows}
+          cp -dv mac_generated/* dart-runtime/native/macos/
+          cp -dv ubuntu_generated/* dart-runtime/native/linux/
+          cp -dv windows_generated/* dart-runtime/native/windows/
+
+          ls -R dart-runtime
 
       - name: Determine version
         shell: zsh {0}
@@ -213,10 +226,14 @@ jobs:
         run: |
           set -euxo pipefail
 
-          cd c-sharp-runtime
-          dotnet pack -c Release -o out /p:PackageVersion="${{ env.VERSION }}"
+          (
+            cd c-sharp-runtime
+            dotnet pack -c Release -o out /p:PackageVersion="${{ env.VERSION }}"
+          )
 
-      - name: Upload result
+          tar -cvzf dart-binaries.tgz -C dart-runtime native
+
+      - name: Upload nuget package
         uses: actions/upload-artifact@v2
         with:
           name: nuget-package
@@ -225,10 +242,35 @@ jobs:
       - name: Publish
         shell: zsh {0}
         if: github.event_name == 'release'
+        env:
+          OWNER: ${{ github.repository_owner }}
+          REPO: ${{ github.event.repository.name }}
+          TAG_NAME: ${{ github.event.release.tag_name }}
         run: |
           set -euxo pipefail
+
+          # publish C#
 
           dotnet nuget push ./c-sharp-runtime/out/*.*nupkg \
             --source https://nuget.pkg.github.com/cricut \
             --api-key ${{ github.token }} \
             --skip-duplicate
+
+          # publish dart
+
+          releaseID=$(
+              gh api \
+              -H "Accept: application/vnd.github.v3+json" \
+              "/repos/$OWNER/$REPO/releases/tags/$TAG_NAME" \
+              -q .id
+          )
+
+          file=dart-binaries.tgz
+
+          # https://docs.github.com/en/rest/releases/assets#upload-a-release-asset
+          curl -f -u "$GITHUB_USER:$GITHUB_PUBLISH_TOKEN" \
+            -X POST \
+            -H 'Content-Type: application/gzip' \
+            -H 'Accept: application/vnd.github.v3+json' \
+            "https://uploads.github.com/repos/$OWNER/$REPO/releases/$releaseID/assets?name=$file" \
+            --data-binary @$file

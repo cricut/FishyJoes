@@ -111,7 +111,7 @@ jobs:
           path: dart/native
 
   build-test-dart-windows:
-    name: "BROKEN: windows: Build and test dart bindings"
+    name: "windows: Build and test dart bindings"
     runs-on: windows-latest
     env:
       GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
@@ -158,6 +158,9 @@ jobs:
 
           dart run fishyjoes_dart:setup
           dart run build_runner build
+
+          # Someone who understands windows better than I do is welcome to fix this in a better way
+          $env:PATH = "$pwd\native\windows;$env:PATH"
           dart test
 
       - name: Upload library
@@ -172,7 +175,7 @@ jobs:
     needs:
       - build-test-dart-mac
       - build-test-dart-linux
-      # - build-test-dart-windows
+      - build-test-dart-windows
     env:
       GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
       GITHUB_USER: cricut-builduser
@@ -225,8 +228,6 @@ jobs:
         shell: zsh {0}
         run: |
           set -euxo pipefail
-
-          dotnet pack -c Release -o out /p:PackageVersion="${{ env.VERSION }}"
 
           tar -cvzf __MODULE_NAME__-dart-binaries.tgz -C dart native
 
