@@ -129,6 +129,12 @@ final class DartTranslator: Translator {
 
         fragment.blankLine()
         fragment.outputBlock("final ensureLoaded = (() {", closeWith: "})();") {
+            fragment.output("FishyJoesRuntime.Loader.shared.ensureLoaded;")
+            for dependency in context.module.dependencies {
+                fragment.output("\(dependency).ensureLoaded;")
+            }
+            fragment.blankLine()
+
             fragment.output("final dylib = Loader.openLibrary('\(context.module)-iota');")
             fragment.output("final arena = ffi.Arena();")
 

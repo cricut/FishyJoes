@@ -262,6 +262,8 @@ typedef TestAPI_SimpleEnum_extract_blue = ffi.Void Function(
 );
 
 final ensureLoaded = (() {
+    FishyJoesRuntime.Loader.shared.ensureLoaded;
+
     final dylib = Loader.openLibrary('TestAPI-iota');
     final arena = ffi.Arena();
 
