@@ -436,7 +436,7 @@ public func Double_iota_setup(
     Double.constructor[env] = constructor
 }
 
-// MARK: - Less-Primitive Type Conversions
+// MARK: - String Type Conversion
 
 @_cdecl("Swift_String_setup")
 public func String_iota_setup(
@@ -479,6 +479,8 @@ extension String: IotaConverter {
     }
 }
 
+// MARK: - Data Type Conversion
+
 @_cdecl("Foundation_Data_setup")
 public func Data_iota_setup(
     envRef: EnvRef,
@@ -520,6 +522,39 @@ extension Data: IotaConverter {
             try env.check { exn in
                 constructor[env](buffer.baseAddress, Int32(value.count), exn)
             }
+        }
+    }
+}
+
+// MARK: - URL Type Conversion
+
+@_cdecl("Foundation_URL_setup")
+public func URL_iota_setup(
+    absoluteURIMethod: @escaping URL.AbsoluteURIMethod,
+    constructor: @escaping URL.Constructor
+) {
+    guard URL.absoluteURIMethod == nil else { return }
+    URL.absoluteURIMethod = absoluteURIMethod
+    URL.constructor = constructor
+}
+
+extension URL: IotaConverter {
+    public typealias AbsoluteURIMethod = @convention(c) (_ uri: foreignObject, _ exn: foreignOutExn) -> foreignObject
+    public typealias Constructor = @convention(c) (_ string: foreignObject, _ exn: foreignOutExn) -> foreignObject
+
+    fileprivate static var absoluteURIMethod: URL.AbsoluteURIMethod?
+    fileprivate static var constructor: URL.Constructor?
+
+    public static func peekIota(_ value: foreignObject, env: Env) throws -> SwiftType {
+        let urlString = try env.check { exn in try String.consumeIota(Env.unwrap(absoluteURIMethod)(value, exn), env: env) }
+        guard let url = URL(string: urlString) else { throw MalformedURLError(message: "Not a valid URL: \(urlString)") }
+        return url
+    }
+
+    public static func toIota(_ value: SwiftType, env: Env) throws -> foreignObject {
+        let urlString = value.absoluteString
+        return try env.check { exn in
+            try Env.unwrap(constructor)(String.toIota(urlString, env: env), exn)
         }
     }
 }

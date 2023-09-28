@@ -25,13 +25,13 @@ namespace Cricut.FishyJoesRuntime {
             get {
                 using var thisHandle = new GCRef(this);
                 return Check((out CreatedRef exn) =>
-                    __cs_get_AttributedString_String(thisHandle.ptr, out exn).Consume<string>()
+                    __iota_get_Foundation_AttributedString_String(thisHandle.ptr, out exn).Consume<string>()
                 );
             }
         }
 
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_get_AttributedString_String(UnownedRef self, out CreatedRef exn);
+        private static extern CreatedRef __iota_get_Foundation_AttributedString_String(UnownedRef self, out CreatedRef exn);
 
         /// <summary>The attributed runs of the attributed string, as a view into the underlying string.</summary>
         /// <remarks>
@@ -48,13 +48,13 @@ namespace Cricut.FishyJoesRuntime {
             get {
                 using var thisHandle = new GCRef(this);
                 return Check((out CreatedRef exn) =>
-                    __cs_get_AttributedString_Runs(thisHandle.ptr, out exn).Consume<Cricut.FishyJoesRuntime.AttributedString.RunsView>()
+                    __iota_get_Foundation_AttributedString_Runs(thisHandle.ptr, out exn).Consume<Cricut.FishyJoesRuntime.AttributedString.RunsView>()
                 );
             }
         }
 
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_get_AttributedString_Runs(UnownedRef self, out CreatedRef exn);
+        private static extern CreatedRef __iota_get_Foundation_AttributedString_Runs(UnownedRef self, out CreatedRef exn);
 
         /// <summary>The characters of the attributed string, as a view into the underlying string.</summary>
         /// <!-- FishyJoes.export(characters) -->
@@ -62,13 +62,13 @@ namespace Cricut.FishyJoesRuntime {
             get {
                 using var thisHandle = new GCRef(this);
                 return Check((out CreatedRef exn) =>
-                    __cs_get_AttributedString_Characters(thisHandle.ptr, out exn).Consume<Cricut.FishyJoesRuntime.AttributedString.CharacterView>()
+                    __iota_get_Foundation_AttributedString_Characters(thisHandle.ptr, out exn).Consume<Cricut.FishyJoesRuntime.AttributedString.CharacterView>()
                 );
             }
         }
 
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_get_AttributedString_Characters(UnownedRef self, out CreatedRef exn);
+        private static extern CreatedRef __iota_get_Foundation_AttributedString_Characters(UnownedRef self, out CreatedRef exn);
 
         /// <summary>The Unicode scalars of the attributed string, as a view into the underlying string.</summary>
         /// <!-- FishyJoes.export(unicodeScalars) -->
@@ -76,13 +76,13 @@ namespace Cricut.FishyJoesRuntime {
             get {
                 using var thisHandle = new GCRef(this);
                 return Check((out CreatedRef exn) =>
-                    __cs_get_AttributedString_UnicodeScalars(thisHandle.ptr, out exn).Consume<Cricut.FishyJoesRuntime.AttributedString.UnicodeScalarView>()
+                    __iota_get_Foundation_AttributedString_UnicodeScalars(thisHandle.ptr, out exn).Consume<Cricut.FishyJoesRuntime.AttributedString.UnicodeScalarView>()
                 );
             }
         }
 
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_get_AttributedString_UnicodeScalars(UnownedRef self, out CreatedRef exn);
+        private static extern CreatedRef __iota_get_Foundation_AttributedString_UnicodeScalars(UnownedRef self, out CreatedRef exn);
 
         /// <summary>An attributed substring representing the full content of the attributed string.</summary>
         /// <!-- FishyJoes.export(substring) -->
@@ -90,13 +90,13 @@ namespace Cricut.FishyJoesRuntime {
             get {
                 using var thisHandle = new GCRef(this);
                 return Check((out CreatedRef exn) =>
-                    __cs_get_AttributedString_Substring(thisHandle.ptr, out exn).Consume<Cricut.FishyJoesRuntime.AttributedSubstring>()
+                    __iota_get_Foundation_AttributedString_Substring(thisHandle.ptr, out exn).Consume<Cricut.FishyJoesRuntime.AttributedSubstring>()
                 );
             }
         }
 
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_get_AttributedString_Substring(UnownedRef self, out CreatedRef exn);
+        private static extern CreatedRef __iota_get_Foundation_AttributedString_Substring(UnownedRef self, out CreatedRef exn);
 
         /// <summary>The position of the first character in a nonempty attributed string.</summary>
         /// <remarks>
@@ -107,13 +107,13 @@ namespace Cricut.FishyJoesRuntime {
             get {
                 using var thisHandle = new GCRef(this);
                 return Check((out CreatedRef exn) =>
-                    __cs_get_AttributedString_StartIndex(thisHandle.ptr, out exn).Consume<Cricut.FishyJoesRuntime.AttributedString.Index>()
+                    __iota_get_Foundation_AttributedString_StartIndex(thisHandle.ptr, out exn).Consume<Cricut.FishyJoesRuntime.AttributedString.Index>()
                 );
             }
         }
 
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_get_AttributedString_StartIndex(UnownedRef self, out CreatedRef exn);
+        private static extern CreatedRef __iota_get_Foundation_AttributedString_StartIndex(UnownedRef self, out CreatedRef exn);
 
         /// <summary>An attributed string’s past-the-end position — the position one greater than the last valid subscript argument.</summary>
         /// <remarks>
@@ -124,13 +124,13 @@ namespace Cricut.FishyJoesRuntime {
             get {
                 using var thisHandle = new GCRef(this);
                 return Check((out CreatedRef exn) =>
-                    __cs_get_AttributedString_EndIndex(thisHandle.ptr, out exn).Consume<Cricut.FishyJoesRuntime.AttributedString.Index>()
+                    __iota_get_Foundation_AttributedString_EndIndex(thisHandle.ptr, out exn).Consume<Cricut.FishyJoesRuntime.AttributedString.Index>()
                 );
             }
         }
 
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_get_AttributedString_EndIndex(UnownedRef self, out CreatedRef exn);
+        private static extern CreatedRef __iota_get_Foundation_AttributedString_EndIndex(UnownedRef self, out CreatedRef exn);
 
         /// <summary>Obtains an attributed substring representing part of the attributed string.</summary>
         /// <param name="range">The portion of the attributed string to be represented by the substring, bounded by `startIndex` and `endIndex`.</param>
@@ -140,11 +140,11 @@ namespace Cricut.FishyJoesRuntime {
         ) {
             using var _thisHandle = new GCRef(this);
             using var _rangeHandle = new GCRef(range);
-            return Check((out CreatedRef _exn) => __cs_AttributedString_substringForRange(_thisHandle.ptr, _rangeHandle.ptr, out _exn)).Consume<Cricut.FishyJoesRuntime.AttributedSubstring>();
+            return Check((out CreatedRef _exn) => __iota_Foundation_AttributedString_substringForRange(_thisHandle.ptr, _rangeHandle.ptr, out _exn)).Consume<Cricut.FishyJoesRuntime.AttributedSubstring>();
         }
 
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_AttributedString_substringForRange(
+        private static extern CreatedRef __iota_Foundation_AttributedString_substringForRange(
             UnownedRef self,
             UnownedRef range,
             out CreatedRef exn
@@ -158,11 +158,11 @@ namespace Cricut.FishyJoesRuntime {
         ) {
             using var _thisHandle = new GCRef(this);
             using var _attributedStringHandle = new GCRef(attributedString);
-            Check((out CreatedRef _exn) => __cs_AttributedString_append(_thisHandle.ptr, _attributedStringHandle.ptr, out _exn));
+            Check((out CreatedRef _exn) => __iota_Foundation_AttributedString_append(_thisHandle.ptr, _attributedStringHandle.ptr, out _exn));
         }
 
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern void __cs_AttributedString_append(
+        private static extern void __iota_Foundation_AttributedString_append(
             UnownedRef self,
             UnownedRef attributedString,
             out CreatedRef exn
@@ -176,11 +176,11 @@ namespace Cricut.FishyJoesRuntime {
         ) {
             using var _thisHandle = new GCRef(this);
             using var _substringHandle = new GCRef(substring);
-            Check((out CreatedRef _exn) => __cs_AttributedString_appendSubstring(_thisHandle.ptr, _substringHandle.ptr, out _exn));
+            Check((out CreatedRef _exn) => __iota_Foundation_AttributedString_appendSubstring(_thisHandle.ptr, _substringHandle.ptr, out _exn));
         }
 
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern void __cs_AttributedString_appendSubstring(
+        private static extern void __iota_Foundation_AttributedString_appendSubstring(
             UnownedRef self,
             UnownedRef substring,
             out CreatedRef exn
@@ -201,11 +201,11 @@ namespace Cricut.FishyJoesRuntime {
             using var _thisHandle = new GCRef(this);
             using var _attributedStringHandle = new GCRef(attributedString);
             using var _indexHandle = new GCRef(index);
-            Check((out CreatedRef _exn) => __cs_AttributedString_insert(_thisHandle.ptr, _attributedStringHandle.ptr, _indexHandle.ptr, out _exn));
+            Check((out CreatedRef _exn) => __iota_Foundation_AttributedString_insert(_thisHandle.ptr, _attributedStringHandle.ptr, _indexHandle.ptr, out _exn));
         }
 
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern void __cs_AttributedString_insert(
+        private static extern void __iota_Foundation_AttributedString_insert(
             UnownedRef self,
             UnownedRef attributedString,
             UnownedRef index,
@@ -227,11 +227,11 @@ namespace Cricut.FishyJoesRuntime {
             using var _thisHandle = new GCRef(this);
             using var _substringHandle = new GCRef(substring);
             using var _indexHandle = new GCRef(index);
-            Check((out CreatedRef _exn) => __cs_AttributedString_insertSubstring(_thisHandle.ptr, _substringHandle.ptr, _indexHandle.ptr, out _exn));
+            Check((out CreatedRef _exn) => __iota_Foundation_AttributedString_insertSubstring(_thisHandle.ptr, _substringHandle.ptr, _indexHandle.ptr, out _exn));
         }
 
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern void __cs_AttributedString_insertSubstring(
+        private static extern void __iota_Foundation_AttributedString_insertSubstring(
             UnownedRef self,
             UnownedRef substring,
             UnownedRef index,
@@ -249,11 +249,11 @@ namespace Cricut.FishyJoesRuntime {
             using var _thisHandle = new GCRef(this);
             using var _rangeHandle = new GCRef(range);
             using var _attributedStringHandle = new GCRef(attributedString);
-            Check((out CreatedRef _exn) => __cs_AttributedString_replaceSubrange(_thisHandle.ptr, _rangeHandle.ptr, _attributedStringHandle.ptr, out _exn));
+            Check((out CreatedRef _exn) => __iota_Foundation_AttributedString_replaceSubrange(_thisHandle.ptr, _rangeHandle.ptr, _attributedStringHandle.ptr, out _exn));
         }
 
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern void __cs_AttributedString_replaceSubrange(
+        private static extern void __iota_Foundation_AttributedString_replaceSubrange(
             UnownedRef self,
             UnownedRef range,
             UnownedRef attributedString,
@@ -271,11 +271,11 @@ namespace Cricut.FishyJoesRuntime {
             using var _thisHandle = new GCRef(this);
             using var _rangeHandle = new GCRef(range);
             using var _substringHandle = new GCRef(substring);
-            Check((out CreatedRef _exn) => __cs_AttributedString_replaceSubrangeWithSubstring(_thisHandle.ptr, _rangeHandle.ptr, _substringHandle.ptr, out _exn));
+            Check((out CreatedRef _exn) => __iota_Foundation_AttributedString_replaceSubrangeWithSubstring(_thisHandle.ptr, _rangeHandle.ptr, _substringHandle.ptr, out _exn));
         }
 
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern void __cs_AttributedString_replaceSubrangeWithSubstring(
+        private static extern void __iota_Foundation_AttributedString_replaceSubrangeWithSubstring(
             UnownedRef self,
             UnownedRef range,
             UnownedRef substring,
@@ -290,11 +290,11 @@ namespace Cricut.FishyJoesRuntime {
         ) {
             using var _thisHandle = new GCRef(this);
             using var _rangeHandle = new GCRef(range);
-            Check((out CreatedRef _exn) => __cs_AttributedString_removeSubrange(_thisHandle.ptr, _rangeHandle.ptr, out _exn));
+            Check((out CreatedRef _exn) => __iota_Foundation_AttributedString_removeSubrange(_thisHandle.ptr, _rangeHandle.ptr, out _exn));
         }
 
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern void __cs_AttributedString_removeSubrange(
+        private static extern void __iota_Foundation_AttributedString_removeSubrange(
             UnownedRef self,
             UnownedRef range,
             out CreatedRef exn
@@ -308,11 +308,11 @@ namespace Cricut.FishyJoesRuntime {
         ) {
             using var _thisHandle = new GCRef(this);
             using var _attributesHandle = new GCRef(attributes);
-            Check((out CreatedRef _exn) => __cs_AttributedString_setAttributes(_thisHandle.ptr, _attributesHandle.ptr, out _exn));
+            Check((out CreatedRef _exn) => __iota_Foundation_AttributedString_setAttributes(_thisHandle.ptr, _attributesHandle.ptr, out _exn));
         }
 
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern void __cs_AttributedString_setAttributes(
+        private static extern void __iota_Foundation_AttributedString_setAttributes(
             UnownedRef self,
             UnownedRef attributes,
             out CreatedRef exn
@@ -329,11 +329,11 @@ namespace Cricut.FishyJoesRuntime {
             using var _thisHandle = new GCRef(this);
             using var _rangeHandle = new GCRef(range);
             using var _attributesHandle = new GCRef(attributes);
-            Check((out CreatedRef _exn) => __cs_AttributedString_setAttributesForRange(_thisHandle.ptr, _rangeHandle.ptr, _attributesHandle.ptr, out _exn));
+            Check((out CreatedRef _exn) => __iota_Foundation_AttributedString_setAttributesForRange(_thisHandle.ptr, _rangeHandle.ptr, _attributesHandle.ptr, out _exn));
         }
 
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern void __cs_AttributedString_setAttributesForRange(
+        private static extern void __iota_Foundation_AttributedString_setAttributesForRange(
             UnownedRef self,
             UnownedRef range,
             UnownedRef attributes,
@@ -354,11 +354,11 @@ namespace Cricut.FishyJoesRuntime {
         ) {
             using var _thisHandle = new GCRef(this);
             using var _attributesHandle = new GCRef(attributes);
-            Check((out CreatedRef _exn) => __cs_AttributedString_mergeAttributes(_thisHandle.ptr, _attributesHandle.ptr, keepCurrent, out _exn));
+            Check((out CreatedRef _exn) => __iota_Foundation_AttributedString_mergeAttributes(_thisHandle.ptr, _attributesHandle.ptr, keepCurrent, out _exn));
         }
 
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern void __cs_AttributedString_mergeAttributes(
+        private static extern void __iota_Foundation_AttributedString_mergeAttributes(
             UnownedRef self,
             UnownedRef attributes,
             bool keepCurrent,
@@ -382,11 +382,11 @@ namespace Cricut.FishyJoesRuntime {
             using var _thisHandle = new GCRef(this);
             using var _rangeHandle = new GCRef(range);
             using var _attributesHandle = new GCRef(attributes);
-            Check((out CreatedRef _exn) => __cs_AttributedString_mergeAttributesForRange(_thisHandle.ptr, _rangeHandle.ptr, _attributesHandle.ptr, keepCurrent, out _exn));
+            Check((out CreatedRef _exn) => __iota_Foundation_AttributedString_mergeAttributesForRange(_thisHandle.ptr, _rangeHandle.ptr, _attributesHandle.ptr, keepCurrent, out _exn));
         }
 
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern void __cs_AttributedString_mergeAttributesForRange(
+        private static extern void __iota_Foundation_AttributedString_mergeAttributesForRange(
             UnownedRef self,
             UnownedRef range,
             UnownedRef attributes,
@@ -405,11 +405,11 @@ namespace Cricut.FishyJoesRuntime {
             using var _thisHandle = new GCRef(this);
             using var _attributesHandle = new GCRef(attributes);
             using var _othersHandle = new GCRef(others);
-            Check((out CreatedRef _exn) => __cs_AttributedString_replaceAttributes(_thisHandle.ptr, _attributesHandle.ptr, _othersHandle.ptr, out _exn));
+            Check((out CreatedRef _exn) => __iota_Foundation_AttributedString_replaceAttributes(_thisHandle.ptr, _attributesHandle.ptr, _othersHandle.ptr, out _exn));
         }
 
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern void __cs_AttributedString_replaceAttributes(
+        private static extern void __iota_Foundation_AttributedString_replaceAttributes(
             UnownedRef self,
             UnownedRef attributes,
             UnownedRef others,
@@ -430,11 +430,11 @@ namespace Cricut.FishyJoesRuntime {
             using var _rangeHandle = new GCRef(range);
             using var _attributesHandle = new GCRef(attributes);
             using var _othersHandle = new GCRef(others);
-            Check((out CreatedRef _exn) => __cs_AttributedString_replaceAttributesForRange(_thisHandle.ptr, _rangeHandle.ptr, _attributesHandle.ptr, _othersHandle.ptr, out _exn));
+            Check((out CreatedRef _exn) => __iota_Foundation_AttributedString_replaceAttributesForRange(_thisHandle.ptr, _rangeHandle.ptr, _attributesHandle.ptr, _othersHandle.ptr, out _exn));
         }
 
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern void __cs_AttributedString_replaceAttributesForRange(
+        private static extern void __iota_Foundation_AttributedString_replaceAttributesForRange(
             UnownedRef self,
             UnownedRef range,
             UnownedRef attributes,
@@ -447,11 +447,11 @@ namespace Cricut.FishyJoesRuntime {
         ) {
             using var thisHandle = new GCRef(this);
             using var otherHandle = new GCRef(other as Cricut.FishyJoesRuntime.AttributedString);
-            return Check((out CreatedRef exn) => __cs_AttributedString_equals(thisHandle.ptr, otherHandle.ptr, out exn));
+            return Check((out CreatedRef exn) => __iota_Foundation_AttributedString_equals(thisHandle.ptr, otherHandle.ptr, out exn));
         }
 
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern bool __cs_AttributedString_equals(
+        private static extern bool __iota_Foundation_AttributedString_equals(
             UnownedRef lhs,
             UnownedRef rhs,
             out CreatedRef exn
@@ -460,11 +460,11 @@ namespace Cricut.FishyJoesRuntime {
         public override int GetHashCode(
         ) {
             using var _thisHandle = new GCRef(this);
-            return Check((out CreatedRef _exn) => __cs_AttributedString_hash(_thisHandle.ptr, out _exn));
+            return Check((out CreatedRef _exn) => __iota_Foundation_AttributedString_hash(_thisHandle.ptr, out _exn));
         }
 
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern int __cs_AttributedString_hash(
+        private static extern int __iota_Foundation_AttributedString_hash(
             UnownedRef self,
             out CreatedRef exn
         );
@@ -473,11 +473,11 @@ namespace Cricut.FishyJoesRuntime {
         /// <!-- FishyJoes.export(createEmpty) -->
         public static Cricut.FishyJoesRuntime.AttributedString CreateEmpty(
         ) {
-            return Check((out CreatedRef _exn) => __cs_AttributedString_createEmpty(out _exn)).Consume<Cricut.FishyJoesRuntime.AttributedString>();
+            return Check((out CreatedRef _exn) => __iota_Foundation_AttributedString_createEmpty(out _exn)).Consume<Cricut.FishyJoesRuntime.AttributedString>();
         }
 
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_AttributedString_createEmpty(
+        private static extern CreatedRef __iota_Foundation_AttributedString_createEmpty(
             out CreatedRef exn
         );
 
@@ -491,11 +491,11 @@ namespace Cricut.FishyJoesRuntime {
         ) {
             using var _stringHandle = new GCRef(_string);
             using var _attributesHandle = new GCRef(attributes);
-            return Check((out CreatedRef _exn) => __cs_AttributedString_create(_stringHandle.ptr, _attributesHandle.ptr, out _exn)).Consume<Cricut.FishyJoesRuntime.AttributedString>();
+            return Check((out CreatedRef _exn) => __iota_Foundation_AttributedString_create(_stringHandle.ptr, _attributesHandle.ptr, out _exn)).Consume<Cricut.FishyJoesRuntime.AttributedString>();
         }
 
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_AttributedString_create(
+        private static extern CreatedRef __iota_Foundation_AttributedString_create(
             UnownedRef _string,
             UnownedRef attributes,
             out CreatedRef exn
@@ -508,11 +508,11 @@ namespace Cricut.FishyJoesRuntime {
             Cricut.FishyJoesRuntime.AttributedSubstring substring
         ) {
             using var _substringHandle = new GCRef(substring);
-            return Check((out CreatedRef _exn) => __cs_AttributedString_createFromSubstring(_substringHandle.ptr, out _exn)).Consume<Cricut.FishyJoesRuntime.AttributedString>();
+            return Check((out CreatedRef _exn) => __iota_Foundation_AttributedString_createFromSubstring(_substringHandle.ptr, out _exn)).Consume<Cricut.FishyJoesRuntime.AttributedString>();
         }
 
         [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __cs_AttributedString_createFromSubstring(
+        private static extern CreatedRef __iota_Foundation_AttributedString_createFromSubstring(
             UnownedRef substring,
             out CreatedRef exn
         );
@@ -610,13 +610,13 @@ namespace Cricut.FishyJoesRuntime {
             ) {
                 using var thisHandle = new GCRef(this);
                 using var otherHandle = new GCRef(other);
-                return Check((out CreatedRef exn) => __cs_AttributedString_Index_equals(thisHandle.ptr, otherHandle.ptr, out exn));
+                return Check((out CreatedRef exn) => __iota_Foundation_AttributedString_Index_equals(thisHandle.ptr, otherHandle.ptr, out exn));
             }
 
             public override bool Equals(object? other) => Equals(other as Index);
 
             [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-            private static extern bool __cs_AttributedString_Index_equals(
+            private static extern bool __iota_Foundation_AttributedString_Index_equals(
                 UnownedRef lhs,
                 UnownedRef rhs,
                 out CreatedRef exn
@@ -625,11 +625,11 @@ namespace Cricut.FishyJoesRuntime {
             public override int GetHashCode(
             ) {
                 using var _thisHandle = new GCRef(this);
-                return Check((out CreatedRef _exn) => __cs_AttributedString_Index_hash(_thisHandle.ptr, out _exn));
+                return Check((out CreatedRef _exn) => __iota_Foundation_AttributedString_Index_hash(_thisHandle.ptr, out _exn));
             }
 
             [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-            private static extern int __cs_AttributedString_Index_hash(
+            private static extern int __iota_Foundation_AttributedString_Index_hash(
                 UnownedRef self,
                 out CreatedRef exn
             );
@@ -639,11 +639,11 @@ namespace Cricut.FishyJoesRuntime {
             ) {
                 using var _thisHandle = new GCRef(this);
                 using var otherHandle = new GCRef(other as Cricut.FishyJoesRuntime.AttributedString.Index);
-                return Check((out CreatedRef _exn) => __cs_AttributedString_Index_compare(_thisHandle.ptr, otherHandle.ptr, out _exn));
+                return Check((out CreatedRef _exn) => __iota_Foundation_AttributedString_Index_compare(_thisHandle.ptr, otherHandle.ptr, out _exn));
             }
             
             [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-            private static extern int __cs_AttributedString_Index_compare(
+            private static extern int __iota_Foundation_AttributedString_Index_compare(
                 UnownedRef lhs,
                 UnownedRef rhs,
                 out CreatedRef exn
@@ -676,13 +676,13 @@ namespace Cricut.FishyJoesRuntime {
                 get {
                     using var thisHandle = new GCRef(this);
                     return Check((out CreatedRef exn) =>
-                        __cs_get_AttributedString_Runs_StartIndex(thisHandle.ptr, out exn).Consume<Cricut.FishyJoesRuntime.AttributedString.RunsView.Index>()
+                        __iota_get_Foundation_AttributedString_Runs_StartIndex(thisHandle.ptr, out exn).Consume<Cricut.FishyJoesRuntime.AttributedString.RunsView.Index>()
                     );
                 }
             }
 
             [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-            private static extern CreatedRef __cs_get_AttributedString_Runs_StartIndex(UnownedRef self, out CreatedRef exn);
+            private static extern CreatedRef __iota_get_Foundation_AttributedString_Runs_StartIndex(UnownedRef self, out CreatedRef exn);
 
             /// <summary>The past-the-end position — the position one greater than the last valid subscript argument.</summary>
             /// <!-- FishyJoes.export(endIndex) -->
@@ -690,13 +690,13 @@ namespace Cricut.FishyJoesRuntime {
                 get {
                     using var thisHandle = new GCRef(this);
                     return Check((out CreatedRef exn) =>
-                        __cs_get_AttributedString_Runs_EndIndex(thisHandle.ptr, out exn).Consume<Cricut.FishyJoesRuntime.AttributedString.RunsView.Index>()
+                        __iota_get_Foundation_AttributedString_Runs_EndIndex(thisHandle.ptr, out exn).Consume<Cricut.FishyJoesRuntime.AttributedString.RunsView.Index>()
                     );
                 }
             }
 
             [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-            private static extern CreatedRef __cs_get_AttributedString_Runs_EndIndex(UnownedRef self, out CreatedRef exn);
+            private static extern CreatedRef __iota_get_Foundation_AttributedString_Runs_EndIndex(UnownedRef self, out CreatedRef exn);
 
             /// <summary>Obtains the run index before another index.</summary>
             /// <param name="index">The index serving as the starting position, between `startIndex` exclusive and `endIndex` inclusive.</param>
@@ -711,11 +711,11 @@ namespace Cricut.FishyJoesRuntime {
             ) {
                 using var _thisHandle = new GCRef(this);
                 using var _indexHandle = new GCRef(index);
-                return Check((out CreatedRef _exn) => __cs_AttributedString_Runs_indexBefore(_thisHandle.ptr, _indexHandle.ptr, out _exn)).Consume<Cricut.FishyJoesRuntime.AttributedString.RunsView.Index>();
+                return Check((out CreatedRef _exn) => __iota_Foundation_AttributedString_Runs_indexBefore(_thisHandle.ptr, _indexHandle.ptr, out _exn)).Consume<Cricut.FishyJoesRuntime.AttributedString.RunsView.Index>();
             }
 
             [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-            private static extern CreatedRef __cs_AttributedString_Runs_indexBefore(
+            private static extern CreatedRef __iota_Foundation_AttributedString_Runs_indexBefore(
                 UnownedRef self,
                 UnownedRef index,
                 out CreatedRef exn
@@ -734,11 +734,11 @@ namespace Cricut.FishyJoesRuntime {
             ) {
                 using var _thisHandle = new GCRef(this);
                 using var _indexHandle = new GCRef(index);
-                return Check((out CreatedRef _exn) => __cs_AttributedString_Runs_indexAfter(_thisHandle.ptr, _indexHandle.ptr, out _exn)).Consume<Cricut.FishyJoesRuntime.AttributedString.RunsView.Index>();
+                return Check((out CreatedRef _exn) => __iota_Foundation_AttributedString_Runs_indexAfter(_thisHandle.ptr, _indexHandle.ptr, out _exn)).Consume<Cricut.FishyJoesRuntime.AttributedString.RunsView.Index>();
             }
 
             [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-            private static extern CreatedRef __cs_AttributedString_Runs_indexAfter(
+            private static extern CreatedRef __iota_Foundation_AttributedString_Runs_indexAfter(
                 UnownedRef self,
                 UnownedRef index,
                 out CreatedRef exn
@@ -757,11 +757,11 @@ namespace Cricut.FishyJoesRuntime {
             ) {
                 using var _thisHandle = new GCRef(this);
                 using var _indexHandle = new GCRef(index);
-                return Check((out CreatedRef _exn) => __cs_AttributedString_Runs_elementAt(_thisHandle.ptr, _indexHandle.ptr, out _exn)).Consume<Cricut.FishyJoesRuntime.AttributedString.RunsView.Run>();
+                return Check((out CreatedRef _exn) => __iota_Foundation_AttributedString_Runs_elementAt(_thisHandle.ptr, _indexHandle.ptr, out _exn)).Consume<Cricut.FishyJoesRuntime.AttributedString.RunsView.Run>();
             }
 
             [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-            private static extern CreatedRef __cs_AttributedString_Runs_elementAt(
+            private static extern CreatedRef __iota_Foundation_AttributedString_Runs_elementAt(
                 UnownedRef self,
                 UnownedRef index,
                 out CreatedRef exn
@@ -783,11 +783,11 @@ namespace Cricut.FishyJoesRuntime {
             ) {
                 using var _thisHandle = new GCRef(this);
                 using var _indexHandle = new GCRef(index);
-                return Check((out CreatedRef _exn) => __cs_AttributedString_Runs_elementAtPosition(_thisHandle.ptr, _indexHandle.ptr, out _exn)).Consume<Cricut.FishyJoesRuntime.AttributedString.RunsView.Run>();
+                return Check((out CreatedRef _exn) => __iota_Foundation_AttributedString_Runs_elementAtPosition(_thisHandle.ptr, _indexHandle.ptr, out _exn)).Consume<Cricut.FishyJoesRuntime.AttributedString.RunsView.Run>();
             }
 
             [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-            private static extern CreatedRef __cs_AttributedString_Runs_elementAtPosition(
+            private static extern CreatedRef __iota_Foundation_AttributedString_Runs_elementAtPosition(
                 UnownedRef self,
                 UnownedRef index,
                 out CreatedRef exn
@@ -798,11 +798,11 @@ namespace Cricut.FishyJoesRuntime {
             ) {
                 using var thisHandle = new GCRef(this);
                 using var otherHandle = new GCRef(other as Cricut.FishyJoesRuntime.AttributedString.RunsView);
-                return Check((out CreatedRef exn) => __cs_AttributedString_Runs_equals(thisHandle.ptr, otherHandle.ptr, out exn));
+                return Check((out CreatedRef exn) => __iota_Foundation_AttributedString_Runs_equals(thisHandle.ptr, otherHandle.ptr, out exn));
             }
 
             [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-            private static extern bool __cs_AttributedString_Runs_equals(
+            private static extern bool __iota_Foundation_AttributedString_Runs_equals(
                 UnownedRef lhs,
                 UnownedRef rhs,
                 out CreatedRef exn
@@ -811,11 +811,11 @@ namespace Cricut.FishyJoesRuntime {
             public override int GetHashCode(
             ) {
                 using var _thisHandle = new GCRef(this);
-                return Check((out CreatedRef _exn) => __cs_AttributedString_Runs_hash(_thisHandle.ptr, out _exn));
+                return Check((out CreatedRef _exn) => __iota_Foundation_AttributedString_Runs_hash(_thisHandle.ptr, out _exn));
             }
 
             [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-            private static extern int __cs_AttributedString_Runs_hash(
+            private static extern int __iota_Foundation_AttributedString_Runs_hash(
                 UnownedRef self,
                 out CreatedRef exn
             );
@@ -852,13 +852,13 @@ namespace Cricut.FishyJoesRuntime {
                 ) {
                     using var thisHandle = new GCRef(this);
                     using var otherHandle = new GCRef(other);
-                    return Check((out CreatedRef exn) => __cs_AttributedString_Runs_Index_equals(thisHandle.ptr, otherHandle.ptr, out exn));
+                    return Check((out CreatedRef exn) => __iota_Foundation_AttributedString_Runs_Index_equals(thisHandle.ptr, otherHandle.ptr, out exn));
                 }
 
                 public override bool Equals(object? other) => Equals(other as Index);
 
                 [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-                private static extern bool __cs_AttributedString_Runs_Index_equals(
+                private static extern bool __iota_Foundation_AttributedString_Runs_Index_equals(
                     UnownedRef lhs,
                     UnownedRef rhs,
                     out CreatedRef exn
@@ -867,11 +867,11 @@ namespace Cricut.FishyJoesRuntime {
                 public override int GetHashCode(
                 ) {
                     using var _thisHandle = new GCRef(this);
-                    return Check((out CreatedRef _exn) => __cs_AttributedString_Runs_Index_hash(_thisHandle.ptr, out _exn));
+                    return Check((out CreatedRef _exn) => __iota_Foundation_AttributedString_Runs_Index_hash(_thisHandle.ptr, out _exn));
                 }
 
                 [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-                private static extern int __cs_AttributedString_Runs_Index_hash(
+                private static extern int __iota_Foundation_AttributedString_Runs_Index_hash(
                     UnownedRef self,
                     out CreatedRef exn
                 );
@@ -881,11 +881,11 @@ namespace Cricut.FishyJoesRuntime {
                 ) {
                     using var _thisHandle = new GCRef(this);
                     using var otherHandle = new GCRef(other as Cricut.FishyJoesRuntime.AttributedString.RunsView.Index);
-                    return Check((out CreatedRef _exn) => __cs_AttributedString_Runs_Index_compare(_thisHandle.ptr, otherHandle.ptr, out _exn));
+                    return Check((out CreatedRef _exn) => __iota_Foundation_AttributedString_Runs_Index_compare(_thisHandle.ptr, otherHandle.ptr, out _exn));
                 }
                 
                 [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-                private static extern int __cs_AttributedString_Runs_Index_compare(
+                private static extern int __iota_Foundation_AttributedString_Runs_Index_compare(
                     UnownedRef lhs,
                     UnownedRef rhs,
                     out CreatedRef exn
@@ -919,13 +919,13 @@ namespace Cricut.FishyJoesRuntime {
                     get {
                         using var thisHandle = new GCRef(this);
                         return Check((out CreatedRef exn) =>
-                            __cs_get_AttributedString_Runs_Run_Range(thisHandle.ptr, out exn).Consume<Cricut.FishyJoesRuntime.SwiftRange<Cricut.FishyJoesRuntime.AttributedString.Index>>()
+                            __iota_get_Foundation_AttributedString_Runs_Run_Range(thisHandle.ptr, out exn).Consume<Cricut.FishyJoesRuntime.SwiftRange<Cricut.FishyJoesRuntime.AttributedString.Index>>()
                         );
                     }
                 }
 
                 [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-                private static extern CreatedRef __cs_get_AttributedString_Runs_Run_Range(UnownedRef self, out CreatedRef exn);
+                private static extern CreatedRef __iota_get_Foundation_AttributedString_Runs_Run_Range(UnownedRef self, out CreatedRef exn);
 
                 /// <summary>The attributes associated with of the portion of the attributed string that this run description represents.</summary>
                 /// <!-- FishyJoes.export(attributes) -->
@@ -933,24 +933,24 @@ namespace Cricut.FishyJoesRuntime {
                     get {
                         using var thisHandle = new GCRef(this);
                         return Check((out CreatedRef exn) =>
-                            __cs_get_AttributedString_Runs_Run_Attributes(thisHandle.ptr, out exn).Consume<Cricut.FishyJoesRuntime.AttributeContainer>()
+                            __iota_get_Foundation_AttributedString_Runs_Run_Attributes(thisHandle.ptr, out exn).Consume<Cricut.FishyJoesRuntime.AttributeContainer>()
                         );
                     }
                 }
 
                 [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-                private static extern CreatedRef __cs_get_AttributedString_Runs_Run_Attributes(UnownedRef self, out CreatedRef exn);
+                private static extern CreatedRef __iota_get_Foundation_AttributedString_Runs_Run_Attributes(UnownedRef self, out CreatedRef exn);
 
                 public override bool Equals(
                     object? other
                 ) {
                     using var thisHandle = new GCRef(this);
                     using var otherHandle = new GCRef(other as Cricut.FishyJoesRuntime.AttributedString.RunsView.Run);
-                    return Check((out CreatedRef exn) => __cs_AttributedString_Runs_Run_equals(thisHandle.ptr, otherHandle.ptr, out exn));
+                    return Check((out CreatedRef exn) => __iota_Foundation_AttributedString_Runs_Run_equals(thisHandle.ptr, otherHandle.ptr, out exn));
                 }
 
                 [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-                private static extern bool __cs_AttributedString_Runs_Run_equals(
+                private static extern bool __iota_Foundation_AttributedString_Runs_Run_equals(
                     UnownedRef lhs,
                     UnownedRef rhs,
                     out CreatedRef exn
@@ -959,11 +959,11 @@ namespace Cricut.FishyJoesRuntime {
                 public override int GetHashCode(
                 ) {
                     using var _thisHandle = new GCRef(this);
-                    return Check((out CreatedRef _exn) => __cs_AttributedString_Runs_Run_hash(_thisHandle.ptr, out _exn));
+                    return Check((out CreatedRef _exn) => __iota_Foundation_AttributedString_Runs_Run_hash(_thisHandle.ptr, out _exn));
                 }
 
                 [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-                private static extern int __cs_AttributedString_Runs_Run_hash(
+                private static extern int __iota_Foundation_AttributedString_Runs_Run_hash(
                     UnownedRef self,
                     out CreatedRef exn
                 );
@@ -984,13 +984,13 @@ namespace Cricut.FishyJoesRuntime {
                 get {
                     using var thisHandle = new GCRef(this);
                     return Check((out CreatedRef exn) =>
-                        __cs_get_AttributedString_CharacterView_StartIndex(thisHandle.ptr, out exn).Consume<Cricut.FishyJoesRuntime.AttributedString.Index>()
+                        __iota_get_Foundation_AttributedString_CharacterView_StartIndex(thisHandle.ptr, out exn).Consume<Cricut.FishyJoesRuntime.AttributedString.Index>()
                     );
                 }
             }
 
             [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-            private static extern CreatedRef __cs_get_AttributedString_CharacterView_StartIndex(UnownedRef self, out CreatedRef exn);
+            private static extern CreatedRef __iota_get_Foundation_AttributedString_CharacterView_StartIndex(UnownedRef self, out CreatedRef exn);
 
             /// <summary>The past-the-end position — the position one greater than the last valid subscript argument.</summary>
             /// <!-- FishyJoes.export(endIndex) -->
@@ -998,13 +998,13 @@ namespace Cricut.FishyJoesRuntime {
                 get {
                     using var thisHandle = new GCRef(this);
                     return Check((out CreatedRef exn) =>
-                        __cs_get_AttributedString_CharacterView_EndIndex(thisHandle.ptr, out exn).Consume<Cricut.FishyJoesRuntime.AttributedString.Index>()
+                        __iota_get_Foundation_AttributedString_CharacterView_EndIndex(thisHandle.ptr, out exn).Consume<Cricut.FishyJoesRuntime.AttributedString.Index>()
                     );
                 }
             }
 
             [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-            private static extern CreatedRef __cs_get_AttributedString_CharacterView_EndIndex(UnownedRef self, out CreatedRef exn);
+            private static extern CreatedRef __iota_get_Foundation_AttributedString_CharacterView_EndIndex(UnownedRef self, out CreatedRef exn);
 
             /// <summary>Obtains the index of the character before the character referenced by another index in the view's attributed string or substring.</summary>
             /// <param name="index">The index serving as the starting position, between `startIndex` exclusive and `endIndex` inclusive.</param>
@@ -1019,11 +1019,11 @@ namespace Cricut.FishyJoesRuntime {
             ) {
                 using var _thisHandle = new GCRef(this);
                 using var _indexHandle = new GCRef(index);
-                return Check((out CreatedRef _exn) => __cs_AttributedString_CharacterView_indexBefore(_thisHandle.ptr, _indexHandle.ptr, out _exn)).Consume<Cricut.FishyJoesRuntime.AttributedString.Index>();
+                return Check((out CreatedRef _exn) => __iota_Foundation_AttributedString_CharacterView_indexBefore(_thisHandle.ptr, _indexHandle.ptr, out _exn)).Consume<Cricut.FishyJoesRuntime.AttributedString.Index>();
             }
 
             [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-            private static extern CreatedRef __cs_AttributedString_CharacterView_indexBefore(
+            private static extern CreatedRef __iota_Foundation_AttributedString_CharacterView_indexBefore(
                 UnownedRef self,
                 UnownedRef index,
                 out CreatedRef exn
@@ -1042,11 +1042,11 @@ namespace Cricut.FishyJoesRuntime {
             ) {
                 using var _thisHandle = new GCRef(this);
                 using var _indexHandle = new GCRef(index);
-                return Check((out CreatedRef _exn) => __cs_AttributedString_CharacterView_indexAfter(_thisHandle.ptr, _indexHandle.ptr, out _exn)).Consume<Cricut.FishyJoesRuntime.AttributedString.Index>();
+                return Check((out CreatedRef _exn) => __iota_Foundation_AttributedString_CharacterView_indexAfter(_thisHandle.ptr, _indexHandle.ptr, out _exn)).Consume<Cricut.FishyJoesRuntime.AttributedString.Index>();
             }
 
             [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-            private static extern CreatedRef __cs_AttributedString_CharacterView_indexAfter(
+            private static extern CreatedRef __iota_Foundation_AttributedString_CharacterView_indexAfter(
                 UnownedRef self,
                 UnownedRef index,
                 out CreatedRef exn
@@ -1065,11 +1065,11 @@ namespace Cricut.FishyJoesRuntime {
             ) {
                 using var _thisHandle = new GCRef(this);
                 using var _indexHandle = new GCRef(index);
-                return Check((out CreatedRef _exn) => __cs_AttributedString_CharacterView_elementAt(_thisHandle.ptr, _indexHandle.ptr, out _exn)).Consume<string>();
+                return Check((out CreatedRef _exn) => __iota_Foundation_AttributedString_CharacterView_elementAt(_thisHandle.ptr, _indexHandle.ptr, out _exn)).Consume<string>();
             }
 
             [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-            private static extern CreatedRef __cs_AttributedString_CharacterView_elementAt(
+            private static extern CreatedRef __iota_Foundation_AttributedString_CharacterView_elementAt(
                 UnownedRef self,
                 UnownedRef index,
                 out CreatedRef exn
@@ -1106,13 +1106,13 @@ namespace Cricut.FishyJoesRuntime {
                 get {
                     using var thisHandle = new GCRef(this);
                     return Check((out CreatedRef exn) =>
-                        __cs_get_AttributedString_UnicodeScalarView_StartIndex(thisHandle.ptr, out exn).Consume<Cricut.FishyJoesRuntime.AttributedString.Index>()
+                        __iota_get_Foundation_AttributedString_UnicodeScalarView_StartIndex(thisHandle.ptr, out exn).Consume<Cricut.FishyJoesRuntime.AttributedString.Index>()
                     );
                 }
             }
 
             [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-            private static extern CreatedRef __cs_get_AttributedString_UnicodeScalarView_StartIndex(UnownedRef self, out CreatedRef exn);
+            private static extern CreatedRef __iota_get_Foundation_AttributedString_UnicodeScalarView_StartIndex(UnownedRef self, out CreatedRef exn);
 
             /// <summary>The past-the-end position — the position one greater than the last valid subscript argument.</summary>
             /// <!-- FishyJoes.export(endIndex) -->
@@ -1120,13 +1120,13 @@ namespace Cricut.FishyJoesRuntime {
                 get {
                     using var thisHandle = new GCRef(this);
                     return Check((out CreatedRef exn) =>
-                        __cs_get_AttributedString_UnicodeScalarView_EndIndex(thisHandle.ptr, out exn).Consume<Cricut.FishyJoesRuntime.AttributedString.Index>()
+                        __iota_get_Foundation_AttributedString_UnicodeScalarView_EndIndex(thisHandle.ptr, out exn).Consume<Cricut.FishyJoesRuntime.AttributedString.Index>()
                     );
                 }
             }
 
             [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-            private static extern CreatedRef __cs_get_AttributedString_UnicodeScalarView_EndIndex(UnownedRef self, out CreatedRef exn);
+            private static extern CreatedRef __iota_get_Foundation_AttributedString_UnicodeScalarView_EndIndex(UnownedRef self, out CreatedRef exn);
 
             /// <summary>Obtains the index of the Unicode scalar before the scalar referenced by another index in the view's attributed string or substring.</summary>
             /// <param name="index">The index serving as the starting position, between `startIndex` exclusive and `endIndex` inclusive.</param>
@@ -1141,11 +1141,11 @@ namespace Cricut.FishyJoesRuntime {
             ) {
                 using var _thisHandle = new GCRef(this);
                 using var _indexHandle = new GCRef(index);
-                return Check((out CreatedRef _exn) => __cs_AttributedString_UnicodeScalarView_indexBefore(_thisHandle.ptr, _indexHandle.ptr, out _exn)).Consume<Cricut.FishyJoesRuntime.AttributedString.Index>();
+                return Check((out CreatedRef _exn) => __iota_Foundation_AttributedString_UnicodeScalarView_indexBefore(_thisHandle.ptr, _indexHandle.ptr, out _exn)).Consume<Cricut.FishyJoesRuntime.AttributedString.Index>();
             }
 
             [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-            private static extern CreatedRef __cs_AttributedString_UnicodeScalarView_indexBefore(
+            private static extern CreatedRef __iota_Foundation_AttributedString_UnicodeScalarView_indexBefore(
                 UnownedRef self,
                 UnownedRef index,
                 out CreatedRef exn
@@ -1164,11 +1164,11 @@ namespace Cricut.FishyJoesRuntime {
             ) {
                 using var _thisHandle = new GCRef(this);
                 using var _indexHandle = new GCRef(index);
-                return Check((out CreatedRef _exn) => __cs_AttributedString_UnicodeScalarView_indexAfter(_thisHandle.ptr, _indexHandle.ptr, out _exn)).Consume<Cricut.FishyJoesRuntime.AttributedString.Index>();
+                return Check((out CreatedRef _exn) => __iota_Foundation_AttributedString_UnicodeScalarView_indexAfter(_thisHandle.ptr, _indexHandle.ptr, out _exn)).Consume<Cricut.FishyJoesRuntime.AttributedString.Index>();
             }
 
             [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-            private static extern CreatedRef __cs_AttributedString_UnicodeScalarView_indexAfter(
+            private static extern CreatedRef __iota_Foundation_AttributedString_UnicodeScalarView_indexAfter(
                 UnownedRef self,
                 UnownedRef index,
                 out CreatedRef exn
@@ -1187,11 +1187,11 @@ namespace Cricut.FishyJoesRuntime {
             ) {
                 using var _thisHandle = new GCRef(this);
                 using var _indexHandle = new GCRef(index);
-                return Check((out CreatedRef _exn) => __cs_AttributedString_UnicodeScalarView_elementAt(_thisHandle.ptr, _indexHandle.ptr, out _exn));
+                return Check((out CreatedRef _exn) => __iota_Foundation_AttributedString_UnicodeScalarView_elementAt(_thisHandle.ptr, _indexHandle.ptr, out _exn));
             }
 
             [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-            private static extern uint __cs_AttributedString_UnicodeScalarView_elementAt(
+            private static extern uint __iota_Foundation_AttributedString_UnicodeScalarView_elementAt(
                 UnownedRef self,
                 UnownedRef index,
                 out CreatedRef exn
