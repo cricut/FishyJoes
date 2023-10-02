@@ -31,7 +31,7 @@ namespace Cricut.FishyJoesRuntime {
             }
         }
 
-        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __iota_get_Foundation_AttributedSubstring_Base(UnownedRef self, out CreatedRef exn);
 
         /// <summary>Text represented by the attributed substring.</summary>
@@ -48,7 +48,7 @@ namespace Cricut.FishyJoesRuntime {
             }
         }
 
-        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __iota_get_Foundation_AttributedSubstring_String(UnownedRef self, out CreatedRef exn);
 
         /// <summary>The attributed runs of the attributed substring, as a view into the underlying string.</summary>
@@ -71,7 +71,7 @@ namespace Cricut.FishyJoesRuntime {
             }
         }
 
-        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __iota_get_Foundation_AttributedSubstring_Runs(UnownedRef self, out CreatedRef exn);
 
         /// <summary>The characters of the attributed substring, as a view into the underlying string.</summary>
@@ -85,7 +85,7 @@ namespace Cricut.FishyJoesRuntime {
             }
         }
 
-        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __iota_get_Foundation_AttributedSubstring_Characters(UnownedRef self, out CreatedRef exn);
 
         /// <summary>The Unicode scalars of the attributed substring, as a view into the underlying string.</summary>
@@ -99,7 +99,7 @@ namespace Cricut.FishyJoesRuntime {
             }
         }
 
-        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __iota_get_Foundation_AttributedSubstring_UnicodeScalars(UnownedRef self, out CreatedRef exn);
 
         /// <summary>The position of the first character in a nonempty attributed substring.</summary>
@@ -116,7 +116,7 @@ namespace Cricut.FishyJoesRuntime {
             }
         }
 
-        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __iota_get_Foundation_AttributedSubstring_StartIndex(UnownedRef self, out CreatedRef exn);
 
         /// <summary>An attributed substring’s past-the-end position — the position one greater than the last valid subscript argument.</summary>
@@ -133,7 +133,7 @@ namespace Cricut.FishyJoesRuntime {
             }
         }
 
-        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __iota_get_Foundation_AttributedSubstring_EndIndex(UnownedRef self, out CreatedRef exn);
 
         /// <summary>An attributed substring representing the full content of the attributed substring.</summary>
@@ -147,7 +147,7 @@ namespace Cricut.FishyJoesRuntime {
             }
         }
 
-        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __iota_get_Foundation_AttributedSubstring_Substring(UnownedRef self, out CreatedRef exn);
 
         /// <summary>Obtains an attributed substring representing part of the attributed substring.</summary>
@@ -162,7 +162,7 @@ namespace Cricut.FishyJoesRuntime {
             return Check((out CreatedRef _exn) => __iota_Foundation_AttributedSubstring_substringForRange(_thisHandle.ptr, _rangeHandle.ptr, out _exn)).Consume<Cricut.FishyJoesRuntime.AttributedSubstring>();
         }
 
-        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __iota_Foundation_AttributedSubstring_substringForRange(
             UnownedRef self,
             UnownedRef range,
@@ -177,7 +177,7 @@ namespace Cricut.FishyJoesRuntime {
             return Check((out CreatedRef exn) => __iota_Foundation_AttributedSubstring_equals(thisHandle.ptr, otherHandle.ptr, out exn));
         }
 
-        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern bool __iota_Foundation_AttributedSubstring_equals(
             UnownedRef lhs,
             UnownedRef rhs,
@@ -190,7 +190,7 @@ namespace Cricut.FishyJoesRuntime {
             return Check((out CreatedRef _exn) => __iota_Foundation_AttributedSubstring_hash(_thisHandle.ptr, out _exn));
         }
 
-        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern int __iota_Foundation_AttributedSubstring_hash(
             UnownedRef self,
             out CreatedRef exn
@@ -203,7 +203,7 @@ namespace Cricut.FishyJoesRuntime {
             return Check((out CreatedRef _exn) => __iota_Foundation_AttributedSubstring_createEmpty(out _exn)).Consume<Cricut.FishyJoesRuntime.AttributedSubstring>();
         }
 
-        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __iota_Foundation_AttributedSubstring_createEmpty(
             out CreatedRef exn
         );

@@ -10,7 +10,7 @@ public partial class Loader {
     delegate CreatedRef SwiftRangeConstructor(IntPtr context, UnownedRef lowerBound, UnownedRef upperBound, out CreatedRef exn);
 
     [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-    static extern void FishyJoesCommonRuntime_RangeConverter_setup(
+    extern static void FishyJoesCommonRuntime_RangeConverter_setup(
         IntPtr envRef,
         string name,
         SwiftRangeLowerBoundGetter getLowerBound,
@@ -19,7 +19,7 @@ public partial class Loader {
         IntPtr context
     );
 
-    public static void FishyJoesCommonRuntime_RangeConverter_setup<T>(IntPtr envRef, string name, out CreatedRef exn) where T: IComparable<T> {
+    public static void FishyJoesRuntime_RangeConverter_setup<T>(IntPtr envRef, string name, out CreatedRef exn) where T: IComparable<T> {
         unsafe {
             FishyJoesCommonRuntime_RangeConverter_setup(
                 envRef,
@@ -42,7 +42,7 @@ public partial class Loader {
         }
     }
 
-    public static void FishyJoesCommonRuntime_ClosedRangeConverter_setup<T>(IntPtr envRef, string name, out CreatedRef exn) where T: IComparable<T> {
+    public static void FishyJoesRuntime_ClosedRangeConverter_setup<T>(IntPtr envRef, string name, out CreatedRef exn) where T: IComparable<T> {
         unsafe {
             FishyJoesCommonRuntime_RangeConverter_setup(
                 envRef,

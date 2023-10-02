@@ -17,7 +17,7 @@ extension AttributeContainer.FoundationAttributes: IotaMutator {
     }
 }
 
-@_cdecl("FishyJoesRuntime_AttributeContainer_FoundationAttributes_setup")
+@_cdecl("FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_setup")
 public func FishyJoesRuntime_iota_AttributeContainer_FoundationAttributes_setup(
     envRef: EnvRef,
     constructorMethod: @escaping @convention(c) (UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject,
@@ -27,7 +27,7 @@ public func FishyJoesRuntime_iota_AttributeContainer_FoundationAttributes_setup(
     AttributeContainer.FoundationAttributes._constructorMethod = constructorMethod
 }
 
-@_cdecl("__iota_get_FishyJoesRuntime_AttributeContainer_FoundationAttributes_Link")
+@_cdecl("__iota_get_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_Link")
 public func __iota_get_FishyJoesRuntime_AttributeContainer_FoundationAttributes_Link(
     envRef: EnvRef,
     _iotaThis: foreignObject,
@@ -42,7 +42,7 @@ public func __iota_get_FishyJoesRuntime_AttributeContainer_FoundationAttributes_
     }
 }
 
-@_cdecl("__iota_set_FishyJoesRuntime_AttributeContainer_FoundationAttributes_Link")
+@_cdecl("__iota_set_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_Link")
 public func __iota_set_FishyJoesRuntime_AttributeContainer_FoundationAttributes_Link(
     envRef: EnvRef,
     _iotaThis: foreignObject,
@@ -57,7 +57,7 @@ public func __iota_set_FishyJoesRuntime_AttributeContainer_FoundationAttributes_
     }
 }
 
-@_cdecl("__iota_get_FishyJoesRuntime_AttributeContainer_FoundationAttributes_LanguageIdentifier")
+@_cdecl("__iota_get_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_LanguageIdentifier")
 public func __iota_get_FishyJoesRuntime_AttributeContainer_FoundationAttributes_LanguageIdentifier(
     envRef: EnvRef,
     _iotaThis: foreignObject,
@@ -72,7 +72,7 @@ public func __iota_get_FishyJoesRuntime_AttributeContainer_FoundationAttributes_
     }
 }
 
-@_cdecl("__iota_set_FishyJoesRuntime_AttributeContainer_FoundationAttributes_LanguageIdentifier")
+@_cdecl("__iota_set_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_LanguageIdentifier")
 public func __iota_set_FishyJoesRuntime_AttributeContainer_FoundationAttributes_LanguageIdentifier(
     envRef: EnvRef,
     _iotaThis: foreignObject,
@@ -87,7 +87,7 @@ public func __iota_set_FishyJoesRuntime_AttributeContainer_FoundationAttributes_
     }
 }
 
-@_cdecl("__iota_FishyJoesRuntime_AttributeContainer_FoundationAttributes_equals")
+@_cdecl("__iota_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_equals")
 public func AttributeContainer_FoundationAttributes_iotaEquals(
     envRef: EnvRef,
     lhs: foreignObject,
@@ -102,7 +102,7 @@ public func AttributeContainer_FoundationAttributes_iotaEquals(
         )
     }
 }
-@_cdecl("__iota_FishyJoesRuntime_AttributeContainer_FoundationAttributes_hash")
+@_cdecl("__iota_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_hash")
 public func AttributeContainer_FoundationAttributes_iotaHash(
     envRef: EnvRef,
     _iotaThis: foreignObject,
@@ -117,7 +117,7 @@ public func AttributeContainer_FoundationAttributes_iotaHash(
     }
 }
 
-@_cdecl("__iota_FishyJoesRuntime_AttributeContainer_FoundationAttributes_createEmpty")
+@_cdecl("__iota_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_createEmpty")
 public func __iota_FishyJoesRuntime_AttributeContainer_FoundationAttributes_createEmpty(
     envRef: EnvRef,
     _exn: foreignOutExn
@@ -131,7 +131,7 @@ public func __iota_FishyJoesRuntime_AttributeContainer_FoundationAttributes_crea
     }
 }
 
-@_cdecl("__iota_FishyJoesRuntime_AttributeContainer_FoundationAttributes_createFromContainer")
+@_cdecl("__iota_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_createFromContainer")
 public func __iota_FishyJoesRuntime_AttributeContainer_FoundationAttributes_createFromContainer(
     envRef: EnvRef,
     container: Foundation.AttributeContainer.CType,
@@ -148,7 +148,7 @@ public func __iota_FishyJoesRuntime_AttributeContainer_FoundationAttributes_crea
     }
 }
 
-@_cdecl("__iota_FishyJoesRuntime_AttributeContainer_FoundationAttributes_asContainer")
+@_cdecl("__iota_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_asContainer")
 public func __iota_FishyJoesRuntime_AttributeContainer_FoundationAttributes_asContainer(
     envRef: EnvRef,
     _iotaThis: foreignObject,

@@ -34,7 +34,7 @@ namespace Cricut.FishyJoesRuntime {
             env = FishyJoesCommonRuntime_Env_setup(
                 bag<EnvNewRefFn>(obj => new CreatedRef(obj.Peek<object?>())),
                 bag<EnvDeleteRefFn>(obj => { obj.Consume<object?>(); }),
-                bag<EnvNewErrorFn>(message => new CreatedRef(new Exception(Marshal.PtrToStringUni(message))))
+                bag<EnvNewErrorFn>(message => new CreatedRef(new Exception(message)))
             );
 
             setupPrimitives();

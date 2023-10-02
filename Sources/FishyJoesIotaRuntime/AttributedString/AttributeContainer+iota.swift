@@ -17,7 +17,7 @@ extension AttributeContainer: IotaMutator {
     }
 }
 
-@_cdecl("FishyJoesRuntime_AttributeContainer_setup")
+@_cdecl("FishyJoesCommonRuntime_AttributeContainer_setup")
 public func FishyJoesRuntime_iota_AttributeContainer_setup(
     envRef: EnvRef,
     constructorMethod: @escaping @convention(c) (UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject,
@@ -27,7 +27,7 @@ public func FishyJoesRuntime_iota_AttributeContainer_setup(
     AttributeContainer._constructorMethod = constructorMethod
 }
 
-@_cdecl("__iota_FishyJoesRuntime_AttributeContainer_merge")
+@_cdecl("__iota_FishyJoesCommonRuntime_AttributeContainer_merge")
 public func __iota_FishyJoesRuntime_AttributeContainer_merge(
     envRef: EnvRef,
     _iotaThis: foreignObject,
@@ -49,7 +49,7 @@ public func __iota_FishyJoesRuntime_AttributeContainer_merge(
     }
 }
 
-@_cdecl("__iota_FishyJoesRuntime_AttributeContainer_equals")
+@_cdecl("__iota_FishyJoesCommonRuntime_AttributeContainer_equals")
 public func AttributeContainer_iotaEquals(
     envRef: EnvRef,
     lhs: foreignObject,
@@ -64,7 +64,7 @@ public func AttributeContainer_iotaEquals(
         )
     }
 }
-@_cdecl("__iota_FishyJoesRuntime_AttributeContainer_hash")
+@_cdecl("__iota_FishyJoesCommonRuntime_AttributeContainer_hash")
 public func AttributeContainer_iotaHash(
     envRef: EnvRef,
     _iotaThis: foreignObject,
@@ -79,7 +79,7 @@ public func AttributeContainer_iotaHash(
     }
 }
 
-@_cdecl("__iota_FishyJoesRuntime_AttributeContainer_createEmpty")
+@_cdecl("__iota_FishyJoesCommonRuntime_AttributeContainer_createEmpty")
 public func __iota_FishyJoesRuntime_AttributeContainer_createEmpty(
     envRef: EnvRef,
     _exn: foreignOutExn
