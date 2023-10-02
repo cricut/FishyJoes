@@ -19,7 +19,7 @@ public partial class Loader {
         IntPtr context
     );
 
-    public static void FishyJoesRuntime_RangeConverter_setup<T>(IntPtr envRef, string name, out CreatedRef exn) where T: IComparable<T> {
+    public static void FishyJoesCommonRuntime_RangeConverter_setup<T>(IntPtr envRef, string name, out CreatedRef exn) where T: IComparable<T> {
         unsafe {
             FishyJoesCommonRuntime_RangeConverter_setup(
                 envRef,
@@ -42,7 +42,7 @@ public partial class Loader {
         }
     }
 
-    public static void FishyJoesRuntime_ClosedRangeConverter_setup<T>(IntPtr envRef, string name, out CreatedRef exn) where T: IComparable<T> {
+    public static void FishyJoesCommonRuntime_ClosedRangeConverter_setup<T>(IntPtr envRef, string name, out CreatedRef exn) where T: IComparable<T> {
         unsafe {
             FishyJoesCommonRuntime_RangeConverter_setup(
                 envRef,

@@ -177,7 +177,7 @@ namespace Cricut.FishyJoesRuntime {
             });
             Once("setup_RangeConverter<Foundation.AttributedString.Index>", () => {
                 Console.WriteLine("setting up Range<Index>...");
-                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_RangeConverter_setup<Cricut.FishyJoesRuntime.AttributedString.Index>(
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_RangeConverter_setup<Cricut.FishyJoesRuntime.AttributedString.Index>(
                     env,
                     "RangeConverter<Foundation.AttributedString.Index>",
                     out exn
@@ -185,7 +185,7 @@ namespace Cricut.FishyJoesRuntime {
             });
             Once("setup_RangeConverter<Foundation.AttributedString.Runs.Index>", () => {
                 Console.WriteLine("setting up Range<Runs.Index>...");
-                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_RangeConverter_setup<Cricut.FishyJoesRuntime.AttributedString.RunsView.Index>(
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_RangeConverter_setup<Cricut.FishyJoesRuntime.AttributedString.RunsView.Index>(
                     env,
                     "RangeConverter<Foundation.AttributedString.Runs.Index>",
                     out exn
@@ -193,7 +193,7 @@ namespace Cricut.FishyJoesRuntime {
             });
             Once("setup_ClosedRangeConverter<Foundation.AttributedString.Index>", () => {
                 Console.WriteLine("setting up ClosedRange<Index>...");
-                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_ClosedRangeConverter_setup<Cricut.FishyJoesRuntime.AttributedString.Index>(
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ClosedRangeConverter_setup<Cricut.FishyJoesRuntime.AttributedString.Index>(
                     env,
                     "ClosedRangeConverter<Foundation.AttributedString.Index>",
                     out exn
@@ -201,7 +201,7 @@ namespace Cricut.FishyJoesRuntime {
             });
             Once("setup_ClosedRangeConverter<Foundation.AttributedString.Runs.Index>", () => {
                 Console.WriteLine("setting up ClosedRange<Runs.Index>...");
-                Utilities.Check((out CreatedRef exn) => FishyJoesRuntime_ClosedRangeConverter_setup<Cricut.FishyJoesRuntime.AttributedString.RunsView.Index>(
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ClosedRangeConverter_setup<Cricut.FishyJoesRuntime.AttributedString.RunsView.Index>(
                     env,
                     "ClosedRangeConverter<Foundation.AttributedString.Runs.Index>",
                     out exn

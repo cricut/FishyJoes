@@ -473,6 +473,7 @@ extension CodeGen {
                     try installLibrary("\(config.module)-java")
                 case .cSharp:
                     // Install the module library and interfacing library
+                    try installLibrary(config.module)
                     try installLibrary("\(config.module)-iota")
                 case .dart:
                     // Install the module library, interfacing library, and required module libraries, signing if necessary
