@@ -37,11 +37,12 @@ namespace Cricut.FishyJoesRuntime {
         ) {
             using var _thisHandle = new GCRef(this);
             using var _otherHandle = new GCRef(other);
-            Check((out CreatedRef _exn) => __iota_FishyJoesCommonRuntime_AttributeContainer_merge(_thisHandle.ptr, _otherHandle.ptr, keepCurrent, out _exn));
+            Check((out CreatedRef _exn) => __iota_FishyJoesCommonRuntime_AttributeContainer_merge(Loader.env, _thisHandle.ptr, _otherHandle.ptr, keepCurrent, out _exn));
         }
 
         [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern void __iota_FishyJoesCommonRuntime_AttributeContainer_merge(
+            IntPtr envRef, 
             UnownedRef self,
             UnownedRef other,
             bool keepCurrent,
@@ -51,13 +52,14 @@ namespace Cricut.FishyJoesRuntime {
         public override bool Equals(
             object? other
         ) {
-            using var thisHandle = new GCRef(this);
-            using var otherHandle = new GCRef(other as Cricut.FishyJoesRuntime.AttributeContainer);
-            return Check((out CreatedRef exn) => __iota_FishyJoesCommonRuntime_AttributeContainer_equals(thisHandle.ptr, otherHandle.ptr, out exn));
+            using var _thisHandle = new GCRef(this);
+            using var _otherHandle = new GCRef(other as Cricut.FishyJoesRuntime.AttributeContainer);
+            return Check((out CreatedRef exn) => __iota_FishyJoesCommonRuntime_AttributeContainer_equals(Loader.env, _thisHandle.ptr, _otherHandle.ptr, out exn));
         }
 
         [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern bool __iota_FishyJoesCommonRuntime_AttributeContainer_equals(
+            IntPtr envRef, 
             UnownedRef lhs,
             UnownedRef rhs,
             out CreatedRef exn
@@ -66,11 +68,12 @@ namespace Cricut.FishyJoesRuntime {
         public override int GetHashCode(
         ) {
             using var _thisHandle = new GCRef(this);
-            return Check((out CreatedRef _exn) => __iota_FishyJoesCommonRuntime_AttributeContainer_hash(_thisHandle.ptr, out _exn));
+            return Check((out CreatedRef _exn) => __iota_FishyJoesCommonRuntime_AttributeContainer_hash(Loader.env, _thisHandle.ptr, out _exn));
         }
 
         [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern int __iota_FishyJoesCommonRuntime_AttributeContainer_hash(
+            IntPtr envRef, 
             UnownedRef self,
             out CreatedRef exn
         );
@@ -79,11 +82,12 @@ namespace Cricut.FishyJoesRuntime {
         /// <!-- FishyJoes.export(createEmpty) -->
         public static Cricut.FishyJoesRuntime.AttributeContainer CreateEmpty(
         ) {
-            return Check((out CreatedRef _exn) => __iota_FishyJoesCommonRuntime_AttributeContainer_createEmpty(out _exn)).Consume<Cricut.FishyJoesRuntime.AttributeContainer>();
+            return Check((out CreatedRef _exn) => __iota_FishyJoesCommonRuntime_AttributeContainer_createEmpty(Loader.env, out _exn)).Consume<Cricut.FishyJoesRuntime.AttributeContainer>();
         }
 
         [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __iota_FishyJoesCommonRuntime_AttributeContainer_createEmpty(
+            IntPtr envRef, 
             out CreatedRef exn
         );
     }
@@ -119,60 +123,79 @@ namespace Cricut.FishyJoesRuntime {
             /// <!-- FishyJoes.export(link) -->
             public System.Uri? Link {
                 get {
-                    using var thisHandle = new GCRef(this);
+                    using var _thisHandle = new GCRef(this);
                     return Check((out CreatedRef exn) =>
-                        __iota_get_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_Link(thisHandle.ptr, out exn).Consume<System.Uri?>()
+                        __iota_get_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_Link(Loader.env, _thisHandle.ptr, out exn).Consume<System.Uri?>()
                     );
                 }
                 set {
-                    using var thisHandle = new GCRef(this);
-                    using var valueHandle = new GCRef(value);
+                    using var _thisHandle = new GCRef(this);
+                    using var _valueHandle = new GCRef(value);
                     Check((out CreatedRef exn) =>
-                        __iota_set_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_Link(thisHandle.ptr, valueHandle.ptr, out exn)
+                        __iota_set_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_Link(Loader.env, _thisHandle.ptr, _valueHandle.ptr, out exn)
                     );
                 }
             }
 
             [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-            private static extern CreatedRef __iota_get_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_Link(UnownedRef self, out CreatedRef exn);
+            private static extern CreatedRef __iota_get_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_Link(
+                IntPtr envRef, 
+                UnownedRef self, 
+                out CreatedRef exn
+            );
 
             [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-            private static extern void __iota_set_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_Link(UnownedRef self, UnownedRef value, out CreatedRef exn);
+            private static extern void __iota_set_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_Link(
+                IntPtr envRef, 
+                UnownedRef self, 
+                UnownedRef value, 
+                out CreatedRef exn
+            );
 
             /// <summary>A language identifier attribute.</summary>
             /// <!-- FishyJoes.export(languageIdentifier) -->
             public string? LanguageIdentifier {
                 get {
-                    using var thisHandle = new GCRef(this);
+                    using var _thisHandle = new GCRef(this);
                     return Check((out CreatedRef exn) =>
-                        __iota_get_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_LanguageIdentifier(thisHandle.ptr, out exn).Consume<string?>()
+                        __iota_get_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_LanguageIdentifier(Loader.env, _thisHandle.ptr, out exn).Consume<string?>()
                     );
                 }
                 set {
-                    using var thisHandle = new GCRef(this);
-                    using var valueHandle = new GCRef(value);
+                    using var _thisHandle = new GCRef(this);
+                    using var _valueHandle = new GCRef(value);
                     Check((out CreatedRef exn) =>
-                        __iota_set_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_LanguageIdentifier(thisHandle.ptr, valueHandle.ptr, out exn)
+                        __iota_set_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_LanguageIdentifier(Loader.env, _thisHandle.ptr, _valueHandle.ptr, out exn)
                     );
                 }
             }
 
             [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-            private static extern CreatedRef __iota_get_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_LanguageIdentifier(UnownedRef self, out CreatedRef exn);
+            private static extern CreatedRef __iota_get_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_LanguageIdentifier(
+                IntPtr envRef, 
+                UnownedRef self, 
+                out CreatedRef exn
+            );
 
             [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-            private static extern void __iota_set_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_LanguageIdentifier(UnownedRef self, UnownedRef value, out CreatedRef exn);
+            private static extern void __iota_set_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_LanguageIdentifier(
+                IntPtr envRef, 
+                UnownedRef self, 
+                UnownedRef value, 
+                out CreatedRef exn
+            );
 
             public override bool Equals(
                 object? other
             ) {
-                using var thisHandle = new GCRef(this);
-                using var otherHandle = new GCRef(other as Cricut.FishyJoesRuntime.AttributeContainer.FoundationAttributes);
-                return Check((out CreatedRef exn) => __iota_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_equals(thisHandle.ptr, otherHandle.ptr, out exn));
+                using var _thisHandle = new GCRef(this);
+                using var _otherHandle = new GCRef(other as Cricut.FishyJoesRuntime.AttributeContainer.FoundationAttributes);
+                return Check((out CreatedRef exn) => __iota_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_equals(Loader.env, _thisHandle.ptr, _otherHandle.ptr, out exn));
             }
 
             [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern bool __iota_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_equals(
+                IntPtr envRef, 
                 UnownedRef lhs,
                 UnownedRef rhs,
                 out CreatedRef exn
@@ -181,11 +204,12 @@ namespace Cricut.FishyJoesRuntime {
             public override int GetHashCode(
             ) {
                 using var _thisHandle = new GCRef(this);
-                return Check((out CreatedRef _exn) => __iota_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_hash(_thisHandle.ptr, out _exn));
+                return Check((out CreatedRef _exn) => __iota_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_hash(Loader.env, _thisHandle.ptr, out _exn));
             }
 
             [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern int __iota_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_hash(
+                IntPtr envRef, 
                 UnownedRef self,
                 out CreatedRef exn
             );
@@ -193,11 +217,12 @@ namespace Cricut.FishyJoesRuntime {
             public Cricut.FishyJoesRuntime.AttributeContainer AsContainer(
             ) {
                 using var _thisHandle = new GCRef(this);
-                return Check((out CreatedRef _exn) => __iota_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_asContainer(_thisHandle.ptr, out _exn)).Consume<Cricut.FishyJoesRuntime.AttributeContainer>();
+                return Check((out CreatedRef _exn) => __iota_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_asContainer(Loader.env, _thisHandle.ptr, out _exn)).Consume<Cricut.FishyJoesRuntime.AttributeContainer>();
             }
 
             [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern CreatedRef __iota_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_asContainer(
+                IntPtr envRef, 
                 UnownedRef self,
                 out CreatedRef exn
             );
@@ -206,11 +231,12 @@ namespace Cricut.FishyJoesRuntime {
             /// <!-- FishyJoes.export(createEmpty) -->
             public static Cricut.FishyJoesRuntime.AttributeContainer.FoundationAttributes CreateEmpty(
             ) {
-                return Check((out CreatedRef _exn) => __iota_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_createEmpty(out _exn)).Consume<Cricut.FishyJoesRuntime.AttributeContainer.FoundationAttributes>();
+                return Check((out CreatedRef _exn) => __iota_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_createEmpty(Loader.env, out _exn)).Consume<Cricut.FishyJoesRuntime.AttributeContainer.FoundationAttributes>();
             }
 
             [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern CreatedRef __iota_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_createEmpty(
+                IntPtr envRef, 
                 out CreatedRef exn
             );
 
@@ -220,11 +246,12 @@ namespace Cricut.FishyJoesRuntime {
                 Cricut.FishyJoesRuntime.AttributeContainer container
             ) {
                 using var _containerHandle = new GCRef(container);
-                return Check((out CreatedRef _exn) => __iota_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_createFromContainer(_containerHandle.ptr, out _exn)).Consume<Cricut.FishyJoesRuntime.AttributeContainer.FoundationAttributes>();
+                return Check((out CreatedRef _exn) => __iota_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_createFromContainer(Loader.env, _containerHandle.ptr, out _exn)).Consume<Cricut.FishyJoesRuntime.AttributeContainer.FoundationAttributes>();
             }
 
             [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
             private static extern CreatedRef __iota_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_createFromContainer(
+                IntPtr envRef, 
                 UnownedRef container,
                 out CreatedRef exn
             );
