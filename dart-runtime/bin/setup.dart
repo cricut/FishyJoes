@@ -60,7 +60,8 @@ void main() async {
           io.exit(1);
         }
         final repoName = pathMatch[1]!;
-        downloads.add(Download(repoName, ref, "$repoName-dart-binaries.tgz"));
+        final tarballName = "${name.toLowerCase()}_binaries.tgz";
+        downloads.add(Download(repoName, ref, tarballName));
       }
     }
   }
