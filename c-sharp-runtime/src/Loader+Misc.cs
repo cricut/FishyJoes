@@ -84,7 +84,8 @@ namespace Cricut.FishyJoesRuntime {
                 Foundation_URL_setup(
                     env,
                     bag<URLAbsoluteURIMethod>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => {
-                        return new CreatedRef(obj.Peek<Uri>().AbsoluteUri);
+                        Uri uri = obj.Peek<Uri>();
+                        return new CreatedRef(uri.AbsoluteUri);
                     })),
                     bag<URLConstructor>((ConsumedRef urlString, out CreatedRef exn) => Catching(out exn, () => {
                         Uri uri = new Uri(urlString.Consume<string>());

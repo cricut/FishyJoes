@@ -530,6 +530,7 @@ extension Data: IotaConverter {
 
 @_cdecl("Foundation_URL_setup")
 public func URL_iota_setup(
+    envRef: EnvRef,
     absoluteURIMethod: @escaping URL.AbsoluteURIMethod,
     constructor: @escaping URL.Constructor
 ) {
