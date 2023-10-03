@@ -204,12 +204,12 @@ class DartClass {
 
         outputAttributes()
         let staticMark = field.isStatic ? "static " : ""
-        fragment.outputBlock("\(staticMark)\(field.type.name(in: self)) get \(field.name) =>", closeWith: ";") {
+        fragment.outputBlock("\(staticMark)\(field.type.name(in: self)) get \(Self.deforbidify(field.name)) =>", closeWith: ";") {
             outputGetterBody()
         }
         if !field.readOnly {
             outputAttributes()
-            fragment.outputBlock("\(staticMark)void set \(field.name)(\(field.type.name(in: self)) value) {") {
+            fragment.outputBlock("\(staticMark)void set \(Self.deforbidify(field.name))(\(field.type.name(in: self)) value) {") {
                 outputSetterBody()
                 fragment.output(";")
             }
@@ -605,7 +605,7 @@ class DartEnumClass: DartClass {
                             if value.type.isObject {
                                 fragment.output("consumeRef<\(value.type.name(in: self))>(_\(value.name)),")
                             } else {
-                                fragment.output("_\(value.name)")
+                                fragment.output("_\(value.name),")
                             }
                         }
                     }
@@ -647,6 +647,42 @@ class DartEnumClass: DartClass {
 
 extension DartClass {
     private static var forbiddenVarNames: Set<String> = [
+        "else",
+        "enum",
+        "in",
+        "assert",
+        "super",
+        "extends",
+        "is",
+        "switch",
+        "await",
+        "this",
+        "break",
+        "throw",
+        "case",
+        "false",
+        "new",
+        "true",
+        "catch",
+        "final",
+        "null",
+        "try",
+        "class",
+        "const",
+        "finally",
+        "var",
+        "continue",
+        "for",
+        "void",
+        "when",
+        "default",
+        "rethrow",
+        "while",
+        "return",
+        "with",
+        "do",
+        "if",
+        "yield",
     ]
 
     static func deforbidify(_ name: String) -> String {
