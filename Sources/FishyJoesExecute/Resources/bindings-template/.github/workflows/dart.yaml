@@ -42,6 +42,12 @@ jobs:
 
           swift run -- fishy-joes --dart --fat generate build
 
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: mac_generated
+          path: dart/native
+
       - name: Test library from dart
         shell: zsh {0}
         run: |
@@ -49,12 +55,6 @@ jobs:
 
           (cd dart; dart run fishyjoes_dart:setup)
           swift run -- fishy-joes --dart --fat test
-
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: mac_generated
-          path: dart/native
 
   build-test-dart-linux:
     name: "linux: Build and test dart bindings"
@@ -97,18 +97,18 @@ jobs:
             patchelf --set-rpath $SWIFT_RUN_PATH $LIB
           done
 
+      - name: Upload library
+        uses: actions/upload-artifact@v2
+        with:
+          name: ubuntu_generated
+          path: dart/native
+
       - name: Test library from dart
         shell: zsh {0}
         run: |
           set -euxo pipefail
           (cd dart; dart run fishyjoes_dart:setup)
           swift run -- fishy-joes --dart test
-
-      - name: Upload library
-        uses: actions/upload-artifact@v2
-        with:
-          name: ubuntu_generated
-          path: dart/native
 
   build-test-dart-windows:
     name: "windows: Build and test dart bindings"
@@ -151,6 +151,11 @@ jobs:
           cp .build/windows-build/x86_64-unknown-windows-msvc/release/__MODULE_NAME__.dll dart/native/windows
           cp .build/windows-build/x86_64-unknown-windows-msvc/release/__MODULE_NAME__-iota.dll dart/native/windows
 
+      - name: Upload library
+        uses: actions/upload-artifact@v2
+        with:
+          name: windows_generated
+          path: dart/native
 
       - name: Test library from dart
         run: |
@@ -162,12 +167,6 @@ jobs:
           # Someone who understands windows better than I do is welcome to fix this in a better way
           $env:PATH = "$pwd\native\windows;$env:PATH"
           dart test
-
-      - name: Upload library
-        uses: actions/upload-artifact@v2
-        with:
-          name: windows_generated
-          path: dart/native
 
   dart-publish:
     name: "Publish dart package"

@@ -45,7 +45,7 @@ void main() async {
 
     // Download binaries for any remote package that is fishyjoes_dart or depends directly on it
     bool needsDownload =
-        // source == 'git' &&
+        source == 'git' &&
         (name == 'fishyjoes_dart' || directDeps.contains('fishyjoes_dart'));
     if (needsDownload) {
       final depLock = pubspecLock["packages"][name];
@@ -60,7 +60,7 @@ void main() async {
           io.exit(1);
         }
         final repoName = pathMatch[1]!;
-        downloads.add(Download(repoName, ref, "dart-binaries.tgz"));
+        downloads.add(Download(repoName, ref, "$repoName-dart-binaries.tgz"));
       }
     }
   }
