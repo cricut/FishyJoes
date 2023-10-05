@@ -6,7 +6,7 @@ void main() {
       final _ = ensureLoaded;
   });
 
-  group('StringTests', () {
+  group('AttributedStringTests', () {
       test('testStringValues', () {
           expect(Strings.simple, equals("Hello"));
           expect(Strings.accent, equals("Olá"));
