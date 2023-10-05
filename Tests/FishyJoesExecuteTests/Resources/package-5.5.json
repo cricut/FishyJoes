@@ -1,0 +1,170 @@
+{
+  "cLanguageStandard" : null,
+  "cxxLanguageStandard" : null,
+  "dependencies" : [
+    {
+      "scm" : [
+        {
+          "identity" : "crigeo",
+          "location" : "https://github.com/cricut/CriGeo",
+          "productFilter" : null,
+          "requirement" : {
+            "exact" : [
+              "0.14.2"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "local" : [
+        {
+          "identity" : "fishyjoes",
+          "path" : "/Users/acobb/src/FishyJoes",
+          "productFilter" : null
+        }
+      ]
+    }
+  ],
+  "name" : "CriGeo-bindings",
+  "packageKind" : "root",
+  "pkgConfig" : null,
+  "platforms" : [
+    {
+      "options" : [
+
+      ],
+      "platformName" : "macos",
+      "version" : "11.0"
+    }
+  ],
+  "products" : [
+    {
+      "name" : "CriGeo-wasm",
+      "settings" : [
+
+      ],
+      "targets" : [
+        "NodeInterface"
+      ],
+      "type" : {
+        "library" : [
+          "automatic"
+        ]
+      }
+    },
+    {
+      "name" : "CriGeo-node",
+      "settings" : [
+
+      ],
+      "targets" : [
+        "NodeInterface"
+      ],
+      "type" : {
+        "library" : [
+          "dynamic"
+        ]
+      }
+    },
+    {
+      "name" : "CriGeo-java",
+      "settings" : [
+
+      ],
+      "targets" : [
+        "JavaInterface"
+      ],
+      "type" : {
+        "library" : [
+          "dynamic"
+        ]
+      }
+    }
+  ],
+  "providers" : null,
+  "swiftLanguageVersions" : null,
+  "targets" : [
+    {
+      "dependencies" : [
+        {
+          "product" : [
+            "CriGeo",
+            "CriGeo",
+            null
+          ]
+        },
+        {
+          "product" : [
+            "FishyJoesNodeRuntime",
+            "FishyJoes",
+            null
+          ]
+        }
+      ],
+      "exclude" : [
+
+      ],
+      "name" : "NodeInterface",
+      "path" : "Sources/Generated/NodeInterface",
+      "resources" : [
+        {
+          "path" : "CriGeo.d.ts",
+          "rule" : "copy"
+        }
+      ],
+      "settings" : [
+
+      ],
+      "type" : "regular"
+    },
+    {
+      "dependencies" : [
+        {
+          "product" : [
+            "CriGeo",
+            "CriGeo",
+            null
+          ]
+        },
+        {
+          "product" : [
+            "FishyJoesJavaRuntime",
+            "FishyJoes",
+            null
+          ]
+        }
+      ],
+      "exclude" : [
+
+      ],
+      "name" : "JavaInterface",
+      "path" : "Sources/Generated/JavaInterface",
+      "resources" : [
+        {
+          "path" : "CriGeo.d.ts",
+          "rule" : "copy"
+        }
+      ],
+      "settings" : [
+        {
+          "condition" : {
+            "platformNames" : [
+              "wasi"
+            ]
+          },
+          "name" : "unsafeFlags",
+          "tool" : "linker",
+          "value" : [
+            "-Xlinker",
+            "--export=napi_register_module_v1"
+          ]
+        }
+      ],
+      "type" : "regular"
+    }
+  ],
+  "toolsVersion" : {
+    "_version" : "5.3.0"
+  }
+}

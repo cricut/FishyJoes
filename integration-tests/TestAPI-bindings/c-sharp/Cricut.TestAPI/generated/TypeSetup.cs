@@ -672,7 +672,7 @@ namespace Cricut.TestAPI {
             });
             Once("setup_ArrayConverter<Foundation.AttributedSubstring>", () => {
                 Console.WriteLine("setting up Array<AttributedSubstring>...");
-                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ArrayConverter_setup<Cricut.FishyJoesRuntime.AttributedString>(
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ArrayConverter_setup<Cricut.FishyJoesRuntime.AttributedSubstring>(
                     Loader.env,
                     "ArrayConverter<Foundation.AttributedSubstring>",
                     out exn

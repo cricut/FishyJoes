@@ -9,7 +9,7 @@ var translatedAttributedString = ExternalTranslatedType(
     kotlinName: "AttributedString",
     jniType: .object("com/cricut/fishyjoes/runtime/AttributedString"),
     cSharpType: .named(package: "Cricut.FishyJoesRuntime", name: "AttributedString"),
-    dartType: .named(package: "Cricut.FishyJoesRuntime", name: "AttributedString"),
+    dartType: .named(package: "FishyJoesRuntime", name: "AttributedString"),
     isInhabited: true,
     definingModule: Module.runtime
 )
@@ -22,8 +22,8 @@ var translatedAttributedSubstring = ExternalTranslatedType(
     kotlinPackage: "com.cricut.fishyjoes.runtime",
     kotlinName: "AttributedSubstring",
     jniType: .object("com/cricut/fishyjoes/runtime/AttributedSubstring"),
-    cSharpType: .named(package: "Cricut.FishyJoesRuntime", name: "AttributedString"),
-    dartType: .named(package: "Cricut.FishyJoesRuntime", name: "AttributedString"),
+    cSharpType: .named(package: "Cricut.FishyJoesRuntime", name: "AttributedSubstring"),
+    dartType: .named(package: "FishyJoesRuntime", name: "AttributedSubstring"),
     isInhabited: true,
     definingModule: Module.runtime
 )
@@ -37,7 +37,7 @@ var translatedAttributeContainer = ExternalTranslatedType(
     kotlinName: "AttributeContainer",
     jniType: .object("com/cricut/fishyjoes/runtime/AttributeContainer"),
     cSharpType: .named(package: "Cricut.FishyJoesRuntime", name: "AttributeContainer"),
-    dartType: .named(package: "Cricut.FishyJoesRuntime", name: "AttributeContainer"),
+    dartType: .named(package: "FishyJoesRuntime", name: "AttributeContainer"),
     isInhabited: true,
     definingModule: Module.runtime
 )
@@ -51,7 +51,7 @@ var translatedAttributeContainerFoundationAttributes = ExternalTranslatedType(
     kotlinName: "AttributeContainerFoundationAttributes",
     jniType: .object("com/cricut/fishyjoes/runtime/AttributeContainerFoundationAttributes"),
     cSharpType: .named(package: "Cricut.FishyJoesRuntime", name: "AttributeContainerFoundationAttributes"),
-    dartType: .named(package: "Cricut.FishyJoesRuntime", name: "AttributeContainerFoundationAttributes"),
+    dartType: .named(package: "FishyJoesRuntime", name: "AttributeContainer_FoundationAttributes"),
     isInhabited: true,
     definingModule: Module.runtime
 )
@@ -65,7 +65,7 @@ var translatedAttributedStringIndex = ExternalTranslatedType(
     kotlinName: "AttributedString.Index",
     jniType: .object("com/cricut/fishyjoes/runtime/AttributedString$Index"),
     cSharpType: .named(package: "Cricut.FishyJoesRuntime", name: "AttributedString.Index"),
-    dartType: .named(package: "Cricut.FishyJoesRuntime", name: "AttributedString.Index"),
+    dartType: .named(package: "FishyJoesRuntime", name: "AttributedString_Index"),
     isInhabited: true,
     definingModule: Module.runtime
 )
@@ -79,7 +79,7 @@ var translatedAttributedStringUnicodeScalarView = ExternalTranslatedType(
     kotlinName: "AttributedString.UnicodeScalarView",
     jniType: .object("com/cricut/fishyjoes/runtime/AttributedString$UnicodeScalarView"),
     cSharpType: .named(package: "Cricut.FishyJoesRuntime", name: "AttributedString.UnicodeScalarView"),
-    dartType: .named(package: "Cricut.FishyJoesRuntime", name: "AttributedString.UnicodeScalarView"),
+    dartType: .named(package: "FishyJoesRuntime", name: "AttributedString_UnicodeScalarView"),
     isInhabited: true,
     definingModule: Module.runtime
 )
@@ -93,7 +93,7 @@ var translatedAttributedStringCharacterView = ExternalTranslatedType(
     kotlinName: "AttributedString.CharacterView",
     jniType: .object("com/cricut/fishyjoes/runtime/AttributedString$CharacterView"),
     cSharpType: .named(package: "Cricut.FishyJoesRuntime", name: "AttributedString.CharacterView"),
-    dartType: .named(package: "Cricut.FishyJoesRuntime", name: "AttributedString.CharacterView"),
+    dartType: .named(package: "FishyJoesRuntime", name: "AttributedString_CharacterView"),
     isInhabited: true,
     definingModule: Module.runtime
 )
@@ -107,7 +107,7 @@ var translatedAttributedStringRuns = ExternalTranslatedType(
     kotlinName: "AttributedString.Runs",
     jniType: .object("com/cricut/fishyjoes/runtime/AttributedString$Runs"),
     cSharpType: .named(package: "Cricut.FishyJoesRuntime", name: "AttributedString.RunsView"),
-    dartType: .named(package: "Cricut.FishyJoesRuntime", name: "AttributedString.Runs"),
+    dartType: .named(package: "FishyJoesRuntime", name: "AttributedString_Runs"),
     isInhabited: true,
     definingModule: Module.runtime
 )
@@ -121,7 +121,7 @@ var translatedAttributedStringRunsIndex = ExternalTranslatedType(
     kotlinName: "AttributedString.Runs.Index",
     jniType: .object("com/cricut/fishyjoes/runtime/AttributedString$Runs$Index"),
     cSharpType: .named(package: "Cricut.FishyJoesRuntime", name: "AttributedString.RunsView.Index"),
-    dartType: .named(package: "Cricut.FishyJoesRuntime", name: "AttributedString.Runs.Index"),
+    dartType: .named(package: "FishyJoesRuntime", name: "AttributedString_Runs_Index"),
     isInhabited: true,
     definingModule: Module.runtime
 )
@@ -135,7 +135,7 @@ var translatedAttributedStringRunsRun = ExternalTranslatedType(
     kotlinName: "AttributedString.Runs.Run",
     jniType: .object("com/cricut/fishyjoes/runtime/AttributedString$Runs$Run"),
     cSharpType: .named(package: "Cricut.FishyJoesRuntime", name: "AttributedString.RunsView.Run"),
-    dartType: .named(package: "Cricut.FishyJoesRuntime", name: "AttributedString.Runs.Run"),
+    dartType: .named(package: "FishyJoesRuntime", name: "AttributedString_Runs_Run"),
     isInhabited: true,
     definingModule: Module.runtime
 )

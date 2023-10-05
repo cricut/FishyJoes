@@ -3783,7 +3783,7 @@ final ensureLoaded = (() {
     Loader.shared.once("setup_ArrayConverter<Foundation.AttributedString.Runs.Run>", () {
         // print("setting up Array<AttributedString.Runs.Run> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
-            Loader.shared.FishyJoesCommonRuntime_ArrayConverter_setup<Cricut.FishyJoesRuntime.AttributedString.Runs.Run>(
+            Loader.shared.FishyJoesCommonRuntime_ArrayConverter_setup<FishyJoesRuntime.AttributedString_Runs_Run>(
                 Loader.shared.env,
                 "ArrayConverter<Foundation.AttributedString.Runs.Run>",
                 exn
@@ -3794,7 +3794,7 @@ final ensureLoaded = (() {
     Loader.shared.once("setup_ArrayConverter<Foundation.AttributedSubstring>", () {
         // print("setting up Array<AttributedSubstring> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
-            Loader.shared.FishyJoesCommonRuntime_ArrayConverter_setup<Cricut.FishyJoesRuntime.AttributedString>(
+            Loader.shared.FishyJoesCommonRuntime_ArrayConverter_setup<FishyJoesRuntime.AttributedSubstring>(
                 Loader.shared.env,
                 "ArrayConverter<Foundation.AttributedSubstring>",
                 exn
@@ -4357,7 +4357,7 @@ final ensureLoaded = (() {
     Loader.shared.once("setup_RangeConverter<Foundation.AttributedString.Index>", () {
         // print("setting up Range<AttributedString.Index> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
-            Loader.shared.FishyJoesCommonRuntime_RangeConverter_setup<Cricut.FishyJoesRuntime.AttributedString.Index>(
+            Loader.shared.FishyJoesCommonRuntime_RangeConverter_setup<FishyJoesRuntime.AttributedString_Index>(
                 Loader.shared.env,
                 "RangeConverter<Foundation.AttributedString.Index>",
                 exn

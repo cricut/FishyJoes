@@ -8,7 +8,7 @@ struct TranslatedURL: TranslatedType {
     let kotlinName = "URL"
     let jniType = JNIType.object("java/net/URL")
     let cSharpType: CSharpClass.CSType = .named(package: "System", name: "Uri")
-    let dartType: DartClass.DartType = .named(package: "System", name: "Uri") // TODO: This!
+    let dartType: DartClass.DartType = .named(package: nil, name: "Uri")
     let containedNamedTypes: [TranslatedType] = []
     let definingModule = Module.runtime
 }

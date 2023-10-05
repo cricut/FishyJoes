@@ -68,119 +68,119 @@ class AttributedStrings {
     );
 
     /// <!-- FishyJoes.export(simple) -->
-    static Cricut.FishyJoesRuntime.AttributedString get simple =>
+    static FishyJoesRuntime.AttributedString get simple =>
         check((exn) =>
-            consumeCreatedRef<Cricut.FishyJoesRuntime.AttributedString>(f__iota_get_TestAPI_AttributedStrings_simple(Loader.shared.env, exn))
+            consumeCreatedRef<FishyJoesRuntime.AttributedString>(f__iota_get_TestAPI_AttributedStrings_simple(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(accent) -->
-    static Cricut.FishyJoesRuntime.AttributedString get accent =>
+    static FishyJoesRuntime.AttributedString get accent =>
         check((exn) =>
-            consumeCreatedRef<Cricut.FishyJoesRuntime.AttributedString>(f__iota_get_TestAPI_AttributedStrings_accent(Loader.shared.env, exn))
+            consumeCreatedRef<FishyJoesRuntime.AttributedString>(f__iota_get_TestAPI_AttributedStrings_accent(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(script) -->
-    static Cricut.FishyJoesRuntime.AttributedString get script =>
+    static FishyJoesRuntime.AttributedString get script =>
         check((exn) =>
-            consumeCreatedRef<Cricut.FishyJoesRuntime.AttributedString>(f__iota_get_TestAPI_AttributedStrings_script(Loader.shared.env, exn))
+            consumeCreatedRef<FishyJoesRuntime.AttributedString>(f__iota_get_TestAPI_AttributedStrings_script(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(chinese) -->
-    static Cricut.FishyJoesRuntime.AttributedString get chinese =>
+    static FishyJoesRuntime.AttributedString get chinese =>
         check((exn) =>
-            consumeCreatedRef<Cricut.FishyJoesRuntime.AttributedString>(f__iota_get_TestAPI_AttributedStrings_chinese(Loader.shared.env, exn))
+            consumeCreatedRef<FishyJoesRuntime.AttributedString>(f__iota_get_TestAPI_AttributedStrings_chinese(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(chineseBMP) -->
-    static Cricut.FishyJoesRuntime.AttributedString get chineseBMP =>
+    static FishyJoesRuntime.AttributedString get chineseBMP =>
         check((exn) =>
-            consumeCreatedRef<Cricut.FishyJoesRuntime.AttributedString>(f__iota_get_TestAPI_AttributedStrings_chineseBMP(Loader.shared.env, exn))
+            consumeCreatedRef<FishyJoesRuntime.AttributedString>(f__iota_get_TestAPI_AttributedStrings_chineseBMP(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(chineseSIP) -->
-    static Cricut.FishyJoesRuntime.AttributedString get chineseSIP =>
+    static FishyJoesRuntime.AttributedString get chineseSIP =>
         check((exn) =>
-            consumeCreatedRef<Cricut.FishyJoesRuntime.AttributedString>(f__iota_get_TestAPI_AttributedStrings_chineseSIP(Loader.shared.env, exn))
+            consumeCreatedRef<FishyJoesRuntime.AttributedString>(f__iota_get_TestAPI_AttributedStrings_chineseSIP(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(emoji) -->
-    static Cricut.FishyJoesRuntime.AttributedString get emoji =>
+    static FishyJoesRuntime.AttributedString get emoji =>
         check((exn) =>
-            consumeCreatedRef<Cricut.FishyJoesRuntime.AttributedString>(f__iota_get_TestAPI_AttributedStrings_emoji(Loader.shared.env, exn))
+            consumeCreatedRef<FishyJoesRuntime.AttributedString>(f__iota_get_TestAPI_AttributedStrings_emoji(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(emojiMulti) -->
-    static Cricut.FishyJoesRuntime.AttributedString get emojiMulti =>
+    static FishyJoesRuntime.AttributedString get emojiMulti =>
         check((exn) =>
-            consumeCreatedRef<Cricut.FishyJoesRuntime.AttributedString>(f__iota_get_TestAPI_AttributedStrings_emojiMulti(Loader.shared.env, exn))
+            consumeCreatedRef<FishyJoesRuntime.AttributedString>(f__iota_get_TestAPI_AttributedStrings_emojiMulti(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(polyglot) -->
-    static Cricut.FishyJoesRuntime.AttributedString get polyglot =>
+    static FishyJoesRuntime.AttributedString get polyglot =>
         check((exn) =>
-            consumeCreatedRef<Cricut.FishyJoesRuntime.AttributedString>(f__iota_get_TestAPI_AttributedStrings_polyglot(Loader.shared.env, exn))
+            consumeCreatedRef<FishyJoesRuntime.AttributedString>(f__iota_get_TestAPI_AttributedStrings_polyglot(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(echo) -->
-    static Cricut.FishyJoesRuntime.AttributedString echo(
-        Cricut.FishyJoesRuntime.AttributedString string,
+    static FishyJoesRuntime.AttributedString echo(
+        FishyJoesRuntime.AttributedString string,
     ) =>
         GCRef.using(string, (_stringHandle) =>
-            consumeCreatedRef<Cricut.FishyJoesRuntime.AttributedString>(check((OutCreatedRef _exn) => f__iota_TestAPI_AttributedStrings_echo(Loader.shared.env, _stringHandle.ptr, _exn)))
+            consumeCreatedRef<FishyJoesRuntime.AttributedString>(check((OutCreatedRef _exn) => f__iota_TestAPI_AttributedStrings_echo(Loader.shared.env, _stringHandle.ptr, _exn)))
         )
     ;
 
     /// <!-- FishyJoes.export(firstIndex) -->
-    static Cricut.FishyJoesRuntime.AttributedString.Index firstIndex(
-        Cricut.FishyJoesRuntime.AttributedString /* of */ string,
+    static FishyJoesRuntime.AttributedString_Index firstIndex(
+        FishyJoesRuntime.AttributedString /* of */ string,
     ) =>
         GCRef.using(string, (_stringHandle) =>
-            consumeCreatedRef<Cricut.FishyJoesRuntime.AttributedString.Index>(check((OutCreatedRef _exn) => f__iota_TestAPI_AttributedStrings_firstIndex(Loader.shared.env, _stringHandle.ptr, _exn)))
+            consumeCreatedRef<FishyJoesRuntime.AttributedString_Index>(check((OutCreatedRef _exn) => f__iota_TestAPI_AttributedStrings_firstIndex(Loader.shared.env, _stringHandle.ptr, _exn)))
         )
     ;
 
     /// <!-- FishyJoes.export(lastIndex) -->
-    static Cricut.FishyJoesRuntime.AttributedString.Index lastIndex(
-        Cricut.FishyJoesRuntime.AttributedString /* of */ string,
+    static FishyJoesRuntime.AttributedString_Index lastIndex(
+        FishyJoesRuntime.AttributedString /* of */ string,
     ) =>
         GCRef.using(string, (_stringHandle) =>
-            consumeCreatedRef<Cricut.FishyJoesRuntime.AttributedString.Index>(check((OutCreatedRef _exn) => f__iota_TestAPI_AttributedStrings_lastIndex(Loader.shared.env, _stringHandle.ptr, _exn)))
+            consumeCreatedRef<FishyJoesRuntime.AttributedString_Index>(check((OutCreatedRef _exn) => f__iota_TestAPI_AttributedStrings_lastIndex(Loader.shared.env, _stringHandle.ptr, _exn)))
         )
     ;
 
     /// <!-- FishyJoes.export(fullRange) -->
-    static FishyJoesRuntime.SwiftRange<Cricut.FishyJoesRuntime.AttributedString.Index> fullRange(
-        Cricut.FishyJoesRuntime.AttributedString /* of */ string,
+    static FishyJoesRuntime.SwiftRange<FishyJoesRuntime.AttributedString_Index> fullRange(
+        FishyJoesRuntime.AttributedString /* of */ string,
     ) =>
         GCRef.using(string, (_stringHandle) =>
-            consumeCreatedRef<FishyJoesRuntime.SwiftRange<Cricut.FishyJoesRuntime.AttributedString.Index>>(check((OutCreatedRef _exn) => f__iota_TestAPI_AttributedStrings_fullRange(Loader.shared.env, _stringHandle.ptr, _exn)))
+            consumeCreatedRef<FishyJoesRuntime.SwiftRange<FishyJoesRuntime.AttributedString_Index>>(check((OutCreatedRef _exn) => f__iota_TestAPI_AttributedStrings_fullRange(Loader.shared.env, _stringHandle.ptr, _exn)))
         )
     ;
 
     /// <!-- FishyJoes.export(attributedCharacters) -->
-    static List<Cricut.FishyJoesRuntime.AttributedString> attributedCharacters(
-        Cricut.FishyJoesRuntime.AttributedString /* of */ string,
+    static List<FishyJoesRuntime.AttributedSubstring> attributedCharacters(
+        FishyJoesRuntime.AttributedString /* of */ string,
     ) =>
         GCRef.using(string, (_stringHandle) =>
-            consumeCreatedRef<List<Cricut.FishyJoesRuntime.AttributedString>>(check((OutCreatedRef _exn) => f__iota_TestAPI_AttributedStrings_attributedCharacters(Loader.shared.env, _stringHandle.ptr, _exn)))
+            consumeCreatedRef<List<FishyJoesRuntime.AttributedSubstring>>(check((OutCreatedRef _exn) => f__iota_TestAPI_AttributedStrings_attributedCharacters(Loader.shared.env, _stringHandle.ptr, _exn)))
         )
     ;
 
     /// <!-- FishyJoes.export(attributesPreferringDuplicatesNearerStart) -->
-    static Cricut.FishyJoesRuntime.AttributeContainer attributesPreferringDuplicatesNearerStart(
-        Cricut.FishyJoesRuntime.AttributedString /* of */ string,
+    static FishyJoesRuntime.AttributeContainer attributesPreferringDuplicatesNearerStart(
+        FishyJoesRuntime.AttributedString /* of */ string,
     ) =>
         GCRef.using(string, (_stringHandle) =>
-            consumeCreatedRef<Cricut.FishyJoesRuntime.AttributeContainer>(check((OutCreatedRef _exn) => f__iota_TestAPI_AttributedStrings_attributesPreferringDuplicatesNearerStart(Loader.shared.env, _stringHandle.ptr, _exn)))
+            consumeCreatedRef<FishyJoesRuntime.AttributeContainer>(check((OutCreatedRef _exn) => f__iota_TestAPI_AttributedStrings_attributesPreferringDuplicatesNearerStart(Loader.shared.env, _stringHandle.ptr, _exn)))
         )
     ;
 
     /// <!-- FishyJoes.export(emptyAttributeRuns) -->
-    static List<Cricut.FishyJoesRuntime.AttributedString.Runs.Run> emptyAttributeRuns(
-        Cricut.FishyJoesRuntime.AttributedString /* of */ string,
+    static List<FishyJoesRuntime.AttributedString_Runs_Run> emptyAttributeRuns(
+        FishyJoesRuntime.AttributedString /* of */ string,
     ) =>
         GCRef.using(string, (_stringHandle) =>
-            consumeCreatedRef<List<Cricut.FishyJoesRuntime.AttributedString.Runs.Run>>(check((OutCreatedRef _exn) => f__iota_TestAPI_AttributedStrings_emptyAttributeRuns(Loader.shared.env, _stringHandle.ptr, _exn)))
+            consumeCreatedRef<List<FishyJoesRuntime.AttributedString_Runs_Run>>(check((OutCreatedRef _exn) => f__iota_TestAPI_AttributedStrings_emptyAttributeRuns(Loader.shared.env, _stringHandle.ptr, _exn)))
         )
     ;
 

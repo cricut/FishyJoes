@@ -68,29 +68,29 @@ class URLs {
     );
 
     /// <!-- FishyJoes.export(simple) -->
-    static System.Uri get simple =>
+    static Uri get simple =>
         check((exn) =>
-            consumeCreatedRef<System.Uri>(f__iota_get_TestAPI_URLs_simple(Loader.shared.env, exn))
+            consumeCreatedRef<Uri>(f__iota_get_TestAPI_URLs_simple(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(remoteFile) -->
-    static System.Uri get remoteFile =>
+    static Uri get remoteFile =>
         check((exn) =>
-            consumeCreatedRef<System.Uri>(f__iota_get_TestAPI_URLs_remoteFile(Loader.shared.env, exn))
+            consumeCreatedRef<Uri>(f__iota_get_TestAPI_URLs_remoteFile(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(localFile) -->
-    static System.Uri get localFile =>
+    static Uri get localFile =>
         check((exn) =>
-            consumeCreatedRef<System.Uri>(f__iota_get_TestAPI_URLs_localFile(Loader.shared.env, exn))
+            consumeCreatedRef<Uri>(f__iota_get_TestAPI_URLs_localFile(Loader.shared.env, exn))
         )
     ;
     /// <!-- FishyJoes.export(echo) -->
-    static System.Uri echo(
-        System.Uri url,
+    static Uri echo(
+        Uri url,
     ) =>
         GCRef.using(url, (_urlHandle) =>
-            consumeCreatedRef<System.Uri>(check((OutCreatedRef _exn) => f__iota_TestAPI_URLs_echo(Loader.shared.env, _urlHandle.ptr, _exn)))
+            consumeCreatedRef<Uri>(check((OutCreatedRef _exn) => f__iota_TestAPI_URLs_echo(Loader.shared.env, _urlHandle.ptr, _exn)))
         )
     ;
 

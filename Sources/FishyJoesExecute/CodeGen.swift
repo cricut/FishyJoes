@@ -130,17 +130,17 @@ extension CodeGen {
         } catch let error {
             fatalError("Couldn't parse swift package: \(error)")
         }
-        func dependencyForModule(_ moduleIdentifier: String) -> (url: URL, version: String?)? {
+        func dependencyForModule(_ moduleIdentifier: String) -> URL? {
             return packageInfo.dependencyMap[moduleIdentifier.lowercased()]
         }
-        func dependencyIsFileRelative(_ dependency: (url: URL, version: String?)) -> Bool {
-            return dependency.url.scheme == nil
+        func dependencyIsFileRelative(_ dependencyURL: URL) -> Bool {
+            return dependencyURL.scheme == nil
         }
         func localPath(toModule moduleIdentifier: String) -> String? {
             return dependencyForModule(moduleIdentifier).map { localPath(toDependency: $0) } ?? nil
         }
-        func localPath(toDependency dependency: (url: URL, version: String?)) -> String? {
-            return dependencyIsFileRelative(dependency) ? dependency.url.path : ".build/checkouts/\(dependency.url.lastPathComponent)"
+        func localPath(toDependency dependencyURL: URL) -> String? {
+            return dependencyIsFileRelative(dependencyURL) ? dependencyURL.path : ".build/checkouts/\(dependencyURL.lastPathComponent)"
         }
         guard let fishyJoesDependency = dependencyForModule("FishyJoes") else {
             fatalError("Couldn't locate FishyJoes dependency in Package.swift")
@@ -519,7 +519,7 @@ extension CodeGen {
                 case .wasm, .node:
                     // Generate package.json from template
                     let packageVersion = version ?? "0.0.1" // If no version is provided, use a dummy version to build the package
-                    let runtimeVersion = fishyJoesDependency.version ?? "file:\(fishyJoesLocalPath)/node-runtime/fishyjoes-runtime-\(platform.executionEnvironment)" // If fishy-joes is file-local, use a file-local runtime too
+                    let runtimeVersion = /*fishyJoesDependency.version ?? */"file:\(fishyJoesLocalPath)/node-runtime/fishyjoes-runtime-\(platform.executionEnvironment)" // If fishy-joes is file-local, use a file-local runtime too
                     let templatePackage = try cmd("cat", "package.template.json").runJSON(NPMPackage.self)
                     let package = NPMPackage(
                         config: config,

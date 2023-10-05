@@ -208,11 +208,11 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(attributedCharacters) -->
         /// </summary>
-        public static System.Collections.Generic.IList<Cricut.FishyJoesRuntime.AttributedString> AttributedCharacters(
+        public static System.Collections.Generic.IList<Cricut.FishyJoesRuntime.AttributedSubstring> AttributedCharacters(
             Cricut.FishyJoesRuntime.AttributedString /* of */ _string
         ) {
             using var _stringHandle = new GCRef(_string);
-            return Check((out CreatedRef _exn) => __iota_TestAPI_AttributedStrings_attributedCharacters(Loader.env, _stringHandle.ptr, out _exn)).Consume<System.Collections.Generic.IList<Cricut.FishyJoesRuntime.AttributedString>>();
+            return Check((out CreatedRef _exn) => __iota_TestAPI_AttributedStrings_attributedCharacters(Loader.env, _stringHandle.ptr, out _exn)).Consume<System.Collections.Generic.IList<Cricut.FishyJoesRuntime.AttributedSubstring>>();
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
