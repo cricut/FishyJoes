@@ -36,53 +36,84 @@ void main() {
           expect(AttributedStrings.accent, isNot(AttributedStrings.simple));
           expect(AttributedString.create(AttributedStrings.simple.string, attributes: null), isNot(AttributedStrings.simple));
       });
+  
+
+      test('testStringEcho', () {
+          expect(AttributedStrings.simple, AttributedStrings.echo(AttributedStrings.simple));
+          expect(AttributedStrings.accent, AttributedStrings.echo(AttributedStrings.accent));
+          expect(AttributedStrings.chinese, AttributedStrings.echo(AttributedStrings.chinese));
+          expect(AttributedStrings.chineseBMP, AttributedStrings.echo(AttributedStrings.chineseBMP));
+          expect(AttributedStrings.chineseSIP, AttributedStrings.echo(AttributedStrings.chineseSIP));
+          expect(AttributedStrings.emoji, AttributedStrings.echo(AttributedStrings.emoji));
+          expect(AttributedStrings.emojiMulti, AttributedStrings.echo(AttributedStrings.emojiMulti));
+          expect(AttributedStrings.polyglot, AttributedStrings.echo(AttributedStrings.polyglot));
+      });
+
+      test('testViewIterationOverIndices', () {
+          var attributedString = AttributedStrings.polyglot + " " + AttributedStrings.emojiMulti;
+
+          var runStrings = <String>[];
+          var runIndex = attributedString.runs.startIndex;
+          while (runIndex != attributedString.runs.endIndex) {
+              // var runSubstring = attributedString[attributedString.runs[runIndex].range];
+              var runSubstring = attributedString.substringForRange(attributedString.runs.elementAt(runIndex).range);
+              runStrings.add(runSubstring.string);
+              runIndex = attributedString.runs.indexAfter(runIndex);
+          }
+          expect(
+              [
+                  "Hello",
+                  " ",
+                  "Olá",
+                  " ",
+                  "こんにちは",
+                  " ",
+                  "👨‍👩‍👧‍👦👍🏿🇺🇸"
+              ],
+              equals(runStrings)
+          );
+
+          var characterStrings = <String>[];
+          var characterIndex = attributedString.characters.startIndex;
+          while (characterIndex != attributedString.characters.endIndex) {
+              // var characterString = attributedString.characters[characterIndex];
+              var characterString = attributedString.characters.elementAt(characterIndex);
+              characterStrings.add(characterString);
+              characterIndex = attributedString.characters.indexAfter(characterIndex);
+          }
+          expect(
+              [
+                  "H", "e", "l", "l", "o", " ",
+                  "O", "l", "á", " ",
+                  "こ", "ん", "に", "ち", "は", " ",
+                  "👨‍👩‍👧‍👦", "👍🏿", "🇺🇸"
+              ],
+              equals(characterStrings)
+          );
+
+          var unicodeScalars = <int>[];
+          var scalarIndex = attributedString.unicodeScalars.startIndex;
+          while (scalarIndex != attributedString.unicodeScalars.endIndex) {
+              // var characterScalar = attributedString.unicodeScalars[scalarIndex];
+              var characterScalar = attributedString.unicodeScalars.elementAt(scalarIndex);
+              unicodeScalars.add(characterScalar);
+              scalarIndex = attributedString.unicodeScalars.indexAfter(scalarIndex);
+          }
+          expect(
+              [
+                  72, 101, 108, 108, 111, 32,
+                  79, 108, 225, 32,
+                  12371, 12435, 12395, 12385, 12399, 32,
+                  128104, 8205, 128105, 8205, 128103, 8205, 128102, 128077, 127999, 127482, 127480
+              ],
+              equals(unicodeScalars)
+          );
+      });
   });
 }
 
 /*
     public class AttributedStringTests {
-        [Fact]
-        void testStringValues() {
-            var en = new AttributeContainer.FoundationAttributes(languageIdentifier: "en");
-            var pt = new AttributeContainer.FoundationAttributes(languageIdentifier: "pt");
-            var ja = new AttributeContainer.FoundationAttributes(languageIdentifier: "ja");
-            var zh = new AttributeContainer.FoundationAttributes(languageIdentifier: "zh");
-            var ea = new AttributeContainer.FoundationAttributes(link: new Uri("https://home.unicode.org/emoji"));
-            var ef = new AttributeContainer.FoundationAttributes(link: new Uri("https://home.unicode.org/emoji/emoji-frequency"));
-
-            Assert.Equal("en", en.LanguageIdentifier);
-            Assert.Null(en.Link);
-
-            Assert.Null(ea.LanguageIdentifier);
-            Assert.Equal(new Uri("https://home.unicode.org/emoji"), ea.Link);
-
-            Assert.Equal(new AttributedString("Hello", en), AttributedStrings.Simple);
-            Assert.Equal(new AttributedString("Olá", pt), AttributedStrings.Accent);
-            Assert.Equal(new AttributedString("こんにちは", ja), AttributedStrings.Script);
-            Assert.Equal(new AttributedString("你好", zh), AttributedStrings.Chinese);
-            Assert.Equal(new AttributedString("豈更車賈滑", zh), AttributedStrings.ChineseBMP);
-            Assert.Equal(new AttributedString("\uD840\uDC01\uD840\uDC02\uD840\uDC03\uD840\uDC04", zh), AttributedStrings.ChineseSIP);
-            Assert.Equal(new AttributedString("🤯🐶🍓", ea), AttributedStrings.Emoji);
-            Assert.Equal(new AttributedString("👨‍👩‍👧‍👦👍🏿🇺🇸", ef), AttributedStrings.EmojiMulti);
-            Assert.Equal(AttributedStrings.Simple + " " + AttributedStrings.Accent + " " + AttributedStrings.Script, AttributedStrings.Polyglot);
-
-            Assert.Equal(AttributedStrings.Simple, AttributedStrings.Simple);
-            Assert.NotEqual(AttributedStrings.Accent, AttributedStrings.Simple);
-            Assert.NotEqual(new AttributedString(AttributedStrings.Simple.String, null), AttributedStrings.Simple);
-        }
-
-        [Fact]
-        void testStringEcho() {
-            Assert.Equal(AttributedStrings.Simple, AttributedStrings.Echo(AttributedStrings.Simple));
-            Assert.Equal(AttributedStrings.Accent, AttributedStrings.Echo(AttributedStrings.Accent));
-            Assert.Equal(AttributedStrings.Chinese, AttributedStrings.Echo(AttributedStrings.Chinese));
-            Assert.Equal(AttributedStrings.ChineseBMP, AttributedStrings.Echo(AttributedStrings.ChineseBMP));
-            Assert.Equal(AttributedStrings.ChineseSIP, AttributedStrings.Echo(AttributedStrings.ChineseSIP));
-            Assert.Equal(AttributedStrings.Emoji, AttributedStrings.Echo(AttributedStrings.Emoji));
-            Assert.Equal(AttributedStrings.EmojiMulti, AttributedStrings.Echo(AttributedStrings.EmojiMulti));
-            Assert.Equal(AttributedStrings.Polyglot, AttributedStrings.Echo(AttributedStrings.Polyglot));
-        }
-
         [Fact]
         void testViewIterationOverIndices() {
             var attributedString = AttributedStrings.Polyglot + " " + AttributedStrings.EmojiMulti;
