@@ -22,23 +22,23 @@ class AttributeContainer_FoundationAttributes extends SwiftReference {
 
     /// A link attribute.
     /// <!-- FishyJoes.export(link) -->
-    // System.Uri? get link =>
-    //     GCRef.using(this, (_thisHandle) =>
-    //         check((exn) =>
-    //             consumeCreatedRef<System.Uri?>(f__iota_get_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_link(Loader.shared.env, _thisHandle.ptr, exn))
-    //         )
-    //     )
-    // ;
-    // void set link(System.Uri? value) {
-    //     GCRef.using(this, (_thisHandle) =>
-    //         GCRef.using(value, (_valueHandle) =>
-    //             check((exn) =>
-    //                 f__iota_set_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_link(Loader.shared.env, _thisHandle.ptr, _valueHandle.ptr, exn)
-    //             )
-    //         )
-    //     )
-    //     ;
-    // }
+    Uri? get link =>
+        GCRef.using(this, (_thisHandle) =>
+            check((exn) =>
+                consumeCreatedRef<Uri?>(f__iota_get_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_link(Loader.shared.env, _thisHandle.ptr, exn))
+            )
+        )
+    ;
+    void set link(Uri? value) {
+        GCRef.using(this, (_thisHandle) =>
+            GCRef.using(value, (_valueHandle) =>
+                check((exn) =>
+                    f__iota_set_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_link(Loader.shared.env, _thisHandle.ptr, _valueHandle.ptr, exn)
+                )
+            )
+        )
+        ;
+    }
     /// A language identifier attribute.
     /// <!-- FishyJoes.export(languageIdentifier) -->
     String? get languageIdentifier =>
@@ -90,6 +90,18 @@ class AttributeContainer_FoundationAttributes extends SwiftReference {
                 check((exn) => f__iota_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_equals(Loader.shared.env, thisHandle.ptr, otherHandle.ptr, exn))))
     ;
 
+    static AttributeContainer_FoundationAttributes withAttributes({ Uri? link = null, String? languageIdentifier = null}) {
+        var container = AttributeContainer_FoundationAttributes.createEmpty();
+        container.link = link;
+        container.languageIdentifier = languageIdentifier;
+        return container;
+    }
+
+    AttributeContainer asContainer() =>
+       GCRef.using(this, (thisHandle) =>
+            consumeCreatedRef<AttributeContainer>(check((exn) => f__iota_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_asContainer(Loader.shared.env, thisHandle.ptr, exn))))
+    ;
+
     static late CreatedRef Function(
         Env env,
         OutCreatedRef _exn
@@ -132,4 +144,9 @@ class AttributeContainer_FoundationAttributes extends SwiftReference {
         UnownedRef link,
         OutCreatedRef _exn
     ) f__iota_set_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_link;
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef _this,
+        OutCreatedRef _exn
+    ) f__iota_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_asContainer;
 }

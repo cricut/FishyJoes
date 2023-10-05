@@ -87,4 +87,9 @@ class AttributeContainer extends SwiftReference {
         UnownedRef _this,
         OutCreatedRef _exn
     ) f__iota_get_FishyJoesCommonRuntime_AttributeContainer_hash;
+    static late int Function(
+        Env env,
+        UnownedRef _this,
+        OutCreatedRef _exn
+    ) f__iota_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_asContainer;
 }

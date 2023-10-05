@@ -3,7 +3,7 @@ import 'runtime.dart';
 
 /// A type that represents the position of a character or code unit within an attributed string.
 /// <!-- FishyJoes.exportReference(AttributedString.Index) -->
-class AttributedString_Index extends SwiftReference implements Comparable {
+class AttributedString_Index extends SwiftReference implements Comparable<dynamic> {
     AttributedString_Index(ffi.Pointer reference): super(reference) {}
     static CreatedRef ffi_new(ffi.Pointer ref, OutCreatedRef exn) => check((exn) =>
         createRef(AttributedString_Index(ref))

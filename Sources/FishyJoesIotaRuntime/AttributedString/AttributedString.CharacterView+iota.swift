@@ -27,8 +27,8 @@ public func FishyJoesRuntime_iota_AttributedString_CharacterView_setup(
     AttributedString.CharacterView._constructorMethod = constructorMethod
 }
 
-@_cdecl("__iota_get_Foundation_AttributedString_CharacterView_StartIndex")
-public func __iota_get_Foundation_AttributedString_CharacterView_StartIndex(
+@_cdecl("__iota_get_Foundation_AttributedString_CharacterView_startIndex")
+public func __iota_get_Foundation_AttributedString_CharacterView_startIndex(
     envRef: EnvRef,
     _iotaThis: foreignObject,
     _exn: foreignOutExn
@@ -42,8 +42,8 @@ public func __iota_get_Foundation_AttributedString_CharacterView_StartIndex(
     }
 }
 
-@_cdecl("__iota_get_Foundation_AttributedString_CharacterView_EndIndex")
-public func __iota_get_Foundation_AttributedString_CharacterView_EndIndex(
+@_cdecl("__iota_get_Foundation_AttributedString_CharacterView_endIndex")
+public func __iota_get_Foundation_AttributedString_CharacterView_endIndex(
     envRef: EnvRef,
     _iotaThis: foreignObject,
     _exn: foreignOutExn

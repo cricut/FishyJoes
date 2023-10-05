@@ -64,7 +64,7 @@ public func AttributeContainer_iotaEquals(
         )
     }
 }
-@_cdecl("__iota_FishyJoesCommonRuntime_AttributeContainer_hash")
+@_cdecl("__iota_get_FishyJoesCommonRuntime_AttributeContainer_hash")
 public func AttributeContainer_iotaHash(
     envRef: EnvRef,
     _iotaThis: foreignObject,

@@ -414,6 +414,20 @@ class AttributedString extends SwiftReference {
                 check((exn) => f__iota_Foundation_AttributedString_equals(Loader.shared.env, thisHandle.ptr, otherHandle.ptr, exn))))
     ;
 
+    AttributedString operator +(Object? other) {
+        var attributedString = AttributedString.createFromSubstring(this.substring);
+        if (other is AttributedString) {
+            attributedString.append(other);
+        } else if (other is AttributedSubstring) {
+            attributedString.appendSubstring(other);
+        } else if (other is String) {
+            attributedString.append(AttributedString.create(other));
+        } else {
+            attributedString.append(AttributedString.create(other.toString()));
+        }
+        return attributedString;
+    }
+
     static late void Function(
         Env env,
         UnownedRef _this,

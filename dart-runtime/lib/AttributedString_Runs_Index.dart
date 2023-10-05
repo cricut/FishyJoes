@@ -3,7 +3,7 @@ import 'runtime.dart';
 
 /// A type that represents the position of a descriptor for a run within an attributed string's view of runs.
 /// <!-- FishyJoes.exportReference(AttributedString.Runs.Index) -->
-class AttributedString_Runs_Index extends SwiftReference implements Comparable {
+class AttributedString_Runs_Index extends SwiftReference implements Comparable<dynamic> {
     AttributedString_Runs_Index(ffi.Pointer reference): super(reference) {}
     static CreatedRef ffi_new(ffi.Pointer ref, OutCreatedRef exn) => check((exn) =>
         createRef(AttributedString_Runs_Index(ref))

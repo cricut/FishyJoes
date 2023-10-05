@@ -3,36 +3,6 @@ part of 'loader.dart';
 extension LoaderAttributedString on Loader {
   static void _setup(Env env) {
     check<void>((exn) {
-      Loader.shared.FishyJoesCommonRuntime_RangeConverter_setup<FishyJoesRuntime.AttributedString_Index>(
-          Loader.shared.env,
-          "RangeConverter<Foundation.AttributedString.Index>",
-          exn
-      );
-    });
-    /*
-    check<void>((exn) {
-      Loader.shared.FishyJoesCommonRuntime_RangeConverter_setup<FishyJoesRuntime.AttributedString_Runs_Index>(
-          Loader.shared.env,
-          "RangeConverter<Foundation.AttributedString.Runs.Index>",
-          exn
-      );
-    });
-    check<void>((exn) {
-      Loader.shared.FishyJoesCommonRuntime_ClosedRangeConverter_setup<FishyJoesRuntime.AttributedString_Index>(
-          Loader.shared.env,
-          "ClosedRangeConverter<Foundation.AttributedString.Index>",
-          exn
-      );
-    });
-    check<void>((exn) {
-      Loader.shared.FishyJoesCommonRuntime_ClosedRangeConverter_setup<FishyJoesRuntime.AttributedString_Runs_Index>(
-          Loader.shared.env,
-          "ClosedRangeConverter<Foundation.AttributedString.Runs.Index>",
-          exn
-      );
-    });
-
-    check<void>((exn) {
       Loader._dylib.lookupFunction<
           ffi.Void Function(
               Env env,
@@ -45,7 +15,7 @@ extension LoaderAttributedString on Loader {
               OutCreatedRef exn
           )
       >('FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_setup')(
-          Loader.shared.env,
+          env,
           ffi.Pointer.fromFunction(FishyJoesRuntime.AttributeContainer_FoundationAttributes.ffi_new),
           exn
       );
@@ -62,8 +32,8 @@ extension LoaderAttributedString on Loader {
               ffi.Pointer<ffi.NativeFunction<CreatedRef Function(ffi.Pointer, OutCreatedRef)>> constructorMethod,
               OutCreatedRef exn
           )
-      >('Foundation_AttributedString__Runs_Index_setup')(
-          Loader.shared.env,
+      >('Foundation_AttributedString_Runs_Index_setup')(
+          env,
           ffi.Pointer.fromFunction(FishyJoesRuntime.AttributedString_Runs_Index.ffi_new),
           exn
       );
@@ -80,8 +50,8 @@ extension LoaderAttributedString on Loader {
               ffi.Pointer<ffi.NativeFunction<CreatedRef Function(ffi.Pointer, OutCreatedRef)>> constructorMethod,
               OutCreatedRef exn
           )
-      >('Foundation_AttributedString__Runs_Run_setup')(
-          Loader.shared.env,
+      >('Foundation_AttributedString_Runs_Run_setup')(
+          env,
           ffi.Pointer.fromFunction(FishyJoesRuntime.AttributedString_Runs_Run.ffi_new),
           exn
       );
@@ -98,8 +68,8 @@ extension LoaderAttributedString on Loader {
               ffi.Pointer<ffi.NativeFunction<CreatedRef Function(ffi.Pointer, OutCreatedRef)>> constructorMethod,
               OutCreatedRef exn
           )
-      >('Foundation_AttributedString__CharacterView_setup')(
-          Loader.shared.env,
+      >('Foundation_AttributedString_CharacterView_setup')(
+          env,
           ffi.Pointer.fromFunction(FishyJoesRuntime.AttributedString_CharacterView.ffi_new),
           exn
       );
@@ -116,8 +86,8 @@ extension LoaderAttributedString on Loader {
               ffi.Pointer<ffi.NativeFunction<CreatedRef Function(ffi.Pointer, OutCreatedRef)>> constructorMethod,
               OutCreatedRef exn
           )
-      >('Foundation_AttributedString__Index_setup')(
-          Loader.shared.env,
+      >('Foundation_AttributedString_Index_setup')(
+          env,
           ffi.Pointer.fromFunction(FishyJoesRuntime.AttributedString_Index.ffi_new),
           exn
       );
@@ -134,8 +104,8 @@ extension LoaderAttributedString on Loader {
               ffi.Pointer<ffi.NativeFunction<CreatedRef Function(ffi.Pointer, OutCreatedRef)>> constructorMethod,
               OutCreatedRef exn
           )
-      >('Foundation_AttributedString__Runs_setup')(
-          Loader.shared.env,
+      >('Foundation_AttributedString_Runs_setup')(
+          env,
           ffi.Pointer.fromFunction(FishyJoesRuntime.AttributedString_Runs.ffi_new),
           exn
       );
@@ -152,8 +122,8 @@ extension LoaderAttributedString on Loader {
               ffi.Pointer<ffi.NativeFunction<CreatedRef Function(ffi.Pointer, OutCreatedRef)>> constructorMethod,
               OutCreatedRef exn
           )
-      >('Foundation_AttributedString__UnicodeScalarView_setup')(
-          Loader.shared.env,
+      >('Foundation_AttributedString_UnicodeScalarView_setup')(
+          env,
           ffi.Pointer.fromFunction(FishyJoesRuntime.AttributedString_UnicodeScalarView.ffi_new),
           exn
       );
@@ -171,7 +141,7 @@ extension LoaderAttributedString on Loader {
               OutCreatedRef exn
           )
       >('FishyJoesCommonRuntime_AttributeContainer_setup')(
-          Loader.shared.env,
+          env,
           ffi.Pointer.fromFunction(FishyJoesRuntime.AttributeContainer.ffi_new),
           exn
       );
@@ -188,8 +158,8 @@ extension LoaderAttributedString on Loader {
               ffi.Pointer<ffi.NativeFunction<CreatedRef Function(ffi.Pointer, OutCreatedRef)>> constructorMethod,
               OutCreatedRef exn
           )
-      >('Foundation_AttributedString__setup')(
-          Loader.shared.env,
+      >('Foundation_AttributedString_setup')(
+          env,
           ffi.Pointer.fromFunction(FishyJoesRuntime.AttributedString.ffi_new),
           exn
       );
@@ -206,8 +176,8 @@ extension LoaderAttributedString on Loader {
               ffi.Pointer<ffi.NativeFunction<CreatedRef Function(ffi.Pointer, OutCreatedRef)>> constructorMethod,
               OutCreatedRef exn
           )
-      >('Foundation_AttributedSubstring__setup')(
-          Loader.shared.env,
+      >('Foundation_AttributedSubstring_setup')(
+          env,
           ffi.Pointer.fromFunction(FishyJoesRuntime.AttributedSubstring.ffi_new),
           exn
       );
@@ -249,6 +219,18 @@ extension LoaderAttributedString on Loader {
             OutCreatedRef _exn
         )
     >("__iota_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_equals");
+    FishyJoesRuntime.AttributeContainer_FoundationAttributes.f__iota_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_asContainer = Loader._dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_asContainer");
     FishyJoesRuntime.AttributeContainer.f__iota_FishyJoesCommonRuntime_AttributeContainer_createEmpty = Loader._dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -1243,6 +1225,5 @@ extension LoaderAttributedString on Loader {
             OutCreatedRef _exn
         )
     >("__iota_set_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_link");
-    */
   }
 }

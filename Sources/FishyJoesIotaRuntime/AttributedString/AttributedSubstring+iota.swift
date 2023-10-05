@@ -27,8 +27,8 @@ public func FishyJoesRuntime_iota_AttributedSubstring_setup(
     AttributedSubstring._constructorMethod = constructorMethod
 }
 
-@_cdecl("__iota_get_Foundation_AttributedSubstring_Base")
-public func __iota_get_Foundation_AttributedSubstring_Base(
+@_cdecl("__iota_get_Foundation_AttributedSubstring_base")
+public func __iota_get_Foundation_AttributedSubstring_base(
     envRef: EnvRef,
     _iotaThis: foreignObject,
     _exn: foreignOutExn
@@ -42,8 +42,8 @@ public func __iota_get_Foundation_AttributedSubstring_Base(
     }
 }
 
-@_cdecl("__iota_get_Foundation_AttributedSubstring_String")
-public func __iota_get_Foundation_AttributedSubstring_String(
+@_cdecl("__iota_get_Foundation_AttributedSubstring_string")
+public func __iota_get_Foundation_AttributedSubstring_string(
     envRef: EnvRef,
     _iotaThis: foreignObject,
     _exn: foreignOutExn
@@ -58,8 +58,8 @@ public func __iota_get_Foundation_AttributedSubstring_String(
     }
 }
 
-@_cdecl("__iota_get_Foundation_AttributedSubstring_Runs")
-public func __iota_get_Foundation_AttributedSubstring_Runs(
+@_cdecl("__iota_get_Foundation_AttributedSubstring_runs")
+public func __iota_get_Foundation_AttributedSubstring_runs(
     envRef: EnvRef,
     _iotaThis: foreignObject,
     _exn: foreignOutExn
@@ -73,8 +73,8 @@ public func __iota_get_Foundation_AttributedSubstring_Runs(
     }
 }
 
-@_cdecl("__iota_get_Foundation_AttributedSubstring_Characters")
-public func __iota_get_Foundation_AttributedSubstring_Characters(
+@_cdecl("__iota_get_Foundation_AttributedSubstring_characters")
+public func __iota_get_Foundation_AttributedSubstring_characters(
     envRef: EnvRef,
     _iotaThis: foreignObject,
     _exn: foreignOutExn
@@ -88,8 +88,8 @@ public func __iota_get_Foundation_AttributedSubstring_Characters(
     }
 }
 
-@_cdecl("__iota_get_Foundation_AttributedSubstring_UnicodeScalars")
-public func __iota_get_Foundation_AttributedSubstring_UnicodeScalars(
+@_cdecl("__iota_get_Foundation_AttributedSubstring_unicodeScalars")
+public func __iota_get_Foundation_AttributedSubstring_unicodeScalars(
     envRef: EnvRef,
     _iotaThis: foreignObject,
     _exn: foreignOutExn
@@ -103,8 +103,8 @@ public func __iota_get_Foundation_AttributedSubstring_UnicodeScalars(
     }
 }
 
-@_cdecl("__iota_get_Foundation_AttributedSubstring_StartIndex")
-public func __iota_get_Foundation_AttributedSubstring_StartIndex(
+@_cdecl("__iota_get_Foundation_AttributedSubstring_startIndex")
+public func __iota_get_Foundation_AttributedSubstring_startIndex(
     envRef: EnvRef,
     _iotaThis: foreignObject,
     _exn: foreignOutExn
@@ -118,8 +118,8 @@ public func __iota_get_Foundation_AttributedSubstring_StartIndex(
     }
 }
 
-@_cdecl("__iota_get_Foundation_AttributedSubstring_EndIndex")
-public func __iota_get_Foundation_AttributedSubstring_EndIndex(
+@_cdecl("__iota_get_Foundation_AttributedSubstring_endIndex")
+public func __iota_get_Foundation_AttributedSubstring_endIndex(
     envRef: EnvRef,
     _iotaThis: foreignObject,
     _exn: foreignOutExn
@@ -133,8 +133,8 @@ public func __iota_get_Foundation_AttributedSubstring_EndIndex(
     }
 }
 
-@_cdecl("__iota_get_Foundation_AttributedSubstring_Substring")
-public func __iota_get_Foundation_AttributedSubstring_Substring(
+@_cdecl("__iota_get_Foundation_AttributedSubstring_substring")
+public func __iota_get_Foundation_AttributedSubstring_substring(
     envRef: EnvRef,
     _iotaThis: foreignObject,
     _exn: foreignOutExn
@@ -183,7 +183,7 @@ public func AttributedSubstring_iotaEquals(
     }
 }
 
-@_cdecl("__iota_Foundation_AttributedSubstring_hash")
+@_cdecl("__iota_get_Foundation_AttributedSubstring_hash")
 public func AttributedSubstring_iotaHash(
     envRef: EnvRef,
     _iotaThis: foreignObject,

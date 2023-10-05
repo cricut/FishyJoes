@@ -39,10 +39,10 @@ extension LoaderRange on Loader {
               _FishyJoesCommonRuntime_RangeConverter_setup<void>>(
           'FishyJoesCommonRuntime_RangeConverter_setup');
 
-  void _rangeConverterSetup(String name, _RangeConversions context) {
+  void _rangeConverterSetup(Env env, String name, _RangeConversions context) {
     final cName = name.toNativeUtf16();
     _fishyJoesCommonRuntime_RangeConverter_setup(
-      Loader.shared.env,
+      env,
       cName,
       _RangeConversions.getLowerPtr,
       _RangeConversions.getUpperPtr,
@@ -54,6 +54,7 @@ extension LoaderRange on Loader {
 
   void FishyJoesCommonRuntime_RangeConverter_setup<T extends Comparable>(Env env, String name, OutCreatedRef exn) {
     _rangeConverterSetup(
+      env,
       name,
       _RangeConversions(
         (lowerBound, upperBound) => createRef(SwiftRange<T>(
@@ -68,6 +69,7 @@ extension LoaderRange on Loader {
 
   void FishyJoesCommonRuntime_ClosedRangeConverter_setup<T extends Comparable>(Env env, String name, OutCreatedRef exn) {
     _rangeConverterSetup(
+      env,
       name,
       _RangeConversions(
         (lowerBound, upperBound) => createRef(SwiftClosedRange<T>(

@@ -27,8 +27,8 @@ public func FishyJoesRuntime_iota_AttributedString_UnicodeScalarView_setup(
     AttributedString.UnicodeScalarView._constructorMethod = constructorMethod
 }
 
-@_cdecl("__iota_get_Foundation_AttributedString_UnicodeScalarView_StartIndex")
-public func __iota_get_Foundation_AttributedString_UnicodeScalarView_StartIndex(
+@_cdecl("__iota_get_Foundation_AttributedString_UnicodeScalarView_startIndex")
+public func __iota_get_Foundation_AttributedString_UnicodeScalarView_startIndex(
     envRef: EnvRef,
     _iotaThis: foreignObject,
     _exn: foreignOutExn
@@ -42,8 +42,8 @@ public func __iota_get_Foundation_AttributedString_UnicodeScalarView_StartIndex(
     }
 }
 
-@_cdecl("__iota_get_Foundation_AttributedString_UnicodeScalarView_EndIndex")
-public func __iota_get_Foundation_AttributedString_UnicodeScalarView_EndIndex(
+@_cdecl("__iota_get_Foundation_AttributedString_UnicodeScalarView_endIndex")
+public func __iota_get_Foundation_AttributedString_UnicodeScalarView_endIndex(
     envRef: EnvRef,
     _iotaThis: foreignObject,
     _exn: foreignOutExn

@@ -43,7 +43,7 @@ public func AttributedString_Runs_Index_iotaEquals(
     }
 }
 
-@_cdecl("__iota_Foundation_AttributedString_Runs_Index_hash")
+@_cdecl("__iota_get_Foundation_AttributedString_Runs_Index_hash")
 public func AttributedString_Runs_Index_iotaHash(
     envRef: EnvRef,
     _iotaThis: foreignObject,

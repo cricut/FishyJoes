@@ -26,13 +26,13 @@ namespace Cricut.FishyJoesRuntime {
             get {
                 using var _thisHandle = new GCRef(this);
                 return Check((out CreatedRef exn) =>
-                    __iota_get_Foundation_AttributedSubstring_Base(Loader.env, _thisHandle.ptr, out exn).Consume<Cricut.FishyJoesRuntime.AttributedString>()
+                    __iota_get_Foundation_AttributedSubstring_base(Loader.env, _thisHandle.ptr, out exn).Consume<Cricut.FishyJoesRuntime.AttributedString>()
                 );
             }
         }
 
         [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_get_Foundation_AttributedSubstring_Base(
+        private static extern CreatedRef __iota_get_Foundation_AttributedSubstring_base(
             IntPtr envRef, 
             UnownedRef self, 
             out CreatedRef exn
@@ -47,13 +47,13 @@ namespace Cricut.FishyJoesRuntime {
             get {
                 using var _thisHandle = new GCRef(this);
                 return Check((out CreatedRef exn) =>
-                    __iota_get_Foundation_AttributedSubstring_String(Loader.env, _thisHandle.ptr, out exn).Consume<string>()
+                    __iota_get_Foundation_AttributedSubstring_string(Loader.env, _thisHandle.ptr, out exn).Consume<string>()
                 );
             }
         }
 
         [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_get_Foundation_AttributedSubstring_String(
+        private static extern CreatedRef __iota_get_Foundation_AttributedSubstring_string(
             IntPtr envRef, 
             UnownedRef self, 
             out CreatedRef exn
@@ -74,13 +74,13 @@ namespace Cricut.FishyJoesRuntime {
             get {
                 using var _thisHandle = new GCRef(this);
                 return Check((out CreatedRef exn) =>
-                    __iota_get_Foundation_AttributedSubstring_Runs(Loader.env, _thisHandle.ptr, out exn).Consume<Cricut.FishyJoesRuntime.AttributedString.RunsView>()
+                    __iota_get_Foundation_AttributedSubstring_runs(Loader.env, _thisHandle.ptr, out exn).Consume<Cricut.FishyJoesRuntime.AttributedString.RunsView>()
                 );
             }
         }
 
         [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_get_Foundation_AttributedSubstring_Runs(
+        private static extern CreatedRef __iota_get_Foundation_AttributedSubstring_runs(
             IntPtr envRef, 
             UnownedRef self, 
             out CreatedRef exn
@@ -92,13 +92,13 @@ namespace Cricut.FishyJoesRuntime {
             get {
                 using var _thisHandle = new GCRef(this);
                 return Check((out CreatedRef exn) =>
-                    __iota_get_Foundation_AttributedSubstring_Characters(Loader.env, _thisHandle.ptr, out exn).Consume<Cricut.FishyJoesRuntime.AttributedString.CharacterView>()
+                    __iota_get_Foundation_AttributedSubstring_characters(Loader.env, _thisHandle.ptr, out exn).Consume<Cricut.FishyJoesRuntime.AttributedString.CharacterView>()
                 );
             }
         }
 
         [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_get_Foundation_AttributedSubstring_Characters(
+        private static extern CreatedRef __iota_get_Foundation_AttributedSubstring_characters(
             IntPtr envRef, 
             UnownedRef self, 
             out CreatedRef exn
@@ -110,13 +110,13 @@ namespace Cricut.FishyJoesRuntime {
             get {
                 using var _thisHandle = new GCRef(this);
                 return Check((out CreatedRef exn) =>
-                    __iota_get_Foundation_AttributedSubstring_UnicodeScalars(Loader.env, _thisHandle.ptr, out exn).Consume<Cricut.FishyJoesRuntime.AttributedString.UnicodeScalarView>()
+                    __iota_get_Foundation_AttributedSubstring_unicodeScalars(Loader.env, _thisHandle.ptr, out exn).Consume<Cricut.FishyJoesRuntime.AttributedString.UnicodeScalarView>()
                 );
             }
         }
 
         [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_get_Foundation_AttributedSubstring_UnicodeScalars(
+        private static extern CreatedRef __iota_get_Foundation_AttributedSubstring_unicodeScalars(
             IntPtr envRef, 
             UnownedRef self, 
             out CreatedRef exn
@@ -131,13 +131,13 @@ namespace Cricut.FishyJoesRuntime {
             get {
                 using var _thisHandle = new GCRef(this);
                 return Check((out CreatedRef exn) =>
-                    __iota_get_Foundation_AttributedSubstring_StartIndex(Loader.env, _thisHandle.ptr, out exn).Consume<Cricut.FishyJoesRuntime.AttributedString.Index>()
+                    __iota_get_Foundation_AttributedSubstring_startIndex(Loader.env, _thisHandle.ptr, out exn).Consume<Cricut.FishyJoesRuntime.AttributedString.Index>()
                 );
             }
         }
 
         [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_get_Foundation_AttributedSubstring_StartIndex(
+        private static extern CreatedRef __iota_get_Foundation_AttributedSubstring_startIndex(
             IntPtr envRef, 
             UnownedRef self, 
             out CreatedRef exn
@@ -152,13 +152,13 @@ namespace Cricut.FishyJoesRuntime {
             get {
                 using var _thisHandle = new GCRef(this);
                 return Check((out CreatedRef exn) =>
-                    __iota_get_Foundation_AttributedSubstring_EndIndex(Loader.env, _thisHandle.ptr, out exn).Consume<Cricut.FishyJoesRuntime.AttributedString.Index>()
+                    __iota_get_Foundation_AttributedSubstring_endIndex(Loader.env, _thisHandle.ptr, out exn).Consume<Cricut.FishyJoesRuntime.AttributedString.Index>()
                 );
             }
         }
 
         [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_get_Foundation_AttributedSubstring_EndIndex(
+        private static extern CreatedRef __iota_get_Foundation_AttributedSubstring_endIndex(
             IntPtr envRef, 
             UnownedRef self, 
             out CreatedRef exn
@@ -170,13 +170,13 @@ namespace Cricut.FishyJoesRuntime {
             get {
                 using var _thisHandle = new GCRef(this);
                 return Check((out CreatedRef exn) =>
-                    __iota_get_Foundation_AttributedSubstring_Substring(Loader.env, _thisHandle.ptr, out exn).Consume<Cricut.FishyJoesRuntime.AttributedSubstring>()
+                    __iota_get_Foundation_AttributedSubstring_substring(Loader.env, _thisHandle.ptr, out exn).Consume<Cricut.FishyJoesRuntime.AttributedSubstring>()
                 );
             }
         }
 
         [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_get_Foundation_AttributedSubstring_Substring(
+        private static extern CreatedRef __iota_get_Foundation_AttributedSubstring_substring(
             IntPtr envRef, 
             UnownedRef self, 
             out CreatedRef exn
@@ -221,11 +221,11 @@ namespace Cricut.FishyJoesRuntime {
         public override int GetHashCode(
         ) {
             using var _thisHandle = new GCRef(this);
-            return Check((out CreatedRef _exn) => __iota_Foundation_AttributedSubstring_hash(Loader.env, _thisHandle.ptr, out _exn));
+            return Check((out CreatedRef _exn) => __iota_get_Foundation_AttributedSubstring_hash(Loader.env, _thisHandle.ptr, out _exn));
         }
 
         [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern int __iota_Foundation_AttributedSubstring_hash(
+        private static extern int __iota_get_Foundation_AttributedSubstring_hash(
             IntPtr envRef, 
             UnownedRef self,
             out CreatedRef exn

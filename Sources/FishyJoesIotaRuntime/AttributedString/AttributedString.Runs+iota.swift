@@ -27,8 +27,8 @@ public func FishyJoesRuntime_iota_AttributedString_Runs_setup(
     AttributedString.Runs._constructorMethod = constructorMethod
 }
 
-@_cdecl("__iota_get_Foundation_AttributedString_Runs_StartIndex")
-public func __iota_get_Foundation_AttributedString_Runs_StartIndex(
+@_cdecl("__iota_get_Foundation_AttributedString_Runs_startIndex")
+public func __iota_get_Foundation_AttributedString_Runs_startIndex(
     envRef: EnvRef,
     _iotaThis: foreignObject,
     _exn: foreignOutExn
@@ -42,8 +42,8 @@ public func __iota_get_Foundation_AttributedString_Runs_StartIndex(
     }
 }
 
-@_cdecl("__iota_get_Foundation_AttributedString_Runs_EndIndex")
-public func __iota_get_Foundation_AttributedString_Runs_EndIndex(
+@_cdecl("__iota_get_Foundation_AttributedString_Runs_endIndex")
+public func __iota_get_Foundation_AttributedString_Runs_endIndex(
     envRef: EnvRef,
     _iotaThis: foreignObject,
     _exn: foreignOutExn
@@ -145,7 +145,7 @@ public func AttributedString_Runs_iotaEquals(
     }
 }
 
-@_cdecl("__iota_Foundation_AttributedString_Runs_hash")
+@_cdecl("__iota_get_Foundation_AttributedString_Runs_hash")
 public func AttributedString_Runs_iotaHash(
     envRef: EnvRef,
     _iotaThis: foreignObject,
