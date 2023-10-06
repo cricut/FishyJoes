@@ -54,88 +54,88 @@ void main() {
 
           var runStrings = <String>[];
           var runIndex = attributedString.runs.startIndex;
-          // while (runIndex != attributedString.runs.endIndex) {
-          //     var runSubstring = attributedString[attributedString.runs[runIndex].range];
-          //     runStrings.add(runSubstring.string);
-          //     runIndex = attributedString.runs.indexAfter(runIndex);
-          // }
-          // expect(
-          //     [
-          //         "Hello",
-          //         " ",
-          //         "Olá",
-          //         " ",
-          //         "こんにちは",
-          //         " ",
-          //         "👨‍👩‍👧‍👦👍🏿🇺🇸"
-          //     ],
-          //     equals(runStrings)
-          // );
+          while (runIndex != attributedString.runs.endIndex) {
+              var runSubstring = attributedString[attributedString.runs[runIndex].range];
+              runStrings.add(runSubstring.string);
+              runIndex = attributedString.runs.indexAfter(runIndex);
+          }
+          expect(
+              [
+                  "Hello",
+                  " ",
+                  "Olá",
+                  " ",
+                  "こんにちは",
+                  " ",
+                  "👨‍👩‍👧‍👦👍🏿🇺🇸"
+              ],
+              equals(runStrings)
+          );
 
           var characterStrings = <String>[];
           var characterIndex = attributedString.characters.startIndex;
-          // while (characterIndex != attributedString.characters.endIndex) {
-          //     var characterString = attributedString.characters[characterIndex];
-          //     characterStrings.add(characterString);
-          //     characterIndex = attributedString.characters.indexAfter(characterIndex);
-          // }
-          // expect(
-          //     [
-          //         "H", "e", "l", "l", "o", " ",
-          //         "O", "l", "á", " ",
-          //         "こ", "ん", "に", "ち", "は", " ",
-          //         "👨‍👩‍👧‍👦", "👍🏿", "🇺🇸"
-          //     ],
-          //     equals(characterStrings)
-          // );
+          while (characterIndex != attributedString.characters.endIndex) {
+              var characterString = attributedString.characters[characterIndex];
+              characterStrings.add(characterString);
+              characterIndex = attributedString.characters.indexAfter(characterIndex);
+          }
+          expect(
+              [
+                  "H", "e", "l", "l", "o", " ",
+                  "O", "l", "á", " ",
+                  "こ", "ん", "に", "ち", "は", " ",
+                  "👨‍👩‍👧‍👦", "👍🏿", "🇺🇸"
+              ],
+              equals(characterStrings)
+          );
 
           var unicodeScalars = <int>[];
           var scalarIndex = attributedString.unicodeScalars.startIndex;
-          // while (scalarIndex != attributedString.unicodeScalars.endIndex) {
-          //     var characterScalar = attributedString.unicodeScalars[scalarIndex];
-          //     unicodeScalars.add(characterScalar);
-          //     scalarIndex = attributedString.unicodeScalars.indexAfter(scalarIndex);
-          // }
-          // expect(
-          //     [
-          //         72, 101, 108, 108, 111, 32,
-          //         79, 108, 225, 32,
-          //         12371, 12435, 12395, 12385, 12399, 32,
-          //         128104, 8205, 128105, 8205, 128103, 8205, 128102, 128077, 127999, 127482, 127480
-          //     ],
-          //     equals(unicodeScalars)
-          // );
+          while (scalarIndex != attributedString.unicodeScalars.endIndex) {
+              var characterScalar = attributedString.unicodeScalars[scalarIndex];
+              unicodeScalars.add(characterScalar);
+              scalarIndex = attributedString.unicodeScalars.indexAfter(scalarIndex);
+          }
+          expect(
+              [
+                  72, 101, 108, 108, 111, 32,
+                  79, 108, 225, 32,
+                  12371, 12435, 12395, 12385, 12399, 32,
+                  128104, 8205, 128105, 8205, 128103, 8205, 128102, 128077, 127999, 127482, 127480
+              ],
+              equals(unicodeScalars)
+          );
       });
 
       test('testViewIterators', () {
           var attributedString = AttributedStrings.polyglot + " " + AttributedStrings.emojiMulti;
 
-          // var runStrings = [...attributedString.runs].map((run) => attributedString[run.range].string).toList();
-          // expect(runStrings, equals([
-          //     "Hello",
-          //     " ",
-          //     "Olá",
-          //     " ",
-          //     "こんにちは",
-          //     " ",
-          //     "👨‍👩‍👧‍👦👍🏿🇺🇸"
-          // ]));
+          var runStrings = [...attributedString.runs].map((run) => attributedString[run.range].string).toList();
+          expect(runStrings, equals([
+              "Hello",
+              " ",
+              "Olá",
+              " ",
+              "こんにちは",
+              " ",
+              "👨‍👩‍👧‍👦👍🏿🇺🇸"
+          ]));
 
-          // var characterStrings = [...attributedString.characters];
-          // expect(characterStrings, equals([
-          //     "H", "e", "l", "l", "o", " ",
-          //     "O", "l", "á", " ",
-          //     "こ", "ん", "に", "ち", "は", " ",
-          //     "👨‍👩‍👧‍👦", "👍🏿", "🇺🇸"
-          // ]));
+          var characterStrings = [...attributedString.characters];
+          expect(characterStrings, equals([
+              "H", "e", "l", "l", "o", " ",
+              "O", "l", "á", " ",
+              "こ", "ん", "に", "ち", "は", " ",
+              "👨‍👩‍👧‍👦", "👍🏿", "🇺🇸"
+          ]));
 
-          // var unicodeScalarValues = [...attributedString.unicodeScalars];
-          // expect(unicodeScalarValues, equals([
-          //     72, 101, 108, 108, 111, 32,
-          //     79, 108, 225, 32,
-          //     12371, 12435, 12395, 12385, 12399, 32,
-          //     128104, 8205, 128105, 8205, 128103, 8205, 128102, 128077, 127999, 127482, 127480
-          // ]));
+          var unicodeScalarValues = [...attributedString.unicodeScalars];
+          expect(unicodeScalarValues, equals([
+              72, 101, 108, 108, 111, 32,
+              79, 108, 225, 32,
+              12371, 12435, 12395, 12385, 12399, 32,
+              128104, 8205, 128105, 8205, 128103, 8205, 128102, 128077, 127999, 127482, 127480
+          ]));
       });
 
       test('testSubstring', () {
@@ -162,17 +162,17 @@ void main() {
       test('testMutability', () {
           // Examine an existing attributed string from the test suite
           expect("Hello Olá こんにちは", AttributedStrings.polyglot.string);
-          // expect(
-          //     [ "Hello", " ", "Olá", " ", "こんにちは" ],
-          //     equals(AttributedStrings.polyglot.runs.map((run) => AttributedStrings.polyglot[run.range].string))
-          // );
+          expect(
+              [ "Hello", " ", "Olá", " ", "こんにちは" ],
+              equals(AttributedStrings.polyglot.runs.map((run) => AttributedStrings.polyglot[run.range].string))
+          );
 
-          // // Attempt to "modify" the attributed string from the test suite, verify only an (unnamed) clone of it changes, but it does not change
-          // AttributedStrings.polyglot.replaceSubrange(
-          //     SwiftRange(AttributedStrings.polyglot.startIndex, AttributedStrings.polyglot.endIndex), 
-          //     AttributedString.create("H")
-          // );
-          // expect("Hello Olá こんにちは", AttributedStrings.polyglot.string);
+          // Attempt to "modify" the attributed string from the test suite, verify only an (unnamed) clone of it changes, but it does not change
+          AttributedStrings.polyglot.replaceSubrange(
+              SwiftRange(AttributedStrings.polyglot.startIndex, AttributedStrings.polyglot.endIndex), 
+              AttributedString.create("H")
+          );
+          expect("Hello Olá こんにちは", AttributedStrings.polyglot.string);
 
           // Name the test suite attributed string in a value, creating a clone of it (Swift-to-C# copies the field, which is declared as a 'let' and is immutable)
           var attributedString = AttributedStrings.polyglot;
@@ -191,45 +191,45 @@ void main() {
               attributedString.characters.indexAfter(attributedString.startIndex), 
               attributedString.characters.indexBefore(attributedString.endIndex)
           );
-          // expect(
-          //     ["Hello", " ", "Olá", " ", "こんにちは"],
-          //     equals(attributedString.runs.map((run) => attributedString[run.range].string))
-          // );
-          // attributedString.replaceSubrange(
-          //     range, 
-          //     AttributedString.create(attributedString[range].string, attributes: AttributeContainer.createEmpty())
-          // );
-          // expect(
-          //     ["H", "ello Olá こんにち", "は"],
-          //     equals(attributedString.runs.map((run) => attributedString[run.range].string))
-          // );
-          // expect(3, attributedString.runs.toList().length);
-          // expect(3, attributedStringReference.runs.toList().length);
-          // expect(5, attributedStringClone.runs.toList().length); // Unchanged
-          // expect(5, AttributedStrings.polyglot.runs.toList().length); // Unchanged
+          expect(
+              ["Hello", " ", "Olá", " ", "こんにちは"],
+              equals(attributedString.runs.map((run) => attributedString[run.range].string))
+          );
+          attributedString.replaceSubrange(
+              range, 
+              AttributedString.create(attributedString[range].string, attributes: AttributeContainer.createEmpty())
+          );
+          expect(
+              ["H", "ello Olá こんにち", "は"],
+              equals(attributedString.runs.map((run) => attributedString[run.range].string))
+          );
+          expect(3, attributedString.runs.toList().length);
+          expect(3, attributedStringReference.runs.toList().length);
+          expect(5, attributedStringClone.runs.toList().length); // Unchanged
+          expect(5, AttributedStrings.polyglot.runs.toList().length); // Unchanged
 
-          // // Modify the attributed string's string data, verify it and the reference change, but the clone and original do not
-          // attributedString.replaceSubrange(range, AttributedString.create("i18n"));
-          // expect(
-          //     ["H", "i18n", "は"],
-          //     equals(attributedString.runs.map((run) => attributedString[run.range].string))
-          // );
-          // expect("Hi18nは", equals(attributedString.string));
-          // expect("Hi18nは", equals(attributedStringReference.string));
-          // expect("Hello Olá こんにちは", equals(attributedStringClone.string)); // Unchanged
-          // expect("Hello Olá こんにちは", equals(AttributedStrings.polyglot.string)); // Unchanged
+          // Modify the attributed string's string data, verify it and the reference change, but the clone and original do not
+          attributedString.replaceSubrange(range, AttributedString.create("i18n"));
+          expect(
+              ["H", "i18n", "は"],
+              equals(attributedString.runs.map((run) => attributedString[run.range].string))
+          );
+          expect("Hi18nは", equals(attributedString.string));
+          expect("Hi18nは", equals(attributedStringReference.string));
+          expect("Hello Olá こんにちは", equals(attributedStringClone.string)); // Unchanged
+          expect("Hello Olá こんにちは", equals(AttributedStrings.polyglot.string)); // Unchanged
 
-          // // Modify the clone's string data, verify it changes (merging the first 2 but not last 2 runs), but the attributed string, reference, and original do not
-          // attributedStringClone.insert(AttributedString.create("clone", attributes: attributedStringClone.runs.first.attributes), attributedStringClone.startIndex);
-          // attributedStringClone.insert(AttributedString.create("enolc"), attributedStringClone.endIndex);
-          // expect(
-          //     ["cloneHello", " ", "Olá", " ", "こんにちは", "enolc"],
-          //     equals(attributedStringClone.runs.map((run) => attributedStringClone[run.range].string))
-          // );
-          // expect("Hi18nは", equals(attributedString.string)); // Unchanged
-          // expect("Hi18nは", equals(attributedStringReference.string)); // Unchanged
-          // expect("cloneHello Olá こんにちはenolc", equals(attributedStringClone.string));
-          // expect("Hello Olá こんにちは", equals(AttributedStrings.polyglot.string)); // Unchanged
+          // Modify the clone's string data, verify it changes (merging the first 2 but not last 2 runs), but the attributed string, reference, and original do not
+          attributedStringClone.insert(AttributedString.create("clone", attributes: attributedStringClone.runs.first.attributes), attributedStringClone.startIndex);
+          attributedStringClone.insert(AttributedString.create("enolc"), attributedStringClone.endIndex);
+          expect(
+              ["cloneHello", " ", "Olá", " ", "こんにちは", "enolc"],
+              equals(attributedStringClone.runs.map((run) => attributedStringClone[run.range].string))
+          );
+          expect("Hi18nは", equals(attributedString.string)); // Unchanged
+          expect("Hi18nは", equals(attributedStringReference.string)); // Unchanged
+          expect("cloneHello Olá こんにちはenolc", equals(attributedStringClone.string));
+          expect("Hello Olá こんにちは", equals(AttributedStrings.polyglot.string)); // Unchanged
       });
 
       test('testAttributeMergeReplace', () {
@@ -239,69 +239,69 @@ void main() {
           var ja = AttributeContainer_FoundationAttributes.withAttributes(languageIdentifier: "ja").asContainer();
 
           var attributedString = AttributedStrings.polyglot;
-          // var runRanges = attributedString.runs.map((run) => run.range).toList();
-          // expect(5, equals(runRanges.length));
-          // expect(AttributedString.create("Hello", attributes: en).substring, equals(attributedString[runRanges[0]]));
-          // expect(AttributedString.create(" ", attributes: empty).substring, equals(attributedString[runRanges[1]]));
-          // expect(AttributedString.create("Olá", attributes: pt).substring, equals(attributedString[runRanges[2]]));
-          // expect(AttributedString.create(" ", attributes: empty).substring, equals(attributedString[runRanges[3]]));
-          // expect(AttributedString.create("こんにちは", attributes: ja).substring, equals(attributedString[runRanges[4]]));
+          var runRanges = attributedString.runs.map((run) => run.range).toList();
+          expect(5, equals(runRanges.length));
+          expect(AttributedString.create("Hello", attributes: en).substring, equals(attributedString[runRanges[0]]));
+          expect(AttributedString.create(" ", attributes: empty).substring, equals(attributedString[runRanges[1]]));
+          expect(AttributedString.create("Olá", attributes: pt).substring, equals(attributedString[runRanges[2]]));
+          expect(AttributedString.create(" ", attributes: empty).substring, equals(attributedString[runRanges[3]]));
+          expect(AttributedString.create("こんにちは", attributes: ja).substring, equals(attributedString[runRanges[4]]));
 
-          // attributedString.replaceSubrange(
-          //     runRanges[1], 
-          //     AttributedString.create(
-          //         attributedString[runRanges[1]].string, 
-          //         attributes: attributedString.runs.elementAtPosition(runRanges[0].lowerBound).attributes
-          //     )
-          // );
-          // runRanges = attributedString.runs.map((run) => run.range).toList();
-          // expect(4, equals(runRanges.length));
-          // expect(AttributedString.create("Hello ", attributes: en).substring, equals(attributedString[runRanges[0]]));
-          // expect(AttributedString.create("Olá", attributes: pt).substring, equals(attributedString[runRanges[1]]));
-          // expect(AttributedString.create(" ", attributes: empty).substring, equals(attributedString[runRanges[2]]));
-          // expect(AttributedString.create("こんにちは", attributes: ja).substring, equals(attributedString[runRanges[3]]));
+          attributedString.replaceSubrange(
+              runRanges[1], 
+              AttributedString.create(
+                  attributedString[runRanges[1]].string, 
+                  attributes: attributedString.runs.elementAtPosition(runRanges[0].lowerBound).attributes
+              )
+          );
+          runRanges = attributedString.runs.map((run) => run.range).toList();
+          expect(4, equals(runRanges.length));
+          expect(AttributedString.create("Hello ", attributes: en).substring, equals(attributedString[runRanges[0]]));
+          expect(AttributedString.create("Olá", attributes: pt).substring, equals(attributedString[runRanges[1]]));
+          expect(AttributedString.create(" ", attributes: empty).substring, equals(attributedString[runRanges[2]]));
+          expect(AttributedString.create("こんにちは", attributes: ja).substring, equals(attributedString[runRanges[3]]));
 
-          // attributedString.setAttributesForRange(runRanges[2], attributedString.runs.elementAtPosition(runRanges[1].lowerBound).attributes);
-          // runRanges = attributedString.runs.map((run) => run.range).toList();
-          // expect(3, equals(runRanges.length));
-          // expect(AttributedString.create("Hello ", attributes: en).substring, equals(attributedString[runRanges[0]]));
-          // expect(AttributedString.create("Olá ", attributes: pt).substring, equals(attributedString[runRanges[1]]));
-          // expect(AttributedString.create("こんにちは", attributes: ja).substring, equals(attributedString[runRanges[2]]));
+          attributedString.setAttributesForRange(runRanges[2], attributedString.runs.elementAtPosition(runRanges[1].lowerBound).attributes);
+          runRanges = attributedString.runs.map((run) => run.range).toList();
+          expect(3, equals(runRanges.length));
+          expect(AttributedString.create("Hello ", attributes: en).substring, equals(attributedString[runRanges[0]]));
+          expect(AttributedString.create("Olá ", attributes: pt).substring, equals(attributedString[runRanges[1]]));
+          expect(AttributedString.create("こんにちは", attributes: ja).substring, equals(attributedString[runRanges[2]]));
 
           var mangleStartIndex = attributedString.characters.indexAfter(attributedString.startIndex);
           var mangleEndIndex = attributedString.characters.indexBefore(attributedString.endIndex);
           var mangleRange = SwiftRange(mangleStartIndex, mangleEndIndex);
           attributedString.setAttributesForRange(mangleRange, empty);
-          // runRanges = attributedString.runs.map((run) => run.range).toList();
-          // expect(3, equals(runRanges.length));
-          // expect(AttributedString.create("H", attributes: en).substring, equals(attributedString[runRanges[0]]));
-          // expect(AttributedString.create("ello Olá こんにち", attributes: empty).substring, equals(attributedString[runRanges[1]]));
-          // expect(AttributedString.create("は", attributes: ja).substring, equals(attributedString[runRanges[2]]));
+          runRanges = attributedString.runs.map((run) => run.range).toList();
+          expect(3, equals(runRanges.length));
+          expect(AttributedString.create("H", attributes: en).substring, equals(attributedString[runRanges[0]]));
+          expect(AttributedString.create("ello Olá こんにち", attributes: empty).substring, equals(attributedString[runRanges[1]]));
+          expect(AttributedString.create("は", attributes: ja).substring, equals(attributedString[runRanges[2]]));
 
           var linkAttribute = AttributeContainer_FoundationAttributes.withAttributes(link: Uri.parse("https://www.google.com"));
           var enLink = linkAttribute;
           enLink.languageIdentifier = "en";
-          // attributedString.mergeAttributesForRange(runRanges[0], linkAttribute.asContainer());
-          // runRanges = attributedString.runs.map((run) => run.range).toList();
-          // expect(3, equals(runRanges.length));
-          // expect(AttributedString.create("H", attributes: enLink.asContainer()).substring, equals(attributedString[runRanges[0]]));
-          // expect(AttributedString.create("ello Olá こんにち", attributes: empty).substring, equals(attributedString[runRanges[1]]));
-          // expect(AttributedString.create("は", attributes: ja).substring, equals(attributedString[runRanges[2]]));
+          attributedString.mergeAttributesForRange(runRanges[0], linkAttribute.asContainer());
+          runRanges = attributedString.runs.map((run) => run.range).toList();
+          expect(3, equals(runRanges.length));
+          expect(AttributedString.create("H", attributes: enLink.asContainer()).substring, equals(attributedString[runRanges[0]]));
+          expect(AttributedString.create("ello Olá こんにち", attributes: empty).substring, equals(attributedString[runRanges[1]]));
+          expect(AttributedString.create("は", attributes: ja).substring, equals(attributedString[runRanges[2]]));
 
           var jaLink = linkAttribute;
           jaLink.languageIdentifier = "ja";
-          // attributedString.replaceAttributesForRange(runRanges[0], en, ja);
-          // runRanges = attributedString.runs.map((run) => run.range).toList();
-          // expect(3, equals(runRanges.length));
-          // expect(AttributedString.create("H", attributes: jaLink.asContainer()).substring, equals(attributedString[runRanges[0]]));
-          // expect(AttributedString.create("ello Olá こんにち", attributes: empty).substring, equals(attributedString[runRanges[1]]));
-          // expect(AttributedString.create("は", attributes: ja).substring, equals(attributedString[runRanges[2]]));
+          attributedString.replaceAttributesForRange(runRanges[0], en, ja);
+          runRanges = attributedString.runs.map((run) => run.range).toList();
+          expect(3, equals(runRanges.length));
+          expect(AttributedString.create("H", attributes: jaLink.asContainer()).substring, equals(attributedString[runRanges[0]]));
+          expect(AttributedString.create("ello Olá こんにち", attributes: empty).substring, equals(attributedString[runRanges[1]]));
+          expect(AttributedString.create("は", attributes: ja).substring, equals(attributedString[runRanges[2]]));
 
-          // attributedString.setAttributesForRange(attributedString.runs.first.range, empty);
-          // attributedString.setAttributesForRange(attributedString.runs.last.range, empty);
-          // runRanges = attributedString.runs.map((run) => run.range).toList();
-          // expect(1, equals(runRanges.length));
-          // expect(AttributedString.create("Hello Olá こんにちは", attributes: empty), equals(attributedString));
+          attributedString.setAttributesForRange(attributedString.runs.first.range, empty);
+          attributedString.setAttributesForRange(attributedString.runs.last.range, empty);
+          runRanges = attributedString.runs.map((run) => run.range).toList();
+          expect(1, equals(runRanges.length));
+          expect(AttributedString.create("Hello Olá こんにちは", attributes: empty), equals(attributedString));
       });
   });
 }

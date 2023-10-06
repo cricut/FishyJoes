@@ -39,6 +39,7 @@ typedef _FishyJoesCommonRuntime_Env_setup = Env Function(
     ffi.Pointer<ffi.NativeFunction<_EnvNewErrorFn>>);
 
 typedef _FishyJoesCommonRuntime_AnyBox_releaseRef<R> = R Function(
+  Env env,
   ConsumedRef swiftReference,
   OutCreatedRef exn,
 );
