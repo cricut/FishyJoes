@@ -231,82 +231,77 @@ void main() {
           expect("cloneHello Olá こんにちはenolc", equals(attributedStringClone.string));
           expect("Hello Olá こんにちは", equals(AttributedStrings.polyglot.string)); // Unchanged
       });
+
+      test('testAttributeMergeReplace', () {
+          var empty = AttributeContainer.createEmpty();
+          var en = AttributeContainer_FoundationAttributes.withAttributes(languageIdentifier: "en").asContainer();
+          var pt = AttributeContainer_FoundationAttributes.withAttributes(languageIdentifier: "pt").asContainer();
+          var ja = AttributeContainer_FoundationAttributes.withAttributes(languageIdentifier: "ja").asContainer();
+
+          var attributedString = AttributedStrings.polyglot;
+          var runRanges = attributedString.runs.map((run) => run.range).toList();
+          expect(5, equals(runRanges.length));
+          expect(AttributedString.create("Hello", attributes: en).substring, equals(attributedString[runRanges[0]]));
+          expect(AttributedString.create(" ", attributes: empty).substring, equals(attributedString[runRanges[1]]));
+          expect(AttributedString.create("Olá", attributes: pt).substring, equals(attributedString[runRanges[2]]));
+          expect(AttributedString.create(" ", attributes: empty).substring, equals(attributedString[runRanges[3]]));
+          expect(AttributedString.create("こんにちは", attributes: ja).substring, equals(attributedString[runRanges[4]]));
+
+          attributedString.replaceSubrange(
+              runRanges[1], 
+              AttributedString.create(
+                  attributedString[runRanges[1]].string, 
+                  attributes: attributedString.runs.elementAtPosition(runRanges[0].lowerBound).attributes
+              )
+          );
+          runRanges = attributedString.runs.map((run) => run.range).toList();
+          expect(4, equals(runRanges.length));
+          expect(AttributedString.create("Hello ", attributes: en).substring, equals(attributedString[runRanges[0]]));
+          expect(AttributedString.create("Olá", attributes: pt).substring, equals(attributedString[runRanges[1]]));
+          expect(AttributedString.create(" ", attributes: empty).substring, equals(attributedString[runRanges[2]]));
+          expect(AttributedString.create("こんにちは", attributes: ja).substring, equals(attributedString[runRanges[3]]));
+
+          attributedString.setAttributesForRange(runRanges[2], attributedString.runs.elementAtPosition(runRanges[1].lowerBound).attributes);
+          runRanges = attributedString.runs.map((run) => run.range).toList();
+          expect(3, equals(runRanges.length));
+          expect(AttributedString.create("Hello ", attributes: en).substring, equals(attributedString[runRanges[0]]));
+          expect(AttributedString.create("Olá ", attributes: pt).substring, equals(attributedString[runRanges[1]]));
+          expect(AttributedString.create("こんにちは", attributes: ja).substring, equals(attributedString[runRanges[2]]));
+
+          var mangleStartIndex = attributedString.characters.indexAfter(attributedString.startIndex);
+          var mangleEndIndex = attributedString.characters.indexBefore(attributedString.endIndex);
+          var mangleRange = SwiftRange(mangleStartIndex, mangleEndIndex);
+          attributedString.setAttributesForRange(mangleRange, empty);
+          runRanges = attributedString.runs.map((run) => run.range).toList();
+          expect(3, equals(runRanges.length));
+          expect(AttributedString.create("H", attributes: en).substring, equals(attributedString[runRanges[0]]));
+          expect(AttributedString.create("ello Olá こんにち", attributes: empty).substring, equals(attributedString[runRanges[1]]));
+          expect(AttributedString.create("は", attributes: ja).substring, equals(attributedString[runRanges[2]]));
+
+          var linkAttribute = AttributeContainer_FoundationAttributes.withAttributes(link: Uri.parse("https://www.google.com"));
+          var enLink = linkAttribute;
+          enLink.languageIdentifier = "en";
+          attributedString.mergeAttributesForRange(runRanges[0], linkAttribute.asContainer());
+          runRanges = attributedString.runs.map((run) => run.range).toList();
+          expect(3, equals(runRanges.length));
+          expect(AttributedString.create("H", attributes: enLink.asContainer()).substring, equals(attributedString[runRanges[0]]));
+          expect(AttributedString.create("ello Olá こんにち", attributes: empty).substring, equals(attributedString[runRanges[1]]));
+          expect(AttributedString.create("は", attributes: ja).substring, equals(attributedString[runRanges[2]]));
+
+          var jaLink = linkAttribute;
+          jaLink.languageIdentifier = "ja";
+          attributedString.replaceAttributesForRange(runRanges[0], en, ja);
+          runRanges = attributedString.runs.map((run) => run.range).toList();
+          expect(3, equals(runRanges.length));
+          expect(AttributedString.create("H", attributes: jaLink.asContainer()).substring, equals(attributedString[runRanges[0]]));
+          expect(AttributedString.create("ello Olá こんにち", attributes: empty).substring, equals(attributedString[runRanges[1]]));
+          expect(AttributedString.create("は", attributes: ja).substring, equals(attributedString[runRanges[2]]));
+
+          attributedString.setAttributesForRange(attributedString.runs.first.range, empty);
+          attributedString.setAttributesForRange(attributedString.runs.last.range, empty);
+          runRanges = attributedString.runs.map((run) => run.range).toList();
+          expect(1, equals(runRanges.length));
+          expect(AttributedString.create("Hello Olá こんにちは", attributes: empty), equals(attributedString));
+      });
   });
 }
-
-/*
-    public class AttributedStringTests {
-        [Fact]
-        void testAttributeMergeReplace() {
-            var empty = new AttributeContainer();
-            var en = new AttributeContainer.FoundationAttributes(languageIdentifier: "en");
-            var pt = new AttributeContainer.FoundationAttributes(languageIdentifier: "pt");
-            var ja = new AttributeContainer.FoundationAttributes(languageIdentifier: "ja");
-
-            var attributedString = AttributedStrings.Polyglot;
-            var runRanges = attributedString.Runs.Select(run => run.Range).ToList();
-            Assert.Equal(5, runRanges.Count);
-            Assert.Equal(new AttributedString("Hello", en).Substring, attributedString[runRanges[0]]);
-            Assert.Equal(new AttributedString(" ", empty).Substring, attributedString[runRanges[1]]);
-            Assert.Equal(new AttributedString("Olá", pt).Substring, attributedString[runRanges[2]]);
-            Assert.Equal(new AttributedString(" ", empty).Substring, attributedString[runRanges[3]]);
-            Assert.Equal(new AttributedString("こんにちは", ja).Substring, attributedString[runRanges[4]]);
-
-            attributedString.ReplaceSubrange(
-                runRanges[1], 
-                new AttributedString(
-                    attributedString[runRanges[1]].String, 
-                    attributedString.Runs[runRanges[0].lowerBound].Attributes
-                )
-            );
-            runRanges = attributedString.Runs.Select(run => run.Range).ToList();
-            Assert.Equal(4, runRanges.Count);
-            Assert.Equal(new AttributedString("Hello ", en).Substring, attributedString[runRanges[0]]);
-            Assert.Equal(new AttributedString("Olá", pt).Substring, attributedString[runRanges[1]]);
-            Assert.Equal(new AttributedString(" ", empty).Substring, attributedString[runRanges[2]]);
-            Assert.Equal(new AttributedString("こんにちは", ja).Substring, attributedString[runRanges[3]]);
-
-            attributedString.SetAttributesForRange(runRanges[2], attributedString.Runs[runRanges[1].lowerBound].Attributes);
-            runRanges = attributedString.Runs.Select(run => run.Range).ToList();
-            Assert.Equal(3, runRanges.Count);
-            Assert.Equal(new AttributedString("Hello ", en).Substring, attributedString[runRanges[0]]);
-            Assert.Equal(new AttributedString("Olá ", pt).Substring, attributedString[runRanges[1]]);
-            Assert.Equal(new AttributedString("こんにちは", ja).Substring, attributedString[runRanges[2]]);
-
-            var mangleStartIndex = attributedString.Characters.IndexAfter(attributedString.StartIndex);
-            var mangleEndIndex = attributedString.Characters.IndexBefore(attributedString.EndIndex);
-            var mangleRange = new SwiftRange<AttributedString.Index>(mangleStartIndex, mangleEndIndex);
-            attributedString.SetAttributesForRange(mangleRange, empty);
-            runRanges = attributedString.Runs.Select(run => run.Range).ToList();
-            Assert.Equal(3, runRanges.Count);
-            Assert.Equal(new AttributedString("H", en).Substring, attributedString[runRanges[0]]);
-            Assert.Equal(new AttributedString("ello Olá こんにち", empty).Substring, attributedString[runRanges[1]]);
-            Assert.Equal(new AttributedString("は", ja).Substring, attributedString[runRanges[2]]);
-
-            var linkAttribute = new AttributeContainer.FoundationAttributes(link: new Uri("https://www.google.com"));
-            var enLink = linkAttribute;
-            enLink.LanguageIdentifier = "en";
-            attributedString.MergeAttributesForRange(runRanges[0], linkAttribute);
-            runRanges = attributedString.Runs.Select(run => run.Range).ToList();
-            Assert.Equal(3, runRanges.Count);
-            Assert.Equal(new AttributedString("H", enLink).Substring, attributedString[runRanges[0]]);
-            Assert.Equal(new AttributedString("ello Olá こんにち", empty).Substring, attributedString[runRanges[1]]);
-            Assert.Equal(new AttributedString("は", ja).Substring, attributedString[runRanges[2]]);
-
-            var jaLink = linkAttribute;
-            jaLink.LanguageIdentifier = "ja";
-            attributedString.ReplaceAttributesForRange(runRanges[0], en, ja);
-            runRanges = attributedString.Runs.Select(run => run.Range).ToList();
-            Assert.Equal(3, runRanges.Count);
-            Assert.Equal(new AttributedString("H", jaLink).Substring, attributedString[runRanges[0]]);
-            Assert.Equal(new AttributedString("ello Olá こんにち", empty).Substring, attributedString[runRanges[1]]);
-            Assert.Equal(new AttributedString("は", ja).Substring, attributedString[runRanges[2]]);
-
-            attributedString.SetAttributesForRange(attributedString.Runs.First().Range, empty);
-            attributedString.SetAttributesForRange(attributedString.Runs.Last().Range, empty);
-            runRanges = attributedString.Runs.Select(run => run.Range).ToList();
-            Assert.NotEmpty(runRanges);
-            Assert.Equal(new AttributedString("Hello Olá こんにちは", empty), attributedString);
-        }
-    }
-*/
