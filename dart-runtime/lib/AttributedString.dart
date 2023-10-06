@@ -406,6 +406,8 @@ class AttributedString extends SwiftReference {
         )
     ;
 
+    AttributedString clone() => AttributedString.createFromSubstring(this.substring);
+
     bool operator ==(
         Object? other,
     ) =>

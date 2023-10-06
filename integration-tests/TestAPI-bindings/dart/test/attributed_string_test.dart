@@ -158,85 +158,84 @@ void main() {
           expect("llo Olá こんに", equals(subSubstring.string));
           expect("Hello Olá こんにちは", equals(subSubstring.base.string));
       });
+
+      test('testMutability', () {
+          // Examine an existing attributed string from the test suite
+          expect("Hello Olá こんにちは", AttributedStrings.polyglot.string);
+          expect(
+              [ "Hello", " ", "Olá", " ", "こんにちは" ],
+              equals(AttributedStrings.polyglot.runs.map((run) => AttributedStrings.polyglot[run.range].string))
+          );
+
+          // Attempt to "modify" the attributed string from the test suite, verify only an (unnamed) clone of it changes, but it does not change
+          AttributedStrings.polyglot.replaceSubrange(
+              SwiftRange(AttributedStrings.polyglot.startIndex, AttributedStrings.polyglot.endIndex), 
+              AttributedString.create("H")
+          );
+          expect("Hello Olá こんにちは", AttributedStrings.polyglot.string);
+
+          // Name the test suite attributed string in a value, creating a clone of it (Swift-to-C# copies the field, which is declared as a 'let' and is immutable)
+          var attributedString = AttributedStrings.polyglot;
+          expect("Hello Olá こんにちは", equals(attributedString.string));
+
+          // Reference the attributed string, which acts as a reference type like a typical C# object, mirroring changes to the referenced attributed string
+          var attributedStringReference = attributedString;
+          expect("Hello Olá こんにちは", equals(attributedStringReference.string));
+
+          // // Clone the attributed string, making a copy of its string data and attributes
+          var attributedStringClone = attributedString.clone();
+          expect("Hello Olá こんにちは", equals(attributedStringClone.string));
+
+          // Modify the attributed string's attributes, verify it and the reference change, but the clone and original do not
+          var range = SwiftRange(
+              attributedString.characters.indexAfter(attributedString.startIndex), 
+              attributedString.characters.indexBefore(attributedString.endIndex)
+          );
+          expect(
+              ["Hello", " ", "Olá", " ", "こんにちは"],
+              equals(attributedString.runs.map((run) => attributedString[run.range].string))
+          );
+          attributedString.replaceSubrange(
+              range, 
+              AttributedString.create(attributedString[range].string, attributes: AttributeContainer.createEmpty())
+          );
+          expect(
+              ["H", "ello Olá こんにち", "は"],
+              equals(attributedString.runs.map((run) => attributedString[run.range].string))
+          );
+          expect(3, attributedString.runs.toList().length);
+          expect(3, attributedStringReference.runs.toList().length);
+          expect(5, attributedStringClone.runs.toList().length); // Unchanged
+          expect(5, AttributedStrings.polyglot.runs.toList().length); // Unchanged
+
+          // Modify the attributed string's string data, verify it and the reference change, but the clone and original do not
+          attributedString.replaceSubrange(range, AttributedString.create("i18n"));
+          expect(
+              ["H", "i18n", "は"],
+              equals(attributedString.runs.map((run) => attributedString[run.range].string))
+          );
+          expect("Hi18nは", equals(attributedString.string));
+          expect("Hi18nは", equals(attributedStringReference.string));
+          expect("Hello Olá こんにちは", equals(attributedStringClone.string)); // Unchanged
+          expect("Hello Olá こんにちは", equals(AttributedStrings.polyglot.string)); // Unchanged
+
+          // Modify the clone's string data, verify it changes (merging the first 2 but not last 2 runs), but the attributed string, reference, and original do not
+          attributedStringClone.insert(AttributedString.create("clone", attributes: attributedStringClone.runs.first.attributes), attributedStringClone.startIndex);
+          attributedStringClone.insert(AttributedString.create("enolc"), attributedStringClone.endIndex);
+          expect(
+              ["cloneHello", " ", "Olá", " ", "こんにちは", "enolc"],
+              equals(attributedStringClone.runs.map((run) => attributedStringClone[run.range].string))
+          );
+          expect("Hi18nは", equals(attributedString.string)); // Unchanged
+          expect("Hi18nは", equals(attributedStringReference.string)); // Unchanged
+          expect("cloneHello Olá こんにちはenolc", equals(attributedStringClone.string));
+          expect("Hello Olá こんにちは", equals(AttributedStrings.polyglot.string)); // Unchanged
+      });
   });
 }
 
 /*
     public class AttributedStringTests {
-        [Fact]
-        void testMutability() {
-            // Examine an existing attributed string from the test suite
-            Assert.Equal("Hello Olá こんにちは", AttributedStrings.Polyglot.String);
-            Assert.Equal(
-                new string[] { "Hello", " ", "Olá", " ", "こんにちは" },
-                AttributedStrings.Polyglot.Runs.Select(run => AttributedStrings.Polyglot[run.Range].String)
-            );
-
-            // Attempt to "modify" the attributed string from the test suite, verify only an (unnamed) clone of it changes, but it does not change
-            AttributedStrings.Polyglot.ReplaceSubrange(
-                new SwiftRange<AttributedString.Index>(AttributedStrings.Polyglot.StartIndex, AttributedStrings.Polyglot.EndIndex), 
-                new AttributedString("H")
-            );
-            Assert.Equal("Hello Olá こんにちは", AttributedStrings.Polyglot.String);
-
-            // Name the test suite attributed string in a value, creating a clone of it (Swift-to-C# copies the field, which is declared as a 'let' and is immutable)
-            var attributedString = AttributedStrings.Polyglot;
-            Assert.Equal("Hello Olá こんにちは", attributedString.String);
-
-            // Reference the attributed string, which acts as a reference type like a typical C# object, mirroring changes to the referenced attributed string
-            var attributedStringReference = attributedString;
-            Assert.Equal("Hello Olá こんにちは", attributedStringReference.String);
-
-            // // Clone the attributed string, making a copy of its string data and attributes
-            var attributedStringClone = (AttributedString)attributedString.Clone();
-            Assert.Equal("Hello Olá こんにちは", attributedStringClone.String);
-
-            // Modify the attributed string's attributes, verify it and the reference change, but the clone and original do not
-            var range = new SwiftRange<AttributedString.Index>(
-                attributedString.Characters.IndexAfter(attributedString.StartIndex), 
-                attributedString.Characters.IndexBefore(attributedString.EndIndex)
-            );
-            Assert.Equal(
-                new string[] { "Hello", " ", "Olá", " ", "こんにちは" },
-                attributedString.Runs.Select(run => attributedString[run.Range].String)
-            );
-            attributedString.ReplaceSubrange(
-                range, 
-                new AttributedString(attributedString[range].String, new AttributeContainer())
-            );
-            Assert.Equal(
-                new string[] { "H", "ello Olá こんにち", "は" },
-                attributedString.Runs.Select(run => attributedString[run.Range].String)
-            );
-            Assert.Equal(3, attributedString.Runs.ToList().Count);
-            Assert.Equal(3, attributedStringReference.Runs.ToList().Count);
-            Assert.Equal(5, attributedStringClone.Runs.ToList().Count); // Unchanged
-            Assert.Equal(5, AttributedStrings.Polyglot.Runs.ToList().Count); // Unchanged
-
-            // Modify the attributed string's string data, verify it and the reference change, but the clone and original do not
-            attributedString.ReplaceSubrange(range, new AttributedString("i18n"));
-            Assert.Equal(
-                new string[] { "H", "i18n", "は" },
-                attributedString.Runs.Select(run => attributedString[run.Range].String)
-            );
-            Assert.Equal("Hi18nは", attributedString.String);
-            Assert.Equal("Hi18nは", attributedStringReference.String);
-            Assert.Equal("Hello Olá こんにちは", attributedStringClone.String); // Unchanged
-            Assert.Equal("Hello Olá こんにちは", AttributedStrings.Polyglot.String); // Unchanged
-
-            // Modify the clone's string data, verify it changes (merging the first 2 but not last 2 runs), but the attributed string, reference, and original do not
-            attributedStringClone.Insert(new AttributedString("clone", attributedStringClone.Runs.First().Attributes), attributedStringClone.StartIndex);
-            attributedStringClone.Insert(new AttributedString("enolc"), attributedStringClone.EndIndex);
-            Assert.Equal(
-                new string[] { "cloneHello", " ", "Olá", " ", "こんにちは", "enolc" },
-                attributedStringClone.Runs.Select(run => attributedStringClone[run.Range].String)
-            );
-            Assert.Equal("Hi18nは", attributedString.String); // Unchanged
-            Assert.Equal("Hi18nは", attributedStringReference.String); // Unchanged
-            Assert.Equal("cloneHello Olá こんにちはenolc", attributedStringClone.String);
-            Assert.Equal("Hello Olá こんにちは", AttributedStrings.Polyglot.String); // Unchanged
-        }
-
         [Fact]
         void testAttributeMergeReplace() {
             var empty = new AttributeContainer();
