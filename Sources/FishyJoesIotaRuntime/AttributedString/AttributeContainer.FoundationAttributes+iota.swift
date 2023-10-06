@@ -1,7 +1,8 @@
 import Foundation
 
 extension AttributeContainer.FoundationAttributes: IotaMutator {
-    fileprivate static var _constructorMethod: ((UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject)!
+    public typealias Constructor = @convention(c) (_ ptr: UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject
+    fileprivate static var constructor = Env.CallbackMap<Constructor>()
 
     public static func peekIota(_ value: foreignObject, env: Env) throws -> AttributeContainer.FoundationAttributes {
         try Box<AttributeContainer.FoundationAttributes>.peekIota(value, env: env).value
@@ -9,7 +10,7 @@ extension AttributeContainer.FoundationAttributes: IotaMutator {
 
     public static func toIota(_ value: AttributeContainer.FoundationAttributes, env: Env) throws -> foreignObject {
         let ptr = Box(value).retainedOpaque()
-        return try env.check { exn in _constructorMethod(ptr, exn) }
+        return try env.check { exn in constructor[env](ptr, exn) }
     }
 
     public static func mutateIota<R>(_ this: foreignObject, env: Env, body: (inout AttributeContainer.FoundationAttributes) throws -> R) throws -> R {
@@ -20,11 +21,12 @@ extension AttributeContainer.FoundationAttributes: IotaMutator {
 @_cdecl("FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_setup")
 public func FishyJoesRuntime_iota_AttributeContainer_FoundationAttributes_setup(
     envRef: EnvRef,
-    constructorMethod: @escaping @convention(c) (UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject,
+    constructor: @escaping AttributeContainer.FoundationAttributes.Constructor,
     _ exn: foreignOutExn
 ) {
-    guard AttributeContainer.FoundationAttributes._constructorMethod == nil else { return }
-    AttributeContainer.FoundationAttributes._constructorMethod = constructorMethod
+    let env = Env(envRef)
+    if AttributeContainer.FoundationAttributes.constructor.isInitialized(env) { return }
+    AttributeContainer.FoundationAttributes.constructor[env] = constructor
 }
 
 @_cdecl("__iota_get_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_link")

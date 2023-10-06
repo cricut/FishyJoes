@@ -1,7 +1,8 @@
 import Foundation
 
 extension AttributedSubstring: IotaMutator {
-    fileprivate static var _constructorMethod: ((UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject)!
+    public typealias Constructor = @convention(c) (_ ptr: UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject
+    fileprivate static var constructor = Env.CallbackMap<Constructor>()
 
     public static func peekIota(_ value: foreignObject, env: Env) throws -> AttributedSubstring {
         try Box<AttributedSubstring>.peekIota(value, env: env).value
@@ -9,7 +10,7 @@ extension AttributedSubstring: IotaMutator {
 
     public static func toIota(_ value: AttributedSubstring, env: Env) throws -> foreignObject {
         let ptr = Box(value).retainedOpaque()
-        return try env.check { exn in _constructorMethod(ptr, exn) }
+        return try env.check { exn in constructor[env](ptr, exn) }
     }
 
     public static func mutateIota<R>(_ this: foreignObject, env: Env, body: (inout AttributedSubstring) throws -> R) throws -> R {
@@ -20,11 +21,12 @@ extension AttributedSubstring: IotaMutator {
 @_cdecl("Foundation_AttributedSubstring_setup")
 public func FishyJoesRuntime_iota_AttributedSubstring_setup(
     envRef: EnvRef,
-    constructorMethod: @escaping @convention(c) (UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject,
+    constructor: @escaping AttributedSubstring.Constructor,
     _ exn: foreignOutExn
 ) {
-    guard AttributedSubstring._constructorMethod == nil else { return }
-    AttributedSubstring._constructorMethod = constructorMethod
+    let env = Env(envRef)
+    if AttributedSubstring.constructor.isInitialized(env) { return }
+    AttributedSubstring.constructor[env] = constructor
 }
 
 @_cdecl("__iota_get_Foundation_AttributedSubstring_base")

@@ -9,51 +9,51 @@ void main() {
 
   group('AttributedStringTests', () {
       test('testStringValues', () {
-          // var en = AttributeContainer_FoundationAttributes.withAttributes(languageIdentifier: "en");
-          // var pt = AttributeContainer_FoundationAttributes.withAttributes(languageIdentifier: "pt");
-          // var ja = AttributeContainer_FoundationAttributes.withAttributes(languageIdentifier: "ja");
-          // var zh = AttributeContainer_FoundationAttributes.withAttributes(languageIdentifier: "zh");
-          // var ea = AttributeContainer_FoundationAttributes.withAttributes(link: Uri.parse("https://home.unicode.org/emoji"));
-          // var ef = AttributeContainer_FoundationAttributes.withAttributes(link: Uri.parse("https://home.unicode.org/emoji/emoji-frequency"));
+          var en = AttributeContainer_FoundationAttributes.withAttributes(languageIdentifier: "en");
+          var pt = AttributeContainer_FoundationAttributes.withAttributes(languageIdentifier: "pt");
+          var ja = AttributeContainer_FoundationAttributes.withAttributes(languageIdentifier: "ja");
+          var zh = AttributeContainer_FoundationAttributes.withAttributes(languageIdentifier: "zh");
+          var ea = AttributeContainer_FoundationAttributes.withAttributes(link: Uri.parse("https://home.unicode.org/emoji"));
+          var ef = AttributeContainer_FoundationAttributes.withAttributes(link: Uri.parse("https://home.unicode.org/emoji/emoji-frequency"));
 
-          // expect("en", equals(en.languageIdentifier));
-          // expect(en.link, isNull);
+          expect("en", equals(en.languageIdentifier));
+          expect(en.link, isNull);
 
-          // expect(ea.languageIdentifier, isNull);
-          // expect(Uri.parse("https://home.unicode.org/emoji"), ea.link);
+          expect(ea.languageIdentifier, isNull);
+          expect(Uri.parse("https://home.unicode.org/emoji"), ea.link);
 
-          // expect(AttributedString.create("Hello", attributes: en.asContainer()), equals(AttributedStrings.simple));
-          // expect(AttributedString.create("Olá", attributes: pt.asContainer()), equals(AttributedStrings.accent));
-          // expect(AttributedString.create("こんにちは", attributes: ja.asContainer()), equals(AttributedStrings.script));
-          // expect(AttributedString.create("你好", attributes: zh.asContainer()), equals(AttributedStrings.chinese));
-          // expect(AttributedString.create("豈更車賈滑", attributes: zh.asContainer()), equals(AttributedStrings.chineseBMP));
-          // expect(AttributedString.create("\uD840\uDC01\uD840\uDC02\uD840\uDC03\uD840\uDC04", attributes: zh.asContainer()), equals(AttributedStrings.chineseSIP));
-          // expect(AttributedString.create("🤯🐶🍓", attributes: ea.asContainer()), equals(AttributedStrings.emoji));
-          // expect(AttributedString.create("👨‍👩‍👧‍👦👍🏿🇺🇸", attributes: ef.asContainer()), equals(AttributedStrings.emojiMulti));
-          // expect(AttributedStrings.simple + " " + AttributedStrings.accent + " " + AttributedStrings.script, equals(AttributedStrings.polyglot));
+          expect(AttributedString.create("Hello", attributes: en.asContainer()), equals(AttributedStrings.simple));
+          expect(AttributedString.create("Olá", attributes: pt.asContainer()), equals(AttributedStrings.accent));
+          expect(AttributedString.create("こんにちは", attributes: ja.asContainer()), equals(AttributedStrings.script));
+          expect(AttributedString.create("你好", attributes: zh.asContainer()), equals(AttributedStrings.chinese));
+          expect(AttributedString.create("豈更車賈滑", attributes: zh.asContainer()), equals(AttributedStrings.chineseBMP));
+          expect(AttributedString.create("\uD840\uDC01\uD840\uDC02\uD840\uDC03\uD840\uDC04", attributes: zh.asContainer()), equals(AttributedStrings.chineseSIP));
+          expect(AttributedString.create("🤯🐶🍓", attributes: ea.asContainer()), equals(AttributedStrings.emoji));
+          expect(AttributedString.create("👨‍👩‍👧‍👦👍🏿🇺🇸", attributes: ef.asContainer()), equals(AttributedStrings.emojiMulti));
+          expect(AttributedStrings.simple + " " + AttributedStrings.accent + " " + AttributedStrings.script, equals(AttributedStrings.polyglot));
 
-          // expect(AttributedStrings.simple, equals(AttributedStrings.simple));
-          // expect(AttributedStrings.accent, isNot(AttributedStrings.simple));
-          // expect(AttributedString.create(AttributedStrings.simple.string, attributes: null), isNot(AttributedStrings.simple));
+          expect(AttributedStrings.simple, equals(AttributedStrings.simple));
+          expect(AttributedStrings.accent, isNot(AttributedStrings.simple));
+          expect(AttributedString.create(AttributedStrings.simple.string, attributes: null), isNot(AttributedStrings.simple));
       });
   
 
       test('testStringEcho', () {
-          // expect(AttributedStrings.simple, AttributedStrings.echo(AttributedStrings.simple));
-          // expect(AttributedStrings.accent, AttributedStrings.echo(AttributedStrings.accent));
-          // expect(AttributedStrings.chinese, AttributedStrings.echo(AttributedStrings.chinese));
-          // expect(AttributedStrings.chineseBMP, AttributedStrings.echo(AttributedStrings.chineseBMP));
-          // expect(AttributedStrings.chineseSIP, AttributedStrings.echo(AttributedStrings.chineseSIP));
-          // expect(AttributedStrings.emoji, AttributedStrings.echo(AttributedStrings.emoji));
-          // expect(AttributedStrings.emojiMulti, AttributedStrings.echo(AttributedStrings.emojiMulti));
-          // expect(AttributedStrings.polyglot, AttributedStrings.echo(AttributedStrings.polyglot));
+          expect(AttributedStrings.simple, AttributedStrings.echo(AttributedStrings.simple));
+          expect(AttributedStrings.accent, AttributedStrings.echo(AttributedStrings.accent));
+          expect(AttributedStrings.chinese, AttributedStrings.echo(AttributedStrings.chinese));
+          expect(AttributedStrings.chineseBMP, AttributedStrings.echo(AttributedStrings.chineseBMP));
+          expect(AttributedStrings.chineseSIP, AttributedStrings.echo(AttributedStrings.chineseSIP));
+          expect(AttributedStrings.emoji, AttributedStrings.echo(AttributedStrings.emoji));
+          expect(AttributedStrings.emojiMulti, AttributedStrings.echo(AttributedStrings.emojiMulti));
+          expect(AttributedStrings.polyglot, AttributedStrings.echo(AttributedStrings.polyglot));
       });
 
       test('testViewIterationOverIndices', () {
-          // var attributedString = AttributedStrings.polyglot + " " + AttributedStrings.emojiMulti;
+          var attributedString = AttributedStrings.polyglot + " " + AttributedStrings.emojiMulti;
 
-          // var runStrings = <String>[];
-          // var runIndex = attributedString.runs.startIndex;
+          var runStrings = <String>[];
+          var runIndex = attributedString.runs.startIndex;
           // while (runIndex != attributedString.runs.endIndex) {
           //     var runSubstring = attributedString[attributedString.runs[runIndex].range];
           //     runStrings.add(runSubstring.string);
@@ -72,8 +72,8 @@ void main() {
           //     equals(runStrings)
           // );
 
-          // var characterStrings = <String>[];
-          // var characterIndex = attributedString.characters.startIndex;
+          var characterStrings = <String>[];
+          var characterIndex = attributedString.characters.startIndex;
           // while (characterIndex != attributedString.characters.endIndex) {
           //     var characterString = attributedString.characters[characterIndex];
           //     characterStrings.add(characterString);
@@ -89,8 +89,8 @@ void main() {
           //     equals(characterStrings)
           // );
 
-          // var unicodeScalars = <int>[];
-          // var scalarIndex = attributedString.unicodeScalars.startIndex;
+          var unicodeScalars = <int>[];
+          var scalarIndex = attributedString.unicodeScalars.startIndex;
           // while (scalarIndex != attributedString.unicodeScalars.endIndex) {
           //     var characterScalar = attributedString.unicodeScalars[scalarIndex];
           //     unicodeScalars.add(characterScalar);
@@ -108,7 +108,7 @@ void main() {
       });
 
       test('testViewIterators', () {
-          // var attributedString = AttributedStrings.polyglot + " " + AttributedStrings.emojiMulti;
+          var attributedString = AttributedStrings.polyglot + " " + AttributedStrings.emojiMulti;
 
           // var runStrings = [...attributedString.runs].map((run) => attributedString[run.range].string).toList();
           // expect(runStrings, equals([
@@ -139,29 +139,29 @@ void main() {
       });
 
       test('testSubstring', () {
-          // var attributedString = AttributedStrings.polyglot;
-          // expect("Hello Olá こんにちは", equals(attributedString.string));
+          var attributedString = AttributedStrings.polyglot;
+          expect("Hello Olá こんにちは", equals(attributedString.string));
 
-          // var range = SwiftRange(
-          //     attributedString.characters.indexAfter(attributedString.startIndex), 
-          //     attributedString.characters.indexBefore(attributedString.endIndex)
-          // );
-          // var substring = attributedString[range];
-          // expect("ello Olá こんにち", equals(substring.string));
-          // expect("Hello Olá こんにちは", equals(substring.base.string));
+          var range = SwiftRange(
+              attributedString.characters.indexAfter(attributedString.startIndex), 
+              attributedString.characters.indexBefore(attributedString.endIndex)
+          );
+          var substring = attributedString[range];
+          expect("ello Olá こんにち", equals(substring.string));
+          expect("Hello Olá こんにちは", equals(substring.base.string));
 
-          // var subRange = SwiftRange(
-          //     substring.characters.indexAfter(substring.startIndex), 
-          //     substring.characters.indexBefore(substring.endIndex)
-          // );
-          // var subSubstring = substring[subRange];
-          // expect("llo Olá こんに", equals(subSubstring.string));
-          // expect("Hello Olá こんにちは", equals(subSubstring.base.string));
+          var subRange = SwiftRange(
+              substring.characters.indexAfter(substring.startIndex), 
+              substring.characters.indexBefore(substring.endIndex)
+          );
+          var subSubstring = substring[subRange];
+          expect("llo Olá こんに", equals(subSubstring.string));
+          expect("Hello Olá こんにちは", equals(subSubstring.base.string));
       });
 
       test('testMutability', () {
-          // // Examine an existing attributed string from the test suite
-          // expect("Hello Olá こんにちは", AttributedStrings.polyglot.string);
+          // Examine an existing attributed string from the test suite
+          expect("Hello Olá こんにちは", AttributedStrings.polyglot.string);
           // expect(
           //     [ "Hello", " ", "Olá", " ", "こんにちは" ],
           //     equals(AttributedStrings.polyglot.runs.map((run) => AttributedStrings.polyglot[run.range].string))
@@ -174,23 +174,23 @@ void main() {
           // );
           // expect("Hello Olá こんにちは", AttributedStrings.polyglot.string);
 
-          // // Name the test suite attributed string in a value, creating a clone of it (Swift-to-C# copies the field, which is declared as a 'let' and is immutable)
-          // var attributedString = AttributedStrings.polyglot;
-          // expect("Hello Olá こんにちは", equals(attributedString.string));
+          // Name the test suite attributed string in a value, creating a clone of it (Swift-to-C# copies the field, which is declared as a 'let' and is immutable)
+          var attributedString = AttributedStrings.polyglot;
+          expect("Hello Olá こんにちは", equals(attributedString.string));
 
-          // // Reference the attributed string, which acts as a reference type like a typical C# object, mirroring changes to the referenced attributed string
-          // var attributedStringReference = attributedString;
-          // expect("Hello Olá こんにちは", equals(attributedStringReference.string));
+          // Reference the attributed string, which acts as a reference type like a typical C# object, mirroring changes to the referenced attributed string
+          var attributedStringReference = attributedString;
+          expect("Hello Olá こんにちは", equals(attributedStringReference.string));
 
-          // // // Clone the attributed string, making a copy of its string data and attributes
-          // var attributedStringClone = attributedString.clone();
-          // expect("Hello Olá こんにちは", equals(attributedStringClone.string));
+          // // Clone the attributed string, making a copy of its string data and attributes
+          var attributedStringClone = attributedString.clone();
+          expect("Hello Olá こんにちは", equals(attributedStringClone.string));
 
-          // // Modify the attributed string's attributes, verify it and the reference change, but the clone and original do not
-          // var range = SwiftRange(
-          //     attributedString.characters.indexAfter(attributedString.startIndex), 
-          //     attributedString.characters.indexBefore(attributedString.endIndex)
-          // );
+          // Modify the attributed string's attributes, verify it and the reference change, but the clone and original do not
+          var range = SwiftRange(
+              attributedString.characters.indexAfter(attributedString.startIndex), 
+              attributedString.characters.indexBefore(attributedString.endIndex)
+          );
           // expect(
           //     ["Hello", " ", "Olá", " ", "こんにちは"],
           //     equals(attributedString.runs.map((run) => attributedString[run.range].string))
@@ -233,12 +233,12 @@ void main() {
       });
 
       test('testAttributeMergeReplace', () {
-          // var empty = AttributeContainer.createEmpty();
-          // var en = AttributeContainer_FoundationAttributes.withAttributes(languageIdentifier: "en").asContainer();
-          // var pt = AttributeContainer_FoundationAttributes.withAttributes(languageIdentifier: "pt").asContainer();
-          // var ja = AttributeContainer_FoundationAttributes.withAttributes(languageIdentifier: "ja").asContainer();
+          var empty = AttributeContainer.createEmpty();
+          var en = AttributeContainer_FoundationAttributes.withAttributes(languageIdentifier: "en").asContainer();
+          var pt = AttributeContainer_FoundationAttributes.withAttributes(languageIdentifier: "pt").asContainer();
+          var ja = AttributeContainer_FoundationAttributes.withAttributes(languageIdentifier: "ja").asContainer();
 
-          // var attributedString = AttributedStrings.polyglot;
+          var attributedString = AttributedStrings.polyglot;
           // var runRanges = attributedString.runs.map((run) => run.range).toList();
           // expect(5, equals(runRanges.length));
           // expect(AttributedString.create("Hello", attributes: en).substring, equals(attributedString[runRanges[0]]));
@@ -268,19 +268,19 @@ void main() {
           // expect(AttributedString.create("Olá ", attributes: pt).substring, equals(attributedString[runRanges[1]]));
           // expect(AttributedString.create("こんにちは", attributes: ja).substring, equals(attributedString[runRanges[2]]));
 
-          // var mangleStartIndex = attributedString.characters.indexAfter(attributedString.startIndex);
-          // var mangleEndIndex = attributedString.characters.indexBefore(attributedString.endIndex);
-          // var mangleRange = SwiftRange(mangleStartIndex, mangleEndIndex);
-          // attributedString.setAttributesForRange(mangleRange, empty);
+          var mangleStartIndex = attributedString.characters.indexAfter(attributedString.startIndex);
+          var mangleEndIndex = attributedString.characters.indexBefore(attributedString.endIndex);
+          var mangleRange = SwiftRange(mangleStartIndex, mangleEndIndex);
+          attributedString.setAttributesForRange(mangleRange, empty);
           // runRanges = attributedString.runs.map((run) => run.range).toList();
           // expect(3, equals(runRanges.length));
           // expect(AttributedString.create("H", attributes: en).substring, equals(attributedString[runRanges[0]]));
           // expect(AttributedString.create("ello Olá こんにち", attributes: empty).substring, equals(attributedString[runRanges[1]]));
           // expect(AttributedString.create("は", attributes: ja).substring, equals(attributedString[runRanges[2]]));
 
-          // var linkAttribute = AttributeContainer_FoundationAttributes.withAttributes(link: Uri.parse("https://www.google.com"));
-          // var enLink = linkAttribute;
-          // enLink.languageIdentifier = "en";
+          var linkAttribute = AttributeContainer_FoundationAttributes.withAttributes(link: Uri.parse("https://www.google.com"));
+          var enLink = linkAttribute;
+          enLink.languageIdentifier = "en";
           // attributedString.mergeAttributesForRange(runRanges[0], linkAttribute.asContainer());
           // runRanges = attributedString.runs.map((run) => run.range).toList();
           // expect(3, equals(runRanges.length));
@@ -288,8 +288,8 @@ void main() {
           // expect(AttributedString.create("ello Olá こんにち", attributes: empty).substring, equals(attributedString[runRanges[1]]));
           // expect(AttributedString.create("は", attributes: ja).substring, equals(attributedString[runRanges[2]]));
 
-          // var jaLink = linkAttribute;
-          // jaLink.languageIdentifier = "ja";
+          var jaLink = linkAttribute;
+          jaLink.languageIdentifier = "ja";
           // attributedString.replaceAttributesForRange(runRanges[0], en, ja);
           // runRanges = attributedString.runs.map((run) => run.range).toList();
           // expect(3, equals(runRanges.length));

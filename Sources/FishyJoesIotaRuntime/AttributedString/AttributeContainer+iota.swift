@@ -1,7 +1,8 @@
 import Foundation
 
 extension AttributeContainer: IotaMutator {
-    fileprivate static var _constructorMethod: ((UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject)!
+    public typealias Constructor = @convention(c) (_ ptr: UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject
+    fileprivate static var constructor = Env.CallbackMap<Constructor>()
 
     public static func peekIota(_ value: foreignObject, env: Env) throws -> AttributeContainer {
         try Box<AttributeContainer>.peekIota(value, env: env).value
@@ -9,7 +10,7 @@ extension AttributeContainer: IotaMutator {
 
     public static func toIota(_ value: AttributeContainer, env: Env) throws -> foreignObject {
         let ptr = Box(value).retainedOpaque()
-        return try env.check { exn in _constructorMethod(ptr, exn) }
+        return try env.check { exn in constructor[env](ptr, exn) }
     }
 
     public static func mutateIota<R>(_ this: foreignObject, env: Env, body: (inout AttributeContainer) throws -> R) throws -> R {
@@ -20,11 +21,12 @@ extension AttributeContainer: IotaMutator {
 @_cdecl("FishyJoesCommonRuntime_AttributeContainer_setup")
 public func FishyJoesRuntime_iota_AttributeContainer_setup(
     envRef: EnvRef,
-    constructorMethod: @escaping @convention(c) (UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject,
+    constructor: @escaping AttributeContainer.Constructor,
     _ exn: foreignOutExn
 ) {
-    guard AttributeContainer._constructorMethod == nil else { return }
-    AttributeContainer._constructorMethod = constructorMethod
+    let env = Env(envRef)
+    if AttributeContainer.constructor.isInitialized(env) { return }
+    AttributeContainer.constructor[env] = constructor
 }
 
 @_cdecl("__iota_FishyJoesCommonRuntime_AttributeContainer_merge")
