@@ -534,20 +534,21 @@ public func URL_iota_setup(
     absoluteURIMethod: @escaping URL.AbsoluteURIMethod,
     constructor: @escaping URL.Constructor
 ) {
-    guard URL.absoluteURIMethod == nil else { return }
-    URL.absoluteURIMethod = absoluteURIMethod
-    URL.constructor = constructor
+    let env = Env(envRef)
+    if URL.absoluteURIMethod.isInitialized(env) { return }
+    URL.absoluteURIMethod[env] = absoluteURIMethod
+    URL.constructor[env] = constructor
 }
 
 extension URL: IotaConverter {
     public typealias AbsoluteURIMethod = @convention(c) (_ uri: foreignObject, _ exn: foreignOutExn) -> foreignObject
     public typealias Constructor = @convention(c) (_ string: foreignObject, _ exn: foreignOutExn) -> foreignObject
 
-    fileprivate static var absoluteURIMethod: URL.AbsoluteURIMethod?
-    fileprivate static var constructor: URL.Constructor?
+    fileprivate static var absoluteURIMethod = Env.CallbackMap<URL.AbsoluteURIMethod>()
+    fileprivate static var constructor = Env.CallbackMap<URL.Constructor>()
 
     public static func peekIota(_ value: foreignObject, env: Env) throws -> SwiftType {
-        let urlString = try env.check { exn in try String.consumeIota(Env.unwrap(absoluteURIMethod)(value, exn), env: env) }
+        let urlString = try env.check { exn in try String.consumeIota(absoluteURIMethod[env](value, exn), env: env) }
         guard let url = URL(string: urlString) else { throw MalformedURLError(message: "Not a valid URL: \(urlString)") }
         return url
     }
@@ -555,7 +556,7 @@ extension URL: IotaConverter {
     public static func toIota(_ value: SwiftType, env: Env) throws -> foreignObject {
         let urlString = value.absoluteString
         return try env.check { exn in
-            try Env.unwrap(constructor)(String.toIota(urlString, env: env), exn)
+            constructor[env](try String.toIota(urlString, env: env), exn)
         }
     }
 }

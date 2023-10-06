@@ -72,36 +72,36 @@ class Loader {
     );
     LoaderPrimitives._setup(env);
     LoaderMisc._setup(env);
-    LoaderAttributedString._setup(env);
+    // LoaderAttributedString._setup(env);
 
-    check<void>((exn) {
-      FishyJoesCommonRuntime_RangeConverter_setup<FishyJoesRuntime.AttributedString_Index>(
-          env,
-          "RangeConverter<Foundation.AttributedString.Index>",
-          exn
-      );
-    });
-    check<void>((exn) {
-      FishyJoesCommonRuntime_RangeConverter_setup<FishyJoesRuntime.AttributedString_Runs_Index>(
-          env,
-          "RangeConverter<Foundation.AttributedString.Runs.Index>",
-          exn
-      );
-    });
-    check<void>((exn) {
-      FishyJoesCommonRuntime_ClosedRangeConverter_setup<FishyJoesRuntime.AttributedString_Index>(
-          env,
-          "ClosedRangeConverter<Foundation.AttributedString.Index>",
-          exn
-      );
-    });
-    check<void>((exn) {
-      FishyJoesCommonRuntime_ClosedRangeConverter_setup<FishyJoesRuntime.AttributedString_Runs_Index>(
-          env,
-          "ClosedRangeConverter<Foundation.AttributedString.Runs.Index>",
-          exn
-      );
-    });
+    // check<void>((exn) {
+    //   FishyJoesCommonRuntime_RangeConverter_setup<FishyJoesRuntime.AttributedString_Index>(
+    //       env,
+    //       "RangeConverter<Foundation.AttributedString.Index>",
+    //       exn
+    //   );
+    // });
+    // check<void>((exn) {
+    //   FishyJoesCommonRuntime_RangeConverter_setup<FishyJoesRuntime.AttributedString_Runs_Index>(
+    //       env,
+    //       "RangeConverter<Foundation.AttributedString.Runs.Index>",
+    //       exn
+    //   );
+    // });
+    // check<void>((exn) {
+    //   FishyJoesCommonRuntime_ClosedRangeConverter_setup<FishyJoesRuntime.AttributedString_Index>(
+    //       env,
+    //       "ClosedRangeConverter<Foundation.AttributedString.Index>",
+    //       exn
+    //   );
+    // });
+    // check<void>((exn) {
+    //   FishyJoesCommonRuntime_ClosedRangeConverter_setup<FishyJoesRuntime.AttributedString_Runs_Index>(
+    //       env,
+    //       "ClosedRangeConverter<Foundation.AttributedString.Runs.Index>",
+    //       exn
+    //   );
+    // });
   }
 
   static ffi.DynamicLibrary openLibrary(String baseName) => locator.openLibrary(baseName);
