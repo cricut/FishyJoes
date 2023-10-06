@@ -6,7 +6,7 @@ import 'runtime.dart';
 
 /// An iterable view into segments of the attributed string or substring, each of which indicates where a run of identical attributes begins or ends.
 /// <!-- FishyJoes.exportReference(AttributedString.Runs) -->
-class AttributedString_Runs extends SwiftReference {
+class AttributedString_Runs extends SwiftReference with Iterable<AttributedString_Runs_Run> {
     AttributedString_Runs(ffi.Pointer reference): super(reference) {}
     static CreatedRef ffi_new(ffi.Pointer ref, OutCreatedRef exn) => check((exn) =>
         createRef(AttributedString_Runs(ref))
@@ -81,7 +81,7 @@ class AttributedString_Runs extends SwiftReference {
     ///      If `index` is `startIndex`, the first valid run descriptor is returned.
     /// 
     /// <!-- FishyJoes.export(elementAt) -->
-    AttributedString_Runs_Run elementAt(
+    AttributedString_Runs_Run elementAtIndex(
         AttributedString_Runs_Index /* at */ index,
     ) =>
         GCRef.using(this, (_thisHandle) =>
@@ -109,6 +109,8 @@ class AttributedString_Runs extends SwiftReference {
             )
         )
     ;
+
+    Iterator<AttributedString_Runs_Run> get iterator => AttributedString_Runs_Iterator(this);
 
     bool operator ==(
         Object? other,
@@ -163,4 +165,27 @@ class AttributedString_Runs extends SwiftReference {
         UnownedRef _this,
         OutCreatedRef _exn
     ) f__iota_get_Foundation_AttributedString_Runs_startIndex;
+}
+
+class AttributedString_Runs_Iterator implements Iterator<AttributedString_Runs_Run> {
+    AttributedString_Runs view;
+    AttributedString_Runs_Index? index;
+
+    AttributedString_Runs_Iterator(AttributedString_Runs view) : 
+        view = view,
+        index = null {
+    }
+    
+    @override
+    AttributedString_Runs_Run get current => view.elementAtIndex(index!);
+  
+    @override
+    bool moveNext() {
+        if (index == null) {
+            index = view.startIndex;
+            return index != view.endIndex;
+        }
+        index = view.indexAfter(index!);
+        return index != view.endIndex;
+    }
 }

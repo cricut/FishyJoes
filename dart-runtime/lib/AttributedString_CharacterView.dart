@@ -4,7 +4,7 @@ import 'runtime.dart';
 
 /// A view into the underlying storage of an attributed string or substring, as Unicode characters.
 /// <!-- FishyJoes.exportReference(AttributedString.CharacterView) -->
-class AttributedString_CharacterView extends SwiftReference {
+class AttributedString_CharacterView extends SwiftReference with Iterable<String> {
     AttributedString_CharacterView(ffi.Pointer reference): super(reference) {}
     static CreatedRef ffi_new(ffi.Pointer ref, OutCreatedRef exn) => check((exn) =>
         createRef(AttributedString_CharacterView(ref))
@@ -72,7 +72,7 @@ class AttributedString_CharacterView extends SwiftReference {
     ///     If `index` is `startIndex`, the first character in the view's attributed string or substring is returned.
     /// 
     /// <!-- FishyJoes.export(elementAt) -->
-    String elementAt(
+    String elementAtIndex(
         AttributedString_Index /* at */ index,
     ) =>
         GCRef.using(this, (_thisHandle) =>
@@ -81,6 +81,8 @@ class AttributedString_CharacterView extends SwiftReference {
             )
         )
     ;
+
+    Iterator<String> get iterator => AttributedString_CharacterView_Iterator(this);
 
     static late CreatedRef Function(
         Env env,
@@ -110,4 +112,27 @@ class AttributedString_CharacterView extends SwiftReference {
         UnownedRef _this,
         OutCreatedRef _exn
     ) f__iota_get_Foundation_AttributedString_CharacterView_startIndex;
+}
+
+class AttributedString_CharacterView_Iterator implements Iterator<String> {
+    AttributedString_CharacterView view;
+    AttributedString_Index? index;
+
+    AttributedString_CharacterView_Iterator(AttributedString_CharacterView view) : 
+        view = view,
+        index = null {
+    }
+    
+    @override
+    String get current => view.elementAtIndex(index!);
+  
+    @override
+    bool moveNext() {
+        if (index == null) {
+            index = view.startIndex;
+            return index != view.endIndex;
+        }
+        index = view.indexAfter(index!);
+        return index != view.endIndex;
+    }
 }

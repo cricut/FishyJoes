@@ -4,7 +4,7 @@ import 'runtime.dart';
 
 /// A view into the underlying storage of the attributed string, as Unicode scalars.
 /// <!-- FishyJoes.exportReference(AttributedString.UnicodeScalarView) -->
-class AttributedString_UnicodeScalarView extends SwiftReference {
+class AttributedString_UnicodeScalarView extends SwiftReference with Iterable<int> {
     AttributedString_UnicodeScalarView(ffi.Pointer reference): super(reference) {}
     static CreatedRef ffi_new(ffi.Pointer ref, OutCreatedRef exn) => check((exn) =>
         createRef(AttributedString_UnicodeScalarView(ref))
@@ -72,7 +72,7 @@ class AttributedString_UnicodeScalarView extends SwiftReference {
     ///     If `index` is `startIndex`, the first Unicode scalar in the view's attributed string or substring is returned.
     /// 
     /// <!-- FishyJoes.export(elementAt) -->
-    int elementAt(
+    int elementAtIndex(
         AttributedString_Index /* at */ index,
     ) =>
         GCRef.using(this, (_thisHandle) =>
@@ -81,6 +81,8 @@ class AttributedString_UnicodeScalarView extends SwiftReference {
             )
         )
     ;
+
+    Iterator<int> get iterator => AttributedString_UnicodeScalarView_Iterator(this);
 
     static late int Function(
         Env env,
@@ -110,4 +112,27 @@ class AttributedString_UnicodeScalarView extends SwiftReference {
         UnownedRef _this,
         OutCreatedRef _exn
     ) f__iota_get_Foundation_AttributedString_UnicodeScalarView_startIndex;
+}
+
+class AttributedString_UnicodeScalarView_Iterator implements Iterator<int> {
+    AttributedString_UnicodeScalarView view;
+    AttributedString_Index? index;
+
+    AttributedString_UnicodeScalarView_Iterator(AttributedString_UnicodeScalarView view) : 
+        view = view,
+        index = null {
+    }
+    
+    @override
+    int get current => view.elementAtIndex(index!);
+  
+    @override
+    bool moveNext() {
+        if (index == null) {
+            index = view.startIndex;
+            return index != view.endIndex;
+        }
+        index = view.indexAfter(index!);
+        return index != view.endIndex;
+    }
 }

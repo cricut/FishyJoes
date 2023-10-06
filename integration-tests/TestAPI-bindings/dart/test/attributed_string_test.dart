@@ -56,7 +56,7 @@ void main() {
           var runIndex = attributedString.runs.startIndex;
           while (runIndex != attributedString.runs.endIndex) {
               // var runSubstring = attributedString[attributedString.runs[runIndex].range];
-              var runSubstring = attributedString.substringForRange(attributedString.runs.elementAt(runIndex).range);
+              var runSubstring = attributedString.substringForRange(attributedString.runs.elementAtIndex(runIndex).range);
               runStrings.add(runSubstring.string);
               runIndex = attributedString.runs.indexAfter(runIndex);
           }
@@ -77,7 +77,7 @@ void main() {
           var characterIndex = attributedString.characters.startIndex;
           while (characterIndex != attributedString.characters.endIndex) {
               // var characterString = attributedString.characters[characterIndex];
-              var characterString = attributedString.characters.elementAt(characterIndex);
+              var characterString = attributedString.characters.elementAtIndex(characterIndex);
               characterStrings.add(characterString);
               characterIndex = attributedString.characters.indexAfter(characterIndex);
           }
@@ -95,7 +95,7 @@ void main() {
           var scalarIndex = attributedString.unicodeScalars.startIndex;
           while (scalarIndex != attributedString.unicodeScalars.endIndex) {
               // var characterScalar = attributedString.unicodeScalars[scalarIndex];
-              var characterScalar = attributedString.unicodeScalars.elementAt(scalarIndex);
+              var characterScalar = attributedString.unicodeScalars.elementAtIndex(scalarIndex);
               unicodeScalars.add(characterScalar);
               scalarIndex = attributedString.unicodeScalars.indexAfter(scalarIndex);
           }
@@ -109,108 +109,43 @@ void main() {
               equals(unicodeScalars)
           );
       });
+
+      test('testViewIterators', () {
+          var attributedString = AttributedStrings.polyglot + " " + AttributedStrings.emojiMulti;
+
+          // equals(attributedString.runs.map((run) => attributedString[run.range].string))
+          var runStrings = [...attributedString.runs].map((run) => attributedString.substringForRange(run.range).string).toList();
+          expect(runStrings, equals([
+              "Hello",
+              " ",
+              "Olá",
+              " ",
+              "こんにちは",
+              " ",
+              "👨‍👩‍👧‍👦👍🏿🇺🇸"
+          ]));
+
+          var characterStrings = [...attributedString.characters];
+          expect(characterStrings, equals([
+              "H", "e", "l", "l", "o", " ",
+              "O", "l", "á", " ",
+              "こ", "ん", "に", "ち", "は", " ",
+              "👨‍👩‍👧‍👦", "👍🏿", "🇺🇸"
+          ]));
+
+          var unicodeScalarValues = [...attributedString.unicodeScalars];
+          expect(unicodeScalarValues, equals([
+              72, 101, 108, 108, 111, 32,
+              79, 108, 225, 32,
+              12371, 12435, 12395, 12385, 12399, 32,
+              128104, 8205, 128105, 8205, 128103, 8205, 128102, 128077, 127999, 127482, 127480
+          ]));
+      });
   });
 }
 
 /*
     public class AttributedStringTests {
-        [Fact]
-        void testViewIterationOverIndices() {
-            var attributedString = AttributedStrings.Polyglot + " " + AttributedStrings.EmojiMulti;
-
-            var runStrings = new List<string>();
-            var runIndex = attributedString.Runs.StartIndex;
-            while (runIndex != attributedString.Runs.EndIndex) {
-                var runSubstring = attributedString[attributedString.Runs[runIndex].Range];
-                runStrings.Add(runSubstring.String);
-                runIndex = attributedString.Runs.IndexAfter(runIndex);
-            }
-            Assert.Equal(new string[]
-                {
-                    "Hello",
-                    " ",
-                    "Olá",
-                    " ",
-                    "こんにちは",
-                    " ",
-                    "👨‍👩‍👧‍👦👍🏿🇺🇸"
-                },
-                runStrings
-            );
-
-            var characterStrings = new List<string>();
-            var characterIndex = attributedString.Characters.StartIndex;
-            while (characterIndex != attributedString.Characters.EndIndex) {
-                var characterString = attributedString.Characters[characterIndex];
-                characterStrings.Add(characterString);
-                characterIndex = attributedString.Characters.IndexAfter(characterIndex);
-            }
-            Assert.Equal(new string[]
-                {
-                    "H", "e", "l", "l", "o", " ",
-                    "O", "l", "á", " ",
-                    "こ", "ん", "に", "ち", "は", " ",
-                    "👨‍👩‍👧‍👦", "👍🏿", "🇺🇸"
-                },
-                characterStrings
-            );
-
-            var unicodeScalars = new List<UInt32>();
-            var scalarIndex = attributedString.UnicodeScalars.StartIndex;
-            while (scalarIndex != attributedString.UnicodeScalars.EndIndex) {
-                var characterScalar = attributedString.UnicodeScalars[scalarIndex];
-                unicodeScalars.Add(characterScalar);
-                scalarIndex = attributedString.UnicodeScalars.IndexAfter(scalarIndex);
-            }
-            Assert.Equal(new UInt32[]
-                {
-                    72, 101, 108, 108, 111, 32,
-                    79, 108, 225, 32,
-                    12371, 12435, 12395, 12385, 12399, 32,
-                    128104, 8205, 128105, 8205, 128103, 8205, 128102, 128077, 127999, 127482, 127480
-                },
-                unicodeScalars
-            );
-        }
-
-        [Fact]
-        void testViewIterators() {
-            var attributedString = AttributedStrings.Polyglot + " " + AttributedStrings.EmojiMulti;
-
-            Assert.Equal(new string[]
-                {
-                    "Hello",
-                    " ",
-                    "Olá",
-                    " ",
-                    "こんにちは",
-                    " ",
-                    "👨‍👩‍👧‍👦👍🏿🇺🇸"
-                },
-                attributedString.Runs.Select(run => attributedString[run.Range].String)
-            );
-
-            Assert.Equal(new string[]
-                {
-                    "H", "e", "l", "l", "o", " ",
-                    "O", "l", "á", " ",
-                    "こ", "ん", "に", "ち", "は", " ",
-                    "👨‍👩‍👧‍👦", "👍🏿", "🇺🇸"
-                },
-                attributedString.Characters
-            );
-
-            Assert.Equal(new UInt32[]
-                {
-                    72, 101, 108, 108, 111, 32,
-                    79, 108, 225, 32,
-                    12371, 12435, 12395, 12385, 12399, 32,
-                    128104, 8205, 128105, 8205, 128103, 8205, 128102, 128077, 127999, 127482, 127480
-                },
-                attributedString.UnicodeScalars
-            );
-        }
-
         [Fact]
         void testSubstring() {
             var attributedString = AttributedStrings.Polyglot;
