@@ -414,6 +414,8 @@ class AttributedString extends SwiftReference {
                 check((exn) => f__iota_Foundation_AttributedString_equals(Loader.shared.env, thisHandle.ptr, otherHandle.ptr, exn))))
     ;
 
+    AttributedSubstring operator [](SwiftRange<AttributedString_Index> range) => this.substringForRange(range);
+
     AttributedString operator +(Object? other) {
         var attributedString = AttributedString.createFromSubstring(this.substring);
         if (other is AttributedString) {

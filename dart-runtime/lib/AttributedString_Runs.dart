@@ -120,6 +120,8 @@ class AttributedString_Runs extends SwiftReference with Iterable<AttributedStrin
                 check((exn) => f__iota_Foundation_AttributedString_Runs_equals(Loader.shared.env, thisHandle.ptr, otherHandle.ptr, exn))))
     ;
 
+    AttributedString_Runs_Run operator [](AttributedString_Runs_Index index) => this.elementAtIndex(index);
+    
     static late CreatedRef Function(
         Env env,
         UnownedRef _this,

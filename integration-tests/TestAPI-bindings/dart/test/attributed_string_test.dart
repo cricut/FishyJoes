@@ -55,8 +55,7 @@ void main() {
           var runStrings = <String>[];
           var runIndex = attributedString.runs.startIndex;
           while (runIndex != attributedString.runs.endIndex) {
-              // var runSubstring = attributedString[attributedString.runs[runIndex].range];
-              var runSubstring = attributedString.substringForRange(attributedString.runs.elementAtIndex(runIndex).range);
+              var runSubstring = attributedString[attributedString.runs[runIndex].range];
               runStrings.add(runSubstring.string);
               runIndex = attributedString.runs.indexAfter(runIndex);
           }
@@ -76,8 +75,7 @@ void main() {
           var characterStrings = <String>[];
           var characterIndex = attributedString.characters.startIndex;
           while (characterIndex != attributedString.characters.endIndex) {
-              // var characterString = attributedString.characters[characterIndex];
-              var characterString = attributedString.characters.elementAtIndex(characterIndex);
+              var characterString = attributedString.characters[characterIndex];
               characterStrings.add(characterString);
               characterIndex = attributedString.characters.indexAfter(characterIndex);
           }
@@ -94,8 +92,7 @@ void main() {
           var unicodeScalars = <int>[];
           var scalarIndex = attributedString.unicodeScalars.startIndex;
           while (scalarIndex != attributedString.unicodeScalars.endIndex) {
-              // var characterScalar = attributedString.unicodeScalars[scalarIndex];
-              var characterScalar = attributedString.unicodeScalars.elementAtIndex(scalarIndex);
+              var characterScalar = attributedString.unicodeScalars[scalarIndex];
               unicodeScalars.add(characterScalar);
               scalarIndex = attributedString.unicodeScalars.indexAfter(scalarIndex);
           }
@@ -113,8 +110,7 @@ void main() {
       test('testViewIterators', () {
           var attributedString = AttributedStrings.polyglot + " " + AttributedStrings.emojiMulti;
 
-          // equals(attributedString.runs.map((run) => attributedString[run.range].string))
-          var runStrings = [...attributedString.runs].map((run) => attributedString.substringForRange(run.range).string).toList();
+          var runStrings = [...attributedString.runs].map((run) => attributedString[run.range].string).toList();
           expect(runStrings, equals([
               "Hello",
               " ",
@@ -141,33 +137,32 @@ void main() {
               128104, 8205, 128105, 8205, 128103, 8205, 128102, 128077, 127999, 127482, 127480
           ]));
       });
+
+      test('testSubstring', () {
+          var attributedString = AttributedStrings.polyglot;
+          expect("Hello Olá こんにちは", equals(attributedString.string));
+
+          var range = SwiftRange(
+              attributedString.characters.indexAfter(attributedString.startIndex), 
+              attributedString.characters.indexBefore(attributedString.endIndex)
+          );
+          var substring = attributedString[range];
+          expect("ello Olá こんにち", equals(substring.string));
+          expect("Hello Olá こんにちは", equals(substring.base.string));
+
+          var subRange = SwiftRange(
+              substring.characters.indexAfter(substring.startIndex), 
+              substring.characters.indexBefore(substring.endIndex)
+          );
+          var subSubstring = substring[subRange];
+          expect("llo Olá こんに", equals(subSubstring.string));
+          expect("Hello Olá こんにちは", equals(subSubstring.base.string));
+      });
   });
 }
 
 /*
     public class AttributedStringTests {
-        [Fact]
-        void testSubstring() {
-            var attributedString = AttributedStrings.Polyglot;
-            Assert.Equal("Hello Olá こんにちは", attributedString.String);
-
-            var range = new SwiftRange<AttributedString.Index>(
-                attributedString.Characters.IndexAfter(attributedString.StartIndex), 
-                attributedString.Characters.IndexBefore(attributedString.EndIndex)
-            );
-            var substring = attributedString[range];
-            Assert.Equal("ello Olá こんにち", substring.String);
-            Assert.Equal("Hello Olá こんにちは", substring.Base.String);
-
-            var subRange = new SwiftRange<AttributedString.Index>(
-                substring.Characters.IndexAfter(substring.StartIndex), 
-                substring.Characters.IndexBefore(substring.EndIndex)
-            );
-            var subSubstring = substring[subRange];
-            Assert.Equal("llo Olá こんに", subSubstring.String);
-            Assert.Equal("Hello Olá こんにちは", subSubstring.Base.String);
-        }
-
         [Fact]
         void testMutability() {
             // Examine an existing attributed string from the test suite

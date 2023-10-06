@@ -82,6 +82,8 @@ class AttributedString_CharacterView extends SwiftReference with Iterable<String
         )
     ;
 
+    String operator [](AttributedString_Index index) => this.elementAtIndex(index);
+    
     Iterator<String> get iterator => AttributedString_CharacterView_Iterator(this);
 
     static late CreatedRef Function(

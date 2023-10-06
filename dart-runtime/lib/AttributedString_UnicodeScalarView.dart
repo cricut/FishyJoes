@@ -82,6 +82,8 @@ class AttributedString_UnicodeScalarView extends SwiftReference with Iterable<in
         )
     ;
 
+    int operator [](AttributedString_Index index) => this.elementAtIndex(index);
+    
     Iterator<int> get iterator => AttributedString_UnicodeScalarView_Iterator(this);
 
     static late int Function(

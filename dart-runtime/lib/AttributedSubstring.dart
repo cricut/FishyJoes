@@ -151,6 +151,8 @@ class AttributedSubstring extends SwiftReference {
                 check((exn) => f__iota_Foundation_AttributedSubstring_equals(Loader.shared.env, thisHandle.ptr, otherHandle.ptr, exn))))
     ;
 
+    AttributedSubstring operator [](SwiftRange<AttributedString_Index> range) => this.substringForRange(range);
+
     static late CreatedRef Function(
         Env env,
         OutCreatedRef _exn
