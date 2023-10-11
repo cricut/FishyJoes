@@ -3,7 +3,7 @@ import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 
 plugins {
     `maven-publish`
-    kotlin("jvm") version "1.5.31"
+    kotlin("jvm") version "1.6.21"
     jacoco
 }
 
@@ -106,7 +106,7 @@ tasks.jacocoTestReport {
 }
 
 jacoco {
-    toolVersion = "0.8.7"
+    toolVersion = "0.8.8"
     reportsDirectory.set(layout.buildDirectory.dir("../../coverage-data/jacoco-unit"))
 }
 
@@ -120,8 +120,8 @@ tasks {
 }
 
 dependencies {
+    implementation(kotlin("stdlib:1.6.21"))
     implementation("com.cricut:android-swift-runtime:1.0.0")
-    implementation(kotlin("stdlib:1.5.31"))
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.1")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.1")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.2")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.2")
 }
