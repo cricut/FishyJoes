@@ -81,7 +81,7 @@ tasks.jacocoTestReport {
 }
 
 jacoco {
-    toolVersion = "0.8.8"
+    toolVersion = "0.8.10"
     reportsDirectory.set(layout.projectDirectory.dir("../../../coverage-data/jacoco-integration"))
 }
 
