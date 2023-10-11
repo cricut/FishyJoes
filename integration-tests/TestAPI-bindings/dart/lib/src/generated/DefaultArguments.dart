@@ -61,7 +61,7 @@ class DefaultArguments {
         throw UnsupportedError('This class is supposed to be unihabited')
     );
 
-    /// <!-- FishyJoes.export(echoDefaults) -->
+    /// <!-- FishyJoes.export(echoDefaults, compatibilityOrder: [z, y]) -->
     static String echoDefaults(
         int? x,
         {

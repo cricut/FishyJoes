@@ -265,6 +265,7 @@ struct TranslatedReference: TranslatedType {
                             (labelComment: nil, name: "lhs", type: kotlinType, defaultValue: nil),
                             (labelComment: nil, name: "rhs", type: kotlinType, defaultValue: nil),
                         ],
+                        compatibilityOrder: [],
                         returnType: .named(package: nil, name: "Boolean"),
                         deprecation: nil,
                         body: nil
@@ -281,6 +282,7 @@ struct TranslatedReference: TranslatedType {
                         parameters: [
                             (labelComment: nil, name: "other", type: .optional(.named(package: nil, name: "Any")), defaultValue: nil),
                         ],
+                        compatibilityOrder: [],
                         returnType: .named(package: nil, name: "Boolean"),
                         deprecation: nil,
                         body: "(other is \(kotlinType.kotlinType)) && __jni_swiftEquals(this, other)"
@@ -297,6 +299,7 @@ struct TranslatedReference: TranslatedType {
                         isOverride: true,
                         name: "hashCode",
                         parameters: [],
+                        compatibilityOrder: [],
                         returnType: .named(package: nil, name: "Int"),
                         deprecation: nil,
                         body: nil
