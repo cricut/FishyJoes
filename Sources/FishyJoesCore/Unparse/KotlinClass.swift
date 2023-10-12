@@ -17,6 +17,7 @@ class KotlinClass: NestedClass {
         let isOverride: Bool
         let name: String
         let parameters: [(labelComment: String?, name: String, type: KType, defaultValue: String?)]
+        let compatibilityOrder: [String]
         let returnType: KType
         let deprecation: Deprecation?
         let body: String?
@@ -114,26 +115,41 @@ class KotlinClass: NestedClass {
     func output(method: Method, to fragment: SourceFragment) {
         document(method.documentation, fragment: fragment)
         if !method.name.hasPrefix("_") {
-            if let deprecation = method.deprecation {
-                fragment.output("@Deprecated(\"\(deprecation.quotedMessage)\")")
-            }
-            if method.isOverride {
-                fragment.output("override ", newLineTerminated: false)
-            }
-            fragment.outputBlock("fun \(method.name)(", newLineTerminated: false) {
-                fragment.outputMap(method.parameters, separator: ",") { parameter in
-                    let labelComment = parameter.labelComment.map { "/* \($0) */ " } ?? ""
-                    let defaultValue = parameter.defaultValue.map { " = \($0)" } ?? ""
-                    return "\(labelComment)\(parameter.name): \(parameter.type.kotlinType)\(defaultValue)"
+            let compatibilityParameters = Set(method.compatibilityOrder)
+            for compatibilityIndex in 0...method.compatibilityOrder.count {
+                let excludedCompatibilityParameters = Set(method.compatibilityOrder[compatibilityIndex...])
+
+                if let deprecation = method.deprecation {
+                    fragment.output("@Deprecated(\"\(deprecation.quotedMessage)\")")
                 }
-            }
-            if method.returnType != KType.void {
-                fragment.output(": \(method.returnType.kotlinType)", newLineTerminated: false)
-            }
-            if let body = method.body {
-                fragment.output(" = \(body)\(method.returnType.toKotlinType)")
-            } else {
-                fragment.output(" = __jni_\(method.name)(\(method.parameters.map({ "\($0.name)\($0.type.toJVMType)" }).joined(separator: ", ")))\(method.returnType.toKotlinType)")
+                if method.isOverride {
+                    fragment.output("override ", newLineTerminated: false)
+                }
+                fragment.outputBlock("fun \(method.name)(", newLineTerminated: false) {
+                    let filteredParameters = method.parameters.filter { !excludedCompatibilityParameters.contains($0.name) }
+                    fragment.outputMap(filteredParameters, separator: ",") { parameter in
+                        let labelComment = parameter.labelComment.map { "/* \($0) */ " } ?? ""
+                        let defaultValue = parameter.defaultValue.map { " = \($0)" } ?? ""
+                        return "\(labelComment)\(parameter.name): \(parameter.type.kotlinType)\(defaultValue)"
+                    }
+                }
+                if method.returnType != KType.void {
+                    fragment.output(": \(method.returnType.kotlinType)", newLineTerminated: false)
+                }
+                if let body = method.body {
+                    precondition(compatibilityParameters.isEmpty, "internal error: compatibilityOrder can't be used with a non-native body")
+                    fragment.output(" = \(body)\(method.returnType.toKotlinType)")
+                } else {
+                    var arguments: [String] = []
+                    for parameter in method.parameters {
+                        if excludedCompatibilityParameters.contains(parameter.name) {
+                            arguments.append("(\(parameter.defaultValue!))\(parameter.type.toJVMType)")
+                        } else {
+                            arguments.append("\(parameter.name)\(parameter.type.toJVMType)")
+                        }
+                    }
+                    fragment.output(" = __jni_\(method.name)(\(arguments.joined(separator: ", ")))\(method.returnType.toKotlinType)")
+                }
             }
         }
         if method.body == nil {

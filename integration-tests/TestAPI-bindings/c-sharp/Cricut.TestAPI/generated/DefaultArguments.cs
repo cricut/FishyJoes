@@ -12,7 +12,7 @@ namespace Cricut.TestAPI {
         private DefaultArguments() {}
 
         /// <summary>
-        /// <!-- FishyJoes.export(echoDefaults) -->
+        /// <!-- FishyJoes.export(echoDefaults, compatibilityOrder: [z, y]) -->
         /// </summary>
         public static string EchoDefaults(
             nint? x,

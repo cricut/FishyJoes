@@ -262,14 +262,25 @@ final class KotlinTranslator: Translator {
 
     func kotlin(method: Method, context: FishyJoesContext) -> KotlinClass.MethodOrVariable? {
         let exportAnnotation = method.exportAnnotation
-        var omitParameters = Set(exportAnnotation.omitParameters)
+        let omitParameters = Set(exportAnnotation.omitParameters)
+        let compatParameters = Set(exportAnnotation.compatibilityOrder)
+
         var parameters: [(labelComment: String?, name: String, KotlinClass.KType, String?)] = []
         for parameter in method.parameters {
             if omitParameters.contains(parameter.name) {
                 precondition(parameter.defaultValue != nil, "Can't omit non-default parameter")
-                omitParameters.remove(parameter.name)
                 continue
             }
+            if compatParameters.contains(parameter.name) {
+                precondition(
+                    parameter.defaultValue != nil,
+                    """
+                    Can't use non-default parameter \(parameter.name) in compatibilityParameters annotation
+                        context: \(context.debugContext)
+                    """
+                )
+            }
+
             let resolved = context.resolve(type: parameter.type, generics: exportAnnotation.genericOverrides)
             var label: String?
             if let swiftLabel = parameter.label, swiftLabel != parameter.name {
@@ -290,9 +301,10 @@ final class KotlinTranslator: Translator {
             KotlinClass.Method(
                 documentation: method.documentation,
                 isStatic: method.isStatic,
-                isOverride: method.exportAnnotation.isOverride,
+                isOverride: exportAnnotation.isOverride,
                 name: exportAnnotation.name,
                 parameters: parameters,
+                compatibilityOrder: exportAnnotation.compatibilityOrder,
                 returnType: context.resolve(type: method.returnType, generics: exportAnnotation.genericOverrides).kotlinType,
                 deprecation: method.deprecation,
                 body: nil
@@ -327,6 +339,7 @@ final class KotlinTranslator: Translator {
                     isOverride: field.exportAnnotation?.isOverride ?? false,
                     name: ktName,
                     parameters: [],
+                    compatibilityOrder: [],
                     returnType: resolved.kotlinType,
                     deprecation: deprecation,
                     body: nil
