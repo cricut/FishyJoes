@@ -86,11 +86,6 @@ jobs:
         with:
           java-version: 1.11
 
-      - name: Configure build environment
-        run: |
-          set -euxo pipefail
-          sudo apt-get install zsh
-
       - name: Build native FishyJoesJavaRuntime
         shell: zsh {0}
         run: |
@@ -185,6 +180,11 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.11
+
+      - name: Configure build environment
+        run: |
+          set -euxo pipefail
+          sudo apt-get install zsh
 
       - name: Retrieve Artifacts
         uses: actions/download-artifact@v2
