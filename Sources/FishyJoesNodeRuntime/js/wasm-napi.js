@@ -5,8 +5,6 @@
 // const vm = require('vm');
 import util from 'util';
 import { Buffer } from 'buffer';
-import { WASI } from "@wasmer/wasi";
-import { WasmFs } from "@wasmer/wasmfs";
 
 const NAPI_AUTO_LENGTH = -1 >>> 0;
 
@@ -97,7 +95,7 @@ const kNoException = Symbol('kNoException');
 const hasOwnProperty = Function.prototype.call.bind(Object.prototype.hasOwnProperty);
 
 export class NAPI {
-  constructor() {
+  constructor(WASI, WasmFs) {
     const wasmFs = new WasmFs();
 
     // Output stdout and stderr to console

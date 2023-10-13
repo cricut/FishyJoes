@@ -1,9 +1,11 @@
 import { NAPI } from "./wasm-napi.js";
+import { WASI } from "@wasmer/wasi";
+import { WasmFs } from "@wasmer/wasmfs";
 import * as __MODULE_NAME__Extensions from "./__MODULE_NAME__.extensions.js";
 import * as __MODULE_DEPENDENCY__Extensions from "./__MODULE_DEPENDENCY__.extensions.js";
 
 export const init = async () => {
-  let napi = new NAPI();
+  let napi = new NAPI(WASI, WasmFs);
   const importObject = {};
   const importsToMerge = [
     napi.exports,
