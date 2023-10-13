@@ -3437,7 +3437,7 @@
             "methods" : [
               {
                 "documentation" : [
-                  "<!-- FishyJoes.export(echoDefaults) -->"
+                  "<!-- FishyJoes.export(echoDefaults, compatibilityOrder: [z, y]) -->"
                 ],
                 "isStatic" : true,
                 "name" : "echoDefaults",

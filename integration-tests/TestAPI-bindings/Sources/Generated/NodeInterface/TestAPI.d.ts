@@ -507,7 +507,7 @@ export declare namespace TestAPI {
     export type DefaultArguments = never;
     export namespace DefaultArguments {
         /**
-         * <!-- FishyJoes.export(echoDefaults) -->
+         * <!-- FishyJoes.export(echoDefaults, compatibilityOrder: [z, y]) -->
          */
         function echoDefaults(
             x: Optional<number>,

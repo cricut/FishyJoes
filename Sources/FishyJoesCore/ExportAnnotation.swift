@@ -1,6 +1,15 @@
 import Foundation
 import SourceryRuntime
 
+private enum AttributeName: String, Hashable, CaseIterable {
+    case omitParameters
+    case generic
+    case `override`
+    case cSharp
+    case noReturn
+    case compatibilityOrder
+}
+
 struct ExportAnnotation: Hashable {
     let kind: Kind
     let name: String
@@ -9,6 +18,7 @@ struct ExportAnnotation: Hashable {
     let noReturn: Bool
     let genericOverrides: [String: BetterType]
     let omitParameters: [String]
+    let compatibilityOrder: [String]
 
     init(
         kind: Kind = .unmodified,
@@ -17,7 +27,8 @@ struct ExportAnnotation: Hashable {
         isOverride: Bool = false,
         noReturn: Bool = false,
         genericOverrides: [String: BetterType] = [:],
-        omitParameters: [String] = []
+        omitParameters: [String] = [],
+        compatibilityOrder: [String] = []
     ) {
         self.kind = kind
         self.name = name
@@ -26,6 +37,7 @@ struct ExportAnnotation: Hashable {
         self.noReturn = noReturn
         self.genericOverrides = genericOverrides
         self.omitParameters = omitParameters
+        self.compatibilityOrder = compatibilityOrder
     }
 
     indirect enum SimpleParse: Hashable {
@@ -79,7 +91,7 @@ extension ExportAnnotation.SimpleParse {
         case .squareBracketed(let parts) where parts.count == 3 && parts[1] == .colon:
             return .dictionary(parts[0].asType, parts[2].asType)
         default:
-                fatalErr("don't know how to parse \(self.asString) as a type")
+            fatalErr("don't know how to parse \(self.asString) as a type")
         }
     }
 }
@@ -144,6 +156,7 @@ extension ExportAnnotation.SimpleParse.Reader {
 }
 
 private let annotationPattern = try! NSRegularExpression(pattern: #"^\s*<!--\s*FishyJoes\.(.*)\((.*)\)\s*-->\s*$"#)
+
 extension Documented {
     var exportAnnotation: ExportAnnotation? {
         for docLine in documentation {
@@ -172,37 +185,47 @@ extension Documented {
                 fatalErr("Expected export name first in export annotation: \(tree.map(\.asString))")
             }
 
-            var attrs: [String: ExportAnnotation.SimpleParse] = [:]
+            var attrs: [AttributeName: ExportAnnotation.SimpleParse] = [:]
             for commaSeparatedBit in tree.split(separator: .comma).map({ Array($0) }) {
                 switch commaSeparatedBit.first4 {
                 case (.token(let key), .colon, .some(let value), nil):
-                    attrs[key] = value
+                    guard let attrName = AttributeName(rawValue: key) else {
+                        fatalErr("unknown attribute \(key) in \(docLine)")
+                    }
+                    attrs[attrName] = value
                 default:
                     fatalErr("invalid attribute in \(docLine): \(commaSeparatedBit)")
                 }
             }
 
-            if let unknown = Set(attrs.keys).subtracting(["omitParameters", "generic", "override", "cSharp", "noReturn"]).first {
-                fatalErr("unknown attribute \(unknown) in \(docLine)")
-            }
-
             var omitParameters: [String] = []
-            if let omitParse = attrs["omitParameters"] {
+            if let omitParse = attrs[.omitParameters] {
                 guard case .squareBracketed(let omitList) = omitParse else {
                     fatalErr("invalid omitParameters in \(docLine). Expected [name, ...]")
                 }
-                omitParameters = omitList.split(separator: .comma).map { tokens in
-                    guard tokens.count == 1,
-                          case .token(let name) = tokens.first
-                    else {
+                for tokens in omitList.split(separator: .comma) {
+                    guard case (.token(let name), nil) = tokens.first2 else {
                         fatalErr("invalid omitParameters in \(docLine). Expected [name, ...]")
+                    }
+                    omitParameters.append(name)
+                }
+            }
+
+            var compatibilityOrder: [String] = []
+            if let parse = attrs[.compatibilityOrder] {
+                guard case .squareBracketed(let paramList) = parse else {
+                    fatalErr("invalid compatibilityOrder in \(docLine). Expected [name, ...]")
+                }
+                compatibilityOrder = paramList.split(separator: .comma).map { tokens in
+                    guard case (.token(let name), nil) = tokens.first2 else {
+                        fatalErr("invalid compatibilityOrder in \(docLine). Expected [name, ...]")
                     }
                     return name
                 }
             }
 
             var cSharpName: String?
-            if let cSharpParse = attrs["cSharp"] {
+            if let cSharpParse = attrs[.cSharp] {
                 guard case .token(let name) = cSharpParse else {
                     fatalErr("invalid cSharp name in \(docLine).")
                 }
@@ -210,7 +233,7 @@ extension Documented {
             }
 
             var genericOverrides: [String: BetterType] = [:]
-            if let genericParse = attrs["generic"] {
+            if let genericParse = attrs[.generic] {
                 guard case .squareBracketed(let list) = genericParse else {
                     fatalErr("invalid generic in \(docLine). Expected [type: substitute, ...]")
                 }
@@ -226,12 +249,12 @@ extension Documented {
             }
 
             var isOverride = false
-            if case .token("true") = attrs["override"] {
+            if case .token("true") = attrs[.override] {
                 isOverride = true
             }
 
             var noReturn = false
-            if case .token("true") = attrs["noReturn"] {
+            if case .token("true") = attrs[.noReturn] {
                 noReturn = true
             }
 
@@ -250,7 +273,8 @@ extension Documented {
                 isOverride: isOverride,
                 noReturn: noReturn,
                 genericOverrides: genericOverrides,
-                omitParameters: omitParameters
+                omitParameters: omitParameters,
+                compatibilityOrder: compatibilityOrder
             )
         }
         return nil

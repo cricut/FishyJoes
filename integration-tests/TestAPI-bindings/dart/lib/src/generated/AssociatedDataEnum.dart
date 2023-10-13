@@ -102,7 +102,7 @@ class AssociatedDataEnum with _$AssociatedDataEnum {
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
         createRef(AssociatedDataEnum_Thing(
-            _value
+            _value,
         ))
     );
 
@@ -124,7 +124,7 @@ class AssociatedDataEnum with _$AssociatedDataEnum {
     ) => catchingRef(exn, () =>
         createRef(AssociatedDataEnum_Other(
             consumeRef<String>(_unnamed),
-            __1
+            __1,
         ))
     );
 
