@@ -5,6 +5,8 @@
 // const vm = require('vm');
 import util from 'util';
 import { Buffer } from 'buffer';
+import { WASI } from "@wasmer/wasi";
+import { WasmFs } from "@wasmer/wasmfs";
 
 const NAPI_AUTO_LENGTH = -1 >>> 0;
 
@@ -96,6 +98,46 @@ const hasOwnProperty = Function.prototype.call.bind(Object.prototype.hasOwnPrope
 
 export class NAPI {
   constructor() {
+    const wasmFs = new WasmFs();
+
+    // Output stdout and stderr to console
+    const originalWriteSync = wasmFs.fs.writeSync;
+    var logBuffer = ""
+    var errorBuffer = ""
+    wasmFs.fs.writeSync = (fd, buffer, ...args) => {
+      const text = new TextDecoder("utf-8").decode(buffer);
+      switch (fd) {
+      case 1:
+        var lines = (logBuffer + text).split('\n')
+        logBuffer = lines.pop()
+        lines.forEach(e => console.log(e))
+        break;
+      case 2:
+        var lines = (errorBuffer + text).split('\n')
+        errorBuffer = lines.pop()
+        lines.forEach(e => console.error(e))
+        break;
+      }
+      return originalWriteSync(fd, buffer, ...args);
+    };
+
+    this.wasi = new WASI({
+      args: [], env: {},
+      bindings: {
+        ...WASI.defaultBindings,
+        fs: wasmFs.fs,
+      }
+    });
+
+    // Patch wasmer-js methods to ensure that memory is bound to a valid data view before they run
+    for (const [fnName, fnDef] of Object.entries(this.wasi.wasiImport)) {
+      const capturedThis = this;
+      this.wasi.wasiImport[fnName] = function() {
+        capturedThis.wasi.refreshMemory();
+        return fnDef.apply(this, arguments);
+      };
+    }
+
     this.indirectFunctionTable = undefined;
     this.memory = undefined;
     this.malloc = undefined;
@@ -137,7 +179,7 @@ export class NAPI {
       }
       this.lastErrorCode = NAPI_OK;
       try {
-        this.refreshMemory();
+        this.wasi.refreshMemory();
         const r = f(...args);
         if (r !== NAPI_OK) {
           this.lastErrorCode = r;
@@ -312,6 +354,7 @@ export class NAPI {
 
   makeExports() {
     return {
+      wasi_snapshot_preview1: this.wasi.wasiImport,
       napi: this.makeNAPIExports(),
       env: this.makeEnvExports(),
     }
@@ -375,7 +418,7 @@ export class NAPI {
       }),
 
       // napi_fatal_error: (locationPtr, locationLen, messagePtr, messageLen) => {
-      //   this.refreshMemory();
+      //   this.wasi.refreshMemory();
 
       //   const location = this.readString(locationPtr, locationLen);
       //   const message = this.readString(messagePtr, messageLen);
@@ -1526,12 +1569,6 @@ export class NAPI {
     };
   }
 
-  refreshMemory() {
-    if (this.view.buffer.byteLength === 0) {
-      this.view = new DataView(this.memory.buffer);
-    }
-  }
-
   openHandleScope(escapable) {
     const escapeSlot = escapable ? this.store(undefined) : undefined
     const scope = {
@@ -1565,27 +1602,27 @@ export class NAPI {
 
   readU32(ptr) {
     ptr >>>= 0;
-    return this.view.getUint32(ptr, true);
+    return this.wasi.view.getUint32(ptr, true);
   }
 
   readU64(ptr) {
     ptr >>>= 0;
-    return this.view.getBigUint64(ptr, true);
+    return this.wasi.view.getBigUint64(ptr, true);
   }
 
   writeU8(ptr, u8) {
     ptr >>>= 0;
-    this.view.setUint8(ptr, u8);
+    this.wasi.view.setUint8(ptr, u8);
   }
 
   writeU32(ptr, u32) {
     ptr >>>= 0;
-    this.view.setUint32(ptr, u32, true);
+    this.wasi.view.setUint32(ptr, u32, true);
   }
 
   writeI32(ptr, i32) {
     ptr >>>= 0;
-    this.view.setInt32(ptr, i32, true);
+    this.wasi.view.setInt32(ptr, i32, true);
   }
 
   writeI64(ptr, i64) {
@@ -1598,17 +1635,17 @@ export class NAPI {
     if (i64 < -RANGEERROR) {
       i64 = -RANGEERROR
     }
-    this.view.setBigInt64(ptr, i64, true);
+    this.wasi.view.setBigInt64(ptr, i64, true);
   }
 
   writeU64(ptr, u64) {
     ptr >>>= 0;
-    this.view.setBigUint64(ptr, u64, true);
+    this.wasi.view.setBigUint64(ptr, u64, true);
   }
 
   writeF64(ptr, f64) {
     ptr >>>= 0;
-    this.view.setFloat64(ptr, f64, true);
+    this.wasi.view.setFloat64(ptr, f64, true);
   }
 
   readCStringFrom(ptr) {
@@ -1676,10 +1713,13 @@ export class NAPI {
     this.memory = instance.exports.memory;
     this.malloc = instance.exports.malloc;
     this.free = instance.exports.free;
-    this.view = new DataView(this.memory.buffer);
     this.indirectFunctionTable = instance.exports.__indirect_function_table;
+
+    this.wasi.start(instance);
+
     this.errorMessageTable = this.allocateErrorMessages();
     this.extendedErrorInfoPtr = this.malloc(16);
+
     const scope = this.openHandleScope(false);
     const register = instance.exports.napi_register_wasm_v1
       || instance.exports.napi_register_module_v1;
