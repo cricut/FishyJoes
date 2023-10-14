@@ -336,7 +336,7 @@ class CSharpProductClass: CSharpClass {
                 fragment.output("internal \(unqualifiedName)(ConsumedRef reference): base(reference) {}")
             case .public(let fields):
                 for field in fields {
-                    fragment.output("public \(field.type.name) \(CSharpClass.deforbidify(field.name));")
+                    fragment.output("public \(field.type.name) \(CSharpClass.deforbidify(field.name)) { get; \(field.readOnly ? "private set;" : "set;") }")
                 }
                 fragment.blankLine()
 

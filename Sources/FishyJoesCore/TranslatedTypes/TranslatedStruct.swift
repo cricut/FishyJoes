@@ -292,7 +292,9 @@ struct TranslatedStruct: TranslatedType {
             let resolved = context.resolve(type: storedVar.typeName.better)
             let commonName = "_\(converterType.genericBaseName.mangledName)_\(storedVar.name)"
             lines.append("delegate \(resolved.cSharpType.pInvokeCreatedName) \(commonName)Getter(\(cSharpType.pInvokeUnownedName) obj, out CreatedRef exn);")
-            lines.append("delegate void \(commonName)Setter(\(cSharpType.pInvokeUnownedName) obj, \(resolved.cSharpType.pInvokeConsumedName) newValue, out CreatedRef exn);")
+            if storedVar.isMutable {
+                lines.append("delegate void \(commonName)Setter(\(cSharpType.pInvokeUnownedName) obj, \(resolved.cSharpType.pInvokeConsumedName) newValue, out CreatedRef exn);")
+            }
         }
         return lines
     }
@@ -342,7 +344,7 @@ struct TranslatedStruct: TranslatedType {
                     }
                 }
             ] + (
-                !storedVar.isPubliclyWritable ? [] : [
+                !storedVar.isMutable ? [] : [
                     .value(
                         name: "set_\(storedVar.name)",
                         type: setType
@@ -370,7 +372,9 @@ struct TranslatedStruct: TranslatedType {
             let resolved = context.resolve(type: storedVar.typeName.better)
             let commonName = "_\(converterType.genericBaseName.mangledName)_\(storedVar.name)"
             lines.append("typedef \(commonName)Getter = \(resolved.dartType.ffiCreatedTag) Function(\(dartType.ffiUnownedTag) obj, OutCreatedRef exn);")
-            lines.append("typedef \(commonName)Setter = ffi.Void Function(\(dartType.ffiUnownedTag) obj, \(resolved.dartType.ffiConsumedTag) newValue, OutCreatedRef exn);")
+            if storedVar.isMutable {
+                lines.append("typedef \(commonName)Setter = ffi.Void Function(\(dartType.ffiUnownedTag) obj, \(resolved.dartType.ffiConsumedTag) newValue, OutCreatedRef exn);")
+            }
         }
         return lines
     }
@@ -398,7 +402,7 @@ struct TranslatedStruct: TranslatedType {
                     fragment.output("ffi.Pointer.fromFunction(\(dartType.name()).ffi_get_\(storedVar.name)\(defaultValue)),")
                 }
             ] + (
-                !storedVar.isPubliclyWritable ? [] : [
+                !storedVar.isMutable ? [] : [
                     .value(
                         name: "set_\(storedVar.name)",
                         type: .named(package: nil, name: "ffi.Pointer<ffi.NativeFunction<\(setType)>>")
@@ -423,7 +427,9 @@ struct TranslatedStruct: TranslatedType {
             for storedVar in storedVariables {
                 let resolved = context.resolve(type: storedVar.typeName.better)
                 fragment.output("_ \(storedVar.name)Getter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> \(resolved.converterType.name).CType,")
-                fragment.output("_ \(storedVar.name)Setter: @escaping @convention(c) (foreignObject, \(resolved.converterType.name).CType, _ exn: foreignOutExn) -> Void,")
+                if storedVar.isMutable {
+                    fragment.output("_ \(storedVar.name)Setter: @escaping @convention(c) (foreignObject, \(resolved.converterType.name).CType, _ exn: foreignOutExn) -> Void,")
+                }
             }
             fragment.output("_ exn: foreignOutExn")
         }
@@ -433,7 +439,9 @@ struct TranslatedStruct: TranslatedType {
             fragment.output("\(converterType.name)._constructorMethod[env] = constructorMethod")
             for storedVar in storedVariables {
                 fragment.output("\(converterType.name)._\(storedVar.name)Getter[env] = \(storedVar.name)Getter")
-                fragment.output("\(converterType.name)._\(storedVar.name)Setter[env] = \(storedVar.name)Setter")
+                if storedVar.isMutable {
+                    fragment.output("\(converterType.name)._\(storedVar.name)Setter[env] = \(storedVar.name)Setter")
+                }
             }
         }
         fragment.blankLine()
@@ -442,7 +450,9 @@ struct TranslatedStruct: TranslatedType {
             for storedVar in storedVariables {
                 let resolved = context.resolve(type: storedVar.typeName.better)
                 fragment.output("fileprivate static let _\(storedVar.name)Getter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> \(resolved.converterType.name).CType>()")
-                fragment.output("fileprivate static let _\(storedVar.name)Setter = Env.CallbackMap<@convention(c) (foreignObject, \(resolved.converterType.name).CType, _ exn: foreignOutExn) -> Void>()")
+                if storedVar.isMutable {
+                    fragment.output("fileprivate static let _\(storedVar.name)Setter = Env.CallbackMap<@convention(c) (foreignObject, \(resolved.converterType.name).CType, _ exn: foreignOutExn) -> Void>()")
+                }
             }
             fragment.outputBlock("public typealias _ConstructorMethod = @convention(c) (", closeWith: ") -> foreignObject") {
                 for storedVar in storedVariables {
@@ -486,10 +496,12 @@ struct TranslatedStruct: TranslatedType {
                 fragment.output("let result = try body(&mutatingSelf)")
                 for storedVar in storedVariables {
                     let resolved = context.resolve(type: storedVar.typeName.better)
-                    fragment.outputBlock("try env.check { exn in _\(storedVar.name)Setter[env](", closeWith: ")}") {
-                        fragment.output("this,")
-                        fragment.output("try \(resolved.converterType.name).toIota(mutatingSelf.\(storedVar.name), env: env),")
-                        fragment.output("exn")
+                    if storedVar.isMutable {
+                        fragment.outputBlock("try env.check { exn in _\(storedVar.name)Setter[env](", closeWith: ")}") {
+                            fragment.output("this,")
+                            fragment.output("try \(resolved.converterType.name).toIota(mutatingSelf.\(storedVar.name), env: env),")
+                            fragment.output("exn")
+                        }
                     }
                 }
                 fragment.output("return result")

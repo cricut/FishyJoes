@@ -110,7 +110,12 @@ public class FishyJoesContext {
                 "import 'package:fishyjoes_dart/runtime.dart' as FishyJoesRuntime;",
                 "import 'package:fishyjoes_dart/runtime.dart';",
                 "import 'package:fishyjoes_dart/utilities.dart' as utils;",
-            ] + dartClasses.flatMap { cls in
+            ] + module.dependencies.flatMap { dependency in
+                [
+                    "import 'package:cricut_\(dependency.lowercased())/\(dependency.lowercased()).dart' as \(dependency);",
+                    "import 'package:cricut_\(dependency.lowercased())/\(dependency.lowercased()).dart';",
+                ]
+            } + dartClasses.flatMap { cls in
                 [
                     "import './\(cls.unqualifiedName).dart' as \(module);",
                     "import './\(cls.unqualifiedName).dart';", // Import unqualified too or freezed gets confused"
