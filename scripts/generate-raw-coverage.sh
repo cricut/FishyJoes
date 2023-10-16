@@ -18,7 +18,7 @@ COVERAGE_FLAGS=(-Xswiftc -profile-coverage-mapping -Xswiftc -profile-generate)
 
 CONFIGURATION=debug SKIP_LIPO=1 ./scripts/compile-node-runtime.sh $COVERAGE_FLAGS
 CONFIGURATION=debug SKIP_LIPO=1 ./scripts/compile-kotlin-native-runtime.sh $COVERAGE_FLAGS
-CONFIGURATION=debug SKIP_LIPO=1 ./scripts/compile-c-sharp-runtime.sh $COVERAGE_FLAGS
+CONFIGURATION=debug SKIP_LIPO=1 ./scripts/compile-iota-runtime.sh $COVERAGE_FLAGS
 
 swift build --configuration debug $COVERAGE_FLAGS --build-tests
 ls .build/debug/*(.x)
