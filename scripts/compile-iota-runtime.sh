@@ -21,18 +21,18 @@ else
 fi
 
 mkdir -p c-sharp-runtime/runtimes/{osx,win,linux}/native
-mkdir -p dart-runtime/native/{macos,windows,linux}
+mkdir -p dart-runtime/{macos,windows,linux}/native
 
 {
     [[ -f $binPath/libFishyJoesIotaRuntime.dylib ]]
     cp $binPath/libFishyJoesIotaRuntime.dylib c-sharp-runtime/runtimes/osx/native/
-    cp $binPath/libFishyJoesIotaRuntime.dylib dart-runtime/native/macos
+    cp $binPath/libFishyJoesIotaRuntime.dylib dart-runtime/macos/native
 } || {
     [[ -f $binPath/libFishyJoesIotaRuntime.dll ]]
     cp $binPath/FishyJoesIotaRuntime.dll c-sharp-runtime/runtimes/win/native/
-    cp $binPath/libFishyJoesIotaRuntime.dll dart-runtime/native/windows
+    cp $binPath/libFishyJoesIotaRuntime.dll dart-runtime/windows/native
 } || {
     [[ -f $binPath/libFishyJoesIotaRuntime.so ]]
     cp $binPath/libFishyJoesIotaRuntime.so c-sharp-runtime/runtimes/linux/native/
-    cp $binPath/libFishyJoesIotaRuntime.so dart-runtime/native/linux
+    cp $binPath/libFishyJoesIotaRuntime.so dart-runtime/linux/native
 }
