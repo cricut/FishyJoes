@@ -21,7 +21,7 @@ jobs:
     name: Build & Test
     env:
       SWIFT_WASM_URL: |-
-        https://github.com/swiftwasm/swift/releases/download/swift-wasm-5.7.1-RELEASE/swift-wasm-5.7.1-RELEASE-macos_x86_64.pkg
+        https://github.com/swiftwasm/swift/releases/download/swift-wasm-5.9-SNAPSHOT-2023-08-06-a/swift-wasm-5.9-SNAPSHOT-2023-08-06-a-macos_x86_64.pkg
     runs-on: macOS-12
     steps:
       - name: Checkout
