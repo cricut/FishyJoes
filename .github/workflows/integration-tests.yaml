@@ -66,7 +66,6 @@ jobs:
 
           ./scripts/compile-node-runtime.sh
 
-      #TODO: Wasm
       - name: Test TypeScript from npm via fishy-joes
         shell: zsh {0}
         run: |
@@ -74,10 +73,9 @@ jobs:
 
           cd integration-tests/TestAPI-bindings
 
-          #swift run -- fishy-joes --nodejs --wasm build test
           swift run -- fishy-joes --nodejs build test
 
-      - name: Build native FishyJoesJavaRuntime
+      - name: Build FishyJoesJavaRuntime
         shell: zsh {0}
         run: |
           set -euxo pipefail
@@ -95,6 +93,29 @@ jobs:
 
           cd integration-tests/TestAPI-bindings
           swift run -- fishy-joes --kotlin-fast build test
+
+      - name: Build FishyJoesIotaRuntime
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+
+          ./scripts/compile-iota-runtime.sh
+
+      - name: Test C♯ from dotnet via fishy-joes
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+
+          cd integration-tests/TestAPI-bindings
+          swift run -- fishy-joes --c-sharp build test
+
+      - name: Test Dart from dart via fishy-joes
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+
+          cd integration-tests/TestAPI-bindings
+          swift run -- fishy-joes --dart build test
 
   integration-tests-ubuntu:
     name: "Ubuntu: Integration tests"
@@ -149,16 +170,6 @@ jobs:
           sudo mkdir -p /Library/Developer/Toolchains/swift-wasm-5.9-SNAPSHOT-2023-08-06-a.xctoolchain
           sudo tar -xf swift-wasm.tgz -C /Library/Developer/Toolchains/swift-wasm-5.9-SNAPSHOT-2023-08-06-a.xctoolchain --strip-components 1
 
-      - name: Test C♯ from dotnet via fishy-joes
-        shell: zsh {0}
-        run: |
-          set -euxo pipefail
-
-          ./scripts/compile-iota-runtime.sh
-
-          cd integration-tests/TestAPI-bindings
-          swift run -- fishy-joes --c-sharp build test
-
       - name: Build FishyJoesNodeRuntime
         shell: zsh {0}
         run: |
@@ -166,27 +177,17 @@ jobs:
 
           ./scripts/compile-node-runtime.sh
 
-      #TODO: Wasm
       - name: Test TypeScript from npm via FishyJoes
         shell: zsh {0}
         run: |
           set -euxo pipefail
 
           cd integration-tests/TestAPI-bindings
-          #swift run -- fishy-joes --nodejs --wasm build test
-          swift run -- fishy-joes --nodejs build test
+          swift run -- fishy-joes --nodejs --wasm build test
 
           npm install
 
           swift run -- fishy-joes --nodejs --wasm build test
-
-      - name: Test from dart
-        shell: zsh {0}
-        run: |
-          set -euxo pipefail
-
-          cd integration-tests/TestAPI-bindings
-          swift run -- fishy-joes --dart build test
 
       - name: Build linux FishyJoesJavaRuntime
         shell: zsh {0}
@@ -229,6 +230,29 @@ jobs:
         with:
           name: maven-local
           path: ~/.m2/repository
+
+      - name: Build FishyJoesIotaRuntime
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+
+          ./scripts/compile-iota-runtime.sh
+
+      - name: Test C♯ from dotnet via fishy-joes
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+
+          cd integration-tests/TestAPI-bindings
+          swift run -- fishy-joes --c-sharp build test
+
+      - name: Test Dart from dart via fishy-joes
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+
+          cd integration-tests/TestAPI-bindings
+          swift run -- fishy-joes --dart build test
 
   integration-tests-android:
     name: "Android: Integration Tests"
