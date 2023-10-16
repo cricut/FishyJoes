@@ -973,26 +973,26 @@ sealed class Primitives {
 
         companion object {
             /**
-             * <!-- FishyJoes.export(staticPropery) -->
+             * <!-- FishyJoes.export(staticProperty) -->
              */
-            val staticPropery: kotlin.collections.List<UByte?>
-              get() = __jni_get_staticPropery()
+            val staticProperty: kotlin.collections.List<UByte?>
+              get() = __jni_get_staticProperty()
             @JvmStatic
-            @JvmName("__jni_get_staticPropery")
-            private external fun __jni_get_staticPropery(): kotlin.collections.List<UByte?>
+            @JvmName("__jni_get_staticProperty")
+            private external fun __jni_get_staticProperty(): kotlin.collections.List<UByte?>
 
             /**
-             * <!-- FishyJoes.export(staticMutablePropery) -->
+             * <!-- FishyJoes.export(staticMutableProperty) -->
              */
-            var staticMutablePropery: kotlin.collections.List<UByte?>
-              get() = __jni_get_staticMutablePropery()
-              set(value) { __jni_set_staticMutablePropery(value) } 
+            var staticMutableProperty: kotlin.collections.List<UByte?>
+              get() = __jni_get_staticMutableProperty()
+              set(value) { __jni_set_staticMutableProperty(value) } 
             @JvmStatic
-            @JvmName("__jni_get_staticMutablePropery")
-            private external fun __jni_get_staticMutablePropery(): kotlin.collections.List<UByte?>
+            @JvmName("__jni_get_staticMutableProperty")
+            private external fun __jni_get_staticMutableProperty(): kotlin.collections.List<UByte?>
             @JvmStatic
-            @JvmName("__jni_set_staticMutablePropery")
-            private external fun __jni_set_staticMutablePropery(newValue: kotlin.collections.List<UByte?>)
+            @JvmName("__jni_set_staticMutableProperty")
+            private external fun __jni_set_staticMutableProperty(newValue: kotlin.collections.List<UByte?>)
 
             init { loadNativeLibs() }
         }

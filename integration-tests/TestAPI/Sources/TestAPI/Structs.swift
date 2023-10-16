@@ -10,7 +10,7 @@ public enum Structs {
     /// <!-- FishyJoes.export(Structs.MemberwiseStruct) -->
     public struct MemberwiseStruct: Hashable {
         public private(set) var immutable = "Eternal"
-        public private(set) var mutable = "Fickle"
+        public var mutable = "Fickle"
 
         // NOTE: Structs exposed by value must posess a member-wise initializer in order for the types to be instantiated in other language contexts
         public init(immutable: String, mutable: String) {
@@ -27,7 +27,7 @@ public enum Structs {
         /// <!-- FishyJoes.export(immutable) -->
         public private(set) var immutable = "Eternal"
         /// <!-- FishyJoes.export(mutable) -->
-        public private(set) var mutable = "Fickle"
+        public var mutable = "Fickle"
 
         /// <!-- FishyJoes.export(create) -->
         public init() {}

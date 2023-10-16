@@ -195,17 +195,18 @@ jobs:
           set -euxo pipefail
 
           VERSION=${GITHUB_REF#refs/*/}
-          if [[ ! $VERSION =~ [0-9]+\.[0-9]+\.[0-9]+ ]]; then
+          VERSION_REGEX="[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9]+)*"
+          if [[ ! $VERSION =~ $VERSION_REGEX ]]; then
               VERSION="0.0.1-$(git rev-parse --short HEAD)"
           fi
           echo "Detected Version is '$VERSION'"
-          echo VERSION=$VERSION >> $GITHUB_ENV
-          NPM_PACKAGE_VERSION=`if [[ "${{ env.VERSION }}" =~ [0-9]+\.[0-9]+\.[0-9]+ ]]; then echo "${{ env.VERSION }}"; else echo "0.0.1"; fi`
+          NPM_PACKAGE_VERSION=`if [[ "$VERSION" =~ $VERSION_REGEX ]]; then echo "$VERSION"; else echo "0.0.1"; fi`
           echo "Detected NPM Package Compatible Version is '$NPM_PACKAGE_VERSION'"
+          echo VERSION=$VERSION >> $GITHUB_ENV
           echo NPM_PACKAGE_VERSION=$NPM_PACKAGE_VERSION >> $GITHUB_ENV
 
       - name: Setup Node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: '12.x'
           registry-url: 'https://npm.pkg.github.com/'
@@ -256,10 +257,8 @@ jobs:
         run: |
           set -euxo pipefail
 
-          $(cd mac_npm_package/${{ env.MAC_LIB_DIR }}; npm publish *.tgz)
-          $(cd ubuntu_npm_package/${{ env.UBUNTU_LIB_DIR }}; npm publish *.tgz)
-          # TODO: Windows
-          # $(cd windows_npm_package/${{ env.WINDOWS_LIB_DIR }}; npm publish *.tgz)
+          ( cd ${{ env.MAC_LIB_DIR }}; npm publish *.tgz )
+          ( cd ${{ env.UBUNTU_LIB_DIR }}; npm publish *.tgz )
 
 #
 # TODO: Windows

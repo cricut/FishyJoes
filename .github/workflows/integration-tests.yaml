@@ -34,10 +34,10 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: zulu
-          java-version: 17
+          java-version: 11
 
       - name: Setup node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: '16.x'
           registry-url: 'https://npm.pkg.github.com/'
@@ -122,7 +122,7 @@ jobs:
           registry: ghcr.io
 
       - name: Setup node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: '16.x'
           registry-url: 'https://npm.pkg.github.com/'
@@ -132,7 +132,9 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: zulu
-          java-version: 17
+          java-version: 11
+
+      - uses: dart-lang/setup-dart@v1
 
       - name: Configure build environment
         run: |
@@ -152,7 +154,8 @@ jobs:
         run: |
           set -euxo pipefail
 
-          ./scripts/compile-c-sharp-runtime.sh
+          ./scripts/compile-iota-runtime.sh
+
           cd integration-tests/TestAPI-bindings
           swift run -- fishy-joes --c-sharp build test
 
@@ -173,7 +176,19 @@ jobs:
           #swift run -- fishy-joes --nodejs --wasm build test
           swift run -- fishy-joes --nodejs build test
 
-      - name: Build native FishyJoesJavaRuntime
+          npm install
+
+          swift run -- fishy-joes --nodejs --wasm build test
+
+      - name: Test from dart
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+
+          cd integration-tests/TestAPI-bindings
+          swift run -- fishy-joes --dart build test
+
+      - name: Build linux FishyJoesJavaRuntime
         shell: zsh {0}
         run: |
           set -euxo pipefail
@@ -182,7 +197,6 @@ jobs:
           rm -rf $libdir
           mkdir -p $libdir
           ./scripts/compile-kotlin-native-runtime.sh
-          (cd kotlin-runtime && ./gradlew publishToMavenLocal)
 
       - name: Build android FishyJoesJavaRuntime
         uses: addnab/docker-run-action@4f65fabd2431ebc8d299f8e5a018d79a769ae185
@@ -190,7 +204,7 @@ jobs:
           username: cricut-builduser
           password:  ${{ secrets.CRICUT_GPR_TOKEN }}
           registry: ghcr.io
-          image: ghcr.io/cricut/android-swift-runtime:0.1.0
+          image: ghcr.io/cricut/android-swift-runtime:1.0.0
           options: -v ${{ github.workspace }}:/work -w /work
           run: /work/scripts/compile-android-runtime.sh
 
@@ -237,7 +251,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: zulu
-          java-version: 17
+          java-version: 11
 
       - name: Retrieve artifacts
         uses: actions/download-artifact@v3

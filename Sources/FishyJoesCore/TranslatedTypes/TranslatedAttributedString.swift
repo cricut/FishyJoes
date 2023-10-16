@@ -1,141 +1,141 @@
 import SourceryRuntime
 
 var translatedAttributedString = ExternalTranslatedType(
-    sourceType: BetterType.named(.init(name: "Foundation.AttributedString")),
+    sourceType: BetterType.named(.foundation("AttributedString")),
     converterType: nil,
     neutralName: "AttributedString",
     nodeName: "Runtime.AttributedString",
     kotlinPackage: "com.cricut.fishyjoes.runtime",
     kotlinName: "AttributedString",
-    jniType: JNIType.object("com/cricut/fishyjoes/runtime/AttributedString"),
-    cSharpType: CSharpClass.CSType.named(package: "Cricut.FishyJoesRuntime", name: "AttributedString"),
-    cppName: "AttributedString",
+    jniType: .object("com/cricut/fishyjoes/runtime/AttributedString"),
+    cSharpType: .named(package: "Cricut.FishyJoesRuntime", name: "AttributedString"),
+    dartType: .named(package: "FishyJoesRuntime", name: "AttributedString"),
     isInhabited: true,
     definingModule: Module.runtime
 )
 
 var translatedAttributedSubstring = ExternalTranslatedType(
-    sourceType: BetterType.named(.init(name: "Foundation.AttributedSubstring")),
+    sourceType: BetterType.named(.foundation("AttributedSubstring")),
     converterType: nil,
     neutralName: "AttributedSubstring",
     nodeName: "Runtime.AttributedSubstring",
     kotlinPackage: "com.cricut.fishyjoes.runtime",
     kotlinName: "AttributedSubstring",
-    jniType: JNIType.object("com/cricut/fishyjoes/runtime/AttributedSubstring"),
-    cSharpType: CSharpClass.CSType.named(package: "Cricut.FishyJoesRuntime", name: "AttributedString"),
-    cppName: "AttributedString",
+    jniType: .object("com/cricut/fishyjoes/runtime/AttributedSubstring"),
+    cSharpType: .named(package: "Cricut.FishyJoesRuntime", name: "AttributedSubstring"),
+    dartType: .named(package: "FishyJoesRuntime", name: "AttributedSubstring"),
     isInhabited: true,
     definingModule: Module.runtime
 )
 
 var translatedAttributeContainer = ExternalTranslatedType(
-    sourceType: BetterType.named(.init(name: "Foundation.AttributeContainer")),
+    sourceType: BetterType.named(.foundation("AttributeContainer")),
     converterType: nil,
     neutralName: "AttributeContainer",
     nodeName: "Runtime.AttributeContainer",
     kotlinPackage: "com.cricut.fishyjoes.runtime",
     kotlinName: "AttributeContainer",
-    jniType: JNIType.object("com/cricut/fishyjoes/runtime/AttributeContainer"),
-    cSharpType: CSharpClass.CSType.named(package: "Cricut.FishyJoesRuntime", name: "AttributeContainer"),
-    cppName: "AttributeContainer",
+    jniType: .object("com/cricut/fishyjoes/runtime/AttributeContainer"),
+    cSharpType: .named(package: "Cricut.FishyJoesRuntime", name: "AttributeContainer"),
+    dartType: .named(package: "FishyJoesRuntime", name: "AttributeContainer"),
     isInhabited: true,
     definingModule: Module.runtime
 )
 
 var translatedAttributeContainerFoundationAttributes = ExternalTranslatedType(
-    sourceType: BetterType.named(.init(name: "Foundation.AttributeContainer.FoundationAttributes")),
+    sourceType: BetterType.named(.foundation("AttributeContainer.FoundationAttributes")),
     converterType: nil,
     neutralName: "AttributeContainer.FoundationAttributes",
     nodeName: "Runtime.AttributeContainer.FoundationAttributes",
     kotlinPackage: "com.cricut.fishyjoes.runtime",
     kotlinName: "AttributeContainerFoundationAttributes",
-    jniType: JNIType.object("com/cricut/fishyjoes/runtime/AttributeContainerFoundationAttributes"),
-    cSharpType: CSharpClass.CSType.named(package: "Cricut.FishyJoesRuntime", name: "AttributeContainerFoundationAttributes"),
-    cppName: "AttributeContainerFoundationAttributes",
+    jniType: .object("com/cricut/fishyjoes/runtime/AttributeContainerFoundationAttributes"),
+    cSharpType: .named(package: "Cricut.FishyJoesRuntime", name: "AttributeContainerFoundationAttributes"),
+    dartType: .named(package: "FishyJoesRuntime", name: "AttributeContainer_FoundationAttributes"),
     isInhabited: true,
     definingModule: Module.runtime
 )
 
 var translatedAttributedStringIndex = ExternalTranslatedType(
-    sourceType: BetterType.named(.init(name: "Foundation.AttributedString.Index")),
+    sourceType: BetterType.named(.foundation("AttributedString.Index")),
     converterType: nil,
-    neutralName: "AttributedSubstring.Index",
-    nodeName: "Runtime.AttributedSubstring.Index",
+    neutralName: "AttributedString.Index",
+    nodeName: "Runtime.AttributedString.Index",
     kotlinPackage: "com.cricut.fishyjoes.runtime",
-    kotlinName: "AttributedSubstring.Index",
-    jniType: JNIType.object("com/cricut/fishyjoes/runtime/AttributedString$Index"),
-    cSharpType: CSharpClass.CSType.named(package: "Cricut.FishyJoesRuntime", name: "AttributedString.Index"),
-    cppName: "AttributedString::Index",
+    kotlinName: "AttributedString.Index",
+    jniType: .object("com/cricut/fishyjoes/runtime/AttributedString$Index"),
+    cSharpType: .named(package: "Cricut.FishyJoesRuntime", name: "AttributedString.Index"),
+    dartType: .named(package: "FishyJoesRuntime", name: "AttributedString_Index"),
     isInhabited: true,
     definingModule: Module.runtime
 )
 
 var translatedAttributedStringUnicodeScalarView = ExternalTranslatedType(
-    sourceType: BetterType.named(.init(name: "Foundation.AttributedString.UnicodeScalarView")),
+    sourceType: BetterType.named(.foundation("AttributedString.UnicodeScalarView")),
     converterType: nil,
-    neutralName: "AttributedSubstring.UnicodeScalarView",
-    nodeName: "Runtime.AttributedSubstring.UnicodeScalarView",
+    neutralName: "AttributedString.UnicodeScalarView",
+    nodeName: "Runtime.AttributedString.UnicodeScalarView",
     kotlinPackage: "com.cricut.fishyjoes.runtime",
-    kotlinName: "AttributedSubstring.UnicodeScalarView",
-    jniType: JNIType.object("com/cricut/fishyjoes/runtime/AttributedString$UnicodeScalarView"),
-    cSharpType: CSharpClass.CSType.named(package: "Cricut.FishyJoesRuntime", name: "AttributedString.UnicodeScalarView"),
-    cppName: "AttributedString::UnicodeScalarView",
+    kotlinName: "AttributedString.UnicodeScalarView",
+    jniType: .object("com/cricut/fishyjoes/runtime/AttributedString$UnicodeScalarView"),
+    cSharpType: .named(package: "Cricut.FishyJoesRuntime", name: "AttributedString.UnicodeScalarView"),
+    dartType: .named(package: "FishyJoesRuntime", name: "AttributedString_UnicodeScalarView"),
     isInhabited: true,
     definingModule: Module.runtime
 )
 
 var translatedAttributedStringCharacterView = ExternalTranslatedType(
-    sourceType: BetterType.named(.init(name: "Foundation.AttributedString.CharacterView")),
+    sourceType: BetterType.named(.foundation("AttributedString.CharacterView")),
     converterType: nil,
-    neutralName: "AttributedSubstring.CharacterView",
-    nodeName: "Runtime.AttributedSubstring.CharacterView",
+    neutralName: "AttributedString.CharacterView",
+    nodeName: "Runtime.AttributedString.CharacterView",
     kotlinPackage: "com.cricut.fishyjoes.runtime",
-    kotlinName: "AttributedSubstring.CharacterView",
-    jniType: JNIType.object("com/cricut/fishyjoes/runtime/AttributedString$CharacterView"),
-    cSharpType: CSharpClass.CSType.named(package: "Cricut.FishyJoesRuntime", name: "AttributedString.CharacterView"),
-    cppName: "AttributedString::CharacterView",
+    kotlinName: "AttributedString.CharacterView",
+    jniType: .object("com/cricut/fishyjoes/runtime/AttributedString$CharacterView"),
+    cSharpType: .named(package: "Cricut.FishyJoesRuntime", name: "AttributedString.CharacterView"),
+    dartType: .named(package: "FishyJoesRuntime", name: "AttributedString_CharacterView"),
     isInhabited: true,
     definingModule: Module.runtime
 )
 
 var translatedAttributedStringRuns = ExternalTranslatedType(
-    sourceType: BetterType.named(.init(name: "Foundation.AttributedString.Runs")),
+    sourceType: BetterType.named(.foundation("AttributedString.Runs")),
     converterType: nil,
-    neutralName: "AttributedSubstring.Runs",
-    nodeName: "Runtime.AttributedSubstring.Runs",
+    neutralName: "AttributedString.Runs",
+    nodeName: "Runtime.AttributedString.Runs",
     kotlinPackage: "com.cricut.fishyjoes.runtime",
-    kotlinName: "AttributedSubstring.Runs",
-    jniType: JNIType.object("com/cricut/fishyjoes/runtime/AttributedString$Runs"),
-    cSharpType: CSharpClass.CSType.named(package: "Cricut.FishyJoesRuntime", name: "AttributedString.Runs"),
-    cppName: "AttributedString::Runs",
+    kotlinName: "AttributedString.Runs",
+    jniType: .object("com/cricut/fishyjoes/runtime/AttributedString$Runs"),
+    cSharpType: .named(package: "Cricut.FishyJoesRuntime", name: "AttributedString.RunsView"),
+    dartType: .named(package: "FishyJoesRuntime", name: "AttributedString_Runs"),
     isInhabited: true,
     definingModule: Module.runtime
 )
 
 var translatedAttributedStringRunsIndex = ExternalTranslatedType(
-    sourceType: BetterType.named(.init(name: "Foundation.AttributedString.Runs.Index")),
+    sourceType: BetterType.named(.foundation("AttributedString.Runs.Index")),
     converterType: nil,
-    neutralName: "AttributedSubstring.Runs.Index",
-    nodeName: "Runtime.AttributedSubstring.Runs.Index",
+    neutralName: "AttributedString.Runs.Index",
+    nodeName: "Runtime.AttributedString.Runs.Index",
     kotlinPackage: "com.cricut.fishyjoes.runtime",
-    kotlinName: "AttributedSubstring.Runs.Index",
-    jniType: JNIType.object("com/cricut/fishyjoes/runtime/AttributedString$Runs$Index"),
-    cSharpType: CSharpClass.CSType.named(package: "Cricut.FishyJoesRuntime", name: "AttributedString.Runs.Index"),
-    cppName: "AttributedString::Runs::Index",
+    kotlinName: "AttributedString.Runs.Index",
+    jniType: .object("com/cricut/fishyjoes/runtime/AttributedString$Runs$Index"),
+    cSharpType: .named(package: "Cricut.FishyJoesRuntime", name: "AttributedString.RunsView.Index"),
+    dartType: .named(package: "FishyJoesRuntime", name: "AttributedString_Runs_Index"),
     isInhabited: true,
     definingModule: Module.runtime
 )
 
 var translatedAttributedStringRunsRun = ExternalTranslatedType(
-    sourceType: BetterType.named(.init(name: "Foundation.AttributedString.Runs.Run")),
+    sourceType: BetterType.named(.foundation("AttributedString.Runs.Run")),
     converterType: nil,
-    neutralName: "AttributedSubstring.Runs.Run",
-    nodeName: "Runtime.AttributedSubstring.Runs.Run",
+    neutralName: "AttributedString.Runs.Run",
+    nodeName: "Runtime.AttributedString.Runs.Run",
     kotlinPackage: "com.cricut.fishyjoes.runtime",
-    kotlinName: "AttributedSubstring.Runs.Run",
-    jniType: JNIType.object("com/cricut/fishyjoes/runtime/AttributedString$Runs$Run"),
-    cSharpType: CSharpClass.CSType.named(package: "Cricut.FishyJoesRuntime", name: "AttributedString.Runs.Run"),
-    cppName: "AttributedString::Runs::Run",
+    kotlinName: "AttributedString.Runs.Run",
+    jniType: .object("com/cricut/fishyjoes/runtime/AttributedString$Runs$Run"),
+    cSharpType: .named(package: "Cricut.FishyJoesRuntime", name: "AttributedString.RunsView.Run"),
+    dartType: .named(package: "FishyJoesRuntime", name: "AttributedString_Runs_Run"),
     isInhabited: true,
     definingModule: Module.runtime
 )

@@ -10,8 +10,10 @@ namespace Cricut.FishyJoesRuntime {
         delegate nint StringGetLengthMethod(UnownedRef obj, out CreatedRef exn);
         unsafe delegate void StringGetUtf16Method(UnownedRef obj, char* outUnits, out CreatedRef exn);
         unsafe delegate CreatedRef StringConstructor(char* units, int length, out CreatedRef exn);
-        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern void FishyJoesRuntime_String_setup(
+
+        [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void Swift_String_setup(
+            IntPtr envRef,
             StringGetLengthMethod getLength,
             StringGetUtf16Method getUtf16,
             StringConstructor constructor
@@ -21,8 +23,10 @@ namespace Cricut.FishyJoesRuntime {
         delegate int DataLengthMethod(UnownedRef obj, out CreatedRef exn);
         unsafe delegate void DataGetBytesMethod(UnownedRef obj, byte* outValues, out CreatedRef exn);
         unsafe delegate CreatedRef DataConstructor(byte* bytes, int length, out CreatedRef exn);
-        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern void FishyJoesRuntime_Data_setup(
+
+        [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void Foundation_Data_setup(
+            IntPtr envRef,
             DataLengthMethod getLength,
             DataGetBytesMethod bytesMethod,
             DataConstructor constructor
@@ -31,15 +35,17 @@ namespace Cricut.FishyJoesRuntime {
         // URL Conversions
         delegate CreatedRef URLAbsoluteURIMethod(UnownedRef obj, out CreatedRef exn);
         delegate CreatedRef URLConstructor(ConsumedRef urlString, out CreatedRef exn);
-        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern void FishyJoesRuntime_URL_setup(
+        [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void Foundation_URL_setup(
+            IntPtr envRef,
             URLAbsoluteURIMethod absoluteURIMethod,
             URLConstructor constructor
         );
 
         private static void setupMisc() {
             unsafe {
-                FishyJoesRuntime_String_setup(
+                Swift_String_setup(
+                    env,
                     bag<StringGetLengthMethod>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => {
                         return obj.Peek<string>().Length;
                     })),
@@ -55,7 +61,8 @@ namespace Cricut.FishyJoesRuntime {
                     }))
                 );
 
-                FishyJoesRuntime_Data_setup(
+                Foundation_Data_setup(
+                    env,
                     bag<DataLengthMethod>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => {
                         return obj.Peek<byte[]>().Length;
                     })),
@@ -74,9 +81,11 @@ namespace Cricut.FishyJoesRuntime {
                     }))
                 );
 
-                FishyJoesRuntime_URL_setup(
+                Foundation_URL_setup(
+                    env,
                     bag<URLAbsoluteURIMethod>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => {
-                        return new CreatedRef(obj.Peek<Uri>().AbsoluteUri);
+                        Uri uri = obj.Peek<Uri>();
+                        return new CreatedRef(uri.AbsoluteUri);
                     })),
                     bag<URLConstructor>((ConsumedRef urlString, out CreatedRef exn) => Catching(out exn, () => {
                         Uri uri = new Uri(urlString.Consume<string>());

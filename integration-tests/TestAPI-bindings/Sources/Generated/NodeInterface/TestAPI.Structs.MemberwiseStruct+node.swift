@@ -1,4 +1,4 @@
-// Generated using Sourcery 1.9.2 — https://github.com/krzysztofzablocki/Sourcery
+// Generated using Sourcery 2.0.2 — https://github.com/krzysztofzablocki/Sourcery
 // DO NOT EDIT
 // swiftlint:disable superfluous_disable_command unused_closure_parameter syntactic_sugar attributes
 import FishyJoesNodeRuntime
@@ -27,7 +27,6 @@ extension TestAPI.Structs.MemberwiseStruct: NodeMutator {
         return try env.newInstance(constructor, args)
     }
     public static func mutateNode(_ value: Self, this: NAPI.Value, env: NAPI.Env) throws {
-        try env.setNamedProperty(this, "immutable", Swift.String.toNode(value.immutable, env: env))
         try env.setNamedProperty(this, "mutable", Swift.String.toNode(value.mutable, env: env))
     }
     @available(*, deprecated, message: "Not actually deprecated, but this silences warnings because it may refer to deprecated methods")
@@ -39,8 +38,8 @@ extension TestAPI.Structs.MemberwiseStruct: NodeMutator {
                 "create": (
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "create", expectedArgumentCount: 0, hasNamedOptions: false) { env in
-                            let result = try Structs.MemberwiseStruct.toNode(
-                                Structs.MemberwiseStruct(
+                            let result = try TestAPI.Structs.MemberwiseStruct.toNode(
+                                TestAPI.Structs.MemberwiseStruct(
                                 ),
                                 env: env.env
                             )

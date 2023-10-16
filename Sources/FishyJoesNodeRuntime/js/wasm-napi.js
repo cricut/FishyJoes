@@ -1667,6 +1667,7 @@ export class NAPI {
         buffer.set(utf8, stringPtr)
         buffer[stringPtr + utf8.length] = 0
       }
+      this.refreshMemory();
       this.writeU32(tablePtr + 4 * i, stringPtr);
     }
     return tablePtr;

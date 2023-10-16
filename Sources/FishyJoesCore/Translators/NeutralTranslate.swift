@@ -42,7 +42,8 @@ final class NeutralTranslate: Translator {
             }
             fragment.output("Name: \(variable.exportAnnotation?.name ?? "not exported")")
             fragment.output("Type: \(context.resolve(type: variable.typeName.better).neutralName)")
-            fragment.output("Mutable: \(variable.isMutable && variable.accessLevel.write == .public)")
+            fragment.output("Mutable: \(variable.isMutable)")
+            fragment.output("PubliclyWritable: \(variable.isPubliclyWritable)")
             if let containingType = variable.definedInTypeName?.better {
                 fragment.output("Defined in: \(containingType.name)")
             } else {
@@ -51,7 +52,7 @@ final class NeutralTranslate: Translator {
         }
     }
     init() {}
-    func setupFragments(context: FishyJoesContext, generatedTypes: Set<BetterType>) -> [SourceFragment] {
+    func setupFragments(context: FishyJoesContext, generatedTypes: [BetterType]) -> [SourceFragment] {
         return []
     }
 }

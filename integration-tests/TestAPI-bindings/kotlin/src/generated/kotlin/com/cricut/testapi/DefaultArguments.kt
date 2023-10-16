@@ -7,8 +7,15 @@ sealed class DefaultArguments {
 
     companion object {
         /**
-         * <!-- FishyJoes.export(echoDefaults) -->
+         * <!-- FishyJoes.export(echoDefaults, compatibilityOrder: [z, y]) -->
          */
+        fun echoDefaults(
+            x: Long?
+        ): kotlin.String = __jni_echoDefaults((null), x, (3.14))
+        fun echoDefaults(
+            x: Long?,
+            /* theLabelForZ */ z: Double = 3.14
+        ): kotlin.String = __jni_echoDefaults((null), x, z)
         fun echoDefaults(
             y: Long? = null,
             x: Long?,

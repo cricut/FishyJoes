@@ -7,7 +7,7 @@ struct ExternalTranslatedType: Codable {
     var kotlinName: String
     var jniType: JNIType
     var cSharpType: CSharpClass.CSType
-    var cppName: String
+    var dartType: DartClass.DartType
     var isInhabited: Bool
     var definingModule: Module
 
@@ -20,7 +20,7 @@ struct ExternalTranslatedType: Codable {
         kotlinName: String,
         jniType: JNIType,
         cSharpType: CSharpClass.CSType,
-        cppName: String,
+        dartType: DartClass.DartType,
         isInhabited: Bool,
         definingModule: Module
     ) {
@@ -32,7 +32,7 @@ struct ExternalTranslatedType: Codable {
         self.kotlinName = kotlinName
         self.jniType = jniType
         self.cSharpType = cSharpType
-        self.cppName = cppName
+        self.dartType = dartType
         self.isInhabited = isInhabited
         self.definingModule = definingModule
     }
@@ -56,7 +56,7 @@ extension TranslatedType {
             kotlinName: kotlinName,
             jniType: jniType,
             cSharpType: cSharpType,
-            cppName: cppName,
+            dartType: dartType,
             isInhabited: isInhabited,
             definingModule: definingModule
         )

@@ -1,4 +1,4 @@
-// swift-tools-version:5.5
+// swift-tools-version:5.6
 
 import PackageDescription
 import Foundation
@@ -36,8 +36,7 @@ let package = Package(
     ] + wasmIncompatible(
         [
             P.library(name: "FishyJoesJavaRuntime", type: .dynamic, targets: ["FishyJoesJavaRuntime"]),
-            P.library(name: "FishyJoesCSharpRuntime", type: .dynamic, targets: ["FishyJoesCSharpRuntime"]),
-            P.library(name: "FishyJoesCPPRuntime", targets: ["FishyJoesCPPRuntime"]),
+            P.library(name: "FishyJoesIotaRuntime", type: .dynamic, targets: ["FishyJoesIotaRuntime"]),
             P.library(name: "JavaRuntimeTestHarness", type: .dynamic, targets: ["JavaRuntimeTestHarness"]),
         ]
     ) + (androidCompatibleOnly || wasmCompatibleOnly ? [] : [
@@ -51,17 +50,17 @@ let package = Package(
     dependencies: generationEnabled(
         [
             D.package(
-                url: "https://github.com/krzysztofzablocki/Sourcery", .branch("1.9.2")
+                url: "https://github.com/krzysztofzablocki/Sourcery", branch: "2.0.2"
 //                 path: "../Sourcery"
             ),
         ]
     ) + wasmIncompatible(
         [
-            D.package(url: "https://github.com/cobbal/swsh", .exact("3.0.0")),
+            D.package(url: "https://github.com/cobbal/swsh", exact: "3.0.0"),
             D.package(url: "https://github.com/apple/swift-argument-parser", from: "0.4.0"),
         ]
     ) + (androidCompatibleOnly || wasmCompatibleOnly ? [] : [
-        D.package(url: "https://github.com/jpsim/Yams", .upToNextMinor(from: "4.0.0")),
+        D.package(url: "https://github.com/jpsim/Yams", .upToNextMinor(from: "5.0.3")),
     ]),
     targets: [
         T.systemLibrary(name: "NodeAPI"),
@@ -75,19 +74,13 @@ let package = Package(
             ]
         ),
         T.target(
-            name: "FishyJoesCPPRuntime",
-            dependencies: [
-                .target(name: "FishyJoesCommonRuntime")
-            ]
-        ),
-        T.target(
             name: "JavaRuntimeTestHarness",
             dependencies: [
                 .target(name: "FishyJoesJavaRuntime"),
             ]
         ),
         T.target(
-            name: "FishyJoesCSharpRuntime",
+            name: "FishyJoesIotaRuntime",
             dependencies: [
                 .target(name: "FishyJoesCommonRuntime"),
             ]

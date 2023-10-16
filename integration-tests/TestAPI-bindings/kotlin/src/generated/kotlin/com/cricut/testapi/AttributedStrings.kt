@@ -99,6 +99,78 @@ sealed class AttributedStrings {
             string: com.cricut.fishyjoes.runtime.AttributedString
         ): com.cricut.fishyjoes.runtime.AttributedString
 
+        /**
+         * <!-- FishyJoes.export(firstIndex) -->
+         */
+        fun firstIndex(
+            /* of */ string: com.cricut.fishyjoes.runtime.AttributedString
+        ): com.cricut.fishyjoes.runtime.AttributedString.Index = __jni_firstIndex(string)
+        @JvmStatic
+        @JvmName("__jni_firstIndex")
+        private external fun __jni_firstIndex(
+            string: com.cricut.fishyjoes.runtime.AttributedString
+        ): com.cricut.fishyjoes.runtime.AttributedString.Index
+
+        /**
+         * <!-- FishyJoes.export(lastIndex) -->
+         */
+        fun lastIndex(
+            /* of */ string: com.cricut.fishyjoes.runtime.AttributedString
+        ): com.cricut.fishyjoes.runtime.AttributedString.Index = __jni_lastIndex(string)
+        @JvmStatic
+        @JvmName("__jni_lastIndex")
+        private external fun __jni_lastIndex(
+            string: com.cricut.fishyjoes.runtime.AttributedString
+        ): com.cricut.fishyjoes.runtime.AttributedString.Index
+
+        /**
+         * <!-- FishyJoes.export(fullRange) -->
+         */
+        fun fullRange(
+            /* of */ string: com.cricut.fishyjoes.runtime.AttributedString
+        ): com.cricut.fishyjoes.runtime.SwiftRange<com.cricut.fishyjoes.runtime.AttributedString.Index> = __jni_fullRange(string)
+        @JvmStatic
+        @JvmName("__jni_fullRange")
+        private external fun __jni_fullRange(
+            string: com.cricut.fishyjoes.runtime.AttributedString
+        ): com.cricut.fishyjoes.runtime.SwiftRange<com.cricut.fishyjoes.runtime.AttributedString.Index>
+
+        /**
+         * <!-- FishyJoes.export(attributedCharacters) -->
+         */
+        fun attributedCharacters(
+            /* of */ string: com.cricut.fishyjoes.runtime.AttributedString
+        ): kotlin.collections.List<com.cricut.fishyjoes.runtime.AttributedSubstring> = __jni_attributedCharacters(string)
+        @JvmStatic
+        @JvmName("__jni_attributedCharacters")
+        private external fun __jni_attributedCharacters(
+            string: com.cricut.fishyjoes.runtime.AttributedString
+        ): kotlin.collections.List<com.cricut.fishyjoes.runtime.AttributedSubstring>
+
+        /**
+         * <!-- FishyJoes.export(attributesPreferringDuplicatesNearerStart) -->
+         */
+        fun attributesPreferringDuplicatesNearerStart(
+            /* of */ string: com.cricut.fishyjoes.runtime.AttributedString
+        ): com.cricut.fishyjoes.runtime.AttributeContainer = __jni_attributesPreferringDuplicatesNearerStart(string)
+        @JvmStatic
+        @JvmName("__jni_attributesPreferringDuplicatesNearerStart")
+        private external fun __jni_attributesPreferringDuplicatesNearerStart(
+            string: com.cricut.fishyjoes.runtime.AttributedString
+        ): com.cricut.fishyjoes.runtime.AttributeContainer
+
+        /**
+         * <!-- FishyJoes.export(emptyAttributeRuns) -->
+         */
+        fun emptyAttributeRuns(
+            /* of */ string: com.cricut.fishyjoes.runtime.AttributedString
+        ): kotlin.collections.List<com.cricut.fishyjoes.runtime.AttributedString.Runs.Run> = __jni_emptyAttributeRuns(string)
+        @JvmStatic
+        @JvmName("__jni_emptyAttributeRuns")
+        private external fun __jni_emptyAttributeRuns(
+            string: com.cricut.fishyjoes.runtime.AttributedString
+        ): kotlin.collections.List<com.cricut.fishyjoes.runtime.AttributedString.Runs.Run>
+
         init { loadNativeLibs() }
     }
 }

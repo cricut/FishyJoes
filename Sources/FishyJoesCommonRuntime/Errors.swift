@@ -10,7 +10,23 @@ public struct UninhabitedTypeCreationError: CustomStringConvertible, Error {
     public var localizedDescription: String { description }
 }
 
+public struct NullPointerError: Error {
+    public var message: String
+
+    public init(message: String) {
+        self.message = message
+    }
+}
+
 public struct InvalidRangeError: Error {
+    public let message: String
+
+    public init(message: String) {
+        self.message = message
+    }
+}
+
+public struct MalformedURLError: Error {
     public let message: String
 
     public init(message: String) {

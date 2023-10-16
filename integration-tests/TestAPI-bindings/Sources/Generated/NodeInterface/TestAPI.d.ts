@@ -63,12 +63,41 @@ export declare namespace TestAPI {
         ): TestAPI.AssociatedDataEnum;
     }
 
+    /**
+     * <!-- FishyJoes.export(AttributedString_PuttingTypesIntoQuestionablePlaces) -->
+     */
+    export class AttributedString_PuttingTypesIntoQuestionablePlaces {
+        constructor(x: string)
+
+        readonly x: string;
+
+        /**
+         * <!-- FishyJoes.export(testCall) -->
+         */
+        testCall(
+        ): number;
+    }
+
     export type AttributedStrings = never;
     export namespace AttributedStrings {
         /**
          * <!-- FishyJoes.export(accent) -->
          */
         const accent: Runtime.AttributedString;
+
+        /**
+         * <!-- FishyJoes.export(attributedCharacters) -->
+         */
+        function attributedCharacters(
+            /* of */ string: Runtime.AttributedString
+        ): Runtime.AttributedSubstring[];
+
+        /**
+         * <!-- FishyJoes.export(attributesPreferringDuplicatesNearerStart) -->
+         */
+        function attributesPreferringDuplicatesNearerStart(
+            /* of */ string: Runtime.AttributedString
+        ): Runtime.AttributeContainer;
 
         /**
          * <!-- FishyJoes.export(chinese) -->
@@ -101,6 +130,34 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(emojiMulti) -->
          */
         const emojiMulti: Runtime.AttributedString;
+
+        /**
+         * <!-- FishyJoes.export(emptyAttributeRuns) -->
+         */
+        function emptyAttributeRuns(
+            /* of */ string: Runtime.AttributedString
+        ): Runtime.AttributedString.Runs.Run[];
+
+        /**
+         * <!-- FishyJoes.export(firstIndex) -->
+         */
+        function firstIndex(
+            /* of */ string: Runtime.AttributedString
+        ): Runtime.AttributedString.Index;
+
+        /**
+         * <!-- FishyJoes.export(fullRange) -->
+         */
+        function fullRange(
+            /* of */ string: Runtime.AttributedString
+        ): SwiftRange<Runtime.AttributedString.Index>;
+
+        /**
+         * <!-- FishyJoes.export(lastIndex) -->
+         */
+        function lastIndex(
+            /* of */ string: Runtime.AttributedString
+        ): Runtime.AttributedString.Index;
 
         /**
          * <!-- FishyJoes.export(polyglot) -->
@@ -150,158 +207,158 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(doubleRange) -->
          */
-        const doubleRange: Runtime.SwiftClosedRange<number>;
+        const doubleRange: SwiftClosedRange<number>;
 
         /**
          * <!-- FishyJoes.export(echoDoubleRange) -->
          */
         function echoDoubleRange(
-            range: Runtime.SwiftClosedRange<number>
-        ): Runtime.SwiftClosedRange<number>;
+            range: SwiftClosedRange<number>
+        ): SwiftClosedRange<number>;
 
         /**
          * <!-- FishyJoes.export(echoFloatRange) -->
          */
         function echoFloatRange(
-            range: Runtime.SwiftClosedRange<number>
-        ): Runtime.SwiftClosedRange<number>;
+            range: SwiftClosedRange<number>
+        ): SwiftClosedRange<number>;
 
         /**
          * <!-- FishyJoes.export(echoInt16Range) -->
          */
         function echoInt16Range(
-            range: Runtime.SwiftClosedRange<number>
-        ): Runtime.SwiftClosedRange<number>;
+            range: SwiftClosedRange<number>
+        ): SwiftClosedRange<number>;
 
         /**
          * <!-- FishyJoes.export(echoInt32Range) -->
          */
         function echoInt32Range(
-            range: Runtime.SwiftClosedRange<number>
-        ): Runtime.SwiftClosedRange<number>;
+            range: SwiftClosedRange<number>
+        ): SwiftClosedRange<number>;
 
         /**
          * <!-- FishyJoes.export(echoInt64Range) -->
          */
         function echoInt64Range(
-            range: Runtime.SwiftClosedRange<bigint>
-        ): Runtime.SwiftClosedRange<bigint>;
+            range: SwiftClosedRange<bigint>
+        ): SwiftClosedRange<bigint>;
 
         /**
          * <!-- FishyJoes.export(echoInt8Range) -->
          */
         function echoInt8Range(
-            range: Runtime.SwiftClosedRange<number>
-        ): Runtime.SwiftClosedRange<number>;
+            range: SwiftClosedRange<number>
+        ): SwiftClosedRange<number>;
 
         /**
          * <!-- FishyJoes.export(echoIntRange) -->
          */
         function echoIntRange(
-            range: Runtime.SwiftClosedRange<number>
-        ): Runtime.SwiftClosedRange<number>;
+            range: SwiftClosedRange<number>
+        ): SwiftClosedRange<number>;
 
         /**
          * <!-- FishyJoes.export(echoStringRange) -->
          */
         function echoStringRange(
-            range: Runtime.SwiftClosedRange<string>
-        ): Runtime.SwiftClosedRange<string>;
+            range: SwiftClosedRange<string>
+        ): SwiftClosedRange<string>;
 
         /**
          * <!-- FishyJoes.export(echoUInt16Range) -->
          */
         function echoUInt16Range(
-            range: Runtime.SwiftClosedRange<number>
-        ): Runtime.SwiftClosedRange<number>;
+            range: SwiftClosedRange<number>
+        ): SwiftClosedRange<number>;
 
         /**
          * <!-- FishyJoes.export(echoUInt32Range) -->
          */
         function echoUInt32Range(
-            range: Runtime.SwiftClosedRange<number>
-        ): Runtime.SwiftClosedRange<number>;
+            range: SwiftClosedRange<number>
+        ): SwiftClosedRange<number>;
 
         /**
          * <!-- FishyJoes.export(echoUInt64Range) -->
          */
         function echoUInt64Range(
-            range: Runtime.SwiftClosedRange<bigint>
-        ): Runtime.SwiftClosedRange<bigint>;
+            range: SwiftClosedRange<bigint>
+        ): SwiftClosedRange<bigint>;
 
         /**
          * <!-- FishyJoes.export(echoUInt8Range) -->
          */
         function echoUInt8Range(
-            range: Runtime.SwiftClosedRange<number>
-        ): Runtime.SwiftClosedRange<number>;
+            range: SwiftClosedRange<number>
+        ): SwiftClosedRange<number>;
 
         /**
          * <!-- FishyJoes.export(echoUIntRange) -->
          */
         function echoUIntRange(
-            range: Runtime.SwiftClosedRange<number>
-        ): Runtime.SwiftClosedRange<number>;
+            range: SwiftClosedRange<number>
+        ): SwiftClosedRange<number>;
 
         /**
          * <!-- FishyJoes.export(floatRange) -->
          */
-        const floatRange: Runtime.SwiftClosedRange<number>;
+        const floatRange: SwiftClosedRange<number>;
 
         /**
          * <!-- FishyJoes.export(int16Range) -->
          */
-        const int16Range: Runtime.SwiftClosedRange<number>;
+        const int16Range: SwiftClosedRange<number>;
 
         /**
          * <!-- FishyJoes.export(int32Range) -->
          */
-        const int32Range: Runtime.SwiftClosedRange<number>;
+        const int32Range: SwiftClosedRange<number>;
 
         /**
          * <!-- FishyJoes.export(int64Range) -->
          */
-        const int64Range: Runtime.SwiftClosedRange<bigint>;
+        const int64Range: SwiftClosedRange<bigint>;
 
         /**
          * <!-- FishyJoes.export(int8Range) -->
          */
-        const int8Range: Runtime.SwiftClosedRange<number>;
+        const int8Range: SwiftClosedRange<number>;
 
         /**
          * <!-- FishyJoes.export(intRange) -->
          */
-        const intRange: Runtime.SwiftClosedRange<number>;
+        const intRange: SwiftClosedRange<number>;
 
         /**
          * <!-- FishyJoes.export(stringRange) -->
          */
-        const stringRange: Runtime.SwiftClosedRange<string>;
+        const stringRange: SwiftClosedRange<string>;
 
         /**
          * <!-- FishyJoes.export(uInt16Range) -->
          */
-        const uInt16Range: Runtime.SwiftClosedRange<number>;
+        const uInt16Range: SwiftClosedRange<number>;
 
         /**
          * <!-- FishyJoes.export(uInt32Range) -->
          */
-        const uInt32Range: Runtime.SwiftClosedRange<number>;
+        const uInt32Range: SwiftClosedRange<number>;
 
         /**
          * <!-- FishyJoes.export(uInt64Range) -->
          */
-        const uInt64Range: Runtime.SwiftClosedRange<bigint>;
+        const uInt64Range: SwiftClosedRange<bigint>;
 
         /**
          * <!-- FishyJoes.export(uInt8Range) -->
          */
-        const uInt8Range: Runtime.SwiftClosedRange<number>;
+        const uInt8Range: SwiftClosedRange<number>;
 
         /**
          * <!-- FishyJoes.export(uIntRange) -->
          */
-        const uIntRange: Runtime.SwiftClosedRange<number>;
+        const uIntRange: SwiftClosedRange<number>;
     }
 
     export type Collections = never;
@@ -331,14 +388,14 @@ export declare namespace TestAPI {
             stringDictionary: Map<string, string>;
 
             /**
-             * <!-- FishyJoes.export(staticPropery) -->
+             * <!-- FishyJoes.export(staticProperty) -->
              */
-            static readonly staticPropery: Optional<number>[];
+            static readonly staticProperty: Optional<number>[];
 
             /**
-             * <!-- FishyJoes.export(staticMutablePropery) -->
+             * <!-- FishyJoes.export(staticMutableProperty) -->
              */
-            static staticMutablePropery: Optional<number>[];
+            static staticMutableProperty: Optional<number>[];
         }
 
         /**
@@ -450,7 +507,7 @@ export declare namespace TestAPI {
     export type DefaultArguments = never;
     export namespace DefaultArguments {
         /**
-         * <!-- FishyJoes.export(echoDefaults) -->
+         * <!-- FishyJoes.export(echoDefaults, compatibilityOrder: [z, y]) -->
          */
         function echoDefaults(
             x: Optional<number>,
@@ -587,6 +644,60 @@ export declare namespace TestAPI {
         ): string;
     }
 
+    /**
+     * <!-- FishyJoes.exportReference(Methods) -->
+     */
+    export class Methods {
+        private constructor()
+        private _inhibitStructuralTyping: any
+
+        /**
+         * <!-- FishyJoes.export(staticGet) -->
+         */
+        static readonly staticGet: number;
+
+        /**
+         * <!-- FishyJoes.exportAsMethod(staticGetMethod) -->
+         */
+        static readonly staticGetMethod: number;
+
+        /**
+         * <!-- FishyJoes.export(staticModifiable) -->
+         */
+        static staticModifiable: number;
+
+        /**
+         * <!-- FishyJoes.export(staticStored) -->
+         */
+        static staticStored: number;
+
+        /**
+         * <!-- FishyJoes.export(instanceGet) -->
+         */
+        readonly instanceGet: number;
+
+        /**
+         * <!-- FishyJoes.exportAsMethod(instanceGetMethod) -->
+         */
+        readonly instanceGetMethod: number;
+
+        /**
+         * <!-- FishyJoes.export(instanceModifiable) -->
+         */
+        instanceModifiable: number;
+
+        /**
+         * <!-- FishyJoes.export(instanceStored) -->
+         */
+        instanceStored: number;
+
+        /**
+         * <!-- FishyJoes.export(create) -->
+         */
+        static create(
+        ): TestAPI.Methods;
+    }
+
     export type Primitives = never;
     export namespace Primitives {
         /**
@@ -648,14 +759,14 @@ export declare namespace TestAPI {
             dq?: number;
 
             /**
-             * <!-- FishyJoes.export(staticPropery) -->
+             * <!-- FishyJoes.export(staticProperty) -->
              */
-            static readonly staticPropery: Optional<number>[];
+            static readonly staticProperty: Optional<number>[];
 
             /**
-             * <!-- FishyJoes.export(staticMutablePropery) -->
+             * <!-- FishyJoes.export(staticMutableProperty) -->
              */
-            static staticMutablePropery: Optional<number>[];
+            static staticMutableProperty: Optional<number>[];
         }
 
         /**
@@ -1190,121 +1301,121 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(echoInt16Range) -->
          */
         function echoInt16Range(
-            range: Runtime.SwiftRange<number>
-        ): Runtime.SwiftRange<number>;
+            range: SwiftRange<number>
+        ): SwiftRange<number>;
 
         /**
          * <!-- FishyJoes.export(echoInt32Range) -->
          */
         function echoInt32Range(
-            range: Runtime.SwiftRange<number>
-        ): Runtime.SwiftRange<number>;
+            range: SwiftRange<number>
+        ): SwiftRange<number>;
 
         /**
          * <!-- FishyJoes.export(echoInt64Range) -->
          */
         function echoInt64Range(
-            range: Runtime.SwiftRange<bigint>
-        ): Runtime.SwiftRange<bigint>;
+            range: SwiftRange<bigint>
+        ): SwiftRange<bigint>;
 
         /**
          * <!-- FishyJoes.export(echoInt8Range) -->
          */
         function echoInt8Range(
-            range: Runtime.SwiftRange<number>
-        ): Runtime.SwiftRange<number>;
+            range: SwiftRange<number>
+        ): SwiftRange<number>;
 
         /**
          * <!-- FishyJoes.export(echoIntRange) -->
          */
         function echoIntRange(
-            range: Runtime.SwiftRange<number>
-        ): Runtime.SwiftRange<number>;
+            range: SwiftRange<number>
+        ): SwiftRange<number>;
 
         /**
          * <!-- FishyJoes.export(echoUInt16Range) -->
          */
         function echoUInt16Range(
-            range: Runtime.SwiftRange<number>
-        ): Runtime.SwiftRange<number>;
+            range: SwiftRange<number>
+        ): SwiftRange<number>;
 
         /**
          * <!-- FishyJoes.export(echoUInt32Range) -->
          */
         function echoUInt32Range(
-            range: Runtime.SwiftRange<number>
-        ): Runtime.SwiftRange<number>;
+            range: SwiftRange<number>
+        ): SwiftRange<number>;
 
         /**
          * <!-- FishyJoes.export(echoUInt64Range) -->
          */
         function echoUInt64Range(
-            range: Runtime.SwiftRange<bigint>
-        ): Runtime.SwiftRange<bigint>;
+            range: SwiftRange<bigint>
+        ): SwiftRange<bigint>;
 
         /**
          * <!-- FishyJoes.export(echoUInt8Range) -->
          */
         function echoUInt8Range(
-            range: Runtime.SwiftRange<number>
-        ): Runtime.SwiftRange<number>;
+            range: SwiftRange<number>
+        ): SwiftRange<number>;
 
         /**
          * <!-- FishyJoes.export(echoUIntRange) -->
          */
         function echoUIntRange(
-            range: Runtime.SwiftRange<number>
-        ): Runtime.SwiftRange<number>;
+            range: SwiftRange<number>
+        ): SwiftRange<number>;
 
         /**
          * <!-- FishyJoes.export(int16Range) -->
          */
-        const int16Range: Runtime.SwiftRange<number>;
+        const int16Range: SwiftRange<number>;
 
         /**
          * <!-- FishyJoes.export(int32Range) -->
          */
-        const int32Range: Runtime.SwiftRange<number>;
+        const int32Range: SwiftRange<number>;
 
         /**
          * <!-- FishyJoes.export(int64Range) -->
          */
-        const int64Range: Runtime.SwiftRange<bigint>;
+        const int64Range: SwiftRange<bigint>;
 
         /**
          * <!-- FishyJoes.export(int8Range) -->
          */
-        const int8Range: Runtime.SwiftRange<number>;
+        const int8Range: SwiftRange<number>;
 
         /**
          * <!-- FishyJoes.export(intRange) -->
          */
-        const intRange: Runtime.SwiftRange<number>;
+        const intRange: SwiftRange<number>;
 
         /**
          * <!-- FishyJoes.export(uInt16Range) -->
          */
-        const uInt16Range: Runtime.SwiftRange<number>;
+        const uInt16Range: SwiftRange<number>;
 
         /**
          * <!-- FishyJoes.export(uInt32Range) -->
          */
-        const uInt32Range: Runtime.SwiftRange<number>;
+        const uInt32Range: SwiftRange<number>;
 
         /**
          * <!-- FishyJoes.export(uInt64Range) -->
          */
-        const uInt64Range: Runtime.SwiftRange<bigint>;
+        const uInt64Range: SwiftRange<bigint>;
 
         /**
          * <!-- FishyJoes.export(uInt8Range) -->
          */
-        const uInt8Range: Runtime.SwiftRange<number>;
+        const uInt8Range: SwiftRange<number>;
 
         /**
          * <!-- FishyJoes.export(uIntRange) -->
          */
-        const uIntRange: Runtime.SwiftRange<number>;
+        const uIntRange: SwiftRange<number>;
     }
 
     export type SimpleEnum = "red" | "green" | "blue";
@@ -1340,6 +1451,21 @@ export declare namespace TestAPI {
          */
         function resetFavoriteColor(
         ): void;
+    }
+
+    /**
+     * <!-- FishyJoes.export(String_PuttingTypesIntoQuestionablePlaces) -->
+     */
+    export class String_PuttingTypesIntoQuestionablePlaces {
+        constructor(x: string)
+
+        readonly x: string;
+
+        /**
+         * <!-- FishyJoes.export(testCall) -->
+         */
+        testCall(
+        ): number;
     }
 
     export type Strings = never;
@@ -1400,7 +1526,7 @@ export declare namespace TestAPI {
         export class MemberwiseStruct {
             constructor(immutable: string, mutable: string)
 
-            immutable: string;
+            readonly immutable: string;
 
             mutable: string;
 
@@ -1421,7 +1547,7 @@ export declare namespace TestAPI {
             /**
              * <!-- FishyJoes.export(immutable) -->
              */
-            immutable: string;
+            readonly immutable: string;
 
             /**
              * <!-- FishyJoes.export(mutable) -->
@@ -1434,6 +1560,26 @@ export declare namespace TestAPI {
             static create(
             ): TestAPI.Structs.ReferenceStruct;
         }
+    }
+
+    /**
+     * <!-- FishyJoes.exportReference(Structs_PuttingTypesIntoQuestionablePlaces) -->
+     */
+    export class Structs_PuttingTypesIntoQuestionablePlaces {
+        private constructor()
+        private _inhibitStructuralTyping: any
+
+        /**
+         * <!-- FishyJoes.export(create) -->
+         */
+        static create(
+        ): TestAPI.Structs_PuttingTypesIntoQuestionablePlaces;
+
+        /**
+         * <!-- FishyJoes.export(testCall) -->
+         */
+        testCall(
+        ): number;
     }
 
     export type Tuples = never;
@@ -1498,6 +1644,16 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(simple) -->
          */
         const simple: URL;
+    }
+
+    export type UnicodeScalar_PuttingTypesIntoQuestionablePlaces = "thing";
+    export namespace UnicodeScalar_PuttingTypesIntoQuestionablePlaces {
+        /**
+         * <!-- FishyJoes.export(testCall) -->
+         */
+        function testCall(
+            self: TestAPI.UnicodeScalar_PuttingTypesIntoQuestionablePlaces
+        ): number;
     }
 }
 export declare function init(): Promise<{
