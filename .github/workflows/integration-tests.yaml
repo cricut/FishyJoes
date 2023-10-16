@@ -43,6 +43,8 @@ jobs:
           registry-url: 'https://npm.pkg.github.com/'
           scope: '@cricut'
 
+      - uses: dart-lang/setup-dart@v1
+
       - name: Ensure re-generating does not change committed generated code
         shell: zsh {0}
         run: |

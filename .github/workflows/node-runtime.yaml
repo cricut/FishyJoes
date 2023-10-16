@@ -124,6 +124,8 @@ jobs:
       - name: Build FishyJoesNodeRuntime
         shell: pwsh
         run: |
+          $ErrorActionPreference = "Stop"
+          
           # Should perform the same actions as scripts/compile-node-runtime.sh, but must be done in powershell for swift-build to work
           swift build --product FishyJoesNodeRuntime --configuration release --build-path ./.build/windows-build
           New-Item -ItemType Directory -Force -Path $env:LIB_DIR

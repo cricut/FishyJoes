@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Steps performed in this file must also be performed on Windows
+# When updating this script, change ../.github/workflows/iota-runtime.yaml
+
 set -euo pipefail
 
 if [[ ! -d c-sharp-runtime ]]; then
