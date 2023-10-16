@@ -535,7 +535,8 @@ struct TranslatedReference: TranslatedType {
                     DartClass.Variable(
                         documentation: [],
                         isStatic: false,
-                        readOnly: true,
+                        isMutable: false,
+                        isPubliclyWritable: false,
                         asMethod: false,
                         name: "hashCode",
                         mangledName: "\(sourceType.name.mangled)_hash",

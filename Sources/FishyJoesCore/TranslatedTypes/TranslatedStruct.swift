@@ -344,7 +344,7 @@ struct TranslatedStruct: TranslatedType {
                     }
                 }
             ] + (
-                !storedVar.isMutable ? [] : [
+                !storedVar.isPubliclyWritable ? [] : [
                     .value(
                         name: "set_\(storedVar.name)",
                         type: setType
@@ -402,7 +402,7 @@ struct TranslatedStruct: TranslatedType {
                     fragment.output("ffi.Pointer.fromFunction(\(dartType.name()).ffi_get_\(storedVar.name)\(defaultValue)),")
                 }
             ] + (
-                !storedVar.isMutable ? [] : [
+                !storedVar.isPubliclyWritable ? [] : [
                     .value(
                         name: "set_\(storedVar.name)",
                         type: .named(package: nil, name: "ffi.Pointer<ffi.NativeFunction<\(setType)>>")

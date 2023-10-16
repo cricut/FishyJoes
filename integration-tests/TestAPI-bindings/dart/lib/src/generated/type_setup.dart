@@ -66,13 +66,11 @@ typedef _Foundation_AttributedString_PuttingTypesIntoQuestionablePlacesConstruct
     OutCreatedRef exn
 );
 typedef _Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_xGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
-typedef _Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_xSetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
 typedef _Swift_String_PuttingTypesIntoQuestionablePlacesConstructor = CreatedRef Function(
     ConsumedRef x,
     OutCreatedRef exn
 );
 typedef _Swift_String_PuttingTypesIntoQuestionablePlaces_xGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
-typedef _Swift_String_PuttingTypesIntoQuestionablePlaces_xSetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
 typedef TestAPI_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_new_thing = CreatedRef Function(
     OutCreatedRef _exn
 );

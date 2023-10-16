@@ -20,6 +20,8 @@ sealed class Structs {
           get() = __jni_get_immutable()
         @JvmName("__jni_get_immutable")
         private external fun __jni_get_immutable(): kotlin.String
+        @JvmName("__jni_set_immutable")
+        private external fun __jni_set_immutable(newValue: kotlin.String)
 
         /**
          * <!-- FishyJoes.export(mutable) -->

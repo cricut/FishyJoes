@@ -16,7 +16,6 @@ namespace Cricut.TestAPI {
             out CreatedRef exn
         );
         delegate CreatedRef _Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_xGetter(UnownedRef obj, out CreatedRef exn);
-        delegate void _Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_xSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_setup(
             IntPtr envRef,
@@ -30,7 +29,6 @@ namespace Cricut.TestAPI {
             out CreatedRef exn
         );
         delegate CreatedRef _Swift_String_PuttingTypesIntoQuestionablePlaces_xGetter(UnownedRef obj, out CreatedRef exn);
-        delegate void _Swift_String_PuttingTypesIntoQuestionablePlaces_xSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void Swift_String_PuttingTypesIntoQuestionablePlaces_setup(
             IntPtr envRef,

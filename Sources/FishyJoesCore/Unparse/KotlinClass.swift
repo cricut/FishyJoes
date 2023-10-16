@@ -27,7 +27,8 @@ class KotlinClass: NestedClass {
         let documentation: [String]
         let isStatic: Bool
         let isOverride: Bool
-        let readOnly: Bool
+        let isMutable: Bool
+        let isPubliclyWritable: Bool
         let name: String
         let type: KType
         let deprecation: Deprecation?
@@ -90,9 +91,9 @@ class KotlinClass: NestedClass {
         if let deprecation = field.deprecation {
             fragment.output("@Deprecated(\"\(deprecation.quotedMessage)\")")
         }
-        fragment.output("\(field.isOverride ? "override " : "")\(field.readOnly ? "val" : "var") \(field.name): \(field.type.kotlinType)")
+        fragment.output("\(field.isOverride ? "override " : "")\(field.isPubliclyWritable ? "var" : "val") \(field.name): \(field.type.kotlinType)")
         fragment.output("  get() = __jni_get_\(field.name)()\(field.type.toKotlinType)")
-        if !field.readOnly {
+        if field.isPubliclyWritable {
             fragment.output("  set(value) { __jni_set_\(field.name)(value\(field.type.toJVMType)) } ")
         }
 
@@ -102,7 +103,7 @@ class KotlinClass: NestedClass {
 
         fragment.output("@JvmName(\"__jni_get_\(field.name)\")")
         fragment.output("private external fun __jni_get_\(field.name)(): \(field.type.jvmType)")
-        if !field.readOnly {
+        if field.isMutable {
             if field.isStatic {
                 fragment.output("@JvmStatic")
             }
@@ -254,7 +255,7 @@ class KotlinProductClass: KotlinClass {
         case .`public`(let fields):
             fragment.outputBlock("data class \(unqualifiedName)(") {
                 fragment.outputMap(fields, separator: ",") { field in
-                    "\(field.readOnly ? "val" : "var") \(field.name): \(field.type.kotlinType)"
+                    "\(field.isPubliclyWritable ? "var" : "val") \(field.name): \(field.type.kotlinType)"
                 }
             }
         }

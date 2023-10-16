@@ -351,7 +351,8 @@ final class KotlinTranslator: Translator {
                     documentation: field.documentation,
                     isStatic: field.isStatic,
                     isOverride: field.exportAnnotation?.isOverride ?? false,
-                    readOnly: !field.isPubliclyWritable,
+                    isMutable: field.isMutable,
+                    isPubliclyWritable: field.isPubliclyWritable,
                     name: ktName,
                     type: resolved.kotlinType,
                     deprecation: deprecation
