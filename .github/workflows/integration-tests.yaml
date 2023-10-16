@@ -211,15 +211,6 @@ jobs:
           options: -v ${{ github.workspace }}:/work -w /work
           run: /work/scripts/compile-android-runtime.sh
 
-      - name: Test kotlin from gradle via fishy-joes
-        shell: zsh {0}
-        run: |
-          set -euxo pipefail
-
-          cd integration-tests/TestAPI-bindings
-          swift run -- fishy-joes --kotlin build test
-          (cd kotlin && ./gradlew publishToMavenLocal)
-
       - name: Locally publish kotlin native & android runtimes
         shell: zsh {0}
         run: |
@@ -227,11 +218,19 @@ jobs:
 
           (cd kotlin-runtime && ./gradlew publishToMavenLocal)
 
-      - name: Upload artifacts
+      - name: Upload artifacts for use by Android later
         uses: actions/upload-artifact@v3
         with:
           name: maven-local
           path: ~/.m2/repository
+
+      - name: Test kotlin from gradle via fishy-joes
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+
+          cd integration-tests/TestAPI-bindings
+          swift run -- fishy-joes --kotlin build test
 
       - name: Build FishyJoesIotaRuntime
         shell: zsh {0}
