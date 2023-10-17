@@ -76,7 +76,7 @@ public class FishyJoesContext {
     }
 
     func swiftFragment(_ name: String, additionalImports: [String] = []) -> SourceFragment {
-        var headerLines = (module.dependencies + [module.description] + additionalImports).map { "import \($0)" }
+        var headerLines = (module.dependencies + [module.name] + additionalImports).map { "import \($0)" }
         headerLines.append("// swiftlint:disable superfluous_disable_command unused_closure_parameter syntactic_sugar attributes")
         fileHeaders[name, default: []].formUnion(headerLines)
         return SourceFragment(sourceryDestination: "file:\(name)")
@@ -392,43 +392,46 @@ public class FishyJoesContext {
                 } else if let typeOverride = generics[name.name] {
                     dontCache = true
                     return try recur(typeOverride)
-                } else if name.globalName == "String" {
-                    return TranslatedString()
-                } else if name.globalName == "AttributedString" {
-                    return translatedAttributedString
-                } else if name.globalName == "AttributedString.Index" {
-                    return translatedAttributedStringIndex
-                } else if name.globalName == "AttributedString.UnicodeScalarView" {
-                    return translatedAttributedStringUnicodeScalarView
-                } else if name.globalName == "AttributedString.CharacterView" {
-                    return translatedAttributedStringCharacterView
-                } else if name.globalName == "AttributedString.Runs" {
-                    return translatedAttributedStringRuns
-                } else if name.globalName == "AttributedString.Runs.Index" {
-                    return translatedAttributedStringRunsIndex
-                } else if name.globalName == "AttributedString.Runs.Run" {
-                    return translatedAttributedStringRunsRun
-                } else if name.globalName == "AttributedSubstring" {
-                    return translatedAttributedSubstring
-                } else if name.globalName == "AttributeContainer" {
-                    return translatedAttributeContainer
-                } else if name.globalName == "AttributeContainer.FoundationAttributes" {
-                    return translatedAttributeContainerFoundationAttributes
-                } else if name.globalName == "Data" {
-                    return TranslatedData()
-                } else if name.globalName == "URL" {
-                    return TranslatedURL()
                 } else if name.name == "Index", name.namespace.last?.hasPrefix("Array<") == true {
                     // It's a hack.
                     return TranslatedPrimitive(swift: "Int", typeNames: primitiveTypeMap["Int"]!)
                 } else {
-                    throw ResolveError(
-                        message: """
-                            Don't know how to translate type `\(name.globalName)`.
-                            Maybe annotate it with `sourcery:export(...)`?
-                            context: \(debugContext)
-                            """
-                    )
+                    switch name.globalName {
+                    case "String", "Swift.String":
+                        return TranslatedString()
+                    case "AttributedString", "Foundation.AttributedString":
+                        return translatedAttributedString
+                    case "AttributedString.Index", "Foundation.AttributedString.Index":
+                        return translatedAttributedStringIndex
+                    case "AttributedString.UnicodeScalarView", "Foundation.AttributedString.UnicodeScalarView":
+                        return translatedAttributedStringUnicodeScalarView
+                    case "AttributedString.CharacterView", "Foundation.AttributedString.CharacterView":
+                        return translatedAttributedStringCharacterView
+                    case "AttributedString.Runs", "Foundation.AttributedString.Runs":
+                        return translatedAttributedStringRuns
+                    case "AttributedString.Runs.Index", "Foundation.AttributedString.Runs.Index":
+                        return translatedAttributedStringRunsIndex
+                    case "AttributedString.Runs.Run", "Foundation.AttributedString.Runs.Run":
+                        return translatedAttributedStringRunsRun
+                    case "AttributedSubstring", "Foundation.AttributedSubstring":
+                        return translatedAttributedSubstring
+                    case "AttributeContainer", "Foundation.AttributeContainer":
+                        return translatedAttributeContainer
+                    case "AttributeContainer.FoundationAttributes", "Foundation.AttributeContainer.FoundationAttributes":
+                        return translatedAttributeContainerFoundationAttributes
+                    case "Data", "Foundation.Data":
+                        return TranslatedData()
+                    case "URL", "Foundation.URL":
+                        return TranslatedURL()
+                    default:
+                        throw ResolveError(
+                            message: """
+                                Don't know how to translate type `\(name.globalName)`.
+                                Maybe annotate it with `sourcery:export(...)`?
+                                context: \(debugContext)
+                                """
+                        )
+                    }
                 }
             case .void:
                 return TranslatedVoid()

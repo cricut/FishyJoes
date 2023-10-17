@@ -248,11 +248,12 @@ enum Platform: CustomStringConvertible, Hashable {
         }
     }
 
-    var executionEnvironment: String {
-        return platform
-            .replacingOccurrences(of: "node-native-", with: "native-")
-            .replacingOccurrences(of: "jni-", with: "native-")
-            .replacingOccurrences(of: "c-sharp-", with: "native-")
+    var nodeExecutionEnvironment: String {
+        switch self {
+        case .node, .wasm: return platform.replacingOccurrences(of: "node-native-", with: "native-")
+        default:
+            fatalError("\(self) is not a node platform")
+        }
     }
 
     func outputDir(_ config: FishyJoesConfig) -> String {

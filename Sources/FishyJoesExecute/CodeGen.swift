@@ -58,7 +58,7 @@ public struct CodeGen: ParsableCommand {
 
             """
     )
-    var buildStep: [BuildStep] = [.generate, .build, .test]
+    var buildStep: [BuildStep] = [.generate]
 
     enum CodingKeys: CodingKey {
         case quiet
@@ -112,12 +112,8 @@ extension CodeGen {
             platforms.append(.dart)
         }
 
-        // When no platforms are provided, use as default the platforms that can execute natively on the build machine
-        if platforms.isEmpty {
-            platforms.append(.node)
-            platforms.append(.kotlinSystem)
-            platforms.append(.cSharp)
-            platforms.append(.dart)
+        if !Set(buildStep).intersection([.build, .test, .pack]).isEmpty && platforms.isEmpty {
+            throw ValidationError("Must specify at least one platform when building, testing, or packing")
         }
     }
 
@@ -130,30 +126,15 @@ extension CodeGen {
         } catch let error {
             fatalError("Couldn't parse swift package: \(error)")
         }
-        func dependencyForModule(_ moduleIdentifier: String) -> URL? {
-            return packageInfo.dependencyMap[moduleIdentifier.lowercased()]
-        }
-        func dependencyIsFileRelative(_ dependencyURL: URL) -> Bool {
-            return dependencyURL.scheme == nil
-        }
-        func localPath(toModule moduleIdentifier: String) -> String? {
-            return dependencyForModule(moduleIdentifier).map { localPath(toDependency: $0) } ?? nil
-        }
-        func localPath(toDependency dependencyURL: URL) -> String? {
-            return dependencyIsFileRelative(dependencyURL) ? dependencyURL.path : ".build/checkouts/\(dependencyURL.lastPathComponent)"
-        }
-        guard let fishyJoesDependency = dependencyForModule("FishyJoes") else {
+        guard let fishyJoesDependency = packageInfo.dependencyMap["FishyJoes"] else {
             fatalError("Couldn't locate FishyJoes dependency in Package.swift")
-        }
-        guard let fishyJoesLocalPath = localPath(toModule: "FishyJoes") else {
-            fatalError("Couldn't locate local file path for FishyJoes dependency in Package.swift: \(fishyJoesDependency)")
         }
 
         // Locate dependency bindings modules required by this bindings module
         var dependencySourcePaths: [String: String] = [config.module: "."]
         for moduleName in config.requiredModules {
             let bindingModule = "\(moduleName)-bindings"
-            guard let dependencyPath = localPath(toModule: bindingModule) else {
+            guard let dependencyPath = packageInfo.dependencyMap[bindingModule]?.localPath else {
                 fatalError("Couldn't locate \(bindingModule) in Package.swift, but it's required by fishyjoes.json")
             }
             let dependencySourcesPath = dependencyPath + "/Sources"
@@ -164,10 +145,10 @@ extension CodeGen {
         if buildStep.contains(.generate) {
             // Locate sources to translate
             let translateeSources: String
-            if let translateeLocalPath = localPath(toModule: config.module) {
+            if let translateeLocalPath = packageInfo.dependencyMap[config.module]?.localPath {
                 translateeSources = translateeLocalPath + "/Sources"
-            } else if let sourcePath = packageInfo.path(toTarget: config.module) {
-                translateeSources = sourcePath
+            } else if let targetPath = packageInfo.path(toTarget: config.module) {
+                translateeSources = targetPath
             } else {
                 fatalError("Couldn't locate module for translation '\(config.module)' in Package.swift")
             }
@@ -250,7 +231,7 @@ extension CodeGen {
         // MARK: - Build Step
         if buildStep.contains(.build) {
             // Assemble a build configuration from passed arguments
-            let localPathsNeeded = packageInfo.dependencyMap.values.compactMap { localPath(toDependency: $0) }
+            let localPathsNeeded = packageInfo.dependencyMap.entries.values.map(\.localPath)
             let makeDockerContext = useDocker ? {
                 let context = DockerContext(withAvailablePaths: localPathsNeeded)
                 if let context = context {
@@ -342,7 +323,7 @@ extension CodeGen {
                     try cmd("cp", "\(platform.buildDir(configuration))/FishyJoes_FishyJoesNodeRuntime.resources/js/wasm-napi.js", outputDir).run()
 
                     // Find the path to the runtime
-                    let runtimePath = "\(fishyJoesLocalPath)/node-runtime"
+                    let runtimePath = "\(fishyJoesDependency.localPath)/node-runtime"
                     guard cmd("test", "-d", runtimePath).runBool() else {
                         fatalError("Could not find node runtime at: \(runtimePath)")
                     }
@@ -434,7 +415,7 @@ extension CodeGen {
 
                     // Create the required Javascript files for loading the module's native library from node
                     var moduleDotJS = [
-                        "export { Runtime } from '@cricut/fishyjoes-runtime-\(platform.executionEnvironment)'",
+                        "export { Runtime } from '@cricut/fishyjoes-runtime-\(platform.nodeExecutionEnvironment)'",
                         "import { createRequire } from 'module';",
                         "const require = createRequire(import.meta.url);",
                     ]
@@ -519,7 +500,8 @@ extension CodeGen {
                 case .wasm, .node:
                     // Generate package.json from template
                     let packageVersion = version ?? "0.0.1" // If no version is provided, use a dummy version to build the package
-                    let runtimeVersion = /*fishyJoesDependency.version ?? */"file:\(fishyJoesLocalPath)/node-runtime/fishyjoes-runtime-\(platform.executionEnvironment)" // If fishy-joes is file-local, use a file-local runtime too
+                    // TODO: What should this be?!?
+                    let runtimeVersion = /*fishyJoesDependency.version ?? */"file:\(fishyJoesDependency.localPath)/node-runtime/fishyjoes-runtime-\(platform.nodeExecutionEnvironment)" // If fishy-joes is file-local, use a file-local runtime too
                     let templatePackage = try cmd("cat", "package.template.json").runJSON(NPMPackage.self)
                     let package = NPMPackage(
                         config: config,
@@ -589,7 +571,7 @@ extension CodeGen {
                         try cmd("npm", "install").run()
 
                         // Perform execution-environment-specific fixups to allow execution to succeed despite use of file-relative packages
-                        switch platform.executionEnvironment {
+                        switch platform.nodeExecutionEnvironment {
                         case "native-macos":
                             try FileManager.default.withCurrentDirectoryPath("node_modules/\(NPMPackage.nameFor(config: config, platform: platform))") {
                                 try cmd("npm", "install").run()
@@ -605,7 +587,7 @@ extension CodeGen {
 
                         // Use npm to execute the test suite
                         try cmd("npm", "run", "clear-cache").run()
-                        try cmd("npm", "run", "test-\(platform.executionEnvironment)").run()
+                        try cmd("npm", "run", "test-\(platform.nodeExecutionEnvironment)").run()
                     }
                 case .kotlinSystem:
                     // Use gradle to execute the test suite
