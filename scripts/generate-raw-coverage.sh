@@ -23,8 +23,6 @@ CONFIGURATION=debug SKIP_LIPO=1 ./scripts/compile-iota-runtime.sh $COVERAGE_FLAG
 swift build --configuration debug $COVERAGE_FLAGS --build-tests
 ls .build/debug/*(.x)
 
-cp .build/debug/libFishyJoesJavaRuntime.dylib $javaLibDir
-cp .build/debug/libFishyJoesIotaRuntime.dylib $cSharpLibDir
 (cd kotlin-runtime && ./gradlew publishToMavenLocal)
 
 # Gather coverage from kotlin tests
