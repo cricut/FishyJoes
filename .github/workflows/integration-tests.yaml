@@ -77,25 +77,6 @@ jobs:
 
           swift run -- fishy-joes --nodejs build test
 
-      - name: Build FishyJoesJavaRuntime
-        shell: zsh {0}
-        run: |
-          set -euxo pipefail
-
-          libdir=kotlin-runtime/src/generated/resources/mac
-          rm -rf $libdir
-          mkdir -p $libdir
-          ./scripts/compile-kotlin-native-runtime.sh
-          (cd kotlin-runtime && ./gradlew publishToMavenLocal)
-
-      - name: Test kotlin from gradle via fishy-joes
-        shell: zsh {0}
-        run: |
-          set -euxo pipefail
-
-          cd integration-tests/TestAPI-bindings
-          swift run -- fishy-joes --kotlin-fast build test
-
       - name: Build FishyJoesIotaRuntime
         shell: zsh {0}
         run: |
@@ -118,6 +99,27 @@ jobs:
 
           cd integration-tests/TestAPI-bindings
           swift run -- fishy-joes --dart build test
+
+      - name: Build FishyJoesJavaRuntime
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+
+          libdir=kotlin-runtime/src/generated/resources/mac
+          rm -rf $libdir
+          mkdir -p $libdir
+          ./scripts/compile-kotlin-native-runtime.sh
+          (cd kotlin-runtime && ./gradlew publishToMavenLocal)
+
+      - name: Test kotlin from gradle via fishy-joes
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+
+          cd integration-tests/TestAPI-bindings
+          swift run -- fishy-joes --kotlin-fast build test
+
+  #TODO: integration-tests-windows, but right now, windows is too flaky about not being able to call swift-build.exe
 
   integration-tests-ubuntu:
     name: "Ubuntu: Integration tests"
@@ -213,7 +215,7 @@ jobs:
 
           cd integration-tests/TestAPI-bindings
           swift run -- fishy-joes --dart build test
-          
+
       - name: Build linux FishyJoesJavaRuntime
         shell: zsh {0}
         run: |
@@ -272,11 +274,12 @@ jobs:
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
+      # Must use Java 17 instead of Java 11 because Gradle requires it to build the Android sample app
       - name: Setup JDK
         uses: actions/setup-java@v3
         with:
           distribution: zulu
-          java-version: 11
+          java-version: 17
 
       - name: Retrieve artifacts
         uses: actions/download-artifact@v3
