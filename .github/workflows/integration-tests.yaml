@@ -226,6 +226,8 @@ jobs:
           mkdir -p $libdir
           ./scripts/compile-kotlin-native-runtime.sh
 
+      # Running this step messes with the environment variables significantly,
+      # in particular causing subsequent git checkouts to fail, so testing of Kotlin / Java is being done last
       - name: Build android FishyJoesJavaRuntime
         uses: addnab/docker-run-action@4f65fabd2431ebc8d299f8e5a018d79a769ae185
         with:
@@ -241,13 +243,8 @@ jobs:
         run: |
           set -euxo pipefail
 
+          # Publish runtime for the native linux test and the android tests
           (cd kotlin-runtime && ./gradlew publishToMavenLocal)
-
-      - name: Upload artifacts for use by Android later
-        uses: actions/upload-artifact@v3
-        with:
-          name: maven-local
-          path: ~/.m2/repository
 
       - name: Test kotlin from gradle via fishy-joes
         shell: zsh {0}
@@ -256,6 +253,15 @@ jobs:
 
           cd integration-tests/TestAPI-bindings
           swift run -- fishy-joes --kotlin build test
+
+          # Publish test-api for the android tests to use later
+          (cd kotlin && ./gradlew publishToMavenLocal)
+
+      - name: Upload artifacts for use by Android later
+        uses: actions/upload-artifact@v3
+        with:
+          name: maven-local
+          path: ~/.m2/repository
 
   integration-tests-android:
     name: "Android: Integration Tests"

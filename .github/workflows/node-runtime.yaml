@@ -20,6 +20,8 @@ jobs:
   build-test-node-mac:
     name: "macOS: Build and test node runtime"
     runs-on: macOS-12
+    env:
+      LIB_DIR=node-runtime/fishyjoes-runtime-native-macos
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -36,11 +38,49 @@ jobs:
 
           ./scripts/compile-node-runtime.sh
 
-      - name: Upload artifacts
+      - name: Determine version
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+
+          VERSION=${GITHUB_REF#refs/*/}
+          if [[ ! $VERSION =~ "[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9]+)*" ]]; then
+              VERSION="0.0.1-$(git rev-parse --short HEAD)"
+          fi
+          echo VERSION=$VERSION >> $GITHUB_ENV
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16.x'
+          registry-url: 'https://npm.pkg.github.com/'
+          scope: '@cricut'
+          
+      - name: NPM Pack
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+
+          cat ${{ env.LIB_DIR }}/package.json | jq '.version = "${{ env.NPM_PACKAGE_VERSION }}"' > ${{ env.LIB_DIR }}/package.json.upd
+          mv ${{ env.LIB_DIR }}/package.json.upd ${{ env.LIB_DIR }}/package.json
+          cd ${{ env.LIB_DIR }}
+          ls -la
+          npm pack
+
+      - name: Upload NPM Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: mac_generated
-          path: node-runtime
+          name: mac_npm_package
+          path: ${{ env.LIB_DIR }}/*.tgz
+
+      - name: Publish NPM Package
+        if: github.event_name == 'release'
+        env:
+            NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euxo pipefail
+
+          ( cd ${{ env.LIB_DIR }}; npm publish *.tgz )
 
   build-test-node-ubuntu:
     name: "Ubuntu: Build and test node runtime"
@@ -62,7 +102,7 @@ jobs:
         run: |
           set -eux
           apt-get -y update
-          apt-get -y install zsh patchelf
+          apt-get -y install zsh patchelf jq
 
       - name: Build FishyJoesNodeRuntime
         shell: zsh {0}
@@ -76,31 +116,71 @@ jobs:
         run: |
           set -euxo pipefail
 
-          cp -dv /usr/lib/swift/linux/libswift*.so* $LIB_DIR
-          cp -dv /usr/lib/swift/linux/libicu*.so* $LIB_DIR
-          cp -dv /usr/lib/swift/linux/libFoundation*.so $LIB_DIR
-          cp -dv /usr/lib/swift/linux/libBlocksRuntime.so $LIB_DIR
-          cp -dv /usr/lib/swift/linux/libdispatch.so $LIB_DIR
-          cp -dv /usr/lib/x86_64-linux-gnu/libicui18n.so* $LIB_DIR
-          cp -dv /usr/lib/x86_64-linux-gnu/libicuuc.so* $LIB_DIR
-          cp -dv /usr/lib/x86_64-linux-gnu/libicudata.so* $LIB_DIR
-          cp -dv /usr/lib/x86_64-linux-gnu/libxml2.so* $LIB_DIR
+          cp -dv /usr/lib/swift/linux/libswift*.so* ${{ env.LIB_DIR }}
+          cp -dv /usr/lib/swift/linux/libicu*.so* ${{ env.LIB_DIR }}
+          cp -dv /usr/lib/swift/linux/libFoundation*.so ${{ env.LIB_DIR }}
+          cp -dv /usr/lib/swift/linux/libBlocksRuntime.so ${{ env.LIB_DIR }}
+          cp -dv /usr/lib/swift/linux/libdispatch.so ${{ env.LIB_DIR }}
+          cp -dv /usr/lib/x86_64-linux-gnu/libicui18n.so* ${{ env.LIB_DIR }}
+          cp -dv /usr/lib/x86_64-linux-gnu/libicuuc.so* ${{ env.LIB_DIR }}
+          cp -dv /usr/lib/x86_64-linux-gnu/libicudata.so* ${{ env.LIB_DIR }}
+          cp -dv /usr/lib/x86_64-linux-gnu/libxml2.so* ${{ env.LIB_DIR }}
 
       - name: Patch system swift runtime SOs to use relative libraries
         shell: zsh {0}
         run: |
-          cd $LIB_DIR
+          set -euxo pipefail
+
+          cd ${{ env.LIB_DIR }}
 
           SWIFT_RUN_PATH='/usr/lib/swift/linux:./:$ORIGIN'
           for LIB in lib*.so*; do
             patchelf --set-rpath $SWIFT_RUN_PATH $LIB
           done
 
-      - name: Upload library
+      - name: Determine version
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+
+          VERSION=${GITHUB_REF#refs/*/}
+          if [[ ! $VERSION =~ "[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9]+)*" ]]; then
+              VERSION="0.0.1-$(git rev-parse --short HEAD)"
+          fi
+          echo VERSION=$VERSION >> $GITHUB_ENV
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16.x'
+          registry-url: 'https://npm.pkg.github.com/'
+          scope: '@cricut'
+
+      - name: NPM Pack
+        shell: bash
+        run: |
+          set -euxo pipefail
+
+          cat ${{ env.LIB_DIR }}/package.json | jq '.version = "${{ env.NPM_PACKAGE_VERSION }}"' > ${{ env.LIB_DIR }}/package.json.upd
+          mv ${{ env.LIB_DIR }}/package.json.upd ${{ env.LIB_DIR }}/package.json
+          cd ${{ env.LIB_DIR }}
+          ls -la
+          npm pack
+
+      - name: Upload NPM Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: ubuntu_generated
-          path: node-runtime
+          name: ubuntu_npm_package
+          path: ${{ env.LIB_DIR }}/*.tgz
+
+      - name: Publish NPM Package
+        if: github.event_name == 'release'
+        env:
+            NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euxo pipefail
+
+          ( cd ${{ env.LIB_DIR }}; npm publish *.tgz )
 
   build-test-node-windows:
     name: "Windows: Build and Test Node.js Runtime"
@@ -139,147 +219,46 @@ jobs:
           cp -R /c/Library/icu-*/usr/bin/*.dll $LIB_DIR
           cp -R /c/Library/Swift-development/bin/*.dll $LIB_DIR
 
-      # TODO: Unit test node runtime instead of relying on integration tests
-#      - name: Test FishyJoesNodeRuntime from npm
-#        shell: bash
-#        run: |
-#          set -euxo pipefail
-#
-#          cd node-runtime
-#          npm test
-
-      - name: Upload library
-        uses: actions/upload-artifact@v3
-        with:
-          name: windows_generated
-          path: node-runtime
-
-  node-publish:
-    name: Publish NPM Packages
-    runs-on: ubuntu-latest
-    needs: [build-test-node-mac, build-test-node-ubuntu]
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Setup Git Credentials
-        uses: de-vri-es/setup-git-credentials@v2
-        with:
-          credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
-
-      - name: Configure build environment
-        run: |
-          set -euxo pipefail
-          sudo apt-get install zsh
-
-      - name: Retrieve Artifacts
-        uses: actions/download-artifact@v3
-
-      - name: Install Artifacts
-        shell: zsh {0}
-        run: |
-          set -euxo pipefail
-
-          ls *
-
-          rm -rf node-runtime
-          mkdir -p node-runtime
-          mv mac_generated/fishyjoes-runtime-native-macos node-runtime/
-          mv ubuntu_generated/fishyjoes-runtime-native-ubuntu node-runtime/
-          # TODO: Windows
-          # mv windows_generated/fishyjoes-runtime-native-windows node-runtime/
-
-          ls -R node-runtime/
-
       - name: Determine version
         shell: zsh {0}
         run: |
           set -euxo pipefail
 
           VERSION=${GITHUB_REF#refs/*/}
-          VERSION_REGEX="[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9]+)*"
-          if [[ ! $VERSION =~ $VERSION_REGEX ]]; then
+          if [[ ! $VERSION =~ "[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9]+)*" ]]; then
               VERSION="0.0.1-$(git rev-parse --short HEAD)"
           fi
-          echo "Detected Version is '$VERSION'"
-          NPM_PACKAGE_VERSION=`if [[ "$VERSION" =~ $VERSION_REGEX ]]; then echo "$VERSION"; else echo "0.0.1"; fi`
-          echo "Detected NPM Package Compatible Version is '$NPM_PACKAGE_VERSION'"
           echo VERSION=$VERSION >> $GITHUB_ENV
-          echo NPM_PACKAGE_VERSION=$NPM_PACKAGE_VERSION >> $GITHUB_ENV
 
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: '12.x'
+          node-version: '16.x'
           registry-url: 'https://npm.pkg.github.com/'
           scope: '@cricut'
 
-      - name: NPM Pack macOS
-        shell: zsh {0}
-        run: |
-          set -euxo pipefail
-
-          LIB_DIR=node-runtime/fishyjoes-runtime-native-macos
-          sed "s:0.0.1:${{ env.NPM_PACKAGE_VERSION }}:g" ${LIB_DIR}/package.json > ${LIB_DIR}/package.json.upd
-          mv ${LIB_DIR}/package.json.upd ${LIB_DIR}/package.json
-          cd ${LIB_DIR}
-          ls -la
-          npm pack
-          echo MAC_LIB_DIR=${LIB_DIR} >> $GITHUB_ENV
-
-      - name: Upload NPM macOS Artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: mac_npm_package
-          path: ${{ env.MAC_LIB_DIR }}/*.tgz
-
-      - name: NPM Pack Ubuntu
+      - name: NPM Pack
         shell: bash
         run: |
           set -euxo pipefail
 
-          LIB_DIR=node-runtime/fishyjoes-runtime-native-ubuntu
-          sed "s:0.0.1:${{ env.NPM_PACKAGE_VERSION }}:g" ${LIB_DIR}/package.json > ${LIB_DIR}/package.json.upd
-          mv ${LIB_DIR}/package.json.upd ${LIB_DIR}/package.json
-          cd ${LIB_DIR}
+          cat ${{ env.LIB_DIR }}/package.json | jq '.version = "${{ env.VERSION }}"' > ${{ env.LIB_DIR }}/package.json.upd
+          mv ${{ env.LIB_DIR }}/package.json.upd ${{ env.LIB_DIR }}/package.json
+          cd ${{ env.LIB_DIR }}
           ls -la
           npm pack
-          echo UBUNTU_LIB_DIR=${LIB_DIR} >> $GITHUB_ENV
 
-      - name: Upload NPM Ubuntu Artifact
+      - name: Upload NPM Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: ubuntu_npm_package
-          path: ${{ env.UBUNTU_LIB_DIR }}/*.tgz
+          name: windows_npm_package
+          path: ${{ env.LIB_DIR }}/*.tgz
 
-      - name: Publish NPM Packages
+      - name: Publish NPM Package
         if: github.event_name == 'release'
         env:
             NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euxo pipefail
 
-          ( cd ${{ env.MAC_LIB_DIR }}; npm publish *.tgz )
-          ( cd ${{ env.UBUNTU_LIB_DIR }}; npm publish *.tgz )
-
-#
-# TODO: Windows
-#      - name: NPM Pack Windows
-#        shell: bash
-#        run: |
-#          set -euxo pipefail
-#
-#          LIB_DIR=node-runtime/fishyjoes-runtime-native-windows
-#          sed "s:0.0.1:${{ env.NPM_PACKAGE_VERSION }}:g" ${LIB_DIR}/package.json > ${LIB_DIR}/package.json.upd
-#          mv ${LIB_DIR}/package.json.upd ${LIB_DIR}/package.json
-#          cd ${LIB_DIR}
-#          ls -la
-#          npm pack
-#          echo WINDOWS_LIB_DIR=${LIB_DIR} >> $GITHUB_ENV
-#
-#      - name: Upload NPM Windows Artifact
-#        uses: actions/upload-artifact@v3
-#        with:
-#          name: windows_npm_package
-#          path: ${{ env.WINDOWS_LIB_DIR }}/*.tgz
-#
+          ( cd ${{ env.LIB_DIR }}; npm publish *.tgz )
