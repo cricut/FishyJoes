@@ -500,8 +500,7 @@ extension CodeGen {
                 case .wasm, .node:
                     // Generate package.json from template
                     let packageVersion = version ?? "0.0.1" // If no version is provided, use a dummy version to build the package
-                    // TODO: What should this be?!?
-                    let runtimeVersion = /*fishyJoesDependency.version ?? */"file:\(fishyJoesDependency.localPath)/node-runtime/fishyjoes-runtime-\(platform.nodeExecutionEnvironment)" // If fishy-joes is file-local, use a file-local runtime too
+                    let runtimeVersion = fishyJoesDependency.version ?? "file:\(fishyJoesDependency.localPath)/node-runtime/fishyjoes-runtime-\(platform.nodeExecutionEnvironment)" // If fishy-joes is file-local, use a file-local runtime too
                     let templatePackage = try cmd("cat", "package.template.json").runJSON(NPMPackage.self)
                     let package = NPMPackage(
                         config: config,
