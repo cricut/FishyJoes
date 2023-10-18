@@ -158,7 +158,7 @@ jobs:
           scope: '@cricut'
 
       - name: NPM Pack
-        shell: bash
+        shell: zsh {0}
         run: |
           set -euxo pipefail
 
@@ -176,6 +176,7 @@ jobs:
 
       - name: Publish NPM Package
         if: github.event_name == 'release'
+        shell: zsh {0}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -257,6 +258,7 @@ jobs:
 
       - name: Publish NPM Package
         if: github.event_name == 'release'
+        shell: bash
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
