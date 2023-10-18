@@ -103,6 +103,7 @@ jobs:
           set -eux
           apt-get -y update
           apt-get -y install zsh patchelf jq
+          git config --global --add safe.directory '*'
 
       - name: Build FishyJoesNodeRuntime
         shell: zsh {0}
@@ -220,7 +221,7 @@ jobs:
           cp -R /c/Library/Swift-development/bin/*.dll $LIB_DIR
 
       - name: Determine version
-        shell: zsh {0}
+        shell: bash
         run: |
           set -euxo pipefail
 
