@@ -85,12 +85,12 @@ extension SwiftPackage.Dependency {
     var url: URL {
         switch self {
         case .sourceControl(_, let url): return url
-        case .fileSystem(_, let path): return URL(fileURLWithPath: path)
+        case .fileSystem(_, let path): return URL(string: path)!
         }
     }
 
     var localPath: String {
-        return url.isFileURL || url.scheme == nil ? url.path : ".build/checkouts/\(url.lastPathComponent)"
+        return url.scheme == nil ? url.path : ".build/checkouts/\(url.lastPathComponent)"
     }
 }
 
