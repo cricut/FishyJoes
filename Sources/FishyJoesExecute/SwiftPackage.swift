@@ -59,7 +59,7 @@ extension SwiftPackage.Dependency: Decodable {
     }
 
     var localPath: String {
-        return url.scheme == nil ? url.path : ".build/checkouts/\(url.lastPathComponent)"
+        return url.isFileURL || url.scheme == nil ? url.path : ".build/checkouts/\(url.lastPathComponent)"
     }
 
     init(from decoder: Decoder) throws {
