@@ -44,24 +44,6 @@ extension SwiftPackage.Dependency: Decodable {
         case identity, path, nameForTargetDependencyResolutionOnly
     }
 
-    var identity: String {
-        switch self {
-        case .sourceControl(let identity, _): return identity
-        case .fileSystem(let identity, _): return identity
-        }
-    }
-
-    var url: URL {
-        switch self {
-        case .sourceControl(_, let url): return url
-        case .fileSystem(_, let path): return URL(fileURLWithPath: path)
-        }
-    }
-
-    var localPath: String {
-        return url.isFileURL || url.scheme == nil ? url.path : ".build/checkouts/\(url.lastPathComponent)"
-    }
-
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
@@ -89,6 +71,26 @@ extension SwiftPackage.Dependency: Decodable {
                 path: try localContainer.decode(String.self, forKey: .path)
             )
         }
+    }
+}
+
+extension SwiftPackage.Dependency {
+    var identity: String {
+        switch self {
+        case .sourceControl(let identity, _): return identity
+        case .fileSystem(let identity, _): return identity
+        }
+    }
+
+    var url: URL {
+        switch self {
+        case .sourceControl(_, let url): return url
+        case .fileSystem(_, let path): return URL(fileURLWithPath: path)
+        }
+    }
+
+    var localPath: String {
+        return url.isFileURL || url.scheme == nil ? url.path : ".build/checkouts/\(url.lastPathComponent)"
     }
 }
 

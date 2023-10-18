@@ -61,7 +61,7 @@ jobs:
         run: |
           set -euxo pipefail
 
-          cat ${{ env.LIB_DIR }}/package.json | jq '.version = "${{ env.NPM_PACKAGE_VERSION }}"' > ${{ env.LIB_DIR }}/package.json.upd
+          cat ${{ env.LIB_DIR }}/package.json | jq '.version = "${{ env.VERSION }}"' > ${{ env.LIB_DIR }}/package.json.upd
           mv ${{ env.LIB_DIR }}/package.json.upd ${{ env.LIB_DIR }}/package.json
           cd ${{ env.LIB_DIR }}
           ls -la
@@ -161,7 +161,7 @@ jobs:
         run: |
           set -euxo pipefail
 
-          cat ${{ env.LIB_DIR }}/package.json | jq '.version = "${{ env.NPM_PACKAGE_VERSION }}"' > ${{ env.LIB_DIR }}/package.json.upd
+          cat ${{ env.LIB_DIR }}/package.json | jq '.version = "${{ env.VERSION }}"' > ${{ env.LIB_DIR }}/package.json.upd
           mv ${{ env.LIB_DIR }}/package.json.upd ${{ env.LIB_DIR }}/package.json
           cd ${{ env.LIB_DIR }}
           ls -la
