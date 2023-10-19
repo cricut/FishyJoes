@@ -17,7 +17,7 @@ concurrency:
 
 jobs:
   build-test-dart-mac:
-    name: "mac: Build and test dart bindings"
+    name: "macOS: Build and test dart bindings"
     runs-on: macOS-12
     env:
       GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
@@ -56,7 +56,7 @@ jobs:
           path: dart/native
 
   build-test-dart-linux:
-    name: "linux: Build and test dart bindings"
+    name: "Ubuntu: Build and test dart bindings"
     runs-on: ubuntu-latest
     container:
       image: swift
@@ -110,7 +110,7 @@ jobs:
           path: dart/native
 
   build-test-dart-windows:
-    name: "windows: Build and test dart bindings"
+    name: "Windows: Build and test dart bindings"
     runs-on: windows-latest
     env:
       GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}

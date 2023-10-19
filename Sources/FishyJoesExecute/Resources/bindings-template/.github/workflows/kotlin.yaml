@@ -16,7 +16,6 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  JDK_VERSION: 11
   GRADLE_OPTS: -Dorg.gradle.daemon=false
   GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
   GITHUB_USER: cricut-builduser
