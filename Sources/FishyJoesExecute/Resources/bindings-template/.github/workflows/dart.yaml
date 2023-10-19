@@ -15,20 +15,21 @@ concurrency:
   group: build-${{ github.event.pull_request.number || github.ref }}-${{ github.workflow }}
   cancel-in-progress: true
 
+env:
+  GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
+  GITHUB_USER: cricut-builduser
+
 jobs:
   build-test-dart-mac:
     name: "macOS: Build and test dart bindings"
     runs-on: macOS-12
-    env:
-      GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
-      GITHUB_USER: cricut-builduser
 
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
       - name: Setup Git Credentials
-        uses: fusion-engineering/setup-git-credentials@v2.0.1
+        uses: de-vri-es/setup-git-credentials@v2
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
@@ -50,7 +51,7 @@ jobs:
           swift run -- fishy-joes --dart --fat test
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: mac_generated
           path: dart/native
@@ -60,15 +61,12 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: swift
-    env:
-      GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
-      GITHUB_USER: cricut-builduser
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup Git Credentials
-        uses: fusion-engineering/setup-git-credentials@v2.0.1
+        uses: de-vri-es/setup-git-credentials@v2
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
@@ -104,7 +102,7 @@ jobs:
           swift run -- fishy-joes --dart test
 
       - name: Upload library
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: ubuntu_generated
           path: dart/native
@@ -112,15 +110,12 @@ jobs:
   build-test-dart-windows:
     name: "Windows: Build and test dart bindings"
     runs-on: windows-latest
-    env:
-      GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
-      GITHUB_USER: cricut-builduser
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup Git Credentials
-        uses: fusion-engineering/setup-git-credentials@v2.0.1
+        uses: de-vri-es/setup-git-credentials@v2
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
@@ -163,7 +158,7 @@ jobs:
           dart test
 
       - name: Upload library
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: windows_generated
           path: dart/native
@@ -176,15 +171,13 @@ jobs:
       - build-test-dart-linux
       - build-test-dart-windows
     env:
-      GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
-      GITHUB_USER: cricut-builduser
       GITHUB_PUBLISH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup Git Credentials
-        uses: fusion-engineering/setup-git-credentials@v2.0.1
+        uses: de-vri-es/setup-git-credentials@v2
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
@@ -194,7 +187,7 @@ jobs:
           sudo apt-get install zsh
 
       - name: Retrieve Artifacts
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
 
       - name: Install Artifacts
         shell: zsh {0}
@@ -231,7 +224,7 @@ jobs:
           tar -cvzf __MODULE_NAME__-dart-binaries.tgz -C dart native
 
       - name: Upload result
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: __MODULE_NAME__-dart-binaries.tgz
           path: __MODULE_NAME__-dart-binaries.tgz
@@ -245,7 +238,6 @@ jobs:
           TAG_NAME: ${{ github.event.release.tag_name }}
         run: |
           set -euxo pipefail
-
 
           releaseID=$(
               gh api \
