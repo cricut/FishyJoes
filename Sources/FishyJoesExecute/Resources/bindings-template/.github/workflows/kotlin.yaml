@@ -1,5 +1,5 @@
 ---
-name: Kotlin
+name: "Kotlin"
 
 "on":
   workflow_dispatch:

@@ -1,13 +1,12 @@
+---
 name: "C#"
 
-on:
+"on":
   workflow_dispatch:
   push:
-    branches:
-      - main
+    branches: [main]
   label:
-    types:
-      - created
+    types: [created]
   pull_request:
   release:
     types: [published]
