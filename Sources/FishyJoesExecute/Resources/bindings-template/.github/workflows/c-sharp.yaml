@@ -18,7 +18,7 @@ concurrency:
 
 jobs:
   build-test-c-sharp-mac:
-    name: "mac: Build and test C# bindings"
+    name: "macOS: Build and test C# bindings"
     runs-on: macOS-12
     env:
       GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
@@ -29,12 +29,12 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Setup Git Credentials
-        uses: fusion-engineering/setup-git-credentials@v2.0.1
+        uses: de-vri-es/setup-git-credentials@v2
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
       - name: Setup dotnet
-        uses: actions/setup-dotnet@v1
+        uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '6.0.x'
           source-url: https://nuget.pkg.github.com/cricut/index.json
@@ -56,13 +56,13 @@ jobs:
           swift run -- fishy-joes --c-sharp --fat test
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: mac_generated
           path: c-sharp/Cricut.__MODULE_NAME__/runtimes
 
   build-test-c-sharp-linux:
-    name: "linux: Build and test C# bindings"
+    name: "Ubuntu: Build and test C# bindings"
     runs-on: ubuntu-latest
     container:
       image: swift
@@ -71,10 +71,10 @@ jobs:
       GITHUB_USER: cricut-builduser
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup Git Credentials
-        uses: fusion-engineering/setup-git-credentials@v2.0.1
+        uses: de-vri-es/setup-git-credentials@v2
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
@@ -85,7 +85,7 @@ jobs:
           apt-get -y install zsh patchelf curl
 
       - name: Setup dotnet
-        uses: actions/setup-dotnet@v1
+        uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '6.0.x'
           source-url: https://nuget.pkg.github.com/cricut/index.json
@@ -116,23 +116,23 @@ jobs:
           swift run -- fishy-joes --c-sharp test
 
       - name: Upload library
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: ubuntu_generated
           path: c-sharp/Cricut.__MODULE_NAME__/runtimes
 
   build-test-c-sharp-windows:
-    name: "windows: Build and test C# bindings"
+    name: "Windows: Build and test C# bindings"
     runs-on: windows-latest
     env:
       GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
       GITHUB_USER: cricut-builduser
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup Git Credentials
-        uses: fusion-engineering/setup-git-credentials@v2.0.1
+        uses: de-vri-es/setup-git-credentials@v2
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
@@ -156,7 +156,7 @@ jobs:
           cp .build/windows-build/x86_64-unknown-windows-msvc/release/__MODULE_NAME__-iota.dll c-sharp/Cricut.__MODULE_NAME__/runtimes/win/native
 
       - name: Setup dotnet
-        uses: actions/setup-dotnet@v1
+        uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '6.0.x'
           source-url: https://nuget.pkg.github.com/cricut/index.json
@@ -171,7 +171,7 @@ jobs:
           dotnet test Cricut.__MODULE_NAME__.sln
 
       - name: Upload library
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: windows_generated
           path: c-sharp/Cricut.__MODULE_NAME__/runtimes
@@ -186,15 +186,15 @@ jobs:
       GITHUB_PUBLISH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup Git Credentials
-        uses: fusion-engineering/setup-git-credentials@v2.0.1
+        uses: de-vri-es/setup-git-credentials@v2
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
       - name: Setup dotnet
-        uses: actions/setup-dotnet@v1
+        uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '6.0.x'
           source-url: https://nuget.pkg.github.com/cricut/index.json
@@ -208,7 +208,7 @@ jobs:
           sudo apt-get install zsh
 
       - name: Retrieve Artifacts
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
 
       - name: Install Artifacts
         shell: zsh {0}
@@ -231,7 +231,7 @@ jobs:
           set -euxo pipefail
 
           VERSION=${GITHUB_REF#refs/*/}
-          if [[ ! $VERSION =~ [0-9]+\.[0-9]+\.[0-9]+ ]]; then
+          if [[ ! $VERSION =~ [0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9]+)* ]]; then
               VERSION="0.0.1-$(git rev-parse --short HEAD)"
           fi
           echo "Detected Version is '$VERSION'"
@@ -246,7 +246,7 @@ jobs:
           dotnet pack -c Release -o out /p:PackageVersion="${{ env.VERSION }}"
 
       - name:  result
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: nuget-package
           path: out/*.nupkg
