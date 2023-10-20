@@ -1,5 +1,5 @@
 {
-  "name": "@cricut/fishyjoes-runtime-node-native-windows",
+  "name": "@cricut/fishyjoes-runtime-native-windows",
   "version": "0.0.1",
   "publishConfig" : {
     "registry" : "https://npm.pkg.github.com/"
