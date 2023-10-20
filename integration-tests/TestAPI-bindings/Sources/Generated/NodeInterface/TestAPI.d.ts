@@ -1,5 +1,5 @@
 import { Runtime } from '@cricut/fishyjoes-runtime';
-export * from '@cricut/fishyjoes-runtime';
+export { Runtime } from '@cricut/fishyjoes-runtime';
 
 export type Optional<T> = T | undefined;
 

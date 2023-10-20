@@ -10,5 +10,5 @@ build/
 pubspec.lock
 
 # generated code/libs
-*.freezed.dart
 native
+

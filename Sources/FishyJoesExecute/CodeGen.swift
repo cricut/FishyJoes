@@ -486,7 +486,7 @@ extension CodeGen {
             }
             if platforms.contains(.dart) {
                 try withDirectory("dart") {
-                    try cmd("dart", "run", "build_runner", "build").run()
+                    try cmd("dart", "run", "build_runner", "build", "--delete-conflicting-outputs").run()
                 }
             }
 
