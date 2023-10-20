@@ -234,7 +234,7 @@ jobs:
             dotnet pack -c Release -o out /p:PackageVersion="${{ env.VERSION }}"
           )
 
-          tar -cvzf dart-binaries.tgz -C dart-runtime native
+          tar -cvzf FishyJoes-dart-binaries.tgz -C dart-runtime native
 
       - name: Upload Nuget Package
         uses: actions/upload-artifact@v3
@@ -245,8 +245,8 @@ jobs:
       - name: Upload Dart Tarball
         uses: actions/upload-artifact@v3
         with:
-          name: dart-binaries
-          path: dart-binaries.tgz
+          name: FishyJoes-dart-binaries
+          path: FishyJoes-dart-binaries.tgz
 
       - name: Publish
         shell: zsh {0}
@@ -274,7 +274,7 @@ jobs:
               -q .id
           )
 
-          file=dart-binaries.tgz
+          file=FishyJoes-dart-binaries.tgz
 
           # https://docs.github.com/en/rest/releases/assets#upload-a-release-asset
           curl -f -u "$GITHUB_USER:$GITHUB_PUBLISH_TOKEN" \

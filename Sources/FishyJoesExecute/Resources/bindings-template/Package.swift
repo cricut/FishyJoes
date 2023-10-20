@@ -50,7 +50,7 @@ let package = Package(
         ),__PACKAGE_DEPENDENCY_DECLARATIONS__
     ],
     targets: [
-        .executableTarget(
+        .target(
             name: "__MODULE_NAME___NodeInterface",
             dependencies: [
                 .product(name: "__MODULE_NAME__", package: "__MODULE_NAME__"),
@@ -63,7 +63,7 @@ let package = Package(
         ),
     ] + (
         wasmCompatibleOnly ? [
-            .target(
+            .executableTarget(
                 name: "DummyMain",
                 dependencies: [
                     "__MODULE_NAME___NodeInterface",
