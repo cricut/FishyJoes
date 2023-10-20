@@ -489,10 +489,6 @@ extension CodeGen {
                     try cmd("dart", "run", "build_runner", "build").run()
                 }
             }
-            if version == nil {
-                // use dummy version to build package
-                version = "0.0.1"
-            }
 
             // Generate files whose creation requires use of template files
             for platform in platforms {
@@ -637,6 +633,30 @@ extension CodeGen {
             for platform in platforms {
                 switch platform {
                 case .wasm, .node:
+                    // Update version number in package, if provided
+                    if let version = version {
+                        // Read package.json and update the version
+                        let packageJsonPath = "\(platform.outputDir(config))/package.json"
+                        var package = try cmd("cat", packageJsonPath).runJSON(NPMPackage.self)
+                        package.version = version
+
+                        // Write out the new package.json
+                        let prettyEncoder = JSONEncoder()
+                        prettyEncoder.outputFormatting = [
+                            .prettyPrinted,
+                            .withoutEscapingSlashes
+                        ]
+                        try cmd("cat")
+                            .inputJSON(from: package, encoder: prettyEncoder)
+                            .output(overwritingFile: packageJsonPath)
+                            .run()
+
+                        // Be a good unix citizen and terminate with a newline
+                        try cmd("echo")
+                            .append(toFile: packageJsonPath)
+                            .run()
+                    }
+
                     // Pack using npm
                     try cmd("npm", "pack", "./\(platform.outputDir(config))").run()
                 case .kotlinSystem, .kotlinAndroid:
