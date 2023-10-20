@@ -260,7 +260,7 @@ extension TypeScriptAnnotations {
         let fragment = SourceFragment(sourceryDestination: "file:NodeInterface/\(defaultNamespace).d.ts")
 
         fragment.output("import { Runtime } from '@cricut/fishyjoes-runtime';")
-        fragment.output("export * from '@cricut/fishyjoes-runtime';")
+        fragment.output("export { Runtime } from '@cricut/fishyjoes-runtime';")
         fragment.blankLine()
         fragment.output("export type Optional<T> = T | undefined;")
         fragment.blankLine()

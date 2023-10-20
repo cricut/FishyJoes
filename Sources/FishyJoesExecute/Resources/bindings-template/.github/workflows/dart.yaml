@@ -221,13 +221,13 @@ jobs:
         run: |
           set -euxo pipefail
 
-          tar -cvzf __MODULE_NAME__-dart-binaries.tgz -C dart native
+          tar -cvzf __MODULE_NAME__-bindings-dart-binaries.tgz -C dart native
 
       - name: Upload result
         uses: actions/upload-artifact@v3
         with:
-          name: __MODULE_NAME__-dart-binaries.tgz
-          path: __MODULE_NAME__-dart-binaries.tgz
+          name: __MODULE_NAME__-bindings-dart-binaries.tgz
+          path: __MODULE_NAME__-bindings-dart-binaries.tgz
 
       - name: Publish
         shell: zsh {0}
@@ -246,7 +246,7 @@ jobs:
               -q .id
           )
 
-          file=__MODULE_NAME__-dart-binaries.tgz
+          file=__MODULE_NAME__-bindings-dart-binaries.tgz
 
           # https://docs.github.com/en/rest/releases/assets#upload-a-release-asset
           curl -f -u "$GITHUB_USER:$GITHUB_PUBLISH_TOKEN" \
