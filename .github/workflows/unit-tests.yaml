@@ -1,16 +1,17 @@
-name: Build & Test
+---
+name: "Build & Test"
 
-on:
+"on":
   workflow_dispatch:
+  push:
+    branches:
+      - main
   label:
     types:
       - created
   pull_request:
   release:
     types: [published]
-  push:
-    branches:
-      - main
 
 concurrency:
   group: build-${{ github.event.pull_request.number || github.ref }}-${{ github.workflow }}

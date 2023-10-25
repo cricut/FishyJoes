@@ -1,6 +1,7 @@
+---
 name: "Iota Runtime"
 
-on:
+"on":
   workflow_dispatch:
   push:
     branches:

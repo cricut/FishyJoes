@@ -1,10 +1,13 @@
-name: SwiftLint
-on:
+---
+name: "SwiftLint"
+
+"on":
   workflow_dispatch:
   label:
     types:
       - created
   pull_request:
+
 jobs:
   swiftlint:
     runs-on: ubuntu-latest

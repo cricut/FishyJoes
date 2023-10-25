@@ -1,6 +1,7 @@
-name: Node Runtime
+---
+name: "Node Runtime"
 
-on:
+"on":
   workflow_dispatch:
   push:
     branches:
@@ -61,9 +62,9 @@ jobs:
         run: |
           set -euxo pipefail
 
-          cat ${{ env.LIB_DIR }}/package.json | jq '.version = "${{ env.VERSION }}"' > ${{ env.LIB_DIR }}/package.json.upd
-          mv ${{ env.LIB_DIR }}/package.json.upd ${{ env.LIB_DIR }}/package.json
-          cd ${{ env.LIB_DIR }}
+          cat $LIB_DIR/package.json | jq '.version = env.VERSION' > $LIB_DIR/package.json.upd
+          mv $LIB_DIR/package.json.upd $LIB_DIR/package.json
+          cd $LIB_DIR
           ls -la
           npm pack
 
@@ -80,7 +81,7 @@ jobs:
         run: |
           set -euxo pipefail
 
-          ( cd ${{ env.LIB_DIR }}; npm publish *.tgz )
+          ( cd $LIB_DIR; npm publish *.tgz )
 
   build-test-node-ubuntu:
     name: "Ubuntu: Build and test node runtime"
@@ -117,22 +118,22 @@ jobs:
         run: |
           set -euxo pipefail
 
-          cp -dv /usr/lib/swift/linux/libswift*.so* ${{ env.LIB_DIR }}
-          cp -dv /usr/lib/swift/linux/libicu*.so* ${{ env.LIB_DIR }}
-          cp -dv /usr/lib/swift/linux/libFoundation*.so ${{ env.LIB_DIR }}
-          cp -dv /usr/lib/swift/linux/libBlocksRuntime.so ${{ env.LIB_DIR }}
-          cp -dv /usr/lib/swift/linux/libdispatch.so ${{ env.LIB_DIR }}
-          cp -dv /usr/lib/x86_64-linux-gnu/libicui18n.so* ${{ env.LIB_DIR }}
-          cp -dv /usr/lib/x86_64-linux-gnu/libicuuc.so* ${{ env.LIB_DIR }}
-          cp -dv /usr/lib/x86_64-linux-gnu/libicudata.so* ${{ env.LIB_DIR }}
-          cp -dv /usr/lib/x86_64-linux-gnu/libxml2.so* ${{ env.LIB_DIR }}
+          cp -dv /usr/lib/swift/linux/libswift*.so* $LIB_DIR
+          cp -dv /usr/lib/swift/linux/libicu*.so* $LIB_DIR
+          cp -dv /usr/lib/swift/linux/libFoundation*.so $LIB_DIR
+          cp -dv /usr/lib/swift/linux/libBlocksRuntime.so $LIB_DIR
+          cp -dv /usr/lib/swift/linux/libdispatch.so $LIB_DIR
+          cp -dv /usr/lib/x86_64-linux-gnu/libicui18n.so* $LIB_DIR
+          cp -dv /usr/lib/x86_64-linux-gnu/libicuuc.so* $LIB_DIR
+          cp -dv /usr/lib/x86_64-linux-gnu/libicudata.so* $LIB_DIR
+          cp -dv /usr/lib/x86_64-linux-gnu/libxml2.so* $LIB_DIR
 
       - name: Patch system swift runtime SOs to use relative libraries
         shell: zsh {0}
         run: |
           set -euxo pipefail
 
-          cd ${{ env.LIB_DIR }}
+          cd $LIB_DIR
 
           SWIFT_RUN_PATH='/usr/lib/swift/linux:./:$ORIGIN'
           for LIB in lib*.so*; do
@@ -162,9 +163,9 @@ jobs:
         run: |
           set -euxo pipefail
 
-          cat ${{ env.LIB_DIR }}/package.json | jq '.version = "${{ env.VERSION }}"' > ${{ env.LIB_DIR }}/package.json.upd
-          mv ${{ env.LIB_DIR }}/package.json.upd ${{ env.LIB_DIR }}/package.json
-          cd ${{ env.LIB_DIR }}
+          cat $LIB_DIR/package.json | jq '.version = env.VERSION' > $LIB_DIR/package.json.upd
+          mv $LIB_DIR/package.json.upd $LIB_DIR/package.json
+          cd $LIB_DIR
           ls -la
           npm pack
 
@@ -182,7 +183,7 @@ jobs:
         run: |
           set -euxo pipefail
 
-          ( cd ${{ env.LIB_DIR }}; npm publish *.tgz )
+          ( cd $LIB_DIR; npm publish *.tgz )
 
   build-test-node-windows:
     name: "Windows: Build and Test Node.js Runtime"
@@ -244,9 +245,9 @@ jobs:
         run: |
           set -euxo pipefail
 
-          cat ${{ env.LIB_DIR }}/package.json | jq '.version = "${{ env.VERSION }}"' > ${{ env.LIB_DIR }}/package.json.upd
-          mv ${{ env.LIB_DIR }}/package.json.upd ${{ env.LIB_DIR }}/package.json
-          cd ${{ env.LIB_DIR }}
+          cat $LIB_DIR/package.json | jq '.version = env.VERSION' > $LIB_DIR/package.json.upd
+          mv $LIB_DIR/package.json.upd $LIB_DIR/package.json
+          cd $LIB_DIR
           ls -la
           npm pack
 
@@ -264,4 +265,4 @@ jobs:
         run: |
           set -euxo pipefail
 
-          ( cd ${{ env.LIB_DIR }}; npm publish *.tgz )
+          ( cd $LIB_DIR; npm publish *.tgz )

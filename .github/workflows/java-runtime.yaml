@@ -1,6 +1,7 @@
-name: Java Runtime
+---
+name: "Java Runtime"
 
-on:
+"on":
   workflow_dispatch:
   push:
     branches:

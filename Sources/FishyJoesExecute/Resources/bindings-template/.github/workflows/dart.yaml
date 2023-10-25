@@ -171,7 +171,7 @@ jobs:
       - build-test-dart-linux
       - build-test-dart-windows
     env:
-      GITHUB_PUBLISH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GITHUB_PUBLISH_TOKEN: ${{ env.GITHUB_TOKEN }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
