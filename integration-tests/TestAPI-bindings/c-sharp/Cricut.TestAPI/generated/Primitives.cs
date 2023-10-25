@@ -1402,32 +1402,32 @@ namespace Cricut.TestAPI {
         /// <!-- FishyJoes.export(Primitives.PrimitiveHolder) -->
         /// </summary>
         public record PrimitiveHolder {
-            public bool B;
-            public bool? Bq;
-            public byte Ui8;
-            public byte? Ui8q;
-            public ushort Ui16;
-            public ushort? Ui16q;
-            public uint Ui32;
-            public uint? Ui32q;
-            public ulong Ui64;
-            public ulong? Ui64q;
-            public nuint Ui;
-            public nuint? Uiq;
-            public sbyte I8;
-            public sbyte? I8q;
-            public short I16;
-            public short? I16q;
-            public int I32;
-            public int? I32q;
-            public long I64;
-            public long? I64q;
-            public nint I;
-            public nint? Iq;
-            public float F;
-            public float? Fq;
-            public double D;
-            public double? Dq;
+            public bool B { get; set; }
+            public bool? Bq { get; set; }
+            public byte Ui8 { get; set; }
+            public byte? Ui8q { get; set; }
+            public ushort Ui16 { get; set; }
+            public ushort? Ui16q { get; set; }
+            public uint Ui32 { get; set; }
+            public uint? Ui32q { get; set; }
+            public ulong Ui64 { get; set; }
+            public ulong? Ui64q { get; set; }
+            public nuint Ui { get; set; }
+            public nuint? Uiq { get; set; }
+            public sbyte I8 { get; set; }
+            public sbyte? I8q { get; set; }
+            public short I16 { get; set; }
+            public short? I16q { get; set; }
+            public int I32 { get; set; }
+            public int? I32q { get; set; }
+            public long I64 { get; set; }
+            public long? I64q { get; set; }
+            public nint I { get; set; }
+            public nint? Iq { get; set; }
+            public float F { get; set; }
+            public float? Fq { get; set; }
+            public double D { get; set; }
+            public double? Dq { get; set; }
 
             public PrimitiveHolder(
                 bool B,

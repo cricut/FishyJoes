@@ -14,7 +14,7 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
     }
 
     public static func toNode(_ value: TestAPI.Methods, env: NAPI.Env) throws -> NAPI.Value {
-        let constructor = try FishyJoesNodeRuntime.InstanceData.data(for: env).constructor(for: "Methods", env: env)
+        let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "Methods", env: env)
         let arg = try FishyJoesNodeRuntime.Box(value).retainedExternal(env: env)
         return try env.newInstance(constructor, [arg])
     }

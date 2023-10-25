@@ -60,7 +60,7 @@ void main() async {
           io.exit(1);
         }
         final repoName = pathMatch[1]!;
-        downloads.add(Download(repoName, ref, "dart-binaries.tgz"));
+        downloads.add(Download(repoName, ref, "${repoName}-dart-binaries.tgz"));
       }
     }
   }

@@ -314,7 +314,7 @@ namespace Cricut.FishyJoesRuntime {
         unsafe delegate CreatedRef InvokeMethod(IntPtr context, UnownedRef fn, ConsumedRef* arguments, out CreatedRef exn);
 
         [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern void FishyJoesCommonRuntime_FunctionConverter_setup(
+        extern static void FishyJoesCommonRuntime_FunctionConverter_setup(
             IntPtr envRef,
             string typeName,
             Constructor constructor,

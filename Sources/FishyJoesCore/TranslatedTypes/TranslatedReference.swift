@@ -100,7 +100,7 @@ struct TranslatedReference: TranslatedType {
                     fragment.output("// Uninhabited")
                     return
                 }
-                fragment.output("let constructor = try FishyJoesNodeRuntime.InstanceData.data(for: env).constructor(for: \"\(nodeName)\", env: env)")
+                fragment.output("let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: \"\(nodeName)\", env: env)")
                 fragment.output("let arg = try FishyJoesNodeRuntime.Box(value).retainedExternal(env: env)")
                 fragment.output("return try env.newInstance(constructor, [arg])")
             }
@@ -535,7 +535,8 @@ struct TranslatedReference: TranslatedType {
                     DartClass.Variable(
                         documentation: [],
                         isStatic: false,
-                        readOnly: true,
+                        isMutable: false,
+                        isPubliclyWritable: false,
                         asMethod: false,
                         name: "hashCode",
                         mangledName: "\(sourceType.name.mangled)_hash",

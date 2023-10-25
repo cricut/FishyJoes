@@ -1,6 +1,7 @@
-name: "Iota runtime"
+---
+name: "Iota Runtime"
 
-on:
+"on":
   workflow_dispatch:
   push:
     branches:
@@ -17,8 +18,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build-c-sharp-mac:
-    name: "mac: Build iota runtime"
+  build-iota-mac:
+    name: "macOS: Build Iota Runtime"
     runs-on: macOS-12
     env:
       GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
@@ -26,10 +27,10 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup Git Credentials
-        uses: fusion-engineering/setup-git-credentials@v2.0.1
+        uses: de-vri-es/setup-git-credentials@v2
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
@@ -41,13 +42,13 @@ jobs:
           ./scripts/compile-iota-runtime.sh
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: mac_generated
           path: .build/apple/release/libFishyJoesIotaRuntime.dylib
 
-  build-c-sharp-linux:
-    name: "linux: Build iota runtime"
+  build-iota-ubuntu:
+    name: "Ubuntu: Build Iota Runtime"
     runs-on: ubuntu-latest
     container:
       image: swift
@@ -57,10 +58,10 @@ jobs:
       LIB_DIR: .build/linux-iota-libs
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup Git Credentials
-        uses: fusion-engineering/setup-git-credentials@v2.0.1
+        uses: de-vri-es/setup-git-credentials@v2
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
@@ -78,7 +79,7 @@ jobs:
 
           ./scripts/compile-iota-runtime.sh
 
-      - name: Copy system swift runtime SOs
+      - name: Copy swift runtime SOs
         shell: zsh {0}
         run: |
           set -euxo pipefail
@@ -109,23 +110,24 @@ jobs:
           done
 
       - name: Upload library
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: ubuntu_generated
           path: .build/linux-iota-libs
 
-  build-c-sharp-windows:
-    name: "windows: Build iota runtime"
-    runs-on: windows-2019
+  build-iota-windows:
+    name: "Windows: Build Iota Runtime"
+    runs-on: windows-latest
     env:
       GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
       GITHUB_USER: cricut-builduser
+      LIB_DIR: .build/windows-iota-libs
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup Git Credentials
-        uses: fusion-engineering/setup-git-credentials@v2.0.1
+        uses: de-vri-es/setup-git-credentials@v2
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
@@ -134,47 +136,49 @@ jobs:
           branch: swift-5.6.2-release
           tag: 5.6.2-RELEASE
 
-      - name: Compile swift
+      - name: Build FishyJoesIotaRuntime
+        shell: pwsh
         run: |
-          swift build --product FishyJoesIotaRuntime --configuration release --build-path ./.build/windows-build
+          $ErrorActionPreference = "Stop"
 
-      - name: Copy resources
+          # Should perform the same actions as scripts/compile-iota-runtime.sh, but must be done in powershell for swift-build to work
+          swift build --product FishyJoesIotaRuntime --configuration release --build-path ./.build/windows-build
+          New-Item -ItemType Directory -Force -Path $env:LIB_DIR
+          Copy-Item .build\windows-build\x86_64-unknown-windows-msvc\release\FishyJoesIotaRuntime.dll -Destination $env:LIB_DIR
+
+      - name: Copy swift runtime DLLs
         shell: bash
         run: |
           set -euxo pipefail
-          LIB_DIR=.build/windows-iota-libs
-
-          mkdir -p $LIB_DIR
-          cp .build/windows-build/x86_64-unknown-windows-msvc/release/FishyJoesIotaRuntime.dll $LIB_DIR
 
           cp -R /c/Library/icu-*/usr/bin/*.dll $LIB_DIR
           cp -R /c/Library/Swift-development/bin/*.dll $LIB_DIR
 
       - name: Upload library
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: windows_generated
           path: .build/windows-iota-libs
 
-  c-sharp-publish:
-    name: "Publish C# package and dart binaries"
+  iota-publish:
+    name: "Publish C# Package and Dart Binaries"
     runs-on: ubuntu-latest
-    needs: [build-c-sharp-mac, build-c-sharp-linux, build-c-sharp-windows]
+    needs: [build-iota-mac, build-iota-ubuntu, build-iota-windows]
     env:
       GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
       GITHUB_USER: cricut-builduser
       GITHUB_PUBLISH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup Git Credentials
-        uses: fusion-engineering/setup-git-credentials@v2.0.1
+        uses: de-vri-es/setup-git-credentials@v2
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
       - name: Setup dotnet
-        uses: actions/setup-dotnet@v1
+        uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '6.0.x'
 
@@ -184,7 +188,7 @@ jobs:
           sudo apt-get install zsh
 
       - name: Retrieve Artifacts
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
 
       - name: Install Artifacts
         shell: zsh {0}
@@ -215,7 +219,7 @@ jobs:
           set -euxo pipefail
 
           VERSION=${GITHUB_REF#refs/*/}
-          if [[ ! $VERSION =~ [0-9]+\.[0-9]+\.[0-9]+ ]]; then
+          if [[ ! $VERSION =~ [0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9]+)* ]]; then
               VERSION="0.0.1-$(git rev-parse --short HEAD)"
           fi
           echo "Detected Version is '$VERSION'"
@@ -231,13 +235,19 @@ jobs:
             dotnet pack -c Release -o out /p:PackageVersion="${{ env.VERSION }}"
           )
 
-          tar -cvzf dart-binaries.tgz -C dart-runtime native
+          tar -cvzf FishyJoes-dart-binaries.tgz -C dart-runtime native
 
-      - name: Upload nuget package
-        uses: actions/upload-artifact@v2
+      - name: Upload Nuget Package
+        uses: actions/upload-artifact@v3
         with:
           name: nuget-package
           path: c-sharp-runtime/out/*.*nupkg
+
+      - name: Upload Dart Tarball
+        uses: actions/upload-artifact@v3
+        with:
+          name: FishyJoes-dart-binaries
+          path: FishyJoes-dart-binaries.tgz
 
       - name: Publish
         shell: zsh {0}
@@ -265,7 +275,7 @@ jobs:
               -q .id
           )
 
-          file=dart-binaries.tgz
+          file=FishyJoes-dart-binaries.tgz
 
           # https://docs.github.com/en/rest/releases/assets#upload-a-release-asset
           curl -f -u "$GITHUB_USER:$GITHUB_PUBLISH_TOKEN" \

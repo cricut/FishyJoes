@@ -44,6 +44,7 @@ namespace Cricut.FishyJoesRuntime {
             setupReferences();
             setupFunctions();
             setupMisc();
+            setupAttributedString();
         }
     }
 }

@@ -14,7 +14,7 @@ extension TestAPI.Structs.PuttingTypesIntoQuestionablePlaces: FishyJoesNodeRunti
     }
 
     public static func toNode(_ value: TestAPI.Structs.PuttingTypesIntoQuestionablePlaces, env: NAPI.Env) throws -> NAPI.Value {
-        let constructor = try FishyJoesNodeRuntime.InstanceData.data(for: env).constructor(for: "Structs_PuttingTypesIntoQuestionablePlaces", env: env)
+        let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "Structs_PuttingTypesIntoQuestionablePlaces", env: env)
         let arg = try FishyJoesNodeRuntime.Box(value).retainedExternal(env: env)
         return try env.newInstance(constructor, [arg])
     }

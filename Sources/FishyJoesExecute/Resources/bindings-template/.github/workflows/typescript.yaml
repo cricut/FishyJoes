@@ -1,5 +1,5 @@
 ---
-name: TypeScript
+name: "TypeScript"
 
 "on":
   workflow_dispatch:
@@ -16,24 +16,27 @@ concurrency:
   cancel-in-progress: true
 
 env:
+  GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
+  GITHUB_USER: cricut-builduser
   NODE_VERSION: "16.x"
   SWIFT_WASM_VERSION: "5.9-SNAPSHOT-2023-08-06-a"
 
 jobs:
   build-test-pack-ts-mac:
-    name: "mac: Build and test typescript bindings"
+    name: "macOS: Build and test typescript bindings"
     runs-on: macOS-12
+    
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup Git Credentials
-        uses: fusion-engineering/setup-git-credentials@v2.0.1
+        uses: de-vri-es/setup-git-credentials@v2
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
       - name: Setup Node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ env.NODE_VERSION }}
           registry-url: 'https://npm.pkg.github.com/'
@@ -59,31 +62,31 @@ jobs:
           set -euo pipefail
 
           VERSION=${GITHUB_REF#refs/*/}
-          if [[ ! $VERSION =~ [0-9]+\.[0-9]+\.[0-9]+ ]]; then
-              VERSION="0.0.1"
+          if [[ ! $VERSION =~ [0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9]+)* ]]; then
+              VERSION="0.0.1-$(git rev-parse --short HEAD)"
           fi
           swift run -- fishy-joes --nodejs --fat --version $VERSION pack
 
       - name: Upload NPM Artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: npm_mac_packages
           path: cricut-*.tgz
 
   build-test-pack-ts-linux:
-    name: "linux: Build and test typescript bindings"
+    name: "Ubuntu: Build and test typescript bindings"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup Git Credentials
-        uses: fusion-engineering/setup-git-credentials@v2.0.1
+        uses: de-vri-es/setup-git-credentials@v2
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
       - name: Setup Node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ env.NODE_VERSION }}
           registry-url: 'https://npm.pkg.github.com/'
@@ -119,13 +122,13 @@ jobs:
           set -euo pipefail
 
           VERSION=${GITHUB_REF#refs/*/}
-          if [[ ! $VERSION =~ [0-9]+\.[0-9]+\.[0-9]+ ]]; then
-              VERSION="0.0.1"
+          if [[ ! $VERSION =~ [0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9]+)* ]]; then
+              VERSION="0.0.1-$(git rev-parse --short HEAD)"
           fi
           swift run -- fishy-joes --nodejs --wasm --version $VERSION pack
 
       - name: Upload NPM Artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: npm_linux_packages
           path: cricut-*.tgz
@@ -139,14 +142,14 @@ jobs:
     if: success() && github.event_name == 'release'
     steps:
       - name: Setup Node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ env.NODE_VERSION }}
           registry-url: 'https://npm.pkg.github.com/'
           scope: '@cricut'
 
       - name: Retrieve NPM Package Artifact
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
 
       - name: Install zsh
         run: |
@@ -155,7 +158,7 @@ jobs:
 
       - name: Publish NPM Package
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ env.GITHUB_TOKEN }}
         shell: zsh {0}
         run: |
           set -euo pipefail

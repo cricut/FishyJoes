@@ -83,10 +83,10 @@ extension LoaderTuple on Loader {
               _FishyJoesCommonRuntime_tuple_setup<void>>(
           'FishyJoesCommonRuntime_TupleConverter_setup');
 
-  void _tupleConverterSetup(String name, _TupleConversions context) {
+  void _tupleConverterSetup(Env env, String name, _TupleConversions context) {
     final cName = name.toNativeUtf16();
     _fishyJoesCommonRuntime_TupleConverter_setup(
-      Loader.shared.env,
+      env,
       cName,
       _TupleConversions.get0Ptr,
       _TupleConversions.get1Ptr,
@@ -103,6 +103,7 @@ extension LoaderTuple on Loader {
   void FishyJoesCommonRuntime_Tuple2Converter_setup<T0, T1>(
       Env env, String name, OutCreatedRef exn) {
     _tupleConverterSetup(
+        env,
         name,
         _TupleConversions(
           (elements) => createRef(Tuple2(
@@ -117,6 +118,7 @@ extension LoaderTuple on Loader {
   void FishyJoesCommonRuntime_Tuple3Converter_setup<T0, T1, T2>(
       Env env, String name, OutCreatedRef exn) {
     _tupleConverterSetup(
+        env,
         name,
         _TupleConversions(
           (elements) => createRef(Tuple3(
@@ -133,6 +135,7 @@ extension LoaderTuple on Loader {
   void FishyJoesCommonRuntime_Tuple4Converter_setup<T0, T1, T2, T3>(
       Env env, String name, OutCreatedRef exn) {
     _tupleConverterSetup(
+        env,
         name,
         _TupleConversions(
           (elements) => createRef(Tuple4(
@@ -151,6 +154,7 @@ extension LoaderTuple on Loader {
   void FishyJoesCommonRuntime_Tuple5Converter_setup<T0, T1, T2, T3, T4>(
       Env env, String name, OutCreatedRef exn) {
     _tupleConverterSetup(
+        env,
         name,
         _TupleConversions(
           (elements) => createRef(Tuple5(
@@ -171,6 +175,7 @@ extension LoaderTuple on Loader {
   void FishyJoesCommonRuntime_Tuple6Converter_setup<T0, T1, T2, T3, T4, T5>(
       Env env, String name, OutCreatedRef exn) {
     _tupleConverterSetup(
+        env,
         name,
         _TupleConversions(
           (elements) => createRef(Tuple6(

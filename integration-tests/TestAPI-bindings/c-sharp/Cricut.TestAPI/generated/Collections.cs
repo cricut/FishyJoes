@@ -291,15 +291,15 @@ namespace Cricut.TestAPI {
         /// <!-- FishyJoes.export(Collections.CollectionHolder) -->
         /// </summary>
         public record CollectionHolder {
-            public System.Collections.Generic.IList<bool> BoolArray;
-            public System.Collections.Generic.ISet<bool> BoolSet;
-            public System.Collections.Generic.IDictionary<bool, bool> BoolDictionary;
-            public System.Collections.Generic.IList<nint> IntegerArray;
-            public System.Collections.Generic.ISet<nint> IntegerSet;
-            public System.Collections.Generic.IDictionary<nint, nint> IntegerDictionary;
-            public System.Collections.Generic.IList<string> StringArray;
-            public System.Collections.Generic.ISet<string> StringSet;
-            public System.Collections.Generic.IDictionary<string, string> StringDictionary;
+            public System.Collections.Generic.IList<bool> BoolArray { get; set; }
+            public System.Collections.Generic.ISet<bool> BoolSet { get; set; }
+            public System.Collections.Generic.IDictionary<bool, bool> BoolDictionary { get; set; }
+            public System.Collections.Generic.IList<nint> IntegerArray { get; set; }
+            public System.Collections.Generic.ISet<nint> IntegerSet { get; set; }
+            public System.Collections.Generic.IDictionary<nint, nint> IntegerDictionary { get; set; }
+            public System.Collections.Generic.IList<string> StringArray { get; set; }
+            public System.Collections.Generic.ISet<string> StringSet { get; set; }
+            public System.Collections.Generic.IDictionary<string, string> StringDictionary { get; set; }
 
             public CollectionHolder(
                 System.Collections.Generic.IList<bool> BoolArray,

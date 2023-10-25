@@ -1,35 +1,7 @@
+import { Runtime } from '@cricut/fishyjoes-runtime';
+export { Runtime } from '@cricut/fishyjoes-runtime';
+
 export type Optional<T> = T | undefined;
-
-/**
- * A half-open interval from a lower bound up to, but not including, an upper bound.
- *
- * @remarks
- * Represents the concept of a half-open range of values using rules identical to those used by Swift.
- * A Swift range requires that its lower bound be less-than-or-equal-to its upper bound.
- *
- * Because a half-open range does not include its upper bound, a half-open range whose lower bound
- * is equal to the upper bound represents an empty range.
- *
- * @param lowerBound - The lower value of the range, inclusive.
- * @param upperBound - The upper value of the range, exclusive.
- */
-export type SwiftRange<T> = { lowerBound: T, upperBoundExclusive: T };
-
-/**
- * An interval from a lower bound up to, and including, an upper bound.
- *
- * @remarks
- * Represents the concept of a range of values using rules identical to those used by Swift.
- * A Swift range requires that its lower bound be less-than-or-equal-to its upper bound.
- *
- * Because a closed range includes its upper bound, a closed range whose lower bound
- * is equal to the upper bound contains that value. Therefore, a SwiftClosedRange instance
- * cannot represent an empty range.
- *
- * @param lowerBound - The lower value of the range, inclusive.
- * @param upperBound - The upper value of the range, inclusive.
- */
-export type SwiftClosedRange<T> = { lowerBound: T, upperBoundInclusive: T };
 
 export declare namespace TestAPI {
     export type AssociatedDataEnum = AssociatedDataEnum.Thing | AssociatedDataEnum.Other | AssociatedDataEnum.Bar | AssociatedDataEnum.NoValue | AssociatedDataEnum.SimpleEnum;
@@ -89,6 +61,118 @@ export declare namespace TestAPI {
         plus(
             other: TestAPI.AssociatedDataEnum
         ): TestAPI.AssociatedDataEnum;
+    }
+
+    /**
+     * <!-- FishyJoes.export(AttributedString_PuttingTypesIntoQuestionablePlaces) -->
+     */
+    export class AttributedString_PuttingTypesIntoQuestionablePlaces {
+        constructor(x: string)
+
+        readonly x: string;
+
+        /**
+         * <!-- FishyJoes.export(testCall) -->
+         */
+        testCall(
+        ): number;
+    }
+
+    export type AttributedStrings = never;
+    export namespace AttributedStrings {
+        /**
+         * <!-- FishyJoes.export(accent) -->
+         */
+        const accent: Runtime.AttributedString;
+
+        /**
+         * <!-- FishyJoes.export(attributedCharacters) -->
+         */
+        function attributedCharacters(
+            /* of */ string: Runtime.AttributedString
+        ): Runtime.AttributedSubstring[];
+
+        /**
+         * <!-- FishyJoes.export(attributesPreferringDuplicatesNearerStart) -->
+         */
+        function attributesPreferringDuplicatesNearerStart(
+            /* of */ string: Runtime.AttributedString
+        ): Runtime.AttributeContainer;
+
+        /**
+         * <!-- FishyJoes.export(chinese) -->
+         */
+        const chinese: Runtime.AttributedString;
+
+        /**
+         * <!-- FishyJoes.export(chineseBMP) -->
+         */
+        const chineseBMP: Runtime.AttributedString;
+
+        /**
+         * <!-- FishyJoes.export(chineseSIP) -->
+         */
+        const chineseSIP: Runtime.AttributedString;
+
+        /**
+         * <!-- FishyJoes.export(echo) -->
+         */
+        function echo(
+            string: Runtime.AttributedString
+        ): Runtime.AttributedString;
+
+        /**
+         * <!-- FishyJoes.export(emoji) -->
+         */
+        const emoji: Runtime.AttributedString;
+
+        /**
+         * <!-- FishyJoes.export(emojiMulti) -->
+         */
+        const emojiMulti: Runtime.AttributedString;
+
+        /**
+         * <!-- FishyJoes.export(emptyAttributeRuns) -->
+         */
+        function emptyAttributeRuns(
+            /* of */ string: Runtime.AttributedString
+        ): Runtime.AttributedString.Runs.Run[];
+
+        /**
+         * <!-- FishyJoes.export(firstIndex) -->
+         */
+        function firstIndex(
+            /* of */ string: Runtime.AttributedString
+        ): Runtime.AttributedString.Index;
+
+        /**
+         * <!-- FishyJoes.export(fullRange) -->
+         */
+        function fullRange(
+            /* of */ string: Runtime.AttributedString
+        ): SwiftRange<Runtime.AttributedString.Index>;
+
+        /**
+         * <!-- FishyJoes.export(lastIndex) -->
+         */
+        function lastIndex(
+            /* of */ string: Runtime.AttributedString
+        ): Runtime.AttributedString.Index;
+
+        /**
+         * <!-- FishyJoes.export(polyglot) -->
+         */
+        const polyglot: Runtime.AttributedString;
+
+        /**
+         * <!-- FishyJoes.export(script) -->
+         */
+        const script: Runtime.AttributedString;
+
+        /**
+         * <!-- FishyJoes.export(simple) -->
+         */
+        const simple: Runtime.AttributedString;
     }
 
     export type Bytes = never;
@@ -1535,6 +1619,31 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(tuple6) -->
          */
         const tuple6: [string, number, number, [[number, string], [string, number, string], string, boolean], [string, number, [[number, string], [string, number, string], string, boolean], [string, number, string], [number, string]], boolean];
+    }
+
+    export type URLs = never;
+    export namespace URLs {
+        /**
+         * <!-- FishyJoes.export(echo) -->
+         */
+        function echo(
+            url: URL
+        ): URL;
+
+        /**
+         * <!-- FishyJoes.export(localFile) -->
+         */
+        const localFile: URL;
+
+        /**
+         * <!-- FishyJoes.export(remoteFile) -->
+         */
+        const remoteFile: URL;
+
+        /**
+         * <!-- FishyJoes.export(simple) -->
+         */
+        const simple: URL;
     }
 
     export type UnicodeScalar_PuttingTypesIntoQuestionablePlaces = "thing";

@@ -9,7 +9,7 @@ namespace Cricut.TestAPI {
     /// <!-- FishyJoes.export(String_PuttingTypesIntoQuestionablePlaces) -->
     /// </summary>
     public record String_PuttingTypesIntoQuestionablePlaces {
-        public string X;
+        public string X { get; private set; }
 
         public String_PuttingTypesIntoQuestionablePlaces(
             string X

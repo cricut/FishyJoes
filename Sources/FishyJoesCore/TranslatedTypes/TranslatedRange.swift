@@ -22,7 +22,7 @@ struct TranslatedRange: TranslatedType {
         self.neutralName = "\(name)<B=\(bound.neutralName)>"
         self.nodeName = "Swift\(name)<\(bound.nodeName)>"
         self.kotlinPackage = "com.cricut.fishyjoes.runtime"
-        self.kotlinName = "Swift\(name)<\(bound.kotlinName)>"
+        self.kotlinName = "Swift\(name)<\(bound.kotlinPackageQualifiedName)>"
         self.jniType = .object("com/cricut/fishyjoes/runtime/Swift\(name)")
         self.cSharpType = .named(package: "Cricut.FishyJoesRuntime", name: "Swift\(name)<\(bound.cSharpType.name)>")
         self.dartType = .named(package: "FishyJoesRuntime", name: "Swift\(name)", genericArgs: [bound.dartType])

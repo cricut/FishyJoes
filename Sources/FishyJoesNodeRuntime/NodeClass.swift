@@ -11,6 +11,15 @@ extension napi_property_attributes {
 }
 
 public struct NodeClass {
+    public static var registeredConstructors: [String: NodeReference] = [:]
+
+    public static func constructor(for cName: String, env: NAPI.Env) throws -> NAPI.Value {
+        guard let constructor = try Self.registeredConstructors[cName]?.value(env: env) else {
+            throw JSException(message: "Internal error, couldn't locate constructor for `\(cName)`")
+        }
+        return constructor
+    }
+
     public let constructor: NodeReference
 
     public enum Property {
@@ -100,7 +109,7 @@ public struct NodeClass {
         }
 
         self.constructor = try NodeReference(env: env, value: nodeConstructor)
-        try InstanceData.data(for: env).constructors[name] = self.constructor
+        Self.registeredConstructors[name] = self.constructor
     }
 }
 

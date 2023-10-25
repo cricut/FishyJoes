@@ -6,7 +6,7 @@ class SwiftReference {
   ffi.Pointer unsafeReference;
 
   static final _finalizer = Finalizer<ffi.Pointer>((reference) =>
-    check((exn) => Loader.fishyJoesCommonRuntime_AnyBox_releaseRef(reference.cast(), exn)));
+    check((exn) => Loader.fishyJoesCommonRuntime_AnyBox_releaseRef(Loader.shared.env, reference.cast(), exn)));
 
   SwiftReference(ffi.Pointer ref) : unsafeReference = ref {
     _finalizer.attach(this, ref.cast(), detach: this);
@@ -15,7 +15,7 @@ class SwiftReference {
   void dispose() {
     if (unsafeReference.address != 0) {
       _finalizer.detach(this);
-      check((exn) => Loader.fishyJoesCommonRuntime_AnyBox_releaseRef(unsafeReference.cast(), exn));
+      check((exn) => Loader.fishyJoesCommonRuntime_AnyBox_releaseRef(Loader.shared.env, unsafeReference.cast(), exn));
       unsafeReference = ffi.Pointer.fromAddress(0);
     }
   }

@@ -134,7 +134,11 @@ extension BetterType {
         let defaultModule = context.module.name
         // UnicodeScalar is not actually a FishyJoes type, so we need extra special logic here
         if parts.first == "UnicodeScalar" {
-            self = .init(named: type, module: "Swift")
+            self = .named(.swift(parts.joined(separator: ".")))
+        } else if parts.first == "Swift" {
+            self = .named(.swift(parts.dropFirst().joined(separator: ".")))
+        } else if parts.first == "Foundation" {
+            self = .named(.foundation(parts.dropFirst().joined(separator: ".")))
         } else if
             parts.count > 1,
             case let .named(baseName) = try? context.tryResolve(type: .named(.init(name: parts[0], module: nil))).sourceType

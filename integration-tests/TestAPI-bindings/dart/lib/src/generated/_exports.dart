@@ -1,3 +1,4 @@
+export './AttributedString_PuttingTypesIntoQuestionablePlaces.dart';
 export './String_PuttingTypesIntoQuestionablePlaces.dart';
 export './UnicodeScalar_PuttingTypesIntoQuestionablePlaces.dart';
 export './Collections_CollectionHolder.dart';
@@ -7,6 +8,7 @@ export './Structs_MemberwiseStruct.dart';
 export './Structs_PuttingTypesIntoQuestionablePlaces.dart';
 export './Structs_ReferenceStruct.dart';
 export './AssociatedDataEnum.dart';
+export './AttributedStrings.dart';
 export './Bytes.dart';
 export './ClosedRanges.dart';
 export './Collections.dart';
@@ -21,3 +23,4 @@ export './SimpleEnum.dart';
 export './Strings.dart';
 export './Structs.dart';
 export './Tuples.dart';
+export './URLs.dart';

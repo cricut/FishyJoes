@@ -1,4 +1,4 @@
-// swift-tools-version:5.3
+// swift-tools-version:5.5
 
 import Foundation
 import PackageDescription
@@ -7,7 +7,7 @@ let wasmCompatibleOnly = ProcessInfo.processInfo.environment["WASM_ONLY"] == "1"
 
 let package = Package(
     name: "TestAPI-bindings",
-    platforms: [.macOS(.v11)],
+    platforms: [.macOS(.v12), .iOS(.v15)],
     products: [
         .library(
             name: "TestAPI-wasm",

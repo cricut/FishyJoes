@@ -3,17 +3,17 @@ import SourceryRuntime
 protocol TranslatedType {
     var sourceType: BetterType { get }
     var converterType: BetterType { get }
-    var nodeName: String { get }
-    var kotlinName: String { get }
     var neutralName: String { get }
-    var containedNamedTypes: [TranslatedType] { get }
+    var nodeName: String { get }
     var kotlinPackage: String? { get }
+    var kotlinName: String { get }
     var jniType: JNIType { get }
     var cSharpType: CSharpClass.CSType { get }
     var dartType: DartClass.DartType { get }
     var definingModule: Module { get }
     var definingTSNamespace: String? { get }
     var isInhabited: Bool { get }
+    var containedNamedTypes: [TranslatedType] { get }
     func cSharpSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<String>]
     func cSharpSetupDelegates(in context: FishyJoesContext) -> [String]
     func dartSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<DartClass.DartType>]

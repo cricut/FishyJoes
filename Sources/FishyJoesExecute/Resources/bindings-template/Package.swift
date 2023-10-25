@@ -1,4 +1,4 @@
-// swift-tools-version:5.3
+// swift-tools-version:5.5
 
 import Foundation
 import PackageDescription
@@ -13,7 +13,7 @@ let fishyJoesVersion = "(replace this string with latest fishyjoes version)"
 
 let package = Package(
     name: "__MODULE_NAME__-bindings",
-    platforms: [.macOS(.v11)],
+    platforms: [.macOS(.v12)],
     products: [
         .library(
             name: "__MODULE_NAME__-wasm",
@@ -63,7 +63,7 @@ let package = Package(
         ),
     ] + (
         wasmCompatibleOnly ? [
-            .target(
+            .executableTarget(
                 name: "DummyMain",
                 dependencies: [
                     "__MODULE_NAME___NodeInterface",
