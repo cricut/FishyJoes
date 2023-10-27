@@ -27,7 +27,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Git Credentials
         uses: de-vri-es/setup-git-credentials@v2
@@ -42,7 +42,7 @@ jobs:
           ./scripts/compile-iota-runtime.sh
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: mac_generated
           path: .build/apple/release/libFishyJoesIotaRuntime.dylib
@@ -58,7 +58,7 @@ jobs:
       LIB_DIR: .build/linux-iota-libs
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Git Credentials
         uses: de-vri-es/setup-git-credentials@v2
@@ -110,7 +110,7 @@ jobs:
           done
 
       - name: Upload library
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ubuntu_generated
           path: .build/linux-iota-libs
@@ -124,7 +124,7 @@ jobs:
       LIB_DIR: .build/windows-iota-libs
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Git Credentials
         uses: de-vri-es/setup-git-credentials@v2
@@ -155,7 +155,7 @@ jobs:
           cp -R /c/Library/Swift-development/bin/*.dll $LIB_DIR
 
       - name: Upload library
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: windows_generated
           path: .build/windows-iota-libs
@@ -170,7 +170,7 @@ jobs:
       GITHUB_PUBLISH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Git Credentials
         uses: de-vri-es/setup-git-credentials@v2
@@ -188,7 +188,7 @@ jobs:
           sudo apt-get install zsh
 
       - name: Retrieve Artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
 
       - name: Install Artifacts
         shell: zsh {0}
@@ -238,13 +238,13 @@ jobs:
           tar -cvzf FishyJoes-dart-binaries.tgz -C dart-runtime native
 
       - name: Upload Nuget Package
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: nuget-package
           path: c-sharp-runtime/out/*.*nupkg
 
       - name: Upload Dart Tarball
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: FishyJoes-dart-binaries
           path: FishyJoes-dart-binaries.tgz
