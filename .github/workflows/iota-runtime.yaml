@@ -42,7 +42,7 @@ jobs:
           ./scripts/compile-iota-runtime.sh
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with:
           name: mac_generated
           path: .build/apple/release/libFishyJoesIotaRuntime.dylib
@@ -110,7 +110,7 @@ jobs:
           done
 
       - name: Upload library
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with:
           name: ubuntu_generated
           path: .build/linux-iota-libs
@@ -155,7 +155,7 @@ jobs:
           cp -R /c/Library/Swift-development/bin/*.dll $LIB_DIR
 
       - name: Upload library
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with:
           name: windows_generated
           path: .build/windows-iota-libs
@@ -238,13 +238,13 @@ jobs:
           tar -cvzf FishyJoes-dart-binaries.tgz -C dart-runtime native
 
       - name: Upload Nuget Package
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with:
           name: nuget-package
           path: c-sharp-runtime/out/*.*nupkg
 
       - name: Upload Dart Tarball
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with:
           name: FishyJoes-dart-binaries
           path: FishyJoes-dart-binaries.tgz

@@ -258,7 +258,7 @@ jobs:
           (cd kotlin && ./gradlew publishToMavenLocal)
 
       - name: Upload artifacts for use by Android later
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with:
           name: maven-local
           path: ~/.m2/repository
