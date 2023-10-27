@@ -157,15 +157,6 @@ jobs:
           New-Item -ItemType Directory -Force -Path $env:LIB_DIR
           Copy-Item .build\windows-build\x86_64-unknown-windows-msvc\release\FishyJoesJavaRuntime.dll -Destination $env:LIB_DIR
 
-      # TODO: Test directly instead of depending on integration tests
-#      - name: Test FishyJoesJavaRuntime from gradle
-#        shell: bash
-#        run: |
-#          set -euxo pipefail
-#
-#          cd kotlin-runtime
-#          ./gradlew test
-
       - name: Upload library
         uses: actions/upload-artifact@v3
         with:
