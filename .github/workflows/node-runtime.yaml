@@ -23,6 +23,7 @@ jobs:
     runs-on: macOS-12
     env:
       LIB_DIR: node-runtime/fishyjoes-runtime-native-macos
+      WASM_LIB_DIR: node-runtime/fishyjoes-runtime-wasm
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -64,9 +65,7 @@ jobs:
 
           cat $LIB_DIR/package.json | jq '.version = env.VERSION' > $LIB_DIR/package.json.upd
           mv $LIB_DIR/package.json.upd $LIB_DIR/package.json
-          cd $LIB_DIR
-          ls -la
-          npm pack
+          (cd $LIB_DIR; npm pack)
 
       - name: Upload NPM Artifact
         uses: actions/upload-artifact@v4
@@ -81,7 +80,31 @@ jobs:
         run: |
           set -euxo pipefail
 
-          ( cd $LIB_DIR; npm publish *.tgz )
+          (cd $LIB_DIR; npm publish *.tgz)
+
+      - name: Wasm NPM Pack
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+
+          cat $WASM_LIB_DIR/package.json | jq '.version = env.VERSION' > $WASM_LIB_DIR/package.json.upd
+          mv $WASM_LIB_DIR/package.json.upd $WASM_LIB_DIR/package.json
+          (cd $WASM_LIB_DIR; npm pack)
+
+      - name: Upload Wasm NPM Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: wasm_npm_package
+          path: ${{ env.WASM_LIB_DIR }}/*.tgz
+
+      - name: Publish Wasm NPM Package
+        if: github.event_name == 'release'
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euxo pipefail
+
+          (cd $WASM_LIB_DIR; npm publish *.tgz)
 
   build-test-node-ubuntu:
     name: "Ubuntu: Build and test node runtime"
@@ -165,9 +188,7 @@ jobs:
 
           cat $LIB_DIR/package.json | jq '.version = env.VERSION' > $LIB_DIR/package.json.upd
           mv $LIB_DIR/package.json.upd $LIB_DIR/package.json
-          cd $LIB_DIR
-          ls -la
-          npm pack
+          (cd $LIB_DIR; npm pack)
 
       - name: Upload NPM Artifact
         uses: actions/upload-artifact@v4
@@ -183,7 +204,7 @@ jobs:
         run: |
           set -euxo pipefail
 
-          ( cd $LIB_DIR; npm publish *.tgz )
+          (cd $LIB_DIR; npm publish *.tgz)
 
   build-test-node-windows:
     name: "Windows: Build and Test Node.js Runtime"
@@ -247,9 +268,7 @@ jobs:
 
           cat $LIB_DIR/package.json | jq '.version = env.VERSION' > $LIB_DIR/package.json.upd
           mv $LIB_DIR/package.json.upd $LIB_DIR/package.json
-          cd $LIB_DIR
-          ls -la
-          npm pack
+          (cd $LIB_DIR; npm pack)
 
       - name: Upload NPM Artifact
         uses: actions/upload-artifact@v4
@@ -265,4 +284,4 @@ jobs:
         run: |
           set -euxo pipefail
 
-          ( cd $LIB_DIR; npm publish *.tgz )
+          (cd $LIB_DIR; npm publish *.tgz)
