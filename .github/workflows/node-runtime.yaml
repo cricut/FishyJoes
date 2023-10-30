@@ -201,6 +201,7 @@ jobs:
           path: ${{ env.WASM_LIB_DIR }}/*.tgz
 
       - name: Publish Wasm NPM Package
+        shell: zsh {0}
         if: github.event_name == 'release'
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
