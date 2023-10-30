@@ -496,12 +496,12 @@ extension CodeGen {
                 case .wasm, .node:
                     // Generate package.json from template
                     let packageVersion = version ?? "0.0.1" // If no version is provided, use a dummy version to build the package
-                    var dependencies: [(moduleName: String, compiledLibName: String, nodeLibName: String, npmPackagePath: String, npmModuleVersion: String)] = []
+                    var dependencies: [(moduleName: String, compiledLibName: String, nodeLibName: String, npmPackageName: String, npmModuleVersion: String)] = []
                     dependencies.append((
                         moduleName: "Runtime",
                         compiledLibName: "libFishyJoesNodeRuntime.\(platform.dylibExt)",
                         nodeLibName: "Runtime.cjs.node",
-                        npmPackagePath: "@cricut/fishyjoes-runtime-\(platform.nodeExecutionEnvironment)",
+                        npmPackageName: "fishyjoes-runtime-\(platform.nodeExecutionEnvironment)",
                         npmModuleVersion: fishyJoesDependency.version ??
                             // If fishy-joes is file-local, use a file-local runtime too
                             "file:\(fishyJoesDependency.localPath)/node-runtime/fishyjoes-runtime-\(platform.nodeExecutionEnvironment)"
@@ -516,13 +516,13 @@ extension CodeGen {
                             moduleName: moduleName,
                             compiledLibName: "lib\(moduleName)-node.\(platform.dylibExt)",
                             nodeLibName: "\(moduleName).cjs.node",
-                            npmPackagePath: "@cricut/\(npmPackageName)",
+                            npmPackageName: npmPackageName,
                             npmModuleVersion: dependency.version ??
                                 // If dependency is file-local, use a file-local dependency too
                                 "file:\(dependency.localPath)/output/\(npmPackageName)"
                         ))
                     }
-                    let npmDependencies = Dictionary(dependencies.map { ($0.npmPackagePath, $0.npmModuleVersion) }) { $1 }
+                    let npmDependencies = Dictionary(dependencies.map { ("@cricut/\($0.npmPackageName)", $0.npmModuleVersion) }) { $1 }
                     let templatePackage = try cmd("cat", "package.template.json").runJSON(NPMPackage.self)
                     var package = NPMPackage(
                         config: config,
@@ -532,8 +532,46 @@ extension CodeGen {
                     )
                     if platform.platform == "node-native-ubuntu" {
                         // When on Ubuntu, dlopen() needs file-relative native libraries, so add a post-install script to the package to setup symlinks to dependency SOs
-                        let postinstall = dependencies.map { "ln -s `cd ..; cd \($0.npmPackagePath); realpath \($0.nodeLibName)` \($0.compiledLibName)" }
-                        package.scripts = (package.scripts ?? [:]).merging(["postinstall" : postinstall.joined(separator: "; ")]) { $1 }
+                        var postinstall = """
+                            #!/bin/bash
+                            #
+
+                            set -ex
+                            if [[ "$npm_package_version" == "0.0.1" ]]; then
+                                # We are installed as a file local package
+
+                            """
+
+                        for dependency in dependencies {
+                            postinstall += """
+                                    ln -sf "$(realpath node_modules/@cricut/\(dependency.npmPackageName)/\(dependency.nodeLibName))" "\(dependency.compiledLibName)"
+
+                                """
+                        }
+
+                        postinstall += """
+                            else
+                                # We are installed as a published package
+
+                            """
+
+                        for dependency in dependencies {
+                            postinstall += """
+                                    ln -sf "$(realpath ../\(dependency.npmPackageName)/\(dependency.nodeLibName))" "\(dependency.compiledLibName)"
+
+                                """
+                        }
+
+                        postinstall += """
+                            fi
+
+                            """
+                        try cmd("cat")
+                            .input(postinstall)
+                            .output(overwritingFile: "\(platform.outputDir(config))/postinstall.sh")
+                            .run()
+                        try cmd("chmod", "+x", "\(platform.outputDir(config))/postinstall.sh").run()
+                        package.scripts = (package.scripts ?? [:]).merging(["postinstall" : "./postinstall.sh"]) { $1 }
                     }
                     let packageJsonPath = "\(platform.outputDir(config))/package.json"
                     let prettyEncoder = JSONEncoder()
