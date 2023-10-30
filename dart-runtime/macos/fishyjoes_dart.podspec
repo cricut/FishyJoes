@@ -1,9 +1,9 @@
 #
 # To learn more about a Podspec see http://guides.cocoapods.org/syntax/podspec.html.
-# Run `pod lib lint fishyjoes_runtime.podspec` to validate before publishing.
+# Run `pod lib lint fishyjoes_dart.podspec` to validate before publishing.
 #
 Pod::Spec.new do |s|
-  s.name             = 'fishyjoes_runtime'
+  s.name             = 'fishyjoes_dart'
   s.version          = '0.0.1'
   s.summary          = 'FishyJoes Runtime for flutter'
   s.description      = 'FishyJoes Runtime for flutter'
