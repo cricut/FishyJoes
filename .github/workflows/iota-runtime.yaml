@@ -247,9 +247,9 @@ jobs:
             cp -r lib macos linux windows flutter-package/
           )
 
-          npm pack ./dart/flutter-package
+          npm pack ./dart-runtime/flutter-package
           ls
-          tar -tf flutter_fishyjoesruntime*.tgz
+          tar -tf flutter-fishyjoes-runtime*.tgz
 
       - name: Upload Nuget Package
         uses: actions/upload-artifact@v3
@@ -300,4 +300,4 @@ jobs:
             --data-binary @$file
 
           # publish flutter NPM package
-          npm publish flutter_fishyjoesruntime*.tgz
+          npm publish flutter-fishyjoes-runtime*.tgz

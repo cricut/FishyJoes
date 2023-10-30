@@ -501,7 +501,7 @@ extension CodeGen {
                     let runtimeVersion = fishyJoesDependency.version ??
                         "file:\(fishyJoesDependency.localPath)/dart-runtime/flutter-package"
 
-                    var dependencies = ["@cricut/flutter_fishyjoesruntime": runtimeVersion]
+                    var dependencies = ["@cricut/flutter-fishyjoes-runtime": runtimeVersion]
                     for module in config.requiredModules {
                         let bindingsModuleName = "\(module)-bindings"
                         guard let dependency = packageInfo.dependencyMap[bindingsModuleName] else {
