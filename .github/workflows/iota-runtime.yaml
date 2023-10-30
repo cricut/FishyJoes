@@ -235,7 +235,7 @@ jobs:
             dotnet pack -c Release -o out /p:PackageVersion="${{ env.VERSION }}"
           )
 
-          tar -cvzf FishyJoes-dart-binaries.tgz -C dart-runtime native
+          tar -cvzf FishyJoes-dart-binaries.tgz -C dart-runtime {macos,linux,windows}/native
 
           (
             cd dart-runtime
