@@ -60,7 +60,10 @@ jobs:
     name: "Ubuntu: Build and test dart bindings"
     runs-on: ubuntu-latest
     container:
-      image: swift
+      image: ghcr.io/cricut/android-swift-runtime:1.0.0
+      credentials:
+        username: cricut-builduser
+        password: ${{ secrets.CRICUT_GPR_TOKEN }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -76,7 +79,7 @@ jobs:
         run: |
           set -eux
           apt-get -y update
-          apt-get -y install zsh patchelf curl
+          apt-get -y install patchelf curl
 
       - name: Build library
         shell: zsh {0}

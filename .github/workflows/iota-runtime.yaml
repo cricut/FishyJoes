@@ -51,7 +51,10 @@ jobs:
     name: "Ubuntu: Build Iota Runtime"
     runs-on: ubuntu-latest
     container:
-      image: swift
+      image: ghcr.io/cricut/android-swift-runtime:1.0.0
+      credentials:
+        username: cricut-builduser
+        password: ${{ secrets.CRICUT_GPR_TOKEN }}
     env:
       GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
       GITHUB_USER: cricut-builduser
@@ -70,7 +73,7 @@ jobs:
           set -eux
 
           apt-get -y update
-          apt-get -y install zsh patchelf
+          apt-get -y install patchelf
 
       - name: Build FishyJoesIotaRuntime
         shell: zsh {0}
