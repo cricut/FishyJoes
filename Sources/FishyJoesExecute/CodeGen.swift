@@ -496,26 +496,45 @@ extension CodeGen {
                 case .wasm, .node:
                     // Generate package.json from template
                     let packageVersion = version ?? "0.0.1" // If no version is provided, use a dummy version to build the package
-                    let runtimeVersion = fishyJoesDependency.version ??
-                        "file:\(fishyJoesDependency.localPath)/node-runtime/fishyjoes-runtime-\(platform.nodeExecutionEnvironment)" // If fishy-joes is file-local, use a file-local runtime too
-                    let templatePackage = try cmd("cat", "package.template.json").runJSON(NPMPackage.self)
-                    var dependencies = templatePackage.dependencies ?? [:]
-                    dependencies["@cricut/fishyjoes-runtime-\(platform.nodeExecutionEnvironment)"] = runtimeVersion
-                    for module in config.requiredModules {
-                        let bindingsModuleName = "\(module)-bindings"
+                    var dependencies: [(moduleName: String, compiledLibName: String, nodeLibName: String, npmPackagePath: String, npmModuleVersion: String)] = []
+                    dependencies.append((
+                        moduleName: "Runtime",
+                        compiledLibName: "libFishyJoesNodeRuntime.\(platform.dylibExt)",
+                        nodeLibName: "Runtime.cjs.node",
+                        npmPackagePath: "@cricut/fishyjoes-runtime-\(platform.nodeExecutionEnvironment)",
+                        npmModuleVersion: fishyJoesDependency.version ??
+                            // If fishy-joes is file-local, use a file-local runtime too
+                            "file:\(fishyJoesDependency.localPath)/node-runtime/fishyjoes-runtime-\(platform.nodeExecutionEnvironment)"
+                    ))
+                    for moduleName in config.requiredModules {
+                        let npmPackageName = "\(moduleName.lowercased())-\(platform.nodeExecutionEnvironment)"
+                        let bindingsModuleName = "\(moduleName)-bindings"
                         guard let dependency = packageInfo.dependencyMap[bindingsModuleName] else {
                             fatalError("Could not locate dependency \(bindingsModuleName) in Package.swift")
                         }
-                        let packageName = "\(module.lowercased())-\(platform.nodeExecutionEnvironment)"
-                        let moduleVersion = dependency.version ?? "file:\(dependency.localPath)/output/\(packageName)" // If dependency is file-local, use a file-local dependency too
-                        dependencies["@cricut/\(packageName)"] = moduleVersion
+                        dependencies.append((
+                            moduleName: moduleName,
+                            compiledLibName: "lib\(moduleName)-node.\(platform.dylibExt)",
+                            nodeLibName: "\(moduleName).cjs.node",
+                            npmPackagePath: "@cricut/\(npmPackageName)",
+                            npmModuleVersion: dependency.version ??
+                                // If dependency is file-local, use a file-local dependency too
+                                "file:\(dependency.localPath)/output/\(npmPackageName)"
+                        ))
                     }
-                    let package = NPMPackage(
+                    let npmDependencies = Dictionary(dependencies.map { ($0.npmPackagePath, $0.npmModuleVersion) }) { $1 }
+                    let templatePackage = try cmd("cat", "package.template.json").runJSON(NPMPackage.self)
+                    var package = NPMPackage(
                         config: config,
                         platform: platform,
                         version: packageVersion,
-                        dependencies: dependencies
+                        dependencies: npmDependencies.merging(templatePackage.dependencies ?? [:]) { $1 }
                     )
+                    if platform.platform == "node-native-ubuntu" {
+                        // When on Ubuntu, dlopen() needs file-relative native libraries, so add a post-install script to the package to setup symlinks to dependency SOs
+                        let postinstall = dependencies.map { "ln -s `cd ..; cd \($0.npmPackagePath); realpath \($0.nodeLibName)` \($0.compiledLibName)" }
+                        package.scripts = (package.scripts ?? [:]).merging(["postinstall" : postinstall.joined(separator: "; ")]) { $1 }
+                    }
                     let packageJsonPath = "\(platform.outputDir(config))/package.json"
                     let prettyEncoder = JSONEncoder()
                     prettyEncoder.outputFormatting = [

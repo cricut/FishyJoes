@@ -29,12 +29,6 @@ struct NPMPackage: Codable {
         self.repository = config.publishRepository.map {
             Repository(type: "git", url: "ssh://git@\($0).git", directory: "packages")
         }
-        switch platform.platform {
-        case "node-native-ubuntu": // TODO: Find something that works for this
-            self.scripts = ["postinstall": "ln -s `cd ..; cd fishyjoes-runtime-\(platform.nodeExecutionEnvironment); realpath Runtime.cjs.node` libFishyJoesNodeRuntime.so"]
-        default:
-            self.scripts = nil
-        }
     }
 
     struct Repository: Codable {
