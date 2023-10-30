@@ -1,7 +1,7 @@
 import Foundation
 import swsh
 
-let wasmToolchain = "/Library/Developer/Toolchains/swift-wasm-5.7.1-RELEASE.xctoolchain"
+let wasmToolchain = "/Library/Developer/Toolchains/swift-wasm-5.9-SNAPSHOT-2023-08-06-a.xctoolchain"
 
 struct BuildConfiguration: Hashable {
     let debug: Bool
@@ -248,6 +248,14 @@ enum Platform: CustomStringConvertible, Hashable {
         }
     }
 
+    var nodeExecutionEnvironment: String {
+        switch self {
+        case .node, .wasm: return platform.replacingOccurrences(of: "node-native-", with: "native-")
+        default:
+            fatalError("\(self) is not a node platform")
+        }
+    }
+
     func outputDir(_ config: FishyJoesConfig) -> String {
         switch self {
         case .wasm, .node: return "output/\(platform)"
@@ -310,9 +318,5 @@ enum Platform: CustomStringConvertible, Hashable {
         }
         Platform.buildDirCache[configuration, default: [:]][self] = directory
         return directory
-    }
-
-    var isTs: Bool {
-        self == .wasm || self == .node
     }
 }

@@ -6,5 +6,6 @@ module.exports = {
     moduleNameMapper: {
         ...common.moduleNameMapper,
         "^TestAPI$": "@cricut/testapi-native-macos",
+        "^@cricut/fishyjoes-runtime$": "@cricut/fishyjoes-runtime-native-macos",
     }
 }

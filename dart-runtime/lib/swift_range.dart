@@ -12,6 +12,12 @@ class SwiftRange<T extends Comparable> {
   T lowerBound;
   T upperBound;
 
+  int get hashCode => Object.hash(lowerBound.hashCode, upperBound.hashCode);
+
+  bool operator == (Object? other) {
+    return other is SwiftRange && (this.lowerBound == other.lowerBound && this.upperBound == other.upperBound);
+  } 
+
   SwiftRange(this.lowerBound, this.upperBound) {
     if (lowerBound.compareTo(upperBound) > 0) {
       throw ArgumentError("Swift ranges require lowerBound <= upperBound");
@@ -33,6 +39,12 @@ class SwiftRange<T extends Comparable> {
 class SwiftClosedRange<T extends Comparable> {
   T lowerBound;
   T upperBound;
+
+  int get hashCode => Object.hash(lowerBound.hashCode, upperBound.hashCode);
+
+  bool operator == (Object? other) {
+    return other is SwiftClosedRange && (this.lowerBound == other.lowerBound && this.upperBound == other.upperBound);
+  }
 
   SwiftClosedRange(this.lowerBound, this.upperBound) {
     if (lowerBound.compareTo(upperBound) > 0) {

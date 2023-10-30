@@ -34,18 +34,22 @@ func upperCaseFirst<S: StringProtocol>(_ camel: S) -> String {
     (camel.first?.uppercased() ?? "") + camel.dropFirst()
 }
 
-extension Array {
+extension RandomAccessCollection {
     subscript(safe index: Index) -> Element? {
         startIndex <= index && index < endIndex ? self[index] : nil
     }
+    subscript(safeOffsetBy offset: Int) -> Element? {
+        guard let index = index(startIndex, offsetBy: offset, limitedBy: endIndex) else { return nil }
+        return self[safe: index]
+    }
     var first2: (Element?, Element?) {
-        (self[safe: 0], self[safe: 1])
+        (self[safeOffsetBy: 0], self[safeOffsetBy: 1])
     }
     var first3: (Element?, Element?, Element?) {
-        (self[safe: 0], self[safe: 1], self[safe: 2])
+        (self[safeOffsetBy: 0], self[safeOffsetBy: 1], self[safeOffsetBy: 2])
     }
     var first4: (Element?, Element?, Element?, Element?) {
-        (self[safe: 0], self[safe: 1], self[safe: 2], self[safe: 3])
+        (self[safeOffsetBy: 0], self[safeOffsetBy: 1], self[safeOffsetBy: 2], self[safeOffsetBy: 3])
     }
 }
 

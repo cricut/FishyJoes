@@ -7,34 +7,25 @@ void main() {
   });
 
   group('StringTests', () {
-      final simple = "Hello";
-      final accent = "Olá";
-      final script = "こんにちは";
-      final chinese = "你好";
-      final chineseBMP = "豈更車賈滑";
-      final chineseSIP = "\uD840\uDC01\uD840\uDC02\uD840\uDC03\uD840\uDC04";
-      final emoji = "🤯🐶🍓";
-      final emojiMulti = "👨‍👩‍👧‍👦👍🏿🇺🇸";
-
       test('testStringValues', () {
-          expect(Strings.simple, equals(simple));
-          expect(Strings.accent, equals(accent));
-          expect(Strings.script, equals(script));
-          expect(Strings.chinese, equals(chinese));
-          expect(Strings.chineseBMP, equals(chineseBMP));
-          expect(Strings.chineseSIP, equals(chineseSIP));
-          expect(Strings.emoji, equals(emoji));
-          expect(Strings.emojiMulti, equals(emojiMulti));
+          expect(Strings.simple, equals("Hello"));
+          expect(Strings.accent, equals("Olá"));
+          expect(Strings.script, equals("こんにちは"));
+          expect(Strings.chinese, equals("你好"));
+          expect(Strings.chineseBMP, equals("豈更車賈滑"));
+          expect(Strings.chineseSIP, equals("\uD840\uDC01\uD840\uDC02\uD840\uDC03\uD840\uDC04"));
+          expect(Strings.emoji, equals("🤯🐶🍓"));
+          expect(Strings.emojiMulti, equals("👨‍👩‍👧‍👦👍🏿🇺🇸"));
       });
 
       test('testStringEcho', () {
-          expect(Strings.echo(simple), equals(Strings.simple));
-          expect(Strings.echo(accent), equals(Strings.accent));
-          expect(Strings.echo(chinese), equals(Strings.chinese));
-          expect(Strings.echo(chineseBMP), equals(Strings.chineseBMP));
-          expect(Strings.echo(chineseSIP), equals(Strings.chineseSIP));
-          expect(Strings.echo(emoji), equals(Strings.emoji));
-          expect(Strings.echo(emojiMulti), equals(Strings.emojiMulti));
+          expect(Strings.echo(Strings.simple), equals(Strings.simple));
+          expect(Strings.echo(Strings.accent), equals(Strings.accent));
+          expect(Strings.echo(Strings.chinese), equals(Strings.chinese));
+          expect(Strings.echo(Strings.chineseBMP), equals(Strings.chineseBMP));
+          expect(Strings.echo(Strings.chineseSIP), equals(Strings.chineseSIP));
+          expect(Strings.echo(Strings.emoji), equals(Strings.emoji));
+          expect(Strings.echo(Strings.emojiMulti), equals(Strings.emojiMulti));
       });
   });
 }

@@ -17,11 +17,19 @@ public func Env_setupGCPin(
     deleteRefFn: @escaping Env.DeleteRefFn,
     newErrorFn: @escaping Env.NewErrorFn
 ) -> EnvRef {
-    Env(
+    let env = Env(
         newRefFn: newRefFn,
         deleteRefFn: deleteRefFn,
         newErrorFn: newErrorFn
-    ).id
+    )
+
+    // Register generic types that the runtime makes use of
+    Env.registerType(RangeConverter<AttributedString.Index>.self, as: "RangeConverter<Foundation.AttributedString.Index>")
+    Env.registerType(RangeConverter<AttributedString.Runs.Index>.self, as: "RangeConverter<Foundation.AttributedString.Runs.Index>")
+    Env.registerType(ClosedRangeConverter<AttributedString.Index>.self, as: "ClosedRangeConverter<Foundation.AttributedString.Index>")
+    Env.registerType(ClosedRangeConverter<AttributedString.Runs.Index>.self, as: "ClosedRangeConverter<Foundation.AttributedString.Runs.Index>")
+
+    return env.id
 }
 
 @_cdecl("FishyJoesCommonRuntime_getTypeID")

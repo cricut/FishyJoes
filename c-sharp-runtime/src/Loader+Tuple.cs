@@ -9,7 +9,7 @@ public partial class Loader {
     unsafe delegate CreatedRef TupleConstructor(IntPtr context, UnownedRef* elements, out CreatedRef exn);
 
     [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-    static extern void FishyJoesCommonRuntime_TupleConverter_setup(
+    extern static void FishyJoesCommonRuntime_TupleConverter_setup(
         IntPtr envRef,
         string name,
         TupleGetter? get0,

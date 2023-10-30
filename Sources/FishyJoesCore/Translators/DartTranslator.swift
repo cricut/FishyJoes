@@ -224,7 +224,8 @@ final class DartTranslator: Translator {
             DartClass.Variable(
                 documentation: field.documentation,
                 isStatic: field.isStatic,
-                readOnly: !field.isPubliclyWritable,
+                isMutable: field.isMutable,
+                isPubliclyWritable: field.isPubliclyWritable,
                 asMethod: asMethod,
                 name: dartName,
                 mangledName: "\(type.mangledName)_\(dartName.mangled)",

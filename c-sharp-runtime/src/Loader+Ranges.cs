@@ -10,7 +10,7 @@ public partial class Loader {
     delegate CreatedRef SwiftRangeConstructor(IntPtr context, UnownedRef lowerBound, UnownedRef upperBound, out CreatedRef exn);
 
     [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-    static extern void FishyJoesCommonRuntime_RangeConverter_setup(
+    extern static void FishyJoesCommonRuntime_RangeConverter_setup(
         IntPtr envRef,
         string name,
         SwiftRangeLowerBoundGetter getLowerBound,

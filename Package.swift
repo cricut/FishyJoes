@@ -1,4 +1,4 @@
-// swift-tools-version:5.3
+// swift-tools-version:5.6
 
 import PackageDescription
 import Foundation
@@ -26,7 +26,7 @@ func wasmIncompatible<T>(_ things: @autoclosure () -> [T]) -> [T] {
 
 let package = Package(
     name: "FishyJoes",
-    platforms: [.macOS(.v11)],
+    platforms: [.macOS(.v12), .iOS(.v15)],
     products: [
         P.library(
             name: "FishyJoesNodeRuntime",
@@ -50,13 +50,13 @@ let package = Package(
     dependencies: generationEnabled(
         [
             D.package(
-                url: "https://github.com/krzysztofzablocki/Sourcery", .branch("2.0.2")
+                url: "https://github.com/krzysztofzablocki/Sourcery", branch: "2.0.2"
 //                 path: "../Sourcery"
             ),
         ]
     ) + wasmIncompatible(
         [
-            D.package(url: "https://github.com/cobbal/swsh", .exact("3.0.0")),
+            D.package(url: "https://github.com/cobbal/swsh", exact: "3.0.0"),
             D.package(url: "https://github.com/apple/swift-argument-parser", from: "0.4.0"),
         ]
     ) + (androidCompatibleOnly || wasmCompatibleOnly ? [] : [
@@ -226,9 +226,9 @@ let package = Package(
                     },
                     .when(
                         platforms: [
-                            // all but .wasi
+                            // all but .wasi and .windows
                             .iOS, .macOS, .tvOS, .watchOS,
-                            .android, .linux, .windows,
+                            .android, .linux,
                         ]
                     )
                 ),
@@ -242,6 +242,12 @@ let package = Package(
                     ],
                     .when(platforms: [.wasi])
                 ),
+                .unsafeFlags(
+                    [
+                        "-Xlinker", "/force:unresolved",
+                    ],
+                    .when(platforms: [.windows])
+                ),
             ]
         ),
     ] + generationEnabled(
@@ -252,7 +258,7 @@ let package = Package(
                     .product(name: "SourceryRuntime", package: "Sourcery"),
                 ]
             ),
-            T.target(
+            T.executableTarget(
                 name: "FishyJoesExecutionHelper",
                 dependencies: [
                     .target(name: "FishyJoesCore"),
@@ -278,7 +284,7 @@ let package = Package(
             ),
         ]
     ) + (androidCompatibleOnly || wasmCompatibleOnly ? [] : [
-        T.target(
+        T.executableTarget(
             name: "FishyJoesExecuteMain",
             dependencies: ["FishyJoesExecute"]
         ),

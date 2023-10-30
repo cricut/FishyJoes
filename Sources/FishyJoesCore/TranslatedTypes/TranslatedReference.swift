@@ -100,7 +100,7 @@ struct TranslatedReference: TranslatedType {
                     fragment.output("// Uninhabited")
                     return
                 }
-                fragment.output("let constructor = try FishyJoesNodeRuntime.InstanceData.data(for: env).constructor(for: \"\(nodeName)\", env: env)")
+                fragment.output("let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: \"\(nodeName)\", env: env)")
                 fragment.output("let arg = try FishyJoesNodeRuntime.Box(value).retainedExternal(env: env)")
                 fragment.output("return try env.newInstance(constructor, [arg])")
             }
@@ -265,6 +265,7 @@ struct TranslatedReference: TranslatedType {
                             (labelComment: nil, name: "lhs", type: kotlinType, defaultValue: nil),
                             (labelComment: nil, name: "rhs", type: kotlinType, defaultValue: nil),
                         ],
+                        compatibilityOrder: [],
                         returnType: .named(package: nil, name: "Boolean"),
                         deprecation: nil,
                         body: nil
@@ -281,6 +282,7 @@ struct TranslatedReference: TranslatedType {
                         parameters: [
                             (labelComment: nil, name: "other", type: .optional(.named(package: nil, name: "Any")), defaultValue: nil),
                         ],
+                        compatibilityOrder: [],
                         returnType: .named(package: nil, name: "Boolean"),
                         deprecation: nil,
                         body: "(other is \(kotlinType.kotlinType)) && __jni_swiftEquals(this, other)"
@@ -297,6 +299,7 @@ struct TranslatedReference: TranslatedType {
                         isOverride: true,
                         name: "hashCode",
                         parameters: [],
+                        compatibilityOrder: [],
                         returnType: .named(package: nil, name: "Int"),
                         deprecation: nil,
                         body: nil
@@ -532,7 +535,8 @@ struct TranslatedReference: TranslatedType {
                     DartClass.Variable(
                         documentation: [],
                         isStatic: false,
-                        readOnly: true,
+                        isMutable: false,
+                        isPubliclyWritable: false,
                         asMethod: false,
                         name: "hashCode",
                         mangledName: "\(sourceType.name.mangled)_hash",

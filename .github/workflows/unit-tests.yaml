@@ -1,16 +1,17 @@
-name: Build & test
+---
+name: "Build & Test"
 
-on:
+"on":
   workflow_dispatch:
+  push:
+    branches:
+      - main
   label:
     types:
       - created
   pull_request:
   release:
     types: [published]
-  push:
-    branches:
-      - main
 
 concurrency:
   group: build-${{ github.event.pull_request.number || github.ref }}-${{ github.workflow }}
@@ -18,22 +19,22 @@ concurrency:
 
 jobs:
   test:
-    name: Build & test
+    name: Build & Test
     env:
       SWIFT_WASM_URL: |-
-        https://github.com/swiftwasm/swift/releases/download/swift-wasm-5.7.1-RELEASE/swift-wasm-5.7.1-RELEASE-macos_x86_64.pkg
+        https://github.com/swiftwasm/swift/releases/download/swift-wasm-5.9-SNAPSHOT-2023-08-06-a/swift-wasm-5.9-SNAPSHOT-2023-08-06-a-macos_x86_64.pkg
     runs-on: macOS-12
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup Git Credentials
-        uses: fusion-engineering/setup-git-credentials@v2.0.1
+        uses: de-vri-es/setup-git-credentials@v2
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
       - name: Setup Node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: '16.x'
           registry-url: 'https://npm.pkg.github.com/'

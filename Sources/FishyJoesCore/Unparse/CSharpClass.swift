@@ -27,7 +27,8 @@ class CSharpClass: NestedClass {
         let documentation: [String]
         let isStatic: Bool
         let isOverride: Bool
-        let readOnly: Bool
+        let isMutable: Bool
+        let isPubliclyWritable: Bool
         let asMethod: Bool
         let name: String
         let mangledName: String
@@ -134,7 +135,7 @@ class CSharpClass: NestedClass {
             fragment.outputBlock("\(field.type.name) Get\(field.name)() {") {
                 outputGetterBody()
             }
-            if !field.readOnly {
+            if field.isPubliclyWritable {
                 outputAttributes()
                 fragment.output("public \(field.isOverride ? "override " : "")\(field.isStatic ? "static " : "")", newLineTerminated: false)
                 fragment.outputBlock("void Set\(field.name)(\(field.type.name) value) {") {
@@ -148,7 +149,7 @@ class CSharpClass: NestedClass {
                 fragment.outputBlock("get {") {
                     outputGetterBody()
                 }
-                if !field.readOnly {
+                if field.isPubliclyWritable {
                     fragment.outputBlock("set {") {
                         outputSetterBody()
                     }
@@ -159,7 +160,7 @@ class CSharpClass: NestedClass {
         fragment.blankLine()
         fragment.output(module.dllImportMark)
         fragment.output("private static extern \(field.type.pInvokeCreatedName) __iota_get_\(field.mangledName)(IntPtr envRef, \(selfFormal)out CreatedRef exn);")
-        if !field.readOnly {
+        if field.isPubliclyWritable {
             fragment.blankLine()
             fragment.output(module.dllImportMark)
             fragment.output("private static extern void __iota_set_\(field.mangledName)(IntPtr envRef, \(selfFormal)\(field.type.pInvokeUnownedName) value, out CreatedRef exn);")
@@ -336,7 +337,7 @@ class CSharpProductClass: CSharpClass {
                 fragment.output("internal \(unqualifiedName)(ConsumedRef reference): base(reference) {}")
             case .public(let fields):
                 for field in fields {
-                    fragment.output("public \(field.type.name) \(CSharpClass.deforbidify(field.name));")
+                    fragment.output("public \(field.type.name) \(CSharpClass.deforbidify(field.name)) { get; \(field.isPubliclyWritable ? "set;" : "private set;") }")
                 }
                 fragment.blankLine()
 

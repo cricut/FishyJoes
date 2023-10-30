@@ -76,7 +76,7 @@ public class FishyJoesContext {
     }
 
     func swiftFragment(_ name: String, additionalImports: [String] = []) -> SourceFragment {
-        var headerLines = (module.dependencies + [module] + additionalImports).map { "import \($0)" }
+        var headerLines = (module.dependencies + [module.name] + additionalImports).map { "import \($0)" }
         headerLines.append("// swiftlint:disable superfluous_disable_command unused_closure_parameter syntactic_sugar attributes")
         fileHeaders[name, default: []].formUnion(headerLines)
         return SourceFragment(sourceryDestination: "file:\(name)")
@@ -91,7 +91,9 @@ public class FishyJoesContext {
                 "using System.Collections.Generic;",
                 "using Cricut.FishyJoesRuntime;",
                 "using static Cricut.FishyJoesRuntime.Utilities;",
-            ]
+            ] + module.dependencies.map { dependency in
+                "using Cricut.\(dependency);"
+            }
         )
         return SourceFragment(sourceryDestination: "file:\(fileName)")
     }
@@ -108,7 +110,12 @@ public class FishyJoesContext {
                 "import 'package:fishyjoes_dart/runtime.dart' as FishyJoesRuntime;",
                 "import 'package:fishyjoes_dart/runtime.dart';",
                 "import 'package:fishyjoes_dart/utilities.dart' as utils;",
-            ] + dartClasses.flatMap { cls in
+            ] + module.dependencies.flatMap { dependency in
+                [
+                    "import 'package:cricut_\(dependency.lowercased())/\(dependency.lowercased()).dart' as \(dependency);",
+                    "import 'package:cricut_\(dependency.lowercased())/\(dependency.lowercased()).dart';",
+                ]
+            } + dartClasses.flatMap { cls in
                 [
                     "import './\(cls.unqualifiedName).dart' as \(module);",
                     "import './\(cls.unqualifiedName).dart';", // Import unqualified too or freezed gets confused"
@@ -156,7 +163,7 @@ public class FishyJoesContext {
         // Translate
         var seenMethods: Set<Method> = []
         for type in templateContext.types.all + templateContext.types.extensions {
-            for method in type.allMethods.compactMap(Method.init) {
+            for method in type.rawMethods.compactMap(Method.init) {
                 if seenMethods.contains(method) {
                     continue
                 }
@@ -385,21 +392,46 @@ public class FishyJoesContext {
                 } else if let typeOverride = generics[name.name] {
                     dontCache = true
                     return try recur(typeOverride)
-                } else if name.name == "String" {
-                    return TranslatedString()
-                } else if name.name == "Data" {
-                    return TranslatedData()
                 } else if name.name == "Index", name.namespace.last?.hasPrefix("Array<") == true {
                     // It's a hack.
                     return TranslatedPrimitive(swift: "Int", typeNames: primitiveTypeMap["Int"]!)
                 } else {
-                    throw ResolveError(
-                        message: """
-                            Don't know how to translate type `\(name.globalName)`.
-                            Maybe annotate it with `sourcery:export(...)`?
-                            context: \(debugContext)
-                            """
-                    )
+                    switch name.globalName {
+                    case "String", "Swift.String":
+                        return TranslatedString()
+                    case "AttributedString", "Foundation.AttributedString":
+                        return translatedAttributedString
+                    case "AttributedString.Index", "Foundation.AttributedString.Index":
+                        return translatedAttributedStringIndex
+                    case "AttributedString.UnicodeScalarView", "Foundation.AttributedString.UnicodeScalarView":
+                        return translatedAttributedStringUnicodeScalarView
+                    case "AttributedString.CharacterView", "Foundation.AttributedString.CharacterView":
+                        return translatedAttributedStringCharacterView
+                    case "AttributedString.Runs", "Foundation.AttributedString.Runs":
+                        return translatedAttributedStringRuns
+                    case "AttributedString.Runs.Index", "Foundation.AttributedString.Runs.Index":
+                        return translatedAttributedStringRunsIndex
+                    case "AttributedString.Runs.Run", "Foundation.AttributedString.Runs.Run":
+                        return translatedAttributedStringRunsRun
+                    case "AttributedSubstring", "Foundation.AttributedSubstring":
+                        return translatedAttributedSubstring
+                    case "AttributeContainer", "Foundation.AttributeContainer":
+                        return translatedAttributeContainer
+                    case "AttributeContainer.FoundationAttributes", "Foundation.AttributeContainer.FoundationAttributes":
+                        return translatedAttributeContainerFoundationAttributes
+                    case "Data", "Foundation.Data":
+                        return TranslatedData()
+                    case "URL", "Foundation.URL":
+                        return TranslatedURL()
+                    default:
+                        throw ResolveError(
+                            message: """
+                                Don't know how to translate type `\(name.globalName)`.
+                                Maybe annotate it with `sourcery:export(...)`?
+                                context: \(debugContext)
+                                """
+                        )
+                    }
                 }
             case .void:
                 return TranslatedVoid()

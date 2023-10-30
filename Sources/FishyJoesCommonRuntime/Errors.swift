@@ -25,3 +25,11 @@ public struct InvalidRangeError: Error {
         self.message = message
     }
 }
+
+public struct MalformedURLError: Error {
+    public let message: String
+
+    public init(message: String) {
+        self.message = message
+    }
+}

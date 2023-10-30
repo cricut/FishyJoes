@@ -1,4 +1,4 @@
-// swift-tools-version:5.3
+// swift-tools-version:5.5
 
 import PackageDescription
 import Foundation
@@ -7,6 +7,10 @@ let forceDynamic = ProcessInfo.processInfo.environment["SWIFT_PACKAGE_FORCE_DYNA
 
 let package = Package(
     name: "TestAPI",
+    platforms: [
+        .macOS(.v12),
+        .iOS(.v15),
+    ],
     products: [
         .library(
             name: "TestAPI",

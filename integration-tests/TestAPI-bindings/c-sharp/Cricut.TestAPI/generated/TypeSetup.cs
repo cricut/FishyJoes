@@ -11,12 +11,24 @@ namespace Cricut.TestAPI {
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void FishyJoes_TestAPI_registerTypes();
 
+        delegate CreatedRef _Foundation_AttributedString_PuttingTypesIntoQuestionablePlacesConstructor(
+            ConsumedRef x,
+            out CreatedRef exn
+        );
+        delegate CreatedRef _Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_xGetter(UnownedRef obj, out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_setup(
+            IntPtr envRef,
+            _Foundation_AttributedString_PuttingTypesIntoQuestionablePlacesConstructor constructor,
+            _Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_xGetter get_x,
+            out CreatedRef _exn
+        );
+
         delegate CreatedRef _Swift_String_PuttingTypesIntoQuestionablePlacesConstructor(
             ConsumedRef x,
             out CreatedRef exn
         );
         delegate CreatedRef _Swift_String_PuttingTypesIntoQuestionablePlaces_xGetter(UnownedRef obj, out CreatedRef exn);
-        delegate void _Swift_String_PuttingTypesIntoQuestionablePlaces_xSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void Swift_String_PuttingTypesIntoQuestionablePlaces_setup(
             IntPtr envRef,
@@ -341,6 +353,12 @@ namespace Cricut.TestAPI {
         );
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_AttributedStrings_setup(
+            IntPtr envRef,
+            out CreatedRef _exn
+        );
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_Bytes_setup(
             IntPtr envRef,
             out CreatedRef _exn
@@ -449,6 +467,12 @@ namespace Cricut.TestAPI {
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_Tuples_setup(
+            IntPtr envRef,
+            out CreatedRef _exn
+        );
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_URLs_setup(
             IntPtr envRef,
             out CreatedRef _exn
         );
@@ -633,6 +657,22 @@ namespace Cricut.TestAPI {
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ArrayConverter_setup<byte?>(
                     Loader.env,
                     "ArrayConverter<OptionalConverter<Swift.UInt8>>",
+                    out exn
+                ));
+            });
+            Once("setup_ArrayConverter<Foundation.AttributedString.Runs.Run>", () => {
+                Console.WriteLine("setting up Array<AttributedString.Runs.Run>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ArrayConverter_setup<Cricut.FishyJoesRuntime.AttributedString.RunsView.Run>(
+                    Loader.env,
+                    "ArrayConverter<Foundation.AttributedString.Runs.Run>",
+                    out exn
+                ));
+            });
+            Once("setup_ArrayConverter<Foundation.AttributedSubstring>", () => {
+                Console.WriteLine("setting up Array<AttributedSubstring>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ArrayConverter_setup<Cricut.FishyJoesRuntime.AttributedSubstring>(
+                    Loader.env,
+                    "ArrayConverter<Foundation.AttributedSubstring>",
                     out exn
                 ));
             });
@@ -1032,6 +1072,14 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
+            Once("setup_RangeConverter<Foundation.AttributedString.Index>", () => {
+                Console.WriteLine("setting up Range<AttributedString.Index>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_RangeConverter_setup<Cricut.FishyJoesRuntime.AttributedString.Index>(
+                    Loader.env,
+                    "RangeConverter<Foundation.AttributedString.Index>",
+                    out exn
+                ));
+            });
             Once("setup_RangeConverter<Swift.Int>", () => {
                 Console.WriteLine("setting up Range<Int>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_RangeConverter_setup<nint>(
@@ -1141,6 +1189,21 @@ namespace Cricut.TestAPI {
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_SetConverter_setup<string>(
                     Loader.env,
                     "SetConverter<Swift.String>",
+                    out exn
+                ));
+            });
+            Once("setup_Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces", () => {
+                Console.WriteLine("setting up Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces...");
+                Utilities.Check((out CreatedRef exn) => Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_setup(
+                    Loader.env,
+                    bag<_Foundation_AttributedString_PuttingTypesIntoQuestionablePlacesConstructor>((ConsumedRef x, out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.AttributedString_PuttingTypesIntoQuestionablePlaces(
+                            x.Consume<string>()
+                        ));
+                    })),
+                    bag<_Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_xGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.AttributedString_PuttingTypesIntoQuestionablePlaces>().X)
+                    )),
                     out exn
                 ));
             });
@@ -1656,6 +1719,13 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
+            Once("setup_TestAPI.AttributedStrings", () => {
+                Console.WriteLine("setting up TestAPI.AttributedStrings...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_AttributedStrings_setup(
+                    Loader.env,
+                    out exn
+                ));
+            });
             Once("setup_TestAPI.Bytes", () => {
                 Console.WriteLine("setting up TestAPI.Bytes...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_Bytes_setup(
@@ -1823,6 +1893,13 @@ namespace Cricut.TestAPI {
             Once("setup_TestAPI.Tuples", () => {
                 Console.WriteLine("setting up TestAPI.Tuples...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_Tuples_setup(
+                    Loader.env,
+                    out exn
+                ));
+            });
+            Once("setup_TestAPI.URLs", () => {
+                Console.WriteLine("setting up TestAPI.URLs...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_URLs_setup(
                     Loader.env,
                     out exn
                 ));

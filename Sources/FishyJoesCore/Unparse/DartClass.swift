@@ -33,7 +33,8 @@ class DartClass {
     struct Variable: Equatable {
         let documentation: [String]
         let isStatic: Bool
-        let readOnly: Bool
+        let isMutable: Bool
+        let isPubliclyWritable: Bool
         let asMethod: Bool
         let name: String
         let mangledName: String
@@ -119,7 +120,7 @@ class DartClass {
         for field in fields {
             let baseArgs = field.isStatic ? [] : [thisArg]
             result["__iota_get_\(field.mangledName)"] = (args: baseArgs, return: field.type)
-            if !field.readOnly {
+            if field.isPubliclyWritable {
                 result["__iota_set_\(field.mangledName)"] = (args: baseArgs + [(field.name, field.type)], return: .void)
             }
         }
@@ -204,12 +205,12 @@ class DartClass {
 
         outputAttributes()
         let staticMark = field.isStatic ? "static " : ""
-        fragment.outputBlock("\(staticMark)\(field.type.name(in: self)) get \(field.name) =>", closeWith: ";") {
+        fragment.outputBlock("\(staticMark)\(field.type.name(in: self)) get \(Self.deforbidify(field.name)) =>", closeWith: ";") {
             outputGetterBody()
         }
-        if !field.readOnly {
+        if field.isPubliclyWritable {
             outputAttributes()
-            fragment.outputBlock("\(staticMark)void set \(field.name)(\(field.type.name(in: self)) value) {") {
+            fragment.outputBlock("\(staticMark)void set \(Self.deforbidify(field.name))(\(field.type.name(in: self)) value) {") {
                 outputSetterBody()
                 fragment.output(";")
             }
@@ -434,7 +435,7 @@ class DartProductClass: DartClass {
             case .public(let fields):
                 fragment.outputBlock("factory \(unqualifiedName)({", closeWith: "})", newLineTerminated: false) {
                     fragment.outputMap(fields, separator: ",") { field in
-                        "required \(field.readOnly ? "final " : "")\(field.type.name(in: self)) \(DartClass.deforbidify(field.name))"
+                        "required \(field.isPubliclyWritable ? "" : "final ")\(field.type.name(in: self)) \(DartClass.deforbidify(field.name))"
                     }
                 }
                 fragment.output(" = _\(unqualifiedName);")
@@ -490,7 +491,7 @@ class DartProductClass: DartClass {
                     wrapper {
                         fragment.output("peekRef<\(unqualifiedName)>(obj).\(field.name)")
                     }
-                    if !field.readOnly {
+                    if field.isPubliclyWritable {
                         fragment.outputBlock("static void ffi_set_\(field.name)(", newLineTerminated: false) {
                             fragment.output("UnownedRef obj,")
                             fragment.output("\(field.type.ffiConsumedName) newValue,")
@@ -605,7 +606,7 @@ class DartEnumClass: DartClass {
                             if value.type.isObject {
                                 fragment.output("consumeRef<\(value.type.name(in: self))>(_\(value.name)),")
                             } else {
-                                fragment.output("_\(value.name)")
+                                fragment.output("_\(value.name),")
                             }
                         }
                     }
@@ -647,6 +648,42 @@ class DartEnumClass: DartClass {
 
 extension DartClass {
     private static var forbiddenVarNames: Set<String> = [
+        "else",
+        "enum",
+        "in",
+        "assert",
+        "super",
+        "extends",
+        "is",
+        "switch",
+        "await",
+        "this",
+        "break",
+        "throw",
+        "case",
+        "false",
+        "new",
+        "true",
+        "catch",
+        "final",
+        "null",
+        "try",
+        "class",
+        "const",
+        "finally",
+        "var",
+        "continue",
+        "for",
+        "void",
+        "when",
+        "default",
+        "rethrow",
+        "while",
+        "return",
+        "with",
+        "do",
+        "if",
+        "yield",
     ]
 
     static func deforbidify(_ name: String) -> String {

@@ -15,7 +15,7 @@ extension Swift.String.PuttingTypesIntoQuestionablePlaces: NodeMutator {
         )
     }
     public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
-        let constructor = try InstanceData.data(for: env).constructor(for: "String_PuttingTypesIntoQuestionablePlaces", env: env)
+        let constructor = try NodeClass.constructor(for: "String_PuttingTypesIntoQuestionablePlaces", env: env)
         let args: [NAPI.Value] = [
             try Swift.String.toNode(value.x, env: env),
         ]

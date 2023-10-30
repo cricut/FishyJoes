@@ -1,13 +1,15 @@
-name: "Integration tests"
-on:
+---
+name: "Integration Tests"
+
+"on":
   workflow_dispatch:
+  push:
+    branches:
+      - main
   label:
     types:
       - created
   pull_request:
-  push:
-    branches:
-      - main
 
 concurrency:
   group: build-${{ github.event.pull_request.number || github.ref }}-${{ github.workflow }}
@@ -15,79 +17,125 @@ concurrency:
 
 jobs:
   integration-tests-mac:
-    name: "mac: integration tests"
+    name: "macOS: Integration tests"
     runs-on: macOS-12
     env:
-      JDK_VERSION: 11
       GRADLE_OPTS: -Dorg.gradle.daemon=false
       GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
       GITHUB_USER: cricut-builduser
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      - name: Setup Git Credentials
-        uses: fusion-engineering/setup-git-credentials@v2.0.1
+      - name: Setup git credentials
+        uses: de-vri-es/setup-git-credentials@v2
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
-      - name: Setup JDK 1.11
-        uses: actions/setup-java@v1
+      - name: Setup JDK
+        uses: actions/setup-java@v3
         with:
-          java-version: 1.11
+          distribution: zulu
+          java-version: 11
 
-      - name: Setup Node
-        uses: actions/setup-node@v1
+      - name: Setup node
+        uses: actions/setup-node@v3
         with:
           node-version: '16.x'
           registry-url: 'https://npm.pkg.github.com/'
           scope: '@cricut'
 
-      - name: Generate
+      - uses: dart-lang/setup-dart@v1
+
+      - name: Ensure re-generating does not change committed generated code
         shell: zsh {0}
         run: |
           set -euxo pipefail
+          
           cd integration-tests/TestAPI-bindings
 
           swift run -- fishy-joes generate
 
-      - name: Test from node
+          if [ ! -z "$(cd integration-tests/TestAPI-Bindings; git status --porcelain .)" ]; then
+            echo '::error:: generation modified sources'
+            echo '::error::   run `swift run fishy-joes generate` from integration-tests/TestAPI-Bindings and re-commit'
+            git status
+            exit 1
+          fi
+
+      - name: Build FishyJoesNodeRuntime
         shell: zsh {0}
         run: |
           set -euxo pipefail
-          cd integration-tests/TestAPI-bindings
 
-          npm install
+          ./scripts/compile-node-runtime.sh
+
+      - name: Test TypeScript from npm via fishy-joes
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+
+          cd integration-tests/TestAPI-bindings
 
           swift run -- fishy-joes --nodejs build test
 
-      - name: Test from kotlin
+      - name: Build FishyJoesIotaRuntime
         shell: zsh {0}
         run: |
           set -euxo pipefail
 
+          ./scripts/compile-iota-runtime.sh
+
+      - name: Test C♯ from dotnet via fishy-joes
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+
+          cd integration-tests/TestAPI-bindings
+          swift run -- fishy-joes --c-sharp build test
+
+      - name: Test Dart from dart via fishy-joes
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+
+          cd integration-tests/TestAPI-bindings
+          swift run -- fishy-joes --dart build test
+
+      - name: Build FishyJoesJavaRuntime
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+
+          libdir=kotlin-runtime/src/generated/resources/mac
+          rm -rf $libdir
+          mkdir -p $libdir
           ./scripts/compile-kotlin-native-runtime.sh
           (cd kotlin-runtime && ./gradlew publishToMavenLocal)
+
+      - name: Test kotlin from gradle via fishy-joes
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
 
           cd integration-tests/TestAPI-bindings
           swift run -- fishy-joes --kotlin-fast build test
 
-  integration-tests-linux:
-    name: "linux: integration tests"
+  integration-tests-ubuntu:
+    name: "Ubuntu: Integration tests"
     env:
-      JDK_VERSION: 11
       GRADLE_OPTS: -Dorg.gradle.daemon=false
       GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
       GITHUB_USER: cricut-builduser
       SWIFT_WASM_URL: |-
-        https://github.com/swiftwasm/swift/releases/download/swift-wasm-5.7.1-RELEASE/swift-wasm-5.7.1-RELEASE-ubuntu20.04_x86_64.tar.gz
+        https://github.com/swiftwasm/swift/releases/download/swift-wasm-5.9-SNAPSHOT-2023-08-06-a/swift-wasm-5.9-SNAPSHOT-2023-08-06-a-ubuntu20.04_x86_64.tar.gz
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      - name: Setup Git Credentials
-        uses: fusion-engineering/setup-git-credentials@v2.0.1
+      - name: Setup git credentials
+        uses: de-vri-es/setup-git-credentials@v2
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
@@ -98,17 +146,18 @@ jobs:
           password:  ${{ secrets.CRICUT_GPR_TOKEN }}
           registry: ghcr.io
 
-      - name: Setup Node
-        uses: actions/setup-node@v1
+      - name: Setup node
+        uses: actions/setup-node@v3
         with:
           node-version: '16.x'
           registry-url: 'https://npm.pkg.github.com/'
           scope: '@cricut'
 
-      - name: Setup JDK 1.11
-        uses: actions/setup-java@v1
+      - name: Setup JDK
+        uses: actions/setup-java@v3
         with:
-          java-version: 1.11
+          distribution: zulu
+          java-version: 11
 
       - uses: dart-lang/setup-dart@v1
 
@@ -122,31 +171,44 @@ jobs:
           npm -g install binaryen@111.0.0
 
           curl -Lo swift-wasm.tgz $SWIFT_WASM_URL
-          sudo mkdir -p /Library/Developer/Toolchains/swift-wasm-5.7.1-RELEASE.xctoolchain
-          sudo tar -xf swift-wasm.tgz -C /Library/Developer/Toolchains/swift-wasm-5.7.1-RELEASE.xctoolchain --strip-components 1
+          sudo mkdir -p /Library/Developer/Toolchains/swift-wasm-5.9-SNAPSHOT-2023-08-06-a.xctoolchain
+          sudo tar -xf swift-wasm.tgz -C /Library/Developer/Toolchains/swift-wasm-5.9-SNAPSHOT-2023-08-06-a.xctoolchain --strip-components 1
 
-      - name: Test from dotnet
+      - name: Build FishyJoesNodeRuntime
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+
+          ./scripts/compile-node-runtime.sh
+
+      - name: Test TypeScript from npm via FishyJoes
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+
+          cd integration-tests/TestAPI-bindings
+          swift run -- fishy-joes --nodejs --wasm build test
+
+          npm install
+
+          swift run -- fishy-joes --nodejs --wasm build test
+
+      - name: Build FishyJoesIotaRuntime
         shell: zsh {0}
         run: |
           set -euxo pipefail
 
           ./scripts/compile-iota-runtime.sh
 
-          cd integration-tests/TestAPI-bindings
-
-          swift run -- fishy-joes --c-sharp build test
-
-      - name: Test from node
+      - name: Test C♯ from dotnet via fishy-joes
         shell: zsh {0}
         run: |
           set -euxo pipefail
+
           cd integration-tests/TestAPI-bindings
+          swift run -- fishy-joes --c-sharp build test
 
-          npm install
-
-          swift run -- fishy-joes --nodejs --wasm build test
-
-      - name: Test from dart
+      - name: Test Dart from dart via fishy-joes
         shell: zsh {0}
         run: |
           set -euxo pipefail
@@ -160,12 +222,12 @@ jobs:
           set -euxo pipefail
 
           libdir=kotlin-runtime/src/generated/resources/linux
-
           rm -rf $libdir
           mkdir -p $libdir
-
           ./scripts/compile-kotlin-native-runtime.sh
 
+      # Running this step messes with permissions significantly,
+      # in particular causing subsequent git checkouts to fail, so testing of Kotlin / Java is being done last
       - name: Build android FishyJoesJavaRuntime
         uses: addnab/docker-run-action@4f65fabd2431ebc8d299f8e5a018d79a769ae185
         with:
@@ -176,52 +238,59 @@ jobs:
           options: -v ${{ github.workspace }}:/work -w /work
           run: /work/scripts/compile-android-runtime.sh
 
-      - name: Test from gradle
+      - name: Locally publish kotlin native & android runtimes
         shell: zsh {0}
         run: |
           set -euxo pipefail
 
+          # Publish runtime for the native linux test and the android tests
           (cd kotlin-runtime && ./gradlew publishToMavenLocal)
+
+      - name: Test kotlin from gradle via fishy-joes
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
 
           cd integration-tests/TestAPI-bindings
           swift run -- fishy-joes --kotlin build test
 
-          cd kotlin
-          ./gradlew publishToMavenLocal
+          # Publish test-api for the android tests to use later
+          (cd kotlin && ./gradlew publishToMavenLocal)
 
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v2
+      - name: Upload artifacts for use by Android later
+        uses: actions/upload-artifact@v3
         with:
           name: maven-local
           path: ~/.m2/repository
 
-  android-tests:
-    name: "android: integration tests"
-    needs: [integration-tests-linux]
+  integration-tests-android:
+    name: "Android: Integration Tests"
+    needs: [integration-tests-ubuntu]
     runs-on: macOS-12
     env:
-      JDK_VERSION: 11
       GRADLE_OPTS: -Dorg.gradle.daemon=false
       GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
       GITHUB_USER: cricut-builduser
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      - name: Setup Git Credentials
-        uses: fusion-engineering/setup-git-credentials@v2.0.1
+      - name: Setup git credentials
+        uses: de-vri-es/setup-git-credentials@v2
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
-      - name: Setup JDK 1.11
-        uses: actions/setup-java@v1
+      # Must use Java 17 instead of Java 11 because Gradle requires it to build the Android sample app
+      - name: Setup JDK
+        uses: actions/setup-java@v3
         with:
-          java-version: 1.11
+          distribution: zulu
+          java-version: 17
 
-      - name: Retrieve Artifacts
-        uses: actions/download-artifact@v2
+      - name: Retrieve artifacts
+        uses: actions/download-artifact@v3
 
-      - name: Build Android test app
+      - name: Build android test app
         shell: zsh {0}
         run: |
           set -euxo pipefail
@@ -235,7 +304,7 @@ jobs:
           cd integration-tests/android-test-app
           ./gradlew assembleAndroidTest
 
-      - name: Test Android app
+      - name: Test android test app
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 29

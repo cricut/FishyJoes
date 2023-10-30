@@ -20,6 +20,14 @@ typedef _Foundation_Data_setup<R> = R Function(
   ffi.Pointer<ffi.NativeFunction<_DataConstructor>> constructor
 );
 
+typedef _UriAbsoluteURIMethod = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef _UriConstructor = CreatedRef Function(UnownedRef string, OutCreatedRef exn);
+typedef _Foundation_URL_setup<R> = R Function(
+  Env env,
+  ffi.Pointer<ffi.NativeFunction<_UriAbsoluteURIMethod>> getLengthMethod,
+  ffi.Pointer<ffi.NativeFunction<_UriConstructor>> getBytesMethod,
+);
+
 extension LoaderMisc on Loader {
   static int _stringGetLengthMethod(UnownedRef obj, OutCreatedRef exn) => catching(exn, () =>
       peekRef<String>(obj).length
@@ -50,6 +58,17 @@ extension LoaderMisc on Loader {
     createRef(typed_data.Uint8List.fromList(bytes.asTypedList(length)))
   );
 
+  static CreatedRef _uriAbsoluteURIMethod(UnownedRef obj, OutCreatedRef exn) => catchingRef(exn, () {
+    final uri = peekRef<Uri>(obj);
+    final absoluteURI = uri.toString();
+    return createRef(absoluteURI);
+  });
+
+  static CreatedRef _uriConstructor(UnownedRef string, OutCreatedRef exn) => catchingRef(exn, () {
+    final uriString = peekRef<String>(string);
+    final uri = Uri.parse(uriString);
+    return createRef(uri);
+  });
 
   static void _setup(Env env) {
     Loader._dylib.lookupFunction<
@@ -69,6 +88,14 @@ extension LoaderMisc on Loader {
       ffi.Pointer.fromFunction<_DataGetLengthMethod>(_dataGetLengthMethod, 0),
       ffi.Pointer.fromFunction<_DataGetBytesMethod>(_dataGetBytesMethod),
       ffi.Pointer.fromFunction<_DataConstructor>(_dataConstructor),
+    );
+    Loader._dylib.lookupFunction<
+      _Foundation_URL_setup<ffi.Void>,
+      _Foundation_URL_setup<void>
+    >('Foundation_URL_setup')(
+      env,
+      ffi.Pointer.fromFunction<_UriAbsoluteURIMethod>(_uriAbsoluteURIMethod),
+      ffi.Pointer.fromFunction<_UriConstructor>(_uriConstructor),
     );
   }
 }

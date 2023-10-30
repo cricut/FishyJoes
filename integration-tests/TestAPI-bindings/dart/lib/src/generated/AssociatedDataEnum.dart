@@ -1,5 +1,9 @@
 import './AssociatedDataEnum.dart' as TestAPI;
 import './AssociatedDataEnum.dart';
+import './AttributedString_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
+import './AttributedString_PuttingTypesIntoQuestionablePlaces.dart';
+import './AttributedStrings.dart' as TestAPI;
+import './AttributedStrings.dart';
 import './Bytes.dart' as TestAPI;
 import './Bytes.dart';
 import './ClosedRanges.dart' as TestAPI;
@@ -42,6 +46,8 @@ import './Structs_ReferenceStruct.dart' as TestAPI;
 import './Structs_ReferenceStruct.dart';
 import './Tuples.dart' as TestAPI;
 import './Tuples.dart';
+import './URLs.dart' as TestAPI;
+import './URLs.dart';
 import './UnicodeScalar_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
 import './UnicodeScalar_PuttingTypesIntoQuestionablePlaces.dart';
 import 'dart:ffi' as ffi;
@@ -96,7 +102,7 @@ class AssociatedDataEnum with _$AssociatedDataEnum {
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
         createRef(AssociatedDataEnum_Thing(
-            _value
+            _value,
         ))
     );
 
@@ -118,7 +124,7 @@ class AssociatedDataEnum with _$AssociatedDataEnum {
     ) => catchingRef(exn, () =>
         createRef(AssociatedDataEnum_Other(
             consumeRef<String>(_unnamed),
-            __1
+            __1,
         ))
     );
 

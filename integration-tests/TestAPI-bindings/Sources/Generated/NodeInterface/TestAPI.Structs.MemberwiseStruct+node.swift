@@ -19,7 +19,7 @@ extension TestAPI.Structs.MemberwiseStruct: NodeMutator {
         )
     }
     public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
-        let constructor = try InstanceData.data(for: env).constructor(for: "Structs.MemberwiseStruct", env: env)
+        let constructor = try NodeClass.constructor(for: "Structs.MemberwiseStruct", env: env)
         let args: [NAPI.Value] = [
             try Swift.String.toNode(value.immutable, env: env),
             try Swift.String.toNode(value.mutable, env: env),

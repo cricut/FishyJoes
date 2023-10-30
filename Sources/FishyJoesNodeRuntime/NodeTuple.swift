@@ -16,9 +16,6 @@ extension Tuple2Converter: NodeConverter where T0: NodeConverter, T1: NodeConver
         try env.setElement(array, 1, T1.toNode(value.1, env: env))
         return array
     }
-
-    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
-    }
 }
 
 extension Tuple3Converter: NodeConverter where T0: NodeConverter, T1: NodeConverter, T2: NodeConverter {
@@ -36,9 +33,6 @@ extension Tuple3Converter: NodeConverter where T0: NodeConverter, T1: NodeConver
         try env.setElement(array, 1, T1.toNode(value.1, env: env))
         try env.setElement(array, 2, T2.toNode(value.2, env: env))
         return array
-    }
-
-    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
     }
 }
 
@@ -59,9 +53,6 @@ extension Tuple4Converter: NodeConverter where T0: NodeConverter, T1: NodeConver
         try env.setElement(array, 2, T2.toNode(value.2, env: env))
         try env.setElement(array, 3, T3.toNode(value.3, env: env))
         return array
-    }
-
-    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
     }
 }
 
@@ -84,9 +75,6 @@ extension Tuple5Converter: NodeConverter where T0: NodeConverter, T1: NodeConver
         try env.setElement(array, 3, T3.toNode(value.3, env: env))
         try env.setElement(array, 4, T4.toNode(value.4, env: env))
         return array
-    }
-
-    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
     }
 }
 
@@ -111,8 +99,5 @@ extension Tuple6Converter: NodeConverter where T0: NodeConverter, T1: NodeConver
         try env.setElement(array, 4, T4.toNode(value.4, env: env))
         try env.setElement(array, 5, T5.toNode(value.5, env: env))
         return array
-    }
-
-    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
     }
 }

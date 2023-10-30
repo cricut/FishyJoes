@@ -2,10 +2,16 @@ import Foundation
 
 struct SwiftPackage: Decodable {
     enum Dependency {
-        case scm(identity: String, location: URL)
-        case local(identity: String, path: String)
+        case sourceControl(identity: String, location: URL, requirement: Requirement)
+        case fileSystem(identity: String, path: String)
         struct Remote: Decodable {
             let urlString: URL
+        }
+        enum Requirement {
+            case branch(names: [String])
+            case upToNextMajor(baseVersions: [String])
+            case upToNextMinor(baseVersions: [String])
+            case exact(versions: [String])
         }
     }
     struct Target: Decodable {
@@ -21,64 +27,126 @@ extension SwiftPackage.Dependency: Decodable {
         // Swift 5.5
         case scm, local
 
-        // Swift 5.6
+        // Swift 5.6 -> 5.9
         case sourceControl, fileSystem
     }
 
-    // Swift 5.6
+    // Swift 5.5 -> 5.9
+    private enum SourceControlCodingKeys: String, CodingKey {
+        case identity, location, requirement
+    }
+
+    // Swift 5.5 -> 5.9
+    private enum FileSystemCodingKeys: String, CodingKey {
+        case identity, path, nameForTargetDependencyResolutionOnly
+    }
+
+    // Swift 5.6 -> 5.9
     private enum LocationCodingKeys: String, CodingKey {
         case remote
-    }
-
-    private enum SCMCodingKeys: String, CodingKey {
-        case identity, location
-    }
-
-    private enum LocalCodingKeys: String, CodingKey {
-        case identity, path, nameForTargetDependencyResolutionOnly
     }
 
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        if var scmListContainer = try? container.nestedUnkeyedContainer(forKey: .sourceControl) {
-            let scmContainer = try scmListContainer.nestedContainer(keyedBy: SCMCodingKeys.self)
-            let identity = try scmContainer.decode(String.self, forKey: .identity)
+        if var sourceControlListContainer = try? container.nestedUnkeyedContainer(forKey: .sourceControl) {
+            // Swift 5.6 -> 5.9
+            let sourceControlContainer = try sourceControlListContainer.nestedContainer(keyedBy: SourceControlCodingKeys.self)
+            let identity = try sourceControlContainer.decode(String.self, forKey: .identity)
 
-            let locationContainer = try scmContainer.nestedContainer(keyedBy: LocationCodingKeys.self, forKey: .location)
+            let locationContainer = try sourceControlContainer.nestedContainer(keyedBy: LocationCodingKeys.self, forKey: .location)
             var remoteContainer = try locationContainer.nestedUnkeyedContainer(forKey: .remote)
+            // "remote" key went from string list to object list in 5.8
             let location = try (try? remoteContainer.decode(URL.self)) ?? remoteContainer.decode(Remote.self).urlString
-            self = .scm(identity: identity, location: location)
+            let requirement = try sourceControlContainer.decode(Requirement.self, forKey: .requirement)
+            self = .sourceControl(identity: identity, location: location, requirement: requirement)
         } else if var scmListContainer = try? container.nestedUnkeyedContainer(forKey: .scm) {
-            let scmContainer = try scmListContainer.nestedContainer(keyedBy: SCMCodingKeys.self)
-            let identity = try scmContainer.decode(String.self, forKey: .identity)
-            let location = try scmContainer.decode(URL.self, forKey: .location)
-            self = .scm(identity: identity, location: location)
+            // Swift 5.5
+            let sourceControlContainer = try scmListContainer.nestedContainer(keyedBy: SourceControlCodingKeys.self)
+            let identity = try sourceControlContainer.decode(String.self, forKey: .identity)
+            let location = try sourceControlContainer.decode(URL.self, forKey: .location)
+            let requirement = try sourceControlContainer.decode(Requirement.self, forKey: .requirement)
+            self = .sourceControl(identity: identity, location: location, requirement: requirement)
         } else {
-            var localListContainer = try (try? container.nestedUnkeyedContainer(forKey: .local)) ?? container.nestedUnkeyedContainer(forKey: .fileSystem)
-            let localContainer = try localListContainer.nestedContainer(keyedBy: LocalCodingKeys.self)
+            // Swift 5.6 -> 5.9 ("local" key name changed to "fileSystem" in 5.6)
+            var fileSystemListContainer = try (try? container.nestedUnkeyedContainer(forKey: .local)) ?? container.nestedUnkeyedContainer(forKey: .fileSystem)
+            let fileSystemContainer = try fileSystemListContainer.nestedContainer(keyedBy: FileSystemCodingKeys.self)
             // nameForTargetDependencyResolutionOnly appears to show up when filesystem name doesn't match package name
-            let name = try (try? localContainer.decode(String.self, forKey: .nameForTargetDependencyResolutionOnly).lowercased())
-                ?? localContainer.decode(String.self, forKey: .identity)
-            self = .local(
+            let name = try (try? fileSystemContainer.decode(String.self, forKey: .nameForTargetDependencyResolutionOnly).lowercased())
+                ?? fileSystemContainer.decode(String.self, forKey: .identity)
+            self = .fileSystem(
                 identity: name,
-                path: try localContainer.decode(String.self, forKey: .path)
+                path: try fileSystemContainer.decode(String.self, forKey: .path)
             )
         }
     }
 }
 
+extension SwiftPackage.Dependency {
+    var identity: String {
+        switch self {
+        case .sourceControl(let identity, _, _): return identity
+        case .fileSystem(let identity, _): return identity
+        }
+    }
+
+    var url: URL {
+        switch self {
+        case .sourceControl(_, let url, _): return url
+        case .fileSystem(_, let path): return URL(string: path)!
+        }
+    }
+
+    var localPath: String {
+        return url.scheme == nil ? url.path : ".build/checkouts/\(url.lastPathComponent)"
+    }
+
+    var version: String? {
+        switch self {
+        case .sourceControl(_, _, .branch(names: let names)): return names.count != 1 ? nil : names.first
+        case .sourceControl(_, _, .upToNextMajor): return nil
+        case .sourceControl(_, _, .upToNextMinor): return nil
+        case .sourceControl(_, _, .exact(versions: let versions)): return versions.count != 1 ? nil : versions.first
+        case .fileSystem: return nil
+        }
+    }
+}
+
+extension SwiftPackage.Dependency.Requirement: Decodable {
+    enum CodingKeys: String, CodingKey {
+        case exact, branch, upToNextMajor, upToNextMinor
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        if let exactVersions = try? container.decode([String].self, forKey: .exact) {
+            self = .exact(versions: exactVersions)
+        } else if let minorVersions = try? container.decode([String].self, forKey: .upToNextMinor) {
+            self = .upToNextMinor(baseVersions: minorVersions)
+        } else if let majorVersions = try? container.decode([String].self, forKey: .upToNextMajor) {
+            self = .upToNextMajor(baseVersions: majorVersions)
+        } else {
+            let branchNames = try container.decode([String].self, forKey: .branch)
+            self = .branch(names: branchNames)
+        }
+    }
+}
+
 extension SwiftPackage {
-    var dependencyMap: [String: URL] {
-        Dictionary(
-            uniqueKeysWithValues: dependencies.map { dependency in
-                switch dependency {
-                case .local(let identity, let path):
-                    return (identity, URL(string: path)!)
-                case .scm(let identity, let location):
-                    return (identity, location)
+    struct DependencyMap {
+        var entries: [String: Dependency]
+        subscript(key: String) -> Dependency? {
+            entries[key.lowercased()]
+        }
+    }
+
+    var dependencyMap: DependencyMap {
+        .init(
+            entries: Dictionary(
+                uniqueKeysWithValues: dependencies.map { dependency in
+                    return (dependency.identity, dependency)
                 }
-            }
+            )
         )
     }
 

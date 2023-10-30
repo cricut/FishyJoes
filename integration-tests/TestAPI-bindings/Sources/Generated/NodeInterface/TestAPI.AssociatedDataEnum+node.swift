@@ -7,15 +7,14 @@ import TestAPI
 
 extension TestAPI.AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
-        let instanceData = try FishyJoesNodeRuntime.InstanceData.data(for: env)
-        if try env.instanceof(value, instanceData.constructor(for: "AssociatedDataEnum.Thing", env: env)) {
+        if try env.instanceof(value, NodeClass.constructor(for: "AssociatedDataEnum.Thing", env: env)) {
             let _value = try env.getNamedProperty(value, "value")
             return Self.thing(
                 value: try Swift.Int.fromNode(_value, env: env)
             )
         }
 
-        if try env.instanceof(value, instanceData.constructor(for: "AssociatedDataEnum.Other", env: env)) {
+        if try env.instanceof(value, NodeClass.constructor(for: "AssociatedDataEnum.Other", env: env)) {
             let _unnamed = try env.getNamedProperty(value, "unnamed")
             let __1 = try env.getNamedProperty(value, "_1")
             return Self.other(
@@ -24,7 +23,7 @@ extension TestAPI.AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
             )
         }
 
-        if try env.instanceof(value, instanceData.constructor(for: "AssociatedDataEnum.Bar", env: env)) {
+        if try env.instanceof(value, NodeClass.constructor(for: "AssociatedDataEnum.Bar", env: env)) {
             let _named = try env.getNamedProperty(value, "named")
             let __1 = try env.getNamedProperty(value, "_1")
             return Self.bar(
@@ -33,11 +32,11 @@ extension TestAPI.AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
             )
         }
 
-        if try env.instanceof(value, instanceData.constructor(for: "AssociatedDataEnum.NoValue", env: env)) {
+        if try env.instanceof(value, NodeClass.constructor(for: "AssociatedDataEnum.NoValue", env: env)) {
             return noValue
         }
 
-        if try env.instanceof(value, instanceData.constructor(for: "AssociatedDataEnum.SimpleEnum", env: env)) {
+        if try env.instanceof(value, NodeClass.constructor(for: "AssociatedDataEnum.SimpleEnum", env: env)) {
             let _value = try env.getNamedProperty(value, "value")
             return Self.simpleEnum(
                 value: try TestAPI.SimpleEnum.fromNode(_value, env: env)
@@ -48,18 +47,17 @@ extension TestAPI.AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
     }
 
     public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
-        let instanceData = try FishyJoesNodeRuntime.InstanceData.data(for: env)
         switch value {
         case let .thing(value):
             return try env.newInstance(
-                instanceData.constructor(for: "AssociatedDataEnum.Thing", env: env),
+                NodeClass.constructor(for: "AssociatedDataEnum.Thing", env: env),
                 [
                     Swift.Int.toNode(value, env: env),
                 ]
             )
         case let .other(unnamed, _1):
             return try env.newInstance(
-                instanceData.constructor(for: "AssociatedDataEnum.Other", env: env),
+                NodeClass.constructor(for: "AssociatedDataEnum.Other", env: env),
                 [
                     Swift.String.toNode(unnamed, env: env),
                     Swift.Int.toNode(_1, env: env),
@@ -67,7 +65,7 @@ extension TestAPI.AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
             )
         case let .bar(named, _1):
             return try env.newInstance(
-                instanceData.constructor(for: "AssociatedDataEnum.Bar", env: env),
+                NodeClass.constructor(for: "AssociatedDataEnum.Bar", env: env),
                 [
                     Swift.String.toNode(named, env: env),
                     TestAPI.AssociatedDataEnum.toNode(_1, env: env),
@@ -75,13 +73,13 @@ extension TestAPI.AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
             )
         case .noValue:
             return try env.newInstance(
-                instanceData.constructor(for: "AssociatedDataEnum.NoValue", env: env),
+                NodeClass.constructor(for: "AssociatedDataEnum.NoValue", env: env),
                 [
                 ]
             )
         case let .simpleEnum(value):
             return try env.newInstance(
-                instanceData.constructor(for: "AssociatedDataEnum.SimpleEnum", env: env),
+                NodeClass.constructor(for: "AssociatedDataEnum.SimpleEnum", env: env),
                 [
                     TestAPI.SimpleEnum.toNode(value, env: env),
                 ]
