@@ -243,7 +243,8 @@ jobs:
             rm -rf flutter-package
             mkdir -p flutter-package
             cp npm_flutter_pubspec.yaml flutter-package/pubspec.yaml
-            cp npm_flutter_package.json flutter-package/package.json
+
+            jq '.version = env.VERSION' < npm_flutter_package.json > flutter-package/package.json
             cp -r lib macos linux windows flutter-package/
           )
 
