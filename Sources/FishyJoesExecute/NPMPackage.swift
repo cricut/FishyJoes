@@ -31,7 +31,7 @@ struct NPMPackage: Codable {
         }
         switch platform.platform {
         case "node-native-ubuntu": // TODO: Find something that works for this
-            self.scripts = nil// ["postinstall": "ln -s `cd ..; cd fishyjoes-runtime-\(platform.nodeExecutionEnvironment); realpath Runtime.cjs.node` libFishyJoesNodeRuntime.so"]
+            self.scripts = ["postinstall": "ln -s `cd ..; cd fishyjoes-runtime-\(platform.nodeExecutionEnvironment); realpath Runtime.cjs.node` libFishyJoesNodeRuntime.so"]
         default:
             self.scripts = nil
         }

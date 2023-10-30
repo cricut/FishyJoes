@@ -542,14 +542,14 @@ extension CodeGen {
                 case .wasm, .node:
                     break
                 case .kotlinSystem:
-                    try FileManager.default.withCurrentDirectoryPath("kotlin") {
+                    try withDirectory("kotlin") {
                         try cmd("./gradlew", "build", "-Dskip.tests").run()
                     }
                 case .kotlinAndroid:
                     // Compiled along with .kotlinSystem
                     break
                 case .cSharp:
-                    try FileManager.default.withCurrentDirectoryPath("c-sharp") {
+                    try withDirectory("c-sharp") {
                         try cmd("dotnet", "build", "Cricut.\(config.module).sln").run()
                     }
                 case .dart:
@@ -579,13 +579,12 @@ extension CodeGen {
                         // Perform execution-environment-specific fixups to allow execution to succeed despite use of file-relative packages
                         switch platform.nodeExecutionEnvironment {
                         case "native-macos":
-                            try FileManager.default.withCurrentDirectoryPath("node_modules/\(NPMPackage.nameFor(config: config, platform: platform))") {
+                            try withDirectory("node_modules/\(NPMPackage.nameFor(config: config, platform: platform))") {
                                 try cmd("npm", "install").run()
                             }
                         case "native-ubuntu":
-                            try FileManager.default.withCurrentDirectoryPath("node_modules/\(NPMPackage.nameFor(config: config, platform: platform))") {
+                            try withDirectory("node_modules/\(NPMPackage.nameFor(config: config, platform: platform))") {
                                 try cmd("npm", "install").run()
-                                try cmd("ln", "-s", "node_modules/@cricut/fishyjoes-runtime-native-ubuntu/libFishyJoesNodeRuntime.so").run()
                             }
                         default:
                             break
