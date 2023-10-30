@@ -205,11 +205,11 @@ jobs:
 
           ls -R c-sharp-runtime/
 
-          rm -rf dart-runtime/native
-          mkdir -p dart-runtime/native/{macos,linux,windows}
-          cp -dv mac_generated/* dart-runtime/native/macos/
-          cp -dv ubuntu_generated/* dart-runtime/native/linux/
-          cp -dv windows_generated/* dart-runtime/native/windows/
+          rm -rf dart-runtime/{macos,linux,windows}/native
+          mkdir -p dart-runtime/{macos,linux,windows}/native
+          cp -dv mac_generated/* dart-runtime/macos/native/
+          cp -dv ubuntu_generated/* dart-runtime/linux/native/
+          cp -dv windows_generated/* dart-runtime/windows/native/
 
           ls -R dart-runtime
 
@@ -236,6 +236,20 @@ jobs:
           )
 
           tar -cvzf FishyJoes-dart-binaries.tgz -C dart-runtime native
+
+          (
+            cd dart-runtime
+
+            rm -rf flutter-package
+            mkdir -p flutter-package
+            cp npm_flutter_pubspec.yaml flutter-package/pubspec.yaml
+            cp npm_flutter_package.json flutter-package/package.json
+            cp -r lib macos linux windows flutter-package/
+          )
+
+          npm pack ./dart/flutter-package
+          ls
+          tar -tf flutter_fishyjoesruntime*.tgz
 
       - name: Upload Nuget Package
         uses: actions/upload-artifact@v3
@@ -284,3 +298,6 @@ jobs:
             -H 'Accept: application/vnd.github.v3+json' \
             "https://uploads.github.com/repos/$OWNER/$REPO/releases/$releaseID/assets?name=$file" \
             --data-binary @$file
+
+          # publish flutter NPM package
+          npm publish flutter_fishyjoesruntime*.tgz

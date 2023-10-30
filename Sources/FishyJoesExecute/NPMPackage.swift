@@ -16,6 +16,10 @@ struct NPMPackage: Codable {
     var dependencies: [String: String]?
     var scripts: [String: String]?
 
+    init(name: String) {
+        self.name = name
+    }
+
     init(config: FishyJoesConfig, platform: Platform, version: String, dependencies: [String: String]?) {
         self.name = Self.nameFor(config: config, platform: platform)
         self.version = version
