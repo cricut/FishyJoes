@@ -631,22 +631,14 @@ extension CodeGen {
                 // Run the test suite for the library for the requested platforms
                 switch platform {
                 case .wasm, .node:
+                    try withDirectory(platform.outputDir(config)) {
+                        // Perform a file-local install of the module and its dependencies
+                        // TODO: Should build a package tarball and install it instead?
+                        try cmd("npm", "install").run()
+                    }
                     try withDirectory("node-test") {
-                        // Perform execution-environment-specific fixups to allow execution to succeed despite use of file-relative packages
-                        switch platform.nodeExecutionEnvironment {
-                        case "native-macos":
-                            try withDirectory("node_modules/\(NPMPackage.nameFor(config: config, platform: platform))") {
-                                try cmd("npm", "install").run()
-                            }
-                        case "native-ubuntu":
-                            try withDirectory("node_modules/\(NPMPackage.nameFor(config: config, platform: platform))") {
-                                try cmd("npm", "install").run()
-                            }
-                        default:
-                            break
-                        }
-
-                        // Install the test package and its dependencies
+                        // Perform a file-local install of the test package and its dependencies
+                        // TODO: Should build a package tarball and install it instead?
                         try cmd("npm", "install").run()
 
                         // Use npm to execute the test suite
