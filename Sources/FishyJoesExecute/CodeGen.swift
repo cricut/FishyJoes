@@ -730,7 +730,7 @@ extension CodeGen {
     }
 
     var prettyEncoder: JSONEncoder {
-        var encoder = JSONEncoder()
+        let encoder = JSONEncoder()
         encoder.outputFormatting = [
             .prettyPrinted,
             .withoutEscapingSlashes
