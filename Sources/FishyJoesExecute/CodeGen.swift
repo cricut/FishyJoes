@@ -632,9 +632,6 @@ extension CodeGen {
                 switch platform {
                 case .wasm, .node:
                     try withDirectory("node-test") {
-                        // Install the test package and its dependencies
-                        try cmd("npm", "install").run()
-
                         // Perform execution-environment-specific fixups to allow execution to succeed despite use of file-relative packages
                         switch platform.nodeExecutionEnvironment {
                         case "native-macos":
@@ -648,6 +645,9 @@ extension CodeGen {
                         default:
                             break
                         }
+
+                        // Install the test package and its dependencies
+                        try cmd("npm", "install").run()
 
                         // Use npm to execute the test suite
                         try cmd("npm", "run", "clear-cache").run()
