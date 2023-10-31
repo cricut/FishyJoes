@@ -142,6 +142,10 @@ jobs:
             patchelf --set-rpath $SWIFT_RUN_PATH $LIB
           done
 
+          for SO in *.so.*; do LINK=${SO%.*}; if [ ! -L "$LINK" ]; then ln -s $SO $LINK; fi done
+          for SO in *.so.*; do LINK=${SO%.*}; if [ ! -L "$LINK" ]; then ln -s $SO $LINK; fi done
+          for SO in *.so.*; do LINK=${SO%.*}; if [ ! -L "$LINK" ]; then ln -s $SO $LINK; fi done
+
       - name: Determine version
         shell: zsh {0}
         run: |
