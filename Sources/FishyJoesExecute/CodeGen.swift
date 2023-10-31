@@ -522,13 +522,15 @@ extension CodeGen {
                                 "file:\(dependency.localPath)/output/\(npmPackageName)"
                         ))
                     }
-                    let npmDependencies = Dictionary(dependencies.map { ("@cricut/\($0.npmPackageName)", $0.npmModuleVersion) }) { $1 }
-                    let templatePackage = try cmd("cat", "package.template.json").runJSON(NPMPackage.self)
+                    var npmDependencies = try cmd("cat", "package.template.json").runJSON(NPMPackage.self).dependencies ?? [:]
+                    for dependency in dependencies {
+                        npmDependencies["@cricut/\(dependency.npmPackageName)"] = dependency.npmModuleVersion
+                    }
                     var package = NPMPackage(
                         config: config,
                         platform: platform,
                         version: packageVersion,
-                        dependencies: npmDependencies.merging(templatePackage.dependencies ?? [:]) { $1 }
+                        dependencies: npmDependencies
                     )
                     if platform.platform == "node-native-ubuntu" {
                         // When on Ubuntu, dlopen() needs file-relative native libraries, so add a post-install script to the package to setup symlinks to dependency SOs
@@ -571,7 +573,7 @@ extension CodeGen {
                             .output(overwritingFile: "\(platform.outputDir(config))/postinstall.sh")
                             .run()
                         try cmd("chmod", "+x", "\(platform.outputDir(config))/postinstall.sh").run()
-                        package.scripts = (package.scripts ?? [:]).merging(["postinstall" : "./postinstall.sh"]) { $1 }
+                        package.scripts[default: [:]]["postinstall"] = "./postinstall.sh"
                     }
                     let packageJsonPath = "\(platform.outputDir(config))/package.json"
                     let prettyEncoder = JSONEncoder()
