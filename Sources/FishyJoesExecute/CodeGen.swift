@@ -547,7 +547,7 @@ extension CodeGen {
                                 package_directory=".."
                             fi
 
-                            
+
                             """
 
                         for dependency in dependencies {
