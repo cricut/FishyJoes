@@ -494,7 +494,7 @@ extension CodeGen {
                     try cmd("cp", "npm_flutter_pubspec.yaml", "flutter-package/pubspec.yaml").run()
                     try cmd("cp", "-r", "lib", "macos", "linux", "windows", "flutter-package/").run()
 
-                    var package = NPMPackage(name: "flutter_\(config.module.lowercased())")
+                    var package = NPMPackage(name: "flutter-\(config.module.lowercased())")
                     package.version = version ?? "0.0.1" // If no version is provided, use a dummy version to build the package
 
                     // If fishy-joes is file-local, use a file-local runtime too
@@ -510,12 +510,17 @@ extension CodeGen {
 
                         // If dependency is file-local, use a file-local dependency too
                         let moduleVersion = dependency.version ?? "file:\(dependency.localPath)/dart/flutter-package/"
-                        dependencies["@cricut/flutter_\(module.lowercased())"] = moduleVersion
+                        dependencies["@cricut/flutter-\(module.lowercased())"] = moduleVersion
                     }
                     package.dependencies = dependencies
                     try cmd("cat")
                         .inputJSON(from: package, encoder: prettyEncoder)
                         .output(overwritingFile: "flutter-package/package.json")
+                        .run()
+
+                    // Be a good unix citizen and terminate with a newline
+                    try cmd("echo")
+                        .append(toFile: "flutter-package/package.json")
                         .run()
                 }
             }
