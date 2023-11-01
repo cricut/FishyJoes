@@ -78,7 +78,9 @@ jobs:
           NODE_AUTH_TOKEN: ${{ env.GITHUB_TOKEN }}
         run: |
           set -euxo pipefail
-          npm publish cricut-*.tgz
+          for package in cricut-*.tgz; do
+            npm publish $package
+          done
 
   build-test-pack-ts-linux:
     name: "Ubuntu: Build and test typescript bindings"
@@ -151,4 +153,6 @@ jobs:
           NODE_AUTH_TOKEN: ${{ env.GITHUB_TOKEN }}
         run: |
           set -euxo pipefail
-          npm publish cricut-*.tgz
+          for package in cricut-*.tgz; do
+            npm publish $package
+          done

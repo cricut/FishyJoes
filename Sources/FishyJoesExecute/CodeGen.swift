@@ -541,33 +541,19 @@ extension CodeGen {
                             set -ex
                             if [[ "$npm_package_version" == "0.0.1" ]]; then
                                 # We are installed as a file local package
-
-                            """
-
-                        for dependency in dependencies {
-                            postinstall += """
-                                    ln -sf "$(realpath node_modules/@cricut/\(dependency.npmPackageName)/\(dependency.nodeLibName))" "\(dependency.compiledLibName)"
-
-                                """
-                        }
-
-                        postinstall += """
+                                package_directory="node_modules/@cricut"
                             else
                                 # We are installed as a published package
-
+                                package_directory=".."
                             """
 
                         for dependency in dependencies {
                             postinstall += """
-                                    ln -sf "$(realpath ../\(dependency.npmPackageName)/\(dependency.nodeLibName))" "\(dependency.compiledLibName)"
+                                    ln -sf "$(realpath $package_directory/\(dependency.npmPackageName)/\(dependency.nodeLibName))" "\(dependency.compiledLibName)"
 
                                 """
                         }
 
-                        postinstall += """
-                            fi
-
-                            """
                         try cmd("cat")
                             .input(postinstall)
                             .output(overwritingFile: "\(platform.outputDir(config))/postinstall.sh")
