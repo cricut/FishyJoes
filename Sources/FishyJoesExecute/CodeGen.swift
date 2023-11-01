@@ -545,6 +545,9 @@ extension CodeGen {
                             else
                                 # We are installed as a published package
                                 package_directory=".."
+                            fi
+
+                            
                             """
 
                         for dependency in dependencies {
