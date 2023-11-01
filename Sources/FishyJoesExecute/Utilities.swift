@@ -1,4 +1,5 @@
 import swsh
+import Foundation
 
 #if canImport(Darwin)
 import Darwin
@@ -154,4 +155,20 @@ extension Lazy: Hashable {
 func printAndFlush(_ items: Any..., separator: String = " ", terminator: String = "\n") {
     print(items.map(String.init(describing:)).joined(separator: separator))
     fflush(stdout)
+}
+
+class PrettyJSONEncoder: JSONEncoder {
+    override init() {
+        super.init()
+        outputFormatting = [
+            .prettyPrinted,
+            .withoutEscapingSlashes
+        ]
+    }
+
+    override func encode<E: Encodable>(_ object: E) throws -> Data {
+        var data = try super.encode(object)
+        data.append("\n".data(using: .utf8)!)
+        return data
+    }
 }

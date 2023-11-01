@@ -487,46 +487,12 @@ extension CodeGen {
             if platforms.contains(.dart) {
                 try withDirectory("dart") {
                     try cmd("dart", "run", "build_runner", "build", "--delete-conflicting-outputs").run()
-
-                    // Generate flutter package from dart package
-                    try cmd("rm", "-rf", "flutter-package").run()
-                    try cmd("mkdir", "-p", "flutter-package").run()
-                    try cmd("cp", "npm_flutter_pubspec.yaml", "flutter-package/pubspec.yaml").run()
-                    try cmd("cp", "-r", "lib", "macos", "linux", "windows", "flutter-package/").run()
-
-                    var package = NPMPackage(name: "flutter-\(config.module.lowercased())")
-                    package.version = version ?? "0.0.1" // If no version is provided, use a dummy version to build the package
-
-                    // If fishy-joes is file-local, use a file-local runtime too
-                    let runtimeVersion = fishyJoesDependency.version ??
-                        "file:\(fishyJoesDependency.localPath)/dart-runtime/flutter-package"
-
-                    var dependencies = ["@cricut/flutter-fishyjoes-runtime": runtimeVersion]
-                    for module in config.requiredModules {
-                        let bindingsModuleName = "\(module)-bindings"
-                        guard let dependency = packageInfo.dependencyMap[bindingsModuleName] else {
-                            fatalError("Could not locate dependency \(bindingsModuleName) in Package.swift")
-                        }
-
-                        // If dependency is file-local, use a file-local dependency too
-                        let moduleVersion = dependency.version ?? "file:\(dependency.localPath)/dart/flutter-package/"
-                        dependencies["@cricut/flutter-\(module.lowercased())"] = moduleVersion
-                    }
-                    package.dependencies = dependencies
-                    try cmd("cat")
-                        .inputJSON(from: package, encoder: prettyEncoder)
-                        .output(overwritingFile: "flutter-package/package.json")
-                        .run()
-
-                    // Be a good unix citizen and terminate with a newline
-                    try cmd("echo")
-                        .append(toFile: "flutter-package/package.json")
-                        .run()
                 }
             }
 
             // Generate files whose creation requires use of template files
             for platform in platforms {
+
                 switch platform {
                 case .wasm, .node:
                     // Generate package.json from template
@@ -553,13 +519,8 @@ extension CodeGen {
                     )
                     let packageJsonPath = "\(platform.outputDir(config))/package.json"
                     try cmd("cat")
-                        .inputJSON(from: package, encoder: prettyEncoder)
+                        .inputJSON(from: package, encoder: PrettyJSONEncoder())
                         .output(overwritingFile: packageJsonPath)
-                        .run()
-
-                    // Be a good unix citizen and terminate with a newline
-                    try cmd("echo")
-                        .append(toFile: packageJsonPath)
                         .run()
                 case .kotlinSystem, .kotlinAndroid, .cSharp, .dart:
                     break
@@ -672,13 +633,8 @@ extension CodeGen {
 
                         // Write out the new package.json
                         try cmd("cat")
-                            .inputJSON(from: package, encoder: prettyEncoder)
+                            .inputJSON(from: package, encoder: PrettyJSONEncoder())
                             .output(overwritingFile: packageJsonPath)
-                            .run()
-
-                        // Be a good unix citizen and terminate with a newline
-                        try cmd("echo")
-                            .append(toFile: packageJsonPath)
                             .run()
                     }
 
@@ -694,24 +650,61 @@ extension CodeGen {
                     try cmd("dotnet", "pack", "-c", "Release", "c-sharp/\(name)/\(name).csproj", "/p:Version=\(version)").run()
                     try cmd("cp", "c-sharp/\(name)/bin/Release/\(name).\(version).nupkg", ".").run()
                 case .dart:
-                    // Update version number in package, if provided
-                    if let version = version {
-                        // Read package.json and update the version
-                        let packageJsonPath = "dart/flutter-package/package.json"
-                        var package = try cmd("cat", packageJsonPath).runJSON(NPMPackage.self)
-                        package.version = version
+                    // Generate flutter package from dart package
+                    try cmd("rm", "-rf", "dart/flutter-package").run()
+                    try cmd("mkdir", "-p", "dart/flutter-package/macos/native").run()
+                    try cmd("mkdir", "-p", "dart/flutter-package/linux/native").run()
+                    try cmd("mkdir", "-p", "dart/flutter-package/windows/native").run()
 
-                        // Write out the new package.json
-                        try cmd("cat")
-                            .inputJSON(from: package, encoder: prettyEncoder)
-                            .output(overwritingFile: packageJsonPath)
-                            .run()
+                    try cmd("cp", "dart/npm_flutter_pubspec.yaml", "dart/flutter-package/pubspec.yaml").run()
 
-                        // Be a good unix citizen and terminate with a newline
-                        try cmd("echo")
-                            .append(toFile: packageJsonPath)
-                            .run()
+                    let installList = [
+                        (path: "lib/", required: true),
+
+                        (path: "macos/cricut_\(config.module.lowercased()).podspec", required: true),
+                        (path: "macos/native/lib\(config.module).dylib", required: false),
+                        (path: "macos/native/lib\(config.module)-iota.dylib", required: false),
+
+                        (path: "linux/CMakeLists.txt", required: true),
+                        (path: "linux/native/lib\(config.module).so", required: false),
+                        (path: "linux/native/lib\(config.module)-iota.so", required: false),
+
+                        (path: "windows/CMakeLists.txt", required: true),
+                        (path: "windows/native/\(config.module).dll", required: false),
+                        (path: "windows/native/\(config.module)-iota.dll", required: false),
+                    ]
+
+                    for (path, required) in installList {
+                        if required {
+                            try cmd("cp", "-r", "dart/\(path)", "dart/flutter-package/\(path)").run()
+                        } else {
+                            try? cmd("cp", "-r", "dart/\(path)", "dart/flutter-package/\(path)").run()
+                        }
                     }
+
+                    var package = NPMPackage(name: "@cricut/flutter-\(config.module.lowercased())")
+                    package.version = version ?? "0.0.1" // If no version is provided, use a dummy version to package
+
+                    // If fishy-joes is file-local, use a file-local runtime too
+                    let runtimeVersion = fishyJoesDependency.version ??
+                        "file:\(fishyJoesDependency.localPath)/dart-runtime/flutter-package"
+
+                    var dependencies = ["@cricut/flutter-fishyjoes-runtime": runtimeVersion]
+                    for module in config.requiredModules {
+                        let bindingsModuleName = "\(module)-bindings"
+                        guard let dependency = packageInfo.dependencyMap[bindingsModuleName] else {
+                            fatalError("Could not locate dependency \(bindingsModuleName) in Package.swift")
+                        }
+
+                        // If dependency is file-local, use a file-local dependency too
+                        let moduleVersion = dependency.version ?? "file:\(dependency.localPath)/dart/flutter-package/"
+                        dependencies["@cricut/flutter-\(module.lowercased())"] = moduleVersion
+                    }
+                    package.dependencies = dependencies
+                    try cmd("cat")
+                        .inputJSON(from: package, encoder: PrettyJSONEncoder())
+                        .output(overwritingFile: "dart/flutter-package/package.json")
+                        .run()
 
                     // Pack using npm
                     try cmd("npm", "pack", "./dart/flutter-package").run()
@@ -732,14 +725,5 @@ extension CodeGen {
             printDir()
             return try body()
         }
-    }
-
-    var prettyEncoder: JSONEncoder {
-        let encoder = JSONEncoder()
-        encoder.outputFormatting = [
-            .prettyPrinted,
-            .withoutEscapingSlashes
-        ]
-        return encoder
     }
 }
