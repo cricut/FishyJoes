@@ -74,6 +74,7 @@ jobs:
 
           apt-get -y update
           apt-get -y install patchelf
+          git config --global --add safe.directory '*'
 
       - name: Build FishyJoesIotaRuntime
         shell: zsh {0}

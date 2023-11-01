@@ -45,7 +45,6 @@ jobs:
         shell: zsh {0}
         run: |
           set -euxo pipefail
-
           swift run -- fishy-joes --kotlin-fast --fat generate build
 
       - name: Test from gradle
@@ -87,7 +86,6 @@ jobs:
         shell: zsh {0}
         run: |
           set -euxo pipefail
-
           swift run -- fishy-joes --kotlin build --no-use-docker
 
       - name: Test from gradle
@@ -154,7 +152,10 @@ jobs:
   kotlin-publish:
     name: Publish kotlin package
     runs-on: ubuntu-latest
-    needs: [build-test-kotlin-mac, build-test-kotlin-linux, build-test-kotlin-windows]
+    needs:
+      - build-test-kotlin-mac
+      - build-test-kotlin-linux
+      - build-test-kotlin-windows
     if: success()
     env:
       GITHUB_PUBLISH_TOKEN: ${{ env.GITHUB_TOKEN }}

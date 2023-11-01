@@ -46,7 +46,6 @@ jobs:
         shell: zsh {0}
         run: |
           set -euxo pipefail
-
           swift run -- fishy-joes --c-sharp --fat generate build
 
       - name: Test library from dotnet
@@ -83,7 +82,8 @@ jobs:
           set -eux
           apt-get -y update
           apt-get -y install patchelf curl
-
+          git config --global --add safe.directory '*'
+          
       - name: Setup dotnet
         uses: actions/setup-dotnet@v3
         with:
@@ -176,7 +176,10 @@ jobs:
   c-sharp-publish:
     name: "Publish C# package"
     runs-on: ubuntu-latest
-    needs: [build-test-c-sharp-mac, build-test-c-sharp-linux, build-test-c-sharp-windows]
+    needs:
+      - build-test-c-sharp-mac
+      - build-test-c-sharp-linux
+      - build-test-c-sharp-windows
     env:
       GITHUB_PUBLISH_TOKEN: ${{ env.GITHUB_TOKEN }}
     steps:

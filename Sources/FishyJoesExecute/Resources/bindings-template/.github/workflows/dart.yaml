@@ -80,6 +80,7 @@ jobs:
           set -eux
           apt-get -y update
           apt-get -y install patchelf curl
+          git config --global --add safe.directory '*'
 
       - name: Build library
         shell: zsh {0}
