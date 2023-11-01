@@ -142,9 +142,11 @@ jobs:
             patchelf --set-rpath $SWIFT_RUN_PATH $LIB
           done
 
-          for SO in *.so.*; do LINK=${SO%.*}; if [ ! -L "$LINK" ]; then ln -s $SO $LINK; fi; done
-          for SO in *.so.*; do LINK=${SO%.*}; if [ ! -L "$LINK" ]; then ln -s $SO $LINK; fi; done
-          for SO in *.so.*; do LINK=${SO%.*}; if [ ! -L "$LINK" ]; then ln -s $SO $LINK; fi; done
+          # Copy versioned SO files to their expected link locations since NPM does not include them
+          # See https://github.com/npm/cli/issues/6744
+          for SO in *.so.*; do LINK=${SO%.*}; if [ ! -e "$LINK" ]; then cp $SO $LINK; fi; done
+          for SO in *.so.*; do LINK=${SO%.*}; if [ ! -e "$LINK" ]; then cp $SO $LINK; fi; done
+          for SO in *.so.*; do LINK=${SO%.*}; if [ ! -e "$LINK" ]; then cp $SO $LINK; fi; done
 
       - name: Determine version
         shell: zsh {0}
