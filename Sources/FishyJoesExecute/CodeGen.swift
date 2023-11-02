@@ -656,7 +656,10 @@ extension CodeGen {
                     try cmd("mkdir", "-p", "dart/flutter-package/linux/native").run()
                     try cmd("mkdir", "-p", "dart/flutter-package/windows/native").run()
 
-                    try cmd("cp", "dart/npm_flutter_pubspec.yaml", "dart/flutter-package/pubspec.yaml").run()
+                    try cmd("yq", ".version = strenv(VERSION)", addEnv: ["VERSION": version ?? "0.0.1-unknown"])
+                        .input(fromFile: "dart/npm_flutter_pubspec.yaml")
+                        .output(overwritingFile: "dart/flutter-package/pubspec.yaml")
+                        .run()
 
                     let installList = [
                         (path: "lib/", required: true),
