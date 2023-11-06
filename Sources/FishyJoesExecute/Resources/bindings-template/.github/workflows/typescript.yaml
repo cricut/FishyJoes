@@ -28,7 +28,7 @@ jobs:
     
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Git Credentials
         uses: de-vri-es/setup-git-credentials@v2
@@ -46,14 +46,12 @@ jobs:
         shell: zsh {0}
         run: |
           set -euxo pipefail
-
           swift run -- fishy-joes --nodejs --fat generate build
 
       - name: Test from node
         shell: zsh {0}
         run: |
           set -euxo pipefail
-
           swift run -- fishy-joes --nodejs --fat test
 
       - name: Pack
@@ -73,12 +71,28 @@ jobs:
           name: npm_mac_packages
           path: cricut-*.tgz
 
+      - name: Publish NPM Package
+        if: success() && github.event_name == 'release'
+        shell: zsh {0}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euxo pipefail
+          for package in cricut-*.tgz; do
+            npm publish $package
+          done
+
   build-test-pack-ts-linux:
     name: "Ubuntu: Build and test typescript bindings"
     runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/cricut/android-swift-runtime:1.0.0
+      credentials:
+        username: cricut-builduser
+        password: ${{ secrets.CRICUT_GPR_TOKEN }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Git Credentials
         uses: de-vri-es/setup-git-credentials@v2
@@ -93,33 +107,32 @@ jobs:
           scope: '@cricut'
 
       - name: Configure build environment
+        shell: zsh {0}
         run: |
           set -euxo pipefail
 
-          sudo apt-get install zsh
-
+          git config --global --add safe.directory '*'
+          
           curl -Lo swift-wasm.tgz "https://github.com/swiftwasm/swift/releases/download/swift-wasm-$SWIFT_WASM_VERSION/swift-wasm-$SWIFT_WASM_VERSION-ubuntu20.04_x86_64.tar.gz"
-          sudo mkdir -p /Library/Developer/Toolchains/swift-wasm-$SWIFT_WASM_VERSION.xctoolchain
-          sudo tar -xf swift-wasm.tgz -C /Library/Developer/Toolchains/swift-wasm-$SWIFT_WASM_VERSION.xctoolchain --strip-components 1
+          mkdir -p /Library/Developer/Toolchains/swift-wasm-$SWIFT_WASM_VERSION.xctoolchain
+          tar -xf swift-wasm.tgz -C /Library/Developer/Toolchains/swift-wasm-$SWIFT_WASM_VERSION.xctoolchain --strip-components 1
 
       - name: Build library
         shell: zsh {0}
         run: |
           set -euxo pipefail
-
           swift run -- fishy-joes --nodejs --wasm build
 
       - name: Test from node
         shell: zsh {0}
         run: |
           set -euxo pipefail
-
           swift run -- fishy-joes --nodejs --wasm test
 
       - name: Pack
         shell: zsh {0}
         run: |
-          set -euo pipefail
+          set -euxo pipefail
 
           VERSION=${GITHUB_REF#refs/*/}
           if [[ ! $VERSION =~ [0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9]+)* ]]; then
@@ -133,41 +146,13 @@ jobs:
           name: npm_linux_packages
           path: cricut-*.tgz
 
-  npm-publish:
-    name: Publish NPM packages
-    runs-on: ubuntu-latest
-    needs:
-      - build-test-pack-ts-linux
-      - build-test-pack-ts-mac
-    if: success() && github.event_name == 'release'
-    steps:
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          registry-url: 'https://npm.pkg.github.com/'
-          scope: '@cricut'
-
-      - name: Retrieve NPM Package Artifact
-        uses: actions/download-artifact@v3
-
-      - name: Install zsh
+      - name: Publish NPM Package
+        if: success() && github.event_name == 'release'
+        shell: zsh {0}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euxo pipefail
-          sudo apt-get install zsh
-
-      - name: Publish NPM Package
-        env:
-          NODE_AUTH_TOKEN: ${{ env.GITHUB_TOKEN }}
-        shell: zsh {0}
-        run: |
-          set -euo pipefail
-
-          for directory in npm_mac_packages npm_linux_packages; do
-            (
-              cd $directory
-              for package in *.tgz; do
-                npm publish $package
-              done
-            )
+          for package in cricut-*.tgz; do
+            npm publish $package
           done

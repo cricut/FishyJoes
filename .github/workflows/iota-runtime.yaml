@@ -27,7 +27,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Git Credentials
         uses: de-vri-es/setup-git-credentials@v2
@@ -51,14 +51,17 @@ jobs:
     name: "Ubuntu: Build Iota Runtime"
     runs-on: ubuntu-latest
     container:
-      image: swift
+      image: ghcr.io/cricut/android-swift-runtime:1.0.0
+      credentials:
+        username: cricut-builduser
+        password: ${{ secrets.CRICUT_GPR_TOKEN }}
     env:
       GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
       GITHUB_USER: cricut-builduser
       LIB_DIR: .build/linux-iota-libs
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Git Credentials
         uses: de-vri-es/setup-git-credentials@v2
@@ -70,7 +73,8 @@ jobs:
           set -eux
 
           apt-get -y update
-          apt-get -y install zsh patchelf
+          apt-get -y install patchelf
+          git config --global --add safe.directory '*'
 
       - name: Build FishyJoesIotaRuntime
         shell: zsh {0}
@@ -124,7 +128,7 @@ jobs:
       LIB_DIR: .build/windows-iota-libs
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Git Credentials
         uses: de-vri-es/setup-git-credentials@v2
@@ -170,7 +174,7 @@ jobs:
       GITHUB_PUBLISH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Git Credentials
         uses: de-vri-es/setup-git-credentials@v2

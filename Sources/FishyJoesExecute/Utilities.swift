@@ -155,3 +155,14 @@ func printAndFlush(_ items: Any..., separator: String = " ", terminator: String 
     print(items.map(String.init(describing:)).joined(separator: separator))
     fflush(stdout)
 }
+
+extension Optional {
+    subscript(default defaultValue: Wrapped) -> Wrapped {
+        get {
+            self ?? defaultValue
+        }
+        set {
+            self = newValue
+        }
+    }
+}
