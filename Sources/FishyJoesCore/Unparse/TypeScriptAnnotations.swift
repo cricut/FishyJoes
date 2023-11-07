@@ -259,12 +259,6 @@ extension TypeScriptAnnotations {
     var fragment: SourceFragment {
         let fragment = SourceFragment(sourceryDestination: "file:NodeInterface/\(defaultNamespace).d.ts")
 
-        fragment.output("import { Runtime } from '@cricut/fishyjoes-runtime';")
-        fragment.output("export { Runtime } from '@cricut/fishyjoes-runtime';")
-        fragment.blankLine()
-        fragment.output("export type Optional<T> = T | undefined;")
-        fragment.blankLine()
-
         func document(_ documentation: [String]) {
             guard !documentation.isEmpty else { return }
             fragment.output("/**")
@@ -393,12 +387,6 @@ extension TypeScriptAnnotations {
             }
         }
         rootNamespaces.forEach { output(namespace: $0, declare: true) }
-        fragment.outputBlock("export declare function init(): Promise<{", closeWith: "}>;") {
-            for rootNamespace in rootNamespaces {
-                fragment.output("\(rootNamespace.name): typeof \(rootNamespace.name),")
-            }
-        }
-        fragment.output("export default \(defaultNamespace);")
         return fragment
     }
 }

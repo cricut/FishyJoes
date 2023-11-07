@@ -883,11 +883,6 @@ export declare namespace Runtime {
     }
 }
 
-export declare function init(): Promise<{
-    Runtime: typeof Runtime,
-}>;
-export default Runtime;
-
 // Extensions
 
 export namespace Runtime {
