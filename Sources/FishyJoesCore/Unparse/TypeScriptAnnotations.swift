@@ -257,7 +257,7 @@ extension TypeScriptAnnotations {
     }
 
     var fragment: SourceFragment {
-        let fragment = SourceFragment(sourceryDestination: "file:NodeInterface/\(defaultNamespace).d.ts")
+        let fragment = SourceFragment(sourceryDestination: "file:NodeInterface/\(defaultNamespace).d.ts.part")
 
         func document(_ documentation: [String]) {
             guard !documentation.isEmpty else { return }

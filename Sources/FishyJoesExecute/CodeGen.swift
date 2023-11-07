@@ -316,9 +316,21 @@ extension CodeGen {
                     }
 
                     // Collect information about the dependencies of the module
-                    var dependencies: [(moduleName: String, compiledLibName: String, nodeLibName: String, npmPackageName: String, npmModuleVersion: String)] = []
+                    var dependencies: [
+                        (
+                            moduleName: String,
+                            localPath: String,
+                            definitionsPath: String,
+                            compiledLibName: String,
+                            nodeLibName: String,
+                            npmPackageName: String,
+                            npmModuleVersion: String
+                        )
+                    ] = []
                     dependencies.append((
                         moduleName: "Runtime",
+                        localPath: runtimePath,
+                        definitionsPath: "\(runtimePath)/fishyjoes-runtime-common",
                         compiledLibName: "libFishyJoesNodeRuntime.\(platform.dylibExt)",
                         nodeLibName: "Runtime.cjs.node",
                         npmPackageName: "fishyjoes-runtime-\(platform.nodeExecutionEnvironment)",
@@ -334,6 +346,8 @@ extension CodeGen {
                         }
                         dependencies.append((
                             moduleName: moduleName,
+                            localPath: dependency.localPath,
+                            definitionsPath: "\(dependency.localPath)/Sources/Generated/NodeInterface",
                             compiledLibName: "lib\(moduleName)-node.\(platform.dylibExt)",
                             nodeLibName: "\(moduleName).cjs.node",
                             npmPackageName: npmPackageName,
@@ -464,7 +478,19 @@ extension CodeGen {
                         // Include definitions for each dependency
                         for dependency in dependencies {
                             if platform == .wasm {
-                                // TODO: Splat in depenency definitions
+                                // Splat in depenency definitions
+                                let dependencyDefinitionsPath = "\(dependency.definitionsPath)/\(dependency.moduleName).d.ts.part"
+                                let dependencyDefintions = try String(contentsOfFile: dependencyDefinitionsPath)
+                                definitions.append(contentsOf: dependencyDefintions.split(separator: "\n").map(String.init))
+                                definitions.append("")
+
+                                // Splat in dependency extension definitions, if present
+                                let dependencyExtensionDefinitionsPath = "\(dependency.definitionsPath)/\(dependency.moduleName).extensions.d.ts.part"
+                                if cmd("test", "-f", dependencyExtensionDefinitionsPath).runBool() {
+                                    let dependencyExtensionDefintions = try String(contentsOfFile: dependencyExtensionDefinitionsPath)
+                                    definitions.append(contentsOf: dependencyExtensionDefintions.split(separator: "\n").map(String.init))
+                                    definitions.append("")
+                                }
                             }
                             if platform == .node {
                                 // Import and re-export the dependency definitions
@@ -475,27 +501,31 @@ extension CodeGen {
                         definitions.append("")
 
                         // Splat in the module's own definitions
-                        let moduleDefinitionsPath = "Sources/Generated/NodeInterface/\(config.module).d.ts"
+                        let moduleDefinitionsPath = "Sources/Generated/NodeInterface/\(config.module).d.ts.part"
                         let moduleDefintions = try String(contentsOfFile: moduleDefinitionsPath)
                         definitions.append(contentsOf: moduleDefintions.split(separator: "\n").map(String.init))
+                        definitions.append("")
 
                         // Splat in the module's extension definitions
-                        let moduleExtensionsPath = "ts/\(config.module).extensions.d.ts"
+                        let moduleExtensionsPath = "ts/\(config.module).extensions.d.ts.part"
                         if cmd("test", "-f", moduleExtensionsPath).runBool() {
-                            try definitions.append(String(contentsOfFile: moduleExtensionsPath))
+                            let moduleExtensionDefinitions = try String(contentsOfFile: moduleExtensionsPath)
+                            definitions.append(contentsOf: moduleExtensionDefinitions.split(separator: "\n").map(String.init))
+                            definitions.append("")
                         }
 
-                        // Export a function to load the module and its dependencies
-                        // TODO: Is this needed???
+                        // Export a function that can be used to load the module and its dependencies using a promise
                         definitions.append("export declare function init(): Promise<{")
                         for dependency in dependencies {
-                            definitions.append("\(dependency.moduleName): typeof \(dependency.moduleName),")
+                            definitions.append("    \(dependency.moduleName): typeof \(dependency.moduleName),")
                         }
                         definitions.append("\(config.module): typeof \(config.module),")
                         definitions.append("}>;");
+                        definitions.append("")
 
                         // Make the module's own definitions the default export
                         definitions.append("export default \(config.module);")
+                        definitions.append("")
 
                         // Write out the assembled definitions file
                         try cmd("cat", "-")
