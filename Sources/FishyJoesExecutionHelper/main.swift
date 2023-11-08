@@ -12,7 +12,16 @@ if let dumpPath = ProcessInfo.processInfo.environment["DUMP_SOURCERY_DATA"] {
 }
 
 let inputPath = (CommandLine.arguments[2] as NSString).expandingTildeInPath as String
-guard let context = NSKeyedUnarchiver.unarchiveObject(withFile: inputPath) as? TemplateContext else {
+protocol UndeprecatedNSKeyedUnarchiver {
+    static func unarchiveObject(withFile file: String) -> Any?
+}
+enum DeprecatedNSKeyedUnarchiver: UndeprecatedNSKeyedUnarchiver {
+    @available(macOS, deprecated: 10.14)
+    static func unarchiveObject(withFile file: String) -> Any? {
+        return NSKeyedUnarchiver.unarchiveObject(withFile: file)
+    }
+}
+guard let context = (DeprecatedNSKeyedUnarchiver.self as UndeprecatedNSKeyedUnarchiver.Type).unarchiveObject(withFile: inputPath) as? TemplateContext else {
     fatalError("Something went wrong with executing fishyjoes from sourcery")
 }
 

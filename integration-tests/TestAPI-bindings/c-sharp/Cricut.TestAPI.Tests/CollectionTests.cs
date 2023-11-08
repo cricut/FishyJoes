@@ -48,10 +48,10 @@ namespace Cricut.TestAPI.Tests {
 
         [Fact]
         void testObjectsWithCollectionMembers() {
-            Collections.CollectionHolder.StaticPropery.Should().BeEquivalentTo(new List<nint?> { null, 2, 7, 3, 5, 8 });
-            Collections.CollectionHolder.StaticMutablePropery.Should().BeEquivalentTo(new List<nint?> { null, 2, 7, 3, 5, 8 });
-            Collections.CollectionHolder.StaticMutablePropery = new List<nint?> { 100, null, 200 };
-            Collections.CollectionHolder.StaticMutablePropery.Should().BeEquivalentTo(new List<nint?> { 100, null, 200 });
+            Collections.CollectionHolder.StaticProperty.Should().BeEquivalentTo(new List<nint?> { null, 2, 7, 3, 5, 8 });
+            Collections.CollectionHolder.StaticMutableProperty.Should().BeEquivalentTo(new List<nint?> { null, 2, 7, 3, 5, 8 });
+            Collections.CollectionHolder.StaticMutableProperty = new List<nint?> { 100, null, 200 };
+            Collections.CollectionHolder.StaticMutableProperty.Should().BeEquivalentTo(new List<nint?> { 100, null, 200 });
             var s = Collections.DefaultCollectionHolder;
             s.Should().BeEquivalentTo(Collections.DefaultCollectionHolder);
             s.BoolDictionary = new Dictionary<bool, bool>(s.BoolDictionary.Select(it => KeyValuePair.Create(it.Key, !it.Value)));

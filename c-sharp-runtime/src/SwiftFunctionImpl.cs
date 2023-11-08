@@ -8,23 +8,23 @@ namespace Cricut.FishyJoesRuntime {
         internal SwiftFunctionImpl(ConsumedRef reference) : base(reference) {}
 
         internal object? invoke0() {
-            return Check((out CreatedRef exn) => FishyJoesRuntime_SwiftFunctionImpl_invoke0(
-                this.internalReference, out exn
+            return Check((out CreatedRef exn) => FishyJoesCommonRuntime_SwiftFunctionImpl_invoke0(
+                Loader.env, this.internalReference, out exn
             ).Consume<object?>());
         }
 
         internal object? invoke1(object? p0) {
             using var a0 = new GCRef(p0);
-            return Check((out CreatedRef exn) => FishyJoesRuntime_SwiftFunctionImpl_invoke1(
-                this.internalReference, a0.ptr, out exn
+            return Check((out CreatedRef exn) => FishyJoesCommonRuntime_SwiftFunctionImpl_invoke1(
+                Loader.env, this.internalReference, a0.ptr, out exn
             ).Consume<object?>());
         }
 
         internal object? invoke2(object? p0, object? p1) {
             using var a0 = new GCRef(p0);
             using var a1 = new GCRef(p1);
-            return Check((out CreatedRef exn) => FishyJoesRuntime_SwiftFunctionImpl_invoke2(
-                this.internalReference, a0.ptr, a1.ptr, out exn
+            return Check((out CreatedRef exn) => FishyJoesCommonRuntime_SwiftFunctionImpl_invoke2(
+                Loader.env, this.internalReference, a0.ptr, a1.ptr, out exn
             ).Consume<object?>());
         }
 
@@ -32,8 +32,8 @@ namespace Cricut.FishyJoesRuntime {
             using var a0 = new GCRef(p0);
             using var a1 = new GCRef(p1);
             using var a2 = new GCRef(p2);
-            return Check((out CreatedRef exn) => FishyJoesRuntime_SwiftFunctionImpl_invoke3(
-                this.internalReference, a0.ptr, a1.ptr, a2.ptr, out exn
+            return Check((out CreatedRef exn) => FishyJoesCommonRuntime_SwiftFunctionImpl_invoke3(
+                Loader.env, this.internalReference, a0.ptr, a1.ptr, a2.ptr, out exn
             ).Consume<object?>());
         }
 
@@ -42,8 +42,8 @@ namespace Cricut.FishyJoesRuntime {
             using var a1 = new GCRef(p1);
             using var a2 = new GCRef(p2);
             using var a3 = new GCRef(p3);
-            return Check((out CreatedRef exn) => FishyJoesRuntime_SwiftFunctionImpl_invoke4(
-                this.internalReference, a0.ptr, a1.ptr, a2.ptr, a3.ptr, out exn
+            return Check((out CreatedRef exn) => FishyJoesCommonRuntime_SwiftFunctionImpl_invoke4(
+                Loader.env, this.internalReference, a0.ptr, a1.ptr, a2.ptr, a3.ptr, out exn
             ).Consume<object?>());
         }
 
@@ -53,8 +53,8 @@ namespace Cricut.FishyJoesRuntime {
             using var a2 = new GCRef(p2);
             using var a3 = new GCRef(p3);
             using var a4 = new GCRef(p4);
-            return Check((out CreatedRef exn) => FishyJoesRuntime_SwiftFunctionImpl_invoke5(
-                this.internalReference, a0.ptr, a1.ptr, a2.ptr, a3.ptr, a4.ptr, out exn
+            return Check((out CreatedRef exn) => FishyJoesCommonRuntime_SwiftFunctionImpl_invoke5(
+                Loader.env, this.internalReference, a0.ptr, a1.ptr, a2.ptr, a3.ptr, a4.ptr, out exn
             ).Consume<object?>());
         }
 
@@ -65,34 +65,38 @@ namespace Cricut.FishyJoesRuntime {
             using var a3 = new GCRef(p3);
             using var a4 = new GCRef(p4);
             using var a5 = new GCRef(p5);
-            return Check((out CreatedRef exn) => FishyJoesRuntime_SwiftFunctionImpl_invoke6(
-                this.internalReference, a0.ptr, a1.ptr, a2.ptr, a3.ptr, a4.ptr, a5.ptr, out exn
+            return Check((out CreatedRef exn) => FishyJoesCommonRuntime_SwiftFunctionImpl_invoke6(
+                Loader.env, this.internalReference, a0.ptr, a1.ptr, a2.ptr, a3.ptr, a4.ptr, a5.ptr, out exn
             ).Consume<object?>());
         }
 
-        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern CreatedRef FishyJoesRuntime_SwiftFunctionImpl_invoke0(
+        [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern CreatedRef FishyJoesCommonRuntime_SwiftFunctionImpl_invoke0(
+            IntPtr envRef,
             UnownedRef self,
             out CreatedRef exn
         );
 
-        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern CreatedRef FishyJoesRuntime_SwiftFunctionImpl_invoke1(
+        [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern CreatedRef FishyJoesCommonRuntime_SwiftFunctionImpl_invoke1(
+            IntPtr envRef,
             UnownedRef self,
             UnownedRef p0,
             out CreatedRef exn
         );
 
-        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern CreatedRef FishyJoesRuntime_SwiftFunctionImpl_invoke2(
+        [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern CreatedRef FishyJoesCommonRuntime_SwiftFunctionImpl_invoke2(
+            IntPtr envRef,
             UnownedRef self,
             UnownedRef p0,
             UnownedRef p1,
             out CreatedRef exn
         );
 
-        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern CreatedRef FishyJoesRuntime_SwiftFunctionImpl_invoke3(
+        [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern CreatedRef FishyJoesCommonRuntime_SwiftFunctionImpl_invoke3(
+            IntPtr envRef,
             UnownedRef self,
             UnownedRef p0,
             UnownedRef p1,
@@ -100,8 +104,9 @@ namespace Cricut.FishyJoesRuntime {
             out CreatedRef exn
         );
 
-        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern CreatedRef FishyJoesRuntime_SwiftFunctionImpl_invoke4(
+        [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern CreatedRef FishyJoesCommonRuntime_SwiftFunctionImpl_invoke4(
+            IntPtr envRef,
             UnownedRef self,
             UnownedRef p0,
             UnownedRef p1,
@@ -110,8 +115,9 @@ namespace Cricut.FishyJoesRuntime {
             out CreatedRef exn
         );
 
-        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern CreatedRef FishyJoesRuntime_SwiftFunctionImpl_invoke5(
+        [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern CreatedRef FishyJoesCommonRuntime_SwiftFunctionImpl_invoke5(
+            IntPtr envRef,
             UnownedRef self,
             UnownedRef p0,
             UnownedRef p1,
@@ -121,8 +127,9 @@ namespace Cricut.FishyJoesRuntime {
             out CreatedRef exn
         );
 
-        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern CreatedRef FishyJoesRuntime_SwiftFunctionImpl_invoke6(
+        [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern CreatedRef FishyJoesCommonRuntime_SwiftFunctionImpl_invoke6(
+            IntPtr envRef,
             UnownedRef self,
             UnownedRef p0,
             UnownedRef p1,
@@ -135,323 +142,361 @@ namespace Cricut.FishyJoesRuntime {
     }
 
     public partial class Loader {
-        public static void FishyJoesRuntime_Function0Converter_setup<R>(string name, out CreatedRef exn) {
-            FishyJoesRuntime_Function0Converter_setup(
-                name,
-                bag<Constructor>((ConsumedRef swiftRef, out CreatedRef innerExn) => Catching(out innerExn, () => {
-                    var impl = new SwiftFunctionImpl(swiftRef);
-                    return new CreatedRef((System.Func<R>)(() =>
-                        (R)impl.invoke0()!
-                    ));
-                })),
-                bag<Invoke0>((UnownedRef fn, out CreatedRef innerExn) => Catching(out innerExn, () =>
-                    new CreatedRef(fn.Peek<System.Func<R>>()(
-                    ))
-                )),
-                out exn
-            );
+        public static void FishyJoesCommonRuntime_Function0Converter_setup<R>(IntPtr envRef, string name, out CreatedRef exn) {
+            unsafe {
+                FishyJoesCommonRuntime_FunctionConverter_setup(
+                    envRef,
+                    name,
+                    bag<Constructor>((IntPtr context, ConsumedRef swiftRef, out CreatedRef innerExn) => Catching(out innerExn, () => {
+                        var impl = new SwiftFunctionImpl(swiftRef);
+                        return new CreatedRef((System.Func<R>)(() =>
+                            (R)impl.invoke0()!
+                        ));
+                    })),
+                    bag<InvokeMethod>((IntPtr context, UnownedRef fn, ConsumedRef* arguments, out CreatedRef innerExn) => Catching(out innerExn, () =>
+                        new CreatedRef(fn.Peek<System.Func<R>>()(
+                        ))
+                    )),
+                    IntPtr.Zero,
+                    out exn
+                );
+            }
         }
 
-        public static void FishyJoesRuntime_Function1Converter_setup<R, P0>(string name, out CreatedRef exn) {
-            FishyJoesRuntime_Function1Converter_setup(
-                name,
-                bag<Constructor>((ConsumedRef swiftRef, out CreatedRef innerExn) => Catching(out innerExn, () => {
-                    var impl = new SwiftFunctionImpl(swiftRef);
-                    return new CreatedRef((System.Func<P0, R>)((P0 p0) =>
-                        (R)impl.invoke1(p0)!
-                    ));
-                })),
-                bag<Invoke1>((UnownedRef fn, ConsumedRef p0, out CreatedRef innerExn) => Catching(out innerExn, () =>
-                    new CreatedRef(fn.Peek<System.Func<P0, R>>()(
-                        p0.Consume<P0>()
-                    ))
-                )),
-                out exn
-            );
+        public static void FishyJoesCommonRuntime_Function1Converter_setup<R, P0>(IntPtr envRef, string name, out CreatedRef exn) {
+            unsafe {
+                FishyJoesCommonRuntime_FunctionConverter_setup(
+                    envRef,
+                    name,
+                    bag<Constructor>((IntPtr context, ConsumedRef swiftRef, out CreatedRef innerExn) => Catching(out innerExn, () => {
+                        var impl = new SwiftFunctionImpl(swiftRef);
+                        return new CreatedRef((System.Func<P0, R>)((P0 p0) =>
+                            (R)impl.invoke1(p0)!
+                        ));
+                    })),
+                    bag<InvokeMethod>((IntPtr context, UnownedRef fn, ConsumedRef* arguments, out CreatedRef innerExn) => Catching(out innerExn, () =>
+                        new CreatedRef(fn.Peek<System.Func<P0, R>>()(
+                            arguments[0].Consume<P0>()
+                        ))
+                    )),
+                    IntPtr.Zero,
+                    out exn
+                );
+            }
         }
 
-        public static void FishyJoesRuntime_Function2Converter_setup<R, P0, P1>(string name, out CreatedRef exn) {
-            FishyJoesRuntime_Function2Converter_setup(
-                name,
-                bag<Constructor>((ConsumedRef swiftRef, out CreatedRef innerExn) => Catching(out innerExn, () => {
-                    var impl = new SwiftFunctionImpl(swiftRef);
-                    return new CreatedRef((System.Func<P0, P1, R>)((P0 p0, P1 p1) =>
-                        (R)impl.invoke2(p0, p1)!
-                    ));
-                })),
-                bag<Invoke2>((UnownedRef fn, ConsumedRef p0, ConsumedRef p1, out CreatedRef innerExn) => Catching(out innerExn, () =>
-                    new CreatedRef(fn.Peek<System.Func<P0, P1, R>>()(
-                        p0.Consume<P0>(),
-                        p1.Consume<P1>()
-                    ))
-                )),
-                out exn
-            );
+        public static void FishyJoesCommonRuntime_Function2Converter_setup<R, P0, P1>(IntPtr envRef, string name, out CreatedRef exn) {
+            unsafe {
+                FishyJoesCommonRuntime_FunctionConverter_setup(
+                    envRef,
+                    name,
+                    bag<Constructor>((IntPtr context, ConsumedRef swiftRef, out CreatedRef innerExn) => Catching(out innerExn, () => {
+                        var impl = new SwiftFunctionImpl(swiftRef);
+                        return new CreatedRef((System.Func<P0, P1, R>)((P0 p0, P1 p1) =>
+                            (R)impl.invoke2(p0, p1)!
+                        ));
+                    })),
+                    bag<InvokeMethod>((IntPtr context, UnownedRef fn, ConsumedRef* arguments, out CreatedRef innerExn) => Catching(out innerExn, () =>
+                        new CreatedRef(fn.Peek<System.Func<P0, P1, R>>()(
+                            arguments[0].Consume<P0>(),
+                            arguments[1].Consume<P1>()
+                        ))
+                    )),
+                    IntPtr.Zero,
+                    out exn
+                );
+            }
         }
 
-        public static void FishyJoesRuntime_Function3Converter_setup<R, P0, P1, P2>(string name, out CreatedRef exn) {
-            FishyJoesRuntime_Function3Converter_setup(
-                name,
-                bag<Constructor>((ConsumedRef swiftRef, out CreatedRef innerExn) => Catching(out innerExn, () => {
-                    var impl = new SwiftFunctionImpl(swiftRef);
-                    return new CreatedRef((System.Func<P0, P1, P2, R>)((P0 p0, P1 p1, P2 p2) =>
-                        (R)impl.invoke3(p0, p1, p2)!
-                    ));
-                })),
-                bag<Invoke3>((UnownedRef fn, ConsumedRef p0, ConsumedRef p1, ConsumedRef p2, out CreatedRef innerExn) => Catching(out innerExn, () =>
-                    new CreatedRef(fn.Peek<System.Func<P0, P1, P2, R>>()(
-                        p0.Consume<P0>(),
-                        p1.Consume<P1>(),
-                        p2.Consume<P2>()
-                    ))
-                )),
-                out exn
-            );
+        public static void FishyJoesCommonRuntime_Function3Converter_setup<R, P0, P1, P2>(IntPtr envRef, string name, out CreatedRef exn) {
+            unsafe {
+                FishyJoesCommonRuntime_FunctionConverter_setup(
+                    envRef,
+                    name,
+                    bag<Constructor>((IntPtr context, ConsumedRef swiftRef, out CreatedRef innerExn) => Catching(out innerExn, () => {
+                        var impl = new SwiftFunctionImpl(swiftRef);
+                        return new CreatedRef((System.Func<P0, P1, P2, R>)((P0 p0, P1 p1, P2 p2) =>
+                            (R)impl.invoke3(p0, p1, p2)!
+                        ));
+                    })),
+                    bag<InvokeMethod>((IntPtr context, UnownedRef fn, ConsumedRef* arguments, out CreatedRef innerExn) => Catching(out innerExn, () =>
+                        new CreatedRef(fn.Peek<System.Func<P0, P1, P2, R>>()(
+                            arguments[0].Consume<P0>(),
+                            arguments[1].Consume<P1>(),
+                            arguments[2].Consume<P2>()
+                        ))
+                    )),
+                    IntPtr.Zero,
+                    out exn
+                );
+            }
         }
 
-        public static void FishyJoesRuntime_Function4Converter_setup<R, P0, P1, P2, P3>(string name, out CreatedRef exn) {
-            FishyJoesRuntime_Function4Converter_setup(
-                name,
-                bag<Constructor>((ConsumedRef swiftRef, out CreatedRef innerExn) => Catching(out innerExn, () => {
-                    var impl = new SwiftFunctionImpl(swiftRef);
-                    return new CreatedRef((System.Func<P0, P1, P2, P3, R>)((P0 p0, P1 p1, P2 p2, P3 p3) =>
-                        (R)impl.invoke4(p0, p1, p2, p3)!
-                    ));
-                })),
-                bag<Invoke4>((UnownedRef fn, ConsumedRef p0, ConsumedRef p1, ConsumedRef p2, ConsumedRef p3, out CreatedRef innerExn) => Catching(out innerExn, () =>
-                    new CreatedRef(fn.Peek<System.Func<P0, P1, P2, P3, R>>()(
-                        p0.Consume<P0>(),
-                        p1.Consume<P1>(),
-                        p2.Consume<P2>(),
-                        p3.Consume<P3>()
-                    ))
-                )),
-                out exn
-            );
+        public static void FishyJoesCommonRuntime_Function4Converter_setup<R, P0, P1, P2, P3>(IntPtr envRef, string name, out CreatedRef exn) {
+            unsafe {
+                FishyJoesCommonRuntime_FunctionConverter_setup(
+                    envRef,
+                    name,
+                    bag<Constructor>((IntPtr context, ConsumedRef swiftRef, out CreatedRef innerExn) => Catching(out innerExn, () => {
+                        var impl = new SwiftFunctionImpl(swiftRef);
+                        return new CreatedRef((System.Func<P0, P1, P2, P3, R>)((P0 p0, P1 p1, P2 p2, P3 p3) =>
+                            (R)impl.invoke4(p0, p1, p2, p3)!
+                        ));
+                    })),
+                    bag<InvokeMethod>((IntPtr context, UnownedRef fn, ConsumedRef* arguments, out CreatedRef innerExn) => Catching(out innerExn, () =>
+                        new CreatedRef(fn.Peek<System.Func<P0, P1, P2, P3, R>>()(
+                            arguments[0].Consume<P0>(),
+                            arguments[1].Consume<P1>(),
+                            arguments[2].Consume<P2>(),
+                            arguments[3].Consume<P3>()
+                        ))
+                    )),
+                    IntPtr.Zero,
+                    out exn
+                );
+            }
         }
 
-        public static void FishyJoesRuntime_Function5Converter_setup<R, P0, P1, P2, P3, P4>(string name, out CreatedRef exn) {
-            FishyJoesRuntime_Function5Converter_setup(
-                name,
-                bag<Constructor>((ConsumedRef swiftRef, out CreatedRef innerExn) => Catching(out innerExn, () => {
-                    var impl = new SwiftFunctionImpl(swiftRef);
-                    return new CreatedRef((System.Func<P0, P1, P2, P3, P4, R>)((P0 p0, P1 p1, P2 p2, P3 p3, P4 p4) =>
-                        (R)impl.invoke5(p0, p1, p2, p3, p4)!
-                    ));
-                })),
-                bag<Invoke5>((UnownedRef fn, ConsumedRef p0, ConsumedRef p1, ConsumedRef p2, ConsumedRef p3, ConsumedRef p4, out CreatedRef innerExn) => Catching(out innerExn, () =>
-                    new CreatedRef(fn.Peek<System.Func<P0, P1, P2, P3, P4, R>>()(
-                        p0.Consume<P0>(),
-                        p1.Consume<P1>(),
-                        p2.Consume<P2>(),
-                        p3.Consume<P3>(),
-                        p4.Consume<P4>()
-                    ))
-                )),
-                out exn
-            );
+        public static void FishyJoesCommonRuntime_Function5Converter_setup<R, P0, P1, P2, P3, P4>(IntPtr envRef, string name, out CreatedRef exn) {
+            unsafe {
+                FishyJoesCommonRuntime_FunctionConverter_setup(
+                    envRef,
+                    name,
+                    bag<Constructor>((IntPtr context, ConsumedRef swiftRef, out CreatedRef innerExn) => Catching(out innerExn, () => {
+                        var impl = new SwiftFunctionImpl(swiftRef);
+                        return new CreatedRef((System.Func<P0, P1, P2, P3, P4, R>)((P0 p0, P1 p1, P2 p2, P3 p3, P4 p4) =>
+                            (R)impl.invoke5(p0, p1, p2, p3, p4)!
+                        ));
+                    })),
+                    bag<InvokeMethod>((IntPtr context, UnownedRef fn, ConsumedRef* arguments, out CreatedRef innerExn) => Catching(out innerExn, () =>
+                        new CreatedRef(fn.Peek<System.Func<P0, P1, P2, P3, P4, R>>()(
+                            arguments[0].Consume<P0>(),
+                            arguments[1].Consume<P1>(),
+                            arguments[2].Consume<P2>(),
+                            arguments[3].Consume<P3>(),
+                            arguments[4].Consume<P4>()
+                        ))
+                    )),
+                    IntPtr.Zero,
+                    out exn
+                );
+            }
         }
 
-        public static void FishyJoesRuntime_Function6Converter_setup<R, P0, P1, P2, P3, P4, P5>(string name, out CreatedRef exn) {
-            FishyJoesRuntime_Function6Converter_setup(
-                name,
-                bag<Constructor>((ConsumedRef swiftRef, out CreatedRef innerExn) => Catching(out innerExn, () => {
-                    var impl = new SwiftFunctionImpl(swiftRef);
-                    return new CreatedRef((System.Func<P0, P1, P2, P3, P4, P5, R>)((P0 p0, P1 p1, P2 p2, P3 p3, P4 p4, P5 p5) =>
-                        (R)impl.invoke6(p0, p1, p2, p3, p4, p5)!
-                    ));
-                })),
-                bag<Invoke6>((UnownedRef fn, ConsumedRef p0, ConsumedRef p1, ConsumedRef p2, ConsumedRef p3, ConsumedRef p4, ConsumedRef p5, out CreatedRef innerExn) => Catching(out innerExn, () =>
-                    new CreatedRef(fn.Peek<System.Func<P0, P1, P2, P3, P4, P5, R>>()(
-                        p0.Consume<P0>(),
-                        p1.Consume<P1>(),
-                        p2.Consume<P2>(),
-                        p3.Consume<P3>(),
-                        p4.Consume<P4>(),
-                        p5.Consume<P5>()
-                    ))
-                )),
-                out exn
-            );
+        public static void FishyJoesCommonRuntime_Function6Converter_setup<R, P0, P1, P2, P3, P4, P5>(IntPtr envRef, string name, out CreatedRef exn) {
+            unsafe {
+                FishyJoesCommonRuntime_FunctionConverter_setup(
+                    envRef,
+                    name,
+                    bag<Constructor>((IntPtr context, ConsumedRef swiftRef, out CreatedRef innerExn) => Catching(out innerExn, () => {
+                        var impl = new SwiftFunctionImpl(swiftRef);
+                        return new CreatedRef((System.Func<P0, P1, P2, P3, P4, P5, R>)((P0 p0, P1 p1, P2 p2, P3 p3, P4 p4, P5 p5) =>
+                            (R)impl.invoke6(p0, p1, p2, p3, p4, p5)!
+                        ));
+                    })),
+                    bag<InvokeMethod>((IntPtr context, UnownedRef fn, ConsumedRef* arguments, out CreatedRef innerExn) => Catching(out innerExn, () =>
+                        new CreatedRef(fn.Peek<System.Func<P0, P1, P2, P3, P4, P5, R>>()(
+                            arguments[0].Consume<P0>(),
+                            arguments[1].Consume<P1>(),
+                            arguments[2].Consume<P2>(),
+                            arguments[3].Consume<P3>(),
+                            arguments[4].Consume<P4>(),
+                            arguments[5].Consume<P5>()
+                        ))
+                    )),
+                    IntPtr.Zero,
+                    out exn
+                );
+            }
         }
 
-        delegate CreatedRef Constructor(ConsumedRef reference, out CreatedRef exn);
-        delegate CreatedRef Invoke0(UnownedRef fn, out CreatedRef exn);
-        delegate CreatedRef Invoke1(UnownedRef fn, ConsumedRef p0, out CreatedRef exn);
-        delegate CreatedRef Invoke2(UnownedRef fn, ConsumedRef p0, ConsumedRef p1, out CreatedRef exn);
-        delegate CreatedRef Invoke3(UnownedRef fn, ConsumedRef p0, ConsumedRef p1, ConsumedRef p2, out CreatedRef exn);
-        delegate CreatedRef Invoke4(UnownedRef fn, ConsumedRef p0, ConsumedRef p1, ConsumedRef p2, ConsumedRef p3, out CreatedRef exn);
-        delegate CreatedRef Invoke5(UnownedRef fn, ConsumedRef p0, ConsumedRef p1, ConsumedRef p2, ConsumedRef p3, ConsumedRef p4, out CreatedRef exn);
-        delegate CreatedRef Invoke6(UnownedRef fn, ConsumedRef p0, ConsumedRef p1, ConsumedRef p2, ConsumedRef p3, ConsumedRef p4, ConsumedRef p5, out CreatedRef exn);
+        delegate CreatedRef Constructor(IntPtr context, ConsumedRef reference, out CreatedRef exn);
+        unsafe delegate CreatedRef InvokeMethod(IntPtr context, UnownedRef fn, ConsumedRef* arguments, out CreatedRef exn);
 
-        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern void FishyJoesRuntime_Function0Converter_setup(string typeName, Constructor constructor, Invoke0 invoke, out CreatedRef exn);
-
-        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern void FishyJoesRuntime_Function1Converter_setup(string typeName, Constructor constructor, Invoke1 invoke, out CreatedRef exn);
-
-        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern void FishyJoesRuntime_Function2Converter_setup(string typeName, Constructor constructor, Invoke2 invoke, out CreatedRef exn);
-
-        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern void FishyJoesRuntime_Function3Converter_setup(string typeName, Constructor constructor, Invoke3 invoke, out CreatedRef exn);
-
-        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern void FishyJoesRuntime_Function4Converter_setup(string typeName, Constructor constructor, Invoke4 invoke, out CreatedRef exn);
-
-        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern void FishyJoesRuntime_Function5Converter_setup(string typeName, Constructor constructor, Invoke5 invoke, out CreatedRef exn);
-
-        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern void FishyJoesRuntime_Function6Converter_setup(string typeName, Constructor constructor, Invoke6 invoke, out CreatedRef exn);
+        [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        extern static void FishyJoesCommonRuntime_FunctionConverter_setup(
+            IntPtr envRef,
+            string typeName,
+            Constructor constructor,
+            InvokeMethod invoke,
+            IntPtr context,
+            out CreatedRef exn
+        );
 
         // MARK: Actions
-        public static void FishyJoesRuntime_Function0Converter_setup(string name, out CreatedRef exn) {
-            FishyJoesRuntime_Function0Converter_setup(
-                name,
-                bag<Constructor>((ConsumedRef swiftRef, out CreatedRef innerExn) => Catching(out innerExn, () => {
-                    var impl = new SwiftFunctionImpl(swiftRef);
-                    return new CreatedRef((System.Action)(() =>
-                        impl.invoke0()
-                    ));
-                })),
-                bag<Invoke0>((UnownedRef fn, out CreatedRef innerExn) => Catching(out innerExn, () => {
-                    fn.Peek<System.Action>()(
-                    );
-                    return CreatedRef.Null;
-                })),
-                out exn
-            );
+        public static void FishyJoesCommonRuntime_Function0Converter_setup(IntPtr envRef, string name, out CreatedRef exn) {
+            unsafe {
+                FishyJoesCommonRuntime_FunctionConverter_setup(
+                    envRef,
+                    name,
+                    bag<Constructor>((IntPtr context, ConsumedRef swiftRef, out CreatedRef innerExn) => Catching(out innerExn, () => {
+                        var impl = new SwiftFunctionImpl(swiftRef);
+                        return new CreatedRef((System.Action)(() =>
+                            impl.invoke0()
+                        ));
+                    })),
+                    bag<InvokeMethod>((IntPtr context, UnownedRef fn, ConsumedRef* arguments, out CreatedRef innerExn) => Catching(out innerExn, () => {
+                        fn.Peek<System.Action>()(
+                        );
+                        return CreatedRef.Null;
+                    })),
+                    IntPtr.Zero,
+                    out exn
+                );
+            }
         }
 
-        public static void FishyJoesRuntime_Function1Converter_setup<P0>(string name, out CreatedRef exn) {
-            FishyJoesRuntime_Function1Converter_setup(
-                name,
-                bag<Constructor>((ConsumedRef swiftRef, out CreatedRef innerExn) => Catching(out innerExn, () => {
-                    var impl = new SwiftFunctionImpl(swiftRef);
-                    return new CreatedRef((System.Action<P0>)((P0 p0) =>
-                        impl.invoke1(p0)
-                    ));
-                })),
-                bag<Invoke1>((UnownedRef fn, ConsumedRef p0, out CreatedRef innerExn) => Catching(out innerExn, () => {
-                    fn.Peek<System.Action<P0>>()(
-                        p0.Consume<P0>()
-                    );
-                    return CreatedRef.Null;
-                })),
-                out exn
-            );
+        public static void FishyJoesCommonRuntime_Function1Converter_setup<P0>(IntPtr envRef, string name, out CreatedRef exn) {
+            unsafe {
+                FishyJoesCommonRuntime_FunctionConverter_setup(
+                    envRef,
+                    name,
+                    bag<Constructor>((IntPtr context, ConsumedRef swiftRef, out CreatedRef innerExn) => Catching(out innerExn, () => {
+                        var impl = new SwiftFunctionImpl(swiftRef);
+                        return new CreatedRef((System.Action<P0>)((P0 p0) =>
+                            impl.invoke1(p0)
+                        ));
+                    })),
+                    bag<InvokeMethod>((IntPtr context, UnownedRef fn, ConsumedRef* arguments, out CreatedRef innerExn) => Catching(out innerExn, () => {
+                        fn.Peek<System.Action<P0>>()(
+                            arguments[0].Consume<P0>()
+                        );
+                        return CreatedRef.Null;
+                    })),
+                    IntPtr.Zero,
+                    out exn
+                );
+            }
         }
 
-        public static void FishyJoesRuntime_Function2Converter_setup<P0, P1>(string name, out CreatedRef exn) {
-            FishyJoesRuntime_Function2Converter_setup(
-                name,
-                bag<Constructor>((ConsumedRef swiftRef, out CreatedRef innerExn) => Catching(out innerExn, () => {
-                    var impl = new SwiftFunctionImpl(swiftRef);
-                    return new CreatedRef((System.Action<P0, P1>)((P0 p0, P1 p1) =>
-                        impl.invoke2(p0, p1)
-                    ));
-                })),
-                bag<Invoke2>((UnownedRef fn, ConsumedRef p0, ConsumedRef p1, out CreatedRef innerExn) => Catching(out innerExn, () => {
-                    fn.Peek<System.Action<P0, P1>>()(
-                        p0.Consume<P0>(),
-                        p1.Consume<P1>()
-                    );
-                    return CreatedRef.Null;
-                })),
-                out exn
-            );
+        public static void FishyJoesCommonRuntime_Function2Converter_setup<P0, P1>(IntPtr envRef, string name, out CreatedRef exn) {
+            unsafe {
+                FishyJoesCommonRuntime_FunctionConverter_setup(
+                    envRef,
+                    name,
+                    bag<Constructor>((IntPtr context, ConsumedRef swiftRef, out CreatedRef innerExn) => Catching(out innerExn, () => {
+                        var impl = new SwiftFunctionImpl(swiftRef);
+                        return new CreatedRef((System.Action<P0, P1>)((P0 p0, P1 p1) =>
+                            impl.invoke2(p0, p1)
+                        ));
+                    })),
+                    bag<InvokeMethod>((IntPtr context, UnownedRef fn, ConsumedRef* arguments, out CreatedRef innerExn) => Catching(out innerExn, () => {
+                        fn.Peek<System.Action<P0, P1>>()(
+                            arguments[0].Consume<P0>(),
+                            arguments[1].Consume<P1>()
+                        );
+                        return CreatedRef.Null;
+                    })),
+                    IntPtr.Zero,
+                    out exn
+                );
+            }
         }
 
-
-        public static void FishyJoesRuntime_Function3Converter_setup<P0, P1, P2>(string name, out CreatedRef exn) {
-            FishyJoesRuntime_Function3Converter_setup(
-                name,
-                bag<Constructor>((ConsumedRef swiftRef, out CreatedRef innerExn) => Catching(out innerExn, () => {
-                    var impl = new SwiftFunctionImpl(swiftRef);
-                    return new CreatedRef((System.Action<P0, P1, P2>)((P0 p0, P1 p1, P2 p2) =>
-                        impl.invoke3(p0, p1, p2)
-                    ));
-                })),
-                bag<Invoke3>((UnownedRef fn, ConsumedRef p0, ConsumedRef p1, ConsumedRef p2, out CreatedRef innerExn) => Catching(out innerExn, () => {
-                    fn.Peek<System.Action<P0, P1, P2>>()(
-                        p0.Consume<P0>(),
-                        p1.Consume<P1>(),
-                        p2.Consume<P2>()
-                    );
-                    return CreatedRef.Null;
-                })),
-                out exn
-            );
+        public static void FishyJoesCommonRuntime_Function3Converter_setup<P0, P1, P2>(IntPtr envRef, string name, out CreatedRef exn) {
+            unsafe {
+                FishyJoesCommonRuntime_FunctionConverter_setup(
+                    envRef,
+                    name,
+                    bag<Constructor>((IntPtr context, ConsumedRef swiftRef, out CreatedRef innerExn) => Catching(out innerExn, () => {
+                        var impl = new SwiftFunctionImpl(swiftRef);
+                        return new CreatedRef((System.Action<P0, P1, P2>)((P0 p0, P1 p1, P2 p2) =>
+                            impl.invoke3(p0, p1, p2)
+                        ));
+                    })),
+                    bag<InvokeMethod>((IntPtr context, UnownedRef fn, ConsumedRef* arguments, out CreatedRef innerExn) => Catching(out innerExn, () => {
+                        fn.Peek<System.Action<P0, P1, P2>>()(
+                            arguments[0].Consume<P0>(),
+                            arguments[1].Consume<P1>(),
+                            arguments[2].Consume<P2>()
+                        );
+                        return CreatedRef.Null;
+                    })),
+                    IntPtr.Zero,
+                    out exn
+                );
+            }
         }
 
-        public static void FishyJoesRuntime_Function4Converter_setup<P0, P1, P2, P3>(string name, out CreatedRef exn) {
-            FishyJoesRuntime_Function4Converter_setup(
-                name,
-                bag<Constructor>((ConsumedRef swiftRef, out CreatedRef innerExn) => Catching(out innerExn, () => {
-                    var impl = new SwiftFunctionImpl(swiftRef);
-                    return new CreatedRef((System.Action<P0, P1, P2, P3>)((P0 p0, P1 p1, P2 p2, P3 p3) =>
-                        impl.invoke4(p0, p1, p2, p3)
-                    ));
-                })),
-                bag<Invoke4>((UnownedRef fn, ConsumedRef p0, ConsumedRef p1, ConsumedRef p2, ConsumedRef p3, out CreatedRef innerExn) => Catching(out innerExn, () => {
-                    fn.Peek<System.Action<P0, P1, P2, P3>>()(
-                        p0.Consume<P0>(),
-                        p1.Consume<P1>(),
-                        p2.Consume<P2>(),
-                        p3.Consume<P3>()
-                    );
-                    return CreatedRef.Null;
-                })),
-                out exn
-            );
+        public static void FishyJoesCommonRuntime_Function4Converter_setup<P0, P1, P2, P3>(IntPtr envRef, string name, out CreatedRef exn) {
+            unsafe {
+                FishyJoesCommonRuntime_FunctionConverter_setup(
+                    envRef,
+                    name,
+                    bag<Constructor>((IntPtr context, ConsumedRef swiftRef, out CreatedRef innerExn) => Catching(out innerExn, () => {
+                        var impl = new SwiftFunctionImpl(swiftRef);
+                        return new CreatedRef((System.Action<P0, P1, P2, P3>)((P0 p0, P1 p1, P2 p2, P3 p3) =>
+                            impl.invoke4(p0, p1, p2, p3)
+                        ));
+                    })),
+                    bag<InvokeMethod>((IntPtr context, UnownedRef fn, ConsumedRef* arguments, out CreatedRef innerExn) => Catching(out innerExn, () => {
+                        fn.Peek<System.Action<P0, P1, P2, P3>>()(
+                            arguments[0].Consume<P0>(),
+                            arguments[1].Consume<P1>(),
+                            arguments[2].Consume<P2>(),
+                            arguments[3].Consume<P3>()
+                        );
+                        return CreatedRef.Null;
+                    })),
+                    IntPtr.Zero,
+                    out exn
+                );
+            }
         }
 
-        public static void FishyJoesRuntime_Function5Converter_setup<P0, P1, P2, P3, P4>(string name, out CreatedRef exn) {
-            FishyJoesRuntime_Function5Converter_setup(
-                name,
-                bag<Constructor>((ConsumedRef swiftRef, out CreatedRef innerExn) => Catching(out innerExn, () => {
-                    var impl = new SwiftFunctionImpl(swiftRef);
-                    return new CreatedRef((System.Action<P0, P1, P2, P3, P4>)((P0 p0, P1 p1, P2 p2, P3 p3, P4 p4) =>
-                        impl.invoke5(p0, p1, p2, p3, p4)
-                    ));
-                })),
-                bag<Invoke5>((UnownedRef fn, ConsumedRef p0, ConsumedRef p1, ConsumedRef p2, ConsumedRef p3, ConsumedRef p4, out CreatedRef innerExn) => Catching(out innerExn, () => {
-                    fn.Peek<System.Action<P0, P1, P2, P3, P4>>()(
-                        p0.Consume<P0>(),
-                        p1.Consume<P1>(),
-                        p2.Consume<P2>(),
-                        p3.Consume<P3>(),
-                        p4.Consume<P4>()
-                    );
-                    return CreatedRef.Null;
-                })),
-                out exn
-            );
+        public static void FishyJoesCommonRuntime_Function5Converter_setup<P0, P1, P2, P3, P4>(IntPtr envRef, string name, out CreatedRef exn) {
+            unsafe {
+                FishyJoesCommonRuntime_FunctionConverter_setup(
+                    envRef,
+                    name,
+                    bag<Constructor>((IntPtr context, ConsumedRef swiftRef, out CreatedRef innerExn) => Catching(out innerExn, () => {
+                        var impl = new SwiftFunctionImpl(swiftRef);
+                        return new CreatedRef((System.Action<P0, P1, P2, P3, P4>)((P0 p0, P1 p1, P2 p2, P3 p3, P4 p4) =>
+                            impl.invoke5(p0, p1, p2, p3, p4)
+                        ));
+                    })),
+                    bag<InvokeMethod>((IntPtr context, UnownedRef fn, ConsumedRef* arguments, out CreatedRef innerExn) => Catching(out innerExn, () => {
+                        fn.Peek<System.Action<P0, P1, P2, P3, P4>>()(
+                            arguments[0].Consume<P0>(),
+                            arguments[1].Consume<P1>(),
+                            arguments[2].Consume<P2>(),
+                            arguments[3].Consume<P3>(),
+                            arguments[4].Consume<P4>()
+                        );
+                        return CreatedRef.Null;
+                    })),
+                    IntPtr.Zero,
+                    out exn
+                );
+            }
         }
 
-        public static void FishyJoesRuntime_Function6Converter_setup<P0, P1, P2, P3, P4, P5>(string name, out CreatedRef exn) {
-            FishyJoesRuntime_Function6Converter_setup(
-                name,
-                bag<Constructor>((ConsumedRef swiftRef, out CreatedRef innerExn) => Catching(out innerExn, () => {
-                    var impl = new SwiftFunctionImpl(swiftRef);
-                    return new CreatedRef((System.Action<P0, P1, P2, P3, P4, P5>)((P0 p0, P1 p1, P2 p2, P3 p3, P4 p4, P5 p5) =>
-                        impl.invoke6(p0, p1, p2, p3, p4, p5)
-                    ));
-                })),
-                bag<Invoke6>((UnownedRef fn, ConsumedRef p0, ConsumedRef p1, ConsumedRef p2, ConsumedRef p3, ConsumedRef p4, ConsumedRef p5, out CreatedRef innerExn) => Catching(out innerExn, () => {
-                    fn.Peek<System.Action<P0, P1, P2, P3, P4, P5>>()(
-                        p0.Consume<P0>(),
-                        p1.Consume<P1>(),
-                        p2.Consume<P2>(),
-                        p3.Consume<P3>(),
-                        p4.Consume<P4>(),
-                        p5.Consume<P5>()
-                    );
-                    return CreatedRef.Null;
-                })),
-                out exn
-            );
+        public static void FishyJoesCommonRuntime_Function6Converter_setup<P0, P1, P2, P3, P4, P5>(IntPtr envRef, string name, out CreatedRef exn) {
+            unsafe {
+                FishyJoesCommonRuntime_FunctionConverter_setup(
+                    envRef,
+                    name,
+                    bag<Constructor>((IntPtr context, ConsumedRef swiftRef, out CreatedRef innerExn) => Catching(out innerExn, () => {
+                        var impl = new SwiftFunctionImpl(swiftRef);
+                        return new CreatedRef((System.Action<P0, P1, P2, P3, P4, P5>)((P0 p0, P1 p1, P2 p2, P3 p3, P4 p4, P5 p5) =>
+                            impl.invoke6(p0, p1, p2, p3, p4, p5)
+                        ));
+                    })),
+                    bag<InvokeMethod>((IntPtr context, UnownedRef fn, ConsumedRef* arguments, out CreatedRef innerExn) => Catching(out innerExn, () => {
+                        fn.Peek<System.Action<P0, P1, P2, P3, P4, P5>>()(
+                            arguments[0].Consume<P0>(),
+                            arguments[1].Consume<P1>(),
+                            arguments[2].Consume<P2>(),
+                            arguments[3].Consume<P3>(),
+                            arguments[4].Consume<P4>(),
+                            arguments[5].Consume<P5>()
+                        );
+                        return CreatedRef.Null;
+                    })),
+                    IntPtr.Zero,
+                    out exn
+                );
+            }
         }
 
         private static void setupFunctions() {

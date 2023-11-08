@@ -170,10 +170,10 @@ sealed class Functions {
          * <!-- FishyJoes.export(async42Func) -->
          */
         suspend fun async42Func(
-        ): Long {
+        ) {
             return coroutineScope {
                 async {
-                    suspendCancellableCoroutine { continuation: CancellableContinuation<Long> ->
+                    suspendCancellableCoroutine { continuation: CancellableContinuation<Void> ->
                         __jni_async42Func(
                             { value ->
                                 continuation.resume(value, null)
@@ -188,7 +188,7 @@ sealed class Functions {
         @JvmStatic
         @JvmName("__jni_async42Func")
         private external fun __jni_async42Func(
-            successContinuation: (Long) -> Unit,
+            successContinuation: (Void) -> Unit,
             failureContinuation: (String) -> Unit
         )
 
@@ -196,10 +196,10 @@ sealed class Functions {
          * <!-- FishyJoes.export(asyncYieldFunc) -->
          */
         suspend fun asyncYieldFunc(
-        ): Long {
+        ) {
             return coroutineScope {
                 async {
-                    suspendCancellableCoroutine { continuation: CancellableContinuation<Long> ->
+                    suspendCancellableCoroutine { continuation: CancellableContinuation<Void> ->
                         __jni_asyncYieldFunc(
                             { value ->
                                 continuation.resume(value, null)
@@ -214,7 +214,7 @@ sealed class Functions {
         @JvmStatic
         @JvmName("__jni_asyncYieldFunc")
         private external fun __jni_asyncYieldFunc(
-            successContinuation: (Long) -> Unit,
+            successContinuation: (Void) -> Unit,
             failureContinuation: (String) -> Unit
         )
 
@@ -222,10 +222,10 @@ sealed class Functions {
          * <!-- FishyJoes.export(asyncSleepFunc) -->
          */
         suspend fun asyncSleepFunc(
-        ): Long {
+        ) {
             return coroutineScope {
                 async {
-                    suspendCancellableCoroutine { continuation: CancellableContinuation<Long> ->
+                    suspendCancellableCoroutine { continuation: CancellableContinuation<Void> ->
                         __jni_asyncSleepFunc(
                             { value ->
                                 continuation.resume(value, null)
@@ -240,7 +240,7 @@ sealed class Functions {
         @JvmStatic
         @JvmName("__jni_asyncSleepFunc")
         private external fun __jni_asyncSleepFunc(
-            successContinuation: (Long) -> Unit,
+            successContinuation: (Void) -> Unit,
             failureContinuation: (String) -> Unit
         )
 
@@ -248,10 +248,10 @@ sealed class Functions {
          * <!-- FishyJoes.export(asyncVoidFunc) -->
          */
         suspend fun asyncVoidFunc(
-        ): kotlin.Unit {
+        ) {
             return coroutineScope {
                 async {
-                    suspendCancellableCoroutine { continuation: CancellableContinuation<kotlin.Unit?> ->
+                    suspendCancellableCoroutine { continuation: CancellableContinuation<Void> ->
                         __jni_asyncVoidFunc(
                             { value ->
                                 continuation.resume(value, null)
@@ -266,25 +266,19 @@ sealed class Functions {
         @JvmStatic
         @JvmName("__jni_asyncVoidFunc")
         private external fun __jni_asyncVoidFunc(
-            successContinuation: (kotlin.Unit?) -> Unit,
+            successContinuation: (Void) -> Unit,
             failureContinuation: (String) -> Unit
         )
-
-        fun foo(
-            f: (suspend (Long, String) -> String)
-        ) {
-
-        }
 
         /**
          * <!-- FishyJoes.export(asyncCallbackFunc0) -->
          */
         suspend fun asyncCallbackFunc0(
             callback: (() -> Long)
-        ): Long {
+        ) {
             return coroutineScope {
                 async {
-                    suspendCancellableCoroutine { continuation: CancellableContinuation<Long> ->
+                    suspendCancellableCoroutine { continuation: CancellableContinuation<Void> ->
                         __jni_asyncCallbackFunc0(
                             callback,
                             { value ->
@@ -301,7 +295,7 @@ sealed class Functions {
         @JvmName("__jni_asyncCallbackFunc0")
         private external fun __jni_asyncCallbackFunc0(
             callback: (() -> Long),
-            successContinuation: (Long) -> Unit,
+            successContinuation: (Void) -> Unit,
             failureContinuation: (String) -> Unit
         )
 
@@ -310,10 +304,10 @@ sealed class Functions {
          */
         suspend fun asyncCallbackFunc1(
             callback: ((Long) -> Long)
-        ): Long {
+        ) {
             return coroutineScope {
                 async {
-                    suspendCancellableCoroutine { continuation: CancellableContinuation<Long> ->
+                    suspendCancellableCoroutine { continuation: CancellableContinuation<Void> ->
                         __jni_asyncCallbackFunc1(
                             callback,
                             { value ->
@@ -330,7 +324,7 @@ sealed class Functions {
         @JvmName("__jni_asyncCallbackFunc1")
         private external fun __jni_asyncCallbackFunc1(
             callback: ((Long) -> Long),
-            successContinuation: (Long) -> Unit,
+            successContinuation: (Void) -> Unit,
             failureContinuation: (String) -> Unit
         )
 
@@ -339,10 +333,10 @@ sealed class Functions {
          */
         suspend fun asyncCallbackFunc2(
             callback: ((Long, Long) -> Long)
-        ): Long {
+        ) {
             return coroutineScope {
                 async {
-                    suspendCancellableCoroutine { continuation: CancellableContinuation<Long> ->
+                    suspendCancellableCoroutine { continuation: CancellableContinuation<Void> ->
                         __jni_asyncCallbackFunc2(
                             callback,
                             { value ->
@@ -359,7 +353,7 @@ sealed class Functions {
         @JvmName("__jni_asyncCallbackFunc2")
         private external fun __jni_asyncCallbackFunc2(
             callback: ((Long, Long) -> Long),
-            successContinuation: (Long) -> Unit,
+            successContinuation: (Void) -> Unit,
             failureContinuation: (String) -> Unit
         )
 
@@ -368,10 +362,10 @@ sealed class Functions {
          */
         suspend fun asyncCallbackFunc3(
             callback: ((Long, Long, Long) -> Long)
-        ): Long {
+        ) {
             return coroutineScope {
                 async {
-                    suspendCancellableCoroutine { continuation: CancellableContinuation<Long> ->
+                    suspendCancellableCoroutine { continuation: CancellableContinuation<Void> ->
                         __jni_asyncCallbackFunc3(
                             callback,
                             { value ->
@@ -388,7 +382,7 @@ sealed class Functions {
         @JvmName("__jni_asyncCallbackFunc3")
         private external fun __jni_asyncCallbackFunc3(
             callback: ((Long, Long, Long) -> Long),
-            successContinuation: (Long) -> Unit,
+            successContinuation: (Void) -> Unit,
             failureContinuation: (String) -> Unit
         )
 
@@ -397,10 +391,10 @@ sealed class Functions {
          */
         suspend fun asyncCallbackFunc4(
             callback: ((Long, Long, Long, Long) -> Long)
-        ): Long {
+        ) {
             return coroutineScope {
                 async {
-                    suspendCancellableCoroutine { continuation: CancellableContinuation<Long> ->
+                    suspendCancellableCoroutine { continuation: CancellableContinuation<Void> ->
                         __jni_asyncCallbackFunc4(
                             callback,
                             { value ->
@@ -417,7 +411,7 @@ sealed class Functions {
         @JvmName("__jni_asyncCallbackFunc4")
         private external fun __jni_asyncCallbackFunc4(
             callback: ((Long, Long, Long, Long) -> Long),
-            successContinuation: (Long) -> Unit,
+            successContinuation: (Void) -> Unit,
             failureContinuation: (String) -> Unit
         )
 
@@ -426,10 +420,10 @@ sealed class Functions {
          */
         suspend fun asyncCallbackFunc5(
             callback: ((Long, Long, Long, Long, Long) -> Long)
-        ): Long {
+        ) {
             return coroutineScope {
                 async {
-                    suspendCancellableCoroutine { continuation: CancellableContinuation<Long> ->
+                    suspendCancellableCoroutine { continuation: CancellableContinuation<Void> ->
                         __jni_asyncCallbackFunc5(
                             callback,
                             { value ->
@@ -446,7 +440,7 @@ sealed class Functions {
         @JvmName("__jni_asyncCallbackFunc5")
         private external fun __jni_asyncCallbackFunc5(
             callback: ((Long, Long, Long, Long, Long) -> Long),
-            successContinuation: (Long) -> Unit,
+            successContinuation: (Void) -> Unit,
             failureContinuation: (String) -> Unit
         )
 
@@ -455,10 +449,10 @@ sealed class Functions {
          */
         suspend fun asyncCallbackFunc6(
             callback: ((Long, Long, Long, Long, Long, Long) -> Long)
-        ): Long {
+        ) {
             return coroutineScope {
                 async {
-                    suspendCancellableCoroutine { continuation: CancellableContinuation<Long> ->
+                    suspendCancellableCoroutine { continuation: CancellableContinuation<Void> ->
                         __jni_asyncCallbackFunc6(
                             callback,
                             { value ->
@@ -475,7 +469,7 @@ sealed class Functions {
         @JvmName("__jni_asyncCallbackFunc6")
         private external fun __jni_asyncCallbackFunc6(
             callback: ((Long, Long, Long, Long, Long, Long) -> Long),
-            successContinuation: (Long) -> Unit,
+            successContinuation: (Void) -> Unit,
             failureContinuation: (String) -> Unit
         )
 

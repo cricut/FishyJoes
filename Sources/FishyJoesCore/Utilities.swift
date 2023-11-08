@@ -1,7 +1,13 @@
 import Foundation
+import SourceryRuntime
 
 extension Optional {
     var asArray: [Wrapped] { map { [$0] } ?? [] }
+}
+
+func debug(file: StaticString = #file, line: UInt = #line, _ msgs: Any? ...) {
+    let message = "\(file):\(line): " + msgs.map { "\($0 ?? "<null>")" }.joined(separator: " ") + "\n"
+    _ = message.withCString { fputs($0, stderr) }
 }
 
 infix operator ||=
@@ -11,29 +17,11 @@ public func fatalErr(_ message: String = "", file: StaticString = #file, line: U
     fatalError("\n\(file):\(line): \(message)\n\(Thread.callStackSymbols.joined(separator: "\n"))\n")
 }
 
-public func extLog(_ message: String) {
-    let data = (message + "\n").data(using: String.Encoding.utf8)!
-    if let fileHandle = FileHandle(forWritingAtPath: ".sourcery-log") {
-        defer {
-            fileHandle.closeFile()
-        }
-        fileHandle.seekToEndOfFile()
-        fileHandle.write(data)
-    } else {
-        try! data.write(to: URL(fileURLWithPath: ".sourcery-log"), options: .atomic)
-    }
-}
-
 extension FileHandle: TextOutputStream {
     public func write(_ string: String) {
         let data = Data(string.utf8)
         self.write(data)
     }
-}
-
-func debug(file: StaticString = #file, line: UInt = #line, _ msgs: Any? ...) {
-    var errorHandle = FileHandle.standardError
-    print("\(file):\(line): " + msgs.map { "\($0 ?? "<null>")" }.joined(separator: " "), to: &errorHandle)
 }
 
 func snakify<S: StringProtocol>(_ camel: S) -> String {
@@ -46,18 +34,22 @@ func upperCaseFirst<S: StringProtocol>(_ camel: S) -> String {
     (camel.first?.uppercased() ?? "") + camel.dropFirst()
 }
 
-extension Array {
+extension RandomAccessCollection {
     subscript(safe index: Index) -> Element? {
         startIndex <= index && index < endIndex ? self[index] : nil
     }
+    subscript(safeOffsetBy offset: Int) -> Element? {
+        guard let index = index(startIndex, offsetBy: offset, limitedBy: endIndex) else { return nil }
+        return self[safe: index]
+    }
     var first2: (Element?, Element?) {
-        (self[safe: 0], self[safe: 1])
+        (self[safeOffsetBy: 0], self[safeOffsetBy: 1])
     }
     var first3: (Element?, Element?, Element?) {
-        (self[safe: 0], self[safe: 1], self[safe: 2])
+        (self[safeOffsetBy: 0], self[safeOffsetBy: 1], self[safeOffsetBy: 2])
     }
     var first4: (Element?, Element?, Element?, Element?) {
-        (self[safe: 0], self[safe: 1], self[safe: 2], self[safe: 3])
+        (self[safeOffsetBy: 0], self[safeOffsetBy: 1], self[safeOffsetBy: 2], self[safeOffsetBy: 3])
     }
 }
 
@@ -78,5 +70,11 @@ extension String {
         let digits = CharacterSet(charactersIn: "0"..."9")
         let invalidCharacters = lowercase.union(uppercase).union(digits).inverted
         return components(separatedBy: invalidCharacters).joined(separator: "_")
+    }
+}
+
+extension Variable {
+    var isPubliclyWritable: Bool {
+        isMutable && accessLevel.write == .public
     }
 }

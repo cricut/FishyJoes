@@ -1,4 +1,4 @@
-// swift-tools-version:5.3
+// swift-tools-version:5.5
 
 import Foundation
 import PackageDescription
@@ -7,7 +7,7 @@ let wasmCompatibleOnly = ProcessInfo.processInfo.environment["WASM_ONLY"] == "1"
 
 let package = Package(
     name: "TestAPI-bindings",
-    platforms: [.macOS(.v11)],
+    platforms: [.macOS(.v12), .iOS(.v15)],
     products: [
         .library(
             name: "TestAPI-wasm",
@@ -26,9 +26,9 @@ let package = Package(
                 targets: ["TestAPI_JavaInterface"]
             ),
             .library(
-                name: "TestAPI-c-sharp",
+                name: "TestAPI-iota",
                 type: .dynamic,
-                targets: ["TestAPI_CSharpInterface"]
+                targets: ["TestAPI_IotaInterface"]
             ),
         ]
     ),
@@ -69,12 +69,12 @@ let package = Package(
                 path: "Sources/Generated/JavaInterface"
             ),
             .target(
-                name: "TestAPI_CSharpInterface",
+                name: "TestAPI_IotaInterface",
                 dependencies: [
                     .product(name: "TestAPI", package: "TestAPI"),
-                    .product(name: "FishyJoesCSharpRuntime", package: "FishyJoes"),
+                    .product(name: "FishyJoesIotaRuntime", package: "FishyJoes"),
                 ],
-                path: "Sources/Generated/CSharpInterface"
+                path: "Sources/Generated/IotaInterface"
             ),
         ]
     )

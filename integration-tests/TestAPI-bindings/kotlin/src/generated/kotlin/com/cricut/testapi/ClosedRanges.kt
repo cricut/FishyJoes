@@ -120,11 +120,11 @@ sealed class ClosedRanges {
         /**
          * <!-- FishyJoes.export(stringRange) -->
          */
-        val stringRange: com.cricut.fishyjoes.runtime.SwiftClosedRange<String>
+        val stringRange: com.cricut.fishyjoes.runtime.SwiftClosedRange<kotlin.String>
           get() = __jni_get_stringRange()
         @JvmStatic
         @JvmName("__jni_get_stringRange")
-        private external fun __jni_get_stringRange(): com.cricut.fishyjoes.runtime.SwiftClosedRange<String>
+        private external fun __jni_get_stringRange(): com.cricut.fishyjoes.runtime.SwiftClosedRange<kotlin.String>
 
         /**
          * <!-- FishyJoes.export(echoUInt8Range) -->
@@ -274,13 +274,13 @@ sealed class ClosedRanges {
          * <!-- FishyJoes.export(echoStringRange) -->
          */
         fun echoStringRange(
-            range: com.cricut.fishyjoes.runtime.SwiftClosedRange<String>
-        ): com.cricut.fishyjoes.runtime.SwiftClosedRange<String> = __jni_echoStringRange(range)
+            range: com.cricut.fishyjoes.runtime.SwiftClosedRange<kotlin.String>
+        ): com.cricut.fishyjoes.runtime.SwiftClosedRange<kotlin.String> = __jni_echoStringRange(range)
         @JvmStatic
         @JvmName("__jni_echoStringRange")
         private external fun __jni_echoStringRange(
-            range: com.cricut.fishyjoes.runtime.SwiftClosedRange<String>
-        ): com.cricut.fishyjoes.runtime.SwiftClosedRange<String>
+            range: com.cricut.fishyjoes.runtime.SwiftClosedRange<kotlin.String>
+        ): com.cricut.fishyjoes.runtime.SwiftClosedRange<kotlin.String>
 
         init { loadNativeLibs() }
     }

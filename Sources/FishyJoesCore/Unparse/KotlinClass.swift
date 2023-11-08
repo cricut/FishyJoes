@@ -18,6 +18,7 @@ class KotlinClass: NestedClass {
         let isOverride: Bool
         let name: String
         let parameters: [(labelComment: String?, name: String, type: KType, defaultValue: String?)]
+        let compatibilityOrder: [String]
         let returnType: KType
         let deprecation: Deprecation?
         let body: String?
@@ -27,7 +28,8 @@ class KotlinClass: NestedClass {
         let documentation: [String]
         let isStatic: Bool
         let isOverride: Bool
-        let readOnly: Bool
+        let isMutable: Bool
+        let isPubliclyWritable: Bool
         let name: String
         let type: KType
         let deprecation: Deprecation?
@@ -92,9 +94,9 @@ class KotlinClass: NestedClass {
         if let deprecation = field.deprecation {
             fragment.output("@Deprecated(\"\(deprecation.quotedMessage)\")")
         }
-        fragment.output("\(field.isOverride ? "override " : "")\(field.readOnly ? "val" : "var") \(field.name): \(field.type.kotlinType)")
+        fragment.output("\(field.isOverride ? "override " : "")\(field.isPubliclyWritable ? "var" : "val") \(field.name): \(field.type.kotlinType)")
         fragment.output("  get() = __jni_get_\(field.name)()\(field.type.toKotlinType)")
-        if !field.readOnly {
+        if field.isPubliclyWritable {
             fragment.output("  set(value) { __jni_set_\(field.name)(value\(field.type.toJVMType)) } ")
         }
 
@@ -104,7 +106,7 @@ class KotlinClass: NestedClass {
 
         fragment.output("@JvmName(\"__jni_get_\(field.name)\")")
         fragment.output("private external fun __jni_get_\(field.name)(): \(field.type.jvmType)")
-        if !field.readOnly {
+        if field.isMutable {
             if field.isStatic {
                 fragment.output("@JvmStatic")
             }
@@ -117,47 +119,62 @@ class KotlinClass: NestedClass {
     func output(method: Method, to fragment: SourceFragment) {
         document(method.documentation, fragment: fragment)
         if !method.name.hasPrefix("_") {
-            if let deprecation = method.deprecation {
-                fragment.output("@Deprecated(\"\(deprecation.quotedMessage)\")")
-            }
-            if method.isOverride {
-                fragment.output("override ", newLineTerminated: false)
-            }
-            fragment.outputBlock("\(method.isSuspend ? "suspend " : "")fun \(method.name)(", newLineTerminated: false) {
-                fragment.outputMap(method.parameters, separator: ",") { parameter in
-                    let labelComment = parameter.labelComment.map { "/* \($0) */ " } ?? ""
-                    let defaultValue = parameter.defaultValue.map { " = \($0)" } ?? ""
-                    return "\(labelComment)\(parameter.name): \(parameter.type.kotlinType)\(defaultValue)"
+            let compatibilityParameters = Set(method.compatibilityOrder)
+            for compatibilityIndex in 0...method.compatibilityOrder.count {
+                let excludedCompatibilityParameters = Set(method.compatibilityOrder[compatibilityIndex...])
+
+                if let deprecation = method.deprecation {
+                    fragment.output("@Deprecated(\"\(deprecation.quotedMessage)\")")
                 }
-            }
-            if method.returnType != KType.void {
-                fragment.output(": \(method.returnType.kotlinType)", newLineTerminated: false)
-            }
-            if let body = method.body {
-                fragment.output(" = \(body)\(method.returnType.toKotlinType)")
-            } else if method.isSuspend {
-                fragment.outputBlock(" {") {
-                    fragment.outputBlock("return coroutineScope {") {
-                        fragment.outputBlock("async {", newLineTerminated: false) {
-                            fragment.outputBlock("suspendCancellableCoroutine { continuation: CancellableContinuation<\(method.returnType.kotlinType)\(method.returnType.kotlinType == "kotlin.Unit" ? "?" : "")> ->", closeWith: "}") {
-                                fragment.outputBlock("__jni_\(method.name)(", closeWith: ")", newLineTerminated: false) {
-                                    fragment.outputMap(method.parameters, separator: "") { parameter in
-                                        parameter.name + ","
-                                    }
-                                    fragment.outputBlock("{ value ->", closeWith: "}") {
-                                        fragment.output("continuation.resume(value, null)")
-                                    }
-                                }
-                                fragment.outputBlock(" { message ->", closeWith: "}") {
-                                    fragment.output("continuation.cancel(Error(message))")
-                                }
-                            }
-                        }
-                        fragment.output(".await()")
+                if method.isOverride {
+                    fragment.output("override ", newLineTerminated: false)
+                }
+                fragment.outputBlock("\(method.isSuspend ? "suspend " : "")fun \(method.name)(", newLineTerminated: false) {
+                    let filteredParameters = method.parameters.filter { !excludedCompatibilityParameters.contains($0.name) }
+                    fragment.outputMap(filteredParameters, separator: ",") { parameter in
+                        let labelComment = parameter.labelComment.map { "/* \($0) */ " } ?? ""
+                        let defaultValue = parameter.defaultValue.map { " = \($0)" } ?? ""
+                        return "\(labelComment)\(parameter.name): \(parameter.type.kotlinType)\(defaultValue)"
                     }
                 }
-            } else {
-                fragment.output(" = __jni_\(method.name)(\(method.parameters.map({ "\($0.name)\($0.type.toJVMType)" }).joined(separator: ", ")))\(method.returnType.toKotlinType)")
+                if method.returnType != KType.void {
+                    fragment.output(": \(method.returnType.kotlinType)", newLineTerminated: false)
+                }
+                if let body = method.body {
+                    precondition(compatibilityParameters.isEmpty, "internal error: compatibilityOrder can't be used with a non-native body")
+                    fragment.output(" = \(body)\(method.returnType.toKotlinType)")
+                } else if method.isSuspend {
+                    fragment.outputBlock(" {") {
+                        fragment.outputBlock("return coroutineScope {") {
+                            fragment.outputBlock("async {", newLineTerminated: false) {
+                                fragment.outputBlock("suspendCancellableCoroutine { continuation: CancellableContinuation<\(method.returnType.kotlinType)\(method.returnType.kotlinType == "kotlin.Unit" ? "?" : "")> ->", closeWith: "}") {
+                                    fragment.outputBlock("__jni_\(method.name)(", closeWith: ")", newLineTerminated: false) {
+                                        fragment.outputMap(method.parameters, separator: "") { parameter in
+                                            parameter.name + ","
+                                        }
+                                        fragment.outputBlock("{ value ->", closeWith: "}") {
+                                            fragment.output("continuation.resume(value, null)")
+                                        }
+                                    }
+                                    fragment.outputBlock(" { message ->", closeWith: "}") {
+                                        fragment.output("continuation.cancel(Error(message))")
+                                    }
+                                }
+                            }
+                            fragment.output(".await()")
+                        }
+                    }
+                } else {
+                    var arguments: [String] = []
+                    for parameter in method.parameters {
+                        if excludedCompatibilityParameters.contains(parameter.name) {
+                            arguments.append("(\(parameter.defaultValue!))\(parameter.type.toJVMType)")
+                        } else {
+                            arguments.append("\(parameter.name)\(parameter.type.toJVMType)")
+                        }
+                    }
+                    fragment.output(" = __jni_\(method.name)(\(arguments.joined(separator: ", ")))\(method.returnType.toKotlinType)")
+                }
             }
         }
         if method.body == nil {
@@ -273,7 +290,7 @@ class KotlinProductClass: KotlinClass {
         case .`public`(let fields):
             fragment.outputBlock("data class \(unqualifiedName)(") {
                 fragment.outputMap(fields, separator: ",") { field in
-                    "\(field.readOnly ? "val" : "var") \(field.name): \(field.type.kotlinType)"
+                    "\(field.isPubliclyWritable ? "var" : "val") \(field.name): \(field.type.kotlinType)"
                 }
             }
         }

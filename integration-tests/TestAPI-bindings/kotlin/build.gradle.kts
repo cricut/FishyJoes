@@ -1,9 +1,10 @@
 import org.jetbrains.kotlin.konan.properties.loadProperties
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 
+// version info comes from https://github.com/cricut/Platform-Documentation/blob/main/platform/version_documentation.md#android
 plugins {
     `maven-publish`
-    kotlin("jvm") version "1.8.20"
+    kotlin("jvm") version "1.9.10"
     jacoco
 }
 
@@ -81,21 +82,21 @@ tasks.jacocoTestReport {
 }
 
 jacoco {
-    toolVersion = "0.8.8"
+    toolVersion = "0.8.10"
     reportsDirectory.set(layout.projectDirectory.dir("../../../coverage-data/jacoco-integration"))
 }
 
 tasks {
     compileKotlin {
-        kotlinOptions.jvmTarget = "1.8"
+        kotlinOptions.jvmTarget = "11"
     }
     compileTestKotlin {
-        kotlinOptions.jvmTarget = "1.8"
+        kotlinOptions.jvmTarget = "11"
     }
 }
 
 dependencies {
-    implementation(kotlin("stdlib:1.8.20"))
+    implementation(kotlin("stdlib:1.9.10"))
     api("com.cricut.fishyjoes:runtime:local")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.2")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.2")

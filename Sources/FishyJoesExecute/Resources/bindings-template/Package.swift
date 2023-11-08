@@ -1,4 +1,4 @@
-// swift-tools-version:5.3
+// swift-tools-version:5.5
 
 import Foundation
 import PackageDescription
@@ -6,11 +6,14 @@ import PackageDescription
 let wasmCompatibleOnly = ProcessInfo.processInfo.environment["WASM_ONLY"] == "1"
 
 // Don't change the format of this line. It's read by gradle in `kotlin/build.gradle.kts`
-let fishyJoesVersion = "2.0.1"
+// when updating, also update:
+//   ./c-sharp/Cricut.__MODULE_NAME__/Cricut.__MODULE_NAME__.csproj
+//   ./dart/pubspec.yaml
+let fishyJoesVersion = "(replace this string with latest fishyjoes version)"
 
 let package = Package(
     name: "__MODULE_NAME__-bindings",
-    platforms: [.macOS(.v11)],
+    platforms: [.macOS(.v12)],
     products: [
         .library(
             name: "__MODULE_NAME__-wasm",
@@ -29,9 +32,9 @@ let package = Package(
                 targets: ["__MODULE_NAME___JavaInterface"]
             ),
             .library(
-                name: "__MODULE_NAME__-c-sharp",
+                name: "__MODULE_NAME__-iota",
                 type: .dynamic,
-                targets: ["__MODULE_NAME___CSharpInterface"]
+                targets: ["__MODULE_NAME___IotaInterface"]
             ),
         ]
     ),
@@ -60,7 +63,7 @@ let package = Package(
         ),
     ] + (
         wasmCompatibleOnly ? [
-            .target(
+            .executableTarget(
                 name: "DummyMain",
                 dependencies: [
                     "__MODULE_NAME___NodeInterface",
@@ -76,12 +79,12 @@ let package = Package(
                 path: "Sources/Generated/JavaInterface"
             ),
             .target(
-                name: "__MODULE_NAME___CSharpInterface",
+                name: "__MODULE_NAME___IotaInterface",
                 dependencies: [
                     .product(name: "__MODULE_NAME__", package: "__MODULE_NAME__"),
-                    .product(name: "FishyJoesCSharpRuntime", package: "FishyJoes"),__JAVA_TARGET_DEPENDENCIES__
+                    .product(name: "FishyJoesIotaRuntime", package: "FishyJoes"),__IOTA_TARGET_DEPENDENCIES__
                 ],
-                path: "Sources/Generated/CSharpInterface"
+                path: "Sources/Generated/IotaInterface"
             ),
         ]
     )

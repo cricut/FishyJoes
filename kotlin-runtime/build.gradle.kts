@@ -1,9 +1,10 @@
 import org.jetbrains.kotlin.konan.properties.loadProperties
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 
+// version info comes from https://github.com/cricut/Platform-Documentation/blob/main/platform/version_documentation.md#android
 plugins {
     `maven-publish`
-    kotlin("jvm") version "1.5.31"
+    kotlin("jvm") version "1.9.10"
     jacoco
 }
 
@@ -71,11 +72,12 @@ sourceSets.main {
 
 task<Exec>("buildSwiftTestHarness") {
     if (System.getenv("FISHYJOES_COVERAGE_PATH") == null) {
-        commandLine("swift", "build", "--product", "JavaRuntimeTestHarness")
+        commandLine("swift", "build", "--configuration", "debug", "--product", "JavaRuntimeTestHarness")
     } else {
         commandLine(
             "swift", "build",
             // swift 5.7 no longer recognizes "--enable-code-coverage" outside of the "test" command
+            "--configuration", "debug",
             "-Xswiftc", "-profile-coverage-mapping",
             "-Xswiftc", "-profile-generate",
             "--product", "JavaRuntimeTestHarness"
@@ -87,7 +89,8 @@ tasks.test {
     dependsOn(":buildSwiftTestHarness")
     systemProperty("java.library.path", "../.build/debug")
     useJUnitPlatform()
-    jvmArgs("-Xcheck:jni", "-XX:+SuppressFatalErrorMessage")
+    // Note: This line is sometimes incompatible with code coverage
+    // jvmArgs("-Xcheck:jni", "-XX:+SuppressFatalErrorMessage")
 
     outputs.upToDateWhen { false }
 
@@ -105,7 +108,7 @@ tasks.jacocoTestReport {
 }
 
 jacoco {
-    toolVersion = "0.8.7"
+    toolVersion = "0.8.10"
     reportsDirectory.set(layout.buildDirectory.dir("../../coverage-data/jacoco-unit"))
 }
 
@@ -119,8 +122,8 @@ tasks {
 }
 
 dependencies {
-    implementation("com.cricut:android-swift-runtime:0.1.0")
-    implementation(kotlin("stdlib:1.5.31"))
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.1")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.1")
+    implementation(kotlin("stdlib:1.9.10"))
+    implementation("com.cricut:android-swift-runtime:1.0.0")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.2")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.2")
 }

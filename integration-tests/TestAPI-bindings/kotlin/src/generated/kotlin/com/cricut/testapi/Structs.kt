@@ -32,10 +32,10 @@ sealed class Structs {
          * <!-- FishyJoes.export(incrementAsync) -->
          */
         suspend fun incrementAsync(
-        ): kotlin.Unit {
+        ) {
             return coroutineScope {
                 async {
-                    suspendCancellableCoroutine { continuation: CancellableContinuation<kotlin.Unit?> ->
+                    suspendCancellableCoroutine { continuation: CancellableContinuation<Void> ->
                         __jni_incrementAsync(
                             { value ->
                                 continuation.resume(value, null)
@@ -49,7 +49,7 @@ sealed class Structs {
         }
         @JvmName("__jni_incrementAsync")
         private external fun __jni_incrementAsync(
-            successContinuation: (kotlin.Unit?) -> Unit,
+            successContinuation: (Void) -> Unit,
             failureContinuation: (String) -> Unit
         )
 
@@ -75,9 +75,8 @@ sealed class Structs {
         /**
          * <!-- FishyJoes.export(immutable) -->
          */
-        var immutable: kotlin.String
+        val immutable: kotlin.String
           get() = __jni_get_immutable()
-          set(value) { __jni_set_immutable(value) } 
         @JvmName("__jni_get_immutable")
         private external fun __jni_get_immutable(): kotlin.String
         @JvmName("__jni_set_immutable")
@@ -134,7 +133,7 @@ sealed class Structs {
      * <!-- FishyJoes.export(Structs.MemberwiseStruct) -->
      */
     data class MemberwiseStruct(
-        var immutable: kotlin.String,
+        val immutable: kotlin.String,
         var mutable: kotlin.String
     )
      {

@@ -215,26 +215,26 @@ sealed class Collections {
 
         companion object {
             /**
-             * <!-- FishyJoes.export(staticPropery) -->
+             * <!-- FishyJoes.export(staticProperty) -->
              */
-            val staticPropery: kotlin.collections.List<Long?>
-              get() = __jni_get_staticPropery()
+            val staticProperty: kotlin.collections.List<Long?>
+              get() = __jni_get_staticProperty()
             @JvmStatic
-            @JvmName("__jni_get_staticPropery")
-            private external fun __jni_get_staticPropery(): kotlin.collections.List<Long?>
+            @JvmName("__jni_get_staticProperty")
+            private external fun __jni_get_staticProperty(): kotlin.collections.List<Long?>
 
             /**
-             * <!-- FishyJoes.export(staticMutablePropery) -->
+             * <!-- FishyJoes.export(staticMutableProperty) -->
              */
-            var staticMutablePropery: kotlin.collections.List<Long?>
-              get() = __jni_get_staticMutablePropery()
-              set(value) { __jni_set_staticMutablePropery(value) } 
+            var staticMutableProperty: kotlin.collections.List<Long?>
+              get() = __jni_get_staticMutableProperty()
+              set(value) { __jni_set_staticMutableProperty(value) } 
             @JvmStatic
-            @JvmName("__jni_get_staticMutablePropery")
-            private external fun __jni_get_staticMutablePropery(): kotlin.collections.List<Long?>
+            @JvmName("__jni_get_staticMutableProperty")
+            private external fun __jni_get_staticMutableProperty(): kotlin.collections.List<Long?>
             @JvmStatic
-            @JvmName("__jni_set_staticMutablePropery")
-            private external fun __jni_set_staticMutablePropery(newValue: kotlin.collections.List<Long?>)
+            @JvmName("__jni_set_staticMutableProperty")
+            private external fun __jni_set_staticMutableProperty(newValue: kotlin.collections.List<Long?>)
 
             init { loadNativeLibs() }
         }

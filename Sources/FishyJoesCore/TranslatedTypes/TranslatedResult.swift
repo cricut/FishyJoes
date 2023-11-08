@@ -4,10 +4,10 @@ struct TranslatedResult: TranslatedType {
     let nodeName: String
     let kotlinName: String
     let kotlinPackage: String? = "com.cricut.fishyjoes.runtime"
-    let cppName: String = "TODO"
     let neutralName: String
     let containedNamedTypes: [TranslatedType]
     let cSharpType: CSharpClass.CSType = .primitive("TODO")
+    let dartType: DartClass.DartType = .primitive("TODO", ffiName: "TODO")
     let jniType = JNIType.object("com/cricut/fishyjoes/runtime/TypedArray")
     let definingModule = Module.runtime
 
@@ -25,7 +25,7 @@ struct TranslatedResult: TranslatedType {
     }
 
     var converterType: BetterType {
-        .generic(base: "ResultConverter", args: [success.converterType, failure.converterType])
+        .generic(base: .runtime("ResultConverter"), args: [success.converterType, failure.converterType])
     }
 
     var isInhabited: Bool { success.isInhabited || failure.isInhabited }

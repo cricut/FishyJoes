@@ -1,4 +1,4 @@
-// swift-tools-version:5.3
+// swift-tools-version:5.6
 
 import PackageDescription
 import Foundation
@@ -26,7 +26,7 @@ func wasmIncompatible<T>(_ things: @autoclosure () -> [T]) -> [T] {
 
 let package = Package(
     name: "FishyJoes",
-    platforms: [.macOS(.v11)],
+    platforms: [.macOS(.v12), .iOS(.v15)],
     products: [
         P.library(
             name: "FishyJoesNodeRuntime",
@@ -36,8 +36,7 @@ let package = Package(
     ] + wasmIncompatible(
         [
             P.library(name: "FishyJoesJavaRuntime", type: .dynamic, targets: ["FishyJoesJavaRuntime"]),
-            P.library(name: "FishyJoesCSharpRuntime", type: .dynamic, targets: ["FishyJoesCSharpRuntime"]),
-            P.library(name: "FishyJoesCPPRuntime", targets: ["FishyJoesCPPRuntime"]),
+            P.library(name: "FishyJoesIotaRuntime", type: .dynamic, targets: ["FishyJoesIotaRuntime"]),
             P.library(name: "JavaRuntimeTestHarness", type: .dynamic, targets: ["JavaRuntimeTestHarness"]),
         ]
     ) + (androidCompatibleOnly || wasmCompatibleOnly ? [] : [
@@ -51,17 +50,17 @@ let package = Package(
     dependencies: generationEnabled(
         [
             D.package(
-                url: "https://github.com/krzysztofzablocki/Sourcery", .branch("1.9.2")
+                url: "https://github.com/krzysztofzablocki/Sourcery", branch: "2.0.2"
 //                 path: "../Sourcery"
             ),
         ]
     ) + wasmIncompatible(
         [
-            D.package(url: "https://github.com/cobbal/swsh", .exact("3.0.0")),
+            D.package(url: "https://github.com/cobbal/swsh", exact: "3.0.0"),
             D.package(url: "https://github.com/apple/swift-argument-parser", from: "0.4.0"),
         ]
     ) + (androidCompatibleOnly || wasmCompatibleOnly ? [] : [
-        D.package(url: "https://github.com/jpsim/Yams", .upToNextMinor(from: "4.0.0")),
+        D.package(url: "https://github.com/jpsim/Yams", .upToNextMinor(from: "5.0.3")),
     ]),
     targets: [
         T.systemLibrary(name: "NodeAPI"),
@@ -75,19 +74,13 @@ let package = Package(
             ]
         ),
         T.target(
-            name: "FishyJoesCPPRuntime",
-            dependencies: [
-                .target(name: "FishyJoesCommonRuntime")
-            ]
-        ),
-        T.target(
             name: "JavaRuntimeTestHarness",
             dependencies: [
                 .target(name: "FishyJoesJavaRuntime"),
             ]
         ),
         T.target(
-            name: "FishyJoesCSharpRuntime",
+            name: "FishyJoesIotaRuntime",
             dependencies: [
                 .target(name: "FishyJoesCommonRuntime"),
             ]
@@ -239,9 +232,9 @@ let package = Package(
                     },
                     .when(
                         platforms: [
-                            // all but .wasi
+                            // all but .wasi and .windows
                             .iOS, .macOS, .tvOS, .watchOS,
-                            .android, .linux, .windows,
+                            .android, .linux,
                         ]
                     )
                 ),
@@ -255,6 +248,12 @@ let package = Package(
                     ],
                     .when(platforms: [.wasi])
                 ),
+                .unsafeFlags(
+                    [
+                        "-Xlinker", "/force:unresolved",
+                    ],
+                    .when(platforms: [.windows])
+                ),
             ]
         ),
     ] + generationEnabled(
@@ -265,7 +264,7 @@ let package = Package(
                     .product(name: "SourceryRuntime", package: "Sourcery"),
                 ]
             ),
-            T.target(
+            T.executableTarget(
                 name: "FishyJoesExecutionHelper",
                 dependencies: [
                     .target(name: "FishyJoesCore"),
@@ -291,7 +290,7 @@ let package = Package(
             ),
         ]
     ) + (androidCompatibleOnly || wasmCompatibleOnly ? [] : [
-        T.target(
+        T.executableTarget(
             name: "FishyJoesExecuteMain",
             dependencies: ["FishyJoesExecute"]
         ),

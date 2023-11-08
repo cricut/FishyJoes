@@ -5,6 +5,7 @@ module.exports = {
     ...common,
     moduleNameMapper: {
         ...common.moduleNameMapper,
+        "^@cricut/fishyjoes-runtime$": "@cricut/fishyjoes-runtime-native-ubuntu",
         "^__MODULE_NAME__$": "@cricut/__LOWERCASE_MODULE_NAME__-native-ubuntu",
     }
 }

@@ -27,7 +27,8 @@ class CSharpClass: NestedClass {
         let documentation: [String]
         let isStatic: Bool
         let isOverride: Bool
-        let readOnly: Bool
+        let isMutable: Bool
+        let isPubliclyWritable: Bool
         let asMethod: Bool
         let name: String
         let mangledName: String
@@ -99,9 +100,9 @@ class CSharpClass: NestedClass {
             }
             fragment.outputBlock("return Check((out CreatedRef exn) =>", closeWith: ");") {
                 if field.type.isObject {
-                    fragment.output("__cs_get_\(field.mangledName)(\(selfArg)out exn).Consume<\(field.type.name)>()")
+                    fragment.output("__iota_get_\(field.mangledName)(Loader.env, \(selfArg)out exn).Consume<\(field.type.name)>()")
                 } else {
-                    fragment.output("__cs_get_\(field.mangledName)(\(selfArg)out exn)")
+                    fragment.output("__iota_get_\(field.mangledName)(Loader.env, \(selfArg)out exn)")
                 }
             }
         }
@@ -118,7 +119,7 @@ class CSharpClass: NestedClass {
                 valueValue = "value"
             }
             fragment.outputBlock("Check((out CreatedRef exn) =>", closeWith: ");") {
-                fragment.output("__cs_set_\(field.mangledName)(\(selfArg)\(valueValue), out exn)")
+                fragment.output("__iota_set_\(field.mangledName)(Loader.env, \(selfArg)\(valueValue), out exn)")
             }
         }
 
@@ -134,8 +135,9 @@ class CSharpClass: NestedClass {
             fragment.outputBlock("\(field.type.name) Get\(field.name)() {") {
                 outputGetterBody()
             }
-            if !field.readOnly {
+            if field.isPubliclyWritable {
                 outputAttributes()
+                fragment.output("public \(field.isOverride ? "override " : "")\(field.isStatic ? "static " : "")", newLineTerminated: false)
                 fragment.outputBlock("void Set\(field.name)(\(field.type.name) value) {") {
                     outputSetterBody()
                 }
@@ -147,7 +149,7 @@ class CSharpClass: NestedClass {
                 fragment.outputBlock("get {") {
                     outputGetterBody()
                 }
-                if !field.readOnly {
+                if field.isPubliclyWritable {
                     fragment.outputBlock("set {") {
                         outputSetterBody()
                     }
@@ -157,11 +159,11 @@ class CSharpClass: NestedClass {
 
         fragment.blankLine()
         fragment.output(module.dllImportMark)
-        fragment.output("private static extern \(field.type.pInvokeCreatedName) __cs_get_\(field.mangledName)(\(selfFormal)out CreatedRef exn);")
-        if !field.readOnly {
+        fragment.output("private static extern \(field.type.pInvokeCreatedName) __iota_get_\(field.mangledName)(IntPtr envRef, \(selfFormal)out CreatedRef exn);")
+        if field.isPubliclyWritable {
             fragment.blankLine()
             fragment.output(module.dllImportMark)
-            fragment.output("private static extern void __cs_set_\(field.mangledName)(\(selfFormal)\(field.type.pInvokeUnownedName) value, out CreatedRef exn);")
+            fragment.output("private static extern void __iota_set_\(field.mangledName)(IntPtr envRef, \(selfFormal)\(field.type.pInvokeUnownedName) value, out CreatedRef exn);")
         }
         fragment.blankLine()
     }
@@ -189,7 +191,7 @@ class CSharpClass: NestedClass {
                 if let body = method.body {
                     body.forEach { fragment.output($0) }
                 } else {
-                    var paramStrings: [String] = []
+                    var paramStrings: [String] = ["Loader.env"]
                     if !method.isStatic {
                         fragment.output("using var _thisHandle = new GCRef(this);")
                         paramStrings.append("_thisHandle.ptr")
@@ -205,7 +207,7 @@ class CSharpClass: NestedClass {
                     }
                     paramStrings.append("out _exn")
 
-                    let body = "Check((out CreatedRef _exn) => __cs_\(method.mangledName)(\(paramStrings.joined(separator: ", "))))"
+                    let body = "Check((out CreatedRef _exn) => __iota_\(method.mangledName)(\(paramStrings.joined(separator: ", "))))"
                     if method.returnType.isObject {
                         fragment.output("return \(body).Consume<\(method.returnType.name)>();")
                     } else if method.returnType == .void {
@@ -219,7 +221,8 @@ class CSharpClass: NestedClass {
         if method.body == nil {
             fragment.blankLine()
             fragment.output(module.dllImportMark)
-            fragment.outputBlock("private static extern \(method.returnType.pInvokeCreatedName) __cs_\(method.mangledName)(", closeWith: ");") {
+            fragment.outputBlock("private static extern \(method.returnType.pInvokeCreatedName) __iota_\(method.mangledName)(", closeWith: ");") {
+                fragment.output("IntPtr envRef,")
                 if !method.isStatic {
                     fragment.output("\(CSType.object.pInvokeUnownedName) self,")
                 }
@@ -252,7 +255,7 @@ extension CSharpClass.CSType: CustomStringConvertible {
         }
     }
 
-    var pInvokeConsumeName: String {
+    var pInvokeConsumedName: String {
         isObject ? "ConsumedRef" : name
     }
 
@@ -334,7 +337,7 @@ class CSharpProductClass: CSharpClass {
                 fragment.output("internal \(unqualifiedName)(ConsumedRef reference): base(reference) {}")
             case .public(let fields):
                 for field in fields {
-                    fragment.output("public \(field.type.name) \(CSharpClass.deforbidify(field.name));")
+                    fragment.output("public \(field.type.name) \(CSharpClass.deforbidify(field.name)) { get; \(field.isPubliclyWritable ? "set;" : "private set;") }")
                 }
                 fragment.blankLine()
 
