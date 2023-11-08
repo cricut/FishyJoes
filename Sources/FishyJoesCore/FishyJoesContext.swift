@@ -143,7 +143,6 @@ public class FishyJoesContext {
                 // Allow referring to it both as `SomeType` and `SomeDependency.SomeType`
                 typeCache[name.withoutModule] = .alias(name)
             }
-            tsAnnotations.rootNamespaces.append(contentsOf: moduleInfo.typeScriptAnnotations.rootNamespaces)
         }
 
         // Collect type information before starting translation

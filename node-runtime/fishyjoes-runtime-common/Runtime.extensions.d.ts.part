@@ -1,0 +1,12 @@
+export namespace Runtime {
+    export namespace AttributeContainer {
+        export namespace FoundationAttributes {
+            export function create(attributes: { languageIdentifier?: String, link?: URL }): FoundationAttributes;
+        }
+    }
+
+    export namespace AttributedString {
+        export function createJoining(attributedStrings: AttributedString[]): AttributedString;
+        export function createJoiningSubstrings(attributedStrings: AttributedSubstring[]): AttributedString;
+    }
+}

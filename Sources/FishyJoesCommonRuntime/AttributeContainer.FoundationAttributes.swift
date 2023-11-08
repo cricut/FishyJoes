@@ -5,8 +5,8 @@ extension AttributeContainer {
     ///
     /// This type (and the ones like it defined in other libraries) allow features similar to those offered by dynamic member lookup in ``AttributeScope`` to be exported to other languages.
     ///
-    /// An attribute container can be asked to fill in the fields defined by this structure using `Self/init(_ container: AttributeContainer)`.
-    /// This structure can be asked to fill in an attribute container using `AttributeContainer/init(_ foundationAttributes: FoundationAttributes`).
+    /// An attribute container can be asked to fill in the fields defined by this structure using ``Self/init(_ container: AttributeContainer)``.
+    /// This structure can be asked to fill in an attribute container using ``AttributeContainer/init(_ foundationAttributes: FoundationAttributes)``.
     ///
     /// Combining these calls with ``AttributedString/setAttributes(_:)`` and ``AttributedString/mergeAttributes(_:)`` allows expansion of attributed strings with new attributes in other languages analogously to how it is done in ``AttributeScopes`` using dynamic member lookup.
     public struct FoundationAttributes: Hashable {
