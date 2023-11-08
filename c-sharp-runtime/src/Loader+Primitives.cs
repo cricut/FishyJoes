@@ -31,81 +31,94 @@ namespace Cricut.FishyJoesRuntime {
         delegate CreatedRef FloatConstructor(float value);
         delegate CreatedRef DoubleConstructor(double value);
 
-        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern void FishyJoesRuntime_Bool_setup(
-            UnownedRef cSharpTrue,
-            UnownedRef cSharpFalse,
+        [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void Swift_Bool_setup(
+            IntPtr envRef,
+            UnownedRef iotaTrue,
+            UnownedRef iotaFalse,
             BoolValueMethod valueMethod
         );
 
-        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern void FishyJoesRuntime_Int8_setup(
+        [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void Swift_Int8_setup(
+            IntPtr envRef,
             Int8ValueMethod valueMethod,
             Int8Constructor constructor
         );
 
-        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern void FishyJoesRuntime_Int16_setup(
+        [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void Swift_Int16_setup(
+            IntPtr envRef,
             Int16ValueMethod valueMethod,
             Int16Constructor constructor
         );
 
-        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern void FishyJoesRuntime_Int32_setup(
+        [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void Swift_Int32_setup(
+            IntPtr envRef,
             Int32ValueMethod valueMethod,
             Int32Constructor constructor
         );
 
-        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern void FishyJoesRuntime_Int64_setup(
+        [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void Swift_Int64_setup(
+            IntPtr envRef,
             Int64ValueMethod valueMethod,
             Int64Constructor constructor
         );
 
-        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern void FishyJoesRuntime_Int_setup(
+        [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void Swift_Int_setup(
+            IntPtr envRef,
             IntValueMethod valueMethod,
             IntConstructor constructor
         );
 
-        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern void FishyJoesRuntime_UInt8_setup(
+        [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void Swift_UInt8_setup(
+            IntPtr envRef,
             UInt8ValueMethod valueMethod,
             UInt8Constructor constructor
         );
 
-        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern void FishyJoesRuntime_UInt16_setup(
+        [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void Swift_UInt16_setup(
+            IntPtr envRef,
             UInt16ValueMethod valueMethod,
             UInt16Constructor constructor
         );
 
-        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern void FishyJoesRuntime_UInt32_setup(
+        [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void Swift_UInt32_setup(
+            IntPtr envRef,
             UInt32ValueMethod valueMethod,
             UInt32Constructor constructor
         );
 
-        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern void FishyJoesRuntime_UInt64_setup(
+        [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void Swift_UInt64_setup(
+            IntPtr envRef,
             UInt64ValueMethod valueMethod,
             UInt64Constructor constructor
         );
 
-        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern void FishyJoesRuntime_UInt_setup(
+        [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void Swift_UInt_setup(
+            IntPtr envRef,
             UIntValueMethod valueMethod,
             UIntConstructor constructor
         );
 
-        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern void FishyJoesRuntime_Float_setup(
+        [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void Swift_Float_setup(
+            IntPtr envRef,
             FloatValueMethod valueMethod,
             FloatConstructor constructor
         );
 
-        [DllImport("FishyJoesCSharpRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern void FishyJoesRuntime_Double_setup(
+        [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void Swift_Double_setup(
+            IntPtr envRef,
             DoubleValueMethod valueMethod,
             DoubleConstructor constructor
         );
@@ -113,7 +126,8 @@ namespace Cricut.FishyJoesRuntime {
         private static void setupPrimitives() {
             using GCRef trueRef = new GCRef(true);
             using GCRef falseRef = new GCRef(false);
-            FishyJoesRuntime_Bool_setup(
+            Swift_Bool_setup(
+                env,
                 trueRef.ptr,
                 falseRef.ptr,
                 bag<BoolValueMethod>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => {
@@ -121,62 +135,74 @@ namespace Cricut.FishyJoesRuntime {
                 }))
             );
 
-            FishyJoesRuntime_Int8_setup(
+            Swift_Int8_setup(
+                env,
                 bag<Int8ValueMethod>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => obj.Peek<sbyte>())),
                 bag<Int8Constructor>(value => new CreatedRef((object)value))
             );
 
-            FishyJoesRuntime_Int16_setup(
+            Swift_Int16_setup(
+                env,
                 bag<Int16ValueMethod>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => obj.Peek<short>())),
                 bag<Int16Constructor>(value => new CreatedRef((object)value))
             );
 
-            FishyJoesRuntime_Int32_setup(
+            Swift_Int32_setup(
+                env,
                 bag<Int32ValueMethod>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => obj.Peek<int>())),
                 bag<Int32Constructor>(value => new CreatedRef((object)value))
             );
 
-            FishyJoesRuntime_Int64_setup(
+            Swift_Int64_setup(
+                env,
                 bag<Int64ValueMethod>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => obj.Peek<long>())),
                 bag<Int64Constructor>(value => new CreatedRef((object)value))
             );
 
-            FishyJoesRuntime_Int_setup(
+            Swift_Int_setup(
+                env,
                 bag<IntValueMethod>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => obj.Peek<nint>())),
                 bag<IntConstructor>(value => new CreatedRef((object)value))
             );
 
-            FishyJoesRuntime_UInt8_setup(
+            Swift_UInt8_setup(
+                env,
                 bag<UInt8ValueMethod>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => obj.Peek<byte>())),
                 bag<UInt8Constructor>(value => new CreatedRef((object)value))
             );
 
-            FishyJoesRuntime_UInt16_setup(
+            Swift_UInt16_setup(
+                env,
                 bag<UInt16ValueMethod>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => obj.Peek<ushort>())),
                 bag<UInt16Constructor>(value => new CreatedRef((object)value))
             );
 
-            FishyJoesRuntime_UInt32_setup(
+            Swift_UInt32_setup(
+                env,
                 bag<UInt32ValueMethod>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => obj.Peek<uint>())),
                 bag<UInt32Constructor>(value => new CreatedRef((object)value))
             );
 
-            FishyJoesRuntime_UInt64_setup(
+            Swift_UInt64_setup(
+                env,
                 bag<UInt64ValueMethod>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => obj.Peek<ulong>())),
                 bag<UInt64Constructor>(value => new CreatedRef((object)value))
             );
 
-            FishyJoesRuntime_UInt_setup(
+            Swift_UInt_setup(
+                env,
                 bag<UIntValueMethod>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => obj.Peek<nuint>())),
                 bag<UIntConstructor>(value => new CreatedRef((object)value))
             );
 
-            FishyJoesRuntime_Float_setup(
+            Swift_Float_setup(
+                env,
                 bag<FloatValueMethod>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => obj.Peek<float>())),
                 bag<FloatConstructor>(value => new CreatedRef((object)value))
             );
 
-            FishyJoesRuntime_Double_setup(
+            Swift_Double_setup(
+                env,
                 bag<DoubleValueMethod>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => obj.Peek<double>())),
                 bag<DoubleConstructor>(value => new CreatedRef((object)value))
             );

@@ -4,12 +4,11 @@ struct TranslatedStruct: TranslatedType {
     let sourceType: BetterType
     let nodeName: String
     let kotlinName: String
-    let cppName: String
     let neutralName: String
     var containedNamedTypes: [TranslatedType] { [self] }
     let kotlinPackage: String?
     let cSharpType: CSharpClass.CSType
-    let globalName: String
+    let dartType: DartClass.DartType
     let storedVariables: [Variable]
     let computedVariables: [Variable]
     let methods: [Method]
@@ -24,14 +23,13 @@ struct TranslatedStruct: TranslatedType {
         }
         guard type.kind == "struct" else { fatalErr("not a struct") }
 
-        self.sourceType = BetterType(named: type)
+        self.sourceType = BetterType(named: type, context: context)
         self.nodeName = exportAnnotation.name
         self.kotlinName = exportAnnotation.name
-        self.cppName = exportAnnotation.name.replacingOccurrences(of: ".", with: "::")
         self.neutralName = "Struct<Named=\(exportAnnotation.name)>"
         self.kotlinPackage = context.module.kotlinPackage
         self.cSharpType = .named(package: context.module.cSharpNamespace, name: exportAnnotation.cSharpName)
-        self.globalName = "\(context.module).\(type.globalName)"
+        self.dartType = .named(package: context.module.dartNamespace, name: context.dartTranslator.fakeNamespace(exportAnnotation.name))
         self.jniType = .object(context.kotlinTranslator.javaClassName(nodeName, in: context))
 
         self.storedVariables = type.storedVariables
@@ -48,44 +46,8 @@ struct TranslatedStruct: TranslatedType {
         [
             nodeDefinitionFragment(in: context),
             jniDefinitionFragment(in: context),
-            cSharpDefinitionFragment(in: context),
-            cppDefinitionFragment(in: context),
+            iotaDefinitionFragment(in: context),
         ] + neutralDefinitionFragments(in: context)
-    }
-
-    func cppDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
-        let fragment = SourceFragment(sourceryDestination: "file:CPPInterface/\(sourceType.name).swift")
-        var newMethods: [CPPClass.CPPMethod] = []
-        newMethods.append(contentsOf: methods.map { context.cppTranslator.translateToHeaderFragment(method: $0, in: context) })
-        for variable in computedVariables {
-            let accessors = context.cppTranslator.translateToHeaderFragment(variable: variable, in: context)
-            newMethods.append(accessors.getter)
-            if let setter = accessors.setter {
-                newMethods.append(setter)
-            }
-        }
-        let newFields: [CPPClass.CPPField] = storedVariables.map { variable in
-            let fieldType = context.resolve(type: variable.typeName.better)
-            return CPPClass.CPPField(
-                documentation: variable.documentation,
-                isStatic: variable.isStatic,
-                isPrivate: false,
-                name: variable.name,
-                type: .type(fieldType),
-                initializer: nil
-            )
-        }
-        let newClass = CPPClass(
-            module: context.module,
-            documentation: documentation,
-            name: sourceType.name,
-            methods: newMethods,
-            fields: newFields,
-            serializedFields: newFields,
-            completeConstructorVisible: true
-        )
-        context.cppClasses[newClass.qualifiedName] = newClass
-        return fragment
     }
 
     func neutralDefinitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
@@ -121,11 +83,11 @@ struct TranslatedStruct: TranslatedType {
 
     func nodeDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
-            "NodeInterface/\(globalName)+node.swift",
+            "NodeInterface/\(sourceType.name)+node.swift",
             additionalImports: ["Foundation", "FishyJoesNodeRuntime"]
         )
 
-        fragment.outputBlock("extension \(globalName): NodeMutator {") {
+        fragment.outputBlock("extension \(sourceType.name): NodeMutator {") {
             fragment.outputBlock("public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {") {
                 // TODO: type check
                 fragment.outputBlock("Self(") {
@@ -141,7 +103,7 @@ struct TranslatedStruct: TranslatedType {
             }
 
             fragment.outputBlock("public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {") {
-                fragment.output("let constructor = try InstanceData.data(for: env).constructor(for: \"\(nodeName)\", env: env)")
+                fragment.output("let constructor = try NodeClass.constructor(for: \"\(nodeName)\", env: env)")
                 fragment.outputBlock("let args: [NAPI.Value] = [") {
                     for storedVar in storedVariables {
                         let resolved = context.resolve(type: storedVar.typeName.better)
@@ -153,7 +115,7 @@ struct TranslatedStruct: TranslatedType {
 
             fragment.outputBlock("public static func mutateNode(_ value: Self, this: NAPI.Value, env: NAPI.Env) throws {") {
                 for storedVar in storedVariables {
-                    guard storedVar.isMutable else { continue }
+                    guard storedVar.isPubliclyWritable else { continue }
                     let resolved = context.resolve(type: storedVar.typeName.better)
                     fragment.output("try env.setNamedProperty(this, \"\(storedVar.name)\", \(resolved.converterType.name).toNode(value.\(storedVar.name), env: env))")
                 }
@@ -161,7 +123,7 @@ struct TranslatedStruct: TranslatedType {
 
             fragment.output("@available(*, deprecated, message: \"Not actually deprecated, but this silences warnings because it may refer to deprecated methods\")")
             fragment.outputBlock("public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {") {
-                // fragment.output("print(\"setting up \(globalName)\")")
+                // fragment.output("print(\"setting up \(sourceType.name)\")")
 
                 fragment.outputBlock("let nodeClass = try NodeClass(") {
                     fragment.output("env: env,")
@@ -172,7 +134,7 @@ struct TranslatedStruct: TranslatedType {
                         hasProperties ||= context.nodeTranslator.outputProperties(computedVariables: computedVariables, context: context, fragment: fragment)
                         for storedVar in storedVariables {
                             // Limitation is wasm implementation of napi_create_class doesn't allow constructors to assign to non-mutable property.
-                            // let mutable = storedVar.isMutable
+                            // let mutable = storedVar.isPubliclyWritable
                             let mutable = true
                             fragment.output("\"\(storedVar.name)\": (.stored(mutable: \(mutable)), isStatic: \(storedVar.isStatic)),")
                             hasProperties = true
@@ -294,8 +256,8 @@ struct TranslatedStruct: TranslatedType {
             }
         }
 
-        context.kotlinClasses.append(
-            KotlinProductClass(
+        context.add(
+            kotlinClass: KotlinProductClass(
                 module: context.module,
                 documentation: documentation,
                 name: kotlinName,
@@ -322,7 +284,7 @@ struct TranslatedStruct: TranslatedType {
         lines.append("delegate \(cSharpType.pInvokeCreatedName) _\(converterType.genericBaseName.mangledName)Constructor(")
         for storedVar in storedVariables {
             let resolved = context.resolve(type: storedVar.typeName.better)
-            lines.append("    \(resolved.cSharpType.pInvokeConsumeName) \(CSharpClass.deforbidify(storedVar.name)),")
+            lines.append("    \(resolved.cSharpType.pInvokeConsumedName) \(CSharpClass.deforbidify(storedVar.name)),")
         }
         lines.append("    out CreatedRef exn")
         lines.append(");")
@@ -330,16 +292,18 @@ struct TranslatedStruct: TranslatedType {
             let resolved = context.resolve(type: storedVar.typeName.better)
             let commonName = "_\(converterType.genericBaseName.mangledName)_\(storedVar.name)"
             lines.append("delegate \(resolved.cSharpType.pInvokeCreatedName) \(commonName)Getter(\(cSharpType.pInvokeUnownedName) obj, out CreatedRef exn);")
-            lines.append("delegate void \(commonName)Setter(\(cSharpType.pInvokeUnownedName) obj, \(resolved.cSharpType.pInvokeConsumeName) newValue, out CreatedRef exn);")
+            if storedVar.isMutable {
+                lines.append("delegate void \(commonName)Setter(\(cSharpType.pInvokeUnownedName) obj, \(resolved.cSharpType.pInvokeConsumedName) newValue, out CreatedRef exn);")
+            }
         }
         return lines
     }
 
-    func cSharpSetupParameters(in context: FishyJoesContext) -> [CSharpSetupParameter] {
+    func cSharpSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<String>] {
         let constructorType = "_\(converterType.genericBaseName.mangledName)Constructor"
         let constructorArgs = storedVariables.map { storedVar in
             let resolved = context.resolve(type: storedVar.typeName.better)
-            return "\(resolved.cSharpType.pInvokeConsumeName) \(CSharpClass.deforbidify(storedVar.name)), "
+            return "\(resolved.cSharpType.pInvokeConsumedName) \(CSharpClass.deforbidify(storedVar.name)), "
         }.joined()
         return [
             .value(
@@ -360,7 +324,7 @@ struct TranslatedStruct: TranslatedType {
                 }
             },
             // ("constructorMethod: @escaping \(converterType.name)._ConstructorMethod,")
-        ] + storedVariables.flatMap { storedVar -> [CSharpSetupParameter] in
+        ] + storedVariables.flatMap { storedVar -> [ForeignSetupParameter] in
             let resolved = context.resolve(type: storedVar.typeName.better)
             let commonName = "_\(converterType.genericBaseName.mangledName)_\(storedVar.name)"
             let getType = "\(commonName)Getter"
@@ -378,81 +342,148 @@ struct TranslatedStruct: TranslatedType {
                             fragment.output("\(grab)")
                         }
                     }
-                },
-                .value(
-                    name: "set_\(storedVar.name)",
-                    type: setType
-                ) { fragment in
-                    fragment.outputBlock("bag<\(setType)>((\(cSharpType.pInvokeUnownedName) obj, \(resolved.cSharpType.pInvokeConsumeName) newValue, out CreatedRef exn) => Catching(out exn, () => {", closeWith: "})),") {
-                        fragment.output("obj.Peek<\(cSharpType.name)>().\(CSharpClass.deforbidify(upperCaseFirst(storedVar.name))) = ", newLineTerminated: false)
-                        fragment.output(resolved.cSharpType.isObject ? "newValue.Consume<\(resolved.cSharpType.name)>();" : "newValue;")
-                    }
-                },
-            ]
+                }
+            ] + (
+                !storedVar.isPubliclyWritable ? [] : [
+                    .value(
+                        name: "set_\(storedVar.name)",
+                        type: setType
+                    ) { fragment in
+                        fragment.outputBlock("bag<\(setType)>((\(cSharpType.pInvokeUnownedName) obj, \(resolved.cSharpType.pInvokeConsumedName) newValue, out CreatedRef exn) => Catching(out exn, () => {", closeWith: "})),") {
+                            fragment.output("obj.Peek<\(cSharpType.name)>().\(CSharpClass.deforbidify(upperCaseFirst(storedVar.name))) = ", newLineTerminated: false)
+                            fragment.output(resolved.cSharpType.isObject ? "newValue.Consume<\(resolved.cSharpType.name)>();" : "newValue;")
+                        }
+                    },
+                ]
+            )
         }
     }
 
-    func cSharpDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
+    func dartSetupDelegates(in context: FishyJoesContext) -> [String] {
+        var lines: [String] = []
+        lines.append("typedef _\(converterType.genericBaseName.mangledName)Constructor = \(dartType.ffiCreatedName) Function(")
+        for storedVar in storedVariables {
+            let resolved = context.resolve(type: storedVar.typeName.better)
+            lines.append("    \(resolved.dartType.ffiConsumedTag) \(storedVar.name),")
+        }
+        lines.append("    OutCreatedRef exn")
+        lines.append(");")
+        for storedVar in storedVariables {
+            let resolved = context.resolve(type: storedVar.typeName.better)
+            let commonName = "_\(converterType.genericBaseName.mangledName)_\(storedVar.name)"
+            lines.append("typedef \(commonName)Getter = \(resolved.dartType.ffiCreatedTag) Function(\(dartType.ffiUnownedTag) obj, OutCreatedRef exn);")
+            if storedVar.isMutable {
+                lines.append("typedef \(commonName)Setter = ffi.Void Function(\(dartType.ffiUnownedTag) obj, \(resolved.dartType.ffiConsumedTag) newValue, OutCreatedRef exn);")
+            }
+        }
+        return lines
+    }
+
+    func dartSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<DartClass.DartType>] {
+        let constructorType = "_\(converterType.genericBaseName.mangledName)Constructor"
+        return [
+            .value(
+                name: "constructor",
+                type: .named(package: nil, name: "ffi.Pointer<ffi.NativeFunction<\(constructorType)>>")
+            ) { fragment in
+                fragment.output("ffi.Pointer.fromFunction(\(dartType.name()).ffi_constructor),")
+            },
+        ] + storedVariables.flatMap { storedVar -> [ForeignSetupParameter<DartClass.DartType>] in
+            let resolved = context.resolve(type: storedVar.typeName.better)
+            let commonName = "_\(converterType.genericBaseName.mangledName)_\(storedVar.name)"
+            let getType = "\(commonName)Getter"
+            let setType = "\(commonName)Setter"
+            return [
+                .value(
+                    name: "get_\(storedVar.name)",
+                    type: .named(package: nil, name: "ffi.Pointer<ffi.NativeFunction<\(getType)>>")
+                ) { fragment in
+                    let defaultValue = resolved.dartType.defaultReturnValue.map { ", \($0)" } ?? ""
+                    fragment.output("ffi.Pointer.fromFunction(\(dartType.name()).ffi_get_\(storedVar.name)\(defaultValue)),")
+                }
+            ] + (
+                !storedVar.isPubliclyWritable ? [] : [
+                    .value(
+                        name: "set_\(storedVar.name)",
+                        type: .named(package: nil, name: "ffi.Pointer<ffi.NativeFunction<\(setType)>>")
+                    ) { fragment in
+                        fragment.output("ffi.Pointer.fromFunction(\(dartType.name()).ffi_set_\(storedVar.name)),")
+                    },
+                ]
+            )
+        }
+    }
+
+    func iotaDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
-            "CSharpInterface/\(sourceType.name)+cSharp-type.swift",
-            additionalImports: ["Foundation", "FishyJoesCSharpRuntime"]
+            "IotaInterface/\(sourceType.name)+iota-type.swift",
+            additionalImports: ["Foundation", "FishyJoesIotaRuntime"]
         )
 
-        fragment.output("@_cdecl(\"\(cSharpSetupName)\")")
-        fragment.outputBlock("public func \(cSharpSetupName)(", newLineTerminated: false) {
+        fragment.output("@_cdecl(\"\(iotaSetupName)\")")
+        fragment.outputBlock("public func \(iotaSetupName)(", newLineTerminated: false) {
+            fragment.output("envRef: EnvRef,")
             fragment.output("constructorMethod: @escaping \(converterType.name)._ConstructorMethod,")
             for storedVar in storedVariables {
                 let resolved = context.resolve(type: storedVar.typeName.better)
-                fragment.output("_ \(storedVar.name)Getter: @escaping @convention(c) (csObject, _ exn: csOutExn) -> \(resolved.converterType.name).CType,")
-                fragment.output("_ \(storedVar.name)Setter: @escaping @convention(c) (csObject, \(resolved.converterType.name).CType, _ exn: csOutExn) -> Void,")
+                fragment.output("_ \(storedVar.name)Getter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> \(resolved.converterType.name).CType,")
+                if storedVar.isMutable {
+                    fragment.output("_ \(storedVar.name)Setter: @escaping @convention(c) (foreignObject, \(resolved.converterType.name).CType, _ exn: foreignOutExn) -> Void,")
+                }
             }
-            fragment.output("_ exn: csOutExn")
+            fragment.output("_ exn: foreignOutExn")
         }
         fragment.outputBlock(" {") {
-            fragment.output("guard \(converterType.name)._constructorMethod == nil else { return }")
-            fragment.output("\(converterType.name)._constructorMethod = constructorMethod")
+            fragment.output("let env = Env(envRef)")
+            fragment.output("if \(converterType.name)._constructorMethod.isInitialized(env) { return }")
+            fragment.output("\(converterType.name)._constructorMethod[env] = constructorMethod")
             for storedVar in storedVariables {
-                fragment.output("\(converterType.name)._\(storedVar.name)Getter = \(storedVar.name)Getter")
-                fragment.output("\(converterType.name)._\(storedVar.name)Setter = \(storedVar.name)Setter")
+                fragment.output("\(converterType.name)._\(storedVar.name)Getter[env] = \(storedVar.name)Getter")
+                if storedVar.isMutable {
+                    fragment.output("\(converterType.name)._\(storedVar.name)Setter[env] = \(storedVar.name)Setter")
+                }
             }
         }
         fragment.blankLine()
 
-        fragment.outputBlock("extension \(converterType.name): CSharpMutator {") {
+        fragment.outputBlock("extension \(converterType.name): IotaMutator {") {
             for storedVar in storedVariables {
                 let resolved = context.resolve(type: storedVar.typeName.better)
-                fragment.output("fileprivate static var _\(storedVar.name)Getter: (@convention(c) (csObject, _ exn: csOutExn) -> \(resolved.converterType.name).CType)!")
-                fragment.output("fileprivate static var _\(storedVar.name)Setter: (@convention(c) (csObject, \(resolved.converterType.name).CType, _ exn: csOutExn) -> Void)!")
+                fragment.output("fileprivate static let _\(storedVar.name)Getter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> \(resolved.converterType.name).CType>()")
+                if storedVar.isMutable {
+                    fragment.output("fileprivate static let _\(storedVar.name)Setter = Env.CallbackMap<@convention(c) (foreignObject, \(resolved.converterType.name).CType, _ exn: foreignOutExn) -> Void>()")
+                }
             }
-            fragment.outputBlock("public typealias _ConstructorMethod = @convention(c) (", closeWith: ") -> csObject") {
+            fragment.outputBlock("public typealias _ConstructorMethod = @convention(c) (", closeWith: ") -> foreignObject") {
                 for storedVar in storedVariables {
                     let resolved = context.resolve(type: storedVar.typeName.better)
                     fragment.output("\(resolved.converterType.name).CType,")
                 }
-                fragment.output("_ exn: csOutExn")
+                fragment.output("_ exn: foreignOutExn")
             }
-            fragment.output("fileprivate static var _constructorMethod: _ConstructorMethod!")
+            fragment.output("fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()")
             fragment.blankLine()
 
-            fragment.outputBlock("public static func peekCSharp(_ value: csObject) throws -> Self {") {
+            fragment.outputBlock("public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {") {
                 fragment.outputBlock("Self(") {
                     for (index, storedVar) in storedVariables.enumerated() {
                         let resolved = context.resolve(type: storedVar.typeName.better)
                         let last = index == storedVariables.count - 1
-                        fragment.outputBlock("\(storedVar.name): try \(resolved.converterType.name).consumeCSharp(", closeWith: last ? ")" : "),") {
-                            fragment.output("try Env.check { exn in _\(storedVar.name)Getter(value, exn) }")
+                        fragment.outputBlock("\(storedVar.name): try \(resolved.converterType.name).consumeIota(", closeWith: last ? ")" : "),") {
+                            fragment.output("try env.check { exn in _\(storedVar.name)Getter[env](value, exn) },")
+                            fragment.output("env: env")
                         }
                     }
                 }
             }
             fragment.blankLine()
 
-            fragment.outputBlock("public static func toCSharp(_ value: Self) throws -> csObject {") {
-                fragment.outputBlock("try Env.check { exn in", closeWith: "}") {
-                    fragment.outputBlock("_constructorMethod(") {
+            fragment.outputBlock("public static func toIota(_ value: Self, env: Env) throws -> foreignObject {") {
+                fragment.outputBlock("try env.check { exn in", closeWith: "}") {
+                    fragment.outputBlock("_constructorMethod[env](") {
                         for storedVar in storedVariables {
                             let resolved = context.resolve(type: storedVar.typeName.better)
-                            fragment.output("try \(resolved.converterType.name).toCSharp(value.\(storedVar.name)),")
+                            fragment.output("try \(resolved.converterType.name).toIota(value.\(storedVar.name), env: env),")
                         }
                         fragment.output("exn")
                     }
@@ -460,27 +491,36 @@ struct TranslatedStruct: TranslatedType {
             }
             fragment.blankLine()
 
-            fragment.outputBlock("public static func mutateCSharp<R>(_ this: csObject, body: (inout Self) throws -> R) throws -> R {") {
-                fragment.output("var mutatingSelf = try peekCSharp(this)")
+            fragment.outputBlock("public static func mutateIota<R>(_ this: foreignObject, env: Env, body: (inout Self) throws -> R) throws -> R {") {
+                fragment.output("var mutatingSelf = try peekIota(this, env: env)")
                 fragment.output("let result = try body(&mutatingSelf)")
                 for storedVar in storedVariables {
                     let resolved = context.resolve(type: storedVar.typeName.better)
-                    fragment.outputBlock("try Env.check { exn in _\(storedVar.name)Setter(", closeWith: ")}") {
-                        fragment.output("this,")
-                        fragment.output("try \(resolved.converterType.name).toCSharp(mutatingSelf.\(storedVar.name)),")
-                        fragment.output("exn")
+                    if storedVar.isMutable {
+                        fragment.outputBlock("try env.check { exn in _\(storedVar.name)Setter[env](", closeWith: ")}") {
+                            fragment.output("this,")
+                            fragment.output("try \(resolved.converterType.name).toIota(mutatingSelf.\(storedVar.name), env: env),")
+                            fragment.output("exn")
+                        }
                     }
                 }
                 fragment.output("return result")
             }
         }
 
+        registerCSharpClass(context: context)
+        registerDartClass(context: context)
+
+        return fragment
+    }
+
+    func registerCSharpClass(context: FishyJoesContext) {
         let fieldsAndMethods =
             computedVariables.compactMap { context.cSharp(field: $0, of: self, useNativeName: false) } +
             methods.compactMap { context.cSharp(method: $0, of: self) }
 
-        context.cSharpClasses.append(
-            CSharpProductClass(
+        context.add(
+            cSharpClass: CSharpProductClass(
                 module: context.module,
                 documentation: documentation,
                 name: cSharpType.name,
@@ -496,7 +536,29 @@ struct TranslatedStruct: TranslatedType {
                 fieldsAndMethods: fieldsAndMethods
             )
         )
+    }
 
-        return fragment
+    func registerDartClass(context: FishyJoesContext) {
+        let fieldsAndMethods =
+            computedVariables.compactMap { context.dart(field: $0, of: self, useNativeName: false) } +
+            methods.compactMap { context.dart(method: $0, of: self) }
+
+        context.add(
+            dartClass: DartProductClass(
+                module: context.module,
+                documentation: documentation,
+                name: dartType.name(),
+                constructor: .`public`(
+                    fields: storedVariables.compactMap {
+                        switch context.dart(field: $0, of: self, useNativeName: true) {
+                        case .method: fatalErr("Can't export a stored variable `\(self.sourceType.name).\($0.name)` as a method")
+                        case .variable(let field): return field
+                        case nil: return nil
+                        }
+                    }
+                ),
+                fieldsAndMethods: fieldsAndMethods
+            )
+        )
     }
 }

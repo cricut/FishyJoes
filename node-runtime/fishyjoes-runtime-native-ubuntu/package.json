@@ -1,0 +1,21 @@
+{
+  "name": "@cricut/fishyjoes-runtime-native-ubuntu",
+  "version": "0.0.1",
+  "publishConfig" : {
+    "registry" : "https://npm.pkg.github.com/"
+  },
+  "description": "FishyJoes Runtime for Node.js on Ubuntu",
+  "main": "Runtime.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "./postinstall.sh"
+  },
+  "author": "Cricut Inc.",
+  "types" : "Runtime.d.ts",
+  "type" : "module",
+  "dependencies" : {
+    "process" : "^0.11.10",
+    "util" : "^0.11.1",
+    "buffer" : "^5.7.1"
+  }
+}

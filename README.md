@@ -17,7 +17,7 @@ Generates bindings for (some) swift library code that can be called from TypeScr
 
 The recommended way to ensure you have everything you will need for any FishyJoes project is to check that you can generate and build CriGeo-bindings:
 
-[Everything Needed To Generate And Compile (CriGeo-bindings)](EverythingNeededToGenerateAndCompile.md)
+[Everything Needed To Generate And Compile (CriGeo-bindings)](https://github.com/cricut/CriGeo-bindings/blob/main/EverythingNeededToGenerateAndCompile.md)
 
 # FAQ
 1. [What FishyJoes Can and Cannot Do](documentation/cans-and-cannots.md)
@@ -64,7 +64,9 @@ swift run fishy-joes build test --wasm --nodejs --kotlin-fast
 
    Install mint: `brew install mint`
 
-1. Optional, if need to test on android emulators/devices) Install Docker:
+   Note: Mint is a package manager that installs and runs Swift command line tool packages
+
+2. Optional, if need to test on android emulators/devices) Install Docker:
 
    1. `brew install rancher`
    2. create missing folder on macOS: `sudo mkdir -p /private/etc/sudoers.d`
@@ -73,7 +75,7 @@ swift run fishy-joes build test --wasm --nodejs --kotlin-fast
    5. enter password to finish install
    6. authenticate with your github PAT: `nerdctl login ghcr.io`
 
-2. In a new git repository, named `YourAwesomeLibrary-bindings`:
+3. In a new git repository, named `YourAwesomeLibrary-bindings`:
 ```
 mint run --executable fishy-joes cricut/FishyJoes package-init
 ```

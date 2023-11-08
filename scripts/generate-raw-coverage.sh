@@ -2,25 +2,27 @@
 
 set -euxo pipefail
 
+if [[ ! -d integration-tests ]]; then
+    echo "Not in root of FishyJoes"
+    exit 1
+fi
+
 export GRADLE_OPTS=-Dorg.gradle.daemon=false
 
 export FISHYJOES_COVERAGE_PATH=$PWD/coverage-data
 rm -rf $FISHYJOES_COVERAGE_PATH
 mkdir -p $FISHYJOES_COVERAGE_PATH
 
-javaLibDir=kotlin-runtime/src/generated/resources/mac
-cSharpLibDir=c-sharp-runtime/runtimes/osx/native
-
-rm -rf $javaLibDir $cSharpLibDir
-mkdir -p $javaLibDir $cSharpLibDir
-
 # swift 5.7 no longer recognizes "--enable-code-coverage" outside of the "test" command
 COVERAGE_FLAGS=(-Xswiftc -profile-coverage-mapping -Xswiftc -profile-generate)
 
-swift build --configuration debug $COVERAGE_FLAGS --product FishyJoesJavaRuntime
-swift build --configuration debug $COVERAGE_FLAGS --product FishyJoesCSharpRuntime
-cp .build/debug/libFishyJoesJavaRuntime.dylib $javaLibDir
-cp .build/debug/libFishyJoesCSharpRuntime.dylib $cSharpLibDir
+CONFIGURATION=debug SKIP_LIPO=1 ./scripts/compile-node-runtime.sh $COVERAGE_FLAGS
+CONFIGURATION=debug SKIP_LIPO=1 ./scripts/compile-kotlin-native-runtime.sh $COVERAGE_FLAGS
+CONFIGURATION=debug SKIP_LIPO=1 ./scripts/compile-iota-runtime.sh $COVERAGE_FLAGS
+
+swift build --configuration debug $COVERAGE_FLAGS --build-tests
+ls .build/debug/*(.x)
+
 (cd kotlin-runtime && ./gradlew publishToMavenLocal)
 
 # Gather coverage from kotlin tests
@@ -34,7 +36,7 @@ cp .build/debug/libFishyJoesCSharpRuntime.dylib $cSharpLibDir
 # Gather coverage for unit tests
 (
     rm -rf .build/debug/codecov/
-    swift test --enable-code-coverage
+    swift test --skip-build --enable-code-coverage
     cp .build/debug/codecov/*.profraw $FISHYJOES_COVERAGE_PATH
 )
 
@@ -42,25 +44,25 @@ cp .build/debug/libFishyJoesCSharpRuntime.dylib $cSharpLibDir
 (
     cd integration-tests/TestAPI-bindings
     export LLVM_PROFILE_FILE=$FISHYJOES_COVERAGE_PATH/integration-tests-generate-build.profraw
-    swift run $COVERAGE_FLAGS -- fishy-joes generate build --kotlin-fast --nodejs --debug
+    ../../.build/debug/fishy-joes generate build --kotlin-fast --nodejs --debug
 )
 
 (
     cd integration-tests/TestAPI-bindings
     export LLVM_PROFILE_FILE=$FISHYJOES_COVERAGE_PATH/integration-tests-node.profraw
-    swift run $COVERAGE_FLAGS -- fishy-joes test --nodejs --debug
+    ../../.build/debug/fishy-joes test --nodejs --debug
 )
 
 (
     cd integration-tests/TestAPI-bindings
     export LLVM_PROFILE_FILE=$FISHYJOES_COVERAGE_PATH/integration-tests-kotlin.profraw
-    swift run $COVERAGE_FLAGS -- fishy-joes build test --kotlin-fast --debug
+    ../../.build/debug/fishy-joes build test --kotlin-fast --debug
 )
 
 (
     cd integration-tests/TestAPI-bindings
     export LLVM_PROFILE_FILE=$FISHYJOES_COVERAGE_PATH/integration-tests-c-sharp.profraw
-    swift run $COVERAGE_FLAGS -- fishy-joes build test --c-sharp --debug
+    ../../.build/debug/fishy-joes build test --c-sharp --debug
 )
 
 # Check that generation didn't change anything

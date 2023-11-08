@@ -51,11 +51,11 @@ test('FunctionsTakingClosuresWithCollectionTypes', () => {
 });
 
 test('ObjectsWithCollectionMembers', () => {
-    expect(TestAPI.Collections.CollectionHolder.staticPropery).toEqual([undefined, 2, 7, 3, 5, 8]);
-    expect(TestAPI.Collections.CollectionHolder.staticMutablePropery).toEqual([undefined, 2, 7, 3, 5, 8]);
+    expect(TestAPI.Collections.CollectionHolder.staticProperty).toEqual([undefined, 2, 7, 3, 5, 8]);
+    expect(TestAPI.Collections.CollectionHolder.staticMutableProperty).toEqual([undefined, 2, 7, 3, 5, 8]);
     // TODO: type annotation is buggy
-    TestAPI.Collections.CollectionHolder.staticMutablePropery = [100, undefined as any, 200];
-    expect(TestAPI.Collections.CollectionHolder.staticMutablePropery).toEqual([100, undefined, 200]);
+    TestAPI.Collections.CollectionHolder.staticMutableProperty = [100, undefined as any, 200];
+    expect(TestAPI.Collections.CollectionHolder.staticMutableProperty).toEqual([100, undefined, 200]);
     let s = TestAPI.Collections.defaultCollectionHolder;
     expect(s).toEqual(TestAPI.Collections.defaultCollectionHolder);
     var map = new Map<boolean, boolean>()

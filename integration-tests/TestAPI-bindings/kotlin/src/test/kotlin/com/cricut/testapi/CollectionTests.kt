@@ -56,10 +56,10 @@ internal class CollectionTests {
 
     @Test
     fun testObjectsWithCollectionMembers() {
-        assertEquals(Collections.CollectionHolder.staticPropery, arrayListOf(null,2L,7L,3L,5L,8L))
-        assertEquals(Collections.CollectionHolder.staticMutablePropery, arrayListOf(null,2L,7L,3L,5L,8L))
-        Collections.CollectionHolder.staticMutablePropery = arrayListOf(100L,null,200L)
-        assertEquals(Collections.CollectionHolder.staticMutablePropery, arrayListOf(100L,null,200L))
+        assertEquals(Collections.CollectionHolder.staticProperty, arrayListOf(null,2L,7L,3L,5L,8L))
+        assertEquals(Collections.CollectionHolder.staticMutableProperty, arrayListOf(null,2L,7L,3L,5L,8L))
+        Collections.CollectionHolder.staticMutableProperty = arrayListOf(100L,null,200L)
+        assertEquals(Collections.CollectionHolder.staticMutableProperty, arrayListOf(100L,null,200L))
         val s = Collections.defaultCollectionHolder
         assertEquals(s, Collections.defaultCollectionHolder)
         s.boolDictionary = s.boolDictionary.map { Pair(it.key, !it.value) }.toMap()

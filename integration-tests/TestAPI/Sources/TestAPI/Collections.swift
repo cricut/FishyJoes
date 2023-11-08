@@ -63,10 +63,10 @@ public enum Collections {
 
     /// <!-- FishyJoes.export(Collections.CollectionHolder) -->
     public struct CollectionHolder {
-        /// <!-- FishyJoes.export(staticPropery) -->
-        public static let staticPropery: [Int?] = [nil, 2, 7, 3, 5, 8]
-        /// <!-- FishyJoes.export(staticMutablePropery) -->
-        public static var staticMutablePropery: [Int?] = [nil, 2, 7, 3, 5, 8]
+        /// <!-- FishyJoes.export(staticProperty) -->
+        public static let staticProperty: [Int?] = [nil, 2, 7, 3, 5, 8]
+        /// <!-- FishyJoes.export(staticMutableProperty) -->
+        public static var staticMutableProperty: [Int?] = [nil, 2, 7, 3, 5, 8]
 
         public var boolArray: [Bool]
         public var boolSet: Set<Bool>

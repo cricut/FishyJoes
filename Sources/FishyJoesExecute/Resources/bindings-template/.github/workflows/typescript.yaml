@@ -1,5 +1,5 @@
 ---
-name: TypeScript
+name: "TypeScript"
 
 "on":
   workflow_dispatch:
@@ -16,24 +16,27 @@ concurrency:
   cancel-in-progress: true
 
 env:
+  GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
+  GITHUB_USER: cricut-builduser
   NODE_VERSION: "16.x"
-  SWIFT_WASM_VERSION: "5.7.1-RELEASE"
+  SWIFT_WASM_VERSION: "5.9-SNAPSHOT-2023-08-06-a"
 
 jobs:
   build-test-pack-ts-mac:
-    name: "mac: Build and test typescript bindings"
+    name: "macOS: Build and test typescript bindings"
     runs-on: macOS-12
+    
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Setup Git Credentials
-        uses: fusion-engineering/setup-git-credentials@v2.0.1
+        uses: de-vri-es/setup-git-credentials@v2
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
       - name: Setup Node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ env.NODE_VERSION }}
           registry-url: 'https://npm.pkg.github.com/'
@@ -43,19 +46,12 @@ jobs:
         shell: zsh {0}
         run: |
           set -euxo pipefail
-
-          # Hack. Xcode 13.3 hangs on a gui prompt while resolving
-          sudo xcode-select -s /Applications/Xcode_13.2.1.app
-          swift package resolve
-          sudo xcode-select -s /Applications/Xcode_13.3.1.app
-
           swift run -- fishy-joes --nodejs --fat generate build
 
       - name: Test from node
         shell: zsh {0}
         run: |
           set -euxo pipefail
-
           swift run -- fishy-joes --nodejs --fat test
 
       - name: Pack
@@ -64,112 +60,99 @@ jobs:
           set -euo pipefail
 
           VERSION=${GITHUB_REF#refs/*/}
-          if [[ ! $VERSION =~ [0-9]+\.[0-9]+\.[0-9]+ ]]; then
-              VERSION="0.0.1"
+          if [[ ! $VERSION =~ [0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9]+)* ]]; then
+              VERSION="0.0.1-$(git rev-parse --short HEAD)"
           fi
           swift run -- fishy-joes --nodejs --fat --version $VERSION pack
 
       - name: Upload NPM Artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: npm_mac_packages
           path: cricut-*.tgz
 
+      - name: Publish NPM Package
+        if: success() && github.event_name == 'release'
+        shell: zsh {0}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euxo pipefail
+          for package in cricut-*.tgz; do
+            npm publish $package
+          done
+
   build-test-pack-ts-linux:
-    name: "linux: Build and test typescript bindings"
+    name: "Ubuntu: Build and test typescript bindings"
     runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/cricut/android-swift-runtime:1.0.0
+      credentials:
+        username: cricut-builduser
+        password: ${{ secrets.CRICUT_GPR_TOKEN }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Setup Git Credentials
-        uses: fusion-engineering/setup-git-credentials@v2.0.1
+        uses: de-vri-es/setup-git-credentials@v2
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
       - name: Setup Node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ env.NODE_VERSION }}
           registry-url: 'https://npm.pkg.github.com/'
           scope: '@cricut'
 
       - name: Configure build environment
+        shell: zsh {0}
         run: |
           set -euxo pipefail
 
-          sudo apt-get install zsh
-
+          git config --global --add safe.directory '*'
+          
           curl -Lo swift-wasm.tgz "https://github.com/swiftwasm/swift/releases/download/swift-wasm-$SWIFT_WASM_VERSION/swift-wasm-$SWIFT_WASM_VERSION-ubuntu20.04_x86_64.tar.gz"
-          sudo mkdir -p /Library/Developer/Toolchains/swift-wasm-$SWIFT_WASM_VERSION.xctoolchain
-          sudo tar -xf swift-wasm.tgz -C /Library/Developer/Toolchains/swift-wasm-$SWIFT_WASM_VERSION.xctoolchain --strip-components 1
+          mkdir -p /Library/Developer/Toolchains/swift-wasm-$SWIFT_WASM_VERSION.xctoolchain
+          tar -xf swift-wasm.tgz -C /Library/Developer/Toolchains/swift-wasm-$SWIFT_WASM_VERSION.xctoolchain --strip-components 1
 
       - name: Build library
         shell: zsh {0}
         run: |
           set -euxo pipefail
-
           swift run -- fishy-joes --nodejs --wasm build
 
       - name: Test from node
         shell: zsh {0}
         run: |
           set -euxo pipefail
-
           swift run -- fishy-joes --nodejs --wasm test
 
       - name: Pack
         shell: zsh {0}
         run: |
-          set -euo pipefail
+          set -euxo pipefail
 
           VERSION=${GITHUB_REF#refs/*/}
-          if [[ ! $VERSION =~ [0-9]+\.[0-9]+\.[0-9]+ ]]; then
-              VERSION="0.0.1"
+          if [[ ! $VERSION =~ [0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9]+)* ]]; then
+              VERSION="0.0.1-$(git rev-parse --short HEAD)"
           fi
           swift run -- fishy-joes --nodejs --wasm --version $VERSION pack
 
       - name: Upload NPM Artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: npm_linux_packages
           path: cricut-*.tgz
 
-  npm-publish:
-    name: Publish NPM packages
-    runs-on: ubuntu-latest
-    needs:
-      - build-test-pack-ts-linux
-      - build-test-pack-ts-mac
-    if: success() && github.event_name == 'release'
-    steps:
-      - name: Setup Node
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          registry-url: 'https://npm.pkg.github.com/'
-          scope: '@cricut'
-
-      - name: Retrieve NPM Package Artifact
-        uses: actions/download-artifact@v2
-
-      - name: Install zsh
-        run: |
-          set -euxo pipefail
-          sudo apt-get install zsh
-
       - name: Publish NPM Package
+        if: success() && github.event_name == 'release'
+        shell: zsh {0}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        shell: zsh {0}
         run: |
-          set -euo pipefail
-
-          for directory in npm_mac_packages npm_linux_packages; do
-            (
-              cd $directory
-              for package in *.tgz; do
-                npm publish $package
-              done
-            )
+          set -euxo pipefail
+          for package in cricut-*.tgz; do
+            npm publish $package
           done

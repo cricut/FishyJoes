@@ -1,4 +1,4 @@
-// Generated using Sourcery 1.9.2 — https://github.com/krzysztofzablocki/Sourcery
+// Generated using Sourcery 2.0.2 — https://github.com/krzysztofzablocki/Sourcery
 // DO NOT EDIT
 // swiftlint:disable superfluous_disable_command unused_closure_parameter syntactic_sugar attributes
 import FishyJoesNodeRuntime
@@ -8,21 +8,21 @@ import TestAPI
 extension TestAPI.Structs.MutableStruct: NodeMutator {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
         Self(
-            i: try { () -> Int in
+            i: try { () -> Swift.Int in
                 let fieldValue = try env.getNamedProperty(value, "i")
-                return try Int.fromNode(fieldValue, env: env)
+                return try Swift.Int.fromNode(fieldValue, env: env)
             }()
         )
     }
     public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
-        let constructor = try InstanceData.data(for: env).constructor(for: "Structs.MutableStruct", env: env)
+        let constructor = try NodeClass.constructor(for: "Structs.MutableStruct", env: env)
         let args: [NAPI.Value] = [
-            try Int.toNode(value.i, env: env),
+            try Swift.Int.toNode(value.i, env: env),
         ]
         return try env.newInstance(constructor, args)
     }
     public static func mutateNode(_ value: Self, this: NAPI.Value, env: NAPI.Env) throws {
-        try env.setNamedProperty(this, "i", Int.toNode(value.i, env: env))
+        try env.setNamedProperty(this, "i", Swift.Int.toNode(value.i, env: env))
     }
     @available(*, deprecated, message: "Not actually deprecated, but this silences warnings because it may refer to deprecated methods")
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
@@ -33,8 +33,8 @@ extension TestAPI.Structs.MutableStruct: NodeMutator {
                 "create": (
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "create", expectedArgumentCount: 0, hasNamedOptions: false) { env in
-                            let result = try Structs.MutableStruct.toNode(
-                                Structs.MutableStruct(
+                            let result = try TestAPI.Structs.MutableStruct.toNode(
+                                TestAPI.Structs.MutableStruct(
                                 ),
                                 env: env.env
                             )
@@ -46,8 +46,8 @@ extension TestAPI.Structs.MutableStruct: NodeMutator {
                 "increment": (
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "increment", expectedArgumentCount: 0, hasNamedOptions: false) { env in
-                            var mutatingSelf = try env.this(converter: Structs.MutableStruct.self)
-                            let result = try VoidConverter.toNode(
+                            var mutatingSelf = try env.this(converter: TestAPI.Structs.MutableStruct.self)
+                            let result = try FishyJoesCommonRuntime.VoidConverter.toNode(
                                 mutatingSelf.increment(
                                 ),
                                 env: env.env
@@ -71,7 +71,7 @@ extension TestAPI.Structs.MutableStruct: NodeMutator {
                                     try onMainThread { env in
                                         let convertedTaskResult: NAPI.Value
                                         do {
-                                            convertedTaskResult = try VoidConverter.toNode(taskResult, env: env)
+                                            convertedTaskResult = try FishyJoesCommonRuntime.VoidConverter.toNode(taskResult, env: env)
                                         } catch {
                                             try Self.mutateNode(mutatingSelf.value, this: jsThis.value(env: env), env: env)
                                             try env.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: env))

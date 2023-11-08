@@ -5,7 +5,18 @@
     "strict": true,
     "target": "es2017",
     "paths": {
-      "TestAPI": ["../Sources/Generated/NodeInterface/TestAPI.d.ts"]
+      "TestAPI": [
+        "../output/node-native-windows/TestAPI.d.ts",
+        "../output/node-native-macos/TestAPI.d.ts",
+        "../output/node-native-ubuntu/TestAPI.d.ts",
+        "../output/wasm/TestAPI.d.ts",
+      ],
+      "@cricut/fishyjoes-runtime": [
+        "../../../node-runtime/fishyjoes-runtime-native-windows/Runtime.d.ts",
+        "../../../node-runtime/fishyjoes-runtime-native-macos/Runtime.d.ts",
+        "../../../node-runtime/fishyjoes-runtime-native-ubuntu/Runtime.d.ts",
+        "../../../node-runtime/fishyjoes-runtime-wasm/Runtime.d.ts",
+      ]
     }
   }
 }

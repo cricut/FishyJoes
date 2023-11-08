@@ -130,12 +130,19 @@ public struct PackageInit: ParsableCommand {
             with: join(lines: nodeDependencyLines, indent: 16)
         )
 
-        let javaDependencyLines = config.requiredModules.map { dependency in
-            ".product(name: \"\(dependency)-java\", package: \"\(dependency)-bindings\"),"
+        func targetDependencyLines(suffix: String) -> [String] {
+            config.requiredModules.map { dependency in
+                ".product(name: \"\(dependency)-\(suffix)\", package: \"\(dependency)-bindings\"),"
+            }
         }
+
         string = string.replacingOccurrences(
             of: "__JAVA_TARGET_DEPENDENCIES__",
-            with: join(lines: javaDependencyLines, indent: 20)
+            with: join(lines: targetDependencyLines(suffix: "java"), indent: 20)
+        )
+        string = string.replacingOccurrences(
+            of: "__IOTA_TARGET_DEPENDENCIES__",
+            with: join(lines: targetDependencyLines(suffix: "iota"), indent: 20)
         )
 
         let registerDependencyLines = (config.requiredModules + [config.module]).map { dependency in
@@ -168,10 +175,16 @@ public struct PackageInit: ParsableCommand {
             allowEmpty: true
         )
 
+        let excludeSources = try Interactive.prompt(
+            "File or directory paths to exlude from generation, space separated. Default []:",
+            allowEmpty: true
+        )
+
         let config = FishyJoesConfig(
             module: module,
             publishRepository: publishRepository,
-            requiredModules: requiredModules.split(separator: " ").map(String.init)
+            requiredModules: requiredModules.split(separator: " ").map(String.init),
+            excludeSources: excludeSources.split(separator: " ").map(String.init)
         )
 
         let encoder = YAMLEncoder()
