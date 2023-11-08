@@ -203,7 +203,7 @@ test('AsyncDoubleFunctionCall', async () => {
 })
 
 test('AsyncMultipleArgsFunctionCall', async () => {
-    const value = await TestAPI.Functions.asyncMultipleArgs(1, () => { return 2 })
+    const value = await TestAPI.Functions.asyncMultipleArgs(1, async () => { return 2 })
     expect(value).toEqual(3)
 })
 

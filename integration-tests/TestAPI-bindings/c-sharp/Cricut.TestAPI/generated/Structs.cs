@@ -15,7 +15,7 @@ namespace Cricut.TestAPI {
         /// <!-- FishyJoes.export(Structs.MutableStruct) -->
         /// </summary>
         public record MutableStruct {
-            public nint I;
+            public nint I { get; set; }
 
             public MutableStruct(
                 nint I
@@ -28,11 +28,12 @@ namespace Cricut.TestAPI {
             /// </summary>
             public static Cricut.TestAPI.Structs.MutableStruct Create(
             ) {
-                return Check((out CreatedRef _exn) => __cs_Structs_MutableStruct_create(out _exn)).Consume<Cricut.TestAPI.Structs.MutableStruct>();
+                return Check((out CreatedRef _exn) => __iota_TestAPI_Structs_MutableStruct_create(Loader.env, out _exn)).Consume<Cricut.TestAPI.Structs.MutableStruct>();
             }
 
-            [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-            private static extern CreatedRef __cs_Structs_MutableStruct_create(
+            [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            private static extern CreatedRef __iota_TestAPI_Structs_MutableStruct_create(
+                IntPtr envRef,
                 out CreatedRef exn
             );
 
@@ -42,11 +43,12 @@ namespace Cricut.TestAPI {
             public void Increment(
             ) {
                 using var _thisHandle = new GCRef(this);
-                Check((out CreatedRef _exn) => __cs_Structs_MutableStruct_increment(_thisHandle.ptr, out _exn));
+                Check((out CreatedRef _exn) => __iota_TestAPI_Structs_MutableStruct_increment(Loader.env, _thisHandle.ptr, out _exn));
             }
 
-            [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-            private static extern void __cs_Structs_MutableStruct_increment(
+            [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            private static extern void __iota_TestAPI_Structs_MutableStruct_increment(
+                IntPtr envRef,
                 UnownedRef self,
                 out CreatedRef exn
             );
@@ -57,11 +59,12 @@ namespace Cricut.TestAPI {
             public void IncrementAsync(
             ) {
                 using var _thisHandle = new GCRef(this);
-                Check((out CreatedRef _exn) => __cs_Structs_MutableStruct_incrementAsync(_thisHandle.ptr, out _exn));
+                Check((out CreatedRef _exn) => __iota_TestAPI_Structs_MutableStruct_incrementAsync(Loader.env, _thisHandle.ptr, out _exn));
             }
 
-            [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-            private static extern void __cs_Structs_MutableStruct_incrementAsync(
+            [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            private static extern void __iota_TestAPI_Structs_MutableStruct_incrementAsync(
+                IntPtr envRef,
                 UnownedRef self,
                 out CreatedRef exn
             );

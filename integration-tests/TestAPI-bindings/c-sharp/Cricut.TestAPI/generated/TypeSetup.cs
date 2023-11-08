@@ -274,6 +274,21 @@ namespace Cricut.TestAPI {
             out CreatedRef _exn
         );
 
+        delegate CreatedRef _TestAPI_Structs_MutableStructConstructor(
+            nint i,
+            out CreatedRef exn
+        );
+        delegate nint _TestAPI_Structs_MutableStruct_iGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _TestAPI_Structs_MutableStruct_iSetter(UnownedRef obj, nint newValue, out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_Structs_MutableStruct_setup(
+            IntPtr envRef,
+            _TestAPI_Structs_MutableStructConstructor constructor,
+            _TestAPI_Structs_MutableStruct_iGetter get_i,
+            _TestAPI_Structs_MutableStruct_iSetter set_i,
+            out CreatedRef _exn
+        );
+
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_Structs_PuttingTypesIntoQuestionablePlaces_setup(
             IntPtr envRef,
@@ -508,6 +523,14 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
+            Once("setup_Function1Converter<Swift.Double, FishyJoesCommonRuntime.VoidConverter>", () => {
+                Console.WriteLine("setting up (Double) -> Void...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function1Converter_setup<double>(
+                    Loader.env,
+                    "Function1Converter<Swift.Double, FishyJoesCommonRuntime.VoidConverter>",
+                    out exn
+                ));
+            });
             Once("setup_Function3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>", () => {
                 Console.WriteLine("setting up (Float, Double, Int) -> Double...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function3Converter_setup<double, float, double, nint>(
@@ -516,11 +539,67 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
+            Once("setup_AsyncFunction6Converter<Swift.Int, Swift.Int, Swift.Int, Swift.Int, Swift.Int, Swift.Int, Swift.Int>", () => {
+                Console.WriteLine("setting up (Int, Int, Int, Int, Int, Int) async -> Int...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_AsyncFunction6Converter_setup<nint, nint, nint, nint, nint, nint, nint>(
+                    Loader.env,
+                    "AsyncFunction6Converter<Swift.Int, Swift.Int, Swift.Int, Swift.Int, Swift.Int, Swift.Int, Swift.Int>",
+                    out exn
+                ));
+            });
+            Once("setup_AsyncFunction5Converter<Swift.Int, Swift.Int, Swift.Int, Swift.Int, Swift.Int, Swift.Int>", () => {
+                Console.WriteLine("setting up (Int, Int, Int, Int, Int) async -> Int...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_AsyncFunction5Converter_setup<nint, nint, nint, nint, nint, nint>(
+                    Loader.env,
+                    "AsyncFunction5Converter<Swift.Int, Swift.Int, Swift.Int, Swift.Int, Swift.Int, Swift.Int>",
+                    out exn
+                ));
+            });
+            Once("setup_AsyncFunction4Converter<Swift.Int, Swift.Int, Swift.Int, Swift.Int, Swift.Int>", () => {
+                Console.WriteLine("setting up (Int, Int, Int, Int) async -> Int...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_AsyncFunction4Converter_setup<nint, nint, nint, nint, nint>(
+                    Loader.env,
+                    "AsyncFunction4Converter<Swift.Int, Swift.Int, Swift.Int, Swift.Int, Swift.Int>",
+                    out exn
+                ));
+            });
+            Once("setup_AsyncFunction3Converter<Swift.Int, Swift.Int, Swift.Int, Swift.Int>", () => {
+                Console.WriteLine("setting up (Int, Int, Int) async -> Int...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_AsyncFunction3Converter_setup<nint, nint, nint, nint>(
+                    Loader.env,
+                    "AsyncFunction3Converter<Swift.Int, Swift.Int, Swift.Int, Swift.Int>",
+                    out exn
+                ));
+            });
+            Once("setup_AsyncFunction2Converter<Swift.Int, Swift.Int, Swift.Int>", () => {
+                Console.WriteLine("setting up (Int, Int) async -> Int...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_AsyncFunction2Converter_setup<nint, nint, nint>(
+                    Loader.env,
+                    "AsyncFunction2Converter<Swift.Int, Swift.Int, Swift.Int>",
+                    out exn
+                ));
+            });
             Once("setup_Function1Converter<Swift.Int, Swift.Int>", () => {
                 Console.WriteLine("setting up (Int) -> Int...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function1Converter_setup<nint, nint>(
                     Loader.env,
                     "Function1Converter<Swift.Int, Swift.Int>",
+                    out exn
+                ));
+            });
+            Once("setup_AsyncFunction1Converter<Swift.Int, Swift.Int>", () => {
+                Console.WriteLine("setting up (Int) async -> Int...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_AsyncFunction1Converter_setup<nint, nint>(
+                    Loader.env,
+                    "AsyncFunction1Converter<Swift.Int, Swift.Int>",
+                    out exn
+                ));
+            });
+            Once("setup_Function1Converter<Swift.Int, FishyJoesCommonRuntime.VoidConverter>", () => {
+                Console.WriteLine("setting up (Int) -> Void...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function1Converter_setup<nint>(
+                    Loader.env,
+                    "Function1Converter<Swift.Int, FishyJoesCommonRuntime.VoidConverter>",
                     out exn
                 ));
             });
@@ -548,11 +627,27 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
+            Once("setup_Function1Converter<FishyJoesCommonRuntime.VoidConverter, FishyJoesCommonRuntime.VoidConverter>", () => {
+                Console.WriteLine("setting up (Void) -> Void...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function1Converter_setup<void>(
+                    Loader.env,
+                    "Function1Converter<FishyJoesCommonRuntime.VoidConverter, FishyJoesCommonRuntime.VoidConverter>",
+                    out exn
+                ));
+            });
             Once("setup_Function0Converter<Swift.Int>", () => {
                 Console.WriteLine("setting up () -> Int...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function0Converter_setup<nint>(
                     Loader.env,
                     "Function0Converter<Swift.Int>",
+                    out exn
+                ));
+            });
+            Once("setup_AsyncFunction0Converter<Swift.Int>", () => {
+                Console.WriteLine("setting up () async -> Int...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_AsyncFunction0Converter_setup<nint>(
+                    Loader.env,
+                    "AsyncFunction0Converter<Swift.Int>",
                     out exn
                 ));
             });
@@ -1550,6 +1645,24 @@ namespace Cricut.TestAPI {
                     )),
                     bag<_TestAPI_Structs_MemberwiseStruct_mutableSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
                         obj.Peek<Cricut.TestAPI.Structs.MemberwiseStruct>().Mutable = newValue.Consume<string>();
+                    })),
+                    out exn
+                ));
+            });
+            Once("setup_TestAPI.Structs.MutableStruct", () => {
+                Console.WriteLine("setting up TestAPI.Structs.MutableStruct...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_Structs_MutableStruct_setup(
+                    Loader.env,
+                    bag<_TestAPI_Structs_MutableStructConstructor>((nint i, out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.Structs.MutableStruct(
+                            i
+                        ));
+                    })),
+                    bag<_TestAPI_Structs_MutableStruct_iGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        obj.Peek<Cricut.TestAPI.Structs.MutableStruct>().I
+                    )),
+                    bag<_TestAPI_Structs_MutableStruct_iSetter>((UnownedRef obj, nint newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Structs.MutableStruct>().I = newValue;
                     })),
                     out exn
                 ));

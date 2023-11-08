@@ -35,6 +35,7 @@ public func registerModuleTestAPI(env: NAPI.Env, exports: NAPI.Value) throws -> 
     try TestAPI.Functions.TheError.nodeSetup(env: env, module: module)
     try TestAPI.Primitives.PrimitiveHolder.nodeSetup(env: env, module: module)
     try TestAPI.Structs.MemberwiseStruct.nodeSetup(env: env, module: module)
+    try TestAPI.Structs.MutableStruct.nodeSetup(env: env, module: module)
     try TestAPI.Structs.PuttingTypesIntoQuestionablePlaces.nodeSetup(env: env, module: module)
     try TestAPI.Structs.ReferenceStruct.nodeSetup(env: env, module: module)
     try TestAPI.AssociatedDataEnum.nodeSetup(env: env, module: module)

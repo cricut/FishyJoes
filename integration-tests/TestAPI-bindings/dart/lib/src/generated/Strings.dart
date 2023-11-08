@@ -40,6 +40,8 @@ import './Structs.dart' as TestAPI;
 import './Structs.dart';
 import './Structs_MemberwiseStruct.dart' as TestAPI;
 import './Structs_MemberwiseStruct.dart';
+import './Structs_MutableStruct.dart' as TestAPI;
+import './Structs_MutableStruct.dart';
 import './Structs_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
 import './Structs_PuttingTypesIntoQuestionablePlaces.dart';
 import './Structs_ReferenceStruct.dart' as TestAPI;

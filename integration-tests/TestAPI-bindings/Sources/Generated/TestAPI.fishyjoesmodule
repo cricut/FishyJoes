@@ -1045,6 +1045,58 @@
         "named" : {
           "_0" : {
             "module" : "TestAPI",
+            "name" : "MutableStruct",
+            "namespace" : [
+              "Structs"
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "Structs.MutableStruct",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "Structs_MutableStruct",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/Structs$MutableStruct"
+        }
+      },
+      "kotlinName" : "Structs.MutableStruct",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Struct<Named=Structs.MutableStruct>>",
+      "nodeName" : "TestAPI.Structs.MutableStruct",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "MutableStruct",
+            "namespace" : [
+              "Structs"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
             "name" : "PuttingTypesIntoQuestionablePlaces",
             "namespace" : [
               "Structs"
@@ -1399,6 +1451,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(testCall) -->"
                 ],
+                "isAsync" : false,
                 "isStatic" : false,
                 "name" : "testCall",
                 "parameters" : [
@@ -1454,6 +1507,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(testCall) -->"
                 ],
+                "isAsync" : false,
                 "isStatic" : false,
                 "name" : "testCall",
                 "parameters" : [
@@ -1488,6 +1542,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(create) -->"
                 ],
+                "isAsync" : false,
                 "isStatic" : true,
                 "name" : "create",
                 "parameters" : [
@@ -1503,6 +1558,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(testCall) -->"
                 ],
+                "isAsync" : false,
                 "isStatic" : false,
                 "name" : "testCall",
                 "parameters" : [
@@ -1640,6 +1696,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(create) -->"
                 ],
+                "isAsync" : false,
                 "isStatic" : true,
                 "name" : "create",
                 "parameters" : [
@@ -2099,6 +2156,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echo) -->"
                 ],
+                "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echo",
                 "parameters" : [
@@ -2121,6 +2179,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(firstIndex) -->"
                 ],
+                "isAsync" : false,
                 "isStatic" : true,
                 "name" : "firstIndex",
                 "parameters" : [
@@ -2144,6 +2203,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(lastIndex) -->"
                 ],
+                "isAsync" : false,
                 "isStatic" : true,
                 "name" : "lastIndex",
                 "parameters" : [
@@ -2167,6 +2227,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(fullRange) -->"
                 ],
+                "isAsync" : false,
                 "isStatic" : true,
                 "name" : "fullRange",
                 "parameters" : [
@@ -2190,6 +2251,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(attributedCharacters) -->"
                 ],
+                "isAsync" : false,
                 "isStatic" : true,
                 "name" : "attributedCharacters",
                 "parameters" : [
@@ -2213,6 +2275,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(attributesPreferringDuplicatesNearerStart) -->"
                 ],
+                "isAsync" : false,
                 "isStatic" : true,
                 "name" : "attributesPreferringDuplicatesNearerStart",
                 "parameters" : [
@@ -2236,6 +2299,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(emptyAttributeRuns) -->"
                 ],
+                "isAsync" : false,
                 "isStatic" : true,
                 "name" : "emptyAttributeRuns",
                 "parameters" : [
@@ -4216,7 +4280,7 @@
                     "name" : "j",
                     "type" : {
                       "named" : {
-                        "_0" : "() => number"
+                        "_0" : "() => Promise<number>"
                       }
                     }
                   }
@@ -7583,6 +7647,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(testCall) -->"
                 ],
+                "isAsync" : false,
                 "isStatic" : true,
                 "name" : "testCall",
                 "parameters" : [
@@ -7663,6 +7728,7 @@
                 "documentation" : [
                   "<!-- FishyJoes.export(echo) -->"
                 ],
+                "isAsync" : false,
                 "isStatic" : true,
                 "name" : "echo",
                 "parameters" : [

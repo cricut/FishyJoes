@@ -1,11 +1,11 @@
-// Generated using Sourcery 1.9.2 — https://github.com/krzysztofzablocki/Sourcery
+// Generated using Sourcery 2.0.2 — https://github.com/krzysztofzablocki/Sourcery
 // DO NOT EDIT
 // swiftlint:disable superfluous_disable_command unused_closure_parameter syntactic_sugar attributes
 import FishyJoesJavaRuntime
 import Foundation
 import TestAPI
 
-extension Structs.MutableStruct: JavaMutator {
+extension TestAPI.Structs.MutableStruct: JavaMutator {
     public typealias SwiftType = Self
     public typealias CType = jobject?
 
@@ -14,7 +14,7 @@ extension Structs.MutableStruct: JavaMutator {
     private static var _constructorMethodID: jmethodID!
     public static func fromJava(_ value: jobject?, env: Env) throws -> Self {
         Self(
-            i: try Int.fromJava(
+            i: try Swift.Int.fromJava(
                 env.GetLongField(value, Self._java_i_id),
                 env: env
             )
@@ -24,7 +24,7 @@ extension Structs.MutableStruct: JavaMutator {
         try env.NewObject(
             Self.javaClass,
             Self._constructorMethodID,
-            jvalue(Int.toJava(value.i, env: env))
+            jvalue(Swift.Int.toJava(value.i, env: env))
         )
     }
     public static func javaSetup(env: Env) throws {
@@ -38,7 +38,7 @@ extension Structs.MutableStruct: JavaMutator {
         let result = try body(&mutatingSelf)
         try env.SetLongField(
             this, Self._java_i_id,
-            Int.toJava(mutatingSelf.i, env: env)
+            Swift.Int.toJava(mutatingSelf.i, env: env)
         )
         return result
     }

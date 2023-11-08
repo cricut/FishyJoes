@@ -5,6 +5,7 @@ export './Collections_CollectionHolder.dart';
 export './Functions_TheError.dart';
 export './Primitives_PrimitiveHolder.dart';
 export './Structs_MemberwiseStruct.dart';
+export './Structs_MutableStruct.dart';
 export './Structs_PuttingTypesIntoQuestionablePlaces.dart';
 export './Structs_ReferenceStruct.dart';
 export './AssociatedDataEnum.dart';

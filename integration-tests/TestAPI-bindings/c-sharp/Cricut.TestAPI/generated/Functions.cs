@@ -247,11 +247,12 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static nint Async42Func(
         ) {
-            return Check((out CreatedRef _exn) => __cs_Functions_async42Func(out _exn));
+            return Check((out CreatedRef _exn) => __iota_TestAPI_Functions_async42Func(Loader.env, out _exn));
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern nint __cs_Functions_async42Func(
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern nint __iota_TestAPI_Functions_async42Func(
+            IntPtr envRef,
             out CreatedRef exn
         );
 
@@ -260,11 +261,12 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static nint AsyncYieldFunc(
         ) {
-            return Check((out CreatedRef _exn) => __cs_Functions_asyncYieldFunc(out _exn));
+            return Check((out CreatedRef _exn) => __iota_TestAPI_Functions_asyncYieldFunc(Loader.env, out _exn));
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern nint __cs_Functions_asyncYieldFunc(
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern nint __iota_TestAPI_Functions_asyncYieldFunc(
+            IntPtr envRef,
             out CreatedRef exn
         );
 
@@ -273,11 +275,12 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static nint AsyncSleepFunc(
         ) {
-            return Check((out CreatedRef _exn) => __cs_Functions_asyncSleepFunc(out _exn));
+            return Check((out CreatedRef _exn) => __iota_TestAPI_Functions_asyncSleepFunc(Loader.env, out _exn));
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern nint __cs_Functions_asyncSleepFunc(
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern nint __iota_TestAPI_Functions_asyncSleepFunc(
+            IntPtr envRef,
             out CreatedRef exn
         );
 
@@ -286,11 +289,12 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static void AsyncVoidFunc(
         ) {
-            Check((out CreatedRef _exn) => __cs_Functions_asyncVoidFunc(out _exn));
+            Check((out CreatedRef _exn) => __iota_TestAPI_Functions_asyncVoidFunc(Loader.env, out _exn));
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern void __cs_Functions_asyncVoidFunc(
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern void __iota_TestAPI_Functions_asyncVoidFunc(
+            IntPtr envRef,
             out CreatedRef exn
         );
 
@@ -301,11 +305,12 @@ namespace Cricut.TestAPI {
             System.Func<nint> callback
         ) {
             using var _callbackHandle = new GCRef(callback);
-            return Check((out CreatedRef _exn) => __cs_Functions_asyncCallbackFunc0(_callbackHandle.ptr, out _exn));
+            return Check((out CreatedRef _exn) => __iota_TestAPI_Functions_asyncCallbackFunc0(Loader.env, _callbackHandle.ptr, out _exn));
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern nint __cs_Functions_asyncCallbackFunc0(
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern nint __iota_TestAPI_Functions_asyncCallbackFunc0(
+            IntPtr envRef,
             UnownedRef callback,
             out CreatedRef exn
         );
@@ -317,11 +322,12 @@ namespace Cricut.TestAPI {
             System.Func<nint, nint> callback
         ) {
             using var _callbackHandle = new GCRef(callback);
-            return Check((out CreatedRef _exn) => __cs_Functions_asyncCallbackFunc1(_callbackHandle.ptr, out _exn));
+            return Check((out CreatedRef _exn) => __iota_TestAPI_Functions_asyncCallbackFunc1(Loader.env, _callbackHandle.ptr, out _exn));
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern nint __cs_Functions_asyncCallbackFunc1(
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern nint __iota_TestAPI_Functions_asyncCallbackFunc1(
+            IntPtr envRef,
             UnownedRef callback,
             out CreatedRef exn
         );
@@ -333,11 +339,12 @@ namespace Cricut.TestAPI {
             System.Func<nint, nint, nint> callback
         ) {
             using var _callbackHandle = new GCRef(callback);
-            return Check((out CreatedRef _exn) => __cs_Functions_asyncCallbackFunc2(_callbackHandle.ptr, out _exn));
+            return Check((out CreatedRef _exn) => __iota_TestAPI_Functions_asyncCallbackFunc2(Loader.env, _callbackHandle.ptr, out _exn));
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern nint __cs_Functions_asyncCallbackFunc2(
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern nint __iota_TestAPI_Functions_asyncCallbackFunc2(
+            IntPtr envRef,
             UnownedRef callback,
             out CreatedRef exn
         );
@@ -349,11 +356,12 @@ namespace Cricut.TestAPI {
             System.Func<nint, nint, nint, nint> callback
         ) {
             using var _callbackHandle = new GCRef(callback);
-            return Check((out CreatedRef _exn) => __cs_Functions_asyncCallbackFunc3(_callbackHandle.ptr, out _exn));
+            return Check((out CreatedRef _exn) => __iota_TestAPI_Functions_asyncCallbackFunc3(Loader.env, _callbackHandle.ptr, out _exn));
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern nint __cs_Functions_asyncCallbackFunc3(
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern nint __iota_TestAPI_Functions_asyncCallbackFunc3(
+            IntPtr envRef,
             UnownedRef callback,
             out CreatedRef exn
         );
@@ -365,11 +373,12 @@ namespace Cricut.TestAPI {
             System.Func<nint, nint, nint, nint, nint> callback
         ) {
             using var _callbackHandle = new GCRef(callback);
-            return Check((out CreatedRef _exn) => __cs_Functions_asyncCallbackFunc4(_callbackHandle.ptr, out _exn));
+            return Check((out CreatedRef _exn) => __iota_TestAPI_Functions_asyncCallbackFunc4(Loader.env, _callbackHandle.ptr, out _exn));
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern nint __cs_Functions_asyncCallbackFunc4(
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern nint __iota_TestAPI_Functions_asyncCallbackFunc4(
+            IntPtr envRef,
             UnownedRef callback,
             out CreatedRef exn
         );
@@ -381,11 +390,12 @@ namespace Cricut.TestAPI {
             System.Func<nint, nint, nint, nint, nint, nint> callback
         ) {
             using var _callbackHandle = new GCRef(callback);
-            return Check((out CreatedRef _exn) => __cs_Functions_asyncCallbackFunc5(_callbackHandle.ptr, out _exn));
+            return Check((out CreatedRef _exn) => __iota_TestAPI_Functions_asyncCallbackFunc5(Loader.env, _callbackHandle.ptr, out _exn));
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern nint __cs_Functions_asyncCallbackFunc5(
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern nint __iota_TestAPI_Functions_asyncCallbackFunc5(
+            IntPtr envRef,
             UnownedRef callback,
             out CreatedRef exn
         );
@@ -397,11 +407,12 @@ namespace Cricut.TestAPI {
             System.Func<nint, nint, nint, nint, nint, nint, nint> callback
         ) {
             using var _callbackHandle = new GCRef(callback);
-            return Check((out CreatedRef _exn) => __cs_Functions_asyncCallbackFunc6(_callbackHandle.ptr, out _exn));
+            return Check((out CreatedRef _exn) => __iota_TestAPI_Functions_asyncCallbackFunc6(Loader.env, _callbackHandle.ptr, out _exn));
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern nint __cs_Functions_asyncCallbackFunc6(
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern nint __iota_TestAPI_Functions_asyncCallbackFunc6(
+            IntPtr envRef,
             UnownedRef callback,
             out CreatedRef exn
         );
@@ -412,11 +423,12 @@ namespace Cricut.TestAPI {
         public static double AsyncDoubleFunc(
             double d
         ) {
-            return Check((out CreatedRef _exn) => __cs_Functions_asyncDoubleFunc(d, out _exn));
+            return Check((out CreatedRef _exn) => __iota_TestAPI_Functions_asyncDoubleFunc(Loader.env, d, out _exn));
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern double __cs_Functions_asyncDoubleFunc(
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern double __iota_TestAPI_Functions_asyncDoubleFunc(
+            IntPtr envRef,
             double d,
             out CreatedRef exn
         );
@@ -429,11 +441,12 @@ namespace Cricut.TestAPI {
             System.Func<nint> j
         ) {
             using var _jHandle = new GCRef(j);
-            return Check((out CreatedRef _exn) => __cs_Functions_asyncMultipleArgs(i, _jHandle.ptr, out _exn));
+            return Check((out CreatedRef _exn) => __iota_TestAPI_Functions_asyncMultipleArgs(Loader.env, i, _jHandle.ptr, out _exn));
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern nint __cs_Functions_asyncMultipleArgs(
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern nint __iota_TestAPI_Functions_asyncMultipleArgs(
+            IntPtr envRef,
             nint i,
             UnownedRef j,
             out CreatedRef exn
@@ -444,11 +457,12 @@ namespace Cricut.TestAPI {
         /// </summary>
         public static void AsyncThrowingFunc(
         ) {
-            Check((out CreatedRef _exn) => __cs_Functions_asyncThrowingFunc(out _exn));
+            Check((out CreatedRef _exn) => __iota_TestAPI_Functions_asyncThrowingFunc(Loader.env, out _exn));
         }
 
-        [DllImport("TestAPI-c-sharp", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern void __cs_Functions_asyncThrowingFunc(
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern void __iota_TestAPI_Functions_asyncThrowingFunc(
+            IntPtr envRef,
             out CreatedRef exn
         );
 
