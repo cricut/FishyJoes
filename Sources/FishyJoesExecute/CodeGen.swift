@@ -1,7 +1,6 @@
 import ArgumentParser
 import Foundation
 import swsh
-import FishyJoesCore
 
 public struct CodeGen: ParsableCommand {
     @Flag(name: .shortAndLong, help: "suppress verbose output")
@@ -523,7 +522,7 @@ extension CodeGen {
                             definitions.append("    \(dependency.moduleName): typeof \(dependency.moduleName),")
                         }
                         definitions.append("    \(config.module): typeof \(config.module),")
-                        definitions.append("}>;");
+                        definitions.append("}>;")
                         definitions.append("")
 
                         // Make the module's own definitions the default export
