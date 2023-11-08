@@ -33,10 +33,7 @@ extension TranslatedType {
         if let opt = self as? TranslatedOptional {
             return .optional(opt.wrapped.nodeType)
         } else {
-            if let namespace = definingTSNamespace {
-                return .named("\(namespace).\(nodeName)")
-            }
-            return .named(nodeName)
+            return .named("\(definingTSNamespace.map { "\($0)." } ?? "")\(nodeName)")
         }
     }
 

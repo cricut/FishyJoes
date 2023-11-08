@@ -321,6 +321,7 @@ extension CodeGen {
                             moduleName: String,
                             localPath: String,
                             definitionsPath: String,
+                            exports: [String],
                             compiledLibName: String,
                             nodeLibName: String,
                             npmPackageName: String,
@@ -331,6 +332,7 @@ extension CodeGen {
                         moduleName: "Runtime",
                         localPath: runtimePath,
                         definitionsPath: "\(runtimePath)/fishyjoes-runtime-common",
+                        exports: ["Optional", "Runtime"],
                         compiledLibName: "libFishyJoesNodeRuntime.\(platform.dylibExt)",
                         nodeLibName: "Runtime.cjs.node",
                         npmPackageName: "fishyjoes-runtime-\(platform.nodeExecutionEnvironment)",
@@ -348,12 +350,13 @@ extension CodeGen {
                             moduleName: moduleName,
                             localPath: dependency.localPath,
                             definitionsPath: "\(dependency.localPath)/Sources/Generated/NodeInterface",
+                            exports: [moduleName],
                             compiledLibName: "lib\(moduleName)-node.\(platform.dylibExt)",
                             nodeLibName: "\(moduleName).cjs.node",
                             npmPackageName: npmPackageName,
                             npmModuleVersion: dependency.version ??
                                 // If dependency is file-local, use a file-local dependency too
-                                "file:\(dependency.localPath)/output/\(npmPackageName)"
+                                "file:\(dependency.localPath)/output/\(platform.platform)"
                         ))
                     }
 
@@ -493,9 +496,9 @@ extension CodeGen {
                                 }
                             }
                             if platform == .node {
-                                // Import and re-export the dependency definitions
-                                definitions.append("import { \(dependency.moduleName) } from '@cricut/\(dependency.npmPackageName)';")
-                                definitions.append("export { \(dependency.moduleName) } from '@cricut/\(dependency.npmPackageName)';")
+                                // Import and re-export the dependency exports
+                                definitions.append("import { \(dependency.exports.joined(separator: ", ")) } from '@cricut/\(dependency.npmPackageName)';")
+                                definitions.append("export { \(dependency.exports.joined(separator: ", ")) } from '@cricut/\(dependency.npmPackageName)';")
                             }
                         }
                         definitions.append("")
@@ -519,7 +522,7 @@ extension CodeGen {
                         for dependency in dependencies {
                             definitions.append("    \(dependency.moduleName): typeof \(dependency.moduleName),")
                         }
-                        definitions.append("\(config.module): typeof \(config.module),")
+                        definitions.append("    \(config.module): typeof \(config.module),")
                         definitions.append("}>;");
                         definitions.append("")
 

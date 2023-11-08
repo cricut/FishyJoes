@@ -549,7 +549,7 @@ export declare namespace Runtime {
             ): number;
 
             forEach(
-                body: function(Runs.Run)
+                body: (run: Runs.Run) => any
             );
             
             [Symbol.iterator](
@@ -676,12 +676,10 @@ export declare namespace Runtime {
             ): string;
 
             forEach(
-                body: function(string)
+                body: (character: string) => any
             );
 
-            [Symbol.iterator](): CharacterIterator {
-                return new CharacterIterator(this)
-            }
+            [Symbol.iterator](): CharacterIterator;
         }
 
         export class CharacterIterator implements Iterator<string> {
@@ -755,12 +753,10 @@ export declare namespace Runtime {
             ): number;
 
             forEach(
-                body: function(number)
+                body: (scalar: number) => any
             );
 
-            [Symbol.iterator](): UnicodeScalarIterator {
-                return new UnicodeScalarIterator(this)
-            }
+            [Symbol.iterator](): UnicodeScalarIterator;
         }
 
         export class UnicodeScalarIterator implements Iterator<number> {
