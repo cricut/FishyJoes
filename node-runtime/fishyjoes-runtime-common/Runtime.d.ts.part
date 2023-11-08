@@ -550,7 +550,7 @@ export declare namespace Runtime {
 
             forEach(
                 body: (run: Runs.Run) => any
-            );
+            ): any;
             
             [Symbol.iterator](
             ): RunIterator;
@@ -677,7 +677,7 @@ export declare namespace Runtime {
 
             forEach(
                 body: (character: string) => any
-            );
+            ): any;
 
             [Symbol.iterator](): CharacterIterator;
         }
@@ -754,7 +754,7 @@ export declare namespace Runtime {
 
             forEach(
                 body: (scalar: number) => any
-            );
+            ): any;
 
             [Symbol.iterator](): UnicodeScalarIterator;
         }
