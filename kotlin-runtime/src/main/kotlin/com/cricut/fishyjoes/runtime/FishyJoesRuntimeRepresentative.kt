@@ -52,3 +52,6 @@ object FishyJoesRuntimeRepresentative: LibraryLoader.LibraryRepresentative {
 //        }
     }
 }
+internal fun loadNativeLibs() {
+    FishyJoesRuntimeRepresentative.ensureLoaded()
+}

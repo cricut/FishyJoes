@@ -6,25 +6,23 @@ struct FishyJoesConfig: Codable {
     let module: String
     let publishRepository: String?
     let requiredModules: [String]
+    let excludeSources: [String]
 
     static func readFromFile() throws -> FishyJoesConfig {
         guard let configData = try? cmd("cat", "fishy-joes.yaml").runString() else {
             throw ValidationError("missing config file fishy-joes.yaml")
         }
-        guard let configObject = try? Yams.load(yaml: configData) else {
-            print("fishy-joes.yaml is not valid YAML. Should be something like:")
-            print("---")
-            print("module: MyModule")
-            print("required-modules:")
-            print("  - other-module.fishyjoesmodule")
-            throw ValidationError("invalid YAML")
-        }
-        guard let configDictionary = configObject as? [String: Any] else {
+        guard let configObject = try? Yams.load(yaml: configData),
+              let configDictionary = configObject as? [String: Any]
+        else {
             print("fishy-joes.yaml root object must be a dictionary. Should be something like:")
             print("---")
             print("module: MyModule")
             print("requiredModules:")
             print("  - othermodule.fishyjoesmodule")
+            print("excludeSources:")
+            print("  - SomeFile.swift")
+            print("  - Some/Directory/")
             throw ValidationError("invalid YAML")
         }
         guard let moduleObj = configDictionary["module"] else {
@@ -45,6 +43,12 @@ struct FishyJoesConfig: Codable {
             }
             return list
         }
-        return FishyJoesConfig(module: module, publishRepository: publishRepository, requiredModules: requiredModules ?? [])
+        let excludeSources = try configDictionary["excludeSources"].map { obj -> [String] in
+            guard let list = obj as? [String] else {
+                throw ValidationError("fishy-joes.yaml value for key `excludeSources` is not an array of file or directory paths")
+            }
+            return list
+        }
+        return FishyJoesConfig(module: module, publishRepository: publishRepository, requiredModules: requiredModules ?? [], excludeSources: excludeSources ?? [])
     }
 }

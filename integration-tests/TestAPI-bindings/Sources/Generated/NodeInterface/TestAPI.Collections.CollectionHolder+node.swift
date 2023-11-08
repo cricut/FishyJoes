@@ -1,4 +1,4 @@
-// Generated using Sourcery 1.9.2 — https://github.com/krzysztofzablocki/Sourcery
+// Generated using Sourcery 2.0.2 — https://github.com/krzysztofzablocki/Sourcery
 // DO NOT EDIT
 // swiftlint:disable superfluous_disable_command unused_closure_parameter syntactic_sugar attributes
 import FishyJoesNodeRuntime
@@ -8,29 +8,29 @@ import TestAPI
 extension TestAPI.Collections.CollectionHolder: NodeMutator {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
         Self(
-            boolArray: try { () -> Array<Bool> in
+            boolArray: try { () -> Array<Swift.Bool> in
                 let fieldValue = try env.getNamedProperty(value, "boolArray")
-                return try ArrayConverter<Bool>.fromNode(fieldValue, env: env)
+                return try ArrayConverter<Swift.Bool>.fromNode(fieldValue, env: env)
             }(),
-            boolSet: try { () -> Set<Bool> in
+            boolSet: try { () -> Set<Swift.Bool> in
                 let fieldValue = try env.getNamedProperty(value, "boolSet")
-                return try SetConverter<Bool>.fromNode(fieldValue, env: env)
+                return try SetConverter<Swift.Bool>.fromNode(fieldValue, env: env)
             }(),
-            boolDictionary: try { () -> Dictionary<Bool, Bool> in
+            boolDictionary: try { () -> Dictionary<Swift.Bool, Swift.Bool> in
                 let fieldValue = try env.getNamedProperty(value, "boolDictionary")
-                return try DictionaryConverter<Bool, Bool>.fromNode(fieldValue, env: env)
+                return try DictionaryConverter<Swift.Bool, Swift.Bool>.fromNode(fieldValue, env: env)
             }(),
-            integerArray: try { () -> Array<Int> in
+            integerArray: try { () -> Array<Swift.Int> in
                 let fieldValue = try env.getNamedProperty(value, "integerArray")
-                return try ArrayConverter<Int>.fromNode(fieldValue, env: env)
+                return try ArrayConverter<Swift.Int>.fromNode(fieldValue, env: env)
             }(),
-            integerSet: try { () -> Set<Int> in
+            integerSet: try { () -> Set<Swift.Int> in
                 let fieldValue = try env.getNamedProperty(value, "integerSet")
-                return try SetConverter<Int>.fromNode(fieldValue, env: env)
+                return try SetConverter<Swift.Int>.fromNode(fieldValue, env: env)
             }(),
-            integerDictionary: try { () -> Dictionary<Int, Int> in
+            integerDictionary: try { () -> Dictionary<Swift.Int, Swift.Int> in
                 let fieldValue = try env.getNamedProperty(value, "integerDictionary")
-                return try DictionaryConverter<Int, Int>.fromNode(fieldValue, env: env)
+                return try DictionaryConverter<Swift.Int, Swift.Int>.fromNode(fieldValue, env: env)
             }(),
             stringArray: try { () -> Array<Swift.String> in
                 let fieldValue = try env.getNamedProperty(value, "stringArray")
@@ -47,14 +47,14 @@ extension TestAPI.Collections.CollectionHolder: NodeMutator {
         )
     }
     public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
-        let constructor = try InstanceData.data(for: env).constructor(for: "Collections.CollectionHolder", env: env)
+        let constructor = try NodeClass.constructor(for: "Collections.CollectionHolder", env: env)
         let args: [NAPI.Value] = [
-            try ArrayConverter<Bool>.toNode(value.boolArray, env: env),
-            try SetConverter<Bool>.toNode(value.boolSet, env: env),
-            try DictionaryConverter<Bool, Bool>.toNode(value.boolDictionary, env: env),
-            try ArrayConverter<Int>.toNode(value.integerArray, env: env),
-            try SetConverter<Int>.toNode(value.integerSet, env: env),
-            try DictionaryConverter<Int, Int>.toNode(value.integerDictionary, env: env),
+            try ArrayConverter<Swift.Bool>.toNode(value.boolArray, env: env),
+            try SetConverter<Swift.Bool>.toNode(value.boolSet, env: env),
+            try DictionaryConverter<Swift.Bool, Swift.Bool>.toNode(value.boolDictionary, env: env),
+            try ArrayConverter<Swift.Int>.toNode(value.integerArray, env: env),
+            try SetConverter<Swift.Int>.toNode(value.integerSet, env: env),
+            try DictionaryConverter<Swift.Int, Swift.Int>.toNode(value.integerDictionary, env: env),
             try ArrayConverter<Swift.String>.toNode(value.stringArray, env: env),
             try SetConverter<Swift.String>.toNode(value.stringSet, env: env),
             try DictionaryConverter<Swift.String, Swift.String>.toNode(value.stringDictionary, env: env),
@@ -62,12 +62,12 @@ extension TestAPI.Collections.CollectionHolder: NodeMutator {
         return try env.newInstance(constructor, args)
     }
     public static func mutateNode(_ value: Self, this: NAPI.Value, env: NAPI.Env) throws {
-        try env.setNamedProperty(this, "boolArray", ArrayConverter<Bool>.toNode(value.boolArray, env: env))
-        try env.setNamedProperty(this, "boolSet", SetConverter<Bool>.toNode(value.boolSet, env: env))
-        try env.setNamedProperty(this, "boolDictionary", DictionaryConverter<Bool, Bool>.toNode(value.boolDictionary, env: env))
-        try env.setNamedProperty(this, "integerArray", ArrayConverter<Int>.toNode(value.integerArray, env: env))
-        try env.setNamedProperty(this, "integerSet", SetConverter<Int>.toNode(value.integerSet, env: env))
-        try env.setNamedProperty(this, "integerDictionary", DictionaryConverter<Int, Int>.toNode(value.integerDictionary, env: env))
+        try env.setNamedProperty(this, "boolArray", ArrayConverter<Swift.Bool>.toNode(value.boolArray, env: env))
+        try env.setNamedProperty(this, "boolSet", SetConverter<Swift.Bool>.toNode(value.boolSet, env: env))
+        try env.setNamedProperty(this, "boolDictionary", DictionaryConverter<Swift.Bool, Swift.Bool>.toNode(value.boolDictionary, env: env))
+        try env.setNamedProperty(this, "integerArray", ArrayConverter<Swift.Int>.toNode(value.integerArray, env: env))
+        try env.setNamedProperty(this, "integerSet", SetConverter<Swift.Int>.toNode(value.integerSet, env: env))
+        try env.setNamedProperty(this, "integerDictionary", DictionaryConverter<Swift.Int, Swift.Int>.toNode(value.integerDictionary, env: env))
         try env.setNamedProperty(this, "stringArray", ArrayConverter<Swift.String>.toNode(value.stringArray, env: env))
         try env.setNamedProperty(this, "stringSet", SetConverter<Swift.String>.toNode(value.stringSet, env: env))
         try env.setNamedProperty(this, "stringDictionary", DictionaryConverter<Swift.String, Swift.String>.toNode(value.stringDictionary, env: env))
@@ -78,27 +78,27 @@ extension TestAPI.Collections.CollectionHolder: NodeMutator {
             env: env,
             name: "Collections.CollectionHolder",
             properties: [
-                "staticPropery": (
+                "staticProperty": (
                     .accessor(
                         getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "staticPropery", expectedArgumentCount: 0) { env in
-                                try ArrayConverter<OptionalConverter<Int>>.toNode(Collections.CollectionHolder.staticPropery, env: env.env)
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "staticProperty", expectedArgumentCount: 0) { env in
+                                try ArrayConverter<OptionalConverter<Swift.Int>>.toNode(TestAPI.Collections.CollectionHolder.staticProperty, env: env.env)
                             }
                         },
                         setter: nil
                     ),
                     isStatic: true
                 ),
-                "staticMutablePropery": (
+                "staticMutableProperty": (
                     .accessor(
                         getter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "staticMutablePropery", expectedArgumentCount: 0) { env in
-                                try ArrayConverter<OptionalConverter<Int>>.toNode(Collections.CollectionHolder.staticMutablePropery, env: env.env)
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "staticMutableProperty", expectedArgumentCount: 0) { env in
+                                try ArrayConverter<OptionalConverter<Swift.Int>>.toNode(TestAPI.Collections.CollectionHolder.staticMutableProperty, env: env.env)
                             }
                         },
                         setter: { env, info in
-                            FishyJoesNodeRuntime.callbackBody(env, info, name: "staticMutablePropery", expectedArgumentCount: 1) { env in
-                                Collections.CollectionHolder.staticMutablePropery = try env.argument(at: 0, converter: ArrayConverter<OptionalConverter<Int>>.self)
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "staticMutableProperty", expectedArgumentCount: 1) { env in
+                                TestAPI.Collections.CollectionHolder.staticMutableProperty = try env.argument(at: 0, converter: ArrayConverter<OptionalConverter<Swift.Int>>.self)
                                 return nil
                             }
                         }),

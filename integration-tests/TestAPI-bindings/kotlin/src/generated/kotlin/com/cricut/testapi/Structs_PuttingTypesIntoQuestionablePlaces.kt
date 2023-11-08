@@ -1,0 +1,29 @@
+package com.cricut.testapi
+
+/**
+ * <!-- FishyJoes.exportReference(Structs_PuttingTypesIntoQuestionablePlaces) -->
+ */
+class Structs_PuttingTypesIntoQuestionablePlaces private constructor(swiftReference: Long): com.cricut.fishyjoes.runtime.SwiftReference(swiftReference) {
+    /**
+     * <!-- FishyJoes.export(testCall) -->
+     */
+    fun testCall(
+    ): Long = __jni_testCall()
+    @JvmName("__jni_testCall")
+    private external fun __jni_testCall(
+    ): Long
+
+    companion object {
+        /**
+         * <!-- FishyJoes.export(create) -->
+         */
+        fun create(
+        ): com.cricut.testapi.Structs_PuttingTypesIntoQuestionablePlaces = __jni_create()
+        @JvmStatic
+        @JvmName("__jni_create")
+        private external fun __jni_create(
+        ): com.cricut.testapi.Structs_PuttingTypesIntoQuestionablePlaces
+
+        init { loadNativeLibs() }
+    }
+}

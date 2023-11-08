@@ -141,7 +141,28 @@ struct Lazy<T> {
     }
 }
 
+extension Lazy: Hashable {
+    static func == (lhs: Self, rhs: Self) -> Bool {
+        ObjectIdentifier(lhs.box) == ObjectIdentifier(rhs.box)
+    }
+
+    func hash(into hasher: inout Hasher) {
+        ObjectIdentifier(box).hash(into: &hasher)
+    }
+}
+
 func printAndFlush(_ items: Any..., separator: String = " ", terminator: String = "\n") {
     print(items.map(String.init(describing:)).joined(separator: separator))
     fflush(stdout)
+}
+
+extension Optional {
+    subscript(default defaultValue: Wrapped) -> Wrapped {
+        get {
+            self ?? defaultValue
+        }
+        set {
+            self = newValue
+        }
+    }
 }

@@ -3,14 +3,9 @@ import FishyJoesJavaRuntime
 var refClass: jclass?
 var refConstructorID: jmethodID?
 
-@_cdecl("JNI_OnLoad")
-public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutableRawPointer) -> jint {
-    var envRaw: UnsafeMutableRawPointer?
-    guard vm.pointee!.pointee.GetEnv(vm, &envRaw, JNI_VERSION_1_4) == JNI_OK else {
-        fatalError("Couldn't obtain jvm environment")
-    }
-    let env = UnsafeMutablePointer<JNIEnv?>(OpaquePointer(envRaw))
-    return FishyJoesJavaRuntime.callbackBody(env!) { env in
+@_cdecl("Java_com_cricut_fishyjoes_runtime_TestFunction_setup")
+public func setup(env: UnsafeMutablePointer<JNIEnv?>, clazz: jobject?) {
+    return FishyJoesJavaRuntime.callbackBody(env) { env in
         try Function2Converter<Int, Int, Int>.javaSetup(env: env)
         let bag = CStringBag()
         let javaClass = try env.globalRef(env.FindClass("com/cricut/fishyjoes/runtime/TestFunction"))
@@ -48,8 +43,6 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_ref_addr, to: UnsafeMutableRawPointer.self)
             )
         )
-
-        return JNI_VERSION_1_4
     }
 }
 

@@ -123,7 +123,7 @@ namespace Cricut.FishyJoesRuntime {
 
         private static IntPtr PassOwnership(object? obj) {
             if (obj == null) {
-                return IntPtr.Zero ;
+                return IntPtr.Zero;
              } else {
                 var ptr = (IntPtr)Alloc(obj);
                 return ptr;
