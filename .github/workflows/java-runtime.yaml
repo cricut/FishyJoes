@@ -222,7 +222,6 @@ jobs:
         if: github.event_name == 'release'
         run: |
           set -euxo pipefail
-          env
 
           VERSION=${GITHUB_REF#refs/*/}
           if [[ ! $VERSION =~ [0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9]+)* ]]; then
