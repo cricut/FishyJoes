@@ -1,7 +1,6 @@
 import ArgumentParser
 import Foundation
 import swsh
-import FishyJoesCore
 
 public struct CodeGen: ParsableCommand {
     @Flag(name: .shortAndLong, help: "suppress verbose output")
@@ -183,7 +182,7 @@ extension CodeGen {
             // Build the FishyJoes internal execution helper product
             try cmd("swift", arguments: ["build"] + (codeCoveragePath == nil ? [] : Platform.coverageFlags) + ["--product", "🐟☕️"]).run()
 
-            // Prepare to execute the fishy-joes-execution-helper via Sourcery by assembling an environment
+            // Trampoline into fishy-joes-execution-helper via Sourcery
             var sourceryEnv: [String: String] = [:]
             if let sourceryDumpPath = sourceryDumpPath {
                 sourceryEnv["DUMP_SOURCERY_DATA"] = URL(fileURLWithPath: (sourceryDumpPath as NSString).expandingTildeInPath, isDirectory: false).path
@@ -192,8 +191,9 @@ extension CodeGen {
                 sourceryEnv["LLVM_PROFILE_FILE"] = "\(codeCoveragePath)/fishy-joes-execution-helper-\(UUID()).profraw"
             }
 
-            // Provide access to stderr for the fishy-joes core by creating a temporary named pipe
+            // Provide access to stderr for the fishy-joes core
             // This is necessary because sourcery intercepts stderr and fails if it is used at all
+            // Create a temporary named pipe
             // https://unix.stackexchange.com/a/29918/5471
             let errorFifoPath = try cmd("mktemp", "-u").runString()
             try cmd("mkfifo", errorFifoPath).run()
@@ -308,162 +308,80 @@ extension CodeGen {
 
                 // Perform library installation and platform-specific customization
                 switch platform {
-                case .wasm, .node:
+                case .wasm:
+                    // Install Wasm bundle to the output directory, using wasm-opt to optimize Wasm bundles if available
+                    if wasmOpt, cmd("wasm-opt", "--version").runBool() {
+                        try cmd("wasm-opt", "\(platform.buildDir(configuration))/DummyMain.wasm", "-O1", "-o", "\(outputDir)/\(config.module).wasm").run()
+                    } else {
+                        if wasmOpt {
+                            printAndFlush("WARNING: wasm-opt is not installed, resulting build will be bigger and possibly slower")
+                        } else {
+                            printAndFlush("skipping wasm-opt")
+                        }
+                        try cmd("cp", "\(platform.buildDir(configuration))/DummyMain.wasm", "\(outputDir)/\(config.module).wasm").run()
+                    }
+                    try cmd("cp", "\(platform.buildDir(configuration))/FishyJoes_FishyJoesNodeRuntime.resources/js/wasm-napi.js", outputDir).run()
+
                     // Find the path to the runtime
                     let runtimePath = "\(fishyJoesDependency.localPath)/node-runtime"
                     guard cmd("test", "-d", runtimePath).runBool() else {
                         fatalError("Could not find node runtime at: \(runtimePath)")
                     }
 
-                    // Collect information about the dependencies of the module
-                    var dependencies: [
-                        (
-                            moduleName: String,
-                            localPath: String,
-                            definitionsPath: String,
-                            exports: [String],
-                            compiledLibName: String,
-                            nodeLibName: String,
-                            npmPackageName: String,
-                            npmModuleVersion: String
-                        )
-                    ] = []
-                    dependencies.append((
-                        moduleName: "Runtime",
-                        localPath: runtimePath,
-                        definitionsPath: "\(runtimePath)/fishyjoes-runtime-common",
-                        exports: ["Optional", "Runtime"],
-                        compiledLibName: "libFishyJoesNodeRuntime.\(platform.dylibExt)",
-                        nodeLibName: "Runtime.cjs.node",
-                        npmPackageName: "fishyjoes-runtime-\(platform.nodeExecutionEnvironment)",
-                        npmModuleVersion: fishyJoesDependency.version ??
-                            // If fishy-joes is file-local, use a file-local runtime too
-                            "file:\(fishyJoesDependency.localPath)/node-runtime/fishyjoes-runtime-\(platform.nodeExecutionEnvironment)"
-                    ))
-                    for moduleName in config.requiredModules {
-                        let npmPackageName = "\(moduleName.lowercased())-\(platform.nodeExecutionEnvironment)"
-                        let bindingsModuleName = "\(moduleName)-bindings"
-                        guard let dependency = packageInfo.dependencyMap[bindingsModuleName] else {
-                            fatalError("Could not locate dependency \(bindingsModuleName) in Package.swift")
+                    // Collect the TypeScript definitions for the module and extensions for dependency modules then concatenate them together into one file
+                    var tsSources = [
+                        "Sources/Generated/NodeInterface/\(config.module).d.ts",
+                        "\(runtimePath)/fishyjoes-runtime-common/Runtime.d.ts",
+                    ]
+                    for (moduleName, modulePath) in dependencySourcePaths {
+                        let path = "\(modulePath)/ts/\(moduleName).extensions.d.ts"
+                        if cmd("test", "-f", path).runBool() {
+                            tsSources.append(path)
                         }
-                        dependencies.append((
-                            moduleName: moduleName,
-                            localPath: dependency.localPath,
-                            definitionsPath: "\(dependency.localPath)/Sources/Generated/NodeInterface",
-                            exports: [moduleName],
-                            compiledLibName: "lib\(moduleName)-node.\(platform.dylibExt)",
-                            nodeLibName: "\(moduleName).cjs.node",
-                            npmPackageName: npmPackageName,
-                            npmModuleVersion: dependency.version ??
-                                // If dependency is file-local, use a file-local dependency too
-                                "file:\(dependency.localPath)/output/\(platform.platform)"
-                        ))
                     }
+                    try cmd("cat", arguments: tsSources).output(overwritingFile: "\(outputDir)/\(config.module).d.ts").run()
 
-                    // Install the module and its dependencies
-                    if platform == .wasm {
-                        // Install Wasm bundle to the output directory, using wasm-opt to optimize Wasm bundles if available
-                        if wasmOpt, cmd("wasm-opt", "--version").runBool() {
-                            try cmd("wasm-opt", "\(platform.buildDir(configuration))/DummyMain.wasm", "-O1", "-o", "\(outputDir)/\(config.module).wasm").run()
+                    // Create the required Javascript files for loading the module's Wasm bundle
+                    // Replace each instance of __MODULE_NAME__ with the name of the module
+                    // Replace each line containing __MODULE_DEPENDENCY__ with one line for each dependency module
+                    func template(line: String) -> [String] {
+                        let line = line.replacingOccurrences(of: "__MODULE_NAME__", with: config.module)
+                        if line.contains("__MODULE_DEPENDENCY__") {
+                            return (config.requiredModules + ["Runtime"]).map {
+                                line.replacingOccurrences(of: "__MODULE_DEPENDENCY__", with: $0)
+                            }
                         } else {
-                            if wasmOpt {
-                                printAndFlush("WARNING: wasm-opt is not installed, resulting build will be bigger and possibly slower")
-                            } else {
-                                printAndFlush("skipping wasm-opt")
-                            }
-                            try cmd("cp", "\(platform.buildDir(configuration))/DummyMain.wasm", "\(outputDir)/\(config.module).wasm").run()
-                        }
-                        try cmd("cp", "\(platform.buildDir(configuration))/FishyJoes_FishyJoesNodeRuntime.resources/js/wasm-napi.js", outputDir).run()
-                    }
-                    if platform == .node {
-                        // Install the module library, its dependencies, and symlinks
-                        for dependency in config.requiredModules + [config.module] {
-                            try installLibrary(dependency)
-
-                            // For node to load a library correctly, the file must be ".cjs.node" and not a symlink
-                            // But for the linker to find required libraries, they need their original names.
-                            // So we symlink `libModule-node.dylib` -> `module.cjs.node`
-                            let compiledLibName = "lib\(dependency)-node.\(platform.dylibExt)"
-                            let nodeLibName = "\(dependency).cjs.node"
-                            try installLibrary("\(dependency)-node", installName: nodeLibName)
-                            try installLibrary(dependency)
-                            try cmd("ln", "-s", nodeLibName, "\(outputDir)/\(compiledLibName)").run()
+                            return [line]
                         }
                     }
-
-                    // Create JavaScript files to load the module and its depenencies
-                    if platform == .wasm {
-                        // Create the required Javascript files for loading the module's Wasm bundle
-                        // Replace each instance of __MODULE_NAME__ with the name of the module
-                        // Replace each line containing __MODULE_DEPENDENCY__ with one line for each dependency module
-                        func template(line: String) -> [String] {
-                            let line = line.replacingOccurrences(of: "__MODULE_NAME__", with: config.module)
-                            if line.contains("__MODULE_DEPENDENCY__") {
-                                return (config.requiredModules + ["Runtime"]).map {
-                                    line.replacingOccurrences(of: "__MODULE_DEPENDENCY__", with: $0)
-                                }
-                            } else {
-                                return [line]
-                            }
-                        }
-                        func template(inPath: String, outPath: String) throws {
-                            var lines = try cmd("cat", inPath).runLines()
-                            lines = lines.flatMap(template(line:))
-                            lines.append("") // newline terminate
-                            try cmd("cat", "-")
-                                .input(lines.joined(separator: "\n"))
-                                .output(overwritingFile: outPath)
-                                .run()
-                        }
-                        try template(
-                            inPath: "\(platform.buildDir(configuration))/FishyJoes_FishyJoesNodeRuntime.resources/js/__MODULE_NAME__.js",
-                            outPath: "\(outputDir)/\(config.module).js"
-                        )
-                        try template(
-                            inPath: "\(platform.buildDir(configuration))/FishyJoes_FishyJoesNodeRuntime.resources/js/__MODULE_NAME__.browser.js",
-                            outPath: "\(outputDir)/\(config.module).browser.js"
-                        )
-
-                        // Install Javascript extensions for dependencies so they are loaded when the Wasm bundle is loaded, if provided
-                        try cmd("cp", "\(runtimePath)/fishyjoes-runtime-common/Runtime.extensions.js", "\(outputDir)/Runtime.extensions.js").run()
-                        for (moduleName, modulePath) in dependencySourcePaths {
-                            let outPath = "\(outputDir)/\(moduleName).extensions.js"
-                            let extensionPath = "\(modulePath)/ts/\(moduleName).extensions.js"
-                            if !cmd("cp", extensionPath, outPath).runBool() {
-                                // No extensions found. Generate a no-op extension
-                                try cmd("cat", "-")
-                                    .input(
-                                        """
-                                        function applyExtensions() {}
-                                        const imports = {};
-                                        export { applyExtensions, imports };
-                                        """
-                                    )
-                                    .output(overwritingFile: outPath)
-                                    .run()
-                            }
-                        }
+                    func template(inPath: String, outPath: String) throws {
+                        var lines = try cmd("cat", inPath).runLines()
+                        lines = lines.flatMap(template(line:))
+                        lines.append("") // newline terminate
+                        try cmd("cat", "-")
+                            .input(lines.joined(separator: "\n"))
+                            .output(overwritingFile: outPath)
+                            .run()
                     }
-                    if platform == .node {
-                        // Create the required Javascript files for loading the module's native library from node
-                        var moduleDotJS = [
-                            "export { Runtime } from '@cricut/fishyjoes-runtime-\(platform.nodeExecutionEnvironment)'",
-                            "import { createRequire } from 'module';",
-                            "const require = createRequire(import.meta.url);",
-                        ]
-                        for module in config.requiredModules + [config.module] {
-                            moduleDotJS.append("export const { \(module) } = require('./\(module).cjs');")
-                        }
-                        moduleDotJS.append("export default \(config.module);")
-                        try cmd("echo", moduleDotJS.joined(separator: "\n")).output(overwritingFile: "\(outputDir)/\(config.module).js").run()
+                    try template(
+                        inPath: "\(platform.buildDir(configuration))/FishyJoes_FishyJoesNodeRuntime.resources/js/__MODULE_NAME__.js",
+                        outPath: "\(outputDir)/\(config.module).js"
+                    )
+                    try template(
+                        inPath: "\(platform.buildDir(configuration))/FishyJoes_FishyJoesNodeRuntime.resources/js/__MODULE_NAME__.browser.js",
+                        outPath: "\(outputDir)/\(config.module).browser.js"
+                    )
 
-                        // Configure loading of Javascript extensions when the module is loaded by node, if provided
-                        let outPath = "\(outputDir)/\(config.module).extensions.js"
-                        if !cmd("cp", "ts/\(config.module).extensions.js", outPath).runBool() {
-                            // No extensions found. Generate a no-op extension file for the module
+                    // Install Javascript extensions for dependencies so they are loaded when the Wasm bundle is loaded, if provided
+                    try cmd("cp", "\(runtimePath)/fishyjoes-runtime-common/Runtime.extensions.js", "\(outputDir)/Runtime.extensions.js").run()
+                    for (moduleName, modulePath) in dependencySourcePaths {
+                        let outPath = "\(outputDir)/\(moduleName).extensions.js"
+                        let extensionPath = "\(modulePath)/ts/\(moduleName).extensions.js"
+                        if !cmd("cp", extensionPath, outPath).runBool() {
+                            // No extensions found. Generate a no-op extension
                             try cmd("cat", "-")
                                 .input(
-                                        """
+                                    """
                                         function applyExtensions() {}
                                         const imports = {};
                                         export { applyExtensions, imports };
@@ -473,129 +391,61 @@ extension CodeGen {
                                 .run()
                         }
                     }
+                case .node:
+                    // Install the module library
+                    for dependency in config.requiredModules + [config.module] {
+                        try installLibrary(dependency)
 
-                    // Assemble a TypeScript definitions file for the module from its dependencies, its own definitions, and its extensions
-                    if platform == .wasm || platform == .node {
-                        var definitions: [String] = []
-
-                        // Include definitions for each dependency
-                        for dependency in dependencies {
-                            if platform == .wasm {
-                                // Splat in depenency definitions
-                                let dependencyDefinitionsPath = "\(dependency.definitionsPath)/\(dependency.moduleName).d.ts.part"
-                                let dependencyDefintions = try String(contentsOfFile: dependencyDefinitionsPath)
-                                definitions.append(contentsOf: dependencyDefintions.split(separator: "\n").map(String.init))
-                                definitions.append("")
-
-                                // Splat in dependency extension definitions, if present
-                                let dependencyExtensionDefinitionsPath = "\(dependency.definitionsPath)/\(dependency.moduleName).extensions.d.ts.part"
-                                if cmd("test", "-f", dependencyExtensionDefinitionsPath).runBool() {
-                                    let dependencyExtensionDefintions = try String(contentsOfFile: dependencyExtensionDefinitionsPath)
-                                    definitions.append(contentsOf: dependencyExtensionDefintions.split(separator: "\n").map(String.init))
-                                    definitions.append("")
-                                }
-                            }
-                            if platform == .node {
-                                // Import and re-export the dependency exports
-                                definitions.append("import { \(dependency.exports.joined(separator: ", ")) } from '@cricut/\(dependency.npmPackageName)';")
-                                definitions.append("export { \(dependency.exports.joined(separator: ", ")) } from '@cricut/\(dependency.npmPackageName)';")
-                            }
-                        }
-                        definitions.append("")
-
-                        // Splat in the module's own definitions
-                        let moduleDefinitionsPath = "Sources/Generated/NodeInterface/\(config.module).d.ts.part"
-                        let moduleDefintions = try String(contentsOfFile: moduleDefinitionsPath)
-                        definitions.append(contentsOf: moduleDefintions.split(separator: "\n").map(String.init))
-                        definitions.append("")
-
-                        // Splat in the module's extension definitions
-                        let moduleExtensionsPath = "ts/\(config.module).extensions.d.ts.part"
-                        if cmd("test", "-f", moduleExtensionsPath).runBool() {
-                            let moduleExtensionDefinitions = try String(contentsOfFile: moduleExtensionsPath)
-                            definitions.append(contentsOf: moduleExtensionDefinitions.split(separator: "\n").map(String.init))
-                            definitions.append("")
-                        }
-
-                        // Export a function that can be used to load the module and its dependencies using a promise
-                        definitions.append("export declare function init(): Promise<{")
-                        for dependency in dependencies {
-                            definitions.append("    \(dependency.moduleName): typeof \(dependency.moduleName),")
-                        }
-                        definitions.append("    \(config.module): typeof \(config.module),")
-                        definitions.append("}>;");
-                        definitions.append("")
-
-                        // Make the module's own definitions the default export
-                        definitions.append("export default \(config.module);")
-                        definitions.append("")
-
-                        // Write out the assembled definitions file
-                        try cmd("cat", "-")
-                            .input(definitions.joined(separator: "\n"))
-                            .output(overwritingFile: "\(outputDir)/\(config.module).d.ts")
-                            .run()
+                        // For node to load a library correctly, the file must be ".cjs.node" and not a symlink
+                        // But for the linker to find required libraries, they need their original names.
+                        // So we symlink `libModule-node.dylib` -> `module.cjs.node`
+                        let compiledLibName = "lib\(dependency)-node.\(platform.dylibExt)"
+                        let nodeLibName = "\(dependency).cjs.node"
+                        try installLibrary("\(dependency)-node", installName: nodeLibName)
+                        try installLibrary(dependency)
+                        try cmd("ln", "-s", nodeLibName, "\(outputDir)/\(compiledLibName)").run()
                     }
 
-                    // Generate the package.json file from the template
-                    if platform == .wasm || platform == .node {
-                        let packageVersion = version ?? "0.0.1" // If no version is provided, use a dummy version to build the package
-                        var npmDependencies = try cmd("cat", "package.template.json").runJSON(NPMPackage.self).dependencies ?? [:]
-                        for dependency in dependencies {
-                            npmDependencies["@cricut/\(dependency.npmPackageName)"] = dependency.npmModuleVersion
-                        }
-                        var package = NPMPackage(
-                            config: config,
-                            platform: platform,
-                            version: packageVersion,
-                            dependencies: npmDependencies
-                        )
-                        if platform.platform == "node-native-ubuntu" {
-                            // When on Ubuntu, dlopen() needs file-relative native libraries, so add a post-install script to the package to setup symlinks to dependency SOs
-                            var postinstall = """
-                            #!/bin/bash
-                            #
+                    // Install the module TypeScript definitions
+                    try cmd(
+                        "cp",
+                        "Sources/Generated/NodeInterface/\(config.module).d.ts",
+                        outputDir
+                    ).run()
 
-                            set -ex
-                            if [[ "$npm_package_version" == "0.0.1" ]]; then
-                                # We are installed as a file local package
-                                package_directory="node_modules/@cricut"
-                            else
-                                # We are installed as a published package
-                                package_directory=".."
-                            fi
+                    // Create the required Javascript files for loading the module's native library from node
+                    var moduleDotJS = [
+                        "export { Runtime } from '@cricut/fishyjoes-runtime-\(platform.nodeExecutionEnvironment)'",
+                        "import { createRequire } from 'module';",
+                        "const require = createRequire(import.meta.url);",
+                    ]
+                    for module in config.requiredModules + [config.module] {
+                        moduleDotJS.append("export const { \(module) } = require('./\(module).cjs');")
+                    }
+                    moduleDotJS.append("export default \(config.module);")
+                    try cmd("echo", moduleDotJS.joined(separator: "\n")).output(overwritingFile: "\(outputDir)/\(config.module).js").run()
 
+                    // Collect the TypeScript definitions for the module and its extensions then concatenate them together into one file
+                    var tsSources = ["Sources/Generated/NodeInterface/\(config.module).d.ts"]
+                    let path = "ts/\(config.module).extensions.d.ts"
+                    if cmd("test", "-f", path).runBool() {
+                        tsSources.append(path)
+                    }
+                    try cmd("cat", arguments: tsSources).output(overwritingFile: "\(outputDir)/\(config.module).d.ts").run()
 
-                            """
-
-                            for dependency in dependencies {
-                                postinstall += """
-                                    ln -sf "$(realpath $package_directory/\(dependency.npmPackageName)/\(dependency.nodeLibName))" "\(dependency.compiledLibName)"
-
+                    // Configure loading of Javascript extensions when the module is loaded by node, if provided
+                    let outPath = "\(outputDir)/\(config.module).extensions.js"
+                    if !cmd("cp", "ts/\(config.module).extensions.js", outPath).runBool() {
+                        // No extensions found. Generate a no-op extension file for the module
+                        try cmd("cat", "-")
+                            .input(
                                 """
-                            }
-
-                            try cmd("cat")
-                                .input(postinstall)
-                                .output(overwritingFile: "\(platform.outputDir(config))/postinstall.sh")
-                                .run()
-                            try cmd("chmod", "+x", "\(platform.outputDir(config))/postinstall.sh").run()
-                            package.scripts[default: [:]]["postinstall"] = "./postinstall.sh"
-                        }
-                        let packageJsonPath = "\(platform.outputDir(config))/package.json"
-                        let prettyEncoder = JSONEncoder()
-                        prettyEncoder.outputFormatting = [
-                            .prettyPrinted,
-                            .withoutEscapingSlashes
-                        ]
-                        try cmd("cat")
-                            .inputJSON(from: package, encoder: prettyEncoder)
-                            .output(overwritingFile: packageJsonPath)
-                            .run()
-
-                        // Be a good unix citizen and terminate with a newline
-                        try cmd("echo")
-                            .append(toFile: packageJsonPath)
+                                    function applyExtensions() {}
+                                    const imports = {};
+                                    export { applyExtensions, imports };
+                                    """
+                            )
+                            .output(overwritingFile: outPath)
                             .run()
                     }
                 case .kotlinSystem, .kotlinAndroid:
@@ -637,6 +487,100 @@ extension CodeGen {
             if platforms.contains(.dart) {
                 try withDirectory("dart") {
                     try cmd("dart", "run", "build_runner", "build", "--delete-conflicting-outputs").run()
+                }
+            }
+
+            // Generate files whose creation requires use of template files
+            for platform in platforms {
+                switch platform {
+                case .wasm, .node:
+                    // Generate package.json from template
+                    let packageVersion = version ?? "0.0.1" // If no version is provided, use a dummy version to build the package
+                    var dependencies: [(moduleName: String, compiledLibName: String, nodeLibName: String, npmPackageName: String, npmModuleVersion: String)] = []
+                    dependencies.append((
+                        moduleName: "Runtime",
+                        compiledLibName: "libFishyJoesNodeRuntime.\(platform.dylibExt)",
+                        nodeLibName: "Runtime.cjs.node",
+                        npmPackageName: "fishyjoes-runtime-\(platform.nodeExecutionEnvironment)",
+                        npmModuleVersion: fishyJoesDependency.version ??
+                            // If fishy-joes is file-local, use a file-local runtime too
+                            "file:\(fishyJoesDependency.localPath)/node-runtime/fishyjoes-runtime-\(platform.nodeExecutionEnvironment)"
+                    ))
+                    for moduleName in config.requiredModules {
+                        let npmPackageName = "\(moduleName.lowercased())-\(platform.nodeExecutionEnvironment)"
+                        let bindingsModuleName = "\(moduleName)-bindings"
+                        guard let dependency = packageInfo.dependencyMap[bindingsModuleName] else {
+                            fatalError("Could not locate dependency \(bindingsModuleName) in Package.swift")
+                        }
+                        dependencies.append((
+                            moduleName: moduleName,
+                            compiledLibName: "lib\(moduleName)-node.\(platform.dylibExt)",
+                            nodeLibName: "\(moduleName).cjs.node",
+                            npmPackageName: npmPackageName,
+                            npmModuleVersion: dependency.version ??
+                                // If dependency is file-local, use a file-local dependency too
+                                "file:\(dependency.localPath)/output/\(npmPackageName)"
+                        ))
+                    }
+                    var npmDependencies = try cmd("cat", "package.template.json").runJSON(NPMPackage.self).dependencies ?? [:]
+                    for dependency in dependencies {
+                        npmDependencies["@cricut/\(dependency.npmPackageName)"] = dependency.npmModuleVersion
+                    }
+                    var package = NPMPackage(
+                        config: config,
+                        platform: platform,
+                        version: packageVersion,
+                        dependencies: npmDependencies
+                    )
+                    if platform.platform == "node-native-ubuntu" {
+                        // When on Ubuntu, dlopen() needs file-relative native libraries, so add a post-install script to the package to setup symlinks to dependency SOs
+                        var postinstall = """
+                            #!/bin/bash
+                            #
+
+                            set -ex
+                            if [[ "$npm_package_version" == "0.0.1" ]]; then
+                                # We are installed as a file local package
+                                package_directory="node_modules/@cricut"
+                            else
+                                # We are installed as a published package
+                                package_directory=".."
+                            fi
+
+
+                            """
+
+                        for dependency in dependencies {
+                            postinstall += """
+                                    ln -sf "$(realpath $package_directory/\(dependency.npmPackageName)/\(dependency.nodeLibName))" "\(dependency.compiledLibName)"
+
+                                """
+                        }
+
+                        try cmd("cat")
+                            .input(postinstall)
+                            .output(overwritingFile: "\(platform.outputDir(config))/postinstall.sh")
+                            .run()
+                        try cmd("chmod", "+x", "\(platform.outputDir(config))/postinstall.sh").run()
+                        package.scripts[default: [:]]["postinstall"] = "./postinstall.sh"
+                    }
+                    let packageJsonPath = "\(platform.outputDir(config))/package.json"
+                    let prettyEncoder = JSONEncoder()
+                    prettyEncoder.outputFormatting = [
+                        .prettyPrinted,
+                        .withoutEscapingSlashes
+                    ]
+                    try cmd("cat")
+                        .inputJSON(from: package, encoder: prettyEncoder)
+                        .output(overwritingFile: packageJsonPath)
+                        .run()
+
+                    // Be a good unix citizen and terminate with a newline
+                    try cmd("echo")
+                        .append(toFile: packageJsonPath)
+                        .run()
+                case .kotlinSystem, .kotlinAndroid, .cSharp, .dart:
+                    break
                 }
             }
 

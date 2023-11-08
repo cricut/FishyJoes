@@ -1,3 +1,8 @@
+import { Runtime } from '@cricut/fishyjoes-runtime';
+export { Runtime } from '@cricut/fishyjoes-runtime';
+
+export type Optional<T> = T | undefined;
+
 export declare namespace TestAPI {
     export type AssociatedDataEnum = AssociatedDataEnum.Thing | AssociatedDataEnum.Other | AssociatedDataEnum.Bar | AssociatedDataEnum.NoValue | AssociatedDataEnum.SimpleEnum;
     export namespace AssociatedDataEnum {
@@ -1651,3 +1656,7 @@ export declare namespace TestAPI {
         ): number;
     }
 }
+export declare function init(): Promise<{
+    TestAPI: typeof TestAPI,
+}>;
+export default TestAPI;

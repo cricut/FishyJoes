@@ -26,15 +26,8 @@ fi
 function install-runtime-common {
     LIB_DIR="$1"
     RUNTIME_COMMON_DIR="node-runtime/fishyjoes-runtime-common"
-    cp "$RUNTIME_COMMON_DIR"/Runtime.extensions.js "$LIB_DIR"
-    
-    DEFS="$LIB_DIR/Runtime.d.ts"
-    cat "$RUNTIME_COMMON_DIR/Runtime.d.ts.part" > "$DEFS"
-    cat "$RUNTIME_COMMON_DIR/Runtime.extensions.d.ts.part" >> "$DEFS"
-    echo 'export declare function init(): Promise<{ Runtime: typeof Runtime }>;' >> "$DEFS"
-    echo 'export default Runtime;' >> "$DEFS"
-
-    echo "Used runtime common files in $RUNTIME_COMMON_DIR to populate $LIB_DIR"
+    cp "$RUNTIME_COMMON_DIR"/Runtime.{d.ts,extensions.js} "$LIB_DIR"
+    echo "Copied runtime common files in $RUNTIME_COMMON_DIR to $LIB_DIR"
 }
 
 install-runtime-common "node-runtime/fishyjoes-runtime-native-windows"

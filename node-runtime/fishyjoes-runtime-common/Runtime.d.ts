@@ -549,7 +549,7 @@ export declare namespace Runtime {
             ): number;
 
             forEach(
-                body: (run: Runs.Run) => any
+                body: function(Runs.Run)
             );
             
             [Symbol.iterator](
@@ -676,10 +676,12 @@ export declare namespace Runtime {
             ): string;
 
             forEach(
-                body: (character: string) => any
+                body: function(string)
             );
 
-            [Symbol.iterator](): CharacterIterator;
+            [Symbol.iterator](): CharacterIterator {
+                return new CharacterIterator(this)
+            }
         }
 
         export class CharacterIterator implements Iterator<string> {
@@ -753,10 +755,12 @@ export declare namespace Runtime {
             ): number;
 
             forEach(
-                body: (scalar: number) => any
+                body: function(number)
             );
 
-            [Symbol.iterator](): UnicodeScalarIterator;
+            [Symbol.iterator](): UnicodeScalarIterator {
+                return new UnicodeScalarIterator(this)
+            }
         }
 
         export class UnicodeScalarIterator implements Iterator<number> {
@@ -876,5 +880,25 @@ export declare namespace Runtime {
          */
         static createEmpty(
         ): AttributedSubstring;
+    }
+}
+
+export declare function init(): Promise<{
+    Runtime: typeof Runtime,
+}>;
+export default Runtime;
+
+// Extensions
+
+export namespace Runtime {
+    export namespace AttributeContainer {
+        export namespace FoundationAttributes {
+            export function create(attributes: { languageIdentifier?: String, link?: URL }): FoundationAttributes;
+        }
+    }
+
+    export namespace AttributedString {
+        export function createJoining(attributedStrings: AttributedString[]): AttributedString;
+        export function createJoiningSubstrings(attributedStrings: AttributedSubstring[]): AttributedString;
     }
 }
