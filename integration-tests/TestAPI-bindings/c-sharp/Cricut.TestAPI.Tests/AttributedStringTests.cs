@@ -241,6 +241,28 @@ namespace Cricut.TestAPI.Tests {
             Assert.Equal("Hello Olá こんにちは", AttributedStrings.Polyglot.String); // Unchanged
         }
 
+        void testMutabilityVariants() {
+            var attributedString = AttributedStrings.Polyglot;
+            Assert.Equal("Hello Olá こんにちは", attributedString.String);
+
+            attributedString.Append(new AttributedString(" "));
+            Assert.Equal("Hello Olá こんにちは ", attributedString.String);
+
+            attributedString.AppendSubstring(attributedString[attributedString.Runs.First().Range]);
+            Assert.Equal("Hello Olá こんにちは Hello", attributedString.String);
+
+            var es = new AttributeContainer.FoundationAttributes(languageIdentifier: "es");
+            attributedString.Insert(new AttributedString("Hola", es), attributedString.Runs.Last().Range.LowerBound);
+            Assert.Equal("Hello Olá こんにちは HolaHello", attributedString.String);
+
+            var firstSpaceRange = new SwiftRange<AttributedString.Index>(
+                attributedString.Runs.First().Range.UpperBound, 
+                attributedString.Characters.IndexAfter(attributedString.Runs.First().Range.UpperBound)
+            );
+            attributedString.InsertSubstring(attributedString[firstSpaceRange], attributedString.Runs.Last().Range.LowerBound);
+            Assert.Equal("Hello Olá こんにちは Hola Hello", attributedString.String);
+        }
+
         [Fact]
         void testAttributeMergeReplace() {
             var empty = new AttributeContainer();
@@ -261,7 +283,7 @@ namespace Cricut.TestAPI.Tests {
                 runRanges[1], 
                 new AttributedString(
                     attributedString[runRanges[1]].String, 
-                    attributedString.Runs[runRanges[0].lowerBound].Attributes
+                    attributedString.Runs[runRanges[0].LowerBound].Attributes
                 )
             );
             runRanges = attributedString.Runs.Select(run => run.Range).ToList();
@@ -271,7 +293,7 @@ namespace Cricut.TestAPI.Tests {
             Assert.Equal(new AttributedString(" ", empty).Substring, attributedString[runRanges[2]]);
             Assert.Equal(new AttributedString("こんにちは", ja).Substring, attributedString[runRanges[3]]);
 
-            attributedString.SetAttributesForRange(runRanges[2], attributedString.Runs[runRanges[1].lowerBound].Attributes);
+            attributedString.SetAttributesForRange(runRanges[2], attributedString.Runs[runRanges[1].LowerBound].Attributes);
             runRanges = attributedString.Runs.Select(run => run.Range).ToList();
             Assert.Equal(3, runRanges.Count);
             Assert.Equal(new AttributedString("Hello ", en).Substring, attributedString[runRanges[0]]);

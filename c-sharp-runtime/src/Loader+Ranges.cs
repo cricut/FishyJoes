@@ -25,10 +25,10 @@ public partial class Loader {
                 envRef,
                 name,
                 bag<SwiftRangeLowerBoundGetter>((IntPtr context, UnownedRef range, out CreatedRef exn) => Catching(out exn, () =>
-                    new CreatedRef(range.Peek<SwiftRange<T>>().lowerBound)
+                    new CreatedRef(range.Peek<SwiftRange<T>>().LowerBound)
                 )),
                 bag<SwiftRangeUpperBoundGetter>((IntPtr context, UnownedRef range, out CreatedRef exn) => Catching(out exn, () =>
-                    new CreatedRef(range.Peek<SwiftRange<T>>().upperBound)
+                    new CreatedRef(range.Peek<SwiftRange<T>>().UpperBound)
                 )),
                 bag<SwiftRangeConstructor>((IntPtr context, UnownedRef lowerBound, UnownedRef upperBound, out CreatedRef exn) => Catching(out exn, () =>
                     new CreatedRef(new SwiftRange<T>(
@@ -48,10 +48,10 @@ public partial class Loader {
                 envRef,
                 name,
                 bag<SwiftRangeLowerBoundGetter>((IntPtr context, UnownedRef range, out CreatedRef exn) => Catching(out exn, () =>
-                    new CreatedRef(range.Peek<SwiftClosedRange<T>>().lowerBound)
+                    new CreatedRef(range.Peek<SwiftClosedRange<T>>().LowerBound)
                 )),
                 bag<SwiftRangeUpperBoundGetter>((IntPtr context, UnownedRef range, out CreatedRef exn) => Catching(out exn, () =>
-                    new CreatedRef(range.Peek<SwiftClosedRange<T>>().upperBound)
+                    new CreatedRef(range.Peek<SwiftClosedRange<T>>().UpperBound)
                 )),
                 bag<SwiftRangeConstructor>((IntPtr context, UnownedRef lowerBound, UnownedRef upperBound, out CreatedRef exn) => Catching(out exn, () =>
                     new CreatedRef(new SwiftClosedRange<T>(
