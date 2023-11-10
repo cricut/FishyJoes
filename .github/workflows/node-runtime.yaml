@@ -238,6 +238,24 @@ jobs:
           swift build --product FishyJoesNodeRuntime --configuration release --build-path ./.build/windows-build
           New-Item -ItemType Directory -Force -Path $env:LIB_DIR
           Copy-Item .build\windows-build\x86_64-unknown-windows-msvc\release\FishyJoesNodeRuntime.dll -Destination $env:LIB_DIR
+          Rename-Item -Path $env:LIB_DIR\FishyJoesNodeRuntime.dll -NewName Runtime.cjs.node
+
+      # TODO: Can modify scripts/compile-node-runtime.sh to run the build step from above and just call it instead of duplicating it here?
+      - name: Build Runtime Definitions File
+        shell: bash
+        run: |
+          set -euxo pipefail
+
+          RUNTIME_COMMON_DIR="node-runtime/fishyjoes-runtime-common"
+          cp "$RUNTIME_COMMON_DIR"/Runtime.extensions.js "$LIB_DIR"
+
+          DEFS="$LIB_DIR/Runtime.d.ts"
+          cat "$RUNTIME_COMMON_DIR/Runtime.d.ts.part" > "$DEFS"
+          cat "$RUNTIME_COMMON_DIR/Runtime.extensions.d.ts.part" >> "$DEFS"
+          echo 'export declare function init(): Promise<{ Runtime: typeof Runtime }>;' >> "$DEFS"
+          echo 'export default Runtime;' >> "$DEFS"
+
+          echo "Used runtime common files in $RUNTIME_COMMON_DIR to populate $LIB_DIR"
 
       - name: Copy swift runtime DLLs
         shell: bash
