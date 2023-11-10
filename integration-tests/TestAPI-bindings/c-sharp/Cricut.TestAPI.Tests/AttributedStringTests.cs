@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using Xunit;
 using Cricut.FishyJoesRuntime;
+using FluentAssertions.Equivalency.Steps;
 
 namespace Cricut.TestAPI.Tests {
     public class AttributedStringTests {
@@ -241,6 +242,7 @@ namespace Cricut.TestAPI.Tests {
             Assert.Equal("Hello Olá こんにちは", AttributedStrings.Polyglot.String); // Unchanged
         }
 
+        [Fact]
         void testMutabilityVariants() {
             var attributedString = AttributedStrings.Polyglot;
             Assert.Equal("Hello Olá こんにちは", attributedString.String);
@@ -261,6 +263,17 @@ namespace Cricut.TestAPI.Tests {
             );
             attributedString.InsertSubstring(attributedString[firstSpaceRange], attributedString.Runs.Last().Range.LowerBound);
             Assert.Equal("Hello Olá こんにちは Hola Hello", attributedString.String);
+
+            attributedString.ReplaceSubrange(attributedString.Runs.First().Range, AttributedStrings.Chinese);
+            Assert.Equal("你好 Olá こんにちは Hola Hello", attributedString.String);
+
+            var emoji = AttributedStrings.EmojiMulti;
+            var flagRange = new SwiftRange<AttributedString.Index>(emoji.Characters.IndexBefore(emoji.EndIndex), emoji.EndIndex);
+            attributedString.ReplaceSubrangeWithSubstring(attributedString.Runs.Last().Range, emoji[flagRange]);
+            Assert.Equal("你好 Olá こんにちは Hola 🇺🇸", attributedString.String);
+
+            attributedString.RemoveSubrange(attributedString.Runs.First().Range);
+            Assert.Equal(" Olá こんにちは Hola 🇺🇸", attributedString.String);
         }
 
         [Fact]
@@ -334,6 +347,57 @@ namespace Cricut.TestAPI.Tests {
             runRanges = attributedString.Runs.Select(run => run.Range).ToList();
             Assert.NotEmpty(runRanges);
             Assert.Equal(new AttributedString("Hello Olá こんにちは", empty), attributedString);
+        }
+
+        [Fact]
+        void testAttributeMergeReplaceWhole() {
+            var empty = new AttributeContainer();
+            var en = new AttributeContainer.FoundationAttributes(languageIdentifier: "en");
+            var pt = new AttributeContainer.FoundationAttributes(languageIdentifier: "pt");
+            var ja = new AttributeContainer.FoundationAttributes(languageIdentifier: "ja");
+
+            var attributedString = AttributedStrings.Polyglot;
+            var runRanges = attributedString.Runs.Select(run => run.Range).ToList();
+            Assert.Equal(5, runRanges.Count);
+            Assert.Equal(new AttributedString("Hello", en).Substring, attributedString[runRanges[0]]);
+            Assert.Equal(new AttributedString(" ", empty).Substring, attributedString[runRanges[1]]);
+            Assert.Equal(new AttributedString("Olá", pt).Substring, attributedString[runRanges[2]]);
+            Assert.Equal(new AttributedString(" ", empty).Substring, attributedString[runRanges[3]]);
+            Assert.Equal(new AttributedString("こんにちは", ja).Substring, attributedString[runRanges[4]]);
+
+            var uri = new Uri("http://www.google.com");
+            var link = new AttributeContainer.FoundationAttributes(link: uri);
+            var enLink = new AttributeContainer.FoundationAttributes(languageIdentifier: "en", link: uri);
+            var ptLink = new AttributeContainer.FoundationAttributes(languageIdentifier: "pt", link: uri);
+            var jaLink = new AttributeContainer.FoundationAttributes(languageIdentifier: "ja", link: uri);
+
+            attributedString.MergeAttributes(link);
+            runRanges = attributedString.Runs.Select(run => run.Range).ToList();
+            Assert.Equal(5, runRanges.Count);
+            Assert.Equal(new AttributedString("Hello", enLink).Substring, attributedString[runRanges[0]]);
+            Assert.Equal(new AttributedString(" ", link).Substring, attributedString[runRanges[1]]);
+            Assert.Equal(new AttributedString("Olá", ptLink).Substring, attributedString[runRanges[2]]);
+            Assert.Equal(new AttributedString(" ", link).Substring, attributedString[runRanges[3]]);
+            Assert.Equal(new AttributedString("こんにちは", jaLink).Substring, attributedString[runRanges[4]]);
+
+            var otherURI = new Uri("http://www.bing.com");
+            var otherLink = new AttributeContainer.FoundationAttributes(link: otherURI);
+            var enOtherLink = new AttributeContainer.FoundationAttributes(languageIdentifier: "en", link: otherURI);
+            var ptOtherLink = new AttributeContainer.FoundationAttributes(languageIdentifier: "pt", link: otherURI);
+            var jaOtherLink = new AttributeContainer.FoundationAttributes(languageIdentifier: "ja", link: otherURI);
+            attributedString.ReplaceAttributes(link, otherLink);
+            runRanges = attributedString.Runs.Select(run => run.Range).ToList();
+            Assert.Equal(5, runRanges.Count);
+            Assert.Equal(new AttributedString("Hello", enOtherLink).Substring, attributedString[runRanges[0]]);
+            Assert.Equal(new AttributedString(" ", otherLink).Substring, attributedString[runRanges[1]]);
+            Assert.Equal(new AttributedString("Olá", ptOtherLink).Substring, attributedString[runRanges[2]]);
+            Assert.Equal(new AttributedString(" ", otherLink).Substring, attributedString[runRanges[3]]);
+            Assert.Equal(new AttributedString("こんにちは", jaOtherLink).Substring, attributedString[runRanges[4]]);
+
+            attributedString.SetAttributes(empty);
+            runRanges = attributedString.Runs.Select(run => run.Range).ToList();
+            Assert.Single(runRanges);
+            Assert.Equal(new AttributedString("Hello Olá こんにちは"), attributedString);
         }
     }
 }
