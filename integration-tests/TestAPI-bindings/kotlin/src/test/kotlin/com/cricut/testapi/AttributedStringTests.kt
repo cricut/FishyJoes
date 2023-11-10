@@ -226,6 +226,40 @@ internal class AttributedStringTests {
     }
 
     @Test
+    fun testMutabilityVariants() {
+        val attributedString = AttributedStrings.polyglot
+        assertEquals(attributedString.string, "Hello Olá こんにちは")
+
+        attributedString.append(AttributedString.create(" "))
+        assertEquals(attributedString.string, "Hello Olá こんにちは ")
+
+        attributedString.appendSubstring(attributedString[attributedString.runs.first().range])
+        assertEquals(attributedString.string, "Hello Olá こんにちは Hello")
+
+        val es = AttributeContainerFoundationAttributes().apply { languageIdentifier = "es" }.asContainer()
+        attributedString.insert(AttributedString.create("Hola", es), attributedString.runs.last().range.lowerBound)
+        assertEquals(attributedString.string, "Hello Olá こんにちは HolaHello")
+
+        val firstSpaceRange = SwiftRange(
+            attributedString.runs.first().range.upperBound,
+            attributedString.characters.indexAfter(attributedString.runs.first().range.upperBound)
+        )
+        attributedString.insertSubstring(attributedString[firstSpaceRange], attributedString.runs.last().range.lowerBound)
+        assertEquals(attributedString.string, "Hello Olá こんにちは Hola Hello")
+
+        attributedString.replaceSubrange(attributedString.runs.first().range, AttributedStrings.chinese)
+        assertEquals(attributedString.string, "你好 Olá こんにちは Hola Hello")
+
+        val emoji = AttributedStrings.emojiMulti
+        val flagRange = SwiftRange(emoji.characters.indexBefore(emoji.endIndex), emoji.endIndex)
+        attributedString.replaceSubrangeWithSubstring(attributedString.runs.last().range, emoji[flagRange])
+        assertEquals(attributedString.string, "你好 Olá こんにちは Hola 🇺🇸")
+
+        attributedString.removeSubrange(attributedString.runs.first().range)
+        assertEquals(attributedString.string, " Olá こんにちは Hola 🇺🇸")
+    }
+
+    @Test
     fun testAttributeMergeReplace() {
         val empty = AttributeContainer()
         val en = AttributeContainerFoundationAttributes().apply { languageIdentifier = "en" }.asContainer()
@@ -287,5 +321,57 @@ internal class AttributedStringTests {
         attributedString.setAttributesForRange(attributedString.runs.last().range, empty)
         assertEquals(attributedString.runs.count(), 1)
         assertEquals(attributedString, AttributedString("Hello Olá こんにちは", empty))
+    }
+
+    @Test
+    fun testAttributeMergeReplaceWhole() {
+        val empty = AttributeContainer.createEmpty()
+        val en = AttributeContainerFoundationAttributes().apply { languageIdentifier = "en" }.asContainer()
+        val pt = AttributeContainerFoundationAttributes().apply { languageIdentifier = "pt" }.asContainer()
+        val ja = AttributeContainerFoundationAttributes().apply { languageIdentifier = "ja" }.asContainer()
+
+        val attributedString = AttributedStrings.polyglot
+        var runRanges = attributedString.runs.rangeIterator().asSequence().toList()
+        assertEquals(runRanges.count(), 5)
+        assertEquals(attributedString[runRanges[0]], AttributedString.create("Hello", en).substring)
+        assertEquals(attributedString[runRanges[1]], AttributedString.create(" ", empty).substring)
+        assertEquals(attributedString[runRanges[2]], AttributedString.create("Olá", pt).substring)
+        assertEquals(attributedString[runRanges[3]], AttributedString.create(" ", empty).substring)
+        assertEquals(attributedString[runRanges[4]], AttributedString.create("こんにちは", ja).substring)
+
+        val uri = URL("http://www.google.com")
+        val justLink = AttributeContainerFoundationAttributes().apply { link = uri }.asContainer()
+        val enLink = AttributeContainerFoundationAttributes().apply { languageIdentifier = "en"; link = uri }.asContainer()
+        val ptLink = AttributeContainerFoundationAttributes().apply { languageIdentifier = "pt"; link = uri }.asContainer()
+        val jaLink = AttributeContainerFoundationAttributes().apply { languageIdentifier = "ja"; link = uri }.asContainer()
+
+        attributedString.mergeAttributes(justLink);
+        runRanges = attributedString.runs.rangeIterator().asSequence().toList()
+        assertEquals(runRanges.count(), 5)
+        assertEquals(attributedString[runRanges[0]], AttributedString.create("Hello", enLink).substring)
+        assertEquals(attributedString[runRanges[1]], AttributedString.create(" ", justLink).substring)
+        assertEquals(attributedString[runRanges[2]], AttributedString.create("Olá", ptLink).substring)
+        assertEquals(attributedString[runRanges[3]], AttributedString.create(" ", justLink).substring)
+        assertEquals(attributedString[runRanges[4]], AttributedString.create("こんにちは", jaLink).substring)
+
+        val otherURI = URL("http://www.bing.com");
+        val otherLink = AttributeContainerFoundationAttributes().apply { link = otherURI }.asContainer()
+        val enOtherLink = AttributeContainerFoundationAttributes().apply { languageIdentifier = "en"; link = otherURI }.asContainer()
+        val ptOtherLink = AttributeContainerFoundationAttributes().apply { languageIdentifier = "pt"; link = otherURI }.asContainer()
+        val jaOtherLink = AttributeContainerFoundationAttributes().apply { languageIdentifier = "ja"; link = otherURI }.asContainer()
+
+        attributedString.replaceAttributes(justLink, otherLink);
+        runRanges = attributedString.runs.rangeIterator().asSequence().toList()
+        assertEquals(runRanges.count(), 5)
+        assertEquals(attributedString[runRanges[0]], AttributedString.create("Hello", enOtherLink).substring)
+        assertEquals(attributedString[runRanges[1]], AttributedString.create(" ", otherLink).substring)
+        assertEquals(attributedString[runRanges[2]], AttributedString.create("Olá", ptOtherLink).substring)
+        assertEquals(attributedString[runRanges[3]], AttributedString.create(" ", otherLink).substring)
+        assertEquals(attributedString[runRanges[4]], AttributedString.create("こんにちは", jaOtherLink).substring)
+
+        attributedString.setAttributes(empty)
+        runRanges = attributedString.runs.rangeIterator().asSequence().toList()
+        assertEquals(runRanges.count(), 1)
+        assertEquals(attributedString, AttributedString.create("Hello Olá こんにちは"))
     }
 }
