@@ -45,7 +45,7 @@ jobs:
           set -euxo pipefail
 
           VERSION=${GITHUB_REF#refs/*/}
-          if [[ ! $VERSION =~ "[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9]+)*" ]]; then
+          if [[ ! $VERSION =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9]+)*$ ]]; then
               VERSION="0.0.1-$(git rev-parse --short HEAD)"
           fi
           echo VERSION=$VERSION >> $GITHUB_ENV
@@ -148,7 +148,7 @@ jobs:
           set -euxo pipefail
 
           VERSION=${GITHUB_REF#refs/*/}
-          if [[ ! $VERSION =~ "[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9]+)*" ]]; then
+          if [[ ! $VERSION =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9]+)*$ ]]; then
               VERSION="0.0.1-$(git rev-parse --short HEAD)"
           fi
           echo VERSION=$VERSION >> $GITHUB_ENV
@@ -253,7 +253,7 @@ jobs:
           set -euxo pipefail
 
           VERSION=${GITHUB_REF#refs/*/}
-          if [[ ! $VERSION =~ "[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9]+)*" ]]; then
+          if [[ ! $VERSION =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9]+)*$ ]]; then
               VERSION="0.0.1-$(git rev-parse --short HEAD)"
           fi
           echo VERSION=$VERSION >> $GITHUB_ENV

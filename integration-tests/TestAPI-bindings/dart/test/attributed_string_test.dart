@@ -232,6 +232,39 @@ void main() {
           expect("Hello Olá こんにちは", equals(AttributedStrings.polyglot.string)); // Unchanged
       });
 
+      test('testMutabilityVariants', () {
+            var attributedString = AttributedStrings.polyglot;
+            expect("Hello Olá こんにちは", equals(attributedString.string));
+
+            attributedString.append(AttributedString.create(" "));
+            expect("Hello Olá こんにちは ", equals(attributedString.string));
+
+            attributedString.appendSubstring(attributedString[attributedString.runs.first.range]);
+            expect("Hello Olá こんにちは Hello", equals(attributedString.string));
+
+            var es = AttributeContainer_FoundationAttributes.withAttributes(languageIdentifier: "es");
+            attributedString.insert(AttributedString.create("Hola", attributes: es.asContainer()), attributedString.runs.last.range.lowerBound);
+            expect("Hello Olá こんにちは HolaHello", equals(attributedString.string));
+
+            var firstSpaceRange = SwiftRange(
+                attributedString.runs.first.range.upperBound, 
+                attributedString.characters.indexAfter(attributedString.runs.first.range.upperBound)
+            );
+            attributedString.insertSubstring(attributedString[firstSpaceRange], attributedString.runs.last.range.lowerBound);
+            expect("Hello Olá こんにちは Hola Hello", equals(attributedString.string));
+
+            attributedString.replaceSubrange(attributedString.runs.first.range, AttributedStrings.chinese);
+            expect("你好 Olá こんにちは Hola Hello", equals(attributedString.string));
+
+            var emoji = AttributedStrings.emojiMulti;
+            var flagRange = SwiftRange(emoji.characters.indexBefore(emoji.endIndex), emoji.endIndex);
+            attributedString.replaceSubrangeWithSubstring(attributedString.runs.last.range, emoji[flagRange]);
+            expect("你好 Olá こんにちは Hola 🇺🇸", equals(attributedString.string));
+
+            attributedString.removeSubrange(attributedString.runs.first.range);
+            expect(" Olá こんにちは Hola 🇺🇸", equals(attributedString.string));
+      });
+
       test('testAttributeMergeReplace', () {
           var empty = AttributeContainer.createEmpty();
           var en = AttributeContainer_FoundationAttributes.withAttributes(languageIdentifier: "en").asContainer();
@@ -303,5 +336,55 @@ void main() {
           expect(1, equals(runRanges.length));
           expect(AttributedString.create("Hello Olá こんにちは", attributes: empty), equals(attributedString));
       });
+
+      test('testAttributeMergeReplaceWhole', () {
+            var empty = AttributeContainer.createEmpty();
+            var en = AttributeContainer_FoundationAttributes.withAttributes(languageIdentifier: "en");
+            var pt = AttributeContainer_FoundationAttributes.withAttributes(languageIdentifier: "pt");
+            var ja = AttributeContainer_FoundationAttributes.withAttributes(languageIdentifier: "ja");
+
+            var attributedString = AttributedStrings.polyglot;
+            var runRanges = attributedString.runs.map((run) => run.range).toList();
+            expect(5, runRanges.length);
+            expect(AttributedString.create("Hello", attributes: en.asContainer()).substring, equals(attributedString[runRanges[0]]));
+            expect(AttributedString.create(" ", attributes: empty).substring, equals(attributedString[runRanges[1]]));
+            expect(AttributedString.create("Olá", attributes: pt.asContainer()).substring, equals(attributedString[runRanges[2]]));
+            expect(AttributedString.create(" ", attributes: empty).substring, equals(attributedString[runRanges[3]]));
+            expect(AttributedString.create("こんにちは", attributes: ja.asContainer()).substring, equals(attributedString[runRanges[4]]));
+
+            var uri = Uri.parse("http://www.google.com");
+            var link = AttributeContainer_FoundationAttributes.withAttributes(link: uri);
+            var enLink = AttributeContainer_FoundationAttributes.withAttributes(languageIdentifier: "en", link: uri);
+            var ptLink = AttributeContainer_FoundationAttributes.withAttributes(languageIdentifier: "pt", link: uri);
+            var jaLink = AttributeContainer_FoundationAttributes.withAttributes(languageIdentifier: "ja", link: uri);
+
+            attributedString.mergeAttributes(link.asContainer());
+            runRanges = attributedString.runs.map((run) => run.range).toList();
+            expect(5, equals(runRanges.length));
+            expect(AttributedString.create("Hello", attributes: enLink.asContainer()).substring, attributedString[runRanges[0]]);
+            expect(AttributedString.create(" ", attributes: link.asContainer()).substring, attributedString[runRanges[1]]);
+            expect(AttributedString.create("Olá", attributes: ptLink.asContainer()).substring, attributedString[runRanges[2]]);
+            expect(AttributedString.create(" ", attributes: link.asContainer()).substring, attributedString[runRanges[3]]);
+            expect(AttributedString.create("こんにちは", attributes: jaLink.asContainer()).substring, attributedString[runRanges[4]]);
+
+            var otherURI = Uri.parse("http://www.bing.com");
+            var otherLink = AttributeContainer_FoundationAttributes.withAttributes(link: otherURI);
+            var enOtherLink = AttributeContainer_FoundationAttributes.withAttributes(languageIdentifier: "en", link: otherURI);
+            var ptOtherLink = AttributeContainer_FoundationAttributes.withAttributes(languageIdentifier: "pt", link: otherURI);
+            var jaOtherLink = AttributeContainer_FoundationAttributes.withAttributes(languageIdentifier: "ja", link: otherURI);
+            attributedString.replaceAttributes(link.asContainer(), otherLink.asContainer());
+            runRanges = attributedString.runs.map((run) => run.range).toList();
+            expect(5, equals(runRanges.length));
+            expect(AttributedString.create("Hello", attributes: enOtherLink.asContainer()).substring, attributedString[runRanges[0]]);
+            expect(AttributedString.create(" ", attributes: otherLink.asContainer()).substring, attributedString[runRanges[1]]);
+            expect(AttributedString.create("Olá", attributes: ptOtherLink.asContainer()).substring, attributedString[runRanges[2]]);
+            expect(AttributedString.create(" ", attributes: otherLink.asContainer()).substring, attributedString[runRanges[3]]);
+            expect(AttributedString.create("こんにちは", attributes: jaOtherLink.asContainer()).substring, attributedString[runRanges[4]]);
+
+            attributedString.setAttributes(empty);
+            runRanges = attributedString.runs.map((run) => run.range).toList();
+            expect(1, equals(runRanges.length));
+            expect(AttributedString.create("Hello Olá こんにちは"), attributedString);
+        });
   });
 }
