@@ -22,6 +22,19 @@ void main() {
           expect(ea.languageIdentifier, isNull);
           expect(Uri.parse("https://home.unicode.org/emoji"), ea.link);
 
+          expect(en, equals(AttributeContainer_FoundationAttributes.withAttributes(languageIdentifier: "en")));
+          expect(en, isNot(pt));
+          expect(en, isNot(ea));
+
+          var enContainer = en.asContainer();
+          var eaContainer = ea.asContainer();
+          var eneaContainer = AttributeContainer.createEmpty();
+          eneaContainer.merge(enContainer);
+          eneaContainer.merge(eaContainer);
+          var enea = AttributeContainer_FoundationAttributes.createFromContainer(eneaContainer);
+          expect("en", equals(enea.languageIdentifier));
+          expect(Uri.parse("https://home.unicode.org/emoji"), equals(enea.link));
+
           expect(AttributedString.create("Hello", attributes: en.asContainer()), equals(AttributedStrings.simple));
           expect(AttributedString.create("Olá", attributes: pt.asContainer()), equals(AttributedStrings.accent));
           expect(AttributedString.create("こんにちは", attributes: ja.asContainer()), equals(AttributedStrings.script));
@@ -72,6 +85,26 @@ void main() {
               equals(runStrings)
           );
 
+          var runStringsReversed = <String>[];
+          var runIndexReversed = attributedString.runs.endIndex;
+          while (runIndexReversed != attributedString.runs.startIndex) {
+              runIndexReversed = attributedString.runs.indexBefore(runIndexReversed);
+              var runSubstring = attributedString[attributedString.runs[runIndexReversed].range];
+              runStringsReversed.add(runSubstring.string);
+          }
+          expect(
+              [
+                  "👨‍👩‍👧‍👦👍🏿🇺🇸",
+                  " ",
+                  "こんにちは",
+                  " ",
+                  "Olá",
+                  " ",
+                  "Hello",
+              ],
+              equals(runStringsReversed)
+          );
+
           var characterStrings = <String>[];
           var characterIndex = attributedString.characters.startIndex;
           while (characterIndex != attributedString.characters.endIndex) {
@@ -89,6 +122,23 @@ void main() {
               equals(characterStrings)
           );
 
+          var characterStringsReversed = <String>[];
+          var characterIndexReversed = attributedString.characters.endIndex;
+          while (characterIndexReversed != attributedString.characters.startIndex) {
+              characterIndexReversed = attributedString.characters.indexBefore(characterIndexReversed);
+              var characterString = attributedString.characters[characterIndexReversed];
+              characterStringsReversed.add(characterString);
+          }
+          expect(
+              [
+                  "🇺🇸", "👍🏿", "👨‍👩‍👧‍👦",
+                  " ", "は", "ち", "に", "ん", "こ",
+                  " ", "á", "l", "O",
+                  " ", "o", "l", "l", "e", "H",
+              ],
+              equals(characterStringsReversed)
+          );
+
           var unicodeScalars = <int>[];
           var scalarIndex = attributedString.unicodeScalars.startIndex;
           while (scalarIndex != attributedString.unicodeScalars.endIndex) {
@@ -104,6 +154,23 @@ void main() {
                   128104, 8205, 128105, 8205, 128103, 8205, 128102, 128077, 127999, 127482, 127480
               ],
               equals(unicodeScalars)
+          );
+
+          var unicodeScalarsReversed = <int>[];
+          var scalarIndexReversed = attributedString.unicodeScalars.endIndex;
+          while (scalarIndexReversed != attributedString.unicodeScalars.startIndex) {
+              scalarIndexReversed = attributedString.unicodeScalars.indexBefore(scalarIndexReversed);
+              var characterScalar = attributedString.unicodeScalars[scalarIndexReversed];
+              unicodeScalarsReversed.add(characterScalar);
+          }
+          expect(
+              [
+                  127480, 127482, 127999, 128077, 128102, 8205, 128103, 8205, 128105, 8205, 128104, 
+                  32, 12399, 12385, 12395, 12435, 12371, 
+                  32, 225, 108, 79,
+                  32, 111, 108, 108, 101, 72,
+              ],
+              equals(unicodeScalarsReversed)
           );
       });
 
@@ -149,14 +216,32 @@ void main() {
           var substring = attributedString[range];
           expect("ello Olá こんにち", equals(substring.string));
           expect("Hello Olá こんにちは", equals(substring.base.string));
+          expect(substring, equals(substring.substring));
 
           var subRange = SwiftRange(
-              substring.characters.indexAfter(substring.startIndex), 
-              substring.characters.indexBefore(substring.endIndex)
+              substring.runs.first.range.upperBound, 
+              substring.runs.last.range.lowerBound
           );
           var subSubstring = substring[subRange];
-          expect("llo Olá こんに", equals(subSubstring.string));
+          expect(" Olá ", equals(subSubstring.string));
           expect("Hello Olá こんにちは", equals(subSubstring.base.string));
+
+          var subSubRange = SwiftRange(
+              subSubstring.unicodeScalars.indexAfter(subSubstring.startIndex), 
+              subSubstring.unicodeScalars.indexBefore(subSubstring.endIndex)
+          );
+          var subSubSubstring = subSubstring[subSubRange];
+          expect("Olá", equals(subSubSubstring.string));
+          expect("Hello Olá こんにちは", equals(subSubSubstring.base.string));
+
+          var emptyRange = SwiftRange(
+              subSubSubstring.endIndex,
+              subSubSubstring.endIndex
+          );
+          var emptySubstring = subSubSubstring[emptyRange];
+          expect("", equals(emptySubstring.string));
+          expect("Hello Olá こんにちは", equals(emptySubstring.base.string));
+          expect(AttributedSubstring.createEmpty(), equals(emptySubstring));
       });
 
       test('testMutability', () {
@@ -242,8 +327,8 @@ void main() {
             attributedString.appendSubstring(attributedString[attributedString.runs.first.range]);
             expect("Hello Olá こんにちは Hello", equals(attributedString.string));
 
-            var es = AttributeContainer_FoundationAttributes.withAttributes(languageIdentifier: "es");
-            attributedString.insert(AttributedString.create("Hola", attributes: es.asContainer()), attributedString.runs.last.range.lowerBound);
+            var es = AttributeContainer_FoundationAttributes.withAttributes(languageIdentifier: "es").asContainer();
+            attributedString.insert(AttributedString.create("Hola", attributes: es), attributedString.runs.last.range.lowerBound);
             expect("Hello Olá こんにちは HolaHello", equals(attributedString.string));
 
             var firstSpaceRange = SwiftRange(
@@ -372,6 +457,7 @@ void main() {
             var enOtherLink = AttributeContainer_FoundationAttributes.withAttributes(languageIdentifier: "en", link: otherURI).asContainer();
             var ptOtherLink = AttributeContainer_FoundationAttributes.withAttributes(languageIdentifier: "pt", link: otherURI).asContainer();
             var jaOtherLink = AttributeContainer_FoundationAttributes.withAttributes(languageIdentifier: "ja", link: otherURI).asContainer();
+            
             attributedString.replaceAttributes(link, otherLink);
             runRanges = attributedString.runs.map((run) => run.range).toList();
             expect(5, equals(runRanges.length));
