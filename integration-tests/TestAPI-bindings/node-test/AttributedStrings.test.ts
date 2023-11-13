@@ -1,6 +1,7 @@
 import { Runtime, TestAPI } from 'TestAPI';
 const AttributeContainer = Runtime.AttributeContainer
 const AttributedString = Runtime.AttributedString
+const AttributedSubstring = Runtime.AttributedSubstring
 const AttributedStrings = TestAPI.AttributedStrings
 
 test('StringValues', () => {
@@ -21,6 +22,17 @@ test('StringValues', () => {
     const eaAttributes = AttributeContainer.FoundationAttributes.createFromContainer(ea)
     expect(eaAttributes.languageIdentifier).toBeUndefined()
     expect(eaAttributes.link).toEqual(new URL("https://home.unicode.org/emoji"))
+
+    expect(en.equals(AttributeContainer.FoundationAttributes.create({ languageIdentifier: "en" }).asContainer()))
+    expect(!en.equals(pt))
+    expect(!en.equals(ea))
+
+    const enea = AttributeContainer.createEmpty()
+    enea.merge(en)
+    enea.merge(ea)
+    const eneaAttributes = AttributeContainer.FoundationAttributes.createFromContainer(enea)
+    expect("en").toEqual(eneaAttributes.languageIdentifier)
+    expect(new URL("https://home.unicode.org/emoji")).toEqual(eneaAttributes.link)
     
     expect(AttributedStrings.simple.equals(AttributedString.create("Hello", { attributes: en })))
     expect(AttributedStrings.accent.equals(AttributedString.create("Olá", { attributes: pt })))
@@ -81,6 +93,25 @@ test('ViewIterationOverIndices', () => {
         ]
     )
 
+    const runStringsReversed: string[] = []
+    let runIndexReversed = attributedString.runs.endIndex
+    while (!runIndexReversed.equals(attributedString.runs.startIndex)) {
+        runIndexReversed = attributedString.runs.indexBefore(runIndexReversed)
+        const runSubstring = attributedString.substringForRange(attributedString.runs.elementAt(runIndexReversed).range)
+        runStringsReversed.push(runSubstring.string)
+    }
+    expect(runStringsReversed).toEqual(
+        [
+            "👨‍👩‍👧‍👦👍🏿🇺🇸",
+            " ",
+            "こんにちは",
+            " ",
+            "Olá",
+            " ",
+            "Hello",
+        ]
+    )
+
     const characterStrings: string[] = []
     let characterIndex = attributedString.characters.startIndex
     while (!characterIndex.equals(attributedString.characters.endIndex)) {
@@ -97,6 +128,22 @@ test('ViewIterationOverIndices', () => {
         ]
     )
 
+    const characterStringsReversed: string[] = []
+    let characterIndexReversed = attributedString.characters.endIndex
+    while (!characterIndexReversed.equals(attributedString.characters.startIndex)) {
+        characterIndexReversed = attributedString.characters.indexBefore(characterIndexReversed)
+        const characterString = attributedString.characters.elementAt(characterIndexReversed)
+        characterStringsReversed.push(characterString)
+    }
+    expect(characterStringsReversed).toEqual(
+        [
+            "🇺🇸", "👍🏿", "👨‍👩‍👧‍👦",
+            " ", "は", "ち", "に", "ん", "こ",
+            " ", "á", "l", "O",
+            " ", "o", "l", "l", "e", "H",
+        ]
+    )
+
     const unicodeScalars: number[] = []
     let scalarIndex = attributedString.unicodeScalars.startIndex
     while (!scalarIndex.equals(attributedString.unicodeScalars.endIndex)) {
@@ -110,6 +157,22 @@ test('ViewIterationOverIndices', () => {
             79, 108, 225, 32,
             12371, 12435, 12395, 12385, 12399, 32,
             128104, 8205, 128105, 8205, 128103, 8205, 128102, 128077, 127999, 127482, 127480
+        ]
+    )
+
+    const unicodeScalarsReversed: number[] = []
+    let scalarIndexReversed = attributedString.unicodeScalars.endIndex
+    while (!scalarIndexReversed.equals(attributedString.unicodeScalars.startIndex)) {
+        scalarIndexReversed = attributedString.unicodeScalars.indexBefore(scalarIndexReversed)
+        const characterScalar = attributedString.unicodeScalars.elementAt(scalarIndexReversed)
+        unicodeScalarsReversed.push(characterScalar)
+    }
+    expect(unicodeScalarsReversed).toEqual(
+        [
+            127480, 127482, 127999, 128077, 128102, 8205, 128103, 8205, 128105, 8205, 128104, 
+            32, 12399, 12385, 12395, 12435, 12371, 
+            32, 225, 108, 79,
+            32, 111, 108, 108, 101, 72,
         ]
     )
 })
@@ -163,14 +226,32 @@ test('Substring', () => {
     const substring = attributedString.substringForRange(range)
     expect(substring.string).toEqual("ello Olá こんにち")
     expect(substring.base.string).toEqual("Hello Olá こんにちは")
+    expect(substring.substring.equals(substring))
 
-    const subRange = {
-        lowerBound: substring.characters.indexAfter(substring.startIndex), 
-        upperBoundExclusive: substring.characters.indexBefore(substring.endIndex)
+    var subRange = {
+        lowerBound: [...substring.runs][0].range.upperBoundExclusive, 
+        upperBoundExclusive: [...substring.runs].slice(-1)[0].range.lowerBound
     }
-    const subSubstring = substring.substringForRange(subRange)
-    expect(subSubstring.string).toEqual("llo Olá こんに")
+    var subSubstring = substring.substringForRange(subRange)
+    expect(subSubstring.string).toEqual(" Olá ")
     expect(subSubstring.base.string).toEqual("Hello Olá こんにちは")
+
+    var subSubRange = {
+        lowerBound: subSubstring.unicodeScalars.indexAfter(subSubstring.startIndex), 
+        upperBoundExclusive: subSubstring.unicodeScalars.indexBefore(subSubstring.endIndex)
+    }
+    var subSubSubstring = subSubstring.substringForRange(subSubRange)
+    expect(subSubSubstring.string).toEqual("Olá")
+    expect(subSubSubstring.base.string).toEqual("Hello Olá こんにちは")
+
+    var emptyRange = {
+        lowerBound: subSubSubstring.endIndex,
+        upperBoundExclusive: subSubSubstring.endIndex
+    }
+    var emptySubstring = subSubSubstring.substringForRange(emptyRange)
+    expect(emptySubstring.string).toEqual("")
+    expect(emptySubstring.base.string).toEqual("Hello Olá こんにちは")
+    expect(emptySubstring.equals(AttributedSubstring.createEmpty()))
 })
 
 test('Mutability', () => {
