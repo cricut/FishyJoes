@@ -63,10 +63,8 @@ final class KotlinTranslator: Translator {
             fragment.outputBlock("FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in", closeWith: "}") {
                 let callName = method.sourceKind == .initializer ? "" : ".\(method.callName)"
 
-                // let isMutating = method.isMutating || method.modifiers.contains(where: { $0.name == "mutating" })
                 var mutateBlock: (() -> Void) -> Void = { $0() }
                 if method.isMutating {
-                    fragment.output("var mutatingSelf = try \(selfExpression)")
                     mutateBlock = { body in
                         fragment.outputBlock("return try \(containingNamespace).mutateJava(_javaThis, env: _javaEnv) { mutatingSelf in", closeWith: "}") {
                             body()
