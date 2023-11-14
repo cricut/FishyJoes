@@ -4,8 +4,6 @@
     "noImplicitAny": true,
     "strict": true,
     "target": "es2017",
-    "module": "nodenext",
-    "moduleResolution": "nodenext",
     "paths": {
       "TestAPI": [
         "../output/node-native-windows/TestAPI.d.ts",
