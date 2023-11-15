@@ -18,7 +18,7 @@ concurrency:
 jobs:
   integration-tests-mac:
     name: "macOS: Integration tests"
-    runs-on: macOS-latest
+    runs-on: macOS-13
     env:
       GRADLE_OPTS: -Dorg.gradle.daemon=false
       GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}

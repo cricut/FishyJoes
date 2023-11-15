@@ -86,25 +86,25 @@ namespace Cricut.TestAPI.Tests {
                 runStrings
             );
 
-            // var runStringsReversed = new List<string>();
-            // var runIndexReversed = attributedString.Runs.EndIndex;
-            // while (runIndexReversed != attributedString.Runs.StartIndex) {
-            //     runIndexReversed = attributedString.Runs.IndexBefore(runIndexReversed);
-            //     var runSubstring = attributedString[attributedString.Runs[runIndexReversed].Range];
-            //     runStringsReversed.Add(runSubstring.String);
-            // }
-            // Assert.Equal(new string[]
-            //     {
-            //         "👨‍👩‍👧‍👦👍🏿🇺🇸",
-            //         " ",
-            //         "こんにちは",
-            //         " ",
-            //         "Olá",
-            //         " ",
-            //         "Hello",
-            //     },
-            //     runStringsReversed
-            // );
+            var runStringsReversed = new List<string>();
+            var runIndexReversed = attributedString.Runs.EndIndex;
+            while (runIndexReversed != attributedString.Runs.StartIndex) {
+                runIndexReversed = attributedString.Runs.IndexBefore(runIndexReversed);
+                var runSubstring = attributedString[attributedString.Runs[runIndexReversed].Range];
+                runStringsReversed.Add(runSubstring.String);
+            }
+            Assert.Equal(new string[]
+                {
+                    "👨‍👩‍👧‍👦👍🏿🇺🇸",
+                    " ",
+                    "こんにちは",
+                    " ",
+                    "Olá",
+                    " ",
+                    "Hello",
+                },
+                runStringsReversed
+            );
 
             var characterStrings = new List<string>();
             var characterIndex = attributedString.Characters.StartIndex;
@@ -123,22 +123,22 @@ namespace Cricut.TestAPI.Tests {
                 characterStrings
             );
 
-            // var characterStringsReversed = new List<string>();
-            // var characterIndexReversed = attributedString.Characters.EndIndex;
-            // while (characterIndexReversed != attributedString.Characters.StartIndex) {
-            //     characterIndexReversed = attributedString.Characters.IndexBefore(characterIndexReversed);
-            //     var characterString = attributedString.Characters[characterIndexReversed];
-            //     characterStringsReversed.Add(characterString);
-            // }
-            // Assert.Equal(new string[]
-            //     {
-            //         "🇺🇸", "👍🏿", "👨‍👩‍👧‍👦",
-            //         " ", "は", "ち", "に", "ん", "こ",
-            //         " ", "á", "l", "O",
-            //         " ", "o", "l", "l", "e", "H",
-            //     },
-            //     characterStringsReversed
-            // );
+            var characterStringsReversed = new List<string>();
+            var characterIndexReversed = attributedString.Characters.EndIndex;
+            while (characterIndexReversed != attributedString.Characters.StartIndex) {
+                characterIndexReversed = attributedString.Characters.IndexBefore(characterIndexReversed);
+                var characterString = attributedString.Characters[characterIndexReversed];
+                characterStringsReversed.Add(characterString);
+            }
+            Assert.Equal(new string[]
+                {
+                    "🇺🇸", "👍🏿", "👨‍👩‍👧‍👦",
+                    " ", "は", "ち", "に", "ん", "こ",
+                    " ", "á", "l", "O",
+                    " ", "o", "l", "l", "e", "H",
+                },
+                characterStringsReversed
+            );
 
             var unicodeScalars = new List<UInt32>();
             var scalarIndex = attributedString.UnicodeScalars.StartIndex;
@@ -157,22 +157,22 @@ namespace Cricut.TestAPI.Tests {
                 unicodeScalars
             );
 
-            // var unicodeScalarsReversed = new List<UInt32>();
-            // var scalarIndexReversed = attributedString.UnicodeScalars.EndIndex;
-            // while (scalarIndexReversed != attributedString.UnicodeScalars.StartIndex) {
-            //     scalarIndexReversed = attributedString.UnicodeScalars.IndexBefore(scalarIndexReversed);
-            //     var characterScalar = attributedString.UnicodeScalars[scalarIndexReversed];
-            //     unicodeScalarsReversed.Add(characterScalar);
-            // }
-            // Assert.Equal(new UInt32[]
-            //     {
-            //         127480, 127482, 127999, 128077, 128102, 8205, 128103, 8205, 128105, 8205, 128104, 
-            //         32, 12399, 12385, 12395, 12435, 12371, 
-            //         32, 225, 108, 79,
-            //         32, 111, 108, 108, 101, 72,
-            //     },
-            //     unicodeScalarsReversed
-            // );
+            var unicodeScalarsReversed = new List<UInt32>();
+            var scalarIndexReversed = attributedString.UnicodeScalars.EndIndex;
+            while (scalarIndexReversed != attributedString.UnicodeScalars.StartIndex) {
+                scalarIndexReversed = attributedString.UnicodeScalars.IndexBefore(scalarIndexReversed);
+                var characterScalar = attributedString.UnicodeScalars[scalarIndexReversed];
+                unicodeScalarsReversed.Add(characterScalar);
+            }
+            Assert.Equal(new UInt32[]
+                {
+                    127480, 127482, 127999, 128077, 128102, 8205, 128103, 8205, 128105, 8205, 128104, 
+                    32, 12399, 12385, 12395, 12435, 12371, 
+                    32, 225, 108, 79,
+                    32, 111, 108, 108, 101, 72,
+                },
+                unicodeScalarsReversed
+            );
         }
 
         [Fact]

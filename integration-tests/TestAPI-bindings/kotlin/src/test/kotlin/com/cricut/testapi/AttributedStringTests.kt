@@ -31,12 +31,12 @@ internal class AttributedStringTests {
         assertNotEquals(en, pt)
         assertNotEquals(en, ea)
 
-//        val enea = AttributeContainer.createEmpty()
-//        enea.mergeAttributes(en)
-//        enea.mergeAttributes(ea)
-//        val eneaAttributes = AttributeContainerFoundationAttributes.createFromContainer(enea)
-//        assertEquals(eneaAttributes.languageIdentifier, "en")
-//        assertEquals(eneaAttributes.link, URL("https://home.unicode.org/emoji"))
+        val enea = AttributeContainer.createEmpty()
+        enea.mergeAttributes(en)
+        enea.mergeAttributes(ea)
+        val eneaAttributes = AttributeContainerFoundationAttributes.createFromContainer(enea)
+        assertEquals(eneaAttributes.languageIdentifier, "en")
+        assertEquals(eneaAttributes.link, URL("https://home.unicode.org/emoji"))
 
         assertEquals(AttributedStrings.simple, AttributedString("Hello", en))
         assertEquals(AttributedStrings.accent, AttributedString("Olá", pt))
@@ -88,24 +88,24 @@ internal class AttributedStringTests {
             )
         )
 
-//        var runStringsReversed = emptyList<String>()
-//        var runIndexReversed = attributedString.runs.endIndex
-//        while (runIndexReversed != attributedString.runs.startIndex) {
-//            runIndexReversed = attributedString.runs.indexBefore(runIndexReversed)
-//            val runSubstring = attributedString.substringForRange(attributedString.runs.elementAt(runIndexReversed).range)
-//            runStringsReversed += runSubstring.string
-//        }
-//        assertEquals(runStringsReversed,
-//            listOf(
-//                "👨‍👩‍👧‍👦👍🏿🇺🇸",
-//                " ",
-//                "こんにちは",
-//                " ",
-//                "Olá",
-//                " ",
-//                "Hello",
-//            )
-//        )
+        var runStringsReversed = emptyList<String>()
+        var runIndexReversed = attributedString.runs.endIndex
+        while (runIndexReversed != attributedString.runs.startIndex) {
+            runIndexReversed = attributedString.runs.indexBefore(runIndexReversed)
+            val runSubstring = attributedString.substringForRange(attributedString.runs.elementAt(runIndexReversed).range)
+            runStringsReversed += runSubstring.string
+        }
+        assertEquals(runStringsReversed,
+            listOf(
+                "👨‍👩‍👧‍👦👍🏿🇺🇸",
+                " ",
+                "こんにちは",
+                " ",
+                "Olá",
+                " ",
+                "Hello",
+            )
+        )
 
         var characterStrings = emptyList<String>()
         var characterIndex = attributedString.characters.startIndex
@@ -123,21 +123,21 @@ internal class AttributedStringTests {
             )
         )
 
-//        var characterStringsReversed = emptyList<String>()
-//        var characterIndexReversed = attributedString.characters.endIndex
-//        while (characterIndexReversed != attributedString.characters.startIndex) {
-//            characterIndexReversed = attributedString.characters.indexBefore(characterIndexReversed)
-//            val characterString = attributedString.characters.elementAt(characterIndexReversed)
-//            characterStringsReversed += characterString
-//        }
-//        assertEquals(characterStringsReversed,
-//            listOf(
-//                "🇺🇸", "👍🏿", "👨‍👩‍👧‍👦",
-//                " ", "は", "ち", "に", "ん", "こ",
-//                " ", "á", "l", "O",
-//                " ", "o", "l", "l", "e", "H",
-//            )
-//        )
+        var characterStringsReversed = emptyList<String>()
+        var characterIndexReversed = attributedString.characters.endIndex
+        while (characterIndexReversed != attributedString.characters.startIndex) {
+            characterIndexReversed = attributedString.characters.indexBefore(characterIndexReversed)
+            val characterString = attributedString.characters.elementAt(characterIndexReversed)
+            characterStringsReversed += characterString
+        }
+        assertEquals(characterStringsReversed,
+            listOf(
+                "🇺🇸", "👍🏿", "👨‍👩‍👧‍👦",
+                " ", "は", "ち", "に", "ん", "こ",
+                " ", "á", "l", "O",
+                " ", "o", "l", "l", "e", "H",
+            )
+        )
 
         var unicodeScalars = emptyList<UInt>()
         var scalarIndex = attributedString.unicodeScalars.startIndex
@@ -155,21 +155,21 @@ internal class AttributedStringTests {
             )
         )
 
-//        var unicodeScalarsReversed = emptyList<UInt>()
-//        var scalarIndexReversed = attributedString.unicodeScalars.endIndex
-//        while (scalarIndexReversed != attributedString.unicodeScalars.startIndex) {
-//            scalarIndexReversed = attributedString.unicodeScalars.indexBefore(scalarIndexReversed)
-//            val characterScalar = attributedString.unicodeScalars.elementAt(scalarIndexReversed)
-//            unicodeScalarsReversed += characterScalar
-//        }
-//        assertEquals(unicodeScalarsReversed.map { it.toInt() },
-//            listOf(
-//                127480, 127482, 127999, 128077, 128102, 8205, 128103, 8205, 128105, 8205, 128104,
-//                32, 12399, 12385, 12395, 12435, 12371,
-//                32, 225, 108, 79,
-//                32, 111, 108, 108, 101, 72,
-//            )
-//        )
+        var unicodeScalarsReversed = emptyList<UInt>()
+        var scalarIndexReversed = attributedString.unicodeScalars.endIndex
+        while (scalarIndexReversed != attributedString.unicodeScalars.startIndex) {
+            scalarIndexReversed = attributedString.unicodeScalars.indexBefore(scalarIndexReversed)
+            val characterScalar = attributedString.unicodeScalars.elementAt(scalarIndexReversed)
+            unicodeScalarsReversed += characterScalar
+        }
+        assertEquals(unicodeScalarsReversed.map { it.toInt() },
+            listOf(
+                127480, 127482, 127999, 128077, 128102, 8205, 128103, 8205, 128105, 8205, 128104,
+                32, 12399, 12385, 12395, 12435, 12371,
+                32, 225, 108, 79,
+                32, 111, 108, 108, 101, 72,
+            )
+        )
     }
 
     @Test
@@ -218,30 +218,30 @@ internal class AttributedStringTests {
         assertEquals(substring.base.string, "Hello Olá こんにちは")
         assertEquals(substring, substring.substring)
 
-//        val subRange = SwiftRange(
-//            substring.runs.first().range.upperBound,
-//            substring.runs.last().range.lowerBound
-//        )
-//        val subSubstring = substring[subRange]
-//        assertEquals(subSubstring.string, " Olá ")
-//        assertEquals(subSubstring.base.string, "Hello Olá こんにちは")
-//
-//        val subSubRange = SwiftRange(
-//            subSubstring.unicodeScalars.indexAfter(subSubstring.startIndex),
-//            subSubstring.unicodeScalars.indexBefore(subSubstring.endIndex)
-//        )
-//        val subSubSubstring = subSubstring[subSubRange]
-//        assertEquals(subSubSubstring.string, "Olá")
-//        assertEquals(subSubSubstring.base.string, "Hello Olá こんにちは")
-//
-//        val emptyRange = SwiftRange(
-//            subSubSubstring.endIndex,
-//            subSubSubstring.endIndex
-//        )
-//        val emptySubstring = subSubSubstring[emptyRange]
-//        assertEquals(emptySubstring.string, "")
-//        assertEquals(emptySubstring.base.string, "Hello Olá こんにちは")
-//        assertEquals(emptySubstring, AttributedSubstring.createEmpty())
+        val subRange = SwiftRange(
+            substring.runs.first().range.upperBound,
+            substring.runs.last().range.lowerBound
+        )
+        val subSubstring = substring[subRange]
+        assertEquals(subSubstring.string, " Olá ")
+        assertEquals(subSubstring.base.string, "Hello Olá こんにちは")
+
+        val subSubRange = SwiftRange(
+            subSubstring.unicodeScalars.indexAfter(subSubstring.startIndex),
+            subSubstring.unicodeScalars.indexBefore(subSubstring.endIndex)
+        )
+        val subSubSubstring = subSubstring[subSubRange]
+        assertEquals(subSubSubstring.string, "Olá")
+        assertEquals(subSubSubstring.base.string, "Hello Olá こんにちは")
+
+        val emptyRange = SwiftRange(
+            subSubSubstring.endIndex,
+            subSubSubstring.endIndex
+        )
+        val emptySubstring = subSubSubstring[emptyRange]
+        assertEquals(emptySubstring.string, "")
+        assertEquals(emptySubstring.base.string, "Hello Olá こんにちは")
+        assertEquals(emptySubstring, AttributedSubstring.createEmpty())
     }
 
     @Test
@@ -314,33 +314,33 @@ internal class AttributedStringTests {
         val attributedString = AttributedStrings.polyglot
         assertEquals(attributedString.string, "Hello Olá こんにちは")
 
-//        attributedString.append(AttributedString.create(" "))
-//        assertEquals(attributedString.string, "Hello Olá こんにちは ")
-//
-//        attributedString.appendSubstring(attributedString[attributedString.runs.first().range])
-//        assertEquals(attributedString.string, "Hello Olá こんにちは Hello")
-//
-//        val es = AttributeContainerFoundationAttributes().apply { languageIdentifier = "es" }.asContainer()
-//        attributedString.insert(AttributedString.create("Hola", es), attributedString.runs.last().range.lowerBound)
-//        assertEquals(attributedString.string, "Hello Olá こんにちは HolaHello")
-//
-//        val firstSpaceRange = SwiftRange(
-//            attributedString.runs.first().range.upperBound,
-//            attributedString.characters.indexAfter(attributedString.runs.first().range.upperBound)
-//        )
-//        attributedString.insertSubstring(attributedString[firstSpaceRange], attributedString.runs.last().range.lowerBound)
-//        assertEquals(attributedString.string, "Hello Olá こんにちは Hola Hello")
-//
-//        attributedString.replaceSubrange(attributedString.runs.first().range, AttributedStrings.chinese)
-//        assertEquals(attributedString.string, "你好 Olá こんにちは Hola Hello")
-//
-//        val emoji = AttributedStrings.emojiMulti
-//        val flagRange = SwiftRange(emoji.characters.indexBefore(emoji.endIndex), emoji.endIndex)
-//        attributedString.replaceSubrangeWithSubstring(attributedString.runs.last().range, emoji[flagRange])
-//        assertEquals(attributedString.string, "你好 Olá こんにちは Hola 🇺🇸")
-//
-//        attributedString.removeSubrange(attributedString.runs.first().range)
-//        assertEquals(attributedString.string, " Olá こんにちは Hola 🇺🇸")
+        attributedString.append(AttributedString.create(" "))
+        assertEquals(attributedString.string, "Hello Olá こんにちは ")
+
+        attributedString.appendSubstring(attributedString[attributedString.runs.first().range])
+        assertEquals(attributedString.string, "Hello Olá こんにちは Hello")
+
+        val es = AttributeContainerFoundationAttributes().apply { languageIdentifier = "es" }.asContainer()
+        attributedString.insert(AttributedString.create("Hola", es), attributedString.runs.last().range.lowerBound)
+        assertEquals(attributedString.string, "Hello Olá こんにちは HolaHello")
+
+        val firstSpaceRange = SwiftRange(
+            attributedString.runs.first().range.upperBound,
+            attributedString.characters.indexAfter(attributedString.runs.first().range.upperBound)
+        )
+        attributedString.insertSubstring(attributedString[firstSpaceRange], attributedString.runs.last().range.lowerBound)
+        assertEquals(attributedString.string, "Hello Olá こんにちは Hola Hello")
+
+        attributedString.replaceSubrange(attributedString.runs.first().range, AttributedStrings.chinese)
+        assertEquals(attributedString.string, "你好 Olá こんにちは Hola Hello")
+
+        val emoji = AttributedStrings.emojiMulti
+        val flagRange = SwiftRange(emoji.characters.indexBefore(emoji.endIndex), emoji.endIndex)
+        attributedString.replaceSubrangeWithSubstring(attributedString.runs.last().range, emoji[flagRange])
+        assertEquals(attributedString.string, "你好 Olá こんにちは Hola 🇺🇸")
+
+        attributedString.removeSubrange(attributedString.runs.first().range)
+        assertEquals(attributedString.string, " Olá こんにちは Hola 🇺🇸")
     }
 
     @Test
