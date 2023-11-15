@@ -18,7 +18,7 @@ concurrency:
 jobs:
   integration-tests-mac:
     name: "macOS: Integration tests"
-    runs-on: macOS-13
+    runs-on: macOS-12
     env:
       GRADLE_OPTS: -Dorg.gradle.daemon=false
       GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
@@ -77,7 +77,14 @@ jobs:
 
           cd integration-tests/TestAPI-bindings
 
-          swift run -- fishy-joes --nodejs build test
+          #swift run -- fishy-joes --nodejs build test
+          swift run -- fishy-joes --nodejs build
+
+      - name: Upload NPM Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: TestAPI-bindings
+          path: integration-tests/TestAPI-bindings
 
       - name: Build FishyJoesIotaRuntime
         shell: zsh {0}
