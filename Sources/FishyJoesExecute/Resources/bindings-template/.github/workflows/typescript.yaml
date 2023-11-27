@@ -16,8 +16,6 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
-  GITHUB_USER: cricut-builduser
   NODE_VERSION: "16.x"
   SWIFT_WASM_VERSION: "5.9-SNAPSHOT-2023-08-06-a"
 
