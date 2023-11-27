@@ -171,8 +171,6 @@ jobs:
       - build-test-dart-mac
       - build-test-dart-linux
       - build-test-dart-windows
-    env:
-      GITHUB_PUBLISH_TOKEN: ${{ env.GITHUB_TOKEN }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -252,6 +250,8 @@ jobs:
           OWNER: ${{ github.repository_owner }}
           REPO: ${{ github.event.repository.name }}
           TAG_NAME: ${{ github.event.release.tag_name }}
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_PUBLISH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euxo pipefail
 
