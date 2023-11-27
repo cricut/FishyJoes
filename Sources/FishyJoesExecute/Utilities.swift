@@ -1,5 +1,5 @@
-import swsh
 import Foundation
+import swsh
 
 #if canImport(Darwin)
 import Darwin

@@ -492,7 +492,6 @@ extension CodeGen {
 
             // Generate files whose creation requires use of template files
             for platform in platforms {
-
                 switch platform {
                 case .wasm, .node:
                     // Generate package.json from template
