@@ -43,6 +43,6 @@ function install-lib {
     fi
 }
 
-install-lib "FishyJoesIotaRuntime.dll" "c-sharp-runtime/runtimes/win/native" "dart-runtime/native/windows" ||
-    install-lib "libFishyJoesIotaRuntime.dylib" "c-sharp-runtime/runtimes/osx/native" "dart-runtime/native/macos" ||
-    install-lib "libFishyJoesIotaRuntime.so" "c-sharp-runtime/runtimes/linux/native" "dart-runtime/native/linux"
+install-lib "FishyJoesIotaRuntime.dll" "c-sharp-runtime/runtimes/win/native" "dart-runtime/windows/native" ||
+    install-lib "libFishyJoesIotaRuntime.dylib" "c-sharp-runtime/runtimes/osx/native" "dart-runtime/macos/native" ||
+    install-lib "libFishyJoesIotaRuntime.so" "c-sharp-runtime/runtimes/linux/native" "dart-runtime/linux/native"
