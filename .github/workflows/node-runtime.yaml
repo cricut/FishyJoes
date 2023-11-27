@@ -25,7 +25,7 @@ jobs:
       LIB_DIR: node-runtime/fishyjoes-runtime-native-macos
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup git credentials
         uses: de-vri-es/setup-git-credentials@v2
@@ -64,9 +64,7 @@ jobs:
 
           cat $LIB_DIR/package.json | jq '.version = env.VERSION' > $LIB_DIR/package.json.upd
           mv $LIB_DIR/package.json.upd $LIB_DIR/package.json
-          cd $LIB_DIR
-          ls -la
-          npm pack
+          (cd $LIB_DIR; npm pack)
 
       - name: Upload NPM Artifact
         uses: actions/upload-artifact@v3
@@ -81,18 +79,22 @@ jobs:
         run: |
           set -euxo pipefail
 
-          ( cd $LIB_DIR; npm publish *.tgz )
+          (cd $LIB_DIR; npm publish *.tgz)
 
   build-test-node-ubuntu:
     name: "Ubuntu: Build and test node runtime"
     runs-on: ubuntu-latest
     container:
-      image: swift
+      image: ghcr.io/cricut/android-swift-runtime:1.0.0
+      credentials:
+        username: cricut-builduser
+        password: ${{ secrets.CRICUT_GPR_TOKEN }}
     env:
       LIB_DIR: node-runtime/fishyjoes-runtime-native-ubuntu
+      WASM_LIB_DIR: node-runtime/fishyjoes-runtime-wasm
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup git credentials
         uses: de-vri-es/setup-git-credentials@v2
@@ -103,7 +105,7 @@ jobs:
         run: |
           set -eux
           apt-get -y update
-          apt-get -y install zsh patchelf jq
+          apt-get -y install patchelf jq
           git config --global --add safe.directory '*'
 
       - name: Build FishyJoesNodeRuntime
@@ -165,9 +167,7 @@ jobs:
 
           cat $LIB_DIR/package.json | jq '.version = env.VERSION' > $LIB_DIR/package.json.upd
           mv $LIB_DIR/package.json.upd $LIB_DIR/package.json
-          cd $LIB_DIR
-          ls -la
-          npm pack
+          (cd $LIB_DIR; npm pack)
 
       - name: Upload NPM Artifact
         uses: actions/upload-artifact@v3
@@ -183,7 +183,32 @@ jobs:
         run: |
           set -euxo pipefail
 
-          ( cd $LIB_DIR; npm publish *.tgz )
+          (cd $LIB_DIR; npm publish *.tgz)
+
+      - name: Wasm NPM Pack
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+
+          cat $WASM_LIB_DIR/package.json | jq '.version = env.VERSION' > $WASM_LIB_DIR/package.json.upd
+          mv $WASM_LIB_DIR/package.json.upd $WASM_LIB_DIR/package.json
+          (cd $WASM_LIB_DIR; npm pack)
+
+      - name: Upload Wasm NPM Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: wasm_npm_package
+          path: ${{ env.WASM_LIB_DIR }}/*.tgz
+
+      - name: Publish Wasm NPM Package
+        shell: zsh {0}
+        if: github.event_name == 'release'
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euxo pipefail
+
+          (cd $WASM_LIB_DIR; npm publish *.tgz)
 
   build-test-node-windows:
     name: "Windows: Build and Test Node.js Runtime"
@@ -192,7 +217,7 @@ jobs:
       LIB_DIR: node-runtime/fishyjoes-runtime-native-windows
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Git Credentials
         uses: de-vri-es/setup-git-credentials@v2
@@ -247,9 +272,7 @@ jobs:
 
           cat $LIB_DIR/package.json | jq '.version = env.VERSION' > $LIB_DIR/package.json.upd
           mv $LIB_DIR/package.json.upd $LIB_DIR/package.json
-          cd $LIB_DIR
-          ls -la
-          npm pack
+          (cd $LIB_DIR; npm pack)
 
       - name: Upload NPM Artifact
         uses: actions/upload-artifact@v3
@@ -265,4 +288,4 @@ jobs:
         run: |
           set -euxo pipefail
 
-          ( cd $LIB_DIR; npm publish *.tgz )
+          (cd $LIB_DIR; npm publish *.tgz)

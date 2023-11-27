@@ -497,26 +497,74 @@ extension CodeGen {
                 case .wasm, .node:
                     // Generate package.json from template
                     let packageVersion = version ?? "0.0.1" // If no version is provided, use a dummy version to build the package
-                    let runtimeVersion = fishyJoesDependency.version ??
-                        "file:\(fishyJoesDependency.localPath)/node-runtime/fishyjoes-runtime-\(platform.nodeExecutionEnvironment)" // If fishy-joes is file-local, use a file-local runtime too
-                    let templatePackage = try cmd("cat", "package.template.json").runJSON(NPMPackage.self)
-                    var dependencies = templatePackage.dependencies ?? [:]
-                    dependencies["@cricut/fishyjoes-runtime-\(platform.nodeExecutionEnvironment)"] = runtimeVersion
-                    for module in config.requiredModules {
-                        let bindingsModuleName = "\(module)-bindings"
+                    var dependencies: [(moduleName: String, compiledLibName: String, nodeLibName: String, npmPackageName: String, npmModuleVersion: String)] = []
+                    dependencies.append((
+                        moduleName: "Runtime",
+                        compiledLibName: "libFishyJoesNodeRuntime.\(platform.dylibExt)",
+                        nodeLibName: "Runtime.cjs.node",
+                        npmPackageName: "fishyjoes-runtime-\(platform.nodeExecutionEnvironment)",
+                        npmModuleVersion: fishyJoesDependency.version ??
+                            // If fishy-joes is file-local, use a file-local runtime too
+                            "file:\(fishyJoesDependency.localPath)/node-runtime/fishyjoes-runtime-\(platform.nodeExecutionEnvironment)"
+                    ))
+                    for moduleName in config.requiredModules {
+                        let npmPackageName = "\(moduleName.lowercased())-\(platform.nodeExecutionEnvironment)"
+                        let bindingsModuleName = "\(moduleName)-bindings"
                         guard let dependency = packageInfo.dependencyMap[bindingsModuleName] else {
                             fatalError("Could not locate dependency \(bindingsModuleName) in Package.swift")
                         }
-                        let packageName = "\(module.lowercased())-\(platform.nodeExecutionEnvironment)"
-                        let moduleVersion = dependency.version ?? "file:\(dependency.localPath)/output/\(packageName)" // If dependency is file-local, use a file-local dependency too
-                        dependencies["@cricut/\(packageName)"] = moduleVersion
+                        dependencies.append((
+                            moduleName: moduleName,
+                            compiledLibName: "lib\(moduleName)-node.\(platform.dylibExt)",
+                            nodeLibName: "\(moduleName).cjs.node",
+                            npmPackageName: npmPackageName,
+                            npmModuleVersion: dependency.version ??
+                                // If dependency is file-local, use a file-local dependency too
+                                "file:\(dependency.localPath)/output/\(npmPackageName)"
+                        ))
                     }
-                    let package = NPMPackage(
+                    var npmDependencies = try cmd("cat", "package.template.json").runJSON(NPMPackage.self).dependencies ?? [:]
+                    for dependency in dependencies {
+                        npmDependencies["@cricut/\(dependency.npmPackageName)"] = dependency.npmModuleVersion
+                    }
+                    var package = NPMPackage(
                         config: config,
                         platform: platform,
                         version: packageVersion,
-                        dependencies: dependencies
+                        dependencies: npmDependencies
                     )
+                    if platform.platform == "node-native-ubuntu" {
+                        // When on Ubuntu, dlopen() needs file-relative native libraries, so add a post-install script to the package to setup symlinks to dependency SOs
+                        var postinstall = """
+                            #!/bin/bash
+                            #
+
+                            set -ex
+                            if [[ "$npm_package_version" == "0.0.1" ]]; then
+                                # We are installed as a file local package
+                                package_directory="node_modules/@cricut"
+                            else
+                                # We are installed as a published package
+                                package_directory=".."
+                            fi
+
+
+                            """
+
+                        for dependency in dependencies {
+                            postinstall += """
+                                    ln -sf "$(realpath $package_directory/\(dependency.npmPackageName)/\(dependency.nodeLibName))" "\(dependency.compiledLibName)"
+
+                                """
+                        }
+
+                        try cmd("cat")
+                            .input(postinstall)
+                            .output(overwritingFile: "\(platform.outputDir(config))/postinstall.sh")
+                            .run()
+                        try cmd("chmod", "+x", "\(platform.outputDir(config))/postinstall.sh").run()
+                        package.scripts[default: [:]]["postinstall"] = "./postinstall.sh"
+                    }
                     let packageJsonPath = "\(platform.outputDir(config))/package.json"
                     try cmd("cat")
                         .inputJSON(from: package, encoder: PrettyJSONEncoder())
@@ -533,14 +581,14 @@ extension CodeGen {
                 case .wasm, .node:
                     break
                 case .kotlinSystem:
-                    try FileManager.default.withCurrentDirectoryPath("kotlin") {
+                    try withDirectory("kotlin") {
                         try cmd("./gradlew", "build", "-Dskip.tests").run()
                     }
                 case .kotlinAndroid:
                     // Compiled along with .kotlinSystem
                     break
                 case .cSharp:
-                    try FileManager.default.withCurrentDirectoryPath("c-sharp") {
+                    try withDirectory("c-sharp") {
                         try cmd("dotnet", "build", "Cricut.\(config.module).sln").run()
                     }
                 case .dart:
@@ -563,24 +611,15 @@ extension CodeGen {
                 // Run the test suite for the library for the requested platforms
                 switch platform {
                 case .wasm, .node:
-                    try withDirectory("node-test") {
-                        // Install the test package and its dependencies
+                    try withDirectory(platform.outputDir(config)) {
+                        // Perform a file-local install of the module and its dependencies
+                        // TODO: Should build a package tarball and install it instead?
                         try cmd("npm", "install").run()
-
-                        // Perform execution-environment-specific fixups to allow execution to succeed despite use of file-relative packages
-                        switch platform.nodeExecutionEnvironment {
-                        case "native-macos":
-                            try FileManager.default.withCurrentDirectoryPath("node_modules/\(NPMPackage.nameFor(config: config, platform: platform))") {
-                                try cmd("npm", "install").run()
-                            }
-                        case "native-ubuntu":
-                            try FileManager.default.withCurrentDirectoryPath("node_modules/\(NPMPackage.nameFor(config: config, platform: platform))") {
-                                try cmd("npm", "install").run()
-                                try cmd("ln", "-s", "node_modules/@cricut/fishyjoes-runtime-native-ubuntu/libFishyJoesNodeRuntime.so").run()
-                            }
-                        default:
-                            break
-                        }
+                    }
+                    try withDirectory("node-test") {
+                        // Perform a file-local install of the test package and its dependencies
+                        // TODO: Should build a package tarball and install it instead?
+                        try cmd("npm", "install").run()
 
                         // Use npm to execute the test suite
                         try cmd("npm", "run", "clear-cache").run()

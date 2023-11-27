@@ -26,7 +26,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Git Credentials
         uses: de-vri-es/setup-git-credentials@v2
@@ -60,10 +60,13 @@ jobs:
     name: "Ubuntu: Build and test dart bindings"
     runs-on: ubuntu-latest
     container:
-      image: swift
+      image: ghcr.io/cricut/android-swift-runtime:1.0.0
+      credentials:
+        username: cricut-builduser
+        password: ${{ secrets.CRICUT_GPR_TOKEN }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Git Credentials
         uses: de-vri-es/setup-git-credentials@v2
@@ -76,7 +79,8 @@ jobs:
         run: |
           set -eux
           apt-get -y update
-          apt-get -y install zsh patchelf curl
+          apt-get -y install patchelf curl
+          git config --global --add safe.directory '*'
 
       - name: Build library
         shell: zsh {0}
@@ -114,7 +118,7 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Git Credentials
         uses: de-vri-es/setup-git-credentials@v2
@@ -173,7 +177,7 @@ jobs:
       - build-test-dart-windows
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Git Credentials
         uses: de-vri-es/setup-git-credentials@v2

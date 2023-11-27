@@ -172,3 +172,14 @@ class PrettyJSONEncoder: JSONEncoder {
         return data
     }
 }
+
+extension Optional {
+    subscript(default defaultValue: Wrapped) -> Wrapped {
+        get {
+            self ?? defaultValue
+        }
+        set {
+            self = newValue
+        }
+    }
+}

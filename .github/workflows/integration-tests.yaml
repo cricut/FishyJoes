@@ -25,7 +25,7 @@ jobs:
       GITHUB_USER: cricut-builduser
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup git credentials
         uses: de-vri-es/setup-git-credentials@v2
@@ -132,7 +132,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup git credentials
         uses: de-vri-es/setup-git-credentials@v2
@@ -273,7 +273,7 @@ jobs:
       GITHUB_USER: cricut-builduser
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup git credentials
         uses: de-vri-es/setup-git-credentials@v2

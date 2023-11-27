@@ -1,5 +1,5 @@
 {
-  "name": "fishyjoes-runtime-wasm",
+  "name": "@cricut/fishyjoes-runtime-wasm",
   "version": "1.0.0",
   "description": "FishyJoes Runtime for WASM",
   "main": "index.js",
