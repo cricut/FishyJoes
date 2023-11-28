@@ -193,7 +193,7 @@ extension AttributedSubstring: JavaMutator {
             let lhsString = try AttributedSubstring.fromJava(lhs, env: _javaEnv)
             let rhsString = try AttributedSubstring.fromJava(rhs, env: _javaEnv)
             // TODO: Avoid testing if empty substrings are equal, as a Swift bug causes a crash in that case
-            //let equal = lhsString == rhsString
+            // let equal = lhsString == rhsString
             let equal = lhsString.characters.isEmpty && rhsString.characters.isEmpty ? true : lhsString == rhsString
             return try Bool.toJava(
                 equal,

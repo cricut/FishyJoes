@@ -136,7 +136,7 @@ extension AttributedSubstring: FishyJoesNodeRuntime.NodeConverter {
                                 return try Bool.toNode(false, env: env.env)
                             }
                             // TODO: Avoid testing if empty substrings are equal, as a Swift bug causes a crash in that case
-                            //let equal = lhs == rhs
+                            // let equal = lhs == rhs
                             let equal = lhs.characters.isEmpty && rhs.characters.isEmpty ? true : lhs == rhs
                             return try Bool.toNode(equal, env: env.env)
                         }
