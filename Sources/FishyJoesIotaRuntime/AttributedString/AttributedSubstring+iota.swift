@@ -180,7 +180,7 @@ public func AttributedSubstring_iotaEquals(
     return env.catching(to: _exn) {
         let lhsString = try AttributedSubstring.peekIota(lhs, env: env)
         let rhsString = try AttributedSubstring.peekIota(rhs, env: env)
-        // TODO: Avoid testing if empty substrings are equal, as a Swift bug causes a crash in that case
+        // TODO: A bug in AttributedSubstring causes a crash if empty substrings are compared for equality; remove when this is fixed
         // let equal = lhsString == rhsString
         let equal = lhsString.characters.isEmpty && rhsString.characters.isEmpty ? true : lhsString == rhsString
         return try Bool.toIota(
