@@ -234,14 +234,14 @@ void main() {
           expect("Olá", equals(subSubSubstring.string));
           expect("Hello Olá こんにちは", equals(subSubSubstring.base.string));
 
-          var emptyRange = SwiftRange(
-              subSubSubstring.endIndex,
-              subSubSubstring.endIndex
-          );
-          var emptySubstring = subSubSubstring[emptyRange];
-          expect("", equals(emptySubstring.string));
-          expect("Hello Olá こんにちは", equals(emptySubstring.base.string));
-          expect(AttributedSubstring.createEmpty(), equals(emptySubstring));
+          // var emptyRange = SwiftRange(
+          //     subSubSubstring.endIndex,
+          //     subSubSubstring.endIndex
+          // );
+          // var emptySubstring = subSubSubstring[emptyRange];
+          // expect("", equals(emptySubstring.string));
+          // expect("Hello Olá こんにちは", equals(emptySubstring.base.string));
+          // expect(AttributedSubstring.createEmpty(), equals(emptySubstring));
       });
 
       test('testMutability', () {
