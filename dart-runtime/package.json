@@ -1,0 +1,15 @@
+{
+  "name": "fishyjoes-dart-runtime",
+  "version": "0.0.1",
+  "description": "",
+  "directories": {
+  },
+  "scripts": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cricut/FishyJoes.git"
+  },
+  "author": "",
+  "homepage": "https://github.com/cricut/FishyJoes#readme"
+}

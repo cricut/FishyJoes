@@ -3,8 +3,6 @@ import Foundation
 import SourceryRuntime
 
 struct NodeTranslator: Translator {
-    init() {}
-
     func output(getter variable: Variable, explicitThis: Bool = false, context: FishyJoesContext, fragment: SourceFragment) {
         guard let exportAnnotation = variable.exportAnnotation else {
             fatalErr("Variable not annotated for export: \(variable)")
