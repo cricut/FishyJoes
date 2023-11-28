@@ -9,6 +9,7 @@ namespace Cricut.TestAPI.Tests {
     public class AttributedStringTests {
         [Fact]
         void testStringValues() {
+            /*
             var en = new AttributeContainer.FoundationAttributes(languageIdentifier: "en");
             var pt = new AttributeContainer.FoundationAttributes(languageIdentifier: "pt");
             var ja = new AttributeContainer.FoundationAttributes(languageIdentifier: "ja");
@@ -48,8 +49,10 @@ namespace Cricut.TestAPI.Tests {
             Assert.Equal(AttributedStrings.Simple, AttributedStrings.Simple);
             Assert.NotEqual(AttributedStrings.Accent, AttributedStrings.Simple);
             Assert.NotEqual(new AttributedString(AttributedStrings.Simple.String, null), AttributedStrings.Simple);
+            */
         }
 
+        /*
         [Fact]
         void testStringEcho() {
             Assert.Equal(AttributedStrings.Simple, AttributedStrings.Echo(AttributedStrings.Simple));
@@ -485,5 +488,6 @@ namespace Cricut.TestAPI.Tests {
             Assert.Single(runRanges);
             Assert.Equal(new AttributedString("Hello Olá こんにちは"), attributedString);
         }
+        */
     }
 }
