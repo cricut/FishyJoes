@@ -131,13 +131,13 @@ extension AttributedSubstring: FishyJoesNodeRuntime.NodeConverter {
                 "equals": (
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "equals", expectedArgumentCount: 1, hasNamedOptions: false) { env in
-                            guard let lhs = try? env.this(converter: AttributedSubstring.self),
-                                  let rhs = try? env.argument(at: 0, converter: AttributedSubstring.self) else {
+                            guard let lhsSubstring = try? env.this(converter: AttributedSubstring.self),
+                                  let rhsSubstring = try? env.argument(at: 0, converter: AttributedSubstring.self) else {
                                 return try Bool.toNode(false, env: env.env)
                             }
                             // TODO: A bug in AttributedSubstring causes a crash if empty substrings are compared for equality; remove when this is fixed
-                            // let equal = lhs == rhs
-                            let equal = lhs.characters.isEmpty && rhs.characters.isEmpty ? true : lhs == rhs
+                            // let equal = lhsSubstring == rhsSubstring
+                            let equal = (lhsSubstring.characters.isEmpty && rhsSubstring.characters.isEmpty) || lhsSubstring == rhsSubstring
                             return try Bool.toNode(equal, env: env.env)
                         }
                     },

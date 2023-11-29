@@ -3180,7 +3180,7 @@
                   "optional" : {
                     "_0" : {
                       "named" : {
-                        "_0" : "Set<number>"
+                        "_0" : "Set<Optional<number>>"
                       }
                     }
                   }
@@ -3197,7 +3197,7 @@
                   "optional" : {
                     "_0" : {
                       "named" : {
-                        "_0" : "Map<number, number>"
+                        "_0" : "Map<number, Optional<number>>"
                       }
                     }
                   }
@@ -3330,7 +3330,7 @@
                       "optional" : {
                         "_0" : {
                           "named" : {
-                            "_0" : "Set<number>"
+                            "_0" : "Set<Optional<number>>"
                           }
                         }
                       }
@@ -3341,7 +3341,7 @@
                   "optional" : {
                     "_0" : {
                       "named" : {
-                        "_0" : "Set<number>"
+                        "_0" : "Set<Optional<number>>"
                       }
                     }
                   }
@@ -3360,7 +3360,7 @@
                       "optional" : {
                         "_0" : {
                           "named" : {
-                            "_0" : "Map<number, number>"
+                            "_0" : "Map<number, Optional<number>>"
                           }
                         }
                       }
@@ -3371,7 +3371,7 @@
                   "optional" : {
                     "_0" : {
                       "named" : {
-                        "_0" : "Map<number, number>"
+                        "_0" : "Map<number, Optional<number>>"
                       }
                     }
                   }
@@ -3400,7 +3400,7 @@
                     "name" : "mapper",
                     "type" : {
                       "named" : {
-                        "_0" : "(_0: Optional<number>[]) => Optional<number>[]"
+                        "_0" : "(_0: Optional<Optional<number>[]>) => Optional<Optional<number>[]>"
                       }
                     }
                   }
@@ -6100,7 +6100,7 @@
                     "name" : "mapper",
                     "type" : {
                       "named" : {
-                        "_0" : "(_0: number) => number"
+                        "_0" : "(_0: Optional<number>) => Optional<number>"
                       }
                     }
                   }

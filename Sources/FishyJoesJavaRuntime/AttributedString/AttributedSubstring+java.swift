@@ -190,11 +190,11 @@ extension AttributedSubstring: JavaMutator {
         jobject?
     ) -> Bool.CType = { _javaEnv, _, lhs, rhs in
         FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
-            let lhsString = try AttributedSubstring.fromJava(lhs, env: _javaEnv)
-            let rhsString = try AttributedSubstring.fromJava(rhs, env: _javaEnv)
+            let lhsSubstring = try AttributedSubstring.fromJava(lhs, env: _javaEnv)
+            let rhsSubstring = try AttributedSubstring.fromJava(rhs, env: _javaEnv)
             // TODO: A bug in AttributedSubstring causes a crash if empty substrings are compared for equality; remove when this is fixed
-            // let equal = lhsString == rhsString
-            let equal = lhsString.characters.isEmpty && rhsString.characters.isEmpty ? true : lhsString == rhsString
+            // let equal = lhsSubstring == rhsSubstring
+            let equal = (lhsSubstring.characters.isEmpty && rhsSubstring.characters.isEmpty) || lhsSubstring == rhsSubstring
             return try Bool.toJava(
                 equal,
                 env: _javaEnv

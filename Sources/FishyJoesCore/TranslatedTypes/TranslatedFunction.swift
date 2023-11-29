@@ -21,7 +21,7 @@ struct TranslatedFunction: TranslatedType {
 
         self.sourceType = .function(parameters.map(\.sourceType), returnType.sourceType)
         self.neutralName = "Function<ReturnType=\(returnType.neutralName), Params=[\(parameters.map { $0.neutralName }.joined(separator: ", "))]>"
-        self.nodeName = "(\(parameters.enumerated().map { "_\($0.offset): \($0.element.definingTSNamespace.map { "\($0)." } ?? "")\($0.element.nodeName)" }.joined(separator: ", "))) => \(returnType.definingTSNamespace.map { "\($0)." } ?? "")\(returnType.nodeName)"
+        self.nodeName = "(\(parameters.enumerated().map { "_\($0.offset): \($0.element.nodeType)" }.joined(separator: ", "))) => \(returnType.nodeType)"
         self.kotlinName = "((\(parameters.map(\.kotlinPackageQualifiedName).joined(separator: ", "))) -> \(returnType.kotlinPackageQualifiedName))"
         self.containedNamedTypes = parameters.map { $0.containedNamedTypes }.joined() + returnType.containedNamedTypes
         self.jniType = .object("kotlin/jvm/functions/Function\(parameters.count)")

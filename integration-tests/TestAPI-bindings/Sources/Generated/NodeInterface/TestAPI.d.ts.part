@@ -408,7 +408,7 @@ export declare namespace TestAPI {
          */
         function collectionMapper(
             collection: Optional<Optional<number>[]>,
-            mapper: (_0: Optional<number>[]) => Optional<number>[]
+            mapper: (_0: Optional<Optional<number>[]>) => Optional<Optional<number>[]>
         ): Optional<Optional<number>[]>;
 
         /**
@@ -446,15 +446,15 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(echoMaybeDictionaryOfIntToMaybeInt) -->
          */
         function echoMaybeDictionaryOfIntToMaybeInt(
-            maybeDictionaryOfIntToMaybeInt: Optional<Map<number, number>>
-        ): Optional<Map<number, number>>;
+            maybeDictionaryOfIntToMaybeInt: Optional<Map<number, Optional<number>>>
+        ): Optional<Map<number, Optional<number>>>;
 
         /**
          * <!-- FishyJoes.export(echoMaybeSetOfMaybeInt) -->
          */
         function echoMaybeSetOfMaybeInt(
-            maybeSetOfMaybeInt: Optional<Set<number>>
-        ): Optional<Set<number>>;
+            maybeSetOfMaybeInt: Optional<Set<Optional<number>>>
+        ): Optional<Set<Optional<number>>>;
 
         /**
          * <!-- FishyJoes.export(echoSetOfInt) -->
@@ -481,7 +481,7 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(maybeDictionaryOfIntToMaybeInt) -->
          */
-        const maybeDictionaryOfIntToMaybeInt: Optional<Map<number, number>>;
+        const maybeDictionaryOfIntToMaybeInt: Optional<Map<number, Optional<number>>>;
 
         /**
          * <!-- FishyJoes.export(maybeSetOfInt) -->
@@ -491,7 +491,7 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(maybeSetOfMaybeInt) -->
          */
-        const maybeSetOfMaybeInt: Optional<Set<number>>;
+        const maybeSetOfMaybeInt: Optional<Set<Optional<number>>>;
 
         /**
          * <!-- FishyJoes.export(setOfInt) -->
@@ -1226,7 +1226,7 @@ export declare namespace TestAPI {
          */
         function valueMapper(
             value: Optional<number>,
-            mapper: (_0: number) => number
+            mapper: (_0: Optional<number>) => Optional<number>
         ): Optional<number>;
 
         /**
