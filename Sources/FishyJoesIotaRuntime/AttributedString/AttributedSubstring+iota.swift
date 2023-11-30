@@ -178,8 +178,13 @@ public func AttributedSubstring_iotaEquals(
 ) -> Bool.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
+        let lhsSubstring = try AttributedSubstring.peekIota(lhs, env: env)
+        let rhsSubstring = try AttributedSubstring.peekIota(rhs, env: env)
+        // TODO: A bug in AttributedSubstring causes a crash if empty substrings are compared for equality; remove when this is fixed
+        // let equal = lhsSubstring == rhsSubstring
+        let equal = (lhsSubstring.characters.isEmpty && rhsSubstring.characters.isEmpty) || lhsSubstring == rhsSubstring
         return try Bool.toIota(
-            AttributedSubstring.peekIota(lhs, env: env) == AttributedSubstring.peekIota(rhs, env: env),
+            equal,
             env: env
         )
     }

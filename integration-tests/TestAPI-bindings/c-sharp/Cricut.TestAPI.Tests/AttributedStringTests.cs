@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using Xunit;
 using Cricut.FishyJoesRuntime;
+using FluentAssertions.Equivalency.Steps;
 
 namespace Cricut.TestAPI.Tests {
     public class AttributedStringTests {
@@ -20,6 +21,19 @@ namespace Cricut.TestAPI.Tests {
 
             Assert.Null(ea.LanguageIdentifier);
             Assert.Equal(new Uri("https://home.unicode.org/emoji"), ea.Link);
+
+            Assert.Equal(en, new AttributeContainer.FoundationAttributes(languageIdentifier: "en"));
+            Assert.NotEqual(en, pt);
+            Assert.NotEqual(en, ea);
+
+            var enContainer = en.AsContainer();
+            var eaContainer = ea.AsContainer();
+            var eneaContainer = new AttributeContainer();
+            eneaContainer.MergeAttributes(enContainer);
+            eneaContainer.MergeAttributes(eaContainer);
+            var enea = AttributeContainer.FoundationAttributes.CreateFromContainer(eneaContainer);
+            Assert.Equal("en", enea.LanguageIdentifier);
+            Assert.Equal(new Uri("https://home.unicode.org/emoji"), enea.Link);
 
             Assert.Equal(new AttributedString("Hello", en), AttributedStrings.Simple);
             Assert.Equal(new AttributedString("Olá", pt), AttributedStrings.Accent);
@@ -67,9 +81,29 @@ namespace Cricut.TestAPI.Tests {
                     " ",
                     "こんにちは",
                     " ",
-                    "👨‍👩‍👧‍👦👍🏿🇺🇸"
+                    "👨‍👩‍👧‍👦👍🏿🇺🇸",
                 },
                 runStrings
+            );
+
+            var runStringsReversed = new List<string>();
+            var runIndexReversed = attributedString.Runs.EndIndex;
+            while (runIndexReversed != attributedString.Runs.StartIndex) {
+                runIndexReversed = attributedString.Runs.IndexBefore(runIndexReversed);
+                var runSubstring = attributedString[attributedString.Runs[runIndexReversed].Range];
+                runStringsReversed.Add(runSubstring.String);
+            }
+            Assert.Equal(new string[]
+                {
+                    "👨‍👩‍👧‍👦👍🏿🇺🇸",
+                    " ",
+                    "こんにちは",
+                    " ",
+                    "Olá",
+                    " ",
+                    "Hello",
+                },
+                runStringsReversed
             );
 
             var characterStrings = new List<string>();
@@ -84,9 +118,26 @@ namespace Cricut.TestAPI.Tests {
                     "H", "e", "l", "l", "o", " ",
                     "O", "l", "á", " ",
                     "こ", "ん", "に", "ち", "は", " ",
-                    "👨‍👩‍👧‍👦", "👍🏿", "🇺🇸"
+                    "👨‍👩‍👧‍👦", "👍🏿", "🇺🇸",
                 },
                 characterStrings
+            );
+
+            var characterStringsReversed = new List<string>();
+            var characterIndexReversed = attributedString.Characters.EndIndex;
+            while (characterIndexReversed != attributedString.Characters.StartIndex) {
+                characterIndexReversed = attributedString.Characters.IndexBefore(characterIndexReversed);
+                var characterString = attributedString.Characters[characterIndexReversed];
+                characterStringsReversed.Add(characterString);
+            }
+            Assert.Equal(new string[]
+                {
+                    "🇺🇸", "👍🏿", "👨‍👩‍👧‍👦",
+                    " ", "は", "ち", "に", "ん", "こ",
+                    " ", "á", "l", "O",
+                    " ", "o", "l", "l", "e", "H",
+                },
+                characterStringsReversed
             );
 
             var unicodeScalars = new List<UInt32>();
@@ -101,9 +152,26 @@ namespace Cricut.TestAPI.Tests {
                     72, 101, 108, 108, 111, 32,
                     79, 108, 225, 32,
                     12371, 12435, 12395, 12385, 12399, 32,
-                    128104, 8205, 128105, 8205, 128103, 8205, 128102, 128077, 127999, 127482, 127480
+                    128104, 8205, 128105, 8205, 128103, 8205, 128102, 128077, 127999, 127482, 127480,
                 },
                 unicodeScalars
+            );
+
+            var unicodeScalarsReversed = new List<UInt32>();
+            var scalarIndexReversed = attributedString.UnicodeScalars.EndIndex;
+            while (scalarIndexReversed != attributedString.UnicodeScalars.StartIndex) {
+                scalarIndexReversed = attributedString.UnicodeScalars.IndexBefore(scalarIndexReversed);
+                var characterScalar = attributedString.UnicodeScalars[scalarIndexReversed];
+                unicodeScalarsReversed.Add(characterScalar);
+            }
+            Assert.Equal(new UInt32[]
+                {
+                    127480, 127482, 127999, 128077, 128102, 8205, 128103, 8205, 128105, 8205, 128104, 
+                    32, 12399, 12385, 12395, 12435, 12371, 
+                    32, 225, 108, 79,
+                    32, 111, 108, 108, 101, 72,
+                },
+                unicodeScalarsReversed
             );
         }
 
@@ -119,7 +187,7 @@ namespace Cricut.TestAPI.Tests {
                     " ",
                     "こんにちは",
                     " ",
-                    "👨‍👩‍👧‍👦👍🏿🇺🇸"
+                    "👨‍👩‍👧‍👦👍🏿🇺🇸",
                 },
                 attributedString.Runs.Select(run => attributedString[run.Range].String)
             );
@@ -129,7 +197,7 @@ namespace Cricut.TestAPI.Tests {
                     "H", "e", "l", "l", "o", " ",
                     "O", "l", "á", " ",
                     "こ", "ん", "に", "ち", "は", " ",
-                    "👨‍👩‍👧‍👦", "👍🏿", "🇺🇸"
+                    "👨‍👩‍👧‍👦", "👍🏿", "🇺🇸",
                 },
                 attributedString.Characters
             );
@@ -139,7 +207,7 @@ namespace Cricut.TestAPI.Tests {
                     72, 101, 108, 108, 111, 32,
                     79, 108, 225, 32,
                     12371, 12435, 12395, 12385, 12399, 32,
-                    128104, 8205, 128105, 8205, 128103, 8205, 128102, 128077, 127999, 127482, 127480
+                    128104, 8205, 128105, 8205, 128103, 8205, 128102, 128077, 127999, 127482, 127480,
                 },
                 attributedString.UnicodeScalars
             );
@@ -157,14 +225,32 @@ namespace Cricut.TestAPI.Tests {
             var substring = attributedString[range];
             Assert.Equal("ello Olá こんにち", substring.String);
             Assert.Equal("Hello Olá こんにちは", substring.Base.String);
+            Assert.Equal(substring, substring.Substring);
 
             var subRange = new SwiftRange<AttributedString.Index>(
-                substring.Characters.IndexAfter(substring.StartIndex), 
-                substring.Characters.IndexBefore(substring.EndIndex)
+                substring.Runs.First().Range.UpperBound, 
+                substring.Runs.Last().Range.LowerBound
             );
             var subSubstring = substring[subRange];
-            Assert.Equal("llo Olá こんに", subSubstring.String);
+            Assert.Equal(" Olá ", subSubstring.String);
             Assert.Equal("Hello Olá こんにちは", subSubstring.Base.String);
+
+            var subSubRange = new SwiftRange<AttributedString.Index>(
+                subSubstring.UnicodeScalars.IndexAfter(subSubstring.StartIndex), 
+                subSubstring.UnicodeScalars.IndexBefore(subSubstring.EndIndex)
+            );
+            var subSubSubstring = subSubstring[subSubRange];
+            Assert.Equal("Olá", subSubSubstring.String);
+            Assert.Equal("Hello Olá こんにちは", subSubSubstring.Base.String);
+
+            var emptyRange = new SwiftRange<AttributedString.Index>(
+                subSubSubstring.EndIndex,
+                subSubSubstring.EndIndex
+            );
+            var emptySubstring = subSubSubstring[emptyRange];
+            Assert.Equal("", emptySubstring.String);
+            Assert.Equal("Hello Olá こんにちは", emptySubstring.Base.String);
+            Assert.Equal(new AttributedSubstring(), emptySubstring);
         }
 
         [Fact]
@@ -242,6 +328,40 @@ namespace Cricut.TestAPI.Tests {
         }
 
         [Fact]
+        void testMutabilityVariants() {
+            var attributedString = AttributedStrings.Polyglot;
+            Assert.Equal("Hello Olá こんにちは", attributedString.String);
+
+            attributedString.Append(new AttributedString(" "));
+            Assert.Equal("Hello Olá こんにちは ", attributedString.String);
+
+            attributedString.AppendSubstring(attributedString[attributedString.Runs.First().Range]);
+            Assert.Equal("Hello Olá こんにちは Hello", attributedString.String);
+
+            var es = new AttributeContainer.FoundationAttributes(languageIdentifier: "es");
+            attributedString.Insert(new AttributedString("Hola", es), attributedString.Runs.Last().Range.LowerBound);
+            Assert.Equal("Hello Olá こんにちは HolaHello", attributedString.String);
+
+            var firstSpaceRange = new SwiftRange<AttributedString.Index>(
+                attributedString.Runs.First().Range.UpperBound, 
+                attributedString.Characters.IndexAfter(attributedString.Runs.First().Range.UpperBound)
+            );
+            attributedString.InsertSubstring(attributedString[firstSpaceRange], attributedString.Runs.Last().Range.LowerBound);
+            Assert.Equal("Hello Olá こんにちは Hola Hello", attributedString.String);
+
+            attributedString.ReplaceSubrange(attributedString.Runs.First().Range, AttributedStrings.Chinese);
+            Assert.Equal("你好 Olá こんにちは Hola Hello", attributedString.String);
+
+            var emoji = AttributedStrings.EmojiMulti;
+            var flagRange = new SwiftRange<AttributedString.Index>(emoji.Characters.IndexBefore(emoji.EndIndex), emoji.EndIndex);
+            attributedString.ReplaceSubrangeWithSubstring(attributedString.Runs.Last().Range, emoji[flagRange]);
+            Assert.Equal("你好 Olá こんにちは Hola 🇺🇸", attributedString.String);
+
+            attributedString.RemoveSubrange(attributedString.Runs.First().Range);
+            Assert.Equal(" Olá こんにちは Hola 🇺🇸", attributedString.String);
+        }
+
+        [Fact]
         void testAttributeMergeReplace() {
             var empty = new AttributeContainer();
             var en = new AttributeContainer.FoundationAttributes(languageIdentifier: "en");
@@ -261,7 +381,7 @@ namespace Cricut.TestAPI.Tests {
                 runRanges[1], 
                 new AttributedString(
                     attributedString[runRanges[1]].String, 
-                    attributedString.Runs[runRanges[0].lowerBound].Attributes
+                    attributedString.Runs[runRanges[0].LowerBound].Attributes
                 )
             );
             runRanges = attributedString.Runs.Select(run => run.Range).ToList();
@@ -271,7 +391,7 @@ namespace Cricut.TestAPI.Tests {
             Assert.Equal(new AttributedString(" ", empty).Substring, attributedString[runRanges[2]]);
             Assert.Equal(new AttributedString("こんにちは", ja).Substring, attributedString[runRanges[3]]);
 
-            attributedString.SetAttributesForRange(runRanges[2], attributedString.Runs[runRanges[1].lowerBound].Attributes);
+            attributedString.SetAttributesForRange(runRanges[2], attributedString.Runs[runRanges[1].LowerBound].Attributes);
             runRanges = attributedString.Runs.Select(run => run.Range).ToList();
             Assert.Equal(3, runRanges.Count);
             Assert.Equal(new AttributedString("Hello ", en).Substring, attributedString[runRanges[0]]);
@@ -312,6 +432,58 @@ namespace Cricut.TestAPI.Tests {
             runRanges = attributedString.Runs.Select(run => run.Range).ToList();
             Assert.NotEmpty(runRanges);
             Assert.Equal(new AttributedString("Hello Olá こんにちは", empty), attributedString);
+        }
+
+        [Fact]
+        void testAttributeMergeReplaceWhole() {
+            var empty = new AttributeContainer();
+            var en = new AttributeContainer.FoundationAttributes(languageIdentifier: "en");
+            var pt = new AttributeContainer.FoundationAttributes(languageIdentifier: "pt");
+            var ja = new AttributeContainer.FoundationAttributes(languageIdentifier: "ja");
+
+            var attributedString = AttributedStrings.Polyglot;
+            var runRanges = attributedString.Runs.Select(run => run.Range).ToList();
+            Assert.Equal(5, runRanges.Count);
+            Assert.Equal(new AttributedString("Hello", en).Substring, attributedString[runRanges[0]]);
+            Assert.Equal(new AttributedString(" ", empty).Substring, attributedString[runRanges[1]]);
+            Assert.Equal(new AttributedString("Olá", pt).Substring, attributedString[runRanges[2]]);
+            Assert.Equal(new AttributedString(" ", empty).Substring, attributedString[runRanges[3]]);
+            Assert.Equal(new AttributedString("こんにちは", ja).Substring, attributedString[runRanges[4]]);
+
+            var uri = new Uri("http://www.google.com");
+            var link = new AttributeContainer.FoundationAttributes(link: uri);
+            var enLink = new AttributeContainer.FoundationAttributes(languageIdentifier: "en", link: uri);
+            var ptLink = new AttributeContainer.FoundationAttributes(languageIdentifier: "pt", link: uri);
+            var jaLink = new AttributeContainer.FoundationAttributes(languageIdentifier: "ja", link: uri);
+
+            attributedString.MergeAttributes(link);
+            runRanges = attributedString.Runs.Select(run => run.Range).ToList();
+            Assert.Equal(5, runRanges.Count);
+            Assert.Equal(new AttributedString("Hello", enLink).Substring, attributedString[runRanges[0]]);
+            Assert.Equal(new AttributedString(" ", link).Substring, attributedString[runRanges[1]]);
+            Assert.Equal(new AttributedString("Olá", ptLink).Substring, attributedString[runRanges[2]]);
+            Assert.Equal(new AttributedString(" ", link).Substring, attributedString[runRanges[3]]);
+            Assert.Equal(new AttributedString("こんにちは", jaLink).Substring, attributedString[runRanges[4]]);
+
+            var otherURI = new Uri("http://www.bing.com");
+            var otherLink = new AttributeContainer.FoundationAttributes(link: otherURI);
+            var enOtherLink = new AttributeContainer.FoundationAttributes(languageIdentifier: "en", link: otherURI);
+            var ptOtherLink = new AttributeContainer.FoundationAttributes(languageIdentifier: "pt", link: otherURI);
+            var jaOtherLink = new AttributeContainer.FoundationAttributes(languageIdentifier: "ja", link: otherURI);
+
+            attributedString.ReplaceAttributes(link, otherLink);
+            runRanges = attributedString.Runs.Select(run => run.Range).ToList();
+            Assert.Equal(5, runRanges.Count);
+            Assert.Equal(new AttributedString("Hello", enOtherLink).Substring, attributedString[runRanges[0]]);
+            Assert.Equal(new AttributedString(" ", otherLink).Substring, attributedString[runRanges[1]]);
+            Assert.Equal(new AttributedString("Olá", ptOtherLink).Substring, attributedString[runRanges[2]]);
+            Assert.Equal(new AttributedString(" ", otherLink).Substring, attributedString[runRanges[3]]);
+            Assert.Equal(new AttributedString("こんにちは", jaOtherLink).Substring, attributedString[runRanges[4]]);
+
+            attributedString.SetAttributes(empty);
+            runRanges = attributedString.Runs.Select(run => run.Range).ToList();
+            Assert.Single(runRanges);
+            Assert.Equal(new AttributedString("Hello Olá こんにちは"), attributedString);
         }
     }
 }

@@ -16,6 +16,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
+  NODE_AUTH_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
   NODE_VERSION: "16.x"
   SWIFT_WASM_VERSION: "5.9-SNAPSHOT-2023-08-06-a"
 
@@ -58,7 +59,7 @@ jobs:
           set -euo pipefail
 
           VERSION=${GITHUB_REF#refs/*/}
-          if [[ ! $VERSION =~ [0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9]+)* ]]; then
+          if [[ ! $VERSION =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9]+)*$ ]]; then
               VERSION="0.0.1-$(git rev-parse --short HEAD)"
           fi
           swift run -- fishy-joes --nodejs --fat --version $VERSION pack
@@ -135,7 +136,7 @@ jobs:
           set -euxo pipefail
 
           VERSION=${GITHUB_REF#refs/*/}
-          if [[ ! $VERSION =~ [0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9]+)* ]]; then
+          if [[ ! $VERSION =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9]+)*$ ]]; then
               VERSION="0.0.1-$(git rev-parse --short HEAD)"
           fi
           swift run -- fishy-joes --nodejs --wasm --version $VERSION pack

@@ -70,5 +70,13 @@ namespace Cricut.TestAPI.Tests {
             // Assert.True(empty.isEmpty())
             // Assert.True(ClosedRanges.EchoInt32Range(empty).isEmpty())
         }
+
+        [Fact]
+        void testBounds() {
+            Assert.Equal(Ranges.UInt64Range.LowerBound, ulong.MinValue);
+            Assert.Equal(Ranges.UInt64Range.UpperBound, ulong.MaxValue);
+            Assert.Equal(ClosedRanges.UInt64Range.LowerBound, ulong.MinValue);
+            Assert.Equal(ClosedRanges.UInt64Range.UpperBound, ulong.MaxValue);
+        }
     }
 }

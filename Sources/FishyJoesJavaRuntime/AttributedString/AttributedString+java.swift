@@ -250,7 +250,6 @@ extension AttributedString: JavaMutator {
         AttributedString.CType
     ) -> VoidConverter.CType = { _javaEnv, _javaThis, s in
         FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
-            var mutatingSelf = try AttributedString.fromJava(_javaThis, env: _javaEnv)
             return try AttributedString.mutateJava(_javaThis, env: _javaEnv) { mutatingSelf in
                 return try VoidConverter.toJava(
                     mutatingSelf.append(
@@ -268,7 +267,6 @@ extension AttributedString: JavaMutator {
         AttributedSubstring.CType
     ) -> VoidConverter.CType = { _javaEnv, _javaThis, s in
         FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
-            var mutatingSelf = try AttributedString.fromJava(_javaThis, env: _javaEnv)
             return try AttributedString.mutateJava(_javaThis, env: _javaEnv) { mutatingSelf in
                 return try VoidConverter.toJava(
                     mutatingSelf.append(
@@ -287,7 +285,6 @@ extension AttributedString: JavaMutator {
         AttributedString.Index.CType
     ) -> VoidConverter.CType = { _javaEnv, _javaThis, s, index in
         FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
-            var mutatingSelf = try AttributedString.fromJava(_javaThis, env: _javaEnv)
             return try AttributedString.mutateJava(_javaThis, env: _javaEnv) { mutatingSelf in
                 return try VoidConverter.toJava(
                     mutatingSelf.insert(
@@ -307,7 +304,6 @@ extension AttributedString: JavaMutator {
         AttributedString.Index.CType
     ) -> VoidConverter.CType = { _javaEnv, _javaThis, s, index in
         FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
-            var mutatingSelf = try AttributedString.fromJava(_javaThis, env: _javaEnv)
             return try AttributedString.mutateJava(_javaThis, env: _javaEnv) { mutatingSelf in
                 return try VoidConverter.toJava(
                     mutatingSelf.insert(
@@ -327,7 +323,6 @@ extension AttributedString: JavaMutator {
         AttributedString.CType
     ) -> VoidConverter.CType = { _javaEnv, _javaThis, range, s in
         FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
-            var mutatingSelf = try AttributedString.fromJava(_javaThis, env: _javaEnv)
             return try AttributedString.mutateJava(_javaThis, env: _javaEnv) { mutatingSelf in
                 return try VoidConverter.toJava(
                     mutatingSelf.replaceSubrange(
@@ -347,7 +342,6 @@ extension AttributedString: JavaMutator {
         AttributedSubstring.CType
     ) -> VoidConverter.CType = { _javaEnv, _javaThis, range, s in
         FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
-            var mutatingSelf = try AttributedString.fromJava(_javaThis, env: _javaEnv)
             return try AttributedString.mutateJava(_javaThis, env: _javaEnv) { mutatingSelf in
                 return try VoidConverter.toJava(
                     mutatingSelf.replaceSubrange(
@@ -366,7 +360,6 @@ extension AttributedString: JavaMutator {
         RangeConverter<AttributedString.Index>.CType
     ) -> VoidConverter.CType = { _javaEnv, _javaThis, range in
         FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
-            var mutatingSelf = try AttributedString.fromJava(_javaThis, env: _javaEnv)
             return try AttributedString.mutateJava(_javaThis, env: _javaEnv) { mutatingSelf in
                 return try VoidConverter.toJava(
                     mutatingSelf.removeSubrange(
@@ -384,7 +377,6 @@ extension AttributedString: JavaMutator {
         AttributeContainer.CType
     ) -> VoidConverter.CType = { _javaEnv, _javaThis, attributes in
         FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
-            var mutatingSelf = try AttributedString.fromJava(_javaThis, env: _javaEnv)
             return try AttributedString.mutateJava(_javaThis, env: _javaEnv) { mutatingSelf in
                 return try VoidConverter.toJava(
                     mutatingSelf.setAttributes(
@@ -403,7 +395,6 @@ extension AttributedString: JavaMutator {
         AttributeContainer.CType
     ) -> VoidConverter.CType = { _javaEnv, _javaThis, range, attributes in
         FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
-            var mutatingSelf = try AttributedString.fromJava(_javaThis, env: _javaEnv)
             return try AttributedString.mutateJava(_javaThis, env: _javaEnv) { mutatingSelf in
                 return try VoidConverter.toJava(
                     mutatingSelf[try RangeConverter<AttributedString.Index>.fromJava(range, env: _javaEnv)].setAttributes(
@@ -422,7 +413,6 @@ extension AttributedString: JavaMutator {
         jboolean
     ) -> VoidConverter.CType = { _javaEnv, _javaThis, attributes, keepCurrent in
         FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
-            var mutatingSelf = try AttributedString.fromJava(_javaThis, env: _javaEnv)
             return try AttributedString.mutateJava(_javaThis, env: _javaEnv) { mutatingSelf in
                 return try VoidConverter.toJava(
                     mutatingSelf.mergeAttributes(
@@ -443,7 +433,6 @@ extension AttributedString: JavaMutator {
         jboolean
     ) -> VoidConverter.CType = { _javaEnv, _javaThis, range, attributes, keepCurrent in
         FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
-            var mutatingSelf = try AttributedString.fromJava(_javaThis, env: _javaEnv)
             return try AttributedString.mutateJava(_javaThis, env: _javaEnv) { mutatingSelf in
                 return try VoidConverter.toJava(
                     mutatingSelf[try RangeConverter<AttributedString.Index>.fromJava(range, env: _javaEnv)].mergeAttributes(
@@ -463,7 +452,6 @@ extension AttributedString: JavaMutator {
         AttributeContainer.CType
     ) -> VoidConverter.CType = { _javaEnv, _javaThis, attributes, others in
         FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
-            var mutatingSelf = try AttributedString.fromJava(_javaThis, env: _javaEnv)
             return try AttributedString.mutateJava(_javaThis, env: _javaEnv) { mutatingSelf in
                 return try VoidConverter.toJava(
                     mutatingSelf.replaceAttributes(
@@ -484,7 +472,6 @@ extension AttributedString: JavaMutator {
         AttributeContainer.CType
     ) -> VoidConverter.CType = { _javaEnv, _javaThis, range, attributes, others in
         FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
-            var mutatingSelf = try AttributedString.fromJava(_javaThis, env: _javaEnv)
             return try AttributedString.mutateJava(_javaThis, env: _javaEnv) { mutatingSelf in
                 return try VoidConverter.toJava(
                     mutatingSelf[try RangeConverter<AttributedString.Index>.fromJava(range, env: _javaEnv)].replaceAttributes(

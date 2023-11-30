@@ -368,7 +368,7 @@ extension LoaderAttributedString on Loader {
             UnownedRef rhs,
             OutCreatedRef _exn
         )
-    >("__iota_Foundation_AttributedString_Index_equals");
+    >("__iota_Foundation_AttributedString_Index_compare");
     FishyJoesRuntime.AttributedString_Runs_Index.f__iota_Foundation_AttributedString_Runs_Index_compare = Loader._dylib.lookupFunction<
         ffi.Int Function(
             Env env,
@@ -382,7 +382,7 @@ extension LoaderAttributedString on Loader {
             UnownedRef rhs,
             OutCreatedRef _exn
         )
-    >("__iota_Foundation_AttributedString_Runs_Index_equals");
+    >("__iota_Foundation_AttributedString_Runs_Index_compare");
     FishyJoesRuntime.AttributedString_Runs.f__iota_Foundation_AttributedString_Runs_elementAt = Loader._dylib.lookupFunction<
         CreatedRef Function(
             Env env,
