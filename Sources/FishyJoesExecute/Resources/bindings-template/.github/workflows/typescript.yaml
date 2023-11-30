@@ -124,6 +124,8 @@ jobs:
 
       - name: Test from node
         shell: zsh {0}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
         run: |
           set -euxo pipefail
           swift run -- fishy-joes --nodejs --wasm test
