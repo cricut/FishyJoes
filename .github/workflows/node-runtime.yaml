@@ -235,10 +235,10 @@ jobs:
           $ErrorActionPreference = "Stop"
 
           # Should perform the same actions as scripts/compile-node-runtime.sh, but must be done in powershell for swift-build to work
-          #swift build --product FishyJoesNodeRuntime --configuration release --build-path ./.build/windows-build
-          swift build --product FishyJoesNodeRuntime --configuration debug --build-path ./.build/windows-build
+          CONFIGURATION=debug
+          swift build --product FishyJoesNodeRuntime --configuration $CONFIGURATION --build-path ./.build/windows-build
           New-Item -ItemType Directory -Force -Path $env:LIB_DIR
-          Copy-Item .build\windows-build\x86_64-unknown-windows-msvc\release\FishyJoesNodeRuntime.dll -Destination $env:LIB_DIR
+          Copy-Item .build\windows-build\x86_64-unknown-windows-msvc\$CONFIGURATION\FishyJoesNodeRuntime.dll -Destination $env:LIB_DIR
           Rename-Item -Path $env:LIB_DIR\FishyJoesNodeRuntime.dll -NewName Runtime.cjs.node
 
       # TODO: Can modify scripts/compile-node-runtime.sh to run the build step from above and just call it instead of duplicating it here?
