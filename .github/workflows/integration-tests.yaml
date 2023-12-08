@@ -263,6 +263,95 @@ jobs:
           name: maven-local
           path: ~/.m2/repository
 
+  integration-tests-windows:
+    name: "Windows: Integration tests"
+    runs-on: windows-2019
+    env:
+      GRADLE_OPTS: -Dorg.gradle.daemon=false
+      GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
+      GITHUB_USER: cricut-builduser
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup git credentials
+        uses: de-vri-es/setup-git-credentials@v2
+        with:
+          credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
+
+      - name: Setup JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: zulu
+          java-version: 11
+
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16.x'
+          registry-url: 'https://npm.pkg.github.com/'
+          scope: '@cricut'
+
+      - uses: dart-lang/setup-dart@v1
+
+      - name: Build FishyJoesNodeRuntime
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+
+          ./scripts/compile-node-runtime.sh
+
+      - name: Test TypeScript from npm via fishy-joes
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+
+          cd integration-tests/TestAPI-bindings
+
+          swift run -- fishy-joes --nodejs build test
+
+      - name: Build FishyJoesIotaRuntime
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+
+          ./scripts/compile-iota-runtime.sh
+
+      - name: Test C♯ from dotnet via fishy-joes
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+
+          cd integration-tests/TestAPI-bindings
+          swift run -- fishy-joes --c-sharp build test
+
+      - name: Test Dart from dart via fishy-joes
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+
+          cd integration-tests/TestAPI-bindings
+          swift run -- fishy-joes --dart build test
+
+      - name: Build FishyJoesJavaRuntime
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+
+          libdir=kotlin-runtime/src/generated/resources/mac
+          rm -rf $libdir
+          mkdir -p $libdir
+          ./scripts/compile-kotlin-native-runtime.sh
+          (cd kotlin-runtime && ./gradlew publishToMavenLocal)
+
+      - name: Test kotlin from gradle via fishy-joes
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+
+          cd integration-tests/TestAPI-bindings
+          swift run -- fishy-joes --kotlin-fast build test
+          
   integration-tests-android:
     name: "Android: Integration Tests"
     needs: [integration-tests-ubuntu]
