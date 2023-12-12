@@ -1,6 +1,7 @@
 // Generated using Sourcery 2.0.2 — https://github.com/krzysztofzablocki/Sourcery
 // DO NOT EDIT
-// swiftlint:disable superfluous_disable_command unused_closure_parameter syntactic_sugar attributes
+// swiftlint:disable:next blanket_disable_command superfluous_disable_command
+// swiftlint:disable unused_closure_parameter syntactic_sugar attributes
 import FishyJoesJavaRuntime
 import Foundation
 import TestAPI
@@ -25,10 +26,9 @@ let java_TestAPI_Structs_MutableStruct_increment: @convention(c) (
     jobject
 ) -> FishyJoesCommonRuntime.VoidConverter.CType = { _javaEnv, _javaThis in
     FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
-        var mutatingSelf = try TestAPI.Structs.MutableStruct.fromJava(_javaThis, env: _javaEnv)
         return try TestAPI.Structs.MutableStruct.mutateJava(_javaThis, env: _javaEnv) { mutatingSelf in
             return try FishyJoesCommonRuntime.VoidConverter.toJava(
-                mutatingSelf.increment(
+                TestAPI.Structs.MutableStruct.fromJava(_javaThis, env: _javaEnv).increment(
                 ),
                 env: _javaEnv
             )
