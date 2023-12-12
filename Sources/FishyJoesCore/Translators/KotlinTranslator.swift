@@ -151,15 +151,13 @@ final class KotlinTranslator: Translator {
                 } else {
                     var mutateBlock: (() -> Void) -> Void = { $0() }
                     if method.isMutating {
-                        fragment.output("var mutatingSelf = try \(selfExpression)")
                         mutateBlock = { body in
                             fragment.outputBlock("return try \(containingNamespace).mutateJava(_javaThis, env: _javaEnv) { mutatingSelf in", closeWith: "}") {
                                 body()
                             }
                         }
-                        selfExpression = "mutatingSelf"
                     }
-                    
+
                     mutateBlock {
                         fragment.outputBlock("return try \(returnType.converterType.name).toJava(") {
                             fragment.outputBlock("\(selfExpression)\(callName)(", closeWith: "),") {

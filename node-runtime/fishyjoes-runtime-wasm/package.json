@@ -1,10 +1,20 @@
 {
   "name": "@cricut/fishyjoes-runtime-wasm",
   "version": "1.0.0",
+  "publishConfig" : {
+    "registry" : "https://npm.pkg.github.com/"
+  },
   "description": "FishyJoes Runtime for WASM",
-  "main": "index.js",
+  "main": "Runtime.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Cricut Inc."
+  "author": "Cricut Inc.",
+  "types" : "Runtime.d.ts",
+  "type" : "module",
+  "dependencies" : {
+    "process" : "^0.11.10",
+    "util" : "^0.11.1",
+    "buffer" : "^5.7.1"
+  }
 }

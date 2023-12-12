@@ -29,6 +29,10 @@ function applyExtensions(library) {
             index = this.indexAfter(index)
         }
     }
+    
+    library.Runtime.AttributedString.Runs.prototype.forEach = function(callback) {
+        [...this].forEach(callback)
+    }
 
     library.Runtime.AttributedString.CharacterView.prototype[Symbol.iterator] = function* () {
         let index = this.startIndex;
@@ -37,6 +41,10 @@ function applyExtensions(library) {
             index = this.indexAfter(index)
         }
     }
+    
+    library.Runtime.AttributedString.CharacterView.prototype.forEach = function(callback) {
+        [...this].forEach(callback)
+    }
 
     library.Runtime.AttributedString.UnicodeScalarView.prototype[Symbol.iterator] = function* () {
         let index = this.startIndex;
@@ -44,6 +52,10 @@ function applyExtensions(library) {
             yield this.elementAt(index)
             index = this.indexAfter(index)
         }
+    }
+    
+    library.Runtime.AttributedString.UnicodeScalarView.prototype.forEach = function(callback) {
+        [...this].forEach(callback)
     }
 }
 const imports = {};

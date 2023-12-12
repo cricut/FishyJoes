@@ -282,11 +282,11 @@ enum Platform: CustomStringConvertible, Hashable {
             #endif
         case .dart:
             #if os(macOS)
-            return "dart/native/macos"
+            return "dart/macos/native"
             #elseif os(Linux)
-            return "dart/native/linux"
+            return "dart/linux/native"
             #elseif os(Windows)
-            return "dart/native/windows"
+            return "dart/windows/native"
             #else
             fatalError("unknown host OS")
             #endif

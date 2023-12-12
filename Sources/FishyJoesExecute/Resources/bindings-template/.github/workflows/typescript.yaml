@@ -16,8 +16,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
-  GITHUB_USER: cricut-builduser
+  NODE_AUTH_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
   NODE_VERSION: "16.x"
   SWIFT_WASM_VERSION: "5.9-SNAPSHOT-2023-08-06-a"
 
@@ -25,7 +24,7 @@ jobs:
   build-test-pack-ts-mac:
     name: "macOS: Build and test typescript bindings"
     runs-on: macOS-12
-    
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -60,7 +59,7 @@ jobs:
           set -euo pipefail
 
           VERSION=${GITHUB_REF#refs/*/}
-          if [[ ! $VERSION =~ [0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9]+)* ]]; then
+          if [[ ! $VERSION =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9]+)*$ ]]; then
               VERSION="0.0.1-$(git rev-parse --short HEAD)"
           fi
           swift run -- fishy-joes --nodejs --fat --version $VERSION pack
@@ -112,7 +111,7 @@ jobs:
           set -euxo pipefail
 
           git config --global --add safe.directory '*'
-          
+
           curl -Lo swift-wasm.tgz "https://github.com/swiftwasm/swift/releases/download/swift-wasm-$SWIFT_WASM_VERSION/swift-wasm-$SWIFT_WASM_VERSION-ubuntu20.04_x86_64.tar.gz"
           mkdir -p /Library/Developer/Toolchains/swift-wasm-$SWIFT_WASM_VERSION.xctoolchain
           tar -xf swift-wasm.tgz -C /Library/Developer/Toolchains/swift-wasm-$SWIFT_WASM_VERSION.xctoolchain --strip-components 1
@@ -125,6 +124,8 @@ jobs:
 
       - name: Test from node
         shell: zsh {0}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
         run: |
           set -euxo pipefail
           swift run -- fishy-joes --nodejs --wasm test
@@ -135,7 +136,7 @@ jobs:
           set -euxo pipefail
 
           VERSION=${GITHUB_REF#refs/*/}
-          if [[ ! $VERSION =~ [0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9]+)* ]]; then
+          if [[ ! $VERSION =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9]+)*$ ]]; then
               VERSION="0.0.1-$(git rev-parse --short HEAD)"
           fi
           swift run -- fishy-joes --nodejs --wasm --version $VERSION pack

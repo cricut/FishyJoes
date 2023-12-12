@@ -93,6 +93,10 @@ tasks {
     compileTestKotlin {
         kotlinOptions.jvmTarget = "11"
     }
+    compileJava {
+        sourceCompatibility = JavaVersion.VERSION_11.toString()
+        targetCompatibility = JavaVersion.VERSION_11.toString()
+    }
 }
 
 dependencies {

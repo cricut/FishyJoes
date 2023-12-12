@@ -54,7 +54,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: mac_generated
-          path: dart/native
+          path: dart
 
   build-test-dart-linux:
     name: "Ubuntu: Build and test dart bindings"
@@ -91,7 +91,9 @@ jobs:
       - name: Patch libs to use relative paths to swift stdlib
         shell: zsh {0}
         run: |
-          cd dart/native/linux
+          set -euxo pipefail
+
+          cd dart/linux/native
 
           SWIFT_RUN_PATH='/usr/lib/swift/linux:./:$ORIGIN'
           for LIB in lib*.so*; do
@@ -109,7 +111,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: ubuntu_generated
-          path: dart/native
+          path: dart
 
   build-test-dart-windows:
     name: "Windows: Build and test dart bindings"
@@ -145,10 +147,9 @@ jobs:
         run: |
           set -euxo pipefail
 
-          mkdir -p dart/native/windows
-          cp .build/windows-build/x86_64-unknown-windows-msvc/release/__MODULE_NAME__.dll dart/native/windows
-          cp .build/windows-build/x86_64-unknown-windows-msvc/release/__MODULE_NAME__-iota.dll dart/native/windows
-
+          mkdir -p dart/windows/native
+          cp .build/windows-build/x86_64-unknown-windows-msvc/release/__MODULE_NAME__.dll dart/windows/native
+          cp .build/windows-build/x86_64-unknown-windows-msvc/release/__MODULE_NAME__-iota.dll dart/windows/native
 
       - name: Test library from dart
         run: |
@@ -158,24 +159,22 @@ jobs:
           dart run build_runner build
 
           # Someone who understands windows better than I do is welcome to fix this in a better way
-          $env:PATH = "$pwd\native\windows;$env:PATH"
+          $env:PATH = "$pwd\windows\native;$env:PATH"
           dart test
 
       - name: Upload library
         uses: actions/upload-artifact@v3
         with:
           name: windows_generated
-          path: dart/native
+          path: dart
 
   dart-publish:
-    name: "Publish dart package"
+    name: "Publish dart packages"
     runs-on: ubuntu-latest
     needs:
       - build-test-dart-mac
       - build-test-dart-linux
       - build-test-dart-windows
-    env:
-      GITHUB_PUBLISH_TOKEN: ${{ env.GITHUB_TOKEN }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -184,6 +183,13 @@ jobs:
         uses: de-vri-es/setup-git-credentials@v2
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16.x'
+          registry-url: 'https://npm.pkg.github.com/'
+          scope: '@cricut'
 
       - name: Configure build environment
         run: |
@@ -200,11 +206,12 @@ jobs:
 
           ls *
 
-          rm -rf dart/native
-          mkdir -p dart/native
-          mv mac_generated/macos dart/native/
-          mv ubuntu_generated/linux dart/native/
-          mv windows_generated/windows dart/native/
+          rm -rf dart/lib dart/{macos,linux,windows}/native
+          mkdir -p dart/{macos,linux,windows}/native
+          mv mac_generated/lib dart/
+          mv mac_generated/macos/native/* dart/macos/native/
+          mv ubuntu_generated/linux/native/* dart/linux/native/
+          mv windows_generated/windows/native/* dart/windows/native/
 
           ls -R dart/
 
@@ -214,7 +221,7 @@ jobs:
           set -euxo pipefail
 
           VERSION=${GITHUB_REF#refs/*/}
-          if [[ ! $VERSION =~ [0-9]+\.[0-9]+\.[0-9]+ ]]; then
+          if [[ ! $VERSION =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9]+)*$ ]]; then
               VERSION="0.0.1-$(git rev-parse --short HEAD)"
           fi
           echo "Detected Version is '$VERSION'"
@@ -225,7 +232,14 @@ jobs:
         run: |
           set -euxo pipefail
 
-          tar -cvzf __MODULE_NAME__-bindings-dart-binaries.tgz -C dart native
+          tar -cvzf __MODULE_NAME__-bindings-dart-binaries.tgz -C dart \
+              macos/native/lib__MODULE_NAME__{,-iota}.dylib \
+              linux/native/lib__MODULE_NAME__{,-iota}.so \
+              windows/native/__MODULE_NAME__{,-iota}.dll
+
+          swift run fishy-joes pack --dart --version=$VERSION
+
+          tar -tf cricut-flutter-*.tgz
 
       - name: Upload result
         uses: actions/upload-artifact@v3
@@ -240,6 +254,8 @@ jobs:
           OWNER: ${{ github.repository_owner }}
           REPO: ${{ github.event.repository.name }}
           TAG_NAME: ${{ github.event.release.tag_name }}
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_PUBLISH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euxo pipefail
 
@@ -259,3 +275,6 @@ jobs:
             -H 'Accept: application/vnd.github.v3+json' \
             "https://uploads.github.com/repos/$OWNER/$REPO/releases/$releaseID/assets?name=$file" \
             --data-binary @$file
+
+          # publish flutter NPM package
+          npm publish cricut-flutter-*.tgz

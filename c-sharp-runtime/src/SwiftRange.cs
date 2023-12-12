@@ -14,9 +14,9 @@ namespace Cricut.FishyJoesRuntime {
     /// </summary>
     public record SwiftRange<T> where T : IComparable<T> {
         /// <summary>The range lower bound value, inclusive.</summary>
-        public T lowerBound;
+        public T LowerBound;
         /// <summary>The range upper bound value, exclusive.</summary>
-        public T upperBound;
+        public T UpperBound;
 
         /// <summary>
         /// Constructs a range with an inclusive lower bound and exclusive upper bound.
@@ -24,10 +24,9 @@ namespace Cricut.FishyJoesRuntime {
         /// <param name="lowerBound">The range lower bound value, inclusive.</param>
         /// <param name="upperBound">The range upper bound value, exclusive. Must be equal to or greater than <c>lowerBound</c>.</param>
         public SwiftRange(T lowerBound, T upperBound) {
-            this.lowerBound = lowerBound;
-            this.upperBound = upperBound;
-
             Trace.Assert(lowerBound.CompareTo(upperBound) <= 0, "Swift ranges require lowerBound <= upperBound");
+            this.LowerBound = lowerBound;
+            this.UpperBound = upperBound;
         }
     }
 }

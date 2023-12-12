@@ -19,7 +19,7 @@ struct TranslatedSet: TranslatedType {
         self.elementType = element
         self.sourceType = .generic(base: .swift("Set"), args: [element.sourceType])
         self.converterType = .generic(base: .runtime("SetConverter"), args: [element.converterType])
-        self.nodeName = "Set<\(element.nodeName)>"
+        self.nodeName = "Set<\(element.nodeType)>"
         self.kotlinName = "Set<\(element.kotlinPackageQualifiedName)>"
         self.neutralName = "Set<K=\(element.neutralName)>"
         self.containedNamedTypes = element.containedNamedTypes

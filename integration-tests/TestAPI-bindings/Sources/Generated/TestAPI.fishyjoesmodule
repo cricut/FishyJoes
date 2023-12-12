@@ -2243,7 +2243,7 @@
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "SwiftRange<Runtime.AttributedString.Index>"
+                    "_0" : "Runtime.SwiftRange<Runtime.AttributedString.Index>"
                   }
                 }
               },
@@ -2433,7 +2433,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "SwiftClosedRange<number>"
+                    "_0" : "Runtime.SwiftClosedRange<number>"
                   }
                 }
               },
@@ -2446,7 +2446,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "SwiftClosedRange<number>"
+                    "_0" : "Runtime.SwiftClosedRange<number>"
                   }
                 }
               },
@@ -2459,7 +2459,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "SwiftClosedRange<number>"
+                    "_0" : "Runtime.SwiftClosedRange<number>"
                   }
                 }
               },
@@ -2472,7 +2472,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "SwiftClosedRange<bigint>"
+                    "_0" : "Runtime.SwiftClosedRange<bigint>"
                   }
                 }
               },
@@ -2485,7 +2485,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "SwiftClosedRange<number>"
+                    "_0" : "Runtime.SwiftClosedRange<number>"
                   }
                 }
               },
@@ -2498,7 +2498,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "SwiftClosedRange<number>"
+                    "_0" : "Runtime.SwiftClosedRange<number>"
                   }
                 }
               },
@@ -2511,7 +2511,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "SwiftClosedRange<number>"
+                    "_0" : "Runtime.SwiftClosedRange<number>"
                   }
                 }
               },
@@ -2524,7 +2524,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "SwiftClosedRange<number>"
+                    "_0" : "Runtime.SwiftClosedRange<number>"
                   }
                 }
               },
@@ -2537,7 +2537,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "SwiftClosedRange<bigint>"
+                    "_0" : "Runtime.SwiftClosedRange<bigint>"
                   }
                 }
               },
@@ -2550,7 +2550,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "SwiftClosedRange<number>"
+                    "_0" : "Runtime.SwiftClosedRange<number>"
                   }
                 }
               },
@@ -2563,7 +2563,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "SwiftClosedRange<number>"
+                    "_0" : "Runtime.SwiftClosedRange<number>"
                   }
                 }
               },
@@ -2576,7 +2576,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "SwiftClosedRange<number>"
+                    "_0" : "Runtime.SwiftClosedRange<number>"
                   }
                 }
               },
@@ -2589,7 +2589,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "SwiftClosedRange<string>"
+                    "_0" : "Runtime.SwiftClosedRange<string>"
                   }
                 }
               }
@@ -2610,14 +2610,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "SwiftClosedRange<number>"
+                        "_0" : "Runtime.SwiftClosedRange<number>"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "SwiftClosedRange<number>"
+                    "_0" : "Runtime.SwiftClosedRange<number>"
                   }
                 }
               },
@@ -2633,14 +2633,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "SwiftClosedRange<number>"
+                        "_0" : "Runtime.SwiftClosedRange<number>"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "SwiftClosedRange<number>"
+                    "_0" : "Runtime.SwiftClosedRange<number>"
                   }
                 }
               },
@@ -2656,14 +2656,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "SwiftClosedRange<number>"
+                        "_0" : "Runtime.SwiftClosedRange<number>"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "SwiftClosedRange<number>"
+                    "_0" : "Runtime.SwiftClosedRange<number>"
                   }
                 }
               },
@@ -2679,14 +2679,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "SwiftClosedRange<bigint>"
+                        "_0" : "Runtime.SwiftClosedRange<bigint>"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "SwiftClosedRange<bigint>"
+                    "_0" : "Runtime.SwiftClosedRange<bigint>"
                   }
                 }
               },
@@ -2702,14 +2702,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "SwiftClosedRange<number>"
+                        "_0" : "Runtime.SwiftClosedRange<number>"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "SwiftClosedRange<number>"
+                    "_0" : "Runtime.SwiftClosedRange<number>"
                   }
                 }
               },
@@ -2725,14 +2725,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "SwiftClosedRange<number>"
+                        "_0" : "Runtime.SwiftClosedRange<number>"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "SwiftClosedRange<number>"
+                    "_0" : "Runtime.SwiftClosedRange<number>"
                   }
                 }
               },
@@ -2748,14 +2748,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "SwiftClosedRange<number>"
+                        "_0" : "Runtime.SwiftClosedRange<number>"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "SwiftClosedRange<number>"
+                    "_0" : "Runtime.SwiftClosedRange<number>"
                   }
                 }
               },
@@ -2771,14 +2771,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "SwiftClosedRange<number>"
+                        "_0" : "Runtime.SwiftClosedRange<number>"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "SwiftClosedRange<number>"
+                    "_0" : "Runtime.SwiftClosedRange<number>"
                   }
                 }
               },
@@ -2794,14 +2794,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "SwiftClosedRange<bigint>"
+                        "_0" : "Runtime.SwiftClosedRange<bigint>"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "SwiftClosedRange<bigint>"
+                    "_0" : "Runtime.SwiftClosedRange<bigint>"
                   }
                 }
               },
@@ -2817,14 +2817,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "SwiftClosedRange<number>"
+                        "_0" : "Runtime.SwiftClosedRange<number>"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "SwiftClosedRange<number>"
+                    "_0" : "Runtime.SwiftClosedRange<number>"
                   }
                 }
               },
@@ -2840,14 +2840,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "SwiftClosedRange<number>"
+                        "_0" : "Runtime.SwiftClosedRange<number>"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "SwiftClosedRange<number>"
+                    "_0" : "Runtime.SwiftClosedRange<number>"
                   }
                 }
               },
@@ -2863,14 +2863,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "SwiftClosedRange<number>"
+                        "_0" : "Runtime.SwiftClosedRange<number>"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "SwiftClosedRange<number>"
+                    "_0" : "Runtime.SwiftClosedRange<number>"
                   }
                 }
               },
@@ -2886,14 +2886,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "SwiftClosedRange<string>"
+                        "_0" : "Runtime.SwiftClosedRange<string>"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "SwiftClosedRange<string>"
+                    "_0" : "Runtime.SwiftClosedRange<string>"
                   }
                 }
               }
@@ -3260,7 +3260,7 @@
                   "optional" : {
                     "_0" : {
                       "named" : {
-                        "_0" : "Set<number>"
+                        "_0" : "Set<Optional<number>>"
                       }
                     }
                   }
@@ -3277,7 +3277,7 @@
                   "optional" : {
                     "_0" : {
                       "named" : {
-                        "_0" : "Map<number, number>"
+                        "_0" : "Map<number, Optional<number>>"
                       }
                     }
                   }
@@ -3415,7 +3415,7 @@
                       "optional" : {
                         "_0" : {
                           "named" : {
-                            "_0" : "Set<number>"
+                            "_0" : "Set<Optional<number>>"
                           }
                         }
                       }
@@ -3426,7 +3426,7 @@
                   "optional" : {
                     "_0" : {
                       "named" : {
-                        "_0" : "Set<number>"
+                        "_0" : "Set<Optional<number>>"
                       }
                     }
                   }
@@ -3446,7 +3446,7 @@
                       "optional" : {
                         "_0" : {
                           "named" : {
-                            "_0" : "Map<number, number>"
+                            "_0" : "Map<number, Optional<number>>"
                           }
                         }
                       }
@@ -3457,7 +3457,7 @@
                   "optional" : {
                     "_0" : {
                       "named" : {
-                        "_0" : "Map<number, number>"
+                        "_0" : "Map<number, Optional<number>>"
                       }
                     }
                   }
@@ -3487,7 +3487,7 @@
                     "name" : "mapper",
                     "type" : {
                       "named" : {
-                        "_0" : "(_0: Optional<number>[]) => Optional<number>[]"
+                        "_0" : "(_0: Optional<Optional<number>[]>) => Optional<Optional<number>[]>"
                       }
                     }
                   }
@@ -6494,7 +6494,7 @@
                     "name" : "mapper",
                     "type" : {
                       "named" : {
-                        "_0" : "(_0: number) => number"
+                        "_0" : "(_0: Optional<number>) => Optional<number>"
                       }
                     }
                   }
@@ -6532,7 +6532,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "SwiftRange<number>"
+                    "_0" : "Runtime.SwiftRange<number>"
                   }
                 }
               },
@@ -6545,7 +6545,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "SwiftRange<number>"
+                    "_0" : "Runtime.SwiftRange<number>"
                   }
                 }
               },
@@ -6558,7 +6558,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "SwiftRange<number>"
+                    "_0" : "Runtime.SwiftRange<number>"
                   }
                 }
               },
@@ -6571,7 +6571,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "SwiftRange<bigint>"
+                    "_0" : "Runtime.SwiftRange<bigint>"
                   }
                 }
               },
@@ -6584,7 +6584,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "SwiftRange<number>"
+                    "_0" : "Runtime.SwiftRange<number>"
                   }
                 }
               },
@@ -6597,7 +6597,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "SwiftRange<number>"
+                    "_0" : "Runtime.SwiftRange<number>"
                   }
                 }
               },
@@ -6610,7 +6610,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "SwiftRange<number>"
+                    "_0" : "Runtime.SwiftRange<number>"
                   }
                 }
               },
@@ -6623,7 +6623,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "SwiftRange<number>"
+                    "_0" : "Runtime.SwiftRange<number>"
                   }
                 }
               },
@@ -6636,7 +6636,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "SwiftRange<bigint>"
+                    "_0" : "Runtime.SwiftRange<bigint>"
                   }
                 }
               },
@@ -6649,7 +6649,7 @@
                 "readOnly" : true,
                 "type" : {
                   "named" : {
-                    "_0" : "SwiftRange<number>"
+                    "_0" : "Runtime.SwiftRange<number>"
                   }
                 }
               }
@@ -6670,14 +6670,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "SwiftRange<number>"
+                        "_0" : "Runtime.SwiftRange<number>"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "SwiftRange<number>"
+                    "_0" : "Runtime.SwiftRange<number>"
                   }
                 }
               },
@@ -6693,14 +6693,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "SwiftRange<number>"
+                        "_0" : "Runtime.SwiftRange<number>"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "SwiftRange<number>"
+                    "_0" : "Runtime.SwiftRange<number>"
                   }
                 }
               },
@@ -6716,14 +6716,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "SwiftRange<number>"
+                        "_0" : "Runtime.SwiftRange<number>"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "SwiftRange<number>"
+                    "_0" : "Runtime.SwiftRange<number>"
                   }
                 }
               },
@@ -6739,14 +6739,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "SwiftRange<bigint>"
+                        "_0" : "Runtime.SwiftRange<bigint>"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "SwiftRange<bigint>"
+                    "_0" : "Runtime.SwiftRange<bigint>"
                   }
                 }
               },
@@ -6762,14 +6762,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "SwiftRange<number>"
+                        "_0" : "Runtime.SwiftRange<number>"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "SwiftRange<number>"
+                    "_0" : "Runtime.SwiftRange<number>"
                   }
                 }
               },
@@ -6785,14 +6785,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "SwiftRange<number>"
+                        "_0" : "Runtime.SwiftRange<number>"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "SwiftRange<number>"
+                    "_0" : "Runtime.SwiftRange<number>"
                   }
                 }
               },
@@ -6808,14 +6808,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "SwiftRange<number>"
+                        "_0" : "Runtime.SwiftRange<number>"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "SwiftRange<number>"
+                    "_0" : "Runtime.SwiftRange<number>"
                   }
                 }
               },
@@ -6831,14 +6831,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "SwiftRange<number>"
+                        "_0" : "Runtime.SwiftRange<number>"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "SwiftRange<number>"
+                    "_0" : "Runtime.SwiftRange<number>"
                   }
                 }
               },
@@ -6854,14 +6854,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "SwiftRange<bigint>"
+                        "_0" : "Runtime.SwiftRange<bigint>"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "SwiftRange<bigint>"
+                    "_0" : "Runtime.SwiftRange<bigint>"
                   }
                 }
               },
@@ -6877,14 +6877,14 @@
                     "name" : "range",
                     "type" : {
                       "named" : {
-                        "_0" : "SwiftRange<number>"
+                        "_0" : "Runtime.SwiftRange<number>"
                       }
                     }
                   }
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "SwiftRange<number>"
+                    "_0" : "Runtime.SwiftRange<number>"
                   }
                 }
               }

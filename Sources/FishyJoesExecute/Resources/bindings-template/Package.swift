@@ -58,7 +58,7 @@ let package = Package(
             ],
             path: "Sources/Generated/NodeInterface",
             resources: [
-                .copy("__MODULE_NAME__.d.ts"),
+                .copy("__MODULE_NAME__.d.ts.part"),
             ]
         ),
     ] + (

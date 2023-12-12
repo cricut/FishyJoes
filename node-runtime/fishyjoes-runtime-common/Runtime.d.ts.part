@@ -549,8 +549,8 @@ export declare namespace Runtime {
             ): number;
 
             forEach(
-                body: function(Runs.Run)
-            );
+                body: (run: Runs.Run) => any
+            ): any;
             
             [Symbol.iterator](
             ): RunIterator;
@@ -676,12 +676,10 @@ export declare namespace Runtime {
             ): string;
 
             forEach(
-                body: function(string)
-            );
+                body: (character: string) => any
+            ): any;
 
-            [Symbol.iterator](): CharacterIterator {
-                return new CharacterIterator(this)
-            }
+            [Symbol.iterator](): CharacterIterator;
         }
 
         export class CharacterIterator implements Iterator<string> {
@@ -755,12 +753,10 @@ export declare namespace Runtime {
             ): number;
 
             forEach(
-                body: function(number)
-            );
+                body: (scalar: number) => any
+            ): any;
 
-            [Symbol.iterator](): UnicodeScalarIterator {
-                return new UnicodeScalarIterator(this)
-            }
+            [Symbol.iterator](): UnicodeScalarIterator;
         }
 
         export class UnicodeScalarIterator implements Iterator<number> {
@@ -880,25 +876,5 @@ export declare namespace Runtime {
          */
         static createEmpty(
         ): AttributedSubstring;
-    }
-}
-
-export declare function init(): Promise<{
-    Runtime: typeof Runtime,
-}>;
-export default Runtime;
-
-// Extensions
-
-export namespace Runtime {
-    export namespace AttributeContainer {
-        export namespace FoundationAttributes {
-            export function create(attributes: { languageIdentifier?: String, link?: URL }): FoundationAttributes;
-        }
-    }
-
-    export namespace AttributedString {
-        export function createJoining(attributedStrings: AttributedString[]): AttributedString;
-        export function createJoiningSubstrings(attributedStrings: AttributedSubstring[]): AttributedString;
     }
 }

@@ -22,7 +22,7 @@ struct TranslatedDictionary: TranslatedType {
 
         self.sourceType = .generic(base: .swift("Dictionary"), args: [key.sourceType, value.sourceType])
         self.converterType = .generic(base: .runtime("DictionaryConverter"), args: [key.converterType, value.converterType])
-        self.nodeName = "Map<\(key.nodeName), \(value.nodeName)>"
+        self.nodeName = "Map<\(key.nodeType), \(value.nodeType)>"
         self.kotlinName = "Map<\(key.kotlinPackageQualifiedName), \(value.kotlinPackageQualifiedName)>"
         self.neutralName = "Dictionary<K=\(key.neutralName), V=\(value.neutralName)>"
         self.containedNamedTypes = key.containedNamedTypes + value.containedNamedTypes

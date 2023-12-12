@@ -56,7 +56,6 @@ extension AttributeContainer: JavaMutator {
         jboolean
     ) -> VoidConverter.CType = { _javaEnv, _javaThis, other, keepCurrent in
         FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
-            var mutatingSelf = try AttributedString.fromJava(_javaThis, env: _javaEnv)
             return try AttributeContainer.mutateJava(_javaThis, env: _javaEnv) { mutatingSelf in
                 return try VoidConverter.toJava(
                     mutatingSelf.merge(

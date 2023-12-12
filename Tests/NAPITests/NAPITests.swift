@@ -32,7 +32,9 @@ class NAPITests: XCTestCase {
 
     override func setUp() {
         super.setUp()
-        // ExternalCommand.verbose = true
+        #if false
+        ExternalCommand.verbose = true
+        #endif
     }
 
     func testNative(_ testName: String, js: [String] = ["test.js"], fixups: [String] = []) throws {
