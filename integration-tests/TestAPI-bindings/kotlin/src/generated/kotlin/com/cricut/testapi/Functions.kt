@@ -192,6 +192,84 @@ sealed class Functions {
             failureContinuation: (String) -> Unit
         )
 
+        /**
+         * <!-- FishyJoes.export(asyncYieldFunc) -->
+         */
+        suspend fun asyncYieldFunc(
+        ): Long {
+            return coroutineScope {
+                async {
+                    suspendCancellableCoroutine { continuation: CancellableContinuation<Long> ->
+                        __jni_asyncYieldFunc(
+                            { value ->
+                                continuation.resume(value, null)
+                            }
+                        ) { message ->
+                            continuation.cancel(Error(message))
+                        }
+                    }
+                }.await()
+            }
+        }
+        @JvmStatic
+        @JvmName("__jni_asyncYieldFunc")
+        private external fun __jni_asyncYieldFunc(
+            successContinuation: (Long) -> Unit,
+            failureContinuation: (String) -> Unit
+        )
+
+        /**
+         * <!-- FishyJoes.export(asyncSleepFunc) -->
+         */
+        suspend fun asyncSleepFunc(
+        ): Long {
+            return coroutineScope {
+                async {
+                    suspendCancellableCoroutine { continuation: CancellableContinuation<Long> ->
+                        __jni_asyncSleepFunc(
+                            { value ->
+                                continuation.resume(value, null)
+                            }
+                        ) { message ->
+                            continuation.cancel(Error(message))
+                        }
+                    }
+                }.await()
+            }
+        }
+        @JvmStatic
+        @JvmName("__jni_asyncSleepFunc")
+        private external fun __jni_asyncSleepFunc(
+            successContinuation: (Long) -> Unit,
+            failureContinuation: (String) -> Unit
+        )
+
+        /**
+         * <!-- FishyJoes.export(asyncVoidFunc) -->
+         */
+        suspend fun asyncVoidFunc(
+        ): kotlin.Unit {
+            return coroutineScope {
+                async {
+                    suspendCancellableCoroutine { continuation: CancellableContinuation<kotlin.Unit?> ->
+                        __jni_asyncVoidFunc(
+                            { value ->
+                                continuation.resume(value, null)
+                            }
+                        ) { message ->
+                            continuation.cancel(Error(message))
+                        }
+                    }
+                }.await()
+            }
+        }
+        @JvmStatic
+        @JvmName("__jni_asyncVoidFunc")
+        private external fun __jni_asyncVoidFunc(
+            successContinuation: (kotlin.Unit?) -> Unit,
+            failureContinuation: (String) -> Unit
+        )
+
         init { loadNativeLibs() }
     }
 

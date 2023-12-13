@@ -3983,6 +3983,66 @@
                     }
                   }
                 }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(asyncYieldFunc) -->"
+                ],
+                "isAsync" : true,
+                "isStatic" : true,
+                "name" : "asyncYieldFunc",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(asyncSleepFunc) -->"
+                ],
+                "isAsync" : true,
+                "isStatic" : true,
+                "name" : "asyncSleepFunc",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(asyncVoidFunc) -->"
+                ],
+                "isAsync" : true,
+                "isStatic" : true,
+                "name" : "asyncVoidFunc",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "void"
+                      }
+                    }
+                  }
+                }
               }
             ],
             "name" : "Functions",

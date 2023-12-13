@@ -82,22 +82,22 @@ public enum Functions {
         42
     }
 
-//    /// <!-- FishyJoes.export(asyncYieldFunc) -->
-//    public static func asyncYieldFunc() async throws -> Int {
-//        await Task.yield()
-//        return try await async42Func()
-//    }
-//
-//    /// <!-- FishyJoes.export(asyncSleepFunc) -->
-//    public static func asyncSleepFunc() async throws -> Int {
-//        try await Task.sleep(nanoseconds: 100)
-//        return try await async42Func()
-//    }
-//
-//    /// <!-- FishyJoes.export(asyncVoidFunc) -->
-//    public static func asyncVoidFunc() async throws {
-//    }
-//
+    /// <!-- FishyJoes.export(asyncYieldFunc) -->
+    public static func asyncYieldFunc() async throws -> Int {
+        await Task.yield()
+        return try await async42Func()
+    }
+
+    /// <!-- FishyJoes.export(asyncSleepFunc) -->
+    public static func asyncSleepFunc() async throws -> Int {
+        try await Task.sleep(nanoseconds: 100)
+        return try await async42Func()
+    }
+
+    /// <!-- FishyJoes.export(asyncVoidFunc) -->
+    public static func asyncVoidFunc() async throws {
+    }
+
 //    /// <!-- FishyJoes.export(asyncCallbackFunc0) -->
 //    public static func asyncCallbackFunc0(_ callback: () async throws -> Int) async throws -> Int {
 //        try await callback()

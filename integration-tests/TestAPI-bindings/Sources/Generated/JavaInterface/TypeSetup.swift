@@ -767,6 +767,21 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_TestAPI_Functions_async42Func, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
+                name: bag.add("__jni_asyncYieldFunc"),
+                signature: bag.add("(Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)V"),
+                fnPtr: unsafeBitCast(java_TestAPI_Functions_asyncYieldFunc, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_asyncSleepFunc"),
+                signature: bag.add("(Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)V"),
+                fnPtr: unsafeBitCast(java_TestAPI_Functions_asyncSleepFunc, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_asyncVoidFunc"),
+                signature: bag.add("(Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)V"),
+                fnPtr: unsafeBitCast(java_TestAPI_Functions_asyncVoidFunc, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
                 name: bag.add("__jni_get_const42"),
                 signature: bag.add("()Lkotlin/jvm/functions/Function0;"),
                 fnPtr: unsafeBitCast(java_get_TestAPI_Functions_const42, to: UnsafeMutableRawPointer.self)
