@@ -58,14 +58,14 @@ internal class FunctionTests {
         assertThrows(Error::class.java) { Functions.willThrow() }
     }
 
-//    @Test
-//    fun testAsyncFunctionCall() {
-//        kotlinx.coroutines.runBlocking {
-//            val value: Long = Functions.async42Func()
-//            assertEquals(42, value)
-//        }
-//    }
-//
+    @Test
+    fun testAsyncFunctionCall() {
+        kotlinx.coroutines.runBlocking {
+            val value: Long = Functions.async42Func()
+            assertEquals(42, value)
+        }
+    }
+
 //    @Test
 //    fun testAsyncYieldingFunctionCall() {
 //        kotlinx.coroutines.runBlocking {

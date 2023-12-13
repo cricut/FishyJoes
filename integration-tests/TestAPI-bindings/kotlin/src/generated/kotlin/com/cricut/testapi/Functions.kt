@@ -170,10 +170,10 @@ sealed class Functions {
          * <!-- FishyJoes.export(async42Func) -->
          */
         suspend fun async42Func(
-        ) {
+        ): Long {
             return coroutineScope {
                 async {
-                    suspendCancellableCoroutine { continuation: CancellableContinuation<Void> ->
+                    suspendCancellableCoroutine { continuation: CancellableContinuation<Long> ->
                         __jni_async42Func(
                             { value ->
                                 continuation.resume(value, null)
@@ -188,7 +188,7 @@ sealed class Functions {
         @JvmStatic
         @JvmName("__jni_async42Func")
         private external fun __jni_async42Func(
-            successContinuation: (Void) -> Unit,
+            successContinuation: (Long) -> Unit,
             failureContinuation: (String) -> Unit
         )
 
