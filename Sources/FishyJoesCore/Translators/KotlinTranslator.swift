@@ -390,7 +390,7 @@ final class KotlinTranslator: Translator {
                 name: exportAnnotation.name,
                 parameters: parameters,
                 compatibilityOrder: exportAnnotation.compatibilityOrder,
-                returnType: method.isAsync ? .void :context.resolve(type: method.returnType, generics: exportAnnotation.genericOverrides).kotlinType,
+                returnType: context.resolve(type: method.returnType, generics: exportAnnotation.genericOverrides).kotlinType,
                 deprecation: method.deprecation,
                 body: nil
             )
