@@ -182,7 +182,6 @@ test('AsyncCallbackFunctionCallThrow', async () => {
     let threw: boolean = false
     let value: number = 0
     let ran: boolean = false
-    let thrownValue: number = 0
     try {
         value = await TestAPI.Functions.asyncCallbackFunc0(async () => {
             ran = true
@@ -192,10 +191,9 @@ test('AsyncCallbackFunctionCallThrow', async () => {
         threw = true
         expect(() => { throw e }).toThrowError(/42/)
     }
-    expect(threw).toEqual(false)
+    expect(threw).toEqual(true)
     expect(value).toEqual(0)
     expect(ran).toEqual(true)
-    expect(thrownValue).toEqual(42)
 })
 
 test('AsyncDoubleFunctionCall', async () => {

@@ -4232,6 +4232,88 @@
                     }
                   }
                 }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(asyncDoubleFunc) -->"
+                ],
+                "isAsync" : true,
+                "isStatic" : true,
+                "name" : "asyncDoubleFunc",
+                "parameters" : [
+                  {
+                    "name" : "d",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(asyncMultipleArgs) -->"
+                ],
+                "isAsync" : true,
+                "isStatic" : true,
+                "name" : "asyncMultipleArgs",
+                "parameters" : [
+                  {
+                    "name" : "i",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  },
+                  {
+                    "name" : "j",
+                    "type" : {
+                      "named" : {
+                        "_0" : "() => Promise<number>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(asyncThrowingFunc) -->"
+                ],
+                "isAsync" : true,
+                "isStatic" : true,
+                "name" : "asyncThrowingFunc",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "void"
+                      }
+                    }
+                  }
+                }
               }
             ],
             "name" : "Functions",

@@ -16,6 +16,10 @@ extension AttributedString.CharacterView: JavaMutator {
     public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout AttributedString.CharacterView) throws -> R) throws -> R {
         try body(&Box<AttributedString.CharacterView>.fromJava(this, env: env).value)
     }
+    
+    public static func mutateJava<R>(_ this: jobject?, env: inout Env, body: (inout AttributedString.CharacterView, inout Env) async throws -> R) async throws -> R {
+        try await body(&Box<AttributedString.CharacterView>.fromJava(this, env: env).value, &env)
+    }
 
     public static func javaSetup(env: Env) throws {
         guard javaClass == nil else { return }

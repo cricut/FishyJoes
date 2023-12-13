@@ -370,7 +370,7 @@ extension AsyncFunction1Converter: JavaConverter where R: JavaConverter, P0: Jav
     }
     
     public static func toJava(_ value: @escaping SwiftType, env: Env) throws -> jobject? {
-        let erased = AnyAsyncFunction1 { env, p0 in
+        let erased = AnyAsyncFunction1 { env, p0, _ in
             let v0 = try P0.fromJava(object: p0, env: env)
             return try await R.toJavaObject(value(v0), env: env)
         }
@@ -468,7 +468,7 @@ extension AsyncFunction2Converter: JavaConverter where R: JavaConverter, P0: Jav
     }
     
     public static func toJava(_ value: @escaping SwiftType, env: Env) throws -> jobject? {
-        let erased = AnyAsyncFunction2 { env, p0, p1 in
+        let erased = AnyAsyncFunction2 { env, p0, p1, _ in
             let v0 = try P0.fromJava(object: p0, env: env)
             let v1 = try P1.fromJava(object: p1, env: env)
             return try await R.toJavaObject(value(v0, v1), env: env)
@@ -572,7 +572,7 @@ extension AsyncFunction3Converter: JavaConverter where R: JavaConverter, P0: Jav
     }
     
     public static func toJava(_ value: @escaping SwiftType, env: Env) throws -> jobject? {
-        let erased = AnyAsyncFunction3 { env, p0, p1, p2 in
+        let erased = AnyAsyncFunction3 { env, p0, p1, p2, _ in
             let v0 = try P0.fromJava(object: p0, env: env)
             let v1 = try P1.fromJava(object: p1, env: env)
             let v2 = try P2.fromJava(object: p2, env: env)
@@ -682,7 +682,7 @@ extension AsyncFunction4Converter: JavaConverter where R: JavaConverter, P0: Jav
     }
     
     public static func toJava(_ value: @escaping SwiftType, env: Env) throws -> jobject? {
-        let erased = AnyAsyncFunction4 { env, p0, p1, p2, p3 in
+        let erased = AnyAsyncFunction4 { env, p0, p1, p2, p3, _ in
             let v0 = try P0.fromJava(object: p0, env: env)
             let v1 = try P1.fromJava(object: p1, env: env)
             let v2 = try P2.fromJava(object: p2, env: env)
@@ -798,7 +798,7 @@ extension AsyncFunction5Converter: JavaConverter where R: JavaConverter, P0: Jav
     }
     
     public static func toJava(_ value: @escaping SwiftType, env: Env) throws -> jobject? {
-        let erased = AnyAsyncFunction5 { env, p0, p1, p2, p3, p4 in
+        let erased = AnyAsyncFunction5 { env, p0, p1, p2, p3, p4, _ in
             let v0 = try P0.fromJava(object: p0, env: env)
             let v1 = try P1.fromJava(object: p1, env: env)
             let v2 = try P2.fromJava(object: p2, env: env)
@@ -920,7 +920,7 @@ extension AsyncFunction6Converter: JavaConverter where R: JavaConverter, P0: Jav
     }
     
     public static func toJava(_ value: @escaping SwiftType, env: Env) throws -> jobject? {
-        let erased = AnyAsyncFunction6 { env, p0, p1, p2, p3, p4, p5 in
+        let erased = AnyAsyncFunction6 { env, p0, p1, p2, p3, p4, p5, _ in
             let v0 = try P0.fromJava(object: p0, env: env)
             let v1 = try P1.fromJava(object: p1, env: env)
             let v2 = try P2.fromJava(object: p2, env: env)

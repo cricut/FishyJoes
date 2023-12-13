@@ -1,6 +1,8 @@
 import Foundation
 
 extension AttributedString.UnicodeScalarView: JavaMutator {
+    
+    
     public static var javaClass: jclass?
     private static var _constructorMethodID: jmethodID!
 
@@ -15,6 +17,10 @@ extension AttributedString.UnicodeScalarView: JavaMutator {
 
     public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout AttributedString.UnicodeScalarView) throws -> R) throws -> R {
         try body(&Box<AttributedString.UnicodeScalarView>.fromJava(this, env: env).value)
+    }
+    
+    public static func mutateJava<R>(_ this: jobject?, env: inout Env, body: (inout AttributedString.UnicodeScalarView, inout Env) async throws -> R) async throws -> R {
+        await try body(&Box<AttributedString.UnicodeScalarView>.fromJava(this, env: env).value, &env)
     }
 
     public static func javaSetup(env: Env) throws {

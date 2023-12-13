@@ -473,6 +473,93 @@ sealed class Functions {
             failureContinuation: (String) -> Unit
         )
 
+        /**
+         * <!-- FishyJoes.export(asyncDoubleFunc) -->
+         */
+        suspend fun asyncDoubleFunc(
+            d: Double
+        ) {
+            return coroutineScope {
+                async {
+                    suspendCancellableCoroutine { continuation: CancellableContinuation<Void> ->
+                        __jni_asyncDoubleFunc(
+                            d,
+                            { value ->
+                                continuation.resume(value, null)
+                            }
+                        ) { message ->
+                            continuation.cancel(Error(message))
+                        }
+                    }
+                }.await()
+            }
+        }
+        @JvmStatic
+        @JvmName("__jni_asyncDoubleFunc")
+        private external fun __jni_asyncDoubleFunc(
+            d: Double,
+            successContinuation: (Void) -> Unit,
+            failureContinuation: (String) -> Unit
+        )
+
+        /**
+         * <!-- FishyJoes.export(asyncMultipleArgs) -->
+         */
+        suspend fun asyncMultipleArgs(
+            i: Long,
+            j: (() -> Long)
+        ) {
+            return coroutineScope {
+                async {
+                    suspendCancellableCoroutine { continuation: CancellableContinuation<Void> ->
+                        __jni_asyncMultipleArgs(
+                            i,
+                            j,
+                            { value ->
+                                continuation.resume(value, null)
+                            }
+                        ) { message ->
+                            continuation.cancel(Error(message))
+                        }
+                    }
+                }.await()
+            }
+        }
+        @JvmStatic
+        @JvmName("__jni_asyncMultipleArgs")
+        private external fun __jni_asyncMultipleArgs(
+            i: Long,
+            j: (() -> Long),
+            successContinuation: (Void) -> Unit,
+            failureContinuation: (String) -> Unit
+        )
+
+        /**
+         * <!-- FishyJoes.export(asyncThrowingFunc) -->
+         */
+        suspend fun asyncThrowingFunc(
+        ) {
+            return coroutineScope {
+                async {
+                    suspendCancellableCoroutine { continuation: CancellableContinuation<Void> ->
+                        __jni_asyncThrowingFunc(
+                            { value ->
+                                continuation.resume(value, null)
+                            }
+                        ) { message ->
+                            continuation.cancel(Error(message))
+                        }
+                    }
+                }.await()
+            }
+        }
+        @JvmStatic
+        @JvmName("__jni_asyncThrowingFunc")
+        private external fun __jni_asyncThrowingFunc(
+            successContinuation: (Void) -> Unit,
+            failureContinuation: (String) -> Unit
+        )
+
         init { loadNativeLibs() }
     }
 
