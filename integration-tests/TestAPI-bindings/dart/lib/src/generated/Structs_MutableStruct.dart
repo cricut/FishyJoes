@@ -100,21 +100,8 @@ class Structs_MutableStruct with _$Structs_MutableStruct {
         consumeCreatedRef<TestAPI.Structs_MutableStruct>(check((OutCreatedRef _exn) => f__iota_TestAPI_Structs_MutableStruct_create(Loader.shared.env, _exn)))
     ;
 
-    /// <!-- FishyJoes.export(increment) -->
-    void increment(
-    ) =>
-        GCRef.using(this, (_thisHandle) =>
-            check((OutCreatedRef _exn) => f__iota_TestAPI_Structs_MutableStruct_increment(Loader.shared.env, _thisHandle.ptr, _exn))
-        )
-    ;
-
     static late CreatedRef Function(
         Env env,
         OutCreatedRef _exn
     ) f__iota_TestAPI_Structs_MutableStruct_create;
-    static late void Function(
-        Env env,
-        UnownedRef _this,
-        OutCreatedRef _exn
-    ) f__iota_TestAPI_Structs_MutableStruct_increment;
 }

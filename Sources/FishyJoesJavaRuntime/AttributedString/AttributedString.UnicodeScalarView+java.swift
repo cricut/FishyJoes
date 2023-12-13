@@ -20,7 +20,7 @@ extension AttributedString.UnicodeScalarView: JavaMutator {
     }
     
     public static func mutateJava<R>(_ this: jobject?, env: inout Env, body: (inout AttributedString.UnicodeScalarView, inout Env) async throws -> R) async throws -> R {
-        await try body(&Box<AttributedString.UnicodeScalarView>.fromJava(this, env: env).value, &env)
+        try await body(&Box<AttributedString.UnicodeScalarView>.fromJava(this, env: env).value, &env)
     }
 
     public static func javaSetup(env: Env) throws {
