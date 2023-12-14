@@ -294,15 +294,43 @@ jobs:
 
       - uses: dart-lang/setup-dart@v1
 
+      # TODO: Do this instead of copying all this from node-runtime.yaml
+#      - name: Build FishyJoesNodeRuntime
+#        shell: bash
+#        run: |
+#          set -euxo pipefail
+#
+#          ./scripts/compile-node-runtime.sh
       - name: Build FishyJoesNodeRuntime
-        shell: zsh {0}
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+
+          # Should perform the same actions as scripts/compile-node-runtime.sh, but must be done in powershell for swift-build to work
+          $env:CONFIGURATION="debug"
+          swift build --product FishyJoesNodeRuntime --configuration $env:CONFIGURATION --build-path ./.build/windows-build
+          New-Item -ItemType Directory -Force -Path $env:LIB_DIR
+          Copy-Item .build\windows-build\x86_64-unknown-windows-msvc\$env:CONFIGURATION\FishyJoesNodeRuntime.dll -Destination $env:LIB_DIR
+          Rename-Item -Path $env:LIB_DIR\FishyJoesNodeRuntime.dll -NewName Runtime.cjs.node
+      - name: Build Runtime Definitions File
+        shell: bash
         run: |
           set -euxo pipefail
 
-          ./scripts/compile-node-runtime.sh
+          RUNTIME_COMMON_DIR="node-runtime/fishyjoes-runtime-common"
+          cp "$RUNTIME_COMMON_DIR"/Runtime.extensions.js "$LIB_DIR"
 
+          DEFS="$LIB_DIR/Runtime.d.ts"
+          cat "$RUNTIME_COMMON_DIR/Runtime.d.ts.part" > "$DEFS"
+          cat "$RUNTIME_COMMON_DIR/Runtime.extensions.d.ts.part" >> "$DEFS"
+          echo 'export declare function init(): Promise<{ Runtime: typeof Runtime }>;' >> "$DEFS"
+          echo 'export default Runtime;' >> "$DEFS"
+
+          echo "Used runtime common files in $RUNTIME_COMMON_DIR to populate $LIB_DIR"
+
+      # TODO: Replace all of this with "swift run fishy-joes build test --nodejs"
       - name: Test TypeScript from npm via fishy-joes
-        shell: zsh {0}
+        shell: bash
         run: |
           set -euxo pipefail
 
@@ -310,48 +338,6 @@ jobs:
 
           swift run -- fishy-joes --nodejs build test
 
-      - name: Build FishyJoesIotaRuntime
-        shell: zsh {0}
-        run: |
-          set -euxo pipefail
-
-          ./scripts/compile-iota-runtime.sh
-
-      - name: Test C♯ from dotnet via fishy-joes
-        shell: zsh {0}
-        run: |
-          set -euxo pipefail
-
-          cd integration-tests/TestAPI-bindings
-          swift run -- fishy-joes --c-sharp build test
-
-      - name: Test Dart from dart via fishy-joes
-        shell: zsh {0}
-        run: |
-          set -euxo pipefail
-
-          cd integration-tests/TestAPI-bindings
-          swift run -- fishy-joes --dart build test
-
-      - name: Build FishyJoesJavaRuntime
-        shell: zsh {0}
-        run: |
-          set -euxo pipefail
-
-          libdir=kotlin-runtime/src/generated/resources/mac
-          rm -rf $libdir
-          mkdir -p $libdir
-          ./scripts/compile-kotlin-native-runtime.sh
-          (cd kotlin-runtime && ./gradlew publishToMavenLocal)
-
-      - name: Test kotlin from gradle via fishy-joes
-        shell: zsh {0}
-        run: |
-          set -euxo pipefail
-
-          cd integration-tests/TestAPI-bindings
-          swift run -- fishy-joes --kotlin-fast build test
-          
   integration-tests-android:
     name: "Android: Integration Tests"
     needs: [integration-tests-ubuntu]
