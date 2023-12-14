@@ -24,41 +24,6 @@ The recommended way to ensure you have everything you will need for any FishyJoe
 1. [What FishyJoes Can and Cannot Do](documentation/cans-and-cannots.md)
 2. Was that a question?
    **No, but it was frequently asked**
-3. What annotations can be made to Swift code to mark it for FishyJoes to process?
-```
-// Export a type member-wise, including all its properties (used for simple data objects, data lives on foreign side)
-/// <!-- FishyJoes.export(DesiredForeignTypeName) -->
-public struct SomeSwiftType { /* must have a public initializer taking all stored properties as parameters */ }
-
-// Export a type by reference, properties must be exported individually (foreign side type only has a single pointer)
-/// <!-- FishyJoes.exportReference(DesiredForeignTypeName) -->
-public struct SomeSwiftType {
-    // Export a property of a type (the type of the property must also be exported)
-    /// <!-- FishyJoes.export(desiredForeignPropertyName) -->
-    public someProperty: SomeOtherSwiftType
-
-    // Export a method of a type (the types of the parameters & return type must also be exported)
-    /// <!-- FishyJoes.export(desiredForeignMethodName) -->
-    public func someMethod(parameter: SomeOtherSwiftType) -> YetAnotherSwiftType { \* ... *\ }
-
-    // Export an initializer of a type (creates a type-level method on the foreign type)
-    /// <!-- FishyJoes.export(desiredForeignTypeLevelMethodName) -->
-    public init(parameter: SomeOtherSwiftType) { \* ... *\ }
-
-    // Export a method that uses a generic, which requires mapping the generic to a concrete type in order to export it
-    /// <!-- FishyJoes.export(someGenericMethod, generic: [G: [SomeConcreteSwiftTypeSatisfyingG]) -->
-    public func someGenericMethod<G: Generic>(parameter: G) { \* ... *\ }
-
-    // Export a method omitting one or more parameters that have default values from the foreign interface
-    /// <!-- FishyJoes.export(someMethodWithOptionals, omitParameters: [someDefaultedParameter]) -->
-    public func someMethodWithOptionals(parameter: SomeOtherSwiftType someDefaultedParameter: Int? = nil) { \* ... *\ }
-
-    // Export a method, then add parameters with defaults later, without breaking interface
-    /// <!-- FishyJoes.export(someMethodThatChanges, compatibilityOrder: [newParameterTwo]) -->
-    public func someMethodThatChanges(parameterOne: Int, newParameterTwo: SomeOtherSwiftType? = nil) { \* ... *\ }
-}
-
-```
 
 # Overview
 
