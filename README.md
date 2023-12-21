@@ -57,7 +57,6 @@ public struct SomeSwiftType {
     /// <!-- FishyJoes.export(someMethodThatChanges, compatibilityOrder: [newParameterTwo]) -->
     public func someMethodThatChanges(parameterOne: Int, newParameterTwo: SomeOtherSwiftType? = nil) { \* ... *\ }
 }
-
 ```
 
 # Overview
