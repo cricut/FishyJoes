@@ -219,20 +219,6 @@ final class CSharpTranslator: Translator {
 
     // Very hacky. But values are an entirely separate language to what we process
     func cSharp(value: String) -> String? {
-        if let int = Int(value) {
-            return "\(int)"
-        } else if let double = Double(value) {
-            return "\(double)"
-        } else if value == "Double.ulpOfOne.squareRoot()" {
-            return "1.4901161193847656E-8"
-        }
-        switch value {
-        case "nil":
-            return "null"
-        case "true", "false":
-            return value
-        default:
-            return nil
-        }
+        return value == "nil" ? "null" : literal(value: value)
     }
 }
