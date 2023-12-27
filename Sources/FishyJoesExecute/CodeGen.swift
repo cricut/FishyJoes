@@ -307,7 +307,6 @@ extension CodeGen {
                     let src = "\(try platform.buildDir(configuration))\(ps)\(platform.dylibName(for: name))"
                     let installName = installName ?? platform.dylibName(for: name)
                     let dest = "\(outputDir)\(ps)\(installName)"
-                    print("Thingsnstuffsrc: \(src)")
                     try cmd("cp", src, dest).run()
                     if sign, platform.dylibExt == "dylib" {
                         try cmd("codesign", "-s", "-", dest).run()
@@ -592,6 +591,8 @@ extension CodeGen {
                     try installLibrary("\(config.module)-java")
                 case .cSharp:
                     // Install the module library and interfacing library
+                    // TODO: Need to install iota runtime manually? Windows seems to need it...
+                    // try installLibrary("FishyJoesIotaRuntime")
                     try installLibrary(config.module)
                     try installLibrary("\(config.module)-iota")
                 case .dart:
