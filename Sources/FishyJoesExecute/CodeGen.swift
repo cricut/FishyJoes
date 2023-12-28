@@ -151,6 +151,10 @@ extension CodeGen {
 
         // MARK: - Generate Step
         if buildStep.contains(.generate) {
+            #if os(Windows)
+            fatalError("Code generation step is not supported on Windows. Generate source code on another platform then use steps 'build', 'test', or 'pack'")
+            #endif
+
             // Locate sources to translate
             let translateeSources: String
             if let translateeLocalPath = packageInfo.dependencyMap[config.module]?.localPath {

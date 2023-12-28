@@ -6,7 +6,7 @@ let wasmToolchain = "/Library/Developer/Toolchains/swift-wasm-5.9-SNAPSHOT-2023-
 #elseif os(Linux)
 let wasmToolchain = "/Library/Developer/Toolchains/swift-wasm-5.9-SNAPSHOT-2023-08-06-a.xctoolchain"
 #elseif os(Windows)
-let wasmToolchain = "C:\\Library\\Developer\\Toolchains\\swift-wasm-5.9-SNAPSHOT-2023-08-06-a.xctoolchain"
+let wasmToolchain = "C:\\Library\\Developer\\Toolchains\\swift-wasm-5.9-SNAPSHOT-2023-08-06-a-ubuntu22.04_x86_64"
 #endif
 
 #if os(macOS)
