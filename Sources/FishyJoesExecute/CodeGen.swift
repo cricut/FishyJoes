@@ -590,11 +590,21 @@ extension CodeGen {
                     try installLibrary(config.module)
                     try installLibrary("\(config.module)-java")
                 case .cSharp:
-                    // Install the module library and interfacing library
-                    // TODO: Need to install iota runtime manually? Windows seems to need it...
-                    // try installLibrary("FishyJoesIotaRuntime")
-                    try installLibrary(config.module)
-                    try installLibrary("\(config.module)-iota")
+                    // Install the module library, interfacing library, and required module libraries
+                    try cmd("mkdir", "-p", outputDir).run()
+                    let libs = [
+                        "FishyJoesIotaRuntime",
+                        config.module,
+                        config.module + "-iota",
+                    ] + config.requiredModules.flatMap { module in
+                        [
+                            module,
+                            module + "-iota",
+                        ]
+                    }
+                    for lib in libs {
+                        try installLibrary(lib)
+                    }
                 case .dart:
                     // Install the module library, interfacing library, and required module libraries, signing if necessary
                     try cmd("mkdir", "-p", outputDir).run()
