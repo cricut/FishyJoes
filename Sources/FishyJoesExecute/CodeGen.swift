@@ -137,6 +137,7 @@ extension CodeGen {
         guard let fishyJoesDependency = packageInfo.dependencyMap["FishyJoes"] else {
             fatalError("Couldn't locate FishyJoes dependency in Package.swift")
         }
+        print("Found FishyJoes at: \(fishyJoesDependency.localPath)")
 
         // Locate dependency bindings modules required by this bindings module
         var dependencySourcePaths: [String: String] = [config.module: "."]
@@ -629,7 +630,7 @@ extension CodeGen {
             }
             if platforms.contains(.kotlinSystem) {
                 try withDirectory("kotlin") {
-                    try cmd(".\(ps)gradlew", "build", "-Dskip.tests").run()
+                    try cmd("bash", "-c", "./gradlew build -Dskip.tests").run()
                 }
             }
             if platforms.contains(.cSharp) {
@@ -650,7 +651,7 @@ extension CodeGen {
                     break
                 case .kotlinSystem:
                     try withDirectory("kotlin") {
-                        try cmd(".\(ps)gradlew", "build", "-Dskip.tests").run()
+                        try cmd("bash", "-c", "./gradlew build -Dskip.tests").run()
                     }
                 case .kotlinAndroid:
                     // Compiled along with .kotlinSystem
@@ -697,7 +698,7 @@ extension CodeGen {
                     // Use gradle to execute the test suite
                     try withDirectory("kotlin") {
                         let tasks = ["cleanTest", "test"] + (codeCoveragePath == nil ? [] : ["jacocoTestReport"])
-                        try cmd(".\(ps)gradlew", arguments: tasks, addEnv: env).run()
+                        try cmd("bash", "-c", "./gradlew \(tasks.joined(separator: " "))", addEnv: env).run()
                     }
                 case .kotlinAndroid:
                     // TODO: Execute Android tests from FishyJoes
