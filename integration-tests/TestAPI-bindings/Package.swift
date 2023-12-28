@@ -33,7 +33,7 @@ let package = Package(
         ]
     ),
     dependencies: [
-        .package(path: "../TestAPI"),
+        .package(name: "TestAPI", path: "../TestAPI"),
         .package(name: "FishyJoes", path: "../.."),
     ],
     targets: [

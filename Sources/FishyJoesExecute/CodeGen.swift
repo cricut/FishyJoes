@@ -214,19 +214,19 @@ extension CodeGen {
 
             // Execute Sourcery to generate the Swift-side and foreign-side source files for all supported language targets
             try cmd(
-                "",// ".build\(ps)debug\(ps)sourcery",
+                ".build\(ps)debug\(ps)sourcery",
                 arguments: [
-                    // quiet ? "-q" : nil,
-                    // "--disableCache",
-                    // "--parseDocumentation",
-                    // "--sources", translateeSources,
-                    // "--templates", ".build\(ps)debug\(ps)FishyJoes_FishyJoesExecutionHelper.bundle\(ps)FishyJoes.swifttemplate",
-                    // "--args", "module=\(config.module)",
-                    // "--args", "debugRepresentation=\(debug)",
-                    // "--args", "requiredModules=\"\(try! JSONEncoder().encode(fishyJoesModuleFiles).base64EncodedString())\"",
-                    // "--args", "fishyJoesExecutable=.build\(ps)debug\(ps)🐟☕️",
-                    // "--args", "stderrFifo=\(errorFifoPath)",
-                    // "--output", "Sources\(ps)Generated"
+                    quiet ? "-q" : nil,
+                    "--disableCache",
+                    "--parseDocumentation",
+                    "--sources", translateeSources,
+                    "--templates", ".build\(ps)debug\(ps)FishyJoes_FishyJoesExecutionHelper.bundle\(ps)FishyJoes.swifttemplate",
+                    "--args", "module=\(config.module)",
+                    "--args", "debugRepresentation=\(debug)",
+                    "--args", "requiredModules=\"\(try! JSONEncoder().encode(fishyJoesModuleFiles).base64EncodedString())\"",
+                    "--args", "fishyJoesExecutable=.build\(ps)debug\(ps)🐟☕️",
+                    "--args", "stderrFifo=\(errorFifoPath)",
+                    "--output", "Sources\(ps)Generated"
                 ].compactMap { $0 } + config.excludeSources.flatMap { exclude in
                     var basePath = translateeSources
                     if !basePath.hasSuffix("\(ps)") {
