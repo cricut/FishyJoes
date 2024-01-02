@@ -1,6 +1,9 @@
 package com.cricut.testapi
 
 import kotlinx.coroutines.*
+import kotlin.coroutines.Continuation
+import kotlin.coroutines.CoroutineContext
+import kotlin.coroutines.coroutineContext
 
 /**
  * <!-- FishyJoes.export(Functions) -->
@@ -267,6 +270,40 @@ sealed class Functions {
         @JvmName("__jni_asyncVoidFunc")
         private external fun __jni_asyncVoidFunc(
             successContinuation: (kotlin.Unit?) -> Unit,
+            failureContinuation: (String) -> Unit
+        )
+
+        /**
+         * <!-- FishyJoes.export(asyncCallbackFunc0) -->
+         */
+        suspend fun asyncCallbackFunc0(
+            callback: (suspend () -> Long)
+        ): Long {
+            return coroutineScope {
+                async {
+                    suspendCancellableCoroutine { continuation: CancellableContinuation<Long> ->
+                        __jni_asyncCallbackFunc0(
+                            { //continuation ->
+                                val deferred = CoroutineScope(Dispatchers.Default).async {
+                                    callback()
+                                }
+                                0
+                            },
+                            { value ->
+                                continuation.resume(value, null)
+                            }
+                        ) { message ->
+                            continuation.cancel(Error(message))
+                        }
+                    }
+                }.await()
+            }
+        }
+        @JvmStatic
+        @JvmName("__jni_asyncCallbackFunc0")
+        private external fun __jni_asyncCallbackFunc0(
+            callback: (((Long) -> Unit) -> Long),
+            successContinuation: (Long) -> Unit,
             failureContinuation: (String) -> Unit
         )
 

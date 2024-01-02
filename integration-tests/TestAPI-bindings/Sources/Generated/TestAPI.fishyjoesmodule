@@ -4043,6 +4043,33 @@
                     }
                   }
                 }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(asyncCallbackFunc0) -->"
+                ],
+                "isAsync" : true,
+                "isStatic" : true,
+                "name" : "asyncCallbackFunc0",
+                "parameters" : [
+                  {
+                    "name" : "callback",
+                    "type" : {
+                      "named" : {
+                        "_0" : "() => Promise<number>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                }
               }
             ],
             "name" : "Functions",

@@ -3669,6 +3669,17 @@ final ensureLoaded = (() {
         });
     });
 
+    Loader.shared.once("setup_AsyncFunction0Converter<Swift.Int>", () {
+        // print("setting up () async -> Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            Loader.shared.FishyJoesCommonRuntime_AsyncFunction0Converter_setup<int>(
+                Loader.shared.env,
+                "AsyncFunction0Converter<Swift.Int>",
+                exn
+            );
+        });
+    });
+
     Loader.shared.once("setup_ArrayConverter<OptionalConverter<Swift.Bool>>", () {
         // print("setting up Array<Optional<Bool>> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {

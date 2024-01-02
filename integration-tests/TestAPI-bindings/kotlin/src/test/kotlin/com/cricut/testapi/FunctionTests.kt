@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import kotlin.math.abs
 import kotlinx.coroutines.*
+import java.lang.Exception
 
 internal class FunctionTests {
     @Test
@@ -84,6 +85,26 @@ internal class FunctionTests {
     fun testAsyncVoidFunctionCall() {
         kotlinx.coroutines.runBlocking {
             Functions.asyncVoidFunc()
+        }
+    }
+
+    @Test
+    fun testAsyncCallbackFunctionCall0() {
+        kotlinx.coroutines.runBlocking {
+            var threw = false
+            var value: Long = 42
+            var ran = false
+            try {
+                value = Functions.asyncCallbackFunc0 {
+                    ran = true
+                    42
+                }
+            } catch (e: Exception) {
+                threw = true
+            }
+            assertEquals(false, threw)
+            assertEquals(42, value)
+            assertEquals(true, ran)
         }
     }
 }

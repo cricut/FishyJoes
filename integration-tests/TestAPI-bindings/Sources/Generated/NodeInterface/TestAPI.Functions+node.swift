@@ -268,6 +268,42 @@ extension TestAPI.Functions: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
+                "asyncCallbackFunc0": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "asyncCallbackFunc0", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                            let (deferred, promise) = try env.env.createPromise()
+                            let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: AsyncFunction0Converter<Swift.Int>.self))
+                            Task {
+                                do {
+                                    let taskResult: Int = try await TestAPI.Functions.asyncCallbackFunc0(
+                                        arg0.value
+                                    )
+                                    try onMainThread { env in
+                                        let convertedTaskResult: NAPI.Value
+                                        do {
+                                            convertedTaskResult = try Swift.Int.toNode(taskResult, env: env)
+                                        } catch {
+                                            try env.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: env))
+                                            return
+                                        }
+                                        try env.resolveDeferred(deferred, convertedTaskResult)
+                                    }
+                                } catch let error as JSException {
+                                    try onMainThread { env in
+                                        let error = try env.createError(NAPI.Value(ptr: nil), String.toNode(error.message, env: env))
+                                        try env.rejectDeferred(deferred, error)
+                                    }
+                                } catch {
+                                    try onMainThread { env in
+                                        try env.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: env))
+                                    }
+                                }
+                            }
+                            return promise
+                        }
+                    },
+                    isStatic: true
+                ),
                 "const42": (
                     .accessor(
                         getter: { env, info in
