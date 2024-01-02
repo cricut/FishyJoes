@@ -1,6 +1,10 @@
 package com.cricut.testapi
 
 import kotlinx.coroutines.*
+import kotlinx.coroutines.future.await
+import kotlinx.coroutines.future.future
+import java.lang.Exception
+import java.util.concurrent.CompletionException
 import kotlin.coroutines.Continuation
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.coroutineContext
@@ -283,11 +287,14 @@ sealed class Functions {
                 async {
                     suspendCancellableCoroutine { continuation: CancellableContinuation<Long> ->
                         __jni_asyncCallbackFunc0(
-                            { //continuation ->
-                                val deferred = CoroutineScope(Dispatchers.Default).async {
-                                    callback()
+                            {
+                                try {
+                                    CoroutineScope(Dispatchers.Default).future {
+                                        callback()
+                                    }.join()
+                                } catch (e: Exception) {
+                                    throw e.cause ?: e
                                 }
-                                0
                             },
                             { value ->
                                 continuation.resume(value, null)
@@ -302,7 +309,7 @@ sealed class Functions {
         @JvmStatic
         @JvmName("__jni_asyncCallbackFunc0")
         private external fun __jni_asyncCallbackFunc0(
-            callback: (((Long) -> Unit) -> Long),
+            callback: (() -> Long),
             successContinuation: (Long) -> Unit,
             failureContinuation: (String) -> Unit
         )
