@@ -249,7 +249,7 @@ final class KotlinTranslator: Translator {
             ktFragment.output("\(repName).ensureLoaded()")
         }
 
-        let exportFragment = SourceFragment(sourceryDestination: "file:JavaInterface/@_exported.swift")
+        let exportFragment = SourceFragment(sourceryDestination: "file:JavaInterface/_exported.swift")
         exportFragment.output("@_exported import \(module.name)")
         for dependency in module.dependencies {
             exportFragment.output("@_exported import \(dependency)_JavaInterface")
