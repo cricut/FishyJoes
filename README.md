@@ -25,7 +25,7 @@ The recommended way to ensure you have everything you will need for any FishyJoe
 2. Was that a question?
    **No, but it was frequently asked**
 3. What annotations can be made to Swift code to mark it for FishyJoes to process?
-```
+```swift
 // Export a Swift named type for use in foreign languages
 // The way that type is expressed based on the Swift type (class, struct, enum, protocol)
 // * Class types are exported by-reference, with the foreign type only storing a pointer to the Swift instance
