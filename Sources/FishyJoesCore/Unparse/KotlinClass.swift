@@ -63,6 +63,7 @@ class KotlinClass: NestedClass {
         fragment.output("package \(module.kotlinPackage)")
         fragment.blankLine()
         fragment.output("import kotlinx.coroutines.*")
+        fragment.output("import java.lang.Exception")
         for dependency in module.dependencies {
             fragment.output("import com.cricut.\(dependency.lowercased()).*")
         }
@@ -134,7 +135,8 @@ class KotlinClass: NestedClass {
                     fragment.outputMap(filteredParameters, separator: ",") { parameter in
                         let labelComment = parameter.labelComment.map { "/* \($0) */ " } ?? ""
                         let defaultValue = parameter.defaultValue.map { " = \($0)" } ?? ""
-                        return "\(labelComment)\(parameter.name): \(parameter.type.kotlinType)\(defaultValue)"
+                        let kotlinType: String = (method.isSuspend && parameter.type.isFunction) ? "(suspend \(parameter.type.kotlinType.dropFirst())" : parameter.type.kotlinType
+                        return "\(labelComment)\(parameter.name): \(kotlinType)\(defaultValue)"
                     }
                 }
                 if method.returnType != KType.void {
@@ -149,8 +151,24 @@ class KotlinClass: NestedClass {
                             fragment.outputBlock("async {", newLineTerminated: false) {
                                 fragment.outputBlock("suspendCancellableCoroutine { continuation: CancellableContinuation<\(method.returnType.kotlinType)\(method.returnType.kotlinType == "kotlin.Unit" ? "?" : "")> ->", closeWith: "}") {
                                     fragment.outputBlock("__jni_\(method.name)(", closeWith: ")", newLineTerminated: false) {
-                                        fragment.outputMap(method.parameters, separator: "") { parameter in
-                                            parameter.name + ","
+                                        for parameter in method.parameters {
+                                            if parameter.type.isFunction {
+                                                fragment.outputBlock("{", newLineTerminated: false) {
+                                                    fragment.outputBlock("try {", newLineTerminated: false) {
+                                                        fragment.outputBlock("CoroutineScope(Dispatchers.Default).future {", newLineTerminated: false) {
+                                                            // TODO: Forward parameters
+                                                            fragment.output(parameter.name + "()")
+                                                        }
+                                                        fragment.output(".join()")
+                                                    }
+                                                    fragment.outputBlock(" catch (e: Exception) {") {
+                                                        fragment.output("throw e.cause ?: e")
+                                                    }
+                                                }
+                                                fragment.output(",")
+                                            } else {
+                                                fragment.output(parameter.name + ",")
+                                            }
                                         }
                                         fragment.outputBlock("{ value ->", closeWith: "}") {
                                             fragment.output("continuation.resume(value, null)")
@@ -210,6 +228,10 @@ class KotlinClass: NestedClass {
 extension KotlinClass.KType: CustomStringConvertible {
     var description: String {
         "FIXME: You should not use this, you should use one of the representations below. \(jvmType)"
+    }
+
+    var isFunction: Bool {
+        kotlinType.contains("->")
     }
 
     var jvmType: String {

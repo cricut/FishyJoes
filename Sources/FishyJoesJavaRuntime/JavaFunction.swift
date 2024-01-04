@@ -41,14 +41,14 @@ private enum SwiftAsyncFunctionImpl {
     public static func javaSetup(arity: Int, invokePointer: UnsafeMutableRawPointer, env: Env) throws {
         try AnyBox.javaSetup(env: env)
         if implClass == nil {
-            implClass = try env.globalRef(env.FindClass("com/cricut/fishyjoes/runtime/SwiftFunctionImpl"))
+            implClass = try env.globalRef(env.FindClass("com/cricut/fishyjoes/runtime/SwiftAsyncFunctionImpl"))
             constructor = try env.GetMethodID(implClass, "<init>", "(IJ)V")
         }
 
         if invokeMethods[arity] == nil {
             let functionClass = try env.globalRef(env.FindClass("kotlin/jvm/functions/Function\(arity)"))
             let obj = "Ljava/lang/Object;"
-            let invokeSignature = "(\(String(repeating: obj, count: arity + 1)))\(obj)"
+            let invokeSignature = "(\(String(repeating: obj, count: arity)))\(obj)"
 
             let bag = CStringBag()
             try env.RegisterNatives(

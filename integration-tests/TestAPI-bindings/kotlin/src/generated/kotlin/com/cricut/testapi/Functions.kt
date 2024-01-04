@@ -1,13 +1,7 @@
 package com.cricut.testapi
 
 import kotlinx.coroutines.*
-import kotlinx.coroutines.future.await
-import kotlinx.coroutines.future.future
 import java.lang.Exception
-import java.util.concurrent.CompletionException
-import kotlin.coroutines.Continuation
-import kotlin.coroutines.CoroutineContext
-import kotlin.coroutines.coroutineContext
 
 /**
  * <!-- FishyJoes.export(Functions) -->
