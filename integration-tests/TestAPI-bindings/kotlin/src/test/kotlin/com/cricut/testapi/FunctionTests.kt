@@ -107,4 +107,24 @@ internal class FunctionTests {
             assertEquals(true, ran)
         }
     }
+
+    @Test
+    fun testAsyncCallbackFunctionCall1() {
+        kotlinx.coroutines.runBlocking {
+            var threw = false
+            var value: Long = 42
+            var ran = false
+            try {
+                value = Functions.asyncCallbackFunc0 {
+                    ran = true
+                    42
+                }
+            } catch (e: Exception) {
+                threw = true
+            }
+            assertEquals(false, threw)
+            assertEquals(42, value)
+            assertEquals(true, ran)
+        }
+    }
 }
