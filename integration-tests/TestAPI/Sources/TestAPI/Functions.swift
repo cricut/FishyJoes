@@ -133,18 +133,18 @@ public enum Functions {
         try await callback(1, 2, 3, 4, 5, 6)
     }
 
-//    /// <!-- FishyJoes.export(asyncDoubleFunc) -->
-//    public static func asyncDoubleFunc(_ d: Double) async throws -> Double {
-//        return d * 2
-//    }
-//
-//    /// <!-- FishyJoes.export(asyncMultipleArgs) -->
-//    public static func asyncMultipleArgs(_ i: Int, j: () async throws -> Int) async throws -> Int {
-//        try await i + j()
-//    }
-//
-//    /// <!-- FishyJoes.export(asyncThrowingFunc) -->
-//    public static func asyncThrowingFunc() async throws {
-//        throw TheError()
-//    }
+    /// <!-- FishyJoes.export(asyncDoubleFunc) -->
+    public static func asyncDoubleFunc(_ d: Double) async throws -> Double {
+        return d * 2
+    }
+
+    /// <!-- FishyJoes.export(asyncMultipleArgs) -->
+    public static func asyncMultipleArgs(_ i: Int, j: () async throws -> Int) async throws -> Int {
+        try await i + j()
+    }
+
+    /// <!-- FishyJoes.export(asyncThrowingFunc) -->
+    public static func asyncThrowingFunc() async throws {
+        throw TheError()
+    }
 }

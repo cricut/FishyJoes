@@ -61,7 +61,7 @@ internal class FunctionTests {
 
     @Test
     fun testAsyncFunctionCall() {
-        kotlinx.coroutines.runBlocking {
+        runBlocking {
             val value: Long = Functions.async42Func()
             assertEquals(42, value)
         }
@@ -69,28 +69,28 @@ internal class FunctionTests {
 
     @Test
     fun testAsyncYieldingFunctionCall() {
-        kotlinx.coroutines.runBlocking {
+        runBlocking {
             Functions.asyncYieldFunc()
         }
     }
 
     @Test
     fun testAsyncSleepFunctionCal() {
-        kotlinx.coroutines.runBlocking {
+        runBlocking {
             Functions.asyncSleepFunc()
         }
     }
 
     @Test
     fun testAsyncVoidFunctionCall() {
-        kotlinx.coroutines.runBlocking {
+        runBlocking {
             Functions.asyncVoidFunc()
         }
     }
 
     @Test
     fun testAsyncCallbackFunctionCall0() {
-        kotlinx.coroutines.runBlocking {
+        runBlocking {
             var threw = false
             var value: Long = 42
             var ran = false
@@ -110,7 +110,7 @@ internal class FunctionTests {
 
     @Test
     fun testAsyncCallbackFunctionCall1() {
-        kotlinx.coroutines.runBlocking {
+        runBlocking {
             var threw = false
             var value: Long = 0
             val values: MutableList<Long> = ArrayList()
@@ -130,7 +130,7 @@ internal class FunctionTests {
 
     @Test
     fun testAsyncCallbackFunctionCall2() {
-        kotlinx.coroutines.runBlocking {
+        runBlocking {
             var threw = false
             var value: Long = 0
             val values: MutableList<Long> = ArrayList()
@@ -151,7 +151,7 @@ internal class FunctionTests {
 
     @Test
     fun testAsyncCallbackFunctionCall3() {
-        kotlinx.coroutines.runBlocking {
+        runBlocking {
             var threw = false
             var value: Long = 0
             val values: MutableList<Long> = ArrayList()
@@ -173,7 +173,7 @@ internal class FunctionTests {
 
     @Test
     fun testAsyncCallbackFunctionCall4() {
-        kotlinx.coroutines.runBlocking {
+        runBlocking {
             var threw = false
             var value: Long = 0
             val values: MutableList<Long> = ArrayList()
@@ -196,7 +196,7 @@ internal class FunctionTests {
 
     @Test
     fun testAsyncCallbackFunctionCall5() {
-        kotlinx.coroutines.runBlocking {
+        runBlocking {
             var threw = false
             var value: Long = 0
             val values: MutableList<Long> = ArrayList()
@@ -220,7 +220,7 @@ internal class FunctionTests {
 
     @Test
     fun testAsyncCallbackFunctionCall6() {
-        kotlinx.coroutines.runBlocking {
+        runBlocking {
             var threw = false
             var value: Long = 0
             val values: MutableList<Long> = ArrayList()
@@ -240,6 +240,39 @@ internal class FunctionTests {
             assertEquals(false, threw)
             assertEquals(1 + 2 + 3 + 4 + 5 + 6, value)
             assertEquals(arrayListOf(1.toLong(), 2, 3, 4, 5, 6), values)
+        }
+    }
+
+    @Test
+    fun testAsyncCallbackFunctionCallThrow() {
+        assertThrows(Error::class.java) {
+            runBlocking {
+                Functions.asyncCallbackFunc0 { throw java.lang.Error() }
+            }
+        }
+    }
+
+    @Test
+    fun testAsyncDoubleFunctionCall() {
+        runBlocking {
+            val value = Functions.asyncDoubleFunc(1.0)
+            assertEquals(2.0, value)
+        }
+    }
+
+    @Test
+    fun testAsyncMultipleArgsFunctionCall() {
+        runBlocking {
+            assertEquals(3, Functions.asyncMultipleArgs(1){ 2 })
+        }
+    }
+
+    @Test
+    fun testAsyncThrowingFunctionCall() {
+        assertThrows(Error::class.java) {
+            runBlocking {
+                Functions.asyncThrowingFunc()
+            }
         }
     }
 }

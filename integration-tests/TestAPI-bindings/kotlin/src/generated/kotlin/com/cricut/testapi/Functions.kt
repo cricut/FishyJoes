@@ -3,6 +3,7 @@ package com.cricut.testapi
 import kotlinx.coroutines.*
 import kotlinx.coroutines.future.future
 import java.lang.Exception
+import java.util.concurrent.CompletionException
 
 /**
  * <!-- FishyJoes.export(Functions) -->
@@ -287,7 +288,7 @@ sealed class Functions {
                                     CoroutineScope(Dispatchers.Default).future {
                                         callback()
                                     }.join()
-                                } catch (e: Exception) {
+                                } catch (e: CompletionException) {
                                     throw e.cause ?: e
                                 }
                             },
@@ -528,6 +529,101 @@ sealed class Functions {
         private external fun __jni_asyncCallbackFunc6(
             callback: ((Long, Long, Long, Long, Long, Long) -> Long),
             successContinuation: (Long) -> Unit,
+            failureContinuation: (String) -> Unit
+        )
+
+        /**
+         * <!-- FishyJoes.export(asyncDoubleFunc) -->
+         */
+        suspend fun asyncDoubleFunc(
+            d: Double
+        ): Double {
+            return coroutineScope {
+                async {
+                    suspendCancellableCoroutine { continuation: CancellableContinuation<Double> ->
+                        __jni_asyncDoubleFunc(
+                            d,
+                            { value ->
+                                continuation.resume(value, null)
+                            }
+                        ) { message ->
+                            continuation.cancel(Error(message))
+                        }
+                    }
+                }.await()
+            }
+        }
+        @JvmStatic
+        @JvmName("__jni_asyncDoubleFunc")
+        private external fun __jni_asyncDoubleFunc(
+            d: Double,
+            successContinuation: (Double) -> Unit,
+            failureContinuation: (String) -> Unit
+        )
+
+        /**
+         * <!-- FishyJoes.export(asyncMultipleArgs) -->
+         */
+        suspend fun asyncMultipleArgs(
+            i: Long,
+            j: (suspend () -> Long)
+        ): Long {
+            return coroutineScope {
+                async {
+                    suspendCancellableCoroutine { continuation: CancellableContinuation<Long> ->
+                        __jni_asyncMultipleArgs(
+                            i,
+                            {
+                                try {
+                                    CoroutineScope(Dispatchers.Default).future {
+                                        j()
+                                    }.join()
+                                } catch (e: Exception) {
+                                    throw e.cause ?: e
+                                }
+                            },
+                            { value ->
+                                continuation.resume(value, null)
+                            }
+                        ) { message ->
+                            continuation.cancel(Error(message))
+                        }
+                    }
+                }.await()
+            }
+        }
+        @JvmStatic
+        @JvmName("__jni_asyncMultipleArgs")
+        private external fun __jni_asyncMultipleArgs(
+            i: Long,
+            j: (() -> Long),
+            successContinuation: (Long) -> Unit,
+            failureContinuation: (String) -> Unit
+        )
+
+        /**
+         * <!-- FishyJoes.export(asyncThrowingFunc) -->
+         */
+        suspend fun asyncThrowingFunc(
+        ): kotlin.Unit {
+            return coroutineScope {
+                async {
+                    suspendCancellableCoroutine { continuation: CancellableContinuation<kotlin.Unit?> ->
+                        __jni_asyncThrowingFunc(
+                            { value ->
+                                continuation.resume(value, null)
+                            }
+                        ) { message ->
+                            continuation.cancel(Error(message))
+                        }
+                    }
+                }.await()
+            }
+        }
+        @JvmStatic
+        @JvmName("__jni_asyncThrowingFunc")
+        private external fun __jni_asyncThrowingFunc(
+            successContinuation: (kotlin.Unit?) -> Unit,
             failureContinuation: (String) -> Unit
         )
 

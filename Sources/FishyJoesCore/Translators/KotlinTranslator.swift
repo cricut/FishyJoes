@@ -95,7 +95,7 @@ final class KotlinTranslator: Translator {
                         fragment.outputBlock("do {", closeWith: "}", newLineTerminated: false) {
                             fragment.outputMap(method.parameters, separator: "\n") { parameter in
                                 let resolved = context.resolve(type: parameter.type, generics: exportAnnotation.genericOverrides)
-                                return "let \(parameter.name) = try \(resolved.converterType.name).fromJava(\(parameter.name)Ref.createLocalRef(env: _javaEnv), env: _javaEnv)"
+                                return "let \(parameter.name) = try \(resolved.converterType.name).fromJava(object: \(parameter.name)Ref.createLocalRef(env: _javaEnv), env: _javaEnv)"
                             }
                             fragment.output("\(method.isMutating ? "var" : "let") value: Result<\(method.returnType.name), any Error>\(method.isMutating ? "!" : "")")
                             fragment.output("var _javaEnv: Env!")
