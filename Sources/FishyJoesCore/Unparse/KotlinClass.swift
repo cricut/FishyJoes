@@ -3,6 +3,7 @@ class KotlinClass: NestedClass {
         case void
         case unsigned(jniType: JNIType)
         case named(package: String?, name: String)
+        case function(signature: String, parmeters: [KType])
         case optional(KType)
     }
 
@@ -63,6 +64,7 @@ class KotlinClass: NestedClass {
         fragment.output("package \(module.kotlinPackage)")
         fragment.blankLine()
         fragment.output("import kotlinx.coroutines.*")
+        fragment.output("import kotlinx.coroutines.future.future")
         fragment.output("import java.lang.Exception")
         for dependency in module.dependencies {
             fragment.output("import com.cricut.\(dependency.lowercased()).*")
@@ -153,11 +155,26 @@ class KotlinClass: NestedClass {
                                     fragment.outputBlock("__jni_\(method.name)(", closeWith: ")", newLineTerminated: false) {
                                         for parameter in method.parameters {
                                             if parameter.type.isFunction {
-                                                fragment.outputBlock("{", newLineTerminated: false) {
+                                                var parametersToForward: String = ""
+                                                switch parameter.type {
+                                                case let .function(signature, parmeters):
+                                                    for parameterIndex in parmeters.indices {
+                                                        if parametersToForward.isEmpty {
+                                                            parametersToForward.append(" ")
+                                                        } else {
+                                                            parametersToForward.append(", ")
+                                                        }
+                                                        parametersToForward.append("p\(parameterIndex)")
+                                                    }
+                                                default:
+                                                    break
+                                                }
+
+                                                fragment.outputBlock("{\(parametersToForward)\(parametersToForward.isEmpty ? "" : " ->")", closeWith: "}", newLineTerminated: false) {
                                                     fragment.outputBlock("try {", newLineTerminated: false) {
                                                         fragment.outputBlock("CoroutineScope(Dispatchers.Default).future {", newLineTerminated: false) {
                                                             // TODO: Forward parameters
-                                                            fragment.output(parameter.name + "()")
+                                                            fragment.output(parameter.name + "(\(parametersToForward))")
                                                         }
                                                         fragment.output(".join()")
                                                     }
@@ -247,6 +264,7 @@ extension KotlinClass.KType: CustomStringConvertible {
         case let .unsigned(jniType): return "U\(jniType.valueType)"
         case let .named(.none, name): return name
         case let .named(.some(package), name): return "\(package).\(name)"
+        case let .function(signature, _): return signature
         case let .optional(wrapped): return "\(wrapped.kotlinType)?"
         }
     }

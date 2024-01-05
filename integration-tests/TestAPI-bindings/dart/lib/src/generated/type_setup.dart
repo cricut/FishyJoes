@@ -3614,12 +3614,78 @@ final ensureLoaded = (() {
         });
     });
 
+    Loader.shared.once("setup_AsyncFunction6Converter<Swift.Int, Swift.Int, Swift.Int, Swift.Int, Swift.Int, Swift.Int, Swift.Int>", () {
+        // print("setting up (Int, Int, Int, Int, Int, Int) async -> Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            Loader.shared.FishyJoesCommonRuntime_AsyncFunction6Converter_setup<int, int, int, int, int, int, int>(
+                Loader.shared.env,
+                "AsyncFunction6Converter<Swift.Int, Swift.Int, Swift.Int, Swift.Int, Swift.Int, Swift.Int, Swift.Int>",
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_AsyncFunction5Converter<Swift.Int, Swift.Int, Swift.Int, Swift.Int, Swift.Int, Swift.Int>", () {
+        // print("setting up (Int, Int, Int, Int, Int) async -> Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            Loader.shared.FishyJoesCommonRuntime_AsyncFunction5Converter_setup<int, int, int, int, int, int>(
+                Loader.shared.env,
+                "AsyncFunction5Converter<Swift.Int, Swift.Int, Swift.Int, Swift.Int, Swift.Int, Swift.Int>",
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_AsyncFunction4Converter<Swift.Int, Swift.Int, Swift.Int, Swift.Int, Swift.Int>", () {
+        // print("setting up (Int, Int, Int, Int) async -> Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            Loader.shared.FishyJoesCommonRuntime_AsyncFunction4Converter_setup<int, int, int, int, int>(
+                Loader.shared.env,
+                "AsyncFunction4Converter<Swift.Int, Swift.Int, Swift.Int, Swift.Int, Swift.Int>",
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_AsyncFunction3Converter<Swift.Int, Swift.Int, Swift.Int, Swift.Int>", () {
+        // print("setting up (Int, Int, Int) async -> Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            Loader.shared.FishyJoesCommonRuntime_AsyncFunction3Converter_setup<int, int, int, int>(
+                Loader.shared.env,
+                "AsyncFunction3Converter<Swift.Int, Swift.Int, Swift.Int, Swift.Int>",
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_AsyncFunction2Converter<Swift.Int, Swift.Int, Swift.Int>", () {
+        // print("setting up (Int, Int) async -> Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            Loader.shared.FishyJoesCommonRuntime_AsyncFunction2Converter_setup<int, int, int>(
+                Loader.shared.env,
+                "AsyncFunction2Converter<Swift.Int, Swift.Int, Swift.Int>",
+                exn
+            );
+        });
+    });
+
     Loader.shared.once("setup_Function1Converter<Swift.Int, Swift.Int>", () {
         // print("setting up (Int) -> Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_Function1Converter_setup<int, int>(
                 Loader.shared.env,
                 "Function1Converter<Swift.Int, Swift.Int>",
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_AsyncFunction1Converter<Swift.Int, Swift.Int>", () {
+        // print("setting up (Int) async -> Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            Loader.shared.FishyJoesCommonRuntime_AsyncFunction1Converter_setup<int, int>(
+                Loader.shared.env,
+                "AsyncFunction1Converter<Swift.Int, Swift.Int>",
                 exn
             );
         });

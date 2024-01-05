@@ -103,35 +103,35 @@ public enum Functions {
         try await callback()
     }
 
-//    /// <!-- FishyJoes.export(asyncCallbackFunc1) -->
-//    public static func asyncCallbackFunc1(_ callback: (Int) async throws -> Int) async throws -> Int {
-//        try await callback(1)
-//    }
-//
-//    /// <!-- FishyJoes.export(asyncCallbackFunc2) -->
-//    public static func asyncCallbackFunc2(_ callback: (Int, Int) async throws -> Int) async throws -> Int {
-//        try await callback(1, 2)
-//    }
-//
-//    /// <!-- FishyJoes.export(asyncCallbackFunc3) -->
-//    public static func asyncCallbackFunc3(_ callback: (Int, Int, Int) async throws -> Int) async throws -> Int {
-//        try await callback(1, 2, 3)
-//    }
-//
-//    /// <!-- FishyJoes.export(asyncCallbackFunc4) -->
-//    public static func asyncCallbackFunc4(_ callback: (Int, Int, Int, Int) async throws -> Int) async throws -> Int {
-//        try await callback(1, 2, 3, 4)
-//    }
-//
-//    /// <!-- FishyJoes.export(asyncCallbackFunc5) -->
-//    public static func asyncCallbackFunc5(_ callback: (Int, Int, Int, Int, Int) async throws -> Int) async throws -> Int {
-//        try await callback(1, 2, 3, 4, 5)
-//    }
-//
-//    /// <!-- FishyJoes.export(asyncCallbackFunc6) -->
-//    public static func asyncCallbackFunc6(_ callback: (Int, Int, Int, Int, Int, Int) async throws -> Int) async throws -> Int {
-//        try await callback(1, 2, 3, 4, 5, 6)
-//    }
+    /// <!-- FishyJoes.export(asyncCallbackFunc1) -->
+    public static func asyncCallbackFunc1(_ callback: (Int) async throws -> Int) async throws -> Int {
+        try await callback(1)
+    }
+
+    /// <!-- FishyJoes.export(asyncCallbackFunc2) -->
+    public static func asyncCallbackFunc2(_ callback: (Int, Int) async throws -> Int) async throws -> Int {
+        try await callback(1, 2)
+    }
+
+    /// <!-- FishyJoes.export(asyncCallbackFunc3) -->
+    public static func asyncCallbackFunc3(_ callback: (Int, Int, Int) async throws -> Int) async throws -> Int {
+        try await callback(1, 2, 3)
+    }
+
+    /// <!-- FishyJoes.export(asyncCallbackFunc4) -->
+    public static func asyncCallbackFunc4(_ callback: (Int, Int, Int, Int) async throws -> Int) async throws -> Int {
+        try await callback(1, 2, 3, 4)
+    }
+
+    /// <!-- FishyJoes.export(asyncCallbackFunc5) -->
+    public static func asyncCallbackFunc5(_ callback: (Int, Int, Int, Int, Int) async throws -> Int) async throws -> Int {
+        try await callback(1, 2, 3, 4, 5)
+    }
+
+    /// <!-- FishyJoes.export(asyncCallbackFunc6) -->
+    public static func asyncCallbackFunc6(_ callback: (Int, Int, Int, Int, Int, Int) async throws -> Int) async throws -> Int {
+        try await callback(1, 2, 3, 4, 5, 6)
+    }
 
 //    /// <!-- FishyJoes.export(asyncDoubleFunc) -->
 //    public static func asyncDoubleFunc(_ d: Double) async throws -> Double {

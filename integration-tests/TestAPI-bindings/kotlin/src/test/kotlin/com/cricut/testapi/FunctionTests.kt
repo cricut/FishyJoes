@@ -112,19 +112,134 @@ internal class FunctionTests {
     fun testAsyncCallbackFunctionCall1() {
         kotlinx.coroutines.runBlocking {
             var threw = false
-            var value: Long = 42
-            var ran = false
+            var value: Long = 0
+            val values: MutableList<Long> = ArrayList()
             try {
-                value = Functions.asyncCallbackFunc0 {
-                    ran = true
-                    42
+                value = Functions.asyncCallbackFunc1 { a ->
+                    values.add(a)
+                    a
                 }
             } catch (e: Exception) {
                 threw = true
             }
             assertEquals(false, threw)
-            assertEquals(42, value)
-            assertEquals(true, ran)
+            assertEquals(1, value)
+            assertEquals(arrayListOf(1.toLong()), values)
+        }
+    }
+
+    @Test
+    fun testAsyncCallbackFunctionCall2() {
+        kotlinx.coroutines.runBlocking {
+            var threw = false
+            var value: Long = 0
+            val values: MutableList<Long> = ArrayList()
+            try {
+                value = Functions.asyncCallbackFunc2 { a, b ->
+                    values.add(a)
+                    values.add(b)
+                    a+ b
+                }
+            } catch (e: Exception) {
+                threw = true
+            }
+            assertEquals(false, threw)
+            assertEquals(1 + 2, value)
+            assertEquals(arrayListOf(1.toLong(), 2), values)
+        }
+    }
+
+    @Test
+    fun testAsyncCallbackFunctionCall3() {
+        kotlinx.coroutines.runBlocking {
+            var threw = false
+            var value: Long = 0
+            val values: MutableList<Long> = ArrayList()
+            try {
+                value = Functions.asyncCallbackFunc3 { a, b, c ->
+                    values.add(a)
+                    values.add(b)
+                    values.add(c)
+                    a+ b + c
+                }
+            } catch (e: Exception) {
+                threw = true
+            }
+            assertEquals(false, threw)
+            assertEquals(1 + 2 + 3, value)
+            assertEquals(arrayListOf(1.toLong(), 2, 3), values)
+        }
+    }
+
+    @Test
+    fun testAsyncCallbackFunctionCall4() {
+        kotlinx.coroutines.runBlocking {
+            var threw = false
+            var value: Long = 0
+            val values: MutableList<Long> = ArrayList()
+            try {
+                value = Functions.asyncCallbackFunc4 { a, b, c, d ->
+                    values.add(a)
+                    values.add(b)
+                    values.add(c)
+                    values.add(d)
+                    a+ b + c + d
+                }
+            } catch (e: Exception) {
+                threw = true
+            }
+            assertEquals(false, threw)
+            assertEquals(1 + 2 + 3 + 4, value)
+            assertEquals(arrayListOf(1.toLong(), 2, 3, 4), values)
+        }
+    }
+
+    @Test
+    fun testAsyncCallbackFunctionCall5() {
+        kotlinx.coroutines.runBlocking {
+            var threw = false
+            var value: Long = 0
+            val values: MutableList<Long> = ArrayList()
+            try {
+                value = Functions.asyncCallbackFunc5 { a, b, c, d, e ->
+                    values.add(a)
+                    values.add(b)
+                    values.add(c)
+                    values.add(d)
+                    values.add(e)
+                    a+ b + c + d + e
+                }
+            } catch (e: Exception) {
+                threw = true
+            }
+            assertEquals(false, threw)
+            assertEquals(1 + 2 + 3 + 4 + 5, value)
+            assertEquals(arrayListOf(1.toLong(), 2, 3, 4, 5), values)
+        }
+    }
+
+    @Test
+    fun testAsyncCallbackFunctionCall6() {
+        kotlinx.coroutines.runBlocking {
+            var threw = false
+            var value: Long = 0
+            val values: MutableList<Long> = ArrayList()
+            try {
+                value = Functions.asyncCallbackFunc6 { a, b, c, d, e, f ->
+                    values.add(a)
+                    values.add(b)
+                    values.add(c)
+                    values.add(d)
+                    values.add(e)
+                    values.add(f)
+                    a+ b + c + d + e + f
+                }
+            } catch (e: Exception) {
+                threw = true
+            }
+            assertEquals(false, threw)
+            assertEquals(1 + 2 + 3 + 4 + 5 + 6, value)
+            assertEquals(arrayListOf(1.toLong(), 2, 3, 4, 5, 6), values)
         }
     }
 }
