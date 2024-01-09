@@ -214,11 +214,10 @@ extension Function0Converter: JavaConverter where R: JavaConverter {
 
     public static func fromJava(_ value: jobject?, env: Env) throws -> SwiftType {
         let escapingRef = try JavaReference(local: value, env: env)
-        let initThread = Thread.current
+        let vm = try env.GetJavaVM()
         return {
-            guard initThread == Thread.current else {
-                fatalError("Callback invoked on different thread")
-            }
+            let env = try Env.aquireJVMThread(on: vm)
+            defer { try! Env.relenquishJVMThread(on: vm) }
             return try R.fromJava(
                 object: env.CallObjectMethod(
                     escapingRef.object,
@@ -268,6 +267,7 @@ extension AsyncFunction0Converter: JavaConverter where R: JavaConverter {
                     } catch {
                         try! Env.relenquishJVMThread(on: vm)
                         continuation.resume(throwing: error)
+                        return
                     }
                     try Env.relenquishJVMThread(on: vm)
                 } catch {
@@ -302,11 +302,10 @@ extension Function1Converter: JavaConverter where R: JavaConverter, P0: JavaConv
 
     public static func fromJava(_ value: jobject?, env: Env) throws -> SwiftType {
         let escapingRef = try JavaReference(local: value, env: env)
-        let initThread = Thread.current
+        let vm = try env.GetJavaVM()
         return { p0 in
-            guard initThread == Thread.current else {
-                fatalError("Callback invoked on different thread")
-            }
+            let env = try Env.aquireJVMThread(on: vm)
+            defer { try! Env.relenquishJVMThread(on: vm) }
             return try R.fromJava(
                 object: env.CallObjectMethod(
                     escapingRef.object,
@@ -360,6 +359,7 @@ extension AsyncFunction1Converter: JavaConverter where R: JavaConverter, P0: Jav
                     } catch {
                         try! Env.relenquishJVMThread(on: vm)
                         continuation.resume(throwing: error)
+                        return
                     }
                     try Env.relenquishJVMThread(on: vm)
                 } catch {
@@ -396,11 +396,10 @@ extension Function2Converter: JavaConverter where R: JavaConverter, P0: JavaConv
 
     public static func fromJava(_ value: jobject?, env: Env) throws -> SwiftType {
         let escapingRef = try JavaReference(local: value, env: env)
-        let initThread = Thread.current
+        let vm = try env.GetJavaVM()
         return { p0, p1 in
-            guard initThread == Thread.current else {
-                fatalError("Callback invoked on different thread")
-            }
+            let env = try Env.aquireJVMThread(on: vm)
+            defer { try! Env.relenquishJVMThread(on: vm) }
             return try R.fromJava(
                 object: env.CallObjectMethod(
                     escapingRef.object,
@@ -458,6 +457,7 @@ extension AsyncFunction2Converter: JavaConverter where R: JavaConverter, P0: Jav
                     } catch {
                         try! Env.relenquishJVMThread(on: vm)
                         continuation.resume(throwing: error)
+                        return
                     }
                     try Env.relenquishJVMThread(on: vm)
                 } catch {
@@ -496,11 +496,10 @@ extension Function3Converter: JavaConverter where R: JavaConverter, P0: JavaConv
 
     public static func fromJava(_ value: jobject?, env: Env) throws -> SwiftType {
         let escapingRef = try JavaReference(local: value, env: env)
-        let initThread = Thread.current
+        let vm = try env.GetJavaVM()
         return { p0, p1, p2 in
-            guard initThread == Thread.current else {
-                fatalError("Callback invoked on different thread")
-            }
+            let env = try Env.aquireJVMThread(on: vm)
+            defer { try! Env.relenquishJVMThread(on: vm) }
             return try R.fromJava(
                 object: env.CallObjectMethod(
                     escapingRef.object,
@@ -562,6 +561,7 @@ extension AsyncFunction3Converter: JavaConverter where R: JavaConverter, P0: Jav
                     } catch {
                         try! Env.relenquishJVMThread(on: vm)
                         continuation.resume(throwing: error)
+                        return
                     }
                     try Env.relenquishJVMThread(on: vm)
                 } catch {
@@ -602,11 +602,10 @@ extension Function4Converter: JavaConverter where R: JavaConverter, P0: JavaConv
 
     public static func fromJava(_ value: jobject?, env: Env) throws -> SwiftType {
         let escapingRef = try JavaReference(local: value, env: env)
-        let initThread = Thread.current
+        let vm = try env.GetJavaVM()
         return { p0, p1, p2, p3 in
-            guard initThread == Thread.current else {
-                fatalError("Callback invoked on different thread")
-            }
+            let env = try Env.aquireJVMThread(on: vm)
+            defer { try! Env.relenquishJVMThread(on: vm) }
             return try R.fromJava(
                 object: env.CallObjectMethod(
                     escapingRef.object,
@@ -672,6 +671,7 @@ extension AsyncFunction4Converter: JavaConverter where R: JavaConverter, P0: Jav
                     } catch {
                         try! Env.relenquishJVMThread(on: vm)
                         continuation.resume(throwing: error)
+                        return
                     }
                     try Env.relenquishJVMThread(on: vm)
                 } catch {
@@ -714,11 +714,10 @@ extension Function5Converter: JavaConverter where R: JavaConverter, P0: JavaConv
 
     public static func fromJava(_ value: jobject?, env: Env) throws -> SwiftType {
         let escapingRef = try JavaReference(local: value, env: env)
-        let initThread = Thread.current
+        let vm = try env.GetJavaVM()
         return { p0, p1, p2, p3, p4 in
-            guard initThread == Thread.current else {
-                fatalError("Callback invoked on different thread")
-            }
+            let env = try Env.aquireJVMThread(on: vm)
+            defer { try! Env.relenquishJVMThread(on: vm) }
             return try R.fromJava(
                 object: env.CallObjectMethod(
                     escapingRef.object,
@@ -788,6 +787,7 @@ extension AsyncFunction5Converter: JavaConverter where R: JavaConverter, P0: Jav
                     } catch {
                         try! Env.relenquishJVMThread(on: vm)
                         continuation.resume(throwing: error)
+                        return
                     }
                     try Env.relenquishJVMThread(on: vm)
                 } catch {
@@ -832,11 +832,10 @@ extension Function6Converter: JavaConverter where R: JavaConverter, P0: JavaConv
 
     public static func fromJava(_ value: jobject?, env: Env) throws -> SwiftType {
         let escapingRef = try JavaReference(local: value, env: env)
-        let initThread = Thread.current
+        let vm = try env.GetJavaVM()
         return { p0, p1, p2, p3, p4, p5 in
-            guard initThread == Thread.current else {
-                fatalError("Callback invoked on different thread")
-            }
+            let env = try Env.aquireJVMThread(on: vm)
+            defer { try! Env.relenquishJVMThread(on: vm) }
             return try R.fromJava(
                 object: env.CallObjectMethod(
                     escapingRef.object,
@@ -910,6 +909,7 @@ extension AsyncFunction6Converter: JavaConverter where R: JavaConverter, P0: Jav
                     } catch {
                         try! Env.relenquishJVMThread(on: vm)
                         continuation.resume(throwing: error)
+                        return
                     }
                     try Env.relenquishJVMThread(on: vm)
                 } catch {

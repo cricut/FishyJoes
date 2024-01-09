@@ -60,15 +60,16 @@ extension Env {
     /// Calls the given body while ensuring that the body closure is attached to the JVM.
     ///
     /// - Important: When a suspending function is called part of the state that must be protected by calling ``Env.relenquishJVMThread(on:)`` immediately before and ``Env.aquireJVMThread(on:)`` immediately after.
+    ///     The returned `Env` should generally be assigned to the inout `javaEnv` in order to avoid shadowing and let the current environment propigate back out.
     ///
     /// - Important: body **must** be in a balanced aquire/relenquish state before it throws.
-    public func swiftTask(_ body: @escaping @Sendable (Env, UnsafeMutablePointer<JavaVM?>) async -> Void) throws {
+    public func swiftTask(_ body: @escaping @Sendable (_ javaEnv: inout Env, _ javaVM: UnsafeMutablePointer<JavaVM?>) async -> Void) throws {
         guard let jvm = try GetJavaVM() else {
             fatalError("Unable to get JVM")
         }
         Task.detached {
-            let javaEnv = try! Env.aquireJVMThread(on: jvm)
-            await body(javaEnv, jvm)
+            var javaEnv = try! Env.aquireJVMThread(on: jvm)
+            await body(&javaEnv, jvm)
             try! Env.relenquishJVMThread(on: jvm)
         }
     }

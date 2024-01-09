@@ -3,7 +3,6 @@ package com.cricut.testapi
 import kotlinx.coroutines.*
 import kotlinx.coroutines.future.future
 import java.lang.Exception
-import java.util.concurrent.CompletionException
 
 /**
  * <!-- FishyJoes.export(Functions) -->
@@ -288,7 +287,7 @@ sealed class Functions {
                                     CoroutineScope(Dispatchers.Default).future {
                                         callback()
                                     }.join()
-                                } catch (e: CompletionException) {
+                                } catch (e: Exception) {
                                     throw e.cause ?: e
                                 }
                             },
