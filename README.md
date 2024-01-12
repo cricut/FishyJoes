@@ -37,7 +37,7 @@ public class SomeClassType { /* properties or methods that should also be availa
 /// <!-- FishyJoes.export(DesiredForeignTypeNameForStruct) -->
 public struct SomeStructType { /* must have a public initializer taking all stored properties as parameters */ }
 /// <!-- FishyJoes.export(DesiredForeignTypeNameForEnum) -->
-public struct SomeEnumType { /* cases are exported, but properties or methods must be exported individually */ }
+public enum SomeEnumType { /* cases are exported, but properties or methods must be exported individually */ }
 
 // Export a structure type (or enum type) by reference, stored properties must be exported individually
 /// <!-- FishyJoes.exportReference(DesiredForeignTypeName) -->
