@@ -141,14 +141,11 @@ jobs:
           tag: 5.6.2-RELEASE
 
       - name: Build FishyJoesIotaRuntime
-        shell: pwsh
+        shell: bash
         run: |
-          $ErrorActionPreference = "Stop"
+          set -euxo pipefail
 
-          # Should perform the same actions as scripts/compile-iota-runtime.sh, but must be done in powershell for swift-build to work
-          swift build --product FishyJoesIotaRuntime --configuration release --build-path ./.build/windows-build
-          New-Item -ItemType Directory -Force -Path $env:LIB_DIR
-          Copy-Item .build\windows-build\x86_64-unknown-windows-msvc\release\FishyJoesIotaRuntime.dll -Destination $env:LIB_DIR
+          ./scripts/compile-iota-runtime.sh
 
       - name: Copy swift runtime DLLs
         shell: bash

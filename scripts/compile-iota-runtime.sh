@@ -13,7 +13,7 @@ fi
 CONFIGURATION="${CONFIGURATION:-release}"
 SKIP_LIPO="${SKIP_LIPO:-0}"
 
-if [[ $(uname -s) == "Darwin" && $SKIP_LIPO == "0" ]]; then
+if [[ "$(uname -s)" == "Darwin" && $SKIP_LIPO == "0" ]]; then
     swift build "$@" --configuration "$CONFIGURATION" --product FishyJoesIotaRuntime --arch arm64
     swift build "$@" --configuration "$CONFIGURATION" --product FishyJoesIotaRuntime --arch x86_64
     BIN_DIR=".build/apple/$CONFIGURATION"
@@ -22,6 +22,11 @@ if [[ $(uname -s) == "Darwin" && $SKIP_LIPO == "0" ]]; then
          -output "$BIN_DIR/libFishyJoesIotaRuntime.dylib" \
          .build/{arm64,x86_64}-apple-macosx/"$CONFIGURATION"/libFishyJoesIotaRuntime.dylib
     codesign -s - "$BIN_DIR/libFishyJoesIotaRuntime.dylib"
+elif [[ "$(uname -s)" == MSYS_NT* ]]; then
+    # Swift does not properly read Windows "Path" variable, instead trying to read "PATH".
+    # See: https://github.com/apple/swift-tools-support-core/issues/446
+    powershell -c '$OLD_PATH="$env:PATH"; $env:PATH=""; $env:Path="$OLD_PATH";'"swift build \"$@\" --configuration \"$CONFIGURATION\" --product FishyJoesNodeRuntime"
+    BIN_DIR="$(swift build --configuration "$CONFIGURATION" --show-bin-path)"
 else
     swift build "$@" --configuration "$CONFIGURATION" --product FishyJoesIotaRuntime
     BIN_DIR="$(swift build --configuration "$CONFIGURATION" --show-bin-path)"

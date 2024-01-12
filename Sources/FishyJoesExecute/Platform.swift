@@ -20,8 +20,10 @@ fileprivate let ps: String = "\\"
 struct BuildConfiguration: Hashable {
     let debug: Bool
     let fat: Bool
-    let codeCoverage: Bool
+    let codeCoveragePath: String?
     var baseDockerContext: Lazy<DockerContext?>
+
+    var codeCoverage: Bool { codeCoveragePath != nil }
 }
 
 enum Platform: CustomStringConvertible, Hashable {
@@ -221,6 +223,8 @@ enum Platform: CustomStringConvertible, Hashable {
             #elseif os(Windows)
             path = "swift"
             args = ["build"] + args
+            #else
+            fatalError("unknown host OS")
             #endif
         }
         return cmd(path, arguments: args, addEnv: env)
@@ -228,6 +232,144 @@ enum Platform: CustomStringConvertible, Hashable {
 
     func swiftBuild(_ arguments: String..., configuration: BuildConfiguration) -> Command {
         swiftBuild(arguments: arguments, configuration: configuration)
+    }
+
+    func gradleBuild(arguments: [String], configuration: BuildConfiguration) -> Command {
+        let args = arguments + (configuration.debug ? ["buildDebug"] : ["build"])
+        let path: String
+        #if os(macOS)
+        path = "./gradlew"
+        #elseif os(Linux)
+        path = "./gradlew"
+        #elseif os(Windows)
+        path = "gradlew.bat"
+        #else
+        fatalError("unknown host OS")
+        #endif
+        return cmd(path, arguments: args)
+    }
+
+    func gradleBuild(_ arguments: String..., configuration: BuildConfiguration) -> Command {
+        gradleBuild(arguments: arguments, configuration: configuration)
+    }
+
+    func gradleTest(arguments: [String], codeCoveragePath: String?) -> Command {
+        let args = ["cleanTest", "test"] + (codeCoveragePath == nil ? [] : ["jacocoTestReport"]) + arguments
+        let env = codeCoveragePath.map {
+            [
+                "LLVM_PROFILE_FILE": "\($0)\(ps)fishy-joes-test-\(platform)-\(UUID()).profraw",
+            ]
+        } ?? [:] 
+        let path: String
+        #if os(macOS)
+        path = "./gradlew"
+        #elseif os(Linux)
+        path = "./gradlew"
+        #elseif os(Windows)
+        path = "gradlew.bat"
+        #else
+        fatalError("unknown host OS")
+        #endif
+        return cmd(path, arguments: args, addEnv: env)
+    }
+
+    func gradleTest(_ arguments: String..., codeCoveragePath: String?) -> Command {
+        gradleTest(arguments: arguments, codeCoveragePath: codeCoveragePath)
+    }
+
+    func dotnetBuild(arguments: [String], configuration: BuildConfiguration) -> Command {
+        let path = "dotnet"
+        let args = ["build"] + arguments + (configuration.debug ? [] : ["--configuration", "Debug"])
+        return cmd(path, arguments: args)
+    }
+
+    func dotnetBuild(_ arguments: String..., configuration: BuildConfiguration) -> Command {
+        dotnetBuild(arguments: arguments, configuration: configuration)
+    }
+
+    func dotnetTest(arguments: [String], codeCoveragePath: String?) -> Command {
+        let env = codeCoveragePath.map {
+            [
+                "LLVM_PROFILE_FILE": "\($0)\(ps)fishy-joes-test-\(platform)-\(UUID()).profraw",
+            ]
+        } ?? [:] 
+        var commandParts = ["dotnet", "test"] + arguments
+        if let path = codeCoveragePath {
+            commandParts = ["dotnet-coverage", "collect", "-f", "xml", "-o", "\(path)\(ps)integration-tests-c-sharp.xml"] + commandParts
+        }
+        return cmd(commandParts.first!, arguments: Array(commandParts.dropFirst()), addEnv: env)
+    }
+
+    func dotnetTest(_ arguments: String..., codeCoveragePath: String?) -> Command {
+        dotnetTest(arguments: arguments, codeCoveragePath: codeCoveragePath)
+    }
+
+    func dartBuild(arguments: [String], configuration: BuildConfiguration) -> Command {
+        let path = "dart"
+        let args = ["run", "build_runner", "build", "--delete-conflicting-outputs"]
+        return cmd(path, arguments: args)
+    }
+
+    func dartBuild(_ arguments: String..., configuration: BuildConfiguration) -> Command {
+        dartBuild(arguments: arguments, configuration: configuration)
+    }
+
+    func dartTest(arguments: [String], codeCoveragePath: String?) -> Command {
+        let env = codeCoveragePath.map {
+            [
+                "LLVM_PROFILE_FILE": "\($0)\(ps)fishy-joes-test-\(platform)-\(UUID()).profraw",
+            ]
+        } ?? [:] 
+        let path = "dart"
+        var args = ["test", "--chain-stack-traces"]
+        return cmd(path, arguments: args, addEnv: env)
+    }
+
+    func dartTest(_ arguments: String..., codeCoveragePath: String?) -> Command {
+        dartTest(arguments: arguments, codeCoveragePath: codeCoveragePath)
+    }
+
+    func npm(arguments: [String]) -> Command {
+        let path: String
+        #if os(macOS)
+        path = "npm"
+        #elseif os(Linux)
+        path = "npm"
+        #elseif os(Windows)
+        path = "npm.cmd"
+        #else
+        fatalError("unknown host OS")
+        #endif
+        return cmd(path, arguments: arguments)
+    }
+
+    func npm(_ arguments: String...) -> Command {
+        npm(arguments: arguments)
+    }
+
+    func npmTest(arguments: [String], codeCoveragePath: String?) -> Command {
+        let env = codeCoveragePath.map {
+            [
+                "LLVM_PROFILE_FILE": "\($0)\(ps)fishy-joes-test-\(platform)-\(UUID()).profraw",
+                "NODE_V8_COVERAGE": "\($0)\(ps)node",
+            ]
+        } ?? [:] 
+        let args = ["run", "test-\(nodeExecutionEnvironment)"]
+        let path: String
+        #if os(macOS)
+        path = "npm"
+        #elseif os(Linux)
+        path = "npm"
+        #elseif os(Windows)
+        path = "npm.cmd"
+        #else
+        fatalError("unknown host OS")
+        #endif
+        return cmd(path, arguments: args, addEnv: env)
+    }
+
+    func npmTest(_ arguments: String..., codeCoveragePath: String?) -> Command {
+        npmTest(arguments: arguments, codeCoveragePath: codeCoveragePath)
     }
 
     func dylibName(for lib: String) -> String {

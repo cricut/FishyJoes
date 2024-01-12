@@ -256,7 +256,7 @@ extension CodeGen {
             let configuration = BuildConfiguration(
                 debug: debug,
                 fat: fat,
-                codeCoverage: codeCoveragePath != nil,
+                codeCoveragePath: codeCoveragePath,
                 baseDockerContext: Lazy(makeDockerContext())
             )
 
@@ -628,22 +628,7 @@ extension CodeGen {
                     }
                 }
             }
-            if platforms.contains(.kotlinSystem) {
-                try withDirectory("kotlin") {
-                    try cmd("bash", "-c", "./gradlew build -Dskip.tests").run()
-                }
-            }
-            if platforms.contains(.cSharp) {
-                try withDirectory("c-sharp") {
-                    try cmd("dotnet", "build", "Cricut.\(config.module).sln").run()
-                }
-            }
-            if platforms.contains(.dart) {
-                try withDirectory("dart") {
-                    try cmd("dart", "run", "build_runner", "build", "--delete-conflicting-outputs").run()
-                }
-            }
-
+            
             // Compile generated interfacing source code files for platforms that require it (e.g. not node-native or wasm)
             for platform in platforms {
                 switch platform {
@@ -651,17 +636,19 @@ extension CodeGen {
                     break
                 case .kotlinSystem:
                     try withDirectory("kotlin") {
-                        try cmd("bash", "-c", "./gradlew build -Dskip.tests").run()
+                        try platform.gradleBuild("-Dskip.tests", configuration: configuration).run()
                     }
                 case .kotlinAndroid:
                     // Compiled along with .kotlinSystem
                     break
                 case .cSharp:
                     try withDirectory("c-sharp") {
-                        try cmd("dotnet", "build", "Cricut.\(config.module).sln").run()
+                        try platform.dotnetBuild("Cricut.\(config.module).sln", configuration: configuration).run()
                     }
                 case .dart:
-                    break
+                    try withDirectory("dart") {
+                        try platform.dartBuild(configuration: configuration).run()
+                    }
                 }
             }
         }
@@ -669,59 +656,46 @@ extension CodeGen {
         // MARK: - Test Step
         if buildStep.contains(.test) {
             for platform in platforms {
-                // Gather environment variables to pass on for code-coverage purposes
-                let env = codeCoveragePath.map {
-                    [
-                        "LLVM_PROFILE_FILE": "\($0)\(ps)fishy-joes-test-\(platform)-\(UUID()).profraw",
-                        "NODE_V8_COVERAGE": "\($0)\(ps)node",
-                    ]
-                } ?? [:]
-
                 // Run the test suite for the library for the requested platforms
                 switch platform {
                 case .wasm, .node:
                     try withDirectory(platform.outputDir(config)) {
                         // Perform a file-local install of the module and its dependencies
                         // TODO: Should build a package tarball and install it instead?
-                        try cmd("npm", "install").run()
+                        try platform.npm("install").run()
                     }
                     try withDirectory("node-test") {
                         // Perform a file-local install of the test package and its dependencies
                         // TODO: Should build a package tarball and install it instead?
-                        try cmd("npm", "install").run()
+                        try platform.npm("install").run()
 
                         // Use npm to execute the test suite
-                        try cmd("npm", "run", "clear-cache").run()
-                        try cmd("npm", "run", "test-\(platform.nodeExecutionEnvironment)").run()
+                        try platform.npm("run", "clear-cache").run()
+                        try platform.npmTest(codeCoveragePath: codeCoveragePath).run()
                     }
                 case .kotlinSystem:
                     // Use gradle to execute the test suite
                     try withDirectory("kotlin") {
-                        let tasks = ["cleanTest", "test"] + (codeCoveragePath == nil ? [] : ["jacocoTestReport"])
-                        try cmd("bash", "-c", "./gradlew \(tasks.joined(separator: " "))", addEnv: env).run()
+                        try platform.gradleTest(codeCoveragePath: codeCoveragePath).run()
                     }
                 case .kotlinAndroid:
                     // TODO: Execute Android tests from FishyJoes
                     break
                 case .cSharp:
                     // Use dotnet to execute the test suite
-                    if !cmd("dotnet-coverage", "--version").runBool() {
-                        printAndFlush("Couldn't find dotnet-coverage! Install with:")
-                        printAndFlush()
-                        printAndFlush("   dotnet tool install --global dotnet-sonarscanner")
-                        printAndFlush()
-                        printAndFlush("and ensure that $HOME/.dotnet/tools is in your path")
-                    }
                     try withDirectory("c-sharp") {
-                        var commandParts = ["dotnet", "test", "Cricut.\(config.module).sln"]
-                        if let path = codeCoveragePath {
-                            commandParts = ["dotnet-coverage", "collect", "-f", "xml", "-o", "\(path)\(ps)integration-tests-c-sharp.xml"] + commandParts
+                        if codeCoveragePath != nil, !cmd("dotnet-coverage", "--version").runBool() {
+                            printAndFlush("Couldn't find dotnet-coverage! Install with:")
+                            printAndFlush()
+                            printAndFlush("   dotnet tool install --global dotnet-sonarscanner")
+                            printAndFlush()
+                            printAndFlush("and ensure that $HOME/.dotnet/tools is in your path")
                         }
-                        try cmd(commandParts.first!, arguments: Array(commandParts.dropFirst()), addEnv: env).run()
+                        try platform.dotnetTest("Cricut.\(config.module).sln", codeCoveragePath: codeCoveragePath).run()
                     }
                 case .dart:
                     try withDirectory("dart") {
-                        try cmd("dart", "test", "--chain-stack-traces", addEnv: env).run()
+                        try platform.dartTest(codeCoveragePath: codeCoveragePath).run()
                     }
                 }
             }

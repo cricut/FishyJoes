@@ -10,7 +10,7 @@ fi
 CONFIGURATION="${CONFIGURATION:-release}"
 SKIP_LIPO="${SKIP_LIPO:-0}"
 
-if [[ $(uname -s) == "Darwin" && $SKIP_LIPO == "0" ]]; then
+if [[ "$(uname -s)" == "Darwin" && $SKIP_LIPO == "0" ]]; then
     swift build "$@" --configuration "$CONFIGURATION" --product FishyJoesNodeRuntime --arch arm64
     swift build "$@" --configuration "$CONFIGURATION" --product FishyJoesNodeRuntime --arch x86_64
     BIN_DIR=".build/apple/$CONFIGURATION"
@@ -18,6 +18,11 @@ if [[ $(uname -s) == "Darwin" && $SKIP_LIPO == "0" ]]; then
     lipo -create \
          -output "$BIN_DIR/libFishyJoesNodeRuntime.dylib" \
          .build/{arm64,x86_64}-apple-macosx/"$CONFIGURATION"/libFishyJoesNodeRuntime.dylib
+elif [[ "$(uname -s)" == MSYS_NT* ]]; then
+    # Swift does not properly read Windows "Path" variable, instead trying to read "PATH".
+    # See: https://github.com/apple/swift-tools-support-core/issues/446
+    powershell -c '$OLD_PATH="$env:PATH"; $env:PATH=""; $env:Path="$OLD_PATH";'"swift build \"$@\" --configuration \"$CONFIGURATION\" --product FishyJoesNodeRuntime"
+    BIN_DIR="$(swift build --configuration "$CONFIGURATION" --show-bin-path)"
 else
     swift build "$@" --configuration "$CONFIGURATION" --product FishyJoesNodeRuntime
     BIN_DIR="$(swift build --configuration "$CONFIGURATION" --show-bin-path)"
@@ -29,7 +34,7 @@ function install-runtime-common {
     cp "$RUNTIME_COMMON_DIR"/Runtime.extensions.js "$LIB_DIR"
     
     DEFS="$LIB_DIR/Runtime.d.ts"
-    cat "$RUNTIME_COMMON_DIR/Runtime.d.ts.part" > "$DEFS"
+    cat "$RUNTIME_COMMON_DIR/Runtime.d.ts.part" >| "$DEFS"
     cat "$RUNTIME_COMMON_DIR/Runtime.extensions.d.ts.part" >> "$DEFS"
     echo 'export declare function init(): Promise<{ Runtime: typeof Runtime }>;' >> "$DEFS"
     echo 'export default Runtime;' >> "$DEFS"
@@ -62,4 +67,3 @@ function install-lib {
 install-lib "FishyJoesNodeRuntime.dll" "node-runtime/fishyjoes-runtime-native-windows" ||
     install-lib "libFishyJoesNodeRuntime.dylib" "node-runtime/fishyjoes-runtime-native-macos" ||
     install-lib "libFishyJoesNodeRuntime.so" "node-runtime/fishyjoes-runtime-native-ubuntu"
-
