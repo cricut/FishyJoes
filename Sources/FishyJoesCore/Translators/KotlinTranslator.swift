@@ -76,14 +76,14 @@ final class KotlinTranslator: Translator {
         fragment.outputBlock(" -> \(returnSignature) = { \(formals.map(\.name).joined(separator: ", ")) in", closeWith: "}") {
             fragment.outputBlock("FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in", closeWith: "}") {
                 let callName = method.sourceKind == .initializer ? "" : ".\(method.callName)"
-                
+
                 if method.isAsync {
                     fragment.outputMap(method.parameters, separator: "\n") { parameter in
                         "let \(parameter.name)Ref = try JavaReference(local: \(parameter.name), env: _javaEnv)"
                     }
                     fragment.output("let _successContinuationRef = try JavaReference(local: _successContinuation, env: _javaEnv)")
                     fragment.output("let _failureContinuationRef = try JavaReference(local: _failureContinuation, env: _javaEnv)")
-                    
+
                     fragment.outputBlock("try _javaEnv.swiftTask { _javaEnv, _vm in", closeWith: "}") {
                         fragment.outputBlock("defer {") {
                             fragment.outputMap(method.parameters, separator: "\n") { parameter in

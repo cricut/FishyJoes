@@ -86,7 +86,7 @@ public func asyncCallbackBody<R: Defaultable>(
             condition.signal()
             condition.unlock()
         }
-        
+
         do {
             let env = try Env.aquireJVMThread(on: vm)
             print(origin.joined(separator: "\n"))
@@ -142,7 +142,7 @@ public func asyncCallbackBody(
     }
     let condition = NSCondition()
     let resultBox: UncheckedSendableBox<Result<Void, any Error>> = .init(.success(Void()))
-    
+
     Task {
         defer {
             condition.lock()

@@ -224,8 +224,8 @@ class KotlinClass: NestedClass {
                             return []
                         }
                         return [
-                            (labelComment: nil, name: "successContinuation", type: .named(package: nil, name: "(\(method.returnType.kotlinType)\(method.returnType.kotlinType == "kotlin.Unit" ? "?" : "")) -> Unit") , defaultValue: nil),
-                            (labelComment: nil, name: "failureContinuation", type: .named(package: nil, name: "(String) -> Unit") , defaultValue: nil)
+                            (labelComment: nil, name: "successContinuation", type: .named(package: nil, name: "(\(method.returnType.kotlinType)\(method.returnType.kotlinType == "kotlin.Unit" ? "?" : "")) -> Unit"), defaultValue: nil),
+                            (labelComment: nil, name: "failureContinuation", type: .named(package: nil, name: "(String) -> Unit"), defaultValue: nil)
                         ]
                     }(),
                     separator: ","

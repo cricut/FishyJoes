@@ -193,7 +193,7 @@ struct TranslatedReference: TranslatedType {
             fragment.outputBlock("public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout \(sourceType.name)) throws -> R) throws -> R {") {
                 fragment.output("try body(&Box<\(sourceType.name)>.fromJava(this, env: env).value)")
             }
-            
+
             fragment.outputBlock("public static func mutateJava<R>(_ this: jobject?, env: inout Env, body: (inout \(sourceType.name), inout Env) async throws -> R) async throws -> R {") {
                 fragment.output("try await body(&Box<\(sourceType.name)>.fromJava(this, env: env).value, &env)")
             }

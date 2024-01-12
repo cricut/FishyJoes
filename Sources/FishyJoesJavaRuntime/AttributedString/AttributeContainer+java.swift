@@ -16,7 +16,7 @@ extension AttributeContainer: JavaMutator {
     public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout AttributeContainer) throws -> R) throws -> R {
         try body(&Box<AttributeContainer>.fromJava(this, env: env).value)
     }
-    
+
     public static func mutateJava<R>(_ this: jobject?, env: inout Env, body: (inout AttributeContainer, inout Env) async throws -> R) async throws -> R {
         try await body(&Box<AttributeContainer>.fromJava(this, env: env).value, &env)
     }

@@ -24,7 +24,7 @@ public class JavaReference {
     deinit {
         try? destroy()
     }
-    
+
     public func createLocalRef(env: Env) -> jobject? {
         env.NewLocalRef(object)
     }

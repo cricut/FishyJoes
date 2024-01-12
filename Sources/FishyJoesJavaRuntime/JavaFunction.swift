@@ -276,7 +276,7 @@ extension AsyncFunction0Converter: JavaConverter where R: JavaConverter {
             }
         }
     }
-    
+
     public static func toJava(_ value: @escaping SwiftType, env: Env) throws -> jobject? {
         let erased = AnyAsyncFunction0 { env in
             try await R.toJavaObject(value(), env: env)
@@ -284,7 +284,7 @@ extension AsyncFunction0Converter: JavaConverter where R: JavaConverter {
         let ptr = jvalue(pointer: Box(erased).retainedOpaque())
         return try env.NewObject(SwiftAsyncFunctionImpl.implClass, SwiftAsyncFunctionImpl.constructor, jvalue(i: 0), ptr)
     }
-    
+
     public static func javaSetup(env: Env) throws {
         try R.javaSetup(env: env)
         try SwiftAsyncFunctionImpl.javaSetup(
@@ -368,7 +368,7 @@ extension AsyncFunction1Converter: JavaConverter where R: JavaConverter, P0: Jav
             }
         }
     }
-    
+
     public static func toJava(_ value: @escaping SwiftType, env: Env) throws -> jobject? {
         let erased = AnyAsyncFunction1 { env, p0 in
             let v0 = try P0.fromJava(object: p0, env: env)
@@ -377,7 +377,7 @@ extension AsyncFunction1Converter: JavaConverter where R: JavaConverter, P0: Jav
         let ptr = jvalue(pointer: Box(erased).retainedOpaque())
         return try env.NewObject(SwiftAsyncFunctionImpl.implClass, SwiftAsyncFunctionImpl.constructor, jvalue(i: 0), ptr)
     }
-    
+
     public static func javaSetup(env: Env) throws {
         try R.javaSetup(env: env)
         try P0.javaSetup(env: env)
@@ -466,7 +466,7 @@ extension AsyncFunction2Converter: JavaConverter where R: JavaConverter, P0: Jav
             }
         }
     }
-    
+
     public static func toJava(_ value: @escaping SwiftType, env: Env) throws -> jobject? {
         let erased = AnyAsyncFunction2 { env, p0, p1 in
             let v0 = try P0.fromJava(object: p0, env: env)
@@ -476,7 +476,7 @@ extension AsyncFunction2Converter: JavaConverter where R: JavaConverter, P0: Jav
         let ptr = jvalue(pointer: Box(erased).retainedOpaque())
         return try env.NewObject(SwiftAsyncFunctionImpl.implClass, SwiftAsyncFunctionImpl.constructor, jvalue(i: 0), ptr)
     }
-    
+
     public static func javaSetup(env: Env) throws {
         try R.javaSetup(env: env)
         try P0.javaSetup(env: env)
@@ -570,7 +570,7 @@ extension AsyncFunction3Converter: JavaConverter where R: JavaConverter, P0: Jav
             }
         }
     }
-    
+
     public static func toJava(_ value: @escaping SwiftType, env: Env) throws -> jobject? {
         let erased = AnyAsyncFunction3 { env, p0, p1, p2 in
             let v0 = try P0.fromJava(object: p0, env: env)
@@ -581,7 +581,7 @@ extension AsyncFunction3Converter: JavaConverter where R: JavaConverter, P0: Jav
         let ptr = jvalue(pointer: Box(erased).retainedOpaque())
         return try env.NewObject(SwiftAsyncFunctionImpl.implClass, SwiftAsyncFunctionImpl.constructor, jvalue(i: 0), ptr)
     }
-    
+
     public static func javaSetup(env: Env) throws {
         try R.javaSetup(env: env)
         try P0.javaSetup(env: env)
@@ -680,7 +680,7 @@ extension AsyncFunction4Converter: JavaConverter where R: JavaConverter, P0: Jav
             }
         }
     }
-    
+
     public static func toJava(_ value: @escaping SwiftType, env: Env) throws -> jobject? {
         let erased = AnyAsyncFunction4 { env, p0, p1, p2, p3 in
             let v0 = try P0.fromJava(object: p0, env: env)
@@ -692,7 +692,7 @@ extension AsyncFunction4Converter: JavaConverter where R: JavaConverter, P0: Jav
         let ptr = jvalue(pointer: Box(erased).retainedOpaque())
         return try env.NewObject(SwiftAsyncFunctionImpl.implClass, SwiftAsyncFunctionImpl.constructor, jvalue(i: 0), ptr)
     }
-    
+
     public static func javaSetup(env: Env) throws {
         try R.javaSetup(env: env)
         try P0.javaSetup(env: env)
@@ -796,7 +796,7 @@ extension AsyncFunction5Converter: JavaConverter where R: JavaConverter, P0: Jav
             }
         }
     }
-    
+
     public static func toJava(_ value: @escaping SwiftType, env: Env) throws -> jobject? {
         let erased = AnyAsyncFunction5 { env, p0, p1, p2, p3, p4 in
             let v0 = try P0.fromJava(object: p0, env: env)
@@ -809,7 +809,7 @@ extension AsyncFunction5Converter: JavaConverter where R: JavaConverter, P0: Jav
         let ptr = jvalue(pointer: Box(erased).retainedOpaque())
         return try env.NewObject(SwiftAsyncFunctionImpl.implClass, SwiftAsyncFunctionImpl.constructor, jvalue(i: 0), ptr)
     }
-    
+
     public static func javaSetup(env: Env) throws {
         try R.javaSetup(env: env)
         try P0.javaSetup(env: env)
@@ -918,7 +918,7 @@ extension AsyncFunction6Converter: JavaConverter where R: JavaConverter, P0: Jav
             }
         }
     }
-    
+
     public static func toJava(_ value: @escaping SwiftType, env: Env) throws -> jobject? {
         let erased = AnyAsyncFunction6 { env, p0, p1, p2, p3, p4, p5 in
             let v0 = try P0.fromJava(object: p0, env: env)
@@ -932,7 +932,7 @@ extension AsyncFunction6Converter: JavaConverter where R: JavaConverter, P0: Jav
         let ptr = jvalue(pointer: Box(erased).retainedOpaque())
         return try env.NewObject(SwiftAsyncFunctionImpl.implClass, SwiftAsyncFunctionImpl.constructor, jvalue(i: 0), ptr)
     }
-    
+
     public static func javaSetup(env: Env) throws {
         try R.javaSetup(env: env)
         try P0.javaSetup(env: env)

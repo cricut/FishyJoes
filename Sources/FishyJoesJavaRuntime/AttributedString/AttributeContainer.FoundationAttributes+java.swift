@@ -16,7 +16,7 @@ extension AttributeContainer.FoundationAttributes: JavaMutator {
     public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout AttributeContainer.FoundationAttributes) throws -> R) throws -> R {
         try body(&Box<AttributeContainer.FoundationAttributes>.fromJava(this, env: env).value)
     }
-    
+
     public static func mutateJava<R>(_ this: jobject?, env: inout Env, body: (inout AttributeContainer.FoundationAttributes, inout Env) async throws -> R) async throws -> R {
         try await body(&Box<AttributeContainer.FoundationAttributes>.fromJava(this, env: env).value, &env)
     }

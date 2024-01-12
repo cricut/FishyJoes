@@ -16,7 +16,7 @@ extension AttributedSubstring: JavaMutator {
     public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout AttributedSubstring) throws -> R) throws -> R {
         try body(&Box<AttributedSubstring>.fromJava(this, env: env).value)
     }
-    
+
     public static func mutateJava<R>(_ this: jobject?, env: inout Env, body: (inout AttributedSubstring, inout Env) async throws -> R) async throws -> R {
         try await body(&Box<AttributedSubstring>.fromJava(this, env: env).value, &env)
     }

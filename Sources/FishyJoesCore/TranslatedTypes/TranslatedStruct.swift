@@ -254,7 +254,7 @@ struct TranslatedStruct: TranslatedType {
                 }
                 fragment.output("return result")
             }
-            
+
             fragment.outputBlock("public static func mutateJava<R>(_ this: jobject?, env: inout Env, body: (inout Self, inout Env) async throws -> R) async throws -> R {") {
                 fragment.output("var mutatingSelf = try fromJava(this, env: env)")
                 fragment.output("let result = try await body(&mutatingSelf, &env)")
