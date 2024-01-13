@@ -15,6 +15,7 @@ SKIP_LIPO="${SKIP_LIPO:-0}"
 
 # Swift does not properly read Windows "PATH" variable, instead trying to read "Path".
 # See: https://github.com/apple/swift-tools-support-core/issues/446
+export PATH="/usr/bin:$PATH"
 export Path="$PATH"
 
 if [[ "$(uname -s)" == "Darwin" && $SKIP_LIPO == "0" ]]; then
