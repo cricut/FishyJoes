@@ -23,10 +23,10 @@ if [[ "$(uname -s)" == "Darwin" && $SKIP_LIPO == "0" ]]; then
          .build/{arm64,x86_64}-apple-macosx/"$CONFIGURATION"/libFishyJoesIotaRuntime.dylib
     codesign -s - "$BIN_DIR/libFishyJoesIotaRuntime.dylib"
 elif [[ "$(uname -s)" == MSYS_NT* ]]; then
-    # Swift does not properly read Windows "Path" variable, instead trying to read "PATH".
+    # Swift does not properly read Windows "PATH" variable, instead trying to read "Path".
     # See: https://github.com/apple/swift-tools-support-core/issues/446
     export Path="$PATH"
-    swift build \"$@\" --configuration \"$CONFIGURATION\" --product FishyJoesIotaRuntime"
+    swift build \"$@\" --configuration \"$CONFIGURATION\" --product FishyJoesIotaRuntime
     BIN_DIR="$(swift build --configuration "$CONFIGURATION" --show-bin-path)"
 else
     swift build "$@" --configuration "$CONFIGURATION" --product FishyJoesIotaRuntime
