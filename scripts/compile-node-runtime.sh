@@ -10,6 +10,10 @@ fi
 CONFIGURATION="${CONFIGURATION:-release}"
 SKIP_LIPO="${SKIP_LIPO:-0}"
 
+# Swift does not properly read Windows "PATH" variable, instead trying to read "Path".
+# See: https://github.com/apple/swift-tools-support-core/issues/446
+export Path="$PATH"
+
 if [[ "$(uname -s)" == "Darwin" && $SKIP_LIPO == "0" ]]; then
     swift build "$@" --configuration "$CONFIGURATION" --product FishyJoesNodeRuntime --arch arm64
     swift build "$@" --configuration "$CONFIGURATION" --product FishyJoesNodeRuntime --arch x86_64
@@ -19,9 +23,8 @@ if [[ "$(uname -s)" == "Darwin" && $SKIP_LIPO == "0" ]]; then
          -output "$BIN_DIR/libFishyJoesNodeRuntime.dylib" \
          .build/{arm64,x86_64}-apple-macosx/"$CONFIGURATION"/libFishyJoesNodeRuntime.dylib
 else
-    # Swift does not properly read Windows "PATH" variable, instead trying to read "Path".
-    # See: https://github.com/apple/swift-tools-support-core/issues/446
-    PATH="/usr/bin:$PATH" Path="$PATH" swift build "$@" --configuration "$CONFIGURATION" --product FishyJoesNodeRuntime
+    env
+    swift build "$@" --configuration "$CONFIGURATION" --product FishyJoesNodeRuntime
     BIN_DIR="$(swift build --configuration "$CONFIGURATION" --show-bin-path)"
 fi
 
