@@ -295,11 +295,11 @@ jobs:
       - uses: dart-lang/setup-dart@v1
 
       - name: Build FishyJoesNodeRuntime
-         shell: bash
-         run: |
-           set -euxo pipefail
+        shell: bash
+        run: |
+          set -euxo pipefail
 
-           ./scripts/compile-node-runtime.sh
+          ./scripts/compile-node-runtime.sh
 
       - name: Test TypeScript from npm via fishy-joes
         shell: bash
