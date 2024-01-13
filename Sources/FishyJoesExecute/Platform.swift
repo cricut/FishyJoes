@@ -10,13 +10,13 @@ let wasmToolchain = "C:\\Library\\Developer\\Toolchains\\swift-wasm-5.9-SNAPSHOT
 #endif
 
 #if os(macOS)
-fileprivate let ps: String = "/"
+private let ps: String = "/"
 #elseif os(Linux)
-fileprivate let ps: String = "/"
+private let ps: String = "/"
 #elseif os(Windows)
-fileprivate let ps: String = "\\"
+private let ps: String = "\\"
 #endif
-    
+
 struct BuildConfiguration: Hashable {
     let debug: Bool
     let fat: Bool
@@ -259,7 +259,7 @@ enum Platform: CustomStringConvertible, Hashable {
             [
                 "LLVM_PROFILE_FILE": "\($0)\(ps)fishy-joes-test-\(platform)-\(UUID()).profraw",
             ]
-        } ?? [:] 
+        } ?? [:]
         let path: String
         #if os(macOS)
         path = "./gradlew"
@@ -292,7 +292,7 @@ enum Platform: CustomStringConvertible, Hashable {
             [
                 "LLVM_PROFILE_FILE": "\($0)\(ps)fishy-joes-test-\(platform)-\(UUID()).profraw",
             ]
-        } ?? [:] 
+        } ?? [:]
         var commandParts = ["dotnet", "test"] + arguments
         if let path = codeCoveragePath {
             commandParts = ["dotnet-coverage", "collect", "-f", "xml", "-o", "\(path)\(ps)integration-tests-c-sharp.xml"] + commandParts
@@ -319,7 +319,7 @@ enum Platform: CustomStringConvertible, Hashable {
             [
                 "LLVM_PROFILE_FILE": "\($0)\(ps)fishy-joes-test-\(platform)-\(UUID()).profraw",
             ]
-        } ?? [:] 
+        } ?? [:]
         let path = "dart"
         var args = ["test", "--chain-stack-traces"]
         return cmd(path, arguments: args, addEnv: env)
@@ -353,7 +353,7 @@ enum Platform: CustomStringConvertible, Hashable {
                 "LLVM_PROFILE_FILE": "\($0)\(ps)fishy-joes-test-\(platform)-\(UUID()).profraw",
                 "NODE_V8_COVERAGE": "\($0)\(ps)node",
             ]
-        } ?? [:] 
+        } ?? [:]
         let args = ["run", "test-\(nodeExecutionEnvironment)"]
         let path: String
         #if os(macOS)

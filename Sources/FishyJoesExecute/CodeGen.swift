@@ -84,11 +84,11 @@ public struct CodeGen: ParsableCommand {
 }
 
 #if os(macOS)
-fileprivate let ps: String = "/"
+private let ps: String = "/"
 #elseif os(Linux)
-fileprivate let ps: String = "/"
+private let ps: String = "/"
 #elseif os(Windows)
-fileprivate let ps: String = "\\"
+private let ps: String = "\\"
 #endif
 
 extension CodeGen {
@@ -628,7 +628,7 @@ extension CodeGen {
                     }
                 }
             }
-            
+
             // Compile generated interfacing source code files for platforms that require it (e.g. not node-native or wasm)
             for platform in platforms {
                 switch platform {
