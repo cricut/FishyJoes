@@ -23,6 +23,7 @@ if [[ "$(uname -s)" == "Darwin" && $SKIP_LIPO == "0" ]]; then
          -output "$BIN_DIR/libFishyJoesNodeRuntime.dylib" \
          .build/{arm64,x86_64}-apple-macosx/"$CONFIGURATION"/libFishyJoesNodeRuntime.dylib
 else
+    env
     swift build "$@" --configuration "$CONFIGURATION" --product FishyJoesNodeRuntime
     BIN_DIR="$(swift build --configuration "$CONFIGURATION" --show-bin-path)"
 fi
