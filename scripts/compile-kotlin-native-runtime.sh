@@ -10,6 +10,10 @@ fi
 CONFIGURATION="${CONFIGURATION:-release}"
 SKIP_LIPO="${SKIP_LIPO:-0}"
 
+# Swift does not properly read Windows "PATH" variable, instead trying to read "Path".
+# See: https://github.com/apple/swift-tools-support-core/issues/446
+export Path="$PATH"
+
 if [[ "$(uname -s)" == "Darwin" && $SKIP_LIPO == "0" ]]; then
     swift build "$@" --configuration "$CONFIGURATION" --product FishyJoesJavaRuntime --arch arm64
     swift build "$@" --configuration "$CONFIGURATION" --product FishyJoesJavaRuntime --arch x86_64
@@ -18,12 +22,6 @@ if [[ "$(uname -s)" == "Darwin" && $SKIP_LIPO == "0" ]]; then
     lipo -create \
          -output "$BIN_DIR/libFishyJoesJavaRuntime.dylib" \
          .build/{arm64,x86_64}-apple-macosx/"$CONFIGURATION"/libFishyJoesJavaRuntime.dylib
-elif [[ "$(uname -s)" == MSYS_NT* ]]; then
-    # Swift does not properly read Windows "PATH" variable, instead trying to read "Path".
-    # See: https://github.com/apple/swift-tools-support-core/issues/446
-    export Path="$PATH"
-    swift build \"$@\" --configuration \"$CONFIGURATION\" --product FishyJoesJavaRuntime
-    BIN_DIR="$(swift build --configuration "$CONFIGURATION" --show-bin-path)"
 else
     swift build "$@" --configuration "$CONFIGURATION" --product FishyJoesJavaRuntime
     BIN_DIR="$(swift build --configuration "$CONFIGURATION" --show-bin-path)"
