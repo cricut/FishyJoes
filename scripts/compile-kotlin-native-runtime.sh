@@ -23,8 +23,7 @@ elif [[ "$(uname -s)" == MSYS_NT* ]]; then
     # See: https://github.com/apple/swift-tools-support-core/issues/446
     PATH="/c/Program Files/Git/usr/bin:/c/Program Files/Git/mingw64/libexec/git-core:$PATH:$Path"
     export Path="$PATH"
-    env
-    
+
     swift build "$@" --configuration "$CONFIGURATION" --product FishyJoesJavaRuntime
     BIN_DIR="$(swift build --configuration "$CONFIGURATION" --show-bin-path)"
 else
