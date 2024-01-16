@@ -12,7 +12,8 @@ SKIP_LIPO="${SKIP_LIPO:-0}"
 
 # Swift does not properly read Windows "PATH" variable, instead trying to read "Path" only.
 # See: https://github.com/apple/swift-tools-support-core/issues/446
-export Path="$PATH"
+PATH="$PATH;/c/Program Files/Git/usr/bin;/c/Program Files/Git/mingw64/libexec/git-core"
+[[ "${Path:-}" ]] || export Path="$PATH"
 
 if [[ "$(uname -s)" == "Darwin" && $SKIP_LIPO == "0" ]]; then
     swift build "$@" --configuration "$CONFIGURATION" --product FishyJoesNodeRuntime --arch arm64
