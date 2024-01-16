@@ -1639,6 +1639,18 @@ export declare namespace TestAPI {
              */
             static create(
             ): Structs.MutableStruct;
+
+            /**
+             * <!-- FishyJoes.export(increment) -->
+             */
+            increment(
+            ): void;
+
+            /**
+             * <!-- FishyJoes.export(incrementAsync) -->
+             */
+            incrementAsync(
+            ): Promise<void>;
         }
 
         /**

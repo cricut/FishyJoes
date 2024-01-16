@@ -44,14 +44,14 @@ public enum Structs {
             self.i = i
         }
 
-//        /// <!-- FishyJoes.export(increment) -->
-//        public mutating func increment() {
-//            i += 1
-//        }
-//
-//        /// <!-- FishyJoes.export(incrementAsync) -->
-//        public mutating func incrementAsync() async {
-//            i += 1
-//        }
+        /// <!-- FishyJoes.export(increment) -->
+        public mutating func increment() {
+            i += 1
+        }
+
+        /// <!-- FishyJoes.export(incrementAsync) -->
+        public mutating func incrementAsync() async {
+            i += 1
+        }
     }
 }

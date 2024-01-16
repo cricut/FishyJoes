@@ -97,7 +97,7 @@ final class KotlinTranslator: Translator {
                                 let resolved = context.resolve(type: parameter.type, generics: exportAnnotation.genericOverrides)
                                 return "let \(parameter.name) = try \(resolved.converterType.name).fromJava(object: \(parameter.name)Ref.createLocalRef(env: _javaEnv), env: _javaEnv)"
                             }
-                            fragment.output("let value: Result<\(method.returnType.name), any Error>")
+                            fragment.output("\(method.isMutating ? "var" : "let") value: Result<\(method.returnType.name), any Error>\(method.isMutating ? "!" : "")")
                             fragment.outputBlock("do {", newLineTerminated: false) {
                                 var mutateBlock: (() -> Void) -> Void = { $0() }
                                 if method.isMutating {
@@ -155,6 +155,7 @@ final class KotlinTranslator: Translator {
                                 body()
                             }
                         }
+                        selfExpression = "mutatingSelf"
                     }
 
                     mutateBlock {

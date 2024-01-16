@@ -44,6 +44,61 @@ extension TestAPI.Structs.MutableStruct: NodeMutator {
                     },
                     isStatic: true
                 ),
+                "increment": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "increment", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            var mutatingSelf = try env.this(converter: TestAPI.Structs.MutableStruct.self)
+                            let result = try FishyJoesCommonRuntime.VoidConverter.toNode(
+                                mutatingSelf.increment(
+                                ),
+                                env: env.env
+                            )
+                            try Self.mutateNode(mutatingSelf, this: env.this(), env: env.env)
+                            return result
+                        }
+                    },
+                    isStatic: false
+                ),
+                "incrementAsync": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "incrementAsync", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            let (deferred, promise) = try env.env.createPromise()
+                            let mutatingSelf = UncheckedSendableBox(try env.this(converter: Structs.MutableStruct.self))
+                            let jsThis = try env.env.reference(env.this())
+                            Task {
+                                do {
+                                    let taskResult: Void = await mutatingSelf.value.incrementAsync(
+                                    )
+                                    try onMainThread { env in
+                                        let convertedTaskResult: NAPI.Value
+                                        do {
+                                            convertedTaskResult = try FishyJoesCommonRuntime.VoidConverter.toNode(taskResult, env: env)
+                                        } catch {
+                                            try Self.mutateNode(mutatingSelf.value, this: jsThis.value(env: env), env: env)
+                                            try env.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: env))
+                                            return
+                                        }
+                                        try Self.mutateNode(mutatingSelf.value, this: jsThis.value(env: env), env: env)
+                                        try env.resolveDeferred(deferred, convertedTaskResult)
+                                    }
+                                } catch let error as JSException {
+                                    try onMainThread { env in
+                                        try Self.mutateNode(mutatingSelf.value, this: jsThis.value(env: env), env: env)
+                                        let error = try env.createError(NAPI.Value(ptr: nil), String.toNode(error.message, env: env))
+                                        try env.rejectDeferred(deferred, error)
+                                    }
+                                } catch {
+                                    try onMainThread { env in
+                                        try Self.mutateNode(mutatingSelf.value, this: jsThis.value(env: env), env: env)
+                                        try env.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: env))
+                                    }
+                                }
+                            }
+                            return promise
+                        }
+                    },
+                    isStatic: false
+                ),
                 "i": (.stored(mutable: true), isStatic: false),
             ],
             constructor: { env, info in

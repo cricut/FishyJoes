@@ -3,7 +3,7 @@ class KotlinClass: NestedClass {
         case void
         case unsigned(jniType: JNIType)
         case named(package: String?, name: String)
-        case function(signature: String, parmeters: [KType])
+        case function(signature: String, parmeters: [KType], isSuspend: Bool)
         case optional(KType)
     }
 
@@ -157,7 +157,7 @@ class KotlinClass: NestedClass {
                                             if parameter.type.isFunction {
                                                 var parametersToForward: String = ""
                                                 switch parameter.type {
-                                                case let .function(signature, parmeters):
+                                                case let .function(_, parmeters, _):
                                                     for parameterIndex in parmeters.indices {
                                                         if parametersToForward.isEmpty {
                                                             parametersToForward.append(" ")
@@ -284,7 +284,7 @@ extension KotlinClass.KType: CustomStringConvertible {
         case let .unsigned(jniType): return "U\(jniType.valueType)"
         case let .named(.none, name): return name
         case let .named(.some(package), name): return "\(package).\(name)"
-        case let .function(signature, _): return signature
+        case let .function(signature, _, _): return signature
         case let .optional(wrapped): return "\(wrapped.kotlinType)?"
         }
     }

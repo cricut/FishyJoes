@@ -7375,6 +7375,42 @@
                         "_0" : "Structs.MutableStruct"
                       }
                     }
+                  },
+                  {
+                    "documentation" : [
+                      "<!-- FishyJoes.export(increment) -->"
+                    ],
+                    "isAsync" : false,
+                    "isStatic" : false,
+                    "name" : "increment",
+                    "parameters" : [
+
+                    ],
+                    "returnType" : {
+                      "named" : {
+                        "_0" : "void"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+                      "<!-- FishyJoes.export(incrementAsync) -->"
+                    ],
+                    "isAsync" : true,
+                    "isStatic" : false,
+                    "name" : "incrementAsync",
+                    "parameters" : [
+
+                    ],
+                    "returnType" : {
+                      "promise" : {
+                        "_0" : {
+                          "named" : {
+                            "_0" : "void"
+                          }
+                        }
+                      }
+                    }
                   }
                 ],
                 "name" : "MutableStruct"

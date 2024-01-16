@@ -21,6 +21,39 @@ sealed class Structs {
         var i: Long
     )
      {
+        /**
+         * <!-- FishyJoes.export(increment) -->
+         */
+        fun increment(
+        ): kotlin.Unit = __jni_increment()
+        @JvmName("__jni_increment")
+        private external fun __jni_increment(
+        ): kotlin.Unit
+
+        /**
+         * <!-- FishyJoes.export(incrementAsync) -->
+         */
+        suspend fun incrementAsync(
+        ): kotlin.Unit {
+            return coroutineScope {
+                async {
+                    suspendCancellableCoroutine { continuation: CancellableContinuation<kotlin.Unit?> ->
+                        __jni_incrementAsync(
+                            { value ->
+                                continuation.resume(value, null)
+                            }
+                        ) { message ->
+                            continuation.cancel(Error(message))
+                        }
+                    }
+                }.await()
+            }
+        }
+        @JvmName("__jni_incrementAsync")
+        private external fun __jni_incrementAsync(
+            successContinuation: (kotlin.Unit?) -> Unit,
+            failureContinuation: (String) -> Unit
+        )
 
         companion object {
             /**

@@ -1821,6 +1821,18 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_Structs_MutableStruct_create");
+    TestAPI.Structs_MutableStruct.f__iota_TestAPI_Structs_MutableStruct_increment = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        void Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_Structs_MutableStruct_increment");
     TestAPI.Structs_PuttingTypesIntoQuestionablePlaces.f__iota_TestAPI_Structs_PuttingTypesIntoQuestionablePlaces_create = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
