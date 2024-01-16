@@ -44,17 +44,19 @@ let java_TestAPI_Structs_MutableStruct_incrementAsync: @convention(c) (
     Function1Converter<String, VoidConverter>.CType
 ) -> Void = { _javaEnv, _javaThis, _successContinuation, _failureContinuation in
     FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
+        let _javaThisRef = try JavaReference(local: _javaThis, env: _javaEnv)
         let _successContinuationRef = try JavaReference(local: _successContinuation, env: _javaEnv)
         let _failureContinuationRef = try JavaReference(local: _failureContinuation, env: _javaEnv)
         try _javaEnv.swiftTask { _javaEnv, _vm in
             defer {
                 try? _successContinuationRef.destroy()
                 try? _failureContinuationRef.destroy()
+                try? _javaThisRef.destroy()
             }
             do {
                 var value: Result<Void, any Error>!
                 do {
-                    try await TestAPI.Structs.MutableStruct.mutateJava(_javaThis, env: &_javaEnv) { mutatingSelf, _javaEnv in
+                    try await TestAPI.Structs.MutableStruct.mutateJava(_javaThisRef.object, env: &_javaEnv) { mutatingSelf, _javaEnv in
                         try! Env.relinquishJVMThread(on: _vm)
                         defer { _javaEnv = try! Env.acquireJVMThread(on: _vm) }
                         value = .success(

@@ -23,7 +23,7 @@ final class KotlinTranslator: Translator {
             if method.isStatic {
                 selfExpression = containingNamespace
             } else if method.isAsync && method.isMutating {
-                selfExpression = "\(resolved.converterType.name).mutateJava(_javaThis, env: &_javaEnv)"
+                selfExpression = "\(resolved.converterType.name).mutateJava(_javaThisRef.object, env: &_javaEnv)"
             } else {
                 selfExpression = "\(resolved.converterType.name).fromJava(_javaThis, env: _javaEnv)"
             }
@@ -78,6 +78,9 @@ final class KotlinTranslator: Translator {
                 let callName = method.sourceKind == .initializer ? "" : ".\(method.callName)"
 
                 if method.isAsync {
+                    if method.isMutating {
+                        fragment.output("let _javaThisRef = try JavaReference(local: _javaThis, env: _javaEnv)")
+                    }
                     fragment.outputMap(method.parameters, separator: "\n") { parameter in
                         "let \(parameter.name)Ref = try JavaReference(local: \(parameter.name), env: _javaEnv)"
                     }
@@ -91,6 +94,9 @@ final class KotlinTranslator: Translator {
                             }
                             fragment.output("try? _successContinuationRef.destroy()")
                             fragment.output("try? _failureContinuationRef.destroy()")
+                            if method.isMutating {
+                                fragment.output("try? _javaThisRef.destroy()")
+                            }
                         }
                         fragment.outputBlock("do {", closeWith: "}", newLineTerminated: false) {
                             fragment.outputMap(method.parameters, separator: "\n") { parameter in
