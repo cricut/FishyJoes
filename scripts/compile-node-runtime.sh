@@ -10,7 +10,7 @@ fi
 CONFIGURATION="${CONFIGURATION:-release}"
 SKIP_LIPO="${SKIP_LIPO:-0}"
 
-# Swift does not properly read Windows "PATH" variable, instead trying to read "Path".
+# Swift does not properly read Windows "PATH" variable, instead trying to read "Path" only.
 # See: https://github.com/apple/swift-tools-support-core/issues/446
 export Path="$PATH"
 
