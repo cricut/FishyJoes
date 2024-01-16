@@ -18,10 +18,11 @@ if [[ "$(uname -s)" == "Darwin" && $SKIP_LIPO == "0" ]]; then
     lipo -create \
          -output "$BIN_DIR/libFishyJoesJavaRuntime.dylib" \
          .build/{arm64,x86_64}-apple-macosx/"$CONFIGURATION"/libFishyJoesJavaRuntime.dylib
-elif [[ "$(uname -s)" == MSYS_NT* ]]; then
+elif [[ "$(uname -s)" == *_NT* ]]; then
     # Swift does not properly read Windows "PATH" variable, instead trying to read "Path" only.
     # See: https://github.com/apple/swift-tools-support-core/issues/446
-    PATH="/c/Program Files/Git/usr/bin:/c/Program Files/Git/mingw64/libexec/git-core:$PATH:$Path"
+    PATH="/c/Program Files/Git/usr/bin:/c/Program Files/Git/mingw64/libexec/git-core:$PATH"
+    [[ "${Path:-}" ]] && PATH="$PATH:$Path"
     export Path="$PATH"
 
     swift build "$@" --configuration "$CONFIGURATION" --product FishyJoesJavaRuntime
