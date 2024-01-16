@@ -84,13 +84,13 @@ extension Env {
         switch getEnvStatus {
         case JNI_OK:
             let jvmAttachCount = Thread.current.threadDictionary.value(forKey: Env.jvmAttachCountKey) as? Int ?? 1
-            Thread.current.threadDictionary.setValue(jvmAttachCount + 1, forKey: Env.jvmAttachCountKey)
+            Thread.current.threadDictionary[Env.jvmAttachCountKey] = jvmAttachCount + 1
             return rawJavaEnvPointer
                 .map(OpaquePointer.init)
                 .map(UnsafeMutablePointer.init)
                 .map(Env.init(env:))!
         case JNI_EDETACHED:
-            Thread.current.threadDictionary.setValue(1, forKey: Env.jvmAttachCountKey)
+            Thread.current.threadDictionary[Env.jvmAttachCountKey] = 1
             var javaEnv: UnsafeMutablePointer<JNIEnv?>?
             let attachStatus = jvmInvoke.AttachCurrentThread(jvm, &javaEnv, nil)
             guard attachStatus == JNI_OK else {
@@ -113,7 +113,7 @@ extension Env {
                 throw JNIError(message: "Failed to detach current thread from JVM \(detachStatus)")
             }
         }
-        Thread.current.threadDictionary.setValue(jvmAttachCount - 1, forKey: Env.jvmAttachCountKey)
+        Thread.current.threadDictionary[Env.jvmAttachCountKey] = jvmAttachCount - 1
     }
 }
 

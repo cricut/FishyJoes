@@ -65,7 +65,7 @@ tasks.test {
     useJUnitPlatform()
 
     jvmArgs(
-        "-Xcheck:jni",
+        // "-Xcheck:jni",
         "-XX:+SuppressFatalErrorMessage",
     )
     testLogging {
@@ -94,6 +94,10 @@ tasks {
         kotlinOptions.jvmTarget = "11"
     }
     compileJava {
+        sourceCompatibility = JavaVersion.VERSION_11.toString()
+        targetCompatibility = JavaVersion.VERSION_11.toString()
+    }
+    compileTestJava {
         sourceCompatibility = JavaVersion.VERSION_11.toString()
         targetCompatibility = JavaVersion.VERSION_11.toString()
     }
