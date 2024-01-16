@@ -23,7 +23,7 @@ elif [[ "$(uname -s)" == *_NT* ]]; then
     # Swift does not properly read Windows "PATH" variable, instead trying to read "Path" only.
     # See: https://github.com/apple/swift-tools-support-core/issues/446
     PATH="/c/Program Files/Git/usr/bin:/c/Program Files/Git/mingw64/libexec/git-core:$PATH"
-    [[ "${Path:-}" ]] || PATH="$PATH:$Path"
+    [[ "${Path:-}" ]] && PATH="$PATH:$Path"
     export Path="$PATH"
     env
 
