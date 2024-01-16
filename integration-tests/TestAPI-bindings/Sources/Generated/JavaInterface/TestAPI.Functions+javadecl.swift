@@ -150,8 +150,8 @@ let java_TestAPI_Functions_async42Func: @convention(c) (
             do {
                 let value: Result<Int, any Error>
                 do {
-                    try! Env.relenquishJVMThread(on: _vm)
-                    defer { _javaEnv = try! Env.aquireJVMThread(on: _vm) }
+                    try! Env.relinquishJVMThread(on: _vm)
+                    defer { _javaEnv = try! Env.acquireJVMThread(on: _vm) }
                     value = .success(
                         try await TestAPI.Functions.async42Func(
                         )
@@ -199,8 +199,8 @@ let java_TestAPI_Functions_asyncYieldFunc: @convention(c) (
             do {
                 let value: Result<Int, any Error>
                 do {
-                    try! Env.relenquishJVMThread(on: _vm)
-                    defer { _javaEnv = try! Env.aquireJVMThread(on: _vm) }
+                    try! Env.relinquishJVMThread(on: _vm)
+                    defer { _javaEnv = try! Env.acquireJVMThread(on: _vm) }
                     value = .success(
                         try await TestAPI.Functions.asyncYieldFunc(
                         )
@@ -248,8 +248,8 @@ let java_TestAPI_Functions_asyncSleepFunc: @convention(c) (
             do {
                 let value: Result<Int, any Error>
                 do {
-                    try! Env.relenquishJVMThread(on: _vm)
-                    defer { _javaEnv = try! Env.aquireJVMThread(on: _vm) }
+                    try! Env.relinquishJVMThread(on: _vm)
+                    defer { _javaEnv = try! Env.acquireJVMThread(on: _vm) }
                     value = .success(
                         try await TestAPI.Functions.asyncSleepFunc(
                         )
@@ -297,8 +297,8 @@ let java_TestAPI_Functions_asyncVoidFunc: @convention(c) (
             do {
                 let value: Result<Void, any Error>
                 do {
-                    try! Env.relenquishJVMThread(on: _vm)
-                    defer { _javaEnv = try! Env.aquireJVMThread(on: _vm) }
+                    try! Env.relinquishJVMThread(on: _vm)
+                    defer { _javaEnv = try! Env.acquireJVMThread(on: _vm) }
                     value = .success(
                         try await TestAPI.Functions.asyncVoidFunc(
                         )
@@ -350,8 +350,8 @@ let java_TestAPI_Functions_asyncCallbackFunc0: @convention(c) (
                 let callback = try AsyncFunction0Converter<Swift.Int>.fromJava(object: callbackRef.createLocalRef(env: _javaEnv), env: _javaEnv)
                 let value: Result<Int, any Error>
                 do {
-                    try! Env.relenquishJVMThread(on: _vm)
-                    defer { _javaEnv = try! Env.aquireJVMThread(on: _vm) }
+                    try! Env.relinquishJVMThread(on: _vm)
+                    defer { _javaEnv = try! Env.acquireJVMThread(on: _vm) }
                     value = .success(
                         try await TestAPI.Functions.asyncCallbackFunc0(
                             callback
@@ -404,8 +404,8 @@ let java_TestAPI_Functions_asyncCallbackFunc1: @convention(c) (
                 let callback = try AsyncFunction1Converter<Swift.Int, Swift.Int>.fromJava(object: callbackRef.createLocalRef(env: _javaEnv), env: _javaEnv)
                 let value: Result<Int, any Error>
                 do {
-                    try! Env.relenquishJVMThread(on: _vm)
-                    defer { _javaEnv = try! Env.aquireJVMThread(on: _vm) }
+                    try! Env.relinquishJVMThread(on: _vm)
+                    defer { _javaEnv = try! Env.acquireJVMThread(on: _vm) }
                     value = .success(
                         try await TestAPI.Functions.asyncCallbackFunc1(
                             callback
@@ -458,8 +458,8 @@ let java_TestAPI_Functions_asyncCallbackFunc2: @convention(c) (
                 let callback = try AsyncFunction2Converter<Swift.Int, Swift.Int, Swift.Int>.fromJava(object: callbackRef.createLocalRef(env: _javaEnv), env: _javaEnv)
                 let value: Result<Int, any Error>
                 do {
-                    try! Env.relenquishJVMThread(on: _vm)
-                    defer { _javaEnv = try! Env.aquireJVMThread(on: _vm) }
+                    try! Env.relinquishJVMThread(on: _vm)
+                    defer { _javaEnv = try! Env.acquireJVMThread(on: _vm) }
                     value = .success(
                         try await TestAPI.Functions.asyncCallbackFunc2(
                             callback
@@ -512,8 +512,8 @@ let java_TestAPI_Functions_asyncCallbackFunc3: @convention(c) (
                 let callback = try AsyncFunction3Converter<Swift.Int, Swift.Int, Swift.Int, Swift.Int>.fromJava(object: callbackRef.createLocalRef(env: _javaEnv), env: _javaEnv)
                 let value: Result<Int, any Error>
                 do {
-                    try! Env.relenquishJVMThread(on: _vm)
-                    defer { _javaEnv = try! Env.aquireJVMThread(on: _vm) }
+                    try! Env.relinquishJVMThread(on: _vm)
+                    defer { _javaEnv = try! Env.acquireJVMThread(on: _vm) }
                     value = .success(
                         try await TestAPI.Functions.asyncCallbackFunc3(
                             callback
@@ -566,8 +566,8 @@ let java_TestAPI_Functions_asyncCallbackFunc4: @convention(c) (
                 let callback = try AsyncFunction4Converter<Swift.Int, Swift.Int, Swift.Int, Swift.Int, Swift.Int>.fromJava(object: callbackRef.createLocalRef(env: _javaEnv), env: _javaEnv)
                 let value: Result<Int, any Error>
                 do {
-                    try! Env.relenquishJVMThread(on: _vm)
-                    defer { _javaEnv = try! Env.aquireJVMThread(on: _vm) }
+                    try! Env.relinquishJVMThread(on: _vm)
+                    defer { _javaEnv = try! Env.acquireJVMThread(on: _vm) }
                     value = .success(
                         try await TestAPI.Functions.asyncCallbackFunc4(
                             callback
@@ -620,8 +620,8 @@ let java_TestAPI_Functions_asyncCallbackFunc5: @convention(c) (
                 let callback = try AsyncFunction5Converter<Swift.Int, Swift.Int, Swift.Int, Swift.Int, Swift.Int, Swift.Int>.fromJava(object: callbackRef.createLocalRef(env: _javaEnv), env: _javaEnv)
                 let value: Result<Int, any Error>
                 do {
-                    try! Env.relenquishJVMThread(on: _vm)
-                    defer { _javaEnv = try! Env.aquireJVMThread(on: _vm) }
+                    try! Env.relinquishJVMThread(on: _vm)
+                    defer { _javaEnv = try! Env.acquireJVMThread(on: _vm) }
                     value = .success(
                         try await TestAPI.Functions.asyncCallbackFunc5(
                             callback
@@ -674,8 +674,8 @@ let java_TestAPI_Functions_asyncCallbackFunc6: @convention(c) (
                 let callback = try AsyncFunction6Converter<Swift.Int, Swift.Int, Swift.Int, Swift.Int, Swift.Int, Swift.Int, Swift.Int>.fromJava(object: callbackRef.createLocalRef(env: _javaEnv), env: _javaEnv)
                 let value: Result<Int, any Error>
                 do {
-                    try! Env.relenquishJVMThread(on: _vm)
-                    defer { _javaEnv = try! Env.aquireJVMThread(on: _vm) }
+                    try! Env.relinquishJVMThread(on: _vm)
+                    defer { _javaEnv = try! Env.acquireJVMThread(on: _vm) }
                     value = .success(
                         try await TestAPI.Functions.asyncCallbackFunc6(
                             callback
@@ -728,8 +728,8 @@ let java_TestAPI_Functions_asyncDoubleFunc: @convention(c) (
                 let d = try Swift.Double.fromJava(object: dRef.createLocalRef(env: _javaEnv), env: _javaEnv)
                 let value: Result<Double, any Error>
                 do {
-                    try! Env.relenquishJVMThread(on: _vm)
-                    defer { _javaEnv = try! Env.aquireJVMThread(on: _vm) }
+                    try! Env.relinquishJVMThread(on: _vm)
+                    defer { _javaEnv = try! Env.acquireJVMThread(on: _vm) }
                     value = .success(
                         try await TestAPI.Functions.asyncDoubleFunc(
                             d
@@ -789,8 +789,8 @@ let java_TestAPI_Functions_asyncMultipleArgs: @convention(c) (
                 let j = try AsyncFunction0Converter<Swift.Int>.fromJava(object: jRef.createLocalRef(env: _javaEnv), env: _javaEnv)
                 let value: Result<Int, any Error>
                 do {
-                    try! Env.relenquishJVMThread(on: _vm)
-                    defer { _javaEnv = try! Env.aquireJVMThread(on: _vm) }
+                    try! Env.relinquishJVMThread(on: _vm)
+                    defer { _javaEnv = try! Env.acquireJVMThread(on: _vm) }
                     value = .success(
                         try await TestAPI.Functions.asyncMultipleArgs(
                             i,
@@ -840,8 +840,8 @@ let java_TestAPI_Functions_asyncThrowingFunc: @convention(c) (
             do {
                 let value: Result<Void, any Error>
                 do {
-                    try! Env.relenquishJVMThread(on: _vm)
-                    defer { _javaEnv = try! Env.aquireJVMThread(on: _vm) }
+                    try! Env.relinquishJVMThread(on: _vm)
+                    defer { _javaEnv = try! Env.acquireJVMThread(on: _vm) }
                     value = .success(
                         try await TestAPI.Functions.asyncThrowingFunc(
                         )

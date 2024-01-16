@@ -79,7 +79,6 @@ public func asyncCallbackBody<R: Defaultable>(
     }
     let condition = NSCondition()
     let resultBox: UncheckedSendableBox<Result<R, any Error>> = .init(.success(.default))
-    let origin = Thread.callStackSymbols
     Task {
         defer {
             condition.lock()
@@ -88,14 +87,13 @@ public func asyncCallbackBody<R: Defaultable>(
         }
 
         do {
-            let env = try Env.aquireJVMThread(on: vm)
-            print(origin.joined(separator: "\n"))
+            let env = try Env.acquireJVMThread(on: vm)
             do {
                 let value = try await body(env)
                 resultBox.value = .success(value)
-                try Env.relenquishJVMThread(on: vm)
+                try Env.relinquishJVMThread(on: vm)
             } catch {
-                try! Env.relenquishJVMThread(on: vm)
+                try! Env.relinquishJVMThread(on: vm)
                 throw error
             }
         } catch {
@@ -150,13 +148,13 @@ public func asyncCallbackBody(
             condition.unlock()
         }
         do {
-            let env = try Env.aquireJVMThread(on: vm)
+            let env = try Env.acquireJVMThread(on: vm)
             do {
                 try await body(env)
                 resultBox.value = .success(Void())
-                try Env.relenquishJVMThread(on: vm)
+                try Env.relinquishJVMThread(on: vm)
             } catch {
-                try! Env.relenquishJVMThread(on: vm)
+                try! Env.relinquishJVMThread(on: vm)
                 throw error
             }
         } catch {

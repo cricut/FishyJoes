@@ -97,7 +97,7 @@ final class KotlinTranslator: Translator {
                                 let resolved = context.resolve(type: parameter.type, generics: exportAnnotation.genericOverrides)
                                 return "let \(parameter.name) = try \(resolved.converterType.name).fromJava(object: \(parameter.name)Ref.createLocalRef(env: _javaEnv), env: _javaEnv)"
                             }
-                            fragment.output("\(method.isMutating ? "var" : "let") value: Result<\(method.returnType.name), any Error>\(method.isMutating ? "!" : "")")
+                            fragment.output("let value: Result<\(method.returnType.name), any Error>")
                             fragment.outputBlock("do {", newLineTerminated: false) {
                                 var mutateBlock: (() -> Void) -> Void = { $0() }
                                 if method.isMutating {
@@ -111,8 +111,8 @@ final class KotlinTranslator: Translator {
                                 }
 
                                 mutateBlock {
-                                    fragment.output("try! Env.relenquishJVMThread(on: _vm)")
-                                    fragment.output("defer { _javaEnv = try! Env.aquireJVMThread(on: _vm) }")
+                                    fragment.output("try! Env.relinquishJVMThread(on: _vm)")
+                                    fragment.output("defer { _javaEnv = try! Env.acquireJVMThread(on: _vm) }")
                                     fragment.outputBlock("value = .success(", closeWith: ")") {
                                         fragment.outputBlock("\(method.isThrowing ? "try " : "")await \(selfExpression)\(callName)(", closeWith: ")") {
                                             fragment.outputMap(method.parameters, separator: ",") { formal in

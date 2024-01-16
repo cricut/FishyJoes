@@ -1,4 +1,3 @@
-/*
 package com.cricut.testapi
 
 import com.cricut.fishyjoes.runtime.AttributeContainer
@@ -460,4 +459,3 @@ internal class AttributedStringTests {
         assertEquals(attributedString, AttributedString.create("Hello Olá こんにちは"))
     }
 }
-*/

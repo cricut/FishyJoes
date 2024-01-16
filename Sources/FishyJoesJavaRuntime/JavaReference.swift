@@ -31,9 +31,9 @@ public class JavaReference {
 
     public func destroy() throws {
         if let object = object {
-            let javaEnv = try Env.aquireJVMThread(on: vm)
+            let javaEnv = try Env.acquireJVMThread(on: vm)
             defer {
-                try? Env.relenquishJVMThread(on: vm)
+                try! Env.relinquishJVMThread(on: vm)
             }
             javaEnv.DeleteGlobalRef(object)
             self.object = nil

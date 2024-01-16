@@ -216,8 +216,8 @@ extension Function0Converter: JavaConverter where R: JavaConverter {
         let escapingRef = try JavaReference(local: value, env: env)
         let vm = try env.GetJavaVM()
         return {
-            let env = try Env.aquireJVMThread(on: vm)
-            defer { try! Env.relenquishJVMThread(on: vm) }
+            let env = try Env.acquireJVMThread(on: vm)
+            defer { try! Env.relinquishJVMThread(on: vm) }
             return try R.fromJava(
                 object: env.CallObjectMethod(
                     escapingRef.object,
@@ -257,7 +257,7 @@ extension AsyncFunction0Converter: JavaConverter where R: JavaConverter {
         return {
             try await withCheckedThrowingContinuation { continuation in
                 do {
-                    let env = try Env.aquireJVMThread(on: vm)
+                    let env = try Env.acquireJVMThread(on: vm)
                     do {
                         let value = try env.CallObjectMethod(
                             escapingRef.object,
@@ -265,11 +265,11 @@ extension AsyncFunction0Converter: JavaConverter where R: JavaConverter {
                         )
                         continuation.resume(returning: try R.fromJava(object: value, env: env))
                     } catch {
-                        try! Env.relenquishJVMThread(on: vm)
+                        try! Env.relinquishJVMThread(on: vm)
                         continuation.resume(throwing: error)
                         return
                     }
-                    try Env.relenquishJVMThread(on: vm)
+                    try Env.relinquishJVMThread(on: vm)
                 } catch {
                     continuation.resume(throwing: error)
                 }
@@ -304,8 +304,8 @@ extension Function1Converter: JavaConverter where R: JavaConverter, P0: JavaConv
         let escapingRef = try JavaReference(local: value, env: env)
         let vm = try env.GetJavaVM()
         return { p0 in
-            let env = try Env.aquireJVMThread(on: vm)
-            defer { try! Env.relenquishJVMThread(on: vm) }
+            let env = try Env.acquireJVMThread(on: vm)
+            defer { try! Env.relinquishJVMThread(on: vm) }
             return try R.fromJava(
                 object: env.CallObjectMethod(
                     escapingRef.object,
@@ -348,7 +348,7 @@ extension AsyncFunction1Converter: JavaConverter where R: JavaConverter, P0: Jav
         return { p0 in
             try await withCheckedThrowingContinuation { continuation in
                 do {
-                    let env = try Env.aquireJVMThread(on: vm)
+                    let env = try Env.acquireJVMThread(on: vm)
                     do {
                         let value = try env.CallObjectMethod(
                             escapingRef.object,
@@ -357,11 +357,11 @@ extension AsyncFunction1Converter: JavaConverter where R: JavaConverter, P0: Jav
                         )
                         continuation.resume(returning: try R.fromJava(object: value, env: env))
                     } catch {
-                        try! Env.relenquishJVMThread(on: vm)
+                        try! Env.relinquishJVMThread(on: vm)
                         continuation.resume(throwing: error)
                         return
                     }
-                    try Env.relenquishJVMThread(on: vm)
+                    try Env.relinquishJVMThread(on: vm)
                 } catch {
                     continuation.resume(throwing: error)
                 }
@@ -375,7 +375,7 @@ extension AsyncFunction1Converter: JavaConverter where R: JavaConverter, P0: Jav
             return try await R.toJavaObject(value(v0), env: env)
         }
         let ptr = jvalue(pointer: Box(erased).retainedOpaque())
-        return try env.NewObject(SwiftAsyncFunctionImpl.implClass, SwiftAsyncFunctionImpl.constructor, jvalue(i: 0), ptr)
+        return try env.NewObject(SwiftAsyncFunctionImpl.implClass, SwiftAsyncFunctionImpl.constructor, jvalue(i: 1), ptr)
     }
 
     public static func javaSetup(env: Env) throws {
@@ -398,8 +398,8 @@ extension Function2Converter: JavaConverter where R: JavaConverter, P0: JavaConv
         let escapingRef = try JavaReference(local: value, env: env)
         let vm = try env.GetJavaVM()
         return { p0, p1 in
-            let env = try Env.aquireJVMThread(on: vm)
-            defer { try! Env.relenquishJVMThread(on: vm) }
+            let env = try Env.acquireJVMThread(on: vm)
+            defer { try! Env.relinquishJVMThread(on: vm) }
             return try R.fromJava(
                 object: env.CallObjectMethod(
                     escapingRef.object,
@@ -445,7 +445,7 @@ extension AsyncFunction2Converter: JavaConverter where R: JavaConverter, P0: Jav
         return { p0, p1 in
             try await withCheckedThrowingContinuation { continuation in
                 do {
-                    let env = try Env.aquireJVMThread(on: vm)
+                    let env = try Env.acquireJVMThread(on: vm)
                     do {
                         let value = try env.CallObjectMethod(
                             escapingRef.object,
@@ -455,11 +455,11 @@ extension AsyncFunction2Converter: JavaConverter where R: JavaConverter, P0: Jav
                         )
                         continuation.resume(returning: try R.fromJava(object: value, env: env))
                     } catch {
-                        try! Env.relenquishJVMThread(on: vm)
+                        try! Env.relinquishJVMThread(on: vm)
                         continuation.resume(throwing: error)
                         return
                     }
-                    try Env.relenquishJVMThread(on: vm)
+                    try Env.relinquishJVMThread(on: vm)
                 } catch {
                     continuation.resume(throwing: error)
                 }
@@ -474,7 +474,7 @@ extension AsyncFunction2Converter: JavaConverter where R: JavaConverter, P0: Jav
             return try await R.toJavaObject(value(v0, v1), env: env)
         }
         let ptr = jvalue(pointer: Box(erased).retainedOpaque())
-        return try env.NewObject(SwiftAsyncFunctionImpl.implClass, SwiftAsyncFunctionImpl.constructor, jvalue(i: 0), ptr)
+        return try env.NewObject(SwiftAsyncFunctionImpl.implClass, SwiftAsyncFunctionImpl.constructor, jvalue(i: 2), ptr)
     }
 
     public static func javaSetup(env: Env) throws {
@@ -498,8 +498,8 @@ extension Function3Converter: JavaConverter where R: JavaConverter, P0: JavaConv
         let escapingRef = try JavaReference(local: value, env: env)
         let vm = try env.GetJavaVM()
         return { p0, p1, p2 in
-            let env = try Env.aquireJVMThread(on: vm)
-            defer { try! Env.relenquishJVMThread(on: vm) }
+            let env = try Env.acquireJVMThread(on: vm)
+            defer { try! Env.relinquishJVMThread(on: vm) }
             return try R.fromJava(
                 object: env.CallObjectMethod(
                     escapingRef.object,
@@ -548,7 +548,7 @@ extension AsyncFunction3Converter: JavaConverter where R: JavaConverter, P0: Jav
         return { p0, p1, p2 in
             try await withCheckedThrowingContinuation { continuation in
                 do {
-                    let env = try Env.aquireJVMThread(on: vm)
+                    let env = try Env.acquireJVMThread(on: vm)
                     do {
                         let value = try env.CallObjectMethod(
                             escapingRef.object,
@@ -559,11 +559,11 @@ extension AsyncFunction3Converter: JavaConverter where R: JavaConverter, P0: Jav
                         )
                         continuation.resume(returning: try R.fromJava(object: value, env: env))
                     } catch {
-                        try! Env.relenquishJVMThread(on: vm)
+                        try! Env.relinquishJVMThread(on: vm)
                         continuation.resume(throwing: error)
                         return
                     }
-                    try Env.relenquishJVMThread(on: vm)
+                    try Env.relinquishJVMThread(on: vm)
                 } catch {
                     continuation.resume(throwing: error)
                 }
@@ -579,7 +579,7 @@ extension AsyncFunction3Converter: JavaConverter where R: JavaConverter, P0: Jav
             return try await R.toJavaObject(value(v0, v1, v2), env: env)
         }
         let ptr = jvalue(pointer: Box(erased).retainedOpaque())
-        return try env.NewObject(SwiftAsyncFunctionImpl.implClass, SwiftAsyncFunctionImpl.constructor, jvalue(i: 0), ptr)
+        return try env.NewObject(SwiftAsyncFunctionImpl.implClass, SwiftAsyncFunctionImpl.constructor, jvalue(i: 3), ptr)
     }
 
     public static func javaSetup(env: Env) throws {
@@ -604,8 +604,8 @@ extension Function4Converter: JavaConverter where R: JavaConverter, P0: JavaConv
         let escapingRef = try JavaReference(local: value, env: env)
         let vm = try env.GetJavaVM()
         return { p0, p1, p2, p3 in
-            let env = try Env.aquireJVMThread(on: vm)
-            defer { try! Env.relenquishJVMThread(on: vm) }
+            let env = try Env.acquireJVMThread(on: vm)
+            defer { try! Env.relinquishJVMThread(on: vm) }
             return try R.fromJava(
                 object: env.CallObjectMethod(
                     escapingRef.object,
@@ -657,7 +657,7 @@ extension AsyncFunction4Converter: JavaConverter where R: JavaConverter, P0: Jav
         return { p0, p1, p2, p3 in
             try await withCheckedThrowingContinuation { continuation in
                 do {
-                    let env = try Env.aquireJVMThread(on: vm)
+                    let env = try Env.acquireJVMThread(on: vm)
                     do {
                         let value = try env.CallObjectMethod(
                             escapingRef.object,
@@ -669,11 +669,11 @@ extension AsyncFunction4Converter: JavaConverter where R: JavaConverter, P0: Jav
                         )
                         continuation.resume(returning: try R.fromJava(object: value, env: env))
                     } catch {
-                        try! Env.relenquishJVMThread(on: vm)
+                        try! Env.relinquishJVMThread(on: vm)
                         continuation.resume(throwing: error)
                         return
                     }
-                    try Env.relenquishJVMThread(on: vm)
+                    try Env.relinquishJVMThread(on: vm)
                 } catch {
                     continuation.resume(throwing: error)
                 }
@@ -690,7 +690,7 @@ extension AsyncFunction4Converter: JavaConverter where R: JavaConverter, P0: Jav
             return try await R.toJavaObject(value(v0, v1, v2, v3), env: env)
         }
         let ptr = jvalue(pointer: Box(erased).retainedOpaque())
-        return try env.NewObject(SwiftAsyncFunctionImpl.implClass, SwiftAsyncFunctionImpl.constructor, jvalue(i: 0), ptr)
+        return try env.NewObject(SwiftAsyncFunctionImpl.implClass, SwiftAsyncFunctionImpl.constructor, jvalue(i: 4), ptr)
     }
 
     public static func javaSetup(env: Env) throws {
@@ -716,8 +716,8 @@ extension Function5Converter: JavaConverter where R: JavaConverter, P0: JavaConv
         let escapingRef = try JavaReference(local: value, env: env)
         let vm = try env.GetJavaVM()
         return { p0, p1, p2, p3, p4 in
-            let env = try Env.aquireJVMThread(on: vm)
-            defer { try! Env.relenquishJVMThread(on: vm) }
+            let env = try Env.acquireJVMThread(on: vm)
+            defer { try! Env.relinquishJVMThread(on: vm) }
             return try R.fromJava(
                 object: env.CallObjectMethod(
                     escapingRef.object,
@@ -772,7 +772,7 @@ extension AsyncFunction5Converter: JavaConverter where R: JavaConverter, P0: Jav
         return { p0, p1, p2, p3, p4 in
             try await withCheckedThrowingContinuation { continuation in
                 do {
-                    let env = try Env.aquireJVMThread(on: vm)
+                    let env = try Env.acquireJVMThread(on: vm)
                     do {
                         let value = try env.CallObjectMethod(
                             escapingRef.object,
@@ -785,11 +785,11 @@ extension AsyncFunction5Converter: JavaConverter where R: JavaConverter, P0: Jav
                         )
                         continuation.resume(returning: try R.fromJava(object: value, env: env))
                     } catch {
-                        try! Env.relenquishJVMThread(on: vm)
+                        try! Env.relinquishJVMThread(on: vm)
                         continuation.resume(throwing: error)
                         return
                     }
-                    try Env.relenquishJVMThread(on: vm)
+                    try Env.relinquishJVMThread(on: vm)
                 } catch {
                     continuation.resume(throwing: error)
                 }
@@ -807,7 +807,7 @@ extension AsyncFunction5Converter: JavaConverter where R: JavaConverter, P0: Jav
             return try await R.toJavaObject(value(v0, v1, v2, v3, v4), env: env)
         }
         let ptr = jvalue(pointer: Box(erased).retainedOpaque())
-        return try env.NewObject(SwiftAsyncFunctionImpl.implClass, SwiftAsyncFunctionImpl.constructor, jvalue(i: 0), ptr)
+        return try env.NewObject(SwiftAsyncFunctionImpl.implClass, SwiftAsyncFunctionImpl.constructor, jvalue(i: 5), ptr)
     }
 
     public static func javaSetup(env: Env) throws {
@@ -834,8 +834,8 @@ extension Function6Converter: JavaConverter where R: JavaConverter, P0: JavaConv
         let escapingRef = try JavaReference(local: value, env: env)
         let vm = try env.GetJavaVM()
         return { p0, p1, p2, p3, p4, p5 in
-            let env = try Env.aquireJVMThread(on: vm)
-            defer { try! Env.relenquishJVMThread(on: vm) }
+            let env = try Env.acquireJVMThread(on: vm)
+            defer { try! Env.relinquishJVMThread(on: vm) }
             return try R.fromJava(
                 object: env.CallObjectMethod(
                     escapingRef.object,
@@ -893,7 +893,7 @@ extension AsyncFunction6Converter: JavaConverter where R: JavaConverter, P0: Jav
         return { p0, p1, p2, p3, p4, p5 in
             try await withCheckedThrowingContinuation { continuation in
                 do {
-                    let env = try Env.aquireJVMThread(on: vm)
+                    let env = try Env.acquireJVMThread(on: vm)
                     do {
                         let value = try env.CallObjectMethod(
                             escapingRef.object,
@@ -907,11 +907,11 @@ extension AsyncFunction6Converter: JavaConverter where R: JavaConverter, P0: Jav
                         )
                         continuation.resume(returning: try R.fromJava(object: value, env: env))
                     } catch {
-                        try! Env.relenquishJVMThread(on: vm)
+                        try! Env.relinquishJVMThread(on: vm)
                         continuation.resume(throwing: error)
                         return
                     }
-                    try Env.relenquishJVMThread(on: vm)
+                    try Env.relinquishJVMThread(on: vm)
                 } catch {
                     continuation.resume(throwing: error)
                 }
@@ -930,7 +930,7 @@ extension AsyncFunction6Converter: JavaConverter where R: JavaConverter, P0: Jav
             return try await R.toJavaObject(value(v0, v1, v2, v3, v4, v5), env: env)
         }
         let ptr = jvalue(pointer: Box(erased).retainedOpaque())
-        return try env.NewObject(SwiftAsyncFunctionImpl.implClass, SwiftAsyncFunctionImpl.constructor, jvalue(i: 0), ptr)
+        return try env.NewObject(SwiftAsyncFunctionImpl.implClass, SwiftAsyncFunctionImpl.constructor, jvalue(i: 6), ptr)
     }
 
     public static func javaSetup(env: Env) throws {
