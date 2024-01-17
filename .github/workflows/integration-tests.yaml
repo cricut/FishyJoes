@@ -279,16 +279,16 @@ jobs:
         with:
           credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
+      - uses: compnerd/gha-setup-swift@main
+        with:
+          branch: swift-5.9.1-release
+          tag: 5.9.1-RELEASE
+
       - name: Setup JDK
         uses: actions/setup-java@v3
         with:
           distribution: zulu
           java-version: 11
-
-      - uses: compnerd/gha-setup-swift@main
-        with:
-          branch: swift-5.9.1-release
-          tag: 5.9.1-RELEASE
 
       - name: Setup node
         uses: actions/setup-node@v3
