@@ -21,9 +21,8 @@ if [[ "$(uname -s)" == "Darwin" && $SKIP_LIPO == "0" ]]; then
 elif [[ "$(uname -s)" == *_NT* ]]; then
     # Swift does not properly read Windows "PATH" variable, instead trying to read "Path" only.
     # See: https://github.com/apple/swift-tools-support-core/issues/446
-    PATH="$PATH:/c/Program Files/Git/mingw64/libexec/git-core"
-    Path="$PATH" swift build "$@" --configuration "$CONFIGURATION" --product FishyJoesNodeRuntime
-    BIN_DIR="$(Path="$PATH" swift build --configuration "$CONFIGURATION" --show-bin-path)"
+    ./scripts/swift-shim.bat build "$@" --configuration "$CONFIGURATION" --product FishyJoesJavaRuntime
+    BIN_DIR="$(./scripts/swift-shim.bat build --configuration "$CONFIGURATION" --show-bin-path)"
 else
     swift build "$@" --configuration "$CONFIGURATION" --product FishyJoesJavaRuntime
     BIN_DIR="$(swift build --configuration "$CONFIGURATION" --show-bin-path)"
