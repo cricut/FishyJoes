@@ -55,6 +55,31 @@ sealed class Structs {
             failureContinuation: (String) -> Unit
         )
 
+        /**
+         * <!-- FishyJoes.export(asyncGetI) -->
+         */
+        suspend fun asyncGetI(
+        ): Long {
+            return coroutineScope {
+                async {
+                    suspendCancellableCoroutine { continuation: CancellableContinuation<Long> ->
+                        __jni_asyncGetI(
+                            { value ->
+                                continuation.resume(value, null)
+                            }
+                        ) { message ->
+                            continuation.cancel(Error(message))
+                        }
+                    }
+                }.await()
+            }
+        }
+        @JvmName("__jni_asyncGetI")
+        private external fun __jni_asyncGetI(
+            successContinuation: (Long) -> Unit,
+            failureContinuation: (String) -> Unit
+        )
+
         companion object {
             /**
              * <!-- FishyJoes.export(create) -->
@@ -94,6 +119,31 @@ sealed class Structs {
         private external fun __jni_get_mutable(): kotlin.String
         @JvmName("__jni_set_mutable")
         private external fun __jni_set_mutable(newValue: kotlin.String)
+
+        /**
+         * <!-- FishyJoes.export(asyncGetMutable) -->
+         */
+        suspend fun asyncGetMutable(
+        ): kotlin.String {
+            return coroutineScope {
+                async {
+                    suspendCancellableCoroutine { continuation: CancellableContinuation<kotlin.String> ->
+                        __jni_asyncGetMutable(
+                            { value ->
+                                continuation.resume(value, null)
+                            }
+                        ) { message ->
+                            continuation.cancel(Error(message))
+                        }
+                    }
+                }.await()
+            }
+        }
+        @JvmName("__jni_asyncGetMutable")
+        private external fun __jni_asyncGetMutable(
+            successContinuation: (kotlin.String) -> Unit,
+            failureContinuation: (String) -> Unit
+        )
 
         override fun equals(
             other: Any?
@@ -139,6 +189,30 @@ sealed class Structs {
         var mutable: kotlin.String
     )
      {
+        /**
+         * <!-- FishyJoes.export(asyncGetMutable) -->
+         */
+        suspend fun asyncGetMutable(
+        ): kotlin.String {
+            return coroutineScope {
+                async {
+                    suspendCancellableCoroutine { continuation: CancellableContinuation<kotlin.String> ->
+                        __jni_asyncGetMutable(
+                            { value ->
+                                continuation.resume(value, null)
+                            }
+                        ) { message ->
+                            continuation.cancel(Error(message))
+                        }
+                    }
+                }.await()
+            }
+        }
+        @JvmName("__jni_asyncGetMutable")
+        private external fun __jni_asyncGetMutable(
+            successContinuation: (kotlin.String) -> Unit,
+            failureContinuation: (String) -> Unit
+        )
 
         companion object {
             /**

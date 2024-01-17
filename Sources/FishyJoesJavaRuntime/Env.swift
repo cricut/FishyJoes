@@ -106,17 +106,17 @@ extension Env {
 
     public static func relinquishJVMThread(on jvm: UnsafeMutablePointer<JavaVM?>?) throws {
         guard let jvmInvoke = jvm?.pointee?.pointee,
-              let jvmAttachCount = Thread.current.threadDictionary.value(forKey: Env.jvmAttachCountKey) as? Int else {
+              let jvmAttachCount = Thread.current.threadDictionary[Env.jvmAttachCountKey] as? Int else {
             return
-        }
-        defer {
-            Thread.current.threadDictionary[Env.jvmAttachCountKey] = jvmAttachCount - 1
         }
         if jvmAttachCount == 1 {
             let detachStatus = jvmInvoke.DetachCurrentThread(jvm)
             guard detachStatus == JNI_OK else {
                 throw JNIError(message: "Failed to detach current thread from JVM \(detachStatus)")
             }
+            Thread.current.threadDictionary.removeObject(forKey: Env.jvmAttachCountKey)
+        } else {
+            Thread.current.threadDictionary[Env.jvmAttachCountKey] = jvmAttachCount - 1
         }
     }
 }

@@ -136,14 +136,16 @@ let java_TestAPI_Functions_willThrow: @convention(c) (
 let java_TestAPI_Functions_async42Func: @convention(c) (
     UnsafeMutablePointer<JNIEnv?>,
     jobject,
-    Function1Converter<Swift.Int.CType, VoidConverter>.CType,
+    Function1Converter<Swift.Int, VoidConverter>.CType,
     Function1Converter<String, VoidConverter>.CType
 ) -> Void = { _javaEnv, _javaThis, _successContinuation, _failureContinuation in
     FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
+        let _javaThisRef = try JavaReference(local: _javaThis, env: _javaEnv)
         let _successContinuationRef = try JavaReference(local: _successContinuation, env: _javaEnv)
         let _failureContinuationRef = try JavaReference(local: _failureContinuation, env: _javaEnv)
         try _javaEnv.swiftTask { _javaEnv, _vm in
             defer {
+                try? _javaThisRef.destroy()
                 try? _successContinuationRef.destroy()
                 try? _failureContinuationRef.destroy()
             }
@@ -159,14 +161,11 @@ let java_TestAPI_Functions_async42Func: @convention(c) (
                 } catch {
                     value = .failure(error)
                 }
-                try Function1Converter<Swift.Int.CType, VoidConverter>.fromJava(
+                try Function1Converter<Swift.Int, VoidConverter>.fromJava(
                     _successContinuationRef.createLocalRef(env: _javaEnv),
                     env: _javaEnv
                 )(
-                    Swift.Int.toJava(
-                        value.get(),
-                        env: _javaEnv
-                    )
+                    value.get()
                 )
             } catch {
                 if _javaEnv.ExceptionCheck() {
@@ -185,14 +184,16 @@ let java_TestAPI_Functions_async42Func: @convention(c) (
 let java_TestAPI_Functions_asyncYieldFunc: @convention(c) (
     UnsafeMutablePointer<JNIEnv?>,
     jobject,
-    Function1Converter<Swift.Int.CType, VoidConverter>.CType,
+    Function1Converter<Swift.Int, VoidConverter>.CType,
     Function1Converter<String, VoidConverter>.CType
 ) -> Void = { _javaEnv, _javaThis, _successContinuation, _failureContinuation in
     FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
+        let _javaThisRef = try JavaReference(local: _javaThis, env: _javaEnv)
         let _successContinuationRef = try JavaReference(local: _successContinuation, env: _javaEnv)
         let _failureContinuationRef = try JavaReference(local: _failureContinuation, env: _javaEnv)
         try _javaEnv.swiftTask { _javaEnv, _vm in
             defer {
+                try? _javaThisRef.destroy()
                 try? _successContinuationRef.destroy()
                 try? _failureContinuationRef.destroy()
             }
@@ -208,14 +209,11 @@ let java_TestAPI_Functions_asyncYieldFunc: @convention(c) (
                 } catch {
                     value = .failure(error)
                 }
-                try Function1Converter<Swift.Int.CType, VoidConverter>.fromJava(
+                try Function1Converter<Swift.Int, VoidConverter>.fromJava(
                     _successContinuationRef.createLocalRef(env: _javaEnv),
                     env: _javaEnv
                 )(
-                    Swift.Int.toJava(
-                        value.get(),
-                        env: _javaEnv
-                    )
+                    value.get()
                 )
             } catch {
                 if _javaEnv.ExceptionCheck() {
@@ -234,14 +232,16 @@ let java_TestAPI_Functions_asyncYieldFunc: @convention(c) (
 let java_TestAPI_Functions_asyncSleepFunc: @convention(c) (
     UnsafeMutablePointer<JNIEnv?>,
     jobject,
-    Function1Converter<Swift.Int.CType, VoidConverter>.CType,
+    Function1Converter<Swift.Int, VoidConverter>.CType,
     Function1Converter<String, VoidConverter>.CType
 ) -> Void = { _javaEnv, _javaThis, _successContinuation, _failureContinuation in
     FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
+        let _javaThisRef = try JavaReference(local: _javaThis, env: _javaEnv)
         let _successContinuationRef = try JavaReference(local: _successContinuation, env: _javaEnv)
         let _failureContinuationRef = try JavaReference(local: _failureContinuation, env: _javaEnv)
         try _javaEnv.swiftTask { _javaEnv, _vm in
             defer {
+                try? _javaThisRef.destroy()
                 try? _successContinuationRef.destroy()
                 try? _failureContinuationRef.destroy()
             }
@@ -257,14 +257,11 @@ let java_TestAPI_Functions_asyncSleepFunc: @convention(c) (
                 } catch {
                     value = .failure(error)
                 }
-                try Function1Converter<Swift.Int.CType, VoidConverter>.fromJava(
+                try Function1Converter<Swift.Int, VoidConverter>.fromJava(
                     _successContinuationRef.createLocalRef(env: _javaEnv),
                     env: _javaEnv
                 )(
-                    Swift.Int.toJava(
-                        value.get(),
-                        env: _javaEnv
-                    )
+                    value.get()
                 )
             } catch {
                 if _javaEnv.ExceptionCheck() {
@@ -287,10 +284,12 @@ let java_TestAPI_Functions_asyncVoidFunc: @convention(c) (
     Function1Converter<String, VoidConverter>.CType
 ) -> Void = { _javaEnv, _javaThis, _successContinuation, _failureContinuation in
     FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
+        let _javaThisRef = try JavaReference(local: _javaThis, env: _javaEnv)
         let _successContinuationRef = try JavaReference(local: _successContinuation, env: _javaEnv)
         let _failureContinuationRef = try JavaReference(local: _failureContinuation, env: _javaEnv)
         try _javaEnv.swiftTask { _javaEnv, _vm in
             defer {
+                try? _javaThisRef.destroy()
                 try? _successContinuationRef.destroy()
                 try? _failureContinuationRef.destroy()
             }
@@ -310,10 +309,7 @@ let java_TestAPI_Functions_asyncVoidFunc: @convention(c) (
                     _successContinuationRef.createLocalRef(env: _javaEnv),
                     env: _javaEnv
                 )(
-                    FishyJoesCommonRuntime.VoidConverter.toJava(
-                        value.get(),
-                        env: _javaEnv
-                    )
+                    value.get()
                 )
             } catch {
                 if _javaEnv.ExceptionCheck() {
@@ -333,16 +329,18 @@ let java_TestAPI_Functions_asyncCallbackFunc0: @convention(c) (
     UnsafeMutablePointer<JNIEnv?>,
     jobject,
     AsyncFunction0Converter<Swift.Int>.CType,
-    Function1Converter<Swift.Int.CType, VoidConverter>.CType,
+    Function1Converter<Swift.Int, VoidConverter>.CType,
     Function1Converter<String, VoidConverter>.CType
 ) -> Void = { _javaEnv, _javaThis, callback, _successContinuation, _failureContinuation in
     FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
         let callbackRef = try JavaReference(local: callback, env: _javaEnv)
+        let _javaThisRef = try JavaReference(local: _javaThis, env: _javaEnv)
         let _successContinuationRef = try JavaReference(local: _successContinuation, env: _javaEnv)
         let _failureContinuationRef = try JavaReference(local: _failureContinuation, env: _javaEnv)
         try _javaEnv.swiftTask { _javaEnv, _vm in
             defer {
                 try? callbackRef.destroy()
+                try? _javaThisRef.destroy()
                 try? _successContinuationRef.destroy()
                 try? _failureContinuationRef.destroy()
             }
@@ -360,14 +358,11 @@ let java_TestAPI_Functions_asyncCallbackFunc0: @convention(c) (
                 } catch {
                     value = .failure(error)
                 }
-                try Function1Converter<Swift.Int.CType, VoidConverter>.fromJava(
+                try Function1Converter<Swift.Int, VoidConverter>.fromJava(
                     _successContinuationRef.createLocalRef(env: _javaEnv),
                     env: _javaEnv
                 )(
-                    Swift.Int.toJava(
-                        value.get(),
-                        env: _javaEnv
-                    )
+                    value.get()
                 )
             } catch {
                 if _javaEnv.ExceptionCheck() {
@@ -387,16 +382,18 @@ let java_TestAPI_Functions_asyncCallbackFunc1: @convention(c) (
     UnsafeMutablePointer<JNIEnv?>,
     jobject,
     AsyncFunction1Converter<Swift.Int, Swift.Int>.CType,
-    Function1Converter<Swift.Int.CType, VoidConverter>.CType,
+    Function1Converter<Swift.Int, VoidConverter>.CType,
     Function1Converter<String, VoidConverter>.CType
 ) -> Void = { _javaEnv, _javaThis, callback, _successContinuation, _failureContinuation in
     FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
         let callbackRef = try JavaReference(local: callback, env: _javaEnv)
+        let _javaThisRef = try JavaReference(local: _javaThis, env: _javaEnv)
         let _successContinuationRef = try JavaReference(local: _successContinuation, env: _javaEnv)
         let _failureContinuationRef = try JavaReference(local: _failureContinuation, env: _javaEnv)
         try _javaEnv.swiftTask { _javaEnv, _vm in
             defer {
                 try? callbackRef.destroy()
+                try? _javaThisRef.destroy()
                 try? _successContinuationRef.destroy()
                 try? _failureContinuationRef.destroy()
             }
@@ -414,14 +411,11 @@ let java_TestAPI_Functions_asyncCallbackFunc1: @convention(c) (
                 } catch {
                     value = .failure(error)
                 }
-                try Function1Converter<Swift.Int.CType, VoidConverter>.fromJava(
+                try Function1Converter<Swift.Int, VoidConverter>.fromJava(
                     _successContinuationRef.createLocalRef(env: _javaEnv),
                     env: _javaEnv
                 )(
-                    Swift.Int.toJava(
-                        value.get(),
-                        env: _javaEnv
-                    )
+                    value.get()
                 )
             } catch {
                 if _javaEnv.ExceptionCheck() {
@@ -441,16 +435,18 @@ let java_TestAPI_Functions_asyncCallbackFunc2: @convention(c) (
     UnsafeMutablePointer<JNIEnv?>,
     jobject,
     AsyncFunction2Converter<Swift.Int, Swift.Int, Swift.Int>.CType,
-    Function1Converter<Swift.Int.CType, VoidConverter>.CType,
+    Function1Converter<Swift.Int, VoidConverter>.CType,
     Function1Converter<String, VoidConverter>.CType
 ) -> Void = { _javaEnv, _javaThis, callback, _successContinuation, _failureContinuation in
     FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
         let callbackRef = try JavaReference(local: callback, env: _javaEnv)
+        let _javaThisRef = try JavaReference(local: _javaThis, env: _javaEnv)
         let _successContinuationRef = try JavaReference(local: _successContinuation, env: _javaEnv)
         let _failureContinuationRef = try JavaReference(local: _failureContinuation, env: _javaEnv)
         try _javaEnv.swiftTask { _javaEnv, _vm in
             defer {
                 try? callbackRef.destroy()
+                try? _javaThisRef.destroy()
                 try? _successContinuationRef.destroy()
                 try? _failureContinuationRef.destroy()
             }
@@ -468,14 +464,11 @@ let java_TestAPI_Functions_asyncCallbackFunc2: @convention(c) (
                 } catch {
                     value = .failure(error)
                 }
-                try Function1Converter<Swift.Int.CType, VoidConverter>.fromJava(
+                try Function1Converter<Swift.Int, VoidConverter>.fromJava(
                     _successContinuationRef.createLocalRef(env: _javaEnv),
                     env: _javaEnv
                 )(
-                    Swift.Int.toJava(
-                        value.get(),
-                        env: _javaEnv
-                    )
+                    value.get()
                 )
             } catch {
                 if _javaEnv.ExceptionCheck() {
@@ -495,16 +488,18 @@ let java_TestAPI_Functions_asyncCallbackFunc3: @convention(c) (
     UnsafeMutablePointer<JNIEnv?>,
     jobject,
     AsyncFunction3Converter<Swift.Int, Swift.Int, Swift.Int, Swift.Int>.CType,
-    Function1Converter<Swift.Int.CType, VoidConverter>.CType,
+    Function1Converter<Swift.Int, VoidConverter>.CType,
     Function1Converter<String, VoidConverter>.CType
 ) -> Void = { _javaEnv, _javaThis, callback, _successContinuation, _failureContinuation in
     FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
         let callbackRef = try JavaReference(local: callback, env: _javaEnv)
+        let _javaThisRef = try JavaReference(local: _javaThis, env: _javaEnv)
         let _successContinuationRef = try JavaReference(local: _successContinuation, env: _javaEnv)
         let _failureContinuationRef = try JavaReference(local: _failureContinuation, env: _javaEnv)
         try _javaEnv.swiftTask { _javaEnv, _vm in
             defer {
                 try? callbackRef.destroy()
+                try? _javaThisRef.destroy()
                 try? _successContinuationRef.destroy()
                 try? _failureContinuationRef.destroy()
             }
@@ -522,14 +517,11 @@ let java_TestAPI_Functions_asyncCallbackFunc3: @convention(c) (
                 } catch {
                     value = .failure(error)
                 }
-                try Function1Converter<Swift.Int.CType, VoidConverter>.fromJava(
+                try Function1Converter<Swift.Int, VoidConverter>.fromJava(
                     _successContinuationRef.createLocalRef(env: _javaEnv),
                     env: _javaEnv
                 )(
-                    Swift.Int.toJava(
-                        value.get(),
-                        env: _javaEnv
-                    )
+                    value.get()
                 )
             } catch {
                 if _javaEnv.ExceptionCheck() {
@@ -549,16 +541,18 @@ let java_TestAPI_Functions_asyncCallbackFunc4: @convention(c) (
     UnsafeMutablePointer<JNIEnv?>,
     jobject,
     AsyncFunction4Converter<Swift.Int, Swift.Int, Swift.Int, Swift.Int, Swift.Int>.CType,
-    Function1Converter<Swift.Int.CType, VoidConverter>.CType,
+    Function1Converter<Swift.Int, VoidConverter>.CType,
     Function1Converter<String, VoidConverter>.CType
 ) -> Void = { _javaEnv, _javaThis, callback, _successContinuation, _failureContinuation in
     FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
         let callbackRef = try JavaReference(local: callback, env: _javaEnv)
+        let _javaThisRef = try JavaReference(local: _javaThis, env: _javaEnv)
         let _successContinuationRef = try JavaReference(local: _successContinuation, env: _javaEnv)
         let _failureContinuationRef = try JavaReference(local: _failureContinuation, env: _javaEnv)
         try _javaEnv.swiftTask { _javaEnv, _vm in
             defer {
                 try? callbackRef.destroy()
+                try? _javaThisRef.destroy()
                 try? _successContinuationRef.destroy()
                 try? _failureContinuationRef.destroy()
             }
@@ -576,14 +570,11 @@ let java_TestAPI_Functions_asyncCallbackFunc4: @convention(c) (
                 } catch {
                     value = .failure(error)
                 }
-                try Function1Converter<Swift.Int.CType, VoidConverter>.fromJava(
+                try Function1Converter<Swift.Int, VoidConverter>.fromJava(
                     _successContinuationRef.createLocalRef(env: _javaEnv),
                     env: _javaEnv
                 )(
-                    Swift.Int.toJava(
-                        value.get(),
-                        env: _javaEnv
-                    )
+                    value.get()
                 )
             } catch {
                 if _javaEnv.ExceptionCheck() {
@@ -603,16 +594,18 @@ let java_TestAPI_Functions_asyncCallbackFunc5: @convention(c) (
     UnsafeMutablePointer<JNIEnv?>,
     jobject,
     AsyncFunction5Converter<Swift.Int, Swift.Int, Swift.Int, Swift.Int, Swift.Int, Swift.Int>.CType,
-    Function1Converter<Swift.Int.CType, VoidConverter>.CType,
+    Function1Converter<Swift.Int, VoidConverter>.CType,
     Function1Converter<String, VoidConverter>.CType
 ) -> Void = { _javaEnv, _javaThis, callback, _successContinuation, _failureContinuation in
     FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
         let callbackRef = try JavaReference(local: callback, env: _javaEnv)
+        let _javaThisRef = try JavaReference(local: _javaThis, env: _javaEnv)
         let _successContinuationRef = try JavaReference(local: _successContinuation, env: _javaEnv)
         let _failureContinuationRef = try JavaReference(local: _failureContinuation, env: _javaEnv)
         try _javaEnv.swiftTask { _javaEnv, _vm in
             defer {
                 try? callbackRef.destroy()
+                try? _javaThisRef.destroy()
                 try? _successContinuationRef.destroy()
                 try? _failureContinuationRef.destroy()
             }
@@ -630,14 +623,11 @@ let java_TestAPI_Functions_asyncCallbackFunc5: @convention(c) (
                 } catch {
                     value = .failure(error)
                 }
-                try Function1Converter<Swift.Int.CType, VoidConverter>.fromJava(
+                try Function1Converter<Swift.Int, VoidConverter>.fromJava(
                     _successContinuationRef.createLocalRef(env: _javaEnv),
                     env: _javaEnv
                 )(
-                    Swift.Int.toJava(
-                        value.get(),
-                        env: _javaEnv
-                    )
+                    value.get()
                 )
             } catch {
                 if _javaEnv.ExceptionCheck() {
@@ -657,16 +647,18 @@ let java_TestAPI_Functions_asyncCallbackFunc6: @convention(c) (
     UnsafeMutablePointer<JNIEnv?>,
     jobject,
     AsyncFunction6Converter<Swift.Int, Swift.Int, Swift.Int, Swift.Int, Swift.Int, Swift.Int, Swift.Int>.CType,
-    Function1Converter<Swift.Int.CType, VoidConverter>.CType,
+    Function1Converter<Swift.Int, VoidConverter>.CType,
     Function1Converter<String, VoidConverter>.CType
 ) -> Void = { _javaEnv, _javaThis, callback, _successContinuation, _failureContinuation in
     FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
         let callbackRef = try JavaReference(local: callback, env: _javaEnv)
+        let _javaThisRef = try JavaReference(local: _javaThis, env: _javaEnv)
         let _successContinuationRef = try JavaReference(local: _successContinuation, env: _javaEnv)
         let _failureContinuationRef = try JavaReference(local: _failureContinuation, env: _javaEnv)
         try _javaEnv.swiftTask { _javaEnv, _vm in
             defer {
                 try? callbackRef.destroy()
+                try? _javaThisRef.destroy()
                 try? _successContinuationRef.destroy()
                 try? _failureContinuationRef.destroy()
             }
@@ -684,14 +676,11 @@ let java_TestAPI_Functions_asyncCallbackFunc6: @convention(c) (
                 } catch {
                     value = .failure(error)
                 }
-                try Function1Converter<Swift.Int.CType, VoidConverter>.fromJava(
+                try Function1Converter<Swift.Int, VoidConverter>.fromJava(
                     _successContinuationRef.createLocalRef(env: _javaEnv),
                     env: _javaEnv
                 )(
-                    Swift.Int.toJava(
-                        value.get(),
-                        env: _javaEnv
-                    )
+                    value.get()
                 )
             } catch {
                 if _javaEnv.ExceptionCheck() {
@@ -711,16 +700,18 @@ let java_TestAPI_Functions_asyncDoubleFunc: @convention(c) (
     UnsafeMutablePointer<JNIEnv?>,
     jobject,
     Swift.Double.CType,
-    Function1Converter<Swift.Double.CType, VoidConverter>.CType,
+    Function1Converter<Swift.Double, VoidConverter>.CType,
     Function1Converter<String, VoidConverter>.CType
 ) -> Void = { _javaEnv, _javaThis, d, _successContinuation, _failureContinuation in
     FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
         let dRef = try JavaReference(local: d, env: _javaEnv)
+        let _javaThisRef = try JavaReference(local: _javaThis, env: _javaEnv)
         let _successContinuationRef = try JavaReference(local: _successContinuation, env: _javaEnv)
         let _failureContinuationRef = try JavaReference(local: _failureContinuation, env: _javaEnv)
         try _javaEnv.swiftTask { _javaEnv, _vm in
             defer {
                 try? dRef.destroy()
+                try? _javaThisRef.destroy()
                 try? _successContinuationRef.destroy()
                 try? _failureContinuationRef.destroy()
             }
@@ -738,14 +729,11 @@ let java_TestAPI_Functions_asyncDoubleFunc: @convention(c) (
                 } catch {
                     value = .failure(error)
                 }
-                try Function1Converter<Swift.Double.CType, VoidConverter>.fromJava(
+                try Function1Converter<Swift.Double, VoidConverter>.fromJava(
                     _successContinuationRef.createLocalRef(env: _javaEnv),
                     env: _javaEnv
                 )(
-                    Swift.Double.toJava(
-                        value.get(),
-                        env: _javaEnv
-                    )
+                    value.get()
                 )
             } catch {
                 if _javaEnv.ExceptionCheck() {
@@ -766,13 +754,14 @@ let java_TestAPI_Functions_asyncMultipleArgs: @convention(c) (
     jobject,
     Swift.Int.CType,
     AsyncFunction0Converter<Swift.Int>.CType,
-    Function1Converter<Swift.Int.CType, VoidConverter>.CType,
+    Function1Converter<Swift.Int, VoidConverter>.CType,
     Function1Converter<String, VoidConverter>.CType
 ) -> Void = { _javaEnv, _javaThis, i, j, _successContinuation, _failureContinuation in
     FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
         let iRef = try JavaReference(local: i, env: _javaEnv)
 
         let jRef = try JavaReference(local: j, env: _javaEnv)
+        let _javaThisRef = try JavaReference(local: _javaThis, env: _javaEnv)
         let _successContinuationRef = try JavaReference(local: _successContinuation, env: _javaEnv)
         let _failureContinuationRef = try JavaReference(local: _failureContinuation, env: _javaEnv)
         try _javaEnv.swiftTask { _javaEnv, _vm in
@@ -780,6 +769,7 @@ let java_TestAPI_Functions_asyncMultipleArgs: @convention(c) (
                 try? iRef.destroy()
 
                 try? jRef.destroy()
+                try? _javaThisRef.destroy()
                 try? _successContinuationRef.destroy()
                 try? _failureContinuationRef.destroy()
             }
@@ -800,14 +790,11 @@ let java_TestAPI_Functions_asyncMultipleArgs: @convention(c) (
                 } catch {
                     value = .failure(error)
                 }
-                try Function1Converter<Swift.Int.CType, VoidConverter>.fromJava(
+                try Function1Converter<Swift.Int, VoidConverter>.fromJava(
                     _successContinuationRef.createLocalRef(env: _javaEnv),
                     env: _javaEnv
                 )(
-                    Swift.Int.toJava(
-                        value.get(),
-                        env: _javaEnv
-                    )
+                    value.get()
                 )
             } catch {
                 if _javaEnv.ExceptionCheck() {
@@ -830,10 +817,12 @@ let java_TestAPI_Functions_asyncThrowingFunc: @convention(c) (
     Function1Converter<String, VoidConverter>.CType
 ) -> Void = { _javaEnv, _javaThis, _successContinuation, _failureContinuation in
     FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
+        let _javaThisRef = try JavaReference(local: _javaThis, env: _javaEnv)
         let _successContinuationRef = try JavaReference(local: _successContinuation, env: _javaEnv)
         let _failureContinuationRef = try JavaReference(local: _failureContinuation, env: _javaEnv)
         try _javaEnv.swiftTask { _javaEnv, _vm in
             defer {
+                try? _javaThisRef.destroy()
                 try? _successContinuationRef.destroy()
                 try? _failureContinuationRef.destroy()
             }
@@ -853,10 +842,7 @@ let java_TestAPI_Functions_asyncThrowingFunc: @convention(c) (
                     _successContinuationRef.createLocalRef(env: _javaEnv),
                     env: _javaEnv
                 )(
-                    FishyJoesCommonRuntime.VoidConverter.toJava(
-                        value.get(),
-                        env: _javaEnv
-                    )
+                    value.get()
                 )
             } catch {
                 if _javaEnv.ExceptionCheck() {

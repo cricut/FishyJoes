@@ -46,6 +46,40 @@ extension TestAPI.Structs.ReferenceStruct: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
+                "asyncGetMutable": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "asyncGetMutable", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            let (deferred, promise) = try env.env.createPromise()
+                            Task {
+                                do {
+                                    let taskResult: String = await env.this(converter: TestAPI.Structs.ReferenceStruct.self).asyncGetMutable(
+                                    )
+                                    try onMainThread { env in
+                                        let convertedTaskResult: NAPI.Value
+                                        do {
+                                            convertedTaskResult = try Swift.String.toNode(taskResult, env: env)
+                                        } catch {
+                                            try env.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: env))
+                                            return
+                                        }
+                                        try env.resolveDeferred(deferred, convertedTaskResult)
+                                    }
+                                } catch let error as JSException {
+                                    try onMainThread { env in
+                                        let error = try env.createError(NAPI.Value(ptr: nil), String.toNode(error.message, env: env))
+                                        try env.rejectDeferred(deferred, error)
+                                    }
+                                } catch {
+                                    try onMainThread { env in
+                                        try env.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: env))
+                                    }
+                                }
+                            }
+                            return promise
+                        }
+                    },
+                    isStatic: false
+                ),
                 "immutable": (
                     .accessor(
                         getter: { env, info in

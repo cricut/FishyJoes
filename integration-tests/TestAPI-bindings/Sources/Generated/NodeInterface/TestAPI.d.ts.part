@@ -1624,6 +1624,12 @@ export declare namespace TestAPI {
              */
             static create(
             ): Structs.MemberwiseStruct;
+
+            /**
+             * <!-- FishyJoes.export(asyncGetMutable) -->
+             */
+            asyncGetMutable(
+            ): Promise<string>;
         }
 
         /**
@@ -1651,6 +1657,12 @@ export declare namespace TestAPI {
              */
             incrementAsync(
             ): Promise<void>;
+
+            /**
+             * <!-- FishyJoes.export(asyncGetI) -->
+             */
+            asyncGetI(
+            ): Promise<number>;
         }
 
         /**
@@ -1675,6 +1687,12 @@ export declare namespace TestAPI {
              */
             static create(
             ): TestAPI.Structs.ReferenceStruct;
+
+            /**
+             * <!-- FishyJoes.export(asyncGetMutable) -->
+             */
+            asyncGetMutable(
+            ): Promise<string>;
         }
     }
 

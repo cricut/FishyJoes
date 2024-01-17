@@ -286,6 +286,11 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_create"),
                 signature: bag.add("()Lcom/cricut/testapi/Structs$MemberwiseStruct;"),
                 fnPtr: unsafeBitCast(java_TestAPI_Structs_MemberwiseStruct_create, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_asyncGetMutable"),
+                signature: bag.add("(Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)V"),
+                fnPtr: unsafeBitCast(java_TestAPI_Structs_MemberwiseStruct_asyncGetMutable, to: UnsafeMutableRawPointer.self)
             )
         )
         // print("setting up TestAPI.Structs.MutableStruct...")
@@ -305,6 +310,11 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_incrementAsync"),
                 signature: bag.add("(Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)V"),
                 fnPtr: unsafeBitCast(java_TestAPI_Structs_MutableStruct_incrementAsync, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_asyncGetI"),
+                signature: bag.add("(Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)V"),
+                fnPtr: unsafeBitCast(java_TestAPI_Structs_MutableStruct_asyncGetI, to: UnsafeMutableRawPointer.self)
             )
         )
         // print("setting up TestAPI.Structs.PuttingTypesIntoQuestionablePlaces...")
@@ -328,6 +338,11 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_create"),
                 signature: bag.add("()Lcom/cricut/testapi/Structs$ReferenceStruct;"),
                 fnPtr: unsafeBitCast(java_TestAPI_Structs_ReferenceStruct_create, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_asyncGetMutable"),
+                signature: bag.add("(Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)V"),
+                fnPtr: unsafeBitCast(java_TestAPI_Structs_ReferenceStruct_asyncGetMutable, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_get_immutable"),

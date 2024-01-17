@@ -99,6 +99,40 @@ extension TestAPI.Structs.MutableStruct: NodeMutator {
                     },
                     isStatic: false
                 ),
+                "asyncGetI": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "asyncGetI", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            let (deferred, promise) = try env.env.createPromise()
+                            Task {
+                                do {
+                                    let taskResult: Int = await env.this(converter: TestAPI.Structs.MutableStruct.self).asyncGetI(
+                                    )
+                                    try onMainThread { env in
+                                        let convertedTaskResult: NAPI.Value
+                                        do {
+                                            convertedTaskResult = try Swift.Int.toNode(taskResult, env: env)
+                                        } catch {
+                                            try env.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: env))
+                                            return
+                                        }
+                                        try env.resolveDeferred(deferred, convertedTaskResult)
+                                    }
+                                } catch let error as JSException {
+                                    try onMainThread { env in
+                                        let error = try env.createError(NAPI.Value(ptr: nil), String.toNode(error.message, env: env))
+                                        try env.rejectDeferred(deferred, error)
+                                    }
+                                } catch {
+                                    try onMainThread { env in
+                                        try env.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: env))
+                                    }
+                                }
+                            }
+                            return promise
+                        }
+                    },
+                    isStatic: false
+                ),
                 "i": (.stored(mutable: true), isStatic: false),
             ],
             constructor: { env, info in

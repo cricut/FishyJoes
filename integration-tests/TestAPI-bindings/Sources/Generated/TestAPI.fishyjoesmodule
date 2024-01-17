@@ -7319,6 +7319,26 @@
                         "_0" : "Structs.MemberwiseStruct"
                       }
                     }
+                  },
+                  {
+                    "documentation" : [
+                      "<!-- FishyJoes.export(asyncGetMutable) -->"
+                    ],
+                    "isAsync" : true,
+                    "isStatic" : false,
+                    "name" : "asyncGetMutable",
+                    "parameters" : [
+
+                    ],
+                    "returnType" : {
+                      "promise" : {
+                        "_0" : {
+                          "named" : {
+                            "_0" : "string"
+                          }
+                        }
+                      }
+                    }
                   }
                 ],
                 "name" : "MemberwiseStruct"
@@ -7411,6 +7431,26 @@
                         }
                       }
                     }
+                  },
+                  {
+                    "documentation" : [
+                      "<!-- FishyJoes.export(asyncGetI) -->"
+                    ],
+                    "isAsync" : true,
+                    "isStatic" : false,
+                    "name" : "asyncGetI",
+                    "parameters" : [
+
+                    ],
+                    "returnType" : {
+                      "promise" : {
+                        "_0" : {
+                          "named" : {
+                            "_0" : "number"
+                          }
+                        }
+                      }
+                    }
                   }
                 ],
                 "name" : "MutableStruct"
@@ -7469,6 +7509,26 @@
                     "returnType" : {
                       "named" : {
                         "_0" : "TestAPI.Structs.ReferenceStruct"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+                      "<!-- FishyJoes.export(asyncGetMutable) -->"
+                    ],
+                    "isAsync" : true,
+                    "isStatic" : false,
+                    "name" : "asyncGetMutable",
+                    "parameters" : [
+
+                    ],
+                    "returnType" : {
+                      "promise" : {
+                        "_0" : {
+                          "named" : {
+                            "_0" : "string"
+                          }
+                        }
                       }
                     }
                   }

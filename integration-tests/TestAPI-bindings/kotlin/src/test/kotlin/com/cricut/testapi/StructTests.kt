@@ -53,4 +53,21 @@ internal class StructTests {
             assertEquals(2, struct.i)
         }
     }
+
+    @Test
+    fun testAsyncMemberFunctions() {
+        runBlocking {
+            val memberwise = Structs.MemberwiseStruct.create()
+            assertEquals("Fickle", memberwise.asyncGetMutable())
+        }
+        runBlocking {
+            val reference = Structs.ReferenceStruct.create()
+            assertEquals("Fickle", reference.asyncGetMutable())
+        }
+
+        runBlocking {
+            val mutable = Structs.MutableStruct.create()
+            assertEquals(0, mutable.asyncGetI())
+        }
+    }
 }

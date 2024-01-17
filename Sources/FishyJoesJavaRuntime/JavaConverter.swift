@@ -454,7 +454,7 @@ extension String: JavaConverter {
     public typealias CType = jstring?
 
     public static var javaClass: jclass?
-
+ 
     public static func fromJava(_ value: jstring?, env: Env) throws -> Self {
         let length = env.GetStringLength(value)
         guard let chars = env.GetStringChars(value).0 else {
