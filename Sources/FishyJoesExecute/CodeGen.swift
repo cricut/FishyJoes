@@ -334,7 +334,7 @@ extension CodeGen {
                             localPath: String,
                             definitionsPath: String,
                             exports: [String],
-                            compiledLibName: String,
+                            nativeLibName: String,
                             nodeLibName: String,
                             npmPackageName: String,
                             npmModuleVersion: String
@@ -345,7 +345,7 @@ extension CodeGen {
                         localPath: runtimePath,
                         definitionsPath: "\(runtimePath)\(ps)fishyjoes-runtime-common",
                         exports: ["Optional", "Runtime"],
-                        compiledLibName: platform.dylibName(for: "FishyJoesNodeRuntime"),
+                        nativeLibName: "FishyJoesNodeRuntime",
                         nodeLibName: "Runtime.cjs.node",
                         npmPackageName: "fishyjoes-runtime-\(platform.nodeExecutionEnvironment)",
                         npmModuleVersion: fishyJoesDependency.version ??
@@ -363,7 +363,7 @@ extension CodeGen {
                             localPath: dependency.localPath,
                             definitionsPath: "\(dependency.localPath)\(ps)Sources\(ps)Generated\(ps)NodeInterface",
                             exports: [moduleName],
-                            compiledLibName: platform.dylibName(for: "\(moduleName)-node"),
+                            nativeLibName: "\(moduleName)-node",
                             nodeLibName: "\(moduleName).cjs.node",
                             npmPackageName: npmPackageName,
                             npmModuleVersion: dependency.version ??
@@ -446,11 +446,11 @@ extension CodeGen {
                             // For node to load a library correctly, the file must be ".cjs.node" and not a symlink
                             // But for the linker to find required libraries, they need their original names.
                             // So we symlink `libModule-node.dylib` -> `module.cjs.node`
-                            let compiledLibName = platform.dylibName(for: "\(dependency)-node")
+                            let nativeLibFilename = platform.dylibName(for: "\(dependency)-node")
                             let nodeLibName = "\(dependency).cjs.node"
                             try installLibrary("\(dependency)-node", installName: nodeLibName)
                             try installLibrary(dependency)
-                            try cmd("ln", "-s", nodeLibName, "\(outputDir)\(ps)\(compiledLibName)").run()
+                            try cmd("ln", "-s", nodeLibName, "\(outputDir)\(ps)\(nativeLibFilename)").run()
                         }
 
                         // Create the required Javascript files for loading the module's native library from node
@@ -572,8 +572,9 @@ extension CodeGen {
                         """
 
                         for dependency in dependencies {
+                            let nativeLibFilename = platform.dylibName(for: dependency.nativeLibName)
                             postinstall += """
-                                ln -sf "$(realpath \"$package_directory/\(dependency.npmPackageName)/\(dependency.nodeLibName)\")" "\"\(dependency.compiledLibName)\""
+                                ln -sf "$(realpath \"$package_directory/\(dependency.npmPackageName)/\(dependency.nodeLibName)\")" "\"\(nativeLibFilename)\""
 
                             """
                         }
