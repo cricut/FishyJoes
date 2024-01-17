@@ -270,7 +270,7 @@ jobs:
       GRADLE_OPTS: -Dorg.gradle.daemon=false
       GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
       GITHUB_USER: cricut-builduser
-      SWIFT: ${{ env.GITHUB_WORKSPACE }}/scripts/swift-shim.ps1
+      SWIFT: ${{ GITHUB_WORKSPACE }}/scripts/swift-shim.ps1
     steps:
       - name: Checkout
         uses: actions/checkout@v4
