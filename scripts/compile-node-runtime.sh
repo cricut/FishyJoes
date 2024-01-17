@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -euo pipefail
+set -euxo pipefail
 
 if [[ ! -d node-runtime ]]; then
     echo "Not in root of FishyJoes"
@@ -21,8 +21,8 @@ if [[ "$(uname -s)" == "Darwin" && $SKIP_LIPO == "0" ]]; then
 elif [[ "$(uname -s)" == *_NT* ]]; then
     # Swift does not properly read Windows "PATH" variable, instead trying to read "Path" only.
     # See: https://github.com/apple/swift-tools-support-core/issues/446
-    ./scripts/swift-shim.bat build "$@" --configuration "$CONFIGURATION" --product FishyJoesNodeRuntime
-    BIN_DIR="$(./scripts/swift-shim.bat build --configuration "$CONFIGURATION" --show-bin-path)"
+    ./scripts/swift-shim.ps1 build "$@" --configuration "$CONFIGURATION" --product FishyJoesNodeRuntime
+    BIN_DIR="$(./scripts/swift-shim.ps1 build --configuration "$CONFIGURATION" --show-bin-path)"
 else
     swift build "$@" --configuration "$CONFIGURATION" --product FishyJoesNodeRuntime
     BIN_DIR="$(swift build --configuration "$CONFIGURATION" --show-bin-path)"
@@ -32,7 +32,7 @@ function install-runtime-common {
     LIB_DIR="$1"
     RUNTIME_COMMON_DIR="node-runtime/fishyjoes-runtime-common"
     cp "$RUNTIME_COMMON_DIR"/Runtime.extensions.js "$LIB_DIR"
-    
+
     DEFS="$LIB_DIR/Runtime.d.ts"
     cat "$RUNTIME_COMMON_DIR/Runtime.d.ts.part" >| "$DEFS"
     cat "$RUNTIME_COMMON_DIR/Runtime.extensions.d.ts.part" >> "$DEFS"
