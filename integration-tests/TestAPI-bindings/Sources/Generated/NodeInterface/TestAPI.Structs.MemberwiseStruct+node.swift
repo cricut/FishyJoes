@@ -53,9 +53,10 @@ extension TestAPI.Structs.MemberwiseStruct: NodeMutator {
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "asyncGetMutable", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
+                            let swiftSelf = UncheckedSendableBox(try env.this(converter: TestAPI.Structs.MemberwiseStruct.self))
                             Task {
                                 do {
-                                    let taskResult: String = await env.this(converter: TestAPI.Structs.MemberwiseStruct.self).asyncGetMutable(
+                                    let taskResult: String = await swiftSelf.value.asyncGetMutable(
                                     )
                                     try onMainThread { env in
                                         let convertedTaskResult: NAPI.Value

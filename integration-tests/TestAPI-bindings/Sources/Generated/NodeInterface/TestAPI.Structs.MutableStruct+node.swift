@@ -63,7 +63,7 @@ extension TestAPI.Structs.MutableStruct: NodeMutator {
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "incrementAsync", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
-                            let mutatingSelf = UncheckedSendableBox(try env.this(converter: Structs.MutableStruct.self))
+                            let mutatingSelf = UncheckedSendableBox(try env.this(converter: TestAPI.Structs.MutableStruct.self))
                             let jsThis = try env.env.reference(env.this())
                             Task {
                                 do {
@@ -103,9 +103,10 @@ extension TestAPI.Structs.MutableStruct: NodeMutator {
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "asyncGetI", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
+                            let swiftSelf = UncheckedSendableBox(try env.this(converter: TestAPI.Structs.MutableStruct.self))
                             Task {
                                 do {
-                                    let taskResult: Int = await env.this(converter: TestAPI.Structs.MutableStruct.self).asyncGetI(
+                                    let taskResult: Int = await swiftSelf.value.asyncGetI(
                                     )
                                     try onMainThread { env in
                                         let convertedTaskResult: NAPI.Value

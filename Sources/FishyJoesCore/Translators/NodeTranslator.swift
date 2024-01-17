@@ -134,9 +134,12 @@ struct NodeTranslator: Translator {
                     }
 
                     if method.isMutating {
-                        fragment.output("let mutatingSelf = UncheckedSendableBox(try env.this(converter: Structs.MutableStruct.self))")
+                        fragment.output("let mutatingSelf = UncheckedSendableBox(try env.this(converter: \(containingNamespace).self))")
                         fragment.output("let jsThis = try env.env.reference(env.this())")
                         selfExpression = "mutatingSelf.value"
+                    } else if !method.isStatic {
+                        fragment.output("let swiftSelf = UncheckedSendableBox(try env.this(converter: \(containingNamespace).self))")
+                        selfExpression = "swiftSelf.value"
                     }
 
                     fragment.outputBlock("Task {") {

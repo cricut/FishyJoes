@@ -40,3 +40,12 @@ test('StructMutatingFunctions', async () => {
     await mutableStruct.incrementAsync()
     expect(mutableStruct.i).toEqual(2)
 });
+
+test('StructAsyncMemberFunctions', async () => {
+    const memberwise = TestAPI.Structs.MemberwiseStruct.create()
+    expect(await memberwise.asyncGetMutable()).toEqual("Fickle")
+    const reference = TestAPI.Structs.ReferenceStruct.create()
+    expect(await reference.asyncGetMutable()).toEqual("Fickle")
+    const mutable = TestAPI.Structs.MutableStruct.create()
+    expect(await mutable.asyncGetI()).toEqual(0)
+});
