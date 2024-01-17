@@ -292,12 +292,12 @@ jobs:
           registry-url: 'https://npm.pkg.github.com/'
           scope: '@cricut'
 
-      - uses: dart-lang/setup-dart@v1
-
       - uses: compnerd/gha-setup-swift@main
         with:
           branch: swift-5.9.1-release
           tag: 5.9.1-RELEASE
+
+      - uses: dart-lang/setup-dart@v1
 
       - name: Build FishyJoesNodeRuntime
         shell: bash
