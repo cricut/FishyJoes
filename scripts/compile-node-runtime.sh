@@ -10,13 +10,6 @@ fi
 CONFIGURATION="${CONFIGURATION:-release}"
 SKIP_LIPO="${SKIP_LIPO:-0}"
 
-# Swift does not properly read Windows "PATH" variable, instead trying to read "Path" only.
-# See: https://github.com/apple/swift-tools-support-core/issues/446
-PATH="/c/Program Files/Git/usr/bin:/c/Program Files/Git/mingw64/libexec/git-core:$PATH"
-[[ "${Path:-}" ]] && PATH="$PATH:$Path"
-export Path="$PATH"
-env
-
 uname -s
 if [[ "$(uname -s)" == "Darwin" && $SKIP_LIPO == "0" ]]; then
     swift build "$@" --configuration "$CONFIGURATION" --product FishyJoesNodeRuntime --arch arm64
@@ -27,8 +20,11 @@ if [[ "$(uname -s)" == "Darwin" && $SKIP_LIPO == "0" ]]; then
          -output "$BIN_DIR/libFishyJoesNodeRuntime.dylib" \
          .build/{arm64,x86_64}-apple-macosx/"$CONFIGURATION"/libFishyJoesNodeRuntime.dylib
 elif [[ "$(uname -s)" == *_NT* ]]; then
-    swift build "$@" --configuration "$CONFIGURATION" --product FishyJoesNodeRuntime
-    BIN_DIR="$(swift build --configuration "$CONFIGURATION" --show-bin-path)"
+    # Swift does not properly read Windows "PATH" variable, instead trying to read "Path" only.
+    # See: https://github.com/apple/swift-tools-support-core/issues/446
+    PATH="$PATH:/c/Program Files/Git/mingw64/libexec/git-core"
+    Path="$PATH" swift build "$@" --configuration "$CONFIGURATION" --product FishyJoesNodeRuntime
+    BIN_DIR="$(Path="$PATH" swift build --configuration "$CONFIGURATION" --show-bin-path)"
 else
     swift build "$@" --configuration "$CONFIGURATION" --product FishyJoesNodeRuntime
     BIN_DIR="$(swift build --configuration "$CONFIGURATION" --show-bin-path)"
