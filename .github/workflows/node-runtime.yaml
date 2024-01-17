@@ -241,8 +241,7 @@ jobs:
         run: |
           set -euxo pipefail
 
-          cp -R /c/Library/icu-*/usr/bin/*.dll $LIB_DIR
-          cp -R /c/Library/Swift-development/bin/*.dll $LIB_DIR
+          cp -R "/c/Program Files/Swift/runtime-development/usr/bin/"*.dll "$LIB_DIR"
 
       - name: Determine version
         shell: bash
