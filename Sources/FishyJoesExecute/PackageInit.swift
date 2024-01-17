@@ -176,7 +176,7 @@ public struct PackageInit: ParsableCommand {
         )
 
         let excludeSources = try Interactive.prompt(
-            "File or directory paths to exlude from generation, space separated. Default []:",
+            "File or directory paths to exclude from generation, space separated. Default []:",
             allowEmpty: true
         )
 

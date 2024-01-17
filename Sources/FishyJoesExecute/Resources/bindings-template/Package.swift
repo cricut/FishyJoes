@@ -45,8 +45,8 @@ let package = Package(
         ),
         .package(
             // NOTE: Must reference releases using "branch" instead of "exact" because of required usage of "unsafeFlags" in FishyJoes
-            // url: "https://github.com/cricut/FishyJoes", .branch(fishyJoesVersion)
-            path: "../FishyJoes"
+            url: "https://github.com/cricut/FishyJoes", .branch(fishyJoesVersion)
+            // path: "../FishyJoes"
         ),__PACKAGE_DEPENDENCY_DECLARATIONS__
     ],
     targets: [
