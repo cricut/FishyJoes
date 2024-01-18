@@ -180,6 +180,21 @@ sealed class AssociatedDataEnum {
           _value.value = _self.value;
       });
   }
+
+  /// <!-- FishyJoes.export(intValue) -->
+  int get intValue =>
+      GCRef.using(this, (_thisHandle) =>
+          check((exn) =>
+              f__iota_get_TestAPI_AssociatedDataEnum_intValue(Loader.shared.env, _thisHandle.ptr, exn)
+          )
+      )
+  ;
+
+  static late int Function(
+      Env env,
+      UnownedRef _this,
+      OutCreatedRef _exn
+  ) f__iota_get_TestAPI_AssociatedDataEnum_intValue;
 }
 
 class AssociatedDataEnum_Thing extends AssociatedDataEnum {

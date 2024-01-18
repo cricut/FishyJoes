@@ -22,9 +22,11 @@ public enum AssociatedDataEnum: Hashable {
 //    /// <!-- FishyJoes.export(staticThing) -->
 //    public static let staticThing = AssociatedDataEnum.thing(value: 2)
 //
-//    /// <!-- FishyJoes.export(intValue) -->
-//    public var intValue: Int {
-//        switch self {
+    /// <!-- FishyJoes.export(intValue) -->
+    public var intValue: Int {
+        switch self {
+        case .thing(let value):
+            return value
 //        case .thing(let value), .other(_, let value):
 //            return value
 //        case .bar(named: _, let nested):
@@ -33,8 +35,8 @@ public enum AssociatedDataEnum: Hashable {
 //            return 42
 //        case .simpleEnum:
 //            return 1
-//        }
-//    }
+        }
+    }
 //
 //    /// <!-- FishyJoes.export(plus) -->
 //    public func plus(_ other: AssociatedDataEnum) -> AssociatedDataEnum {

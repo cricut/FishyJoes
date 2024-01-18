@@ -322,6 +322,13 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         )
         // print("setting up TestAPI.AssociatedDataEnum...")
         try TestAPI.AssociatedDataEnum.javaSetup(env: env)
+        try env.RegisterNatives(TestAPI.AssociatedDataEnum.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_get_intValue"),
+                signature: bag.add("()J"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_AssociatedDataEnum_intValue, to: UnsafeMutableRawPointer.self)
+            )
+        )
         // print("setting up TestAPI.AttributedStrings...")
         try TestAPI.AttributedStrings.javaSetup(env: env)
         try env.RegisterNatives(TestAPI.AttributedStrings.javaClass,

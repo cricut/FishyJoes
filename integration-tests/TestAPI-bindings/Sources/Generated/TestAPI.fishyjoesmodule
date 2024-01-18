@@ -1609,7 +1609,19 @@
         "interfaces" : [
           {
             "fields" : [
-
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(intValue) -->"
+                ],
+                "isStatic" : false,
+                "name" : "intValue",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              }
             ],
             "forNamespace" : "AssociatedDataEnum",
             "methods" : [

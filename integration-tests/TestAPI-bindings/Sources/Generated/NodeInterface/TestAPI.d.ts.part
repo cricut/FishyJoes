@@ -10,6 +10,10 @@ export declare namespace TestAPI {
     }
 
     interface AssociatedDataEnum_Common {
+        /**
+         * <!-- FishyJoes.export(intValue) -->
+         */
+        readonly intValue: number;
     }
 
     /**

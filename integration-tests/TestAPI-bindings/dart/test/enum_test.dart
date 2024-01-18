@@ -44,6 +44,8 @@ void main() {
         print("enumObj: $enumObj");
         var thing = enumObj as AssociatedDataEnum_Thing;
         print("thing.value: ${thing.value}");
+
+        print("enumObj.intValue: ${enumObj.intValue}");
       });
   });
 }

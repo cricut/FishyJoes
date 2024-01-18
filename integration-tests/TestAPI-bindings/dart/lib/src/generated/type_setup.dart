@@ -1746,6 +1746,18 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_URLs_echo");
+    TestAPI.AssociatedDataEnum.f__iota_get_TestAPI_AssociatedDataEnum_intValue = dylib.lookupFunction<
+        ffi.Int Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_AssociatedDataEnum_intValue");
     TestAPI.AttributedStrings.f__iota_get_TestAPI_AttributedStrings_accent = dylib.lookupFunction<
         CreatedRef Function(
             Env env,

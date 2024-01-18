@@ -36,7 +36,17 @@ extension TestAPI.AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
             env: env,
             name: "AssociatedDataEnum",
             properties: [
-                :
+                "intValue": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "intValue", expectedArgumentCount: 0) { env in
+                                try Swift.Int.toNode(env.this(converter: TestAPI.AssociatedDataEnum.self).intValue, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: false
+                ),
             ],
             constructor: { env, info in
                 FishyJoesNodeRuntime.callbackBody(
