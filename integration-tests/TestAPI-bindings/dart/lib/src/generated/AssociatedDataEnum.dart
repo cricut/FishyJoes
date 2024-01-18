@@ -105,52 +105,89 @@ import 'package:tuple/tuple.dart' as tuple;
 //         });
 //     }
 // }
-enum AssociatedDataEnumCase {
-  thing
+// enum AssociatedDataEnumCase {
+//   thing
+// }
+
+// class AssociatedDataEnum {
+//     factory AssociatedDataEnum.thing(dynamic thingValue) => AssociatedDataEnum(AssociatedDataEnumCase.thing, thingValue);
+
+//     const AssociatedDataEnum(
+//       this.enumCase,
+//       this.thingValue      
+//     );
+
+//     final int thingValue;
+//     final AssociatedDataEnumCase enumCase;
+//     // factory AssociatedDataEnum.thing(
+//     //     int value
+//     // ) = AssociatedDataEnum_Thing;
+
+//     // AssociatedDataEnum._() {}
+
+//     static int enumDiscriminator(UnownedRef obj, OutCreatedRef exn) => check((exn) =>
+//         // peekRef<AssociatedDataEnum>(obj).map(
+//         //     thing: (_) => 0,
+//         // )
+//         peekRef<AssociatedDataEnum>(obj).enumCase.index
+//     );
+
+//     static CreatedRef newThing(
+//         int _value,
+//         OutCreatedRef exn
+//     ) => catchingRef(exn, () =>
+//         // createRef(AssociatedDataEnum_Thing(
+//         //     _value,
+//         // ))
+//         createRef(AssociatedDataEnum.thing(_value))
+//     );
+
+//     static void extractThing(
+//         UnownedRef obj,
+//         ffi.Pointer<ffi.Int> _value,
+//         OutCreatedRef exn
+//     ) {
+//         catching(exn, () {
+//             // final _self = peekRef<AssociatedDataEnum_Thing>(obj);
+//             final _self = peekRef<AssociatedDataEnum>(obj);
+//             _value.value = _self.thingValue;
+//         });
+//     }
+// }
+
+sealed class AssociatedDataEnum {
+  factory AssociatedDataEnum.thing(int value) = Thing;
+  AssociatedDataEnum();
+
+  static int enumDiscriminator(UnownedRef obj, OutCreatedRef exn) => check((exn) =>
+    0
+  );
+
+  static CreatedRef newThing(
+    int _value,
+    OutCreatedRef exn
+  ) => catchingRef(exn, () =>      
+    createRef(AssociatedDataEnum.thing(_value))
+  );
+
+  static void extractThing(
+      UnownedRef obj,
+      ffi.Pointer<ffi.Int> _value,
+      OutCreatedRef exn
+  ) {
+      catching(exn, () {
+          final _self = peekRef<Thing>(obj);
+          _value.value = _self.value;
+      });
+  }
 }
 
-class AssociatedDataEnum {
-    factory AssociatedDataEnum.thing({required dynamic thingValue}) => AssociatedDataEnum(enumCase: AssociatedDataEnumCase.thing, thingValue: thingValue);
+class Thing extends AssociatedDataEnum {
+  factory Thing(int value) {
+    return Thing.thing(value);
+  }
 
-    const AssociatedDataEnum({
-      required this.enumCase,
-      required this.thingValue      
-    });
+  Thing.thing(this.value);
 
-    final int thingValue;
-    final AssociatedDataEnumCase enumCase;
-    // factory AssociatedDataEnum.thing(
-    //     int value
-    // ) = AssociatedDataEnum_Thing;
-
-    // AssociatedDataEnum._() {}
-
-    static int enumDiscriminator(UnownedRef obj, OutCreatedRef exn) => check((exn) =>
-        // peekRef<AssociatedDataEnum>(obj).map(
-        //     thing: (_) => 0,
-        // )
-        peekRef<AssociatedDataEnum>(obj).enumCase.index
-    );
-
-    static CreatedRef newThing(
-        int _value,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        // createRef(AssociatedDataEnum_Thing(
-        //     _value,
-        // ))
-        createRef(AssociatedDataEnum.thing(thingValue: _value))
-    );
-
-    static void extractThing(
-        UnownedRef obj,
-        ffi.Pointer<ffi.Int> _value,
-        OutCreatedRef exn
-    ) {
-        catching(exn, () {
-            // final _self = peekRef<AssociatedDataEnum_Thing>(obj);
-            final _self = peekRef<AssociatedDataEnum>(obj);
-            _value.value = _self.thingValue;
-        });
-    }
+  late int value;
 }

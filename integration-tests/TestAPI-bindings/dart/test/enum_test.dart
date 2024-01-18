@@ -40,9 +40,10 @@ void main() {
       // });
 
       test('testAssociatedDataEnum', () {
-        var enumObj = AssociatedDataEnum.thing(thingValue: 76);
+        var enumObj = AssociatedDataEnum.thing(900);
         print("enumObj: $enumObj");
-        print("enumObj.thingValue: ${enumObj.thingValue}");
+        var thing = enumObj as Thing;
+        print("thing.value: ${thing.value}");
       });
   });
 }
