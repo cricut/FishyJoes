@@ -312,6 +312,9 @@ jobs:
         run: |
           set -euxo pipefail
 
+          where npm
+          PATH="$PATH;/c/Program Files (x86)/nodejs"
+          where npm
           cd integration-tests/TestAPI-bindings
           $SWIFT run -- fishy-joes --nodejs build test
 
