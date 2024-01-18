@@ -161,33 +161,14 @@ sealed class AssociatedDataEnum {
 
   const AssociatedDataEnum();
 
-  TResult map<TResult extends Object?>({
-    required TResult Function(AssociatedDataEnum_Thing value) thing,
-    required TResult Function(AssociatedDataEnum_NoValue value) noValue,
-  }) =>
-      throw UnsupportedError('use a factory contstructor for AssociatedDataEnum.');
-
   static int enumDiscriminator(UnownedRef obj, OutCreatedRef exn) => check((exn) {
-    print("obj.runtimeType: ${obj.runtimeType}");
-    // if (obj is AssociatedDataEnum_Thing) {
-    //   return 0;
-    // } else if (obj is AssociatedDataEnum_NoValue) {
-    //   return 1;
-    // } else {
-    //   return 0;
-    // }
       final peekedObj = peekRef<AssociatedDataEnum>(obj);
-      // if (peekedObj is AssociatedDataEnum_Thing) {
-      //   return 0;
-      // } else if (peekedObj is AssociatedDataEnum_NoValue) {
-      //   return 1;
-      // } else {
-      //   return 0;
-      // }
-      return peekedObj.map(
-        thing: (_) => 0,
-        noValue: (_) => 1
-      );
+      if (peekedObj is AssociatedDataEnum_Thing) {
+        return 0;
+      } else if (peekedObj is AssociatedDataEnum_NoValue) {
+        return 1;
+      }
+      throw UnsupportedError('Unknown AssociatedDataEnum subclass');
   });
 
   static CreatedRef newThing(
@@ -278,24 +259,8 @@ class AssociatedDataEnum_Thing extends AssociatedDataEnum {
   const AssociatedDataEnum_Thing(this.value);
 
   final int value;
-
-  @override
-  TResult map<TResult extends Object?>({
-    required TResult Function(AssociatedDataEnum_Thing value) thing,
-    required TResult Function(AssociatedDataEnum_NoValue value) noValue,
-  }) {
-    return thing(this);
-  }
 }
 
 class AssociatedDataEnum_NoValue extends AssociatedDataEnum {
   const AssociatedDataEnum_NoValue();
-
-  @override
-  TResult map<TResult extends Object?>({
-    required TResult Function(AssociatedDataEnum_Thing value) thing,
-    required TResult Function(AssociatedDataEnum_NoValue value) noValue,
-  }) {
-    return noValue(this);
-  }
 }

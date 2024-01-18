@@ -40,7 +40,7 @@ void main() {
       // });
 
       test('testAssociatedDataEnum', () {
-        var enumObj = AssociatedDataEnum.thing(900);
+        var enumObj = AssociatedDataEnum.thing(903);
         print("enumObj: $enumObj");
         var thing = enumObj as AssociatedDataEnum_Thing;
         print("thing.value: ${thing.value}");
