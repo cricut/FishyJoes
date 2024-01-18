@@ -161,11 +161,11 @@ sealed class AssociatedDataEnum {
 
   const AssociatedDataEnum();
 
-  // TResult map<TResult extends Object?>({
-  //   required TResult Function(AssociatedDataEnum_Thing value) thing,
-  //   required TResult Function(AssociatedDataEnum_NoValue value) noValue,
-  // }) =>
-  //     throw UnsupportedError('use a factory contstructor for AssociatedDataEnum.');
+  TResult map<TResult extends Object?>({
+    required TResult Function(AssociatedDataEnum_Thing value) thing,
+    required TResult Function(AssociatedDataEnum_NoValue value) noValue,
+  }) =>
+      throw UnsupportedError('use a factory contstructor for AssociatedDataEnum.');
 
   static int enumDiscriminator(UnownedRef obj, OutCreatedRef exn) => check((exn) {
     print("obj.runtimeType: ${obj.runtimeType}");
@@ -177,13 +177,17 @@ sealed class AssociatedDataEnum {
     //   return 0;
     // }
       final peekedObj = peekRef<AssociatedDataEnum>(obj);
-      if (peekedObj is AssociatedDataEnum_Thing) {
-        return 0;
-      } else if (peekedObj is AssociatedDataEnum_NoValue) {
-        return 1;
-      } else {
-        return 0;
-      }
+      // if (peekedObj is AssociatedDataEnum_Thing) {
+      //   return 0;
+      // } else if (peekedObj is AssociatedDataEnum_NoValue) {
+      //   return 1;
+      // } else {
+      //   return 0;
+      // }
+      return peekedObj.map(
+        thing: (_) => 0,
+        noValue: (_) => 1
+      );
   });
 
   static CreatedRef newThing(
@@ -275,23 +279,23 @@ class AssociatedDataEnum_Thing extends AssociatedDataEnum {
 
   final int value;
 
-  // @override
-  // TResult map<TResult extends Object?>({
-  //   required TResult Function(AssociatedDataEnum_Thing value) thing,
-  //   required TResult Function(AssociatedDataEnum_NoValue value) noValue,
-  // }) {
-  //   return thing(this);
-  // }
+  @override
+  TResult map<TResult extends Object?>({
+    required TResult Function(AssociatedDataEnum_Thing value) thing,
+    required TResult Function(AssociatedDataEnum_NoValue value) noValue,
+  }) {
+    return thing(this);
+  }
 }
 
 class AssociatedDataEnum_NoValue extends AssociatedDataEnum {
   const AssociatedDataEnum_NoValue();
 
-  // @override
-  // TResult map<TResult extends Object?>({
-  //   required TResult Function(AssociatedDataEnum_Thing value) thing,
-  //   required TResult Function(AssociatedDataEnum_NoValue value) noValue,
-  // }) {
-  //   return noValue(this);
-  // }
+  @override
+  TResult map<TResult extends Object?>({
+    required TResult Function(AssociatedDataEnum_Thing value) thing,
+    required TResult Function(AssociatedDataEnum_NoValue value) noValue,
+  }) {
+    return noValue(this);
+  }
 }
