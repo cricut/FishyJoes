@@ -1,6 +1,6 @@
-#!/usr/bin/env pwsh
+#!/usr/bin/env powershell
 
-$OldPath = $env:Path ?? $env:PATH
+$OldPath = if ($env:Path -ne $null) { $env:Path } else { $env:PATH }
 $env:PATH = ''
 $env:Path = $OldPath
 swift.exe @args
