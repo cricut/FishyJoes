@@ -123,7 +123,7 @@ tasks {
 
 dependencies {
     implementation(kotlin("stdlib:1.9.10"))
-    implementation("com.cricut:android-swift-runtime:1.1.0-alpha2")
+    implementation("com.cricut:android-swift-runtime:1.1.0-alpha3")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.2")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.2")
 }
