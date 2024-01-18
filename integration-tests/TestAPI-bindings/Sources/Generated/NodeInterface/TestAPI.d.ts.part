@@ -14,6 +14,13 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(intValue) -->
          */
         readonly intValue: number;
+
+        /**
+         * <!-- FishyJoes.export(plus) -->
+         */
+        plus(
+            other: TestAPI.AssociatedDataEnum
+        ): TestAPI.AssociatedDataEnum;
     }
 
     /**

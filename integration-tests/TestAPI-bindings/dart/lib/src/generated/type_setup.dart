@@ -704,6 +704,20 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_Swift_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_testCall");
+    TestAPI.AssociatedDataEnum.f__iota_TestAPI_AssociatedDataEnum_plus = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef other,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef other,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_AssociatedDataEnum_plus");
     TestAPI.AttributedStrings.f__iota_TestAPI_AttributedStrings_attributedCharacters = dylib.lookupFunction<
         CreatedRef Function(
             Env env,

@@ -1625,7 +1625,28 @@
             ],
             "forNamespace" : "AssociatedDataEnum",
             "methods" : [
-
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(plus) -->"
+                ],
+                "isStatic" : false,
+                "name" : "plus",
+                "parameters" : [
+                  {
+                    "name" : "other",
+                    "type" : {
+                      "named" : {
+                        "_0" : "TestAPI.AssociatedDataEnum"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "TestAPI.AssociatedDataEnum"
+                  }
+                }
+              }
             ],
             "name" : "AssociatedDataEnum_Common"
           }

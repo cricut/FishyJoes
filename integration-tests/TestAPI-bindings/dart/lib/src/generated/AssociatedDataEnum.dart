@@ -190,11 +190,30 @@ sealed class AssociatedDataEnum {
       )
   ;
 
+  /// <!-- FishyJoes.export(plus) -->
+  TestAPI.AssociatedDataEnum plus(
+      TestAPI.AssociatedDataEnum other,
+  ) =>
+      GCRef.using(this, (_thisHandle) =>
+          GCRef.using(other, (_otherHandle) =>
+              consumeCreatedRef<TestAPI.AssociatedDataEnum>(check((OutCreatedRef _exn) => f__iota_TestAPI_AssociatedDataEnum_plus(Loader.shared.env, _thisHandle.ptr, _otherHandle.ptr, _exn)))
+          )
+      )
+  ;
+
   static late int Function(
       Env env,
       UnownedRef _this,
       OutCreatedRef _exn
   ) f__iota_get_TestAPI_AssociatedDataEnum_intValue;
+
+  static late CreatedRef Function(
+      Env env,
+      UnownedRef _this,
+      UnownedRef other,
+      OutCreatedRef _exn
+  ) f__iota_TestAPI_AssociatedDataEnum_plus;
+
 }
 
 class AssociatedDataEnum_Thing extends AssociatedDataEnum {

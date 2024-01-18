@@ -46,6 +46,13 @@ void main() {
         print("thing.value: ${thing.value}");
 
         print("enumObj.intValue: ${enumObj.intValue}");
+
+        var enumObj2 = AssociatedDataEnum.thing(74);
+        print("enumObj2.intValue: ${enumObj2.intValue}");
+
+        var sumObj = enumObj.plus(enumObj2);
+        print("sumObj: $sumObj");
+        print("sumObj.intValue: ${sumObj.intValue}");
       });
   });
 }

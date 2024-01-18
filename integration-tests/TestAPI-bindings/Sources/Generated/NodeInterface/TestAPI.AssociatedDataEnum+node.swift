@@ -36,6 +36,20 @@ extension TestAPI.AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
             env: env,
             name: "AssociatedDataEnum",
             properties: [
+                "plus": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "plus", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                            let result = try TestAPI.AssociatedDataEnum.toNode(
+                                env.this(converter: TestAPI.AssociatedDataEnum.self).plus(
+                                    try env.argument(at: 0, converter: TestAPI.AssociatedDataEnum.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: false
+                ),
                 "intValue": (
                     .accessor(
                         getter: { env, info in
