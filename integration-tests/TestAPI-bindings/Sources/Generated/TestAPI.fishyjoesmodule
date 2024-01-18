@@ -6817,6 +6817,11 @@
                     "exactString" : {
                       "_0" : "red"
                     }
+                  },
+                  {
+                    "exactString" : {
+                      "_0" : "blue"
+                    }
                   }
                 ]
               }

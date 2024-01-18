@@ -1345,7 +1345,7 @@ export declare namespace TestAPI {
         const uIntRange: Runtime.SwiftRange<number>;
     }
 
-    export type SimpleEnum = "red";
+    export type SimpleEnum = "red" | "blue";
     export namespace SimpleEnum {
         /**
          * <!-- FishyJoes.export(testFuncCall) -->

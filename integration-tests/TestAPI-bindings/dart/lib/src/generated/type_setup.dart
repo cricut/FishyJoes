@@ -201,6 +201,13 @@ typedef TestAPI_SimpleEnum_extract_red = ffi.Void Function(
     UnownedRef obj,
     OutCreatedRef _exn
 );
+typedef TestAPI_SimpleEnum_new_blue = CreatedRef Function(
+    OutCreatedRef _exn
+);
+typedef TestAPI_SimpleEnum_extract_blue = ffi.Void Function(
+    UnownedRef obj,
+    OutCreatedRef _exn
+);
 
 final ensureLoaded = (() {
     FishyJoesRuntime.Loader.shared.ensureLoaded;
@@ -580,6 +587,8 @@ final ensureLoaded = (() {
             ffi.Pointer<ffi.NativeFunction<EnumDiscriminatorTag>> discriminator,
             ffi.Pointer<ffi.NativeFunction<TestAPI_SimpleEnum_new_red>> red_constructor,
             ffi.Pointer<ffi.NativeFunction<TestAPI_SimpleEnum_extract_red>> red_extractor,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_SimpleEnum_new_blue>> blue_constructor,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_SimpleEnum_extract_blue>> blue_extractor,
             OutCreatedRef exn
         ),
         void Function(
@@ -587,6 +596,8 @@ final ensureLoaded = (() {
             ffi.Pointer<ffi.NativeFunction<EnumDiscriminatorTag>> discriminator,
             ffi.Pointer<ffi.NativeFunction<TestAPI_SimpleEnum_new_red>> red_constructor,
             ffi.Pointer<ffi.NativeFunction<TestAPI_SimpleEnum_extract_red>> red_extractor,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_SimpleEnum_new_blue>> blue_constructor,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_SimpleEnum_extract_blue>> blue_extractor,
             OutCreatedRef exn
         )
     >('TestAPI_SimpleEnum_setup');
@@ -4579,6 +4590,8 @@ final ensureLoaded = (() {
                 ffi.Pointer.fromFunction(TestAPI.SimpleEnum.enumDiscriminator, 0),
                 ffi.Pointer.fromFunction(TestAPI.SimpleEnum.newRed),
                 ffi.Pointer.fromFunction(TestAPI.SimpleEnum.extractRed),
+                ffi.Pointer.fromFunction(TestAPI.SimpleEnum.newBlue),
+                ffi.Pointer.fromFunction(TestAPI.SimpleEnum.extractBlue),
                 exn
             );
         });

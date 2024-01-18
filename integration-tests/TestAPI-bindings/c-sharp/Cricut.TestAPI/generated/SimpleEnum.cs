@@ -13,6 +13,8 @@ namespace Cricut.TestAPI {
 
         public sealed record Red : SimpleEnum;
 
+        public sealed record Blue : SimpleEnum;
+
         /// <summary>
         /// <!-- FishyJoes.export(testFuncCall) -->
         /// </summary>

@@ -356,12 +356,21 @@ namespace Cricut.TestAPI {
             UnownedRef obj,
             out CreatedRef _exn
         );
+        delegate CreatedRef Cricut_TestAPI_SimpleEnum_new_blue(
+            out CreatedRef _exn
+        );
+        unsafe delegate void Cricut_TestAPI_SimpleEnum_extract_blue(
+            UnownedRef obj,
+            out CreatedRef _exn
+        );
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_SimpleEnum_setup(
             IntPtr envRef,
             FishyJoesRuntime.EnumDiscriminator discriminator,
             Cricut_TestAPI_SimpleEnum_new_red red_constructor,
             Cricut_TestAPI_SimpleEnum_extract_red red_extractor,
+            Cricut_TestAPI_SimpleEnum_new_blue blue_constructor,
+            Cricut_TestAPI_SimpleEnum_extract_blue blue_extractor,
             out CreatedRef _exn
         );
 
@@ -1559,6 +1568,7 @@ namespace Cricut.TestAPI {
                     bag<FishyJoesRuntime.EnumDiscriminator>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => {
                         var enumeration = obj.Peek<Cricut.TestAPI.SimpleEnum>();
                         if (enumeration is Cricut.TestAPI.SimpleEnum.Red) { return (nint)0; }
+                        if (enumeration is Cricut.TestAPI.SimpleEnum.Blue) { return (nint)1; }
                         throw new Exception($"Found unexpected subclass of Cricut.TestAPI.SimpleEnum: {enumeration}");
                     })),
                     bag<Cricut_TestAPI_SimpleEnum_new_red>(
@@ -1576,6 +1586,27 @@ namespace Cricut.TestAPI {
                         ) => {
                             try {
                                 var enumeration = obj.Peek<Cricut.TestAPI.SimpleEnum.Red>();
+                                exn = CreatedRef.Null;
+                            } catch (Exception e) {
+                                exn = new CreatedRef(e);
+                            }
+                        }
+                    ),
+                    bag<Cricut_TestAPI_SimpleEnum_new_blue>(
+                        (
+                            out CreatedRef exn
+                        ) => Catching(out exn, () => 
+                            new CreatedRef(new Cricut.TestAPI.SimpleEnum.Blue(
+                            ))
+                        )
+                    ),
+                    bag<Cricut_TestAPI_SimpleEnum_extract_blue>(
+                        (
+                            UnownedRef obj,
+                            out CreatedRef exn
+                        ) => {
+                            try {
+                                var enumeration = obj.Peek<Cricut.TestAPI.SimpleEnum.Blue>();
                                 exn = CreatedRef.Null;
                             } catch (Exception e) {
                                 exn = new CreatedRef(e);

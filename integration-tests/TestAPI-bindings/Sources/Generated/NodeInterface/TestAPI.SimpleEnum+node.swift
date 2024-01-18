@@ -10,6 +10,7 @@ extension TestAPI.SimpleEnum: FishyJoesNodeRuntime.NodeConverter {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
         switch try String.fromNode(value, env: env) {
         case "red": return Self.red
+        case "blue": return Self.blue
         case let unknown: fatalError("invalid enum string '\(unknown)' for TestAPI.SimpleEnum")
         }
     }
@@ -17,6 +18,8 @@ extension TestAPI.SimpleEnum: FishyJoesNodeRuntime.NodeConverter {
         switch value {
         case .red:
             return try String.toNode("red", env: env)
+        case .blue:
+            return try String.toNode("blue", env: env)
         }
     }
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {

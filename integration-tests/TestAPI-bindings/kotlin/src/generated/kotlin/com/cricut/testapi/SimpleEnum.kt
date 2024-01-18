@@ -5,6 +5,7 @@ package com.cricut.testapi
  */
 sealed class SimpleEnum {
     object Red : SimpleEnum()
+    object Blue : SimpleEnum()
     /**
      * <!-- FishyJoes.export(testFuncCall) -->
      */

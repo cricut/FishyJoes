@@ -52,34 +52,37 @@ import 'package:ffi/ffi.dart' as ffi;
 import 'package:fishyjoes_dart/runtime.dart' as FishyJoesRuntime;
 import 'package:fishyjoes_dart/runtime.dart';
 import 'package:fishyjoes_dart/utilities.dart' as utils;
-//import 'package:freezed_annotation/freezed_annotation.dart';
+// import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:tuple/tuple.dart' as tuple;
 
-//part 'SimpleEnum.freezed.dart';
+// part 'SimpleEnum.freezed.dart';
 
 /// <!-- FishyJoes.export(SimpleEnum) -->
 // @freezed
-// class SimpleEnum with _$SimpleEnum {
 enum SimpleEnum {
-    red;
+  red, blue;
     // factory SimpleEnum.red(
     // ) = SimpleEnum_Red;
+
+    // factory SimpleEnum.blue(
+    // ) = SimpleEnum_Blue;
 
     // SimpleEnum._() {}
 
     static int enumDiscriminator(UnownedRef obj, OutCreatedRef exn) => check((exn) =>
         // peekRef<SimpleEnum>(obj).map(
         //     red: (_) => 0,
+        //     blue: (_) => 1,
         // )
-        0
+        1
     );
 
     static CreatedRef newRed(
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
         // createRef(SimpleEnum_Red(
-          createRef(SimpleEnum.red)
         // ))
+        createRef(SimpleEnum.red)
     );
 
     static void extractRed(
@@ -88,6 +91,24 @@ enum SimpleEnum {
     ) {
         catching(exn, () {
             // final _self = peekRef<SimpleEnum_Red>(obj);
+            final _self = peekRef<SimpleEnum>(obj);
+        });
+    }
+
+    static CreatedRef newBlue(
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        // createRef(SimpleEnum_Blue(
+        // ))
+        createRef(SimpleEnum.blue)
+    );
+
+    static void extractBlue(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) {
+        catching(exn, () {
+            // final _self = peekRef<SimpleEnum_Blue>(obj);
             final _self = peekRef<SimpleEnum>(obj);
         });
     }
