@@ -15,8 +15,8 @@ void main() {
           // expect(SimpleEnum.red().hex, equals(0xff0000));
           // expect(SimpleEnum.green().hex, equals(0x00ff00));
           // expect(SimpleEnum.blue().hex, equals(0x0000ff));
-          var enumObj = SimpleEnum.red;
-          var c = enumObj.testFuncCall(6, 54);
+          var enumObj = SimpleEnum.blue;
+          var c = enumObj.testFuncCall(8, 32);
           print("c: $c");
           print("done!");
           // expect(SimpleEnum.pickAColor(0), equals(SimpleEnum.red()));

@@ -69,12 +69,21 @@ enum SimpleEnum {
 
     // SimpleEnum._() {}
 
-    static int enumDiscriminator(UnownedRef obj, OutCreatedRef exn) => check((exn) =>
+    static int enumDiscriminator(UnownedRef obj, OutCreatedRef exn) => check((exn) {
         // peekRef<SimpleEnum>(obj).map(
         //     red: (_) => 0,
         //     blue: (_) => 1,
         // )
-        1
+        SimpleEnum color = peekRef<SimpleEnum>(obj);
+        switch (color) {
+          case SimpleEnum.red:
+            return 0;
+          case SimpleEnum.blue:
+            return 1;
+          default:
+            return 0;
+        }
+    }
     );
 
     static CreatedRef newRed(
