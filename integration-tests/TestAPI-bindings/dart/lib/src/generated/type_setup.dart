@@ -1,3 +1,5 @@
+import './AssociatedDataEnum.dart' as TestAPI;
+import './AssociatedDataEnum.dart';
 import './AttributedString_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
 import './AttributedString_PuttingTypesIntoQuestionablePlaces.dart';
 import './AttributedStrings.dart' as TestAPI;
@@ -194,6 +196,15 @@ typedef _TestAPI_Structs_MemberwiseStruct_immutableGetter = CreatedRef Function(
 typedef _TestAPI_Structs_MemberwiseStruct_immutableSetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
 typedef _TestAPI_Structs_MemberwiseStruct_mutableGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_Structs_MemberwiseStruct_mutableSetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
+typedef TestAPI_AssociatedDataEnum_new_thing = CreatedRef Function(
+    ffi.Int value,
+    OutCreatedRef _exn
+);
+typedef TestAPI_AssociatedDataEnum_extract_thing = ffi.Void Function(
+    UnownedRef obj,
+    ffi.Pointer<ffi.Int> value,
+    OutCreatedRef _exn
+);
 typedef TestAPI_SimpleEnum_new_red = CreatedRef Function(
     OutCreatedRef _exn
 );
@@ -479,6 +490,22 @@ final ensureLoaded = (() {
             OutCreatedRef exn
         )
     >('TestAPI_Structs_ReferenceStruct_setup');
+    final TestAPI_AssociatedDataEnum_setup = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<EnumDiscriminatorTag>> discriminator,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_AssociatedDataEnum_new_thing>> thing_constructor,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_AssociatedDataEnum_extract_thing>> thing_extractor,
+            OutCreatedRef exn
+        ),
+        void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<EnumDiscriminatorTag>> discriminator,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_AssociatedDataEnum_new_thing>> thing_constructor,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_AssociatedDataEnum_extract_thing>> thing_extractor,
+            OutCreatedRef exn
+        )
+    >('TestAPI_AssociatedDataEnum_setup');
     final TestAPI_AttributedStrings_setup = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
@@ -4476,6 +4503,19 @@ final ensureLoaded = (() {
             TestAPI_Structs_ReferenceStruct_setup(
                 Loader.shared.env,
                 ffi.Pointer.fromFunction(TestAPI.Structs_ReferenceStruct.ffi_new),
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_TestAPI.AssociatedDataEnum", () {
+        // print("setting up TestAPI.AssociatedDataEnum (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            TestAPI_AssociatedDataEnum_setup(
+                Loader.shared.env,
+                ffi.Pointer.fromFunction(TestAPI.AssociatedDataEnum.enumDiscriminator, 0),
+                ffi.Pointer.fromFunction(TestAPI.AssociatedDataEnum.newThing),
+                ffi.Pointer.fromFunction(TestAPI.AssociatedDataEnum.extractThing),
                 exn
             );
         });

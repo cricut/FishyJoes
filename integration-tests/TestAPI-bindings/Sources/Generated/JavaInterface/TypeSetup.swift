@@ -320,6 +320,8 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(TestAPI.Structs.ReferenceStruct._javaHash, to: UnsafeMutableRawPointer.self)
             )
         )
+        // print("setting up TestAPI.AssociatedDataEnum...")
+        try TestAPI.AssociatedDataEnum.javaSetup(env: env)
         // print("setting up TestAPI.AttributedStrings...")
         try TestAPI.AttributedStrings.javaSetup(env: env)
         try env.RegisterNatives(TestAPI.AttributedStrings.javaClass,

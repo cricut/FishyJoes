@@ -7,6 +7,7 @@ export './Primitives_PrimitiveHolder.dart';
 export './Structs_MemberwiseStruct.dart';
 export './Structs_PuttingTypesIntoQuestionablePlaces.dart';
 export './Structs_ReferenceStruct.dart';
+export './AssociatedDataEnum.dart';
 export './AttributedStrings.dart';
 export './Bytes.dart';
 export './ClosedRanges.dart';

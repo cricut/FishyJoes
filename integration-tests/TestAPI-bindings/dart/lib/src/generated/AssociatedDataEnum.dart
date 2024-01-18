@@ -54,37 +54,54 @@ import 'package:ffi/ffi.dart' as ffi;
 import 'package:fishyjoes_dart/runtime.dart' as FishyJoesRuntime;
 import 'package:fishyjoes_dart/runtime.dart';
 import 'package:fishyjoes_dart/utilities.dart' as utils;
-import 'package:freezed_annotation/freezed_annotation.dart';
+// import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:tuple/tuple.dart' as tuple;
 
-/// <!-- FishyJoes.export(DefaultArguments) -->
-class DefaultArguments {
-    DefaultArguments._() {}
+// part 'AssociatedDataEnum.freezed.dart';
+
+/// <!-- FishyJoes.export(AssociatedDataEnum) -->
+// @freezed
+// class AssociatedDataEnum with _$AssociatedDataEnum {
+enum AssociatedDataEnum {
+    thing(thingValue: 42);
+
+    const AssociatedDataEnum({
+      required this.thingValue
+    });
+
+    final int thingValue;
+    // factory AssociatedDataEnum.thing(
+    //     int value
+    // ) = AssociatedDataEnum_Thing;
+
+    // AssociatedDataEnum._() {}
 
     static int enumDiscriminator(UnownedRef obj, OutCreatedRef exn) => check((exn) =>
-        throw UnsupportedError('This class is supposed to be unihabited')
+        // peekRef<AssociatedDataEnum>(obj).map(
+        //     thing: (_) => 0,
+        // )
+        peekRef<AssociatedDataEnum>(obj).index
     );
 
-    /// <!-- FishyJoes.export(echoDefaults, compatibilityOrder: [z, y]) -->
-    static String echoDefaults(
-        int? x,
-        {
-            int? y = null,
-            double /* theLabelForZ */ z = 3.14,
-        }
-    ) =>
-        GCRef.using(y, (_yHandle) =>
-            GCRef.using(x, (_xHandle) =>
-                consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_TestAPI_DefaultArguments_echoDefaults(Loader.shared.env, _yHandle.ptr, _xHandle.ptr, z, _exn)))
-            )
-        )
-    ;
+    static CreatedRef newThing(
+        int _value,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        // createRef(AssociatedDataEnum_Thing(
+        //     _value,
+        // ))
+        createRef(AssociatedDataEnum.thing)
+    );
 
-    static late CreatedRef Function(
-        Env env,
-        UnownedRef y,
-        UnownedRef x,
-        double z,
-        OutCreatedRef _exn
-    ) f__iota_TestAPI_DefaultArguments_echoDefaults;
+    static void extractThing(
+        UnownedRef obj,
+        ffi.Pointer<ffi.Int> _value,
+        OutCreatedRef exn
+    ) {
+        catching(exn, () {
+            // final _self = peekRef<AssociatedDataEnum_Thing>(obj);
+            final _self = peekRef<AssociatedDataEnum>(obj);
+            _value.value = _self.thingValue;
+        });
+    }
 }

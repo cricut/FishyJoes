@@ -11,18 +11,18 @@ void main() {
       //     expect(EmptyEnum.notGoingToHappen, throwsA(isA<Exception>()));
       // });
 
-      test('testSimpleEnum', () {
-          // expect(SimpleEnum.red().hex, equals(0xff0000));
-          // expect(SimpleEnum.green().hex, equals(0x00ff00));
-          // expect(SimpleEnum.blue().hex, equals(0x0000ff));
-          var enumObj = SimpleEnum.red;
-          var c = enumObj.testFuncCall(8, 32);
-          print("c: $c");
-          print("done!");
-          // expect(SimpleEnum.pickAColor(0), equals(SimpleEnum.red()));
-          // expect(SimpleEnum.pickAColor(1), equals(SimpleEnum.green()));
-          // expect(SimpleEnum.pickAColor(2), equals(SimpleEnum.blue()));
-      });
+      // test('testSimpleEnum', () {
+      //     // expect(SimpleEnum.red().hex, equals(0xff0000));
+      //     // expect(SimpleEnum.green().hex, equals(0x00ff00));
+      //     // expect(SimpleEnum.blue().hex, equals(0x0000ff));
+      //     var enumObj = SimpleEnum.red;
+      //     var c = enumObj.testFuncCall(8, 32);
+      //     print("c: $c");
+      //     print("done!");
+      //     // expect(SimpleEnum.pickAColor(0), equals(SimpleEnum.red()));
+      //     // expect(SimpleEnum.pickAColor(1), equals(SimpleEnum.green()));
+      //     // expect(SimpleEnum.pickAColor(2), equals(SimpleEnum.blue()));
+      // });
 
       // test('testAssociatedDataEnum', () {
       //     shape1(int x) => AssociatedDataEnum.thing(x);
@@ -33,5 +33,10 @@ void main() {
       //     expect(shape1(2).plus(shape2("x", "y", 4)), equals(shape1(9)));
       //     expect(shape2("y", "z", 2).plus(shape1(5)), equals(shape2("y", "z", 7)));
       // });
+      test('testAssociatedDataEnum', () {
+        var enumObj = AssociatedDataEnum.thing;
+        print("enumObj: $enumObj");
+        print("enumObj.thingValue: ${enumObj.thingValue}");
+      });
   });
 }

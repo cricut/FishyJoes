@@ -1,4 +1,17 @@
 export declare namespace TestAPI {
+    export type AssociatedDataEnum = AssociatedDataEnum.Thing;
+    export namespace AssociatedDataEnum {
+        interface Thing extends AssociatedDataEnum_Common {}
+        export class Thing {
+            constructor(value: number)
+
+            readonly value: number;
+        }
+    }
+
+    interface AssociatedDataEnum_Common {
+    }
+
     /**
      * <!-- FishyJoes.export(AttributedString_PuttingTypesIntoQuestionablePlaces) -->
      */

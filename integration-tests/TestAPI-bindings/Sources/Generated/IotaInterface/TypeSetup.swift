@@ -107,6 +107,7 @@ public func FishyJoes_TestAPI_registerTypes() {
     Env.registerType(TestAPI.Structs.MemberwiseStruct.self, as: "TestAPI.Structs.MemberwiseStruct")
     Env.registerType(TestAPI.Structs.PuttingTypesIntoQuestionablePlaces.self, as: "TestAPI.Structs.PuttingTypesIntoQuestionablePlaces")
     Env.registerType(TestAPI.Structs.ReferenceStruct.self, as: "TestAPI.Structs.ReferenceStruct")
+    Env.registerType(TestAPI.AssociatedDataEnum.self, as: "TestAPI.AssociatedDataEnum")
     Env.registerType(TestAPI.AttributedStrings.self, as: "TestAPI.AttributedStrings")
     Env.registerType(TestAPI.Bytes.self, as: "TestAPI.Bytes")
     Env.registerType(TestAPI.ClosedRanges.self, as: "TestAPI.ClosedRanges")
