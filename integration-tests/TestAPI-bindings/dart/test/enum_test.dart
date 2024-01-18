@@ -33,8 +33,14 @@ void main() {
       //     expect(shape1(2).plus(shape2("x", "y", 4)), equals(shape1(9)));
       //     expect(shape2("y", "z", 2).plus(shape1(5)), equals(shape2("y", "z", 7)));
       // });
+      // test('testAssociatedDataEnum', () {
+      //   var enumObj = AssociatedDataEnum.thing;
+      //   print("enumObj: $enumObj");
+      //   print("enumObj.thingValue: ${enumObj.thingValue}");
+      // });
+
       test('testAssociatedDataEnum', () {
-        var enumObj = AssociatedDataEnum.thing;
+        var enumObj = AssociatedDataEnum.thing(thingValue: 76);
         print("enumObj: $enumObj");
         print("enumObj.thingValue: ${enumObj.thingValue}");
       });

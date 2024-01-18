@@ -62,14 +62,63 @@ import 'package:tuple/tuple.dart' as tuple;
 /// <!-- FishyJoes.export(AssociatedDataEnum) -->
 // @freezed
 // class AssociatedDataEnum with _$AssociatedDataEnum {
-enum AssociatedDataEnum {
-    thing(thingValue: 42);
+// enum AssociatedDataEnum {
+//     thing(thingValue: 42);
+
+//     const AssociatedDataEnum({
+//       required this.thingValue
+//     });
+
+//     final int thingValue;
+//     // factory AssociatedDataEnum.thing(
+//     //     int value
+//     // ) = AssociatedDataEnum_Thing;
+
+//     // AssociatedDataEnum._() {}
+
+//     static int enumDiscriminator(UnownedRef obj, OutCreatedRef exn) => check((exn) =>
+//         // peekRef<AssociatedDataEnum>(obj).map(
+//         //     thing: (_) => 0,
+//         // )
+//         peekRef<AssociatedDataEnum>(obj).index
+//     );
+
+//     static CreatedRef newThing(
+//         int _value,
+//         OutCreatedRef exn
+//     ) => catchingRef(exn, () =>
+//         // createRef(AssociatedDataEnum_Thing(
+//         //     _value,
+//         // ))
+//         createRef(AssociatedDataEnum.thing)
+//     );
+
+//     static void extractThing(
+//         UnownedRef obj,
+//         ffi.Pointer<ffi.Int> _value,
+//         OutCreatedRef exn
+//     ) {
+//         catching(exn, () {
+//             // final _self = peekRef<AssociatedDataEnum_Thing>(obj);
+//             final _self = peekRef<AssociatedDataEnum>(obj);
+//             _value.value = _self.thingValue;
+//         });
+//     }
+// }
+enum AssociatedDataEnumCase {
+  thing
+}
+
+class AssociatedDataEnum {
+    factory AssociatedDataEnum.thing({required dynamic thingValue}) => AssociatedDataEnum(enumCase: AssociatedDataEnumCase.thing, thingValue: thingValue);
 
     const AssociatedDataEnum({
-      required this.thingValue
+      required this.enumCase,
+      required this.thingValue      
     });
 
     final int thingValue;
+    final AssociatedDataEnumCase enumCase;
     // factory AssociatedDataEnum.thing(
     //     int value
     // ) = AssociatedDataEnum_Thing;
@@ -80,7 +129,7 @@ enum AssociatedDataEnum {
         // peekRef<AssociatedDataEnum>(obj).map(
         //     thing: (_) => 0,
         // )
-        peekRef<AssociatedDataEnum>(obj).index
+        peekRef<AssociatedDataEnum>(obj).enumCase.index
     );
 
     static CreatedRef newThing(
@@ -90,7 +139,7 @@ enum AssociatedDataEnum {
         // createRef(AssociatedDataEnum_Thing(
         //     _value,
         // ))
-        createRef(AssociatedDataEnum.thing)
+        createRef(AssociatedDataEnum.thing(thingValue: _value))
     );
 
     static void extractThing(
