@@ -1,63 +1,4 @@
 export declare namespace TestAPI {
-    export type AssociatedDataEnum = AssociatedDataEnum.Thing | AssociatedDataEnum.Other | AssociatedDataEnum.Bar | AssociatedDataEnum.NoValue | AssociatedDataEnum.SimpleEnum;
-    export namespace AssociatedDataEnum {
-        interface Bar extends AssociatedDataEnum_Common {}
-        export class Bar {
-            constructor(named: string, _1: TestAPI.AssociatedDataEnum)
-
-            readonly named: string;
-
-            readonly _1: TestAPI.AssociatedDataEnum;
-        }
-
-        interface NoValue extends AssociatedDataEnum_Common {}
-        export class NoValue {
-            constructor()
-        }
-
-        interface Other extends AssociatedDataEnum_Common {}
-        export class Other {
-            constructor(unnamed: string, _1: number)
-
-            readonly unnamed: string;
-
-            readonly _1: number;
-        }
-
-        interface SimpleEnum extends AssociatedDataEnum_Common {}
-        export class SimpleEnum {
-            constructor(value: TestAPI.SimpleEnum)
-
-            readonly value: TestAPI.SimpleEnum;
-        }
-
-        interface Thing extends AssociatedDataEnum_Common {}
-        export class Thing {
-            constructor(value: number)
-
-            readonly value: number;
-        }
-
-        /**
-         * <!-- FishyJoes.export(staticThing) -->
-         */
-        const staticThing: TestAPI.AssociatedDataEnum;
-    }
-
-    interface AssociatedDataEnum_Common {
-        /**
-         * <!-- FishyJoes.export(intValue) -->
-         */
-        readonly intValue: number;
-
-        /**
-         * <!-- FishyJoes.export(plus) -->
-         */
-        plus(
-            other: TestAPI.AssociatedDataEnum
-        ): TestAPI.AssociatedDataEnum;
-    }
-
     /**
      * <!-- FishyJoes.export(AttributedString_PuttingTypesIntoQuestionablePlaces) -->
      */
@@ -527,15 +468,6 @@ export declare namespace TestAPI {
          * @deprecated replace with `deprecatedMethod` ( <-- swift name, sorry )
          */
         const deprecatedVariable: number;
-    }
-
-    export type EmptyEnum = never;
-    export namespace EmptyEnum {
-        /**
-         * <!-- FishyJoes.export(notGoingToHappen, noReturn: true) -->
-         */
-        function notGoingToHappen(
-        ): TestAPI.EmptyEnum;
     }
 
     export type Functions = never;
@@ -1413,39 +1345,16 @@ export declare namespace TestAPI {
         const uIntRange: Runtime.SwiftRange<number>;
     }
 
-    export type SimpleEnum = "red" | "green" | "blue";
+    export type SimpleEnum = "red";
     export namespace SimpleEnum {
         /**
-         * <!-- FishyJoes.export(favoriteColor) -->
+         * <!-- FishyJoes.export(testFuncCall) -->
          */
-        let favoriteColor: TestAPI.SimpleEnum;
-
-        /**
-         * <!-- FishyJoes.export(hex) -->
-         */
-        function getHex(
-            self: TestAPI.SimpleEnum
+        function testFuncCall(
+            self: TestAPI.SimpleEnum,
+            x: number,
+            y: number
         ): number;
-
-        /**
-         * <!-- FishyJoes.export(hexMethod) -->
-         */
-        function hexMethod(
-            self: TestAPI.SimpleEnum
-        ): string;
-
-        /**
-         * <!-- FishyJoes.export(pickAColor) -->
-         */
-        function pickAColor(
-            rawValue: number
-        ): Optional<TestAPI.SimpleEnum>;
-
-        /**
-         * <!-- FishyJoes.export(resetFavoriteColor) -->
-         */
-        function resetFavoriteColor(
-        ): void;
     }
 
     /**

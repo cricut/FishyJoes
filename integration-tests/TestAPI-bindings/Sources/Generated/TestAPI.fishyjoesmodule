@@ -5,58 +5,6 @@
         "named" : {
           "_0" : {
             "module" : "TestAPI",
-            "name" : "AssociatedDataEnum",
-            "namespace" : [
-
-            ]
-          }
-        }
-      },
-      "cSharpType" : {
-        "named" : {
-          "name" : "AssociatedDataEnum",
-          "package" : "Cricut.TestAPI"
-        }
-      },
-      "dartType" : {
-        "named" : {
-          "name" : "AssociatedDataEnum",
-          "package" : "TestAPI"
-        }
-      },
-      "definingModule" : {
-        "dependencies" : [
-
-        ],
-        "name" : "TestAPI"
-      },
-      "isInhabited" : true,
-      "jniType" : {
-        "object" : {
-          "_0" : "com/cricut/testapi/AssociatedDataEnum"
-        }
-      },
-      "kotlinName" : "AssociatedDataEnum",
-      "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=AssociatedDataEnum>>",
-      "nodeName" : "TestAPI.AssociatedDataEnum",
-      "sourceType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "AssociatedDataEnum",
-            "namespace" : [
-
-            ]
-          }
-        }
-      }
-    },
-    {
-      "converterType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
             "name" : "AttributedStrings",
             "namespace" : [
 
@@ -409,58 +357,6 @@
           "_0" : {
             "module" : "TestAPI",
             "name" : "Deprecations",
-            "namespace" : [
-
-            ]
-          }
-        }
-      }
-    },
-    {
-      "converterType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "EmptyEnum",
-            "namespace" : [
-
-            ]
-          }
-        }
-      },
-      "cSharpType" : {
-        "named" : {
-          "name" : "EmptyEnum",
-          "package" : "Cricut.TestAPI"
-        }
-      },
-      "dartType" : {
-        "named" : {
-          "name" : "EmptyEnum",
-          "package" : "TestAPI"
-        }
-      },
-      "definingModule" : {
-        "dependencies" : [
-
-        ],
-        "name" : "TestAPI"
-      },
-      "isInhabited" : false,
-      "jniType" : {
-        "object" : {
-          "_0" : "com/cricut/testapi/EmptyEnum"
-        }
-      },
-      "kotlinName" : "EmptyEnum",
-      "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=EmptyEnum>>",
-      "nodeName" : "TestAPI.EmptyEnum",
-      "sourceType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "EmptyEnum",
             "namespace" : [
 
             ]
@@ -1659,314 +1555,13 @@
 
         ],
         "interfaces" : [
-          {
-            "fields" : [
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(intValue) -->"
-                ],
-                "isStatic" : false,
-                "name" : "intValue",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "number"
-                  }
-                }
-              }
-            ],
-            "forNamespace" : "AssociatedDataEnum",
-            "methods" : [
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(plus) -->"
-                ],
-                "isStatic" : false,
-                "name" : "plus",
-                "parameters" : [
-                  {
-                    "name" : "other",
-                    "type" : {
-                      "named" : {
-                        "_0" : "TestAPI.AssociatedDataEnum"
-                      }
-                    }
-                  }
-                ],
-                "returnType" : {
-                  "named" : {
-                    "_0" : "TestAPI.AssociatedDataEnum"
-                  }
-                }
-              }
-            ],
-            "name" : "AssociatedDataEnum_Common"
-          }
+
         ],
         "methods" : [
 
         ],
         "name" : "TestAPI",
         "namespaces" : {
-          "AssociatedDataEnum" : {
-            "classes" : [
-              {
-                "constructor" : {
-                  "visible" : {
-                    "names" : [
-                      "value"
-                    ],
-                    "types" : [
-                      {
-                        "named" : {
-                          "_0" : "number"
-                        }
-                      }
-                    ]
-                  }
-                },
-                "documentation" : [
-
-                ],
-                "extends" : [
-                  "AssociatedDataEnum_Common"
-                ],
-                "fields" : [
-                  {
-                    "documentation" : [
-
-                    ],
-                    "isStatic" : false,
-                    "name" : "value",
-                    "readOnly" : true,
-                    "type" : {
-                      "named" : {
-                        "_0" : "number"
-                      }
-                    }
-                  }
-                ],
-                "methods" : [
-
-                ],
-                "name" : "Thing"
-              },
-              {
-                "constructor" : {
-                  "visible" : {
-                    "names" : [
-                      "unnamed",
-                      "_1"
-                    ],
-                    "types" : [
-                      {
-                        "named" : {
-                          "_0" : "string"
-                        }
-                      },
-                      {
-                        "named" : {
-                          "_0" : "number"
-                        }
-                      }
-                    ]
-                  }
-                },
-                "documentation" : [
-
-                ],
-                "extends" : [
-                  "AssociatedDataEnum_Common"
-                ],
-                "fields" : [
-                  {
-                    "documentation" : [
-
-                    ],
-                    "isStatic" : false,
-                    "name" : "unnamed",
-                    "readOnly" : true,
-                    "type" : {
-                      "named" : {
-                        "_0" : "string"
-                      }
-                    }
-                  },
-                  {
-                    "documentation" : [
-
-                    ],
-                    "isStatic" : false,
-                    "name" : "_1",
-                    "readOnly" : true,
-                    "type" : {
-                      "named" : {
-                        "_0" : "number"
-                      }
-                    }
-                  }
-                ],
-                "methods" : [
-
-                ],
-                "name" : "Other"
-              },
-              {
-                "constructor" : {
-                  "visible" : {
-                    "names" : [
-                      "named",
-                      "_1"
-                    ],
-                    "types" : [
-                      {
-                        "named" : {
-                          "_0" : "string"
-                        }
-                      },
-                      {
-                        "named" : {
-                          "_0" : "TestAPI.AssociatedDataEnum"
-                        }
-                      }
-                    ]
-                  }
-                },
-                "documentation" : [
-
-                ],
-                "extends" : [
-                  "AssociatedDataEnum_Common"
-                ],
-                "fields" : [
-                  {
-                    "documentation" : [
-
-                    ],
-                    "isStatic" : false,
-                    "name" : "named",
-                    "readOnly" : true,
-                    "type" : {
-                      "named" : {
-                        "_0" : "string"
-                      }
-                    }
-                  },
-                  {
-                    "documentation" : [
-
-                    ],
-                    "isStatic" : false,
-                    "name" : "_1",
-                    "readOnly" : true,
-                    "type" : {
-                      "named" : {
-                        "_0" : "TestAPI.AssociatedDataEnum"
-                      }
-                    }
-                  }
-                ],
-                "methods" : [
-
-                ],
-                "name" : "Bar"
-              },
-              {
-                "constructor" : {
-                  "visible" : {
-                    "names" : [
-
-                    ],
-                    "types" : [
-
-                    ]
-                  }
-                },
-                "documentation" : [
-
-                ],
-                "extends" : [
-                  "AssociatedDataEnum_Common"
-                ],
-                "fields" : [
-
-                ],
-                "methods" : [
-
-                ],
-                "name" : "NoValue"
-              },
-              {
-                "constructor" : {
-                  "visible" : {
-                    "names" : [
-                      "value"
-                    ],
-                    "types" : [
-                      {
-                        "named" : {
-                          "_0" : "TestAPI.SimpleEnum"
-                        }
-                      }
-                    ]
-                  }
-                },
-                "documentation" : [
-
-                ],
-                "extends" : [
-                  "AssociatedDataEnum_Common"
-                ],
-                "fields" : [
-                  {
-                    "documentation" : [
-
-                    ],
-                    "isStatic" : false,
-                    "name" : "value",
-                    "readOnly" : true,
-                    "type" : {
-                      "named" : {
-                        "_0" : "TestAPI.SimpleEnum"
-                      }
-                    }
-                  }
-                ],
-                "methods" : [
-
-                ],
-                "name" : "SimpleEnum"
-              }
-            ],
-            "fields" : [
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(staticThing) -->"
-                ],
-                "isStatic" : true,
-                "name" : "staticThing",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "TestAPI.AssociatedDataEnum"
-                  }
-                }
-              }
-            ],
-            "interfaces" : [
-
-            ],
-            "methods" : [
-
-            ],
-            "name" : "AssociatedDataEnum",
-            "namespaces" : {
-
-            },
-            "typealiases" : [
-
-            ]
-          },
           "AttributedStrings" : {
             "classes" : [
 
@@ -3535,41 +3130,6 @@
               }
             ],
             "name" : "Deprecations",
-            "namespaces" : {
-
-            },
-            "typealiases" : [
-
-            ]
-          },
-          "EmptyEnum" : {
-            "classes" : [
-
-            ],
-            "fields" : [
-
-            ],
-            "interfaces" : [
-
-            ],
-            "methods" : [
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(notGoingToHappen, noReturn: true) -->"
-                ],
-                "isStatic" : true,
-                "name" : "notGoingToHappen",
-                "parameters" : [
-
-                ],
-                "returnType" : {
-                  "named" : {
-                    "_0" : "TestAPI.EmptyEnum"
-                  }
-                }
-              }
-            ],
-            "name" : "EmptyEnum",
             "namespaces" : {
 
             },
@@ -6498,19 +6058,7 @@
 
             ],
             "fields" : [
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(favoriteColor) -->"
-                ],
-                "isStatic" : true,
-                "name" : "favoriteColor",
-                "readOnly" : false,
-                "type" : {
-                  "named" : {
-                    "_0" : "TestAPI.SimpleEnum"
-                  }
-                }
-              }
+
             ],
             "interfaces" : [
 
@@ -6518,79 +6066,32 @@
             "methods" : [
               {
                 "documentation" : [
-                  "<!-- FishyJoes.export(pickAColor) -->"
+                  "<!-- FishyJoes.export(testFuncCall) -->"
                 ],
                 "isStatic" : true,
-                "name" : "pickAColor",
+                "name" : "testFuncCall",
                 "parameters" : [
                   {
-                    "name" : "rawValue",
+                    "name" : "self",
+                    "type" : {
+                      "named" : {
+                        "_0" : "TestAPI.SimpleEnum"
+                      }
+                    }
+                  },
+                  {
+                    "name" : "x",
                     "type" : {
                       "named" : {
                         "_0" : "number"
                       }
                     }
-                  }
-                ],
-                "returnType" : {
-                  "optional" : {
-                    "_0" : {
-                      "named" : {
-                        "_0" : "TestAPI.SimpleEnum"
-                      }
-                    }
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(hexMethod) -->"
-                ],
-                "isStatic" : true,
-                "name" : "hexMethod",
-                "parameters" : [
+                  },
                   {
-                    "name" : "self",
+                    "name" : "y",
                     "type" : {
                       "named" : {
-                        "_0" : "TestAPI.SimpleEnum"
-                      }
-                    }
-                  }
-                ],
-                "returnType" : {
-                  "named" : {
-                    "_0" : "string"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(resetFavoriteColor) -->"
-                ],
-                "isStatic" : true,
-                "name" : "resetFavoriteColor",
-                "parameters" : [
-
-                ],
-                "returnType" : {
-                  "named" : {
-                    "_0" : "void"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(hex) -->"
-                ],
-                "isStatic" : true,
-                "name" : "getHex",
-                "parameters" : [
-                  {
-                    "name" : "self",
-                    "type" : {
-                      "named" : {
-                        "_0" : "TestAPI.SimpleEnum"
+                        "_0" : "number"
                       }
                     }
                   }
@@ -7189,43 +6690,6 @@
           },
           {
             "documentation" : [
-              "<!-- FishyJoes.export(AssociatedDataEnum) -->"
-            ],
-            "name" : "AssociatedDataEnum",
-            "value" : {
-              "union" : {
-                "_0" : [
-                  {
-                    "named" : {
-                      "_0" : "AssociatedDataEnum.Thing"
-                    }
-                  },
-                  {
-                    "named" : {
-                      "_0" : "AssociatedDataEnum.Other"
-                    }
-                  },
-                  {
-                    "named" : {
-                      "_0" : "AssociatedDataEnum.Bar"
-                    }
-                  },
-                  {
-                    "named" : {
-                      "_0" : "AssociatedDataEnum.NoValue"
-                    }
-                  },
-                  {
-                    "named" : {
-                      "_0" : "AssociatedDataEnum.SimpleEnum"
-                    }
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "documentation" : [
               "<!-- FishyJoes.export(AttributedStrings) -->"
             ],
             "name" : "AttributedStrings",
@@ -7304,19 +6768,6 @@
           },
           {
             "documentation" : [
-              "<!-- FishyJoes.export(EmptyEnum) -->"
-            ],
-            "name" : "EmptyEnum",
-            "value" : {
-              "union" : {
-                "_0" : [
-
-                ]
-              }
-            }
-          },
-          {
-            "documentation" : [
               "<!-- FishyJoes.export(Functions) -->"
             ],
             "name" : "Functions",
@@ -7365,16 +6816,6 @@
                   {
                     "exactString" : {
                       "_0" : "red"
-                    }
-                  },
-                  {
-                    "exactString" : {
-                      "_0" : "green"
-                    }
-                  },
-                  {
-                    "exactString" : {
-                      "_0" : "blue"
                     }
                   }
                 ]

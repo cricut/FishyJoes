@@ -10,8 +10,6 @@ extension TestAPI.SimpleEnum: FishyJoesNodeRuntime.NodeConverter {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
         switch try String.fromNode(value, env: env) {
         case "red": return Self.red
-        case "green": return Self.green
-        case "blue": return Self.blue
         case let unknown: fatalError("invalid enum string '\(unknown)' for TestAPI.SimpleEnum")
         }
     }
@@ -19,76 +17,24 @@ extension TestAPI.SimpleEnum: FishyJoesNodeRuntime.NodeConverter {
         switch value {
         case .red:
             return try String.toNode("red", env: env)
-        case .green:
-            return try String.toNode("green", env: env)
-        case .blue:
-            return try String.toNode("blue", env: env)
         }
     }
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let object = try env.createObject()
         let props = try NodeClass.descriptorsFor(properties: [
-            "pickAColor": (
+            "testFuncCall": (
                 .method { env, info in
-                    FishyJoesNodeRuntime.callbackBody(env, info, name: "pickAColor", expectedArgumentCount: 1, hasNamedOptions: false) { env in
-                        let result = try OptionalConverter<TestAPI.SimpleEnum>.toNode(
-                            TestAPI.SimpleEnum.pickAColor(
-                                try env.argument(at: 0, converter: Swift.Int.self)
+                    FishyJoesNodeRuntime.callbackBody(env, info, name: "testFuncCall", expectedArgumentCount: 3, hasNamedOptions: false) { env in
+                        let result = try Swift.Int.toNode(
+                            env.argument(at: 0, converter: TestAPI.SimpleEnum.self).testFuncCall(
+                                x: try env.argument(at: 1, converter: Swift.Int.self),
+                                y: try env.argument(at: 2, converter: Swift.Int.self)
                             ),
                             env: env.env
                         )
                         return result
                     }
                 },
-                isStatic: true
-            ),
-            "hexMethod": (
-                .method { env, info in
-                    FishyJoesNodeRuntime.callbackBody(env, info, name: "hexMethod", expectedArgumentCount: 1, hasNamedOptions: false) { env in
-                        let result = try Swift.String.toNode(
-                            env.argument(at: 0, converter: TestAPI.SimpleEnum.self).hexMethod(
-                            ),
-                            env: env.env
-                        )
-                        return result
-                    }
-                },
-                isStatic: true
-            ),
-            "resetFavoriteColor": (
-                .method { env, info in
-                    FishyJoesNodeRuntime.callbackBody(env, info, name: "resetFavoriteColor", expectedArgumentCount: 0, hasNamedOptions: false) { env in
-                        let result = try FishyJoesCommonRuntime.VoidConverter.toNode(
-                            TestAPI.SimpleEnum.resetFavoriteColor(
-                            ),
-                            env: env.env
-                        )
-                        return result
-                    }
-                },
-                isStatic: true
-            ),
-            "getHex": (
-                .method { env, info in
-                    FishyJoesNodeRuntime.callbackBody(env, info, name: "hex", expectedArgumentCount: 1) { env in
-                        try Swift.Int.toNode(env.argument(at: 0, converter: TestAPI.SimpleEnum.self).hex, env: env.env)
-                    }
-                },
-                isStatic: true
-            ),
-            "favoriteColor": (
-                .accessor(
-                    getter: { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "favoriteColor", expectedArgumentCount: 0) { env in
-                            try TestAPI.SimpleEnum.toNode(TestAPI.SimpleEnum.favoriteColor, env: env.env)
-                        }
-                    },
-                    setter: { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "favoriteColor", expectedArgumentCount: 1) { env in
-                            TestAPI.SimpleEnum.favoriteColor = try env.argument(at: 0, converter: TestAPI.SimpleEnum.self)
-                            return nil
-                        }
-                    }),
                 isStatic: true
             ),
         ], env: env)
