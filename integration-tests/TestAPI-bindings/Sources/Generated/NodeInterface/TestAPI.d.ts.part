@@ -1,12 +1,22 @@
 export declare namespace TestAPI {
-    export type AssociatedDataEnum = AssociatedDataEnum.Thing;
+    export type AssociatedDataEnum = AssociatedDataEnum.Thing | AssociatedDataEnum.NoValue;
     export namespace AssociatedDataEnum {
+        interface NoValue extends AssociatedDataEnum_Common {}
+        export class NoValue {
+            constructor()
+        }
+
         interface Thing extends AssociatedDataEnum_Common {}
         export class Thing {
             constructor(value: number)
 
             readonly value: number;
         }
+
+        /**
+         * <!-- FishyJoes.export(staticThing) -->
+         */
+        const staticThing: TestAPI.AssociatedDataEnum;
     }
 
     interface AssociatedDataEnum_Common {

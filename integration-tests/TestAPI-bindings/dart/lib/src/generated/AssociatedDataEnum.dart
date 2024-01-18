@@ -157,11 +157,34 @@ import 'package:tuple/tuple.dart' as tuple;
 
 sealed class AssociatedDataEnum {
   const factory AssociatedDataEnum.thing(int value) = AssociatedDataEnum_Thing.thing;
+  const factory AssociatedDataEnum.noValue() = AssociatedDataEnum_NoValue;
+
   const AssociatedDataEnum();
 
-  static int enumDiscriminator(UnownedRef obj, OutCreatedRef exn) => check((exn) =>
-    0
-  );
+  // TResult map<TResult extends Object?>({
+  //   required TResult Function(AssociatedDataEnum_Thing value) thing,
+  //   required TResult Function(AssociatedDataEnum_NoValue value) noValue,
+  // }) =>
+  //     throw UnsupportedError('use a factory contstructor for AssociatedDataEnum.');
+
+  static int enumDiscriminator(UnownedRef obj, OutCreatedRef exn) => check((exn) {
+    print("obj.runtimeType: ${obj.runtimeType}");
+    // if (obj is AssociatedDataEnum_Thing) {
+    //   return 0;
+    // } else if (obj is AssociatedDataEnum_NoValue) {
+    //   return 1;
+    // } else {
+    //   return 0;
+    // }
+      final peekedObj = peekRef<AssociatedDataEnum>(obj);
+      if (peekedObj is AssociatedDataEnum_Thing) {
+        return 0;
+      } else if (peekedObj is AssociatedDataEnum_NoValue) {
+        return 1;
+      } else {
+        return 0;
+      }
+  });
 
   static CreatedRef newThing(
     int _value,
@@ -180,6 +203,30 @@ sealed class AssociatedDataEnum {
           _value.value = _self.value;
       });
   }
+
+  static CreatedRef newNoValue(
+      OutCreatedRef exn
+  ) => catchingRef(exn, () =>
+      createRef(AssociatedDataEnum_NoValue(
+      ))
+  );
+
+  static void extractNoValue(
+      UnownedRef obj,
+      OutCreatedRef exn
+  ) {
+      catching(exn, () {
+          final _self = peekRef<AssociatedDataEnum_NoValue>(obj);
+      });
+  }
+
+
+  /// <!-- FishyJoes.export(staticThing) -->
+  static TestAPI.AssociatedDataEnum get staticThing =>
+      check((exn) =>
+          consumeCreatedRef<TestAPI.AssociatedDataEnum>(f__iota_get_TestAPI_AssociatedDataEnum_staticThing(Loader.shared.env, exn))
+      )
+  ;
 
   /// <!-- FishyJoes.export(intValue) -->
   int get intValue =>
@@ -200,6 +247,11 @@ sealed class AssociatedDataEnum {
           )
       )
   ;
+
+  static late CreatedRef Function(
+      Env env,
+      OutCreatedRef _exn
+  ) f__iota_get_TestAPI_AssociatedDataEnum_staticThing;
 
   static late int Function(
       Env env,
@@ -222,4 +274,24 @@ class AssociatedDataEnum_Thing extends AssociatedDataEnum {
   const AssociatedDataEnum_Thing(this.value);
 
   final int value;
+
+  // @override
+  // TResult map<TResult extends Object?>({
+  //   required TResult Function(AssociatedDataEnum_Thing value) thing,
+  //   required TResult Function(AssociatedDataEnum_NoValue value) noValue,
+  // }) {
+  //   return thing(this);
+  // }
+}
+
+class AssociatedDataEnum_NoValue extends AssociatedDataEnum {
+  const AssociatedDataEnum_NoValue();
+
+  // @override
+  // TResult map<TResult extends Object?>({
+  //   required TResult Function(AssociatedDataEnum_Thing value) thing,
+  //   required TResult Function(AssociatedDataEnum_NoValue value) noValue,
+  // }) {
+  //   return noValue(this);
+  // }
 }

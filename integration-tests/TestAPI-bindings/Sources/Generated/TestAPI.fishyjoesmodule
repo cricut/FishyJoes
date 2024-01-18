@@ -1698,10 +1698,47 @@
 
                 ],
                 "name" : "Thing"
+              },
+              {
+                "constructor" : {
+                  "visible" : {
+                    "names" : [
+
+                    ],
+                    "types" : [
+
+                    ]
+                  }
+                },
+                "documentation" : [
+
+                ],
+                "extends" : [
+                  "AssociatedDataEnum_Common"
+                ],
+                "fields" : [
+
+                ],
+                "methods" : [
+
+                ],
+                "name" : "NoValue"
               }
             ],
             "fields" : [
-
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(staticThing) -->"
+                ],
+                "isStatic" : true,
+                "name" : "staticThing",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "TestAPI.AssociatedDataEnum"
+                  }
+                }
+              }
             ],
             "interfaces" : [
 
@@ -6854,6 +6891,11 @@
                   {
                     "named" : {
                       "_0" : "AssociatedDataEnum.Thing"
+                    }
+                  },
+                  {
+                    "named" : {
+                      "_0" : "AssociatedDataEnum.NoValue"
                     }
                   }
                 ]

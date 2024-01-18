@@ -53,6 +53,13 @@ void main() {
         var sumObj = enumObj.plus(enumObj2);
         print("sumObj: $sumObj");
         print("sumObj.intValue: ${sumObj.intValue}");
+
+        var nvObj = AssociatedDataEnum.noValue();
+        print("nvObj: $nvObj");
+        print("nvObj.intValue: ${nvObj.intValue}");
+        var nvSumObj = nvObj.plus(sumObj);
+        print("nvSumObj: $nvSumObj");
+        print("nvSumObj.intValue: ${nvSumObj.intValue}");
       });
   });
 }

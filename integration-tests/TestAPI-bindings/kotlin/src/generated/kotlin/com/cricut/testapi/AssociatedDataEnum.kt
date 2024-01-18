@@ -7,6 +7,7 @@ sealed class AssociatedDataEnum {
     data class Thing(
         var value: Long
     ) : AssociatedDataEnum()
+    object NoValue : AssociatedDataEnum()
     /**
      * <!-- FishyJoes.export(intValue) -->
      */
@@ -27,6 +28,15 @@ sealed class AssociatedDataEnum {
     ): com.cricut.testapi.AssociatedDataEnum
 
     companion object {
+        /**
+         * <!-- FishyJoes.export(staticThing) -->
+         */
+        val staticThing: com.cricut.testapi.AssociatedDataEnum
+          get() = __jni_get_staticThing()
+        @JvmStatic
+        @JvmName("__jni_get_staticThing")
+        private external fun __jni_get_staticThing(): com.cricut.testapi.AssociatedDataEnum
+
         init { loadNativeLibs() }
     }
 }

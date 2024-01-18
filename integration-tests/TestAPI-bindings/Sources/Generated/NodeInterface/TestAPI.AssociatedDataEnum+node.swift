@@ -15,6 +15,10 @@ extension TestAPI.AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
             )
         }
 
+        if try env.instanceof(value, NodeClass.constructor(for: "AssociatedDataEnum.NoValue", env: env)) {
+            return noValue
+        }
+
         fatalError("invalid enum for TestAPI.AssociatedDataEnum")
     }
 
@@ -25,6 +29,12 @@ extension TestAPI.AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
                 NodeClass.constructor(for: "AssociatedDataEnum.Thing", env: env),
                 [
                     Swift.Int.toNode(value, env: env),
+                ]
+            )
+        case .noValue:
+            return try env.newInstance(
+                NodeClass.constructor(for: "AssociatedDataEnum.NoValue", env: env),
+                [
                 ]
             )
         }
@@ -49,6 +59,17 @@ extension TestAPI.AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
                         }
                     },
                     isStatic: false
+                ),
+                "staticThing": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "staticThing", expectedArgumentCount: 0) { env in
+                                try TestAPI.AssociatedDataEnum.toNode(TestAPI.AssociatedDataEnum.staticThing, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: true
                 ),
                 "intValue": (
                     .accessor(
@@ -103,6 +124,29 @@ extension TestAPI.AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
             module: module,
             path: "AssociatedDataEnum.Thing",
             nodeClass: thingClass.constructor.value(env: env)
+        )
+        let noValueClass = try NodeClass(
+            env: env,
+            name: "AssociatedDataEnum.NoValue",
+            superclass: superclass,
+            properties: [:],
+            constructor: { env, info in
+                FishyJoesNodeRuntime.callbackBody(
+                    env, info,
+                    name: "AssociatedDataEnum.NoValue_constructor",
+                    expectedArgumentCount: 0
+                ) { env in
+                    // TODO: typecheck?
+                    let this = try env.this()
+                    return this
+                }
+            }
+        )
+        try FishyJoesNodeRuntime.mergeDefinitionInto(
+            env: env,
+            module: module,
+            path: "AssociatedDataEnum.NoValue",
+            nodeClass: noValueClass.constructor.value(env: env)
         )
     }
 }

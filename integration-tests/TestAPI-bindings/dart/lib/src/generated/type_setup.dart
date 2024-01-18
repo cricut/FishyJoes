@@ -205,6 +205,13 @@ typedef TestAPI_AssociatedDataEnum_extract_thing = ffi.Void Function(
     ffi.Pointer<ffi.Int> value,
     OutCreatedRef _exn
 );
+typedef TestAPI_AssociatedDataEnum_new_noValue = CreatedRef Function(
+    OutCreatedRef _exn
+);
+typedef TestAPI_AssociatedDataEnum_extract_noValue = ffi.Void Function(
+    UnownedRef obj,
+    OutCreatedRef _exn
+);
 typedef TestAPI_SimpleEnum_new_red = CreatedRef Function(
     OutCreatedRef _exn
 );
@@ -496,6 +503,8 @@ final ensureLoaded = (() {
             ffi.Pointer<ffi.NativeFunction<EnumDiscriminatorTag>> discriminator,
             ffi.Pointer<ffi.NativeFunction<TestAPI_AssociatedDataEnum_new_thing>> thing_constructor,
             ffi.Pointer<ffi.NativeFunction<TestAPI_AssociatedDataEnum_extract_thing>> thing_extractor,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_AssociatedDataEnum_new_noValue>> noValue_constructor,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_AssociatedDataEnum_extract_noValue>> noValue_extractor,
             OutCreatedRef exn
         ),
         void Function(
@@ -503,6 +512,8 @@ final ensureLoaded = (() {
             ffi.Pointer<ffi.NativeFunction<EnumDiscriminatorTag>> discriminator,
             ffi.Pointer<ffi.NativeFunction<TestAPI_AssociatedDataEnum_new_thing>> thing_constructor,
             ffi.Pointer<ffi.NativeFunction<TestAPI_AssociatedDataEnum_extract_thing>> thing_extractor,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_AssociatedDataEnum_new_noValue>> noValue_constructor,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_AssociatedDataEnum_extract_noValue>> noValue_extractor,
             OutCreatedRef exn
         )
     >('TestAPI_AssociatedDataEnum_setup');
@@ -1772,6 +1783,16 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_get_TestAPI_AssociatedDataEnum_intValue");
+    TestAPI.AssociatedDataEnum.f__iota_get_TestAPI_AssociatedDataEnum_staticThing = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_AssociatedDataEnum_staticThing");
     TestAPI.AttributedStrings.f__iota_get_TestAPI_AttributedStrings_accent = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -4542,6 +4563,8 @@ final ensureLoaded = (() {
                 ffi.Pointer.fromFunction(TestAPI.AssociatedDataEnum.enumDiscriminator, 0),
                 ffi.Pointer.fromFunction(TestAPI.AssociatedDataEnum.newThing),
                 ffi.Pointer.fromFunction(TestAPI.AssociatedDataEnum.extractThing),
+                ffi.Pointer.fromFunction(TestAPI.AssociatedDataEnum.newNoValue),
+                ffi.Pointer.fromFunction(TestAPI.AssociatedDataEnum.extractNoValue),
                 exn
             );
         });

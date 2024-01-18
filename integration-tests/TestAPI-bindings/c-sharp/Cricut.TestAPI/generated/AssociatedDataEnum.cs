@@ -15,6 +15,22 @@ namespace Cricut.TestAPI {
             nint Value
         ) : AssociatedDataEnum;
 
+        public sealed record NoValue : AssociatedDataEnum;
+
+        /// <summary>
+        /// <!-- FishyJoes.export(staticThing) -->
+        /// </summary>
+        public static Cricut.TestAPI.AssociatedDataEnum StaticThing {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __iota_get_TestAPI_AssociatedDataEnum_staticThing(Loader.env, out exn).Consume<Cricut.TestAPI.AssociatedDataEnum>()
+                );
+            }
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_get_TestAPI_AssociatedDataEnum_staticThing(IntPtr envRef, out CreatedRef exn);
+
         /// <summary>
         /// <!-- FishyJoes.export(intValue) -->
         /// </summary>

@@ -329,6 +329,11 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_TestAPI_AssociatedDataEnum_plus, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
+                name: bag.add("__jni_get_staticThing"),
+                signature: bag.add("()Lcom/cricut/testapi/AssociatedDataEnum;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_AssociatedDataEnum_staticThing, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
                 name: bag.add("__jni_get_intValue"),
                 signature: bag.add("()J"),
                 fnPtr: unsafeBitCast(java_get_TestAPI_AssociatedDataEnum_intValue, to: UnsafeMutableRawPointer.self)

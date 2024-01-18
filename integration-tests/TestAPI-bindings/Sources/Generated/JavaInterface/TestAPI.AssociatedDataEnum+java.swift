@@ -14,12 +14,17 @@ extension TestAPI.AssociatedDataEnum: JavaConverter {
     static var _java_thing: jclass!
     static var _java_thing_init: jmethodID!
     static var _java_thing_field_value: jfieldID!
+    static var _java_noValue: jclass!
+    static var _java_noValue_INSTANCE: jfieldID!
 
     public static func fromJava(_ value: jobject?, env: Env) throws -> Self {
         if env.IsInstanceOf(value, Self._java_thing) {
             return Self.thing(
                 value: try Swift.Int.fromJava(env.GetLongField(value, Self._java_thing_field_value), env: env)
             )
+        }
+        if env.IsInstanceOf(value, Self._java_noValue) {
+            return Self.noValue
         }
         throw JNIError(message: "invalid enum \(try env.javaDescription(value)) for TestAPI.AssociatedDataEnum")
     }
@@ -32,6 +37,8 @@ extension TestAPI.AssociatedDataEnum: JavaConverter {
                 Self._java_thing_init,
                 jvalue(Swift.Int.toJava(value, env: env))
             )
+        case .noValue:
+            return env.GetStaticObjectField(Self._java_noValue, Self._java_noValue_INSTANCE)
         }
     }
 
@@ -41,5 +48,7 @@ extension TestAPI.AssociatedDataEnum: JavaConverter {
         _java_thing = try env.globalRef(env.FindClass("com/cricut/testapi/AssociatedDataEnum$Thing"))
         _java_thing_init = try env.GetMethodID(_java_thing, "<init>", "(J)V")
         _java_thing_field_value = try env.GetFieldID(_java_thing, "value", "J")
+        _java_noValue = try env.globalRef(env.FindClass("com/cricut/testapi/AssociatedDataEnum$NoValue"))
+        _java_noValue_INSTANCE = try env.GetStaticFieldID(_java_noValue, "INSTANCE", "Lcom/cricut/testapi/AssociatedDataEnum$NoValue;")
     }
 }
