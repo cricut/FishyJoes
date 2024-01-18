@@ -156,7 +156,7 @@ import 'package:tuple/tuple.dart' as tuple;
 // }
 
 sealed class AssociatedDataEnum {
-  factory AssociatedDataEnum.thing(int value) = Thing;
+  factory AssociatedDataEnum.thing(int value) = AssociatedDataEnum_Thing.thing;
   AssociatedDataEnum();
 
   static int enumDiscriminator(UnownedRef obj, OutCreatedRef exn) => check((exn) =>
@@ -176,18 +176,18 @@ sealed class AssociatedDataEnum {
       OutCreatedRef exn
   ) {
       catching(exn, () {
-          final _self = peekRef<Thing>(obj);
+          final _self = peekRef<AssociatedDataEnum_Thing>(obj);
           _value.value = _self.value;
       });
   }
 }
 
-class Thing extends AssociatedDataEnum {
-  factory Thing(int value) {
-    return Thing.thing(value);
+class AssociatedDataEnum_Thing extends AssociatedDataEnum {
+  factory AssociatedDataEnum_Thing.thing(int value) {
+    return AssociatedDataEnum_Thing(value);
   }
 
-  Thing.thing(this.value);
+  AssociatedDataEnum_Thing(this.value);
 
   late int value;
 }
