@@ -57,11 +57,11 @@ import 'package:fishyjoes_dart/utilities.dart' as utils;
 import 'package:tuple/tuple.dart' as tuple;
 
 sealed class AssociatedDataEnum {
-  const factory AssociatedDataEnum.thing({required int value}) = AssociatedDataEnum_Thing.thing;
-  const factory AssociatedDataEnum.other(String unnamed, int m_1) = AssociatedDataEnum_Other.other;
-  const factory AssociatedDataEnum.bar(AssociatedDataEnum m_1, {required String named}) = AssociatedDataEnum_Bar.bar;
+  const factory AssociatedDataEnum.thing({required int value}) = AssociatedDataEnum_Thing;
+  const factory AssociatedDataEnum.other(String unnamed, int m_1) = AssociatedDataEnum_Other;
+  const factory AssociatedDataEnum.bar(AssociatedDataEnum m_1, {required String named}) = AssociatedDataEnum_Bar;
   const factory AssociatedDataEnum.noValue() = AssociatedDataEnum_NoValue;
-  const factory AssociatedDataEnum.simpleEnum({required SimpleEnum value}) = AssociatedDataEnum_SimpleEnum.simpleEnum;
+  const factory AssociatedDataEnum.simpleEnum({required SimpleEnum value}) = AssociatedDataEnum_SimpleEnum;
 
   const AssociatedDataEnum();
 
@@ -231,16 +231,12 @@ sealed class AssociatedDataEnum {
 }
 
 class AssociatedDataEnum_Thing extends AssociatedDataEnum {
-  const factory AssociatedDataEnum_Thing.thing({required int value}) = AssociatedDataEnum_Thing;
-
   const AssociatedDataEnum_Thing({required this.value});
 
   final int value;
 }
 
 class AssociatedDataEnum_Other extends AssociatedDataEnum {
-  const factory AssociatedDataEnum_Other.other(String unnamed, int m_1) = AssociatedDataEnum_Other;
-
   const AssociatedDataEnum_Other(this.unnamed, this.m_1);
 
   final String unnamed;
@@ -248,8 +244,6 @@ class AssociatedDataEnum_Other extends AssociatedDataEnum {
 }
 
 class AssociatedDataEnum_Bar extends AssociatedDataEnum {
-  const factory AssociatedDataEnum_Bar.bar(AssociatedDataEnum m_1, {required String named}) = AssociatedDataEnum_Bar;
-
   const AssociatedDataEnum_Bar(this.m_1, {required String this.named});
 
   final AssociatedDataEnum m_1;
@@ -261,8 +255,6 @@ class AssociatedDataEnum_NoValue extends AssociatedDataEnum {
 }
 
 class AssociatedDataEnum_SimpleEnum extends AssociatedDataEnum {
-  const factory AssociatedDataEnum_SimpleEnum.simpleEnum({required SimpleEnum value}) = AssociatedDataEnum_SimpleEnum;
-
   const AssociatedDataEnum_SimpleEnum({required this.value});
 
   final SimpleEnum value;
