@@ -1,3 +1,5 @@
+import './AssociatedDataEnum.dart' as TestAPI;
+import './AssociatedDataEnum.dart';
 import './AttributedString_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
 import './AttributedString_PuttingTypesIntoQuestionablePlaces.dart';
 import './AttributedStrings.dart' as TestAPI;
@@ -52,33 +54,34 @@ import 'package:ffi/ffi.dart' as ffi;
 import 'package:fishyjoes_dart/runtime.dart' as FishyJoesRuntime;
 import 'package:fishyjoes_dart/runtime.dart';
 import 'package:fishyjoes_dart/utilities.dart' as utils;
-// import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:tuple/tuple.dart' as tuple;
 
-// part 'SimpleEnum.freezed.dart';
+part 'SimpleEnum.freezed.dart';
 
 /// <!-- FishyJoes.export(SimpleEnum) -->
-// @freezed
-enum SimpleEnum {
-  red, blue;
-    // factory SimpleEnum.red(
-    // ) = SimpleEnum_Red;
+@freezed
+class SimpleEnum with _$SimpleEnum {
+    factory SimpleEnum.red(
+    ) = SimpleEnum_Red;
 
-    // factory SimpleEnum.blue(
-    // ) = SimpleEnum_Blue;
+    factory SimpleEnum.blue(
+    ) = SimpleEnum_Blue;
 
-    // SimpleEnum._() {}
+    SimpleEnum._() {}
 
     static int enumDiscriminator(UnownedRef obj, OutCreatedRef exn) => check((exn) =>
-        peekRef<SimpleEnum>(obj).index
+        peekRef<SimpleEnum>(obj).map(
+            red: (_) => 0,
+            blue: (_) => 1,
+        )
     );
 
     static CreatedRef newRed(
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
-        // createRef(SimpleEnum_Red(
-        // ))
-        createRef(SimpleEnum.red)
+        createRef(SimpleEnum_Red(
+        ))
     );
 
     static void extractRed(
@@ -86,17 +89,15 @@ enum SimpleEnum {
         OutCreatedRef exn
     ) {
         catching(exn, () {
-            // final _self = peekRef<SimpleEnum_Red>(obj);
-            final _self = peekRef<SimpleEnum>(obj);
+            final _self = peekRef<SimpleEnum_Red>(obj);
         });
     }
 
     static CreatedRef newBlue(
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
-        // createRef(SimpleEnum_Blue(
-        // ))
-        createRef(SimpleEnum.blue)
+        createRef(SimpleEnum_Blue(
+        ))
     );
 
     static void extractBlue(
@@ -104,8 +105,7 @@ enum SimpleEnum {
         OutCreatedRef exn
     ) {
         catching(exn, () {
-            // final _self = peekRef<SimpleEnum_Blue>(obj);
-            final _self = peekRef<SimpleEnum>(obj);
+            final _self = peekRef<SimpleEnum_Blue>(obj);
         });
     }
 

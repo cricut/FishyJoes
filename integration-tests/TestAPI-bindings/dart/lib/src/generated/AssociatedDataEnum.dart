@@ -157,6 +157,7 @@ import 'package:tuple/tuple.dart' as tuple;
 
 sealed class AssociatedDataEnum {
   const factory AssociatedDataEnum.thing(int value) = AssociatedDataEnum_Thing.thing;
+  const factory AssociatedDataEnum.other(String unnamed, int m_1) = AssociatedDataEnum_Other.other;
   const factory AssociatedDataEnum.noValue() = AssociatedDataEnum_NoValue;
 
   const AssociatedDataEnum();
@@ -165,8 +166,10 @@ sealed class AssociatedDataEnum {
       final peekedObj = peekRef<AssociatedDataEnum>(obj);
       if (peekedObj is AssociatedDataEnum_Thing) {
         return 0;
-      } else if (peekedObj is AssociatedDataEnum_NoValue) {
+      } else if (peekedObj is AssociatedDataEnum_Other) {
         return 1;
+      } else if (peekedObj is AssociatedDataEnum_NoValue) {
+        return 2;
       }
       throw UnsupportedError('Unknown AssociatedDataEnum subclass');
   });
@@ -186,6 +189,30 @@ sealed class AssociatedDataEnum {
       catching(exn, () {
           final _self = peekRef<AssociatedDataEnum_Thing>(obj);
           _value.value = _self.value;
+      });
+  }
+
+  static CreatedRef newOther(
+      ConsumedRef _unnamed,
+      int __1,
+      OutCreatedRef exn
+  ) => catchingRef(exn, () =>
+      createRef(AssociatedDataEnum_Other(
+          consumeRef<String>(_unnamed),
+          __1,
+      ))
+  );
+
+  static void extractOther(
+      UnownedRef obj,
+      OutCreatedRef _unnamed,
+      ffi.Pointer<ffi.Int> __1,
+      OutCreatedRef exn
+  ) {
+      catching(exn, () {
+          final _self = peekRef<AssociatedDataEnum_Other>(obj);
+          _unnamed.value = createRef(_self.unnamed);
+          __1.value = _self.m_1;
       });
   }
 
@@ -259,6 +286,15 @@ class AssociatedDataEnum_Thing extends AssociatedDataEnum {
   const AssociatedDataEnum_Thing(this.value);
 
   final int value;
+}
+
+class AssociatedDataEnum_Other extends AssociatedDataEnum {
+  const factory AssociatedDataEnum_Other.other(String unnamed, int m_1) = AssociatedDataEnum_Other;
+
+  const AssociatedDataEnum_Other(this.unnamed, this.m_1);
+
+  final String unnamed;
+  final int m_1;
 }
 
 class AssociatedDataEnum_NoValue extends AssociatedDataEnum {

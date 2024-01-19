@@ -15,6 +15,11 @@ namespace Cricut.TestAPI {
             nint Value
         ) : AssociatedDataEnum;
 
+        public sealed record Other(
+            string Unnamed,
+            nint _1
+        ) : AssociatedDataEnum;
+
         public sealed record NoValue : AssociatedDataEnum;
 
         /// <summary>

@@ -205,6 +205,17 @@ typedef TestAPI_AssociatedDataEnum_extract_thing = ffi.Void Function(
     ffi.Pointer<ffi.Int> value,
     OutCreatedRef _exn
 );
+typedef TestAPI_AssociatedDataEnum_new_other = CreatedRef Function(
+    ConsumedRef unnamed,
+    ffi.Int _1,
+    OutCreatedRef _exn
+);
+typedef TestAPI_AssociatedDataEnum_extract_other = ffi.Void Function(
+    UnownedRef obj,
+    OutCreatedRef unnamed,
+    ffi.Pointer<ffi.Int> _1,
+    OutCreatedRef _exn
+);
 typedef TestAPI_AssociatedDataEnum_new_noValue = CreatedRef Function(
     OutCreatedRef _exn
 );
@@ -503,6 +514,8 @@ final ensureLoaded = (() {
             ffi.Pointer<ffi.NativeFunction<EnumDiscriminatorTag>> discriminator,
             ffi.Pointer<ffi.NativeFunction<TestAPI_AssociatedDataEnum_new_thing>> thing_constructor,
             ffi.Pointer<ffi.NativeFunction<TestAPI_AssociatedDataEnum_extract_thing>> thing_extractor,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_AssociatedDataEnum_new_other>> other_constructor,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_AssociatedDataEnum_extract_other>> other_extractor,
             ffi.Pointer<ffi.NativeFunction<TestAPI_AssociatedDataEnum_new_noValue>> noValue_constructor,
             ffi.Pointer<ffi.NativeFunction<TestAPI_AssociatedDataEnum_extract_noValue>> noValue_extractor,
             OutCreatedRef exn
@@ -512,6 +525,8 @@ final ensureLoaded = (() {
             ffi.Pointer<ffi.NativeFunction<EnumDiscriminatorTag>> discriminator,
             ffi.Pointer<ffi.NativeFunction<TestAPI_AssociatedDataEnum_new_thing>> thing_constructor,
             ffi.Pointer<ffi.NativeFunction<TestAPI_AssociatedDataEnum_extract_thing>> thing_extractor,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_AssociatedDataEnum_new_other>> other_constructor,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_AssociatedDataEnum_extract_other>> other_extractor,
             ffi.Pointer<ffi.NativeFunction<TestAPI_AssociatedDataEnum_new_noValue>> noValue_constructor,
             ffi.Pointer<ffi.NativeFunction<TestAPI_AssociatedDataEnum_extract_noValue>> noValue_extractor,
             OutCreatedRef exn
@@ -4563,6 +4578,8 @@ final ensureLoaded = (() {
                 ffi.Pointer.fromFunction(TestAPI.AssociatedDataEnum.enumDiscriminator, 0),
                 ffi.Pointer.fromFunction(TestAPI.AssociatedDataEnum.newThing),
                 ffi.Pointer.fromFunction(TestAPI.AssociatedDataEnum.extractThing),
+                ffi.Pointer.fromFunction(TestAPI.AssociatedDataEnum.newOther),
+                ffi.Pointer.fromFunction(TestAPI.AssociatedDataEnum.extractOther),
                 ffi.Pointer.fromFunction(TestAPI.AssociatedDataEnum.newNoValue),
                 ffi.Pointer.fromFunction(TestAPI.AssociatedDataEnum.extractNoValue),
                 exn

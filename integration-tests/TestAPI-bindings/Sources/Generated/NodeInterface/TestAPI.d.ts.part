@@ -1,9 +1,18 @@
 export declare namespace TestAPI {
-    export type AssociatedDataEnum = AssociatedDataEnum.Thing | AssociatedDataEnum.NoValue;
+    export type AssociatedDataEnum = AssociatedDataEnum.Thing | AssociatedDataEnum.Other | AssociatedDataEnum.NoValue;
     export namespace AssociatedDataEnum {
         interface NoValue extends AssociatedDataEnum_Common {}
         export class NoValue {
             constructor()
+        }
+
+        interface Other extends AssociatedDataEnum_Common {}
+        export class Other {
+            constructor(unnamed: string, _1: number)
+
+            readonly unnamed: string;
+
+            readonly _1: number;
         }
 
         interface Thing extends AssociatedDataEnum_Common {}

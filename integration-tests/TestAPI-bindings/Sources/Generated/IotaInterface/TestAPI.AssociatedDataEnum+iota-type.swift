@@ -12,6 +12,8 @@ public func TestAPI_AssociatedDataEnum_setup(
     discriminator: @escaping TestAPI.AssociatedDataEnum.Discriminator,
     thing_constructor: @escaping TestAPI.AssociatedDataEnum.Thing_constructor,
     thing_extractor: @escaping TestAPI.AssociatedDataEnum.Thing_extractor,
+    other_constructor: @escaping TestAPI.AssociatedDataEnum.Other_constructor,
+    other_extractor: @escaping TestAPI.AssociatedDataEnum.Other_extractor,
     noValue_constructor: @escaping TestAPI.AssociatedDataEnum.NoValue_constructor,
     noValue_extractor: @escaping TestAPI.AssociatedDataEnum.NoValue_extractor
 ) {
@@ -19,6 +21,8 @@ public func TestAPI_AssociatedDataEnum_setup(
     TestAPI.AssociatedDataEnum.discriminator[env] = discriminator
     TestAPI.AssociatedDataEnum.thing_constructor[env] = thing_constructor
     TestAPI.AssociatedDataEnum.thing_extractor[env] = thing_extractor
+    TestAPI.AssociatedDataEnum.other_constructor[env] = other_constructor
+    TestAPI.AssociatedDataEnum.other_extractor[env] = other_extractor
     TestAPI.AssociatedDataEnum.noValue_constructor[env] = noValue_constructor
     TestAPI.AssociatedDataEnum.noValue_extractor[env] = noValue_extractor
 }
@@ -40,6 +44,19 @@ extension TestAPI.AssociatedDataEnum: IotaConverter {
         foreignOutExn
     ) -> Void
     fileprivate static let thing_extractor = Env.CallbackMap<Thing_extractor>()
+    public typealias Other_constructor = @convention(c) (
+        Swift.String.CType,
+        Swift.Int.CType,
+        foreignOutExn
+    ) -> foreignObject
+    fileprivate static let other_constructor = Env.CallbackMap<Other_constructor>()
+    public typealias Other_extractor = @convention(c) (
+        foreignObject,
+        UnsafePointer<Swift.String.CType>,
+        UnsafePointer<Swift.Int.CType>,
+        foreignOutExn
+    ) -> Void
+    fileprivate static let other_extractor = Env.CallbackMap<Other_extractor>()
     public typealias NoValue_constructor = @convention(c) (
         foreignOutExn
     ) -> foreignObject
@@ -59,6 +76,17 @@ extension TestAPI.AssociatedDataEnum: IotaConverter {
                 value: try Swift.Int.peekIota(_value, env: env)
             )
         case 1:
+            var _unnamed = Swift.String.CType.default
+            var __1 = Swift.Int.CType.default
+            try env.check { exn in other_extractor[env](value, &_unnamed, &__1, exn) }
+            defer {
+                env.deleteRef(_unnamed)
+            }
+            return Self.other(
+                try Swift.String.peekIota(_unnamed, env: env),
+                try Swift.Int.peekIota(__1, env: env)
+            )
+        case 2:
             try env.check { exn in noValue_extractor[env](value, exn) }
             return Self.noValue
         case let disc:
@@ -72,6 +100,14 @@ extension TestAPI.AssociatedDataEnum: IotaConverter {
             return try env.check { exn in
                 return thing_constructor[env](
                     try Swift.Int.toIota(value, env: env),
+                    exn
+                )
+            }
+        case let other(unnamed, _1):
+            return try env.check { exn in
+                return other_constructor[env](
+                    try Swift.String.toIota(unnamed, env: env),
+                    try Swift.Int.toIota(_1, env: env),
                     exn
                 )
             }

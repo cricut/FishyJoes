@@ -14,21 +14,21 @@ public enum SimpleEnum {
 /// <!-- FishyJoes.export(AssociatedDataEnum) -->
 public enum AssociatedDataEnum: Hashable {
     case thing(value: Int)
-//    case other(_ unnamed: String, Int)
+    case other(_ unnamed: String, Int)
 //    indirect case bar(named: String, AssociatedDataEnum)
     case noValue
 //    case simpleEnum(value: SimpleEnum)
 
     /// <!-- FishyJoes.export(staticThing) -->
-    public static let staticThing = AssociatedDataEnum.thing(value: 2)
+    public static let staticThing = AssociatedDataEnum.thing(value: -547)
 
     /// <!-- FishyJoes.export(intValue) -->
     public var intValue: Int {
         switch self {
         case .thing(let value):
             return value
-//        case .thing(let value), .other(_, let value):
-//            return value
+        case .other(_, let value):
+            return value
 //        case .bar(named: _, let nested):
 //            return nested.intValue + 3
         case .noValue:
@@ -43,8 +43,8 @@ public enum AssociatedDataEnum: Hashable {
         switch self {
         case .thing(let value):
             return .thing(value: value + other.intValue)
-//        case .other(let name, let value):
-//            return .other(name, value + other.intValue)
+        case .other(let name, let value):
+            return .other(name, value + other.intValue)
 //        case .bar(let name, let nested):
 //            return .bar(named: name, nested.plus(other))
         case .noValue:

@@ -7,6 +7,10 @@ sealed class AssociatedDataEnum {
     data class Thing(
         var value: Long
     ) : AssociatedDataEnum()
+    data class Other(
+        var unnamed: kotlin.String,
+        var _1: Long
+    ) : AssociatedDataEnum()
     object NoValue : AssociatedDataEnum()
     /**
      * <!-- FishyJoes.export(intValue) -->

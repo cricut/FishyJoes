@@ -40,6 +40,13 @@ void main() {
       // });
 
       test('testAssociatedDataEnum', () {
+        var otherObj = AssociatedDataEnum.other("Doug", 942);
+        print("otherObj.intValue: ${otherObj.intValue}");
+        var other = otherObj as AssociatedDataEnum_Other;
+        print("other.unnamed: ${other.unnamed}");
+
+        var staticObj = AssociatedDataEnum.staticThing;
+        print("staticObj.intValue: ${staticObj.intValue}");
         var enumObj = AssociatedDataEnum.thing(903);
         print("enumObj: $enumObj");
         var thing = enumObj as AssociatedDataEnum_Thing;

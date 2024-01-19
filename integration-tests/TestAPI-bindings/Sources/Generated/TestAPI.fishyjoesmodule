@@ -1703,6 +1703,66 @@
                 "constructor" : {
                   "visible" : {
                     "names" : [
+                      "unnamed",
+                      "_1"
+                    ],
+                    "types" : [
+                      {
+                        "named" : {
+                          "_0" : "string"
+                        }
+                      },
+                      {
+                        "named" : {
+                          "_0" : "number"
+                        }
+                      }
+                    ]
+                  }
+                },
+                "documentation" : [
+
+                ],
+                "extends" : [
+                  "AssociatedDataEnum_Common"
+                ],
+                "fields" : [
+                  {
+                    "documentation" : [
+
+                    ],
+                    "isStatic" : false,
+                    "name" : "unnamed",
+                    "readOnly" : true,
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "isStatic" : false,
+                    "name" : "_1",
+                    "readOnly" : true,
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                ],
+                "methods" : [
+
+                ],
+                "name" : "Other"
+              },
+              {
+                "constructor" : {
+                  "visible" : {
+                    "names" : [
 
                     ],
                     "types" : [
@@ -6891,6 +6951,11 @@
                   {
                     "named" : {
                       "_0" : "AssociatedDataEnum.Thing"
+                    }
+                  },
+                  {
+                    "named" : {
+                      "_0" : "AssociatedDataEnum.Other"
                     }
                   },
                   {

@@ -15,6 +15,15 @@ extension TestAPI.AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
             )
         }
 
+        if try env.instanceof(value, NodeClass.constructor(for: "AssociatedDataEnum.Other", env: env)) {
+            let _unnamed = try env.getNamedProperty(value, "unnamed")
+            let __1 = try env.getNamedProperty(value, "_1")
+            return Self.other(
+                try Swift.String.fromNode(_unnamed, env: env),
+                try Swift.Int.fromNode(__1, env: env)
+            )
+        }
+
         if try env.instanceof(value, NodeClass.constructor(for: "AssociatedDataEnum.NoValue", env: env)) {
             return noValue
         }
@@ -29,6 +38,14 @@ extension TestAPI.AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
                 NodeClass.constructor(for: "AssociatedDataEnum.Thing", env: env),
                 [
                     Swift.Int.toNode(value, env: env),
+                ]
+            )
+        case let .other(unnamed, _1):
+            return try env.newInstance(
+                NodeClass.constructor(for: "AssociatedDataEnum.Other", env: env),
+                [
+                    Swift.String.toNode(unnamed, env: env),
+                    Swift.Int.toNode(_1, env: env),
                 ]
             )
         case .noValue:
@@ -124,6 +141,34 @@ extension TestAPI.AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
             module: module,
             path: "AssociatedDataEnum.Thing",
             nodeClass: thingClass.constructor.value(env: env)
+        )
+        let otherClass = try NodeClass(
+            env: env,
+            name: "AssociatedDataEnum.Other",
+            superclass: superclass,
+            properties: [
+                "unnamed": (.stored(mutable: true), isStatic: false),
+                "_1": (.stored(mutable: true), isStatic: false),
+            ],
+            constructor: { env, info in
+                FishyJoesNodeRuntime.callbackBody(
+                    env, info,
+                    name: "AssociatedDataEnum.Other_constructor",
+                    expectedArgumentCount: 2
+                ) { env in
+                    // TODO: typecheck?
+                    let this = try env.this()
+                    try env.env.setNamedProperty(this, "unnamed", env.argument(at: 0))
+                    try env.env.setNamedProperty(this, "_1", env.argument(at: 1))
+                    return this
+                }
+            }
+        )
+        try FishyJoesNodeRuntime.mergeDefinitionInto(
+            env: env,
+            module: module,
+            path: "AssociatedDataEnum.Other",
+            nodeClass: otherClass.constructor.value(env: env)
         )
         let noValueClass = try NodeClass(
             env: env,
