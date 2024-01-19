@@ -234,7 +234,7 @@ jobs:
           username: cricut-builduser
           password:  ${{ secrets.CRICUT_GPR_TOKEN }}
           registry: ghcr.io
-          image: ghcr.io/cricut/android-swift-runtime:1.1.0
+          image: ghcr.io/cricut/android-swift-runtime:1.0.0
           options: -v ${{ github.workspace }}:/work -w /work
           run: /work/scripts/compile-android-runtime.sh
 
@@ -334,6 +334,9 @@ jobs:
         shell: bash
         run: |
           set -euxo pipefail
+
+          # Someone who understands windows better than I do is welcome to fix this in a better way
+          PATH="integration-tests/TestAPI-bindings/dart/windows/native:$PATH"
 
           cd integration-tests/TestAPI-bindings
           $SWIFT run -- fishy-joes --dart build test
