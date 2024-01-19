@@ -40,15 +40,15 @@ void main() {
       // });
 
       test('testAssociatedDataEnum', () {
-        // final simpObj = SimpleEnum.blue();
-        // var assocObj = AssociatedDataEnum.simpleEnum(simpObj) as AssociatedDataEnum_SimpleEnum;
-        // print("simpObj: $simpObj");
-        // print("simpObj.testFuncCall: ${simpObj.testFuncCall(9, 8)}");
-        // print("assocObj: $assocObj");
-        // print("assocObj.value: ${assocObj.value}");
-        // print("assocObj.value.testFuncCall: ${assocObj.value.testFuncCall(4, 6)}}");
-        // var staticObj = AssociatedDataEnum.staticThing;
-        // print("staticObj.intValue: ${staticObj.intValue}");
+        final simpObj = SimpleEnum.red();
+        var assocObj = AssociatedDataEnum.simpleEnum(value: simpObj) as AssociatedDataEnum_SimpleEnum;
+        print("simpObj: $simpObj");
+        print("simpObj.testFuncCall: ${simpObj.testFuncCall(9, 8)}");
+        print("assocObj: $assocObj");
+        print("assocObj.value: ${assocObj.value}");
+        print("assocObj.value.testFuncCall: ${assocObj.value.testFuncCall(4, 6)}}");
+        var staticObj = AssociatedDataEnum.staticThing;
+        print("staticObj.intValue: ${staticObj.intValue}");
 
         // var barObj = AssociatedDataEnum.bar(named: "FooBarBaz", staticObj) as AssociatedDataEnum_Bar;
         // print("barObj.intValue: ${barObj.intValue}");
@@ -60,10 +60,10 @@ void main() {
         // var other = otherObj as AssociatedDataEnum_Other;
         // print("other.unnamed: ${other.unnamed}");
 
-        var enumObj = AssociatedDataEnum.thing(value: 903);
-        print("enumObj: $enumObj");
-        var thing = enumObj as AssociatedDataEnum_Thing;
-        print("thing.value: ${thing.value}");
+        // var enumObj = AssociatedDataEnum.thing(value: 903);
+        // print("enumObj: $enumObj");
+        // var thing = enumObj as AssociatedDataEnum_Thing;
+        // print("thing.value: ${thing.value}");
 
         // print("enumObj.intValue: ${enumObj.intValue}");
 

@@ -61,7 +61,7 @@ sealed class AssociatedDataEnum {
   const factory AssociatedDataEnum.other(String unnamed, int m_1) = AssociatedDataEnum_Other.other;
   const factory AssociatedDataEnum.bar(AssociatedDataEnum m_1, {required String named}) = AssociatedDataEnum_Bar.bar;
   const factory AssociatedDataEnum.noValue() = AssociatedDataEnum_NoValue;
-  const factory AssociatedDataEnum.simpleEnum(SimpleEnum value) = AssociatedDataEnum_SimpleEnum.simpleEnum;
+  const factory AssociatedDataEnum.simpleEnum({required SimpleEnum value}) = AssociatedDataEnum_SimpleEnum.simpleEnum;
 
   const AssociatedDataEnum();
 
@@ -168,7 +168,7 @@ sealed class AssociatedDataEnum {
       OutCreatedRef exn
   ) => catchingRef(exn, () =>
       createRef(AssociatedDataEnum_SimpleEnum(
-          consumeRef<TestAPI.SimpleEnum>(_value),
+          value: consumeRef<TestAPI.SimpleEnum>(_value),
       ))
   );
 
@@ -261,9 +261,9 @@ class AssociatedDataEnum_NoValue extends AssociatedDataEnum {
 }
 
 class AssociatedDataEnum_SimpleEnum extends AssociatedDataEnum {
-  const factory AssociatedDataEnum_SimpleEnum.simpleEnum(SimpleEnum value) = AssociatedDataEnum_SimpleEnum;
+  const factory AssociatedDataEnum_SimpleEnum.simpleEnum({required SimpleEnum value}) = AssociatedDataEnum_SimpleEnum;
 
-  const AssociatedDataEnum_SimpleEnum(this.value);
+  const AssociatedDataEnum_SimpleEnum({required this.value});
 
   final SimpleEnum value;
 }
