@@ -1763,6 +1763,66 @@
                 "constructor" : {
                   "visible" : {
                     "names" : [
+                      "named",
+                      "_1"
+                    ],
+                    "types" : [
+                      {
+                        "named" : {
+                          "_0" : "string"
+                        }
+                      },
+                      {
+                        "named" : {
+                          "_0" : "TestAPI.AssociatedDataEnum"
+                        }
+                      }
+                    ]
+                  }
+                },
+                "documentation" : [
+
+                ],
+                "extends" : [
+                  "AssociatedDataEnum_Common"
+                ],
+                "fields" : [
+                  {
+                    "documentation" : [
+
+                    ],
+                    "isStatic" : false,
+                    "name" : "named",
+                    "readOnly" : true,
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  },
+                  {
+                    "documentation" : [
+
+                    ],
+                    "isStatic" : false,
+                    "name" : "_1",
+                    "readOnly" : true,
+                    "type" : {
+                      "named" : {
+                        "_0" : "TestAPI.AssociatedDataEnum"
+                      }
+                    }
+                  }
+                ],
+                "methods" : [
+
+                ],
+                "name" : "Bar"
+              },
+              {
+                "constructor" : {
+                  "visible" : {
+                    "names" : [
 
                     ],
                     "types" : [
@@ -6956,6 +7016,11 @@
                   {
                     "named" : {
                       "_0" : "AssociatedDataEnum.Other"
+                    }
+                  },
+                  {
+                    "named" : {
+                      "_0" : "AssociatedDataEnum.Bar"
                     }
                   },
                   {

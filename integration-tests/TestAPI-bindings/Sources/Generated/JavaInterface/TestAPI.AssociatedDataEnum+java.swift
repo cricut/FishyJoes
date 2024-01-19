@@ -18,6 +18,10 @@ extension TestAPI.AssociatedDataEnum: JavaConverter {
     static var _java_other_init: jmethodID!
     static var _java_other_field_0: jfieldID!
     static var _java_other_field_1: jfieldID!
+    static var _java_bar: jclass!
+    static var _java_bar_init: jmethodID!
+    static var _java_bar_field_named: jfieldID!
+    static var _java_bar_field_1: jfieldID!
     static var _java_noValue: jclass!
     static var _java_noValue_INSTANCE: jfieldID!
 
@@ -31,6 +35,12 @@ extension TestAPI.AssociatedDataEnum: JavaConverter {
             return Self.other(
                 try Swift.String.fromJava(env.GetObjectField(value, Self._java_other_field_0), env: env),
                 try Swift.Int.fromJava(env.GetLongField(value, Self._java_other_field_1), env: env)
+            )
+        }
+        if env.IsInstanceOf(value, Self._java_bar) {
+            return Self.bar(
+                named: try Swift.String.fromJava(env.GetObjectField(value, Self._java_bar_field_named), env: env),
+                try TestAPI.AssociatedDataEnum.fromJava(env.GetObjectField(value, Self._java_bar_field_1), env: env)
             )
         }
         if env.IsInstanceOf(value, Self._java_noValue) {
@@ -54,6 +64,13 @@ extension TestAPI.AssociatedDataEnum: JavaConverter {
                 jvalue(Swift.String.toJava(unnamed, env: env)),
                 jvalue(Swift.Int.toJava(_1, env: env))
             )
+        case let .bar(named, _1):
+            return try env.NewObject(
+                Self._java_bar,
+                Self._java_bar_init,
+                jvalue(Swift.String.toJava(named, env: env)),
+                jvalue(TestAPI.AssociatedDataEnum.toJava(_1, env: env))
+            )
         case .noValue:
             return env.GetStaticObjectField(Self._java_noValue, Self._java_noValue_INSTANCE)
         }
@@ -69,6 +86,10 @@ extension TestAPI.AssociatedDataEnum: JavaConverter {
         _java_other_init = try env.GetMethodID(_java_other, "<init>", "(Ljava/lang/String;J)V")
         _java_other_field_0 = try env.GetFieldID(_java_other, "unnamed", "Ljava/lang/String;")
         _java_other_field_1 = try env.GetFieldID(_java_other, "_1", "J")
+        _java_bar = try env.globalRef(env.FindClass("com/cricut/testapi/AssociatedDataEnum$Bar"))
+        _java_bar_init = try env.GetMethodID(_java_bar, "<init>", "(Ljava/lang/String;Lcom/cricut/testapi/AssociatedDataEnum;)V")
+        _java_bar_field_named = try env.GetFieldID(_java_bar, "named", "Ljava/lang/String;")
+        _java_bar_field_1 = try env.GetFieldID(_java_bar, "_1", "Lcom/cricut/testapi/AssociatedDataEnum;")
         _java_noValue = try env.globalRef(env.FindClass("com/cricut/testapi/AssociatedDataEnum$NoValue"))
         _java_noValue_INSTANCE = try env.GetStaticFieldID(_java_noValue, "INSTANCE", "Lcom/cricut/testapi/AssociatedDataEnum$NoValue;")
     }

@@ -6,7 +6,7 @@ public enum SimpleEnum {
 
     /// <!-- FishyJoes.export(testFuncCall) -->
     public func testFuncCall(x: Int, y: Int) -> Int{
-        print("does this print x:\(x) y:\(y) self: \(self)?")
+        print("does this print x:\(x) y:\(y) self: \(self)?") // it does! in debug console
         return x + y
     }
 }
@@ -15,7 +15,7 @@ public enum SimpleEnum {
 public enum AssociatedDataEnum: Hashable {
     case thing(value: Int)
     case other(_ unnamed: String, Int)
-//    indirect case bar(named: String, AssociatedDataEnum)
+    indirect case bar(named: String, AssociatedDataEnum)
     case noValue
 //    case simpleEnum(value: SimpleEnum)
 
@@ -29,8 +29,8 @@ public enum AssociatedDataEnum: Hashable {
             return value
         case .other(_, let value):
             return value
-//        case .bar(named: _, let nested):
-//            return nested.intValue + 3
+        case .bar(named: _, let nested):
+            return nested.intValue + 3
         case .noValue:
             return 42
 //        case .simpleEnum:
@@ -45,8 +45,8 @@ public enum AssociatedDataEnum: Hashable {
             return .thing(value: value + other.intValue)
         case .other(let name, let value):
             return .other(name, value + other.intValue)
-//        case .bar(let name, let nested):
-//            return .bar(named: name, nested.plus(other))
+        case .bar(let name, let nested):
+            return .bar(named: name, nested.plus(other))
         case .noValue:
             return .noValue
 //        case .simpleEnum(let value):

@@ -24,6 +24,15 @@ extension TestAPI.AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
             )
         }
 
+        if try env.instanceof(value, NodeClass.constructor(for: "AssociatedDataEnum.Bar", env: env)) {
+            let _named = try env.getNamedProperty(value, "named")
+            let __1 = try env.getNamedProperty(value, "_1")
+            return Self.bar(
+                named: try Swift.String.fromNode(_named, env: env),
+                try TestAPI.AssociatedDataEnum.fromNode(__1, env: env)
+            )
+        }
+
         if try env.instanceof(value, NodeClass.constructor(for: "AssociatedDataEnum.NoValue", env: env)) {
             return noValue
         }
@@ -46,6 +55,14 @@ extension TestAPI.AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
                 [
                     Swift.String.toNode(unnamed, env: env),
                     Swift.Int.toNode(_1, env: env),
+                ]
+            )
+        case let .bar(named, _1):
+            return try env.newInstance(
+                NodeClass.constructor(for: "AssociatedDataEnum.Bar", env: env),
+                [
+                    Swift.String.toNode(named, env: env),
+                    TestAPI.AssociatedDataEnum.toNode(_1, env: env),
                 ]
             )
         case .noValue:
@@ -169,6 +186,34 @@ extension TestAPI.AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
             module: module,
             path: "AssociatedDataEnum.Other",
             nodeClass: otherClass.constructor.value(env: env)
+        )
+        let barClass = try NodeClass(
+            env: env,
+            name: "AssociatedDataEnum.Bar",
+            superclass: superclass,
+            properties: [
+                "named": (.stored(mutable: true), isStatic: false),
+                "_1": (.stored(mutable: true), isStatic: false),
+            ],
+            constructor: { env, info in
+                FishyJoesNodeRuntime.callbackBody(
+                    env, info,
+                    name: "AssociatedDataEnum.Bar_constructor",
+                    expectedArgumentCount: 2
+                ) { env in
+                    // TODO: typecheck?
+                    let this = try env.this()
+                    try env.env.setNamedProperty(this, "named", env.argument(at: 0))
+                    try env.env.setNamedProperty(this, "_1", env.argument(at: 1))
+                    return this
+                }
+            }
+        )
+        try FishyJoesNodeRuntime.mergeDefinitionInto(
+            env: env,
+            module: module,
+            path: "AssociatedDataEnum.Bar",
+            nodeClass: barClass.constructor.value(env: env)
         )
         let noValueClass = try NodeClass(
             env: env,

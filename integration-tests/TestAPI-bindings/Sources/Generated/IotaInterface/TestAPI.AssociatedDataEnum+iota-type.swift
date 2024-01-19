@@ -14,6 +14,8 @@ public func TestAPI_AssociatedDataEnum_setup(
     thing_extractor: @escaping TestAPI.AssociatedDataEnum.Thing_extractor,
     other_constructor: @escaping TestAPI.AssociatedDataEnum.Other_constructor,
     other_extractor: @escaping TestAPI.AssociatedDataEnum.Other_extractor,
+    bar_constructor: @escaping TestAPI.AssociatedDataEnum.Bar_constructor,
+    bar_extractor: @escaping TestAPI.AssociatedDataEnum.Bar_extractor,
     noValue_constructor: @escaping TestAPI.AssociatedDataEnum.NoValue_constructor,
     noValue_extractor: @escaping TestAPI.AssociatedDataEnum.NoValue_extractor
 ) {
@@ -23,6 +25,8 @@ public func TestAPI_AssociatedDataEnum_setup(
     TestAPI.AssociatedDataEnum.thing_extractor[env] = thing_extractor
     TestAPI.AssociatedDataEnum.other_constructor[env] = other_constructor
     TestAPI.AssociatedDataEnum.other_extractor[env] = other_extractor
+    TestAPI.AssociatedDataEnum.bar_constructor[env] = bar_constructor
+    TestAPI.AssociatedDataEnum.bar_extractor[env] = bar_extractor
     TestAPI.AssociatedDataEnum.noValue_constructor[env] = noValue_constructor
     TestAPI.AssociatedDataEnum.noValue_extractor[env] = noValue_extractor
 }
@@ -57,6 +61,19 @@ extension TestAPI.AssociatedDataEnum: IotaConverter {
         foreignOutExn
     ) -> Void
     fileprivate static let other_extractor = Env.CallbackMap<Other_extractor>()
+    public typealias Bar_constructor = @convention(c) (
+        Swift.String.CType,
+        TestAPI.AssociatedDataEnum.CType,
+        foreignOutExn
+    ) -> foreignObject
+    fileprivate static let bar_constructor = Env.CallbackMap<Bar_constructor>()
+    public typealias Bar_extractor = @convention(c) (
+        foreignObject,
+        UnsafePointer<Swift.String.CType>,
+        UnsafePointer<TestAPI.AssociatedDataEnum.CType>,
+        foreignOutExn
+    ) -> Void
+    fileprivate static let bar_extractor = Env.CallbackMap<Bar_extractor>()
     public typealias NoValue_constructor = @convention(c) (
         foreignOutExn
     ) -> foreignObject
@@ -87,6 +104,18 @@ extension TestAPI.AssociatedDataEnum: IotaConverter {
                 try Swift.Int.peekIota(__1, env: env)
             )
         case 2:
+            var _named = Swift.String.CType.default
+            var __1 = TestAPI.AssociatedDataEnum.CType.default
+            try env.check { exn in bar_extractor[env](value, &_named, &__1, exn) }
+            defer {
+                env.deleteRef(_named)
+                env.deleteRef(__1)
+            }
+            return Self.bar(
+                named: try Swift.String.peekIota(_named, env: env),
+                try TestAPI.AssociatedDataEnum.peekIota(__1, env: env)
+            )
+        case 3:
             try env.check { exn in noValue_extractor[env](value, exn) }
             return Self.noValue
         case let disc:
@@ -108,6 +137,14 @@ extension TestAPI.AssociatedDataEnum: IotaConverter {
                 return other_constructor[env](
                     try Swift.String.toIota(unnamed, env: env),
                     try Swift.Int.toIota(_1, env: env),
+                    exn
+                )
+            }
+        case let bar(named, _1):
+            return try env.check { exn in
+                return bar_constructor[env](
+                    try Swift.String.toIota(named, env: env),
+                    try TestAPI.AssociatedDataEnum.toIota(_1, env: env),
                     exn
                 )
             }

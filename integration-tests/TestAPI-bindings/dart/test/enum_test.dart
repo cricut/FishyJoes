@@ -40,33 +40,39 @@ void main() {
       // });
 
       test('testAssociatedDataEnum', () {
-        var otherObj = AssociatedDataEnum.other("Doug", 942);
-        print("otherObj.intValue: ${otherObj.intValue}");
-        var other = otherObj as AssociatedDataEnum_Other;
-        print("other.unnamed: ${other.unnamed}");
-
         var staticObj = AssociatedDataEnum.staticThing;
         print("staticObj.intValue: ${staticObj.intValue}");
-        var enumObj = AssociatedDataEnum.thing(903);
-        print("enumObj: $enumObj");
-        var thing = enumObj as AssociatedDataEnum_Thing;
-        print("thing.value: ${thing.value}");
 
-        print("enumObj.intValue: ${enumObj.intValue}");
+        var barObj = AssociatedDataEnum.bar("FooBarBaz", staticObj) as AssociatedDataEnum_Bar;
+        print("barObj.intValue: ${barObj.intValue}");
+        print("barObj.named: ${barObj.named}");
+        print("barObj.m_1: ${barObj.m_1}");
+        print("barObj.m_1.intValue: ${barObj.m_1.intValue}");
+        // var otherObj = AssociatedDataEnum.other("Doug", 942);
+        // print("otherObj.intValue: ${otherObj.intValue}");
+        // var other = otherObj as AssociatedDataEnum_Other;
+        // print("other.unnamed: ${other.unnamed}");
 
-        var enumObj2 = AssociatedDataEnum.thing(74);
-        print("enumObj2.intValue: ${enumObj2.intValue}");
+        // var enumObj = AssociatedDataEnum.thing(903);
+        // print("enumObj: $enumObj");
+        // var thing = enumObj as AssociatedDataEnum_Thing;
+        // print("thing.value: ${thing.value}");
 
-        var sumObj = enumObj.plus(enumObj2);
-        print("sumObj: $sumObj");
-        print("sumObj.intValue: ${sumObj.intValue}");
+        // print("enumObj.intValue: ${enumObj.intValue}");
 
-        var nvObj = AssociatedDataEnum.noValue();
-        print("nvObj: $nvObj");
-        print("nvObj.intValue: ${nvObj.intValue}");
-        var nvSumObj = nvObj.plus(sumObj);
-        print("nvSumObj: $nvSumObj");
-        print("nvSumObj.intValue: ${nvSumObj.intValue}");
+        // var enumObj2 = AssociatedDataEnum.thing(74);
+        // print("enumObj2.intValue: ${enumObj2.intValue}");
+
+        // var sumObj = enumObj.plus(enumObj2);
+        // print("sumObj: $sumObj");
+        // print("sumObj.intValue: ${sumObj.intValue}");
+
+        // var nvObj = AssociatedDataEnum.noValue();
+        // print("nvObj: $nvObj");
+        // print("nvObj.intValue: ${nvObj.intValue}");
+        // var nvSumObj = nvObj.plus(sumObj);
+        // print("nvSumObj: $nvSumObj");
+        // print("nvSumObj.intValue: ${nvSumObj.intValue}");
       });
   });
 }

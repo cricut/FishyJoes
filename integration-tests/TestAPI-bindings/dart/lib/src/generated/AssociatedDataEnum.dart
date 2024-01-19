@@ -158,6 +158,7 @@ import 'package:tuple/tuple.dart' as tuple;
 sealed class AssociatedDataEnum {
   const factory AssociatedDataEnum.thing(int value) = AssociatedDataEnum_Thing.thing;
   const factory AssociatedDataEnum.other(String unnamed, int m_1) = AssociatedDataEnum_Other.other;
+  const factory AssociatedDataEnum.bar(String named, AssociatedDataEnum m_1) = AssociatedDataEnum_Bar.bar;
   const factory AssociatedDataEnum.noValue() = AssociatedDataEnum_NoValue;
 
   const AssociatedDataEnum();
@@ -168,8 +169,10 @@ sealed class AssociatedDataEnum {
         return 0;
       } else if (peekedObj is AssociatedDataEnum_Other) {
         return 1;
-      } else if (peekedObj is AssociatedDataEnum_NoValue) {
+      } else if (peekedObj is AssociatedDataEnum_Bar) {
         return 2;
+      } else if (peekedObj is AssociatedDataEnum_NoValue) {
+        return 3;
       }
       throw UnsupportedError('Unknown AssociatedDataEnum subclass');
   });
@@ -215,6 +218,30 @@ sealed class AssociatedDataEnum {
           __1.value = _self.m_1;
       });
   }
+
+  static CreatedRef newBar(
+        ConsumedRef _named,
+        ConsumedRef __1,
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(AssociatedDataEnum_Bar(
+            consumeRef<String>(_named),
+            consumeRef<TestAPI.AssociatedDataEnum>(__1),
+        ))
+    );
+
+    static void extractBar(
+        UnownedRef obj,
+        OutCreatedRef _named,
+        OutCreatedRef __1,
+        OutCreatedRef exn
+    ) {
+        catching(exn, () {
+            final _self = peekRef<AssociatedDataEnum_Bar>(obj);
+            _named.value = createRef(_self.named);
+            __1.value = createRef(_self.m_1);
+        });
+    }
 
   static CreatedRef newNoValue(
       OutCreatedRef exn
@@ -295,6 +322,15 @@ class AssociatedDataEnum_Other extends AssociatedDataEnum {
 
   final String unnamed;
   final int m_1;
+}
+
+class AssociatedDataEnum_Bar extends AssociatedDataEnum {
+  const factory AssociatedDataEnum_Bar.bar(String named, AssociatedDataEnum m_1) = AssociatedDataEnum_Bar;
+
+  const AssociatedDataEnum_Bar(this.named, this.m_1);
+
+  final String named;
+  final AssociatedDataEnum m_1;
 }
 
 class AssociatedDataEnum_NoValue extends AssociatedDataEnum {

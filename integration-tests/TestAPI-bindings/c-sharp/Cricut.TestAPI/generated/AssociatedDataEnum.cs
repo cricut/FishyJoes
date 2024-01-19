@@ -20,6 +20,11 @@ namespace Cricut.TestAPI {
             nint _1
         ) : AssociatedDataEnum;
 
+        public sealed record Bar(
+            string Named,
+            Cricut.TestAPI.AssociatedDataEnum _1
+        ) : AssociatedDataEnum;
+
         public sealed record NoValue : AssociatedDataEnum;
 
         /// <summary>
