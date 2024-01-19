@@ -61,9 +61,9 @@ import 'package:tuple/tuple.dart' as tuple;
 class URLs {
     URLs._() {}
 
-    static int enumDiscriminator(UnownedRef obj, OutCreatedRef exn) => check((exn) =>
-        throw UnsupportedError('This class is supposed to be unihabited')
-    );
+    static int enumDiscriminator(UnownedRef obj, OutCreatedRef exn) => check((exn) {
+        throw UnsupportedError('This class is supposed to be unihabited');
+    });
 
     /// <!-- FishyJoes.export(simple) -->
     static Uri get simple =>

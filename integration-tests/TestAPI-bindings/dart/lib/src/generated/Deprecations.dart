@@ -61,9 +61,9 @@ import 'package:tuple/tuple.dart' as tuple;
 class Deprecations {
     Deprecations._() {}
 
-    static int enumDiscriminator(UnownedRef obj, OutCreatedRef exn) => check((exn) =>
-        throw UnsupportedError('This class is supposed to be unihabited')
-    );
+    static int enumDiscriminator(UnownedRef obj, OutCreatedRef exn) => check((exn) {
+        throw UnsupportedError('This class is supposed to be unihabited');
+    });
 
     /// <!-- FishyJoes.export(deprecatedVariable) -->
     @Deprecated("replace with `deprecatedMethod` ( <-- swift name, sorry )")

@@ -57,25 +57,22 @@ import 'package:fishyjoes_dart/utilities.dart' as utils;
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:tuple/tuple.dart' as tuple;
 
-part 'SimpleEnum.freezed.dart';
-
 /// <!-- FishyJoes.export(SimpleEnum) -->
-@freezed
-class SimpleEnum with _$SimpleEnum {
-    factory SimpleEnum.red(
+sealed class SimpleEnum {
+    const factory SimpleEnum.red(
     ) = SimpleEnum_Red;
 
-    factory SimpleEnum.blue(
+    const factory SimpleEnum.blue(
     ) = SimpleEnum_Blue;
 
-    SimpleEnum._() {}
+    const SimpleEnum();
 
-    static int enumDiscriminator(UnownedRef obj, OutCreatedRef exn) => check((exn) =>
-        peekRef<SimpleEnum>(obj).map(
-            red: (_) => 0,
-            blue: (_) => 1,
-        )
-    );
+    static int enumDiscriminator(UnownedRef obj, OutCreatedRef exn) => check((exn) {
+        final peekedObj = peekRef<AssociatedDataEnum>(obj);
+        if (peekedObj is SimpleEnum_Red) { return 0; }
+        else if (peekedObj is SimpleEnum_Blue) { return 1; }
+        throw UnsupportedError('Unknown SimpleEnum subclass');
+    });
 
     static CreatedRef newRed(
         OutCreatedRef exn
@@ -126,4 +123,14 @@ class SimpleEnum with _$SimpleEnum {
         int y,
         OutCreatedRef _exn
     ) f__iota_TestAPI_SimpleEnum_testFuncCall;
+}
+
+class SimpleEnum_Red extends SimpleEnum {
+    const SimpleEnum_Red(
+    );
+}
+
+class SimpleEnum_Blue extends SimpleEnum {
+    const SimpleEnum_Blue(
+    );
 }

@@ -57,21 +57,18 @@ import 'package:fishyjoes_dart/utilities.dart' as utils;
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:tuple/tuple.dart' as tuple;
 
-part 'UnicodeScalar_PuttingTypesIntoQuestionablePlaces.freezed.dart';
-
 /// <!-- FishyJoes.export(UnicodeScalar_PuttingTypesIntoQuestionablePlaces) -->
-@freezed
-class UnicodeScalar_PuttingTypesIntoQuestionablePlaces with _$UnicodeScalar_PuttingTypesIntoQuestionablePlaces {
-    factory UnicodeScalar_PuttingTypesIntoQuestionablePlaces.thing(
+sealed class UnicodeScalar_PuttingTypesIntoQuestionablePlaces {
+    const factory UnicodeScalar_PuttingTypesIntoQuestionablePlaces.thing(
     ) = UnicodeScalar_PuttingTypesIntoQuestionablePlaces_Thing;
 
-    UnicodeScalar_PuttingTypesIntoQuestionablePlaces._() {}
+    const UnicodeScalar_PuttingTypesIntoQuestionablePlaces();
 
-    static int enumDiscriminator(UnownedRef obj, OutCreatedRef exn) => check((exn) =>
-        peekRef<UnicodeScalar_PuttingTypesIntoQuestionablePlaces>(obj).map(
-            thing: (_) => 0,
-        )
-    );
+    static int enumDiscriminator(UnownedRef obj, OutCreatedRef exn) => check((exn) {
+        final peekedObj = peekRef<AssociatedDataEnum>(obj);
+        if (peekedObj is UnicodeScalar_PuttingTypesIntoQuestionablePlaces_Thing) { return 0; }
+        throw UnsupportedError('Unknown UnicodeScalar_PuttingTypesIntoQuestionablePlaces subclass');
+    });
 
     static CreatedRef newThing(
         OutCreatedRef exn
@@ -102,4 +99,9 @@ class UnicodeScalar_PuttingTypesIntoQuestionablePlaces with _$UnicodeScalar_Putt
         UnownedRef _this,
         OutCreatedRef _exn
     ) f__iota_Swift_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_testCall;
+}
+
+class UnicodeScalar_PuttingTypesIntoQuestionablePlaces_Thing extends UnicodeScalar_PuttingTypesIntoQuestionablePlaces {
+    const UnicodeScalar_PuttingTypesIntoQuestionablePlaces_Thing(
+    );
 }

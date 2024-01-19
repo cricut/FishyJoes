@@ -61,9 +61,9 @@ import 'package:tuple/tuple.dart' as tuple;
 class DefaultArguments {
     DefaultArguments._() {}
 
-    static int enumDiscriminator(UnownedRef obj, OutCreatedRef exn) => check((exn) =>
-        throw UnsupportedError('This class is supposed to be unihabited')
-    );
+    static int enumDiscriminator(UnownedRef obj, OutCreatedRef exn) => check((exn) {
+        throw UnsupportedError('This class is supposed to be unihabited');
+    });
 
     /// <!-- FishyJoes.export(echoDefaults, compatibilityOrder: [z, y]) -->
     static String echoDefaults(
