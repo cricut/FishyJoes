@@ -336,7 +336,13 @@ jobs:
           set -euxo pipefail
 
           cd integration-tests/TestAPI-bindings
-          $SWIFT run -- fishy-joes --dart build test
+          $SWIFT run -- fishy-joes --dart build
+
+      - name: Upload Iota Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: iota_artifact
+          path: integration-tests/TestAPI-bindings
 
       - name: Build FishyJoesJavaRuntime
         shell: bash
