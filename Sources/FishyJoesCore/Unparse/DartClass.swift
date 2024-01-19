@@ -668,10 +668,6 @@ class DartEnumClass: DartClass {
             
             fragment.blankLine()
         }
-
-        if unqualifiedName.contains("AssociatedDataEnum") {
-            var d = 5+9
-        }
     }
 }
 
