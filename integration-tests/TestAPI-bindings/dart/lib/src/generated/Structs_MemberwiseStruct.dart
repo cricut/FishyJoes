@@ -16,6 +16,8 @@ import './DefaultArguments.dart' as TestAPI;
 import './DefaultArguments.dart';
 import './Deprecations.dart' as TestAPI;
 import './Deprecations.dart';
+import './EmptyEnum.dart' as TestAPI;
+import './EmptyEnum.dart';
 import './Functions.dart' as TestAPI;
 import './Functions.dart';
 import './Functions_TheError.dart' as TestAPI;

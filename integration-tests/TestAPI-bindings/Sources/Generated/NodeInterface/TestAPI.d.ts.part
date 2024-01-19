@@ -529,6 +529,15 @@ export declare namespace TestAPI {
         const deprecatedVariable: number;
     }
 
+    export type EmptyEnum = never;
+    export namespace EmptyEnum {
+        /**
+         * <!-- FishyJoes.export(notGoingToHappen, noReturn: true) -->
+         */
+        function notGoingToHappen(
+        ): TestAPI.EmptyEnum;
+    }
+
     export type Functions = never;
     export namespace Functions {
         /**
@@ -1404,16 +1413,39 @@ export declare namespace TestAPI {
         const uIntRange: Runtime.SwiftRange<number>;
     }
 
-    export type SimpleEnum = "red" | "blue";
+    export type SimpleEnum = "red" | "green" | "blue";
     export namespace SimpleEnum {
         /**
-         * <!-- FishyJoes.export(testFuncCall) -->
+         * <!-- FishyJoes.export(favoriteColor) -->
          */
-        function testFuncCall(
-            self: TestAPI.SimpleEnum,
-            x: number,
-            y: number
+        let favoriteColor: TestAPI.SimpleEnum;
+
+        /**
+         * <!-- FishyJoes.export(hex) -->
+         */
+        function getHex(
+            self: TestAPI.SimpleEnum
         ): number;
+
+        /**
+         * <!-- FishyJoes.export(hexMethod) -->
+         */
+        function hexMethod(
+            self: TestAPI.SimpleEnum
+        ): string;
+
+        /**
+         * <!-- FishyJoes.export(pickAColor) -->
+         */
+        function pickAColor(
+            rawValue: number
+        ): Optional<TestAPI.SimpleEnum>;
+
+        /**
+         * <!-- FishyJoes.export(resetFavoriteColor) -->
+         */
+        function resetFavoriteColor(
+        ): void;
     }
 
     /**

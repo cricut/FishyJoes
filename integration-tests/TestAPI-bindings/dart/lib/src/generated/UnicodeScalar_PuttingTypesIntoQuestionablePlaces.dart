@@ -16,6 +16,8 @@ import './DefaultArguments.dart' as TestAPI;
 import './DefaultArguments.dart';
 import './Deprecations.dart' as TestAPI;
 import './Deprecations.dart';
+import './EmptyEnum.dart' as TestAPI;
+import './EmptyEnum.dart';
 import './Functions.dart' as TestAPI;
 import './Functions.dart';
 import './Functions_TheError.dart' as TestAPI;
@@ -65,7 +67,7 @@ sealed class UnicodeScalar_PuttingTypesIntoQuestionablePlaces {
     const UnicodeScalar_PuttingTypesIntoQuestionablePlaces();
 
     static int enumDiscriminator(UnownedRef obj, OutCreatedRef exn) => check((exn) {
-        final peekedObj = peekRef<AssociatedDataEnum>(obj);
+        final peekedObj = peekRef<UnicodeScalar_PuttingTypesIntoQuestionablePlaces>(obj);
         if (peekedObj is UnicodeScalar_PuttingTypesIntoQuestionablePlaces_Thing) { return 0; }
         throw UnsupportedError('Unknown UnicodeScalar_PuttingTypesIntoQuestionablePlaces subclass');
     });

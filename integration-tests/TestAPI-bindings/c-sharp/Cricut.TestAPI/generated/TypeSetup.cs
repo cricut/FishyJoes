@@ -389,6 +389,12 @@ namespace Cricut.TestAPI {
         );
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_EmptyEnum_setup(
+            IntPtr envRef,
+            out CreatedRef _exn
+        );
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_Functions_setup(
             IntPtr envRef,
             out CreatedRef _exn
@@ -420,6 +426,13 @@ namespace Cricut.TestAPI {
             UnownedRef obj,
             out CreatedRef _exn
         );
+        delegate CreatedRef Cricut_TestAPI_SimpleEnum_new_green(
+            out CreatedRef _exn
+        );
+        unsafe delegate void Cricut_TestAPI_SimpleEnum_extract_green(
+            UnownedRef obj,
+            out CreatedRef _exn
+        );
         delegate CreatedRef Cricut_TestAPI_SimpleEnum_new_blue(
             out CreatedRef _exn
         );
@@ -433,6 +446,8 @@ namespace Cricut.TestAPI {
             FishyJoesRuntime.EnumDiscriminator discriminator,
             Cricut_TestAPI_SimpleEnum_new_red red_constructor,
             Cricut_TestAPI_SimpleEnum_extract_red red_extractor,
+            Cricut_TestAPI_SimpleEnum_new_green green_constructor,
+            Cricut_TestAPI_SimpleEnum_extract_green green_extractor,
             Cricut_TestAPI_SimpleEnum_new_blue blue_constructor,
             Cricut_TestAPI_SimpleEnum_extract_blue blue_extractor,
             out CreatedRef _exn
@@ -906,6 +921,13 @@ namespace Cricut.TestAPI {
             });
             Once("setup_OptionalConverter<Swift.Int8>", () => {
                 Console.WriteLine("setting up Optional<Int8>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_OptionalConverter_setup(
+                    Loader.env,
+                    out exn
+                ));
+            });
+            Once("setup_OptionalConverter<TestAPI.SimpleEnum>", () => {
+                Console.WriteLine("setting up Optional<SimpleEnum>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_OptionalConverter_setup(
                     Loader.env,
                     out exn
@@ -1739,6 +1761,13 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
+            Once("setup_TestAPI.EmptyEnum", () => {
+                Console.WriteLine("setting up TestAPI.EmptyEnum...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_EmptyEnum_setup(
+                    Loader.env,
+                    out exn
+                ));
+            });
             Once("setup_TestAPI.Functions", () => {
                 Console.WriteLine("setting up TestAPI.Functions...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_Functions_setup(
@@ -1777,7 +1806,8 @@ namespace Cricut.TestAPI {
                     bag<FishyJoesRuntime.EnumDiscriminator>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => {
                         var enumeration = obj.Peek<Cricut.TestAPI.SimpleEnum>();
                         if (enumeration is Cricut.TestAPI.SimpleEnum.Red) { return (nint)0; }
-                        if (enumeration is Cricut.TestAPI.SimpleEnum.Blue) { return (nint)1; }
+                        if (enumeration is Cricut.TestAPI.SimpleEnum.Green) { return (nint)1; }
+                        if (enumeration is Cricut.TestAPI.SimpleEnum.Blue) { return (nint)2; }
                         throw new Exception($"Found unexpected subclass of Cricut.TestAPI.SimpleEnum: {enumeration}");
                     })),
                     bag<Cricut_TestAPI_SimpleEnum_new_red>(
@@ -1795,6 +1825,27 @@ namespace Cricut.TestAPI {
                         ) => {
                             try {
                                 var enumeration = obj.Peek<Cricut.TestAPI.SimpleEnum.Red>();
+                                exn = CreatedRef.Null;
+                            } catch (Exception e) {
+                                exn = new CreatedRef(e);
+                            }
+                        }
+                    ),
+                    bag<Cricut_TestAPI_SimpleEnum_new_green>(
+                        (
+                            out CreatedRef exn
+                        ) => Catching(out exn, () => 
+                            new CreatedRef(new Cricut.TestAPI.SimpleEnum.Green(
+                            ))
+                        )
+                    ),
+                    bag<Cricut_TestAPI_SimpleEnum_extract_green>(
+                        (
+                            UnownedRef obj,
+                            out CreatedRef exn
+                        ) => {
+                            try {
+                                var enumeration = obj.Peek<Cricut.TestAPI.SimpleEnum.Green>();
                                 exn = CreatedRef.Null;
                             } catch (Exception e) {
                                 exn = new CreatedRef(e);

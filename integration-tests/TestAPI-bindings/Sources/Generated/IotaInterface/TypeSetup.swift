@@ -65,6 +65,7 @@ public func FishyJoes_TestAPI_registerTypes() {
     Env.registerType(OptionalConverter<Swift.Int32>.self, as: "OptionalConverter<Swift.Int32>")
     Env.registerType(OptionalConverter<Swift.Int64>.self, as: "OptionalConverter<Swift.Int64>")
     Env.registerType(OptionalConverter<Swift.Int8>.self, as: "OptionalConverter<Swift.Int8>")
+    Env.registerType(OptionalConverter<TestAPI.SimpleEnum>.self, as: "OptionalConverter<TestAPI.SimpleEnum>")
     Env.registerType(OptionalConverter<Swift.UInt>.self, as: "OptionalConverter<Swift.UInt>")
     Env.registerType(OptionalConverter<Swift.UInt16>.self, as: "OptionalConverter<Swift.UInt16>")
     Env.registerType(OptionalConverter<Swift.UInt32>.self, as: "OptionalConverter<Swift.UInt32>")
@@ -114,6 +115,7 @@ public func FishyJoes_TestAPI_registerTypes() {
     Env.registerType(TestAPI.Collections.self, as: "TestAPI.Collections")
     Env.registerType(TestAPI.DefaultArguments.self, as: "TestAPI.DefaultArguments")
     Env.registerType(TestAPI.Deprecations.self, as: "TestAPI.Deprecations")
+    Env.registerType(TestAPI.EmptyEnum.self, as: "TestAPI.EmptyEnum")
     Env.registerType(TestAPI.Functions.self, as: "TestAPI.Functions")
     Env.registerType(TestAPI.Methods.self, as: "TestAPI.Methods")
     Env.registerType(TestAPI.Primitives.self, as: "TestAPI.Primitives")
@@ -150,4 +152,5 @@ public func FishyJoes_TestAPI_registerTypes() {
     Env.registerType(Tuple6Converter<Swift.String, Swift.Int, Swift.Double, Tuple4Converter<Tuple2Converter<Swift.Int, Swift.String>, Tuple3Converter<Swift.String, Swift.Double, Swift.String>, Swift.String, Swift.Bool>, Tuple5Converter<Swift.String, Swift.UInt8, Tuple4Converter<Tuple2Converter<Swift.Int, Swift.String>, Tuple3Converter<Swift.String, Swift.Double, Swift.String>, Swift.String, Swift.Bool>, Tuple3Converter<Swift.String, Swift.Double, Swift.String>, Tuple2Converter<Swift.Int, Swift.String>>, Swift.Bool>.self, as: "Tuple6Converter<Swift.String, Swift.Int, Swift.Double, Tuple4Converter<Tuple2Converter<Swift.Int, Swift.String>, Tuple3Converter<Swift.String, Swift.Double, Swift.String>, Swift.String, Swift.Bool>, Tuple5Converter<Swift.String, Swift.UInt8, Tuple4Converter<Tuple2Converter<Swift.Int, Swift.String>, Tuple3Converter<Swift.String, Swift.Double, Swift.String>, Swift.String, Swift.Bool>, Tuple3Converter<Swift.String, Swift.Double, Swift.String>, Tuple2Converter<Swift.Int, Swift.String>>, Swift.Bool>")
     Env.registerType(Tuple5Converter<Swift.String, Swift.UInt8, Tuple4Converter<Tuple2Converter<Swift.Int, Swift.String>, Tuple3Converter<Swift.String, Swift.Double, Swift.String>, Swift.String, Swift.Bool>, Tuple3Converter<Swift.String, Swift.Double, Swift.String>, Tuple2Converter<Swift.Int, Swift.String>>.self, as: "Tuple5Converter<Swift.String, Swift.UInt8, Tuple4Converter<Tuple2Converter<Swift.Int, Swift.String>, Tuple3Converter<Swift.String, Swift.Double, Swift.String>, Swift.String, Swift.Bool>, Tuple3Converter<Swift.String, Swift.Double, Swift.String>, Tuple2Converter<Swift.Int, Swift.String>>")
     Env.registerType(Tuple4Converter<Tuple2Converter<Swift.Int, Swift.String>, Tuple3Converter<Swift.String, Swift.Double, Swift.String>, Swift.String, Swift.Bool>.self, as: "Tuple4Converter<Tuple2Converter<Swift.Int, Swift.String>, Tuple3Converter<Swift.String, Swift.Double, Swift.String>, Swift.String, Swift.Bool>")
+    Env.registerType(FishyJoesCommonRuntime.VoidConverter.self, as: "FishyJoesCommonRuntime.VoidConverter")
 }

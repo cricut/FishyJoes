@@ -420,6 +420,58 @@
       "converterType" : {
         "named" : {
           "_0" : {
+            "module" : "TestAPI",
+            "name" : "EmptyEnum",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "EmptyEnum",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "EmptyEnum",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : false,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/EmptyEnum"
+        }
+      },
+      "kotlinName" : "EmptyEnum",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Enum<TranslatedFrom=EmptyEnum>>",
+      "nodeName" : "TestAPI.EmptyEnum",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "EmptyEnum",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
             "module" : "Foundation",
             "name" : "PuttingTypesIntoQuestionablePlaces",
             "namespace" : [
@@ -3490,6 +3542,41 @@
 
             ]
           },
+          "EmptyEnum" : {
+            "classes" : [
+
+            ],
+            "fields" : [
+
+            ],
+            "interfaces" : [
+
+            ],
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(notGoingToHappen, noReturn: true) -->"
+                ],
+                "isStatic" : true,
+                "name" : "notGoingToHappen",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "TestAPI.EmptyEnum"
+                  }
+                }
+              }
+            ],
+            "name" : "EmptyEnum",
+            "namespaces" : {
+
+            },
+            "typealiases" : [
+
+            ]
+          },
           "Functions" : {
             "classes" : [
               {
@@ -6411,7 +6498,19 @@
 
             ],
             "fields" : [
-
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(favoriteColor) -->"
+                ],
+                "isStatic" : true,
+                "name" : "favoriteColor",
+                "readOnly" : false,
+                "type" : {
+                  "named" : {
+                    "_0" : "TestAPI.SimpleEnum"
+                  }
+                }
+              }
             ],
             "interfaces" : [
 
@@ -6419,10 +6518,36 @@
             "methods" : [
               {
                 "documentation" : [
-                  "<!-- FishyJoes.export(testFuncCall) -->"
+                  "<!-- FishyJoes.export(pickAColor) -->"
                 ],
                 "isStatic" : true,
-                "name" : "testFuncCall",
+                "name" : "pickAColor",
+                "parameters" : [
+                  {
+                    "name" : "rawValue",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "optional" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "TestAPI.SimpleEnum"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(hexMethod) -->"
+                ],
+                "isStatic" : true,
+                "name" : "hexMethod",
                 "parameters" : [
                   {
                     "name" : "self",
@@ -6431,20 +6556,41 @@
                         "_0" : "TestAPI.SimpleEnum"
                       }
                     }
-                  },
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(resetFavoriteColor) -->"
+                ],
+                "isStatic" : true,
+                "name" : "resetFavoriteColor",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "void"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(hex) -->"
+                ],
+                "isStatic" : true,
+                "name" : "getHex",
+                "parameters" : [
                   {
-                    "name" : "x",
+                    "name" : "self",
                     "type" : {
                       "named" : {
-                        "_0" : "number"
-                      }
-                    }
-                  },
-                  {
-                    "name" : "y",
-                    "type" : {
-                      "named" : {
-                        "_0" : "number"
+                        "_0" : "TestAPI.SimpleEnum"
                       }
                     }
                   }
@@ -7158,6 +7304,19 @@
           },
           {
             "documentation" : [
+              "<!-- FishyJoes.export(EmptyEnum) -->"
+            ],
+            "name" : "EmptyEnum",
+            "value" : {
+              "union" : {
+                "_0" : [
+
+                ]
+              }
+            }
+          },
+          {
+            "documentation" : [
               "<!-- FishyJoes.export(Functions) -->"
             ],
             "name" : "Functions",
@@ -7206,6 +7365,11 @@
                   {
                     "exactString" : {
                       "_0" : "red"
+                    }
+                  },
+                  {
+                    "exactString" : {
+                      "_0" : "green"
                     }
                   },
                   {

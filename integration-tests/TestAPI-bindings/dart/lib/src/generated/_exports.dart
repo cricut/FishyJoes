@@ -14,6 +14,7 @@ export './ClosedRanges.dart';
 export './Collections.dart';
 export './DefaultArguments.dart';
 export './Deprecations.dart';
+export './EmptyEnum.dart';
 export './Functions.dart';
 export './Methods.dart';
 export './Primitives.dart';

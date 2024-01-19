@@ -16,6 +16,8 @@ import './DefaultArguments.dart' as TestAPI;
 import './DefaultArguments.dart';
 import './Deprecations.dart' as TestAPI;
 import './Deprecations.dart';
+import './EmptyEnum.dart' as TestAPI;
+import './EmptyEnum.dart';
 import './Functions.dart' as TestAPI;
 import './Functions.dart';
 import './Functions_TheError.dart' as TestAPI;
@@ -247,6 +249,13 @@ typedef TestAPI_SimpleEnum_new_red = CreatedRef Function(
     OutCreatedRef _exn
 );
 typedef TestAPI_SimpleEnum_extract_red = ffi.Void Function(
+    UnownedRef obj,
+    OutCreatedRef _exn
+);
+typedef TestAPI_SimpleEnum_new_green = CreatedRef Function(
+    OutCreatedRef _exn
+);
+typedef TestAPI_SimpleEnum_extract_green = ffi.Void Function(
     UnownedRef obj,
     OutCreatedRef _exn
 );
@@ -620,6 +629,16 @@ final ensureLoaded = (() {
             OutCreatedRef exn
         )
     >('TestAPI_Deprecations_setup');
+    final TestAPI_EmptyEnum_setup = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            OutCreatedRef exn
+        ),
+        void Function(
+            Env env,
+            OutCreatedRef exn
+        )
+    >('TestAPI_EmptyEnum_setup');
     final TestAPI_Functions_setup = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
@@ -668,6 +687,8 @@ final ensureLoaded = (() {
             ffi.Pointer<ffi.NativeFunction<EnumDiscriminatorTag>> discriminator,
             ffi.Pointer<ffi.NativeFunction<TestAPI_SimpleEnum_new_red>> red_constructor,
             ffi.Pointer<ffi.NativeFunction<TestAPI_SimpleEnum_extract_red>> red_extractor,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_SimpleEnum_new_green>> green_constructor,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_SimpleEnum_extract_green>> green_extractor,
             ffi.Pointer<ffi.NativeFunction<TestAPI_SimpleEnum_new_blue>> blue_constructor,
             ffi.Pointer<ffi.NativeFunction<TestAPI_SimpleEnum_extract_blue>> blue_extractor,
             OutCreatedRef exn
@@ -677,6 +698,8 @@ final ensureLoaded = (() {
             ffi.Pointer<ffi.NativeFunction<EnumDiscriminatorTag>> discriminator,
             ffi.Pointer<ffi.NativeFunction<TestAPI_SimpleEnum_new_red>> red_constructor,
             ffi.Pointer<ffi.NativeFunction<TestAPI_SimpleEnum_extract_red>> red_extractor,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_SimpleEnum_new_green>> green_constructor,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_SimpleEnum_extract_green>> green_extractor,
             ffi.Pointer<ffi.NativeFunction<TestAPI_SimpleEnum_new_blue>> blue_constructor,
             ffi.Pointer<ffi.NativeFunction<TestAPI_SimpleEnum_extract_blue>> blue_extractor,
             OutCreatedRef exn
@@ -1148,6 +1171,16 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_Deprecations_deprecatedMethod");
+    TestAPI.EmptyEnum.f__iota_TestAPI_EmptyEnum_notGoingToHappen = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_EmptyEnum_notGoingToHappen");
     TestAPI.Functions.f__iota_TestAPI_Functions_exercise0 = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -1698,22 +1731,40 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_Ranges_echoUIntRange");
-    TestAPI.SimpleEnum.f__iota_TestAPI_SimpleEnum_testFuncCall = dylib.lookupFunction<
-        ffi.Int Function(
+    TestAPI.SimpleEnum.f__iota_TestAPI_SimpleEnum_hexMethod = dylib.lookupFunction<
+        CreatedRef Function(
             Env env,
             UnownedRef _this,
-            ffi.Int x,
-            ffi.Int y,
             OutCreatedRef _exn
         ),
-        int Function(
+        CreatedRef Function(
             Env env,
             UnownedRef _this,
-            int x,
-            int y,
             OutCreatedRef _exn
         )
-    >("__iota_TestAPI_SimpleEnum_testFuncCall");
+    >("__iota_TestAPI_SimpleEnum_hexMethod");
+    TestAPI.SimpleEnum.f__iota_TestAPI_SimpleEnum_pickAColor = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            ffi.Int rawValue,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            int rawValue,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_SimpleEnum_pickAColor");
+    TestAPI.SimpleEnum.f__iota_TestAPI_SimpleEnum_resetFavoriteColor = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        void Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_SimpleEnum_resetFavoriteColor");
     TestAPI.Strings.f__iota_TestAPI_Strings_echo = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -3164,6 +3215,28 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_get_TestAPI_Ranges_uIntRange");
+    TestAPI.SimpleEnum.f__iota_get_TestAPI_SimpleEnum_favoriteColor = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_SimpleEnum_favoriteColor");
+    TestAPI.SimpleEnum.f__iota_get_TestAPI_SimpleEnum_hex = dylib.lookupFunction<
+        ffi.Int Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_SimpleEnum_hex");
     TestAPI.Strings.f__iota_get_TestAPI_Strings_accent = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -3436,6 +3509,18 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_set_TestAPI_Primitives_PrimitiveHolder_staticMutableProperty");
+    TestAPI.SimpleEnum.f__iota_set_TestAPI_SimpleEnum_favoriteColor = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            UnownedRef favoriteColor,
+            OutCreatedRef _exn
+        ),
+        void Function(
+            Env env,
+            UnownedRef favoriteColor,
+            OutCreatedRef _exn
+        )
+    >("__iota_set_TestAPI_SimpleEnum_favoriteColor");
     TestAPI.Structs_ReferenceStruct.f__iota_set_TestAPI_Structs_ReferenceStruct_mutable = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
@@ -4064,6 +4149,16 @@ final ensureLoaded = (() {
         });
     });
 
+    Loader.shared.once("setup_OptionalConverter<TestAPI.SimpleEnum>", () {
+        // print("setting up Optional<SimpleEnum> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            Loader.shared.FishyJoesCommonRuntime_OptionalConverter_setup(
+                Loader.shared.env,
+                exn
+            );
+        });
+    });
+
     Loader.shared.once("setup_OptionalConverter<Swift.UInt>", () {
         // print("setting up Optional<UInt> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
@@ -4679,6 +4774,16 @@ final ensureLoaded = (() {
         });
     });
 
+    Loader.shared.once("setup_TestAPI.EmptyEnum", () {
+        // print("setting up TestAPI.EmptyEnum (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            TestAPI_EmptyEnum_setup(
+                Loader.shared.env,
+                exn
+            );
+        });
+    });
+
     Loader.shared.once("setup_TestAPI.Functions", () {
         // print("setting up TestAPI.Functions (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
@@ -4728,6 +4833,8 @@ final ensureLoaded = (() {
                 ffi.Pointer.fromFunction(TestAPI.SimpleEnum.enumDiscriminator, 0),
                 ffi.Pointer.fromFunction(TestAPI.SimpleEnum.newRed),
                 ffi.Pointer.fromFunction(TestAPI.SimpleEnum.extractRed),
+                ffi.Pointer.fromFunction(TestAPI.SimpleEnum.newGreen),
+                ffi.Pointer.fromFunction(TestAPI.SimpleEnum.extractGreen),
                 ffi.Pointer.fromFunction(TestAPI.SimpleEnum.newBlue),
                 ffi.Pointer.fromFunction(TestAPI.SimpleEnum.extractBlue),
                 exn

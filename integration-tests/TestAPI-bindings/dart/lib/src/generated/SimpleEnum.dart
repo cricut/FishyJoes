@@ -16,6 +16,8 @@ import './DefaultArguments.dart' as TestAPI;
 import './DefaultArguments.dart';
 import './Deprecations.dart' as TestAPI;
 import './Deprecations.dart';
+import './EmptyEnum.dart' as TestAPI;
+import './EmptyEnum.dart';
 import './Functions.dart' as TestAPI;
 import './Functions.dart';
 import './Functions_TheError.dart' as TestAPI;
@@ -62,15 +64,19 @@ sealed class SimpleEnum {
     const factory SimpleEnum.red(
     ) = SimpleEnum_Red;
 
+    const factory SimpleEnum.green(
+    ) = SimpleEnum_Green;
+
     const factory SimpleEnum.blue(
     ) = SimpleEnum_Blue;
 
     const SimpleEnum();
 
     static int enumDiscriminator(UnownedRef obj, OutCreatedRef exn) => check((exn) {
-        final peekedObj = peekRef<AssociatedDataEnum>(obj);
+        final peekedObj = peekRef<SimpleEnum>(obj);
         if (peekedObj is SimpleEnum_Red) { return 0; }
-        else if (peekedObj is SimpleEnum_Blue) { return 1; }
+        else if (peekedObj is SimpleEnum_Green) { return 1; }
+        else if (peekedObj is SimpleEnum_Blue) { return 2; }
         throw UnsupportedError('Unknown SimpleEnum subclass');
     });
 
@@ -90,6 +96,22 @@ sealed class SimpleEnum {
         });
     }
 
+    static CreatedRef newGreen(
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(SimpleEnum_Green(
+        ))
+    );
+
+    static void extractGreen(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) {
+        catching(exn, () {
+            final _self = peekRef<SimpleEnum_Green>(obj);
+        });
+    }
+
     static CreatedRef newBlue(
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
@@ -106,27 +128,86 @@ sealed class SimpleEnum {
         });
     }
 
-    /// <!-- FishyJoes.export(testFuncCall) -->
-    int testFuncCall(
-        int x,
-        int y,
+    /// <!-- FishyJoes.export(hex) -->
+    int get hex =>
+        GCRef.using(this, (_thisHandle) =>
+            check((exn) =>
+                f__iota_get_TestAPI_SimpleEnum_hex(Loader.shared.env, _thisHandle.ptr, exn)
+            )
+        )
+    ;
+    /// <!-- FishyJoes.export(favoriteColor) -->
+    static TestAPI.SimpleEnum get favoriteColor =>
+        check((exn) =>
+            consumeCreatedRef<TestAPI.SimpleEnum>(f__iota_get_TestAPI_SimpleEnum_favoriteColor(Loader.shared.env, exn))
+        )
+    ;
+    static void set favoriteColor(TestAPI.SimpleEnum value) {
+        GCRef.using(value, (_valueHandle) =>
+            check((exn) =>
+                f__iota_set_TestAPI_SimpleEnum_favoriteColor(Loader.shared.env, _valueHandle.ptr, exn)
+            )
+        )
+        ;
+    }
+    /// <!-- FishyJoes.export(pickAColor) -->
+    static TestAPI.SimpleEnum? pickAColor(
+        int rawValue,
+    ) =>
+        consumeCreatedRef<TestAPI.SimpleEnum?>(check((OutCreatedRef _exn) => f__iota_TestAPI_SimpleEnum_pickAColor(Loader.shared.env, rawValue, _exn)))
+    ;
+
+    /// <!-- FishyJoes.export(hexMethod) -->
+    String hexMethod(
     ) =>
         GCRef.using(this, (_thisHandle) =>
-            check((OutCreatedRef _exn) => f__iota_TestAPI_SimpleEnum_testFuncCall(Loader.shared.env, _thisHandle.ptr, x, y, _exn))
+            consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_TestAPI_SimpleEnum_hexMethod(Loader.shared.env, _thisHandle.ptr, _exn)))
         )
     ;
 
+    /// <!-- FishyJoes.export(resetFavoriteColor) -->
+    static void resetFavoriteColor(
+    ) =>
+        check((OutCreatedRef _exn) => f__iota_TestAPI_SimpleEnum_resetFavoriteColor(Loader.shared.env, _exn))
+    ;
+
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef _this,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_SimpleEnum_hexMethod;
+    static late CreatedRef Function(
+        Env env,
+        int rawValue,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_SimpleEnum_pickAColor;
+    static late void Function(
+        Env env,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_SimpleEnum_resetFavoriteColor;
+    static late CreatedRef Function(
+        Env env,
+        OutCreatedRef _exn
+    ) f__iota_get_TestAPI_SimpleEnum_favoriteColor;
     static late int Function(
         Env env,
         UnownedRef _this,
-        int x,
-        int y,
         OutCreatedRef _exn
-    ) f__iota_TestAPI_SimpleEnum_testFuncCall;
+    ) f__iota_get_TestAPI_SimpleEnum_hex;
+    static late void Function(
+        Env env,
+        UnownedRef favoriteColor,
+        OutCreatedRef _exn
+    ) f__iota_set_TestAPI_SimpleEnum_favoriteColor;
 }
 
 class SimpleEnum_Red extends SimpleEnum {
     const SimpleEnum_Red(
+    );
+}
+
+class SimpleEnum_Green extends SimpleEnum {
+    const SimpleEnum_Green(
     );
 }
 
