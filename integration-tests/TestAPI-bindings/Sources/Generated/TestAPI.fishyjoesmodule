@@ -1843,6 +1843,47 @@
 
                 ],
                 "name" : "NoValue"
+              },
+              {
+                "constructor" : {
+                  "visible" : {
+                    "names" : [
+                      "value"
+                    ],
+                    "types" : [
+                      {
+                        "named" : {
+                          "_0" : "TestAPI.SimpleEnum"
+                        }
+                      }
+                    ]
+                  }
+                },
+                "documentation" : [
+
+                ],
+                "extends" : [
+                  "AssociatedDataEnum_Common"
+                ],
+                "fields" : [
+                  {
+                    "documentation" : [
+
+                    ],
+                    "isStatic" : false,
+                    "name" : "value",
+                    "readOnly" : true,
+                    "type" : {
+                      "named" : {
+                        "_0" : "TestAPI.SimpleEnum"
+                      }
+                    }
+                  }
+                ],
+                "methods" : [
+
+                ],
+                "name" : "SimpleEnum"
               }
             ],
             "fields" : [
@@ -7026,6 +7067,11 @@
                   {
                     "named" : {
                       "_0" : "AssociatedDataEnum.NoValue"
+                    }
+                  },
+                  {
+                    "named" : {
+                      "_0" : "AssociatedDataEnum.SimpleEnum"
                     }
                   }
                 ]

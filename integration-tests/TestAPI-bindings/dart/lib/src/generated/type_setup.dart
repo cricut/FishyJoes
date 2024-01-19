@@ -234,6 +234,15 @@ typedef TestAPI_AssociatedDataEnum_extract_noValue = ffi.Void Function(
     UnownedRef obj,
     OutCreatedRef _exn
 );
+typedef TestAPI_AssociatedDataEnum_new_simpleEnum = CreatedRef Function(
+    ConsumedRef value,
+    OutCreatedRef _exn
+);
+typedef TestAPI_AssociatedDataEnum_extract_simpleEnum = ffi.Void Function(
+    UnownedRef obj,
+    OutCreatedRef value,
+    OutCreatedRef _exn
+);
 typedef TestAPI_SimpleEnum_new_red = CreatedRef Function(
     OutCreatedRef _exn
 );
@@ -531,6 +540,8 @@ final ensureLoaded = (() {
             ffi.Pointer<ffi.NativeFunction<TestAPI_AssociatedDataEnum_extract_bar>> bar_extractor,
             ffi.Pointer<ffi.NativeFunction<TestAPI_AssociatedDataEnum_new_noValue>> noValue_constructor,
             ffi.Pointer<ffi.NativeFunction<TestAPI_AssociatedDataEnum_extract_noValue>> noValue_extractor,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_AssociatedDataEnum_new_simpleEnum>> simpleEnum_constructor,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_AssociatedDataEnum_extract_simpleEnum>> simpleEnum_extractor,
             OutCreatedRef exn
         ),
         void Function(
@@ -544,6 +555,8 @@ final ensureLoaded = (() {
             ffi.Pointer<ffi.NativeFunction<TestAPI_AssociatedDataEnum_extract_bar>> bar_extractor,
             ffi.Pointer<ffi.NativeFunction<TestAPI_AssociatedDataEnum_new_noValue>> noValue_constructor,
             ffi.Pointer<ffi.NativeFunction<TestAPI_AssociatedDataEnum_extract_noValue>> noValue_extractor,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_AssociatedDataEnum_new_simpleEnum>> simpleEnum_constructor,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_AssociatedDataEnum_extract_simpleEnum>> simpleEnum_extractor,
             OutCreatedRef exn
         )
     >('TestAPI_AssociatedDataEnum_setup');
@@ -4599,6 +4612,8 @@ final ensureLoaded = (() {
                 ffi.Pointer.fromFunction(TestAPI.AssociatedDataEnum.extractBar),
                 ffi.Pointer.fromFunction(TestAPI.AssociatedDataEnum.newNoValue),
                 ffi.Pointer.fromFunction(TestAPI.AssociatedDataEnum.extractNoValue),
+                ffi.Pointer.fromFunction(TestAPI.AssociatedDataEnum.newSimpleEnum),
+                ffi.Pointer.fromFunction(TestAPI.AssociatedDataEnum.extractSimpleEnum),
                 exn
             );
         });

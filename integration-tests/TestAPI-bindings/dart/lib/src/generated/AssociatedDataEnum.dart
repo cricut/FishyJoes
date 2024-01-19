@@ -160,6 +160,7 @@ sealed class AssociatedDataEnum {
   const factory AssociatedDataEnum.other(String unnamed, int m_1) = AssociatedDataEnum_Other.other;
   const factory AssociatedDataEnum.bar(String named, AssociatedDataEnum m_1) = AssociatedDataEnum_Bar.bar;
   const factory AssociatedDataEnum.noValue() = AssociatedDataEnum_NoValue;
+  const factory AssociatedDataEnum.simpleEnum(SimpleEnum value) = AssociatedDataEnum_SimpleEnum.simpleEnum;
 
   const AssociatedDataEnum();
 
@@ -173,6 +174,8 @@ sealed class AssociatedDataEnum {
         return 2;
       } else if (peekedObj is AssociatedDataEnum_NoValue) {
         return 3;
+      } else if (peekedObj is AssociatedDataEnum_SimpleEnum) {
+        return 4;
       }
       throw UnsupportedError('Unknown AssociatedDataEnum subclass');
   });
@@ -259,6 +262,25 @@ sealed class AssociatedDataEnum {
       });
   }
 
+  static CreatedRef newSimpleEnum(
+      ConsumedRef _value,
+      OutCreatedRef exn
+  ) => catchingRef(exn, () =>
+      createRef(AssociatedDataEnum_SimpleEnum(
+          consumeRef<TestAPI.SimpleEnum>(_value),
+      ))
+  );
+
+  static void extractSimpleEnum(
+      UnownedRef obj,
+      OutCreatedRef _value,
+      OutCreatedRef exn
+  ) {
+      catching(exn, () {
+          final _self = peekRef<AssociatedDataEnum_SimpleEnum>(obj);
+          _value.value = createRef(_self.value);
+      });
+  }
 
   /// <!-- FishyJoes.export(staticThing) -->
   static TestAPI.AssociatedDataEnum get staticThing =>
@@ -335,4 +357,12 @@ class AssociatedDataEnum_Bar extends AssociatedDataEnum {
 
 class AssociatedDataEnum_NoValue extends AssociatedDataEnum {
   const AssociatedDataEnum_NoValue();
+}
+
+class AssociatedDataEnum_SimpleEnum extends AssociatedDataEnum {
+  const factory AssociatedDataEnum_SimpleEnum.simpleEnum(SimpleEnum value) = AssociatedDataEnum_SimpleEnum;
+
+  const AssociatedDataEnum_SimpleEnum(this.value);
+
+  final SimpleEnum value;
 }

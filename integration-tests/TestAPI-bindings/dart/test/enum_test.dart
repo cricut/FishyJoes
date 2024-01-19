@@ -40,14 +40,21 @@ void main() {
       // });
 
       test('testAssociatedDataEnum', () {
-        var staticObj = AssociatedDataEnum.staticThing;
-        print("staticObj.intValue: ${staticObj.intValue}");
+        final simpObj = SimpleEnum.blue();
+        var assocObj = AssociatedDataEnum.simpleEnum(simpObj) as AssociatedDataEnum_SimpleEnum;
+        print("simpObj: $simpObj");
+        print("simpObj.testFuncCall: ${simpObj.testFuncCall(9, 8)}");
+        print("assocObj: $assocObj");
+        print("assocObj.value: ${assocObj.value}");
+        print("assocObj.value.testFuncCall: ${assocObj.value.testFuncCall(4, 6)}}");
+        // var staticObj = AssociatedDataEnum.staticThing;
+        // print("staticObj.intValue: ${staticObj.intValue}");
 
-        var barObj = AssociatedDataEnum.bar("FooBarBaz", staticObj) as AssociatedDataEnum_Bar;
-        print("barObj.intValue: ${barObj.intValue}");
-        print("barObj.named: ${barObj.named}");
-        print("barObj.m_1: ${barObj.m_1}");
-        print("barObj.m_1.intValue: ${barObj.m_1.intValue}");
+        // var barObj = AssociatedDataEnum.bar("FooBarBaz", staticObj) as AssociatedDataEnum_Bar;
+        // print("barObj.intValue: ${barObj.intValue}");
+        // print("barObj.named: ${barObj.named}");
+        // print("barObj.m_1: ${barObj.m_1}");
+        // print("barObj.m_1.intValue: ${barObj.m_1.intValue}");
         // var otherObj = AssociatedDataEnum.other("Doug", 942);
         // print("otherObj.intValue: ${otherObj.intValue}");
         // var other = otherObj as AssociatedDataEnum_Other;

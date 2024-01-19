@@ -17,7 +17,9 @@ public func TestAPI_AssociatedDataEnum_setup(
     bar_constructor: @escaping TestAPI.AssociatedDataEnum.Bar_constructor,
     bar_extractor: @escaping TestAPI.AssociatedDataEnum.Bar_extractor,
     noValue_constructor: @escaping TestAPI.AssociatedDataEnum.NoValue_constructor,
-    noValue_extractor: @escaping TestAPI.AssociatedDataEnum.NoValue_extractor
+    noValue_extractor: @escaping TestAPI.AssociatedDataEnum.NoValue_extractor,
+    simpleEnum_constructor: @escaping TestAPI.AssociatedDataEnum.SimpleEnum_constructor,
+    simpleEnum_extractor: @escaping TestAPI.AssociatedDataEnum.SimpleEnum_extractor
 ) {
     let env = Env(envRef)
     TestAPI.AssociatedDataEnum.discriminator[env] = discriminator
@@ -29,6 +31,8 @@ public func TestAPI_AssociatedDataEnum_setup(
     TestAPI.AssociatedDataEnum.bar_extractor[env] = bar_extractor
     TestAPI.AssociatedDataEnum.noValue_constructor[env] = noValue_constructor
     TestAPI.AssociatedDataEnum.noValue_extractor[env] = noValue_extractor
+    TestAPI.AssociatedDataEnum.simpleEnum_constructor[env] = simpleEnum_constructor
+    TestAPI.AssociatedDataEnum.simpleEnum_extractor[env] = simpleEnum_extractor
 }
 
 extension TestAPI.AssociatedDataEnum: IotaConverter {
@@ -83,6 +87,17 @@ extension TestAPI.AssociatedDataEnum: IotaConverter {
         foreignOutExn
     ) -> Void
     fileprivate static let noValue_extractor = Env.CallbackMap<NoValue_extractor>()
+    public typealias SimpleEnum_constructor = @convention(c) (
+        TestAPI.SimpleEnum.CType,
+        foreignOutExn
+    ) -> foreignObject
+    fileprivate static let simpleEnum_constructor = Env.CallbackMap<SimpleEnum_constructor>()
+    public typealias SimpleEnum_extractor = @convention(c) (
+        foreignObject,
+        UnsafePointer<TestAPI.SimpleEnum.CType>,
+        foreignOutExn
+    ) -> Void
+    fileprivate static let simpleEnum_extractor = Env.CallbackMap<SimpleEnum_extractor>()
 
     public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
         switch try env.check({ exn in discriminator[env](value, exn) }) {
@@ -118,6 +133,15 @@ extension TestAPI.AssociatedDataEnum: IotaConverter {
         case 3:
             try env.check { exn in noValue_extractor[env](value, exn) }
             return Self.noValue
+        case 4:
+            var _value = TestAPI.SimpleEnum.CType.default
+            try env.check { exn in simpleEnum_extractor[env](value, &_value, exn) }
+            defer {
+                env.deleteRef(_value)
+            }
+            return Self.simpleEnum(
+                value: try TestAPI.SimpleEnum.peekIota(_value, env: env)
+            )
         case let disc:
             fatalError("bad discriminator value \(disc) encountered for type \(self)")
         }
@@ -151,6 +175,13 @@ extension TestAPI.AssociatedDataEnum: IotaConverter {
         case noValue:
             return try env.check { exn in
                 return noValue_constructor[env](
+                    exn
+                )
+            }
+        case let simpleEnum(value):
+            return try env.check { exn in
+                return simpleEnum_constructor[env](
+                    try TestAPI.SimpleEnum.toIota(value, env: env),
                     exn
                 )
             }
