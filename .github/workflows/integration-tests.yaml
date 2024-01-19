@@ -234,7 +234,7 @@ jobs:
           username: cricut-builduser
           password:  ${{ secrets.CRICUT_GPR_TOKEN }}
           registry: ghcr.io
-          image: ghcr.io/cricut/android-swift-runtime:1.0.0
+          image: ghcr.io/cricut/android-swift-runtime:1.1.0
           options: -v ${{ github.workspace }}:/work -w /work
           run: /work/scripts/compile-android-runtime.sh
 
@@ -330,13 +330,13 @@ jobs:
           cd integration-tests/TestAPI-bindings
           $SWIFT run -- fishy-joes --c-sharp build test
 
-      # - name: Test Dart from dart via fishy-joes
-      #   shell: bash
-      #   run: |
-      #     set -euxo pipefail
+      - name: Test Dart from dart via fishy-joes
+        shell: bash
+        run: |
+          set -euxo pipefail
 
-      #     cd integration-tests/TestAPI-bindings
-      #     $SWIFT run -- fishy-joes --dart build test
+          cd integration-tests/TestAPI-bindings
+          $SWIFT run -- fishy-joes --dart build test
 
       - name: Build FishyJoesJavaRuntime
         shell: bash
