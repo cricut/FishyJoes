@@ -586,7 +586,7 @@ class DartEnumClass: DartClass {
                 if cases.isEmpty {
                     fragment.output("throw UnsupportedError('This class is supposed to be unihabited');")
                 } else {
-                    fragment.output("final peekedObj = peekRef<AssociatedDataEnum>(obj);")
+                    fragment.output("final peekedObj = peekRef<\(unqualifiedName)>(obj);")
                     for (enumIndex, enumCase) in cases.enumerated() {
                         if enumIndex != 0 {
                             fragment.output("else ", newLineTerminated: false)
