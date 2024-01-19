@@ -158,7 +158,7 @@ import 'package:tuple/tuple.dart' as tuple;
 sealed class AssociatedDataEnum {
   const factory AssociatedDataEnum.thing(int value) = AssociatedDataEnum_Thing.thing;
   const factory AssociatedDataEnum.other(String unnamed, int m_1) = AssociatedDataEnum_Other.other;
-  const factory AssociatedDataEnum.bar(String named, AssociatedDataEnum m_1) = AssociatedDataEnum_Bar.bar;
+  const factory AssociatedDataEnum.bar(AssociatedDataEnum m_1, {required String named}) = AssociatedDataEnum_Bar.bar;
   const factory AssociatedDataEnum.noValue() = AssociatedDataEnum_NoValue;
   const factory AssociatedDataEnum.simpleEnum(SimpleEnum value) = AssociatedDataEnum_SimpleEnum.simpleEnum;
 
@@ -228,7 +228,7 @@ sealed class AssociatedDataEnum {
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
         createRef(AssociatedDataEnum_Bar(
-            consumeRef<String>(_named),
+            named: consumeRef<String>(_named),
             consumeRef<TestAPI.AssociatedDataEnum>(__1),
         ))
     );
@@ -347,12 +347,12 @@ class AssociatedDataEnum_Other extends AssociatedDataEnum {
 }
 
 class AssociatedDataEnum_Bar extends AssociatedDataEnum {
-  const factory AssociatedDataEnum_Bar.bar(String named, AssociatedDataEnum m_1) = AssociatedDataEnum_Bar;
+  const factory AssociatedDataEnum_Bar.bar(AssociatedDataEnum m_1, {required String named}) = AssociatedDataEnum_Bar;
 
-  const AssociatedDataEnum_Bar(this.named, this.m_1);
+  const AssociatedDataEnum_Bar(this.m_1, {required String this.named});
 
-  final String named;
   final AssociatedDataEnum m_1;
+  final String named;
 }
 
 class AssociatedDataEnum_NoValue extends AssociatedDataEnum {
