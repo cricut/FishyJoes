@@ -584,7 +584,7 @@ class DartEnumClass: DartClass {
 
             fragment.outputBlock("static int enumDiscriminator(UnownedRef obj, OutCreatedRef exn) => check((exn) {", closeWith: "});") {
                 if cases.isEmpty {
-                    fragment.output("throw UnsupportedError('This class is supposed to be unihabited')")
+                    fragment.output("throw UnsupportedError('This class is supposed to be unihabited');")
                 } else {
                     fragment.output("final peekedObj = peekRef<AssociatedDataEnum>(obj);")
                     for (enumIndex, enumCase) in cases.enumerated() {
