@@ -555,12 +555,17 @@ class DartEnumClass: DartClass {
 
     override func output(to fragment: SourceFragment) {
         document(documentation, fragment: fragment)
-        fragment.output("sealed class \(unqualifiedName)", newLineTerminated: false)
+        let doSealedClass = !cases.isEmpty
+        if doSealedClass {
+            fragment.output("sealed ", newLineTerminated: false)
+        }
+        fragment.output("class \(unqualifiedName)", newLineTerminated: false)
 
         fragment.outputBlock(" {") {
             for enumCase in cases {
                 document(enumCase.documentation, fragment: fragment)
                 fragment.output("const factory \(unqualifiedName).\(enumCase.name)", newLineTerminated: false)
+                
                 fragment.outputBlock("(", newLineTerminated: false) {
                     fragment.outputMap(enumCase.values, separator: ",") { value in
                         return "\(value.type.name(in: self)) \(DartClass.deforbidify(value.name))"
@@ -570,7 +575,11 @@ class DartEnumClass: DartClass {
                 fragment.blankLine()
             }
             
-            fragment.output("const \(unqualifiedName)();")
+            if doSealedClass {
+                fragment.output("const \(unqualifiedName)();")
+            } else {
+                fragment.output("\(unqualifiedName)._() {}")
+            }
             fragment.blankLine()
 
             fragment.outputBlock("static int enumDiscriminator(UnownedRef obj, OutCreatedRef exn) => check((exn) {", closeWith: "});") {
