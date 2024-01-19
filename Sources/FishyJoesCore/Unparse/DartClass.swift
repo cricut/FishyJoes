@@ -661,9 +661,13 @@ class DartEnumClass: DartClass {
             
             fragment.outputBlock(" {") {
                 fragment.output("const \(className)", newLineTerminated: false)
-                fragment.outputBlock("(", newLineTerminated: false) {
-                    fragment.outputMap(enumCase.values, separator: ",") { value in
-                        return "this.\(DartClass.deforbidify(value.name))"
+                if enumCase.values.isEmpty {
+                    fragment.output("()", newLineTerminated: false)
+                } else {
+                    fragment.outputBlock("(", newLineTerminated: false) {
+                        fragment.outputMap(enumCase.values, separator: ",") { value in
+                            return "this.\(DartClass.deforbidify(value.name))"
+                        }
                     }
                 }
                 fragment.output(";");
@@ -673,9 +677,54 @@ class DartEnumClass: DartClass {
                 for value in enumCase.values {
                     fragment.output("final \(value.type.name(in: self)) \(DartClass.deforbidify(value.name));")
                 }
+                
+                fragment.blankLine()
+                
+                fragment.output("@override")
+                fragment.output("bool operator ==(Object other)", newLineTerminated: false)
+                fragment.outputBlock(" {") {
+                    fragment.output("return identical(other, this) ||")
+                    fragment.output("(")
+                    fragment.currentIndent += 1
+                    fragment.output("other.runtimeType == runtimeType &&")
+                    fragment.output("other is \(className)", newLineTerminated: false)
+                    
+                    if enumCase.values.isEmpty {
+                        fragment.blankLine()
+                    } else {
+                        fragment.output(" &&")
+                        fragment.outputMap(enumCase.values, separator: " &&") { value in
+                            let valueName = "\(DartClass.deforbidify(value.name))"
+                            return "(identical(other.\(valueName), \(valueName)) || other.\(valueName) == \(valueName))"
+                        }
+                    }
+                    fragment.currentIndent -= 1
+                    fragment.output(");")
+                }
+                
+                fragment.blankLine()
+                fragment.blankLine()
+                
+                fragment.output("@override")
+                fragment.output("int get hashCode => ", newLineTerminated: false)
+                if enumCase.values.isEmpty {
+                    fragment.output("runtimeType.hashCode;")
+                } else {
+                    fragment.output("Object.hash(")
+                    fragment.currentIndent += 1
+                    fragment.output("runtimeType,")
+                    fragment.outputMap(enumCase.values, separator: ", ") { value in
+                        "\(DartClass.deforbidify(value.name))"
+                    }
+                    fragment.currentIndent -= 1
+                    fragment.output(");")
+                }
             }
             
             fragment.blankLine()
+        }
+        if unqualifiedName.contains("AssociatedDataEnum") {
+            var d = 5+9
         }
     }
 }
