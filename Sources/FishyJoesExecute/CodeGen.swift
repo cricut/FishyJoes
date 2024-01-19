@@ -137,7 +137,7 @@ extension CodeGen {
         guard let fishyJoesDependency = packageInfo.dependencyMap["FishyJoes"] else {
             fatalError("Couldn't locate FishyJoes dependency in Package.swift")
         }
-        print("Found FishyJoes at: \(fishyJoesDependency.localPath)")
+        printAndFlush("Found FishyJoes at: \(fishyJoesDependency.localPath)")
 
         // Locate dependency bindings modules required by this bindings module
         var dependencySourcePaths: [String: String] = [config.module: "."]

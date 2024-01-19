@@ -335,11 +335,6 @@ jobs:
         run: |
           set -euxo pipefail
 
-          # Someone who understands windows better than I do is welcome to fix this in a better way
-          ls integration-tests/TestAPI-bindings/dart/windows/native
-          PATH="integration-tests/TestAPI-bindings/dart/windows/native:$PATH"
-          echo $PATH
-
           cd integration-tests/TestAPI-bindings
           $SWIFT run -- fishy-joes --dart build test
 
