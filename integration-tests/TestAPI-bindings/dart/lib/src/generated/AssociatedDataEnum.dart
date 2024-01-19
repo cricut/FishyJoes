@@ -54,109 +54,10 @@ import 'package:ffi/ffi.dart' as ffi;
 import 'package:fishyjoes_dart/runtime.dart' as FishyJoesRuntime;
 import 'package:fishyjoes_dart/runtime.dart';
 import 'package:fishyjoes_dart/utilities.dart' as utils;
-// import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:tuple/tuple.dart' as tuple;
 
-// part 'AssociatedDataEnum.freezed.dart';
-
-/// <!-- FishyJoes.export(AssociatedDataEnum) -->
-// @freezed
-// class AssociatedDataEnum with _$AssociatedDataEnum {
-// enum AssociatedDataEnum {
-//     thing(thingValue: 42);
-
-//     const AssociatedDataEnum({
-//       required this.thingValue
-//     });
-
-//     final int thingValue;
-//     // factory AssociatedDataEnum.thing(
-//     //     int value
-//     // ) = AssociatedDataEnum_Thing;
-
-//     // AssociatedDataEnum._() {}
-
-//     static int enumDiscriminator(UnownedRef obj, OutCreatedRef exn) => check((exn) =>
-//         // peekRef<AssociatedDataEnum>(obj).map(
-//         //     thing: (_) => 0,
-//         // )
-//         peekRef<AssociatedDataEnum>(obj).index
-//     );
-
-//     static CreatedRef newThing(
-//         int _value,
-//         OutCreatedRef exn
-//     ) => catchingRef(exn, () =>
-//         // createRef(AssociatedDataEnum_Thing(
-//         //     _value,
-//         // ))
-//         createRef(AssociatedDataEnum.thing)
-//     );
-
-//     static void extractThing(
-//         UnownedRef obj,
-//         ffi.Pointer<ffi.Int> _value,
-//         OutCreatedRef exn
-//     ) {
-//         catching(exn, () {
-//             // final _self = peekRef<AssociatedDataEnum_Thing>(obj);
-//             final _self = peekRef<AssociatedDataEnum>(obj);
-//             _value.value = _self.thingValue;
-//         });
-//     }
-// }
-// enum AssociatedDataEnumCase {
-//   thing
-// }
-
-// class AssociatedDataEnum {
-//     factory AssociatedDataEnum.thing(dynamic thingValue) => AssociatedDataEnum(AssociatedDataEnumCase.thing, thingValue);
-
-//     const AssociatedDataEnum(
-//       this.enumCase,
-//       this.thingValue      
-//     );
-
-//     final int thingValue;
-//     final AssociatedDataEnumCase enumCase;
-//     // factory AssociatedDataEnum.thing(
-//     //     int value
-//     // ) = AssociatedDataEnum_Thing;
-
-//     // AssociatedDataEnum._() {}
-
-//     static int enumDiscriminator(UnownedRef obj, OutCreatedRef exn) => check((exn) =>
-//         // peekRef<AssociatedDataEnum>(obj).map(
-//         //     thing: (_) => 0,
-//         // )
-//         peekRef<AssociatedDataEnum>(obj).enumCase.index
-//     );
-
-//     static CreatedRef newThing(
-//         int _value,
-//         OutCreatedRef exn
-//     ) => catchingRef(exn, () =>
-//         // createRef(AssociatedDataEnum_Thing(
-//         //     _value,
-//         // ))
-//         createRef(AssociatedDataEnum.thing(_value))
-//     );
-
-//     static void extractThing(
-//         UnownedRef obj,
-//         ffi.Pointer<ffi.Int> _value,
-//         OutCreatedRef exn
-//     ) {
-//         catching(exn, () {
-//             // final _self = peekRef<AssociatedDataEnum_Thing>(obj);
-//             final _self = peekRef<AssociatedDataEnum>(obj);
-//             _value.value = _self.thingValue;
-//         });
-//     }
-// }
-
 sealed class AssociatedDataEnum {
-  const factory AssociatedDataEnum.thing(int value) = AssociatedDataEnum_Thing.thing;
+  const factory AssociatedDataEnum.thing({required int value}) = AssociatedDataEnum_Thing.thing;
   const factory AssociatedDataEnum.other(String unnamed, int m_1) = AssociatedDataEnum_Other.other;
   const factory AssociatedDataEnum.bar(AssociatedDataEnum m_1, {required String named}) = AssociatedDataEnum_Bar.bar;
   const factory AssociatedDataEnum.noValue() = AssociatedDataEnum_NoValue;
@@ -184,7 +85,7 @@ sealed class AssociatedDataEnum {
     int _value,
     OutCreatedRef exn
   ) => catchingRef(exn, () =>      
-    createRef(AssociatedDataEnum.thing(_value))
+    createRef(AssociatedDataEnum.thing(value: _value))
   );
 
   static void extractThing(
@@ -330,9 +231,9 @@ sealed class AssociatedDataEnum {
 }
 
 class AssociatedDataEnum_Thing extends AssociatedDataEnum {
-  const factory AssociatedDataEnum_Thing.thing(int value) = AssociatedDataEnum_Thing;
+  const factory AssociatedDataEnum_Thing.thing({required int value}) = AssociatedDataEnum_Thing;
 
-  const AssociatedDataEnum_Thing(this.value);
+  const AssociatedDataEnum_Thing({required this.value});
 
   final int value;
 }
