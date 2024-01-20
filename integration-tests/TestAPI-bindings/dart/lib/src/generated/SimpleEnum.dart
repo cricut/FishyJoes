@@ -202,16 +202,49 @@ sealed class SimpleEnum {
 }
 
 class SimpleEnum_Red extends SimpleEnum {
-    const SimpleEnum_Red(
-    );
+    const SimpleEnum_Red();
+
+    @override
+    bool operator ==(Object other) {
+        return identical(other, this) ||
+        (
+            other.runtimeType == runtimeType &&
+            other is SimpleEnum_Red
+        );
+    }
+
+    @override
+    int get hashCode => runtimeType.hashCode;
 }
 
 class SimpleEnum_Green extends SimpleEnum {
-    const SimpleEnum_Green(
-    );
+    const SimpleEnum_Green();
+
+    @override
+    bool operator ==(Object other) {
+        return identical(other, this) ||
+        (
+            other.runtimeType == runtimeType &&
+            other is SimpleEnum_Green
+        );
+    }
+
+    @override
+    int get hashCode => runtimeType.hashCode;
 }
 
 class SimpleEnum_Blue extends SimpleEnum {
-    const SimpleEnum_Blue(
-    );
+    const SimpleEnum_Blue();
+
+    @override
+    bool operator ==(Object other) {
+        return identical(other, this) ||
+        (
+            other.runtimeType == runtimeType &&
+            other is SimpleEnum_Blue
+        );
+    }
+
+    @override
+    int get hashCode => runtimeType.hashCode;
 }

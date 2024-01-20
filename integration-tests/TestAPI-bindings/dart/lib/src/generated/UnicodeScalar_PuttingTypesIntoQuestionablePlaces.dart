@@ -104,6 +104,17 @@ sealed class UnicodeScalar_PuttingTypesIntoQuestionablePlaces {
 }
 
 class UnicodeScalar_PuttingTypesIntoQuestionablePlaces_Thing extends UnicodeScalar_PuttingTypesIntoQuestionablePlaces {
-    const UnicodeScalar_PuttingTypesIntoQuestionablePlaces_Thing(
-    );
+    const UnicodeScalar_PuttingTypesIntoQuestionablePlaces_Thing();
+
+    @override
+    bool operator ==(Object other) {
+        return identical(other, this) ||
+        (
+            other.runtimeType == runtimeType &&
+            other is UnicodeScalar_PuttingTypesIntoQuestionablePlaces_Thing
+        );
+    }
+
+    @override
+    int get hashCode => runtimeType.hashCode;
 }
