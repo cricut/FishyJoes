@@ -340,7 +340,7 @@ jobs:
           #       it cannot be found in windows/native and must be in the working directory
           #$SWIFT run -- fishy-joes --dart build test
           $SWIFT run -- fishy-joes --dart build
-          cp windows/native/TestAPI.dll .
+          cp dart/windows/native/TestAPI.dll dart
           $SWIFT run -- fishy-joes --dart test
 
       - name: Upload Iota Artifact
