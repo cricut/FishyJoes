@@ -336,7 +336,12 @@ jobs:
           set -euxo pipefail
 
           cd integration-tests/TestAPI-bindings
+          # TODO: TestAPI.dll is referenced from TestAPI-iota.dll, but for some reason
+          #       it cannot be found in windows/native and must be in the working directory
+          #$SWIFT run -- fishy-joes --dart build test
           $SWIFT run -- fishy-joes --dart build
+          cp windows/native/TestAPI.dll .
+          $SWIFT run -- fishy-joes --dart test
 
       - name: Upload Iota Artifact
         uses: actions/upload-artifact@v3
