@@ -61,7 +61,7 @@ import 'package:tuple/tuple.dart' as tuple;
 
 /// <!-- FishyJoes.export(Strings) -->
 class Strings {
-    Strings._() {}
+    Strings._();
 
     static int enumDiscriminator(UnownedRef obj, OutCreatedRef exn) => check((exn) {
         throw UnsupportedError('This class is supposed to be unihabited');

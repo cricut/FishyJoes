@@ -578,7 +578,7 @@ class DartEnumClass: DartClass {
             if doSealedClass {
                 fragment.output("const \(unqualifiedName)();")
             } else {
-                fragment.output("\(unqualifiedName)._() {}")
+                fragment.output("\(unqualifiedName)._();")
             }
             fragment.blankLine()
 
