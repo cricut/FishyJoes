@@ -307,13 +307,13 @@ jobs:
 
           ./scripts/compile-node-runtime.sh
 
-      # - name: Test TypeScript from npm via fishy-joes
-      #   shell: bash
-      #   run: |
-      #     set -euxo pipefail
+      - name: Test TypeScript from npm via fishy-joes
+        shell: bash
+        run: |
+          set -euxo pipefail
 
-      #     cd integration-tests/TestAPI-bindings
-      #     $SWIFT run -- fishy-joes --nodejs build test
+          cd integration-tests/TestAPI-bindings
+          $SWIFT run -- fishy-joes --nodejs build test
 
       - name: Build FishyJoesIotaRuntime
         shell: bash
