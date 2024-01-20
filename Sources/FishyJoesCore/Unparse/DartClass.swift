@@ -565,7 +565,7 @@ class DartEnumClass: DartClass {
             for enumCase in cases {
                 document(enumCase.documentation, fragment: fragment)
                 fragment.output("const factory \(unqualifiedName).\(enumCase.name)", newLineTerminated: false)
-                
+
                 fragment.outputBlock("(", newLineTerminated: false) {
                     fragment.outputMap(enumCase.values, separator: ",") { value in
                         return "\(value.type.name(in: self)) \(DartClass.deforbidify(value.name))"
@@ -574,7 +574,7 @@ class DartEnumClass: DartClass {
                 fragment.output(" = \(unqualifiedName)_\(upperCaseFirst(enumCase.name));")
                 fragment.blankLine()
             }
-            
+
             if doSealedClass {
                 fragment.output("const \(unqualifiedName)();")
             } else {
@@ -651,14 +651,14 @@ class DartEnumClass: DartClass {
             fragment.blankLine()
             outputNativeMethodDeclarations(to: fragment)
         }
-        
+
         fragment.blankLine()
-        
+
         for enumCase in cases {
             // output subclasses here that extend the sealed class
             let className = "\(unqualifiedName)_\(upperCaseFirst(enumCase.name))"
             fragment.output("class \(className) extends \(unqualifiedName)", newLineTerminated: false)
-            
+
             fragment.outputBlock(" {") {
                 fragment.output("const \(className)", newLineTerminated: false)
                 if enumCase.values.isEmpty {
@@ -670,16 +670,16 @@ class DartEnumClass: DartClass {
                         }
                     }
                 }
-                fragment.output(";");
+                fragment.output(";")
 
                 fragment.blankLine()
-                
+
                 for value in enumCase.values {
                     fragment.output("final \(value.type.name(in: self)) \(DartClass.deforbidify(value.name));")
                 }
-                
+
                 fragment.blankLine()
-                
+
                 fragment.output("@override")
                 fragment.output("bool operator ==(Object other)", newLineTerminated: false)
                 fragment.outputBlock(" {") {
@@ -688,7 +688,7 @@ class DartEnumClass: DartClass {
                     fragment.currentIndent += 1
                     fragment.output("other.runtimeType == runtimeType &&")
                     fragment.output("other is \(className)", newLineTerminated: false)
-                    
+
                     if enumCase.values.isEmpty {
                         fragment.blankLine()
                     } else {
@@ -701,10 +701,10 @@ class DartEnumClass: DartClass {
                     fragment.currentIndent -= 1
                     fragment.output(");")
                 }
-                
+
                 fragment.blankLine()
                 fragment.blankLine()
-                
+
                 fragment.output("@override")
                 fragment.output("int get hashCode => ", newLineTerminated: false)
                 if enumCase.values.isEmpty {
@@ -720,7 +720,7 @@ class DartEnumClass: DartClass {
                     fragment.output(");")
                 }
             }
-            
+
             fragment.blankLine()
         }
     }
