@@ -1,3 +1,5 @@
+import 'dart:js_util';
+
 import 'package:cricut_test_api/cricut_test_api.dart';
 import 'package:test/test.dart';
 
@@ -18,6 +20,25 @@ void main() {
           expect(SimpleEnum.pickAColor(0), equals(SimpleEnum.red()));
           expect(SimpleEnum.pickAColor(1), equals(SimpleEnum.green()));
           expect(SimpleEnum.pickAColor(2), equals(SimpleEnum.blue()));
+      });
+
+      test('testEnumEqualityOperator', () {
+        var a = AssociatedDataEnum.thing(10);
+        var b = AssociatedDataEnum.thing(10);
+        var c = AssociatedDataEnum.thing(11);
+
+        expect(a, equals(a));
+        expect(b, equals(b));
+        expect(c, equals(c));
+        expect(a, equals(b));
+        expect(b, equals(a));
+
+        expect(a == a, true);
+        expect(a == b, true);
+        expect(b == a, true);
+        expect(b == b, true);
+        expect(c != a, true);
+        expect(c != b, true);
       });
 
       test('testAssociatedDataEnum', () {
