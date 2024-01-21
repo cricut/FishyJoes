@@ -584,16 +584,17 @@ class DartEnumClass: DartClass {
 
             fragment.outputBlock("static int enumDiscriminator(UnownedRef obj, OutCreatedRef exn) => check((exn) {", closeWith: "});") {
                 if cases.isEmpty {
-                    fragment.output("throw UnsupportedError('This class is supposed to be unihabited');")
-                } else {
+                    fragment.output("throw UnsupportedError('This class is supposed to be uninhabited');")
+                } else {                    
                     fragment.output("final peekedObj = peekRef<\(unqualifiedName)>(obj);")
                     for (enumIndex, enumCase) in cases.enumerated() {
-                        if enumIndex != 0 {
+                        if enumIndex != cases.indices.lowerBound {
                             fragment.output("else ", newLineTerminated: false)
                         }
                         fragment.output("if (peekedObj is \(unqualifiedName)_\(upperCaseFirst(enumCase.name))) { return \(enumIndex); }")
                     }
-                    fragment.output("throw UnsupportedError('Unknown \(unqualifiedName) subclass');")
+                    // This should never happen because every enum case should have a subclass extending the abstract base enum sealed class, but just in case...
+                    fragment.output("else { throw UnsupportedError('Unknown \(unqualifiedName) subclass'); }")
                 }
             }
             fragment.blankLine()
