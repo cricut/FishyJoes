@@ -69,7 +69,7 @@ sealed class UnicodeScalar_PuttingTypesIntoQuestionablePlaces {
     static int enumDiscriminator(UnownedRef obj, OutCreatedRef exn) => check((exn) {
         final peekedObj = peekRef<UnicodeScalar_PuttingTypesIntoQuestionablePlaces>(obj);
         if (peekedObj is UnicodeScalar_PuttingTypesIntoQuestionablePlaces_Thing) { return 0; }
-        throw UnsupportedError('Unknown UnicodeScalar_PuttingTypesIntoQuestionablePlaces subclass');
+        else { throw UnsupportedError('Unknown UnicodeScalar_PuttingTypesIntoQuestionablePlaces subclass'); }
     });
 
     static CreatedRef newThing(

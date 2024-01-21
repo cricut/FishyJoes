@@ -77,7 +77,7 @@ sealed class SimpleEnum {
         if (peekedObj is SimpleEnum_Red) { return 0; }
         else if (peekedObj is SimpleEnum_Green) { return 1; }
         else if (peekedObj is SimpleEnum_Blue) { return 2; }
-        throw UnsupportedError('Unknown SimpleEnum subclass');
+        else { throw UnsupportedError('Unknown SimpleEnum subclass'); }
     });
 
     static CreatedRef newRed(

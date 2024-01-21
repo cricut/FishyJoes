@@ -64,6 +64,6 @@ class Structs {
     Structs._();
 
     static int enumDiscriminator(UnownedRef obj, OutCreatedRef exn) => check((exn) {
-        throw UnsupportedError('This class is supposed to be unihabited');
+        throw UnsupportedError('This class is supposed to be uninhabited');
     });
 }

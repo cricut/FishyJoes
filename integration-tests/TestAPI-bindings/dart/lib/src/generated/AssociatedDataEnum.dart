@@ -91,7 +91,7 @@ sealed class AssociatedDataEnum {
         else if (peekedObj is AssociatedDataEnum_Bar) { return 2; }
         else if (peekedObj is AssociatedDataEnum_NoValue) { return 3; }
         else if (peekedObj is AssociatedDataEnum_SimpleEnum) { return 4; }
-        throw UnsupportedError('Unknown AssociatedDataEnum subclass');
+        else { throw UnsupportedError('Unknown AssociatedDataEnum subclass'); }
     });
 
     static CreatedRef newThing(
