@@ -79,5 +79,28 @@ void main() {
         var y = AssociatedDataEnum.bar("qux", x);
         expect(y.toString(), equals("AssociatedDataEnum.bar(named: qux, m_1: AssociatedDataEnum.thing(value: 90))"));
       });
+
+      test('testEnumShallowCopy', () {
+          var a = SimpleEnum.blue();
+          var b = a.shallowCopy();
+          var c = SimpleEnum.green();
+          var d = c.shallowCopy();
+          expect(a == b, true);
+          expect(c, equals(d));
+          expect(b != d, true);
+
+          var e = AssociatedDataEnum.simpleEnum(b);
+          var f = AssociatedDataEnum.bar("corge", e);
+          var g = f.shallowCopy();
+          expect(g, equals(f));
+
+          var h = AssociatedDataEnum.thing(123);
+          var i = h.shallowCopy();
+          var j = i.shallowCopy();
+          expect(i, equals(h));
+          expect(j, equals(h));
+          var k = AssociatedDataEnum.thing(124);
+          expect(k != h, true);
+      });
   });
 }
