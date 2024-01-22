@@ -652,9 +652,9 @@ class DartEnumClass: DartClass {
             fragment.blankLine()
 
             outputNativeMethodDeclarations(to: fragment)
-            
+
             fragment.blankLine()
-            
+
             fragment.output("\(unqualifiedName) shallowCopy()", newLineTerminated: false)
             fragment.outputBlock(" {") {
                 fragment.output("throw UnsupportedError('\(unqualifiedName) shallowCopy() must be overridden by a subclass.');")
@@ -728,7 +728,7 @@ class DartEnumClass: DartClass {
                     fragment.currentIndent -= 1
                     fragment.output(");")
                 }
-                
+
                 fragment.blankLine()
 
                 fragment.output("@override")
@@ -745,9 +745,9 @@ class DartEnumClass: DartClass {
                     }
                     fragment.output("\(paramsString))';")
                 }
-                
+
                 fragment.blankLine()
-                
+
                 fragment.output("@override")
                 fragment.output("\(unqualifiedName) shallowCopy()", newLineTerminated: false)
                 fragment.outputBlock(" {") {
@@ -760,7 +760,7 @@ class DartEnumClass: DartClass {
                             paramsString += ", "
                         }
                     }
-                    fragment.output("\(paramsString));");
+                    fragment.output("\(paramsString));")
                 }
             }
 
