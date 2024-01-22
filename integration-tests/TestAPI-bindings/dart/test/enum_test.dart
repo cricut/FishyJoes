@@ -39,6 +39,15 @@ void main() {
         expect(b == b, true);
         expect(c != a, true);
         expect(c != b, true);
+
+        var d = SimpleEnum.blue();
+        var e = SimpleEnum.blue();
+        var f = AssociatedDataEnum.simpleEnum(d);
+        var g = AssociatedDataEnum.simpleEnum(d);
+        var h = AssociatedDataEnum.simpleEnum(e);
+        expect(f, equals(g));
+        expect(d, equals(e));
+        expect(h, equals(g));
       });
 
       test('testAssociatedDataEnum', () {
