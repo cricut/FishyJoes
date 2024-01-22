@@ -720,6 +720,23 @@ class DartEnumClass: DartClass {
                     fragment.currentIndent -= 1
                     fragment.output(");")
                 }
+                
+                fragment.blankLine()
+
+                fragment.output("@override")
+                fragment.output("String toString()", newLineTerminated: false)
+                fragment.outputBlock(" {") {
+                    fragment.output("return '\(unqualifiedName).\(enumCase.name)(", newLineTerminated: false)
+                    var paramsString = String()
+                    for (index, value) in enumCase.values.enumerated() {
+                        let valueString = "\(DartClass.deforbidify(value.name))"
+                        paramsString += "\(valueString): $\(valueString)"
+                        if index < enumCase.values.indices.upperBound - 1 {
+                            paramsString += ", "
+                        }
+                    }
+                    fragment.output("\(paramsString))';")
+                }
             }
 
             fragment.blankLine()
