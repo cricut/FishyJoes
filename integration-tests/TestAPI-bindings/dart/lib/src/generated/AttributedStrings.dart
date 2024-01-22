@@ -255,4 +255,8 @@ class AttributedStrings {
         Env env,
         OutCreatedRef _exn
     ) f__iota_get_TestAPI_AttributedStrings_simple;
+
+    AttributedStrings shallowCopy() {
+        throw UnsupportedError('AttributedStrings shallowCopy() must be overridden by a subclass.');
+    }
 }

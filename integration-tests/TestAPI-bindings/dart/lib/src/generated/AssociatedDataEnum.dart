@@ -238,6 +238,10 @@ sealed class AssociatedDataEnum {
         Env env,
         OutCreatedRef _exn
     ) f__iota_get_TestAPI_AssociatedDataEnum_staticThing;
+
+    AssociatedDataEnum shallowCopy() {
+        throw UnsupportedError('AssociatedDataEnum shallowCopy() must be overridden by a subclass.');
+    }
 }
 
 class AssociatedDataEnum_Thing extends AssociatedDataEnum {
@@ -266,6 +270,11 @@ class AssociatedDataEnum_Thing extends AssociatedDataEnum {
     @override
     String toString() {
         return 'AssociatedDataEnum.thing(value: $value)';
+    }
+
+    @override
+    AssociatedDataEnum shallowCopy() {
+        return AssociatedDataEnum.thing(value);
     }
 }
 
@@ -300,6 +309,11 @@ class AssociatedDataEnum_Other extends AssociatedDataEnum {
     String toString() {
         return 'AssociatedDataEnum.other(unnamed: $unnamed, m_1: $m_1)';
     }
+
+    @override
+    AssociatedDataEnum shallowCopy() {
+        return AssociatedDataEnum.other(unnamed, m_1);
+    }
 }
 
 class AssociatedDataEnum_Bar extends AssociatedDataEnum {
@@ -333,6 +347,11 @@ class AssociatedDataEnum_Bar extends AssociatedDataEnum {
     String toString() {
         return 'AssociatedDataEnum.bar(named: $named, m_1: $m_1)';
     }
+
+    @override
+    AssociatedDataEnum shallowCopy() {
+        return AssociatedDataEnum.bar(named, m_1);
+    }
 }
 
 class AssociatedDataEnum_NoValue extends AssociatedDataEnum {
@@ -353,6 +372,11 @@ class AssociatedDataEnum_NoValue extends AssociatedDataEnum {
     @override
     String toString() {
         return 'AssociatedDataEnum.noValue()';
+    }
+
+    @override
+    AssociatedDataEnum shallowCopy() {
+        return AssociatedDataEnum.noValue();
     }
 }
 
@@ -382,5 +406,10 @@ class AssociatedDataEnum_SimpleEnum extends AssociatedDataEnum {
     @override
     String toString() {
         return 'AssociatedDataEnum.simpleEnum(value: $value)';
+    }
+
+    @override
+    AssociatedDataEnum shallowCopy() {
+        return AssociatedDataEnum.simpleEnum(value);
     }
 }

@@ -199,6 +199,10 @@ sealed class SimpleEnum {
         UnownedRef favoriteColor,
         OutCreatedRef _exn
     ) f__iota_set_TestAPI_SimpleEnum_favoriteColor;
+
+    SimpleEnum shallowCopy() {
+        throw UnsupportedError('SimpleEnum shallowCopy() must be overridden by a subclass.');
+    }
 }
 
 class SimpleEnum_Red extends SimpleEnum {
@@ -219,6 +223,11 @@ class SimpleEnum_Red extends SimpleEnum {
     @override
     String toString() {
         return 'SimpleEnum.red()';
+    }
+
+    @override
+    SimpleEnum shallowCopy() {
+        return SimpleEnum.red();
     }
 }
 
@@ -241,6 +250,11 @@ class SimpleEnum_Green extends SimpleEnum {
     String toString() {
         return 'SimpleEnum.green()';
     }
+
+    @override
+    SimpleEnum shallowCopy() {
+        return SimpleEnum.green();
+    }
 }
 
 class SimpleEnum_Blue extends SimpleEnum {
@@ -261,5 +275,10 @@ class SimpleEnum_Blue extends SimpleEnum {
     @override
     String toString() {
         return 'SimpleEnum.blue()';
+    }
+
+    @override
+    SimpleEnum shallowCopy() {
+        return SimpleEnum.blue();
     }
 }

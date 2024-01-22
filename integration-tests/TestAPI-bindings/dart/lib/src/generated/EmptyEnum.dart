@@ -77,4 +77,8 @@ class EmptyEnum {
         Env env,
         OutCreatedRef _exn
     ) f__iota_TestAPI_EmptyEnum_notGoingToHappen;
+
+    EmptyEnum shallowCopy() {
+        throw UnsupportedError('EmptyEnum shallowCopy() must be overridden by a subclass.');
+    }
 }
