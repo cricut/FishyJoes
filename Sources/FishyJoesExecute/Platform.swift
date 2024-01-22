@@ -359,7 +359,7 @@ enum Platform: CustomStringConvertible, Hashable {
         #elseif os(Linux)
         return cmd("npm", arguments: args, addEnv: env)
         #elseif os(Windows)
-        return cmd("cmd.exe", arguments: ["/c", "npm"] + arguments)
+        return cmd("cmd.exe", arguments: ["/c", "npm"] + args)
         #else
         fatalError("unknown host OS")
         #endif
