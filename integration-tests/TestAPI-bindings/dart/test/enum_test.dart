@@ -48,6 +48,11 @@ void main() {
         expect(f, equals(g));
         expect(d, equals(e));
         expect(h, equals(g));
+
+        var i = SimpleEnum.red();
+        expect(i != d, true);
+        expect(i != e, true);
+        expect(i, equals(i));
       });
 
       test('testAssociatedDataEnum', () {
