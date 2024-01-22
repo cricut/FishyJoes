@@ -102,5 +102,23 @@ void main() {
           var k = AssociatedDataEnum.thing(124);
           expect(k != h, true);
       });
+
+      test('testHashCode', () {
+        var a = SimpleEnum.green();
+        var b = SimpleEnum.green();
+        var c = SimpleEnum.red();
+
+        expect(a.hashCode, equals(b.hashCode));
+        expect(c.hashCode != b.hashCode, true);
+
+        var d = AssociatedDataEnum.simpleEnum(a);
+        var e = AssociatedDataEnum.simpleEnum(b);
+        var f = AssociatedDataEnum.simpleEnum(c);
+        var g = AssociatedDataEnum.bar("garply", d);
+        var h = AssociatedDataEnum.bar("garply", e);
+        var i = AssociatedDataEnum.bar("garply", f);
+        expect(g.hashCode, equals(h.hashCode));
+        expect(i.hashCode != h.hashCode, true);
+      });
   });
 }
