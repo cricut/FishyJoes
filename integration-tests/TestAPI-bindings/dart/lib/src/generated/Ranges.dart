@@ -61,11 +61,11 @@ import 'package:tuple/tuple.dart' as tuple;
 
 /// <!-- FishyJoes.export(Ranges) -->
 class Ranges {
-    Ranges._() {}
+    Ranges._();
 
-    static int enumDiscriminator(UnownedRef obj, OutCreatedRef exn) => check((exn) =>
-        throw UnsupportedError('This class is supposed to be unihabited')
-    );
+    static int enumDiscriminator(UnownedRef obj, OutCreatedRef exn) => check((exn) {
+        throw UnsupportedError('This class is supposed to be uninhabited');
+    });
 
     /// <!-- FishyJoes.export(uInt8Range) -->
     static FishyJoesRuntime.SwiftRange<int> get uInt8Range =>

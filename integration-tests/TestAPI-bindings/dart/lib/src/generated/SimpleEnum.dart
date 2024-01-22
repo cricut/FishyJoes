@@ -59,29 +59,26 @@ import 'package:fishyjoes_dart/utilities.dart' as utils;
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:tuple/tuple.dart' as tuple;
 
-part 'SimpleEnum.freezed.dart';
-
 /// <!-- FishyJoes.export(SimpleEnum) -->
-@freezed
-class SimpleEnum with _$SimpleEnum {
-    factory SimpleEnum.red(
+sealed class SimpleEnum {
+    const factory SimpleEnum.red(
     ) = SimpleEnum_Red;
 
-    factory SimpleEnum.green(
+    const factory SimpleEnum.green(
     ) = SimpleEnum_Green;
 
-    factory SimpleEnum.blue(
+    const factory SimpleEnum.blue(
     ) = SimpleEnum_Blue;
 
-    SimpleEnum._() {}
+    const SimpleEnum();
 
-    static int enumDiscriminator(UnownedRef obj, OutCreatedRef exn) => check((exn) =>
-        peekRef<SimpleEnum>(obj).map(
-            red: (_) => 0,
-            green: (_) => 1,
-            blue: (_) => 2,
-        )
-    );
+    static int enumDiscriminator(UnownedRef obj, OutCreatedRef exn) => check((exn) {
+        final peekedObj = peekRef<SimpleEnum>(obj);
+        if (peekedObj is SimpleEnum_Red) { return 0; }
+        else if (peekedObj is SimpleEnum_Green) { return 1; }
+        else if (peekedObj is SimpleEnum_Blue) { return 2; }
+        else { throw UnsupportedError('Unknown SimpleEnum subclass'); }
+    });
 
     static CreatedRef newRed(
         OutCreatedRef exn
@@ -202,4 +199,52 @@ class SimpleEnum with _$SimpleEnum {
         UnownedRef favoriteColor,
         OutCreatedRef _exn
     ) f__iota_set_TestAPI_SimpleEnum_favoriteColor;
+}
+
+class SimpleEnum_Red extends SimpleEnum {
+    const SimpleEnum_Red();
+
+    @override
+    bool operator ==(Object other) {
+        return identical(other, this) ||
+        (
+            other.runtimeType == runtimeType &&
+            other is SimpleEnum_Red
+        );
+    }
+
+    @override
+    int get hashCode => runtimeType.hashCode;
+}
+
+class SimpleEnum_Green extends SimpleEnum {
+    const SimpleEnum_Green();
+
+    @override
+    bool operator ==(Object other) {
+        return identical(other, this) ||
+        (
+            other.runtimeType == runtimeType &&
+            other is SimpleEnum_Green
+        );
+    }
+
+    @override
+    int get hashCode => runtimeType.hashCode;
+}
+
+class SimpleEnum_Blue extends SimpleEnum {
+    const SimpleEnum_Blue();
+
+    @override
+    bool operator ==(Object other) {
+        return identical(other, this) ||
+        (
+            other.runtimeType == runtimeType &&
+            other is SimpleEnum_Blue
+        );
+    }
+
+    @override
+    int get hashCode => runtimeType.hashCode;
 }

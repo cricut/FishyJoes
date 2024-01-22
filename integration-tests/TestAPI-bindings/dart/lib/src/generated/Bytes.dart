@@ -61,11 +61,11 @@ import 'package:tuple/tuple.dart' as tuple;
 
 /// <!-- FishyJoes.export(Bytes) -->
 class Bytes {
-    Bytes._() {}
+    Bytes._();
 
-    static int enumDiscriminator(UnownedRef obj, OutCreatedRef exn) => check((exn) =>
-        throw UnsupportedError('This class is supposed to be unihabited')
-    );
+    static int enumDiscriminator(UnownedRef obj, OutCreatedRef exn) => check((exn) {
+        throw UnsupportedError('This class is supposed to be uninhabited');
+    });
 
     /// <!-- FishyJoes.export(bytes, cSharp: TheBytes) -->
     static List<int> get bytes =>

@@ -20,6 +20,39 @@ void main() {
           expect(SimpleEnum.pickAColor(2), equals(SimpleEnum.blue()));
       });
 
+      test('testEnumEqualityOperator', () {
+        var a = AssociatedDataEnum.thing(10);
+        var b = AssociatedDataEnum.thing(10);
+        var c = AssociatedDataEnum.thing(11);
+
+        expect(a, equals(a));
+        expect(b, equals(b));
+        expect(c, equals(c));
+        expect(a, equals(b));
+        expect(b, equals(a));
+
+        expect(a == a, true);
+        expect(a == b, true);
+        expect(b == a, true);
+        expect(b == b, true);
+        expect(c != a, true);
+        expect(c != b, true);
+
+        var d = SimpleEnum.blue();
+        var e = SimpleEnum.blue();
+        var f = AssociatedDataEnum.simpleEnum(d);
+        var g = AssociatedDataEnum.simpleEnum(d);
+        var h = AssociatedDataEnum.simpleEnum(e);
+        expect(f, equals(g));
+        expect(d, equals(e));
+        expect(h, equals(g));
+
+        var i = SimpleEnum.red();
+        expect(i != d, true);
+        expect(i != e, true);
+        expect(i, equals(i));
+      });
+
       test('testAssociatedDataEnum', () {
           shape1(int x) => AssociatedDataEnum.thing(x);
           shape2(String x, String y, int z) => AssociatedDataEnum.bar(x, AssociatedDataEnum.other(y, z));
