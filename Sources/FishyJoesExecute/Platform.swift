@@ -330,17 +330,15 @@ enum Platform: CustomStringConvertible, Hashable {
     }
 
     func npm(arguments: [String]) -> Command {
-        let path: String
         #if os(macOS)
-        path = "npm"
+        return cmd("npm", arguments: arguments)
         #elseif os(Linux)
-        path = "npm"
+        return cmd("npm", arguments: arguments)
         #elseif os(Windows)
-        path = "npm.cmd"
+        return cmd("cmd.exe", arguments: ["/c", "npm"] + arguments)
         #else
         fatalError("unknown host OS")
         #endif
-        return cmd(path, arguments: arguments)
     }
 
     func npm(_ arguments: String...) -> Command {
@@ -354,18 +352,17 @@ enum Platform: CustomStringConvertible, Hashable {
                 "NODE_V8_COVERAGE": "\($0)\(ps)node",
             ]
         } ?? [:]
-        let args = ["run", "test-\(nodeExecutionEnvironment)"]
+        let args = ["run", "test-\(nodeExecutionEnvironment)"] + arguments
         let path: String
         #if os(macOS)
-        path = "npm"
+        return cmd("npm", arguments: args, addEnv: env)
         #elseif os(Linux)
-        path = "npm"
+        return cmd("npm", arguments: args, addEnv: env)
         #elseif os(Windows)
-        path = "npm.cmd"
+        return cmd("cmd.exe", arguments: ["/c", "npm"] + arguments)
         #else
         fatalError("unknown host OS")
         #endif
-        return cmd(path, arguments: args, addEnv: env)
     }
 
     func npmTest(_ arguments: String..., codeCoveragePath: String?) -> Command {
