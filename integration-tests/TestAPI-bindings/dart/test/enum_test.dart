@@ -80,6 +80,15 @@ void main() {
         expect(y.toString(), equals("AssociatedDataEnum.bar(named: qux, m_1: AssociatedDataEnum.thing(value: 90))"));
       });
 
+      test('testEnumToString', () {
+        var a = SimpleEnum.blue();
+        expect(a.toString(), equals("SimpleEnum.blue()"));
+
+        var b = AssociatedDataEnum.simpleEnum(a);
+        var c = AssociatedDataEnum.bar("qux", b);
+        expect(c.toString(), equals("AssociatedDataEnum.bar(named: qux, m_1: AssociatedDataEnum.simpleEnum(value: SimpleEnum.blue()))"));
+      });
+
       test('testEnumShallowCopy', () {
           var a = SimpleEnum.blue();
           var b = a.shallowCopy();
