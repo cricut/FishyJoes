@@ -1,3 +1,5 @@
+import 'dart:js_util';
+
 import 'package:cricut_test_api/cricut_test_api.dart';
 import 'package:test/test.dart';
 
@@ -61,6 +63,21 @@ void main() {
           expect(shape2("hello", "world", 8).intValue, equals(11));
           expect(shape1(2).plus(shape2("x", "y", 4)), equals(shape1(9)));
           expect(shape2("y", "z", 2).plus(shape1(5)), equals(shape2("y", "z", 7)));
+      });
+
+      test('testEnumToString', () {
+        var r = SimpleEnum.red();
+        var g = SimpleEnum.green();
+        var b = SimpleEnum.blue();
+
+        expect(r.toString(), equals("SimpleEnum.red()"));
+        expect(g.toString(), equals("SimpleEnum.green()"));
+        expect(b.toString(), equals("SimpleEnum.blue()"));
+
+        var x = AssociatedDataEnum.thing(90);
+        expect(x.toString(), equals("AssociatedDataEnum.thing(value: 90)"));
+        var y = AssociatedDataEnum.bar("qux", x);
+        expect(y.toString(), equals("AssociatedDataEnum.bar(named: qux, m_1: AssociatedDataEnum.thing(value: 90))"));
       });
   });
 }
