@@ -262,6 +262,11 @@ class AssociatedDataEnum_Thing extends AssociatedDataEnum {
         runtimeType,
         value
     );
+
+    @override
+    String toString() {
+        return 'AssociatedDataEnum.thing(value: $value)';
+    }
 }
 
 class AssociatedDataEnum_Other extends AssociatedDataEnum {
@@ -290,6 +295,11 @@ class AssociatedDataEnum_Other extends AssociatedDataEnum {
         unnamed, 
         m_1
     );
+
+    @override
+    String toString() {
+        return 'AssociatedDataEnum.other(unnamed: $unnamed, m_1: $m_1)';
+    }
 }
 
 class AssociatedDataEnum_Bar extends AssociatedDataEnum {
@@ -318,6 +328,11 @@ class AssociatedDataEnum_Bar extends AssociatedDataEnum {
         named, 
         m_1
     );
+
+    @override
+    String toString() {
+        return 'AssociatedDataEnum.bar(named: $named, m_1: $m_1)';
+    }
 }
 
 class AssociatedDataEnum_NoValue extends AssociatedDataEnum {
@@ -334,6 +349,11 @@ class AssociatedDataEnum_NoValue extends AssociatedDataEnum {
 
     @override
     int get hashCode => runtimeType.hashCode;
+
+    @override
+    String toString() {
+        return 'AssociatedDataEnum.noValue()';
+    }
 }
 
 class AssociatedDataEnum_SimpleEnum extends AssociatedDataEnum {
@@ -358,4 +378,9 @@ class AssociatedDataEnum_SimpleEnum extends AssociatedDataEnum {
         runtimeType,
         value
     );
+
+    @override
+    String toString() {
+        return 'AssociatedDataEnum.simpleEnum(value: $value)';
+    }
 }
