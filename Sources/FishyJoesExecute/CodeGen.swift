@@ -53,8 +53,8 @@ public struct CodeGen: ParsableCommand {
             one or more of:
              - generate: run sourcery code-generation step
              - build: compile generated bindings into a dynamic library
-             - test: test calling dynamic library from typescript
-             - pack: create tgz package of npm module in root
+             - test: execute the library test suite for each specified language target
+             - pack: create a package of the appropriate type for each specified language target
 
             """
     )
@@ -661,6 +661,8 @@ extension CodeGen {
                 switch platform {
                 case .wasm, .node:
                     try withDirectory(platform.outputDir(config)) {
+                        try cmd("where", "npm").run()
+                        
                         // Perform a file-local install of the module and its dependencies
                         // TODO: Should build a package tarball and install it instead?
                         try platform.npm("install").run()
