@@ -380,7 +380,5 @@ class ClosedRanges {
         OutCreatedRef _exn
     ) f__iota_get_TestAPI_ClosedRanges_uIntRange;
 
-    ClosedRanges shallowCopy() {
-        throw UnsupportedError('ClosedRanges shallowCopy() must be overridden by a subclass.');
-    }
+    ClosedRanges shallowCopy() => throw UnsupportedError('ClosedRanges shallowCopy() must be overridden by a subclass.');
 }

@@ -655,10 +655,7 @@ class DartEnumClass: DartClass {
 
             fragment.blankLine()
 
-            fragment.output("\(unqualifiedName) shallowCopy()", newLineTerminated: false)
-            fragment.outputBlock(" {") {
-                fragment.output("throw UnsupportedError('\(unqualifiedName) shallowCopy() must be overridden by a subclass.');")
-            }
+            fragment.output("\(unqualifiedName) shallowCopy() => throw UnsupportedError('\(unqualifiedName) shallowCopy() must be overridden by a subclass.');")
         }
 
         fragment.blankLine()
@@ -749,19 +746,17 @@ class DartEnumClass: DartClass {
                 fragment.blankLine()
 
                 fragment.output("@override")
-                fragment.output("\(unqualifiedName) shallowCopy()", newLineTerminated: false)
-                fragment.outputBlock(" {") {
-                    fragment.output("return \(unqualifiedName).\(enumCase.name)(", newLineTerminated: false)
-                    var paramsString = String()
-                    for (index, value) in enumCase.values.enumerated() {
-                        let valueString = "\(DartClass.deforbidify(value.name))"
-                        paramsString += "\(valueString)"
-                        if index < enumCase.values.indices.upperBound - 1 {
-                            paramsString += ", "
-                        }
+                fragment.output("\(unqualifiedName) shallowCopy() => ", newLineTerminated: false)
+                fragment.output("\(unqualifiedName).\(enumCase.name)(", newLineTerminated: false)
+                var paramsString = String()
+                for (index, value) in enumCase.values.enumerated() {
+                    let valueString = "\(DartClass.deforbidify(value.name))"
+                    paramsString += "\(valueString)"
+                    if index < enumCase.values.indices.upperBound - 1 {
+                        paramsString += ", "
                     }
-                    fragment.output("\(paramsString));")
                 }
+                fragment.output("\(paramsString));")
             }
 
             fragment.blankLine()

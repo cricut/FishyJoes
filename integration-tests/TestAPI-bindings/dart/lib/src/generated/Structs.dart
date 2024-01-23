@@ -67,7 +67,5 @@ class Structs {
         throw UnsupportedError('This class is supposed to be uninhabited');
     });
 
-    Structs shallowCopy() {
-        throw UnsupportedError('Structs shallowCopy() must be overridden by a subclass.');
-    }
+    Structs shallowCopy() => throw UnsupportedError('Structs shallowCopy() must be overridden by a subclass.');
 }

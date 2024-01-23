@@ -148,7 +148,5 @@ class Tuples {
         OutCreatedRef _exn
     ) f__iota_get_TestAPI_Tuples_tuple6;
 
-    Tuples shallowCopy() {
-        throw UnsupportedError('Tuples shallowCopy() must be overridden by a subclass.');
-    }
+    Tuples shallowCopy() => throw UnsupportedError('Tuples shallowCopy() must be overridden by a subclass.');
 }

@@ -102,9 +102,7 @@ sealed class UnicodeScalar_PuttingTypesIntoQuestionablePlaces {
         OutCreatedRef _exn
     ) f__iota_Swift_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_testCall;
 
-    UnicodeScalar_PuttingTypesIntoQuestionablePlaces shallowCopy() {
-        throw UnsupportedError('UnicodeScalar_PuttingTypesIntoQuestionablePlaces shallowCopy() must be overridden by a subclass.');
-    }
+    UnicodeScalar_PuttingTypesIntoQuestionablePlaces shallowCopy() => throw UnsupportedError('UnicodeScalar_PuttingTypesIntoQuestionablePlaces shallowCopy() must be overridden by a subclass.');
 }
 
 class UnicodeScalar_PuttingTypesIntoQuestionablePlaces_Thing extends UnicodeScalar_PuttingTypesIntoQuestionablePlaces {
@@ -128,7 +126,5 @@ class UnicodeScalar_PuttingTypesIntoQuestionablePlaces_Thing extends UnicodeScal
     }
 
     @override
-    UnicodeScalar_PuttingTypesIntoQuestionablePlaces shallowCopy() {
-        return UnicodeScalar_PuttingTypesIntoQuestionablePlaces.thing();
-    }
+    UnicodeScalar_PuttingTypesIntoQuestionablePlaces shallowCopy() => UnicodeScalar_PuttingTypesIntoQuestionablePlaces.thing();
 }

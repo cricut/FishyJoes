@@ -280,7 +280,5 @@ class Collections {
         OutCreatedRef _exn
     ) f__iota_get_TestAPI_Collections_setOfInt;
 
-    Collections shallowCopy() {
-        throw UnsupportedError('Collections shallowCopy() must be overridden by a subclass.');
-    }
+    Collections shallowCopy() => throw UnsupportedError('Collections shallowCopy() must be overridden by a subclass.');
 }

@@ -239,9 +239,7 @@ sealed class AssociatedDataEnum {
         OutCreatedRef _exn
     ) f__iota_get_TestAPI_AssociatedDataEnum_staticThing;
 
-    AssociatedDataEnum shallowCopy() {
-        throw UnsupportedError('AssociatedDataEnum shallowCopy() must be overridden by a subclass.');
-    }
+    AssociatedDataEnum shallowCopy() => throw UnsupportedError('AssociatedDataEnum shallowCopy() must be overridden by a subclass.');
 }
 
 class AssociatedDataEnum_Thing extends AssociatedDataEnum {
@@ -273,9 +271,7 @@ class AssociatedDataEnum_Thing extends AssociatedDataEnum {
     }
 
     @override
-    AssociatedDataEnum shallowCopy() {
-        return AssociatedDataEnum.thing(value);
-    }
+    AssociatedDataEnum shallowCopy() => AssociatedDataEnum.thing(value);
 }
 
 class AssociatedDataEnum_Other extends AssociatedDataEnum {
@@ -311,9 +307,7 @@ class AssociatedDataEnum_Other extends AssociatedDataEnum {
     }
 
     @override
-    AssociatedDataEnum shallowCopy() {
-        return AssociatedDataEnum.other(unnamed, m_1);
-    }
+    AssociatedDataEnum shallowCopy() => AssociatedDataEnum.other(unnamed, m_1);
 }
 
 class AssociatedDataEnum_Bar extends AssociatedDataEnum {
@@ -349,9 +343,7 @@ class AssociatedDataEnum_Bar extends AssociatedDataEnum {
     }
 
     @override
-    AssociatedDataEnum shallowCopy() {
-        return AssociatedDataEnum.bar(named, m_1);
-    }
+    AssociatedDataEnum shallowCopy() => AssociatedDataEnum.bar(named, m_1);
 }
 
 class AssociatedDataEnum_NoValue extends AssociatedDataEnum {
@@ -375,9 +367,7 @@ class AssociatedDataEnum_NoValue extends AssociatedDataEnum {
     }
 
     @override
-    AssociatedDataEnum shallowCopy() {
-        return AssociatedDataEnum.noValue();
-    }
+    AssociatedDataEnum shallowCopy() => AssociatedDataEnum.noValue();
 }
 
 class AssociatedDataEnum_SimpleEnum extends AssociatedDataEnum {
@@ -409,7 +399,5 @@ class AssociatedDataEnum_SimpleEnum extends AssociatedDataEnum {
     }
 
     @override
-    AssociatedDataEnum shallowCopy() {
-        return AssociatedDataEnum.simpleEnum(value);
-    }
+    AssociatedDataEnum shallowCopy() => AssociatedDataEnum.simpleEnum(value);
 }
