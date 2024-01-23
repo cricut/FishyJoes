@@ -255,21 +255,25 @@ class AssociatedDataEnum_Thing extends AssociatedDataEnum {
         (
             other.runtimeType == runtimeType &&
             other is AssociatedDataEnum_Thing &&
-            (identical(other.value, value) || other.value == value)
+            (
+                const DeepCollectionEquality().equals(other.value, value)
+            )
         );
     }
 
     @override
     int get hashCode => Object.hash(
         runtimeType,
-        value
+        const DeepCollectionEquality().hash(value)
     );
 
     @override
     String toString() => 'AssociatedDataEnum.thing(value: $value)';
 
     @override
-    AssociatedDataEnum shallowCopy() => AssociatedDataEnum.thing(value);
+    AssociatedDataEnum shallowCopy() => AssociatedDataEnum.thing (
+        value
+    );
 }
 
 class AssociatedDataEnum_Other extends AssociatedDataEnum {
@@ -287,23 +291,28 @@ class AssociatedDataEnum_Other extends AssociatedDataEnum {
         (
             other.runtimeType == runtimeType &&
             other is AssociatedDataEnum_Other &&
-            (identical(other.unnamed, unnamed) || other.unnamed == unnamed) &&
-            (identical(other.m_1, m_1) || other.m_1 == m_1)
+            (
+                const DeepCollectionEquality().equals(other.unnamed, unnamed) &&
+                const DeepCollectionEquality().equals(other.m_1, m_1)
+            )
         );
     }
 
     @override
     int get hashCode => Object.hash(
         runtimeType,
-        unnamed, 
-        m_1
+        const DeepCollectionEquality().hash(unnamed), 
+        const DeepCollectionEquality().hash(m_1)
     );
 
     @override
     String toString() => 'AssociatedDataEnum.other(unnamed: $unnamed, m_1: $m_1)';
 
     @override
-    AssociatedDataEnum shallowCopy() => AssociatedDataEnum.other(unnamed, m_1);
+    AssociatedDataEnum shallowCopy() => AssociatedDataEnum.other (
+        unnamed, 
+        m_1
+    );
 }
 
 class AssociatedDataEnum_Bar extends AssociatedDataEnum {
@@ -321,23 +330,28 @@ class AssociatedDataEnum_Bar extends AssociatedDataEnum {
         (
             other.runtimeType == runtimeType &&
             other is AssociatedDataEnum_Bar &&
-            (identical(other.named, named) || other.named == named) &&
-            (identical(other.m_1, m_1) || other.m_1 == m_1)
+            (
+                const DeepCollectionEquality().equals(other.named, named) &&
+                const DeepCollectionEquality().equals(other.m_1, m_1)
+            )
         );
     }
 
     @override
     int get hashCode => Object.hash(
         runtimeType,
-        named, 
-        m_1
+        const DeepCollectionEquality().hash(named), 
+        const DeepCollectionEquality().hash(m_1)
     );
 
     @override
     String toString() => 'AssociatedDataEnum.bar(named: $named, m_1: $m_1)';
 
     @override
-    AssociatedDataEnum shallowCopy() => AssociatedDataEnum.bar(named, m_1);
+    AssociatedDataEnum shallowCopy() => AssociatedDataEnum.bar (
+        named, 
+        m_1
+    );
 }
 
 class AssociatedDataEnum_NoValue extends AssociatedDataEnum {
@@ -375,19 +389,23 @@ class AssociatedDataEnum_SimpleEnum extends AssociatedDataEnum {
         (
             other.runtimeType == runtimeType &&
             other is AssociatedDataEnum_SimpleEnum &&
-            (identical(other.value, value) || other.value == value)
+            (
+                const DeepCollectionEquality().equals(other.value, value)
+            )
         );
     }
 
     @override
     int get hashCode => Object.hash(
         runtimeType,
-        value
+        const DeepCollectionEquality().hash(value)
     );
 
     @override
     String toString() => 'AssociatedDataEnum.simpleEnum(value: $value)';
 
     @override
-    AssociatedDataEnum shallowCopy() => AssociatedDataEnum.simpleEnum(value);
+    AssociatedDataEnum shallowCopy() => AssociatedDataEnum.simpleEnum (
+        value
+    );
 }

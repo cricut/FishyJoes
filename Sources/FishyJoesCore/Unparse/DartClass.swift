@@ -677,15 +677,15 @@ class DartEnumClass: DartClass {
                     }
                 }
                 fragment.output(";")
-
+                
                 fragment.blankLine()
-
+                
                 for value in enumCase.values {
                     fragment.output("final \(value.type.name(in: self)) \(DartClass.deforbidify(value.name));")
                 }
-
+                
                 fragment.blankLine()
-
+                
                 fragment.output("@override")
                 fragment.output("bool operator ==(Object other)", newLineTerminated: false)
                 fragment.outputBlock(" {") {
@@ -694,7 +694,7 @@ class DartEnumClass: DartClass {
                     fragment.currentIndent += 1
                     fragment.output("other.runtimeType == runtimeType &&")
                     fragment.output("other is \(className)", newLineTerminated: false)
-
+                    
                     if enumCase.values.isEmpty {
                         fragment.blankLine()
                     } else {
@@ -709,10 +709,10 @@ class DartEnumClass: DartClass {
                     fragment.currentIndent -= 1
                     fragment.output(");")
                 }
-
+                
                 fragment.blankLine()
                 fragment.blankLine()
-
+                
                 fragment.output("@override")
                 fragment.output("int get hashCode => ", newLineTerminated: false)
                 if enumCase.values.isEmpty {
@@ -727,24 +727,29 @@ class DartEnumClass: DartClass {
                     fragment.currentIndent -= 1
                     fragment.output(");")
                 }
-
+                
                 fragment.blankLine()
-
+                
                 fragment.output("@override")
                 fragment.output("String toString() => '\(unqualifiedName).\(enumCase.name)(", newLineTerminated: false)
                 let toStringParamsString = enumCase.values.map { "\(DartClass.deforbidify($0.name)): $\(DartClass.deforbidify($0.name))" }.joined(separator: ", ")
                 fragment.output("\(toStringParamsString))';")
-
+                
                 fragment.blankLine()
-
+                
                 fragment.output("@override")
                 fragment.output("\(unqualifiedName) shallowCopy() => \(unqualifiedName).\(enumCase.name)", newLineTerminated: false)
-                fragment.outputBlock(" (", newLineTerminated: false) {
-                    fragment.outputMap(enumCase.values, separator: ", ") {
-                        "\(DartClass.deforbidify($0.name))"
+                if !enumCase.values.isEmpty {
+                    fragment.outputBlock(" (", newLineTerminated: false) {
+                        
+                        fragment.outputMap(enumCase.values, separator: ", ") {
+                            "\(DartClass.deforbidify($0.name))"
+                        }
                     }
+                    fragment.output(";")
+                } else {
+                    fragment.output("();")
                 }
-                fragment.output(";")
             }
 
             fragment.blankLine()
