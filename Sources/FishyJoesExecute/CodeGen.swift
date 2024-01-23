@@ -661,6 +661,10 @@ extension CodeGen {
                 switch platform {
                 case .wasm, .node:
                     try withDirectory(platform.outputDir(config)) {
+                        #if os(Windows)
+                        try cmd("cmd.exe", "/c", "env")
+                        #endif
+
                         // Perform a file-local install of the module and its dependencies
                         // TODO: Should build a package tarball and install it instead?
                         try platform.npm("install").run()
