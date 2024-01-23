@@ -59,41 +59,64 @@ import 'package:fishyjoes_dart/utilities.dart' as utils;
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:tuple/tuple.dart' as tuple;
 
-part 'Primitives_PrimitiveHolder.freezed.dart';
-
 /// <!-- FishyJoes.export(Primitives.PrimitiveHolder) -->
-@Freezed(addImplicitFinal: false, makeCollectionsUnmodifiable: false)
-class Primitives_PrimitiveHolder with _$Primitives_PrimitiveHolder {
-    factory Primitives_PrimitiveHolder({
-        required bool b,
-        required bool? bq,
-        required int ui8,
-        required int? ui8q,
-        required int ui16,
-        required int? ui16q,
-        required int ui32,
-        required int? ui32q,
-        required int ui64,
-        required int? ui64q,
-        required int ui,
-        required int? uiq,
-        required int i8,
-        required int? i8q,
-        required int i16,
-        required int? i16q,
-        required int i32,
-        required int? i32q,
-        required int i64,
-        required int? i64q,
-        required int i,
-        required int? iq,
-        required double f,
-        required double? fq,
-        required double d,
-        required double? dq
-    }) = _Primitives_PrimitiveHolder;
+class Primitives_PrimitiveHolder {
+    bool b;
+    bool? bq;
+    int ui8;
+    int? ui8q;
+    int ui16;
+    int? ui16q;
+    int ui32;
+    int? ui32q;
+    int ui64;
+    int? ui64q;
+    int ui;
+    int? uiq;
+    int i8;
+    int? i8q;
+    int i16;
+    int? i16q;
+    int i32;
+    int? i32q;
+    int i64;
+    int? i64q;
+    int i;
+    int? iq;
+    double f;
+    double? fq;
+    double d;
+    double? dq;
 
-    Primitives_PrimitiveHolder._();
+    Primitives_PrimitiveHolder({
+        required this.b,
+        required this.bq,
+        required this.ui8,
+        required this.ui8q,
+        required this.ui16,
+        required this.ui16q,
+        required this.ui32,
+        required this.ui32q,
+        required this.ui64,
+        required this.ui64q,
+        required this.ui,
+        required this.uiq,
+        required this.i8,
+        required this.i8q,
+        required this.i16,
+        required this.i16q,
+        required this.i32,
+        required this.i32q,
+        required this.i64,
+        required this.i64q,
+        required this.i,
+        required this.iq,
+        required this.f,
+        required this.fq,
+        required this.d,
+        required this.dq
+    });
+
     static CreatedRef ffi_constructor(
         bool b,
         ConsumedRef bq,
@@ -542,6 +565,81 @@ class Primitives_PrimitiveHolder with _$Primitives_PrimitiveHolder {
     ) => catching(exn, () {
         peekRef<Primitives_PrimitiveHolder>(obj).dq = consumeRef<double?>(newValue);
     });
+
+    @override
+    String toString() => 'Primitives_PrimitiveHolder(b: $b, bq: $bq, ui8: $ui8, ui8q: $ui8q, ui16: $ui16, ui16q: $ui16q, ui32: $ui32, ui32q: $ui32q, ui64: $ui64, ui64q: $ui64q, ui: $ui, uiq: $uiq, i8: $i8, i8q: $i8q, i16: $i16, i16q: $i16q, i32: $i32, i32q: $i32q, i64: $i64, i64q: $i64q, i: $i, iq: $iq, f: $f, fq: $fq, d: $d, dq: $dq)';
+
+    @override
+    bool operator ==(Object other) {
+        return identical(other, this) ||
+        (
+            other.runtimeType == runtimeType &&
+            other is Primitives_PrimitiveHolder &&
+            (
+                const DeepCollectionEquality().equals(other.b, b) &&
+                const DeepCollectionEquality().equals(other.bq, bq) &&
+                const DeepCollectionEquality().equals(other.ui8, ui8) &&
+                const DeepCollectionEquality().equals(other.ui8q, ui8q) &&
+                const DeepCollectionEquality().equals(other.ui16, ui16) &&
+                const DeepCollectionEquality().equals(other.ui16q, ui16q) &&
+                const DeepCollectionEquality().equals(other.ui32, ui32) &&
+                const DeepCollectionEquality().equals(other.ui32q, ui32q) &&
+                const DeepCollectionEquality().equals(other.ui64, ui64) &&
+                const DeepCollectionEquality().equals(other.ui64q, ui64q) &&
+                const DeepCollectionEquality().equals(other.ui, ui) &&
+                const DeepCollectionEquality().equals(other.uiq, uiq) &&
+                const DeepCollectionEquality().equals(other.i8, i8) &&
+                const DeepCollectionEquality().equals(other.i8q, i8q) &&
+                const DeepCollectionEquality().equals(other.i16, i16) &&
+                const DeepCollectionEquality().equals(other.i16q, i16q) &&
+                const DeepCollectionEquality().equals(other.i32, i32) &&
+                const DeepCollectionEquality().equals(other.i32q, i32q) &&
+                const DeepCollectionEquality().equals(other.i64, i64) &&
+                const DeepCollectionEquality().equals(other.i64q, i64q) &&
+                const DeepCollectionEquality().equals(other.i, i) &&
+                const DeepCollectionEquality().equals(other.iq, iq) &&
+                const DeepCollectionEquality().equals(other.f, f) &&
+                const DeepCollectionEquality().equals(other.fq, fq) &&
+                const DeepCollectionEquality().equals(other.d, d) &&
+                const DeepCollectionEquality().equals(other.dq, dq)
+            )
+        );
+    }
+
+    @override
+    int get hashCode => Object.hash(
+        runtimeType,
+        Object.hash(
+            const DeepCollectionEquality().hash(b), 
+            const DeepCollectionEquality().hash(bq), 
+            const DeepCollectionEquality().hash(ui8), 
+            const DeepCollectionEquality().hash(ui8q), 
+            const DeepCollectionEquality().hash(ui16), 
+            const DeepCollectionEquality().hash(ui16q), 
+            const DeepCollectionEquality().hash(ui32), 
+            const DeepCollectionEquality().hash(ui32q), 
+            const DeepCollectionEquality().hash(ui64), 
+            const DeepCollectionEquality().hash(ui64q), 
+            const DeepCollectionEquality().hash(ui), 
+            const DeepCollectionEquality().hash(uiq), 
+            const DeepCollectionEquality().hash(i8), 
+            const DeepCollectionEquality().hash(i8q), 
+            const DeepCollectionEquality().hash(i16), 
+            const DeepCollectionEquality().hash(i16q), 
+            const DeepCollectionEquality().hash(i32), 
+            const DeepCollectionEquality().hash(i32q), 
+            const DeepCollectionEquality().hash(i64), 
+            const DeepCollectionEquality().hash(i64q)
+        ),
+        Object.hash(
+            const DeepCollectionEquality().hash(i), 
+            const DeepCollectionEquality().hash(iq), 
+            const DeepCollectionEquality().hash(f), 
+            const DeepCollectionEquality().hash(fq), 
+            const DeepCollectionEquality().hash(d), 
+            const DeepCollectionEquality().hash(dq)
+        )
+    );
 
     /// <!-- FishyJoes.export(staticProperty) -->
     static List<int?> get staticProperty =>

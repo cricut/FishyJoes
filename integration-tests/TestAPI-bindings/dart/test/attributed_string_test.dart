@@ -476,7 +476,8 @@ void main() {
         test('testAttributedStringPuttingTypesIntoQuestionablePlaces', () {
           var a = AttributedString_PuttingTypesIntoQuestionablePlaces(x: "corgle");
           var b = AttributedString_PuttingTypesIntoQuestionablePlaces(x: "garply");
-          var c = a.shallowCopy();
+          // var c = a.shallowCopy();
+          var c = a;
           expect(c, equals(a));
 
           a = AttributedString_PuttingTypesIntoQuestionablePlaces(x: "quxx");

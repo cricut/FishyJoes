@@ -59,16 +59,14 @@ import 'package:fishyjoes_dart/utilities.dart' as utils;
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:tuple/tuple.dart' as tuple;
 
-part 'AttributedString_PuttingTypesIntoQuestionablePlaces.freezed.dart';
-
 /// <!-- FishyJoes.export(AttributedString_PuttingTypesIntoQuestionablePlaces) -->
-@Freezed(addImplicitFinal: false, makeCollectionsUnmodifiable: false)
-class AttributedString_PuttingTypesIntoQuestionablePlaces with _$AttributedString_PuttingTypesIntoQuestionablePlaces {
-    factory AttributedString_PuttingTypesIntoQuestionablePlaces({
-        required final String x
-    }) = _AttributedString_PuttingTypesIntoQuestionablePlaces;
+class AttributedString_PuttingTypesIntoQuestionablePlaces {
+    final String x;
 
-    AttributedString_PuttingTypesIntoQuestionablePlaces._();
+    AttributedString_PuttingTypesIntoQuestionablePlaces({
+        required this.x
+    });
+
     static CreatedRef ffi_constructor(
         ConsumedRef x,
         OutCreatedRef exn
@@ -85,6 +83,27 @@ class AttributedString_PuttingTypesIntoQuestionablePlaces with _$AttributedStrin
         createRef(
             peekRef<AttributedString_PuttingTypesIntoQuestionablePlaces>(obj).x
         )
+    );
+
+    @override
+    String toString() => 'AttributedString_PuttingTypesIntoQuestionablePlaces(x: $x)';
+
+    @override
+    bool operator ==(Object other) {
+        return identical(other, this) ||
+        (
+            other.runtimeType == runtimeType &&
+            other is AttributedString_PuttingTypesIntoQuestionablePlaces &&
+            (
+                const DeepCollectionEquality().equals(other.x, x)
+            )
+        );
+    }
+
+    @override
+    int get hashCode => Object.hash(
+        runtimeType,
+        const DeepCollectionEquality().hash(x)
     );
 
     /// <!-- FishyJoes.export(testCall) -->
