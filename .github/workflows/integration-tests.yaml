@@ -285,6 +285,12 @@ jobs:
           branch: swift-5.9.1-release
           tag: 5.9.1-RELEASE
 
+      - name: Fixup Path Environment Variable
+        shell: pwsh
+        run: |
+          $env:Path = ($env:Path -split ';' | Select-Object -Unique) -join ';'
+          echo "Path=$env:Path" >> $env:GITHUB_ENV
+
       - name: Setup JDK
         uses: actions/setup-java@v3
         with:
