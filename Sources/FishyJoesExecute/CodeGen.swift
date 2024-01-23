@@ -675,7 +675,7 @@ extension CodeGen {
                         try platform.npmTest(codeCoveragePath: codeCoveragePath).run()
                     }
                 case .kotlinSystem:
-                    // Use gradle to eZxecute the test suite
+                    // Use gradle to execute the test suite
                     try withDirectory("kotlin") {
                         try platform.gradleTest(codeCoveragePath: codeCoveragePath).run()
                     }
