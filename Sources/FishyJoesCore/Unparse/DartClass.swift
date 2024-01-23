@@ -748,14 +748,7 @@ class DartEnumClass: DartClass {
                 fragment.output("@override")
                 fragment.output("\(unqualifiedName) shallowCopy() => ", newLineTerminated: false)
                 fragment.output("\(unqualifiedName).\(enumCase.name)(", newLineTerminated: false)
-                var paramsString = String()
-                for (index, value) in enumCase.values.enumerated() {
-                    let valueString = "\(DartClass.deforbidify(value.name))"
-                    paramsString += "\(valueString)"
-                    if index < enumCase.values.indices.upperBound - 1 {
-                        paramsString += ", "
-                    }
-                }
+                let paramsString = enumCase.values.map { DartClass.deforbidify($0.name) }.joined(separator: ", ")
                 fragment.output("\(paramsString));")
             }
 
