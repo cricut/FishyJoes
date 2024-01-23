@@ -662,7 +662,7 @@ extension CodeGen {
                 case .wasm, .node:
                     try withDirectory(platform.outputDir(config)) {
                         #if os(Windows)
-                        try cmd("cmd.exe", "/c", "env")
+                        try cmd("cmd.exe", "/c", "env").run()
                         #endif
 
                         // Perform a file-local install of the module and its dependencies
