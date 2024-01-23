@@ -650,7 +650,12 @@ class DartEnumClass: DartClass {
             methods.forEach { output(method: $0, to: fragment) }
 
             fragment.blankLine()
+
             outputNativeMethodDeclarations(to: fragment)
+
+            fragment.blankLine()
+
+            fragment.output("\(unqualifiedName) shallowCopy() => throw UnsupportedError('\(unqualifiedName) shallowCopy() must be overridden by a subclass.');")
         }
 
         fragment.blankLine()
@@ -694,9 +699,11 @@ class DartEnumClass: DartClass {
                         fragment.blankLine()
                     } else {
                         fragment.output(" &&")
-                        fragment.outputMap(enumCase.values, separator: " &&") { value in
-                            let valueName = "\(DartClass.deforbidify(value.name))"
-                            return "(identical(other.\(valueName), \(valueName)) || other.\(valueName) == \(valueName))"
+                        fragment.outputBlock("(") {
+                            fragment.outputMap(enumCase.values, separator: " &&") { value in
+                                let valueName = "\(DartClass.deforbidify(value.name))"
+                                return "const DeepCollectionEquality().equals(other.\(valueName), \(valueName))"
+                            }
                         }
                     }
                     fragment.currentIndent -= 1
@@ -715,10 +722,32 @@ class DartEnumClass: DartClass {
                     fragment.currentIndent += 1
                     fragment.output("runtimeType,")
                     fragment.outputMap(enumCase.values, separator: ", ") { value in
-                        "\(DartClass.deforbidify(value.name))"
+                        "const DeepCollectionEquality().hash(\(DartClass.deforbidify(value.name)))"
                     }
                     fragment.currentIndent -= 1
                     fragment.output(");")
+                }
+
+                fragment.blankLine()
+
+                fragment.output("@override")
+                fragment.output("String toString() => '\(unqualifiedName).\(enumCase.name)(", newLineTerminated: false)
+                let toStringParamsString = enumCase.values.map { "\(DartClass.deforbidify($0.name)): $\(DartClass.deforbidify($0.name))" }.joined(separator: ", ")
+                fragment.output("\(toStringParamsString))';")
+
+                fragment.blankLine()
+
+                fragment.output("@override")
+                fragment.output("\(unqualifiedName) shallowCopy() => \(unqualifiedName).\(enumCase.name)", newLineTerminated: false)
+                if !enumCase.values.isEmpty {
+                    fragment.outputBlock(" (", newLineTerminated: false) {
+                        fragment.outputMap(enumCase.values, separator: ", ") {
+                            "\(DartClass.deforbidify($0.name))"
+                        }
+                    }
+                    fragment.output(";")
+                } else {
+                    fragment.output("();")
                 }
             }
 

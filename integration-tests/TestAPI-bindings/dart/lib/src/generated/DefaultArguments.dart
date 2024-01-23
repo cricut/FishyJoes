@@ -89,4 +89,6 @@ class DefaultArguments {
         double z,
         OutCreatedRef _exn
     ) f__iota_TestAPI_DefaultArguments_echoDefaults;
+
+    DefaultArguments shallowCopy() => throw UnsupportedError('DefaultArguments shallowCopy() must be overridden by a subclass.');
 }

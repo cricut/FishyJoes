@@ -111,4 +111,6 @@ class URLs {
         Env env,
         OutCreatedRef _exn
     ) f__iota_get_TestAPI_URLs_simple;
+
+    URLs shallowCopy() => throw UnsupportedError('URLs shallowCopy() must be overridden by a subclass.');
 }

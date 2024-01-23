@@ -62,5 +62,70 @@ void main() {
           expect(shape1(2).plus(shape2("x", "y", 4)), equals(shape1(9)));
           expect(shape2("y", "z", 2).plus(shape1(5)), equals(shape2("y", "z", 7)));
       });
+
+      test('testEnumToString', () {
+        var r = SimpleEnum.red();
+        var g = SimpleEnum.green();
+        var b = SimpleEnum.blue();
+
+        expect(r.toString(), equals("SimpleEnum.red()"));
+        expect(g.toString(), equals("SimpleEnum.green()"));
+        expect(b.toString(), equals("SimpleEnum.blue()"));
+
+        var x = AssociatedDataEnum.thing(90);
+        expect(x.toString(), equals("AssociatedDataEnum.thing(value: 90)"));
+        var y = AssociatedDataEnum.bar("qux", x);
+        expect(y.toString(), equals("AssociatedDataEnum.bar(named: qux, m_1: AssociatedDataEnum.thing(value: 90))"));
+      });
+
+      test('testEnumToString', () {
+        var a = SimpleEnum.blue();
+        expect(a.toString(), equals("SimpleEnum.blue()"));
+
+        var b = AssociatedDataEnum.simpleEnum(a);
+        var c = AssociatedDataEnum.bar("qux", b);
+        expect(c.toString(), equals("AssociatedDataEnum.bar(named: qux, m_1: AssociatedDataEnum.simpleEnum(value: SimpleEnum.blue()))"));
+      });
+
+      test('testEnumShallowCopy', () {
+          var a = SimpleEnum.blue();
+          var b = a.shallowCopy();
+          var c = SimpleEnum.green();
+          var d = c.shallowCopy();
+          expect(a == b, true);
+          expect(c, equals(d));
+          expect(b != d, true);
+
+          var e = AssociatedDataEnum.simpleEnum(b);
+          var f = AssociatedDataEnum.bar("corge", e);
+          var g = f.shallowCopy();
+          expect(g, equals(f));
+
+          var h = AssociatedDataEnum.thing(123);
+          var i = h.shallowCopy();
+          var j = i.shallowCopy();
+          expect(i, equals(h));
+          expect(j, equals(h));
+          var k = AssociatedDataEnum.thing(124);
+          expect(k != h, true);
+      });
+
+      test('testHashCode', () {
+        var a = SimpleEnum.green();
+        var b = SimpleEnum.green();
+        var c = SimpleEnum.red();
+
+        expect(a.hashCode, equals(b.hashCode));
+        expect(c.hashCode != b.hashCode, true);
+
+        var d = AssociatedDataEnum.simpleEnum(a);
+        var e = AssociatedDataEnum.simpleEnum(b);
+        var f = AssociatedDataEnum.simpleEnum(c);
+        var g = AssociatedDataEnum.bar("garply", d);
+        var h = AssociatedDataEnum.bar("garply", e);
+        var i = AssociatedDataEnum.bar("garply", f);
+        expect(g.hashCode, equals(h.hashCode));
+        expect(i.hashCode != h.hashCode, true);
+      });
   });
 }

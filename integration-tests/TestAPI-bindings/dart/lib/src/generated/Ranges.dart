@@ -307,4 +307,6 @@ class Ranges {
         Env env,
         OutCreatedRef _exn
     ) f__iota_get_TestAPI_Ranges_uIntRange;
+
+    Ranges shallowCopy() => throw UnsupportedError('Ranges shallowCopy() must be overridden by a subclass.');
 }
