@@ -121,9 +121,7 @@ class UnicodeScalar_PuttingTypesIntoQuestionablePlaces_Thing extends UnicodeScal
     int get hashCode => runtimeType.hashCode;
 
     @override
-    String toString() {
-        return 'UnicodeScalar_PuttingTypesIntoQuestionablePlaces.thing()';
-    }
+    String toString() => 'UnicodeScalar_PuttingTypesIntoQuestionablePlaces.thing()';
 
     @override
     UnicodeScalar_PuttingTypesIntoQuestionablePlaces shallowCopy() => UnicodeScalar_PuttingTypesIntoQuestionablePlaces.thing();

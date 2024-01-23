@@ -266,9 +266,7 @@ class AssociatedDataEnum_Thing extends AssociatedDataEnum {
     );
 
     @override
-    String toString() {
-        return 'AssociatedDataEnum.thing(value: $value)';
-    }
+    String toString() => 'AssociatedDataEnum.thing(value: $value)';
 
     @override
     AssociatedDataEnum shallowCopy() => AssociatedDataEnum.thing(value);
@@ -302,9 +300,7 @@ class AssociatedDataEnum_Other extends AssociatedDataEnum {
     );
 
     @override
-    String toString() {
-        return 'AssociatedDataEnum.other(unnamed: $unnamed, m_1: $m_1)';
-    }
+    String toString() => 'AssociatedDataEnum.other(unnamed: $unnamed, m_1: $m_1)';
 
     @override
     AssociatedDataEnum shallowCopy() => AssociatedDataEnum.other(unnamed, m_1);
@@ -338,9 +334,7 @@ class AssociatedDataEnum_Bar extends AssociatedDataEnum {
     );
 
     @override
-    String toString() {
-        return 'AssociatedDataEnum.bar(named: $named, m_1: $m_1)';
-    }
+    String toString() => 'AssociatedDataEnum.bar(named: $named, m_1: $m_1)';
 
     @override
     AssociatedDataEnum shallowCopy() => AssociatedDataEnum.bar(named, m_1);
@@ -362,9 +356,7 @@ class AssociatedDataEnum_NoValue extends AssociatedDataEnum {
     int get hashCode => runtimeType.hashCode;
 
     @override
-    String toString() {
-        return 'AssociatedDataEnum.noValue()';
-    }
+    String toString() => 'AssociatedDataEnum.noValue()';
 
     @override
     AssociatedDataEnum shallowCopy() => AssociatedDataEnum.noValue();
@@ -394,9 +386,7 @@ class AssociatedDataEnum_SimpleEnum extends AssociatedDataEnum {
     );
 
     @override
-    String toString() {
-        return 'AssociatedDataEnum.simpleEnum(value: $value)';
-    }
+    String toString() => 'AssociatedDataEnum.simpleEnum(value: $value)';
 
     @override
     AssociatedDataEnum shallowCopy() => AssociatedDataEnum.simpleEnum(value);

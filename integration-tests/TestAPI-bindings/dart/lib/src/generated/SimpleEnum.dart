@@ -219,9 +219,7 @@ class SimpleEnum_Red extends SimpleEnum {
     int get hashCode => runtimeType.hashCode;
 
     @override
-    String toString() {
-        return 'SimpleEnum.red()';
-    }
+    String toString() => 'SimpleEnum.red()';
 
     @override
     SimpleEnum shallowCopy() => SimpleEnum.red();
@@ -243,9 +241,7 @@ class SimpleEnum_Green extends SimpleEnum {
     int get hashCode => runtimeType.hashCode;
 
     @override
-    String toString() {
-        return 'SimpleEnum.green()';
-    }
+    String toString() => 'SimpleEnum.green()';
 
     @override
     SimpleEnum shallowCopy() => SimpleEnum.green();
@@ -267,9 +263,7 @@ class SimpleEnum_Blue extends SimpleEnum {
     int get hashCode => runtimeType.hashCode;
 
     @override
-    String toString() {
-        return 'SimpleEnum.blue()';
-    }
+    String toString() => 'SimpleEnum.blue()';
 
     @override
     SimpleEnum shallowCopy() => SimpleEnum.blue();
