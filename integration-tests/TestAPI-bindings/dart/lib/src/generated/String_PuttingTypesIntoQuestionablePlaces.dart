@@ -80,8 +80,10 @@ class String_PuttingTypesIntoQuestionablePlaces {
         const DeepCollectionEquality().hash(x)
     );
 
-    String_PuttingTypesIntoQuestionablePlaces shallowCopy() => String_PuttingTypesIntoQuestionablePlaces(
-        x: x
+    String_PuttingTypesIntoQuestionablePlaces copyWith({
+        String? x
+    }) => String_PuttingTypesIntoQuestionablePlaces(
+        x: x ?? this.x
     );
 
     /// <!-- FishyJoes.export(testCall) -->

@@ -263,16 +263,26 @@ class Collections_CollectionHolder {
         const DeepCollectionEquality().hash(stringDictionary)
     );
 
-    Collections_CollectionHolder shallowCopy() => Collections_CollectionHolder(
-        boolArray: boolArray, 
-        boolSet: boolSet, 
-        boolDictionary: boolDictionary, 
-        integerArray: integerArray, 
-        integerSet: integerSet, 
-        integerDictionary: integerDictionary, 
-        stringArray: stringArray, 
-        stringSet: stringSet, 
-        stringDictionary: stringDictionary
+    Collections_CollectionHolder copyWith({
+        List<bool>? boolArray,
+        Set<bool>? boolSet,
+        Map<bool, bool>? boolDictionary,
+        List<int>? integerArray,
+        Set<int>? integerSet,
+        Map<int, int>? integerDictionary,
+        List<String>? stringArray,
+        Set<String>? stringSet,
+        Map<String, String>? stringDictionary
+    }) => Collections_CollectionHolder(
+        boolArray: boolArray ?? this.boolArray,
+        boolSet: boolSet ?? this.boolSet,
+        boolDictionary: boolDictionary ?? this.boolDictionary,
+        integerArray: integerArray ?? this.integerArray,
+        integerSet: integerSet ?? this.integerSet,
+        integerDictionary: integerDictionary ?? this.integerDictionary,
+        stringArray: stringArray ?? this.stringArray,
+        stringSet: stringSet ?? this.stringSet,
+        stringDictionary: stringDictionary ?? this.stringDictionary
     );
 
     /// <!-- FishyJoes.export(staticProperty) -->

@@ -102,9 +102,12 @@ class Structs_MemberwiseStruct {
         const DeepCollectionEquality().hash(mutable)
     );
 
-    Structs_MemberwiseStruct shallowCopy() => Structs_MemberwiseStruct(
-        immutable: immutable, 
-        mutable: mutable
+    Structs_MemberwiseStruct copyWith({
+        String? immutable,
+        String? mutable
+    }) => Structs_MemberwiseStruct(
+        immutable: immutable ?? this.immutable,
+        mutable: mutable ?? this.mutable
     );
 
     /// <!-- FishyJoes.export(create) -->

@@ -571,13 +571,20 @@ class DartProductClass: DartClass {
 
                 fragment.blankLine()
 
-                fragment.output("\(unqualifiedName) shallowCopy() => \(unqualifiedName)", newLineTerminated: false)
+                fragment.output("\(unqualifiedName) copyWith", newLineTerminated: false)
+                fragment.outputBlock("({", closeWith: "})", newLineTerminated: false) {
+                    fragment.outputMap(fields, separator: ",") {
+                        "\($0.type.name(in: self).replacingOccurrences(of: "?", with: ""))? \(DartClass.deforbidify($0.name))"
+                    }
+                }
+                fragment.output(" => \(unqualifiedName)", newLineTerminated: false)
                 if fields.isEmpty {
                     fragment.output("();")
                 } else {
                     fragment.outputBlock("(", closeWith: ");") {
-                        fragment.outputMap(fields, separator: ", ") {
-                            "\(DartClass.deforbidify($0.name)): \(DartClass.deforbidify($0.name))"
+                        fragment.outputMap(fields, separator: ",") {
+                            let name = "\(DartClass.deforbidify($0.name))"
+                            return "\(name): \(name) ?? this.\(name)"
                         }
                     }
                 }
