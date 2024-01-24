@@ -13,7 +13,7 @@ namespace Cricut.FishyJoesRuntime {
 
         public static int OutstandingHandleCount() {
             lock(TrackedHandles) {
-                return TrackedHandles.Count
+                return TrackedHandles.Count;
             };
         }
 
