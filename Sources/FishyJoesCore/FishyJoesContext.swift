@@ -124,7 +124,6 @@ public class FishyJoesContext {
             } + dartClasses.flatMap { cls in
                 [
                     "import './\(cls.unqualifiedName).dart' as \(module);",
-                    "import './\(cls.unqualifiedName).dart';", // Import unqualified too or freezed gets confused"
                 ]
             } + additionalImports
         )
