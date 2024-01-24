@@ -73,6 +73,8 @@ enum Platform: CustomStringConvertible, Hashable {
         }
     }
 
+    static let pathSeparator = ps
+
     static let nativeMacSwiftBuild = try! cmd("xcrun", "-f", "swift-build").runString()
 
     // swift 5.7 no longer recognizes "--enable-code-coverage" outside of the "test" command
@@ -236,17 +238,15 @@ enum Platform: CustomStringConvertible, Hashable {
 
     func gradleBuild(arguments: [String], configuration: BuildConfiguration) -> Command {
         let args = arguments + (configuration.debug ? ["buildDebug"] : ["build"])
-        let path: String
         #if os(macOS)
-        path = "./gradlew"
+        return cmd("./gradlew", arguments: args)
         #elseif os(Linux)
-        path = "./gradlew"
+        return cmd("./gradlew", arguments: args)
         #elseif os(Windows)
-        path = "gradlew.bat"
+        return cmd("cmd.exe", arguments: ["/c", "gradlew.bat"] + args)
         #else
         fatalError("unknown host OS")
         #endif
-        return cmd(path, arguments: args)
     }
 
     func gradleBuild(_ arguments: String..., configuration: BuildConfiguration) -> Command {
@@ -262,15 +262,14 @@ enum Platform: CustomStringConvertible, Hashable {
         } ?? [:]
         let path: String
         #if os(macOS)
-        path = "./gradlew"
+        return cmd("./gradlew", arguments: args, addEnv: env)
         #elseif os(Linux)
-        path = "./gradlew"
+        return cmd("./gradlew", arguments: args, addEnv: env)
         #elseif os(Windows)
-        path = "gradlew.bat"
+        return cmd("cmd.exe", arguments: ["/c", "gradlew.bat"] + args, addEnv: env)
         #else
         fatalError("unknown host OS")
         #endif
-        return cmd(path, arguments: args, addEnv: env)
     }
 
     func gradleTest(_ arguments: String..., codeCoveragePath: String?) -> Command {
@@ -278,9 +277,8 @@ enum Platform: CustomStringConvertible, Hashable {
     }
 
     func dotnetBuild(arguments: [String], configuration: BuildConfiguration) -> Command {
-        let path = "dotnet"
         let args = ["build"] + arguments + (configuration.debug ? [] : ["--configuration", "Debug"])
-        return cmd(path, arguments: args)
+        return cmd("dotnet", arguments: args)
     }
 
     func dotnetBuild(_ arguments: String..., configuration: BuildConfiguration) -> Command {
@@ -305,9 +303,7 @@ enum Platform: CustomStringConvertible, Hashable {
     }
 
     func dartBuild(arguments: [String], configuration: BuildConfiguration) -> Command {
-        let path = "dart"
-        let args = ["run", "build_runner", "build", "--delete-conflicting-outputs"]
-        return cmd(path, arguments: args)
+        return cmd("dart", arguments: ["run", "build_runner", "build", "--delete-conflicting-outputs"])
     }
 
     func dartBuild(_ arguments: String..., configuration: BuildConfiguration) -> Command {
@@ -320,9 +316,7 @@ enum Platform: CustomStringConvertible, Hashable {
                 "LLVM_PROFILE_FILE": "\($0)\(ps)fishy-joes-test-\(platform)-\(UUID()).profraw",
             ]
         } ?? [:]
-        let path = "dart"
-        var args = ["test", "--chain-stack-traces"]
-        return cmd(path, arguments: args, addEnv: env)
+        return cmd("dart", arguments: ["test", "--chain-stack-traces"], addEnv: env)
     }
 
     func dartTest(_ arguments: String..., codeCoveragePath: String?) -> Command {

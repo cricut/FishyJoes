@@ -83,13 +83,7 @@ public struct CodeGen: ParsableCommand {
     public init() {}
 }
 
-#if os(macOS)
-private let ps: String = "/"
-#elseif os(Linux)
-private let ps: String = "/"
-#elseif os(Windows)
-private let ps: String = "\\"
-#endif
+private let ps = Platform.pathSeparator
 
 extension CodeGen {
     public mutating func validate() throws {
