@@ -54,8 +54,6 @@ class DartClass {
     let fields: [Variable]
     let methods: [Method]
 
-    var hasFreezedPart: Bool { true }
-
     init(
         module: Module,
         documentation: [String],
@@ -87,11 +85,6 @@ class DartClass {
 
     func fragment(context: FishyJoesContext) -> SourceFragment {
         let fragment = context.dartFragment("\(unqualifiedName).dart")
-
-        if hasFreezedPart {
-            fragment.output("part '\(unqualifiedName).freezed.dart';")
-            fragment.blankLine()
-        }
 
         for (name, type) in setupTypes?.typedefs ?? [:] {
             fragment.output("typedef \(name) = \(type.name());")
@@ -416,9 +409,6 @@ class DartProductClass: DartClass {
     override func output(to fragment: SourceFragment) {
         document(documentation, fragment: fragment)
 
-        if unqualifiedName == "Collections_CollectionHolder" {
-            let c = 1 + 2
-        }
         switch constructor {
         case .reference:
             fragment.output("class \(unqualifiedName) extends SwiftReference", newLineTerminated: false)
@@ -435,9 +425,6 @@ class DartProductClass: DartClass {
                 }
             fragment.blankLine()
             case .public(let fields):
-                if unqualifiedName == "Collections_CollectionHolder" {
-                    let c = 1 + 2
-                }
                 for field in fields {
                     fragment.output("\(field.isPubliclyWritable ? "" : "final ")\(field.type.name(in: self)) \(DartClass.deforbidify(field.name));")
                 }
@@ -446,7 +433,6 @@ class DartProductClass: DartClass {
 
                 fragment.outputBlock("\(unqualifiedName)({", closeWith: "});") {
                     fragment.outputMap(fields, separator: ",") { field in
-                        // "required \(field.isPubliclyWritable ? "" : "final ")\(field.type.name(in: self)) \(DartClass.deforbidify(field.name))"
                         "required this.\(DartClass.deforbidify(field.name))"
                     }
                 }
@@ -617,11 +603,6 @@ class DartProductClass: DartClass {
             outputNativeMethodDeclarations(to: fragment)
         }
     }
-
-    override var hasFreezedPart: Bool {
-        // constructor != .reference
-        false
-    }
 }
 
 class DartEnumClass: DartClass {
@@ -647,10 +628,6 @@ class DartEnumClass: DartClass {
             name: name,
             fieldsAndMethods: fieldsAndMethods
         )
-    }
-
-    override var hasFreezedPart: Bool {
-        false
     }
 
     override func output(to fragment: SourceFragment) {
