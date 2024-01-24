@@ -1067,6 +1067,4 @@ class Primitives {
         Env env,
         OutCreatedRef _exn
     ) f__iota_get_TestAPI_Primitives_zeroUInt8;
-
-    Primitives shallowCopy() => throw UnsupportedError('Primitives shallowCopy() must be overridden by a subclass.');
 }

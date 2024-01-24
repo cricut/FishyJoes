@@ -727,8 +727,6 @@ class DartEnumClass: DartClass {
             outputNativeMethodDeclarations(to: fragment)
 
             fragment.blankLine()
-
-            fragment.output("\(unqualifiedName) shallowCopy() => throw UnsupportedError('\(unqualifiedName) shallowCopy() must be overridden by a subclass.');")
         }
 
         fragment.blankLine()
@@ -809,16 +807,26 @@ class DartEnumClass: DartClass {
 
                 fragment.blankLine()
 
-                fragment.output("@override")
-                fragment.output("\(unqualifiedName) shallowCopy() => \(unqualifiedName).\(enumCase.name)", newLineTerminated: false)
-                if !enumCase.values.isEmpty {
-                    fragment.outputBlock(" (", closeWith: ");") {
-                        fragment.outputMap(enumCase.values, separator: ", ") {
-                            "\(DartClass.deforbidify($0.name))"
+                fragment.output("\(className) copyWith", newLineTerminated: false)
+                if enumCase.values.isEmpty {
+                    fragment.output("()", newLineTerminated: false)
+                } else {
+                    fragment.outputBlock("({", closeWith: "})", newLineTerminated: false) {
+                        fragment.outputMap(enumCase.values, separator: ",") {
+                            "\($0.type.name(in: self).replacingOccurrences(of: "?", with: ""))? \(DartClass.deforbidify($0.name))"
                         }
                     }
-                } else {
+                }
+                fragment.output(" => \(className)", newLineTerminated: false)
+                if enumCase.values.isEmpty {
                     fragment.output("();")
+                } else {
+                    fragment.outputBlock("(", closeWith: ");") {
+                        fragment.outputMap(enumCase.values, separator: ",") {
+                            let name = "\(DartClass.deforbidify($0.name))"
+                            return "\(name) ?? this.\(name)"
+                        }
+                    }
                 }
             }
 

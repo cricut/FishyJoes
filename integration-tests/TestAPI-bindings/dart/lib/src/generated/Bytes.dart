@@ -89,6 +89,4 @@ class Bytes {
         Env env,
         OutCreatedRef _exn
     ) f__iota_get_TestAPI_Bytes_data;
-
-    Bytes shallowCopy() => throw UnsupportedError('Bytes shallowCopy() must be overridden by a subclass.');
 }

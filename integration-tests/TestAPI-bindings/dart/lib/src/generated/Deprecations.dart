@@ -63,6 +63,4 @@ class Deprecations {
         Env env,
         OutCreatedRef _exn
     ) f__iota_get_TestAPI_Deprecations_deprecatedVariable;
-
-    Deprecations shallowCopy() => throw UnsupportedError('Deprecations shallowCopy() must be overridden by a subclass.');
 }
