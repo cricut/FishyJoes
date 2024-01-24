@@ -615,7 +615,6 @@ class Primitives_PrimitiveHolder {
         )
     );
 
-    @override
     Primitives_PrimitiveHolder shallowCopy() => Primitives_PrimitiveHolder(
         b: b, 
         bq: bq, 

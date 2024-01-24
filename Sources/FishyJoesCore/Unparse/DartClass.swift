@@ -516,24 +516,22 @@ class DartProductClass: DartClass {
                 fragment.output("bool operator ==(Object other)", newLineTerminated: false)
                 fragment.outputBlock(" {") {
                     fragment.output("return identical(other, this) ||")
-                    fragment.output("(")
-                    fragment.currentIndent += 1
-                    fragment.output("other.runtimeType == runtimeType &&")
-                    fragment.output("other is \(unqualifiedName)", newLineTerminated: false)
-
-                    if fields.isEmpty {
-                        fragment.blankLine()
-                    } else {
-                        fragment.output(" &&")
-                        fragment.outputBlock("(") {
-                            fragment.outputMap(fields, separator: " &&") { field in
-                                let valueName = "\(DartClass.deforbidify(field.name))"
-                                return "const DeepCollectionEquality().equals(other.\(valueName), \(valueName))"
+                    fragment.outputBlock("(", closeWith: ");") {
+                        fragment.output("other.runtimeType == runtimeType &&")
+                        fragment.output("other is \(unqualifiedName)", newLineTerminated: false)
+                        
+                        if fields.isEmpty {
+                            fragment.blankLine()
+                        } else {
+                            fragment.output(" &&")
+                            fragment.outputBlock("(") {
+                                fragment.outputMap(fields, separator: " &&") { field in
+                                    let valueName = "\(DartClass.deforbidify(field.name))"
+                                    return "const DeepCollectionEquality().equals(other.\(valueName), \(valueName))"
+                                }
                             }
                         }
                     }
-                    fragment.currentIndent -= 1
-                    fragment.output(");")
                 }
 
                 fragment.blankLine()
@@ -573,7 +571,6 @@ class DartProductClass: DartClass {
 
                 fragment.blankLine()
 
-                fragment.output("@override")
                 fragment.output("\(unqualifiedName) shallowCopy() => \(unqualifiedName)", newLineTerminated: false)
                 if fields.isEmpty {
                     fragment.output("();")

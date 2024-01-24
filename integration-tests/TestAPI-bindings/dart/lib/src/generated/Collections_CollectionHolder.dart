@@ -263,7 +263,6 @@ class Collections_CollectionHolder {
         const DeepCollectionEquality().hash(stringDictionary)
     );
 
-    @override
     Collections_CollectionHolder shallowCopy() => Collections_CollectionHolder(
         boolArray: List.from(boolArray), 
         boolSet: Set.from(boolSet), 

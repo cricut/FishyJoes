@@ -80,7 +80,6 @@ class String_PuttingTypesIntoQuestionablePlaces {
         const DeepCollectionEquality().hash(x)
     );
 
-    @override
     String_PuttingTypesIntoQuestionablePlaces shallowCopy() => String_PuttingTypesIntoQuestionablePlaces(
         x: x
     );

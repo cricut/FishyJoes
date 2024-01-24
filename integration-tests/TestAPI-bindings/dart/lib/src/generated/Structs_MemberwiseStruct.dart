@@ -102,7 +102,6 @@ class Structs_MemberwiseStruct {
         const DeepCollectionEquality().hash(mutable)
     );
 
-    @override
     Structs_MemberwiseStruct shallowCopy() => Structs_MemberwiseStruct(
         immutable: immutable, 
         mutable: mutable
