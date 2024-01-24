@@ -839,12 +839,19 @@ class DartEnumClass: DartClass {
                 fragment.output("@override")
                 fragment.output("\(unqualifiedName) shallowCopy() => \(unqualifiedName).\(enumCase.name)", newLineTerminated: false)
                 if !enumCase.values.isEmpty {
-                    fragment.outputBlock(" (", newLineTerminated: false) {
+                    fragment.outputBlock(" (", closeWith: ");") {
                         fragment.outputMap(enumCase.values, separator: ", ") {
-                            "\(DartClass.deforbidify($0.name))"
+                            switch $0.type {
+                            case let .named(_, name, _):
+                                if name == "Set" || name == "List" || name == "Map" {
+                                    return "\(name).from(\(DartClass.deforbidify($0.name)))"
+                                }
+                                fallthrough
+                            default:
+                                return "\(DartClass.deforbidify($0.name))"
+                            }
                         }
                     }
-                    fragment.output(";")
                 } else {
                     fragment.output("();")
                 }
