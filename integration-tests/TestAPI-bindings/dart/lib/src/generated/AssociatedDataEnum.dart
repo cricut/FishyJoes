@@ -242,9 +242,9 @@ class AssociatedDataEnum_Thing extends AssociatedDataEnum {
     @override
     String toString() => 'AssociatedDataEnum.thing(value: $value)';
 
-    AssociatedDataEnum_Thing copyWith({
+    AssociatedDataEnum_Thing copyWith([
         int? value
-    }) => AssociatedDataEnum_Thing(
+    ]) => AssociatedDataEnum_Thing(
         value ?? this.value
     );
 }
@@ -281,10 +281,10 @@ class AssociatedDataEnum_Other extends AssociatedDataEnum {
     @override
     String toString() => 'AssociatedDataEnum.other(unnamed: $unnamed, m_1: $m_1)';
 
-    AssociatedDataEnum_Other copyWith({
+    AssociatedDataEnum_Other copyWith([
         String? unnamed,
         int? m_1
-    }) => AssociatedDataEnum_Other(
+    ]) => AssociatedDataEnum_Other(
         unnamed ?? this.unnamed,
         m_1 ?? this.m_1
     );
@@ -322,10 +322,10 @@ class AssociatedDataEnum_Bar extends AssociatedDataEnum {
     @override
     String toString() => 'AssociatedDataEnum.bar(named: $named, m_1: $m_1)';
 
-    AssociatedDataEnum_Bar copyWith({
+    AssociatedDataEnum_Bar copyWith([
         String? named,
         TestAPI.AssociatedDataEnum? m_1
-    }) => AssociatedDataEnum_Bar(
+    ]) => AssociatedDataEnum_Bar(
         named ?? this.named,
         m_1 ?? this.m_1
     );
@@ -380,9 +380,9 @@ class AssociatedDataEnum_SimpleEnum extends AssociatedDataEnum {
     @override
     String toString() => 'AssociatedDataEnum.simpleEnum(value: $value)';
 
-    AssociatedDataEnum_SimpleEnum copyWith({
+    AssociatedDataEnum_SimpleEnum copyWith([
         TestAPI.SimpleEnum? value
-    }) => AssociatedDataEnum_SimpleEnum(
+    ]) => AssociatedDataEnum_SimpleEnum(
         value ?? this.value
     );
 }

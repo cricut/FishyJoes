@@ -98,12 +98,12 @@ void main() {
 
           var e = AssociatedDataEnum.simpleEnum(b);
           var f = AssociatedDataEnum.bar("corge", e);
-          var g = (f as AssociatedDataEnum_Bar).copyWith();
-          expect(g, equals(f));
+          var g = (f as AssociatedDataEnum_Bar).copyWith("plugh", e);
+          expect(g != f, true);
 
           var h = AssociatedDataEnum.thing(123);
           var i = (h as AssociatedDataEnum_Thing).copyWith();
-          var j = (i as AssociatedDataEnum_Thing).copyWith();
+          var j = i.copyWith();
           expect(i, equals(h));
           expect(j, equals(h));
           var k = AssociatedDataEnum.thing(124);

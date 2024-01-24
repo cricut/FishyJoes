@@ -811,7 +811,7 @@ class DartEnumClass: DartClass {
                 if enumCase.values.isEmpty {
                     fragment.output("()", newLineTerminated: false)
                 } else {
-                    fragment.outputBlock("({", closeWith: "})", newLineTerminated: false) {
+                    fragment.outputBlock("([", closeWith: "])", newLineTerminated: false) {
                         fragment.outputMap(enumCase.values, separator: ",") {
                             "\($0.type.name(in: self).replacingOccurrences(of: "?", with: ""))? \(DartClass.deforbidify($0.name))"
                         }
