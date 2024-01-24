@@ -716,7 +716,7 @@ extension CodeGen {
                     }
 
                     // Pack using npm
-                    try cmd("npm", "pack", ".\(ps)\(platform.outputDir(config))").run()
+                    try platform.npm("pack", ".\(ps)\(platform.outputDir(config))").run()
                 case .kotlinSystem, .kotlinAndroid:
                     // Pack happens as part of publish step in gradle
                     ()
@@ -787,7 +787,7 @@ extension CodeGen {
                         .run()
 
                     // Pack using npm
-                    try cmd("npm", "pack", ".\(ps)dart\(ps)flutter-package").run()
+                    try platform.npm("pack", ".\(ps)dart\(ps)flutter-package").run()
                 }
             }
         }

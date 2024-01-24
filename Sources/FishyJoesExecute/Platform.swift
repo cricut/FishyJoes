@@ -237,13 +237,12 @@ enum Platform: CustomStringConvertible, Hashable {
     }
 
     func gradleBuild(arguments: [String], configuration: BuildConfiguration) -> Command {
-        let args = arguments + (configuration.debug ? ["buildDebug"] : ["build"])
         #if os(macOS)
-        return cmd("./gradlew", arguments: args)
+        return cmd("./gradlew", arguments: arguments)
         #elseif os(Linux)
-        return cmd("./gradlew", arguments: args)
+        return cmd("./gradlew", arguments: arguments)
         #elseif os(Windows)
-        return cmd("cmd.exe", arguments: ["/c", "gradlew.bat"] + args)
+        return cmd("cmd.exe", arguments: ["/c", "gradlew.bat"] + arguments)
         #else
         fatalError("unknown host OS")
         #endif
