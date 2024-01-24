@@ -12,7 +12,9 @@ namespace Cricut.FishyJoesRuntime {
         private static LinkedList<IntPtr> TrackedHandles = new LinkedList<IntPtr>();
 
         public static int OutstandingHandleCount() {
-            return TrackedHandles.Count;
+            lock(TrackedHandles) {
+                return TrackedHandles.Count;
+            }
         }
 
         /// <summary> Prints out every handle allocated by FishyJoes that hasn't been freed. Requires `TrackAllocationsDebug` to be true </summary>
@@ -22,12 +24,14 @@ namespace Cricut.FishyJoesRuntime {
                 GC.WaitForPendingFinalizers();
             }
 
-            Console.WriteLine($"=== Begin live GC handles {TrackedHandles.Count} ===");
-            foreach (var ptr in TrackedHandles) {
-                var handle = GCHandle.FromIntPtr(ptr);
-                Console.WriteLine($"{ptr}: {handle.Target?.GetType().ToString() ?? "<null>"} => {handle.Target?.ToString() ?? "<null>"}");
+            lock(TrackedHandles) {
+                Console.WriteLine($"=== Begin live GC handles {TrackedHandles.Count} ===");
+                foreach (var ptr in TrackedHandles) {
+                    var handle = GCHandle.FromIntPtr(ptr);
+                    Console.WriteLine($"{ptr}: {handle.Target?.GetType().ToString() ?? "<null>"} => {handle.Target?.ToString() ?? "<null>"}");
+                }
+                Console.WriteLine($"=== End live GC handles {TrackedHandles.Count} ===");
             }
-            Console.WriteLine($"=== End live GC handles {TrackedHandles.Count} ===");
         }
 
         private static GCHandle Alloc(object? obj) {
@@ -35,7 +39,9 @@ namespace Cricut.FishyJoesRuntime {
                 var handle = GCHandle.Alloc(obj);
                 #if DEBUG
                 if (TrackAllocationsDebug) {
-                    TrackedHandles.AddLast((IntPtr)handle);
+                    lock(TrackedHandles) {
+                        TrackedHandles.AddLast((IntPtr)handle);
+                    }
                 }
                 #endif
                 return handle;
@@ -48,7 +54,9 @@ namespace Cricut.FishyJoesRuntime {
             if (handle.IsAllocated) {
                 #if DEBUG
                 if (TrackAllocationsDebug) {
-                    TrackedHandles.Remove((IntPtr)handle);
+                    lock(TrackedHandles) {
+                        TrackedHandles.Remove((IntPtr)handle);
+                    }
                 }
                 #endif
                 handle.Free();
