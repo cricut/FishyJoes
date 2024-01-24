@@ -4235,6 +4235,33 @@
               },
               {
                 "documentation" : [
+                  "<!-- FishyJoes.export(asyncBoolFunc) -->"
+                ],
+                "isAsync" : true,
+                "isStatic" : true,
+                "name" : "asyncBoolFunc",
+                "parameters" : [
+                  {
+                    "name" : "b",
+                    "type" : {
+                      "named" : {
+                        "_0" : "boolean"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "boolean"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
                   "<!-- FishyJoes.export(asyncDoubleFunc) -->"
                 ],
                 "isAsync" : true,

@@ -83,9 +83,9 @@ public enum Functions {
     }
 
     /// <!-- FishyJoes.export(asyncYieldFunc) -->
-    public static func asyncYieldFunc() async throws -> Int {
+    public static func asyncYieldFunc() async throws -> UInt {
         await Task.yield()
-        return try await async42Func()
+        return try await UInt(async42Func())
     }
 
     /// <!-- FishyJoes.export(asyncSleepFunc) -->
@@ -104,7 +104,7 @@ public enum Functions {
     }
 
     /// <!-- FishyJoes.export(asyncCallbackFunc1) -->
-    public static func asyncCallbackFunc1(_ callback: (Int) async throws -> Int) async throws -> Int {
+    public static func asyncCallbackFunc1(_ callback: (UInt) async throws -> UInt) async throws -> UInt {
         try await callback(1)
     }
 
@@ -131,6 +131,11 @@ public enum Functions {
     /// <!-- FishyJoes.export(asyncCallbackFunc6) -->
     public static func asyncCallbackFunc6(_ callback: (Int, Int, Int, Int, Int, Int) async throws -> Int) async throws -> Int {
         try await callback(1, 2, 3, 4, 5, 6)
+    }
+
+    /// <!-- FishyJoes.export(asyncBoolFunc) -->
+    public static func asyncBoolFunc(_ b: Bool) async throws -> Bool {
+        !b
     }
 
     /// <!-- FishyJoes.export(asyncDoubleFunc) -->

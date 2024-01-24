@@ -112,8 +112,8 @@ internal class FunctionTests {
     fun testAsyncCallbackFunctionCall1() {
         runBlocking {
             var threw = false
-            var value: Long = 0
-            val values: MutableList<Long> = ArrayList()
+            var value: ULong = 0UL
+            val values: MutableList<ULong> = ArrayList()
             try {
                 value = Functions.asyncCallbackFunc1 { a ->
                     values.add(a)
@@ -123,8 +123,8 @@ internal class FunctionTests {
                 threw = true
             }
             assertEquals(false, threw)
-            assertEquals(1, value)
-            assertEquals(arrayListOf(1.toLong()), values)
+            assertEquals(1UL, value)
+            assertEquals(arrayListOf(1UL), values)
         }
     }
 

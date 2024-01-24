@@ -198,10 +198,10 @@ sealed class Functions {
          * <!-- FishyJoes.export(asyncYieldFunc) -->
          */
         suspend fun asyncYieldFunc(
-        ): Long {
+        ): ULong {
             return coroutineScope {
                 async {
-                    suspendCancellableCoroutine { continuation: CancellableContinuation<Long> ->
+                    suspendCancellableCoroutine { continuation: CancellableContinuation<ULong> ->
                         __jni_asyncYieldFunc(
                             { value ->
                                 continuation.resume(value, null)
@@ -216,7 +216,7 @@ sealed class Functions {
         @JvmStatic
         @JvmName("__jni_asyncYieldFunc")
         private external fun __jni_asyncYieldFunc(
-            successContinuation: (Long) -> Unit,
+            successContinuation: (ULong) -> Unit,
             failureContinuation: (String) -> Unit
         )
 
@@ -313,11 +313,11 @@ sealed class Functions {
          * <!-- FishyJoes.export(asyncCallbackFunc1) -->
          */
         suspend fun asyncCallbackFunc1(
-            callback: (suspend (Long) -> Long)
-        ): Long {
+            callback: (suspend (ULong) -> ULong)
+        ): ULong {
             return coroutineScope {
                 async {
-                    suspendCancellableCoroutine { continuation: CancellableContinuation<Long> ->
+                    suspendCancellableCoroutine { continuation: CancellableContinuation<ULong> ->
                         __jni_asyncCallbackFunc1(
                             { p0 ->
                                 try {
@@ -341,8 +341,8 @@ sealed class Functions {
         @JvmStatic
         @JvmName("__jni_asyncCallbackFunc1")
         private external fun __jni_asyncCallbackFunc1(
-            callback: ((Long) -> Long),
-            successContinuation: (Long) -> Unit,
+            callback: ((ULong) -> ULong),
+            successContinuation: (ULong) -> Unit,
             failureContinuation: (String) -> Unit
         )
 
@@ -528,6 +528,35 @@ sealed class Functions {
         private external fun __jni_asyncCallbackFunc6(
             callback: ((Long, Long, Long, Long, Long, Long) -> Long),
             successContinuation: (Long) -> Unit,
+            failureContinuation: (String) -> Unit
+        )
+
+        /**
+         * <!-- FishyJoes.export(asyncBoolFunc) -->
+         */
+        suspend fun asyncBoolFunc(
+            b: Boolean
+        ): Boolean {
+            return coroutineScope {
+                async {
+                    suspendCancellableCoroutine { continuation: CancellableContinuation<Boolean> ->
+                        __jni_asyncBoolFunc(
+                            b,
+                            { value ->
+                                continuation.resume(value, null)
+                            }
+                        ) { message ->
+                            continuation.cancel(Error(message))
+                        }
+                    }
+                }.await()
+            }
+        }
+        @JvmStatic
+        @JvmName("__jni_asyncBoolFunc")
+        private external fun __jni_asyncBoolFunc(
+            b: Boolean,
+            successContinuation: (Boolean) -> Unit,
             failureContinuation: (String) -> Unit
         )
 

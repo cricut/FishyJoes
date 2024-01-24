@@ -172,12 +172,12 @@ extension TestAPI.Functions: FishyJoesNodeRuntime.NodeConverter {
                             let (deferred, promise) = try env.env.createPromise()
                             Task {
                                 do {
-                                    let taskResult: Int = try await TestAPI.Functions.asyncYieldFunc(
+                                    let taskResult: UInt = try await TestAPI.Functions.asyncYieldFunc(
                                     )
                                     try onMainThread { env in
                                         let convertedTaskResult: NAPI.Value
                                         do {
-                                            convertedTaskResult = try Swift.Int.toNode(taskResult, env: env)
+                                            convertedTaskResult = try Swift.UInt.toNode(taskResult, env: env)
                                         } catch {
                                             try env.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: env))
                                             return
@@ -308,16 +308,16 @@ extension TestAPI.Functions: FishyJoesNodeRuntime.NodeConverter {
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "asyncCallbackFunc1", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
-                            let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: AsyncFunction1Converter<Swift.Int, Swift.Int>.self))
+                            let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: AsyncFunction1Converter<Swift.UInt, Swift.UInt>.self))
                             Task {
                                 do {
-                                    let taskResult: Int = try await TestAPI.Functions.asyncCallbackFunc1(
+                                    let taskResult: UInt = try await TestAPI.Functions.asyncCallbackFunc1(
                                         arg0.value
                                     )
                                     try onMainThread { env in
                                         let convertedTaskResult: NAPI.Value
                                         do {
-                                            convertedTaskResult = try Swift.Int.toNode(taskResult, env: env)
+                                            convertedTaskResult = try Swift.UInt.toNode(taskResult, env: env)
                                         } catch {
                                             try env.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: env))
                                             return
@@ -498,6 +498,42 @@ extension TestAPI.Functions: FishyJoesNodeRuntime.NodeConverter {
                                         let convertedTaskResult: NAPI.Value
                                         do {
                                             convertedTaskResult = try Swift.Int.toNode(taskResult, env: env)
+                                        } catch {
+                                            try env.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: env))
+                                            return
+                                        }
+                                        try env.resolveDeferred(deferred, convertedTaskResult)
+                                    }
+                                } catch let error as JSException {
+                                    try onMainThread { env in
+                                        let error = try env.createError(NAPI.Value(ptr: nil), String.toNode(error.message, env: env))
+                                        try env.rejectDeferred(deferred, error)
+                                    }
+                                } catch {
+                                    try onMainThread { env in
+                                        try env.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: env))
+                                    }
+                                }
+                            }
+                            return promise
+                        }
+                    },
+                    isStatic: true
+                ),
+                "asyncBoolFunc": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "asyncBoolFunc", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                            let (deferred, promise) = try env.env.createPromise()
+                            let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: Swift.Bool.self))
+                            Task {
+                                do {
+                                    let taskResult: Bool = try await TestAPI.Functions.asyncBoolFunc(
+                                        arg0.value
+                                    )
+                                    try onMainThread { env in
+                                        let convertedTaskResult: NAPI.Value
+                                        do {
+                                            convertedTaskResult = try Swift.Bool.toNode(taskResult, env: env)
                                         } catch {
                                             try env.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: env))
                                             return
