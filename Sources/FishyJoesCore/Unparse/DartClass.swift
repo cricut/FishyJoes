@@ -519,7 +519,7 @@ class DartProductClass: DartClass {
                     fragment.outputBlock("(", closeWith: ");") {
                         fragment.output("other.runtimeType == runtimeType &&")
                         fragment.output("other is \(unqualifiedName)", newLineTerminated: false)
-                        
+
                         if fields.isEmpty {
                             fragment.blankLine()
                         } else {
