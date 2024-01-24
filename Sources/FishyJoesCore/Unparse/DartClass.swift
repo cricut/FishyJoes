@@ -446,7 +446,7 @@ class DartProductClass: DartClass {
 
                 fragment.outputBlock("\(unqualifiedName)({", closeWith: "});") {
                     fragment.outputMap(fields, separator: ",") { field in
-                        //"required \(field.isPubliclyWritable ? "" : "final ")\(field.type.name(in: self)) \(DartClass.deforbidify(field.name))"
+                        // "required \(field.isPubliclyWritable ? "" : "final ")\(field.type.name(in: self)) \(DartClass.deforbidify(field.name))"
                         "required this.\(DartClass.deforbidify(field.name))"
                     }
                 }
@@ -516,7 +516,7 @@ class DartProductClass: DartClass {
                         }
                     }
                 }
-                
+
                 fragment.blankLine()
 
                 fragment.output("@override")
@@ -549,7 +549,7 @@ class DartProductClass: DartClass {
                     fragment.currentIndent -= 1
                     fragment.output(");")
                 }
-                
+
                 fragment.blankLine()
                 fragment.blankLine()
 
@@ -586,7 +586,7 @@ class DartProductClass: DartClass {
                 }
 
                 fragment.blankLine()
-                
+
                 fragment.output("@override")
                 fragment.output("\(unqualifiedName) shallowCopy() => \(unqualifiedName)", newLineTerminated: false)
                 if fields.isEmpty {
@@ -619,7 +619,7 @@ class DartProductClass: DartClass {
     }
 
     override var hasFreezedPart: Bool {
-        //constructor != .reference
+        // constructor != .reference
         false
     }
 }
