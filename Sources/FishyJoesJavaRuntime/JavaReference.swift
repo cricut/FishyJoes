@@ -11,16 +11,6 @@ public class JavaReference {
         vm = try env.GetJavaVM()
     }
 
-    public convenience init<T: JavaConverter>(local: T, env: Env) throws where T.SwiftType == T, T.CType == T {
-        try self.init(
-            local: T.toJavaObject(
-                local,
-                env: env
-            ),
-            env: env
-        )
-    }
-
     deinit {
         try? destroy()
     }

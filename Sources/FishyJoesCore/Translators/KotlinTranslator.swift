@@ -83,7 +83,8 @@ final class KotlinTranslator: Translator {
 
                 if method.isAsync {
                     fragment.outputMap(method.parameters, separator: "\n") { parameter in
-                        "let \(parameter.name)Ref = try JavaReference(local: \(parameter.name), env: _javaEnv)"
+                        let resolved = context.resolve(type: parameter.type, generics: exportAnnotation.genericOverrides)
+                        return "let \(parameter.name) = try \(resolved.converterType.name).fromJava(\(parameter.name), env: _javaEnv)"
                     }
                     fragment.output("let _javaThisRef = try JavaReference(local: _javaThis, env: _javaEnv)")
                     fragment.output("let _successContinuationRef = try JavaReference(local: _successContinuation, env: _javaEnv)")
@@ -91,18 +92,11 @@ final class KotlinTranslator: Translator {
 
                     fragment.outputBlock("try _javaEnv.swiftTask { _javaEnv, _vm in", closeWith: "}") {
                         fragment.outputBlock("defer {") {
-                            fragment.outputMap(method.parameters, separator: "\n") { parameter in
-                                "try? \(parameter.name)Ref.destroy()"
-                            }
                             fragment.output("try? _javaThisRef.destroy()")
                             fragment.output("try? _successContinuationRef.destroy()")
                             fragment.output("try? _failureContinuationRef.destroy()")
                         }
                         fragment.outputBlock("do {", closeWith: "}", newLineTerminated: false) {
-                            fragment.outputMap(method.parameters, separator: "\n") { parameter in
-                                let resolved = context.resolve(type: parameter.type, generics: exportAnnotation.genericOverrides)
-                                return "let \(parameter.name) = try \(resolved.converterType.name).fromJava(object: \(parameter.name)Ref.createLocalRef(env: _javaEnv), env: _javaEnv)"
-                            }
                             fragment.output("\(method.isMutating ? "var" : "let") value: Result<\(method.returnType.name), any Error>\(method.isMutating ? "!" : "")")
                             fragment.outputBlock("do {", newLineTerminated: false) {
                                 let callBlock: (() -> Void) -> Void
