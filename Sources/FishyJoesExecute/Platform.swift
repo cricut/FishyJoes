@@ -335,7 +335,7 @@ enum Platform: CustomStringConvertible, Hashable {
         #elseif os(Linux)
         return cmd("npm", arguments: arguments)
         #elseif os(Windows)
-        return cmd("cmd.exe", arguments: ["/c", "npm"] + arguments)
+        return cmd("cmd.exe", arguments: ["/c", "SET&&where npm&&npm"] + arguments)
         #else
         fatalError("unknown host OS")
         #endif
