@@ -335,8 +335,7 @@ enum Platform: CustomStringConvertible, Hashable {
         #elseif os(Linux)
         return cmd("npm", arguments: arguments)
         #elseif os(Windows)
-        print("Pre-call to cmd.exe env: \(ProcessInfo.processInfo.environment)")
-        return cmd("cmd.exe", arguments: ["/c", "SET&&npm"] + arguments)
+        return cmd("cmd.exe", arguments: ["/c", "npm"] + arguments)
         #else
         fatalError("unknown host OS")
         #endif
@@ -360,7 +359,7 @@ enum Platform: CustomStringConvertible, Hashable {
         #elseif os(Linux)
         return cmd("npm", arguments: args, addEnv: env)
         #elseif os(Windows)
-        return cmd("cmd.exe", arguments: ["/c", "npm"] + args)
+        return cmd("cmd.exe", arguments: ["/c", "npm"] + args, addEnv: env)
         #else
         fatalError("unknown host OS")
         #endif
