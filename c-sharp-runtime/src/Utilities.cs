@@ -14,7 +14,7 @@ namespace Cricut.FishyJoesRuntime {
         public static int OutstandingHandleCount() {
             lock(TrackedHandles) {
                 return TrackedHandles.Count;
-            };
+            }
         }
 
         /// <summary> Prints out every handle allocated by FishyJoes that hasn't been freed. Requires `TrackAllocationsDebug` to be true </summary>
