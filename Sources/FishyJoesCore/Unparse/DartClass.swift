@@ -577,15 +577,7 @@ class DartProductClass: DartClass {
                 } else {
                     fragment.outputBlock("(", closeWith: ");") {
                         fragment.outputMap(fields, separator: ", ") {
-                            switch $0.type {
-                            case let .named(_, name, _):
-                                if name == "Set" || name == "List" || name == "Map" {
-                                    return "\(DartClass.deforbidify($0.name)): \(name).from(\(DartClass.deforbidify($0.name)))"
-                                }
-                                fallthrough
-                            default:
-                                return "\(DartClass.deforbidify($0.name)): \(DartClass.deforbidify($0.name))"
-                            }
+                            "\(DartClass.deforbidify($0.name)): \(DartClass.deforbidify($0.name))"
                         }
                     }
                 }
@@ -815,15 +807,7 @@ class DartEnumClass: DartClass {
                 if !enumCase.values.isEmpty {
                     fragment.outputBlock(" (", closeWith: ");") {
                         fragment.outputMap(enumCase.values, separator: ", ") {
-                            switch $0.type {
-                            case let .named(_, name, _):
-                                if name == "Set" || name == "List" || name == "Map" {
-                                    return "\(name).from(\(DartClass.deforbidify($0.name)))"
-                                }
-                                fallthrough
-                            default:
-                                return "\(DartClass.deforbidify($0.name))"
-                            }
+                            "\(DartClass.deforbidify($0.name))"
                         }
                     }
                 } else {

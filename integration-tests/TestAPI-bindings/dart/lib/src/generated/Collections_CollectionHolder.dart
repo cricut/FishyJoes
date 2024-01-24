@@ -264,15 +264,15 @@ class Collections_CollectionHolder {
     );
 
     Collections_CollectionHolder shallowCopy() => Collections_CollectionHolder(
-        boolArray: List.from(boolArray), 
-        boolSet: Set.from(boolSet), 
-        boolDictionary: Map.from(boolDictionary), 
-        integerArray: List.from(integerArray), 
-        integerSet: Set.from(integerSet), 
-        integerDictionary: Map.from(integerDictionary), 
-        stringArray: List.from(stringArray), 
-        stringSet: Set.from(stringSet), 
-        stringDictionary: Map.from(stringDictionary)
+        boolArray: boolArray, 
+        boolSet: boolSet, 
+        boolDictionary: boolDictionary, 
+        integerArray: integerArray, 
+        integerSet: integerSet, 
+        integerDictionary: integerDictionary, 
+        stringArray: stringArray, 
+        stringSet: stringSet, 
+        stringDictionary: stringDictionary
     );
 
     /// <!-- FishyJoes.export(staticProperty) -->
