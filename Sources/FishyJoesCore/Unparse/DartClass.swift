@@ -423,8 +423,6 @@ class DartProductClass: DartClass {
         case .reference:
             fragment.output("class \(unqualifiedName) extends SwiftReference", newLineTerminated: false)
         case .public:
-            //fragment.output("@Freezed(addImplicitFinal: false, makeCollectionsUnmodifiable: false)")
-            //fragment.output("class \(unqualifiedName) with _$\(unqualifiedName)", newLineTerminated: false)
             fragment.output("class \(unqualifiedName)", newLineTerminated: false)
         }
         fragment.outputBlock(" {") {
@@ -588,6 +586,26 @@ class DartProductClass: DartClass {
                 }
 
                 fragment.blankLine()
+                
+                fragment.output("@override")
+                fragment.output("\(unqualifiedName) shallowCopy() => \(unqualifiedName)", newLineTerminated: false)
+                if fields.isEmpty {
+                    fragment.output("();")
+                } else {
+                    fragment.outputBlock("(", closeWith: ");") {
+                        fragment.outputMap(fields, separator: ", ") {
+                            switch $0.type {
+                            case let .named(_, name, _):
+                                if name == "Set" || name == "List" || name == "Map" {
+                                    return "\(DartClass.deforbidify($0.name)): \(name).from(\(DartClass.deforbidify($0.name)))"
+                                }
+                                fallthrough
+                            default:
+                                return "\(DartClass.deforbidify($0.name)): \(DartClass.deforbidify($0.name))"
+                            }
+                        }
+                    }
+                }
             }
 
             fragment.blankLine()
