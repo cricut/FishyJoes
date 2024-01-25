@@ -87,23 +87,23 @@ void main() {
         expect(c.toString(), equals("AssociatedDataEnum.bar(named: qux, m_1: AssociatedDataEnum.simpleEnum(value: SimpleEnum.blue()))"));
       });
 
-      test('testEnumShallowCopy', () {
+      test('testEnumCopyWith', () {
           var a = SimpleEnum.blue();
-          var b = a.shallowCopy();
+          var b = (a as SimpleEnum_Blue).copyWith();
           var c = SimpleEnum.green();
-          var d = c.shallowCopy();
+          var d = (c as SimpleEnum_Green).copyWith();
           expect(a == b, true);
           expect(c, equals(d));
           expect(b != d, true);
 
           var e = AssociatedDataEnum.simpleEnum(b);
           var f = AssociatedDataEnum.bar("corge", e);
-          var g = f.shallowCopy();
-          expect(g, equals(f));
+          var g = (f as AssociatedDataEnum_Bar).copyWith("plugh", e);
+          expect(g != f, true);
 
           var h = AssociatedDataEnum.thing(123);
-          var i = h.shallowCopy();
-          var j = i.shallowCopy();
+          var i = (h as AssociatedDataEnum_Thing).copyWith();
+          var j = i.copyWith();
           expect(i, equals(h));
           expect(j, equals(h));
           var k = AssociatedDataEnum.thing(124);

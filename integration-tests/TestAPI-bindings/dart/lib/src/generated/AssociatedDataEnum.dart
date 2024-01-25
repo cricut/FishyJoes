@@ -1,62 +1,36 @@
 import './AssociatedDataEnum.dart' as TestAPI;
-import './AssociatedDataEnum.dart';
 import './AttributedString_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
-import './AttributedString_PuttingTypesIntoQuestionablePlaces.dart';
 import './AttributedStrings.dart' as TestAPI;
-import './AttributedStrings.dart';
 import './Bytes.dart' as TestAPI;
-import './Bytes.dart';
 import './ClosedRanges.dart' as TestAPI;
-import './ClosedRanges.dart';
 import './Collections.dart' as TestAPI;
-import './Collections.dart';
 import './Collections_CollectionHolder.dart' as TestAPI;
-import './Collections_CollectionHolder.dart';
 import './DefaultArguments.dart' as TestAPI;
-import './DefaultArguments.dart';
 import './Deprecations.dart' as TestAPI;
-import './Deprecations.dart';
 import './EmptyEnum.dart' as TestAPI;
-import './EmptyEnum.dart';
 import './Functions.dart' as TestAPI;
-import './Functions.dart';
 import './Functions_TheError.dart' as TestAPI;
-import './Functions_TheError.dart';
 import './Methods.dart' as TestAPI;
-import './Methods.dart';
 import './Primitives.dart' as TestAPI;
-import './Primitives.dart';
 import './Primitives_PrimitiveHolder.dart' as TestAPI;
-import './Primitives_PrimitiveHolder.dart';
 import './Ranges.dart' as TestAPI;
-import './Ranges.dart';
 import './SimpleEnum.dart' as TestAPI;
-import './SimpleEnum.dart';
 import './String_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
-import './String_PuttingTypesIntoQuestionablePlaces.dart';
 import './Strings.dart' as TestAPI;
-import './Strings.dart';
 import './Structs.dart' as TestAPI;
-import './Structs.dart';
 import './Structs_MemberwiseStruct.dart' as TestAPI;
-import './Structs_MemberwiseStruct.dart';
 import './Structs_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
-import './Structs_PuttingTypesIntoQuestionablePlaces.dart';
 import './Structs_ReferenceStruct.dart' as TestAPI;
-import './Structs_ReferenceStruct.dart';
 import './Tuples.dart' as TestAPI;
-import './Tuples.dart';
 import './URLs.dart' as TestAPI;
-import './URLs.dart';
 import './UnicodeScalar_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
-import './UnicodeScalar_PuttingTypesIntoQuestionablePlaces.dart';
 import 'dart:ffi' as ffi;
 import 'dart:typed_data' as typed_data;
+import 'package:collection/collection.dart';
 import 'package:ffi/ffi.dart' as ffi;
 import 'package:fishyjoes_dart/runtime.dart' as FishyJoesRuntime;
 import 'package:fishyjoes_dart/runtime.dart';
 import 'package:fishyjoes_dart/utilities.dart' as utils;
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:tuple/tuple.dart' as tuple;
 
 /// <!-- FishyJoes.export(AssociatedDataEnum) -->
@@ -238,8 +212,6 @@ sealed class AssociatedDataEnum {
         Env env,
         OutCreatedRef _exn
     ) f__iota_get_TestAPI_AssociatedDataEnum_staticThing;
-
-    AssociatedDataEnum shallowCopy() => throw UnsupportedError('AssociatedDataEnum shallowCopy() must be overridden by a subclass.');
 }
 
 class AssociatedDataEnum_Thing extends AssociatedDataEnum {
@@ -270,9 +242,10 @@ class AssociatedDataEnum_Thing extends AssociatedDataEnum {
     @override
     String toString() => 'AssociatedDataEnum.thing(value: $value)';
 
-    @override
-    AssociatedDataEnum shallowCopy() => AssociatedDataEnum.thing (
-        value
+    AssociatedDataEnum_Thing copyWith([
+        int? value
+    ]) => AssociatedDataEnum_Thing(
+        value ?? this.value
     );
 }
 
@@ -308,10 +281,12 @@ class AssociatedDataEnum_Other extends AssociatedDataEnum {
     @override
     String toString() => 'AssociatedDataEnum.other(unnamed: $unnamed, m_1: $m_1)';
 
-    @override
-    AssociatedDataEnum shallowCopy() => AssociatedDataEnum.other (
-        unnamed, 
-        m_1
+    AssociatedDataEnum_Other copyWith([
+        String? unnamed,
+        int? m_1
+    ]) => AssociatedDataEnum_Other(
+        unnamed ?? this.unnamed,
+        m_1 ?? this.m_1
     );
 }
 
@@ -347,10 +322,12 @@ class AssociatedDataEnum_Bar extends AssociatedDataEnum {
     @override
     String toString() => 'AssociatedDataEnum.bar(named: $named, m_1: $m_1)';
 
-    @override
-    AssociatedDataEnum shallowCopy() => AssociatedDataEnum.bar (
-        named, 
-        m_1
+    AssociatedDataEnum_Bar copyWith([
+        String? named,
+        TestAPI.AssociatedDataEnum? m_1
+    ]) => AssociatedDataEnum_Bar(
+        named ?? this.named,
+        m_1 ?? this.m_1
     );
 }
 
@@ -372,8 +349,7 @@ class AssociatedDataEnum_NoValue extends AssociatedDataEnum {
     @override
     String toString() => 'AssociatedDataEnum.noValue()';
 
-    @override
-    AssociatedDataEnum shallowCopy() => AssociatedDataEnum.noValue();
+    AssociatedDataEnum_NoValue copyWith() => AssociatedDataEnum_NoValue();
 }
 
 class AssociatedDataEnum_SimpleEnum extends AssociatedDataEnum {
@@ -404,8 +380,9 @@ class AssociatedDataEnum_SimpleEnum extends AssociatedDataEnum {
     @override
     String toString() => 'AssociatedDataEnum.simpleEnum(value: $value)';
 
-    @override
-    AssociatedDataEnum shallowCopy() => AssociatedDataEnum.simpleEnum (
-        value
+    AssociatedDataEnum_SimpleEnum copyWith([
+        TestAPI.SimpleEnum? value
+    ]) => AssociatedDataEnum_SimpleEnum(
+        value ?? this.value
     );
 }

@@ -472,5 +472,33 @@ void main() {
             expect(1, equals(runRanges.length));
             expect(AttributedString.create("Hello Olá こんにちは"), attributedString);
         });
+
+        test('testAttributedStringPuttingTypesIntoQuestionablePlaces', () {
+          var a = AttributedString_PuttingTypesIntoQuestionablePlaces(x: "corgle");
+          var b = AttributedString_PuttingTypesIntoQuestionablePlaces(x: "garply");
+          var c = a.copyWith();
+          expect(c, equals(a));
+
+          var d = c.copyWith(x: "foo");
+          expect(d != c, true);
+
+          a = AttributedString_PuttingTypesIntoQuestionablePlaces(x: "quxx");
+
+          // struct reference 'a' itself is mutable, but struct property x is immutable because it's marked as 'final'
+          // compiler will not allow a.x = "something else";
+          expect(a.x, equals("quxx"));
+          expect(a.toString(), equals("AttributedString_PuttingTypesIntoQuestionablePlaces(x: quxx)"));
+          a = b;
+          expect(a.toString(), equals("AttributedString_PuttingTypesIntoQuestionablePlaces(x: garply)"));
+          expect(c.toString(), equals("AttributedString_PuttingTypesIntoQuestionablePlaces(x: corgle)"));
+          expect(c != a, true);
+          expect(c != b, true);
+          expect(a.hashCode, equals(b.hashCode));
+          expect(c.hashCode != b.hashCode, true);
+
+          expect(a.testCall(), equals(42));
+          expect(b.testCall(), equals(42));
+          expect(c.testCall(), equals(42));
+        });
   });
 }

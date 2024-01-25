@@ -112,7 +112,7 @@ public class FishyJoesContext {
                 "import 'package:ffi/ffi.dart' as ffi;",
                 "import 'dart:typed_data' as typed_data;",
                 "import 'package:tuple/tuple.dart' as tuple;",
-                "import 'package:freezed_annotation/freezed_annotation.dart';",
+                "import 'package:collection/collection.dart';",
                 "import 'package:fishyjoes_dart/runtime.dart' as FishyJoesRuntime;",
                 "import 'package:fishyjoes_dart/runtime.dart';",
                 "import 'package:fishyjoes_dart/utilities.dart' as utils;",
@@ -124,7 +124,6 @@ public class FishyJoesContext {
             } + dartClasses.flatMap { cls in
                 [
                     "import './\(cls.unqualifiedName).dart' as \(module);",
-                    "import './\(cls.unqualifiedName).dart';", // Import unqualified too or freezed gets confused"
                 ]
             } + additionalImports
         )
