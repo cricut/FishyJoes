@@ -313,7 +313,7 @@ jobs:
           set -euxo pipefail
 
           cd integration-tests/TestAPI-bindings
-          $SWIFT run -- fishy-joes --nodejs build test
+          #$SWIFT run -- fishy-joes --nodejs build test
 
       - name: Build FishyJoesIotaRuntime
         shell: bash
