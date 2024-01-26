@@ -270,8 +270,9 @@ let package = Package(
             T.target(
                 name: "NodeAPIResolve",
                 linkerSettings: linkNodeExecutable([
-                    .linkedLibrary("delayimp.lib"),
-                    .linkedLibrary("C:\\Users\\mstoker\\AppData\\Local\\node-gyp\\Cache\\16.20.2\\x64\\node.lib"),
+                    .linkedLibrary("node.lib"),
+                    .linkedLibrary("delayimp.lib", .when(platforms: [.windows])),
+                    .unsafeFlags(["-Xlinker", "/LIBPATH:.\\Sources\\NodeAPIResolve\\lib"], .when(platforms: [.windows])),
                 ])
             ),
         ]
