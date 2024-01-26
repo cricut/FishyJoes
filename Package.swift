@@ -272,7 +272,10 @@ let package = Package(
                 linkerSettings: linkNodeExecutable([
                     .linkedLibrary("node.lib"),
                     .linkedLibrary("delayimp.lib", .when(platforms: [.windows])),
-                    .unsafeFlags(["-Xlinker", "/LIBPATH:.\\Sources\\NodeAPIResolve\\lib"], .when(platforms: [.windows])),
+                    // Relative reference when building from FishyJoes directory
+                    .unsafeFlags(["-Xlinker", "/LIBPATH:.\\Sources\\NodeAPIResolve\\lib\\windows.x86_64"], .when(platforms: [.windows])),
+                    // Relative reference when building from FishyJoes/integration-tests/TestAPI-bindings directory
+                    .unsafeFlags(["-Xlinker", "/LIBPATH:..\\..\\Sources\\NodeAPIResolve\\lib\\windows.x86_64"], .when(platforms: [.windows])),
                 ])
             ),
         ]
