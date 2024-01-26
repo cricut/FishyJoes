@@ -270,7 +270,7 @@ jobs:
       GRADLE_OPTS: -Dorg.gradle.daemon=false
       GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
       GITHUB_USER: cricut-builduser
-      SWIFT: ${{ github.workspace }}/scripts/swift-shim.ps1
+      SWIFT: ${{ github.workspace }}\scripts\swift-shim.ps1
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -313,7 +313,7 @@ jobs:
           set -euxo pipefail
 
           cd integration-tests/TestAPI-bindings
-          #$SWIFT run -- fishy-joes --nodejs build test
+          $SWIFT run -- fishy-joes --nodejs build test
 
       - name: Build FishyJoesIotaRuntime
         shell: bash

@@ -24,6 +24,14 @@ func wasmIncompatible<T>(_ things: @autoclosure () -> [T]) -> [T] {
     wasmCompatibleOnly ? [] : things()
 }
 
+func linkNodeExecutable<T>(_ things: @autoclosure () -> [T]) -> [T] {
+    #if os(Windows)
+    return things()
+    #else
+    return []
+    #endif
+}
+
 let package = Package(
     name: "FishyJoes",
     platforms: [.macOS(.v12), .iOS(.v15)],
@@ -63,7 +71,7 @@ let package = Package(
         D.package(url: "https://github.com/jpsim/Yams", .upToNextMinor(from: "5.0.3")),
     ]),
     targets: [
-        T.systemLibrary(name: "NodeAPI"),
+        // Kotlin / Java
         T.systemLibrary(name: "JNI"),
         T.target(name: "FishyJoesCommonRuntime"),
         T.target(
@@ -79,18 +87,25 @@ let package = Package(
                 .target(name: "FishyJoesJavaRuntime"),
             ]
         ),
+        // C# / Dart
         T.target(
             name: "FishyJoesIotaRuntime",
             dependencies: [
                 .target(name: "FishyJoesCommonRuntime"),
             ]
         ),
+        // TypeScript Node.js / Wasm
+        T.systemLibrary(name: "NodeAPI"),
         T.target(
             name: "FishyJoesNodeRuntime",
             dependencies: [
                 .target(name: "NodeAPI"),
                 .target(name: "FishyJoesCommonRuntime"),
-            ],
+            ] +
+            linkNodeExecutable([
+                .target(name: "NodeAPIResolve"),
+            ])
+            ,
             resources: [
                 .copy("js"),
             ],
@@ -244,13 +259,23 @@ let package = Package(
                 ),
                 .unsafeFlags(
                     [
-                        "-Xlinker", "/force:unresolved",
+                        "-Xlinker", "/DELAYLOAD:node.exe",
                     ],
                     .when(platforms: [.windows])
                 ),
             ]
         ),
-    ] + generationEnabled(
+    ] + linkNodeExecutable(
+        [
+            T.target(
+                name: "NodeAPIResolve",
+                linkerSettings: linkNodeExecutable([
+                    .linkedLibrary("delayimp.lib"),
+                    .linkedLibrary("C:\\Users\\mstoker\\AppData\\Local\\node-gyp\\Cache\\16.20.2\\x64\\node.lib"),
+                ])
+            ),
+        ]
+    ) + generationEnabled(
         [
             T.target(
                 name: "FishyJoesCore",
