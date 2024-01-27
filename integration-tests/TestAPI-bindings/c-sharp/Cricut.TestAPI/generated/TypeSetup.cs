@@ -408,6 +408,12 @@ namespace Cricut.TestAPI {
         );
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_MethodsProtocol_setup(
+            IntPtr envRef,
+            out CreatedRef _exn
+        );
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_Primitives_setup(
             IntPtr envRef,
             out CreatedRef _exn
@@ -1782,6 +1788,13 @@ namespace Cricut.TestAPI {
                     bag<SwiftReference.ConstructorDelegate>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
                         return new CreatedRef(new Cricut.TestAPI.Methods(ptr));
                     })),
+                    out exn
+                ));
+            });
+            Once("setup_TestAPI.MethodsProtocol", () => {
+                Console.WriteLine("setting up TestAPI.MethodsProtocol...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_MethodsProtocol_setup(
+                    Loader.env,
                     out exn
                 ));
             });

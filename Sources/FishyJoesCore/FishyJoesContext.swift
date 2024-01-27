@@ -67,12 +67,12 @@ public class FishyJoesContext {
             defaultNamespace: module
         )
         self.dumpDebugRepresentation = argument["debugRepresentation"] as? String == "true"
-        if let stderrFifo = argument["stderrFifo"] as? String {
-            // Re-open the real stderr, and bypass sourcery
-            let errDescriptor = try! FileDescriptor.open(stderrFifo, .writeOnly)
-            precondition(dup2(errDescriptor.rawValue, 2) >= 0)
-            try! errDescriptor.close()
-        }
+//        if let stderrFifo = argument["stderrFifo"] as? String {
+//            // Re-open the real stderr, and bypass sourcery
+//            let errDescriptor = try! FileDescriptor.open(stderrFifo, .writeOnly)
+//            precondition(dup2(errDescriptor.rawValue, 2) >= 0)
+//            try! errDescriptor.close()
+//        }
     }
 
     func swiftFragment(_ name: String, additionalImports: [String] = []) -> SourceFragment {
@@ -172,7 +172,7 @@ public class FishyJoesContext {
 
         // Translate
         var seenMethods: Set<Method> = []
-        for type in templateContext.types.all + templateContext.types.extensions {
+        for type in templateContext.types.protocols + templateContext.types.all + templateContext.types.extensions {
             for method in type.rawMethods.compactMap(Method.init) {
                 if seenMethods.contains(method) {
                     continue
@@ -312,6 +312,9 @@ public class FishyJoesContext {
     }
 
     func translate(typeDefinition type: Type) -> TranslatedType? {
+        if type.kind == "protocol" {
+            let a = 1 + 2
+        }
         guard let annotation = type.exportAnnotation else {
             // Not annotated for export
             return nil

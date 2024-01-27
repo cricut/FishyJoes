@@ -5,6 +5,58 @@
         "named" : {
           "_0" : {
             "module" : "TestAPI",
+            "name" : "MethodsProtocol",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "MethodsProtocol",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "MethodsProtocol",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/MethodsProtocol"
+        }
+      },
+      "kotlinName" : "MethodsProtocol",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Protocol<TranslatedFrom=MethodsProtocol>>",
+      "nodeName" : "TestAPI.MethodsProtocol",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "MethodsProtocol",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
             "name" : "AssociatedDataEnum",
             "namespace" : [
 
