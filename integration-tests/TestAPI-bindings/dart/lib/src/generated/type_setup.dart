@@ -635,16 +635,6 @@ final ensureLoaded = (() {
             OutCreatedRef exn
         )
     >('TestAPI_Methods_setup');
-    final TestAPI_MethodsProtocol_setup = dylib.lookupFunction<
-        ffi.Void Function(
-            Env env,
-            OutCreatedRef exn
-        ),
-        void Function(
-            Env env,
-            OutCreatedRef exn
-        )
-    >('TestAPI_MethodsProtocol_setup');
     final TestAPI_Primitives_setup = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
@@ -4784,16 +4774,6 @@ final ensureLoaded = (() {
             TestAPI_Methods_setup(
                 Loader.shared.env,
                 ffi.Pointer.fromFunction(TestAPI.Methods.ffi_new),
-                exn
-            );
-        });
-    });
-
-    Loader.shared.once("setup_TestAPI.MethodsProtocol", () {
-        // print("setting up TestAPI.MethodsProtocol (env=0x${Loader.shared.env.address.toRadixString(16)})...");
-        utils.check<void>((exn) {
-            TestAPI_MethodsProtocol_setup(
-                Loader.shared.env,
                 exn
             );
         });

@@ -17,6 +17,7 @@ export './Deprecations.dart';
 export './EmptyEnum.dart';
 export './Functions.dart';
 export './Methods.dart';
+export './MethodsProtocol.dart';
 export './Primitives.dart';
 export './Ranges.dart';
 export './SimpleEnum.dart';
