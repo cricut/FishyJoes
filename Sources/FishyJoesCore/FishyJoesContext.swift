@@ -152,10 +152,16 @@ public class FishyJoesContext {
 
         // Collect type information before starting translation
         // This collects the named types possible for use later in resolve().
-        let translatedTypes = templateContext.types.all.compactMap { type -> TranslatedType? in
+        var translatedTypes = templateContext.types.protocols.compactMap { type -> TranslatedType? in
             debugContext = "Translating type \(type.name)"
             return translate(typeDefinition: type)
         }
+        translatedTypes.append(contentsOf:
+            templateContext.types.all.compactMap { type -> TranslatedType? in
+                debugContext = "Translating type \(type.name)"
+                return translate(typeDefinition: type)
+            }
+        )
         for translatedType in translatedTypes {
             let name = translatedType.sourceType
             precondition(typeCache[name] == nil, "duplicate definitions found for \(name)")
@@ -317,6 +323,8 @@ public class FishyJoesContext {
             return TranslatedStruct(context: self, type: type)
         } else if let type = type as? Enum {
             return TranslatedEnum(context: self, type: type)
+        } else if type.kind == "protocol" {
+            return TranslatedProtocol(context: self, type: type)
         } else {
             fatalErr("TODO: annotation on unknown kind \"\(type.kind)\" on type `\(type.globalName)`")
         }
