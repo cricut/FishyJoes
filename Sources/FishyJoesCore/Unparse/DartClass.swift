@@ -893,6 +893,29 @@ class DartProtocolClass: DartClass {
                     }
                 }
             }
+            
+            for field in fields {
+                fragment.blankLine()
+                document(field.documentation, fragment: fragment)
+                
+                let staticMark = field.isStatic ? "static " : ""
+                
+                func outputAttributes() {
+                    if let deprecation = field.deprecation {
+                        fragment.output("@Deprecated(\"\(deprecation.quotedMessage)\")")
+                    }
+                }
+
+                outputAttributes()
+                fragment.output("\(staticMark)\(field.type.name(in: self)) get \(Self.deforbidify(field.name));")
+
+                fragment.blankLine()
+
+                if field.isPubliclyWritable {
+                    outputAttributes()
+                    fragment.output("\(staticMark)void set \(Self.deforbidify(field.name))(\(field.type.name(in: self)) value);")
+                }
+            }
         }
 
         fragment.blankLine()

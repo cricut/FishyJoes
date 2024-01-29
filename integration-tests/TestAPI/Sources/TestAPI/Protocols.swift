@@ -6,4 +6,7 @@ public protocol TestProtocol {
 //    func garply(_ : String) -> String
     /// <!-- FishyJoes.export(xyzzy) -->
     func xyzzy(thud: Int, grault: [Double])
+    
+    /// <!-- FishyJoes.export(waldo) -->
+    static var waldo: String { set get }
 }
