@@ -67,12 +67,12 @@ public class FishyJoesContext {
             defaultNamespace: module
         )
         self.dumpDebugRepresentation = argument["debugRepresentation"] as? String == "true"
-//        if let stderrFifo = argument["stderrFifo"] as? String {
-//            // Re-open the real stderr, and bypass sourcery
-//            let errDescriptor = try! FileDescriptor.open(stderrFifo, .writeOnly)
-//            precondition(dup2(errDescriptor.rawValue, 2) >= 0)
-//            try! errDescriptor.close()
-//        }
+        if let stderrFifo = argument["stderrFifo"] as? String {
+            // Re-open the real stderr, and bypass sourcery
+            let errDescriptor = try! FileDescriptor.open(stderrFifo, .writeOnly)
+            precondition(dup2(errDescriptor.rawValue, 2) >= 0)
+            try! errDescriptor.close()
+        }
     }
 
     func swiftFragment(_ name: String, additionalImports: [String] = []) -> SourceFragment {
