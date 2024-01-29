@@ -42,10 +42,22 @@ let package = Package(
             dependencies: [
                 .product(name: "TestAPI", package: "TestAPI"),
                 .product(name: "FishyJoesNodeRuntime", package: "FishyJoes"),
+                .target(name: "NodeAPIResolveTestAPI"),
             ],
             path: "Sources/Generated/NodeInterface",
             resources: [
                 .copy("TestAPI.d.ts.part"),
+            ]
+        ),
+        .target(
+            name: "NodeAPIResolveTestAPI",
+            linkerSettings: [
+                .linkedLibrary("node.lib"),
+                .linkedLibrary("delayimp.lib", .when(platforms: [.windows])),
+                .unsafeFlags([
+                    "-Xlinker", "/LIBPATH:.\\Sources\\NodeAPIResolveTestAPI\\lib\\windows.x86_64",
+                    "-Xlinker", "/DELAYLOAD:node.exe",
+                ], .when(platforms: [.windows])),
             ]
         ),
     ] + (
