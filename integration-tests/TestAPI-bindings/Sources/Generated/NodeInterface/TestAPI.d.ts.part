@@ -1577,6 +1577,21 @@ export declare namespace TestAPI {
         ): number;
     }
 
+    /**
+     * <!-- FishyJoes.export(TestProtocol) -->
+     */
+    export class TestProtocol {
+        constructor()
+
+        /**
+         * <!-- FishyJoes.export(xyzzy) -->
+         */
+        xyzzy(
+            thud: number,
+            grault: number[]
+        ): void;
+    }
+
     export type Tuples = never;
     export namespace Tuples {
         /**

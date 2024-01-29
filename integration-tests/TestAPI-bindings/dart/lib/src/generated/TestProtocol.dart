@@ -21,6 +21,7 @@ import './Structs.dart' as TestAPI;
 import './Structs_MemberwiseStruct.dart' as TestAPI;
 import './Structs_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
 import './Structs_ReferenceStruct.dart' as TestAPI;
+import './TestProtocol.dart' as TestAPI;
 import './Tuples.dart' as TestAPI;
 import './URLs.dart' as TestAPI;
 import './UnicodeScalar_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
@@ -33,8 +34,10 @@ import 'package:fishyjoes_dart/runtime.dart';
 import 'package:fishyjoes_dart/utilities.dart' as utils;
 import 'package:tuple/tuple.dart' as tuple;
 
-/// <!-- FishyJoes.export(MethodsProtocol) -->
-abstract class MethodsProtocol {
-  /// <!-- FishyJoes.export(xyzzy) -->
-  void xyzzy({int thud, List<double> grault});
+/// <!-- FishyJoes.export(TestProtocol) -->
+abstract class TestProtocol {
+    void xyzzy(
+        int thud,
+        List<double> grault
+    );
 }

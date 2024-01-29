@@ -5,7 +5,7 @@
         "named" : {
           "_0" : {
             "module" : "TestAPI",
-            "name" : "MethodsProtocol",
+            "name" : "TestProtocol",
             "namespace" : [
 
             ]
@@ -14,13 +14,13 @@
       },
       "cSharpType" : {
         "named" : {
-          "name" : "MethodsProtocol",
+          "name" : "TestProtocol",
           "package" : "Cricut.TestAPI"
         }
       },
       "dartType" : {
         "named" : {
-          "name" : "MethodsProtocol",
+          "name" : "TestProtocol",
           "package" : "TestAPI"
         }
       },
@@ -33,18 +33,18 @@
       "isInhabited" : true,
       "jniType" : {
         "object" : {
-          "_0" : "com/cricut/testapi/MethodsProtocol"
+          "_0" : "com/cricut/testapi/TestProtocol"
         }
       },
-      "kotlinName" : "MethodsProtocol",
+      "kotlinName" : "TestProtocol",
       "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Protocol<TranslatedFrom=MethodsProtocol>>",
-      "nodeName" : "TestAPI.MethodsProtocol",
+      "neutralName" : "ExternalTranslatedType<of=Protocol<TranslatedFrom=TestProtocol>>",
+      "nodeName" : "TestAPI.TestProtocol",
       "sourceType" : {
         "named" : {
           "_0" : {
             "module" : "TestAPI",
-            "name" : "MethodsProtocol",
+            "name" : "TestProtocol",
             "namespace" : [
 
             ]
@@ -1705,6 +1705,60 @@
               }
             ],
             "name" : "Methods"
+          },
+          {
+            "constructor" : {
+              "visible" : {
+                "names" : [
+
+                ],
+                "types" : [
+
+                ]
+              }
+            },
+            "documentation" : [
+              "<!-- FishyJoes.export(TestProtocol) -->"
+            ],
+            "extends" : [
+
+            ],
+            "fields" : [
+
+            ],
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(xyzzy) -->"
+                ],
+                "isStatic" : false,
+                "name" : "xyzzy",
+                "parameters" : [
+                  {
+                    "name" : "thud",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  },
+                  {
+                    "name" : "grault",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number[]"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "void"
+                  }
+                }
+              }
+            ],
+            "name" : "TestProtocol"
           }
         ],
         "fields" : [

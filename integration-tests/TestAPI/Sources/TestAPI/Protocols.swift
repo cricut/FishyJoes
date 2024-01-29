@@ -1,5 +1,5 @@
-/// <!-- FishyJoes.export(MethodsProtocol) -->
-public protocol MethodsProtocol {
+/// <!-- FishyJoes.export(TestProtocol) -->
+public protocol TestProtocol {
 //    func foo()
 //    func bar() -> Bool
 //    func baz(qux: Bool)

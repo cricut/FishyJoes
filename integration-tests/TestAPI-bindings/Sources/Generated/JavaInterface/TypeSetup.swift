@@ -857,8 +857,6 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_set_TestAPI_Methods_instanceStored, to: UnsafeMutableRawPointer.self)
             )
         )
-        // print("setting up TestAPI.MethodsProtocol...")
-        try TestAPI.MethodsProtocol.javaSetup(env: env)
         // print("setting up TestAPI.Primitives...")
         try TestAPI.Primitives.javaSetup(env: env)
         try env.RegisterNatives(TestAPI.Primitives.javaClass,
@@ -1522,6 +1520,8 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         )
         // print("setting up TestAPI.Structs...")
         try TestAPI.Structs.javaSetup(env: env)
+        // print("setting up TestAPI.TestProtocol...")
+        try TestAPI.TestProtocol.javaSetup(env: env)
         // print("setting up TestAPI.Tuples...")
         try TestAPI.Tuples.javaSetup(env: env)
         try env.RegisterNatives(TestAPI.Tuples.javaClass,

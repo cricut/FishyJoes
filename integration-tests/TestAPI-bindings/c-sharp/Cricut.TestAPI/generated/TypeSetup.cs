@@ -408,12 +408,6 @@ namespace Cricut.TestAPI {
         );
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern void TestAPI_MethodsProtocol_setup(
-            IntPtr envRef,
-            out CreatedRef _exn
-        );
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_Primitives_setup(
             IntPtr envRef,
             out CreatedRef _exn
@@ -468,6 +462,16 @@ namespace Cricut.TestAPI {
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_Structs_setup(
             IntPtr envRef,
+            out CreatedRef _exn
+        );
+
+        delegate CreatedRef _TestAPI_TestProtocolConstructor(
+            out CreatedRef exn
+        );
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_TestProtocol_setup(
+            IntPtr envRef,
+            _TestAPI_TestProtocolConstructor constructor,
             out CreatedRef _exn
         );
 
@@ -1791,13 +1795,6 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
-            Once("setup_TestAPI.MethodsProtocol", () => {
-                Console.WriteLine("setting up TestAPI.MethodsProtocol...");
-                Utilities.Check((out CreatedRef exn) => TestAPI_MethodsProtocol_setup(
-                    Loader.env,
-                    out exn
-                ));
-            });
             Once("setup_TestAPI.Primitives", () => {
                 Console.WriteLine("setting up TestAPI.Primitives...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_Primitives_setup(
@@ -1900,6 +1897,17 @@ namespace Cricut.TestAPI {
                 Console.WriteLine("setting up TestAPI.Structs...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_Structs_setup(
                     Loader.env,
+                    out exn
+                ));
+            });
+            Once("setup_TestAPI.TestProtocol", () => {
+                Console.WriteLine("setting up TestAPI.TestProtocol...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_TestProtocol_setup(
+                    Loader.env,
+                    bag<_TestAPI_TestProtocolConstructor>((out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.TestProtocol(
+                        ));
+                    })),
                     out exn
                 ));
             });
