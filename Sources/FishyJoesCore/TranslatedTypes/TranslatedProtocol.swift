@@ -544,7 +544,7 @@ struct TranslatedProtocol: TranslatedType {
             methods.compactMap { context.dart(method: $0, of: self) }
 
         context.add(
-            dartClass: DartProductClass(
+            dartClass: DartProtocolClass(
                 module: context.module,
                 documentation: documentation,
                 name: dartType.name(),

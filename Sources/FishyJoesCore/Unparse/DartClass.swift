@@ -835,6 +835,70 @@ class DartEnumClass: DartClass {
     }
 }
 
+class DartProtocolClass: DartClass {
+    struct Typealias {
+        let name: String
+        let value: DartType
+    }
+
+    enum Constructor: Equatable {
+        case `public`(fields: [Variable])
+        case reference
+    }
+
+    let constructor: Constructor
+
+    init(
+        module: Module,
+        documentation: [String],
+        name: String,
+        constructor: Constructor,
+        fieldsAndMethods: [MethodOrVariable]
+    ) {
+        self.constructor = constructor
+        super.init(
+            module: module,
+            documentation: documentation,
+            name: name,
+            fieldsAndMethods: fieldsAndMethods
+        )
+    }
+
+    override func output(to fragment: SourceFragment) {
+        document(documentation, fragment: fragment)
+
+        fragment.output("abstract class \(unqualifiedName)", newLineTerminated: false)
+        fragment.outputBlock(" {", closeWith: "}") {
+            for method in methods {
+                fragment.output("\(method.isStatic ? "static " : "")", newLineTerminated: false)
+                fragment.outputBlock("\(method.returnType.name(in: self)) \(method.name)(", closeWith: ");") {
+                    func argumentString(parameter: Method.Parameter) -> String {
+                        let labelComment = parameter.labelComment.map { "/* \($0) */ " } ?? ""
+                        return "\(parameter.type.name(in: self)) \(labelComment)\(DartClass.deforbidify(parameter.name))"
+                    }
+                    
+                    // put all optional parameters at the end, or dart gets unhappy
+                    let requiredParams = method.parameters.filter { $0.defaultValue == nil }
+                    let optionalParams = method.parameters.filter { $0.defaultValue != nil }
+                    
+                    fragment.outputMap(requiredParams, separator: ",") {
+                        argumentString(parameter: $0)
+                    }
+                    if !optionalParams.isEmpty {
+                        fragment.outputBlock("[") {
+                            fragment.outputMap(optionalParams, separator: ",") {
+                                argumentString(parameter: $0)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        fragment.blankLine()
+    }
+}
+
 extension DartClass {
     private static var forbiddenVarNames: Set<String> = [
         "else",
