@@ -312,9 +312,6 @@ public class FishyJoesContext {
     }
 
     func translate(typeDefinition type: Type) -> TranslatedType? {
-        if type.kind == "protocol" {
-            let a = 1 + 2
-        }
         guard let annotation = type.exportAnnotation else {
             // Not annotated for export
             return nil
