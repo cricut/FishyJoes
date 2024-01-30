@@ -63,7 +63,6 @@ struct AnyFunction1 {
     }
 }
 
-
 struct AnyFunction2 {
     let invoke: (Env, jobject?, jobject?) throws -> jobject?
 
@@ -83,7 +82,6 @@ struct AnyFunction3 {
         }
     }
 }
-
 
 struct AnyFunction4 {
     let invoke: (Env, jobject?, jobject?, jobject?, jobject?) throws -> jobject?

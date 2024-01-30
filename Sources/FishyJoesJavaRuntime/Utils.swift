@@ -114,7 +114,6 @@ public func javaError(error: any Error, env: Env) throws -> jobject? {
     if let nullError = error as? NullPointerError {
         errorClass = JavaError.nullPointerClass
         message = nullError.message
-
     } else {
         errorClass = JavaError.errorClass
         message = "\(error)"
