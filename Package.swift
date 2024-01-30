@@ -57,7 +57,7 @@ let package = Package(
     ) + wasmIncompatible(
         [
             D.package(url: "https://github.com/cobbal/swsh", exact: "3.0.0"),
-            D.package(url: "https://github.com/apple/swift-argument-parser", from: "0.4.0"),
+            D.package(url: "https://github.com/apple/swift-argument-parser", from: "1.2.2"),
         ]
     ) + (androidCompatibleOnly || wasmCompatibleOnly ? [] : [
         D.package(url: "https://github.com/jpsim/Yams", .upToNextMinor(from: "5.0.3")),
