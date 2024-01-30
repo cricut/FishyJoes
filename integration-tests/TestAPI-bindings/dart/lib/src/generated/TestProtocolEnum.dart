@@ -64,6 +64,15 @@ sealed class TestProtocolEnum implements TestAPI.TestProtocol {
         });
     }
 
+    /// <!-- FishyJoes.export(baz) -->
+    void baz(
+        bool qux,
+    ) =>
+        GCRef.using(this, (_thisHandle) =>
+            check((OutCreatedRef _exn) => f__iota_TestAPI_TestProtocolEnum_baz(Loader.shared.env, _thisHandle.ptr, qux, _exn))
+        )
+    ;
+
     /// <!-- FishyJoes.export(garply) -->
     String garply(
         String str,
@@ -87,6 +96,12 @@ sealed class TestProtocolEnum implements TestAPI.TestProtocol {
         )
     ;
 
+    static late void Function(
+        Env env,
+        UnownedRef _this,
+        bool qux,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_TestProtocolEnum_baz;
     static late CreatedRef Function(
         Env env,
         UnownedRef _this,

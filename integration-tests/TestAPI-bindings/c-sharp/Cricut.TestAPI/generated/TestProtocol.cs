@@ -15,6 +15,24 @@ namespace Cricut.TestAPI {
         }
 
         /// <summary>
+        /// <!-- FishyJoes.export(baz) -->
+        /// </summary>
+        public void Baz(
+            bool qux
+        ) {
+            using var _thisHandle = new GCRef(this);
+            Check((out CreatedRef _exn) => __iota_TestAPI_TestProtocol_baz(Loader.env, _thisHandle.ptr, qux, out _exn));
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern void __iota_TestAPI_TestProtocol_baz(
+            IntPtr envRef,
+            UnownedRef self,
+            bool qux,
+            out CreatedRef exn
+        );
+
+        /// <summary>
         /// <!-- FishyJoes.export(garply) -->
         /// </summary>
         public string Garply(

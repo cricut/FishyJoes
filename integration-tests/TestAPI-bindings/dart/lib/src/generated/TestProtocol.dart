@@ -37,6 +37,9 @@ import 'package:tuple/tuple.dart' as tuple;
 
 /// <!-- FishyJoes.export(TestProtocol) -->
 abstract class TestProtocol {
+    void baz(
+        bool qux
+    );
     String garply(
         String placeholder1
     );

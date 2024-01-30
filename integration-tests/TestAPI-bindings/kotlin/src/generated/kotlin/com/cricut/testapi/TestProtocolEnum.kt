@@ -6,6 +6,17 @@ package com.cricut.testapi
 sealed class TestProtocolEnum {
     object Qux : TestProtocolEnum()
     /**
+     * <!-- FishyJoes.export(baz) -->
+     */
+    fun baz(
+        qux: Boolean
+    ): kotlin.Unit = __jni_baz(qux)
+    @JvmName("__jni_baz")
+    private external fun __jni_baz(
+        qux: Boolean
+    ): kotlin.Unit
+
+    /**
      * <!-- FishyJoes.export(garply) -->
      */
     fun garply(

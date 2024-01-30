@@ -7025,6 +7025,36 @@
             "methods" : [
               {
                 "documentation" : [
+                  "<!-- FishyJoes.export(baz) -->"
+                ],
+                "isStatic" : true,
+                "name" : "baz",
+                "parameters" : [
+                  {
+                    "name" : "self",
+                    "type" : {
+                      "named" : {
+                        "_0" : "TestAPI.TestProtocolEnum"
+                      }
+                    }
+                  },
+                  {
+                    "name" : "qux",
+                    "type" : {
+                      "named" : {
+                        "_0" : "boolean"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "void"
+                  }
+                }
+              },
+              {
+                "documentation" : [
                   "<!-- FishyJoes.export(garply) -->"
                 ],
                 "isStatic" : true,
