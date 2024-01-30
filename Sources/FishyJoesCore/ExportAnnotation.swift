@@ -8,6 +8,7 @@ private enum AttributeName: String, Hashable, CaseIterable {
     case cSharp
     case noReturn
     case compatibilityOrder
+    case protocols
 }
 
 struct ExportAnnotation: Hashable {
@@ -19,6 +20,7 @@ struct ExportAnnotation: Hashable {
     let genericOverrides: [String: BetterType]
     let omitParameters: [String]
     let compatibilityOrder: [String]
+    let protocols: [String]
 
     init(
         kind: Kind = .unmodified,
@@ -28,7 +30,8 @@ struct ExportAnnotation: Hashable {
         noReturn: Bool = false,
         genericOverrides: [String: BetterType] = [:],
         omitParameters: [String] = [],
-        compatibilityOrder: [String] = []
+        compatibilityOrder: [String] = [],
+        protocols: [String] = []
     ) {
         self.kind = kind
         self.name = name
@@ -38,6 +41,7 @@ struct ExportAnnotation: Hashable {
         self.genericOverrides = genericOverrides
         self.omitParameters = omitParameters
         self.compatibilityOrder = compatibilityOrder
+        self.protocols = protocols
     }
 
     indirect enum SimpleParse: Hashable {
@@ -257,6 +261,19 @@ extension Documented {
             if case .token("true") = attrs[.noReturn] {
                 noReturn = true
             }
+                        
+            var protocols = [String]()
+            if let parse = attrs[.protocols] {
+                guard case .squareBracketed(let paramList) = parse else {
+                    fatalErr("invalid protocols in \(docLine). Expected [name, ...]")
+                }
+                protocols = paramList.split(separator: .comma).map { tokens in
+                    guard case .token(let name) = tokens.first else {
+                        fatalErr("invalid protocols in \(docLine). Expected [name, ...]")
+                    }
+                    return name
+                }
+            }
 
             // func idAttr(_ key: String) -> String? {
             //     guard let tree = attrs[key] else { return nil }
@@ -274,7 +291,8 @@ extension Documented {
                 noReturn: noReturn,
                 genericOverrides: genericOverrides,
                 omitParameters: omitParameters,
-                compatibilityOrder: compatibilityOrder
+                compatibilityOrder: compatibilityOrder,
+                protocols: protocols
             )
         }
         return nil

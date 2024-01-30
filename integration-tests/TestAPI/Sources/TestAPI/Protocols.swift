@@ -11,7 +11,7 @@ public protocol TestProtocol {
     static var waldo: String { set get }
 }
 
-/// <!-- FishyJoes.export(TestProtocolEnum) -->
+/// <!-- FishyJoes.export(TestProtocolEnum, protocols: [TestProtocol]) -->
 public enum TestProtocolEnum: TestProtocol {
     case qux
 
