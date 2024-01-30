@@ -4,7 +4,7 @@ public protocol TestProtocol {
 //    func bar() -> Bool
 //    func baz(qux: Bool)
     /// <!-- FishyJoes.export(garply) -->
-    func garply(_ str: String) -> String
+    func garply(_: String) -> String
     /// <!-- FishyJoes.export(xyzzy) -->
     func xyzzy(thud: Int, grault: [Double]) -> String
 }

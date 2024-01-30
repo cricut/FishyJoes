@@ -30,12 +30,12 @@ struct TranslatedProtocol: TranslatedType {
         self.cSharpType = .named(package: context.module.cSharpNamespace, name: exportAnnotation.cSharpName)
         self.dartType = .named(package: context.module.dartNamespace, name: context.dartTranslator.fakeNamespace(name))
         self.jniType = .object(context.kotlinTranslator.javaClassName(nodeName, in: context))
-        
+
         self.storedVariables = type.storedVariables
         self.computedVariables =
             (type.computedVariables + type.staticVariables).filter { $0.exportAnnotation != nil }
 
-        self.methods = type.methods.compactMap { Method($0) }
+        self.methods = type.methods.compactMap { Method($0, isProtocolMethod: true) }
         self.documentation = type.documentation
         self.isInhabited = type.isInhabited
         self.definingModule = context.module
@@ -97,7 +97,7 @@ struct TranslatedProtocol: TranslatedType {
 
         return fragment
     }
-    
+
     func cSharpSetupDelegates(in context: FishyJoesContext) -> [String] {
         var lines: [String] = []
         lines.append("delegate \(cSharpType.pInvokeCreatedName) _\(converterType.genericBaseName.mangledName)Constructor(")
@@ -117,7 +117,7 @@ struct TranslatedProtocol: TranslatedType {
         }
         return lines
     }
-    
+
     func cSharpSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<String>] {
         let constructorType = "_\(converterType.genericBaseName.mangledName)Constructor"
         let constructorArgs = storedVariables.map { storedVar in

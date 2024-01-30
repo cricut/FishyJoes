@@ -895,11 +895,11 @@ class DartProtocolClass: DartClass {
                         let labelComment = parameter.labelComment.map { "/* \($0) */ " } ?? ""
                         return "\(parameter.type.name(in: self)) \(labelComment)\(DartClass.deforbidify(parameter.name))"
                     }
-                    
+
                     // put all optional parameters at the end, or dart gets unhappy
                     let requiredParams = method.parameters.filter { $0.defaultValue == nil }
                     let optionalParams = method.parameters.filter { $0.defaultValue != nil }
-                    
+
                     fragment.outputMap(requiredParams, separator: ",") {
                         argumentString(parameter: $0)
                     }
@@ -912,13 +912,13 @@ class DartProtocolClass: DartClass {
                     }
                 }
             }
-            
+
             for field in fields {
                 fragment.blankLine()
                 document(field.documentation, fragment: fragment)
-                
+
                 let staticMark = field.isStatic ? "static " : ""
-                
+
                 func outputAttributes() {
                     if let deprecation = field.deprecation {
                         fragment.output("@Deprecated(\"\(deprecation.quotedMessage)\")")

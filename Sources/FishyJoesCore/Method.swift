@@ -53,6 +53,10 @@ struct Method: Hashable {
     }
 
     init?(_ method: SourceryMethod) {
+        self.init(method, isProtocolMethod: false)
+    }
+
+    init?(_ method: SourceryMethod, isProtocolMethod: Bool = false) {
         guard let exportAnnotation = method.exportAnnotation else { return nil }
         self.name = method.name
         self.callName = method.callName
@@ -69,16 +73,24 @@ struct Method: Hashable {
 
         var parameters: [SwiftFormal] = []
         var omitParameters = Set(exportAnnotation.omitParameters)
+        var placeholderNum = 1
         for parameter in method.parameters {
             if omitParameters.contains(parameter.name) {
                 precondition(parameter.defaultValue != nil, "Can't omit non-default parameter")
                 omitParameters.remove(parameter.name)
                 continue
             }
+            var name = parameter.name
+            // If param is for protocol method, we need to put in a placeholder name if the swift param is unnamed, because languages like Dart insist on parameter names for their abstract class methods.
+            if isProtocolMethod,
+                name.isEmpty {
+                name = "placeholder\(placeholderNum)"
+                placeholderNum += 1
+            }
             parameters.append(
                 SwiftFormal(
                     label: parameter.argumentLabel,
-                    name: parameter.name,
+                    name: name,
                     type: parameter.typeName.better,
                     defaultValue: parameter.defaultValue
                 )

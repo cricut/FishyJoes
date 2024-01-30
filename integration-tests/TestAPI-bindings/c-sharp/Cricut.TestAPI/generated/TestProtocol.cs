@@ -18,18 +18,18 @@ namespace Cricut.TestAPI {
         /// <!-- FishyJoes.export(garply) -->
         /// </summary>
         public string Garply(
-            string str
+            string placeholder1
         ) {
             using var _thisHandle = new GCRef(this);
-            using var _strHandle = new GCRef(str);
-            return Check((out CreatedRef _exn) => __iota_TestAPI_TestProtocol_garply(Loader.env, _thisHandle.ptr, _strHandle.ptr, out _exn)).Consume<string>();
+            using var _placeholder1Handle = new GCRef(placeholder1);
+            return Check((out CreatedRef _exn) => __iota_TestAPI_TestProtocol_garply(Loader.env, _thisHandle.ptr, _placeholder1Handle.ptr, out _exn)).Consume<string>();
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __iota_TestAPI_TestProtocol_garply(
             IntPtr envRef,
             UnownedRef self,
-            UnownedRef str,
+            UnownedRef placeholder1,
             out CreatedRef exn
         );
 

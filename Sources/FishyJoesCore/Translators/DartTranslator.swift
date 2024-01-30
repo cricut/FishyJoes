@@ -84,7 +84,7 @@ final class DartTranslator: Translator {
                 initializerWriters.append {
                     fragment.outputBlock("Loader.shared.once(\"setup_\(resolved.converterType.name)\", () {", closeWith: "});") {
                         fragment.output("// print(\"setting up \(type.name) (env=0x${Loader.shared.env.address.toRadixString(16)})...\");")
-                        
+
                         fragment.outputBlock("utils.check<void>((exn) {", closeWith: "});") {
                             let setupName: String
                             if resolved.definingModule.name == "FishyJoesRuntime" {
@@ -92,12 +92,12 @@ final class DartTranslator: Translator {
                             } else {
                                 setupName = resolved.iotaSetupName
                             }
-                            
+
                             var typeArgStr = ""
                             if case let typeArguments = setupParams.compactMap(\.typeValue), !typeArguments.isEmpty {
                                 typeArgStr = "<\(typeArguments.map { $0.name() }.joined(separator: ", "))>"
                             }
-                            
+
                             fragment.outputBlock("\(setupName)\(typeArgStr)(", closeWith: ");") {
                                 fragment.output("Loader.shared.env,")
                                 for param in setupParams {
@@ -110,7 +110,7 @@ final class DartTranslator: Translator {
                 }
             }
         }
-       
+
         for nativeMethod in nativeMethods.sorted(by: { $0.name < $1.name }) {
             externDeclarations.append { fragment in
                 fragment.outputBlock("\(nativeMethod.definingDartClass).f\(nativeMethod.name) = dylib.lookupFunction<", closeWith: ">", newLineTerminated: false) {

@@ -261,7 +261,7 @@ extension Documented {
             if case .token("true") = attrs[.noReturn] {
                 noReturn = true
             }
-                        
+
             var protocols = [String]()
             if let parse = attrs[.protocols] {
                 guard case .squareBracketed(let paramList) = parse else {
