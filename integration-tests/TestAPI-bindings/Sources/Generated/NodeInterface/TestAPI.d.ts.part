@@ -1580,6 +1580,14 @@ export declare namespace TestAPI {
     export type TestProtocolEnum = "qux";
     export namespace TestProtocolEnum {
         /**
+         * <!-- FishyJoes.export(garply) -->
+         */
+        function garply(
+            self: TestAPI.TestProtocolEnum,
+            str: string
+        ): string;
+
+        /**
          * <!-- FishyJoes.export(xyzzy) -->
          */
         function xyzzy(

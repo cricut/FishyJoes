@@ -1832,6 +1832,20 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_Structs_ReferenceStruct_equals");
+    TestAPI.TestProtocolEnum.f__iota_TestAPI_TestProtocolEnum_garply = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef str,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef str,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestProtocolEnum_garply");
     TestAPI.TestProtocolEnum.f__iota_TestAPI_TestProtocolEnum_xyzzy = dylib.lookupFunction<
         CreatedRef Function(
             Env env,

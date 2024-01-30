@@ -7025,6 +7025,36 @@
             "methods" : [
               {
                 "documentation" : [
+                  "<!-- FishyJoes.export(garply) -->"
+                ],
+                "isStatic" : true,
+                "name" : "garply",
+                "parameters" : [
+                  {
+                    "name" : "self",
+                    "type" : {
+                      "named" : {
+                        "_0" : "TestAPI.TestProtocolEnum"
+                      }
+                    }
+                  },
+                  {
+                    "name" : "str",
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              },
+              {
+                "documentation" : [
                   "<!-- FishyJoes.export(xyzzy) -->"
                 ],
                 "isStatic" : true,

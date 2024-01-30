@@ -22,6 +22,20 @@ extension TestAPI.TestProtocolEnum: FishyJoesNodeRuntime.NodeConverter {
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let object = try env.createObject()
         let props = try NodeClass.descriptorsFor(properties: [
+            "garply": (
+                .method { env, info in
+                    FishyJoesNodeRuntime.callbackBody(env, info, name: "garply", expectedArgumentCount: 2, hasNamedOptions: false) { env in
+                        let result = try Swift.String.toNode(
+                            env.argument(at: 0, converter: TestAPI.TestProtocolEnum.self).garply(
+                                try env.argument(at: 1, converter: Swift.String.self)
+                            ),
+                            env: env.env
+                        )
+                        return result
+                    }
+                },
+                isStatic: true
+            ),
             "xyzzy": (
                 .method { env, info in
                     FishyJoesNodeRuntime.callbackBody(env, info, name: "xyzzy", expectedArgumentCount: 3, hasNamedOptions: false) { env in
