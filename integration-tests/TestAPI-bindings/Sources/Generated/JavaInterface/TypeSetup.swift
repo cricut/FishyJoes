@@ -1526,6 +1526,16 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try TestAPI.TestProtocolEnum.javaSetup(env: env)
         try env.RegisterNatives(TestAPI.TestProtocolEnum.javaClass,
             JNINativeMethod(
+                name: bag.add("__jni_foo"),
+                signature: bag.add("()V"),
+                fnPtr: unsafeBitCast(java_TestAPI_TestProtocolEnum_foo, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_bar"),
+                signature: bag.add("()Z"),
+                fnPtr: unsafeBitCast(java_TestAPI_TestProtocolEnum_bar, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
                 name: bag.add("__jni_baz"),
                 signature: bag.add("(Z)V"),
                 fnPtr: unsafeBitCast(java_TestAPI_TestProtocolEnum_baz, to: UnsafeMutableRawPointer.self)

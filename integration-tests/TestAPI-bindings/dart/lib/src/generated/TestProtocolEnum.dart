@@ -64,6 +64,22 @@ sealed class TestProtocolEnum implements TestAPI.TestProtocol {
         });
     }
 
+    /// <!-- FishyJoes.export(foo) -->
+    void foo(
+    ) =>
+        GCRef.using(this, (_thisHandle) =>
+            check((OutCreatedRef _exn) => f__iota_TestAPI_TestProtocolEnum_foo(Loader.shared.env, _thisHandle.ptr, _exn))
+        )
+    ;
+
+    /// <!-- FishyJoes.export(bar) -->
+    bool bar(
+    ) =>
+        GCRef.using(this, (_thisHandle) =>
+            check((OutCreatedRef _exn) => f__iota_TestAPI_TestProtocolEnum_bar(Loader.shared.env, _thisHandle.ptr, _exn))
+        )
+    ;
+
     /// <!-- FishyJoes.export(baz) -->
     void baz(
         bool qux,
@@ -96,12 +112,22 @@ sealed class TestProtocolEnum implements TestAPI.TestProtocol {
         )
     ;
 
+    static late bool Function(
+        Env env,
+        UnownedRef _this,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_TestProtocolEnum_bar;
     static late void Function(
         Env env,
         UnownedRef _this,
         bool qux,
         OutCreatedRef _exn
     ) f__iota_TestAPI_TestProtocolEnum_baz;
+    static late void Function(
+        Env env,
+        UnownedRef _this,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_TestProtocolEnum_foo;
     static late CreatedRef Function(
         Env env,
         UnownedRef _this,

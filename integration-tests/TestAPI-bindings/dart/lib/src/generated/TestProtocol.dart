@@ -37,6 +37,10 @@ import 'package:tuple/tuple.dart' as tuple;
 
 /// <!-- FishyJoes.export(TestProtocol) -->
 abstract class TestProtocol {
+    void foo(
+    );
+    bool bar(
+    );
     void baz(
         bool qux
     );

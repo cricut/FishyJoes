@@ -1,7 +1,9 @@
 /// <!-- FishyJoes.export(TestProtocol) -->
 public protocol TestProtocol {
-//    func foo()
-//    func bar() -> Bool
+    /// <!-- FishyJoes.export(foo) -->
+    func foo()
+    /// <!-- FishyJoes.export(bar) -->
+    func bar() -> Bool
     /// <!-- FishyJoes.export(baz) -->
     func baz(qux: Bool)
     /// <!-- FishyJoes.export(garply) -->
@@ -13,7 +15,15 @@ public protocol TestProtocol {
 /// <!-- FishyJoes.export(TestProtocolEnum, protocols: [TestProtocol]) -->
 public enum TestProtocolEnum: TestProtocol {
     case qux
-
+    
+    /// <!-- FishyJoes.export(foo) -->
+    public func foo() {
+        print("foo!")
+    }
+    /// <!-- FishyJoes.export(bar) -->
+    public func bar() -> Bool {
+        return true
+    }
     /// <!-- FishyJoes.export(baz) -->
     public func baz(qux: Bool) {
         print("baz(qux: \(qux))")

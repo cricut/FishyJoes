@@ -22,6 +22,32 @@ extension TestAPI.TestProtocolEnum: FishyJoesNodeRuntime.NodeConverter {
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let object = try env.createObject()
         let props = try NodeClass.descriptorsFor(properties: [
+            "foo": (
+                .method { env, info in
+                    FishyJoesNodeRuntime.callbackBody(env, info, name: "foo", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                        let result = try FishyJoesCommonRuntime.VoidConverter.toNode(
+                            env.argument(at: 0, converter: TestAPI.TestProtocolEnum.self).foo(
+                            ),
+                            env: env.env
+                        )
+                        return result
+                    }
+                },
+                isStatic: true
+            ),
+            "bar": (
+                .method { env, info in
+                    FishyJoesNodeRuntime.callbackBody(env, info, name: "bar", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                        let result = try Swift.Bool.toNode(
+                            env.argument(at: 0, converter: TestAPI.TestProtocolEnum.self).bar(
+                            ),
+                            env: env.env
+                        )
+                        return result
+                    }
+                },
+                isStatic: true
+            ),
             "baz": (
                 .method { env, info in
                     FishyJoesNodeRuntime.callbackBody(env, info, name: "baz", expectedArgumentCount: 2, hasNamedOptions: false) { env in

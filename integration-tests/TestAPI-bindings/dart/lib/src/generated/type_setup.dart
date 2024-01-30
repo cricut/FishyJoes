@@ -1832,6 +1832,18 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_Structs_ReferenceStruct_equals");
+    TestAPI.TestProtocolEnum.f__iota_TestAPI_TestProtocolEnum_bar = dylib.lookupFunction<
+        ffi.Bool Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        bool Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestProtocolEnum_bar");
     TestAPI.TestProtocolEnum.f__iota_TestAPI_TestProtocolEnum_baz = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
@@ -1846,6 +1858,18 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_TestProtocolEnum_baz");
+    TestAPI.TestProtocolEnum.f__iota_TestAPI_TestProtocolEnum_foo = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        void Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestProtocolEnum_foo");
     TestAPI.TestProtocolEnum.f__iota_TestAPI_TestProtocolEnum_garply = dylib.lookupFunction<
         CreatedRef Function(
             Env env,

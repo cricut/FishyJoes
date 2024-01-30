@@ -7025,6 +7025,50 @@
             "methods" : [
               {
                 "documentation" : [
+                  "<!-- FishyJoes.export(foo) -->"
+                ],
+                "isStatic" : true,
+                "name" : "foo",
+                "parameters" : [
+                  {
+                    "name" : "self",
+                    "type" : {
+                      "named" : {
+                        "_0" : "TestAPI.TestProtocolEnum"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "void"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(bar) -->"
+                ],
+                "isStatic" : true,
+                "name" : "bar",
+                "parameters" : [
+                  {
+                    "name" : "self",
+                    "type" : {
+                      "named" : {
+                        "_0" : "TestAPI.TestProtocolEnum"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "boolean"
+                  }
+                }
+              },
+              {
+                "documentation" : [
                   "<!-- FishyJoes.export(baz) -->"
                 ],
                 "isStatic" : true,

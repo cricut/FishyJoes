@@ -14,6 +14,38 @@ namespace Cricut.TestAPI {
         public sealed record Qux : TestProtocolEnum;
 
         /// <summary>
+        /// <!-- FishyJoes.export(foo) -->
+        /// </summary>
+        public void Foo(
+        ) {
+            using var _thisHandle = new GCRef(this);
+            Check((out CreatedRef _exn) => __iota_TestAPI_TestProtocolEnum_foo(Loader.env, _thisHandle.ptr, out _exn));
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern void __iota_TestAPI_TestProtocolEnum_foo(
+            IntPtr envRef,
+            UnownedRef self,
+            out CreatedRef exn
+        );
+
+        /// <summary>
+        /// <!-- FishyJoes.export(bar) -->
+        /// </summary>
+        public bool Bar(
+        ) {
+            using var _thisHandle = new GCRef(this);
+            return Check((out CreatedRef _exn) => __iota_TestAPI_TestProtocolEnum_bar(Loader.env, _thisHandle.ptr, out _exn));
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern bool __iota_TestAPI_TestProtocolEnum_bar(
+            IntPtr envRef,
+            UnownedRef self,
+            out CreatedRef exn
+        );
+
+        /// <summary>
         /// <!-- FishyJoes.export(baz) -->
         /// </summary>
         public void Baz(
