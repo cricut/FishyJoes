@@ -1705,60 +1705,6 @@
               }
             ],
             "name" : "Methods"
-          },
-          {
-            "constructor" : {
-              "visible" : {
-                "names" : [
-
-                ],
-                "types" : [
-
-                ]
-              }
-            },
-            "documentation" : [
-              "<!-- FishyJoes.export(TestProtocol) -->"
-            ],
-            "extends" : [
-
-            ],
-            "fields" : [
-
-            ],
-            "methods" : [
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(xyzzy) -->"
-                ],
-                "isStatic" : false,
-                "name" : "xyzzy",
-                "parameters" : [
-                  {
-                    "name" : "thud",
-                    "type" : {
-                      "named" : {
-                        "_0" : "number"
-                      }
-                    }
-                  },
-                  {
-                    "name" : "grault",
-                    "type" : {
-                      "named" : {
-                        "_0" : "number[]"
-                      }
-                    }
-                  }
-                ],
-                "returnType" : {
-                  "named" : {
-                    "_0" : "void"
-                  }
-                }
-              }
-            ],
-            "name" : "TestProtocol"
           }
         ],
         "fields" : [

@@ -15,6 +15,29 @@ namespace Cricut.TestAPI {
         }
 
         /// <summary>
+        /// <!-- FishyJoes.export(waldo) -->
+        /// </summary>
+        public static string Waldo {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __iota_get_TestAPI_TestProtocol_waldo(Loader.env, out exn).Consume<string>()
+                );
+            }
+            set {
+                using var valueHandle = new GCRef(value);
+                Check((out CreatedRef exn) =>
+                    __iota_set_TestAPI_TestProtocol_waldo(Loader.env, valueHandle.ptr, out exn)
+                );
+            }
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_get_TestAPI_TestProtocol_waldo(IntPtr envRef, out CreatedRef exn);
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern void __iota_set_TestAPI_TestProtocol_waldo(IntPtr envRef, UnownedRef value, out CreatedRef exn);
+
+        /// <summary>
         /// <!-- FishyJoes.export(xyzzy) -->
         /// </summary>
         public void Xyzzy(

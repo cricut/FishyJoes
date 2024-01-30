@@ -550,6 +550,8 @@ public class FishyJoesContext {
 
     func add(dartClass: DartClass) {
         dartClasses.append(dartClass)
+        // Don't add to native methods for DartProtocolClass, since there is nothing to export for a protocol.
+        if dartClass is DartProtocolClass { return }
         for (name, (args, returnType)) in dartClass.nativeMethods {
             dartTranslator.nativeMethods.append(
                 .init(

@@ -40,4 +40,9 @@ abstract class TestProtocol {
         int thud,
         List<double> grault
     );
+
+    /// <!-- FishyJoes.export(waldo) -->
+    static String get waldo;
+
+    static void set waldo(String value);
 }
