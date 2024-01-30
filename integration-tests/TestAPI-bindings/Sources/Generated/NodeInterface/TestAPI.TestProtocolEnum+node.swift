@@ -37,21 +37,6 @@ extension TestAPI.TestProtocolEnum: FishyJoesNodeRuntime.NodeConverter {
                 },
                 isStatic: true
             ),
-            "waldo": (
-                .accessor(
-                    getter: { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "waldo", expectedArgumentCount: 0) { env in
-                            try Swift.String.toNode(TestAPI.TestProtocolEnum.waldo, env: env.env)
-                        }
-                    },
-                    setter: { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "waldo", expectedArgumentCount: 1) { env in
-                            TestAPI.TestProtocolEnum.waldo = try env.argument(at: 0, converter: Swift.String.self)
-                            return nil
-                        }
-                    }),
-                isStatic: true
-            ),
         ], env: env)
         try env.defineProperties(object, properties: props)
         try FishyJoesNodeRuntime.mergeDefinitionInto(

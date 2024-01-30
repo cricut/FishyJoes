@@ -417,7 +417,7 @@ class DartProductClass: DartClass {
         var protocolsPart = String()
         if !protocols.isEmpty {
             protocolsPart.append(" implements ")
-            protocolsPart.append(protocols.joined(separator: ", "))
+            protocolsPart.append(protocols.map { "\(module).\($0)" }.joined(separator: ", "))
         }
 
         switch constructor {
@@ -649,7 +649,7 @@ class DartEnumClass: DartClass {
         var protocolsPart = String()
         if !protocols.isEmpty {
             protocolsPart.append(" implements ")
-            protocolsPart.append(protocols.joined(separator: ", "))
+            protocolsPart.append(protocols.map { "\(module).\($0)" }.joined(separator: ", "))
         }
         fragment.output("class \(unqualifiedName)\(protocolsPart)", newLineTerminated: false)
         fragment.outputBlock(" {") {

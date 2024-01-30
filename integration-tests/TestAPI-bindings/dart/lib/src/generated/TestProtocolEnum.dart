@@ -36,7 +36,7 @@ import 'package:fishyjoes_dart/utilities.dart' as utils;
 import 'package:tuple/tuple.dart' as tuple;
 
 /// <!-- FishyJoes.export(TestProtocolEnum, protocols: [TestProtocol]) -->
-sealed class TestProtocolEnum implements TestProtocol {
+sealed class TestProtocolEnum implements TestAPI.TestProtocol {
     const factory TestProtocolEnum.qux(
     ) = TestProtocolEnum_Qux;
 
@@ -64,20 +64,6 @@ sealed class TestProtocolEnum implements TestProtocol {
         });
     }
 
-    /// <!-- FishyJoes.export(waldo) -->
-    static String get waldo =>
-        check((exn) =>
-            consumeCreatedRef<String>(f__iota_get_TestAPI_TestProtocolEnum_waldo(Loader.shared.env, exn))
-        )
-    ;
-    static void set waldo(String value) {
-        GCRef.using(value, (_valueHandle) =>
-            check((exn) =>
-                f__iota_set_TestAPI_TestProtocolEnum_waldo(Loader.shared.env, _valueHandle.ptr, exn)
-            )
-        )
-        ;
-    }
     /// <!-- FishyJoes.export(xyzzy) -->
     void xyzzy(
         int thud,
@@ -97,15 +83,6 @@ sealed class TestProtocolEnum implements TestProtocol {
         UnownedRef grault,
         OutCreatedRef _exn
     ) f__iota_TestAPI_TestProtocolEnum_xyzzy;
-    static late CreatedRef Function(
-        Env env,
-        OutCreatedRef _exn
-    ) f__iota_get_TestAPI_TestProtocolEnum_waldo;
-    static late void Function(
-        Env env,
-        UnownedRef waldo,
-        OutCreatedRef _exn
-    ) f__iota_set_TestAPI_TestProtocolEnum_waldo;
 }
 
 class TestProtocolEnum_Qux extends TestProtocolEnum {

@@ -6,9 +6,6 @@ public protocol TestProtocol {
 //    func garply(_ : String) -> String
     /// <!-- FishyJoes.export(xyzzy) -->
     func xyzzy(thud: Int, grault: [Double])
-    
-    /// <!-- FishyJoes.export(waldo) -->
-    static var waldo: String { set get }
 }
 
 /// <!-- FishyJoes.export(TestProtocolEnum, protocols: [TestProtocol]) -->
@@ -19,7 +16,4 @@ public enum TestProtocolEnum: TestProtocol {
     public func xyzzy(thud: Int, grault: [Double]) {
         print("thud: \(thud); grault: \(grault.map { "\($0)" })")
     }
-    
-    /// <!-- FishyJoes.export(waldo) -->
-    public static var waldo = "You found me!"
 }

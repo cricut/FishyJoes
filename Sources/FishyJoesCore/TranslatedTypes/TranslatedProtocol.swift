@@ -86,101 +86,6 @@ struct TranslatedProtocol: TranslatedType {
             additionalImports: ["Foundation", "FishyJoesNodeRuntime"]
         )
 
-        fragment.outputBlock("extension \(sourceType.name): NodeMutator {") {
-            fragment.outputBlock("public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {") {
-                // TODO: type check
-                fragment.outputBlock("Self(") {
-                    for (index, storedVar) in storedVariables.enumerated() {
-                        let resolved = context.resolve(type: storedVar.typeName.better)
-                        let last = index == storedVariables.count - 1
-                        fragment.outputBlock("\(storedVar.name): try { () -> \(resolved.sourceType.name) in", closeWith: last ? "}()" : "}(),") {
-                            fragment.output("let fieldValue = try env.getNamedProperty(value, \"\(storedVar.name)\")")
-                            fragment.output("return try \(resolved.converterType.name).fromNode(fieldValue, env: env)")
-                        }
-                    }
-                }
-            }
-
-            fragment.outputBlock("public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {") {
-                fragment.output("let constructor = try NodeClass.constructor(for: \"\(nodeName)\", env: env)")
-                fragment.outputBlock("let args: [NAPI.Value] = [") {
-                    for storedVar in storedVariables {
-                        let resolved = context.resolve(type: storedVar.typeName.better)
-                        fragment.output("try \(resolved.converterType.name).toNode(value.\(storedVar.name), env: env),")
-                    }
-                }
-                fragment.output("return try env.newInstance(constructor, args)")
-            }
-
-            fragment.outputBlock("public static func mutateNode(_ value: Self, this: NAPI.Value, env: NAPI.Env) throws {") {
-                for storedVar in storedVariables {
-                    guard storedVar.isPubliclyWritable else { continue }
-                    let resolved = context.resolve(type: storedVar.typeName.better)
-                    fragment.output("try env.setNamedProperty(this, \"\(storedVar.name)\", \(resolved.converterType.name).toNode(value.\(storedVar.name), env: env))")
-                }
-            }
-
-            fragment.output("@available(*, deprecated, message: \"Not actually deprecated, but this silences warnings because it may refer to deprecated methods\")")
-            fragment.outputBlock("public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {") {
-                // fragment.output("print(\"setting up \(sourceType.name)\")")
-
-                fragment.outputBlock("let nodeClass = try NodeClass(") {
-                    fragment.output("env: env,")
-                    fragment.output("name: \"\(nodeName)\",")
-                    fragment.outputBlock("properties: [", closeWith: "],") {
-                        var hasProperties = false
-                        hasProperties ||= context.nodeTranslator.outputProperties(methods: methods, context: context, fragment: fragment)
-                        hasProperties ||= context.nodeTranslator.outputProperties(computedVariables: computedVariables, context: context, fragment: fragment)
-                        for storedVar in storedVariables {
-                            // Limitation is wasm implementation of napi_create_class doesn't allow constructors to assign to non-mutable property.
-                            // let mutable = storedVar.isPubliclyWritable
-                            let mutable = true
-                            fragment.output("\"\(storedVar.name)\": (.stored(mutable: \(mutable)), isStatic: \(storedVar.isStatic)),")
-                            hasProperties = true
-                        }
-                        if !hasProperties {
-                            fragment.output(":")
-                        }
-                    }
-                    fragment.outputBlock("constructor: { env, info in", closeWith: "}") {
-                        fragment.outputBlock("callbackBody(env, info, name: \"\(nodeName)_constructor\", expectedArgumentCount: \(storedVariables.count)) { env in", closeWith: "}") {
-                            fragment.output("// TODO: typecheck?")
-                            fragment.output("let this = try env.this()")
-                            for (index, storedVar) in storedVariables.enumerated() {
-                                fragment.output("try env.env.setNamedProperty(this, \"\(storedVar.name)\", env.argument(at: \(index)))")
-                            }
-                            fragment.output("return this")
-                        }
-                    }
-                }
-                fragment.outputBlock("try mergeDefinitionInto(") {
-                    fragment.output("env: env,")
-                    fragment.output("module: module,")
-                    fragment.output("path: \"\(nodeName)\",")
-                    fragment.output("nodeClass: nodeClass.constructor.value(env: env)")
-                }
-            }
-        }
-
-        context.tsAnnotations.add(class:
-            .init(
-                documentation: documentation,
-                name: nodeName,
-                constructor: .visible(
-                    storedVariables.map {
-                        (
-                            name: $0.name,
-                            type: context.resolve(type: $0.typeName.better).nodeType
-                        )
-                    }
-                ),
-                fields:
-                    storedVariables.compactMap { context.ts(field: $0, useNativeName: true) } +
-                    computedVariables.compactMap {context.ts(field: $0, useNativeName: false) },
-                methods: methods.compactMap { context.ts(method: $0) }
-            )
-        )
-
         return fragment
     }
 
@@ -188,91 +93,6 @@ struct TranslatedProtocol: TranslatedType {
         let fragment = context.swiftFragment(
             "JavaInterface/\(sourceType.name)+java.swift",
             additionalImports: ["Foundation", "FishyJoesJavaRuntime"]
-        )
-        let className = context.kotlinTranslator.javaClassName(kotlinName, in: context)
-        fragment.outputBlock("extension \(sourceType.name): JavaMutator {") {
-            fragment.output("public typealias SwiftType = Self")
-            fragment.output("public typealias CType = jobject?")
-            fragment.blankLine()
-
-            fragment.output("public static var javaClass: jclass?")
-            for storedVar in storedVariables {
-                fragment.output("private static var _java_\(storedVar.name)_id: jfieldID!")
-            }
-            fragment.output("private static var _constructorMethodID: jmethodID!")
-
-            fragment.outputBlock("public static func fromJava(_ value: jobject?, env: Env) throws -> Self {") {
-                fragment.outputBlock("Self(") {
-                    for (index, storedVar) in storedVariables.enumerated() {
-                        let resolved = context.resolve(type: storedVar.typeName.better)
-                        let last = index == storedVariables.count - 1
-                        let fieldCType = resolved.jniType.valueType
-                        fragment.outputBlock("\(storedVar.name): try \(resolved.converterType.name).fromJava(", closeWith: last ? ")" : "),") {
-                            fragment.output("env.Get\(fieldCType)Field(value, Self._java_\(storedVar.name)_id),")
-                            fragment.output("env: env")
-                        }
-                    }
-                }
-            }
-
-            fragment.outputBlock("public static func toJava(_ value: Self, env: Env) throws -> jobject? {") {
-                fragment.outputBlock("try env.NewObject(") {
-                    let args = [
-                        "Self.javaClass",
-                        "Self._constructorMethodID",
-                    ] + storedVariables.map { storedVar in
-                        let resolved = context.resolve(type: storedVar.typeName.better)
-                        return "jvalue(\(resolved.converterType.name).toJava(value.\(storedVar.name), env: env))"
-                    }
-                    fragment.outputMap(args, separator: ",") { $0 }
-                }
-            }
-
-            fragment.outputBlock("public static func javaSetup(env: Env) throws {") {
-                fragment.output("guard javaClass == nil else { return }")
-                fragment.output("javaClass = try env.globalRef(env.FindClass(\"\(className)\"))")
-                var constructorDescriptor = ""
-                for storedVar in storedVariables {
-                    let resolved = context.resolve(type: storedVar.typeName.better)
-                    fragment.output("_java_\(storedVar.name)_id = try env.GetFieldID(javaClass, \"\(storedVar.name)\", \"\(resolved.jniType.asSignature)\")")
-                    constructorDescriptor += resolved.jniType.asSignature
-                }
-                fragment.output("_constructorMethodID = try env.GetMethodID(javaClass, \"<init>\", \"(\(constructorDescriptor))V\")")
-            }
-
-            fragment.outputBlock("public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout Self) throws -> R) throws -> R {") {
-                fragment.output("var mutatingSelf = try fromJava(this, env: env)")
-                fragment.output("let result = try body(&mutatingSelf)")
-                for storedVar in storedVariables {
-                    let resolved = context.resolve(type: storedVar.typeName.better)
-                    let fieldCType = resolved.jniType.valueType
-                    fragment.outputBlock("try env.Set\(fieldCType)Field(") {
-                        fragment.output("this, Self._java_\(storedVar.name)_id,")
-                        fragment.output("\(resolved.converterType.name).toJava(mutatingSelf.\(storedVar.name), env: env)")
-                    }
-                }
-                fragment.output("return result")
-            }
-        }
-
-        context.add(
-            kotlinClass: KotlinProductClass(
-                module: context.module,
-                documentation: documentation,
-                name: kotlinName,
-                constructor: .`public`(
-                    fields: storedVariables.compactMap {
-                        switch context.kotlin(field: $0, useNativeName: true) {
-                        case .method: fatalErr("Can't export a stored variable as a method")
-                        case .variable(let field): return field
-                        case nil: return nil
-                        }
-                    }
-                ),
-                fieldsAndMethods:
-                    computedVariables.compactMap { context.kotlin(field: $0, useNativeName: false) } +
-                    methods.compactMap { context.kotlin(method: $0) }
-            )
         )
 
         return fragment
@@ -390,7 +210,7 @@ struct TranslatedProtocol: TranslatedType {
                 name: cSharpType.name,
                 constructor: .`public`(
                     fields: storedVariables.compactMap {
-                        switch context.cSharp(field: $0, of: self, useNativeName: true) {
+                        switch context.cSharp(field: $0, of: self, useNativeName: false) {
                         case .method: fatalErr("Can't export a stored variable `\(self.sourceType.name).\($0.name)` as a method")
                         case .variable(let field): return field
                         case nil: return nil
@@ -414,7 +234,7 @@ struct TranslatedProtocol: TranslatedType {
                 name: dartType.name(),
                 constructor: .`public`(
                     fields: storedVariables.compactMap {
-                        switch context.dart(field: $0, of: self, useNativeName: true) {
+                        switch context.dart(field: $0, of: self, useNativeName: false) {
                         case .method: fatalErr("Can't export a stored variable `\(self.sourceType.name).\($0.name)` as a method")
                         case .variable(let field): return field
                         case nil: return nil

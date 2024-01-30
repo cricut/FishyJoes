@@ -1580,11 +1580,6 @@ export declare namespace TestAPI {
     export type TestProtocolEnum = "qux";
     export namespace TestProtocolEnum {
         /**
-         * <!-- FishyJoes.export(waldo) -->
-         */
-        let waldo: string;
-
-        /**
          * <!-- FishyJoes.export(xyzzy) -->
          */
         function xyzzy(

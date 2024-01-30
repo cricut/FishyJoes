@@ -3368,16 +3368,6 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_get_TestAPI_Structs_ReferenceStruct_mutable");
-    TestAPI.TestProtocolEnum.f__iota_get_TestAPI_TestProtocolEnum_waldo = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        )
-    >("__iota_get_TestAPI_TestProtocolEnum_waldo");
     TestAPI.Tuples.f__iota_get_TestAPI_Tuples_tuple2 = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -3560,18 +3550,6 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_set_TestAPI_Structs_ReferenceStruct_mutable");
-    TestAPI.TestProtocolEnum.f__iota_set_TestAPI_TestProtocolEnum_waldo = dylib.lookupFunction<
-        ffi.Void Function(
-            Env env,
-            UnownedRef waldo,
-            OutCreatedRef _exn
-        ),
-        void Function(
-            Env env,
-            UnownedRef waldo,
-            OutCreatedRef _exn
-        )
-    >("__iota_set_TestAPI_TestProtocolEnum_waldo");
 
     Loader.shared.once("setup_Function2Converter<Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>>", () {
         // print("setting up ((Int) -> Int, (Int) -> Int) -> (Int) -> Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");

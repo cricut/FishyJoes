@@ -7017,19 +7017,7 @@
 
             ],
             "fields" : [
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(waldo) -->"
-                ],
-                "isStatic" : true,
-                "name" : "waldo",
-                "readOnly" : false,
-                "type" : {
-                  "named" : {
-                    "_0" : "string"
-                  }
-                }
-              }
+
             ],
             "interfaces" : [
 
