@@ -1527,7 +1527,7 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try env.RegisterNatives(TestAPI.TestProtocolEnum.javaClass,
             JNINativeMethod(
                 name: bag.add("__jni_xyzzy"),
-                signature: bag.add("(JLjava/util/List;)V"),
+                signature: bag.add("(JLjava/util/List;)Ljava/lang/String;"),
                 fnPtr: unsafeBitCast(java_TestAPI_TestProtocolEnum_xyzzy, to: UnsafeMutableRawPointer.self)
             )
         )

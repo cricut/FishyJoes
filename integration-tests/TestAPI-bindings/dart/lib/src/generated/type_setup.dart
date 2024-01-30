@@ -1833,14 +1833,14 @@ final ensureLoaded = (() {
         )
     >("__iota_TestAPI_Structs_ReferenceStruct_equals");
     TestAPI.TestProtocolEnum.f__iota_TestAPI_TestProtocolEnum_xyzzy = dylib.lookupFunction<
-        ffi.Void Function(
+        CreatedRef Function(
             Env env,
             UnownedRef _this,
             ffi.Int thud,
             UnownedRef grault,
             OutCreatedRef _exn
         ),
-        void Function(
+        CreatedRef Function(
             Env env,
             UnownedRef _this,
             int thud,

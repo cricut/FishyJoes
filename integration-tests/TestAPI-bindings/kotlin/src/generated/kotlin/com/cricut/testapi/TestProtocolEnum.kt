@@ -11,12 +11,12 @@ sealed class TestProtocolEnum {
     fun xyzzy(
         thud: Long,
         grault: kotlin.collections.List<Double>
-    ): kotlin.Unit = __jni_xyzzy(thud, grault)
+    ): kotlin.String = __jni_xyzzy(thud, grault)
     @JvmName("__jni_xyzzy")
     private external fun __jni_xyzzy(
         thud: Long,
         grault: kotlin.collections.List<Double>
-    ): kotlin.Unit
+    ): kotlin.String
 
     companion object {
         init { loadNativeLibs() }

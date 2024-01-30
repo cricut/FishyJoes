@@ -25,7 +25,7 @@ extension TestAPI.TestProtocolEnum: FishyJoesNodeRuntime.NodeConverter {
             "xyzzy": (
                 .method { env, info in
                     FishyJoesNodeRuntime.callbackBody(env, info, name: "xyzzy", expectedArgumentCount: 3, hasNamedOptions: false) { env in
-                        let result = try FishyJoesCommonRuntime.VoidConverter.toNode(
+                        let result = try Swift.String.toNode(
                             env.argument(at: 0, converter: TestAPI.TestProtocolEnum.self).xyzzy(
                                 thud: try env.argument(at: 1, converter: Swift.Int.self),
                                 grault: try env.argument(at: 2, converter: ArrayConverter<Swift.Double>.self)

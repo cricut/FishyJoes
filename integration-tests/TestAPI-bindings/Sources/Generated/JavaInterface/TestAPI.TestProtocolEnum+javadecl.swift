@@ -12,9 +12,9 @@ let java_TestAPI_TestProtocolEnum_xyzzy: @convention(c) (
     jobject,
     Swift.Int.CType,
     ArrayConverter<Swift.Double>.CType
-) -> FishyJoesCommonRuntime.VoidConverter.CType = { _javaEnv, _javaThis, thud, grault in
+) -> Swift.String.CType = { _javaEnv, _javaThis, thud, grault in
     FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
-        return try FishyJoesCommonRuntime.VoidConverter.toJava(
+        return try Swift.String.toJava(
             TestAPI.TestProtocolEnum.fromJava(_javaThis, env: _javaEnv).xyzzy(
                 thud: try Swift.Int.fromJava(thud, env: _javaEnv),
                 grault: try ArrayConverter<Swift.Double>.fromJava(grault, env: _javaEnv)

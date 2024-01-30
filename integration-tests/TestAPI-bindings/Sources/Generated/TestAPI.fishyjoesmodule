@@ -7057,7 +7057,7 @@
                 ],
                 "returnType" : {
                   "named" : {
-                    "_0" : "void"
+                    "_0" : "string"
                   }
                 }
               }

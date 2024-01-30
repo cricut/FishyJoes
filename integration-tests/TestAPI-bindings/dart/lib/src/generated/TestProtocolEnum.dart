@@ -65,18 +65,18 @@ sealed class TestProtocolEnum implements TestAPI.TestProtocol {
     }
 
     /// <!-- FishyJoes.export(xyzzy) -->
-    void xyzzy(
+    String xyzzy(
         int thud,
         List<double> grault,
     ) =>
         GCRef.using(this, (_thisHandle) =>
             GCRef.using(grault, (_graultHandle) =>
-                check((OutCreatedRef _exn) => f__iota_TestAPI_TestProtocolEnum_xyzzy(Loader.shared.env, _thisHandle.ptr, thud, _graultHandle.ptr, _exn))
+                consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_TestAPI_TestProtocolEnum_xyzzy(Loader.shared.env, _thisHandle.ptr, thud, _graultHandle.ptr, _exn)))
             )
         )
     ;
 
-    static late void Function(
+    static late CreatedRef Function(
         Env env,
         UnownedRef _this,
         int thud,

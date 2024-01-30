@@ -14,10 +14,10 @@ public func __iota_TestAPI_TestProtocolEnum_xyzzy(
     thud: Swift.Int.CType,
     grault: ArrayConverter<Swift.Double>.CType,
     _exn: foreignOutExn
-) -> FishyJoesCommonRuntime.VoidConverter.CType {
+) -> Swift.String.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
-        return try FishyJoesCommonRuntime.VoidConverter.toIota(
+        return try Swift.String.toIota(
             TestAPI.TestProtocolEnum.peekIota(_iotaThis, env: env).xyzzy(
                 thud: try Swift.Int.peekIota(thud, env: env),
                 grault: try ArrayConverter<Swift.Double>.peekIota(grault, env: env)
