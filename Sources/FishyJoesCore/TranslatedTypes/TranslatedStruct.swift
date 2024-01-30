@@ -13,6 +13,7 @@ struct TranslatedStruct: TranslatedType {
     let computedVariables: [Variable]
     let methods: [Method]
     let documentation: [String]
+    let protocols: [String]
     let jniType: JNIType
     let isInhabited: Bool
     let definingModule: Module
@@ -38,6 +39,7 @@ struct TranslatedStruct: TranslatedType {
 
         self.methods = type.methods.compactMap { Method($0) }
         self.documentation = type.documentation
+        self.protocols = exportAnnotation.protocols
         self.isInhabited = type.isInhabited
         self.definingModule = context.module
     }
@@ -547,6 +549,7 @@ struct TranslatedStruct: TranslatedType {
             dartClass: DartProductClass(
                 module: context.module,
                 documentation: documentation,
+                protocols: protocols,
                 name: dartType.name(),
                 constructor: .`public`(
                     fields: storedVariables.compactMap {

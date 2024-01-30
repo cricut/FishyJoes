@@ -550,6 +550,7 @@ struct TranslatedReference: TranslatedType {
         let dartProduct = DartProductClass(
             module: context.module,
             documentation: documentation,
+            protocols: [],
             name: dartType.name(),
             constructor: .reference,
             fieldsAndMethods: fieldsAndMethods

@@ -396,6 +396,7 @@ class DartProductClass: DartClass {
     init(
         module: Module,
         documentation: [String],
+        protocols: [String],
         name: String,
         constructor: Constructor,
         fieldsAndMethods: [MethodOrVariable]
@@ -404,7 +405,7 @@ class DartProductClass: DartClass {
         super.init(
             module: module,
             documentation: documentation,
-            protocols: [],
+            protocols: protocols,
             name: name,
             fieldsAndMethods: fieldsAndMethods
         )
@@ -413,11 +414,17 @@ class DartProductClass: DartClass {
     override func output(to fragment: SourceFragment) {
         document(documentation, fragment: fragment)
 
+        var protocolsPart = String()
+        if !protocols.isEmpty {
+            protocolsPart.append(" implements ")
+            protocolsPart.append(protocols.joined(separator: ", "))
+        }
+
         switch constructor {
         case .reference:
-            fragment.output("class \(unqualifiedName) extends SwiftReference", newLineTerminated: false)
+            fragment.output("class \(unqualifiedName) extends SwiftReference\(protocolsPart)", newLineTerminated: false)
         case .public:
-            fragment.output("class \(unqualifiedName)", newLineTerminated: false)
+            fragment.output("class \(unqualifiedName)\(protocolsPart)", newLineTerminated: false)
         }
         fragment.outputBlock(" {") {
             switch constructor {
@@ -645,9 +652,6 @@ class DartEnumClass: DartClass {
             protocolsPart.append(protocols.joined(separator: ", "))
         }
         fragment.output("class \(unqualifiedName)\(protocolsPart)", newLineTerminated: false)
-        if unqualifiedName.contains("TestProtocol") {
-            let a = 2
-        }
         fragment.outputBlock(" {") {
             for enumCase in cases {
                 document(enumCase.documentation, fragment: fragment)
