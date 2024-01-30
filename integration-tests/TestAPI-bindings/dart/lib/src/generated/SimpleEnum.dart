@@ -1,93 +1,61 @@
 import './AssociatedDataEnum.dart' as TestAPI;
-import './AssociatedDataEnum.dart';
 import './AsyncFunctions.dart' as TestAPI;
-import './AsyncFunctions.dart';
 import './AsyncFunctions_TheError.dart' as TestAPI;
-import './AsyncFunctions_TheError.dart';
 import './AttributedString_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
-import './AttributedString_PuttingTypesIntoQuestionablePlaces.dart';
 import './AttributedStrings.dart' as TestAPI;
-import './AttributedStrings.dart';
 import './Bytes.dart' as TestAPI;
-import './Bytes.dart';
 import './ClosedRanges.dart' as TestAPI;
-import './ClosedRanges.dart';
 import './Collections.dart' as TestAPI;
-import './Collections.dart';
 import './Collections_CollectionHolder.dart' as TestAPI;
-import './Collections_CollectionHolder.dart';
 import './DefaultArguments.dart' as TestAPI;
-import './DefaultArguments.dart';
 import './Deprecations.dart' as TestAPI;
-import './Deprecations.dart';
 import './EmptyEnum.dart' as TestAPI;
-import './EmptyEnum.dart';
 import './Functions.dart' as TestAPI;
-import './Functions.dart';
 import './Functions_TheError.dart' as TestAPI;
-import './Functions_TheError.dart';
 import './Methods.dart' as TestAPI;
-import './Methods.dart';
 import './Primitives.dart' as TestAPI;
-import './Primitives.dart';
 import './Primitives_PrimitiveHolder.dart' as TestAPI;
-import './Primitives_PrimitiveHolder.dart';
 import './Ranges.dart' as TestAPI;
-import './Ranges.dart';
 import './SimpleEnum.dart' as TestAPI;
-import './SimpleEnum.dart';
 import './String_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
-import './String_PuttingTypesIntoQuestionablePlaces.dart';
 import './Strings.dart' as TestAPI;
-import './Strings.dart';
 import './Structs.dart' as TestAPI;
-import './Structs.dart';
 import './Structs_MemberwiseStruct.dart' as TestAPI;
-import './Structs_MemberwiseStruct.dart';
 import './Structs_MutableStruct.dart' as TestAPI;
-import './Structs_MutableStruct.dart';
 import './Structs_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
-import './Structs_PuttingTypesIntoQuestionablePlaces.dart';
 import './Structs_ReferenceStruct.dart' as TestAPI;
-import './Structs_ReferenceStruct.dart';
 import './Tuples.dart' as TestAPI;
-import './Tuples.dart';
 import './URLs.dart' as TestAPI;
-import './URLs.dart';
 import './UnicodeScalar_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
-import './UnicodeScalar_PuttingTypesIntoQuestionablePlaces.dart';
 import 'dart:ffi' as ffi;
 import 'dart:typed_data' as typed_data;
+import 'package:collection/collection.dart';
 import 'package:ffi/ffi.dart' as ffi;
 import 'package:fishyjoes_dart/runtime.dart' as FishyJoesRuntime;
 import 'package:fishyjoes_dart/runtime.dart';
 import 'package:fishyjoes_dart/utilities.dart' as utils;
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:tuple/tuple.dart' as tuple;
 
-part 'SimpleEnum.freezed.dart';
-
 /// <!-- FishyJoes.export(SimpleEnum) -->
-@freezed
-class SimpleEnum with _$SimpleEnum {
-    factory SimpleEnum.red(
+sealed class SimpleEnum {
+    const factory SimpleEnum.red(
     ) = SimpleEnum_Red;
 
-    factory SimpleEnum.green(
+    const factory SimpleEnum.green(
     ) = SimpleEnum_Green;
 
-    factory SimpleEnum.blue(
+    const factory SimpleEnum.blue(
     ) = SimpleEnum_Blue;
 
-    SimpleEnum._() {}
+    const SimpleEnum();
 
-    static int enumDiscriminator(UnownedRef obj, OutCreatedRef exn) => check((exn) =>
-        peekRef<SimpleEnum>(obj).map(
-            red: (_) => 0,
-            green: (_) => 1,
-            blue: (_) => 2,
-        )
-    );
+    static int enumDiscriminator(UnownedRef obj, OutCreatedRef exn) => check((exn) {
+        final peekedObj = peekRef<SimpleEnum>(obj);
+        if (peekedObj is SimpleEnum_Red) { return 0; }
+        else if (peekedObj is SimpleEnum_Green) { return 1; }
+        else if (peekedObj is SimpleEnum_Blue) { return 2; }
+        else { throw UnsupportedError('Unknown SimpleEnum subclass'); }
+    });
 
     static CreatedRef newRed(
         OutCreatedRef exn
@@ -208,4 +176,67 @@ class SimpleEnum with _$SimpleEnum {
         UnownedRef favoriteColor,
         OutCreatedRef _exn
     ) f__iota_set_TestAPI_SimpleEnum_favoriteColor;
+}
+
+class SimpleEnum_Red extends SimpleEnum {
+    const SimpleEnum_Red();
+
+    @override
+    bool operator ==(Object other) {
+        return identical(other, this) ||
+        (
+            other.runtimeType == runtimeType &&
+            other is SimpleEnum_Red
+        );
+    }
+
+    @override
+    int get hashCode => runtimeType.hashCode;
+
+    @override
+    String toString() => 'SimpleEnum.red()';
+
+    SimpleEnum_Red copyWith() => SimpleEnum_Red();
+}
+
+class SimpleEnum_Green extends SimpleEnum {
+    const SimpleEnum_Green();
+
+    @override
+    bool operator ==(Object other) {
+        return identical(other, this) ||
+        (
+            other.runtimeType == runtimeType &&
+            other is SimpleEnum_Green
+        );
+    }
+
+    @override
+    int get hashCode => runtimeType.hashCode;
+
+    @override
+    String toString() => 'SimpleEnum.green()';
+
+    SimpleEnum_Green copyWith() => SimpleEnum_Green();
+}
+
+class SimpleEnum_Blue extends SimpleEnum {
+    const SimpleEnum_Blue();
+
+    @override
+    bool operator ==(Object other) {
+        return identical(other, this) ||
+        (
+            other.runtimeType == runtimeType &&
+            other is SimpleEnum_Blue
+        );
+    }
+
+    @override
+    int get hashCode => runtimeType.hashCode;
+
+    @override
+    String toString() => 'SimpleEnum.blue()';
+
+    SimpleEnum_Blue copyWith() => SimpleEnum_Blue();
 }

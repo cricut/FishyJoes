@@ -1,107 +1,75 @@
 import './AssociatedDataEnum.dart' as TestAPI;
-import './AssociatedDataEnum.dart';
 import './AsyncFunctions.dart' as TestAPI;
-import './AsyncFunctions.dart';
 import './AsyncFunctions_TheError.dart' as TestAPI;
-import './AsyncFunctions_TheError.dart';
 import './AttributedString_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
-import './AttributedString_PuttingTypesIntoQuestionablePlaces.dart';
 import './AttributedStrings.dart' as TestAPI;
-import './AttributedStrings.dart';
 import './Bytes.dart' as TestAPI;
-import './Bytes.dart';
 import './ClosedRanges.dart' as TestAPI;
-import './ClosedRanges.dart';
 import './Collections.dart' as TestAPI;
-import './Collections.dart';
 import './Collections_CollectionHolder.dart' as TestAPI;
-import './Collections_CollectionHolder.dart';
 import './DefaultArguments.dart' as TestAPI;
-import './DefaultArguments.dart';
 import './Deprecations.dart' as TestAPI;
-import './Deprecations.dart';
 import './EmptyEnum.dart' as TestAPI;
-import './EmptyEnum.dart';
 import './Functions.dart' as TestAPI;
-import './Functions.dart';
 import './Functions_TheError.dart' as TestAPI;
-import './Functions_TheError.dart';
 import './Methods.dart' as TestAPI;
-import './Methods.dart';
 import './Primitives.dart' as TestAPI;
-import './Primitives.dart';
 import './Primitives_PrimitiveHolder.dart' as TestAPI;
-import './Primitives_PrimitiveHolder.dart';
 import './Ranges.dart' as TestAPI;
-import './Ranges.dart';
 import './SimpleEnum.dart' as TestAPI;
-import './SimpleEnum.dart';
 import './String_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
-import './String_PuttingTypesIntoQuestionablePlaces.dart';
 import './Strings.dart' as TestAPI;
-import './Strings.dart';
 import './Structs.dart' as TestAPI;
-import './Structs.dart';
 import './Structs_MemberwiseStruct.dart' as TestAPI;
-import './Structs_MemberwiseStruct.dart';
 import './Structs_MutableStruct.dart' as TestAPI;
-import './Structs_MutableStruct.dart';
 import './Structs_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
-import './Structs_PuttingTypesIntoQuestionablePlaces.dart';
 import './Structs_ReferenceStruct.dart' as TestAPI;
-import './Structs_ReferenceStruct.dart';
 import './Tuples.dart' as TestAPI;
-import './Tuples.dart';
 import './URLs.dart' as TestAPI;
-import './URLs.dart';
 import './UnicodeScalar_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
-import './UnicodeScalar_PuttingTypesIntoQuestionablePlaces.dart';
 import 'dart:ffi' as ffi;
 import 'dart:typed_data' as typed_data;
+import 'package:collection/collection.dart';
 import 'package:ffi/ffi.dart' as ffi;
 import 'package:fishyjoes_dart/runtime.dart' as FishyJoesRuntime;
 import 'package:fishyjoes_dart/runtime.dart';
 import 'package:fishyjoes_dart/utilities.dart' as utils;
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:tuple/tuple.dart' as tuple;
 
-part 'AssociatedDataEnum.freezed.dart';
-
 /// <!-- FishyJoes.export(AssociatedDataEnum) -->
-@freezed
-class AssociatedDataEnum with _$AssociatedDataEnum {
-    factory AssociatedDataEnum.thing(
+sealed class AssociatedDataEnum {
+    const factory AssociatedDataEnum.thing(
         int value
     ) = AssociatedDataEnum_Thing;
 
-    factory AssociatedDataEnum.other(
+    const factory AssociatedDataEnum.other(
         String unnamed,
         int m_1
     ) = AssociatedDataEnum_Other;
 
-    factory AssociatedDataEnum.bar(
+    const factory AssociatedDataEnum.bar(
         String named,
         TestAPI.AssociatedDataEnum m_1
     ) = AssociatedDataEnum_Bar;
 
-    factory AssociatedDataEnum.noValue(
+    const factory AssociatedDataEnum.noValue(
     ) = AssociatedDataEnum_NoValue;
 
-    factory AssociatedDataEnum.simpleEnum(
+    const factory AssociatedDataEnum.simpleEnum(
         TestAPI.SimpleEnum value
     ) = AssociatedDataEnum_SimpleEnum;
 
-    AssociatedDataEnum._() {}
+    const AssociatedDataEnum();
 
-    static int enumDiscriminator(UnownedRef obj, OutCreatedRef exn) => check((exn) =>
-        peekRef<AssociatedDataEnum>(obj).map(
-            thing: (_) => 0,
-            other: (_) => 1,
-            bar: (_) => 2,
-            noValue: (_) => 3,
-            simpleEnum: (_) => 4,
-        )
-    );
+    static int enumDiscriminator(UnownedRef obj, OutCreatedRef exn) => check((exn) {
+        final peekedObj = peekRef<AssociatedDataEnum>(obj);
+        if (peekedObj is AssociatedDataEnum_Thing) { return 0; }
+        else if (peekedObj is AssociatedDataEnum_Other) { return 1; }
+        else if (peekedObj is AssociatedDataEnum_Bar) { return 2; }
+        else if (peekedObj is AssociatedDataEnum_NoValue) { return 3; }
+        else if (peekedObj is AssociatedDataEnum_SimpleEnum) { return 4; }
+        else { throw UnsupportedError('Unknown AssociatedDataEnum subclass'); }
+    });
 
     static CreatedRef newThing(
         int _value,
@@ -247,4 +215,177 @@ class AssociatedDataEnum with _$AssociatedDataEnum {
         Env env,
         OutCreatedRef _exn
     ) f__iota_get_TestAPI_AssociatedDataEnum_staticThing;
+}
+
+class AssociatedDataEnum_Thing extends AssociatedDataEnum {
+    const AssociatedDataEnum_Thing(
+        this.value
+    );
+
+    final int value;
+
+    @override
+    bool operator ==(Object other) {
+        return identical(other, this) ||
+        (
+            other.runtimeType == runtimeType &&
+            other is AssociatedDataEnum_Thing &&
+            (
+                const DeepCollectionEquality().equals(other.value, value)
+            )
+        );
+    }
+
+    @override
+    int get hashCode => Object.hash(
+        runtimeType,
+        const DeepCollectionEquality().hash(value)
+    );
+
+    @override
+    String toString() => 'AssociatedDataEnum.thing(value: $value)';
+
+    AssociatedDataEnum_Thing copyWith([
+        int? value
+    ]) => AssociatedDataEnum_Thing(
+        value ?? this.value
+    );
+}
+
+class AssociatedDataEnum_Other extends AssociatedDataEnum {
+    const AssociatedDataEnum_Other(
+        this.unnamed,
+        this.m_1
+    );
+
+    final String unnamed;
+    final int m_1;
+
+    @override
+    bool operator ==(Object other) {
+        return identical(other, this) ||
+        (
+            other.runtimeType == runtimeType &&
+            other is AssociatedDataEnum_Other &&
+            (
+                const DeepCollectionEquality().equals(other.unnamed, unnamed) &&
+                const DeepCollectionEquality().equals(other.m_1, m_1)
+            )
+        );
+    }
+
+    @override
+    int get hashCode => Object.hash(
+        runtimeType,
+        const DeepCollectionEquality().hash(unnamed), 
+        const DeepCollectionEquality().hash(m_1)
+    );
+
+    @override
+    String toString() => 'AssociatedDataEnum.other(unnamed: $unnamed, m_1: $m_1)';
+
+    AssociatedDataEnum_Other copyWith([
+        String? unnamed,
+        int? m_1
+    ]) => AssociatedDataEnum_Other(
+        unnamed ?? this.unnamed,
+        m_1 ?? this.m_1
+    );
+}
+
+class AssociatedDataEnum_Bar extends AssociatedDataEnum {
+    const AssociatedDataEnum_Bar(
+        this.named,
+        this.m_1
+    );
+
+    final String named;
+    final TestAPI.AssociatedDataEnum m_1;
+
+    @override
+    bool operator ==(Object other) {
+        return identical(other, this) ||
+        (
+            other.runtimeType == runtimeType &&
+            other is AssociatedDataEnum_Bar &&
+            (
+                const DeepCollectionEquality().equals(other.named, named) &&
+                const DeepCollectionEquality().equals(other.m_1, m_1)
+            )
+        );
+    }
+
+    @override
+    int get hashCode => Object.hash(
+        runtimeType,
+        const DeepCollectionEquality().hash(named), 
+        const DeepCollectionEquality().hash(m_1)
+    );
+
+    @override
+    String toString() => 'AssociatedDataEnum.bar(named: $named, m_1: $m_1)';
+
+    AssociatedDataEnum_Bar copyWith([
+        String? named,
+        TestAPI.AssociatedDataEnum? m_1
+    ]) => AssociatedDataEnum_Bar(
+        named ?? this.named,
+        m_1 ?? this.m_1
+    );
+}
+
+class AssociatedDataEnum_NoValue extends AssociatedDataEnum {
+    const AssociatedDataEnum_NoValue();
+
+    @override
+    bool operator ==(Object other) {
+        return identical(other, this) ||
+        (
+            other.runtimeType == runtimeType &&
+            other is AssociatedDataEnum_NoValue
+        );
+    }
+
+    @override
+    int get hashCode => runtimeType.hashCode;
+
+    @override
+    String toString() => 'AssociatedDataEnum.noValue()';
+
+    AssociatedDataEnum_NoValue copyWith() => AssociatedDataEnum_NoValue();
+}
+
+class AssociatedDataEnum_SimpleEnum extends AssociatedDataEnum {
+    const AssociatedDataEnum_SimpleEnum(
+        this.value
+    );
+
+    final TestAPI.SimpleEnum value;
+
+    @override
+    bool operator ==(Object other) {
+        return identical(other, this) ||
+        (
+            other.runtimeType == runtimeType &&
+            other is AssociatedDataEnum_SimpleEnum &&
+            (
+                const DeepCollectionEquality().equals(other.value, value)
+            )
+        );
+    }
+
+    @override
+    int get hashCode => Object.hash(
+        runtimeType,
+        const DeepCollectionEquality().hash(value)
+    );
+
+    @override
+    String toString() => 'AssociatedDataEnum.simpleEnum(value: $value)';
+
+    AssociatedDataEnum_SimpleEnum copyWith([
+        TestAPI.SimpleEnum? value
+    ]) => AssociatedDataEnum_SimpleEnum(
+        value ?? this.value
+    );
 }

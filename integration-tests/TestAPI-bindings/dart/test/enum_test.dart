@@ -20,6 +20,39 @@ void main() {
           expect(SimpleEnum.pickAColor(2), equals(SimpleEnum.blue()));
       });
 
+      test('testEnumEqualityOperator', () {
+        var a = AssociatedDataEnum.thing(10);
+        var b = AssociatedDataEnum.thing(10);
+        var c = AssociatedDataEnum.thing(11);
+
+        expect(a, equals(a));
+        expect(b, equals(b));
+        expect(c, equals(c));
+        expect(a, equals(b));
+        expect(b, equals(a));
+
+        expect(a == a, true);
+        expect(a == b, true);
+        expect(b == a, true);
+        expect(b == b, true);
+        expect(c != a, true);
+        expect(c != b, true);
+
+        var d = SimpleEnum.blue();
+        var e = SimpleEnum.blue();
+        var f = AssociatedDataEnum.simpleEnum(d);
+        var g = AssociatedDataEnum.simpleEnum(d);
+        var h = AssociatedDataEnum.simpleEnum(e);
+        expect(f, equals(g));
+        expect(d, equals(e));
+        expect(h, equals(g));
+
+        var i = SimpleEnum.red();
+        expect(i != d, true);
+        expect(i != e, true);
+        expect(i, equals(i));
+      });
+
       test('testAssociatedDataEnum', () {
           shape1(int x) => AssociatedDataEnum.thing(x);
           shape2(String x, String y, int z) => AssociatedDataEnum.bar(x, AssociatedDataEnum.other(y, z));
@@ -28,6 +61,71 @@ void main() {
           expect(shape2("hello", "world", 8).intValue, equals(11));
           expect(shape1(2).plus(shape2("x", "y", 4)), equals(shape1(9)));
           expect(shape2("y", "z", 2).plus(shape1(5)), equals(shape2("y", "z", 7)));
+      });
+
+      test('testEnumToString', () {
+        var r = SimpleEnum.red();
+        var g = SimpleEnum.green();
+        var b = SimpleEnum.blue();
+
+        expect(r.toString(), equals("SimpleEnum.red()"));
+        expect(g.toString(), equals("SimpleEnum.green()"));
+        expect(b.toString(), equals("SimpleEnum.blue()"));
+
+        var x = AssociatedDataEnum.thing(90);
+        expect(x.toString(), equals("AssociatedDataEnum.thing(value: 90)"));
+        var y = AssociatedDataEnum.bar("qux", x);
+        expect(y.toString(), equals("AssociatedDataEnum.bar(named: qux, m_1: AssociatedDataEnum.thing(value: 90))"));
+      });
+
+      test('testEnumToString', () {
+        var a = SimpleEnum.blue();
+        expect(a.toString(), equals("SimpleEnum.blue()"));
+
+        var b = AssociatedDataEnum.simpleEnum(a);
+        var c = AssociatedDataEnum.bar("qux", b);
+        expect(c.toString(), equals("AssociatedDataEnum.bar(named: qux, m_1: AssociatedDataEnum.simpleEnum(value: SimpleEnum.blue()))"));
+      });
+
+      test('testEnumCopyWith', () {
+          var a = SimpleEnum.blue();
+          var b = (a as SimpleEnum_Blue).copyWith();
+          var c = SimpleEnum.green();
+          var d = (c as SimpleEnum_Green).copyWith();
+          expect(a == b, true);
+          expect(c, equals(d));
+          expect(b != d, true);
+
+          var e = AssociatedDataEnum.simpleEnum(b);
+          var f = AssociatedDataEnum.bar("corge", e);
+          var g = (f as AssociatedDataEnum_Bar).copyWith("plugh", e);
+          expect(g != f, true);
+
+          var h = AssociatedDataEnum.thing(123);
+          var i = (h as AssociatedDataEnum_Thing).copyWith();
+          var j = i.copyWith();
+          expect(i, equals(h));
+          expect(j, equals(h));
+          var k = AssociatedDataEnum.thing(124);
+          expect(k != h, true);
+      });
+
+      test('testHashCode', () {
+        var a = SimpleEnum.green();
+        var b = SimpleEnum.green();
+        var c = SimpleEnum.red();
+
+        expect(a.hashCode, equals(b.hashCode));
+        expect(c.hashCode != b.hashCode, true);
+
+        var d = AssociatedDataEnum.simpleEnum(a);
+        var e = AssociatedDataEnum.simpleEnum(b);
+        var f = AssociatedDataEnum.simpleEnum(c);
+        var g = AssociatedDataEnum.bar("garply", d);
+        var h = AssociatedDataEnum.bar("garply", e);
+        var i = AssociatedDataEnum.bar("garply", f);
+        expect(g.hashCode, equals(h.hashCode));
+        expect(i.hashCode != h.hashCode, true);
       });
   });
 }
