@@ -7583,7 +7583,7 @@
           },
           {
             "documentation" : [
-              "<!-- FishyJoes.export(TestProtocolEnum) -->"
+              "<!-- FishyJoes.export(TestProtocolEnum, protocols: [TestProtocol]) -->"
             ],
             "name" : "TestProtocolEnum",
             "value" : {

@@ -35,8 +35,8 @@ import 'package:fishyjoes_dart/runtime.dart';
 import 'package:fishyjoes_dart/utilities.dart' as utils;
 import 'package:tuple/tuple.dart' as tuple;
 
-/// <!-- FishyJoes.export(TestProtocolEnum) -->
-sealed class TestProtocolEnum {
+/// <!-- FishyJoes.export(TestProtocolEnum, protocols: [TestProtocol]) -->
+sealed class TestProtocolEnum implements TestProtocol {
     const factory TestProtocolEnum.qux(
     ) = TestProtocolEnum_Qux;
 

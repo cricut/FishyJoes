@@ -13,6 +13,7 @@ struct TranslatedEnum: TranslatedType {
     let dartType: DartClass.DartType
     let cases: [Case]
     let documentation: [String]
+    let protocols: [String]
     let methods: [Method]
     let fields: [Variable]
     let isInhabited: Bool
@@ -83,6 +84,7 @@ struct TranslatedEnum: TranslatedType {
         }
         self.jniType = .object(context.kotlinTranslator.javaClassName(nodeName, in: context))
         self.documentation = type.documentation
+        self.protocols = exportAnnotation.protocols
         self.methods = type.methods.compactMap { Method($0) }
         self.fields = type.variables.filter { $0.exportAnnotation != nil }
         self.isInhabited = type.isInhabited

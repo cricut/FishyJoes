@@ -49,6 +49,7 @@ class DartClass {
 
     let module: Module
     let documentation: [String]
+    let protocols: [String]
     let name: String
     let setupTypes: SetupTypes?
     let fields: [Variable]
@@ -57,12 +58,14 @@ class DartClass {
     init(
         module: Module,
         documentation: [String],
+        protocols: [String],
         name: String,
         setupTypes: SetupTypes? = nil,
         fieldsAndMethods: [MethodOrVariable]
     ) {
         self.name = name
         self.documentation = documentation
+        self.protocols = protocols
         self.module = module
         self.setupTypes = setupTypes
         self.fields = fieldsAndMethods.compactMap {
@@ -401,6 +404,7 @@ class DartProductClass: DartClass {
         super.init(
             module: module,
             documentation: documentation,
+            protocols: [],
             name: name,
             fieldsAndMethods: fieldsAndMethods
         )
@@ -613,6 +617,7 @@ class DartEnumClass: DartClass {
     init(
         module: Module,
         documentation: [String],
+        protocols: [String],
         name: String,
         cases: [Case],
         fieldsAndMethods: [MethodOrVariable]
@@ -621,6 +626,7 @@ class DartEnumClass: DartClass {
         super.init(
             module: module,
             documentation: documentation,
+            protocols: protocols,
             name: name,
             fieldsAndMethods: fieldsAndMethods
         )
@@ -632,8 +638,16 @@ class DartEnumClass: DartClass {
         if doSealedClass {
             fragment.output("sealed ", newLineTerminated: false)
         }
-        fragment.output("class \(unqualifiedName)", newLineTerminated: false)
 
+        var protocolsPart = String()
+        if !protocols.isEmpty {
+            protocolsPart.append(" implements ")
+            protocolsPart.append(protocols.joined(separator: ", "))
+        }
+        fragment.output("class \(unqualifiedName)\(protocolsPart)", newLineTerminated: false)
+        if unqualifiedName.contains("TestProtocol") {
+            let a = 2
+        }
         fragment.outputBlock(" {") {
             for enumCase in cases {
                 document(enumCase.documentation, fragment: fragment)
@@ -859,6 +873,7 @@ class DartProtocolClass: DartClass {
         super.init(
             module: module,
             documentation: documentation,
+            protocols: [],
             name: name,
             fieldsAndMethods: fieldsAndMethods
         )

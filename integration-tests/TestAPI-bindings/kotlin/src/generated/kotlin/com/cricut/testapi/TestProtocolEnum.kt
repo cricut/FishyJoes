@@ -1,7 +1,7 @@
 package com.cricut.testapi
 
 /**
- * <!-- FishyJoes.export(TestProtocolEnum) -->
+ * <!-- FishyJoes.export(TestProtocolEnum, protocols: [TestProtocol]) -->
  */
 sealed class TestProtocolEnum {
     object Qux : TestProtocolEnum()

@@ -51,6 +51,7 @@ extension TranslatedEnum {
         DartEnumClass(
             module: context.module,
             documentation: documentation,
+            protocols: protocols,
             name: dartType.name(),
             cases: cases.map { enumCase in
                 let name = enumCase.name
