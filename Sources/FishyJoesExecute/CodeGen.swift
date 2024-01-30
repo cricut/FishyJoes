@@ -604,21 +604,6 @@ extension CodeGen {
                     }
                 }
             }
-            if platforms.contains(.kotlinSystem) {
-                try withDirectory("kotlin") {
-                    try cmd("./gradlew", "build", "-Dskip.tests").run()
-                }
-            }
-            if platforms.contains(.cSharp) {
-                try withDirectory("c-sharp") {
-                    try cmd("dotnet", "build", "Cricut.\(config.module).sln").run()
-                }
-            }
-            if platforms.contains(.dart) {
-                try withDirectory("dart") {
-                    try cmd("dart", "run", "build_runner", "build", "--delete-conflicting-outputs").run()
-                }
-            }
 
             // Compile generated interfacing source code files for platforms that require it (e.g. not node-native or wasm)
             for platform in platforms {
@@ -627,7 +612,7 @@ extension CodeGen {
                     break
                 case .kotlinSystem:
                     try withDirectory("kotlin") {
-                        try cmd("./gradlew", "build", "-Dskip.tests").run()
+                        try cmd("./gradlew", "assemble").run()
                     }
                 case .kotlinAndroid:
                     // Compiled along with .kotlinSystem
@@ -637,7 +622,9 @@ extension CodeGen {
                         try cmd("dotnet", "build", "Cricut.\(config.module).sln").run()
                     }
                 case .dart:
-                    break
+                    try withDirectory("dart") {
+                        try cmd("dart", "run", "build_runner", "build", "--delete-conflicting-outputs").run()
+                    }
                 }
             }
         }

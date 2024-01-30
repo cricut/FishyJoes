@@ -7,7 +7,7 @@ public class JavaReference {
     private let vm: UnsafeMutablePointer<JavaVM?>?
 
     public init(local: jobject?, env: Env) throws {
-        self.object = try env.globalRef(local)
+        self.object = try local.map { try env.globalRef($0) }
         vm = try env.GetJavaVM()
     }
 
@@ -16,15 +16,13 @@ public class JavaReference {
     }
 
     public func createLocalRef(env: Env) -> jobject? {
-        env.NewLocalRef(object)
+        object.flatMap { env.NewLocalRef($0) }
     }
 
     public func destroy() throws {
         if let object = object {
             let javaEnv = try Env.acquireJVMThread(on: vm)
-            defer {
-                try! Env.relinquishJVMThread(on: vm)
-            }
+            defer { try! Env.relinquishJVMThread(on: vm) }
             javaEnv.DeleteGlobalRef(object)
             self.object = nil
         }

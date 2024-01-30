@@ -35,6 +35,11 @@ public func callbackBody<Result: Defaultable>(
                 fatalError("error while throwing an error")
             }
             return .default
+        } else if let throwableError = e as? JavaThrowableError {
+            guard env.Throw(throwableError.ref.object) else {
+                fatalError("error while throwing an error")
+            }
+            return .default
         } else {
             guard let errorClass = try? env.FindClass("java/lang/Error"),
                   env.ThrowNew(errorClass, "\(e)") else {
@@ -65,118 +70,56 @@ public func callbackBody(
     }
 }
 
-public func asyncCallbackBody<R: Defaultable>(
-    _ env: UnsafeMutablePointer<JNIEnv?>,
-    _ body: @escaping (_ env: Env) async throws -> R
-) -> R {
-    let env = Env(env: env)
-    guard let vm = try? env.GetJavaVM() else {
-        guard let errorClass = try? env.FindClass("java/lang/Error"),
-              env.ThrowNew(errorClass, "Unable to get JavaVM for environment") else {
-            fatalError("error while throwing an error")
-        }
-        return .default
+/// Calls the given body while ensuring that the body closure is attached to the JVM.
+///
+/// - Important: When a suspending function is called part of the state that must be protected by calling ``Env.relinquishJVMThread(on:)`` immediately before and ``Env.acquireJVMThread(on:)`` immediately after.
+///     The returned `Env` should generally be assigned to the inout `javaEnv` in order to avoid shadowing and let the current environment propagate back out.
+///
+/// - Important: body **must** be in a balanced acquire/relinquish state before it throws.
+public func swiftTask(env: Env, _ body: @escaping @Sendable (_ javaEnv: inout Env, _ javaVM: UnsafeMutablePointer<JavaVM?>) async throws -> jobject?) throws -> jobject? {
+    guard let jvm = try env.GetJavaVM() else {
+        fatalError("Unable to get JVM")
     }
-    let condition = NSCondition()
-    let resultBox: UncheckedSendableBox<Result<R, any Error>> = .init(.success(.default))
-    Task {
-        defer {
-            condition.lock()
-            condition.signal()
-            condition.unlock()
-        }
+    return try Future {
+        var javaEnv = try Env.acquireJVMThread(on: jvm)
+        defer { try! Env.relinquishJVMThread(on: jvm) }
+        let value = try await body(&javaEnv, jvm)
+        return try JavaReference(local: value, env: javaEnv)
+    }.toJava(env: env)
+}
 
-        do {
-            let env = try Env.acquireJVMThread(on: vm)
-            do {
-                let value = try await body(env)
-                resultBox.value = .success(value)
-                try Env.relinquishJVMThread(on: vm)
-            } catch {
-                try! Env.relinquishJVMThread(on: vm)
-                throw error
-            }
-        } catch {
-            resultBox.value = .failure(error)
-        }
-    }
+enum JavaError {
+    static var throwableClass: jclass!
+    static var throwableInit: jmethodID!
 
-    // TODO: See if there is a way to do this with Kotlin concurrency that exposes better ways to wait for values than swift...
-    condition.lock()
-    condition.wait()
-    condition.unlock()
-    do {
-        return try resultBox.value.get()
-    } catch {
-        if env.ExceptionCheck() {
-            return .default
-        } else if let nullError = error as? NullPointerError {
-            guard let errorClass = try? env.FindClass("java/lang/NullPointerException"),
-                  env.ThrowNew(errorClass, nullError.message) else {
-                fatalError("error while throwing an error")
-            }
-            return .default
-        } else {
-            guard let errorClass = try? env.FindClass("java/lang/Error"),
-                  env.ThrowNew(errorClass, "\(error)") else {
-                fatalError("error while throwing an error")
-            }
-            return .default
-        }
+    static var errorClass: jclass!
+    static var nullPointerClass: jclass!
+
+    public static func javaSetup(env: Env) throws {
+        throwableClass = try env.globalRef(env.FindClass("java/lang/Throwable"))
+        throwableInit = try env.GetMethodID(throwableClass, "<init>", "(Ljava/lang/String;)V")
+
+        errorClass = try env.globalRef(env.FindClass("java/lang/Error"))
+        nullPointerClass = try env.globalRef(env.FindClass("java/lang/NullPointerException"))
     }
 }
 
-public func asyncCallbackBody(
-    _ env: UnsafeMutablePointer<JNIEnv?>,
-    _ body: @escaping (_ env: Env) async throws -> Void
-) {
-    let env = Env(env: env)
-    guard let vm = try? env.GetJavaVM() else {
-        guard let errorClass = try? env.FindClass("java/lang/Error"),
-              env.ThrowNew(errorClass, "Unable to get JavaVM for environment") else {
-            fatalError("error while throwing an error")
-        }
-        return
+public func javaError(error: any Error, env: Env) throws -> jobject? {
+    if let throwableError = error as? JavaThrowableError {
+        return throwableError.ref.createLocalRef(env: env)
     }
-    let condition = NSCondition()
-    let resultBox: UncheckedSendableBox<Result<Void, any Error>> = .init(.success(Void()))
 
-    Task {
-        defer {
-            condition.lock()
-            condition.signal()
-            condition.unlock()
-        }
-        do {
-            let env = try Env.acquireJVMThread(on: vm)
-            do {
-                try await body(env)
-                resultBox.value = .success(Void())
-                try Env.relinquishJVMThread(on: vm)
-            } catch {
-                try! Env.relinquishJVMThread(on: vm)
-                throw error
-            }
-        } catch {
-            resultBox.value = .failure(error)
-        }
+    let errorClass: jclass!
+    let message: String
+    if let nullError = error as? NullPointerError {
+        errorClass = JavaError.nullPointerClass
+        message = nullError.message
+
+    } else {
+        errorClass = JavaError.errorClass
+        message = "\(error)"
     }
-    // TODO: See if there is a way to do this with Kotlin concurrency that exposes better ways to wait for values than swift...
-    condition.lock()
-    condition.wait()
-    condition.unlock()
-    do {
-        return try resultBox.value.get()
-    } catch {
-        if env.ExceptionCheck() {
-            return
-        }
-        guard let errorClass = try? env.FindClass("java/lang/Error"),
-              env.ThrowNew(errorClass, "\(error)") else {
-            fatalError("error while throwing an error")
-        }
-        return
-    }
+    return try env.NewObject(errorClass, JavaError.throwableInit, jvalue(l: String.toJava(message, env: env)))
 }
 
 public struct JavaExceptionPending: Error {}
@@ -189,6 +132,16 @@ public struct JNIError: Error {
 
     public init(message: String) {
         self.message = message
+    }
+}
+
+public struct JavaThrowableError: Error {
+    public let ref: JavaReference
+    public let message: String
+
+    public init(local throwable: jobject?, env: Env) throws {
+        message = try env.javaDescription(throwable)
+        ref = try JavaReference(local: throwable, env: env)
     }
 }
 

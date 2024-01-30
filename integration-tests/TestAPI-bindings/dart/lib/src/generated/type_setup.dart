@@ -1,5 +1,9 @@
 import './AssociatedDataEnum.dart' as TestAPI;
 import './AssociatedDataEnum.dart';
+import './AsyncFunctions.dart' as TestAPI;
+import './AsyncFunctions.dart';
+import './AsyncFunctions_TheError.dart' as TestAPI;
+import './AsyncFunctions_TheError.dart';
 import './AttributedString_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
 import './AttributedString_PuttingTypesIntoQuestionablePlaces.dart';
 import './AttributedStrings.dart' as TestAPI;
@@ -327,6 +331,18 @@ final ensureLoaded = (() {
             OutCreatedRef exn
         )
     >('Swift_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_setup');
+    final TestAPI_AsyncFunctions_TheError_setup = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<CreatedRef Function(ffi.Pointer, OutCreatedRef)>> constructorMethod,
+            OutCreatedRef exn
+        ),
+        void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<CreatedRef Function(ffi.Pointer, OutCreatedRef)>> constructorMethod,
+            OutCreatedRef exn
+        )
+    >('TestAPI_AsyncFunctions_TheError_setup');
     final TestAPI_Collections_CollectionHolder_setup = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
@@ -593,6 +609,16 @@ final ensureLoaded = (() {
             OutCreatedRef exn
         )
     >('TestAPI_AssociatedDataEnum_setup');
+    final TestAPI_AsyncFunctions_setup = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            OutCreatedRef exn
+        ),
+        void Function(
+            Env env,
+            OutCreatedRef exn
+        )
+    >('TestAPI_AsyncFunctions_setup');
     final TestAPI_AttributedStrings_setup = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
@@ -1933,6 +1959,76 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_get_TestAPI_AssociatedDataEnum_staticThing");
+    TestAPI.AsyncFunctions.f__iota_get_TestAPI_AsyncFunctions_abs = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_AsyncFunctions_abs");
+    TestAPI.AsyncFunctions.f__iota_get_TestAPI_AsyncFunctions_add3Things = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_AsyncFunctions_add3Things");
+    TestAPI.AsyncFunctions.f__iota_get_TestAPI_AsyncFunctions_const42 = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_AsyncFunctions_const42");
+    TestAPI.AsyncFunctions.f__iota_get_TestAPI_AsyncFunctions_fifthThing = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_AsyncFunctions_fifthThing");
+    TestAPI.AsyncFunctions.f__iota_get_TestAPI_AsyncFunctions_intCompose = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_AsyncFunctions_intCompose");
+    TestAPI.AsyncFunctions.f__iota_get_TestAPI_AsyncFunctions_makeList = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_AsyncFunctions_makeList");
+    TestAPI.AsyncFunctions.f__iota_get_TestAPI_AsyncFunctions_sixthThing = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_AsyncFunctions_sixthThing");
     TestAPI.AttributedStrings.f__iota_get_TestAPI_AttributedStrings_accent = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -3593,6 +3689,17 @@ final ensureLoaded = (() {
         });
     });
 
+    Loader.shared.once("setup_Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>", () {
+        // print("setting up ((Int) async -> Int, (Int) async -> Int) -> (Int) async -> Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            Loader.shared.FishyJoesCommonRuntime_Function2Converter_setup<int Function(int), int Function(int), int Function(int)>(
+                Loader.shared.env,
+                "Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>",
+                exn
+            );
+        });
+    });
+
     Loader.shared.once("setup_Function1Converter<OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>, OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>>", () {
         // print("setting up (Optional<Array<Optional<Int>>>) -> Optional<Array<Optional<Int>>> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
@@ -3626,56 +3733,12 @@ final ensureLoaded = (() {
         });
     });
 
-    Loader.shared.once("setup_AsyncFunction6Converter<Swift.Int, Swift.Int, Swift.Int, Swift.Int, Swift.Int, Swift.Int, Swift.Int>", () {
-        // print("setting up (Int, Int, Int, Int, Int, Int) async -> Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+    Loader.shared.once("setup_AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>", () {
+        // print("setting up (Float, Double, Int) async -> Double (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
-            Loader.shared.FishyJoesCommonRuntime_AsyncFunction6Converter_setup<int, int, int, int, int, int, int>(
+            Loader.shared.FishyJoesCommonRuntime_AsyncFunction3Converter_setup<double, double, double, int>(
                 Loader.shared.env,
-                "AsyncFunction6Converter<Swift.Int, Swift.Int, Swift.Int, Swift.Int, Swift.Int, Swift.Int, Swift.Int>",
-                exn
-            );
-        });
-    });
-
-    Loader.shared.once("setup_AsyncFunction5Converter<Swift.Int, Swift.Int, Swift.Int, Swift.Int, Swift.Int, Swift.Int>", () {
-        // print("setting up (Int, Int, Int, Int, Int) async -> Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
-        utils.check<void>((exn) {
-            Loader.shared.FishyJoesCommonRuntime_AsyncFunction5Converter_setup<int, int, int, int, int, int>(
-                Loader.shared.env,
-                "AsyncFunction5Converter<Swift.Int, Swift.Int, Swift.Int, Swift.Int, Swift.Int, Swift.Int>",
-                exn
-            );
-        });
-    });
-
-    Loader.shared.once("setup_AsyncFunction4Converter<Swift.Int, Swift.Int, Swift.Int, Swift.Int, Swift.Int>", () {
-        // print("setting up (Int, Int, Int, Int) async -> Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
-        utils.check<void>((exn) {
-            Loader.shared.FishyJoesCommonRuntime_AsyncFunction4Converter_setup<int, int, int, int, int>(
-                Loader.shared.env,
-                "AsyncFunction4Converter<Swift.Int, Swift.Int, Swift.Int, Swift.Int, Swift.Int>",
-                exn
-            );
-        });
-    });
-
-    Loader.shared.once("setup_AsyncFunction3Converter<Swift.Int, Swift.Int, Swift.Int, Swift.Int>", () {
-        // print("setting up (Int, Int, Int) async -> Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
-        utils.check<void>((exn) {
-            Loader.shared.FishyJoesCommonRuntime_AsyncFunction3Converter_setup<int, int, int, int>(
-                Loader.shared.env,
-                "AsyncFunction3Converter<Swift.Int, Swift.Int, Swift.Int, Swift.Int>",
-                exn
-            );
-        });
-    });
-
-    Loader.shared.once("setup_AsyncFunction2Converter<Swift.Int, Swift.Int, Swift.Int>", () {
-        // print("setting up (Int, Int) async -> Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
-        utils.check<void>((exn) {
-            Loader.shared.FishyJoesCommonRuntime_AsyncFunction2Converter_setup<int, int, int>(
-                Loader.shared.env,
-                "AsyncFunction2Converter<Swift.Int, Swift.Int, Swift.Int>",
+                "AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>",
                 exn
             );
         });
@@ -3687,6 +3750,17 @@ final ensureLoaded = (() {
             Loader.shared.FishyJoesCommonRuntime_Function1Converter_setup<int, int>(
                 Loader.shared.env,
                 "Function1Converter<Swift.Int, Swift.Int>",
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_AsyncFunction1Converter<Swift.Int, Swift.Int>", () {
+        // print("setting up (Int) async -> Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            Loader.shared.FishyJoesCommonRuntime_AsyncFunction1Converter_setup<int, int>(
+                Loader.shared.env,
+                "AsyncFunction1Converter<Swift.Int, Swift.Int>",
                 exn
             );
         });
@@ -3714,6 +3788,28 @@ final ensureLoaded = (() {
         });
     });
 
+    Loader.shared.once("setup_AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>", () {
+        // print("setting up (String, Int, Double, String, () async -> Int, Int) async -> Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            Loader.shared.FishyJoesCommonRuntime_AsyncFunction6Converter_setup<int, String, int, double, String, int Function(), int>(
+                Loader.shared.env,
+                "AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>",
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>", () {
+        // print("setting up (String, Int, Double, String, () async -> Int) async -> () async -> Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            Loader.shared.FishyJoesCommonRuntime_AsyncFunction5Converter_setup<int Function(), String, int, double, String, int Function()>(
+                Loader.shared.env,
+                "AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>",
+                exn
+            );
+        });
+    });
+
     Loader.shared.once("setup_Function4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>", () {
         // print("setting up (String, String, String, String) -> Array<String> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
@@ -3725,12 +3821,12 @@ final ensureLoaded = (() {
         });
     });
 
-    Loader.shared.once("setup_AsyncFunction1Converter<Swift.UInt, Swift.UInt>", () {
-        // print("setting up (UInt) async -> UInt (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+    Loader.shared.once("setup_AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>", () {
+        // print("setting up (String, String, String, String) async -> Array<String> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
-            Loader.shared.FishyJoesCommonRuntime_AsyncFunction1Converter_setup<int, int>(
+            Loader.shared.FishyJoesCommonRuntime_AsyncFunction4Converter_setup<List<String>, String, String, String, String>(
                 Loader.shared.env,
-                "AsyncFunction1Converter<Swift.UInt, Swift.UInt>",
+                "AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>",
                 exn
             );
         });
@@ -4677,6 +4773,17 @@ final ensureLoaded = (() {
         });
     });
 
+    Loader.shared.once("setup_TestAPI.AsyncFunctions.TheError", () {
+        // print("setting up TestAPI.AsyncFunctions.TheError (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            TestAPI_AsyncFunctions_TheError_setup(
+                Loader.shared.env,
+                ffi.Pointer.fromFunction(TestAPI.AsyncFunctions_TheError.ffi_new),
+                exn
+            );
+        });
+    });
+
     Loader.shared.once("setup_TestAPI.Collections.CollectionHolder", () {
         // print("setting up TestAPI.Collections.CollectionHolder (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
@@ -4845,6 +4952,16 @@ final ensureLoaded = (() {
                 ffi.Pointer.fromFunction(TestAPI.AssociatedDataEnum.extractNoValue),
                 ffi.Pointer.fromFunction(TestAPI.AssociatedDataEnum.newSimpleEnum),
                 ffi.Pointer.fromFunction(TestAPI.AssociatedDataEnum.extractSimpleEnum),
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_TestAPI.AsyncFunctions", () {
+        // print("setting up TestAPI.AsyncFunctions (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            TestAPI_AsyncFunctions_setup(
+                Loader.shared.env,
                 exn
             );
         });

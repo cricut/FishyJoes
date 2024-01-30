@@ -57,28 +57,12 @@ public struct Env {
 extension Env {
     static let jvmAttachCountKey = "fishyjoes_JVMAttachCount"
 
-    /// Calls the given body while ensuring that the body closure is attached to the JVM.
-    ///
-    /// - Important: When a suspending function is called part of the state that must be protected by calling ``Env.relinquishJVMThread(on:)`` immediately before and ``Env.acquireJVMThread(on:)`` immediately after.
-    ///     The returned `Env` should generally be assigned to the inout `javaEnv` in order to avoid shadowing and let the current environment propagate back out.
-    ///
-    /// - Important: body **must** be in a balanced acquire/relinquish state before it throws.
-    public func swiftTask(_ body: @escaping @Sendable (_ javaEnv: inout Env, _ javaVM: UnsafeMutablePointer<JavaVM?>) async -> Void) throws {
-        guard let jvm = try GetJavaVM() else {
-            fatalError("Unable to get JVM")
-        }
-        Task.detached {
-            var javaEnv = try! Env.acquireJVMThread(on: jvm)
-            await body(&javaEnv, jvm)
-            try! Env.relinquishJVMThread(on: jvm)
-        }
-    }
-
     public static func acquireJVMThread(on jvm: UnsafeMutablePointer<JavaVM?>?) throws -> Env {
         var rawJavaEnvPointer: UnsafeMutableRawPointer?
         guard let jvmInvoke = jvm?.pointee?.pointee else {
             throw JNIError(message: "Invalid JVM pointer")
         }
+
         // This is the only way to determine if the current thread is already attached.
         let getEnvStatus = jvmInvoke.GetEnv(jvm, &rawJavaEnvPointer, JNI_VERSION_1_4)
         switch getEnvStatus {
@@ -158,8 +142,8 @@ extension Env {
         try check(fns.ToReflectedField(env, cls, fieldID, isStatic))
     }
 
-    public func Throw(_ obj: jthrowable?) throws -> jint {
-        try check(fns.Throw(env, obj))
+    public func Throw(_ obj: jthrowable?) -> Bool {
+        fns.Throw(env, obj) == JNI_OK
     }
     public func ThrowNew(_ clazz: jclass?, _ msg: CStr) -> Bool {
         fns.ThrowNew(env, clazz, msg) == JNI_OK

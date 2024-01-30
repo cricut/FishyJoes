@@ -58,6 +58,107 @@ export declare namespace TestAPI {
         ): TestAPI.AssociatedDataEnum;
     }
 
+    export type AsyncFunctions = never;
+    export namespace AsyncFunctions {
+        /**
+         * <!-- FishyJoes.exportReference(AsyncFunctions.TheError) -->
+         */
+        export class TheError {
+            private constructor()
+            private _inhibitStructuralTyping: any
+        }
+
+        /**
+         * <!-- FishyJoes.export(abs) -->
+         */
+        const abs: (_0: number) => Promise<number>;
+
+        /**
+         * <!-- FishyJoes.export(add3Things) -->
+         */
+        const add3Things: (_0: number, _1: number, _2: number) => Promise<number>;
+
+        /**
+         * <!-- FishyJoes.export(const42) -->
+         */
+        const const42: () => Promise<number>;
+
+        /**
+         * <!-- FishyJoes.export(exercise0) -->
+         */
+        function exercise0(
+            fn: () => Promise<number>
+        ): Promise<string>;
+
+        /**
+         * <!-- FishyJoes.export(exercise1) -->
+         */
+        function exercise1(
+            fn: (_0: number) => Promise<number>
+        ): Promise<string>;
+
+        /**
+         * <!-- FishyJoes.export(exercise2) -->
+         */
+        function exercise2(
+            fn: (_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>
+        ): Promise<string>;
+
+        /**
+         * <!-- FishyJoes.export(exercise3) -->
+         */
+        function exercise3(
+            fn: (_0: number, _1: number, _2: number) => Promise<number>
+        ): Promise<string>;
+
+        /**
+         * <!-- FishyJoes.export(exercise4) -->
+         */
+        function exercise4(
+            fn: (_0: string, _1: string, _2: string, _3: string) => Promise<string[]>
+        ): Promise<string>;
+
+        /**
+         * <!-- FishyJoes.export(exercise5) -->
+         */
+        function exercise5(
+            fn: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>
+        ): Promise<string>;
+
+        /**
+         * <!-- FishyJoes.export(exercise6) -->
+         */
+        function exercise6(
+            fn: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>
+        ): Promise<string>;
+
+        /**
+         * <!-- FishyJoes.export(fifthThing) -->
+         */
+        const fifthThing: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>;
+
+        /**
+         * <!-- FishyJoes.export(intCompose) -->
+         */
+        const intCompose: (_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>;
+
+        /**
+         * <!-- FishyJoes.export(makeList) -->
+         */
+        const makeList: (_0: string, _1: string, _2: string, _3: string) => Promise<string[]>;
+
+        /**
+         * <!-- FishyJoes.export(sixthThing) -->
+         */
+        const sixthThing: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>;
+
+        /**
+         * <!-- FishyJoes.export(willThrow) -->
+         */
+        function willThrow(
+        ): Promise<string>;
+    }
+
     /**
      * <!-- FishyJoes.export(AttributedString_PuttingTypesIntoQuestionablePlaces) -->
      */
@@ -559,107 +660,6 @@ export declare namespace TestAPI {
         const add3Things: (_0: number, _1: number, _2: number) => number;
 
         /**
-         * <!-- FishyJoes.export(async42Func) -->
-         */
-        function async42Func(
-        ): Promise<number>;
-
-        /**
-         * <!-- FishyJoes.export(asyncBoolFunc) -->
-         */
-        function asyncBoolFunc(
-            b: boolean
-        ): Promise<boolean>;
-
-        /**
-         * <!-- FishyJoes.export(asyncCallbackFunc0) -->
-         */
-        function asyncCallbackFunc0(
-            callback: () => Promise<number>
-        ): Promise<number>;
-
-        /**
-         * <!-- FishyJoes.export(asyncCallbackFunc1) -->
-         */
-        function asyncCallbackFunc1(
-            callback: (_0: number) => Promise<number>
-        ): Promise<number>;
-
-        /**
-         * <!-- FishyJoes.export(asyncCallbackFunc2) -->
-         */
-        function asyncCallbackFunc2(
-            callback: (_0: number, _1: number) => Promise<number>
-        ): Promise<number>;
-
-        /**
-         * <!-- FishyJoes.export(asyncCallbackFunc3) -->
-         */
-        function asyncCallbackFunc3(
-            callback: (_0: number, _1: number, _2: number) => Promise<number>
-        ): Promise<number>;
-
-        /**
-         * <!-- FishyJoes.export(asyncCallbackFunc4) -->
-         */
-        function asyncCallbackFunc4(
-            callback: (_0: number, _1: number, _2: number, _3: number) => Promise<number>
-        ): Promise<number>;
-
-        /**
-         * <!-- FishyJoes.export(asyncCallbackFunc5) -->
-         */
-        function asyncCallbackFunc5(
-            callback: (_0: number, _1: number, _2: number, _3: number, _4: number) => Promise<number>
-        ): Promise<number>;
-
-        /**
-         * <!-- FishyJoes.export(asyncCallbackFunc6) -->
-         */
-        function asyncCallbackFunc6(
-            callback: (_0: number, _1: number, _2: number, _3: number, _4: number, _5: number) => Promise<number>
-        ): Promise<number>;
-
-        /**
-         * <!-- FishyJoes.export(asyncDoubleFunc) -->
-         */
-        function asyncDoubleFunc(
-            d: number
-        ): Promise<number>;
-
-        /**
-         * <!-- FishyJoes.export(asyncMultipleArgs) -->
-         */
-        function asyncMultipleArgs(
-            i: number,
-            j: () => Promise<number>
-        ): Promise<number>;
-
-        /**
-         * <!-- FishyJoes.export(asyncSleepFunc) -->
-         */
-        function asyncSleepFunc(
-        ): Promise<number>;
-
-        /**
-         * <!-- FishyJoes.export(asyncThrowingFunc) -->
-         */
-        function asyncThrowingFunc(
-        ): Promise<void>;
-
-        /**
-         * <!-- FishyJoes.export(asyncVoidFunc) -->
-         */
-        function asyncVoidFunc(
-        ): Promise<void>;
-
-        /**
-         * <!-- FishyJoes.export(asyncYieldFunc) -->
-         */
-        function asyncYieldFunc(
-        ): Promise<number>;
-
-        /**
          * <!-- FishyJoes.export(const42) -->
          */
         const const42: () => number;
@@ -792,6 +792,58 @@ export declare namespace TestAPI {
          */
         static create(
         ): TestAPI.Methods;
+
+        /**
+         * <!-- FishyJoes.export(async42) -->
+         */
+        static async42(
+        ): Promise<number>;
+
+        /**
+         * <!-- FishyJoes.export(asyncYield) -->
+         */
+        static asyncYield(
+        ): Promise<number>;
+
+        /**
+         * <!-- FishyJoes.export(asyncSleep) -->
+         */
+        static asyncSleep(
+        ): Promise<number>;
+
+        /**
+         * <!-- FishyJoes.export(asyncVoid) -->
+         */
+        static asyncVoid(
+        ): Promise<void>;
+
+        /**
+         * <!-- FishyJoes.export(asyncDouble) -->
+         */
+        static asyncDouble(
+            d: number
+        ): Promise<number>;
+
+        /**
+         * <!-- FishyJoes.export(asyncMultipleArgs) -->
+         */
+        static asyncMultipleArgs(
+            i: number,
+            j: () => Promise<number>
+        ): Promise<number>;
+
+        /**
+         * <!-- FishyJoes.export(asyncThrowing) -->
+         */
+        static asyncThrowing(
+        ): Promise<void>;
+
+        /**
+         * <!-- FishyJoes.export(asyncCallbackFunc0) -->
+         */
+        static asyncCallbackFunc0(
+            callback: () => Promise<number>
+        ): Promise<number>;
     }
 
     export type Primitives = never;

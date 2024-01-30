@@ -24,9 +24,10 @@ struct TranslatedFunction: TranslatedType {
         self.sourceType = .function(parameters.map(\.sourceType), returnType.sourceType, isAsync: isAsync)
         self.neutralName = "Function<ReturnType=\(returnType.neutralName), Params=[\(parameters.map { $0.neutralName }.joined(separator: ", "))]>"
         self.nodeName = "(\(parameters.enumerated().map { "_\($0.offset): \($0.element.nodeType)" }.joined(separator: ", "))) => \(isAsync ? "Promise<" : "")\(returnType.nodeType)\(isAsync ? ">" : "")"
-        self.kotlinName = "((\(parameters.map(\.kotlinPackageQualifiedName).joined(separator: ", "))) -> \(returnType.kotlinPackageQualifiedName))"
+        let kotlinArgs = parameters.map(\.kotlinPackageQualifiedName).joined(separator: ", ")
+        self.kotlinName = "(\(isAsync ? "suspend " : "")(\(kotlinArgs)) -> \(returnType.kotlinPackageQualifiedName))"
         self.containedNamedTypes = parameters.map { $0.containedNamedTypes }.joined() + returnType.containedNamedTypes
-        self.jniType = .object("kotlin/jvm/functions/Function\(parameters.count)")
+        self.jniType = .object("kotlin/jvm/functions/Function\(parameters.count + (isAsync ? 1 : 0))")
         self.dartType = .function(args: parameters.map(\.dartType), return: returnType.dartType)
         if returnType.sourceType == .void {
             self.cSharpType = .named(

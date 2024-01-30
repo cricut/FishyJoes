@@ -1,6 +1,6 @@
 package com.cricut.fishyjoes.runtime
 
-abstract class SwiftReference protected constructor(private val swiftReference: Long) {
+open class SwiftReference protected constructor(private val swiftReference: Long) {
     override fun hashCode(): Int = swiftReference.hashCode()
     override fun toString(): String = swiftToString()
     protected fun finalize() = swiftFinalize()

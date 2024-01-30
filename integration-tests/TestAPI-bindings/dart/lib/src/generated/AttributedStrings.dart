@@ -1,5 +1,9 @@
 import './AssociatedDataEnum.dart' as TestAPI;
 import './AssociatedDataEnum.dart';
+import './AsyncFunctions.dart' as TestAPI;
+import './AsyncFunctions.dart';
+import './AsyncFunctions_TheError.dart' as TestAPI;
+import './AsyncFunctions_TheError.dart';
 import './AttributedString_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
 import './AttributedString_PuttingTypesIntoQuestionablePlaces.dart';
 import './AttributedStrings.dart' as TestAPI;

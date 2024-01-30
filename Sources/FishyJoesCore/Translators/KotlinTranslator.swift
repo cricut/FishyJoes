@@ -42,16 +42,8 @@ final class KotlinTranslator: Translator {
         ] + method.parameters.map { parameter in
             let resolved = context.resolve(type: parameter.type, generics: exportAnnotation.genericOverrides)
             return (name: parameter.name, type: resolved.converterType.name + ".CType")
-        } + {
-            guard method.isAsync else {
-                return []
-            }
-            let returnType = context.resolve(type: method.returnType, generics: exportAnnotation.genericOverrides)
-            return [
-                (name: "_successContinuation", type: "Function1Converter<\(returnType.converterType.name), VoidConverter>.CType"),
-                (name: "_failureContinuation", type: "Function1Converter<String, VoidConverter>.CType"),
-            ]
-        }()
+        }
+
         let fragment = context.swiftFragment(
             "JavaInterface/\(containingNamespace)+javadecl.swift",
             additionalImports: ["Foundation", "FishyJoesJavaRuntime"]
@@ -62,12 +54,9 @@ final class KotlinTranslator: Translator {
             let resolved = context.resolve(type: parameter.type, generics: exportAnnotation.genericOverrides)
             jniSignature += resolved.jniType.asSignature
         }
-        if method.isAsync {
-            jniSignature += "Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;"
-        }
         let returnType = context.resolve(type: method.returnType, generics: exportAnnotation.genericOverrides)
-        let returnSignature = method.isAsync ? "Void" : "\(returnType.converterType.name).CType"
-        jniSignature = "(\(jniSignature))\(method.isAsync ? "V" : returnType.jniType.asSignature)"
+        let returnSignature = method.isAsync ? "FutureConverter<\(returnType.converterType.name)>.CType" : "\(returnType.converterType.name).CType"
+        jniSignature = "(\(jniSignature))\(method.isAsync ? "Lkotlinx/coroutines/Deferred;" : returnType.jniType.asSignature)"
 
         let cMethod = "java_\(containingNamespace)_\(exportAnnotation.name)".replacingOccurrences(of: ".", with: "_")
         allMethods[containingNamespace, default: []].append(("__jni_\(exportAnnotation.name)", jniSignature, cMethod))
@@ -87,70 +76,42 @@ final class KotlinTranslator: Translator {
                         return "let \(parameter.name) = try \(resolved.converterType.name).fromJava(\(parameter.name), env: _javaEnv)"
                     }
                     fragment.output("let _javaThisRef = try JavaReference(local: _javaThis, env: _javaEnv)")
-                    fragment.output("let _successContinuationRef = try JavaReference(local: _successContinuation, env: _javaEnv)")
-                    fragment.output("let _failureContinuationRef = try JavaReference(local: _failureContinuation, env: _javaEnv)")
 
-                    fragment.outputBlock("try _javaEnv.swiftTask { _javaEnv, _vm in", closeWith: "}") {
+                    fragment.outputBlock("return try swiftTask(env: _javaEnv) { _javaEnv, _vm in", closeWith: "}") {
                         fragment.outputBlock("defer {") {
                             fragment.output("try? _javaThisRef.destroy()")
-                            fragment.output("try? _successContinuationRef.destroy()")
-                            fragment.output("try? _failureContinuationRef.destroy()")
                         }
-                        fragment.outputBlock("do {", closeWith: "}", newLineTerminated: false) {
-                            fragment.output("\(method.isMutating ? "var" : "let") value: Result<\(method.returnType.name), any Error>\(method.isMutating ? "!" : "")")
-                            fragment.outputBlock("do {", newLineTerminated: false) {
-                                let callBlock: (() -> Void) -> Void
-                                if method.isMutating {
-                                    let _selfExpression = selfExpression
-                                    callBlock = { body in
-                                        fragment.outputBlock("try await \(_selfExpression) { mutatingSelf, _javaEnv in", closeWith: "}") {
-                                            body()
-                                        }
-                                    }
-                                    selfExpression = "mutatingSelf"
-                                } else if !method.isStatic {
-                                    let _selfExpression = selfExpression
-                                    callBlock = { body in
-                                        fragment.output("let _swiftThis = try \(_selfExpression)")
-                                        body()
-                                    }
-                                    selfExpression = "_swiftThis"
-                                } else {
-                                    callBlock = { $0() }
+                        let callBlock: (() -> Void) -> Void
+                        if method.isMutating {
+                            let _selfExpression = selfExpression
+                            callBlock = { body in
+                                fragment.outputBlock("return try await \(_selfExpression) { mutatingSelf, _javaEnv in", closeWith: "}") {
+                                    body()
                                 }
+                            }
+                            selfExpression = "mutatingSelf"
+                        } else if !method.isStatic {
+                            let _selfExpression = selfExpression
+                            callBlock = { body in
+                                fragment.output("let _swiftThis = try \(_selfExpression)")
+                                body()
+                            }
+                            selfExpression = "_swiftThis"
+                        } else {
+                            callBlock = { $0() }
+                        }
 
-                                callBlock {
-                                    fragment.output("try! Env.relinquishJVMThread(on: _vm)")
-                                    fragment.output("defer { _javaEnv = try! Env.acquireJVMThread(on: _vm) }")
-                                    fragment.outputBlock("value = .success(", closeWith: ")") {
-                                        fragment.outputBlock("\(method.isThrowing ? "try " : "")await \(selfExpression)\(callName)(", closeWith: ")") {
-                                            fragment.outputMap(method.parameters, separator: ",") { formal in
-                                                (formal.label.map { "\($0): "} ?? "") + formal.name
-                                            }
-                                        }
+                        callBlock {
+                            fragment.outputBlock("let value: \(returnType.converterType.name).SwiftType = try await {", closeWith: "}()") {
+                                fragment.output("try Env.relinquishJVMThread(on: _vm)")
+                                fragment.output("defer { _javaEnv = try! Env.acquireJVMThread(on: _vm) }")
+                                fragment.outputBlock("return \(method.isThrowing ? "try " : "")await \(selfExpression)\(callName)(", closeWith: ")") {
+                                    fragment.outputMap(method.parameters, separator: ",") { formal in
+                                        (formal.label.map { "\($0): "} ?? "") + formal.name
                                     }
                                 }
                             }
-                            fragment.outputBlock(" catch {") {
-                                fragment.output("value = .failure(error)")
-                            }
-                            fragment.outputBlock("try Function1Converter<\(returnType.converterType.name), VoidConverter>.fromJava(", closeWith: ")", newLineTerminated: false) {
-                                fragment.output("_successContinuationRef.createLocalRef(env: _javaEnv),")
-                                fragment.output("env: _javaEnv")
-                            }
-                            fragment.outputBlock("(", closeWith: ")") {
-                                fragment.output("value.get()")
-                            }
-                        }
-                        fragment.outputBlock(" catch {", closeWith: "}") {
-                            fragment.outputBlock("if _javaEnv.ExceptionCheck() {") {
-                                fragment.output("return")
-                            }
-                            fragment.outputBlock("try! Function1Converter<String, VoidConverter>.fromJava(", closeWith: ")", newLineTerminated: false) {
-                                fragment.output("_failureContinuationRef.createLocalRef(env: _javaEnv),")
-                                fragment.output("env: _javaEnv")
-                            }
-                            fragment.output(#"("\(error)")"#)
+                            fragment.output("return try \(returnType.converterType.name).toJavaObject(value, env: _javaEnv)")
                         }
                     }
                 } else {

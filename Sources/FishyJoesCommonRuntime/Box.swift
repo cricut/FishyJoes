@@ -56,14 +56,6 @@ public struct Box<T> {
     public static func takeRetainedOpaque(_ pointer: UnsafeMutableRawPointer) throws -> Box<T> {
         try Box(inner: AnyBox.takeRetainedOpaque(pointer))
     }
-
-    public func callAsFunction<Argument, Result>(_ arg: Argument) throws -> Result where T == ((Argument) throws -> Result) {
-        try value(arg)
-    }
-
-    public func callAsFunction<Argument, Result>(_ arg: Argument) async throws -> Result where T == ((Argument) async throws -> Result) {
-        try await value(arg)
-    }
 }
 
 public final class AnyBox {

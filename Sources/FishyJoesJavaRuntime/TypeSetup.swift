@@ -15,6 +15,9 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
     }
     let env = UnsafeMutablePointer<JNIEnv?>(OpaquePointer(envRaw))
     return FishyJoesJavaRuntime.callbackBody(env!) { env in
+        try JavaError.javaSetup(env: env)
+        try JavaFutureImpl.javaSetup(env: env)
+
         // print("setting up Void...")
         try VoidConverter.javaSetup(env: env)
         // print("setting up Bool...")

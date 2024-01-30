@@ -64,7 +64,6 @@ class KotlinClass: NestedClass {
         fragment.output("package \(module.kotlinPackage)")
         fragment.blankLine()
         fragment.output("import kotlinx.coroutines.*")
-        fragment.output("import kotlinx.coroutines.future.future")
         fragment.output("import java.lang.Exception")
         for dependency in module.dependencies {
             fragment.output("import com.cricut.\(dependency.lowercased()).*")
@@ -137,8 +136,7 @@ class KotlinClass: NestedClass {
                     fragment.outputMap(filteredParameters, separator: ",") { parameter in
                         let labelComment = parameter.labelComment.map { "/* \($0) */ " } ?? ""
                         let defaultValue = parameter.defaultValue.map { " = \($0)" } ?? ""
-                        let kotlinType: String = (method.isSuspend && parameter.type.isFunction) ? "(suspend \(parameter.type.kotlinType.dropFirst())" : parameter.type.kotlinType
-                        return "\(labelComment)\(parameter.name): \(kotlinType)\(defaultValue)"
+                        return "\(labelComment)\(parameter.name): \(parameter.type.kotlinType)\(defaultValue)"
                     }
                 }
                 if method.returnType != KType.void {
@@ -147,57 +145,6 @@ class KotlinClass: NestedClass {
                 if let body = method.body {
                     precondition(compatibilityParameters.isEmpty, "internal error: compatibilityOrder can't be used with a non-native body")
                     fragment.output(" = \(body)\(method.returnType.toKotlinType)")
-                } else if method.isSuspend {
-                    fragment.outputBlock(" {") {
-                        fragment.outputBlock("return coroutineScope {") {
-                            fragment.outputBlock("async {", newLineTerminated: false) {
-                                fragment.outputBlock("suspendCancellableCoroutine { continuation: CancellableContinuation<\(method.returnType.kotlinType)\(method.returnType.kotlinType == "kotlin.Unit" ? "?" : "")> ->", closeWith: "}") {
-                                    fragment.outputBlock("__jni_\(method.name)(", closeWith: ")", newLineTerminated: false) {
-                                        for parameter in method.parameters {
-                                            if parameter.type.isFunction {
-                                                var parametersToForward: String = ""
-                                                switch parameter.type {
-                                                case let .function(_, parmeters, _):
-                                                    for parameterIndex in parmeters.indices {
-                                                        if parametersToForward.isEmpty {
-                                                            parametersToForward.append(" ")
-                                                        } else {
-                                                            parametersToForward.append(", ")
-                                                        }
-                                                        parametersToForward.append("p\(parameterIndex)")
-                                                    }
-                                                default:
-                                                    break
-                                                }
-
-                                                fragment.outputBlock("{\(parametersToForward)\(parametersToForward.isEmpty ? "" : " ->")", closeWith: "}", newLineTerminated: false) {
-                                                    fragment.outputBlock("try {", newLineTerminated: false) {
-                                                        fragment.outputBlock("CoroutineScope(Dispatchers.Default).future {", newLineTerminated: false) {
-                                                            fragment.output(parameter.name + "(\(parametersToForward))")
-                                                        }
-                                                        fragment.output(".join()")
-                                                    }
-                                                    fragment.outputBlock(" catch (e: Exception) {") {
-                                                        fragment.output("throw e.cause ?: e")
-                                                    }
-                                                }
-                                                fragment.output(",")
-                                            } else {
-                                                fragment.output(parameter.name + ",")
-                                            }
-                                        }
-                                        fragment.outputBlock("{ value ->", closeWith: "}") {
-                                            fragment.output("continuation.resume(value, null)")
-                                        }
-                                    }
-                                    fragment.outputBlock(" { message ->", closeWith: "}") {
-                                        fragment.output("continuation.cancel(Error(message))")
-                                    }
-                                }
-                            }
-                            fragment.output(".await()")
-                        }
-                    }
                 } else {
                     var arguments: [String] = []
                     for parameter in method.parameters {
@@ -207,7 +154,9 @@ class KotlinClass: NestedClass {
                             arguments.append("\(parameter.name)\(parameter.type.toJVMType)")
                         }
                     }
-                    fragment.output(" = __jni_\(method.name)(\(arguments.joined(separator: ", ")))\(method.returnType.toKotlinType)")
+                    fragment.output(" = __jni_\(method.name)(\(arguments.joined(separator: ", ")))", newLineTerminated: false)
+                    fragment.output(method.returnType.toKotlinType, newLineTerminated: false)
+                    fragment.output(method.isSuspend ? ".await()" : "")
                 }
             }
         }
@@ -217,38 +166,13 @@ class KotlinClass: NestedClass {
             }
             fragment.output("@JvmName(\"__jni_\(method.name)\")")
             fragment.outputBlock("private external fun __jni_\(method.name)(", newLineTerminated: false) {
-                fragment.outputMap(
-                    method.parameters + {
-                        guard method.isSuspend else {
-                            return []
-                        }
-                        return [
-                            (
-                                labelComment: nil,
-                                name: "successContinuation",
-                                type: .named(
-                                    package: nil,
-                                    name: "(\(method.returnType.kotlinType)\(method.returnType.kotlinType == "kotlin.Unit" ? "?" : "")) -> Unit"
-                                ),
-                                defaultValue: nil
-                            ),
-                            (
-                                labelComment: nil,
-                                name: "failureContinuation",
-                                type: .named(
-                                    package: nil,
-                                    name: "(String) -> Unit"
-                                ),
-                                defaultValue: nil
-                            )
-                        ]
-                    }(),
-                    separator: ","
-                ) { parameter in
+                fragment.outputMap(method.parameters, separator: ",") { parameter in
                     return "\(parameter.name): \(parameter.type.jvmType)"
                 }
             }
-            if method.returnType != KType.void && !method.isSuspend {
+            if method.isSuspend {
+                fragment.output(": kotlinx.coroutines.Deferred<\(method.returnType.jvmType)>", newLineTerminated: false)
+            } else if method.returnType != KType.void {
                 fragment.output(": \(method.returnType.jvmType)", newLineTerminated: false)
             }
             fragment.output()

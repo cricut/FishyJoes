@@ -1,7 +1,6 @@
 package com.cricut.testapi
 
 import kotlinx.coroutines.*
-import kotlinx.coroutines.future.future
 import java.lang.Exception
 
 /**
@@ -34,51 +33,19 @@ sealed class Structs {
          * <!-- FishyJoes.export(incrementAsync) -->
          */
         suspend fun incrementAsync(
-        ): kotlin.Unit {
-            return coroutineScope {
-                async {
-                    suspendCancellableCoroutine { continuation: CancellableContinuation<kotlin.Unit?> ->
-                        __jni_incrementAsync(
-                            { value ->
-                                continuation.resume(value, null)
-                            }
-                        ) { message ->
-                            continuation.cancel(Error(message))
-                        }
-                    }
-                }.await()
-            }
-        }
+        ): kotlin.Unit = __jni_incrementAsync().await()
         @JvmName("__jni_incrementAsync")
         private external fun __jni_incrementAsync(
-            successContinuation: (kotlin.Unit?) -> Unit,
-            failureContinuation: (String) -> Unit
-        )
+        ): kotlinx.coroutines.Deferred<kotlin.Unit>
 
         /**
          * <!-- FishyJoes.export(asyncGetI) -->
          */
         suspend fun asyncGetI(
-        ): Long {
-            return coroutineScope {
-                async {
-                    suspendCancellableCoroutine { continuation: CancellableContinuation<Long> ->
-                        __jni_asyncGetI(
-                            { value ->
-                                continuation.resume(value, null)
-                            }
-                        ) { message ->
-                            continuation.cancel(Error(message))
-                        }
-                    }
-                }.await()
-            }
-        }
+        ): Long = __jni_asyncGetI().await()
         @JvmName("__jni_asyncGetI")
         private external fun __jni_asyncGetI(
-            successContinuation: (Long) -> Unit,
-            failureContinuation: (String) -> Unit
-        )
+        ): kotlinx.coroutines.Deferred<Long>
 
         companion object {
             /**
@@ -124,26 +91,10 @@ sealed class Structs {
          * <!-- FishyJoes.export(asyncGetMutable) -->
          */
         suspend fun asyncGetMutable(
-        ): kotlin.String {
-            return coroutineScope {
-                async {
-                    suspendCancellableCoroutine { continuation: CancellableContinuation<kotlin.String> ->
-                        __jni_asyncGetMutable(
-                            { value ->
-                                continuation.resume(value, null)
-                            }
-                        ) { message ->
-                            continuation.cancel(Error(message))
-                        }
-                    }
-                }.await()
-            }
-        }
+        ): kotlin.String = __jni_asyncGetMutable().await()
         @JvmName("__jni_asyncGetMutable")
         private external fun __jni_asyncGetMutable(
-            successContinuation: (kotlin.String) -> Unit,
-            failureContinuation: (String) -> Unit
-        )
+        ): kotlinx.coroutines.Deferred<kotlin.String>
 
         override fun equals(
             other: Any?
@@ -193,26 +144,10 @@ sealed class Structs {
          * <!-- FishyJoes.export(asyncGetMutable) -->
          */
         suspend fun asyncGetMutable(
-        ): kotlin.String {
-            return coroutineScope {
-                async {
-                    suspendCancellableCoroutine { continuation: CancellableContinuation<kotlin.String> ->
-                        __jni_asyncGetMutable(
-                            { value ->
-                                continuation.resume(value, null)
-                            }
-                        ) { message ->
-                            continuation.cancel(Error(message))
-                        }
-                    }
-                }.await()
-            }
-        }
+        ): kotlin.String = __jni_asyncGetMutable().await()
         @JvmName("__jni_asyncGetMutable")
         private external fun __jni_asyncGetMutable(
-            successContinuation: (kotlin.String) -> Unit,
-            failureContinuation: (String) -> Unit
-        )
+        ): kotlinx.coroutines.Deferred<kotlin.String>
 
         companion object {
             /**

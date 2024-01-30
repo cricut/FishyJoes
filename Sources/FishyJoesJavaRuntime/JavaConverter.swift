@@ -5,6 +5,7 @@ import Foundation
 // MARK: - Java Type Conversion Protocols
 
 public protocol JavaConverter: Converter {
+    // TODO: batch rename this to "JNIType"
     associatedtype CType = jobject?
 
     static var javaClass: jclass? { get }
