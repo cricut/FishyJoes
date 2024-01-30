@@ -10,3 +10,16 @@ public protocol TestProtocol {
     /// <!-- FishyJoes.export(waldo) -->
     static var waldo: String { set get }
 }
+
+/// <!-- FishyJoes.export(TestProtocolEnum) -->
+public enum TestProtocolEnum: TestProtocol {
+    case qux
+
+    /// <!-- FishyJoes.export(xyzzy) -->
+    public func xyzzy(thud: Int, grault: [Double]) {
+        print("thud: \(thud); grault: \(grault.map { "\($0)" })")
+    }
+    
+    /// <!-- FishyJoes.export(waldo) -->
+    public static var waldo = "You found me!"
+}

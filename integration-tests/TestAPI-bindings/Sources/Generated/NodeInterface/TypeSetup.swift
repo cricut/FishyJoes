@@ -50,6 +50,7 @@ public func registerModuleTestAPI(env: NAPI.Env, exports: NAPI.Value) throws -> 
     try TestAPI.Strings.nodeSetup(env: env, module: module)
     try TestAPI.Structs.nodeSetup(env: env, module: module)
     try TestAPI.TestProtocol.nodeSetup(env: env, module: module)
+    try TestAPI.TestProtocolEnum.nodeSetup(env: env, module: module)
     try TestAPI.Tuples.nodeSetup(env: env, module: module)
     try TestAPI.URLs.nodeSetup(env: env, module: module)
     try Bool.nodeSetup(env: env, module: module)

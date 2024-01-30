@@ -475,6 +475,22 @@ namespace Cricut.TestAPI {
             out CreatedRef _exn
         );
 
+        delegate CreatedRef Cricut_TestAPI_TestProtocolEnum_new_qux(
+            out CreatedRef _exn
+        );
+        unsafe delegate void Cricut_TestAPI_TestProtocolEnum_extract_qux(
+            UnownedRef obj,
+            out CreatedRef _exn
+        );
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_TestProtocolEnum_setup(
+            IntPtr envRef,
+            FishyJoesRuntime.EnumDiscriminator discriminator,
+            Cricut_TestAPI_TestProtocolEnum_new_qux qux_constructor,
+            Cricut_TestAPI_TestProtocolEnum_extract_qux qux_extractor,
+            out CreatedRef _exn
+        );
+
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_Tuples_setup(
             IntPtr envRef,
@@ -1908,6 +1924,39 @@ namespace Cricut.TestAPI {
                         return new CreatedRef(new Cricut.TestAPI.TestProtocol(
                         ));
                     })),
+                    out exn
+                ));
+            });
+            Once("setup_TestAPI.TestProtocolEnum", () => {
+                Console.WriteLine("setting up TestAPI.TestProtocolEnum...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_TestProtocolEnum_setup(
+                    Loader.env,
+                    bag<FishyJoesRuntime.EnumDiscriminator>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => {
+                        var enumeration = obj.Peek<Cricut.TestAPI.TestProtocolEnum>();
+                        if (enumeration is Cricut.TestAPI.TestProtocolEnum.Qux) { return (nint)0; }
+                        throw new Exception($"Found unexpected subclass of Cricut.TestAPI.TestProtocolEnum: {enumeration}");
+                    })),
+                    bag<Cricut_TestAPI_TestProtocolEnum_new_qux>(
+                        (
+                            out CreatedRef exn
+                        ) => Catching(out exn, () => 
+                            new CreatedRef(new Cricut.TestAPI.TestProtocolEnum.Qux(
+                            ))
+                        )
+                    ),
+                    bag<Cricut_TestAPI_TestProtocolEnum_extract_qux>(
+                        (
+                            UnownedRef obj,
+                            out CreatedRef exn
+                        ) => {
+                            try {
+                                var enumeration = obj.Peek<Cricut.TestAPI.TestProtocolEnum.Qux>();
+                                exn = CreatedRef.Null;
+                            } catch (Exception e) {
+                                exn = new CreatedRef(e);
+                            }
+                        }
+                    ),
                     out exn
                 ));
             });

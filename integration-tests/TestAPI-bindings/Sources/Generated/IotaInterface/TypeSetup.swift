@@ -124,6 +124,7 @@ public func FishyJoes_TestAPI_registerTypes() {
     Env.registerType(TestAPI.Strings.self, as: "TestAPI.Strings")
     Env.registerType(TestAPI.Structs.self, as: "TestAPI.Structs")
     Env.registerType(TestAPI.TestProtocol.self, as: "TestAPI.TestProtocol")
+    Env.registerType(TestAPI.TestProtocolEnum.self, as: "TestAPI.TestProtocolEnum")
     Env.registerType(TestAPI.Tuples.self, as: "TestAPI.Tuples")
     Env.registerType(TestAPI.URLs.self, as: "TestAPI.URLs")
     Env.registerType(Foundation.AttributedString.Runs.Run.self, as: "Foundation.AttributedString.Runs.Run")

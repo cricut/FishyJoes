@@ -1522,6 +1522,25 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try TestAPI.Structs.javaSetup(env: env)
         // print("setting up TestAPI.TestProtocol...")
         try TestAPI.TestProtocol.javaSetup(env: env)
+        // print("setting up TestAPI.TestProtocolEnum...")
+        try TestAPI.TestProtocolEnum.javaSetup(env: env)
+        try env.RegisterNatives(TestAPI.TestProtocolEnum.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_xyzzy"),
+                signature: bag.add("(JLjava/util/List;)V"),
+                fnPtr: unsafeBitCast(java_TestAPI_TestProtocolEnum_xyzzy, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_waldo"),
+                signature: bag.add("()Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_TestProtocolEnum_waldo, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_set_waldo"),
+                signature: bag.add("(Ljava/lang/String;)V"),
+                fnPtr: unsafeBitCast(java_set_TestAPI_TestProtocolEnum_waldo, to: UnsafeMutableRawPointer.self)
+            )
+        )
         // print("setting up TestAPI.Tuples...")
         try TestAPI.Tuples.javaSetup(env: env)
         try env.RegisterNatives(TestAPI.Tuples.javaClass,

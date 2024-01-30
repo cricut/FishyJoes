@@ -35,59 +35,88 @@ import 'package:fishyjoes_dart/runtime.dart';
 import 'package:fishyjoes_dart/utilities.dart' as utils;
 import 'package:tuple/tuple.dart' as tuple;
 
-/// <!-- FishyJoes.export(UnicodeScalar_PuttingTypesIntoQuestionablePlaces) -->
-sealed class UnicodeScalar_PuttingTypesIntoQuestionablePlaces {
-    const factory UnicodeScalar_PuttingTypesIntoQuestionablePlaces.thing(
-    ) = UnicodeScalar_PuttingTypesIntoQuestionablePlaces_Thing;
+/// <!-- FishyJoes.export(TestProtocolEnum) -->
+sealed class TestProtocolEnum {
+    const factory TestProtocolEnum.qux(
+    ) = TestProtocolEnum_Qux;
 
-    const UnicodeScalar_PuttingTypesIntoQuestionablePlaces();
+    const TestProtocolEnum();
 
     static int enumDiscriminator(UnownedRef obj, OutCreatedRef exn) => check((exn) {
-        final peekedObj = peekRef<UnicodeScalar_PuttingTypesIntoQuestionablePlaces>(obj);
-        if (peekedObj is UnicodeScalar_PuttingTypesIntoQuestionablePlaces_Thing) { return 0; }
-        else { throw UnsupportedError('Unknown UnicodeScalar_PuttingTypesIntoQuestionablePlaces subclass'); }
+        final peekedObj = peekRef<TestProtocolEnum>(obj);
+        if (peekedObj is TestProtocolEnum_Qux) { return 0; }
+        else { throw UnsupportedError('Unknown TestProtocolEnum subclass'); }
     });
 
-    static CreatedRef newThing(
+    static CreatedRef newQux(
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
-        createRef(UnicodeScalar_PuttingTypesIntoQuestionablePlaces_Thing(
+        createRef(TestProtocolEnum_Qux(
         ))
     );
 
-    static void extractThing(
+    static void extractQux(
         UnownedRef obj,
         OutCreatedRef exn
     ) {
         catching(exn, () {
-            final _self = peekRef<UnicodeScalar_PuttingTypesIntoQuestionablePlaces_Thing>(obj);
+            final _self = peekRef<TestProtocolEnum_Qux>(obj);
         });
     }
 
-    /// <!-- FishyJoes.export(testCall) -->
-    int testCall(
+    /// <!-- FishyJoes.export(waldo) -->
+    static String get waldo =>
+        check((exn) =>
+            consumeCreatedRef<String>(f__iota_get_TestAPI_TestProtocolEnum_waldo(Loader.shared.env, exn))
+        )
+    ;
+    static void set waldo(String value) {
+        GCRef.using(value, (_valueHandle) =>
+            check((exn) =>
+                f__iota_set_TestAPI_TestProtocolEnum_waldo(Loader.shared.env, _valueHandle.ptr, exn)
+            )
+        )
+        ;
+    }
+    /// <!-- FishyJoes.export(xyzzy) -->
+    void xyzzy(
+        int thud,
+        List<double> grault,
     ) =>
         GCRef.using(this, (_thisHandle) =>
-            check((OutCreatedRef _exn) => f__iota_Swift_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_testCall(Loader.shared.env, _thisHandle.ptr, _exn))
+            GCRef.using(grault, (_graultHandle) =>
+                check((OutCreatedRef _exn) => f__iota_TestAPI_TestProtocolEnum_xyzzy(Loader.shared.env, _thisHandle.ptr, thud, _graultHandle.ptr, _exn))
+            )
         )
     ;
 
-    static late int Function(
+    static late void Function(
         Env env,
         UnownedRef _this,
+        int thud,
+        UnownedRef grault,
         OutCreatedRef _exn
-    ) f__iota_Swift_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_testCall;
+    ) f__iota_TestAPI_TestProtocolEnum_xyzzy;
+    static late CreatedRef Function(
+        Env env,
+        OutCreatedRef _exn
+    ) f__iota_get_TestAPI_TestProtocolEnum_waldo;
+    static late void Function(
+        Env env,
+        UnownedRef waldo,
+        OutCreatedRef _exn
+    ) f__iota_set_TestAPI_TestProtocolEnum_waldo;
 }
 
-class UnicodeScalar_PuttingTypesIntoQuestionablePlaces_Thing extends UnicodeScalar_PuttingTypesIntoQuestionablePlaces {
-    const UnicodeScalar_PuttingTypesIntoQuestionablePlaces_Thing();
+class TestProtocolEnum_Qux extends TestProtocolEnum {
+    const TestProtocolEnum_Qux();
 
     @override
     bool operator ==(Object other) {
         return identical(other, this) ||
         (
             other.runtimeType == runtimeType &&
-            other is UnicodeScalar_PuttingTypesIntoQuestionablePlaces_Thing
+            other is TestProtocolEnum_Qux
         );
     }
 
@@ -95,7 +124,7 @@ class UnicodeScalar_PuttingTypesIntoQuestionablePlaces_Thing extends UnicodeScal
     int get hashCode => runtimeType.hashCode;
 
     @override
-    String toString() => 'UnicodeScalar_PuttingTypesIntoQuestionablePlaces.thing()';
+    String toString() => 'TestProtocolEnum.qux()';
 
-    UnicodeScalar_PuttingTypesIntoQuestionablePlaces_Thing copyWith() => UnicodeScalar_PuttingTypesIntoQuestionablePlaces_Thing();
+    TestProtocolEnum_Qux copyWith() => TestProtocolEnum_Qux();
 }
