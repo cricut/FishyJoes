@@ -13,6 +13,7 @@ struct TranslatedReference: TranslatedType {
     let methods: [Method]
     let computedVariables: [Variable]
     let documentation: [String]
+    let protocols: [String]
     let className: String
     let jniType: JNIType
     let equatable: Bool
@@ -37,6 +38,7 @@ struct TranslatedReference: TranslatedType {
         self.methods = type.methods.compactMap { Method($0) }
         self.computedVariables = type.variables.filter { $0.exportAnnotation != nil }
         self.documentation = type.documentation
+        self.protocols = exportAnnotation.protocols
         self.className = context.kotlinTranslator.javaClassName(kotlinName, in: context)
         self.jniType = .object(className)
         self.equatable = type.equatable
@@ -550,7 +552,7 @@ struct TranslatedReference: TranslatedType {
         let dartProduct = DartProductClass(
             module: context.module,
             documentation: documentation,
-            protocols: [],
+            protocols: protocols,
             name: dartType.name(),
             constructor: .reference,
             fieldsAndMethods: fieldsAndMethods
