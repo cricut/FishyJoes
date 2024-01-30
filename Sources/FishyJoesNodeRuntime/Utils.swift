@@ -159,7 +159,7 @@ public func setupOnMainThreadEntryPoint(env: NAPI.Env) throws {
             let env = NAPI.Env(ptr: env)
             _ = rethrowToNode(env: env) {
                 let operation = try Box<(NAPI.Env) throws -> Void>.takeRetainedOpaque(data!)
-                try operation(env)
+                try operation.value(env)
                 return nil
             }
         }
