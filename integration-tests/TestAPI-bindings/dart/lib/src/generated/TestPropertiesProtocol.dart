@@ -37,11 +37,6 @@ import 'package:fishyjoes_dart/runtime.dart';
 import 'package:fishyjoes_dart/utilities.dart' as utils;
 import 'package:tuple/tuple.dart' as tuple;
 
-/// <!-- FishyJoes.export(Structs) -->
-class Structs {
-    Structs._();
-
-    static int enumDiscriminator(UnownedRef obj, OutCreatedRef exn) => check((exn) {
-        throw UnsupportedError('This class is supposed to be uninhabited');
-    });
+/// <!-- FishyJoes.export(TestPropertiesProtocol) -->
+abstract class TestPropertiesProtocol {
 }

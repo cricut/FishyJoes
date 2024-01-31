@@ -16,6 +16,10 @@ void main() {
         expect(testProtocolEnum.garply("Navigate a nostril!"), equals("garply Navigate a nostril! garpity garp"));
         expect(testProtocolEnum.xyzzy(42, [1.234, 45.235890198, 892.80]), equals("thud: 42; grault: [1.234, 45.235890198, 892.8]"));
         
+        final testProtocolStruct = TestProtocolStruct(corge: "Raft a river of lava-ah!");
+        expect(testProtocolStruct.corge, equals("Raft a river of lava-ah!"));
+        testProtocolStruct.corge = "Spank a plankton too! (take that)";
+        expect(testProtocolStruct.corge, equals("Spank a plankton too! (take that)"));
       });
   });
 }

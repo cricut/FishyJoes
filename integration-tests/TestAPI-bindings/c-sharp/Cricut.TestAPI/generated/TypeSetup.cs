@@ -465,13 +465,28 @@ namespace Cricut.TestAPI {
             out CreatedRef _exn
         );
 
-        delegate CreatedRef _TestAPI_TestProtocolConstructor(
+        delegate CreatedRef _TestAPI_TestMethodsProtocolConstructor(
             out CreatedRef exn
         );
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern void TestAPI_TestProtocol_setup(
+        static extern void TestAPI_TestMethodsProtocol_setup(
             IntPtr envRef,
-            _TestAPI_TestProtocolConstructor constructor,
+            _TestAPI_TestMethodsProtocolConstructor constructor,
+            out CreatedRef _exn
+        );
+
+        delegate CreatedRef _TestAPI_TestPropertiesProtocolConstructor(
+            ConsumedRef corge,
+            out CreatedRef exn
+        );
+        delegate CreatedRef _TestAPI_TestPropertiesProtocol_corgeGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _TestAPI_TestPropertiesProtocol_corgeSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_TestPropertiesProtocol_setup(
+            IntPtr envRef,
+            _TestAPI_TestPropertiesProtocolConstructor constructor,
+            _TestAPI_TestPropertiesProtocol_corgeGetter get_corge,
+            _TestAPI_TestPropertiesProtocol_corgeSetter set_corge,
             out CreatedRef _exn
         );
 
@@ -488,6 +503,21 @@ namespace Cricut.TestAPI {
             FishyJoesRuntime.EnumDiscriminator discriminator,
             Cricut_TestAPI_TestProtocolEnum_new_qux qux_constructor,
             Cricut_TestAPI_TestProtocolEnum_extract_qux qux_extractor,
+            out CreatedRef _exn
+        );
+
+        delegate CreatedRef _TestAPI_TestProtocolStructConstructor(
+            ConsumedRef corge,
+            out CreatedRef exn
+        );
+        delegate CreatedRef _TestAPI_TestProtocolStruct_corgeGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _TestAPI_TestProtocolStruct_corgeSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_TestProtocolStruct_setup(
+            IntPtr envRef,
+            _TestAPI_TestProtocolStructConstructor constructor,
+            _TestAPI_TestProtocolStruct_corgeGetter get_corge,
+            _TestAPI_TestProtocolStruct_corgeSetter set_corge,
             out CreatedRef _exn
         );
 
@@ -1916,13 +1946,31 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
-            Once("setup_TestAPI.TestProtocol", () => {
-                Console.WriteLine("setting up TestAPI.TestProtocol...");
-                Utilities.Check((out CreatedRef exn) => TestAPI_TestProtocol_setup(
+            Once("setup_TestAPI.TestMethodsProtocol", () => {
+                Console.WriteLine("setting up TestAPI.TestMethodsProtocol...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_TestMethodsProtocol_setup(
                     Loader.env,
-                    bag<_TestAPI_TestProtocolConstructor>((out CreatedRef exn) => Catching(out exn, () => {
-                        return new CreatedRef(new Cricut.TestAPI.TestProtocol(
+                    bag<_TestAPI_TestMethodsProtocolConstructor>((out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.TestMethodsProtocol(
                         ));
+                    })),
+                    out exn
+                ));
+            });
+            Once("setup_TestAPI.TestPropertiesProtocol", () => {
+                Console.WriteLine("setting up TestAPI.TestPropertiesProtocol...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_TestPropertiesProtocol_setup(
+                    Loader.env,
+                    bag<_TestAPI_TestPropertiesProtocolConstructor>((ConsumedRef corge, out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.TestPropertiesProtocol(
+                            corge.Consume<string>()
+                        ));
+                    })),
+                    bag<_TestAPI_TestPropertiesProtocol_corgeGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.TestPropertiesProtocol>().Corge)
+                    )),
+                    bag<_TestAPI_TestPropertiesProtocol_corgeSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.TestPropertiesProtocol>().Corge = newValue.Consume<string>();
                     })),
                     out exn
                 ));
@@ -1957,6 +2005,24 @@ namespace Cricut.TestAPI {
                             }
                         }
                     ),
+                    out exn
+                ));
+            });
+            Once("setup_TestAPI.TestProtocolStruct", () => {
+                Console.WriteLine("setting up TestAPI.TestProtocolStruct...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_TestProtocolStruct_setup(
+                    Loader.env,
+                    bag<_TestAPI_TestProtocolStructConstructor>((ConsumedRef corge, out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.TestProtocolStruct(
+                            corge.Consume<string>()
+                        ));
+                    })),
+                    bag<_TestAPI_TestProtocolStruct_corgeGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.TestProtocolStruct>().Corge)
+                    )),
+                    bag<_TestAPI_TestProtocolStruct_corgeSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.TestProtocolStruct>().Corge = newValue.Consume<string>();
+                    })),
                     out exn
                 ));
             });

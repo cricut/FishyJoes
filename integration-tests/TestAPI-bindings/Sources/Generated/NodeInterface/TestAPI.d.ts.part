@@ -1619,6 +1619,49 @@ export declare namespace TestAPI {
         ): string;
     }
 
+    /**
+     * <!-- FishyJoes.export(TestProtocolStruct, protocols: [TestMethodsProtocol, TestPropertiesProtocol]) -->
+     */
+    export class TestProtocolStruct {
+        constructor(corge: string)
+
+        corge: string;
+
+        /**
+         * <!-- FishyJoes.export(foo) -->
+         */
+        foo(
+        ): void;
+
+        /**
+         * <!-- FishyJoes.export(bar) -->
+         */
+        bar(
+        ): boolean;
+
+        /**
+         * <!-- FishyJoes.export(baz) -->
+         */
+        baz(
+            qux: boolean
+        ): void;
+
+        /**
+         * <!-- FishyJoes.export(garply) -->
+         */
+        garply(
+            str: string
+        ): string;
+
+        /**
+         * <!-- FishyJoes.export(xyzzy) -->
+         */
+        xyzzy(
+            thud: number,
+            grault: number[]
+        ): string;
+    }
+
     export type Tuples = never;
     export namespace Tuples {
         /**

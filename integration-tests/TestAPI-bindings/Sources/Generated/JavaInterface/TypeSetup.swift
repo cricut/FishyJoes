@@ -1520,8 +1520,10 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         )
         // print("setting up TestAPI.Structs...")
         try TestAPI.Structs.javaSetup(env: env)
-        // print("setting up TestAPI.TestProtocol...")
-        try TestAPI.TestProtocol.javaSetup(env: env)
+        // print("setting up TestAPI.TestMethodsProtocol...")
+        try TestAPI.TestMethodsProtocol.javaSetup(env: env)
+        // print("setting up TestAPI.TestPropertiesProtocol...")
+        try TestAPI.TestPropertiesProtocol.javaSetup(env: env)
         // print("setting up TestAPI.TestProtocolEnum...")
         try TestAPI.TestProtocolEnum.javaSetup(env: env)
         try env.RegisterNatives(TestAPI.TestProtocolEnum.javaClass,
@@ -1549,6 +1551,35 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_xyzzy"),
                 signature: bag.add("(JLjava/util/List;)Ljava/lang/String;"),
                 fnPtr: unsafeBitCast(java_TestAPI_TestProtocolEnum_xyzzy, to: UnsafeMutableRawPointer.self)
+            )
+        )
+        // print("setting up TestAPI.TestProtocolStruct...")
+        try TestAPI.TestProtocolStruct.javaSetup(env: env)
+        try env.RegisterNatives(TestAPI.TestProtocolStruct.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_foo"),
+                signature: bag.add("()V"),
+                fnPtr: unsafeBitCast(java_TestAPI_TestProtocolStruct_foo, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_bar"),
+                signature: bag.add("()Z"),
+                fnPtr: unsafeBitCast(java_TestAPI_TestProtocolStruct_bar, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_baz"),
+                signature: bag.add("(Z)V"),
+                fnPtr: unsafeBitCast(java_TestAPI_TestProtocolStruct_baz, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_garply"),
+                signature: bag.add("(Ljava/lang/String;)Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_TestAPI_TestProtocolStruct_garply, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_xyzzy"),
+                signature: bag.add("(JLjava/util/List;)Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_TestAPI_TestProtocolStruct_xyzzy, to: UnsafeMutableRawPointer.self)
             )
         )
         // print("setting up TestAPI.Tuples...")

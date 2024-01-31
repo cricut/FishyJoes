@@ -1,10 +1,12 @@
 package com.cricut.testapi
 
 /**
- * <!-- FishyJoes.export(TestProtocolEnum, protocols: [TestMethodsProtocol]) -->
+ * <!-- FishyJoes.export(TestProtocolStruct, protocols: [TestMethodsProtocol, TestPropertiesProtocol]) -->
  */
-sealed class TestProtocolEnum {
-    object Qux : TestProtocolEnum()
+data class TestProtocolStruct(
+    var corge: kotlin.String
+)
+ {
     /**
      * <!-- FishyJoes.export(foo) -->
      */

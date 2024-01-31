@@ -21,8 +21,10 @@ import './Structs.dart' as TestAPI;
 import './Structs_MemberwiseStruct.dart' as TestAPI;
 import './Structs_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
 import './Structs_ReferenceStruct.dart' as TestAPI;
-import './TestProtocol.dart' as TestAPI;
+import './TestMethodsProtocol.dart' as TestAPI;
+import './TestPropertiesProtocol.dart' as TestAPI;
 import './TestProtocolEnum.dart' as TestAPI;
+import './TestProtocolStruct.dart' as TestAPI;
 import './Tuples.dart' as TestAPI;
 import './URLs.dart' as TestAPI;
 import './UnicodeScalar_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
@@ -35,8 +37,8 @@ import 'package:fishyjoes_dart/runtime.dart';
 import 'package:fishyjoes_dart/utilities.dart' as utils;
 import 'package:tuple/tuple.dart' as tuple;
 
-/// <!-- FishyJoes.export(TestProtocol) -->
-abstract class TestProtocol {
+/// <!-- FishyJoes.export(TestMethodsProtocol) -->
+abstract class TestMethodsProtocol {
     void foo(
     );
     bool bar(

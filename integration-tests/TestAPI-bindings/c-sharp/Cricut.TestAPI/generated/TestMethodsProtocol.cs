@@ -6,11 +6,11 @@ using static Cricut.FishyJoesRuntime.Utilities;
 
 namespace Cricut.TestAPI {
     /// <summary>
-    /// <!-- FishyJoes.export(TestProtocol) -->
+    /// <!-- FishyJoes.export(TestMethodsProtocol) -->
     /// </summary>
-    public record TestProtocol {
+    public record TestMethodsProtocol {
 
-        public TestProtocol(
+        public TestMethodsProtocol(
         ) {
         }
 
@@ -20,11 +20,11 @@ namespace Cricut.TestAPI {
         public void Foo(
         ) {
             using var _thisHandle = new GCRef(this);
-            Check((out CreatedRef _exn) => __iota_TestAPI_TestProtocol_foo(Loader.env, _thisHandle.ptr, out _exn));
+            Check((out CreatedRef _exn) => __iota_TestAPI_TestMethodsProtocol_foo(Loader.env, _thisHandle.ptr, out _exn));
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern void __iota_TestAPI_TestProtocol_foo(
+        private static extern void __iota_TestAPI_TestMethodsProtocol_foo(
             IntPtr envRef,
             UnownedRef self,
             out CreatedRef exn
@@ -36,11 +36,11 @@ namespace Cricut.TestAPI {
         public bool Bar(
         ) {
             using var _thisHandle = new GCRef(this);
-            return Check((out CreatedRef _exn) => __iota_TestAPI_TestProtocol_bar(Loader.env, _thisHandle.ptr, out _exn));
+            return Check((out CreatedRef _exn) => __iota_TestAPI_TestMethodsProtocol_bar(Loader.env, _thisHandle.ptr, out _exn));
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern bool __iota_TestAPI_TestProtocol_bar(
+        private static extern bool __iota_TestAPI_TestMethodsProtocol_bar(
             IntPtr envRef,
             UnownedRef self,
             out CreatedRef exn
@@ -53,11 +53,11 @@ namespace Cricut.TestAPI {
             bool qux
         ) {
             using var _thisHandle = new GCRef(this);
-            Check((out CreatedRef _exn) => __iota_TestAPI_TestProtocol_baz(Loader.env, _thisHandle.ptr, qux, out _exn));
+            Check((out CreatedRef _exn) => __iota_TestAPI_TestMethodsProtocol_baz(Loader.env, _thisHandle.ptr, qux, out _exn));
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern void __iota_TestAPI_TestProtocol_baz(
+        private static extern void __iota_TestAPI_TestMethodsProtocol_baz(
             IntPtr envRef,
             UnownedRef self,
             bool qux,
@@ -72,11 +72,11 @@ namespace Cricut.TestAPI {
         ) {
             using var _thisHandle = new GCRef(this);
             using var _placeholder1Handle = new GCRef(placeholder1);
-            return Check((out CreatedRef _exn) => __iota_TestAPI_TestProtocol_garply(Loader.env, _thisHandle.ptr, _placeholder1Handle.ptr, out _exn)).Consume<string>();
+            return Check((out CreatedRef _exn) => __iota_TestAPI_TestMethodsProtocol_garply(Loader.env, _thisHandle.ptr, _placeholder1Handle.ptr, out _exn)).Consume<string>();
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_TestAPI_TestProtocol_garply(
+        private static extern CreatedRef __iota_TestAPI_TestMethodsProtocol_garply(
             IntPtr envRef,
             UnownedRef self,
             UnownedRef placeholder1,
@@ -92,11 +92,11 @@ namespace Cricut.TestAPI {
         ) {
             using var _thisHandle = new GCRef(this);
             using var _graultHandle = new GCRef(grault);
-            return Check((out CreatedRef _exn) => __iota_TestAPI_TestProtocol_xyzzy(Loader.env, _thisHandle.ptr, thud, _graultHandle.ptr, out _exn)).Consume<string>();
+            return Check((out CreatedRef _exn) => __iota_TestAPI_TestMethodsProtocol_xyzzy(Loader.env, _thisHandle.ptr, thud, _graultHandle.ptr, out _exn)).Consume<string>();
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_TestAPI_TestProtocol_xyzzy(
+        private static extern CreatedRef __iota_TestAPI_TestMethodsProtocol_xyzzy(
             IntPtr envRef,
             UnownedRef self,
             nint thud,
@@ -104,6 +104,6 @@ namespace Cricut.TestAPI {
             out CreatedRef exn
         );
 
-        static TestProtocol() { _TypeSetup._ensureLoaded(); }
+        static TestMethodsProtocol() { _TypeSetup._ensureLoaded(); }
     }
 }
