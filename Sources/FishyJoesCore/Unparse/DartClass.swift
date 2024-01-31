@@ -886,6 +886,9 @@ class DartProtocolClass: DartClass {
     override func output(to fragment: SourceFragment) {
         document(documentation, fragment: fragment)
 
+        if unqualifiedName == "TestPropertiesProtocol" {
+            let a = 1
+        }
         fragment.output("abstract class \(unqualifiedName)", newLineTerminated: false)
         fragment.outputBlock(" {", closeWith: "}") {
             for method in methods {

@@ -14,6 +14,7 @@ public protocol TestMethodsProtocol {
 
 /// <!-- FishyJoes.export(TestPropertiesProtocol) -->
 public protocol TestPropertiesProtocol {
+    /// <!-- FishyJoes.export(corge) -->
     var corge: String { set get }
 }
 

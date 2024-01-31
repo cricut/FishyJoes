@@ -9,9 +9,12 @@ namespace Cricut.TestAPI {
     /// <!-- FishyJoes.export(TestPropertiesProtocol) -->
     /// </summary>
     public record TestPropertiesProtocol {
+        public string Corge { get; set; }
 
         public TestPropertiesProtocol(
+            string Corge
         ) {
+            this.Corge = Corge;
         }
 
         static TestPropertiesProtocol() { _TypeSetup._ensureLoaded(); }

@@ -39,4 +39,9 @@ import 'package:tuple/tuple.dart' as tuple;
 
 /// <!-- FishyJoes.export(TestPropertiesProtocol) -->
 abstract class TestPropertiesProtocol {
+
+    /// <!-- FishyJoes.export(corge) -->
+    String get corge;
+
+    void set corge(String value);
 }

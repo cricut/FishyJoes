@@ -225,6 +225,7 @@ struct TranslatedProtocol: TranslatedType {
     func registerDartClass(context: FishyJoesContext) {
         let fieldsAndMethods =
             computedVariables.compactMap { context.dart(field: $0, of: self, useNativeName: false) } +
+            storedVariables.compactMap { context.dart(field: $0, of: self, useNativeName: false) } +
             methods.compactMap { context.dart(method: $0, of: self) }
 
         context.add(
@@ -235,9 +236,12 @@ struct TranslatedProtocol: TranslatedType {
                 constructor: .`public`(
                     fields: storedVariables.compactMap {
                         switch context.dart(field: $0, of: self, useNativeName: false) {
-                        case .method: fatalErr("Can't export a stored variable `\(self.sourceType.name).\($0.name)` as a method")
-                        case .variable(let field): return field
-                        case nil: return nil
+                        case .method: 
+                            fatalErr("Can't export a stored variable `\(self.sourceType.name).\($0.name)` as a method")
+                        case .variable(let field):
+                            return field
+                        case nil: 
+                            return nil
                         }
                     }
                 ),
