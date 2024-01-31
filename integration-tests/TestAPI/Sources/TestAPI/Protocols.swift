@@ -82,7 +82,7 @@ public class TestProtocolClass: TestMethodsProtocol, TestPropertiesProtocol {
     }
     /// <!-- FishyJoes.export(bar) -->
     public func bar() -> Bool {
-        return false
+        return true
     }
     /// <!-- FishyJoes.export(baz) -->
     public func baz(qux: Bool) {
@@ -100,6 +100,7 @@ public class TestProtocolClass: TestMethodsProtocol, TestPropertiesProtocol {
     /// <!-- FishyJoes.export(corge) -->
     public var corge: String
     
+    /// <!-- FishyJoes.export(init) -->
     public init(corge: String) {
         self.corge = corge
     }

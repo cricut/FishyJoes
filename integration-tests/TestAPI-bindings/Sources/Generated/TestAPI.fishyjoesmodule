@@ -2045,6 +2045,28 @@
                     "_0" : "string"
                   }
                 }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(init) -->"
+                ],
+                "isStatic" : true,
+                "name" : "init",
+                "parameters" : [
+                  {
+                    "name" : "corge",
+                    "type" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "TestAPI.TestProtocolClass"
+                  }
+                }
               }
             ],
             "name" : "TestProtocolClass"

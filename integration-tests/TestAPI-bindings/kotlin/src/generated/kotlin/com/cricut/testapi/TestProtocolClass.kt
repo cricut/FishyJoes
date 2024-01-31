@@ -69,6 +69,18 @@ class TestProtocolClass private constructor(swiftReference: Long): com.cricut.fi
     ): kotlin.String
 
     companion object {
+        /**
+         * <!-- FishyJoes.export(init) -->
+         */
+        fun init(
+            corge: kotlin.String
+        ): com.cricut.testapi.TestProtocolClass = __jni_init(corge)
+        @JvmStatic
+        @JvmName("__jni_init")
+        private external fun __jni_init(
+            corge: kotlin.String
+        ): com.cricut.testapi.TestProtocolClass
+
         init { loadNativeLibs() }
     }
 }

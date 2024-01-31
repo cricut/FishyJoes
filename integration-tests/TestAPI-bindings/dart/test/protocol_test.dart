@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:cricut_test_api/cricut_test_api.dart';
 import 'package:test/test.dart';
 import 'package:fishyjoes_dart/runtime.dart';
@@ -26,6 +28,14 @@ void main() {
         testProtocolStruct.baz(true);
         expect(testProtocolStruct.garply("An octopus in your neighborhood?"), equals("garp garpity An octopus in your neighborhood? garpee"));
         expect(testProtocolStruct.xyzzy(42, [1.234, 45.235890198, 892.80]), equals("thud: 42 | grault: [1.234, 45.235890198, 892.8]"));
+
+        final testProtocolClass = TestProtocolClass.init("Step inside it's a wilder ride!");
+        expect(testProtocolClass.corge, equals("Step inside it's a wilder ride!"));
+        testProtocolClass.foo();
+        expect(testProtocolClass.bar(), equals(true));
+        testProtocolClass.baz(false);
+        expect(testProtocolClass.garply("Surfin' on a sine wave"), "garplify Surfin' on a sine wave parguino");
+        expect(testProtocolClass.xyzzy(42, [1.234, 45.235890198, 892.80]), equals("thud: 42 \\|/ grault: [1.234, 45.235890198, 892.8]"));
       });
   });
 }

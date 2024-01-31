@@ -1622,6 +1622,13 @@ export declare namespace TestAPI {
             thud: number,
             grault: number[]
         ): string;
+
+        /**
+         * <!-- FishyJoes.export(init) -->
+         */
+        static init(
+            corge: string
+        ): TestAPI.TestProtocolClass;
     }
 
     export type TestProtocolEnum = "qux";

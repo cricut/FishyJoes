@@ -1921,6 +1921,18 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_TestProtocolClass_garply");
+    TestAPI.TestProtocolClass.f__iota_TestAPI_TestProtocolClass_init = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef corge,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef corge,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestProtocolClass_init");
     TestAPI.TestProtocolClass.f__iota_TestAPI_TestProtocolClass_xyzzy = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
