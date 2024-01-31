@@ -16,6 +16,8 @@ public protocol TestMethodsProtocol {
 public protocol TestPropertiesProtocol {
     /// <!-- FishyJoes.export(corge) -->
     var corge: String { set get }
+    /// <!-- FishyJoes.export(frob) -->
+    var frob: [Double] { get }
 }
 
 /// <!-- FishyJoes.export(TestProtocolEnum, protocols: [TestMethodsProtocol]) -->
@@ -72,6 +74,10 @@ public struct TestProtocolStruct: TestMethodsProtocol, TestPropertiesProtocol {
     public init(corge: String) {
         self.corge = corge
     }
+    /// <!-- FishyJoes.export(frob) -->
+    public var frob: [Double] {
+        [3.14159265359, 42.0, -1.23456789]
+    }
 }
 
 /// <!-- FishyJoes.exportReference(TestProtocolClass, protocols: [TestMethodsProtocol, TestPropertiesProtocol]) -->
@@ -99,6 +105,11 @@ public class TestProtocolClass: TestMethodsProtocol, TestPropertiesProtocol {
 
     /// <!-- FishyJoes.export(corge) -->
     public var corge: String
+
+    /// <!-- FishyJoes.export(frob) -->
+    public var frob: [Double] {
+        [42.0, -1.23456789, 3.14159265359]
+    }
     
     /// <!-- FishyJoes.export(init) -->
     public init(corge: String) {

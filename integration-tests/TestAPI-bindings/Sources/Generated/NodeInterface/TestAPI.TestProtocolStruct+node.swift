@@ -100,6 +100,17 @@ extension TestAPI.TestProtocolStruct: NodeMutator {
                     },
                     isStatic: false
                 ),
+                "frob": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "frob", expectedArgumentCount: 0) { env in
+                                try ArrayConverter<Swift.Double>.toNode(env.this(converter: TestAPI.TestProtocolStruct.self).frob, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: false
+                ),
                 "corge": (.stored(mutable: true), isStatic: false),
             ],
             constructor: { env, info in

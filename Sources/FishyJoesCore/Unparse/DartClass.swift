@@ -88,6 +88,7 @@ class DartClass {
         fragment.output("// ignore_for_file: no_leading_underscores_for_local_identifiers")
         fragment.output("// ignore_for_file: library_prefixes")
         fragment.output("// ignore_for_file: file_names")
+        fragment.output("// ignore_for_file: annotate_overrides")
         fragment.blankLine()
     }
 
@@ -425,7 +426,6 @@ class DartProductClass: DartClass {
         if !protocols.isEmpty {
             protocolsPart.append(" implements ")
             protocolsPart.append(protocols.map { "\(module).\($0)" }.joined(separator: ", "))
-            fragment.output("// ignore_for_file: annotate_overrides")
         }
         commonIgnoreSpecificWarnings(fragment: fragment)
 

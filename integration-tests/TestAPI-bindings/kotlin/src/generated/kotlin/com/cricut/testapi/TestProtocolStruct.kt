@@ -8,6 +8,14 @@ data class TestProtocolStruct(
 )
  {
     /**
+     * <!-- FishyJoes.export(frob) -->
+     */
+    val frob: kotlin.collections.List<Double>
+      get() = __jni_get_frob()
+    @JvmName("__jni_get_frob")
+    private external fun __jni_get_frob(): kotlin.collections.List<Double>
+
+    /**
      * <!-- FishyJoes.export(foo) -->
      */
     fun foo(

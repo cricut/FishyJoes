@@ -1566,6 +1566,11 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_set_corge"),
                 signature: bag.add("(Ljava/lang/String;)V"),
                 fnPtr: unsafeBitCast(java_set_TestAPI_TestProtocolClass_corge, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_frob"),
+                signature: bag.add("()Ljava/util/List;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_TestProtocolClass_frob, to: UnsafeMutableRawPointer.self)
             )
         )
         // print("setting up TestAPI.TestProtocolEnum...")
@@ -1624,6 +1629,11 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_xyzzy"),
                 signature: bag.add("(JLjava/util/List;)Ljava/lang/String;"),
                 fnPtr: unsafeBitCast(java_TestAPI_TestProtocolStruct_xyzzy, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_frob"),
+                signature: bag.add("()Ljava/util/List;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_TestProtocolStruct_frob, to: UnsafeMutableRawPointer.self)
             )
         )
         // print("setting up TestAPI.Tuples...")

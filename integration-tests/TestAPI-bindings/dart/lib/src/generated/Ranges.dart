@@ -43,6 +43,7 @@ import 'package:tuple/tuple.dart' as tuple;
 // ignore_for_file: no_leading_underscores_for_local_identifiers
 // ignore_for_file: library_prefixes
 // ignore_for_file: file_names
+// ignore_for_file: annotate_overrides
 
 /// <!-- FishyJoes.export(Ranges) -->
 class Ranges {

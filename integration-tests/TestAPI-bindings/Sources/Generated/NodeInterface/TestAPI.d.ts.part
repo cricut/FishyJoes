@@ -1590,6 +1590,11 @@ export declare namespace TestAPI {
         corge: string;
 
         /**
+         * <!-- FishyJoes.export(frob) -->
+         */
+        readonly frob: number[];
+
+        /**
          * <!-- FishyJoes.export(foo) -->
          */
         foo(
@@ -1680,6 +1685,11 @@ export declare namespace TestAPI {
         constructor(corge: string)
 
         corge: string;
+
+        /**
+         * <!-- FishyJoes.export(frob) -->
+         */
+        readonly frob: number[];
 
         /**
          * <!-- FishyJoes.export(foo) -->

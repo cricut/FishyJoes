@@ -18,6 +18,19 @@ namespace Cricut.TestAPI {
         }
 
         /// <summary>
+        /// <!-- FishyJoes.export(frob) -->
+        /// </summary>
+        public System.Collections.Generic.IList<double> GetFrob() {
+            using var thisHandle = new GCRef(this);
+            return Check((out CreatedRef exn) =>
+                __iota_get_TestAPI_TestProtocolStruct_frob(Loader.env, thisHandle.ptr, out exn).Consume<System.Collections.Generic.IList<double>>()
+            );
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_get_TestAPI_TestProtocolStruct_frob(IntPtr envRef, UnownedRef self, out CreatedRef exn);
+
+        /// <summary>
         /// <!-- FishyJoes.export(foo) -->
         /// </summary>
         public void Foo(
