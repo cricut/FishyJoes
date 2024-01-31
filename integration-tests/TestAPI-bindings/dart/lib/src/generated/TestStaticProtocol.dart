@@ -22,6 +22,7 @@ import './Structs_MemberwiseStruct.dart' as TestAPI;
 import './Structs_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
 import './Structs_ReferenceStruct.dart' as TestAPI;
 import './TestMethodsProtocol.dart' as TestAPI;
+import './TestOptionalsProtocol.dart' as TestAPI;
 import './TestPropertiesProtocol.dart' as TestAPI;
 import './TestProtocolClass.dart' as TestAPI;
 import './TestProtocolEnum.dart' as TestAPI;
@@ -49,5 +50,5 @@ import 'package:tuple/tuple.dart' as tuple;
 /// <!-- FishyJoes.export(TestStaticProtocol) -->
 abstract class TestStaticProtocol {
     // wibble not declared in abstract class because Dart does not support static method inheritance. It will only be put into the subclass that implements this abstract class.
-    // blarg not declared in abstract class because Dart does not support static method inheritance. It will only be put into the subclass that implements this abstract class.
+    // blarg not declared in abstract class because Dart does not support static property inheritance. It will only be put into the subclass that implements this abstract class.
 }

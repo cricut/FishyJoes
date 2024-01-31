@@ -1578,7 +1578,7 @@ export declare namespace TestAPI {
     }
 
     /**
-     * <!-- FishyJoes.exportReference(TestProtocolClass, protocols: [TestMethodsProtocol, TestPropertiesProtocol]) -->
+     * <!-- FishyJoes.exportReference(TestProtocolClass, protocols: [TestMethodsProtocol, TestPropertiesProtocol, TestOptionalsProtocol]) -->
      */
     export class TestProtocolClass {
         private constructor()
@@ -1593,6 +1593,11 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(frob) -->
          */
         readonly frob: number[];
+
+        /**
+         * <!-- FishyJoes.export(flarp) -->
+         */
+        flarp?: string;
 
         /**
          * <!-- FishyJoes.export(foo) -->
@@ -1641,6 +1646,13 @@ export declare namespace TestAPI {
         static init(
             corge: string
         ): TestAPI.TestProtocolClass;
+
+        /**
+         * <!-- FishyJoes.export(wombat) -->
+         */
+        wombat(
+            zxc: Optional<number>
+        ): Optional<number>;
     }
 
     export type TestProtocolEnum = "qux";

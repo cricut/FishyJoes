@@ -23,6 +23,7 @@ export './SimpleEnum.dart';
 export './Strings.dart';
 export './Structs.dart';
 export './TestMethodsProtocol.dart';
+export './TestOptionalsProtocol.dart';
 export './TestPropertiesProtocol.dart';
 export './TestProtocolClass.dart';
 export './TestProtocolEnum.dart';

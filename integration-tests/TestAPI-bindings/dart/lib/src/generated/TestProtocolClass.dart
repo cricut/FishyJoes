@@ -22,6 +22,7 @@ import './Structs_MemberwiseStruct.dart' as TestAPI;
 import './Structs_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
 import './Structs_ReferenceStruct.dart' as TestAPI;
 import './TestMethodsProtocol.dart' as TestAPI;
+import './TestOptionalsProtocol.dart' as TestAPI;
 import './TestPropertiesProtocol.dart' as TestAPI;
 import './TestProtocolClass.dart' as TestAPI;
 import './TestProtocolEnum.dart' as TestAPI;
@@ -46,8 +47,8 @@ import 'package:tuple/tuple.dart' as tuple;
 // ignore_for_file: file_names
 // ignore_for_file: annotate_overrides
 
-/// <!-- FishyJoes.exportReference(TestProtocolClass, protocols: [TestMethodsProtocol, TestPropertiesProtocol]) -->
-class TestProtocolClass extends SwiftReference implements TestAPI.TestMethodsProtocol, TestAPI.TestPropertiesProtocol {
+/// <!-- FishyJoes.exportReference(TestProtocolClass, protocols: [TestMethodsProtocol, TestPropertiesProtocol, TestOptionalsProtocol]) -->
+class TestProtocolClass extends SwiftReference implements TestAPI.TestMethodsProtocol, TestAPI.TestPropertiesProtocol, TestAPI.TestOptionalsProtocol {
     TestProtocolClass(ffi.Pointer reference): super(reference);
     static CreatedRef ffi_new(ffi.Pointer ref, OutCreatedRef exn) => check((exn) =>
         createRef(TestProtocolClass(ref))
@@ -79,6 +80,24 @@ class TestProtocolClass extends SwiftReference implements TestAPI.TestMethodsPro
             )
         )
     ;
+    /// <!-- FishyJoes.export(flarp) -->
+    String? get flarp =>
+        GCRef.using(this, (_thisHandle) =>
+            check((exn) =>
+                consumeCreatedRef<String?>(f__iota_get_TestAPI_TestProtocolClass_flarp(Loader.shared.env, _thisHandle.ptr, exn))
+            )
+        )
+    ;
+    set flarp(String? value) {
+        GCRef.using(this, (_thisHandle) =>
+            GCRef.using(value, (_valueHandle) =>
+                check((exn) =>
+                    f__iota_set_TestAPI_TestProtocolClass_flarp(Loader.shared.env, _thisHandle.ptr, _valueHandle.ptr, exn)
+                )
+            )
+        )
+        ;
+    }
     /// <!-- FishyJoes.export(foo) -->
     void foo(
     ) =>
@@ -147,6 +166,17 @@ class TestProtocolClass extends SwiftReference implements TestAPI.TestMethodsPro
         )
     ;
 
+    /// <!-- FishyJoes.export(wombat) -->
+    double? wombat(
+        int? zxc,
+    ) =>
+        GCRef.using(this, (_thisHandle) =>
+            GCRef.using(zxc, (_zxcHandle) =>
+                consumeCreatedRef<double?>(check((OutCreatedRef _exn) => f__iota_TestAPI_TestProtocolClass_wombat(Loader.shared.env, _thisHandle.ptr, _zxcHandle.ptr, _exn)))
+            )
+        )
+    ;
+
     static late bool Function(
         Env env,
         UnownedRef _this,
@@ -183,6 +213,12 @@ class TestProtocolClass extends SwiftReference implements TestAPI.TestMethodsPro
     static late CreatedRef Function(
         Env env,
         UnownedRef _this,
+        UnownedRef zxc,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_TestProtocolClass_wombat;
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef _this,
         int thud,
         UnownedRef grault,
         OutCreatedRef _exn
@@ -196,6 +232,11 @@ class TestProtocolClass extends SwiftReference implements TestAPI.TestMethodsPro
         Env env,
         UnownedRef _this,
         OutCreatedRef _exn
+    ) f__iota_get_TestAPI_TestProtocolClass_flarp;
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef _this,
+        OutCreatedRef _exn
     ) f__iota_get_TestAPI_TestProtocolClass_frob;
     static late void Function(
         Env env,
@@ -203,4 +244,10 @@ class TestProtocolClass extends SwiftReference implements TestAPI.TestMethodsPro
         UnownedRef corge,
         OutCreatedRef _exn
     ) f__iota_set_TestAPI_TestProtocolClass_corge;
+    static late void Function(
+        Env env,
+        UnownedRef _this,
+        UnownedRef flarp,
+        OutCreatedRef _exn
+    ) f__iota_set_TestAPI_TestProtocolClass_flarp;
 }

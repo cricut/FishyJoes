@@ -130,6 +130,20 @@ extension TestAPI.TestProtocolClass: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
+                "wombat": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "wombat", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                            let result = try OptionalConverter<Swift.Double>.toNode(
+                                env.this(converter: TestAPI.TestProtocolClass.self).wombat(
+                                    zxc: try env.argument(at: 0, converter: OptionalConverter<Swift.Int>.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: false
+                ),
                 "corge": (
                     .accessor(
                         getter: { env, info in
@@ -156,6 +170,23 @@ extension TestAPI.TestProtocolClass: FishyJoesNodeRuntime.NodeConverter {
                         },
                         setter: nil
                     ),
+                    isStatic: false
+                ),
+                "flarp": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "flarp", expectedArgumentCount: 0) { env in
+                                try OptionalConverter<Swift.String>.toNode(env.this(converter: TestAPI.TestProtocolClass.self).flarp, env: env.env)
+                            }
+                        },
+                        setter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "flarp", expectedArgumentCount: 1) { env in
+                                var mutatingSelf = try env.this(converter: TestAPI.TestProtocolClass.self)
+                                mutatingSelf.flarp = try env.argument(at: 0, converter: OptionalConverter<Swift.String>.self)
+                                try TestAPI.TestProtocolClass.mutateNode(mutatingSelf, this: env.this(), env: env.env)
+                                return nil
+                            }
+                        }),
                     isStatic: false
                 ),
             ],

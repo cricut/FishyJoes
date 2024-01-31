@@ -475,6 +475,21 @@ namespace Cricut.TestAPI {
             out CreatedRef _exn
         );
 
+        delegate CreatedRef _TestAPI_TestOptionalsProtocolConstructor(
+            ConsumedRef flarp,
+            out CreatedRef exn
+        );
+        delegate CreatedRef _TestAPI_TestOptionalsProtocol_flarpGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _TestAPI_TestOptionalsProtocol_flarpSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_TestOptionalsProtocol_setup(
+            IntPtr envRef,
+            _TestAPI_TestOptionalsProtocolConstructor constructor,
+            _TestAPI_TestOptionalsProtocol_flarpGetter get_flarp,
+            _TestAPI_TestOptionalsProtocol_flarpSetter set_flarp,
+            out CreatedRef _exn
+        );
+
         delegate CreatedRef _TestAPI_TestPropertiesProtocolConstructor(
             ConsumedRef corge,
             ConsumedRef frob,
@@ -1004,6 +1019,13 @@ namespace Cricut.TestAPI {
             });
             Once("setup_OptionalConverter<TestAPI.SimpleEnum>", () => {
                 Console.WriteLine("setting up Optional<SimpleEnum>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_OptionalConverter_setup(
+                    Loader.env,
+                    out exn
+                ));
+            });
+            Once("setup_OptionalConverter<Swift.String>", () => {
+                Console.WriteLine("setting up Optional<String>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_OptionalConverter_setup(
                     Loader.env,
                     out exn
@@ -1973,6 +1995,24 @@ namespace Cricut.TestAPI {
                     bag<_TestAPI_TestMethodsProtocolConstructor>((out CreatedRef exn) => Catching(out exn, () => {
                         return new CreatedRef(new Cricut.TestAPI.TestMethodsProtocol(
                         ));
+                    })),
+                    out exn
+                ));
+            });
+            Once("setup_TestAPI.TestOptionalsProtocol", () => {
+                Console.WriteLine("setting up TestAPI.TestOptionalsProtocol...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_TestOptionalsProtocol_setup(
+                    Loader.env,
+                    bag<_TestAPI_TestOptionalsProtocolConstructor>((ConsumedRef flarp, out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.TestOptionalsProtocol(
+                            flarp.Consume<string?>()
+                        ));
+                    })),
+                    bag<_TestAPI_TestOptionalsProtocol_flarpGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.TestOptionalsProtocol>().Flarp)
+                    )),
+                    bag<_TestAPI_TestOptionalsProtocol_flarpSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.TestOptionalsProtocol>().Flarp = newValue.Consume<string?>();
                     })),
                     out exn
                 ));

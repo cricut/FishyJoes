@@ -39,6 +39,12 @@ void main() {
         final testProtocolClass = TestProtocolClass.init("Step inside it's a wilder ride!");
         expect(testProtocolClass.corge, equals("Step inside it's a wilder ride!"));
         expect(testProtocolClass.frob, equals([42.0, -1.23456789, 3.14159265359]));
+        expect(testProtocolClass.flarp, equals(null));
+        testProtocolClass.flarp = "Excellent observation Kiki!";
+        expect(testProtocolClass.flarp, equals("Excellent observation Kiki!"));
+        expect(testProtocolClass.wombat(null), equals(42.909));
+        expect(testProtocolClass.wombat(57), equals(null));
+        expect(testProtocolClass.wombat(56), equals(7890.2));
 
         testProtocolClass.foo();
         expect(testProtocolClass.bar(), equals(true));

@@ -1,7 +1,7 @@
 package com.cricut.testapi
 
 /**
- * <!-- FishyJoes.exportReference(TestProtocolClass, protocols: [TestMethodsProtocol, TestPropertiesProtocol]) -->
+ * <!-- FishyJoes.exportReference(TestProtocolClass, protocols: [TestMethodsProtocol, TestPropertiesProtocol, TestOptionalsProtocol]) -->
  */
 class TestProtocolClass private constructor(swiftReference: Long): com.cricut.fishyjoes.runtime.SwiftReference(swiftReference) {
     /**
@@ -22,6 +22,17 @@ class TestProtocolClass private constructor(swiftReference: Long): com.cricut.fi
       get() = __jni_get_frob()
     @JvmName("__jni_get_frob")
     private external fun __jni_get_frob(): kotlin.collections.List<Double>
+
+    /**
+     * <!-- FishyJoes.export(flarp) -->
+     */
+    var flarp: kotlin.String?
+      get() = __jni_get_flarp()
+      set(value) { __jni_set_flarp(value) } 
+    @JvmName("__jni_get_flarp")
+    private external fun __jni_get_flarp(): kotlin.String?
+    @JvmName("__jni_set_flarp")
+    private external fun __jni_set_flarp(newValue: kotlin.String?)
 
     /**
      * <!-- FishyJoes.export(foo) -->
@@ -86,6 +97,17 @@ class TestProtocolClass private constructor(swiftReference: Long): com.cricut.fi
     private external fun __jni_plugh(
         fred: kotlin.Triple<Boolean, Double, kotlin.collections.List<kotlin.String>>
     ): kotlin.Triple<Boolean, Long, kotlin.String>
+
+    /**
+     * <!-- FishyJoes.export(wombat) -->
+     */
+    fun wombat(
+        zxc: Long?
+    ): Double? = __jni_wombat(zxc)
+    @JvmName("__jni_wombat")
+    private external fun __jni_wombat(
+        zxc: Long?
+    ): Double?
 
     companion object {
         /**

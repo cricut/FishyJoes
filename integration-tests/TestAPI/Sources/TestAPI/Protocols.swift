@@ -30,6 +30,14 @@ public protocol TestStaticProtocol {
     static func wibble() -> String
 }
 
+/// <!-- FishyJoes.export(TestOptionalsProtocol) -->
+public protocol TestOptionalsProtocol {
+    /// <!-- FishyJoes.export(flarp) -->
+    var flarp: String? { set get }
+    /// <!-- FishyJoes.export(wombat) -->
+    func wombat(zxc: Int?) -> Double?
+}
+
 /// <!-- FishyJoes.export(TestProtocolEnum, protocols: [TestMethodsProtocol]) -->
 public enum TestProtocolEnum: TestMethodsProtocol {
     case qux
@@ -107,8 +115,8 @@ public struct TestProtocolStruct: TestMethodsProtocol, TestPropertiesProtocol, T
     }
 }
 
-/// <!-- FishyJoes.exportReference(TestProtocolClass, protocols: [TestMethodsProtocol, TestPropertiesProtocol]) -->
-public class TestProtocolClass: TestMethodsProtocol, TestPropertiesProtocol {
+/// <!-- FishyJoes.exportReference(TestProtocolClass, protocols: [TestMethodsProtocol, TestPropertiesProtocol, TestOptionalsProtocol]) -->
+public class TestProtocolClass: TestMethodsProtocol, TestPropertiesProtocol, TestOptionalsProtocol {
     /// <!-- FishyJoes.export(foo) -->
     public func foo() {
         print("!foo-oof!")
@@ -144,5 +152,21 @@ public class TestProtocolClass: TestMethodsProtocol, TestPropertiesProtocol {
     /// <!-- FishyJoes.export(init) -->
     public init(corge: String) {
         self.corge = corge
+    }
+
+    /// <!-- FishyJoes.export(flarp) -->
+    public var flarp: String?
+
+    /// <!-- FishyJoes.export(wombat) -->
+    public func wombat(zxc: Int?) -> Double? {
+        if let a = zxc {
+            if a == 56 {
+                return 7890.2
+            } else {
+                return nil
+            }
+        } else {
+            return 42.909
+        }
     }
 }
