@@ -158,3 +158,4 @@ public func __iota_get_TestAPI_TestProtocolStruct_blarg(
         try Swift.String.toIota(TestAPI.TestProtocolStruct.blarg, env: env)
     }
 }
+
