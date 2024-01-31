@@ -38,6 +38,7 @@ import 'package:fishyjoes_dart/runtime.dart';
 import 'package:fishyjoes_dart/utilities.dart' as utils;
 import 'package:tuple/tuple.dart' as tuple;
 
+// ignore_for_file: annotate_overrides
 /// <!-- FishyJoes.export(TestProtocolStruct, protocols: [TestMethodsProtocol, TestPropertiesProtocol]) -->
 class TestProtocolStruct implements TestAPI.TestMethodsProtocol, TestAPI.TestPropertiesProtocol {
     String corge;

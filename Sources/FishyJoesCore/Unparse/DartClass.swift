@@ -412,13 +412,14 @@ class DartProductClass: DartClass {
     }
 
     override func output(to fragment: SourceFragment) {
-        document(documentation, fragment: fragment)
-
         var protocolsPart = String()
         if !protocols.isEmpty {
             protocolsPart.append(" implements ")
             protocolsPart.append(protocols.map { "\(module).\($0)" }.joined(separator: ", "))
+            fragment.output("// ignore_for_file: annotate_overrides")
         }
+
+        document(documentation, fragment: fragment)
 
         switch constructor {
         case .reference:
@@ -913,9 +914,6 @@ class DartProtocolClass: DartClass {
                 }
             }
 
-            if unqualifiedName.contains("TestPropertiesProtocol") {
-                let a = 1
-            }
             for field in fields {
                 fragment.blankLine()
                 document(field.documentation, fragment: fragment)
