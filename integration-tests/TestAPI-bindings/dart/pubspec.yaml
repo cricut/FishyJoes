@@ -9,10 +9,13 @@ dependencies:
   path: ^1.8.0
   fishyjoes_dart:
     path: ../../../dart-runtime
+  tuple: ^2.0.2
+  collection: ^1.18.0
     # git:
     #   url: https://github.com/cricut/FishyJoes
     #   ref: 3.0.3-alpha7
     #   path: dart-runtime
+
 
 dev_dependencies:
   ffigen: ^7.2.0

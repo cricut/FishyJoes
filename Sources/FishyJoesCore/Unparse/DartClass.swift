@@ -82,6 +82,14 @@ class DartClass {
         }
     }
 
+    func commonIgnoreSpecificWarnings(fragment: SourceFragment) {
+        fragment.output("// ignore_for_file: unused_import")
+        fragment.output("// ignore_for_file: non_constant_identifier_names")
+        fragment.output("// ignore_for_file: no_leading_underscores_for_local_identifiers")
+        fragment.output("// ignore_for_file: library_prefixes")
+        fragment.output("// ignore_for_file: file_names")
+    }
+
     func output(to fragment: SourceFragment) {
         fatalErr("This method must be overridden and call `outputInner`")
     }
@@ -418,9 +426,7 @@ class DartProductClass: DartClass {
             protocolsPart.append(protocols.map { "\(module).\($0)" }.joined(separator: ", "))
             fragment.output("// ignore_for_file: annotate_overrides")
         }
-        fragment.output("// ignore_for_file: unused_import")
-        fragment.output("// ignore_for_file: non_constant_identifier_names")
-        fragment.output("// ignore_for_file: no_leading_underscores_for_local_identifiers")
+        commonIgnoreSpecificWarnings(fragment: fragment)
 
         document(documentation, fragment: fragment)
 
@@ -644,9 +650,7 @@ class DartEnumClass: DartClass {
     }
 
     override func output(to fragment: SourceFragment) {
-        fragment.output("// ignore_for_file: unused_import")
-        fragment.output("// ignore_for_file: non_constant_identifier_names")
-        fragment.output("// ignore_for_file: no_leading_underscores_for_local_identifiers")
+        commonIgnoreSpecificWarnings(fragment: fragment)
 
         document(documentation, fragment: fragment)
         let doSealedClass = !cases.isEmpty
@@ -892,7 +896,8 @@ class DartProtocolClass: DartClass {
     }
 
     override func output(to fragment: SourceFragment) {
-        fragment.output("// ignore_for_file: unused_import")
+        commonIgnoreSpecificWarnings(fragment: fragment)
+
         document(documentation, fragment: fragment)
 
         fragment.output("abstract class \(unqualifiedName)", newLineTerminated: false)

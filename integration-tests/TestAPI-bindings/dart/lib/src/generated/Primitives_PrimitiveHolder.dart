@@ -41,6 +41,8 @@ import 'package:tuple/tuple.dart' as tuple;
 // ignore_for_file: unused_import
 // ignore_for_file: non_constant_identifier_names
 // ignore_for_file: no_leading_underscores_for_local_identifiers
+// ignore_for_file: library_prefixes
+// ignore_for_file: file_names
 /// <!-- FishyJoes.export(Primitives.PrimitiveHolder) -->
 class Primitives_PrimitiveHolder {
     bool b;
