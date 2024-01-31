@@ -161,6 +161,17 @@ class TestProtocolStruct implements TestAPI.TestMethodsProtocol, TestAPI.TestPro
         )
     ;
 
+    /// <!-- FishyJoes.export(plugh) -->
+    tuple.Tuple3<bool, int, String> plugh(
+        tuple.Tuple3<bool, double, List<String>> fred,
+    ) =>
+        GCRef.using(this, (_thisHandle) =>
+            GCRef.using(fred, (_fredHandle) =>
+                consumeCreatedRef<tuple.Tuple3<bool, int, String>>(check((OutCreatedRef _exn) => f__iota_TestAPI_TestProtocolStruct_plugh(Loader.shared.env, _thisHandle.ptr, _fredHandle.ptr, _exn)))
+            )
+        )
+    ;
+
     static late bool Function(
         Env env,
         UnownedRef _this,
@@ -183,6 +194,12 @@ class TestProtocolStruct implements TestAPI.TestMethodsProtocol, TestAPI.TestPro
         UnownedRef str,
         OutCreatedRef _exn
     ) f__iota_TestAPI_TestProtocolStruct_garply;
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef _this,
+        UnownedRef fred,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_TestProtocolStruct_plugh;
     static late CreatedRef Function(
         Env env,
         UnownedRef _this,

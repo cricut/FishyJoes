@@ -91,6 +91,20 @@ extension TestAPI.TestProtocolEnum: FishyJoesNodeRuntime.NodeConverter {
                 },
                 isStatic: true
             ),
+            "plugh": (
+                .method { env, info in
+                    FishyJoesNodeRuntime.callbackBody(env, info, name: "plugh", expectedArgumentCount: 2, hasNamedOptions: false) { env in
+                        let result = try Tuple3Converter<Swift.Bool, Swift.Int, Swift.String>.toNode(
+                            env.argument(at: 0, converter: TestAPI.TestProtocolEnum.self).plugh(
+                                fred: try env.argument(at: 1, converter: Tuple3Converter<Swift.Bool, Swift.Double, ArrayConverter<Swift.String>>.self)
+                            ),
+                            env: env.env
+                        )
+                        return result
+                    }
+                },
+                isStatic: true
+            ),
         ], env: env)
         try env.defineProperties(object, properties: props)
         try FishyJoesNodeRuntime.mergeDefinitionInto(

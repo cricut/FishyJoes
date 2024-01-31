@@ -58,6 +58,17 @@ sealed class TestProtocolEnum {
         grault: kotlin.collections.List<Double>
     ): kotlin.String
 
+    /**
+     * <!-- FishyJoes.export(plugh) -->
+     */
+    fun plugh(
+        fred: kotlin.Triple<Boolean, Double, kotlin.collections.List<kotlin.String>>
+    ): kotlin.Triple<Boolean, Long, kotlin.String> = __jni_plugh(fred)
+    @JvmName("__jni_plugh")
+    private external fun __jni_plugh(
+        fred: kotlin.Triple<Boolean, Double, kotlin.collections.List<kotlin.String>>
+    ): kotlin.Triple<Boolean, Long, kotlin.String>
+
     companion object {
         init { loadNativeLibs() }
     }

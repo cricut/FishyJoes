@@ -2064,6 +2064,22 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
+            Once("setup_Tuple3Converter<Swift.Bool, Swift.Double, ArrayConverter<Swift.String>>", () => {
+                Console.WriteLine("setting up (Bool, Double, Array<String>)...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Tuple3Converter_setup<bool, double, System.Collections.Generic.IList<string>>(
+                    Loader.env,
+                    "Tuple3Converter<Swift.Bool, Swift.Double, ArrayConverter<Swift.String>>",
+                    out exn
+                ));
+            });
+            Once("setup_Tuple3Converter<Swift.Bool, Swift.Int, Swift.String>", () => {
+                Console.WriteLine("setting up (Bool, Int, String)...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Tuple3Converter_setup<bool, nint, string>(
+                    Loader.env,
+                    "Tuple3Converter<Swift.Bool, Swift.Int, Swift.String>",
+                    out exn
+                ));
+            });
             Once("setup_Tuple2Converter<Swift.Int, Swift.String>", () => {
                 Console.WriteLine("setting up (Int, String)...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Tuple2Converter_setup<nint, string>(

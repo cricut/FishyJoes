@@ -122,6 +122,17 @@ sealed class TestProtocolEnum implements TestAPI.TestMethodsProtocol {
         )
     ;
 
+    /// <!-- FishyJoes.export(plugh) -->
+    tuple.Tuple3<bool, int, String> plugh(
+        tuple.Tuple3<bool, double, List<String>> fred,
+    ) =>
+        GCRef.using(this, (_thisHandle) =>
+            GCRef.using(fred, (_fredHandle) =>
+                consumeCreatedRef<tuple.Tuple3<bool, int, String>>(check((OutCreatedRef _exn) => f__iota_TestAPI_TestProtocolEnum_plugh(Loader.shared.env, _thisHandle.ptr, _fredHandle.ptr, _exn)))
+            )
+        )
+    ;
+
     static late bool Function(
         Env env,
         UnownedRef _this,
@@ -144,6 +155,12 @@ sealed class TestProtocolEnum implements TestAPI.TestMethodsProtocol {
         UnownedRef str,
         OutCreatedRef _exn
     ) f__iota_TestAPI_TestProtocolEnum_garply;
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef _this,
+        UnownedRef fred,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_TestProtocolEnum_plugh;
     static late CreatedRef Function(
         Env env,
         UnownedRef _this,

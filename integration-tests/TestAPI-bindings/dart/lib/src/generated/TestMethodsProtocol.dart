@@ -61,4 +61,7 @@ abstract class TestMethodsProtocol {
         int thud,
         List<double> grault
     );
+    tuple.Tuple3<bool, int, String> plugh(
+        tuple.Tuple3<bool, double, List<String>> fred
+    );
 }

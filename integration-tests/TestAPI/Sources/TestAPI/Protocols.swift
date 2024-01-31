@@ -10,6 +10,8 @@ public protocol TestMethodsProtocol {
     func garply(_: String) -> String
     /// <!-- FishyJoes.export(xyzzy) -->
     func xyzzy(thud: Int, grault: [Double]) -> String
+    /// <!-- FishyJoes.export(plugh) -->
+    func plugh(fred: (Bool, Double, [String])) -> (Bool, Int, String)
 }
 
 /// <!-- FishyJoes.export(TestPropertiesProtocol) -->
@@ -44,6 +46,10 @@ public enum TestProtocolEnum: TestMethodsProtocol {
     public func xyzzy(thud: Int, grault: [Double]) -> String {
         "thud: \(thud); grault: [\(grault.map { "\($0)" }.joined(separator: ", "))]"
     }
+    /// <!-- FishyJoes.export(plugh) -->
+    public func plugh(fred: (Bool, Double, [String])) -> (Bool, Int, String) {
+        (!fred.0, Int(fred.1), fred.2.joined(separator: " -<*>- "))
+    }
 }
 
 /// <!-- FishyJoes.export(TestProtocolStruct, protocols: [TestMethodsProtocol, TestPropertiesProtocol]) -->
@@ -67,6 +73,10 @@ public struct TestProtocolStruct: TestMethodsProtocol, TestPropertiesProtocol {
     /// <!-- FishyJoes.export(xyzzy) -->
     public func xyzzy(thud: Int, grault: [Double]) -> String {
         "thud: \(thud) | grault: [\(grault.map { "\($0)" }.joined(separator: ", "))]"
+    }
+    /// <!-- FishyJoes.export(plugh) -->
+    public func plugh(fred: (Bool, Double, [String])) -> (Bool, Int, String) {
+        (!fred.0 || fred.1 == 42.9, Int(fred.1 + 9), fred.2.joined(separator: " *>-<* "))
     }
 
     public var corge: String
@@ -102,7 +112,10 @@ public class TestProtocolClass: TestMethodsProtocol, TestPropertiesProtocol {
     public func xyzzy(thud: Int, grault: [Double]) -> String {
         "thud: \(thud) \\|/ grault: [\(grault.map { "\($0)" }.joined(separator: ", "))]"
     }
-
+    /// <!-- FishyJoes.export(plugh) -->
+    public func plugh(fred: (Bool, Double, [String])) -> (Bool, Int, String) {
+        (fred.0 && fred.1 == 92.47, Int(fred.1 - 9), fred.2.joined(separator: " _-^= "))
+    }
     /// <!-- FishyJoes.export(corge) -->
     public var corge: String
 

@@ -103,6 +103,25 @@ namespace Cricut.TestAPI {
             out CreatedRef exn
         );
 
+        /// <summary>
+        /// <!-- FishyJoes.export(plugh) -->
+        /// </summary>
+        public System.Tuple<bool, nint, string> Plugh(
+            System.Tuple<bool, double, System.Collections.Generic.IList<string>> fred
+        ) {
+            using var _thisHandle = new GCRef(this);
+            using var _fredHandle = new GCRef(fred);
+            return Check((out CreatedRef _exn) => __iota_TestAPI_TestProtocolEnum_plugh(Loader.env, _thisHandle.ptr, _fredHandle.ptr, out _exn)).Consume<System.Tuple<bool, nint, string>>();
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_TestAPI_TestProtocolEnum_plugh(
+            IntPtr envRef,
+            UnownedRef self,
+            UnownedRef fred,
+            out CreatedRef exn
+        );
+
         static TestProtocolEnum() { _TypeSetup._ensureLoaded(); }
     }
 }

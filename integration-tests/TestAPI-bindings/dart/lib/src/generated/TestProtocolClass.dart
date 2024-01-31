@@ -126,6 +126,17 @@ class TestProtocolClass extends SwiftReference implements TestAPI.TestMethodsPro
         )
     ;
 
+    /// <!-- FishyJoes.export(plugh) -->
+    tuple.Tuple3<bool, int, String> plugh(
+        tuple.Tuple3<bool, double, List<String>> fred,
+    ) =>
+        GCRef.using(this, (_thisHandle) =>
+            GCRef.using(fred, (_fredHandle) =>
+                consumeCreatedRef<tuple.Tuple3<bool, int, String>>(check((OutCreatedRef _exn) => f__iota_TestAPI_TestProtocolClass_plugh(Loader.shared.env, _thisHandle.ptr, _fredHandle.ptr, _exn)))
+            )
+        )
+    ;
+
     /// <!-- FishyJoes.export(init) -->
     static TestAPI.TestProtocolClass init(
         String corge,
@@ -162,6 +173,12 @@ class TestProtocolClass extends SwiftReference implements TestAPI.TestMethodsPro
         UnownedRef corge,
         OutCreatedRef _exn
     ) f__iota_TestAPI_TestProtocolClass_init;
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef _this,
+        UnownedRef fred,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_TestProtocolClass_plugh;
     static late CreatedRef Function(
         Env env,
         UnownedRef _this,

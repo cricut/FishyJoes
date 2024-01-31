@@ -151,6 +151,8 @@ public func FishyJoes_TestAPI_registerTypes() {
     Env.registerType(Swift.UInt64.self, as: "Swift.UInt64")
     Env.registerType(Swift.UInt8.self, as: "Swift.UInt8")
     Env.registerType(Foundation.URL.self, as: "Foundation.URL")
+    Env.registerType(Tuple3Converter<Swift.Bool, Swift.Double, ArrayConverter<Swift.String>>.self, as: "Tuple3Converter<Swift.Bool, Swift.Double, ArrayConverter<Swift.String>>")
+    Env.registerType(Tuple3Converter<Swift.Bool, Swift.Int, Swift.String>.self, as: "Tuple3Converter<Swift.Bool, Swift.Int, Swift.String>")
     Env.registerType(Tuple2Converter<Swift.Int, Swift.String>.self, as: "Tuple2Converter<Swift.Int, Swift.String>")
     Env.registerType(Tuple4Converter<Swift.Int8, Swift.Int16, Swift.Int32, Swift.Int64>.self, as: "Tuple4Converter<Swift.Int8, Swift.Int16, Swift.Int32, Swift.Int64>")
     Env.registerType(Tuple3Converter<Swift.String, Swift.Double, Swift.String>.self, as: "Tuple3Converter<Swift.String, Swift.Double, Swift.String>")

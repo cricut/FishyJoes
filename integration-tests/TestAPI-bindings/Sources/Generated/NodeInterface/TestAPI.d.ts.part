@@ -1629,6 +1629,13 @@ export declare namespace TestAPI {
         ): string;
 
         /**
+         * <!-- FishyJoes.export(plugh) -->
+         */
+        plugh(
+            fred: [boolean, number, string[]]
+        ): [boolean, number, string];
+
+        /**
          * <!-- FishyJoes.export(init) -->
          */
         static init(
@@ -1667,6 +1674,14 @@ export declare namespace TestAPI {
             self: TestAPI.TestProtocolEnum,
             str: string
         ): string;
+
+        /**
+         * <!-- FishyJoes.export(plugh) -->
+         */
+        function plugh(
+            self: TestAPI.TestProtocolEnum,
+            fred: [boolean, number, string[]]
+        ): [boolean, number, string];
 
         /**
          * <!-- FishyJoes.export(xyzzy) -->
@@ -1724,6 +1739,13 @@ export declare namespace TestAPI {
             thud: number,
             grault: number[]
         ): string;
+
+        /**
+         * <!-- FishyJoes.export(plugh) -->
+         */
+        plugh(
+            fred: [boolean, number, string[]]
+        ): [boolean, number, string];
     }
 
     export type Tuples = never;

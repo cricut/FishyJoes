@@ -100,6 +100,20 @@ extension TestAPI.TestProtocolStruct: NodeMutator {
                     },
                     isStatic: false
                 ),
+                "plugh": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "plugh", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                            let result = try Tuple3Converter<Swift.Bool, Swift.Int, Swift.String>.toNode(
+                                env.this(converter: TestAPI.TestProtocolStruct.self).plugh(
+                                    fred: try env.argument(at: 0, converter: Tuple3Converter<Swift.Bool, Swift.Double, ArrayConverter<Swift.String>>.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: false
+                ),
                 "frob": (
                     .accessor(
                         getter: { env, info in
