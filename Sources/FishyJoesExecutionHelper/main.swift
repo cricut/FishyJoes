@@ -12,7 +12,7 @@ if let dumpPath = ProcessInfo.processInfo.environment["DUMP_SOURCERY_DATA"] {
 }
 
 let inputPath = (CommandLine.arguments[2] as NSString).expandingTildeInPath as String
-print("[FJD] inputPath: \(inputPath)")
+
 protocol UndeprecatedNSKeyedUnarchiver {
     static func unarchiveObject(withFile file: String) -> Any?
 }
