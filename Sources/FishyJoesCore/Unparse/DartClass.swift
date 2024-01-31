@@ -88,6 +88,7 @@ class DartClass {
         fragment.output("// ignore_for_file: no_leading_underscores_for_local_identifiers")
         fragment.output("// ignore_for_file: library_prefixes")
         fragment.output("// ignore_for_file: file_names")
+        fragment.blankLine()
     }
 
     func output(to fragment: SourceFragment) {
@@ -439,7 +440,7 @@ class DartProductClass: DartClass {
         fragment.outputBlock(" {") {
             switch constructor {
             case .reference:
-                fragment.output("\(unqualifiedName)(ffi.Pointer reference): super(reference) {}")
+                fragment.output("\(unqualifiedName)(ffi.Pointer reference): super(reference);")
 
                 fragment.outputBlock("static CreatedRef ffi_new(ffi.Pointer ref, OutCreatedRef exn) => check((exn) =>", closeWith: ");") {
                     fragment.output("createRef(\(unqualifiedName)(ref))")

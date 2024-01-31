@@ -43,6 +43,7 @@ import 'package:tuple/tuple.dart' as tuple;
 // ignore_for_file: no_leading_underscores_for_local_identifiers
 // ignore_for_file: library_prefixes
 // ignore_for_file: file_names
+
 /// <!-- FishyJoes.export(URLs) -->
 class URLs {
     URLs._();

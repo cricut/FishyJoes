@@ -43,9 +43,10 @@ import 'package:tuple/tuple.dart' as tuple;
 // ignore_for_file: no_leading_underscores_for_local_identifiers
 // ignore_for_file: library_prefixes
 // ignore_for_file: file_names
+
 /// <!-- FishyJoes.exportReference(Structs_PuttingTypesIntoQuestionablePlaces) -->
 class Structs_PuttingTypesIntoQuestionablePlaces extends SwiftReference {
-    Structs_PuttingTypesIntoQuestionablePlaces(ffi.Pointer reference): super(reference) {}
+    Structs_PuttingTypesIntoQuestionablePlaces(ffi.Pointer reference): super(reference);
     static CreatedRef ffi_new(ffi.Pointer ref, OutCreatedRef exn) => check((exn) =>
         createRef(Structs_PuttingTypesIntoQuestionablePlaces(ref))
     );
