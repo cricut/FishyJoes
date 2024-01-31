@@ -74,6 +74,6 @@ internal class AsyncFunctionTests {
             AsyncFunctions.willThrow()
         }
         assertInstanceOf(Error::class.java, result.exceptionOrNull())
-        assertEquals("TheError()", result.exceptionOrNull()?.message)
+        assertEquals("TheAsyncError()", result.exceptionOrNull()?.message)
     }
 }
