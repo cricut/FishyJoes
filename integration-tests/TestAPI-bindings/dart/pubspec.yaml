@@ -11,6 +11,7 @@ dependencies:
     path: ../../../dart-runtime
   tuple: ^2.0.2
   collection: ^1.18.0
+  ffi: ^2.1.0
     # git:
     #   url: https://github.com/cricut/FishyJoes
     #   ref: 3.0.3-alpha7
