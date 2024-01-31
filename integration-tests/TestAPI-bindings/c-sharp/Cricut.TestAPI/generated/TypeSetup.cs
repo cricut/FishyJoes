@@ -490,6 +490,13 @@ namespace Cricut.TestAPI {
             out CreatedRef _exn
         );
 
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_TestProtocolClass_setup(
+            IntPtr envRef,
+            SwiftReference.ConstructorDelegate constructorMethod,
+            out CreatedRef _exn
+        );
+
         delegate CreatedRef Cricut_TestAPI_TestProtocolEnum_new_qux(
             out CreatedRef _exn
         );
@@ -1971,6 +1978,16 @@ namespace Cricut.TestAPI {
                     )),
                     bag<_TestAPI_TestPropertiesProtocol_corgeSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
                         obj.Peek<Cricut.TestAPI.TestPropertiesProtocol>().Corge = newValue.Consume<string>();
+                    })),
+                    out exn
+                ));
+            });
+            Once("setup_TestAPI.TestProtocolClass", () => {
+                Console.WriteLine("setting up TestAPI.TestProtocolClass...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_TestProtocolClass_setup(
+                    Loader.env,
+                    bag<SwiftReference.ConstructorDelegate>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.TestProtocolClass(ptr));
                     })),
                     out exn
                 ));

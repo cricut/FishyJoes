@@ -23,6 +23,7 @@ import './Structs_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
 import './Structs_ReferenceStruct.dart' as TestAPI;
 import './TestMethodsProtocol.dart' as TestAPI;
 import './TestPropertiesProtocol.dart' as TestAPI;
+import './TestProtocolClass.dart' as TestAPI;
 import './TestProtocolEnum.dart' as TestAPI;
 import './TestProtocolStruct.dart' as TestAPI;
 import './Tuples.dart' as TestAPI;

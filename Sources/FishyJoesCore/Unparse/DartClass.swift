@@ -916,6 +916,9 @@ class DartProtocolClass: DartClass {
                 }
             }
 
+            if unqualifiedName.contains("TestPropertiesProtocol") {
+                let a = 1
+            }
             for field in fields {
                 fragment.blankLine()
                 document(field.documentation, fragment: fragment)

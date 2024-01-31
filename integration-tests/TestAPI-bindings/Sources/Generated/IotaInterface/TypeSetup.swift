@@ -125,6 +125,7 @@ public func FishyJoes_TestAPI_registerTypes() {
     Env.registerType(TestAPI.Structs.self, as: "TestAPI.Structs")
     Env.registerType(TestAPI.TestMethodsProtocol.self, as: "TestAPI.TestMethodsProtocol")
     Env.registerType(TestAPI.TestPropertiesProtocol.self, as: "TestAPI.TestPropertiesProtocol")
+    Env.registerType(TestAPI.TestProtocolClass.self, as: "TestAPI.TestProtocolClass")
     Env.registerType(TestAPI.TestProtocolEnum.self, as: "TestAPI.TestProtocolEnum")
     Env.registerType(TestAPI.TestProtocolStruct.self, as: "TestAPI.TestProtocolStruct")
     Env.registerType(TestAPI.Tuples.self, as: "TestAPI.Tuples")

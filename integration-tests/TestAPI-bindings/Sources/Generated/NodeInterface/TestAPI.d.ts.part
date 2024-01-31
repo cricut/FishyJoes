@@ -1577,6 +1577,53 @@ export declare namespace TestAPI {
         ): number;
     }
 
+    /**
+     * <!-- FishyJoes.exportReference(TestProtocolClass, protocols: [TestMethodsProtocol, TestPropertiesProtocol]) -->
+     */
+    export class TestProtocolClass {
+        private constructor()
+        private _inhibitStructuralTyping: any
+
+        /**
+         * <!-- FishyJoes.export(corge) -->
+         */
+        corge: string;
+
+        /**
+         * <!-- FishyJoes.export(foo) -->
+         */
+        foo(
+        ): void;
+
+        /**
+         * <!-- FishyJoes.export(bar) -->
+         */
+        bar(
+        ): boolean;
+
+        /**
+         * <!-- FishyJoes.export(baz) -->
+         */
+        baz(
+            qux: boolean
+        ): void;
+
+        /**
+         * <!-- FishyJoes.export(garply) -->
+         */
+        garply(
+            str: string
+        ): string;
+
+        /**
+         * <!-- FishyJoes.export(xyzzy) -->
+         */
+        xyzzy(
+            thud: number,
+            grault: number[]
+        ): string;
+    }
+
     export type TestProtocolEnum = "qux";
     export namespace TestProtocolEnum {
         /**

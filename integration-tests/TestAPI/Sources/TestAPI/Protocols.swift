@@ -48,25 +48,56 @@ public enum TestProtocolEnum: TestMethodsProtocol {
 public struct TestProtocolStruct: TestMethodsProtocol, TestPropertiesProtocol {
     /// <!-- FishyJoes.export(foo) -->
     public func foo() {
-        print("foo!")
+        print("!oof")
     }
     /// <!-- FishyJoes.export(bar) -->
     public func bar() -> Bool {
-        return true
+        return false
     }
     /// <!-- FishyJoes.export(baz) -->
     public func baz(qux: Bool) {
-        print("baz(qux: \(qux))")
+        print("baz(qux: !\(!qux))")
     }
     /// <!-- FishyJoes.export(garply) -->
     public func garply(_ str: String) -> String {
-        return "garply \(str) garpity garp"
+        return "garp garpity \(str) garpee"
     }
     /// <!-- FishyJoes.export(xyzzy) -->
     public func xyzzy(thud: Int, grault: [Double]) -> String {
-        "thud: \(thud); grault: [\(grault.map { "\($0)" }.joined(separator: ", "))]"
+        "thud: \(thud) | grault: [\(grault.map { "\($0)" }.joined(separator: ", "))]"
     }
 
+    public var corge: String
+    
+    public init(corge: String) {
+        self.corge = corge
+    }
+}
+
+/// <!-- FishyJoes.exportReference(TestProtocolClass, protocols: [TestMethodsProtocol, TestPropertiesProtocol]) -->
+public class TestProtocolClass: TestMethodsProtocol, TestPropertiesProtocol {
+    /// <!-- FishyJoes.export(foo) -->
+    public func foo() {
+        print("!foo-oof!")
+    }
+    /// <!-- FishyJoes.export(bar) -->
+    public func bar() -> Bool {
+        return false
+    }
+    /// <!-- FishyJoes.export(baz) -->
+    public func baz(qux: Bool) {
+        print("baz(qux: !!\(qux))")
+    }
+    /// <!-- FishyJoes.export(garply) -->
+    public func garply(_ str: String) -> String {
+        return "garplify \(str) parguino"
+    }
+    /// <!-- FishyJoes.export(xyzzy) -->
+    public func xyzzy(thud: Int, grault: [Double]) -> String {
+        "thud: \(thud) \\|/ grault: [\(grault.map { "\($0)" }.joined(separator: ", "))]"
+    }
+
+    /// <!-- FishyJoes.export(corge) -->
     public var corge: String
     
     public init(corge: String) {

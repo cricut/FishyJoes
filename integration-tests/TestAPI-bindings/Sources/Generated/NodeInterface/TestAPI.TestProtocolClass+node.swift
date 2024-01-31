@@ -1,0 +1,136 @@
+// Generated using Sourcery 2.0.2 — https://github.com/krzysztofzablocki/Sourcery
+// DO NOT EDIT
+// swiftlint:disable:next blanket_disable_command superfluous_disable_command
+// swiftlint:disable unused_closure_parameter syntactic_sugar attributes
+import FishyJoesNodeRuntime
+import Foundation
+import TestAPI
+
+extension TestAPI.TestProtocolClass: FishyJoesNodeRuntime.NodeConverter {
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> TestAPI.TestProtocolClass {
+        guard let nonNilPointer = try env.unwrap(value) else {
+            throw JSException(message: "expected TestAPI.TestProtocolClass, got nil")
+        }
+        return try Box<TestAPI.TestProtocolClass>.takeUnretainedOpaque(nonNilPointer).value
+    }
+
+    public static func toNode(_ value: TestAPI.TestProtocolClass, env: NAPI.Env) throws -> NAPI.Value {
+        let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "TestProtocolClass", env: env)
+        let arg = try FishyJoesNodeRuntime.Box(value).retainedExternal(env: env)
+        return try env.newInstance(constructor, [arg])
+    }
+
+    public static func mutateNode(_ value: TestAPI.TestProtocolClass, this: NAPI.Value, env: NAPI.Env) throws {
+        guard let pointer = try env.unwrap(this) else {
+            throw JSException(message: "expected TestAPI.TestProtocolClass, got nil")
+        }
+        try Box<TestAPI.TestProtocolClass>.takeUnretainedOpaque(pointer).value = value
+    }
+
+    @available(*, deprecated, message: "Not actually deprecated, but this silences warnings because it may refer to deprecated methods")
+    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
+        let nodeClass = try NodeClass(
+            env: env,
+            name: "TestProtocolClass",
+            properties: [
+                "foo": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "foo", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            let result = try FishyJoesCommonRuntime.VoidConverter.toNode(
+                                env.this(converter: TestAPI.TestProtocolClass.self).foo(
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: false
+                ),
+                "bar": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "bar", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            let result = try Swift.Bool.toNode(
+                                env.this(converter: TestAPI.TestProtocolClass.self).bar(
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: false
+                ),
+                "baz": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "baz", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                            let result = try FishyJoesCommonRuntime.VoidConverter.toNode(
+                                env.this(converter: TestAPI.TestProtocolClass.self).baz(
+                                    qux: try env.argument(at: 0, converter: Swift.Bool.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: false
+                ),
+                "garply": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "garply", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                            let result = try Swift.String.toNode(
+                                env.this(converter: TestAPI.TestProtocolClass.self).garply(
+                                    try env.argument(at: 0, converter: Swift.String.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: false
+                ),
+                "xyzzy": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "xyzzy", expectedArgumentCount: 2, hasNamedOptions: false) { env in
+                            let result = try Swift.String.toNode(
+                                env.this(converter: TestAPI.TestProtocolClass.self).xyzzy(
+                                    thud: try env.argument(at: 0, converter: Swift.Int.self),
+                                    grault: try env.argument(at: 1, converter: ArrayConverter<Swift.Double>.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: false
+                ),
+                "corge": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "corge", expectedArgumentCount: 0) { env in
+                                try Swift.String.toNode(env.this(converter: TestAPI.TestProtocolClass.self).corge, env: env.env)
+                            }
+                        },
+                        setter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "corge", expectedArgumentCount: 1) { env in
+                                var mutatingSelf = try env.this(converter: TestAPI.TestProtocolClass.self)
+                                mutatingSelf.corge = try env.argument(at: 0, converter: Swift.String.self)
+                                try TestAPI.TestProtocolClass.mutateNode(mutatingSelf, this: env.this(), env: env.env)
+                                return nil
+                            }
+                        }),
+                    isStatic: false
+                ),
+            ],
+            constructor: { env, info in
+                FishyJoesNodeRuntime.callbackBody(env, info, name: "TestProtocolClass_constructor", expectedArgumentCount: 1) { env in
+                    try FishyJoesNodeRuntime.Box<TestAPI.TestProtocolClass>.construct(env: env)
+                }
+            }
+        )
+        try FishyJoesNodeRuntime.mergeDefinitionInto(
+            env: env,
+            module: module,
+            path: "TestProtocolClass",
+            nodeClass: nodeClass.constructor.value(env: env)
+        )
+    }
+}

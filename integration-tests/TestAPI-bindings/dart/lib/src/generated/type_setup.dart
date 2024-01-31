@@ -23,6 +23,7 @@ import './Structs_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
 import './Structs_ReferenceStruct.dart' as TestAPI;
 import './TestMethodsProtocol.dart' as TestAPI;
 import './TestPropertiesProtocol.dart' as TestAPI;
+import './TestProtocolClass.dart' as TestAPI;
 import './TestProtocolEnum.dart' as TestAPI;
 import './TestProtocolStruct.dart' as TestAPI;
 import './Tuples.dart' as TestAPI;
@@ -716,6 +717,18 @@ final ensureLoaded = (() {
             OutCreatedRef exn
         )
     >('TestAPI_Structs_setup');
+    final TestAPI_TestProtocolClass_setup = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<CreatedRef Function(ffi.Pointer, OutCreatedRef)>> constructorMethod,
+            OutCreatedRef exn
+        ),
+        void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<CreatedRef Function(ffi.Pointer, OutCreatedRef)>> constructorMethod,
+            OutCreatedRef exn
+        )
+    >('TestAPI_TestProtocolClass_setup');
     final TestAPI_TestProtocolEnum_setup = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
@@ -1856,6 +1869,74 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_Structs_ReferenceStruct_equals");
+    TestAPI.TestProtocolClass.f__iota_TestAPI_TestProtocolClass_bar = dylib.lookupFunction<
+        ffi.Bool Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        bool Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestProtocolClass_bar");
+    TestAPI.TestProtocolClass.f__iota_TestAPI_TestProtocolClass_baz = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            UnownedRef _this,
+            ffi.Bool qux,
+            OutCreatedRef _exn
+        ),
+        void Function(
+            Env env,
+            UnownedRef _this,
+            bool qux,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestProtocolClass_baz");
+    TestAPI.TestProtocolClass.f__iota_TestAPI_TestProtocolClass_foo = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        void Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestProtocolClass_foo");
+    TestAPI.TestProtocolClass.f__iota_TestAPI_TestProtocolClass_garply = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef str,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef str,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestProtocolClass_garply");
+    TestAPI.TestProtocolClass.f__iota_TestAPI_TestProtocolClass_xyzzy = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            ffi.Int thud,
+            UnownedRef grault,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            int thud,
+            UnownedRef grault,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestProtocolClass_xyzzy");
     TestAPI.TestProtocolEnum.f__iota_TestAPI_TestProtocolEnum_bar = dylib.lookupFunction<
         ffi.Bool Function(
             Env env,
@@ -3512,6 +3593,18 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_get_TestAPI_Structs_ReferenceStruct_mutable");
+    TestAPI.TestProtocolClass.f__iota_get_TestAPI_TestProtocolClass_corge = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_TestProtocolClass_corge");
     TestAPI.Tuples.f__iota_get_TestAPI_Tuples_tuple2 = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -3694,6 +3787,20 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_set_TestAPI_Structs_ReferenceStruct_mutable");
+    TestAPI.TestProtocolClass.f__iota_set_TestAPI_TestProtocolClass_corge = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef corge,
+            OutCreatedRef _exn
+        ),
+        void Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef corge,
+            OutCreatedRef _exn
+        )
+    >("__iota_set_TestAPI_TestProtocolClass_corge");
 
     Loader.shared.once("setup_Function2Converter<Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>>", () {
         // print("setting up ((Int) -> Int, (Int) -> Int) -> (Int) -> Int (env=0x${Loader.shared.env.address.toRadixString(16)})...");
@@ -5016,6 +5123,17 @@ final ensureLoaded = (() {
         utils.check<void>((exn) {
             TestAPI_Structs_setup(
                 Loader.shared.env,
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_TestAPI.TestProtocolClass", () {
+        // print("setting up TestAPI.TestProtocolClass (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            TestAPI_TestProtocolClass_setup(
+                Loader.shared.env,
+                ffi.Pointer.fromFunction(TestAPI.TestProtocolClass.ffi_new),
                 exn
             );
         });

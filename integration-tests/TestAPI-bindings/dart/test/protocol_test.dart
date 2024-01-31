@@ -20,6 +20,12 @@ void main() {
         expect(testProtocolStruct.corge, equals("Raft a river of lava-ah!"));
         testProtocolStruct.corge = "Spank a plankton too! (take that)";
         expect(testProtocolStruct.corge, equals("Spank a plankton too! (take that)"));
+
+        testProtocolStruct.foo();
+        expect(testProtocolStruct.bar(), equals(false));
+        testProtocolStruct.baz(true);
+        expect(testProtocolStruct.garply("An octopus in your neighborhood?"), equals("garp garpity An octopus in your neighborhood? garpee"));
+        expect(testProtocolStruct.xyzzy(42, [1.234, 45.235890198, 892.80]), equals("thud: 42 | grault: [1.234, 45.235890198, 892.8]"));
       });
   });
 }

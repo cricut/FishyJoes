@@ -38,40 +38,36 @@ import 'package:fishyjoes_dart/runtime.dart';
 import 'package:fishyjoes_dart/utilities.dart' as utils;
 import 'package:tuple/tuple.dart' as tuple;
 
-/// <!-- FishyJoes.export(TestProtocolEnum, protocols: [TestMethodsProtocol]) -->
-sealed class TestProtocolEnum implements TestAPI.TestMethodsProtocol {
-    const factory TestProtocolEnum.qux(
-    ) = TestProtocolEnum_Qux;
-
-    const TestProtocolEnum();
-
-    static int enumDiscriminator(UnownedRef obj, OutCreatedRef exn) => check((exn) {
-        final peekedObj = peekRef<TestProtocolEnum>(obj);
-        if (peekedObj is TestProtocolEnum_Qux) { return 0; }
-        else { throw UnsupportedError('Unknown TestProtocolEnum subclass'); }
-    });
-
-    static CreatedRef newQux(
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(TestProtocolEnum_Qux(
-        ))
+/// <!-- FishyJoes.exportReference(TestProtocolClass, protocols: [TestMethodsProtocol, TestPropertiesProtocol]) -->
+class TestProtocolClass extends SwiftReference implements TestAPI.TestMethodsProtocol, TestAPI.TestPropertiesProtocol {
+    TestProtocolClass(ffi.Pointer reference): super(reference) {}
+    static CreatedRef ffi_new(ffi.Pointer ref, OutCreatedRef exn) => check((exn) =>
+        createRef(TestProtocolClass(ref))
     );
 
-    static void extractQux(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) {
-        catching(exn, () {
-            final _self = peekRef<TestProtocolEnum_Qux>(obj);
-        });
+    /// <!-- FishyJoes.export(corge) -->
+    String get corge =>
+        GCRef.using(this, (_thisHandle) =>
+            check((exn) =>
+                consumeCreatedRef<String>(f__iota_get_TestAPI_TestProtocolClass_corge(Loader.shared.env, _thisHandle.ptr, exn))
+            )
+        )
+    ;
+    void set corge(String value) {
+        GCRef.using(this, (_thisHandle) =>
+            GCRef.using(value, (_valueHandle) =>
+                check((exn) =>
+                    f__iota_set_TestAPI_TestProtocolClass_corge(Loader.shared.env, _thisHandle.ptr, _valueHandle.ptr, exn)
+                )
+            )
+        )
+        ;
     }
-
     /// <!-- FishyJoes.export(foo) -->
     void foo(
     ) =>
         GCRef.using(this, (_thisHandle) =>
-            check((OutCreatedRef _exn) => f__iota_TestAPI_TestProtocolEnum_foo(Loader.shared.env, _thisHandle.ptr, _exn))
+            check((OutCreatedRef _exn) => f__iota_TestAPI_TestProtocolClass_foo(Loader.shared.env, _thisHandle.ptr, _exn))
         )
     ;
 
@@ -79,7 +75,7 @@ sealed class TestProtocolEnum implements TestAPI.TestMethodsProtocol {
     bool bar(
     ) =>
         GCRef.using(this, (_thisHandle) =>
-            check((OutCreatedRef _exn) => f__iota_TestAPI_TestProtocolEnum_bar(Loader.shared.env, _thisHandle.ptr, _exn))
+            check((OutCreatedRef _exn) => f__iota_TestAPI_TestProtocolClass_bar(Loader.shared.env, _thisHandle.ptr, _exn))
         )
     ;
 
@@ -88,7 +84,7 @@ sealed class TestProtocolEnum implements TestAPI.TestMethodsProtocol {
         bool qux,
     ) =>
         GCRef.using(this, (_thisHandle) =>
-            check((OutCreatedRef _exn) => f__iota_TestAPI_TestProtocolEnum_baz(Loader.shared.env, _thisHandle.ptr, qux, _exn))
+            check((OutCreatedRef _exn) => f__iota_TestAPI_TestProtocolClass_baz(Loader.shared.env, _thisHandle.ptr, qux, _exn))
         )
     ;
 
@@ -98,7 +94,7 @@ sealed class TestProtocolEnum implements TestAPI.TestMethodsProtocol {
     ) =>
         GCRef.using(this, (_thisHandle) =>
             GCRef.using(str, (_strHandle) =>
-                consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_TestAPI_TestProtocolEnum_garply(Loader.shared.env, _thisHandle.ptr, _strHandle.ptr, _exn)))
+                consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_TestAPI_TestProtocolClass_garply(Loader.shared.env, _thisHandle.ptr, _strHandle.ptr, _exn)))
             )
         )
     ;
@@ -110,7 +106,7 @@ sealed class TestProtocolEnum implements TestAPI.TestMethodsProtocol {
     ) =>
         GCRef.using(this, (_thisHandle) =>
             GCRef.using(grault, (_graultHandle) =>
-                consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_TestAPI_TestProtocolEnum_xyzzy(Loader.shared.env, _thisHandle.ptr, thud, _graultHandle.ptr, _exn)))
+                consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_TestAPI_TestProtocolClass_xyzzy(Loader.shared.env, _thisHandle.ptr, thud, _graultHandle.ptr, _exn)))
             )
         )
     ;
@@ -119,50 +115,40 @@ sealed class TestProtocolEnum implements TestAPI.TestMethodsProtocol {
         Env env,
         UnownedRef _this,
         OutCreatedRef _exn
-    ) f__iota_TestAPI_TestProtocolEnum_bar;
+    ) f__iota_TestAPI_TestProtocolClass_bar;
     static late void Function(
         Env env,
         UnownedRef _this,
         bool qux,
         OutCreatedRef _exn
-    ) f__iota_TestAPI_TestProtocolEnum_baz;
+    ) f__iota_TestAPI_TestProtocolClass_baz;
     static late void Function(
         Env env,
         UnownedRef _this,
         OutCreatedRef _exn
-    ) f__iota_TestAPI_TestProtocolEnum_foo;
+    ) f__iota_TestAPI_TestProtocolClass_foo;
     static late CreatedRef Function(
         Env env,
         UnownedRef _this,
         UnownedRef str,
         OutCreatedRef _exn
-    ) f__iota_TestAPI_TestProtocolEnum_garply;
+    ) f__iota_TestAPI_TestProtocolClass_garply;
     static late CreatedRef Function(
         Env env,
         UnownedRef _this,
         int thud,
         UnownedRef grault,
         OutCreatedRef _exn
-    ) f__iota_TestAPI_TestProtocolEnum_xyzzy;
-}
-
-class TestProtocolEnum_Qux extends TestProtocolEnum {
-    const TestProtocolEnum_Qux();
-
-    @override
-    bool operator ==(Object other) {
-        return identical(other, this) ||
-        (
-            other.runtimeType == runtimeType &&
-            other is TestProtocolEnum_Qux
-        );
-    }
-
-    @override
-    int get hashCode => runtimeType.hashCode;
-
-    @override
-    String toString() => 'TestProtocolEnum.qux()';
-
-    TestProtocolEnum_Qux copyWith() => TestProtocolEnum_Qux();
+    ) f__iota_TestAPI_TestProtocolClass_xyzzy;
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef _this,
+        OutCreatedRef _exn
+    ) f__iota_get_TestAPI_TestProtocolClass_corge;
+    static late void Function(
+        Env env,
+        UnownedRef _this,
+        UnownedRef corge,
+        OutCreatedRef _exn
+    ) f__iota_set_TestAPI_TestProtocolClass_corge;
 }
