@@ -43,5 +43,5 @@ abstract class TestPropertiesProtocol {
     /// <!-- FishyJoes.export(corge) -->
     String get corge;
 
-    void set corge(String value);
+    set corge(String value);
 }

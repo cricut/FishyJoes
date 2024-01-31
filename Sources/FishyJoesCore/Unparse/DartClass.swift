@@ -935,7 +935,7 @@ class DartProtocolClass: DartClass {
 
                 if field.isPubliclyWritable {
                     outputAttributes()
-                    fragment.output("\(staticMark)void set \(Self.deforbidify(field.name))(\(field.type.name(in: self)) value);")
+                    fragment.output("\(staticMark)set \(Self.deforbidify(field.name))(\(field.type.name(in: self)) value);")
                 }
             }
         }
