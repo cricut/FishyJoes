@@ -85,7 +85,7 @@ struct TranslatedProtocol: TranslatedType {
             "NodeInterface/\(sourceType.name)+node.swift",
             additionalImports: ["Foundation", "FishyJoesNodeRuntime"]
         )
-
+        fragment.blankLine()
         return fragment
     }
 
@@ -94,7 +94,7 @@ struct TranslatedProtocol: TranslatedType {
             "JavaInterface/\(sourceType.name)+java.swift",
             additionalImports: ["Foundation", "FishyJoesJavaRuntime"]
         )
-
+        fragment.blankLine()
         return fragment
     }
 
@@ -195,6 +195,7 @@ struct TranslatedProtocol: TranslatedType {
         registerCSharpClass(context: context)
         registerDartClass(context: context)
 
+        fragment.blankLine()
         return fragment
     }
 
