@@ -1,9 +1,7 @@
 export './AttributedString_PuttingTypesIntoQuestionablePlaces.dart';
 export './String_PuttingTypesIntoQuestionablePlaces.dart';
 export './UnicodeScalar_PuttingTypesIntoQuestionablePlaces.dart';
-export './AsyncFunctions_TheError.dart';
 export './Collections_CollectionHolder.dart';
-export './Functions_TheError.dart';
 export './Primitives_PrimitiveHolder.dart';
 export './Structs_MemberwiseStruct.dart';
 export './Structs_MutableStruct.dart';

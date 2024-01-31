@@ -34,6 +34,11 @@ public enum AsyncFunctions {
     /// <!-- FishyJoes.export(sixthThing) -->
     public static let six: AFun6 = { $5 }
 
+    /// <!-- FishyJoes.export(willThrow) -->
+    public static let willThrow: AFun0 = { throw TheAsyncError() }
+
+    public struct TheAsyncError: Error {}
+
     /// <!-- FishyJoes.export(exercise0) -->
     public static func exercise0(_ fn: AFun0) async rethrows -> String {
         try await "\(fn())"
@@ -46,7 +51,7 @@ public enum AsyncFunctions {
 
     /// <!-- FishyJoes.export(exercise2) -->
     public static func exercise2(_ fn: AFun2) async throws -> String {
-        try await "\(fn({ $0 + 1 }, {$0 * 3 })(8))"
+        try await "\(fn({ $0 + 1 }, { $0 * 3 })(8))"
     }
 
     /// <!-- FishyJoes.export(exercise3) -->
@@ -68,12 +73,4 @@ public enum AsyncFunctions {
     public static func exercise6(_ fn: AFun6) async rethrows -> String {
         try await "\(fn("hi", 6, 4.2, "bye", { 83 }, 42))"
     }
-
-    /// <!-- FishyJoes.export(willThrow) -->
-    public static func willThrow() async throws -> String {
-        throw TheError()
-    }
-
-    /// <!-- FishyJoes.exportReference(AsyncFunctions.TheError) -->
-    public struct TheError: Error {}
 }

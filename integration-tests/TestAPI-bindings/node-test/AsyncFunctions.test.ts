@@ -1,31 +1,32 @@
 import { TestAPI } from 'TestAPI';
 
 test('GettingSwiftFunctions', async () => {
-    expect(42).toEqual(TestAPI.AsyncFunctions.const42())
-    expect(3).toEqual(TestAPI.AsyncFunctions.abs(-3))
+    await expect(TestAPI.AsyncFunctions.const42()).resolves.toEqual(42)
+    await expect(TestAPI.AsyncFunctions.abs(-3)).resolves.toEqual(3)
 
     const composed = TestAPI.AsyncFunctions.intCompose(async x => x + 1, async x => x * 3)
-    expect(10).toEqual(composed(3))
-    expect(7).toEqual(composed(2))
+    await expect(composed(3)).resolves.toEqual(10)
+    await expect(composed(2)).resolves.toEqual(7)
 
-    expect(8.5).toEqual(TestAPI.AsyncFunctions.add3Things(3, 4.5, 1))
-    expect(["a", "b", "c", "d"]).toEqual(TestAPI.AsyncFunctions.makeList("a", "b", "c", "d"))
-    expect(84).toEqual(await (await TestAPI.AsyncFunctions.fifthThing("hi", 1, 1, "...", async () => 84))())
-    expect(17).toEqual(TestAPI.AsyncFunctions.sixthThing("hi", 1, 1, "...", async () => 84, 17))
+    await expect(TestAPI.AsyncFunctions.add3Things(3, 4.5, 1)).resolves.toEqual(8.5)
+    await expect(TestAPI.AsyncFunctions.makeList("a", "b", "c", "d")).resolves.toEqual(["a", "b", "c", "d"])
+    await expect((await TestAPI.AsyncFunctions.fifthThing("hi", 1, 1, "...", async () => 84))()).resolves.toEqual(84)
+    await expect(TestAPI.AsyncFunctions.sixthThing("hi", 1, 1, "...", async () => 84, 17)).resolves.toEqual(17)
 });
 
 test('PassingFunctionsToSwift', async () => {
-    expect("8").toEqual(TestAPI.AsyncFunctions.exercise0(async () => 8))
-    expect("3").toEqual(TestAPI.AsyncFunctions.exercise1(async (x: number) => Math.abs(x)))
-    expect("25").toEqual(TestAPI.AsyncFunctions.exercise2((f: (_: number) => Promise<number>, g: (_: number) => Promise<number>) => async (x: number) => await f(await g(x))))
-    expect("7.4").toEqual(TestAPI.AsyncFunctions.exercise3(async (a: number, b: number, c: number) => a + b + c))
-    expect('["a", "b", "c", "d"]').toEqual(TestAPI.AsyncFunctions.exercise4(async (a: string, b: string, c: string, d: string) => [a, b, c, d]))
-    expect("83").toEqual(TestAPI.AsyncFunctions.exercise5((_a: any, _b: any, _c: any, _d: any, f: any) => f))
-    expect("42").toEqual(TestAPI.AsyncFunctions.exercise6((_a: any, _b: any, _c: any, _d: any, _e: any, i: any) => i))
+    await expect(TestAPI.AsyncFunctions.exercise0(async () => 8)).resolves.toEqual("8")
+    await expect(TestAPI.AsyncFunctions.exercise1(async (x) => Math.abs(x))).resolves.toEqual("3")
+    await expect(TestAPI.AsyncFunctions.exercise2((f, g) => async (x) => f(await g(x)))).resolves.toEqual("25")
+    await expect(TestAPI.AsyncFunctions.exercise3(async (a, b, c) => a + b + c)).resolves.toEqual("7.4")
+    await expect(TestAPI.AsyncFunctions.exercise4(async (a, b, c, d) => [a, b, c, d])).resolves.toEqual('["a", "b", "c", "d"]')
+    await expect(TestAPI.AsyncFunctions.exercise5(async (_a, _b, _c, _d, f) => f)).resolves.toEqual("83")
+    await expect(TestAPI.AsyncFunctions.exercise6(async (_a, _b, _c, _d, _e, i) => i)).resolves.toEqual("42")
 });
-test('Exceptions', () => {
-    expect(() => TestAPI.AsyncFunctions.willThrow()).toThrowError(/TheError/)
+
+test('AsyncExceptions', async () => {
+    await expect(TestAPI.AsyncFunctions.willThrow()).rejects.toThrowError(/TheAsyncError/)
 
     const composed = TestAPI.AsyncFunctions.intCompose(async (a: number) => a, async (_: number) => { throw "ComposeError" })
-    expect(() => composed(3)).toThrowError("ComposeError")
+    await expect(composed(3)).rejects.toThrowError("ComposeError")
 });

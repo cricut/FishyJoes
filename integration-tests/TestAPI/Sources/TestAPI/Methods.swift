@@ -81,11 +81,13 @@ public struct Methods {
 
     /// <!-- FishyJoes.export(asyncThrowing) -->
     public static func asyncThrowing() async throws {
-        throw Functions.TheError()
+        throw TheMethodError()
     }
 
     /// <!-- FishyJoes.export(asyncCallbackFunc0) -->
     public static func asyncCallbackFunc0(_ callback: () async throws -> Int) async throws -> Int {
         try await callback()
     }
+
+    public struct TheMethodError: Error {}
 }

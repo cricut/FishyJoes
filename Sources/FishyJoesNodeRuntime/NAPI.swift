@@ -922,7 +922,7 @@ extension NAPI.ThreadsafeFunction {
         return result
     }
 
-    public func callAsFunction(data: UnsafeMutableRawPointer?, callMode: CallMode) throws {
+    public func dispatch(data: UnsafeMutableRawPointer?, callMode: CallMode) throws {
         let status = napi_call_threadsafe_function(pointer, data, callMode.napiValue)
         try check(status)
     }

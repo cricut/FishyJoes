@@ -108,13 +108,6 @@ namespace Cricut.TestAPI {
             out CreatedRef _exn
         );
 
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern void TestAPI_Functions_TheError_setup(
-            IntPtr envRef,
-            SwiftReference.ConstructorDelegate constructorMethod,
-            out CreatedRef _exn
-        );
-
         delegate CreatedRef _TestAPI_Primitives_PrimitiveHolderConstructor(
             bool b,
             ConsumedRef bq,
@@ -1340,16 +1333,6 @@ namespace Cricut.TestAPI {
                     )),
                     bag<_TestAPI_Collections_CollectionHolder_stringDictionarySetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
                         obj.Peek<Cricut.TestAPI.Collections.CollectionHolder>().StringDictionary = newValue.Consume<System.Collections.Generic.IDictionary<string, string>>();
-                    })),
-                    out exn
-                ));
-            });
-            Once("setup_TestAPI.Functions.TheError", () => {
-                Console.WriteLine("setting up TestAPI.Functions.TheError...");
-                Utilities.Check((out CreatedRef exn) => TestAPI_Functions_TheError_setup(
-                    Loader.env,
-                    bag<SwiftReference.ConstructorDelegate>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
-                        return new CreatedRef(new Cricut.TestAPI.Functions.TheError(ptr));
                     })),
                     out exn
                 ));

@@ -109,58 +109,6 @@
         "named" : {
           "_0" : {
             "module" : "TestAPI",
-            "name" : "TheError",
-            "namespace" : [
-              "AsyncFunctions"
-            ]
-          }
-        }
-      },
-      "cSharpType" : {
-        "named" : {
-          "name" : "AsyncFunctions.TheError",
-          "package" : "Cricut.TestAPI"
-        }
-      },
-      "dartType" : {
-        "named" : {
-          "name" : "AsyncFunctions_TheError",
-          "package" : "TestAPI"
-        }
-      },
-      "definingModule" : {
-        "dependencies" : [
-
-        ],
-        "name" : "TestAPI"
-      },
-      "isInhabited" : true,
-      "jniType" : {
-        "object" : {
-          "_0" : "com/cricut/testapi/AsyncFunctions$TheError"
-        }
-      },
-      "kotlinName" : "AsyncFunctions.TheError",
-      "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Reference<To=AsyncFunctions.TheError>>",
-      "nodeName" : "TestAPI.AsyncFunctions.TheError",
-      "sourceType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "TheError",
-            "namespace" : [
-              "AsyncFunctions"
-            ]
-          }
-        }
-      }
-    },
-    {
-      "converterType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
             "name" : "AttributedStrings",
             "namespace" : [
 
@@ -671,58 +619,6 @@
             "name" : "Functions",
             "namespace" : [
 
-            ]
-          }
-        }
-      }
-    },
-    {
-      "converterType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "TheError",
-            "namespace" : [
-              "Functions"
-            ]
-          }
-        }
-      },
-      "cSharpType" : {
-        "named" : {
-          "name" : "Functions.TheError",
-          "package" : "Cricut.TestAPI"
-        }
-      },
-      "dartType" : {
-        "named" : {
-          "name" : "Functions_TheError",
-          "package" : "TestAPI"
-        }
-      },
-      "definingModule" : {
-        "dependencies" : [
-
-        ],
-        "name" : "TestAPI"
-      },
-      "isInhabited" : true,
-      "jniType" : {
-        "object" : {
-          "_0" : "com/cricut/testapi/Functions$TheError"
-        }
-      },
-      "kotlinName" : "Functions.TheError",
-      "kotlinPackage" : "com.cricut.testapi",
-      "neutralName" : "ExternalTranslatedType<of=Reference<To=Functions.TheError>>",
-      "nodeName" : "TestAPI.Functions.TheError",
-      "sourceType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "TheError",
-            "namespace" : [
-              "Functions"
             ]
           }
         }
@@ -2320,26 +2216,7 @@
           },
           "AsyncFunctions" : {
             "classes" : [
-              {
-                "constructor" : {
-                  "hidden" : {
 
-                  }
-                },
-                "documentation" : [
-                  "<!-- FishyJoes.exportReference(AsyncFunctions.TheError) -->"
-                ],
-                "extends" : [
-
-                ],
-                "fields" : [
-
-                ],
-                "methods" : [
-
-                ],
-                "name" : "TheError"
-              }
             ],
             "fields" : [
               {
@@ -2430,6 +2307,19 @@
                 "type" : {
                   "named" : {
                     "_0" : "(_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(willThrow) -->"
+                ],
+                "isStatic" : true,
+                "name" : "willThrow",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "() => Promise<number>"
                   }
                 }
               }
@@ -2616,26 +2506,6 @@
                       }
                     }
                   }
-                ],
-                "returnType" : {
-                  "promise" : {
-                    "_0" : {
-                      "named" : {
-                        "_0" : "string"
-                      }
-                    }
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(willThrow) -->"
-                ],
-                "isAsync" : true,
-                "isStatic" : true,
-                "name" : "willThrow",
-                "parameters" : [
-
                 ],
                 "returnType" : {
                   "promise" : {
@@ -4300,26 +4170,7 @@
           },
           "Functions" : {
             "classes" : [
-              {
-                "constructor" : {
-                  "hidden" : {
 
-                  }
-                },
-                "documentation" : [
-                  "<!-- FishyJoes.exportReference(Functions.TheError) -->"
-                ],
-                "extends" : [
-
-                ],
-                "fields" : [
-
-                ],
-                "methods" : [
-
-                ],
-                "name" : "TheError"
-              }
             ],
             "fields" : [
               {

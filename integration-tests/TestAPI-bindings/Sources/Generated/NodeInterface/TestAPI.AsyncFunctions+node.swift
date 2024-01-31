@@ -36,19 +36,14 @@ extension TestAPI.AsyncFunctions: FishyJoesNodeRuntime.NodeConverter {
                                         do {
                                             convertedTaskResult = try Swift.String.toNode(taskResult, env: env)
                                         } catch {
-                                            try env.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: env))
+                                            try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
                                             return
                                         }
                                         try env.resolveDeferred(deferred, convertedTaskResult)
                                     }
-                                } catch let error as JSException {
-                                    try onMainThread { env in
-                                        let error = try env.createError(NAPI.Value(ptr: nil), String.toNode(error.message, env: env))
-                                        try env.rejectDeferred(deferred, error)
-                                    }
                                 } catch {
                                     try onMainThread { env in
-                                        try env.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: env))
+                                        try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
                                     }
                                 }
                             }
@@ -72,19 +67,14 @@ extension TestAPI.AsyncFunctions: FishyJoesNodeRuntime.NodeConverter {
                                         do {
                                             convertedTaskResult = try Swift.String.toNode(taskResult, env: env)
                                         } catch {
-                                            try env.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: env))
+                                            try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
                                             return
                                         }
                                         try env.resolveDeferred(deferred, convertedTaskResult)
                                     }
-                                } catch let error as JSException {
-                                    try onMainThread { env in
-                                        let error = try env.createError(NAPI.Value(ptr: nil), String.toNode(error.message, env: env))
-                                        try env.rejectDeferred(deferred, error)
-                                    }
                                 } catch {
                                     try onMainThread { env in
-                                        try env.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: env))
+                                        try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
                                     }
                                 }
                             }
@@ -108,19 +98,14 @@ extension TestAPI.AsyncFunctions: FishyJoesNodeRuntime.NodeConverter {
                                         do {
                                             convertedTaskResult = try Swift.String.toNode(taskResult, env: env)
                                         } catch {
-                                            try env.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: env))
+                                            try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
                                             return
                                         }
                                         try env.resolveDeferred(deferred, convertedTaskResult)
                                     }
-                                } catch let error as JSException {
-                                    try onMainThread { env in
-                                        let error = try env.createError(NAPI.Value(ptr: nil), String.toNode(error.message, env: env))
-                                        try env.rejectDeferred(deferred, error)
-                                    }
                                 } catch {
                                     try onMainThread { env in
-                                        try env.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: env))
+                                        try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
                                     }
                                 }
                             }
@@ -144,19 +129,14 @@ extension TestAPI.AsyncFunctions: FishyJoesNodeRuntime.NodeConverter {
                                         do {
                                             convertedTaskResult = try Swift.String.toNode(taskResult, env: env)
                                         } catch {
-                                            try env.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: env))
+                                            try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
                                             return
                                         }
                                         try env.resolveDeferred(deferred, convertedTaskResult)
                                     }
-                                } catch let error as JSException {
-                                    try onMainThread { env in
-                                        let error = try env.createError(NAPI.Value(ptr: nil), String.toNode(error.message, env: env))
-                                        try env.rejectDeferred(deferred, error)
-                                    }
                                 } catch {
                                     try onMainThread { env in
-                                        try env.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: env))
+                                        try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
                                     }
                                 }
                             }
@@ -180,19 +160,14 @@ extension TestAPI.AsyncFunctions: FishyJoesNodeRuntime.NodeConverter {
                                         do {
                                             convertedTaskResult = try Swift.String.toNode(taskResult, env: env)
                                         } catch {
-                                            try env.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: env))
+                                            try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
                                             return
                                         }
                                         try env.resolveDeferred(deferred, convertedTaskResult)
                                     }
-                                } catch let error as JSException {
-                                    try onMainThread { env in
-                                        let error = try env.createError(NAPI.Value(ptr: nil), String.toNode(error.message, env: env))
-                                        try env.rejectDeferred(deferred, error)
-                                    }
                                 } catch {
                                     try onMainThread { env in
-                                        try env.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: env))
+                                        try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
                                     }
                                 }
                             }
@@ -216,19 +191,14 @@ extension TestAPI.AsyncFunctions: FishyJoesNodeRuntime.NodeConverter {
                                         do {
                                             convertedTaskResult = try Swift.String.toNode(taskResult, env: env)
                                         } catch {
-                                            try env.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: env))
+                                            try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
                                             return
                                         }
                                         try env.resolveDeferred(deferred, convertedTaskResult)
                                     }
-                                } catch let error as JSException {
-                                    try onMainThread { env in
-                                        let error = try env.createError(NAPI.Value(ptr: nil), String.toNode(error.message, env: env))
-                                        try env.rejectDeferred(deferred, error)
-                                    }
                                 } catch {
                                     try onMainThread { env in
-                                        try env.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: env))
+                                        try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
                                     }
                                 }
                             }
@@ -252,53 +222,14 @@ extension TestAPI.AsyncFunctions: FishyJoesNodeRuntime.NodeConverter {
                                         do {
                                             convertedTaskResult = try Swift.String.toNode(taskResult, env: env)
                                         } catch {
-                                            try env.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: env))
+                                            try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
                                             return
                                         }
                                         try env.resolveDeferred(deferred, convertedTaskResult)
                                     }
-                                } catch let error as JSException {
-                                    try onMainThread { env in
-                                        let error = try env.createError(NAPI.Value(ptr: nil), String.toNode(error.message, env: env))
-                                        try env.rejectDeferred(deferred, error)
-                                    }
                                 } catch {
                                     try onMainThread { env in
-                                        try env.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: env))
-                                    }
-                                }
-                            }
-                            return promise
-                        }
-                    },
-                    isStatic: true
-                ),
-                "willThrow": (
-                    .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "willThrow", expectedArgumentCount: 0, hasNamedOptions: false) { env in
-                            let (deferred, promise) = try env.env.createPromise()
-                            Task {
-                                do {
-                                    let taskResult: String = try await TestAPI.AsyncFunctions.willThrow(
-                                    )
-                                    try onMainThread { env in
-                                        let convertedTaskResult: NAPI.Value
-                                        do {
-                                            convertedTaskResult = try Swift.String.toNode(taskResult, env: env)
-                                        } catch {
-                                            try env.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: env))
-                                            return
-                                        }
-                                        try env.resolveDeferred(deferred, convertedTaskResult)
-                                    }
-                                } catch let error as JSException {
-                                    try onMainThread { env in
-                                        let error = try env.createError(NAPI.Value(ptr: nil), String.toNode(error.message, env: env))
-                                        try env.rejectDeferred(deferred, error)
-                                    }
-                                } catch {
-                                    try onMainThread { env in
-                                        try env.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: env))
+                                        try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
                                     }
                                 }
                             }
@@ -378,6 +309,17 @@ extension TestAPI.AsyncFunctions: FishyJoesNodeRuntime.NodeConverter {
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "sixthThing", expectedArgumentCount: 0) { env in
                                 try AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.toNode(TestAPI.AsyncFunctions.six, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: true
+                ),
+                "willThrow": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "willThrow", expectedArgumentCount: 0) { env in
+                                try AsyncFunction0Converter<Swift.Int>.toNode(TestAPI.AsyncFunctions.willThrow, env: env.env)
                             }
                         },
                         setter: nil

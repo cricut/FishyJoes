@@ -60,19 +60,14 @@ extension TestAPI.Structs.ReferenceStruct: FishyJoesNodeRuntime.NodeConverter {
                                         do {
                                             convertedTaskResult = try Swift.String.toNode(taskResult, env: env)
                                         } catch {
-                                            try env.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: env))
+                                            try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
                                             return
                                         }
                                         try env.resolveDeferred(deferred, convertedTaskResult)
                                     }
-                                } catch let error as JSException {
-                                    try onMainThread { env in
-                                        let error = try env.createError(NAPI.Value(ptr: nil), String.toNode(error.message, env: env))
-                                        try env.rejectDeferred(deferred, error)
-                                    }
                                 } catch {
                                     try onMainThread { env in
-                                        try env.rejectDeferred(deferred, String.toNode(error.localizedDescription, env: env))
+                                        try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
                                     }
                                 }
                             }

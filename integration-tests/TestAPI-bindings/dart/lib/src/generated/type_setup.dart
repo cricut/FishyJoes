@@ -1,6 +1,5 @@
 import './AssociatedDataEnum.dart' as TestAPI;
 import './AsyncFunctions.dart' as TestAPI;
-import './AsyncFunctions_TheError.dart' as TestAPI;
 import './AttributedString_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
 import './AttributedStrings.dart' as TestAPI;
 import './Bytes.dart' as TestAPI;
@@ -11,7 +10,6 @@ import './DefaultArguments.dart' as TestAPI;
 import './Deprecations.dart' as TestAPI;
 import './EmptyEnum.dart' as TestAPI;
 import './Functions.dart' as TestAPI;
-import './Functions_TheError.dart' as TestAPI;
 import './Methods.dart' as TestAPI;
 import './Primitives.dart' as TestAPI;
 import './Primitives_PrimitiveHolder.dart' as TestAPI;
@@ -302,18 +300,6 @@ final ensureLoaded = (() {
             OutCreatedRef exn
         )
     >('Swift_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_setup');
-    final TestAPI_AsyncFunctions_TheError_setup = dylib.lookupFunction<
-        ffi.Void Function(
-            Env env,
-            ffi.Pointer<ffi.NativeFunction<CreatedRef Function(ffi.Pointer, OutCreatedRef)>> constructorMethod,
-            OutCreatedRef exn
-        ),
-        void Function(
-            Env env,
-            ffi.Pointer<ffi.NativeFunction<CreatedRef Function(ffi.Pointer, OutCreatedRef)>> constructorMethod,
-            OutCreatedRef exn
-        )
-    >('TestAPI_AsyncFunctions_TheError_setup');
     final TestAPI_Collections_CollectionHolder_setup = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
@@ -362,18 +348,6 @@ final ensureLoaded = (() {
             OutCreatedRef exn
         )
     >('TestAPI_Collections_CollectionHolder_setup');
-    final TestAPI_Functions_TheError_setup = dylib.lookupFunction<
-        ffi.Void Function(
-            Env env,
-            ffi.Pointer<ffi.NativeFunction<CreatedRef Function(ffi.Pointer, OutCreatedRef)>> constructorMethod,
-            OutCreatedRef exn
-        ),
-        void Function(
-            Env env,
-            ffi.Pointer<ffi.NativeFunction<CreatedRef Function(ffi.Pointer, OutCreatedRef)>> constructorMethod,
-            OutCreatedRef exn
-        )
-    >('TestAPI_Functions_TheError_setup');
     final TestAPI_Primitives_PrimitiveHolder_setup = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
@@ -2000,6 +1974,16 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_get_TestAPI_AsyncFunctions_sixthThing");
+    TestAPI.AsyncFunctions.f__iota_get_TestAPI_AsyncFunctions_willThrow = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_AsyncFunctions_willThrow");
     TestAPI.AttributedStrings.f__iota_get_TestAPI_AttributedStrings_accent = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -4744,17 +4728,6 @@ final ensureLoaded = (() {
         });
     });
 
-    Loader.shared.once("setup_TestAPI.AsyncFunctions.TheError", () {
-        // print("setting up TestAPI.AsyncFunctions.TheError (env=0x${Loader.shared.env.address.toRadixString(16)})...");
-        utils.check<void>((exn) {
-            TestAPI_AsyncFunctions_TheError_setup(
-                Loader.shared.env,
-                ffi.Pointer.fromFunction(TestAPI.AsyncFunctions_TheError.ffi_new),
-                exn
-            );
-        });
-    });
-
     Loader.shared.once("setup_TestAPI.Collections.CollectionHolder", () {
         // print("setting up TestAPI.Collections.CollectionHolder (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
@@ -4779,17 +4752,6 @@ final ensureLoaded = (() {
                 ffi.Pointer.fromFunction(TestAPI.Collections_CollectionHolder.ffi_set_stringSet),
                 ffi.Pointer.fromFunction(TestAPI.Collections_CollectionHolder.ffi_get_stringDictionary),
                 ffi.Pointer.fromFunction(TestAPI.Collections_CollectionHolder.ffi_set_stringDictionary),
-                exn
-            );
-        });
-    });
-
-    Loader.shared.once("setup_TestAPI.Functions.TheError", () {
-        // print("setting up TestAPI.Functions.TheError (env=0x${Loader.shared.env.address.toRadixString(16)})...");
-        utils.check<void>((exn) {
-            TestAPI_Functions_TheError_setup(
-                Loader.shared.env,
-                ffi.Pointer.fromFunction(TestAPI.Functions_TheError.ffi_new),
                 exn
             );
         });

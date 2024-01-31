@@ -247,8 +247,7 @@ final class KotlinTranslator: Translator {
             typeSetupFragment.output("let env = UnsafeMutablePointer<JNIEnv?>(OpaquePointer(envRaw))")
             typeSetupFragment.outputBlock("return FishyJoesJavaRuntime.callbackBody(env!) { env in", closeWith: "}") {
                 typeSetupFragment.output("let bag = CStringBag()")
-                for type in generatedTypes.sorted(by: { "\($0)" < "\($1)" }) {
-                    guard type != .void else { continue }
+                for type in generatedTypes {
                     let resolved = context.resolve(type: type)
                     typeSetupFragment.output("// print(\"setting up \(resolved.converterType.name)...\")")
                     typeSetupFragment.output("try \(resolved.converterType.name).javaSetup(env: env)")

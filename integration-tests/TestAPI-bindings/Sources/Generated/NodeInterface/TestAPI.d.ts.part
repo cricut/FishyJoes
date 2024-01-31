@@ -61,14 +61,6 @@ export declare namespace TestAPI {
     export type AsyncFunctions = never;
     export namespace AsyncFunctions {
         /**
-         * <!-- FishyJoes.exportReference(AsyncFunctions.TheError) -->
-         */
-        export class TheError {
-            private constructor()
-            private _inhibitStructuralTyping: any
-        }
-
-        /**
          * <!-- FishyJoes.export(abs) -->
          */
         const abs: (_0: number) => Promise<number>;
@@ -155,8 +147,7 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(willThrow) -->
          */
-        function willThrow(
-        ): Promise<string>;
+        const willThrow: () => Promise<number>;
     }
 
     /**
@@ -641,14 +632,6 @@ export declare namespace TestAPI {
 
     export type Functions = never;
     export namespace Functions {
-        /**
-         * <!-- FishyJoes.exportReference(Functions.TheError) -->
-         */
-        export class TheError {
-            private constructor()
-            private _inhibitStructuralTyping: any
-        }
-
         /**
          * <!-- FishyJoes.export(abs) -->
          */

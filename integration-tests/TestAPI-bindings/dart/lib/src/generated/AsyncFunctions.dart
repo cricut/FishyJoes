@@ -1,6 +1,5 @@
 import './AssociatedDataEnum.dart' as TestAPI;
 import './AsyncFunctions.dart' as TestAPI;
-import './AsyncFunctions_TheError.dart' as TestAPI;
 import './AttributedString_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
 import './AttributedStrings.dart' as TestAPI;
 import './Bytes.dart' as TestAPI;
@@ -11,7 +10,6 @@ import './DefaultArguments.dart' as TestAPI;
 import './Deprecations.dart' as TestAPI;
 import './EmptyEnum.dart' as TestAPI;
 import './Functions.dart' as TestAPI;
-import './Functions_TheError.dart' as TestAPI;
 import './Methods.dart' as TestAPI;
 import './Primitives.dart' as TestAPI;
 import './Primitives_PrimitiveHolder.dart' as TestAPI;
@@ -86,6 +84,12 @@ class AsyncFunctions {
             consumeCreatedRef<int Function(String, int, double, String, int Function(), int)>(f__iota_get_TestAPI_AsyncFunctions_sixthThing(Loader.shared.env, exn))
         )
     ;
+    /// <!-- FishyJoes.export(willThrow) -->
+    static int Function() get willThrow =>
+        check((exn) =>
+            consumeCreatedRef<int Function()>(f__iota_get_TestAPI_AsyncFunctions_willThrow(Loader.shared.env, exn))
+        )
+    ;
 
     static late CreatedRef Function(
         Env env,
@@ -115,4 +119,8 @@ class AsyncFunctions {
         Env env,
         OutCreatedRef _exn
     ) f__iota_get_TestAPI_AsyncFunctions_sixthThing;
+    static late CreatedRef Function(
+        Env env,
+        OutCreatedRef _exn
+    ) f__iota_get_TestAPI_AsyncFunctions_willThrow;
 }

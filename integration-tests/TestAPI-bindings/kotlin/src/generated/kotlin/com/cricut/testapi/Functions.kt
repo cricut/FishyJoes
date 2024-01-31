@@ -169,14 +169,4 @@ sealed class Functions {
 
         init { loadNativeLibs() }
     }
-
-    /**
-     * <!-- FishyJoes.exportReference(Functions.TheError) -->
-     */
-    class TheError private constructor(swiftReference: Long): com.cricut.fishyjoes.runtime.SwiftReference(swiftReference) {
-
-        companion object {
-            init { loadNativeLibs() }
-        }
-    }
 }

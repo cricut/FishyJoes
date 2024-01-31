@@ -239,8 +239,6 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_Swift_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_testCall, to: UnsafeMutableRawPointer.self)
             )
         )
-        // print("setting up TestAPI.AsyncFunctions.TheError...")
-        try TestAPI.AsyncFunctions.TheError.javaSetup(env: env)
         // print("setting up TestAPI.Collections.CollectionHolder...")
         try TestAPI.Collections.CollectionHolder.javaSetup(env: env)
         try env.RegisterNatives(TestAPI.Collections.CollectionHolder.javaClass,
@@ -260,8 +258,6 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_set_TestAPI_Collections_CollectionHolder_staticMutableProperty, to: UnsafeMutableRawPointer.self)
             )
         )
-        // print("setting up TestAPI.Functions.TheError...")
-        try TestAPI.Functions.TheError.javaSetup(env: env)
         // print("setting up TestAPI.Primitives.PrimitiveHolder...")
         try TestAPI.Primitives.PrimitiveHolder.javaSetup(env: env)
         try env.RegisterNatives(TestAPI.Primitives.PrimitiveHolder.javaClass,
@@ -430,11 +426,6 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_TestAPI_AsyncFunctions_exercise6, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_willThrow"),
-                signature: bag.add("()Lkotlinx/coroutines/Deferred;"),
-                fnPtr: unsafeBitCast(java_TestAPI_AsyncFunctions_willThrow, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
                 name: bag.add("__jni_get_const42"),
                 signature: bag.add("()Lkotlin/jvm/functions/Function1;"),
                 fnPtr: unsafeBitCast(java_get_TestAPI_AsyncFunctions_const42, to: UnsafeMutableRawPointer.self)
@@ -468,6 +459,11 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_get_sixthThing"),
                 signature: bag.add("()Lkotlin/jvm/functions/Function7;"),
                 fnPtr: unsafeBitCast(java_get_TestAPI_AsyncFunctions_sixthThing, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_willThrow"),
+                signature: bag.add("()Lkotlin/jvm/functions/Function1;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_AsyncFunctions_willThrow, to: UnsafeMutableRawPointer.self)
             )
         )
         // print("setting up TestAPI.AttributedStrings...")
@@ -1801,6 +1797,8 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try Tuple5Converter<Swift.String, Swift.UInt8, Tuple4Converter<Tuple2Converter<Swift.Int, Swift.String>, Tuple3Converter<Swift.String, Swift.Double, Swift.String>, Swift.String, Swift.Bool>, Tuple3Converter<Swift.String, Swift.Double, Swift.String>, Tuple2Converter<Swift.Int, Swift.String>>.javaSetup(env: env)
         // print("setting up Tuple4Converter<Tuple2Converter<Swift.Int, Swift.String>, Tuple3Converter<Swift.String, Swift.Double, Swift.String>, Swift.String, Swift.Bool>...")
         try Tuple4Converter<Tuple2Converter<Swift.Int, Swift.String>, Tuple3Converter<Swift.String, Swift.Double, Swift.String>, Swift.String, Swift.Bool>.javaSetup(env: env)
+        // print("setting up FishyJoesCommonRuntime.VoidConverter...")
+        try FishyJoesCommonRuntime.VoidConverter.javaSetup(env: env)
         return JNI_VERSION_1_4
     }
 }

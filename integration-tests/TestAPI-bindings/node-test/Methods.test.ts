@@ -96,27 +96,8 @@ test('AsyncMultipleArgsFunctionCall', async () => {
     expect(value).toEqual(3)
 })
 
-test('AsyncThrowingFunctionCallThenCatch', async () => {
-    let ranThen: boolean = false
-    let ranCatch: boolean = false
+test('AsyncThrowingMethod', async () => {
     const promise = TestAPI.Methods.asyncThrowing()
-        .then((value) => {
-            ranThen = true
-        })
-        .catch((error) => {
-            ranCatch = true
-            expect(() => { throw error }).toThrowError(/TheError/)
-        })
-    await promise
-    expect(ranThen).toEqual(false)
-    expect(ranCatch).toEqual(true)
-})
-
-test('AsyncThrowingFunctionCallTryCatch', async () => {
-    try {
-        await TestAPI.Methods.asyncThrowing()
-        throw "Function didn't throw expected error"
-    } catch(error) {
-        expect(() => { throw error }).toThrowError(/TheError/)
-    }
+    console.log(`promise = ${promise}`)
+    await expect(promise).rejects.toThrowError(/TheMethodError/)
 })

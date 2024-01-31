@@ -74,6 +74,15 @@ sealed class AsyncFunctions {
         private external fun __jni_get_sixthThing(): (suspend (kotlin.String, Long, Double, kotlin.String, (suspend () -> Long), Long) -> Long)
 
         /**
+         * <!-- FishyJoes.export(willThrow) -->
+         */
+        val willThrow: (suspend () -> Long)
+          get() = __jni_get_willThrow()
+        @JvmStatic
+        @JvmName("__jni_get_willThrow")
+        private external fun __jni_get_willThrow(): (suspend () -> Long)
+
+        /**
          * <!-- FishyJoes.export(exercise0) -->
          */
         suspend fun exercise0(
@@ -157,26 +166,6 @@ sealed class AsyncFunctions {
             fn: (suspend (kotlin.String, Long, Double, kotlin.String, (suspend () -> Long), Long) -> Long)
         ): kotlinx.coroutines.Deferred<kotlin.String>
 
-        /**
-         * <!-- FishyJoes.export(willThrow) -->
-         */
-        suspend fun willThrow(
-        ): kotlin.String = __jni_willThrow().await()
-        @JvmStatic
-        @JvmName("__jni_willThrow")
-        private external fun __jni_willThrow(
-        ): kotlinx.coroutines.Deferred<kotlin.String>
-
         init { loadNativeLibs() }
-    }
-
-    /**
-     * <!-- FishyJoes.exportReference(AsyncFunctions.TheError) -->
-     */
-    class TheError private constructor(swiftReference: Long): com.cricut.fishyjoes.runtime.SwiftReference(swiftReference) {
-
-        companion object {
-            init { loadNativeLibs() }
-        }
     }
 }

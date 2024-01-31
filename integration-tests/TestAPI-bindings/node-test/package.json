@@ -6,9 +6,9 @@
   "scripts": {
     "test": "npm run test-wasm",
     "test-wasm": "node --no-experimental-fetch --experimental-vm-modules node_modules/jest/bin/jest.js --run-in-band --detect-open-handles --force-exit --debug --no-watchman -c jest.config.wasm.cjs",
-    "test-native-windows": "node --experimental-vm-modules node_modules/jest/bin/jest.js --run-in-band --detect-open-handles --force-exit --debug --no-watchman -c jest.config.native-windows.cjs",
-    "test-native-macos": "node --experimental-vm-modules node_modules/jest/bin/jest.js --run-in-band --detect-open-handles --force-exit --debug --no-watchman -c jest.config.native-macos.cjs",
-    "test-native-ubuntu": "node --experimental-vm-modules node_modules/jest/bin/jest.js --run-in-band --detect-open-handles --force-exit --debug --no-watchman -c jest.config.native-ubuntu.cjs",
+    "test-native-macos": "node --force-node-api-uncaught-exceptions-policy --experimental-vm-modules node_modules/jest/bin/jest.js --run-in-band --detect-open-handles --force-exit --debug --no-watchman -c jest.config.native-macos.cjs",
+    "test-native-ubuntu": "node --force-node-api-uncaught-exceptions-policy --experimental-vm-modules node_modules/jest/bin/jest.js --run-in-band --detect-open-handles --force-exit --debug --no-watchman -c jest.config.native-ubuntu.cjs",
+    "test-native-windows": "node --force-node-api-uncaught-exceptions-policy --experimental-vm-modules node_modules/jest/bin/jest.js --run-in-band --detect-open-handles --force-exit --debug --no-watchman -c jest.config.native-windows.cjs",
     "clear-cache": "node node_modules/jest/bin/jest.js --clear-cache"
   },
   "devDependencies": {

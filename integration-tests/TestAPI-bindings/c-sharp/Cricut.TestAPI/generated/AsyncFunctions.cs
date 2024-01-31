@@ -110,13 +110,19 @@ namespace Cricut.TestAPI {
         private static extern CreatedRef __iota_get_TestAPI_AsyncFunctions_sixthThing(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
-        /// <!-- FishyJoes.exportReference(AsyncFunctions.TheError) -->
+        /// <!-- FishyJoes.export(willThrow) -->
         /// </summary>
-        public class TheError : SwiftReference {
-            internal TheError(ConsumedRef reference): base(reference) {}
-
-            static TheError() { _TypeSetup._ensureLoaded(); }
+        public static System.Func<nint> WillThrow {
+            get {
+                return Check((out CreatedRef exn) =>
+                    __iota_get_TestAPI_AsyncFunctions_willThrow(Loader.env, out exn).Consume<System.Func<nint>>()
+                );
+            }
         }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_get_TestAPI_AsyncFunctions_willThrow(IntPtr envRef, out CreatedRef exn);
+
         static AsyncFunctions() { _TypeSetup._ensureLoaded(); }
     }
 }

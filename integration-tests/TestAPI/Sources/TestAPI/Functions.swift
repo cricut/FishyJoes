@@ -71,9 +71,8 @@ public enum Functions {
 
     /// <!-- FishyJoes.export(willThrow) -->
     public static func willThrow() throws -> String {
-        throw TheError()
+        throw TheFunctionError()
     }
 
-    /// <!-- FishyJoes.exportReference(Functions.TheError) -->
-    public struct TheError: Error {}
+    public struct TheFunctionError: Error {}
 }

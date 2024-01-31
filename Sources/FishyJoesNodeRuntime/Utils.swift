@@ -77,23 +77,36 @@ public func asyncCallbackBody(
     }
 }
 
+extension Result where Failure == any Error {
+    static func `async`(catching: () async throws -> Success) async -> Self {
+        do {
+            return .success(try await catching())
+        } catch {
+            return .failure(error)
+        }
+    }
+}
+
 public func asyncRethrowToNode(env: NAPI.Env, _ body: @escaping () async throws -> NAPI.Value?) -> napi_value? {
     do {
         let (deferred, promise) = try env.createPromise()
         Task {
-            do {
-                if let value = try await body() {
-                    try env.resolveDeferred(deferred, value)
-                } else {
+            let result = await Result.async { try await body() }
+            try! onMainThread { env in
+                do {
+                    if let value = try result.get() {
+                        try env.resolveDeferred(deferred, value)
+                    } else {
+                        try env.rejectDeferred(deferred, env.getUndefined())
+                    }
+                } catch is JSExceptionPending {
+                    // let js deal with the exception
+                    // is this right?
                     try env.rejectDeferred(deferred, env.getUndefined())
+                } catch let e {
+                    print("Caught swift error \(e). Re-throwing to node.")
+                    try? env.rejectDeferred(deferred, String.toNode(e.localizedDescription, env: env))
                 }
-            } catch is JSExceptionPending {
-                // let js deal with the exception
-                // is this right?
-                try env.rejectDeferred(deferred, env.getUndefined())
-            } catch let e {
-                print("Caught swift error \(e). Re-throwing to node.")
-                try? env.rejectDeferred(deferred, String.toNode(e.localizedDescription, env: env))
             }
         }
         return promise.ptr
@@ -143,17 +156,32 @@ public func nodeDescribe(_ value: NAPI.Value?, env: NAPI.Env) throws -> String {
     return try String.fromNode(env.coerceToString(value), env: env)
 }
 
+public func nodeError(_ error: Error, env: NAPI.Env) throws -> NAPI.Value {
+    let message: String
+    if let error = error as? JSException {
+        // TODO: store a napi_reference inside JSException and pass without stringifying
+        message = error.message
+    } else {
+        message = error.localizedDescription
+    }
+    return try env.createError(NAPI.Value(ptr: nil), String.toNode(message, env: env))
+}
+
 public func nodeIsUndefiend(_ value: NAPI.Value, env: NAPI.Env) throws -> Bool {
     return try env.typeof(value) == napi_undefined
 }
 
-private var mainThreadFunction: NAPI.ThreadsafeFunction?
+private enum JSMainThread {
+    static var dispatchFunction: NAPI.ThreadsafeFunction?
+    static var env: (Thread, NAPI.Env)?
+}
 
 public func setupOnMainThreadEntryPoint(env: NAPI.Env) throws {
-    guard mainThreadFunction == nil else {
+    guard JSMainThread.dispatchFunction == nil else {
         return
     }
-    mainThreadFunction = try env.createThreadsafeFunction(
+    JSMainThread.env = (Thread.current, env)
+    JSMainThread.dispatchFunction = try env.createThreadsafeFunction(
         asyncResourceName: String.toNode("_mainThreadFunction", env: env),
         callJavascriptCallback: { env, _, _, data in
             let env = NAPI.Env(ptr: env)
@@ -171,5 +199,29 @@ public func setupOnMainThreadEntryPoint(env: NAPI.Env) throws {
 /// - Parameter env: The main thread NAPI.Env.
 public func onMainThread(blocking callMode: NAPI.ThreadsafeFunction.CallMode = .nonblocking, _ operation: @escaping (_ env: NAPI.Env) throws -> Void) throws {
     let box = Box(operation)
-    try mainThreadFunction!(data: box.retainedOpaque(), callMode: callMode)
+    try JSMainThread.dispatchFunction!.dispatch(data: box.retainedOpaque(), callMode: callMode)
+}
+
+/// Perform an operation on the main thread and wait for the result.
+/// WARNING: easy to deadlock with this function. Prefer `onMainThread` whenever possible
+/// - Parameter operation: The function to execute on the main thread.
+/// - Parameter env: The main thread NAPI.Env.
+public func syncOnMainThread<R>(blocking callMode: NAPI.ThreadsafeFunction.CallMode = .nonblocking, _ operation: @escaping (_ env: NAPI.Env) throws -> R) throws -> R {
+    if let (thread, env) = JSMainThread.env, thread == Thread.current {
+        return try operation(env)
+    } else {
+        let semaphore = DispatchSemaphore(value: 0)
+        var result: Result<R, any Error>?
+        try onMainThread(blocking: callMode) { env in
+            do {
+                result = .success(try operation(env))
+                semaphore.signal()
+            } catch {
+                result = .failure(error)
+                semaphore.signal()
+            }
+        }
+        semaphore.wait()
+        return try result!.get()
+    }
 }
