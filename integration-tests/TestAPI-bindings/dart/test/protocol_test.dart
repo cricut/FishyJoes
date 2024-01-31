@@ -22,6 +22,7 @@ void main() {
         expect(testProtocolStruct.corge, equals("Raft a river of lava-ah!"));
         testProtocolStruct.corge = "Spank a plankton too! (take that)";
         expect(testProtocolStruct.corge, equals("Spank a plankton too! (take that)"));
+        expect(testProtocolStruct.frob, equals([3.14159265359, 42.0, -1.23456789]));
 
         testProtocolStruct.foo();
         expect(testProtocolStruct.bar(), equals(false));
@@ -31,6 +32,8 @@ void main() {
 
         final testProtocolClass = TestProtocolClass.init("Step inside it's a wilder ride!");
         expect(testProtocolClass.corge, equals("Step inside it's a wilder ride!"));
+        expect(testProtocolClass.frob, equals([42.0, -1.23456789, 3.14159265359]));
+
         testProtocolClass.foo();
         expect(testProtocolClass.bar(), equals(true));
         testProtocolClass.baz(false);
