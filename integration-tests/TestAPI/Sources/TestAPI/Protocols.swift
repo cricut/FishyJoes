@@ -17,7 +17,7 @@ public protocol TestMethodsProtocol {
 /// <!-- FishyJoes.export(TestPropertiesProtocol) -->
 public protocol TestPropertiesProtocol {
     /// <!-- FishyJoes.export(corge) -->
-    var corge: String { set get }
+    var corge: String { get set }
     /// <!-- FishyJoes.export(frob) -->
     var frob: [Double] { get }
 }
@@ -33,7 +33,7 @@ public protocol TestStaticProtocol {
 /// <!-- FishyJoes.export(TestOptionalsProtocol) -->
 public protocol TestOptionalsProtocol {
     /// <!-- FishyJoes.export(flarp) -->
-    var flarp: String? { set get }
+    var flarp: String? { get set }
     /// <!-- FishyJoes.export(wombat) -->
     func wombat(zxc: Int?) -> Double?
     /// <!-- FishyJoes.export(spqr) -->
@@ -43,7 +43,7 @@ public protocol TestOptionalsProtocol {
 /// <!-- FishyJoes.export(TestProtocolEnum, protocols: [TestMethodsProtocol]) -->
 public enum TestProtocolEnum: TestMethodsProtocol {
     case qux
-    
+
     /// <!-- FishyJoes.export(foo) -->
     public func foo() {
         print("foo!")
@@ -98,7 +98,7 @@ public struct TestProtocolStruct: TestMethodsProtocol, TestPropertiesProtocol, T
     }
 
     public var corge: String
-    
+
     public init(corge: String) {
         self.corge = corge
     }
@@ -150,7 +150,7 @@ public class TestProtocolClass: TestMethodsProtocol, TestPropertiesProtocol, Tes
     public var frob: [Double] {
         [42.0, -1.23456789, 3.14159265359]
     }
-    
+
     /// <!-- FishyJoes.export(init) -->
     public init(corge: String) {
         self.corge = corge

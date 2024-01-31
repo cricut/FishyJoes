@@ -236,11 +236,11 @@ struct TranslatedProtocol: TranslatedType {
                 constructor: .`public`(
                     fields: storedVariables.compactMap {
                         switch context.dart(field: $0, of: self, useNativeName: false) {
-                        case .method: 
+                        case .method:
                             fatalErr("Can't export a stored variable `\(self.sourceType.name).\($0.name)` as a method")
                         case .variable(let field):
                             return field
-                        case nil: 
+                        case nil:
                             return nil
                         }
                     }
