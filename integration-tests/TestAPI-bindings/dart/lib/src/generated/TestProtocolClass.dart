@@ -177,6 +177,17 @@ class TestProtocolClass extends SwiftReference implements TestAPI.TestMethodsPro
         )
     ;
 
+    /// <!-- FishyJoes.export(spqr) -->
+    int spqr(
+        TestAPI.AssociatedDataEnum pippo,
+    ) =>
+        GCRef.using(this, (_thisHandle) =>
+            GCRef.using(pippo, (_pippoHandle) =>
+                check((OutCreatedRef _exn) => f__iota_TestAPI_TestProtocolClass_spqr(Loader.shared.env, _thisHandle.ptr, _pippoHandle.ptr, _exn))
+            )
+        )
+    ;
+
     static late bool Function(
         Env env,
         UnownedRef _this,
@@ -210,6 +221,12 @@ class TestProtocolClass extends SwiftReference implements TestAPI.TestMethodsPro
         UnownedRef fred,
         OutCreatedRef _exn
     ) f__iota_TestAPI_TestProtocolClass_plugh;
+    static late int Function(
+        Env env,
+        UnownedRef _this,
+        UnownedRef pippo,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_TestProtocolClass_spqr;
     static late CreatedRef Function(
         Env env,
         UnownedRef _this,

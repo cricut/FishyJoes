@@ -52,6 +52,9 @@ abstract class TestOptionalsProtocol {
     double? wombat(
         int? zxc
     );
+    int spqr(
+        TestAPI.AssociatedDataEnum pippo
+    );
 
     /// <!-- FishyJoes.export(flarp) -->
     String? get flarp;

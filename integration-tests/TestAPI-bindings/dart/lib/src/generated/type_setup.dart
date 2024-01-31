@@ -1949,6 +1949,20 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_TestProtocolClass_plugh");
+    TestAPI.TestProtocolClass.f__iota_TestAPI_TestProtocolClass_spqr = dylib.lookupFunction<
+        ffi.Int Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef pippo,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            UnownedRef _this,
+            UnownedRef pippo,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_TestProtocolClass_spqr");
     TestAPI.TestProtocolClass.f__iota_TestAPI_TestProtocolClass_wombat = dylib.lookupFunction<
         CreatedRef Function(
             Env env,

@@ -144,6 +144,20 @@ extension TestAPI.TestProtocolClass: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: false
                 ),
+                "spqr": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "spqr", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                            let result = try Swift.Int.toNode(
+                                env.this(converter: TestAPI.TestProtocolClass.self).spqr(
+                                    try env.argument(at: 0, converter: TestAPI.AssociatedDataEnum.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: false
+                ),
                 "corge": (
                     .accessor(
                         getter: { env, info in

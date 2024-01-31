@@ -1653,6 +1653,13 @@ export declare namespace TestAPI {
         wombat(
             zxc: Optional<number>
         ): Optional<number>;
+
+        /**
+         * <!-- FishyJoes.export(spqr) -->
+         */
+        spqr(
+            pippo: TestAPI.AssociatedDataEnum
+        ): number;
     }
 
     export type TestProtocolEnum = "qux";

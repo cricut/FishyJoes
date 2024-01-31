@@ -2253,6 +2253,28 @@
                     }
                   }
                 }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(spqr) -->"
+                ],
+                "isStatic" : false,
+                "name" : "spqr",
+                "parameters" : [
+                  {
+                    "name" : "pippo",
+                    "type" : {
+                      "named" : {
+                        "_0" : "TestAPI.AssociatedDataEnum"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
               }
             ],
             "name" : "TestProtocolClass"

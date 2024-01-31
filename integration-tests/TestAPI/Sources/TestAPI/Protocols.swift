@@ -36,6 +36,8 @@ public protocol TestOptionalsProtocol {
     var flarp: String? { set get }
     /// <!-- FishyJoes.export(wombat) -->
     func wombat(zxc: Int?) -> Double?
+    /// <!-- FishyJoes.export(spqr) -->
+    func spqr(_ pippo: AssociatedDataEnum) -> Int
 }
 
 /// <!-- FishyJoes.export(TestProtocolEnum, protocols: [TestMethodsProtocol]) -->
@@ -168,5 +170,10 @@ public class TestProtocolClass: TestMethodsProtocol, TestPropertiesProtocol, Tes
         } else {
             return 42.909
         }
+    }
+
+    /// <!-- FishyJoes.export(spqr) -->
+    public func spqr(_ pippo: AssociatedDataEnum) -> Int {
+        pippo.intValue
     }
 }

@@ -39,12 +39,19 @@ void main() {
         final testProtocolClass = TestProtocolClass.init("Step inside it's a wilder ride!");
         expect(testProtocolClass.corge, equals("Step inside it's a wilder ride!"));
         expect(testProtocolClass.frob, equals([42.0, -1.23456789, 3.14159265359]));
+
         expect(testProtocolClass.flarp, equals(null));
         testProtocolClass.flarp = "Excellent observation Kiki!";
         expect(testProtocolClass.flarp, equals("Excellent observation Kiki!"));
         expect(testProtocolClass.wombat(null), equals(42.909));
         expect(testProtocolClass.wombat(57), equals(null));
         expect(testProtocolClass.wombat(56), equals(7890.2));
+
+        expect(testProtocolClass.spqr(AssociatedDataEnum.thing(23947889)), equals(23947889));
+        expect(testProtocolClass.spqr(AssociatedDataEnum.other("zxc", 89708973)), equals(89708973));
+        expect(testProtocolClass.spqr(AssociatedDataEnum.bar("shme", AssociatedDataEnum.noValue())), equals(45));
+        expect(testProtocolClass.spqr(AssociatedDataEnum.noValue()), equals(42));
+        expect(testProtocolClass.spqr(AssociatedDataEnum.simpleEnum(SimpleEnum.blue())), equals(1));        
 
         testProtocolClass.foo();
         expect(testProtocolClass.bar(), equals(true));

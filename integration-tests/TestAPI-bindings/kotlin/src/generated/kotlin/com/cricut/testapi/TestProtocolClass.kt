@@ -109,6 +109,17 @@ class TestProtocolClass private constructor(swiftReference: Long): com.cricut.fi
         zxc: Long?
     ): Double?
 
+    /**
+     * <!-- FishyJoes.export(spqr) -->
+     */
+    fun spqr(
+        pippo: com.cricut.testapi.AssociatedDataEnum
+    ): Long = __jni_spqr(pippo)
+    @JvmName("__jni_spqr")
+    private external fun __jni_spqr(
+        pippo: com.cricut.testapi.AssociatedDataEnum
+    ): Long
+
     companion object {
         /**
          * <!-- FishyJoes.export(init) -->

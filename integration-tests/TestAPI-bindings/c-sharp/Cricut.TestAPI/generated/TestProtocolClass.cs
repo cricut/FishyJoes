@@ -219,6 +219,25 @@ namespace Cricut.TestAPI {
             out CreatedRef exn
         );
 
+        /// <summary>
+        /// <!-- FishyJoes.export(spqr) -->
+        /// </summary>
+        public nint Spqr(
+            Cricut.TestAPI.AssociatedDataEnum pippo
+        ) {
+            using var _thisHandle = new GCRef(this);
+            using var _pippoHandle = new GCRef(pippo);
+            return Check((out CreatedRef _exn) => __iota_TestAPI_TestProtocolClass_spqr(Loader.env, _thisHandle.ptr, _pippoHandle.ptr, out _exn));
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern nint __iota_TestAPI_TestProtocolClass_spqr(
+            IntPtr envRef,
+            UnownedRef self,
+            UnownedRef pippo,
+            out CreatedRef exn
+        );
+
         static TestProtocolClass() { _TypeSetup._ensureLoaded(); }
     }
 }
