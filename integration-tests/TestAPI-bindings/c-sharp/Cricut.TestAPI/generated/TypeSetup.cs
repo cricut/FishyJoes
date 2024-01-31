@@ -531,6 +531,16 @@ namespace Cricut.TestAPI {
             out CreatedRef _exn
         );
 
+        delegate CreatedRef _TestAPI_TestStaticProtocolConstructor(
+            out CreatedRef exn
+        );
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_TestStaticProtocol_setup(
+            IntPtr envRef,
+            _TestAPI_TestStaticProtocolConstructor constructor,
+            out CreatedRef _exn
+        );
+
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_Tuples_setup(
             IntPtr envRef,
@@ -2046,6 +2056,17 @@ namespace Cricut.TestAPI {
                     )),
                     bag<_TestAPI_TestProtocolStruct_corgeSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
                         obj.Peek<Cricut.TestAPI.TestProtocolStruct>().Corge = newValue.Consume<string>();
+                    })),
+                    out exn
+                ));
+            });
+            Once("setup_TestAPI.TestStaticProtocol", () => {
+                Console.WriteLine("setting up TestAPI.TestStaticProtocol...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_TestStaticProtocol_setup(
+                    Loader.env,
+                    bag<_TestAPI_TestStaticProtocolConstructor>((out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.TestStaticProtocol(
+                        ));
                     })),
                     out exn
                 ));

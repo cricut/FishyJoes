@@ -1,7 +1,7 @@
 package com.cricut.testapi
 
 /**
- * <!-- FishyJoes.export(TestProtocolStruct, protocols: [TestMethodsProtocol, TestPropertiesProtocol]) -->
+ * <!-- FishyJoes.export(TestProtocolStruct, protocols: [TestMethodsProtocol, TestPropertiesProtocol, TestStaticProtocol]) -->
  */
 data class TestProtocolStruct(
     var corge: kotlin.String
@@ -80,6 +80,25 @@ data class TestProtocolStruct(
     ): kotlin.Triple<Boolean, Long, kotlin.String>
 
     companion object {
+        /**
+         * <!-- FishyJoes.export(blarg) -->
+         */
+        val blarg: kotlin.String
+          get() = __jni_get_blarg()
+        @JvmStatic
+        @JvmName("__jni_get_blarg")
+        private external fun __jni_get_blarg(): kotlin.String
+
+        /**
+         * <!-- FishyJoes.export(wibble) -->
+         */
+        fun wibble(
+        ): kotlin.String = __jni_wibble()
+        @JvmStatic
+        @JvmName("__jni_wibble")
+        private external fun __jni_wibble(
+        ): kotlin.String
+
         init { loadNativeLibs() }
     }
 }

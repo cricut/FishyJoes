@@ -22,6 +22,14 @@ public protocol TestPropertiesProtocol {
     var frob: [Double] { get }
 }
 
+/// <!-- FishyJoes.export(TestStaticProtocol) -->
+public protocol TestStaticProtocol {
+    /// <!-- FishyJoes.export(blarg) -->
+    static var blarg: String { get }
+    /// <!-- FishyJoes.export(wibble) -->
+    static func wibble() -> String
+}
+
 /// <!-- FishyJoes.export(TestProtocolEnum, protocols: [TestMethodsProtocol]) -->
 public enum TestProtocolEnum: TestMethodsProtocol {
     case qux
@@ -52,8 +60,8 @@ public enum TestProtocolEnum: TestMethodsProtocol {
     }
 }
 
-/// <!-- FishyJoes.export(TestProtocolStruct, protocols: [TestMethodsProtocol, TestPropertiesProtocol]) -->
-public struct TestProtocolStruct: TestMethodsProtocol, TestPropertiesProtocol {
+/// <!-- FishyJoes.export(TestProtocolStruct, protocols: [TestMethodsProtocol, TestPropertiesProtocol, TestStaticProtocol]) -->
+public struct TestProtocolStruct: TestMethodsProtocol, TestPropertiesProtocol, TestStaticProtocol {
     /// <!-- FishyJoes.export(foo) -->
     public func foo() {
         print("!oof")
@@ -87,6 +95,15 @@ public struct TestProtocolStruct: TestMethodsProtocol, TestPropertiesProtocol {
     /// <!-- FishyJoes.export(frob) -->
     public var frob: [Double] {
         [3.14159265359, 42.0, -1.23456789]
+    }
+
+    /// <!-- FishyJoes.export(blarg) -->
+    public static var blarg: String {
+        "Such a fine thing to do."
+    }
+    /// <!-- FishyJoes.export(wibble) -->
+    public static func wibble() -> String {
+        "Wibbledy wobbledy, timey whimey"
     }
 }
 

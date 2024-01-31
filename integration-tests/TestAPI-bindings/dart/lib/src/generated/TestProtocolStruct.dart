@@ -26,6 +26,7 @@ import './TestPropertiesProtocol.dart' as TestAPI;
 import './TestProtocolClass.dart' as TestAPI;
 import './TestProtocolEnum.dart' as TestAPI;
 import './TestProtocolStruct.dart' as TestAPI;
+import './TestStaticProtocol.dart' as TestAPI;
 import './Tuples.dart' as TestAPI;
 import './URLs.dart' as TestAPI;
 import './UnicodeScalar_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;
@@ -45,8 +46,8 @@ import 'package:tuple/tuple.dart' as tuple;
 // ignore_for_file: file_names
 // ignore_for_file: annotate_overrides
 
-/// <!-- FishyJoes.export(TestProtocolStruct, protocols: [TestMethodsProtocol, TestPropertiesProtocol]) -->
-class TestProtocolStruct implements TestAPI.TestMethodsProtocol, TestAPI.TestPropertiesProtocol {
+/// <!-- FishyJoes.export(TestProtocolStruct, protocols: [TestMethodsProtocol, TestPropertiesProtocol, TestStaticProtocol]) -->
+class TestProtocolStruct implements TestAPI.TestMethodsProtocol, TestAPI.TestPropertiesProtocol, TestAPI.TestStaticProtocol {
     String corge;
 
     TestProtocolStruct({
@@ -113,6 +114,12 @@ class TestProtocolStruct implements TestAPI.TestMethodsProtocol, TestAPI.TestPro
             )
         )
     ;
+    /// <!-- FishyJoes.export(blarg) -->
+    static String get blarg =>
+        check((exn) =>
+            consumeCreatedRef<String>(f__iota_get_TestAPI_TestProtocolStruct_blarg(Loader.shared.env, exn))
+        )
+    ;
     /// <!-- FishyJoes.export(foo) -->
     void foo(
     ) =>
@@ -172,6 +179,12 @@ class TestProtocolStruct implements TestAPI.TestMethodsProtocol, TestAPI.TestPro
         )
     ;
 
+    /// <!-- FishyJoes.export(wibble) -->
+    static String wibble(
+    ) =>
+        consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_TestAPI_TestProtocolStruct_wibble(Loader.shared.env, _exn)))
+    ;
+
     static late bool Function(
         Env env,
         UnownedRef _this,
@@ -202,11 +215,19 @@ class TestProtocolStruct implements TestAPI.TestMethodsProtocol, TestAPI.TestPro
     ) f__iota_TestAPI_TestProtocolStruct_plugh;
     static late CreatedRef Function(
         Env env,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_TestProtocolStruct_wibble;
+    static late CreatedRef Function(
+        Env env,
         UnownedRef _this,
         int thud,
         UnownedRef grault,
         OutCreatedRef _exn
     ) f__iota_TestAPI_TestProtocolStruct_xyzzy;
+    static late CreatedRef Function(
+        Env env,
+        OutCreatedRef _exn
+    ) f__iota_get_TestAPI_TestProtocolStruct_blarg;
     static late CreatedRef Function(
         Env env,
         UnownedRef _this,

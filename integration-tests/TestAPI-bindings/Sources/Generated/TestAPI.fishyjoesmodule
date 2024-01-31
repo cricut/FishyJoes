@@ -109,6 +109,58 @@
         "named" : {
           "_0" : {
             "module" : "TestAPI",
+            "name" : "TestStaticProtocol",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "TestStaticProtocol",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "TestStaticProtocol",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/TestStaticProtocol"
+        }
+      },
+      "kotlinName" : "TestStaticProtocol",
+      "kotlinPackage" : "com.cricut.testapi",
+      "neutralName" : "ExternalTranslatedType<of=Protocol<TranslatedFrom=TestStaticProtocol>>",
+      "nodeName" : "TestAPI.TestStaticProtocol",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "TestStaticProtocol",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
             "name" : "AssociatedDataEnum",
             "namespace" : [
 
@@ -2122,7 +2174,7 @@
               }
             },
             "documentation" : [
-              "<!-- FishyJoes.export(TestProtocolStruct, protocols: [TestMethodsProtocol, TestPropertiesProtocol]) -->"
+              "<!-- FishyJoes.export(TestProtocolStruct, protocols: [TestMethodsProtocol, TestPropertiesProtocol, TestStaticProtocol]) -->"
             ],
             "extends" : [
 
@@ -2151,6 +2203,19 @@
                 "type" : {
                   "named" : {
                     "_0" : "number[]"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(blarg) -->"
+                ],
+                "isStatic" : true,
+                "name" : "blarg",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "string"
                   }
                 }
               }
@@ -2279,6 +2344,21 @@
                 "returnType" : {
                   "named" : {
                     "_0" : "[boolean, number, string]"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(wibble) -->"
+                ],
+                "isStatic" : true,
+                "name" : "wibble",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "string"
                   }
                 }
               }

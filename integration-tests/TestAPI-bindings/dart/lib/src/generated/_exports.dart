@@ -27,5 +27,6 @@ export './TestPropertiesProtocol.dart';
 export './TestProtocolClass.dart';
 export './TestProtocolEnum.dart';
 export './TestProtocolStruct.dart';
+export './TestStaticProtocol.dart';
 export './Tuples.dart';
 export './URLs.dart';

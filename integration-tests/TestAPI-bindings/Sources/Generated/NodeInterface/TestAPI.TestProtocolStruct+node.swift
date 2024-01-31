@@ -114,6 +114,19 @@ extension TestAPI.TestProtocolStruct: NodeMutator {
                     },
                     isStatic: false
                 ),
+                "wibble": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "wibble", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            let result = try Swift.String.toNode(
+                                TestAPI.TestProtocolStruct.wibble(
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: true
+                ),
                 "frob": (
                     .accessor(
                         getter: { env, info in
@@ -124,6 +137,17 @@ extension TestAPI.TestProtocolStruct: NodeMutator {
                         setter: nil
                     ),
                     isStatic: false
+                ),
+                "blarg": (
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "blarg", expectedArgumentCount: 0) { env in
+                                try Swift.String.toNode(TestAPI.TestProtocolStruct.blarg, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: true
                 ),
                 "corge": (.stored(mutable: true), isStatic: false),
             ],

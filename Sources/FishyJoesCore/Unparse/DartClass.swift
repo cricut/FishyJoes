@@ -904,6 +904,12 @@ class DartProtocolClass: DartClass {
         fragment.output("abstract class \(unqualifiedName)", newLineTerminated: false)
         fragment.outputBlock(" {", closeWith: "}") {
             for method in methods {
+                // Dart does not support static method inheritance like Swift does. So we will put it in the subclass, but not in the abstract class that the subclass implements, for that would result in a compile error.
+                guard !method.isStatic else {
+                    fragment.output("// \(method.name) not declared in abstract class because Dart does not support static method inheritance. It will only be put into the subclass that implements this abstract class.")
+                    continue
+                }
+
                 fragment.output("\(method.isStatic ? "static " : "")", newLineTerminated: false)
                 fragment.outputBlock("\(method.returnType.name(in: self)) \(method.name)(", closeWith: ");") {
                     func argumentString(parameter: Method.Parameter) -> String {
@@ -929,6 +935,12 @@ class DartProtocolClass: DartClass {
             }
 
             for field in fields {
+                // Dart does not support static property inheritance like Swift does. So we will put it in the subclass, but not in the abstract class that the subclass implements, for that would result in a compile error.
+                guard !field.isStatic else {
+                    fragment.output("// \(field.name) not declared in abstract class because Dart does not support static property inheritance. It will only be put into the subclass that implements this abstract class.")
+                    continue
+                }
+
                 fragment.blankLine()
                 document(field.documentation, fragment: fragment)
 

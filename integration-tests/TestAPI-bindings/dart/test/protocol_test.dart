@@ -33,6 +33,9 @@ void main() {
         expect(testProtocolStruct.garply("An octopus in your neighborhood?"), equals("garp garpity An octopus in your neighborhood? garpee"));
         expect(testProtocolStruct.xyzzy(42, [1.234, 45.235890198, 892.80]), equals("thud: 42 | grault: [1.234, 45.235890198, 892.8]"));
 
+        expect(TestProtocolStruct.blarg, equals("Such a fine thing to do."));
+        expect(TestProtocolStruct.wibble(), equals("Wibbledy wobbledy, timey whimey"));
+
         final testProtocolClass = TestProtocolClass.init("Step inside it's a wilder ride!");
         expect(testProtocolClass.corge, equals("Step inside it's a wilder ride!"));
         expect(testProtocolClass.frob, equals([42.0, -1.23456789, 3.14159265359]));

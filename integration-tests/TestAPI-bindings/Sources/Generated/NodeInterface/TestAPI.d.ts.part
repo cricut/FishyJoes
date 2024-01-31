@@ -1694,7 +1694,7 @@ export declare namespace TestAPI {
     }
 
     /**
-     * <!-- FishyJoes.export(TestProtocolStruct, protocols: [TestMethodsProtocol, TestPropertiesProtocol]) -->
+     * <!-- FishyJoes.export(TestProtocolStruct, protocols: [TestMethodsProtocol, TestPropertiesProtocol, TestStaticProtocol]) -->
      */
     export class TestProtocolStruct {
         constructor(corge: string)
@@ -1705,6 +1705,11 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(frob) -->
          */
         readonly frob: number[];
+
+        /**
+         * <!-- FishyJoes.export(blarg) -->
+         */
+        static readonly blarg: string;
 
         /**
          * <!-- FishyJoes.export(foo) -->
@@ -1746,6 +1751,12 @@ export declare namespace TestAPI {
         plugh(
             fred: [boolean, number, string[]]
         ): [boolean, number, string];
+
+        /**
+         * <!-- FishyJoes.export(wibble) -->
+         */
+        static wibble(
+        ): string;
     }
 
     export type Tuples = never;

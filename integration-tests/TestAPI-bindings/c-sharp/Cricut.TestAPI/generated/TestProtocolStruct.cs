@@ -6,7 +6,7 @@ using static Cricut.FishyJoesRuntime.Utilities;
 
 namespace Cricut.TestAPI {
     /// <summary>
-    /// <!-- FishyJoes.export(TestProtocolStruct, protocols: [TestMethodsProtocol, TestPropertiesProtocol]) -->
+    /// <!-- FishyJoes.export(TestProtocolStruct, protocols: [TestMethodsProtocol, TestPropertiesProtocol, TestStaticProtocol]) -->
     /// </summary>
     public record TestProtocolStruct {
         public string Corge { get; set; }
@@ -29,6 +29,18 @@ namespace Cricut.TestAPI {
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __iota_get_TestAPI_TestProtocolStruct_frob(IntPtr envRef, UnownedRef self, out CreatedRef exn);
+
+        /// <summary>
+        /// <!-- FishyJoes.export(blarg) -->
+        /// </summary>
+        public static string GetBlarg() {
+            return Check((out CreatedRef exn) =>
+                __iota_get_TestAPI_TestProtocolStruct_blarg(Loader.env, out exn).Consume<string>()
+            );
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_get_TestAPI_TestProtocolStruct_blarg(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
         /// <!-- FishyJoes.export(foo) -->
@@ -136,6 +148,20 @@ namespace Cricut.TestAPI {
             IntPtr envRef,
             UnownedRef self,
             UnownedRef fred,
+            out CreatedRef exn
+        );
+
+        /// <summary>
+        /// <!-- FishyJoes.export(wibble) -->
+        /// </summary>
+        public static string Wibble(
+        ) {
+            return Check((out CreatedRef _exn) => __iota_TestAPI_TestProtocolStruct_wibble(Loader.env, out _exn)).Consume<string>();
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_TestAPI_TestProtocolStruct_wibble(
+            IntPtr envRef,
             out CreatedRef exn
         );
 
