@@ -38,6 +38,7 @@ import 'package:fishyjoes_dart/runtime.dart';
 import 'package:fishyjoes_dart/utilities.dart' as utils;
 import 'package:tuple/tuple.dart' as tuple;
 
+// ignore_for_file: unused_import
 /// <!-- FishyJoes.export(TestPropertiesProtocol) -->
 abstract class TestPropertiesProtocol {
 

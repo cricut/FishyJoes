@@ -418,6 +418,9 @@ class DartProductClass: DartClass {
             protocolsPart.append(protocols.map { "\(module).\($0)" }.joined(separator: ", "))
             fragment.output("// ignore_for_file: annotate_overrides")
         }
+        fragment.output("// ignore_for_file: unused_import")
+        fragment.output("// ignore_for_file: non_constant_identifier_names")
+        fragment.output("// ignore_for_file: no_leading_underscores_for_local_identifiers")
 
         document(documentation, fragment: fragment)
 
@@ -641,6 +644,10 @@ class DartEnumClass: DartClass {
     }
 
     override func output(to fragment: SourceFragment) {
+        fragment.output("// ignore_for_file: unused_import")
+        fragment.output("// ignore_for_file: non_constant_identifier_names")
+        fragment.output("// ignore_for_file: no_leading_underscores_for_local_identifiers")
+
         document(documentation, fragment: fragment)
         let doSealedClass = !cases.isEmpty
         if doSealedClass {
@@ -885,6 +892,7 @@ class DartProtocolClass: DartClass {
     }
 
     override func output(to fragment: SourceFragment) {
+        fragment.output("// ignore_for_file: unused_import")
         document(documentation, fragment: fragment)
 
         fragment.output("abstract class \(unqualifiedName)", newLineTerminated: false)
