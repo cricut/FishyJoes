@@ -172,15 +172,28 @@ public func nodeIsUndefiend(_ value: NAPI.Value, env: NAPI.Env) throws -> Bool {
 }
 
 private enum JSMainThread {
+    #if !os(WASI)
+    static var thread: Thread?
+    #endif
+    static var env: NAPI.Env?
     static var dispatchFunction: NAPI.ThreadsafeFunction?
-    static var env: (Thread, NAPI.Env)?
+
+    static var envIfAlreadyOnMain: NAPI.Env? {
+        #if !os(WASI)
+        guard thread == Thread.current else { return nil }
+        #endif
+        return env
+    }
 }
 
 public func setupOnMainThreadEntryPoint(env: NAPI.Env) throws {
     guard JSMainThread.dispatchFunction == nil else {
         return
     }
-    JSMainThread.env = (Thread.current, env)
+    #if !os(WASI)
+    JSMainThread.thread = Thread.current
+    #endif
+    JSMainThread.env = env
     JSMainThread.dispatchFunction = try env.createThreadsafeFunction(
         asyncResourceName: String.toNode("_mainThreadFunction", env: env),
         callJavascriptCallback: { env, _, _, data in
@@ -207,7 +220,10 @@ public func onMainThread(blocking callMode: NAPI.ThreadsafeFunction.CallMode = .
 /// - Parameter operation: The function to execute on the main thread.
 /// - Parameter env: The main thread NAPI.Env.
 public func syncOnMainThread<R>(blocking callMode: NAPI.ThreadsafeFunction.CallMode = .nonblocking, _ operation: @escaping (_ env: NAPI.Env) throws -> R) throws -> R {
-    if let (thread, env) = JSMainThread.env, thread == Thread.current {
+    #if os(WASI)
+    return try operation(JSMainThread.env!)
+    #else
+    if let env = JSMainThread.envIfAlreadyOnMain {
         return try operation(env)
     } else {
         let semaphore = DispatchSemaphore(value: 0)
@@ -224,4 +240,5 @@ public func syncOnMainThread<R>(blocking callMode: NAPI.ThreadsafeFunction.CallM
         semaphore.wait()
         return try result!.get()
     }
+    #endif
 }
