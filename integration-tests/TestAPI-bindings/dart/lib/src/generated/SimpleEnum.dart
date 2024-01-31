@@ -121,7 +121,7 @@ sealed class SimpleEnum {
             consumeCreatedRef<TestAPI.SimpleEnum>(f__iota_get_TestAPI_SimpleEnum_favoriteColor(Loader.shared.env, exn))
         )
     ;
-    static void set favoriteColor(TestAPI.SimpleEnum value) {
+    static set favoriteColor(TestAPI.SimpleEnum value) {
         GCRef.using(value, (_valueHandle) =>
             check((exn) =>
                 f__iota_set_TestAPI_SimpleEnum_favoriteColor(Loader.shared.env, _valueHandle.ptr, exn)

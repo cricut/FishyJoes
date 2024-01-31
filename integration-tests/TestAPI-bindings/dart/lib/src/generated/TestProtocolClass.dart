@@ -53,7 +53,7 @@ class TestProtocolClass extends SwiftReference implements TestAPI.TestMethodsPro
             )
         )
     ;
-    void set corge(String value) {
+    set corge(String value) {
         GCRef.using(this, (_thisHandle) =>
             GCRef.using(value, (_valueHandle) =>
                 check((exn) =>

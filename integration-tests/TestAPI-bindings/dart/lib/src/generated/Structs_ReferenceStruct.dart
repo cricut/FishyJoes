@@ -61,7 +61,7 @@ class Structs_ReferenceStruct extends SwiftReference {
             )
         )
     ;
-    void set mutable(String value) {
+    set mutable(String value) {
         GCRef.using(this, (_thisHandle) =>
             GCRef.using(value, (_valueHandle) =>
                 check((exn) =>

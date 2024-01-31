@@ -63,7 +63,7 @@ class Methods extends SwiftReference {
             f__iota_get_TestAPI_Methods_staticModifiable(Loader.shared.env, exn)
         )
     ;
-    static void set staticModifiable(int value) {
+    static set staticModifiable(int value) {
         check((exn) =>
             f__iota_set_TestAPI_Methods_staticModifiable(Loader.shared.env, value, exn)
         )
@@ -75,7 +75,7 @@ class Methods extends SwiftReference {
             f__iota_get_TestAPI_Methods_staticStored(Loader.shared.env, exn)
         )
     ;
-    static void set staticStored(int value) {
+    static set staticStored(int value) {
         check((exn) =>
             f__iota_set_TestAPI_Methods_staticStored(Loader.shared.env, value, exn)
         )
@@ -105,7 +105,7 @@ class Methods extends SwiftReference {
             )
         )
     ;
-    void set instanceModifiable(int value) {
+    set instanceModifiable(int value) {
         GCRef.using(this, (_thisHandle) =>
             check((exn) =>
                 f__iota_set_TestAPI_Methods_instanceModifiable(Loader.shared.env, _thisHandle.ptr, value, exn)
@@ -121,7 +121,7 @@ class Methods extends SwiftReference {
             )
         )
     ;
-    void set instanceStored(int value) {
+    set instanceStored(int value) {
         GCRef.using(this, (_thisHandle) =>
             check((exn) =>
                 f__iota_set_TestAPI_Methods_instanceStored(Loader.shared.env, _thisHandle.ptr, value, exn)

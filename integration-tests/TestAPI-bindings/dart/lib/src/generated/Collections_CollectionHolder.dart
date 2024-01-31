@@ -302,7 +302,7 @@ class Collections_CollectionHolder {
             consumeCreatedRef<List<int?>>(f__iota_get_TestAPI_Collections_CollectionHolder_staticMutableProperty(Loader.shared.env, exn))
         )
     ;
-    static void set staticMutableProperty(List<int?> value) {
+    static set staticMutableProperty(List<int?> value) {
         GCRef.using(value, (_valueHandle) =>
             check((exn) =>
                 f__iota_set_TestAPI_Collections_CollectionHolder_staticMutableProperty(Loader.shared.env, _valueHandle.ptr, exn)

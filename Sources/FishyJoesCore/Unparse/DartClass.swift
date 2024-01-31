@@ -206,7 +206,7 @@ class DartClass {
         }
         if field.isPubliclyWritable {
             outputAttributes()
-            fragment.outputBlock("\(staticMark)void set \(Self.deforbidify(field.name))(\(field.type.name(in: self)) value) {") {
+            fragment.outputBlock("\(staticMark)set \(Self.deforbidify(field.name))(\(field.type.name(in: self)) value) {") {
                 outputSetterBody()
                 fragment.output(";")
             }
@@ -886,9 +886,6 @@ class DartProtocolClass: DartClass {
     override func output(to fragment: SourceFragment) {
         document(documentation, fragment: fragment)
 
-        if unqualifiedName == "TestPropertiesProtocol" {
-            let a = 1
-        }
         fragment.output("abstract class \(unqualifiedName)", newLineTerminated: false)
         fragment.outputBlock(" {", closeWith: "}") {
             for method in methods {
