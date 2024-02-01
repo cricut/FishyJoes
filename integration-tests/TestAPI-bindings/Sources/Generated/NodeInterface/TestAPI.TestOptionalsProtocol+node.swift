@@ -6,4 +6,4 @@ import FishyJoesNodeRuntime
 import Foundation
 import TestAPI
 
-// swiftlint:disable trailing_newline
+// This definition is empty. Comment's purpose is to avoid swiftlint errors for empty protocols i.e. protocols that have only static methods and/or static properties will be empty for Dart for example, even though Swift supports them.

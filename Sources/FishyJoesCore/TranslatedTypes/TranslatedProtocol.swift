@@ -85,8 +85,7 @@ struct TranslatedProtocol: TranslatedType {
             "NodeInterface/\(sourceType.name)+node.swift",
             additionalImports: ["Foundation", "FishyJoesNodeRuntime"]
         )
-        // disable swiftlint for trailing_newline because if protocol is empty we don't want a "file should end in single newline error" that would otherwise result.
-        fragment.output("// swiftlint:disable trailing_newline")
+        fragment.fixForEmptyProtocols()
         return fragment
     }
 
@@ -95,8 +94,7 @@ struct TranslatedProtocol: TranslatedType {
             "JavaInterface/\(sourceType.name)+java.swift",
             additionalImports: ["Foundation", "FishyJoesJavaRuntime"]
         )
-        // disable swiftlint for trailing_newline because if protocol is empty we don't want a "file should end in single newline error" that would otherwise result.
-        fragment.output("// swiftlint:disable trailing_newline")
+        fragment.fixForEmptyProtocols()
         return fragment
     }
 
@@ -197,6 +195,8 @@ struct TranslatedProtocol: TranslatedType {
         registerCSharpClass(context: context)
         registerDartClass(context: context)
         
+        fragment.fixForEmptyProtocols()
+
         return fragment
     }
 
@@ -250,5 +250,13 @@ struct TranslatedProtocol: TranslatedType {
                 fieldsAndMethods: fieldsAndMethods
             )
         )
+    }
+}
+
+fileprivate extension SourceFragment {
+    func fixForEmptyProtocols() {
+        if stringBuilder.isEmpty {
+            output("// This definition is empty. Comment's purpose is to avoid swiftlint errors for empty protocols i.e. protocols that have only static methods and/or static properties will be empty for Dart for example, even though Swift supports them.")
+        }
     }
 }
