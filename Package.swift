@@ -99,7 +99,6 @@ let package = Package(
                     // These symbols must be defined by the node process that loads the N-API addon.
                     // See ld(1) for full details.
                     [
-                        "swift_get_time",
                         "napi_add_env_cleanup_hook",
                         "napi_add_finalizer",
                         "napi_adjust_external_memory",
