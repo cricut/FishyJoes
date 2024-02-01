@@ -117,6 +117,19 @@ class Structs_MemberwiseStruct {
         consumeCreatedRef<TestAPI.Structs_MemberwiseStruct>(check((OutCreatedRef _exn) => f__iota_TestAPI_Structs_MemberwiseStruct_create(Loader.shared.env, _exn)))
     ;
 
+    /// <!-- FishyJoes.export(asyncGetMutable) -->
+    String asyncGetMutable(
+    ) =>
+        GCRef.using(this, (_thisHandle) =>
+            consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_TestAPI_Structs_MemberwiseStruct_asyncGetMutable(Loader.shared.env, _thisHandle.ptr, _exn)))
+        )
+    ;
+
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef _this,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_Structs_MemberwiseStruct_asyncGetMutable;
     static late CreatedRef Function(
         Env env,
         OutCreatedRef _exn

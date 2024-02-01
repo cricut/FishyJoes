@@ -1176,6 +1176,166 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_EmptyEnum_notGoingToHappen");
+    TestAPI.Functions.f__iota_TestAPI_Functions_async42Func = dylib.lookupFunction<
+        ffi.Int Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_Functions_async42Func");
+    TestAPI.Functions.f__iota_TestAPI_Functions_asyncCallbackFunc0 = dylib.lookupFunction<
+        ffi.Int Function(
+            Env env,
+            UnownedRef callback,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            UnownedRef callback,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_Functions_asyncCallbackFunc0");
+    TestAPI.Functions.f__iota_TestAPI_Functions_asyncCallbackFunc1 = dylib.lookupFunction<
+        ffi.Int Function(
+            Env env,
+            UnownedRef callback,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            UnownedRef callback,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_Functions_asyncCallbackFunc1");
+    TestAPI.Functions.f__iota_TestAPI_Functions_asyncCallbackFunc2 = dylib.lookupFunction<
+        ffi.Int Function(
+            Env env,
+            UnownedRef callback,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            UnownedRef callback,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_Functions_asyncCallbackFunc2");
+    TestAPI.Functions.f__iota_TestAPI_Functions_asyncCallbackFunc3 = dylib.lookupFunction<
+        ffi.Int Function(
+            Env env,
+            UnownedRef callback,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            UnownedRef callback,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_Functions_asyncCallbackFunc3");
+    TestAPI.Functions.f__iota_TestAPI_Functions_asyncCallbackFunc4 = dylib.lookupFunction<
+        ffi.Int Function(
+            Env env,
+            UnownedRef callback,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            UnownedRef callback,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_Functions_asyncCallbackFunc4");
+    TestAPI.Functions.f__iota_TestAPI_Functions_asyncCallbackFunc5 = dylib.lookupFunction<
+        ffi.Int Function(
+            Env env,
+            UnownedRef callback,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            UnownedRef callback,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_Functions_asyncCallbackFunc5");
+    TestAPI.Functions.f__iota_TestAPI_Functions_asyncCallbackFunc6 = dylib.lookupFunction<
+        ffi.Int Function(
+            Env env,
+            UnownedRef callback,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            UnownedRef callback,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_Functions_asyncCallbackFunc6");
+    TestAPI.Functions.f__iota_TestAPI_Functions_asyncDoubleFunc = dylib.lookupFunction<
+        ffi.Double Function(
+            Env env,
+            ffi.Double d,
+            OutCreatedRef _exn
+        ),
+        double Function(
+            Env env,
+            double d,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_Functions_asyncDoubleFunc");
+    TestAPI.Functions.f__iota_TestAPI_Functions_asyncMultipleArgs = dylib.lookupFunction<
+        ffi.Int Function(
+            Env env,
+            ffi.Int i,
+            UnownedRef j,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            int i,
+            UnownedRef j,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_Functions_asyncMultipleArgs");
+    TestAPI.Functions.f__iota_TestAPI_Functions_asyncSleepFunc = dylib.lookupFunction<
+        ffi.Int Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_Functions_asyncSleepFunc");
+    TestAPI.Functions.f__iota_TestAPI_Functions_asyncThrowingFunc = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        void Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_Functions_asyncThrowingFunc");
+    TestAPI.Functions.f__iota_TestAPI_Functions_asyncVoidFunc = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        void Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_Functions_asyncVoidFunc");
+    TestAPI.Functions.f__iota_TestAPI_Functions_asyncYieldFunc = dylib.lookupFunction<
+        ffi.Int Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_Functions_asyncYieldFunc");
     TestAPI.Functions.f__iota_TestAPI_Functions_exercise0 = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -1772,6 +1932,18 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_Strings_echo");
+    TestAPI.Structs_MemberwiseStruct.f__iota_TestAPI_Structs_MemberwiseStruct_asyncGetMutable = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_Structs_MemberwiseStruct_asyncGetMutable");
     TestAPI.Structs_MemberwiseStruct.f__iota_TestAPI_Structs_MemberwiseStruct_create = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -1782,6 +1954,18 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_Structs_MemberwiseStruct_create");
+    TestAPI.Structs_MutableStruct.f__iota_TestAPI_Structs_MutableStruct_asyncGetI = dylib.lookupFunction<
+        ffi.Int Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_Structs_MutableStruct_asyncGetI");
     TestAPI.Structs_MutableStruct.f__iota_TestAPI_Structs_MutableStruct_create = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -1804,6 +1988,18 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_Structs_MutableStruct_increment");
+    TestAPI.Structs_MutableStruct.f__iota_TestAPI_Structs_MutableStruct_incrementAsync = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        void Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_Structs_MutableStruct_incrementAsync");
     TestAPI.Structs_PuttingTypesIntoQuestionablePlaces.f__iota_TestAPI_Structs_PuttingTypesIntoQuestionablePlaces_create = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -1826,6 +2022,18 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_Structs_PuttingTypesIntoQuestionablePlaces_testCall");
+    TestAPI.Structs_ReferenceStruct.f__iota_TestAPI_Structs_ReferenceStruct_asyncGetMutable = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_Structs_ReferenceStruct_asyncGetMutable");
     TestAPI.Structs_ReferenceStruct.f__iota_TestAPI_Structs_ReferenceStruct_create = dylib.lookupFunction<
         CreatedRef Function(
             Env env,

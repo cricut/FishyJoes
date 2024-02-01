@@ -284,6 +284,10 @@ extension DartClass.DartType: CustomStringConvertible {
         .named(package: nil, name: "object")
     }
 
+    static func future(_ inner: DartClass.DartType) -> DartClass.DartType {
+        .named(package: nil, name: "Future", genericArgs: [inner])
+    }
+
     var description: String {
         "FIXME: You should not use this, you should use one of the representations below. \(name())"
     }

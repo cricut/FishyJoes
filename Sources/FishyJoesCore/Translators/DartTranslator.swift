@@ -164,10 +164,6 @@ final class DartTranslator: Translator {
     }
 
     func dart(method: Method, of type: TranslatedType, context: FishyJoesContext) -> DartClass.MethodOrVariable? {
-        // TODO: Remove this guard when adding support for Async
-        guard !method.isAsync else {
-            return nil
-        }
         let exportAnnotation = method.exportAnnotation
         var omitParameters = Set(exportAnnotation.omitParameters)
         var parameters: [(labelComment: String?, name: String, type: DartClass.DartType, defaultValue: String?)] = []

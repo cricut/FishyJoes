@@ -106,6 +106,27 @@ class Structs_MutableStruct {
         )
     ;
 
+    /// <!-- FishyJoes.export(incrementAsync) -->
+    void incrementAsync(
+    ) =>
+        GCRef.using(this, (_thisHandle) =>
+            check((OutCreatedRef _exn) => f__iota_TestAPI_Structs_MutableStruct_incrementAsync(Loader.shared.env, _thisHandle.ptr, _exn))
+        )
+    ;
+
+    /// <!-- FishyJoes.export(asyncGetI) -->
+    int asyncGetI(
+    ) =>
+        GCRef.using(this, (_thisHandle) =>
+            check((OutCreatedRef _exn) => f__iota_TestAPI_Structs_MutableStruct_asyncGetI(Loader.shared.env, _thisHandle.ptr, _exn))
+        )
+    ;
+
+    static late int Function(
+        Env env,
+        UnownedRef _this,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_Structs_MutableStruct_asyncGetI;
     static late CreatedRef Function(
         Env env,
         OutCreatedRef _exn
@@ -115,4 +136,9 @@ class Structs_MutableStruct {
         UnownedRef _this,
         OutCreatedRef _exn
     ) f__iota_TestAPI_Structs_MutableStruct_increment;
+    static late void Function(
+        Env env,
+        UnownedRef _this,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_Structs_MutableStruct_incrementAsync;
 }

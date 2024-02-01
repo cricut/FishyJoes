@@ -318,3 +318,100 @@ extension ClosedRangeConverter: IotaConverter where BoundConverter: IotaConverte
         return try interface.construct(lowerBound: lowerBound, upperBound: upperBound, env: env)
     }
 }
+
+// MARK: - Future Type Conversion
+
+public struct IotaSwiftFuture {
+    public typealias ForeignHandler = @convention(c) (
+        _ handlerContext: OpaquePointer,
+        _ success: UInt32,
+        _ resultOrException: foreignObject,
+        _ exn: foreignOutExn
+    ) -> Void
+    public typealias SinkMethod = @convention(c) (
+        _ context: OpaquePointer,
+        _ handler: ForeignHandler,
+        _ handlerContext: OpaquePointer,
+        _ exn: foreignOutExn
+    ) -> foreignObject
+    public typealias Constructor = @convention(c) (
+        _ context: OpaquePointer,
+        _ outResolver: UnsafeMutablePointer<foreignObject>,
+        _ exn: foreignOutExn
+    ) -> foreignObject
+
+    static var interfaces = Env.CallbackMap<[ObjectIdentifier: IotaSwiftFuture]>()
+
+    var sinkMethod: SinkMethod
+    var constructor: Constructor
+    var context: OpaquePointer
+
+    func sink(_ object: foreignObject, env: Env) throws -> foreignObject {
+        try env.check { exn in
+            let erased = {
+                try R.toIotaObject(value(), env: env)
+            }
+        let ptr = Box(erased).retainedOpaque()
+            sinkMethod(
+                context,
+                invokeSinkHandler,
+                Box<
+            getUpperBoundMethod(context, object, exn)
+        }
+    }
+
+    func construct(lowerBound: foreignObject, upperBound: foreignObject, env: Env) throws -> foreignObject {
+        try env.check { exn in constructor(context, lowerBound, upperBound, exn) }
+    }
+}
+
+@_cdecl("FishyJoesCommonRuntime_FutureConverter_invokeSinkHandler")
+public func FutureConverter_invokeSinkHandler(
+    envRef: EnvRef,
+    this: UnsafeMutableRawPointer,
+    exn: foreignOutExn
+) -> foreignObject {
+    let env = Env(envRef)
+    return env.catching(to: exn) {
+        return try Box<AnyFunction0>.takeUnretainedOpaque(this).value.invoke(env)
+    }
+}
+
+@_cdecl("FishyJoesCommonRuntime_FutureConverter_setup")
+public func FutureConverter_iota_setup(
+    envRef: EnvRef,
+    name: UnsafePointer<unichar>,
+    getLowerBoundMethod: @escaping IotaSwiftFuture.GetLowerBoundMethod,
+    getUpperBoundMethod: @escaping IotaSwiftFuture.GetUpperBoundMethod,
+    constructor: @escaping IotaSwiftFuture.Constructor,
+    context: OpaquePointer
+) {
+    let env = Env(envRef)
+    let name = String(decodingCString: name, as: Unicode.UTF16.self)
+    guard let typeID = Env.typeID(name: name),
+          let identifier = Env.objectID(typeID: typeID)
+    else {
+        fatalError("unregistered typeID \(name)")
+    }
+    IotaSwiftFuture.interfaces[env, default: [:]][identifier] = IotaSwiftFuture(
+        getLowerBoundMethod: getLowerBoundMethod,
+        getUpperBoundMethod: getUpperBoundMethod,
+        constructor: constructor,
+        context: context
+    )
+}
+
+
+extension Future: IotaConverter where Output: IotaConverter {
+    public static func peekIota(_ value: foreignObject, env: Env) throws -> SwiftType {
+        guard let interface = IotaSwiftFuture.interfaces[env][ObjectIdentifier(Self.self)] else {
+            fatalError("Type \(SwiftType.self) improperly set up")
+        }
+    }
+
+    public static func toIota(_ value: SwiftType, env: Env) throws -> foreignObject {
+        guard let interface = IotaSwiftFuture.interfaces[env][ObjectIdentifier(Self.self)] else {
+            fatalError("Type \(SwiftType.self) improperly set up")
+        }
+    }
+}

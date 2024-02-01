@@ -1,6 +1,81 @@
 import FishyJoesCommonRuntime
 import Foundation
 
+extension IotaConverter {
+    static func bind(promise: inout foreignObject, to continuation: CheckedContinuation<SwiftType, any Error>, contextName: String, env: Env) throws {
+        fatalError("TODO")
+    }
+}
+// extension IotaConverter {
+//     static func bind(promise: inout foreignObject, to continuation: CheckedContinuation<SwiftType, IotaException>, contextName: String, env: Env) throws {
+//         typealias BindBox = Box<(catching: (foreignObject, Env) -> Void, throwing: (foreignObject, Env) -> Void)>
+//         let continuationBoxPointer = BindBox(
+//             (
+//                 catching: { value, env in
+//                     do {
+//                         let result = try consumeIota(object: value, env: env)
+//                         continuation.resume(with: .success(result))
+//                     } catch {
+//                         continuation.resume(
+//                             throwing: IotaException(
+//                                 exception: IotaReference(take: env.newError(error), env: env)
+//                             )
+//                         )
+//                     }
+//                 }, throwing: { error, env in
+//                     continuation.resume(
+//                         throwing: IotaException(
+//                             exception: IotaReference(take: error, env: env)
+//                         )
+//                     )
+//                 }
+//             )
+//         ).retainedOpaque()
+
+//         let thenFunction = try promiseThenFunction?.value(env: env) ?? {
+//             let thenFunction = try env.getNamedProperty(promise, "then")
+//             promiseThenFunction = try NodeReference(env: env, value: thenFunction)
+//             return thenFunction
+//         }()
+//         let thenCallback = try env.createFunction(
+//             "\(contextName)Then", { env, info in
+//                 callbackBody(env, info, name: "CheckedContinuation.Bind.CallbackBody.Then", expectedArgumentCount: 1) { env in
+//                     guard let data = try env.data() else {
+//                         throw ContinuationError.nullData
+//                     }
+//                     let continuationBox = try BindBox.takeRetainedOpaque(data)
+//                     let value = try env.argument(at: 0)
+//                     continuationBox.value.catching(value, env.env)
+//                     return nil
+//                 }
+//             },
+//             continuationBoxPointer
+//         )
+//         promise = try env.callFunction(promise, thenFunction, [thenCallback])
+
+//         let catchFunction = try promiseCatchFunction?.value(env: env) ?? {
+//             let catchFunction = try env.getNamedProperty(promise, "catch")
+//             promiseCatchFunction = try NodeReference(env: env, value: catchFunction)
+//             return catchFunction
+//         }()
+//         let catchCallback = try env.createFunction(
+//             "\(contextName)Catch", { env, info in
+//                 callbackBody(env, info, name: "CheckedContinuation.Bind.CallbackBody.Catch", expectedArgumentCount: 1) { env in
+//                     guard let data = try env.data() else {
+//                         throw ContinuationError.nullData
+//                     }
+//                     let continuationBox = try BindBox.takeRetainedOpaque(data)
+//                     let value = try env.argument(at: 0)
+//                     continuationBox.value.throwing(value, env.env)
+//                     return nil
+//                 }
+//             },
+//             continuationBoxPointer
+//         )
+//         promise = try env.callFunction(promise, catchFunction, [catchCallback])
+//     }
+// }
+
 public struct FunctionInfo {
     public typealias Constructor = @convention(c) (
         _ context: OpaquePointer,

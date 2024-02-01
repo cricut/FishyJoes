@@ -10,9 +10,6 @@ final class IotaTranslator: Translator {
     }
 
     func translate(method: Method, context: FishyJoesContext) -> [SourceFragment] {
-        guard !method.isAsync else {
-            return []
-        }
         let exportAnnotation = method.exportAnnotation
 
         var selfExpression: String

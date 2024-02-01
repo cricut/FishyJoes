@@ -153,6 +153,182 @@ class Functions {
         consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_TestAPI_Functions_willThrow(Loader.shared.env, _exn)))
     ;
 
+    /// <!-- FishyJoes.export(async42Func) -->
+    static int async42Func(
+    ) =>
+        check((OutCreatedRef _exn) => f__iota_TestAPI_Functions_async42Func(Loader.shared.env, _exn))
+    ;
+
+    /// <!-- FishyJoes.export(asyncYieldFunc) -->
+    static int asyncYieldFunc(
+    ) =>
+        check((OutCreatedRef _exn) => f__iota_TestAPI_Functions_asyncYieldFunc(Loader.shared.env, _exn))
+    ;
+
+    /// <!-- FishyJoes.export(asyncSleepFunc) -->
+    static int asyncSleepFunc(
+    ) =>
+        check((OutCreatedRef _exn) => f__iota_TestAPI_Functions_asyncSleepFunc(Loader.shared.env, _exn))
+    ;
+
+    /// <!-- FishyJoes.export(asyncVoidFunc) -->
+    static void asyncVoidFunc(
+    ) =>
+        check((OutCreatedRef _exn) => f__iota_TestAPI_Functions_asyncVoidFunc(Loader.shared.env, _exn))
+    ;
+
+    /// <!-- FishyJoes.export(asyncCallbackFunc0) -->
+    static int asyncCallbackFunc0(
+        Future<int> Function() callback,
+    ) =>
+        GCRef.using(callback, (_callbackHandle) =>
+            check((OutCreatedRef _exn) => f__iota_TestAPI_Functions_asyncCallbackFunc0(Loader.shared.env, _callbackHandle.ptr, _exn))
+        )
+    ;
+
+    /// <!-- FishyJoes.export(asyncCallbackFunc1) -->
+    static int asyncCallbackFunc1(
+        Future<int> Function(int) callback,
+    ) =>
+        GCRef.using(callback, (_callbackHandle) =>
+            check((OutCreatedRef _exn) => f__iota_TestAPI_Functions_asyncCallbackFunc1(Loader.shared.env, _callbackHandle.ptr, _exn))
+        )
+    ;
+
+    /// <!-- FishyJoes.export(asyncCallbackFunc2) -->
+    static int asyncCallbackFunc2(
+        Future<int> Function(int, int) callback,
+    ) =>
+        GCRef.using(callback, (_callbackHandle) =>
+            check((OutCreatedRef _exn) => f__iota_TestAPI_Functions_asyncCallbackFunc2(Loader.shared.env, _callbackHandle.ptr, _exn))
+        )
+    ;
+
+    /// <!-- FishyJoes.export(asyncCallbackFunc3) -->
+    static int asyncCallbackFunc3(
+        Future<int> Function(int, int, int) callback,
+    ) =>
+        GCRef.using(callback, (_callbackHandle) =>
+            check((OutCreatedRef _exn) => f__iota_TestAPI_Functions_asyncCallbackFunc3(Loader.shared.env, _callbackHandle.ptr, _exn))
+        )
+    ;
+
+    /// <!-- FishyJoes.export(asyncCallbackFunc4) -->
+    static int asyncCallbackFunc4(
+        Future<int> Function(int, int, int, int) callback,
+    ) =>
+        GCRef.using(callback, (_callbackHandle) =>
+            check((OutCreatedRef _exn) => f__iota_TestAPI_Functions_asyncCallbackFunc4(Loader.shared.env, _callbackHandle.ptr, _exn))
+        )
+    ;
+
+    /// <!-- FishyJoes.export(asyncCallbackFunc5) -->
+    static int asyncCallbackFunc5(
+        Future<int> Function(int, int, int, int, int) callback,
+    ) =>
+        GCRef.using(callback, (_callbackHandle) =>
+            check((OutCreatedRef _exn) => f__iota_TestAPI_Functions_asyncCallbackFunc5(Loader.shared.env, _callbackHandle.ptr, _exn))
+        )
+    ;
+
+    /// <!-- FishyJoes.export(asyncCallbackFunc6) -->
+    static int asyncCallbackFunc6(
+        Future<int> Function(int, int, int, int, int, int) callback,
+    ) =>
+        GCRef.using(callback, (_callbackHandle) =>
+            check((OutCreatedRef _exn) => f__iota_TestAPI_Functions_asyncCallbackFunc6(Loader.shared.env, _callbackHandle.ptr, _exn))
+        )
+    ;
+
+    /// <!-- FishyJoes.export(asyncDoubleFunc) -->
+    static double asyncDoubleFunc(
+        double d,
+    ) =>
+        check((OutCreatedRef _exn) => f__iota_TestAPI_Functions_asyncDoubleFunc(Loader.shared.env, d, _exn))
+    ;
+
+    /// <!-- FishyJoes.export(asyncMultipleArgs) -->
+    static int asyncMultipleArgs(
+        int i,
+        Future<int> Function() j,
+    ) =>
+        GCRef.using(j, (_jHandle) =>
+            check((OutCreatedRef _exn) => f__iota_TestAPI_Functions_asyncMultipleArgs(Loader.shared.env, i, _jHandle.ptr, _exn))
+        )
+    ;
+
+    /// <!-- FishyJoes.export(asyncThrowingFunc) -->
+    static void asyncThrowingFunc(
+    ) =>
+        check((OutCreatedRef _exn) => f__iota_TestAPI_Functions_asyncThrowingFunc(Loader.shared.env, _exn))
+    ;
+
+    static late int Function(
+        Env env,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_Functions_async42Func;
+    static late int Function(
+        Env env,
+        UnownedRef callback,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_Functions_asyncCallbackFunc0;
+    static late int Function(
+        Env env,
+        UnownedRef callback,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_Functions_asyncCallbackFunc1;
+    static late int Function(
+        Env env,
+        UnownedRef callback,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_Functions_asyncCallbackFunc2;
+    static late int Function(
+        Env env,
+        UnownedRef callback,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_Functions_asyncCallbackFunc3;
+    static late int Function(
+        Env env,
+        UnownedRef callback,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_Functions_asyncCallbackFunc4;
+    static late int Function(
+        Env env,
+        UnownedRef callback,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_Functions_asyncCallbackFunc5;
+    static late int Function(
+        Env env,
+        UnownedRef callback,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_Functions_asyncCallbackFunc6;
+    static late double Function(
+        Env env,
+        double d,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_Functions_asyncDoubleFunc;
+    static late int Function(
+        Env env,
+        int i,
+        UnownedRef j,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_Functions_asyncMultipleArgs;
+    static late int Function(
+        Env env,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_Functions_asyncSleepFunc;
+    static late void Function(
+        Env env,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_Functions_asyncThrowingFunc;
+    static late void Function(
+        Env env,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_Functions_asyncVoidFunc;
+    static late int Function(
+        Env env,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_Functions_asyncYieldFunc;
     static late CreatedRef Function(
         Env env,
         UnownedRef fn,

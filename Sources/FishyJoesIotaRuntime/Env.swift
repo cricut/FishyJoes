@@ -136,6 +136,17 @@ public struct Env {
         Env.deleteRefHandle[self](object)
     }
 
+    public func newError(_ swiftError: Error) -> foreignObject {
+        if let iotaException = swiftError as? IotaException {
+            return newRef(iotaException.exception.object)
+        } else {
+            let utf16Message = Array("\(swiftError)".utf16) + [0]
+            return utf16Message.withUnsafeBufferPointer {
+                Env.newErrorHandle[self]($0.baseAddress!)
+            }
+        }
+    }
+
     public func check<R>(_ body: (_ exn: foreignOutExn) throws -> R) throws -> R {
         var exn: foreignObject = nil
         let result = try body(&exn)
@@ -149,12 +160,8 @@ public struct Env {
         do {
             try body()
             pointer.pointee = nil
-        } catch let exception as IotaException {
-            pointer.pointee = newRef(exception.exception.object)
-        } catch let exception {
-            var utf16Message = Array("\(exception)".utf16)
-            utf16Message.append(0)
-            pointer.pointee = utf16Message.withUnsafeBufferPointer { Env.newErrorHandle[self]($0.baseAddress!) }
+        } catch {
+            pointer.pointee = newError(error)
         }
     }
 
@@ -207,5 +214,13 @@ extension Env {
             defer { Env.staticLock.unlock() }
             return callbacks.value[env.id] != nil
         }
+    }
+
+    public func withPromise<R>(body: () async throws -> R) -> foreignObject {
+        fatalError("TODO")
+    }
+
+    public func onThread(body: () -> Void) {
+        fatalError("TODO")
     }
 }
