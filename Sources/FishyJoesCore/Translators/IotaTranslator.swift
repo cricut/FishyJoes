@@ -99,7 +99,6 @@ final class IotaTranslator: Translator {
                 }
             }
         }
-        fragment.blankLine()
 
         return [fragment]
     }
