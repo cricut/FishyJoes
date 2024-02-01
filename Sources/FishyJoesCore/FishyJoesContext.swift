@@ -152,16 +152,10 @@ public class FishyJoesContext {
 
         // Collect type information before starting translation
         // This collects the named types possible for use later in resolve().
-        var translatedTypes = templateContext.types.protocols.compactMap { type -> TranslatedType? in
+        let translatedTypes = templateContext.types.types.compactMap { type -> TranslatedType? in
             debugContext = "Translating type \(type.name)"
             return translate(typeDefinition: type)
         }
-        translatedTypes.append(contentsOf:
-            templateContext.types.all.compactMap { type -> TranslatedType? in
-                debugContext = "Translating type \(type.name)"
-                return translate(typeDefinition: type)
-            }
-        )
         for translatedType in translatedTypes {
             let name = translatedType.sourceType
             precondition(typeCache[name] == nil, "duplicate definitions found for \(name)")
