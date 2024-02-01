@@ -85,7 +85,8 @@ struct TranslatedProtocol: TranslatedType {
             "NodeInterface/\(sourceType.name)+node.swift",
             additionalImports: ["Foundation", "FishyJoesNodeRuntime"]
         )
-        fragment.blankLine()
+        // disable swiftlint for trailing_newline because if protocol is empty we don't want a "file should end in single newline error" that would otherwise result.
+        fragment.output("// swiftlint:disable trailing_newline")
         return fragment
     }
 
@@ -94,7 +95,8 @@ struct TranslatedProtocol: TranslatedType {
             "JavaInterface/\(sourceType.name)+java.swift",
             additionalImports: ["Foundation", "FishyJoesJavaRuntime"]
         )
-        fragment.blankLine()
+        // disable swiftlint for trailing_newline because if protocol is empty we don't want a "file should end in single newline error" that would otherwise result.
+        fragment.output("// swiftlint:disable trailing_newline")
         return fragment
     }
 
@@ -191,10 +193,12 @@ struct TranslatedProtocol: TranslatedType {
             "IotaInterface/\(sourceType.name)+iota-type.swift",
             additionalImports: ["Foundation", "FishyJoesIotaRuntime"]
         )
+        // disable swiftlint for trailing_newline because if protocol is empty we don't want a "file should end in single newline error" that would otherwise result.
+        fragment.output("// swiftlint:disable trailing_newline")
 
         registerCSharpClass(context: context)
         registerDartClass(context: context)
-
+        
         return fragment
     }
 

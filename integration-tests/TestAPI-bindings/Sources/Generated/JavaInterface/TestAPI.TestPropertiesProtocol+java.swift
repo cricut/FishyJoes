@@ -6,3 +6,4 @@ import FishyJoesJavaRuntime
 import Foundation
 import TestAPI
 
+// swiftlint:disable trailing_newline
