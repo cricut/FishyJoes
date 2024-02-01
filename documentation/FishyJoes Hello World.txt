@@ -1,0 +1,179 @@
+% mkdir Bell
+% cd Bell
+% swift package init
+
+Creating library package: Bell
+Creating Package.swift
+Creating .gitignore
+Creating Sources/
+Creating Sources/Bell/Bell.swift
+Creating Tests/
+Creating Tests/BellTests/
+Creating Tests/BellTests/BellTests.swift
+
+% vi Sources/Bell/Bell.swift
+
+/// <!-- FishyJoes.export(Taco) -->
+public enum Taco {
+    /// <!-- FishyJoes.export(status) -->
+    public static var status = "Yo quiero Taco Bell"
+}
+
+% vi Package.swift
+
+// swift-tools-version: 5.9
+// The swift-tools-version declares the minimum version of Swift required to build this package.
+
+import PackageDescription
+import Foundation
+
+let package = Package(
+    name: "Bell",
+    products: [
+        // Products define the executables and libraries a package produces, making them visible to other packages.
+        .library(
+            name: "Bell",
+            type: ProcessInfo.processInfo.environment["SWIFT_PACKAGE_FORCE_DYNAMIC"] == "1" ? .dynamic : nil,
+            targets: ["Bell"]),
+    ],
+    targets: [
+        // Targets are the basic building blocks of a package, defining a module or a test suite.
+        // Targets can depend on other targets in this package and products from dependencies.
+        .target(
+            name: "Bell"),
+        .testTarget(
+            name: "BellTests",
+            dependencies: ["Bell"]),
+    ]
+)
+
+% SWIFT_PACKAGE_FORCE_DYNAMIC=1 swift build
+
+Building for debugging...
+[2/2] Emitting module Bell
+Build complete! (3.30s)
+
+% ls .build/debug
+
+# ... other files ...
+libBell.dylib
+
+% cd ..
+% mkdir Bell-bindings
+% cd Bell-bindings
+% git init
+
+Initialized empty Git repository in /Users/mstoker/Desktop/Bell/.git/
+
+% mint run --executable fishy-joes cricut/FishyJoes package-init
+
+# ... Downloads and builds FishyJoes then runs its package-init command ...
+Name of swift product you're generating bindings for (e.g. CriGeo): Bell
+url of repository to publish bindings to, or "nil". Default [github.com/cricut/Bell-bindings]: 
+Exported dependencies of Bell, space separated. Default []: 
+File or directory paths to exclude from generation, space separated. Default []:
+Will write to /Users/mstoker/Desktop/Bell-bindings/fishy-joes.yaml:
+module: Bell
+publishRepository: github.com/cricut/Bell-bindings
+requiredModules: []
+excludeSources: []
+continue? [Y/n] y
+# ... Populates directory with a nearly complete bindings project ...
+
+% vi Package.swift
+
+# Change this line to the latest published FishyJoes version (e.g. 4.2.1):
+let fishyJoesVersion = "(replace this string with latest fishyjoes version)"
+
+% vi c-sharp/Cricut.Bell/Cricut.Bell.csproj
+
+# Change this line to the same version as the one referenced in Package.swift (e.g. 4.2.1):
+<PackageReference Include="Cricut.FishyJoesRuntime" Version="(replace this string with latest fishyjoes version)" />
+
+% vi dart/pubspec.yaml
+
+# Change this line to the same version as the one referenced in Package.swift (e.g. 4.2.1):
+ref: "(replace this string with latest fishyjoes version)"
+
+% vi node-test/example.test.ts 
+
+import { Bell } from 'Bell';
+
+test('TestTacoDesire', () => {
+    expect(Bell.Taco.status).toEqual("Yo quiero Taco Bell");
+});
+
+% vi kotlin/src/test/kotlin/com/cricut/bell/ExampleTests.kt
+
+package com.cricut.bell
+
+import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Test
+
+internal class ExampleTests {
+    @Test
+    fun testTacoDesire() {
+        assertEquals(Taco.status, "Yo quiero Taco Bell")
+    }
+}
+
+% vi c-sharp/Cricut.Bell.Tests/ExampleTests.cs
+
+using System;
+using Xunit;
+
+namespace Cricut.Bell.Tests {
+    public class ExampleTests {
+        [Fact]
+        void testTacoDesire() {
+            Assert.Equal("Yo quiero Taco Bell", Taco.Status);
+        }
+    }
+}
+
+% vi dart/test/example_test.dart
+
+import 'package:cricut_bell/bell.dart';
+import 'package:test/test.dart';
+
+void main() {
+  setUp(() {
+    final _ = ensureLoaded;
+  });
+
+  group('BellTests', () {
+    test('testTacoDesire', () {
+      expect(Taco.status, equals("Yo quiero Taco Bell"));
+    });
+  });
+}
+
+
+
+
+
+
+
+
+
+/*****************************
+Temporary Fixes
+*****************************/
+* Package.swift local FishyJoes reference
+* tsconfig 4 paths for "Bell"
+
+
+
+
+
+
+
+
+
+
+
+% swift run fishy-joes generate build test --nodejs --kotlin-fast --c-sharp --dart
+
+# ... Generates source code for all FishyJoes supported languages ...
+# ... Builds the generated code for the passed languages ...
+# ... Runs the test suite for the passed languages ...

@@ -20,6 +20,10 @@ The recommended way to ensure you have everything you will need for any FishyJoe
 
 [Everything Needed To Generate And Compile (CriGeo-bindings)](https://github.com/cricut/CriGeo-bindings/blob/main/EverythingNeededToGenerateAndCompile.md)
 
+Once you can successfully run the code generation and test suite for CriGeo-bindings, consider creating a simple Hello World style project from scratch:
+
+[FishyJoes Hello World](https://github.com/cricut/FishyJoes/blob/main/documentation/FishyJoes%20Hello%20World.txt)
+
 # FAQ
 1. [What FishyJoes Can and Cannot Do](documentation/cans-and-cannots.md)
 2. Was that a question?
