@@ -49,33 +49,33 @@ public struct Methods {
     public var instanceStored: Int = 5678
 
     /// <!-- FishyJoes.export(async42) -->
-    public static func async42() async throws -> Int {
+    public static func async42() async -> Int {
         42
     }
 
     /// <!-- FishyJoes.export(asyncYield) -->
-    public static func asyncYield() async throws -> Int {
+    public static func asyncYield() async -> Int {
         await Task.yield()
-        return try await async42()
+        return await async42()
     }
 
     /// <!-- FishyJoes.export(asyncSleep) -->
     public static func asyncSleep() async throws -> Int {
         try await Task.sleep(nanoseconds: 100)
-        return try await async42()
+        return await async42()
     }
 
     /// <!-- FishyJoes.export(asyncVoid) -->
-    public static func asyncVoid() async throws {
+    public static func asyncVoid() async {
     }
 
     /// <!-- FishyJoes.export(asyncDouble) -->
-    public static func asyncDouble(_ d: Double) async throws -> Double {
+    public static func asyncDouble(_ d: Double) async -> Double {
         return d * 2
     }
 
     /// <!-- FishyJoes.export(asyncMultipleArgs) -->
-    public static func asyncMultipleArgs(_ i: Int, j: () async throws -> Int) async throws -> Int {
+    public static func asyncMultipleArgs(_ i: Int, j: () async throws -> Int) async rethrows -> Int {
         try await i + j()
     }
 
@@ -85,7 +85,7 @@ public struct Methods {
     }
 
     /// <!-- FishyJoes.export(asyncCallbackFunc0) -->
-    public static func asyncCallbackFunc0(_ callback: () async throws -> Int) async throws -> Int {
+    public static func asyncCallbackFunc0(_ callback: () async throws -> Int) async rethrows -> Int {
         try await callback()
     }
 
