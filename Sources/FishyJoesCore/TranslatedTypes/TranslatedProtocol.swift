@@ -195,7 +195,6 @@ struct TranslatedProtocol: TranslatedType {
         registerCSharpClass(context: context)
         registerDartClass(context: context)
 
-        fragment.blankLine()
         return fragment
     }
 
