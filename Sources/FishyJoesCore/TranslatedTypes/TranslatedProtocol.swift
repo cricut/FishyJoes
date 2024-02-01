@@ -193,8 +193,6 @@ struct TranslatedProtocol: TranslatedType {
             "IotaInterface/\(sourceType.name)+iota-type.swift",
             additionalImports: ["Foundation", "FishyJoesIotaRuntime"]
         )
-        // disable swiftlint for trailing_newline because if protocol is empty we don't want a "file should end in single newline error" that would otherwise result.
-        fragment.output("// swiftlint:disable trailing_newline")
 
         registerCSharpClass(context: context)
         registerDartClass(context: context)
