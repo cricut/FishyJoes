@@ -34,7 +34,7 @@ let java_TestAPI_Methods_async42: @convention(c) (
             let value: Swift.Int.SwiftType = try await {
                 try Env.relinquishJVMThread(on: _vm)
                 defer { _javaEnv = try! Env.acquireJVMThread(on: _vm) }
-                return try await TestAPI.Methods.async42(
+                return await TestAPI.Methods.async42(
                 )
             }()
             return try Swift.Int.toJavaObject(value, env: _javaEnv)
@@ -56,7 +56,7 @@ let java_TestAPI_Methods_asyncYield: @convention(c) (
             let value: Swift.Int.SwiftType = try await {
                 try Env.relinquishJVMThread(on: _vm)
                 defer { _javaEnv = try! Env.acquireJVMThread(on: _vm) }
-                return try await TestAPI.Methods.asyncYield(
+                return await TestAPI.Methods.asyncYield(
                 )
             }()
             return try Swift.Int.toJavaObject(value, env: _javaEnv)
@@ -100,7 +100,7 @@ let java_TestAPI_Methods_asyncVoid: @convention(c) (
             let value: FishyJoesCommonRuntime.VoidConverter.SwiftType = try await {
                 try Env.relinquishJVMThread(on: _vm)
                 defer { _javaEnv = try! Env.acquireJVMThread(on: _vm) }
-                return try await TestAPI.Methods.asyncVoid(
+                return await TestAPI.Methods.asyncVoid(
                 )
             }()
             return try FishyJoesCommonRuntime.VoidConverter.toJavaObject(value, env: _javaEnv)
@@ -124,7 +124,7 @@ let java_TestAPI_Methods_asyncDouble: @convention(c) (
             let value: Swift.Double.SwiftType = try await {
                 try Env.relinquishJVMThread(on: _vm)
                 defer { _javaEnv = try! Env.acquireJVMThread(on: _vm) }
-                return try await TestAPI.Methods.asyncDouble(
+                return await TestAPI.Methods.asyncDouble(
                     d
                 )
             }()

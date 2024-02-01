@@ -52,7 +52,7 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
                             let (deferred, promise) = try env.env.createPromise()
                             Task {
                                 do {
-                                    let taskResult: Int = try await TestAPI.Methods.async42(
+                                    let taskResult: Int = await TestAPI.Methods.async42(
                                     )
                                     try onMainThread { env in
                                         let convertedTaskResult: NAPI.Value
@@ -81,7 +81,7 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
                             let (deferred, promise) = try env.env.createPromise()
                             Task {
                                 do {
-                                    let taskResult: Int = try await TestAPI.Methods.asyncYield(
+                                    let taskResult: Int = await TestAPI.Methods.asyncYield(
                                     )
                                     try onMainThread { env in
                                         let convertedTaskResult: NAPI.Value
@@ -139,7 +139,7 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
                             let (deferred, promise) = try env.env.createPromise()
                             Task {
                                 do {
-                                    let taskResult: Void = try await TestAPI.Methods.asyncVoid(
+                                    let taskResult: Void = await TestAPI.Methods.asyncVoid(
                                     )
                                     try onMainThread { env in
                                         let convertedTaskResult: NAPI.Value
@@ -169,7 +169,7 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
                             let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: Swift.Double.self))
                             Task {
                                 do {
-                                    let taskResult: Double = try await TestAPI.Methods.asyncDouble(
+                                    let taskResult: Double = await TestAPI.Methods.asyncDouble(
                                         arg0.value
                                     )
                                     try onMainThread { env in
