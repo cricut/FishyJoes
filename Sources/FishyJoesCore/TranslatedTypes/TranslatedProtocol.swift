@@ -194,7 +194,7 @@ struct TranslatedProtocol: TranslatedType {
 
         registerCSharpClass(context: context)
         registerDartClass(context: context)
-        
+
         fragment.fixForEmptyProtocols()
 
         return fragment
