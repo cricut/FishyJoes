@@ -318,4 +318,113 @@ extension TestAPI.Primitives.PrimitiveHolder: JavaMutator {
         )
         return result
     }
+    public static func mutateJava<R>(_ this: jobject?, env: inout Env, body: (inout Self, inout Env) async throws -> R) async throws -> R {
+        var mutatingSelf = try fromJava(this, env: env)
+        let result = try await body(&mutatingSelf, &env)
+        try env.SetBooleanField(
+            this, Self._java_b_id,
+            Swift.Bool.toJava(mutatingSelf.b, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_bq_id,
+            OptionalConverter<Swift.Bool>.toJava(mutatingSelf.bq, env: env)
+        )
+        try env.SetByteField(
+            this, Self._java_ui8_id,
+            Swift.UInt8.toJava(mutatingSelf.ui8, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_ui8q_id,
+            OptionalConverter<Swift.UInt8>.toJava(mutatingSelf.ui8q, env: env)
+        )
+        try env.SetShortField(
+            this, Self._java_ui16_id,
+            Swift.UInt16.toJava(mutatingSelf.ui16, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_ui16q_id,
+            OptionalConverter<Swift.UInt16>.toJava(mutatingSelf.ui16q, env: env)
+        )
+        try env.SetIntField(
+            this, Self._java_ui32_id,
+            Swift.UInt32.toJava(mutatingSelf.ui32, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_ui32q_id,
+            OptionalConverter<Swift.UInt32>.toJava(mutatingSelf.ui32q, env: env)
+        )
+        try env.SetLongField(
+            this, Self._java_ui64_id,
+            Swift.UInt64.toJava(mutatingSelf.ui64, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_ui64q_id,
+            OptionalConverter<Swift.UInt64>.toJava(mutatingSelf.ui64q, env: env)
+        )
+        try env.SetLongField(
+            this, Self._java_ui_id,
+            Swift.UInt.toJava(mutatingSelf.ui, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_uiq_id,
+            OptionalConverter<Swift.UInt>.toJava(mutatingSelf.uiq, env: env)
+        )
+        try env.SetByteField(
+            this, Self._java_i8_id,
+            Swift.Int8.toJava(mutatingSelf.i8, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_i8q_id,
+            OptionalConverter<Swift.Int8>.toJava(mutatingSelf.i8q, env: env)
+        )
+        try env.SetShortField(
+            this, Self._java_i16_id,
+            Swift.Int16.toJava(mutatingSelf.i16, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_i16q_id,
+            OptionalConverter<Swift.Int16>.toJava(mutatingSelf.i16q, env: env)
+        )
+        try env.SetIntField(
+            this, Self._java_i32_id,
+            Swift.Int32.toJava(mutatingSelf.i32, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_i32q_id,
+            OptionalConverter<Swift.Int32>.toJava(mutatingSelf.i32q, env: env)
+        )
+        try env.SetLongField(
+            this, Self._java_i64_id,
+            Swift.Int64.toJava(mutatingSelf.i64, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_i64q_id,
+            OptionalConverter<Swift.Int64>.toJava(mutatingSelf.i64q, env: env)
+        )
+        try env.SetLongField(
+            this, Self._java_i_id,
+            Swift.Int.toJava(mutatingSelf.i, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_iq_id,
+            OptionalConverter<Swift.Int>.toJava(mutatingSelf.iq, env: env)
+        )
+        try env.SetFloatField(
+            this, Self._java_f_id,
+            Swift.Float.toJava(mutatingSelf.f, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_fq_id,
+            OptionalConverter<Swift.Float>.toJava(mutatingSelf.fq, env: env)
+        )
+        try env.SetDoubleField(
+            this, Self._java_d_id,
+            Swift.Double.toJava(mutatingSelf.d, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_dq_id,
+            OptionalConverter<Swift.Double>.toJava(mutatingSelf.dq, env: env)
+        )
+        return result
+    }
 }

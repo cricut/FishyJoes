@@ -3,6 +3,7 @@ class KotlinClass: NestedClass {
         case void
         case unsigned(jniType: JNIType)
         case named(package: String?, name: String)
+        case function(signature: String, parmeters: [KType], isSuspend: Bool)
         case optional(KType)
     }
 
@@ -14,6 +15,7 @@ class KotlinClass: NestedClass {
     struct Method {
         let documentation: [String]
         let isStatic: Bool
+        let isSuspend: Bool
         let isOverride: Bool
         let name: String
         let parameters: [(labelComment: String?, name: String, type: KType, defaultValue: String?)]
@@ -61,9 +63,12 @@ class KotlinClass: NestedClass {
 
         fragment.output("package \(module.kotlinPackage)")
         fragment.blankLine()
+        fragment.output("import kotlinx.coroutines.*")
+        fragment.output("import java.lang.Exception")
         for dependency in module.dependencies {
             fragment.output("import com.cricut.\(dependency.lowercased()).*")
         }
+
         fragment.blankLine()
         output(to: fragment)
         return fragment
@@ -126,7 +131,7 @@ class KotlinClass: NestedClass {
                 if method.isOverride {
                     fragment.output("override ", newLineTerminated: false)
                 }
-                fragment.outputBlock("fun \(method.name)(", newLineTerminated: false) {
+                fragment.outputBlock("\(method.isSuspend ? "suspend " : "")fun \(method.name)(", newLineTerminated: false) {
                     let filteredParameters = method.parameters.filter { !excludedCompatibilityParameters.contains($0.name) }
                     fragment.outputMap(filteredParameters, separator: ",") { parameter in
                         let labelComment = parameter.labelComment.map { "/* \($0) */ " } ?? ""
@@ -149,7 +154,9 @@ class KotlinClass: NestedClass {
                             arguments.append("\(parameter.name)\(parameter.type.toJVMType)")
                         }
                     }
-                    fragment.output(" = __jni_\(method.name)(\(arguments.joined(separator: ", ")))\(method.returnType.toKotlinType)")
+                    fragment.output(" = __jni_\(method.name)(\(arguments.joined(separator: ", ")))", newLineTerminated: false)
+                    fragment.output(method.returnType.toKotlinType, newLineTerminated: false)
+                    fragment.output(method.isSuspend ? ".await()" : "")
                 }
             }
         }
@@ -163,7 +170,9 @@ class KotlinClass: NestedClass {
                     return "\(parameter.name): \(parameter.type.jvmType)"
                 }
             }
-            if method.returnType != KType.void {
+            if method.isSuspend {
+                fragment.output(": kotlinx.coroutines.Deferred<\(method.returnType.jvmType)>", newLineTerminated: false)
+            } else if method.returnType != KType.void {
                 fragment.output(": \(method.returnType.jvmType)", newLineTerminated: false)
             }
             fragment.output()
@@ -175,6 +184,15 @@ class KotlinClass: NestedClass {
 extension KotlinClass.KType: CustomStringConvertible {
     var description: String {
         "FIXME: You should not use this, you should use one of the representations below. \(jvmType)"
+    }
+
+    var isFunction: Bool {
+        switch self {
+        case .function:
+            return true
+        default:
+            return false
+        }
     }
 
     var jvmType: String {
@@ -190,6 +208,7 @@ extension KotlinClass.KType: CustomStringConvertible {
         case let .unsigned(jniType): return "U\(jniType.valueType)"
         case let .named(.none, name): return name
         case let .named(.some(package), name): return "\(package).\(name)"
+        case let .function(signature, _, _): return signature
         case let .optional(wrapped): return "\(wrapped.kotlinType)?"
         }
     }
@@ -310,6 +329,7 @@ class KotlinEnumClass: KotlinClass {
 
     override func output(to fragment: SourceFragment) {
         document(documentation, fragment: fragment)
+        fragment.output("@OptIn(ExperimentalCoroutinesApi::class)")
         fragment.outputBlock("sealed class \(unqualifiedName) {") {
             for enumCase in cases {
                 switch enumCase {

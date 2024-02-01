@@ -36,7 +36,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: zulu
-          java-version: 11
+          java-version: 20
 
       - name: Setup node
         uses: actions/setup-node@v3
@@ -51,7 +51,7 @@ jobs:
         shell: zsh {0}
         run: |
           set -euxo pipefail
-          
+
           cd integration-tests/TestAPI-bindings
 
           swift run -- fishy-joes generate

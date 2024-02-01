@@ -22,6 +22,12 @@ final class KotlinTranslator: Translator {
 
             if method.isStatic {
                 selfExpression = containingNamespace
+            } else if method.isAsync {
+                if method.isMutating {
+                    selfExpression = "\(resolved.converterType.name).mutateJava(_javaThisRef.object, env: &_javaEnv)"
+                } else {
+                    selfExpression = "\(resolved.converterType.name).fromJava(_javaThisRef.object, env: _javaEnv)"
+                }
             } else {
                 selfExpression = "\(resolved.converterType.name).fromJava(_javaThis, env: _javaEnv)"
             }
@@ -37,6 +43,7 @@ final class KotlinTranslator: Translator {
             let resolved = context.resolve(type: parameter.type, generics: exportAnnotation.genericOverrides)
             return (name: parameter.name, type: resolved.converterType.name + ".CType")
         }
+
         let fragment = context.swiftFragment(
             "JavaInterface/\(containingNamespace)+javadecl.swift",
             additionalImports: ["Foundation", "FishyJoesJavaRuntime"]
@@ -48,8 +55,8 @@ final class KotlinTranslator: Translator {
             jniSignature += resolved.jniType.asSignature
         }
         let returnType = context.resolve(type: method.returnType, generics: exportAnnotation.genericOverrides)
-        let returnSignature = "\(returnType.converterType.name).CType"
-        jniSignature = "(\(jniSignature))\(returnType.jniType.asSignature)"
+        let returnSignature = method.isAsync ? "FutureConverter<\(returnType.converterType.name)>.CType" : "\(returnType.converterType.name).CType"
+        jniSignature = "(\(jniSignature))\(method.isAsync ? "Lkotlinx/coroutines/Deferred;" : returnType.jniType.asSignature)"
 
         let cMethod = "java_\(containingNamespace)_\(exportAnnotation.name)".replacingOccurrences(of: ".", with: "_")
         allMethods[containingNamespace, default: []].append(("__jni_\(exportAnnotation.name)", jniSignature, cMethod))
@@ -63,26 +70,72 @@ final class KotlinTranslator: Translator {
             fragment.outputBlock("FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in", closeWith: "}") {
                 let callName = method.sourceKind == .initializer ? "" : ".\(method.callName)"
 
-                var mutateBlock: (() -> Void) -> Void = { $0() }
-                if method.isMutating {
-                    mutateBlock = { body in
-                        fragment.outputBlock("return try \(containingNamespace).mutateJava(_javaThis, env: _javaEnv) { mutatingSelf in", closeWith: "}") {
-                            body()
+                if method.isAsync {
+                    fragment.outputMap(method.parameters, separator: "\n") { parameter in
+                        let resolved = context.resolve(type: parameter.type, generics: exportAnnotation.genericOverrides)
+                        return "let \(parameter.name) = try \(resolved.converterType.name).fromJava(\(parameter.name), env: _javaEnv)"
+                    }
+                    fragment.output("let _javaThisRef = try JavaReference(local: _javaThis, env: _javaEnv)")
+
+                    fragment.outputBlock("return try swiftTask(env: _javaEnv) { _javaEnv, _vm in", closeWith: "}") {
+                        fragment.outputBlock("defer {") {
+                            fragment.output("try? _javaThisRef.destroy()")
+                        }
+                        let callBlock: (() -> Void) -> Void
+                        if method.isMutating {
+                            let _selfExpression = selfExpression
+                            callBlock = { body in
+                                fragment.outputBlock("return try await \(_selfExpression) { mutatingSelf, _javaEnv in", closeWith: "}") {
+                                    body()
+                                }
+                            }
+                            selfExpression = "mutatingSelf"
+                        } else if !method.isStatic {
+                            let _selfExpression = selfExpression
+                            callBlock = { body in
+                                fragment.output("let _swiftThis = try \(_selfExpression)")
+                                body()
+                            }
+                            selfExpression = "_swiftThis"
+                        } else {
+                            callBlock = { $0() }
+                        }
+
+                        callBlock {
+                            fragment.outputBlock("let value: \(returnType.converterType.name).SwiftType = try await {", closeWith: "}()") {
+                                fragment.output("try Env.relinquishJVMThread(on: _vm)")
+                                fragment.output("defer { _javaEnv = try! Env.acquireJVMThread(on: _vm) }")
+                                fragment.outputBlock("return \(method.isThrowing ? "try " : "")await \(selfExpression)\(callName)(", closeWith: ")") {
+                                    fragment.outputMap(method.parameters, separator: ",") { formal in
+                                        (formal.label.map { "\($0): "} ?? "") + formal.name
+                                    }
+                                }
+                            }
+                            fragment.output("return try \(returnType.converterType.name).toJavaObject(value, env: _javaEnv)")
                         }
                     }
-                    selfExpression = "mutatingSelf"
-                }
-
-                mutateBlock {
-                    fragment.outputBlock("return try \(returnType.converterType.name).toJava(") {
-                        fragment.outputBlock("\(selfExpression)\(callName)(", closeWith: "),") {
-                            fragment.outputMap(method.parameters, separator: ",") { formal in
-                                let resolved = context.resolve(type: formal.type, generics: exportAnnotation.genericOverrides)
-                                return (formal.label.map { "\($0): " } ?? "") +
-                                    "try \(resolved.converterType.name).fromJava(\(formal.name), env: _javaEnv)"
+                } else {
+                    var mutateBlock: (() -> Void) -> Void = { $0() }
+                    if method.isMutating {
+                        mutateBlock = { body in
+                            fragment.outputBlock("return try \(containingNamespace).mutateJava(_javaThis, env: _javaEnv) { mutatingSelf in", closeWith: "}") {
+                                body()
                             }
                         }
-                        fragment.output("env: _javaEnv")
+                        selfExpression = "mutatingSelf"
+                    }
+
+                    mutateBlock {
+                        fragment.outputBlock("return try \(returnType.converterType.name).toJava(") {
+                            fragment.outputBlock("\(selfExpression)\(callName)(", closeWith: "),") {
+                                fragment.outputMap(method.parameters, separator: ",") { formal in
+                                    let resolved = context.resolve(type: formal.type, generics: exportAnnotation.genericOverrides)
+                                    return (formal.label.map { "\($0): " } ?? "") +
+                                    "try \(resolved.converterType.name).fromJava(\(formal.name), env: _javaEnv)"
+                                }
+                            }
+                            fragment.output("env: _javaEnv")
+                        }
                     }
                 }
             }
@@ -194,8 +247,7 @@ final class KotlinTranslator: Translator {
             typeSetupFragment.output("let env = UnsafeMutablePointer<JNIEnv?>(OpaquePointer(envRaw))")
             typeSetupFragment.outputBlock("return FishyJoesJavaRuntime.callbackBody(env!) { env in", closeWith: "}") {
                 typeSetupFragment.output("let bag = CStringBag()")
-                for type in generatedTypes.sorted(by: { "\($0)" < "\($1)" }) {
-                    guard type != .void else { continue }
+                for type in generatedTypes {
                     let resolved = context.resolve(type: type)
                     typeSetupFragment.output("// print(\"setting up \(resolved.converterType.name)...\")")
                     typeSetupFragment.output("try \(resolved.converterType.name).javaSetup(env: env)")
@@ -299,6 +351,7 @@ final class KotlinTranslator: Translator {
             KotlinClass.Method(
                 documentation: method.documentation,
                 isStatic: method.isStatic,
+                isSuspend: method.isAsync,
                 isOverride: exportAnnotation.isOverride,
                 name: exportAnnotation.name,
                 parameters: parameters,
@@ -334,6 +387,7 @@ final class KotlinTranslator: Translator {
                 KotlinClass.Method(
                     documentation: field.documentation,
                     isStatic: field.isStatic,
+                    isSuspend: field.isAsync,
                     isOverride: field.exportAnnotation?.isOverride ?? false,
                     name: ktName,
                     parameters: [],

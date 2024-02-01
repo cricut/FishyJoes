@@ -1,8 +1,12 @@
 package com.cricut.testapi
 
+import kotlinx.coroutines.*
+import java.lang.Exception
+
 /**
  * <!-- FishyJoes.export(AttributedStrings) -->
  */
+@OptIn(ExperimentalCoroutinesApi::class)
 sealed class AttributedStrings {
 
     companion object {

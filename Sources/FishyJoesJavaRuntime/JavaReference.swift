@@ -2,23 +2,29 @@ import FishyJoesCommonRuntime
 import Foundation
 import JNI
 
-class JavaReference {
-    let object: jobject?
-    private var vm: UnsafeMutablePointer<JavaVM?>?
+public class JavaReference {
+    public private(set) var object: jobject?
+    private let vm: UnsafeMutablePointer<JavaVM?>?
 
-    init(local: jobject?, env: Env) throws {
-        self.object = try env.globalRef(local)
+    public init(local: jobject?, env: Env) throws {
+        self.object = try local.map { try env.globalRef($0) }
         vm = try env.GetJavaVM()
     }
 
     deinit {
+        try? destroy()
+    }
+
+    public func createLocalRef(env: Env) -> jobject? {
+        object.flatMap { env.NewLocalRef($0) }
+    }
+
+    public func destroy() throws {
         if let object = object {
-            var envRaw: UnsafeMutableRawPointer?
-            guard vm!.pointee!.pointee.GetEnv(vm, &envRaw, JNI_VERSION_1_4) == JNI_OK else {
-                fatalError("Couldn't obtain jvm environment")
-            }
-            let env = Env(env: UnsafeMutablePointer<JNIEnv?>(OpaquePointer(envRaw))!)
-            env.DeleteGlobalRef(object)
+            let javaEnv = try Env.acquireJVMThread(on: vm)
+            defer { try! Env.relinquishJVMThread(on: vm) }
+            javaEnv.DeleteGlobalRef(object)
+            self.object = nil
         }
     }
 }

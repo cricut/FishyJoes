@@ -108,13 +108,6 @@ namespace Cricut.TestAPI {
             out CreatedRef _exn
         );
 
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern void TestAPI_Functions_TheError_setup(
-            IntPtr envRef,
-            SwiftReference.ConstructorDelegate constructorMethod,
-            out CreatedRef _exn
-        );
-
         delegate CreatedRef _TestAPI_Primitives_PrimitiveHolderConstructor(
             bool b,
             ConsumedRef bq,
@@ -271,6 +264,21 @@ namespace Cricut.TestAPI {
             _TestAPI_Structs_MemberwiseStruct_immutableGetter get_immutable,
             _TestAPI_Structs_MemberwiseStruct_mutableGetter get_mutable,
             _TestAPI_Structs_MemberwiseStruct_mutableSetter set_mutable,
+            out CreatedRef _exn
+        );
+
+        delegate CreatedRef _TestAPI_Structs_MutableStructConstructor(
+            nint i,
+            out CreatedRef exn
+        );
+        delegate nint _TestAPI_Structs_MutableStruct_iGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _TestAPI_Structs_MutableStruct_iSetter(UnownedRef obj, nint newValue, out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_Structs_MutableStruct_setup(
+            IntPtr envRef,
+            _TestAPI_Structs_MutableStructConstructor constructor,
+            _TestAPI_Structs_MutableStruct_iGetter get_i,
+            _TestAPI_Structs_MutableStruct_iSetter set_i,
             out CreatedRef _exn
         );
 
@@ -1329,16 +1337,6 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
-            Once("setup_TestAPI.Functions.TheError", () => {
-                Console.WriteLine("setting up TestAPI.Functions.TheError...");
-                Utilities.Check((out CreatedRef exn) => TestAPI_Functions_TheError_setup(
-                    Loader.env,
-                    bag<SwiftReference.ConstructorDelegate>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
-                        return new CreatedRef(new Cricut.TestAPI.Functions.TheError(ptr));
-                    })),
-                    out exn
-                ));
-            });
             Once("setup_TestAPI.Primitives.PrimitiveHolder", () => {
                 Console.WriteLine("setting up TestAPI.Primitives.PrimitiveHolder...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_Primitives_PrimitiveHolder_setup(
@@ -1550,6 +1548,24 @@ namespace Cricut.TestAPI {
                     )),
                     bag<_TestAPI_Structs_MemberwiseStruct_mutableSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
                         obj.Peek<Cricut.TestAPI.Structs.MemberwiseStruct>().Mutable = newValue.Consume<string>();
+                    })),
+                    out exn
+                ));
+            });
+            Once("setup_TestAPI.Structs.MutableStruct", () => {
+                Console.WriteLine("setting up TestAPI.Structs.MutableStruct...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_Structs_MutableStruct_setup(
+                    Loader.env,
+                    bag<_TestAPI_Structs_MutableStructConstructor>((nint i, out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.Structs.MutableStruct(
+                            i
+                        ));
+                    })),
+                    bag<_TestAPI_Structs_MutableStruct_iGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        obj.Peek<Cricut.TestAPI.Structs.MutableStruct>().I
+                    )),
+                    bag<_TestAPI_Structs_MutableStruct_iSetter>((UnownedRef obj, nint newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Structs.MutableStruct>().I = newValue;
                     })),
                     out exn
                 ));

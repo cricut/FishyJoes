@@ -49,6 +49,36 @@ extension TestAPI.Structs.MemberwiseStruct: NodeMutator {
                     },
                     isStatic: true
                 ),
+                "asyncGetMutable": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "asyncGetMutable", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            let (deferred, promise) = try env.env.createPromise()
+                            let swiftSelf = UncheckedSendableBox(try env.this(converter: TestAPI.Structs.MemberwiseStruct.self))
+                            Task {
+                                do {
+                                    let taskResult: String = await swiftSelf.value.asyncGetMutable(
+                                    )
+                                    try onMainThread { env in
+                                        let convertedTaskResult: NAPI.Value
+                                        do {
+                                            convertedTaskResult = try Swift.String.toNode(taskResult, env: env)
+                                        } catch {
+                                            try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
+                                            return
+                                        }
+                                        try env.resolveDeferred(deferred, convertedTaskResult)
+                                    }
+                                } catch {
+                                    try onMainThread { env in
+                                        try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
+                                    }
+                                }
+                            }
+                            return promise
+                        }
+                    },
+                    isStatic: false
+                ),
                 "immutable": (.stored(mutable: true), isStatic: false),
                 "mutable": (.stored(mutable: true), isStatic: false),
             ],

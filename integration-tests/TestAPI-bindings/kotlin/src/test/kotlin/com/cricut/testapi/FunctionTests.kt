@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import kotlin.math.abs
+import kotlinx.coroutines.*
+import java.lang.Exception
 
 internal class FunctionTests {
     @Test
@@ -13,6 +15,8 @@ internal class FunctionTests {
 
     @Test
     fun testAbs() {
+//        println(ProcessHandle.current().pid())
+//        java.lang.Thread.sleep(15000)
         assertEquals(3, Functions.abs(-3))
     }
 
@@ -23,7 +27,7 @@ internal class FunctionTests {
         assertEquals(7, composed(2))
     }
 
-    object ComposeError: Error()
+    object ComposeError : Error()
 
     @Test
     fun testExceptionInCompose() {

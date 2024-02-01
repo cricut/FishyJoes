@@ -20,6 +20,10 @@ final class CSharpTranslator: Translator {
                 var initializerWriters: [() -> Void] = []
                 for type in generatedTypes {
                     let resolved = context.resolve(type: type)
+                    // TODO: Remove this guard when adding support for Async
+                    guard !resolved.converterType.name.contains("Async") else {
+                        continue
+                    }
 
                     let setupParams = resolved.cSharpSetupParameters(in: context)
                     let setupDelegates = resolved.cSharpSetupDelegates(in: context)
@@ -84,6 +88,10 @@ final class CSharpTranslator: Translator {
     }
 
     func cSharp(method: Method, of type: TranslatedType, context: FishyJoesContext) -> CSharpClass.MethodOrVariable? {
+        // TODO: Remove this guard when adding support for Async
+        guard !method.isAsync else {
+            return nil
+        }
         let exportAnnotation = method.exportAnnotation
         var omitParameters = Set(exportAnnotation.omitParameters)
         var parameters: [(labelComment: String?, name: String, type: CSharpClass.CSType, defaultValue: String?)] = []

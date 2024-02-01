@@ -1,8 +1,12 @@
 package com.cricut.testapi
 
+import kotlinx.coroutines.*
+import java.lang.Exception
+
 /**
  * <!-- FishyJoes.export(UnicodeScalar_PuttingTypesIntoQuestionablePlaces) -->
  */
+@OptIn(ExperimentalCoroutinesApi::class)
 sealed class UnicodeScalar_PuttingTypesIntoQuestionablePlaces {
     object Thing : UnicodeScalar_PuttingTypesIntoQuestionablePlaces()
     /**

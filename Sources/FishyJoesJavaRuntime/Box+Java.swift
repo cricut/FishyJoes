@@ -6,15 +6,25 @@ extension Box {
     public static func fromJava(_ value: jobject?, env: Env) throws -> Box<T> {
         try Box(inner: AnyBox.fromJava(value, env: env))
     }
+
+    public func toJava(env: Env) throws -> jobject? {
+        try box.toJava(env: env)
+    }
 }
 
 extension AnyBox {
     static var javaClass: jclass?
+    static var initMethodID: jmethodID?
     static var refFieldID: jfieldID?
 
     public static func fromJava(_ value: jobject?, env: Env) throws -> AnyBox {
         let longRef = UInt(pointerValue: env.GetLongField(value, refFieldID))
         return try takeUnretainedOpaque(javaNonNull(UnsafeMutablePointer(bitPattern: longRef)))
+    }
+
+    public func toJava(env: Env) throws -> jobject? {
+        let ptr = jvalue(pointer: retainedOpaque())
+        return try env.NewObject(AnyBox.javaClass, AnyBox.initMethodID, ptr)
     }
 
     private static let finalize: @convention(c) (UnsafeMutablePointer<JNIEnv?>, jobject) -> Void = { env, this in
@@ -36,6 +46,7 @@ extension AnyBox {
         let bag = CStringBag()
 
         javaClass = try env.globalRef(env.FindClass("com/cricut/fishyjoes/runtime/SwiftReference"))
+        initMethodID = try env.GetMethodID(javaClass, "<init>", "(J)V")
         refFieldID = try env.GetFieldID(javaClass, "swiftReference", "J")
 
         try env.RegisterNatives(

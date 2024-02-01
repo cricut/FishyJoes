@@ -3,6 +3,7 @@ import SourceryRuntime
 struct TranslatedFunction: TranslatedType {
     let parameters: [TranslatedType]
     let returnType: TranslatedType
+    let isAsync: Bool
 
     let sourceType: BetterType
     let nodeName: String
@@ -15,16 +16,18 @@ struct TranslatedFunction: TranslatedType {
     let dartType: DartClass.DartType
     let definingModule = Module.runtime
 
-    init(parameters: [TranslatedType], returnType: TranslatedType) {
+    init(parameters: [TranslatedType], returnType: TranslatedType, isAsync: Bool) {
         self.parameters = parameters
         self.returnType = returnType
+        self.isAsync = isAsync
 
-        self.sourceType = .function(parameters.map(\.sourceType), returnType.sourceType)
+        self.sourceType = .function(parameters.map(\.sourceType), returnType.sourceType, isAsync: isAsync)
         self.neutralName = "Function<ReturnType=\(returnType.neutralName), Params=[\(parameters.map { $0.neutralName }.joined(separator: ", "))]>"
-        self.nodeName = "(\(parameters.enumerated().map { "_\($0.offset): \($0.element.nodeType)" }.joined(separator: ", "))) => \(returnType.nodeType)"
-        self.kotlinName = "((\(parameters.map(\.kotlinPackageQualifiedName).joined(separator: ", "))) -> \(returnType.kotlinPackageQualifiedName))"
+        self.nodeName = "(\(parameters.enumerated().map { "_\($0.offset): \($0.element.nodeType)" }.joined(separator: ", "))) => \(isAsync ? "Promise<" : "")\(returnType.nodeType)\(isAsync ? ">" : "")"
+        let kotlinArgs = parameters.map(\.kotlinPackageQualifiedName).joined(separator: ", ")
+        self.kotlinName = "(\(isAsync ? "suspend " : "")(\(kotlinArgs)) -> \(returnType.kotlinPackageQualifiedName))"
         self.containedNamedTypes = parameters.map { $0.containedNamedTypes }.joined() + returnType.containedNamedTypes
-        self.jniType = .object("kotlin/jvm/functions/Function\(parameters.count)")
+        self.jniType = .object("kotlin/jvm/functions/Function\(parameters.count + (isAsync ? 1 : 0))")
         self.dartType = .function(args: parameters.map(\.dartType), return: returnType.dartType)
         if returnType.sourceType == .void {
             self.cSharpType = .named(
@@ -41,7 +44,7 @@ struct TranslatedFunction: TranslatedType {
 
     var converterType: BetterType {
         .generic(
-            base: .runtime("Function\(parameters.count)Converter"),
+            base: .runtime("\(isAsync ? "Async" : "")Function\(parameters.count)Converter"),
             args: (parameters + [returnType]).map(\.converterType)
         )
     }

@@ -242,14 +242,6 @@ namespace Cricut.TestAPI {
             out CreatedRef exn
         );
 
-        /// <summary>
-        /// <!-- FishyJoes.exportReference(Functions.TheError) -->
-        /// </summary>
-        public class TheError : SwiftReference {
-            internal TheError(ConsumedRef reference): base(reference) {}
-
-            static TheError() { _TypeSetup._ensureLoaded(); }
-        }
         static Functions() { _TypeSetup._ensureLoaded(); }
     }
 }

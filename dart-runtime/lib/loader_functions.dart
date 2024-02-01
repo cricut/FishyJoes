@@ -329,6 +329,203 @@ extension LoaderFunctions on Loader {
     ffi.malloc.free(cName);
   }
 
+  void FishyJoesCommonRuntime_AsyncFunction0Converter_setup<R>(Env env, String name, OutCreatedRef exn) {
+    final cName = name.toNativeUtf16();
+    _fishyJoesCommonRuntime_FunctionConverter_setup(
+      env,
+      cName,
+      _FunctionConversions.constructorPtr,
+      _FunctionConversions.invokePtr,
+      createConsumedRef(
+        _FunctionConversions(
+          (swiftRef) {
+            final impl = new SwiftFunctionImpl(swiftRef);
+            return createRef(impl.invoke0<Future<R>>);
+          },
+          (fn, args) {
+            final func = peekRef<Future<R> Function()>(fn);
+            final result = func(
+            );
+            return createRef(result);
+          }
+        )
+      ),
+      exn
+    );
+    ffi.malloc.free(cName);
+  }
+  void FishyJoesCommonRuntime_AsyncFunction1Converter_setup<R, P0>(Env env, String name, OutCreatedRef exn) {
+    final cName = name.toNativeUtf16();
+    _fishyJoesCommonRuntime_FunctionConverter_setup(
+      env,
+      cName,
+      _FunctionConversions.constructorPtr,
+      _FunctionConversions.invokePtr,
+      createConsumedRef(
+        _FunctionConversions(
+          (swiftRef) {
+            final impl = new SwiftFunctionImpl(swiftRef);
+            return createRef(impl.invoke1<Future<R>, P0>);
+          },
+          (fn, args) {
+            final func = peekRef<Future<R> Function(P0)>(fn);
+            final result = func(
+              consumeRef<P0>(args[0]),
+            );
+            return createRef(result);
+          }
+        )
+      ),
+      exn
+    );
+    ffi.malloc.free(cName);
+  }
+  void FishyJoesCommonRuntime_AsyncFunction2Converter_setup<R, P0, P1>(Env env, String name, OutCreatedRef exn) {
+    final cName = name.toNativeUtf16();
+    _fishyJoesCommonRuntime_FunctionConverter_setup(
+      env,
+      cName,
+      _FunctionConversions.constructorPtr,
+      _FunctionConversions.invokePtr,
+      createConsumedRef(
+        _FunctionConversions(
+          (swiftRef) {
+            final impl = new SwiftFunctionImpl(swiftRef);
+            return createRef(impl.invoke2<Future<R>, P0, P1>);
+          },
+          (fn, args) {
+            final func = peekRef<Future<R> Function(P0, P1)>(fn);
+            final result = func(
+              consumeRef<P0>(args[0]),
+              consumeRef<P1>(args[1]),
+            );
+            return createRef(result);
+          }
+        )
+      ),
+      exn
+    );
+    ffi.malloc.free(cName);
+  }
+  void FishyJoesCommonRuntime_AsyncFunction3Converter_setup<R, P0, P1, P2>(Env env, String name, OutCreatedRef exn) {
+    final cName = name.toNativeUtf16();
+    _fishyJoesCommonRuntime_FunctionConverter_setup(
+      env,
+      cName,
+      _FunctionConversions.constructorPtr,
+      _FunctionConversions.invokePtr,
+      createConsumedRef(
+        _FunctionConversions(
+          (swiftRef) {
+            final impl = new SwiftFunctionImpl(swiftRef);
+            return createRef(impl.invoke3<Future<R>, P0, P1, P2>);
+          },
+          (fn, args) {
+            final func = peekRef<Future<R> Function(P0, P1, P2)>(fn);
+            final result = func(
+              consumeRef<P0>(args[0]),
+              consumeRef<P1>(args[1]),
+              consumeRef<P2>(args[2]),
+            );
+            return createRef(result);
+          }
+        )
+      ),
+      exn
+    );
+    ffi.malloc.free(cName);
+  }
+  void FishyJoesCommonRuntime_AsyncFunction4Converter_setup<R, P0, P1, P2, P3>(Env env, String name, OutCreatedRef exn) {
+    final cName = name.toNativeUtf16();
+    _fishyJoesCommonRuntime_FunctionConverter_setup(
+      env,
+      cName,
+      _FunctionConversions.constructorPtr,
+      _FunctionConversions.invokePtr,
+      createConsumedRef(
+        _FunctionConversions(
+          (swiftRef) {
+            final impl = new SwiftFunctionImpl(swiftRef);
+            return createRef(impl.invoke4<Future<R>, P0, P1, P2, P3>);
+          },
+          (fn, args) {
+            final func = peekRef<Future<R> Function(P0, P1, P2, P3)>(fn);
+            final result = func(
+              consumeRef<P0>(args[0]),
+              consumeRef<P1>(args[1]),
+              consumeRef<P2>(args[2]),
+              consumeRef<P3>(args[3]),
+            );
+            return createRef(result);
+          }
+        )
+      ),
+      exn
+    );
+    ffi.malloc.free(cName);
+  }
+  void FishyJoesCommonRuntime_AsyncFunction5Converter_setup<R, P0, P1, P2, P3, P4>(Env env, String name, OutCreatedRef exn) {
+    final cName = name.toNativeUtf16();
+    _fishyJoesCommonRuntime_FunctionConverter_setup(
+      env,
+      cName,
+      _FunctionConversions.constructorPtr,
+      _FunctionConversions.invokePtr,
+      createConsumedRef(
+        _FunctionConversions(
+          (swiftRef) {
+            final impl = new SwiftFunctionImpl(swiftRef);
+            return createRef(impl.invoke5<Future<R>, P0, P1, P2, P3, P4>);
+          },
+          (fn, args) {
+            final func = peekRef<Future<R> Function(P0, P1, P2, P3, P4)>(fn);
+            final result = func(
+              consumeRef<P0>(args[0]),
+              consumeRef<P1>(args[1]),
+              consumeRef<P2>(args[2]),
+              consumeRef<P3>(args[3]),
+              consumeRef<P4>(args[4]),
+            );
+            return createRef(result);
+          }
+        )
+      ),
+      exn
+    );
+    ffi.malloc.free(cName);
+  }
+  void FishyJoesCommonRuntime_AsyncFunction6Converter_setup<R, P0, P1, P2, P3, P4, P5>(Env env, String name, OutCreatedRef exn) {
+    final cName = name.toNativeUtf16();
+    _fishyJoesCommonRuntime_FunctionConverter_setup(
+      env,
+      cName,
+      _FunctionConversions.constructorPtr,
+      _FunctionConversions.invokePtr,
+      createConsumedRef(
+        _FunctionConversions(
+          (swiftRef) {
+            final impl = new SwiftFunctionImpl(swiftRef);
+            return createRef(impl.invoke6<Future<R>, P0, P1, P2, P3, P4, P5>);
+          },
+          (fn, args) {
+            final func = peekRef<Future<R> Function(P0, P1, P2, P3, P4, P5)>(fn);
+            final result = func(
+              consumeRef<P0>(args[0]),
+              consumeRef<P1>(args[1]),
+              consumeRef<P2>(args[2]),
+              consumeRef<P3>(args[3]),
+              consumeRef<P4>(args[4]),
+              consumeRef<P5>(args[5]),
+            );
+            return createRef(result);
+          }
+        )
+      ),
+      exn
+    );
+    ffi.malloc.free(cName);
+  }
+
 }
 
 class SwiftFunctionImpl extends SwiftReference {

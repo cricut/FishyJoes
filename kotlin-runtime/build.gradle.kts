@@ -61,7 +61,9 @@ publishing {
             version = properties["version"] as? String
 
             from(components["java"])
-            artifact(sourcesJar.get())
+            artifact(sourcesJar.get()) {
+                classifier = "sources"
+            }
         }
     }
 }
@@ -119,6 +121,14 @@ tasks {
     compileTestKotlin {
         kotlinOptions.jvmTarget = "11"
     }
+    compileJava {
+        sourceCompatibility = JavaVersion.VERSION_11.toString()
+        targetCompatibility = JavaVersion.VERSION_11.toString()
+    }
+    compileTestJava {
+        sourceCompatibility = JavaVersion.VERSION_11.toString()
+        targetCompatibility = JavaVersion.VERSION_11.toString()
+    }
 }
 
 dependencies {
@@ -126,4 +136,7 @@ dependencies {
     implementation("com.cricut:android-swift-runtime:1.0.0")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.2")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
 }

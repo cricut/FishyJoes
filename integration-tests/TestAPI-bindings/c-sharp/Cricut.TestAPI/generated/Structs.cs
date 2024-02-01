@@ -12,6 +12,51 @@ namespace Cricut.TestAPI {
         private Structs() {}
 
         /// <summary>
+        /// <!-- FishyJoes.export(Structs.MutableStruct) -->
+        /// </summary>
+        public record MutableStruct {
+            public nint I { get; set; }
+
+            public MutableStruct(
+                nint I
+            ) {
+                this.I = I;
+            }
+
+            /// <summary>
+            /// <!-- FishyJoes.export(create) -->
+            /// </summary>
+            public static Cricut.TestAPI.Structs.MutableStruct Create(
+            ) {
+                return Check((out CreatedRef _exn) => __iota_TestAPI_Structs_MutableStruct_create(Loader.env, out _exn)).Consume<Cricut.TestAPI.Structs.MutableStruct>();
+            }
+
+            [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            private static extern CreatedRef __iota_TestAPI_Structs_MutableStruct_create(
+                IntPtr envRef,
+                out CreatedRef exn
+            );
+
+            /// <summary>
+            /// <!-- FishyJoes.export(increment) -->
+            /// </summary>
+            public void Increment(
+            ) {
+                using var _thisHandle = new GCRef(this);
+                Check((out CreatedRef _exn) => __iota_TestAPI_Structs_MutableStruct_increment(Loader.env, _thisHandle.ptr, out _exn));
+            }
+
+            [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+            private static extern void __iota_TestAPI_Structs_MutableStruct_increment(
+                IntPtr envRef,
+                UnownedRef self,
+                out CreatedRef exn
+            );
+
+            static MutableStruct() { _TypeSetup._ensureLoaded(); }
+        }
+
+        /// <summary>
         /// <!-- FishyJoes.exportReference(Structs.ReferenceStruct) -->
         /// </summary>
         public class ReferenceStruct : SwiftReference {

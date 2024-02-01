@@ -86,6 +86,12 @@ const NAPI_KEY_NUMBERS_TO_STRINGS = 1;
 const NAPI_KEY_INCLUDE_PROTOTYPES = 0;
 const NAPI_KEY_OWN_ONLY = 1;
 
+const NAPI_THREADSAFE_FUNCTION_RELEASE_MODE_RELEASE = 0;
+const NAPI_THREADSAFE_FUNCTION_RELEASE_MODE_ABORT = 1;
+
+const NAPI_THREADSAFE_FUNCTION_CALL_MODE_NONBLOCKING = 0;
+const NAPI_THREADSAFE_FUNCTION_CALL_MODE_BLOCKING = 1;
+
 const kFuncNormal = Symbol('kFuncNormal');
 const kFuncConstructor = Symbol('kFuncConstructor');
 const kFuncMethod = Symbol('kFuncMethod');
@@ -1361,6 +1367,115 @@ export class NAPI {
         this.writeU32(resultPtr, this.store(func));
         return NAPI_OK;
       }),
+      napi_create_reference: this.wrap((envPtr, valueIdx, initialRefcount, resultPtr) => {
+        const value = this.load(valueIdx);
+        this.writeU32(resultPtr, this.createReference(value, initialRefcount));
+        return NAPI_OK;
+      }),
+      napi_delete_reference: (envPtr, refIdx) => {
+        delete this.references[refIdx];
+        return NAPI_OK;
+      },
+      napi_create_threadsafe_function: this.wrap((envPtr, funcIdx, asyncResourceIdx, asyncResourceNameIdx, maxQueueSize, initialThreadCount, finalizeData, finalizeCallback, callJavascriptCallbackContext, callJavascriptCallback, resultPtr) => {
+          debugger;
+       if (funcIdx === null && callJavascriptCallback === null) {
+         return NAPI_INVALID_ARG;
+       }
+       const threadsafeFunction = {
+         "func": this.load(funcIdx),
+         "asyncResource": this.load(asyncResourceIdx),
+         "asyncResourceName": this.load(asyncResourceNameIdx),
+         "maxQueueSize": maxQueueSize >>> 0,
+         "queueSize": 0,
+         "threadCount": initialThreadCount >>> 0,
+         finalizeData,
+         "finalizeCallback": this.indirectFunctionTable.get(finalizeCallback),
+         callJavascriptCallbackContext,
+         "callJavascriptCallback": this.indirectFunctionTable.get(callJavascriptCallback),
+         "env": envPtr,
+         isCancelled: false
+       };
+       this.writeU32(resultPtr, this.createReference(threadsafeFunction, 1));
+        return NAPI_OK;
+      }),
+      napi_get_threadsafe_function_context: this.wrap((threadsafeFunctionIdx, resultPtr) => {
+       const threadsafeFunction = this.references[threadsafeFunctionIdx].value;
+       this.writeU32(resultPtr, threadsafeFunction.callJavascriptCallbackContext);
+        return NAPI_OK;
+      }),
+      napi_call_threadsafe_function: this.wrap((threadsafeFunctionIdx, data, mode) => {
+       const threadsafeFunction = this.references[threadsafeFunctionIdx].value;
+       if (threadsafeFunction.isCancelled) {
+           return NAPI_CLOSING;
+       }
+
+       // If the maxQueueSize is 0 then there is no limit so just call the function
+       if (threadsafeFunction.maxQueueSize !== 0) {
+           if (threadsafeFunction.queueSize < threadsafeFunction.maxQueueSize) {
+               threadsafeFunction.queueSize += 1;
+           } else {
+               if (mode === NAPI_THREADSAFE_FUNCTION_CALL_MODE_BLOCKING) {
+                   // TODO: If/when this is ever multithreaded, block until this can execute
+               } else if (mode === NAPI_THREADSAFE_FUNCTION_CALL_MODE_NONBLOCKING) {
+                   return NAPI_QUEUE_FULL;
+               } else {
+                   return NAPI_INVALID_ARG;
+               }
+           }
+       }
+
+       if (threadsafeFunction.callJavascriptCallback !== null) {
+           // TODO: If/when this is ever multithraded, ensure this is called on the main thread
+           const env = threadsafeFunction.env
+           const funcIdx = this.store(threadsafeFunction.func);
+           const context = threadsafeFunction.callJavascriptCallbackContext;
+           const callback = threadsafeFunction.callJavascriptCallback
+           callback(env, funcIdx, context, data);
+       } else if (threadsafeFunction.func !== null) {
+             const args = [];
+             args.push(threadsafeFunction.env);
+             // createFunction() uses the same index for both the function and the context
+             const callbackInfo = threadsafeFunction.func;
+             args.push(callbackInfo);
+             const func = this.load(threadsafeFunction.func);
+             result = Reflect.apply(func, undefined, args);
+       } else {
+           return NAPI_INVALID_ARG;
+       }
+
+       if (threadsafeFunction.maxQueueSize !== 0) {
+           threadsafeFunction.queueSize -= 1;
+           // TODO: If/when this is ever multithraded, wake the next blocked execution if there are any
+       }
+
+        return NAPI_OK;
+      }),
+      napi_acquire_threadsafe_function: this.wrap((threadsafeFunctionIdx) => {
+       const threadsafeFunction = this.references[threadsafeFunctionIdx].value;
+       threadsafeFunction.threadCount += 1;
+        return NAPI_OK;
+      }),
+      napi_release_threadsafe_function: this.wrap((threadsafeFunctionIdx, mode) => {
+       const threadsafeFunction = this.references[threadsafeFunctionIdx].value;
+       threadsafeFunction.threadCount -= 1;
+
+       if (mode === NAPI_THREADSAFE_FUNCTION_RELEASE_MODE_ABORT) {
+         threadsafeFunction.isCancelled = true;
+       }
+
+       if (threadsafeFunction.threadCount === 0) {
+         if (typeof threadsafeFunction.threadFinalizeCallback === 'function') {
+           const args = [];
+           args.push(threadsafeFunction.env);
+           args.push(threadsafeFunction.finalizeData);
+           args.push(threadsafeFunctionIdx);
+           Reflect.apply(threadsafeFunction.threadFinalizeCallback, undefined, args);
+         }
+         delete this.references[threadsafeFunctionIdx];
+       }
+
+        return NAPI_OK;
+      }),
       napi_get_cb_info: this.wrap((envPtr, cbinfoIdx, argcPtr, argvPtr, thisArgPtr, dataPtr) => {
         const info = this.load(cbinfoIdx);
 
@@ -1513,7 +1628,6 @@ export class NAPI {
         }
         return NAPI_OK;
       }),
-
       napi_create_promise: this.wrap((envPtr, deferredPtr, promisePtr) => {
         let resolve;
         let reject;

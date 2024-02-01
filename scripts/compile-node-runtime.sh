@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -euo pipefail
+set -euxo pipefail
 
 if [[ ! -d node-runtime ]]; then
     echo "Not in root of FishyJoes"
@@ -27,7 +27,7 @@ function install-runtime-common {
     LIB_DIR="$1"
     RUNTIME_COMMON_DIR="node-runtime/fishyjoes-runtime-common"
     cp "$RUNTIME_COMMON_DIR"/Runtime.extensions.js "$LIB_DIR"
-    
+
     DEFS="$LIB_DIR/Runtime.d.ts"
     cat "$RUNTIME_COMMON_DIR/Runtime.d.ts.part" > "$DEFS"
     cat "$RUNTIME_COMMON_DIR/Runtime.extensions.d.ts.part" >> "$DEFS"
@@ -62,4 +62,3 @@ function install-lib {
 install-lib "FishyJoesNodeRuntime.dll" "node-runtime/fishyjoes-runtime-native-windows" ||
     install-lib "libFishyJoesNodeRuntime.dylib" "node-runtime/fishyjoes-runtime-native-macos" ||
     install-lib "libFishyJoesNodeRuntime.so" "node-runtime/fishyjoes-runtime-native-ubuntu"
-
