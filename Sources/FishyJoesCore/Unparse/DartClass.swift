@@ -867,26 +867,12 @@ class DartEnumClass: DartClass {
 }
 
 class DartProtocolClass: DartClass {
-    struct Typealias {
-        let name: String
-        let value: DartType
-    }
-
-    enum Constructor: Equatable {
-        case `public`(fields: [Variable])
-        case reference
-    }
-
-    let constructor: Constructor
-
     init(
         module: Module,
         documentation: [String],
         name: String,
-        constructor: Constructor,
         fieldsAndMethods: [MethodOrVariable]
     ) {
-        self.constructor = constructor
         super.init(
             module: module,
             documentation: documentation,
