@@ -1713,7 +1713,7 @@
                   "<!-- FishyJoes.export(async42) -->"
                 ],
                 "isAsync" : true,
-                "isStatic" : true,
+                "isStatic" : false,
                 "name" : "async42",
                 "parameters" : [
 
@@ -1733,7 +1733,7 @@
                   "<!-- FishyJoes.export(asyncYield) -->"
                 ],
                 "isAsync" : true,
-                "isStatic" : true,
+                "isStatic" : false,
                 "name" : "asyncYield",
                 "parameters" : [
 
@@ -1753,7 +1753,7 @@
                   "<!-- FishyJoes.export(asyncSleep) -->"
                 ],
                 "isAsync" : true,
-                "isStatic" : true,
+                "isStatic" : false,
                 "name" : "asyncSleep",
                 "parameters" : [
 
@@ -1773,7 +1773,7 @@
                   "<!-- FishyJoes.export(asyncVoid) -->"
                 ],
                 "isAsync" : true,
-                "isStatic" : true,
+                "isStatic" : false,
                 "name" : "asyncVoid",
                 "parameters" : [
 
@@ -1793,7 +1793,7 @@
                   "<!-- FishyJoes.export(asyncDouble) -->"
                 ],
                 "isAsync" : true,
-                "isStatic" : true,
+                "isStatic" : false,
                 "name" : "asyncDouble",
                 "parameters" : [
                   {
@@ -1820,7 +1820,7 @@
                   "<!-- FishyJoes.export(asyncMultipleArgs) -->"
                 ],
                 "isAsync" : true,
-                "isStatic" : true,
+                "isStatic" : false,
                 "name" : "asyncMultipleArgs",
                 "parameters" : [
                   {
@@ -1855,7 +1855,7 @@
                   "<!-- FishyJoes.export(asyncThrowing) -->"
                 ],
                 "isAsync" : true,
-                "isStatic" : true,
+                "isStatic" : false,
                 "name" : "asyncThrowing",
                 "parameters" : [
 
@@ -1875,8 +1875,197 @@
                   "<!-- FishyJoes.export(asyncCallbackFunc0) -->"
                 ],
                 "isAsync" : true,
-                "isStatic" : true,
+                "isStatic" : false,
                 "name" : "asyncCallbackFunc0",
+                "parameters" : [
+                  {
+                    "name" : "callback",
+                    "type" : {
+                      "named" : {
+                        "_0" : "() => Promise<number>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(staticAsync42) -->"
+                ],
+                "isAsync" : true,
+                "isStatic" : true,
+                "name" : "staticAsync42",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(staticAsyncYield) -->"
+                ],
+                "isAsync" : true,
+                "isStatic" : true,
+                "name" : "staticAsyncYield",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(staticAsyncSleep) -->"
+                ],
+                "isAsync" : true,
+                "isStatic" : true,
+                "name" : "staticAsyncSleep",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(staticAsyncVoid) -->"
+                ],
+                "isAsync" : true,
+                "isStatic" : true,
+                "name" : "staticAsyncVoid",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "void"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(staticAsyncDouble) -->"
+                ],
+                "isAsync" : true,
+                "isStatic" : true,
+                "name" : "staticAsyncDouble",
+                "parameters" : [
+                  {
+                    "name" : "d",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(staticAsyncMultipleArgs) -->"
+                ],
+                "isAsync" : true,
+                "isStatic" : true,
+                "name" : "staticAsyncMultipleArgs",
+                "parameters" : [
+                  {
+                    "name" : "i",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  },
+                  {
+                    "name" : "j",
+                    "type" : {
+                      "named" : {
+                        "_0" : "() => Promise<number>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(staticAsyncThrowing) -->"
+                ],
+                "isAsync" : true,
+                "isStatic" : true,
+                "name" : "staticAsyncThrowing",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "void"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(staticAsyncCallbackFunc0) -->"
+                ],
+                "isAsync" : true,
+                "isStatic" : true,
+                "name" : "staticAsyncCallbackFunc0",
                 "parameters" : [
                   {
                     "name" : "callback",
