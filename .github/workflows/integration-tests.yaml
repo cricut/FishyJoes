@@ -338,12 +338,6 @@ jobs:
           cp dart/windows/native/TestAPI.dll dart
           $SWIFT run -- fishy-joes --dart test
 
-      - name: Upload Iota Artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: iota_artifact
-          path: integration-tests/TestAPI-bindings
-
       - name: Build FishyJoesJavaRuntime
         shell: bash
         run: |
