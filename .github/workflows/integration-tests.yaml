@@ -76,7 +76,6 @@ jobs:
           set -euxo pipefail
 
           cd integration-tests/TestAPI-bindings
-
           swift run -- fishy-joes --nodejs build test
 
       - name: Build FishyJoesIotaRuntime
