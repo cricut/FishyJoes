@@ -25,4 +25,7 @@ extension TestAPI.Structs.PuttingTypesIntoQuestionablePlaces: JavaMutator {
     public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout TestAPI.Structs.PuttingTypesIntoQuestionablePlaces) throws -> R) throws -> R {
         try body(&Box<TestAPI.Structs.PuttingTypesIntoQuestionablePlaces>.fromJava(this, env: env).value)
     }
+    public static func mutateJava<R>(_ this: jobject?, env: inout Env, body: (inout TestAPI.Structs.PuttingTypesIntoQuestionablePlaces, inout Env) async throws -> R) async throws -> R {
+        try await body(&Box<TestAPI.Structs.PuttingTypesIntoQuestionablePlaces>.fromJava(this, env: env).value, &env)
+    }
 }

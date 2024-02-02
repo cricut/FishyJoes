@@ -446,3 +446,66 @@ extension Function6Converter: IotaConverter where R: IotaConverter, P0: IotaConv
         return try FunctionInfo[env, self].construct(ptr, env: env)
     }
 }
+
+extension AsyncFunction0Converter: IotaConverter where R: IotaConverter {
+    public static func peekIota(_ value: foreignObject, env: Env) throws -> SwiftType {
+        fatalError("not implemented")
+    }
+    public static func toIota(_ value: @escaping SwiftType, env: Env) throws -> foreignObject {
+        fatalError("not implemented")
+    }
+}
+
+extension AsyncFunction1Converter: IotaConverter where R: IotaConverter, P0: IotaConverter {
+    public static func peekIota(_ value: foreignObject, env: Env) throws -> SwiftType {
+        fatalError("not implemented")
+    }
+    public static func toIota(_ value: @escaping SwiftType, env: Env) throws -> foreignObject {
+        fatalError("not implemented")
+    }
+}
+
+extension AsyncFunction2Converter: IotaConverter where R: IotaConverter, P0: IotaConverter, P1: IotaConverter {
+    public static func peekIota(_ value: foreignObject, env: Env) throws -> SwiftType {
+        fatalError("not implemented")
+    }
+    public static func toIota(_ value: @escaping SwiftType, env: Env) throws -> foreignObject {
+        fatalError("not implemented")
+    }
+}
+
+extension AsyncFunction3Converter: IotaConverter where R: IotaConverter, P0: IotaConverter, P1: IotaConverter, P2: IotaConverter {
+    public static func peekIota(_ value: foreignObject, env: Env) throws -> SwiftType {
+        fatalError("not implemented")
+    }
+    public static func toIota(_ value: @escaping SwiftType, env: Env) throws -> foreignObject {
+        fatalError("not implemented")
+    }
+}
+
+extension AsyncFunction4Converter: IotaConverter where R: IotaConverter, P0: IotaConverter, P1: IotaConverter, P2: IotaConverter, P3: IotaConverter {
+    public static func peekIota(_ value: foreignObject, env: Env) throws -> SwiftType {
+        fatalError("not implemented")
+    }
+    public static func toIota(_ value: @escaping SwiftType, env: Env) throws -> foreignObject {
+        fatalError("not implemented")
+    }
+}
+
+extension AsyncFunction5Converter: IotaConverter where R: IotaConverter, P0: IotaConverter, P1: IotaConverter, P2: IotaConverter, P3: IotaConverter, P4: IotaConverter {
+    public static func peekIota(_ value: foreignObject, env: Env) throws -> SwiftType {
+        fatalError("not implemented")
+    }
+    public static func toIota(_ value: @escaping SwiftType, env: Env) throws -> foreignObject {
+        fatalError("not implemented")
+    }
+}
+
+extension AsyncFunction6Converter: IotaConverter where R: IotaConverter, P0: IotaConverter, P1: IotaConverter, P2: IotaConverter, P3: IotaConverter, P4: IotaConverter, P5: IotaConverter {
+    public static func peekIota(_ value: foreignObject, env: Env) throws -> SwiftType {
+        fatalError("not implemented")
+    }
+    public static func toIota(_ value: @escaping SwiftType, env: Env) throws -> foreignObject {
+        fatalError("not implemented")
+    }
+}

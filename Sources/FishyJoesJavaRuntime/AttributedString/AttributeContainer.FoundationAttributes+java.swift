@@ -17,6 +17,10 @@ extension AttributeContainer.FoundationAttributes: JavaMutator {
         try body(&Box<AttributeContainer.FoundationAttributes>.fromJava(this, env: env).value)
     }
 
+    public static func mutateJava<R>(_ this: jobject?, env: inout Env, body: (inout AttributeContainer.FoundationAttributes, inout Env) async throws -> R) async throws -> R {
+        try await body(&Box<AttributeContainer.FoundationAttributes>.fromJava(this, env: env).value, &env)
+    }
+
     public static func javaSetup(env: Env) throws {
         guard javaClass == nil else { return }
         try AnyBox.javaSetup(env: env)

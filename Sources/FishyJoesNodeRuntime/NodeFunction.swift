@@ -5,6 +5,12 @@ protocol AnyFunction {
     static var cInvoke: NAPI.Callback { get }
 }
 
+private var promiseThenFunction: NodeReference?
+private var promiseCatchFunction: NodeReference?
+private enum ContinuationError: Error {
+    case nullData
+}
+
 private struct AnyFunction0: AnyFunction {
     let invoke: (CallbackEnv) throws -> NAPI.Value?
 
@@ -99,7 +105,9 @@ extension Function0Converter: NodeConverter where R: NodeConverter {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
         let escapingRef = try NodeReference(env: env, value: value)
         return {
-            try R.fromNode(nodeCall(escapingRef, [], env: env), env: env)
+            try syncOnMainThread { env in
+                try R.fromNode(nodeCall(escapingRef, [], env: env), env: env)
+            }
         }
     }
 
@@ -108,16 +116,38 @@ extension Function0Converter: NodeConverter where R: NodeConverter {
             return try R.toNode(value(), env: env.env)
         }.toNode(env: env)
     }
+
+    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
+        try R.nodeSetup(env: env, module: module)
+    }
+}
+
+extension AsyncFunction0Converter: NodeConverter where R: NodeConverter {
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
+        let futureFunc = try FutureFunctionConverter.fromNode(value, env: env)
+        return fromFutureFunction(futureFunc)
+    }
+
+    public static func toNode(_ value: @escaping SwiftType, env: NAPI.Env) throws -> NAPI.Value {
+        let futureFunc = toFutureFunction(value)
+        return try FutureFunctionConverter.toNode(futureFunc, env: env)
+    }
+
+    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
+        try FutureFunctionConverter.nodeSetup(env: env, module: module)
+    }
 }
 
 extension Function1Converter: NodeConverter where R: NodeConverter, P0: NodeConverter {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
         let escapingRef = try NodeReference(env: env, value: value)
         return { p0 in
-            let args = try [
-                P0.toNode(p0, env: env),
-            ]
-            return try R.fromNode(nodeCall(escapingRef, args, env: env), env: env)
+            try syncOnMainThread { env in
+                let args = try [
+                    P0.toNode(p0, env: env),
+                ]
+                return try R.fromNode(nodeCall(escapingRef, args, env: env), env: env)
+            }
         }
     }
 
@@ -127,17 +157,40 @@ extension Function1Converter: NodeConverter where R: NodeConverter, P0: NodeConv
             return try R.toNode(value(v0), env: env.env)
         }.toNode(env: env)
     }
+
+    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
+        try R.nodeSetup(env: env, module: module)
+        try P0.nodeSetup(env: env, module: module)
+    }
+}
+
+extension AsyncFunction1Converter: NodeConverter where R: NodeConverter, P0: NodeConverter {
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
+        let futureFunc = try FutureFunctionConverter.fromNode(value, env: env)
+        return fromFutureFunction(futureFunc)
+    }
+
+    public static func toNode(_ value: @escaping SwiftType, env: NAPI.Env) throws -> NAPI.Value {
+        let futureFunc = toFutureFunction(value)
+        return try FutureFunctionConverter.toNode(futureFunc, env: env)
+    }
+
+    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
+        try FutureFunctionConverter.nodeSetup(env: env, module: module)
+    }
 }
 
 extension Function2Converter: NodeConverter where R: NodeConverter, P0: NodeConverter, P1: NodeConverter {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
         let escapingRef = try NodeReference(env: env, value: value)
         return { p0, p1 in
-            let args = try [
-                P0.toNode(p0, env: env),
-                P1.toNode(p1, env: env),
-            ]
-            return try R.fromNode(nodeCall(escapingRef, args, env: env), env: env)
+            try syncOnMainThread { env in
+                let args = try [
+                    P0.toNode(p0, env: env),
+                    P1.toNode(p1, env: env),
+                ]
+                return try R.fromNode(nodeCall(escapingRef, args, env: env), env: env)
+            }
         }
     }
 
@@ -148,18 +201,42 @@ extension Function2Converter: NodeConverter where R: NodeConverter, P0: NodeConv
             return try R.toNode(value(v0, v1), env: env.env)
         }.toNode(env: env)
     }
+
+    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
+        try R.nodeSetup(env: env, module: module)
+        try P0.nodeSetup(env: env, module: module)
+        try P1.nodeSetup(env: env, module: module)
+    }
+}
+
+extension AsyncFunction2Converter: NodeConverter where R: NodeConverter, P0: NodeConverter, P1: NodeConverter {
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
+        let futureFunc = try FutureFunctionConverter.fromNode(value, env: env)
+        return fromFutureFunction(futureFunc)
+    }
+
+    public static func toNode(_ value: @escaping SwiftType, env: NAPI.Env) throws -> NAPI.Value {
+        let futureFunc = toFutureFunction(value)
+        return try FutureFunctionConverter.toNode(futureFunc, env: env)
+    }
+
+    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
+        try FutureFunctionConverter.nodeSetup(env: env, module: module)
+    }
 }
 
 extension Function3Converter: NodeConverter where R: NodeConverter, P0: NodeConverter, P1: NodeConverter, P2: NodeConverter {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
         let escapingRef = try NodeReference(env: env, value: value)
         return { p0, p1, p2 in
-            let args = try [
-                P0.toNode(p0, env: env),
-                P1.toNode(p1, env: env),
-                P2.toNode(p2, env: env),
-            ]
-            return try R.fromNode(nodeCall(escapingRef, args, env: env), env: env)
+            try syncOnMainThread { env in
+                let args = try [
+                    P0.toNode(p0, env: env),
+                    P1.toNode(p1, env: env),
+                    P2.toNode(p2, env: env),
+                ]
+                return try R.fromNode(nodeCall(escapingRef, args, env: env), env: env)
+            }
         }
     }
 
@@ -171,19 +248,44 @@ extension Function3Converter: NodeConverter where R: NodeConverter, P0: NodeConv
             return try R.toNode(value(v0, v1, v2), env: env.env)
         }.toNode(env: env)
     }
+
+    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
+        try R.nodeSetup(env: env, module: module)
+        try P0.nodeSetup(env: env, module: module)
+        try P1.nodeSetup(env: env, module: module)
+        try P2.nodeSetup(env: env, module: module)
+    }
+}
+
+extension AsyncFunction3Converter: NodeConverter where R: NodeConverter, P0: NodeConverter, P1: NodeConverter, P2: NodeConverter {
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
+        let futureFunc = try FutureFunctionConverter.fromNode(value, env: env)
+        return fromFutureFunction(futureFunc)
+    }
+
+    public static func toNode(_ value: @escaping SwiftType, env: NAPI.Env) throws -> NAPI.Value {
+        let futureFunc = toFutureFunction(value)
+        return try FutureFunctionConverter.toNode(futureFunc, env: env)
+    }
+
+    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
+        try FutureFunctionConverter.nodeSetup(env: env, module: module)
+    }
 }
 
 extension Function4Converter: NodeConverter where R: NodeConverter, P0: NodeConverter, P1: NodeConverter, P2: NodeConverter, P3: NodeConverter {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
         let escapingRef = try NodeReference(env: env, value: value)
         return { p0, p1, p2, p3 in
-            let args = try [
-                P0.toNode(p0, env: env),
-                P1.toNode(p1, env: env),
-                P2.toNode(p2, env: env),
-                P3.toNode(p3, env: env),
-            ]
-            return try R.fromNode(nodeCall(escapingRef, args, env: env), env: env)
+            try syncOnMainThread { env in
+                let args = try [
+                    P0.toNode(p0, env: env),
+                    P1.toNode(p1, env: env),
+                    P2.toNode(p2, env: env),
+                    P3.toNode(p3, env: env),
+                ]
+                return try R.fromNode(nodeCall(escapingRef, args, env: env), env: env)
+            }
         }
     }
 
@@ -196,20 +298,46 @@ extension Function4Converter: NodeConverter where R: NodeConverter, P0: NodeConv
             return try R.toNode(value(v0, v1, v2, v3), env: env.env)
         }.toNode(env: env)
     }
+
+    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
+        try R.nodeSetup(env: env, module: module)
+        try P0.nodeSetup(env: env, module: module)
+        try P1.nodeSetup(env: env, module: module)
+        try P2.nodeSetup(env: env, module: module)
+        try P3.nodeSetup(env: env, module: module)
+    }
+}
+
+extension AsyncFunction4Converter: NodeConverter where R: NodeConverter, P0: NodeConverter, P1: NodeConverter, P2: NodeConverter, P3: NodeConverter {
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
+        let futureFunc = try FutureFunctionConverter.fromNode(value, env: env)
+        return fromFutureFunction(futureFunc)
+    }
+
+    public static func toNode(_ value: @escaping SwiftType, env: NAPI.Env) throws -> NAPI.Value {
+        let futureFunc = toFutureFunction(value)
+        return try FutureFunctionConverter.toNode(futureFunc, env: env)
+    }
+
+    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
+        try FutureFunctionConverter.nodeSetup(env: env, module: module)
+    }
 }
 
 extension Function5Converter: NodeConverter where R: NodeConverter, P0: NodeConverter, P1: NodeConverter, P2: NodeConverter, P3: NodeConverter, P4: NodeConverter {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
         let escapingRef = try NodeReference(env: env, value: value)
         return { p0, p1, p2, p3, p4 in
-            let args = try [
-                P0.toNode(p0, env: env),
-                P1.toNode(p1, env: env),
-                P2.toNode(p2, env: env),
-                P3.toNode(p3, env: env),
-                P4.toNode(p4, env: env),
-            ]
-            return try R.fromNode(nodeCall(escapingRef, args, env: env), env: env)
+            try syncOnMainThread { env in
+                let args = try [
+                    P0.toNode(p0, env: env),
+                    P1.toNode(p1, env: env),
+                    P2.toNode(p2, env: env),
+                    P3.toNode(p3, env: env),
+                    P4.toNode(p4, env: env),
+                ]
+                return try R.fromNode(nodeCall(escapingRef, args, env: env), env: env)
+            }
         }
     }
 
@@ -223,21 +351,48 @@ extension Function5Converter: NodeConverter where R: NodeConverter, P0: NodeConv
             return try R.toNode(value(v0, v1, v2, v3, v4), env: env.env)
         }.toNode(env: env)
     }
+
+    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
+        try R.nodeSetup(env: env, module: module)
+        try P0.nodeSetup(env: env, module: module)
+        try P1.nodeSetup(env: env, module: module)
+        try P2.nodeSetup(env: env, module: module)
+        try P3.nodeSetup(env: env, module: module)
+        try P4.nodeSetup(env: env, module: module)
+    }
+}
+
+extension AsyncFunction5Converter: NodeConverter where R: NodeConverter, P0: NodeConverter, P1: NodeConverter, P2: NodeConverter, P3: NodeConverter, P4: NodeConverter {
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
+        let futureFunc = try FutureFunctionConverter.fromNode(value, env: env)
+        return fromFutureFunction(futureFunc)
+    }
+
+    public static func toNode(_ value: @escaping SwiftType, env: NAPI.Env) throws -> NAPI.Value {
+        let futureFunc = toFutureFunction(value)
+        return try FutureFunctionConverter.toNode(futureFunc, env: env)
+    }
+
+    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
+        try FutureFunctionConverter.nodeSetup(env: env, module: module)
+    }
 }
 
 extension Function6Converter: NodeConverter where R: NodeConverter, P0: NodeConverter, P1: NodeConverter, P2: NodeConverter, P3: NodeConverter, P4: NodeConverter, P5: NodeConverter {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
         let escapingRef = try NodeReference(env: env, value: value)
         return { p0, p1, p2, p3, p4, p5 in
-            let args = try [
-                P0.toNode(p0, env: env),
-                P1.toNode(p1, env: env),
-                P2.toNode(p2, env: env),
-                P3.toNode(p3, env: env),
-                P4.toNode(p4, env: env),
-                P5.toNode(p5, env: env),
-            ]
-            return try R.fromNode(nodeCall(escapingRef, args, env: env), env: env)
+            try syncOnMainThread { env in
+                let args = try [
+                    P0.toNode(p0, env: env),
+                    P1.toNode(p1, env: env),
+                    P2.toNode(p2, env: env),
+                    P3.toNode(p3, env: env),
+                    P4.toNode(p4, env: env),
+                    P5.toNode(p5, env: env),
+                ]
+                return try R.fromNode(nodeCall(escapingRef, args, env: env), env: env)
+            }
         }
     }
 
@@ -251,5 +406,31 @@ extension Function6Converter: NodeConverter where R: NodeConverter, P0: NodeConv
             let v5 = try P5.fromNode(p5, env: env.env)
             return try R.toNode(value(v0, v1, v2, v3, v4, v5), env: env.env)
         }.toNode(env: env)
+    }
+
+    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
+        try R.nodeSetup(env: env, module: module)
+        try P0.nodeSetup(env: env, module: module)
+        try P1.nodeSetup(env: env, module: module)
+        try P2.nodeSetup(env: env, module: module)
+        try P3.nodeSetup(env: env, module: module)
+        try P4.nodeSetup(env: env, module: module)
+        try P5.nodeSetup(env: env, module: module)
+    }
+}
+
+extension AsyncFunction6Converter: NodeConverter where R: NodeConverter, P0: NodeConverter, P1: NodeConverter, P2: NodeConverter, P3: NodeConverter, P4: NodeConverter, P5: NodeConverter {
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> SwiftType {
+        let futureFunc = try FutureFunctionConverter.fromNode(value, env: env)
+        return fromFutureFunction(futureFunc)
+    }
+
+    public static func toNode(_ value: @escaping SwiftType, env: NAPI.Env) throws -> NAPI.Value {
+        let futureFunc = toFutureFunction(value)
+        return try FutureFunctionConverter.toNode(futureFunc, env: env)
+    }
+
+    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
+        try FutureFunctionConverter.nodeSetup(env: env, module: module)
     }
 }

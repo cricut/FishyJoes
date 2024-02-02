@@ -20,6 +20,13 @@ public enum Structs {
 
         /// <!-- FishyJoes.export(create) -->
         public init() {}
+
+        /// <!-- FishyJoes.export(asyncGetMutable) -->
+        public func asyncGetMutable() async -> String {
+//            fatalError("Swift: \(#line) \(#function)")
+            await Task.yield()
+            return mutable
+        }
     }
 
     /// <!-- FishyJoes.exportReference(Structs.ReferenceStruct) -->
@@ -31,5 +38,39 @@ public enum Structs {
 
         /// <!-- FishyJoes.export(create) -->
         public init() {}
+
+        /// <!-- FishyJoes.export(asyncGetMutable) -->
+        public func asyncGetMutable() async -> String {
+            await Task.yield()
+            return mutable
+        }
+    }
+
+    /// <!-- FishyJoes.export(Structs.MutableStruct) -->
+    public struct MutableStruct: Hashable {
+        public var i = 0
+
+        /// <!-- FishyJoes.export(create) -->
+        public init() {}
+
+        public init(i: Int = 0) {
+            self.i = i
+        }
+
+        /// <!-- FishyJoes.export(increment) -->
+        public mutating func increment() {
+            i += 1
+        }
+
+        /// <!-- FishyJoes.export(incrementAsync) -->
+        public mutating func incrementAsync() async {
+            i += 1
+        }
+
+        /// <!-- FishyJoes.export(asyncGetI) -->
+        public func asyncGetI() async -> Int {
+            await Task.yield()
+            return i
+        }
     }
 }

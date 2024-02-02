@@ -254,6 +254,20 @@ struct TranslatedStruct: TranslatedType {
                 }
                 fragment.output("return result")
             }
+
+            fragment.outputBlock("public static func mutateJava<R>(_ this: jobject?, env: inout Env, body: (inout Self, inout Env) async throws -> R) async throws -> R {") {
+                fragment.output("var mutatingSelf = try fromJava(this, env: env)")
+                fragment.output("let result = try await body(&mutatingSelf, &env)")
+                for storedVar in storedVariables {
+                    let resolved = context.resolve(type: storedVar.typeName.better)
+                    let fieldCType = resolved.jniType.valueType
+                    fragment.outputBlock("try env.Set\(fieldCType)Field(") {
+                        fragment.output("this, Self._java_\(storedVar.name)_id,")
+                        fragment.output("\(resolved.converterType.name).toJava(mutatingSelf.\(storedVar.name), env: env)")
+                    }
+                }
+                fragment.output("return result")
+            }
         }
 
         context.add(

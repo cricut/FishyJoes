@@ -1,12 +1,65 @@
 package com.cricut.testapi
 
+import kotlinx.coroutines.*
+import java.lang.Exception
+
 /**
  * <!-- FishyJoes.export(Structs) -->
  */
+@OptIn(ExperimentalCoroutinesApi::class)
 sealed class Structs {
 
     companion object {
         init { loadNativeLibs() }
+    }
+
+    /**
+     * <!-- FishyJoes.export(Structs.MutableStruct) -->
+     */
+    data class MutableStruct(
+        var i: Long
+    )
+     {
+        /**
+         * <!-- FishyJoes.export(increment) -->
+         */
+        fun increment(
+        ): kotlin.Unit = __jni_increment()
+        @JvmName("__jni_increment")
+        private external fun __jni_increment(
+        ): kotlin.Unit
+
+        /**
+         * <!-- FishyJoes.export(incrementAsync) -->
+         */
+        suspend fun incrementAsync(
+        ): kotlin.Unit = __jni_incrementAsync().await()
+        @JvmName("__jni_incrementAsync")
+        private external fun __jni_incrementAsync(
+        ): kotlinx.coroutines.Deferred<kotlin.Unit>
+
+        /**
+         * <!-- FishyJoes.export(asyncGetI) -->
+         */
+        suspend fun asyncGetI(
+        ): Long = __jni_asyncGetI().await()
+        @JvmName("__jni_asyncGetI")
+        private external fun __jni_asyncGetI(
+        ): kotlinx.coroutines.Deferred<Long>
+
+        companion object {
+            /**
+             * <!-- FishyJoes.export(create) -->
+             */
+            fun create(
+            ): com.cricut.testapi.Structs.MutableStruct = __jni_create()
+            @JvmStatic
+            @JvmName("__jni_create")
+            private external fun __jni_create(
+            ): com.cricut.testapi.Structs.MutableStruct
+
+            init { loadNativeLibs() }
+        }
     }
 
     /**
@@ -33,6 +86,15 @@ sealed class Structs {
         private external fun __jni_get_mutable(): kotlin.String
         @JvmName("__jni_set_mutable")
         private external fun __jni_set_mutable(newValue: kotlin.String)
+
+        /**
+         * <!-- FishyJoes.export(asyncGetMutable) -->
+         */
+        suspend fun asyncGetMutable(
+        ): kotlin.String = __jni_asyncGetMutable().await()
+        @JvmName("__jni_asyncGetMutable")
+        private external fun __jni_asyncGetMutable(
+        ): kotlinx.coroutines.Deferred<kotlin.String>
 
         override fun equals(
             other: Any?
@@ -78,6 +140,14 @@ sealed class Structs {
         var mutable: kotlin.String
     )
      {
+        /**
+         * <!-- FishyJoes.export(asyncGetMutable) -->
+         */
+        suspend fun asyncGetMutable(
+        ): kotlin.String = __jni_asyncGetMutable().await()
+        @JvmName("__jni_asyncGetMutable")
+        private external fun __jni_asyncGetMutable(
+        ): kotlinx.coroutines.Deferred<kotlin.String>
 
         companion object {
             /**

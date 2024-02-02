@@ -44,7 +44,7 @@ void main() {
       });
 
       test('testSwiftThrows', () {
-          expect(Functions.willThrow, throwsA(predicate((e) => '$e'.contains("TheError"))));
+          expect(Functions.willThrow, throwsA(predicate((e) => '$e'.contains("TheFunctionError"))));
       });
 
   });

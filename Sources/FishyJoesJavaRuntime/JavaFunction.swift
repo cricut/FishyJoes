@@ -2,20 +2,26 @@ import FishyJoesCommonRuntime
 import Foundation
 import JNI
 
-private enum SwiftFunctionImpl {
+enum SwiftFunctionImpl {
     static var implClass: jclass?
     static var constructor: jmethodID?
     static var invokeMethods: [Int: jmethodID] = [:]
+    static var toDeferredMethods: [Int: jmethodID] = [:]
+    static var toSuspendMethods: [Int: jmethodID] = [:]
 
-    public static func javaSetup(arity: Int, invokePointer: UnsafeMutableRawPointer, env: Env) throws {
+    static func javaSetup(arity: Int, invokePointer: UnsafeMutableRawPointer, env: Env) throws {
         try AnyBox.javaSetup(env: env)
         if implClass == nil {
             implClass = try env.globalRef(env.FindClass("com/cricut/fishyjoes/runtime/SwiftFunctionImpl"))
             constructor = try env.GetMethodID(implClass, "<init>", "(IJ)V")
         }
 
+        func funClass(_ arity: Int) -> String {
+            "kotlin/jvm/functions/Function\(arity)"
+        }
+
         if invokeMethods[arity] == nil {
-            let functionClass = try env.globalRef(env.FindClass("kotlin/jvm/functions/Function\(arity)"))
+            let functionClass = try env.FindClass(funClass(arity))
             let obj = "Ljava/lang/Object;"
             let invokeSignature = "(\(String(repeating: obj, count: arity)))\(obj)"
 
@@ -23,19 +29,21 @@ private enum SwiftFunctionImpl {
             try env.RegisterNatives(
                 implClass,
                 JNINativeMethod(
-                    name: bag.add("invoke"),
+                    name: bag.add("__jni_invoke"),
                     signature: bag.add(invokeSignature),
                     fnPtr: invokePointer
                 )
             )
             invokeMethods[arity] = try env.GetMethodID(functionClass, "invoke", invokeSignature)
+            toDeferredMethods[arity] = try env.GetStaticMethodID(implClass, "fromSuspend", "(L\(funClass(arity + 1));)L\(funClass(arity));")
+            toSuspendMethods[arity] = try env.GetMethodID(implClass, "toSuspend\(arity)", "()L\(funClass(arity + 1));")
         }
     }
 }
 
 // This code is really repetitive, but I'm not sure how it could be made better...
 
-private struct AnyFunction0 {
+struct AnyFunction0 {
     let invoke: (Env) throws -> jobject?
 
     static let cInvoke: @convention(c) (UnsafeMutablePointer<JNIEnv?>, jobject) -> jobject? = { env, this in
@@ -45,7 +53,7 @@ private struct AnyFunction0 {
     }
 }
 
-private struct AnyFunction1 {
+struct AnyFunction1 {
     let invoke: (Env, jobject?) throws -> jobject?
 
     static let cInvoke: @convention(c) (UnsafeMutablePointer<JNIEnv?>, jobject, jobject?) -> jobject? = { env, this, p0 in
@@ -55,7 +63,7 @@ private struct AnyFunction1 {
     }
 }
 
-private struct AnyFunction2 {
+struct AnyFunction2 {
     let invoke: (Env, jobject?, jobject?) throws -> jobject?
 
     static let cInvoke: @convention(c) (UnsafeMutablePointer<JNIEnv?>, jobject, jobject?, jobject?) -> jobject? = { env, this, p0, p1 in
@@ -65,7 +73,7 @@ private struct AnyFunction2 {
     }
 }
 
-private struct AnyFunction3 {
+struct AnyFunction3 {
     let invoke: (Env, jobject?, jobject?, jobject?) throws -> jobject?
 
     static let cInvoke: @convention(c) (UnsafeMutablePointer<JNIEnv?>, jobject, jobject?, jobject?, jobject?) -> jobject? = { env, this, p0, p1, p2 in
@@ -75,7 +83,7 @@ private struct AnyFunction3 {
     }
 }
 
-private struct AnyFunction4 {
+struct AnyFunction4 {
     let invoke: (Env, jobject?, jobject?, jobject?, jobject?) throws -> jobject?
 
     static let cInvoke: @convention(c) (UnsafeMutablePointer<JNIEnv?>, jobject, jobject?, jobject?, jobject?, jobject?) -> jobject? = { env, this, p0, p1, p2, p3 in
@@ -85,7 +93,7 @@ private struct AnyFunction4 {
     }
 }
 
-private struct AnyFunction5 {
+struct AnyFunction5 {
     let invoke: (Env, jobject?, jobject?, jobject?, jobject?, jobject?) throws -> jobject?
 
     static let cInvoke: @convention(c) (UnsafeMutablePointer<JNIEnv?>, jobject, jobject?, jobject?, jobject?, jobject?, jobject?) -> jobject? = { env, this, p0, p1, p2, p3, p4 in
@@ -95,7 +103,7 @@ private struct AnyFunction5 {
     }
 }
 
-private struct AnyFunction6 {
+struct AnyFunction6 {
     let invoke: (Env, jobject?, jobject?, jobject?, jobject?, jobject?, jobject?) throws -> jobject?
 
     static let cInvoke: @convention(c) (UnsafeMutablePointer<JNIEnv?>, jobject, jobject?, jobject?, jobject?, jobject?, jobject?, jobject?) -> jobject? = { env, this, p0, p1, p2, p3, p4, p5 in
@@ -112,15 +120,14 @@ extension Function0Converter: JavaConverter where R: JavaConverter {
 
     public static func fromJava(_ value: jobject?, env: Env) throws -> SwiftType {
         let escapingRef = try JavaReference(local: value, env: env)
-        let initThread = Thread.current
+        let vm = try env.GetJavaVM()
         return {
-            guard initThread == Thread.current else {
-                fatalError("Callback invoked on different thread")
-            }
+            let env = try Env.acquireJVMThread(on: vm)
+            defer { try! Env.relinquishJVMThread(on: vm) }
             return try R.fromJava(
                 object: env.CallObjectMethod(
                     escapingRef.object,
-                    SwiftFunctionImpl.invokeMethods[0]
+                    SwiftFunctionImpl.invokeMethods[arity]
                 ),
                 env: env
             )
@@ -132,13 +139,13 @@ extension Function0Converter: JavaConverter where R: JavaConverter {
             try R.toJavaObject(value(), env: env)
         }
         let ptr = jvalue(pointer: Box(erased).retainedOpaque())
-        return try env.NewObject(SwiftFunctionImpl.implClass, SwiftFunctionImpl.constructor, jvalue(i: 0), ptr)
+        return try env.NewObject(SwiftFunctionImpl.implClass, SwiftFunctionImpl.constructor, jvalue(i: jint(arity)), ptr)
     }
 
     public static func javaSetup(env: Env) throws {
         try R.javaSetup(env: env)
         try SwiftFunctionImpl.javaSetup(
-            arity: 0,
+            arity: arity,
             invokePointer: unsafeBitCast(AnyFunction0.cInvoke, to: UnsafeMutableRawPointer.self),
             env: env
         )
@@ -152,15 +159,14 @@ extension Function1Converter: JavaConverter where R: JavaConverter, P0: JavaConv
 
     public static func fromJava(_ value: jobject?, env: Env) throws -> SwiftType {
         let escapingRef = try JavaReference(local: value, env: env)
-        let initThread = Thread.current
+        let vm = try env.GetJavaVM()
         return { p0 in
-            guard initThread == Thread.current else {
-                fatalError("Callback invoked on different thread")
-            }
+            let env = try Env.acquireJVMThread(on: vm)
+            defer { try! Env.relinquishJVMThread(on: vm) }
             return try R.fromJava(
                 object: env.CallObjectMethod(
                     escapingRef.object,
-                    SwiftFunctionImpl.invokeMethods[1],
+                    SwiftFunctionImpl.invokeMethods[arity],
                     jvalue(l: P0.toJavaObject(p0, env: env))
                 ),
                 env: env
@@ -174,14 +180,14 @@ extension Function1Converter: JavaConverter where R: JavaConverter, P0: JavaConv
             return try R.toJavaObject(value(v0), env: env)
         }
         let ptr = jvalue(pointer: Box(erased).retainedOpaque())
-        return try env.NewObject(SwiftFunctionImpl.implClass, SwiftFunctionImpl.constructor, jvalue(i: 1), ptr)
+        return try env.NewObject(SwiftFunctionImpl.implClass, SwiftFunctionImpl.constructor, jvalue(i: jint(arity)), ptr)
     }
 
     public static func javaSetup(env: Env) throws {
         try R.javaSetup(env: env)
         try P0.javaSetup(env: env)
         try SwiftFunctionImpl.javaSetup(
-            arity: 1,
+            arity: arity,
             invokePointer: unsafeBitCast(AnyFunction1.cInvoke, to: UnsafeMutableRawPointer.self),
             env: env
         )
@@ -195,15 +201,14 @@ extension Function2Converter: JavaConverter where R: JavaConverter, P0: JavaConv
 
     public static func fromJava(_ value: jobject?, env: Env) throws -> SwiftType {
         let escapingRef = try JavaReference(local: value, env: env)
-        let initThread = Thread.current
+        let vm = try env.GetJavaVM()
         return { p0, p1 in
-            guard initThread == Thread.current else {
-                fatalError("Callback invoked on different thread")
-            }
+            let env = try Env.acquireJVMThread(on: vm)
+            defer { try! Env.relinquishJVMThread(on: vm) }
             return try R.fromJava(
                 object: env.CallObjectMethod(
                     escapingRef.object,
-                    SwiftFunctionImpl.invokeMethods[2],
+                    SwiftFunctionImpl.invokeMethods[arity],
                     jvalue(l: P0.toJavaObject(p0, env: env)),
                     jvalue(l: P1.toJavaObject(p1, env: env))
                 ),
@@ -219,7 +224,7 @@ extension Function2Converter: JavaConverter where R: JavaConverter, P0: JavaConv
             return try R.toJavaObject(value(v0, v1), env: env)
         }
         let ptr = jvalue(pointer: Box(erased).retainedOpaque())
-        return try env.NewObject(SwiftFunctionImpl.implClass, SwiftFunctionImpl.constructor, jvalue(i: 2), ptr)
+        return try env.NewObject(SwiftFunctionImpl.implClass, SwiftFunctionImpl.constructor, jvalue(i: jint(arity)), ptr)
     }
 
     public static func javaSetup(env: Env) throws {
@@ -227,7 +232,7 @@ extension Function2Converter: JavaConverter where R: JavaConverter, P0: JavaConv
         try P0.javaSetup(env: env)
         try P1.javaSetup(env: env)
         try SwiftFunctionImpl.javaSetup(
-            arity: 2,
+            arity: arity,
             invokePointer: unsafeBitCast(AnyFunction2.cInvoke, to: UnsafeMutableRawPointer.self),
             env: env
         )
@@ -241,15 +246,14 @@ extension Function3Converter: JavaConverter where R: JavaConverter, P0: JavaConv
 
     public static func fromJava(_ value: jobject?, env: Env) throws -> SwiftType {
         let escapingRef = try JavaReference(local: value, env: env)
-        let initThread = Thread.current
+        let vm = try env.GetJavaVM()
         return { p0, p1, p2 in
-            guard initThread == Thread.current else {
-                fatalError("Callback invoked on different thread")
-            }
+            let env = try Env.acquireJVMThread(on: vm)
+            defer { try! Env.relinquishJVMThread(on: vm) }
             return try R.fromJava(
                 object: env.CallObjectMethod(
                     escapingRef.object,
-                    SwiftFunctionImpl.invokeMethods[3],
+                    SwiftFunctionImpl.invokeMethods[arity],
                     jvalue(l: P0.toJavaObject(p0, env: env)),
                     jvalue(l: P1.toJavaObject(p1, env: env)),
                     jvalue(l: P2.toJavaObject(p2, env: env))
@@ -267,7 +271,7 @@ extension Function3Converter: JavaConverter where R: JavaConverter, P0: JavaConv
             return try R.toJavaObject(value(v0, v1, v2), env: env)
         }
         let ptr = jvalue(pointer: Box(erased).retainedOpaque())
-        return try env.NewObject(SwiftFunctionImpl.implClass, SwiftFunctionImpl.constructor, jvalue(i: 3), ptr)
+        return try env.NewObject(SwiftFunctionImpl.implClass, SwiftFunctionImpl.constructor, jvalue(i: jint(arity)), ptr)
     }
 
     public static func javaSetup(env: Env) throws {
@@ -276,7 +280,7 @@ extension Function3Converter: JavaConverter where R: JavaConverter, P0: JavaConv
         try P1.javaSetup(env: env)
         try P2.javaSetup(env: env)
         try SwiftFunctionImpl.javaSetup(
-            arity: 3,
+            arity: arity,
             invokePointer: unsafeBitCast(AnyFunction3.cInvoke, to: UnsafeMutableRawPointer.self),
             env: env
         )
@@ -290,15 +294,14 @@ extension Function4Converter: JavaConverter where R: JavaConverter, P0: JavaConv
 
     public static func fromJava(_ value: jobject?, env: Env) throws -> SwiftType {
         let escapingRef = try JavaReference(local: value, env: env)
-        let initThread = Thread.current
+        let vm = try env.GetJavaVM()
         return { p0, p1, p2, p3 in
-            guard initThread == Thread.current else {
-                fatalError("Callback invoked on different thread")
-            }
+            let env = try Env.acquireJVMThread(on: vm)
+            defer { try! Env.relinquishJVMThread(on: vm) }
             return try R.fromJava(
                 object: env.CallObjectMethod(
                     escapingRef.object,
-                    SwiftFunctionImpl.invokeMethods[4],
+                    SwiftFunctionImpl.invokeMethods[arity],
                     jvalue(l: P0.toJavaObject(p0, env: env)),
                     jvalue(l: P1.toJavaObject(p1, env: env)),
                     jvalue(l: P2.toJavaObject(p2, env: env)),
@@ -318,7 +321,7 @@ extension Function4Converter: JavaConverter where R: JavaConverter, P0: JavaConv
             return try R.toJavaObject(value(v0, v1, v2, v3), env: env)
         }
         let ptr = jvalue(pointer: Box(erased).retainedOpaque())
-        return try env.NewObject(SwiftFunctionImpl.implClass, SwiftFunctionImpl.constructor, jvalue(i: 4), ptr)
+        return try env.NewObject(SwiftFunctionImpl.implClass, SwiftFunctionImpl.constructor, jvalue(i: jint(arity)), ptr)
     }
 
     public static func javaSetup(env: Env) throws {
@@ -328,7 +331,7 @@ extension Function4Converter: JavaConverter where R: JavaConverter, P0: JavaConv
         try P2.javaSetup(env: env)
         try P3.javaSetup(env: env)
         try SwiftFunctionImpl.javaSetup(
-            arity: 4,
+            arity: arity,
             invokePointer: unsafeBitCast(AnyFunction4.cInvoke, to: UnsafeMutableRawPointer.self),
             env: env
         )
@@ -342,15 +345,14 @@ extension Function5Converter: JavaConverter where R: JavaConverter, P0: JavaConv
 
     public static func fromJava(_ value: jobject?, env: Env) throws -> SwiftType {
         let escapingRef = try JavaReference(local: value, env: env)
-        let initThread = Thread.current
+        let vm = try env.GetJavaVM()
         return { p0, p1, p2, p3, p4 in
-            guard initThread == Thread.current else {
-                fatalError("Callback invoked on different thread")
-            }
+            let env = try Env.acquireJVMThread(on: vm)
+            defer { try! Env.relinquishJVMThread(on: vm) }
             return try R.fromJava(
                 object: env.CallObjectMethod(
                     escapingRef.object,
-                    SwiftFunctionImpl.invokeMethods[5],
+                    SwiftFunctionImpl.invokeMethods[arity],
                     jvalue(l: P0.toJavaObject(p0, env: env)),
                     jvalue(l: P1.toJavaObject(p1, env: env)),
                     jvalue(l: P2.toJavaObject(p2, env: env)),
@@ -372,7 +374,7 @@ extension Function5Converter: JavaConverter where R: JavaConverter, P0: JavaConv
             return try R.toJavaObject(value(v0, v1, v2, v3, v4), env: env)
         }
         let ptr = jvalue(pointer: Box(erased).retainedOpaque())
-        return try env.NewObject(SwiftFunctionImpl.implClass, SwiftFunctionImpl.constructor, jvalue(i: 5), ptr)
+        return try env.NewObject(SwiftFunctionImpl.implClass, SwiftFunctionImpl.constructor, jvalue(i: jint(arity)), ptr)
     }
 
     public static func javaSetup(env: Env) throws {
@@ -383,7 +385,7 @@ extension Function5Converter: JavaConverter where R: JavaConverter, P0: JavaConv
         try P3.javaSetup(env: env)
         try P4.javaSetup(env: env)
         try SwiftFunctionImpl.javaSetup(
-            arity: 5,
+            arity: arity,
             invokePointer: unsafeBitCast(AnyFunction5.cInvoke, to: UnsafeMutableRawPointer.self),
             env: env
         )
@@ -397,15 +399,14 @@ extension Function6Converter: JavaConverter where R: JavaConverter, P0: JavaConv
 
     public static func fromJava(_ value: jobject?, env: Env) throws -> SwiftType {
         let escapingRef = try JavaReference(local: value, env: env)
-        let initThread = Thread.current
+        let vm = try env.GetJavaVM()
         return { p0, p1, p2, p3, p4, p5 in
-            guard initThread == Thread.current else {
-                fatalError("Callback invoked on different thread")
-            }
+            let env = try Env.acquireJVMThread(on: vm)
+            defer { try! Env.relinquishJVMThread(on: vm) }
             return try R.fromJava(
                 object: env.CallObjectMethod(
                     escapingRef.object,
-                    SwiftFunctionImpl.invokeMethods[6],
+                    SwiftFunctionImpl.invokeMethods[arity],
                     jvalue(l: P0.toJavaObject(p0, env: env)),
                     jvalue(l: P1.toJavaObject(p1, env: env)),
                     jvalue(l: P2.toJavaObject(p2, env: env)),
@@ -429,7 +430,7 @@ extension Function6Converter: JavaConverter where R: JavaConverter, P0: JavaConv
             return try R.toJavaObject(value(v0, v1, v2, v3, v4, v5), env: env)
         }
         let ptr = jvalue(pointer: Box(erased).retainedOpaque())
-        return try env.NewObject(SwiftFunctionImpl.implClass, SwiftFunctionImpl.constructor, jvalue(i: 6), ptr)
+        return try env.NewObject(SwiftFunctionImpl.implClass, SwiftFunctionImpl.constructor, jvalue(i: jint(arity)), ptr)
     }
 
     public static func javaSetup(env: Env) throws {
@@ -441,7 +442,7 @@ extension Function6Converter: JavaConverter where R: JavaConverter, P0: JavaConv
         try P4.javaSetup(env: env)
         try P5.javaSetup(env: env)
         try SwiftFunctionImpl.javaSetup(
-            arity: 6,
+            arity: arity,
             invokePointer: unsafeBitCast(AnyFunction6.cInvoke, to: UnsafeMutableRawPointer.self),
             env: env
         )

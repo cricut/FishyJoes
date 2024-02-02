@@ -65,7 +65,7 @@ let package = Package(
     ) + wasmIncompatible(
         [
             D.package(url: "https://github.com/mstokercricut/swsh", exact: "5.0.0-alpha0"),
-            D.package(url: "https://github.com/apple/swift-argument-parser", from: "0.4.0"),
+            D.package(url: "https://github.com/apple/swift-argument-parser", from: "1.2.2"),
         ]
     ) + (androidCompatibleOnly || wasmCompatibleOnly ? [] : [
         D.package(url: "https://github.com/jpsim/Yams", .upToNextMinor(from: "5.0.3")),
@@ -141,6 +141,11 @@ let package = Package(
                         "napi_create_external_arraybuffer",
                         "napi_create_external_buffer",
                         "napi_create_function",
+                        "napi_create_threadsafe_function",
+                        "napi_get_threadsafe_function_context",
+                        "napi_call_threadsafe_function",
+                        "napi_acquire_threadsafe_function",
+                        "napi_release_threadsafe_function",
                         "napi_create_int32",
                         "napi_create_int64",
                         "napi_create_object",

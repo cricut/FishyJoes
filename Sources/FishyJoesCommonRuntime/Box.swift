@@ -52,6 +52,10 @@ public struct Box<T> {
     public static func takeUnretainedOpaque(_ pointer: UnsafeMutableRawPointer) throws -> Box<T> {
         try Box(inner: AnyBox.takeUnretainedOpaque(pointer))
     }
+
+    public static func takeRetainedOpaque(_ pointer: UnsafeMutableRawPointer) throws -> Box<T> {
+        try Box(inner: AnyBox.takeRetainedOpaque(pointer))
+    }
 }
 
 public final class AnyBox {
@@ -78,5 +82,54 @@ public final class AnyBox {
 
     public static func takeRetainedOpaque(_ pointer: UnsafeMutableRawPointer) -> AnyBox {
         Unmanaged<AnyBox>.fromOpaque(pointer).takeRetainedValue()
+    }
+}
+
+public struct UncheckedSendableBox<T>: @unchecked Sendable {
+    public let box: Box<T>
+
+    public var value: T {
+        get {
+            box.value
+        }
+        nonmutating set {
+            box.value = newValue
+        }
+        nonmutating _modify {
+            defer { _fixLifetime(self) }
+            yield &box.value
+        }
+    }
+
+    public init(_ value: T) {
+        box = Box(value)
+    }
+
+    public init(inner box: Box<T>) {
+        self.box = box
+    }
+
+    public init(inner box: AnyBox) throws {
+        self.box = try Box(inner: box)
+    }
+
+    public func retainedOpaque() -> UnsafeMutableRawPointer {
+        box.retainedOpaque()
+    }
+
+    public static func releaseOpaque(_ pointer: UnsafeMutableRawPointer?) {
+        AnyBox.releaseOpaque(pointer)
+    }
+
+    public static func takeUnretainedOpaque(_ pointer: UnsafeMutableRawPointer) throws -> Box<T> {
+        try Box(inner: AnyBox.takeUnretainedOpaque(pointer))
+    }
+
+    public static func takeRetainedOpaque(_ pointer: UnsafeMutableRawPointer) throws -> Box<T> {
+        try Box(inner: AnyBox.takeRetainedOpaque(pointer))
+    }
+
+    public func callAsFunction<Argument, Result>(_ arg: Argument) throws -> Result where T == ((Argument) throws -> Result) {
+        try value(arg)
     }
 }

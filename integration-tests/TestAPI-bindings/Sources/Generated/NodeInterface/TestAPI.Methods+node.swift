@@ -46,6 +46,246 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
+                "async42": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "async42", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            let (deferred, promise) = try env.env.createPromise()
+                            Task {
+                                do {
+                                    let taskResult: Int = await TestAPI.Methods.async42(
+                                    )
+                                    try onMainThread { env in
+                                        let convertedTaskResult: NAPI.Value
+                                        do {
+                                            convertedTaskResult = try Swift.Int.toNode(taskResult, env: env)
+                                        } catch {
+                                            try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
+                                            return
+                                        }
+                                        try env.resolveDeferred(deferred, convertedTaskResult)
+                                    }
+                                } catch {
+                                    try onMainThread { env in
+                                        try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
+                                    }
+                                }
+                            }
+                            return promise
+                        }
+                    },
+                    isStatic: true
+                ),
+                "asyncYield": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "asyncYield", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            let (deferred, promise) = try env.env.createPromise()
+                            Task {
+                                do {
+                                    let taskResult: Int = await TestAPI.Methods.asyncYield(
+                                    )
+                                    try onMainThread { env in
+                                        let convertedTaskResult: NAPI.Value
+                                        do {
+                                            convertedTaskResult = try Swift.Int.toNode(taskResult, env: env)
+                                        } catch {
+                                            try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
+                                            return
+                                        }
+                                        try env.resolveDeferred(deferred, convertedTaskResult)
+                                    }
+                                } catch {
+                                    try onMainThread { env in
+                                        try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
+                                    }
+                                }
+                            }
+                            return promise
+                        }
+                    },
+                    isStatic: true
+                ),
+                "asyncSleep": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "asyncSleep", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            let (deferred, promise) = try env.env.createPromise()
+                            Task {
+                                do {
+                                    let taskResult: Int = try await TestAPI.Methods.asyncSleep(
+                                    )
+                                    try onMainThread { env in
+                                        let convertedTaskResult: NAPI.Value
+                                        do {
+                                            convertedTaskResult = try Swift.Int.toNode(taskResult, env: env)
+                                        } catch {
+                                            try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
+                                            return
+                                        }
+                                        try env.resolveDeferred(deferred, convertedTaskResult)
+                                    }
+                                } catch {
+                                    try onMainThread { env in
+                                        try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
+                                    }
+                                }
+                            }
+                            return promise
+                        }
+                    },
+                    isStatic: true
+                ),
+                "asyncVoid": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "asyncVoid", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            let (deferred, promise) = try env.env.createPromise()
+                            Task {
+                                do {
+                                    let taskResult: Void = await TestAPI.Methods.asyncVoid(
+                                    )
+                                    try onMainThread { env in
+                                        let convertedTaskResult: NAPI.Value
+                                        do {
+                                            convertedTaskResult = try FishyJoesCommonRuntime.VoidConverter.toNode(taskResult, env: env)
+                                        } catch {
+                                            try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
+                                            return
+                                        }
+                                        try env.resolveDeferred(deferred, convertedTaskResult)
+                                    }
+                                } catch {
+                                    try onMainThread { env in
+                                        try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
+                                    }
+                                }
+                            }
+                            return promise
+                        }
+                    },
+                    isStatic: true
+                ),
+                "asyncDouble": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "asyncDouble", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                            let (deferred, promise) = try env.env.createPromise()
+                            let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: Swift.Double.self))
+                            Task {
+                                do {
+                                    let taskResult: Double = await TestAPI.Methods.asyncDouble(
+                                        arg0.value
+                                    )
+                                    try onMainThread { env in
+                                        let convertedTaskResult: NAPI.Value
+                                        do {
+                                            convertedTaskResult = try Swift.Double.toNode(taskResult, env: env)
+                                        } catch {
+                                            try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
+                                            return
+                                        }
+                                        try env.resolveDeferred(deferred, convertedTaskResult)
+                                    }
+                                } catch {
+                                    try onMainThread { env in
+                                        try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
+                                    }
+                                }
+                            }
+                            return promise
+                        }
+                    },
+                    isStatic: true
+                ),
+                "asyncMultipleArgs": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "asyncMultipleArgs", expectedArgumentCount: 2, hasNamedOptions: false) { env in
+                            let (deferred, promise) = try env.env.createPromise()
+                            let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: Swift.Int.self))
+                            let arg1 = UncheckedSendableBox(try env.argument(at: 1, converter: AsyncFunction0Converter<Swift.Int>.self))
+                            Task {
+                                do {
+                                    let taskResult: Int = try await TestAPI.Methods.asyncMultipleArgs(
+                                        arg0.value,
+                                        j: arg1.value
+                                    )
+                                    try onMainThread { env in
+                                        let convertedTaskResult: NAPI.Value
+                                        do {
+                                            convertedTaskResult = try Swift.Int.toNode(taskResult, env: env)
+                                        } catch {
+                                            try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
+                                            return
+                                        }
+                                        try env.resolveDeferred(deferred, convertedTaskResult)
+                                    }
+                                } catch {
+                                    try onMainThread { env in
+                                        try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
+                                    }
+                                }
+                            }
+                            return promise
+                        }
+                    },
+                    isStatic: true
+                ),
+                "asyncThrowing": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "asyncThrowing", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            let (deferred, promise) = try env.env.createPromise()
+                            Task {
+                                do {
+                                    let taskResult: Void = try await TestAPI.Methods.asyncThrowing(
+                                    )
+                                    try onMainThread { env in
+                                        let convertedTaskResult: NAPI.Value
+                                        do {
+                                            convertedTaskResult = try FishyJoesCommonRuntime.VoidConverter.toNode(taskResult, env: env)
+                                        } catch {
+                                            try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
+                                            return
+                                        }
+                                        try env.resolveDeferred(deferred, convertedTaskResult)
+                                    }
+                                } catch {
+                                    try onMainThread { env in
+                                        try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
+                                    }
+                                }
+                            }
+                            return promise
+                        }
+                    },
+                    isStatic: true
+                ),
+                "asyncCallbackFunc0": (
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "asyncCallbackFunc0", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                            let (deferred, promise) = try env.env.createPromise()
+                            let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: AsyncFunction0Converter<Swift.Int>.self))
+                            Task {
+                                do {
+                                    let taskResult: Int = try await TestAPI.Methods.asyncCallbackFunc0(
+                                        arg0.value
+                                    )
+                                    try onMainThread { env in
+                                        let convertedTaskResult: NAPI.Value
+                                        do {
+                                            convertedTaskResult = try Swift.Int.toNode(taskResult, env: env)
+                                        } catch {
+                                            try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
+                                            return
+                                        }
+                                        try env.resolveDeferred(deferred, convertedTaskResult)
+                                    }
+                                } catch {
+                                    try onMainThread { env in
+                                        try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
+                                    }
+                                }
+                            }
+                            return promise
+                        }
+                    },
+                    isStatic: true
+                ),
                 "staticGet": (
                     .accessor(
                         getter: { env, info in

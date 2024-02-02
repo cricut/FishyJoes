@@ -28,6 +28,14 @@ struct DockerContext {
             commonComponents.append(component)
             pathComponents = pathComponents.map { Array($0.dropFirst()) }
         }
+        if commonComponents.isEmpty {
+            print("No common path found! paths:")
+            for path in paths {
+                print("  \(path)")
+            }
+            print("Aborting instead of mounting '/' in docker")
+            exit(1)
+        }
         let basePath = NSString.path(withComponents: commonComponents)
 
         mountMappings = [basePath: "/work"]

@@ -25,4 +25,7 @@ extension TestAPI.Methods: JavaMutator {
     public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout TestAPI.Methods) throws -> R) throws -> R {
         try body(&Box<TestAPI.Methods>.fromJava(this, env: env).value)
     }
+    public static func mutateJava<R>(_ this: jobject?, env: inout Env, body: (inout TestAPI.Methods, inout Env) async throws -> R) async throws -> R {
+        try await body(&Box<TestAPI.Methods>.fromJava(this, env: env).value, &env)
+    }
 }

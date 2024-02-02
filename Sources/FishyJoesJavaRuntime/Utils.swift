@@ -35,6 +35,11 @@ public func callbackBody<Result: Defaultable>(
                 fatalError("error while throwing an error")
             }
             return .default
+        } else if let throwableError = e as? JavaThrowableError {
+            guard env.Throw(throwableError.ref.object) else {
+                fatalError("error while throwing an error")
+            }
+            return .default
         } else {
             guard let errorClass = try? env.FindClass("java/lang/Error"),
                   env.ThrowNew(errorClass, "\(e)") else {
@@ -65,6 +70,57 @@ public func callbackBody(
     }
 }
 
+/// Calls the given body while ensuring that the body closure is attached to the JVM.
+///
+/// - Important: When a suspending function is called part of the state that must be protected by calling ``Env.relinquishJVMThread(on:)`` immediately before and ``Env.acquireJVMThread(on:)`` immediately after.
+///     The returned `Env` should generally be assigned to the inout `javaEnv` in order to avoid shadowing and let the current environment propagate back out.
+///
+/// - Important: body **must** be in a balanced acquire/relinquish state before it throws.
+public func swiftTask(env: Env, _ body: @escaping @Sendable (_ javaEnv: inout Env, _ javaVM: UnsafeMutablePointer<JavaVM?>) async throws -> jobject?) throws -> jobject? {
+    guard let jvm = try env.GetJavaVM() else {
+        fatalError("Unable to get JVM")
+    }
+    return try Future {
+        var javaEnv = try Env.acquireJVMThread(on: jvm)
+        defer { try! Env.relinquishJVMThread(on: jvm) }
+        let value = try await body(&javaEnv, jvm)
+        return try JavaReference(local: value, env: javaEnv)
+    }.toJava(env: env)
+}
+
+enum JavaError {
+    static var throwableClass: jclass!
+    static var throwableInit: jmethodID!
+
+    static var errorClass: jclass!
+    static var nullPointerClass: jclass!
+
+    public static func javaSetup(env: Env) throws {
+        throwableClass = try env.globalRef(env.FindClass("java/lang/Throwable"))
+        throwableInit = try env.GetMethodID(throwableClass, "<init>", "(Ljava/lang/String;)V")
+
+        errorClass = try env.globalRef(env.FindClass("java/lang/Error"))
+        nullPointerClass = try env.globalRef(env.FindClass("java/lang/NullPointerException"))
+    }
+}
+
+public func javaError(error: any Error, env: Env) throws -> jobject? {
+    if let throwableError = error as? JavaThrowableError {
+        return throwableError.ref.createLocalRef(env: env)
+    }
+
+    let errorClass: jclass!
+    let message: String
+    if let nullError = error as? NullPointerError {
+        errorClass = JavaError.nullPointerClass
+        message = nullError.message
+    } else {
+        errorClass = JavaError.errorClass
+        message = "\(error)"
+    }
+    return try env.NewObject(errorClass, JavaError.throwableInit, jvalue(l: String.toJava(message, env: env)))
+}
+
 public struct JavaExceptionPending: Error {}
 public struct NullPointerError: Error {
     public let message: String
@@ -75,6 +131,16 @@ public struct JNIError: Error {
 
     public init(message: String) {
         self.message = message
+    }
+}
+
+public struct JavaThrowableError: Error {
+    public let ref: JavaReference
+    public let message: String
+
+    public init(local throwable: jobject?, env: Env) throws {
+        message = try env.javaDescription(throwable)
+        ref = try JavaReference(local: throwable, env: env)
     }
 }
 

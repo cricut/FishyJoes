@@ -1,4 +1,5 @@
 import FishyJoesCommonRuntime
+import Foundation
 import JNI
 
 public struct Env {
@@ -11,7 +12,9 @@ public struct Env {
     }
 
     public func globalRef(_ local: jobject?) throws -> jobject {
-        defer { DeleteLocalRef(local) }
+        defer {
+            DeleteLocalRef(local)
+        }
         return try javaNonNull(NewGlobalRef(local))
     }
 
@@ -48,6 +51,57 @@ public struct Env {
         #else
         try javaOk(RegisterNatives(clazz, methods: methods))
         #endif
+    }
+}
+
+extension Env {
+    static let jvmAttachCountKey = "fishyjoes_JVMAttachCount"
+
+    public static func acquireJVMThread(on jvm: UnsafeMutablePointer<JavaVM?>?) throws -> Env {
+        var rawJavaEnvPointer: UnsafeMutableRawPointer?
+        guard let jvmInvoke = jvm?.pointee?.pointee else {
+            throw JNIError(message: "Invalid JVM pointer")
+        }
+
+        // This is the only way to determine if the current thread is already attached.
+        let getEnvStatus = jvmInvoke.GetEnv(jvm, &rawJavaEnvPointer, JNI_VERSION_1_4)
+        switch getEnvStatus {
+        case JNI_OK:
+            // If the threadDictionary doesn't have an attach count then that means something other than FishyJoes owns that thread.
+            // So by defaulting to a count of 1 we prevent detaching via FishyJoes and let the owner detach when it decides it is appropriate.
+            let jvmAttachCount = Thread.current.threadDictionary.value(forKey: Env.jvmAttachCountKey) as? Int ?? 1
+            Thread.current.threadDictionary[Env.jvmAttachCountKey] = jvmAttachCount + 1
+            return rawJavaEnvPointer
+                .map(OpaquePointer.init)
+                .map(UnsafeMutablePointer.init)
+                .map(Env.init(env:))!
+        case JNI_EDETACHED:
+            var javaEnv: UnsafeMutablePointer<JNIEnv?>?
+            let attachStatus = jvmInvoke.AttachCurrentThread(jvm, &javaEnv, nil)
+            guard attachStatus == JNI_OK else {
+                throw JNIError(message: "Failed to attach thread to JVM: \(attachStatus)")
+            }
+            Thread.current.threadDictionary[Env.jvmAttachCountKey] = 1
+            return javaEnv.map(Env.init(env:))!
+        default:
+            throw JNIError(message: "JavaVM GetEnv failed with error: \(getEnvStatus)")
+        }
+    }
+
+    public static func relinquishJVMThread(on jvm: UnsafeMutablePointer<JavaVM?>?) throws {
+        guard let jvmInvoke = jvm?.pointee?.pointee,
+              let jvmAttachCount = Thread.current.threadDictionary[Env.jvmAttachCountKey] as? Int else {
+            return
+        }
+        if jvmAttachCount == 1 {
+            let detachStatus = jvmInvoke.DetachCurrentThread(jvm)
+            guard detachStatus == JNI_OK else {
+                throw JNIError(message: "Failed to detach current thread from JVM \(detachStatus)")
+            }
+            Thread.current.threadDictionary.removeObject(forKey: Env.jvmAttachCountKey)
+        } else {
+            Thread.current.threadDictionary[Env.jvmAttachCountKey] = jvmAttachCount - 1
+        }
     }
 }
 
@@ -88,8 +142,8 @@ extension Env {
         try check(fns.ToReflectedField(env, cls, fieldID, isStatic))
     }
 
-    public func Throw(_ obj: jthrowable?) throws -> jint {
-        try check(fns.Throw(env, obj))
+    public func Throw(_ obj: jthrowable?) -> Bool {
+        fns.Throw(env, obj) == JNI_OK
     }
     public func ThrowNew(_ clazz: jclass?, _ msg: CStr) -> Bool {
         fns.ThrowNew(env, clazz, msg) == JNI_OK

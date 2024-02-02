@@ -31,3 +31,21 @@ test('StructEquality', () => {
     expect(TestAPI.Structs.ReferenceStruct.create()).toEqual(TestAPI.Structs.ReferenceStruct.create())
     expect(TestAPI.Structs.MemberwiseStruct.create()).not.toEqual(TestAPI.Structs.ReferenceStruct.create())
 });
+
+test('StructMutatingFunctions', async () => {
+    let mutableStruct = TestAPI.Structs.MutableStruct.create()
+    expect(mutableStruct.i).toEqual(0)
+    mutableStruct.increment()
+    expect(mutableStruct.i).toEqual(1)
+    await mutableStruct.incrementAsync()
+    expect(mutableStruct.i).toEqual(2)
+});
+
+test('StructAsyncMemberFunctions', async () => {
+    const memberwise = TestAPI.Structs.MemberwiseStruct.create()
+    expect(await memberwise.asyncGetMutable()).toEqual("Fickle")
+    const reference = TestAPI.Structs.ReferenceStruct.create()
+    expect(await reference.asyncGetMutable()).toEqual("Fickle")
+    const mutable = TestAPI.Structs.MutableStruct.create()
+    expect(await mutable.asyncGetI()).toEqual(0)
+});

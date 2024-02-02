@@ -131,4 +131,45 @@ extension TestAPI.Collections.CollectionHolder: JavaMutator {
         )
         return result
     }
+    public static func mutateJava<R>(_ this: jobject?, env: inout Env, body: (inout Self, inout Env) async throws -> R) async throws -> R {
+        var mutatingSelf = try fromJava(this, env: env)
+        let result = try await body(&mutatingSelf, &env)
+        try env.SetObjectField(
+            this, Self._java_boolArray_id,
+            ArrayConverter<Swift.Bool>.toJava(mutatingSelf.boolArray, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_boolSet_id,
+            SetConverter<Swift.Bool>.toJava(mutatingSelf.boolSet, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_boolDictionary_id,
+            DictionaryConverter<Swift.Bool, Swift.Bool>.toJava(mutatingSelf.boolDictionary, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_integerArray_id,
+            ArrayConverter<Swift.Int>.toJava(mutatingSelf.integerArray, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_integerSet_id,
+            SetConverter<Swift.Int>.toJava(mutatingSelf.integerSet, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_integerDictionary_id,
+            DictionaryConverter<Swift.Int, Swift.Int>.toJava(mutatingSelf.integerDictionary, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_stringArray_id,
+            ArrayConverter<Swift.String>.toJava(mutatingSelf.stringArray, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_stringSet_id,
+            SetConverter<Swift.String>.toJava(mutatingSelf.stringSet, env: env)
+        )
+        try env.SetObjectField(
+            this, Self._java_stringDictionary_id,
+            DictionaryConverter<Swift.String, Swift.String>.toJava(mutatingSelf.stringDictionary, env: env)
+        )
+        return result
+    }
 }

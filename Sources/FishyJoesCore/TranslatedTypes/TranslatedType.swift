@@ -52,6 +52,8 @@ extension TranslatedType {
             return .void
         } else if let unsignedPrimitiveType = self as? TranslatedUnsignedPrimitive {
             return .unsigned(jniType: unsignedPrimitiveType.jniType)
+        } else if let functionType = self as? TranslatedFunction {
+            return .function(signature: functionType.kotlinName, parmeters: functionType.parameters.map(\.kotlinType), isSuspend: functionType.isAsync)
         } else {
             return .named(package: kotlinPackage, name: kotlinName)
         }

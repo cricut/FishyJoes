@@ -43,4 +43,13 @@ extension Swift.String.PuttingTypesIntoQuestionablePlaces: JavaMutator {
         )
         return result
     }
+    public static func mutateJava<R>(_ this: jobject?, env: inout Env, body: (inout Self, inout Env) async throws -> R) async throws -> R {
+        var mutatingSelf = try fromJava(this, env: env)
+        let result = try await body(&mutatingSelf, &env)
+        try env.SetObjectField(
+            this, Self._java_x_id,
+            Swift.String.toJava(mutatingSelf.x, env: env)
+        )
+        return result
+    }
 }

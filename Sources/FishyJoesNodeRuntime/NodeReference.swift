@@ -1,11 +1,9 @@
 import Foundation
 
-public class NodeReference {
-    private var env: NAPI.Env
+public final class NodeReference: @unchecked Sendable {
     private var ref: NAPI.Ref
 
     public init(env: NAPI.Env, value: NAPI.Value) throws {
-        self.env = env
         self.ref = try env.createReference(value, 1)
     }
 
@@ -13,9 +11,20 @@ public class NodeReference {
         try env.getReferenceValue(ref)
     }
 
-    deinit {
+    public func deallocate(env: NAPI.Env) {
+        guard ref.ptr != nil else {
+            return
+        }
         try? env.deleteReference(ref)
         ref.ptr = nil
+    }
+
+    deinit {
+        if ref.ptr != nil {
+            try? onMainThread { [ref] env in
+                try? env.deleteReference(ref)
+            }
+        }
     }
 }
 

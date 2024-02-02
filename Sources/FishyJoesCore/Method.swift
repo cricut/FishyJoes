@@ -15,6 +15,7 @@ struct Method: Hashable {
     let isStatic: Bool
     let isMutating: Bool
     let isThrowing: Bool
+    let isAsync: Bool
     let deprecation: Deprecation?
 
     enum SourceKind: Hashable {
@@ -36,6 +37,7 @@ struct Method: Hashable {
         isStatic: Bool = false,
         isMutating: Bool = false,
         isThrowing: Bool = false,
+        isAsync: Bool = false,
         deprecation: Deprecation? = nil
     ) {
         self.name = name
@@ -49,6 +51,7 @@ struct Method: Hashable {
         self.isStatic = isStatic
         self.isMutating = isMutating
         self.isThrowing = isThrowing
+        self.isAsync = isAsync
         self.deprecation = deprecation
     }
 
@@ -65,6 +68,7 @@ struct Method: Hashable {
         // SourceryMethod.isMutating seems to be a bit buggy...
         self.isMutating = method.isMutating || method.modifiers.contains { $0.name == "mutating" }
         self.isThrowing = method.throws || method.rethrows
+        self.isAsync = method.isAsync
         self.deprecation = method.deprecation
 
         var parameters: [SwiftFormal] = []

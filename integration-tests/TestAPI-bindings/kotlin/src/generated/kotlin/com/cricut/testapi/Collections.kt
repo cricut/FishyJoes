@@ -1,8 +1,12 @@
 package com.cricut.testapi
 
+import kotlinx.coroutines.*
+import java.lang.Exception
+
 /**
  * <!-- FishyJoes.export(Collections) -->
  */
+@OptIn(ExperimentalCoroutinesApi::class)
 sealed class Collections {
 
     companion object {

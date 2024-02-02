@@ -231,6 +231,7 @@ extension CodeGen {
                 },
                 addEnv: sourceryEnv
             ).run()
+
             try errorReporter.succeed()
         }
 
@@ -650,7 +651,7 @@ extension CodeGen {
                     break
                 case .kotlinSystem:
                     try withDirectory("kotlin") {
-                        try platform.gradleBuild("-Dskip.tests", configuration: configuration).run()
+                        try platform.gradleBuild("assemble", configuration: configuration).run()
                     }
                 case .kotlinAndroid:
                     // Compiled along with .kotlinSystem

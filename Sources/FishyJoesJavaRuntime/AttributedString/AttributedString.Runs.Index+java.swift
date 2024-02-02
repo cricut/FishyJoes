@@ -17,6 +17,10 @@ extension AttributedString.Runs.Index: JavaMutator {
         try body(&Box<AttributedString.Runs.Index>.fromJava(this, env: env).value)
     }
 
+    public static func mutateJava<R>(_ this: jobject?, env: inout Env, body: (inout AttributedString.Runs.Index, inout Env) async throws -> R) async throws -> R {
+        try await body(&Box<AttributedString.Runs.Index>.fromJava(this, env: env).value, &env)
+    }
+
     public static func javaSetup(env: Env) throws {
         guard javaClass == nil else { return }
         try AnyBox.javaSetup(env: env)

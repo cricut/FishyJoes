@@ -1,8 +1,12 @@
 package com.cricut.testapi
 
+import kotlinx.coroutines.*
+import java.lang.Exception
+
 /**
  * <!-- FishyJoes.export(Functions) -->
  */
+@OptIn(ExperimentalCoroutinesApi::class)
 sealed class Functions {
 
     companion object {
@@ -164,15 +168,5 @@ sealed class Functions {
         ): kotlin.String
 
         init { loadNativeLibs() }
-    }
-
-    /**
-     * <!-- FishyJoes.exportReference(Functions.TheError) -->
-     */
-    class TheError private constructor(swiftReference: Long): com.cricut.fishyjoes.runtime.SwiftReference(swiftReference) {
-
-        companion object {
-            init { loadNativeLibs() }
-        }
     }
 }

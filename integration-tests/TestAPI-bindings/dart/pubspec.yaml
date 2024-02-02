@@ -3,7 +3,7 @@ description: A starting point for Dart libraries or applications.
 version: 1.0.0
 
 environment:
-  sdk: ^2.17.1
+  sdk: ^3.0.0
 
 dependencies:
   path: ^1.8.0
@@ -13,11 +13,9 @@ dependencies:
     #   url: https://github.com/cricut/FishyJoes
     #   ref: 3.0.3-alpha7
     #   path: dart-runtime
-  freezed_annotation: ^2.2.0
 
 dev_dependencies:
   ffigen: ^7.2.0
   lints: ^2.0.0
   test: ^1.16.0
   build_runner: ^2.2.0
-  freezed: ^2.3.3
