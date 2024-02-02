@@ -189,10 +189,6 @@ jobs:
           cd integration-tests/TestAPI-bindings
           swift run -- fishy-joes --nodejs --wasm build test
 
-          npm install
-
-          swift run -- fishy-joes --nodejs --wasm build test
-
       - name: Build FishyJoesIotaRuntime
         shell: zsh {0}
         run: |
@@ -313,15 +309,7 @@ jobs:
           set -euxo pipefail
 
           cd integration-tests/TestAPI-bindings
-          # TODO: FishyJoesNodeRuntime.dll is referenced from TestAPI-node.dll, but for some reason
-          #       it cannot be found in node_modules/@cricut/fishyjoes-runtime-native-windows
-          #       and must be in node_modules/@cricut/testapi-native-windows
           $SWIFT run -- fishy-joes --nodejs build test
-          #$SWIFT run -- fishy-joes --nodejs build
-          #(cd node-test; npm install)
-          #(cd node-test/node_modules/@cricut/testapi-native-windows; npm install)
-          #(cd node-test/node_modules/@cricut; cp fishyjoes-runtime-native-windows/FishyJoesNodeRuntime.dll testapi-native-windows)
-          #$SWIFT run -- fishy-joes --nodejs test
 
       - name: Build FishyJoesIotaRuntime
         shell: bash
