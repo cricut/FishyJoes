@@ -259,7 +259,6 @@ enum Platform: CustomStringConvertible, Hashable {
                 "LLVM_PROFILE_FILE": "\($0)\(ps)fishy-joes-test-\(platform)-\(UUID()).profraw",
             ]
         } ?? [:]
-        let path: String
         #if os(macOS)
         return cmd("./gradlew", arguments: args, addEnv: env)
         #elseif os(Linux)
@@ -346,7 +345,6 @@ enum Platform: CustomStringConvertible, Hashable {
             ]
         } ?? [:]
         let args = ["run", "test-\(nodeExecutionEnvironment)"] + arguments
-        let path: String
         #if os(macOS)
         return cmd("npm", arguments: args, addEnv: env)
         #elseif os(Linux)

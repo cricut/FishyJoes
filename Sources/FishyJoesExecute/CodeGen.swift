@@ -580,6 +580,25 @@ extension CodeGen {
                         try cmd("chmod", "+x", "\(platform.outputDir(config))\(ps)postinstall.sh").run()
                         package.scripts[default: [:]]["postinstall"] = "./postinstall.sh"
                     }
+                    if platform.platform == "node-native-windows" {
+                        // When on Windows, LoadLibrary needs file-relative native libraries, so add a post-install script to the package to copy dependency DLLs
+                        var postinstall = """
+                        @ECHO ON
+                        IF %npm_package_version%==0.0.1 (SET package_directory=node_modules\\@cricut) ELSE (SET package_directory=..)
+
+                        """
+
+                        for dependency in dependencies {
+                            let nativeLibFilename = platform.dylibName(for: dependency.nativeLibName)
+                            postinstall += "COPY \"%package_directory%\\\(dependency.npmPackageName)\\\(dependency.nodeLibName)\" \"\(nativeLibFilename)\""
+                        }
+
+                        try cmd("cat")
+                            .input(postinstall)
+                            .output(overwritingFile: "\(platform.outputDir(config))\(ps)postinstall.cmd")
+                            .run()
+                        package.scripts[default: [:]]["postinstall"] = "postinstall.cmd"
+                    }
                     let packageJsonPath = "\(platform.outputDir(config))\(ps)package.json"
                     try cmd("cat")
                         .inputJSON(from: package, encoder: PrettyJSONEncoder())
