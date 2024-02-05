@@ -4,11 +4,6 @@ const AttributedString = Runtime.AttributedString
 const AttributedSubstring = Runtime.AttributedSubstring
 const AttributedStrings = TestAPI.AttributedStrings
 
-test('Simple', () => {
-    //expect(AttributedStrings.echo(AttributedStrings.simple).equals(AttributedStrings.simple))
-})
-
-/*
 test('StringValues', () => {
     const en = AttributeContainer.FoundationAttributes.create({ languageIdentifier: "en"}).asContainer()
     const pt = AttributeContainer.FoundationAttributes.create({ languageIdentifier: "pt"}).asContainer()
@@ -220,6 +215,7 @@ test('ViewIterators', () => {
     )
 })
 
+/*
 test('Substring', () => {
     const attributedString = AttributedStrings.polyglot
     expect(attributedString.string).toEqual("Hello Olá こんにちは")
