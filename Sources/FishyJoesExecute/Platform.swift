@@ -6,6 +6,7 @@ let wasmToolchain = "/Library/Developer/Toolchains/swift-wasm-5.9-SNAPSHOT-2023-
 #elseif os(Linux)
 let wasmToolchain = "/Library/Developer/Toolchains/swift-wasm-5.9-SNAPSHOT-2023-08-06-a.xctoolchain"
 #elseif os(Windows)
+// TODO: There does not appear to be a Windows-native version of this. WSL could maybe use this, but would it still identify the platform as Windows?
 let wasmToolchain = "C:\\Library\\Developer\\Toolchains\\swift-wasm-5.9-SNAPSHOT-2023-08-06-a-ubuntu22.04_x86_64"
 #endif
 
