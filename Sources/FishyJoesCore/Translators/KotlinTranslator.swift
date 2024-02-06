@@ -242,10 +242,14 @@ final class KotlinTranslator: Translator {
         typeSetupFragment.output("@available(*, deprecated, message: \"Not actually deprecated, but this silences warnings because it may refer to deprecated methods\")")
         typeSetupFragment.output("@_cdecl(\"JNI_OnLoad\")")
         typeSetupFragment.outputBlock("public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutableRawPointer) -> jint {") {
-            typeSetupFragment.outputBlock("guard let env = try? JVM(javaVM: vm).currentThreadEnv() else {") {
+            typeSetupFragment.output("var envRaw: UnsafeMutableRawPointer?")
+            typeSetupFragment.outputBlock("guard vm.pointee!.pointee.GetEnv(vm, &envRaw, JNI_VERSION_1_4) == JNI_OK else {") {
+//            typeSetupFragment.outputBlock("guard let env = try? JVM(javaVM: vm).currentThreadEnv() else {") {
                 typeSetupFragment.output("fatalError(\"Couldn't obtain jvm environment\")")
             }
-            typeSetupFragment.outputBlock("return env.callbackBody {") {
+            typeSetupFragment.output("let env = UnsafeMutablePointer<JNIEnv?>(OpaquePointer(envRaw))")
+            typeSetupFragment.outputBlock("return FishyJoesJavaRuntime.callbackBody(env!) { env in", closeWith: "}") {
+//            typeSetupFragment.outputBlock("return env.callbackBody {") {
                 typeSetupFragment.output("let bag = CStringBag()")
                 for type in generatedTypes {
                     let resolved = context.resolve(type: type)
@@ -268,8 +272,8 @@ final class KotlinTranslator: Translator {
                             }
                         }
                     }
-                    typeSetupFragment.output("return JNI_VERSION_1_4")
                 }
+                typeSetupFragment.output("return JNI_VERSION_1_4")
             }
         }
 
