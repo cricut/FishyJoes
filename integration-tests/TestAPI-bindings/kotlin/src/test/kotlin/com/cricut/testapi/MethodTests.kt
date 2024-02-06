@@ -39,8 +39,11 @@ internal class MethodTests {
 //        val garply = instance.garply
 //        println("garply: $garply")
 
-        val wibble = instance.wibble
-        println("wibble: $wibble")
+//        val wibble = instance.wibble
+//        println("wibble: $wibble")
+
+        val doublePlusGood = instance.doublePlusGood(34, 4.5)
+        println("doublePlusGood: $doublePlusGood")
 
         val a = instance.instanceGet
         print("a: $a")

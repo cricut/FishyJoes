@@ -922,6 +922,11 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_TestAPI_Methods_create, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
+                name: bag.add("__jni_doublePlusGood"),
+                signature: bag.add("(JD)J"),
+                fnPtr: unsafeBitCast(java_TestAPI_Methods_doublePlusGood, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
                 name: bag.add("__jni_async42"),
                 signature: bag.add("()Lkotlinx/coroutines/Deferred;"),
                 fnPtr: unsafeBitCast(java_TestAPI_Methods_async42, to: UnsafeMutableRawPointer.self)
@@ -1040,12 +1045,6 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_get_garply"),
                 signature: bag.add("()J"),
                 fnPtr: unsafeBitCast(java_get_TestAPI_Methods_garply, to: UnsafeMutableRawPointer.self)
-            ),
-            // this hooks up the string on the JNI/Kotlin side to the actual c function in +javadecl
-            JNINativeMethod(
-                name: bag.add("__jni_get_wibble"),
-                signature: bag.add("()J"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_Methods_wibble, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_instanceGetMethod"),

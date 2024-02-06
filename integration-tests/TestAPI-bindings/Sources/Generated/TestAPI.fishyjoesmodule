@@ -1653,6 +1653,19 @@
               },
               {
                 "documentation" : [
+                  "<!-- FishyJoes.export(garply) -->"
+                ],
+                "isStatic" : false,
+                "name" : "garply",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
                   "<!-- FishyJoes.exportAsMethod(instanceGetMethod) -->"
                 ],
                 "isStatic" : false,
@@ -1705,6 +1718,37 @@
                 "returnType" : {
                   "named" : {
                     "_0" : "TestAPI.Methods"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(doublePlusGood) -->"
+                ],
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "doublePlusGood",
+                "parameters" : [
+                  {
+                    "name" : "a",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  },
+                  {
+                    "name" : "b",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "number"
                   }
                 }
               },

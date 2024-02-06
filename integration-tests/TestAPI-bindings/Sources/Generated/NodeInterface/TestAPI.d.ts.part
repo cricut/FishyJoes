@@ -756,6 +756,11 @@ export declare namespace TestAPI {
         readonly instanceGet: number;
 
         /**
+         * <!-- FishyJoes.export(garply) -->
+         */
+        readonly garply: number;
+
+        /**
          * <!-- FishyJoes.exportAsMethod(instanceGetMethod) -->
          */
         readonly instanceGetMethod: number;
@@ -775,6 +780,14 @@ export declare namespace TestAPI {
          */
         static create(
         ): TestAPI.Methods;
+
+        /**
+         * <!-- FishyJoes.export(doublePlusGood) -->
+         */
+        doublePlusGood(
+            a: number,
+            b: number
+        ): number;
 
         /**
          * <!-- FishyJoes.export(async42) -->
