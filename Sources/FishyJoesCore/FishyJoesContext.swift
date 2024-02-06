@@ -267,18 +267,6 @@ public class FishyJoesContext {
             return fragment
         }
 
-        var allFragments = headerFragments + collectedFragments + footerFragments
-
-        // process all the fragments so that inner classes are inside outer classes
-        let rootClass = KotlinClass(
-            module: .init(name: "", dependencies: []),
-            documentation: [],
-            name: "__root__",
-            methods: [],
-            fields: [],
-            conformances: []
-        )
-
         return (headerFragments + collectedFragments + footerFragments).map(\.contents).joined()
     }
 
