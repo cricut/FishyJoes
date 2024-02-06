@@ -1,0 +1,228 @@
+import SourceryRuntime
+
+struct TranslatedProtocol: TranslatedType {
+    let sourceType: BetterType
+    let converterType: BetterType
+    var neutralName: String
+    let nodeName: String
+    let kotlinPackage: String?
+    let kotlinName: String
+    let jniType: JNIType
+    let cSharpType: CSharpClass.CSType
+    let dartType: DartClass.DartType
+    let definingModule: Module
+    let definingTSNamespace: String?
+    let isInhabited: Bool
+    let containedNamedTypes: [TranslatedType]
+    let conformances: Set<String>
+    let methods: [Method]
+    let computedVariables: [Variable]
+    let documentation: [String]
+    let className: String
+    let externalWitnessClassName: String
+    
+    init(context: FishyJoesContext, type: SourceryProtocol, conformances: Set<String>) {
+        guard let exportAnnotation = type.exportAnnotation else {
+            fatalErr("type not annotated for export")
+        }
+        let typeName = exportAnnotation.name
+
+        self.sourceType = BetterType(named: type, context: context)
+        self.converterType = .named(.init(name: "_\(sourceType.name)Converter", module: nil))
+        self.nodeName = typeName
+        self.kotlinName = typeName
+        self.kotlinPackage = context.module.kotlinPackage
+        self.computedVariables = type.variables.filter { $0.exportAnnotation != nil }
+        self.documentation = type.documentation
+        self.className = context.kotlinTranslator.javaClassName(kotlinName, in: context)
+        self.externalWitnessClassName = context.kotlinTranslator.javaClassName("_ExternalWitness_\(kotlinName)", in: context)
+        self.jniType = .object(className)
+
+        var methods = type.methods.compactMap { Method($0) }
+        for method in type.rawMethods {
+            guard let ext = method.definedInType, ext.isExtension else { continue }
+            // TODO: check that ext doesn't have too many "where" requirements. Is this possible with Sourcery?
+            if let index = methods.firstIndex(where: { $0.name == method.name }) {
+                methods[index].implemented = true
+            }
+        }
+        self.methods = methods
+        self.conformances = conformances
+    }
+
+    func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
+        return [
+            commonDefinitionFragment(in: context),
+            nodeDefinitionFragment(in: context),
+        ] + jniDefinitionFragments(in: context)
+    }
+
+    func commonDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
+        let fragment = context.swiftFragment(
+            "CommonInterface/\(converterType.name).swift",
+            additionalImports: ["Foundation", "FishyJoesCommonRuntime"]
+        )
+
+        fragment.outputBlock("public enum \(converterType.name): Converter {") {
+            fragment.output("public typealias SwiftType = \(sourceType.name)")
+        }
+
+        return fragment
+    }
+
+    func nodeDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
+        let fragment = context.swiftFragment(
+            "NodeInterface/\(sourceType.name)+node.swift",
+            additionalImports: ["Foundation", "FishyJoesNodeRuntime"]
+        )
+        return fragment
+    }
+
+    func jniDefinitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
+        let fragment = context.swiftFragment(
+            "JavaInterface/\(sourceType.name)+java.swift",
+            additionalImports: ["Foundation", "FishyJoesJavaRuntime"]
+        )
+
+        let foreignProtocolType = "_Java\(sourceType.name)"
+
+        var methodIDs: [(idHandle: String, name: String, signature: String)] = []
+
+        fragment.outputBlock("struct \(foreignProtocolType): \(sourceType.name) {") {
+            fragment.output("let _javaWitness: JavaReference")
+
+            for variable in computedVariables {
+                let name = variable.name
+                let type = variable.typeName.better.name
+                let resolved = context.resolve(type: variable.typeName.better)
+                let getID = "_\(name)GetMethodID"
+                let setID = variable.isMutable ? "_\(name)SetMethodID" : nil
+                methodIDs.append((idHandle: getID, name: "get_\(name)", signature: "()\(resolved.jniType.asSignature)"))
+                fragment.output("static var \(getID): jmethodID?")
+                if let setID = setID {
+                    methodIDs.append((idHandle: setID, name: "set_\(name)", signature: "(\(resolved.jniType.asSignature))V"))
+                    fragment.output("static var \(setID): jmethodID?")
+                }
+                fragment.outputBlock("public var \(name): \(type) {") {
+                    fragment.outputBlock("get {") {
+                        fragment.output("let env = try! _javaWitness.vm.currentThreadEnv()")
+                        fragment.outputBlock("return try! \(resolved.converterType.name).fromJava(") {
+                            fragment.output("env.Call\(resolved.jniType.valueType)Method(_javaWitness.object, Self.\(getID)),")
+                            fragment.output("env: env")
+                        }
+                    }
+                    if variable.isMutable {
+                        fragment.outputBlock("set {") {
+                            fragment.output("let env = try! _javaWitness.vm.currentThreadEnv()")
+                            fragment.output("let javaNewValue = try! \(resolved.converterType.name).toJava(newValue, env: env)")
+                            fragment.output("try! env.CallVoidMethod(_javaWitness.object, Self._\(name)SetMethodID, jvalue(javaNewValue))")
+                        }
+                    }
+                }
+            }
+            for method in methods {
+                let resolvedReturn = context.resolve(type: method.returnType)
+                let returnSignature = "\(method.isThrowing ? " throws" : "") -> \(method.returnType.name)"
+                fragment.output("static var _\(method.callName)MethodID: jmethodID?")
+                fragment.outputBlock("public func \(method.name)\(returnSignature) {") {
+                    fragment.output("let env = try! _javaWitness.vm.currentThreadEnv()")
+                    fragment.outputBlock("return try! \(resolvedReturn.converterType.name).fromJava(") {
+                        fragment.outputBlock("env.Call\(resolvedReturn.jniType.valueType)Method(", closeWith: "),") {
+                            fragment.output("_javaWitness.object,")
+                            fragment.output("Self._\(method.callName)MethodID", newLineTerminated: false)
+                            for param in method.parameters {
+                                fragment.output(",")
+                                let resolved = context.resolve(type: param.type)
+                                fragment.output("jvalue(try \(resolved.converterType.name).toJava(\(param.name), env: env))", newLineTerminated: false)
+                            }
+                            fragment.output()
+                        }
+                        fragment.output("env: env")
+                    }
+                    // fragment.output("_\(method.callName)(\(method.parameters.map(\.name).joined(separator: ", ")))")
+                }
+            }
+        }
+
+        fragment.output()
+
+        fragment.outputBlock("extension \(converterType.name): JavaMutator {") {
+            fragment.output("public typealias CType = jobject?")
+
+            fragment.output("public static var javaClass: jclass?")
+            fragment.output("public static var externalWitnessClass: jclass?")
+
+            fragment.output("public static var externalWitnessConstructor: jmethodID?")
+
+            fragment.outputBlock("public static func fromJava(_ value: jobject?, env: Env) throws -> SwiftType {") {
+                fragment.outputBlock("if env.IsInstanceOf(value, AnyBox.javaClass) {") {
+                    fragment.output("return try Box<SwiftType>.fromJava(value, env: env).value")
+                }
+                fragment.output("return \(foreignProtocolType)(_javaWitness: try JavaReference(local: value, env: env))")
+            }
+
+            fragment.outputBlock("public static func toJava(_ value: SwiftType, env: Env) throws -> jobject? {") {
+                fragment.outputBlock("try env.NewObject(") {
+                    fragment.output("externalWitnessClass,")
+                    fragment.output("externalWitnessConstructor,")
+                    fragment.output("jvalue(j: jlong(UInt(bitPattern: Box(value).retainedOpaque())))")
+                }
+            }
+
+            fragment.outputBlock("public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout SwiftType) throws -> R) throws -> R {") {
+                fragment.output("try body(&Box<SwiftType>.fromJava(this, env: env).value)")
+            }
+
+            fragment.outputBlock("public static func javaSetup(env: Env) throws {") {
+                fragment.output("javaClass = try env.globalRef(env.FindClass(\"\(className)\"))")
+                fragment.output("externalWitnessClass = try env.globalRef(env.FindClass(\"\(externalWitnessClassName)\"))")
+                fragment.output("externalWitnessConstructor = try env.GetMethodID(externalWitnessClass, \"<init>\", \"(J)V\")")
+            }
+        }
+
+        context.kotlinClasses.append(
+            KotlinInterface(
+                module: context.module,
+                documentation: documentation,
+                name: kotlinName,
+                fieldsAndMethods:
+                    computedVariables.compactMap { context.kotlin(field: $0, useNativeName: false) } +
+                    methods.flatMap { method -> [KotlinClass.MethodOrVariable] in
+                        guard let kotlinMethodOrVariable = context.kotlin(method: method) else { return [] }
+
+                        guard !method.isStatic, method.implemented, case .method(var kotlinMethod) = kotlinMethodOrVariable else {
+                            return [kotlinMethodOrVariable]
+                        }
+
+                        var defaultMethod = kotlinMethod
+                        defaultMethod.name = "_default_\(defaultMethod.name)"
+                        defaultMethod.parameters.insert((nil, "self", .named(package: nil, name: kotlinName)), at: 0)
+                        defaultMethod.isStatic = true
+
+                        var parameters = ["this"]
+                        parameters.append(contentsOf: kotlinMethod.parameters.map(\.name))
+                        kotlinMethod.body = "__jni_\(defaultMethod.name)(\(parameters.joined(separator: ", ")))"
+
+                        return [.method(kotlinMethod), .method(defaultMethod)]
+                    }
+            ).conforming(to: conformances, context: context)
+        )
+
+        context.kotlinClasses.append(
+            KotlinProductClass(
+                module: context.module,
+                isPrivate: true,
+                documentation: [],
+                name: "_ExternalWitness_\(kotlinName)",
+                constructor: .init(private: true, fields: [], arguments: [("_swiftReference", .named(package: nil, name: "Long"))]),
+                fieldsAndMethods: (
+                    computedVariables.compactMap { context.kotlin(field: $0, useNativeName: false)} +
+                        methods.compactMap { context.kotlin(method: $0) }
+                ),
+                conformances: ["com.cricut.fishyjoes.runtime.SwiftReference(_swiftReference)"]
+            ).conforming(to: [sourceType.name], context: context)
+        )
+
+        return [fragment]
+    }
+}

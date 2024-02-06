@@ -19,8 +19,9 @@ struct TranslatedReference: TranslatedType {
     let hashable: Bool
     let isInhabited: Bool
     let definingModule: Module
+    let conformances: Set<String>
 
-    init(context: FishyJoesContext, type: Type) {
+    init(context: FishyJoesContext, type: Type, conformances: Set<String>) {
         guard let exportAnnotation = type.exportAnnotation else {
             fatalErr("c symbol not specified")
         }
@@ -43,6 +44,7 @@ struct TranslatedReference: TranslatedType {
         self.hashable = type.hashable
         self.isInhabited = type.isInhabited
         self.definingModule = context.module
+        self.conformances = conformances
     }
 
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
@@ -183,6 +185,10 @@ struct TranslatedReference: TranslatedType {
                 }
             }
 
+            fragment.outputBlock("public static func mutateJava<R>(_ this: jobject?, env: inout Env, body: (inout \(sourceType.name), inout Env) async throws -> R) async throws -> R {") {
+                fragment.output("try await body(&Box<\(sourceType.name)>.fromJava(this, env: env).value, &env)")
+            }
+
             fragment.outputBlock("public static func javaSetup(env: Env) throws {") {
                 fragment.output("guard javaClass == nil else { return }")
                 fragment.output("try AnyBox.javaSetup(env: env)")
@@ -192,10 +198,6 @@ struct TranslatedReference: TranslatedType {
 
             fragment.outputBlock("public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout \(sourceType.name)) throws -> R) throws -> R {") {
                 fragment.output("try body(&Box<\(sourceType.name)>.fromJava(this, env: env).value)")
-            }
-
-            fragment.outputBlock("public static func mutateJava<R>(_ this: jobject?, env: inout Env, body: (inout \(sourceType.name), inout Env) async throws -> R) async throws -> R {") {
-                fragment.output("try await body(&Box<\(sourceType.name)>.fromJava(this, env: env).value, &env)")
             }
 
             if equatable != hashable {
@@ -320,8 +322,9 @@ struct TranslatedReference: TranslatedType {
             documentation: documentation,
             name: kotlinName,
             constructor: .reference,
-            fieldsAndMethods: fieldsAndMethods
-        )
+            fieldsAndMethods: fieldsAndMethods,
+            conformances: ["comr.cricut.fishyjoes.runtime.SwiftReference(_swiftReference)"]
+        ).conforming(to: conformances, context: context)
         context.add(kotlinClass: product)
 
         return fragment

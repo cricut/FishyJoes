@@ -11,12 +11,13 @@ struct Method: Hashable {
 
     let documentation: [String]
 
-    let definedIn: BetterType?
+    var definedIn: BetterType?
     let isStatic: Bool
     let isMutating: Bool
     let isThrowing: Bool
     let isAsync: Bool
     let deprecation: Deprecation?
+    var implemented: Bool
 
     enum SourceKind: Hashable {
         case method, initializer
@@ -38,7 +39,8 @@ struct Method: Hashable {
         isMutating: Bool = false,
         isThrowing: Bool = false,
         isAsync: Bool = false,
-        deprecation: Deprecation? = nil
+        deprecation: Deprecation? = nil,
+        implemented: Bool = false
     ) {
         self.name = name
         self.callName = callName ?? name
@@ -53,6 +55,7 @@ struct Method: Hashable {
         self.isThrowing = isThrowing
         self.isAsync = isAsync
         self.deprecation = deprecation
+        self.implemented = implemented
     }
 
     init?(_ method: SourceryMethod) {
@@ -90,6 +93,7 @@ struct Method: Hashable {
         }
         precondition(omitParameters.isEmpty, "Can't find parameters \(omitParameters) to omit")
         self.parameters = parameters
+        self.implemented = false
     }
 }
 

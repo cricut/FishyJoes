@@ -237,39 +237,47 @@ final class KotlinTranslator: Translator {
             additionalImports: ["Foundation", "FishyJoesJavaRuntime"]
         )
 
+        var usedMethods: Set<String> = []
+
         typeSetupFragment.output("@available(*, deprecated, message: \"Not actually deprecated, but this silences warnings because it may refer to deprecated methods\")")
         typeSetupFragment.output("@_cdecl(\"JNI_OnLoad\")")
         typeSetupFragment.outputBlock("public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutableRawPointer) -> jint {") {
-            typeSetupFragment.output("var envRaw: UnsafeMutableRawPointer?")
-            typeSetupFragment.outputBlock("guard vm.pointee!.pointee.GetEnv(vm, &envRaw, JNI_VERSION_1_4) == JNI_OK else {") {
+            typeSetupFragment.outputBlock("guard let env = try? JVM(javaVM: vm).currentThreadEnv() else {") {
                 typeSetupFragment.output("fatalError(\"Couldn't obtain jvm environment\")")
             }
-            typeSetupFragment.output("let env = UnsafeMutablePointer<JNIEnv?>(OpaquePointer(envRaw))")
-            typeSetupFragment.outputBlock("return FishyJoesJavaRuntime.callbackBody(env!) { env in", closeWith: "}") {
+            typeSetupFragment.outputBlock("return env.callbackBody {") {
                 typeSetupFragment.output("let bag = CStringBag()")
                 for type in generatedTypes {
                     let resolved = context.resolve(type: type)
                     typeSetupFragment.output("// print(\"setting up \(resolved.converterType.name)...\")")
                     typeSetupFragment.output("try \(resolved.converterType.name).javaSetup(env: env)")
                     if case .named = type {
-                        if let nativeMethods = allMethods[type.name] {
-                            typeSetupFragment.outputBlock("try env.RegisterNatives(\(resolved.converterType.name).javaClass,", closeWith: ")") {
+                        if let nativeMethods = allMethods[resolved.converterType.name] {
+                            usedMethods.insert(resolved.converterType.name)
+                            typeSetupFragment.outputBlock("try env.RegisterNatives(", closeWith: ")") {
+                                typeSetupFragment.output("\(resolved.converterType.name).externalWitnessClass ?? \(resolved.converterType.name).javaClass", newLineTerminated: false)
                                 for (method, signature, cName) in nativeMethods {
-                                    let isLast = cName == nativeMethods.last?.cName
-                                    typeSetupFragment.outputBlock("JNINativeMethod(", closeWith: isLast ? ")" : "),") {
+                                    typeSetupFragment.output(",")
+                                    typeSetupFragment.outputBlock("JNINativeMethod(", newLineTerminated: false) {
                                         typeSetupFragment.output("name: bag.add(\"\(method)\"),")
                                         typeSetupFragment.output("signature: bag.add(\"\(signature)\"),")
                                         typeSetupFragment.output("fnPtr: unsafeBitCast(\(cName), to: UnsafeMutableRawPointer.self)")
                                     }
                                 }
+                                typeSetupFragment.output()
                             }
                         }
                     }
+                    typeSetupFragment.output("return JNI_VERSION_1_4")
                 }
-                typeSetupFragment.output("return JNI_VERSION_1_4")
             }
         }
 
+        let droppedMethods = Set(allMethods.keys).subtracting(usedMethods)
+        guard droppedMethods.isEmpty else {
+            fatalErr("methods for \(droppedMethods) were never set up! Probably a bug.")
+        }
+        
         let module = context.module
         let repName = "\(module.name)LoaderRepresentative"
         let ktFragment = SourceFragment(
@@ -429,6 +437,72 @@ final class KotlinTranslator: Translator {
             return value
         default:
             return nil
+        }
+    }
+
+    func conform(_ kotlinClass: KotlinClass, to protoName: String, context: FishyJoesContext) {
+        let resolved = context.resolve(type: .named(.init(name: protoName, module: nil)))
+        
+        kotlinClass.conformances.append(resolved.kotlinName)
+        
+        if let proto = resolved as? TranslatedProtocol {
+            let protoDefs = Set(
+                proto.methods.compactMap { context.kotlin(method: $0).map(OverrideSignature.init) } +
+                proto.computedVariables.compactMap { context.kotlin(field: $0).map(OverrideSignature.init) }
+            )
+            
+            kotlinClass.methods = kotlinClass.methods.map { method in
+                var modified = method
+                if protoDefs.contains(OverrideSignature(.method(method))) {
+                    modified.isOverride = true
+                }
+                return modified
+            }
+            kotlinClass.fields = kotlinClass.fields.map { field in
+                var modified = field
+                if protoDefs.contains(OverrideSignature(.variable(field))) {
+                    modified.isOverride = true
+                }
+                return modified
+            }
+            if let product = kotlinClass as? KotlinProductClass {
+                product.fields = product.fields.map { field in
+                    var modified = field
+                    if protoDefs.contains(OverrideSignature(.variable(field))) {
+                        modified.isOverride = true
+                    }
+                    return modified
+                }
+            }
+        }
+    }
+}
+
+extension KotlinClass {
+    func conforming(to protocols: Set<String>, context: FishyJoesContext) -> KotlinClass {
+        protocols.reduce(into: self) { kClass, proto in
+            context.kotlinTranslator.conform(kClass, to: proto, context: context)
+        }
+    }
+}
+
+fileprivate struct OverrideSignature: Hashable {
+    let isStatic: Bool
+    let name: String
+    let parameters: [KotlinClass.KType]?
+    let returnType: KotlinClass.KType
+    init(_ methodOrVar: KotlinClass.MethodOrVariable) {
+        switch methodOrVar {
+        case .method(let method):
+            isStatic = method.isStatic
+            name = method.name
+            parameters = method.parameters.map(\.2)
+            returnType = method.returnType
+        case .variable(let variable):
+            isStatic = variable.isStatic
+            name = variable.name
+            parameters = nil
+            returnType = variable.type
         }
     }
 }

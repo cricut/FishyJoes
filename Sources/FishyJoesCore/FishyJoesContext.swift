@@ -152,9 +152,9 @@ public class FishyJoesContext {
 
         // Collect type information before starting translation
         // This collects the named types possible for use later in resolve().
-        let translatedTypes = templateContext.types.all.compactMap { type -> TranslatedType? in
+        let translatedTypes = templateContext.types.types.compactMap { type -> TranslatedType? in
             debugContext = "Translating type \(type.name)"
-            return translate(typeDefinition: type)
+            return translate(typeDefinition: type, conformances: conformances)
         }
         for translatedType in translatedTypes {
             let name = translatedType.sourceType
@@ -219,7 +219,14 @@ public class FishyJoesContext {
         // process all the fragments so that inner classes are inside outer classes
         collectedFragments.append(
             contentsOf: processInnerClasses(
-                rootClass: KotlinClass(module: module, documentation: [], name: "__root__"),
+                rootClass: KotlinClass(
+                    module: module,
+                    documentation: [],
+                    name: "__root__",
+                    methods: [],
+                    fields: [],
+                    conformances: []
+                ),
                 in: &kotlinClasses
             )
         )
@@ -259,6 +266,18 @@ public class FishyJoesContext {
             }
             return fragment
         }
+
+        var allFragments = headerFragments + collectedFragments + footerFragments
+
+        // process all the fragments so that inner classes are inside outer classes
+        let rootClass = KotlinClass(
+            module: .init(name: "", dependencies: []),
+            documentation: [],
+            name: "__root__",
+            methods: [],
+            fields: [],
+            conformances: []
+        )
 
         return (headerFragments + collectedFragments + footerFragments).map(\.contents).joined()
     }
@@ -305,18 +324,20 @@ public class FishyJoesContext {
         return rootClass.innerClasses.map { $0.fragment(context: self) }
     }
 
-    func translate(typeDefinition type: Type) -> TranslatedType? {
+    func translate(typeDefinition type: Type, conformances: Set<String>) -> TranslatedType? {
         guard let annotation = type.exportAnnotation else {
             // Not annotated for export
             return nil
         }
 
         if annotation.kind == .asReference {
-            return TranslatedReference(context: self, type: type)
+            return TranslatedReference(context: self, type: type, conformances: conformances)
         } else if type.kind == "struct" {
-            return TranslatedStruct(context: self, type: type)
+            return TranslatedStruct(context: self, type: type, conformances: conformances)
         } else if let type = type as? Enum {
-            return TranslatedEnum(context: self, type: type)
+            return TranslatedEnum(context: self, type: type, conformances: conformances)
+        } else if let type = type as? SourceryProtocol {
+            return TranslatedProtocol(context: self, type: type, conformances: conformances)
         } else {
             fatalErr("TODO: annotation on unknown kind \"\(type.kind)\" on type `\(type.globalName)`")
         }

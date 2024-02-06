@@ -10,6 +10,9 @@ public protocol JavaConverter: Converter {
 
     static var javaClass: jclass? { get }
 
+    // only defined for protocols
+    static var externalWitnessClass: jclass? { get }
+
     static func javaSetup(env: Env) throws
 
     static func fromJava(_ value: CType, env: Env) throws -> SwiftType
@@ -17,6 +20,10 @@ public protocol JavaConverter: Converter {
 
     static func toJava(_ value: SwiftType, env: Env) throws -> CType
     static func toJavaObject(_ value: SwiftType, env: Env) throws -> jobject?
+}
+
+extension JavaConverter {
+    public static var externalWitnessClass: jclass? { nil }
 }
 
 extension JavaConverter where CType == jobject? {

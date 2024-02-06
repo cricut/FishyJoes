@@ -40,6 +40,10 @@ public struct Env {
         }
         return result
     }
+    
+    public func jvm() throws -> JVM {
+        return JVM(javaVM: try javaNonNull(GetJavaVM()))
+    }
 
     public func RegisterNatives(_ clazz: jclass?, _ methods: JNINativeMethod ...) throws {
         // change to true to debug UnsatisfiedLinkErrors
@@ -51,6 +55,35 @@ public struct Env {
         #else
         try javaOk(RegisterNatives(clazz, methods: methods))
         #endif
+    }
+
+    public struct JVM {
+        let javaVM: UnsafeMutablePointer<JavaVM?>
+
+        public init(javaVM: UnsafeMutablePointer<JavaVM?>) {
+            self.javaVM = javaVM
+        }
+
+        @inline(__always)
+        private var fns: JavaVM.Pointee {
+            javaVM.pointee!.pointee
+        }
+
+        /// Gets or creates the JNI environment associated with the current thread
+        public func currentThreadEnv() throws -> Env {
+            var envRaw: UnsafeMutableRawPointer?
+            switch fns.GetEnv(javaVM, &envRaw, JNI_VERSION_1_4) {
+            case JNI_EDETACHED:
+                print("attaching thread \(Thread.current) to JVM")
+                let opaquePtr = OpaquePointer(envRaw)
+                var envUnraw = UnsafeMutablePointer<JNIEnv?>(opaquePtr)
+                try javaOk(fns.AttachCurrentThread(javaVM, &envUnraw, nil))
+            case let retCode:
+                try javaOk(retCode)
+            }
+            let env = UnsafeMutablePointer<JNIEnv?>(OpaquePointer(envRaw))
+            return Env(env: try javaNonNull(env))
+        }
     }
 }
 

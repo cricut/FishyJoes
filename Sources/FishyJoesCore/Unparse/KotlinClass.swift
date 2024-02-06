@@ -1,5 +1,5 @@
 class KotlinClass: NestedClass {
-    indirect enum KType: Equatable {
+    indirect enum KType: Hashable {
         case void
         case unsigned(jniType: JNIType)
         case named(package: String?, name: String)
@@ -13,38 +13,51 @@ class KotlinClass: NestedClass {
     }
 
     struct Method {
-        let documentation: [String]
-        let isStatic: Bool
-        let isSuspend: Bool
-        let isOverride: Bool
-        let name: String
-        let parameters: [(labelComment: String?, name: String, type: KType, defaultValue: String?)]
-        let compatibilityOrder: [String]
-        let returnType: KType
-        let deprecation: Deprecation?
-        let body: String?
+        var documentation: [String]
+        var isStatic: Bool
+        var isSuspend: Bool
+        var isOverride: Bool
+        var name: String
+        var parameters: [(labelComment: String?, name: String, type: KType, defaultValue: String?)]
+        var compatibilityOrder: [String]
+        var returnType: KType
+        var deprecation: Deprecation?
+        var body: String?
     }
 
     struct Variable {
-        let documentation: [String]
-        let isStatic: Bool
-        let isOverride: Bool
-        let isMutable: Bool
-        let isPubliclyWritable: Bool
-        let name: String
-        let type: KType
-        let deprecation: Deprecation?
+        var documentation: [String]
+        var isStatic: Bool
+        var isOverride: Bool
+        var isMutable: Bool
+        var isPubliclyWritable: Bool
+        var name: String
+        var type: KType
+        var deprecation: Deprecation?
     }
 
     let module: Module
     let documentation: [String]
     let name: String
     var innerClasses: [KotlinClass] = []
+    var methods: [Method]
+    var fields: [Variable]
+    var conformances: [String] = []
 
-    init(module: Module, documentation: [String], name: String) {
+    init(
+        module: Module,
+        documentation: [String],
+        name: String,
+        methods: [Method],
+        fields: [Variable],
+        conformances: [String]
+    ) {
         self.name = name
         self.documentation = documentation
         self.module = module
+        self.methods = methods
+        self.fields = fields
+        self.conformances = conformances
     }
 
     func output(to fragment: SourceFragment) {
@@ -91,40 +104,42 @@ class KotlinClass: NestedClass {
         String(name.split(separator: ".").last!)
     }
 
-    func output(field: Variable, to fragment: SourceFragment) {
+    func output(field: Variable, to fragment: SourceFragment, external: Bool = true) {
         document(field.documentation, fragment: fragment)
         if let deprecation = field.deprecation {
             fragment.output("@Deprecated(\"\(deprecation.quotedMessage)\")")
         }
         fragment.output("\(field.isOverride ? "override " : "")\(field.isPubliclyWritable ? "var" : "val") \(field.name): \(field.type.kotlinType)")
-        fragment.output("  get() = __jni_get_\(field.name)()\(field.type.toKotlinType)")
-        if field.isPubliclyWritable {
-            fragment.output("  set(value) { __jni_set_\(field.name)(value\(field.type.toJVMType)) } ")
-        }
-
-        if field.isStatic {
-            fragment.output("@JvmStatic")
-        }
-
-        fragment.output("@JvmName(\"__jni_get_\(field.name)\")")
-        fragment.output("private external fun __jni_get_\(field.name)(): \(field.type.jvmType)")
-        if field.isMutable {
+        if external {
+            fragment.output("  get() = __jni_get_\(field.name)()\(field.type.toKotlinType)")
+            if field.isPubliclyWritable {
+                fragment.output("  set(value) { __jni_set_\(field.name)(value\(field.type.toJVMType)) } ")
+            }
+            
             if field.isStatic {
                 fragment.output("@JvmStatic")
             }
-            fragment.output("@JvmName(\"__jni_set_\(field.name)\")")
-            fragment.output("private external fun __jni_set_\(field.name)(newValue: \(field.type.jvmType))")
+            
+            fragment.output("@JvmName(\"__jni_get_\(field.name)\")")
+            fragment.output("private external fun __jni_get_\(field.name)(): \(field.type.jvmType)")
+            if field.isMutable {
+                if field.isStatic {
+                    fragment.output("@JvmStatic")
+                }
+                fragment.output("@JvmName(\"__jni_set_\(field.name)\")")
+                fragment.output("private external fun __jni_set_\(field.name)(newValue: \(field.type.jvmType))")
+            }
+            fragment.blankLine()
         }
-        fragment.blankLine()
     }
 
-    func output(method: Method, to fragment: SourceFragment) {
+    func output(method: Method, to fragment: SourceFragment, external: Bool = true) {
         document(method.documentation, fragment: fragment)
         if !method.name.hasPrefix("_") {
             let compatibilityParameters = Set(method.compatibilityOrder)
             for compatibilityIndex in 0...method.compatibilityOrder.count {
                 let excludedCompatibilityParameters = Set(method.compatibilityOrder[compatibilityIndex...])
-
+                
                 if let deprecation = method.deprecation {
                     fragment.output("@Deprecated(\"\(deprecation.quotedMessage)\")")
                 }
@@ -145,7 +160,7 @@ class KotlinClass: NestedClass {
                 if let body = method.body {
                     precondition(compatibilityParameters.isEmpty, "internal error: compatibilityOrder can't be used with a non-native body")
                     fragment.output(" = \(body)\(method.returnType.toKotlinType)")
-                } else {
+                } else if external {
                     var arguments: [String] = []
                     for parameter in method.parameters {
                         if excludedCompatibilityParameters.contains(parameter.name) {
@@ -157,10 +172,13 @@ class KotlinClass: NestedClass {
                     fragment.output(" = __jni_\(method.name)(\(arguments.joined(separator: ", ")))", newLineTerminated: false)
                     fragment.output(method.returnType.toKotlinType, newLineTerminated: false)
                     fragment.output(method.isSuspend ? ".await()" : "")
+                } else {
+                    fragment.output()
                 }
             }
         }
-        if method.body == nil {
+        if external,
+            method.body == nil {
             if method.isStatic {
                 fragment.output("@JvmStatic")
             }
@@ -234,48 +252,74 @@ class KotlinProductClass: KotlinClass {
     }
 
     enum Constructor {
-        case `public`(fields: [Variable])
+        case `public`(fields: [Variable], arguments: [(String, KType)])
         case reference
     }
 
-    let constructor: Constructor
-    let fields: [Variable]
-    let methods: [Method]
+    var constructor: Constructor
+    let isPrivate: Bool
 
     init(
         module: Module,
+        isPrivate: Bool = false,
         documentation: [String],
         name: String,
         constructor: Constructor,
-        fieldsAndMethods: [MethodOrVariable]
+        fieldsAndMethods: [MethodOrVariable],
+        conformances: [String] = []
     ) {
+        self.isPrivate = isPrivate
         self.constructor = constructor
-        self.fields = fieldsAndMethods.compactMap {
+        
+        let fields: [Variable] = fieldsAndMethods.compactMap {
             guard case let .variable(field) = $0 else {
                 return nil
             }
             return field
         }
-        self.methods = fieldsAndMethods.compactMap {
+        let methods: [Method] = fieldsAndMethods.compactMap {
             guard case let .method(method) = $0 else {
                 return nil
             }
             return method
         }
-        super.init(module: module, documentation: documentation, name: name)
+
+        super.init(
+            module: module,
+            documentation: documentation,
+            name: name,
+            methods: methods,
+            fields: fields,
+            conformances: conformances
+        )
     }
 
     override func output(to fragment: SourceFragment) {
         document(documentation, fragment: fragment)
-
         switch constructor {
         case .reference:
             fragment.output("class \(unqualifiedName) private constructor(swiftReference: Long): com.cricut.fishyjoes.runtime.SwiftReference(swiftReference)", newLineTerminated: false)
-        case .`public`(let fields):
-            fragment.outputBlock("data class \(unqualifiedName)(") {
-                fragment.outputMap(fields, separator: ",") { field in
-                    "\(field.isPubliclyWritable ? "var" : "val") \(field.name): \(field.type.kotlinType)"
-                }
+        case .`public`(let fields, let arguments):
+            var classDeclaration: String
+            if isPrivate {
+                classDeclaration = "class \(unqualifiedName) private constructor"
+            } else {
+                classDeclaration = "data class \(unqualifiedName)"
+            }
+            let constructorArgs: [String] = fields.map { field in
+                (isPrivate ? "private " : "") +
+                (field.isOverride ? "override " : "") +
+                (field.isPubliclyWritable ? "var " : "val ") +
+                "\(field.name): \(field.type.kotlinType)"
+            } + arguments.map {
+                let (name, type) = $0
+                return "\(name): \(type.kotlinType)"
+            }
+            fragment.outputBlock("\(isPrivate ? "private " : "")\(classDeclaration)(", newLineTerminated: false) {
+                fragment.outputMap(constructorArgs, separator: ",") { $0 }
+            }
+            if !conformances.isEmpty {
+                fragment.output(": \(conformances.joined(separator: ", "))", newLineTerminated: false)
             }
         }
         fragment.outputBlock(" {") {
@@ -296,8 +340,6 @@ class KotlinProductClass: KotlinClass {
 
 class KotlinEnumClass: KotlinClass {
     let cases: [Case]
-    let fields: [Variable]
-    let methods: [Method]
 
     enum Case {
         case object(name: String)
@@ -309,22 +351,30 @@ class KotlinEnumClass: KotlinClass {
         documentation: [String],
         name: String,
         cases: [Case],
-        fieldsAndMethods: [MethodOrVariable]
+        fieldsAndMethods: [MethodOrVariable],
+        conformances: [String] = []
     ) {
         self.cases = cases
-        self.fields = fieldsAndMethods.compactMap {
+        let fields: [Variable] = fieldsAndMethods.compactMap {
             guard case let .variable(field) = $0 else {
                 return nil
             }
             return field
         }
-        self.methods = fieldsAndMethods.compactMap {
+        let methods: [Method] = fieldsAndMethods.compactMap {
             guard case let .method(method) = $0 else {
                 return nil
             }
             return method
         }
-        super.init(module: module, documentation: documentation, name: name)
+        super.init(
+            module: module,
+            documentation: documentation,
+            name: name,
+            methods: methods,
+            fields: fields,
+            conformances: conformances
+        )
     }
 
     override func output(to fragment: SourceFragment) {
@@ -356,6 +406,81 @@ class KotlinEnumClass: KotlinClass {
                 fragment.output("init { loadNativeLibs() }")
             }
             outputInner(to: fragment)
+        }
+    }
+}
+
+class KotlinInterface: KotlinClass {
+    init(
+        module: Module,
+        documentation: [String],
+        name: String,
+        fieldsAndMethods: [MethodOrVariable],
+        conformances: [String] = []
+    ) {
+        let fields: [Variable] = fieldsAndMethods.compactMap {
+            guard case let .variable(field) = $0 else {
+                return nil
+            }
+            return field
+        }
+        let methods: [Method] = fieldsAndMethods.compactMap {
+            guard case let .method(method) = $0 else {
+                return nil
+            }
+            return method
+        }
+        super.init(
+            module: module,
+            documentation: documentation,
+            name: name,
+            methods: methods,
+            fields: fields,
+            conformances: conformances
+        )
+    }
+    
+    override func output(to fragment: SourceFragment) {
+        document(documentation, fragment: fragment)
+        fragment.outputBlock("interface \(unqualifiedName) {")  {
+            fields.filter { !$0.isStatic }.forEach { output(field: $0, to: fragment, external: false) }
+            methods.filter { $0.isStatic }.forEach { output(method: $0, to: fragment, external: false) }
+            
+            fragment.blankLine()
+            
+            fragment.outputBlock("companion object {") {
+                fields.filter { $0.isStatic }.forEach { output(field: $0, to: fragment) }
+                methods.filter { $0.isStatic }.forEach {
+                    // Hack to suppress JvmStatic annotations for protocols
+                    var unstaticked = $0
+                    unstaticked.isSuspend = false
+                    output(method: unstaticked, to: fragment)
+                }
+            }
+            outputInner(to: fragment)
+        }
+    }
+}
+
+extension KotlinClass.MethodOrVariable {
+    var isOverride: Bool {
+        get {
+            switch self {
+            case .method(let method):
+                return method.isOverride
+            case .variable(let variable):
+                return variable.isOverride
+            }
+        }
+        set {
+            switch self {
+            case .method(var method):
+                method.isOverride = newValue
+                self = .method(method)
+            case .variable(var variable):
+                variable.isOverride = newValue
+                self = .variable(variable)
+            }
         }
     }
 }

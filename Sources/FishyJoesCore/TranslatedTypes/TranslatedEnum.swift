@@ -17,6 +17,7 @@ struct TranslatedEnum: TranslatedType {
     let fields: [Variable]
     let isInhabited: Bool
     let definingModule: Module
+    let conformances: Set<String>
 
     struct Case {
         let documentation: [String]
@@ -49,7 +50,7 @@ struct TranslatedEnum: TranslatedType {
         }
     }
 
-    init(context: FishyJoesContext, type: Enum) {
+    init(context: FishyJoesContext, type: Enum, conformances: Set<String>) {
         guard let exportAnnotation = type.exportAnnotation else { fatalErr("export symbol not specified") }
         let name = exportAnnotation.name
 
@@ -87,6 +88,7 @@ struct TranslatedEnum: TranslatedType {
         self.fields = type.variables.filter { $0.exportAnnotation != nil }
         self.isInhabited = type.isInhabited
         self.definingModule = context.module
+        self.conformances = conformances
     }
 
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
@@ -543,7 +545,7 @@ struct TranslatedEnum: TranslatedType {
                 fieldsAndMethods:
                     fields.compactMap { context.kotlin(field: $0, useNativeName: false) } +
                     methods.compactMap { context.kotlin(method: $0) }
-            )
+            ).conforming(to: conformances, context: context)
         )
 
         return fragment
