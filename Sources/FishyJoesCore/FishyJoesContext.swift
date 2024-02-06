@@ -154,7 +154,7 @@ public class FishyJoesContext {
         // This collects the named types possible for use later in resolve().
         let translatedTypes = templateContext.types.types.compactMap { type -> TranslatedType? in
             debugContext = "Translating type \(type.name)"
-            return translate(typeDefinition: type, conformances: conformances)
+            return translate(typeDefinition: type)
         }
         for translatedType in translatedTypes {
             let name = translatedType.sourceType
@@ -324,20 +324,20 @@ public class FishyJoesContext {
         return rootClass.innerClasses.map { $0.fragment(context: self) }
     }
 
-    func translate(typeDefinition type: Type, conformances: Set<String>) -> TranslatedType? {
+    func translate(typeDefinition type: Type) -> TranslatedType? {
         guard let annotation = type.exportAnnotation else {
             // Not annotated for export
             return nil
         }
 
         if annotation.kind == .asReference {
-            return TranslatedReference(context: self, type: type, conformances: conformances)
+            return TranslatedReference(context: self, type: type)
         } else if type.kind == "struct" {
-            return TranslatedStruct(context: self, type: type, conformances: conformances)
+            return TranslatedStruct(context: self, type: type)
         } else if let type = type as? Enum {
-            return TranslatedEnum(context: self, type: type, conformances: conformances)
+            return TranslatedEnum(context: self, type: type)
         } else if let type = type as? SourceryProtocol {
-            return TranslatedProtocol(context: self, type: type, conformances: conformances)
+            return TranslatedProtocol(context: self, type: type)
         } else {
             fatalErr("TODO: annotation on unknown kind \"\(type.kind)\" on type `\(type.globalName)`")
         }

@@ -21,7 +21,7 @@ struct TranslatedReference: TranslatedType {
     let definingModule: Module
     let conformances: Set<String>
 
-    init(context: FishyJoesContext, type: Type, conformances: Set<String>) {
+    init(context: FishyJoesContext, type: Type) {
         guard let exportAnnotation = type.exportAnnotation else {
             fatalErr("c symbol not specified")
         }
@@ -44,7 +44,7 @@ struct TranslatedReference: TranslatedType {
         self.hashable = type.hashable
         self.isInhabited = type.isInhabited
         self.definingModule = context.module
-        self.conformances = conformances
+        self.conformances = exportAnnotation.conformances
     }
 
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] {

@@ -50,7 +50,7 @@ struct TranslatedEnum: TranslatedType {
         }
     }
 
-    init(context: FishyJoesContext, type: Enum, conformances: Set<String>) {
+    init(context: FishyJoesContext, type: Enum) {
         guard let exportAnnotation = type.exportAnnotation else { fatalErr("export symbol not specified") }
         let name = exportAnnotation.name
 
@@ -88,7 +88,7 @@ struct TranslatedEnum: TranslatedType {
         self.fields = type.variables.filter { $0.exportAnnotation != nil }
         self.isInhabited = type.isInhabited
         self.definingModule = context.module
-        self.conformances = conformances
+        self.conformances = exportAnnotation.conformances
     }
 
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] {

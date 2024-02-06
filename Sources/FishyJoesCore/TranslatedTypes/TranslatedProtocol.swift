@@ -21,7 +21,7 @@ struct TranslatedProtocol: TranslatedType {
     let className: String
     let externalWitnessClassName: String
     
-    init(context: FishyJoesContext, type: SourceryProtocol, conformances: Set<String>) {
+    init(context: FishyJoesContext, type: SourceryProtocol) {
         guard let exportAnnotation = type.exportAnnotation else {
             fatalErr("type not annotated for export")
         }
@@ -47,7 +47,7 @@ struct TranslatedProtocol: TranslatedType {
             }
         }
         self.methods = methods
-        self.conformances = conformances
+        self.conformances = exportAnnotation.conformances
     }
 
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
