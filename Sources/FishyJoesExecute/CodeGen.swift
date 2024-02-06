@@ -445,7 +445,9 @@ extension CodeGen {
                             let nodeLibName = "\(dependency).cjs.node"
                             try installLibrary("\(dependency)-node", installName: nodeLibName)
                             try installLibrary(dependency)
-                            try cmd("ln", "-s", nodeLibName, "\(outputDir)\(ps)\(nativeLibFilename)").run()
+                            try withDirectory(outputDir) {
+                                try platform.makeSymbolicLink(target: nodeLibName, linkFileName: nativeLibFilename).run()
+                            }
                         }
 
                         // Create the required Javascript files for loading the module's native library from node
@@ -591,7 +593,8 @@ extension CodeGen {
 
                         for dependency in dependencies {
                             let nativeLibFilename = platform.dylibName(for: dependency.nativeLibName)
-                            postinstall += "COPY \"%package_directory%\\\(dependency.npmPackageName)\\\(dependency.nodeLibName)\" \"\(nativeLibFilename)\""
+                            //postinstall += "COPY \"%package_directory%\\\(dependency.npmPackageName)\\\(dependency.nodeLibName)\" \"\(nativeLibFilename)\""
+                            postinstall += "mklink \"\(nativeLibFilename)\" \"%package_directory%\\\(dependency.npmPackageName)\\\(dependency.nodeLibName)\""
                         }
 
                         try cmd("cat")

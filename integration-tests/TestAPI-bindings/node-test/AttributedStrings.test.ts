@@ -4,6 +4,17 @@ const AttributedString = Runtime.AttributedString
 const AttributedSubstring = Runtime.AttributedSubstring
 const AttributedStrings = TestAPI.AttributedStrings
 
+test.only('Crashy', () => {
+    const attributedString = AttributedStrings.polyglot
+    // const attributedString = AttributedString.createJoining([
+    //     AttributedStrings.polyglot,
+    //     AttributedString.create("")
+    // ])
+    // expect(attributedString.string).toEqual("Hello Olá こんにちは")
+
+    const index =  attributedString.characters.indexAfter(attributedString.startIndex)
+})
+
 test('StringValues', () => {
     const en = AttributeContainer.FoundationAttributes.create({ languageIdentifier: "en"}).asContainer()
     const pt = AttributeContainer.FoundationAttributes.create({ languageIdentifier: "pt"}).asContainer()
@@ -216,11 +227,7 @@ test('ViewIterators', () => {
 })
 
 test('Substring', () => {
-    //const attributedString = AttributedStrings.polyglot
-    const attributedString = AttributedString.createJoining([
-        AttributedStrings.polyglot,
-        AttributedString.create("")
-    ])
+    const attributedString = AttributedStrings.polyglot
     expect(attributedString.string).toEqual("Hello Olá こんにちは")
 
     const range = { 
@@ -272,11 +279,7 @@ test('Mutability', () => {
     expect(AttributedStrings.polyglot.string).toEqual("Hello Olá こんにちは")
 
     // Name the test suite attributed string in a value, creating a clone of it (Swift-to-Node copies the field, which is declared as a 'let' and is immutable)
-    //const attributedString = AttributedStrings.polyglot
-    const attributedString = AttributedString.createJoining([
-        AttributedStrings.polyglot,
-        AttributedString.create("")
-    ])
+    const attributedString = AttributedStrings.polyglot
     expect(attributedString.string).toEqual("Hello Olá こんにちは")
 
     // Reference the attributed string, which acts as a reference type like a typical Kotlin object, mirroring changes to the referenced attributed string
@@ -302,7 +305,7 @@ test('Mutability', () => {
     expect([...attributedString.runs].length).toEqual(3)
     expect([...attributedStringReference.runs].length).toEqual(3)
     expect([...attributedStringClone.runs].length).toEqual(5) // Unchanged
-    // expect([...AttributedStrings.polyglot.runs].length).toEqual(5) // Unchanged
+    expect([...AttributedStrings.polyglot.runs].length).toEqual(5) // Unchanged
 
     // Modify the attributed string's string data, verify it and the reference change, but the clone and original do not
     attributedString.replaceSubrange(range, AttributedString.create("i18n"))
@@ -329,11 +332,7 @@ test('Mutability', () => {
 })
 
 test('MutabilityVariants', () => {
-    //const attributedString = AttributedStrings.polyglot
-    const attributedString = AttributedString.createJoining([
-        AttributedStrings.polyglot,
-        AttributedString.create("")
-    ])
+    const attributedString = AttributedStrings.polyglot
     expect(attributedString.string).toEqual("Hello Olá こんにちは")
 
     attributedString.append(AttributedString.create(" "))
@@ -356,11 +355,7 @@ test('MutabilityVariants', () => {
     attributedString.replaceSubrange([...attributedString.runs][0].range, AttributedStrings.chinese);
     expect(attributedString.string).toEqual("你好 Olá こんにちは Hola Hello")
 
-    //const emoji = AttributedStrings.emojiMulti
-    const emoji = AttributedString.createJoining([
-        AttributedStrings.emojiMulti,
-        AttributedString.create("")
-    ])
+    const emoji = AttributedStrings.emojiMulti
     const flagRange = {
         lowerBound: emoji.characters.indexBefore(emoji.endIndex),
         upperBoundExclusive: emoji.endIndex
@@ -378,11 +373,7 @@ test('AttributeMergeReplace', () => {
     const pt = AttributeContainer.FoundationAttributes.create({ languageIdentifier: "pt"}).asContainer()
     const ja = AttributeContainer.FoundationAttributes.create({ languageIdentifier: "ja"}).asContainer()
     
-    //const attributedString = AttributedStrings.polyglot
-    const attributedString = AttributedString.createJoining([
-        AttributedStrings.polyglot,
-        AttributedString.create("")
-    ])
+    const attributedString = AttributedStrings.polyglot
     let runRanges = [...attributedString.runs].map((it) => it.range)
     expect(runRanges.length).toEqual(5)
     expect(attributedString.substringForRange(runRanges[0]).equals(AttributedString.create("Hello", { attributes: en }).substring))
@@ -449,11 +440,7 @@ test('AttributeMergeReplaceWhole', () => {
     const pt = AttributeContainer.FoundationAttributes.create({ languageIdentifier: "pt" }).asContainer()
     const ja = AttributeContainer.FoundationAttributes.create({ languageIdentifier: "ja" }).asContainer()
 
-    //const attributedString = AttributedStrings.polyglot
-    const attributedString = AttributedString.createJoining([
-        AttributedStrings.polyglot,
-        AttributedString.create("")
-    ])
+    const attributedString = AttributedStrings.polyglot
     let runRanges = [...attributedString.runs].map((it) => it.range)
     expect(runRanges.length).toEqual(5)
     expect(attributedString.substringForRange(runRanges[0]).equals(AttributedString.create("Hello", { attributes: en }).substring))
@@ -501,9 +488,9 @@ test('DirectInterfacing', () => {
     expect(AttributedStrings.firstIndex(AttributedStrings.simple)
         .equals(AttributedStrings.simple.startIndex)
     )
-    // expect(AttributedStrings.lastIndex(AttributedStrings.simple)
-    //     .equals(AttributedStrings.simple.characters.indexBefore(AttributedStrings.simple.endIndex))
-    // )
+    expect(AttributedStrings.lastIndex(AttributedStrings.simple)
+        .equals(AttributedStrings.simple.characters.indexBefore(AttributedStrings.simple.endIndex))
+    )
     expect(AttributedStrings.fullRange(AttributedStrings.simple))
         .toEqual({ lowerBound: AttributedStrings.simple.startIndex, upperBoundExclusive: AttributedStrings.simple.endIndex })
     expect([...AttributedStrings.attributedCharacters(AttributedStrings.emojiMulti)].length)

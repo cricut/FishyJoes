@@ -163,6 +163,18 @@ enum Platform: CustomStringConvertible, Hashable {
         }
     }
 
+    func makeSymbolicLink(target: String, linkFileName: String) -> Command {
+        #if os(macOS)
+        return cmd("ln", arguments: ["-s", target, linkFileName])
+        #elseif os(Linux)
+        return cmd("ln", arguments: ["-s", target, linkFileName])
+        #elseif os(Windows)
+        return cmd("cmd.exe", arguments: ["/c", "mklink", linkFileName, target])
+        #else
+        fatalError("unknown host OS")
+        #endif
+    }
+
     func swiftBuild(arguments: [String], configuration: BuildConfiguration) -> Command {
         var args = arguments
         args.append(contentsOf: ["--configuration", configuration.debug ? "debug" : "release"])

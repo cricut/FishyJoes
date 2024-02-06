@@ -53,7 +53,11 @@ function install-lib {
         mkdir -p "$LIB_DIR"
         cp "$BIN_DIR/$LIB_NAME" "$LIB_DIR/$NODE_LIB_NAME"
         if [ ! -e "$LIB_DIR/$LIB_NAME" ]; then
-            ln -s "$NODE_LIB_NAME" "$LIB_DIR/$LIB_NAME"
+            if [[ "$(uname -s)" == *_NT* ]]; then
+                (cd $LIB_DIR; cmd.exe "/c mklink $LIB_NAME $NODE_LIB_NAME")
+            else
+                (cd $LIB_DIR; ln -s "$NODE_LIB_NAME" "$LIB_NAME")
+            fi
         fi
         echo "Copied and symlinked $LIB_NAME to $LIB_DIR/$NODE_LIB_NAME"
         return 0

@@ -22,12 +22,12 @@
     "@cricut/fishyjoes-runtime-native-windows": "file:../../../node-runtime/fishyjoes-runtime-native-windows",
     "@cricut/fishyjoes-runtime-native-macos": "file:../../../node-runtime/fishyjoes-runtime-native-macos",
     "@cricut/fishyjoes-runtime-native-ubuntu": "file:../../../node-runtime/fishyjoes-runtime-native-ubuntu",
-    "@cricut/testapi-native-windows": "file:../output/node-native-windows",
     "@cricut/testapi-native-macos": "file:../output/node-native-macos",
     "@cricut/testapi-native-ubuntu": "file:../output/node-native-ubuntu",
     "@cricut/testapi-wasm": "file:../output/wasm"
   },
   "dependencies": {
+    "@cricut/testapi-native-windows": "file:../output/node-native-windows",
     "@wasmer/wasi": "^0.12.0",
     "@wasmer/wasmfs": "^0.12.0",
     "buffer": "^5.7.1",
