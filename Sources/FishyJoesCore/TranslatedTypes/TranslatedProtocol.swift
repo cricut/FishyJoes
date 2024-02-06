@@ -13,7 +13,7 @@ struct TranslatedProtocol: TranslatedType {
     let definingModule: Module
     let definingTSNamespace: String?
     let isInhabited: Bool
-    let containedNamedTypes: [TranslatedType]
+    var containedNamedTypes: [TranslatedType] { [self] }
     let conformances: Set<String>
     let methods: [Method]
     let computedVariables: [Variable]
@@ -29,15 +29,20 @@ struct TranslatedProtocol: TranslatedType {
 
         self.sourceType = BetterType(named: type, context: context)
         self.converterType = .named(.init(name: "_\(sourceType.name)Converter", module: nil))
+        self.neutralName = "Struct<Named=\(exportAnnotation.name)>"
         self.nodeName = typeName
-        self.kotlinName = typeName
         self.kotlinPackage = context.module.kotlinPackage
-        self.computedVariables = type.variables.filter { $0.exportAnnotation != nil }
-        self.documentation = type.documentation
-        self.className = context.kotlinTranslator.javaClassName(kotlinName, in: context)
-        self.externalWitnessClassName = context.kotlinTranslator.javaClassName("_ExternalWitness_\(kotlinName)", in: context)
-        self.jniType = .object(className)
+        self.kotlinName = typeName
 
+        self.jniType = .object(context.kotlinTranslator.javaClassName(nodeName, in: context))
+        self.cSharpType = .named(package: context.module.cSharpNamespace, name: exportAnnotation.cSharpName)
+        self.dartType = .named(package: context.module.dartNamespace, name: context.dartTranslator.fakeNamespace(exportAnnotation.name))
+        
+        self.definingModule = context.module
+        self.definingTSNamespace = context.module.name
+        self.isInhabited = type.isInhabited
+        
+        self.conformances = exportAnnotation.conformances
         var methods = type.methods.compactMap { Method($0) }
         for method in type.rawMethods {
             guard let ext = method.definedInType, ext.isExtension else { continue }
@@ -47,7 +52,11 @@ struct TranslatedProtocol: TranslatedType {
             }
         }
         self.methods = methods
-        self.conformances = exportAnnotation.conformances
+
+        self.computedVariables = type.variables.filter { $0.exportAnnotation != nil }
+        self.documentation = type.documentation
+        self.className = context.kotlinTranslator.javaClassName(kotlinName, in: context)
+        self.externalWitnessClassName = context.kotlinTranslator.javaClassName("_ExternalWitness_\(kotlinName)", in: context)
     }
 
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
@@ -180,8 +189,8 @@ struct TranslatedProtocol: TranslatedType {
             }
         }
 
-        context.kotlinClasses.append(
-            KotlinInterface(
+        context.add(
+            kotlinClass: KotlinInterface(
                 module: context.module,
                 documentation: documentation,
                 name: kotlinName,
@@ -196,7 +205,7 @@ struct TranslatedProtocol: TranslatedType {
 
                         var defaultMethod = kotlinMethod
                         defaultMethod.name = "_default_\(defaultMethod.name)"
-                        defaultMethod.parameters.insert((nil, "self", .named(package: nil, name: kotlinName)), at: 0)
+                        defaultMethod.parameters.insert((nil, "self", .named(package: nil, name: kotlinName), nil), at: 0)
                         defaultMethod.isStatic = true
 
                         var parameters = ["this"]
@@ -208,13 +217,13 @@ struct TranslatedProtocol: TranslatedType {
             ).conforming(to: conformances, context: context)
         )
 
-        context.kotlinClasses.append(
-            KotlinProductClass(
+        context.add(
+            kotlinClass: KotlinProductClass(
                 module: context.module,
                 isPrivate: true,
                 documentation: [],
                 name: "_ExternalWitness_\(kotlinName)",
-                constructor: .init(private: true, fields: [], arguments: [("_swiftReference", .named(package: nil, name: "Long"))]),
+                constructor: .reference,
                 fieldsAndMethods: (
                     computedVariables.compactMap { context.kotlin(field: $0, useNativeName: false)} +
                         methods.compactMap { context.kotlin(method: $0) }
