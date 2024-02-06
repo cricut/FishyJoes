@@ -132,8 +132,8 @@ extension BetterType {
         // (Looking at you, UnicodeScalar.Script)
         let parts = type.globalName.split(separator: ".").map(String.init)
         let defaultModule = context.module.name
-        // UnicodeScalar is not actually a FishyJoes type, so we need extra special logic here
-        if parts.first == "UnicodeScalar" {
+        // Unicode & UnicodeScalar are not actually a FishyJoes type, so we need extra special logic here
+        if parts.first == "Unicode" || parts.first == "UnicodeScalar" {
             self = .named(.swift(parts.joined(separator: ".")))
         } else if parts.first == "Swift" {
             self = .named(.swift(parts.dropFirst().joined(separator: ".")))
