@@ -33,6 +33,8 @@ public struct Methods {
     
     /// <!-- FishyJoes.export(garply) -->
     public var garply: Int { 42901 }
+    
+    public var wibble: Int { 10924 }
 
     /// <!-- FishyJoes.exportAsMethod(instanceGetMethod) -->
     public let instanceGetMethod: Int = 2345

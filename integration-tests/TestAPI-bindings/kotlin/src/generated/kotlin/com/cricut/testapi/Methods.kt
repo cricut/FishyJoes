@@ -16,6 +16,19 @@ class Methods private constructor(swiftReference: Long): com.cricut.fishyjoes.ru
     private external fun __jni_get_instanceGet(): Long
 
     /**
+     * <!-- FishyJoes.export(garply) -->
+     */
+    val garply: Long
+      get() = __jni_get_garply()
+    @JvmName("__jni_get_garply")
+    private external fun __jni_get_garply(): Long
+
+    val wibble: Long
+      get() = __jni_get_wibble()
+    @JvmName("__jni_get_wibble")
+    private external fun __jni_get_wibble(): Long
+    
+    /**
      * <!-- FishyJoes.export(instanceModifiable) -->
      */
     var instanceModifiable: Long

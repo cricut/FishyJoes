@@ -7,7 +7,7 @@ if [[ ! -d kotlin-runtime ]]; then
     exit 1
 fi
 
-CONFIGURATION="${CONFIGURATION:-release}"
+CONFIGURATION="${CONFIGURATION:-debug}"
 SKIP_LIPO="${SKIP_LIPO:-0}"
 
 if [[ $(uname -s) == "Darwin" && $SKIP_LIPO == "0" ]]; then

@@ -36,6 +36,12 @@ internal class MethodTests {
     fun testInstanceMethods() {
         val instance = Methods.create()
 
+//        val garply = instance.garply
+//        println("garply: $garply")
+
+        val wibble = instance.wibble
+        println("wibble: $wibble")
+
         val a = instance.instanceGet
         print("a: $a")
         assertEquals(1234, instance.instanceGet)
