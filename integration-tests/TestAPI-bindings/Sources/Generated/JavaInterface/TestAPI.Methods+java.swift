@@ -16,6 +16,9 @@ extension TestAPI.Methods: JavaMutator {
         let ptr = jvalue(pointer: Box(value).retainedOpaque())
         return try env.NewObject(javaClass, _constructorMethodID, ptr)
     }
+    public static func mutateJava<R>(_ this: jobject?, env: inout Env, body: (inout TestAPI.Methods, inout Env) async throws -> R) async throws -> R {
+        try await body(&Box<TestAPI.Methods>.fromJava(this, env: env).value, &env)
+    }
     public static func javaSetup(env: Env) throws {
         guard javaClass == nil else { return }
         try AnyBox.javaSetup(env: env)
@@ -24,8 +27,5 @@ extension TestAPI.Methods: JavaMutator {
     }
     public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout TestAPI.Methods) throws -> R) throws -> R {
         try body(&Box<TestAPI.Methods>.fromJava(this, env: env).value)
-    }
-    public static func mutateJava<R>(_ this: jobject?, env: inout Env, body: (inout TestAPI.Methods, inout Env) async throws -> R) async throws -> R {
-        try await body(&Box<TestAPI.Methods>.fromJava(this, env: env).value, &env)
     }
 }

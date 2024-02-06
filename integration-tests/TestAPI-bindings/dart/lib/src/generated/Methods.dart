@@ -85,6 +85,14 @@ class Methods extends SwiftReference {
             )
         )
     ;
+    /// <!-- FishyJoes.export(garply) -->
+    int get garply =>
+        GCRef.using(this, (_thisHandle) =>
+            check((exn) =>
+                f__iota_get_TestAPI_Methods_garply(Loader.shared.env, _thisHandle.ptr, exn)
+            )
+        )
+    ;
     /// <!-- FishyJoes.exportAsMethod(instanceGetMethod) -->
     int get instanceGetMethod =>
         GCRef.using(this, (_thisHandle) =>
@@ -131,10 +139,32 @@ class Methods extends SwiftReference {
         consumeCreatedRef<TestAPI.Methods>(check((OutCreatedRef _exn) => f__iota_TestAPI_Methods_create(Loader.shared.env, _exn)))
     ;
 
+    /// <!-- FishyJoes.export(doublePlusGood) -->
+    int doublePlusGood(
+        int a,
+        double b,
+    ) =>
+        GCRef.using(this, (_thisHandle) =>
+            check((OutCreatedRef _exn) => f__iota_TestAPI_Methods_doublePlusGood(Loader.shared.env, _thisHandle.ptr, a, b, _exn))
+        )
+    ;
+
     static late CreatedRef Function(
         Env env,
         OutCreatedRef _exn
     ) f__iota_TestAPI_Methods_create;
+    static late int Function(
+        Env env,
+        UnownedRef _this,
+        int a,
+        double b,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_Methods_doublePlusGood;
+    static late int Function(
+        Env env,
+        UnownedRef _this,
+        OutCreatedRef _exn
+    ) f__iota_get_TestAPI_Methods_garply;
     static late int Function(
         Env env,
         UnownedRef _this,

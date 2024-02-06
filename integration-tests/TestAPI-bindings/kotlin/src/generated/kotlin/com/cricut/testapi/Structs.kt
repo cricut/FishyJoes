@@ -18,8 +18,7 @@ sealed class Structs {
      */
     data class MutableStruct(
         var i: Long
-    )
-     {
+    ) {
         /**
          * <!-- FishyJoes.export(increment) -->
          */
@@ -138,8 +137,7 @@ sealed class Structs {
     data class MemberwiseStruct(
         val immutable: kotlin.String,
         var mutable: kotlin.String
-    )
-     {
+    ) {
         /**
          * <!-- FishyJoes.export(asyncGetMutable) -->
          */

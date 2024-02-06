@@ -16,6 +16,9 @@ extension TestAPI.Structs.ReferenceStruct: JavaMutator {
         let ptr = jvalue(pointer: Box(value).retainedOpaque())
         return try env.NewObject(javaClass, _constructorMethodID, ptr)
     }
+    public static func mutateJava<R>(_ this: jobject?, env: inout Env, body: (inout TestAPI.Structs.ReferenceStruct, inout Env) async throws -> R) async throws -> R {
+        try await body(&Box<TestAPI.Structs.ReferenceStruct>.fromJava(this, env: env).value, &env)
+    }
     public static func javaSetup(env: Env) throws {
         guard javaClass == nil else { return }
         try AnyBox.javaSetup(env: env)
@@ -24,9 +27,6 @@ extension TestAPI.Structs.ReferenceStruct: JavaMutator {
     }
     public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout TestAPI.Structs.ReferenceStruct) throws -> R) throws -> R {
         try body(&Box<TestAPI.Structs.ReferenceStruct>.fromJava(this, env: env).value)
-    }
-    public static func mutateJava<R>(_ this: jobject?, env: inout Env, body: (inout TestAPI.Structs.ReferenceStruct, inout Env) async throws -> R) async throws -> R {
-        try await body(&Box<TestAPI.Structs.ReferenceStruct>.fromJava(this, env: env).value, &env)
     }
     static let _javaEquals: @convention(c)(
         UnsafeMutablePointer<JNIEnv?>,

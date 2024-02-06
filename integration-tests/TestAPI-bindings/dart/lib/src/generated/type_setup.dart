@@ -1280,6 +1280,22 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_Methods_create");
+    TestAPI.Methods.f__iota_TestAPI_Methods_doublePlusGood = dylib.lookupFunction<
+        ffi.Int Function(
+            Env env,
+            UnownedRef _this,
+            ffi.Int a,
+            ffi.Double b,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            UnownedRef _this,
+            int a,
+            double b,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_Methods_doublePlusGood");
     TestAPI.Primitives.f__iota_TestAPI_Primitives_echoBool = dylib.lookupFunction<
         ffi.Bool Function(
             Env env,
@@ -2434,6 +2450,18 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_get_TestAPI_Functions_sixthThing");
+    TestAPI.Methods.f__iota_get_TestAPI_Methods_garply = dylib.lookupFunction<
+        ffi.Int Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_Methods_garply");
     TestAPI.Methods.f__iota_get_TestAPI_Methods_instanceGet = dylib.lookupFunction<
         ffi.Int Function(
             Env env,
