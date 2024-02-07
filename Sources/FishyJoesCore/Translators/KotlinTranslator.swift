@@ -477,6 +477,18 @@ final class KotlinTranslator: Translator {
                     }
                     return modified
                 }
+                if case let .`public`(constructorFields, constructorArguments) = product.constructor {
+                    let overriddenConstructorFields = constructorFields.map { field in
+                        var modified = field
+                        if protoDefs.contains(OverrideSignature(.variable(field))) {
+                            modified.isOverride = true
+                        }
+                        return modified
+                    }
+                    
+                    product.constructor = .public(fields: overriddenConstructorFields, arguments: constructorArguments)
+                }
+                
             }
         }
     }
