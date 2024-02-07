@@ -62,7 +62,7 @@ let package = Package(
                 dependencies: [
                     .target(name: "TestAPI_NodeInterface"),
                 ],
-                path: "Generated/WasmMainShim",
+                path: "Sources/Generated/WasmMainShim",
                 swiftSettings: [
                     .unsafeFlags(["-warn-concurrency"])
                 ]
@@ -73,7 +73,7 @@ let package = Package(
                 dependencies: [
                     .target(name: "TestAPI_NodeInterface"),
                 ],
-                path: "Generated/NodeNativeShim"
+                path: "Sources/Generated/NodeNativeShim"
             ),
             .target(
                 name: "TestAPI_JavaInterface",
