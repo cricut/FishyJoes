@@ -298,7 +298,7 @@ class KotlinProductClass: KotlinClass {
         document(documentation, fragment: fragment)
         switch constructor {
         case .reference:
-            fragment.output("class \(unqualifiedName) private constructor(swiftReference: Long): com.cricut.fishyjoes.runtime.SwiftReference(swiftReference)", newLineTerminated: false)
+            fragment.output("\(isPrivate ? "private " : "")class \(unqualifiedName) private constructor(swiftReference: Long)", newLineTerminated: false)
         case .`public`(let fields, let arguments):
             var classDeclaration: String
             if isPrivate {
@@ -318,9 +318,9 @@ class KotlinProductClass: KotlinClass {
             fragment.outputBlock("\(isPrivate ? "private " : "")\(classDeclaration)(", newLineTerminated: false) {
                 fragment.outputMap(constructorArgs, separator: ",") { $0 }
             }
-            if !conformances.isEmpty {
-                fragment.output(": \(conformances.joined(separator: ", "))", newLineTerminated: false)
-            }
+        }
+        if !conformances.isEmpty {
+            fragment.output(": \(conformances.joined(separator: ", "))", newLineTerminated: false)
         }
         fragment.outputBlock(" {") {
             fields.filter { !$0.isStatic }.forEach { output(field: $0, to: fragment) }
