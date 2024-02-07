@@ -323,7 +323,7 @@ struct TranslatedReference: TranslatedType {
             name: kotlinName,
             constructor: .reference,
             fieldsAndMethods: fieldsAndMethods,
-            conformances: ["comr.cricut.fishyjoes.runtime.SwiftReference(_swiftReference)"]
+            conformances: ["com.cricut.fishyjoes.runtime.SwiftReference(_swiftReference)"]
         ).conforming(to: conformances, context: context)
         context.add(kotlinClass: product)
 
