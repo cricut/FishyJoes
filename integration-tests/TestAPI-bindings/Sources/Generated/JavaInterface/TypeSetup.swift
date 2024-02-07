@@ -2,6 +2,7 @@
 // DO NOT EDIT
 // swiftlint:disable:next blanket_disable_command superfluous_disable_command
 // swiftlint:disable unused_closure_parameter syntactic_sugar attributes
+import CommonInterface
 import FishyJoesJavaRuntime
 import Foundation
 import TestAPI
@@ -375,6 +376,51 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_hashCode"),
                 signature: bag.add("()I"),
                 fnPtr: unsafeBitCast(TestAPI.Structs.ReferenceStruct._javaHash, to: UnsafeMutableRawPointer.self)
+            )
+        )
+        // print("setting up _AProtocolConverter...")
+        try _AProtocolConverter.javaSetup(env: env)
+        try env.RegisterNatives(
+            _AProtocolConverter.externalWitnessClass ?? _AProtocolConverter.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_bar"),
+                signature: bag.add("(JJ)Lcom/cricut/testapi/AProtocol;"),
+                fnPtr: unsafeBitCast(java__AProtocolConverter_bar, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_hasADefaultImplementation"),
+                signature: bag.add("()J"),
+                fnPtr: unsafeBitCast(java__AProtocolConverter_hasADefaultImplementation, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_foo"),
+                signature: bag.add("()Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_get__AProtocolConverter_foo, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_set_foo"),
+                signature: bag.add("(Ljava/lang/String;)V"),
+                fnPtr: unsafeBitCast(java_set__AProtocolConverter_foo, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_baz"),
+                signature: bag.add("()Z"),
+                fnPtr: unsafeBitCast(java_get__AProtocolConverter_baz, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_set_baz"),
+                signature: bag.add("(Z)V"),
+                fnPtr: unsafeBitCast(java_set__AProtocolConverter_baz, to: UnsafeMutableRawPointer.self)
+            )
+        )
+        // print("setting up TestAPI.AProtocolImplementation...")
+        try TestAPI.AProtocolImplementation.javaSetup(env: env)
+        try env.RegisterNatives(
+            TestAPI.AProtocolImplementation.externalWitnessClass ?? TestAPI.AProtocolImplementation.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_bar"),
+                signature: bag.add("(JJ)Lcom/cricut/testapi/AProtocol;"),
+                fnPtr: unsafeBitCast(java_TestAPI_AProtocolImplementation_bar, to: UnsafeMutableRawPointer.self)
             )
         )
         // print("setting up TestAPI.AssociatedDataEnum...")
