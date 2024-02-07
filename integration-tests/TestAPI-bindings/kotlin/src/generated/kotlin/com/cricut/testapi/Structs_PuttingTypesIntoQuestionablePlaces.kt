@@ -6,7 +6,7 @@ import java.lang.Exception
 /**
  * <!-- FishyJoes.exportReference(Structs_PuttingTypesIntoQuestionablePlaces) -->
  */
-class Structs_PuttingTypesIntoQuestionablePlaces private constructor(swiftReference: Long): com.cricut.fishyjoes.runtime.SwiftReference(swiftReference) {
+class Structs_PuttingTypesIntoQuestionablePlaces private constructor(_swiftReference: Long): com.cricut.fishyjoes.runtime.SwiftReference(_swiftReference) {
     /**
      * <!-- FishyJoes.export(testCall) -->
      */
