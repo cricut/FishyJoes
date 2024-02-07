@@ -167,9 +167,11 @@ extension CodeGen {
 
             // Create / clean directories used by Sourcery to generate Swift and foreign language code files for the translated foreign languages
             let sourceLocations = [
-                "Sources\(ps)Generated\(ps)IotaInterface",
+                "Sources\(ps)Generated\(ps)WasmShimMain",
+                "Sources\(ps)Generated\(ps)NodeNativeShim",
                 "Sources\(ps)Generated\(ps)NodeInterface",
                 "Sources\(ps)Generated\(ps)JavaInterface",
+                "Sources\(ps)Generated\(ps)IotaInterface",
                 "kotlin\(ps)src\(ps)generated\(ps)kotlin\(ps)com\(ps)cricut\(ps)\(config.module.lowercased())",
                 "c-sharp\(ps)Cricut.\(config.module.lowercased())\(ps)generated",
                 "dart\(ps)lib\(ps)src\(ps)generated",
@@ -434,6 +436,7 @@ extension CodeGen {
                                         function applyExtensions() {}
                                         const imports = {};
                                         export { applyExtensions, imports };
+                                        
                                         """
                                     )
                                     .output(overwritingFile: outPath)
@@ -476,6 +479,7 @@ extension CodeGen {
                                         function applyExtensions() {}
                                         const imports = {};
                                         export { applyExtensions, imports };
+                                        
                                         """
                                 )
                                 .output(overwritingFile: outPath)
