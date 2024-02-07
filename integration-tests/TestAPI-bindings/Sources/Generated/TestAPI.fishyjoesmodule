@@ -4,9 +4,9 @@
       "converterType" : {
         "named" : {
           "_0" : {
-            "name" : "AProtocolConverter",
+            "name" : "_AProtocolConverter",
             "namespace" : [
-              "_TestAPI"
+
             ]
           }
         }

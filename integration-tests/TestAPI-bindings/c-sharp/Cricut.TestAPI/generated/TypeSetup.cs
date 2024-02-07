@@ -297,7 +297,7 @@ namespace Cricut.TestAPI {
         );
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern void _TestAPI_AProtocolConverter_setup(
+        static extern void _AProtocolConverter_setup(
             IntPtr envRef,
             out CreatedRef _exn
         );
@@ -1616,9 +1616,9 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
-            Once("setup__TestAPI.AProtocolConverter", () => {
+            Once("setup__AProtocolConverter", () => {
                 Console.WriteLine("setting up TestAPI.AProtocol...");
-                Utilities.Check((out CreatedRef exn) => _TestAPI_AProtocolConverter_setup(
+                Utilities.Check((out CreatedRef exn) => _AProtocolConverter_setup(
                     Loader.env,
                     out exn
                 ));

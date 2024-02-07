@@ -6,7 +6,7 @@ import java.lang.Exception
 /**
  * <!-- FishyJoes.exportReference(Methods) -->
  */
-class Methods private constructor(swiftReference: Long): com.cricut.fishyjoes.runtime.SwiftReference(swiftReference) {
+class Methods private constructor(_swiftReference: Long): com.cricut.fishyjoes.runtime.SwiftReference(_swiftReference) {
     /**
      * <!-- FishyJoes.export(instanceGet) -->
      */

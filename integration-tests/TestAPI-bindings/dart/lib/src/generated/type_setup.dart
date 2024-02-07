@@ -532,7 +532,7 @@ final ensureLoaded = (() {
             OutCreatedRef exn
         )
     >('TestAPI_Structs_ReferenceStruct_setup');
-    final _TestAPI_AProtocolConverter_setup = dylib.lookupFunction<
+    final _AProtocolConverter_setup = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
             OutCreatedRef exn
@@ -541,7 +541,7 @@ final ensureLoaded = (() {
             Env env,
             OutCreatedRef exn
         )
-    >('_TestAPI_AProtocolConverter_setup');
+    >('_AProtocolConverter_setup');
     final TestAPI_AProtocolImplementation_setup = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
@@ -4953,10 +4953,10 @@ final ensureLoaded = (() {
         });
     });
 
-    Loader.shared.once("setup__TestAPI.AProtocolConverter", () {
+    Loader.shared.once("setup__AProtocolConverter", () {
         // print("setting up TestAPI.AProtocol (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
-            _TestAPI_AProtocolConverter_setup(
+            _AProtocolConverter_setup(
                 Loader.shared.env,
                 exn
             );

@@ -64,7 +64,7 @@ sealed class Structs {
     /**
      * <!-- FishyJoes.exportReference(Structs.ReferenceStruct) -->
      */
-    class ReferenceStruct private constructor(swiftReference: Long): com.cricut.fishyjoes.runtime.SwiftReference(swiftReference) {
+    class ReferenceStruct private constructor(_swiftReference: Long): com.cricut.fishyjoes.runtime.SwiftReference(_swiftReference) {
         /**
          * <!-- FishyJoes.export(immutable) -->
          */
