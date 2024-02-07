@@ -1698,7 +1698,7 @@
               }
             },
             "documentation" : [
-              "<!-- FishyJoes.export(AProtocolImplementation) -->"
+              "<!-- FishyJoes.export(AProtocolImplementation, conformances: [AProtocol]) -->"
             ],
             "extends" : [
 

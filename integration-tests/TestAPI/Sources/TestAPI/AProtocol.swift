@@ -17,7 +17,7 @@ extension AProtocol {
     public func hasADefaultImplementation() -> Int { 42 }
 }
 
-/// <!-- FishyJoes.export(AProtocolImplementation) -->
+/// <!-- FishyJoes.export(AProtocolImplementation, conformances: [AProtocol]) -->
 public struct AProtocolImplementation: AProtocol {
     public var foo: String
     public var baz: Bool

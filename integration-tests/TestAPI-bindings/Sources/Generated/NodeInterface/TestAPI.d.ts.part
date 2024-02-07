@@ -1,6 +1,6 @@
 export declare namespace TestAPI {
     /**
-     * <!-- FishyJoes.export(AProtocolImplementation) -->
+     * <!-- FishyJoes.export(AProtocolImplementation, conformances: [AProtocol]) -->
      */
     export class AProtocolImplementation {
         constructor(foo: string, baz: boolean)
