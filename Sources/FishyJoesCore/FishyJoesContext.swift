@@ -270,7 +270,7 @@ public class FishyJoesContext {
         return (headerFragments + collectedFragments + footerFragments).map(\.contents).joined()
     }
 
-    /// Process a set of classes to nest their innner classes properly for generation.
+    /// Process a set of classes to nest their inner classes properly for generation.
     ///
     /// - Important: The provided `rootClass` is assumed to transfer all ownership to this function.
     ///     It should genrally not be used elsewhere as it will be heavily mutated.
@@ -279,7 +279,7 @@ public class FishyJoesContext {
     /// - Parameters:
     ///   - rootClass: The root to put all nested classes inside.
     ///   - classes: The classes to process.
-    ///   - seperator: The separator in the name to split on for namespaces.
+    ///   - separator: The separator in the name to split on for namespaces.
     /// - Returns: The resulting fragments with their inner classes properly processed.
     func processInnerClasses<C: NestedClass>(
         rootClass: @autoclosure () -> C,
