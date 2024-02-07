@@ -28,7 +28,8 @@ struct TranslatedProtocol: TranslatedType {
         let typeName = exportAnnotation.name
 
         self.sourceType = BetterType(named: type, context: context)
-        self.converterType = .named(.init(name: "_\(sourceType.name)Converter", module: nil))
+//        self.converterType = .named(.init(name: "\(sourceType.namespace.joined())._\(sourceType.nonNamespacedName)Converter", module: nil))
+        self.converterType = .named(.init(name: "_\(sourceType.nonNamespacedName)Converter", module: nil))
         self.neutralName = "Struct<Named=\(exportAnnotation.name)>"
         self.nodeName = typeName
         self.kotlinPackage = context.module.kotlinPackage
@@ -93,11 +94,11 @@ struct TranslatedProtocol: TranslatedType {
             additionalImports: ["Foundation", "FishyJoesJavaRuntime", "CommonInterface"]
         )
 
-        let foreignProtocolType = "_Java\(sourceType.name)"
+        let foreignProtocolType = "_Java\(sourceType.nonNamespacedName)"
 
         var methodIDs: [(idHandle: String, name: String, signature: String)] = []
 
-        fragment.outputBlock("struct \(foreignProtocolType): \(sourceType.name) {") {
+        fragment.outputBlock("struct \(foreignProtocolType): \(sourceType.nonNamespacedName) {") {
             fragment.output("let _javaWitness: JavaReference")
 
             for variable in computedVariables {
@@ -229,7 +230,7 @@ struct TranslatedProtocol: TranslatedType {
                         methods.compactMap { context.kotlin(method: $0) }
                 ),
                 conformances: ["com.cricut.fishyjoes.runtime.SwiftReference(_swiftReference)"]
-            ).conforming(to: [sourceType.name], context: context)
+            ).conforming(to: [sourceType.nonNamespacedName], context: context)
         )
 
         return [fragment]

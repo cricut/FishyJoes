@@ -186,6 +186,29 @@ extension BetterType {
             return "Self"
         }
     }
+    
+    var nonNamespacedName: String {
+        switch self {
+        case let .named(name):
+            return name.name
+        case .tuple(let elements):
+            return "(" + elements.map {
+                if Int($0.label) == nil {
+                    return "\($0.label): \($0.type.name)"
+                } else {
+                    return $0.type.name
+                }
+            }.joined(separator: ", ") + ")"
+        case .void:
+            return "Void"
+        case .function(let args, let ret, let isAsync):
+            return "(\(args.map(\.name).joined(separator: ", ")))\(isAsync ? " async" : "") -> \(ret.name)"
+        case .generic(let base, let args):
+            return "\(base.name)<\(args.map(\.name).joined(separator: ", "))>"
+        case .selfType:
+            return "Self"
+        }
+    }
 
     var namespace: [String] {
         switch self {
