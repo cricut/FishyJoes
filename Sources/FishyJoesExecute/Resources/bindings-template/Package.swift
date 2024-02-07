@@ -14,13 +14,18 @@ let fishyJoesVersion = "(replace this string with latest fishyjoes version)"
 let package = Package(
     name: "__MODULE_NAME__-bindings",
     platforms: [.macOS(.v12)],
-    products: [
-        .library(
-            name: "__MODULE_NAME__-wasm",
-            targets: ["__MODULE_NAME___NodeInterface"]
-        ),
-    ] + (
-        wasmCompatibleOnly ? [] : [
+    products: 
+        wasmCompatibleOnly ? [
+            .library(
+                name: "__MODULE_NAME__-wasm",
+                targets: ["__MODULE_NAME___WasmMainShim"]
+            ),
+        ] : [
+            .library(
+                name: "__MODULE_NAME__-node-native",
+                type: .dynamic,
+                targets: ["__MODULE_NAME___NodeNativeShim"]
+            ),
             .library(
                 name: "__MODULE_NAME__-node",
                 type: .dynamic,
@@ -64,12 +69,23 @@ let package = Package(
     ] + (
         wasmCompatibleOnly ? [
             .executableTarget(
-                name: "DummyMain",
+                name: "__MODULE_NAME___WasmMainShim",
                 dependencies: [
-                    "__MODULE_NAME___NodeInterface",
+                    .target(name: "__MODULE_NAME___NodeInterface"),
+                ],
+                path: "Generated/WasmMainShim",
+                swiftSettings: [
+                    .unsafeFlags(["-warn-concurrency"])
                 ]
             ),
         ] : [
+            .target(
+                name: "__MODULE_NAME___NodeNativeShim",
+                dependencies: [
+                    .target(name: "__MODULE_NAME___NodeInterface"),
+                ],
+                path: "Generated/NodeNativeShim"
+            ),
             .target(
                 name: "__MODULE_NAME___JavaInterface",
                 dependencies: [

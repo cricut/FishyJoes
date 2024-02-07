@@ -288,31 +288,14 @@ struct NodeTranslator: Translator {
             additionalImports: ["Foundation", "FishyJoesNodeRuntime", "NodeAPI"]
         )
 
-        // This function is defined under 2 names: the standard "napi_register_module_v1", and a unique, module-qualified name.
-        // To conform to the interface defined by NAPI, the standard name is needed.
-        // To statically link 2 or more FishyJoes modules together (WASM currently does this) the unique name is needed.
-        // Then, the standard name must be redefined to call each of the unique names of the linked modules.
-        nodeTypeListFragment.output("#if !os(WASI)")
         nodeTypeListFragment.output("@available(*, deprecated, message: \"Not actually deprecated, but this silences warnings because it may refer to deprecated methods\")")
-        nodeTypeListFragment.output("@_cdecl(\"napi_register_module_v1\")")
-        nodeTypeListFragment.outputBlock("public func napi_register_module_v1(env: napi_env, exports: napi_value) -> napi_value? {") {
-            nodeTypeListFragment.output("let env = NAPI.Env(ptr: env)")
-            nodeTypeListFragment.output("let exports = NAPI.Value(ptr: exports)")
-            nodeTypeListFragment.outputBlock("return FishyJoesNodeRuntime.rethrowToNode(env: env) {") {
-                nodeTypeListFragment.output("try registerModule\(context.module)(env: env, exports: exports)")
-            }
-        }
-        nodeTypeListFragment.output("#endif")
-        nodeTypeListFragment.blankLine()
-
-        nodeTypeListFragment.output("@available(*, deprecated, message: \"Not actually deprecated, but this silences warnings because it may refer to deprecated methods\")")
-        nodeTypeListFragment.outputBlock("public func registerModule\(context.module)(env: NAPI.Env, exports: NAPI.Value) throws -> NAPI.Value {") {
+        nodeTypeListFragment.outputBlock("public func registerModule\(context.module.name)(env: NAPI.Env, exports: NAPI.Value) throws -> NAPI.Value {") {
             nodeTypeListFragment.output("#if os(WASI)")
             nodeTypeListFragment.output("try JavaScriptEventLoop.installGlobalExecutor(env: env)")
             nodeTypeListFragment.output("#endif")
             nodeTypeListFragment.output("try setupOnMainThreadEntryPoint(env: env)")
             nodeTypeListFragment.output("let module = try env.createObject()")
-            nodeTypeListFragment.output("try env.setNamedProperty(exports, \"\(context.module)\", module)")
+            nodeTypeListFragment.output("try env.setNamedProperty(exports, \"\(context.module.name)\", module)")
             nodeTypeListFragment.output("try env.setNamedProperty(exports, \"default\", module)")
             nodeTypeListFragment.blankLine()
             for type in generatedTypes {
@@ -328,7 +311,35 @@ struct NodeTranslator: Translator {
             exportFragment.output("@_exported import \(dependency)_NodeInterface")
         }
 
-        return [nodeTypeListFragment, exportFragment]
+        let nodeNativeShimFragment = SourceFragment(sourceryDestination: "file:NodeNativeShim/NAPIRegisterModule.swift")
+        nodeNativeShimFragment.output("@available(*, deprecated, message: \"Not actually deprecated, but this silences warnings because it may refer to deprecated methods\")")
+        nodeNativeShimFragment.output("@_cdecl(\"napi_register_module_v1\")")
+        nodeNativeShimFragment.outputBlock("public func napi_register_module_v1(env: napi_env, exports: napi_value) -> napi_value? {") {
+            nodeNativeShimFragment.output("let env = NAPI.Env(ptr: env)")
+            nodeNativeShimFragment.output("let exports = NAPI.Value(ptr: exports)")
+            nodeNativeShimFragment.outputBlock("return FishyJoesNodeRuntime.rethrowToNode(env: env) {") {
+                nodeNativeShimFragment.output("try registerModule\(context.module.name)(env: env, exports: exports)")
+            }
+        }
+        
+        let wasmShimFragment = SourceFragment(sourceryDestination: "file:WasmMainShim/NAPIRegisterModule.swift")
+        wasmShimFragment.output("@available(*, deprecated, message: \"Not actually deprecated, but this silences warnings because it may refer to deprecated methods\")")
+        wasmShimFragment.output("@_cdecl(\"napi_register_module_v1\")")
+        wasmShimFragment.outputBlock("public func napi_register_module_v1(env: napi_env, exports: napi_value) -> napi_value? {") {
+            wasmShimFragment.output("let env = NAPI.Env(ptr: env)")
+            wasmShimFragment.output("let exports = NAPI.Value(ptr: exports)")
+            wasmShimFragment.outputBlock("return FishyJoesNodeRuntime.rethrowToNode(env: env) {") {
+                for dependency in context.module.dependencies {
+                    wasmShimFragment.output("try registerModule\(dependency)(env: env, exports: exports)")
+                }
+                wasmShimFragment.output("try registerModule\(context.module.name)(env: env, exports: exports)")
+            }
+        }
+
+        let wasmShimMainFragment = SourceFragment(sourceryDestination: "file:WasmMainShim/main.swift")
+        wasmShimMainFragment.output("// Executable main requires no statements, as loading done by napi.init() calling napi_register_module_v1()")
+
+        return [nodeTypeListFragment, exportFragment, nodeNativeShimFragment, wasmShimFragment, wasmShimMainFragment]
     }
 
     func ts(method: Method, explicitThis: Bool, context: FishyJoesContext) -> TypeScriptAnnotations.Method? {

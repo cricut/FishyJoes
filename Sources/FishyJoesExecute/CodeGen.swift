@@ -322,63 +322,71 @@ extension CodeGen {
                         fatalError("Could not find node runtime at: \(runtimePath)")
                     }
 
-                    // Collect information about the dependencies of the module
-                    var dependencies: [
+                    // Collect the information about the module and its dependencies that will be needed to build node modules
+                    var nodeModules: [
                         (
-                            moduleName: String,
+                            name: String,
                             localPath: String,
                             definitionsPath: String,
                             exports: [String],
                             nativeLibName: String,
-                            nodeLibName: String,
+                            wasmShimMainName: String,
+                            nodeShimLibName: String,
+                            nodeShimCJSName: String,
                             npmPackageName: String,
                             npmModuleVersion: String
                         )
                     ] = []
-                    dependencies.append((
-                        moduleName: "Runtime",
+                    nodeModules.append((
+                        name: "Runtime",
                         localPath: runtimePath,
                         definitionsPath: "\(runtimePath)\(ps)fishyjoes-runtime-common",
                         exports: ["Optional", "Runtime"],
                         nativeLibName: "FishyJoesNodeRuntime",
-                        nodeLibName: "Runtime.cjs.node",
+                        wasmShimMainName: "Runtime_WasmMainShim.wasm",
+                        nodeShimLibName: "Runtime-node-native",
+                        nodeShimCJSName: "Runtime.cjs.node",
                         npmPackageName: "fishyjoes-runtime-\(platform.nodeExecutionEnvironment)",
                         npmModuleVersion: fishyJoesDependency.version ??
                             // If fishy-joes is file-local, use a file-local runtime too
                             "file:\(fishyJoesDependency.localPath)\(ps)node-runtime\(ps)fishyjoes-runtime-\(platform.nodeExecutionEnvironment)"
                     ))
-                    for moduleName in config.requiredModules {
+                    for moduleName in config.requiredModules + [config.module] {
                         let npmPackageName = "\(moduleName.lowercased())-\(platform.nodeExecutionEnvironment)"
                         let bindingsModuleName = "\(moduleName)-bindings"
                         guard let dependency = packageInfo.dependencyMap[bindingsModuleName] else {
                             fatalError("Could not locate dependency \(bindingsModuleName) in Package.swift")
                         }
-                        dependencies.append((
-                            moduleName: moduleName,
+                        nodeModules.append((
+                            name: moduleName,
                             localPath: dependency.localPath,
                             definitionsPath: "\(dependency.localPath)\(ps)Sources\(ps)Generated\(ps)NodeInterface",
                             exports: [moduleName],
                             nativeLibName: "\(moduleName)-node",
-                            nodeLibName: "\(moduleName).cjs.node",
+                            wasmShimMainName: "\(moduleName)_WasmMainShim.wasm",
+                            nodeShimLibName: "\(moduleName)-node-native",
+                            nodeShimCJSName: "\(moduleName).cjs.node",
                             npmPackageName: npmPackageName,
                             npmModuleVersion: dependency.version ??
                                 // If dependency is file-local, use a file-local dependency too
                                 "file:\(dependency.localPath)\(ps)output\(ps)\(platform.platform)"
                         ))
                     }
+                    let nodeDependencies = nodeModules.dropLast()
+                    let nodeModule = nodeModules.last!
 
                     // Install the module and its dependencies, then assemble the Javascript files required to load them
                     if platform == .wasm {
                         // Install Wasm bundle to the output directory, using wasm-opt to optimize Wasm bundles if available
                         if wasmOpt, cmd("wasm-opt", "--version").runBool() {
-                            try cmd("wasm-opt", "\(platform.buildDir(configuration))\(ps)DummyMain.wasm", "-O1", "-o", "\(outputDir)\(ps)\(config.module).wasm").run()
+                            try cmd("wasm-opt", "\(platform.buildDir(configuration))\(ps)\(nodeModule.wasmShimMainName)", "-O1", "-o", "\(outputDir)\(ps)\(nodeModule.name).wasm").run()
                         } else {
                             if wasmOpt {
                                 printAndFlush("WARNING: wasm-opt is not installed, resulting build will be bigger and possibly slower")
                             } else {
                                 printAndFlush("skipping wasm-opt")
                             }
-                            try cmd("cp", "\(platform.buildDir(configuration))\(ps)DummyMain.wasm", "\(outputDir)\(ps)\(config.module).wasm").run()
+                            try cmd("cp", "\(platform.buildDir(configuration))\(nodeModule.wasmShimMainName)", "\(outputDir)\(ps)\(nodeModule.name).wasm").run()
                         }
                         try cmd("cp", "\(platform.buildDir(configuration))\(ps)FishyJoes_FishyJoesNodeRuntime.resources\(ps)js\(ps)wasm-napi.js", outputDir).run()
 
@@ -386,10 +394,10 @@ extension CodeGen {
                         // Replace each instance of __MODULE_NAME__ with the name of the module
                         // Replace each line containing __MODULE_DEPENDENCY__ with one line for each dependency module
                         func template(line: String) -> [String] {
-                            let line = line.replacingOccurrences(of: "__MODULE_NAME__", with: config.module)
+                            let line = line.replacingOccurrences(of: "__MODULE_NAME__", with: nodeModule.name)
                             if line.contains("__MODULE_DEPENDENCY__") {
-                                return (config.requiredModules + ["Runtime"]).map {
-                                    line.replacingOccurrences(of: "__MODULE_DEPENDENCY__", with: $0)
+                                return nodeDependencies.map {
+                                    line.replacingOccurrences(of: "__MODULE_DEPENDENCY__", with: $0.name)
                                 }
                             } else {
                                 return [line]
@@ -406,18 +414,18 @@ extension CodeGen {
                         }
                         try template(
                             inPath: "\(platform.buildDir(configuration))\(ps)FishyJoes_FishyJoesNodeRuntime.resources\(ps)js\(ps)__MODULE_NAME__.js",
-                            outPath: "\(outputDir)\(ps)\(config.module).js"
+                            outPath: "\(outputDir)\(ps)\(nodeModule.name).js"
                         )
                         try template(
                             inPath: "\(platform.buildDir(configuration))\(ps)FishyJoes_FishyJoesNodeRuntime.resources\(ps)js\(ps)__MODULE_NAME__.browser.js",
-                            outPath: "\(outputDir)\(ps)\(config.module).browser.js"
+                            outPath: "\(outputDir)\(ps)\(nodeModule.name).browser.js"
                         )
 
                         // Install Javascript extensions for dependencies so they are loaded when the Wasm bundle is loaded, if provided
-                        try cmd("cp", "\(runtimePath)\(ps)fishyjoes-runtime-common\(ps)Runtime.extensions.js", "\(outputDir)\(ps)Runtime.extensions.js").run()
-                        for (moduleName, modulePath) in dependencySourcePaths {
-                            let outPath = "\(outputDir)\(ps)\(moduleName).extensions.js"
-                            let extensionPath = "\(modulePath)\(ps)ts\(ps)\(moduleName).extensions.js"
+                        for dependency in nodeDependencies {
+                            let modulePath = dependencySourcePaths[dependency.name]!
+                            let outPath = "\(outputDir)\(ps)\(dependency.name).extensions.js"
+                            let extensionPath = "\(modulePath)\(ps)ts\(ps)\(dependency.name).extensions.js"
                             if !cmd("cp", extensionPath, outPath).runBool() {
                                 // No extensions found. Generate a no-op extension
                                 try cmd("cat", "-")
@@ -434,20 +442,16 @@ extension CodeGen {
                         }
                     }
                     if platform == .node {
-                        // Install the module library, its dependencies, and symlinks
-                        for dependency in config.requiredModules + [config.module] {
-                            try installLibrary(dependency)
+                        // Install the module library, its dependencies, and loader shims for them
+                        for module in nodeDependencies + [nodeModule] {
+                            try installLibrary(module.name)
 
                             // For node to load a library correctly, the file must be ".cjs.node" and not a symlink
                             // But for the linker to find required libraries, they need their original names.
-                            // So we symlink `libModule-node.dylib` -> `module.cjs.node`
-                            let nativeLibFilename = platform.dylibName(for: "\(dependency)-node")
-                            let nodeLibName = "\(dependency).cjs.node"
-                            try installLibrary("\(dependency)-node", installName: nodeLibName)
-                            try installLibrary(dependency)
-                            try withDirectory(outputDir) {
-                                try platform.makeSymbolicLink(target: nodeLibName, linkFileName: nativeLibFilename).run()
-                            }
+                            // So we place the node interface in `libModule-node.dylib` and 
+                            // rename the native shim `libModule-node-native.dylib` -> `module.cjs.node`
+                            try installLibrary(module.nodeShimLibName, installName: module.nodeShimCJSName)
+                            try installLibrary(module.nativeLibName)
                         }
 
                         // Create the required Javascript files for loading the module's native library from node
@@ -481,16 +485,16 @@ extension CodeGen {
 
                     // Assemble a TypeScript definitions file for the module from its dependencies, its own definitions, and its extensions
                     var definitions: [String] = []
-                    for dependency in dependencies {
+                    for dependency in nodeDependencies {
                         if platform == .wasm {
                             // Splat in depenency definitions
-                            let dependencyDefinitionsPath = "\(dependency.definitionsPath)\(ps)\(dependency.moduleName).d.ts.part"
+                            let dependencyDefinitionsPath = "\(dependency.definitionsPath)\(ps)\(dependency.name).d.ts.part"
                             let dependencyDefintions = try String(contentsOfFile: dependencyDefinitionsPath)
                             definitions.append(contentsOf: dependencyDefintions.split(separator: "\n").map(String.init))
                             definitions.append("")
 
                             // Splat in dependency extension definitions, if present
-                            let dependencyExtensionDefinitionsPath = "\(dependency.definitionsPath)\(ps)\(dependency.moduleName).extensions.d.ts.part"
+                            let dependencyExtensionDefinitionsPath = "\(dependency.definitionsPath)\(ps)\(dependency.name).extensions.d.ts.part"
                             if cmd("test", "-f", dependencyExtensionDefinitionsPath).runBool() {
                                 let dependencyExtensionDefintions = try String(contentsOfFile: dependencyExtensionDefinitionsPath)
                                 definitions.append(contentsOf: dependencyExtensionDefintions.split(separator: "\n").map(String.init))
@@ -506,13 +510,13 @@ extension CodeGen {
                     definitions.append("")
 
                     // Splat in the module's own definitions
-                    let moduleDefinitionsPath = "Sources\(ps)Generated\(ps)NodeInterface\(ps)\(config.module).d.ts.part"
+                    let moduleDefinitionsPath = "Sources\(ps)Generated\(ps)NodeInterface\(ps)\(nodeModule.name).d.ts.part"
                     let moduleDefintions = try String(contentsOfFile: moduleDefinitionsPath)
                     definitions.append(contentsOf: moduleDefintions.split(separator: "\n").map(String.init))
                     definitions.append("")
 
                     // Splat in the module's extension definitions
-                    let moduleExtensionsPath = "ts\(ps)\(config.module).extensions.d.ts.part"
+                    let moduleExtensionsPath = "ts\(ps)\(nodeModule.name).extensions.d.ts.part"
                     if cmd("test", "-f", moduleExtensionsPath).runBool() {
                         let moduleExtensionDefinitions = try String(contentsOfFile: moduleExtensionsPath)
                         definitions.append(contentsOf: moduleExtensionDefinitions.split(separator: "\n").map(String.init))
@@ -521,27 +525,27 @@ extension CodeGen {
 
                     // Export a function that can be used to load the module and its dependencies using a promise
                     definitions.append("export declare function init(): Promise<{")
-                    for dependency in dependencies {
-                        definitions.append("    \(dependency.moduleName): typeof \(dependency.moduleName),")
+                    for dependency in nodeDependencies {
+                        definitions.append("    \(dependency.name): typeof \(dependency.name),")
                     }
-                    definitions.append("    \(config.module): typeof \(config.module),")
+                    definitions.append("    \(nodeModule.name): typeof \(nodeModule.name),")
                     definitions.append("}>;")
                     definitions.append("")
 
                     // Make the module's own definitions the default export
-                    definitions.append("export default \(config.module);")
+                    definitions.append("export default \(nodeModule.name);")
                     definitions.append("")
 
                     // Write out the assembled definitions file
                     try cmd("cat", "-")
                         .input(definitions.joined(separator: "\n"))
-                        .output(overwritingFile: "\(outputDir)\(ps)\(config.module).d.ts")
+                        .output(overwritingFile: "\(outputDir)\(ps)\(nodeModule.name).d.ts")
                         .run()
 
                     // Generate the package.json file from the template
                     let packageVersion = version ?? "0.0.1" // If no version is provided, use a dummy version to build the package
                     var npmDependencies = try cmd("cat", "package.template.json").runJSON(NPMPackage.self).dependencies ?? [:]
-                    for dependency in dependencies {
+                    for dependency in nodeDependencies {
                         npmDependencies["@cricut/\(dependency.npmPackageName)"] = dependency.npmModuleVersion
                     }
                     var package = NPMPackage(
@@ -568,10 +572,10 @@ extension CodeGen {
 
                         """
 
-                        for dependency in dependencies {
-                            let nativeLibFilename = platform.dylibName(for: dependency.nativeLibName)
+                        for dependency in nodeDependencies {
+                            let nativeLibFilename = platform.dylibName(for: dependency.nodeShimLibName)
                             postinstall += """
-                                ln -sf "$(realpath \"$package_directory/\(dependency.npmPackageName)/\(dependency.nodeLibName)\")" "\"\(nativeLibFilename)\""
+                                ln -sf "$(realpath \"$package_directory/\(dependency.npmPackageName)/\(dependency.nodeShimCJSName)\")" "\"\(nativeLibFilename)\""
 
                             """
                         }
@@ -591,10 +595,11 @@ extension CodeGen {
 
                         """
 
-                        for dependency in dependencies {
-                            let nativeLibFilename = platform.dylibName(for: dependency.nativeLibName)
-                            //postinstall += "COPY \"%package_directory%\\\(dependency.npmPackageName)\\\(dependency.nodeLibName)\" \"\(nativeLibFilename)\""
-                            postinstall += "mklink \"\(nativeLibFilename)\" \"%package_directory%\\\(dependency.npmPackageName)\\\(dependency.nodeLibName)\""
+                        for dependency in nodeDependencies {
+                            let nativeLibFilename = platform.dylibName(for: dependency.nodeShimCJSName)
+                            // TODO: Should copy?!? How to establish this link with only one file?
+                            postinstall += "COPY \"%package_directory%\\\(dependency.npmPackageName)\\\(dependency.nodeShimCJSName)\" \"\(nativeLibFilename)\""
+                            //postinstall += "mklink \"\(nativeLibFilename)\" \"%package_directory%\\\(dependency.npmPackageName)\\\(dependency.nodeShimCJSName)\""
                         }
 
                         try cmd("cat")
