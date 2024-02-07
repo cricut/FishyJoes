@@ -1,3 +1,4 @@
+import './AProtocolImplementation.dart' as TestAPI;
 import './AssociatedDataEnum.dart' as TestAPI;
 import './AsyncFunctions.dart' as TestAPI;
 import './AttributedString_PuttingTypesIntoQuestionablePlaces.dart' as TestAPI;

@@ -136,6 +136,8 @@ public func registerModuleTestAPI(env: NAPI.Env, exports: NAPI.Value) throws -> 
     try TestAPI.Structs.MutableStruct.nodeSetup(env: env, module: module)
     try TestAPI.Structs.PuttingTypesIntoQuestionablePlaces.nodeSetup(env: env, module: module)
     try TestAPI.Structs.ReferenceStruct.nodeSetup(env: env, module: module)
+    try _TestAPI.AProtocolConverter.nodeSetup(env: env, module: module)
+    try TestAPI.AProtocolImplementation.nodeSetup(env: env, module: module)
     try TestAPI.AssociatedDataEnum.nodeSetup(env: env, module: module)
     try TestAPI.AsyncFunctions.nodeSetup(env: env, module: module)
     try TestAPI.AttributedStrings.nodeSetup(env: env, module: module)

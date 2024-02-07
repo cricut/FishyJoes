@@ -1,4 +1,23 @@
 export declare namespace TestAPI {
+    /**
+     * <!-- FishyJoes.export(AProtocolImplementation) -->
+     */
+    export class AProtocolImplementation {
+        constructor(foo: string, baz: boolean)
+
+        foo: string;
+
+        baz: boolean;
+
+        /**
+         * <!-- FishyJoes.export(bar) -->
+         */
+        bar(
+            x: number,
+            y: number
+        ): TestAPI.AProtocol;
+    }
+
     export type AssociatedDataEnum = AssociatedDataEnum.Thing | AssociatedDataEnum.Other | AssociatedDataEnum.Bar | AssociatedDataEnum.NoValue | AssociatedDataEnum.SimpleEnum;
     export namespace AssociatedDataEnum {
         interface Bar extends AssociatedDataEnum_Common {}

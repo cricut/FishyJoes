@@ -296,6 +296,32 @@ namespace Cricut.TestAPI {
             out CreatedRef _exn
         );
 
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void _TestAPI_AProtocolConverter_setup(
+            IntPtr envRef,
+            out CreatedRef _exn
+        );
+
+        delegate CreatedRef _TestAPI_AProtocolImplementationConstructor(
+            ConsumedRef foo,
+            bool baz,
+            out CreatedRef exn
+        );
+        delegate CreatedRef _TestAPI_AProtocolImplementation_fooGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _TestAPI_AProtocolImplementation_fooSetter(UnownedRef obj, ConsumedRef newValue, out CreatedRef exn);
+        delegate bool _TestAPI_AProtocolImplementation_bazGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _TestAPI_AProtocolImplementation_bazSetter(UnownedRef obj, bool newValue, out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_AProtocolImplementation_setup(
+            IntPtr envRef,
+            _TestAPI_AProtocolImplementationConstructor constructor,
+            _TestAPI_AProtocolImplementation_fooGetter get_foo,
+            _TestAPI_AProtocolImplementation_fooSetter set_foo,
+            _TestAPI_AProtocolImplementation_bazGetter get_baz,
+            _TestAPI_AProtocolImplementation_bazSetter set_baz,
+            out CreatedRef _exn
+        );
+
         delegate CreatedRef Cricut_TestAPI_AssociatedDataEnum_new_thing(
             nint value,
             out CreatedRef _exn
@@ -1586,6 +1612,38 @@ namespace Cricut.TestAPI {
                     Loader.env,
                     bag<SwiftReference.ConstructorDelegate>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
                         return new CreatedRef(new Cricut.TestAPI.Structs.ReferenceStruct(ptr));
+                    })),
+                    out exn
+                ));
+            });
+            Once("setup__TestAPI.AProtocolConverter", () => {
+                Console.WriteLine("setting up TestAPI.AProtocol...");
+                Utilities.Check((out CreatedRef exn) => _TestAPI_AProtocolConverter_setup(
+                    Loader.env,
+                    out exn
+                ));
+            });
+            Once("setup_TestAPI.AProtocolImplementation", () => {
+                Console.WriteLine("setting up TestAPI.AProtocolImplementation...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_AProtocolImplementation_setup(
+                    Loader.env,
+                    bag<_TestAPI_AProtocolImplementationConstructor>((ConsumedRef foo, bool baz, out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.AProtocolImplementation(
+                            foo.Consume<string>(),
+                            baz
+                        ));
+                    })),
+                    bag<_TestAPI_AProtocolImplementation_fooGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.AProtocolImplementation>().Foo)
+                    )),
+                    bag<_TestAPI_AProtocolImplementation_fooSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.AProtocolImplementation>().Foo = newValue.Consume<string>();
+                    })),
+                    bag<_TestAPI_AProtocolImplementation_bazGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        obj.Peek<Cricut.TestAPI.AProtocolImplementation>().Baz
+                    )),
+                    bag<_TestAPI_AProtocolImplementation_bazSetter>((UnownedRef obj, bool newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.AProtocolImplementation>().Baz = newValue;
                     })),
                     out exn
                 ));

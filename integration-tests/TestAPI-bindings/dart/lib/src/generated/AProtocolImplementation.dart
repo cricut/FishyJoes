@@ -35,64 +35,69 @@ import 'package:fishyjoes_dart/runtime.dart';
 import 'package:fishyjoes_dart/utilities.dart' as utils;
 import 'package:tuple/tuple.dart' as tuple;
 
-/// <!-- FishyJoes.export(Structs.MemberwiseStruct) -->
-class Structs_MemberwiseStruct {
-    final String immutable;
-    String mutable;
+/// <!-- FishyJoes.export(AProtocolImplementation) -->
+class AProtocolImplementation {
+    String foo;
+    bool baz;
 
-    Structs_MemberwiseStruct({
-        required this.immutable,
-        required this.mutable
+    AProtocolImplementation({
+        required this.foo,
+        required this.baz
     });
 
     static CreatedRef ffi_constructor(
-        ConsumedRef immutable,
-        ConsumedRef mutable,
+        ConsumedRef foo,
+        bool baz,
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
-        createRef(Structs_MemberwiseStruct(
-            immutable: consumeRef(immutable),
-            mutable: consumeRef(mutable),
+        createRef(AProtocolImplementation(
+            foo: consumeRef(foo),
+            baz: baz,
         ))
     );
 
-    static CreatedRef ffi_get_immutable(
+    static CreatedRef ffi_get_foo(
         UnownedRef obj,
         OutCreatedRef exn
     ) => catchingRef(exn, () =>
         createRef(
-            peekRef<Structs_MemberwiseStruct>(obj).immutable
+            peekRef<AProtocolImplementation>(obj).foo
         )
     );
-
-    static CreatedRef ffi_get_mutable(
-        UnownedRef obj,
-        OutCreatedRef exn
-    ) => catchingRef(exn, () =>
-        createRef(
-            peekRef<Structs_MemberwiseStruct>(obj).mutable
-        )
-    );
-    static void ffi_set_mutable(
+    static void ffi_set_foo(
         UnownedRef obj,
         ConsumedRef newValue,
         OutCreatedRef exn
     ) => catching(exn, () {
-        peekRef<Structs_MemberwiseStruct>(obj).mutable = consumeRef<String>(newValue);
+        peekRef<AProtocolImplementation>(obj).foo = consumeRef<String>(newValue);
+    });
+
+    static bool ffi_get_baz(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) => catching(exn, () =>
+        peekRef<AProtocolImplementation>(obj).baz
+    ) ?? false;
+    static void ffi_set_baz(
+        UnownedRef obj,
+        bool newValue,
+        OutCreatedRef exn
+    ) => catching(exn, () {
+        peekRef<AProtocolImplementation>(obj).baz = newValue;
     });
 
     @override
-    String toString() => 'Structs_MemberwiseStruct(immutable: $immutable, mutable: $mutable)';
+    String toString() => 'AProtocolImplementation(foo: $foo, baz: $baz)';
 
     @override
     bool operator ==(Object other) {
         return identical(other, this) ||
         (
             other.runtimeType == runtimeType &&
-            other is Structs_MemberwiseStruct &&
+            other is AProtocolImplementation &&
             (
-                const DeepCollectionEquality().equals(other.immutable, immutable) &&
-                const DeepCollectionEquality().equals(other.mutable, mutable)
+                const DeepCollectionEquality().equals(other.foo, foo) &&
+                const DeepCollectionEquality().equals(other.baz, baz)
             )
         );
     }
@@ -100,26 +105,33 @@ class Structs_MemberwiseStruct {
     @override
     int get hashCode => Object.hash(
         runtimeType,
-        const DeepCollectionEquality().hash(immutable), 
-        const DeepCollectionEquality().hash(mutable)
+        const DeepCollectionEquality().hash(foo), 
+        const DeepCollectionEquality().hash(baz)
     );
 
-    Structs_MemberwiseStruct copyWith({
-        String? immutable,
-        String? mutable
-    }) => Structs_MemberwiseStruct(
-        immutable: immutable ?? this.immutable,
-        mutable: mutable ?? this.mutable
+    AProtocolImplementation copyWith({
+        String? foo,
+        bool? baz
+    }) => AProtocolImplementation(
+        foo: foo ?? this.foo,
+        baz: baz ?? this.baz
     );
 
-    /// <!-- FishyJoes.export(create) -->
-    static TestAPI.Structs_MemberwiseStruct create(
+    /// <!-- FishyJoes.export(bar) -->
+    TestAPI.AProtocol bar(
+        int x,
+        int y,
     ) =>
-        consumeCreatedRef<TestAPI.Structs_MemberwiseStruct>(check((OutCreatedRef _exn) => f__iota_TestAPI_Structs_MemberwiseStruct_create(Loader.shared.env, _exn)))
+        GCRef.using(this, (_thisHandle) =>
+            consumeCreatedRef<TestAPI.AProtocol>(check((OutCreatedRef _exn) => f__iota_TestAPI_AProtocolImplementation_bar(Loader.shared.env, _thisHandle.ptr, x, y, _exn)))
+        )
     ;
 
     static late CreatedRef Function(
         Env env,
+        UnownedRef _this,
+        int x,
+        int y,
         OutCreatedRef _exn
-    ) f__iota_TestAPI_Structs_MemberwiseStruct_create;
+    ) f__iota_TestAPI_AProtocolImplementation_bar;
 }
