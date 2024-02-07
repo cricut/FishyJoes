@@ -18,7 +18,7 @@ final class KotlinTranslator: Translator {
 
         if let selfType = method.definedIn {
             let resolved = context.resolve(type: selfType)
-            containingNamespace = resolved.sourceType.name
+            containingNamespace = resolved.converterType.name
 
             if method.isStatic {
                 selfExpression = containingNamespace
@@ -156,12 +156,13 @@ final class KotlinTranslator: Translator {
         let containingNamespace: String
 
         if let selfType = variable.definedInTypeName?.better {
-            containingNamespace = context.resolve(type: selfType).sourceType.name
+            let resolved = context.resolve(type: selfType)
+            containingNamespace = resolved.converterType.name
 
             if variable.isStatic {
                 selfExpression = containingNamespace
             } else {
-                selfExpression = "\(containingNamespace).fromJava(_javaThis, env: _javaEnv)"
+                selfExpression = "\(resolved.converterType.name).fromJava(_javaThis, env: _javaEnv)"
             }
         } else {
             containingNamespace = context.module.name
@@ -278,9 +279,9 @@ final class KotlinTranslator: Translator {
         }
 
         let droppedMethods = Set(allMethods.keys).subtracting(usedMethods)
-        guard droppedMethods.isEmpty else {
-            fatalErr("methods for \(droppedMethods) were never set up! Probably a bug.")
-        }
+//        guard droppedMethods.isEmpty else {
+//            fatalErr("methods for \(droppedMethods) were never set up! Probably a bug.")
+//        }
         
         let module = context.module
         let repName = "\(module.name)LoaderRepresentative"

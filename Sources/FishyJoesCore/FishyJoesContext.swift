@@ -166,7 +166,7 @@ public class FishyJoesContext {
 
         // Translate
         var seenMethods: Set<Method> = []
-        for type in templateContext.types.all + templateContext.types.extensions {
+        for type in templateContext.types.types {
             for method in type.rawMethods.compactMap(Method.init) {
                 if seenMethods.contains(method) {
                     continue
