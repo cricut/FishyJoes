@@ -160,6 +160,7 @@ extension CodeGen {
 
             // Create / clean directories used by Sourcery to generate Swift and foreign language code files for the translated foreign languages
             let sourceLocations = [
+                "Sources/Generated/CommonInterface",
                 "Sources/Generated/IotaInterface",
                 "Sources/Generated/NodeInterface",
                 "Sources/Generated/JavaInterface",
@@ -171,6 +172,7 @@ extension CodeGen {
             try cmd("mkdir", arguments: ["-p"] + sourceLocations).run()
             try cmd(
                 "touch",
+                "Sources/Generated/CommonInterface/EmptyPlaceholder.swift",
                 "Sources/Generated/IotaInterface/EmptyPlaceholder.swift",
                 "Sources/Generated/NodeInterface/EmptyPlaceholder.swift",
                 "Sources/Generated/JavaInterface/EmptyPlaceholder.swift"
