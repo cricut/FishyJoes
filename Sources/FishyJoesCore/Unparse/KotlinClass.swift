@@ -298,7 +298,7 @@ class KotlinProductClass: KotlinClass {
         document(documentation, fragment: fragment)
         switch constructor {
         case .reference:
-            fragment.output("\(isPrivate ? "private " : "")class \(unqualifiedName) private constructor(swiftReference: Long)", newLineTerminated: false)
+            fragment.output("\(isPrivate ? "private " : "")class \(unqualifiedName) private constructor(_swiftReference: Long)", newLineTerminated: false)
         case .`public`(let fields, let arguments):
             var classDeclaration: String
             if isPrivate {
