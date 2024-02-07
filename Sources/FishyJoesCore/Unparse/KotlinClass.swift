@@ -453,7 +453,7 @@ class KotlinInterface: KotlinClass {
                 methods.filter { $0.isStatic }.forEach {
                     // Hack to suppress JvmStatic annotations for protocols
                     var unstaticked = $0
-                    unstaticked.isSuspend = false
+                    unstaticked.isStatic = false
                     output(method: unstaticked, to: fragment)
                 }
             }
