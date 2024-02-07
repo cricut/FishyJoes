@@ -444,7 +444,7 @@ class KotlinInterface: KotlinClass {
         document(documentation, fragment: fragment)
         fragment.outputBlock("interface \(unqualifiedName) {")  {
             fields.filter { !$0.isStatic }.forEach { output(field: $0, to: fragment, external: false) }
-            methods.filter { $0.isStatic }.forEach { output(method: $0, to: fragment, external: false) }
+            methods.filter { !$0.isStatic }.forEach { output(method: $0, to: fragment, external: false) }
             
             fragment.blankLine()
             
