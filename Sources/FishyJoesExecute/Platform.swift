@@ -150,7 +150,7 @@ enum Platform: CustomStringConvertible, Hashable {
         case .node, .kotlinSystem, .dart:
             #if os(macOS)
             path = Platform.nativeMacSwiftBuild
-            args.append(contentsOf: ["-Xlinker", "-rpath", "-Xlinker", "@loader_path", "-j 1"])
+            args.append(contentsOf: ["-j 1", "-Xlinker", "-rpath", "-Xlinker", "@loader_path"])
             #elseif os(Linux)
             path = "swift"
             args = ["build"] + args
