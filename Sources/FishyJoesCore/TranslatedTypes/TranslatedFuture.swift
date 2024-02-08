@@ -18,7 +18,10 @@ struct TranslatedFuture: TranslatedType {
         self.kotlinName = "Deferred<\(output.kotlinName)"
         self.neutralName = "Future<\(output.neutralName)>"
         self.containedNamedTypes = [output]
-        self.cSharpType = .primitive("TODO")
+        self.cSharpType = .named(
+            package: "System.Threading.Tasks",
+            name: "Task\(output.sourceType == .void ? "" : "<\(output.cSharpType.name)>")"
+        )
         self.dartType = .future(output.dartType)
     }
 
@@ -31,8 +34,11 @@ struct TranslatedFuture: TranslatedType {
     }
 
     func cSharpSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<String>] {
-        [
-            .type(typeValue: output.cSharpType.name),
+        (
+            output.sourceType == .void ? [] : [
+                .type(typeValue: output.cSharpType.name),
+            ]
+        ) + [
             .value(name: "typeName", type: "string") { fragment in
                 fragment.output("\"\(converterType.name)\",")
             },

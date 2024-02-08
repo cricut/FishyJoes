@@ -21,6 +21,10 @@ namespace Cricut.FishyJoesRuntime {
             this.reference = reference.__ptr;
         }
 
+        internal static SwiftReference Create(ConsumedRef reference) {
+            return new SwiftReference(reference);
+        }
+
         ~SwiftReference() {
             Dispose();
         }
@@ -51,6 +55,7 @@ namespace Cricut.FishyJoesRuntime {
     }
 
     public partial class Loader {
+        delegate CreatedRef AnyBoxConstructor(ConsumedRef ptr, out CreatedRef exn);
         delegate UnownedRef AnyBoxRefGetter(UnownedRef obj, out CreatedRef exn);
         [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         extern static void FishyJoesCommonRuntime_AnyBox_setup(
@@ -62,6 +67,7 @@ namespace Cricut.FishyJoesRuntime {
         private static void setupReferences() {
             FishyJoesCommonRuntime_AnyBox_setup(
                 env,
+                Loader.bag<AnyBoxConstructor>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => new CreatedRef(SwiftReference.Create(ptr)))),
                 Loader.bag<AnyBoxRefGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => obj.Peek<SwiftReference>().internalReference))
             );
         }

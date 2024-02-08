@@ -21,6 +21,9 @@ namespace Cricut.FishyJoesRuntime {
         delegate CreatedRef EnvNewRefFn(UnownedRef obj);
         delegate void EnvDeleteRefFn(ConsumedRef obj);
         delegate CreatedRef EnvNewErrorFn(string message);
+        [return: MarshalAs(UnmanagedType.LPUTF8Str)] delegate string? EnvDescribeFn(UnownedRef obj);
+        delegate void EnvScheduleThreadWorkFn(IntPtr envRef, ConsumedRef handlerContext);
+
         [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern IntPtr FishyJoesCommonRuntime_Env_setup(
             EnvNewRefFn newRefFn,
@@ -36,7 +39,9 @@ namespace Cricut.FishyJoesRuntime {
             env = FishyJoesCommonRuntime_Env_setup(
                 bag<EnvNewRefFn>(obj => new CreatedRef(obj.Peek<object?>())),
                 bag<EnvDeleteRefFn>(obj => { obj.Consume<object?>(); }),
-                bag<EnvNewErrorFn>(message => new CreatedRef(new Exception(message)))
+                bag<EnvNewErrorFn>(message => new CreatedRef(new Exception(message))),
+                bag<EnvDescribeFn>(obj => obj.Peek<object?>()?.ToString()),
+                bag<EnvScheduleThreadWorkFn>((envRef, handlerContext) => throw new Exception("TODO"))
             );
 
             setupPrimitives();
@@ -47,6 +52,7 @@ namespace Cricut.FishyJoesRuntime {
             setupFunctions();
             setupMisc();
             setupAttributedString();
+            setupFutures();
         }
     }
 }

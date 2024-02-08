@@ -543,7 +543,7 @@ namespace Cricut.TestAPI {
             });
             Once("setup_Function3Converter<Swift.Float, Swift.Double, Swift.Int, FutureConverter<Swift.Double>>", () => {
                 Console.WriteLine("setting up (Swift.Float, Swift.Double, Swift.Int) -> Future<Swift.Double>...");
-                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function3Converter_setup<TODO, float, double, nint>(
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function3Converter_setup<System.Threading.Tasks.Task<double>, float, double, nint>(
                     Loader.env,
                     "Function3Converter<Swift.Float, Swift.Double, Swift.Int, FutureConverter<Swift.Double>>",
                     out exn
@@ -559,7 +559,7 @@ namespace Cricut.TestAPI {
             });
             Once("setup_Function1Converter<Swift.Int, FutureConverter<Swift.Int>>", () => {
                 Console.WriteLine("setting up (Swift.Int) -> Future<Swift.Int>...");
-                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function1Converter_setup<TODO, nint>(
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function1Converter_setup<System.Threading.Tasks.Task<nint>, nint>(
                     Loader.env,
                     "Function1Converter<Swift.Int, FutureConverter<Swift.Int>>",
                     out exn
@@ -591,7 +591,7 @@ namespace Cricut.TestAPI {
             });
             Once("setup_Function4Converter<Swift.String, Swift.String, Swift.String, Swift.String, FutureConverter<ArrayConverter<Swift.String>>>", () => {
                 Console.WriteLine("setting up (Swift.String, Swift.String, Swift.String, Swift.String) -> Future<Array<Swift.String>>...");
-                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function4Converter_setup<TODO, string, string, string, string>(
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function4Converter_setup<System.Threading.Tasks.Task<System.Collections.Generic.IList<string>>, string, string, string, string>(
                     Loader.env,
                     "Function4Converter<Swift.String, Swift.String, Swift.String, Swift.String, FutureConverter<ArrayConverter<Swift.String>>>",
                     out exn
@@ -647,7 +647,7 @@ namespace Cricut.TestAPI {
             });
             Once("setup_Function0Converter<FutureConverter<Swift.Int>>", () => {
                 Console.WriteLine("setting up () -> Future<Swift.Int>...");
-                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function0Converter_setup<TODO>(
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function0Converter_setup<System.Threading.Tasks.Task<nint>>(
                     Loader.env,
                     "Function0Converter<FutureConverter<Swift.Int>>",
                     out exn
@@ -687,7 +687,7 @@ namespace Cricut.TestAPI {
             });
             Once("setup_FutureConverter<FutureConverter<ArrayConverter<Swift.String>>>", () => {
                 Console.WriteLine("setting up Future<Future<Array<Swift.String>>>...");
-                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_FutureConverter_setup<TODO>(
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_FutureConverter_setup<System.Threading.Tasks.Task<System.Collections.Generic.IList<string>>>(
                     Loader.env,
                     "FutureConverter<FutureConverter<ArrayConverter<Swift.String>>>",
                     out exn
@@ -695,7 +695,7 @@ namespace Cricut.TestAPI {
             });
             Once("setup_FutureConverter<FutureConverter<Swift.Double>>", () => {
                 Console.WriteLine("setting up Future<Future<Swift.Double>>...");
-                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_FutureConverter_setup<TODO>(
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_FutureConverter_setup<System.Threading.Tasks.Task<double>>(
                     Loader.env,
                     "FutureConverter<FutureConverter<Swift.Double>>",
                     out exn
@@ -703,7 +703,7 @@ namespace Cricut.TestAPI {
             });
             Once("setup_FutureConverter<FutureConverter<Swift.Int>>", () => {
                 Console.WriteLine("setting up Future<Future<Swift.Int>>...");
-                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_FutureConverter_setup<TODO>(
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_FutureConverter_setup<System.Threading.Tasks.Task<nint>>(
                     Loader.env,
                     "FutureConverter<FutureConverter<Swift.Int>>",
                     out exn
@@ -759,7 +759,7 @@ namespace Cricut.TestAPI {
             });
             Once("setup_FutureConverter<FishyJoesCommonRuntime.VoidConverter>", () => {
                 Console.WriteLine("setting up Future<Void>...");
-                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_FutureConverter_setup<void>(
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_FutureConverter_setup(
                     Loader.env,
                     "FutureConverter<FishyJoesCommonRuntime.VoidConverter>",
                     out exn
