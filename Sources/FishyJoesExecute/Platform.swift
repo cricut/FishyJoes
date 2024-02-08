@@ -8,6 +8,7 @@ struct BuildConfiguration: Hashable {
     let fat: Bool
     let codeCoverage: Bool
     var baseDockerContext: Lazy<DockerContext?>
+    let disableParallelism: Bool
 }
 
 enum Platform: CustomStringConvertible, Hashable {
@@ -131,6 +132,9 @@ enum Platform: CustomStringConvertible, Hashable {
         if configuration.codeCoverage {
             args.append(contentsOf: Platform.coverageFlags)
         }
+        if configuration.disableParallelism {
+            args.append(contentsOf: ["-j", "1"])
+        }
         let path: String
         var env: [String: String] = [
             "SWIFT_PACKAGE_FORCE_DYNAMIC": "1",
@@ -150,7 +154,7 @@ enum Platform: CustomStringConvertible, Hashable {
         case .node, .kotlinSystem, .dart:
             #if os(macOS)
             path = Platform.nativeMacSwiftBuild
-            args.append(contentsOf: ["-Xlinker", "-rpath", "-Xlinker", "@loader_path", "-j", "1"])
+            args.append(contentsOf: ["-Xlinker", "-rpath", "-Xlinker", "@loader_path"])
             #elseif os(Linux)
             path = "swift"
             args = ["build"] + args
