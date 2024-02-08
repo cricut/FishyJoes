@@ -4,7 +4,7 @@ import JNI
 
 public class JavaReference {
     public private(set) var object: jobject?
-    private let vm: UnsafeMutablePointer<JavaVM?>?
+    public let vm: UnsafeMutablePointer<JavaVM?>?
 
     public init(local: jobject?, env: Env) throws {
         self.object = try local.map { try env.globalRef($0) }
