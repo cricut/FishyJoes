@@ -167,7 +167,7 @@ extension CodeGen {
 
             // Create / clean directories used by Sourcery to generate Swift and foreign language code files for the translated foreign languages
             let sourceLocations = [
-                "Sources\(ps)Generated\(ps)WasmShimMain",
+                "Sources\(ps)Generated\(ps)WasmMainShim",
                 "Sources\(ps)Generated\(ps)NodeNativeShim",
                 "Sources\(ps)Generated\(ps)NodeInterface",
                 "Sources\(ps)Generated\(ps)JavaInterface",
@@ -180,9 +180,11 @@ extension CodeGen {
             try cmd("mkdir", arguments: ["-p"] + sourceLocations).run()
             try cmd(
                 "touch",
-                "Sources\(ps)Generated\(ps)IotaInterface\(ps)EmptyPlaceholder.swift",
+                "Sources\(ps)Generated\(ps)WasmMainShim\(ps)EmptyPlaceholder.swift",
+                "Sources\(ps)Generated\(ps)NodeNativeShim\(ps)EmptyPlaceholder.swift",
                 "Sources\(ps)Generated\(ps)NodeInterface\(ps)EmptyPlaceholder.swift",
-                "Sources\(ps)Generated\(ps)JavaInterface\(ps)EmptyPlaceholder.swift"
+                "Sources\(ps)Generated\(ps)JavaInterface\(ps)EmptyPlaceholder.swift",
+                "Sources\(ps)Generated\(ps)IotaInterface\(ps)EmptyPlaceholder.swift"
             ).run()
 
             // Build the Sourcery tool itself
@@ -330,9 +332,10 @@ extension CodeGen {
                             name: String,
                             localPath: String,
                             definitionsPath: String,
+                            extensionsPath: String,
                             exports: [String],
                             nativeLibName: String,
-                            wasmShimMainName: String,
+                            wasmMainShimName: String,
                             nodeShimLibName: String,
                             nodeShimCJSName: String,
                             npmPackageName: String,
@@ -343,9 +346,10 @@ extension CodeGen {
                         name: "Runtime",
                         localPath: runtimePath,
                         definitionsPath: "\(runtimePath)\(ps)fishyjoes-runtime-common",
+                        extensionsPath: "\(runtimePath)\(ps)fishyjoes-runtime-common",
                         exports: ["Optional", "Runtime"],
                         nativeLibName: "FishyJoesNodeRuntime",
-                        wasmShimMainName: "Runtime_WasmMainShim.wasm",
+                        wasmMainShimName: "Runtime_WasmMainShim.wasm",
                         nodeShimLibName: "Runtime-node-native",
                         nodeShimCJSName: "Runtime.cjs.node",
                         npmPackageName: "fishyjoes-runtime-\(platform.nodeExecutionEnvironment)",
@@ -353,8 +357,7 @@ extension CodeGen {
                             // If fishy-joes is file-local, use a file-local runtime too
                             "file:\(fishyJoesDependency.localPath)\(ps)node-runtime\(ps)fishyjoes-runtime-\(platform.nodeExecutionEnvironment)"
                     ))
-                    for moduleName in config.requiredModules + [config.module] {
-                        let npmPackageName = "\(moduleName.lowercased())-\(platform.nodeExecutionEnvironment)"
+                    for moduleName in config.requiredModules {
                         let bindingsModuleName = "\(moduleName)-bindings"
                         guard let dependency = packageInfo.dependencyMap[bindingsModuleName] else {
                             fatalError("Could not locate dependency \(bindingsModuleName) in Package.swift")
@@ -363,17 +366,31 @@ extension CodeGen {
                             name: moduleName,
                             localPath: dependency.localPath,
                             definitionsPath: "\(dependency.localPath)\(ps)Sources\(ps)Generated\(ps)NodeInterface",
+                            extensionsPath: "ts",
                             exports: [moduleName],
                             nativeLibName: "\(moduleName)-node",
-                            wasmShimMainName: "\(moduleName)_WasmMainShim.wasm",
+                            wasmMainShimName: "\(moduleName)_WasmMainShim.wasm",
                             nodeShimLibName: "\(moduleName)-node-native",
                             nodeShimCJSName: "\(moduleName).cjs.node",
-                            npmPackageName: npmPackageName,
+                            npmPackageName: "\(moduleName.lowercased())-\(platform.nodeExecutionEnvironment)",
                             npmModuleVersion: dependency.version ??
                                 // If dependency is file-local, use a file-local dependency too
                                 "file:\(dependency.localPath)\(ps)output\(ps)\(platform.platform)"
                         ))
                     }
+                    nodeModules.append((
+                        name: config.module,
+                        localPath: "Sources\(ps)Generated\(ps)NodeInterface",
+                        definitionsPath: "Sources\(ps)Generated\(ps)NodeInterface",
+                        extensionsPath: "ts",
+                        exports: [config.module],
+                        nativeLibName: "\(config.module)-node",
+                        wasmMainShimName: "\(config.module)_WasmMainShim.wasm",
+                        nodeShimLibName: "\(config.module)-node-native",
+                        nodeShimCJSName: "\(config.module).cjs.node",
+                        npmPackageName: "\(config.module)-\(platform.nodeExecutionEnvironment)",
+                        npmModuleVersion: "file:output\(ps)\(platform.platform)"
+                    ))
                     let nodeDependencies = nodeModules.dropLast()
                     let nodeModule = nodeModules.last!
 
@@ -381,14 +398,14 @@ extension CodeGen {
                     if platform == .wasm {
                         // Install Wasm bundle to the output directory, using wasm-opt to optimize Wasm bundles if available
                         if wasmOpt, cmd("wasm-opt", "--version").runBool() {
-                            try cmd("wasm-opt", "\(platform.buildDir(configuration))\(ps)\(nodeModule.wasmShimMainName)", "-O1", "-o", "\(outputDir)\(ps)\(nodeModule.name).wasm").run()
+                            try cmd("wasm-opt", "\(platform.buildDir(configuration))\(ps)\(nodeModule.wasmMainShimName)", "-O1", "-o", "\(outputDir)\(ps)\(nodeModule.name).wasm").run()
                         } else {
                             if wasmOpt {
                                 printAndFlush("WARNING: wasm-opt is not installed, resulting build will be bigger and possibly slower")
                             } else {
                                 printAndFlush("skipping wasm-opt")
                             }
-                            try cmd("cp", "\(platform.buildDir(configuration))\(nodeModule.wasmShimMainName)", "\(outputDir)\(ps)\(nodeModule.name).wasm").run()
+                            try cmd("cp", "\(platform.buildDir(configuration))\(ps)\(nodeModule.wasmMainShimName)", "\(outputDir)\(ps)\(nodeModule.name).wasm").run()
                         }
                         try cmd("cp", "\(platform.buildDir(configuration))\(ps)FishyJoes_FishyJoesNodeRuntime.resources\(ps)js\(ps)wasm-napi.js", outputDir).run()
 
@@ -424,10 +441,9 @@ extension CodeGen {
                         )
 
                         // Install Javascript extensions for dependencies so they are loaded when the Wasm bundle is loaded, if provided
-                        for dependency in nodeDependencies {
-                            let modulePath = dependencySourcePaths[dependency.name]!
-                            let outPath = "\(outputDir)\(ps)\(dependency.name).extensions.js"
-                            let extensionPath = "\(modulePath)\(ps)ts\(ps)\(dependency.name).extensions.js"
+                        for module in nodeModules {
+                            let outPath = "\(outputDir)\(ps)\(module.name).extensions.js"
+                            let extensionPath = "\(module.extensionsPath)\(ps)\(module.name).extensions.js"
                             if !cmd("cp", extensionPath, outPath).runBool() {
                                 // No extensions found. Generate a no-op extension
                                 try cmd("cat", "-")
@@ -470,8 +486,8 @@ extension CodeGen {
                         try cmd("echo", moduleDotJS.joined(separator: "\n")).output(overwritingFile: "\(outputDir)\(ps)\(config.module).js").run()
 
                         // Configure loading of Javascript extensions when the module is loaded by node, if provided
-                        let outPath = "\(outputDir)\(ps)\(config.module).extensions.js"
-                        if !cmd("cp", "ts\(ps)\(config.module).extensions.js", outPath).runBool() {
+                        let outPath = "\(outputDir)\(ps)\(nodeModule.name).extensions.js"
+                        if !cmd("cp", "\(nodeModule.extensionsPath)\(ps)\(config.module).extensions.js", outPath).runBool() {
                             // No extensions found. Generate a no-op extension file for the module
                             try cmd("cat", "-")
                                 .input(
@@ -520,7 +536,7 @@ extension CodeGen {
                     definitions.append("")
 
                     // Splat in the module's extension definitions
-                    let moduleExtensionsPath = "ts\(ps)\(nodeModule.name).extensions.d.ts.part"
+                    let moduleExtensionsPath = "\(nodeModule.extensionsPath)\(ps)\(nodeModule.name).extensions.d.ts.part"
                     if cmd("test", "-f", moduleExtensionsPath).runBool() {
                         let moduleExtensionDefinitions = try String(contentsOfFile: moduleExtensionsPath)
                         definitions.append(contentsOf: moduleExtensionDefinitions.split(separator: "\n").map(String.init))

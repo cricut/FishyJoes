@@ -57,7 +57,7 @@ let package = Package(
         ),
     ] + (
         wasmCompatibleOnly ? [
-            .target(
+            .executableTarget(
                 name: "TestAPI_WasmMainShim",
                 dependencies: [
                     .target(name: "TestAPI_NodeInterface"),
