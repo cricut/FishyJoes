@@ -13,14 +13,14 @@ struct _JavaAProtocol: AProtocol {
     static var _fooSetMethodID: jmethodID?
     public var foo: String {
         get {
-            let env = try! _javaWitness.vm.currentThreadEnv()
+            let env = try! _javaWitness.currentThreadEnv()
             return try! Swift.String.fromJava(
                 env.CallObjectMethod(_javaWitness.object, Self._fooGetMethodID),
                 env: env
             )
         }
         set {
-            let env = try! _javaWitness.vm.currentThreadEnv()
+            let env = try! _javaWitness.currentThreadEnv()
             let javaNewValue = try! Swift.String.toJava(newValue, env: env)
             try! env.CallVoidMethod(_javaWitness.object, Self._fooSetMethodID, jvalue(javaNewValue))
         }
@@ -29,21 +29,21 @@ struct _JavaAProtocol: AProtocol {
     static var _bazSetMethodID: jmethodID?
     public var baz: Bool {
         get {
-            let env = try! _javaWitness.vm.currentThreadEnv()
+            let env = try! _javaWitness.currentThreadEnv()
             return try! Swift.Bool.fromJava(
                 env.CallBooleanMethod(_javaWitness.object, Self._bazGetMethodID),
                 env: env
             )
         }
         set {
-            let env = try! _javaWitness.vm.currentThreadEnv()
+            let env = try! _javaWitness.currentThreadEnv()
             let javaNewValue = try! Swift.Bool.toJava(newValue, env: env)
             try! env.CallVoidMethod(_javaWitness.object, Self._bazSetMethodID, jvalue(javaNewValue))
         }
     }
     static var _barMethodID: jmethodID?
     public func bar(x: Int, y: Int) -> AProtocol {
-        let env = try! _javaWitness.vm.currentThreadEnv()
+        let env = try! _javaWitness.currentThreadEnv()
         return try! _AProtocolConverter.fromJava(
             env.CallObjectMethod(
                 _javaWitness.object,
@@ -56,7 +56,7 @@ struct _JavaAProtocol: AProtocol {
     }
     static var _hasADefaultImplementationMethodID: jmethodID?
     public func hasADefaultImplementation() -> Int {
-        let env = try! _javaWitness.vm.currentThreadEnv()
+        let env = try! _javaWitness.currentThreadEnv()
         return try! Swift.Int.fromJava(
             env.CallLongMethod(
                 _javaWitness.object,
