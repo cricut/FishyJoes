@@ -779,38 +779,38 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(async42) -->
          */
-        static async42(
+        async42(
         ): Promise<number>;
 
         /**
          * <!-- FishyJoes.export(asyncYield) -->
          */
-        static asyncYield(
+        asyncYield(
         ): Promise<number>;
 
         /**
          * <!-- FishyJoes.export(asyncSleep) -->
          */
-        static asyncSleep(
+        asyncSleep(
         ): Promise<number>;
 
         /**
          * <!-- FishyJoes.export(asyncVoid) -->
          */
-        static asyncVoid(
+        asyncVoid(
         ): Promise<void>;
 
         /**
          * <!-- FishyJoes.export(asyncDouble) -->
          */
-        static asyncDouble(
+        asyncDouble(
             d: number
         ): Promise<number>;
 
         /**
          * <!-- FishyJoes.export(asyncMultipleArgs) -->
          */
-        static asyncMultipleArgs(
+        asyncMultipleArgs(
             i: number,
             j: () => Promise<number>
         ): Promise<number>;
@@ -818,13 +818,13 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(asyncThrowing) -->
          */
-        static asyncThrowing(
+        asyncThrowing(
         ): Promise<void>;
 
         /**
          * <!-- FishyJoes.export(asyncCallbackFunc0) -->
          */
-        static asyncCallbackFunc0(
+        asyncCallbackFunc0(
             callback: () => Promise<number>
         ): Promise<number>;
 

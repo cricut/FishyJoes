@@ -35,59 +35,118 @@ void main() {
           expect(instance.instanceStored, equals(7654));
       });
 
-      test('AsyncFunctionCall', () async {
-        final value = await Methods.async42();
-        expect(value, equals(42));
-      });
-
-      test('AsyncYieldingFunctionCall', () async {
-        await Methods.asyncYield();
-      });
-
-      test('AsyncSleepFunctionCal', () async {
-        await Methods.asyncSleep();
-      });
-
-      test('AsyncVoidFunctionCall', () async {
-        await Methods.asyncVoid();
-      });
-
-      test('AsyncCallbackFunctionCall0', () async {
-        var threw = false;
-        var value = 42;
-        var ran = false;
-        try {
-          value = await Methods.asyncCallbackFunc0(() async {
-            ran = true;
-            return 42;
+      group('AsyncInstanceTests', () {
+          test('AsyncFunctionCall', () async {
+              final value = await Methods.create().async42();
+              expect(value, equals(42));
           });
-        } catch (e) {
-          threw = true;
-        }
-        expect(threw, equals(false));
-        expect(value, equals(42));
-        expect(ran, equals(true));
+
+          test('AsyncYieldingFunctionCall', () async {
+              await Methods.create().asyncYield();
+          });
+
+          test('AsyncSleepFunctionCal', () async {
+              await Methods.create().asyncSleep();
+          });
+
+          test('AsyncVoidFunctionCall', () async {
+              await Methods.create().asyncVoid();
+          });
+
+          test('AsyncCallbackFunctionCall0', () async {
+              var threw = false;
+              var value = 42;
+              var ran = false;
+              try {
+                value = await Methods.create().asyncCallbackFunc0(() async {
+                    ran = true;
+                    return 42;
+                });
+              } catch (e) {
+                threw = true;
+              }
+              expect(threw, equals(false));
+              expect(value, equals(42));
+              expect(ran, equals(true));
+          });
+
+          test('AsyncCallbackFunctionCallThrow', () async {
+              expect(() async {
+                  await Methods.create().asyncCallbackFunc0(() => throw "asyncErr");
+                }, throwsA(equals("asyncErr")));
+          });
+
+          test('AsyncDoubleFunctionCall', () async {
+              final value = await Methods.create().asyncDouble(1.0);
+              expect(value, equals(2.0));
+          });
+
+          test('AsyncMultipleArgsFunctionCall', () async {
+              expect(await Methods.create().asyncMultipleArgs(1, () async => 2), equals(3));
+          });
+
+          test('AsyncThrowingFunctionCall', () {
+              expect(() async {
+                  await Methods.create().asyncThrowing();
+                }, throwsA(predicate((e) => '$e'.contains("TheMethodError()"))));
+          });
       });
 
-      test('AsyncCallbackFunctionCallThrow', () async {
-        expect(() async {
-          await Methods.asyncCallbackFunc0(() => throw "asyncErr");
-        }, throwsA(equals("asyncErr")));
-      });
+      group('AsyncStaticTests', () {
+          test('AsyncFunctionCall', () async {
+              final value = await Methods.staticAsync42();
+              expect(value, equals(42));
+          });
 
-      test('AsyncDoubleFunctionCall', () async {
-        final value = await Methods.asyncDouble(1.0);
-        expect(value, equals(2.0));
-      });
+          test('AsyncYieldingFunctionCall', () async {
+              await Methods.staticAsyncYield();
+          });
 
-      test('AsyncMultipleArgsFunctionCall', () async {
-        expect(await Methods.asyncMultipleArgs(1, () async => 2), equals(3));
-      });
+          test('AsyncSleepFunctionCal', () async {
+              await Methods.staticAsyncSleep();
+          });
 
-      test('AsyncThrowingFunctionCall', () {
-        expect(() async {
-          await Methods.asyncThrowing();
-        }, throwsA(predicate((e) => '$e'.contains("TheMethodError()"))));
+          test('AsyncVoidFunctionCall', () async {
+              await Methods.staticAsyncVoid();
+          });
+
+          test('AsyncCallbackFunctionCall0', () async {
+              var threw = false;
+              var value = 42;
+              var ran = false;
+              try {
+                value = await Methods.staticAsyncCallbackFunc0(() async {
+                    ran = true;
+                    return 42;
+                });
+              } catch (e) {
+                threw = true;
+              }
+              expect(threw, equals(false));
+              expect(value, equals(42));
+              expect(ran, equals(true));
+          });
+
+          test('AsyncCallbackFunctionCallThrow', () async {
+              expect(() async {
+                  await Methods.staticAsyncCallbackFunc0(() => throw "asyncErr");
+                }, throwsA(equals("asyncErr")));
+          });
+
+          test('AsyncDoubleFunctionCall', () async {
+              final value = await Methods.staticAsyncDouble(1.0);
+              expect(value, equals(2.0));
+          });
+
+          test('AsyncMultipleArgsFunctionCall', () async {
+              expect(await Methods.staticAsyncMultipleArgs(1, () async => 2), equals(3));
+          });
+
+          test('AsyncThrowingFunctionCall', () {
+              expect(() async {
+                  await Methods.staticAsyncThrowing();
+                }, throwsA(predicate((e) => '$e'.contains("TheMethodError()"))));
+          });
       });
   });
 }

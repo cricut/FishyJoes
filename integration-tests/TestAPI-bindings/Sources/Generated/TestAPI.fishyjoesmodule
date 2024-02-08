@@ -1713,7 +1713,7 @@
                   "<!-- FishyJoes.export(async42) -->"
                 ],
                 "isAsync" : true,
-                "isStatic" : true,
+                "isStatic" : false,
                 "name" : "async42",
                 "parameters" : [
 
@@ -1733,7 +1733,7 @@
                   "<!-- FishyJoes.export(asyncYield) -->"
                 ],
                 "isAsync" : true,
-                "isStatic" : true,
+                "isStatic" : false,
                 "name" : "asyncYield",
                 "parameters" : [
 
@@ -1753,7 +1753,7 @@
                   "<!-- FishyJoes.export(asyncSleep) -->"
                 ],
                 "isAsync" : true,
-                "isStatic" : true,
+                "isStatic" : false,
                 "name" : "asyncSleep",
                 "parameters" : [
 
@@ -1773,7 +1773,7 @@
                   "<!-- FishyJoes.export(asyncVoid) -->"
                 ],
                 "isAsync" : true,
-                "isStatic" : true,
+                "isStatic" : false,
                 "name" : "asyncVoid",
                 "parameters" : [
 
@@ -1793,7 +1793,7 @@
                   "<!-- FishyJoes.export(asyncDouble) -->"
                 ],
                 "isAsync" : true,
-                "isStatic" : true,
+                "isStatic" : false,
                 "name" : "asyncDouble",
                 "parameters" : [
                   {
@@ -1820,7 +1820,7 @@
                   "<!-- FishyJoes.export(asyncMultipleArgs) -->"
                 ],
                 "isAsync" : true,
-                "isStatic" : true,
+                "isStatic" : false,
                 "name" : "asyncMultipleArgs",
                 "parameters" : [
                   {
@@ -1855,7 +1855,7 @@
                   "<!-- FishyJoes.export(asyncThrowing) -->"
                 ],
                 "isAsync" : true,
-                "isStatic" : true,
+                "isStatic" : false,
                 "name" : "asyncThrowing",
                 "parameters" : [
 
@@ -1875,7 +1875,7 @@
                   "<!-- FishyJoes.export(asyncCallbackFunc0) -->"
                 ],
                 "isAsync" : true,
-                "isStatic" : true,
+                "isStatic" : false,
                 "name" : "asyncCallbackFunc0",
                 "parameters" : [
                   {

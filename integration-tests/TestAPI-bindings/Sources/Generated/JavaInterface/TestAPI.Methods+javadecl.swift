@@ -26,11 +26,13 @@ let java_TestAPI_Methods_async42: @convention(c) (
     jobject
 ) -> FutureConverter<Swift.Int>.CType = { _javaEnv, _javaThis in
     FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
+        let _javaThisRef = try JavaReference(local: _javaThis, env: _javaEnv)
         return try swiftTask(env: _javaEnv) { _javaEnv, _vm in
+            let _swiftThis = try TestAPI.Methods.fromJava(_javaThisRef.object, env: _javaEnv)
             let value: Swift.Int.SwiftType = try await {
                 try Env.relinquishJVMThread(on: _vm)
                 defer { _javaEnv = try! Env.acquireJVMThread(on: _vm) }
-                return await TestAPI.Methods.async42(
+                return await _swiftThis.async42(
                 )
             }()
             return try Swift.Int.toJavaObject(value, env: _javaEnv)
@@ -44,11 +46,13 @@ let java_TestAPI_Methods_asyncYield: @convention(c) (
     jobject
 ) -> FutureConverter<Swift.Int>.CType = { _javaEnv, _javaThis in
     FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
+        let _javaThisRef = try JavaReference(local: _javaThis, env: _javaEnv)
         return try swiftTask(env: _javaEnv) { _javaEnv, _vm in
+            let _swiftThis = try TestAPI.Methods.fromJava(_javaThisRef.object, env: _javaEnv)
             let value: Swift.Int.SwiftType = try await {
                 try Env.relinquishJVMThread(on: _vm)
                 defer { _javaEnv = try! Env.acquireJVMThread(on: _vm) }
-                return await TestAPI.Methods.asyncYield(
+                return await _swiftThis.asyncYield(
                 )
             }()
             return try Swift.Int.toJavaObject(value, env: _javaEnv)
@@ -62,11 +66,13 @@ let java_TestAPI_Methods_asyncSleep: @convention(c) (
     jobject
 ) -> FutureConverter<Swift.Int>.CType = { _javaEnv, _javaThis in
     FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
+        let _javaThisRef = try JavaReference(local: _javaThis, env: _javaEnv)
         return try swiftTask(env: _javaEnv) { _javaEnv, _vm in
+            let _swiftThis = try TestAPI.Methods.fromJava(_javaThisRef.object, env: _javaEnv)
             let value: Swift.Int.SwiftType = try await {
                 try Env.relinquishJVMThread(on: _vm)
                 defer { _javaEnv = try! Env.acquireJVMThread(on: _vm) }
-                return try await TestAPI.Methods.asyncSleep(
+                return try await _swiftThis.asyncSleep(
                 )
             }()
             return try Swift.Int.toJavaObject(value, env: _javaEnv)
@@ -80,11 +86,13 @@ let java_TestAPI_Methods_asyncVoid: @convention(c) (
     jobject
 ) -> FutureConverter<FishyJoesCommonRuntime.VoidConverter>.CType = { _javaEnv, _javaThis in
     FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
+        let _javaThisRef = try JavaReference(local: _javaThis, env: _javaEnv)
         return try swiftTask(env: _javaEnv) { _javaEnv, _vm in
+            let _swiftThis = try TestAPI.Methods.fromJava(_javaThisRef.object, env: _javaEnv)
             let value: FishyJoesCommonRuntime.VoidConverter.SwiftType = try await {
                 try Env.relinquishJVMThread(on: _vm)
                 defer { _javaEnv = try! Env.acquireJVMThread(on: _vm) }
-                return await TestAPI.Methods.asyncVoid(
+                return await _swiftThis.asyncVoid(
                 )
             }()
             return try FishyJoesCommonRuntime.VoidConverter.toJavaObject(value, env: _javaEnv)
@@ -100,11 +108,13 @@ let java_TestAPI_Methods_asyncDouble: @convention(c) (
 ) -> FutureConverter<Swift.Double>.CType = { _javaEnv, _javaThis, d in
     FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
         let d = try Swift.Double.fromJava(d, env: _javaEnv)
+        let _javaThisRef = try JavaReference(local: _javaThis, env: _javaEnv)
         return try swiftTask(env: _javaEnv) { _javaEnv, _vm in
+            let _swiftThis = try TestAPI.Methods.fromJava(_javaThisRef.object, env: _javaEnv)
             let value: Swift.Double.SwiftType = try await {
                 try Env.relinquishJVMThread(on: _vm)
                 defer { _javaEnv = try! Env.acquireJVMThread(on: _vm) }
-                return await TestAPI.Methods.asyncDouble(
+                return await _swiftThis.asyncDouble(
                     d
                 )
             }()
@@ -123,11 +133,13 @@ let java_TestAPI_Methods_asyncMultipleArgs: @convention(c) (
     FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
         let i = try Swift.Int.fromJava(i, env: _javaEnv)
         let j = try AsyncFunction0Converter<Swift.Int>.fromJava(j, env: _javaEnv)
+        let _javaThisRef = try JavaReference(local: _javaThis, env: _javaEnv)
         return try swiftTask(env: _javaEnv) { _javaEnv, _vm in
+            let _swiftThis = try TestAPI.Methods.fromJava(_javaThisRef.object, env: _javaEnv)
             let value: Swift.Int.SwiftType = try await {
                 try Env.relinquishJVMThread(on: _vm)
                 defer { _javaEnv = try! Env.acquireJVMThread(on: _vm) }
-                return try await TestAPI.Methods.asyncMultipleArgs(
+                return try await _swiftThis.asyncMultipleArgs(
                     i,
                     j: j
                 )
@@ -143,11 +155,13 @@ let java_TestAPI_Methods_asyncThrowing: @convention(c) (
     jobject
 ) -> FutureConverter<FishyJoesCommonRuntime.VoidConverter>.CType = { _javaEnv, _javaThis in
     FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
+        let _javaThisRef = try JavaReference(local: _javaThis, env: _javaEnv)
         return try swiftTask(env: _javaEnv) { _javaEnv, _vm in
+            let _swiftThis = try TestAPI.Methods.fromJava(_javaThisRef.object, env: _javaEnv)
             let value: FishyJoesCommonRuntime.VoidConverter.SwiftType = try await {
                 try Env.relinquishJVMThread(on: _vm)
                 defer { _javaEnv = try! Env.acquireJVMThread(on: _vm) }
-                return try await TestAPI.Methods.asyncThrowing(
+                return try await _swiftThis.asyncThrowing(
                 )
             }()
             return try FishyJoesCommonRuntime.VoidConverter.toJavaObject(value, env: _javaEnv)
@@ -163,11 +177,13 @@ let java_TestAPI_Methods_asyncCallbackFunc0: @convention(c) (
 ) -> FutureConverter<Swift.Int>.CType = { _javaEnv, _javaThis, callback in
     FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
         let callback = try AsyncFunction0Converter<Swift.Int>.fromJava(callback, env: _javaEnv)
+        let _javaThisRef = try JavaReference(local: _javaThis, env: _javaEnv)
         return try swiftTask(env: _javaEnv) { _javaEnv, _vm in
+            let _swiftThis = try TestAPI.Methods.fromJava(_javaThisRef.object, env: _javaEnv)
             let value: Swift.Int.SwiftType = try await {
                 try Env.relinquishJVMThread(on: _vm)
                 defer { _javaEnv = try! Env.acquireJVMThread(on: _vm) }
-                return try await TestAPI.Methods.asyncCallbackFunc0(
+                return try await _swiftThis.asyncCallbackFunc0(
                     callback
                 )
             }()

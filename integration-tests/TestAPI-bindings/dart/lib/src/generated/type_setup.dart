@@ -1359,21 +1359,25 @@ final ensureLoaded = (() {
     TestAPI.Methods.f__iota_TestAPI_Methods_async42 = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
+            UnownedRef _this,
             OutCreatedRef _exn
         ),
         CreatedRef Function(
             Env env,
+            UnownedRef _this,
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_Methods_async42");
     TestAPI.Methods.f__iota_TestAPI_Methods_asyncCallbackFunc0 = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
+            UnownedRef _this,
             UnownedRef callback,
             OutCreatedRef _exn
         ),
         CreatedRef Function(
             Env env,
+            UnownedRef _this,
             UnownedRef callback,
             OutCreatedRef _exn
         )
@@ -1381,11 +1385,13 @@ final ensureLoaded = (() {
     TestAPI.Methods.f__iota_TestAPI_Methods_asyncDouble = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
+            UnownedRef _this,
             ffi.Double d,
             OutCreatedRef _exn
         ),
         CreatedRef Function(
             Env env,
+            UnownedRef _this,
             double d,
             OutCreatedRef _exn
         )
@@ -1393,12 +1399,14 @@ final ensureLoaded = (() {
     TestAPI.Methods.f__iota_TestAPI_Methods_asyncMultipleArgs = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
+            UnownedRef _this,
             ffi.Int i,
             UnownedRef j,
             OutCreatedRef _exn
         ),
         CreatedRef Function(
             Env env,
+            UnownedRef _this,
             int i,
             UnownedRef j,
             OutCreatedRef _exn
@@ -1407,40 +1415,48 @@ final ensureLoaded = (() {
     TestAPI.Methods.f__iota_TestAPI_Methods_asyncSleep = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
+            UnownedRef _this,
             OutCreatedRef _exn
         ),
         CreatedRef Function(
             Env env,
+            UnownedRef _this,
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_Methods_asyncSleep");
     TestAPI.Methods.f__iota_TestAPI_Methods_asyncThrowing = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
+            UnownedRef _this,
             OutCreatedRef _exn
         ),
         CreatedRef Function(
             Env env,
+            UnownedRef _this,
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_Methods_asyncThrowing");
     TestAPI.Methods.f__iota_TestAPI_Methods_asyncVoid = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
+            UnownedRef _this,
             OutCreatedRef _exn
         ),
         CreatedRef Function(
             Env env,
+            UnownedRef _this,
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_Methods_asyncVoid");
     TestAPI.Methods.f__iota_TestAPI_Methods_asyncYield = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
+            UnownedRef _this,
             OutCreatedRef _exn
         ),
         CreatedRef Function(
             Env env,
+            UnownedRef _this,
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_Methods_asyncYield");

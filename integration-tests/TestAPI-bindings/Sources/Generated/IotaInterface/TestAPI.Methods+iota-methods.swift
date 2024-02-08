@@ -26,12 +26,14 @@ public func __iota_TestAPI_Methods_create(
 @_cdecl("__iota_TestAPI_Methods_async42")
 public func __iota_TestAPI_Methods_async42(
     envRef: EnvRef,
+    _iotaThis: foreignObject,
     _exn: foreignOutExn
 ) -> foreignObject {
     let env = Env(envRef)
     return env.catching(to: _exn) {
+        let _swiftSelf = UncheckedSendableBox(try TestAPI.Methods.peekIota(_iotaThis, env: env))
         let _swiftFuture = Future {
-            await TestAPI.Methods.async42(
+            await _swiftSelf.value.async42(
             )
         }
         return try FutureConverter<Swift.Int>.toIota(_swiftFuture, env: env)
@@ -42,12 +44,14 @@ public func __iota_TestAPI_Methods_async42(
 @_cdecl("__iota_TestAPI_Methods_asyncYield")
 public func __iota_TestAPI_Methods_asyncYield(
     envRef: EnvRef,
+    _iotaThis: foreignObject,
     _exn: foreignOutExn
 ) -> foreignObject {
     let env = Env(envRef)
     return env.catching(to: _exn) {
+        let _swiftSelf = UncheckedSendableBox(try TestAPI.Methods.peekIota(_iotaThis, env: env))
         let _swiftFuture = Future {
-            await TestAPI.Methods.asyncYield(
+            await _swiftSelf.value.asyncYield(
             )
         }
         return try FutureConverter<Swift.Int>.toIota(_swiftFuture, env: env)
@@ -58,12 +62,14 @@ public func __iota_TestAPI_Methods_asyncYield(
 @_cdecl("__iota_TestAPI_Methods_asyncSleep")
 public func __iota_TestAPI_Methods_asyncSleep(
     envRef: EnvRef,
+    _iotaThis: foreignObject,
     _exn: foreignOutExn
 ) -> foreignObject {
     let env = Env(envRef)
     return env.catching(to: _exn) {
+        let _swiftSelf = UncheckedSendableBox(try TestAPI.Methods.peekIota(_iotaThis, env: env))
         let _swiftFuture = Future {
-            try await TestAPI.Methods.asyncSleep(
+            try await _swiftSelf.value.asyncSleep(
             )
         }
         return try FutureConverter<Swift.Int>.toIota(_swiftFuture, env: env)
@@ -74,12 +80,14 @@ public func __iota_TestAPI_Methods_asyncSleep(
 @_cdecl("__iota_TestAPI_Methods_asyncVoid")
 public func __iota_TestAPI_Methods_asyncVoid(
     envRef: EnvRef,
+    _iotaThis: foreignObject,
     _exn: foreignOutExn
 ) -> foreignObject {
     let env = Env(envRef)
     return env.catching(to: _exn) {
+        let _swiftSelf = UncheckedSendableBox(try TestAPI.Methods.peekIota(_iotaThis, env: env))
         let _swiftFuture = Future {
-            await TestAPI.Methods.asyncVoid(
+            await _swiftSelf.value.asyncVoid(
             )
         }
         return try FutureConverter<FishyJoesCommonRuntime.VoidConverter>.toIota(_swiftFuture, env: env)
@@ -90,14 +98,16 @@ public func __iota_TestAPI_Methods_asyncVoid(
 @_cdecl("__iota_TestAPI_Methods_asyncDouble")
 public func __iota_TestAPI_Methods_asyncDouble(
     envRef: EnvRef,
+    _iotaThis: foreignObject,
     d: Swift.Double.CType,
     _exn: foreignOutExn
 ) -> foreignObject {
     let env = Env(envRef)
     return env.catching(to: _exn) {
         let d = try Swift.Double.peekIota(d, env: env)
+        let _swiftSelf = UncheckedSendableBox(try TestAPI.Methods.peekIota(_iotaThis, env: env))
         let _swiftFuture = Future {
-            await TestAPI.Methods.asyncDouble(
+            await _swiftSelf.value.asyncDouble(
                 d
             )
         }
@@ -109,6 +119,7 @@ public func __iota_TestAPI_Methods_asyncDouble(
 @_cdecl("__iota_TestAPI_Methods_asyncMultipleArgs")
 public func __iota_TestAPI_Methods_asyncMultipleArgs(
     envRef: EnvRef,
+    _iotaThis: foreignObject,
     i: Swift.Int.CType,
     j: AsyncFunction0Converter<Swift.Int>.CType,
     _exn: foreignOutExn
@@ -117,8 +128,9 @@ public func __iota_TestAPI_Methods_asyncMultipleArgs(
     return env.catching(to: _exn) {
         let i = try Swift.Int.peekIota(i, env: env)
         let j = try AsyncFunction0Converter<Swift.Int>.peekIota(j, env: env)
+        let _swiftSelf = UncheckedSendableBox(try TestAPI.Methods.peekIota(_iotaThis, env: env))
         let _swiftFuture = Future {
-            try await TestAPI.Methods.asyncMultipleArgs(
+            try await _swiftSelf.value.asyncMultipleArgs(
                 i,
                 j: j
             )
@@ -131,12 +143,14 @@ public func __iota_TestAPI_Methods_asyncMultipleArgs(
 @_cdecl("__iota_TestAPI_Methods_asyncThrowing")
 public func __iota_TestAPI_Methods_asyncThrowing(
     envRef: EnvRef,
+    _iotaThis: foreignObject,
     _exn: foreignOutExn
 ) -> foreignObject {
     let env = Env(envRef)
     return env.catching(to: _exn) {
+        let _swiftSelf = UncheckedSendableBox(try TestAPI.Methods.peekIota(_iotaThis, env: env))
         let _swiftFuture = Future {
-            try await TestAPI.Methods.asyncThrowing(
+            try await _swiftSelf.value.asyncThrowing(
             )
         }
         return try FutureConverter<FishyJoesCommonRuntime.VoidConverter>.toIota(_swiftFuture, env: env)
@@ -147,14 +161,16 @@ public func __iota_TestAPI_Methods_asyncThrowing(
 @_cdecl("__iota_TestAPI_Methods_asyncCallbackFunc0")
 public func __iota_TestAPI_Methods_asyncCallbackFunc0(
     envRef: EnvRef,
+    _iotaThis: foreignObject,
     callback: AsyncFunction0Converter<Swift.Int>.CType,
     _exn: foreignOutExn
 ) -> foreignObject {
     let env = Env(envRef)
     return env.catching(to: _exn) {
         let callback = try AsyncFunction0Converter<Swift.Int>.peekIota(callback, env: env)
+        let _swiftSelf = UncheckedSendableBox(try TestAPI.Methods.peekIota(_iotaThis, env: env))
         let _swiftFuture = Future {
-            try await TestAPI.Methods.asyncCallbackFunc0(
+            try await _swiftSelf.value.asyncCallbackFunc0(
                 callback
             )
         }
