@@ -115,7 +115,7 @@ struct TranslatedProtocol: TranslatedType {
                 }
                 fragment.outputBlock("public var \(name): \(type) {") {
                     fragment.outputBlock("get {") {
-                        fragment.output("let env = try! _javaWitness.vm.currentThreadEnv()")
+                        fragment.output("let env = try! _javaWitness.currentThreadEnv()")
                         fragment.outputBlock("return try! \(resolved.converterType.name).fromJava(") {
                             fragment.output("env.Call\(resolved.jniType.valueType)Method(_javaWitness.object, Self.\(getID)),")
                             fragment.output("env: env")
@@ -123,7 +123,7 @@ struct TranslatedProtocol: TranslatedType {
                     }
                     if variable.isMutable {
                         fragment.outputBlock("set {") {
-                            fragment.output("let env = try! _javaWitness.vm.currentThreadEnv()")
+                            fragment.output("let env = try! _javaWitness.currentThreadEnv()")
                             fragment.output("let javaNewValue = try! \(resolved.converterType.name).toJava(newValue, env: env)")
                             fragment.output("try! env.CallVoidMethod(_javaWitness.object, Self._\(name)SetMethodID, jvalue(javaNewValue))")
                         }
@@ -135,7 +135,7 @@ struct TranslatedProtocol: TranslatedType {
                 let returnSignature = "\(method.isThrowing ? " throws" : "") -> \(method.returnType.name)"
                 fragment.output("static var _\(method.callName)MethodID: jmethodID?")
                 fragment.outputBlock("public func \(method.name)\(returnSignature) {") {
-                    fragment.output("let env = try! _javaWitness.vm.currentThreadEnv()")
+                    fragment.output("let env = try! _javaWitness.currentThreadEnv()")
                     fragment.outputBlock("return try! \(resolvedReturn.converterType.name).fromJava(") {
                         fragment.outputBlock("env.Call\(resolvedReturn.jniType.valueType)Method(", closeWith: "),") {
                             fragment.output("_javaWitness.object,")
