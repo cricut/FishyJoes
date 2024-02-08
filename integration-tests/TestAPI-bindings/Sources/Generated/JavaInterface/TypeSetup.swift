@@ -20,10 +20,38 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try Function2Converter<Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>>.javaSetup(env: env)
         // print("setting up Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>...")
         try Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.javaSetup(env: env)
+        // print("setting up Function2Converter<Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>>...")
+        try Function2Converter<Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>>.javaSetup(env: env)
+        // print("setting up Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>...")
+        try Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.javaSetup(env: env)
+        // print("setting up Function1Converter<OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>, OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>>...")
+        try Function1Converter<OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>, OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>>.javaSetup(env: env)
         // print("setting up Function1Converter<OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>, OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>>...")
         try Function1Converter<OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>, OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>>.javaSetup(env: env)
         // print("setting up Function1Converter<OptionalConverter<Swift.UInt8>, OptionalConverter<Swift.UInt8>>...")
         try Function1Converter<OptionalConverter<Swift.UInt8>, OptionalConverter<Swift.UInt8>>.javaSetup(env: env)
+        // print("setting up Function1Converter<OptionalConverter<Swift.UInt8>, OptionalConverter<Swift.UInt8>>...")
+        try Function1Converter<OptionalConverter<Swift.UInt8>, OptionalConverter<Swift.UInt8>>.javaSetup(env: env)
+        // print("setting up Function3Converter<Swift.Float, Swift.Double, Swift.Int, FutureConverter<Swift.Double>>...")
+        try Function3Converter<Swift.Float, Swift.Double, Swift.Int, FutureConverter<Swift.Double>>.javaSetup(env: env)
+        // print("setting up Function3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>...")
+        try Function3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.javaSetup(env: env)
+        // print("setting up Function1Converter<Swift.Int, FutureConverter<Swift.Int>>...")
+        try Function1Converter<Swift.Int, FutureConverter<Swift.Int>>.javaSetup(env: env)
+        // print("setting up Function1Converter<Swift.Int, Swift.Int>...")
+        try Function1Converter<Swift.Int, Swift.Int>.javaSetup(env: env)
+        // print("setting up Function6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, Function0Converter<Swift.Int>, Swift.Int, Swift.Int>...")
+        try Function6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, Function0Converter<Swift.Int>, Swift.Int, Swift.Int>.javaSetup(env: env)
+        // print("setting up Function5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, Function0Converter<Swift.Int>, Function0Converter<Swift.Int>>...")
+        try Function5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, Function0Converter<Swift.Int>, Function0Converter<Swift.Int>>.javaSetup(env: env)
+        // print("setting up Function6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, FutureConverter<Swift.Int>>...")
+        try Function6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, FutureConverter<Swift.Int>>.javaSetup(env: env)
+        // print("setting up Function5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, FutureConverter<AsyncFunction0Converter<Swift.Int>>>...")
+        try Function5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, FutureConverter<AsyncFunction0Converter<Swift.Int>>>.javaSetup(env: env)
+        // print("setting up Function4Converter<Swift.String, Swift.String, Swift.String, Swift.String, FutureConverter<ArrayConverter<Swift.String>>>...")
+        try Function4Converter<Swift.String, Swift.String, Swift.String, Swift.String, FutureConverter<ArrayConverter<Swift.String>>>.javaSetup(env: env)
+        // print("setting up Function4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>...")
+        try Function4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.javaSetup(env: env)
         // print("setting up Function3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>...")
         try Function3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.javaSetup(env: env)
         // print("setting up AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>...")
@@ -44,10 +72,44 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try Function4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.javaSetup(env: env)
         // print("setting up AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>...")
         try AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.javaSetup(env: env)
+        // print("setting up Function0Converter<FutureConverter<Swift.Int>>...")
+        try Function0Converter<FutureConverter<Swift.Int>>.javaSetup(env: env)
+        // print("setting up Function0Converter<Swift.Int>...")
+        try Function0Converter<Swift.Int>.javaSetup(env: env)
         // print("setting up Function0Converter<Swift.Int>...")
         try Function0Converter<Swift.Int>.javaSetup(env: env)
         // print("setting up AsyncFunction0Converter<Swift.Int>...")
         try AsyncFunction0Converter<Swift.Int>.javaSetup(env: env)
+        // print("setting up FutureConverter<Function1Converter<Swift.Int, Swift.Int>>...")
+        try FutureConverter<Function1Converter<Swift.Int, Swift.Int>>.javaSetup(env: env)
+        // print("setting up FutureConverter<AsyncFunction1Converter<Swift.Int, Swift.Int>>...")
+        try FutureConverter<AsyncFunction1Converter<Swift.Int, Swift.Int>>.javaSetup(env: env)
+        // print("setting up FutureConverter<Function0Converter<Swift.Int>>...")
+        try FutureConverter<Function0Converter<Swift.Int>>.javaSetup(env: env)
+        // print("setting up FutureConverter<AsyncFunction0Converter<Swift.Int>>...")
+        try FutureConverter<AsyncFunction0Converter<Swift.Int>>.javaSetup(env: env)
+        // print("setting up FutureConverter<FutureConverter<AsyncFunction0Converter<Swift.Int>>>...")
+        try FutureConverter<FutureConverter<AsyncFunction0Converter<Swift.Int>>>.javaSetup(env: env)
+        // print("setting up FutureConverter<FutureConverter<ArrayConverter<Swift.String>>>...")
+        try FutureConverter<FutureConverter<ArrayConverter<Swift.String>>>.javaSetup(env: env)
+        // print("setting up FutureConverter<FutureConverter<Swift.Double>>...")
+        try FutureConverter<FutureConverter<Swift.Double>>.javaSetup(env: env)
+        // print("setting up FutureConverter<FutureConverter<Swift.Int>>...")
+        try FutureConverter<FutureConverter<Swift.Int>>.javaSetup(env: env)
+        // print("setting up FutureConverter<ArrayConverter<Swift.String>>...")
+        try FutureConverter<ArrayConverter<Swift.String>>.javaSetup(env: env)
+        // print("setting up FutureConverter<OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>>...")
+        try FutureConverter<OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>>.javaSetup(env: env)
+        // print("setting up FutureConverter<OptionalConverter<Swift.UInt8>>...")
+        try FutureConverter<OptionalConverter<Swift.UInt8>>.javaSetup(env: env)
+        // print("setting up FutureConverter<Swift.Double>...")
+        try FutureConverter<Swift.Double>.javaSetup(env: env)
+        // print("setting up FutureConverter<Swift.Int>...")
+        try FutureConverter<Swift.Int>.javaSetup(env: env)
+        // print("setting up FutureConverter<Swift.String>...")
+        try FutureConverter<Swift.String>.javaSetup(env: env)
+        // print("setting up FutureConverter<FishyJoesCommonRuntime.VoidConverter>...")
+        try FutureConverter<FishyJoesCommonRuntime.VoidConverter>.javaSetup(env: env)
         // print("setting up ArrayConverter<OptionalConverter<Swift.Bool>>...")
         try ArrayConverter<OptionalConverter<Swift.Bool>>.javaSetup(env: env)
         // print("setting up ArrayConverter<OptionalConverter<Swift.Double>>...")
@@ -960,6 +1022,46 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_asyncCallbackFunc0"),
                 signature: bag.add("(Lkotlin/jvm/functions/Function1;)Lkotlinx/coroutines/Deferred;"),
                 fnPtr: unsafeBitCast(java_TestAPI_Methods_asyncCallbackFunc0, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_staticAsync42"),
+                signature: bag.add("()Lkotlinx/coroutines/Deferred;"),
+                fnPtr: unsafeBitCast(java_TestAPI_Methods_staticAsync42, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_staticAsyncYield"),
+                signature: bag.add("()Lkotlinx/coroutines/Deferred;"),
+                fnPtr: unsafeBitCast(java_TestAPI_Methods_staticAsyncYield, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_staticAsyncSleep"),
+                signature: bag.add("()Lkotlinx/coroutines/Deferred;"),
+                fnPtr: unsafeBitCast(java_TestAPI_Methods_staticAsyncSleep, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_staticAsyncVoid"),
+                signature: bag.add("()Lkotlinx/coroutines/Deferred;"),
+                fnPtr: unsafeBitCast(java_TestAPI_Methods_staticAsyncVoid, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_staticAsyncDouble"),
+                signature: bag.add("(D)Lkotlinx/coroutines/Deferred;"),
+                fnPtr: unsafeBitCast(java_TestAPI_Methods_staticAsyncDouble, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_staticAsyncMultipleArgs"),
+                signature: bag.add("(JLkotlin/jvm/functions/Function1;)Lkotlinx/coroutines/Deferred;"),
+                fnPtr: unsafeBitCast(java_TestAPI_Methods_staticAsyncMultipleArgs, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_staticAsyncThrowing"),
+                signature: bag.add("()Lkotlinx/coroutines/Deferred;"),
+                fnPtr: unsafeBitCast(java_TestAPI_Methods_staticAsyncThrowing, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_staticAsyncCallbackFunc0"),
+                signature: bag.add("(Lkotlin/jvm/functions/Function1;)Lkotlinx/coroutines/Deferred;"),
+                fnPtr: unsafeBitCast(java_TestAPI_Methods_staticAsyncCallbackFunc0, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_get_staticGet"),

@@ -144,54 +144,51 @@ extension TestAPI.Collections.CollectionHolder: IotaMutator {
         }
     }
 
-    public static func mutateIota<R>(_ this: foreignObject, env: Env, body: (inout Self) throws -> R) throws -> R {
-        var mutatingSelf = try peekIota(this, env: env)
-        let result = try body(&mutatingSelf)
+    public static func mutateIota(_ this: foreignObject, to value: Self, env: Env) throws {
         try env.check { exn in _boolArraySetter[env](
             this,
-            try ArrayConverter<Swift.Bool>.toIota(mutatingSelf.boolArray, env: env),
+            try ArrayConverter<Swift.Bool>.toIota(value.boolArray, env: env),
             exn
         )}
         try env.check { exn in _boolSetSetter[env](
             this,
-            try SetConverter<Swift.Bool>.toIota(mutatingSelf.boolSet, env: env),
+            try SetConverter<Swift.Bool>.toIota(value.boolSet, env: env),
             exn
         )}
         try env.check { exn in _boolDictionarySetter[env](
             this,
-            try DictionaryConverter<Swift.Bool, Swift.Bool>.toIota(mutatingSelf.boolDictionary, env: env),
+            try DictionaryConverter<Swift.Bool, Swift.Bool>.toIota(value.boolDictionary, env: env),
             exn
         )}
         try env.check { exn in _integerArraySetter[env](
             this,
-            try ArrayConverter<Swift.Int>.toIota(mutatingSelf.integerArray, env: env),
+            try ArrayConverter<Swift.Int>.toIota(value.integerArray, env: env),
             exn
         )}
         try env.check { exn in _integerSetSetter[env](
             this,
-            try SetConverter<Swift.Int>.toIota(mutatingSelf.integerSet, env: env),
+            try SetConverter<Swift.Int>.toIota(value.integerSet, env: env),
             exn
         )}
         try env.check { exn in _integerDictionarySetter[env](
             this,
-            try DictionaryConverter<Swift.Int, Swift.Int>.toIota(mutatingSelf.integerDictionary, env: env),
+            try DictionaryConverter<Swift.Int, Swift.Int>.toIota(value.integerDictionary, env: env),
             exn
         )}
         try env.check { exn in _stringArraySetter[env](
             this,
-            try ArrayConverter<Swift.String>.toIota(mutatingSelf.stringArray, env: env),
+            try ArrayConverter<Swift.String>.toIota(value.stringArray, env: env),
             exn
         )}
         try env.check { exn in _stringSetSetter[env](
             this,
-            try SetConverter<Swift.String>.toIota(mutatingSelf.stringSet, env: env),
+            try SetConverter<Swift.String>.toIota(value.stringSet, env: env),
             exn
         )}
         try env.check { exn in _stringDictionarySetter[env](
             this,
-            try DictionaryConverter<Swift.String, Swift.String>.toIota(mutatingSelf.stringDictionary, env: env),
+            try DictionaryConverter<Swift.String, Swift.String>.toIota(value.stringDictionary, env: env),
             exn
         )}
-        return result
     }
 }

@@ -81,10 +81,10 @@ class Structs_ReferenceStruct extends SwiftReference {
     ;
 
     /// <!-- FishyJoes.export(asyncGetMutable) -->
-    String asyncGetMutable(
+    Future<String> asyncGetMutable(
     ) =>
         GCRef.using(this, (_thisHandle) =>
-            consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_TestAPI_Structs_ReferenceStruct_asyncGetMutable(Loader.shared.env, _thisHandle.ptr, _exn)))
+            consumeCreatedRef<Future<String>>(check((OutCreatedRef _exn) => f__iota_TestAPI_Structs_ReferenceStruct_asyncGetMutable(Loader.shared.env, _thisHandle.ptr, _exn)))
         )
     ;
 

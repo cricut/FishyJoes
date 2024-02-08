@@ -1,6 +1,11 @@
+// ignore_for_file: library_prefixes
+
 import 'dart:ffi' as ffi;
+import 'dart:isolate';
 import 'package:ffi/ffi.dart' as ffi;
+import 'package:fishyjoes_dart/dart_api_dl.dart';
 import 'dart:typed_data' as typed_data;
+import 'dart:async' as async;
 import 'package:tuple/tuple.dart';
 import 'utilities.dart';
 import 'swift_reference.dart';
@@ -21,22 +26,34 @@ import 'platform_impl/locator_stub.dart'
     as locator
     ;
 
-part 'loader_primitives.dart';
-part 'loader_collections.dart';
-part 'loader_tuple.dart';
-part 'loader_functions.dart';
-part 'loader_misc.dart';
-part 'loader_ranges.dart';
 part 'loader_attributedString.dart';
+part 'loader_collections.dart';
+part 'loader_functions.dart';
+part 'loader_futures.dart';
+part 'loader_misc.dart';
+part 'loader_primitives.dart';
+part 'loader_ranges.dart';
+part 'loader_tuple.dart';
 
 typedef _EnvNewRefFn = CreatedRef Function(UnownedRef obj);
 typedef _EnvDeleteRefFn = ffi.Void Function(ConsumedRef obj);
 typedef _EnvNewErrorFn = CreatedRef Function(ffi.Pointer<ffi.Utf16>);
+typedef _EnvDescribeFn = ffi.Pointer<ffi.Utf8> Function(UnownedRef obj);
+typedef _EnvScheduleThreadWorkFn<R> = R Function(Env env, ffi.Pointer context);
 
 typedef _FishyJoesCommonRuntime_Env_setup = Env Function(
     ffi.Pointer<ffi.NativeFunction<_EnvNewRefFn>>,
     ffi.Pointer<ffi.NativeFunction<_EnvDeleteRefFn>>,
-    ffi.Pointer<ffi.NativeFunction<_EnvNewErrorFn>>);
+    ffi.Pointer<ffi.NativeFunction<_EnvNewErrorFn>>,
+    ffi.Pointer<ffi.NativeFunction<_EnvDescribeFn>>,
+    ffi.Pointer<ffi.NativeFunction<_EnvScheduleThreadWorkFn<ffi.Void>>>,
+);
+
+typedef _FishyJoesCommonRuntime_dartWorkScheduler_setup<R, I64> = R Function(
+  Env env,
+  I64 sendPortID,
+  ffi.Pointer dart_PostInteger_DL
+);
 
 typedef _FishyJoesCommonRuntime_AnyBox_releaseRef<R> = R Function(
   Env env,
@@ -48,28 +65,54 @@ typedef _FishyJoesCommonRuntime_AnyBox_toString = CreatedRef Function(
   UnownedRef swiftReference,
   OutCreatedRef exn,
 );
+typedef _FishyJoesCommonRuntime_runScheduledWork<R> = R Function(
+  Env env,
+  ffi.Pointer context,
+  OutCreatedRef exn
+);
 
+typedef _AnyBoxConstructor = CreatedRef Function(ffi.Pointer externalRef, OutCreatedRef exn);
 typedef _AnyBoxRefGetter = ffi.Pointer Function(UnownedRef obj, OutCreatedRef exn);
 typedef _FishyJoesCommonRuntime_AnyBox_setup<R> = R Function(
   Env env,
+  ffi.Pointer<ffi.NativeFunction<_AnyBoxConstructor>> constructor,
   ffi.Pointer<ffi.NativeFunction<_AnyBoxRefGetter>> refGetter
 );
 
 class Loader {
-  static final shared = new Loader._();
+  static final shared = Loader._();
   late final Env env;
+  late final ReceivePort port;
+  late final async.StreamSubscription<dynamic> portSubscription;
 
   Loader._() {
-    this.env = _dylib.lookupFunction<_FishyJoesCommonRuntime_Env_setup, _FishyJoesCommonRuntime_Env_setup>('FishyJoesCommonRuntime_Env_setup')(
+    env = _dylib.lookupFunction<_FishyJoesCommonRuntime_Env_setup, _FishyJoesCommonRuntime_Env_setup>('FishyJoesCommonRuntime_Env_setup')(
       ffi.Pointer.fromFunction<_EnvNewRefFn>(_newRefFn),
       ffi.Pointer.fromFunction<_EnvDeleteRefFn>(_deleteRefFn),
-      ffi.Pointer.fromFunction<_EnvNewErrorFn>(_newErrorFn));
+      ffi.Pointer.fromFunction<_EnvNewErrorFn>(_newErrorFn),
+      ffi.Pointer.fromFunction<_EnvDescribeFn>(_describeFn),
+      fishyJoesCommonRuntime_dartWorkScheduler,
+    );
+
+    port = ReceivePort("swift-async-dispatch-port");
+    portSubscription = port.listen(portReceive);
+
+    Loader._dylib.lookupFunction<
+        _FishyJoesCommonRuntime_dartWorkScheduler_setup<ffi.Void, ffi.Int64>,
+        _FishyJoesCommonRuntime_dartWorkScheduler_setup<void, int>
+    >('FishyJoesCommonRuntime_dartWorkScheduler_setup')(
+      env,
+      port.sendPort.nativePort,
+      DartApiDL.shared.postIntegerPtr
+    );
+
     Loader._dylib.lookupFunction<
       _FishyJoesCommonRuntime_AnyBox_setup<ffi.Void>,
       _FishyJoesCommonRuntime_AnyBox_setup<void>
     >('FishyJoesCommonRuntime_AnyBox_setup')(
       env,
-      ffi.Pointer.fromFunction(SwiftReference.anyBoxRefGetter)
+      ffi.Pointer.fromFunction(SwiftReference.constructor),
+      ffi.Pointer.fromFunction(SwiftReference.anyBoxRefGetter),
     );
     LoaderPrimitives._setup(env);
     LoaderMisc._setup(env);
@@ -105,6 +148,12 @@ class Loader {
     });
   }
 
+  void portReceive(dynamic message) {
+    check((exn) {
+      fishyJoesCommonRuntime_runScheduledWork(env, ffi.Pointer.fromAddress(message), exn);
+    });
+  }
+
   static ffi.DynamicLibrary openLibrary(String baseName) => locator.openLibrary(baseName);
 
   static final _dylib = openLibrary('FishyJoesIotaRuntime');
@@ -115,12 +164,16 @@ class Loader {
   }
 
   static void _deleteRefFn(ConsumedRef obj) {
-    consumeRef(obj);
+    consumeRef<Object?>(obj);
   }
 
   static CreatedRef _newErrorFn(ffi.Pointer<ffi.Utf16> ptr) {
-    final message = ptr.toDartString();
-    return createRef(Exception(message));
+    return createRef(Exception(ptr.toDartString()));
+  }
+
+  static ffi.Pointer<ffi.Utf8> _describeFn(UnownedRef ref) {
+    final obj = peekRef<Object?>(ref);
+    return '$obj'.toNativeUtf8();
   }
 
   void ensureLoaded;
@@ -141,4 +194,14 @@ class Loader {
     Loader._dylib.lookupFunction<_FishyJoesCommonRuntime_AnyBox_toString, _FishyJoesCommonRuntime_AnyBox_toString>(
       'FishyJoesCommonRuntime_AnyBox_toString'
     );
+
+  static final fishyJoesCommonRuntime_runScheduledWork =
+  Loader._dylib.lookupFunction<_FishyJoesCommonRuntime_runScheduledWork<ffi.Void>, _FishyJoesCommonRuntime_runScheduledWork<void>>(
+      'FishyJoesCommonRuntime_runScheduledWork'
+  );
+
+  static final fishyJoesCommonRuntime_dartWorkScheduler =
+  Loader._dylib.lookup<ffi.NativeFunction<_EnvScheduleThreadWorkFn<ffi.Void>>>(
+      'FishyJoesCommonRuntime_dartWorkScheduler'
+  );
 }

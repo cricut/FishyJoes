@@ -17,7 +17,7 @@ public func TestAPI_Structs_PuttingTypesIntoQuestionablePlaces_setup(
     TestAPI.Structs.PuttingTypesIntoQuestionablePlaces._constructorMethod[env] = constructorMethod
 }
 
-extension TestAPI.Structs.PuttingTypesIntoQuestionablePlaces: IotaMutator {
+extension TestAPI.Structs.PuttingTypesIntoQuestionablePlaces: IotaReferenceMutator {
     fileprivate static var _constructorMethod = Env.CallbackMap<(UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject>()
 
     public static func peekIota(_ value: foreignObject, env: Env) throws -> TestAPI.Structs.PuttingTypesIntoQuestionablePlaces {
@@ -27,9 +27,5 @@ extension TestAPI.Structs.PuttingTypesIntoQuestionablePlaces: IotaMutator {
     public static func toIota(_ value: TestAPI.Structs.PuttingTypesIntoQuestionablePlaces, env: Env) throws -> foreignObject {
         let ptr = Box(value).retainedOpaque()
         return try env.check { exn in _constructorMethod[env](ptr, exn) }
-    }
-
-    public static func mutateIota<R>(_ this: foreignObject, env: Env, body: (inout TestAPI.Structs.PuttingTypesIntoQuestionablePlaces) throws -> R) throws -> R {
-        try body(&Box<TestAPI.Structs.PuttingTypesIntoQuestionablePlaces>.peekIota(this, env: env).value)
     }
 }

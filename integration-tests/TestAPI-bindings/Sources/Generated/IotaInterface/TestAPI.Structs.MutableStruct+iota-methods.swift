@@ -31,7 +31,7 @@ public func __iota_TestAPI_Structs_MutableStruct_increment(
 ) -> FishyJoesCommonRuntime.VoidConverter.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
-        return try TestAPI.Structs.MutableStruct.mutateIota(_iotaThis, env: env) { mutatingSelf in
+        return try TestAPI.Structs.MutableStruct.withMutatingIota(_iotaThis, env: env) { mutatingSelf in
             return try FishyJoesCommonRuntime.VoidConverter.toIota(
                 mutatingSelf.increment(
                 ),
@@ -47,16 +47,26 @@ public func __iota_TestAPI_Structs_MutableStruct_incrementAsync(
     envRef: EnvRef,
     _iotaThis: foreignObject,
     _exn: foreignOutExn
-) -> FishyJoesCommonRuntime.VoidConverter.CType {
+) -> foreignObject {
     let env = Env(envRef)
     return env.catching(to: _exn) {
-        return try TestAPI.Structs.MutableStruct.mutateIota(_iotaThis, env: env) { mutatingSelf in
-            return try FishyJoesCommonRuntime.VoidConverter.toIota(
-                mutatingSelf.incrementAsync(
-                ),
-                env: env
+        let _iotaThisRef = try IotaReference(_iotaThis, env: env)
+        let _swiftSelf = UncheckedSendableBox(try TestAPI.Structs.MutableStruct.peekIota(_iotaThis, env: env))
+        let _swiftFuture = Future {
+            await _swiftSelf.value.incrementAsync(
             )
+        }.flatMap { result in
+            let (mutationFuture, mutationPromise) = Future<Void>.make()
+            env.onThread {
+                mutationPromise.handle(
+                    Result {
+                        try TestAPI.Structs.MutableStruct.mutateIota(_iotaThisRef.object, to: _swiftSelf.value, env: env)
+                    }
+                )
+            }
+            return mutationFuture
         }
+        return try FutureConverter<FishyJoesCommonRuntime.VoidConverter>.toIota(_swiftFuture, env: env)
     }
 }
 
@@ -66,13 +76,14 @@ public func __iota_TestAPI_Structs_MutableStruct_asyncGetI(
     envRef: EnvRef,
     _iotaThis: foreignObject,
     _exn: foreignOutExn
-) -> Swift.Int.CType {
+) -> foreignObject {
     let env = Env(envRef)
     return env.catching(to: _exn) {
-        return try Swift.Int.toIota(
-            TestAPI.Structs.MutableStruct.peekIota(_iotaThis, env: env).asyncGetI(
-            ),
-            env: env
-        )
+        let _swiftSelf = UncheckedSendableBox(try TestAPI.Structs.MutableStruct.peekIota(_iotaThis, env: env))
+        let _swiftFuture = Future {
+            await _swiftSelf.value.asyncGetI(
+            )
+        }
+        return try FutureConverter<Swift.Int>.toIota(_swiftFuture, env: env)
     }
 }

@@ -39,8 +39,9 @@ class Structs_MutableStruct {
     int i;
 
     Structs_MutableStruct({
-        required this.i
-    });
+        required int i
+    }):
+        this.i = i;
 
     static CreatedRef ffi_constructor(
         int i,
@@ -107,22 +108,22 @@ class Structs_MutableStruct {
     ;
 
     /// <!-- FishyJoes.export(incrementAsync) -->
-    void incrementAsync(
+    Future<void> incrementAsync(
     ) =>
         GCRef.using(this, (_thisHandle) =>
-            check((OutCreatedRef _exn) => f__iota_TestAPI_Structs_MutableStruct_incrementAsync(Loader.shared.env, _thisHandle.ptr, _exn))
+            consumeCreatedRef<Future<void>>(check((OutCreatedRef _exn) => f__iota_TestAPI_Structs_MutableStruct_incrementAsync(Loader.shared.env, _thisHandle.ptr, _exn)))
         )
     ;
 
     /// <!-- FishyJoes.export(asyncGetI) -->
-    int asyncGetI(
+    Future<int> asyncGetI(
     ) =>
         GCRef.using(this, (_thisHandle) =>
-            check((OutCreatedRef _exn) => f__iota_TestAPI_Structs_MutableStruct_asyncGetI(Loader.shared.env, _thisHandle.ptr, _exn))
+            consumeCreatedRef<Future<int>>(check((OutCreatedRef _exn) => f__iota_TestAPI_Structs_MutableStruct_asyncGetI(Loader.shared.env, _thisHandle.ptr, _exn)))
         )
     ;
 
-    static late int Function(
+    static late CreatedRef Function(
         Env env,
         UnownedRef _this,
         OutCreatedRef _exn
@@ -136,7 +137,7 @@ class Structs_MutableStruct {
         UnownedRef _this,
         OutCreatedRef _exn
     ) f__iota_TestAPI_Structs_MutableStruct_increment;
-    static late void Function(
+    static late CreatedRef Function(
         Env env,
         UnownedRef _this,
         OutCreatedRef _exn

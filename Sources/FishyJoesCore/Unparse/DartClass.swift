@@ -40,6 +40,10 @@ class DartClass {
         let mangledName: String
         let type: DartType
         let deprecation: Deprecation?
+
+        var hiddenStorage: Bool {
+            isMutable && !isPubliclyWritable
+        }
     }
 
     struct SetupTypes {
@@ -430,16 +434,37 @@ class DartProductClass: DartClass {
             fragment.blankLine()
             case .public(let fields):
                 for field in fields {
-                    fragment.output("\(field.isPubliclyWritable ? "" : "final ")\(field.type.name(in: self)) \(DartClass.deforbidify(field.name));")
+                    let type = field.type.name(in: self)
+                    let name = DartClass.deforbidify(field.name)
+                    if field.hiddenStorage {
+                        fragment.output("\(type) _\(name);")
+                        fragment.output("\(type) get \(name) => _\(name);")
+                    } else if field.isMutable {
+                        fragment.output("\(type) \(name);")
+                    } else {
+                        fragment.output("final \(type) \(name);")
+                    }
                 }
 
                 fragment.blankLine()
 
-                fragment.outputBlock("\(unqualifiedName)({", closeWith: "});") {
+                fragment.outputBlock("\(unqualifiedName)({", closeWith: "})", newLineTerminated: false) {
                     fragment.outputMap(fields, separator: ",") { field in
-                        "required this.\(DartClass.deforbidify(field.name))"
+                        let type = field.type.name(in: self)
+                        let name = DartClass.deforbidify(field.name)
+                        return "required \(type) \(name)"
                     }
                 }
+                if !fields.isEmpty {
+                    fragment.output(":")
+                    fragment.indent {
+                        fragment.outputMap(fields, separator: ",", newLineTerminated: false) { field in
+                            let name = DartClass.deforbidify(field.name)
+                            return "this.\(field.hiddenStorage ? "_" : "")\(name) = \(name)"
+                        }
+                    }
+                }
+                fragment.output(";")
 
                 fragment.blankLine()
 
@@ -490,14 +515,14 @@ class DartProductClass: DartClass {
                     wrapper {
                         fragment.output("peekRef<\(unqualifiedName)>(obj).\(field.name)")
                     }
-                    if field.isPubliclyWritable {
+                    if field.isMutable {
                         fragment.outputBlock("static void ffi_set_\(field.name)(", newLineTerminated: false) {
                             fragment.output("UnownedRef obj,")
                             fragment.output("\(field.type.ffiConsumedName) newValue,")
                             fragment.output("OutCreatedRef exn")
                         }
                         fragment.outputBlock(" => catching(exn, () {", closeWith: "});") {
-                            fragment.output("peekRef<\(unqualifiedName)>(obj).\(field.name) = ", newLineTerminated: false)
+                            fragment.output("peekRef<\(unqualifiedName)>(obj).\(field.hiddenStorage ? "_" : "")\(field.name) = ", newLineTerminated: false)
                             if isObject {
                                 fragment.output("consumeRef<\(field.type.name(in: self))>(newValue);")
                             } else {

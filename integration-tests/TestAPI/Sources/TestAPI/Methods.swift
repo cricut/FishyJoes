@@ -89,5 +89,46 @@ public struct Methods {
         try await callback()
     }
 
+    /// <!-- FishyJoes.export(staticAsync42) -->
+    public static func staticAsync42() async -> Int {
+        42
+    }
+
+    /// <!-- FishyJoes.export(staticAsyncYield) -->
+    public static func staticAsyncYield() async -> Int {
+        await Task.yield()
+        return await staticAsync42()
+    }
+
+    /// <!-- FishyJoes.export(staticAsyncSleep) -->
+    public static func staticAsyncSleep() async throws -> Int {
+        try await Task.sleep(nanoseconds: 100)
+        return await staticAsync42()
+    }
+
+    /// <!-- FishyJoes.export(staticAsyncVoid) -->
+    public static func staticAsyncVoid() async {
+    }
+
+    /// <!-- FishyJoes.export(staticAsyncDouble) -->
+    public static func staticAsyncDouble(_ d: Double) async -> Double {
+        return d * 2
+    }
+
+    /// <!-- FishyJoes.export(staticAsyncMultipleArgs) -->
+    public static func staticAsyncMultipleArgs(_ i: Int, j: () async throws -> Int) async rethrows -> Int {
+        try await i + j()
+    }
+
+    /// <!-- FishyJoes.export(staticAsyncThrowing) -->
+    public static func staticAsyncThrowing() async throws {
+        throw TheMethodError()
+    }
+
+    /// <!-- FishyJoes.export(staticAsyncCallbackFunc0) -->
+    public static func staticAsyncCallbackFunc0(_ callback: () async throws -> Int) async rethrows -> Int {
+        try await callback()
+    }
+
     public struct TheMethodError: Error {}
 }

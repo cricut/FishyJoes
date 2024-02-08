@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_import
+
 import 'AttributedString_Index.dart';
 import 'dart:ffi' as ffi;
 import 'runtime.dart';
@@ -82,8 +84,9 @@ class AttributedString_UnicodeScalarView extends SwiftReference with Iterable<in
         )
     ;
 
-    int operator [](AttributedString_Index index) => this.elementAtIndex(index);
+    int operator [](AttributedString_Index index) => elementAtIndex(index);
     
+    @override
     Iterator<int> get iterator => AttributedString_UnicodeScalarView_Iterator(this);
 
     static late int Function(

@@ -36,13 +36,16 @@ import 'package:tuple/tuple.dart' as tuple;
 
 /// <!-- FishyJoes.export(Structs.MemberwiseStruct) -->
 class Structs_MemberwiseStruct {
-    final String immutable;
+    String _immutable;
+    String get immutable => _immutable;
     String mutable;
 
     Structs_MemberwiseStruct({
-        required this.immutable,
-        required this.mutable
-    });
+        required String immutable,
+        required String mutable
+    }):
+        this._immutable = immutable,
+        this.mutable = mutable;
 
     static CreatedRef ffi_constructor(
         ConsumedRef immutable,
@@ -63,6 +66,13 @@ class Structs_MemberwiseStruct {
             peekRef<Structs_MemberwiseStruct>(obj).immutable
         )
     );
+    static void ffi_set_immutable(
+        UnownedRef obj,
+        ConsumedRef newValue,
+        OutCreatedRef exn
+    ) => catching(exn, () {
+        peekRef<Structs_MemberwiseStruct>(obj)._immutable = consumeRef<String>(newValue);
+    });
 
     static CreatedRef ffi_get_mutable(
         UnownedRef obj,
@@ -118,10 +128,10 @@ class Structs_MemberwiseStruct {
     ;
 
     /// <!-- FishyJoes.export(asyncGetMutable) -->
-    String asyncGetMutable(
+    Future<String> asyncGetMutable(
     ) =>
         GCRef.using(this, (_thisHandle) =>
-            consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_TestAPI_Structs_MemberwiseStruct_asyncGetMutable(Loader.shared.env, _thisHandle.ptr, _exn)))
+            consumeCreatedRef<Future<String>>(check((OutCreatedRef _exn) => f__iota_TestAPI_Structs_MemberwiseStruct_asyncGetMutable(Loader.shared.env, _thisHandle.ptr, _exn)))
         )
     ;
 

@@ -189,6 +189,8 @@ final class DartTranslator: Translator {
             parameters.append((label, parameter.name, resolved.dartType, defaultValue))
         }
 
+        let returnType = context.resolve(type: method.returnType, generics: exportAnnotation.genericOverrides).dartType
+
         return .method(
             DartClass.Method(
                 documentation: method.documentation,
@@ -196,7 +198,7 @@ final class DartTranslator: Translator {
                 name: exportAnnotation.name,
                 mangledName: "\(type.mangledName)_\(exportAnnotation.name.mangled)",
                 parameters: parameters,
-                returnType: context.resolve(type: method.returnType, generics: exportAnnotation.genericOverrides).dartType,
+                returnType: method.isAsync ? .future(returnType) : returnType,
                 deprecation: method.deprecation,
                 body: nil
             )

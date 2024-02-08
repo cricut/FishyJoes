@@ -359,7 +359,7 @@ struct TranslatedReference: TranslatedType {
         }
         fragment.blankLine()
 
-        fragment.outputBlock("extension \(converterType.name): IotaMutator {") {
+        fragment.outputBlock("extension \(converterType.name): IotaReferenceMutator {") {
             fragment.output("fileprivate static var _constructorMethod = Env.CallbackMap<(UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject>()")
             fragment.blankLine()
 
@@ -377,10 +377,6 @@ struct TranslatedReference: TranslatedType {
                 }
             }
             fragment.blankLine()
-
-            fragment.outputBlock("public static func mutateIota<R>(_ this: foreignObject, env: Env, body: (inout \(sourceType.name)) throws -> R) throws -> R {") {
-                fragment.output("try body(&Box<\(sourceType.name)>.peekIota(this, env: env).value)")
-            }
         }
 
         if equatable != hashable {

@@ -39,8 +39,8 @@ void main() async {
   List<Download> downloads = [];
   for (final dep in deps) {
     String name = dep['name'];
-    String version = dep['version'];
-    String source = dep['source'];
+    // String version = dep['version'];
+    // String source = dep['source'];
     List<String> directDeps = [...dep['dependencies']];
 
     // Download binaries for any remote package that is fishyjoes_dart or depends directly on it
@@ -60,7 +60,7 @@ void main() async {
           io.exit(1);
         }
         final repoName = pathMatch[1]!;
-        downloads.add(Download(repoName, ref, "${repoName}-dart-binaries.tgz"));
+        downloads.add(Download(repoName, ref, "$repoName-dart-binaries.tgz"));
       }
     }
   }
@@ -150,7 +150,7 @@ Future<void> downloadGithubBinary(String destination, Uri url, Credentials creds
   if (response.statusCode != 200) {
     throw Exception("GET $url failed(?) with status code ${response.statusCode}");
   }
-  final tempFile = io.File(destination + ".tmp");
+  final tempFile = io.File("$destination.tmp");
   await response.pipe(tempFile.openWrite());
   await tempFile.rename(destination);
 }
@@ -175,7 +175,7 @@ class Credentials {
   }
 
   String basicAuth() {
-    return 'Basic ' + convert.base64.encode(convert.utf8.encode('$username:$password'));
+    return 'Basic ${convert.base64.encode(convert.utf8.encode('$username:$password'))}';
   }
 }
 
@@ -204,7 +204,7 @@ class _NetRCLexer {
   }
 
   String getToken() {
-    if (pushback.length > 0) {
+    if (pushback.isNotEmpty) {
       return pushback.removeLast();
     }
     var token = '';
@@ -278,7 +278,7 @@ class CredentialStore {
   Map<String, Credentials> hosts = {};
   Map<String, List<String>> macros = {};
 
-  static late final defaultStore = tryReadNetRC() ?? CredentialStore();
+  static final defaultStore = tryReadNetRC() ?? CredentialStore();
 
   CredentialStore();
 
@@ -346,6 +346,7 @@ class CredentialStore {
 
       // We're looking at start of an entry for a named machine or default.
       var login = '';
+      // ignore: unused_local_variable
       var account = '';
       var password = '';
 

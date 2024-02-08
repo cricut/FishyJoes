@@ -22,6 +22,7 @@ class AttributeContainer extends SwiftReference {
         createRef(AttributeContainer(ref))
     );
 
+    @override
     int get hashCode =>
         GCRef.using(this, (_thisHandle) =>
             check((exn) =>
@@ -57,6 +58,7 @@ class AttributeContainer extends SwiftReference {
         consumeCreatedRef<AttributeContainer>(check((OutCreatedRef _exn) => f__iota_FishyJoesCommonRuntime_AttributeContainer_createEmpty(Loader.shared.env, _exn)))
     ;
 
+    @override
     bool operator ==(
         Object? other,
     ) =>

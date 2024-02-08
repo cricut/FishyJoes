@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_import
+
 import 'AttributedString_Index.dart';
 import 'AttributedString_Runs.dart';
 import 'AttributedString_CharacterView.dart';
@@ -113,6 +115,7 @@ class AttributedSubstring extends SwiftReference {
             )
         )
     ;
+    @override
     int get hashCode =>
         GCRef.using(this, (_thisHandle) =>
             check((exn) =>
@@ -143,6 +146,7 @@ class AttributedSubstring extends SwiftReference {
         consumeCreatedRef<AttributedSubstring>(check((OutCreatedRef _exn) => f__iota_Foundation_AttributedSubstring_createEmpty(Loader.shared.env, _exn)))
     ;
 
+    @override
     bool operator ==(
         Object? other,
     ) =>
@@ -151,7 +155,7 @@ class AttributedSubstring extends SwiftReference {
                 check((exn) => f__iota_Foundation_AttributedSubstring_equals(Loader.shared.env, thisHandle.ptr, otherHandle.ptr, exn))))
     ;
 
-    AttributedSubstring operator [](SwiftRange<AttributedString_Index> range) => this.substringForRange(range);
+    AttributedSubstring operator [](SwiftRange<AttributedString_Index> range) => substringForRange(range);
 
     static late CreatedRef Function(
         Env env,

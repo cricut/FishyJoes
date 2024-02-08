@@ -35,15 +35,15 @@ namespace Cricut.FishyJoesRuntime {
 
         [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private extern static void FishyJoesCommonRuntime_AnyBox_releaseRef(
-            IntPtr envRef, 
-            ConsumedRef swiftReference, 
+            IntPtr envRef,
+            ConsumedRef swiftReference,
             out CreatedRef exn
         );
 
         [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef FishyJoesCommonRuntime_AnyBox_toString(
-            IntPtr envRef, 
-            UnownedRef swiftReference, 
+            IntPtr envRef,
+            UnownedRef swiftReference,
             out CreatedRef exn
         );
 
@@ -54,7 +54,8 @@ namespace Cricut.FishyJoesRuntime {
         delegate UnownedRef AnyBoxRefGetter(UnownedRef obj, out CreatedRef exn);
         [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         extern static void FishyJoesCommonRuntime_AnyBox_setup(
-            IntPtr envRef, 
+            IntPtr envRef,
+            AnyBoxConstructor constructor,
             AnyBoxRefGetter refGetter
         );
 

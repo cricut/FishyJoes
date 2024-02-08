@@ -25,7 +25,9 @@ namespace Cricut.FishyJoesRuntime {
         static extern IntPtr FishyJoesCommonRuntime_Env_setup(
             EnvNewRefFn newRefFn,
             EnvDeleteRefFn deleteRefFn,
-            EnvNewErrorFn newErrorFn
+            EnvNewErrorFn newErrorFn,
+            EnvDescribeFn describeFn,
+            EnvScheduleThreadWorkFn scheduleThreadWorkFn
         );
 
         public static void ensureLoaded() { }

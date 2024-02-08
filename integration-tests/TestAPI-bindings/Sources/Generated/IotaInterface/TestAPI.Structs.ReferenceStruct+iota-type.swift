@@ -17,7 +17,7 @@ public func TestAPI_Structs_ReferenceStruct_setup(
     TestAPI.Structs.ReferenceStruct._constructorMethod[env] = constructorMethod
 }
 
-extension TestAPI.Structs.ReferenceStruct: IotaMutator {
+extension TestAPI.Structs.ReferenceStruct: IotaReferenceMutator {
     fileprivate static var _constructorMethod = Env.CallbackMap<(UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject>()
 
     public static func peekIota(_ value: foreignObject, env: Env) throws -> TestAPI.Structs.ReferenceStruct {
@@ -27,10 +27,6 @@ extension TestAPI.Structs.ReferenceStruct: IotaMutator {
     public static func toIota(_ value: TestAPI.Structs.ReferenceStruct, env: Env) throws -> foreignObject {
         let ptr = Box(value).retainedOpaque()
         return try env.check { exn in _constructorMethod[env](ptr, exn) }
-    }
-
-    public static func mutateIota<R>(_ this: foreignObject, env: Env, body: (inout TestAPI.Structs.ReferenceStruct) throws -> R) throws -> R {
-        try body(&Box<TestAPI.Structs.ReferenceStruct>.peekIota(this, env: env).value)
     }
 }
 @_cdecl("__iota_TestAPI_Structs_ReferenceStruct_equals")

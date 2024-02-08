@@ -28,14 +28,15 @@ public func __iota_TestAPI_Structs_ReferenceStruct_asyncGetMutable(
     envRef: EnvRef,
     _iotaThis: foreignObject,
     _exn: foreignOutExn
-) -> Swift.String.CType {
+) -> foreignObject {
     let env = Env(envRef)
     return env.catching(to: _exn) {
-        return try Swift.String.toIota(
-            TestAPI.Structs.ReferenceStruct.peekIota(_iotaThis, env: env).asyncGetMutable(
-            ),
-            env: env
-        )
+        let _swiftSelf = UncheckedSendableBox(try TestAPI.Structs.ReferenceStruct.peekIota(_iotaThis, env: env))
+        let _swiftFuture = Future {
+            await _swiftSelf.value.asyncGetMutable(
+            )
+        }
+        return try FutureConverter<Swift.String>.toIota(_swiftFuture, env: env)
     }
 }
 
@@ -73,7 +74,7 @@ public func __iota_set_TestAPI_Structs_ReferenceStruct_mutable(
 ) {
     let env = Env(envRef)
     env.catching(to: _exn) {
-        try TestAPI.Structs.ReferenceStruct.mutateIota(_iotaThis, env: env) { value in
+        try TestAPI.Structs.ReferenceStruct.withMutatingIota(_iotaThis, env: env) { value in
             value.mutable = try Swift.String.peekIota(newValue, env: env)
         }
     }

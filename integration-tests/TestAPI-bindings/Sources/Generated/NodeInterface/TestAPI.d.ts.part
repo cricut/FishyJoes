@@ -827,6 +827,58 @@ export declare namespace TestAPI {
         static asyncCallbackFunc0(
             callback: () => Promise<number>
         ): Promise<number>;
+
+        /**
+         * <!-- FishyJoes.export(staticAsync42) -->
+         */
+        static staticAsync42(
+        ): Promise<number>;
+
+        /**
+         * <!-- FishyJoes.export(staticAsyncYield) -->
+         */
+        static staticAsyncYield(
+        ): Promise<number>;
+
+        /**
+         * <!-- FishyJoes.export(staticAsyncSleep) -->
+         */
+        static staticAsyncSleep(
+        ): Promise<number>;
+
+        /**
+         * <!-- FishyJoes.export(staticAsyncVoid) -->
+         */
+        static staticAsyncVoid(
+        ): Promise<void>;
+
+        /**
+         * <!-- FishyJoes.export(staticAsyncDouble) -->
+         */
+        static staticAsyncDouble(
+            d: number
+        ): Promise<number>;
+
+        /**
+         * <!-- FishyJoes.export(staticAsyncMultipleArgs) -->
+         */
+        static staticAsyncMultipleArgs(
+            i: number,
+            j: () => Promise<number>
+        ): Promise<number>;
+
+        /**
+         * <!-- FishyJoes.export(staticAsyncThrowing) -->
+         */
+        static staticAsyncThrowing(
+        ): Promise<void>;
+
+        /**
+         * <!-- FishyJoes.export(staticAsyncCallbackFunc0) -->
+         */
+        static staticAsyncCallbackFunc0(
+            callback: () => Promise<number>
+        ): Promise<number>;
     }
 
     export type Primitives = never;

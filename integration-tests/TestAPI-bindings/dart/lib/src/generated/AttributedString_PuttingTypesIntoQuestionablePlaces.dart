@@ -39,8 +39,9 @@ class AttributedString_PuttingTypesIntoQuestionablePlaces {
     final String x;
 
     AttributedString_PuttingTypesIntoQuestionablePlaces({
-        required this.x
-    });
+        required String x
+    }):
+        this.x = x;
 
     static CreatedRef ffi_constructor(
         ConsumedRef x,

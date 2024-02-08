@@ -1,3 +1,6 @@
+// Comparable<dynamic> is used because of https://github.com/dart-lang/sdk/issues/43763
+// "int doesn't extend Comparable<int>"
+
 /// A half-open interval from a lower bound up to, but not including, an upper bound.
 ///
 /// Represents the concept of a half-open range of values using rules identical to those used by Swift.
@@ -8,12 +11,14 @@
 ///
 /// @property lowerBound The lower value of the range, inclusive.
 /// @property upperBound The upper value of the range, exclusive.
-class SwiftRange<T extends Comparable> {
+class SwiftRange<T extends Comparable<dynamic>> {
   T lowerBound;
   T upperBound;
 
+  @override
   int get hashCode => Object.hash(lowerBound.hashCode, upperBound.hashCode);
 
+  @override
   bool operator == (Object? other) {
     return other is SwiftRange && (this.lowerBound == other.lowerBound && this.upperBound == other.upperBound);
   } 
@@ -36,12 +41,14 @@ class SwiftRange<T extends Comparable> {
 ///
 /// @property lowerBound The lower value of the range, inclusive.
 /// @property upperBound The upper value of the range, inclusive.
-class SwiftClosedRange<T extends Comparable> {
+class SwiftClosedRange<T extends Comparable<dynamic>> {
   T lowerBound;
   T upperBound;
 
+  @override
   int get hashCode => Object.hash(lowerBound.hashCode, upperBound.hashCode);
 
+  @override
   bool operator == (Object? other) {
     return other is SwiftClosedRange && (this.lowerBound == other.lowerBound && this.upperBound == other.upperBound);
   }

@@ -76,7 +76,7 @@ class SourceFragment {
         return result
     }
 
-    func outputMap<S: Sequence>(_ source: S, separator: String, _ body: (S.Element) throws -> String) rethrows {
+    func outputMap<S: Sequence>(_ source: S, separator: String, newLineTerminated: Bool = true, _ body: (S.Element) throws -> String) rethrows {
         var first = true
         for element in source {
             if !first {
@@ -85,7 +85,7 @@ class SourceFragment {
             first = false
             output(try body(element), newLineTerminated: false)
         }
-        if !first {
+        if newLineTerminated, !first {
             output()
         }
     }

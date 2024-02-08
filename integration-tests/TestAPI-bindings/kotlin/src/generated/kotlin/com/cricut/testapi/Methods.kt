@@ -190,6 +190,94 @@ class Methods private constructor(swiftReference: Long): com.cricut.fishyjoes.ru
             callback: (suspend () -> Long)
         ): kotlinx.coroutines.Deferred<Long>
 
+        /**
+         * <!-- FishyJoes.export(staticAsync42) -->
+         */
+        suspend fun staticAsync42(
+        ): Long = __jni_staticAsync42().await()
+        @JvmStatic
+        @JvmName("__jni_staticAsync42")
+        private external fun __jni_staticAsync42(
+        ): kotlinx.coroutines.Deferred<Long>
+
+        /**
+         * <!-- FishyJoes.export(staticAsyncYield) -->
+         */
+        suspend fun staticAsyncYield(
+        ): Long = __jni_staticAsyncYield().await()
+        @JvmStatic
+        @JvmName("__jni_staticAsyncYield")
+        private external fun __jni_staticAsyncYield(
+        ): kotlinx.coroutines.Deferred<Long>
+
+        /**
+         * <!-- FishyJoes.export(staticAsyncSleep) -->
+         */
+        suspend fun staticAsyncSleep(
+        ): Long = __jni_staticAsyncSleep().await()
+        @JvmStatic
+        @JvmName("__jni_staticAsyncSleep")
+        private external fun __jni_staticAsyncSleep(
+        ): kotlinx.coroutines.Deferred<Long>
+
+        /**
+         * <!-- FishyJoes.export(staticAsyncVoid) -->
+         */
+        suspend fun staticAsyncVoid(
+        ): kotlin.Unit = __jni_staticAsyncVoid().await()
+        @JvmStatic
+        @JvmName("__jni_staticAsyncVoid")
+        private external fun __jni_staticAsyncVoid(
+        ): kotlinx.coroutines.Deferred<kotlin.Unit>
+
+        /**
+         * <!-- FishyJoes.export(staticAsyncDouble) -->
+         */
+        suspend fun staticAsyncDouble(
+            d: Double
+        ): Double = __jni_staticAsyncDouble(d).await()
+        @JvmStatic
+        @JvmName("__jni_staticAsyncDouble")
+        private external fun __jni_staticAsyncDouble(
+            d: Double
+        ): kotlinx.coroutines.Deferred<Double>
+
+        /**
+         * <!-- FishyJoes.export(staticAsyncMultipleArgs) -->
+         */
+        suspend fun staticAsyncMultipleArgs(
+            i: Long,
+            j: (suspend () -> Long)
+        ): Long = __jni_staticAsyncMultipleArgs(i, j).await()
+        @JvmStatic
+        @JvmName("__jni_staticAsyncMultipleArgs")
+        private external fun __jni_staticAsyncMultipleArgs(
+            i: Long,
+            j: (suspend () -> Long)
+        ): kotlinx.coroutines.Deferred<Long>
+
+        /**
+         * <!-- FishyJoes.export(staticAsyncThrowing) -->
+         */
+        suspend fun staticAsyncThrowing(
+        ): kotlin.Unit = __jni_staticAsyncThrowing().await()
+        @JvmStatic
+        @JvmName("__jni_staticAsyncThrowing")
+        private external fun __jni_staticAsyncThrowing(
+        ): kotlinx.coroutines.Deferred<kotlin.Unit>
+
+        /**
+         * <!-- FishyJoes.export(staticAsyncCallbackFunc0) -->
+         */
+        suspend fun staticAsyncCallbackFunc0(
+            callback: (suspend () -> Long)
+        ): Long = __jni_staticAsyncCallbackFunc0(callback).await()
+        @JvmStatic
+        @JvmName("__jni_staticAsyncCallbackFunc0")
+        private external fun __jni_staticAsyncCallbackFunc0(
+            callback: (suspend () -> Long)
+        ): kotlinx.coroutines.Deferred<Long>
+
         init { loadNativeLibs() }
     }
 }
