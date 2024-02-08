@@ -78,6 +78,7 @@ public struct CodeGen: ParsableCommand {
         case buildStep
         case debug
         case fat
+        case disableParallelism
     }
 
     var config: FishyJoesConfig!
