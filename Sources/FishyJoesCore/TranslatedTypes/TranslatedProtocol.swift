@@ -182,6 +182,10 @@ struct TranslatedProtocol: TranslatedType {
             fragment.outputBlock("public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout SwiftType) throws -> R) throws -> R {") {
                 fragment.output("try body(&Box<SwiftType>.fromJava(this, env: env).value)")
             }
+            
+            fragment.outputBlock("public static func mutateJava<R>(_ this: jobject?, env: inout Env, body: (inout SwiftType, inout Env) async throws -> R) async throws -> R {") {
+                fragment.output("try await body(&Box<SwiftType>.fromJava(this, env: env).value, &env)")
+            }
 
             fragment.outputBlock("public static func javaSetup(env: Env) throws {") {
                 fragment.output("javaClass = try env.globalRef(env.FindClass(\"\(className)\"))")
