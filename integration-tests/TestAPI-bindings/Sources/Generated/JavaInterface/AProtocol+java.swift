@@ -88,6 +88,9 @@ extension _AProtocolConverter: JavaMutator {
     public static func mutateJava<R>(_ this: jobject?, env: Env, body: (inout SwiftType) throws -> R) throws -> R {
         try body(&Box<SwiftType>.fromJava(this, env: env).value)
     }
+    public static func mutateJava<R>(_ this: jobject?, env: inout Env, body: (inout SwiftType, inout Env) async throws -> R) async throws -> R {
+        try await body(&Box<SwiftType>.fromJava(this, env: env).value, &env)
+    }
     public static func javaSetup(env: Env) throws {
         javaClass = try env.globalRef(env.FindClass("com/cricut/testapi/AProtocol"))
         externalWitnessClass = try env.globalRef(env.FindClass("com/cricut/testapi/_ExternalWitness_AProtocol"))
