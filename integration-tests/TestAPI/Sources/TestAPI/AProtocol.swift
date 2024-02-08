@@ -32,4 +32,9 @@ public struct AProtocolImplementation: AProtocol {
     public func bar(x: Int, y: Int) -> AProtocol {
         AProtocolImplementation(foo: "\(x + y)", baz: x == 2)
     }
+    
+    /// <!-- FishyJoes.export(hasADefaultImplementation) -->
+    public func hasADefaultImplementation() -> Int {
+        43
+    }
 }
