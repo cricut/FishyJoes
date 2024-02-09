@@ -94,13 +94,13 @@ extension LoaderCollections on Loader {
           (setRef, outValues) {
             final set = peekRef<Set<T>>(setRef);
             var i = 0;
-            set.forEach((element) {
+            for (var element in set) {
                 outValues[i] = createRef(element);
                 i++;
-            });
+            }
           },
           (inValues, length) {
-            final Set<T> set = Set();
+            final Set<T> set = {};
             for (int i = 0; i < length; i++) {
               set.add(peekRef<T>(inValues[i]));
             }
@@ -135,7 +135,7 @@ extension LoaderCollections on Loader {
             });
           },
           (inValues, length) {
-            final Map<K, V> map = Map();
+            final Map<K, V> map = {};
             for (int i = 0; i < length; i++) {
               final key = peekRef<K>(inValues[2 * i + 0]);
               final val = peekRef<V>(inValues[2 * i + 1]);

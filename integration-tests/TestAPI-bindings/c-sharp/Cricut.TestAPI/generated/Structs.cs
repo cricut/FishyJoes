@@ -152,7 +152,7 @@ namespace Cricut.TestAPI {
         /// <!-- FishyJoes.export(Structs.MemberwiseStruct) -->
         /// </summary>
         public record MemberwiseStruct {
-            public string Immutable { get; private set; }
+            public string Immutable { get; internal set; }
             public string Mutable { get; set; }
 
             public MemberwiseStruct(

@@ -1,6 +1,6 @@
 import Foundation
 
-extension AttributedString.UnicodeScalarView: IotaMutator {
+extension AttributedString.UnicodeScalarView: IotaReferenceMutator {
     public typealias Constructor = @convention(c) (_ ptr: UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject
     fileprivate static var constructor = Env.CallbackMap<Constructor>()
 
@@ -11,10 +11,6 @@ extension AttributedString.UnicodeScalarView: IotaMutator {
     public static func toIota(_ value: AttributedString.UnicodeScalarView, env: Env) throws -> foreignObject {
         let ptr = Box(value).retainedOpaque()
         return try env.check { exn in constructor[env](ptr, exn) }
-    }
-
-    public static func mutateIota<R>(_ this: foreignObject, env: Env, body: (inout AttributedString.UnicodeScalarView) throws -> R) throws -> R {
-        try body(&Box<AttributedString.UnicodeScalarView>.peekIota(this, env: env).value)
     }
 }
 

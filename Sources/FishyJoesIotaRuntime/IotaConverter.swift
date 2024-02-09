@@ -44,7 +44,24 @@ extension IotaConverter where CType == foreignObject {
 }
 
 public protocol IotaMutator: IotaConverter {
-    static func mutateIota<R>(_ this: CType, env: Env, body: (inout SwiftType) throws -> R) throws -> R
+    static func mutateIota(_ this: CType, to value: SwiftType, env: Env) throws
+}
+
+extension IotaMutator {
+    public static func withMutatingIota<R>(_ this: CType, env: Env, body: (inout SwiftType) throws -> R) throws -> R {
+        var swiftThis = try peekIota(this, env: env)
+        let result = try body(&swiftThis)
+        try mutateIota(this, to: swiftThis, env: env)
+        return result
+    }
+}
+
+public protocol IotaReferenceMutator: IotaMutator where CType == foreignObject {}
+
+extension IotaReferenceMutator {
+    public static func mutateIota(_ this: foreignObject, to value: SwiftType, env: Env) throws {
+        try Box<SwiftType>.peekIota(this, env: env).value = value
+    }
 }
 
 // MARK: - Primitive Type Conversions

@@ -9,6 +9,7 @@ class AttributedString_Runs_Index extends SwiftReference implements Comparable<d
         createRef(AttributedString_Runs_Index(ref))
     );
 
+    @override
     int get hashCode =>
         GCRef.using(this, (_thisHandle) =>
             check((exn) =>
@@ -16,6 +17,7 @@ class AttributedString_Runs_Index extends SwiftReference implements Comparable<d
             )
         )
     ;
+    @override
     bool operator ==(
         Object? other,
     ) =>
@@ -27,7 +29,7 @@ class AttributedString_Runs_Index extends SwiftReference implements Comparable<d
     @override
     int compareTo(other) {
         return GCRef.using(this, (thisHandle) =>
-            GCRef.using(other as AttributedString_Runs_Index, (otherHandle) =>
+            GCRef.using(other, (otherHandle) =>
                 check((exn) => f__iota_Foundation_AttributedString_Runs_Index_compare(Loader.shared.env, thisHandle.ptr, otherHandle.ptr, exn))));
     }
 

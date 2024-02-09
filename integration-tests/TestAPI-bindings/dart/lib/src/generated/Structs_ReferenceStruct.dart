@@ -80,6 +80,14 @@ class Structs_ReferenceStruct extends SwiftReference {
         consumeCreatedRef<TestAPI.Structs_ReferenceStruct>(check((OutCreatedRef _exn) => f__iota_TestAPI_Structs_ReferenceStruct_create(Loader.shared.env, _exn)))
     ;
 
+    /// <!-- FishyJoes.export(asyncGetMutable) -->
+    Future<String> asyncGetMutable(
+    ) =>
+        GCRef.using(this, (_thisHandle) =>
+            consumeCreatedRef<Future<String>>(check((OutCreatedRef _exn) => f__iota_TestAPI_Structs_ReferenceStruct_asyncGetMutable(Loader.shared.env, _thisHandle.ptr, _exn)))
+        )
+    ;
+
     bool operator ==(
         Object? other,
     ) =>
@@ -88,6 +96,11 @@ class Structs_ReferenceStruct extends SwiftReference {
                 check((exn) => f__iota_TestAPI_Structs_ReferenceStruct_equals(Loader.shared.env, thisHandle.ptr, otherHandle.ptr, exn))))
     ;
 
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef _this,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_Structs_ReferenceStruct_asyncGetMutable;
     static late CreatedRef Function(
         Env env,
         OutCreatedRef _exn

@@ -40,5 +40,23 @@ void main() {
           expect(Structs_ReferenceStruct.create(), equals(Structs_ReferenceStruct.create()));
           expect(Structs_MemberwiseStruct.create(), isNot(equals(Structs_ReferenceStruct.create())));
       });
+
+      test('MutatingFunctions', () async {
+          final struct = Structs_MutableStruct.create();
+          expect(struct.i, equals(0));
+          struct.increment();
+          expect(struct.i, equals(1));
+          await struct.incrementAsync();
+          expect(struct.i, equals(2));
+      });
+
+      test('AsyncMemberFunctions', () async {
+          final memberwise = Structs_MemberwiseStruct.create();
+          expect(await memberwise.asyncGetMutable(), equals("Fickle"));
+          final reference = Structs_ReferenceStruct.create();
+          expect(await reference.asyncGetMutable(), equals("Fickle"));
+          final mutable = Structs_MutableStruct.create();
+          expect(await mutable.asyncGetI(), equals(0));
+      });
   });
 }

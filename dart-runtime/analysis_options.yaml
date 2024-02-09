@@ -15,9 +15,17 @@ include: package:lints/recommended.yaml
 
 # Uncomment the following section to specify additional rules.
 
-# linter:
-#   rules:
-#     - camel_case_types
+linter:
+  rules:
+    avoid_init_to_null: false
+    empty_constructor_bodies: false
+    no_leading_underscores_for_local_identifiers: false
+    camel_case_types: false
+    non_constant_identifier_names: false
+    prefer_initializing_formals: false
+
+    # Not so sure about these options...
+    file_names: false
 
 # analyzer:
 #   exclude:
@@ -28,3 +36,10 @@ include: package:lints/recommended.yaml
 
 # For additional information about configuring this file, see
 # https://dart.dev/guides/language/analysis-options
+
+analyzer:
+  language:
+    strict-casts: false
+    strict-inference: true
+    strict-raw-types: true
+

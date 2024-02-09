@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_import
+
 import './AttributedString_Index.dart';
 import 'dart:ffi' as ffi;
 import 'runtime.dart';
@@ -82,8 +84,9 @@ class AttributedString_CharacterView extends SwiftReference with Iterable<String
         )
     ;
 
-    String operator [](AttributedString_Index index) => this.elementAtIndex(index);
+    String operator [](AttributedString_Index index) => elementAtIndex(index);
     
+    @override
     Iterator<String> get iterator => AttributedString_CharacterView_Iterator(this);
 
     static late CreatedRef Function(

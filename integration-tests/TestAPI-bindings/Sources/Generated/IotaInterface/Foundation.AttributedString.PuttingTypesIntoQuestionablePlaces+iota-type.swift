@@ -45,9 +45,6 @@ extension Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces: IotaMu
         }
     }
 
-    public static func mutateIota<R>(_ this: foreignObject, env: Env, body: (inout Self) throws -> R) throws -> R {
-        var mutatingSelf = try peekIota(this, env: env)
-        let result = try body(&mutatingSelf)
-        return result
+    public static func mutateIota(_ this: foreignObject, to value: Self, env: Env) throws {
     }
 }

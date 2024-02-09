@@ -28,6 +28,7 @@ extension TestAPI.Structs.MemberwiseStruct: NodeMutator {
         return try env.newInstance(constructor, args)
     }
     public static func mutateNode(_ value: Self, this: NAPI.Value, env: NAPI.Env) throws {
+        try env.setNamedProperty(this, "immutable", Swift.String.toNode(value.immutable, env: env))
         try env.setNamedProperty(this, "mutable", Swift.String.toNode(value.mutable, env: env))
     }
     @available(*, deprecated, message: "Not actually deprecated, but this silences warnings because it may refer to deprecated methods")
