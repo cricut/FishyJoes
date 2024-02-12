@@ -396,11 +396,6 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java__AProtocolConverter_bar, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_hasADefaultImplementation"),
-                signature: bag.add("()J"),
-                fnPtr: unsafeBitCast(java__AProtocolConverter_hasADefaultImplementation, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
                 name: bag.add("__jni_get_foo"),
                 signature: bag.add("()Ljava/lang/String;"),
                 fnPtr: unsafeBitCast(java_get__AProtocolConverter_foo, to: UnsafeMutableRawPointer.self)
