@@ -56,14 +56,38 @@ struct _JavaAProtocol: AProtocol {
     }
     static var _hasADefaultImplementationMethodID: jmethodID?
     public func hasADefaultImplementation() -> Int {
-        let env = try! _javaWitness.currentThreadEnv()
-        return try! Swift.Int.fromJava(
-            env.CallLongMethod(
-                _javaWitness.object,
-                Self._hasADefaultImplementationMethodID
-            ),
-            env: env
-        )
+        guard let hasADefaultImplementationImpl = hasADefaultImplementationImpl else {
+            return _JavaAProtocol_sans_hasADefaultImplementation(wrapped: self).hasADefaultImplementation()
+        }
+        return hasADefaultImplementationImpl()
+    }
+    
+    public let hasADefaultImplementationImpl: (() -> Int)?
+}
+
+struct _JavaAProtocol_sans_hasADefaultImplementation: AProtocol {
+    var wrapped: AProtocol
+
+    var foo: String {
+        set {
+            wrapped.foo = newValue
+        }
+        get {
+            wrapped.foo
+        }
+    }
+    
+    func bar(x: Int, y: Int) -> TestAPI.AProtocol {
+        wrapped.bar(x: x, y: y)
+    }
+    
+    var baz: Bool {
+        set {
+            wrapped.baz = newValue
+        }
+        get {
+            wrapped.baz
+        }
     }
 }
 
@@ -77,7 +101,10 @@ extension _AProtocolConverter: JavaMutator {
         if env.IsInstanceOf(value, AnyBox.javaClass) {
             return try Box<SwiftType>.fromJava(value, env: env).value
         }
-        return _JavaAProtocol(_javaWitness: try JavaReference(local: value, env: env))
+        return _JavaAProtocol(
+            _javaWitness: try JavaReference(local: value, env: env),
+            hasADefaultImplementationImpl: nil
+        )
     }
     public static func toJava(_ value: SwiftType, env: Env) throws -> jobject? {
         try env.NewObject(
@@ -98,5 +125,6 @@ extension _AProtocolConverter: JavaMutator {
         externalWitnessConstructor = try env.GetMethodID(externalWitnessClass, "<init>", "(J)V")
         externalCompanionClass = try env.globalRef(env.FindClass("com/cricut/testapi/AProtocol$Companion"))
         _JavaAProtocol._hasADefaultImplementationMethodID = try env.GetMethodID(javaClass, "hasADefaultImplementation", "()J")
+        // need to connect up foo, bar, and baz here too.
     }
 }

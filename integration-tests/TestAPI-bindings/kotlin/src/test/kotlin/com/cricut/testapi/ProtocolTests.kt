@@ -24,9 +24,9 @@ internal class ProtocolTests {
         println("a.foo: ${a.foo}, baz: ${a.baz}")
         val b = a.bar(x = 2, y = 128)
         println("b.foo: ${b.foo}, b.baz: ${b.baz}")
-        val c = b.hasADefaultImplementation()
+        val c = a.hasADefaultImplementation()
         println("c: $c")
-        val d = a.hasADefaultImplementation()
+        val d = b.hasADefaultImplementation()
         println("d: $d")
     }
 }
