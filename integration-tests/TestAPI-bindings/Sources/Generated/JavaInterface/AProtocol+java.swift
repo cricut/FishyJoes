@@ -62,7 +62,7 @@ struct _JavaAProtocol: AProtocol {
         return hasADefaultImplementationImpl()
     }
     
-    public let hasADefaultImplementationImpl: (() -> Int)?
+    public var hasADefaultImplementationImpl: (() -> Int)? = nil
 }
 
 struct _JavaAProtocol_sans_hasADefaultImplementation: AProtocol {
@@ -101,10 +101,13 @@ extension _AProtocolConverter: JavaMutator {
         if env.IsInstanceOf(value, AnyBox.javaClass) {
             return try Box<SwiftType>.fromJava(value, env: env).value
         }
-        return _JavaAProtocol(
-            _javaWitness: try JavaReference(local: value, env: env),
-            hasADefaultImplementationImpl: nil
+        var _javaAProtocol = _JavaAProtocol(
+            _javaWitness: try JavaReference(local: value, env: env)
         )
+        _javaAProtocol.hasADefaultImplementationImpl = {
+            Int(_javaAProtocol.foo) ?? 4224
+        }
+        return _javaAProtocol
     }
     public static func toJava(_ value: SwiftType, env: Env) throws -> jobject? {
         try env.NewObject(
