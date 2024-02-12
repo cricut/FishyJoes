@@ -14,7 +14,7 @@ public protocol AProtocol {
 }
 
 extension AProtocol {
-    public func hasADefaultImplementation() -> Int { 72 }
+    public func hasADefaultImplementation() -> Int { baz ? 43 : 44 }
 }
 
 /// <!-- FishyJoes.export(AProtocolImplementation, conformances: [AProtocol]) -->
