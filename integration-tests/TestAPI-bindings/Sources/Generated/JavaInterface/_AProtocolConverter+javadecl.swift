@@ -30,7 +30,7 @@ let java__AProtocolConverter_hasADefaultImplementation: @convention(c) (
     UnsafeMutablePointer<JNIEnv?>,
     jobject,
     jobject
-) -> Swift.Int.CType = { _javaEnv, _javaThis, _javaThis2 in
+) -> Swift.Int.CType = { _javaEnv, _javaCompanionThis, _javaThis in
     FishyJoesJavaRuntime.callbackBody(_javaEnv) { _javaEnv in
         return try Swift.Int.toJava(
             _AProtocolConverter.fromJava(_javaThis, env: _javaEnv).hasADefaultImplementation(
