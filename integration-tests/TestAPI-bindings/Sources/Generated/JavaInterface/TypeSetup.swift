@@ -381,6 +381,14 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         // print("setting up _AProtocolConverter...")
         try _AProtocolConverter.javaSetup(env: env)
         try env.RegisterNatives(
+            _AProtocolConverter.externalCompanionClass,
+            JNINativeMethod(
+                name: bag.add("__jni_hasADefaultImplementation"),
+                signature: bag.add("()J"),
+                fnPtr: unsafeBitCast(java__AProtocolConverter_hasADefaultImplementation, to: UnsafeMutableRawPointer.self)
+            )
+        )
+        try env.RegisterNatives(
             _AProtocolConverter.externalWitnessClass ?? _AProtocolConverter.javaClass,
             JNINativeMethod(
                 name: bag.add("__jni_bar"),
