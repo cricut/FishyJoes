@@ -384,7 +384,7 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
             _AProtocolConverter.externalCompanionClass,
             JNINativeMethod(
                 name: bag.add("__jni_hasADefaultImplementation"),
-                signature: bag.add("()J"),
+                signature: bag.add("(Lcom/cricut/testapi/AProtocol;)J"),
                 fnPtr: unsafeBitCast(java__AProtocolConverter_hasADefaultImplementation, to: UnsafeMutableRawPointer.self)
             )
         )

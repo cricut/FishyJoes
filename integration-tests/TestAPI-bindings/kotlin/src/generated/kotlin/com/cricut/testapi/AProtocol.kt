@@ -27,7 +27,7 @@ interface AProtocol {
      * <!-- FishyJoes.export(hasADefaultImplementation) -->
      */
     fun hasADefaultImplementation(
-    ): Long = __jni_hasADefaultImplementation()
+    ): Long = __jni_hasADefaultImplementation(this)
 
     companion object {
         /**
@@ -35,6 +35,7 @@ interface AProtocol {
          */
         @JvmName("__jni_hasADefaultImplementation")
         private external fun __jni_hasADefaultImplementation(
+            self: AProtocol
         ): Long
     }
 }
