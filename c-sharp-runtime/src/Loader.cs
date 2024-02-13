@@ -38,7 +38,7 @@ namespace Cricut.FishyJoesRuntime {
         static extern void FishyJoesCommonRuntime_runScheduledWork(IntPtr envRef, IntPtr context, out CreatedRef exn);
 
         [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern IntPtr FishyJoesCommonRuntime_strup([MarshalAs(UnmanagedType.LPUTF8Str)] string? str);
+        static extern unsafe byte* FishyJoesCommonRuntime_strdup([MarshalAs(UnmanagedType.LPUTF8Str)] string? str);
 
         public static void ensureLoaded() { }
         static Loader() {
@@ -49,7 +49,7 @@ namespace Cricut.FishyJoesRuntime {
                     bag<EnvNewRefFn>(obj => new CreatedRef(obj.Peek<object?>())),
                     bag<EnvDeleteRefFn>(obj => { obj.Consume<object?>(); }),
                     bag<EnvNewErrorFn>(messagePtr => new CreatedRef(new Exception(Marshal.PtrToStringUni((IntPtr)messagePtr)))),
-                    bag<EnvDescribeFn>(obj => (byte*)FishyJoesCommonRuntime_strup(obj.Peek<object?>()?.ToString())),
+                    bag<EnvDescribeFn>(obj => FishyJoesCommonRuntime_strdup(obj.Peek<object?>()?.ToString())),
                     bag<EnvScheduleThreadWorkFn>((envRef, handlerContext) => {
                         // All threads are good C# threads, I think.
                         // https://learn.microsoft.com/en-us/dotnet/standard/threading/managed-and-unmanaged-threading-in-windows
