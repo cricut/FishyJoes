@@ -9,7 +9,7 @@ public partial class Loader
 {
     unsafe delegate CreatedRef future_Create(IntPtr context, CreatedRef* outPromise, out CreatedRef exn);
     delegate void future_SinkMethod(IntPtr context, UnownedRef future, ConsumedRef handlerContext, out CreatedRef exn);
-    delegate void future_ResolveRejectMethod(IntPtr context, UnownedRef promise, UnownedRef result, out CreatedRef exn);
+    delegate void future_ResolveRejectMethod(IntPtr context, ConsumedRef promise, ConsumedRef result, out CreatedRef exn);
 
     [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode, EntryPoint = "FishyJoesCommonRuntime_FutureConverter_setup")]
     static extern void _FishyJoesCommonRuntime_FutureConverter_setup(
@@ -72,15 +72,15 @@ public partial class Loader
                         })
                 ),
                 bag<future_ResolveRejectMethod>(
-                    (IntPtr _, UnownedRef promise, UnownedRef result, out CreatedRef exn) =>
+                    (IntPtr _, ConsumedRef promise, ConsumedRef result, out CreatedRef exn) =>
                         Catching(out exn, () => {
-                            promise.Peek<TaskCompletionSource<T>>().SetResult(result.Peek<T>());
+                            promise.Consume<TaskCompletionSource<T>>().SetResult(result.Consume<T>());
                         })
                 ),
                 bag<future_ResolveRejectMethod>(
-                    (IntPtr _, UnownedRef promise, UnownedRef result, out CreatedRef exn) =>
+                    (IntPtr _, ConsumedRef promise, ConsumedRef result, out CreatedRef exn) =>
                         Catching(out exn, () => {
-                            promise.Peek<TaskCompletionSource<T>>().SetException(result.Peek<Exception>());
+                            promise.Consume<TaskCompletionSource<T>>().SetException(result.Consume<Exception>());
                         })
                 ),
                 IntPtr.Zero,
@@ -130,15 +130,16 @@ public partial class Loader
                         })
                 ),
                 bag<future_ResolveRejectMethod>(
-                    (IntPtr _, UnownedRef promise, UnownedRef result, out CreatedRef exn) =>
+                    (IntPtr _, ConsumedRef promise, ConsumedRef result, out CreatedRef exn) =>
                         Catching(out exn, () => {
-                            promise.Peek<TaskCompletionSource>().SetResult();
+                            result.Consume<object?>();
+                            promise.Consume<TaskCompletionSource>().SetResult();
                         })
                 ),
                 bag<future_ResolveRejectMethod>(
-                    (IntPtr _, UnownedRef promise, UnownedRef result, out CreatedRef exn) =>
+                    (IntPtr _, ConsumedRef promise, ConsumedRef result, out CreatedRef exn) =>
                         Catching(out exn, () => {
-                            promise.Peek<TaskCompletionSource>().SetException(result.Peek<Exception>());
+                            promise.Consume<TaskCompletionSource>().SetException(result.Consume<Exception>());
                         })
                 ),
                 IntPtr.Zero,

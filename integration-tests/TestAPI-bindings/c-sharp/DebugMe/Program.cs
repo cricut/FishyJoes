@@ -11,9 +11,8 @@ class Program {
         Loader.ensureLoaded();
         _TypeSetup._ensureLoaded();
 
-        //var composed = AsyncFunctions.IntCompose(x => Task.FromResult(x + 1), x => Task.FromResult(x * 3));
-        //Console.WriteLine(await composed(3));
-        Console.Write(await Methods.StaticAsync42());
+        var composed = AsyncFunctions.IntCompose(x => Task.FromResult(x + 1), x => Task.FromResult(x * 3));
+        Console.WriteLine(await composed(3));
 
         Console.WriteLine("");
         Console.WriteLine("TEARDOWN");
