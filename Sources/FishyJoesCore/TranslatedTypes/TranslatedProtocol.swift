@@ -209,7 +209,7 @@ struct TranslatedProtocol: TranslatedType {
                         }
 
                         var defaultMethod = kotlinMethod
-                        defaultMethod.name = "_default_\(defaultMethod.name)"
+                        defaultMethod.name = "default_\(defaultMethod.name)"
                         defaultMethod.parameters.insert((nil, "self", .named(package: nil, name: kotlinName), nil), at: 0)
                         defaultMethod.isStatic = true
 
