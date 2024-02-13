@@ -71,14 +71,14 @@ final class KotlinTranslator: Translator {
 
         var cMethod = "java_\(containingNamespace)"
         if method.implemented {
-            cMethod += "_default"
+            cMethod += "__default"
         }
         cMethod += "_\(exportAnnotation.name)"
         cMethod = cMethod.replacingOccurrences(of: ".", with: "_")
 
         var javaName = "__jni"
         if method.implemented {
-            javaName += "_default"
+            javaName += "__default"
         }
         javaName += "_\(exportAnnotation.name)"
         allMethods[containingNamespace, default: []].append((javaName, jniSignature, cMethod, method.implemented))
