@@ -42,8 +42,7 @@ namespace Cricut.FishyJoesRuntime {
 
         public static void ensureLoaded() { }
         static Loader() {
-            unsafe
-            {
+            unsafe {
                 // Must setup Env first!
                 env = FishyJoesCommonRuntime_Env_setup(
                     bag<EnvNewRefFn>(obj => new CreatedRef(obj.Peek<object?>())),
