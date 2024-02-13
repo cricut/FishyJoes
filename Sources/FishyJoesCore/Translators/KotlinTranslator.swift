@@ -36,13 +36,18 @@ final class KotlinTranslator: Translator {
             selfExpression = context.module.name
         }
 
-        let formals = [
-            (name: "_javaEnv", type: "UnsafeMutablePointer<JNIEnv?>"),
-            (name: "_javaThis", type: "jobject"),
-        ] + method.parameters.map { parameter in
-            let resolved = context.resolve(type: parameter.type, generics: exportAnnotation.genericOverrides)
-            return (name: parameter.name, type: resolved.converterType.name + ".CType")
+        var formals = [(name: "_javaEnv", type: "UnsafeMutablePointer<JNIEnv?>")]
+        if method.implemented {
+            formals.append((name: "_javaCompanionThis", type: "jobject"))
         }
+        formals.append((name: "_javaThis", type: "jobject"))
+        formals.append(
+            contentsOf:
+                method.parameters.map { parameter in
+                    let resolved = context.resolve(type: parameter.type, generics: exportAnnotation.genericOverrides)
+                    return (name: parameter.name, type: resolved.converterType.name + ".CType")
+                }
+        )
 
         let fragment = context.swiftFragment(
             "JavaInterface/\(containingNamespace)+javadecl.swift",
@@ -58,8 +63,22 @@ final class KotlinTranslator: Translator {
         let returnSignature = method.isAsync ? "FutureConverter<\(returnType.converterType.name)>.CType" : "\(returnType.converterType.name).CType"
         jniSignature = "(\(jniSignature))\(method.isAsync ? "Lkotlinx/coroutines/Deferred;" : returnType.jniType.asSignature)"
 
-        let cMethod = "java_\(containingNamespace)_\(exportAnnotation.name)".replacingOccurrences(of: ".", with: "_")
-        allMethods[containingNamespace, default: []].append(("__jni_\(exportAnnotation.name)", jniSignature, cMethod))
+        if method.name.contains("hasADefault") {
+            let a = 1
+        }
+        var cMethod = "java_\(containingNamespace)"
+        if method.implemented {
+            cMethod += "_default"
+        }
+        cMethod += "_\(exportAnnotation.name)"
+        cMethod = cMethod.replacingOccurrences(of: ".", with: "_")
+
+        var javaName = "__jni"
+        if method.implemented {
+            javaName += "_default"
+        }
+        javaName += "_\(exportAnnotation.name)"
+        allMethods[containingNamespace, default: []].append((javaName, jniSignature, cMethod))
         if let deprecation = method.deprecation {
             fragment.output(deprecation.swiftDeprecation)
         }
