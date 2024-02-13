@@ -55,42 +55,40 @@ struct _JavaAProtocol: AProtocol {
         )
     }
     static var _hasADefaultImplementationMethodID: jmethodID?
+    public var hasADefaultImplementationImpl: (() -> Int)? = nil
     public func hasADefaultImplementation() -> Int {
         guard let hasADefaultImplementationImpl = hasADefaultImplementationImpl else {
             return _JavaAProtocol_sans_hasADefaultImplementation(wrapped: self).hasADefaultImplementation()
         }
         return hasADefaultImplementationImpl()
     }
-    
-    public var hasADefaultImplementationImpl: (() -> Int)? = nil
 }
 
 struct _JavaAProtocol_sans_hasADefaultImplementation: AProtocol {
     var wrapped: AProtocol
 
-    var foo: String {
-        set {
-            wrapped.foo = newValue
-        }
+    public var foo: String {
         get {
             wrapped.foo
         }
-    }
-    
-    func bar(x: Int, y: Int) -> TestAPI.AProtocol {
-        wrapped.bar(x: x, y: y)
-    }
-    
-    var baz: Bool {
         set {
-            wrapped.baz = newValue
+            wrapped.foo = newValue
         }
+    }
+
+    public var baz: Bool {
         get {
             wrapped.baz
         }
+        set {
+            wrapped.baz = newValue
+        }
+    }
+
+    public func bar(x: Int, y: Int) -> AProtocol {
+        wrapped.bar(x: x, y: y)
     }
 }
-
 extension _AProtocolConverter: JavaMutator {
     public typealias CType = jobject?
     public static var javaClass: jclass?
@@ -101,13 +99,7 @@ extension _AProtocolConverter: JavaMutator {
         if env.IsInstanceOf(value, AnyBox.javaClass) {
             return try Box<SwiftType>.fromJava(value, env: env).value
         }
-        var _javaAProtocol = _JavaAProtocol(
-            _javaWitness: try JavaReference(local: value, env: env)
-        )
-        _javaAProtocol.hasADefaultImplementationImpl = {
-            Int(_javaAProtocol.foo) ?? 4224
-        }
-        return _javaAProtocol
+        return _JavaAProtocol(_javaWitness: try JavaReference(local: value, env: env))
     }
     public static func toJava(_ value: SwiftType, env: Env) throws -> jobject? {
         try env.NewObject(
@@ -128,6 +120,5 @@ extension _AProtocolConverter: JavaMutator {
         externalWitnessConstructor = try env.GetMethodID(externalWitnessClass, "<init>", "(J)V")
         externalCompanionClass = try env.globalRef(env.FindClass("com/cricut/testapi/AProtocol$Companion"))
         _JavaAProtocol._hasADefaultImplementationMethodID = try env.GetMethodID(javaClass, "hasADefaultImplementation", "()J")
-        // need to connect up foo, bar, and baz here too.
     }
 }

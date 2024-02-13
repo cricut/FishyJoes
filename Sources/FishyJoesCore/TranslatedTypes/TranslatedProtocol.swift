@@ -261,10 +261,6 @@ struct TranslatedProtocol: TranslatedType {
                     methods.flatMap { method -> [KotlinClass.MethodOrVariable] in
                         guard let kotlinMethodOrVariable = context.kotlin(method: method) else { return [] }
 
-                        if method.name.contains("hasADefault") {
-                            let a = 1
-                        }
-
                         guard !method.isStatic, method.implemented, case .method(var kotlinMethod) = kotlinMethodOrVariable else {
                             return [kotlinMethodOrVariable]
                         }
@@ -290,10 +286,12 @@ struct TranslatedProtocol: TranslatedType {
                 documentation: [],
                 name: "_ExternalWitness_\(kotlinName)",
                 constructor: .reference,
-                fieldsAndMethods: (
-                    computedVariables.compactMap { context.kotlin(field: $0, useNativeName: false)} +
-                        methods.compactMap { context.kotlin(method: $0) }
-                ),
+                fieldsAndMethods: {
+                    var nonDefaultMethods = methods.filter { !$0.implemented }
+                    var fAndM = computedVariables.compactMap { context.kotlin(field: $0, useNativeName: false)}
+                    fAndM.append(contentsOf: nonDefaultMethods.compactMap { context.kotlin(method: $0) })
+                    return fAndM
+                }(),
                 conformances: ["com.cricut.fishyjoes.runtime.SwiftReference(_swiftReference)"]
             ).conforming(to: [sourceType.nonNamespacedName], context: context)
         )

@@ -23,11 +23,6 @@ data class AProtocolImplementation(
         y: Long
     ): com.cricut.testapi.AProtocol
 
-//    override fun hasADefaultImplementation(
-//    ): Long {
-//        return 3
-//    }
-
     companion object {
         init { loadNativeLibs() }
     }

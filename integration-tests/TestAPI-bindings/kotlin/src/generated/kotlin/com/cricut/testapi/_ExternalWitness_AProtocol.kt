@@ -39,15 +39,6 @@ private class _ExternalWitness_AProtocol private constructor(_swiftReference: Lo
         y: Long
     ): com.cricut.testapi.AProtocol
 
-    /**
-     * <!-- FishyJoes.export(hasADefaultImplementation) -->
-     */
-//    override fun hasADefaultImplementation(
-//    ): Long = __jni_hasADefaultImplementation()
-//    @JvmName("__jni_hasADefaultImplementation")
-//    private external fun __jni_hasADefaultImplementation(
-//    ): Long
-
     companion object {
         init { loadNativeLibs() }
     }

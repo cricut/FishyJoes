@@ -383,9 +383,9 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try env.RegisterNatives(
             _AProtocolConverter.externalCompanionClass,
             JNINativeMethod(
-                name: bag.add("__jni_hasADefaultImplementation"),
+                name: bag.add("__jni__default_hasADefaultImplementation"),
                 signature: bag.add("(Lcom/cricut/testapi/AProtocol;)J"),
-                fnPtr: unsafeBitCast(java__AProtocolConverter_hasADefaultImplementation, to: UnsafeMutableRawPointer.self)
+                fnPtr: unsafeBitCast(java__AProtocolConverter__default_hasADefaultImplementation, to: UnsafeMutableRawPointer.self)
             )
         )
         try env.RegisterNatives(
