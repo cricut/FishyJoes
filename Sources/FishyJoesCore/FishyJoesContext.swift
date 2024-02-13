@@ -184,7 +184,8 @@ public class FishyJoesContext {
             }
         }
         // Translate any top level functions
-        for _ in templateContext.functions.compactMap(Method.init) {
+        let topLevelFunctions = templateContext.functions.compactMap(Method.init)
+        guard topLevelFunctions.isEmpty else {
             fatalErr("Support for exporting top level functions has been removed for now")
         }
 
