@@ -44,15 +44,16 @@ struct TranslatedProtocol: TranslatedType {
         self.isInhabited = type.isInhabited
         
         self.conformances = exportAnnotation.conformances
-        var methods = type.methods.compactMap { Method($0) }
-        for method in type.rawMethods {
-            guard let ext = method.definedInType, ext.isExtension else { continue }
-            // TODO: check that ext doesn't have too many "where" requirements. Is this possible with Sourcery?
-            if let index = methods.firstIndex(where: { $0.name == method.name }) {
-                methods[index].implemented = true
-            }
-        }
-        self.methods = methods
+//        var methods = type.methods.compactMap { Method($0) }
+//        for method in type.rawMethods {
+//            guard let ext = method.definedInType, ext.isExtension else { continue }
+//            // TODO: check that ext doesn't have too many "where" requirements. Is this possible with Sourcery?
+//            if let index = methods.firstIndex(where: { $0.name == method.name }) {
+//                methods[index].implemented = true
+//            }
+//        }
+//        self.methods = methods
+        self.methods = type.rawMethods.compactMap(Method.init)
 
         self.computedVariables = type.variables.filter { $0.exportAnnotation != nil }
         self.documentation = type.documentation
@@ -97,6 +98,7 @@ struct TranslatedProtocol: TranslatedType {
         let foreignProtocolType = "_Java\(sourceType.nonNamespacedName)"
 
         var methodIDs: [(idHandle: String, name: String, signature: String)] = []
+        let defaultMethods = methods.filter { $0.implemented }
 
         fragment.outputBlock("struct \(foreignProtocolType): \(sourceType.nonNamespacedName) {") {
             fragment.output("let _javaWitness: JavaReference")
@@ -134,27 +136,71 @@ struct TranslatedProtocol: TranslatedType {
                 let resolvedReturn = context.resolve(type: method.returnType)
                 let returnSignature = "\(method.isThrowing ? " throws" : "") -> \(method.returnType.name)"
                 fragment.output("static var _\(method.callName)MethodID: jmethodID?")
+                if method.implemented {
+                    // TODO: generate string for parameters correctly
+                    fragment.output("public func \(method.callName)Impl: ()\(returnSignature)? = nil")
+                }
                 fragment.outputBlock("public func \(method.name)\(returnSignature) {") {
-                    fragment.output("let env = try! _javaWitness.currentThreadEnv()")
-                    fragment.outputBlock("return try! \(resolvedReturn.converterType.name).fromJava(") {
-                        fragment.outputBlock("env.Call\(resolvedReturn.jniType.valueType)Method(", closeWith: "),") {
-                            fragment.output("_javaWitness.object,")
-                            fragment.output("Self._\(method.callName)MethodID", newLineTerminated: false)
-                            for param in method.parameters {
-                                fragment.output(",")
-                                let resolved = context.resolve(type: param.type)
-                                fragment.output("jvalue(try \(resolved.converterType.name).toJava(\(param.name), env: env))", newLineTerminated: false)
-                            }
-                            fragment.output()
+                    if method.implemented {
+                        fragment.output("guard let \(method.callName)Impl = \(method.callName)Impl else", newLineTerminated: false)
+                        fragment.outputBlock(" {", closeWith: "}") {
+                            fragment.output("return \(foreignProtocolType)_sans_\(method.callName)(wrapped: self).\(method.name)")
                         }
-                        fragment.output("env: env")
+                        fragment.output("return \(method.callName)Impl()")
+                    } else {
+                        fragment.output("let env = try! _javaWitness.currentThreadEnv()")
+                        fragment.outputBlock("return try! \(resolvedReturn.converterType.name).fromJava(") {
+                            fragment.outputBlock("env.Call\(resolvedReturn.jniType.valueType)Method(", closeWith: "),") {
+                                fragment.output("_javaWitness.object,")
+                                fragment.output("Self._\(method.callName)MethodID", newLineTerminated: false)
+                                for param in method.parameters {
+                                    fragment.output(",")
+                                    let resolved = context.resolve(type: param.type)
+                                    fragment.output("jvalue(try \(resolved.converterType.name).toJava(\(param.name), env: env))", newLineTerminated: false)
+                                }
+                                fragment.output()
+                            }
+                            fragment.output("env: env")
+                        }
+                        // fragment.output("_\(method.callName)(\(method.parameters.map(\.name).joined(separator: ", ")))")
                     }
-                    // fragment.output("_\(method.callName)(\(method.parameters.map(\.name).joined(separator: ", ")))")
                 }
             }
         }
 
         fragment.output()
+        
+        for defaultMethod in defaultMethods {
+            fragment.outputBlock("struct \(foreignProtocolType)_sans_\(defaultMethod.callName): \(sourceType.nonNamespacedName) {", closeWith: "}") {
+                fragment.output("var wrapped: \(sourceType.nonNamespacedName)")
+                fragment.output()
+
+                for variable in computedVariables {
+                    let name = variable.name
+                    let type = variable.typeName.better.name
+                    let resolved = context.resolve(type: variable.typeName.better)
+                    fragment.outputBlock("public var \(name): \(type) {") {
+                        fragment.outputBlock("get {") {
+                            fragment.output("wrapped.\(name)")
+                        }
+                        fragment.outputBlock("set {") {
+                            fragment.output("wrapped.\(name) = newValue")
+                        }
+                    }
+                    fragment.output()
+                }
+                for method in methods {
+                    guard method.name != defaultMethod.name else {
+                        continue
+                    }
+                    let returnSignature = "\(method.isThrowing ? " throws" : "") -> \(method.returnType.name)"
+                    fragment.outputBlock("public func \(method.name)\(returnSignature) {", closeWith: "}") {
+                        // TODO: Generate function parameters properly
+                        fragment.output("wrapped.\(method.callName)(x: x, y: y)")
+                    }
+                }
+            }
+        }
 
         fragment.outputBlock("extension \(converterType.name): JavaMutator {") {
             fragment.output("public typealias CType = jobject?")
@@ -163,6 +209,10 @@ struct TranslatedProtocol: TranslatedType {
             fragment.output("public static var externalWitnessClass: jclass?")
 
             fragment.output("public static var externalWitnessConstructor: jmethodID?")
+            
+            if !defaultMethods.isEmpty {
+                fragment.output("public static var externalCompanionClass: jclass?")
+            }
 
             fragment.outputBlock("public static func fromJava(_ value: jobject?, env: Env) throws -> SwiftType {") {
                 fragment.outputBlock("if env.IsInstanceOf(value, AnyBox.javaClass) {") {
@@ -191,6 +241,13 @@ struct TranslatedProtocol: TranslatedType {
                 fragment.output("javaClass = try env.globalRef(env.FindClass(\"\(className)\"))")
                 fragment.output("externalWitnessClass = try env.globalRef(env.FindClass(\"\(externalWitnessClassName)\"))")
                 fragment.output("externalWitnessConstructor = try env.GetMethodID(externalWitnessClass, \"<init>\", \"(J)V\")")
+                if !defaultMethods.isEmpty {
+                    fragment.output("externalCompanionClass = try env.globalRef(env.FindClass(\"\(className)$Companion\"))")
+                    for defaultMethod in defaultMethods {
+                        // TODO: figure out how to get the java function signature into the method from the allMethods signature so we can use it here
+                        fragment.output("\(foreignProtocolType)._\(defaultMethod.callName)MethodID = try env.GetMethodID(javaClass, \"\(defaultMethod.callName)\", \"()J\")")
+                    }
+                }
             }
         }
 
@@ -203,6 +260,10 @@ struct TranslatedProtocol: TranslatedType {
                     computedVariables.compactMap { context.kotlin(field: $0, useNativeName: false) } +
                     methods.flatMap { method -> [KotlinClass.MethodOrVariable] in
                         guard let kotlinMethodOrVariable = context.kotlin(method: method) else { return [] }
+
+                        if method.name.contains("hasADefault") {
+                            let a = 1
+                        }
 
                         guard !method.isStatic, method.implemented, case .method(var kotlinMethod) = kotlinMethodOrVariable else {
                             return [kotlinMethodOrVariable]
