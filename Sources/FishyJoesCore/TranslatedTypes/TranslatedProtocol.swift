@@ -138,7 +138,7 @@ struct TranslatedProtocol: TranslatedType {
                 fragment.output("static var _\(method.callName)MethodID: jmethodID?")
                 if method.implemented {
                     // TODO: generate string for parameters correctly
-                    fragment.output("public func \(method.callName)Impl: ()\(returnSignature)? = nil")
+                    fragment.output("public func \(method.callName)Impl: (()\(returnSignature))? = nil")
                 }
                 fragment.outputBlock("public func \(method.name)\(returnSignature) {") {
                     if method.implemented {
