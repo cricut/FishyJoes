@@ -127,6 +127,7 @@ namespace Cricut.FishyJoesRuntime {
                 __ptr = ptr;
             }
             public R Consume<R>() => ConsumeHandle<R>(__ptr);
+            public static ConsumedRef Create(object? obj) => new(PassOwnership(obj));
         }
 
         private static IntPtr PassOwnership(object? obj) {

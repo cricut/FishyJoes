@@ -1,35 +1,25 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Cricut.TestAPI;
 using Cricut.FishyJoesRuntime;
 
-record Vector {
-    public double X { get; init; }
-    public double Y { get; init; }
-
-    public Vector(double x, double y) {
-        X = x;
-        Y = y;
-    }
-// record Vector(double X, double Y) {
-
-    public Vector Normalized() {
-        var length = Math.Sqrt(X * X + Y * Y);
-        return new Vector(X / length, Y / length);
-    }
-}
-
 class Program {
 
-    static void Main(string[] args) {
+    static async Task Main(string[] args) {
+        Cricut.FishyJoesRuntime.Utilities.TrackAllocationsDebug = true;
+
         Loader.ensureLoaded();
         _TypeSetup._ensureLoaded();
 
-        Console.WriteLine(Collections.MaybeArrayOfInt);
+        //var composed = AsyncFunctions.IntCompose(x => Task.FromResult(x + 1), x => Task.FromResult(x * 3));
+        //Console.WriteLine(await composed(3));
+        Console.Write(await Methods.StaticAsync42());
 
-        var vec = new Vector(1, 2);
-        vec = vec with { X = 2 };
-        // vec.X = 3;
-        Console.WriteLine(vec);
-        Console.WriteLine(vec.Normalized());
+        Console.WriteLine("");
+        Console.WriteLine("TEARDOWN");
+        Cricut.FishyJoesRuntime.Utilities.PrintOutstandingHandles();
+        if (Cricut.FishyJoesRuntime.Utilities.OutstandingHandleCount() != 2) {
+            throw new Exception("Expected only 'true' and 'false' to still be referenced. Probably a memory leak!");
+        }
     }
 }
