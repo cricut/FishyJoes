@@ -241,7 +241,8 @@ struct TranslatedReference: TranslatedType {
                 (
                     javaName: "__jni_swiftEquals",
                     signature: "(\(jniType.asSignature)\(jniType.asSignature))Z",
-                    cName: "\(sourceType.name)._javaEquals"
+                    cName: "\(sourceType.name)._javaEquals",
+                    isProtocolDefault: false
                 )
             )
         }
@@ -250,7 +251,8 @@ struct TranslatedReference: TranslatedType {
                 (
                     javaName: "__jni_hashCode",
                     signature: "()I",
-                    cName: "\(sourceType.name)._javaHash"
+                    cName: "\(sourceType.name)._javaHash",
+                    isProtocolDefault: false
                 )
             )
         }
