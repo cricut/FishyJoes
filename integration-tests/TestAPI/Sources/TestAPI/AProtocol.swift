@@ -9,11 +9,11 @@ public protocol AProtocol {
     /// <!-- FishyJoes.export(baz) -->
     var baz: Bool { get set }
 
-    /// <!-- FishyJoes.export(hasADefaultImplementation) -->
     func hasADefaultImplementation() -> Int
 }
 
 extension AProtocol {
+    /// <!-- FishyJoes.export(hasADefaultImplementation) -->
     public func hasADefaultImplementation() -> Int { baz ? 43 : 44 }
 }
 
