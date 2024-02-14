@@ -266,12 +266,10 @@ final class KotlinTranslator: Translator {
         typeSetupFragment.outputBlock("public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutableRawPointer) -> jint {") {
             typeSetupFragment.output("var envRaw: UnsafeMutableRawPointer?")
             typeSetupFragment.outputBlock("guard vm.pointee!.pointee.GetEnv(vm, &envRaw, JNI_VERSION_1_4) == JNI_OK else {") {
-//            typeSetupFragment.outputBlock("guard let env = try? JVM(javaVM: vm).currentThreadEnv() else {") {
                 typeSetupFragment.output("fatalError(\"Couldn't obtain jvm environment\")")
             }
             typeSetupFragment.output("let env = UnsafeMutablePointer<JNIEnv?>(OpaquePointer(envRaw))")
             typeSetupFragment.outputBlock("return FishyJoesJavaRuntime.callbackBody(env!) { env in", closeWith: "}") {
-//            typeSetupFragment.outputBlock("return env.callbackBody {") {
                 typeSetupFragment.output("let bag = CStringBag()")
                 for type in generatedTypes {
                     let resolved = context.resolve(type: type)
@@ -318,9 +316,9 @@ final class KotlinTranslator: Translator {
         }
 
         let droppedMethods = Set(allMethods.keys).subtracting(usedMethods)
-//        guard droppedMethods.isEmpty else {
-//            fatalErr("methods for \(droppedMethods) were never set up! Probably a bug.")
-//        }
+        guard droppedMethods.isEmpty else {
+            fatalErr("methods for \(droppedMethods) were never set up! Probably a bug.")
+        }
         
         let module = context.module
         let repName = "\(module.name)LoaderRepresentative"
