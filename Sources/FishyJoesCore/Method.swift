@@ -125,16 +125,6 @@ extension Method {
 
 extension Method {
     func swiftClosureSignature() -> String {
-        var params = [String]()
-        var sig = "("
-        for parameter in self.parameters {
-            params.append(parameter.type.name)
-        }
-
-        sig.append(params.joined(separator: ", "))
-        sig.append(")")
-        sig.append(" -> \(returnType.name)")
-
-        return sig
+        "(\(parameters.map { $0.type.name}.joined(separator: ", "))) -> \(returnType.name)"
     }
 }
