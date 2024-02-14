@@ -9,12 +9,15 @@ public protocol AProtocol {
     /// <!-- FishyJoes.export(baz) -->
     var baz: Bool { get set }
 
-    func hasADefaultImplementation() -> Int
+    func hasADefaultImplementation(x: Int, y: Int) -> String
 }
 
 extension AProtocol {
     /// <!-- FishyJoes.export(hasADefaultImplementation) -->
-    public func hasADefaultImplementation() -> Int { baz ? 42 : 43 }
+    public func hasADefaultImplementation(x: Int, y: Int) -> String {
+        let b = bar(x: x, y: y)
+        return b.baz ? "bazzy \(foo)" : "\(foo.uppercased()) notBazzed"
+    }
 }
 
 /// <!-- FishyJoes.export(AProtocolImplementation, conformances: [AProtocol]) -->
