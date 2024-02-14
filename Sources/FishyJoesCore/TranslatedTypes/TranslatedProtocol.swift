@@ -242,18 +242,22 @@ struct TranslatedProtocol: TranslatedType {
                 fragment.output("javaClass = try env.globalRef(env.FindClass(\"\(className)\"))")
                 fragment.output("externalWitnessClass = try env.globalRef(env.FindClass(\"\(externalWitnessClassName)\"))")
                 fragment.output("externalWitnessConstructor = try env.GetMethodID(externalWitnessClass, \"<init>\", \"(J)V\")")
+                for computedVar in computedVariables {
+                    let resolved = context.resolve(type: computedVar.typeName.better)
+                    let jniSignature = resolved.jniType.asSignature
+                    fragment.output("\(foreignProtocolType)._\(computedVar.name)GetMethodID = try env.GetMethodID(javaClass, \"get\(computedVar.name.capitalized)\", \"()\(jniSignature)\")")
+                    fragment.output("\(foreignProtocolType)._\(computedVar.name)SetMethodID = try env.GetMethodID(javaClass, \"set\(computedVar.name.capitalized)\", \"(\(jniSignature))V\")")
+                }
+                for normalMethod in normalMethods {
+                    let jniSignature = normalMethod.jniSignature(context: context)
+                    fragment.output("\(foreignProtocolType)._\(normalMethod.callName)MethodID = try env.GetMethodID(javaClass, \"\(normalMethod.callName)\", \"\(jniSignature)\")")
+                }
                 if !defaultMethods.isEmpty {
                     fragment.output("externalCompanionClass = try env.globalRef(env.FindClass(\"\(className)$Companion\"))")
                     for defaultMethod in defaultMethods {
                         let jniSignature = defaultMethod.jniSignature(context: context)
                         fragment.output("\(foreignProtocolType)._\(defaultMethod.callName)MethodID = try env.GetMethodID(javaClass, \"\(defaultMethod.callName)\", \"\(jniSignature)\")")
                     }
-                }
-                for computedVar in computedVariables {
-                    let resolved = context.resolve(type: computedVar.typeName.better)
-                    let jniSignature = resolved.jniType.asSignature
-                    fragment.output("\(foreignProtocolType)._\(computedVar.name)GetMethodID = try env.GetMethodID(javaClass, \"get\(computedVar.name.capitalized)\", \"()\(jniSignature)\")")
-                    fragment.output("\(foreignProtocolType)._\(computedVar.name)SetMethodID = try env.GetMethodID(javaClass, \"set\(computedVar.name.capitalized)\", \"(\(jniSignature))V\")")
                 }
             }
         }
