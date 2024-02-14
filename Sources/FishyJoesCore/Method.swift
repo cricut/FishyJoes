@@ -116,15 +116,25 @@ extension Method {
             let resolved = context.resolve(type: parameter.type, generics: exportAnnotation.genericOverrides)
             jniSignature += resolved.jniType.asSignature
         }
-//        if implemented,
-//           let selfType = definedIn {
-//            let resolved = context.resolve(type: selfType)
-//            let className = Self.javaClassName(resolved.kotlinName, in: context)
-//            jniSignature += "L\(className);"
-//        }
         let returnType = context.resolve(type: returnType, generics: exportAnnotation.genericOverrides)
         let returnSignature = isAsync ? "FutureConverter<\(returnType.converterType.name)>.CType" : "\(returnType.converterType.name).CType"
         jniSignature = "(\(jniSignature))\(isAsync ? "Lkotlinx/coroutines/Deferred;" : returnType.jniType.asSignature)"
         return jniSignature
+    }
+}
+
+extension Method {
+    func swiftClosureSignature() -> String {
+        var params = [String]()
+        var sig = "("
+        for parameter in self.parameters {
+            params.append(parameter.type.name)
+        }
+
+        sig.append(params.joined(separator: ", "))
+        sig.append(")")
+        sig.append(" -> \(returnType.name)")
+
+        return sig
     }
 }
