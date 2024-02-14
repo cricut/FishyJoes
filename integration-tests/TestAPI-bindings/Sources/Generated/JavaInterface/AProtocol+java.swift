@@ -121,5 +121,6 @@ extension _AProtocolConverter: JavaMutator {
         externalCompanionClass = try env.globalRef(env.FindClass("com/cricut/testapi/AProtocol$Companion"))
         _JavaAProtocol._hasADefaultImplementationMethodID = try env.GetMethodID(javaClass, "hasADefaultImplementation", "()J")
         _JavaAProtocol._bazGetMethodID = try env.GetMethodID(javaClass, "getBaz", "()Z")
+        _JavaAProtocol._bazSetMethodID = try env.GetMethodID(javaClass, "setBaz", "(Z)V")
     }
 }

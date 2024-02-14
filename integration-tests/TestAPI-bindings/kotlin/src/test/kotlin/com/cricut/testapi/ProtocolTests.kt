@@ -20,13 +20,13 @@ internal class ProtocolTests {
     }
     @Test
     fun testProtocols() {
-        val a = AProtocolImplementation(foo = "Foo", baz = true)
+        val a = AProtocolImplementation(foo = "Foo", baz = false)
         println("a.foo: ${a.foo}, baz: ${a.baz}")
         val b = a.bar(x = 2, y = 128)
         println("b.foo: ${b.foo}, b.baz: ${b.baz}")
         val c = a.hasADefaultImplementation()
         println("c: $c")
-        val d = b.hasADefaultImplementation()
+        var d = b.hasADefaultImplementation()
         println("d: $d")
     }
 }
