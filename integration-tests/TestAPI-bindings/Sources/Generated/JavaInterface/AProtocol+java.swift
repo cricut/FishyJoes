@@ -55,12 +55,12 @@ struct _JavaAProtocol: AProtocol {
         )
     }
     static var _hasADefaultImplementationMethodID: jmethodID?
-    public var hasADefaultImplementationImpl: (() -> Int)? = nil
-    public func hasADefaultImplementation() -> Int {
+    public var hasADefaultImplementationImpl: ((Int, Int) -> String)? = nil
+    public func hasADefaultImplementation(x: Int, y: Int) -> String {
         guard let hasADefaultImplementationImpl = hasADefaultImplementationImpl else {
-            return _JavaAProtocol_sans_hasADefaultImplementation(wrapped: self).hasADefaultImplementation()
+            return _JavaAProtocol_sans_hasADefaultImplementation(wrapped: self).hasADefaultImplementation(x: x, y: y)
         }
-        return hasADefaultImplementationImpl()
+        return hasADefaultImplementationImpl(x, y)
     }
 }
 
@@ -124,6 +124,6 @@ extension _AProtocolConverter: JavaMutator {
         _JavaAProtocol._bazSetMethodID = try env.GetMethodID(javaClass, "setBaz", "(Z)V")
         _JavaAProtocol._barMethodID = try env.GetMethodID(javaClass, "bar", "(JJ)Lcom/cricut/testapi/AProtocol;")
         externalCompanionClass = try env.globalRef(env.FindClass("com/cricut/testapi/AProtocol$Companion"))
-        _JavaAProtocol._hasADefaultImplementationMethodID = try env.GetMethodID(javaClass, "hasADefaultImplementation", "()J")
+        _JavaAProtocol._hasADefaultImplementationMethodID = try env.GetMethodID(javaClass, "hasADefaultImplementation", "(JJ)Ljava/lang/String;")
     }
 }

@@ -27,7 +27,9 @@ interface AProtocol {
      * <!-- FishyJoes.export(hasADefaultImplementation) -->
      */
     fun hasADefaultImplementation(
-    ): Long = __jni__default_hasADefaultImplementation(this)
+        x: Long,
+        y: Long
+    ): kotlin.String = __jni__default_hasADefaultImplementation(this, x, y)
 
     companion object {
         /**
@@ -35,7 +37,9 @@ interface AProtocol {
          */
         @JvmName("__jni__default_hasADefaultImplementation")
         private external fun __jni__default_hasADefaultImplementation(
-            self: AProtocol
-        ): Long
+            self: AProtocol,
+            x: Long,
+            y: Long
+        ): kotlin.String
     }
 }
