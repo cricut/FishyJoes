@@ -12,6 +12,7 @@ internal class ProtocolTests {
     companion object {
         @BeforeAll
         @JvmStatic
+        // To get procId for attaching lldb debugger to
         fun beforeAll() {
             val procId = ProcessHandle.current().pid()
             println("procId: $procId")
@@ -20,14 +21,17 @@ internal class ProtocolTests {
     }
     @Test
     fun testProtocols() {
-        val a = AProtocolImplementation(foo = "Garply", baz = false)        
-        println("a.foo: ${a.foo}, baz: ${a.baz}")
+        val a = AProtocolImplementation(foo = "Garply", baz = false)
+        assertEquals("Garply", a.foo)
+        assertEquals(false, a.baz)
         val b = a.bar(x = 2, y = 128)
+
+        assertEquals("130", b.foo)
+        assertEquals(true, b.baz)
         b.foo = "Wibble"
-        println("b.foo: ${b.foo}, b.baz: ${b.baz}")
-        val c = a.hasADefaultImplementation(x = 9, y = 10)
-        println("c: $c")
-        var d = b.hasADefaultImplementation(x = 2, y = 12)
-        println("d: $d")
+        assertEquals("Wibble", b.foo)
+
+        assertEquals("-312 notBazzed", a.hasADefaultImplementation(x = 9, y = -102.1))
+        assertEquals("bazzy 3", a.hasADefaultImplementation(x = 2, y = 0.345))
     }
 }

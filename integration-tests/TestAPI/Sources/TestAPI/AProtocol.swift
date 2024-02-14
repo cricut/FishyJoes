@@ -1,3 +1,5 @@
+import Foundation
+
 /// <!-- FishyJoes.export(AProtocol) -->
 public protocol AProtocol {
     /// <!-- FishyJoes.export(foo) -->
@@ -9,14 +11,14 @@ public protocol AProtocol {
     /// <!-- FishyJoes.export(baz) -->
     var baz: Bool { get set }
 
-    func hasADefaultImplementation(x: Int, y: Int) -> String
+    func hasADefaultImplementation(x: Int, y: Double) -> String
 }
 
 extension AProtocol {
     /// <!-- FishyJoes.export(hasADefaultImplementation) -->
-    public func hasADefaultImplementation(x: Int, y: Int) -> String {
-        let b = bar(x: x, y: y)
-        return b.baz ? "bazzy \(foo)" : "\(foo.uppercased()) notBazzed"
+    public func hasADefaultImplementation(x: Int, y: Double) -> String {
+        let b = bar(x: x, y: Int(round(y * 3.14159265359)))
+        return b.baz ? "bazzy \(b.foo)" : "\(b.foo) notBazzed"
     }
 }
 

@@ -28,7 +28,7 @@ interface AProtocol {
      */
     fun hasADefaultImplementation(
         x: Long,
-        y: Long
+        y: Double
     ): kotlin.String = __jni__default_hasADefaultImplementation(this, x, y)
 
     companion object {
@@ -39,7 +39,7 @@ interface AProtocol {
         private external fun __jni__default_hasADefaultImplementation(
             self: AProtocol,
             x: Long,
-            y: Long
+            y: Double
         ): kotlin.String
     }
 }
