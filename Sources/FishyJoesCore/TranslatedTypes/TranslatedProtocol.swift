@@ -144,7 +144,8 @@ struct TranslatedProtocol: TranslatedType {
                     if method.implemented {
                         fragment.output("guard let \(method.callName)Impl = \(method.callName)Impl else", newLineTerminated: false)
                         fragment.outputBlock(" {", closeWith: "}") {
-                            fragment.output("return \(foreignProtocolType)_sans_\(method.callName)(wrapped: self).\(method.name)")
+                            let methodCallStr = "\(method.callName)(\(method.parameters.map { "\($0.name): \($0.name)" }.joined(separator: ", ")))"
+                            fragment.output("return \(foreignProtocolType)_sans_\(method.callName)(wrapped: self).\(methodCallStr)")
                         }
                         fragment.output("return \(method.callName)Impl()")
                     } else {
@@ -195,11 +196,7 @@ struct TranslatedProtocol: TranslatedType {
                     }
                     let returnSignature = "\(method.isThrowing ? " throws" : "") -> \(method.returnType.name)"
                     fragment.outputBlock("public func \(method.name)\(returnSignature) {", closeWith: "}") {
-                        fragment.output("wrapped.\(method.callName)(", newLineTerminated: false)
-                        let paramStr = method.parameters.map {
-                            "\($0.name): \($0.name)"
-                        }.joined(separator: ", ")
-                        fragment.output("\(paramStr))")
+                        fragment.output("wrapped.\(method.callName)(\(method.parameters.map { "\($0.name): \($0.name)" }.joined(separator: ", ")))")
                     }
                 }
             }
