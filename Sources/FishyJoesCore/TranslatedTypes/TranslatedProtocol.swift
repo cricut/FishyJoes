@@ -99,6 +99,7 @@ struct TranslatedProtocol: TranslatedType {
 
         var methodIDs: [(idHandle: String, name: String, signature: String)] = []
         let defaultMethods = methods.filter { $0.implemented }
+        let normalMethods = methods.filter { !$0.implemented }
 
         fragment.outputBlock("struct \(foreignProtocolType): \(sourceType.nonNamespacedName) {") {
             fragment.output("let _javaWitness: JavaReference")
@@ -244,8 +245,8 @@ struct TranslatedProtocol: TranslatedType {
                 if !defaultMethods.isEmpty {
                     fragment.output("externalCompanionClass = try env.globalRef(env.FindClass(\"\(className)$Companion\"))")
                     for defaultMethod in defaultMethods {
-                        // TODO: figure out how to get the java function signature into the method from the allMethods signature so we can use it here
-                        fragment.output("\(foreignProtocolType)._\(defaultMethod.callName)MethodID = try env.GetMethodID(javaClass, \"\(defaultMethod.callName)\", \"()J\")")
+                        let jniSignature = defaultMethod.jniSignature(context: context)
+                        fragment.output("\(foreignProtocolType)._\(defaultMethod.callName)MethodID = try env.GetMethodID(javaClass, \"\(defaultMethod.callName)\", \"\(jniSignature)\")")
                     }
                 }
             }

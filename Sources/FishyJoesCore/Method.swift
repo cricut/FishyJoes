@@ -104,3 +104,27 @@ extension Method: CustomStringConvertible {
         return "\(namespace)\(callName)(\(params))"
     }
 }
+
+extension Method {
+    static func javaClassName(_ name: String, in context: FishyJoesContext) -> String {
+        "com/cricut/\(context.module.name.lowercased())/\(name.replacingOccurrences(of: ".", with: "$"))"
+    }
+
+    func jniSignature(context: FishyJoesContext) -> String {
+        var jniSignature = ""
+        for parameter in parameters {
+            let resolved = context.resolve(type: parameter.type, generics: exportAnnotation.genericOverrides)
+            jniSignature += resolved.jniType.asSignature
+        }
+//        if implemented,
+//           let selfType = definedIn {
+//            let resolved = context.resolve(type: selfType)
+//            let className = Self.javaClassName(resolved.kotlinName, in: context)
+//            jniSignature += "L\(className);"
+//        }
+        let returnType = context.resolve(type: returnType, generics: exportAnnotation.genericOverrides)
+        let returnSignature = isAsync ? "FutureConverter<\(returnType.converterType.name)>.CType" : "\(returnType.converterType.name).CType"
+        jniSignature = "(\(jniSignature))\(isAsync ? "Lkotlinx/coroutines/Deferred;" : returnType.jniType.asSignature)"
+        return jniSignature
+    }
+}
