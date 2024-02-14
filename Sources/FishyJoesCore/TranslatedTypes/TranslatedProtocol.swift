@@ -195,8 +195,11 @@ struct TranslatedProtocol: TranslatedType {
                     }
                     let returnSignature = "\(method.isThrowing ? " throws" : "") -> \(method.returnType.name)"
                     fragment.outputBlock("public func \(method.name)\(returnSignature) {", closeWith: "}") {
-                        // TODO: Generate function parameters properly
-                        fragment.output("wrapped.\(method.callName)(x: x, y: y)")
+                        fragment.output("wrapped.\(method.callName)(", newLineTerminated: false)
+                        let paramStr = method.parameters.map {
+                            "\($0.name): \($0.name)"
+                        }.joined(separator: ", ")
+                        fragment.output("\(paramStr))")
                     }
                 }
             }
